@@ -1,4 +1,4 @@
-import { rand } from "./random";
+import { rand } from "./random.js";
 
 /**
  * Returns a random boolean given a weight (optional).

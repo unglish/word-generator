@@ -1,4 +1,4 @@
-import { pick } from "./pick";
+import { pick } from "./pick.js";
 
 /**
  * Returns a weighted random option, given an array of options with weights.
