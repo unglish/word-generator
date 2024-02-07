@@ -1,4 +1,4 @@
-import { getWeightedOption, randomBool } from "../utils";
+import { getWeightedOption, randomBool } from "../utils/index.js";
 import { graphemes } from "../elements/graphemes.js";
 
 function writeSyllable(syllable: { [x: string]: any }) {

@@ -1,7 +1,5 @@
-import { pick, getWeightedOption } from "../utils";
-
+import { pick, getWeightedOption } from "../utils/index.js";
 import { clusters, phonemes } from "../elements/phonemes.js";
-
 import pronounce from "./pronounce.js";
 import write from "./write.js";
 
@@ -14,6 +12,7 @@ function getRandomCluster(
   if (!ignore) ignore = [];
   const filteredClusters = clusters.filter(
     (cluster) =>
+      // @ts-ignore
       cluster[type] &&
       cluster.sounds.length == length &&
       !cluster.sounds.some((sound) => ignore.includes(sound)),
@@ -31,8 +30,10 @@ function pickOnset(prevSyllable: { coda: string | any[]; nucleus: any }) {
   if (prevSyllable) {
     const prevSyllablePhonemes = prevSyllable.coda.concat(
       prevSyllable.nucleus,
+      // @ts-ignore
       prevSyllable.coda,
     );
+    // @ts-ignore
     complexity = prevSyllablePhonemes.reduce(
       (totalComplexity: any, phoneme: { complexity: any }) =>
         totalComplexity + phoneme.complexity,
@@ -110,7 +111,7 @@ function pickCoda(onset: any[], nucleus: any[]) {
       [2, 50],
     ],
   };
-
+  // @ts-ignore
   const length = getWeightedOption(lengthOptions[complexity]);
 
   let coda = [];
@@ -126,12 +127,12 @@ function pickCoda(onset: any[], nucleus: any[]) {
 
 function generateSyllable(
   prevSyllable: { onset: any; nucleus: any[]; coda: any } | undefined,
-  syllableCount: any,
 ) {
   // Build the syllable structure
-  const onset = pickOnset(prevSyllable, syllableCount);
-  const nucleus = pickNucleus(onset, syllableCount);
-  const coda = pickCoda(onset, nucleus, syllableCount);
+  // @ts-ignore
+  const onset = pickOnset(prevSyllable);
+  const nucleus = pickNucleus();
+  const coda = pickCoda(onset, nucleus);
 
   return {
     onset,
@@ -155,7 +156,9 @@ export default () => {
   };
 
   for (let i = 0, prevSyllable; i < syllableCount; i++) {
+    // @ts-ignore
     prevSyllable = generateSyllable(prevSyllable, syllableCount);
+    // @ts-ignore
     word.syllables.push(prevSyllable);
   }
 

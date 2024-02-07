@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unglish Word Generator Demo</title>
     <script type="module">
-        import generate from '../dist/index.es.js';
+        import unglish from '../dist/index.js';
 
         document.addEventListener('DOMContentLoaded', () => {
-            const result = generate();
+            const result = unglish.generate();
             document.body.textContent = `Generated word: \n ${result.written.clean} \n ${result.pronunciation}`;
-
         });
     </script>
 </head>
