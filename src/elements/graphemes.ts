@@ -1097,4 +1097,7 @@ const graphemes = [
   },
 ];
 
-export { graphemes };
+export { 
+  ORIGINS,
+  graphemes 
+};

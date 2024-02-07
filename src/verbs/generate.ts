@@ -1,4 +1,5 @@
-import { pick, getWeightedOption } from "../utils/index.js";
+import pick from "../utils/pick.js";
+import getWeightedOption from "../utils/getWeightedOption.js";
 import { clusters, phonemes } from "../elements/phonemes.js";
 import pronounce from "./pronounce.js";
 import write from "./write.js";
