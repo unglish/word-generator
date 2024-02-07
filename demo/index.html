@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unglish Word Generator Demo</title>
+    <script type="module">
+        import generate from '../dist/index.es.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const result = generate();
+            document.body.textContent = `Generated word: \n ${result.written.clean} \n ${result.pronunciation}`;
+
+        });
+    </script>
+</head>
+<body>
+    <!-- The generated word will be inserted here -->
+</body>
+</html>

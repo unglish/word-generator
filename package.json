@@ -1,0 +1,42 @@
+{
+  "name": "@unglish/word-generator",
+  "version": "0.1.0",
+  "IDGAFversion": "e",
+  "description": "A simple generator for creating unglish words.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run build:lib",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "dev:demo": "vite",
+    "build:demo": "vite build",
+    "build:lib": "vite build --mode build-lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unglish/word-generator.git"
+  },
+  "keywords": [
+    "unglish",
+    "word",
+    "generator",
+    "phonology"
+  ],
+  "author": "depatchedmode <depatchedmode@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unglish/word-generator/issues"
+  },
+  "homepage": "https://github.com/unglish/word-generator#readme",
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
+    "@typescript-eslint/parser": "^4.0.0",
+    "eslint": "^7.0.0",
+    "prettier": "^2.0.0",
+    "typescript": "^4.0.0",
+    "vite": "^5.0.12"
+  }
+}
