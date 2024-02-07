@@ -8,7 +8,7 @@
         import unglish from '../dist/index.js';
 
         document.addEventListener('DOMContentLoaded', () => {
-            const result = unglish.generate();
+            const result = unglish.generateWord();
             document.body.textContent = `Generated word: \n ${result.written.clean} \n ${result.pronunciation}`;
         });
     </script>
