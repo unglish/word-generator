@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
         lib: {
           entry: "src/index.ts",
           name: "unglish-word-generator",
-          fileName: (format) => `index.${format}.js`
+          fileName: () => "index.js" // Output file name
         },
         rollupOptions: {
           // Externalize dependencies, if needed
