@@ -8,8 +8,18 @@
         import unglish from '../dist/index.js';
 
         document.addEventListener('DOMContentLoaded', () => {
-            const result = unglish.generateWord();
-            document.body.textContent = `Generated word: \n ${result.written.clean} \n ${result.pronunciation}`;
+            const singleWord = unglish.generateWord();
+            const haiku = 
+                `
+                ${unglish.generateWord({ syllableCount: 2 }).written.clean} ${unglish.generateWord({ syllableCount: 2 }).written.clean} ${unglish.generateWord({ syllableCount: 1 }).written.clean} <br/> 
+                ${unglish.generateWord({ syllableCount: 3 }).written.clean} ${unglish.generateWord({ syllableCount: 2 }).written.clean} ${unglish.generateWord({ syllableCount: 2 }).written.clean} <br/> 
+                ${unglish.generateWord({ syllableCount: 2 }).written.clean} ${unglish.generateWord({ syllableCount: 1 }).written.clean} ${unglish.generateWord({ syllableCount: 2 }).written.clean} <br/>` 
+            document.body.innerHTML = 
+                `
+                    <h2>Single Word:</h2> ${singleWord.written.clean} (${singleWord.pronunciation}) <br/>
+                    <h2>Haiku:</h2> ${haiku}
+                `;
+            ;
         });
     </script>
 </head>

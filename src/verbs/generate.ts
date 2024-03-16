@@ -8,6 +8,7 @@ import { write, WrittenForm } from "./write.js";
 
 export interface GenerateWordOptions {
   seed?: number;
+  syllableCount?: number; // Optional specific syllable length
 }
 
 export interface Word {
@@ -165,7 +166,7 @@ function generateSyllable(prevSyllable?: Syllable) {
 }
 
 export const generateWord = (options: GenerateWordOptions = {}): Word => {
-  const { seed } = options;
+  const { seed, syllableCount: specifiedSyllableCount } = options;
   const originalRand: RandomFunction = getRand();
 
   try {
@@ -174,11 +175,8 @@ export const generateWord = (options: GenerateWordOptions = {}): Word => {
       overrideRand(seededRand);
     }
 
-    const syllableCount = getWeightedOption([
-      [1, 9000],
-      [2, 1500],
-      [3, 100],
-      [4, 1],
+    const syllableCount = specifiedSyllableCount || getWeightedOption([
+      [1, 9000], [2, 1500], [3, 100], [4, 1],
     ]);
 
     const syllables = [];
