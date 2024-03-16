@@ -1,30 +1,38 @@
 import getWeightedOption from "../utils/getWeightedOption.js";
 import randomBool from "../utils/randomBool.js";
 import { graphemes } from "../elements/graphemes.js";
+import { Phoneme } from "../elements/phonemes.js";
+import { Syllable } from "./generate.js";
 
-function writeSyllable(syllable: { [x: string]: any }) {
-  let writtenSyllable = "";
-  const segmentPositions = ["onset", "nucleus", "coda"];
-  for (
-    let i = 0, currSegmentPosition, currSegment;
-    i < segmentPositions.length;
-    i++
-  ) {
-    currSegmentPosition = segmentPositions[i];
-    currSegment = syllable[currSegmentPosition];
-    writtenSyllable += writeSegment(currSegment, currSegmentPosition);
-  }
-  writtenSyllable = adjustSyllable(writtenSyllable);
-  return writtenSyllable;
+export interface WrittenForm {
+  clean: string;
+  hyphenated: string;
 }
 
-function adjustSyllable(str: string) {
+function writeSyllable(syllable: Syllable): string {
+  const segmentPositions: Array<"onset" | "nucleus" | "coda"> = [
+    "onset",
+    "nucleus",
+    "coda",
+  ];
+
+  const writtenSyllable = segmentPositions.reduce(
+    (written, segmentPosition) => {
+      const segment = syllable[segmentPosition];
+      return written + writeSegment(segment, segmentPosition);
+    },
+    "",
+  );
+
+  return adjustSyllable(writtenSyllable);
+}
+function adjustSyllable(str: string): string {
   str = applySyllableReduction(str);
   str = applyCastling(str);
   return str;
 }
 
-function applyCastling(str: string) {
+function applyCastling(str: string): string {
   // This regex looks for 'e' that follows one of 'a', 'i', 'o', 'u', 'y' and is followed by one or more consonants
   // but not if the sequence ends with an 'e'
   // eg. styel -> style
@@ -33,7 +41,7 @@ function applyCastling(str: string) {
   return str.replace(/([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)/g, "$1$2e");
 }
 
-function applySyllableReduction(str: string) {
+function applySyllableReduction(str: string): string {
   const reductionPairs = [
     { source: "(?<!^)ks", target: "x", likelihood: 0.75 }, // e., "nekst" -> "next"
     { source: "uu", target: "u", likelihood: 1.0 },
@@ -52,35 +60,44 @@ function applySyllableReduction(str: string) {
   return str;
 }
 
-function writeSegment(segment: string | any[], position: string) {
+function writeSegment(phonemes: Phoneme[], position: string) {
   let writtenSegment = "";
-  for (let i = 0, currPhoneme; i < segment.length; i++) {
-    currPhoneme = segment[i];
-    writtenSegment += chooseGrapheme(currPhoneme, position, segment.length > 1);
+  for (let i = 0, currPhoneme: Phoneme; i < phonemes.length; i++) {
+    currPhoneme = phonemes[i];
+    writtenSegment += chooseGrapheme(
+      currPhoneme,
+      position,
+      phonemes.length > 1,
+    );
   }
   return writtenSegment;
 }
 
 function chooseGrapheme(
-  phoneme: { sound: string },
+  phoneme: Phoneme,
   position: string,
   inCluster: boolean,
 ) {
   const viableGraphemes = graphemes.filter(
     (grapheme) =>
-      grapheme.phoneme == phoneme.sound &&
+      grapheme.phoneme === phoneme.sound &&
       grapheme.invalidPositions.indexOf(position) < 0,
   );
-  const weightedGraphemes = viableGraphemes.map((grapheme) => [
-    grapheme.form,
-    grapheme.frequency,
-  ]);
+
+  // Ensure each tuple matches the structure [string, number]
+  const weightedGraphemes: [string, number][] = viableGraphemes.map(
+    (grapheme) => [
+      grapheme.form, // This should be a string
+      grapheme.frequency, // This should be a number
+    ],
+  );
+
   return inCluster
     ? viableGraphemes[0].form
     : getWeightedOption(weightedGraphemes);
 }
 
-function applyWordReduction(str: string) {
+function applyWordReduction(str: string): string {
   const reductionPairs = [
     { source: "yy", target: "y", likelihood: 1.0 },
     { source: "hh", target: "h", likelihood: 1.0 },
@@ -102,8 +119,7 @@ function applyWordReduction(str: string) {
   return str;
 }
 
-export default (word: { syllables: any }) => {
-  const { syllables } = word;
+export const write = (syllables: Syllable[]): WrittenForm => {
   let hyphenated = "";
   let clean = "";
 
@@ -119,3 +135,5 @@ export default (word: { syllables: any }) => {
     hyphenated: applyWordReduction(hyphenated),
   };
 };
+
+export default write;

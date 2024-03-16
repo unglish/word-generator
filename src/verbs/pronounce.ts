@@ -1,26 +1,19 @@
-function pronounceSyllable(syllable: {
-  onset: any[];
-  nucleus: any[];
-  coda: any[];
-}) {
-  function reducePhonemes(acc: any, phoneme: { sound: any }) {
-    return (acc += phoneme.sound);
-  }
+import { Phoneme } from "../elements/phonemes";
+import { Syllable } from "./generate";
 
-  let onset = "";
-  if (syllable.onset.length)
-    onset = syllable.onset.reduce(reducePhonemes, onset);
-  let nucleus = "";
-  if (syllable.nucleus.length)
-    nucleus = syllable.nucleus.reduce(reducePhonemes, nucleus);
-  let coda = "";
-  if (syllable.coda.length) coda = syllable.coda.reduce(reducePhonemes, coda);
+const reducePhonemes = (acc: string, phoneme: Phoneme): string => {
+  return acc + phoneme.sound;
+};
 
-  return onset + "" + nucleus + "" + coda;
-}
+const pronounceSyllable = (syllable: Syllable): string => {
+  const onset = syllable.onset.reduce(reducePhonemes, "");
+  const nucleus = syllable.nucleus.reduce(reducePhonemes, "");
+  const coda = syllable.coda.reduce(reducePhonemes, "");
 
-export default (word: { syllables: any[] }): string => {
-  const { syllables } = word;
+  return onset + nucleus + coda;
+};
+
+export default (syllables: Syllable[]): string => {
   let pronunciationGuide = "";
 
   for (let i = 0; i < syllables.length; i++) {

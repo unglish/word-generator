@@ -1,48 +1,67 @@
+import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
+import { createSeededRandom } from "../utils/createSeededRandom.js";
 import pick from "../utils/pick.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { clusters, phonemes } from "../elements/phonemes.js";
+import { clusters, phonemes, Phoneme, Cluster } from "../elements/phonemes.js";
 import pronounce from "./pronounce.js";
-import write from "./write.js";
+import { write, WrittenForm } from "./write.js";
+
+export interface GenerateWordOptions {
+  seed?: number;
+}
+
+export interface Word {
+  syllables: Syllable[];
+  pronunciation: string;
+  written: WrittenForm;
+}
+
+export interface Syllable {
+  onset: Phoneme[];
+  nucleus: Phoneme[];
+  coda: Phoneme[];
+}
 
 // Helper function to get a random consonant cluster
 function getRandomCluster(
-  type: string,
+  type: "coda" | "onset",
   length: number,
-  ignore: string | string[],
-) {
-  if (!ignore) ignore = [];
+  ignore: string[] = [],
+): Phoneme[] {
   const filteredClusters = clusters.filter(
-    (cluster) =>
-      // @ts-ignore
+    (cluster: Cluster) =>
       cluster[type] &&
       cluster.sounds.length == length &&
       !cluster.sounds.some((sound) => ignore.includes(sound)),
   );
-  // adjust the weight of the phoneme to diminish
+
   const selectedCluster = pick(filteredClusters).sounds;
-  return selectedCluster.map((sound: string) =>
-    phonemes.find((p) => p.sound == sound),
+  const result: (Phoneme | undefined)[] = selectedCluster.map((sound: string) =>
+    phonemes.find((p) => p.sound === sound),
   );
+
+  const phonemesFiltered: Phoneme[] = result.filter(
+    (phoneme): phoneme is Phoneme => phoneme !== undefined,
+  );
+
+  return phonemesFiltered;
 }
 
-function pickOnset(prevSyllable: { coda: string | any[]; nucleus: any }) {
+function pickOnset(prevSyllable?: Syllable): Phoneme[] {
   let complexity = 0;
 
   if (prevSyllable) {
     const prevSyllablePhonemes = prevSyllable.coda.concat(
       prevSyllable.nucleus,
-      // @ts-ignore
       prevSyllable.coda,
     );
-    // @ts-ignore
     complexity = prevSyllablePhonemes.reduce(
-      (totalComplexity: any, phoneme: { complexity: any }) =>
-        totalComplexity + phoneme.complexity,
+      (totalComplexity, phoneme) => totalComplexity + phoneme.complexity,
       0,
     );
   }
 
-  const lengthOptions = [];
+  const lengthOptions: [number, number][] = [];
   if (prevSyllable && prevSyllable.coda.length > 0 && complexity > 4) {
     lengthOptions.push([0, 1000]);
   } else if (prevSyllable && prevSyllable.coda.length === 0) {
@@ -57,18 +76,21 @@ function pickOnset(prevSyllable: { coda: string | any[]; nucleus: any }) {
     lengthOptions.push([1, 600], [2, 250], [3, 50]);
   }
 
-  const length = getWeightedOption(lengthOptions);
-  let onset = [];
+  const length: number = getWeightedOption(lengthOptions);
+  let onset: Phoneme[] = [];
   if (length > 1) {
     onset = getRandomCluster(
       "onset",
       length,
-      prevSyllable ? prevSyllable.coda : [],
+      prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [],
     );
   } else if (length === 1) {
-    const simpleOnsets = phonemes.filter((p) => !!p.onset);
+    const simpleOnsets = phonemes.filter((p) => p.onset !== undefined);
     // remove all the phonemes from the prev syllable's coda
-    const weightedSimpleOnsets = simpleOnsets.map((p) => [p, p.onset]);
+    const weightedSimpleOnsets: [Phoneme, number][] = simpleOnsets.map((p) => [
+      p,
+      p.onset ?? 0,
+    ]);
     onset = [getWeightedOption(weightedSimpleOnsets)];
   }
 
@@ -77,23 +99,25 @@ function pickOnset(prevSyllable: { coda: string | any[]; nucleus: any }) {
 
 function pickNucleus() {
   const nuclei = phonemes.filter((p) => !!p.nucleus);
-  const mappedNuclei = nuclei.map((p) => [p, p.nucleus]);
+  const mappedNuclei: [Phoneme, number][] = nuclei.map((p) => [
+    p,
+    p.nucleus ?? 0,
+  ]);
   const nucleus = getWeightedOption(mappedNuclei);
   return [nucleus];
 }
 
-function pickCoda(onset: any[], nucleus: any[]) {
-  let complexity = 0;
+function pickCoda(onset: Phoneme[], nucleus: Phoneme[]): Phoneme[] {
+  let complexity =
+    onset.reduce(
+      (totalComplexity, phoneme) => totalComplexity + phoneme.complexity,
+      0,
+    ) + nucleus[0].complexity;
   const MAX_COMPLEXITY = 3;
-  complexity = onset.reduce(
-    (totalComplexity: any, phoneme: { complexity: any }) =>
-      totalComplexity + phoneme.complexity,
-    0,
-  );
-  complexity += nucleus[0].complexity;
   complexity = Math.min(complexity, MAX_COMPLEXITY);
 
-  const lengthOptions = {
+  type LengthOptionsType = { [key: number]: [number, number][] };
+  const lengthOptions: LengthOptionsType = {
     1: [
       [0, 5],
       [1, 900],
@@ -112,25 +136,23 @@ function pickCoda(onset: any[], nucleus: any[]) {
       [2, 50],
     ],
   };
-  // @ts-ignore
-  const length = getWeightedOption(lengthOptions[complexity]);
 
-  let coda = [];
+  const length = getWeightedOption(lengthOptions[complexity] || [[0, 1]]);
+
   if (length > 1) {
-    coda = getRandomCluster("coda", length, []);
+    return getRandomCluster("coda", length, []);
   } else if (length === 1) {
     const simpleCodas = phonemes.filter((p) => !!p.coda);
-    const weightedSimpleCodas = simpleCodas.map((p) => [p, p.coda]);
-    coda = [getWeightedOption(weightedSimpleCodas)];
+    // Assuming getWeightedOption returns a Phoneme
+    return [getWeightedOption(simpleCodas.map((p) => [p, p.coda ?? 0]))];
+  } else {
+    return [];
   }
-  return coda;
 }
 
-function generateSyllable(
-  prevSyllable: { onset: any; nucleus: any[]; coda: any } | undefined,
-) {
+function generateSyllable(prevSyllable?: Syllable) {
   // Build the syllable structure
-  // @ts-ignore
+
   const onset = pickOnset(prevSyllable);
   const nucleus = pickNucleus();
   const coda = pickCoda(onset, nucleus);
@@ -142,29 +164,42 @@ function generateSyllable(
   };
 }
 
-export default () => {
-  const syllableCount = getWeightedOption([
-    [1, 9000],
-    [2, 1500],
-    [3, 100],
-    [4, 1],
-  ]);
+export const generateWord = (options: GenerateWordOptions = {}): Word => {
+  const { seed } = options;
+  const originalRand: RandomFunction = getRand();
 
-  const word = {
-    syllables: [],
-    pronunciation: "",
-    written: {},
-  };
+  try {
+    if (seed !== undefined) {
+      const seededRand: RandomFunction = createSeededRandom(seed);
+      overrideRand(seededRand);
+    }
 
-  for (let i = 0, prevSyllable; i < syllableCount; i++) {
-    // @ts-ignore
-    prevSyllable = generateSyllable(prevSyllable, syllableCount);
-    // @ts-ignore
-    word.syllables.push(prevSyllable);
+    const syllableCount = getWeightedOption([
+      [1, 9000],
+      [2, 1500],
+      [3, 100],
+      [4, 1],
+    ]);
+
+    const syllables = [];
+
+    for (let i = 0, prevSyllable; i < syllableCount; i++) {
+      prevSyllable = generateSyllable(prevSyllable);
+      syllables.push(prevSyllable);
+    }
+
+    const written = write(syllables);
+    const pronunciation = pronounce(syllables);
+
+    return {
+      syllables,
+      pronunciation,
+      written,
+    };
+  } finally {
+    // Ensure the original randomness function is restored
+    overrideRand(originalRand);
   }
-
-  word.written = write(word);
-  word.pronunciation = pronounce(word);
-
-  return word;
 };
+
+export default generateWord;

@@ -1,3 +1,8 @@
-import { rand } from "./random.js";
+import { getRand } from "./random.js";
 
-export default (arr: string | any[]) => arr[(rand() * arr.length) | 0];
+const pick = <T>(choices: T[]): T => {
+  const index = Math.floor(getRand()() * choices.length);
+  return choices[index];
+};
+
+export default pick;

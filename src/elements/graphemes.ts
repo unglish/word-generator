@@ -1,5 +1,13 @@
 const ORIGINS = ["Germanic", "French", "Greek", "Latin", "Other"];
 
+export interface Grapheme {
+  phoneme: string;
+  form: string;
+  origin: number;
+  frequency: number;
+  invalidPositions: string[];
+}
+
 const graphemes = [
   /******************
    * VOWELS
@@ -1097,7 +1105,4 @@ const graphemes = [
   },
 ];
 
-export { 
-  ORIGINS,
-  graphemes 
-};
+export { ORIGINS, graphemes };

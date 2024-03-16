@@ -1,6 +1,6 @@
-import { rand } from "./random.js";
+import { getRand } from "./random.js";
 
-export default (min: number, max: number, returnAsInt: any) => {
-  const result = rand() * (max - min) + min;
+export default (min: number, max: number, returnAsInt?: boolean): number => {
+  const result = getRand()() * (max - min) + min;
   return returnAsInt ? Math.floor(result) : result;
 };

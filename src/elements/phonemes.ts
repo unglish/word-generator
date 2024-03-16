@@ -1,3 +1,13 @@
+export interface Phoneme {
+  sound: string;
+  type: string;
+  sonority: number;
+  complexity: number;
+  nucleus?: number;
+  onset?: number;
+  coda?: number;
+}
+
 export const phonemes = [
   // Vowels
   { sound: "i", type: "vowel", sonority: 7, complexity: 1, nucleus: 7 },
@@ -176,6 +186,12 @@ export const phonemes = [
     coda: 3,
   }, // as in "go"
 ];
+
+export interface Cluster {
+  sounds: string[];
+  onset: number;
+  coda: number;
+}
 
 export const clusters = [
   { sounds: ["s", "t"], onset: 1, coda: 1 },

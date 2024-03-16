@@ -1,6 +1,14 @@
-export let rand: () => number = Math.random;
+export type RandomFunction = () => number;
 
-// Function to set a custom randomness function
-export default (randomFunc: () => number): void => {
-  rand = randomFunc;
+const rand: RandomFunction = Math.random;
+let currentRand: RandomFunction = rand;
+
+export const getRand = (): RandomFunction => currentRand;
+
+export const overrideRand = (randomFunc: RandomFunction): void => {
+  currentRand = randomFunc;
+};
+
+export const resetRand = (): void => {
+  currentRand = rand;
 };
