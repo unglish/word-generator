@@ -18,14 +18,14 @@ const graphemes = [
     phoneme: "i",
     form: "ee",
     origin: 0,
-    frequency: 10,
+    frequency: 50,
     invalidPositions: ["onset"],
   },
   {
     phoneme: "i",
     form: "ea",
     origin: 0,
-    frequency: 10,
+    frequency: 50,
     invalidPositions: ["onset"],
   },
   {
@@ -39,7 +39,7 @@ const graphemes = [
     phoneme: "i",
     form: "y",
     origin: 1,
-    frequency: 4,
+    frequency: 1,
     invalidPositions: ["onset"],
   },
   {
@@ -66,7 +66,7 @@ const graphemes = [
     form: "ui",
     origin: 1,
     frequency: 10,
-    invalidPositions: ["onset"],
+    invalidPositions: ["onset", "coda"],
   },
 
   // e: red
@@ -147,14 +147,14 @@ const graphemes = [
     phoneme: "o",
     form: "oa",
     origin: 0,
-    frequency: 10,
+    frequency: 50,
     invalidPositions: ["onset"],
   },
   {
     phoneme: "o",
     form: "ow",
     origin: 0,
-    frequency: 4,
+    frequency: 10,
     invalidPositions: ["onset"],
     examples: ["sow"],
   },
@@ -162,14 +162,14 @@ const graphemes = [
     phoneme: "o",
     form: "oe",
     origin: 0,
-    frequency: 10,
+    frequency: 4,
     invalidPositions: ["onset"],
   },
   {
     phoneme: "o",
     form: "ough",
     origin: 4,
-    frequency: 2,
+    frequency: 1,
     invalidPositions: ["onset"],
   },
   {
@@ -188,7 +188,12 @@ const graphemes = [
     frequency: 10,
     invalidPositions: ["onset"],
   },
-  { phoneme: "ʊ", form: "u", origin: 0, frequency: 10, invalidPositions: [] },
+  { phoneme: "ʊ", 
+    form: "u", 
+    origin: 0, 
+    frequency: 10, 
+    invalidPositions: [] 
+  },
 
   // blue
   {
@@ -270,30 +275,13 @@ const graphemes = [
     form: "ow",
     origin: 0,
     frequency: 10,
-    invalidPositions: ["onset"],
   },
   {
     phoneme: "aʊ",
     form: "ou",
     origin: 1,
     frequency: 10,
-    invalidPositions: ["onset"],
-  },
-
-  // boy
-  {
-    phoneme: "oɪ",
-    form: "oi",
-    origin: 3,
-    frequency: 10,
     invalidPositions: ["coda"],
-  },
-  {
-    phoneme: "oɪ",
-    form: "oy",
-    origin: 0,
-    frequency: 2,
-    invalidPositions: ["onset"],
   },
 
   // coin
@@ -308,7 +296,7 @@ const graphemes = [
     phoneme: "ɔɪ",
     form: "oy",
     origin: 0,
-    frequency: 10,
+    frequency: 2,
     invalidPositions: ["onset"],
   },
 
@@ -393,55 +381,55 @@ const graphemes = [
     phoneme: "ɑʊ",
     form: "ough",
     origin: 4,
-    frequency: 3,
+    frequency: 1,
     invalidPositions: ["onset"],
   },
 
-  // her
+  // bed, said, execute
   {
     phoneme: "ɜ",
     form: "er",
     origin: 0,
-    frequency: 10,
+    frequency: 100,
     invalidPositions: ["onset"],
   },
   {
     phoneme: "ɜ",
     form: "ir",
     origin: 0,
-    frequency: 10,
+    frequency: 50,
     invalidPositions: ["onset"],
   },
   {
     phoneme: "ɜ",
     form: "ur",
     origin: 0,
-    frequency: 10,
+    frequency: 40,
     invalidPositions: ["onset"],
   },
   {
     phoneme: "ɜ",
     form: "ear",
     origin: 0,
-    frequency: 2,
+    frequency: 3,
     invalidPositions: ["onset"],
   },
   {
     phoneme: "ɜ",
     form: "or",
     origin: 3,
-    frequency: 3,
+    frequency: 2,
     invalidPositions: ["coda"],
   },
   {
     phoneme: "ɜ",
     form: "yr",
     origin: 0,
-    frequency: 2,
+    frequency: 1,
     invalidPositions: ["onset"],
   },
 
-  // letter
+  // her, letter
   {
     phoneme: "ɚ",
     form: "er",
@@ -490,7 +478,7 @@ const graphemes = [
     phoneme: "j",
     form: "j",
     origin: 3,
-    frequency: 4,
+    frequency: 1,
     invalidPositions: ["coda"],
   },
 
@@ -521,12 +509,12 @@ const graphemes = [
     phoneme: "l",
     form: "ll",
     origin: 3,
-    frequency: 5,
+    frequency: 2,
     invalidPositions: ["onset"],
   },
 
   // run
-  { phoneme: "r", form: "r", origin: 3, frequency: 25, invalidPositions: [] },
+  { phoneme: "r", form: "r", origin: 3, frequency: 100, invalidPositions: [] },
   {
     phoneme: "r",
     form: "rr",
@@ -554,7 +542,7 @@ const graphemes = [
    ******************/
 
   // milk
-  { phoneme: "m", form: "m", origin: 3, frequency: 25, invalidPositions: [] },
+  { phoneme: "m", form: "m", origin: 3, frequency: 100, invalidPositions: [] },
   {
     phoneme: "m",
     form: "mm",
@@ -565,7 +553,7 @@ const graphemes = [
   {
     phoneme: "m",
     form: "mb",
-    origin: 3,
+    origin: 5,
     frequency: 2,
     invalidPositions: ["onset"],
   },
@@ -585,12 +573,12 @@ const graphemes = [
   },
 
   // no
-  { phoneme: "n", form: "n", origin: 3, frequency: 25, invalidPositions: [] },
+  { phoneme: "n", form: "n", origin: 3, frequency: 100, invalidPositions: [] },
   {
     phoneme: "n",
     form: "nn",
     origin: 3,
-    frequency: 2,
+    frequency: 1,
     invalidPositions: ["onset"],
   },
   {
@@ -604,21 +592,21 @@ const graphemes = [
     phoneme: "n",
     form: "kn",
     origin: 0,
-    frequency: 5,
+    frequency: 3,
     invalidPositions: ["coda"],
   },
   {
     phoneme: "n",
     form: "gn",
     origin: 0,
-    frequency: 3,
-    invalidPositions: ["coda"],
+    frequency: 1,
+    invalidPositions: [],
   },
   {
     phoneme: "n",
     form: "pn",
     origin: 2,
-    frequency: 3,
+    frequency: 1,
     invalidPositions: ["coda"],
   },
 
@@ -637,44 +625,37 @@ const graphemes = [
    ******************/
 
   // fish
-  { phoneme: "f", form: "f", origin: 3, frequency: 10, invalidPositions: [] },
+  { phoneme: "f", form: "f", origin: 3, frequency: 100, invalidPositions: [] },
   {
     phoneme: "f",
     form: "ff",
     origin: 3,
-    frequency: 2,
+    frequency: 4,
     invalidPositions: ["onset"],
   },
   {
     phoneme: "f",
     form: "ph",
     origin: 2,
-    frequency: 2,
+    frequency: 1,
     invalidPositions: ["coda"],
   },
   {
     phoneme: "f",
     form: "gh",
     origin: 0,
-    frequency: 3,
+    frequency: 1,
     invalidPositions: ["onset"],
   },
 
   // van
-  { phoneme: "v", form: "v", origin: 3, frequency: 10, invalidPositions: [] },
-  { phoneme: "v", form: "f", origin: 3, frequency: 10, invalidPositions: [] },
-  {
-    phoneme: "v",
-    form: "ve",
-    origin: 3,
-    frequency: 10,
-    invalidPositions: ["onset"],
-  },
+  { phoneme: "v", form: "v", origin: 3, frequency: 100, invalidPositions: [] },
+  { phoneme: "v", form: "f", origin: 3, frequency: 1, invalidPositions: [] },
   {
     phoneme: "v",
     form: "ph",
     origin: 2,
-    frequency: 10,
+    frequency: 1,
     invalidPositions: ["coda"],
   },
 
@@ -685,8 +666,8 @@ const graphemes = [
   { phoneme: "ð", form: "th", origin: 2, frequency: 10, invalidPositions: [] },
 
   // sun
-  { phoneme: "s", form: "s", origin: 3, frequency: 10, invalidPositions: [] },
-  { phoneme: "s", form: "c", origin: 3, frequency: 1, invalidPositions: [] },
+  { phoneme: "s", form: "s", origin: 3, frequency: 100, invalidPositions: [] },
+  { phoneme: "s", form: "c", origin: 3, frequency: 2, invalidPositions: [] },
   {
     phoneme: "s",
     form: "ss",
@@ -698,7 +679,7 @@ const graphemes = [
     phoneme: "s",
     form: "sc",
     origin: 3,
-    frequency: 1,
+    frequency: 2,
     invalidPositions: ["coda"],
   },
   {
@@ -735,35 +716,35 @@ const graphemes = [
     phoneme: "z",
     form: "z",
     origin: 3,
-    frequency: 10,
+    frequency: 100,
     invalidPositions: ["coda"],
   },
   {
     phoneme: "z",
     form: "s",
     origin: 3,
-    frequency: 3,
+    frequency: 10,
     invalidPositions: ["onset"],
   },
   {
     phoneme: "z",
     form: "x",
     origin: 3,
-    frequency: 4,
+    frequency: 1,
     invalidPositions: ["coda"],
   },
   {
     phoneme: "z",
     form: "zz",
     origin: 3,
-    frequency: 10,
+    frequency: 1,
     invalidPositions: ["onset"],
   },
   {
     phoneme: "z",
     form: "ss",
     origin: 3,
-    frequency: 3,
+    frequency: 1,
     invalidPositions: ["onset"],
   },
   {
@@ -872,14 +853,14 @@ const graphemes = [
     phoneme: "h",
     form: "h",
     origin: 0,
-    frequency: 10,
+    frequency: 50,
     invalidPositions: ["coda"],
   },
   {
     phoneme: "h",
     form: "wh",
     origin: 0,
-    frequency: 3,
+    frequency: 1,
     invalidPositions: ["coda"],
   },
 
@@ -961,7 +942,7 @@ const graphemes = [
   // pig
   { phoneme: "p", form: "p", origin: 3, frequency: 50, invalidPositions: [] },
   {
-    phoneme: "p",
+    phoneme: "p", 
     form: "pp",
     origin: 3,
     frequency: 1,
@@ -969,12 +950,12 @@ const graphemes = [
   },
 
   // b boy
-  { phoneme: "b", form: "b", origin: 3, frequency: 25, invalidPositions: [] },
+  { phoneme: "b", form: "b", origin: 3, frequency: 100, invalidPositions: [] },
   {
     phoneme: "b",
     form: "bb",
     origin: 3,
-    frequency: 5,
+    frequency: 2,
     invalidPositions: ["onset"],
   },
   {
@@ -1028,8 +1009,8 @@ const graphemes = [
   },
 
   // k: cat
-  { phoneme: "k", form: "k", origin: 3, frequency: 20, invalidPositions: [] },
-  { phoneme: "k", form: "c", origin: 3, frequency: 4, invalidPositions: [] },
+  { phoneme: "k", form: "k", origin: 3, frequency: 50, invalidPositions: [] },
+  { phoneme: "k", form: "c", origin: 3, frequency: 40, invalidPositions: [] },
   {
     phoneme: "k",
     form: "ck",
