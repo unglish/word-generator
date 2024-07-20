@@ -43,10 +43,11 @@ function applyCastling(str: string): string {
 
 function applySyllableReduction(str: string): string {
   const reductionPairs = [
-    { source: "(?<!^)ks", target: "x", likelihood: 0.75 }, // e., "nekst" -> "next"
+    { source: "(?<!^)ks", target: "x", likelihood: 0.25 }, // e., "nekst" -> "next"
     { source: "uu", target: "u", likelihood: 1.0 },
     { source: "ww", target: "w", likelihood: 1.0 },
     { source: "ii", target: "i", likelihood: 1.0 },
+    { source: "gg", target: "g", likelihood: 0.9 },
   ];
 
   // Iterate over each pair and randomly decide whether to replace it
