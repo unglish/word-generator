@@ -74,14 +74,14 @@ function writeSegment(phonemes: Phoneme[], position: string) {
 }
 
 function chooseGrapheme(
-  phoneme: Phoneme,
-  position: string,
+  phoneme: Phoneme,  
+  position: string, 
   inCluster: boolean,
-) {
+) { 
   const viableGraphemes = graphemes.filter(
     (grapheme) =>
       grapheme.phoneme === phoneme.sound &&
-      grapheme.invalidPositions.indexOf(position) < 0,
+      (!grapheme.invalidPositions || grapheme.invalidPositions.indexOf(position) < 0),
   );
 
   // Ensure each tuple matches the structure [string, number]

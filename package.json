@@ -3,7 +3,7 @@
   "version": "0.2.1",
   "IDGAFversion": "e",
   "description": "A simple generator for creating unglish words.",
-  "type":"module",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -11,7 +11,7 @@
     "prepublishOnly": "npm run build",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write \"src/**/*.ts\"",
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"tsc --watch\"",
     "build": "tsc"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "@types/node": "^20.11.16",
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
+    "concurrently": "^8.2.2",
     "eslint": "^7.0.0",
     "prettier": "^2.0.0",
     "typescript": "^4.9.5",
