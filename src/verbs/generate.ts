@@ -176,7 +176,21 @@ export const generateWord = (options: GenerateWordOptions = {}): Word => {
     }
 
     const syllableCount = specifiedSyllableCount || getWeightedOption([
-      [1, 9000], [2, 1500], [3, 100], [4, 1],
+      [1, 40000],  // 30-40%
+      [2, 35000],  // 30-35%
+      [3, 15000],  // 15-20%
+      [4, 5000],   // 5-10%
+      [5, 1000],   // Less than 5%
+      [6, 500],    // Less than 5%
+      [7, 10],    // Very rare
+      [8, 5],     // Very rare
+      [9, 3],     // Very rare
+      [10, 2],    // Very rare
+      [11, 1],    // Extremely rare
+      [12, 1],    // Extremely rare
+      [13, 1],    // Extremely rare
+      [14, 1],    // Extremely rare
+      [15, 1],    // Extremely rare
     ]);
 
     const syllables = [];
