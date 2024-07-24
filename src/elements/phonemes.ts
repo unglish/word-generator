@@ -1,9 +1,10 @@
 export interface Phoneme {
   sound: string;
-  type: string;
+  type: "vowel" | "consonant";
   sonority: number;
   complexity: number;
-  nucleus?: number;
+  // weightings of the phoneme appearing in the respective position
+  nucleus?: number; 
   onset?: number;
   coda?: number;
 }
