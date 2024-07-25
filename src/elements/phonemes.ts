@@ -1,6 +1,6 @@
 export interface Phoneme {
   sound: string;
-  type: "vowel" | "consonant";
+  type: "vowel" | "consonant" | "nasal" | "liquid" | "glide" | "fricative" | "plosive" | "affricate";
   sonority: number;
   complexity: number;
   // weightings of the phoneme appearing in the respective position
@@ -9,68 +9,68 @@ export interface Phoneme {
   coda?: number;
 }
 
-export const phonemes = [
+export const phonemes: Phoneme[] = [
   // Vowels
   // i: sheep
-  { sound: "i", type: "vowel", sonority: 7, complexity: 1, nucleus: 361 },
+  { sound: "i", type: "vowel", sonority: 7, complexity: 2, nucleus: 361 },
   // ɪ: sit
   { sound: "ɪ", type: "vowel", sonority: 7, complexity: 1, nucleus: 632 },
   // e: red
-  { sound: "e", type: "vowel", sonority: 7, complexity: 1, nucleus: 100 },
+  { sound: "e", type: "vowel", sonority: 7, complexity: 2, nucleus: 100 },
   // ɛ: let
-  { sound: "ɛ", type: "vowel", sonority: 7, complexity: 3, nucleus: 286 },
+  { sound: "ɛ", type: "vowel", sonority: 7, complexity: 2, nucleus: 286 },
   // æ: cat
-  { sound: "æ", type: "vowel", sonority: 7, complexity: 1, nucleus: 210 },
+  { sound: "æ", type: "vowel", sonority: 7, complexity: 3, nucleus: 210 },
   // ɑ: father
   { sound: "ɑ", type: "vowel", sonority: 7, complexity: 1, nucleus: 100 },
   // ɔ: ball
-  { sound: "ɔ", type: "vowel", sonority: 7, complexity: 1, nucleus: 100 },
+  { sound: "ɔ", type: "vowel", sonority: 7, complexity: 2, nucleus: 100 },
   // o: hope
-  { sound: "o", type: "vowel", sonority: 7, complexity: 1, nucleus: 130 },
+  { sound: "o", type: "vowel", sonority: 7, complexity: 2, nucleus: 130 },
   // ʊ: book
   { sound: "ʊ", type: "vowel", sonority: 7, complexity: 1, nucleus: 70 },
   // u: blue
-  { sound: "u", type: "vowel", sonority: 7, complexity: 1, nucleus: 193 },
+  { sound: "u", type: "vowel", sonority: 7, complexity: 2, nucleus: 193 },
   // ʌ: cup
   { sound: "ʌ", type: "vowel", sonority: 7, complexity: 1, nucleus: 80 },
   // ə: the
   { sound: "ə", type: "vowel", sonority: 7, complexity: 1, nucleus: 1150 },
   // aɪ: the
-  { sound: "aɪ", type: "vowel", sonority: 7, complexity: 2, nucleus: 50 },
+  { sound: "aɪ", type: "vowel", sonority: 7, complexity: 3, nucleus: 50 },
   // aʊ: now
-  { sound: "aʊ", type: "vowel", sonority: 7, complexity: 2, nucleus: 30 },
+  { sound: "aʊ", type: "vowel", sonority: 7, complexity: 3, nucleus: 30 },
   // oɪ: boy
-  { sound: "ɔɪ", type: "vowel", sonority: 7, complexity: 2, nucleus: 30 },
+  { sound: "ɔɪ", type: "vowel", sonority: 7, complexity: 3, nucleus: 30 },
   // ɪə: coin
-  { sound: "ɪə", type: "vowel", sonority: 7, complexity: 2, nucleus: 30 },
+  { sound: "ɪə", type: "vowel", sonority: 7, complexity: 3, nucleus: 30 },
   // eɪ: day
-  { sound: "eɪ", type: "vowel", sonority: 7, complexity: 2, nucleus: 50 },
+  { sound: "eɪ", type: "vowel", sonority: 7, complexity: 3, nucleus: 50 },
   // ɑʊ: now
-  { sound: "ɑʊ", type: "vowel", sonority: 7, complexity: 2, nucleus: 50 },
+  { sound: "ɑʊ", type: "vowel", sonority: 7, complexity: 3, nucleus: 50 },
   // ɜ: bed, said, execute
-  { sound: "ɜ", type: "vowel", sonority: 7, complexity: 1, nucleus: 140 },
+  { sound: "ɜ", type: "vowel", sonority: 7, complexity: 2, nucleus: 140 },
   // ɚ: her, letter
-  { sound: "ɚ", type: "vowel", sonority: 7, complexity: 1, nucleus: 50 },
+  { sound: "ɚ", type: "vowel", sonority: 7, complexity: 3, nucleus: 50 },
 
   // Glides
-  { sound: "j", type: "glide", sonority: 6, complexity: 2, onset: 40, coda: 20 },
-  { sound: "w", type: "glide", sonority: 6, complexity: 2, onset: 165, coda: 30 },
+  { sound: "j", type: "glide", sonority: 6, complexity: 1, onset: 40, coda: 20 },
+  { sound: "w", type: "glide", sonority: 6, complexity: 1, onset: 165, coda: 30 },
 
   // Liquids
   { sound: "l", type: "liquid", sonority: 5, complexity: 2, onset: 200, coda: 200 },
-  { sound: "r", type: "liquid", sonority: 5, complexity: 2, onset: 500, coda: 100 },
+  { sound: "r", type: "liquid", sonority: 5, complexity: 3, onset: 500, coda: 100 },
 
   // Nasals
   { sound: "m", type: "nasal", sonority: 4, complexity: 1, onset: 100, coda: 176 },
   { sound: "n", type: "nasal", sonority: 4, complexity: 1, onset: 350, coda: 350 },
-  { sound: "ŋ", type: "nasal", sonority: 4, complexity: 1, onset: 10, coda: 70 },
+  { sound: "ŋ", type: "nasal", sonority: 4, complexity: 2, onset: 10, coda: 70 },
 
   // Fricatives
   {
     sound: "f",
     type: "fricative",
     sonority: 3,
-    complexity: 1,
+    complexity: 2,
     onset: 100,
     coda: 35,
   },
@@ -78,7 +78,7 @@ export const phonemes = [
     sound: "v",
     type: "fricative",
     sonority: 3,
-    complexity: 1,
+    complexity: 2,
     onset: 150,
     coda: 50,
   },
@@ -86,7 +86,7 @@ export const phonemes = [
     sound: "θ",
     type: "fricative",
     sonority: 3,
-    complexity: 2,
+    complexity: 3,
     onset: 50,
     coda: 50,
   }, // as in "think"
@@ -94,7 +94,7 @@ export const phonemes = [
     sound: "ð",
     type: "fricative",
     sonority: 3,
-    complexity: 1,
+    complexity: 3,
     onset: 250,
     coda: 50,
   }, // as in "this"
@@ -102,7 +102,7 @@ export const phonemes = [
     sound: "s",
     type: "fricative",
     sonority: 3,
-    complexity: 1,
+    complexity: 2,
     onset: 300,
     coda: 175,
   }, // as in "see"
@@ -118,7 +118,7 @@ export const phonemes = [
     sound: "ʃ",
     type: "fricative",
     sonority: 3,
-    complexity: 1,
+    complexity: 3,
     onset: 35,
     coda: 5,
   }, // as in "she"
@@ -126,7 +126,7 @@ export const phonemes = [
     sound: "ʒ",
     type: "fricative",
     sonority: 3,
-    complexity: 1,
+    complexity: 3,
     onset: 10,
     coda: 10,
   }, // as in "measure"
@@ -144,7 +144,7 @@ export const phonemes = [
     sound: "tʃ",
     type: "affricate",
     sonority: 2,
-    complexity: 2,
+    complexity: 3,
     onset: 40,
     coda: 30,
   },
@@ -152,7 +152,7 @@ export const phonemes = [
     sound: "dʒ",
     type: "affricate",
     sonority: 2,
-    complexity: 2,
+    complexity: 3,
     onset: 30,
     coda: 20,
   },
@@ -194,7 +194,7 @@ export const phonemes = [
     sound: "k",
     type: "plosive",
     sonority: 1,
-    complexity: 1,
+    complexity: 2,
     onset: 220,
     coda: 100,
   }, // as in "cat"
@@ -202,7 +202,7 @@ export const phonemes = [
     sound: "g",
     type: "plosive",
     sonority: 1,
-    complexity: 1,
+    complexity: 2,
     onset: 150,
     coda: 20,
   }, // as in "go"
@@ -242,14 +242,14 @@ export const clusters: Cluster[] = [
   { sounds: ["l", "z"], onset: 0, coda: 300 },   // falls, tells
   { sounds: ["l", "θ"], onset: 0, coda: 100 },   // health, wealth
   { sounds: ["m", "d"], onset: 0, coda: 250 },   // seemed, dreamed
-  { sounds: ["m", "p"], onset: 100, coda: 400 }, // lamp, jump
+  { sounds: ["m", "p"], onset: 0, coda: 400 }, // lamp, jump
   { sounds: ["m", "z"], onset: 0, coda: 200 },   // homes, times
-  { sounds: ["n", "d"], onset: 100, coda: 1200 }, // and, hand
+  { sounds: ["n", "d"], onset: 0, coda: 1200 }, // and, hand
   { sounds: ["n", "d", "z"], onset: 0, coda: 300 }, // hands, lands
   { sounds: ["n", "k", "t"], onset: 0, coda: 250 }, // instinct, distinct
-  { sounds: ["n", "s"], onset: 50, coda: 600 },  // sense, dense
+  { sounds: ["n", "s"], onset: 0, coda: 600 },  // sense, dense
   { sounds: ["n", "s", "t"], onset: 0, coda: 350 }, // against, fenced
-  { sounds: ["n", "t"], onset: 50, coda: 1000 }, // want, tent
+  { sounds: ["n", "t"], onset: 0, coda: 1000 }, // want, tent
   { sounds: ["n", "z"], onset: 0, coda: 500 },   // runs, cans
   { sounds: ["n", "θ"], onset: 0, coda: 100 },   // month, tenth
   { sounds: ["p", "l"], onset: 500, coda: 0 },   // play, please
