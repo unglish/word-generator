@@ -50,6 +50,7 @@ function getRandomCluster(
 
 function pickOnset(prevSyllable?: Syllable): Phoneme[] {
   let complexity = 0;
+  const MAX_COMPLEXITY = 3;
 
   if (prevSyllable) {
     const prevSyllablePhonemes = prevSyllable.coda.concat(
@@ -63,18 +64,22 @@ function pickOnset(prevSyllable?: Syllable): Phoneme[] {
   }
 
   const lengthOptions: [number, number][] = [];
-  if (prevSyllable && prevSyllable.coda.length > 0 && complexity > 4) {
-    lengthOptions.push([0, 1000]);
-  } else if (prevSyllable && prevSyllable.coda.length === 0) {
+  const isOverlyComplex = complexity > MAX_COMPLEXITY;
+  const isFollowingCoda = prevSyllable && prevSyllable.coda.length > 0;
+  const isFollowingNucleus = prevSyllable && prevSyllable.coda.length > 0;
+
+  if (isFollowingCoda && isOverlyComplex) {
+    lengthOptions.push([0, 900]);
+  } else if (isFollowingNucleus) {
     lengthOptions.push([0, 0]);
   } else {
-    lengthOptions.push([0, 2]);
+    lengthOptions.push([0, 150]);
   }
 
-  if (complexity > 4) {
-    lengthOptions.push([1, 50], [2, 10]);
+  if (isOverlyComplex) {
+    lengthOptions.push([1, 675], [2, 125]);
   } else {
-    lengthOptions.push([1, 600], [2, 250], [3, 50]);
+    lengthOptions.push([1, 675], [2, 125], [3, 15]);
   }
 
   const length: number = getWeightedOption(lengthOptions);
@@ -120,21 +125,20 @@ function pickCoda(onset: Phoneme[], nucleus: Phoneme[]): Phoneme[] {
   type LengthOptionsType = { [key: number]: [number, number][] };
   const lengthOptions: LengthOptionsType = {
     1: [
-      [0, 5],
-      [1, 300],
-      [2, 300],
-      [3, 200],
+      [0, 6000],
+      [1, 3000],
+      [2, 900],
+      [3, 100],
     ],
     2: [
-      [0, 200],
-      [1, 400],
-      [2, 400],
+      [0, 7000],
+      [1, 3000],
+      [2, 90],
       [3, 10],
     ],
     3: [
-      [0, 400],
+      [0, 8000],
       [1, 400],
-      [2, 0],
     ],
   };
 
