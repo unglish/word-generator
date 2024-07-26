@@ -9,15 +9,25 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const singleWord = unglish.generateWord();
-            const haiku = 
-                `
-                ${unglish.generateWord({ syllableCount: 2 }).written.clean} ${unglish.generateWord({ syllableCount: 2 }).written.clean} ${unglish.generateWord({ syllableCount: 1 }).written.clean} <br/> 
-                ${unglish.generateWord({ syllableCount: 3 }).written.clean} ${unglish.generateWord({ syllableCount: 2 }).written.clean} ${unglish.generateWord({ syllableCount: 2 }).written.clean} <br/> 
-                ${unglish.generateWord({ syllableCount: 2 }).written.clean} ${unglish.generateWord({ syllableCount: 1 }).written.clean} ${unglish.generateWord({ syllableCount: 2 }).written.clean} <br/>` 
+            console.log(singleWord);
+            const haiku = [
+                [unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 1 })],
+                [unglish.generateWord({ syllableCount: 3 }), unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 2 })],
+                [unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 1 }), unglish.generateWord({ syllableCount: 2 })],
+            ]
+            console.log(haiku);
+            const writtenHaiku = haiku.map(
+                line => line.map(word => word.written.clean).join(' ')
+            ).join('<br/>');
+            const pronouncedHaiku = haiku.map(
+                line => line.map(word => word.pronunciation).join(' ')
+            ).join('<br/>');
             document.body.innerHTML = 
                 `
-                    <h2>Single Word:</h2> ${singleWord.written.clean} (${singleWord.pronunciation}) <br/>
-                    <h2>Haiku:</h2> ${haiku}
+                    <h2>Single Word:</h2> ${singleWord.written.clean} <br/> <code>${singleWord.pronunciation}</code> <br/>
+                    <h2>Haiku:</h2> 
+                    <p>${writtenHaiku}</p>
+                    <code>${pronouncedHaiku}</code>
                 `;
             ;
         });

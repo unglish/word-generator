@@ -52,12 +52,12 @@ const graphemes = [
   { phoneme: "i", form: "i", origin: 0, frequency: 10, invalidPositions: [] },
 
   // ɪ: sit
-  { phoneme: "ɪ", form: "i", origin: 0, frequency: 10, invalidPositions: [] },
+  { phoneme: "ɪ", form: "i", origin: 0, frequency: 100, invalidPositions: [] },
   {
     phoneme: "ɪ",
     form: "y",
     origin: 1,
-    frequency: 10,
+    frequency: 1,
     invalidPositions: ["onset"],
     examples: ["symbol", "system"],
   },
@@ -65,7 +65,7 @@ const graphemes = [
     phoneme: "ɪ",
     form: "ui",
     origin: 1,
-    frequency: 10,
+    frequency: 1,
     invalidPositions: ["onset", "coda"],
   },
 
@@ -611,7 +611,6 @@ const graphemes = [
   },
 
   // sing
-  { phoneme: "ŋ", form: "n", origin: 3, frequency: 10, invalidPositions: [] },
   {
     phoneme: "ŋ",
     form: "ng",
@@ -763,42 +762,54 @@ const graphemes = [
   },
 
   // she
-  { phoneme: "ʃ", form: "s", origin: 3, frequency: 1, invalidPositions: [] },
-  { phoneme: "ʃ", form: "t", origin: 3, frequency: 1, invalidPositions: [] },
-  { phoneme: "ʃ", form: "sh", origin: 0, frequency: 10, invalidPositions: [] },
+  { phoneme: "ʃ", form: "sh", origin: 0, frequency: 750, invalidPositions: [] },
   {
     phoneme: "ʃ",
-    form: "ch",
+    form: "ti",
     origin: 3,
-    frequency: 1,
+    frequency: 80,
     invalidPositions: ["coda"],
-  },
-  {
-    phoneme: "ʃ",
-    form: "ss",
-    origin: 3,
-    frequency: 1,
-    invalidPositions: ["onset"],
   },
   {
     phoneme: "ʃ",
     form: "ci",
     origin: 3,
-    frequency: 4,
+    frequency: 50,
+    invalidPositions: ["coda"],
+  },
+  {
+    phoneme: "ʃ",
+    form: "ch",
+    origin: 3,
+    frequency: 30,
+    invalidPositions: ["onset"],
+  },
+  {
+    phoneme: "ʃ",
+    form: "s",
+    origin: 3,
+    frequency: 20,
     invalidPositions: ["coda"],
   },
   {
     phoneme: "ʃ",
     form: "si",
     origin: 3,
-    frequency: 2,
+    frequency: 20,
     invalidPositions: ["coda"],
   },
   {
     phoneme: "ʃ",
     form: "ce",
     origin: 3,
-    frequency: 2,
+    frequency: 8,
+    invalidPositions: ["onset"],
+  },
+  {
+    phoneme: "ʃ",
+    form: "ssi",
+    origin: 3,
+    frequency: 7,
     invalidPositions: ["onset"],
   },
   {
@@ -810,7 +821,14 @@ const graphemes = [
   },
   {
     phoneme: "ʃ",
-    form: "ti",
+    form: "xi",
+    origin: 3,
+    frequency: 10,
+    invalidPositions: ["onset"],
+  },
+  {
+    phoneme: "ʃ",
+    form: "sch",
     origin: 3,
     frequency: 1,
     invalidPositions: ["coda"],
@@ -992,7 +1010,7 @@ const graphemes = [
   },
 
   // d dog
-  { phoneme: "d", form: "d", origin: 3, frequency: 10, invalidPositions: [] },
+  { phoneme: "d", form: "d", origin: 3, frequency: 100, invalidPositions: [] },
   {
     phoneme: "d",
     form: "dd",
