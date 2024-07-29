@@ -1,6 +1,6 @@
 export interface Phoneme {
   sound: string;
-  type: "vowel" | "glide" | "liquid" | "nasal" | "fricative" | "affricate" | "plosive";
+  type: "highVowel" | "midVowel" | "lowVowel" | "glide" | "liquid" | "nasal" | "sibilant" | "voicedFricative" | "voicelessFricative" | "affricate" | "voicedStop" | "voicelessStop";
   // weightings of the phoneme appearing in the respective position
   nucleus?: number; 
   onset?: number;
