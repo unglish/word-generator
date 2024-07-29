@@ -9,23 +9,6 @@ export interface WrittenForm {
   hyphenated: string;
 }
 
-function writeSyllable(syllable: Syllable): string {
-  const segmentPositions: Array<"onset" | "nucleus" | "coda"> = [
-    "onset",
-    "nucleus",
-    "coda",
-  ];
-
-  const writtenSyllable = segmentPositions.reduce(
-    (written, segmentPosition) => {
-      const segment = syllable[segmentPosition];
-      return written + writeSegment(segment, segmentPosition);
-    },
-    "",
-  );
-
-  return adjustSyllable(writtenSyllable);
-}
 function adjustSyllable(str: string): string {
   str = applySyllableReduction(str);
   str = applyCastling(str);
@@ -44,10 +27,6 @@ function applyCastling(str: string): string {
 function applySyllableReduction(str: string): string {
   const reductionPairs = [
     { source: "(?<!^)ks", target: "x", likelihood: 0.25 }, // e., "nekst" -> "next"
-    { source: "uu", target: "u", likelihood: 1.0 },
-    { source: "ww", target: "w", likelihood: 1.0 },
-    { source: "ii", target: "i", likelihood: 1.0 },
-    { source: "gg", target: "g", likelihood: 0.9 },
   ];
 
   // Iterate over each pair and randomly decide whether to replace it
@@ -61,28 +40,18 @@ function applySyllableReduction(str: string): string {
   return str;
 }
 
-function writeSegment(phonemes: Phoneme[], position: string) {
-  let writtenSegment = "";
-  for (let i = 0, currPhoneme: Phoneme; i < phonemes.length; i++) {
-    currPhoneme = phonemes[i];
-    writtenSegment += chooseGrapheme(
-      currPhoneme,
-      position,
-      phonemes.length > 1,
-    );
-  }
-  return writtenSegment;
-}
-
 function chooseGrapheme(
   phoneme: Phoneme,  
-  position: string, 
-  inCluster: boolean,
+  position: string,
+  isStartOfWord: boolean = false,
+  isEndOfWord: boolean = false,
 ) { 
   const viableGraphemes = graphemes.filter(
     (grapheme) =>
       grapheme.phoneme === phoneme.sound &&
-      (!grapheme.invalidPositions || grapheme.invalidPositions.indexOf(position) < 0),
+      (!grapheme.invalidPositions || grapheme.invalidPositions.indexOf(position as never) < 0) &&
+      (isStartOfWord ? (!grapheme.start || grapheme.start > 0) : true) &&
+      (isEndOfWord ? (!grapheme.end || grapheme.end > 0) : true)
   );
 
   // Ensure each tuple matches the structure [string, number]
@@ -93,47 +62,71 @@ function chooseGrapheme(
     ],
   );
 
-  return inCluster
-    ? viableGraphemes[0].form
-    : getWeightedOption(weightedGraphemes);
-}
-
-function applyWordReduction(str: string): string {
-  const reductionPairs = [
-    { source: "yy", target: "y", likelihood: 1.0 },
-    { source: "hh", target: "h", likelihood: 1.0 },
-    {
-      source: "([a-zA-Z])\\1{2}", // Matches any letter followed by itself two more times
-      target: "$1", // Replace with just one instance of the matched letter
-      likelihood: 1.0,
-    },
-  ];
-
-  // Iterate over each pair and randomly decide whether to replace it
-  reductionPairs.forEach((pair) => {
-    if (randomBool(pair.likelihood)) {
-      const regex = new RegExp(pair.source, "g");
-      str = str.replace(regex, pair.target);
-    }
-  });
-
-  return str;
+  return getWeightedOption(weightedGraphemes);
 }
 
 export const write = (syllables: Syllable[]): WrittenForm => {
   let hyphenated = "";
   let clean = "";
 
-  for (let i = 0, newSyllable; i < syllables.length; i++) {
-    newSyllable = writeSyllable(syllables[i]);
-    clean += newSyllable;
-    hyphenated += newSyllable;
-    if (i < syllables.length - 1) hyphenated += "&shy;";
+  // Flatten syllables into an array of extended phonemes
+  const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
+    ["onset", "nucleus", "coda"].flatMap((position) =>
+      syllable[position as keyof Syllable].map((phoneme) => ({
+        phoneme,
+        syllableIndex,
+        position,
+      }))
+    )
+  );
+
+  let currentSyllable = "";
+  let currentSyllableIndex = 0;
+
+  for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
+    const { phoneme, syllableIndex, position } = flattenedPhonemes[phonemeIndex];
+    const nextPhoneme = flattenedPhonemes[phonemeIndex + 1];
+
+    const grapheme = chooseGrapheme(
+      phoneme,
+      position,
+      phonemeIndex === 0,
+      phonemeIndex === flattenedPhonemes.length - 1,
+    );
+
+    // Remove duplicate character at segment boundary
+    if (currentSyllable.length > 0 && grapheme.length > 0 &&
+        currentSyllable[currentSyllable.length - 1] === grapheme[0]) {
+      currentSyllable += grapheme.slice(1);
+    } else {
+      currentSyllable += grapheme;
+    }
+
+    // If we're at the end of a syllable or the word
+    if (!nextPhoneme || nextPhoneme.syllableIndex !== syllableIndex) {
+      currentSyllable = adjustSyllable(currentSyllable);
+
+      // Remove duplicate character at syllable boundary
+      if (clean.length > 0 && currentSyllable.length > 0 &&
+          clean[clean.length - 1] === currentSyllable[0]) {
+        currentSyllable = currentSyllable.slice(1);
+      }
+
+      clean += currentSyllable;
+      hyphenated += currentSyllable;
+
+      if (nextPhoneme) {
+        hyphenated += "&shy;";
+      }
+
+      currentSyllable = "";
+      currentSyllableIndex++;
+    }
   }
 
   return {
-    clean: applyWordReduction(clean),
-    hyphenated: applyWordReduction(hyphenated),
+    clean,
+    hyphenated,
   };
 };
 

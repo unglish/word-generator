@@ -32,14 +32,12 @@ function buildCluster(type: "onset" | "coda", maxLength: number = 3, ignore: str
 
   while (cluster.length < maxLength) {
     let candidatePhonemes = phonemes.filter(p => {
-      const isValidPosition = type === "onset" ? p.onset : p.coda;
+      const isAllowedToStartWord = type === "onset" ? cluster.length === 0 && (!p.start || p.start > 0) : true;
+      const isAllowedToEndWord = type === "coda" ? cluster.length === maxLength-1 && (!p.end || p.end > 0) : true;
+      const isValidPosition = type === "onset" ? p.onset : p.coda && isAllowedToStartWord && isAllowedToEndWord;
       const isNotIgnored = !ignore.includes(p.sound);
       const isNotDuplicate = !cluster.some(existingP => existingP.sound === p.sound);
-      const hasSuitableSonority = cluster.length === 0 || 
-        (type === "onset" 
-          ? getSonority(p) > getSonority(cluster[cluster.length - 1])
-          : getSonority(p) < getSonority(cluster[cluster.length - 1]));
-
+      
       // there are special cases for s in english where it can be followed by something
       // that increases in sonority
       const isSpecialS = 
@@ -48,12 +46,17 @@ function buildCluster(type: "onset" | "coda", maxLength: number = 3, ignore: str
         cluster[0].sound === 's' && 
         ['t', 'p', 'k'].includes(p.sound);
 
+      const hasSuitableSonority = cluster.length === 0 || isSpecialS ||
+        (type === "onset" 
+          ? getSonority(p) > getSonority(cluster[cluster.length - 1])
+          : getSonority(p) < getSonority(cluster[cluster.length - 1]));
+
       // Check against invalid clusters
       const potentialCluster = cluster.map(ph => ph.sound).join('') + p.sound;
       const invalidClusters = type === "onset" ? invalidOnsetClusters : invalidCodaClusters;
       const isValidCluster = !invalidClusters.some(regex => regex.test(potentialCluster));
 
-      return isValidPosition && isNotIgnored && isNotDuplicate && ( hasSuitableSonority || isSpecialS ) && isValidCluster;
+      return isValidPosition && isNotIgnored && isNotDuplicate && hasSuitableSonority && isValidCluster;
     });
 
     if (!candidatePhonemes.length) break;
@@ -62,7 +65,7 @@ function buildCluster(type: "onset" | "coda", maxLength: number = 3, ignore: str
 
     // Special cases for English
     if ( type === "onset" 
-      && cluster.length > 1 
+      && cluster.length === 2
       && ['liquid','nasal'].includes(cluster[1].type)) {
       break;
     }
@@ -72,62 +75,24 @@ function buildCluster(type: "onset" | "coda", maxLength: number = 3, ignore: str
 }
 
 function pickOnset(prevSyllable?: Syllable): Phoneme[] {
-  let complexity = 0;
-  const MAX_COMPLEXITY = 3;
 
-  if (prevSyllable) {
-    const prevSyllablePhonemes = prevSyllable.coda.concat(
-      prevSyllable.nucleus,
-      prevSyllable.coda,
-    );
-    complexity = prevSyllablePhonemes.reduce(
-      (totalComplexity, phoneme) => totalComplexity + phoneme.complexity,
-      0,
-    );
-  }
-
-  const lengthOptions: [number, number][] = [];
-  const isOverlyComplex = complexity > MAX_COMPLEXITY;
-  const isFollowingCoda = prevSyllable && prevSyllable.coda.length > 0;
   const isFollowingNucleus = prevSyllable && prevSyllable.coda.length === 0;
-
-  if (isFollowingCoda && isOverlyComplex) {
-    lengthOptions.push([0, 900]);
-  } else if (isFollowingNucleus) {
-    lengthOptions.push([0, 0]);
-  } else {
-    lengthOptions.push([0, 150]);
-  }
-
-  if (isOverlyComplex) {
-    lengthOptions.push([1, 675], [2, 125]);
-  } else {
-    lengthOptions.push([1, 675], [2, 125], [3, 15]);
-  }
-
-  const length: number = getWeightedOption(lengthOptions);
-
-  let onset: Phoneme[] = [];
-  if (length > 1) {
-    onset = buildCluster(
-      "onset",
-      length,
-      prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [],
-    );
-  } else if (length === 1) {
-    const simpleOnsets = phonemes.filter((p) => p.onset !== undefined);
-    // remove all the phonemes from the prev syllable's coda
-    const weightedSimpleOnsets: [Phoneme, number][] = simpleOnsets.map((p) => [
-      p,
-      p.onset ?? 0,
-    ]);
-    onset = [getWeightedOption(weightedSimpleOnsets)];
-  }
+  const length: number = getWeightedOption([
+    [0, isFollowingNucleus ? 0 : 150], 
+    [1, 675], 
+    [2, 125], 
+    [3, 15]
+  ]);
+  let onset: Phoneme[] = buildCluster(
+    "onset",
+    length,
+    prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [],
+  );
 
   return onset;
 }
 
-function pickNucleus() {
+function pickNucleus(prevSyllable?: Syllable) {
   const nuclei = phonemes.filter((p) => !!p.nucleus);
   const mappedNuclei: [Phoneme, number][] = nuclei.map((p) => [
     p,
@@ -138,9 +103,13 @@ function pickNucleus() {
 }
 
 function pickCoda(onset: Phoneme[], nucleus: Phoneme[], isLastSyllable: boolean = false): Phoneme[] {
-  const lastSyllableAdjustment = isLastSyllable ? 4000 : 0;
-  const length = getWeightedOption([
-    [0, 6000-lastSyllableAdjustment],
+  const length = getWeightedOption(isLastSyllable ? [
+    [0, 500],
+    [1, 3000],
+    [2, 900],
+    [3, 400],
+  ] : [
+    [0, 6000],
     [1, 3000],
     [2, 900],
     [3, 100],
@@ -148,20 +117,13 @@ function pickCoda(onset: Phoneme[], nucleus: Phoneme[], isLastSyllable: boolean 
 
   if (length === 0) return [];
 
-  let coda: Phoneme[] = [];
-
-  if (length > 1) {
-    coda = buildCluster("coda", length, []);
-  } else if (length === 1) {
-    const simpleCodas = phonemes.filter((p) => !!p.coda);
-    coda = [getWeightedOption(simpleCodas.map((p) => [p, p.coda ?? 0]))];
-  }
+  let coda: Phoneme[] = buildCluster("coda", length, []);
 
   // Check for onset-coda repetition
   if (onset.length > 0 && coda.length > 0 && onset[0].sound === coda[coda.length - 1].sound) {
     const shouldAvoidRepetition = getWeightedOption([
-      [true, 90],  // 90% chance to avoid repetition
-      [false, 10]  // 10% chance to allow repetition
+      [true, 98],  // 90% chance to avoid repetition
+      [false, 2]  // 10% chance to allow repetition
     ]);
 
     if (shouldAvoidRepetition) {
@@ -234,7 +196,7 @@ function generateSyllable(syllablePosition: number = 0, syllableCount: number = 
   // Build the syllable structure
   const isLastSyllable = syllablePosition === syllableCount - 1;
   const onset = pickOnset(prevSyllable);
-  const nucleus = pickNucleus();
+  const nucleus = pickNucleus(prevSyllable);
   const coda = pickCoda(onset, nucleus, isLastSyllable);
 
   return {
@@ -255,7 +217,7 @@ export const generateWord = (options: GenerateWordOptions = {}): Word => {
     }
 
     const syllableCount = specifiedSyllableCount || getWeightedOption([
-      [1, 40000],  // 30-40%
+      [1, 35000],  // 30-40%
       [2, 35000],  // 30-35%
       [3, 15000],  // 15-20%
       [4, 5000],   // 5-10%
