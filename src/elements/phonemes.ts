@@ -1,14 +1,4 @@
-export interface Phoneme {
-  sound: string;
-  type: "vowel" | "glide" | "liquid" | "nasal" | "fricative" | "affricate" | "plosive";
-  // weightings of the phoneme appearing in the respective position
-  nucleus?: number; 
-  onset?: number;
-  coda?: number;
-  // weighting of appearing at the start or end of a word
-  start?: number;
-  end?: number;
-}
+import { Phoneme } from "../types.js";
 
 export const sonority = {
   "vowel": 7,

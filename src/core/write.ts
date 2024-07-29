@@ -1,31 +1,34 @@
+import { WrittenForm, Phoneme, Syllable } from "../types.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import randomBool from "../utils/randomBool.js";
 import { graphemes } from "../elements/graphemes.js";
-import { Phoneme } from "../elements/phonemes.js";
-import { Syllable } from "./generate.js";
 
-export interface WrittenForm {
-  clean: string;
-  hyphenated: string;
-}
-
+/**
+ * Applies various regex-based rules to improve naturalness of the written syllable.
+ * 
+ * @param str - The input string representing a syllable or part of a word.
+ * @returns A string with syllable reduction rules applied.
+ * 
+ * This function applies a set of predefined syllable reduction rules to the input string.
+ * Each rule consists of:
+ * - source: A regex pattern to match.
+ * - target: The replacement string.
+ * - likelihood: The probability of applying the rule (between 0 and 1).
+ * 
+ * Currently, it includes one rule:
+ * - Replace "ks" with "x" (25% chance), but not at the start of the word.
+ *   Example: "nekst" -> "next"
+ * 
+ * The function iterates over each rule and randomly decides whether to apply it
+ * based on the specified likelihood. This introduces variability in the output,
+ * simulating the inconsistencies found in natural language spellings.
+ * 
+ * Note: The randomBool function (not shown here) is assumed to return a boolean
+ * value based on the given probability.
+ */
 function adjustSyllable(str: string): string {
-  str = applySyllableReduction(str);
-  str = applyCastling(str);
-  return str;
-}
-
-function applyCastling(str: string): string {
-  // This regex looks for 'e' that follows one of 'a', 'i', 'o', 'u', 'y' and is followed by one or more consonants
-  // but not if the sequence ends with an 'e'
-  // eg. styel -> style
-  // eg. roed -> rode
-  // eg. hedge -> hedge (unchanged)
-  return str.replace(/([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)/g, "$1$2e");
-}
-
-function applySyllableReduction(str: string): string {
   const reductionPairs = [
+    { source: "([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)", target: "$1$2e", likelihood: 1.0}, 
     { source: "(?<!^)ks", target: "x", likelihood: 0.25 }, // e., "nekst" -> "next"
   ];
 
@@ -40,12 +43,32 @@ function applySyllableReduction(str: string): string {
   return str;
 }
 
+/**
+ * Chooses a grapheme representation for a given phoneme based on its position and context within a word.
+ * 
+ * @param phoneme - The phoneme object for which to choose a grapheme.
+ * @param position - The position of the phoneme within the syllable ("onset", "nucleus", or "coda").
+ * @param isStartOfWord - Boolean indicating if the phoneme is at the start of the word.
+ * @param isEndOfWord - Boolean indicating if the phoneme is at the end of the word.
+ * @returns A string representing the chosen grapheme.
+ * 
+ * This function performs the following steps:
+ * 1. Filters the list of graphemes to find viable options based on:
+ *    - Matching phoneme sound
+ *    - Valid position within the syllable
+ *    - Appropriateness for start/end of word position
+ * 2. Maps the viable graphemes to weighted options (form and frequency)
+ * 3. Uses getWeightedOption to randomly select a grapheme based on frequencies
+ * 
+ * The function considers various factors to ensure phonologically plausible
+ * and orthographically correct grapheme choices for English-like words.
+ */
 function chooseGrapheme(
   phoneme: Phoneme,  
   position: string,
   isStartOfWord: boolean = false,
   isEndOfWord: boolean = false,
-) { 
+): string { 
   const viableGraphemes = graphemes.filter(
     (grapheme) =>
       grapheme.phoneme === phoneme.sound &&
@@ -65,6 +88,21 @@ function chooseGrapheme(
   return getWeightedOption(weightedGraphemes);
 }
 
+/**
+ * Converts an array of syllables into written forms of a word.
+ * 
+ * @param syllables - An array of Syllable objects representing the phonetic structure of a word.
+ * @returns A WrittenForm object containing 'clean' and 'hyphenated' versions of the word.
+ * 
+ * Key features:
+ * - Handles phoneme-to-grapheme conversion considering position in word and syllable.
+ * - Applies syllable adjustments (e.g., reduction rules, castling) for more natural spellings.
+ * - Manages character duplication at segment and syllable boundaries.
+ * - Inserts soft hyphens (&shy;) between syllables in the hyphenated version.
+ * 
+ * The resulting WrittenForm object provides both a standard spelling (clean) 
+ * and a version with syllable breaks marked for potential hyphenation (hyphenated).
+ */
 export const write = (syllables: Syllable[]): WrittenForm => {
   let hyphenated = "";
   let clean = "";

@@ -1,14 +1,8 @@
+import { Grapheme } from "../types.js";
+
 const ORIGINS = ["Germanic", "French", "Greek", "Latin", "Other"];
 
-export interface Grapheme {
-  phoneme: string;
-  form: string;
-  origin: number;
-  frequency: number;
-  invalidPositions: string[];
-}
-
-const graphemes = [
+const graphemes: Grapheme[] = [
   /******************
    * VOWELS
    ******************/
@@ -72,7 +66,6 @@ const graphemes = [
     origin: 1,
     frequency: 1,
     invalidPositions: [],
-    examples: ["symbol", "system"],
     start: 0,
     end: 0,
   },
@@ -148,7 +141,6 @@ const graphemes = [
     origin: 0,
     frequency: 10,
     invalidPositions: [],
-    examples: ["hot"],
   },
   {
     phoneme: "ɔ",
@@ -156,7 +148,6 @@ const graphemes = [
     origin: 0,
     frequency: 2,
     invalidPositions: ["onset"],
-    examples: ["saw"],
   },
 
   // hope
@@ -174,7 +165,6 @@ const graphemes = [
     origin: 0,
     frequency: 2,
     invalidPositions: ["onset"],
-    examples: ["sow"],
   },
   {
     phoneme: "o",
