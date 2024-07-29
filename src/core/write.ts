@@ -28,8 +28,10 @@ import { graphemes } from "../elements/graphemes.js";
  */
 function adjustSyllable(str: string): string {
   const reductionPairs = [
-    { source: "([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)", target: "$1$2e", likelihood: 1.0}, 
-    { source: "(?<!^)ks", target: "x", likelihood: 0.25 }, // e., "nekst" -> "next"
+    // castling: switches the position of an e after a vowel, with the consonants that follow eg. roed -> rode
+    { source: "([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)", target: "$1$2e", likelihood: 0.9}, 
+    // e., "nekst" -> "next"
+    { source: "(?<!^)ks", target: "x", likelihood: 0.25 }, 
   ];
 
   // Iterate over each pair and randomly decide whether to replace it
@@ -73,10 +75,12 @@ function chooseGrapheme(
     (grapheme) =>
       grapheme.phoneme === phoneme.sound &&
       (!grapheme.invalidPositions || grapheme.invalidPositions.indexOf(position as never) < 0) &&
-      (isStartOfWord ? (!grapheme.start || grapheme.start > 0) : true) &&
-      (isEndOfWord ? (!grapheme.end || grapheme.end > 0) : true)
+      (isStartOfWord ? grapheme.startWord > 0 : true) &&
+      (isEndOfWord ? grapheme.endWord > 0 : true) && 
+      (!isEndOfWord && !isStartOfWord ? grapheme.midWord > 0 : true)
   );
-
+  
+  // TODO: replace frequency with positional likelihood of eg. coda, onset, nucleus, start, mid, end
   // Ensure each tuple matches the structure [string, number]
   const weightedGraphemes: [string, number][] = viableGraphemes.map(
     (grapheme) => [

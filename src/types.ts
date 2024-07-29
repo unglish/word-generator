@@ -6,8 +6,9 @@ export interface Phoneme {
   onset?: number;
   coda?: number;
   // weighting of appearing at the start or end of a word
-  start?: number;
-  end?: number;
+  startWord: number;
+  midWord: number;
+  endWord: number;
 }
 
 export interface Grapheme {
@@ -15,11 +16,13 @@ export interface Grapheme {
   form: string;
   origin: number;
   frequency: number;
-  invalidPositions?: string[];
+  onset?: number;
+  coda?: number;
+  nucleus?: number;
   // weighting of appearing at the start or end of a word
-  start?: number;
-  middle?: number;
-  end?: number;
+  startWord: number;
+  midWord: number;
+  endWord: number;
 }
 
 export interface GenerateWordOptions {

@@ -41,13 +41,13 @@ function getSonority(phoneme: Phoneme): number {
  * The function stops building the cluster when it reaches maxLength, runs out of valid candidates,
  * or encounters specific conditions (e.g., two-phoneme onset ending in a liquid or nasal).
  */
-function buildCluster(type: "onset" | "coda", maxLength: number = 3, ignore: string[] = [],): Phoneme[] {
+function buildCluster(type: "onset" | "coda", maxLength: number = 3, ignore: string[] = [], isStartOfWord: Boolean, isEndOfWord: Boolean): Phoneme[] {
   const cluster: Phoneme[] = [];
 
   while (cluster.length < maxLength) {
     let candidatePhonemes = phonemes.filter(p => {
-      const isAllowedToStartWord = type === "onset" ? cluster.length === 0 && (!p.start || p.start > 0) : true;
-      const isAllowedToEndWord = type === "coda" ? cluster.length === maxLength-1 && (!p.end || p.end > 0) : true;
+      const isAllowedToStartWord = type === "onset" ? isStartOfWord && p.startWord > 0 : true;
+      const isAllowedToEndWord = type === "coda" ? isEndOfWord && p.endWord > 0 : true;
       const isValidPosition = type === "onset" ? p.onset : p.coda && isAllowedToStartWord && isAllowedToEndWord;
       const isNotIgnored = !ignore.includes(p.sound);
       const isNotDuplicate = !cluster.some(existingP => existingP.sound === p.sound);
@@ -115,6 +115,8 @@ function pickOnset(prevSyllable?: Syllable): Phoneme[] {
     "onset",
     length,
     prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [],
+    !!prevSyllable,
+    false
   );
 
   return onset;
@@ -126,8 +128,18 @@ function pickOnset(prevSyllable?: Syllable): Phoneme[] {
  * @param prevSyllable - The previous syllable, if any. Used to determine constraints on the nucleus.
  * @returns A Phoneme object representing the nucleus.
  */
-function pickNucleus(prevSyllable?: Syllable) {
-  const nuclei = phonemes.filter((p) => !!p.nucleus);
+function pickNucleus(prevSyllable: Syllable | undefined, isEndOfWord: Boolean) {
+  const isStartOfWord = !prevSyllable;
+  let nuclei = phonemes.filter((p) => !!p.nucleus);
+  
+  if (isStartOfWord) {
+    nuclei = nuclei.filter((p) => p.startWord > 0);
+  }
+  
+  if (isEndOfWord) {
+    nuclei = nuclei.filter((p) => p.endWord > 0);
+  }
+  
   const mappedNuclei: [Phoneme, number][] = nuclei.map((p) => [
     p,
     p.nucleus ?? 0,
@@ -140,7 +152,7 @@ function pickNucleus(prevSyllable?: Syllable) {
  * Selects and returns a coda (final consonant cluster) for a syllable.
  * 
  * @param onset - The onset of the current syllable, used to avoid repetition.
- * @param isLastSyllable - Boolean indicating if this is the last syllable of the word.
+ * @param isEndOfWord - Boolean indicating if this is the last syllable of the word.
  * @returns An array of Phoneme objects representing the coda.
  * 
  * This function does the following:
@@ -157,8 +169,8 @@ function pickNucleus(prevSyllable?: Syllable) {
  * - If avoiding repetition, it tries to replace the last coda phoneme with a similar one.
  * - If no suitable replacement is found, it removes the last coda phoneme.
  */
-function pickCoda(onset: Phoneme[], isLastSyllable: boolean = false): Phoneme[] {
-  const length = getWeightedOption(isLastSyllable ? [
+function pickCoda(currentSyllable: Syllable, isEndOfWord: boolean = false): Phoneme[] {
+  const length = getWeightedOption(isEndOfWord ? [
     [0, 500],
     [1, 3000],
     [2, 900],
@@ -172,7 +184,8 @@ function pickCoda(onset: Phoneme[], isLastSyllable: boolean = false): Phoneme[] 
 
   if (length === 0) return [];
 
-  let coda: Phoneme[] = buildCluster("coda", length, []);
+  const onset = currentSyllable.onset;
+  let coda: Phoneme[] = buildCluster("coda", length, [], false, isEndOfWord);
 
   // Check for onset-coda repetition
   if (onset.length > 0 && coda.length > 0 && onset[0].sound === coda[coda.length - 1].sound) {
@@ -311,18 +324,19 @@ function tryResyllabify(prevSyllable: Syllable, currentSyllable: Syllable): [Syl
  * This approach helps create phonologically plausible and varied syllable structures
  * that can be combined to form realistic-sounding words.
  */
-function generateSyllable(syllablePosition: number = 0, syllableCount: number = 1, prevSyllable?: Syllable) {
+function generateSyllable(syllablePosition: number = 0, syllableCount: number = 1, prevSyllable?: Syllable): Syllable {
+  let currSyllable: Syllable = {
+    onset: [],
+    nucleus: [],
+    coda: []
+  }
   // Build the syllable structure
-  const isLastSyllable = syllablePosition === syllableCount - 1;
-  const onset = pickOnset(prevSyllable);
-  const nucleus = pickNucleus(prevSyllable);
-  const coda = pickCoda(onset, isLastSyllable);
+  const isEndOfWord = syllablePosition === syllableCount - 1;
+  currSyllable.onset = pickOnset(prevSyllable);
+  currSyllable.nucleus = pickNucleus(prevSyllable, isEndOfWord);
+  currSyllable.coda = pickCoda(currSyllable, isEndOfWord);
 
-  return {
-    onset,
-    nucleus,
-    coda,
-  };
+  return currSyllable;
 }
 
 /**

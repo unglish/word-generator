@@ -17,73 +17,74 @@ export const sonority = {
 
 export const phonemes: Phoneme[] = [
   // High Vowels
-  { sound: "i", type: "highVowel", nucleus: 151 }, // sheep
-  { sound: "ɪ", type: "highVowel", nucleus: 632 }, // sit
+  { sound: "i", type: "highVowel", nucleus: 151, startWord: 5, midWord: 1, endWord: 2 }, // sheep
+  { sound: "ɪ", type: "highVowel", nucleus: 632, startWord: 5, midWord: 1, endWord: 0 }, // sit
 
   // Mid Vowels
-  { sound: "e", type: "midVowel", nucleus: 100 }, // red
-  { sound: "ɛ", type: "midVowel", nucleus: 286 }, // let
-  { sound: "ə", type: "midVowel", nucleus: 1150 }, // the
-  { sound: "ɜ", type: "midVowel", nucleus: 140 }, // bed, said, execute
-  { sound: "ɚ", type: "midVowel", nucleus: 50 }, // her, letter
+  { sound: "e", type: "midVowel", nucleus: 100, startWord: 4, midWord: 1, endWord: 0 }, // red
+  { sound: "ɛ", type: "midVowel", nucleus: 286, startWord: 4, midWord: 1, endWord: 0 }, // let
+  { sound: "ə", type: "midVowel", nucleus: 1150, startWord: 5, midWord: 1, endWord: 1 }, // the
+  { sound: "ɜ", type: "midVowel", nucleus: 140, startWord: 2, midWord: 1, endWord: 1 }, // bed, said, execute
+  { sound: "ɚ", type: "midVowel", nucleus: 50, startWord: 1, midWord: 1, endWord: 1 }, // her, letter
 
   // Low Vowels
-  { sound: "æ", type: "lowVowel", nucleus: 210 }, // cat
-  { sound: "ɑ", type: "lowVowel", nucleus: 100 }, // father
-  { sound: "ɔ", type: "lowVowel", nucleus: 100 }, // ball
-  { sound: "o", type: "lowVowel", nucleus: 130 }, // hope
-  { sound: "ʊ", type: "lowVowel", nucleus: 30 }, // book
-  { sound: "u", type: "lowVowel", nucleus: 193 }, // blue
-  { sound: "ʌ", type: "lowVowel", nucleus: 80 }, // cup
+  { sound: "æ", type: "lowVowel", nucleus: 210, startWord: 3, midWord: 1, endWord: 3 }, // apple, hat, map
+  { sound: "ɑ", type: "lowVowel", nucleus: 100, startWord: 3, midWord: 1, endWord: 1 }, // father
+  { sound: "ɔ", type: "lowVowel", nucleus: 100, startWord: 3, midWord: 1, endWord: 1 }, // ball
+  { sound: "o", type: "lowVowel", nucleus: 130, startWord: 3, midWord: 1, endWord: 1 }, // hope
+  { sound: "ʊ", type: "lowVowel", nucleus: 30, startWord: 2, midWord: 1, endWord: 1 }, // book
+  { sound: "u", type: "lowVowel", nucleus: 193, startWord: 4, midWord: 1, endWord: 3 }, // blue
+  { sound: "ʌ", type: "lowVowel", nucleus: 80, startWord: 2, midWord: 1, endWord: 0 }, // cup
 
   // Diphthongs (typically treated as mid or low vowels)
-  { sound: "aɪ", type: "midVowel", nucleus: 50 }, // the
-  { sound: "aʊ", type: "midVowel", nucleus: 30 }, // now
-  { sound: "ɔɪ", type: "midVowel", nucleus: 10 }, // boy
-  { sound: "ɪə", type: "midVowel", nucleus: 10 }, // coin
-  { sound: "eɪ", type: "midVowel", nucleus: 50 }, // day
-  { sound: "ɑʊ", type: "midVowel", nucleus: 50 }, // now
+  { sound: "aɪ", type: "midVowel", nucleus: 50, startWord: 3, midWord: 1, endWord: 3 }, // fly
+  { sound: "aʊ", type: "midVowel", nucleus: 30, startWord: 3, midWord: 1, endWord: 3 }, // house, down, about
+  { sound: "ɔɪ", type: "midVowel", nucleus: 10, startWord: 2, midWord: 1, endWord: 2 }, // boy
+  { sound: "ɪə", type: "midVowel", nucleus: 10, startWord: 2, midWord: 1, endWord: 2 }, // coin
+  { sound: "eɪ", type: "midVowel", nucleus: 50, startWord: 3, midWord: 1, endWord: 3 }, // day
+  { sound: "ɑʊ", type: "midVowel", nucleus: 50, startWord: 3, midWord: 1, endWord: 3 }, // blow
 
   // Glides
-  { sound: "j", type: "glide", onset: 10, coda: 20 },
-  { sound: "w", type: "glide", onset: 120, coda: 10 },
+  { sound: "j", type: "glide", onset: 10, coda: 20, startWord: 3, midWord: 1, endWord: 1 }, // yes
+  { sound: "w", type: "glide", onset: 120, coda: 10, startWord: 3, midWord: 1, endWord: 1 }, // wow
 
   // Liquids
-  { sound: "l", type: "liquid", onset: 200, coda: 200 },
-  { sound: "r", type: "liquid", onset: 500, coda: 100 },
+  { sound: "l", type: "liquid", onset: 200, coda: 200, startWord: 4, midWord: 1, endWord: 4 }, // lid
+  { sound: "r", type: "liquid", onset: 500, coda: 100, startWord: 4, midWord: 1, endWord: 4 }, // rank
 
   // Nasals
-  { sound: "m", type: "nasal", onset: 100, coda: 176 },
-  { sound: "n", type: "nasal", onset: 350, coda: 350 },
-  { sound: "ŋ", type: "nasal", onset: 0, coda: 70 },
+  { sound: "m", type: "nasal", onset: 100, coda: 176, startWord: 3, midWord: 1, endWord: 4 }, // mouse
+  { sound: "n", type: "nasal", onset: 350, coda: 350, startWord: 4, midWord: 1, endWord: 5 }, // notice
+  { sound: "ŋ", type: "nasal", onset: 0, coda: 70, startWord: 0, midWord: 1, endWord: 2 }, // bring
 
   // Voiceless Fricatives
-  { sound: "f", type: "voicelessFricative", onset: 100, coda: 35 },
-  { sound: "θ", type: "voicelessFricative", onset: 50, coda: 50 }, // think
-  { sound: "s", type: "sibilant", onset: 400, coda: 175 }, // see
-  { sound: "ʃ", type: "sibilant", onset: 35, coda: 5 }, // she
-  { sound: "h", type: "voicelessFricative", onset: 120, coda: 0 }, // he
+  { sound: "f", type: "voicelessFricative", onset: 100, coda: 35, startWord: 3, midWord: 1, endWord: 2 },
+  { sound: "θ", type: "voicelessFricative", onset: 50, coda: 50, startWord: 2, midWord: 1, endWord: 2 }, // think
+  { sound: "s", type: "sibilant", onset: 400, coda: 175, startWord: 5, midWord: 1, endWord: 5 }, // see
+  { sound: "ʃ", type: "sibilant", onset: 35, coda: 5, startWord: 2, midWord: 1, endWord: 1 }, // she
+  { sound: "h", type: "voicelessFricative", onset: 120, coda: 0, startWord: 4, midWord: 1, endWord: 0 }, // he
 
   // Voiced Fricatives
-  { sound: "v", type: "voicedFricative", onset: 80, coda: 20 },
-  { sound: "ð", type: "voicedFricative", onset: 250, coda: 50 }, // this
-  { sound: "z", type: "sibilant", onset: 10, coda: 200 }, // zebra
-  { sound: "ʒ", type: "sibilant", onset: 10, coda: 10 }, // measure
+  { sound: "v", type: "voicedFricative", onset: 80, coda: 20, startWord: 3, midWord: 1, endWord: 1 }, // victor
+  { sound: "ð", type: "voicedFricative", onset: 250, coda: 50, startWord: 3, midWord: 1, endWord: 2 }, // this
+  { sound: "z", type: "sibilant", onset: 10, coda: 200, startWord: 2, midWord: 1, endWord: 4 }, // zebra
+  { sound: "ʒ", type: "sibilant", onset: 10, coda: 10, startWord: 1, midWord: 1, endWord: 1 }, // measure
 
   // Affricates
-  { sound: "tʃ", type: "affricate", onset: 40, coda: 30 },
-  { sound: "dʒ", type: "affricate", onset: 30, coda: 20 },
+  { sound: "tʃ", type: "affricate", onset: 40, coda: 30, startWord: 2, midWord: 1, endWord: 1 }, // chat
+  { sound: "dʒ", type: "affricate", onset: 30, coda: 20, startWord: 2, midWord: 1, endWord: 1 }, // judge
 
   // Voiceless Stops
-  { sound: "p", type: "voicelessStop", onset: 165, coda: 50 },
-  { sound: "t", type: "voicelessStop", onset: 350, coda: 350 }, // top
-  { sound: "k", type: "voicelessStop", onset: 220, coda: 100 }, // cat
+  { sound: "p", type: "voicelessStop", onset: 165, coda: 50, startWord: 4, midWord: 1, endWord: 3 }, // pop
+  { sound: "t", type: "voicelessStop", onset: 350, coda: 350, startWord: 5, midWord: 1, endWord: 5 }, // top
+  { sound: "k", type: "voicelessStop", onset: 220, coda: 100, startWord: 4, midWord: 1, endWord: 3 }, // cat
 
   // Voiced Stops
-  { sound: "b", type: "voicedStop", onset: 160, coda: 20 },
-  { sound: "d", type: "voicedStop", onset: 210, coda: 210 }, // dog
-  { sound: "g", type: "voicedStop", onset: 150, coda: 20 }, // go
+  { sound: "b", type: "voicedStop", onset: 160, coda: 20, startWord: 3, midWord: 1, endWord: 2 }, // bob
+  { sound: "d", type: "voicedStop", onset: 210, coda: 210, startWord: 4, midWord: 1, endWord: 4 }, // dog
+  { sound: "g", type: "voicedStop", onset: 150, coda: 20, startWord: 3, midWord: 1, endWord: 2 }, // go
 ];
+
 
 export const invalidBoundaryClusters: RegExp[] = [
   /rɜ/,
