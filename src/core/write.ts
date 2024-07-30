@@ -1,4 +1,4 @@
-import { WrittenForm, Phoneme, Syllable } from "../types.js";
+import { WrittenForm, Phoneme, Syllable, Grapheme } from "../types.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import randomBool from "../utils/randomBool.js";
 import { graphemes } from "../elements/graphemes.js";
@@ -57,7 +57,8 @@ function adjustSyllable(str: string): string {
  * This function performs the following steps:
  * 1. Filters the list of graphemes to find viable options based on:
  *    - Matching phoneme sound
- *    - Valid position within the syllable
+ *    - Allowed in a cluster, if this phoneme is part of a cluster
+ *    - Valid position within the syllable (onset, nucleus, coda)
  *    - Appropriateness for start/end of word position
  * 2. Maps the viable graphemes to weighted options (form and frequency)
  * 3. Uses getWeightedOption to randomly select a grapheme based on frequencies
@@ -68,25 +69,32 @@ function adjustSyllable(str: string): string {
 function chooseGrapheme(
   phoneme: Phoneme,  
   position: string,
+  isCluster: boolean = false,
   isStartOfWord: boolean = false,
   isEndOfWord: boolean = false,
 ): string { 
   const viableGraphemes = graphemes.filter(
     (grapheme) =>
       grapheme.phoneme === phoneme.sound &&
-      (!grapheme.invalidPositions || grapheme.invalidPositions.indexOf(position as never) < 0) &&
+      // @ts-ignore
+      (!grapheme[position] || grapheme[position] > 0) &&
+      (isCluster ? !grapheme.cluster || grapheme.cluster > 0 : true) &&
       (isStartOfWord ? grapheme.startWord > 0 : true) &&
       (isEndOfWord ? grapheme.endWord > 0 : true) && 
       (!isEndOfWord && !isStartOfWord ? grapheme.midWord > 0 : true)
   );
   
-  // TODO: replace frequency with positional likelihood of eg. coda, onset, nucleus, start, mid, end
-  // Ensure each tuple matches the structure [string, number]
   const weightedGraphemes: [string, number][] = viableGraphemes.map(
-    (grapheme) => [
-      grapheme.form, // This should be a string
-      grapheme.frequency, // This should be a number
-    ],
+    (grapheme) => {
+      const wordPositionModifier = 
+        isStartOfWord && grapheme.startWord ||
+        isEndOfWord && grapheme.endWord ||
+        grapheme.midWord;
+      const clusterModifier = (isCluster && grapheme.cluster) || 1;
+      return [
+        grapheme.form,
+        grapheme.frequency * wordPositionModifier * clusterModifier, 
+      ]},
   );
 
   return getWeightedOption(weightedGraphemes);
@@ -127,11 +135,17 @@ export const write = (syllables: Syllable[]): WrittenForm => {
 
   for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
     const { phoneme, syllableIndex, position } = flattenedPhonemes[phonemeIndex];
+    const prevPhoneme = flattenedPhonemes[phonemeIndex - 1];
     const nextPhoneme = flattenedPhonemes[phonemeIndex + 1];
+
+    const isCluster = 
+      (prevPhoneme?.syllableIndex === syllableIndex && prevPhoneme?.position === position) || 
+      (nextPhoneme?.syllableIndex === syllableIndex && nextPhoneme?.position === position);
 
     const grapheme = chooseGrapheme(
       phoneme,
       position,
+      isCluster,
       phonemeIndex === 0,
       phonemeIndex === flattenedPhonemes.length - 1,
     );

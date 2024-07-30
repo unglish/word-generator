@@ -19,6 +19,7 @@ export interface Grapheme {
   onset?: number;
   coda?: number;
   nucleus?: number;
+  cluster?: number;
   // weighting of appearing at the start or end of a word
   startWord: number;
   midWord: number;
