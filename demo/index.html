@@ -30,6 +30,40 @@
                     <code>${pronouncedHaiku}</code>
                 `;
             ;
+
+            // Function to find a duplicate word
+        function findDuplicateWord() {
+            const generatedWords = new Set();
+            let iterations = 0;
+            let duplicateWord;
+
+            while (true) {
+                iterations++;
+                const newWord = unglish.generateWord();
+                const isDuplicate = Array.from(generatedWords).some(existingWord => 
+                    JSON.stringify(existingWord) === JSON.stringify(newWord)
+                );
+                if (isDuplicate) {
+                    duplicateWord = newWord;
+                    break;
+                }
+                generatedWords.add(newWord);
+            }
+
+            return { iterations, duplicateWord };
+        }
+
+        // Find a duplicate word
+        const { iterations, duplicateWord } = findDuplicateWord();
+
+        console.log(duplicateWord);
+
+        // Add the result to the HTML
+        document.body.innerHTML += `
+            <h2>Duplicate Word Search:</h2>
+            <p>It took ${iterations} iterations to find a duplicate word.</p>
+            <p>The duplicated word was: <strong>${duplicateWord.written.clean}</strong></p>
+        `;
         });
     </script>
 </head>
