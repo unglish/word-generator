@@ -40,35 +40,51 @@ function getSonority(phoneme: Phoneme): number {
  * The function stops building the cluster when it reaches maxLength, runs out of valid candidates,
  * or encounters specific conditions (e.g., two-phoneme onset ending in a liquid or nasal).
  */
-function buildCluster(position: "onset" | "coda", maxLength: number = 3, ignore: string[] = [], isStartOfWord: Boolean, isEndOfWord: Boolean): Phoneme[] {
+function buildCluster(position: "onset" | "coda" | "nucleus", maxLength: number = 3, ignore: string[] = [], isStartOfWord: Boolean, isEndOfWord: Boolean): Phoneme[] {
   const cluster: Phoneme[] = [];
 
   while (cluster.length < maxLength) {
     let candidatePhonemes = phonemes.filter(p => {
-      const isAllowedToStartWord = position === "onset" ? isStartOfWord && p.startWord > 0 : true;
-      const isAllowedToEndWord = position === "coda" ? isEndOfWord && p.endWord > 0 : true;
-      const isValidPosition = position === "onset" ? p.onset : p.coda && isAllowedToStartWord && isAllowedToEndWord;
+      const potentialCluster = cluster.map(ph => ph.sound).join('') + p.sound;
       const isNotIgnored = !ignore.includes(p.sound);
       const isNotDuplicate = !cluster.some(existingP => existingP.sound === p.sound);
+      let isAllowedToEndWord = !p.endWord || p.endWord > 0;
+      let isAllowedToStartWord = !p.startWord || p.startWord > 0;
+      let isValidPosition = 
+        // @ts-ignore
+        (p[position] === undefined || p[position] > 0) && 
+        (isStartOfWord ? isAllowedToStartWord : true) && 
+        (isEndOfWord ? isAllowedToEndWord : true);
+      let isSonorityException = false;
+      let hasSuitableSonority = true;
+      let invalidClusters = invalidBoundaryClusters;
       
       // there are special cases for s in english where it can be followed by something
       // that increases in sonority
-      const isSpecialS = 
-        position === "onset" && 
-        cluster.length === 1 && 
-        cluster[0].sound === 's' && 
-        ['t', 'p', 'k'].includes(p.sound);
-
-      const hasSuitableSonority = cluster.length === 0 || isSpecialS ||
-        (position === "onset" 
-          ? getSonority(p) > getSonority(cluster[cluster.length - 1])
-          : getSonority(p) < getSonority(cluster[cluster.length - 1]));
+      switch(position) {
+        case "onset": 
+          isSonorityException = 
+            cluster.length === 1 && 
+            cluster[0].sound === 's' && 
+            ['t', 'p', 'k'].includes(p.sound);
+          hasSuitableSonority = 
+            cluster.length === 0 || 
+            isSonorityException || 
+            getSonority(p) > getSonority(cluster[cluster.length - 1]);
+          invalidClusters = invalidOnsetClusters;
+          break;
+        case "nucleus":
+          break;
+        case "coda":
+          hasSuitableSonority = 
+            cluster.length === 0 || 
+            getSonority(p) < getSonority(cluster[cluster.length - 1]);
+          invalidClusters = invalidOnsetClusters;
+          break;
+      }
 
       // Check against invalid clusters
-      const potentialCluster = cluster.map(ph => ph.sound).join('') + p.sound;
-      const invalidClusters = position === "onset" ? invalidOnsetClusters : invalidCodaClusters;
       const isValidCluster = !invalidClusters.some(regex => regex.test(potentialCluster));
-
       return isValidPosition && isNotIgnored && isNotDuplicate && hasSuitableSonority && isValidCluster;
     });
 
@@ -94,6 +110,8 @@ function buildCluster(position: "onset" | "coda", maxLength: number = 3, ignore:
       break;
     }
   }
+
+  console.log(cluster, position)
 
   return cluster;
 }
@@ -121,11 +139,13 @@ function pickOnset(prevSyllable?: Syllable): Phoneme[] {
     [2, 125], 
     [3, 80]
   ]);
+  const isStartOfWord = !prevSyllable;
+  const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
   let onset: Phoneme[] = buildCluster(
     "onset",
     length,
-    prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [],
-    !!prevSyllable,
+    toIgnore,
+    isStartOfWord,
     false
   );
 
@@ -140,22 +160,15 @@ function pickOnset(prevSyllable?: Syllable): Phoneme[] {
  */
 function pickNucleus(prevSyllable: Syllable | undefined, isEndOfWord: Boolean) {
   const isStartOfWord = !prevSyllable;
-  let nuclei = phonemes.filter((p) => !!p.nucleus);
+  let nucleus = buildCluster(
+    "nucleus",
+    1,
+    prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [],
+    isStartOfWord,
+    isEndOfWord
+  );
   
-  if (isStartOfWord) {
-    nuclei = nuclei.filter((p) => p.startWord > 0);
-  }
-  
-  if (isEndOfWord) {
-    nuclei = nuclei.filter((p) => p.endWord > 0);
-  }
-  
-  const mappedNuclei: [Phoneme, number][] = nuclei.map((p) => [
-    p,
-    p.nucleus ?? 0,
-  ]);
-  const nucleus = getWeightedOption(mappedNuclei);
-  return [nucleus];
+  return nucleus;
 }
 
 /**
