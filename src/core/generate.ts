@@ -101,7 +101,11 @@ function buildCluster(position: "onset" | "coda" | "nucleus", maxLength: number 
       ]});
     const newPhoneme = getWeightedOption(mappedCandidates);
 
-    cluster.push(newPhoneme);
+    if (newPhoneme) {
+      cluster.push(newPhoneme);
+    } else {
+      break; // Exit the loop if no valid phoneme is selected
+    }
 
     // Special cases for English
     if ( position === "onset" 
@@ -110,8 +114,6 @@ function buildCluster(position: "onset" | "coda" | "nucleus", maxLength: number 
       break;
     }
   }
-
-  console.log(cluster, position)
 
   return cluster;
 }
