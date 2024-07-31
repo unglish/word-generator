@@ -34,7 +34,7 @@ export const phonemes: Phoneme[] = [
   { sound: "o", type: "lowVowel", nucleus: 130, startWord: 6, midWord: 2, endWord: 2 }, // hope
   { sound: "ʊ", type: "lowVowel", nucleus: 30, startWord: 4, midWord: 2, endWord: 2 }, // book
   { sound: "u", type: "lowVowel", nucleus: 193, startWord: 8, midWord: 2, endWord: 6 }, // blue
-  { sound: "ʌ", type: "lowVowel", nucleus: 80, startWord: 4, midWord: 2, endWord: 0 }, // cup
+  { sound: "ʌ", type: "lowVowel", nucleus: 80, startWord: 4, midWord: 2, endWord: 1 }, // cup
 
   // Diphthongs (typically treated as mid or low vowels)
   { sound: "aɪ", type: "midVowel", nucleus: 50, startWord: 6, midWord: 2, endWord: 6 }, // fly
@@ -96,6 +96,7 @@ export const invalidBoundaryClusters: RegExp[] = [
 
 const invalidGeneralClusters: RegExp[] = [
   ...invalidBoundaryClusters,
+  /kf/,
   /t[θðdn]/,
   /mw/,
   /kn/,

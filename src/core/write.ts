@@ -29,7 +29,7 @@ import { graphemes } from "../elements/graphemes.js";
 function adjustSyllable(str: string): string {
   const reductionPairs = [
     // castling: switches the position of an e after a vowel, with the consonants that follow eg. roed -> rode
-    { source: "([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)", target: "$1$2e", likelihood: 0.9}, 
+    { source: "([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)", target: "$1$2e", likelihood: 0.98}, 
     // e., "nekst" -> "next"
     { source: "(?<!^)ks", target: "x", likelihood: 0.25 }, 
   ];
