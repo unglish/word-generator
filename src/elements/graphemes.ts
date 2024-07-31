@@ -71,7 +71,7 @@ const graphemes: Grapheme[] = [
     frequency: 1000,
     startWord: 5,
     midWord: 10,
-    endWord: 0,
+    endWord: 0.01,
   },
   {
     phoneme: "ɪ",

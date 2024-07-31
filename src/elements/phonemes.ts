@@ -99,7 +99,7 @@ const invalidGeneralClusters: RegExp[] = [
   /kf/,
   /t[θðdn]/,
   /mw/,
-  /kn/,
+  /k[nb]/,
   /d[tp]/,
   /pb/,
   /^.*.?[ðŋhʃ].?.*$/, // invalid in any position of a string at least 2 characters long
