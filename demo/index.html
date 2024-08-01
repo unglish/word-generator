@@ -54,7 +54,7 @@
                     const batchSize = 100;
                     for (let i = 0; i < batchSize && currentIteration < iterations; i++, currentIteration++) {
                         const newWord = unglish.generateWord();
-                        const wordKey = newWord.written.clean;
+                        const wordKey = `${newWord.written.clean} (${newWord.pronunciation})`;
                         generatedWords.set(wordKey, (generatedWords.get(wordKey) || 0) + 1);
                     }
 
