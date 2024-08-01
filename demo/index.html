@@ -8,66 +8,105 @@
         import unglish from '../dist/index.js';
 
         document.addEventListener('DOMContentLoaded', () => {
-            const singleWord = unglish.generateWord();
-            console.log(singleWord);
-            const haiku = [
-                [unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 1 })],
-                [unglish.generateWord({ syllableCount: 3 }), unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 2 })],
-                [unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 1 }), unglish.generateWord({ syllableCount: 2 })],
-            ]
-            console.log(haiku);
-            const writtenHaiku = haiku.map(
-                line => line.map(word => word.written.clean).join(' ')
-            ).join('<br/>');
-            const pronouncedHaiku = haiku.map(
-                line => line.map(word => word.pronunciation).join(' ')
-            ).join('<br/>');
-            document.body.innerHTML = 
-                `
+            document.body.innerHTML = `
+                <div id="singleWord">Generating single word...</div>
+                <div id="haiku">Generating haiku...</div>
+                <div id="duplicates">Generating duplicate word search...</div>
+            `;
+
+            // Function to generate a single word
+            const generateSingleWord = () => {
+                const singleWord = unglish.generateWord();
+                console.log(singleWord);
+                document.getElementById('singleWord').innerHTML = `
                     <h2>Single Word:</h2> ${singleWord.written.clean} <br/> <code>${singleWord.pronunciation}</code> <br/>
+                `;
+            };
+
+            // Function to generate a haiku
+            const generateHaiku = () => {
+                const haiku = [
+                    [unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 1 })],
+                    [unglish.generateWord({ syllableCount: 3 }), unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 2 })],
+                    [unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 1 }), unglish.generateWord({ syllableCount: 2 })],
+                ]
+                console.log(haiku);
+                const writtenHaiku = haiku.map(
+                    line => line.map(word => word.written.clean).join(' ')
+                ).join('<br/>');
+                const pronouncedHaiku = haiku.map(
+                    line => line.map(word => word.pronunciation).join(' ')
+                ).join('<br/>');
+                document.getElementById('haiku').innerHTML = `
                     <h2>Haiku:</h2> 
                     <p>${writtenHaiku}</p>
                     <code>${pronouncedHaiku}</code>
                 `;
-            ;
+            };
 
-            // Function to find a duplicate word
-        function findDuplicateWord() {
-            const generatedWords = new Set();
-            let iterations = 0;
-            let duplicateWord;
+            // Function to find duplicate words
+            const findDuplicateWords = () => {
+                const generatedWords = new Map();
+                const iterations = 10000;
+                let currentIteration = 0;
 
-            while (true) {
-                iterations++;
-                const newWord = unglish.generateWord();
-                const isDuplicate = Array.from(generatedWords).some(existingWord => 
-                    JSON.stringify(existingWord) === JSON.stringify(newWord)
-                );
-                if (isDuplicate) {
-                    duplicateWord = newWord;
-                    break;
+                function generateWords() {
+                    const batchSize = 100;
+                    for (let i = 0; i < batchSize && currentIteration < iterations; i++, currentIteration++) {
+                        const newWord = unglish.generateWord();
+                        const wordKey = newWord.written.clean;
+                        generatedWords.set(wordKey, (generatedWords.get(wordKey) || 0) + 1);
+                    }
+
+                    // Update progress
+                    document.getElementById('duplicates').innerHTML = `
+                        <h2>Duplicate Word Search:</h2>
+                        <p>Generated ${currentIteration} of ${iterations} words...</p>
+                    `;
+
+                    if (currentIteration < iterations) {
+                        requestAnimationFrame(generateWords);
+                    } else {
+                        finalizeDuplicates();
+                    }
                 }
-                generatedWords.add(newWord);
-            }
 
-            return { iterations, duplicateWord };
-        }
+                function finalizeDuplicates() {
+                    const duplicates = Array.from(generatedWords.entries())
+                        .filter(([_, count]) => count > 1)
+                        .sort((a, b) => b[1] - a[1]);
 
-        // Find a duplicate word
-        const { iterations, duplicateWord } = findDuplicateWord();
+                    const totalDuplicates = duplicates.length;
+                    console.log(duplicates);
 
-        console.log(duplicateWord);
+                    // Format duplicates for display
+                    const formattedDuplicates = duplicates
+                        .map(([word, count]) => `${word} (${count})`)
+                        .join(', ');
 
-        // Add the result to the HTML
-        document.body.innerHTML += `
-            <h2>Duplicate Word Search:</h2>
-            <p>It took ${iterations} iterations to find a duplicate word.</p>
-            <p>The duplicated word was: <strong>${duplicateWord.written.clean}</strong></p>
-        `;
+                    // Add the result to the HTML
+                    document.getElementById('duplicates').innerHTML = `
+                        <h2>Duplicate Word Search:</h2>
+                        <p>Generated ${iterations} words.</p>
+                        <p>Repeated ${totalDuplicates} words: ${formattedDuplicates}</p>
+                    `;
+                }
+
+                generateWords();
+            };
+
+            // Schedule tasks to run after the initial paint
+            requestAnimationFrame(() => {
+                generateSingleWord();
+                requestAnimationFrame(() => {
+                    generateHaiku();
+                    requestAnimationFrame(findDuplicateWords);
+                });
+            });
         });
     </script>
 </head>
 <body>
-    <!-- The generated word will be inserted here -->
+    <!-- The generated content will be inserted here -->
 </body>
 </html>
