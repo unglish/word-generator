@@ -11,6 +11,7 @@
             document.body.innerHTML = `
                 <div id="singleWord">Generating single word...</div>
                 <div id="haiku">Generating haiku...</div>
+                <div id="slogan">Generating slogan...</div>
                 <div id="duplicates">Generating duplicate word search...</div>
             `;
 
@@ -20,6 +21,18 @@
                 console.log(singleWord);
                 document.getElementById('singleWord').innerHTML = `
                     <h2>Single Word:</h2> ${singleWord.written.clean} <br/> <code>${singleWord.pronunciation}</code> <br/>
+                `;
+            };
+
+            // Function to generate a single word
+            const generateSlogan = () => {
+                const singleWord = unglish.generateWord({syllableCount: 1});
+                console.log(singleWord);
+                const firstWords = ["Always", "Just", "Never"];
+                const lastWords = ["It", "Your Dreams", "Success", "Your Enemies", "Fear", "Love"];
+                document.getElementById('slogan').innerHTML = `
+                    <h2>Slogan:</h2> 
+                    <span style="text-transform: capitalize">${firstWords[Math.floor(Math.random()*firstWords.length)]} ${singleWord.written.clean} ${lastWords[Math.floor(Math.random()*lastWords.length)]}</span>
                 `;
             };
 
@@ -98,6 +111,7 @@
             // Schedule tasks to run after the initial paint
             requestAnimationFrame(() => {
                 generateSingleWord();
+                generateSlogan();
                 requestAnimationFrame(() => {
                     generateHaiku();
                     requestAnimationFrame(findDuplicateWords);
