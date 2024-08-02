@@ -17,8 +17,8 @@ export const sonority = {
 
 export const phonemes: Phoneme[] = [
   // High Vowels
-  { sound: "i", type: "highVowel", nucleus: 151, startWord: 10, midWord: 2, endWord: 4 }, // sheep
-  { sound: "ɪ", type: "highVowel", nucleus: 632, startWord: 10, midWord: 2, endWord: 0 }, // sit
+  { sound: "i", type: "highVowel", nucleus: 151, startWord: 10, midWord: 1, endWord: 1 }, // sheep
+  { sound: "ɪ", type: "highVowel", nucleus: 632, startWord: 1, midWord: 4, endWord: 0 }, // sit
 
   // Mid Vowels
   { sound: "e", type: "midVowel", nucleus: 100, startWord: 8, midWord: 2, endWord: 0 }, // red
@@ -122,10 +122,12 @@ export const invalidCodaClusters: RegExp[] = [
   /lv(?![zd])$/,
   /[fʃ](?![zdt])/,
   /m[tv]/,
-  /zd/,
   /[vl]g/,
   /.*sp/,
+  /tp/,
   /np/,
+  /nzt/,
+  /lnd/,
   /.*.?g$/,
   /.*.?v$/,
   /.*.?mp$/,
