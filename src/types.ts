@@ -5,6 +5,7 @@ export interface Phoneme {
   nucleus?: number; 
   onset?: number;
   coda?: number;
+  tense?: boolean;
   // weighting of appearing at the start or end of a word
   startWord: number;
   midWord: number;

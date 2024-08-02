@@ -50,8 +50,11 @@ function adjustSyllable(str: string): string {
  * 
  * @param phoneme - The phoneme object for which to choose a grapheme.
  * @param position - The position of the phoneme within the syllable ("onset", "nucleus", or "coda").
+ * @param isCluster - Boolean indicating if the phoneme is part of a cluster.
  * @param isStartOfWord - Boolean indicating if the phoneme is at the start of the word.
  * @param isEndOfWord - Boolean indicating if the phoneme is at the end of the word.
+ * @param prevPhoneme - The previous phoneme in the sequence.
+ * @param nextPhoneme - The next phoneme in the sequence.
  * @returns A string representing the chosen grapheme.
  * 
  * This function performs the following steps:
@@ -72,7 +75,13 @@ function chooseGrapheme(
   isCluster: boolean = false,
   isStartOfWord: boolean = false,
   isEndOfWord: boolean = false,
+  prevPhoneme?: Phoneme,
+  nextPhoneme?: Phoneme,
 ): string { 
+  const isAfterShortVowel = prevPhoneme ? prevPhoneme.nucleus && !prevPhoneme.tense : false;
+  const isBeforeShortVowel = nextPhoneme ? !nextPhoneme.onset && (!nextPhoneme.tense || ['ɜ', 'ɚ'].includes(nextPhoneme.sound)) : false;
+  const isSingleOnsetStop = position === "onset" && !isCluster && phoneme.type.indexOf('Stop') > 0;
+
   const viableGraphemes = graphemes.filter(
     (grapheme) =>
       grapheme.phoneme === phoneme.sound &&
@@ -97,7 +106,14 @@ function chooseGrapheme(
       ]},
   );
 
-  return getWeightedOption(weightedGraphemes);
+  let selectedGrapheme = getWeightedOption(weightedGraphemes);
+
+  // Apply the doubling rule
+  if (isAfterShortVowel && isSingleOnsetStop && isBeforeShortVowel && selectedGrapheme.length === 1) {
+    selectedGrapheme = selectedGrapheme + selectedGrapheme;
+  }
+
+  return selectedGrapheme;
 }
 
 /**
@@ -148,6 +164,8 @@ export const write = (syllables: Syllable[]): WrittenForm => {
       isCluster,
       phonemeIndex === 0,
       phonemeIndex === flattenedPhonemes.length - 1,
+      prevPhoneme?.phoneme,
+      nextPhoneme?.phoneme,
     );
 
     // Remove duplicate character at segment boundary
