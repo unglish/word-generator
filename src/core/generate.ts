@@ -40,7 +40,7 @@ function getSonority(phoneme: Phoneme): number {
  * The function stops building the cluster when it reaches maxLength, runs out of valid candidates,
  * or encounters specific conditions (e.g., two-phoneme onset ending in a liquid or nasal).
  */
-function buildCluster(position: "onset" | "coda" | "nucleus", maxLength: number = 3, ignore: string[] = [], isStartOfWord: Boolean, isEndOfWord: Boolean): Phoneme[] {
+export function buildCluster(position: "onset" | "coda" | "nucleus", maxLength: number = 3, ignore: string[] = [], isStartOfWord: Boolean, isEndOfWord: Boolean): Phoneme[] {
   const cluster: Phoneme[] = [];
 
   while (cluster.length < maxLength) {
@@ -61,8 +61,11 @@ function buildCluster(position: "onset" | "coda" | "nucleus", maxLength: number 
       
       // there are special cases for s in english where it can be followed by something
       // that increases in sonority
+      const lastPhoneme = cluster[cluster.length-1];
       switch(position) {
         case "onset": 
+          const lastPhonemeWasAStop = lastPhoneme && ['voicedStop', 'voicelessStop'].includes(lastPhoneme.type);
+          const canFollowAStop = lastPhonemeWasAStop ? ['glide', 'liquid'].includes(p.type) : false;
           isSonorityException = 
             cluster.length === 1 && 
             cluster[0].sound === 's' && 
@@ -70,16 +73,34 @@ function buildCluster(position: "onset" | "coda" | "nucleus", maxLength: number 
           hasSuitableSonority = 
             cluster.length === 0 || 
             isSonorityException || 
-            getSonority(p) > getSonority(cluster[cluster.length - 1]);
+            (lastPhonemeWasAStop ? canFollowAStop : getSonority(p) > getSonority(cluster[cluster.length - 1]));
           invalidClusters = invalidOnsetClusters;
           break;
         case "nucleus":
           break;
         case "coda":
-          hasSuitableSonority = 
-            cluster.length === 0 || 
-            getSonority(p) < getSonority(cluster[cluster.length - 1]);
-          invalidClusters = invalidOnsetClusters;
+          if (!!lastPhoneme) {
+            const prevSonority = getSonority(lastPhoneme);
+            const currSonority = getSonority(p);
+
+            const lastType = lastPhoneme.type;
+            const currType = p.type;
+
+            // Check for exceptions first
+            const isEqualSonorityException = 
+              (lastType.indexOf('Fricative') > 0 && currType.indexOf('Fricative') > 0) ||
+              (lastType.indexOf('Stop') > 0 && currType.indexOf('Stop') > 0);
+
+            const isReversedSonorityException = 
+              (lastType.indexOf('Stop') > 0 && currType.indexOf('Fricative') > 0) ||
+              (lastType.indexOf('sibilant') > 0 && currType === 'nasal');
+
+            hasSuitableSonority = 
+              isEqualSonorityException ||
+              isReversedSonorityException ||
+              (currSonority < prevSonority);
+          }
+          invalidClusters = invalidCodaClusters;
           break;
       }
 
