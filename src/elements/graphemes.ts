@@ -79,8 +79,8 @@ const graphemes: Grapheme[] = [
     origin: 1,
     frequency: 5,
     startWord: 0,
-    midWord: 10,
-    endWord: 5,
+    midWord: 1,
+    endWord: 0,
   },
   {
     phoneme: "ɪ",
@@ -299,7 +299,7 @@ const graphemes: Grapheme[] = [
     phoneme: "u",
     form: "ou",
     origin: 1,
-    frequency: 100,
+    frequency: 2,
     startWord: 0,
     midWord: 10,
     endWord: 0,
@@ -310,7 +310,7 @@ const graphemes: Grapheme[] = [
     origin: 0,
     frequency: 10,
     startWord: 0,
-    midWord: 10,
+    midWord: 1,
     endWord: 1,
   },
   { 
@@ -574,11 +574,11 @@ const graphemes: Grapheme[] = [
     phoneme: "eɪ",
     form: "eigh",
     origin: 1,
-    frequency: 20,
+    frequency: 1,
     onset: 0,
     startWord: 0,
-    midWord: 1,
-    endWord: 1,
+    midWord: 4,
+    endWord: 10,
   },
   // great
   {
@@ -616,7 +616,7 @@ const graphemes: Grapheme[] = [
     phoneme: "ɑʊ",
     form: "ow",
     origin: 0,
-    frequency: 10,
+    frequency: 1000,
     onset: 0,
     startWord: 1,
     midWord: 1,
@@ -640,7 +640,7 @@ const graphemes: Grapheme[] = [
     onset: 0,
     startWord: 0,
     midWord: 1,
-    endWord: 1,
+    endWord: 10,
   },
 
   // bed, said, execute
@@ -971,9 +971,13 @@ const graphemes: Grapheme[] = [
    ******************/
 
   // fish
-  { phoneme: "f", form: "f", origin: 3, frequency: 100, startWord: 1,
+  { phoneme: "f", 
+    form: "f", 
+    origin: 3, 
+    frequency: 100, 
+    startWord: 1,
     midWord: 1,
-    endWord: 1, },
+    endWord: 0, },
   {
     phoneme: "f",
     form: "ph",
@@ -990,7 +994,7 @@ const graphemes: Grapheme[] = [
     origin: 0,
     frequency: 1,
     onset: 0,
-    startWord: 1,
+    startWord: 0,
     midWord: 1,
     endWord: 1,
   },
@@ -1094,7 +1098,7 @@ const graphemes: Grapheme[] = [
     coda: 0,
     startWord: 1,
     midWord: 1,
-    endWord: 1,
+    endWord: 0,
   },
   {
     phoneme: "z",
@@ -1102,8 +1106,8 @@ const graphemes: Grapheme[] = [
     origin: 3,
     frequency: 100,
     onset: 0,
-    startWord: 1,
-    midWord: 1,
+    startWord: 0,
+    midWord: 100,
     endWord: 1,
   },
   {
@@ -1113,8 +1117,8 @@ const graphemes: Grapheme[] = [
     frequency: 1,
     coda: 0,
     startWord: 1,
-    midWord: 1,
-    endWord: 1,
+    midWord: 0,
+    endWord: 0,
   },
   {
     phoneme: "z",
@@ -1122,8 +1126,8 @@ const graphemes: Grapheme[] = [
     origin: 3,
     frequency: 4,
     onset: 0,
-    startWord: 1,
-    midWord: 1,
+    startWord: 0,
+    midWord: 0,
     endWord: 1,
   },
   {
@@ -1132,8 +1136,8 @@ const graphemes: Grapheme[] = [
     origin: 3,
     frequency: 1,
     onset: 0,
-    startWord: 1,
-    midWord: 1,
+    startWord: 0,
+    midWord: 0,
     endWord: 1,
   },
 
