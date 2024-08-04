@@ -64,7 +64,7 @@
                 let currentIteration = 0;
 
                 function generateWords() {
-                    const batchSize = 100;
+                    const batchSize = 4;
                     for (let i = 0; i < batchSize && currentIteration < iterations; i++, currentIteration++) {
                         const newWord = unglish.generateWord();
                         const wordKey = `${newWord.written.clean} (${newWord.pronunciation})`;
@@ -112,10 +112,8 @@
             requestAnimationFrame(() => {
                 generateSingleWord();
                 generateSlogan();
-                requestAnimationFrame(() => {
-                    generateHaiku();
-                    requestAnimationFrame(findDuplicateWords);
-                });
+                generateHaiku();
+                findDuplicateWords();
             });
         });
     </script>
