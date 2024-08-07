@@ -405,7 +405,7 @@ const graphemes: Grapheme[] = [
     form: "i", 
     origin: 3, 
     frequency: 1,
-    startWord: 0,
+    startWord: 1,
     midWord: 1,
     endWord: 1,
   },
@@ -548,7 +548,7 @@ const graphemes: Grapheme[] = [
     frequency: 10,
     startWord: 10,
     midWord: 5,
-    endWord: 0,
+    endWord: 1,
   },
   {
     phoneme: "eɪ",
