@@ -390,7 +390,7 @@ function generateSyllable(context: WordGenerationContext): Syllable {
   }
   const i = context.currSyllableIndex;
   const prevSyllable = context.word.syllables[i-1];
-  const isEndOfWord = i === context.word.syllables.length - 1;
+  const isEndOfWord = i === context.syllableCount - 1;
 
   // Build the syllable structure
   newSyllable.onset = pickOnset(prevSyllable);
