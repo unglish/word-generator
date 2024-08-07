@@ -28,11 +28,25 @@
             const generateSlogan = () => {
                 const singleWord = unglish.generateWord({syllableCount: 1});
                 console.log(singleWord);
-                const firstWords = ["Always", "Just", "Never"];
-                const lastWords = ["It", "Your Dreams", "Success", "Your Enemies", "Fear", "Love"];
+
+                const firstWords = [
+                    "With Reckless Abandon, ",
+                    "Always", "Just", "Never", "Forever", "Silently", "Effortlessly", 
+                    "Quietly", "Passionately", "Fearlessly", "Endlessly", "Simply", "Truly", 
+                    "Constantly", "Relentlessly"
+                ];
+
+                const lastWords = [
+                    "It", "Your Dreams", "Success", "Your Enemies", "Fear", "Love", "Tomorrow", "Yourself", 
+                    "The Future", "Greatness", "Excellence", "Possibilities", "Potential", "Destiny", 
+                    "The World", "Your Goals", "Perfection", "Innovation", "Happiness", "Victory"
+                ];
+                const slogan = `${firstWords[Math.floor(Math.random()*firstWords.length)]} ${singleWord.written.clean} ${lastWords[Math.floor(Math.random()*lastWords.length)]}`;
                 document.getElementById('slogan').innerHTML = `
                     <h2>Slogan:</h2> 
-                    <span style="text-transform: capitalize">${firstWords[Math.floor(Math.random()*firstWords.length)]} ${singleWord.written.clean} ${lastWords[Math.floor(Math.random()*lastWords.length)]}</span>
+                    <span style="text-transform: capitalize">
+                        ${slogan}
+                    </span>
                 `;
             };
 
