@@ -60,11 +60,11 @@
             // Function to find duplicate words
             const findDuplicateWords = () => {
                 const generatedWords = new Map();
-                const iterations = 100000;
+                const iterations = 10000;
                 let currentIteration = 0;
 
                 function generateWords() {
-                    const batchSize = 4;
+                    const batchSize = 10;
                     for (let i = 0; i < batchSize && currentIteration < iterations; i++, currentIteration++) {
                         const newWord = unglish.generateWord();
                         const wordKey = `${newWord.written.clean} (${newWord.pronunciation})`;
