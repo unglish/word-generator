@@ -1,4 +1,4 @@
-import { Phoneme, Syllable } from "../types";
+import { Phoneme, Syllable, WordGenerationContext } from "../types";
 
 /**
  * Converts a syllable object into a string representation of its pronunciation.
@@ -14,15 +14,14 @@ import { Phoneme, Syllable } from "../types";
  * The function uses a helper function `reducePhonemes` to concatenate
  * the sounds of phonemes in each part of the syllable.
  */
-const pronounceSyllable = (syllable: Syllable): string => {
-  const reducePhonemes = (acc: string, phoneme: Phoneme): string => {
-    return acc + phoneme.sound;
-  };
-  const onset = syllable.onset.reduce(reducePhonemes, "");
-  const nucleus = syllable.nucleus.reduce(reducePhonemes, "");
-  const coda = syllable.coda.reduce(reducePhonemes, "");
+const pronounceSyllable = (position: number, context: WordGenerationContext): string => {
+  const syllable: Syllable = context.word.syllables[position];
 
-  return onset + nucleus + coda;
+  const onset = syllable.onset.map(phoneme => phoneme.sound).join('');
+  const nucleus = syllable.nucleus.map(phoneme => phoneme.sound).join('');
+  const coda = syllable.coda.map(phoneme => phoneme.sound).join('');
+
+  return `${onset}${nucleus}${coda}`;
 };
 
 /**
@@ -39,12 +38,11 @@ const pronounceSyllable = (syllable: Syllable): string => {
  * The resulting string contains the phonetic representation of the word,
  * with each syllable's sounds joined together without any separators.
  */
-export const pronounce = (syllables: Syllable[]): string => {
-  let pronunciationGuide = "";
-
-  for (let i = 0; i < syllables.length; i++) {
-    pronunciationGuide += pronounceSyllable(syllables[i]);
+export const generatePronunciation = (context: WordGenerationContext) => {
+  const syllables = context.word.syllables;
+  const pronunciationParts = new Array(syllables.length);
+  for (let i = 0; i < context.word.syllables.length; i++) {
+    pronunciationParts[i] = pronounceSyllable(i, context);
   }
-
-  return pronunciationGuide;
+  context.word.pronunciation = pronunciationParts.join('.');
 };

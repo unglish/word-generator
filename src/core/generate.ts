@@ -1,10 +1,10 @@
-import { Phoneme, GenerateWordOptions, Word, Syllable } from "../types.js";
+import { Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable } from "../types.js";
 import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
 import { createSeededRandom } from "../utils/createSeededRandom.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonority } from "../elements/phonemes.js";
-import { pronounce } from "./pronounce.js";
-import { write } from "./write.js";
+import { generatePronunciation } from "./pronounce.js";
+import { generateWrittenForm } from "./write.js";
 
 /**
  * Determines the sonority level of a given phoneme.
@@ -19,8 +19,13 @@ import { write } from "./write.js";
  * Sonority is important in determining the structure of syllables and
  * the formation of consonant clusters in many languages, including English.
  */
+const sonorityCache = new Map<string, number>();
+
 function getSonority(phoneme: Phoneme): number {
-  return sonority[phoneme.type] || 0;
+  if (!sonorityCache.has(phoneme.type)) {
+    sonorityCache.set(phoneme.type, sonority[phoneme.type] || 0);
+  }
+  return sonorityCache.get(phoneme.type)!;
 }
 
 /**
@@ -42,9 +47,10 @@ function getSonority(phoneme: Phoneme): number {
  */
 export function buildCluster(position: "onset" | "coda" | "nucleus", maxLength: number = 3, ignore: string[] = [], isStartOfWord: Boolean, isEndOfWord: Boolean): Phoneme[] {
   const cluster: Phoneme[] = [];
+  const candidatePhonemes = positionPhonemes[position];
 
   while (cluster.length < maxLength) {
-    let candidatePhonemes = phonemes.filter(p => {
+    let validCandidates = candidatePhonemes.filter(p => {
       const potentialCluster = cluster.map(ph => ph.sound).join('') + p.sound;
       const isNotIgnored = !ignore.includes(p.sound);
       const isNotDuplicate = !cluster.some(existingP => existingP.sound === p.sound);
@@ -109,8 +115,8 @@ export function buildCluster(position: "onset" | "coda" | "nucleus", maxLength: 
       return isValidPosition && isNotIgnored && isNotDuplicate && hasSuitableSonority && isValidCluster;
     });
 
-    if (!candidatePhonemes.length) break;
-    const mappedCandidates: [Phoneme, number][] = candidatePhonemes.map((p) => {
+    if (!validCandidates.length) break;
+    const mappedCandidates: [Phoneme, number][] = validCandidates.map((p) => {
       const phonemePosition = p[position] ?? 0;
       const wordPositionModifier = 
         isStartOfWord && p.startWord ||
@@ -138,6 +144,12 @@ export function buildCluster(position: "onset" | "coda" | "nucleus", maxLength: 
 
   return cluster;
 }
+
+const positionPhonemes = {
+  onset: phonemes.filter(p => p.onset !== undefined && p.onset > 0),
+  coda: phonemes.filter(p => p.coda !== undefined && p.coda > 0),
+  nucleus: phonemes.filter(p => p.nucleus !== undefined && p.nucleus > 0)
+};
 
 /**
  * Selects and returns an onset (initial consonant cluster) for a syllable.
@@ -370,19 +382,61 @@ function tryResyllabify(prevSyllable: Syllable, currentSyllable: Syllable): [Syl
  * This approach helps create phonologically plausible and varied syllable structures
  * that can be combined to form realistic-sounding words.
  */
-function generateSyllable(syllablePosition: number = 0, syllableCount: number = 1, prevSyllable?: Syllable): Syllable {
-  let currSyllable: Syllable = {
+function generateSyllable(context: WordGenerationContext): Syllable {
+  let newSyllable: Syllable = {
     onset: [],
     nucleus: [],
     coda: []
   }
-  // Build the syllable structure
-  const isEndOfWord = syllablePosition === syllableCount - 1;
-  currSyllable.onset = pickOnset(prevSyllable);
-  currSyllable.nucleus = pickNucleus(prevSyllable, isEndOfWord);
-  currSyllable.coda = pickCoda(currSyllable, isEndOfWord);
+  const i = context.currSyllableIndex;
+  const prevSyllable = context.word.syllables[i-1];
+  const isEndOfWord = i === context.word.syllables.length - 1;
 
-  return currSyllable;
+  // Build the syllable structure
+  newSyllable.onset = pickOnset(prevSyllable);
+  newSyllable.nucleus = pickNucleus(prevSyllable, isEndOfWord);
+  newSyllable.coda = pickCoda(newSyllable, isEndOfWord);
+
+  return newSyllable;
+}
+
+function generateSyllables(context: WordGenerationContext) {
+  context.syllableCount = context.syllableCount || getWeightedOption([
+    [1, 14000],
+    [2, 42600],
+    [3, 29700],
+    [4, 11000],
+    [5, 2200],
+    [6, 250],
+    [7, 50]
+  ]);
+
+  while (context.currSyllableIndex < context.syllableCount) {
+    let newSyllable: Syllable;
+    let prevSyllable: Syllable;
+    let isValid = false;
+    let i = context.currSyllableIndex;
+
+    while (!isValid) {
+      newSyllable = generateSyllable(context);
+      prevSyllable = context.word.syllables[i - 1];
+
+      if (i === 0) {
+        isValid = true; // First syllable is always valid
+      } else {
+        isValid = checkCrossSyllableSonority(prevSyllable, newSyllable);
+      }
+
+      // If not valid, we could try to resyllabify here
+      if (!isValid) {
+        [prevSyllable, newSyllable] = tryResyllabify(prevSyllable, newSyllable);
+        isValid = checkCrossSyllableSonority(prevSyllable, newSyllable);
+      }
+    }
+    // @ts-expect-error
+    context.word.syllables.push(newSyllable);
+    context.currSyllableIndex++;
+  }
 }
 
 /**
@@ -391,59 +445,30 @@ function generateSyllable(syllablePosition: number = 0, syllableCount: number = 
  * @param options - An object containing options for the word generation.
  * @returns A Word object containing the syllables, pronunciation, and written form.
  */
-export const generateWord = (options: GenerateWordOptions = {}): Word => {
-  const { seed, syllableCount: specifiedSyllableCount } = options;
+export const generateWord = (options: WordGenerationOptions = {}): Word => {
   const originalRand: RandomFunction = getRand();
 
+  const context: WordGenerationContext = {
+    word: options.word || {
+      syllables: [],
+      pronunciation: '',
+      written: { clean: '', hyphenated: '' }
+    },
+    syllableCount: options.syllableCount || 0,
+    currSyllableIndex: 0,
+  }
+
   try {
-    if (seed !== undefined) {
-      const seededRand: RandomFunction = createSeededRandom(seed);
+    if (options.seed !== undefined) {
+      const seededRand: RandomFunction = createSeededRandom(options.seed);
       overrideRand(seededRand);
     }
 
-    const syllableCount = specifiedSyllableCount || getWeightedOption([
-      [1, 14000],
-      [2, 42600],
-      [3, 29700],
-      [4, 11000],
-      [5, 2200],
-      [6, 250],
-      [7, 50]
-    ]);
-
-    const syllables: Syllable[] = [];
-
-    for (let i = 0; i < syllableCount; i++) {
-      let newSyllable: Syllable;
-      let isValid = false;
-
-      while (!isValid) {
-        newSyllable = generateSyllable(i, syllableCount, i > 0 ? syllables[i - 1] : undefined);
-
-        if (i === 0) {
-          isValid = true; // First syllable is always valid
-        } else {
-          isValid = checkCrossSyllableSonority(syllables[i - 1], newSyllable);
-        }
-
-        // If not valid, we could try to resyllabify here
-        if (!isValid) {
-          [syllables[i - 1], newSyllable] = tryResyllabify(syllables[i - 1], newSyllable);
-          isValid = checkCrossSyllableSonority(syllables[i - 1], newSyllable);
-        }
-      }
-      // @ts-expect-error
-      syllables.push(newSyllable);
-    }
-
-    const written = write(syllables);
-    const pronunciation = pronounce(syllables);
-
-    return {
-      syllables,
-      pronunciation,
-      written,
-    };
+    generateSyllables(context);
+    generateWrittenForm(context);
+    generatePronunciation(context);
+    
+    return context.word;
   } finally {
     // Ensure the original randomness function is restored
     overrideRand(originalRand);

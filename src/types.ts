@@ -1,3 +1,5 @@
+import { RandomFunction } from "./utils/random";
+
 export interface Phoneme {
   sound: string;
   type: "highVowel" | "midVowel" | "lowVowel" | "glide" | "liquid" | "nasal" | "sibilant" | "voicedFricative" | "voicelessFricative" | "affricate" | "voicedStop" | "voicelessStop";
@@ -27,33 +29,11 @@ export interface Grapheme {
   endWord: number;
 }
 
-export interface GenerateWordOptions {
-  seed?: number;
-  syllableCount?: number;
-}
-
-export interface Word {
-  syllables: Syllable[];
-  pronunciation: string;
-  written: WrittenForm;
-}
-
-export interface Syllable {
-  onset: Phoneme[];
-  nucleus: Phoneme[];
-  coda: Phoneme[];
-}
-
 export interface WrittenForm {
   clean: string;
   hyphenated: string;
 }
 
-export interface GenerateWordOptions {
-  seed?: number;
-  syllableCount?: number; // Optional specific syllable length
-}
-
 export interface Word {
   syllables: Syllable[];
   pronunciation: string;
@@ -64,4 +44,17 @@ export interface Syllable {
   onset: Phoneme[];
   nucleus: Phoneme[];
   coda: Phoneme[];
+}
+
+export interface WordGenerationOptions {
+  word?: Word;
+  seed?: number;
+  syllableCount?: number;
+  rand?: RandomFunction;
+}
+
+export interface WordGenerationContext {
+  word: Word;
+  syllableCount: number;
+  currSyllableIndex: number;
 }

@@ -1,4 +1,4 @@
-import { WrittenForm, Phoneme, Syllable, Grapheme } from "../types.js";
+import { WrittenForm, Phoneme, Syllable, Grapheme, WordGenerationContext } from "../types.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import randomBool from "../utils/randomBool.js";
 import { graphemes } from "../elements/graphemes.js";
@@ -26,19 +26,15 @@ import { graphemes } from "../elements/graphemes.js";
  * Note: The randomBool function (not shown here) is assumed to return a boolean
  * value based on the given probability.
  */
-function adjustSyllable(str: string): string {
-  const reductionPairs = [
-    // castling: switches the position of an e after a vowel, with the consonants that follow eg. roed -> rode
-    { source: "([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)", target: "$1$2e", likelihood: 0.98}, 
-    // e., "nekst" -> "next"
-    { source: "(?<!^)ks", target: "x", likelihood: 0.25 }, 
-  ];
+const reductionPairs = [
+  { source: /([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)/g, target: "$1$2e", likelihood: 0.98}, 
+  { source: /(?<!^)ks/g, target: "x", likelihood: 0.25 }, 
+];
 
-  // Iterate over each pair and randomly decide whether to replace it
+function adjustSyllable(str: string): string {
   reductionPairs.forEach((pair) => {
     if (randomBool(pair.likelihood)) {
-      const regex = new RegExp(pair.source, "g");
-      str = str.replace(regex, pair.target);
+      str = str.replace(pair.source, pair.target);
     }
   });
 
@@ -69,6 +65,12 @@ function adjustSyllable(str: string): string {
  * The function considers various factors to ensure phonologically plausible
  * and orthographically correct grapheme choices for English-like words.
  */
+const graphemesByPhoneme = graphemes.reduce((acc, grapheme) => {
+  if (!acc[grapheme.phoneme]) acc[grapheme.phoneme] = [];
+  acc[grapheme.phoneme].push(grapheme);
+  return acc;
+}, {} as Record<string, typeof graphemes>);
+
 function chooseGrapheme(
   phoneme: Phoneme,  
   position: string,
@@ -82,9 +84,8 @@ function chooseGrapheme(
   const isBeforeShortVowel = nextPhoneme ? !nextPhoneme.onset && (!nextPhoneme.tense || ['ɜ', 'ɚ'].includes(nextPhoneme.sound)) : false;
   const isSingleOnsetStop = position === "onset" && !isCluster && phoneme.type.indexOf('Stop') > 0;
 
-  const viableGraphemes = graphemes.filter(
+  const viableGraphemes = (graphemesByPhoneme[phoneme.sound] || []).filter(
     (grapheme) =>
-      grapheme.phoneme === phoneme.sound &&
       // @ts-ignore
       (!grapheme[position] || grapheme[position] > 0) &&
       (isCluster ? !grapheme.cluster || grapheme.cluster > 0 : true) &&
@@ -131,9 +132,10 @@ function chooseGrapheme(
  * The resulting WrittenForm object provides both a standard spelling (clean) 
  * and a version with syllable breaks marked for potential hyphenation (hyphenated).
  */
-export const write = (syllables: Syllable[]): WrittenForm => {
-  let hyphenated = "";
-  let clean = "";
+export const generateWrittenForm = (context: WordGenerationContext) => {
+  const { syllables, written } = context.word;
+  const cleanParts: string[] = [];
+  const hyphenatedParts: string[] = [];
 
   // Flatten syllables into an array of extended phonemes
   const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
@@ -153,10 +155,14 @@ export const write = (syllables: Syllable[]): WrittenForm => {
     const { phoneme, syllableIndex, position } = flattenedPhonemes[phonemeIndex];
     const prevPhoneme = flattenedPhonemes[phonemeIndex - 1];
     const nextPhoneme = flattenedPhonemes[phonemeIndex + 1];
-
+    
     const isCluster = 
-      (prevPhoneme?.syllableIndex === syllableIndex && prevPhoneme?.position === position) || 
-      (nextPhoneme?.syllableIndex === syllableIndex && nextPhoneme?.position === position);
+      (prevPhoneme?.syllableIndex === syllableIndex && 
+       (prevPhoneme?.position === position || 
+        (position === 'onset' && prevPhoneme?.position === 'coda'))) || 
+      (nextPhoneme?.syllableIndex === syllableIndex && 
+       (nextPhoneme?.position === position || 
+        (position === 'coda' && nextPhoneme?.position === 'onset')));
 
     const grapheme = chooseGrapheme(
       phoneme,
@@ -181,16 +187,16 @@ export const write = (syllables: Syllable[]): WrittenForm => {
       currentSyllable = adjustSyllable(currentSyllable);
 
       // Remove duplicate character at syllable boundary
-      if (clean.length > 0 && currentSyllable.length > 0 &&
-          clean[clean.length - 1] === currentSyllable[0]) {
+      if (cleanParts.length > 0 && currentSyllable.length > 0 &&
+        cleanParts[cleanParts.length - 1].slice(-1) === currentSyllable[0]) {
         currentSyllable = currentSyllable.slice(1);
       }
 
-      clean += currentSyllable;
-      hyphenated += currentSyllable;
+      cleanParts.push(currentSyllable);
+      hyphenatedParts.push(currentSyllable);
 
       if (nextPhoneme) {
-        hyphenated += "&shy;";
+        hyphenatedParts.push("&shy;");
       }
 
       currentSyllable = "";
@@ -198,10 +204,8 @@ export const write = (syllables: Syllable[]): WrittenForm => {
     }
   }
 
-  return {
-    clean,
-    hyphenated,
-  };
+  written.clean = cleanParts.join('');
+  written.hyphenated = hyphenatedParts.join('');
 };
 
-export default write;
+export default generateWrittenForm;
