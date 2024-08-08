@@ -17,32 +17,41 @@ export const sonority = {
 
 export const phonemes: Phoneme[] = [
   // High Vowels
-  { sound: "i", type: "highVowel", tense: true, nucleus: 151, startWord: 10, midWord: 1, endWord: 1 }, // sheep
-  { sound: "ɪ", type: "highVowel", tense: false, nucleus: 632, startWord: 1, midWord: 4, endWord: 0 }, // sit
+  { sound: "i:", type: "highVowel", tense: true, nucleus: 150, startWord: 10, midWord: 1, endWord: 1 }, // sheep
+  { sound: "ɪ", type: "highVowel", tense: false, nucleus: 230, startWord: 1, midWord: 4, endWord: 0 }, // sit
 
   // Mid Vowels
-  { sound: "e", type: "midVowel", tense: false, nucleus: 100, startWord: 8, midWord: 2, endWord: 0 }, // red
-  { sound: "ɛ", type: "midVowel", tense: false, nucleus: 286, startWord: 8, midWord: 2, endWord: 0 }, // let
-  { sound: "ə", type: "midVowel", tense: true, nucleus: 300, startWord: 4, midWord: 8, endWord: 0.5 }, // the
-  { sound: "ɜ", type: "midVowel", tense: true, nucleus: 30, startWord: 4, midWord: 2, endWord: 2 }, 
-  { sound: "ɚ", type: "midVowel", tense: true, nucleus: 50, startWord: 0, midWord: 2, endWord: 2 }, // her, letter
+  { sound: "e", type: "midVowel", tense: false, nucleus: 140, startWord: 8, midWord: 2, endWord: 0 }, // red
+  { sound: "ɛ", type: "midVowel", tense: false, nucleus: 280, startWord: 8, midWord: 2, endWord: 0 }, // let
+  { sound: "ə", type: "midVowel", tense: true, nucleus: 800, startWord: 4, midWord: 8, endWord: 0.5 }, // the
+  { sound: "ɜ", type: "midVowel", tense: true, nucleus: 50, startWord: 4, midWord: 2, endWord: 2 }, // bed, said, execute
+  { sound: "ɚ", type: "midVowel", tense: true, nucleus: 90, startWord: 0, midWord: 2, endWord: 2 }, // her, letter
 
   // Low Vowels
-  { sound: "æ", type: "lowVowel", tense: false, nucleus: 210, startWord: 6, midWord: 6, endWord: 2 }, // apple, hat, map
-  { sound: "ɑ", type: "lowVowel", tense: true, nucleus: 100, startWord: 6, midWord: 2, endWord: 2 }, // father
-  { sound: "ɔ", type: "lowVowel", tense: true, nucleus: 100, startWord: 6, midWord: 2, endWord: 2 }, // ball
-  { sound: "o", type: "lowVowel", tense: true, nucleus: 130, startWord: 6, midWord: 2, endWord: 2 }, // hope
-  { sound: "ʊ", type: "lowVowel", tense: true, nucleus: 30, startWord: 4, midWord: 2, endWord: 2 }, // book
-  { sound: "u", type: "lowVowel", tense: true, nucleus: 193, startWord: 8, midWord: 2, endWord: 6 }, // blue
-  { sound: "ʌ", type: "lowVowel", tense: false, nucleus: 80, startWord: 4, midWord: 2, endWord: 1 }, // cup
+  { sound: "æ", type: "lowVowel", tense: false, nucleus: 220, startWord: 6, midWord: 6, endWord: 2 }, // apple, hat, map
+  { sound: "ɑ", type: "lowVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 2 }, // father
+  { sound: "ɔ", type: "lowVowel", tense: true, nucleus: 130, startWord: 6, midWord: 2, endWord: 2 }, // ball
+  { sound: "o", type: "lowVowel", tense: true, nucleus: 100, startWord: 6, midWord: 2, endWord: 2 }, // hope
+  { sound: "ʊ", type: "lowVowel", tense: true, nucleus: 70, startWord: 4, midWord: 2, endWord: 2 }, // book
+  { sound: "u", type: "lowVowel", tense: true, nucleus: 80, startWord: 8, midWord: 2, endWord: 6 }, // blue
+  { sound: "ʌ", type: "lowVowel", tense: false, nucleus: 180, startWord: 4, midWord: 2, endWord: 1 }, // cup
 
   // Diphthongs (typically treated as mid or low vowels)
-  { sound: "aɪ", type: "midVowel", tense: true, nucleus: 50, startWord: 6, midWord: 2, endWord: 6 }, // fly
-  { sound: "aʊ", type: "midVowel", tense: true, nucleus: 30, startWord: 6, midWord: 1, endWord: 6 }, // house, down, about
-  { sound: "ɔɪ", type: "midVowel", tense: true, nucleus: 10, startWord: 4, midWord: 2, endWord: 4 }, // boy
-  { sound: "ɪə", type: "midVowel", tense: true, nucleus: 10, startWord: 4, midWord: 2, endWord: 4 }, // coin
-  { sound: "eɪ", type: "midVowel", tense: true, nucleus: 50, startWord: 6, midWord: 2, endWord: 6 }, // day
-  { sound: "ɑʊ", type: "midVowel", tense: true, nucleus: 50, startWord: 6, midWord: 2, endWord: 6 }, // blow
+  { sound: "eɪ", type: "midVowel", tense: true, nucleus: 170, startWord: 6, midWord: 2, endWord: 6 }, // day, late, gate
+  { sound: "ɪə", type: "midVowel", tense: true, nucleus: 30, startWord: 4, midWord: 2, endWord: 4 }, // dear, fear
+  { sound: "eə", type: "midVowel", tense: true, nucleus: 20, startWord: 4, midWord: 2, endWord: 4 }, // fair, care
+  { sound: "aɪ", type: "midVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 6 }, // fly, time, rhyme
+  { sound: "ʊə", type: "midVowel", tense: true, nucleus: 10, startWord: 6, midWord: 2, endWord: 6 }, // sure /ʃʊə/, cure /kjʊə/
+  { sound: "əʊ", type: "midVowel", tense: true, nucleus: 140, startWord: 6, midWord: 2, endWord: 6 }, // globe, show, blow
+  { sound: "ɔɪ", type: "midVowel", tense: true, nucleus: 20, startWord: 4, midWord: 2, endWord: 4 }, // boy, join, coin
+  { sound: "aʊ", type: "midVowel", tense: true, nucleus: 60, startWord: 6, midWord: 1, endWord: 6 }, // cow (/kaʊ/) or how (/haʊ/)
+
+  // Tripthongs
+  { sound: "aɪə", type: "lowVowel", tense: true, nucleus: 80, startWord: 3, midWord: 1, endWord: 3 }, // fire, lire, tire
+  { sound: "aʊə", type: "lowVowel", tense: true, nucleus: 60, startWord: 2, midWord: 1, endWord: 2 }, // hour, shower, power
+  { sound: "eɪə", type: "midVowel", tense: true, nucleus: 50, startWord: 2, midWord: 1, endWord: 2 }, // player, layer
+  { sound: "ɔɪə", type: "midVowel", tense: true, nucleus: 40, startWord: 2, midWord: 0, endWord: 2 }, // employer, royal, loyal
+  { sound: "əʊə", type: "midVowel", tense: true, nucleus: 30, startWord: 1, midWord: 2, endWord: 2 }, // lower, mower
 
   // Glides
   { sound: "j", type: "glide", onset: 10, coda: 20, startWord: 6, midWord: 2, endWord: 2 }, // yes
@@ -122,7 +131,7 @@ export const invalidCodaClusters: RegExp[] = [
   /.?[kθð](?![szd])$/,
   /lv(?![zd])$/,
   /[fʃ](?![zdt])/,
-  /m[tv]/,
+  /m[tvg]/,
   /[vlstd]g/,
   /.*sp/,
   /tp/,

@@ -402,8 +402,8 @@ function generateSyllable(context: WordGenerationContext): Syllable {
 
 function generateSyllables(context: WordGenerationContext) {
   context.syllableCount = context.syllableCount || getWeightedOption([
-    [1, 14000],
-    [2, 42600],
+    [1, 8000],
+    [2, 50000],
     [3, 29700],
     [4, 11000],
     [5, 2200],

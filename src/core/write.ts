@@ -65,12 +65,6 @@ function adjustSyllable(str: string): string {
  * The function considers various factors to ensure phonologically plausible
  * and orthographically correct grapheme choices for English-like words.
  */
-const graphemesByPhoneme = graphemes.reduce((acc, grapheme) => {
-  if (!acc[grapheme.phoneme]) acc[grapheme.phoneme] = [];
-  acc[grapheme.phoneme].push(grapheme);
-  return acc;
-}, {} as Record<string, typeof graphemes>);
-
 function chooseGrapheme(
   phoneme: Phoneme,  
   position: string,
@@ -84,8 +78,9 @@ function chooseGrapheme(
   const isBeforeShortVowel = nextPhoneme ? !nextPhoneme.onset && (!nextPhoneme.tense || ['ɜ', 'ɚ'].includes(nextPhoneme.sound)) : false;
   const isSingleOnsetStop = position === "onset" && !isCluster && phoneme.type.indexOf('Stop') > 0;
 
-  const viableGraphemes = (graphemesByPhoneme[phoneme.sound] || []).filter(
+  const viableGraphemes = graphemes.filter(
     (grapheme) =>
+      grapheme.phoneme === phoneme.sound &&
       // @ts-ignore
       (!grapheme[position] || grapheme[position] > 0) &&
       (isCluster ? !grapheme.cluster || grapheme.cluster > 0 : true) &&
@@ -113,7 +108,6 @@ function chooseGrapheme(
   if (isAfterShortVowel && isSingleOnsetStop && isBeforeShortVowel && selectedGrapheme.length === 1) {
     selectedGrapheme = selectedGrapheme + selectedGrapheme;
   }
-
   return selectedGrapheme;
 }
 
@@ -134,8 +128,6 @@ function chooseGrapheme(
  */
 export const generateWrittenForm = (context: WordGenerationContext) => {
   const { syllables, written } = context.word;
-  const cleanParts: string[] = [];
-  const hyphenatedParts: string[] = [];
 
   // Flatten syllables into an array of extended phonemes
   const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
@@ -155,14 +147,10 @@ export const generateWrittenForm = (context: WordGenerationContext) => {
     const { phoneme, syllableIndex, position } = flattenedPhonemes[phonemeIndex];
     const prevPhoneme = flattenedPhonemes[phonemeIndex - 1];
     const nextPhoneme = flattenedPhonemes[phonemeIndex + 1];
-    
+
     const isCluster = 
-      (prevPhoneme?.syllableIndex === syllableIndex && 
-       (prevPhoneme?.position === position || 
-        (position === 'onset' && prevPhoneme?.position === 'coda'))) || 
-      (nextPhoneme?.syllableIndex === syllableIndex && 
-       (nextPhoneme?.position === position || 
-        (position === 'coda' && nextPhoneme?.position === 'onset')));
+      (prevPhoneme?.syllableIndex === syllableIndex && prevPhoneme?.position === position) || 
+      (nextPhoneme?.syllableIndex === syllableIndex && nextPhoneme?.position === position);
 
     const grapheme = chooseGrapheme(
       phoneme,
@@ -187,25 +175,22 @@ export const generateWrittenForm = (context: WordGenerationContext) => {
       currentSyllable = adjustSyllable(currentSyllable);
 
       // Remove duplicate character at syllable boundary
-      if (cleanParts.length > 0 && currentSyllable.length > 0 &&
-        cleanParts[cleanParts.length - 1].slice(-1) === currentSyllable[0]) {
+      if (written.clean.length > 0 && currentSyllable.length > 0 &&
+        written.clean[written.clean.length - 1] === currentSyllable[0]) {
         currentSyllable = currentSyllable.slice(1);
       }
 
-      cleanParts.push(currentSyllable);
-      hyphenatedParts.push(currentSyllable);
+      written.clean += currentSyllable;
+      written.hyphenated += currentSyllable;
 
       if (nextPhoneme) {
-        hyphenatedParts.push("&shy;");
+        written.hyphenated += "&shy;";
       }
 
       currentSyllable = "";
       currentSyllableIndex++;
     }
   }
-
-  written.clean = cleanParts.join('');
-  written.hyphenated = hyphenatedParts.join('');
 };
 
 export default generateWrittenForm;

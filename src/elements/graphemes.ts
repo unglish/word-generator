@@ -9,7 +9,7 @@ const graphemes: Grapheme[] = [
 
   // i: sheep
   {
-    phoneme: "i",
+    phoneme: "i:",
     form: "ee",
     origin: 0,
     frequency: 50,
@@ -18,7 +18,7 @@ const graphemes: Grapheme[] = [
     endWord: 10,
   },
   {
-    phoneme: "i",
+    phoneme: "i:",
     form: "ea",
     origin: 0,
     frequency: 50,
@@ -27,7 +27,7 @@ const graphemes: Grapheme[] = [
     endWord: 1,
   },
   {
-    phoneme: "i",
+    phoneme: "i:",
     form: "e",
     origin: 0,
     frequency: 1,
@@ -36,7 +36,7 @@ const graphemes: Grapheme[] = [
     endWord: 0,
   },
   {
-    phoneme: "i",
+    phoneme: "i:",
     form: "y",
     origin: 1,
     frequency: 1,
@@ -45,7 +45,7 @@ const graphemes: Grapheme[] = [
     endWord: 10,
   },
   {
-    phoneme: "i",
+    phoneme: "i:",
     form: "ie",
     origin: 0,
     frequency: 2,
@@ -54,7 +54,7 @@ const graphemes: Grapheme[] = [
     endWord: 2,
   },
   {
-    phoneme: "i",
+    phoneme: "i:",
     form: "ei",
     origin: 0,
     frequency: 2,
@@ -404,7 +404,7 @@ const graphemes: Grapheme[] = [
     phoneme: "aɪ", 
     form: "i", 
     origin: 3, 
-    frequency: 1,
+    frequency: 100,
     startWord: 1,
     midWord: 1,
     endWord: 1,
@@ -413,7 +413,7 @@ const graphemes: Grapheme[] = [
     phoneme: "aɪ",
     form: "igh",
     origin: 0,
-    frequency: 100,
+    frequency: 10,
     startWord: 0,
     midWord: 10,
     endWord: 10,
@@ -431,7 +431,7 @@ const graphemes: Grapheme[] = [
     phoneme: "aɪ",
     form: "ie",
     origin: 1,
-    frequency: 1,
+    frequency: 10,
     startWord: 0,
     midWord: 10,
     endWord: 1,
@@ -458,12 +458,56 @@ const graphemes: Grapheme[] = [
     phoneme: "aɪ",
     form: "ye",
     origin: 0,
-    frequency: 3,
+    frequency: 10,
     onset: 0,
     startWord: 0,
     midWord: 5,
     endWord: 10,
   },
+
+  // Example: "sure"
+{
+  phoneme: "ʊə",
+  form: "ue",
+  origin: 0,
+  frequency: 50,
+  startWord: 4,
+  midWord: 3,
+  endWord: 100,
+},
+
+// Example: "tour"
+{
+  phoneme: "ʊə",
+  form: "ou",
+  origin: 0,
+  frequency: 30,
+  startWord: 3,
+  midWord: 2,
+  endWord: 100,
+},
+
+// Example: "endure"
+{
+  phoneme: "ʊə",
+  form: "ue",
+  origin: 0,
+  frequency: 20,
+  startWord: 2,
+  midWord: 3,
+  endWord: 80,
+},
+
+// Example: "poor"
+{
+  phoneme: "ʊə",
+  form: "oo",
+  origin: 0,
+  frequency: 10,
+  startWord: 2,
+  midWord: 2,
+  endWord: 100,
+},
 
   // now
   {
@@ -508,10 +552,77 @@ const graphemes: Grapheme[] = [
     endWord: 100,
   },
 
+  // Example: "fair", "hair", "pair"
+{
+  phoneme: "eə",
+  form: "ai",
+  origin: 0,
+  frequency: 50,
+  startWord: 4,
+  midWord: 5,
+  endWord: 100,
+},
+
+// Example: "care", "bare", "stare"
+{
+  phoneme: "eə",
+  form: "ae",
+  origin: 0,
+  frequency: 40,
+  startWord: 4,
+  midWord: 4,
+  endWord: 100,
+},
+
+// Example: "bear", "wear", "tear"
+{
+  phoneme: "eə",
+  form: "ea",
+  origin: 0,
+  frequency: 30,
+  startWord: 4,
+  midWord: 3,
+  endWord: 100,
+},
+
+// Example: "their", "heir"
+{
+  phoneme: "eə",
+  form: "ei",
+  origin: 0,
+  frequency: 10,
+  startWord: 3,
+  midWord: 2,
+  endWord: 50,
+},
+
+// Example: "there", "where"
+{
+  phoneme: "eə",
+  form: "ee",
+  origin: 0,
+  frequency: 20,
+  startWord: 4,
+  midWord: 3,
+  endWord: 80,
+},
+
+// Example: "layer" (in some dialects)
+{
+  phoneme: "eə",
+  form: "aye",
+  origin: 0,
+  frequency: 5,
+  startWord: 3,
+  midWord: 1,
+  endWord: 50,
+},
+
+
   // fear
   {
     phoneme: "ɪə",
-    form: "ear",
+    form: "ea",
     origin: 0,
     frequency: 10,
     onset: 0,
@@ -521,7 +632,7 @@ const graphemes: Grapheme[] = [
   },
   {
     phoneme: "ɪə",
-    form: "eer",
+    form: "ee",
     origin: 0,
     frequency: 10,
     onset: 0,
@@ -531,7 +642,7 @@ const graphemes: Grapheme[] = [
   },
   {
     phoneme: "ɪə",
-    form: "ier",
+    form: "ie",
     origin: 1,
     frequency: 10,
     onset: 0,
@@ -586,7 +697,6 @@ const graphemes: Grapheme[] = [
     form: "ea",
     origin: 0,
     frequency: 5,
-    coda: 0,
     startWord: 0,
     midWord: 1,
     endWord: 0,
@@ -596,9 +706,8 @@ const graphemes: Grapheme[] = [
     form: "ey",
     origin: 0,
     frequency: 10,
-    onset: 0,
     startWord: 0,
-    midWord: 1,
+    midWord: 0,
     endWord: 1,
   },
   { 
@@ -613,27 +722,34 @@ const graphemes: Grapheme[] = [
 
   // blow
   {
-    phoneme: "ɑʊ",
+    phoneme: "əʊ",
     form: "ow",
     origin: 0,
     frequency: 1000,
-    onset: 0,
     startWord: 1,
     midWord: 1,
     endWord: 1,
   },
   {
-    phoneme: "ɑʊ",
+    phoneme: "əʊ",
     form: "ou",
     origin: 1,
     frequency: 10,
-    onset: 0,
     startWord: 0,
     midWord: 1,
     endWord: 0,
   },
   {
-    phoneme: "ɑʊ",
+    phoneme: "əʊ",
+    form: "oe",
+    origin: 1,
+    frequency: 10,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+  },
+  {
+    phoneme: "əʊ",
     form: "ough",
     origin: 4,
     frequency: 1,
@@ -646,7 +762,7 @@ const graphemes: Grapheme[] = [
   // bed, said, execute
   {
     phoneme: "ɜ",
-    form: "er",
+    form: "e",
     origin: 0,
     frequency: 100,
     onset: 0,
@@ -656,7 +772,7 @@ const graphemes: Grapheme[] = [
   },
   {
     phoneme: "ɜ",
-    form: "ir",
+    form: "ai",
     origin: 0,
     frequency: 50,
     onset: 0,
@@ -664,103 +780,62 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
   },
-  {
-    phoneme: "ɜ",
-    form: "ur",
-    origin: 0,
-    frequency: 40,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
-  {
-    phoneme: "ɜ",
-    form: "ear",
-    origin: 0,
-    frequency: 3,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
-  {
-    phoneme: "ɜ",
-    form: "or",
-    origin: 3,
-    frequency: 2,
-    coda: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
-  {
-    phoneme: "ɜ",
-    form: "yr",
-    origin: 0,
-    frequency: 1,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
 
-  // her, letter
-  {
-    phoneme: "ɚ",
-    form: "er",
-    origin: 0,
-    frequency: 10,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
-  {
-    phoneme: "ɚ",
-    form: "ar",
-    origin: 3,
-    frequency: 10,
-    coda: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
-  {
-    phoneme: "ɚ",
-    form: "or",
-    origin: 3,
-    frequency: 2,
-    coda: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
-  { phoneme: "ɚ", form: "a", origin: 3, frequency: 1,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-   },
-  {
-    phoneme: "ɚ",
-    form: "our",
-    origin: 1,
-    frequency: 3,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
-  {
-    phoneme: "ɚ",
-    form: "ure",
-    origin: 3,
-    frequency: 10,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
+  // her, letter, butter
+{
+  phoneme: "ɚ",
+  form: "er",
+  origin: 0,
+  frequency: 300,
+  startWord: 1,
+  midWord: 50,
+  endWord: 100,
+},
+{
+  phoneme: "ɚ",
+  form: "ur",
+  origin: 0,
+  frequency: 200,
+  startWord: 1,
+  midWord: 30,
+  endWord: 80,
+},
+{
+  phoneme: "ɚ",
+  form: "or",
+  origin: 3,
+  frequency: 100,
+  startWord: 1,
+  midWord: 20,
+  endWord: 50,
+},
+{
+  phoneme: "ɚ",
+  form: "ar",
+  origin: 3,
+  frequency: 80,
+  startWord: 1,
+  midWord: 10,
+  endWord: 40,
+},
+{
+  phoneme: "ɚ",
+  form: "re",
+  origin: 1,
+  frequency: 50,
+  startWord: 0,
+  midWord: 5,
+  endWord: 100,
+},
+{
+  phoneme: "ɚ",
+  form: "ure",
+  origin: 3,
+  frequency: 30,
+  startWord: 0,
+  midWord: 1,
+  endWord: 80,
+},
 
   /******************
    * GLIDES
@@ -833,7 +908,11 @@ const graphemes: Grapheme[] = [
     endWord: 1, },
 
   // run
-  { phoneme: "r", form: "r", origin: 3, frequency: 100, startWord: 1,
+  { phoneme: "r", 
+    form: "r", 
+    origin: 3, 
+    frequency: 1000, 
+    startWord: 1,
     midWord: 1,
     endWord: 1,},
   {
@@ -854,7 +933,7 @@ const graphemes: Grapheme[] = [
     frequency: 1,
     coda: 0,
     cluster: 0,
-    startWord: 1,
+    startWord: 30,
     midWord: 1,
     endWord: 0,
   },
@@ -867,7 +946,7 @@ const graphemes: Grapheme[] = [
   { phoneme: "m", 
     form: "m", 
     origin: 3, 
-    frequency: 100, 
+    frequency: 10, 
     startWord: 1,
     midWord: 1,
     endWord: 1, },
@@ -877,7 +956,8 @@ const graphemes: Grapheme[] = [
     origin: 5,
     frequency: 2,
     onset: 0,
-    startWord: 1,
+    cluster: 0,
+    startWord: 0,
     midWord: 1,
     endWord: 1,
   },
@@ -888,7 +968,7 @@ const graphemes: Grapheme[] = [
     frequency: 1,
     onset: 0,
     cluster: 0,
-    startWord: 1,
+    startWord: 0,
     midWord: 1,
     endWord: 1,
   },
@@ -1513,7 +1593,7 @@ const graphemes: Grapheme[] = [
     origin: 3,
     frequency: 6,
     onset: 0,
-    cluster: 2,
+    cluster: 300,
     startWord: 0,
     midWord: 0,
     endWord: 1,
@@ -1617,6 +1697,171 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
   },
+
+    // Example: "fire", "tire", "wire"
+  {
+    phoneme: "aɪə",
+    form: "ire",
+    origin: 0,
+    frequency: 50,
+    startWord: 3,
+    midWord: 1,
+    endWord: 100,
+  },
+
+  // Example: "liar", "prior"
+  {
+    phoneme: "aɪə",
+    form: "ia",
+    origin: 0,
+    frequency: 30,
+    startWord: 2,
+    midWord: 1,
+    endWord: 80,
+  },
+
+  // Example: "buyer", "flyer"
+  {
+    phoneme: "aɪə",
+    form: "ye",
+    origin: 0,
+    frequency: 20,
+    startWord: 2,
+    midWord: 1,
+    endWord: 70,
+  },
+
+  // Example: "choir"
+  {
+    phoneme: "aɪə",
+    form: "oi",
+    origin: 1,
+    frequency: 5,
+    startWord: 1,
+    midWord: 1,
+    endWord: 50,
+  },
+
+  // Example: "science", "client"
+  {
+    phoneme: "aɪə",
+    form: "ie",
+    origin: 3,
+    frequency: 10,
+    startWord: 3,
+    midWord: 2,
+    endWord: 0,
+  },
+
+  // Example: "hour", "flour"
+  {
+    phoneme: "aʊə",
+    form: "ou",
+    origin: 1,
+    frequency: 50,
+    startWord: 2,
+    midWord: 1,
+    endWord: 100,
+  },
+
+  // Example: "shower", "power"
+  {
+    phoneme: "aʊə",
+    form: "owe",
+    origin: 0,
+    frequency: 40,
+    startWord: 1,
+    midWord: 1,
+    endWord: 100,
+  },
+
+  // Example: "player", "layer"
+  {
+    phoneme: "eɪə",
+    form: "aye",
+    origin: 0,
+    frequency: 50,
+    startWord: 2,
+    midWord: 1,
+    endWord: 100,
+  },
+
+  // Example: "mayor", "prayer"
+  {
+    phoneme: "eɪə",
+    form: "ayo",
+    origin: 0,
+    frequency: 30,
+    startWord: 2,
+    midWord: 1,
+    endWord: 80,
+  },
+
+  // Example: "conveyor"
+  {
+    phoneme: "eɪə",
+    form: "eyo",
+    origin: 0,
+    frequency: 10,
+    startWord: 0,
+    midWord: 1,
+    endWord: 100,
+  },
+
+  // Example: "employer", "destroyer"
+  {
+    phoneme: "ɔɪə",
+    form: "oye",
+    origin: 1,
+    frequency: 50,
+    startWord: 2,
+    midWord: 1,
+    endWord: 100,
+  },
+
+  // Example: "loyal", "royal"
+  {
+    phoneme: "ɔɪə",
+    form: "oya",
+    origin: 1,
+    frequency: 40,
+    startWord: 1,
+    midWord: 1,
+    endWord: 100,
+  },
+
+  // Example: "lower", "mower"
+  {
+    phoneme: "əʊə",
+    form: "owe",
+    origin: 0,
+    frequency: 50,
+    startWord: 1,
+    midWord: 2,
+    endWord: 100,
+  },
+
+  // Example: "Noah"
+  {
+    phoneme: "əʊə",
+    form: "oa",
+    origin: 4,
+    frequency: 10,
+    startWord: 1,
+    midWord: 0,
+    endWord: 100,
+  },
+
+// Example: "boa"
+{
+  phoneme: "əʊə",
+  form: "oa",
+  origin: 0,
+  frequency: 5,
+  startWord: 1,
+  midWord: 0,
+  endWord: 100,
+},
 ];
 
 export { ORIGINS, graphemes };
