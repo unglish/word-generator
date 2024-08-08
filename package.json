@@ -1,7 +1,7 @@
 {
   "name": "@unglish/word-generator",
-  "version": "0.4.0",
-  "IDGAFversion": "o",
+  "version": "0.5.0",
+  "IDGAFversion": "u",
   "description": "A simple generator for creating unglish words.",
   "type": "module",
   "main": "dist/index.js",
