@@ -5,6 +5,7 @@ import getWeightedOption from "../utils/getWeightedOption.js";
 import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonority } from "../elements/phonemes.js";
 import { generatePronunciation } from "./pronounce.js";
 import { generateWrittenForm } from "./write.js";
+import { open } from "fs";
 
 /**
  * Determines the sonority level of a given phoneme.
@@ -21,7 +22,7 @@ import { generateWrittenForm } from "./write.js";
  */
 const sonorityCache = new Map<string, number>();
 
-function getSonority(phoneme: Phoneme): number {
+export const getSonority = (phoneme: Phoneme): number => {
   if (!sonorityCache.has(phoneme.type)) {
     sonorityCache.set(phoneme.type, sonority[phoneme.type] || 0);
   }
@@ -271,41 +272,6 @@ function pickCoda(currentSyllable: Syllable, isEndOfWord: boolean = false): Phon
 }
 
 /**
- * Checks if a cross-syllable boundary is valid based on sonority.
- * 
- * @param prevSyllable - The previous syllable in the word.
- * @param currentSyllable - The current syllable being checked.
- * @returns {boolean} - True if the cross-syllable boundary is valid, false otherwise.
- * 
- * This function ensures that the sonority profile across syllable boundaries is
- * phonologically valid. It checks the sonority of the last phoneme in the coda
- * of the previous syllable against the first phoneme in the onset of the current syllable.
- * 
- * The function returns true in the following cases:
- * 1. If there's no previous syllable (i.e., it's the first syllable of the word).
- * 2. If the previous syllable has no coda.
- * 3. If the current syllable has no onset.
- * 4. If the sonority of the first onset phoneme is greater than or equal to
- *    the sonority of the last coda phoneme.
- * 
- * This implementation allows for equal sonority across syllable boundaries,
- * which is a simplification and might need refinement based on specific
- * phonological rules of the target language.
- */
-function checkCrossSyllableSonority(prevSyllable: Syllable, currentSyllable: Syllable): boolean {
-  if (!prevSyllable || !prevSyllable.coda.length || !currentSyllable.onset.length) {
-    return true; // No cross-syllable cluster, so it's valid
-  }
-
-  const lastCodaPhoneme = prevSyllable.coda[prevSyllable.coda.length - 1];
-  const firstOnsetPhoneme = currentSyllable.onset[0];
-
-  // Allow equal sonority across syllable boundary
-  // This is a simplification; you might want to refine this based on specific phoneme types
-  return getSonority(firstOnsetPhoneme) >= getSonority(lastCodaPhoneme);
-}
-
-/**
  * Attempts to resyllabify two adjacent syllables based on sonority and phonological rules.
  * 
  * This function examines the boundary between two syllables and potentially moves
@@ -328,36 +294,25 @@ function checkCrossSyllableSonority(prevSyllable: Syllable, currentSyllable: Syl
  * This process helps ensure more natural syllable boundaries and can create
  * more varied and realistic word structures.
  */
-function tryResyllabify(prevSyllable: Syllable, currentSyllable: Syllable): [Syllable, Syllable] {
-  if (prevSyllable.coda.length && currentSyllable.onset.length) {
-    const lastCodaPhoneme = prevSyllable.coda[prevSyllable.coda.length - 1];
-    const firstOnsetPhoneme = currentSyllable.onset[0];
+function resyllabify(prevSyllable: Syllable, currentSyllable: Syllable): [Syllable, Syllable] {
+  const lastCodaPhoneme = prevSyllable.coda.at(-1);
+  const firstOnsetPhoneme = currentSyllable.onset[0];
 
-    const lastCodaSonority = getSonority(lastCodaPhoneme);
-    const firstOnsetSonority = getSonority(firstOnsetPhoneme);
+  if (!lastCodaPhoneme || !firstOnsetPhoneme) return [prevSyllable, currentSyllable];
 
-    // Check if moving the coda to the onset would create a valid onset cluster
-    const potentialOnset = [lastCodaPhoneme, ...currentSyllable.onset];
-    const potentialOnsetSounds = potentialOnset.map(p => p.sound).join('');
-    const isValidBoundaryCluster = !invalidBoundaryClusters.some(regex => 
-      regex.test(potentialOnsetSounds)
-    );
+  const lastCodaSonority = getSonority(lastCodaPhoneme);
+  const firstOnsetSonority = getSonority(firstOnsetPhoneme);
 
-    if (firstOnsetSonority > lastCodaSonority && isValidBoundaryCluster) {
-      // Move the last coda phoneme to the onset of the next syllable
-      prevSyllable.coda.pop();
-      currentSyllable.onset.unshift(lastCodaPhoneme);
-    } else if (firstOnsetSonority === lastCodaSonority) {
-      // When sonority is equal, use getWeightedOption to decide
-      const shouldDropCoda = getWeightedOption([
-        [true, 90],   // 90% chance to drop the coda
-        [false, 10]   // 10% chance to keep it
-      ]);
+  const potentialOnset = [lastCodaPhoneme, ...currentSyllable.onset];
+  const isValidBoundaryCluster = !invalidBoundaryClusters.some(regex => 
+    regex.test(potentialOnset.map(p => p.sound).join(''))
+  );
 
-      if (shouldDropCoda) {
-        prevSyllable.coda.pop();
-      }
-    }
+  if (firstOnsetSonority > lastCodaSonority && isValidBoundaryCluster) {
+    prevSyllable.coda.pop();
+    currentSyllable.onset.unshift(lastCodaPhoneme);
+  } else if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, 90], [false, 10]])) {
+    prevSyllable.coda.pop();
   }
 
   return [prevSyllable, currentSyllable];
@@ -400,40 +355,33 @@ function generateSyllable(context: WordGenerationContext): Syllable {
   return newSyllable;
 }
 
-function generateSyllables(context: WordGenerationContext) {
-  context.syllableCount = context.syllableCount || getWeightedOption([
-    [1, 8000],
-    [2, 50000],
-    [3, 29700],
-    [4, 11000],
-    [5, 2200],
-    [6, 250],
-    [7, 50]
-  ]);
+export const generateSyllables = (context: WordGenerationContext) => {
+  if (!context.syllableCount) {
+    context.syllableCount = getWeightedOption([
+      [1, 8000], [2, 50000], [3, 29700],
+      [4, 11000], [5, 2200], [6, 250], [7, 50]
+    ]);
+  }
 
   while (context.currSyllableIndex < context.syllableCount) {
     let newSyllable: Syllable;
-    let prevSyllable: Syllable;
-    let isValid = false;
-    let i = context.currSyllableIndex;
+    let prevSyllable = context.word.syllables[context.currSyllableIndex - 1];
+    let prevSonority: Number;
+    let newSonority: Number;
 
-    while (!isValid) {
+    do {
       newSyllable = generateSyllable(context);
-      prevSyllable = context.word.syllables[i - 1];
-
-      if (i === 0) {
-        isValid = true; // First syllable is always valid
-      } else {
-        isValid = checkCrossSyllableSonority(prevSyllable, newSyllable);
+      if (prevSyllable) {
+        [prevSyllable, newSyllable] = resyllabify(prevSyllable, newSyllable);
       }
+      
+      const closingPhoneme = prevSyllable?.coda.at(-1);
+      const openingPhoneme = newSyllable.onset.at(-1);
+      
+      prevSonority = closingPhoneme ? getSonority(closingPhoneme) : 0;
+      newSonority = openingPhoneme ? getSonority(openingPhoneme) : 0;
+    } while (prevSyllable && prevSonority >= newSonority);
 
-      // If not valid, we could try to resyllabify here
-      if (!isValid) {
-        [prevSyllable, newSyllable] = tryResyllabify(prevSyllable, newSyllable);
-        isValid = checkCrossSyllableSonority(prevSyllable, newSyllable);
-      }
-    }
-    // @ts-expect-error
     context.word.syllables.push(newSyllable);
     context.currSyllableIndex++;
   }

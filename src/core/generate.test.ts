@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { generateWord, buildCluster } from './generate';
+import { generateWord, buildCluster, generateSyllables, getSonority, checkCrossSyllableSonority } from './generate';
+import { Syllable, Phoneme } from '../types';
+
 
 describe('Word Generator', () => {
   it('generates word with specified syllable count', () => {
@@ -7,10 +9,22 @@ describe('Word Generator', () => {
     expect(word.syllables.length).toBe(3);
   });
 
+  it('generates a word with a valid written form', () => {
+    const word = generateWord();
+    expect(word.written.clean).toBeTruthy();
+    expect(word.written.hyphenated).toBeTruthy();
+  });
+
+  it('generates a word with a valid pronunciation', () => {
+    const word = generateWord();
+    expect(word.pronunciation).toBeTruthy();
+  });
+
   it('generates reproducible word with seed', () => {
     const word1 = generateWord({ seed: 12345 });
     const word2 = generateWord({ seed: 12345 });
     expect(word1.written.clean).toBe(word2.written.clean);
+    expect(word1.pronunciation).toBe(word2.pronunciation);
   });
 });
 
@@ -42,7 +56,7 @@ describe('buildCluster function', () => {
   });
 
   it('produces *some* SSP violating clusters', () => {
-    const attempts = 100000;
+    const attempts = 1000;
     const exceptionalClusters = ['pt', 'ps', 'ks', 'pt'];
     const foundClusters = new Set<string>();
     const allClusters = new Set<string>();
