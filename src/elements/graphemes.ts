@@ -946,7 +946,7 @@ const graphemes: Grapheme[] = [
   { phoneme: "m", 
     form: "m", 
     origin: 3, 
-    frequency: 10, 
+    frequency: 1000, 
     startWord: 1,
     midWord: 1,
     endWord: 1, },

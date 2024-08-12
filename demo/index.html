@@ -72,9 +72,8 @@
             };
 
             // Function to find duplicate words
-            const findDuplicateWords = () => {
+            const findDuplicateWords = (iterations) => {
                 const generatedWords = new Map();
-                const iterations = 10000;
                 let currentIteration = 0;
 
                 function generateWords() {
@@ -127,7 +126,7 @@
                 generateSingleWord();
                 generateSlogan();
                 generateHaiku();
-                findDuplicateWords();
+                findDuplicateWords(10000);
             });
         });
     </script>

@@ -76,7 +76,7 @@ function chooseGrapheme(
 ): string { 
   const isAfterShortVowel = prevPhoneme ? prevPhoneme.nucleus && !prevPhoneme.tense : false;
   const isBeforeShortVowel = nextPhoneme ? !nextPhoneme.onset && (!nextPhoneme.tense || ['ɜ', 'ɚ'].includes(nextPhoneme.sound)) : false;
-  const isSingleOnsetStop = position === "onset" && !isCluster && phoneme.type.indexOf('Stop') > 0;
+  const isSingleOnsetStop = position === "onset" && !isCluster && phoneme.mannerOfArticulation === 'stop';
 
   const viableGraphemes = graphemes.filter(
     (grapheme) =>

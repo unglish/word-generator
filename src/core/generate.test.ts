@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { generateWord, buildCluster, generateSyllables, getSonority, checkCrossSyllableSonority } from './generate';
-import { Syllable, Phoneme } from '../types';
-
+import { generateWord, buildCluster } from './generate';
+import { ClusterContext } from '../types';
 
 describe('Word Generator', () => {
   it('generates word with specified syllable count', () => {
@@ -36,7 +35,15 @@ describe('buildCluster function', () => {
     const allClusters = new Set<string>();
 
     for (let i = 0; i < attempts; i++) {
-      const cluster = buildCluster('onset', 3, [], true, false);
+      const context: ClusterContext = {
+        position: 'onset',
+        cluster: [],
+        ignore: [],
+        isStartOfWord: true,
+        isEndOfWord: false,
+        maxLength: 3
+      };
+      const cluster = buildCluster(context);
       const clusterString = cluster.map(p => p.sound).join('');
       
       allClusters.add(clusterString);
@@ -55,19 +62,27 @@ describe('buildCluster function', () => {
     });
   });
 
-  it('produces *some* SSP violating clusters', () => {
-    const attempts = 1000;
+  it('produces *some* SSP violating clusters in codas', () => {
+    const attempts = 10000;
     const exceptionalClusters = ['pt', 'ps', 'ks', 'pt'];
     const foundClusters = new Set<string>();
     const allClusters = new Set<string>();
 
     for (let i = 0; i < attempts; i++) {
-      const cluster = buildCluster('coda', 2, [], false, true);
+      const context: ClusterContext = {
+        position: 'coda',
+        cluster: [],
+        ignore: [],
+        isStartOfWord: false,
+        isEndOfWord: true,
+        maxLength: 2,
+      };
+      const cluster = buildCluster(context);
       const clusterString = cluster.map(p => p.sound).join('');
       
       allClusters.add(clusterString);
       
-      if (exceptionalClusters.some(sc => clusterString.endsWith(sc))) {
+      if (exceptionalClusters.some(exception => clusterString.endsWith(exception))) {
         foundClusters.add(clusterString.slice(0, 2));
       }
 
