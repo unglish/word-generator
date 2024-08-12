@@ -143,16 +143,13 @@ export const invalidBoundaryClusters: RegExp[] = [
 
 const invalidGeneralClusters: RegExp[] = [
   ...invalidBoundaryClusters,
-  /kf/,
-  /t[θðdn]/,
+  /fn/,
+  /t[ðn]/,
   /mw/,
-  /k[nb]/,
-  /d[tpn]/,
+  /k[nbf]/,
+  /d[tpnmg]/,
   /pb/,
-  /ʒr/,
-  /dm/,
-  /dg/,
-  /lr/,
+  /[ʒl]r/,
   /^.*.?[ðŋhʃ].?.*$/, // invalid in any position of a string at least 2 characters long
 ]
 
@@ -161,7 +158,10 @@ export const invalidOnsetClusters: RegExp[] = [
   /^[wrlvznmjhʃ].{1,2}/, //invalid in 1st position when followed by 1-2 characters
   /^.[wzgdbθhvʃsf]/, // invalid in 2nd position
   /[^s]k/, // matches 'k' when it's not immediately preceded by 's'
-  /td/,
+  /t[θd]/,
+  /dl/,
+  /dʒ./,
+  /pn/,
   /^sr/,
 ];
 
@@ -176,8 +176,7 @@ export const invalidCodaClusters: RegExp[] = [
   /.*sp/,
   /t[pb]/,
   /pk/,
-  /np/,
-  /nb/,
+  /n[bmp]/,
   /td/,
   /nzt/,
   /lnd/,

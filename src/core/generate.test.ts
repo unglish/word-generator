@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { generateWord, buildCluster } from './generate';
-import { ClusterContext } from '../types';
+import { generateWord, buildCluster, isValidCluster } from './generate';
+import { ClusterContext, Phoneme } from '../types';
+import { phonemes } from '../elements/phonemes';
 
 describe('Word Generator', () => {
   it('generates word with specified syllable count', () => {
@@ -91,4 +92,49 @@ describe('buildCluster function', () => {
 
     expect(foundClusters.size).toBeGreaterThan(0);
   });
+});
+
+describe('isValidCluster', () => {
+
+  function getPhonemeBySounds(sounds: string[]): Phoneme[] {
+    return sounds.map(sound => {
+      const phoneme = phonemes.find(phoneme => phoneme.sound === sound);
+      if (!phoneme) throw new Error(`Phoneme with sound "${sound}" not found`);
+      return phoneme;
+    });
+  }
+
+  describe('should block invalid onsets', () => {
+    const invalidClusters = [
+      ['t', 'd'],
+      ['d', 'm'],
+      ['f', 'n'],
+      ['s', 'r'],
+      ['p', 'n'],
+      ['k', 'n'],
+      ['d', 'g'],
+      ['dʒ','w'],
+    ];
+    
+    invalidClusters.forEach(cluster => {
+      it(`should block invalid onset: ${cluster.join('')}`, () => {
+        expect(isValidCluster({ cluster: getPhonemeBySounds(cluster), position: 'onset' } as ClusterContext)).toBe(false);
+      });
+    });
+  });
+
+  // it('should return false "dm" in an onset', () => {
+  //   const validOnsetCluster = [getPhonemeBySound('d')];
+  //   expect(isValidCluster(getPhonemeBySound('n'), { cluster: validOnsetCluster, position: 'onset' } as ClusterContext)).toBe(false);
+  // });
+
+  // it('should return false "fn" in an onset', () => {
+  //   const validOnsetCluster = [getPhonemeBySound('f')];
+  //   expect(isValidCluster(getPhonemeBySound('n'), { cluster: validOnsetCluster, position: 'onset' } as ClusterContext)).toBe(false);
+  // });
+
+  // it('should return false "dm" in an coda', () => {
+  //   const validOnsetCluster = [getPhonemeBySound('d')];
+  //   expect(isValidCluster(getPhonemeBySound('m'), { cluster: validOnsetCluster, position: 'coda' } as ClusterContext)).toBe(false);
+  // });
 });

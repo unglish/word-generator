@@ -77,12 +77,14 @@ function getValidCandidates(candidatePhonemes: Phoneme[], context: ClusterContex
 }
 
 function isValidCandidate(p: Phoneme, context: ClusterContext): boolean {
+  const potentialContext = structuredClone(context);
+  potentialContext.cluster.push(p);
   return (
     !isIgnored(p, context) &&
     !isDuplicate(p, context) &&
     isValidPosition(p, context) &&
     checkSonority(p, context) &&
-    isValidCluster(p, context)
+    isValidCluster(potentialContext)
   );
 }
 
@@ -102,8 +104,8 @@ function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: C
   return isAllowedInPosition && isAllowedAtStart && isAllowedAtEnd;
 }
 
-function isValidCluster(p: Phoneme, { cluster, position }: ClusterContext): boolean {
-  const potentialCluster = cluster.map(ph => ph.sound).join('') + p.sound;
+export const isValidCluster = ({ cluster, position }: ClusterContext): boolean => {
+  const potentialCluster = cluster.map(ph => ph.sound).join('');
   const invalidClusters = getInvalidClusters(position);
   return !invalidClusters.some(regex => regex.test(potentialCluster));
 }
@@ -425,9 +427,9 @@ export const generateSyllables = (context: WordGenerationContext) => {
 
     do {
       newSyllable = generateSyllable(context);
-      if (prevSyllable) {
-        [prevSyllable, newSyllable] = resyllabify(prevSyllable, newSyllable);
-      }
+      // if (prevSyllable) {
+      //   [prevSyllable, newSyllable] = resyllabify(prevSyllable, newSyllable);
+      // }
       
       const closingPhoneme = prevSyllable?.coda.at(-1);
       const openingPhoneme = newSyllable.onset.at(-1);
