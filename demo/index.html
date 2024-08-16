@@ -4,6 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unglish Word Generator Demo</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #1a1a1a;
+            --code-bg: #f0f0f0;
+            --code-color: #333333;
+        }
+    
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #e0e0e0;
+                --heading-color: #ffffff;
+                --code-bg: #2a2a2a;
+                --code-color: #e0e0e0;
+            }
+        }
+    
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        h2 {
+            color: var(--heading-color);
+        }
+    
+        code {
+            background-color: var(--code-bg);
+            color: var(--code-color);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    
+        #singleWord, #haiku, #slogan, #duplicates {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid var(--text-color);
+            border-radius: 5px;
+        }
+    </style>
     <script type="module">
         import unglish from '../dist/index.js';
 
