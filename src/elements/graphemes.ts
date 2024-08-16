@@ -451,7 +451,7 @@ const graphemes: Grapheme[] = [
     origin: 0,
     frequency: 1,
     startWord: 1,
-    midWord: 5,
+    midWord: 0,
     endWord: 0,
   },
   {
@@ -1455,7 +1455,7 @@ const graphemes: Grapheme[] = [
     coda: 0,
     startWord: 1,
     midWord: 1,
-    endWord: 1,
+    endWord: 0,
   },
   {
     phoneme: "dʒ",
@@ -1466,7 +1466,7 @@ const graphemes: Grapheme[] = [
     cluster: 0,
     startWord: 1,
     midWord: 1,
-    endWord: 0,
+    endWord: 1,
   },
   {
     phoneme: "dʒ",
@@ -1476,7 +1476,7 @@ const graphemes: Grapheme[] = [
     onset: 0,
     startWord: 1,
     midWord: 1,
-    endWord: 1,
+    endWord: 0,
   },
   {
     phoneme: "dʒ",
@@ -1484,7 +1484,7 @@ const graphemes: Grapheme[] = [
     origin: 3,
     frequency: 10,
     onset: 0,
-    startWord: 1,
+    startWord: 0,
     midWord: 1,
     endWord: 1,
   },
@@ -1494,9 +1494,9 @@ const graphemes: Grapheme[] = [
     origin: 3,
     frequency: 1,
     onset: 0,
-    startWord: 1,
+    startWord: 0,
     midWord: 1,
-    endWord: 1,
+    endWord: 0,
   },
   {
     phoneme: "dʒ",
@@ -1504,9 +1504,9 @@ const graphemes: Grapheme[] = [
     origin: 3,
     frequency: 1,
     onset: 0,
-    startWord: 1,
+    startWord: 0,
     midWord: 1,
-    endWord: 1,
+    endWord: 0,
   },
 
   /******************
