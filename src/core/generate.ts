@@ -328,29 +328,17 @@ function pickCoda(currentSyllable: Syllable, isEndOfWord: boolean = false): Phon
 }
 
 /**
- * Attempts to resyllabify two adjacent syllables based on sonority and phonological rules.
- * 
- * This function examines the boundary between two syllables and potentially moves
- * phonemes from the coda of the first syllable to the onset of the second syllable,
- * or drops the coda entirely, based on sonority principles and probabilistic rules.
- * 
- * @param prevSyllable - The preceding syllable that may have its coda modified.
- * @param currentSyllable - The current syllable that may have its onset modified.
- * @returns A tuple containing the potentially modified previous and current syllables.
- * 
- * The function performs the following checks and modifications:
- * 1. If both syllables have phonemes at their boundary (coda and onset):
- *    a. It compares the sonority of the last coda phoneme and the first onset phoneme.
- *    b. It checks if moving the coda to the onset would create a valid onset cluster.
- * 2. If the onset sonority is higher and the resulting cluster is valid:
- *    - The last coda phoneme is moved to the beginning of the onset.
- * 3. If the sonorities are equal:
+ * Adjusts two adjacent syllables based on sonority and phonological rules. If the sonorities are equal:
  *    - There's a 90% chance to drop the coda phoneme, 10% chance to keep it.
  * 
  * This process helps ensure more natural syllable boundaries and can create
  * more varied and realistic word structures.
+ * 
+ * @param prevSyllable - The preceding syllable that may have its coda modified.
+ * @param currentSyllable - The current syllable that may have its onset modified.
+ * @returns A tuple containing the potentially modified previous and current syllables.
  */
-function resyllabify(prevSyllable: Syllable, currentSyllable: Syllable): [Syllable, Syllable] {
+function adjustBoundary(prevSyllable: Syllable, currentSyllable: Syllable): [Syllable, Syllable] {
   const lastCodaPhoneme = prevSyllable.coda.at(-1);
   const firstOnsetPhoneme = currentSyllable.onset[0];
 
@@ -358,16 +346,7 @@ function resyllabify(prevSyllable: Syllable, currentSyllable: Syllable): [Syllab
 
   const lastCodaSonority = getSonority(lastCodaPhoneme);
   const firstOnsetSonority = getSonority(firstOnsetPhoneme);
-
-  const potentialOnset = [lastCodaPhoneme, ...currentSyllable.onset];
-  const isValidBoundaryCluster = !invalidBoundaryClusters.some(regex => 
-    regex.test(potentialOnset.map(p => p.sound).join(''))
-  );
-
-  if (firstOnsetSonority > lastCodaSonority && isValidBoundaryCluster) {
-    prevSyllable.coda.pop();
-    currentSyllable.onset.unshift(lastCodaPhoneme);
-  } else if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, 90], [false, 10]])) {
+  if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, 90], [false, 10]])) {
     prevSyllable.coda.pop();
   }
 
@@ -427,9 +406,6 @@ export const generateSyllables = (context: WordGenerationContext) => {
 
     do {
       newSyllable = generateSyllable(context);
-      // if (prevSyllable) {
-      //   [prevSyllable, newSyllable] = resyllabify(prevSyllable, newSyllable);
-      // }
       
       const closingPhoneme = prevSyllable?.coda.at(-1);
       const openingPhoneme = newSyllable.onset.at(-1);
@@ -437,6 +413,10 @@ export const generateSyllables = (context: WordGenerationContext) => {
       prevSonority = closingPhoneme ? getSonority(closingPhoneme) : 0;
       newSonority = openingPhoneme ? getSonority(openingPhoneme) : 0;
     } while (prevSyllable && prevSonority >= newSonority);
+
+    if (prevSyllable) {
+      [prevSyllable, newSyllable] = adjustBoundary(prevSyllable, newSyllable);
+    }
 
     context.word.syllables.push(newSyllable);
     context.currSyllableIndex++;
