@@ -393,8 +393,8 @@ function generateSyllable(context: WordGenerationContext): Syllable {
 export const generateSyllables = (context: WordGenerationContext) => {
   if (!context.syllableCount) {
     context.syllableCount = getWeightedOption([
-      [1, 8000], [2, 50000], [3, 29700],
-      [4, 11000], [5, 2200], [6, 250], [7, 50]
+      [1, 1000], [2, 30000], [3, 29700],
+      [4, 3000], [5, 200], [6, 50], [7, 5]
     ]);
   }
 
