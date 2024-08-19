@@ -148,8 +148,9 @@
                         .filter(([_, count]) => count > 1)
                         .sort((a, b) => b[1] - a[1]);
 
-                    const totalDuplicates = duplicates.length;
-                    console.log(duplicates);
+                    const totalDuplicates = duplicates.reduce((sum, [_, count]) => sum + count, 0);
+                    const uniqueDuplicates = duplicates.length;
+                    console.log(`Total duplicates: ${totalDuplicates}, Unique duplicates: ${uniqueDuplicates}`);
 
                     // Format duplicates for display
                     const formattedDuplicates = duplicates
