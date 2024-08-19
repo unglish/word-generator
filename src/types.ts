@@ -111,6 +111,7 @@ export interface Syllable {
   onset: Phoneme[];
   nucleus: Phoneme[];
   coda: Phoneme[];
+  stress?: 'ˈ' | 'ˌ' | undefined; // primary, secondary, or unstressed
 }
 
 export interface WordGenerationOptions {

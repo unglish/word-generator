@@ -1466,7 +1466,7 @@ const graphemes: Grapheme[] = [
     cluster: 0,
     startWord: 1,
     midWord: 1,
-    endWord: 1,
+    endWord: 0,
   },
   {
     phoneme: "dʒ",

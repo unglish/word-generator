@@ -145,6 +145,7 @@ const invalidGeneralClusters: RegExp[] = [
   ...invalidBoundaryClusters,
   /fn/,
   /t[ðn]/,
+  /[θð]n/,
   /mw/,
   /k[nbf]/,
   /d[tpnmg]/,

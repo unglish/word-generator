@@ -131,8 +131,8 @@ export const generateWrittenForm = (context: WordGenerationContext) => {
 
   // Flatten syllables into an array of extended phonemes
   const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
-    ["onset", "nucleus", "coda"].flatMap((position) =>
-      syllable[position as keyof Syllable].map((phoneme) => ({
+    (["onset", "nucleus", "coda"] as const).flatMap((position) =>
+      syllable[position].map((phoneme) => ({
         phoneme,
         syllableIndex,
         position,
