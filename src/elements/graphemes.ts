@@ -15,7 +15,7 @@ const graphemes: Grapheme[] = [
     frequency: 50,
     startWord: 0,
     midWord: 4,
-    endWord: 10,
+    endWord: 1,
   },
   {
     phoneme: "i:",
@@ -42,7 +42,7 @@ const graphemes: Grapheme[] = [
     frequency: 1,
     startWord: 0,
     midWord: 1,
-    endWord: 10,
+    endWord: 100,
   },
   {
     phoneme: "i:",
@@ -73,15 +73,17 @@ const graphemes: Grapheme[] = [
     midWord: 10,
     endWord: 0.01,
   },
+  // myth
   {
     phoneme: "ɪ",
     form: "y",
     origin: 1,
-    frequency: 5,
+    frequency: 1,
     startWord: 0,
     midWord: 1,
     endWord: 0,
   },
+  // build
   {
     phoneme: "ɪ",
     form: "ui",
@@ -102,6 +104,7 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
   },
+  // bread
   {
     phoneme: "e",
     form: "ea",
@@ -111,11 +114,22 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 0,
   },
+  // said
   {
     phoneme: "e",
     form: "ai",
     origin: 0,
-    frequency: 10,
+    frequency: 5,
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+  },
+  // friend
+  {
+    phoneme: "e",
+    form: "ie",
+    origin: 0,
+    frequency: 3,
     startWord: 0,
     midWord: 1,
     endWord: 0,
@@ -131,6 +145,7 @@ const graphemes: Grapheme[] = [
     midWord: 10,
     endWord: 5,
   },
+  // threat
   {
     phoneme: "ɛ",
     form: "ea",
@@ -602,7 +617,7 @@ const graphemes: Grapheme[] = [
   form: "ee",
   origin: 0,
   frequency: 20,
-  startWord: 4,
+  startWord: 0,
   midWord: 3,
   endWord: 80,
 },
