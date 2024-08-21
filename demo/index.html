@@ -43,7 +43,7 @@
             border-radius: 4px;
         }
     
-        #singleWord, #haiku, #slogan, #duplicates {
+        #singleWord, #haiku, #slogan, #duplicates, #wordMatchDemo {
             margin-bottom: 20px;
             padding: 15px;
             border: 1px solid var(--text-color);
@@ -59,6 +59,12 @@
                 <div id="haiku">Generating haiku...</div>
                 <div id="slogan">Generating slogan...</div>
                 <div id="duplicates">Generating duplicate word search...</div>
+                <div id="wordMatchDemo">
+                    <h2>Word Match Demo</h2>
+                    <input type="text" id="targetWord" placeholder="Enter a word">
+                    <button id="startMatchDemo">Generate Match</button>
+                    <div id="matchResult"></div>
+                </div>
             `;
 
             // Function to generate a single word
@@ -150,7 +156,8 @@
 
                     const totalDuplicates = duplicates.reduce((sum, [_, count]) => sum + count, 0);
                     const uniqueDuplicates = duplicates.length;
-                    console.log(`Total duplicates: ${totalDuplicates}, Unique duplicates: ${uniqueDuplicates}`);
+                    const dupeCount = totalDuplicates-uniqueDuplicates;
+                    console.log(`Total duplicates: ${totalDuplicates}, Unique duplicates: ${uniqueDuplicates}: ${dupeCount} dupes`);
 
                     // Format duplicates for display
                     const formattedDuplicates = duplicates
@@ -161,19 +168,136 @@
                     document.getElementById('duplicates').innerHTML = `
                         <h2>Duplicate Word Search:</h2>
                         <p>Generated ${iterations} words.</p>
-                        <p>Repeated ${totalDuplicates} words: ${formattedDuplicates}</p>
+                        <p>Found ${dupeCount} dupes (${dupeCount/iterations*100}%): ${formattedDuplicates}</p>
                     `;
                 }
 
                 generateWords();
             };
 
+            // Word Match Demo
+            const targetWordInput = document.getElementById('targetWord');
+            const startMatchDemoButton = document.getElementById('startMatchDemo');
+            const matchResultDiv = document.getElementById('matchResult');
+
+            let isGenerating = false;
+            let attempts = 0;
+            let targetWord = '';
+            let closeMatches = [];
+            const generatedWords = new Set();
+
+            function generateWordUntilMatch() {
+                if (!isGenerating) return;
+
+                const batchSize = 10;
+                let batchAttempts = 0;
+
+                while (batchAttempts < batchSize) {
+                    const generatedWord = unglish.generateWord().written.clean.toLowerCase();
+                    attempts++;
+                    batchAttempts++;
+
+                    if (!generatedWords.has(generatedWord)) {
+                        generatedWords.add(generatedWord);
+
+                        if (generatedWord === targetWord) {
+                            isGenerating = false;
+                        } else if (
+                            (isPartOf(generatedWord, targetWord) ||
+                            isOffByOneLetter(generatedWord, targetWord))
+                            && !closeMatches.includes(generatedWord)
+                        ) {
+                            console.log('close!', generatedWord);
+                            closeMatches.push(generatedWord);
+                        }
+
+                        const matchesHtml = closeMatches
+                            .map(word => `<li>${word}</li>`)
+                            .join('');
+
+                        matchResultDiv.innerHTML = 
+                            `
+                                <em><span>Attempts: ${attempts}</span></em>
+                                ${!isGenerating ? `<br/><strong>Match found: ${generatedWord}</strong>` : ''}
+                                <br/><strong>Close matches:</strong>
+                                <ul>${matchesHtml}</ul>
+                            `;
+                    }
+                }
+
+                requestAnimationFrame(generateWordUntilMatch);
+            }
+
+            function isPartOf(word1, word2) {
+                // Convert both words to lowercase for case-insensitive comparison
+                word1 = word1.toLowerCase();
+                word2 = word2.toLowerCase();
+                
+                // Check if word1 is a substring of word2
+                return word1.includes(word2);
+            }
+
+            function isOffByOneLetter(word1, word2) {
+                const len1 = word1.length;
+                const len2 = word2.length;
+                
+                // If the length difference is more than 1, they can't be off by just one letter
+                if (Math.abs(len1 - len2) > 1) return false;
+                
+                let differences = 0;
+                let i = 0, j = 0;
+                
+                while (i < len1 && j < len2) {
+                    if (word1[i] !== word2[j]) {
+                        differences++;
+                        if (differences > 1) return false;
+                        
+                        if (len1 > len2) {
+                            // Possible deletion in word1
+                            i++;
+                        } else if (len1 < len2) {
+                            // Possible insertion in word2
+                            j++;
+                        } else {
+                            // Substitution
+                            i++;
+                            j++;
+                        }
+                    } else {
+                        i++;
+                        j++;
+                    }
+                }
+                
+                // If we haven't finished both words, count the remaining characters as differences
+                differences += (len1 - i) + (len2 - j);
+                
+                return differences === 1;
+            }
+
+            startMatchDemoButton.addEventListener('click', () => {
+                const newTargetWord = targetWordInput.value.trim().toLowerCase();
+                if (newTargetWord) {
+                    if (newTargetWord !== targetWord) {
+                        targetWord = newTargetWord;
+                        closeMatches = [];
+                        generatedWords.clear();
+                    }
+                    isGenerating = true;
+                    attempts = 0;
+                    matchResultDiv.innerHTML = 'Generating...';
+                    requestAnimationFrame(generateWordUntilMatch);
+                } else {
+                    matchResultDiv.innerHTML = 'Please enter a target word.';
+                }
+            });
+
             // Schedule tasks to run after the initial paint
             requestAnimationFrame(() => {
                 generateSingleWord();
                 generateSlogan();
                 generateHaiku();
-                findDuplicateWords(10000);
+                findDuplicateWords(5000);
             });
         });
     </script>
