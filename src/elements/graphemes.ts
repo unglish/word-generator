@@ -673,8 +673,8 @@ const graphemes: Grapheme[] = [
     origin: 0, 
     frequency: 10,
     startWord: 10,
-    midWord: 5,
-    endWord: 1,
+    midWord: 0,
+    endWord: 0,
   },
   {
     phoneme: "eɪ",
@@ -1056,7 +1056,8 @@ const graphemes: Grapheme[] = [
     origin: 0,
     frequency: 10,
     onset: 0,
-    startWord: 1,
+    cluster: 0,
+    startWord: 0,
     midWord: 1,
     endWord: 1,
   },
@@ -1415,6 +1416,8 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
   },
+  
+  // Example: "who", "whole"
   {
     phoneme: "h",
     form: "wh",
@@ -1422,8 +1425,8 @@ const graphemes: Grapheme[] = [
     frequency: 1,
     coda: 0,
     startWord: 1,
-    midWord: 1,
-    endWord: 1,
+    midWord: 0,
+    endWord: 0,
   },
 
   /******************
@@ -1453,6 +1456,17 @@ const graphemes: Grapheme[] = [
   {
     phoneme: "tʃ",
     form: "tu",
+    origin: 3,
+    frequency: 1,
+    coda: 0,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+  },
+  // righteous
+  {
+    phoneme: "tʃ",
+    form: "te",
     origin: 3,
     frequency: 1,
     coda: 0,
@@ -1648,7 +1662,7 @@ const graphemes: Grapheme[] = [
     frequency: 2,
     coda: 0,
     startWord: 1,
-    midWord: 1,
+    midWord: 0,
     endWord: 0,
   },
   {
