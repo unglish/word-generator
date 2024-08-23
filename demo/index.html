@@ -193,22 +193,24 @@
                 let batchAttempts = 0;
 
                 while (batchAttempts < batchSize) {
-                    const generatedWord = unglish.generateWord().written.clean.toLowerCase();
+                    const generatedWord = unglish.generateWord();
+                    const writtenWord = generatedWord.written.clean;
                     attempts++;
                     batchAttempts++;
 
-                    if (!generatedWords.has(generatedWord)) {
-                        generatedWords.add(generatedWord);
+                    if (!generatedWords.has(writtenWord)) {
+                        generatedWords.add(writtenWord);
 
-                        if (generatedWord === targetWord) {
+                        if (writtenWord === targetWord) {
+                            console.log('match!', writtenWord, generatedWord);
                             isGenerating = false;
                         } else if (
-                            (isPartOf(generatedWord, targetWord) ||
-                            isOffByOneLetter(generatedWord, targetWord))
-                            && !closeMatches.includes(generatedWord)
+                            (isPartOf(writtenWord, targetWord) ||
+                            isOffByOneLetter(writtenWord, targetWord))
+                            && !closeMatches.includes(writtenWord)
                         ) {
-                            console.log('close!', generatedWord);
-                            closeMatches.push(generatedWord);
+                            console.log('close!', writtenWord, generatedWord);
+                            closeMatches.push(writtenWord);
                         }
 
                         const matchesHtml = closeMatches
@@ -218,10 +220,12 @@
                         matchResultDiv.innerHTML = 
                             `
                                 <em><span>Attempts: ${attempts}</span></em>
-                                ${!isGenerating ? `<br/><strong>Match found: ${generatedWord}</strong>` : ''}
+                                ${!isGenerating ? `<br/><strong>Match found: ${writtenWord}</strong>` : ''}
                                 <br/><strong>Close matches:</strong>
                                 <ul>${matchesHtml}</ul>
                             `;
+
+                        if (!isGenerating) break;
                     }
                 }
 
@@ -297,7 +301,7 @@
                 generateSingleWord();
                 generateSlogan();
                 generateHaiku();
-                findDuplicateWords(5000);
+                findDuplicateWords(10000);
             });
         });
     </script>
