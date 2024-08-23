@@ -5,6 +5,7 @@ import getWeightedOption from "../utils/getWeightedOption.js";
 import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonorityToMannerOfArticulation, sonorityToPlaceOfArticulation } from "../elements/phonemes.js";
 import { generatePronunciation } from "./pronounce.js";
 import { generateWrittenForm } from "./write.js";
+import { countReset } from "console";
 
 /**
  * Determines the sonority level of a given phoneme.
@@ -210,15 +211,26 @@ const positionPhonemes = {
  * - If following a nucleus (no coda in previous syllable), onset cannot be empty (length 0).
  * - Otherwise, empty onsets are possible but less likely than single-phoneme onsets.
  */
-function pickOnset(prevSyllable?: Syllable): Phoneme[] {
+function pickOnset(context: WordGenerationContext): Phoneme[] {
+  const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
   const isFollowingNucleus = prevSyllable && prevSyllable.coda.length === 0;
-  const maxLength: number = getWeightedOption([
-    [0, isFollowingNucleus ? 0 : 150], 
-    [1, 675], 
-    [2, 125], 
-    [3, 80]
-  ]);
   const isStartOfWord = !prevSyllable;
+  const syllableCount = context.syllableCount;
+  const monosyllabic = syllableCount === 1;
+  const maxLength: number = getWeightedOption(monosyllabic ? 
+    [
+      [0, 10], 
+      [1, 100], 
+      [2, 200], 
+      [3, 150]
+    ]:
+    [
+      [0, isFollowingNucleus ? 0 : 150], 
+      [1, 675], 
+      [2, 125], 
+      [3, 80]
+    ]
+  );
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
   let onset: Phoneme[] = buildCluster(
     {
@@ -227,6 +239,7 @@ function pickOnset(prevSyllable?: Syllable): Phoneme[] {
       ignore: toIgnore,
       isStartOfWord,
       isEndOfWord: false,
+      syllableCount,
       maxLength
     },
   );
@@ -240,16 +253,19 @@ function pickOnset(prevSyllable?: Syllable): Phoneme[] {
  * @param prevSyllable - The previous syllable, if any. Used to determine constraints on the nucleus.
  * @returns A Phoneme object representing the nucleus.
  */
-function pickNucleus(prevSyllable: Syllable | undefined, isEndOfWord: boolean) {
+function pickNucleus(context: WordGenerationContext) {
+  const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
+  const isEndOfWord = context.currSyllableIndex === context.syllableCount-1;
   const isStartOfWord = !prevSyllable;
   let nucleus = buildCluster(
     {
       position: "nucleus",
       cluster: [],
-      ignore: prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [],
+      ignore: [],
       isStartOfWord,
       isEndOfWord,
       maxLength: 1,
+      syllableCount: context.syllableCount,
     },
   );
   
@@ -277,14 +293,18 @@ function pickNucleus(prevSyllable: Syllable | undefined, isEndOfWord: boolean) {
  * - If avoiding repetition, it tries to replace the last coda phoneme with a similar one.
  * - If no suitable replacement is found, it removes the last coda phoneme.
  */
-function pickCoda(currentSyllable: Syllable, isEndOfWord: boolean = false): Phoneme[] {
-  const maxLength = getWeightedOption(isEndOfWord ? [
-    [0, 500],
-    [1, 3000],
-    [2, 900],
-    [3, 400],
+function pickCoda(context:WordGenerationContext, newSyllable: Syllable): Phoneme[] {
+  const isEndOfWord = context.currSyllableIndex === context.syllableCount-1;
+  const syllableCount = context.syllableCount;
+  const monosyllabic = syllableCount === 1;
+  const maxLength: number = getWeightedOption(monosyllabic ? 
+  [
+    [0, 10],
+    [1, 100],
+    [2, 200],
+    [3, 150],
   ] : [
-    [0, 6000],
+    [0, isEndOfWord ? 1200 : 6000],
     [1, 3000],
     [2, 900],
     [3, 100],
@@ -292,13 +312,14 @@ function pickCoda(currentSyllable: Syllable, isEndOfWord: boolean = false): Phon
 
   if (maxLength === 0) return [];
 
-  const onset = currentSyllable.onset;
+  const onset = newSyllable.onset;
   let coda: Phoneme[] = buildCluster({
     position: "coda",
     cluster: [],
     ignore: [],
     isStartOfWord: false,
     isEndOfWord,
+    syllableCount,
     maxLength
   });
 
@@ -378,14 +399,11 @@ function generateSyllable(context: WordGenerationContext): Syllable {
     nucleus: [],
     coda: []
   }
-  const i = context.currSyllableIndex;
-  const prevSyllable = context.word.syllables[i-1];
-  const isEndOfWord = i === context.syllableCount - 1;
 
   // Build the syllable structure
-  newSyllable.onset = pickOnset(prevSyllable);
-  newSyllable.nucleus = pickNucleus(prevSyllable, isEndOfWord);
-  newSyllable.coda = pickCoda(newSyllable, isEndOfWord);
+  newSyllable.onset = pickOnset(context);
+  newSyllable.nucleus = pickNucleus(context);
+  newSyllable.coda = pickCoda(context, newSyllable);
 
   return newSyllable;
 }
@@ -393,7 +411,7 @@ function generateSyllable(context: WordGenerationContext): Syllable {
 export const generateSyllables = (context: WordGenerationContext) => {
   if (!context.syllableCount) {
     context.syllableCount = getWeightedOption([
-      [1, 1000], [2, 30000], [3, 29700],
+      [1, 9000], [2, 30000], [3, 29700],
       [4, 3000], [5, 200], [6, 50], [7, 5]
     ]);
   }

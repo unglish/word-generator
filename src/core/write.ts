@@ -1,4 +1,4 @@
-import { WrittenForm, Phoneme, Syllable, Grapheme, WordGenerationContext } from "../types.js";
+import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import randomBool from "../utils/randomBool.js";
 import { graphemes } from "../elements/graphemes.js";
@@ -41,6 +41,28 @@ function adjustSyllable(str: string): string {
   return str;
 }
 
+const positionGraphemes = {
+  onset: graphemes.filter(p => p.onset === undefined || p.onset > 0) as Grapheme[],
+  coda: graphemes.filter(p => p.coda === undefined || p.coda > 0) as Grapheme[],
+  nucleus: graphemes.filter(p => p.nucleus === undefined || p.nucleus > 0) as Grapheme[]
+};
+
+// Pre-compute grapheme maps for each phoneme and position
+const graphemeMaps = {
+  onset: new Map(),
+  nucleus: new Map(),
+  coda: new Map()
+};
+
+for (const position of ['onset', 'nucleus', 'coda'] as const) {
+  for (const grapheme of positionGraphemes[position]) {
+    if (!graphemeMaps[position].has(grapheme.phoneme)) {
+      graphemeMaps[position].set(grapheme.phoneme, []);
+    }
+    graphemeMaps[position].get(grapheme.phoneme).push(grapheme);
+  }
+}
+
 /**
  * Chooses a grapheme representation for a given phoneme based on its position and context within a word.
  * 
@@ -67,46 +89,40 @@ function adjustSyllable(str: string): string {
  */
 function chooseGrapheme(
   phoneme: Phoneme,  
-  position: string,
+  position: "onset" | "nucleus" | "coda",
   isCluster: boolean = false,
   isStartOfWord: boolean = false,
   isEndOfWord: boolean = false,
   prevPhoneme?: Phoneme,
   nextPhoneme?: Phoneme,
 ): string { 
-  const isAfterShortVowel = prevPhoneme ? prevPhoneme.nucleus && !prevPhoneme.tense : false;
-  const isBeforeShortVowel = nextPhoneme ? !nextPhoneme.onset && (!nextPhoneme.tense || ['ɜ', 'ɚ'].includes(nextPhoneme.sound)) : false;
+  const isAfterShortVowel = prevPhoneme?.nucleus && !prevPhoneme.tense;
+  const isBeforeShortVowel = !nextPhoneme?.onset && (!nextPhoneme?.tense || ['ɜ', 'ɚ'].includes(nextPhoneme?.sound));
   const isSingleOnsetStop = position === "onset" && !isCluster && phoneme.mannerOfArticulation === 'stop';
-
-  const viableGraphemes = graphemes.filter(
-    (grapheme) =>
-      grapheme.phoneme === phoneme.sound &&
-      // @ts-ignore
-      (!grapheme[position] || grapheme[position] > 0) &&
+  const viableGraphemes: Grapheme[] = graphemeMaps[position].get(phoneme.sound).filter(
+    (grapheme: Grapheme) =>
       (isCluster ? !grapheme.cluster || grapheme.cluster > 0 : true) &&
       (isStartOfWord ? grapheme.startWord > 0 : true) &&
       (isEndOfWord ? grapheme.endWord > 0 : true) && 
       (!isEndOfWord && !isStartOfWord ? grapheme.midWord > 0 : true)
-  );
+  ) || [];
   
-  const weightedGraphemes: [string, number][] = viableGraphemes.map(
-    (grapheme) => {
-      const wordPositionModifier = 
-        isStartOfWord && grapheme.startWord ||
-        isEndOfWord && grapheme.endWord ||
-        grapheme.midWord;
-      const clusterModifier = (isCluster && grapheme.cluster) || 1;
-      return [
-        grapheme.form,
-        grapheme.frequency * wordPositionModifier * clusterModifier, 
-      ]},
+  const weightedGraphemes = viableGraphemes.map(
+    (grapheme) => [
+      grapheme.form,
+      grapheme.frequency * (
+        (isStartOfWord && grapheme.startWord) ||
+        (isEndOfWord && grapheme.endWord) ||
+        grapheme.midWord
+      ) * ((isCluster && grapheme.cluster) || 1)
+    ] as [string, number]
   );
 
   let selectedGrapheme = getWeightedOption(weightedGraphemes);
 
   // Apply the doubling rule
   if (isAfterShortVowel && isSingleOnsetStop && isBeforeShortVowel && selectedGrapheme.length === 1) {
-    selectedGrapheme = selectedGrapheme + selectedGrapheme;
+    selectedGrapheme += selectedGrapheme;
   }
   return selectedGrapheme;
 }
