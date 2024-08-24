@@ -66,13 +66,16 @@
                 <div id="duplicates">Generating duplicate word search...</div>
                 <div id="wordMatchDemo">
                     <h2>Word Match Demo</h2>
-                    <input type="text" id="targetWord" placeholder="Enter a word">
+                    <input type="text" id="targetWord" placeholder="Enter a target word or regex">
+                    <input type="number" id="syllableCount" placeholder="Syllable count (optional)" min="1" max="7">
+                    <label>
+                        <input type="checkbox" id="regexMode">
+                        Regex Mode
+                    </label>
                     <button id="startMatchDemo">Generate Match</button>
                     <div id="matchResult"></div>
                 </div>
             `;
-
-            const batchSize = 750;
 
             // Function to generate a single word
             const generateSingleWord = () => {
@@ -130,119 +133,65 @@
                 `;
             };
 
-            // Function to find duplicate words
-            const findDuplicateWords = (iterations) => {
-                const generatedWords = new Map();
-                let currentIteration = 0;
-                const startTime = performance.now();
-
-                function generateWords() {
-                    for (let i = 0; i < batchSize && currentIteration < iterations; i++, currentIteration++) {
-                        const newWord = unglish.generateWord();
-                        const wordKey = `${newWord.written.clean} (${newWord.pronunciation})`;
-                        generatedWords.set(wordKey, (generatedWords.get(wordKey) || 0) + 1);
-                    }
-
-                    // Update progress
+            // Duplicate Word Search
+            const duplicateWorker = new Worker('duplicateWorker.js');
+            duplicateWorker.onmessage = function(e) {
+                if (e.data.type === 'progress') {
                     document.getElementById('duplicates').innerHTML = `
                         <h2>Duplicate Word Search:</h2>
-                        <p>Generated ${currentIteration} of ${iterations} words...</p>
+                        <p>Generated ${e.data.progress} of ${e.data.total} words...</p>
                     `;
-
-                    if (currentIteration < iterations) {
-                        requestAnimationFrame(generateWords);
-                    } else {
-                        finalizeDuplicates();
-                    }
-                }
-
-                function finalizeDuplicates() {
-                    const endTime = performance.now();
-                    const duration = ((endTime - startTime) / 1000).toFixed(2);
-
-                    const duplicates = Array.from(generatedWords.entries())
-                        .filter(([_, count]) => count > 1)
-                        .sort((a, b) => b[1] - a[1]);
-
-                    const totalDuplicates = duplicates.reduce((sum, [_, count]) => sum + count, 0);
-                    const uniqueDuplicates = duplicates.length;
-                    const dupeCount = totalDuplicates-uniqueDuplicates;
-
-                    // Format duplicates for display
-                    const formattedDuplicates = duplicates
-                        .map(([word, count]) => `${word} (${count})`)
-                        .join(', ');
-
-                    // Add the result to the HTML
+                } else if (e.data.type === 'result') {
                     document.getElementById('duplicates').innerHTML = `
                         <h2>Duplicate Word Search:</h2>
-                        <p>Generated ${iterations} words.</p>
-                        <p>Found ${dupeCount} dupes (${(dupeCount/iterations*100).toFixed(2)}%): ${formattedDuplicates}</p>
-                        <p class="timing">Time taken: ${duration} seconds</p>
+                        <p>Generated ${e.data.iterations} words.</p>
+                        <p>Found ${e.data.dupeCount} dupes (${e.data.dupePercentage}%): ${e.data.formattedDuplicates}</p>
+                        <p class="timing">Time taken: ${e.data.duration} seconds</p>
                     `;
                 }
-
-                generateWords();
             };
 
             // Word Match Demo
+            let matchWorker = null;
             const targetWordInput = document.getElementById('targetWord');
+            const syllableCountInput = document.getElementById('syllableCount');
+            const regexModeCheckbox = document.getElementById('regexMode');
             const startMatchDemoButton = document.getElementById('startMatchDemo');
             const matchResultDiv = document.getElementById('matchResult');
 
-            let isGenerating = false;
-            let attempts = 0;
-            let targetWord = '';
             let closeMatches = new Set();
-            const generatedWords = new Set();
-            let startTime;
+            let isSearching = false;
 
-            function generateWordUntilMatch() {
-                if (!isGenerating) return;
-
-                let batchAttempts = 0;
-
-                while (batchAttempts < batchSize) {
-                    const generatedWord = unglish.generateWord();
-                    const writtenWord = generatedWord.written.clean.toLowerCase();
-                    attempts++;
-                    batchAttempts++;
-
-                    if (!generatedWords.has(writtenWord)) {
-                        generatedWords.add(writtenWord);
-
-                        if (writtenWord === targetWord) {
-                            console.log('match!', writtenWord, generatedWord);
-                            isGenerating = false;
-                            updateMatchResult(writtenWord, true);
-                            return;
-                        } else if (
-                            (writtenWord.includes(targetWord) ||
-                            isOffByOneLetter(writtenWord, targetWord))
-                            && !closeMatches.has(writtenWord)
-                        ) {
-                            console.log('close!', writtenWord, generatedWord);
-                            closeMatches.add(writtenWord);
-                            updateMatchResult(writtenWord, false);
-                        }
-
-                        if (!isGenerating) break;
-                    }
+            function createNewMatchWorker() {
+                if (matchWorker) {
+                    matchWorker.terminate();
                 }
-
-                if (attempts % batchSize === 0) {
-                    updateMatchResult();
-                }
-
-                requestAnimationFrame(generateWordUntilMatch);
+                matchWorker = new Worker('matchWorker.js');
+                matchWorker.onmessage = handleMatchWorkerMessage;
             }
 
-            function updateMatchResult(newMatch = null, isExactMatch = false) {
+            function handleMatchWorkerMessage(e) {
+                if (e.data.type === 'progress') {
+                    updateMatchResult(null, false, e.data.attempts, e.data.duration);
+                } else if (e.data.type === 'closeMatch') {
+                    closeMatches.add(e.data.word);
+                    updateMatchResult(e.data.word, false, e.data.attempts, e.data.duration);
+                } else if (e.data.type === 'match') {
+                    updateMatchResult(e.data.word, true, e.data.attempts, e.data.duration);
+                    isSearching = false;
+                    startMatchDemoButton.textContent = 'Generate Match';
+                } else if (e.data.type === 'cancelled') {
+                    updateMatchResult(null, false, e.data.attempts, e.data.duration);
+                    isSearching = false;
+                    startMatchDemoButton.textContent = 'Generate Match';
+                    matchResultDiv.innerHTML += '<p><strong>Search cancelled.</strong></p>';
+                }
+            }
+
+            function updateMatchResult(newMatch = null, isExactMatch = false, attempts, duration) {
                 const matchesHtml = Array.from(closeMatches)
                     .map(word => `<li>${word}</li>`)
                     .join('');
-
-                const duration = ((performance.now() - startTime) / 1000).toFixed(2);
 
                 matchResultDiv.innerHTML = `
                     <em><span>Attempts: ${attempts}</span></em>
@@ -251,62 +200,35 @@
                     <ul>${matchesHtml}</ul>
                     <p class="timing">Time elapsed: ${duration} seconds</p>
                 `;
-
-                if (isExactMatch) {
-                    isGenerating = false;
-                }
-            }
-
-            function isPartOf(word1, word2) {
-                const len1 = word1.length;
-                const len2 = word2.length;
-                for (let i = 0; i <= len1 - len2; i++) {
-                    let match = true;
-                    for (let j = 0; j < len2; j++) {
-                        if (word1[i + j].toLowerCase() !== word2[j].toLowerCase()) {
-                            match = false;
-                            break;
-                        }
-                    }
-                    if (match) return true;
-                }
-                return false;
-            }
-
-            function isOffByOneLetter(word1, word2) {
-                const len1 = word1.length;
-                const len2 = word2.length;
-                
-                if (Math.abs(len1 - len2) > 1) return false;
-                
-                let differences = 0;
-                for (let i = 0, j = 0; i < len1 && j < len2; i++, j++) {
-                    if (word1[i].toLowerCase() !== word2[j].toLowerCase()) {
-                        differences++;
-                        if (differences > 1) return false;
-                        if (len1 > len2) i++;
-                        else if (len1 < len2) j++;
-                    }
-                }
-                
-                return differences === 1 || (len1 !== len2 && differences === 0);
             }
 
             startMatchDemoButton.addEventListener('click', () => {
-                const newTargetWord = targetWordInput.value.trim().toLowerCase();
-                if (newTargetWord) {
-                    if (newTargetWord !== targetWord) {
-                        targetWord = newTargetWord;
-                        closeMatches.clear();
-                        generatedWords.clear();
+                const targetWord = targetWordInput.value.trim().toLowerCase();
+                const syllableCount = parseInt(syllableCountInput.value) || 0;
+                const isRegex = regexModeCheckbox.checked;
+
+                if (isSearching) {
+                    if (matchWorker) {
+                        matchWorker.terminate();
+                        matchWorker = null;
                     }
-                    isGenerating = true;
-                    attempts = 0;
-                    startTime = performance.now();
+                    isSearching = false;
+                    startMatchDemoButton.textContent = 'Generate Match';
+                    matchResultDiv.innerHTML += '<p><strong>Search cancelled.</strong></p>';
+                } else if (targetWord) {
+                    isSearching = true;
+                    startMatchDemoButton.textContent = 'Cancel Search';
+                    closeMatches.clear();
                     matchResultDiv.innerHTML = 'Generating...';
-                    requestAnimationFrame(generateWordUntilMatch);
+                    createNewMatchWorker();
+                    matchWorker.postMessage({
+                        action: 'findMatch', 
+                        targetWord: targetWord,
+                        isRegex: isRegex,
+                        syllableCount: syllableCount
+                    });
                 } else {
-                    matchResultDiv.innerHTML = 'Please enter a target word.';
+                    matchResultDiv.innerHTML = 'Please enter a target word or regex.';
                 }
             });
 
@@ -315,7 +237,7 @@
                 generateSingleWord();
                 generateSlogan();
                 generateHaiku();
-                findDuplicateWords(10000);
+                duplicateWorker.postMessage({action: 'findDuplicates', iterations: 10000});
             });
         });
     </script>

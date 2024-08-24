@@ -71,6 +71,7 @@ function isValidCandidate(p: Phoneme, context: ClusterContext): boolean {
 }
 
 function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: ClusterContext): boolean {
+  // @ts-ignore
   return (p[position] === undefined || p[position] > 0) &&
          (!isStartOfWord || p.startWord === undefined || p.startWord > 0) &&
          (!isEndOfWord || p.endWord === undefined || p.endWord > 0);

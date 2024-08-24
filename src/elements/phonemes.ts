@@ -140,6 +140,7 @@ export const phonemeMaps = {
 
 for (const position of ['onset', 'nucleus', 'coda'] as const) {
   for (const phoneme of phonemes) {
+    // @ts-ignore
     if (phoneme[position] !== undefined && phoneme[position] > 0) {
       if (!phonemeMaps[position].has(phoneme.sound)) {
         phonemeMaps[position].set(phoneme.sound, []);

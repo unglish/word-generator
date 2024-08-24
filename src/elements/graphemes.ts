@@ -1909,6 +1909,7 @@ export const cumulativeFrequencies = {
 
 for (const position of ['onset', 'nucleus', 'coda'] as const) {
   for (const grapheme of graphemes) {
+    // @ts-ignore
     if (grapheme[position] === undefined || grapheme[position] > 0) {
       if (!graphemeMaps[position].has(grapheme.phoneme)) {
         graphemeMaps[position].set(grapheme.phoneme, []);
