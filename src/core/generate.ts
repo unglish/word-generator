@@ -191,7 +191,7 @@ function pickOnset(context: WordGenerationContext): Phoneme[] {
   const monosyllabic = syllableCount === 1;
   const maxLength: number = getWeightedOption(monosyllabic ? 
     [
-      [0, 10], 
+      [0, 50], 
       [1, 100], 
       [2, 200], 
       [3, 150]
@@ -276,8 +276,8 @@ function pickCoda(context:WordGenerationContext, newSyllable: Syllable): Phoneme
   const getCodaLengthWeights = (onsetLength: number) => {
     if (monosyllabic) {
       switch (onsetLength) {
-        case 0: return [[0, 10], [1, 100], [2, 200], [3, 150]];
-        case 1: return [[0, 20], [1, 150], [2, 150], [3, 100]];
+        case 0: return [[0, 80], [1, 100], [2, 200], [3, 150]];
+        case 1: return [[0, 80], [1, 150], [2, 150], [3, 100]];
         case 2: return [[0, 50], [1, 200], [2, 100], [3, 50]];
         case 3: return [[0, 100], [1, 300], [2, 50], [3, 20]];
         default: return [[0, 150], [1, 200], [2, 30], [3, 10]];
