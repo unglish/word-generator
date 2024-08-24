@@ -1,7 +1,6 @@
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
-import getWeightedOption from "../utils/getWeightedOption.js";
-import randomBool from "../utils/randomBool.js";
-import { graphemes } from "../elements/graphemes.js";
+import { graphemeMaps, cumulativeFrequencies } from "../elements/graphemes.js";
+import { getRand } from '../utils/random';
 
 /**
  * Applies various regex-based rules to improve naturalness of the written syllable.
@@ -26,42 +25,30 @@ import { graphemes } from "../elements/graphemes.js";
  * Note: The randomBool function (not shown here) is assumed to return a boolean
  * value based on the given probability.
  */
-const reductionPairs = [
-  { source: /([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)/g, target: "$1$2e", likelihood: 0.98}, 
-  { source: /(?<!^)ks/g, target: "x", likelihood: 0.25 }, 
+// Define the reduction rules
+const reductionRules = [
+  { 
+    pattern: /([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)/g,
+    replacement: (match: string, p1: string, p2: string) => getRand()() < 0.98 ? `${p1}${p2}e` : match
+  },
+  { 
+    pattern: /(?<!^)ks/g,
+    replacement: (match: string) => getRand()() < 0.25 ? 'x' : match
+  }
 ];
 
+// Compile the patterns once
+const compiledPatterns = reductionRules.map(rule => ({
+  regex: new RegExp(rule.pattern.source, rule.pattern.flags),
+  replacement: rule.replacement
+}));
+
 function adjustSyllable(str: string): string {
-  const combinedRegex = new RegExp(reductionPairs.map(pair => `(${pair.source.source})`).join('|'), 'g');
-  return str.replace(combinedRegex, (match, ...groups) => {
-    const index = groups.findIndex(g => g !== undefined);
-    if (randomBool(reductionPairs[index].likelihood)) {
-      return match.replace(reductionPairs[index].source, reductionPairs[index].target);
-    }
-    return match;
-  });
-}
-
-const positionGraphemes = {
-  onset: graphemes.filter(p => p.onset === undefined || p.onset > 0) as Grapheme[],
-  coda: graphemes.filter(p => p.coda === undefined || p.coda > 0) as Grapheme[],
-  nucleus: graphemes.filter(p => p.nucleus === undefined || p.nucleus > 0) as Grapheme[]
-};
-
-// Pre-compute grapheme maps for each phoneme and position
-const graphemeMaps = {
-  onset: new Map(),
-  nucleus: new Map(),
-  coda: new Map()
-};
-
-for (const position of ['onset', 'nucleus', 'coda'] as const) {
-  for (const grapheme of positionGraphemes[position]) {
-    if (!graphemeMaps[position].has(grapheme.phoneme)) {
-      graphemeMaps[position].set(grapheme.phoneme, []);
-    }
-    graphemeMaps[position].get(grapheme.phoneme).push(grapheme);
+  let result = str;
+  for (const { regex, replacement } of compiledPatterns) {
+    result = result.replace(regex, replacement);
   }
+  return result;
 }
 
 /**
@@ -97,34 +84,53 @@ function chooseGrapheme(
   prevPhoneme?: Phoneme,
   nextPhoneme?: Phoneme,
 ): string { 
+  const graphemeList = graphemeMaps[position].get(phoneme.sound);
+  if (!graphemeList || graphemeList.length === 0) return '';
+
+  const frequencyList = cumulativeFrequencies[position].get(phoneme.sound)!;
+  const totalFrequency = frequencyList[frequencyList.length - 1];
+  
+  let selectedGrapheme: Grapheme | undefined;
+  let attempts = 0;
+  const maxAttempts = 10; // Prevent infinite loop
+
+  while (!selectedGrapheme && attempts < maxAttempts) {
+    const randomValue = getRand()() * totalFrequency;
+    const index = frequencyList.findIndex(freq => freq > randomValue);
+    const candidate = graphemeList[index];
+
+    if (
+      (!isCluster || !candidate.cluster || candidate.cluster > 0) &&
+      (!isStartOfWord || !candidate.startWord || candidate.startWord > 0) &&
+      (!isEndOfWord || !candidate.endWord || candidate.endWord > 0) &&
+      ((!isEndOfWord && !isStartOfWord) || candidate.midWord > 0)
+    ) {
+      selectedGrapheme = candidate;
+    }
+    attempts++;
+  }
+
+  if (!selectedGrapheme) {
+    // Fallback to first valid grapheme if no suitable one found after max attempts
+    selectedGrapheme = graphemeList.find(g => 
+      (!isCluster || !g.cluster || g.cluster > 0) &&
+      (!isStartOfWord || !g.startWord || g.startWord > 0) &&
+      (!isEndOfWord || !g.endWord || g.endWord > 0) &&
+      ((!isEndOfWord && !isStartOfWord) || g.midWord > 0)
+    ) || graphemeList[0];
+  }
+
+  let result = selectedGrapheme.form;
+
+  // Apply the doubling rule
   const isAfterShortVowel = prevPhoneme?.nucleus && !prevPhoneme.tense;
   const isBeforeShortVowel = !nextPhoneme?.onset && (!nextPhoneme?.tense || ['ɜ', 'ɚ'].includes(nextPhoneme?.sound));
   const isSingleOnsetStop = position === "onset" && !isCluster && phoneme.mannerOfArticulation === 'stop';
-  const viableGraphemes: Grapheme[] = graphemeMaps[position].get(phoneme.sound).filter(
-    (grapheme: Grapheme) =>
-      (isCluster ? !grapheme.cluster || grapheme.cluster > 0 : true) &&
-      (isStartOfWord ? !grapheme.startWord || grapheme.startWord > 0 : true) &&
-      (isEndOfWord ? !grapheme.endWord || grapheme.endWord > 0 : true) && 
-      (!isEndOfWord && !isStartOfWord ? grapheme.midWord > 0 : true)
-  ) || [];
-  
-  const weightedGraphemes = viableGraphemes.map(
-    (grapheme) => [
-      grapheme.form,
-      grapheme.frequency * (
-        (isStartOfWord && grapheme.startWord) ||
-        (isEndOfWord && grapheme.endWord) ||
-        grapheme.midWord
-      ) * ((isCluster && grapheme.cluster) || 1)
-    ] as [string, number]
-  );
-  let selectedGrapheme = getWeightedOption(weightedGraphemes);
-
-  // Apply the doubling rule
-  if (isAfterShortVowel && isSingleOnsetStop && isBeforeShortVowel && selectedGrapheme.length === 1) {
-    selectedGrapheme += selectedGrapheme;
+  if (isAfterShortVowel && isSingleOnsetStop && isBeforeShortVowel && result.length === 1) {
+    result += result;
   }
-  return selectedGrapheme;
+
+  return result;
 }
 
 /**

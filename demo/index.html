@@ -49,6 +49,11 @@
             border: 1px solid var(--text-color);
             border-radius: 5px;
         }
+        .timing {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+        }
     </style>
     <script type="module">
         import unglish from '../dist/index.js';
@@ -67,7 +72,7 @@
                 </div>
             `;
 
-            const batchSize = 200;
+            const batchSize = 750;
 
             // Function to generate a single word
             const generateSingleWord = () => {
@@ -129,6 +134,7 @@
             const findDuplicateWords = (iterations) => {
                 const generatedWords = new Map();
                 let currentIteration = 0;
+                const startTime = performance.now();
 
                 function generateWords() {
                     for (let i = 0; i < batchSize && currentIteration < iterations; i++, currentIteration++) {
@@ -151,6 +157,9 @@
                 }
 
                 function finalizeDuplicates() {
+                    const endTime = performance.now();
+                    const duration = ((endTime - startTime) / 1000).toFixed(2);
+
                     const duplicates = Array.from(generatedWords.entries())
                         .filter(([_, count]) => count > 1)
                         .sort((a, b) => b[1] - a[1]);
@@ -158,7 +167,6 @@
                     const totalDuplicates = duplicates.reduce((sum, [_, count]) => sum + count, 0);
                     const uniqueDuplicates = duplicates.length;
                     const dupeCount = totalDuplicates-uniqueDuplicates;
-                    console.log(`Total duplicates: ${totalDuplicates}, Unique duplicates: ${uniqueDuplicates}: ${dupeCount} dupes`);
 
                     // Format duplicates for display
                     const formattedDuplicates = duplicates
@@ -169,7 +177,8 @@
                     document.getElementById('duplicates').innerHTML = `
                         <h2>Duplicate Word Search:</h2>
                         <p>Generated ${iterations} words.</p>
-                        <p>Found ${dupeCount} dupes (${dupeCount/iterations*100}%): ${formattedDuplicates}</p>
+                        <p>Found ${dupeCount} dupes (${(dupeCount/iterations*100).toFixed(2)}%): ${formattedDuplicates}</p>
+                        <p class="timing">Time taken: ${duration} seconds</p>
                     `;
                 }
 
@@ -186,6 +195,7 @@
             let targetWord = '';
             let closeMatches = new Set();
             const generatedWords = new Set();
+            let startTime;
 
             function generateWordUntilMatch() {
                 if (!isGenerating) return;
@@ -232,12 +242,19 @@
                     .map(word => `<li>${word}</li>`)
                     .join('');
 
+                const duration = ((performance.now() - startTime) / 1000).toFixed(2);
+
                 matchResultDiv.innerHTML = `
                     <em><span>Attempts: ${attempts}</span></em>
                     ${isExactMatch ? `<br/><strong>Match found: ${newMatch}</strong>` : ''}
                     <br/><strong>Close matches:</strong>
                     <ul>${matchesHtml}</ul>
+                    <p class="timing">Time elapsed: ${duration} seconds</p>
                 `;
+
+                if (isExactMatch) {
+                    isGenerating = false;
+                }
             }
 
             function isPartOf(word1, word2) {
@@ -285,6 +302,7 @@
                     }
                     isGenerating = true;
                     attempts = 0;
+                    startTime = performance.now();
                     matchResultDiv.innerHTML = 'Generating...';
                     requestAnimationFrame(generateWordUntilMatch);
                 } else {

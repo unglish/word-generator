@@ -114,8 +114,8 @@ export const phonemes: Phoneme[] = [
   // Sibilants
   { sound: "z", mannerOfArticulation: "sibilant", onset: 5, coda: 50, startWord: 4, midWord: 4, endWord: 4, voiced: true, placeOfArticulation: "alveolar" }, // zebra
   { sound: "ʒ", mannerOfArticulation: "sibilant", onset: 5, coda: 3, startWord: 0, midWord: 6, endWord: 0, voiced: true, placeOfArticulation: "postalveolar" }, // measure
-  { sound: "s", mannerOfArticulation: "sibilant", onset: 400, coda: 175, startWord: 10, midWord: 2, endWord: 10, voiced: false, placeOfArticulation: "alveolar" }, // see
-  { sound: "ʃ", mannerOfArticulation: "sibilant", onset: 35, coda: 5, startWord: 4, midWord: 2, endWord: 2, voiced: false, placeOfArticulation: "postalveolar" }, // she
+  { sound: "s", mannerOfArticulation: "sibilant", onset: 200, coda: 100, startWord: 10, midWord: 2, endWord: 10, voiced: false, placeOfArticulation: "alveolar" }, // see
+  { sound: "ʃ", mannerOfArticulation: "sibilant", onset: 35, coda: 80, startWord: 4, midWord: 1, endWord: 5, voiced: false, placeOfArticulation: "postalveolar" }, // she
 
   // Affricates
   { sound: "tʃ", voiced: false, placeOfArticulation: "postalveolar", mannerOfArticulation: "affricate", onset: 40, coda: 8990, startWord: 4, midWord: 2, endWord: 2 }, // chat
@@ -132,6 +132,33 @@ export const phonemes: Phoneme[] = [
   { sound: "g", voiced: true, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 150, coda: 100, startWord: 6, midWord: 4, endWord: 4 }, // go
 ];
 
+export const phonemeMaps = {
+  onset: new Map<string, Phoneme[]>(),
+  nucleus: new Map<string, Phoneme[]>(),
+  coda: new Map<string, Phoneme[]>()
+};
+
+for (const position of ['onset', 'nucleus', 'coda'] as const) {
+  for (const phoneme of phonemes) {
+    if (phoneme[position] !== undefined && phoneme[position] > 0) {
+      if (!phonemeMaps[position].has(phoneme.sound)) {
+        phonemeMaps[position].set(phoneme.sound, []);
+      }
+      phonemeMaps[position].get(phoneme.sound)!.push(phoneme);
+    }
+  }
+}
+
+// Pre-compute sonority levels
+export const sonorityLevels = new Map(
+  phonemes.map(p => [
+    p,
+    sonorityToMannerOfArticulation[p.mannerOfArticulation] +
+    (sonorityToPlaceOfArticulation[p.placeOfArticulation] || 0) +
+    (p.voiced ? 0.5 : 0) +
+    (p.tense ? 0.25 : 0)
+  ])
+);
 
 export const invalidBoundaryClusters: RegExp[] = [
   /rɜ/,
@@ -182,6 +209,7 @@ export const invalidCodaClusters: RegExp[] = [
   /nzt/,
   /lnd/,
   /dʒt/,
+  /sn/,
   /.*.?v$/,
   /.*.?mp$/,
   /.*.?b$/,

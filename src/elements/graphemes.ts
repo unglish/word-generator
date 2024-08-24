@@ -1,8 +1,8 @@
 import { Grapheme } from "../types.js";
 
-const ORIGINS = ["Germanic", "French", "Greek", "Latin", "Other"];
+export const ORIGINS = ["Germanic", "French", "Greek", "Latin", "Other"] as const;
 
-const graphemes: Grapheme[] = [
+export const graphemes: Grapheme[] = [
   /******************
    * VOWELS
    ******************/
@@ -1475,7 +1475,7 @@ const graphemes: Grapheme[] = [
     endWord: 1,
   },
 
-  // dʒ judge
+  // d�� judge
   {
     phoneme: "dʒ",
     form: "g",
@@ -1893,4 +1893,33 @@ const graphemes: Grapheme[] = [
 },
 ];
 
-export { ORIGINS, graphemes };
+// Pre-compute grapheme maps with additional filtering
+export const graphemeMaps = {
+  onset: new Map<string, Grapheme[]>(),
+  nucleus: new Map<string, Grapheme[]>(),
+  coda: new Map<string, Grapheme[]>()
+};
+
+// Pre-compute cumulative frequencies for each phoneme in each position
+export const cumulativeFrequencies = {
+  onset: new Map<string, number[]>(),
+  nucleus: new Map<string, number[]>(),
+  coda: new Map<string, number[]>()
+};
+
+for (const position of ['onset', 'nucleus', 'coda'] as const) {
+  for (const grapheme of graphemes) {
+    if (grapheme[position] === undefined || grapheme[position] > 0) {
+      if (!graphemeMaps[position].has(grapheme.phoneme)) {
+        graphemeMaps[position].set(grapheme.phoneme, []);
+        cumulativeFrequencies[position].set(grapheme.phoneme, []);
+      }
+      const graphemeList = graphemeMaps[position].get(grapheme.phoneme)!;
+      const frequencyList = cumulativeFrequencies[position].get(grapheme.phoneme)!;
+      
+      graphemeList.push(grapheme);
+      const lastFreq = frequencyList.length > 0 ? frequencyList[frequencyList.length - 1] : 0;
+      frequencyList.push(lastFreq + grapheme.frequency);
+    }
+  }
+}

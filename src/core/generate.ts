@@ -2,7 +2,7 @@ import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, 
 import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
 import { createSeededRandom } from "../utils/createSeededRandom.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonorityToMannerOfArticulation, sonorityToPlaceOfArticulation } from "../elements/phonemes.js";
+import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonorityLevels, phonemeMaps } from "../elements/phonemes.js";
 import { generatePronunciation } from "./pronounce.js";
 import { generateWrittenForm } from "./write.js";
 
@@ -19,19 +19,8 @@ import { generateWrittenForm } from "./write.js";
  * Sonority is important in determining the structure of syllables and
  * the formation of consonant clusters in many languages, including English.
  */
-const sonorityCache = new WeakMap<Phoneme, number>();
-
 export const getSonority = (phoneme: Phoneme): number => {
-  if (!sonorityCache.has(phoneme)) {
-    let sonority = sonorityToMannerOfArticulation[phoneme.mannerOfArticulation] || 0;
-    if (sonorityToPlaceOfArticulation[phoneme.placeOfArticulation] !== undefined) {
-      sonority += sonorityToPlaceOfArticulation[phoneme.placeOfArticulation];
-    }
-    sonority += phoneme.voiced ? 0.5 : 0;
-    sonority += phoneme.tense ? 0.25 : 0;
-    sonorityCache.set(phoneme, sonority);
-  }
-  return sonorityCache.get(phoneme)!;
+  return sonorityLevels.get(phoneme) || 0;
 };
 
 export function buildCluster(context: ClusterContext): Phoneme[] {
@@ -63,30 +52,28 @@ function getValidCandidates(candidatePhonemes: Phoneme[], context: ClusterContex
   return candidatePhonemes.filter(p => isValidCandidate(p, context));
 }
 
+const invalidClusterRegexes = {
+  onset: new RegExp(invalidOnsetClusters.map(r => r.source).join('|'), 'i'),
+  coda: new RegExp(invalidCodaClusters.map(r => r.source).join('|'), 'i'),
+  nucleus: new RegExp(invalidBoundaryClusters.map(r => r.source).join('|'), 'i')
+};
+
 function isValidCandidate(p: Phoneme, context: ClusterContext): boolean {
-  if (isIgnored(p, context) || isDuplicate(p, context) || !isValidPosition(p, context) || !checkSonority(p, context)) {
+  if (context.ignore.includes(p.sound) || 
+      context.cluster.some(existingP => existingP.sound === p.sound) || 
+      !isValidPosition(p, context) || 
+      !checkSonority(p, context)) {
     return false;
   }
   
-  const potentialCluster = [...context.cluster, p].map(ph => ph.sound).join('');
-  const invalidClusters = getInvalidClusters(context.position);
-  return !invalidClusters.some(regex => regex.test(potentialCluster));
-}
-
-function isIgnored(p: Phoneme, { ignore }: ClusterContext): boolean {
-  return ignore.includes(p.sound);
-}
-
-function isDuplicate(p: Phoneme, { cluster }: ClusterContext): boolean {
-  return cluster.some(existingP => existingP.sound === p.sound);
+  const potentialCluster = context.cluster.map(ph => ph.sound).join('') + p.sound;
+  return !invalidClusterRegexes[context.position].test(potentialCluster);
 }
 
 function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: ClusterContext): boolean {
-  const positionValue = p[position];
-  const isAllowedInPosition = positionValue === undefined || positionValue > 0;
-  const isAllowedAtStart = !isStartOfWord || (!p.startWord || p.startWord > 0);
-  const isAllowedAtEnd = !isEndOfWord || (!p.endWord || p.endWord > 0);
-  return isAllowedInPosition && isAllowedAtStart && isAllowedAtEnd;
+  return (p[position] === undefined || p[position] > 0) &&
+         (!isStartOfWord || p.startWord === undefined || p.startWord > 0) &&
+         (!isEndOfWord || p.endWord === undefined || p.endWord > 0);
 }
 
 export const isValidCluster = ({ cluster, position }: ClusterContext): boolean => {
@@ -175,9 +162,9 @@ function shouldStopClusterGrowth({ position, cluster }: ClusterContext): boolean
 }
 
 const positionPhonemes = {
-  onset: phonemes.filter(p => p.onset !== undefined && p.onset > 0),
-  coda: phonemes.filter(p => p.coda !== undefined && p.coda > 0),
-  nucleus: phonemes.filter(p => p.nucleus !== undefined && p.nucleus > 0)
+  onset: Array.from(phonemeMaps.onset.values()).flat(),
+  coda: Array.from(phonemeMaps.coda.values()).flat(),
+  nucleus: Array.from(phonemeMaps.nucleus.values()).flat()
 };
 
 /**
