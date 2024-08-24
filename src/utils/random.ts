@@ -1,6 +1,16 @@
 export type RandomFunction = () => number;
 
-const rand: RandomFunction = Math.random;
+const xorshift: RandomFunction = (() => {
+  let state = Date.now();
+  return () => {
+    state ^= state << 13;
+    state ^= state >> 17;
+    state ^= state << 5;
+    return (state >>> 0) / 2**32;
+  };
+})();
+
+const rand: RandomFunction = xorshift;
 let currentRand: RandomFunction = rand;
 
 export const getRand = (): RandomFunction => currentRand;
