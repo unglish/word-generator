@@ -62,6 +62,16 @@ export const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 0,
   },
+  // people
+  {
+    phoneme: "i:",
+    form: "eo",
+    origin: 1,  
+    frequency: 1, 
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+  },
 
   // ɪ: sit
   { 
@@ -1635,7 +1645,7 @@ export const graphemes: Grapheme[] = [
     frequency: 50,
     startWord: 1,
     midWord: 1,
-    endWord: 1, },
+    endWord: 10, },
   { phoneme: "k", 
     form: "c", 
     origin: 3, 
@@ -1648,12 +1658,11 @@ export const graphemes: Grapheme[] = [
     phoneme: "k",
     form: "ck",
     origin: 3,
-    frequency: 10,
+    frequency: 100,
     onset: 0,
-    cluster: 0,
     startWord: 0,
-    midWord: 5,
-    endWord: 1,
+    midWord: 1,
+    endWord: 10,
   },
   {
     phoneme: "k",

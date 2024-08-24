@@ -66,7 +66,7 @@ export const phonemes: Phoneme[] = [
   // Low Vowels
   { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 220, startWord: 6, midWord: 6, endWord: 0, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
   { sound: "ɑ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // father
-  { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 130, startWord: 6, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // ball
+  { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 180, startWord: 6, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // ball
   { sound: "o", mannerOfArticulation: "lowVowel", tense: true, nucleus: 100, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // hope
   { sound: "ʊ", mannerOfArticulation: "highVowel", tense: true, nucleus: 70, startWord: 4, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // book
   { sound: "u", mannerOfArticulation: "highVowel", tense: true, nucleus: 80, startWord: 8, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // blue
@@ -124,7 +124,7 @@ export const phonemes: Phoneme[] = [
   // Voiceless Stops
   { sound: "p", voiced: false, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 165, coda: 50, startWord: 8, midWord: 10, endWord: 6 }, // pop
   { sound: "t", voiced: false, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 350, coda: 350, startWord: 10, midWord: 10, endWord: 10 }, // top
-  { sound: "k", voiced: false, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 320, coda: 100, startWord: 14, midWord: 10, endWord: 6 }, // cat
+  { sound: "k", voiced: false, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 320, coda: 100, startWord: 14, midWord: 10, endWord: 10 }, // cat
 
   // Voiced Stops
   { sound: "b", voiced: true, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 160, coda: 100, startWord: 6, midWord: 4, endWord: 4 }, // bob
