@@ -32,13 +32,14 @@ const reductionPairs = [
 ];
 
 function adjustSyllable(str: string): string {
-  reductionPairs.forEach((pair) => {
-    if (randomBool(pair.likelihood)) {
-      str = str.replace(pair.source, pair.target);
+  const combinedRegex = new RegExp(reductionPairs.map(pair => `(${pair.source.source})`).join('|'), 'g');
+  return str.replace(combinedRegex, (match, ...groups) => {
+    const index = groups.findIndex(g => g !== undefined);
+    if (randomBool(reductionPairs[index].likelihood)) {
+      return match.replace(reductionPairs[index].source, reductionPairs[index].target);
     }
+    return match;
   });
-
-  return str;
 }
 
 const positionGraphemes = {
@@ -102,8 +103,8 @@ function chooseGrapheme(
   const viableGraphemes: Grapheme[] = graphemeMaps[position].get(phoneme.sound).filter(
     (grapheme: Grapheme) =>
       (isCluster ? !grapheme.cluster || grapheme.cluster > 0 : true) &&
-      (isStartOfWord ? grapheme.startWord > 0 : true) &&
-      (isEndOfWord ? grapheme.endWord > 0 : true) && 
+      (isStartOfWord ? !grapheme.startWord || grapheme.startWord > 0 : true) &&
+      (isEndOfWord ? !grapheme.endWord || grapheme.endWord > 0 : true) && 
       (!isEndOfWord && !isStartOfWord ? grapheme.midWord > 0 : true)
   ) || [];
   
@@ -117,7 +118,6 @@ function chooseGrapheme(
       ) * ((isCluster && grapheme.cluster) || 1)
     ] as [string, number]
   );
-
   let selectedGrapheme = getWeightedOption(weightedGraphemes);
 
   // Apply the doubling rule
@@ -144,20 +144,15 @@ function chooseGrapheme(
  */
 export const generateWrittenForm = (context: WordGenerationContext) => {
   const { syllables, written } = context.word;
-
-  // Flatten syllables into an array of extended phonemes
   const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
     (["onset", "nucleus", "coda"] as const).flatMap((position) =>
-      syllable[position].map((phoneme) => ({
-        phoneme,
-        syllableIndex,
-        position,
-      }))
+      syllable[position].map((phoneme) => ({ phoneme, syllableIndex, position }))
     )
   );
 
-  let currentSyllable = "";
-  let currentSyllableIndex = 0;
+  const cleanParts: string[] = [];
+  const hyphenatedParts: string[] = [];
+  let currentSyllable: string[] = [];
 
   for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
     const { phoneme, syllableIndex, position } = flattenedPhonemes[phonemeIndex];
@@ -178,35 +173,34 @@ export const generateWrittenForm = (context: WordGenerationContext) => {
       nextPhoneme?.phoneme,
     );
 
-    // Remove duplicate character at segment boundary
     if (currentSyllable.length > 0 && grapheme.length > 0 &&
-        currentSyllable[currentSyllable.length - 1] === grapheme[0]) {
-      currentSyllable += grapheme.slice(1);
+        currentSyllable[currentSyllable.length - 1].slice(-1) === grapheme[0]) {
+      currentSyllable.push(grapheme.slice(1));
     } else {
-      currentSyllable += grapheme;
+      currentSyllable.push(grapheme);
     }
 
-    // If we're at the end of a syllable or the word
     if (!nextPhoneme || nextPhoneme.syllableIndex !== syllableIndex) {
-      currentSyllable = adjustSyllable(currentSyllable);
-
-      // Remove duplicate character at syllable boundary
-      if (written.clean.length > 0 && currentSyllable.length > 0 &&
-        written.clean[written.clean.length - 1] === currentSyllable[0]) {
-        currentSyllable = currentSyllable.slice(1);
+      let syllableStr = adjustSyllable(currentSyllable.join(''));
+      
+      if (cleanParts.length > 0 && syllableStr.length > 0 &&
+          cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
+        syllableStr = syllableStr.slice(1);
       }
 
-      written.clean += currentSyllable;
-      written.hyphenated += currentSyllable;
+      cleanParts.push(syllableStr);
+      hyphenatedParts.push(syllableStr);
 
       if (nextPhoneme) {
-        written.hyphenated += "&shy;";
+        hyphenatedParts.push("&shy;");
       }
 
-      currentSyllable = "";
-      currentSyllableIndex++;
+      currentSyllable = [];
     }
   }
+
+  written.clean = cleanParts.join('');
+  written.hyphenated = hyphenatedParts.join('');
 };
 
 export default generateWrittenForm;

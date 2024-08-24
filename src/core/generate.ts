@@ -5,7 +5,6 @@ import getWeightedOption from "../utils/getWeightedOption.js";
 import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonorityToMannerOfArticulation, sonorityToPlaceOfArticulation } from "../elements/phonemes.js";
 import { generatePronunciation } from "./pronounce.js";
 import { generateWrittenForm } from "./write.js";
-import { countReset } from "console";
 
 /**
  * Determines the sonority level of a given phoneme.
@@ -20,57 +19,44 @@ import { countReset } from "console";
  * Sonority is important in determining the structure of syllables and
  * the formation of consonant clusters in many languages, including English.
  */
-const sonorityCache = new Map<string, number>();
+const sonorityCache = new WeakMap<Phoneme, number>();
 
 export const getSonority = (phoneme: Phoneme): number => {
-  // Create a unique cache key based on phoneme attributes
-  const cacheKey = `${phoneme.mannerOfArticulation}-${phoneme.placeOfArticulation}-${phoneme.voiced}-${phoneme.tense}`;
-
-  // Check if the sonority value is already cached
-  if (!sonorityCache.has(cacheKey)) {
-    // Base sonority from manner of articulation
+  if (!sonorityCache.has(phoneme)) {
     let sonority = sonorityToMannerOfArticulation[phoneme.mannerOfArticulation] || 0;
-
-    // Adjust sonority based on place of articulation
     if (sonorityToPlaceOfArticulation[phoneme.placeOfArticulation] !== undefined) {
       sonority += sonorityToPlaceOfArticulation[phoneme.placeOfArticulation];
     }
-
-    // Adjust for voicing
-    if (phoneme.voiced) {
-      sonority += 0.5;
-    }
-
-    // Adjust for tenseness
-    if (phoneme.tense) {
-      sonority += 0.25;
-    }
-
-    // Cache the calculated sonority
-    sonorityCache.set(cacheKey, sonority);
+    sonority += phoneme.voiced ? 0.5 : 0;
+    sonority += phoneme.tense ? 0.25 : 0;
+    sonorityCache.set(phoneme, sonority);
   }
-
-  // Return the cached or newly calculated sonority
-  return sonorityCache.get(cacheKey)!;
+  return sonorityCache.get(phoneme)!;
 };
 
 export function buildCluster(context: ClusterContext): Phoneme[] {
-  const candidatePhonemes = positionPhonemes[context.position];
-
-  while (context.cluster.length < context.maxLength) {
-    const validCandidates = getValidCandidates(candidatePhonemes, context);
-
-    if (validCandidates.length === 0) break;
-
+  const validCandidates = getValidCandidates(positionPhonemes[context.position], context);
+  
+  while (context.cluster.length < context.maxLength && validCandidates.length > 0) {
     const newPhoneme = selectPhoneme(validCandidates, context);
     if (!newPhoneme) break;
 
     context.cluster.push(newPhoneme);
-
     if (shouldStopClusterGrowth(context)) break;
+
+    // Update validCandidates for the next iteration
+    updateValidCandidates(validCandidates, context);
   }
 
   return context.cluster;
+}
+
+function updateValidCandidates(candidates: Phoneme[], context: ClusterContext) {
+  for (let i = candidates.length - 1; i >= 0; i--) {
+    if (!isValidCandidate(candidates[i], context)) {
+      candidates.splice(i, 1);
+    }
+  }
 }
 
 function getValidCandidates(candidatePhonemes: Phoneme[], context: ClusterContext): Phoneme[] {
@@ -78,15 +64,13 @@ function getValidCandidates(candidatePhonemes: Phoneme[], context: ClusterContex
 }
 
 function isValidCandidate(p: Phoneme, context: ClusterContext): boolean {
-  const potentialContext = structuredClone(context);
-  potentialContext.cluster.push(p);
-  return (
-    !isIgnored(p, context) &&
-    !isDuplicate(p, context) &&
-    isValidPosition(p, context) &&
-    checkSonority(p, context) &&
-    isValidCluster(potentialContext)
-  );
+  if (isIgnored(p, context) || isDuplicate(p, context) || !isValidPosition(p, context) || !checkSonority(p, context)) {
+    return false;
+  }
+  
+  const potentialCluster = [...context.cluster, p].map(ph => ph.sound).join('');
+  const invalidClusters = getInvalidClusters(context.position);
+  return !invalidClusters.some(regex => regex.test(potentialCluster));
 }
 
 function isIgnored(p: Phoneme, { ignore }: ClusterContext): boolean {
@@ -231,6 +215,7 @@ function pickOnset(context: WordGenerationContext): Phoneme[] {
       [3, 80]
     ]
   );
+  if (maxLength === 0) return [];
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
   let onset: Phoneme[] = buildCluster(
     {
@@ -337,7 +322,8 @@ function pickCoda(context:WordGenerationContext, newSyllable: Syllable): Phoneme
       );
       
       if (alternativeCodas.length > 0) {
-        coda[coda.length - 1] = getWeightedOption(alternativeCodas.map(p => [p, p.coda ?? 0]));
+        const altCodas = alternativeCodas.map(p => [p, p.coda ?? 0] as [Phoneme, number]);
+        coda[coda.length - 1] = getWeightedOption(altCodas);
       } else {
         // If no suitable alternative, remove the last coda phoneme
         coda.pop();
@@ -416,29 +402,33 @@ export const generateSyllables = (context: WordGenerationContext) => {
     ]);
   }
 
-  while (context.currSyllableIndex < context.syllableCount) {
-    let newSyllable: Syllable;
-    let prevSyllable = context.word.syllables[context.currSyllableIndex - 1];
-    let prevSonority: Number;
-    let newSonority: Number;
+  const syllables = new Array(context.syllableCount);
+  let prevSyllable: Syllable | undefined;
 
+  for (let i = 0; i < context.syllableCount; i++) {
+    let newSyllable: Syllable;
     do {
       newSyllable = generateSyllable(context);
-      
-      const closingPhoneme = prevSyllable?.coda.at(-1);
-      const openingPhoneme = newSyllable.onset.at(-1);
-      
-      prevSonority = closingPhoneme ? getSonority(closingPhoneme) : 0;
-      newSonority = openingPhoneme ? getSonority(openingPhoneme) : 0;
-    } while (prevSyllable && prevSonority >= newSonority);
+    } while (prevSyllable && !isValidSyllableBoundary(prevSyllable, newSyllable));
 
     if (prevSyllable) {
       [prevSyllable, newSyllable] = adjustBoundary(prevSyllable, newSyllable);
     }
 
-    context.word.syllables.push(newSyllable);
+    syllables[i] = newSyllable;
+    prevSyllable = newSyllable;
     context.currSyllableIndex++;
   }
+
+  context.word.syllables = syllables;
+}
+
+function isValidSyllableBoundary(prev: Syllable, curr: Syllable): boolean {
+  const closingPhoneme = prev.coda[prev.coda.length - 1];
+  const openingPhoneme = curr.onset[0];
+  const prevSonority = closingPhoneme ? getSonority(closingPhoneme) : 0;
+  const newSonority = openingPhoneme ? getSonority(openingPhoneme) : 0;
+  return newSonority > prevSonority;
 }
 
 /**
@@ -449,9 +439,8 @@ export const generateSyllables = (context: WordGenerationContext) => {
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
   const originalRand: RandomFunction = getRand();
-
   const context: WordGenerationContext = {
-    word: options.word || {
+    word: {
       syllables: [],
       pronunciation: '',
       written: { clean: '', hyphenated: '' }
@@ -460,19 +449,17 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
     currSyllableIndex: 0,
   }
 
-  try {
-    if (options.seed !== undefined) {
-      const seededRand: RandomFunction = createSeededRandom(options.seed);
-      overrideRand(seededRand);
-    }
+  if (options.seed !== undefined) {
+    overrideRand(createSeededRandom(options.seed));
+  }
 
+  try {
     generateSyllables(context);
     generateWrittenForm(context);
     generatePronunciation(context);
     
     return context.word;
   } finally {
-    // Ensure the original randomness function is restored
     overrideRand(originalRand);
   }
 };

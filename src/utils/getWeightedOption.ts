@@ -1,4 +1,4 @@
-import pick from "./pick.js";
+import { getRand } from "./random.js";
 
 /**
  * Returns a weighted random option, given an array of options with weights.
@@ -13,11 +13,19 @@ import pick from "./pick.js";
  * @param options - options in the format of [ [ string: optionName, int: optionNumber ] ]
  */
 const getWeightedOption = <T>(options: [T, number][]): T => {
-  let choices: T[] = [];
-  for (const option of options)
-    choices = choices.concat(new Array(option[1]).fill(option[0]));
-
-  return pick(choices);
+  const totalWeight = options.reduce((sum, [_, weight]) => sum + weight, 0);
+  const randomValue = getRand()() * totalWeight;
+  
+  let cumulativeWeight = 0;
+  for (const [option, weight] of options) {
+    cumulativeWeight += weight;
+    if (randomValue < cumulativeWeight) {
+      return option;
+    }
+  }
+  
+  // Fallback to last option (should rarely happen due to floating-point precision)
+  return options[options.length - 1][0];
 };
 
 export default getWeightedOption;
