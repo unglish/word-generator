@@ -397,7 +397,7 @@ function generateSyllable(context: WordGenerationContext): Syllable {
 export const generateSyllables = (context: WordGenerationContext) => {
   if (!context.syllableCount) {
     context.syllableCount = getWeightedOption([
-      [1, 9000], [2, 30000], [3, 29700],
+      [1, 15000], [2, 30000], [3, 29700],
       [4, 3000], [5, 200], [6, 50], [7, 5]
     ]);
   }
@@ -407,13 +407,13 @@ export const generateSyllables = (context: WordGenerationContext) => {
 
   for (let i = 0; i < context.syllableCount; i++) {
     let newSyllable: Syllable;
-    do {
+    // do {
       newSyllable = generateSyllable(context);
-    } while (prevSyllable && !isValidSyllableBoundary(prevSyllable, newSyllable));
+    // } while (prevSyllable && !isValidSyllableBoundary(prevSyllable, newSyllable));
 
-    if (prevSyllable) {
-      [prevSyllable, newSyllable] = adjustBoundary(prevSyllable, newSyllable);
-    }
+    // if (prevSyllable) {
+    //   [prevSyllable, newSyllable] = adjustBoundary(prevSyllable, newSyllable);
+    // }
 
     syllables[i] = newSyllable;
     prevSyllable = newSyllable;

@@ -85,33 +85,30 @@ function chooseGrapheme(
   nextPhoneme?: Phoneme,
 ): string { 
   const graphemeList = graphemeMaps[position].get(phoneme.sound);
-  if (!graphemeList || graphemeList.length === 0) return '';
+  const frequencyList = cumulativeFrequencies[position].get(phoneme.sound);
+  if (!graphemeList || !frequencyList || graphemeList.length === 0) return '';
 
-  const frequencyList = cumulativeFrequencies[position].get(phoneme.sound)!;
   const totalFrequency = frequencyList[frequencyList.length - 1];
-  
+  let randomValue = getRand()() * totalFrequency;
+
   let selectedGrapheme: Grapheme | undefined;
-  let attempts = 0;
-  const maxAttempts = 10; // Prevent infinite loop
-
-  while (!selectedGrapheme && attempts < maxAttempts) {
-    const randomValue = getRand()() * totalFrequency;
-    const index = frequencyList.findIndex(freq => freq > randomValue);
-    const candidate = graphemeList[index];
-
+  for (let i = 0; i < graphemeList.length; i++) {
+    const grapheme = graphemeList[i];
     if (
-      (!isCluster || !candidate.cluster || candidate.cluster > 0) &&
-      (!isStartOfWord || !candidate.startWord || candidate.startWord > 0) &&
-      (!isEndOfWord || !candidate.endWord || candidate.endWord > 0) &&
-      ((!isEndOfWord && !isStartOfWord) || candidate.midWord > 0)
+      (!isCluster || !grapheme.cluster || grapheme.cluster > 0) &&
+      (!isStartOfWord || !grapheme.startWord || grapheme.startWord > 0) &&
+      (!isEndOfWord || !grapheme.endWord || grapheme.endWord > 0) &&
+      ((!isEndOfWord && !isStartOfWord) || grapheme.midWord > 0)
     ) {
-      selectedGrapheme = candidate;
+      if (randomValue < frequencyList[i]) {
+        selectedGrapheme = grapheme;
+        break;
+      }
     }
-    attempts++;
   }
 
+  // Fallback to the first valid grapheme if none was selected
   if (!selectedGrapheme) {
-    // Fallback to first valid grapheme if no suitable one found after max attempts
     selectedGrapheme = graphemeList.find(g => 
       (!isCluster || !g.cluster || g.cluster > 0) &&
       (!isStartOfWord || !g.startWord || g.startWord > 0) &&
