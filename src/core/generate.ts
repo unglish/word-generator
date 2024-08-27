@@ -184,27 +184,32 @@ const positionPhonemes = {
  * - If following a nucleus (no coda in previous syllable), onset cannot be empty (length 0).
  * - Otherwise, empty onsets are possible but less likely than single-phoneme onsets.
  */
-function pickOnset(context: WordGenerationContext): Phoneme[] {
+function pickOnset(context: WordGenerationContext, isStartOfWord: boolean, monosyllabic: boolean): Phoneme[] {
   const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
   const isFollowingNucleus = prevSyllable && prevSyllable.coda.length === 0;
-  const isStartOfWord = !prevSyllable;
   const syllableCount = context.syllableCount;
-  const monosyllabic = syllableCount === 1;
-  const maxLength: number = getWeightedOption(monosyllabic ? 
-    [
-      [0, 50], 
-      [1, 100], 
-      [2, 200], 
-      [3, 150]
-    ]:
-    [
-      [0, isFollowingNucleus ? 0 : 150], 
-      [1, 675], 
-      [2, 125], 
-      [3, 80]
-    ]
-  );
+
+  const getMaxLength = () => {
+    if (monosyllabic) {
+      return getWeightedOption([
+        [0, 50], 
+        [1, 100], 
+        [2, 200], 
+        [3, 150]
+      ]);
+    } else {
+      return getWeightedOption([
+        [0, isFollowingNucleus ? 0 : 150], 
+        [1, 675], 
+        [2, 125], 
+        [3, 80]
+      ]);
+    }
+  };
+
+  const maxLength = getMaxLength();
   if (maxLength === 0) return [];
+
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
   let onset: Phoneme[] = buildCluster(
     {
@@ -227,10 +232,8 @@ function pickOnset(context: WordGenerationContext): Phoneme[] {
  * @param prevSyllable - The previous syllable, if any. Used to determine constraints on the nucleus.
  * @returns A Phoneme object representing the nucleus.
  */
-function pickNucleus(context: WordGenerationContext) {
+function pickNucleus(context: WordGenerationContext, isStartOfWord: boolean, isEndOfWord: boolean, hasCoda: boolean): Phoneme[] {
   const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
-  const isEndOfWord = context.currSyllableIndex === context.syllableCount-1;
-  const isStartOfWord = !prevSyllable;
   let nucleus = buildCluster(
     {
       position: "nucleus",
@@ -267,10 +270,8 @@ function pickNucleus(context: WordGenerationContext) {
  * - If avoiding repetition, it tries to replace the last coda phoneme with a similar one.
  * - If no suitable replacement is found, it removes the last coda phoneme.
  */
-function pickCoda(context: WordGenerationContext, newSyllable: Syllable): Phoneme[] {
-  const isEndOfWord = context.currSyllableIndex === context.syllableCount - 1;
+function pickCoda(context: WordGenerationContext, newSyllable: Syllable, isEndOfWord: boolean, monosyllabic: boolean): Phoneme[] {
   const syllableCount = context.syllableCount;
-  const monosyllabic = syllableCount === 1;
   const onsetLength = newSyllable.onset.length;
 
   // Adjust weights based on onset length
@@ -364,18 +365,53 @@ function adjustBoundary(prevSyllable: Syllable, currentSyllable: Syllable): [Syl
  * that can be combined to form realistic-sounding words.
  */
 function generateSyllable(context: WordGenerationContext): Syllable {
+  const isEndOfWord = context.currSyllableIndex === context.syllableCount - 1;
+  const isStartOfWord = context.currSyllableIndex === 0;
+  const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
+  const syllableCount = context.syllableCount;
+  const monosyllabic = syllableCount === 1;
+
   let newSyllable: Syllable = {
     onset: [],
     nucleus: [],
     coda: []
   }
 
+  // Determine syllable structure
+  const hasOnset = determineHasOnset(isStartOfWord, prevSyllable);
+  const hasCoda = determineHasCoda(isEndOfWord, monosyllabic);
+
   // Build the syllable structure
-  newSyllable.onset = pickOnset(context);
-  newSyllable.nucleus = pickNucleus(context);
-  newSyllable.coda = pickCoda(context, newSyllable);
+  if (hasOnset) {
+    newSyllable.onset = pickOnset(context, isStartOfWord, monosyllabic);
+  }
+  
+  newSyllable.nucleus = pickNucleus(context, isStartOfWord, isEndOfWord, hasCoda);
+  
+  if (hasCoda) {
+    newSyllable.coda = pickCoda(context, newSyllable, isEndOfWord, monosyllabic);
+  }
 
   return newSyllable;
+}
+
+function determineHasOnset(isStartOfWord: boolean, prevSyllable?: Syllable): boolean {
+  if (isStartOfWord) {
+    return getWeightedOption([[true, 95], [false, 5]]);
+  } else {
+    const prevHasCoda = prevSyllable && prevSyllable.coda.length > 0;
+    return prevHasCoda ? getWeightedOption([[true, 80], [false, 20]]) : true;
+  }
+}
+
+function determineHasCoda(isEndOfWord: boolean, monosyllabic: boolean): boolean {
+  if (monosyllabic) {
+    return getWeightedOption([[true, 80], [false, 20]]);
+  } else if (isEndOfWord) {
+    return getWeightedOption([[true, 90], [false, 10]]);
+  } else {
+    return getWeightedOption([[true, 30], [false, 70]]);
+  }
 }
 
 export const generateSyllables = (context: WordGenerationContext) => {
