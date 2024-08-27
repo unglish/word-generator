@@ -124,7 +124,7 @@ function chooseGrapheme(
   if (prevPhoneme && prevPhoneme.nucleus && !isCluster) {
     const isAfterShortVowel = prevPhoneme.nucleus > 0 && prevPhoneme.tense === false;
     const isConsonant = position === "onset" || position === "coda";
-    const mayDouble = isAfterShortVowel && isConsonant && currPhoneme.mannerOfArticulation !== "glide" && form.length === 1;
+    const mayDouble = isAfterShortVowel && isConsonant && currPhoneme.sound !== "v" && currPhoneme.mannerOfArticulation !== "glide" && form.length === 1;
     const shouldDouble = mayDouble ? getWeightedOption([[true, 80],[false, 20]]): false;
     if (shouldDouble) {
       form += form;
