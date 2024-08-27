@@ -124,22 +124,23 @@ function checkOnsetSonority(currPhoneme: Phoneme, cluster: Phoneme[], prevPhonem
   return lastPhonemeWasAStop ? canFollowAStop : getSonority(currPhoneme) > getSonority(prevPhoneme!);
 }
 
-function checkCodaSonority(p: Phoneme, lastPhoneme: Phoneme | undefined): boolean {
-  if (!lastPhoneme) return true;
+function checkCodaSonority(currPhoneme: Phoneme, prevPhoneme: Phoneme | undefined): boolean {
+  if (!prevPhoneme) return true;
 
-  const prevSonority = getSonority(lastPhoneme);
-  const currSonority = getSonority(p);
+  const prevSonority = getSonority(prevPhoneme);
+  const currSonority = getSonority(currPhoneme);
 
-  const lastManner = lastPhoneme.mannerOfArticulation;
-  const currManner = p.mannerOfArticulation;
+  const prevManner = prevPhoneme.mannerOfArticulation;
+  const currManner = currPhoneme.mannerOfArticulation;
 
   const isEqualSonorityException = 
-    (lastManner == 'fricative' && currManner == 'fricative') ||
-    (lastManner == 'stop' && currManner == 'stop');
+    (prevManner == 'fricative' && currManner == 'fricative') ||
+    (prevManner == 'stop' && currManner == 'stop');
 
   const isReversedSonorityException = 
-    (lastManner == 'stop' && currManner == 'fricative') ||
-    (lastManner == 'sibilant' && currManner === 'nasal');
+    (prevManner == 'stop' && currManner == 'fricative') ||
+    (prevManner == 'stop' && currManner == 'sibilant') ||
+    (prevManner == 'sibilant' && currManner === 'nasal');
 
   return isEqualSonorityException || isReversedSonorityException || (currSonority < prevSonority);
 }
@@ -266,7 +267,7 @@ function pickNucleus(context: WordGenerationContext) {
  * - If avoiding repetition, it tries to replace the last coda phoneme with a similar one.
  * - If no suitable replacement is found, it removes the last coda phoneme.
  */
-function pickCoda(context:WordGenerationContext, newSyllable: Syllable): Phoneme[] {
+function pickCoda(context: WordGenerationContext, newSyllable: Syllable): Phoneme[] {
   const isEndOfWord = context.currSyllableIndex === context.syllableCount - 1;
   const syllableCount = context.syllableCount;
   const monosyllabic = syllableCount === 1;
@@ -276,7 +277,7 @@ function pickCoda(context:WordGenerationContext, newSyllable: Syllable): Phoneme
   const getCodaLengthWeights = (onsetLength: number) => {
     if (monosyllabic) {
       switch (onsetLength) {
-        case 0: return [[0, 80], [1, 100], [2, 200], [3, 150]];
+        case 0: return [[0, 20], [1, 100], [2, 200], [3, 150]];
         case 1: return [[0, 80], [1, 150], [2, 150], [3, 100]];
         case 2: return [[0, 50], [1, 200], [2, 100], [3, 50]];
         case 3: return [[0, 100], [1, 300], [2, 50], [3, 20]];
@@ -296,8 +297,6 @@ function pickCoda(context:WordGenerationContext, newSyllable: Syllable): Phoneme
 
   if (maxLength === 0) return [];
 
-  const onset = newSyllable.onset;
-
   let coda: Phoneme[] = buildCluster({
     position: "coda",
     cluster: [],
@@ -308,26 +307,11 @@ function pickCoda(context:WordGenerationContext, newSyllable: Syllable): Phoneme
     maxLength
   });
 
-  // Check for onset-coda repetition
-  if (onset.length > 0 && coda.length > 0 && onset[0].sound === coda[coda.length - 1].sound) {
-    const shouldAvoidRepetition = getWeightedOption([
-      [true, 98],  // 90% chance to avoid repetition
-      [false, 2]  // 10% chance to allow repetition
-    ]);
-
-    if (shouldAvoidRepetition) {
-      // Try to replace the last coda phoneme
-      const alternativeCodas = phonemes.filter(p => 
-        p.coda && p.sound !== onset[0].sound && p.mannerOfArticulation === coda[coda.length - 1].mannerOfArticulation
-      );
-      
-      if (alternativeCodas.length > 0) {
-        const altCodas = alternativeCodas.map(p => [p, p.coda ?? 0] as [Phoneme, number]);
-        coda[coda.length - 1] = getWeightedOption(altCodas);
-      } else {
-        // If no suitable alternative, remove the last coda phoneme
-        coda.pop();
-      }
+  // Add 's' to the end of the last syllable occasionally
+  if (isEndOfWord && getWeightedOption([[true, 15], [false, 85]])) {
+    const sPhoneme = phonemes.find(p => p.sound === 's');
+    if (sPhoneme) {
+      coda.push(sPhoneme);
     }
   }
 
@@ -397,7 +381,7 @@ function generateSyllable(context: WordGenerationContext): Syllable {
 export const generateSyllables = (context: WordGenerationContext) => {
   if (!context.syllableCount) {
     context.syllableCount = getWeightedOption([
-      [1, 15000], [2, 30000], [3, 29700],
+      [1, 5000], [2, 30000], [3, 29700],
       [4, 3000], [5, 200], [6, 50], [7, 5]
     ]);
   }
@@ -411,9 +395,9 @@ export const generateSyllables = (context: WordGenerationContext) => {
       newSyllable = generateSyllable(context);
     // } while (prevSyllable && !isValidSyllableBoundary(prevSyllable, newSyllable));
 
-    // if (prevSyllable) {
-    //   [prevSyllable, newSyllable] = adjustBoundary(prevSyllable, newSyllable);
-    // }
+    if (prevSyllable) {
+      [prevSyllable, newSyllable] = adjustBoundary(prevSyllable, newSyllable);
+    }
 
     syllables[i] = newSyllable;
     prevSyllable = newSyllable;

@@ -54,19 +54,19 @@ export const forwardnessToPlaceOfArticulation = {
 export const phonemes: Phoneme[] = [
   // High Vowels
   { sound: "i:", mannerOfArticulation: "highVowel", tense: true, nucleus: 150, startWord: 3, midWord: 1, endWord: 4, voiced: true, placeOfArticulation: "front" }, // sheep
-  { sound: "ɪ", mannerOfArticulation: "highVowel", tense: false, nucleus: 230, startWord: 3, midWord: 8, endWord: 0, voiced: true, placeOfArticulation: "front" }, // sit
+  { sound: "ɪ", mannerOfArticulation: "highVowel", tense: false, nucleus: 230, startWord: 3, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "front" }, // sit
 
   // Mid Vowels
-  { sound: "e", mannerOfArticulation: "midVowel", tense: false, nucleus: 140, startWord: 8, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "front" }, // red
-  { sound: "ɛ", mannerOfArticulation: "midVowel", tense: false, nucleus: 280, startWord: 8, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "front" }, // let
-  { sound: "ə", mannerOfArticulation: "midVowel", tense: true, nucleus: 280, startWord: 4, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
-  { sound: "ɜ", mannerOfArticulation: "midVowel", tense: true, nucleus: 50, startWord: 4, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "central" }, // bed, said, execute
-  { sound: "ɚ", mannerOfArticulation: "midVowel", tense: true, nucleus: 90, startWord: 1, midWord: 2, endWord: 5, voiced: true, placeOfArticulation: "central" }, // her, letter
+  { sound: "e", mannerOfArticulation: "midVowel", tense: false, nucleus: 140, startWord: 8, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // red
+  { sound: "ɛ", mannerOfArticulation: "midVowel", tense: false, nucleus: 280, startWord: 8, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // let
+  { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 280, startWord: 4, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
+  { sound: "ɜ", mannerOfArticulation: "midVowel", tense: false, nucleus: 50, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // bed, said, execute
+  { sound: "ɚ", mannerOfArticulation: "midVowel", tense: false, nucleus: 90, startWord: 1, midWord: 2, endWord: 5, voiced: true, placeOfArticulation: "central" }, // her, letter
 
   // Low Vowels
-  { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 220, startWord: 8, midWord: 6, endWord: 0, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
-  { sound: "ɑ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // father
-  { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 180, startWord: 6, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // ball
+  { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 220, startWord: 8, midWord: 6, endWord: 1, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
+  { sound: "ɑ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // father
+  { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 180, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // ball
   { sound: "o", mannerOfArticulation: "lowVowel", tense: true, nucleus: 100, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // hope
   { sound: "ʊ", mannerOfArticulation: "highVowel", tense: true, nucleus: 70, startWord: 4, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // book
   { sound: "u", mannerOfArticulation: "highVowel", tense: true, nucleus: 80, startWord: 8, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // blue
@@ -108,7 +108,7 @@ export const phonemes: Phoneme[] = [
   { sound: "h", mannerOfArticulation: "fricative", onset: 180, coda: 0, startWord: 10, midWord: 2, endWord: 0, voiced: false, placeOfArticulation: "glottal" }, // he
 
   // Voiced Fricatives
-  { sound: "v", mannerOfArticulation: "fricative", onset: 85, coda: 20, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "labiodental" }, // victor
+  { sound: "v", mannerOfArticulation: "fricative", onset: 250, coda: 20, startWord: 6, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "labiodental" }, // victor
   { sound: "ð", mannerOfArticulation: "fricative", onset: 250, coda: 50, startWord: 6, midWord: 2, endWord: 4, voiced: true, placeOfArticulation: "dental" }, // this
 
   // Sibilants

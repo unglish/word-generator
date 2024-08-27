@@ -1,6 +1,7 @@
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { graphemeMaps, cumulativeFrequencies } from "../elements/graphemes.js";
 import { getRand } from '../utils/random';
+import getWeightedOption from "../utils/getWeightedOption.js";
 
 /**
  * Applies various regex-based rules to improve naturalness of the written syllable.
@@ -76,7 +77,7 @@ function adjustSyllable(str: string): string {
  * and orthographically correct grapheme choices for English-like words.
  */
 function chooseGrapheme(
-  phoneme: Phoneme,  
+  currPhoneme: Phoneme,  
   position: "onset" | "nucleus" | "coda",
   isCluster: boolean = false,
   isStartOfWord: boolean = false,
@@ -84,8 +85,8 @@ function chooseGrapheme(
   prevPhoneme?: Phoneme,
   nextPhoneme?: Phoneme,
 ): string { 
-  const graphemeList = graphemeMaps[position].get(phoneme.sound);
-  const frequencyList = cumulativeFrequencies[position].get(phoneme.sound);
+  const graphemeList = graphemeMaps[position].get(currPhoneme.sound);
+  const frequencyList = cumulativeFrequencies[position].get(currPhoneme.sound);
   if (!graphemeList || !frequencyList || graphemeList.length === 0) return '';
 
   const totalFrequency = frequencyList[frequencyList.length - 1];
@@ -117,17 +118,20 @@ function chooseGrapheme(
     ) || graphemeList[0];
   }
 
-  let result = selectedGrapheme.form;
+  let { form } = selectedGrapheme;
 
   // Apply the doubling rule
-  const isAfterShortVowel = prevPhoneme?.nucleus && !prevPhoneme.tense;
-  const isBeforeShortVowel = !nextPhoneme?.onset && (!nextPhoneme?.tense || ['ɜ', 'ɚ'].includes(nextPhoneme?.sound));
-  const isSingleOnsetStop = position === "onset" && !isCluster && phoneme.mannerOfArticulation === 'stop';
-  if (isAfterShortVowel && isSingleOnsetStop && isBeforeShortVowel && result.length === 1) {
-    result += result;
+  if (prevPhoneme && prevPhoneme.nucleus && !isCluster) {
+    const isAfterShortVowel = prevPhoneme.nucleus > 0 && prevPhoneme.tense === false;
+    const isConsonant = position === "onset" || position === "coda";
+    const mayDouble = isAfterShortVowel && isConsonant && currPhoneme.mannerOfArticulation !== "glide" && form.length === 1;
+    const shouldDouble = mayDouble ? getWeightedOption([[true, 80],[false, 20]]): false;
+    if (shouldDouble) {
+      form += form;
+    }
   }
-
-  return result;
+  
+  return form;
 }
 
 /**
