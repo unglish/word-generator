@@ -1,3 +1,10 @@
+/**
+ * Log probability of each phoneme bigram.
+ *
+ * Derived from CMUdict v0.7a. ARPAbet entries were converted to IPA and stress
+ * digits were stripped before counting. The corpus produced 40 unique phonemes
+ * and 1287 distinct biphone pairs.
+ */
 export const biphoneModel: Record<string, number> = {
   'b aʊ': -4.427777,
   'aʊ t': -1.760409,
