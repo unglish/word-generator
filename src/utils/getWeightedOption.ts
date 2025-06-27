@@ -9,7 +9,7 @@ import { getRand } from "./random.js";
  *   ["blue", 50],
  * ]);
  * ```
- * Curtesy Mark Knol, T: @mknol (sourced from: https://github.com/liamegan/fxhash-helpers/blob/main/src/index.js)
+ * Courtesy Mark Knol, T: @mknol (sourced from: https://github.com/liamegan/fxhash-helpers/blob/main/src/index.js)
  * @param options - options in the format of [ [ string: optionName, int: optionNumber ] ]
  */
 const getWeightedOption = <T>(options: [T, number][]): T => {
