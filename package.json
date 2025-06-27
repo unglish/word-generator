@@ -13,7 +13,9 @@
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "dev": "concurrently \"vite\" \"tsc --watch\"",
-    "build": "tsc"
+    "build": "tsc && vite build && npm run copy-worker",
+    "preview": "vite preview",
+    "copy-worker": "cp dist-demo/unglish-worker.js demo/"
   },
   "repository": {
     "type": "git",
@@ -39,7 +41,7 @@
     "eslint": "^7.0.0",
     "prettier": "^2.0.0",
     "typescript": "^4.9.5",
-    "vite": "^5.0.12",
-    "vitest": "^1.0.0"
+    "vite": "^7.0.0",
+    "vitest": "^3.2.4"
   }
 }

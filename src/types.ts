@@ -134,4 +134,5 @@ export interface ClusterContext {
   isStartOfWord: boolean;
   isEndOfWord: boolean;
   maxLength: number;
+  syllableCount: number;
 }

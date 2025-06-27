@@ -42,7 +42,8 @@ describe('buildCluster function', () => {
         ignore: [],
         isStartOfWord: true,
         isEndOfWord: false,
-        maxLength: 3
+        maxLength: 3,
+        syllableCount: 1,
       };
       const cluster = buildCluster(context);
       const clusterString = cluster.map(p => p.sound).join('');
@@ -77,6 +78,7 @@ describe('buildCluster function', () => {
         isStartOfWord: false,
         isEndOfWord: true,
         maxLength: 2,
+        syllableCount: 1,
       };
       const cluster = buildCluster(context);
       const clusterString = cluster.map(p => p.sound).join('');

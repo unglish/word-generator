@@ -1,8 +1,8 @@
 import { Grapheme } from "../types.js";
 
-const ORIGINS = ["Germanic", "French", "Greek", "Latin", "Other"];
+export const ORIGINS = ["Germanic", "French", "Greek", "Latin", "Other"] as const;
 
-const graphemes: Grapheme[] = [
+export const graphemes: Grapheme[] = [
   /******************
    * VOWELS
    ******************/
@@ -15,7 +15,7 @@ const graphemes: Grapheme[] = [
     frequency: 50,
     startWord: 0,
     midWord: 4,
-    endWord: 10,
+    endWord: 1,
   },
   {
     phoneme: "i:",
@@ -42,7 +42,7 @@ const graphemes: Grapheme[] = [
     frequency: 1,
     startWord: 0,
     midWord: 1,
-    endWord: 10,
+    endWord: 100,
   },
   {
     phoneme: "i:",
@@ -62,6 +62,16 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 0,
   },
+  // people
+  {
+    phoneme: "i:",
+    form: "eo",
+    origin: 1,  
+    frequency: 1, 
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+  },
 
   // ɪ: sit
   { 
@@ -73,15 +83,17 @@ const graphemes: Grapheme[] = [
     midWord: 10,
     endWord: 0.01,
   },
+  // myth
   {
     phoneme: "ɪ",
     form: "y",
     origin: 1,
-    frequency: 5,
+    frequency: 1,
     startWord: 0,
     midWord: 1,
     endWord: 0,
   },
+  // build
   {
     phoneme: "ɪ",
     form: "ui",
@@ -102,6 +114,7 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
   },
+  // bread
   {
     phoneme: "e",
     form: "ea",
@@ -111,11 +124,22 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 0,
   },
+  // said
   {
     phoneme: "e",
     form: "ai",
     origin: 0,
-    frequency: 10,
+    frequency: 5,
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+  },
+  // friend
+  {
+    phoneme: "e",
+    form: "ie",
+    origin: 0,
+    frequency: 3,
     startWord: 0,
     midWord: 1,
     endWord: 0,
@@ -131,6 +155,7 @@ const graphemes: Grapheme[] = [
     midWord: 10,
     endWord: 5,
   },
+  // threat
   {
     phoneme: "ɛ",
     form: "ea",
@@ -168,7 +193,6 @@ const graphemes: Grapheme[] = [
     form: "ah",
     origin: 4,
     frequency: 10,
-    onset: 0,
     startWord: 0,
     midWord: 5,
     endWord: 10,
@@ -178,7 +202,6 @@ const graphemes: Grapheme[] = [
     form: "aa",
     origin: 4,
     frequency: 1,
-    onset: 0,
     startWord: 1,
     midWord: 1,
     endWord: 0,
@@ -188,10 +211,18 @@ const graphemes: Grapheme[] = [
     form: "au",
     origin: 0,
     frequency: 40,
-    onset: 0,
     startWord: 1,
     midWord: 10,
     endWord: 0,
+  },
+  {
+    phoneme: "ɑ",
+    form: "aue",
+    origin: 0,
+    frequency: 40,
+    startWord: 1,
+    midWord: 10,
+    endWord: 10,
   },
 
   // ɔ: ball
@@ -232,7 +263,7 @@ const graphemes: Grapheme[] = [
     frequency: 100,
     startWord: 1,
     midWord: 10,
-    endWord: 1,
+    endWord: 0,
   },
   {
     phoneme: "o",
@@ -375,7 +406,7 @@ const graphemes: Grapheme[] = [
     phoneme: "ə", 
     form: "a", 
     origin: 0, 
-    frequency: 1,
+    frequency: 4,
     startWord: 1000, 
     midWord: 5, 
     endWord: 9,
@@ -385,9 +416,18 @@ const graphemes: Grapheme[] = [
     form: "o", 
     origin: 0, 
     frequency: 1,
-    startWord: 0, 
+    startWord: 1, 
     midWord: 5, 
-    endWord: 0,
+    endWord: 1,
+  },
+  { 
+    phoneme: "ə", 
+    form: "ou", 
+    origin: 0, 
+    frequency: 1,
+    startWord: 1, 
+    midWord: 1, 
+    endWord: 1,
   },
   { 
     phoneme: "ə", 
@@ -404,10 +444,10 @@ const graphemes: Grapheme[] = [
     phoneme: "aɪ", 
     form: "i", 
     origin: 3, 
-    frequency: 100,
+    frequency: 10,
     startWord: 1,
-    midWord: 1,
-    endWord: 1,
+    midWord: 10,
+    endWord: 10,
   },
   {
     phoneme: "aɪ",
@@ -422,17 +462,17 @@ const graphemes: Grapheme[] = [
     phoneme: "aɪ", 
     form: "y", 
     origin: 0, 
-    frequency: 50,
+    frequency: 1,
     startWord: 0,
     midWord: 1,
-    endWord: 1,
+    endWord: 50,
   },
   {
     phoneme: "aɪ",
     form: "ie",
     origin: 1,
     frequency: 10,
-    startWord: 0,
+    startWord: 10,
     midWord: 10,
     endWord: 1,
   },
@@ -602,7 +642,7 @@ const graphemes: Grapheme[] = [
   form: "ee",
   origin: 0,
   frequency: 20,
-  startWord: 4,
+  startWord: 0,
   midWord: 3,
   endWord: 80,
 },
@@ -658,8 +698,8 @@ const graphemes: Grapheme[] = [
     origin: 0, 
     frequency: 10,
     startWord: 10,
-    midWord: 5,
-    endWord: 1,
+    midWord: 0,
+    endWord: 0,
   },
   {
     phoneme: "eɪ",
@@ -795,8 +835,8 @@ const graphemes: Grapheme[] = [
   phoneme: "ɚ",
   form: "ur",
   origin: 0,
-  frequency: 200,
-  startWord: 1,
+  frequency: 100,
+  startWord: 10,
   midWord: 30,
   endWord: 80,
 },
@@ -804,8 +844,8 @@ const graphemes: Grapheme[] = [
   phoneme: "ɚ",
   form: "or",
   origin: 3,
-  frequency: 100,
-  startWord: 1,
+  frequency: 300,
+  startWord: 0,
   midWord: 20,
   endWord: 50,
 },
@@ -833,7 +873,7 @@ const graphemes: Grapheme[] = [
   origin: 3,
   frequency: 30,
   startWord: 0,
-  midWord: 1,
+  midWord: 10,
   endWord: 80,
 },
 
@@ -872,27 +912,15 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
    },
-  {
-    phoneme: "w",
-    form: "u",
-    origin: 3,
-    frequency: 1,
-    onset: 0,
-    cluster: 10,
-    startWord: 0,
-    midWord: 1,
-    endWord: 0,
-  },
-  {
-    phoneme: "w",
-    form: "o",
-    origin: 3,
-    frequency: 1,
-    onset: 0,
+   { phoneme: "w", 
+    form: "wh", 
+    origin: 0, 
+    coda: 0,
+    frequency: 100,
     startWord: 1,
     midWord: 1,
-    endWord: 1,
-  },
+    endWord: 0,
+   },
 
   /******************
    * LIQUIDS
@@ -1041,7 +1069,8 @@ const graphemes: Grapheme[] = [
     origin: 0,
     frequency: 10,
     onset: 0,
-    startWord: 1,
+    cluster: 0,
+    startWord: 0,
     midWord: 1,
     endWord: 1,
   },
@@ -1057,7 +1086,7 @@ const graphemes: Grapheme[] = [
     frequency: 100, 
     startWord: 1,
     midWord: 1,
-    endWord: 0, },
+    endWord: 1, },
   {
     phoneme: "f",
     form: "ph",
@@ -1080,12 +1109,28 @@ const graphemes: Grapheme[] = [
   },
 
   // van
-  { phoneme: "v", form: "v", origin: 3, frequency: 100,startWord: 1,
+  { phoneme: "v", 
+    form: "v", 
+    origin: 3, 
+    frequency: 100,
+    startWord: 1,
     midWord: 1,
     endWord: 1, },
-  { phoneme: "v", form: "f", origin: 3, frequency: 1,startWord: 1,
-    midWord: 1,
-    endWord: 1, },
+  { phoneme: "v", 
+    form: "f", 
+    origin: 3, 
+    frequency: 1, 
+    startWord: 0,
+    midWord: 0,
+    endWord: 25, },
+  { phoneme: "v", 
+    form: "ve", 
+    origin: 3, 
+    onset: 0,
+    frequency: 1,
+    startWord: 0,
+    midWord: 0,
+    endWord: 50, },
   {
     phoneme: "v",
     form: "ph",
@@ -1400,6 +1445,8 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
   },
+  
+  // Example: "who", "whole"
   {
     phoneme: "h",
     form: "wh",
@@ -1407,8 +1454,8 @@ const graphemes: Grapheme[] = [
     frequency: 1,
     coda: 0,
     startWord: 1,
-    midWord: 1,
-    endWord: 1,
+    midWord: 0,
+    endWord: 0,
   },
 
   /******************
@@ -1445,8 +1492,19 @@ const graphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
   },
+  // righteous
+  {
+    phoneme: "tʃ",
+    form: "te",
+    origin: 3,
+    frequency: 1,
+    coda: 0,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+  },
 
-  // dʒ judge
+  // d�� judge
   {
     phoneme: "dʒ",
     form: "g",
@@ -1606,7 +1664,7 @@ const graphemes: Grapheme[] = [
     frequency: 50,
     startWord: 1,
     midWord: 1,
-    endWord: 1, },
+    endWord: 10, },
   { phoneme: "k", 
     form: "c", 
     origin: 3, 
@@ -1619,22 +1677,20 @@ const graphemes: Grapheme[] = [
     phoneme: "k",
     form: "ck",
     origin: 3,
-    frequency: 10,
+    frequency: 100,
     onset: 0,
-    cluster: 0,
     startWord: 0,
-    midWord: 5,
-    endWord: 1,
+    midWord: 1,
+    endWord: 10,
   },
   {
     phoneme: "k",
     form: "ch",
     origin: 3,
     frequency: 2,
-    coda: 0,
     startWord: 1,
     midWord: 1,
-    endWord: 0,
+    endWord: 1,
   },
   {
     phoneme: "k",
@@ -1864,4 +1920,34 @@ const graphemes: Grapheme[] = [
 },
 ];
 
-export { ORIGINS, graphemes };
+// Pre-compute grapheme maps with additional filtering
+export const graphemeMaps = {
+  onset: new Map<string, Grapheme[]>(),
+  nucleus: new Map<string, Grapheme[]>(),
+  coda: new Map<string, Grapheme[]>()
+};
+
+// Pre-compute cumulative frequencies for each phoneme in each position
+export const cumulativeFrequencies = {
+  onset: new Map<string, number[]>(),
+  nucleus: new Map<string, number[]>(),
+  coda: new Map<string, number[]>()
+};
+
+for (const position of ['onset', 'nucleus', 'coda'] as const) {
+  for (const grapheme of graphemes) {
+    // @ts-ignore
+    if (grapheme[position] === undefined || grapheme[position] > 0) {
+      if (!graphemeMaps[position].has(grapheme.phoneme)) {
+        graphemeMaps[position].set(grapheme.phoneme, []);
+        cumulativeFrequencies[position].set(grapheme.phoneme, []);
+      }
+      const graphemeList = graphemeMaps[position].get(grapheme.phoneme)!;
+      const frequencyList = cumulativeFrequencies[position].get(grapheme.phoneme)!;
+      
+      graphemeList.push(grapheme);
+      const lastFreq = frequencyList.length > 0 ? frequencyList[frequencyList.length - 1] : 0;
+      frequencyList.push(lastFreq + grapheme.frequency);
+    }
+  }
+}

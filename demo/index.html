@@ -43,11 +43,51 @@
             border-radius: 4px;
         }
     
-        #singleWord, #haiku, #slogan, #duplicates {
+        #singleWord, #haiku, #slogan, #duplicates, #wordMatchDemo, #commonWordsDemo {
             margin-bottom: 20px;
             padding: 15px;
             border: 1px solid var(--text-color);
             border-radius: 5px;
+        }
+        .timing {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+        }
+        .word-pill {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 20px;
+            background-color: rgba(200, 200, 200, 0.3);
+            transition: background-color 0.3s;
+        }
+        .word-pill.found {
+            background-color: rgba(0, 255, 0, 0.3);
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
     <script type="module">
@@ -59,6 +99,22 @@
                 <div id="haiku">Generating haiku...</div>
                 <div id="slogan">Generating slogan...</div>
                 <div id="duplicates">Generating duplicate word search...</div>
+                <div id="commonWordsDemo">
+                    <h2>Common Words Demo</h2>
+                    <button id="startCommonWordsDemo">Start Common Words Demo</button>
+                    <div id="commonWordsResult"></div>
+                </div>
+                <div id="wordMatchDemo">
+                    <h2>Word Match Demo</h2>
+                    <input type="text" id="targetWord" placeholder="Enter a target word or regex">
+                    <input type="number" id="syllableCount" placeholder="Syllable count (optional)" min="1" max="7">
+                    <label>
+                        <input type="checkbox" id="regexMode">
+                        Regex Mode
+                    </label>
+                    <button id="startMatchDemo">Generate Match</button>
+                    <div id="matchResult"></div>
+                </div>
             `;
 
             // Function to generate a single word
@@ -117,55 +173,159 @@
                 `;
             };
 
-            // Function to find duplicate words
-            const findDuplicateWords = (iterations) => {
-                const generatedWords = new Map();
-                let currentIteration = 0;
-
-                function generateWords() {
-                    const batchSize = 10;
-                    for (let i = 0; i < batchSize && currentIteration < iterations; i++, currentIteration++) {
-                        const newWord = unglish.generateWord();
-                        const wordKey = `${newWord.written.clean} (${newWord.pronunciation})`;
-                        generatedWords.set(wordKey, (generatedWords.get(wordKey) || 0) + 1);
-                    }
-
-                    // Update progress
+            // Duplicate Word Search
+            const duplicateWorker = new Worker('duplicateWorker.js');
+            duplicateWorker.onmessage = function(e) {
+                if (e.data.type === 'progress') {
                     document.getElementById('duplicates').innerHTML = `
                         <h2>Duplicate Word Search:</h2>
-                        <p>Generated ${currentIteration} of ${iterations} words...</p>
+                        <p>Generated ${e.data.progress} of ${e.data.total} words...</p>
                     `;
-
-                    if (currentIteration < iterations) {
-                        requestAnimationFrame(generateWords);
-                    } else {
-                        finalizeDuplicates();
-                    }
-                }
-
-                function finalizeDuplicates() {
-                    const duplicates = Array.from(generatedWords.entries())
-                        .filter(([_, count]) => count > 1)
-                        .sort((a, b) => b[1] - a[1]);
-
-                    const totalDuplicates = duplicates.reduce((sum, [_, count]) => sum + count, 0);
-                    const uniqueDuplicates = duplicates.length;
-                    console.log(`Total duplicates: ${totalDuplicates}, Unique duplicates: ${uniqueDuplicates}`);
-
-                    // Format duplicates for display
-                    const formattedDuplicates = duplicates
-                        .map(([word, count]) => `${word} (${count})`)
-                        .join(', ');
-
-                    // Add the result to the HTML
+                } else if (e.data.type === 'result') {
                     document.getElementById('duplicates').innerHTML = `
                         <h2>Duplicate Word Search:</h2>
-                        <p>Generated ${iterations} words.</p>
-                        <p>Repeated ${totalDuplicates} words: ${formattedDuplicates}</p>
+                        <p>Generated ${e.data.iterations} words.</p>
+                        <p>Found ${e.data.dupeCount} dupes (${e.data.dupePercentage}%): ${e.data.formattedDuplicates}</p>
+                        <p class="timing">Time taken: ${e.data.duration} seconds</p>
                     `;
                 }
+            };
 
-                generateWords();
+            // Word Match Demo
+            let matchWorker = null;
+            const targetWordInput = document.getElementById('targetWord');
+            const syllableCountInput = document.getElementById('syllableCount');
+            const regexModeCheckbox = document.getElementById('regexMode');
+            const startMatchDemoButton = document.getElementById('startMatchDemo');
+            const matchResultDiv = document.getElementById('matchResult');
+
+            let closeMatches = new Set();
+            let isSearching = false;
+
+            function createNewMatchWorker() {
+                if (matchWorker) {
+                    matchWorker.terminate();
+                }
+                matchWorker = new Worker('matchWorker.js');
+                matchWorker.onmessage = handleMatchWorkerMessage;
+            }
+
+            function handleMatchWorkerMessage(e) {
+                if (e.data.type === 'progress') {
+                    updateMatchResult(null, false, e.data.attempts, e.data.duration);
+                } else if (e.data.type === 'closeMatch') {
+                    closeMatches.add(e.data.word);
+                    updateMatchResult(e.data.word, false, e.data.attempts, e.data.duration);
+                } else if (e.data.type === 'match') {
+                    updateMatchResult(e.data.word, true, e.data.attempts, e.data.duration);
+                    isSearching = false;
+                    startMatchDemoButton.textContent = 'Generate Match';
+                } else if (e.data.type === 'cancelled') {
+                    updateMatchResult(null, false, e.data.attempts, e.data.duration);
+                    isSearching = false;
+                    startMatchDemoButton.textContent = 'Generate Match';
+                    matchResultDiv.innerHTML += '<p><strong>Search cancelled.</strong></p>';
+                }
+            }
+
+            function updateMatchResult(newMatch = null, isExactMatch = false, attempts, duration) {
+                const matchesHtml = Array.from(closeMatches)
+                    .map(word => `<li>${word}</li>`)
+                    .join('');
+
+                matchResultDiv.innerHTML = `
+                    <em><span>Attempts: ${attempts}</span></em>
+                    ${isExactMatch ? `<br/><strong>Match found: ${newMatch}</strong>` : ''}
+                    <br/><strong>Close matches:</strong>
+                    <ul>${matchesHtml}</ul>
+                    <p class="timing">Time elapsed: ${duration} seconds</p>
+                `;
+            }
+
+            startMatchDemoButton.addEventListener('click', () => {
+                const targetWord = targetWordInput.value.trim().toLowerCase();
+                const syllableCount = parseInt(syllableCountInput.value) || 0;
+                const isRegex = regexModeCheckbox.checked;
+
+                if (isSearching) {
+                    if (matchWorker) {
+                        matchWorker.terminate();
+                        matchWorker = null;
+                    }
+                    isSearching = false;
+                    startMatchDemoButton.textContent = 'Generate Match';
+                    matchResultDiv.innerHTML += '<p><strong>Search cancelled.</strong></p>';
+                } else if (targetWord) {
+                    isSearching = true;
+                    startMatchDemoButton.textContent = 'Cancel Search';
+                    closeMatches.clear();
+                    matchResultDiv.innerHTML = 'Generating...';
+                    createNewMatchWorker();
+                    matchWorker.postMessage({
+                        action: 'findMatch', 
+                        targetWord: targetWord,
+                        isRegex: isRegex,
+                        syllableCount: syllableCount
+                    });
+                } else {
+                    matchResultDiv.innerHTML = 'Please enter a target word or regex.';
+                }
+            });
+
+            // Common Words Demo
+            const commonWordsWorker = new Worker('commonWordsWorker.js');
+            const startCommonWordsDemoButton = document.getElementById('startCommonWordsDemo');
+            const commonWordsResultDiv = document.getElementById('commonWordsResult');
+            const wordListDiv = document.createElement('div');
+            wordListDiv.id = 'wordList';
+            commonWordsResultDiv.appendChild(wordListDiv);
+            const progressInfoDiv = document.createElement('div');
+            progressInfoDiv.id = 'progressInfo';
+            commonWordsResultDiv.appendChild(progressInfoDiv);
+
+            startCommonWordsDemoButton.addEventListener('click', () => {
+                startCommonWordsDemoButton.disabled = true;
+                progressInfoDiv.textContent = 'Generating words...';
+                commonWordsWorker.postMessage({ action: 'findCommonWords' });
+            });
+
+            commonWordsWorker.onmessage = function(e) {
+                if (e.data.type === 'wordList') {
+                    wordListDiv.innerHTML = ''; // Clear existing word list
+                    e.data.words.forEach(word => {
+                        const pill = document.createElement('span');
+                        pill.className = 'word-pill tooltip';
+                        pill.dataset.word = word; // Add data attribute for the word
+                        pill.innerHTML = `
+                            ${word}
+                            <span class="tooltiptext">Not found yet</span>
+                        `;
+                        wordListDiv.appendChild(pill);
+                    });
+                } else if (e.data.type === 'progress') {
+                    progressInfoDiv.innerHTML = `
+                        <p>Iterations: ${e.data.iterations}</p>
+                        <p>Found words: ${e.data.foundCount}</p>
+                        <p>Remaining words: ${e.data.remainingCount}</p>
+                    `;
+                } else if (e.data.type === 'wordFound') {
+                    const wordPills = wordListDiv.querySelectorAll('.word-pill');
+                    const foundPill = Array.from(wordPills).find(pill => pill.dataset.word === e.data.word);
+                    if (foundPill) {
+                        foundPill.classList.add('found');
+                        foundPill.querySelector('.tooltiptext').textContent = `Found after ${e.data.iterations} iterations (${e.data.time}s)`;
+                    }
+                } else if (e.data.type === 'complete') {
+                    progressInfoDiv.innerHTML += `
+                        <p><strong>All words found!</strong></p>
+                        <p>Total iterations: ${e.data.iterations}</p>
+                        <p>Time taken: ${e.data.duration} seconds</p>
+                    `;
+                    startCommonWordsDemoButton.disabled = false;
+                } else if (e.data.type === 'error') {
+                    progressInfoDiv.innerHTML = `<p>Error: ${e.data.message}</p>`;
+                    startCommonWordsDemoButton.disabled = false;
+                }
             };
 
             // Schedule tasks to run after the initial paint
@@ -173,7 +333,7 @@
                 generateSingleWord();
                 generateSlogan();
                 generateHaiku();
-                findDuplicateWords(10000);
+                duplicateWorker.postMessage({action: 'findDuplicates', iterations: 10000});
             });
         });
     </script>

@@ -2,7 +2,7 @@ import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, 
 import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
 import { createSeededRandom } from "../utils/createSeededRandom.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonorityToMannerOfArticulation, sonorityToPlaceOfArticulation } from "../elements/phonemes.js";
+import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonorityLevels, phonemeMaps } from "../elements/phonemes.js";
 import { generatePronunciation } from "./pronounce.js";
 import { generateWrittenForm } from "./write.js";
 
@@ -19,89 +19,62 @@ import { generateWrittenForm } from "./write.js";
  * Sonority is important in determining the structure of syllables and
  * the formation of consonant clusters in many languages, including English.
  */
-const sonorityCache = new Map<string, number>();
-
 export const getSonority = (phoneme: Phoneme): number => {
-  // Create a unique cache key based on phoneme attributes
-  const cacheKey = `${phoneme.mannerOfArticulation}-${phoneme.placeOfArticulation}-${phoneme.voiced}-${phoneme.tense}`;
-
-  // Check if the sonority value is already cached
-  if (!sonorityCache.has(cacheKey)) {
-    // Base sonority from manner of articulation
-    let sonority = sonorityToMannerOfArticulation[phoneme.mannerOfArticulation] || 0;
-
-    // Adjust sonority based on place of articulation
-    if (sonorityToPlaceOfArticulation[phoneme.placeOfArticulation] !== undefined) {
-      sonority += sonorityToPlaceOfArticulation[phoneme.placeOfArticulation];
-    }
-
-    // Adjust for voicing
-    if (phoneme.voiced) {
-      sonority += 0.5;
-    }
-
-    // Adjust for tenseness
-    if (phoneme.tense) {
-      sonority += 0.25;
-    }
-
-    // Cache the calculated sonority
-    sonorityCache.set(cacheKey, sonority);
-  }
-
-  // Return the cached or newly calculated sonority
-  return sonorityCache.get(cacheKey)!;
+  return sonorityLevels.get(phoneme) || 0;
 };
 
 export function buildCluster(context: ClusterContext): Phoneme[] {
-  const candidatePhonemes = positionPhonemes[context.position];
-
-  while (context.cluster.length < context.maxLength) {
-    const validCandidates = getValidCandidates(candidatePhonemes, context);
-
-    if (validCandidates.length === 0) break;
-
+  const validCandidates = getValidCandidates(positionPhonemes[context.position], context);
+  
+  while (context.cluster.length < context.maxLength && validCandidates.length > 0) {
     const newPhoneme = selectPhoneme(validCandidates, context);
     if (!newPhoneme) break;
 
     context.cluster.push(newPhoneme);
-
     if (shouldStopClusterGrowth(context)) break;
+
+    // Update validCandidates for the next iteration
+    updateValidCandidates(validCandidates, context);
   }
 
   return context.cluster;
+}
+
+function updateValidCandidates(candidates: Phoneme[], context: ClusterContext) {
+  for (let i = candidates.length - 1; i >= 0; i--) {
+    if (!isValidCandidate(candidates[i], context)) {
+      candidates.splice(i, 1);
+    }
+  }
 }
 
 function getValidCandidates(candidatePhonemes: Phoneme[], context: ClusterContext): Phoneme[] {
   return candidatePhonemes.filter(p => isValidCandidate(p, context));
 }
 
+const invalidClusterRegexes = {
+  onset: new RegExp(invalidOnsetClusters.map(r => r.source).join('|'), 'i'),
+  coda: new RegExp(invalidCodaClusters.map(r => r.source).join('|'), 'i'),
+  nucleus: new RegExp(invalidBoundaryClusters.map(r => r.source).join('|'), 'i')
+};
+
 function isValidCandidate(p: Phoneme, context: ClusterContext): boolean {
-  const potentialContext = structuredClone(context);
-  potentialContext.cluster.push(p);
-  return (
-    !isIgnored(p, context) &&
-    !isDuplicate(p, context) &&
-    isValidPosition(p, context) &&
-    checkSonority(p, context) &&
-    isValidCluster(potentialContext)
-  );
-}
-
-function isIgnored(p: Phoneme, { ignore }: ClusterContext): boolean {
-  return ignore.includes(p.sound);
-}
-
-function isDuplicate(p: Phoneme, { cluster }: ClusterContext): boolean {
-  return cluster.some(existingP => existingP.sound === p.sound);
+  if (context.ignore.includes(p.sound) || 
+      context.cluster.some(existingP => existingP.sound === p.sound) || 
+      !isValidPosition(p, context) || 
+      !checkSonority(p, context)) {
+    return false;
+  }
+  
+  const potentialCluster = context.cluster.map(ph => ph.sound).join('') + p.sound;
+  return !invalidClusterRegexes[context.position].test(potentialCluster);
 }
 
 function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: ClusterContext): boolean {
-  const positionValue = p[position];
-  const isAllowedInPosition = positionValue === undefined || positionValue > 0;
-  const isAllowedAtStart = !isStartOfWord || (!p.startWord || p.startWord > 0);
-  const isAllowedAtEnd = !isEndOfWord || (!p.endWord || p.endWord > 0);
-  return isAllowedInPosition && isAllowedAtStart && isAllowedAtEnd;
+  // @ts-ignore
+  return (p[position] === undefined || p[position] > 0) &&
+         (!isStartOfWord || p.startWord === undefined || p.startWord > 0) &&
+         (!isEndOfWord || p.endWord === undefined || p.endWord > 0);
 }
 
 export const isValidCluster = ({ cluster, position }: ClusterContext): boolean => {
@@ -151,22 +124,23 @@ function checkOnsetSonority(currPhoneme: Phoneme, cluster: Phoneme[], prevPhonem
   return lastPhonemeWasAStop ? canFollowAStop : getSonority(currPhoneme) > getSonority(prevPhoneme!);
 }
 
-function checkCodaSonority(p: Phoneme, lastPhoneme: Phoneme | undefined): boolean {
-  if (!lastPhoneme) return true;
+function checkCodaSonority(currPhoneme: Phoneme, prevPhoneme: Phoneme | undefined): boolean {
+  if (!prevPhoneme) return true;
 
-  const prevSonority = getSonority(lastPhoneme);
-  const currSonority = getSonority(p);
+  const prevSonority = getSonority(prevPhoneme);
+  const currSonority = getSonority(currPhoneme);
 
-  const lastManner = lastPhoneme.mannerOfArticulation;
-  const currManner = p.mannerOfArticulation;
+  const prevManner = prevPhoneme.mannerOfArticulation;
+  const currManner = currPhoneme.mannerOfArticulation;
 
   const isEqualSonorityException = 
-    (lastManner == 'fricative' && currManner == 'fricative') ||
-    (lastManner == 'stop' && currManner == 'stop');
+    (prevManner == 'fricative' && currManner == 'fricative') ||
+    (prevManner == 'stop' && currManner == 'stop');
 
   const isReversedSonorityException = 
-    (lastManner == 'stop' && currManner == 'fricative') ||
-    (lastManner == 'sibilant' && currManner === 'nasal');
+    (prevManner == 'stop' && currManner == 'fricative') ||
+    (prevManner == 'stop' && currManner == 'sibilant') ||
+    (prevManner == 'sibilant' && currManner === 'nasal');
 
   return isEqualSonorityException || isReversedSonorityException || (currSonority < prevSonority);
 }
@@ -190,9 +164,9 @@ function shouldStopClusterGrowth({ position, cluster }: ClusterContext): boolean
 }
 
 const positionPhonemes = {
-  onset: phonemes.filter(p => p.onset !== undefined && p.onset > 0),
-  coda: phonemes.filter(p => p.coda !== undefined && p.coda > 0),
-  nucleus: phonemes.filter(p => p.nucleus !== undefined && p.nucleus > 0)
+  onset: Array.from(phonemeMaps.onset.values()).flat(),
+  coda: Array.from(phonemeMaps.coda.values()).flat(),
+  nucleus: Array.from(phonemeMaps.nucleus.values()).flat()
 };
 
 /**
@@ -210,15 +184,32 @@ const positionPhonemes = {
  * - If following a nucleus (no coda in previous syllable), onset cannot be empty (length 0).
  * - Otherwise, empty onsets are possible but less likely than single-phoneme onsets.
  */
-function pickOnset(prevSyllable?: Syllable): Phoneme[] {
+function pickOnset(context: WordGenerationContext, isStartOfWord: boolean, monosyllabic: boolean): Phoneme[] {
+  const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
   const isFollowingNucleus = prevSyllable && prevSyllable.coda.length === 0;
-  const maxLength: number = getWeightedOption([
-    [0, isFollowingNucleus ? 0 : 150], 
-    [1, 675], 
-    [2, 125], 
-    [3, 80]
-  ]);
-  const isStartOfWord = !prevSyllable;
+  const syllableCount = context.syllableCount;
+
+  const getMaxLength = () => {
+    if (monosyllabic) {
+      return getWeightedOption([
+        [0, 50], 
+        [1, 100], 
+        [2, 200], 
+        [3, 150]
+      ]);
+    } else {
+      return getWeightedOption([
+        [0, isFollowingNucleus ? 0 : 150], 
+        [1, 675], 
+        [2, 125], 
+        [3, 80]
+      ]);
+    }
+  };
+
+  const maxLength = getMaxLength();
+  if (maxLength === 0) return [];
+
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
   let onset: Phoneme[] = buildCluster(
     {
@@ -227,6 +218,7 @@ function pickOnset(prevSyllable?: Syllable): Phoneme[] {
       ignore: toIgnore,
       isStartOfWord,
       isEndOfWord: false,
+      syllableCount,
       maxLength
     },
   );
@@ -240,16 +232,17 @@ function pickOnset(prevSyllable?: Syllable): Phoneme[] {
  * @param prevSyllable - The previous syllable, if any. Used to determine constraints on the nucleus.
  * @returns A Phoneme object representing the nucleus.
  */
-function pickNucleus(prevSyllable: Syllable | undefined, isEndOfWord: boolean) {
-  const isStartOfWord = !prevSyllable;
+function pickNucleus(context: WordGenerationContext, isStartOfWord: boolean, isEndOfWord: boolean, hasCoda: boolean): Phoneme[] {
+  const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
   let nucleus = buildCluster(
     {
       position: "nucleus",
       cluster: [],
-      ignore: prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [],
+      ignore: [],
       isStartOfWord,
       isEndOfWord,
       maxLength: 1,
+      syllableCount: context.syllableCount,
     },
   );
   
@@ -277,50 +270,49 @@ function pickNucleus(prevSyllable: Syllable | undefined, isEndOfWord: boolean) {
  * - If avoiding repetition, it tries to replace the last coda phoneme with a similar one.
  * - If no suitable replacement is found, it removes the last coda phoneme.
  */
-function pickCoda(currentSyllable: Syllable, isEndOfWord: boolean = false): Phoneme[] {
-  const maxLength = getWeightedOption(isEndOfWord ? [
-    [0, 500],
-    [1, 3000],
-    [2, 900],
-    [3, 400],
-  ] : [
-    [0, 6000],
-    [1, 3000],
-    [2, 900],
-    [3, 100],
-  ]);
+function pickCoda(context: WordGenerationContext, newSyllable: Syllable, isEndOfWord: boolean, monosyllabic: boolean): Phoneme[] {
+  const syllableCount = context.syllableCount;
+  const onsetLength = newSyllable.onset.length;
+
+  // Adjust weights based on onset length
+  const getCodaLengthWeights = (onsetLength: number) => {
+    if (monosyllabic) {
+      switch (onsetLength) {
+        case 0: return [[0, 20], [1, 100], [2, 200], [3, 150]];
+        case 1: return [[0, 80], [1, 150], [2, 150], [3, 100]];
+        case 2: return [[0, 50], [1, 200], [2, 100], [3, 50]];
+        case 3: return [[0, 100], [1, 300], [2, 50], [3, 20]];
+        default: return [[0, 150], [1, 200], [2, 30], [3, 10]];
+      }
+    } else {
+      return [
+        [0, isEndOfWord ? 1200 : 6000],
+        [1, 3000],
+        [2, 900],
+        [3, 100],
+      ];
+    }
+  };
+
+  const maxLength: number = getWeightedOption(getCodaLengthWeights(onsetLength) as [number, number][]);
 
   if (maxLength === 0) return [];
 
-  const onset = currentSyllable.onset;
   let coda: Phoneme[] = buildCluster({
     position: "coda",
     cluster: [],
     ignore: [],
     isStartOfWord: false,
     isEndOfWord,
+    syllableCount,
     maxLength
   });
 
-  // Check for onset-coda repetition
-  if (onset.length > 0 && coda.length > 0 && onset[0].sound === coda[coda.length - 1].sound) {
-    const shouldAvoidRepetition = getWeightedOption([
-      [true, 98],  // 90% chance to avoid repetition
-      [false, 2]  // 10% chance to allow repetition
-    ]);
-
-    if (shouldAvoidRepetition) {
-      // Try to replace the last coda phoneme
-      const alternativeCodas = phonemes.filter(p => 
-        p.coda && p.sound !== onset[0].sound && p.mannerOfArticulation === coda[coda.length - 1].mannerOfArticulation
-      );
-      
-      if (alternativeCodas.length > 0) {
-        coda[coda.length - 1] = getWeightedOption(alternativeCodas.map(p => [p, p.coda ?? 0]));
-      } else {
-        // If no suitable alternative, remove the last coda phoneme
-        coda.pop();
-      }
+  // Add 's' to the end of the last syllable occasionally
+  if (isEndOfWord && getWeightedOption([[true, 15], [false, 85]])) {
+    const sPhoneme = phonemes.find(p => p.sound === 's');
+    if (sPhoneme) {
+      coda.push(sPhoneme);
     }
   }
 
@@ -373,54 +365,90 @@ function adjustBoundary(prevSyllable: Syllable, currentSyllable: Syllable): [Syl
  * that can be combined to form realistic-sounding words.
  */
 function generateSyllable(context: WordGenerationContext): Syllable {
+  const isEndOfWord = context.currSyllableIndex === context.syllableCount - 1;
+  const isStartOfWord = context.currSyllableIndex === 0;
+  const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
+  const syllableCount = context.syllableCount;
+  const monosyllabic = syllableCount === 1;
+
   let newSyllable: Syllable = {
     onset: [],
     nucleus: [],
     coda: []
   }
-  const i = context.currSyllableIndex;
-  const prevSyllable = context.word.syllables[i-1];
-  const isEndOfWord = i === context.syllableCount - 1;
+
+  // Determine syllable structure
+  const hasOnset = determineHasOnset(isStartOfWord, prevSyllable);
+  const hasCoda = determineHasCoda(isEndOfWord, monosyllabic);
 
   // Build the syllable structure
-  newSyllable.onset = pickOnset(prevSyllable);
-  newSyllable.nucleus = pickNucleus(prevSyllable, isEndOfWord);
-  newSyllable.coda = pickCoda(newSyllable, isEndOfWord);
+  if (hasOnset) {
+    newSyllable.onset = pickOnset(context, isStartOfWord, monosyllabic);
+  }
+  
+  newSyllable.nucleus = pickNucleus(context, isStartOfWord, isEndOfWord, hasCoda);
+  
+  if (hasCoda) {
+    newSyllable.coda = pickCoda(context, newSyllable, isEndOfWord, monosyllabic);
+  }
 
   return newSyllable;
+}
+
+function determineHasOnset(isStartOfWord: boolean, prevSyllable?: Syllable): boolean {
+  if (isStartOfWord) {
+    return getWeightedOption([[true, 95], [false, 5]]);
+  } else {
+    const prevHasCoda = prevSyllable && prevSyllable.coda.length > 0;
+    return prevHasCoda ? getWeightedOption([[true, 80], [false, 20]]) : true;
+  }
+}
+
+function determineHasCoda(isEndOfWord: boolean, monosyllabic: boolean): boolean {
+  if (monosyllabic) {
+    return getWeightedOption([[true, 80], [false, 20]]);
+  } else if (isEndOfWord) {
+    return getWeightedOption([[true, 90], [false, 10]]);
+  } else {
+    return getWeightedOption([[true, 30], [false, 70]]);
+  }
 }
 
 export const generateSyllables = (context: WordGenerationContext) => {
   if (!context.syllableCount) {
     context.syllableCount = getWeightedOption([
-      [1, 1000], [2, 30000], [3, 29700],
+      [1, 5000], [2, 30000], [3, 29700],
       [4, 3000], [5, 200], [6, 50], [7, 5]
     ]);
   }
 
-  while (context.currSyllableIndex < context.syllableCount) {
-    let newSyllable: Syllable;
-    let prevSyllable = context.word.syllables[context.currSyllableIndex - 1];
-    let prevSonority: Number;
-    let newSonority: Number;
+  const syllables = new Array(context.syllableCount);
+  let prevSyllable: Syllable | undefined;
 
-    do {
+  for (let i = 0; i < context.syllableCount; i++) {
+    let newSyllable: Syllable;
+    // do {
       newSyllable = generateSyllable(context);
-      
-      const closingPhoneme = prevSyllable?.coda.at(-1);
-      const openingPhoneme = newSyllable.onset.at(-1);
-      
-      prevSonority = closingPhoneme ? getSonority(closingPhoneme) : 0;
-      newSonority = openingPhoneme ? getSonority(openingPhoneme) : 0;
-    } while (prevSyllable && prevSonority >= newSonority);
+    // } while (prevSyllable && !isValidSyllableBoundary(prevSyllable, newSyllable));
 
     if (prevSyllable) {
       [prevSyllable, newSyllable] = adjustBoundary(prevSyllable, newSyllable);
     }
 
-    context.word.syllables.push(newSyllable);
+    syllables[i] = newSyllable;
+    prevSyllable = newSyllable;
     context.currSyllableIndex++;
   }
+
+  context.word.syllables = syllables;
+}
+
+function isValidSyllableBoundary(prev: Syllable, curr: Syllable): boolean {
+  const closingPhoneme = prev.coda[prev.coda.length - 1];
+  const openingPhoneme = curr.onset[0];
+  const prevSonority = closingPhoneme ? getSonority(closingPhoneme) : 0;
+  const newSonority = openingPhoneme ? getSonority(openingPhoneme) : 0;
+  return newSonority > prevSonority;
 }
 
 /**
@@ -431,9 +459,8 @@ export const generateSyllables = (context: WordGenerationContext) => {
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
   const originalRand: RandomFunction = getRand();
-
   const context: WordGenerationContext = {
-    word: options.word || {
+    word: {
       syllables: [],
       pronunciation: '',
       written: { clean: '', hyphenated: '' }
@@ -442,19 +469,17 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
     currSyllableIndex: 0,
   }
 
-  try {
-    if (options.seed !== undefined) {
-      const seededRand: RandomFunction = createSeededRandom(options.seed);
-      overrideRand(seededRand);
-    }
+  if (options.seed !== undefined) {
+    overrideRand(createSeededRandom(options.seed));
+  }
 
+  try {
     generateSyllables(context);
     generateWrittenForm(context);
     generatePronunciation(context);
     
     return context.word;
   } finally {
-    // Ensure the original randomness function is restored
     overrideRand(originalRand);
   }
 };
