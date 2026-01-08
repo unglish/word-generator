@@ -1,6 +1,6 @@
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { graphemeMaps, cumulativeFrequencies } from "../elements/graphemes.js";
-import { getRand } from '../utils/random';
+import { getRand } from "../utils/random";
 import getWeightedOption from "../utils/getWeightedOption.js";
 
 /**
@@ -34,7 +34,7 @@ const reductionRules = [
   },
   { 
     pattern: /(?<!^)ks/g,
-    replacement: (match: string) => getRand()() < 0.25 ? 'x' : match
+    replacement: (match: string) => getRand()() < 0.25 ? "x" : match
   }
 ];
 
@@ -79,18 +79,17 @@ function adjustSyllable(str: string): string {
 function chooseGrapheme(
   currPhoneme: Phoneme,  
   position: "onset" | "nucleus" | "coda",
-  isCluster: boolean = false,
-  isStartOfWord: boolean = false,
-  isEndOfWord: boolean = false,
+  isCluster = false,
+  isStartOfWord = false,
+  isEndOfWord = false,
   prevPhoneme?: Phoneme,
-  nextPhoneme?: Phoneme,
 ): string { 
   const graphemeList = graphemeMaps[position].get(currPhoneme.sound);
   const frequencyList = cumulativeFrequencies[position].get(currPhoneme.sound);
-  if (!graphemeList || !frequencyList || graphemeList.length === 0) return '';
+  if (!graphemeList || !frequencyList || graphemeList.length === 0) return "";
 
   const totalFrequency = frequencyList[frequencyList.length - 1];
-  let randomValue = getRand()() * totalFrequency;
+  const randomValue = getRand()() * totalFrequency;
 
   let selectedGrapheme: Grapheme | undefined;
   for (let i = 0; i < graphemeList.length; i++) {
@@ -149,7 +148,7 @@ function chooseGrapheme(
  * The resulting WrittenForm object provides both a standard spelling (clean) 
  * and a version with syllable breaks marked for potential hyphenation (hyphenated).
  */
-export const generateWrittenForm = (context: WordGenerationContext) => {
+export const generateWrittenForm = (context: WordGenerationContext): void => {
   const { syllables, written } = context.word;
   const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
     (["onset", "nucleus", "coda"] as const).flatMap((position) =>
@@ -177,7 +176,6 @@ export const generateWrittenForm = (context: WordGenerationContext) => {
       phonemeIndex === 0,
       phonemeIndex === flattenedPhonemes.length - 1,
       prevPhoneme?.phoneme,
-      nextPhoneme?.phoneme,
     );
 
     if (currentSyllable.length > 0 && grapheme.length > 0 &&
@@ -188,7 +186,7 @@ export const generateWrittenForm = (context: WordGenerationContext) => {
     }
 
     if (!nextPhoneme || nextPhoneme.syllableIndex !== syllableIndex) {
-      let syllableStr = adjustSyllable(currentSyllable.join(''));
+      let syllableStr = adjustSyllable(currentSyllable.join(""));
       
       if (cleanParts.length > 0 && syllableStr.length > 0 &&
           cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
@@ -206,8 +204,8 @@ export const generateWrittenForm = (context: WordGenerationContext) => {
     }
   }
 
-  written.clean = cleanParts.join('');
-  written.hyphenated = hyphenatedParts.join('');
+  written.clean = cleanParts.join("");
+  written.hyphenated = hyphenatedParts.join("");
 };
 
 export default generateWrittenForm;

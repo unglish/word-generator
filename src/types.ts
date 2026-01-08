@@ -128,11 +128,32 @@ export interface WordGenerationContext {
 }
 
 export interface ClusterContext {
-  position: "onset" | "coda" | "nucleus";
+  position: SyllablePosition;
   cluster: Phoneme[];
   ignore: string[];
   isStartOfWord: boolean;
   isEndOfWord: boolean;
   maxLength: number;
   syllableCount: number;
+}
+
+/** Position within a syllable structure */
+export type SyllablePosition = "onset" | "coda" | "nucleus";
+
+/**
+ * Type-safe accessor for position-based weights on Phoneme/Grapheme objects.
+ * Returns the weight for a given position, or undefined if not set.
+ */
+export function getPositionWeight<T extends { onset?: number; nucleus?: number; coda?: number }>(
+  item: T,
+  position: SyllablePosition
+): number | undefined {
+  switch (position) {
+  case "onset":
+    return item.onset;
+  case "nucleus":
+    return item.nucleus;
+  case "coda":
+    return item.coda;
+  }
 }

@@ -1,4 +1,4 @@
-import { Phoneme } from "../types.js";
+import { Phoneme, getPositionWeight } from "../types.js";
 
 export const sonorityToMannerOfArticulation = {
   "highVowel": 9,
@@ -138,14 +138,17 @@ export const phonemeMaps = {
   coda: new Map<string, Phoneme[]>()
 };
 
-for (const position of ['onset', 'nucleus', 'coda'] as const) {
+for (const position of ["onset", "nucleus", "coda"] as const) {
   for (const phoneme of phonemes) {
-    // @ts-ignore
-    if (phoneme[position] !== undefined && phoneme[position] > 0) {
+    const weight = getPositionWeight(phoneme, position);
+    if (weight !== undefined && weight > 0) {
       if (!phonemeMaps[position].has(phoneme.sound)) {
         phonemeMaps[position].set(phoneme.sound, []);
       }
-      phonemeMaps[position].get(phoneme.sound)!.push(phoneme);
+      const phonemeList = phonemeMaps[position].get(phoneme.sound);
+      if (phonemeList) {
+        phonemeList.push(phoneme);
+      }
     }
   }
 }
@@ -167,7 +170,7 @@ export const invalidBoundaryClusters: RegExp[] = [
   /ʃh/,
   /sʃ/,
   /ʒs/,
-]
+];
 
 const invalidGeneralClusters: RegExp[] = [
   ...invalidBoundaryClusters,
@@ -180,7 +183,7 @@ const invalidGeneralClusters: RegExp[] = [
   /pb/,
   /[ʒl]r/,
   /^.*.?[ðŋhʃ].?.*$/, // invalid in any position of a string at least 2 characters long
-]
+];
 
 export const invalidOnsetClusters: RegExp[] = [
   ...invalidGeneralClusters,
@@ -218,4 +221,4 @@ export const invalidCodaClusters: RegExp[] = [
   /[szʒ]l$/,
   /[wðf]r$/,
   /[θðf]rl$/,
-]
+];

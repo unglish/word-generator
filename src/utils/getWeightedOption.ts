@@ -13,7 +13,7 @@ import { getRand } from "./random.js";
  * @param options - options in the format of [ [ string: optionName, int: optionNumber ] ]
  */
 const getWeightedOption = <T>(options: [T, number][]): T => {
-  const totalWeight = options.reduce((sum, [_, weight]) => sum + weight, 0);
+  const totalWeight = options.reduce((sum, [, weight]) => sum + weight, 0);
   const randomValue = getRand()() * totalWeight;
   
   let cumulativeWeight = 0;

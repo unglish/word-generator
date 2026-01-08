@@ -1,26 +1,26 @@
-import { describe, it, expect } from 'vitest';
-import { generateWord, buildCluster, isValidCluster } from './generate';
-import { ClusterContext, Phoneme } from '../types';
-import { phonemes } from '../elements/phonemes';
+import { describe, it, expect } from "vitest";
+import { generateWord, buildCluster, isValidCluster } from "./generate";
+import { ClusterContext, Phoneme } from "../types";
+import { phonemes } from "../elements/phonemes";
 
-describe('Word Generator', () => {
-  it('generates word with specified syllable count', () => {
+describe("Word Generator", () => {
+  it("generates word with specified syllable count", () => {
     const word = generateWord({ syllableCount: 3 });
     expect(word.syllables.length).toBe(3);
   });
 
-  it('generates a word with a valid written form', () => {
+  it("generates a word with a valid written form", () => {
     const word = generateWord();
     expect(word.written.clean).toBeTruthy();
     expect(word.written.hyphenated).toBeTruthy();
   });
 
-  it('generates a word with a valid pronunciation', () => {
+  it("generates a word with a valid pronunciation", () => {
     const word = generateWord();
     expect(word.pronunciation).toBeTruthy();
   });
 
-  it('generates reproducible word with seed', () => {
+  it("generates reproducible word with seed", () => {
     const word1 = generateWord({ seed: 12345 });
     const word2 = generateWord({ seed: 12345 });
     expect(word1.written.clean).toBe(word2.written.clean);
@@ -28,16 +28,16 @@ describe('Word Generator', () => {
   });
 });
 
-describe('buildCluster function', () => {
-  it('produces s + p/t/k + * onset clusters', () => {
+describe("buildCluster function", () => {
+  it("produces s + p/t/k + * onset clusters", () => {
     const attempts = 10000;
-    const exceptionalClusters = ['sp', 'st', 'sk'];
+    const exceptionalClusters = ["sp", "st", "sk"];
     const foundClusters = new Set<string>();
     const allClusters = new Set<string>();
 
     for (let i = 0; i < attempts; i++) {
       const context: ClusterContext = {
-        position: 'onset',
+        position: "onset",
         cluster: [],
         ignore: [],
         isStartOfWord: true,
@@ -46,7 +46,7 @@ describe('buildCluster function', () => {
         syllableCount: 1,
       };
       const cluster = buildCluster(context);
-      const clusterString = cluster.map(p => p.sound).join('');
+      const clusterString = cluster.map(p => p.sound).join("");
       
       allClusters.add(clusterString);
       
@@ -64,15 +64,15 @@ describe('buildCluster function', () => {
     });
   });
 
-  it('produces *some* SSP violating clusters in codas', () => {
+  it("produces *some* SSP violating clusters in codas", () => {
     const attempts = 10000;
-    const exceptionalClusters = ['pt', 'ps', 'ks', 'pt'];
+    const exceptionalClusters = ["pt", "ps", "ks", "pt"];
     const foundClusters = new Set<string>();
     const allClusters = new Set<string>();
 
     for (let i = 0; i < attempts; i++) {
       const context: ClusterContext = {
-        position: 'coda',
+        position: "coda",
         cluster: [],
         ignore: [],
         isStartOfWord: false,
@@ -81,7 +81,7 @@ describe('buildCluster function', () => {
         syllableCount: 1,
       };
       const cluster = buildCluster(context);
-      const clusterString = cluster.map(p => p.sound).join('');
+      const clusterString = cluster.map(p => p.sound).join("");
       
       allClusters.add(clusterString);
       
@@ -96,7 +96,7 @@ describe('buildCluster function', () => {
   });
 });
 
-describe('isValidCluster', () => {
+describe("isValidCluster", () => {
 
   function getPhonemeBySounds(sounds: string[]): Phoneme[] {
     return sounds.map(sound => {
@@ -106,21 +106,21 @@ describe('isValidCluster', () => {
     });
   }
 
-  describe('should block invalid onsets', () => {
+  describe("should block invalid onsets", () => {
     const invalidClusters = [
-      ['t', 'd'],
-      ['d', 'm'],
-      ['f', 'n'],
-      ['s', 'r'],
-      ['p', 'n'],
-      ['k', 'n'],
-      ['d', 'g'],
-      ['dʒ','w'],
+      ["t", "d"],
+      ["d", "m"],
+      ["f", "n"],
+      ["s", "r"],
+      ["p", "n"],
+      ["k", "n"],
+      ["d", "g"],
+      ["dʒ","w"],
     ];
     
     invalidClusters.forEach(cluster => {
-      it(`should block invalid onset: ${cluster.join('')}`, () => {
-        expect(isValidCluster({ cluster: getPhonemeBySounds(cluster), position: 'onset' } as ClusterContext)).toBe(false);
+      it(`should block invalid onset: ${cluster.join("")}`, () => {
+        expect(isValidCluster({ cluster: getPhonemeBySounds(cluster), position: "onset" } as ClusterContext)).toBe(false);
       });
     });
   });
