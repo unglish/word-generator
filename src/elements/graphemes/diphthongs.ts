@@ -1,0 +1,362 @@
+/**
+ * Diphthong graphemes.
+ * 
+ * Diphthongs are vowel sounds that glide from one position to another:
+ * - aɪ (my, fly)
+ * - ʊə (sure, tour)
+ * - aʊ (now, cow)
+ * - ɔɪ (coin, boy)
+ * - eə (fair, care)
+ * - ɪə (fear, near)
+ * - eɪ (day, make)
+ * - əʊ (blow, go)
+ */
+
+import { Grapheme } from "../../types.js";
+
+export const diphthongGraphemes: Grapheme[] = [
+  // aɪ: my, fly
+  {
+    phoneme: "aɪ",
+    form: "i",
+    origin: 3,
+    frequency: 10,
+    startWord: 1,
+    midWord: 10,
+    endWord: 10,
+  },
+  {
+    phoneme: "aɪ",
+    form: "igh",
+    origin: 0,
+    frequency: 10,
+    startWord: 0,
+    midWord: 10,
+    endWord: 10,
+  },
+  {
+    phoneme: "aɪ",
+    form: "y",
+    origin: 0,
+    frequency: 1,
+    startWord: 0,
+    midWord: 1,
+    endWord: 50,
+  },
+  {
+    phoneme: "aɪ",
+    form: "ie",
+    origin: 1,
+    frequency: 10,
+    startWord: 10,
+    midWord: 10,
+    endWord: 1,
+  },
+  {
+    phoneme: "aɪ",
+    form: "ai",
+    origin: 3,
+    frequency: 1,
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+  },
+  {
+    phoneme: "aɪ",
+    form: "is",
+    origin: 0,
+    frequency: 1,
+    startWord: 1,
+    midWord: 0,
+    endWord: 0,
+  },
+  {
+    phoneme: "aɪ",
+    form: "ye",
+    origin: 0,
+    frequency: 10,
+    onset: 0,
+    startWord: 0,
+    midWord: 5,
+    endWord: 10,
+  },
+
+  // ʊə: sure, tour
+  {
+    phoneme: "ʊə",
+    form: "ue",
+    origin: 0,
+    frequency: 50,
+    startWord: 4,
+    midWord: 3,
+    endWord: 100,
+  },
+  {
+    phoneme: "ʊə",
+    form: "ou",
+    origin: 0,
+    frequency: 30,
+    startWord: 3,
+    midWord: 2,
+    endWord: 100,
+  },
+  // endure
+  {
+    phoneme: "ʊə",
+    form: "ue",
+    origin: 0,
+    frequency: 20,
+    startWord: 2,
+    midWord: 3,
+    endWord: 80,
+  },
+  // poor
+  {
+    phoneme: "ʊə",
+    form: "oo",
+    origin: 0,
+    frequency: 10,
+    startWord: 2,
+    midWord: 2,
+    endWord: 100,
+  },
+
+  // aʊ: now, cow
+  {
+    phoneme: "aʊ",
+    form: "ow",
+    origin: 0,
+    frequency: 100,
+    startWord: 1,
+    midWord: 5,
+    endWord: 10,
+  },
+  {
+    phoneme: "aʊ",
+    form: "ou",
+    origin: 1,
+    frequency: 10,
+    coda: 0,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+  },
+
+  // ɔɪ: coin, boy
+  {
+    phoneme: "ɔɪ",
+    form: "oi",
+    origin: 3,
+    frequency: 10,
+    coda: 0,
+    startWord: 5,
+    midWord: 10,
+    endWord: 1,
+  },
+  {
+    phoneme: "ɔɪ",
+    form: "oy",
+    origin: 0,
+    frequency: 2,
+    onset: 0,
+    startWord: 0,
+    midWord: 5,
+    endWord: 100,
+  },
+
+  // eə: fair, care
+  {
+    phoneme: "eə",
+    form: "ai",
+    origin: 0,
+    frequency: 50,
+    startWord: 4,
+    midWord: 5,
+    endWord: 100,
+  },
+  {
+    phoneme: "eə",
+    form: "ae",
+    origin: 0,
+    frequency: 40,
+    startWord: 4,
+    midWord: 4,
+    endWord: 100,
+  },
+  {
+    phoneme: "eə",
+    form: "ea",
+    origin: 0,
+    frequency: 30,
+    startWord: 4,
+    midWord: 3,
+    endWord: 100,
+  },
+  {
+    phoneme: "eə",
+    form: "ei",
+    origin: 0,
+    frequency: 10,
+    startWord: 3,
+    midWord: 2,
+    endWord: 50,
+  },
+  {
+    phoneme: "eə",
+    form: "ee",
+    origin: 0,
+    frequency: 20,
+    startWord: 0,
+    midWord: 3,
+    endWord: 80,
+  },
+  {
+    phoneme: "eə",
+    form: "aye",
+    origin: 0,
+    frequency: 5,
+    startWord: 3,
+    midWord: 1,
+    endWord: 50,
+  },
+
+  // ɪə: fear, near
+  {
+    phoneme: "ɪə",
+    form: "ea",
+    origin: 0,
+    frequency: 10,
+    onset: 0,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+  },
+  {
+    phoneme: "ɪə",
+    form: "ee",
+    origin: 0,
+    frequency: 10,
+    onset: 0,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+  },
+  {
+    phoneme: "ɪə",
+    form: "ie",
+    origin: 1,
+    frequency: 10,
+    onset: 0,
+    startWord: 0,
+    midWord: 1,
+    endWord: 1,
+  },
+
+  // eɪ: day, make
+  {
+    phoneme: "eɪ",
+    form: "a",
+    origin: 0,
+    frequency: 10,
+    startWord: 10,
+    midWord: 0,
+    endWord: 0,
+  },
+  {
+    phoneme: "eɪ",
+    form: "ai",
+    origin: 3,
+    frequency: 10,
+    coda: 0,
+    startWord: 0,
+    midWord: 2,
+    endWord: 0,
+  },
+  {
+    phoneme: "eɪ",
+    form: "ay",
+    origin: 0,
+    frequency: 10,
+    onset: 0,
+    startWord: 0,
+    midWord: 1,
+    endWord: 100,
+  },
+  {
+    phoneme: "eɪ",
+    form: "eigh",
+    origin: 1,
+    frequency: 1,
+    onset: 0,
+    startWord: 0,
+    midWord: 4,
+    endWord: 10,
+  },
+  // great
+  {
+    phoneme: "eɪ",
+    form: "ea",
+    origin: 0,
+    frequency: 5,
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+  },
+  {
+    phoneme: "eɪ",
+    form: "ey",
+    origin: 0,
+    frequency: 10,
+    startWord: 0,
+    midWord: 0,
+    endWord: 1,
+  },
+  {
+    phoneme: "eɪ",
+    form: "ae",
+    origin: 3,
+    frequency: 2,
+    startWord: 1,
+    midWord: 1,
+    endWord: 0,
+  },
+
+  // əʊ: blow, go
+  {
+    phoneme: "əʊ",
+    form: "ow",
+    origin: 0,
+    frequency: 1000,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+  },
+  {
+    phoneme: "əʊ",
+    form: "ou",
+    origin: 1,
+    frequency: 10,
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+  },
+  {
+    phoneme: "əʊ",
+    form: "oe",
+    origin: 1,
+    frequency: 10,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+  },
+  {
+    phoneme: "əʊ",
+    form: "ough",
+    origin: 4,
+    frequency: 1,
+    onset: 0,
+    startWord: 0,
+    midWord: 1,
+    endWord: 10,
+  },
+];

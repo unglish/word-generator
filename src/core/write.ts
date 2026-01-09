@@ -1,5 +1,5 @@
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
-import { graphemeMaps, cumulativeFrequencies } from "../elements/graphemes.js";
+import { graphemeMaps, cumulativeFrequencies } from "../elements/graphemes/index.js";
 import { getRand } from "../utils/random";
 import { getPrecomputedOption } from "../utils/precomputedWeights.js";
 import { BOOL_80_20 } from "../config/weights.js";
