@@ -2,6 +2,12 @@ import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, 
 import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
 import { createSeededRandom } from "../utils/createSeededRandom.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
+import { getPrecomputedOption } from "../utils/precomputedWeights.js";
+import {
+  BOOL_95_5, BOOL_90_10, BOOL_80_20, BOOL_30_70, BOOL_15_85,
+  SYLLABLE_COUNT, ONSET_LENGTH_MONOSYLLABIC, ONSET_LENGTH_FOLLOWING_NUCLEUS, ONSET_LENGTH_DEFAULT,
+  CODA_LENGTH_POLY_END, CODA_LENGTH_POLY_MID, getCodaLengthMonoByOnset
+} from "../config/weights.js";
 import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonorityLevels, phonemeMaps } from "../elements/phonemes.js";
 import { generatePronunciation } from "./pronounce.js";
 import { generateWrittenForm } from "./write.js";
@@ -189,21 +195,13 @@ function pickOnset(context: WordGenerationContext, isStartOfWord: boolean, monos
   const isFollowingNucleus = prevSyllable && prevSyllable.coda.length === 0;
   const syllableCount = context.syllableCount;
 
-  const getMaxLength = () => {
+  const getMaxLength = (): number => {
     if (monosyllabic) {
-      return getWeightedOption([
-        [0, 50], 
-        [1, 100], 
-        [2, 200], 
-        [3, 150]
-      ]);
+      return getPrecomputedOption(ONSET_LENGTH_MONOSYLLABIC);
+    } else if (isFollowingNucleus) {
+      return getPrecomputedOption(ONSET_LENGTH_FOLLOWING_NUCLEUS);
     } else {
-      return getWeightedOption([
-        [0, isFollowingNucleus ? 0 : 150], 
-        [1, 675], 
-        [2, 125], 
-        [3, 80]
-      ]);
+      return getPrecomputedOption(ONSET_LENGTH_DEFAULT);
     }
   };
 
@@ -271,27 +269,16 @@ function pickCoda(context: WordGenerationContext, newSyllable: Syllable, isEndOf
   const syllableCount = context.syllableCount;
   const onsetLength = newSyllable.onset.length;
 
-  // Adjust weights based on onset length
-  const getCodaLengthWeights = (onsetLength: number) => {
+  // Get max coda length based on word structure
+  const getMaxCodaLength = (): number => {
     if (monosyllabic) {
-      switch (onsetLength) {
-      case 0: return [[0, 20], [1, 100], [2, 200], [3, 150]];
-      case 1: return [[0, 80], [1, 150], [2, 150], [3, 100]];
-      case 2: return [[0, 50], [1, 200], [2, 100], [3, 50]];
-      case 3: return [[0, 100], [1, 300], [2, 50], [3, 20]];
-      default: return [[0, 150], [1, 200], [2, 30], [3, 10]];
-      }
+      return getPrecomputedOption(getCodaLengthMonoByOnset(onsetLength));
     } else {
-      return [
-        [0, isEndOfWord ? 1200 : 6000],
-        [1, 3000],
-        [2, 900],
-        [3, 100],
-      ];
+      return getPrecomputedOption(isEndOfWord ? CODA_LENGTH_POLY_END : CODA_LENGTH_POLY_MID);
     }
   };
 
-  const maxLength: number = getWeightedOption(getCodaLengthWeights(onsetLength) as [number, number][]);
+  const maxLength: number = getMaxCodaLength();
 
   if (maxLength === 0) return [];
 
@@ -306,7 +293,7 @@ function pickCoda(context: WordGenerationContext, newSyllable: Syllable, isEndOf
   });
 
   // Add 's' to the end of the last syllable occasionally
-  if (isEndOfWord && getWeightedOption([[true, 15], [false, 85]])) {
+  if (isEndOfWord && getPrecomputedOption(BOOL_15_85)) {
     const sPhoneme = phonemes.find(p => p.sound === "s");
     if (sPhoneme) {
       coda.push(sPhoneme);
@@ -335,7 +322,7 @@ function adjustBoundary(prevSyllable: Syllable, currentSyllable: Syllable): [Syl
 
   const lastCodaSonority = getSonority(lastCodaPhoneme);
   const firstOnsetSonority = getSonority(firstOnsetPhoneme);
-  if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, 90], [false, 10]])) {
+  if (firstOnsetSonority === lastCodaSonority && getPrecomputedOption(BOOL_90_10)) {
     prevSyllable.coda.pop();
   }
 
@@ -394,29 +381,26 @@ function generateSyllable(context: WordGenerationContext): Syllable {
 
 function determineHasOnset(isStartOfWord: boolean, prevSyllable?: Syllable): boolean {
   if (isStartOfWord) {
-    return getWeightedOption([[true, 95], [false, 5]]);
+    return getPrecomputedOption(BOOL_95_5);
   } else {
     const prevHasCoda = prevSyllable && prevSyllable.coda.length > 0;
-    return prevHasCoda ? getWeightedOption([[true, 80], [false, 20]]) : true;
+    return prevHasCoda ? getPrecomputedOption(BOOL_80_20) : true;
   }
 }
 
 function determineHasCoda(isEndOfWord: boolean, monosyllabic: boolean): boolean {
   if (monosyllabic) {
-    return getWeightedOption([[true, 80], [false, 20]]);
+    return getPrecomputedOption(BOOL_80_20);
   } else if (isEndOfWord) {
-    return getWeightedOption([[true, 90], [false, 10]]);
+    return getPrecomputedOption(BOOL_90_10);
   } else {
-    return getWeightedOption([[true, 30], [false, 70]]);
+    return getPrecomputedOption(BOOL_30_70);
   }
 }
 
 export const generateSyllables = (context: WordGenerationContext): void => {
   if (!context.syllableCount) {
-    context.syllableCount = getWeightedOption([
-      [1, 5000], [2, 30000], [3, 29700],
-      [4, 3000], [5, 200], [6, 50], [7, 5]
-    ]);
+    context.syllableCount = getPrecomputedOption(SYLLABLE_COUNT);
   }
 
   const syllables = new Array(context.syllableCount);

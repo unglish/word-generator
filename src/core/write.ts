@@ -1,7 +1,8 @@
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { graphemeMaps, cumulativeFrequencies } from "../elements/graphemes.js";
 import { getRand } from "../utils/random";
-import getWeightedOption from "../utils/getWeightedOption.js";
+import { getPrecomputedOption } from "../utils/precomputedWeights.js";
+import { BOOL_80_20 } from "../config/weights.js";
 
 /**
  * Applies various regex-based rules to improve naturalness of the written syllable.
@@ -124,7 +125,7 @@ function chooseGrapheme(
     const isAfterShortVowel = prevPhoneme.nucleus > 0 && prevPhoneme.tense === false;
     const isConsonant = position === "onset" || position === "coda";
     const mayDouble = isAfterShortVowel && isConsonant && currPhoneme.sound !== "v" && currPhoneme.mannerOfArticulation !== "glide" && form.length === 1;
-    const shouldDouble = mayDouble ? getWeightedOption([[true, 80],[false, 20]]): false;
+    const shouldDouble = mayDouble ? getPrecomputedOption(BOOL_80_20) : false;
     if (shouldDouble) {
       form += form;
     }

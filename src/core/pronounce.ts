@@ -1,5 +1,10 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../types";
 import getWeightedOption from "../utils/getWeightedOption";
+import { getPrecomputedOption } from "../utils/precomputedWeights";
+import {
+  BOOL_95_5, BOOL_90_10, BOOL_50_50, BOOL_40_60, BOOL_30_70, BOOL_15_85, BOOL_5_95,
+  PRIMARY_STRESS_DISYLLABIC
+} from "../config/weights";
 
 const aspirateSyllable = (position: number, context: WordGenerationContext): void => {
   const { word, syllableCount } = context;
@@ -20,21 +25,21 @@ const aspirateSyllable = (position: number, context: WordGenerationContext): voi
   if (position > 0) {
     const prevSyllable = word.syllables[position - 1];
     if (prevSyllable.coda.length > 0 && prevSyllable.coda[prevSyllable.coda.length - 1].sound === "s") {
-      shouldAspirate = getWeightedOption([[true, 5], [false, 95]]);
+      shouldAspirate = getPrecomputedOption(BOOL_5_95);
     }
   }
 
   // Word-initial position
   if (position === 0) {
-    shouldAspirate = getWeightedOption([[true, 95], [false, 5]]);
+    shouldAspirate = getPrecomputedOption(BOOL_95_5);
   }
   // Stressed syllable
   else if (syllable.stress) {
-    shouldAspirate = getWeightedOption([[true, 90], [false, 10]]);
+    shouldAspirate = getPrecomputedOption(BOOL_90_10);
   }
   // Word-medial position after a stressed syllable
   else if (position > 0 && word.syllables[position - 1].stress) {
-    shouldAspirate = getWeightedOption([[true, 50], [false, 50]]);
+    shouldAspirate = getPrecomputedOption(BOOL_50_50);
   }
   // Word-final position
   else if (position === syllableCount - 1) {
@@ -42,14 +47,14 @@ const aspirateSyllable = (position: number, context: WordGenerationContext): voi
     if (syllable.coda.length === 1 && 
         !syllable.coda[0].voiced && 
         syllable.coda[0].mannerOfArticulation === "stop") {
-      shouldAspirate = getWeightedOption([[true, 15], [false, 85]]);
+      shouldAspirate = getPrecomputedOption(BOOL_15_85);
     } else {
       shouldAspirate = false;
     }
   }
   // Default case (unstressed, non-final syllables)
   else {
-    shouldAspirate = getWeightedOption([[true, 30], [false, 70]]);
+    shouldAspirate = getPrecomputedOption(BOOL_30_70);
   }
 
   if (shouldAspirate) {
@@ -93,7 +98,7 @@ const applyPrimaryStress = (context: WordGenerationContext): void => {
     return;
   } else if (syllableCount === 2) {
     // For disyllabic words, 70% chance on first syllable, 30% on second
-    primaryStressIndex = getWeightedOption([[0, 70], [1, 30]]);
+    primaryStressIndex = getPrecomputedOption(PRIMARY_STRESS_DISYLLABIC);
   } else {
     const penultimateHeavy = isHeavySyllable(syllables[syllableCount - 2]);
     primaryStressIndex = getWeightedOption([
@@ -119,7 +124,7 @@ const applySecondaryStress = (context: WordGenerationContext): void => {
     potentialIndices.map(i => [i, isHeavySyllable(syllables[i]) ? 70 : 30])
   );
 
-  if (getWeightedOption([[true, 40], [false, 60]])) {
+  if (getPrecomputedOption(BOOL_40_60)) {
     syllables[secondaryStressIndex].stress = "ˌ";
   }
 };
@@ -130,7 +135,7 @@ const applyRhythmicStress = (context: WordGenerationContext): void => {
 
   for (let i = 1; i < syllables.length - 1; i++) {
     if (!syllables[i-1].stress && !syllables[i].stress && !syllables[i+1].stress) {
-      if (getWeightedOption([[true, 40], [false, 60]])) {
+      if (getPrecomputedOption(BOOL_40_60)) {
         syllables[i].stress = "ˌ";
       }
     }
