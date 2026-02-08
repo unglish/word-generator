@@ -3,6 +3,9 @@ import { resolve } from 'path';
 
 export default defineConfig({
   root: 'demo',
+  server: {
+    allowedHosts: ['unglish.exe.xyz'],
+  },
   build: {
     outDir: '../dist-demo',
     rollupOptions: {

@@ -92,6 +92,15 @@ export interface Phoneme {
   endWord: number;
 }
 
+/** Type-safe accessor for a phoneme's positional weight (onset / nucleus / coda). */
+export function getPhonemePositionWeight(p: Phoneme, position: 'onset' | 'nucleus' | 'coda'): number | undefined {
+  switch (position) {
+    case 'onset': return p.onset;
+    case 'nucleus': return p.nucleus;
+    case 'coda': return p.coda;
+  }
+}
+
 /**
  * A grapheme — the written (spelling) representation of a phoneme.
  *
