@@ -59,6 +59,55 @@ export interface SyllableStructureRules {
 }
 
 /**
+ * Weighted probability tables controlling how syllable components are sized
+ * and whether they appear at all. These are the "generation heuristics" that
+ * shape how words *feel* — independent of the phoneme/grapheme inventory.
+ */
+export interface GenerationWeights {
+  /** Onset length distributions: [lengthValue, weight][] */
+  onsetLength: {
+    /** Weights when the word is monosyllabic. */
+    monosyllabic: [number, number][];
+    /** Weights when the previous syllable had no coda (hiatus avoidance). */
+    followingNucleus: [number, number][];
+    /** Default weights for polysyllabic onsets. */
+    default: [number, number][];
+  };
+
+  /** Coda length distributions */
+  codaLength: {
+    /** Monosyllabic coda weights keyed by onset length. */
+    monosyllabic: Record<number, [number, number][]>;
+    /** Fallback for monosyllabic codas when onset length isn't in the map. */
+    monosyllabicDefault: [number, number][];
+    /** Non-zero coda length weights for polysyllabic words. */
+    polysyllabicNonzero: [number, number][];
+    /** Weight for zero-length coda when it's the last syllable. */
+    zeroWeightEndOfWord: number;
+    /** Weight for zero-length coda mid-word. */
+    zeroWeightMidWord: number;
+  };
+
+  /** Percentage chances (0–100) controlling structural decisions. */
+  probability: {
+    /** Chance the first syllable has an onset. */
+    hasOnsetStartOfWord: number;
+    /** Chance a non-initial syllable has an onset when the previous has a coda. */
+    hasOnsetAfterCoda: number;
+    /** Chance a monosyllabic word has a coda. */
+    hasCodaMonosyllabic: number;
+    /** Chance the final syllable has a coda. */
+    hasCodaEndOfWord: number;
+    /** Chance a mid-word syllable has a coda. */
+    hasCodaMidWord: number;
+    /** Chance to append a final 's' phoneme. */
+    finalS: number;
+    /** Chance to drop a coda phoneme at a syllable boundary with equal sonority. */
+    boundaryDrop: number;
+  };
+}
+
+/**
  * Stress assignment rules for polysyllabic words.
  *
  * Currently only `"weight-sensitive"` is implemented.
@@ -127,6 +176,9 @@ export interface LanguageConfig {
 
   /** Rules governing syllable structure */
   syllableStructure: SyllableStructureRules;
+
+  /** Weighted probability tables for generation heuristics. */
+  generationWeights: GenerationWeights;
 
   /** Stress assignment rules */
   stress: StressRules;

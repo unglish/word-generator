@@ -74,6 +74,32 @@ describe("LanguageConfig", () => {
     });
   });
 
+  describe("generation weights", () => {
+    it("should have onset length distributions", () => {
+      const { onsetLength } = englishConfig.generationWeights;
+      expect(onsetLength.monosyllabic.length).toBeGreaterThan(0);
+      expect(onsetLength.followingNucleus.length).toBeGreaterThan(0);
+      expect(onsetLength.default.length).toBeGreaterThan(0);
+    });
+
+    it("should have coda length distributions", () => {
+      const { codaLength } = englishConfig.generationWeights;
+      expect(Object.keys(codaLength.monosyllabic).length).toBeGreaterThan(0);
+      expect(codaLength.monosyllabicDefault.length).toBeGreaterThan(0);
+      expect(codaLength.polysyllabicNonzero.length).toBeGreaterThan(0);
+      expect(codaLength.zeroWeightEndOfWord).toBeGreaterThan(0);
+      expect(codaLength.zeroWeightMidWord).toBeGreaterThan(0);
+    });
+
+    it("should have probability values between 0 and 100", () => {
+      const { probability } = englishConfig.generationWeights;
+      for (const [key, value] of Object.entries(probability)) {
+        expect(value, key).toBeGreaterThanOrEqual(0);
+        expect(value, key).toBeLessThanOrEqual(100);
+      }
+    });
+  });
+
   describe("stress", () => {
     it("should use weight-sensitive strategy", () => {
       expect(englishConfig.stress.strategy).toBe("weight-sensitive");

@@ -6,23 +6,7 @@ import { LanguageConfig, computeSonorityLevels } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
-import {
-  ONSET_LENGTH_MONOSYLLABIC,
-  ONSET_LENGTH_FOLLOWING_NUCLEUS,
-  ONSET_LENGTH_DEFAULT,
-  CODA_LENGTH_MONOSYLLABIC,
-  CODA_LENGTH_MONOSYLLABIC_DEFAULT,
-  CODA_ZERO_WEIGHT_END_OF_WORD,
-  CODA_ZERO_WEIGHT_MID_WORD,
-  CODA_LENGTH_POLYSYLLABIC_NONZERO,
-  FINAL_S_CHANCE,
-  BOUNDARY_DROP_CHANCE,
-  HAS_ONSET_START_OF_WORD,
-  HAS_ONSET_AFTER_CODA,
-  HAS_CODA_MONOSYLLABIC,
-  HAS_CODA_END_OF_WORD,
-  HAS_CODA_MID_WORD,
-} from "../config/weights.js";
+import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------
 // Runtime: pre-computed data derived from a LanguageConfig
@@ -224,18 +208,12 @@ function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStart
   const prevSyllable = context.word.syllables[context.currSyllableIndex - 1];
   const isFollowingNucleus = prevSyllable && prevSyllable.coda.length === 0;
   const syllableCount = context.syllableCount;
+  const { onsetLength } = rt.config.generationWeights;
 
-  const getMaxLength = () => {
-    if (monosyllabic) {
-      return getWeightedOption(ONSET_LENGTH_MONOSYLLABIC);
-    } else {
-      return getWeightedOption(
-        isFollowingNucleus ? ONSET_LENGTH_FOLLOWING_NUCLEUS : ONSET_LENGTH_DEFAULT
-      );
-    }
-  };
+  const maxLength = monosyllabic
+    ? getWeightedOption(onsetLength.monosyllabic)
+    : getWeightedOption(isFollowingNucleus ? onsetLength.followingNucleus : onsetLength.default);
 
-  const maxLength = getMaxLength();
   if (maxLength === 0) return [];
 
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
@@ -264,23 +242,20 @@ function pickNucleus(rt: GeneratorRuntime, context: WordGenerationContext, isSta
 
 function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSyllable: Syllable, isEndOfWord: boolean, monosyllabic: boolean): Phoneme[] {
   const syllableCount = context.syllableCount;
-  const onsetLength = newSyllable.onset.length;
+  const onsetLen = newSyllable.onset.length;
+  const { codaLength, probability } = rt.config.generationWeights;
 
-  const getCodaLengthWeights = (onsetLength: number): [number, number][] => {
-    if (monosyllabic) {
-      return CODA_LENGTH_MONOSYLLABIC[onsetLength] ?? CODA_LENGTH_MONOSYLLABIC_DEFAULT;
-    } else {
-      return [
-        [0, isEndOfWord ? CODA_ZERO_WEIGHT_END_OF_WORD : CODA_ZERO_WEIGHT_MID_WORD],
-        ...CODA_LENGTH_POLYSYLLABIC_NONZERO,
+  const weights: [number, number][] = monosyllabic
+    ? (codaLength.monosyllabic[onsetLen] ?? codaLength.monosyllabicDefault)
+    : [
+        [0, isEndOfWord ? codaLength.zeroWeightEndOfWord : codaLength.zeroWeightMidWord],
+        ...codaLength.polysyllabicNonzero,
       ];
-    }
-  };
 
-  const maxLength: number = getWeightedOption(getCodaLengthWeights(onsetLength) as [number, number][]);
+  const maxLength: number = getWeightedOption(weights);
   if (maxLength === 0) return [];
 
-  let coda: Phoneme[] = buildCluster(rt, {
+  const coda: Phoneme[] = buildCluster(rt, {
     position: "coda",
     cluster: [],
     ignore: [],
@@ -291,7 +266,7 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
   });
 
   // Add 's' to the end of the last syllable occasionally
-  if (isEndOfWord && getWeightedOption([[true, FINAL_S_CHANCE], [false, 100 - FINAL_S_CHANCE]])) {
+  if (isEndOfWord && getWeightedOption([[true, probability.finalS], [false, 100 - probability.finalS]])) {
     const sPhoneme = rt.config.phonemes.find(p => p.sound === 's');
     if (sPhoneme) {
       coda.push(sPhoneme);
@@ -317,7 +292,8 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
 
   const lastCodaSonority = getSonority(rt, lastCodaPhoneme);
   const firstOnsetSonority = getSonority(rt, firstOnsetPhoneme);
-  if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, BOUNDARY_DROP_CHANCE], [false, 100 - BOUNDARY_DROP_CHANCE]])) {
+  const { boundaryDrop } = rt.config.generationWeights.probability;
+  if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, boundaryDrop], [false, 100 - boundaryDrop]])) {
     prevSyllable.coda.pop();
   }
 
@@ -341,8 +317,9 @@ function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext):
     coda: [],
   };
 
-  const hasOnset = determineHasOnset(isStartOfWord, prevSyllable);
-  const hasCoda = determineHasCoda(isEndOfWord, monosyllabic);
+  const { probability } = rt.config.generationWeights;
+  const hasOnset = determineHasOnset(probability, isStartOfWord, prevSyllable);
+  const hasCoda = determineHasCoda(probability, isEndOfWord, monosyllabic);
 
   if (hasOnset) {
     newSyllable.onset = pickOnset(rt, context, isStartOfWord, monosyllabic);
@@ -357,22 +334,22 @@ function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext):
   return newSyllable;
 }
 
-function determineHasOnset(isStartOfWord: boolean, prevSyllable?: Syllable): boolean {
+function determineHasOnset(p: GenerationWeights["probability"], isStartOfWord: boolean, prevSyllable?: Syllable): boolean {
   if (isStartOfWord) {
-    return getWeightedOption([[true, HAS_ONSET_START_OF_WORD], [false, 100 - HAS_ONSET_START_OF_WORD]]);
+    return getWeightedOption([[true, p.hasOnsetStartOfWord], [false, 100 - p.hasOnsetStartOfWord]]);
   } else {
     const prevHasCoda = prevSyllable && prevSyllable.coda.length > 0;
-    return prevHasCoda ? getWeightedOption([[true, HAS_ONSET_AFTER_CODA], [false, 100 - HAS_ONSET_AFTER_CODA]]) : true;
+    return prevHasCoda ? getWeightedOption([[true, p.hasOnsetAfterCoda], [false, 100 - p.hasOnsetAfterCoda]]) : true;
   }
 }
 
-function determineHasCoda(isEndOfWord: boolean, monosyllabic: boolean): boolean {
+function determineHasCoda(p: GenerationWeights["probability"], isEndOfWord: boolean, monosyllabic: boolean): boolean {
   if (monosyllabic) {
-    return getWeightedOption([[true, HAS_CODA_MONOSYLLABIC], [false, 100 - HAS_CODA_MONOSYLLABIC]]);
+    return getWeightedOption([[true, p.hasCodaMonosyllabic], [false, 100 - p.hasCodaMonosyllabic]]);
   } else if (isEndOfWord) {
-    return getWeightedOption([[true, HAS_CODA_END_OF_WORD], [false, 100 - HAS_CODA_END_OF_WORD]]);
+    return getWeightedOption([[true, p.hasCodaEndOfWord], [false, 100 - p.hasCodaEndOfWord]]);
   } else {
-    return getWeightedOption([[true, HAS_CODA_MID_WORD], [false, 100 - HAS_CODA_MID_WORD]]);
+    return getWeightedOption([[true, p.hasCodaMidWord], [false, 100 - p.hasCodaMidWord]]);
   }
 }
 
@@ -418,10 +395,6 @@ export interface WordGenerator {
  * constraints are derived from the config at creation time — no global
  * state is referenced during generation.
  *
- * **Note:** Syllable-level generation weights (onset/coda length distributions,
- * boundary drop probability, has-onset/has-coda chances) are currently
- * English-specific constants from `weights.ts`. A future version will make
- * these part of the config.
  *
  * @param config - The language configuration to build from.
  * @returns A {@link WordGenerator} instance.
