@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { englishConfig } from "./english.js";
-import { LanguageConfig } from "./language.js";
+import { LanguageConfig, computeSonorityLevels } from "./language.js";
+import { VOICED_BONUS, TENSE_BONUS, SYLLABLE_COUNT_WEIGHTS } from "./weights.js";
+import { sonorityLevels } from "../elements/phonemes.js";
 
 describe("LanguageConfig", () => {
   it("should construct a valid English config", () => {
@@ -35,14 +37,13 @@ describe("LanguageConfig", () => {
     expect(englishConfig.invalidClusters.boundary.length).toBeGreaterThan(0);
   });
 
-  it("should have a sonority hierarchy", () => {
-    expect(englishConfig.sonorityHierarchy.mannerOfArticulation).toBeDefined();
-    expect(englishConfig.sonorityHierarchy.voicedBonus).toBe(0.5);
-    expect(englishConfig.sonorityHierarchy.tenseBonus).toBe(0.25);
+  it("should reference shared weight constants for sonority bonuses", () => {
+    expect(englishConfig.sonorityHierarchy.voicedBonus).toBe(VOICED_BONUS);
+    expect(englishConfig.sonorityHierarchy.tenseBonus).toBe(TENSE_BONUS);
   });
 
-  it("should have pre-computed sonority levels", () => {
-    expect(englishConfig.sonorityLevels.size).toBe(englishConfig.phonemes.length);
+  it("should reference shared syllable count weights", () => {
+    expect(englishConfig.syllableStructure.syllableCountWeights).toBe(SYLLABLE_COUNT_WEIGHTS);
   });
 
   it("should have syllable structure rules", () => {
@@ -53,5 +54,19 @@ describe("LanguageConfig", () => {
 
   it("should have stress rules", () => {
     expect(englishConfig.stress.strategy).toBe("weight-sensitive");
+  });
+});
+
+describe("computeSonorityLevels", () => {
+  it("should produce a level for every phoneme in the config", () => {
+    const levels = computeSonorityLevels(englishConfig);
+    expect(levels.size).toBe(englishConfig.phonemes.length);
+  });
+
+  it("should match the pre-computed sonority levels from phonemes.ts", () => {
+    const computed = computeSonorityLevels(englishConfig);
+    for (const [phoneme, level] of sonorityLevels) {
+      expect(computed.get(phoneme)).toBeCloseTo(level, 10);
+    }
   });
 });

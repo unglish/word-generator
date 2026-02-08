@@ -1,4 +1,5 @@
 import { Phoneme } from "../types.js";
+import { VOICED_BONUS, TENSE_BONUS } from "../config/weights.js";
 
 export const sonorityToMannerOfArticulation = {
   "highVowel": 9,
@@ -156,8 +157,8 @@ export const sonorityLevels = new Map(
     p,
     sonorityToMannerOfArticulation[p.mannerOfArticulation] +
     (sonorityToPlaceOfArticulation[p.placeOfArticulation] || 0) +
-    (p.voiced ? 0.5 : 0) +
-    (p.tense ? 0.25 : 0)
+    (p.voiced ? VOICED_BONUS : 0) +
+    (p.tense ? TENSE_BONUS : 0)
   ])
 );
 

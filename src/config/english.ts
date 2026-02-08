@@ -1,8 +1,8 @@
-import { LanguageConfig } from "./language.js";
+import { LanguageConfig, computeSonorityLevels } from "./language.js";
+import { VOICED_BONUS, TENSE_BONUS, SYLLABLE_COUNT_WEIGHTS } from "./weights.js";
 import {
   phonemes,
   phonemeMaps,
-  sonorityLevels,
   sonorityToMannerOfArticulation,
   sonorityToPlaceOfArticulation,
   invalidOnsetClusters,
@@ -34,24 +34,15 @@ export const englishConfig: LanguageConfig = {
   sonorityHierarchy: {
     mannerOfArticulation: sonorityToMannerOfArticulation,
     placeOfArticulation: sonorityToPlaceOfArticulation,
-    voicedBonus: 0.5,
-    tenseBonus: 0.25,
+    voicedBonus: VOICED_BONUS,
+    tenseBonus: TENSE_BONUS,
   },
-  sonorityLevels,
 
   syllableStructure: {
     maxOnsetLength: 3,
     maxCodaLength: 4,
     maxNucleusLength: 1,
-    syllableCountWeights: [
-      [1, 5000],
-      [2, 30000],
-      [3, 29700],
-      [4, 3000],
-      [5, 200],
-      [6, 50],
-      [7, 5],
-    ],
+    syllableCountWeights: SYLLABLE_COUNT_WEIGHTS,
   },
 
   stress: {
