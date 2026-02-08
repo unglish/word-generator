@@ -1,13 +1,22 @@
-import generateWord from "./core/generate.js";
+import generateWord, { createGenerator } from "./core/generate.js";
 import * as phonemes from "./elements/phonemes.js";
 import * as graphemes from "./elements/graphemes/index.js";
 import * as random from "./utils/random.js";
+export { createGenerator } from "./core/generate.js";
+export { LanguageConfig, BySyllablePosition, SonorityHierarchy, SyllableStructureRules, StressRules } from "./config/language.js";
+export { englishConfig } from "./config/english.js";
 
 /**
  * The word-generator public API.
  *
  * Provides access to word generation, phoneme/grapheme inventories, and
  * random-number utilities.
+ *
+ * For custom language configs, use the named export {@link createGenerator}:
+ * ```ts
+ * import { createGenerator, englishConfig } from "word-generator";
+ * const gen = createGenerator(englishConfig);
+ * ```
  *
  * @example
  * ```ts

@@ -2,9 +2,10 @@ import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, 
 import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
 import { createSeededRandom } from "../utils/createSeededRandom.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonorityLevels, phonemeMaps } from "../elements/phonemes.js";
+import { LanguageConfig, computeSonorityLevels } from "../config/language.js";
+import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
-import { generateWrittenForm } from "./write.js";
+import { createWrittenFormGenerator } from "./write.js";
 import {
   SYLLABLE_COUNT_WEIGHTS,
   ONSET_LENGTH_MONOSYLLABIC,
@@ -24,26 +25,73 @@ import {
   HAS_CODA_MID_WORD,
 } from "../config/weights.js";
 
+// ---------------------------------------------------------------------------
+// Runtime: pre-computed data derived from a LanguageConfig
+// ---------------------------------------------------------------------------
+
+interface GeneratorRuntime {
+  config: LanguageConfig;
+  sonorityLevels: Map<Phoneme, number>;
+  positionPhonemes: { onset: Phoneme[]; coda: Phoneme[]; nucleus: Phoneme[] };
+  invalidClusterRegexes: { onset: RegExp; coda: RegExp; nucleus: RegExp };
+  generateWrittenForm: (context: WordGenerationContext) => void;
+}
+
+function buildRuntime(config: LanguageConfig): GeneratorRuntime {
+  const sonorityLevels = computeSonorityLevels(config);
+
+  const positionPhonemes = {
+    onset: Array.from(config.phonemeMaps.onset.values()).flat(),
+    coda: Array.from(config.phonemeMaps.coda.values()).flat(),
+    nucleus: Array.from(config.phonemeMaps.nucleus.values()).flat(),
+  };
+
+  const invalidClusterRegexes = {
+    onset: new RegExp(config.invalidClusters.onset.map(r => r.source).join('|'), 'i'),
+    coda: new RegExp(config.invalidClusters.coda.map(r => r.source).join('|'), 'i'),
+    nucleus: new RegExp(config.invalidClusters.boundary.map(r => r.source).join('|'), 'i'),
+  };
+
+  const generateWrittenForm = createWrittenFormGenerator(config);
+
+  return { config, sonorityLevels, positionPhonemes, invalidClusterRegexes, generateWrittenForm };
+}
+
+// ---------------------------------------------------------------------------
+// Default runtime (English) — used by module-level exports for backward compat
+// ---------------------------------------------------------------------------
+
+const defaultRuntime = buildRuntime(englishConfig);
+
+// ---------------------------------------------------------------------------
+// Sonority
+// ---------------------------------------------------------------------------
+
 /**
  * Determines the sonority level of a given phoneme.
- * 
+ *
  * @param phoneme - The phoneme to evaluate.
  * @returns The sonority level of the phoneme, or 0 if not found.
- * 
- * This function uses the 'sonority' object to look up the sonority level
- * based on the phoneme's type. If the phoneme type is not found in the
- * sonority object, it returns 0 as a default value.
- * 
- * Sonority is important in determining the structure of syllables and
- * the formation of consonant clusters in many languages, including English.
  */
 export const getSonority = (phoneme: Phoneme): number => {
-  return sonorityLevels.get(phoneme) || 0;
+  return defaultRuntime.sonorityLevels.get(phoneme) ?? 0;
 };
 
+function getSonorityFor(rt: GeneratorRuntime, phoneme: Phoneme): number {
+  return rt.sonorityLevels.get(phoneme) ?? 0;
+}
+
+// ---------------------------------------------------------------------------
+// Cluster building
+// ---------------------------------------------------------------------------
+
 export function buildCluster(context: ClusterContext): Phoneme[] {
-  const validCandidates = getValidCandidates(positionPhonemes[context.position], context);
-  
+  return buildClusterWith(defaultRuntime, context);
+}
+
+function buildClusterWith(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] {
+  const validCandidates = getValidCandidates(rt.positionPhonemes[context.position], rt, context);
+
   while (context.cluster.length < context.maxLength && validCandidates.length > 0) {
     const newPhoneme = selectPhoneme(validCandidates, context);
     if (!newPhoneme) break;
@@ -51,85 +99,87 @@ export function buildCluster(context: ClusterContext): Phoneme[] {
     context.cluster.push(newPhoneme);
     if (shouldStopClusterGrowth(context)) break;
 
-    // Update validCandidates for the next iteration
-    updateValidCandidates(validCandidates, context);
+    updateValidCandidates(validCandidates, rt, context);
   }
 
   return context.cluster;
 }
 
-function updateValidCandidates(candidates: Phoneme[], context: ClusterContext) {
+function updateValidCandidates(candidates: Phoneme[], rt: GeneratorRuntime, context: ClusterContext) {
   for (let i = candidates.length - 1; i >= 0; i--) {
-    if (!isValidCandidate(candidates[i], context)) {
+    if (!isValidCandidateWith(candidates[i], rt, context)) {
       candidates.splice(i, 1);
     }
   }
 }
 
-function getValidCandidates(candidatePhonemes: Phoneme[], context: ClusterContext): Phoneme[] {
-  return candidatePhonemes.filter(p => isValidCandidate(p, context));
+function getValidCandidates(candidatePhonemes: Phoneme[], rt: GeneratorRuntime, context: ClusterContext): Phoneme[] {
+  return candidatePhonemes.filter(p => isValidCandidateWith(p, rt, context));
 }
 
-const invalidClusterRegexes = {
-  onset: new RegExp(invalidOnsetClusters.map(r => r.source).join('|'), 'i'),
-  coda: new RegExp(invalidCodaClusters.map(r => r.source).join('|'), 'i'),
-  nucleus: new RegExp(invalidBoundaryClusters.map(r => r.source).join('|'), 'i')
-};
-
-function isValidCandidate(p: Phoneme, context: ClusterContext): boolean {
-  if (context.ignore.includes(p.sound) || 
-      context.cluster.some(existingP => existingP.sound === p.sound) || 
-      !isValidPosition(p, context) || 
-      !checkSonority(p, context)) {
+function isValidCandidateWith(p: Phoneme, rt: GeneratorRuntime, context: ClusterContext): boolean {
+  if (context.ignore.includes(p.sound) ||
+      context.cluster.some(existingP => existingP.sound === p.sound) ||
+      !isValidPosition(p, context) ||
+      !checkSonority(p, rt, context)) {
     return false;
   }
-  
+
   const potentialCluster = context.cluster.map(ph => ph.sound).join('') + p.sound;
-  return !invalidClusterRegexes[context.position].test(potentialCluster);
+  return !rt.invalidClusterRegexes[context.position].test(potentialCluster);
 }
 
 function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: ClusterContext): boolean {
-  // @ts-ignore
-  return (p[position] === undefined || p[position] > 0) &&
+  // Phoneme has dynamic position keys (onset, coda, nucleus) as optional numbers
+  const positionWeight = (p as unknown as Record<string, number | undefined>)[position];
+  return (positionWeight === undefined || positionWeight > 0) &&
          (!isStartOfWord || p.startWord === undefined || p.startWord > 0) &&
          (!isEndOfWord || p.endWord === undefined || p.endWord > 0);
 }
 
 export const isValidCluster = ({ cluster, position }: ClusterContext): boolean => {
+  return isValidClusterWith(defaultRuntime, { cluster, position } as ClusterContext);
+};
+
+function isValidClusterWith(rt: GeneratorRuntime, { cluster, position }: ClusterContext): boolean {
   const potentialCluster = cluster.map(ph => ph.sound).join('');
-  const invalidClusters = getInvalidClusters(position);
+  const invalidClusters = getInvalidClustersFor(rt.config, position);
   return !invalidClusters.some(regex => regex.test(potentialCluster));
 }
 
-function getInvalidClusters(position: "onset" | "coda" | "nucleus"): RegExp[] {
-  switch(position) {
-    case "onset": return invalidOnsetClusters;
-    case "coda": return invalidCodaClusters;
-    default: return invalidBoundaryClusters;
+function getInvalidClustersFor(config: LanguageConfig, position: "onset" | "coda" | "nucleus"): RegExp[] {
+  switch (position) {
+    case "onset": return config.invalidClusters.onset;
+    case "coda": return config.invalidClusters.coda;
+    default: return config.invalidClusters.boundary;
   }
 }
 
-function checkSonority(p: Phoneme, { cluster, position }: ClusterContext): boolean {
+// ---------------------------------------------------------------------------
+// Sonority checks
+// ---------------------------------------------------------------------------
+
+function checkSonority(p: Phoneme, rt: GeneratorRuntime, { cluster, position }: ClusterContext): boolean {
   const prevPhoneme = cluster[cluster.length - 1];
 
   switch (position) {
     case "onset":
-      return checkOnsetSonority(p, cluster, prevPhoneme);
+      return checkOnsetSonority(p, rt, cluster, prevPhoneme);
     case "coda":
-      return checkCodaSonority(p, prevPhoneme);
+      return checkCodaSonority(p, rt, prevPhoneme);
     case "nucleus":
-      return true; // Assuming nucleus always has suitable sonority
+      return true;
     default:
       return false;
   }
 }
 
-function checkOnsetSonority(currPhoneme: Phoneme, cluster: Phoneme[], prevPhoneme: Phoneme | undefined): boolean {
+function checkOnsetSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, cluster: Phoneme[], prevPhoneme: Phoneme | undefined): boolean {
   if (cluster.length === 0) return true;
 
-  const isSClusterException = 
-    cluster.length === 1 && 
-    cluster[0].sound === 's' && 
+  const isSClusterException =
+    cluster.length === 1 &&
+    cluster[0].sound === 's' &&
     ['t', 'p', 'k'].includes(currPhoneme.sound);
 
   if (isSClusterException) return true;
@@ -139,23 +189,23 @@ function checkOnsetSonority(currPhoneme: Phoneme, cluster: Phoneme[], prevPhonem
   const lastPhonemeWasAStop = prevPhoneme && ['stop'].includes(prevPhoneme.mannerOfArticulation);
   const canFollowAStop = lastPhonemeWasAStop ? ['glide', 'liquid'].includes(currPhoneme.mannerOfArticulation) : false;
 
-  return lastPhonemeWasAStop ? canFollowAStop : getSonority(currPhoneme) > getSonority(prevPhoneme!);
+  return lastPhonemeWasAStop ? canFollowAStop : getSonorityFor(rt, currPhoneme) > getSonorityFor(rt, prevPhoneme!);
 }
 
-function checkCodaSonority(currPhoneme: Phoneme, prevPhoneme: Phoneme | undefined): boolean {
+function checkCodaSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, prevPhoneme: Phoneme | undefined): boolean {
   if (!prevPhoneme) return true;
 
-  const prevSonority = getSonority(prevPhoneme);
-  const currSonority = getSonority(currPhoneme);
+  const prevSonority = getSonorityFor(rt, prevPhoneme);
+  const currSonority = getSonorityFor(rt, currPhoneme);
 
   const prevManner = prevPhoneme.mannerOfArticulation;
   const currManner = currPhoneme.mannerOfArticulation;
 
-  const isEqualSonorityException = 
+  const isEqualSonorityException =
     (prevManner == 'fricative' && currManner == 'fricative') ||
     (prevManner == 'stop' && currManner == 'stop');
 
-  const isReversedSonorityException = 
+  const isReversedSonorityException =
     (prevManner == 'stop' && currManner == 'fricative') ||
     (prevManner == 'stop' && currManner == 'sibilant') ||
     (prevManner == 'sibilant' && currManner === 'nasal');
@@ -163,10 +213,14 @@ function checkCodaSonority(currPhoneme: Phoneme, prevPhoneme: Phoneme | undefine
   return isEqualSonorityException || isReversedSonorityException || (currSonority < prevSonority);
 }
 
+// ---------------------------------------------------------------------------
+// Phoneme selection
+// ---------------------------------------------------------------------------
+
 function selectPhoneme(validCandidates: Phoneme[], { position, isStartOfWord, isEndOfWord }: ClusterContext): Phoneme | null {
   const weightedCandidates = validCandidates.map(p => {
     const positionWeight = p[position] ?? 0;
-    const wordPositionModifier = 
+    const wordPositionModifier =
       (isStartOfWord && p.startWord) ||
       (isEndOfWord && p.endWord) ||
       p.midWord || 1;
@@ -176,34 +230,17 @@ function selectPhoneme(validCandidates: Phoneme[], { position, isStartOfWord, is
 }
 
 function shouldStopClusterGrowth({ position, cluster }: ClusterContext): boolean {
-  return position === "onset" && 
-         cluster.length === 2 && 
+  return position === "onset" &&
+         cluster.length === 2 &&
          ['liquid', 'nasal'].includes(cluster[1].mannerOfArticulation);
 }
 
-const positionPhonemes = {
-  onset: Array.from(phonemeMaps.onset.values()).flat(),
-  coda: Array.from(phonemeMaps.coda.values()).flat(),
-  nucleus: Array.from(phonemeMaps.nucleus.values()).flat()
-};
+// ---------------------------------------------------------------------------
+// Syllable picking
+// ---------------------------------------------------------------------------
 
-/**
- * Selects and returns an onset (initial consonant cluster) for a syllable.
- * 
- * @param prevSyllable - The previous syllable, if any. Used to determine constraints on the onset.
- * @returns An array of Phoneme objects representing the onset.
- * 
- * This function does the following:
- * 1. Determines if the new syllable follows a nucleus without a coda in the previous syllable.
- * 2. Chooses a weighted random length for the onset (0-3 phonemes).
- * 3. Builds the onset cluster using the buildCluster function, avoiding phonemes from the previous syllable's coda.
- * 
- * The onset length probabilities are adjusted based on whether it follows a nucleus:
- * - If following a nucleus (no coda in previous syllable), onset cannot be empty (length 0).
- * - Otherwise, empty onsets are possible but less likely than single-phoneme onsets.
- */
-function pickOnset(context: WordGenerationContext, isStartOfWord: boolean, monosyllabic: boolean): Phoneme[] {
-  const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
+function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStartOfWord: boolean, monosyllabic: boolean): Phoneme[] {
+  const prevSyllable = context.word.syllables[context.currSyllableIndex - 1];
   const isFollowingNucleus = prevSyllable && prevSyllable.coda.length === 0;
   const syllableCount = context.syllableCount;
 
@@ -221,70 +258,33 @@ function pickOnset(context: WordGenerationContext, isStartOfWord: boolean, monos
   if (maxLength === 0) return [];
 
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
-  let onset: Phoneme[] = buildCluster(
-    {
-      position: "onset",
-      cluster: [],
-      ignore: toIgnore,
-      isStartOfWord,
-      isEndOfWord: false,
-      syllableCount,
-      maxLength
-    },
-  );
-
-  return onset;
+  return buildClusterWith(rt, {
+    position: "onset",
+    cluster: [],
+    ignore: toIgnore,
+    isStartOfWord,
+    isEndOfWord: false,
+    syllableCount,
+    maxLength,
+  });
 }
 
-/**
- * Selects and returns a nucleus (vowel) for a syllable.
- * 
- * @param prevSyllable - The previous syllable, if any. Used to determine constraints on the nucleus.
- * @returns A Phoneme object representing the nucleus.
- */
-function pickNucleus(context: WordGenerationContext, isStartOfWord: boolean, isEndOfWord: boolean, hasCoda: boolean): Phoneme[] {
-  const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
-  let nucleus = buildCluster(
-    {
-      position: "nucleus",
-      cluster: [],
-      ignore: [],
-      isStartOfWord,
-      isEndOfWord,
-      maxLength: 1,
-      syllableCount: context.syllableCount,
-    },
-  );
-  
-  return nucleus;
+function pickNucleus(rt: GeneratorRuntime, context: WordGenerationContext, isStartOfWord: boolean, isEndOfWord: boolean, hasCoda: boolean): Phoneme[] {
+  return buildClusterWith(rt, {
+    position: "nucleus",
+    cluster: [],
+    ignore: [],
+    isStartOfWord,
+    isEndOfWord,
+    maxLength: 1,
+    syllableCount: context.syllableCount,
+  });
 }
 
-/**
- * Selects and returns a coda (final consonant cluster) for a syllable.
- * 
- * @param onset - The onset of the current syllable, used to avoid repetition.
- * @param isEndOfWord - Boolean indicating if this is the last syllable of the word.
- * @returns An array of Phoneme objects representing the coda.
- * 
- * This function does the following:
- * 1. Determines the length of the coda based on weighted probabilities, which differ for the last syllable.
- * 2. Builds the coda cluster using the buildCluster function.
- * 3. Checks for and potentially avoids repetition between the onset and coda.
- * 
- * The coda length probabilities are adjusted based on whether it's the last syllable:
- * - Last syllable: Higher chance of non-empty codas.
- * - Other syllables: Higher chance of empty codas.
- * 
- * To avoid repetition:
- * - There's a 98% chance to avoid repeating the first onset phoneme as the last coda phoneme.
- * - If avoiding repetition, it tries to replace the last coda phoneme with a similar one.
- * - If no suitable replacement is found, it removes the last coda phoneme.
- */
-function pickCoda(context: WordGenerationContext, newSyllable: Syllable, isEndOfWord: boolean, monosyllabic: boolean): Phoneme[] {
+function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSyllable: Syllable, isEndOfWord: boolean, monosyllabic: boolean): Phoneme[] {
   const syllableCount = context.syllableCount;
   const onsetLength = newSyllable.onset.length;
 
-  // Adjust weights based on onset length
   const getCodaLengthWeights = (onsetLength: number): [number, number][] => {
     if (monosyllabic) {
       return CODA_LENGTH_MONOSYLLABIC[onsetLength] ?? CODA_LENGTH_MONOSYLLABIC_DEFAULT;
@@ -297,22 +297,21 @@ function pickCoda(context: WordGenerationContext, newSyllable: Syllable, isEndOf
   };
 
   const maxLength: number = getWeightedOption(getCodaLengthWeights(onsetLength) as [number, number][]);
-
   if (maxLength === 0) return [];
 
-  let coda: Phoneme[] = buildCluster({
+  let coda: Phoneme[] = buildClusterWith(rt, {
     position: "coda",
     cluster: [],
     ignore: [],
     isStartOfWord: false,
     isEndOfWord,
     syllableCount,
-    maxLength
+    maxLength,
   });
 
   // Add 's' to the end of the last syllable occasionally
   if (isEndOfWord && getWeightedOption([[true, FINAL_S_CHANCE], [false, 100 - FINAL_S_CHANCE]])) {
-    const sPhoneme = phonemes.find(p => p.sound === 's');
+    const sPhoneme = rt.config.phonemes.find(p => p.sound === 's');
     if (sPhoneme) {
       coda.push(sPhoneme);
     }
@@ -321,25 +320,22 @@ function pickCoda(context: WordGenerationContext, newSyllable: Syllable, isEndOf
   return coda;
 }
 
+// ---------------------------------------------------------------------------
+// Boundary adjustment
+// ---------------------------------------------------------------------------
+
 /**
- * Adjusts two adjacent syllables based on sonority and phonological rules. If the sonorities are equal:
- *    - There's a 90% chance to drop the coda phoneme, 10% chance to keep it.
- * 
- * This process helps ensure more natural syllable boundaries and can create
- * more varied and realistic word structures.
- * 
- * @param prevSyllable - The preceding syllable that may have its coda modified.
- * @param currentSyllable - The current syllable that may have its onset modified.
- * @returns A tuple containing the potentially modified previous and current syllables.
+ * Adjusts two adjacent syllables based on sonority and phonological rules.
+ * If the sonorities are equal there's a 90% chance to drop the coda phoneme.
  */
-function adjustBoundary(prevSyllable: Syllable, currentSyllable: Syllable): [Syllable, Syllable] {
+function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyllable: Syllable): [Syllable, Syllable] {
   const lastCodaPhoneme = prevSyllable.coda.at(-1);
   const firstOnsetPhoneme = currentSyllable.onset[0];
 
   if (!lastCodaPhoneme || !firstOnsetPhoneme) return [prevSyllable, currentSyllable];
 
-  const lastCodaSonority = getSonority(lastCodaPhoneme);
-  const firstOnsetSonority = getSonority(firstOnsetPhoneme);
+  const lastCodaSonority = getSonorityFor(rt, lastCodaPhoneme);
+  const firstOnsetSonority = getSonorityFor(rt, firstOnsetPhoneme);
   if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, BOUNDARY_DROP_CHANCE], [false, 100 - BOUNDARY_DROP_CHANCE]])) {
     prevSyllable.coda.pop();
   }
@@ -347,51 +343,34 @@ function adjustBoundary(prevSyllable: Syllable, currentSyllable: Syllable): [Syl
   return [prevSyllable, currentSyllable];
 }
 
-/**
- * Generates a single syllable for a word.
- * 
- * This function creates a syllable structure by selecting an onset, nucleus, and coda
- * based on phonological rules and the position of the syllable within the word.
- * 
- * @param syllablePosition - The position of the syllable in the word (0-indexed).
- * @param syllableCount - The total number of syllables in the word.
- * @param prevSyllable - The previous syllable in the word, if any.
- * @returns A Syllable object containing onset, nucleus, and coda arrays of phonemes.
- * 
- * The function considers the following factors:
- * 1. Whether it's the last syllable in the word (affects coda selection).
- * 2. The previous syllable (if any) to ensure phonological consistency.
- * 3. Appropriate onset, nucleus, and coda selection based on English phonotactics.
- * 
- * This approach helps create phonologically plausible and varied syllable structures
- * that can be combined to form realistic-sounding words.
- */
-function generateSyllable(context: WordGenerationContext): Syllable {
+// ---------------------------------------------------------------------------
+// Syllable generation
+// ---------------------------------------------------------------------------
+
+function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext): Syllable {
   const isEndOfWord = context.currSyllableIndex === context.syllableCount - 1;
   const isStartOfWord = context.currSyllableIndex === 0;
-  const prevSyllable = context.word.syllables[context.currSyllableIndex-1];
+  const prevSyllable = context.word.syllables[context.currSyllableIndex - 1];
   const syllableCount = context.syllableCount;
   const monosyllabic = syllableCount === 1;
 
   let newSyllable: Syllable = {
     onset: [],
     nucleus: [],
-    coda: []
-  }
+    coda: [],
+  };
 
-  // Determine syllable structure
   const hasOnset = determineHasOnset(isStartOfWord, prevSyllable);
   const hasCoda = determineHasCoda(isEndOfWord, monosyllabic);
 
-  // Build the syllable structure
   if (hasOnset) {
-    newSyllable.onset = pickOnset(context, isStartOfWord, monosyllabic);
+    newSyllable.onset = pickOnset(rt, context, isStartOfWord, monosyllabic);
   }
-  
-  newSyllable.nucleus = pickNucleus(context, isStartOfWord, isEndOfWord, hasCoda);
-  
+
+  newSyllable.nucleus = pickNucleus(rt, context, isStartOfWord, isEndOfWord, hasCoda);
+
   if (hasCoda) {
-    newSyllable.coda = pickCoda(context, newSyllable, isEndOfWord, monosyllabic);
+    newSyllable.coda = pickCoda(rt, context, newSyllable, isEndOfWord, monosyllabic);
   }
 
   return newSyllable;
@@ -416,22 +395,19 @@ function determineHasCoda(isEndOfWord: boolean, monosyllabic: boolean): boolean 
   }
 }
 
-export const generateSyllables = (context: WordGenerationContext) => {
+function generateSyllablesWith(rt: GeneratorRuntime, context: WordGenerationContext) {
   if (!context.syllableCount) {
-    context.syllableCount = getWeightedOption(SYLLABLE_COUNT_WEIGHTS);
+    context.syllableCount = getWeightedOption(rt.config.syllableStructure.syllableCountWeights);
   }
 
   const syllables = new Array(context.syllableCount);
   let prevSyllable: Syllable | undefined;
 
   for (let i = 0; i < context.syllableCount; i++) {
-    let newSyllable: Syllable;
-    // do {
-      newSyllable = generateSyllable(context);
-    // } while (prevSyllable && !isValidSyllableBoundary(prevSyllable, newSyllable));
+    let newSyllable = generateSyllable(rt, context);
 
     if (prevSyllable) {
-      [prevSyllable, newSyllable] = adjustBoundary(prevSyllable, newSyllable);
+      [prevSyllable, newSyllable] = adjustBoundary(rt, prevSyllable, newSyllable);
     }
 
     syllables[i] = newSyllable;
@@ -442,12 +418,69 @@ export const generateSyllables = (context: WordGenerationContext) => {
   context.word.syllables = syllables;
 }
 
-function isValidSyllableBoundary(prev: Syllable, curr: Syllable): boolean {
-  const closingPhoneme = prev.coda[prev.coda.length - 1];
-  const openingPhoneme = curr.onset[0];
-  const prevSonority = closingPhoneme ? getSonority(closingPhoneme) : 0;
-  const newSonority = openingPhoneme ? getSonority(openingPhoneme) : 0;
-  return newSonority > prevSonority;
+/** @deprecated Use generateSyllablesWith — kept for backward compat with tests */
+export const generateSyllables = (context: WordGenerationContext) => {
+  generateSyllablesWith(defaultRuntime, context);
+};
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+/**
+ * Creates a word generator from a {@link LanguageConfig}.
+ *
+ * All phoneme inventories, grapheme maps, sonority levels, and cluster
+ * constraints are derived from the config at creation time — no global
+ * state is referenced during generation.
+ *
+ * @param config - The language configuration to build from.
+ * @returns An object with a `generateWord` function.
+ *
+ * @example
+ * ```ts
+ * import { createGenerator } from "word-generator/core/generate";
+ * import { englishConfig } from "word-generator/config/english";
+ *
+ * const gen = createGenerator(englishConfig);
+ * const word = gen.generateWord({ seed: 42 });
+ * ```
+ */
+export function createGenerator(config: LanguageConfig) {
+  const rt = buildRuntime(config);
+
+  return {
+    generateWord: (options: WordGenerationOptions = {}): Word => {
+      return generateWordWith(rt, options);
+    },
+  };
+}
+
+function generateWordWith(rt: GeneratorRuntime, options: WordGenerationOptions = {}): Word {
+  const originalRand: RandomFunction = getRand();
+  const context: WordGenerationContext = {
+    word: {
+      syllables: [],
+      pronunciation: '',
+      written: { clean: '', hyphenated: '' },
+    },
+    syllableCount: options.syllableCount || 0,
+    currSyllableIndex: 0,
+  };
+
+  if (options.seed !== undefined) {
+    overrideRand(createSeededRandom(options.seed));
+  }
+
+  try {
+    generateSyllablesWith(rt, context);
+    rt.generateWrittenForm(context);
+    generatePronunciation(context);
+
+    return context.word;
+  } finally {
+    overrideRand(originalRand);
+  }
 }
 
 /**
@@ -484,30 +517,7 @@ function isValidSyllableBoundary(prev: Syllable, curr: Syllable): boolean {
  * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
-  const originalRand: RandomFunction = getRand();
-  const context: WordGenerationContext = {
-    word: {
-      syllables: [],
-      pronunciation: '',
-      written: { clean: '', hyphenated: '' }
-    },
-    syllableCount: options.syllableCount || 0,
-    currSyllableIndex: 0,
-  }
-
-  if (options.seed !== undefined) {
-    overrideRand(createSeededRandom(options.seed));
-  }
-
-  try {
-    generateSyllables(context);
-    generateWrittenForm(context);
-    generatePronunciation(context);
-    
-    return context.word;
-  } finally {
-    overrideRand(originalRand);
-  }
+  return generateWordWith(defaultRuntime, options);
 };
 
 export default generateWord;
