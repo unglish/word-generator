@@ -1,6 +1,6 @@
 import generateWord from "./core/generate.js";
 import * as phonemes from "./elements/phonemes.js";
-import * as graphemes from "./elements/graphemes.js";
+import * as graphemes from "./elements/graphemes/index.js";
 import * as random from "./utils/random.js";
 
 /**
