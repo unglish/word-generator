@@ -5,7 +5,7 @@ import * as graphemes from "./elements/graphemes/index.js";
 import * as random from "./utils/random.js";
 
 export { createGenerator, WordGenerator } from "./core/generate.js";
-export { LanguageConfig, BySyllablePosition, SonorityHierarchy, SyllableStructureRules, StressRules, GenerationWeights } from "./config/language.js";
+export { LanguageConfig, BySyllablePosition, SonorityHierarchy, SyllableStructureRules, StressRules, GenerationWeights, validateConfig } from "./config/language.js";
 export { englishConfig } from "./config/english.js";
 
 const english = createGenerator(englishConfig);

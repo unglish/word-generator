@@ -47,9 +47,9 @@ export const englishConfig: LanguageConfig = {
   graphemeMaps,
 
   invalidClusters: {
-    onset: invalidOnsetClusters,
-    coda: invalidCodaClusters,
-    boundary: invalidBoundaryClusters,
+    onset: invalidOnsetClusters.map(r => r.source),
+    coda: invalidCodaClusters.map(r => r.source),
+    boundary: invalidBoundaryClusters.map(r => r.source),
   },
 
   sonorityHierarchy: {

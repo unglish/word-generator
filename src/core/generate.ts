@@ -2,7 +2,7 @@ import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, 
 import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
 import { createSeededRandom } from "../utils/createSeededRandom.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { LanguageConfig, computeSonorityLevels } from "../config/language.js";
+import { LanguageConfig, computeSonorityLevels, validateConfig } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
@@ -27,6 +27,7 @@ interface GeneratorRuntime {
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
+  validateConfig(config);
   const sonorityLevels = computeSonorityLevels(config);
 
   const positionPhonemes = {
@@ -36,9 +37,9 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
   };
 
   const invalidClusterRegexes = {
-    onset: new RegExp(config.invalidClusters.onset.map(r => r.source).join('|'), 'i'),
-    coda: new RegExp(config.invalidClusters.coda.map(r => r.source).join('|'), 'i'),
-    nucleus: new RegExp(config.invalidClusters.boundary.map(r => r.source).join('|'), 'i'),
+    onset: new RegExp(config.invalidClusters.onset.join('|'), 'i'),
+    coda: new RegExp(config.invalidClusters.coda.join('|'), 'i'),
+    nucleus: new RegExp(config.invalidClusters.boundary.join('|'), 'i'),
   };
 
   const generateWrittenForm = createWrittenFormGenerator(config);
@@ -108,16 +109,7 @@ function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: C
 
 function isValidCluster(rt: GeneratorRuntime, cluster: Phoneme[], position: "onset" | "coda" | "nucleus"): boolean {
   const potentialCluster = cluster.map(ph => ph.sound).join('');
-  const patterns = getInvalidClusters(rt.config, position);
-  return !patterns.some(regex => regex.test(potentialCluster));
-}
-
-function getInvalidClusters(config: LanguageConfig, position: "onset" | "coda" | "nucleus"): RegExp[] {
-  switch (position) {
-    case "onset": return config.invalidClusters.onset;
-    case "coda": return config.invalidClusters.coda;
-    default: return config.invalidClusters.boundary;
-  }
+  return !rt.invalidClusterRegexes[position].test(potentialCluster);
 }
 
 // ---------------------------------------------------------------------------

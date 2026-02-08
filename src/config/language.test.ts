@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { englishConfig } from "./english.js";
-import { LanguageConfig, computeSonorityLevels } from "./language.js";
+import { LanguageConfig, computeSonorityLevels, validateConfig } from "./language.js";
 import { VOICED_BONUS, TENSE_BONUS, SYLLABLE_COUNT_WEIGHTS } from "./weights.js";
 import { sonorityLevels } from "../elements/phonemes.js";
 
@@ -40,6 +40,12 @@ describe("LanguageConfig", () => {
       expect(englishConfig.invalidClusters.onset.length).toBeGreaterThan(0);
       expect(englishConfig.invalidClusters.coda.length).toBeGreaterThan(0);
       expect(englishConfig.invalidClusters.boundary.length).toBeGreaterThan(0);
+    });
+
+    it("should store patterns as strings (JSON-serializable)", () => {
+      for (const pattern of englishConfig.invalidClusters.onset) {
+        expect(typeof pattern).toBe("string");
+      }
     });
   });
 
@@ -104,5 +110,41 @@ describe("LanguageConfig", () => {
     it("should use weight-sensitive strategy", () => {
       expect(englishConfig.stress.strategy).toBe("weight-sensitive");
     });
+  });
+});
+
+describe("validateConfig", () => {
+  it("should pass for the English config", () => {
+    expect(() => validateConfig(englishConfig)).not.toThrow();
+  });
+
+  it("should throw when a phonemeMap references a phoneme not in phonemes[]", () => {
+    const bad = {
+      ...englishConfig,
+      phonemes: [], // empty — nothing will match
+    };
+    expect(() => validateConfig(bad)).toThrow("not found in phonemes[]");
+  });
+
+  it("should throw when a graphemeMap references a grapheme not in graphemes[]", () => {
+    const bad = {
+      ...englishConfig,
+      graphemes: [], // empty — nothing will match
+    };
+    expect(() => validateConfig(bad)).toThrow("not found in graphemes[]");
+  });
+
+  it("should throw when a probability value is out of range", () => {
+    const bad = {
+      ...englishConfig,
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        probability: {
+          ...englishConfig.generationWeights.probability,
+          finalS: 150,
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow("must be in [0, 100]");
   });
 });

@@ -161,14 +161,18 @@ export interface LanguageConfig {
   graphemeMaps: BySyllablePosition<Map<string, Grapheme[]>>;
 
   /**
-   * Phonotactic constraints: regex patterns for invalid clusters.
+   * Phonotactic constraints: patterns for invalid clusters.
+   * Each entry is a regex source string (e.g. `"sr"`, `"ʃh"`).
+   * Stored as strings for JSON-serializability; compiled to RegExp at
+   * runtime by {@link buildRuntime} in the generator.
+   *
    * Uses `boundary` (cross-syllable) rather than `nucleus` since nuclei
    * are not cluster-constrained.
    */
   invalidClusters: {
-    onset: RegExp[];
-    coda: RegExp[];
-    boundary: RegExp[];
+    onset: string[];
+    coda: string[];
+    boundary: string[];
   };
 
   /** Sonority hierarchy used for cluster validation */
@@ -187,6 +191,56 @@ export interface LanguageConfig {
 // ---------------------------------------------------------------------------
 // Utilities
 // ---------------------------------------------------------------------------
+
+/**
+ * Validate a LanguageConfig, throwing on any detected inconsistency.
+ *
+ * Checks:
+ * - `phonemes[]` contains every phoneme reachable through `phonemeMaps`
+ * - `graphemes[]` contains every grapheme reachable through `graphemeMaps`
+ * - All probability values in `generationWeights` are in [0, 100]
+ *
+ * Call this during development or at startup to catch config errors early.
+ */
+export function validateConfig(config: LanguageConfig): void {
+  // Check phonemes ⊇ phonemeMaps values
+  const phonemeSet = new Set(config.phonemes);
+  for (const position of ["onset", "nucleus", "coda"] as const) {
+    for (const [sound, list] of config.phonemeMaps[position]) {
+      for (const p of list) {
+        if (!phonemeSet.has(p)) {
+          throw new Error(
+            `phonemeMaps.${position} contains phoneme "${p.sound}" (key "${sound}") not found in phonemes[]`
+          );
+        }
+      }
+    }
+  }
+
+  // Check graphemes ⊇ graphemeMaps values
+  const graphemeSet = new Set(config.graphemes);
+  for (const position of ["onset", "nucleus", "coda"] as const) {
+    for (const [sound, list] of config.graphemeMaps[position]) {
+      for (const g of list) {
+        if (!graphemeSet.has(g)) {
+          throw new Error(
+            `graphemeMaps.${position} contains grapheme "${g.form}" (key "${sound}") not found in graphemes[]`
+          );
+        }
+      }
+    }
+  }
+
+  // Check probability values in range
+  const { probability } = config.generationWeights;
+  for (const [key, value] of Object.entries(probability)) {
+    if (value < 0 || value > 100) {
+      throw new Error(
+        `generationWeights.probability.${key} is ${value}, must be in [0, 100]`
+      );
+    }
+  }
+}
 
 /**
  * Compute sonority levels for every phoneme from the language config's
