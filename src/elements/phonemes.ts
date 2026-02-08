@@ -156,7 +156,7 @@ export const sonorityLevels = new Map(
   phonemes.map(p => [
     p,
     sonorityToMannerOfArticulation[p.mannerOfArticulation] +
-    (sonorityToPlaceOfArticulation[p.placeOfArticulation] || 0) +
+    (sonorityToPlaceOfArticulation[p.placeOfArticulation] ?? 0) +
     (p.voiced ? VOICED_BONUS : 0) +
     (p.tense ? TENSE_BONUS : 0)
   ])

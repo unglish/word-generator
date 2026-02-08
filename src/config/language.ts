@@ -4,8 +4,8 @@ import { Phoneme, Grapheme } from "../types.js";
 // Reusable positional type
 // ---------------------------------------------------------------------------
 
-/** Data keyed by syllable position. */
-export type ByPosition<T> = { onset: T; nucleus: T; coda: T };
+/** Data keyed by syllable position (onset / nucleus / coda). */
+export type BySyllablePosition<T> = { onset: T; nucleus: T; coda: T };
 
 // ---------------------------------------------------------------------------
 // Derived articulation types (from Phoneme)
@@ -31,6 +31,14 @@ export type PlaceOfArticulation = Phoneme["placeOfArticulation"];
  */
 export interface SonorityHierarchy {
   mannerOfArticulation: Partial<Record<MannerOfArticulation, number>>;
+  /**
+   * Sonority adjustment by place of articulation.
+   *
+   * Note: this combines vowel position (front / central / back) and
+   * consonant place of articulation (bilabial, alveolar, …) into a
+   * single map. Linguistically these are different dimensions, but for
+   * sonority scoring a unified numeric adjustment works well enough.
+   */
   placeOfArticulation: Partial<Record<PlaceOfArticulation, number>>;
   voicedBonus: number;
   tenseBonus: number;
@@ -80,14 +88,19 @@ export interface LanguageConfig {
   /** Human-readable language name */
   name: string;
 
-  /** Full phoneme inventory for this language */
+  /**
+   * Full phoneme inventory for this language.
+   *
+   * **Invariant:** must equal the union of all values in {@link phonemeMaps}.
+   * Both are kept for ergonomics — flat iteration vs. positional lookup.
+   */
   phonemes: Phoneme[];
   /**
    * Phonemes grouped by syllable position.
    * Keys are IPA symbols (e.g., "p", "æ"); values are all Phoneme
    * objects matching that sound in the given position.
    */
-  phonemeMaps: ByPosition<Map<string, Phoneme[]>>;
+  phonemeMaps: BySyllablePosition<Map<string, Phoneme[]>>;
 
   /** Grapheme (spelling) mappings for each phoneme */
   graphemes: Grapheme[];
@@ -96,7 +109,7 @@ export interface LanguageConfig {
    * Keys are IPA phoneme symbols; values are all Grapheme spelling
    * options for that phoneme in the given position.
    */
-  graphemeMaps: ByPosition<Map<string, Grapheme[]>>;
+  graphemeMaps: BySyllablePosition<Map<string, Grapheme[]>>;
 
   /**
    * Phonotactic constraints: regex patterns for invalid clusters.
