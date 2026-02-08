@@ -1,4 +1,4 @@
-import { LanguageConfig, computeSonorityLevels } from "./language.js";
+import { LanguageConfig } from "./language.js";
 import { VOICED_BONUS, TENSE_BONUS, SYLLABLE_COUNT_WEIGHTS } from "./weights.js";
 import {
   phonemes,

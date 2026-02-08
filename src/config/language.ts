@@ -1,12 +1,37 @@
 import { Phoneme, Grapheme } from "../types.js";
 
+// ---------------------------------------------------------------------------
+// Reusable positional type
+// ---------------------------------------------------------------------------
+
+/** Data keyed by syllable position. */
+export type ByPosition<T> = { onset: T; nucleus: T; coda: T };
+
+// ---------------------------------------------------------------------------
+// Derived articulation types (from Phoneme)
+// ---------------------------------------------------------------------------
+
+/** Manner of articulation values, derived from the Phoneme union. */
+export type MannerOfArticulation = Phoneme["mannerOfArticulation"];
+
+/** Place of articulation values, derived from the Phoneme union. */
+export type PlaceOfArticulation = Phoneme["placeOfArticulation"];
+
+// ---------------------------------------------------------------------------
+// Sub-interfaces
+// ---------------------------------------------------------------------------
+
 /**
- * Sonority hierarchy mapping: manner of articulation to sonority value.
+ * Sonority hierarchy mapping: manner/place of articulation to sonority value.
  * Higher values = more sonorous (vowels highest, stops lowest).
+ *
+ * Keys are type-checked against the Phoneme articulation unions, so typos
+ * like `"fircative"` are caught at compile time. `Partial` because not
+ * every language uses every articulation category.
  */
 export interface SonorityHierarchy {
-  mannerOfArticulation: Record<string, number>;
-  placeOfArticulation: Record<string, number>;
+  mannerOfArticulation: Partial<Record<MannerOfArticulation, number>>;
+  placeOfArticulation: Partial<Record<PlaceOfArticulation, number>>;
   voicedBonus: number;
   tenseBonus: number;
 }
@@ -15,11 +40,11 @@ export interface SonorityHierarchy {
  * Syllable structure rules controlling how syllables are built.
  */
 export interface SyllableStructureRules {
-  /** Maximum number of phonemes in an onset cluster */
+  /** Maximum onset cluster length (English: 3, e.g. /str-/ in "strong"). */
   maxOnsetLength: number;
-  /** Maximum number of phonemes in a coda cluster */
+  /** Maximum coda cluster length (English: 4, e.g. /-lpts/ in "sculpts"). */
   maxCodaLength: number;
-  /** Maximum number of phonemes in a nucleus */
+  /** Maximum nucleus length (English: 1 — no complex nuclei). */
   maxNucleusLength: number;
   /** Weighted distribution of syllable counts: [count, weight][] */
   syllableCountWeights: [number, number][];
@@ -36,6 +61,10 @@ export interface StressRules {
   /** For fixed strategy: 0-indexed syllable that receives primary stress */
   fixedPosition?: number;
 }
+
+// ---------------------------------------------------------------------------
+// Main interface
+// ---------------------------------------------------------------------------
 
 /**
  * Complete language configuration capturing the phonological system
@@ -58,11 +87,7 @@ export interface LanguageConfig {
    * Keys are IPA symbols (e.g., "p", "æ"); values are all Phoneme
    * objects matching that sound in the given position.
    */
-  phonemeMaps: {
-    onset: Map<string, Phoneme[]>;
-    nucleus: Map<string, Phoneme[]>;
-    coda: Map<string, Phoneme[]>;
-  };
+  phonemeMaps: ByPosition<Map<string, Phoneme[]>>;
 
   /** Grapheme (spelling) mappings for each phoneme */
   graphemes: Grapheme[];
@@ -71,13 +96,13 @@ export interface LanguageConfig {
    * Keys are IPA phoneme symbols; values are all Grapheme spelling
    * options for that phoneme in the given position.
    */
-  graphemeMaps: {
-    onset: Map<string, Grapheme[]>;
-    nucleus: Map<string, Grapheme[]>;
-    coda: Map<string, Grapheme[]>;
-  };
+  graphemeMaps: ByPosition<Map<string, Grapheme[]>>;
 
-  /** Phonotactic constraints: regex patterns for invalid clusters */
+  /**
+   * Phonotactic constraints: regex patterns for invalid clusters.
+   * Uses `boundary` (cross-syllable) rather than `nucleus` since nuclei
+   * are not cluster-constrained.
+   */
   invalidClusters: {
     onset: RegExp[];
     coda: RegExp[];
@@ -93,6 +118,10 @@ export interface LanguageConfig {
   /** Stress assignment rules */
   stress: StressRules;
 }
+
+// ---------------------------------------------------------------------------
+// Utilities
+// ---------------------------------------------------------------------------
 
 /**
  * Compute sonority levels for every phoneme from the language config's
