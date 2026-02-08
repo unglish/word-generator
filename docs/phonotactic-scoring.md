@@ -6,7 +6,7 @@ This project uses a **pure TypeScript phonotactic scorer** to measure how "Engli
 
 1. **Generate words** using the word generator engine
 2. **Convert IPA → ARPABET**: The generator uses IPA phoneme symbols internally (e.g., `æ`, `tʃ`, `eɪ`). The scorer uses ARPABET (e.g., `AE`, `CH`, `EY`). The bridge module (`src/phonotactic/ipa-to-arpabet.ts`) handles this conversion.
-3. **Score via TypeScript**: Words are scored against pre-computed ARPABET bigram frequencies using conditional probabilities with Laplace smoothing.
+3. **Score via TypeScript**: Words are scored against real ARPABET bigram frequencies derived from the CMU Pronouncing Dictionary using conditional probabilities with Laplace smoothing.
 4. **Assert thresholds**: Vitest tests verify that generated words stay above minimum phonotactic plausibility thresholds.
 
 ## Metric Used
@@ -23,21 +23,22 @@ More negative = less probable phoneme sequence. Scores are in log2-space.
 
 ## Calibration Results
 
-| Metric | Real English (20 words) | Generated (100 words) | Notes |
-|--------|------------------------|----------------------|-------|
-| Mean   | ~-19.0                 | ~-24.0               | TypeScript implementation |
-| Min    | ~-31.4                 | ~-50.0               | Adjusted for TS scorer |
-| Median | ~-18.3                 | ~-22.3               | Similar relative performance |
+| Metric | Real English (500 words, 5 seeds) | Generated (100 words, seed 42) | Notes |
+|--------|-----------------------------------|--------------------------------|-------|
+| Mean   | -27.72                           | -34.38                         | Real CMU dictionary data |
+| Min    | -55.28                           | -61.41                         | Measured with empirical bigrams |
+| Median | -27.48                           | -32.42                         | Gap: 6.66 points |
+| Max    | -11.23                           | N/A                           | English best case |
 
-Generated words score somewhat worse than real English in log-probability space. This is expected — they are novel sequences that follow English phonotactic patterns but aren't actual English words.
+**Gap: 6.66 points** (English mean − generated mean). Generated words score somewhat worse than real English in log-probability space, which is expected — they are novel sequences that follow English phonotactic patterns but aren't actual English words from the CMU dictionary.
 
 ## Thresholds
 
 | Assertion | Threshold | Rationale |
 |-----------|-----------|-----------|
-| Generated mean | > -35 | Generous floor; allows for TS implementation differences |
-| Generated min  | > -50 | No catastrophically bad words |
-| Gap (English mean − generated mean) | < 25 | Relaxed threshold for pure TS implementation |
+| Generated mean | > -40 | Based on measured mean (-34.38) minus margin |
+| Generated min  | > -65 | Based on measured min (-61.41) minus margin |
+| Gap (English mean − generated mean) | < 12 | Based on measured gap (6.66) plus margin (5) |
 | Performance | > 5k words/sec | Maintain generation speed |
 
 ## Setup
@@ -66,9 +67,10 @@ src/phonotactic/
 ## Implementation Details
 
 The pure TypeScript implementation:
-- Uses pre-computed ARPABET bigram counts derived from English phonotactic patterns
+- Uses real ARPABET bigram counts derived from 132,603 CMU Pronouncing Dictionary entries (976,831 bigrams)
 - Implements the same scoring algorithm as the UCI calculator: conditional log-probabilities with Laplace smoothing
 - Eliminates the Python dependency and subprocess overhead
-- Maintains similar scoring characteristics while being much faster and easier to deploy
+- Provides empirically-grounded scoring based on actual English pronunciation data
+- Much faster and easier to deploy than the Python-based approach
 
 No environment variables or external dependencies required!

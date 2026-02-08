@@ -11,13 +11,9 @@ import { wordToArpabet } from './ipa-to-arpabet.js';
 import { Word } from '../types.js';
 import { ARPABET_BIGRAM_COUNTS, ARPABET_TOTAL_COUNTS, ALL_ARPABET_PHONEMES } from './arpabet-bigrams.js';
 
-/** The specific scoring method we use (bigram, smoothed, conditional). */
-export const SCORE_COLUMN = 'ngram_n2_pos_none_bound_both_smooth_laplace_weight_none_prob_conditional_agg_prod';
-
 export interface ScoredWord {
   arpabet: string;
   score: number;
-  neighbourhood: number;
 }
 
 export interface BatchScoreResult {
@@ -85,7 +81,6 @@ export function scoreArpabetWords(arpabetWords: string[]): ScoredWord[] {
   return arpabetWords.map(arpabet => ({
     arpabet,
     score: scoreArpabetWord(arpabet),
-    neighbourhood: 0 // Not implemented in pure TypeScript version
   }));
 }
 

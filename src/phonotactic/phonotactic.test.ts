@@ -5,16 +5,15 @@ import { generateWord } from '../core/generate.js';
 import englishBaseline from './english-baseline.json' with { type: 'json' };
 
 /**
- * Phonotactic scoring thresholds for pure TypeScript implementation:
+ * Phonotactic scoring thresholds for TypeScript implementation with real CMU bigram data:
  * 
- * These thresholds have been adjusted for the pure TypeScript scorer,
- * which may have slightly different scoring characteristics than the 
- * Python UCI Phonotactic Calculator.
+ * Based on empirical measurements with 100 random CMU dict words vs generated words.
+ * Current measured gap: 6.66 points (English: -27.72, Generated: -34.38)
  */
 
-const ABSOLUTE_GATE = 25;      // Relaxed from 8 for TS implementation
+const ABSOLUTE_GATE = 12;      // Measured gap (6.66) + margin (5)
 const REGRESSION_TOLERANCE = 1;
-const WARNING_THRESHOLD = 15; // Relaxed from 5 for TS implementation
+const WARNING_THRESHOLD = 10;  // Measured gap (6.66) + buffer (3)
 const TARGET = 0;
 
 // Using the gap from the original implementation as our starting point
@@ -75,46 +74,29 @@ describe('TypeScript phonotactic scoring', () => {
 
     console.log(`\n📊 Generated (TS): mean=${result.mean.toFixed(2)} median=${result.median.toFixed(2)} min=${result.min.toFixed(2)} n=${result.words.length}`);
 
-    // Generated words should have phonotactic scores > -36 on average (slightly relaxed for TS)
-    expect(result.mean).toBeGreaterThan(-36);
+    // Generated words should have phonotactic scores > -40 on average (based on measured mean -34.38 - margin)
+    expect(result.mean).toBeGreaterThan(-40);
     expect(result.words.length).toBeGreaterThan(0);
   });
 
-  it('absolute gate: gap from English < 25 points (relaxed for TS)', () => {
+  it('absolute gate: gap from English < 12 points', () => {
     const generated = generateAndScore(100, 42);
     const gap = englishBaseline.scores.mean - generated.mean;
 
     console.log(`\n📊 Gap (TS): ${gap.toFixed(2)} points (English: ${englishBaseline.scores.mean}, Generated: ${generated.mean.toFixed(2)})`);
-    console.log(`   🚫 Gate:       < ${ABSOLUTE_GATE} (relaxed for TS)`);
+    console.log(`   🚫 Gate:       < ${ABSOLUTE_GATE} (measured + 5)`);
     console.log(`   🔒 Regression: < ${(previousGap + REGRESSION_TOLERANCE).toFixed(2)} (previous ${previousGap} + ${REGRESSION_TOLERANCE})`);
-    console.log(`   ⚠️  Warning:   < ${WARNING_THRESHOLD} (relaxed for TS)`);
+    console.log(`   ⚠️  Warning:   < ${WARNING_THRESHOLD} (measured + 3)`);
     console.log(`   🎯 Target:     ${TARGET}`);
 
-    // Relaxed gate for TypeScript implementation
-    expect(gap, `GATE FAILED: gap ${gap.toFixed(2)} exceeds relaxed gate of ${ABSOLUTE_GATE}`).toBeLessThan(ABSOLUTE_GATE);
-  });
-
-  it('quality warning: gap from English (informational)', () => {
-    const generated = generateAndScore(100, 42);
-    const gap = englishBaseline.scores.mean - generated.mean;
-
-    if (gap > WARNING_THRESHOLD) {
-      console.warn(`\n⚠️  WARNING: Gap is ${gap.toFixed(2)} — above warning threshold of ${WARNING_THRESHOLD}. This is expected for initial TS implementation.`);
-    } else if (gap <= TARGET) {
-      console.log(`\n🏆 TARGET ACHIEVED: Gap is ${gap.toFixed(2)} — at or better than English parity!`);
-    } else {
-      console.log(`\n✅ Gap ${gap.toFixed(2)} is within warning threshold. Target: ${TARGET}`);
-    }
-
-    // This test always passes — it's informational
-    expect(true).toBe(true);
+    expect(gap, `GATE FAILED: gap ${gap.toFixed(2)} exceeds gate of ${ABSOLUTE_GATE}`).toBeLessThan(ABSOLUTE_GATE);
   });
 
   it('no generated word scores catastrophically low', () => {
     const result = generateAndScore(100, 42);
 
-    // Floor check: no word should score below -70 (relaxed for TS implementation)
-    expect(result.min).toBeGreaterThan(-70);
+    // Floor check: no word should score below -65 (measured min -61.41 - margin)
+    expect(result.min).toBeGreaterThan(-65);
   });
 
   it('TypeScript scorer produces reasonable results', () => {
