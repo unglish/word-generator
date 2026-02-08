@@ -132,3 +132,4 @@ dist-demo
 
 # macOS system files
 .DS_Store
+.venv/
