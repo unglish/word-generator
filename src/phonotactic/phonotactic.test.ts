@@ -65,7 +65,7 @@ describe('Phonotactic scoring', () => {
   }, 60_000);
 
   it('scores generated words — mean above threshold', () => {
-    const result = generateAndScore(50, 42);
+    const result = generateAndScore(100, 42);
 
     // Generated words should have phonotactic scores > -35 on average
     // This is a generous threshold; real English averages ~-12
@@ -75,7 +75,7 @@ describe('Phonotactic scoring', () => {
 
   it('generated words score within a reasonable range of English baseline', () => {
     const baseline = scoreEnglishBaseline();
-    const generated = generateAndScore(50, 42);
+    const generated = generateAndScore(100, 42);
 
     // Generated words shouldn't be more than 25 points worse than English on average.
     // This ensures they're at least somewhat English-like, not random noise.
@@ -84,7 +84,7 @@ describe('Phonotactic scoring', () => {
   }, 120_000);
 
   it('no generated word scores catastrophically low', () => {
-    const result = generateAndScore(50, 42);
+    const result = generateAndScore(100, 42);
 
     // Floor check: no word should score below -50
     expect(result.min).toBeGreaterThan(-50);
