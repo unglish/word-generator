@@ -2,7 +2,6 @@
   "description": "English phonotactic baseline from full CMU dictionary (123892 words). Generated with TypeScript scorer.",
   "validatedAt": "2026-02-08",
   "sampleSize": 123892,
-  "seeds": [],
   "scores": {
     "mean": -28.37,
     "median": -27.28,
@@ -12,21 +11,6 @@
     "medianPerBigram": -3.84,
     "minPerBigram": -7.92,
     "maxPerBigram": -2.37
-  },
-  "varianceAcrossSeeds": {
-    "note": "Full dictionary baseline - no sampling variance.",
-    "meanRange": [
-      -28.367264708770314,
-      -28.367264708770314
-    ],
-    "minRange": [
-      -133.04140042569227,
-      -133.04140042569227
-    ],
-    "maxRange": [
-      -8.36322192495201,
-      -8.36322192495201
-    ]
   },
   "generatedBaseline": {
     "note": "Measured from 135k generated words (seed 42) with per-bigram scoring.",

@@ -1,26 +1,26 @@
 /**
  * Maps IPA phoneme symbols (as used by the word generator) to ARPABET symbols
- * (as used by the UCI Phonotactic Calculator's English corpus).
+ * (as used by the CMU Pronouncing Dictionary bigram table).
  *
  * The generator stores phonemes as `Phoneme.sound` strings which may include
  * diacritics like aspiration (ʰ) and stress markers (ˈ, ˌ). This module
  * strips those before mapping.
+ *
+ * Each phoneme arrives pre-segmented from the generator, so matching is a
+ * direct lookup — no substring/greedy parsing required.
  */
 
-import { Phoneme, Syllable, Word } from '../types.js';
+import { Phoneme, Word } from '../types.js';
 
-/**
- * IPA → ARPABET mapping.
- * Multi-character IPA symbols (diphthongs, affricates) must be listed
- * so they are matched before their component single characters.
- */
 const IPA_TO_ARPABET: Record<string, string> = {
-  // Diphthongs & triphthongs (longest first for greedy matching)
-  'aɪə': 'AY ER',   // fire → approximate as AY + ER
-  'aʊə': 'AW ER',   // hour → approximate as AW + ER
+  // Triphthongs
+  'aɪə': 'AY ER',   // fire
+  'aʊə': 'AW ER',   // hour
   'eɪə': 'EY ER',   // player
   'ɔɪə': 'OY ER',   // employer
   'əʊə': 'OW ER',   // lower
+
+  // Diphthongs
   'eɪ':  'EY',       // day
   'ɪə':  'IH R',     // dear (approximation)
   'eə':  'EH R',     // fair (approximation)
@@ -38,17 +38,17 @@ const IPA_TO_ARPABET: Record<string, string> = {
   'i:': 'IY',        // sheep (long i)
   'ɪ':  'IH',        // sit
   'e':  'EH',        // red
-  'ɛ':  'EH',        // let (same ARPABET as /e/)
+  'ɛ':  'EH',        // let
   'ə':  'AH',        // the (schwa)
-  'ɜ':  'ER',        // bird-like
-  'ɚ':  'ER',        // her, letter
+  'ɜ':  'ER',        // bird
+  'ɚ':  'ER',        // her
   'æ':  'AE',        // apple
   'ɑ':  'AA',        // father
   'ɔ':  'AO',        // ball
-  'o':  'OW',        // hope (mapped to OW diphthong as in GenAm)
+  'o':  'OW',        // hope (GenAm)
   'ʊ':  'UH',        // book
   'u':  'UW',        // blue
-  'ʌ':  'AH',        // cup (same ARPABET as schwa)
+  'ʌ':  'AH',        // cup
 
   // Consonants
   'j':  'Y',
@@ -84,29 +84,15 @@ function stripDiacritics(sound: string): string {
 }
 
 /**
- * IPA keys sorted by length descending for explicit greedy matching.
- * This ensures triphthongs match before diphthongs, diphthongs before
- * single characters, regardless of JS object key ordering.
- */
-const IPA_KEYS_BY_LENGTH = Object.keys(IPA_TO_ARPABET)
-  .sort((a, b) => b.length - a.length || a.localeCompare(b));
-
-/**
  * Convert a single IPA phoneme sound string to ARPABET.
- * Uses greedy matching: longest IPA key that matches wins.
  * Returns null if no mapping is found.
  */
 export function ipaToArpabet(ipaSound: string): string | null {
-  const cleaned = stripDiacritics(ipaSound);
-  for (const key of IPA_KEYS_BY_LENGTH) {
-    if (cleaned === key) return IPA_TO_ARPABET[key];
-  }
-  return null;
+  return IPA_TO_ARPABET[stripDiacritics(ipaSound)] ?? null;
 }
 
 /**
- * Convert an array of Phoneme objects to a space-separated ARPABET string
- * suitable for the UCI Phonotactic Calculator.
+ * Convert an array of Phoneme objects to a space-separated ARPABET string.
  */
 export function phonemesToArpabet(phonemes: Phoneme[]): string {
   return phonemes
@@ -117,7 +103,7 @@ export function phonemesToArpabet(phonemes: Phoneme[]): string {
 
 /**
  * Convert a Word's syllables to a single space-separated ARPABET string.
- * Stress markers and syllable boundaries are stripped (UCI doesn't use them).
+ * Stress markers and syllable boundaries are stripped.
  */
 export function wordToArpabet(word: Word): string {
   const allPhonemes: Phoneme[] = [];
