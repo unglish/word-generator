@@ -137,19 +137,19 @@ describe('phonotactic quality gates', () => {
   }, 60000);
 
   it('per-bigram mean is within gate of English', () => {
-    const gap = englishBaseline.scores.meanPerBigram - generated.perBigram.mean;
+    const gap = englishBaseline.scores.perBigram.mean - generated.perBigram.mean;
 
     console.log(`\n📊 Generated: per-bigram mean=${generated.perBigram.mean.toFixed(2)} median=${generated.perBigram.median.toFixed(2)} min=${generated.perBigram.min.toFixed(2)} n=${generated.words.length}`);
-    console.log(`   English:   per-bigram mean=${englishBaseline.scores.meanPerBigram}`);
+    console.log(`   English:   per-bigram mean=${englishBaseline.scores.perBigram.mean}`);
     console.log(`   Gap: ${gap.toFixed(2)} (gate: < ${PER_BIGRAM_GATE})`);
 
     expect(generated.perBigram.mean).toBeGreaterThan(
-      englishBaseline.scores.meanPerBigram - PER_BIGRAM_GATE,
+      englishBaseline.scores.perBigram.mean - PER_BIGRAM_GATE,
     );
   });
 
   it('per-bigram gap has not regressed from recorded baseline', () => {
-    const gap = englishBaseline.scores.meanPerBigram - generated.perBigram.mean;
+    const gap = englishBaseline.scores.perBigram.mean - generated.perBigram.mean;
     const baselineGap = englishBaseline.generatedBaseline.gap;
 
     console.log(`\n🔒 Regression check: current gap=${gap.toFixed(2)}, baseline gap=${baselineGap}, tolerance=${REGRESSION_TOLERANCE}`);
@@ -158,7 +158,7 @@ describe('phonotactic quality gates', () => {
   });
 
   it('no generated word has catastrophically low per-bigram score', () => {
-    console.log(`\n📊 Min per-bigram: ${generated.perBigram.min.toFixed(2)} (floor: ${PER_BIGRAM_MIN_FLOOR})`);
+    console.log(`\n📊 Min per-bigram: ${generated.perBigram.min.toFixed(2)} (English min: ${englishBaseline.scores.perBigram.min}, floor: ${PER_BIGRAM_MIN_FLOOR})`);
     expect(generated.perBigram.min).toBeGreaterThan(PER_BIGRAM_MIN_FLOOR);
   });
 });

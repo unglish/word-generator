@@ -26,7 +26,7 @@ export interface BatchScoreResult {
 }
 
 /**
- * Compute mean, min, and median from a sorted array of numbers.
+ * Compute mean, min, and median from an array of numbers.
  */
 function computeStats(values: number[]): ScoreStats {
   if (values.length === 0) return { mean: 0, min: 0, median: 0 };
@@ -50,21 +50,13 @@ function bigramLogProb(first: string, second: string): number {
 }
 
 /**
- * Score a single ARPABET transcription.
- *
- * Sums log₂ P(phoneme_i | phoneme_{i-1}) across all bigrams,
- * including word-boundary markers (#).
+ * Parse an ARPABET string into phoneme tokens, with word-boundary markers.
+ * Returns ['#', ...phonemes, '#'], or null if the input is empty.
  */
-function scoreWord(arpabet: string): number {
+function parseArpabet(arpabet: string): string[] | null {
   const phonemes = arpabet.trim().split(/\s+/);
-  if (phonemes.length === 0 || !phonemes[0]) return -Infinity;
-
-  const seq = ['#', ...phonemes, '#'];
-  let total = 0;
-  for (let i = 1; i < seq.length; i++) {
-    total += bigramLogProb(seq[i - 1], seq[i]);
-  }
-  return total;
+  if (phonemes.length === 0 || !phonemes[0]) return null;
+  return ['#', ...phonemes, '#'];
 }
 
 /**
@@ -72,22 +64,21 @@ function scoreWord(arpabet: string): number {
  */
 export function scoreArpabetWords(arpabetWords: string[]): BatchScoreResult {
   const words = arpabetWords.map(arpabet => {
-    const score = scoreWord(arpabet);
-    const bigramCount = arpabet.trim().split(/\s+/).length + 1;
-    return {
-      arpabet,
-      score,
-      perBigram: bigramCount > 0 ? score / bigramCount : -Infinity,
-    };
+    const seq = parseArpabet(arpabet);
+    if (!seq) return { arpabet, score: -Infinity, perBigram: -Infinity };
+
+    let score = 0;
+    for (let i = 1; i < seq.length; i++) {
+      score += bigramLogProb(seq[i - 1], seq[i]);
+    }
+    const bigramCount = seq.length - 1;
+    return { arpabet, score, perBigram: score / bigramCount };
   });
 
   const finite = (v: number) => isFinite(v) && !isNaN(v);
-  const totalScores = words.map(w => w.score).filter(finite);
-  const perBigramScores = words.map(w => w.perBigram).filter(finite);
-
   return {
     words,
-    total: computeStats(totalScores),
-    perBigram: computeStats(perBigramScores),
+    total: computeStats(words.map(w => w.score).filter(finite)),
+    perBigram: computeStats(words.map(w => w.perBigram).filter(finite)),
   };
 }

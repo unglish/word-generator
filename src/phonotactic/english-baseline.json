@@ -3,14 +3,18 @@
   "validatedAt": "2026-02-08",
   "sampleSize": 123892,
   "scores": {
-    "mean": -28.37,
-    "median": -27.28,
-    "min": -133.04,
-    "max": -8.36,
-    "meanPerBigram": -3.89,
-    "medianPerBigram": -3.84,
-    "minPerBigram": -7.92,
-    "maxPerBigram": -2.37
+    "total": {
+      "mean": -28.37,
+      "median": -27.28,
+      "min": -133.04,
+      "max": -8.36
+    },
+    "perBigram": {
+      "mean": -3.89,
+      "median": -3.84,
+      "min": -7.92,
+      "max": -2.37
+    }
   },
   "generatedBaseline": {
     "note": "Measured from 135k generated words (seed 42) with per-bigram scoring.",
