@@ -111,6 +111,8 @@ export interface GenerationWeights {
  * Stress assignment rules for polysyllabic words.
  *
  * Currently only `"weight-sensitive"` is implemented.
+ * Note: `pronounce.ts` does not yet read this config — stress and
+ * aspiration logic is still English-specific. See issue #32.
  */
 export interface StressRules {
   /** Strategy for assigning primary stress */

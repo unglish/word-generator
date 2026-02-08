@@ -1,14 +1,11 @@
-import { createGenerator } from "./core/generate.js";
-import { englishConfig } from "./config/english.js";
+import { generateWord } from "./core/generate.js";
 import * as phonemes from "./elements/phonemes.js";
 import * as graphemes from "./elements/graphemes/index.js";
 import * as random from "./utils/random.js";
 
-export { createGenerator, WordGenerator } from "./core/generate.js";
+export { createGenerator, generateWord, WordGenerator } from "./core/generate.js";
 export { LanguageConfig, BySyllablePosition, SonorityHierarchy, SyllableStructureRules, StressRules, GenerationWeights, validateConfig } from "./config/language.js";
 export { englishConfig } from "./config/english.js";
-
-const english = createGenerator(englishConfig);
 
 /**
  * The word-generator public API.
@@ -48,7 +45,7 @@ export default {
    * console.log(word.written.clean);
    * ```
    */
-  generateWord: english.generateWord,
+  generateWord,
 
   /**
    * Random-number utilities used internally by the generator.

@@ -32,9 +32,7 @@ import { graphemes, graphemeMaps } from "../elements/graphemes/index.js";
 
 /**
  * English language configuration built from existing phoneme/grapheme data.
- * Proves the LanguageConfig interface fits the current English data.
- *
- * TODO: wire into generate.ts once it accepts LanguageConfig (#24)
+ * Consumed by {@link createGenerator} to produce the default English word generator.
  */
 export const englishConfig: LanguageConfig = {
   id: "en",

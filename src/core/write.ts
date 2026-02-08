@@ -44,6 +44,10 @@ function buildCumulativeFrequencies(
 
 // ---------------------------------------------------------------------------
 // Reduction rules (spelling adjustments)
+//
+// NOTE: These rules are English-specific (ks→x, magic-e). A future version
+// should accept spelling rules via LanguageConfig so other languages can
+// provide their own orthographic adjustments. See issue #31.
 // ---------------------------------------------------------------------------
 
 const reductionRules = [
@@ -120,7 +124,7 @@ function chooseGrapheme(
 
   let { form } = selectedGrapheme;
 
-  // Apply the doubling rule
+  // Apply the doubling rule (English-specific — see issue #31)
   if (prevPhoneme && prevPhoneme.nucleus && !isCluster) {
     const isAfterShortVowel = prevPhoneme.nucleus > 0 && prevPhoneme.tense === false;
     const isConsonant = position === "onset" || position === "coda";

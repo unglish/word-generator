@@ -1,4 +1,4 @@
-import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable } from "../types.js";
+import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, getPhonemePositionWeight } from "../types.js";
 import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
 import { createSeededRandom } from "../utils/createSeededRandom.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
@@ -100,8 +100,7 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
 }
 
 function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: ClusterContext): boolean {
-  // Phoneme has dynamic position keys (onset, coda, nucleus) as optional numbers
-  const positionWeight = (p as unknown as Record<string, number | undefined>)[position];
+  const positionWeight = getPhonemePositionWeight(p, position);
   return (positionWeight === undefined || positionWeight > 0) &&
          (!isStartOfWord || p.startWord === undefined || p.startWord > 0) &&
          (!isEndOfWord || p.endWord === undefined || p.endWord > 0);
@@ -434,31 +433,10 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 }
 
 // ---------------------------------------------------------------------------
-// Default English instance
+// Default English instance (built once, shared by public API + test helpers)
 // ---------------------------------------------------------------------------
 
-// ---------------------------------------------------------------------------
-// Test helpers — exported for unit tests, not part of the public API
-// ---------------------------------------------------------------------------
-
-/** @internal Build a cluster using the default English runtime. For tests only. */
-export function _buildCluster(context: ClusterContext): Phoneme[] {
-  return buildCluster(_defaultRuntime, context);
-}
-
-/** @internal Check cluster validity using the default English runtime. For tests only. */
-export function _isValidCluster(cluster: Phoneme[], position: "onset" | "coda" | "nucleus"): boolean {
-  return isValidCluster(_defaultRuntime, cluster, position);
-}
-
-/** @internal Exposed for tests that need the default runtime. */
-const _defaultRuntime = buildRuntime(englishConfig);
-
-// ---------------------------------------------------------------------------
-// Default English instance
-// ---------------------------------------------------------------------------
-
-const english = createGenerator(englishConfig);
+const defaultRuntime = buildRuntime(englishConfig);
 
 /**
  * Generates a random English-like word. Shorthand for the default English generator.
@@ -469,6 +447,44 @@ const english = createGenerator(englishConfig);
  * const word = generateWord();
  * ```
  */
-export const generateWord = english.generateWord;
+export const generateWord = (options: WordGenerationOptions = {}): Word => {
+  const originalRand: RandomFunction = getRand();
+  const context: WordGenerationContext = {
+    word: {
+      syllables: [],
+      pronunciation: '',
+      written: { clean: '', hyphenated: '' },
+    },
+    syllableCount: options.syllableCount || 0,
+    currSyllableIndex: 0,
+  };
+
+  if (options.seed !== undefined) {
+    overrideRand(createSeededRandom(options.seed));
+  }
+
+  try {
+    generateSyllables(defaultRuntime, context);
+    defaultRuntime.generateWrittenForm(context);
+    generatePronunciation(context);
+    return context.word;
+  } finally {
+    overrideRand(originalRand);
+  }
+};
 
 export default generateWord;
+
+// ---------------------------------------------------------------------------
+// Test helpers — exported for unit tests, not part of the public API
+// ---------------------------------------------------------------------------
+
+/** @internal Build a cluster using the default English runtime. For tests only. */
+export function _buildCluster(context: ClusterContext): Phoneme[] {
+  return buildCluster(defaultRuntime, context);
+}
+
+/** @internal Check cluster validity using the default English runtime. For tests only. */
+export function _isValidCluster(cluster: Phoneme[], position: "onset" | "coda" | "nucleus"): boolean {
+  return isValidCluster(defaultRuntime, cluster, position);
+}
