@@ -112,7 +112,7 @@ export interface GenerationWeights {
  *
  * Currently only `"weight-sensitive"` is implemented.
  * Note: `pronounce.ts` does not yet read this config — stress and
- * aspiration logic is still English-specific. See issue #32.
+ * aspiration logic is still English-specific. See issue #35.
  */
 export interface StressRules {
   /** Strategy for assigning primary stress */
