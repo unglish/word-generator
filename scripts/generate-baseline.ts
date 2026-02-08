@@ -161,7 +161,7 @@ async function main() {
   
   // Test with multiple seeds for stability
   const seeds = [42, 123, 456, 789, 1337];
-  const sampleSize = 100;
+  const sampleSize = 500;
   
   const allResults: number[] = [];
   const seedResults: Array<{ seed: number; stats: any }> = [];

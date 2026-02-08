@@ -1,7 +1,7 @@
 {
-  "description": "English phonotactic baseline from 100 random CMU dict words across 5 seeds. Generated with TypeScript scorer.",
+  "description": "English phonotactic baseline from 500 random CMU dict words across 5 seeds. Generated with TypeScript scorer.",
   "validatedAt": "2026-02-08",
-  "sampleSize": 100,
+  "sampleSize": 500,
   "seeds": [
     42,
     123,
@@ -10,30 +10,30 @@
     1337
   ],
   "scores": {
-    "mean": -27.72,
-    "median": -27.48,
-    "min": -55.28,
-    "max": -11.23
+    "mean": -27.87,
+    "median": -26.85,
+    "min": -67.83,
+    "max": -10.83
   },
   "varianceAcrossSeeds": {
-    "note": "Tested 5 seeds (42, 123, 456, 789, 1337). Mean ranged -29.15 to -26.57. Variable.",
+    "note": "Tested 5 seeds (42, 123, 456, 789, 1337). Mean ranged -28.32 to -27.60. Stable.",
     "meanRange": [
-      -29.15,
-      -26.57
+      -28.32,
+      -27.6
     ],
     "minRange": [
-      -55.28,
-      -48.44
+      -67.83,
+      -54.74
     ],
     "maxRange": [
-      -14.01,
-      -11.23
+      -13.33,
+      -10.83
     ]
   },
   "generatedBaseline": {
-    "note": "Last measured generated word gap from English mean with real CMU bigram data.",
-    "gap": 6.66,
-    "generatedMean": -34.38,
+    "note": "Will be updated after measuring current generated word performance with new bigram data.",
+    "gap": 0,
+    "generatedMean": 0,
     "measuredAt": "2026-02-08"
   }
 }

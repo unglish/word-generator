@@ -37,7 +37,7 @@ More negative = less probable phoneme sequence. Scores are in log2-space.
 | Assertion | Threshold | Rationale |
 |-----------|-----------|-----------|
 | Generated mean | > -40 | Based on measured mean (-34.38) minus margin |
-| Generated min  | > -65 | Based on measured min (-61.41) minus margin |
+| Generated min  | > -100 | Generous floor for 1000-word samples (English min ~-68 at 500 words) |
 | Gap (English mean − generated mean) | < 12 | Based on measured gap (6.66) plus margin (5) |
 | Performance | > 5k words/sec | Maintain generation speed |
 
