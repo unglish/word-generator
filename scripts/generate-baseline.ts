@@ -3,8 +3,8 @@
 /**
  * Generate English baseline phonotactic scores using the TypeScript scorer.
  * 
- * Scores 100 random CMU dictionary words across 5 seeds to establish
- * a baseline for comparison with generated words.
+ * Scores ALL CMU dictionary words (~135k) to establish a comprehensive
+ * baseline for comparison with generated words.
  */
 
 import fs from 'fs';
@@ -21,6 +21,10 @@ interface BaselineData {
     median: number;
     min: number;
     max: number;
+    meanPerBigram: number;
+    medianPerBigram: number;
+    minPerBigram: number;
+    maxPerBigram: number;
   };
   varianceAcrossSeeds: {
     note: string;
@@ -99,41 +103,11 @@ async function getCMUWords(): Promise<{ word: string; arpabet: string }[]> {
   return words;
 }
 
-/**
- * Simple seeded random number generator
- */
-function createSeededRandom(seed: number) {
-  let state = seed;
-  return function random() {
-    state = (state * 1664525 + 1013904223) % 2147483647;
-    return state / 2147483647;
-  };
-}
+// Removed seeded random - not needed for full dictionary baseline
 
-/**
- * Shuffle array using seeded random
- */
-function shuffleArray<T>(array: T[], seed: number): T[] {
-  const random = createSeededRandom(seed);
-  const shuffled = [...array];
-  
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  
-  return shuffled;
-}
+// Removed shuffle function - not needed for full dictionary baseline
 
-/**
- * Score ARPABET words using the imported scorer
- */
-async function scoreWords(arpabetWords: string[]): Promise<number[]> {
-  // Import the scorer function dynamically 
-  const scorerModule = await import('../src/phonotactic/score.js');
-  const scored = scorerModule.scoreArpabetWords(arpabetWords);
-  return scored.map(s => s.score);
-}
+// Removed scoreWords - using scorer module directly in main
 
 /**
  * Calculate statistics from an array of scores
@@ -151,71 +125,67 @@ function calculateStats(scores: number[]) {
 }
 
 /**
+ * Calculate per-bigram statistics
+ */
+function calculatePerBigramStats(scoredWords: Array<{score: number; perBigram: number}>) {
+  const perBigramScores = scoredWords.map(w => w.perBigram).filter(s => !isNaN(s) && isFinite(s));
+  perBigramScores.sort((a, b) => a - b);
+  
+  const meanPerBigram = perBigramScores.reduce((sum, score) => sum + score, 0) / perBigramScores.length;
+  const medianPerBigram = perBigramScores[Math.floor(perBigramScores.length / 2)];
+  const minPerBigram = perBigramScores[0];
+  const maxPerBigram = perBigramScores[perBigramScores.length - 1];
+  
+  return { meanPerBigram, medianPerBigram, minPerBigram, maxPerBigram };
+}
+
+/**
  * Main execution
  */
 async function main() {
-  console.log('🎯 Generating English baseline with TypeScript scorer...\n');
+  console.log('🎯 Generating English baseline with full CMU dictionary (~135k words)...\n');
   
-  // Get CMU dictionary words
+  // Get ALL CMU dictionary words
   const cmuWords = await getCMUWords();
+  console.log(`📖 Processing ${cmuWords.length} words from CMU dictionary...`);
   
-  // Test with multiple seeds for stability
-  const seeds = [42, 123, 456, 789, 1337];
-  const sampleSize = 500;
+  // Score all words using the scorer module
+  const scorerModule = await import('../src/phonotactic/score.js');
+  const arpabetWords = cmuWords.map(w => w.arpabet);
+  const scoredWords = scorerModule.scoreArpabetWords(arpabetWords);
   
-  const allResults: number[] = [];
-  const seedResults: Array<{ seed: number; stats: any }> = [];
+  // Filter out invalid scores and calculate total score statistics
+  const validScored = scoredWords.filter(s => !isNaN(s.score) && isFinite(s.score) && !isNaN(s.perBigram) && isFinite(s.perBigram));
+  const totalScores = validScored.map(s => s.score);
+  totalScores.sort((a, b) => a - b);
   
-  for (const seed of seeds) {
-    console.log(`🔄 Testing seed ${seed}...`);
-    
-    // Randomly sample words
-    const shuffled = shuffleArray(cmuWords, seed);
-    const sample = shuffled.slice(0, sampleSize);
-    const arpabetWords = sample.map(w => w.arpabet);
-    
-    // Score the words
-    const scores = await scoreWords(arpabetWords);
-    const stats = calculateStats(scores);
-    
-    seedResults.push({ seed, stats });
-    allResults.push(...scores);
-    
-    console.log(`   Mean: ${stats.mean.toFixed(2)}, Min: ${stats.min.toFixed(2)}, Max: ${stats.max.toFixed(2)}`);
-  }
+  const totalStats = calculateStats(totalScores);
+  const perBigramStats = calculatePerBigramStats(validScored);
   
-  // Calculate overall statistics
-  const overallStats = calculateStats(allResults);
-  
-  // Calculate variance across seeds
-  const seedMeans = seedResults.map(r => r.stats.mean);
-  const seedMins = seedResults.map(r => r.stats.min);
-  const seedMaxs = seedResults.map(r => r.stats.max);
-  
-  const meanRange: [number, number] = [Math.min(...seedMeans), Math.max(...seedMeans)];
-  const minRange: [number, number] = [Math.min(...seedMins), Math.max(...seedMins)];
-  const maxRange: [number, number] = [Math.min(...seedMaxs), Math.max(...seedMaxs)];
-  
-  // Create baseline data (set gap to 0 initially)
+  // Create baseline data with known per-bigram stats
   const baseline: BaselineData = {
-    description: `English phonotactic baseline from ${sampleSize} random CMU dict words across ${seeds.length} seeds. Generated with TypeScript scorer.`,
+    description: `English phonotactic baseline from full CMU dictionary (${validScored.length} words). Generated with TypeScript scorer.`,
     validatedAt: new Date().toISOString().split('T')[0],
-    sampleSize,
-    seeds,
+    sampleSize: validScored.length,
+    seeds: [], // Not applicable for full dictionary
     scores: {
-      mean: parseFloat(overallStats.mean.toFixed(2)),
-      median: parseFloat(overallStats.median.toFixed(2)),
-      min: parseFloat(overallStats.min.toFixed(2)),
-      max: parseFloat(overallStats.max.toFixed(2))
+      mean: parseFloat(totalStats.mean.toFixed(2)),
+      median: parseFloat(totalStats.median.toFixed(2)),
+      min: parseFloat(totalStats.min.toFixed(2)),
+      max: parseFloat(totalStats.max.toFixed(2)),
+      meanPerBigram: parseFloat(perBigramStats.meanPerBigram.toFixed(2)),
+      medianPerBigram: parseFloat(perBigramStats.medianPerBigram.toFixed(2)),
+      minPerBigram: parseFloat(perBigramStats.minPerBigram.toFixed(2)),
+      maxPerBigram: parseFloat(perBigramStats.maxPerBigram.toFixed(2))
     },
     varianceAcrossSeeds: {
-      note: `Tested ${seeds.length} seeds (${seeds.join(', ')}). Mean ranged ${meanRange[0].toFixed(2)} to ${meanRange[1].toFixed(2)}. ${Math.abs(meanRange[1] - meanRange[0]) < 2 ? 'Stable' : 'Variable'}.`,
-      meanRange: [parseFloat(meanRange[0].toFixed(2)), parseFloat(meanRange[1].toFixed(2))],
-      minRange: [parseFloat(minRange[0].toFixed(2)), parseFloat(minRange[1].toFixed(2))],
-      maxRange: [parseFloat(maxRange[0].toFixed(2)), parseFloat(maxRange[1].toFixed(2))]
+      note: "Full dictionary baseline - no sampling variance.",
+      meanRange: [totalStats.mean, totalStats.mean],
+      minRange: [totalStats.min, totalStats.min],
+      maxRange: [totalStats.max, totalStats.max]
     },
     generatedBaseline: {
-      note: "Will be updated after measuring current generated word performance with new bigram data.",
+      note: "Will be updated after measuring current generated word performance with per-bigram scoring.",
       gap: 0,
       generatedMean: 0,
       measuredAt: new Date().toISOString().split('T')[0]
@@ -227,16 +197,20 @@ async function main() {
   fs.writeFileSync(outputPath, JSON.stringify(baseline, null, 2) + '\n', 'utf8');
   
   console.log(`\n✅ Generated ${outputPath}`);
-  console.log(`📊 English baseline stats:`);
-  console.log(`   Mean: ${baseline.scores.mean}`);
-  console.log(`   Median: ${baseline.scores.median}`);
-  console.log(`   Min: ${baseline.scores.min}`);
-  console.log(`   Max: ${baseline.scores.max}`);
-  console.log(`   Stability: ${baseline.varianceAcrossSeeds.note}`);
+  console.log(`📊 English baseline stats (${validScored.length} words):`);
+  console.log(`   Total scores:`);
+  console.log(`     Mean: ${baseline.scores.mean}`);
+  console.log(`     Median: ${baseline.scores.median}`);
+  console.log(`     Min: ${baseline.scores.min}`);
+  console.log(`     Max: ${baseline.scores.max}`);
+  console.log(`   Per-bigram scores:`);
+  console.log(`     Mean: ${baseline.scores.meanPerBigram}`);
+  console.log(`     Median: ${baseline.scores.medianPerBigram}`);
+  console.log(`     Min: ${baseline.scores.minPerBigram}`);
+  console.log(`     Max: ${baseline.scores.maxPerBigram}`);
   console.log(`\nNext steps:`);
-  console.log(`  1. Run tests to measure generated word gap: npm test`);
-  console.log(`  2. Update thresholds in phonotactic.test.ts if needed`);
-  console.log(`  3. Update docs/phonotactic-scoring.md with new calibration`);
+  console.log(`  1. Update tests to use per-bigram scoring: src/phonotactic/phonotactic.test.ts`);
+  console.log(`  2. Update docs with new per-bigram calibration: docs/phonotactic-scoring.md`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

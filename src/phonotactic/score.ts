@@ -14,6 +14,7 @@ import { ARPABET_BIGRAM_COUNTS, ARPABET_TOTAL_COUNTS, ALL_ARPABET_PHONEMES } fro
 export interface ScoredWord {
   arpabet: string;
   score: number;
+  perBigram: number;
 }
 
 export interface BatchScoreResult {
@@ -21,6 +22,9 @@ export interface BatchScoreResult {
   mean: number;
   min: number;
   median: number;
+  meanPerBigram: number;
+  minPerBigram: number;
+  medianPerBigram: number;
 }
 
 /**
@@ -78,10 +82,18 @@ function scoreArpabetWord(arpabet: string): number {
  * Score a list of ARPABET transcriptions using pure TypeScript bigram scorer.
  */
 export function scoreArpabetWords(arpabetWords: string[]): ScoredWord[] {
-  return arpabetWords.map(arpabet => ({
-    arpabet,
-    score: scoreArpabetWord(arpabet),
-  }));
+  return arpabetWords.map(arpabet => {
+    const score = scoreArpabetWord(arpabet);
+    const phonemes = arpabet.trim().split(/\s+/);
+    const bigramCount = phonemes.length + 1; // phoneme count + 1 for word boundaries
+    const perBigram = bigramCount > 0 ? score / bigramCount : -Infinity;
+    
+    return {
+      arpabet,
+      score,
+      perBigram,
+    };
+  });
 }
 
 /**
@@ -102,13 +114,19 @@ export function generateAndScore(count: number = 100, seed?: number): BatchScore
 
   const scored = scoreArpabetWords(arpabetWords);
   const scores = scored.map(s => s.score).filter(s => !isNaN(s) && isFinite(s));
+  const perBigramScores = scored.map(s => s.perBigram).filter(s => !isNaN(s) && isFinite(s));
+  
   scores.sort((a, b) => a - b);
+  perBigramScores.sort((a, b) => a - b);
 
   return {
     words: scored,
     mean: scores.reduce((a, b) => a + b, 0) / scores.length,
     min: scores[0] ?? 0,
     median: scores[Math.floor(scores.length / 2)] ?? 0,
+    meanPerBigram: perBigramScores.reduce((a, b) => a + b, 0) / perBigramScores.length,
+    minPerBigram: perBigramScores[0] ?? 0,
+    medianPerBigram: perBigramScores[Math.floor(perBigramScores.length / 2)] ?? 0,
   };
 }
 
@@ -142,12 +160,18 @@ export function scoreEnglishBaseline(): BatchScoreResult {
 
   const scored = scoreArpabetWords(englishWords);
   const scores = scored.map(s => s.score).filter(s => !isNaN(s) && isFinite(s));
+  const perBigramScores = scored.map(s => s.perBigram).filter(s => !isNaN(s) && isFinite(s));
+  
   scores.sort((a, b) => a - b);
+  perBigramScores.sort((a, b) => a - b);
 
   return {
     words: scored,
     mean: scores.reduce((a, b) => a + b, 0) / scores.length,
     min: scores[0] ?? 0,
     median: scores[Math.floor(scores.length / 2)] ?? 0,
+    meanPerBigram: perBigramScores.reduce((a, b) => a + b, 0) / perBigramScores.length,
+    minPerBigram: perBigramScores[0] ?? 0,
+    medianPerBigram: perBigramScores[Math.floor(perBigramScores.length / 2)] ?? 0,
   };
 }
