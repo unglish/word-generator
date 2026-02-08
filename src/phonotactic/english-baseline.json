@@ -29,9 +29,11 @@
     ]
   },
   "generatedBaseline": {
-    "note": "Will be updated after measuring current generated word performance with per-bigram scoring.",
-    "gap": 0,
-    "generatedMean": 0,
+    "note": "Measured from 135k generated words (seed 42) with per-bigram scoring.",
+    "meanPerBigram": -4.74,
+    "gap": 0.85,
+    "sampleSize": 135000,
+    "seed": 42,
     "measuredAt": "2026-02-08"
   }
 }

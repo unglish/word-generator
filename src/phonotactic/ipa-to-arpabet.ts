@@ -84,12 +84,24 @@ function stripDiacritics(sound: string): string {
 }
 
 /**
+ * IPA keys sorted by length descending for explicit greedy matching.
+ * This ensures triphthongs match before diphthongs, diphthongs before
+ * single characters, regardless of JS object key ordering.
+ */
+const IPA_KEYS_BY_LENGTH = Object.keys(IPA_TO_ARPABET)
+  .sort((a, b) => b.length - a.length || a.localeCompare(b));
+
+/**
  * Convert a single IPA phoneme sound string to ARPABET.
+ * Uses greedy matching: longest IPA key that matches wins.
  * Returns null if no mapping is found.
  */
 export function ipaToArpabet(ipaSound: string): string | null {
   const cleaned = stripDiacritics(ipaSound);
-  return IPA_TO_ARPABET[cleaned] ?? null;
+  for (const key of IPA_KEYS_BY_LENGTH) {
+    if (cleaned === key) return IPA_TO_ARPABET[key];
+  }
+  return null;
 }
 
 /**
