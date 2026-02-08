@@ -12,8 +12,8 @@ import { generateWord } from './generate.js';
  */
 
 // Conservative floor — update deliberately when accepting known tradeoffs
-const MIN_WORDS_PER_SEC = 500;
-const SAMPLE_SIZE = 1000;
+const MIN_WORDS_PER_SEC = 5000;
+const SAMPLE_SIZE = 10000;
 const WARMUP_COUNT = 50;
 
 describe('Word Generation Performance', () => {
