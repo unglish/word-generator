@@ -1,138 +1,231 @@
 import { RandomFunction } from "./utils/random";
 
+/**
+ * A single phoneme (minimal sound unit) in the generator's inventory.
+ *
+ * Each phoneme carries articulatory metadata and positional weightings that
+ * control how likely it is to appear in onsets, codas, nuclei, and at word
+ * boundaries.
+ */
 export interface Phoneme {
+  /** IPA symbol or ASCII representation of the sound (e.g. `"p"`, `"ʃ"`). */
   sound: string;
 
-  // Voicing refers to whether or not your vocal cords vibrate when you produce a sound.
-  // Example:
-  // When you say the sound /z/ (as in "buzz"), your vocal cords vibrate—this is a voiced sound.
-  // When you say the sound /s/ (as in "hiss"), your vocal cords do not vibrate—this is a voiceless sound.
+  /**
+   * Whether the vocal cords vibrate when producing this sound.
+   *
+   * @example `true` for /z/ ("buzz"), `false` for /s/ ("hiss").
+   */
   voiced: boolean;
 
-  // Indicates whether the phoneme is aspirated — has a small burst of air at the end (e.g., /pʰ/ in "pat")
+  /**
+   * Whether the phoneme is aspirated — produced with a small burst of air
+   * (e.g. /pʰ/ in "pat").
+   */
   aspirated?: boolean;
 
-  // Manner of articulation describes how the airflow is manipulated to produce different sounds. It’s about what your tongue, lips, and other parts of your mouth do to create the sound.
-  // Example:
-  // Stop: A sound where airflow is completely blocked and then released, like /p/ in "pat" or /t/ in "top."
-  // Nasal: A sound where air flows out through your nose, like /m/ in "mom" or /n/ in "nose."
-  // Fricative: A sound where air is forced through a narrow space, causing friction, like /f/ in "fish" or /s/ in "see."
+  /**
+   * How the airflow is manipulated to produce the sound.
+   *
+   * Examples:
+   * - `"stop"` — airflow completely blocked then released (e.g. /p/, /t/).
+   * - `"nasal"` — air flows through the nose (e.g. /m/, /n/).
+   * - `"fricative"` — air forced through a narrow space (e.g. /f/, /s/).
+   *
+   * Future language support (not used in English):
+   * tap/flap, trill, ejective/implosive stops, clicks,
+   * lateral fricatives/affricates, pharyngeal/uvular/epiglottal fricatives/stops.
+   */
   mannerOfArticulation:
-    | "highVowel"           // Vowels: High (close)
-    | "midVowel"            // Vowels: Mid
-    | "lowVowel"            // Vowels: Low (open)
-    | "glide"               // Approximants, semivowels (e.g., /j/, /w/)
-    | "liquid"              // Lateral approximants and rhotics (e.g., /l/, /r/)
-    | "nasal"               // Nasal stops (e.g., /m/, /n/, /ŋ/)
-    | "fricative"           // Fricatives (voiced or voiceless, e.g., /f/, /s/)
-    | "affricate"           // Affricates (e.g., /tʃ/, /dʒ/)
-    | "stop"                // Stops or plosives (e.g., /p/, /t/)
-    // | "tap" | "flap"        // Rapid, single contraction of the articulators (e.g., Spanish /ɾ/ - not common in English)
-    // | "trill"               // Vibration of one articulator against another (e.g., Spanish /r/ - not used in English)
-    // | "ejectiveStop"        // Consonants with a glottalic egressive airstream (e.g., /p’/ - not used in English)
-    // | "implosiveStop"       // Consonants with a glottalic ingressive airstream (e.g., /ɓ/ - not used in English)
-    // | "click"               // Consonants produced by creating a suction mechanism (e.g., in Khoisan languages - not used in English)
-    // | "lateralFricative"    // Fricatives where airflow is around the sides of the tongue (e.g., Welsh /ɬ/ - not used in English)
-    // | "lateralAffricate"    // Affricates with lateral release (e.g., in some Caucasian languages - not used in English)
-    // | "pharyngealFricative" // Fricatives articulated with the pharynx (e.g., Arabic /ħ/ - not used in English)
-    // | "uvularFricative"     // Fricatives articulated with the uvula (e.g., French /ʁ/ - not used in English)
-    // | "uvularStop"          // Stops articulated with the uvula (e.g., Quechua /q/ - not used in English)
-    // | "epiglottalStop"      // Stops articulated with the epiglottis (e.g., in some Semitic languages - not used in English)
-    // | "epiglottalFricative" // Fricatives articulated with the epiglottis (e.g., in some Semitic languages - not used in English)
-    | "sibilant"            // High-pitched fricatives (e.g., /s/, /ʃ/)
-    | "lateralApproximant"; // Laterals that do not create a complete closure (e.g., /l/)
+    | "highVowel"           // Vowels: high (close)
+    | "midVowel"            // Vowels: mid
+    | "lowVowel"            // Vowels: low (open)
+    | "glide"               // Approximants, semivowels (e.g. /j/, /w/)
+    | "liquid"              // Lateral approximants and rhotics (e.g. /l/, /r/)
+    | "nasal"               // Nasal stops (e.g. /m/, /n/, /ŋ/)
+    | "fricative"           // Voiced or voiceless (e.g. /f/, /v/, /θ/)
+    | "affricate"           // e.g. /tʃ/, /dʒ/
+    | "stop"                // Plosives (e.g. /p/, /t/, /k/)
+    | "sibilant"            // High-pitched fricatives (e.g. /s/, /ʃ/)
+    | "lateralApproximant"; // Laterals without complete closure (e.g. /l/)
 
-  // Place of articulation refers to the specific part of your mouth or throat where the sound is produced. It tells you where your tongue, lips, or other articulators are positioned.
-  // Example:
-  // Bilabial: A sound made with both lips, like /b/ in "bat" or /m/ in "mat."
-  // Alveolar: A sound made with the tongue against the ridge behind your upper teeth, like /t/ in "tap" or /d/ in "dog."
-  // Velar: A sound made with the back of your tongue against the soft part of the roof of your mouth, like /k/ in "cat" or /g/ in "go."
+  /**
+   * Where in the vocal tract the sound is produced.
+   *
+   * Examples:
+   * - `"bilabial"` — both lips (e.g. /p/, /b/).
+   * - `"alveolar"` — tongue against the alveolar ridge (e.g. /t/, /d/).
+   * - `"velar"` — back of tongue against the soft palate (e.g. /k/, /g/).
+   *
+   * Future language support (not used in English):
+   * retroflex, labial-palatal, pharyngeal,
+   * epiglottal, uvular, alveolo-palatal.
+   */
   placeOfArticulation:
-    | "front"             // Vowel: Front
-    | "central"           // Vowel: Central
-    | "back"              // Vowel: Back
-    | "bilabial"          // Consonant: Both lips (e.g., /p/, /b/)
-    | "labiodental"       // Consonant: Lip and teeth (e.g., /f/, /v/)
-    | "dental"            // Consonant: Tongue against teeth (e.g., /θ/, /ð/)
-    | "alveolar"          // Consonant: Tongue against the alveolar ridge (e.g., /t/, /d/)
-    | "postalveolar"      // Consonant: Just behind the alveolar ridge (e.g., /ʃ/, /ʒ/)
-    // | "retroflex"         // Consonant: Tongue curled back (e.g., retroflex stops in some Indian languages - not used in English)
-    | "palatal"           // Consonant: Tongue against the hard palate (e.g., /j/)
-    | "velar"             // Consonant: Tongue against the soft palate (e.g., /k/, /g/)
-    | "glottal"           // Consonant: Using the glottis (e.g., /h/, glottal stop)
-    | "labial-velar"      // Consonant: Simultaneous bilabial and velar articulation (e.g., /w/)
-    // | "labial-palatal"    // Consonant: Simultaneous bilabial and palatal articulation (found in some West African languages - not used in English)
-    // | "pharyngeal"        // Consonant: Articulated with the pharynx (e.g., Arabic /ʕ/ - not used in English)
-    // | "epiglottal"        // Consonant: Articulated with the epiglottis (found in some Semitic languages - not used in English)
-    // | "uvular"            // Consonant: Articulated with the uvula (e.g., French /ʁ/, Quechua /q/ - not used in English)
-    // | "alveolo-palatal";  // Consonant: Articulated with the tongue near the alveolar ridge and palate (e.g., Mandarin /tɕ/ - not used in English)
+    | "front"             // Vowel: front
+    | "central"           // Vowel: central
+    | "back"              // Vowel: back
+    | "bilabial"          // Both lips (e.g. /p/, /b/)
+    | "labiodental"       // Lip and teeth (e.g. /f/, /v/)
+    | "dental"            // Tongue against teeth (e.g. /θ/, /ð/)
+    | "alveolar"          // Tongue against alveolar ridge (e.g. /t/, /d/)
+    | "postalveolar"      // Behind alveolar ridge (e.g. /ʃ/, /ʒ/)
+    | "palatal"           // Tongue against hard palate (e.g. /j/)
+    | "velar"             // Tongue against soft palate (e.g. /k/, /g/)
+    | "glottal"           // Using the glottis (e.g. /h/)
+    | "labial-velar";     // Simultaneous bilabial + velar (e.g. /w/)
 
-  // weightings of the phoneme appearing in the respective position
-  nucleus?: number; 
+  /** Weighting for appearing in a syllable nucleus (vowel position). */
+  nucleus?: number;
+  /** Weighting for appearing in a syllable onset (initial consonant cluster). */
   onset?: number;
+  /** Weighting for appearing in a syllable coda (final consonant cluster). */
   coda?: number;
+  /** Whether the vowel is tense (long) as opposed to lax (short). */
   tense?: boolean;
 
-  // weighting of appearing at the start or end of a word
+  /** Weighting for appearing at the start of a word. */
   startWord: number;
+  /** Weighting for appearing in the middle of a word. */
   midWord: number;
+  /** Weighting for appearing at the end of a word. */
   endWord: number;
 }
 
+/**
+ * A grapheme — the written (spelling) representation of a phoneme.
+ *
+ * Each grapheme maps a phoneme sound to one of its possible written forms,
+ * weighted by frequency and syllable position.
+ */
 export interface Grapheme {
+  /** The IPA/ASCII phoneme sound this grapheme represents. */
   phoneme: string;
+  /** The written letter(s) (e.g. `"sh"` for /ʃ/, `"ough"` for /oʊ/). */
   form: string;
+  /**
+   * Index into the ORIGINS array indicating the grapheme's etymological source.
+   * 0 = Germanic, 1 = French, 2 = Greek, 3 = Latin, 4 = Other.
+   * @see ORIGINS in `elements/graphemes`
+   */
   origin: number;
+  /** Baseline frequency weight (higher → more likely to be chosen). */
   frequency: number;
 
+  /** Weighting modifier when used in a syllable onset. */
   onset?: number;
+  /** Weighting modifier when used in a syllable coda. */
   coda?: number;
+  /** Weighting modifier when used in a syllable nucleus. */
   nucleus?: number;
+  /** Weighting modifier when used inside a consonant cluster. */
   cluster?: number;
 
-  // weighting of appearing at the start or end of a word
+  /** Weighting for appearing at the start of a word. */
   startWord: number;
+  /** Weighting for appearing in the middle of a word. */
   midWord: number;
+  /** Weighting for appearing at the end of a word. */
   endWord: number;
 }
 
+/**
+ * The spelled (orthographic) representation of a generated word.
+ */
 export interface WrittenForm {
+  /** The plain written form (e.g. `"brintle"`). */
   clean: string;
+  /** The hyphenated form showing syllable breaks (e.g. `"brin-tle"`). */
   hyphenated: string;
 }
 
+/**
+ * A fully generated word, including its phonological structure, pronunciation,
+ * and written form.
+ *
+ * @example
+ * ```ts
+ * const word: Word = generateWord();
+ * console.log(word.written.clean);  // "strandel"
+ * console.log(word.pronunciation);  // IPA string
+ * console.log(word.syllables.length); // 2
+ * ```
+ */
 export interface Word {
+  /** Ordered array of syllables that make up the word. */
   syllables: Syllable[];
+  /** IPA pronunciation string for the full word. */
   pronunciation: string;
+  /** Written (spelled) forms of the word. */
   written: WrittenForm;
 }
 
+/**
+ * A single syllable, decomposed into onset, nucleus, and coda.
+ *
+ * @example
+ * ```ts
+ * // The syllable "stran" has:
+ * //   onset:   [s, t, r]
+ * //   nucleus: [a]
+ * //   coda:    [n]
+ * ```
+ */
 export interface Syllable {
+  /** Initial consonant cluster (may be empty). */
   onset: Phoneme[];
+  /** Vowel core of the syllable (typically one phoneme). */
   nucleus: Phoneme[];
+  /** Final consonant cluster (may be empty). */
   coda: Phoneme[];
-  stress?: 'ˈ' | 'ˌ' | undefined; // primary, secondary, or unstressed
+  /** Stress level: primary (`'ˈ'`), secondary (`'ˌ'`), or unstressed (`undefined`). */
+  stress?: 'ˈ' | 'ˌ' | undefined;
 }
 
+/**
+ * Options accepted by {@link generateWord}.
+ */
 export interface WordGenerationOptions {
+  /** An existing partial word to continue building on. */
   word?: Word;
+  /** Integer seed for deterministic generation. Same seed → same word. */
   seed?: number;
+  /** Force the word to have exactly this many syllables (1–7). */
   syllableCount?: number;
+  /** Custom random-number function to use instead of the default. */
   rand?: RandomFunction;
 }
 
+/**
+ * Internal context threaded through the generation pipeline.
+ * @internal
+ */
 export interface WordGenerationContext {
+  /** The word being built. */
   word: Word;
+  /** Target number of syllables. */
   syllableCount: number;
+  /** Index of the syllable currently being generated. */
   currSyllableIndex: number;
 }
 
+/**
+ * Internal context for building a consonant/vowel cluster.
+ * @internal
+ */
 export interface ClusterContext {
+  /** Syllable position this cluster occupies. */
   position: "onset" | "coda" | "nucleus";
+  /** Phonemes accumulated so far in this cluster. */
   cluster: Phoneme[];
+  /** Phoneme sounds to exclude from candidate selection. */
   ignore: string[];
+  /** Whether this cluster begins the word. */
   isStartOfWord: boolean;
+  /** Whether this cluster ends the word. */
   isEndOfWord: boolean;
+  /** Maximum phonemes allowed in this cluster. */
   maxLength: number;
+  /** Total syllable count of the word being generated. */
   syllableCount: number;
 }
