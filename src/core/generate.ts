@@ -5,6 +5,24 @@ import getWeightedOption from "../utils/getWeightedOption.js";
 import { phonemes, invalidOnsetClusters, invalidBoundaryClusters, invalidCodaClusters, sonorityLevels, phonemeMaps } from "../elements/phonemes.js";
 import { generatePronunciation } from "./pronounce.js";
 import { generateWrittenForm } from "./write.js";
+import {
+  SYLLABLE_COUNT_WEIGHTS,
+  ONSET_LENGTH_MONOSYLLABIC,
+  ONSET_LENGTH_FOLLOWING_NUCLEUS,
+  ONSET_LENGTH_DEFAULT,
+  CODA_LENGTH_MONOSYLLABIC,
+  CODA_LENGTH_MONOSYLLABIC_DEFAULT,
+  CODA_ZERO_WEIGHT_END_OF_WORD,
+  CODA_ZERO_WEIGHT_MID_WORD,
+  CODA_LENGTH_POLYSYLLABIC_NONZERO,
+  FINAL_S_CHANCE,
+  BOUNDARY_DROP_CHANCE,
+  HAS_ONSET_START_OF_WORD,
+  HAS_ONSET_AFTER_CODA,
+  HAS_CODA_MONOSYLLABIC,
+  HAS_CODA_END_OF_WORD,
+  HAS_CODA_MID_WORD,
+} from "../config/weights.js";
 
 /**
  * Determines the sonority level of a given phoneme.
@@ -191,19 +209,11 @@ function pickOnset(context: WordGenerationContext, isStartOfWord: boolean, monos
 
   const getMaxLength = () => {
     if (monosyllabic) {
-      return getWeightedOption([
-        [0, 50], 
-        [1, 100], 
-        [2, 200], 
-        [3, 150]
-      ]);
+      return getWeightedOption(ONSET_LENGTH_MONOSYLLABIC);
     } else {
-      return getWeightedOption([
-        [0, isFollowingNucleus ? 0 : 150], 
-        [1, 675], 
-        [2, 125], 
-        [3, 80]
-      ]);
+      return getWeightedOption(
+        isFollowingNucleus ? ONSET_LENGTH_FOLLOWING_NUCLEUS : ONSET_LENGTH_DEFAULT
+      );
     }
   };
 
@@ -275,21 +285,13 @@ function pickCoda(context: WordGenerationContext, newSyllable: Syllable, isEndOf
   const onsetLength = newSyllable.onset.length;
 
   // Adjust weights based on onset length
-  const getCodaLengthWeights = (onsetLength: number) => {
+  const getCodaLengthWeights = (onsetLength: number): [number, number][] => {
     if (monosyllabic) {
-      switch (onsetLength) {
-        case 0: return [[0, 20], [1, 100], [2, 200], [3, 150]];
-        case 1: return [[0, 80], [1, 150], [2, 150], [3, 100]];
-        case 2: return [[0, 50], [1, 200], [2, 100], [3, 50]];
-        case 3: return [[0, 100], [1, 300], [2, 50], [3, 20]];
-        default: return [[0, 150], [1, 200], [2, 30], [3, 10]];
-      }
+      return CODA_LENGTH_MONOSYLLABIC[onsetLength] ?? CODA_LENGTH_MONOSYLLABIC_DEFAULT;
     } else {
       return [
-        [0, isEndOfWord ? 1200 : 6000],
-        [1, 3000],
-        [2, 900],
-        [3, 100],
+        [0, isEndOfWord ? CODA_ZERO_WEIGHT_END_OF_WORD : CODA_ZERO_WEIGHT_MID_WORD],
+        ...CODA_LENGTH_POLYSYLLABIC_NONZERO,
       ];
     }
   };
@@ -309,7 +311,7 @@ function pickCoda(context: WordGenerationContext, newSyllable: Syllable, isEndOf
   });
 
   // Add 's' to the end of the last syllable occasionally
-  if (isEndOfWord && getWeightedOption([[true, 15], [false, 85]])) {
+  if (isEndOfWord && getWeightedOption([[true, FINAL_S_CHANCE], [false, 100 - FINAL_S_CHANCE]])) {
     const sPhoneme = phonemes.find(p => p.sound === 's');
     if (sPhoneme) {
       coda.push(sPhoneme);
@@ -338,7 +340,7 @@ function adjustBoundary(prevSyllable: Syllable, currentSyllable: Syllable): [Syl
 
   const lastCodaSonority = getSonority(lastCodaPhoneme);
   const firstOnsetSonority = getSonority(firstOnsetPhoneme);
-  if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, 90], [false, 10]])) {
+  if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, BOUNDARY_DROP_CHANCE], [false, 100 - BOUNDARY_DROP_CHANCE]])) {
     prevSyllable.coda.pop();
   }
 
@@ -397,29 +399,26 @@ function generateSyllable(context: WordGenerationContext): Syllable {
 
 function determineHasOnset(isStartOfWord: boolean, prevSyllable?: Syllable): boolean {
   if (isStartOfWord) {
-    return getWeightedOption([[true, 95], [false, 5]]);
+    return getWeightedOption([[true, HAS_ONSET_START_OF_WORD], [false, 100 - HAS_ONSET_START_OF_WORD]]);
   } else {
     const prevHasCoda = prevSyllable && prevSyllable.coda.length > 0;
-    return prevHasCoda ? getWeightedOption([[true, 80], [false, 20]]) : true;
+    return prevHasCoda ? getWeightedOption([[true, HAS_ONSET_AFTER_CODA], [false, 100 - HAS_ONSET_AFTER_CODA]]) : true;
   }
 }
 
 function determineHasCoda(isEndOfWord: boolean, monosyllabic: boolean): boolean {
   if (monosyllabic) {
-    return getWeightedOption([[true, 80], [false, 20]]);
+    return getWeightedOption([[true, HAS_CODA_MONOSYLLABIC], [false, 100 - HAS_CODA_MONOSYLLABIC]]);
   } else if (isEndOfWord) {
-    return getWeightedOption([[true, 90], [false, 10]]);
+    return getWeightedOption([[true, HAS_CODA_END_OF_WORD], [false, 100 - HAS_CODA_END_OF_WORD]]);
   } else {
-    return getWeightedOption([[true, 30], [false, 70]]);
+    return getWeightedOption([[true, HAS_CODA_MID_WORD], [false, 100 - HAS_CODA_MID_WORD]]);
   }
 }
 
 export const generateSyllables = (context: WordGenerationContext) => {
   if (!context.syllableCount) {
-    context.syllableCount = getWeightedOption([
-      [1, 5000], [2, 30000], [3, 29700],
-      [4, 3000], [5, 200], [6, 50], [7, 5]
-    ]);
+    context.syllableCount = getWeightedOption(SYLLABLE_COUNT_WEIGHTS);
   }
 
   const syllables = new Array(context.syllableCount);
@@ -452,10 +451,37 @@ function isValidSyllableBoundary(prev: Syllable, curr: Syllable): boolean {
 }
 
 /**
- * Generates a word with a specified number of syllables.
- * 
- * @param options - An object containing options for the word generation.
- * @returns A Word object containing the syllables, pronunciation, and written form.
+ * Generates a random English-like word based on phonotactic rules.
+ *
+ * The generator builds syllables (onset → nucleus → coda) using weighted
+ * phoneme selection, then derives a written (spelled) form and an IPA
+ * pronunciation string.
+ *
+ * @param options - Optional configuration for word generation.
+ * @param options.syllableCount - Force the word to have this many syllables.
+ *   When omitted a count is chosen by weighted random (1–7, favouring 2–3).
+ * @param options.seed - Integer seed for deterministic output. The internal
+ *   RNG is replaced for the duration of this call and restored afterwards.
+ * @param options.word - Supply a partial {@link Word} to continue building on.
+ * @returns A {@link Word} object with `syllables`, `pronunciation`, and `written` fields.
+ *
+ * @example
+ * ```ts
+ * import { generateWord } from "word-generator";
+ *
+ * // Fully random
+ * const word = generateWord();
+ * console.log(word.written.clean);       // e.g. "strandel"
+ * console.log(word.pronunciation);       // IPA string
+ *
+ * // Deterministic (same seed → same word)
+ * const w1 = generateWord({ seed: 123 });
+ * const w2 = generateWord({ seed: 123 });
+ * console.log(w1.written.clean === w2.written.clean); // true
+ *
+ * // Fixed syllable count
+ * const mono = generateWord({ syllableCount: 1 });
+ * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
   const originalRand: RandomFunction = getRand();
