@@ -34,17 +34,38 @@ export interface BatchScoreResult {
 }
 
 /**
- * Resolve the path to the Python venv inside the repo.
- * Falls back to system python if PHONOTACTIC_PYTHON_PATH env is set.
+ * Resolve the path to the UCI Phonotactic Calculator binary.
+ * Priority: env var → which → repo .venv fallback.
  */
 function getCalculatorPath(): string {
   if (process.env.PHONOTACTIC_CALCULATOR_PATH) return process.env.PHONOTACTIC_CALCULATOR_PATH;
+
+  // Try system PATH first (works in CI with pip install)
+  try {
+    const resolved = execSync('which uci-phonotactic-calculator', { encoding: 'utf-8' }).trim();
+    if (resolved) return resolved;
+  } catch { /* not on PATH */ }
+
+  // Fallback to repo .venv
   const repoRoot = join(__dirname, '..', '..');
   return join(repoRoot, '.venv', 'bin', 'uci-phonotactic-calculator');
 }
 
+/**
+ * Resolve the path to the English corpus CSV.
+ * Priority: env var → python introspection → repo .venv glob fallback.
+ */
 function getCorpusPath(): string {
   if (process.env.PHONOTACTIC_CORPUS_PATH) return process.env.PHONOTACTIC_CORPUS_PATH;
+
+  // Ask Python where the package lives (version-agnostic)
+  try {
+    const cmd = 'python3 -c "import uci_phonotactic_calculator, os; print(os.path.dirname(uci_phonotactic_calculator.__file__))"';
+    const pkgDir = execSync(cmd, { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'] }).trim();
+    if (pkgDir) return join(pkgDir, 'data', 'english.csv');
+  } catch { /* python introspection failed */ }
+
+  // Last resort: hardcoded .venv path
   const repoRoot = join(__dirname, '..', '..');
   return join(repoRoot, '.venv', 'lib', 'python3.12', 'site-packages', 'uci_phonotactic_calculator', 'data', 'english.csv');
 }

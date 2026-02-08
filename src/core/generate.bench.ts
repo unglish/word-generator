@@ -7,7 +7,7 @@ import { generateWord } from './generate.js';
  * These act as a regression gate — if generation speed drops
  * significantly, the benchmark assertions will fail in CI.
  * 
- * Current baseline (2026-02-08): ~X words/sec on CI runners.
+ * Current baseline (2026-02-08): ~11,000 words/sec on dev, ~5,000+ expected on CI runners.
  * Threshold is set conservatively to catch real regressions,
  * not CI noise.
  */
