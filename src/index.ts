@@ -1,21 +1,23 @@
-import generateWord, { createGenerator } from "./core/generate.js";
+import { createGenerator } from "./core/generate.js";
+import { englishConfig } from "./config/english.js";
 import * as phonemes from "./elements/phonemes.js";
 import * as graphemes from "./elements/graphemes/index.js";
 import * as random from "./utils/random.js";
-export { createGenerator } from "./core/generate.js";
+
+export { createGenerator, WordGenerator } from "./core/generate.js";
 export { LanguageConfig, BySyllablePosition, SonorityHierarchy, SyllableStructureRules, StressRules } from "./config/language.js";
 export { englishConfig } from "./config/english.js";
 
+const english = createGenerator(englishConfig);
+
 /**
  * The word-generator public API.
- *
- * Provides access to word generation, phoneme/grapheme inventories, and
- * random-number utilities.
  *
  * For custom language configs, use the named export {@link createGenerator}:
  * ```ts
  * import { createGenerator, englishConfig } from "word-generator";
  * const gen = createGenerator(englishConfig);
+ * const word = gen.generateWord();
  * ```
  *
  * @example
@@ -38,7 +40,7 @@ export { englishConfig } from "./config/english.js";
  */
 export default {
   /**
-   * Generate a single random word.
+   * Generate a single random word using the default English config.
    *
    * @example
    * ```ts
@@ -46,7 +48,7 @@ export default {
    * console.log(word.written.clean);
    * ```
    */
-  generateWord,
+  generateWord: english.generateWord,
 
   /**
    * Random-number utilities used internally by the generator.

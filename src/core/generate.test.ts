@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateWord, buildCluster, isValidCluster } from './generate';
+import { generateWord, _buildCluster as buildCluster, _isValidCluster } from './generate';
 import { ClusterContext, Phoneme } from '../types';
 import { phonemes } from '../elements/phonemes';
 
@@ -120,7 +120,7 @@ describe('isValidCluster', () => {
     
     invalidClusters.forEach(cluster => {
       it(`should block invalid onset: ${cluster.join('')}`, () => {
-        expect(isValidCluster({ cluster: getPhonemeBySounds(cluster), position: 'onset' } as ClusterContext)).toBe(false);
+        expect(_isValidCluster(getPhonemeBySounds(cluster), 'onset')).toBe(false);
       });
     });
   });

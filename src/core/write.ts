@@ -1,6 +1,5 @@
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { LanguageConfig } from "../config/language.js";
-import { graphemeMaps as defaultGraphemeMaps, cumulativeFrequencies as defaultCumulativeFrequencies } from "../elements/graphemes/index.js";
 import { getRand } from '../utils/random';
 import getWeightedOption from "../utils/getWeightedOption.js";
 
@@ -16,8 +15,8 @@ type CumulativeFrequencyTable = {
 
 /**
  * Build cumulative frequency lookup tables from grapheme maps.
- * This is the same logic that `graphemes/index.ts` does at module level,
- * but generalised so any LanguageConfig's grapheme maps can use it.
+ * Uses each grapheme's `frequency` field for weighting, matching the
+ * original logic in `graphemes/index.ts`.
  */
 function buildCumulativeFrequencies(
   graphemeMaps: LanguageConfig["graphemeMaps"],
@@ -33,9 +32,7 @@ function buildCumulativeFrequencies(
       let cumulative = 0;
       const cumulatives: number[] = [];
       for (const g of graphemeList) {
-        // Grapheme has dynamic position keys (onset, coda, nucleus) as optional numbers
-        const freq = (g as unknown as Record<string, number | undefined>)[position] ?? g.midWord ?? 0;
-        cumulative += freq;
+        cumulative += g.frequency;
         cumulatives.push(cumulative);
       }
       result[position].set(sound, cumulatives);
@@ -150,87 +147,65 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const cumFreqs = buildCumulativeFrequencies(gMaps);
 
   return (context: WordGenerationContext) => {
-    generateWrittenFormWith(gMaps, cumFreqs, context);
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Core written-form generation
-// ---------------------------------------------------------------------------
-
-function generateWrittenFormWith(
-  graphemeMapsArg: LanguageConfig["graphemeMaps"],
-  cumulativeFrequencies: CumulativeFrequencyTable,
-  context: WordGenerationContext,
-) {
-  const { syllables, written } = context.word;
-  const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
-    (["onset", "nucleus", "coda"] as const).flatMap((position) =>
-      syllable[position].map((phoneme) => ({ phoneme, syllableIndex, position }))
-    )
-  );
-
-  const cleanParts: string[] = [];
-  const hyphenatedParts: string[] = [];
-  let currentSyllable: string[] = [];
-
-  for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
-    const { phoneme, syllableIndex, position } = flattenedPhonemes[phonemeIndex];
-    const prevPhoneme = flattenedPhonemes[phonemeIndex - 1];
-    const nextPhoneme = flattenedPhonemes[phonemeIndex + 1];
-
-    const isCluster =
-      (prevPhoneme?.syllableIndex === syllableIndex && prevPhoneme?.position === position) ||
-      (nextPhoneme?.syllableIndex === syllableIndex && nextPhoneme?.position === position);
-
-    const grapheme = chooseGrapheme(
-      graphemeMapsArg,
-      cumulativeFrequencies,
-      phoneme,
-      position,
-      isCluster,
-      phonemeIndex === 0,
-      phonemeIndex === flattenedPhonemes.length - 1,
-      prevPhoneme?.phoneme,
-      nextPhoneme?.phoneme,
+    const { syllables, written } = context.word;
+    const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
+      (["onset", "nucleus", "coda"] as const).flatMap((position) =>
+        syllable[position].map((phoneme) => ({ phoneme, syllableIndex, position }))
+      )
     );
 
-    if (currentSyllable.length > 0 && grapheme.length > 0 &&
-        currentSyllable[currentSyllable.length - 1].slice(-1) === grapheme[0]) {
-      currentSyllable.push(grapheme.slice(1));
-    } else {
-      currentSyllable.push(grapheme);
-    }
+    const cleanParts: string[] = [];
+    const hyphenatedParts: string[] = [];
+    let currentSyllable: string[] = [];
 
-    if (!nextPhoneme || nextPhoneme.syllableIndex !== syllableIndex) {
-      let syllableStr = adjustSyllable(currentSyllable.join(''));
+    for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
+      const { phoneme, syllableIndex, position } = flattenedPhonemes[phonemeIndex];
+      const prevPhoneme = flattenedPhonemes[phonemeIndex - 1];
+      const nextPhoneme = flattenedPhonemes[phonemeIndex + 1];
 
-      if (cleanParts.length > 0 && syllableStr.length > 0 &&
-          cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
-        syllableStr = syllableStr.slice(1);
+      const isCluster =
+        (prevPhoneme?.syllableIndex === syllableIndex && prevPhoneme?.position === position) ||
+        (nextPhoneme?.syllableIndex === syllableIndex && nextPhoneme?.position === position);
+
+      const grapheme = chooseGrapheme(
+        gMaps,
+        cumFreqs,
+        phoneme,
+        position,
+        isCluster,
+        phonemeIndex === 0,
+        phonemeIndex === flattenedPhonemes.length - 1,
+        prevPhoneme?.phoneme,
+        nextPhoneme?.phoneme,
+      );
+
+      if (currentSyllable.length > 0 && grapheme.length > 0 &&
+          currentSyllable[currentSyllable.length - 1].slice(-1) === grapheme[0]) {
+        currentSyllable.push(grapheme.slice(1));
+      } else {
+        currentSyllable.push(grapheme);
       }
 
-      cleanParts.push(syllableStr);
-      hyphenatedParts.push(syllableStr);
+      if (!nextPhoneme || nextPhoneme.syllableIndex !== syllableIndex) {
+        let syllableStr = adjustSyllable(currentSyllable.join(''));
 
-      if (nextPhoneme) {
-        hyphenatedParts.push("&shy;");
+        if (cleanParts.length > 0 && syllableStr.length > 0 &&
+            cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
+          syllableStr = syllableStr.slice(1);
+        }
+
+        cleanParts.push(syllableStr);
+        hyphenatedParts.push(syllableStr);
+
+        if (nextPhoneme) {
+          hyphenatedParts.push("&shy;");
+        }
+
+        currentSyllable = [];
       }
-
-      currentSyllable = [];
     }
-  }
 
-  written.clean = cleanParts.join('');
-  written.hyphenated = hyphenatedParts.join('');
+    written.clean = cleanParts.join('');
+    written.hyphenated = hyphenatedParts.join('');
+  };
 }
-
-// ---------------------------------------------------------------------------
-// Backward-compatible default export (uses default English grapheme maps)
-// ---------------------------------------------------------------------------
-
-export const generateWrittenForm = (context: WordGenerationContext) => {
-  generateWrittenFormWith(defaultGraphemeMaps, defaultCumulativeFrequencies, context);
-};
-
-export default generateWrittenForm;
