@@ -13,5 +13,11 @@
     "note": "Tested 5 seeds (42, 123, 456, 789, 1337). Mean ranged -18.98 to -19.71. Stable.",
     "meanRange": [-19.71, -18.98],
     "minRange": [-36.69, -31.38]
+  },
+  "generatedBaseline": {
+    "note": "Last known generated word gap from English mean. Update when accepting a new baseline.",
+    "gap": 4.94,
+    "generatedMean": -23.92,
+    "measuredAt": "2026-02-08"
   }
 }
