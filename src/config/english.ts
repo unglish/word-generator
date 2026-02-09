@@ -18,6 +18,7 @@ import {
   HAS_CODA_MONOSYLLABIC,
   HAS_CODA_END_OF_WORD,
   HAS_CODA_MID_WORD,
+  VOWEL_REDUCTION_PROBABILITY,
 } from "./weights.js";
 import {
   phonemes,
@@ -90,5 +91,11 @@ export const englishConfig: LanguageConfig = {
 
   stress: {
     strategy: "weight-sensitive",
+  },
+
+  vowelReduction: {
+    enabled: true,
+    probability: VOWEL_REDUCTION_PROBABILITY,
+    schwaSound: "ə",
   },
 };

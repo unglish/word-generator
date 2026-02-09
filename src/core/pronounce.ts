@@ -1,4 +1,6 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../types";
+import { VowelReductionConfig } from "../config/language.js";
+import { phonemes } from "../elements/phonemes.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 
 const aspirateSyllable = (position: number, context: WordGenerationContext): void => {
@@ -167,11 +169,67 @@ const buildPronunciationGuide = (context: WordGenerationContext): void => {
   word.pronunciation = pronunciationGuide;
 };
 
-export const generatePronunciation = (context: WordGenerationContext): void => {
+/**
+ * Check whether a phoneme is a vowel (used as a syllable nucleus).
+ */
+const isVowelPhoneme = (p: Phoneme): boolean =>
+  p.mannerOfArticulation === "highVowel" ||
+  p.mannerOfArticulation === "midVowel" ||
+  p.mannerOfArticulation === "lowVowel";
+
+/**
+ * Post-generation pass: reduce vowels in unstressed syllables to schwa.
+ *
+ * Only lax (non-tense) monophthong vowels are candidates for reduction.
+ * Tense vowels and diphthongs/triphthongs (sound length > 2) resist
+ * reduction, matching natural English phonology.
+ */
+const reduceUnstressedVowels = (
+  context: WordGenerationContext,
+  config: VowelReductionConfig,
+): void => {
+  const { word } = context;
+  const syllables = word.syllables;
+
+  // Monosyllabic words don't reduce
+  if (syllables.length <= 1) return;
+
+  // Find the schwa phoneme from inventory
+  const schwa = phonemes.find((p) => p.sound === config.schwaSound);
+  if (!schwa) return;
+
+  for (const syllable of syllables) {
+    // Only reduce unstressed syllables
+    if (syllable.stress) continue;
+
+    for (let i = 0; i < syllable.nucleus.length; i++) {
+      const vowel = syllable.nucleus[i];
+
+      // Skip if already schwa
+      if (vowel.sound === config.schwaSound) continue;
+
+      // Skip tense vowels — they resist reduction
+      if (vowel.tense) continue;
+
+      // Skip diphthongs/triphthongs (multi-character IPA sounds > 1 base char)
+      if (vowel.sound.length > 2) continue;
+
+      // Probabilistic reduction
+      if (getWeightedOption([[true, config.probability], [false, 100 - config.probability]])) {
+        syllable.nucleus[i] = { ...schwa };
+      }
+    }
+  }
+};
+
+export const generatePronunciation = (context: WordGenerationContext, vowelReduction?: VowelReductionConfig): void => {
   const syllables = context.word.syllables;
   for (let i = 0; i < syllables.length; i++) {
     aspirateSyllable(i, context);
   }
   applyStress(context);
+  if (vowelReduction?.enabled) {
+    reduceUnstressedVowels(context, vowelReduction);
+  }
   buildPronunciationGuide(context);
 };

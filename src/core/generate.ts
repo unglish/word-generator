@@ -422,7 +422,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
       try {
         generateSyllables(rt, context);
         rt.generateWrittenForm(context);
-        generatePronunciation(context);
+        generatePronunciation(context, rt.config.vowelReduction);
 
         return context.word;
       } finally {
@@ -466,7 +466,7 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
   try {
     generateSyllables(defaultRuntime, context);
     defaultRuntime.generateWrittenForm(context);
-    generatePronunciation(context);
+    generatePronunciation(context, defaultRuntime.config.vowelReduction);
     return context.word;
   } finally {
     overrideRand(originalRand);
