@@ -437,11 +437,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
       }
 
       try {
-        generateSyllables(rt, context);
-        if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
-        if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet, rt.codaRepair!);
-        rt.generateWrittenForm(context);
-        generatePronunciation(context, rt.config.vowelReduction);
+        runPipeline(rt, context);
 
         return context.word;
       } finally {
@@ -454,6 +450,17 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 // ---------------------------------------------------------------------------
 // Default English instance (built once, shared by public API + test helpers)
 // ---------------------------------------------------------------------------
+
+/**
+ * Shared pipeline: syllable generation → repair → write → pronounce.
+ */
+function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext): void {
+  generateSyllables(rt, context);
+  if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
+  if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet, rt.codaRepair!);
+  rt.generateWrittenForm(context);
+  generatePronunciation(context, rt.config.vowelReduction);
+}
 
 const defaultRuntime = buildRuntime(englishConfig);
 
@@ -483,11 +490,7 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
   }
 
   try {
-    generateSyllables(defaultRuntime, context);
-    if (defaultRuntime.bannedSet) repairClusters(context.word.syllables, defaultRuntime.bannedSet, defaultRuntime.clusterRepair!);
-    if (defaultRuntime.allowedFinalSet) repairFinalCoda(context.word.syllables, defaultRuntime.allowedFinalSet, defaultRuntime.codaRepair!);
-    defaultRuntime.generateWrittenForm(context);
-    generatePronunciation(context, defaultRuntime.config.vowelReduction);
+    runPipeline(defaultRuntime, context);
     return context.word;
   } finally {
     overrideRand(originalRand);
