@@ -178,11 +178,11 @@ const isVowelPhoneme = (p: Phoneme): boolean =>
   p.mannerOfArticulation === "lowVowel";
 
 /**
- * Post-generation pass: reduce vowels in unstressed syllables to schwa.
+ * Post-generation pass: reduce vowels in unstressed syllables.
  *
- * Only lax (non-tense) monophthong vowels are candidates for reduction.
- * Tense vowels and diphthongs/triphthongs (sound length > 2) resist
- * reduction, matching natural English phonology.
+ * Only vowels with a matching rule in the config are candidates.
+ * Tense vowels are skipped. Per-rule target and probability are used,
+ * modified by syllable position and secondary stress settings.
  */
 const reduceUnstressedVowels = (
   context: WordGenerationContext,
@@ -194,29 +194,55 @@ const reduceUnstressedVowels = (
   // Monosyllabic words don't reduce
   if (syllables.length <= 1) return;
 
-  // Find the schwa phoneme from inventory
-  const schwa = phonemes.find((p) => p.sound === config.schwaSound);
-  if (!schwa) return;
+  // Build a lookup map for rules by source sound
+  const ruleMap = new Map(config.rules.map((r) => [r.source, r]));
 
-  for (const syllable of syllables) {
-    // Only reduce unstressed syllables
-    if (syllable.stress) continue;
+  for (let si = 0; si < syllables.length; si++) {
+    const syllable = syllables[si];
+
+    // Primary-stressed syllables never reduce
+    if (syllable.stress === "ˈ") continue;
+
+    // Secondary-stressed syllables: only reduce if config allows
+    if (syllable.stress === "ˌ") {
+      if (!config.reduceSecondaryStress) continue;
+    }
+
+    // Determine positional modifier
+    let positionalMod = 1.0;
+    if (config.positionalModifiers) {
+      if (si === 0) {
+        positionalMod = config.positionalModifiers.wordInitial ?? 1.0;
+      } else if (si === syllables.length - 1) {
+        positionalMod = config.positionalModifiers.wordFinal ?? 1.0;
+      } else {
+        positionalMod = config.positionalModifiers.wordMedial ?? 1.0;
+      }
+    }
 
     for (let i = 0; i < syllable.nucleus.length; i++) {
       const vowel = syllable.nucleus[i];
 
-      // Skip if already schwa
-      if (vowel.sound === config.schwaSound) continue;
-
       // Skip tense vowels — they resist reduction
       if (vowel.tense) continue;
 
-      // Skip diphthongs/triphthongs (multi-character IPA sounds > 1 base char)
-      if (vowel.sound.length > 2) continue;
+      // Look up rule; if not found, vowel is immune
+      const rule = ruleMap.get(vowel.sound);
+      if (!rule) continue;
 
-      // Probabilistic reduction
-      if (getWeightedOption([[true, config.probability], [false, 100 - config.probability]])) {
-        syllable.nucleus[i] = { ...schwa };
+      // Compute effective probability
+      let prob = rule.probability * positionalMod;
+      if (syllable.stress === "ˌ" && config.secondaryStressProbability != null) {
+        prob = prob * (config.secondaryStressProbability / 100);
+      }
+      prob = Math.min(100, Math.max(0, Math.round(prob)));
+
+      // Find target phoneme from inventory
+      const target = phonemes.find((p) => p.sound === rule.target);
+      if (!target) continue;
+
+      if (getWeightedOption([[true, prob], [false, 100 - prob]])) {
+        syllable.nucleus[i] = { ...target };
       }
     }
   }

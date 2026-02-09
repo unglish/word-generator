@@ -18,7 +18,6 @@ import {
   HAS_CODA_MONOSYLLABIC,
   HAS_CODA_END_OF_WORD,
   HAS_CODA_MID_WORD,
-  VOWEL_REDUCTION_PROBABILITY,
 } from "./weights.js";
 import {
   phonemes,
@@ -95,7 +94,22 @@ export const englishConfig: LanguageConfig = {
 
   vowelReduction: {
     enabled: true,
-    probability: VOWEL_REDUCTION_PROBABILITY,
-    schwaSound: "ə",
+    rules: [
+      { source: "ʌ", target: "ə", probability: 85 },
+      { source: "ɛ", target: "ɪ", probability: 70 },
+      { source: "e", target: "ɪ", probability: 70 },
+      { source: "ɑ", target: "ə", probability: 65 },
+      { source: "ɔ", target: "ə", probability: 60 },
+      { source: "æ", target: "ə", probability: 40 },
+      { source: "o", target: "ə", probability: 55 },
+      { source: "ɜ", target: "ə", probability: 75 },
+    ],
+    reduceSecondaryStress: true,
+    secondaryStressProbability: 30,
+    positionalModifiers: {
+      wordInitial: 0.70,
+      wordMedial: 1.0,
+      wordFinal: 0.50,
+    },
   },
 };

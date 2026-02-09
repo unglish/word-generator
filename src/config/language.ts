@@ -122,6 +122,19 @@ export interface StressRules {
 }
 
 /**
+ * A single vowel-reduction mapping: source vowel → target reduced vowel
+ * with an associated probability.
+ */
+export interface VowelReductionRule {
+  /** Source vowel IPA symbol */
+  source: string;
+  /** Target reduced vowel IPA symbol */
+  target: string;
+  /** Reduction probability 0-100 */
+  probability: number;
+}
+
+/**
  * Configuration for vowel reduction in unstressed syllables.
  *
  * Stress-timed languages (e.g. English) reduce unstressed vowels toward
@@ -131,13 +144,18 @@ export interface StressRules {
 export interface VowelReductionConfig {
   /** Whether vowel reduction is enabled at all. */
   enabled: boolean;
-  /**
-   * Probability (0–100) that a lax monophthong in an unstressed syllable
-   * reduces to schwa.
-   */
-  probability: number;
-  /** IPA symbol of the reduced vowel (default: "ə"). */
-  schwaSound: string;
+  /** Per-vowel reduction rules. Vowels not listed are immune. */
+  rules: VowelReductionRule[];
+  /** Whether secondary-stressed syllables can reduce */
+  reduceSecondaryStress: boolean;
+  /** Probability multiplier for secondary stress (0-100), applied on top of per-vowel probability */
+  secondaryStressProbability?: number;
+  /** Positional probability multipliers (0.0-1.0) */
+  positionalModifiers?: {
+    wordInitial?: number;
+    wordMedial?: number;
+    wordFinal?: number;
+  };
 }
 
 // ---------------------------------------------------------------------------
