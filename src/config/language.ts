@@ -201,6 +201,8 @@ export interface SpellingRule {
   replacement: string;
   /** Probability (0-100) of applying when matched. Default: 100. */
   probability?: number;
+  /** When to apply: "syllable" (per-syllable), "word" (full word), or "both" (default). */
+  scope?: "syllable" | "word" | "both";
 }
 
 // ---------------------------------------------------------------------------

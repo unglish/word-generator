@@ -3,45 +3,6 @@ import { LanguageConfig, DoublingConfig, SpellingRule } from "../config/language
 import { getRand } from '../utils/random.js';
 import getWeightedOption from "../utils/getWeightedOption.js";
 
-/**
- * Pre-computed cumulative frequency tables for a set of grapheme maps,
- * keyed by syllable position then phoneme sound.
- */
-type CumulativeFrequencyTable = {
-  onset: Map<string, number[]>;
-  nucleus: Map<string, number[]>;
-  coda: Map<string, number[]>;
-};
-
-/**
- * Build cumulative frequency lookup tables from grapheme maps.
- * Uses each grapheme's `frequency` field for weighting, matching the
- * original logic in `graphemes/index.ts`.
- */
-function buildCumulativeFrequencies(
-  graphemeMaps: LanguageConfig["graphemeMaps"],
-): CumulativeFrequencyTable {
-  const result: CumulativeFrequencyTable = {
-    onset: new Map(),
-    nucleus: new Map(),
-    coda: new Map(),
-  };
-
-  for (const position of ["onset", "nucleus", "coda"] as const) {
-    for (const [sound, graphemeList] of graphemeMaps[position]) {
-      let cumulative = 0;
-      const cumulatives: number[] = [];
-      for (const g of graphemeList) {
-        cumulative += g.frequency;
-        cumulatives.push(cumulative);
-      }
-      result[position].set(sound, cumulatives);
-    }
-  }
-
-  return result;
-}
-
 // ---------------------------------------------------------------------------
 // Spelling rules (config-driven post-processing)
 // ---------------------------------------------------------------------------
@@ -51,6 +12,7 @@ interface CompiledSpellingRule {
   regex: RegExp;
   replacement: string;
   probability: number;
+  scope: "syllable" | "word" | "both";
 }
 
 function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
@@ -59,21 +21,22 @@ function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
     regex: new RegExp(rule.pattern, rule.flags ?? "g"),
     replacement: rule.replacement,
     probability: rule.probability ?? 100,
+    scope: rule.scope ?? "both",
   }));
 }
 
-function adjustSyllable(str: string, compiledRules: CompiledSpellingRule[]): string {
+/**
+ * Apply a list of compiled spelling rules to a string, handling probabilistic replacements.
+ */
+function applySpellingRules(str: string, rules: CompiledSpellingRule[]): string {
   let result = str;
-  for (const { regex, replacement, probability } of compiledRules) {
-    // Reset lastIndex for stateful regexes
+  for (const { regex, replacement, probability } of rules) {
     regex.lastIndex = 0;
     if (probability >= 100) {
       result = result.replace(regex, replacement);
     } else {
-      // Apply probabilistically per match
       result = result.replace(regex, (match, ...args) => {
         if (getRand()() < probability / 100) {
-          // Manually apply replacement with capture group substitution
           let rep = replacement;
           for (let i = 0; i < args.length - 2; i++) {
             if (args[i] !== undefined) {
@@ -95,7 +58,6 @@ function adjustSyllable(str: string, compiledRules: CompiledSpellingRule[]): str
 
 /**
  * Build category shorthand → Set<string> maps from a phoneme inventory.
- * Used to expand conditions like "lax-vowel" into actual phoneme sounds.
  */
 function buildCategorySets(phonemes: Phoneme[]): Map<string, Set<string>> {
   const categories = new Map<string, Set<string>>();
@@ -113,15 +75,9 @@ function buildCategorySets(phonemes: Phoneme[]): Map<string, Set<string>> {
 
     if (isVowel) {
       categories.get("vowel")!.add(p.sound);
-      if (p.tense === false) {
-        categories.get("lax-vowel")!.add(p.sound);
-      }
-      if (p.tense === true) {
-        categories.get("tense-vowel")!.add(p.sound);
-      }
-      if (p.placeOfArticulation === "front") {
-        categories.get("front-vowel")!.add(p.sound);
-      }
+      if (p.tense === false) categories.get("lax-vowel")!.add(p.sound);
+      if (p.tense === true) categories.get("tense-vowel")!.add(p.sound);
+      if (p.placeOfArticulation === "front") categories.get("front-vowel")!.add(p.sound);
     } else {
       categories.get("consonant")!.add(p.sound);
     }
@@ -146,26 +102,67 @@ function expandContext(ctx: string[], categories: Map<string, Set<string>>): Set
   return result;
 }
 
-/**
- * Check if a grapheme's condition is met given the current context.
- */
-function meetsCondition(
-  condition: GraphemeCondition | undefined,
+// ---------------------------------------------------------------------------
+// Pre-expanded conditions (Refactor 4)
+// ---------------------------------------------------------------------------
+
+interface PreExpandedCondition {
+  leftContext?: Set<string>;
+  rightContext?: Set<string>;
+  notLeftContext?: Set<string>;
+  notRightContext?: Set<string>;
+  wordPosition?: ("initial" | "medial" | "final")[];
+}
+
+function preExpandConditions(
+  graphemes: Grapheme[],
+  categories: Map<string, Set<string>>,
+): Map<Grapheme, PreExpandedCondition> {
+  const result = new Map<Grapheme, PreExpandedCondition>();
+  for (const g of graphemes) {
+    if (!g.condition) continue;
+    const expanded: PreExpandedCondition = {};
+    if (g.condition.leftContext) expanded.leftContext = expandContext(g.condition.leftContext, categories);
+    if (g.condition.rightContext) expanded.rightContext = expandContext(g.condition.rightContext, categories);
+    if (g.condition.notLeftContext) expanded.notLeftContext = expandContext(g.condition.notLeftContext, categories);
+    if (g.condition.notRightContext) expanded.notRightContext = expandContext(g.condition.notRightContext, categories);
+    if (g.condition.wordPosition) expanded.wordPosition = g.condition.wordPosition;
+    result.set(g, expanded);
+  }
+  return result;
+}
+
+// ---------------------------------------------------------------------------
+// Pipeline Step 1: Get candidates
+// ---------------------------------------------------------------------------
+
+function getGraphemeCandidates(
+  graphemeMaps: LanguageConfig["graphemeMaps"],
+  sound: string,
+  position: "onset" | "nucleus" | "coda",
+): Grapheme[] {
+  return graphemeMaps[position].get(sound) ?? [];
+}
+
+// ---------------------------------------------------------------------------
+// Pipeline Step 2: Filter by context condition
+// ---------------------------------------------------------------------------
+
+function meetsPreExpandedCondition(
+  condition: PreExpandedCondition | undefined,
   prevPhoneme: Phoneme | undefined,
   nextPhoneme: Phoneme | undefined,
   isStartOfWord: boolean,
   isEndOfWord: boolean,
   totalPhonemes: number,
   phonemeIndex: number,
-  categories: Map<string, Set<string>>,
 ): boolean {
   if (!condition) return true;
 
-  // Check wordPosition
   if (condition.wordPosition) {
     let positionMatch = false;
-    const isInitial = isStartOfWord || phonemeIndex === 0;
-    const isFinal = isEndOfWord || phonemeIndex === totalPhonemes - 1;
+    const isInitial = isStartOfWord;
+    const isFinal = isEndOfWord;
     const isMedial = !isInitial && !isFinal;
 
     for (const pos of condition.wordPosition) {
@@ -176,212 +173,162 @@ function meetsCondition(
     if (!positionMatch) return false;
   }
 
-  // Check leftContext
   if (condition.leftContext) {
     if (!prevPhoneme) return false;
-    const expanded = expandContext(condition.leftContext, categories);
-    if (!expanded.has(prevPhoneme.sound)) return false;
+    if (!condition.leftContext.has(prevPhoneme.sound)) return false;
   }
 
-  // Check rightContext
   if (condition.rightContext) {
     if (!nextPhoneme) return false;
-    const expanded = expandContext(condition.rightContext, categories);
-    if (!expanded.has(nextPhoneme.sound)) return false;
+    if (!condition.rightContext.has(nextPhoneme.sound)) return false;
   }
 
-  // Check notLeftContext
   if (condition.notLeftContext) {
-    if (prevPhoneme) {
-      const expanded = expandContext(condition.notLeftContext, categories);
-      if (expanded.has(prevPhoneme.sound)) return false;
-    }
+    if (prevPhoneme && condition.notLeftContext.has(prevPhoneme.sound)) return false;
   }
 
-  // Check notRightContext
   if (condition.notRightContext) {
-    if (nextPhoneme) {
-      const expanded = expandContext(condition.notRightContext, categories);
-      if (expanded.has(nextPhoneme.sound)) return false;
-    }
+    if (nextPhoneme && condition.notRightContext.has(nextPhoneme.sound)) return false;
   }
 
   return true;
 }
 
+function filterByCondition(
+  candidates: Grapheme[],
+  expandedConditions: Map<Grapheme, PreExpandedCondition>,
+  prevPhoneme: Phoneme | undefined,
+  nextPhoneme: Phoneme | undefined,
+  phonemeIndex: number,
+  totalPhonemes: number,
+  isStartOfWord: boolean,
+  isEndOfWord: boolean,
+): Grapheme[] {
+  const filtered = candidates.filter(g =>
+    meetsPreExpandedCondition(
+      expandedConditions.get(g),
+      prevPhoneme,
+      nextPhoneme,
+      isStartOfWord,
+      isEndOfWord,
+      totalPhonemes,
+      phonemeIndex,
+    )
+  );
+  return filtered.length > 0 ? filtered : candidates;
+}
+
 // ---------------------------------------------------------------------------
-// Doubling logic
+// Pipeline Step 3: Filter by position
+// ---------------------------------------------------------------------------
+
+function filterByPosition(
+  candidates: Grapheme[],
+  isCluster: boolean,
+  isStartOfWord: boolean,
+  isEndOfWord: boolean,
+): Grapheme[] {
+  const filtered = candidates.filter(g =>
+    (!isCluster || !g.cluster || g.cluster > 0) &&
+    (!isStartOfWord || !g.startWord || g.startWord > 0) &&
+    (!isEndOfWord || !g.endWord || g.endWord > 0) &&
+    ((!isEndOfWord && !isStartOfWord) || g.midWord > 0)
+  );
+  return filtered.length > 0 ? filtered : candidates;
+}
+
+// ---------------------------------------------------------------------------
+// Pipeline Step 4: Frequency-weighted random selection
+// ---------------------------------------------------------------------------
+
+function selectByFrequency(candidates: Grapheme[]): Grapheme {
+  if (candidates.length === 0) return { phoneme: '', form: '', origin: 0, frequency: 0, startWord: 0, midWord: 0, endWord: 0 };
+  if (candidates.length === 1) return candidates[0];
+
+  let cumulative = 0;
+  const cumulatives: number[] = [];
+  for (const g of candidates) {
+    cumulative += g.frequency;
+    cumulatives.push(cumulative);
+  }
+
+  const totalFrequency = cumulatives[cumulatives.length - 1];
+  const randomValue = getRand()() * totalFrequency;
+
+  for (let i = 0; i < candidates.length; i++) {
+    if (randomValue < cumulatives[i]) {
+      return candidates[i];
+    }
+  }
+
+  return candidates[candidates.length - 1];
+}
+
+// ---------------------------------------------------------------------------
+// Pipeline Step 5: Apply doubling
 // ---------------------------------------------------------------------------
 
 interface DoublingContext {
   doublingCount: number;
 }
 
-function shouldDoubleConsonant(
+function applyDoubling(
+  form: string,
   config: DoublingConfig | undefined,
+  doublingCtx: DoublingContext,
   currPhoneme: Phoneme,
   prevPhoneme: Phoneme | undefined,
   nextNucleus: Phoneme | undefined,
-  form: string,
   position: "onset" | "nucleus" | "coda",
   isCluster: boolean,
   isEndOfWord: boolean,
   syllableStress: string | undefined,
   prevReduced: boolean,
-  doublingCtx: DoublingContext,
-): boolean {
-  if (!config || !config.enabled) return false;
-  if (!prevPhoneme) return false;
-  if (isCluster) return false;
-  if (form.length !== 1) return false;
-
-  // Only consonant positions
-  if (position !== "onset" && position !== "coda") return false;
-
-  // Check maxPerWord
-  if (doublingCtx.doublingCount >= config.maxPerWord) return false;
+  neverDoubleSet: Set<string>,
+): string {
+  if (!config || !config.enabled) return form;
+  if (!prevPhoneme) return form;
+  if (isCluster) return form;
+  if (form.length !== 1) return form;
+  if (position !== "onset" && position !== "coda") return form;
+  if (doublingCtx.doublingCount >= config.maxPerWord) return form;
 
   // Check trigger
   if (config.trigger === "lax-vowel") {
     const isAfterVowel = prevPhoneme.nucleus != null && prevPhoneme.nucleus > 0;
     const isLax = prevPhoneme.tense === false;
-    if (!isAfterVowel || !isLax) return false;
+    if (!isAfterVowel || !isLax) return form;
   }
 
   // neverDouble
-  if (config.neverDouble.includes(currPhoneme.sound)) return false;
+  if (neverDoubleSet.has(currPhoneme.sound)) return form;
 
-  // finalDoublingOnly: at end of word, only these sounds may double
+  // finalDoublingOnly
   if (isEndOfWord && config.finalDoublingOnly && config.finalDoublingOnly.length > 0) {
-    if (!config.finalDoublingOnly.includes(currPhoneme.sound)) return false;
+    if (!config.finalDoublingOnly.includes(currPhoneme.sound)) return form;
   }
 
   // suppressAfterReduction
-  if (config.suppressAfterReduction && prevReduced) return false;
+  if (config.suppressAfterReduction && prevReduced) return form;
 
   // suppressBeforeTense
   if (config.suppressBeforeTense && nextNucleus) {
-    if (nextNucleus.tense === true) return false;
+    if (nextNucleus.tense === true) return form;
   }
 
   // Calculate probability
   let prob = config.probability;
-
-  // unstressedModifier
   if (config.unstressedModifier != null && !syllableStress) {
     prob *= config.unstressedModifier;
   }
-
   prob = Math.min(100, Math.max(0, Math.round(prob)));
-  if (prob <= 0) return false;
+  if (prob <= 0) return form;
 
   const shouldDouble = getWeightedOption([[true, prob], [false, 100 - prob]]);
-  return shouldDouble;
-}
-
-// ---------------------------------------------------------------------------
-// Grapheme selection
-// ---------------------------------------------------------------------------
-
-function chooseGrapheme(
-  graphemeMaps: LanguageConfig["graphemeMaps"],
-  cumulativeFrequencies: CumulativeFrequencyTable,
-  currPhoneme: Phoneme,
-  position: "onset" | "nucleus" | "coda",
-  isCluster: boolean = false,
-  isStartOfWord: boolean = false,
-  isEndOfWord: boolean = false,
-  prevPhoneme?: Phoneme,
-  nextPhoneme?: Phoneme,
-  doublingConfig?: DoublingConfig,
-  syllableStress?: string,
-  prevReduced?: boolean,
-  nextNucleus?: Phoneme,
-  doublingCtx?: DoublingContext,
-  categories?: Map<string, Set<string>>,
-  phonemeIndex?: number,
-  totalPhonemes?: number,
-): string {
-  const graphemeList = graphemeMaps[position].get(currPhoneme.sound);
-  const frequencyList = cumulativeFrequencies[position].get(currPhoneme.sound);
-  if (!graphemeList || !frequencyList || graphemeList.length === 0) return '';
-
-  // Filter by context condition
-  let filteredList = graphemeList;
-  let filteredFreqs = frequencyList;
-  if (categories) {
-    const conditioned = graphemeList.map((g, i) => ({ g, i })).filter(({ g }) =>
-      meetsCondition(
-        g.condition,
-        prevPhoneme,
-        nextPhoneme,
-        isStartOfWord,
-        isEndOfWord,
-        totalPhonemes ?? 0,
-        phonemeIndex ?? 0,
-        categories,
-      )
-    );
-
-    // Only use filtered list if it's non-empty; otherwise fall back to full list
-    if (conditioned.length > 0 && conditioned.length < graphemeList.length) {
-      filteredList = conditioned.map(c => c.g);
-      // Rebuild cumulative frequencies for filtered list
-      let cum = 0;
-      filteredFreqs = filteredList.map(g => (cum += g.frequency, cum));
-    }
+  if (shouldDouble) {
+    doublingCtx.doublingCount++;
+    return form + form;
   }
-
-  const totalFrequency = filteredFreqs[filteredFreqs.length - 1];
-  let randomValue = getRand()() * totalFrequency;
-
-  let selectedGrapheme: Grapheme | undefined;
-  for (let i = 0; i < filteredList.length; i++) {
-    const grapheme = filteredList[i];
-    if (
-      (!isCluster || !grapheme.cluster || grapheme.cluster > 0) &&
-      (!isStartOfWord || !grapheme.startWord || grapheme.startWord > 0) &&
-      (!isEndOfWord || !grapheme.endWord || grapheme.endWord > 0) &&
-      ((!isEndOfWord && !isStartOfWord) || grapheme.midWord > 0)
-    ) {
-      if (randomValue < filteredFreqs[i]) {
-        selectedGrapheme = grapheme;
-        break;
-      }
-    }
-  }
-
-  // Fallback to the first valid grapheme if none was selected
-  if (!selectedGrapheme) {
-    selectedGrapheme = filteredList.find(g =>
-      (!isCluster || !g.cluster || g.cluster > 0) &&
-      (!isStartOfWord || !g.startWord || g.startWord > 0) &&
-      (!isEndOfWord || !g.endWord || g.endWord > 0) &&
-      ((!isEndOfWord && !isStartOfWord) || g.midWord > 0)
-    ) || filteredList[0];
-  }
-
-  let { form } = selectedGrapheme;
-
-  // Apply doubling using config
-  const ctx = doublingCtx ?? { doublingCount: 0 };
-  if (shouldDoubleConsonant(
-    doublingConfig,
-    currPhoneme,
-    prevPhoneme,
-    nextNucleus,
-    form,
-    position,
-    isCluster,
-    isEndOfWord,
-    syllableStress,
-    prevReduced ?? false,
-    ctx,
-  )) {
-    form += form;
-    ctx.doublingCount++;
-  }
-
   return form;
 }
 
@@ -395,10 +342,15 @@ function chooseGrapheme(
  */
 export function createWrittenFormGenerator(config: LanguageConfig): (context: WordGenerationContext) => void {
   const gMaps = config.graphemeMaps;
-  const cumFreqs = buildCumulativeFrequencies(gMaps);
   const doublingConfig = config.doubling;
-  const compiledRules = compileSpellingRules(config.spellingRules ?? []);
+  const allCompiledRules = compileSpellingRules(config.spellingRules ?? []);
+  const syllableRules = allCompiledRules.filter(r => r.scope === "syllable" || r.scope === "both");
+  const wordRules = allCompiledRules.filter(r => r.scope === "word" || r.scope === "both");
   const categories = buildCategorySets(config.phonemes);
+  const neverDoubleSet = new Set<string>(doublingConfig?.neverDouble ?? []);
+
+  // Pre-expand conditions for all graphemes
+  const expandedConditions = preExpandConditions(config.graphemes, categories);
 
   return (context: WordGenerationContext) => {
     const { syllables, written } = context.word;
@@ -427,11 +379,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         (prevEntry?.syllableIndex === syllableIndex && prevEntry?.position === position) ||
         (nextEntry?.syllableIndex === syllableIndex && nextEntry?.position === position);
 
-      // Find the previous nucleus phoneme for reduction check
       const prevPhoneme = prevEntry?.phoneme;
       const prevReduced = prevPhoneme?.reduced ?? false;
 
-      // Find the next nucleus phoneme for suppressBeforeTense
       let nextNucleus: Phoneme | undefined;
       for (let j = phonemeIndex + 1; j < flattenedPhonemes.length; j++) {
         if (flattenedPhonemes[j].position === "nucleus") {
@@ -440,35 +390,25 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         }
       }
 
-      const grapheme = chooseGrapheme(
-        gMaps,
-        cumFreqs,
-        phoneme,
-        position,
-        isCluster,
-        phonemeIndex === 0,
-        phonemeIndex === flattenedPhonemes.length - 1,
-        prevPhoneme,
-        nextEntry?.phoneme,
-        doublingConfig,
-        stress,
-        prevReduced,
-        nextNucleus,
-        doublingCtx,
-        categories,
-        phonemeIndex,
-        flattenedPhonemes.length,
-      );
+      const isStartOfWord = phonemeIndex === 0;
+      const isEndOfWord = phonemeIndex === flattenedPhonemes.length - 1;
 
-      if (currentSyllable.length > 0 && grapheme.length > 0 &&
-          currentSyllable[currentSyllable.length - 1].slice(-1) === grapheme[0]) {
-        currentSyllable.push(grapheme.slice(1));
+      // Pipeline
+      const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
+      const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord);
+      const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
+      const selected = selectByFrequency(positional);
+      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, stress, prevReduced, neverDoubleSet);
+
+      if (currentSyllable.length > 0 && form.length > 0 &&
+          currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]) {
+        currentSyllable.push(form.slice(1));
       } else {
-        currentSyllable.push(grapheme);
+        currentSyllable.push(form);
       }
 
       if (!nextEntry || nextEntry.syllableIndex !== syllableIndex) {
-        let syllableStr = adjustSyllable(currentSyllable.join(''), compiledRules);
+        let syllableStr = applySpellingRules(currentSyllable.join(''), syllableRules);
 
         if (cleanParts.length > 0 && syllableStr.length > 0 &&
             cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
@@ -486,29 +426,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
     }
 
-    // Post-join pass: apply spelling rules to the full word
-    let fullClean = cleanParts.join('');
-    for (const rule of compiledRules) {
-      rule.regex.lastIndex = 0;
-      if (rule.probability >= 100) {
-        fullClean = fullClean.replace(rule.regex, rule.replacement);
-      } else {
-        fullClean = fullClean.replace(rule.regex, (match: string, ...args: any[]) => {
-          if (getRand()() < rule.probability / 100) {
-            let rep = rule.replacement;
-            for (let i = 0; i < args.length - 2; i++) {
-              if (args[i] !== undefined) {
-                rep = rep.replace(`$${i + 1}`, args[i]);
-              }
-            }
-            return rep;
-          }
-          return match;
-        });
-      }
-    }
-
-    written.clean = fullClean;
+    // Post-join pass: apply word-scope spelling rules
+    written.clean = applySpellingRules(cleanParts.join(''), wordRules);
     written.hyphenated = hyphenatedParts.join('');
   };
 }

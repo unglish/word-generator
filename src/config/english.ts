@@ -110,6 +110,7 @@ export const englishConfig: LanguageConfig = {
       pattern: "([aiouy])e([bcdfghjklmnpqrstvwxyz])$",
       replacement: "$1$2e",
       probability: 98,
+      scope: "syllable",
     },
     {
       name: "ks-to-x",
@@ -122,24 +123,28 @@ export const englishConfig: LanguageConfig = {
       pattern: "c([eiy])",
       replacement: "k$1",
       probability: 100,
+      scope: "word",
     },
     {
       name: "no-final-v",
       pattern: "v$",
       replacement: "ve",
       probability: 95,
+      scope: "word",
     },
     {
       name: "no-final-j",
       pattern: "j$",
       replacement: "ge",
       probability: 95,
+      scope: "word",
     },
     {
       name: "no-final-i",
       pattern: "i$",
       replacement: "y",
       probability: 95,
+      scope: "word",
     },
   ],
 
