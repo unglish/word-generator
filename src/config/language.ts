@@ -1,4 +1,19 @@
 import { Phoneme, Grapheme } from "../types.js";
+// ---------------------------------------------------------------------------
+// Repair constraint types
+// ---------------------------------------------------------------------------
+
+export interface ClusterConstraint {
+  /** [coda sound, onset sound] pairs that are illegal across syllable boundaries. */
+  banned?: [string, string][];
+  /** How to repair a banned cluster. */
+  repair: "drop-coda" | "drop-onset";
+}
+
+export interface CodaConstraints {
+  /** Phoneme sounds allowed in word-final position. Unlisted phonemes are dropped. */
+  allowedFinal?: string[];
+}
 
 // ---------------------------------------------------------------------------
 // Reusable positional type
@@ -286,6 +301,12 @@ export interface LanguageConfig {
 
   /** Post-selection spelling adjustments. */
   spellingRules?: SpellingRule[];
+
+  /** Cross-syllable consonant cluster repair constraints. */
+  clusterConstraint?: ClusterConstraint;
+
+  /** Word-final coda repair constraints. */
+  codaConstraints?: CodaConstraints;
 }
 
 // ---------------------------------------------------------------------------

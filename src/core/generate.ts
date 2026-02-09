@@ -6,6 +6,7 @@ import { LanguageConfig, computeSonorityLevels, validateConfig } from "../config
 import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
+import { repairClusters, repairFinalCoda } from "./repair.js";
 import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------
@@ -24,6 +25,9 @@ interface GeneratorRuntime {
     nucleus: RegExp;
   };
   generateWrittenForm: (context: WordGenerationContext) => void;
+  bannedSet?: Set<string>;
+  clusterRepair?: "drop-coda" | "drop-onset";
+  allowedFinalSet?: Set<string>;
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
@@ -44,7 +48,18 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
 
   const generateWrittenForm = createWrittenFormGenerator(config);
 
-  return { config, sonorityLevels, positionPhonemes, invalidClusterRegexes, generateWrittenForm };
+  const bannedSet = config.clusterConstraint?.banned
+    ? new Set(config.clusterConstraint.banned.map(([a, b]) => `${a}|${b}`))
+    : undefined;
+
+  return {
+    config, sonorityLevels, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
+    bannedSet,
+    clusterRepair: config.clusterConstraint?.repair,
+    allowedFinalSet: config.codaConstraints?.allowedFinal
+      ? new Set(config.codaConstraints.allowedFinal)
+      : undefined,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -379,6 +394,25 @@ export interface WordGenerator {
   generateWord: (options?: WordGenerationOptions) => Word;
 }
 
+// ---------------------------------------------------------------------------
+// Pipeline
+// ---------------------------------------------------------------------------
+
+/**
+ * Shared pipeline: syllable generation → repair → write → pronounce.
+ */
+function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext): void {
+  generateSyllables(rt, context);
+  if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
+  if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet);
+  rt.generateWrittenForm(context);
+  generatePronunciation(context, rt.config.vowelReduction);
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
 /**
  * Creates a word generator from a {@link LanguageConfig}.
  *
@@ -420,9 +454,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
       }
 
       try {
-        generateSyllables(rt, context);
-        rt.generateWrittenForm(context);
-        generatePronunciation(context, rt.config.vowelReduction);
+        runPipeline(rt, context);
 
         return context.word;
       } finally {
@@ -464,9 +496,7 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
   }
 
   try {
-    generateSyllables(defaultRuntime, context);
-    defaultRuntime.generateWrittenForm(context);
-    generatePronunciation(context, defaultRuntime.config.vowelReduction);
+    runPipeline(defaultRuntime, context);
     return context.word;
   } finally {
     overrideRand(originalRand);

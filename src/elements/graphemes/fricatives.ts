@@ -316,7 +316,7 @@ export const fricativeGraphemes: Grapheme[] = [
     cluster: 0,
     startWord: 0,
     midWord: 1,
-    endWord: 1, },
+    endWord: 0, },
   {
     phoneme: "ʒ",
     form: "si",
@@ -330,7 +330,7 @@ export const fricativeGraphemes: Grapheme[] = [
   },
   { phoneme: "ʒ", form: "z", origin: 3, frequency: 10,startWord: 1,
     midWord: 1,
-    endWord: 1, },
+    endWord: 0, },
   {
     phoneme: "ʒ",
     form: "g",

@@ -426,6 +426,24 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
     }
 
+    // Hard-g fix: if a syllable ends with 'g' (from /g/ in coda) and the
+    // next syllable's written form starts with e, i, or y, insert silent 'u'
+    // to prevent the 'g' from being read as soft-g (/dʒ/).
+    for (let si = 0; si < cleanParts.length - 1; si++) {
+      const part = cleanParts[si];
+      const nextPart = cleanParts[si + 1];
+      if (part.length > 0 && nextPart.length > 0 &&
+          part[part.length - 1] === 'g' &&
+          syllables[si].coda.length > 0 &&
+          syllables[si].coda[syllables[si].coda.length - 1].sound === 'g' &&
+          /^[eiy]/i.test(nextPart)) {
+        cleanParts[si] = part + 'u';
+        // hyphenatedParts interleaves syllable strings (even indices) with
+        // "&shy;" separators (odd indices), so syllable `si` maps to index `si * 2`.
+        hyphenatedParts[si * 2] = hyphenatedParts[si * 2] + 'u';
+      }
+    }
+
     // Post-join pass: apply word-scope spelling rules
     written.clean = applySpellingRules(cleanParts.join(''), wordRules);
     written.hyphenated = hyphenatedParts.join('');
