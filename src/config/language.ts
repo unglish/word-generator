@@ -1,5 +1,21 @@
 import { Phoneme, Grapheme } from "../types.js";
-import type { ClusterConstraint, CodaConstraints } from "../core/repair.js";
+// ---------------------------------------------------------------------------
+// Repair constraint types
+// ---------------------------------------------------------------------------
+
+export interface ClusterConstraint {
+  /** [coda sound, onset sound] pairs that are illegal across syllable boundaries. */
+  banned?: [string, string][];
+  /** How to repair a banned cluster. */
+  repair: "drop-coda" | "drop-onset" | "insert-schwa";
+}
+
+export interface CodaConstraints {
+  /** Phoneme sounds allowed in word-final position. */
+  allowedFinal?: string[];
+  /** How to repair a disallowed final phoneme. */
+  repair: "drop" | "append-schwa";
+}
 
 // ---------------------------------------------------------------------------
 // Reusable positional type

@@ -6,8 +6,8 @@ import { LanguageConfig, computeSonorityLevels, validateConfig } from "../config
 import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
-import { repairClusters, repairFinalCoda, englishClusterConstraint, englishCodaConstraints } from "./repair.js";
-import type { ClusterConstraint, CodaConstraints } from "./repair.js";
+import { repairClusters, repairFinalCoda } from "./repair.js";
+import type { ClusterConstraint, CodaConstraints } from "../config/language.js";
 import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------

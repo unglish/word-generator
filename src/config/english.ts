@@ -1,5 +1,4 @@
 import { LanguageConfig } from "./language.js";
-import { englishClusterConstraint, englishCodaConstraints } from "../core/repair.js";
 import {
   VOICED_BONUS,
   TENSE_BONUS,
@@ -30,6 +29,35 @@ import {
   invalidBoundaryClusters,
 } from "../elements/phonemes.js";
 import { graphemes, graphemeMaps } from "../elements/graphemes/index.js";
+
+/**
+ * Banned cross-syllable [coda, onset] pairs for English.
+ */
+const ENGLISH_BANNED_CLUSTERS: [string, string][] = [
+  // /ŋ/ before anything except /k/, /g/
+  ["ŋ", "p"], ["ŋ", "b"], ["ŋ", "t"], ["ŋ", "d"],
+  ["ŋ", "f"], ["ŋ", "v"], ["ŋ", "θ"], ["ŋ", "ð"],
+  ["ŋ", "s"], ["ŋ", "z"], ["ŋ", "ʃ"], ["ŋ", "ʒ"],
+  ["ŋ", "tʃ"], ["ŋ", "dʒ"], ["ŋ", "m"], ["ŋ", "n"],
+  ["ŋ", "l"], ["ŋ", "r"], ["ŋ", "j"], ["ŋ", "w"],
+  ["ŋ", "h"],
+  // /ʒ/ before stops
+  ["ʒ", "p"], ["ʒ", "b"], ["ʒ", "t"], ["ʒ", "d"],
+  ["ʒ", "k"], ["ʒ", "g"],
+  // /ð/ before stops
+  ["ð", "p"], ["ð", "b"], ["ð", "t"], ["ð", "d"],
+  ["ð", "k"], ["ð", "g"],
+  // /h/ should never be in coda
+  ["h", "p"], ["h", "b"], ["h", "t"], ["h", "d"],
+  ["h", "k"], ["h", "g"],
+  // Same-place stop sequences
+  ["p", "b"], ["b", "p"],
+  ["t", "d"], ["d", "t"],
+  ["k", "g"], ["g", "k"],
+  // Nasal+stop place mismatches
+  ["m", "k"], ["m", "g"],
+  ["n", "p"], ["n", "b"],
+];
 
 /**
  * English language configuration built from existing phoneme/grapheme data.
@@ -149,8 +177,20 @@ export const englishConfig: LanguageConfig = {
     },
   ],
 
-  clusterConstraint: englishClusterConstraint,
-  codaConstraints: englishCodaConstraints,
+  clusterConstraint: {
+    banned: ENGLISH_BANNED_CLUSTERS,
+    repair: "drop-coda",
+  },
+  codaConstraints: {
+    allowedFinal: [
+      "p", "b", "t", "d", "k", "g",
+      "f", "v", "s", "z", "ʃ",
+      "tʃ", "dʒ",
+      "m", "n", "ŋ",
+      "l", "r", "θ",
+    ],
+    repair: "drop",
+  },
 
   vowelReduction: {
     enabled: true,
