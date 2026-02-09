@@ -155,6 +155,7 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    condition: { notRightContext: ["front-vowel"] },
   },
   {
     phoneme: "g",
@@ -171,7 +172,7 @@ export const stopGraphemes: Grapheme[] = [
     phoneme: "g",
     form: "gu",
     origin: 3,
-    frequency: 1,
+    frequency: 5,
     coda: 0,
     startWord: 1,
     midWord: 1,

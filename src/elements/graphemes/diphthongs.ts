@@ -294,6 +294,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 4,
     endWord: 10,
+    condition: { rightContext: ["t"] },
   },
   // great
   {
