@@ -251,6 +251,37 @@ export interface SpellingRule {
 }
 
 // ---------------------------------------------------------------------------
+// Written-form constraints
+// ---------------------------------------------------------------------------
+
+export interface WrittenFormConstraints {
+  /**
+   * Max consecutive consonant grapheme units allowed. Default: 4.
+   *
+   * Multi-letter graphemes (e.g. "ch", "sh", "tch") count as a single unit.
+   * For example, "tchstr" tokenizes to ["tch", "s", "t", "r"] = 4 units.
+   */
+  maxConsonantGraphemes?: number;
+
+  /** @deprecated Use maxConsonantGraphemes instead. */
+  maxConsonantLetters?: number;
+
+  /**
+   * Consonant digraphs/trigraphs treated as atomic grapheme units.
+   * Longest-match-first during tokenization. Order matters: longer entries first.
+   * Default for English: ["tch", "dge", "ch", "sh", "th", "ng", "ph", "wh", "ck"]
+   */
+  consonantGraphemes?: string[];
+
+  /**
+   * Attested coda→onset grapheme transitions. If set, the junction between
+   * the last consonant grapheme of the coda and the first consonant grapheme
+   * of the onset must appear in this set, or the coda grapheme is dropped.
+   */
+  attestedJunctions?: [string, string][];
+}
+
+// ---------------------------------------------------------------------------
 // Main interface
 // ---------------------------------------------------------------------------
 
@@ -343,6 +374,9 @@ export interface LanguageConfig {
 
   /** Feature-based sonority sequencing constraints. */
   sonorityConstraints?: SonorityConstraints;
+
+  /** Written-form readability constraints. */
+  writtenFormConstraints?: WrittenFormConstraints;
 }
 
 // ---------------------------------------------------------------------------

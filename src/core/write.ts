@@ -333,6 +333,287 @@ function applyDoubling(
 }
 
 // ---------------------------------------------------------------------------
+// Consonant pileup repair (grapheme-aware)
+// ---------------------------------------------------------------------------
+
+const VOWEL_LETTERS = new Set(['a', 'e', 'i', 'o', 'u', 'y']);
+
+function isConsonantLetter(ch: string): boolean {
+  return !VOWEL_LETTERS.has(ch.toLowerCase());
+}
+
+/** Default English consonant graphemes (longest first for greedy matching). */
+const DEFAULT_CONSONANT_GRAPHEMES = ["tch", "dge", "ch", "sh", "th", "ng", "ph", "wh", "ck"];
+
+/**
+ * Tokenize a string into grapheme units using longest-match-first.
+ * Multi-letter consonant graphemes (e.g. "tch", "ch", "sh") are treated as
+ * atomic units. Remaining characters become single-letter tokens.
+ *
+ * @example tokenizeGraphemes("tchwng") → ["tch", "w", "ng"]
+ * @example tokenizeGraphemes("strengths") → ["s", "t", "r", "e", "ng", "th", "s"]
+ */
+export function tokenizeGraphemes(str: string, graphemeList: string[] = DEFAULT_CONSONANT_GRAPHEMES): string[] {
+  const tokens: string[] = [];
+  let i = 0;
+  while (i < str.length) {
+    let matched = false;
+    // Try longest graphemes first (list is pre-sorted longest first)
+    for (const g of graphemeList) {
+      if (str.startsWith(g, i)) {
+        tokens.push(g);
+        i += g.length;
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) {
+      tokens.push(str[i]);
+      i++;
+    }
+  }
+  return tokens;
+}
+
+/** Check if a grapheme token is a consonant (contains no vowel letters). */
+function isConsonantToken(token: string): boolean {
+  for (const ch of token) {
+    if (VOWEL_LETTERS.has(ch.toLowerCase())) return false;
+  }
+  return true;
+}
+
+/**
+ * Repair consonant pileups by capping consecutive consonant grapheme units at `max`.
+ * Mutates `cleanParts` and `hyphenatedParts` in place.
+ *
+ * Strategy: when a consonant run exceeds `max` grapheme units, find the
+ * syllable boundary within the run, determine which side (coda vs onset)
+ * contributes more, and drop entire grapheme tokens from the heavier side
+ * (interior-first) until the run fits.
+ */
+export function repairConsonantPileups(
+  cleanParts: string[],
+  hyphenatedParts: string[],
+  maxConsonantGraphemes: number,
+  consonantGraphemes?: string[],
+): void {
+  const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
+
+  for (let pass = 0; pass < 10; pass++) {
+    const word = cleanParts.join('');
+    const tokens = tokenizeGraphemes(word, gList);
+
+    // Find first consonant run exceeding max (in tokens)
+    let runStart = -1;
+    let runLen = 0;
+    let found = false;
+    let foundRunStart = -1;
+    let foundRunLen = 0;
+
+    for (let i = 0; i <= tokens.length; i++) {
+      if (i < tokens.length && isConsonantToken(tokens[i])) {
+        if (runStart < 0) runStart = i;
+        runLen = i - runStart + 1;
+      } else {
+        if (runLen > maxConsonantGraphemes) {
+          found = true;
+          foundRunStart = runStart;
+          foundRunLen = runLen;
+          break;
+        }
+        runStart = -1;
+        runLen = 0;
+      }
+    }
+
+    if (!found) return;
+
+    // Convert token indices to character positions
+    const tokenCharStarts: number[] = [];
+    let charPos = 0;
+    for (const t of tokens) {
+      tokenCharStarts.push(charPos);
+      charPos += t.length;
+    }
+
+    const runCharStart = tokenCharStarts[foundRunStart];
+    const runCharEnd = foundRunStart + foundRunLen < tokens.length
+      ? tokenCharStarts[foundRunStart + foundRunLen]
+      : word.length;
+
+    // Map character positions to parts
+    const cumLengths: number[] = [];
+    let cum = 0;
+    for (const part of cleanParts) {
+      cum += part.length;
+      cumLengths.push(cum);
+    }
+
+    function partIndexOf(charIdx: number): number {
+      for (let p = 0; p < cumLengths.length; p++) {
+        if (charIdx < cumLengths[p]) return p;
+      }
+      return cumLengths.length - 1;
+    }
+
+    const startPart = partIndexOf(runCharStart);
+    const endPart = partIndexOf(runCharEnd - 1);
+    const excess = foundRunLen - maxConsonantGraphemes;
+
+    if (startPart === endPart) {
+      // Run within a single syllable — drop interior tokens
+      const partCharStart = startPart > 0 ? cumLengths[startPart - 1] : 0;
+      const runTokens = tokens.slice(foundRunStart, foundRunStart + foundRunLen);
+
+      // Remove interior tokens (not first/last), middle-outward
+      const interior = runTokens.slice(1, -1);
+      const midIdx = Math.floor(interior.length / 2);
+      const removeOrder: number[] = [];
+      for (let d = 0; d <= interior.length; d++) {
+        if (midIdx + d < interior.length) removeOrder.push(midIdx + d);
+        if (d > 0 && midIdx - d >= 0) removeOrder.push(midIdx - d);
+      }
+
+      const toRemoveSet = new Set<number>();
+      for (const idx of removeOrder) {
+        if (toRemoveSet.size >= excess) break;
+        toRemoveSet.add(idx);
+      }
+
+      const kept = [runTokens[0]];
+      for (let i = 0; i < interior.length; i++) {
+        if (!toRemoveSet.has(i)) kept.push(interior[i]);
+      }
+      kept.push(runTokens[runTokens.length - 1]);
+
+      const localStart = runCharStart - partCharStart;
+      const localEnd = runCharEnd - partCharStart;
+      const part = cleanParts[startPart];
+      cleanParts[startPart] = part.slice(0, localStart) + kept.join('') + part.slice(localEnd);
+      hyphenatedParts[startPart * 2] = cleanParts[startPart];
+      continue;
+    }
+
+    // Run spans boundary — count coda vs onset tokens
+    const boundaryCharIdx = cumLengths[startPart];
+    // Count tokens belonging to coda (chars < boundaryCharIdx)
+    let codaTokenCount = 0;
+    for (let ti = foundRunStart; ti < foundRunStart + foundRunLen; ti++) {
+      if (tokenCharStarts[ti] < boundaryCharIdx) codaTokenCount++;
+      else break;
+    }
+    const onsetTokenCount = foundRunLen - codaTokenCount;
+
+    // Drop from heavier side; tie → coda
+    const dropFromCoda = codaTokenCount >= onsetTokenCount;
+    const targetPartIdx = dropFromCoda ? startPart : endPart;
+    const part = cleanParts[targetPartIdx];
+    const partCharStartPos = targetPartIdx > 0 ? cumLengths[targetPartIdx - 1] : 0;
+
+    // Tokenize just this part
+    const partTokens = tokenizeGraphemes(part, gList);
+
+    // Find the consonant tokens at the relevant edge
+    let edgeTokens: { tokenIdx: number; token: string }[] = [];
+    if (dropFromCoda) {
+      // Consonant tokens at end of part
+      for (let i = partTokens.length - 1; i >= 0 && isConsonantToken(partTokens[i]); i--) {
+        edgeTokens.unshift({ tokenIdx: i, token: partTokens[i] });
+      }
+    } else {
+      // Consonant tokens at start of part
+      for (let i = 0; i < partTokens.length && isConsonantToken(partTokens[i]); i++) {
+        edgeTokens.push({ tokenIdx: i, token: partTokens[i] });
+      }
+    }
+
+    // Remove interior tokens first, then edges
+    const toRemoveIndices = new Set<number>();
+    if (edgeTokens.length > 2) {
+      const interior = edgeTokens.slice(1, -1);
+      const mid = Math.floor(interior.length / 2);
+      const order: typeof interior = [];
+      for (let d = 0; d <= interior.length; d++) {
+        if (mid + d < interior.length) order.push(interior[mid + d]);
+        if (d > 0 && mid - d >= 0) order.push(interior[mid - d]);
+      }
+      for (const e of order) {
+        if (toRemoveIndices.size >= excess) break;
+        toRemoveIndices.add(e.tokenIdx);
+      }
+    }
+    // If still need more, remove from edges
+    if (toRemoveIndices.size < excess) {
+      const candidates = dropFromCoda ? edgeTokens : [...edgeTokens].reverse();
+      for (const e of candidates) {
+        if (toRemoveIndices.size >= excess) break;
+        if (!toRemoveIndices.has(e.tokenIdx)) toRemoveIndices.add(e.tokenIdx);
+      }
+    }
+
+    const newPart = partTokens.filter((_, i) => !toRemoveIndices.has(i)).join('');
+    cleanParts[targetPartIdx] = newPart;
+    hyphenatedParts[targetPartIdx * 2] = newPart;
+  }
+}
+
+/**
+ * Repair coda→onset junctions that aren't attested in the language.
+ * Drops one grapheme token from the coda side when the junction pair isn't found.
+ * Mutates `cleanParts` and `hyphenatedParts` in place.
+ */
+export function repairJunctions(
+  cleanParts: string[],
+  hyphenatedParts: string[],
+  attestedJunctions: [string, string][],
+  consonantGraphemes?: string[],
+): void {
+  const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
+  const junctionSet = new Set(attestedJunctions.map(([a, b]) => `${a}|${b}`));
+
+  for (let pass = 0; pass < 10; pass++) {
+    let changed = false;
+
+    for (let i = 0; i < cleanParts.length - 1; i++) {
+      const codaPart = cleanParts[i];
+      const onsetPart = cleanParts[i + 1];
+      if (!codaPart || !onsetPart) continue;
+
+      const codaTokens = tokenizeGraphemes(codaPart, gList);
+      const onsetTokens = tokenizeGraphemes(onsetPart, gList);
+
+      // Find last consonant token of coda
+      let lastCodaConsonantIdx = -1;
+      for (let j = codaTokens.length - 1; j >= 0; j--) {
+        if (isConsonantToken(codaTokens[j])) { lastCodaConsonantIdx = j; break; }
+      }
+
+      // Find first consonant token of onset
+      let firstOnsetConsonantIdx = -1;
+      for (let j = 0; j < onsetTokens.length; j++) {
+        if (isConsonantToken(onsetTokens[j])) { firstOnsetConsonantIdx = j; break; }
+      }
+
+      if (lastCodaConsonantIdx < 0 || firstOnsetConsonantIdx < 0) continue;
+
+      const codaGrapheme = codaTokens[lastCodaConsonantIdx];
+      const onsetGrapheme = onsetTokens[firstOnsetConsonantIdx];
+
+      if (!junctionSet.has(`${codaGrapheme}|${onsetGrapheme}`)) {
+        // Drop the last consonant grapheme token from the coda
+        codaTokens.splice(lastCodaConsonantIdx, 1);
+        cleanParts[i] = codaTokens.join('');
+        hyphenatedParts[i * 2] = cleanParts[i];
+        changed = true;
+      }
+    }
+
+    if (!changed) return;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Factory
 // ---------------------------------------------------------------------------
 
@@ -441,6 +722,22 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         // hyphenatedParts interleaves syllable strings (even indices) with
         // "&shy;" separators (odd indices), so syllable `si` maps to index `si * 2`.
         hyphenatedParts[si * 2] = hyphenatedParts[si * 2] + 'u';
+      }
+    }
+
+    // Consonant pileup repair (grapheme-aware)
+    const wfc = config.writtenFormConstraints;
+    const maxGraphemes = wfc?.maxConsonantGraphemes ?? wfc?.maxConsonantLetters;
+    if (maxGraphemes) {
+      repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes);
+    }
+
+    // Junction validation
+    if (wfc?.attestedJunctions) {
+      repairJunctions(cleanParts, hyphenatedParts, wfc.attestedJunctions, wfc?.consonantGraphemes);
+      // Re-run pileup repair in case junction repair changed things
+      if (maxGraphemes) {
+        repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes);
       }
     }
 
