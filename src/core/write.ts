@@ -1,5 +1,5 @@
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
-import { LanguageConfig } from "../config/language.js";
+import { LanguageConfig, DoublingConfig, SpellingRule } from "../config/language.js";
 import { getRand } from '../utils/random.js';
 import getWeightedOption from "../utils/getWeightedOption.js";
 
@@ -43,35 +43,120 @@ function buildCumulativeFrequencies(
 }
 
 // ---------------------------------------------------------------------------
-// Reduction rules (spelling adjustments)
-//
-// NOTE: These rules are English-specific (ks→x, magic-e). A future version
-// should accept spelling rules via LanguageConfig so other languages can
-// provide their own orthographic adjustments. See issue #34.
+// Spelling rules (config-driven post-processing)
 // ---------------------------------------------------------------------------
 
-const reductionRules = [
-  {
-    pattern: /([aiouy])e([bcdfghjklmnpqrstvwxyz]+)(?!e)/g,
-    replacement: (match: string, p1: string, p2: string) => getRand()() < 0.98 ? `${p1}${p2}e` : match,
-  },
-  {
-    pattern: /(?<!^)ks/g,
-    replacement: (match: string) => getRand()() < 0.25 ? 'x' : match,
-  },
-];
+interface CompiledSpellingRule {
+  name: string;
+  regex: RegExp;
+  replacement: string;
+  probability: number;
+}
 
-const compiledPatterns = reductionRules.map(rule => ({
-  regex: new RegExp(rule.pattern.source, rule.pattern.flags),
-  replacement: rule.replacement,
-}));
+function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
+  return rules.map(rule => ({
+    name: rule.name,
+    regex: new RegExp(rule.pattern, rule.flags ?? "g"),
+    replacement: rule.replacement,
+    probability: rule.probability ?? 100,
+  }));
+}
 
-function adjustSyllable(str: string): string {
+function adjustSyllable(str: string, compiledRules: CompiledSpellingRule[]): string {
   let result = str;
-  for (const { regex, replacement } of compiledPatterns) {
-    result = result.replace(regex, replacement);
+  for (const { regex, replacement, probability } of compiledRules) {
+    // Reset lastIndex for stateful regexes
+    regex.lastIndex = 0;
+    if (probability >= 100) {
+      result = result.replace(regex, replacement);
+    } else {
+      // Apply probabilistically per match
+      result = result.replace(regex, (match, ...args) => {
+        if (getRand()() < probability / 100) {
+          // Manually apply replacement with capture group substitution
+          let rep = replacement;
+          for (let i = 0; i < args.length - 2; i++) {
+            if (args[i] !== undefined) {
+              rep = rep.replace(`$${i + 1}`, args[i]);
+            }
+          }
+          return rep;
+        }
+        return match;
+      });
+    }
   }
   return result;
+}
+
+// ---------------------------------------------------------------------------
+// Doubling logic
+// ---------------------------------------------------------------------------
+
+interface DoublingContext {
+  doublingCount: number;
+}
+
+function shouldDoubleConsonant(
+  config: DoublingConfig | undefined,
+  currPhoneme: Phoneme,
+  prevPhoneme: Phoneme | undefined,
+  nextNucleus: Phoneme | undefined,
+  form: string,
+  position: "onset" | "nucleus" | "coda",
+  isCluster: boolean,
+  isEndOfWord: boolean,
+  syllableStress: string | undefined,
+  prevReduced: boolean,
+  doublingCtx: DoublingContext,
+): boolean {
+  if (!config || !config.enabled) return false;
+  if (!prevPhoneme) return false;
+  if (isCluster) return false;
+  if (form.length !== 1) return false;
+
+  // Only consonant positions
+  if (position !== "onset" && position !== "coda") return false;
+
+  // Check maxPerWord
+  if (doublingCtx.doublingCount >= config.maxPerWord) return false;
+
+  // Check trigger
+  if (config.trigger === "lax-vowel") {
+    const isAfterVowel = prevPhoneme.nucleus != null && prevPhoneme.nucleus > 0;
+    const isLax = prevPhoneme.tense === false;
+    if (!isAfterVowel || !isLax) return false;
+  }
+
+  // neverDouble
+  if (config.neverDouble.includes(currPhoneme.sound)) return false;
+
+  // finalDoublingOnly: at end of word, only these sounds may double
+  if (isEndOfWord && config.finalDoublingOnly && config.finalDoublingOnly.length > 0) {
+    if (!config.finalDoublingOnly.includes(currPhoneme.sound)) return false;
+  }
+
+  // suppressAfterReduction
+  if (config.suppressAfterReduction && prevReduced) return false;
+
+  // suppressBeforeTense
+  if (config.suppressBeforeTense && nextNucleus) {
+    if (nextNucleus.tense === true) return false;
+  }
+
+  // Calculate probability
+  let prob = config.probability;
+
+  // unstressedModifier
+  if (config.unstressedModifier != null && !syllableStress) {
+    prob *= config.unstressedModifier;
+  }
+
+  prob = Math.min(100, Math.max(0, Math.round(prob)));
+  if (prob <= 0) return false;
+
+  const shouldDouble = getWeightedOption([[true, prob], [false, 100 - prob]]);
+  return shouldDouble;
 }
 
 // ---------------------------------------------------------------------------
@@ -88,6 +173,11 @@ function chooseGrapheme(
   isEndOfWord: boolean = false,
   prevPhoneme?: Phoneme,
   nextPhoneme?: Phoneme,
+  doublingConfig?: DoublingConfig,
+  syllableStress?: string,
+  prevReduced?: boolean,
+  nextNucleus?: Phoneme,
+  doublingCtx?: DoublingContext,
 ): string {
   const graphemeList = graphemeMaps[position].get(currPhoneme.sound);
   const frequencyList = cumulativeFrequencies[position].get(currPhoneme.sound);
@@ -124,15 +214,23 @@ function chooseGrapheme(
 
   let { form } = selectedGrapheme;
 
-  // Apply the doubling rule (English-specific — see issue #34)
-  if (prevPhoneme && prevPhoneme.nucleus && !isCluster) {
-    const isAfterShortVowel = prevPhoneme.nucleus > 0 && prevPhoneme.tense === false;
-    const isConsonant = position === "onset" || position === "coda";
-    const mayDouble = isAfterShortVowel && isConsonant && currPhoneme.sound !== "v" && currPhoneme.mannerOfArticulation !== "glide" && form.length === 1;
-    const shouldDouble = mayDouble ? getWeightedOption([[true, 80], [false, 20]]) : false;
-    if (shouldDouble) {
-      form += form;
-    }
+  // Apply doubling using config
+  const ctx = doublingCtx ?? { doublingCount: 0 };
+  if (shouldDoubleConsonant(
+    doublingConfig,
+    currPhoneme,
+    prevPhoneme,
+    nextNucleus,
+    form,
+    position,
+    isCluster,
+    isEndOfWord,
+    syllableStress,
+    prevReduced ?? false,
+    ctx,
+  )) {
+    form += form;
+    ctx.doublingCount++;
   }
 
   return form;
@@ -149,27 +247,48 @@ function chooseGrapheme(
 export function createWrittenFormGenerator(config: LanguageConfig): (context: WordGenerationContext) => void {
   const gMaps = config.graphemeMaps;
   const cumFreqs = buildCumulativeFrequencies(gMaps);
+  const doublingConfig = config.doubling;
+  const compiledRules = compileSpellingRules(config.spellingRules ?? []);
 
   return (context: WordGenerationContext) => {
     const { syllables, written } = context.word;
     const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
       (["onset", "nucleus", "coda"] as const).flatMap((position) =>
-        syllable[position].map((phoneme) => ({ phoneme, syllableIndex, position }))
+        syllable[position].map((phoneme) => ({
+          phoneme,
+          syllableIndex,
+          position,
+          stress: syllable.stress,
+        }))
       )
     );
 
     const cleanParts: string[] = [];
     const hyphenatedParts: string[] = [];
     let currentSyllable: string[] = [];
+    const doublingCtx: DoublingContext = { doublingCount: 0 };
 
     for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
-      const { phoneme, syllableIndex, position } = flattenedPhonemes[phonemeIndex];
-      const prevPhoneme = flattenedPhonemes[phonemeIndex - 1];
-      const nextPhoneme = flattenedPhonemes[phonemeIndex + 1];
+      const { phoneme, syllableIndex, position, stress } = flattenedPhonemes[phonemeIndex];
+      const prevEntry = flattenedPhonemes[phonemeIndex - 1];
+      const nextEntry = flattenedPhonemes[phonemeIndex + 1];
 
       const isCluster =
-        (prevPhoneme?.syllableIndex === syllableIndex && prevPhoneme?.position === position) ||
-        (nextPhoneme?.syllableIndex === syllableIndex && nextPhoneme?.position === position);
+        (prevEntry?.syllableIndex === syllableIndex && prevEntry?.position === position) ||
+        (nextEntry?.syllableIndex === syllableIndex && nextEntry?.position === position);
+
+      // Find the previous nucleus phoneme for reduction check
+      const prevPhoneme = prevEntry?.phoneme;
+      const prevReduced = prevPhoneme?.reduced ?? false;
+
+      // Find the next nucleus phoneme for suppressBeforeTense
+      let nextNucleus: Phoneme | undefined;
+      for (let j = phonemeIndex + 1; j < flattenedPhonemes.length; j++) {
+        if (flattenedPhonemes[j].position === "nucleus") {
+          nextNucleus = flattenedPhonemes[j].phoneme;
+          break;
+        }
+      }
 
       const grapheme = chooseGrapheme(
         gMaps,
@@ -179,8 +298,13 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         isCluster,
         phonemeIndex === 0,
         phonemeIndex === flattenedPhonemes.length - 1,
-        prevPhoneme?.phoneme,
-        nextPhoneme?.phoneme,
+        prevPhoneme,
+        nextEntry?.phoneme,
+        doublingConfig,
+        stress,
+        prevReduced,
+        nextNucleus,
+        doublingCtx,
       );
 
       if (currentSyllable.length > 0 && grapheme.length > 0 &&
@@ -190,8 +314,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         currentSyllable.push(grapheme);
       }
 
-      if (!nextPhoneme || nextPhoneme.syllableIndex !== syllableIndex) {
-        let syllableStr = adjustSyllable(currentSyllable.join(''));
+      if (!nextEntry || nextEntry.syllableIndex !== syllableIndex) {
+        let syllableStr = adjustSyllable(currentSyllable.join(''), compiledRules);
 
         if (cleanParts.length > 0 && syllableStr.length > 0 &&
             cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
@@ -201,7 +325,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         cleanParts.push(syllableStr);
         hyphenatedParts.push(syllableStr);
 
-        if (nextPhoneme) {
+        if (nextEntry) {
           hyphenatedParts.push("&shy;");
         }
 
