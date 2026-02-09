@@ -4,7 +4,7 @@
  * phoneme violations.
  */
 import { Syllable } from "../types.js";
-import type { ClusterConstraint, CodaConstraints } from "../config/language.js";
+import type { CodaConstraints } from "../config/language.js";
 
 /**
  * Repair cross-syllable consonant cluster violations.
@@ -12,12 +12,9 @@ import type { ClusterConstraint, CodaConstraints } from "../config/language.js";
  */
 export function repairClusters(
   syllables: Syllable[],
-  constraint: ClusterConstraint,
+  bannedSet: Set<string>,
+  repair: "drop-coda" | "drop-onset" | "insert-schwa",
 ): void {
-  if (!constraint.banned || constraint.banned.length === 0) return;
-
-  // Build a Set for O(1) lookup
-  const bannedSet = new Set(constraint.banned.map(([a, b]) => `${a}|${b}`));
 
   for (let i = 0; i < syllables.length - 1; i++) {
     const coda = syllables[i].coda;
@@ -29,7 +26,7 @@ export function repairClusters(
     const firstOnset = onset[0].sound;
 
     if (bannedSet.has(`${lastCoda}|${firstOnset}`)) {
-      switch (constraint.repair) {
+      switch (repair) {
         case "drop-coda":
           coda.pop();
           break;

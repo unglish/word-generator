@@ -7,7 +7,6 @@ import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
 import { repairClusters, repairFinalCoda } from "./repair.js";
-import type { ClusterConstraint, CodaConstraints } from "../config/language.js";
 import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------
@@ -26,8 +25,9 @@ interface GeneratorRuntime {
     nucleus: RegExp;
   };
   generateWrittenForm: (context: WordGenerationContext) => void;
-  clusterConstraint?: ClusterConstraint;
-  codaConstraints?: CodaConstraints;
+  bannedSet?: Set<string>;
+  clusterRepair?: "drop-coda" | "drop-onset" | "insert-schwa";
+  codaConstraints?: { allowedFinal?: string[]; repair: "drop" | "append-schwa" };
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
@@ -48,9 +48,14 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
 
   const generateWrittenForm = createWrittenFormGenerator(config);
 
+  const bannedSet = config.clusterConstraint?.banned
+    ? new Set(config.clusterConstraint.banned.map(([a, b]) => `${a}|${b}`))
+    : undefined;
+
   return {
     config, sonorityLevels, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
-    clusterConstraint: config.clusterConstraint,
+    bannedSet,
+    clusterRepair: config.clusterConstraint?.repair,
     codaConstraints: config.codaConstraints,
   };
 }
@@ -429,7 +434,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 
       try {
         generateSyllables(rt, context);
-        if (rt.clusterConstraint) repairClusters(context.word.syllables, rt.clusterConstraint);
+        if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
         if (rt.codaConstraints) repairFinalCoda(context.word.syllables, rt.codaConstraints);
         rt.generateWrittenForm(context);
         generatePronunciation(context, rt.config.vowelReduction);
@@ -475,7 +480,7 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
 
   try {
     generateSyllables(defaultRuntime, context);
-    if (defaultRuntime.clusterConstraint) repairClusters(context.word.syllables, defaultRuntime.clusterConstraint);
+    if (defaultRuntime.bannedSet) repairClusters(context.word.syllables, defaultRuntime.bannedSet, defaultRuntime.clusterRepair!);
     if (defaultRuntime.codaConstraints) repairFinalCoda(context.word.syllables, defaultRuntime.codaConstraints);
     defaultRuntime.generateWrittenForm(context);
     generatePronunciation(context, defaultRuntime.config.vowelReduction);
