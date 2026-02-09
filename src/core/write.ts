@@ -600,8 +600,13 @@ export function isJunctionValid(C1: Phoneme, C2: Phoneme, onsetCluster: Phoneme[
   // F1: identical phonemes
   if (C1.sound === C2.sound) return false;
 
-  // F2: same mannerGroup AND same placeGroup
-  if (mannerGroup(C1) === mannerGroup(C2) && placeGroup(C1) === placeGroup(C2)) return false;
+  // F2: same mannerGroup AND same exact place of articulation
+  if (mannerGroup(C1) === mannerGroup(C2) && C1.placeOfArticulation === C2.placeOfArticulation) return false;
+
+  // F3: stop+stop where neither is coronal
+  // (blocks b.k, p.k, g.k, k.b, k.p, k.g — dorsal+labial stops in any direction)
+  // F3 also blocks affricate+stop where neither side is coronal — but all English affricates are coronal, so this is moot
+  if (mannerGroup(C1) === 'stop' && mannerGroup(C2) === 'stop' && !isCoronal(C1) && !isCoronal(C2)) return false;
 
   // P1: s-exception
   if (C1.sound === 's') return true;
@@ -636,26 +641,34 @@ export function repairJunctions(
 ): void {
   const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
 
-  for (let i = 0; i < boundaries.length; i++) {
-    const { codaFinal, onsetInitial, onsetCluster } = boundaries[i];
-    if (!codaFinal || !onsetInitial) continue;
+  const repaired = new Set<number>();
+  for (let pass = 0; pass < 10; pass++) {
+    let changed = false;
+    for (let i = 0; i < boundaries.length; i++) {
+      if (repaired.has(i)) continue;
+      const { codaFinal, onsetInitial, onsetCluster } = boundaries[i];
+      if (!codaFinal || !onsetInitial) continue;
 
-    if (!isJunctionValid(codaFinal, onsetInitial, onsetCluster)) {
-      // Drop the last consonant grapheme token from the coda part
-      const codaPart = cleanParts[i];
-      if (!codaPart) continue;
+      if (!isJunctionValid(codaFinal, onsetInitial, onsetCluster)) {
+        // Drop the last consonant grapheme token from the coda part
+        const codaPart = cleanParts[i];
+        if (!codaPart) continue;
 
-      const codaTokens = tokenizeGraphemes(codaPart, gList);
-      let lastCodaConsonantIdx = -1;
-      for (let j = codaTokens.length - 1; j >= 0; j--) {
-        if (isConsonantToken(codaTokens[j])) { lastCodaConsonantIdx = j; break; }
+        const codaTokens = tokenizeGraphemes(codaPart, gList);
+        let lastCodaConsonantIdx = -1;
+        for (let j = codaTokens.length - 1; j >= 0; j--) {
+          if (isConsonantToken(codaTokens[j])) { lastCodaConsonantIdx = j; break; }
+        }
+        if (lastCodaConsonantIdx < 0) continue;
+
+        codaTokens.splice(lastCodaConsonantIdx, 1);
+        cleanParts[i] = codaTokens.join('');
+        hyphenatedParts[i * 2] = cleanParts[i];
+        repaired.add(i);
+        changed = true;
       }
-      if (lastCodaConsonantIdx < 0) continue;
-
-      codaTokens.splice(lastCodaConsonantIdx, 1);
-      cleanParts[i] = codaTokens.join('');
-      hyphenatedParts[i * 2] = cleanParts[i];
     }
+    if (!changed) return;
   }
 }
 
@@ -899,7 +912,22 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     }
 
     // Post-join pass: apply word-scope spelling rules
-    written.clean = applySpellingRules(cleanParts.join(''), wordRules);
+    let finalClean = applySpellingRules(cleanParts.join(''), wordRules);
+
+    // Re-run consonant backstop after spelling rules (rules like ngx→nks can introduce new runs)
+    if (wfc?.maxConsonantGraphemes || wfc?.maxConsonantLetters) {
+      const postParts = [finalClean];
+      const postHyph = [finalClean];
+      if (wfc.maxConsonantGraphemes) {
+        repairConsonantPileups(postParts, postHyph, wfc.maxConsonantGraphemes, wfc.consonantGraphemes);
+      }
+      if (wfc.maxConsonantLetters) {
+        repairConsonantLetters(postParts, postHyph, wfc.maxConsonantLetters);
+      }
+      finalClean = postParts[0];
+    }
+
+    written.clean = finalClean;
     written.hyphenated = hyphenatedParts.join('');
   };
 }

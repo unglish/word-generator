@@ -173,6 +173,13 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
+      name: "ngx-to-nks",
+      pattern: "ngx",
+      replacement: "nks",
+      probability: 100,
+      scope: "word",
+    },
+    {
       name: "ngk-to-nk",
       pattern: "ng([kc])",
       replacement: "n$1",

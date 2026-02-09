@@ -128,7 +128,7 @@ const P_n = makePhoneme({ sound: 'n', mannerOfArticulation: 'nasal', placeOfArti
 const P_m = makePhoneme({ sound: 'm', mannerOfArticulation: 'nasal', placeOfArticulation: 'bilabial' });
 const P_ŋ = makePhoneme({ sound: 'ŋ', mannerOfArticulation: 'nasal', placeOfArticulation: 'velar' });
 const P_l = makePhoneme({ sound: 'l', mannerOfArticulation: 'lateralApproximant', placeOfArticulation: 'alveolar' });
-const P_r = makePhoneme({ sound: 'r', mannerOfArticulation: 'liquid', placeOfArticulation: 'alveolar' });
+const P_r = makePhoneme({ sound: 'r', mannerOfArticulation: 'liquid', placeOfArticulation: 'postalveolar' });
 const P_w = makePhoneme({ sound: 'w', mannerOfArticulation: 'glide', placeOfArticulation: 'labial-velar' });
 
 describe('mannerGroup', () => {
@@ -227,8 +227,26 @@ describe('isJunctionValid', () => {
   });
 
   describe('P5: place change', () => {
-    it('allows p→k (different place, same manner)', () => {
-      expect(isJunctionValid(P_p, P_k, [P_k])).toBe(true);
+    it('allows f→θ (different place, same manner, both non-stop)', () => {
+      expect(isJunctionValid(P_f, P_θ, [P_θ])).toBe(true);
+    });
+    it('allows l→r (different place — alveolar vs postalveolar)', () => {
+      expect(isJunctionValid(P_l, P_r, [P_r])).toBe(true);
+    });
+    it('allows r→l (different place — postalveolar vs alveolar)', () => {
+      expect(isJunctionValid(P_r, P_l, [P_l])).toBe(true);
+    });
+  });
+
+  describe('F3: non-coronal stop+stop', () => {
+    it('rejects b→k (both non-coronal stops)', () => {
+      expect(isJunctionValid(P_p, P_k, [P_k])).toBe(false);
+    });
+    it('allows k→t (t is coronal)', () => {
+      expect(isJunctionValid(P_k, P_t, [P_t])).toBe(true);
+    });
+    it('allows p→t (t is coronal)', () => {
+      expect(isJunctionValid(P_p, P_t, [P_t])).toBe(true);
     });
   });
 
