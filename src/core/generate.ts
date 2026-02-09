@@ -2,7 +2,7 @@ import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, 
 import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
 import { createSeededRandom } from "../utils/createSeededRandom.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { LanguageConfig, computeSonorityLevels, validateConfig } from "../config/language.js";
+import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
@@ -16,6 +16,8 @@ import type { GenerationWeights } from "../config/language.js";
 interface GeneratorRuntime {
   config: LanguageConfig;
   sonorityLevels: Map<Phoneme, number>;
+  /** Sonority level by phoneme sound string (for quick lookup). */
+  sonorityBySound: Map<string, number>;
   positionPhonemes: { onset: Phoneme[]; coda: Phoneme[]; nucleus: Phoneme[] };
   invalidClusterRegexes: {
     onset: RegExp;
@@ -28,6 +30,12 @@ interface GeneratorRuntime {
   bannedSet?: Set<string>;
   clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
+  clusterLimits?: ClusterLimits;
+  sonorityConstraints?: SonorityConstraints;
+  codaAppendantSet?: Set<string>;
+  onsetPrependerSet?: Set<string>;
+  sonorityExemptSet?: Set<string>;
+  attestedOnsetSet?: Set<string>;
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
@@ -52,12 +60,28 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     ? new Set(config.clusterConstraint.banned.map(([a, b]) => `${a}|${b}`))
     : undefined;
 
+  const sonorityBySound = new Map<string, number>();
+  for (const [phoneme, level] of sonorityLevels) {
+    sonorityBySound.set(phoneme.sound, level);
+  }
+
+  const cl = config.clusterLimits;
+  const sc = config.sonorityConstraints;
+
   return {
-    config, sonorityLevels, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
+    config, sonorityLevels, sonorityBySound, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
     bannedSet,
     clusterRepair: config.clusterConstraint?.repair,
     allowedFinalSet: config.codaConstraints?.allowedFinal
       ? new Set(config.codaConstraints.allowedFinal)
+      : undefined,
+    clusterLimits: cl,
+    sonorityConstraints: sc,
+    codaAppendantSet: cl?.codaAppendants ? new Set(cl.codaAppendants) : undefined,
+    onsetPrependerSet: cl?.onsetPrependers ? new Set(cl.onsetPrependers) : undefined,
+    sonorityExemptSet: sc?.exempt ? new Set(sc.exempt) : undefined,
+    attestedOnsetSet: cl?.attestedOnsets
+      ? new Set(cl.attestedOnsets.map(a => a.join("|")))
       : undefined,
   };
 }
@@ -82,7 +106,7 @@ function buildCluster(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] 
     if (!newPhoneme) break;
 
     context.cluster.push(newPhoneme);
-    if (shouldStopClusterGrowth(context)) break;
+    if (shouldStopClusterGrowth(context, rt)) break;
 
     updateValidCandidates(validCandidates, rt, context);
   }
@@ -111,7 +135,23 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
   }
 
   const potentialCluster = context.cluster.map(ph => ph.sound).join('') + p.sound;
-  return !rt.invalidClusterRegexes[context.position].test(potentialCluster);
+  if (rt.invalidClusterRegexes[context.position].test(potentialCluster)) return false;
+
+  // Attested onset whitelist check
+  if (context.position === "onset" && rt.attestedOnsetSet) {
+    const newClusterSounds = [...context.cluster.map(ph => ph.sound), p.sound];
+    if (newClusterSounds.length >= 2) {
+      // Check that the current cluster is a prefix of at least one attested onset
+      const key = newClusterSounds.join("|");
+      const isExactMatch = rt.attestedOnsetSet.has(key);
+      const isPrefix = !isExactMatch && Array.from(rt.attestedOnsetSet).some(
+        a => a.startsWith(key + "|") || a === key
+      );
+      if (!isExactMatch && !isPrefix) return false;
+    }
+  }
+
+  return true;
 }
 
 function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: ClusterContext): boolean {
@@ -179,7 +219,7 @@ function checkCodaSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, prevPhone
   const isReversedSonorityException =
     (prevManner == 'stop' && currManner == 'fricative') ||
     (prevManner == 'stop' && currManner == 'sibilant') ||
-    (prevManner == 'sibilant' && currManner === 'nasal');
+    (prevManner == 'nasal' && currManner === 'sibilant');
 
   return isEqualSonorityException || isReversedSonorityException || (currSonority < prevSonority);
 }
@@ -200,10 +240,41 @@ function selectPhoneme(validCandidates: Phoneme[], { position, isStartOfWord, is
   return getWeightedOption(weightedCandidates);
 }
 
-function shouldStopClusterGrowth({ position, cluster }: ClusterContext): boolean {
-  return position === "onset" &&
-         cluster.length === 2 &&
-         ['liquid', 'nasal'].includes(cluster[1].mannerOfArticulation);
+function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime): boolean {
+  const { position, cluster } = context;
+
+  // Check cluster length limits
+  if (rt.clusterLimits) {
+    const cl = rt.clusterLimits;
+    if (position === "onset" && cluster.length >= cl.maxOnset) return true;
+    if (position === "coda") {
+      const effectiveMax = rt.codaAppendantSet && cluster.length > 0 &&
+        rt.codaAppendantSet.has(cluster[cluster.length - 1].sound)
+        ? cl.maxCoda + 1
+        : cl.maxCoda;
+      if (cluster.length >= effectiveMax) return true;
+    }
+  }
+
+  // For onsets with attested whitelist: stop if current cluster is an exact match
+  // and no longer attested onset extends it
+  if (position === "onset" && rt.attestedOnsetSet && cluster.length >= 2) {
+    const key = cluster.map(ph => ph.sound).join("|");
+    if (rt.attestedOnsetSet.has(key)) {
+      // Check if any longer attested onset extends this
+      const hasLonger = Array.from(rt.attestedOnsetSet).some(a => a.startsWith(key + "|"));
+      if (!hasLonger) return true;
+    }
+  }
+
+  // Original heuristic: stop after liquid/nasal in onset
+  if (position === "onset" &&
+      cluster.length === 2 &&
+      ['liquid', 'nasal'].includes(cluster[1].mannerOfArticulation)) {
+    return true;
+  }
+
+  return false;
 }
 
 // ---------------------------------------------------------------------------
