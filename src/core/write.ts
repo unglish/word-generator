@@ -558,58 +558,200 @@ export function repairConsonantPileups(
   }
 }
 
+// ---------------------------------------------------------------------------
+// Articulatory helpers for feature-based junction validation
+// ---------------------------------------------------------------------------
+
+export function mannerGroup(p: Phoneme): string {
+  const m = p.mannerOfArticulation;
+  if (m === 'sibilant') return 'fricative';
+  if (m === 'lateralApproximant') return 'liquid';
+  return m;
+}
+
+export function isCoronal(p: Phoneme): boolean {
+  const place = p.placeOfArticulation;
+  return place === 'alveolar' || place === 'postalveolar' || place === 'dental';
+}
+
+export function placeGroup(p: Phoneme): string {
+  const place = p.placeOfArticulation;
+  if (place === 'bilabial' || place === 'labiodental' || place === 'labial-velar') return 'labial';
+  if (place === 'dental' || place === 'alveolar' || place === 'postalveolar') return 'coronal';
+  if (place === 'palatal' || place === 'velar') return 'dorsal';
+  return place; // glottal etc.
+}
+
+// ---------------------------------------------------------------------------
+// Syllable boundary type for junction validation
+// ---------------------------------------------------------------------------
+
+export interface SyllableBoundary {
+  codaFinal: Phoneme | undefined;
+  onsetInitial: Phoneme | undefined;
+  onsetCluster: Phoneme[];
+}
+
+// ---------------------------------------------------------------------------
+// Feature-based junction validation
+// ---------------------------------------------------------------------------
+
+export function isJunctionValid(C1: Phoneme, C2: Phoneme, onsetCluster: Phoneme[]): boolean {
+  // F1: identical phonemes
+  if (C1.sound === C2.sound) return false;
+
+  // F2: same mannerGroup AND same placeGroup
+  if (mannerGroup(C1) === mannerGroup(C2) && placeGroup(C1) === placeGroup(C2)) return false;
+
+  // P1: s-exception
+  if (C1.sound === 's') return true;
+  if (C2.sound === 's' && onsetCluster.length >= 2 && ['t','p','k'].includes(onsetCluster[1]?.sound)) return true;
+  if (onsetCluster.length >= 2 && onsetCluster[0].sound === 's' && ['t','p','k'].includes(onsetCluster[1].sound)) return true;
+
+  // P2: coronal onset
+  if (isCoronal(C2)) return true;
+
+  // P3: homorganic nasal+stop
+  if (mannerGroup(C1) === 'nasal' && mannerGroup(C2) === 'stop' && placeGroup(C1) === placeGroup(C2)) return true;
+
+  // P4: manner change
+  if (mannerGroup(C1) !== mannerGroup(C2)) return true;
+
+  // P5: place change
+  if (placeGroup(C1) !== placeGroup(C2)) return true;
+
+  return false; // default fail
+}
+
 /**
- * Repair coda→onset junctions that aren't attested in the language.
- * Drops one grapheme token from the coda side when the junction pair isn't found.
+ * Repair coda→onset junctions using feature-based articulatory rules.
+ * Drops grapheme tokens from the coda side when the junction is invalid.
  * Mutates `cleanParts` and `hyphenatedParts` in place.
  */
 export function repairJunctions(
   cleanParts: string[],
   hyphenatedParts: string[],
-  attestedJunctions: [string, string][],
+  boundaries: SyllableBoundary[],
   consonantGraphemes?: string[],
 ): void {
   const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
-  const junctionSet = new Set(attestedJunctions.map(([a, b]) => `${a}|${b}`));
 
-  for (let pass = 0; pass < 10; pass++) {
-    let changed = false;
+  for (let i = 0; i < boundaries.length; i++) {
+    const { codaFinal, onsetInitial, onsetCluster } = boundaries[i];
+    if (!codaFinal || !onsetInitial) continue;
 
-    for (let i = 0; i < cleanParts.length - 1; i++) {
+    if (!isJunctionValid(codaFinal, onsetInitial, onsetCluster)) {
+      // Drop the last consonant grapheme token from the coda part
       const codaPart = cleanParts[i];
-      const onsetPart = cleanParts[i + 1];
-      if (!codaPart || !onsetPart) continue;
+      if (!codaPart) continue;
 
       const codaTokens = tokenizeGraphemes(codaPart, gList);
-      const onsetTokens = tokenizeGraphemes(onsetPart, gList);
-
-      // Find last consonant token of coda
       let lastCodaConsonantIdx = -1;
       for (let j = codaTokens.length - 1; j >= 0; j--) {
         if (isConsonantToken(codaTokens[j])) { lastCodaConsonantIdx = j; break; }
       }
+      if (lastCodaConsonantIdx < 0) continue;
 
-      // Find first consonant token of onset
-      let firstOnsetConsonantIdx = -1;
-      for (let j = 0; j < onsetTokens.length; j++) {
-        if (isConsonantToken(onsetTokens[j])) { firstOnsetConsonantIdx = j; break; }
-      }
+      codaTokens.splice(lastCodaConsonantIdx, 1);
+      cleanParts[i] = codaTokens.join('');
+      hyphenatedParts[i * 2] = cleanParts[i];
+    }
+  }
+}
 
-      if (lastCodaConsonantIdx < 0 || firstOnsetConsonantIdx < 0) continue;
+// ---------------------------------------------------------------------------
+// Raw consonant letter repair (backstop)
+// ---------------------------------------------------------------------------
 
-      const codaGrapheme = codaTokens[lastCodaConsonantIdx];
-      const onsetGrapheme = onsetTokens[firstOnsetConsonantIdx];
+/**
+ * Repair consonant pileups by counting raw consonant *letters* (not grapheme units).
+ * Mutates `cleanParts` and `hyphenatedParts` in place.
+ */
+export function repairConsonantLetters(
+  cleanParts: string[],
+  hyphenatedParts: string[],
+  maxLetters: number,
+): void {
+  for (let pass = 0; pass < 10; pass++) {
+    const word = cleanParts.join('');
 
-      if (!junctionSet.has(`${codaGrapheme}|${onsetGrapheme}`)) {
-        // Drop the last consonant grapheme token from the coda
-        codaTokens.splice(lastCodaConsonantIdx, 1);
-        cleanParts[i] = codaTokens.join('');
-        hyphenatedParts[i * 2] = cleanParts[i];
-        changed = true;
+    // Find first run of consonant letters exceeding max
+    let runStart = -1;
+    let runLen = 0;
+    let found = false;
+    let foundStart = -1;
+    let foundLen = 0;
+
+    for (let i = 0; i <= word.length; i++) {
+      if (i < word.length && isConsonantLetter(word[i])) {
+        if (runStart < 0) runStart = i;
+        runLen = i - runStart + 1;
+      } else {
+        if (runLen > maxLetters) {
+          found = true;
+          foundStart = runStart;
+          foundLen = runLen;
+          break;
+        }
+        runStart = -1;
+        runLen = 0;
       }
     }
 
-    if (!changed) return;
+    if (!found) return;
+
+    // Map char positions to parts
+    const cumLengths: number[] = [];
+    let cum = 0;
+    for (const part of cleanParts) {
+      cum += part.length;
+      cumLengths.push(cum);
+    }
+
+    function partIndexOf(charIdx: number): number {
+      for (let p = 0; p < cumLengths.length; p++) {
+        if (charIdx < cumLengths[p]) return p;
+      }
+      return cumLengths.length - 1;
+    }
+
+    const startPart = partIndexOf(foundStart);
+    const endPart = partIndexOf(foundStart + foundLen - 1);
+
+    // Drop from the heavier side at the boundary
+    const boundaryCharIdx = startPart < endPart ? cumLengths[startPart] : -1;
+
+    let dropPartIdx: number;
+    if (boundaryCharIdx < 0) {
+      dropPartIdx = startPart;
+    } else {
+      const codaCount = boundaryCharIdx - foundStart;
+      const onsetCount = foundLen - codaCount;
+      dropPartIdx = codaCount >= onsetCount ? startPart : endPart;
+    }
+
+    const part = cleanParts[dropPartIdx];
+    const partStart = dropPartIdx > 0 ? cumLengths[dropPartIdx - 1] : 0;
+
+    // Find consonant letters in this part that are within the run
+    const consonantIndices: number[] = [];
+    for (let ci = 0; ci < part.length; ci++) {
+      const globalIdx = partStart + ci;
+      if (globalIdx >= foundStart && globalIdx < foundStart + foundLen && isConsonantLetter(part[ci])) {
+        consonantIndices.push(ci);
+      }
+    }
+
+    if (consonantIndices.length <= 1) return; // can't drop
+
+    // Drop interior consonant (middle-outward)
+    const interior = consonantIndices.slice(1, -1);
+    const dropIdx = interior.length > 0
+      ? interior[Math.floor(interior.length / 2)]
+      : consonantIndices[Math.floor(consonantIndices.length / 2)];
+
+    cleanParts[dropPartIdx] = part.slice(0, dropIdx) + part.slice(dropIdx + 1);
+    hyphenatedParts[dropPartIdx * 2] = cleanParts[dropPartIdx];
   }
 }
 
@@ -727,18 +869,33 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
     // Consonant pileup repair (grapheme-aware)
     const wfc = config.writtenFormConstraints;
-    const maxGraphemes = wfc?.maxConsonantGraphemes ?? wfc?.maxConsonantLetters;
+    const maxGraphemes = wfc?.maxConsonantGraphemes;
     if (maxGraphemes) {
       repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes);
     }
 
-    // Junction validation
-    if (wfc?.attestedJunctions) {
-      repairJunctions(cleanParts, hyphenatedParts, wfc.attestedJunctions, wfc?.consonantGraphemes);
+    // Feature-based junction validation
+    if (syllables.length > 1) {
+      const boundaries: SyllableBoundary[] = [];
+      for (let si = 0; si < syllables.length - 1; si++) {
+        const coda = syllables[si].coda;
+        const nextOnset = syllables[si + 1].onset;
+        boundaries.push({
+          codaFinal: coda.length > 0 ? coda[coda.length - 1] : undefined,
+          onsetInitial: nextOnset.length > 0 ? nextOnset[0] : undefined,
+          onsetCluster: nextOnset,
+        });
+      }
+      repairJunctions(cleanParts, hyphenatedParts, boundaries, wfc?.consonantGraphemes);
       // Re-run pileup repair in case junction repair changed things
       if (maxGraphemes) {
         repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes);
       }
+    }
+
+    // Raw consonant letter backstop
+    if (wfc?.maxConsonantLetters) {
+      repairConsonantLetters(cleanParts, hyphenatedParts, wfc.maxConsonantLetters);
     }
 
     // Post-join pass: apply word-scope spelling rules

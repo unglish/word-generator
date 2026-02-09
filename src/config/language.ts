@@ -263,9 +263,6 @@ export interface WrittenFormConstraints {
    */
   maxConsonantGraphemes?: number;
 
-  /** @deprecated Use maxConsonantGraphemes instead. */
-  maxConsonantLetters?: number;
-
   /**
    * Consonant digraphs/trigraphs treated as atomic grapheme units.
    * Longest-match-first during tokenization. Order matters: longer entries first.
@@ -274,11 +271,10 @@ export interface WrittenFormConstraints {
   consonantGraphemes?: string[];
 
   /**
-   * Attested coda→onset grapheme transitions. If set, the junction between
-   * the last consonant grapheme of the coda and the first consonant grapheme
-   * of the onset must appear in this set, or the coda grapheme is dropped.
+   * Max consecutive raw consonant *letters* (not grapheme units) allowed.
+   * Applied as a second pass after grapheme-aware repair.
    */
-  attestedJunctions?: [string, string][];
+  maxConsonantLetters?: number;
 }
 
 // ---------------------------------------------------------------------------
