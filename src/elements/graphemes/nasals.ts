@@ -1,5 +1,5 @@
 /** Nasal graphemes: /m/, /n/, /ŋ/. */
-import { Grapheme } from "../../types.js";
+import { Grapheme, GraphemeCondition } from "../../types.js";
 
 export const nasalGraphemes: Grapheme[] = [
   // milk
@@ -20,6 +20,7 @@ export const nasalGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 1,
+    condition: { wordPosition: ["final"] },
   },
   {
     phoneme: "m",
@@ -72,6 +73,7 @@ export const nasalGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
+    condition: { wordPosition: ["initial"] },
   },
   {
     phoneme: "n",

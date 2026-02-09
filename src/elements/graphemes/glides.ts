@@ -1,5 +1,5 @@
 /** Glide (semivowel) graphemes: /j/, /w/. */
-import { Grapheme } from "../../types.js";
+import { Grapheme, GraphemeCondition } from "../../types.js";
 
 export const glideGraphemes: Grapheme[] = [
   // yes
@@ -41,5 +41,6 @@ export const glideGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
+    condition: { wordPosition: ["initial"] },
    }
 ];

@@ -156,6 +156,9 @@ export interface Grapheme {
   midWord: number;
   /** Weighting for appearing at the end of a word. */
   endWord: number;
+
+  /** Context condition restricting when this grapheme is valid. */
+  condition?: GraphemeCondition;
 }
 
 /**

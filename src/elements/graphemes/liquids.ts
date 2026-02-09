@@ -1,5 +1,5 @@
 /** Liquid graphemes: /l/, /r/. */
-import { Grapheme } from "../../types.js";
+import { Grapheme, GraphemeCondition } from "../../types.js";
 
 export const liquidGraphemes: Grapheme[] = [
   // love
@@ -29,6 +29,7 @@ export const liquidGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
+    condition: { wordPosition: ["initial"] },
   },
   {
     phoneme: "r",

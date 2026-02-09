@@ -1,5 +1,5 @@
 /** Diphthong graphemes: /aɪ/, /aʊ/, /ɔɪ/, /eɪ/, /əʊ/, /ɪə/, /eə/, /ʊə/. */
-import { Grapheme } from "../../types.js";
+import { Grapheme, GraphemeCondition } from "../../types.js";
 
 export const diphthongGraphemes: Grapheme[] = [
   // my
@@ -20,6 +20,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 10,
     endWord: 10,
+    condition: { rightContext: ["t"], wordPosition: ["final"] },
   },
   { 
     phoneme: "aɪ", 
@@ -358,7 +359,7 @@ export const diphthongGraphemes: Grapheme[] = [
     frequency: 1,
     onset: 0,
     startWord: 0,
-    midWord: 1,
-    endWord: 10,
+    midWord: 0,
+    endWord: 0,
   },
 ];
