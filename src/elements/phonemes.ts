@@ -119,7 +119,7 @@ export const phonemes: Phoneme[] = [
   { sound: "ʃ", mannerOfArticulation: "sibilant", onset: 35, coda: 80, startWord: 4, midWord: 1, endWord: 5, voiced: false, placeOfArticulation: "postalveolar" }, // she
 
   // Affricates
-  { sound: "tʃ", voiced: false, placeOfArticulation: "postalveolar", mannerOfArticulation: "affricate", onset: 40, coda: 8990, startWord: 4, midWord: 2, endWord: 2 }, // chat
+  { sound: "tʃ", voiced: false, placeOfArticulation: "postalveolar", mannerOfArticulation: "affricate", onset: 40, coda: 40, startWord: 4, midWord: 2, endWord: 2 }, // chat
   { sound: "dʒ", voiced: true, placeOfArticulation: "postalveolar", mannerOfArticulation: "affricate", onset: 30, coda: 20, startWord: 4, midWord: 2, endWord: 2 }, // judge
 
   // Voiceless Stops
