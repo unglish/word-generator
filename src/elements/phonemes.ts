@@ -8,7 +8,7 @@ export const sonorityToMannerOfArticulation = {
   "glide": 7,
   "liquid": 6,
   "nasal": 5,
-  "lateralApproximant": 4.5,
+  "lateralApproximant": 6,
   "sibilant": 4,
   "fricative": 3,
   "affricate": 2,

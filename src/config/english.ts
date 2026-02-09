@@ -189,6 +189,29 @@ export const englishConfig: LanguageConfig = {
       "m", "n", "ŋ",
       "l", "r", "θ",
     ],
+    voicingAgreement: true,
+    homorganicNasalStop: true,
+  },
+
+  clusterLimits: {
+    maxOnset: 3,
+    maxCoda: 3,
+    codaAppendants: ["s", "z"],
+    onsetPrependers: ["s"],
+    attestedOnsets: [
+      ["p","l"],["p","r"],["b","l"],["b","r"],["t","r"],["d","r"],
+      ["k","l"],["k","r"],["g","l"],["g","r"],["f","l"],["f","r"],
+      ["θ","r"],["ʃ","r"],["t","w"],["d","w"],["k","w"],["s","w"],
+      ["s","l"],["s","m"],["s","n"],["s","p"],["s","t"],["s","k"],
+      ["s","p","l"],["s","p","r"],["s","t","r"],["s","k","r"],["s","k","w"],
+    ],
+  },
+
+  sonorityConstraints: {
+    risingOnset: true,
+    fallingCoda: true,
+    minSonorityGap: 0,
+    exempt: ["s", "z"],
   },
 
   vowelReduction: {

@@ -13,6 +13,34 @@ export interface ClusterConstraint {
 export interface CodaConstraints {
   /** Phoneme sounds allowed in word-final position. Unlisted phonemes are dropped. */
   allowedFinal?: string[];
+  /** Require voicing agreement among obstruents in coda clusters. */
+  voicingAgreement?: boolean;
+  /** Require nasal+stop to agree in place of articulation. */
+  homorganicNasalStop?: boolean;
+}
+
+export interface ClusterLimits {
+  /** Max phonemes in an onset cluster (English: 3 — /s/ + stop + liquid). */
+  maxOnset: number;
+  /** Max phonemes in a coda cluster (English: 3, or 4 with trailing /s/). */
+  maxCoda: number;
+  /** Phonemes that can extend coda beyond maxCoda (English: ["s", "z"]). */
+  codaAppendants?: string[];
+  /** Phonemes that can extend onset beyond normal limits as a prefix (English: ["s"]). */
+  onsetPrependers?: string[];
+  /** If provided, multi-consonant onsets must match an entry. Overrides pure SSP. */
+  attestedOnsets?: string[][];
+}
+
+export interface SonorityConstraints {
+  /** Require rising sonority in onsets (English: true). */
+  risingOnset: boolean;
+  /** Require falling sonority in codas (English: true). */
+  fallingCoda: boolean;
+  /** Minimum sonority distance between adjacent cluster members (0 = equal OK). */
+  minSonorityGap?: number;
+  /** Phonemes exempt from sequencing (e.g. /s/ can violate sonority in "st-", "-ks"). */
+  exempt?: string[];
 }
 
 // ---------------------------------------------------------------------------
@@ -307,6 +335,12 @@ export interface LanguageConfig {
 
   /** Word-final coda repair constraints. */
   codaConstraints?: CodaConstraints;
+
+  /** Feature-based cluster length and shape constraints. */
+  clusterLimits?: ClusterLimits;
+
+  /** Feature-based sonority sequencing constraints. */
+  sonorityConstraints?: SonorityConstraints;
 }
 
 // ---------------------------------------------------------------------------
