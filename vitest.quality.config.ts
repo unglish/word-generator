@@ -4,6 +4,6 @@ export default defineConfig({
   test: {
     include: ['src/core/quality.test.ts'],
     environment: 'node',
-    testTimeout: 600_000,
+    testTimeout: 120_000,
   },
 })

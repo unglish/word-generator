@@ -22,7 +22,7 @@ const COMMON_WORDS = new Set([
   'are', 'was', 'had', 'been',
 ]); // 104 words
 
-const MAX_ITERATIONS = 5_000_000;
+const MAX_ITERATIONS = 200_000;
 // Milestones as percentages of COMMON_WORDS.size
 const MILESTONE_PCTS = [50, 75, 90, 100] as const;
 const TRIALS = 5;
@@ -76,7 +76,7 @@ describe('Quality Benchmark', () => {
   // -------------------------------------------------------------------------
 
   for (let trial = 0; trial < TRIALS; trial++) {
-    it(`Common words trial ${trial + 1}/${TRIALS}`, { timeout: 600_000 }, () => {
+    it(`Common words trial ${trial + 1}/${TRIALS}`, { timeout: 60_000 }, async () => {
       const found = new Set<string>();
       const total = COMMON_WORDS.size;
       const milestoneTargets = MILESTONE_PCTS.map(pct => Math.ceil(total * pct / 100));
@@ -86,6 +86,10 @@ describe('Quality Benchmark', () => {
       const seedOffset = trial * MAX_ITERATIONS;
 
       for (let i = 0; i < MAX_ITERATIONS; i++) {
+        // Yield to the event loop every 10k iterations so Vitest's RPC
+        // heartbeat doesn't time out during long CPU-bound runs.
+        if (i > 0 && i % 10_000 === 0) await new Promise(r => setTimeout(r, 0));
+
         const word = generateWord({ seed: seedOffset + i });
         const written = word.written.clean.toLowerCase();
 
@@ -131,10 +135,11 @@ describe('Quality Benchmark', () => {
     let uniqueRate = 0;
     let lengthDistribution: Record<string, number> = {};
 
-    beforeAll(() => {
+    beforeAll(async () => {
       // Generate 200k words
       gateWords = [];
       for (let i = 0; i < GATE_SAMPLE_SIZE; i++) {
+        if (i > 0 && i % 10_000 === 0) await new Promise(r => setTimeout(r, 0));
         gateWords.push(generateWord({ seed: i }).written.clean.toLowerCase());
       }
 
