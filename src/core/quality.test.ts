@@ -7,21 +7,20 @@ import { join } from 'path';
 // Constants
 // ---------------------------------------------------------------------------
 
-// Top 100 English words by frequency (Oxford / Corpus of Contemporary American English).
-// Single-letter words ('a', 'i') excluded — trivially generated and not meaningful signal.
+// Top ~100 English words by frequency (Oxford / Corpus of Contemporary American English).
 const COMMON_WORDS = new Set([
-  'the', 'be', 'to', 'of', 'and', 'in', 'that', 'have', 'it', 'for',
-  'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at', 'this', 'but',
-  'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she', 'or', 'an',
-  'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what', 'so', 'up',
-  'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me', 'when', 'make',
-  'can', 'like', 'time', 'no', 'just', 'him', 'know', 'take', 'people', 'into',
-  'year', 'your', 'good', 'some', 'could', 'them', 'see', 'other', 'than', 'then',
-  'now', 'look', 'only', 'come', 'its', 'over', 'think', 'also', 'back', 'after',
-  'use', 'two', 'how', 'our', 'work', 'first', 'well', 'way', 'even', 'new',
-  'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us', 'are', 'was',
-  'had', 'been',
-]);
+  'a', 'i', 'the', 'be', 'to', 'of', 'and', 'in', 'that', 'have',
+  'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at',
+  'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she',
+  'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what',
+  'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me',
+  'when', 'make', 'can', 'like', 'time', 'no', 'just', 'him', 'know', 'take',
+  'people', 'into', 'year', 'your', 'good', 'some', 'could', 'them', 'see', 'other',
+  'than', 'then', 'now', 'look', 'only', 'come', 'its', 'over', 'think', 'also',
+  'back', 'after', 'use', 'two', 'how', 'our', 'work', 'first', 'well', 'way',
+  'even', 'new', 'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us',
+  'are', 'was', 'had', 'been',
+]); // 104 words
 
 const MAX_ITERATIONS = 5_000_000;
 const MILESTONES = [50, 75, 90, 100] as const;
@@ -29,6 +28,8 @@ const TRIALS = 5;
 const GATE_SAMPLE_SIZE = 200_000;
 
 const VOWELS = new Set('aeiouy'.split(''));
+const RE_OWNGS = /owngs/;
+const RE_RENG_TENG = /[rt]eng$/;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -147,8 +148,8 @@ describe('Quality Benchmark', () => {
         if (w.includes('pk')) pkCount++;
         if (w.includes('dk')) dkCount++;
         if (w.includes('ckt')) cktCount++;
-        if (/owngs/.test(w)) owngsCount++;
-        if (/[rt]eng$/.test(w)) rengTengCount++;
+        if (RE_OWNGS.test(w)) owngsCount++;
+        if (RE_RENG_TENG.test(w)) rengTengCount++;
 
         totalLen += w.length;
         uniqueWords.add(w);
