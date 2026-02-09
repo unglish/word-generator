@@ -125,6 +125,9 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    condition: {
+      rightContext: ["vowel", "r", "l"],
+    },
   },
   {
     phoneme: "k",
