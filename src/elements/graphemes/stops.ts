@@ -1,5 +1,5 @@
 /** Stop (plosive) graphemes: /p/, /b/, /t/, /d/, /k/, /g/. */
-import { Grapheme } from "../../types.js";
+import { Grapheme, GraphemeCondition } from "../../types.js";
 
 export const stopGraphemes: Grapheme[] = [
   // pig
@@ -103,7 +103,9 @@ export const stopGraphemes: Grapheme[] = [
     cluster: 100,
     startWord: 1,
     midWord: 1,
-    endWord: 0, },
+    endWord: 0,
+    condition: { notRightContext: ["front-vowel"] },
+  },
   {
     phoneme: "k",
     form: "ck",
@@ -113,6 +115,7 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 10,
+    condition: { leftContext: ["lax-vowel"] },
   },
   {
     phoneme: "k",
@@ -152,6 +155,7 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    condition: { notRightContext: ["front-vowel"] },
   },
   {
     phoneme: "g",
@@ -168,7 +172,7 @@ export const stopGraphemes: Grapheme[] = [
     phoneme: "g",
     form: "gu",
     origin: 3,
-    frequency: 1,
+    frequency: 5,
     coda: 0,
     startWord: 1,
     midWord: 1,

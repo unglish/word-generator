@@ -84,6 +84,9 @@ export interface Phoneme {
   /** Whether the vowel is tense (long) as opposed to lax (short). */
   tense?: boolean;
 
+  /** Whether this vowel was reduced (e.g. schwa substitution in unstressed syllables). */
+  reduced?: boolean;
+
   /** Weighting for appearing at the start of a word. */
   startWord: number;
   /** Weighting for appearing in the middle of a word. */
@@ -99,6 +102,23 @@ export function getPhonemePositionWeight(p: Phoneme, position: 'onset' | 'nucleu
     case 'nucleus': return p.nucleus;
     case 'coda': return p.coda;
   }
+}
+
+/**
+ * Context condition for a grapheme — restricts when a spelling is valid
+ * based on surrounding phonemes and word position.
+ */
+export interface GraphemeCondition {
+  /** Previous phoneme's sound must be in this list (or match a category shorthand). */
+  leftContext?: string[];
+  /** Next phoneme's sound must be in this list (or match a category shorthand). */
+  rightContext?: string[];
+  /** Previous phoneme's sound must NOT be in this list. */
+  notLeftContext?: string[];
+  /** Next phoneme's sound must NOT be in this list. */
+  notRightContext?: string[];
+  /** This grapheme is only valid in these word positions. */
+  wordPosition?: ("initial" | "medial" | "final")[];
 }
 
 /**
@@ -136,6 +156,9 @@ export interface Grapheme {
   midWord: number;
   /** Weighting for appearing at the end of a word. */
   endWord: number;
+
+  /** Context condition restricting when this grapheme is valid. */
+  condition?: GraphemeCondition;
 }
 
 /**

@@ -170,14 +170,6 @@ const buildPronunciationGuide = (context: WordGenerationContext): void => {
 };
 
 /**
- * Check whether a phoneme is a vowel (used as a syllable nucleus).
- */
-const isVowelPhoneme = (p: Phoneme): boolean =>
-  p.mannerOfArticulation === "highVowel" ||
-  p.mannerOfArticulation === "midVowel" ||
-  p.mannerOfArticulation === "lowVowel";
-
-/**
  * Post-generation pass: reduce vowels in unstressed syllables.
  *
  * Only vowels with a matching rule in the config are candidates.
@@ -242,7 +234,7 @@ const reduceUnstressedVowels = (
       if (!target) continue;
 
       if (getWeightedOption([[true, prob], [false, 100 - prob]])) {
-        syllable.nucleus[i] = { ...target };
+        syllable.nucleus[i] = { ...target, reduced: true };
       }
     }
   }

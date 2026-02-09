@@ -92,6 +92,62 @@ export const englishConfig: LanguageConfig = {
     strategy: "weight-sensitive",
   },
 
+  doubling: {
+    enabled: true,
+    trigger: "lax-vowel",
+    probability: 80,
+    maxPerWord: 1,
+    neverDouble: ["v", "w", "j", "h", "ŋ", "θ", "ð", "ʒ", "k"],
+    finalDoublingOnly: ["f", "s", "l", "z"],
+    suppressAfterReduction: true,
+    suppressBeforeTense: true,
+    unstressedModifier: 0.5,
+  },
+
+  spellingRules: [
+    {
+      name: "magic-e",
+      pattern: "([aiouy])e([bcdfghjklmnpqrstvwxyz])$",
+      replacement: "$1$2e",
+      probability: 98,
+      scope: "syllable",
+    },
+    {
+      name: "ks-to-x",
+      pattern: "(?<!^)ks",
+      replacement: "x",
+      probability: 25,
+    },
+    {
+      name: "hard-c-before-front-vowel",
+      pattern: "c([eiy])",
+      replacement: "k$1",
+      probability: 100,
+      scope: "word",
+    },
+    {
+      name: "no-final-v",
+      pattern: "v$",
+      replacement: "ve",
+      probability: 95,
+      scope: "word",
+    },
+    {
+      name: "no-final-j",
+      pattern: "j$",
+      replacement: "ge",
+      probability: 95,
+      scope: "word",
+    },
+    {
+      name: "no-final-i",
+      pattern: "i$",
+      replacement: "y",
+      probability: 95,
+      scope: "word",
+    },
+  ],
+
   vowelReduction: {
     enabled: true,
     rules: [

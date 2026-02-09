@@ -159,6 +159,53 @@ export interface VowelReductionConfig {
 }
 
 // ---------------------------------------------------------------------------
+// Doubling & Spelling Rules
+// ---------------------------------------------------------------------------
+
+/**
+ * Language-level consonant doubling strategy.
+ * Controls how a language signals vowel length/quality through consonant spelling.
+ */
+export interface DoublingConfig {
+  /** Master switch. */
+  enabled: boolean;
+  /** What triggers doubling. */
+  trigger: "lax-vowel" | "gemination" | "none";
+  /** Base probability (0-100) when trigger condition is met. */
+  probability: number;
+  /** Max doubled consonants per word. */
+  maxPerWord: number;
+  /** IPA sounds that never double. */
+  neverDouble: string[];
+  /** Word-final doubling restricted to these sounds only. */
+  finalDoublingOnly?: string[];
+  /** Suppress doubling after vowels that were reduced (schwa substitution). */
+  suppressAfterReduction: boolean;
+  /** Suppress doubling when the next nucleus is tense or a diphthong. */
+  suppressBeforeTense: boolean;
+  /** Probability modifier for unstressed syllable context (0.0-1.0). */
+  unstressedModifier?: number;
+}
+
+/**
+ * A post-selection spelling rule (regex-based transformation on written output).
+ */
+export interface SpellingRule {
+  /** Human-readable name for debugging. */
+  name: string;
+  /** Regex pattern to match in the written form. */
+  pattern: string;
+  /** Regex flags (default: "g"). */
+  flags?: string;
+  /** Replacement string (can use $1, $2 capture groups). */
+  replacement: string;
+  /** Probability (0-100) of applying when matched. Default: 100. */
+  probability?: number;
+  /** When to apply: "syllable" (per-syllable), "word" (full word), or "both" (default). */
+  scope?: "syllable" | "word" | "both";
+}
+
+// ---------------------------------------------------------------------------
 // Main interface
 // ---------------------------------------------------------------------------
 
@@ -233,6 +280,12 @@ export interface LanguageConfig {
    * reduce toward schwa /ə/. This config controls that behaviour.
    */
   vowelReduction?: VowelReductionConfig;
+
+  /** Consonant doubling strategy. */
+  doubling?: DoublingConfig;
+
+  /** Post-selection spelling adjustments. */
+  spellingRules?: SpellingRule[];
 }
 
 // ---------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 /** Fricative graphemes: /f/, /v/, /θ/, /ð/, /s/, /z/, /ʃ/, /ʒ/, /h/. */
-import { Grapheme } from "../../types.js";
+import { Grapheme, GraphemeCondition } from "../../types.js";
 
 export const fricativeGraphemes: Grapheme[] = [
   // fish
@@ -90,7 +90,9 @@ export const fricativeGraphemes: Grapheme[] = [
     cluster: 0,
     startWord: 1,
     midWord: 1,
-    endWord: 0, },
+    endWord: 0,
+    condition: { rightContext: ["front-vowel"] },
+  },
   {
     phoneme: "s",
     form: "sc",
@@ -211,6 +213,7 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    condition: { rightContext: ["vowel"] },
   },
   {
     phoneme: "ʃ",
@@ -221,6 +224,7 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    condition: { rightContext: ["vowel"] },
   },
   {
     phoneme: "ʃ",
@@ -251,6 +255,7 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    condition: { rightContext: ["vowel"] },
   },
   {
     phoneme: "ʃ",

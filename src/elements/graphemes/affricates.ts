@@ -1,5 +1,5 @@
 /** Affricate graphemes: /tʃ/ (ch), /dʒ/ (j). */
-import { Grapheme } from "../../types.js";
+import { Grapheme, GraphemeCondition } from "../../types.js";
 
 export const affricateGraphemes: Grapheme[] = [
   // cheese
@@ -21,6 +21,7 @@ export const affricateGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    condition: { leftContext: ["lax-vowel"] },
   },
   {
     phoneme: "tʃ",
@@ -54,6 +55,7 @@ export const affricateGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
+    condition: { rightContext: ["front-vowel"] },
   },
   {
     phoneme: "dʒ",
@@ -85,6 +87,7 @@ export const affricateGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 1,
+    condition: { leftContext: ["lax-vowel"] },
   },
   {
     phoneme: "dʒ",
