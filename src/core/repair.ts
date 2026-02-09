@@ -28,9 +28,18 @@ export function repairClusters(
       switch (repair) {
         case "drop-coda":
           coda.pop();
+          // After dropping, the new last coda phoneme may also be banned
+          while (coda.length > 0 && onset.length > 0 &&
+                 bannedSet.has(`${coda[coda.length - 1].sound}|${onset[0].sound}`)) {
+            coda.pop();
+          }
           break;
         case "drop-onset":
           onset.shift();
+          while (coda.length > 0 && onset.length > 0 &&
+                 bannedSet.has(`${coda[coda.length - 1].sound}|${onset[0].sound}`)) {
+            onset.shift();
+          }
           break;
       }
     }
