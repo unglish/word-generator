@@ -438,6 +438,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           syllables[si].coda[syllables[si].coda.length - 1].sound === 'g' &&
           /^[eiy]/i.test(nextPart)) {
         cleanParts[si] = part + 'u';
+        // hyphenatedParts interleaves syllable strings (even indices) with
+        // "&shy;" separators (odd indices), so syllable `si` maps to index `si * 2`.
         hyphenatedParts[si * 2] = hyphenatedParts[si * 2] + 'u';
       }
     }
