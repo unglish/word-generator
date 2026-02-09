@@ -23,7 +23,8 @@ const COMMON_WORDS = new Set([
 ]); // 104 words
 
 const MAX_ITERATIONS = 5_000_000;
-const MILESTONES = [50, 75, 90, 100] as const;
+// Milestones as percentages of COMMON_WORDS.size
+const MILESTONE_PCTS = [50, 75, 90, 100] as const;
 const TRIALS = 5;
 const GATE_SAMPLE_SIZE = 200_000;
 
@@ -77,8 +78,10 @@ describe('Quality Benchmark', () => {
   for (let trial = 0; trial < TRIALS; trial++) {
     it(`Common words trial ${trial + 1}/${TRIALS}`, { timeout: 600_000 }, () => {
       const found = new Set<string>();
+      const total = COMMON_WORDS.size;
+      const milestoneTargets = MILESTONE_PCTS.map(pct => Math.ceil(total * pct / 100));
       const milestoneHits: Record<number, number | null> = {};
-      for (const m of MILESTONES) milestoneHits[m] = null;
+      for (const pct of MILESTONE_PCTS) milestoneHits[pct] = null;
 
       const seedOffset = trial * MAX_ITERATIONS;
 
@@ -88,18 +91,19 @@ describe('Quality Benchmark', () => {
 
         if (COMMON_WORDS.has(written)) {
           found.add(written);
-          for (const m of MILESTONES) {
-            if (milestoneHits[m] === null && found.size >= m) {
-              milestoneHits[m] = i + 1;
+          for (let mi = 0; mi < MILESTONE_PCTS.length; mi++) {
+            const pct = MILESTONE_PCTS[mi];
+            if (milestoneHits[pct] === null && found.size >= milestoneTargets[mi]) {
+              milestoneHits[pct] = i + 1;
             }
           }
-          if (found.size >= COMMON_WORDS.size) break;
+          if (found.size >= total) break;
         }
       }
 
-      console.log(`Trial ${trial + 1}: found ${found.size}/${COMMON_WORDS.size} common words`);
-      for (const m of MILESTONES) {
-        console.log(`  ${m} words: ${fmt(milestoneHits[m])}`);
+      console.log(`Trial ${trial + 1}: found ${found.size}/${total} common words`);
+      for (const pct of MILESTONE_PCTS) {
+        console.log(`  ${pct}%: ${fmt(milestoneHits[pct])}`);
       }
 
       trialResults.push(milestoneHits);
@@ -203,9 +207,9 @@ describe('Quality Benchmark', () => {
 
       // Build common words section from trial results (may be empty if gates-only run)
       const milestoneData: Record<string, { median: number | null; values: (number | null)[] }> = {};
-      for (const m of MILESTONES) {
-        const values = trialResults.map(t => t[m]);
-        milestoneData[String(m)] = { median: median(values), values };
+      for (const pct of MILESTONE_PCTS) {
+        const values = trialResults.map(t => t[pct]);
+        milestoneData[`${pct}%`] = { median: median(values), values };
       }
 
       const fullReport = {

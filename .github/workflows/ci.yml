@@ -60,10 +60,10 @@ jobs:
             let commonSection = '';
             if (trialsRan) {
               let commonTable = '| Milestone | Iterations |\n|-----------|------------|\n';
-              for (const m of [50, 75, 90, 100]) {
-                const data = milestones[String(m)];
+              for (const pct of [50, 75, 90, 100]) {
+                const data = milestones[`${pct}%`];
                 const val = data ? fmt(data.median) : 'N/A';
-                commonTable += `| ${m} words | ${val} |\n`;
+                commonTable += `| ${pct}% | ${val} |\n`;
               }
               commonSection = `### Common Words (median of ${report.commonWords.trials} trials, max ${fmt(report.commonWords.maxIterations)} iterations)\n${commonTable}\n`;
             }
