@@ -26,9 +26,9 @@ interface GeneratorRuntime {
   };
   generateWrittenForm: (context: WordGenerationContext) => void;
   bannedSet?: Set<string>;
-  clusterRepair?: "drop-coda" | "drop-onset" | "insert-schwa";
+  clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
-  codaRepair?: "drop" | "append-schwa";
+  codaRepair?: "drop";
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {

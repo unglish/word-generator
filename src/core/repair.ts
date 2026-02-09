@@ -12,7 +12,7 @@ import { Syllable } from "../types.js";
 export function repairClusters(
   syllables: Syllable[],
   bannedSet: Set<string>,
-  repair: "drop-coda" | "drop-onset" | "insert-schwa",
+  repair: "drop-coda" | "drop-onset",
 ): void {
 
   for (let i = 0; i < syllables.length - 1; i++) {
@@ -32,9 +32,6 @@ export function repairClusters(
         case "drop-onset":
           onset.shift();
           break;
-        case "insert-schwa":
-          // Not implemented for now
-          break;
       }
     }
   }
@@ -47,7 +44,7 @@ export function repairClusters(
 export function repairFinalCoda(
   syllables: Syllable[],
   allowedFinalSet: Set<string>,
-  repair: "drop" | "append-schwa",
+  repair: "drop",
 ): void {
   if (syllables.length === 0) return;
 
@@ -58,10 +55,6 @@ export function repairFinalCoda(
 
   // Keep dropping disallowed final phonemes
   while (coda.length > 0 && !allowedFinalSet.has(coda[coda.length - 1].sound)) {
-    if (repair === "drop") {
-      coda.pop();
-    } else {
-      break; // append-schwa not implemented
-    }
+    coda.pop();
   }
 }

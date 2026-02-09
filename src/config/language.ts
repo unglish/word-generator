@@ -7,14 +7,14 @@ export interface ClusterConstraint {
   /** [coda sound, onset sound] pairs that are illegal across syllable boundaries. */
   banned?: [string, string][];
   /** How to repair a banned cluster. */
-  repair: "drop-coda" | "drop-onset" | "insert-schwa";
+  repair: "drop-coda" | "drop-onset";
 }
 
 export interface CodaConstraints {
   /** Phoneme sounds allowed in word-final position. */
   allowedFinal?: string[];
   /** How to repair a disallowed final phoneme. */
-  repair: "drop" | "append-schwa";
+  repair: "drop";
 }
 
 // ---------------------------------------------------------------------------
