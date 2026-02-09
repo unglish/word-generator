@@ -1,5 +1,5 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../types";
-import getWeightedOption from "../utils/getWeightedOption";
+import getWeightedOption from "../utils/getWeightedOption.js";
 
 const aspirateSyllable = (position: number, context: WordGenerationContext): void => {
   const { word, syllableCount } = context;

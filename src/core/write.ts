@@ -1,6 +1,6 @@
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { LanguageConfig } from "../config/language.js";
-import { getRand } from '../utils/random';
+import { getRand } from '../utils/random.js';
 import getWeightedOption from "../utils/getWeightedOption.js";
 
 /**

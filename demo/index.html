@@ -93,7 +93,7 @@
     <script type="module">
         import unglish from '../dist/index.js';
 
-        document.addEventListener('DOMContentLoaded', () => {
+        if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); } function init() {
             document.body.innerHTML = `
                 <div id="singleWord">Generating single word...</div>
                 <div id="haiku">Generating haiku...</div>
@@ -335,7 +335,7 @@
                 generateHaiku();
                 duplicateWorker.postMessage({action: 'findDuplicates', iterations: 10000});
             });
-        });
+        }
     </script>
 </head>
 <body>
