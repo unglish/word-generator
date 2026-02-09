@@ -37,7 +37,7 @@ jobs:
         run: npx vitest run --config vitest.quality.config.ts --reporter=verbose
 
       - name: Post Quality Report
-        if: github.event_name == 'pull_request' && always()
+        if: github.event_name == 'pull_request' && (success() || failure())
         uses: actions/github-script@v7
         with:
           script: |
@@ -50,7 +50,8 @@ jobs:
             }
 
             const report = JSON.parse(fs.readFileSync(path, 'utf8'));
-            const fmt = (n) => n !== null && n !== undefined ? Number(n).toLocaleString() : 'not reached';
+            const nf = new Intl.NumberFormat('en-US');
+            const fmt = (n) => n !== null && n !== undefined ? nf.format(Number(n)) : 'not reached';
 
             // Common words table
             const milestones = report.commonWords?.milestones || {};
