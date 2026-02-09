@@ -123,10 +123,3 @@ export const HAS_CODA_END_OF_WORD = 90;
 
 /** Chance (out of 100) that a non-final syllable of a polysyllabic word has a coda. */
 export const HAS_CODA_MID_WORD = 30;
-
-// ---------------------------------------------------------------------------
-// Vowel reduction
-// ---------------------------------------------------------------------------
-
-/** Chance (out of 100) that an unstressed syllable's vowel reduces to schwa. */
-export const VOWEL_REDUCTION_PROBABILITY = 60;
