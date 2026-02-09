@@ -243,7 +243,69 @@ export const englishConfig: LanguageConfig = {
   },
 
   writtenFormConstraints: {
-    maxConsonantLetters: 4,
+    maxConsonantGraphemes: 4,
+    consonantGraphemes: [
+      "tch", "dge",                           // trigraphs (3 letters → 1 unit)
+      "ch", "sh", "th", "ng", "ph", "wh", "ck", // digraphs (2 letters → 1 unit)
+    ],
+    attestedJunctions: [
+      // n + X
+      ["n", "t"], ["n", "d"], ["n", "k"], ["n", "g"], ["n", "s"], ["n", "z"],
+      ["n", "ch"], ["n", "j"], ["n", "th"], ["n", "f"], ["n", "v"],
+      ["n", "sh"], ["n", "m"], ["n", "l"], ["n", "r"], ["n", "w"],
+      // s + X
+      ["s", "t"], ["s", "k"], ["s", "p"], ["s", "n"], ["s", "m"],
+      ["s", "l"], ["s", "w"], ["s", "h"], ["s", "f"],
+      // l + X
+      ["l", "k"], ["l", "t"], ["l", "d"], ["l", "f"], ["l", "p"], ["l", "b"],
+      ["l", "m"], ["l", "n"], ["l", "s"], ["l", "v"], ["l", "ch"], ["l", "j"],
+      ["l", "th"], ["l", "sh"], ["l", "g"], ["l", "z"], ["l", "r"], ["l", "w"],
+      // r + X
+      ["r", "t"], ["r", "d"], ["r", "k"], ["r", "n"], ["r", "m"], ["r", "l"],
+      ["r", "s"], ["r", "v"], ["r", "f"], ["r", "p"], ["r", "b"], ["r", "ch"],
+      ["r", "j"], ["r", "th"], ["r", "sh"], ["r", "g"], ["r", "z"], ["r", "w"],
+      ["r", "h"],
+      // m + X
+      ["m", "p"], ["m", "b"], ["m", "f"], ["m", "s"], ["m", "n"],
+      ["m", "z"], ["m", "th"],
+      // p + X
+      ["p", "t"], ["p", "s"], ["p", "th"], ["p", "l"], ["p", "r"],
+      // k + X (includes ck)
+      ["k", "t"], ["k", "s"], ["k", "n"], ["k", "l"], ["k", "r"], ["k", "w"],
+      ["ck", "t"], ["ck", "s"], ["ck", "n"], ["ck", "l"], ["ck", "r"], ["ck", "w"],
+      // t + X
+      ["t", "s"], ["t", "z"], ["t", "r"], ["t", "l"], ["t", "w"], ["t", "n"],
+      // f + X
+      ["f", "t"], ["f", "s"], ["f", "l"], ["f", "r"], ["f", "th"],
+      // d + X
+      ["d", "r"], ["d", "l"], ["d", "w"], ["d", "n"], ["d", "s"], ["d", "z"],
+      // th + X (flexible — th can precede most onsets)
+      ["th", "r"], ["th", "l"], ["th", "w"], ["th", "s"], ["th", "n"],
+      ["th", "m"], ["th", "f"], ["th", "t"], ["th", "d"], ["th", "k"],
+      ["th", "p"], ["th", "b"], ["th", "g"],
+      // sh + X (flexible)
+      ["sh", "r"], ["sh", "l"], ["sh", "w"], ["sh", "n"], ["sh", "m"],
+      ["sh", "t"], ["sh", "d"], ["sh", "k"], ["sh", "p"], ["sh", "b"],
+      // ng + X
+      ["ng", "k"], ["ng", "g"], ["ng", "l"], ["ng", "r"], ["ng", "w"],
+      ["ng", "s"], ["ng", "z"], ["ng", "th"],
+      // b + X
+      ["b", "l"], ["b", "r"], ["b", "s"], ["b", "z"], ["b", "d"],
+      // g + X
+      ["g", "l"], ["g", "r"], ["g", "z"], ["g", "d"], ["g", "n"],
+      // v + X
+      ["v", "l"], ["v", "r"], ["v", "z"], ["v", "d"], ["v", "n"],
+      // z + X
+      ["z", "l"], ["z", "r"], ["z", "d"], ["z", "n"], ["z", "m"],
+      // ch + X (as coda, like in "lunchroom")
+      ["ch", "r"], ["ch", "l"], ["ch", "w"], ["ch", "n"], ["ch", "m"],
+      ["ch", "t"], ["ch", "s"],
+      // tch + X
+      ["tch", "r"], ["tch", "l"], ["tch", "n"], ["tch", "m"],
+      ["tch", "s"],
+      // ph + X
+      ["ph", "t"], ["ph", "s"], ["ph", "r"], ["ph", "l"],
+    ],
   },
 
   sonorityConstraints: {
