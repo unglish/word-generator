@@ -118,6 +118,12 @@ export const englishConfig: LanguageConfig = {
       probability: 25,
     },
     {
+      name: "hard-c-before-front-vowel",
+      pattern: "c([eiy])",
+      replacement: "k$1",
+      probability: 100,
+    },
+    {
       name: "no-final-v",
       pattern: "v$",
       replacement: "ve",

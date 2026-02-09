@@ -486,7 +486,29 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
     }
 
-    written.clean = cleanParts.join('');
+    // Post-join pass: apply spelling rules to the full word
+    let fullClean = cleanParts.join('');
+    for (const rule of compiledRules) {
+      rule.regex.lastIndex = 0;
+      if (rule.probability >= 100) {
+        fullClean = fullClean.replace(rule.regex, rule.replacement);
+      } else {
+        fullClean = fullClean.replace(rule.regex, (match: string, ...args: any[]) => {
+          if (getRand()() < rule.probability / 100) {
+            let rep = rule.replacement;
+            for (let i = 0; i < args.length - 2; i++) {
+              if (args[i] !== undefined) {
+                rep = rep.replace(`$${i + 1}`, args[i]);
+              }
+            }
+            return rep;
+          }
+          return match;
+        });
+      }
+    }
+
+    written.clean = fullClean;
     written.hyphenated = hyphenatedParts.join('');
   };
 }
