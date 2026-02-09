@@ -2,11 +2,11 @@ import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, 
 import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
 import { createSeededRandom } from "../utils/createSeededRandom.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { LanguageConfig, computeSonorityLevels, validateConfig } from "../config/language.js";
+import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
-import { repairClusters, repairFinalCoda } from "./repair.js";
+import { repairClusters, repairFinalCoda, repairClusterShape } from "./repair.js";
 import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------
@@ -16,18 +16,27 @@ import type { GenerationWeights } from "../config/language.js";
 interface GeneratorRuntime {
   config: LanguageConfig;
   sonorityLevels: Map<Phoneme, number>;
+  /** Sonority level by phoneme sound string (for quick lookup). */
+  sonorityBySound: Map<string, number>;
   positionPhonemes: { onset: Phoneme[]; coda: Phoneme[]; nucleus: Phoneme[] };
   invalidClusterRegexes: {
-    onset: RegExp;
-    coda: RegExp;
+    onset: RegExp | null;
+    coda: RegExp | null;
     /** Maps to config.invalidClusters.boundary — keyed "nucleus" because
      *  ClusterContext.position uses "nucleus" as the catch-all third position. */
-    nucleus: RegExp;
+    nucleus: RegExp | null;
   };
   generateWrittenForm: (context: WordGenerationContext) => void;
   bannedSet?: Set<string>;
   clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
+  clusterLimits?: ClusterLimits;
+  sonorityConstraints?: SonorityConstraints;
+  codaAppendantSet?: Set<string>;
+  onsetPrependerSet?: Set<string>;
+  sonorityExemptSet?: Set<string>;
+  attestedOnsetSet?: Set<string>;
+  attestedCodaSet?: Set<string>;
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
@@ -40,10 +49,13 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     nucleus: Array.from(config.phonemeMaps.nucleus.values()).flat(),
   };
 
+  const makeRegex = (patterns: string[]) =>
+    patterns.length > 0 ? new RegExp(patterns.join('|'), 'i') : null;
+
   const invalidClusterRegexes = {
-    onset: new RegExp(config.invalidClusters.onset.join('|'), 'i'),
-    coda: new RegExp(config.invalidClusters.coda.join('|'), 'i'),
-    nucleus: new RegExp(config.invalidClusters.boundary.join('|'), 'i'),
+    onset: makeRegex(config.invalidClusters.onset),
+    coda: makeRegex(config.invalidClusters.coda),
+    nucleus: makeRegex(config.invalidClusters.boundary),
   };
 
   const generateWrittenForm = createWrittenFormGenerator(config);
@@ -52,12 +64,31 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     ? new Set(config.clusterConstraint.banned.map(([a, b]) => `${a}|${b}`))
     : undefined;
 
+  const sonorityBySound = new Map<string, number>();
+  for (const [phoneme, level] of sonorityLevels) {
+    sonorityBySound.set(phoneme.sound, level);
+  }
+
+  const cl = config.clusterLimits;
+  const sc = config.sonorityConstraints;
+
   return {
-    config, sonorityLevels, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
+    config, sonorityLevels, sonorityBySound, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
     bannedSet,
     clusterRepair: config.clusterConstraint?.repair,
     allowedFinalSet: config.codaConstraints?.allowedFinal
       ? new Set(config.codaConstraints.allowedFinal)
+      : undefined,
+    clusterLimits: cl,
+    sonorityConstraints: sc,
+    codaAppendantSet: cl?.codaAppendants ? new Set(cl.codaAppendants) : undefined,
+    onsetPrependerSet: cl?.onsetPrependers ? new Set(cl.onsetPrependers) : undefined,
+    sonorityExemptSet: sc?.exempt ? new Set(sc.exempt) : undefined,
+    attestedOnsetSet: cl?.attestedOnsets
+      ? new Set(cl.attestedOnsets.map(a => a.join("|")))
+      : undefined,
+    attestedCodaSet: cl?.attestedCodas
+      ? new Set(cl.attestedCodas.map(a => a.join("|")))
       : undefined,
   };
 }
@@ -75,27 +106,20 @@ function getSonority(rt: GeneratorRuntime, phoneme: Phoneme): number {
 // ---------------------------------------------------------------------------
 
 function buildCluster(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] {
-  const validCandidates = getValidCandidates(rt.positionPhonemes[context.position], rt, context);
+  const allPositionPhonemes = rt.positionPhonemes[context.position];
 
-  while (context.cluster.length < context.maxLength && validCandidates.length > 0) {
+  while (context.cluster.length < context.maxLength) {
+    const validCandidates = getValidCandidates(allPositionPhonemes, rt, context);
+    if (validCandidates.length === 0) break;
+
     const newPhoneme = selectPhoneme(validCandidates, context);
     if (!newPhoneme) break;
 
     context.cluster.push(newPhoneme);
-    if (shouldStopClusterGrowth(context)) break;
-
-    updateValidCandidates(validCandidates, rt, context);
+    if (shouldStopClusterGrowth(context, rt)) break;
   }
 
   return context.cluster;
-}
-
-function updateValidCandidates(candidates: Phoneme[], rt: GeneratorRuntime, context: ClusterContext) {
-  for (let i = candidates.length - 1; i >= 0; i--) {
-    if (!isValidCandidate(candidates[i], rt, context)) {
-      candidates.splice(i, 1);
-    }
-  }
 }
 
 function getValidCandidates(candidatePhonemes: Phoneme[], rt: GeneratorRuntime, context: ClusterContext): Phoneme[] {
@@ -105,13 +129,36 @@ function getValidCandidates(candidatePhonemes: Phoneme[], rt: GeneratorRuntime, 
 function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterContext): boolean {
   if (context.ignore.includes(p.sound) ||
       context.cluster.some(existingP => existingP.sound === p.sound) ||
-      !isValidPosition(p, context) ||
-      !checkSonority(p, rt, context)) {
+      !isValidPosition(p, context)) {
     return false;
   }
 
-  const potentialCluster = context.cluster.map(ph => ph.sound).join('') + p.sound;
-  return !rt.invalidClusterRegexes[context.position].test(potentialCluster);
+  // When attested onset whitelist exists, use it as the primary gate for onsets
+  // instead of the general sonority/regex checks
+  if (context.position === "onset" && rt.attestedOnsetSet && context.cluster.length > 0) {
+    const key = [...context.cluster.map(ph => ph.sound), p.sound].join("|");
+    // Must be an exact attested onset or a prefix of one
+    if (rt.attestedOnsetSet.has(key)) return true;
+    return Array.from(rt.attestedOnsetSet).some(a => a.startsWith(key + "|"));
+  }
+
+  // When attested coda whitelist exists, use it as the primary gate for codas
+  if (context.position === "coda" && rt.attestedCodaSet && context.cluster.length > 0) {
+    const key = [...context.cluster.map(ph => ph.sound), p.sound].join("|");
+    if (rt.attestedCodaSet.has(key)) return true;
+    return Array.from(rt.attestedCodaSet).some(a => a.startsWith(key + "|"));
+  }
+
+  // Fallback: standard sonority and regex checks
+  if (!checkSonority(p, rt, context)) return false;
+
+  const regex = rt.invalidClusterRegexes[context.position];
+  if (regex) {
+    const potentialCluster = context.cluster.map(ph => ph.sound).join('') + p.sound;
+    if (regex.test(potentialCluster)) return false;
+  }
+
+  return true;
 }
 
 function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: ClusterContext): boolean {
@@ -122,8 +169,10 @@ function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: C
 }
 
 function isValidCluster(rt: GeneratorRuntime, cluster: Phoneme[], position: "onset" | "coda" | "nucleus"): boolean {
+  const regex = rt.invalidClusterRegexes[position];
+  if (!regex) return true;
   const potentialCluster = cluster.map(ph => ph.sound).join('');
-  return !rt.invalidClusterRegexes[position].test(potentialCluster);
+  return !regex.test(potentialCluster);
 }
 
 // ---------------------------------------------------------------------------
@@ -179,7 +228,7 @@ function checkCodaSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, prevPhone
   const isReversedSonorityException =
     (prevManner == 'stop' && currManner == 'fricative') ||
     (prevManner == 'stop' && currManner == 'sibilant') ||
-    (prevManner == 'sibilant' && currManner === 'nasal');
+    (prevManner == 'nasal' && currManner === 'sibilant');
 
   return isEqualSonorityException || isReversedSonorityException || (currSonority < prevSonority);
 }
@@ -200,10 +249,51 @@ function selectPhoneme(validCandidates: Phoneme[], { position, isStartOfWord, is
   return getWeightedOption(weightedCandidates);
 }
 
-function shouldStopClusterGrowth({ position, cluster }: ClusterContext): boolean {
-  return position === "onset" &&
-         cluster.length === 2 &&
-         ['liquid', 'nasal'].includes(cluster[1].mannerOfArticulation);
+function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime): boolean {
+  const { position, cluster } = context;
+
+  // Check cluster length limits
+  if (rt.clusterLimits) {
+    const cl = rt.clusterLimits;
+    if (position === "onset" && cluster.length >= cl.maxOnset) return true;
+    if (position === "coda") {
+      const effectiveMax = rt.codaAppendantSet && cluster.length > 0 &&
+        rt.codaAppendantSet.has(cluster[cluster.length - 1].sound)
+        ? cl.maxCoda + 1
+        : cl.maxCoda;
+      if (cluster.length >= effectiveMax) return true;
+    }
+  }
+
+  // For onsets with attested whitelist: stop if current cluster is an exact match
+  // and no longer attested onset extends it
+  if (position === "onset" && rt.attestedOnsetSet && cluster.length >= 2) {
+    const key = cluster.map(ph => ph.sound).join("|");
+    if (rt.attestedOnsetSet.has(key)) {
+      // Check if any longer attested onset extends this
+      const hasLonger = Array.from(rt.attestedOnsetSet).some(a => a.startsWith(key + "|"));
+      if (!hasLonger) return true;
+    }
+  }
+
+  // For codas with attested whitelist: stop if current cluster is an exact match
+  // and no longer attested coda extends it
+  if (position === "coda" && rt.attestedCodaSet && cluster.length >= 2) {
+    const key = cluster.map(ph => ph.sound).join("|");
+    if (rt.attestedCodaSet.has(key)) {
+      const hasLonger = Array.from(rt.attestedCodaSet).some(a => a.startsWith(key + "|"));
+      if (!hasLonger) return true;
+    }
+  }
+
+  // Original heuristic: stop after liquid/nasal in onset
+  if (position === "onset" &&
+      cluster.length === 2 &&
+      ['liquid', 'nasal'].includes(cluster[1].mannerOfArticulation)) {
+    return true;
+  }
+
+  return false;
 }
 
 // ---------------------------------------------------------------------------
@@ -405,6 +495,16 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext): void
   generateSyllables(rt, context);
   if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
   if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet);
+  if (rt.clusterLimits || rt.config.codaConstraints?.voicingAgreement || rt.config.codaConstraints?.homorganicNasalStop) {
+    repairClusterShape(context.word.syllables, {
+      clusterLimits: rt.clusterLimits,
+      sonorityConstraints: rt.sonorityConstraints,
+      codaConstraints: rt.config.codaConstraints,
+      sonorityBySound: rt.sonorityBySound,
+      codaAppendantSet: rt.codaAppendantSet,
+      sonorityExemptSet: rt.sonorityExemptSet,
+    });
+  }
   rt.generateWrittenForm(context);
   generatePronunciation(context, rt.config.vowelReduction);
 }

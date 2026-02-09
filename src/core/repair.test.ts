@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { repairClusters, repairFinalCoda } from "./repair.js";
+import { repairClusters, repairFinalCoda, repairClusterShape } from "./repair.js";
 import type { Syllable, Phoneme } from "../types.js";
 
 /** Helper to create a minimal phoneme. */
-function ph(sound: string): Phoneme {
-  return { sound, stress: 0 } as Phoneme;
+function ph(sound: string, overrides?: Partial<Phoneme>): Phoneme {
+  return { sound, stress: 0, ...overrides } as Phoneme;
 }
 
 /** Helper to create a minimal syllable. */
@@ -102,5 +102,138 @@ describe("repairFinalCoda", () => {
     // First syllable's disallowed coda is untouched
     expect(syllables[0].coda.map((p) => p.sound)).toEqual(["ʒ"]);
     expect(syllables[1].coda.map((p) => p.sound)).toEqual(["t"]);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// repairClusterShape
+// ---------------------------------------------------------------------------
+
+/** Helper to create phonemes with articulation metadata for voicing/manner/place. */
+function phFull(sound: string, manner: string, voiced: boolean, place = "alveolar"): Phoneme {
+  return { sound, mannerOfArticulation: manner, voiced, placeOfArticulation: place, stress: 0 } as Phoneme;
+}
+
+function sylFull(onset: Phoneme[], nucleus: Phoneme[], coda: Phoneme[]): Syllable {
+  return { onset, nucleus, coda } as Syllable;
+}
+
+describe("repairClusterShape", () => {
+  describe("cluster length truncation", () => {
+    it("truncates onset to maxOnset", () => {
+      const syllables = [sylFull(
+        [ph("s"), ph("t"), ph("r"), ph("l")],
+        [ph("æ")],
+        [],
+      )];
+      repairClusterShape(syllables, { clusterLimits: { maxOnset: 3, maxCoda: 3 } });
+      expect(syllables[0].onset.map(p => p.sound)).toEqual(["t", "r", "l"]);
+    });
+
+    it("truncates coda to maxCoda", () => {
+      const syllables = [sylFull(
+        [],
+        [ph("æ")],
+        [ph("m"), ph("p"), ph("t"), ph("s")],
+      )];
+      repairClusterShape(syllables, { clusterLimits: { maxOnset: 3, maxCoda: 3 } });
+      expect(syllables[0].coda.map(p => p.sound)).toEqual(["p", "t", "s"]);
+    });
+
+    it("allows coda appendant to extend beyond maxCoda", () => {
+      const syllables = [sylFull(
+        [],
+        [ph("æ")],
+        [ph("m"), ph("p"), ph("t"), ph("s")],
+      )];
+      repairClusterShape(syllables, {
+        clusterLimits: { maxOnset: 3, maxCoda: 3, codaAppendants: ["s", "z"] },
+        codaAppendantSet: new Set(["s", "z"]),
+      });
+      // 4 consonants but last is "s" (appendant), so effective max is 4
+      expect(syllables[0].coda.map(p => p.sound)).toEqual(["m", "p", "t", "s"]);
+    });
+  });
+
+  describe("voicing agreement", () => {
+    it("drops voiced obstruent before voiceless obstruent in coda", () => {
+      // /b/ (voiced stop) + /s/ (voiceless sibilant) → drop /b/
+      const syllables = [sylFull(
+        [],
+        [ph("æ")],
+        [phFull("b", "stop", true, "bilabial"), phFull("s", "sibilant", false)],
+      )];
+      repairClusterShape(syllables, {
+        codaConstraints: { voicingAgreement: true },
+      });
+      expect(syllables[0].coda.map(p => p.sound)).toEqual(["s"]);
+    });
+
+    it("keeps agreeing obstruents", () => {
+      // /p/ (voiceless) + /s/ (voiceless) → keep both
+      const syllables = [sylFull(
+        [],
+        [ph("æ")],
+        [phFull("p", "stop", false, "bilabial"), phFull("s", "sibilant", false)],
+      )];
+      repairClusterShape(syllables, {
+        codaConstraints: { voicingAgreement: true },
+      });
+      expect(syllables[0].coda.map(p => p.sound)).toEqual(["p", "s"]);
+    });
+
+    it("does not affect sonorants", () => {
+      // /n/ (nasal, voiced) + /s/ (voiceless) → keep both (nasal is not obstruent)
+      const syllables = [sylFull(
+        [],
+        [ph("æ")],
+        [phFull("n", "nasal", true), phFull("s", "sibilant", false)],
+      )];
+      repairClusterShape(syllables, {
+        codaConstraints: { voicingAgreement: true },
+      });
+      expect(syllables[0].coda.map(p => p.sound)).toEqual(["n", "s"]);
+    });
+  });
+
+  describe("homorganic nasal+stop", () => {
+    it("drops nasal when place disagrees with following stop", () => {
+      // /m/ (bilabial) + /t/ (alveolar) → drop /m/
+      const syllables = [sylFull(
+        [],
+        [ph("æ")],
+        [phFull("m", "nasal", true, "bilabial"), phFull("t", "stop", false, "alveolar")],
+      )];
+      repairClusterShape(syllables, {
+        codaConstraints: { homorganicNasalStop: true },
+      });
+      expect(syllables[0].coda.map(p => p.sound)).toEqual(["t"]);
+    });
+
+    it("keeps homorganic nasal+stop", () => {
+      // /n/ (alveolar) + /t/ (alveolar) → keep both
+      const syllables = [sylFull(
+        [],
+        [ph("æ")],
+        [phFull("n", "nasal", true, "alveolar"), phFull("t", "stop", false, "alveolar")],
+      )];
+      repairClusterShape(syllables, {
+        codaConstraints: { homorganicNasalStop: true },
+      });
+      expect(syllables[0].coda.map(p => p.sound)).toEqual(["n", "t"]);
+    });
+
+    it("drops ŋ before non-velar stop", () => {
+      // /ŋ/ (velar) + /t/ (alveolar) → drop /ŋ/
+      const syllables = [sylFull(
+        [],
+        [ph("æ")],
+        [phFull("ŋ", "nasal", true, "velar"), phFull("t", "stop", false, "alveolar")],
+      )];
+      repairClusterShape(syllables, {
+        codaConstraints: { homorganicNasalStop: true },
+      });
+      expect(syllables[0].coda.map(p => p.sound)).toEqual(["t"]);
+    });
   });
 });

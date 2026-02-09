@@ -79,3 +79,88 @@ if (codaExamples.length) console.log(`  Examples: ${codaExamples.join("\n       
 
 console.log(`Hard-g visual collisions: ${hardGErrors} (${(hardGErrors / SAMPLE_SIZE * 100).toFixed(2)}%)`);
 if (hardGExamples.length) console.log(`  Examples: ${hardGExamples.join("\n           ")}`);
+
+// ---------------------------------------------------------------------------
+// Cluster length and sonority checks
+// ---------------------------------------------------------------------------
+
+const CL = englishConfig.clusterLimits!;
+const codaAppendants = new Set(CL.codaAppendants ?? []);
+const attestedOnsets = new Set(CL.attestedOnsets!.map(a => a.join("|")));
+
+const attestedCodas = new Set((CL.attestedCodas ?? []).map(a => a.join("|")));
+
+let onsetLenErrors = 0;
+let codaLenErrors = 0;
+let unattestedOnsetErrors = 0;
+let unattestedCodaErrors = 0;
+const onsetLenExamples: string[] = [];
+const codaLenExamples: string[] = [];
+const unattestedExamples: string[] = [];
+const unattestedCodaExamples: string[] = [];
+
+// Rerun to gather cluster stats (or we could have done it in the same loop)
+for (let i = 0; i < SAMPLE_SIZE; i++) {
+  const word = generateWord();
+  const { syllables, written } = word;
+
+  for (const syl of syllables) {
+    // Onset length check
+    if (syl.onset.length > CL.maxOnset) {
+      onsetLenErrors++;
+      if (onsetLenExamples.length < 5)
+        onsetLenExamples.push(`${written.clean} onset=[${syl.onset.map(p=>p.sound).join("")}]`);
+    }
+
+    // Coda length check
+    if (syl.coda.length > 0) {
+      const lastSound = syl.coda[syl.coda.length - 1].sound;
+      const effectiveMax = codaAppendants.has(lastSound) ? CL.maxCoda + 1 : CL.maxCoda;
+      if (syl.coda.length > effectiveMax) {
+        codaLenErrors++;
+        if (codaLenExamples.length < 5)
+          codaLenExamples.push(`${written.clean} coda=[${syl.coda.map(p=>p.sound).join("")}]`);
+      }
+    }
+
+    // Attested onset check (strip aspiration marks added by pronounce.ts)
+    if (syl.onset.length >= 2) {
+      const key = syl.onset.map(p => p.sound.replace(/ʰ$/, "")).join("|");
+      if (!attestedOnsets.has(key)) {
+        unattestedOnsetErrors++;
+        if (unattestedExamples.length < 5)
+          unattestedExamples.push(`${written.clean} onset=[${syl.onset.map(p=>p.sound).join("")}]`);
+      }
+    }
+
+    // Attested coda check (strip appendants before checking)
+    if (syl.coda.length >= 2) {
+      let codaSounds = syl.coda.map(p => p.sound.replace(/ʰ$/, ""));
+      // Strip trailing appendant (s/z) for whitelist check
+      if (codaAppendants.has(codaSounds[codaSounds.length - 1]) && codaSounds.length > 1) {
+        codaSounds = codaSounds.slice(0, -1);
+      }
+      if (codaSounds.length >= 2) {
+        const key = codaSounds.join("|");
+        if (!attestedCodas.has(key)) {
+          unattestedCodaErrors++;
+          if (unattestedCodaExamples.length < 5)
+            unattestedCodaExamples.push(`${written.clean} coda=[${syl.coda.map(p=>p.sound).join("")}]`);
+        }
+      }
+    }
+  }
+}
+
+console.log(`\n--- Cluster validation (second 100k sample) ---`);
+console.log(`Onset length violations (>${CL.maxOnset}): ${onsetLenErrors} (${(onsetLenErrors / SAMPLE_SIZE * 100).toFixed(2)}%)`);
+if (onsetLenExamples.length) console.log(`  Examples: ${onsetLenExamples.join("\n           ")}`);
+
+console.log(`Coda length violations (>${CL.maxCoda}+appendant): ${codaLenErrors} (${(codaLenErrors / SAMPLE_SIZE * 100).toFixed(2)}%)`);
+if (codaLenExamples.length) console.log(`  Examples: ${codaLenExamples.join("\n           ")}`);
+
+console.log(`Unattested onset errors: ${unattestedOnsetErrors} (${(unattestedOnsetErrors / SAMPLE_SIZE * 100).toFixed(2)}%)`);
+if (unattestedExamples.length) console.log(`  Examples: ${unattestedExamples.join("\n           ")}`);
+
+console.log(`Unattested coda errors: ${unattestedCodaErrors} (${(unattestedCodaErrors / SAMPLE_SIZE * 100).toFixed(2)}%)`);
+if (unattestedCodaExamples.length) console.log(`  Examples: ${unattestedCodaExamples.join("\n           ")}`);

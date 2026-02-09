@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { generateWord, _buildCluster as buildCluster, _isValidCluster } from './generate';
 import { ClusterContext, Phoneme } from '../types';
 import { phonemes } from '../elements/phonemes';
+import { englishConfig } from '../config/english';
 
 describe('Word Generator', () => {
   it('generates word with specified syllable count', () => {
@@ -106,22 +107,63 @@ describe('isValidCluster', () => {
     });
   }
 
-  describe('should block invalid onsets', () => {
-    const invalidClusters = [
-      ['t', 'd'],
-      ['d', 'm'],
-      ['f', 'n'],
-      ['s', 'r'],
-      ['p', 'n'],
-      ['k', 'n'],
-      ['d', 'g'],
-      ['dʒ','w'],
-    ];
-    
-    invalidClusters.forEach(cluster => {
-      it(`should block invalid onset: ${cluster.join('')}`, () => {
-        expect(_isValidCluster(getPhonemeBySounds(cluster), 'onset')).toBe(false);
-      });
+  describe('should only generate attested onsets', () => {
+    // With the attested onset whitelist replacing the old regex system,
+    // invalid onsets are blocked during generation (buildCluster) rather
+    // than by a post-hoc isValidCluster check. Verify that 10k generated
+    // onsets only produce attested clusters.
+    it('never generates an unattested multi-consonant onset', () => {
+      const attestedSet = new Set(
+        englishConfig.clusterLimits!.attestedOnsets!.map((a: string[]) => a.join('|'))
+      );
+      for (let i = 0; i < 10000; i++) {
+        const context: ClusterContext = {
+          position: 'onset',
+          cluster: [],
+          ignore: [],
+          isStartOfWord: true,
+          isEndOfWord: false,
+          maxLength: 3,
+          syllableCount: 1,
+        };
+        const cluster = buildCluster(context);
+        if (cluster.length >= 2) {
+          const key = cluster.map(p => p.sound).join('|');
+          expect(attestedSet.has(key)).toBe(true);
+        }
+      }
+    });
+  });
+
+  describe('should only generate attested codas', () => {
+    it('never generates an unattested multi-consonant coda', () => {
+      const attestedSet = new Set(
+        englishConfig.clusterLimits!.attestedCodas!.map((a: string[]) => a.join('|'))
+      );
+      const appendants = new Set(englishConfig.clusterLimits!.codaAppendants ?? []);
+      for (let i = 0; i < 10000; i++) {
+        const context: ClusterContext = {
+          position: 'coda',
+          cluster: [],
+          ignore: [],
+          isStartOfWord: false,
+          isEndOfWord: true,
+          maxLength: 4,
+          syllableCount: 1,
+        };
+        const cluster = buildCluster(context);
+        if (cluster.length >= 2) {
+          let sounds = cluster.map(p => p.sound);
+          // Strip trailing appendant for check
+          if (appendants.has(sounds[sounds.length - 1]) && sounds.length > 2) {
+            sounds = sounds.slice(0, -1);
+          }
+          if (sounds.length >= 2) {
+            const key = sounds.join('|');
+            expect(attestedSet.has(key), `unattested coda: ${sounds.join('+')}`).toBe(true);
+          }
+        }
+      }
     });
   });
 
