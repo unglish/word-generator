@@ -27,7 +27,8 @@ interface GeneratorRuntime {
   generateWrittenForm: (context: WordGenerationContext) => void;
   bannedSet?: Set<string>;
   clusterRepair?: "drop-coda" | "drop-onset" | "insert-schwa";
-  codaConstraints?: { allowedFinal?: string[]; repair: "drop" | "append-schwa" };
+  allowedFinalSet?: Set<string>;
+  codaRepair?: "drop" | "append-schwa";
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
@@ -56,7 +57,10 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     config, sonorityLevels, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
     bannedSet,
     clusterRepair: config.clusterConstraint?.repair,
-    codaConstraints: config.codaConstraints,
+    allowedFinalSet: config.codaConstraints?.allowedFinal
+      ? new Set(config.codaConstraints.allowedFinal)
+      : undefined,
+    codaRepair: config.codaConstraints?.repair,
   };
 }
 
@@ -435,7 +439,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
       try {
         generateSyllables(rt, context);
         if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
-        if (rt.codaConstraints) repairFinalCoda(context.word.syllables, rt.codaConstraints);
+        if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet, rt.codaRepair!);
         rt.generateWrittenForm(context);
         generatePronunciation(context, rt.config.vowelReduction);
 
@@ -481,7 +485,7 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
   try {
     generateSyllables(defaultRuntime, context);
     if (defaultRuntime.bannedSet) repairClusters(context.word.syllables, defaultRuntime.bannedSet, defaultRuntime.clusterRepair!);
-    if (defaultRuntime.codaConstraints) repairFinalCoda(context.word.syllables, defaultRuntime.codaConstraints);
+    if (defaultRuntime.allowedFinalSet) repairFinalCoda(context.word.syllables, defaultRuntime.allowedFinalSet, defaultRuntime.codaRepair!);
     defaultRuntime.generateWrittenForm(context);
     generatePronunciation(context, defaultRuntime.config.vowelReduction);
     return context.word;

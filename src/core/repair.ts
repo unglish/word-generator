@@ -4,7 +4,6 @@
  * phoneme violations.
  */
 import { Syllable } from "../types.js";
-import type { CodaConstraints } from "../config/language.js";
 
 /**
  * Repair cross-syllable consonant cluster violations.
@@ -47,20 +46,19 @@ export function repairClusters(
  */
 export function repairFinalCoda(
   syllables: Syllable[],
-  constraint: CodaConstraints,
+  allowedFinalSet: Set<string>,
+  repair: "drop" | "append-schwa",
 ): void {
-  if (!constraint.allowedFinal || syllables.length === 0) return;
+  if (syllables.length === 0) return;
 
   const lastSyllable = syllables[syllables.length - 1];
   const coda = lastSyllable.coda;
 
   if (coda.length === 0) return;
 
-  const allowedSet = new Set(constraint.allowedFinal);
-
   // Keep dropping disallowed final phonemes
-  while (coda.length > 0 && !allowedSet.has(coda[coda.length - 1].sound)) {
-    if (constraint.repair === "drop") {
+  while (coda.length > 0 && !allowedFinalSet.has(coda[coda.length - 1].sound)) {
+    if (repair === "drop") {
       coda.pop();
     } else {
       break; // append-schwa not implemented
