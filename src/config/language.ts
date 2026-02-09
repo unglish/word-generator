@@ -30,6 +30,8 @@ export interface ClusterLimits {
   onsetPrependers?: string[];
   /** If provided, multi-consonant onsets must match an entry. Overrides pure SSP. */
   attestedOnsets?: string[][];
+  /** If provided, multi-consonant codas must match an entry or prefix of one. */
+  attestedCodas?: string[][];
 }
 
 export interface SonorityConstraints {

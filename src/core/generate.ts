@@ -36,6 +36,7 @@ interface GeneratorRuntime {
   onsetPrependerSet?: Set<string>;
   sonorityExemptSet?: Set<string>;
   attestedOnsetSet?: Set<string>;
+  attestedCodaSet?: Set<string>;
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
@@ -85,6 +86,9 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     sonorityExemptSet: sc?.exempt ? new Set(sc.exempt) : undefined,
     attestedOnsetSet: cl?.attestedOnsets
       ? new Set(cl.attestedOnsets.map(a => a.join("|")))
+      : undefined,
+    attestedCodaSet: cl?.attestedCodas
+      ? new Set(cl.attestedCodas.map(a => a.join("|")))
       : undefined,
   };
 }
@@ -144,6 +148,13 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
     // Must be an exact attested onset or a prefix of one
     if (rt.attestedOnsetSet.has(key)) return true;
     return Array.from(rt.attestedOnsetSet).some(a => a.startsWith(key + "|"));
+  }
+
+  // When attested coda whitelist exists, use it as the primary gate for codas
+  if (context.position === "coda" && rt.attestedCodaSet && context.cluster.length > 0) {
+    const key = [...context.cluster.map(ph => ph.sound), p.sound].join("|");
+    if (rt.attestedCodaSet.has(key)) return true;
+    return Array.from(rt.attestedCodaSet).some(a => a.startsWith(key + "|"));
   }
 
   // Fallback: standard sonority and regex checks
@@ -269,6 +280,16 @@ function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime):
     if (rt.attestedOnsetSet.has(key)) {
       // Check if any longer attested onset extends this
       const hasLonger = Array.from(rt.attestedOnsetSet).some(a => a.startsWith(key + "|"));
+      if (!hasLonger) return true;
+    }
+  }
+
+  // For codas with attested whitelist: stop if current cluster is an exact match
+  // and no longer attested coda extends it
+  if (position === "coda" && rt.attestedCodaSet && cluster.length >= 2) {
+    const key = cluster.map(ph => ph.sound).join("|");
+    if (rt.attestedCodaSet.has(key)) {
+      const hasLonger = Array.from(rt.attestedCodaSet).some(a => a.startsWith(key + "|"));
       if (!hasLonger) return true;
     }
   }

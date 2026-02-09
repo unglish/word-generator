@@ -88,12 +88,16 @@ const CL = englishConfig.clusterLimits!;
 const codaAppendants = new Set(CL.codaAppendants ?? []);
 const attestedOnsets = new Set(CL.attestedOnsets!.map(a => a.join("|")));
 
+const attestedCodas = new Set((CL.attestedCodas ?? []).map(a => a.join("|")));
+
 let onsetLenErrors = 0;
 let codaLenErrors = 0;
 let unattestedOnsetErrors = 0;
+let unattestedCodaErrors = 0;
 const onsetLenExamples: string[] = [];
 const codaLenExamples: string[] = [];
 const unattestedExamples: string[] = [];
+const unattestedCodaExamples: string[] = [];
 
 // Rerun to gather cluster stats (or we could have done it in the same loop)
 for (let i = 0; i < SAMPLE_SIZE; i++) {
@@ -128,6 +132,23 @@ for (let i = 0; i < SAMPLE_SIZE; i++) {
           unattestedExamples.push(`${written.clean} onset=[${syl.onset.map(p=>p.sound).join("")}]`);
       }
     }
+
+    // Attested coda check (strip appendants before checking)
+    if (syl.coda.length >= 2) {
+      let codaSounds = syl.coda.map(p => p.sound.replace(/ʰ$/, ""));
+      // Strip trailing appendant (s/z) for whitelist check
+      if (codaAppendants.has(codaSounds[codaSounds.length - 1]) && codaSounds.length > 1) {
+        codaSounds = codaSounds.slice(0, -1);
+      }
+      if (codaSounds.length >= 2) {
+        const key = codaSounds.join("|");
+        if (!attestedCodas.has(key)) {
+          unattestedCodaErrors++;
+          if (unattestedCodaExamples.length < 5)
+            unattestedCodaExamples.push(`${written.clean} coda=[${syl.coda.map(p=>p.sound).join("")}]`);
+        }
+      }
+    }
   }
 }
 
@@ -140,3 +161,6 @@ if (codaLenExamples.length) console.log(`  Examples: ${codaLenExamples.join("\n 
 
 console.log(`Unattested onset errors: ${unattestedOnsetErrors} (${(unattestedOnsetErrors / SAMPLE_SIZE * 100).toFixed(2)}%)`);
 if (unattestedExamples.length) console.log(`  Examples: ${unattestedExamples.join("\n           ")}`);
+
+console.log(`Unattested coda errors: ${unattestedCodaErrors} (${(unattestedCodaErrors / SAMPLE_SIZE * 100).toFixed(2)}%)`);
+if (unattestedCodaExamples.length) console.log(`  Examples: ${unattestedCodaExamples.join("\n           ")}`);
