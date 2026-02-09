@@ -20,6 +20,7 @@ const COMMON_WORDS = new Set([
   'now', 'look', 'only', 'come', 'its', 'over', 'think', 'also', 'back', 'after',
   'use', 'two', 'how', 'our', 'work', 'first', 'well', 'way', 'even', 'new',
   'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us', 'are', 'was',
+  'had', 'been',
 ]);
 
 const MAX_ITERATIONS = 5_000_000;
@@ -63,7 +64,7 @@ const fmt = (n: number | null | undefined) =>
 
 // NOTE: Test ordering matters. Vitest runs tests within a describe block
 // sequentially in declaration order. The trial tests must run before the
-// gates/metrics block so that trialResults is populated.
+// gates/metrics block so that trialResults is populated for the report.
 
 describe('Quality Benchmark', () => {
   const trialResults: Array<Record<number, number | null>> = [];
@@ -91,11 +92,11 @@ describe('Quality Benchmark', () => {
               milestoneHits[m] = i + 1;
             }
           }
-          if (found.size >= 100) break;
+          if (found.size >= COMMON_WORDS.size) break;
         }
       }
 
-      console.log(`Trial ${trial + 1}: found ${found.size}/100 common words`);
+      console.log(`Trial ${trial + 1}: found ${found.size}/${COMMON_WORDS.size} common words`);
       for (const m of MILESTONES) {
         console.log(`  ${m} words: ${fmt(milestoneHits[m])}`);
       }
@@ -108,16 +109,10 @@ describe('Quality Benchmark', () => {
   // Gates & Metrics (200k sample)
   // -------------------------------------------------------------------------
 
-  // Shared 200k sample, generated once via beforeAll
-  let gateWords: string[] = [];
-
-  beforeAll(() => {
-    // beforeAll runs before the first it() in its describe, but we nest
-    // the gates in a sub-describe so the trials above run first.
-  });
-
   describe('Quality Gates & Metrics', () => {
-    // Shared gate counts — computed once, asserted individually
+    let gateWords: string[] = [];
+
+    // Shared gate counts — computed once in beforeAll, asserted individually
     let fiveConsCount = 0;
     let ngxCount = 0;
     let bkCount = 0;
@@ -205,7 +200,7 @@ describe('Quality Benchmark', () => {
       console.log(`Unique rate: ${uniqueRate}%`);
       console.log(`Length distribution:`, lengthDistribution);
 
-      // Build common words section from trial results
+      // Build common words section from trial results (may be empty if gates-only run)
       const milestoneData: Record<string, { median: number | null; values: (number | null)[] }> = {};
       for (const m of MILESTONES) {
         const values = trialResults.map(t => t[m]);
@@ -213,11 +208,13 @@ describe('Quality Benchmark', () => {
       }
 
       const fullReport = {
-        commonWords: {
-          trials: TRIALS,
-          maxIterations: MAX_ITERATIONS,
-          milestones: milestoneData,
-        },
+        commonWords: trialResults.length > 0
+          ? {
+              trials: trialResults.length,
+              maxIterations: MAX_ITERATIONS,
+              milestones: milestoneData,
+            }
+          : { trials: 0, maxIterations: MAX_ITERATIONS, milestones: {}, note: 'trials skipped' },
         gates: {
           fiveConsecutiveConsonants: fiveConsCount,
           ngx: ngxCount,

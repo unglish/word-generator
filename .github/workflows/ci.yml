@@ -34,6 +34,7 @@ jobs:
         run: npx vitest bench --run
 
       - name: Quality Benchmark
+        if: github.event_name == 'pull_request'
         run: npx vitest run --config vitest.quality.config.ts --reporter=verbose
 
       - name: Post Quality Report
@@ -54,12 +55,17 @@ jobs:
             const fmt = (n) => n !== null && n !== undefined ? nf.format(Number(n)) : 'not reached';
 
             // Common words table
+            const trialsRan = (report.commonWords?.trials || 0) > 0;
             const milestones = report.commonWords?.milestones || {};
-            let commonTable = '| Milestone | Iterations |\n|-----------|------------|\n';
-            for (const m of [50, 75, 90, 100]) {
-              const data = milestones[String(m)];
-              const val = data ? fmt(data.median) : 'N/A';
-              commonTable += `| ${m} words | ${val} |\n`;
+            let commonSection = '';
+            if (trialsRan) {
+              let commonTable = '| Milestone | Iterations |\n|-----------|------------|\n';
+              for (const m of [50, 75, 90, 100]) {
+                const data = milestones[String(m)];
+                const val = data ? fmt(data.median) : 'N/A';
+                commonTable += `| ${m} words | ${val} |\n`;
+              }
+              commonSection = `### Common Words (median of ${report.commonWords.trials} trials, max ${fmt(report.commonWords.maxIterations)} iterations)\n${commonTable}\n`;
             }
 
             // Gates table
@@ -88,7 +94,7 @@ jobs:
             metricsTable += `| Unique rate | ${metrics.uniqueRate}% |\n`;
 
             const marker = '<!-- quality-report -->';
-            const body = `${marker}\n## 🦉 Quality Report\n\n### Common Words (median of ${report.commonWords?.trials || 5} trials, max ${fmt(report.commonWords?.maxIterations)} iterations)\n${commonTable}\n### Quality Gates ${allGatesPass ? '✅' : '❌'}\n${gatesTable}\n### Quality Metrics\n${metricsTable}`;
+            const body = `${marker}\n## 🦉 Quality Report\n\n${commonSection}### Quality Gates ${allGatesPass ? '✅' : '❌'}\n${gatesTable}\n### Quality Metrics\n${metricsTable}`;
 
             // Find existing comment
             const { data: comments } = await github.rest.issues.listComments({
