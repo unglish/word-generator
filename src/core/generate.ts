@@ -6,6 +6,8 @@ import { LanguageConfig, computeSonorityLevels, validateConfig } from "../config
 import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
+import { repairClusters, repairFinalCoda, englishClusterConstraint, englishCodaConstraints } from "./repair.js";
+import type { ClusterConstraint, CodaConstraints } from "./repair.js";
 import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------
@@ -24,6 +26,8 @@ interface GeneratorRuntime {
     nucleus: RegExp;
   };
   generateWrittenForm: (context: WordGenerationContext) => void;
+  clusterConstraint?: ClusterConstraint;
+  codaConstraints?: CodaConstraints;
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
@@ -44,7 +48,11 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
 
   const generateWrittenForm = createWrittenFormGenerator(config);
 
-  return { config, sonorityLevels, positionPhonemes, invalidClusterRegexes, generateWrittenForm };
+  return {
+    config, sonorityLevels, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
+    clusterConstraint: config.clusterConstraint,
+    codaConstraints: config.codaConstraints,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -421,6 +429,8 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 
       try {
         generateSyllables(rt, context);
+        if (rt.clusterConstraint) repairClusters(context.word.syllables, rt.clusterConstraint);
+        if (rt.codaConstraints) repairFinalCoda(context.word.syllables, rt.codaConstraints);
         rt.generateWrittenForm(context);
         generatePronunciation(context, rt.config.vowelReduction);
 
@@ -465,6 +475,8 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
 
   try {
     generateSyllables(defaultRuntime, context);
+    if (defaultRuntime.clusterConstraint) repairClusters(context.word.syllables, defaultRuntime.clusterConstraint);
+    if (defaultRuntime.codaConstraints) repairFinalCoda(context.word.syllables, defaultRuntime.codaConstraints);
     defaultRuntime.generateWrittenForm(context);
     generatePronunciation(context, defaultRuntime.config.vowelReduction);
     return context.word;

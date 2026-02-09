@@ -1,4 +1,5 @@
 import { Phoneme, Grapheme } from "../types.js";
+import type { ClusterConstraint, CodaConstraints } from "../core/repair.js";
 
 // ---------------------------------------------------------------------------
 // Reusable positional type
@@ -286,6 +287,12 @@ export interface LanguageConfig {
 
   /** Post-selection spelling adjustments. */
   spellingRules?: SpellingRule[];
+
+  /** Cross-syllable consonant cluster repair constraints. */
+  clusterConstraint?: ClusterConstraint;
+
+  /** Word-final coda repair constraints. */
+  codaConstraints?: CodaConstraints;
 }
 
 // ---------------------------------------------------------------------------

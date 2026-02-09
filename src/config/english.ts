@@ -1,4 +1,5 @@
 import { LanguageConfig } from "./language.js";
+import { englishClusterConstraint, englishCodaConstraints } from "../core/repair.js";
 import {
   VOICED_BONUS,
   TENSE_BONUS,
@@ -147,6 +148,9 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
   ],
+
+  clusterConstraint: englishClusterConstraint,
+  codaConstraints: englishCodaConstraints,
 
   vowelReduction: {
     enabled: true,
