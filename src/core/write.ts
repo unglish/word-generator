@@ -333,6 +333,181 @@ function applyDoubling(
 }
 
 // ---------------------------------------------------------------------------
+// Consonant pileup repair
+// ---------------------------------------------------------------------------
+
+const VOWEL_LETTERS = new Set(['a', 'e', 'i', 'o', 'u', 'y']);
+
+function isConsonantLetter(ch: string): boolean {
+  return !VOWEL_LETTERS.has(ch.toLowerCase());
+}
+
+/**
+ * Repair consonant pileups by capping consecutive consonant letters at `max`.
+ * Mutates `cleanParts` and `hyphenatedParts` in place.
+ *
+ * Strategy: when a consonant run exceeds `max`, find the syllable boundary
+ * within the run, determine which side (coda vs onset) contributes more
+ * consonant letters, and remove interior consonant letters from the heavier
+ * side until the run fits within the limit.
+ */
+export function repairConsonantPileups(
+  cleanParts: string[],
+  hyphenatedParts: string[],
+  maxConsonantLetters: number,
+): void {
+  // We may need multiple passes since removing letters can merge runs
+  for (let pass = 0; pass < 10; pass++) {
+    const word = cleanParts.join('');
+    // Find first consonant run exceeding max
+    let runStart = -1;
+    let runLen = 0;
+    let found = false;
+    let foundStart = -1;
+    let foundLen = 0;
+
+    for (let i = 0; i <= word.length; i++) {
+      if (i < word.length && isConsonantLetter(word[i])) {
+        if (runStart < 0) runStart = i;
+        runLen = i - runStart + 1;
+      } else {
+        if (runLen > maxConsonantLetters) {
+          found = true;
+          foundStart = runStart;
+          foundLen = runLen;
+          break;
+        }
+        runStart = -1;
+        runLen = 0;
+      }
+    }
+
+    if (!found) return; // All good
+
+    // Map character indices to parts
+    const cumLengths: number[] = [];
+    let cum = 0;
+    for (const part of cleanParts) {
+      cum += part.length;
+      cumLengths.push(cum);
+    }
+
+    // Find the syllable boundary within the run
+    // The boundary is between two parts where the run spans
+    const runEnd = foundStart + foundLen - 1;
+
+    // Find which part each char of the run belongs to
+    function partIndexOf(charIdx: number): number {
+      for (let p = 0; p < cumLengths.length; p++) {
+        if (charIdx < cumLengths[p]) return p;
+      }
+      return cumLengths.length - 1;
+    }
+
+    const startPart = partIndexOf(foundStart);
+    const endPart = partIndexOf(runEnd);
+
+    // If run spans a boundary, find the boundary point
+    // Count consonant letters on the coda side (startPart) vs onset side (endPart)
+    if (startPart === endPart) {
+      // Run is within a single syllable — just trim interior letters
+      const partStart = startPart > 0 ? cumLengths[startPart - 1] : 0;
+      const localStart = foundStart - partStart;
+      const localEnd = localStart + foundLen;
+      const part = cleanParts[startPart];
+      const excess = foundLen - maxConsonantLetters;
+
+      // Remove interior consonant letters (not first or last of the run)
+      const runInPart = part.slice(localStart, localEnd);
+      let trimmed = runInPart[0];
+      const interior = runInPart.slice(1, -1);
+      let removed = 0;
+      // Remove from the middle outward
+      const keep = new Array(interior.length).fill(true);
+      for (let i = Math.floor(interior.length / 2); removed < excess && i < interior.length; i++) {
+        if (isConsonantLetter(interior[i])) { keep[i] = false; removed++; }
+      }
+      for (let i = Math.floor(interior.length / 2) - 1; removed < excess && i >= 0; i--) {
+        if (isConsonantLetter(interior[i])) { keep[i] = false; removed++; }
+      }
+      for (let i = 0; i < interior.length; i++) {
+        if (keep[i]) trimmed += interior[i];
+      }
+      trimmed += runInPart[runInPart.length - 1];
+
+      cleanParts[startPart] = part.slice(0, localStart) + trimmed + part.slice(localEnd);
+      hyphenatedParts[startPart * 2] = cleanParts[startPart];
+      continue;
+    }
+
+    // Run spans boundary between startPart and endPart
+    // Count coda consonants (in startPart) and onset consonants (in endPart)
+    const boundaryCharIdx = cumLengths[startPart]; // first char of endPart
+    const codaConsonants = boundaryCharIdx - foundStart;
+    const onsetConsonants = foundLen - codaConsonants;
+    const excess = foundLen - maxConsonantLetters;
+
+    // Drop from whichever side contributes more; tie → coda
+    const dropFromCoda = codaConsonants >= onsetConsonants;
+    const targetPartIdx = dropFromCoda ? startPart : endPart;
+    const part = cleanParts[targetPartIdx];
+    const partStartChar = targetPartIdx > 0 ? cumLengths[targetPartIdx - 1] : 0;
+
+    // Find the consonant run within this part (at the end for coda, start for onset)
+    let localConsonants: { idx: number; ch: string }[] = [];
+    if (dropFromCoda) {
+      // Consonants at end of part
+      for (let i = part.length - 1; i >= 0 && isConsonantLetter(part[i]); i--) {
+        localConsonants.unshift({ idx: i, ch: part[i] });
+      }
+    } else {
+      // Consonants at start of part
+      for (let i = 0; i < part.length && isConsonantLetter(part[i]); i++) {
+        localConsonants.push({ idx: i, ch: part[i] });
+      }
+    }
+
+    // Remove interior consonants (not first/last of the local run)
+    // Prefer digraph-like positions (just remove from interior)
+    const toRemove = new Set<number>();
+    if (localConsonants.length > 2) {
+      const interior = localConsonants.slice(1, -1);
+      // Sort by distance from center (middle first)
+      const mid = (interior.length - 1) / 2;
+      interior.sort((a, b) => Math.abs(interior.indexOf(a) - mid) - Math.abs(interior.indexOf(b) - mid));
+      for (const c of interior) {
+        if (toRemove.size >= excess) break;
+        toRemove.add(c.idx);
+      }
+    }
+    // If we still need more, remove edge consonants (but preserve at least one)
+    if (toRemove.size < excess && localConsonants.length > 1) {
+      // Remove from interior side of edges
+      if (dropFromCoda && toRemove.size < excess) {
+        // Remove first of the coda run (least important edge)
+        for (const c of localConsonants) {
+          if (toRemove.size >= excess) break;
+          if (!toRemove.has(c.idx)) { toRemove.add(c.idx); }
+        }
+      } else {
+        // Remove last of the onset run
+        for (let i = localConsonants.length - 1; i >= 0 && toRemove.size < excess; i--) {
+          if (!toRemove.has(localConsonants[i].idx)) { toRemove.add(localConsonants[i].idx); }
+        }
+      }
+    }
+
+    let newPart = '';
+    for (let i = 0; i < part.length; i++) {
+      if (!toRemove.has(i)) newPart += part[i];
+    }
+
+    cleanParts[targetPartIdx] = newPart;
+    hyphenatedParts[targetPartIdx * 2] = newPart;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Factory
 // ---------------------------------------------------------------------------
 
@@ -442,6 +617,11 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         // "&shy;" separators (odd indices), so syllable `si` maps to index `si * 2`.
         hyphenatedParts[si * 2] = hyphenatedParts[si * 2] + 'u';
       }
+    }
+
+    // Consonant pileup repair
+    if (config.writtenFormConstraints?.maxConsonantLetters) {
+      repairConsonantPileups(cleanParts, hyphenatedParts, config.writtenFormConstraints.maxConsonantLetters);
     }
 
     // Post-join pass: apply word-scope spelling rules

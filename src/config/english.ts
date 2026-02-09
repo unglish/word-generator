@@ -242,6 +242,10 @@ export const englishConfig: LanguageConfig = {
     ],
   },
 
+  writtenFormConstraints: {
+    maxConsonantLetters: 4,
+  },
+
   sonorityConstraints: {
     risingOnset: true,
     fallingCoda: true,

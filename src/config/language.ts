@@ -251,6 +251,15 @@ export interface SpellingRule {
 }
 
 // ---------------------------------------------------------------------------
+// Written-form constraints
+// ---------------------------------------------------------------------------
+
+export interface WrittenFormConstraints {
+  /** Max consecutive consonant letters allowed. Default: 4. */
+  maxConsonantLetters?: number;
+}
+
+// ---------------------------------------------------------------------------
 // Main interface
 // ---------------------------------------------------------------------------
 
@@ -343,6 +352,9 @@ export interface LanguageConfig {
 
   /** Feature-based sonority sequencing constraints. */
   sonorityConstraints?: SonorityConstraints;
+
+  /** Written-form readability constraints. */
+  writtenFormConstraints?: WrittenFormConstraints;
 }
 
 // ---------------------------------------------------------------------------
