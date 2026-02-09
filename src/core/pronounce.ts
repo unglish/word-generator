@@ -242,7 +242,7 @@ const reduceUnstressedVowels = (
       if (!target) continue;
 
       if (getWeightedOption([[true, prob], [false, 100 - prob]])) {
-        syllable.nucleus[i] = { ...target };
+        syllable.nucleus[i] = { ...target, reduced: true };
       }
     }
   }
