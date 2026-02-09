@@ -121,6 +121,43 @@ export interface StressRules {
   fixedPosition?: number;
 }
 
+/**
+ * A single vowel-reduction mapping: source vowel → target reduced vowel
+ * with an associated probability.
+ */
+export interface VowelReductionRule {
+  /** Source vowel IPA symbol */
+  source: string;
+  /** Target reduced vowel IPA symbol */
+  target: string;
+  /** Reduction probability 0-100 */
+  probability: number;
+}
+
+/**
+ * Configuration for vowel reduction in unstressed syllables.
+ *
+ * Stress-timed languages (e.g. English) reduce unstressed vowels toward
+ * a central vowel (typically schwa /ə/).  Tense vowels and diphthongs
+ * resist reduction more than lax monophthongs.
+ */
+export interface VowelReductionConfig {
+  /** Whether vowel reduction is enabled at all. */
+  enabled: boolean;
+  /** Per-vowel reduction rules. Vowels not listed are immune. */
+  rules: VowelReductionRule[];
+  /** Whether secondary-stressed syllables can reduce */
+  reduceSecondaryStress: boolean;
+  /** Probability multiplier for secondary stress (0-100), applied on top of per-vowel probability */
+  secondaryStressProbability?: number;
+  /** Positional probability multipliers (0.0-1.0) */
+  positionalModifiers?: {
+    wordInitial?: number;
+    wordMedial?: number;
+    wordFinal?: number;
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Main interface
 // ---------------------------------------------------------------------------
@@ -188,6 +225,14 @@ export interface LanguageConfig {
 
   /** Stress assignment rules */
   stress: StressRules;
+
+  /**
+   * Vowel reduction settings for unstressed syllables.
+   *
+   * In stress-timed languages like English, unstressed vowels tend to
+   * reduce toward schwa /ə/. This config controls that behaviour.
+   */
+  vowelReduction?: VowelReductionConfig;
 }
 
 // ---------------------------------------------------------------------------
