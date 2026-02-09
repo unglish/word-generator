@@ -6,7 +6,7 @@ import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, S
 import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
-import { repairClusters, repairFinalCoda } from "./repair.js";
+import { repairClusters, repairFinalCoda, repairClusterShape } from "./repair.js";
 import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------
@@ -99,16 +99,17 @@ function getSonority(rt: GeneratorRuntime, phoneme: Phoneme): number {
 // ---------------------------------------------------------------------------
 
 function buildCluster(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] {
-  const validCandidates = getValidCandidates(rt.positionPhonemes[context.position], rt, context);
+  const allPositionPhonemes = rt.positionPhonemes[context.position];
 
-  while (context.cluster.length < context.maxLength && validCandidates.length > 0) {
+  while (context.cluster.length < context.maxLength) {
+    const validCandidates = getValidCandidates(allPositionPhonemes, rt, context);
+    if (validCandidates.length === 0) break;
+
     const newPhoneme = selectPhoneme(validCandidates, context);
     if (!newPhoneme) break;
 
     context.cluster.push(newPhoneme);
     if (shouldStopClusterGrowth(context, rt)) break;
-
-    updateValidCandidates(validCandidates, rt, context);
   }
 
   return context.cluster;
@@ -129,27 +130,24 @@ function getValidCandidates(candidatePhonemes: Phoneme[], rt: GeneratorRuntime, 
 function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterContext): boolean {
   if (context.ignore.includes(p.sound) ||
       context.cluster.some(existingP => existingP.sound === p.sound) ||
-      !isValidPosition(p, context) ||
-      !checkSonority(p, rt, context)) {
+      !isValidPosition(p, context)) {
     return false;
   }
 
+  // When attested onset whitelist exists, use it as the primary gate for onsets
+  // instead of the general sonority/regex checks
+  if (context.position === "onset" && rt.attestedOnsetSet && context.cluster.length > 0) {
+    const key = [...context.cluster.map(ph => ph.sound), p.sound].join("|");
+    // Must be an exact attested onset or a prefix of one
+    if (rt.attestedOnsetSet.has(key)) return true;
+    return Array.from(rt.attestedOnsetSet).some(a => a.startsWith(key + "|"));
+  }
+
+  // Fallback: standard sonority and regex checks
+  if (!checkSonority(p, rt, context)) return false;
+
   const potentialCluster = context.cluster.map(ph => ph.sound).join('') + p.sound;
   if (rt.invalidClusterRegexes[context.position].test(potentialCluster)) return false;
-
-  // Attested onset whitelist check
-  if (context.position === "onset" && rt.attestedOnsetSet) {
-    const newClusterSounds = [...context.cluster.map(ph => ph.sound), p.sound];
-    if (newClusterSounds.length >= 2) {
-      // Check that the current cluster is a prefix of at least one attested onset
-      const key = newClusterSounds.join("|");
-      const isExactMatch = rt.attestedOnsetSet.has(key);
-      const isPrefix = !isExactMatch && Array.from(rt.attestedOnsetSet).some(
-        a => a.startsWith(key + "|") || a === key
-      );
-      if (!isExactMatch && !isPrefix) return false;
-    }
-  }
 
   return true;
 }
@@ -476,6 +474,16 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext): void
   generateSyllables(rt, context);
   if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
   if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet);
+  if (rt.clusterLimits || rt.config.codaConstraints?.voicingAgreement || rt.config.codaConstraints?.homorganicNasalStop) {
+    repairClusterShape(context.word.syllables, {
+      clusterLimits: rt.clusterLimits,
+      sonorityConstraints: rt.sonorityConstraints,
+      codaConstraints: rt.config.codaConstraints,
+      sonorityBySound: rt.sonorityBySound,
+      codaAppendantSet: rt.codaAppendantSet,
+      sonorityExemptSet: rt.sonorityExemptSet,
+    });
+  }
   rt.generateWrittenForm(context);
   generatePronunciation(context, rt.config.vowelReduction);
 }
