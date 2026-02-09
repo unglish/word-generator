@@ -1,7 +1,7 @@
 /**
- * Phonotactic repair pass — runs on generated syllables AFTER pronounce,
- * BEFORE write. Fixes cross-syllable cluster violations and word-final
- * phoneme violations.
+ * Phonotactic repair pass — runs on generated syllables AFTER syllable
+ * generation, BEFORE write and pronounce. Fixes cross-syllable cluster
+ * violations and word-final phoneme violations.
  */
 import { Syllable } from "../types.js";
 
