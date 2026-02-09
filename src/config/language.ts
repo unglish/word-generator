@@ -11,10 +11,8 @@ export interface ClusterConstraint {
 }
 
 export interface CodaConstraints {
-  /** Phoneme sounds allowed in word-final position. */
+  /** Phoneme sounds allowed in word-final position. Unlisted phonemes are dropped. */
   allowedFinal?: string[];
-  /** How to repair a disallowed final phoneme. */
-  repair: "drop";
 }
 
 // ---------------------------------------------------------------------------

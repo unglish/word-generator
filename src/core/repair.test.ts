@@ -69,36 +69,36 @@ describe("repairFinalCoda", () => {
 
   it("drops disallowed final phoneme", () => {
     const syllables = [syl(["t"], ["æ"], ["ʒ"])];
-    repairFinalCoda(syllables, allowed, "drop");
+    repairFinalCoda(syllables, allowed);
     expect(syllables[0].coda).toHaveLength(0);
   });
 
   it("keeps dropping until an allowed phoneme is found", () => {
     const syllables = [syl([], ["æ"], ["t", "ð", "ʒ"])];
-    repairFinalCoda(syllables, allowed, "drop");
+    repairFinalCoda(syllables, allowed);
     expect(syllables[0].coda.map((p) => p.sound)).toEqual(["t"]);
   });
 
   it("does nothing when final phoneme is allowed", () => {
     const syllables = [syl([], ["æ"], ["n"])];
-    repairFinalCoda(syllables, allowed, "drop");
+    repairFinalCoda(syllables, allowed);
     expect(syllables[0].coda.map((p) => p.sound)).toEqual(["n"]);
   });
 
   it("does nothing for empty coda", () => {
     const syllables = [syl(["t"], ["æ"], [])];
-    repairFinalCoda(syllables, allowed, "drop");
+    repairFinalCoda(syllables, allowed);
     expect(syllables[0].coda).toHaveLength(0);
   });
 
   it("does nothing for empty syllables array", () => {
-    repairFinalCoda([], allowed, "drop");
+    repairFinalCoda([], allowed);
     // no throw
   });
 
   it("only checks the last syllable", () => {
     const syllables = [syl([], ["æ"], ["ʒ"]), syl([], ["ɪ"], ["t"])];
-    repairFinalCoda(syllables, allowed, "drop");
+    repairFinalCoda(syllables, allowed);
     // First syllable's disallowed coda is untouched
     expect(syllables[0].coda.map((p) => p.sound)).toEqual(["ʒ"]);
     expect(syllables[1].coda.map((p) => p.sound)).toEqual(["t"]);

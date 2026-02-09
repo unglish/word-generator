@@ -189,7 +189,6 @@ export const englishConfig: LanguageConfig = {
       "m", "n", "ŋ",
       "l", "r", "θ",
     ],
-    repair: "drop",
   },
 
   vowelReduction: {

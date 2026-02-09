@@ -28,7 +28,6 @@ interface GeneratorRuntime {
   bannedSet?: Set<string>;
   clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
-  codaRepair?: "drop";
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
@@ -60,7 +59,6 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     allowedFinalSet: config.codaConstraints?.allowedFinal
       ? new Set(config.codaConstraints.allowedFinal)
       : undefined,
-    codaRepair: config.codaConstraints?.repair,
   };
 }
 
@@ -396,6 +394,25 @@ export interface WordGenerator {
   generateWord: (options?: WordGenerationOptions) => Word;
 }
 
+// ---------------------------------------------------------------------------
+// Pipeline
+// ---------------------------------------------------------------------------
+
+/**
+ * Shared pipeline: syllable generation → repair → write → pronounce.
+ */
+function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext): void {
+  generateSyllables(rt, context);
+  if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
+  if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet);
+  rt.generateWrittenForm(context);
+  generatePronunciation(context, rt.config.vowelReduction);
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
 /**
  * Creates a word generator from a {@link LanguageConfig}.
  *
@@ -450,17 +467,6 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 // ---------------------------------------------------------------------------
 // Default English instance (built once, shared by public API + test helpers)
 // ---------------------------------------------------------------------------
-
-/**
- * Shared pipeline: syllable generation → repair → write → pronounce.
- */
-function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext): void {
-  generateSyllables(rt, context);
-  if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
-  if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet, rt.codaRepair!);
-  rt.generateWrittenForm(context);
-  generatePronunciation(context, rt.config.vowelReduction);
-}
 
 const defaultRuntime = buildRuntime(englishConfig);
 

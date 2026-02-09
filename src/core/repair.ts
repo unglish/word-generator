@@ -21,27 +21,11 @@ export function repairClusters(
 
     if (coda.length === 0 || onset.length === 0) continue;
 
-    const lastCoda = coda[coda.length - 1].sound;
-    const firstOnset = onset[0].sound;
-
-    if (bannedSet.has(`${lastCoda}|${firstOnset}`)) {
-      switch (repair) {
-        case "drop-coda":
-          coda.pop();
-          // After dropping, the new last coda phoneme may also be banned
-          while (coda.length > 0 && onset.length > 0 &&
-                 bannedSet.has(`${coda[coda.length - 1].sound}|${onset[0].sound}`)) {
-            coda.pop();
-          }
-          break;
-        case "drop-onset":
-          onset.shift();
-          while (coda.length > 0 && onset.length > 0 &&
-                 bannedSet.has(`${coda[coda.length - 1].sound}|${onset[0].sound}`)) {
-            onset.shift();
-          }
-          break;
-      }
+    // Drop phonemes until the boundary is legal (or one side is empty)
+    while (coda.length > 0 && onset.length > 0 &&
+           bannedSet.has(`${coda[coda.length - 1].sound}|${onset[0].sound}`)) {
+      if (repair === "drop-coda") coda.pop();
+      else onset.shift();
     }
   }
 }
@@ -53,7 +37,6 @@ export function repairClusters(
 export function repairFinalCoda(
   syllables: Syllable[],
   allowedFinalSet: Set<string>,
-  repair: "drop",
 ): void {
   if (syllables.length === 0) return;
 
