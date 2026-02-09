@@ -173,6 +173,13 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
+      name: "ngx-to-nks",
+      pattern: "ngx",
+      replacement: "nks",
+      probability: 100,
+      scope: "word",
+    },
+    {
       name: "ngk-to-nk",
       pattern: "ng([kc])",
       replacement: "n$1",
@@ -240,6 +247,15 @@ export const englishConfig: LanguageConfig = {
       ["s","l"],["s","m"],["s","n"],["s","p"],["s","t"],["s","k"],
       ["s","p","l"],["s","p","r"],["s","t","r"],["s","k","r"],["s","k","w"],
     ],
+  },
+
+  writtenFormConstraints: {
+    maxConsonantGraphemes: 4,
+    consonantGraphemes: [
+      "tch", "dge",                           // trigraphs (3 letters → 1 unit)
+      "ch", "sh", "th", "ng", "ph", "wh", "ck", // digraphs (2 letters → 1 unit)
+    ],
+    maxConsonantLetters: 4,
   },
 
   sonorityConstraints: {

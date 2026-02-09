@@ -251,6 +251,33 @@ export interface SpellingRule {
 }
 
 // ---------------------------------------------------------------------------
+// Written-form constraints
+// ---------------------------------------------------------------------------
+
+export interface WrittenFormConstraints {
+  /**
+   * Max consecutive consonant grapheme units allowed. Default: 4.
+   *
+   * Multi-letter graphemes (e.g. "ch", "sh", "tch") count as a single unit.
+   * For example, "tchstr" tokenizes to ["tch", "s", "t", "r"] = 4 units.
+   */
+  maxConsonantGraphemes?: number;
+
+  /**
+   * Consonant digraphs/trigraphs treated as atomic grapheme units.
+   * Longest-match-first during tokenization. Order matters: longer entries first.
+   * Default for English: ["tch", "dge", "ch", "sh", "th", "ng", "ph", "wh", "ck"]
+   */
+  consonantGraphemes?: string[];
+
+  /**
+   * Max consecutive raw consonant *letters* (not grapheme units) allowed.
+   * Applied as a second pass after grapheme-aware repair.
+   */
+  maxConsonantLetters?: number;
+}
+
+// ---------------------------------------------------------------------------
 // Main interface
 // ---------------------------------------------------------------------------
 
@@ -343,6 +370,9 @@ export interface LanguageConfig {
 
   /** Feature-based sonority sequencing constraints. */
   sonorityConstraints?: SonorityConstraints;
+
+  /** Written-form readability constraints. */
+  writtenFormConstraints?: WrittenFormConstraints;
 }
 
 // ---------------------------------------------------------------------------
