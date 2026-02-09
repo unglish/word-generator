@@ -130,6 +130,9 @@ dist-demo
 .yarn/install-state.gz
 .pnp.*
 
+# Quality benchmark report
+quality-report.json
+
 # macOS system files
 .DS_Store
 

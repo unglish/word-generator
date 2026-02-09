@@ -6,6 +6,10 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -28,3 +32,84 @@ jobs:
 
       - name: Benchmark
         run: npx vitest bench --run
+
+      - name: Quality Benchmark
+        run: npx vitest run --config vitest.quality.config.ts --reporter=verbose
+
+      - name: Post Quality Report
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'quality-report.json';
+
+            if (!fs.existsSync(path)) {
+              console.log('No quality-report.json found, skipping comment.');
+              return;
+            }
+
+            const report = JSON.parse(fs.readFileSync(path, 'utf8'));
+            const fmt = (n) => n !== null && n !== undefined ? Number(n).toLocaleString() : 'not reached';
+
+            // Common words table
+            const milestones = report.commonWords?.milestones || {};
+            let commonTable = '| Milestone | Iterations |\n|-----------|------------|\n';
+            for (const m of [50, 75, 90, 100]) {
+              const data = milestones[String(m)];
+              const val = data ? fmt(data.median) : 'N/A';
+              commonTable += `| ${m} words | ${val} |\n`;
+            }
+
+            // Gates table
+            const gates = report.gates || {};
+            const gateChecks = [
+              ['5+ consonant runs', gates.fiveConsecutiveConsonants, '= 0', gates.fiveConsecutiveConsonants === 0],
+              ['ngx', gates.ngx, '= 0', gates.ngx === 0],
+              ['bk', gates.bk, '< 50', gates.bk < 50],
+              ['pk', gates.pk, '< 50', gates.pk < 50],
+            ];
+            const allGatesPass = gateChecks.every(g => g[3]);
+            let gatesTable = `| Gate | Result | Threshold |\n|------|--------|-----------|\n`;
+            for (const [name, val, threshold] of gateChecks) {
+              gatesTable += `| ${name} | ${val} | ${threshold} |\n`;
+            }
+
+            // Metrics table
+            const metrics = report.metrics || {};
+            let metricsTable = '| Metric | Value |\n|--------|-------|\n';
+            metricsTable += `| 4-cons clusters | ${fmt(metrics.fourConsonantClusters?.count)} (${metrics.fourConsonantClusters?.rate}%) |\n`;
+            metricsTable += `| dk | ${fmt(metrics.dk)} |\n`;
+            metricsTable += `| ckt | ${fmt(metrics.ckt)} |\n`;
+            metricsTable += `| -owngs | ${fmt(metrics.owngs)} |\n`;
+            metricsTable += `| -reng/-teng | ${fmt(metrics.rengTeng)} |\n`;
+            metricsTable += `| Avg length | ${metrics.avgLength} |\n`;
+            metricsTable += `| Unique rate | ${metrics.uniqueRate}% |\n`;
+
+            const marker = '<!-- quality-report -->';
+            const body = `${marker}\n## 🦉 Quality Report\n\n### Common Words (median of ${report.commonWords?.trials || 5} trials, max ${fmt(report.commonWords?.maxIterations)} iterations)\n${commonTable}\n### Quality Gates ${allGatesPass ? '✅' : '❌'}\n${gatesTable}\n### Quality Metrics\n${metricsTable}`;
+
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existing = comments.find(c => c.body?.includes(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
