@@ -184,7 +184,7 @@ export const englishConfig: LanguageConfig = {
   codaConstraints: {
     allowedFinal: [
       "p", "b", "t", "d", "k", "g",
-      "f", "v", "s", "z", "ʃ",
+      "f", "v", "s", "z", "ʃ", "ʒ",
       "tʃ", "dʒ",
       "m", "n", "ŋ",
       "l", "r", "θ",
