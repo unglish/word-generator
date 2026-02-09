@@ -172,6 +172,13 @@ export const englishConfig: LanguageConfig = {
       probability: 95,
       scope: "word",
     },
+    {
+      name: "ngk-to-nk",
+      pattern: "ng([kc])",
+      replacement: "n$1",
+      probability: 100,
+      scope: "word",
+    },
   ],
 
   clusterConstraint: {
