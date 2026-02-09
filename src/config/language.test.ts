@@ -36,10 +36,10 @@ describe("LanguageConfig", () => {
   });
 
   describe("phonotactic constraints", () => {
-    it("should have invalid cluster patterns for onset, coda, and boundary", () => {
-      expect(englishConfig.invalidClusters.onset.length).toBeGreaterThan(0);
-      expect(englishConfig.invalidClusters.coda.length).toBeGreaterThan(0);
-      expect(englishConfig.invalidClusters.boundary.length).toBeGreaterThan(0);
+    it("should have invalidClusters arrays (may be empty when using feature-based constraints)", () => {
+      expect(Array.isArray(englishConfig.invalidClusters.onset)).toBe(true);
+      expect(Array.isArray(englishConfig.invalidClusters.coda)).toBe(true);
+      expect(Array.isArray(englishConfig.invalidClusters.boundary)).toBe(true);
     });
 
     it("should store patterns as strings (JSON-serializable)", () => {

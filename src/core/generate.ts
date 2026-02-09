@@ -20,11 +20,11 @@ interface GeneratorRuntime {
   sonorityBySound: Map<string, number>;
   positionPhonemes: { onset: Phoneme[]; coda: Phoneme[]; nucleus: Phoneme[] };
   invalidClusterRegexes: {
-    onset: RegExp;
-    coda: RegExp;
+    onset: RegExp | null;
+    coda: RegExp | null;
     /** Maps to config.invalidClusters.boundary — keyed "nucleus" because
      *  ClusterContext.position uses "nucleus" as the catch-all third position. */
-    nucleus: RegExp;
+    nucleus: RegExp | null;
   };
   generateWrittenForm: (context: WordGenerationContext) => void;
   bannedSet?: Set<string>;
@@ -48,10 +48,13 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     nucleus: Array.from(config.phonemeMaps.nucleus.values()).flat(),
   };
 
+  const makeRegex = (patterns: string[]) =>
+    patterns.length > 0 ? new RegExp(patterns.join('|'), 'i') : null;
+
   const invalidClusterRegexes = {
-    onset: new RegExp(config.invalidClusters.onset.join('|'), 'i'),
-    coda: new RegExp(config.invalidClusters.coda.join('|'), 'i'),
-    nucleus: new RegExp(config.invalidClusters.boundary.join('|'), 'i'),
+    onset: makeRegex(config.invalidClusters.onset),
+    coda: makeRegex(config.invalidClusters.coda),
+    nucleus: makeRegex(config.invalidClusters.boundary),
   };
 
   const generateWrittenForm = createWrittenFormGenerator(config);
@@ -146,8 +149,11 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
   // Fallback: standard sonority and regex checks
   if (!checkSonority(p, rt, context)) return false;
 
-  const potentialCluster = context.cluster.map(ph => ph.sound).join('') + p.sound;
-  if (rt.invalidClusterRegexes[context.position].test(potentialCluster)) return false;
+  const regex = rt.invalidClusterRegexes[context.position];
+  if (regex) {
+    const potentialCluster = context.cluster.map(ph => ph.sound).join('') + p.sound;
+    if (regex.test(potentialCluster)) return false;
+  }
 
   return true;
 }
@@ -160,8 +166,10 @@ function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: C
 }
 
 function isValidCluster(rt: GeneratorRuntime, cluster: Phoneme[], position: "onset" | "coda" | "nucleus"): boolean {
+  const regex = rt.invalidClusterRegexes[position];
+  if (!regex) return true;
   const potentialCluster = cluster.map(ph => ph.sound).join('');
-  return !rt.invalidClusterRegexes[position].test(potentialCluster);
+  return !regex.test(potentialCluster);
 }
 
 // ---------------------------------------------------------------------------

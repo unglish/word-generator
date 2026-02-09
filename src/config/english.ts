@@ -24,9 +24,6 @@ import {
   phonemeMaps,
   sonorityToMannerOfArticulation,
   sonorityToPlaceOfArticulation,
-  invalidOnsetClusters,
-  invalidCodaClusters,
-  invalidBoundaryClusters,
 } from "../elements/phonemes.js";
 import { graphemes, graphemeMaps } from "../elements/graphemes/index.js";
 
@@ -74,9 +71,9 @@ export const englishConfig: LanguageConfig = {
   graphemeMaps,
 
   invalidClusters: {
-    onset: invalidOnsetClusters.map(r => r.source),
-    coda: invalidCodaClusters.map(r => r.source),
-    boundary: invalidBoundaryClusters.map(r => r.source),
+    onset: [],
+    coda: [],
+    boundary: [],
   },
 
   sonorityHierarchy: {
