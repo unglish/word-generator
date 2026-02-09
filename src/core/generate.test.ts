@@ -135,6 +135,38 @@ describe('isValidCluster', () => {
     });
   });
 
+  describe('should only generate attested codas', () => {
+    it('never generates an unattested multi-consonant coda', () => {
+      const attestedSet = new Set(
+        englishConfig.clusterLimits!.attestedCodas!.map((a: string[]) => a.join('|'))
+      );
+      const appendants = new Set(englishConfig.clusterLimits!.codaAppendants ?? []);
+      for (let i = 0; i < 10000; i++) {
+        const context: ClusterContext = {
+          position: 'coda',
+          cluster: [],
+          ignore: [],
+          isStartOfWord: false,
+          isEndOfWord: true,
+          maxLength: 4,
+          syllableCount: 1,
+        };
+        const cluster = buildCluster(context);
+        if (cluster.length >= 2) {
+          let sounds = cluster.map(p => p.sound);
+          // Strip trailing appendant for check
+          if (appendants.has(sounds[sounds.length - 1]) && sounds.length > 2) {
+            sounds = sounds.slice(0, -1);
+          }
+          if (sounds.length >= 2) {
+            const key = sounds.join('|');
+            expect(attestedSet.has(key), `unattested coda: ${sounds.join('+')}`).toBe(true);
+          }
+        }
+      }
+    });
+  });
+
   // it('should return false "dm" in an onset', () => {
   //   const validOnsetCluster = [getPhonemeBySound('d')];
   //   expect(isValidCluster(getPhonemeBySound('n'), { cluster: validOnsetCluster, position: 'onset' } as ClusterContext)).toBe(false);

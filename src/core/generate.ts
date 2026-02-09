@@ -122,14 +122,6 @@ function buildCluster(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] 
   return context.cluster;
 }
 
-function updateValidCandidates(candidates: Phoneme[], rt: GeneratorRuntime, context: ClusterContext) {
-  for (let i = candidates.length - 1; i >= 0; i--) {
-    if (!isValidCandidate(candidates[i], rt, context)) {
-      candidates.splice(i, 1);
-    }
-  }
-}
-
 function getValidCandidates(candidatePhonemes: Phoneme[], rt: GeneratorRuntime, context: ClusterContext): Phoneme[] {
   return candidatePhonemes.filter(p => isValidCandidate(p, rt, context));
 }
