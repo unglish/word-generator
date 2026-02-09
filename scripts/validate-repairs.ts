@@ -39,10 +39,10 @@ for (let i = 0; i < SAMPLE_SIZE; i++) {
     }
   }
 
-  // Word-final coda check
+  // Word-final coda check (strip aspiration marks added by pronounce.ts)
   const lastSyl = syllables[syllables.length - 1];
   if (lastSyl.coda.length > 0) {
-    const finalSound = lastSyl.coda[lastSyl.coda.length - 1].sound;
+    const finalSound = lastSyl.coda[lastSyl.coda.length - 1].sound.replace(/ʰ$/, "");
     if (!ALLOWED_FINAL.has(finalSound)) {
       codaErrors++;
       if (codaExamples.length < 5)

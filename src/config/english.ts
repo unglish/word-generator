@@ -188,12 +188,6 @@ export const englishConfig: LanguageConfig = {
       "tʃ", "dʒ",
       "m", "n", "ŋ",
       "l", "r", "θ",
-      // Aspirated variants (produced by pronounce.ts in stressed syllables)
-      "pʰ", "bʰ", "tʰ", "dʰ", "kʰ", "gʰ",
-      "fʰ", "vʰ", "sʰ", "zʰ", "ʃʰ",
-      "tʃʰ", "dʒʰ",
-      "mʰ", "nʰ", "ŋʰ",
-      "lʰ", "rʰ", "θʰ",
     ],
     repair: "drop",
   },
