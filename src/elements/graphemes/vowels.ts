@@ -78,6 +78,7 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 10,
     endWord: 0.01,
   },
+  // Note: /ɪ/ before /ŋ/ already maps to "i" via the default entry above.
   // myth
   {
     phoneme: "ɪ",
@@ -397,6 +398,9 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 10,
     endWord: 1,
   },
+  // Note: "i" before /ŋ/ handled via spelling rule (eng→ing) rather than
+  // grapheme condition, since the nucleus is often a triphthong (aɪə) that
+  // gets decomposed during writing.
   { 
     phoneme: "ə", 
     form: "a", 

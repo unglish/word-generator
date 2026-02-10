@@ -180,6 +180,13 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
+      name: "eng-to-ing",
+      pattern: "eng(?=s?$)",
+      replacement: "ing",
+      probability: 95,
+      scope: "word",
+    },
+    {
       name: "ngk-to-nk",
       pattern: "ng([kc])",
       replacement: "n$1",
