@@ -66,7 +66,7 @@ console.log(`- **Coverage: ${coverage.toFixed(2)}%**\n`);
 function classify(word: string): string[] {
   const tags: string[] = [];
   if (word.length <= 3) tags.push("short (≤3 letters)");
-  if (/e$/.test(word) && /[^aeiou][aeiou][^aeiou]e$/.test(word)) tags.push("silent-e");
+  if (/[^aeiou]e$/.test(word) && word.length >= 4) tags.push("silent-e");
   if (/ght/.test(word)) tags.push("ght trigraph");
   if (/(.)\1/.test(word)) tags.push("double letters");
   if (/[^aeiou]{3,}/.test(word)) tags.push("consonant cluster (3+)");
@@ -75,6 +75,15 @@ function classify(word: string): string[] {
   if (/ight$/.test(word)) tags.push("-ight");
   if (/ph/.test(word)) tags.push("ph digraph");
   if (/ck/.test(word)) tags.push("ck digraph");
+  if (/[aeiou]{2}/.test(word)) tags.push("vowel digraph");
+  if (/^(kn|wr|gn)/.test(word) || /mb$|mn$/.test(word)) tags.push("silent letter");
+  if (/[aeiou]r/.test(word)) tags.push("r-colored vowel");
+  if (/^wh/.test(word)) tags.push("wh- onset");
+  if (/ly$/.test(word)) tags.push("-ly suffix");
+  if (/ing$/.test(word)) tags.push("-ing suffix");
+  if (/ed$/.test(word)) tags.push("-ed suffix");
+  if (/[aeiou][lr]e$/.test(word)) tags.push("schwa spelling (-le/-re)");
+  if (/[aeiou]l$|[aeiou]n$/.test(word)) tags.push("syllabic consonant");
   if (tags.length === 0) tags.push("other");
   return tags;
 }
