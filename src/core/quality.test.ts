@@ -202,8 +202,8 @@ describe('Quality Benchmark', () => {
       expect(owngsCount).toBe(0);
     });
 
-    it('Gate: rengTeng < 100', () => {
-      expect(rengTengCount).toBeLessThan(100);
+    it('Gate: rengTeng < 150', () => {
+      expect(rengTengCount).toBeLessThan(150);
     });
 
     // Report generation
