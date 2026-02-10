@@ -84,11 +84,11 @@ export const phonemes: Phoneme[] = [
   { sound: "aʊ", mannerOfArticulation: "midVowel", tense: true, nucleus: 20, startWord: 1, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "back" }, // cow (/kaʊ/) or how (/haʊ/)
 
   // Triphthongs
-  { sound: "aɪə", mannerOfArticulation: "lowVowel", tense: true, nucleus: 80, startWord: 1, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "central" }, // fire, lire, tire
-  { sound: "aʊə", mannerOfArticulation: "lowVowel", tense: true, nucleus: 60, startWord: 1, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // hour, shower, power
-  { sound: "eɪə", mannerOfArticulation: "midVowel", tense: true, nucleus: 50, startWord: 0, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "central" }, // player, layer
-  { sound: "ɔɪə", mannerOfArticulation: "midVowel", tense: true, nucleus: 40, startWord: 0, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // employer, royal, loyal
-  { sound: "əʊə", mannerOfArticulation: "midVowel", tense: true, nucleus: 30, startWord: 1, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // lower, mower
+  { sound: "aɪə", mannerOfArticulation: "lowVowel", tense: true, nucleus: 8, startWord: 1, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "central" }, // fire, lire, tire
+  { sound: "aʊə", mannerOfArticulation: "lowVowel", tense: true, nucleus: 5, startWord: 1, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // hour, shower, power
+  { sound: "eɪə", mannerOfArticulation: "midVowel", tense: true, nucleus: 4, startWord: 0, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "central" }, // player, layer
+  { sound: "ɔɪə", mannerOfArticulation: "midVowel", tense: true, nucleus: 3, startWord: 0, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // employer, royal, loyal
+  { sound: "əʊə", mannerOfArticulation: "midVowel", tense: true, nucleus: 3, startWord: 1, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // lower, mower
 
   // Glides
   { sound: "j", mannerOfArticulation: "glide", onset: 10, coda: 20, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "palatal" }, // yes
@@ -101,7 +101,7 @@ export const phonemes: Phoneme[] = [
   // Nasals
   { sound: "m", mannerOfArticulation: "nasal", onset: 100, coda: 176, startWord: 6, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "bilabial" }, // mouse
   { sound: "n", mannerOfArticulation: "nasal", onset: 350, coda: 350, startWord: 8, midWord: 2, endWord: 10, voiced: true, placeOfArticulation: "alveolar" }, // notice
-  { sound: "ŋ", mannerOfArticulation: "nasal", onset: 0, coda: 200, startWord: 0, midWord: 2, endWord: 30, voiced: true, placeOfArticulation: "velar" }, // bring
+  { sound: "ŋ", mannerOfArticulation: "nasal", onset: 0, coda: 40, startWord: 0, midWord: 2, endWord: 30, voiced: true, placeOfArticulation: "velar" }, // bring
 
   // Voiceless Fricatives
   { sound: "f", mannerOfArticulation: "fricative", onset: 100, coda: 100, startWord: 6, midWord: 2, endWord: 4, voiced: false, placeOfArticulation: "labiodental" }, // fish
@@ -130,7 +130,7 @@ export const phonemes: Phoneme[] = [
   // Voiced Stops
   { sound: "b", voiced: true, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 210, coda: 100, startWord: 8, midWord: 4, endWord: 4 }, // bob
   { sound: "d", voiced: true, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 210, coda: 210, startWord: 8, midWord: 4, endWord: 8 }, // dog
-  { sound: "g", voiced: true, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 150, coda: 100, startWord: 6, midWord: 4, endWord: 4 }, // go
+  { sound: "g", voiced: true, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 50, coda: 100, startWord: 6, midWord: 4, endWord: 4 }, // go
 ];
 
 export const phonemeMaps = {
