@@ -387,6 +387,14 @@ describe('repairVowelLetters', () => {
     repairVowelLetters(clean, hyph, 2);
     expect(clean[0]).toBe('steam');
   });
+
+  it('treats word-initial Y before vowel as consonant (not part of vowel run)', () => {
+    const clean = ['yoarts'];
+    const hyph = ['yoarts'];
+    repairVowelLetters(clean, hyph, 2);
+    // Y is consonantal here, so vowel run is 'oa' (2) — within limit, no trimming
+    expect(clean[0]).toBe('yoarts');
+  });
 });
 
 // ---------------------------------------------------------------------------

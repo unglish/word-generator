@@ -345,7 +345,23 @@ function applyDoubling(
 
 const VOWEL_LETTERS = new Set(['a', 'e', 'i', 'o', 'u', 'y']);
 
-function isConsonantLetter(ch: string): boolean {
+/**
+ * Check if a character is a vowel letter.
+ * Y is treated as vowel unless it's at position 0 followed by a vowel (a,e,i,o,u),
+ * in which case it's consonantal (e.g. "yet", "yawn").
+ */
+function isVowelChar(ch: string, idx: number, str: string): boolean {
+  const lower = ch.toLowerCase();
+  if (lower === 'y' && idx === 0 && str.length > 1 && 'aeiou'.includes(str[1].toLowerCase())) {
+    return false; // consonantal Y
+  }
+  return VOWEL_LETTERS.has(lower);
+}
+
+function isConsonantLetter(ch: string, idx?: number, str?: string): boolean {
+  if (idx !== undefined && str !== undefined) {
+    return !isVowelChar(ch, idx, str);
+  }
   return !VOWEL_LETTERS.has(ch.toLowerCase());
 }
 
@@ -383,9 +399,15 @@ export function tokenizeGraphemes(str: string, graphemeList: string[] = DEFAULT_
 }
 
 /** Check if a grapheme token is a consonant (contains no vowel letters). */
-function isConsonantToken(token: string): boolean {
-  for (const ch of token) {
-    if (VOWEL_LETTERS.has(ch.toLowerCase())) return false;
+function isConsonantToken(token: string, tokenIdx?: number, allTokens?: string[]): boolean {
+  const fullStr = allTokens ? allTokens.join('') : token;
+  // Compute char offset of this token within the full string
+  let charOffset = 0;
+  if (allTokens && tokenIdx !== undefined) {
+    for (let t = 0; t < tokenIdx; t++) charOffset += allTokens[t].length;
+  }
+  for (let i = 0; i < token.length; i++) {
+    if (isVowelChar(token[i], charOffset + i, fullStr)) return false;
   }
   return true;
 }
@@ -717,7 +739,7 @@ export function repairConsonantLetters(
     let foundLen = 0;
 
     for (let i = 0; i <= word.length; i++) {
-      if (i < word.length && isConsonantLetter(word[i])) {
+      if (i < word.length && isConsonantLetter(word[i], i, word)) {
         if (runStart < 0) runStart = i;
         runLen = i - runStart + 1;
       } else {
@@ -771,7 +793,7 @@ export function repairConsonantLetters(
     const consonantIndices: number[] = [];
     for (let ci = 0; ci < part.length; ci++) {
       const globalIdx = partStart + ci;
-      if (globalIdx >= foundStart && globalIdx < foundStart + foundLen && isConsonantLetter(part[ci])) {
+      if (globalIdx >= foundStart && globalIdx < foundStart + foundLen && isConsonantLetter(part[ci], globalIdx, word)) {
         consonantIndices.push(ci);
       }
     }
@@ -799,14 +821,12 @@ export function repairVowelLetters(
   hyphenatedParts: string[],
   maxLetters: number,
 ): void {
-  const VOWEL_LETTERS = new Set('aeiouy'.split(''));
   for (let i = 0; i < cleanParts.length; i++) {
     const part = cleanParts[i];
     let result = '';
     let vowelRun = 0;
     for (let j = 0; j < part.length; j++) {
-      const ch = part[j].toLowerCase();
-      if (VOWEL_LETTERS.has(ch)) {
+      if (isVowelChar(part[j], j, part)) {
         vowelRun++;
         if (vowelRun <= maxLetters) result += part[j];
       } else {
@@ -975,16 +995,15 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
     // Post-join vowel repair for cross-boundary runs
     if (wfc?.maxVowelLetters) {
-      const VOWEL_LETTERS = new Set('aeiouy'.split(''));
       let vResult = '';
       let vowelRun = 0;
-      for (const ch of finalClean) {
-        if (VOWEL_LETTERS.has(ch.toLowerCase())) {
+      for (let ci = 0; ci < finalClean.length; ci++) {
+        if (isVowelChar(finalClean[ci], ci, finalClean)) {
           vowelRun++;
-          if (vowelRun <= wfc.maxVowelLetters) vResult += ch;
+          if (vowelRun <= wfc.maxVowelLetters) vResult += finalClean[ci];
         } else {
           vowelRun = 0;
-          vResult += ch;
+          vResult += finalClean[ci];
         }
       }
       finalClean = vResult;

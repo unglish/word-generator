@@ -36,14 +36,25 @@ const RE_RENG_TENG = /[rt]eng$/;
 // Helpers
 // ---------------------------------------------------------------------------
 
-function isConsonantLetter(ch: string): boolean {
+function isVowelChar(ch: string, idx: number, str: string): boolean {
+  const lower = ch.toLowerCase();
+  if (lower === 'y' && idx === 0 && str.length > 1 && 'aeiou'.includes(str[1].toLowerCase())) {
+    return false;
+  }
+  return VOWELS.has(lower);
+}
+
+function isConsonantLetter(ch: string, idx?: number, str?: string): boolean {
+  if (idx !== undefined && str !== undefined) {
+    return /[a-z]/i.test(ch) && !isVowelChar(ch, idx, str);
+  }
   return /[a-z]/i.test(ch) && !VOWELS.has(ch.toLowerCase());
 }
 
 function longestConsonantRun(word: string): number {
   let max = 0, cur = 0;
-  for (const ch of word) {
-    if (isConsonantLetter(ch)) { cur++; if (cur > max) max = cur; }
+  for (let i = 0; i < word.length; i++) {
+    if (isConsonantLetter(word[i], i, word)) { cur++; if (cur > max) max = cur; }
     else cur = 0;
   }
   return max;
