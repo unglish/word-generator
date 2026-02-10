@@ -270,6 +270,7 @@ export const englishConfig: LanguageConfig = {
       "ch", "sh", "th", "ng", "ph", "wh", "ck", // digraphs (2 letters → 1 unit)
     ],
     maxConsonantLetters: 4,
+    maxVowelLetters: 2,
   },
 
   sonorityConstraints: {

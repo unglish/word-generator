@@ -275,6 +275,12 @@ export interface WrittenFormConstraints {
    * Applied as a second pass after grapheme-aware repair.
    */
   maxConsonantLetters?: number;
+
+  /**
+   * Max consecutive vowel *letters* (a, e, i, o, u, y) allowed.
+   * Applied after consonant repairs. Default: no limit.
+   */
+  maxVowelLetters?: number;
 }
 
 // ---------------------------------------------------------------------------
