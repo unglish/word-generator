@@ -96,7 +96,7 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 10,
-    condition: { rightContext: ["front-vowel"] },
+    condition: { rightContext: ["c-soft-vowel"] },
   },
   // k: word-final (speak, back)
   { phoneme: "k", 
@@ -117,7 +117,7 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
-    condition: { notRightContext: ["front-vowel"] },
+    condition: { notRightContext: ["c-soft-vowel"] },
   },
   {
     phoneme: "k",

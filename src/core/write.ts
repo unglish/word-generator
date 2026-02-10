@@ -65,6 +65,7 @@ function buildCategorySets(phonemes: Phoneme[]): Map<string, Set<string>> {
   categories.set("tense-vowel", new Set());
   categories.set("front-vowel", new Set());
   categories.set("back-vowel", new Set());
+  categories.set("c-soft-vowel", new Set());
   categories.set("vowel", new Set());
   categories.set("consonant", new Set());
 
@@ -80,6 +81,9 @@ function buildCategorySets(phonemes: Phoneme[]): Map<string, Set<string>> {
       if (p.tense === true) categories.get("tense-vowel")!.add(p.sound);
       if (p.placeOfArticulation === "front") categories.get("front-vowel")!.add(p.sound);
       if (p.placeOfArticulation === "back") categories.get("back-vowel")!.add(p.sound);
+      // Vowels that cause c-softening (written as e/i): i:, ɪ, e, ɛ, eɪ, ɪə, eə
+      const cSoftSounds = new Set(["i:", "ɪ", "e", "ɛ", "eɪ", "ɪə", "eə"]);
+      if (cSoftSounds.has(p.sound)) categories.get("c-soft-vowel")!.add(p.sound);
     } else {
       categories.get("consonant")!.add(p.sound);
     }
