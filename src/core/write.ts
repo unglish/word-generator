@@ -609,6 +609,9 @@ export function isJunctionValid(C1: Phoneme, C2: Phoneme, onsetCluster: Phoneme[
   // F3 also blocks affricate+stop where neither side is coronal — but all English affricates are coronal, so this is moot
   if (mannerGroup(C1) === 'stop' && mannerGroup(C2) === 'stop' && !isCoronal(C1) && !isCoronal(C2)) return false;
 
+  // F4: stop+stop voicing disagreement (blocks d.k, b.t, g.p etc.)
+  if (mannerGroup(C1) === 'stop' && mannerGroup(C2) === 'stop' && C1.voiced !== C2.voiced) return false;
+
   // P1: s-exception
   if (C1.sound === 's') return true;
   if (C2.sound === 's' && onsetCluster.length >= 2 && ['t','p','k'].includes(onsetCluster[1]?.sound)) return true;

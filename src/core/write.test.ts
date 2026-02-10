@@ -119,6 +119,7 @@ const P_d = makePhoneme({ sound: 'd', mannerOfArticulation: 'stop', placeOfArtic
 const P_p = makePhoneme({ sound: 'p', mannerOfArticulation: 'stop', placeOfArticulation: 'bilabial' });
 const P_k = makePhoneme({ sound: 'k', mannerOfArticulation: 'stop', placeOfArticulation: 'velar' });
 const P_g = makePhoneme({ sound: 'g', mannerOfArticulation: 'stop', placeOfArticulation: 'velar', voiced: true });
+const P_b = makePhoneme({ sound: 'b', mannerOfArticulation: 'stop', placeOfArticulation: 'bilabial', voiced: true });
 const P_s = makePhoneme({ sound: 's', mannerOfArticulation: 'sibilant', placeOfArticulation: 'alveolar' });
 const P_ʃ = makePhoneme({ sound: 'ʃ', mannerOfArticulation: 'sibilant', placeOfArticulation: 'postalveolar' });
 const P_f = makePhoneme({ sound: 'f', mannerOfArticulation: 'fricative', placeOfArticulation: 'labiodental' });
@@ -247,6 +248,27 @@ describe('isJunctionValid', () => {
     });
     it('allows p→t (t is coronal)', () => {
       expect(isJunctionValid(P_p, P_t, [P_t])).toBe(true);
+    });
+  });
+
+  describe('F4: stop+stop voicing disagreement', () => {
+    it('rejects d→k (voiced+voiceless)', () => {
+      expect(isJunctionValid(P_d, P_k, [P_k])).toBe(false);
+    });
+    it('rejects b→t (voiced+voiceless)', () => {
+      expect(isJunctionValid(P_b, P_t, [P_t])).toBe(false);
+    });
+    it('rejects g→p (voiced+voiceless)', () => {
+      expect(isJunctionValid(P_g, P_p, [P_p])).toBe(false);
+    });
+    it('allows k→t (voiceless+voiceless)', () => {
+      expect(isJunctionValid(P_k, P_t, [P_t])).toBe(true);
+    });
+    it('allows g→d (voiced+voiced)', () => {
+      expect(isJunctionValid(P_g, P_d, [P_d])).toBe(true);
+    });
+    it('allows b→d (voiced+voiced)', () => {
+      expect(isJunctionValid(P_b, P_d, [P_d])).toBe(true);
     });
   });
 
