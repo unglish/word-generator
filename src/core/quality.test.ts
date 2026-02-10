@@ -28,6 +28,23 @@ const MILESTONE_PCTS = [50, 75, 90, 100] as const;
 const TRIALS = 5;
 const GATE_SAMPLE_SIZE = 200_000;
 
+// Norvig/Mayzner English letter frequencies (% of all letters, Google Books corpus)
+// Source: https://norvig.com/mayzner.html
+const NORVIG_LETTER_FREQ: Record<string, number> = {
+  e:12.49, t:9.28, a:8.04, o:7.64, i:7.57, n:7.23, s:6.51, r:6.28, h:5.05, l:4.07,
+  d:3.82, c:3.34, u:2.73, m:2.51, f:2.40, p:2.14, g:1.87, w:1.68, y:1.66, b:1.48,
+  v:1.05, k:0.54, x:0.23, j:0.16, q:0.12, z:0.09,
+};
+
+// Norvig/Mayzner top 50 bigram frequencies (%)
+const NORVIG_BIGRAM_FREQ: Record<string, number> = {
+  th:3.56, he:3.07, in:2.43, er:2.05, an:1.99, re:1.85, on:1.76, at:1.49, en:1.45, nd:1.35,
+  ti:1.34, es:1.34, or:1.28, te:1.20, of:1.17, ed:1.17, is:1.13, it:1.12, al:1.09, ar:1.07,
+  st:1.05, to:1.04, nt:1.04, ng:0.95, se:0.93, ha:0.93, as:0.87, ou:0.87, io:0.83, le:0.83,
+  ve:0.83, co:0.79, me:0.79, de:0.76, hi:0.76, ri:0.73, ro:0.73, ic:0.70, ne:0.69, ea:0.69,
+  ra:0.69, ce:0.65, li:0.62, ch:0.60, ll:0.58, be:0.58, ma:0.57, si:0.55, om:0.55, ur:0.54,
+};
+
 const VOWELS = new Set('aeiouy'.split(''));
 const RE_OWNGS = /owngs/;
 const RE_RENG_TENG = /[rt]eng$/;
@@ -65,6 +82,19 @@ function median(values: (number | null)[]): number | null {
   if (nums.length === 0) return null;
   const mid = Math.floor(nums.length / 2);
   return nums.length % 2 ? nums[mid] : Math.round((nums[mid - 1] + nums[mid]) / 2);
+}
+
+function pearsonCorrelation(xs: number[], ys: number[]): number {
+  const n = xs.length;
+  const mx = xs.reduce((a, b) => a + b, 0) / n;
+  const my = ys.reduce((a, b) => a + b, 0) / n;
+  let num = 0, dx2 = 0, dy2 = 0;
+  for (let i = 0; i < n; i++) {
+    const dx = xs[i] - mx, dy = ys[i] - my;
+    num += dx * dy; dx2 += dx * dx; dy2 += dy * dy;
+  }
+  const denom = Math.sqrt(dx2 * dy2);
+  return denom === 0 ? 0 : num / denom;
 }
 
 const fmtNumber = new Intl.NumberFormat('en-US');
@@ -145,6 +175,10 @@ describe('Quality Benchmark', () => {
     let avgLength = 0;
     let uniqueRate = 0;
     let lengthDistribution: Record<string, number> = {};
+    let letterCounts: Record<string, number> = {};
+    let bigramCounts: Record<string, number> = {};
+    let totalLetters = 0;
+    let totalBigrams = 0;
 
     beforeAll(async () => {
       // Generate 200k words
@@ -159,7 +193,25 @@ describe('Quality Benchmark', () => {
       let totalLen = 0;
       const uniqueWords = new Set<string>();
 
+      for (const ch of 'abcdefghijklmnopqrstuvwxyz') letterCounts[ch] = 0;
+
       for (const w of gateWords) {
+        // Letter & bigram counting
+        for (let ci = 0; ci < w.length; ci++) {
+          const ch = w[ci];
+          if (ch >= 'a' && ch <= 'z') {
+            letterCounts[ch]++;
+            totalLetters++;
+          }
+          if (ci > 0) {
+            const prev = w[ci - 1];
+            if (prev >= 'a' && prev <= 'z' && ch >= 'a' && ch <= 'z') {
+              const bg = prev + ch;
+              bigramCounts[bg] = (bigramCounts[bg] || 0) + 1;
+              totalBigrams++;
+            }
+          }
+        }
         const run = longestConsonantRun(w);
         if (run >= 5) fiveConsCount++;
         if (run >= 4) fourConsCount++;
@@ -215,6 +267,63 @@ describe('Quality Benchmark', () => {
 
     it('Gate: rengTeng < 150', () => {
       expect(rengTengCount).toBeLessThan(150);
+    });
+
+    // Orthographic distribution benchmarks
+    it('Letter frequency correlation with English', () => {
+      const letters = Object.keys(NORVIG_LETTER_FREQ);
+      const ours = letters.map(l => (letterCounts[l] || 0) / totalLetters * 100);
+      const norvig = letters.map(l => NORVIG_LETTER_FREQ[l]);
+      const r = pearsonCorrelation(ours, norvig);
+
+      // Report
+      const ourSorted = letters.map(l => ({ l, pct: (letterCounts[l] || 0) / totalLetters * 100 }))
+        .sort((a, b) => b.pct - a.pct);
+      const norvigSorted = letters.map(l => ({ l, pct: NORVIG_LETTER_FREQ[l] }))
+        .sort((a, b) => b.pct - a.pct);
+      console.log(`\n=== Letter Frequency Correlation: r=${r.toFixed(4)} ===`);
+      console.log('Our top 10:', ourSorted.slice(0, 10).map(x => `${x.l}:${x.pct.toFixed(2)}`).join(', '));
+      console.log('Norvig top 10:', norvigSorted.slice(0, 10).map(x => `${x.l}:${x.pct.toFixed(2)}`).join(', '));
+
+      const ratios = letters.map(l => ({
+        l, ratio: ((letterCounts[l] || 0) / totalLetters * 100) / NORVIG_LETTER_FREQ[l]
+      })).sort((a, b) => b.ratio - a.ratio);
+      console.log('Top 5 over-represented:', ratios.slice(0, 5).map(x => `${x.l}:${x.ratio.toFixed(2)}×`).join(', '));
+      console.log('Top 5 under-represented:', ratios.slice(-5).reverse().map(x => `${x.l}:${x.ratio.toFixed(2)}×`).join(', '));
+
+      expect(r).toBeGreaterThan(0.80);
+    });
+
+    it('Bigram frequency correlation with English', () => {
+      const bigrams = Object.keys(NORVIG_BIGRAM_FREQ);
+      const ours = bigrams.map(bg => (bigramCounts[bg] || 0) / totalBigrams * 100);
+      const norvig = bigrams.map(bg => NORVIG_BIGRAM_FREQ[bg]);
+      const r = pearsonCorrelation(ours, norvig);
+
+      const ratios = bigrams.map(bg => ({
+        bg, ratio: ((bigramCounts[bg] || 0) / totalBigrams * 100) / NORVIG_BIGRAM_FREQ[bg]
+      })).sort((a, b) => b.ratio - a.ratio);
+      console.log(`\n=== Bigram Frequency Correlation: r=${r.toFixed(4)} ===`);
+      console.log('Top 5 over:', ratios.slice(0, 5).map(x => `${x.bg}:${x.ratio.toFixed(2)}×`).join(', '));
+      console.log('Top 5 under:', ratios.slice(-5).reverse().map(x => `${x.bg}:${x.ratio.toFixed(2)}×`).join(', '));
+
+      expect(r).toBeGreaterThan(0.40);
+    });
+
+    it('No letter more than 25× over or under expected frequency', () => {
+      const violations: string[] = [];
+      for (const [l, expected] of Object.entries(NORVIG_LETTER_FREQ)) {
+        const ourPct = (letterCounts[l] || 0) / totalLetters * 100;
+        const ratio = ourPct / expected;
+        if (ratio > 25 || ratio < 0.04) {
+          violations.push(`${l}: ${ourPct.toFixed(2)}% vs ${expected}% (${ratio.toFixed(2)}×)`);
+        }
+      }
+      if (violations.length > 0) {
+        console.log('\n=== Frequency Violations ===');
+        violations.forEach(v => console.log(v));
+      }
+      expect(violations).toEqual([]);
     });
 
     // Report generation
