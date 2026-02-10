@@ -1,0 +1,260 @@
+import { VOICED_BONUS, TENSE_BONUS, SYLLABLE_COUNT_WEIGHTS, ONSET_LENGTH_MONOSYLLABIC, ONSET_LENGTH_FOLLOWING_NUCLEUS, ONSET_LENGTH_DEFAULT, CODA_LENGTH_MONOSYLLABIC, CODA_LENGTH_MONOSYLLABIC_DEFAULT, CODA_ZERO_WEIGHT_END_OF_WORD, CODA_ZERO_WEIGHT_MID_WORD, CODA_LENGTH_POLYSYLLABIC_NONZERO, FINAL_S_CHANCE, BOUNDARY_DROP_CHANCE, HAS_ONSET_START_OF_WORD, HAS_ONSET_AFTER_CODA, HAS_CODA_MONOSYLLABIC, HAS_CODA_END_OF_WORD, HAS_CODA_MID_WORD, } from "./weights.js";
+import { phonemes, phonemeMaps, sonorityToMannerOfArticulation, sonorityToPlaceOfArticulation, } from "../elements/phonemes.js";
+import { graphemes, graphemeMaps } from "../elements/graphemes/index.js";
+/**
+ * Banned cross-syllable [coda, onset] pairs for English.
+ */
+const ENGLISH_BANNED_CLUSTERS = [
+    // /ŋ/ before anything except /k/, /g/
+    ["ŋ", "p"], ["ŋ", "b"], ["ŋ", "t"], ["ŋ", "d"],
+    ["ŋ", "f"], ["ŋ", "v"], ["ŋ", "θ"], ["ŋ", "ð"],
+    ["ŋ", "s"], ["ŋ", "z"], ["ŋ", "ʃ"], ["ŋ", "ʒ"],
+    ["ŋ", "tʃ"], ["ŋ", "dʒ"], ["ŋ", "m"], ["ŋ", "n"],
+    ["ŋ", "l"], ["ŋ", "r"], ["ŋ", "j"], ["ŋ", "w"],
+    ["ŋ", "h"],
+    // /ʒ/ before stops
+    ["ʒ", "p"], ["ʒ", "b"], ["ʒ", "t"], ["ʒ", "d"],
+    ["ʒ", "k"], ["ʒ", "g"],
+    // /ð/ before stops
+    ["ð", "p"], ["ð", "b"], ["ð", "t"], ["ð", "d"],
+    ["ð", "k"], ["ð", "g"],
+    // Same-place stop sequences
+    ["p", "b"], ["b", "p"],
+    ["t", "d"], ["d", "t"],
+    ["k", "g"], ["g", "k"],
+    // Nasal+stop place mismatches
+    ["m", "k"], ["m", "g"],
+    ["n", "p"], ["n", "b"],
+];
+/**
+ * English language configuration built from existing phoneme/grapheme data.
+ * Consumed by {@link createGenerator} to produce the default English word generator.
+ */
+export const englishConfig = {
+    id: "en",
+    name: "English",
+    phonemes,
+    phonemeMaps,
+    graphemes,
+    graphemeMaps,
+    invalidClusters: {
+        onset: [],
+        coda: [],
+        boundary: [],
+    },
+    sonorityHierarchy: {
+        mannerOfArticulation: sonorityToMannerOfArticulation,
+        placeOfArticulation: sonorityToPlaceOfArticulation,
+        voicedBonus: VOICED_BONUS,
+        tenseBonus: TENSE_BONUS,
+    },
+    syllableStructure: {
+        maxOnsetLength: 3,
+        maxCodaLength: 4,
+        maxNucleusLength: 1,
+        syllableCountWeights: SYLLABLE_COUNT_WEIGHTS,
+    },
+    generationWeights: {
+        onsetLength: {
+            monosyllabic: ONSET_LENGTH_MONOSYLLABIC,
+            followingNucleus: ONSET_LENGTH_FOLLOWING_NUCLEUS,
+            default: ONSET_LENGTH_DEFAULT,
+        },
+        codaLength: {
+            monosyllabic: CODA_LENGTH_MONOSYLLABIC,
+            monosyllabicDefault: CODA_LENGTH_MONOSYLLABIC_DEFAULT,
+            polysyllabicNonzero: CODA_LENGTH_POLYSYLLABIC_NONZERO,
+            zeroWeightEndOfWord: CODA_ZERO_WEIGHT_END_OF_WORD,
+            zeroWeightMidWord: CODA_ZERO_WEIGHT_MID_WORD,
+        },
+        probability: {
+            hasOnsetStartOfWord: HAS_ONSET_START_OF_WORD,
+            hasOnsetAfterCoda: HAS_ONSET_AFTER_CODA,
+            hasCodaMonosyllabic: HAS_CODA_MONOSYLLABIC,
+            hasCodaEndOfWord: HAS_CODA_END_OF_WORD,
+            hasCodaMidWord: HAS_CODA_MID_WORD,
+            finalS: FINAL_S_CHANCE,
+            boundaryDrop: BOUNDARY_DROP_CHANCE,
+        },
+    },
+    stress: {
+        strategy: "weight-sensitive",
+    },
+    doubling: {
+        enabled: true,
+        trigger: "lax-vowel",
+        probability: 80,
+        maxPerWord: 1,
+        neverDouble: ["v", "w", "j", "h", "ŋ", "θ", "ð", "ʒ", "k"],
+        finalDoublingOnly: ["f", "s", "l", "z"],
+        suppressAfterReduction: true,
+        suppressBeforeTense: true,
+        unstressedModifier: 0.5,
+    },
+    spellingRules: [
+        {
+            name: "magic-e",
+            pattern: "([aiouy])e([bcdfghjklmnpqrstvwxyz])$",
+            replacement: "$1$2e",
+            probability: 98,
+            scope: "syllable",
+        },
+        {
+            name: "ks-to-x",
+            pattern: "(?<!^)ks",
+            replacement: "x",
+            probability: 25,
+        },
+        {
+            name: "hard-c-before-front-vowel",
+            pattern: "c([eiy])",
+            replacement: "k$1",
+            probability: 100,
+            scope: "word",
+        },
+        {
+            name: "no-final-v",
+            pattern: "v$",
+            replacement: "ve",
+            probability: 95,
+            scope: "word",
+        },
+        {
+            name: "no-final-j",
+            pattern: "j$",
+            replacement: "ge",
+            probability: 95,
+            scope: "word",
+        },
+        {
+            name: "no-final-i",
+            pattern: "i$",
+            replacement: "y",
+            probability: 95,
+            scope: "word",
+        },
+        {
+            name: "ngx-to-nks",
+            pattern: "ngx",
+            replacement: "nks",
+            probability: 100,
+            scope: "word",
+        },
+        {
+            name: "eng-to-ing",
+            pattern: "eng(?=s?$)",
+            replacement: "ing",
+            probability: 95,
+            scope: "word",
+        },
+        {
+            name: "ngk-to-nk",
+            pattern: "ng([kc])",
+            replacement: "n$1",
+            probability: 100,
+            scope: "word",
+        },
+        {
+            name: "ckt-to-ct",
+            pattern: "ckt",
+            replacement: "ct",
+            probability: 100,
+            scope: "word",
+        },
+    ],
+    clusterConstraint: {
+        banned: ENGLISH_BANNED_CLUSTERS,
+        repair: "drop-coda",
+    },
+    codaConstraints: {
+        bannedCodas: ["h"],
+        allowedFinal: [
+            "p", "b", "t", "d", "k", "g",
+            "f", "v", "s", "z", "ʃ", "ʒ",
+            "tʃ", "dʒ",
+            "m", "n", "ŋ",
+            "l", "r", "θ",
+        ],
+        voicingAgreement: true,
+        homorganicNasalStop: true,
+    },
+    clusterLimits: {
+        maxOnset: 3,
+        maxCoda: 3,
+        codaAppendants: ["s", "z"],
+        onsetPrependers: ["s"],
+        attestedCodas: [
+            // Liquid + obstruent
+            ["l", "p"], ["l", "b"], ["l", "t"], ["l", "d"], ["l", "k"], ["l", "f"], ["l", "v"], ["l", "s"], ["l", "z"], ["l", "θ"], ["l", "ʃ"], ["l", "tʃ"], ["l", "dʒ"],
+            ["r", "p"], ["r", "b"], ["r", "t"], ["r", "d"], ["r", "k"], ["r", "g"], ["r", "f"], ["r", "v"], ["r", "s"], ["r", "z"], ["r", "θ"], ["r", "ʃ"], ["r", "tʃ"], ["r", "dʒ"],
+            // Liquid + nasal
+            ["l", "m"], ["l", "n"], ["r", "m"], ["r", "n"], ["r", "l"],
+            // Nasal + homorganic stop
+            ["m", "p"], ["m", "b"], ["n", "t"], ["n", "d"], ["ŋ", "k"],
+            // Nasal + fricative
+            ["m", "f"], ["m", "s"], ["m", "z"], ["m", "θ"], ["n", "s"], ["n", "z"], ["n", "θ"], ["ŋ", "s"], ["ŋ", "z"], ["ŋ", "θ"],
+            // Nasal + affricate
+            ["n", "tʃ"], ["n", "dʒ"],
+            // Obstruent + s/z
+            ["p", "s"], ["b", "z"], ["t", "s"], ["d", "z"], ["k", "s"], ["g", "z"], ["f", "s"], ["v", "z"], ["θ", "s"],
+            // Stop + stop
+            ["p", "t"], ["k", "t"],
+            // Fricative + stop
+            ["f", "t"], ["s", "p"], ["s", "t"], ["s", "k"],
+            // Stop + θ
+            ["p", "θ"],
+            // Fricative + θ
+            ["f", "θ"],
+            // 3-consonant codas
+            ["l", "p", "s"], ["l", "t", "s"], ["l", "d", "s"], ["l", "k", "s"], ["l", "v", "z"], ["l", "θ", "s"], ["l", "p", "t"], ["l", "f", "θ"],
+            ["r", "p", "s"], ["r", "t", "s"], ["r", "d", "s"], ["r", "k", "s"], ["r", "v", "z"], ["r", "θ", "s"],
+            ["m", "p", "s"], ["n", "t", "s"], ["n", "d", "s"], ["ŋ", "k", "s"], ["ŋ", "k", "θ"],
+            ["k", "s", "t"], ["k", "t", "s"], ["f", "t", "s"], ["s", "t", "s"], ["s", "p", "s"], ["s", "k", "s"], ["s", "k", "t"],
+            ["n", "tʃ", "t"], ["n", "dʒ", "d"],
+            // 4-consonant codas
+            ["l", "p", "t", "s"], ["l", "f", "θ", "s"], ["ŋ", "k", "θ", "s"], ["k", "s", "t", "s"],
+        ],
+        attestedOnsets: [
+            ["p", "l"], ["p", "r"], ["b", "l"], ["b", "r"], ["t", "r"], ["d", "r"],
+            ["k", "l"], ["k", "r"], ["g", "l"], ["g", "r"], ["f", "l"], ["f", "r"],
+            ["θ", "r"], ["ʃ", "r"], ["t", "w"], ["d", "w"], ["k", "w"], ["s", "w"],
+            ["s", "l"], ["s", "m"], ["s", "n"], ["s", "p"], ["s", "t"], ["s", "k"],
+            ["s", "p", "l"], ["s", "p", "r"], ["s", "t", "r"], ["s", "k", "r"], ["s", "k", "w"],
+        ],
+    },
+    writtenFormConstraints: {
+        maxConsonantGraphemes: 4,
+        consonantGraphemes: [
+            "tch", "dge",
+            "ch", "sh", "th", "ng", "ph", "wh", "ck", // digraphs (2 letters → 1 unit)
+        ],
+        maxConsonantLetters: 4,
+        maxVowelLetters: 2,
+    },
+    sonorityConstraints: {
+        risingOnset: true,
+        fallingCoda: true,
+        minSonorityGap: 0,
+        exempt: ["s", "z"],
+    },
+    vowelReduction: {
+        enabled: true,
+        rules: [
+            { source: "ʌ", target: "ə", probability: 85 },
+            { source: "ɛ", target: "ɪ", probability: 70 },
+            { source: "e", target: "ɪ", probability: 70 },
+            { source: "ɑ", target: "ə", probability: 65 },
+            { source: "ɔ", target: "ə", probability: 60 },
+            { source: "æ", target: "ə", probability: 40 },
+            { source: "o", target: "ə", probability: 55 },
+            { source: "ɜ", target: "ə", probability: 75 },
+        ],
+        reduceSecondaryStress: true,
+        secondaryStressProbability: 30,
+        positionalModifiers: {
+            wordInitial: 0.70,
+            wordMedial: 1.0,
+            wordFinal: 0.50,
+        },
+    },
+};
