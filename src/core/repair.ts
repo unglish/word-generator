@@ -177,3 +177,35 @@ function repairHomorganicNasalStop(coda: Phoneme[]): void {
     }
   }
 }
+
+/**
+ * Strip sibilants (/s/, /z/) that follow /ŋ/ in a coda — these clusters
+ * only arise across morpheme boundaries in English (e.g. "songs" = song+s).
+ *
+ * Other post-/ŋ/ consonants are left alone:
+ * - /k/, /g/ — homorganic stops (think, bank)
+ * - /θ/ — monomorphemic (length, strength)
+ * - /t/, /d/ — morphologically valid (thanked, longed)
+ */
+const NG_SIBILANTS = new Set(["s", "z"]);
+
+export function repairNgCodaSibilant(syllables: Syllable[]): void {
+  for (const syl of syllables) {
+    const coda = syl.coda;
+    if (coda.length < 2) continue;
+
+    // Find /ŋ/ position
+    let ngIdx = -1;
+    for (let i = 0; i < coda.length; i++) {
+      if (coda[i].sound === "ŋ") { ngIdx = i; break; }
+    }
+    if (ngIdx < 0) continue;
+
+    // Splice backwards to avoid index shifting
+    for (let i = coda.length - 1; i > ngIdx; i--) {
+      if (NG_SIBILANTS.has(coda[i].sound)) {
+        coda.splice(i, 1);
+      }
+    }
+  }
+}
