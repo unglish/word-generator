@@ -285,13 +285,6 @@ function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime):
     }
   }
 
-  // Original heuristic: stop after liquid/nasal in onset
-  if (position === "onset" &&
-      cluster.length === 2 &&
-      ['liquid', 'nasal'].includes(cluster[1].mannerOfArticulation)) {
-    return true;
-  }
-
   return false;
 }
 
