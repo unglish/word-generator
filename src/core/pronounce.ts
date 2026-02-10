@@ -1,10 +1,11 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../types";
+import type { RNG } from "../utils/random.js";
 import { VowelReductionConfig } from "../config/language.js";
 import { phonemes } from "../elements/phonemes.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 
 const aspirateSyllable = (position: number, context: WordGenerationContext): void => {
-  const { word, syllableCount } = context;
+  const { word, syllableCount, rand } = context;
   const syllable = word.syllables[position];
 
   // Check if the syllable starts with a voiceless stop consonant
@@ -22,21 +23,21 @@ const aspirateSyllable = (position: number, context: WordGenerationContext): voi
   if (position > 0) {
     const prevSyllable = word.syllables[position - 1];
     if (prevSyllable.coda.length > 0 && prevSyllable.coda[prevSyllable.coda.length - 1].sound === 's') {
-      shouldAspirate = getWeightedOption([[true, 5], [false, 95]]);
+      shouldAspirate = getWeightedOption([[true, 5], [false, 95]], rand);
     }
   }
 
   // Word-initial position
   if (position === 0) {
-    shouldAspirate = getWeightedOption([[true, 95], [false, 5]]);
+    shouldAspirate = getWeightedOption([[true, 95], [false, 5]], rand);
   }
   // Stressed syllable
   else if (syllable.stress) {
-    shouldAspirate = getWeightedOption([[true, 90], [false, 10]]);
+    shouldAspirate = getWeightedOption([[true, 90], [false, 10]], rand);
   }
   // Word-medial position after a stressed syllable
   else if (position > 0 && word.syllables[position - 1].stress) {
-    shouldAspirate = getWeightedOption([[true, 50], [false, 50]]);
+    shouldAspirate = getWeightedOption([[true, 50], [false, 50]], rand);
   }
   // Word-final position
   else if (position === syllableCount - 1) {
@@ -44,14 +45,14 @@ const aspirateSyllable = (position: number, context: WordGenerationContext): voi
     if (syllable.coda.length === 1 && 
         !syllable.coda[0].voiced && 
         syllable.coda[0].mannerOfArticulation === 'stop') {
-      shouldAspirate = getWeightedOption([[true, 15], [false, 85]]);
+      shouldAspirate = getWeightedOption([[true, 15], [false, 85]], rand);
     } else {
       shouldAspirate = false;
     }
   }
   // Default case (unstressed, non-final syllables)
   else {
-    shouldAspirate = getWeightedOption([[true, 30], [false, 70]]);
+    shouldAspirate = getWeightedOption([[true, 30], [false, 70]], rand);
   }
 
   if (shouldAspirate) {
@@ -73,17 +74,18 @@ const aspirateSyllable = (position: number, context: WordGenerationContext): voi
   }
 };
 const applyStress = (context: WordGenerationContext): void => {
+  const { rand } = context;
   // Rule 1: Primary stress 
-  applyPrimaryStress(context);
+  applyPrimaryStress(context, rand);
 
   // Rule 2: Secondary stress 
-  applySecondaryStress(context);
+  applySecondaryStress(context, rand);
 
   // Rule 3: Rhythmic stress 
-  applyRhythmicStress(context);
+  applyRhythmicStress(context, rand);
 };
 
-const applyPrimaryStress = (context: WordGenerationContext): void => {
+const applyPrimaryStress = (context: WordGenerationContext, rand: RNG): void => {
   const { word } = context;
   const syllables = word.syllables;
   const syllableCount = syllables.length;
@@ -95,20 +97,20 @@ const applyPrimaryStress = (context: WordGenerationContext): void => {
     return;
   } else if (syllableCount === 2) {
     // For disyllabic words, 70% chance on first syllable, 30% on second
-    primaryStressIndex = getWeightedOption([[0, 70], [1, 30]]);
+    primaryStressIndex = getWeightedOption([[0, 70], [1, 30]], rand);
   } else {
     const penultimateHeavy = isHeavySyllable(syllables[syllableCount - 2]);
     primaryStressIndex = getWeightedOption([
       [syllableCount - 2, penultimateHeavy ? 70 : 30],
       [syllableCount - 3, penultimateHeavy ? 20 : 60],
       [0, 10]
-    ]);
+    ], rand);
   }
 
   syllables[primaryStressIndex].stress = 'ˈ';
 };
 
-const applySecondaryStress = (context: WordGenerationContext): void => {
+const applySecondaryStress = (context: WordGenerationContext, rand: RNG): void => {
   const { word } = context;
   const syllables = word.syllables;
   const syllableCount = syllables.length;
@@ -118,21 +120,22 @@ const applySecondaryStress = (context: WordGenerationContext): void => {
   const primaryStressIndex = syllables.findIndex(s => s.stress === 'ˈ');
   const potentialIndices = [0, 1, 2].filter(i => i !== primaryStressIndex && i <= syllableCount - 1);
   const secondaryStressIndex = getWeightedOption(
-    potentialIndices.map(i => [i, isHeavySyllable(syllables[i]) ? 70 : 30])
+    potentialIndices.map(i => [i, isHeavySyllable(syllables[i]) ? 70 : 30]),
+    rand,
   );
 
-  if (getWeightedOption([[true, 40], [false, 60]])) {
+  if (getWeightedOption([[true, 40], [false, 60]], rand)) {
     syllables[secondaryStressIndex].stress = 'ˌ';
   }
 };
 
-const applyRhythmicStress = (context: WordGenerationContext): void => {
+const applyRhythmicStress = (context: WordGenerationContext, rand: RNG): void => {
   const { word } = context;
   const syllables = word.syllables;
 
   for (let i = 1; i < syllables.length - 1; i++) {
     if (!syllables[i-1].stress && !syllables[i].stress && !syllables[i+1].stress) {
-      if (getWeightedOption([[true, 40], [false, 60]])) {
+      if (getWeightedOption([[true, 40], [false, 60]], rand)) {
         syllables[i].stress = 'ˌ';
       }
     }
@@ -179,6 +182,7 @@ const buildPronunciationGuide = (context: WordGenerationContext): void => {
 const reduceUnstressedVowels = (
   context: WordGenerationContext,
   config: VowelReductionConfig,
+  rand: RNG,
 ): void => {
   const { word } = context;
   const syllables = word.syllables;
@@ -233,7 +237,7 @@ const reduceUnstressedVowels = (
       const target = phonemes.find((p) => p.sound === rule.target);
       if (!target) continue;
 
-      if (getWeightedOption([[true, prob], [false, 100 - prob]])) {
+      if (getWeightedOption([[true, prob], [false, 100 - prob]], rand)) {
         syllable.nucleus[i] = { ...target, reduced: true };
       }
     }
@@ -247,7 +251,7 @@ export const generatePronunciation = (context: WordGenerationContext, vowelReduc
   }
   applyStress(context);
   if (vowelReduction?.enabled) {
-    reduceUnstressedVowels(context, vowelReduction);
+    reduceUnstressedVowels(context, vowelReduction, context.rand);
   }
   buildPronunciationGuide(context);
 };

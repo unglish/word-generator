@@ -1,7 +1,7 @@
-import { getRand } from "./random.js";
+import type { RNG } from "./random.js";
 
-const pick = <T>(choices: T[]): T => {
-  const index = Math.floor(getRand()() * choices.length);
+const pick = <T>(choices: T[], rand: RNG): T => {
+  const index = Math.floor(rand() * choices.length);
   return choices[index];
 };
 

@@ -1,6 +1,5 @@
 import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, getPhonemePositionWeight } from "../types.js";
-import { overrideRand, getRand, RandomFunction } from "../utils/random.js";
-import { createSeededRandom } from "../utils/createSeededRandom.js";
+import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
@@ -237,7 +236,7 @@ function checkCodaSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, prevPhone
 // Phoneme selection
 // ---------------------------------------------------------------------------
 
-function selectPhoneme(validCandidates: Phoneme[], { position, isStartOfWord, isEndOfWord }: ClusterContext): Phoneme | null {
+function selectPhoneme(validCandidates: Phoneme[], { position, isStartOfWord, isEndOfWord, rand }: ClusterContext): Phoneme | null {
   const weightedCandidates = validCandidates.map(p => {
     const positionWeight = p[position] ?? 0;
     const wordPositionModifier =
@@ -246,7 +245,7 @@ function selectPhoneme(validCandidates: Phoneme[], { position, isStartOfWord, is
       p.midWord || 1;
     return [p, positionWeight * wordPositionModifier] as [Phoneme, number];
   });
-  return getWeightedOption(weightedCandidates);
+  return getWeightedOption(weightedCandidates, rand);
 }
 
 function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime): boolean {
@@ -306,14 +305,16 @@ function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStart
   const syllableCount = context.syllableCount;
   const { onsetLength } = rt.config.generationWeights;
 
+  const rand = context.rand;
   const maxLength = monosyllabic
-    ? getWeightedOption(onsetLength.monosyllabic)
-    : getWeightedOption(isFollowingNucleus ? onsetLength.followingNucleus : onsetLength.default);
+    ? getWeightedOption(onsetLength.monosyllabic, rand)
+    : getWeightedOption(isFollowingNucleus ? onsetLength.followingNucleus : onsetLength.default, rand);
 
   if (maxLength === 0) return [];
 
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
   return buildCluster(rt, {
+    rand: context.rand,
     position: "onset",
     cluster: [],
     ignore: toIgnore,
@@ -326,6 +327,7 @@ function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStart
 
 function pickNucleus(rt: GeneratorRuntime, context: WordGenerationContext, isStartOfWord: boolean, isEndOfWord: boolean): Phoneme[] {
   return buildCluster(rt, {
+    rand: context.rand,
     position: "nucleus",
     cluster: [],
     ignore: [],
@@ -348,10 +350,12 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
         ...codaLength.polysyllabicNonzero,
       ];
 
-  const maxLength: number = getWeightedOption(weights);
+  const rand = context.rand;
+  const maxLength: number = getWeightedOption(weights, rand);
   if (maxLength === 0) return [];
 
   const coda: Phoneme[] = buildCluster(rt, {
+    rand: context.rand,
     position: "coda",
     cluster: [],
     ignore: [],
@@ -362,7 +366,7 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
   });
 
   // Add 's' to the end of the last syllable occasionally
-  if (isEndOfWord && getWeightedOption([[true, probability.finalS], [false, 100 - probability.finalS]])) {
+  if (isEndOfWord && getWeightedOption([[true, probability.finalS], [false, 100 - probability.finalS]], rand)) {
     const sPhoneme = rt.config.phonemes.find(p => p.sound === 's');
     if (sPhoneme) {
       coda.push(sPhoneme);
@@ -380,7 +384,7 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
  * Adjusts two adjacent syllables based on sonority and phonological rules.
  * If the sonorities are equal there's a 90% chance to drop the coda phoneme.
  */
-function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyllable: Syllable): [Syllable, Syllable] {
+function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyllable: Syllable, rand: RNG): [Syllable, Syllable] {
   const lastCodaPhoneme = prevSyllable.coda.at(-1);
   const firstOnsetPhoneme = currentSyllable.onset[0];
 
@@ -389,7 +393,7 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
   const lastCodaSonority = getSonority(rt, lastCodaPhoneme);
   const firstOnsetSonority = getSonority(rt, firstOnsetPhoneme);
   const { boundaryDrop } = rt.config.generationWeights.probability;
-  if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, boundaryDrop], [false, 100 - boundaryDrop]])) {
+  if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, boundaryDrop], [false, 100 - boundaryDrop]], rand)) {
     prevSyllable.coda.pop();
   }
 
@@ -414,8 +418,9 @@ function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext):
   };
 
   const { probability } = rt.config.generationWeights;
-  const hasOnset = determineHasOnset(probability, isStartOfWord, prevSyllable);
-  const hasCoda = determineHasCoda(probability, isEndOfWord, monosyllabic);
+  const rand = context.rand;
+  const hasOnset = determineHasOnset(probability, isStartOfWord, rand, prevSyllable);
+  const hasCoda = determineHasCoda(probability, isEndOfWord, monosyllabic, rand);
 
   if (hasOnset) {
     newSyllable.onset = pickOnset(rt, context, isStartOfWord, monosyllabic);
@@ -430,28 +435,28 @@ function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext):
   return newSyllable;
 }
 
-function determineHasOnset(p: GenerationWeights["probability"], isStartOfWord: boolean, prevSyllable?: Syllable): boolean {
+function determineHasOnset(p: GenerationWeights["probability"], isStartOfWord: boolean, rand: RNG, prevSyllable?: Syllable): boolean {
   if (isStartOfWord) {
-    return getWeightedOption([[true, p.hasOnsetStartOfWord], [false, 100 - p.hasOnsetStartOfWord]]);
+    return getWeightedOption([[true, p.hasOnsetStartOfWord], [false, 100 - p.hasOnsetStartOfWord]], rand);
   } else {
     const prevHasCoda = prevSyllable && prevSyllable.coda.length > 0;
-    return prevHasCoda ? getWeightedOption([[true, p.hasOnsetAfterCoda], [false, 100 - p.hasOnsetAfterCoda]]) : true;
+    return prevHasCoda ? getWeightedOption([[true, p.hasOnsetAfterCoda], [false, 100 - p.hasOnsetAfterCoda]], rand) : true;
   }
 }
 
-function determineHasCoda(p: GenerationWeights["probability"], isEndOfWord: boolean, monosyllabic: boolean): boolean {
+function determineHasCoda(p: GenerationWeights["probability"], isEndOfWord: boolean, monosyllabic: boolean, rand: RNG): boolean {
   if (monosyllabic) {
-    return getWeightedOption([[true, p.hasCodaMonosyllabic], [false, 100 - p.hasCodaMonosyllabic]]);
+    return getWeightedOption([[true, p.hasCodaMonosyllabic], [false, 100 - p.hasCodaMonosyllabic]], rand);
   } else if (isEndOfWord) {
-    return getWeightedOption([[true, p.hasCodaEndOfWord], [false, 100 - p.hasCodaEndOfWord]]);
+    return getWeightedOption([[true, p.hasCodaEndOfWord], [false, 100 - p.hasCodaEndOfWord]], rand);
   } else {
-    return getWeightedOption([[true, p.hasCodaMidWord], [false, 100 - p.hasCodaMidWord]]);
+    return getWeightedOption([[true, p.hasCodaMidWord], [false, 100 - p.hasCodaMidWord]], rand);
   }
 }
 
 function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext) {
   if (!context.syllableCount) {
-    context.syllableCount = getWeightedOption(rt.config.syllableStructure.syllableCountWeights);
+    context.syllableCount = getWeightedOption(rt.config.syllableStructure.syllableCountWeights, context.rand);
   }
 
   const syllables = new Array(context.syllableCount);
@@ -461,7 +466,7 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext)
     let newSyllable = generateSyllable(rt, context);
 
     if (prevSyllable) {
-      [prevSyllable, newSyllable] = adjustBoundary(rt, prevSyllable, newSyllable);
+      [prevSyllable, newSyllable] = adjustBoundary(rt, prevSyllable, newSyllable, context.rand);
     }
 
     syllables[i] = newSyllable;
@@ -487,6 +492,16 @@ export interface WordGenerator {
 // ---------------------------------------------------------------------------
 // Pipeline
 // ---------------------------------------------------------------------------
+
+/**
+ * Resolve the RNG from generation options.
+ *
+ * Priority: `options.rand` > seeded RNG from `options.seed` > default (Math.random).
+ * When both `rand` and `seed` are provided, `seed` is silently ignored.
+ */
+function resolveRng(options: WordGenerationOptions): RNG {
+  return options.rand ?? (options.seed !== undefined ? createSeededRng(options.seed) : createDefaultRng());
+}
 
 /**
  * Shared pipeline: syllable generation → repair → write → pronounce.
@@ -539,8 +554,9 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 
   return {
     generateWord: (options: WordGenerationOptions = {}): Word => {
-      const originalRand: RandomFunction = getRand();
+      const rand = resolveRng(options);
       const context: WordGenerationContext = {
+        rand,
         word: {
           syllables: [],
           pronunciation: '',
@@ -550,17 +566,8 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
         currSyllableIndex: 0,
       };
 
-      if (options.seed !== undefined) {
-        overrideRand(createSeededRandom(options.seed));
-      }
-
-      try {
-        runPipeline(rt, context);
-
-        return context.word;
-      } finally {
-        overrideRand(originalRand);
-      }
+      runPipeline(rt, context);
+      return context.word;
     },
   };
 }
@@ -581,8 +588,9 @@ const defaultRuntime = buildRuntime(englishConfig);
  * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
-  const originalRand: RandomFunction = getRand();
+  const rand = resolveRng(options);
   const context: WordGenerationContext = {
+    rand,
     word: {
       syllables: [],
       pronunciation: '',
@@ -592,16 +600,47 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
     currSyllableIndex: 0,
   };
 
-  if (options.seed !== undefined) {
-    overrideRand(createSeededRandom(options.seed));
-  }
+  runPipeline(defaultRuntime, context);
+  return context.word;
+};
 
-  try {
+/**
+ * Generate multiple words sharing a single RNG instance.
+ *
+ * With a shared RNG, `generateWords(50, { seed: 42 })` is deterministic AND
+ * produces different words for each index. This is **not** equivalent to
+ * calling `generateWord({ seed: 42 })` 50 times — the latter creates 50
+ * identical RNG streams and therefore 50 identical words.
+ *
+ * @param count - Number of words to generate.
+ * @param options - Generation options (seed, rand, syllableCount, etc.).
+ * @returns An array of generated {@link Word} objects.
+ *
+ * @example
+ * ```ts
+ * import { generateWords } from "word-generator";
+ * const words = generateWords(50, { seed: 42 });
+ * // All 50 words are different but fully deterministic.
+ * ```
+ */
+export const generateWords = (count: number, options: WordGenerationOptions = {}): Word[] => {
+  const rand = resolveRng(options);
+  const results: Word[] = [];
+  for (let i = 0; i < count; i++) {
+    const context: WordGenerationContext = {
+      rand,
+      word: {
+        syllables: [],
+        pronunciation: '',
+        written: { clean: '', hyphenated: '' },
+      },
+      syllableCount: options.syllableCount || 0,
+      currSyllableIndex: 0,
+    };
     runPipeline(defaultRuntime, context);
-    return context.word;
-  } finally {
-    overrideRand(originalRand);
+    results.push(context.word);
   }
+  return results;
 };
 
 export default generateWord;

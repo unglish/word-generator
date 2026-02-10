@@ -3,6 +3,7 @@ import { generateWord, _buildCluster as buildCluster, _isValidCluster } from './
 import { ClusterContext, Phoneme } from '../types';
 import { phonemes } from '../elements/phonemes';
 import { englishConfig } from '../config/english';
+import { createDefaultRng } from '../utils/random';
 
 describe('Word Generator', () => {
   it('generates word with specified syllable count', () => {
@@ -38,6 +39,7 @@ describe('buildCluster function', () => {
 
     for (let i = 0; i < attempts; i++) {
       const context: ClusterContext = {
+        rand: createDefaultRng(),
         position: 'onset',
         cluster: [],
         ignore: [],
@@ -73,6 +75,7 @@ describe('buildCluster function', () => {
 
     for (let i = 0; i < attempts; i++) {
       const context: ClusterContext = {
+        rand: createDefaultRng(),
         position: 'coda',
         cluster: [],
         ignore: [],
@@ -118,7 +121,8 @@ describe('isValidCluster', () => {
       );
       for (let i = 0; i < 10000; i++) {
         const context: ClusterContext = {
-          position: 'onset',
+          rand: createDefaultRng(),
+        position: 'onset',
           cluster: [],
           ignore: [],
           isStartOfWord: true,
@@ -143,7 +147,8 @@ describe('isValidCluster', () => {
       const appendants = new Set(englishConfig.clusterLimits!.codaAppendants ?? []);
       for (let i = 0; i < 10000; i++) {
         const context: ClusterContext = {
-          position: 'coda',
+          rand: createDefaultRng(),
+        position: 'coda',
           cluster: [],
           ignore: [],
           isStartOfWord: false,

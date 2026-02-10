@@ -1,6 +1,6 @@
 import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule } from "../config/language.js";
-import { getRand } from '../utils/random.js';
+import type { RNG } from '../utils/random.js';
 import getWeightedOption from "../utils/getWeightedOption.js";
 
 // ---------------------------------------------------------------------------
@@ -28,7 +28,7 @@ function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
 /**
  * Apply a list of compiled spelling rules to a string, handling probabilistic replacements.
  */
-function applySpellingRules(str: string, rules: CompiledSpellingRule[]): string {
+function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG): string {
   let result = str;
   for (const { regex, replacement, probability } of rules) {
     regex.lastIndex = 0;
@@ -36,7 +36,7 @@ function applySpellingRules(str: string, rules: CompiledSpellingRule[]): string 
       result = result.replace(regex, replacement);
     } else {
       result = result.replace(regex, (match, ...args) => {
-        if (getRand()() < probability / 100) {
+        if (rand() < probability / 100) {
           let rep = replacement;
           for (let i = 0; i < args.length - 2; i++) {
             if (args[i] !== undefined) {
@@ -241,7 +241,7 @@ function filterByPosition(
 // Pipeline Step 4: Frequency-weighted random selection
 // ---------------------------------------------------------------------------
 
-function selectByFrequency(candidates: Grapheme[]): Grapheme {
+function selectByFrequency(candidates: Grapheme[], rand: RNG): Grapheme {
   if (candidates.length === 0) return { phoneme: '', form: '', origin: 0, frequency: 0, startWord: 0, midWord: 0, endWord: 0 };
   if (candidates.length === 1) return candidates[0];
 
@@ -253,7 +253,7 @@ function selectByFrequency(candidates: Grapheme[]): Grapheme {
   }
 
   const totalFrequency = cumulatives[cumulatives.length - 1];
-  const randomValue = getRand()() * totalFrequency;
+  const randomValue = rand() * totalFrequency;
 
   for (let i = 0; i < candidates.length; i++) {
     if (randomValue < cumulatives[i]) {
@@ -285,6 +285,7 @@ function applyDoubling(
   syllableStress: string | undefined,
   prevReduced: boolean,
   neverDoubleSet: Set<string>,
+  rand: RNG,
 ): string {
   if (!config || !config.enabled) return form;
   if (!prevPhoneme) return form;
@@ -324,7 +325,7 @@ function applyDoubling(
   prob = Math.min(100, Math.max(0, Math.round(prob)));
   if (prob <= 0) return form;
 
-  const shouldDouble = getWeightedOption([[true, prob], [false, 100 - prob]]);
+  const shouldDouble = getWeightedOption([[true, prob], [false, 100 - prob]], rand);
   if (shouldDouble) {
     doublingCtx.doublingCount++;
     return form + form;
@@ -789,6 +790,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const expandedConditions = preExpandConditions(config.graphemes, categories);
 
   return (context: WordGenerationContext) => {
+    const rand = context.rand;
     const { syllables, written } = context.word;
     const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
       (["onset", "nucleus", "coda"] as const).flatMap((position) =>
@@ -833,8 +835,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
       const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord);
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
-      const selected = selectByFrequency(positional);
-      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, stress, prevReduced, neverDoubleSet);
+      const selected = selectByFrequency(positional, rand);
+      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, stress, prevReduced, neverDoubleSet, rand);
 
       if (currentSyllable.length > 0 && form.length > 0 &&
           currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]) {
@@ -844,7 +846,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
 
       if (!nextEntry || nextEntry.syllableIndex !== syllableIndex) {
-        let syllableStr = applySpellingRules(currentSyllable.join(''), syllableRules);
+        let syllableStr = applySpellingRules(currentSyllable.join(''), syllableRules, rand);
 
         if (cleanParts.length > 0 && syllableStr.length > 0 &&
             cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
@@ -912,7 +914,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     }
 
     // Post-join pass: apply word-scope spelling rules
-    let finalClean = applySpellingRules(cleanParts.join(''), wordRules);
+    let finalClean = applySpellingRules(cleanParts.join(''), wordRules, rand);
 
     // Re-run consonant backstop after spelling rules (rules like ngx→nks can introduce new runs)
     if (wfc?.maxConsonantGraphemes || wfc?.maxConsonantLetters) {
