@@ -194,6 +194,10 @@ describe('Quality Benchmark', () => {
       expect(pkCount).toBeLessThan(50);
     });
 
+    it('Gate: owngs = 0', () => {
+      expect(owngsCount).toBe(0);
+    });
+
     // Report generation
     it('Write quality report', () => {
       console.log('\n=== Quality Metrics ===');

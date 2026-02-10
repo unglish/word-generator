@@ -6,7 +6,7 @@ import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, S
 import { englishConfig } from "../config/english.js";
 import { generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
-import { repairClusters, repairFinalCoda, repairClusterShape } from "./repair.js";
+import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant } from "./repair.js";
 import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------
@@ -505,6 +505,7 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext): void
       sonorityExemptSet: rt.sonorityExemptSet,
     });
   }
+  repairNgCodaSibilant(context.word.syllables);
   rt.generateWrittenForm(context);
   generatePronunciation(context, rt.config.vowelReduction);
 }
