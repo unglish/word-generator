@@ -323,6 +323,21 @@ describe('repairJunctions (feature-based)', () => {
     repairJunctions(clean, hyph, boundaries);
     expect(clean.join('')).toBe('ater');
   });
+
+  it('removes doubled consonant grapheme fully for invalid junction (dd→k)', () => {
+    // d→k: voiced stop + voiceless stop → F4 fail
+    const boundaries: SyllableBoundary[] = [{
+      codaFinal: P_d,
+      onsetInitial: P_k,
+      onsetCluster: [P_k],
+    }];
+    const clean = ['ridd', 'kerng'];
+    const hyph = ['ridd', '&shy;', 'kerng'];
+    repairJunctions(clean, hyph, boundaries);
+    // Both d's should be stripped across multiple passes
+    expect(clean[0]).toBe('ri');
+    expect(clean.join('')).toBe('rikerng');
+  });
 });
 
 // ---------------------------------------------------------------------------

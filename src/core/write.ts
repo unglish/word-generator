@@ -665,7 +665,18 @@ export function repairJunctions(
         }
         if (lastCodaConsonantIdx < 0) continue;
 
+        // Save the dropped token, then splice it out
+        const droppedToken = codaTokens[lastCodaConsonantIdx];
         codaTokens.splice(lastCodaConsonantIdx, 1);
+
+        // If the new last consonant is identical (doubled), drop it too
+        const newLastIdx = codaTokens.length > 0
+          ? codaTokens.reduce((last, t, j) => isConsonantToken(t) ? j : last, -1)
+          : -1;
+        if (newLastIdx >= 0 && codaTokens[newLastIdx] === droppedToken) {
+          codaTokens.splice(newLastIdx, 1);
+        }
+
         cleanParts[i] = codaTokens.join('');
         hyphenatedParts[i * 2] = cleanParts[i];
         repaired.add(i);
