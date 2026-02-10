@@ -122,7 +122,7 @@ describe('isValidCluster', () => {
       for (let i = 0; i < 10000; i++) {
         const context: ClusterContext = {
           rand: createDefaultRng(),
-        position: 'onset',
+          position: 'onset',
           cluster: [],
           ignore: [],
           isStartOfWord: true,
@@ -148,7 +148,7 @@ describe('isValidCluster', () => {
       for (let i = 0; i < 10000; i++) {
         const context: ClusterContext = {
           rand: createDefaultRng(),
-        position: 'coda',
+          position: 'coda',
           cluster: [],
           ignore: [],
           isStartOfWord: false,

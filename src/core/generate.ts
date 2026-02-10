@@ -314,7 +314,7 @@ function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStart
 
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
   return buildCluster(rt, {
-    rand: context.rand,
+    rand,
     position: "onset",
     cluster: [],
     ignore: toIgnore,
