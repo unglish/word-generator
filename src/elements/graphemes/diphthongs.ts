@@ -341,8 +341,8 @@ export const diphthongGraphemes: Grapheme[] = [
     origin: 0,
     frequency: 500,
     startWord: 1,
-    midWord: 1,
-    endWord: 1,
+    midWord: 0,
+    endWord: 5,
   },
   {
     phoneme: "əʊ",
