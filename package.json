@@ -8,6 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "vitest run",
+    "test:quality": "vitest run --config vitest.quality.config.ts",
     "test:watch": "vitest",
     "prepublishOnly": "npm run build",
     "lint": "eslint src/**/*.ts",
