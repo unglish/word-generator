@@ -186,6 +186,13 @@ export const englishConfig: LanguageConfig = {
       probability: 100,
       scope: "word",
     },
+    {
+      name: "ckt-to-ct",
+      pattern: "ckt",
+      replacement: "ct",
+      probability: 100,
+      scope: "word",
+    },
   ],
 
   clusterConstraint: {
