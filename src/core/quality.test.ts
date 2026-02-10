@@ -186,6 +186,10 @@ describe('Quality Benchmark', () => {
       expect(ngxCount).toBe(0);
     });
 
+    it('Gate: no ckt occurrences', () => {
+      expect(cktCount).toBe(0);
+    });
+
     it('Gate: bk < 50', () => {
       expect(bkCount).toBeLessThan(50);
     });
