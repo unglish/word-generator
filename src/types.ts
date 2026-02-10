@@ -1,4 +1,4 @@
-import { RandomFunction } from "./utils/random";
+import { RNG, RandomFunction } from "./utils/random";
 
 /**
  * A single phoneme (minimal sound unit) in the generator's inventory.
@@ -224,8 +224,13 @@ export interface WordGenerationOptions {
   seed?: number;
   /** Force the word to have exactly this many syllables (1–7). */
   syllableCount?: number;
-  /** Custom random-number function to use instead of the default. */
-  rand?: RandomFunction;
+  /**
+   * Custom random-number generator. Takes priority over {@link seed} — when
+   * both are provided the seed is silently ignored.
+   *
+   * Any `() => number` function returning values in [0, 1) is accepted.
+   */
+  rand?: RNG;
 }
 
 /**
@@ -233,6 +238,8 @@ export interface WordGenerationOptions {
  * @internal
  */
 export interface WordGenerationContext {
+  /** Per-word RNG instance — all randomness in the pipeline draws from this. */
+  rand: RNG;
   /** The word being built. */
   word: Word;
   /** Target number of syllables. */
@@ -246,6 +253,8 @@ export interface WordGenerationContext {
  * @internal
  */
 export interface ClusterContext {
+  /** Per-cluster RNG instance (inherited from the word context). */
+  rand: RNG;
   /** Syllable position this cluster occupies. */
   position: "onset" | "coda" | "nucleus";
   /** Phonemes accumulated so far in this cluster. */
