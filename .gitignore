@@ -91,6 +91,7 @@ out
 .nuxt
 dist
 dist-demo
+demo/unglish-worker.js
 
 # Gatsby files
 .cache/
