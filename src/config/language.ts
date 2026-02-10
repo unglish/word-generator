@@ -13,6 +13,8 @@ export interface ClusterConstraint {
 export interface CodaConstraints {
   /** Phoneme sounds allowed in word-final position. Unlisted phonemes are dropped. */
   allowedFinal?: string[];
+  /** Phoneme sounds that must never appear in coda position (any syllable). */
+  bannedCodas?: string[];
   /** Require voicing agreement among obstruents in coda clusters. */
   voicingAgreement?: boolean;
   /** Require nasal+stop to agree in place of articulation. */

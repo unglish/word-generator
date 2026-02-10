@@ -44,9 +44,6 @@ const ENGLISH_BANNED_CLUSTERS: [string, string][] = [
   // /ð/ before stops
   ["ð", "p"], ["ð", "b"], ["ð", "t"], ["ð", "d"],
   ["ð", "k"], ["ð", "g"],
-  // /h/ should never be in coda
-  ["h", "p"], ["h", "b"], ["h", "t"], ["h", "d"],
-  ["h", "k"], ["h", "g"],
   // Same-place stop sequences
   ["p", "b"], ["b", "p"],
   ["t", "d"], ["d", "t"],
@@ -207,6 +204,7 @@ export const englishConfig: LanguageConfig = {
     repair: "drop-coda",
   },
   codaConstraints: {
+    bannedCodas: ["h"],
     allowedFinal: [
       "p", "b", "t", "d", "k", "g",
       "f", "v", "s", "z", "ʃ", "ʒ",

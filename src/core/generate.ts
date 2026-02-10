@@ -29,6 +29,7 @@ interface GeneratorRuntime {
   bannedSet?: Set<string>;
   clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
+  bannedCodaSet?: Set<string>;
   clusterLimits?: ClusterLimits;
   sonorityConstraints?: SonorityConstraints;
   codaAppendantSet?: Set<string>;
@@ -77,6 +78,9 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     clusterRepair: config.clusterConstraint?.repair,
     allowedFinalSet: config.codaConstraints?.allowedFinal
       ? new Set(config.codaConstraints.allowedFinal)
+      : undefined,
+    bannedCodaSet: config.codaConstraints?.bannedCodas
+      ? new Set(config.codaConstraints.bannedCodas)
       : undefined,
     clusterLimits: cl,
     sonorityConstraints: sc,
@@ -129,6 +133,11 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
   if (context.ignore.includes(p.sound) ||
       context.cluster.some(existingP => existingP.sound === p.sound) ||
       !isValidPosition(p, context)) {
+    return false;
+  }
+
+  // Reject phonemes banned from coda position entirely
+  if (context.position === "coda" && rt.bannedCodaSet?.has(p.sound)) {
     return false;
   }
 
