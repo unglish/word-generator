@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { repairConsonantPileups, repairJunctions, repairConsonantLetters, tokenizeGraphemes, isJunctionValid, mannerGroup, placeGroup, isCoronal, SyllableBoundary } from './write';
+import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, mannerGroup, placeGroup, isCoronal, SyllableBoundary } from './write';
 import { generateWord, createGenerator } from './generate';
 import { englishConfig } from '../config/english';
 import { Phoneme } from '../types';
@@ -359,6 +359,33 @@ describe('repairConsonantLetters', () => {
     const word = clean.join('');
     const maxRun = getMaxConsonantLetterRun(word);
     expect(maxRun).toBeLessThanOrEqual(4);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// repairVowelLetters
+// ---------------------------------------------------------------------------
+
+describe('repairVowelLetters', () => {
+  it('trims 3 consecutive vowels to 2', () => {
+    const clean = ['drogeoom'];
+    const hyph = ['drogeoom'];
+    repairVowelLetters(clean, hyph, 2);
+    expect(clean[0]).toBe('drogeom');
+  });
+
+  it('trims initial vowel run', () => {
+    const clean = ['eaorts'];
+    const hyph = ['eaorts'];
+    repairVowelLetters(clean, hyph, 2);
+    expect(clean[0]).toBe('earts');
+  });
+
+  it('does nothing when vowels are within limit', () => {
+    const clean = ['steam'];
+    const hyph = ['steam'];
+    repairVowelLetters(clean, hyph, 2);
+    expect(clean[0]).toBe('steam');
   });
 });
 

@@ -789,6 +789,38 @@ export function repairConsonantLetters(
   }
 }
 
+/**
+ * Repair vowel pileups by counting raw vowel *letters* (a, e, i, o, u, y).
+ * Trims excess vowels from the end of any run exceeding `maxLetters`.
+ * Mutates `cleanParts` and `hyphenatedParts` in place.
+ */
+export function repairVowelLetters(
+  cleanParts: string[],
+  hyphenatedParts: string[],
+  maxLetters: number,
+): void {
+  const VOWEL_LETTERS = new Set('aeiouy'.split(''));
+  for (let i = 0; i < cleanParts.length; i++) {
+    const part = cleanParts[i];
+    let result = '';
+    let vowelRun = 0;
+    for (let j = 0; j < part.length; j++) {
+      const ch = part[j].toLowerCase();
+      if (VOWEL_LETTERS.has(ch)) {
+        vowelRun++;
+        if (vowelRun <= maxLetters) result += part[j];
+      } else {
+        vowelRun = 0;
+        result += part[j];
+      }
+    }
+    if (result !== part) {
+      cleanParts[i] = result;
+      hyphenatedParts[i * 2] = result;
+    }
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Factory
 // ---------------------------------------------------------------------------
@@ -933,8 +965,30 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       repairConsonantLetters(cleanParts, hyphenatedParts, wfc.maxConsonantLetters);
     }
 
+    // Raw vowel letter backstop
+    if (wfc?.maxVowelLetters) {
+      repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters);
+    }
+
     // Post-join pass: apply word-scope spelling rules
     let finalClean = applySpellingRules(cleanParts.join(''), wordRules, rand);
+
+    // Post-join vowel repair for cross-boundary runs
+    if (wfc?.maxVowelLetters) {
+      const VOWEL_LETTERS = new Set('aeiouy'.split(''));
+      let vResult = '';
+      let vowelRun = 0;
+      for (const ch of finalClean) {
+        if (VOWEL_LETTERS.has(ch.toLowerCase())) {
+          vowelRun++;
+          if (vowelRun <= wfc.maxVowelLetters) vResult += ch;
+        } else {
+          vowelRun = 0;
+          vResult += ch;
+        }
+      }
+      finalClean = vResult;
+    }
 
     // Re-run consonant backstop after spelling rules (rules like ngx→nks can introduce new runs)
     if (wfc?.maxConsonantGraphemes || wfc?.maxConsonantLetters) {
