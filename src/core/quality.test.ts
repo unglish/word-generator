@@ -45,6 +45,15 @@ const NORVIG_BIGRAM_FREQ: Record<string, number> = {
   ra:0.69, ce:0.65, li:0.62, ch:0.60, ll:0.58, be:0.58, ma:0.57, si:0.55, om:0.55, ur:0.54,
 };
 
+// Source: http://norvig.com/ngrams/count_3l.txt (percentages computed from raw counts)
+const NORVIG_TRIGRAM_FREQ: Record<string, number> = {
+  the:1.364, ing:0.726, and:0.722, ion:0.663, tio:0.543, ent:0.530, for:0.436, ati:0.420, ter:0.359, ate:0.332,
+  ers:0.306, res:0.281, her:0.279, est:0.268, com:0.268, pro:0.265, ere:0.254, all:0.254, int:0.253, men:0.253,
+  you:0.249, ons:0.245, our:0.245, con:0.238, are:0.235, tha:0.232, ver:0.231, ess:0.228, thi:0.222, rea:0.221,
+  sta:0.215, tin:0.208, hat:0.202, ist:0.201, ect:0.201, ort:0.200, ear:0.200, ine:0.199, age:0.198, his:0.194,
+  ted:0.189, ont:0.189, nce:0.186, sto:0.184, ith:0.183, nte:0.181, sin:0.179, tor:0.179, ore:0.177, lin:0.176,
+};
+
 const VOWELS = new Set('aeiouy'.split(''));
 const RE_OWNGS = /owngs/;
 const RE_RENG_TENG = /[rt]eng$/;
@@ -177,8 +186,10 @@ describe('Quality Benchmark', () => {
     let lengthDistribution: Record<string, number> = {};
     let letterCounts: Record<string, number> = {};
     let bigramCounts: Record<string, number> = {};
+    let trigramCounts: Record<string, number> = {};
     let totalLetters = 0;
     let totalBigrams = 0;
+    let totalTrigrams = 0;
 
     beforeAll(async () => {
       // Generate 200k words
@@ -209,6 +220,15 @@ describe('Quality Benchmark', () => {
               const bg = prev + ch;
               bigramCounts[bg] = (bigramCounts[bg] || 0) + 1;
               totalBigrams++;
+            }
+          }
+          if (ci > 1) {
+            const pp = w[ci - 2];
+            const prev = w[ci - 1];
+            if (pp >= 'a' && pp <= 'z' && prev >= 'a' && prev <= 'z' && ch >= 'a' && ch <= 'z') {
+              const tg = pp + prev + ch;
+              trigramCounts[tg] = (trigramCounts[tg] || 0) + 1;
+              totalTrigrams++;
             }
           }
         }
@@ -308,6 +328,22 @@ describe('Quality Benchmark', () => {
       console.log('Top 5 under:', ratios.slice(-5).reverse().map(x => `${x.bg}:${x.ratio.toFixed(2)}×`).join(', '));
 
       expect(r).toBeGreaterThan(0.40);
+    });
+
+    it('Trigram frequency correlation with English', () => {
+      const trigrams = Object.keys(NORVIG_TRIGRAM_FREQ);
+      const ours = trigrams.map(tg => (trigramCounts[tg] || 0) / totalTrigrams * 100);
+      const norvig = trigrams.map(tg => NORVIG_TRIGRAM_FREQ[tg]);
+      const r = pearsonCorrelation(ours, norvig);
+
+      const ratios = trigrams.map(tg => ({
+        tg, ratio: ((trigramCounts[tg] || 0) / totalTrigrams * 100) / NORVIG_TRIGRAM_FREQ[tg]
+      })).sort((a, b) => b.ratio - a.ratio);
+      console.log(`\n=== Trigram Frequency Correlation: r=${r.toFixed(4)} ===`);
+      console.log('Top 5 over:', ratios.slice(0, 5).map(x => `${x.tg}:${x.ratio.toFixed(2)}×`).join(', '));
+      console.log('Top 5 under:', ratios.slice(-5).reverse().map(x => `${x.tg}:${x.ratio.toFixed(2)}×`).join(', '));
+
+      expect(r).toBeGreaterThan(0.30);
     });
 
     it('No letter more than 25× over or under expected frequency', () => {
