@@ -148,6 +148,20 @@ export const englishConfig: LanguageConfig = {
       probability: 25,
     },
     {
+      name: "cx-to-x",
+      pattern: "cx",
+      replacement: "x",
+      probability: 100,
+      scope: "word",
+    },
+    {
+      name: "cw-to-qu",
+      pattern: "cw",
+      replacement: "qu",
+      probability: 100,
+      scope: "word",
+    },
+    {
       name: "hard-c-before-front-vowel",
       pattern: "c([eiy])",
       replacement: "k$1",
@@ -261,7 +275,7 @@ export const englishConfig: LanguageConfig = {
     attestedOnsets: [
       ["p","l"],["p","r"],["b","l"],["b","r"],["t","r"],["d","r"],
       ["k","l"],["k","r"],["g","l"],["g","r"],["f","l"],["f","r"],
-      ["θ","r"],["ʃ","r"],["t","w"],["d","w"],["k","w"],["s","w"],
+      ["θ","r"],["ʃ","r"],["t","w"],["k","w"],["s","w"],
       ["s","l"],["s","m"],["s","n"],["s","p"],["s","t"],["s","k"],
       ["s","p","l"],["s","p","r"],["s","t","r"],["s","k","r"],["s","k","w"],
     ],
@@ -274,6 +288,7 @@ export const englishConfig: LanguageConfig = {
       "ch", "sh", "th", "ng", "ph", "wh", "ck", // digraphs (2 letters → 1 unit)
     ],
     maxConsonantLetters: 4,
+    maxFinalConsonantLetters: 3,
     maxVowelLetters: 2,
   },
 

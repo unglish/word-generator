@@ -285,6 +285,13 @@ export interface WrittenFormConstraints {
   maxConsonantLetters?: number;
 
   /**
+   * Max consecutive consonant letters allowed at the end of a word.
+   * Applied after general consonant repairs. Trims from the interior
+   * of the final consonant cluster. Default: no limit.
+   */
+  maxFinalConsonantLetters?: number;
+
+  /**
    * Max consecutive vowel *letters* (a, e, i, o, u, y) allowed.
    * Applied after consonant repairs. Default: no limit.
    */
