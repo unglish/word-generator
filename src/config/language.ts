@@ -241,6 +241,60 @@ export interface DoublingConfig {
 }
 
 /**
+ * A single vowel-grapheme swap for the silent-e rule.
+ * When a word ends in a single consonant grapheme preceded by a long vowel,
+ * the vowel's "long" grapheme can be replaced with its "short" form and a
+ * silent 'e' appended to signal the long pronunciation.
+ */
+export interface SilentESwap {
+  /** IPA phoneme sound this swap applies to (e.g. "eɪ", "i:", "aɪ"). */
+  phoneme: string;
+  /** The "long" grapheme form to look for (e.g. "ai", "ee", "igh"). */
+  from: string;
+  /** The "short" replacement form (e.g. "a", "e", "i"). */
+  to: string;
+}
+
+/**
+ * Configuration for the silent-e (magic-e / split digraph) spelling pattern.
+ *
+ * When enabled, word-final VCe patterns are created by replacing a long-vowel
+ * grapheme with its short counterpart and appending silent 'e'. This only
+ * applies when the word ends in a single consonant grapheme.
+ */
+/**
+ * A consonant sound that always receives a trailing silent-e word-finally,
+ * regardless of the preceding vowel's length (orthographic convention).
+ * E.g. English words never end in bare 'v': "give", "love", "have".
+ */
+export interface SilentEAppendRule {
+  /** IPA consonant sound (e.g. "v", "z"). */
+  sound: string;
+  /** Probability (0-100) of appending silent-e when this sound is word-final. */
+  probability: number;
+}
+
+export interface SilentEConfig {
+  /** Master switch. */
+  enabled: boolean;
+  /** Probability (0-100) of applying when the pattern is eligible. */
+  probability: number;
+  /** Vowel grapheme swaps that define eligible patterns. */
+  swaps: SilentESwap[];
+  /**
+   * Consonant sounds (IPA) where silent-e should NOT be applied.
+   * E.g. /w/, /h/, /j/ — English never uses silent-e after these.
+   */
+  excludedCodas?: string[];
+  /**
+   * Consonant sounds where silent-e is always appended word-finally,
+   * regardless of vowel length. This is purely orthographic — the vowel
+   * sound doesn't change. E.g. English "v" → "give", "love", "have".
+   */
+  appendAfter?: SilentEAppendRule[];
+}
+
+/**
  * A post-selection spelling rule (regex-based transformation on written output).
  */
 export interface SpellingRule {
@@ -376,6 +430,9 @@ export interface LanguageConfig {
 
   /** Consonant doubling strategy. */
   doubling?: DoublingConfig;
+
+  /** Silent-e (magic-e / split digraph) configuration. */
+  silentE?: SilentEConfig;
 
   /** Post-selection spelling adjustments. */
   spellingRules?: SpellingRule[];
