@@ -191,12 +191,26 @@ describe('Quality Benchmark', () => {
     let totalBigrams = 0;
     let totalTrigrams = 0;
 
+    // Monosyllable stats
+    let monoTotal = 0;
+    let monoTwoLetterOrLess = 0;
+    let monoOpen = 0; // no coda
+
     beforeAll(async () => {
       // Generate 200k words
       gateWords = [];
       for (let i = 0; i < GATE_SAMPLE_SIZE; i++) {
         if (i > 0 && i % 10_000 === 0) await new Promise(r => setTimeout(r, 0));
-        gateWords.push(generateWord({ seed: i }).written.clean.toLowerCase());
+        const word = generateWord({ seed: i });
+        const w = word.written.clean.toLowerCase();
+        gateWords.push(w);
+
+        // Track monosyllable stats
+        if (word.syllables.length === 1) {
+          monoTotal++;
+          if (w.length <= 2) monoTwoLetterOrLess++;
+          if (word.syllables[0].coda.length === 0) monoOpen++;
+        }
       }
 
       // Single pass to compute all counts
@@ -287,6 +301,18 @@ describe('Quality Benchmark', () => {
 
     it('Gate: rengTeng < 150', () => {
       expect(rengTengCount).toBeLessThan(150);
+    });
+
+    it('Gate: 2-letter monosyllables ≤ 3% of all monosyllables', () => {
+      const pct = monoTwoLetterOrLess / monoTotal * 100;
+      console.log(`2-letter mono: ${monoTwoLetterOrLess}/${monoTotal} (${pct.toFixed(1)}%)`);
+      expect(pct).toBeLessThanOrEqual(3);
+    });
+
+    it('Gate: open monosyllables ≤ 20% of all monosyllables', () => {
+      const pct = monoOpen / monoTotal * 100;
+      console.log(`Open mono: ${monoOpen}/${monoTotal} (${pct.toFixed(1)}%)`);
+      expect(pct).toBeLessThanOrEqual(20);
     });
 
     // Orthographic distribution benchmarks

@@ -116,7 +116,7 @@ export const HAS_ONSET_START_OF_WORD = 95;
 export const HAS_ONSET_AFTER_CODA = 80;
 
 /** Chance (out of 100) that a monosyllabic word has a coda. */
-export const HAS_CODA_MONOSYLLABIC = 80;
+export const HAS_CODA_MONOSYLLABIC = 90;
 
 /** Chance (out of 100) that the final syllable of a polysyllabic word has a coda. */
 export const HAS_CODA_END_OF_WORD = 90;
@@ -168,7 +168,7 @@ export const SYLLABLE_COUNT_WEIGHTS_LEXICON: [number, number][] = [
  * Used for rejection sampling to shape word-length distribution.
  */
 export const LETTER_LENGTH_TARGETS: Record<number, [number, number, number, number]> = {
-  1: [1, 2, 5, 7],
+  1: [3, 3, 5, 7],
   2: [3, 5, 7, 10],
   3: [5, 7, 10, 13],
   4: [7, 8, 12, 15],

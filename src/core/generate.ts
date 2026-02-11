@@ -595,6 +595,10 @@ function generateOneWord(
       currSyllableIndex: 0,
     };
     runPipeline(rt, context, mode);
+    // Reject monosyllables shorter than 3 letters (kills "ra", "le", "da", etc.)
+    if (context.syllableCount === 1 && context.word.written.clean.length < 3 && attempt < MAX_LENGTH_RETRIES) {
+      continue;
+    }
     if (attempt === MAX_LENGTH_RETRIES || acceptLetterLength(rt, context)) {
       return context.word;
     }
