@@ -168,7 +168,7 @@ export const SYLLABLE_COUNT_WEIGHTS_LEXICON: [number, number][] = [
  * Used for rejection sampling to shape word-length distribution.
  */
 export const LETTER_LENGTH_TARGETS: Record<number, [number, number, number, number]> = {
-  1: [3, 3, 5, 7],
+  1: [2, 3, 5, 7],
   2: [3, 5, 7, 10],
   3: [5, 7, 10, 13],
   4: [7, 8, 12, 15],
