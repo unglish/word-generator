@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+  base: './',
   root: 'demo',
   server: {
     allowedHosts: ['unglish.exe.xyz'],

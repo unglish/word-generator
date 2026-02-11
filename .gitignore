@@ -140,3 +140,16 @@ quality-report.json
 # Python virtual environment
 .venv/
 PLAN-*.md
+
+# Demo build output (keep hand-written demo files, ignore compiled lib)
+demo/config/
+demo/core/
+demo/elements/
+demo/phonotactic/
+demo/utils/
+demo/types.js
+demo/types.d.ts
+demo/*.d.ts
+demo/*.d.ts.map
+demo/main.js
+REVIEW-*.md
