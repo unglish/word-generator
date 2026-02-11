@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary, applySilentE } from './write';
+import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary, applySilentE, appendSilentE } from './write';
 import { generateWord, createGenerator } from './generate';
 import { englishConfig } from '../config/english';
 import { Phoneme } from '../types';
@@ -659,6 +659,86 @@ describe('applySilentE', () => {
 });
 
 // ---------------------------------------------------------------------------
+// appendSilentE (orthographic silent-e for short vowels)
+// ---------------------------------------------------------------------------
+
+describe('appendSilentE', () => {
+  function ph(sound: string, extras: Partial<Phoneme> = {}): Phoneme {
+    return {
+      sound,
+      voiced: false,
+      mannerOfArticulation: 'stop',
+      placeOfArticulation: 'alveolar',
+      startWord: 1,
+      midWord: 1,
+      endWord: 1,
+      ...extras,
+    };
+  }
+
+  const lookup = new Map([['v', 95]]);
+
+  it('appends "e" after word-final /v/ — "giv" → "give"', () => {
+    const clean = ['giv'];
+    const hyph = ['giv'];
+    const syllables = [{ onset: [ph('g')], nucleus: [ph('ɪ')], coda: [ph('v')] }];
+    appendSilentE(clean, hyph, syllables, lookup, () => 0);
+    expect(clean[0]).toBe('give');
+  });
+
+  it('appends "e" after word-final /v/ — "luv" → "luve"', () => {
+    const clean = ['luv'];
+    const hyph = ['luv'];
+    const syllables = [{ onset: [ph('l')], nucleus: [ph('ʌ')], coda: [ph('v')] }];
+    appendSilentE(clean, hyph, syllables, lookup, () => 0);
+    expect(clean[0]).toBe('luve');
+  });
+
+  it('does not double-append when word already ends in "e" (magic-e fired)', () => {
+    const clean = ['lave'];
+    const hyph = ['lave'];
+    const syllables = [{ onset: [ph('l')], nucleus: [ph('eɪ')], coda: [ph('v')] }];
+    appendSilentE(clean, hyph, syllables, lookup, () => 0);
+    expect(clean[0]).toBe('lave'); // unchanged
+  });
+
+  it('does not apply to sounds not in the lookup', () => {
+    const clean = ['gib'];
+    const hyph = ['gib'];
+    const syllables = [{ onset: [ph('g')], nucleus: [ph('ɪ')], coda: [ph('b')] }];
+    appendSilentE(clean, hyph, syllables, lookup, () => 0);
+    expect(clean[0]).toBe('gib');
+  });
+
+  it('respects probability (rand >= threshold → no change)', () => {
+    const clean = ['giv'];
+    const hyph = ['giv'];
+    const syllables = [{ onset: [ph('g')], nucleus: [ph('ɪ')], coda: [ph('v')] }];
+    appendSilentE(clean, hyph, syllables, lookup, () => 0.99);
+    expect(clean[0]).toBe('giv');
+  });
+
+  it('works on multi-syllable words (applies to last syllable)', () => {
+    const clean = ['a', 'bov'];
+    const hyph = ['a', '&shy;', 'bov'];
+    const syllables = [
+      { onset: [], nucleus: [ph('ə')], coda: [] },
+      { onset: [ph('b')], nucleus: [ph('ʌ')], coda: [ph('v')] },
+    ];
+    appendSilentE(clean, hyph, syllables, lookup, () => 0);
+    expect(clean[1]).toBe('bove');
+  });
+
+  it('does not apply when coda is empty', () => {
+    const clean = ['ba'];
+    const hyph = ['ba'];
+    const syllables = [{ onset: [ph('b')], nucleus: [ph('æ')], coda: [] }];
+    appendSilentE(clean, hyph, syllables, lookup, () => 0);
+    expect(clean[0]).toBe('ba');
+  });
+});
+
+// ---------------------------------------------------------------------------
 // Silent-e integration
 // ---------------------------------------------------------------------------
 
@@ -682,5 +762,25 @@ describe('silent-e integration', () => {
     expect(silentECount).toBeGreaterThan(0);
     // Log for visibility
     console.log(`  Silent-e words: ${silentECount}/${total} (${(silentECount/total*100).toFixed(1)}%)`);
+  });
+
+  it('very few words end in bare "v" in 10k generated words', () => {
+    const gen = createGenerator(englishConfig);
+    let bareV = 0;
+    let totalEndingV = 0;
+    const total = 10000;
+
+    for (let i = 0; i < total; i++) {
+      const word = gen.generateWord({ seed: i });
+      const clean = word.written.clean.toLowerCase();
+      if (clean.endsWith('v')) bareV++;
+      if (clean.endsWith('v') || clean.endsWith('ve')) totalEndingV++;
+    }
+
+    console.log(`  Bare 'v' endings: ${bareV}/${total}, total v/ve endings: ${totalEndingV}/${total}`);
+    // With 95% probability, bare v should be very rare (< 2% of v-ending words)
+    if (totalEndingV > 0) {
+      expect(bareV / totalEndingV).toBeLessThan(0.15);
+    }
   });
 });

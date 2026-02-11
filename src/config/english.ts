@@ -157,6 +157,9 @@ export const englishConfig: LanguageConfig = {
       { phoneme: "u", from: "ue", to: "u" },
     ],
     excludedCodas: ["w", "j", "h"],
+    appendAfter: [
+      { sound: "v", probability: 95 },
+    ],
   },
 
   spellingRules: [

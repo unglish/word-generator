@@ -1,5 +1,5 @@
 import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
-import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig } from "../config/language.js";
+import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from '../utils/random.js';
 import getWeightedOption from "../utils/getWeightedOption.js";
 
@@ -988,6 +988,53 @@ export function applySilentE(
 }
 
 // ---------------------------------------------------------------------------
+// Silent-e: orthographic append (short-vowel contexts)
+// ---------------------------------------------------------------------------
+
+/** Pre-compiled lookup: IPA sound → probability */
+type AppendAfterLookup = Map<string, number>;
+
+function buildAppendAfterLookup(rules: SilentEAppendRule[]): AppendAfterLookup {
+  return new Map(rules.map(r => [r.sound, r.probability]));
+}
+
+/**
+ * Append silent-e after word-final consonants that orthographically require it
+ * (e.g. English words never end in bare 'v'). Unlike magic-e, the vowel
+ * grapheme is NOT changed — this is purely an orthographic append.
+ *
+ * Only applies when the magic-e swap did NOT already fire (to avoid double-e).
+ */
+export function appendSilentE(
+  cleanParts: string[],
+  hyphenatedParts: string[],
+  syllables: { onset: Phoneme[]; nucleus: Phoneme[]; coda: Phoneme[] }[],
+  appendLookup: AppendAfterLookup,
+  rand: RNG,
+): void {
+  if (syllables.length === 0 || cleanParts.length === 0) return;
+
+  const lastSyl = syllables[syllables.length - 1];
+  if (lastSyl.coda.length === 0) return;
+
+  // Check the final coda sound
+  const finalCodaSound = lastSyl.coda[lastSyl.coda.length - 1].sound;
+  const probability = appendLookup.get(finalCodaSound);
+  if (probability === undefined) return;
+
+  // Don't append if word already ends in 'e' (magic-e already applied)
+  const lastPartIdx = cleanParts.length - 1;
+  const part = cleanParts[lastPartIdx];
+  if (part.length === 0 || part[part.length - 1] === 'e') return;
+
+  // Probability check
+  if (rand() >= probability / 100) return;
+
+  cleanParts[lastPartIdx] = part + 'e';
+  hyphenatedParts[lastPartIdx * 2] = cleanParts[lastPartIdx];
+}
+
+// ---------------------------------------------------------------------------
 // Factory
 // ---------------------------------------------------------------------------
 
@@ -1011,6 +1058,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const silentEConfig = config.silentE;
   const silentELookup = silentEConfig?.enabled ? buildSilentELookup(silentEConfig) : undefined;
   const silentEExcluded = new Set<string>(silentEConfig?.excludedCodas ?? []);
+  const appendAfterLookup = silentEConfig?.enabled && silentEConfig.appendAfter?.length
+    ? buildAppendAfterLookup(silentEConfig.appendAfter)
+    : undefined;
 
   return (context: WordGenerationContext) => {
     const rand = context.rand;
@@ -1095,12 +1145,17 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
     }
 
-    // Silent-e: rewrite final VCe patterns
+    // Silent-e: rewrite final VCe patterns (magic-e for long vowels)
     if (silentELookup && silentEConfig) {
       applySilentE(
         cleanParts, hyphenatedParts, syllables, nucleusGraphemes,
         silentELookup, silentEExcluded, silentEConfig.probability, rand,
       );
+    }
+
+    // Silent-e: orthographic append for consonants that can't end bare (e.g. 'v')
+    if (appendAfterLookup) {
+      appendSilentE(cleanParts, hyphenatedParts, syllables, appendAfterLookup, rand);
     }
 
     // Hard-g fix: if a syllable ends with 'g' (from /g/ in coda) and the

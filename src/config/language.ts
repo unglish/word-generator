@@ -262,6 +262,18 @@ export interface SilentESwap {
  * grapheme with its short counterpart and appending silent 'e'. This only
  * applies when the word ends in a single consonant grapheme.
  */
+/**
+ * A consonant sound that always receives a trailing silent-e word-finally,
+ * regardless of the preceding vowel's length (orthographic convention).
+ * E.g. English words never end in bare 'v': "give", "love", "have".
+ */
+export interface SilentEAppendRule {
+  /** IPA consonant sound (e.g. "v", "z"). */
+  sound: string;
+  /** Probability (0-100) of appending silent-e when this sound is word-final. */
+  probability: number;
+}
+
 export interface SilentEConfig {
   /** Master switch. */
   enabled: boolean;
@@ -274,6 +286,12 @@ export interface SilentEConfig {
    * E.g. /w/, /h/, /j/ — English never uses silent-e after these.
    */
   excludedCodas?: string[];
+  /**
+   * Consonant sounds where silent-e is always appended word-finally,
+   * regardless of vowel length. This is purely orthographic — the vowel
+   * sound doesn't change. E.g. English "v" → "give", "love", "have".
+   */
+  appendAfter?: SilentEAppendRule[];
 }
 
 /**
