@@ -521,6 +521,32 @@ function resolveRng(options: WordGenerationOptions): RNG {
  *
  * Returns true if the word should be accepted.
  */
+function generateOneWord(
+  rt: GeneratorRuntime,
+  rand: RNG,
+  mode: GenerationMode,
+  syllableCount: number,
+): Word {
+  const maxRetries = 3;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    const context: WordGenerationContext = {
+      rand,
+      word: {
+        syllables: [],
+        pronunciation: '',
+        written: { clean: '', hyphenated: '' },
+      },
+      syllableCount,
+      currSyllableIndex: 0,
+    };
+    runPipeline(rt, context, mode);
+    if (attempt === maxRetries || acceptLetterLength(rt, context)) {
+      return context.word;
+    }
+  }
+  throw new Error("unreachable");
+}
+
 function acceptLetterLength(rt: GeneratorRuntime, context: WordGenerationContext): boolean {
   const targets = rt.config.syllableStructure.letterLengthTargets;
   if (!targets) return true;
@@ -585,30 +611,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 
   return {
     generateWord: (options: WordGenerationOptions = {}): Word => {
-      const rand = resolveRng(options);
-      const mode = options.mode ?? "text";
-      const maxRetries = 3;
-
-      for (let attempt = 0; attempt <= maxRetries; attempt++) {
-        const context: WordGenerationContext = {
-          rand,
-          word: {
-            syllables: [],
-            pronunciation: '',
-            written: { clean: '', hyphenated: '' },
-          },
-          syllableCount: options.syllableCount || 0,
-          currSyllableIndex: 0,
-        };
-
-        runPipeline(rt, context, mode);
-
-        if (attempt === maxRetries || acceptLetterLength(rt, context)) {
-          return context.word;
-        }
-      }
-      // unreachable, but satisfies TS
-      throw new Error("unreachable");
+      return generateOneWord(rt, resolveRng(options), options.mode ?? "text", options.syllableCount || 0);
     },
   };
 }
@@ -629,29 +632,7 @@ const defaultRuntime = buildRuntime(englishConfig);
  * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
-  const rand = resolveRng(options);
-  const mode = options.mode ?? "text";
-  const maxRetries = 3;
-
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    const context: WordGenerationContext = {
-      rand,
-      word: {
-        syllables: [],
-        pronunciation: '',
-        written: { clean: '', hyphenated: '' },
-      },
-      syllableCount: options.syllableCount || 0,
-      currSyllableIndex: 0,
-    };
-
-    runPipeline(defaultRuntime, context, mode);
-
-    if (attempt === maxRetries || acceptLetterLength(defaultRuntime, context)) {
-      return context.word;
-    }
-  }
-  throw new Error("unreachable");
+  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "text", options.syllableCount || 0);
 };
 
 /**
@@ -676,28 +657,10 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
 export const generateWords = (count: number, options: WordGenerationOptions = {}): Word[] => {
   const rand = resolveRng(options);
   const mode = options.mode ?? "text";
-  const maxRetries = 3;
+  const syllableCount = options.syllableCount || 0;
   const results: Word[] = [];
   for (let i = 0; i < count; i++) {
-    let word: Word | undefined;
-    for (let attempt = 0; attempt <= maxRetries; attempt++) {
-      const context: WordGenerationContext = {
-        rand,
-        word: {
-          syllables: [],
-          pronunciation: '',
-          written: { clean: '', hyphenated: '' },
-        },
-        syllableCount: options.syllableCount || 0,
-        currSyllableIndex: 0,
-      };
-      runPipeline(defaultRuntime, context, mode);
-      if (attempt === maxRetries || acceptLetterLength(defaultRuntime, context)) {
-        word = context.word;
-        break;
-      }
-    }
-    results.push(word!);
+    results.push(generateOneWord(defaultRuntime, rand, mode, syllableCount));
   }
   return results;
 };
