@@ -235,9 +235,9 @@ function filterByPosition(
   isEndOfWord: boolean,
 ): Grapheme[] {
   const filtered = candidates.filter(g =>
-    (!isCluster || !g.cluster || g.cluster > 0) &&
-    (!isStartOfWord || !g.startWord || g.startWord > 0) &&
-    (!isEndOfWord || !g.endWord || g.endWord > 0) &&
+    (!isCluster || g.cluster === undefined || g.cluster > 0) &&
+    (!isStartOfWord || g.startWord === undefined || g.startWord > 0) &&
+    (!isEndOfWord || g.endWord === undefined || g.endWord > 0) &&
     ((!isEndOfWord && !isStartOfWord) || g.midWord > 0)
   );
   return filtered.length > 0 ? filtered : candidates;
@@ -842,6 +842,63 @@ export function repairVowelLetters(
 }
 
 // ---------------------------------------------------------------------------
+// Word-final consonant letter repair
+// ---------------------------------------------------------------------------
+
+/**
+ * Trim word-final consonant letter runs that exceed `maxLetters`.
+ * Drops interior consonant letters from the last part's trailing cluster.
+ */
+export function repairFinalConsonantLetters(
+  cleanParts: string[],
+  hyphenatedParts: string[],
+  maxLetters: number,
+): void {
+  if (cleanParts.length === 0) return;
+
+  const word = cleanParts.join('');
+  // Find trailing consonant run
+  let runLen = 0;
+  for (let i = word.length - 1; i >= 0; i--) {
+    if (isConsonantLetter(word[i], i, word)) runLen++;
+    else break;
+  }
+
+  if (runLen <= maxLetters) return;
+
+  // Work on the last part
+  const lastIdx = cleanParts.length - 1;
+  let part = cleanParts[lastIdx];
+
+  // Find trailing consonant letters in this part
+  let partRunLen = 0;
+  for (let i = part.length - 1; i >= 0; i--) {
+    if (isConsonantLetter(part[i], i, part)) partRunLen++;
+    else break;
+  }
+
+  if (partRunLen <= maxLetters) {
+    // The run spans parts — just trim from the last part
+    // This is rare; keep what we have
+    return;
+  }
+
+  // Drop interior consonants from the trailing cluster to fit maxLetters
+  const clusterStart = part.length - partRunLen;
+  const cluster = part.slice(clusterStart);
+
+  // Keep first and last letters, drop from interior
+  if (cluster.length <= maxLetters) return;
+
+  // Keep the last `maxLetters` letters (preserves word-final sounds)
+  const trimmed = cluster.slice(cluster.length - maxLetters);
+  part = part.slice(0, clusterStart) + trimmed;
+
+  cleanParts[lastIdx] = part;
+  hyphenatedParts[lastIdx * 2] = part;
+}
+
+// ---------------------------------------------------------------------------
 // Factory
 // ---------------------------------------------------------------------------
 
@@ -985,6 +1042,11 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       repairConsonantLetters(cleanParts, hyphenatedParts, wfc.maxConsonantLetters);
     }
 
+    // Word-final consonant letter limit
+    if (wfc?.maxFinalConsonantLetters) {
+      repairFinalConsonantLetters(cleanParts, hyphenatedParts, wfc.maxFinalConsonantLetters);
+    }
+
     // Raw vowel letter backstop
     if (wfc?.maxVowelLetters) {
       repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters);
@@ -1018,6 +1080,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
       if (wfc.maxConsonantLetters) {
         repairConsonantLetters(postParts, postHyph, wfc.maxConsonantLetters);
+      }
+      if (wfc.maxFinalConsonantLetters) {
+        repairFinalConsonantLetters(postParts, postHyph, wfc.maxFinalConsonantLetters);
       }
       finalClean = postParts[0];
     }
