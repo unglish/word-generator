@@ -241,6 +241,18 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 2,
   },
+  {
+    phoneme: "ɔ",
+    form: "ough",
+    origin: 0,
+    frequency: 8,
+    onset: 0,
+    coda: 0,
+    startWord: 0,
+    midWord: 3,
+    endWord: 5,
+    condition: { rightContext: ["t"] },
+  },
 
   // hope
   { 
