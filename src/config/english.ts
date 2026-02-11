@@ -133,6 +133,32 @@ export const englishConfig: LanguageConfig = {
     unstressedModifier: 0.5,
   },
 
+  silentE: {
+    enabled: true,
+    probability: 35,
+    swaps: [
+      // /eɪ/ — "ai" → "a" + e (make, lake, name)
+      { phoneme: "eɪ", from: "ai", to: "a" },
+      { phoneme: "eɪ", from: "ae", to: "a" },
+      { phoneme: "eɪ", from: "ea", to: "a" },
+      // /iː/ — "ee" → "e" + e (these, Pete)
+      { phoneme: "i:", from: "ee", to: "e" },
+      { phoneme: "i:", from: "ea", to: "e" },
+      // /aɪ/ — "igh" → "i" + e (time, life); "ie" → "i" + e (ditto)
+      { phoneme: "aɪ", from: "igh", to: "i" },
+      { phoneme: "aɪ", from: "ie", to: "i" },
+      // /əʊ/ — "ow" → "o" + e (home, bone)
+      { phoneme: "əʊ", from: "ow", to: "o" },
+      { phoneme: "əʊ", from: "oe", to: "o" },
+      // /o/ — "oa" → "o" + e (hope, note)
+      { phoneme: "o", from: "oa", to: "o" },
+      // /uː/ — "oo" → "u" + e (rude, tube); "ue" → "u" + e
+      { phoneme: "u", from: "oo", to: "u" },
+      { phoneme: "u", from: "ue", to: "u" },
+    ],
+    excludedCodas: ["w", "j", "h"],
+  },
+
   spellingRules: [
     {
       name: "magic-e",

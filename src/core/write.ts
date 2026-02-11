@@ -1,5 +1,5 @@
 import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
-import { LanguageConfig, DoublingConfig, SpellingRule } from "../config/language.js";
+import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig } from "../config/language.js";
 import type { RNG } from '../utils/random.js';
 import getWeightedOption from "../utils/getWeightedOption.js";
 
@@ -900,6 +900,94 @@ export function repairFinalConsonantLetters(
 }
 
 // ---------------------------------------------------------------------------
+// Silent-e (magic-e / split digraph)
+// ---------------------------------------------------------------------------
+
+/** Pre-compiled silent-e swap lookup: phoneme → [{from, to}] sorted longest-from-first. */
+type SilentELookup = Map<string, { from: string; to: string }[]>;
+
+function buildSilentELookup(config: SilentEConfig): SilentELookup {
+  const map = new Map<string, { from: string; to: string }[]>();
+  for (const swap of config.swaps) {
+    let list = map.get(swap.phoneme);
+    if (!list) { list = []; map.set(swap.phoneme, list); }
+    list.push({ from: swap.from, to: swap.to });
+  }
+  // Sort each list longest-from-first for greedy matching
+  for (const list of map.values()) {
+    list.sort((a, b) => b.from.length - a.from.length);
+  }
+  return map;
+}
+
+/**
+ * Attempt to apply silent-e to the final syllable of a word.
+ *
+ * Requirements:
+ * - Final syllable has exactly 1 coda consonant
+ * - That consonant is not in the excluded set
+ * - The nucleus phoneme has a matching swap
+ * - The written nucleus grapheme matches the swap's `from`
+ *
+ * Returns the modified cleanParts/hyphenatedParts (mutated in place) or leaves unchanged.
+ */
+export function applySilentE(
+  cleanParts: string[],
+  hyphenatedParts: string[],
+  syllables: { onset: Phoneme[]; nucleus: Phoneme[]; coda: Phoneme[] }[],
+  nucleusGraphemes: string[],
+  lookup: SilentELookup,
+  excludedCodas: Set<string>,
+  probability: number,
+  rand: RNG,
+): void {
+  if (syllables.length === 0 || cleanParts.length === 0) return;
+
+  const lastSylIdx = syllables.length - 1;
+  const lastSyl = syllables[lastSylIdx];
+
+  // Must have exactly 1 coda consonant
+  if (lastSyl.coda.length !== 1) return;
+
+  // Must have a nucleus
+  if (lastSyl.nucleus.length !== 1) return;
+
+  // Check excluded coda sounds
+  const codaSound = lastSyl.coda[0].sound;
+  if (excludedCodas.has(codaSound)) return;
+
+  // Check if nucleus phoneme has eligible swaps
+  const nucleusSound = lastSyl.nucleus[0].sound;
+  const swaps = lookup.get(nucleusSound);
+  if (!swaps) return;
+
+  // Get the nucleus grapheme that was selected for this syllable
+  const nucleusForm = nucleusGraphemes[lastSylIdx];
+  if (!nucleusForm) return;
+
+  // Find a matching swap
+  const swap = swaps.find(s => s.from === nucleusForm);
+  if (!swap) return;
+
+  // Probability check
+  if (rand() >= probability / 100) return;
+
+  // Apply the swap: replace the vowel grapheme in the last clean part and append 'e'
+  const lastPartIdx = cleanParts.length - 1;
+  let part = cleanParts[lastPartIdx];
+
+  // Find the vowel grapheme in the written part.
+  // The nucleus grapheme should appear before the final consonant grapheme(s).
+  const fromIdx = part.lastIndexOf(swap.from);
+  if (fromIdx < 0) return;
+
+  // Ensure the swap target is in the vowel portion (before the final consonant letters)
+  const newPart = part.slice(0, fromIdx) + swap.to + part.slice(fromIdx + swap.from.length) + 'e';
+  cleanParts[lastPartIdx] = newPart;
+  hyphenatedParts[lastPartIdx * 2] = newPart;
+}
+
+// ---------------------------------------------------------------------------
 // Factory
 // ---------------------------------------------------------------------------
 
@@ -919,6 +1007,11 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   // Pre-expand conditions for all graphemes
   const expandedConditions = preExpandConditions(config.graphemes, categories);
 
+  // Silent-e pre-compilation
+  const silentEConfig = config.silentE;
+  const silentELookup = silentEConfig?.enabled ? buildSilentELookup(silentEConfig) : undefined;
+  const silentEExcluded = new Set<string>(silentEConfig?.excludedCodas ?? []);
+
   return (context: WordGenerationContext) => {
     const rand = context.rand;
     const { syllables, written } = context.word;
@@ -937,6 +1030,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const hyphenatedParts: string[] = [];
     let currentSyllable: string[] = [];
     const doublingCtx: DoublingContext = { doublingCount: 0 };
+    const nucleusGraphemes: string[] = []; // Track nucleus grapheme form per syllable
+    let currentNucleusForm = '';
 
     for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
       const { phoneme, syllableIndex, position, stress } = flattenedPhonemes[phonemeIndex];
@@ -969,6 +1064,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       // condition-filtered set so we still produce output for this phoneme.
       const viable = positional.length > 0 ? positional : conditioned;
       const selected = selectByFrequency(viable, rand);
+      if (position === "nucleus") currentNucleusForm = selected.form;
       const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, stress, prevReduced, neverDoubleSet, rand);
 
       if (currentSyllable.length > 0 && form.length > 0 &&
@@ -988,13 +1084,23 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
         cleanParts.push(syllableStr);
         hyphenatedParts.push(syllableStr);
+        nucleusGraphemes.push(currentNucleusForm);
 
         if (nextEntry) {
           hyphenatedParts.push("&shy;");
         }
 
         currentSyllable = [];
+        currentNucleusForm = '';
       }
+    }
+
+    // Silent-e: rewrite final VCe patterns
+    if (silentELookup && silentEConfig) {
+      applySilentE(
+        cleanParts, hyphenatedParts, syllables, nucleusGraphemes,
+        silentELookup, silentEExcluded, silentEConfig.probability, rand,
+      );
     }
 
     // Hard-g fix: if a syllable ends with 'g' (from /g/ in coda) and the
