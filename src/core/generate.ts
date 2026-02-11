@@ -483,7 +483,40 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
     context.currSyllableIndex++;
   }
 
+  // Repair vowel hiatus: insert glide onset when two nuclei meet with no
+  // intervening consonant (no coda on prev + no onset on current).
+  repairVowelHiatus(rt, syllables);
+
   context.word.syllables = syllables;
+}
+
+/**
+ * Insert a glide onset to break vowel hiatus at syllable boundaries.
+ *
+ * When two consecutive syllables have no consonant between them (prev has no
+ * coda, current has no onset), a glide is inserted as the onset of the second
+ * syllable: /j/ after front vowels, /w/ after back/round vowels, and /j/ as
+ * the default for central vowels.
+ */
+function repairVowelHiatus(rt: GeneratorRuntime, syllables: Syllable[]): void {
+  const jPhoneme = rt.config.phonemes.find(p => p.sound === 'j');
+  const wPhoneme = rt.config.phonemes.find(p => p.sound === 'w');
+  if (!jPhoneme || !wPhoneme) return;
+
+  for (let i = 1; i < syllables.length; i++) {
+    const prev = syllables[i - 1];
+    const curr = syllables[i];
+
+    if (prev.coda.length === 0 && curr.onset.length === 0) {
+      // Pick glide based on the place of the preceding nucleus vowel
+      const lastNucleus = prev.nucleus[prev.nucleus.length - 1];
+      if (!lastNucleus) continue;
+
+      const place = lastNucleus.placeOfArticulation;
+      const glide = place === 'back' ? wPhoneme : jPhoneme;
+      curr.onset = [glide];
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
