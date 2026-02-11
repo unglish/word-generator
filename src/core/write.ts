@@ -228,19 +228,20 @@ function filterByCondition(
 // Pipeline Step 3: Filter by position
 // ---------------------------------------------------------------------------
 
-function filterByPosition(
+export function filterByPosition(
   candidates: Grapheme[],
   isCluster: boolean,
   isStartOfWord: boolean,
   isEndOfWord: boolean,
 ): Grapheme[] {
+  const isMidWord = !isStartOfWord && !isEndOfWord;
   const filtered = candidates.filter(g =>
     (!isCluster || g.cluster === undefined || g.cluster > 0) &&
     (!isStartOfWord || g.startWord === undefined || g.startWord > 0) &&
     (!isEndOfWord || g.endWord === undefined || g.endWord > 0) &&
-    ((!isEndOfWord && !isStartOfWord) || g.midWord > 0)
+    (!isMidWord || g.midWord === undefined || g.midWord > 0)
   );
-  return filtered.length > 0 ? filtered : candidates;
+  return filtered;
 }
 
 // ---------------------------------------------------------------------------
@@ -964,7 +965,10 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
       const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord);
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
-      const selected = selectByFrequency(positional, rand);
+      // If position filtering removed all candidates, fall back to the
+      // condition-filtered set so we still produce output for this phoneme.
+      const viable = positional.length > 0 ? positional : conditioned;
+      const selected = selectByFrequency(viable, rand);
       const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, stress, prevReduced, neverDoubleSet, rand);
 
       if (currentSyllable.length > 0 && form.length > 0 &&

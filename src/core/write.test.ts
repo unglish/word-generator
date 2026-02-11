@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, mannerGroup, placeGroup, isCoronal, SyllableBoundary } from './write';
+import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary } from './write';
 import { generateWord, createGenerator } from './generate';
 import { englishConfig } from '../config/english';
 import { Phoneme } from '../types';
@@ -483,3 +483,80 @@ function getMaxConsonantLetterRun(word: string): number {
   }
   return max;
 }
+
+// ---------------------------------------------------------------------------
+// filterByPosition
+// ---------------------------------------------------------------------------
+
+describe('filterByPosition', () => {
+  const makeGrapheme = (overrides: Partial<import('../types').Grapheme> = {}): import('../types').Grapheme => ({
+    phoneme: 'test', form: 'x', origin: 0, frequency: 10,
+    startWord: 5, midWord: 5, endWord: 5,
+    ...overrides,
+  });
+
+  it('returns empty array when all candidates have midWord: 0 and position is mid-word', () => {
+    const candidates = [
+      makeGrapheme({ form: 'igh', midWord: 0 }),
+      makeGrapheme({ form: 'ough', midWord: 0 }),
+    ];
+    const result = filterByPosition(candidates, false, false, false);
+    expect(result).toEqual([]);
+  });
+
+  it('returns candidates with midWord > 0 when mid-word', () => {
+    const candidates = [
+      makeGrapheme({ form: 'igh', midWord: 0 }),
+      makeGrapheme({ form: 'i', midWord: 5 }),
+    ];
+    const result = filterByPosition(candidates, false, false, false);
+    expect(result).toHaveLength(1);
+    expect(result[0].form).toBe('i');
+  });
+
+  it('does not filter by midWord at start of word', () => {
+    const candidates = [
+      makeGrapheme({ form: 'a', midWord: 0, startWord: 5 }),
+    ];
+    const result = filterByPosition(candidates, false, true, false);
+    expect(result).toHaveLength(1);
+  });
+
+  it('does not filter by midWord at end of word', () => {
+    const candidates = [
+      makeGrapheme({ form: 'a', midWord: 0, endWord: 5 }),
+    ];
+    const result = filterByPosition(candidates, false, false, true);
+    expect(result).toHaveLength(1);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// igh/ough mid-word integration
+// ---------------------------------------------------------------------------
+
+import { generateWords } from './generate';
+
+describe('igh/ough mid-word filtering', () => {
+  it('no "ight" or "ought" substrings appear mid-word in 10k words', () => {
+    const words = generateWords(10000, { seed: 42 });
+    const midWordViolations: string[] = [];
+
+    for (const w of words) {
+      const written = w.written.clean.toLowerCase();
+      // Check for ight/ought NOT at the end of the word (mid-word occurrence)
+      for (const pattern of ['ight', 'ought']) {
+        let idx = written.indexOf(pattern);
+        while (idx !== -1) {
+          // It's mid-word if pattern doesn't reach the end
+          if (idx + pattern.length < written.length) {
+            midWordViolations.push(`"${w.written}" contains "${pattern}" mid-word`);
+          }
+          idx = written.indexOf(pattern, idx + 1);
+        }
+      }
+    }
+
+    expect(midWordViolations).toEqual([]);
+  });
+});
