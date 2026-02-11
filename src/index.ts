@@ -4,6 +4,7 @@ import * as graphemes from "./elements/graphemes/index.js";
 import * as random from "./utils/random.js";
 
 export { createGenerator, generateWord, generateWords, WordGenerator } from "./core/generate.js";
+export type { GenerationMode } from "./types.js";
 export { LanguageConfig, BySyllablePosition, SonorityHierarchy, SyllableStructureRules, StressRules, GenerationWeights, validateConfig } from "./config/language.js";
 export { englishConfig } from "./config/english.js";
 export { RNG, createSeededRng, createDefaultRng } from "./utils/random.js";

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { generateWord } from './generate.js';
+import { generateWord, generateWords } from './generate.js';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -379,6 +379,81 @@ describe('Quality Benchmark', () => {
       const reportPath = join(process.cwd(), 'quality-report.json');
       writeFileSync(reportPath, JSON.stringify(fullReport, null, 2) + '\n');
       console.log(`\nReport written to ${reportPath}`);
+    });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Generation Mode Benchmarks
+// ---------------------------------------------------------------------------
+
+describe('Generation Mode Benchmarks', () => {
+  const MODE_SAMPLE = 50_000;
+
+  function countSyllables(words: ReturnType<typeof generateWords>) {
+    const counts: Record<number, number> = {};
+    let totalLetters = 0;
+    for (const w of words) {
+      const sc = w.syllables.length;
+      counts[sc] = (counts[sc] || 0) + 1;
+      totalLetters += w.written.clean.length;
+    }
+    return { counts, avgLetters: totalLetters / words.length };
+  }
+
+  describe('Text mode', () => {
+    let stats: ReturnType<typeof countSyllables>;
+
+    beforeAll(async () => {
+      const words = generateWords(MODE_SAMPLE, { seed: 1, mode: 'text' });
+      stats = countSyllables(words);
+      const total = MODE_SAMPLE;
+      console.log('\n=== Text Mode ===');
+      for (let s = 1; s <= 6; s++) {
+        const pct = ((stats.counts[s] || 0) / total * 100).toFixed(1);
+        console.log(`  ${s}-syl: ${pct}%`);
+      }
+      console.log(`  Avg letters: ${stats.avgLetters.toFixed(1)}`);
+    }, 120_000);
+
+    it('1-syllable > 50%', () => {
+      expect((stats.counts[1] || 0) / MODE_SAMPLE * 100).toBeGreaterThan(50);
+    });
+
+    it('3-syllable < 20%', () => {
+      expect((stats.counts[3] || 0) / MODE_SAMPLE * 100).toBeLessThan(20);
+    });
+
+    it('avg letters < 5.5', () => {
+      expect(stats.avgLetters).toBeLessThan(5.5);
+    });
+  });
+
+  describe('Lexicon mode', () => {
+    let stats: ReturnType<typeof countSyllables>;
+
+    beforeAll(async () => {
+      const words = generateWords(MODE_SAMPLE, { seed: 1, mode: 'lexicon' });
+      stats = countSyllables(words);
+      const total = MODE_SAMPLE;
+      console.log('\n=== Lexicon Mode ===');
+      for (let s = 1; s <= 7; s++) {
+        const pct = ((stats.counts[s] || 0) / total * 100).toFixed(1);
+        console.log(`  ${s}-syl: ${pct}%`);
+      }
+      console.log(`  Avg letters: ${stats.avgLetters.toFixed(1)}`);
+    }, 120_000);
+
+    it('2-syllable > 35%', () => {
+      expect((stats.counts[2] || 0) / MODE_SAMPLE * 100).toBeGreaterThan(35);
+    });
+
+    it('1-syllable > 8%', () => {
+      expect((stats.counts[1] || 0) / MODE_SAMPLE * 100).toBeGreaterThan(8);
+    });
+
+    it('avg letters > 6.0', () => {
+      expect(stats.avgLetters).toBeGreaterThan(6.0);
     });
   });
 });

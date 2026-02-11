@@ -123,3 +123,44 @@ export const HAS_CODA_END_OF_WORD = 90;
 
 /** Chance (out of 100) that a non-final syllable of a polysyllabic word has a coda. */
 export const HAS_CODA_MID_WORD = 30;
+
+// ---------------------------------------------------------------------------
+// Mode-specific syllable count distributions
+// ---------------------------------------------------------------------------
+
+/** Syllable count weights for "text" mode (running text, monosyllable-heavy). */
+export const SYLLABLE_COUNT_WEIGHTS_TEXT: [number, number][] = [
+  [1, 63600],
+  [2, 20900],
+  [3, 10000],
+  [4, 4200],
+  [5, 1200],
+  [6, 100],
+];
+
+/** Syllable count weights for "lexicon" mode (dictionary-like distribution). */
+export const SYLLABLE_COUNT_WEIGHTS_LEXICON: [number, number][] = [
+  [1, 12900],
+  [2, 46000],
+  [3, 27600],
+  [4, 10000],
+  [5, 2800],
+  [6, 600],
+  [7, 100],
+];
+
+// ---------------------------------------------------------------------------
+// Letter-length targets per syllable count
+// ---------------------------------------------------------------------------
+
+/**
+ * Target letter-length ranges per syllable count: [min, peak_min, peak_max, max].
+ * Used for rejection sampling to shape word-length distribution.
+ */
+export const LETTER_LENGTH_TARGETS: Record<number, [number, number, number, number]> = {
+  1: [1, 2, 5, 7],
+  2: [3, 5, 7, 10],
+  3: [5, 7, 10, 13],
+  4: [7, 8, 12, 15],
+  5: [9, 10, 13, 16],
+};

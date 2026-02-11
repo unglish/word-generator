@@ -3,6 +3,9 @@ import {
   VOICED_BONUS,
   TENSE_BONUS,
   SYLLABLE_COUNT_WEIGHTS,
+  SYLLABLE_COUNT_WEIGHTS_TEXT,
+  SYLLABLE_COUNT_WEIGHTS_LEXICON,
+  LETTER_LENGTH_TARGETS,
   ONSET_LENGTH_MONOSYLLABIC,
   ONSET_LENGTH_FOLLOWING_NUCLEUS,
   ONSET_LENGTH_DEFAULT,
@@ -85,6 +88,9 @@ export const englishConfig: LanguageConfig = {
     maxCodaLength: 4,
     maxNucleusLength: 1,
     syllableCountWeights: SYLLABLE_COUNT_WEIGHTS,
+    syllableCountWeightsText: SYLLABLE_COUNT_WEIGHTS_TEXT,
+    syllableCountWeightsLexicon: SYLLABLE_COUNT_WEIGHTS_LEXICON,
+    letterLengthTargets: LETTER_LENGTH_TARGETS,
   },
 
   generationWeights: {

@@ -1,4 +1,4 @@
-import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, getPhonemePositionWeight } from "../types.js";
+import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, getPhonemePositionWeight, GenerationMode } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
@@ -456,9 +456,16 @@ function determineHasCoda(p: GenerationWeights["probability"], isEndOfWord: bool
   }
 }
 
-function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext) {
+function getSyllableCountWeights(rt: GeneratorRuntime, mode: GenerationMode): [number, number][] {
+  const ss = rt.config.syllableStructure;
+  if (mode === "text" && ss.syllableCountWeightsText) return ss.syllableCountWeightsText;
+  if (mode === "lexicon" && ss.syllableCountWeightsLexicon) return ss.syllableCountWeightsLexicon;
+  return ss.syllableCountWeights;
+}
+
+function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext, mode: GenerationMode) {
   if (!context.syllableCount) {
-    context.syllableCount = getWeightedOption(rt.config.syllableStructure.syllableCountWeights, context.rand);
+    context.syllableCount = getWeightedOption(getSyllableCountWeights(rt, mode), context.rand);
   }
 
   const syllables = new Array(context.syllableCount);
@@ -508,8 +515,30 @@ function resolveRng(options: WordGenerationOptions): RNG {
 /**
  * Shared pipeline: syllable generation → repair → write → pronounce.
  */
-function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext): void {
-  generateSyllables(rt, context);
+/**
+ * Check whether a word's letter length passes rejection sampling
+ * based on the syllable-count letter-length targets.
+ *
+ * Returns true if the word should be accepted.
+ */
+function acceptLetterLength(rt: GeneratorRuntime, context: WordGenerationContext): boolean {
+  const targets = rt.config.syllableStructure.letterLengthTargets;
+  if (!targets) return true;
+
+  const sylCount = context.syllableCount;
+  const bounds = targets[sylCount];
+  if (!bounds) return true;
+
+  const [min, peakMin, peakMax, max] = bounds;
+  const len = context.word.written.clean.length;
+
+  if (len >= peakMin && len <= peakMax) return true;
+  if (len >= min && len <= max) return context.rand() < 0.5;
+  return false; // outside [min, max]
+}
+
+function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode: GenerationMode = "text"): void {
+  generateSyllables(rt, context, mode);
   if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
   if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet);
   if (rt.clusterLimits || rt.config.codaConstraints?.voicingAgreement || rt.config.codaConstraints?.homorganicNasalStop) {
@@ -557,19 +586,29 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
   return {
     generateWord: (options: WordGenerationOptions = {}): Word => {
       const rand = resolveRng(options);
-      const context: WordGenerationContext = {
-        rand,
-        word: {
-          syllables: [],
-          pronunciation: '',
-          written: { clean: '', hyphenated: '' },
-        },
-        syllableCount: options.syllableCount || 0,
-        currSyllableIndex: 0,
-      };
+      const mode = options.mode ?? "text";
+      const maxRetries = 3;
 
-      runPipeline(rt, context);
-      return context.word;
+      for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        const context: WordGenerationContext = {
+          rand,
+          word: {
+            syllables: [],
+            pronunciation: '',
+            written: { clean: '', hyphenated: '' },
+          },
+          syllableCount: options.syllableCount || 0,
+          currSyllableIndex: 0,
+        };
+
+        runPipeline(rt, context, mode);
+
+        if (attempt === maxRetries || acceptLetterLength(rt, context)) {
+          return context.word;
+        }
+      }
+      // unreachable, but satisfies TS
+      throw new Error("unreachable");
     },
   };
 }
@@ -591,19 +630,28 @@ const defaultRuntime = buildRuntime(englishConfig);
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
   const rand = resolveRng(options);
-  const context: WordGenerationContext = {
-    rand,
-    word: {
-      syllables: [],
-      pronunciation: '',
-      written: { clean: '', hyphenated: '' },
-    },
-    syllableCount: options.syllableCount || 0,
-    currSyllableIndex: 0,
-  };
+  const mode = options.mode ?? "text";
+  const maxRetries = 3;
 
-  runPipeline(defaultRuntime, context);
-  return context.word;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    const context: WordGenerationContext = {
+      rand,
+      word: {
+        syllables: [],
+        pronunciation: '',
+        written: { clean: '', hyphenated: '' },
+      },
+      syllableCount: options.syllableCount || 0,
+      currSyllableIndex: 0,
+    };
+
+    runPipeline(defaultRuntime, context, mode);
+
+    if (attempt === maxRetries || acceptLetterLength(defaultRuntime, context)) {
+      return context.word;
+    }
+  }
+  throw new Error("unreachable");
 };
 
 /**
@@ -627,20 +675,29 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
  */
 export const generateWords = (count: number, options: WordGenerationOptions = {}): Word[] => {
   const rand = resolveRng(options);
+  const mode = options.mode ?? "text";
+  const maxRetries = 3;
   const results: Word[] = [];
   for (let i = 0; i < count; i++) {
-    const context: WordGenerationContext = {
-      rand,
-      word: {
-        syllables: [],
-        pronunciation: '',
-        written: { clean: '', hyphenated: '' },
-      },
-      syllableCount: options.syllableCount || 0,
-      currSyllableIndex: 0,
-    };
-    runPipeline(defaultRuntime, context);
-    results.push(context.word);
+    let word: Word | undefined;
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      const context: WordGenerationContext = {
+        rand,
+        word: {
+          syllables: [],
+          pronunciation: '',
+          written: { clean: '', hyphenated: '' },
+        },
+        syllableCount: options.syllableCount || 0,
+        currSyllableIndex: 0,
+      };
+      runPipeline(defaultRuntime, context, mode);
+      if (attempt === maxRetries || acceptLetterLength(defaultRuntime, context)) {
+        word = context.word;
+        break;
+      }
+    }
+    results.push(word!);
   }
   return results;
 };
