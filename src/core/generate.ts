@@ -512,14 +512,37 @@ function resolveRng(options: WordGenerationOptions): RNG {
   return options.rand ?? (options.seed !== undefined ? createSeededRng(options.seed) : createDefaultRng());
 }
 
-/**
- * Shared pipeline: syllable generation → repair → write → pronounce.
- */
+/** Maximum retries for letter-length rejection sampling. */
+const MAX_LENGTH_RETRIES = 3;
+
 /**
  * Check whether a word's letter length passes rejection sampling
  * based on the syllable-count letter-length targets.
  *
- * Returns true if the word should be accepted.
+ * - Within [peakMin, peakMax] → always accept
+ * - Within [min, max] but outside peak → accept with 50% probability
+ * - Outside [min, max] → always reject
+ */
+function acceptLetterLength(rt: GeneratorRuntime, context: WordGenerationContext): boolean {
+  const targets = rt.config.syllableStructure.letterLengthTargets;
+  if (!targets) return true;
+
+  const bounds = targets[context.syllableCount];
+  if (!bounds) return true;
+
+  const [min, peakMin, peakMax, max] = bounds;
+  const len = context.word.written.clean.length;
+
+  if (len >= peakMin && len <= peakMax) return true;
+  if (len >= min && len <= max) return context.rand() < 0.5;
+  return false;
+}
+
+/**
+ * Generate a single word with letter-length rejection sampling.
+ *
+ * Builds a fresh context on each attempt. After {@link MAX_LENGTH_RETRIES}
+ * failed length checks, the last word is accepted unconditionally.
  */
 function generateOneWord(
   rt: GeneratorRuntime,
@@ -527,8 +550,7 @@ function generateOneWord(
   mode: GenerationMode,
   syllableCount: number,
 ): Word {
-  const maxRetries = 3;
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+  for (let attempt = 0; attempt <= MAX_LENGTH_RETRIES; attempt++) {
     const context: WordGenerationContext = {
       rand,
       word: {
@@ -540,29 +562,16 @@ function generateOneWord(
       currSyllableIndex: 0,
     };
     runPipeline(rt, context, mode);
-    if (attempt === maxRetries || acceptLetterLength(rt, context)) {
+    if (attempt === MAX_LENGTH_RETRIES || acceptLetterLength(rt, context)) {
       return context.word;
     }
   }
   throw new Error("unreachable");
 }
 
-function acceptLetterLength(rt: GeneratorRuntime, context: WordGenerationContext): boolean {
-  const targets = rt.config.syllableStructure.letterLengthTargets;
-  if (!targets) return true;
-
-  const sylCount = context.syllableCount;
-  const bounds = targets[sylCount];
-  if (!bounds) return true;
-
-  const [min, peakMin, peakMax, max] = bounds;
-  const len = context.word.written.clean.length;
-
-  if (len >= peakMin && len <= peakMax) return true;
-  if (len >= min && len <= max) return context.rand() < 0.5;
-  return false; // outside [min, max]
-}
-
+/**
+ * Shared pipeline: syllable generation → repair → write → pronounce.
+ */
 function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode: GenerationMode = "text"): void {
   generateSyllables(rt, context, mode);
   if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);

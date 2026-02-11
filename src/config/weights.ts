@@ -128,25 +128,35 @@ export const HAS_CODA_MID_WORD = 30;
 // Mode-specific syllable count distributions
 // ---------------------------------------------------------------------------
 
-/** Syllable count weights for "text" mode (running text, monosyllable-heavy). */
+/**
+ * Syllable count weights for "text" mode (running prose).
+ *
+ * Derived from CMU Pronouncing Dictionary × Google Books token frequencies
+ * (Norvig/Mayzner 2013, 744B tokens, 98.2% coverage).
+ */
 export const SYLLABLE_COUNT_WEIGHTS_TEXT: [number, number][] = [
-  [1, 63600],
-  [2, 20900],
-  [3, 10000],
-  [4, 4200],
-  [5, 1200],
-  [6, 100],
+  [1, 63600],  // 63.6% — function words, common verbs/nouns
+  [2, 20900],  // 20.9%
+  [3, 10000],  // 10.0%
+  [4, 4200],   //  4.2%
+  [5, 1200],   //  1.2%
+  [6, 100],    //  0.1%
 ];
 
-/** Syllable count weights for "lexicon" mode (dictionary-like distribution). */
+/**
+ * Syllable count weights for "lexicon" mode (dictionary/word-list).
+ *
+ * Derived from CMU Pronouncing Dictionary type counts
+ * (each unique word counted once, ~117k entries).
+ */
 export const SYLLABLE_COUNT_WEIGHTS_LEXICON: [number, number][] = [
-  [1, 12900],
-  [2, 46000],
-  [3, 27600],
-  [4, 10000],
-  [5, 2800],
-  [6, 600],
-  [7, 100],
+  [1, 12900],  // 12.9%
+  [2, 46000],  // 46.0%
+  [3, 27600],  // 27.6%
+  [4, 10000],  // 10.0%
+  [5, 2800],   //  2.8%
+  [6, 600],    //  0.6%
+  [7, 100],    //  0.1%
 ];
 
 // ---------------------------------------------------------------------------
