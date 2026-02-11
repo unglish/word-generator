@@ -1,6 +1,14 @@
 import { RNG, RandomFunction } from "./utils/random";
 
 /**
+ * Generation mode controlling syllable-count distribution and letter-length targeting.
+ *
+ * - `"text"` — simulates natural running text (heavy monosyllable bias).
+ * - `"lexicon"` — simulates a dictionary/lexicon (balanced syllable distribution).
+ */
+export type GenerationMode = "text" | "lexicon";
+
+/**
  * A single phoneme (minimal sound unit) in the generator's inventory.
  *
  * Each phoneme carries articulatory metadata and positional weightings that
@@ -231,6 +239,12 @@ export interface WordGenerationOptions {
    * Any `() => number` function returning values in [0, 1) is accepted.
    */
   rand?: RNG;
+  /**
+   * Generation mode controlling syllable-count distribution.
+   * - `"text"` (default) — monosyllable-heavy, mimics running text.
+   * - `"lexicon"` — balanced distribution, mimics a dictionary.
+   */
+  mode?: GenerationMode;
 }
 
 /**

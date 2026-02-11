@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { generateWord } from './generate.js';
+import { generateWord, generateWords } from './generate.js';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -380,5 +380,64 @@ describe('Quality Benchmark', () => {
       writeFileSync(reportPath, JSON.stringify(fullReport, null, 2) + '\n');
       console.log(`\nReport written to ${reportPath}`);
     });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Generation Mode Benchmarks
+// ---------------------------------------------------------------------------
+
+describe('Generation Mode Benchmarks', () => {
+  const MODE_SAMPLE = 50_000;
+
+  interface ModeStats {
+    syllablePct: Record<number, number>;
+    avgLetters: number;
+  }
+
+  function measureMode(mode: 'text' | 'lexicon'): ModeStats {
+    const words = generateWords(MODE_SAMPLE, { seed: 1, mode });
+    const counts: Record<number, number> = {};
+    let totalLetters = 0;
+    for (const w of words) {
+      const sc = w.syllables.length;
+      counts[sc] = (counts[sc] || 0) + 1;
+      totalLetters += w.written.clean.length;
+    }
+    const syllablePct: Record<number, number> = {};
+    for (const [k, v] of Object.entries(counts)) {
+      syllablePct[+k] = v / MODE_SAMPLE * 100;
+    }
+    return { syllablePct, avgLetters: totalLetters / words.length };
+  }
+
+  function logStats(label: string, stats: ModeStats) {
+    console.log(`\n=== ${label} ===`);
+    for (let s = 1; s <= 7; s++) {
+      if (stats.syllablePct[s]) console.log(`  ${s}-syl: ${stats.syllablePct[s].toFixed(1)}%`);
+    }
+    console.log(`  Avg letters: ${stats.avgLetters.toFixed(1)}`);
+  }
+
+  // -- Text mode: should resemble running English prose --
+
+  describe('Text mode', () => {
+    let stats: ModeStats;
+    beforeAll(() => { stats = measureMode('text'); logStats('Text Mode', stats); }, 120_000);
+
+    it('monosyllables dominate (> 50%)',     () => expect(stats.syllablePct[1]).toBeGreaterThan(50));
+    it('3-syllable words are rare (< 20%)',  () => expect(stats.syllablePct[3]).toBeLessThan(20));
+    it('average word length is short (< 5.5 letters)', () => expect(stats.avgLetters).toBeLessThan(5.5));
+  });
+
+  // -- Lexicon mode: should resemble a dictionary word list --
+
+  describe('Lexicon mode', () => {
+    let stats: ModeStats;
+    beforeAll(() => { stats = measureMode('lexicon'); logStats('Lexicon Mode', stats); }, 120_000);
+
+    it('2-syllable words are most common (> 35%)', () => expect(stats.syllablePct[2]).toBeGreaterThan(35));
+    it('monosyllables are present (> 8%)',          () => expect(stats.syllablePct[1]).toBeGreaterThan(8));
+    it('average word length is moderate (> 6.0 letters)', () => expect(stats.avgLetters).toBeGreaterThan(6.0));
   });
 });

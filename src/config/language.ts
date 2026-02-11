@@ -103,6 +103,12 @@ export interface SyllableStructureRules {
   maxNucleusLength: number;
   /** Weighted distribution of syllable counts: [count, weight][] */
   syllableCountWeights: [number, number][];
+  /** Syllable count weights for "text" mode. Falls back to syllableCountWeights. */
+  syllableCountWeightsText?: [number, number][];
+  /** Syllable count weights for "lexicon" mode. Falls back to syllableCountWeights. */
+  syllableCountWeightsLexicon?: [number, number][];
+  /** Letter-length targets per syllable count: [min, peak_min, peak_max, max]. */
+  letterLengthTargets?: Record<number, [number, number, number, number]>;
 }
 
 /**
