@@ -335,6 +335,16 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
   },
+  // could, would, should, courier
+  {
+    phoneme: "ʊ",
+    form: "ou",
+    origin: 1,
+    frequency: 8,
+    startWord: 0,
+    midWord: 5,
+    endWord: 0,
+  },
 
   // blue
   {
