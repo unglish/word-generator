@@ -235,13 +235,27 @@ export function filterByPosition(
   isEndOfWord: boolean,
 ): Grapheme[] {
   const isMidWord = !isStartOfWord && !isEndOfWord;
-  const filtered = candidates.filter(g =>
+
+  // Tier 1: strict — require positive values (undefined = pass)
+  const strict = candidates.filter(g =>
     (!isCluster || g.cluster === undefined || g.cluster > 0) &&
     (!isStartOfWord || g.startWord === undefined || g.startWord > 0) &&
     (!isEndOfWord || g.endWord === undefined || g.endWord > 0) &&
     (!isMidWord || g.midWord === undefined || g.midWord > 0)
   );
-  return filtered;
+  if (strict.length > 0) return strict;
+
+  // Tier 2: relaxed — only exclude explicit bans (=== 0)
+  const relaxed = candidates.filter(g =>
+    (!isCluster || g.cluster !== 0) &&
+    (!isStartOfWord || g.startWord !== 0) &&
+    (!isEndOfWord || g.endWord !== 0) &&
+    (!isMidWord || g.midWord !== 0)
+  );
+  if (relaxed.length > 0) return relaxed;
+
+  // Tier 3: last resort (should never happen with well-configured graphemes)
+  return candidates;
 }
 
 // ---------------------------------------------------------------------------
@@ -1116,17 +1130,14 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         }
       }
 
-      const isStartOfWord = phonemeIndex === 0;
-      const isEndOfWord = phonemeIndex === flattenedPhonemes.length - 1;
+      const isStartOfWord = syllableIndex === 0;
+      const isEndOfWord = syllableIndex === syllables.length - 1;
 
       // Pipeline
       const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
       const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord);
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
-      // If position filtering removed all candidates, fall back to the
-      // condition-filtered set so we still produce output for this phoneme.
-      const viable = positional.length > 0 ? positional : conditioned;
-      const selected = selectByFrequency(viable, rand, isStartOfWord, isEndOfWord);
+      const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, stress, prevReduced, neverDoubleSet, rand);
 

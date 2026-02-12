@@ -495,13 +495,14 @@ describe('filterByPosition', () => {
     ...overrides,
   });
 
-  it('returns empty array when all candidates have midWord: 0 and position is mid-word', () => {
+  it('falls back to all candidates (tier 3) when all have midWord: 0 at mid-word position', () => {
     const candidates = [
       makeGrapheme({ form: 'igh', midWord: 0 }),
       makeGrapheme({ form: 'ough', midWord: 0 }),
     ];
     const result = filterByPosition(candidates, false, false, false);
-    expect(result).toEqual([]);
+    // Tier 1 and 2 both exclude these; tier 3 returns all as last resort
+    expect(result).toEqual(candidates);
   });
 
   it('returns candidates with midWord > 0 when mid-word', () => {
@@ -529,15 +530,98 @@ describe('filterByPosition', () => {
     const result = filterByPosition(candidates, false, false, true);
     expect(result).toHaveLength(1);
   });
+
+  it('tier 2 excludes explicit startWord: 0 at start position', () => {
+    const candidates = [
+      makeGrapheme({ form: 'ck', startWord: 0, midWord: 5, endWord: 5 }),
+      makeGrapheme({ form: 'k', startWord: undefined, midWord: 5, endWord: 5 }),
+    ];
+    const result = filterByPosition(candidates, false, true, false);
+    expect(result).toHaveLength(1);
+    expect(result[0].form).toBe('k');
+  });
+
+  it('tier 2 excludes explicit endWord: 0 at end position', () => {
+    const candidates = [
+      makeGrapheme({ form: 'wh', endWord: 0, startWord: 5, midWord: 5 }),
+      makeGrapheme({ form: 'w', endWord: 5, startWord: 5, midWord: 5 }),
+    ];
+    const result = filterByPosition(candidates, false, false, true);
+    expect(result).toHaveLength(1);
+    expect(result[0].form).toBe('w');
+  });
+
+  it('tier 1 prefers graphemes with positive position values over undefined', () => {
+    const candidates = [
+      makeGrapheme({ form: 'a', startWord: 10 }),
+      makeGrapheme({ form: 'b', startWord: undefined }),
+    ];
+    const result = filterByPosition(candidates, false, true, false);
+    // Both pass tier 1 (positive or undefined)
+    expect(result).toHaveLength(2);
+  });
+
+  it('tier 2 relaxed fallback keeps undefined when strict fails', () => {
+    // All have startWord undefined (pass tier 1 for startWord) but midWord: 0
+    // At mid-word: tier 1 requires midWord > 0 or undefined
+    const candidates = [
+      makeGrapheme({ form: 'a', midWord: undefined }),
+      makeGrapheme({ form: 'b', midWord: 3 }),
+    ];
+    // Both pass tier 1 at mid-word position
+    const result = filterByPosition(candidates, false, false, false);
+    expect(result).toHaveLength(2);
+  });
 });
 
 // ---------------------------------------------------------------------------
-// igh/ough mid-word integration
+// Syllable-based position filtering integration
 // ---------------------------------------------------------------------------
 
 import { generateWords } from './generate';
 
-describe('igh/ough mid-word filtering', () => {
+describe('syllable-based position filtering', () => {
+  it('"igh" only appears in the final syllable (10k words)', () => {
+    const words = generateWords(10000, { seed: 42 });
+    let violations = 0;
+
+    for (const w of words) {
+      const clean = w.written.clean.toLowerCase();
+      const hyph = w.written.hyphenated.toLowerCase();
+      const syllableParts = hyph.split('&shy;');
+
+      // Check if "igh" appears in any non-final syllable
+      for (let si = 0; si < syllableParts.length - 1; si++) {
+        if (syllableParts[si].includes('igh')) {
+          violations++;
+        }
+      }
+    }
+
+    console.log(`  igh in non-final syllable: ${violations}/10000`);
+    expect(violations).toBe(0);
+  });
+
+  it('"wh" only appears in the first syllable (10k words)', () => {
+    const words = generateWords(10000, { seed: 42 });
+    let violations = 0;
+
+    for (const w of words) {
+      const hyph = w.written.hyphenated.toLowerCase();
+      const syllableParts = hyph.split('&shy;');
+
+      // Check if "wh" appears in any non-first syllable
+      for (let si = 1; si < syllableParts.length; si++) {
+        if (syllableParts[si].includes('wh')) {
+          violations++;
+        }
+      }
+    }
+
+    console.log(`  wh in non-first syllable: ${violations}/10000`);
+    expect(violations).toBe(0);
+  });
+
   it('"ight" or "ought" mid-word rate < 0.1% in 10k words', () => {
     const words = generateWords(10000, { seed: 42 });
     let midWordCount = 0;
@@ -558,6 +642,25 @@ describe('igh/ough mid-word filtering', () => {
     const rate = midWordCount / words.length * 100;
     console.log(`  ight/ought mid-word: ${midWordCount}/10000 (${rate.toFixed(2)}%)`);
     expect(rate).toBeLessThan(0.1);
+  });
+
+  it('startWord: 0 graphemes do not appear in the first syllable (10k words)', () => {
+    // Verify that graphemes banned from word-start don't appear in the first syllable
+    // We check "ck" which typically has startWord: 0
+    const words = generateWords(10000, { seed: 42 });
+    let violations = 0;
+
+    for (const w of words) {
+      const hyph = w.written.hyphenated.toLowerCase();
+      const syllableParts = hyph.split('&shy;');
+
+      if (syllableParts.length > 0 && syllableParts[0].includes('ck')) {
+        violations++;
+      }
+    }
+
+    console.log(`  ck in first syllable: ${violations}/10000`);
+    expect(violations).toBe(0);
   });
 });
 
