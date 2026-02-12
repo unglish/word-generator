@@ -6,67 +6,59 @@
     <title>Unglish Word Generator Demo</title>
     <style>
         :root {
-            --bg: #ffffff;
-            --fg: #333333;
-            --heading: #1a1a1a;
-            --muted: #888888;
-            --card-border: #e0e0e0;
-            --card-bg: #fafafa;
-            --tab-active: #333333;
-            --tab-inactive: #999999;
-            --tab-line: #e0e0e0;
+            --bg: white;
+            --fg: black;
+            --muted: gray;
+            --card-border: silver;
+            --card-bg: whitesmoke;
+            --tab-active: black;
+            --tab-inactive: darkgray;
+            --tab-line: silver;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #1a1a1a;
-                --fg: #e0e0e0;
-                --heading: #ffffff;
-                --muted: #888888;
-                --card-border: #333333;
-                --card-bg: #222222;
-                --tab-active: #ffffff;
-                --tab-inactive: #666666;
-                --tab-line: #333333;
+                --bg: black;
+                --fg: white;
+                --muted: darkgray;
+                --card-border: dimgray;
+                --card-bg: #111;
+                --tab-active: white;
+                --tab-inactive: gray;
+                --tab-line: dimgray;
             }
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: system-ui, sans-serif;
             background: var(--bg);
             color: var(--fg);
-            line-height: 1.6;
-            padding: 2rem 1rem;
-            max-width: 720px;
+            max-width: 42em;
             margin: 0 auto;
+            padding: 2em 1em;
         }
 
-        header { text-align: center; margin-bottom: 2rem; }
-        header h1 { color: var(--heading); font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem; }
-        header p { color: var(--muted); font-style: italic; font-size: 0.95rem; }
+        header { text-align: center; }
+        header p { color: var(--muted); font-style: italic; }
 
         /* CSS-only tabs */
         .tabs input[type="radio"] { display: none; }
         .tab-bar {
             display: flex;
             border-bottom: 2px solid var(--tab-line);
-            margin-bottom: 1.5rem;
         }
         .tab-bar label {
-            padding: 0.6rem 1.5rem;
+            padding: 0.5em 1.5em;
             cursor: pointer;
             font-weight: 600;
             color: var(--tab-inactive);
             border-bottom: 2px solid transparent;
             margin-bottom: -2px;
-            transition: color 0.2s, border-color 0.2s;
             user-select: none;
         }
         .tab-bar label:hover { color: var(--fg); }
         .tab-content { display: none; }
-        #tab-text:checked ~ .tab-bar label[for="tab-text"] ,
+        #tab-text:checked ~ .tab-bar label[for="tab-text"],
         #tab-lexicon:checked ~ .tab-bar label[for="tab-lexicon"] {
             color: var(--tab-active);
             border-bottom-color: var(--tab-active);
@@ -77,62 +69,49 @@
         /* Cards */
         .card {
             border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 1.25rem 1.5rem;
-            margin-bottom: 1.25rem;
+            border-radius: 4px;
+            padding: 1em 1.25em;
+            margin: 1em 0;
             background: var(--card-bg);
             position: relative;
         }
         .card h2 {
-            font-size: 0.8rem;
+            font-size: 0.75em;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             color: var(--muted);
-            margin-bottom: 0.75rem;
-            font-weight: 600;
         }
 
-        /* Refresh buttons */
+        /* Refresh buttons — using U+21BB clockwise open circle arrow */
         .refresh {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 0.75em;
+            right: 0.75em;
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1em;
             color: var(--muted);
-            padding: 0.25rem;
-            border-radius: 4px;
             line-height: 1;
-            transition: color 0.2s;
         }
         .refresh:hover { color: var(--fg); }
 
         /* Single word */
-        .single-written { font-size: 2.2rem; font-weight: 700; color: var(--heading); }
-        .pronunciation { font-family: "Courier New", Courier, monospace; color: var(--muted); font-size: 1rem; margin-top: 0.25rem; }
+        .single-written { font-size: 2em; font-weight: 700; }
+        .pronunciation { font-family: monospace; color: var(--muted); }
 
         /* Haiku */
-        .haiku-written { font-size: 1.3rem; line-height: 1.8; }
-        .haiku-ipa { font-family: "Courier New", Courier, monospace; color: var(--muted); font-size: 0.85rem; line-height: 1.8; margin-top: 0.5rem; }
+        .haiku-written { font-size: 1.2em; }
+        .haiku-ipa { font-family: monospace; color: var(--muted); font-size: 0.85em; }
 
         /* Slogan */
-        .slogan-text { font-size: 1.4rem; font-weight: 600; text-transform: capitalize; }
+        .slogan-text { font-size: 1.3em; font-weight: 600; text-transform: capitalize; }
 
-        /* Sentence & Paragraph */
-        .sentence-text, .paragraph-text { font-size: 1.05rem; line-height: 1.8; }
-        .paragraph-text p { margin-bottom: 0.75rem; }
-        .stat-line { font-style: italic; color: var(--muted); font-size: 0.85rem; margin-top: 0.5rem; }
+        /* Stat line */
+        .stat-line { font-style: italic; color: var(--muted); font-size: 0.85em; }
 
         /* Lexicon placeholder */
-        .placeholder { color: var(--muted); font-style: italic; padding: 3rem 0; text-align: center; }
-
-        @media (max-width: 480px) {
-            body { padding: 1rem 0.75rem; }
-            .single-written { font-size: 1.8rem; }
-            .tab-bar label { padding: 0.5rem 1rem; font-size: 0.9rem; }
-        }
+        .placeholder { color: var(--muted); font-style: italic; padding: 3em 0; text-align: center; }
     </style>
     <script type="module">
         import unglish from '../dist/index.js';
@@ -145,8 +124,6 @@
 
         function init() {
             const $ = id => document.getElementById(id);
-
-            // --- Generators ---
 
             function genSingleWord() {
                 const w = unglish.generateWord({ mode: 'text' });
@@ -162,8 +139,8 @@
             }
 
             const firstWords = [
-                "Ignore Haters —", "Always", "Just", "Never", "Forever", "Never Quit —",
-                "Passionately", "Fearlessly", "Endlessly", "Forget Fear —",
+                "Ignore Haters \u2014", "Always", "Just", "Never", "Forever", "Never Quit \u2014",
+                "Passionately", "Fearlessly", "Endlessly", "Forget Fear \u2014",
                 "You Can", "Relentlessly",
             ];
             const lastWords = [
@@ -207,21 +184,18 @@
                 }
                 $('paragraph-text').innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
 
-                // Stats
                 const mono = allWords.filter(w => w.syllables.length === 1).length;
                 const monoPct = ((mono / allWords.length) * 100).toFixed(1);
                 const avgLen = (allWords.reduce((s, w) => s + w.written.clean.length, 0) / allWords.length).toFixed(1);
-                $('paragraph-stats').textContent = `${allWords.length} words · ${monoPct}% monosyllabic · avg ${avgLen} letters`;
+                $('paragraph-stats').textContent = `${allWords.length} words \u00b7 ${monoPct}% monosyllabic \u00b7 avg ${avgLen} letters`;
             }
 
-            // --- Wire up refresh buttons ---
             $('refresh-single').addEventListener('click', genSingleWord);
             $('refresh-haiku').addEventListener('click', genHaiku);
             $('refresh-slogan').addEventListener('click', genSlogan);
             $('refresh-sentence').addEventListener('click', genSentence);
             $('refresh-paragraph').addEventListener('click', genParagraph);
 
-            // --- Initial generation ---
             requestAnimationFrame(() => {
                 genSingleWord();
                 genHaiku();
@@ -250,33 +224,33 @@
         <div id="content-text" class="tab-content">
             <div class="card">
                 <h2>Single Word</h2>
-                <button class="refresh" id="refresh-single" title="Regenerate">🔄</button>
+                <button class="refresh" id="refresh-single" title="Regenerate">&#x21bb;</button>
                 <div class="single-written" id="single-written"></div>
                 <div class="pronunciation" id="single-ipa"></div>
             </div>
 
             <div class="card">
                 <h2>Haiku</h2>
-                <button class="refresh" id="refresh-haiku" title="Regenerate">🔄</button>
+                <button class="refresh" id="refresh-haiku" title="Regenerate">&#x21bb;</button>
                 <div class="haiku-written" id="haiku-written"></div>
                 <div class="haiku-ipa" id="haiku-ipa"></div>
             </div>
 
             <div class="card">
                 <h2>Slogan</h2>
-                <button class="refresh" id="refresh-slogan" title="Regenerate">🔄</button>
+                <button class="refresh" id="refresh-slogan" title="Regenerate">&#x21bb;</button>
                 <div class="slogan-text" id="slogan-text"></div>
             </div>
 
             <div class="card">
                 <h2>Sentence</h2>
-                <button class="refresh" id="refresh-sentence" title="Regenerate">🔄</button>
+                <button class="refresh" id="refresh-sentence" title="Regenerate">&#x21bb;</button>
                 <div class="sentence-text" id="sentence-text"></div>
             </div>
 
             <div class="card">
                 <h2>Paragraph</h2>
-                <button class="refresh" id="refresh-paragraph" title="Regenerate">🔄</button>
+                <button class="refresh" id="refresh-paragraph" title="Regenerate">&#x21bb;</button>
                 <div class="paragraph-text" id="paragraph-text"></div>
                 <div class="stat-line" id="paragraph-stats"></div>
             </div>
