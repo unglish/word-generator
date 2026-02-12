@@ -29,6 +29,7 @@ function findCommonWords() {
   }
 
   const foundWords = new Set();
+  const allGenerated = new Set();
   const startTime = performance.now();
   let iterations = 0;
 
@@ -36,6 +37,7 @@ function findCommonWords() {
     iterations++;
     const newWord = self.unglish.generateWord();
     const generatedWord = newWord.written.clean.toLowerCase();
+    allGenerated.add(generatedWord);
 
     if (commonWords.includes(generatedWord) && !foundWords.has(generatedWord)) {
       const wordGenerationTime = performance.now() - startTime;
@@ -65,7 +67,8 @@ function findCommonWords() {
   postMessage({
     type: 'complete',
     iterations: iterations,
-    duration: duration
+    duration: duration,
+    uniqueCount: allGenerated.size
   });
 }
 

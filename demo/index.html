@@ -120,9 +120,6 @@
         .freq-english { background: silver; }
         .freq-val { font-size: 0.75em; color: var(--muted); padding-left: 0.3em; flex-shrink: 0; width: 6em; }
 
-        /* Duplicate test */
-        .dup-output { font-family: monospace; font-size: 0.85em; white-space: pre-wrap; }
-        .dup-progress { color: var(--muted); font-size: 0.85em; }
 
         /* Common words race */
         .cw-pill {
@@ -410,34 +407,7 @@
                 }).join('');
             }
 
-            // Duplicate test
-            $('dup-start').addEventListener('click', function() {
-                this.disabled = true;
-                $('dup-output').textContent = '';
-                $('dup-progress').textContent = 'Running...';
-                const w = new Worker('duplicateWorker.js');
-                w.onmessage = function(e) {
-                    if (e.data.type === 'progress') {
-                        $('dup-progress').textContent = e.data.progress.toLocaleString() + ' / ' + e.data.total.toLocaleString();
-                    } else if (e.data.type === 'result') {
-                        const d = e.data;
-                        const unique = d.iterations - d.dupeCount;
-                        const uniquePct = ((unique / d.iterations) * 100).toFixed(2);
-                        $('dup-progress').textContent = '';
-                        $('dup-output').textContent = d.iterations.toLocaleString() + ' words generated, ' + unique.toLocaleString() + ' unique (' + uniquePct + '% unique rate)\n' + d.dupeCount + ' duplicates in ' + d.duration + 's';
-                        if (d.formattedDuplicates) $('dup-output').textContent += '\nDuplicates: ' + d.formattedDuplicates;
-                        $('dup-start').disabled = false;
-                        w.terminate();
-                    } else if (e.data.type === 'error') {
-                        $('dup-output').textContent = 'Error: ' + e.data.message;
-                        $('dup-start').disabled = false;
-                        w.terminate();
-                    }
-                };
-                w.postMessage({ action: 'findDuplicates', iterations: 10000 });
-            });
-
-            // Common words race
+                        // Common words race
             let cwWorker = null;
             $('cw-start').addEventListener('click', function() {
                 this.disabled = true;
@@ -455,7 +425,9 @@
                     } else if (e.data.type === 'progress') {
                         $('cw-status').textContent = e.data.foundCount + '/100 found · ' + e.data.iterations.toLocaleString() + ' generated...';
                     } else if (e.data.type === 'complete') {
-                        $('cw-status').textContent = 'All 100 found in ' + e.data.iterations.toLocaleString() + ' generations (' + e.data.duration + 's)';
+                        const unique = e.data.uniqueCount || e.data.iterations;
+                        const uniquePct = ((unique / e.data.iterations) * 100).toFixed(1);
+                        $('cw-status').textContent = 'All 100 found in ' + e.data.iterations.toLocaleString() + ' generations (' + e.data.duration + 's) \u00b7 ' + unique.toLocaleString() + ' unique (' + uniquePct + '%)';
                         $('cw-start').disabled = false;
                         cwWorker.terminate();
                         cwWorker = null;
@@ -635,14 +607,6 @@
                 <h2>Letter Frequency — Unglish vs English</h2>
                 <div class="legend" id="freq-legend"></div>
                 <div id="freq-chart"></div>
-            </div>
-
-            <!-- Duplicate Test -->
-            <div class="card">
-                <h2>Duplicate Test</h2>
-                <button class="start-btn" id="dup-start">Run (10,000 words)</button>
-                <div class="dup-progress" id="dup-progress"></div>
-                <div class="dup-output" id="dup-output"></div>
             </div>
 
             <!-- Common Words Race -->
