@@ -110,7 +110,7 @@ export const BOUNDARY_DROP_CHANCE = 90;
 // ---------------------------------------------------------------------------
 
 /** Chance (out of 100) that the first syllable has an onset. */
-export const HAS_ONSET_START_OF_WORD = 95;
+export const HAS_ONSET_START_OF_WORD = 85;
 
 /** Chance (out of 100) that a non-initial syllable has an onset when the previous syllable has a coda. */
 export const HAS_ONSET_AFTER_CODA = 80;
