@@ -131,6 +131,7 @@ export const englishConfig: LanguageConfig = {
     secondaryStressHeavyWeight: 70,
     secondaryStressLightWeight: 30,
     rhythmicStressProbability: 40,
+    stressedNucleusBan: ["ə"],
   },
 
   doubling: {
