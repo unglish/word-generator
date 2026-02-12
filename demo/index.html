@@ -11,9 +11,6 @@
             --muted: gray;
             --card-border: silver;
             --card-bg: whitesmoke;
-            --tab-active: black;
-            --tab-inactive: darkgray;
-            --tab-line: silver;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -23,9 +20,6 @@
                 --muted: darkgray;
                 --card-border: dimgray;
                 --card-bg: #111;
-                --tab-active: white;
-                --tab-inactive: gray;
-                --tab-line: dimgray;
             }
         }
 
@@ -41,27 +35,8 @@
         header { text-align: center; }
         header p { color: var(--muted); font-style: italic; }
 
-        /* Tabs */
-        .tab-bar {
-            display: flex;
-            border-bottom: 2px solid var(--tab-line);
-        }
-        .tab-bar button {
-            font: inherit;
-            padding: 0.5em 1.5em;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--tab-inactive);
-            background: none;
-            border: none;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -2px;
-        }
-        .tab-bar button:hover { color: var(--fg); }
-        .tab-bar button[aria-selected="true"] {
-            color: var(--tab-active);
-            border-bottom-color: var(--tab-active);
-        }
+        /* Tabs — plain unstyled buttons */
+        .tab-bar { display: flex; gap: 0.5em; margin-bottom: 1em; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
@@ -223,10 +198,20 @@
         function init() {
             const $ = id => document.getElementById(id);
 
+            let currentWord = '';
             function genSingleWord() {
                 const w = unglish.generateWord({ mode: 'text' });
-                $('single-written').textContent = w.written.clean;
+                currentWord = w.written.clean;
+                $('single-written').textContent = currentWord;
                 $('single-ipa').textContent = w.pronunciation;
+            }
+
+            function speakWord() {
+                if (!currentWord || !window.speechSynthesis) return;
+                const utt = new SpeechSynthesisUtterance(currentWord);
+                utt.lang = 'en-GB';
+                utt.rate = 0.85;
+                speechSynthesis.speak(utt);
             }
 
             function genHaiku() {
@@ -255,15 +240,48 @@
                 $('slogan-text').textContent = `${pick(firstWords)} ${w.written.clean} ${pick(lastWords)}`;
             }
 
-            function makeSentence(wordCount) {
-                const words = Array.from({ length: wordCount }, () => unglish.generateWord({ mode: 'text' }));
-                const text = words.map(w => w.written.clean);
-                text[0] = text[0].charAt(0).toUpperCase() + text[0].slice(1);
-                return { text: text.join(' ') + '.', words };
+            // Sentence templates — slots: W=any word, N=noun-like(2-3syl), V=verb-like(1syl), A=adj-like(2syl)
+            const templates = [
+                'The W of W',
+                'W and W W the W',
+                'A W W the W',
+                'The W W, but the W W',
+                'W W the W of W',
+                'It W the W',
+                'W W, W W',
+                'The W W W',
+                'W the W and W',
+                'No W W without W',
+                'Every W W a W',
+                'W W; the W W',
+                'Some W W the W of W',
+                'W W the W, then W',
+                'A W of W and W',
+                'Was it W or W?',
+                'The W W W the W',
+            ];
+
+            function genFromTemplate() {
+                const tmpl = pick(templates);
+                const allWords = [];
+                const text = tmpl.replace(/W/g, () => {
+                    const w = unglish.generateWord({ mode: 'text' });
+                    allWords.push(w);
+                    return w.written.clean;
+                });
+                // Capitalize first letter
+                const capped = text.charAt(0).toUpperCase() + text.slice(1);
+                // Add terminal punctuation (already has ? if template includes it)
+                const final = capped.endsWith('?') ? capped : capped + '.';
+                return { text: final, words: allWords };
+            }
+
+            function makeSentence() {
+                return genFromTemplate();
             }
 
             function genSentence() {
-                const s = makeSentence(randInt(5, 8));
+                const s = makeSentence();
                 $('sentence-text').textContent = s.text;
             }
 
@@ -274,7 +292,7 @@
                     const sentences = [];
                     const count = randInt(3, 5);
                     for (let i = 0; i < count; i++) {
-                        const s = makeSentence(randInt(3, 8));
+                        const s = makeSentence();
                         sentences.push(s.text);
                         allWords.push(...s.words);
                     }
@@ -291,14 +309,15 @@
             // --- Tab switching ---
             document.querySelectorAll('.tab-bar button').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    document.querySelectorAll('.tab-bar button').forEach(b => b.setAttribute('aria-selected', 'false'));
+                    document.querySelectorAll('.tab-bar button').forEach(b => b.disabled = false);
                     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                    btn.setAttribute('aria-selected', 'true');
+                    btn.disabled = true;
                     $(btn.dataset.tab).classList.add('active');
                 });
             });
 
             $('refresh-single').addEventListener('click', genSingleWord);
+            $('speak-single').addEventListener('click', speakWord);
             $('refresh-haiku').addEventListener('click', genHaiku);
             $('refresh-slogan').addEventListener('click', genSlogan);
             $('refresh-sentence').addEventListener('click', genSentence);
@@ -495,16 +514,19 @@
 
                         $('game-score').textContent = gameCorrect + '/' + gamePlayed + ' correct';
 
-                        // Auto-advance after a beat
-                        setTimeout(() => {
-                            if (gamePlayed >= 10) {
-                                $('game-words').innerHTML = '<p>Final score: <strong>' + gameCorrect + '/10</strong></p>';
-                                $('game-actions').innerHTML = '<button class="start-btn" id="game-new">Play Again</button>';
-                                $('game-new').addEventListener('click', newGameRound);
-                            } else {
-                                showNextPair();
-                            }
-                        }, 1200);
+                        if (gamePlayed >= 10) {
+                            const pct = (gameCorrect / 10 * 100);
+                            const verdict = pct >= 90 ? 'Suspicious. Are you a dictionary?' :
+                                            pct >= 70 ? 'Sharp eye.' :
+                                            pct >= 50 ? 'Not bad \u2014 the generator fooled you a few times.' :
+                                            'The generator wins this round.';
+                            $('game-actions').innerHTML = '<p style="margin:0.5em 0"><strong>' + gameCorrect + '/10</strong> \u2014 ' + verdict + '</p>' +
+                                '<button class="start-btn" id="game-new">Play Again</button>';
+                            $('game-new').addEventListener('click', newGameRound);
+                        } else {
+                            $('game-actions').innerHTML = '<button class="start-btn" id="game-next">Next \u2192</button>';
+                            $('game-next').addEventListener('click', showNextPair);
+                        }
                     });
                 });
             }
@@ -546,8 +568,8 @@
 
     <div class="tabs">
         <div class="tab-bar">
-            <button aria-selected="true" data-tab="content-text">Text</button>
-            <button aria-selected="false" data-tab="content-lexicon">Lexicon</button>
+            <button disabled data-tab="content-text">Text</button>
+            <button data-tab="content-lexicon">Lexicon</button>
         </div>
 
         <div id="content-text" class="tab-content active">
@@ -556,6 +578,7 @@
                 <button class="refresh" id="refresh-single" title="Regenerate">&#x21bb;</button>
                 <div class="single-written" id="single-written"></div>
                 <div class="pronunciation" id="single-ipa"></div>
+                <button class="refresh" id="speak-single" title="Pronounce it" style="right:3em">&#x25B6;</button>
             </div>
 
             <div class="card">
