@@ -6,339 +6,627 @@
     <title>Unglish Word Generator Demo</title>
     <style>
         :root {
-            --bg-color: #ffffff;
-            --text-color: #333333;
-            --heading-color: #1a1a1a;
-            --code-bg: #f0f0f0;
-            --code-color: #333333;
+            --bg: white;
+            --fg: black;
+            --muted: gray;
+            --card-border: silver;
+            --card-bg: whitesmoke;
         }
-    
+
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-color: #1a1a1a;
-                --text-color: #e0e0e0;
-                --heading-color: #ffffff;
-                --code-bg: #2a2a2a;
-                --code-color: #e0e0e0;
+                --bg: black;
+                --fg: white;
+                --muted: darkgray;
+                --card-border: dimgray;
+                --card-bg: #111;
             }
         }
-    
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: ui-serif, Georgia, serif;
+            background: var(--bg);
+            color: var(--fg);
+            max-width: 42em;
+            margin: 0 auto;
+            padding: 2em 1em;
         }
-    
-        h2 {
-            color: var(--heading-color);
-        }
-    
-        code {
-            background-color: var(--code-bg);
-            color: var(--code-color);
-            padding: 2px 4px;
+
+        header { text-align: center; }
+        header p { color: var(--muted); font-style: italic; }
+
+        /* Tabs — plain unstyled buttons */
+        .tab-bar { display: flex; gap: 0.5em; margin-bottom: 1em; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Cards */
+        .card {
+            border: 1px solid var(--card-border);
             border-radius: 4px;
+            padding: 1em 1.25em;
+            margin: 1em 0;
+            background: var(--card-bg);
+            position: relative;
         }
-    
-        #singleWord, #haiku, #slogan, #duplicates, #wordMatchDemo, #commonWordsDemo {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid var(--text-color);
-            border-radius: 5px;
+        .card h2 {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
         }
-        .timing {
-            font-style: italic;
-            color: #666;
-            margin-top: 10px;
+
+        /* Refresh buttons — using U+21BB clockwise open circle arrow */
+        .refresh {
+            position: absolute;
+            top: 0.75em;
+            right: 0.75em;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            color: var(--muted);
+            line-height: 1;
         }
+        .refresh:hover { color: var(--fg); }
+
+        /* Single word */
+        .single-written { font-size: 2em; font-weight: 700; }
+        .pronunciation { font-family: monospace; color: var(--muted); }
+
+        /* Haiku */
+        .haiku-written { font-size: 1.2em; }
+        .haiku-ipa { font-family: monospace; color: var(--muted); font-size: 0.85em; }
+
+        /* Slogan */
+        .slogan-text { font-size: 1.3em; font-weight: 600; text-transform: capitalize; }
+
+        /* Stat line */
+        .stat-line { font-style: italic; color: var(--muted); font-size: 0.85em; }
+
+        /* Lexicon placeholder */
+        .placeholder { color: var(--muted); font-style: italic; padding: 3em 0; text-align: center; }
+
+        /* Word wall */
+        .word-wall { line-height: 2.2; }
         .word-pill {
             display: inline-block;
-            padding: 5px 10px;
-            margin: 5px;
-            border-radius: 20px;
-            background-color: rgba(200, 200, 200, 0.3);
-            transition: background-color 0.3s;
+            padding: 0.15em 0.5em;
+            margin: 0.1em 0.15em;
+            border-radius: 3px;
+            font-size: 0.9em;
         }
-        .word-pill.found {
-            background-color: rgba(0, 255, 0, 0.3);
-        }
-        .tooltip {
-            position: relative;
+        .syl-1 { background: gainsboro; color: black; }
+        .syl-2 { background: darkgray; color: black; }
+        .syl-3 { background: gray; color: white; }
+        .syl-4 { background: dimgray; color: white; }
+        .legend { font-size: 0.8em; color: var(--muted); margin-top: 0.5em; }
+        .legend span { margin-right: 1em; }
+
+        /* Horizontal bar charts */
+        .bar-chart { margin: 0.5em 0; }
+        .bar-row { display: flex; align-items: center; margin: 0.2em 0; font-size: 0.85em; }
+        .bar-label { width: 3.5em; text-align: right; padding-right: 0.5em; flex-shrink: 0; }
+        .bar-track { flex: 1; background: var(--card-bg); height: 1.2em; position: relative; border: 1px solid var(--card-border); }
+        .bar-fill { height: 100%; display: inline-block; vertical-align: top; }
+        .bar-value { font-size: 0.8em; color: var(--muted); padding-left: 0.4em; white-space: nowrap; flex-shrink: 0; }
+
+        /* Frequency comparison */
+        .freq-row { display: flex; align-items: center; margin: 0.15em 0; font-size: 0.8em; }
+        .freq-letter { width: 1.5em; text-align: right; padding-right: 0.4em; font-weight: bold; flex-shrink: 0; }
+        .freq-bars { flex: 1; }
+        .freq-bar { height: 0.6em; display: block; margin: 1px 0; }
+        .freq-unglish { background: dimgray; }
+        .freq-english { background: silver; }
+        .freq-val { font-size: 0.75em; color: var(--muted); padding-left: 0.3em; flex-shrink: 0; width: 6em; }
+
+
+        /* Common words race */
+        .cw-pill {
             display: inline-block;
+            padding: 0.15em 0.5em;
+            margin: 0.1em;
+            border-radius: 3px;
+            font-size: 0.85em;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--muted);
+            transition: all 0.3s;
         }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 120px;
-            background-color: #555;
-            color: #fff;
+        .cw-pill.found { background: dimgray; color: white; border-color: dimgray; }
+        .cw-status { font-size: 0.85em; color: var(--muted); margin-top: 0.5em; }
+
+        /* Pick the Real Word game */
+        .real-btn {
+            display: inline-block;
+            width: 48%;
             text-align: center;
-            border-radius: 6px;
-            padding: 5px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -60px;
-            opacity: 0;
-            transition: opacity 0.3s;
+            font: inherit;
+            font-size: 1.1em;
+            padding: 0.6em 0.75em;
+            margin: 0.3em 1%;
+            cursor: pointer;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--fg);
+            border-radius: 3px;
         }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
+        .real-btn:hover { border-color: var(--fg); }
+        .real-btn.correct { background: darkgray; color: white; border-color: darkgray; }
+        .real-btn.wrong { background: var(--card-bg); border-color: var(--fg); text-decoration: line-through; }
+        .real-btn.revealed { cursor: default; }
+        .real-btn.correct.revealed { opacity: 1; }
+        .real-btn.wrong.revealed { opacity: 0.5; }
+        .game-score { font-weight: bold; margin-bottom: 0.5em; }
+        .game-actions { margin-top: 0.75em; }
+        .game-actions button {
+            font: inherit;
+            padding: 0.4em 1em;
+            cursor: pointer;
+            background: dimgray;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            margin-right: 0.5em;
         }
+        .game-actions button:hover { background: gray; }
+        .start-btn {
+            font: inherit;
+            padding: 0.4em 1em;
+            cursor: pointer;
+            background: dimgray;
+            color: white;
+            border: none;
+            border-radius: 3px;
+        }
+        .start-btn:hover { background: gray; }
+        .ref-line { font-size: 0.8em; color: var(--muted); font-style: italic; margin-top: 0.3em; }
     </style>
     <script type="module">
-        import unglish from '../dist/index.js';
+        import unglish, { generateWords } from '../dist/index.js';
+        import { realWords } from './realwords.js';
 
-        if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); } function init() {
-            document.body.innerHTML = `
-                <div id="singleWord">Generating single word...</div>
-                <div id="haiku">Generating haiku...</div>
-                <div id="slogan">Generating slogan...</div>
-                <div id="duplicates">Generating duplicate word search...</div>
-                <div id="commonWordsDemo">
-                    <h2>Common Words Demo</h2>
-                    <button id="startCommonWordsDemo">Start Common Words Demo</button>
-                    <div id="commonWordsResult"></div>
-                </div>
-                <div id="wordMatchDemo">
-                    <h2>Word Match Demo</h2>
-                    <input type="text" id="targetWord" placeholder="Enter a target word or regex">
-                    <input type="number" id="syllableCount" placeholder="Syllable count (optional)" min="1" max="7">
-                    <label>
-                        <input type="checkbox" id="regexMode">
-                        Regex Mode
-                    </label>
-                    <button id="startMatchDemo">Generate Match</button>
-                    <div id="matchResult"></div>
-                </div>
-            `;
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
 
-            // Function to generate a single word
-            const generateSingleWord = () => {
-                const singleWord = unglish.generateWord();
-                console.log(singleWord);
-                document.getElementById('singleWord').innerHTML = `
-                    <h2>Single Word:</h2> ${singleWord.written.clean} <br/> <code>${singleWord.pronunciation}</code> <br/>
-                `;
-            };
+        function init() {
+            const $ = id => document.getElementById(id);
 
-            // Function to generate a single word
-            const generateSlogan = () => {
-                const singleWord = unglish.generateWord({syllableCount: 1});
-                console.log(singleWord);
-
-                const firstWords = [
-                    "Ignore Haters —",
-                    "Always", "Just", "Never", "Forever", "Never Quit —", 
-                    "Passionately", "Fearlessly", "Endlessly", "Forget Fear —", 
-                    "You Can", "Relentlessly",
-                ];
-
-                const lastWords = [
-                    "It", "Your Dreams", "Success", "Your Enemies", "Fear", "Love", "Tomorrow", "Yourself", 
-                    "The Future", "Greatness", "Excellence", "Possibilities", "Potential", "Destiny", 
-                    "The World", "Your Goals", "Perfection", "Innovation", "Happiness", "Victory", "Hard Things"
-                ];
-                const slogan = `${firstWords[Math.floor(Math.random()*firstWords.length)]} ${singleWord.written.clean} ${lastWords[Math.floor(Math.random()*lastWords.length)]}`;
-                document.getElementById('slogan').innerHTML = `
-                    <h2>Slogan:</h2> 
-                    <span style="text-transform: capitalize">
-                        ${slogan}
-                    </span>
-                `;
-            };
-
-            // Function to generate a haiku
-            const generateHaiku = () => {
-                const haiku = [
-                    [unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 1 })],
-                    [unglish.generateWord({ syllableCount: 3 }), unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 2 })],
-                    [unglish.generateWord({ syllableCount: 2 }), unglish.generateWord({ syllableCount: 1 }), unglish.generateWord({ syllableCount: 2 })],
-                ]
-                console.log(haiku);
-                const writtenHaiku = haiku.map(
-                    line => line.map(word => word.written.clean).join(' ')
-                ).join('<br/>');
-                const pronouncedHaiku = haiku.map(
-                    line => line.map(word => word.pronunciation).join(' ')
-                ).join('<br/>');
-                document.getElementById('haiku').innerHTML = `
-                    <h2>Haiku:</h2> 
-                    <p>${writtenHaiku}</p>
-                    <code>${pronouncedHaiku}</code>
-                `;
-            };
-
-            // Duplicate Word Search
-            const duplicateWorker = new Worker('duplicateWorker.js');
-            duplicateWorker.onmessage = function(e) {
-                if (e.data.type === 'progress') {
-                    document.getElementById('duplicates').innerHTML = `
-                        <h2>Duplicate Word Search:</h2>
-                        <p>Generated ${e.data.progress} of ${e.data.total} words...</p>
-                    `;
-                } else if (e.data.type === 'result') {
-                    document.getElementById('duplicates').innerHTML = `
-                        <h2>Duplicate Word Search:</h2>
-                        <p>Generated ${e.data.iterations} words.</p>
-                        <p>Found ${e.data.dupeCount} dupes (${e.data.dupePercentage}%): ${e.data.formattedDuplicates}</p>
-                        <p class="timing">Time taken: ${e.data.duration} seconds</p>
-                    `;
-                }
-            };
-
-            // Word Match Demo
-            let matchWorker = null;
-            const targetWordInput = document.getElementById('targetWord');
-            const syllableCountInput = document.getElementById('syllableCount');
-            const regexModeCheckbox = document.getElementById('regexMode');
-            const startMatchDemoButton = document.getElementById('startMatchDemo');
-            const matchResultDiv = document.getElementById('matchResult');
-
-            let closeMatches = new Set();
-            let isSearching = false;
-
-            function createNewMatchWorker() {
-                if (matchWorker) {
-                    matchWorker.terminate();
-                }
-                matchWorker = new Worker('matchWorker.js');
-                matchWorker.onmessage = handleMatchWorkerMessage;
+            let currentWord = '';
+            function genSingleWord() {
+                const w = unglish.generateWord({ mode: 'text' });
+                currentWord = w.written.clean;
+                $('single-written').textContent = currentWord;
+                $('single-ipa').textContent = w.pronunciation;
             }
 
-            function handleMatchWorkerMessage(e) {
-                if (e.data.type === 'progress') {
-                    updateMatchResult(null, false, e.data.attempts, e.data.duration);
-                } else if (e.data.type === 'closeMatch') {
-                    closeMatches.add(e.data.word);
-                    updateMatchResult(e.data.word, false, e.data.attempts, e.data.duration);
-                } else if (e.data.type === 'match') {
-                    updateMatchResult(e.data.word, true, e.data.attempts, e.data.duration);
-                    isSearching = false;
-                    startMatchDemoButton.textContent = 'Generate Match';
-                } else if (e.data.type === 'cancelled') {
-                    updateMatchResult(null, false, e.data.attempts, e.data.duration);
-                    isSearching = false;
-                    startMatchDemoButton.textContent = 'Generate Match';
-                    matchResultDiv.innerHTML += '<p><strong>Search cancelled.</strong></p>';
-                }
+            function speakWord() {
+                if (!currentWord || !window.speechSynthesis) return;
+                const utt = new SpeechSynthesisUtterance(currentWord);
+                utt.lang = 'en-GB';
+                utt.rate = 0.85;
+                speechSynthesis.speak(utt);
             }
 
-            function updateMatchResult(newMatch = null, isExactMatch = false, attempts, duration) {
-                const matchesHtml = Array.from(closeMatches)
-                    .map(word => `<li>${word}</li>`)
-                    .join('');
-
-                matchResultDiv.innerHTML = `
-                    <em><span>Attempts: ${attempts}</span></em>
-                    ${isExactMatch ? `<br/><strong>Match found: ${newMatch}</strong>` : ''}
-                    <br/><strong>Close matches:</strong>
-                    <ul>${matchesHtml}</ul>
-                    <p class="timing">Time elapsed: ${duration} seconds</p>
-                `;
+            function genHaiku() {
+                const patterns = [[2,2,1],[3,2,2],[2,1,2]];
+                const lines = patterns.map(p => p.map(n => unglish.generateWord({ syllableCount: n, mode: 'text' })));
+                $('haiku-written').innerHTML = lines.map(l => l.map(w => w.written.clean).join(' ')).join('<br>');
+                $('haiku-ipa').innerHTML = lines.map(l => l.map(w => w.pronunciation).join(' ')).join('<br>');
             }
 
-            startMatchDemoButton.addEventListener('click', () => {
-                const targetWord = targetWordInput.value.trim().toLowerCase();
-                const syllableCount = parseInt(syllableCountInput.value) || 0;
-                const isRegex = regexModeCheckbox.checked;
+            const firstWords = [
+                "Ignore Haters \u2014", "Always", "Just", "Never", "Forever", "Never Quit \u2014",
+                "Passionately", "Fearlessly", "Endlessly", "Forget Fear \u2014",
+                "You Can", "Relentlessly",
+            ];
+            const lastWords = [
+                "It", "Your Dreams", "Success", "Your Enemies", "Fear", "Love", "Tomorrow",
+                "Yourself", "The Future", "Greatness", "Excellence", "Possibilities",
+                "Potential", "Destiny", "The World", "Your Goals", "Perfection",
+                "Innovation", "Happiness", "Victory", "Hard Things"
+            ];
+            const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+            const randInt = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
 
-                if (isSearching) {
-                    if (matchWorker) {
-                        matchWorker.terminate();
-                        matchWorker = null;
+            function genSlogan() {
+                const w = unglish.generateWord({ syllableCount: 1, mode: 'text' });
+                $('slogan-text').textContent = `${pick(firstWords)} ${w.written.clean} ${pick(lastWords)}`;
+            }
+
+            // Sentence templates — slots: W=any word, N=noun-like(2-3syl), V=verb-like(1syl), A=adj-like(2syl)
+            const templates = [
+                'The W of W',
+                'W and W W the W',
+                'A W W the W',
+                'The W W, but the W W',
+                'W W the W of W',
+                'It W the W',
+                'W W, W W',
+                'The W W W',
+                'W the W and W',
+                'No W W without W',
+                'Every W W a W',
+                'W W; the W W',
+                'Some W W the W of W',
+                'W W the W, then W',
+                'A W of W and W',
+                'Was it W or W?',
+                'The W W W the W',
+            ];
+
+            function genFromTemplate() {
+                const tmpl = pick(templates);
+                const allWords = [];
+                const text = tmpl.replace(/W/g, () => {
+                    const w = unglish.generateWord({ mode: 'text' });
+                    allWords.push(w);
+                    return w.written.clean;
+                });
+                // Capitalize first letter
+                const capped = text.charAt(0).toUpperCase() + text.slice(1);
+                // Add terminal punctuation (already has ? if template includes it)
+                const final = capped.endsWith('?') ? capped : capped + '.';
+                return { text: final, words: allWords };
+            }
+
+            function makeSentence() {
+                return genFromTemplate();
+            }
+
+            function genSentence() {
+                const s = makeSentence();
+                $('sentence-text').textContent = s.text;
+            }
+
+            function genParagraph() {
+                const allWords = [];
+                const paragraphs = [];
+                for (let p = 0; p < 2; p++) {
+                    const sentences = [];
+                    const count = randInt(3, 5);
+                    for (let i = 0; i < count; i++) {
+                        const s = makeSentence();
+                        sentences.push(s.text);
+                        allWords.push(...s.words);
                     }
-                    isSearching = false;
-                    startMatchDemoButton.textContent = 'Generate Match';
-                    matchResultDiv.innerHTML += '<p><strong>Search cancelled.</strong></p>';
-                } else if (targetWord) {
-                    isSearching = true;
-                    startMatchDemoButton.textContent = 'Cancel Search';
-                    closeMatches.clear();
-                    matchResultDiv.innerHTML = 'Generating...';
-                    createNewMatchWorker();
-                    matchWorker.postMessage({
-                        action: 'findMatch', 
-                        targetWord: targetWord,
-                        isRegex: isRegex,
-                        syllableCount: syllableCount
-                    });
-                } else {
-                    matchResultDiv.innerHTML = 'Please enter a target word or regex.';
+                    paragraphs.push(sentences.join(' '));
                 }
+                $('paragraph-text').innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
+
+                const mono = allWords.filter(w => w.syllables.length === 1).length;
+                const monoPct = ((mono / allWords.length) * 100).toFixed(1);
+                const avgLen = (allWords.reduce((s, w) => s + w.written.clean.length, 0) / allWords.length).toFixed(1);
+                $('paragraph-stats').textContent = `${allWords.length} words \u00b7 ${monoPct}% monosyllabic \u00b7 avg ${avgLen} letters`;
+            }
+
+            // --- Tab switching ---
+            document.querySelectorAll('.tab-bar button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-bar button').forEach(b => b.disabled = false);
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    btn.disabled = true;
+                    $(btn.dataset.tab).classList.add('active');
+                });
             });
 
-            // Common Words Demo
-            const commonWordsWorker = new Worker('commonWordsWorker.js');
-            const startCommonWordsDemoButton = document.getElementById('startCommonWordsDemo');
-            const commonWordsResultDiv = document.getElementById('commonWordsResult');
-            const wordListDiv = document.createElement('div');
-            wordListDiv.id = 'wordList';
-            commonWordsResultDiv.appendChild(wordListDiv);
-            const progressInfoDiv = document.createElement('div');
-            progressInfoDiv.id = 'progressInfo';
-            commonWordsResultDiv.appendChild(progressInfoDiv);
+            $('refresh-single').addEventListener('click', genSingleWord);
+            $('speak-single').addEventListener('click', speakWord);
+            $('refresh-haiku').addEventListener('click', genHaiku);
+            $('refresh-slogan').addEventListener('click', genSlogan);
+            $('refresh-sentence').addEventListener('click', genSentence);
+            $('refresh-paragraph').addEventListener('click', genParagraph);
 
-            startCommonWordsDemoButton.addEventListener('click', () => {
-                startCommonWordsDemoButton.disabled = true;
-                progressInfoDiv.textContent = 'Generating words...';
-                commonWordsWorker.postMessage({ action: 'findCommonWords' });
+            // ===== LEXICON TAB =====
+
+            const sylColors = ['syl-1','syl-2','syl-3','syl-4'];
+            const sylLabels = ['1 syl','2 syl','3 syl','4+ syl'];
+            const sylBgNames = ['gainsboro','darkgray','gray','dimgray'];
+
+            let lexWords = [];
+
+            function genWordWall() {
+                lexWords = generateWords(200, { mode: 'lexicon' });
+                const wall = $('word-wall');
+                wall.innerHTML = '';
+                lexWords.forEach(w => {
+                    const sp = document.createElement('span');
+                    const sc = Math.min(w.syllables.length, 4);
+                    sp.className = 'word-pill ' + sylColors[sc - 1];
+                    sp.textContent = w.written.clean;
+                    sp.title = w.pronunciation + ' (' + sc + ' syl)';
+                    wall.appendChild(sp);
+                });
+                // legend
+                $('wall-legend').innerHTML = sylLabels.map((l,i) =>
+                    '<span><span class="word-pill ' + sylColors[i] + '">' + l + '</span></span>'
+                ).join('');
+                genSylChart();
+                genLenChart();
+            }
+
+            function genSylChart() {
+                const counts = [0,0,0,0];
+                lexWords.forEach(w => { const s = Math.min(w.syllables.length, 4); counts[s-1]++; });
+                const total = lexWords.length;
+                $('syl-chart').innerHTML = counts.map((c,i) => {
+                    const pct = (c / total * 100).toFixed(1);
+                    return '<div class="bar-row"><div class="bar-label">' + sylLabels[i] + '</div>' +
+                        '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:' + sylBgNames[i] + '"></div></div>' +
+                        '<div class="bar-value">' + c + ' (' + pct + '%)</div></div>';
+                }).join('');
+            }
+
+            function genLenChart() {
+                const counts = {};
+                lexWords.forEach(w => {
+                    const len = Math.min(w.written.clean.length, 12);
+                    counts[len] = (counts[len] || 0) + 1;
+                });
+                const maxCount = Math.max(...Object.values(counts));
+                let html = '';
+                for (let i = 1; i <= 12; i++) {
+                    const c = counts[i] || 0;
+                    const pct = (c / maxCount * 100).toFixed(1);
+                    const label = i === 12 ? '12+' : String(i);
+                    html += '<div class="bar-row"><div class="bar-label">' + label + '</div>' +
+                        '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:gray"></div></div>' +
+                        '<div class="bar-value">' + c + '</div></div>';
+                }
+                $('len-chart').innerHTML = html;
+                const avgLen = (lexWords.reduce((s,w) => s + w.written.clean.length, 0) / lexWords.length).toFixed(1);
+                $('len-ref').textContent = 'Unglish avg: ' + avgLen + ' letters · English avg: ~4.7 (running text), ~8.5 (dictionary)';
+            }
+
+            // Letter frequency
+            function genFreqChart() {
+                const engFreq = {e:12.7,t:9.1,a:8.2,o:7.5,i:7.0,n:6.7,s:6.3,h:6.1,r:6.0,d:4.3,l:4.0,c:2.8,u:2.8,m:2.4,w:2.4,f:2.2,g:2.0,y:2.0,p:1.9,b:1.5,v:1.0,k:0.8,j:0.2,x:0.2,q:0.1,z:0.1};
+                const words1k = generateWords(1000, { mode: 'lexicon' });
+                const letterCounts = {};
+                let totalLetters = 0;
+                words1k.forEach(w => {
+                    for (const ch of w.written.clean.toLowerCase()) {
+                        if (ch >= 'a' && ch <= 'z') { letterCounts[ch] = (letterCounts[ch] || 0) + 1; totalLetters++; }
+                    }
+                });
+                const sorted = Object.keys(engFreq).sort((a,b) => engFreq[b] - engFreq[a]);
+                const maxPct = 15;
+                $('freq-legend').innerHTML = '<span style="display:inline-block;width:0.8em;height:0.8em;background:dimgray;vertical-align:middle"></span> Unglish &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:silver;vertical-align:middle"></span> English';
+                $('freq-chart').innerHTML = sorted.map(ch => {
+                    const ung = totalLetters ? ((letterCounts[ch] || 0) / totalLetters * 100) : 0;
+                    const eng = engFreq[ch];
+                    const wU = (ung / maxPct * 100).toFixed(1);
+                    const wE = (eng / maxPct * 100).toFixed(1);
+                    return '<div class="freq-row"><div class="freq-letter">' + ch + '</div><div class="freq-bars">' +
+                        '<div class="freq-bar freq-unglish" style="width:' + wU + '%"></div>' +
+                        '<div class="freq-bar freq-english" style="width:' + wE + '%"></div>' +
+                        '</div><div class="freq-val">' + ung.toFixed(1) + ' / ' + eng.toFixed(1) + '</div></div>';
+                }).join('');
+            }
+
+                        // Common words race
+            let cwWorker = null;
+            $('cw-start').addEventListener('click', function() {
+                this.disabled = true;
+                $('cw-pills').innerHTML = '';
+                $('cw-status').textContent = 'Starting...';
+                if (cwWorker) cwWorker.terminate();
+                cwWorker = new Worker('commonWordsWorker.js');
+                cwWorker.onmessage = function(e) {
+                    if (e.data.type === 'wordList') {
+                        $('cw-pills').innerHTML = e.data.words.map(w => '<span class="cw-pill" id="cw-' + w + '">' + w + '</span>').join('');
+                    } else if (e.data.type === 'wordFound') {
+                        const pill = document.getElementById('cw-' + e.data.word);
+                        if (pill) pill.classList.add('found');
+                        $('cw-status').textContent = (100 - e.data.remainingCount) + '/100 found · ' + e.data.iterations.toLocaleString() + ' generated · ' + e.data.time + 's';
+                    } else if (e.data.type === 'progress') {
+                        $('cw-status').textContent = e.data.foundCount + '/100 found · ' + e.data.iterations.toLocaleString() + ' generated...';
+                    } else if (e.data.type === 'complete') {
+                        const unique = e.data.uniqueCount || e.data.iterations;
+                        const uniquePct = ((unique / e.data.iterations) * 100).toFixed(1);
+                        $('cw-status').textContent = 'All 100 found in ' + e.data.iterations.toLocaleString() + ' generations (' + e.data.duration + 's) \u00b7 ' + unique.toLocaleString() + ' unique (' + uniquePct + '%)';
+                        $('cw-start').disabled = false;
+                        cwWorker.terminate();
+                        cwWorker = null;
+                    }
+                };
+                cwWorker.postMessage({ action: 'findCommonWords' });
             });
 
-            commonWordsWorker.onmessage = function(e) {
-                if (e.data.type === 'wordList') {
-                    wordListDiv.innerHTML = ''; // Clear existing word list
-                    e.data.words.forEach(word => {
-                        const pill = document.createElement('span');
-                        pill.className = 'word-pill tooltip';
-                        pill.dataset.word = word; // Add data attribute for the word
-                        pill.innerHTML = `
-                            ${word}
-                            <span class="tooltiptext">Not found yet</span>
-                        `;
-                        wordListDiv.appendChild(pill);
-                    });
-                } else if (e.data.type === 'progress') {
-                    progressInfoDiv.innerHTML = `
-                        <p>Iterations: ${e.data.iterations}</p>
-                        <p>Found words: ${e.data.foundCount}</p>
-                        <p>Remaining words: ${e.data.remainingCount}</p>
-                    `;
-                } else if (e.data.type === 'wordFound') {
-                    const wordPills = wordListDiv.querySelectorAll('.word-pill');
-                    const foundPill = Array.from(wordPills).find(pill => pill.dataset.word === e.data.word);
-                    if (foundPill) {
-                        foundPill.classList.add('found');
-                        foundPill.querySelector('.tooltiptext').textContent = `Found after ${e.data.iterations} iterations (${e.data.time}s)`;
-                    }
-                } else if (e.data.type === 'complete') {
-                    progressInfoDiv.innerHTML += `
-                        <p><strong>All words found!</strong></p>
-                        <p>Total iterations: ${e.data.iterations}</p>
-                        <p>Time taken: ${e.data.duration} seconds</p>
-                    `;
-                    startCommonWordsDemoButton.disabled = false;
-                } else if (e.data.type === 'error') {
-                    progressInfoDiv.innerHTML = `<p>Error: ${e.data.message}</p>`;
-                    startCommonWordsDemoButton.disabled = false;
-                }
-            };
+            // "Pick the Real Word" game — 2 choices, one real, one generated
+            let gameRound = 0, gameCorrect = 0, gamePlayed = 0;
+            const usedRealWords = new Set();
 
-            // Schedule tasks to run after the initial paint
+            function shuffle(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+            function pickUnusedReal() {
+                let word;
+                do { word = realWords[Math.floor(Math.random() * realWords.length)]; } while (usedRealWords.has(word));
+                usedRealWords.add(word);
+                return word;
+            }
+
+            function newGameRound() {
+                gameRound = 0; gameCorrect = 0; gamePlayed = 0;
+                $('game-score').textContent = '';
+                $('game-actions').innerHTML = '';
+                showNextPair();
+            }
+
+            function showNextPair() {
+                const real = pickUnusedReal();
+                const fake = unglish.generateWord({ mode: 'lexicon' }).written.clean;
+                const pair = shuffle([{word: real, real: true}, {word: fake, real: false}]);
+                gameRound++;
+
+                $('game-words').innerHTML = '<p style="color:var(--muted);font-size:0.85em">Round ' + gameRound + ' \u2014 Pick the real English word:</p>' +
+                    pair.map((p, i) =>
+                        '<button class="real-btn" data-idx="' + i + '">' + p.word + '</button>'
+                    ).join(' ');
+
+                document.querySelectorAll('.real-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (this.classList.contains('revealed')) return;
+                        const idx = parseInt(this.dataset.idx);
+                        const picked = pair[idx];
+                        const other = pair[1 - idx];
+                        gamePlayed++;
+                        if (picked.real) gameCorrect++;
+
+                        // Reveal both
+                        document.querySelectorAll('.real-btn').forEach((b, bi) => {
+                            b.classList.add('revealed');
+                            const p = pair[bi];
+                            b.classList.add(p.real ? 'correct' : 'wrong');
+                            b.innerHTML = p.word + ' <span style="font-size:0.75em;opacity:0.7">' + (p.real ? '\u2713 real' : '\u2717 fake') + '</span>';
+                        });
+
+                        $('game-score').textContent = gameCorrect + '/' + gamePlayed + ' correct';
+
+                        if (gamePlayed >= 10) {
+                            const pct = (gameCorrect / 10 * 100);
+                            const verdict = pct >= 90 ? 'Suspicious. Are you a dictionary?' :
+                                            pct >= 70 ? 'Sharp eye.' :
+                                            pct >= 50 ? 'Not bad \u2014 the generator fooled you a few times.' :
+                                            'The generator wins this round.';
+                            $('game-actions').innerHTML = '<p style="margin:0.5em 0"><strong>' + gameCorrect + '/10</strong> \u2014 ' + verdict + '</p>' +
+                                '<button class="start-btn" id="game-new">Play Again</button>';
+                            $('game-new').addEventListener('click', newGameRound);
+                        } else {
+                            $('game-actions').innerHTML = '<button class="start-btn" id="game-next">Next \u2192</button>';
+                            $('game-next').addEventListener('click', showNextPair);
+                        }
+                    });
+                });
+            }
+
+            $('refresh-wall').addEventListener('click', () => { genWordWall(); genFreqChart(); });
+
+            // Init lexicon on first tab switch (lazy) or immediately if active
+            let lexiconInited = false;
+            function initLexicon() {
+                if (lexiconInited) return;
+                lexiconInited = true;
+                genWordWall();
+                genFreqChart();
+                newGameRound();
+            }
+
+            // Hook into tab switching
+            document.querySelectorAll('.tab-bar button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.dataset.tab === 'content-lexicon') initLexicon();
+                });
+            });
+
             requestAnimationFrame(() => {
-                generateSingleWord();
-                generateSlogan();
-                generateHaiku();
-                duplicateWorker.postMessage({action: 'findDuplicates', iterations: 10000});
+                genSingleWord();
+                genHaiku();
+                genSlogan();
+                genSentence();
+                genParagraph();
             });
         }
     </script>
 </head>
 <body>
-    <!-- The generated content will be inserted here -->
+    <header>
+        <h1>Unglish Word Generator</h1>
+        <p>English-sounding nonsense, generated by rule</p>
+    </header>
+
+    <div class="tabs">
+        <div class="tab-bar">
+            <button disabled data-tab="content-text">Text</button>
+            <button data-tab="content-lexicon">Lexicon</button>
+        </div>
+
+        <div id="content-text" class="tab-content active">
+            <div class="card">
+                <h2>Single Word</h2>
+                <button class="refresh" id="refresh-single" title="Regenerate">&#x21bb;</button>
+                <div class="single-written" id="single-written"></div>
+                <div class="pronunciation" id="single-ipa"></div>
+                <button class="refresh" id="speak-single" title="Pronounce it" style="right:3em">&#x25B6;</button>
+            </div>
+
+            <div class="card">
+                <h2>Haiku</h2>
+                <button class="refresh" id="refresh-haiku" title="Regenerate">&#x21bb;</button>
+                <div class="haiku-written" id="haiku-written"></div>
+                <div class="haiku-ipa" id="haiku-ipa"></div>
+            </div>
+
+            <div class="card">
+                <h2>Slogan</h2>
+                <button class="refresh" id="refresh-slogan" title="Regenerate">&#x21bb;</button>
+                <div class="slogan-text" id="slogan-text"></div>
+            </div>
+
+            <div class="card">
+                <h2>Sentence</h2>
+                <button class="refresh" id="refresh-sentence" title="Regenerate">&#x21bb;</button>
+                <div class="sentence-text" id="sentence-text"></div>
+            </div>
+
+            <div class="card">
+                <h2>Paragraph</h2>
+                <button class="refresh" id="refresh-paragraph" title="Regenerate">&#x21bb;</button>
+                <div class="paragraph-text" id="paragraph-text"></div>
+                <div class="stat-line" id="paragraph-stats"></div>
+            </div>
+        </div>
+
+        <div id="content-lexicon" class="tab-content">
+            <!-- Word Wall -->
+            <div class="card">
+                <h2>Word Wall</h2>
+                <button class="refresh" id="refresh-wall" title="Regenerate">&#x21bb;</button>
+                <div class="word-wall" id="word-wall"></div>
+                <div class="legend" id="wall-legend"></div>
+            </div>
+
+            <!-- Syllable Distribution -->
+            <div class="card">
+                <h2>Syllable Distribution</h2>
+                <div class="bar-chart" id="syl-chart"></div>
+            </div>
+
+            <!-- Letter Length Distribution -->
+            <div class="card">
+                <h2>Word Length Distribution</h2>
+                <div class="bar-chart" id="len-chart"></div>
+                <div class="ref-line" id="len-ref"></div>
+            </div>
+
+            <!-- Letter Frequency -->
+            <div class="card">
+                <h2>Letter Frequency — Unglish vs English</h2>
+                <div class="legend" id="freq-legend"></div>
+                <div id="freq-chart"></div>
+            </div>
+
+            <!-- Common Words Race -->
+            <div class="card">
+                <h2>Common Words Race</h2>
+                <p style="font-size:0.85em;color:var(--muted)">How many random words until all 100 most common English words appear?</p>
+                <button class="start-btn" id="cw-start">Start Race</button>
+                <div id="cw-pills" style="margin-top:0.5em"></div>
+                <div class="cw-status" id="cw-status"></div>
+            </div>
+
+            <!-- Pick the Real Word -->
+            <div class="card">
+                <h2>Pick the Real Word</h2>
+                <p style="font-size:0.85em;color:var(--muted)">One is real English, one is Unglish. 10 rounds.</p>
+                <div class="game-score" id="game-score"></div>
+                <div id="game-words"></div>
+                <div class="game-actions" id="game-actions"></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
