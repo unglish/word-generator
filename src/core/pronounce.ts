@@ -73,7 +73,7 @@ const aspirateSyllable = (position: number, context: WordGenerationContext): voi
     }
   }
 };
-const applyStress = (context: WordGenerationContext, stress: StressRules): void => {
+export const applyStress = (context: WordGenerationContext, stress: StressRules): void => {
   const { rand } = context;
   // Rule 1: Primary stress 
   applyPrimaryStress(context, rand, stress);
@@ -272,13 +272,11 @@ export const _reduceUnstressedVowels = reduceUnstressedVowels;
 export const generatePronunciation = (
   context: WordGenerationContext,
   vowelReduction?: VowelReductionConfig,
-  stress?: StressRules,
 ): void => {
   const syllables = context.word.syllables;
   for (let i = 0; i < syllables.length; i++) {
     aspirateSyllable(i, context);
   }
-  applyStress(context, stress ?? { strategy: "weight-sensitive" });
   if (vowelReduction?.enabled) {
     reduceUnstressedVowels(context, vowelReduction, context.rand);
   }

@@ -3,7 +3,7 @@ import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
-import { generatePronunciation } from "./pronounce.js";
+import { applyStress, generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant } from "./repair.js";
 import type { GenerationWeights } from "../config/language.js";
@@ -620,8 +620,9 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
     });
   }
   repairNgCodaSibilant(context.word.syllables);
+  applyStress(context, rt.config.stress ?? { strategy: "weight-sensitive" });
   rt.generateWrittenForm(context);
-  generatePronunciation(context, rt.config.vowelReduction, rt.config.stress);
+  generatePronunciation(context, rt.config.vowelReduction);
 }
 
 // ---------------------------------------------------------------------------
