@@ -19,11 +19,15 @@ const aspirateSyllable = (position: number, context: WordGenerationContext): voi
 
   let shouldAspirate = false;
 
-  // Don't aspirate if the previous syllable ends with 's'
+  // Post-/s/ stops are unaspirated in English (e.g. "spin", "stop").
+  // Early-return so position-based rates don't overwrite the 5% rate.
   if (position > 0) {
     const prevSyllable = word.syllables[position - 1];
     if (prevSyllable.coda.length > 0 && prevSyllable.coda[prevSyllable.coda.length - 1].sound === 's') {
-      shouldAspirate = getWeightedOption([[true, 5], [false, 95]], rand);
+      if (getWeightedOption([[true, 5], [false, 95]], rand)) {
+        syllable.onset[0] = { ...syllable.onset[0], aspirated: true };
+      }
+      return;
     }
   }
 
