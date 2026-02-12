@@ -332,8 +332,9 @@ function applyDoubling(
     if (!isAfterVowel || !isLax) return form;
   }
 
-  // neverDouble
+  // neverDouble — check both phoneme sound and grapheme form
   if (neverDoubleSet.has(currPhoneme.sound)) return form;
+  if (neverDoubleSet.has(form)) return form;
 
   // finalDoublingOnly
   if (isEndOfWord && config.finalDoublingOnly && config.finalDoublingOnly.length > 0) {
