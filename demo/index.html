@@ -111,6 +111,102 @@
 
         /* Lexicon placeholder */
         .placeholder { color: var(--muted); font-style: italic; padding: 3em 0; text-align: center; }
+
+        /* Word wall */
+        .word-wall { line-height: 2.2; }
+        .word-pill {
+            display: inline-block;
+            padding: 0.15em 0.5em;
+            margin: 0.1em 0.15em;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .syl-1 { background: gainsboro; color: black; }
+        .syl-2 { background: darkgray; color: black; }
+        .syl-3 { background: gray; color: white; }
+        .syl-4 { background: dimgray; color: white; }
+        .legend { font-size: 0.8em; color: var(--muted); margin-top: 0.5em; }
+        .legend span { margin-right: 1em; }
+
+        /* Horizontal bar charts */
+        .bar-chart { margin: 0.5em 0; }
+        .bar-row { display: flex; align-items: center; margin: 0.2em 0; font-size: 0.85em; }
+        .bar-label { width: 3.5em; text-align: right; padding-right: 0.5em; flex-shrink: 0; }
+        .bar-track { flex: 1; background: var(--card-bg); height: 1.2em; position: relative; border: 1px solid var(--card-border); }
+        .bar-fill { height: 100%; display: inline-block; vertical-align: top; }
+        .bar-value { font-size: 0.8em; color: var(--muted); padding-left: 0.4em; white-space: nowrap; flex-shrink: 0; }
+
+        /* Frequency comparison */
+        .freq-row { display: flex; align-items: center; margin: 0.15em 0; font-size: 0.8em; }
+        .freq-letter { width: 1.5em; text-align: right; padding-right: 0.4em; font-weight: bold; flex-shrink: 0; }
+        .freq-bars { flex: 1; }
+        .freq-bar { height: 0.6em; display: block; margin: 1px 0; }
+        .freq-unglish { background: dimgray; }
+        .freq-english { background: silver; }
+        .freq-val { font-size: 0.75em; color: var(--muted); padding-left: 0.3em; flex-shrink: 0; width: 6em; }
+
+        /* Duplicate test */
+        .dup-output { font-family: monospace; font-size: 0.85em; white-space: pre-wrap; }
+        .dup-progress { color: var(--muted); font-size: 0.85em; }
+
+        /* Common words race */
+        .cw-pill {
+            display: inline-block;
+            padding: 0.15em 0.5em;
+            margin: 0.1em;
+            border-radius: 3px;
+            font-size: 0.85em;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--muted);
+            transition: all 0.3s;
+        }
+        .cw-pill.found { background: dimgray; color: white; border-color: dimgray; }
+        .cw-status { font-size: 0.85em; color: var(--muted); margin-top: 0.5em; }
+
+        /* Is It Real game */
+        .real-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            font: inherit;
+            font-size: 1.1em;
+            padding: 0.5em 0.75em;
+            margin: 0.3em 0;
+            cursor: pointer;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--fg);
+            border-radius: 3px;
+        }
+        .real-btn:hover { border-color: var(--fg); }
+        .real-btn.correct { background: darkgray; color: white; border-color: darkgray; }
+        .real-btn.wrong { background: var(--card-bg); border-color: var(--fg); text-decoration: line-through; }
+        .real-btn.revealed { opacity: 0.7; cursor: default; }
+        .game-score { font-weight: bold; margin-bottom: 0.5em; }
+        .game-actions { margin-top: 0.75em; }
+        .game-actions button {
+            font: inherit;
+            padding: 0.4em 1em;
+            cursor: pointer;
+            background: dimgray;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            margin-right: 0.5em;
+        }
+        .game-actions button:hover { background: gray; }
+        .start-btn {
+            font: inherit;
+            padding: 0.4em 1em;
+            cursor: pointer;
+            background: dimgray;
+            color: white;
+            border: none;
+            border-radius: 3px;
+        }
+        .start-btn:hover { background: gray; }
+        .ref-line { font-size: 0.8em; color: var(--muted); font-style: italic; margin-top: 0.3em; }
     </style>
     <script type="module">
         import unglish from '../dist/index.js';
@@ -205,6 +301,220 @@
             $('refresh-sentence').addEventListener('click', genSentence);
             $('refresh-paragraph').addEventListener('click', genParagraph);
 
+            // ===== LEXICON TAB =====
+
+            const sylColors = ['syl-1','syl-2','syl-3','syl-4'];
+            const sylLabels = ['1 syl','2 syl','3 syl','4+ syl'];
+            const sylBgNames = ['gainsboro','darkgray','gray','dimgray'];
+
+            let lexWords = [];
+
+            function genWordWall() {
+                lexWords = unglish.generateWords(200, { mode: 'lexicon' });
+                const wall = $('word-wall');
+                wall.innerHTML = '';
+                lexWords.forEach(w => {
+                    const sp = document.createElement('span');
+                    const sc = Math.min(w.syllables.length, 4);
+                    sp.className = 'word-pill ' + sylColors[sc - 1];
+                    sp.textContent = w.written.clean;
+                    sp.title = w.pronunciation + ' (' + sc + ' syl)';
+                    wall.appendChild(sp);
+                });
+                // legend
+                $('wall-legend').innerHTML = sylLabels.map((l,i) =>
+                    '<span><span class="word-pill ' + sylColors[i] + '">' + l + '</span></span>'
+                ).join('');
+                genSylChart();
+                genLenChart();
+            }
+
+            function genSylChart() {
+                const counts = [0,0,0,0];
+                lexWords.forEach(w => { const s = Math.min(w.syllables.length, 4); counts[s-1]++; });
+                const total = lexWords.length;
+                $('syl-chart').innerHTML = counts.map((c,i) => {
+                    const pct = (c / total * 100).toFixed(1);
+                    return '<div class="bar-row"><div class="bar-label">' + sylLabels[i] + '</div>' +
+                        '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:' + sylBgNames[i] + '"></div></div>' +
+                        '<div class="bar-value">' + c + ' (' + pct + '%)</div></div>';
+                }).join('');
+            }
+
+            function genLenChart() {
+                const counts = {};
+                lexWords.forEach(w => {
+                    const len = Math.min(w.written.clean.length, 12);
+                    counts[len] = (counts[len] || 0) + 1;
+                });
+                const maxCount = Math.max(...Object.values(counts));
+                let html = '';
+                for (let i = 1; i <= 12; i++) {
+                    const c = counts[i] || 0;
+                    const pct = (c / maxCount * 100).toFixed(1);
+                    const label = i === 12 ? '12+' : String(i);
+                    html += '<div class="bar-row"><div class="bar-label">' + label + '</div>' +
+                        '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:gray"></div></div>' +
+                        '<div class="bar-value">' + c + '</div></div>';
+                }
+                $('len-chart').innerHTML = html;
+                const avgLen = (lexWords.reduce((s,w) => s + w.written.clean.length, 0) / lexWords.length).toFixed(1);
+                $('len-ref').textContent = 'Unglish avg: ' + avgLen + ' letters · English avg: ~4.7 (running text), ~8.5 (dictionary)';
+            }
+
+            // Letter frequency
+            function genFreqChart() {
+                const engFreq = {e:12.7,t:9.1,a:8.2,o:7.5,i:7.0,n:6.7,s:6.3,h:6.1,r:6.0,d:4.3,l:4.0,c:2.8,u:2.8,m:2.4,w:2.4,f:2.2,g:2.0,y:2.0,p:1.9,b:1.5,v:1.0,k:0.8,j:0.2,x:0.2,q:0.1,z:0.1};
+                const words1k = unglish.generateWords(1000, { mode: 'lexicon' });
+                const letterCounts = {};
+                let totalLetters = 0;
+                words1k.forEach(w => {
+                    for (const ch of w.written.clean.toLowerCase()) {
+                        if (ch >= 'a' && ch <= 'z') { letterCounts[ch] = (letterCounts[ch] || 0) + 1; totalLetters++; }
+                    }
+                });
+                const sorted = Object.keys(engFreq).sort((a,b) => engFreq[b] - engFreq[a]);
+                const maxPct = 15;
+                $('freq-legend').innerHTML = '<span style="display:inline-block;width:0.8em;height:0.8em;background:dimgray;vertical-align:middle"></span> Unglish &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:silver;vertical-align:middle"></span> English';
+                $('freq-chart').innerHTML = sorted.map(ch => {
+                    const ung = totalLetters ? ((letterCounts[ch] || 0) / totalLetters * 100) : 0;
+                    const eng = engFreq[ch];
+                    const wU = (ung / maxPct * 100).toFixed(1);
+                    const wE = (eng / maxPct * 100).toFixed(1);
+                    return '<div class="freq-row"><div class="freq-letter">' + ch + '</div><div class="freq-bars">' +
+                        '<div class="freq-bar freq-unglish" style="width:' + wU + '%"></div>' +
+                        '<div class="freq-bar freq-english" style="width:' + wE + '%"></div>' +
+                        '</div><div class="freq-val">' + ung.toFixed(1) + ' / ' + eng.toFixed(1) + '</div></div>';
+                }).join('');
+            }
+
+            // Duplicate test
+            $('dup-start').addEventListener('click', function() {
+                this.disabled = true;
+                $('dup-output').textContent = '';
+                $('dup-progress').textContent = 'Running...';
+                const w = new Worker('duplicateWorker.js');
+                w.onmessage = function(e) {
+                    if (e.data.type === 'progress') {
+                        $('dup-progress').textContent = e.data.progress.toLocaleString() + ' / ' + e.data.total.toLocaleString();
+                    } else if (e.data.type === 'result') {
+                        const d = e.data;
+                        const unique = d.iterations - d.dupeCount;
+                        const uniquePct = ((unique / d.iterations) * 100).toFixed(2);
+                        $('dup-progress').textContent = '';
+                        $('dup-output').textContent = d.iterations.toLocaleString() + ' words generated, ' + unique.toLocaleString() + ' unique (' + uniquePct + '% unique rate)\n' + d.dupeCount + ' duplicates in ' + d.duration + 's';
+                        if (d.formattedDuplicates) $('dup-output').textContent += '\nDuplicates: ' + d.formattedDuplicates;
+                        $('dup-start').disabled = false;
+                        w.terminate();
+                    } else if (e.data.type === 'error') {
+                        $('dup-output').textContent = 'Error: ' + e.data.message;
+                        $('dup-start').disabled = false;
+                        w.terminate();
+                    }
+                };
+                w.postMessage({ action: 'findDuplicates', iterations: 10000 });
+            });
+
+            // Common words race
+            let cwWorker = null;
+            $('cw-start').addEventListener('click', function() {
+                this.disabled = true;
+                $('cw-pills').innerHTML = '';
+                $('cw-status').textContent = 'Starting...';
+                if (cwWorker) cwWorker.terminate();
+                cwWorker = new Worker('commonWordsWorker.js');
+                cwWorker.onmessage = function(e) {
+                    if (e.data.type === 'wordList') {
+                        $('cw-pills').innerHTML = e.data.words.map(w => '<span class="cw-pill" id="cw-' + w + '">' + w + '</span>').join('');
+                    } else if (e.data.type === 'wordFound') {
+                        const pill = document.getElementById('cw-' + e.data.word);
+                        if (pill) pill.classList.add('found');
+                        $('cw-status').textContent = (100 - e.data.remainingCount) + '/100 found · ' + e.data.iterations.toLocaleString() + ' generated · ' + e.data.time + 's';
+                    } else if (e.data.type === 'progress') {
+                        $('cw-status').textContent = e.data.foundCount + '/100 found · ' + e.data.iterations.toLocaleString() + ' generated...';
+                    } else if (e.data.type === 'complete') {
+                        $('cw-status').textContent = 'All 100 found in ' + e.data.iterations.toLocaleString() + ' generations (' + e.data.duration + 's)';
+                        $('cw-start').disabled = false;
+                        cwWorker.terminate();
+                        cwWorker = null;
+                    }
+                };
+                cwWorker.postMessage({ action: 'findCommonWords' });
+            });
+
+            // "Is It Real?" mini-game
+            const realWordsPool = ['flummox','kerfuffle','bodkin','clerestory','frangible','gewgaw','hummock','kerning','lummox','mizzle','narthex','ogham','pismire','quahog','rebarbative','scupper','trug','ullage','widdershins','xeric','absquatulate','bibulous','callipygian','defenestrate','embonpoint','foofaraw','gruntled','hallux','illeist','jentacular','kvetch','liminal','mulct','nychthemeron','oxter','pauciloquent','quiddity','rugose','snickersnee','tintinnabulation','umbriferous','velleity','wamble','xenogenous','yarborough','zephyr'];
+            let gameWords = [], gameGuessed = 0, gameCorrect = 0;
+
+            function shuffle(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+            function newGameRound() {
+                gameGuessed = 0; gameCorrect = 0;
+                const realPicks = shuffle([...realWordsPool]).slice(0, 5);
+                const fakePicks = unglish.generateWords(5, { mode: 'lexicon' }).map(w => w.written.clean);
+                gameWords = shuffle([...realPicks.map(w => ({word: w, real: true})), ...fakePicks.map(w => ({word: w, real: false}))]);
+                $('game-score').textContent = '';
+                $('game-actions').innerHTML = '';
+                $('game-words').innerHTML = gameWords.map((g, i) =>
+                    '<button class="real-btn" data-idx="' + i + '">' + g.word + '</button>'
+                ).join('');
+                document.querySelectorAll('.real-btn').forEach(btn => {
+                    btn.addEventListener('click', function() { handleGuess(this); });
+                });
+            }
+
+            function handleGuess(btn) {
+                if (btn.classList.contains('revealed')) return;
+                const idx = parseInt(btn.dataset.idx);
+                const g = gameWords[idx];
+                // Two clicks: first "Real", second "Fake" — simplified: click = guess "Real"
+                // Better: show two sub-buttons. Simpler: toggle approach.
+                // Let's do: click once = "I think it's REAL". If correct for real word → correct. If it was fake → wrong.
+                // Then show label.
+                const isReal = g.real;
+                // We need the user to choose real or fake. Let's use a prompt-less approach:
+                // First click highlights, second click confirms opposite. Too complex.
+                // Simple: two small buttons per word.
+                // Actually let's just ask on click:
+                if (!btn.dataset.phase) {
+                    btn.dataset.phase = 'choosing';
+                    btn.innerHTML = g.word + ' <span style="float:right;font-size:0.8em"><button onclick="event.stopPropagation();this.parentElement.parentElement.dispatchEvent(new CustomEvent(\'guess\',{detail:\'real\'}))" style="font:inherit;font-size:0.85em;padding:0.1em 0.5em;cursor:pointer;background:dimgray;color:white;border:none;border-radius:2px;margin-left:0.3em">Real</button> <button onclick="event.stopPropagation();this.parentElement.parentElement.dispatchEvent(new CustomEvent(\'guess\',{detail:\'fake\'}))" style="font:inherit;font-size:0.85em;padding:0.1em 0.5em;cursor:pointer;background:silver;color:black;border:none;border-radius:2px">Fake</button></span>';
+                    btn.addEventListener('guess', function handler(e) {
+                        btn.removeEventListener('guess', handler);
+                        const guessedReal = e.detail === 'real';
+                        const correct = guessedReal === isReal;
+                        gameGuessed++;
+                        if (correct) gameCorrect++;
+                        btn.className = 'real-btn revealed ' + (correct ? 'correct' : 'wrong');
+                        btn.innerHTML = g.word + ' <span style="float:right;font-size:0.75em;opacity:0.8">' + (isReal ? '✓ real' : '✗ fake') + '</span>';
+                        $('game-score').textContent = gameCorrect + '/' + gameGuessed + ' correct';
+                        if (gameGuessed === 10) {
+                            $('game-actions').innerHTML = '<button class="start-btn" id="game-new">New Round</button>';
+                            $('game-new').addEventListener('click', newGameRound);
+                        }
+                    });
+                }
+            }
+
+            $('refresh-wall').addEventListener('click', () => { genWordWall(); genFreqChart(); });
+
+            // Init lexicon on first tab switch (lazy) or immediately if active
+            let lexiconInited = false;
+            function initLexicon() {
+                if (lexiconInited) return;
+                lexiconInited = true;
+                genWordWall();
+                genFreqChart();
+                newGameRound();
+            }
+
+            // Hook into tab switching
+            document.querySelectorAll('.tab-bar button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.dataset.tab === 'content-lexicon') initLexicon();
+                });
+            });
+
             requestAnimationFrame(() => {
                 genSingleWord();
                 genHaiku();
@@ -263,7 +573,59 @@
         </div>
 
         <div id="content-lexicon" class="tab-content">
-            <div class="placeholder">Coming soon — Lexicon mode will be added in Phase 2.</div>
+            <!-- Word Wall -->
+            <div class="card">
+                <h2>Word Wall</h2>
+                <button class="refresh" id="refresh-wall" title="Regenerate">&#x21bb;</button>
+                <div class="word-wall" id="word-wall"></div>
+                <div class="legend" id="wall-legend"></div>
+            </div>
+
+            <!-- Syllable Distribution -->
+            <div class="card">
+                <h2>Syllable Distribution</h2>
+                <div class="bar-chart" id="syl-chart"></div>
+            </div>
+
+            <!-- Letter Length Distribution -->
+            <div class="card">
+                <h2>Word Length Distribution</h2>
+                <div class="bar-chart" id="len-chart"></div>
+                <div class="ref-line" id="len-ref"></div>
+            </div>
+
+            <!-- Letter Frequency -->
+            <div class="card">
+                <h2>Letter Frequency — Unglish vs English</h2>
+                <div class="legend" id="freq-legend"></div>
+                <div id="freq-chart"></div>
+            </div>
+
+            <!-- Duplicate Test -->
+            <div class="card">
+                <h2>Duplicate Test</h2>
+                <button class="start-btn" id="dup-start">Run (10,000 words)</button>
+                <div class="dup-progress" id="dup-progress"></div>
+                <div class="dup-output" id="dup-output"></div>
+            </div>
+
+            <!-- Common Words Race -->
+            <div class="card">
+                <h2>Common Words Race</h2>
+                <p style="font-size:0.85em;color:var(--muted)">How many random words until all 100 most common English words appear?</p>
+                <button class="start-btn" id="cw-start">Start Race</button>
+                <div id="cw-pills" style="margin-top:0.5em"></div>
+                <div class="cw-status" id="cw-status"></div>
+            </div>
+
+            <!-- Is It Real? -->
+            <div class="card">
+                <h2>"Is It Real?" Mini-Game</h2>
+                <p style="font-size:0.85em;color:var(--muted)">Which words are real English? Click to guess.</p>
+                <div class="game-score" id="game-score"></div>
+                <div id="game-words"></div>
+                <div class="game-actions" id="game-actions"></div>
+            </div>
         </div>
     </div>
 </body>
