@@ -60,18 +60,18 @@ export const phonemes: Phoneme[] = [
   // Mid Vowels
   { sound: "e", mannerOfArticulation: "midVowel", tense: false, nucleus: 140, startWord: 8, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // red
   { sound: "ɛ", mannerOfArticulation: "midVowel", tense: false, nucleus: 280, startWord: 8, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // let
-  { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 280, startWord: 4, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
+  { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 330, startWord: 4, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
   { sound: "ɜ", mannerOfArticulation: "midVowel", tense: false, nucleus: 50, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // bed, said, execute
   { sound: "ɚ", mannerOfArticulation: "midVowel", tense: false, nucleus: 90, startWord: 1, midWord: 2, endWord: 5, voiced: true, placeOfArticulation: "central" }, // her, letter
 
   // Low Vowels
   { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 220, startWord: 8, midWord: 6, endWord: 1, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
   { sound: "ɑ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // father
-  { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 180, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // ball
+  { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 80, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // ball
   { sound: "o", mannerOfArticulation: "lowVowel", tense: true, nucleus: 100, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // hope
   { sound: "ʊ", mannerOfArticulation: "highVowel", tense: true, nucleus: 70, startWord: 4, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // book
   { sound: "u", mannerOfArticulation: "highVowel", tense: true, nucleus: 80, startWord: 8, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // blue
-  { sound: "ʌ", mannerOfArticulation: "midVowel", tense: false, nucleus: 220, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // cup
+  { sound: "ʌ", mannerOfArticulation: "midVowel", tense: false, nucleus: 120, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // cup
 
   // Diphthongs (typically treated as mid or low vowels)
   { sound: "eɪ", mannerOfArticulation: "midVowel", tense: true, nucleus: 170, startWord: 6, midWord: 2, endWord: 3, voiced: true, placeOfArticulation: "front" }, // day, late, gate
@@ -96,7 +96,7 @@ export const phonemes: Phoneme[] = [
 
   // Liquids
   { sound: "l", mannerOfArticulation: "liquid", onset: 200, coda: 200, startWord: 8, midWord: 5, endWord: 8, voiced: true, placeOfArticulation: "alveolar" }, // lid
-  { sound: "r", mannerOfArticulation: "liquid", onset: 500, coda: 100, startWord: 8, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "postalveolar" }, // rank
+  { sound: "r", mannerOfArticulation: "liquid", onset: 300, coda: 100, startWord: 8, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "postalveolar" }, // rank
 
   // Nasals
   { sound: "m", mannerOfArticulation: "nasal", onset: 100, coda: 176, startWord: 6, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "bilabial" }, // mouse
@@ -109,11 +109,11 @@ export const phonemes: Phoneme[] = [
   { sound: "h", mannerOfArticulation: "fricative", onset: 180, coda: 0, startWord: 10, midWord: 2, endWord: 0, voiced: false, placeOfArticulation: "glottal" }, // he
 
   // Voiced Fricatives
-  { sound: "v", mannerOfArticulation: "fricative", onset: 250, coda: 20, startWord: 6, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "labiodental" }, // victor
+  { sound: "v", mannerOfArticulation: "fricative", onset: 100, coda: 20, startWord: 6, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "labiodental" }, // victor
   { sound: "ð", mannerOfArticulation: "fricative", onset: 250, coda: 50, startWord: 6, midWord: 2, endWord: 4, voiced: true, placeOfArticulation: "dental" }, // this
 
   // Sibilants
-  { sound: "z", mannerOfArticulation: "sibilant", onset: 5, coda: 50, startWord: 4, midWord: 4, endWord: 4, voiced: true, placeOfArticulation: "alveolar" }, // zebra
+  { sound: "z", mannerOfArticulation: "sibilant", onset: 25, coda: 50, startWord: 4, midWord: 4, endWord: 4, voiced: true, placeOfArticulation: "alveolar" }, // zebra
   { sound: "ʒ", mannerOfArticulation: "sibilant", onset: 5, coda: 3, startWord: 0, midWord: 6, endWord: 0, voiced: true, placeOfArticulation: "postalveolar" }, // measure
   { sound: "s", mannerOfArticulation: "sibilant", onset: 200, coda: 100, startWord: 10, midWord: 2, endWord: 10, voiced: false, placeOfArticulation: "alveolar" }, // see
   { sound: "ʃ", mannerOfArticulation: "sibilant", onset: 35, coda: 80, startWord: 4, midWord: 1, endWord: 5, voiced: false, placeOfArticulation: "postalveolar" }, // she
@@ -123,12 +123,12 @@ export const phonemes: Phoneme[] = [
   { sound: "dʒ", voiced: true, placeOfArticulation: "postalveolar", mannerOfArticulation: "affricate", onset: 30, coda: 20, startWord: 4, midWord: 2, endWord: 2 }, // judge
 
   // Voiceless Stops
-  { sound: "p", voiced: false, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 165, coda: 50, startWord: 8, midWord: 10, endWord: 6 }, // pop
+  { sound: "p", voiced: false, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 100, coda: 50, startWord: 8, midWord: 10, endWord: 6 }, // pop
   { sound: "t", voiced: false, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 350, coda: 350, startWord: 10, midWord: 10, endWord: 10 }, // top
-  { sound: "k", voiced: false, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 320, coda: 100, startWord: 14, midWord: 10, endWord: 10 }, // cat
+  { sound: "k", voiced: false, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 160, coda: 100, startWord: 14, midWord: 10, endWord: 10 }, // cat
 
   // Voiced Stops
-  { sound: "b", voiced: true, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 210, coda: 100, startWord: 8, midWord: 4, endWord: 4 }, // bob
+  { sound: "b", voiced: true, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 100, coda: 100, startWord: 8, midWord: 4, endWord: 4 }, // bob
   { sound: "d", voiced: true, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 210, coda: 210, startWord: 8, midWord: 4, endWord: 8 }, // dog
   { sound: "g", voiced: true, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 50, coda: 100, startWord: 6, midWord: 4, endWord: 4 }, // go
 ];
