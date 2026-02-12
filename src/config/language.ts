@@ -172,6 +172,45 @@ export interface StressRules {
   strategy: "fixed" | "weight-sensitive" | "penultimate" | "initial" | "custom";
   /** For fixed strategy: 0-indexed syllable that receives primary stress */
   fixedPosition?: number;
+
+  // -- Primary stress --
+
+  /** [firstSyllableWeight, secondSyllableWeight] for disyllabic words. Default: [70, 30]. */
+  disyllabicWeights?: [number, number];
+  /** Polysyllabic primary-stress weights by penultimate syllable weight. */
+  polysyllabicWeights?: {
+    /** Weight for penultimate when it is heavy. Default: 70. */
+    heavyPenult: number;
+    /** Weight for penultimate when it is light. Default: 30. */
+    lightPenult: number;
+    /** Weight for antepenultimate when penult is heavy. Default: 20. */
+    antepenultHeavy: number;
+    /** Weight for antepenultimate when penult is light. Default: 60. */
+    antepenultLight: number;
+    /** Weight for initial syllable (fallback). Default: 10. */
+    initial: number;
+  };
+
+  // -- Secondary stress --
+
+  /** Probability (0-100) of assigning secondary stress. Default: 40. */
+  secondaryStressProbability?: number;
+  /** Weight for heavy syllable candidates for secondary stress. Default: 70. */
+  secondaryStressHeavyWeight?: number;
+  /** Weight for light syllable candidates for secondary stress. Default: 30. */
+  secondaryStressLightWeight?: number;
+
+  // -- Rhythmic stress --
+
+  /** Probability (0-100) of assigning rhythmic secondary stress. Default: 40. */
+  rhythmicStressProbability?: number;
+
+  // -- Nucleus interaction (PR C) --
+
+  /** Phoneme sounds banned in stressed nuclei (e.g. ["ə"]). */
+  stressedNucleusBan?: string[];
+  /** Weight boosts for unstressed nuclei (e.g. {"ə": 3}). */
+  unstressedNucleusBoost?: Record<string, number>;
 }
 
 /**

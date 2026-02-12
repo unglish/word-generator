@@ -621,7 +621,7 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   }
   repairNgCodaSibilant(context.word.syllables);
   rt.generateWrittenForm(context);
-  generatePronunciation(context, rt.config.vowelReduction);
+  generatePronunciation(context, rt.config.vowelReduction, rt.config.stress);
 }
 
 // ---------------------------------------------------------------------------
