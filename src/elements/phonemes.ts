@@ -123,7 +123,7 @@ export const phonemes: Phoneme[] = [
   { sound: "dʒ", voiced: true, placeOfArticulation: "postalveolar", mannerOfArticulation: "affricate", onset: 30, coda: 20, startWord: 4, midWord: 2, endWord: 2 }, // judge
 
   // Voiceless Stops
-  { sound: "p", voiced: false, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 80, coda: 50, startWord: 8, midWord: 10, endWord: 6 }, // pop
+  { sound: "p", voiced: false, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 100, coda: 50, startWord: 8, midWord: 10, endWord: 6 }, // pop
   { sound: "t", voiced: false, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 350, coda: 350, startWord: 10, midWord: 10, endWord: 10 }, // top
   { sound: "k", voiced: false, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 160, coda: 100, startWord: 14, midWord: 10, endWord: 10 }, // cat
 
