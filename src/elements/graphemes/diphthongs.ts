@@ -31,7 +31,7 @@ export const diphthongGraphemes: Grapheme[] = [
     frequency: 5,
     startWord: 0,
     midWord: 8,
-    endWord: 80,
+    endWord: 30,
   },
   {
     phoneme: "aɪ",
@@ -315,7 +315,7 @@ export const diphthongGraphemes: Grapheme[] = [
     frequency: 10,
     startWord: 0,
     midWord: 0,
-    endWord: 15,
+    endWord: 8,
   },
   { 
     phoneme: "eɪ", 
