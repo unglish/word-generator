@@ -209,7 +209,7 @@
         .ref-line { font-size: 0.8em; color: var(--muted); font-style: italic; margin-top: 0.3em; }
     </style>
     <script type="module">
-        import unglish from '../dist/index.js';
+        import unglish, { generateWords } from '../dist/index.js';
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
@@ -310,7 +310,7 @@
             let lexWords = [];
 
             function genWordWall() {
-                lexWords = unglish.generateWords(200, { mode: 'lexicon' });
+                lexWords = generateWords(200, { mode: 'lexicon' });
                 const wall = $('word-wall');
                 wall.innerHTML = '';
                 lexWords.forEach(w => {
@@ -365,7 +365,7 @@
             // Letter frequency
             function genFreqChart() {
                 const engFreq = {e:12.7,t:9.1,a:8.2,o:7.5,i:7.0,n:6.7,s:6.3,h:6.1,r:6.0,d:4.3,l:4.0,c:2.8,u:2.8,m:2.4,w:2.4,f:2.2,g:2.0,y:2.0,p:1.9,b:1.5,v:1.0,k:0.8,j:0.2,x:0.2,q:0.1,z:0.1};
-                const words1k = unglish.generateWords(1000, { mode: 'lexicon' });
+                const words1k = generateWords(1000, { mode: 'lexicon' });
                 const letterCounts = {};
                 let totalLetters = 0;
                 words1k.forEach(w => {
@@ -451,7 +451,7 @@
             function newGameRound() {
                 gameGuessed = 0; gameCorrect = 0;
                 const realPicks = shuffle([...realWordsPool]).slice(0, 5);
-                const fakePicks = unglish.generateWords(5, { mode: 'lexicon' }).map(w => w.written.clean);
+                const fakePicks = generateWords(5, { mode: 'lexicon' }).map(w => w.written.clean);
                 gameWords = shuffle([...realPicks.map(w => ({word: w, real: true})), ...fakePicks.map(w => ({word: w, real: false}))]);
                 $('game-score').textContent = '';
                 $('game-actions').innerHTML = '';
