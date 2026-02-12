@@ -164,15 +164,15 @@
         .cw-pill.found { background: dimgray; color: white; border-color: dimgray; }
         .cw-status { font-size: 0.85em; color: var(--muted); margin-top: 0.5em; }
 
-        /* Is It Real game */
+        /* Pick the Real Word game */
         .real-btn {
-            display: block;
-            width: 100%;
-            text-align: left;
+            display: inline-block;
+            width: 48%;
+            text-align: center;
             font: inherit;
             font-size: 1.1em;
-            padding: 0.5em 0.75em;
-            margin: 0.3em 0;
+            padding: 0.6em 0.75em;
+            margin: 0.3em 1%;
             cursor: pointer;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -182,7 +182,9 @@
         .real-btn:hover { border-color: var(--fg); }
         .real-btn.correct { background: darkgray; color: white; border-color: darkgray; }
         .real-btn.wrong { background: var(--card-bg); border-color: var(--fg); text-decoration: line-through; }
-        .real-btn.revealed { opacity: 0.7; cursor: default; }
+        .real-btn.revealed { cursor: default; }
+        .real-btn.correct.revealed { opacity: 1; }
+        .real-btn.wrong.revealed { opacity: 0.5; }
         .game-score { font-weight: bold; margin-bottom: 0.5em; }
         .game-actions { margin-top: 0.75em; }
         .game-actions button {
@@ -210,6 +212,7 @@
     </style>
     <script type="module">
         import unglish, { generateWords } from '../dist/index.js';
+        import { realWords } from './realwords.js';
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
@@ -442,58 +445,68 @@
                 cwWorker.postMessage({ action: 'findCommonWords' });
             });
 
-            // "Is It Real?" mini-game
-            const realWordsPool = ['flummox','kerfuffle','bodkin','clerestory','frangible','gewgaw','hummock','kerning','lummox','mizzle','narthex','ogham','pismire','quahog','rebarbative','scupper','trug','ullage','widdershins','xeric','absquatulate','bibulous','callipygian','defenestrate','embonpoint','foofaraw','gruntled','hallux','illeist','jentacular','kvetch','liminal','mulct','nychthemeron','oxter','pauciloquent','quiddity','rugose','snickersnee','tintinnabulation','umbriferous','velleity','wamble','xenogenous','yarborough','zephyr'];
-            let gameWords = [], gameGuessed = 0, gameCorrect = 0;
+            // "Pick the Real Word" game — 2 choices, one real, one generated
+            let gameRound = 0, gameCorrect = 0, gamePlayed = 0;
+            const usedRealWords = new Set();
 
             function shuffle(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
 
-            function newGameRound() {
-                gameGuessed = 0; gameCorrect = 0;
-                const realPicks = shuffle([...realWordsPool]).slice(0, 5);
-                const fakePicks = generateWords(5, { mode: 'lexicon' }).map(w => w.written.clean);
-                gameWords = shuffle([...realPicks.map(w => ({word: w, real: true})), ...fakePicks.map(w => ({word: w, real: false}))]);
-                $('game-score').textContent = '';
-                $('game-actions').innerHTML = '';
-                $('game-words').innerHTML = gameWords.map((g, i) =>
-                    '<button class="real-btn" data-idx="' + i + '">' + g.word + '</button>'
-                ).join('');
-                document.querySelectorAll('.real-btn').forEach(btn => {
-                    btn.addEventListener('click', function() { handleGuess(this); });
-                });
+            function pickUnusedReal() {
+                let word;
+                do { word = realWords[Math.floor(Math.random() * realWords.length)]; } while (usedRealWords.has(word));
+                usedRealWords.add(word);
+                return word;
             }
 
-            function handleGuess(btn) {
-                if (btn.classList.contains('revealed')) return;
-                const idx = parseInt(btn.dataset.idx);
-                const g = gameWords[idx];
-                // Two clicks: first "Real", second "Fake" — simplified: click = guess "Real"
-                // Better: show two sub-buttons. Simpler: toggle approach.
-                // Let's do: click once = "I think it's REAL". If correct for real word → correct. If it was fake → wrong.
-                // Then show label.
-                const isReal = g.real;
-                // We need the user to choose real or fake. Let's use a prompt-less approach:
-                // First click highlights, second click confirms opposite. Too complex.
-                // Simple: two small buttons per word.
-                // Actually let's just ask on click:
-                if (!btn.dataset.phase) {
-                    btn.dataset.phase = 'choosing';
-                    btn.innerHTML = g.word + ' <span style="float:right;font-size:0.8em"><button onclick="event.stopPropagation();this.parentElement.parentElement.dispatchEvent(new CustomEvent(\'guess\',{detail:\'real\'}))" style="font:inherit;font-size:0.85em;padding:0.1em 0.5em;cursor:pointer;background:dimgray;color:white;border:none;border-radius:2px;margin-left:0.3em">Real</button> <button onclick="event.stopPropagation();this.parentElement.parentElement.dispatchEvent(new CustomEvent(\'guess\',{detail:\'fake\'}))" style="font:inherit;font-size:0.85em;padding:0.1em 0.5em;cursor:pointer;background:silver;color:black;border:none;border-radius:2px">Fake</button></span>';
-                    btn.addEventListener('guess', function handler(e) {
-                        btn.removeEventListener('guess', handler);
-                        const guessedReal = e.detail === 'real';
-                        const correct = guessedReal === isReal;
-                        gameGuessed++;
-                        if (correct) gameCorrect++;
-                        btn.className = 'real-btn revealed ' + (correct ? 'correct' : 'wrong');
-                        btn.innerHTML = g.word + ' <span style="float:right;font-size:0.75em;opacity:0.8">' + (isReal ? '✓ real' : '✗ fake') + '</span>';
-                        $('game-score').textContent = gameCorrect + '/' + gameGuessed + ' correct';
-                        if (gameGuessed === 10) {
-                            $('game-actions').innerHTML = '<button class="start-btn" id="game-new">New Round</button>';
-                            $('game-new').addEventListener('click', newGameRound);
-                        }
+            function newGameRound() {
+                gameRound = 0; gameCorrect = 0; gamePlayed = 0;
+                $('game-score').textContent = '';
+                $('game-actions').innerHTML = '';
+                showNextPair();
+            }
+
+            function showNextPair() {
+                const real = pickUnusedReal();
+                const fake = unglish.generateWord({ mode: 'lexicon' }).written.clean;
+                const pair = shuffle([{word: real, real: true}, {word: fake, real: false}]);
+                gameRound++;
+
+                $('game-words').innerHTML = '<p style="color:var(--muted);font-size:0.85em">Round ' + gameRound + ' \u2014 Pick the real English word:</p>' +
+                    pair.map((p, i) =>
+                        '<button class="real-btn" data-idx="' + i + '">' + p.word + '</button>'
+                    ).join(' ');
+
+                document.querySelectorAll('.real-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (this.classList.contains('revealed')) return;
+                        const idx = parseInt(this.dataset.idx);
+                        const picked = pair[idx];
+                        const other = pair[1 - idx];
+                        gamePlayed++;
+                        if (picked.real) gameCorrect++;
+
+                        // Reveal both
+                        document.querySelectorAll('.real-btn').forEach((b, bi) => {
+                            b.classList.add('revealed');
+                            const p = pair[bi];
+                            b.classList.add(p.real ? 'correct' : 'wrong');
+                            b.innerHTML = p.word + ' <span style="font-size:0.75em;opacity:0.7">' + (p.real ? '\u2713 real' : '\u2717 fake') + '</span>';
+                        });
+
+                        $('game-score').textContent = gameCorrect + '/' + gamePlayed + ' correct';
+
+                        // Auto-advance after a beat
+                        setTimeout(() => {
+                            if (gamePlayed >= 10) {
+                                $('game-words').innerHTML = '<p>Final score: <strong>' + gameCorrect + '/10</strong></p>';
+                                $('game-actions').innerHTML = '<button class="start-btn" id="game-new">Play Again</button>';
+                                $('game-new').addEventListener('click', newGameRound);
+                            } else {
+                                showNextPair();
+                            }
+                        }, 1200);
                     });
-                }
+                });
             }
 
             $('refresh-wall').addEventListener('click', () => { genWordWall(); genFreqChart(); });
@@ -618,10 +631,10 @@
                 <div class="cw-status" id="cw-status"></div>
             </div>
 
-            <!-- Is It Real? -->
+            <!-- Pick the Real Word -->
             <div class="card">
-                <h2>"Is It Real?" Mini-Game</h2>
-                <p style="font-size:0.85em;color:var(--muted)">Which words are real English? Click to guess.</p>
+                <h2>Pick the Real Word</h2>
+                <p style="font-size:0.85em;color:var(--muted)">One is real English, one is Unglish. 10 rounds.</p>
                 <div class="game-score" id="game-score"></div>
                 <div id="game-words"></div>
                 <div class="game-actions" id="game-actions"></div>
