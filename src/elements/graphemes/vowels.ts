@@ -34,7 +34,7 @@ export const vowelGraphemes: Grapheme[] = [
     phoneme: "i:",
     form: "y",
     origin: 1,
-    frequency: 80,
+    frequency: 5,
     startWord: 0,
     midWord: 0,
     endWord: 100,
