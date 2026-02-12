@@ -114,7 +114,7 @@ export const stopGraphemes: Grapheme[] = [
     origin: 3, 
     frequency: 100,
     cluster: 100,
-    startWord: 1,
+    startWord: 15,
     midWord: 1,
     endWord: 0,
     condition: { notRightContext: ["c-soft-vowel"] },
