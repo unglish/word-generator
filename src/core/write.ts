@@ -248,14 +248,24 @@ export function filterByPosition(
 // Pipeline Step 4: Frequency-weighted random selection
 // ---------------------------------------------------------------------------
 
-function selectByFrequency(candidates: Grapheme[], rand: RNG): Grapheme {
+function selectByFrequency(
+  candidates: Grapheme[],
+  rand: RNG,
+  isStartOfWord: boolean,
+  isEndOfWord: boolean,
+): Grapheme {
   if (candidates.length === 0) return { phoneme: '', form: '', origin: 0, frequency: 0, startWord: 0, midWord: 0, endWord: 0 };
   if (candidates.length === 1) return candidates[0];
 
   let cumulative = 0;
   const cumulatives: number[] = [];
   for (const g of candidates) {
-    cumulative += g.frequency;
+    const posWeight = isStartOfWord
+      ? (g.startWord ?? 1)
+      : isEndOfWord
+        ? (g.endWord ?? 1)
+        : (g.midWord ?? 1);
+    cumulative += g.frequency * posWeight;
     cumulatives.push(cumulative);
   }
 
@@ -1116,7 +1126,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       // If position filtering removed all candidates, fall back to the
       // condition-filtered set so we still produce output for this phoneme.
       const viable = positional.length > 0 ? positional : conditioned;
-      const selected = selectByFrequency(viable, rand);
+      const selected = selectByFrequency(viable, rand, isStartOfWord, isEndOfWord);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, stress, prevReduced, neverDoubleSet, rand);
 
