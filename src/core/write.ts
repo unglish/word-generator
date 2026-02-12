@@ -353,8 +353,11 @@ const VOWEL_LETTERS = new Set(['a', 'e', 'i', 'o', 'u', 'y']);
  */
 function isVowelChar(ch: string, idx: number, str: string): boolean {
   const lower = ch.toLowerCase();
-  if (lower === 'y' && idx === 0 && str.length > 1 && 'aeiou'.includes(str[1].toLowerCase())) {
-    return false; // consonantal Y
+  if (lower === 'y') {
+    // Y followed by a vowel letter (a,e,i,o,u) is consonantal (e.g. "yet", "yoga", "beyond")
+    // Y in all other positions is a vowel (e.g. "gym", "fly", "myth")
+    const next = idx + 1 < str.length ? str[idx + 1].toLowerCase() : '';
+    return !'aeiou'.includes(next);
   }
   return VOWEL_LETTERS.has(lower);
 }

@@ -764,6 +764,28 @@ describe('silent-e integration', () => {
     console.log(`  Silent-e words: ${silentECount}/${total} (${(silentECount/total*100).toFixed(1)}%)`);
   });
 
+  // ---------------------------------------------------------------------------
+  // Y consonant/vowel counting (#63)
+  // ---------------------------------------------------------------------------
+
+  it('treats Y before a vowel as consonant in consonant pileup repair', () => {
+    // "yat" → Y is before 'a' (vowel), so Y is consonantal → only 1 consonant letter before the vowel
+    // This should NOT be flagged as a consonant pileup
+    const parts = ['yat'];
+    const hyph = ['yat'];
+    repairConsonantLetters(parts, hyph, 3);
+    expect(parts[0]).toBe('yat');
+  });
+
+  it('treats Y not before a vowel as vowel in consonant pileup repair', () => {
+    // "gym" → Y is between g and m, not before a vowel → Y is a vowel
+    // g-y-m = consonant-vowel-consonant, no pileup
+    const parts = ['gym'];
+    const hyph = ['gym'];
+    repairConsonantLetters(parts, hyph, 3);
+    expect(parts[0]).toBe('gym');
+  });
+
   it('very few words end in bare "v" in 10k generated words', () => {
     const gen = createGenerator(englishConfig);
     let bareV = 0;
