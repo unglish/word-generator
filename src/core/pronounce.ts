@@ -1,6 +1,6 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import type { RNG } from "../utils/random.js";
-import { VowelReductionConfig } from "../config/language.js";
+import { VowelReductionConfig, StressRules } from "../config/language.js";
 import { phonemes } from "../elements/phonemes.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 
@@ -73,22 +73,25 @@ const aspirateSyllable = (position: number, context: WordGenerationContext): voi
     }
   }
 };
-const applyStress = (context: WordGenerationContext): void => {
+const applyStress = (context: WordGenerationContext, stressRules?: StressRules): void => {
   const { rand } = context;
   // Rule 1: Primary stress 
-  applyPrimaryStress(context, rand);
+  applyPrimaryStress(context, rand, stressRules);
 
   // Rule 2: Secondary stress 
-  applySecondaryStress(context, rand);
+  applySecondaryStress(context, rand, stressRules);
 
   // Rule 3: Rhythmic stress 
-  applyRhythmicStress(context, rand);
+  applyRhythmicStress(context, rand, stressRules);
 };
 
-const applyPrimaryStress = (context: WordGenerationContext, rand: RNG): void => {
+const applyPrimaryStress = (context: WordGenerationContext, rand: RNG, stressRules?: StressRules): void => {
   const { word } = context;
   const syllables = word.syllables;
   const syllableCount = syllables.length;
+
+  const dw = stressRules?.disyllabicWeights ?? [70, 30];
+  const pw = stressRules?.polysyllabicWeights ?? { heavyPenult: 70, lightPenult: 30, antepenult: 60, initial: 10 };
 
   let primaryStressIndex: number;
 
@@ -96,46 +99,51 @@ const applyPrimaryStress = (context: WordGenerationContext, rand: RNG): void => 
     // Monosyllabic words don't need stress marking
     return;
   } else if (syllableCount === 2) {
-    // For disyllabic words, 70% chance on first syllable, 30% on second
-    primaryStressIndex = getWeightedOption([[0, 70], [1, 30]], rand);
+    // For disyllabic words, use configured weights
+    primaryStressIndex = getWeightedOption([[0, dw[0]], [1, dw[1]]], rand);
   } else {
     const penultimateHeavy = isHeavySyllable(syllables[syllableCount - 2]);
     primaryStressIndex = getWeightedOption([
-      [syllableCount - 2, penultimateHeavy ? 70 : 30],
-      [syllableCount - 3, penultimateHeavy ? 20 : 60],
-      [0, 10]
+      [syllableCount - 2, penultimateHeavy ? pw.heavyPenult : pw.lightPenult],
+      [syllableCount - 3, penultimateHeavy ? (100 - pw.heavyPenult - pw.initial) : pw.antepenult],
+      [0, pw.initial]
     ], rand);
   }
 
   syllables[primaryStressIndex].stress = 'ˈ';
 };
 
-const applySecondaryStress = (context: WordGenerationContext, rand: RNG): void => {
+const applySecondaryStress = (context: WordGenerationContext, rand: RNG, stressRules?: StressRules): void => {
   const { word } = context;
   const syllables = word.syllables;
   const syllableCount = syllables.length;
 
   if (syllableCount === 1) return;
 
+  const heavyW = stressRules?.secondaryStressHeavyWeight ?? 70;
+  const lightW = stressRules?.secondaryStressLightWeight ?? 30;
+  const prob = stressRules?.secondaryStressProbability ?? 40;
+
   const primaryStressIndex = syllables.findIndex(s => s.stress === 'ˈ');
   const potentialIndices = [0, 1, 2].filter(i => i !== primaryStressIndex && i <= syllableCount - 1);
   const secondaryStressIndex = getWeightedOption(
-    potentialIndices.map(i => [i, isHeavySyllable(syllables[i]) ? 70 : 30]),
+    potentialIndices.map(i => [i, isHeavySyllable(syllables[i]) ? heavyW : lightW]),
     rand,
   );
 
-  if (getWeightedOption([[true, 40], [false, 60]], rand)) {
+  if (getWeightedOption([[true, prob], [false, 100 - prob]], rand)) {
     syllables[secondaryStressIndex].stress = 'ˌ';
   }
 };
 
-const applyRhythmicStress = (context: WordGenerationContext, rand: RNG): void => {
+const applyRhythmicStress = (context: WordGenerationContext, rand: RNG, stressRules?: StressRules): void => {
   const { word } = context;
   const syllables = word.syllables;
+  const prob = stressRules?.rhythmicStressProbability ?? 40;
 
   for (let i = 1; i < syllables.length - 1; i++) {
     if (!syllables[i-1].stress && !syllables[i].stress && !syllables[i+1].stress) {
-      if (getWeightedOption([[true, 40], [false, 60]], rand)) {
+      if (getWeightedOption([[true, prob], [false, 100 - prob]], rand)) {
         syllables[i].stress = 'ˌ';
       }
     }
@@ -254,12 +262,12 @@ const reduceUnstressedVowels = (
 /** @internal exported for testing */
 export const _reduceUnstressedVowels = reduceUnstressedVowels;
 
-export const generatePronunciation = (context: WordGenerationContext, vowelReduction?: VowelReductionConfig): void => {
+export const generatePronunciation = (context: WordGenerationContext, vowelReduction?: VowelReductionConfig, stressRules?: StressRules): void => {
   const syllables = context.word.syllables;
   for (let i = 0; i < syllables.length; i++) {
     aspirateSyllable(i, context);
   }
-  applyStress(context);
+  applyStress(context, stressRules);
   if (vowelReduction?.enabled) {
     reduceUnstressedVowels(context, vowelReduction, context.rand);
   }

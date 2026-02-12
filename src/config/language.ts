@@ -172,6 +172,28 @@ export interface StressRules {
   strategy: "fixed" | "weight-sensitive" | "penultimate" | "initial" | "custom";
   /** For fixed strategy: 0-indexed syllable that receives primary stress */
   fixedPosition?: number;
+
+  /** Disyllabic primary stress: [firstSyllable, secondSyllable] weights. Default [70, 30] */
+  disyllabicWeights?: [number, number];
+  /** Polysyllabic primary stress weights */
+  polysyllabicWeights?: {
+    heavyPenult: number;
+    lightPenult: number;
+    antepenult: number;
+    initial: number;
+  };
+  /** Probability (0-100) of assigning secondary stress. Default 40 */
+  secondaryStressProbability?: number;
+  /** Heavy syllable weight for secondary stress candidates. Default 70 */
+  secondaryStressHeavyWeight?: number;
+  /** Light syllable weight for secondary stress candidates. Default 30 */
+  secondaryStressLightWeight?: number;
+  /** Probability (0-100) of rhythmic stress on eligible syllables. Default 40 */
+  rhythmicStressProbability?: number;
+  /** Phonemes banned from stressed nuclei (for future use). e.g. ["ə"] */
+  stressedNucleusBan?: string[];
+  /** Weight multipliers for unstressed nuclei (for future use). e.g. {"ə": 3} */
+  unstressedNucleusBoost?: Record<string, number>;
 }
 
 /**
