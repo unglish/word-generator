@@ -64,8 +64,9 @@ const RE_RENG_TENG = /[rt]eng$/;
 
 function isVowelChar(ch: string, idx: number, str: string): boolean {
   const lower = ch.toLowerCase();
-  if (lower === 'y' && idx === 0 && str.length > 1 && 'aeiou'.includes(str[1].toLowerCase())) {
-    return false;
+  if (lower === 'y') {
+    const next = idx + 1 < str.length ? str[idx + 1].toLowerCase() : '';
+    return !'aeiou'.includes(next);
   }
   return VOWELS.has(lower);
 }

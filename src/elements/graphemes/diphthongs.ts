@@ -28,10 +28,10 @@ export const diphthongGraphemes: Grapheme[] = [
     phoneme: "aɪ", 
     form: "y", 
     origin: 0, 
-    frequency: 1,
+    frequency: 5,
     startWord: 0,
-    midWord: 1,
-    endWord: 50,
+    midWord: 8,
+    endWord: 30,
   },
   {
     phoneme: "aɪ",
@@ -315,7 +315,7 @@ export const diphthongGraphemes: Grapheme[] = [
     frequency: 10,
     startWord: 0,
     midWord: 0,
-    endWord: 1,
+    endWord: 8,
   },
   { 
     phoneme: "eɪ", 

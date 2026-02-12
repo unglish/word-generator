@@ -54,7 +54,7 @@ export const forwardnessToPlaceOfArticulation = {
 
 export const phonemes: Phoneme[] = [
   // High Vowels
-  { sound: "i:", mannerOfArticulation: "highVowel", tense: true, nucleus: 150, startWord: 3, midWord: 1, endWord: 4, voiced: true, placeOfArticulation: "front" }, // sheep
+  { sound: "i:", mannerOfArticulation: "highVowel", tense: true, nucleus: 150, startWord: 3, midWord: 1, endWord: 8, voiced: true, placeOfArticulation: "front" }, // sheep
   { sound: "ɪ", mannerOfArticulation: "highVowel", tense: false, nucleus: 230, startWord: 3, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "front" }, // sit
 
   // Mid Vowels
@@ -74,7 +74,7 @@ export const phonemes: Phoneme[] = [
   { sound: "ʌ", mannerOfArticulation: "midVowel", tense: false, nucleus: 220, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // cup
 
   // Diphthongs (typically treated as mid or low vowels)
-  { sound: "eɪ", mannerOfArticulation: "midVowel", tense: true, nucleus: 170, startWord: 6, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "front" }, // day, late, gate
+  { sound: "eɪ", mannerOfArticulation: "midVowel", tense: true, nucleus: 170, startWord: 6, midWord: 2, endWord: 3, voiced: true, placeOfArticulation: "front" }, // day, late, gate
   { sound: "ɪə", mannerOfArticulation: "midVowel", tense: true, nucleus: 30, startWord: 4, midWord: 2, endWord: 4, voiced: true, placeOfArticulation: "central" }, // dear, fear
   { sound: "eə", mannerOfArticulation: "midVowel", tense: true, nucleus: 20, startWord: 4, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "central" }, // fair, care
   { sound: "aɪ", mannerOfArticulation: "midVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 3, voiced: true, placeOfArticulation: "front" }, // fly, time, rhyme

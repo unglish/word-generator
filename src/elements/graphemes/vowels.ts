@@ -34,10 +34,13 @@ export const vowelGraphemes: Grapheme[] = [
     phoneme: "i:",
     form: "y",
     origin: 1,
-    frequency: 1,
+    frequency: 80,
     startWord: 0,
-    midWord: 1,
+    midWord: 0,
     endWord: 100,
+    condition: {
+      wordPosition: ["final"],
+    },
   },
   {
     phoneme: "i:",
@@ -84,9 +87,9 @@ export const vowelGraphemes: Grapheme[] = [
     phoneme: "ɪ",
     form: "y",
     origin: 1,
-    frequency: 1,
+    frequency: 3,
     startWord: 0,
-    midWord: 1,
+    midWord: 5,
     endWord: 0,
   },
   // build
