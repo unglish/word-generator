@@ -271,7 +271,7 @@ export const vowelGraphemes: Grapheme[] = [
     phoneme: "o",
     form: "oa",
     origin: 0,
-    frequency: 100,
+    frequency: 30,
     startWord: 1,
     midWord: 10,
     endWord: 0,

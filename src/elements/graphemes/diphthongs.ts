@@ -262,7 +262,7 @@ export const diphthongGraphemes: Grapheme[] = [
     phoneme: "eɪ", 
     form: "a", 
     origin: 0, 
-    frequency: 10,
+    frequency: 25,
     startWord: 10,
     midWord: 0,
     endWord: 0,
