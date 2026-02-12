@@ -48,6 +48,7 @@ const englishReduction: VowelReductionConfig = {
     { source: "æ", target: "ə", probability: 40 },
     { source: "o", target: "ə", probability: 55 },
     { source: "ɜ", target: "ə", probability: 75 },
+    { source: "ɪ", target: "ə", probability: 45 },
   ],
   reduceSecondaryStress: true,
   secondaryStressProbability: 30,
@@ -79,12 +80,13 @@ describe("reduceUnstressedVowels", () => {
   });
 
   it("tense vowels are immune to reduction", () => {
-    const tenseVowel = vowel("ʌ", { tense: true });
+    // Use a naturally tense vowel — /i:/ not /ʌ/ (which is canonically lax)
+    const tenseVowel = vowel("i:", { tense: true });
     // Run many seeds — none should reduce a tense vowel
     for (let seed = 0; seed < 50; seed++) {
       const c = ctx([syl(vowel("ɑ"), "ˈ"), syl(tenseVowel)], seed);
       _reduceUnstressedVowels(c, englishReduction, c.rand);
-      expect(c.word.syllables[1].nucleus[0].sound).toBe("ʌ");
+      expect(c.word.syllables[1].nucleus[0].sound).toBe("i:");
       expect(c.word.syllables[1].nucleus[0].reduced).toBeUndefined();
     }
   });
