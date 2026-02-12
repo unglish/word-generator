@@ -1,4 +1,4 @@
-import { Phoneme, Syllable, WordGenerationContext } from "../types";
+import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import type { RNG } from "../utils/random.js";
 import { VowelReductionConfig } from "../config/language.js";
 import { phonemes } from "../elements/phonemes.js";
@@ -178,6 +178,13 @@ const buildPronunciationGuide = (context: WordGenerationContext): void => {
  * Only vowels with a matching rule in the config are candidates.
  * Tense vowels are skipped. Per-rule target and probability are used,
  * modified by syllable position and secondary stress settings.
+ *
+ * NOTE: Spelling intentionally does NOT update after vowel reduction.
+ * English uses etymological/historical spelling — the written form is
+ * generated before pronunciation, so reduction only affects the IPA
+ * output (e.g. we produce "banana" not "bənænə"). This mirrors real
+ * English orthography where unstressed vowels are spelled with their
+ * full letters despite being pronounced as schwa.
  */
 const reduceUnstressedVowels = (
   context: WordGenerationContext,
@@ -243,6 +250,9 @@ const reduceUnstressedVowels = (
     }
   }
 };
+
+/** @internal exported for testing */
+export const _reduceUnstressedVowels = reduceUnstressedVowels;
 
 export const generatePronunciation = (context: WordGenerationContext, vowelReduction?: VowelReductionConfig): void => {
   const syllables = context.word.syllables;

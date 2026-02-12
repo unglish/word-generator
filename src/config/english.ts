@@ -339,13 +339,18 @@ export const englishConfig: LanguageConfig = {
       { source: "æ", target: "ə", probability: 40 },
       { source: "o", target: "ə", probability: 55 },
       { source: "ɜ", target: "ə", probability: 75 },
+      { source: "ɪ", target: "ə", probability: 45 },  // roses [ˈɹoʊzɪz] → [ˈɹoʊzəz] — common in casual speech
     ],
     reduceSecondaryStress: true,
     secondaryStressProbability: 30,
+    // Word-final is lower than medial because final vowels in open syllables
+    // retain more perceptual salience, even though English does reduce many
+    // finals heavily (sofa → [ˈsoʊfə]). This is a conservative choice that
+    // keeps generated words more readable.
     positionalModifiers: {
       wordInitial: 0.70,
       wordMedial: 1.0,
-      wordFinal: 0.50,
+      wordFinal: 0.65,
     },
   },
 };
