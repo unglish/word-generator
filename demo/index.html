@@ -41,30 +41,29 @@
         header { text-align: center; }
         header p { color: var(--muted); font-style: italic; }
 
-        /* CSS-only tabs */
-        .tabs input[type="radio"] { display: none; }
+        /* Tabs */
         .tab-bar {
             display: flex;
             border-bottom: 2px solid var(--tab-line);
         }
-        .tab-bar label {
+        .tab-bar button {
+            font: inherit;
             padding: 0.5em 1.5em;
             cursor: pointer;
             font-weight: 600;
             color: var(--tab-inactive);
+            background: none;
+            border: none;
             border-bottom: 2px solid transparent;
             margin-bottom: -2px;
-            user-select: none;
         }
-        .tab-bar label:hover { color: var(--fg); }
-        .tab-content { display: none; }
-        #tab-text:checked ~ .tab-bar label[for="tab-text"],
-        #tab-lexicon:checked ~ .tab-bar label[for="tab-lexicon"] {
+        .tab-bar button:hover { color: var(--fg); }
+        .tab-bar button[aria-selected="true"] {
             color: var(--tab-active);
             border-bottom-color: var(--tab-active);
         }
-        #tab-text:checked ~ #content-text,
-        #tab-lexicon:checked ~ #content-lexicon { display: block; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
         /* Cards */
         .card {
@@ -190,6 +189,16 @@
                 $('paragraph-stats').textContent = `${allWords.length} words \u00b7 ${monoPct}% monosyllabic \u00b7 avg ${avgLen} letters`;
             }
 
+            // --- Tab switching ---
+            document.querySelectorAll('.tab-bar button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-bar button').forEach(b => b.setAttribute('aria-selected', 'false'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    btn.setAttribute('aria-selected', 'true');
+                    $(btn.dataset.tab).classList.add('active');
+                });
+            });
+
             $('refresh-single').addEventListener('click', genSingleWord);
             $('refresh-haiku').addEventListener('click', genHaiku);
             $('refresh-slogan').addEventListener('click', genSlogan);
@@ -213,15 +222,12 @@
     </header>
 
     <div class="tabs">
-        <input type="radio" name="tab" id="tab-text" checked>
-        <input type="radio" name="tab" id="tab-lexicon">
-
         <div class="tab-bar">
-            <label for="tab-text">Text</label>
-            <label for="tab-lexicon">Lexicon</label>
+            <button aria-selected="true" data-tab="content-text">Text</button>
+            <button aria-selected="false" data-tab="content-lexicon">Lexicon</button>
         </div>
 
-        <div id="content-text" class="tab-content">
+        <div id="content-text" class="tab-content active">
             <div class="card">
                 <h2>Single Word</h2>
                 <button class="refresh" id="refresh-single" title="Regenerate">&#x21bb;</button>
