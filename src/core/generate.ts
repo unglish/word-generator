@@ -39,6 +39,19 @@ interface GeneratorRuntime {
   sonorityExemptSet?: Set<string>;
   attestedOnsetSet?: Set<string>;
   attestedCodaSet?: Set<string>;
+  attestedOnsetPrefixSet?: Set<string>;
+  attestedCodaPrefixSet?: Set<string>;
+}
+
+/** Build a set of all proper prefixes for attested clusters (excludes the full key). */
+function buildPrefixSet(clusters: string[][]): Set<string> {
+  const set = new Set<string>();
+  for (const parts of clusters) {
+    for (let i = 1; i < parts.length; i++) {
+      set.add(parts.slice(0, i).join("|"));
+    }
+  }
+  return set;
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
@@ -94,6 +107,12 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
       : undefined,
     attestedCodaSet: cl?.attestedCodas
       ? new Set(cl.attestedCodas.map(a => a.join("|")))
+      : undefined,
+    attestedOnsetPrefixSet: cl?.attestedOnsets
+      ? buildPrefixSet(cl.attestedOnsets)
+      : undefined,
+    attestedCodaPrefixSet: cl?.attestedCodas
+      ? buildPrefixSet(cl.attestedCodas)
       : undefined,
   };
 }
