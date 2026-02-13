@@ -119,13 +119,13 @@ export const englishConfig: LanguageConfig = {
 
   stress: {
     strategy: "weight-sensitive",
-    disyllabicWeights: [70, 30],
+    disyllabicWeights: [75, 25],
     polysyllabicWeights: {
-      heavyPenult: 70,
-      lightPenult: 30,
-      antepenultHeavy: 20,
-      antepenultLight: 60,
-      initial: 10,
+      heavyPenult: 45,
+      lightPenult: 25,
+      antepenultHeavy: 15,
+      antepenultLight: 30,
+      initial: 30,
     },
     secondaryStressProbability: 40,
     secondaryStressHeavyWeight: 70,
