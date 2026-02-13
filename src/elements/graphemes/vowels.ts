@@ -403,11 +403,21 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 0,
   },
+  // son, come, love, money, month, front, other, mother
+  {
+    phoneme: "ʌ",
+    form: "o",
+    origin: 0,
+    frequency: 300,
+    startWord: 3,
+    midWord: 8,
+    endWord: 1,
+  },
   { 
     phoneme: "ʌ", 
     form: "uh", 
     origin: 0, 
-    frequency: 30,
+    frequency: 3,
     startWord: 1,
     midWord: 4,
     endWord: 1,
