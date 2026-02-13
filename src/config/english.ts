@@ -371,9 +371,9 @@ export const englishConfig: LanguageConfig = {
     enabled: true,
     prefixes: [
       { type: 'prefix', written: 'un', phonemes: ["ʌ", "n"], syllableCount: 1, stressEffect: 'secondary', frequency: 80 },
-      { type: 'prefix', written: 're', phonemes: ["r", "i"], syllableCount: 1, stressEffect: 'secondary', frequency: 70 },
+      { type: 'prefix', written: 're', phonemes: ["r", "ɪ"], syllableCount: 1, stressEffect: 'secondary', frequency: 70 },
       { type: 'prefix', written: 'dis', phonemes: ["d", "ɪ", "s"], syllableCount: 1, stressEffect: 'secondary', frequency: 40 },
-      { type: 'prefix', written: 'pre', phonemes: ["p", "r", "i"], syllableCount: 1, stressEffect: 'secondary', frequency: 30 },
+      { type: 'prefix', written: 'pre', phonemes: ["p", "r", "i:"], syllableCount: 1, stressEffect: 'secondary', frequency: 30 },
       { type: 'prefix', written: 'over', phonemes: ["əʊ", "v", "ɚ"], syllableCount: 2, stressEffect: 'primary', frequency: 20 },
       { type: 'prefix', written: 'out', phonemes: ["aʊ", "t"], syllableCount: 1, stressEffect: 'primary', frequency: 20 },
       { type: 'prefix', written: 'mis', phonemes: ["m", "ɪ", "s"], syllableCount: 1, stressEffect: 'secondary', frequency: 30 },
@@ -381,7 +381,7 @@ export const englishConfig: LanguageConfig = {
     suffixes: [
       { type: 'suffix', written: 'ing', phonemes: ["ɪ", "ŋ"], syllableCount: 1, stressEffect: 'none', frequency: 100, boundaryRules: { dropSilentE: true, doubleConsonant: true } },
       { type: 'suffix', written: 'tion', phonemes: ["ʃ", "ə", "n"], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 80 },
-      { type: 'suffix', written: 'ly', phonemes: ["l", "i"], syllableCount: 1, stressEffect: 'none', frequency: 90, boundaryRules: { yToI: true } },
+      { type: 'suffix', written: 'ly', phonemes: ["l", "i:"], syllableCount: 1, stressEffect: 'none', frequency: 90, boundaryRules: { yToI: true } },
       {
         type: 'suffix', written: 'ed', phonemes: ["d"], syllableCount: 0, stressEffect: 'none', frequency: 70,
         boundaryRules: { dropSilentE: true, doubleConsonant: true },
@@ -398,10 +398,13 @@ export const englishConfig: LanguageConfig = {
       { type: 'suffix', written: 'able', phonemes: ["ə", "b", "ə", "l"], syllableCount: 2, stressEffect: 'none', frequency: 40, boundaryRules: { dropSilentE: true } },
       { type: 'suffix', written: 'ful', phonemes: ["f", "ə", "l"], syllableCount: 1, stressEffect: 'none', frequency: 40 },
       { type: 'suffix', written: 'less', phonemes: ["l", "ə", "s"], syllableCount: 1, stressEffect: 'none', frequency: 40 },
-      { type: 'suffix', written: 'ous', phonemes: ["ə", "s"], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryRules: { dropSilentE: true } },
+      { type: 'suffix', written: 'ous', phonemes: ["ʌ", "s"], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryRules: { dropSilentE: true }, allomorphs: [
+        { condition: 'after-voiced', phonemes: ["ʌ", "s"], syllableCount: 1 },
+        { condition: 'after-voiceless', phonemes: ["ə", "s"], syllableCount: 1 },
+      ] },
       { type: 'suffix', written: 'ive', phonemes: ["ɪ", "v"], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryRules: { dropSilentE: true } },
       { type: 'suffix', written: 'al', phonemes: ["ə", "l"], syllableCount: 1, stressEffect: 'none', frequency: 30 },
-      { type: 'suffix', written: 'ity', phonemes: ["ɪ", "t", "i"], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 50, boundaryRules: { dropSilentE: true } },
+      { type: 'suffix', written: 'ity', phonemes: ["ɪ", "t", "i:"], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 50, boundaryRules: { dropSilentE: true } },
       {
         type: 'suffix', written: 's', phonemes: ["z"], syllableCount: 0, stressEffect: 'none', frequency: 100,
         allomorphs: [
