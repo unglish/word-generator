@@ -592,6 +592,19 @@ function generateOneWord(
     ? planMorphology(morphConfig, mode, rand)
     : undefined;
 
+  // Guard: if "both" template would reduce root below 1 syllable, downgrade to single affix
+  if (morphPlan && morphPlan.plan.template === "both" && syllableCount > 0) {
+    const rootAfterReduction = syllableCount - morphPlan.syllableReduction;
+    if (rootAfterReduction < 1) {
+      // Drop prefix, keep suffix (more natural in English)
+      if (morphPlan.plan.prefix) {
+        morphPlan.syllableReduction -= morphPlan.plan.prefix.syllableCount;
+        morphPlan.plan.prefix = undefined;
+        morphPlan.plan.template = "suffixed";
+      }
+    }
+  }
+
   for (let attempt = 0; attempt <= MAX_LENGTH_RETRIES; attempt++) {
     // Adjust syllable count for affix syllables
     let rootSyllableCount = syllableCount;
@@ -695,6 +708,7 @@ const defaultRuntime = buildRuntime(englishConfig);
  * ```ts
  * import { generateWord } from "word-generator";
  * const word = generateWord();
+ * const affixed = generateWord({ morphology: true });
  * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
@@ -718,6 +732,7 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
  * import { generateWords } from "word-generator";
  * const words = generateWords(50, { seed: 42 });
  * // All 50 words are different but fully deterministic.
+ * const affixed = generateWords(50, { morphology: true });
  * ```
  */
 export const generateWords = (count: number, options: WordGenerationOptions = {}): Word[] => {
