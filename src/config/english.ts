@@ -222,7 +222,7 @@ export const englishConfig: LanguageConfig = {
     },
     {
       name: "hard-c-before-front-vowel",
-      pattern: "c([eiy])",
+      pattern: "c([eiy])(?=[bcdfghjklmnpqrstvwxyz])",
       replacement: "k$1",
       probability: 100,
       scope: "word",
