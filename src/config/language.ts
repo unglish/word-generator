@@ -490,6 +490,60 @@ export interface LanguageConfig {
 
   /** Written-form readability constraints. */
   writtenFormConstraints?: WrittenFormConstraints;
+
+  /** Morphological word-formation configuration. */
+  morphology?: MorphologyConfig;
+}
+
+// ---------------------------------------------------------------------------
+// Morphology types
+// ---------------------------------------------------------------------------
+
+/** A single allomorphic variant of an affix. */
+export interface AllomorphVariant {
+  /** Condition that selects this variant based on the root's final segment. */
+  condition: 'after-voiceless' | 'after-voiced' | 'after-sibilant' | 'after-alveolar-stop';
+  /** Phoneme sequence for this variant. */
+  phonemes: string[];
+  /** Number of syllables this variant adds. */
+  syllableCount: number;
+  /** Written form if different from the base affix (e.g. "-es" vs "-s"). */
+  written?: string;
+}
+
+/** A morphological affix (prefix or suffix). */
+export interface Affix {
+  /** Whether this attaches before or after the root. */
+  type: 'prefix' | 'suffix';
+  /** Written form (e.g. "ing", "tion", "un", "re"). */
+  written: string;
+  /** Default phoneme sequence (IPA sound strings matching phonemes in the inventory). */
+  phonemes: string[];
+  /** Number of syllables this affix adds. */
+  syllableCount: number;
+  /** How this affix affects stress placement. */
+  stressEffect: 'none' | 'attract-preceding' | 'primary' | 'secondary';
+  /** Relative frequency weight for selection. */
+  frequency: number;
+  /** Boundary rules when attaching to a root. */
+  boundaryRules?: {
+    dropSilentE?: boolean;
+    doubleConsonant?: boolean;
+    yToI?: boolean;
+  };
+  /** Allomorphic variants selected by root-final context. If present, overrides base phonemes/syllableCount. */
+  allomorphs?: AllomorphVariant[];
+}
+
+/** Configuration for morphological word formation. */
+export interface MorphologyConfig {
+  enabled: boolean;
+  prefixes: Affix[];
+  suffixes: Affix[];
+  templateWeights: {
+    text: { bare: number; suffixed: number; prefixed: number; both: number };
+    lexicon: { bare: number; suffixed: number; prefixed: number; both: number };
+  };
 }
 
 // ---------------------------------------------------------------------------

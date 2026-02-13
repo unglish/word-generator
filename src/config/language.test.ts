@@ -113,6 +113,33 @@ describe("LanguageConfig", () => {
   });
 });
 
+describe("morphology config", () => {
+  it("should exist and be enabled", () => {
+    expect(englishConfig.morphology).toBeDefined();
+    expect(englishConfig.morphology!.enabled).toBe(true);
+  });
+
+  it("should have 16 suffixes and 7 prefixes", () => {
+    expect(englishConfig.morphology!.suffixes).toHaveLength(16);
+    expect(englishConfig.morphology!.prefixes).toHaveLength(7);
+  });
+
+  it("should have template weights summing to 100 for both modes", () => {
+    const { text, lexicon } = englishConfig.morphology!.templateWeights;
+    expect(text.bare + text.suffixed + text.prefixed + text.both).toBe(100);
+    expect(lexicon.bare + lexicon.suffixed + lexicon.prefixed + lexicon.both).toBe(100);
+  });
+
+  it("should have allomorphs on -ed and -s", () => {
+    const ed = englishConfig.morphology!.suffixes.find(s => s.written === "ed");
+    const s = englishConfig.morphology!.suffixes.find(s => s.written === "s");
+    expect(ed?.allomorphs).toBeDefined();
+    expect(ed!.allomorphs!.length).toBeGreaterThan(0);
+    expect(s?.allomorphs).toBeDefined();
+    expect(s!.allomorphs!.length).toBeGreaterThan(0);
+  });
+});
+
 describe("validateConfig", () => {
   it("should pass for the English config", () => {
     expect(() => validateConfig(englishConfig)).not.toThrow();

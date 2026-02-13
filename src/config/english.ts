@@ -1,4 +1,4 @@
-import { LanguageConfig } from "./language.js";
+import { Affix, LanguageConfig } from "./language.js";
 import {
   VOICED_BONUS,
   TENSE_BONUS,
@@ -364,6 +364,56 @@ export const englishConfig: LanguageConfig = {
       wordInitial: 0.70,
       wordMedial: 1.0,
       wordFinal: 0.65,
+    },
+  },
+
+  morphology: {
+    enabled: true,
+    prefixes: [
+      { type: 'prefix', written: 'un', phonemes: ["ʌ", "n"], syllableCount: 1, stressEffect: 'secondary', frequency: 80 },
+      { type: 'prefix', written: 're', phonemes: ["r", "i"], syllableCount: 1, stressEffect: 'secondary', frequency: 70 },
+      { type: 'prefix', written: 'dis', phonemes: ["d", "ɪ", "s"], syllableCount: 1, stressEffect: 'secondary', frequency: 40 },
+      { type: 'prefix', written: 'pre', phonemes: ["p", "r", "i"], syllableCount: 1, stressEffect: 'secondary', frequency: 30 },
+      { type: 'prefix', written: 'over', phonemes: ["əʊ", "v", "ɚ"], syllableCount: 2, stressEffect: 'primary', frequency: 20 },
+      { type: 'prefix', written: 'out', phonemes: ["aʊ", "t"], syllableCount: 1, stressEffect: 'primary', frequency: 20 },
+      { type: 'prefix', written: 'mis', phonemes: ["m", "ɪ", "s"], syllableCount: 1, stressEffect: 'secondary', frequency: 30 },
+    ] satisfies Affix[],
+    suffixes: [
+      { type: 'suffix', written: 'ing', phonemes: ["ɪ", "ŋ"], syllableCount: 1, stressEffect: 'none', frequency: 100, boundaryRules: { dropSilentE: true, doubleConsonant: true } },
+      { type: 'suffix', written: 'tion', phonemes: ["ʃ", "ə", "n"], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 80 },
+      { type: 'suffix', written: 'ly', phonemes: ["l", "i"], syllableCount: 1, stressEffect: 'none', frequency: 90, boundaryRules: { yToI: true } },
+      {
+        type: 'suffix', written: 'ed', phonemes: ["d"], syllableCount: 0, stressEffect: 'none', frequency: 70,
+        boundaryRules: { dropSilentE: true, doubleConsonant: true },
+        allomorphs: [
+          { condition: 'after-voiceless', phonemes: ["t"], syllableCount: 0 },
+          { condition: 'after-voiced', phonemes: ["d"], syllableCount: 0 },
+          { condition: 'after-alveolar-stop', phonemes: ["ɪ", "d"], syllableCount: 1, written: "ed" },
+        ],
+      },
+      { type: 'suffix', written: 'ness', phonemes: ["n", "ə", "s"], syllableCount: 1, stressEffect: 'none', frequency: 60, boundaryRules: { yToI: true } },
+      { type: 'suffix', written: 'er', phonemes: ["ɚ"], syllableCount: 1, stressEffect: 'none', frequency: 70, boundaryRules: { dropSilentE: true, doubleConsonant: true } },
+      { type: 'suffix', written: 'est', phonemes: ["ə", "s", "t"], syllableCount: 1, stressEffect: 'none', frequency: 40, boundaryRules: { dropSilentE: true, doubleConsonant: true } },
+      { type: 'suffix', written: 'ment', phonemes: ["m", "ə", "n", "t"], syllableCount: 1, stressEffect: 'none', frequency: 50 },
+      { type: 'suffix', written: 'able', phonemes: ["ə", "b", "ə", "l"], syllableCount: 2, stressEffect: 'none', frequency: 40, boundaryRules: { dropSilentE: true } },
+      { type: 'suffix', written: 'ful', phonemes: ["f", "ə", "l"], syllableCount: 1, stressEffect: 'none', frequency: 40 },
+      { type: 'suffix', written: 'less', phonemes: ["l", "ə", "s"], syllableCount: 1, stressEffect: 'none', frequency: 40 },
+      { type: 'suffix', written: 'ous', phonemes: ["ə", "s"], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryRules: { dropSilentE: true } },
+      { type: 'suffix', written: 'ive', phonemes: ["ɪ", "v"], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryRules: { dropSilentE: true } },
+      { type: 'suffix', written: 'al', phonemes: ["ə", "l"], syllableCount: 1, stressEffect: 'none', frequency: 30 },
+      { type: 'suffix', written: 'ity', phonemes: ["ɪ", "t", "i"], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 50, boundaryRules: { dropSilentE: true } },
+      {
+        type: 'suffix', written: 's', phonemes: ["z"], syllableCount: 0, stressEffect: 'none', frequency: 100,
+        allomorphs: [
+          { condition: 'after-voiceless', phonemes: ["s"], syllableCount: 0 },
+          { condition: 'after-voiced', phonemes: ["z"], syllableCount: 0 },
+          { condition: 'after-sibilant', phonemes: ["ɪ", "z"], syllableCount: 1, written: "es" },
+        ],
+      },
+    ] satisfies Affix[],
+    templateWeights: {
+      text: { bare: 55, suffixed: 30, prefixed: 10, both: 5 },
+      lexicon: { bare: 40, suffixed: 35, prefixed: 15, both: 10 },
     },
   },
 };
