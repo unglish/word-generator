@@ -300,8 +300,8 @@ describe('Quality Benchmark', () => {
       expect(owngsCount).toBe(0);
     });
 
-    it('Gate: rengTeng < 150', () => {
-      expect(rengTengCount).toBeLessThan(150);
+    it('Gate: rengTeng < 30', () => {
+      expect(rengTengCount).toBeLessThan(30);
     });
 
     it('Gate: 2-letter monosyllables ≤ 8% of all monosyllables', () => {
@@ -338,7 +338,7 @@ describe('Quality Benchmark', () => {
       console.log('Top 5 over-represented:', ratios.slice(0, 5).map(x => `${x.l}:${x.ratio.toFixed(2)}×`).join(', '));
       console.log('Top 5 under-represented:', ratios.slice(-5).reverse().map(x => `${x.l}:${x.ratio.toFixed(2)}×`).join(', '));
 
-      expect(r).toBeGreaterThan(0.80);
+      expect(r).toBeGreaterThan(0.85);
     });
 
     it('Bigram frequency correlation with English', () => {
@@ -354,7 +354,7 @@ describe('Quality Benchmark', () => {
       console.log('Top 5 over:', ratios.slice(0, 5).map(x => `${x.bg}:${x.ratio.toFixed(2)}×`).join(', '));
       console.log('Top 5 under:', ratios.slice(-5).reverse().map(x => `${x.bg}:${x.ratio.toFixed(2)}×`).join(', '));
 
-      expect(r).toBeGreaterThan(0.40);
+      expect(r).toBeGreaterThan(0.45);
     });
 
     it('Trigram frequency correlation with English', () => {
@@ -370,7 +370,7 @@ describe('Quality Benchmark', () => {
       console.log('Top 5 over:', ratios.slice(0, 5).map(x => `${x.tg}:${x.ratio.toFixed(2)}×`).join(', '));
       console.log('Top 5 under:', ratios.slice(-5).reverse().map(x => `${x.tg}:${x.ratio.toFixed(2)}×`).join(', '));
 
-      expect(r).toBeGreaterThan(0.30);
+      expect(r).toBeGreaterThan(0.33);
     });
 
     it('No letter more than 25× over or under expected frequency', () => {
