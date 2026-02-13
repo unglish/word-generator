@@ -69,7 +69,7 @@ export const phonemes: Phoneme[] = [
   { sound: "ɑ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // father
   { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 80, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // ball
   { sound: "o", mannerOfArticulation: "lowVowel", tense: true, nucleus: 100, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // hope
-  { sound: "ʊ", mannerOfArticulation: "highVowel", tense: true, nucleus: 70, startWord: 4, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // book
+  { sound: "ʊ", mannerOfArticulation: "highVowel", tense: true, nucleus: 100, startWord: 4, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // book
   { sound: "u", mannerOfArticulation: "highVowel", tense: true, nucleus: 80, startWord: 4, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // blue
   { sound: "ʌ", mannerOfArticulation: "midVowel", tense: false, nucleus: 120, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // cup
 
