@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateWords } from './generate.js';
+import { generateWords } from '../generate.js';
 
 describe('Morphology quality benchmarks', () => {
   const words = generateWords(1000, { seed: 42, morphology: true });

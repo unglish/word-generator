@@ -499,12 +499,21 @@ export interface LanguageConfig {
 // Morphology types
 // ---------------------------------------------------------------------------
 
+/** Explicit syllable template for an affix phoneme sequence. */
+export interface AffixSyllable {
+  onset: string[];   // phoneme sounds
+  nucleus: string[]; // phoneme sounds
+  coda: string[];    // phoneme sounds
+}
+
 /** A single allomorphic variant of an affix. */
 export interface AllomorphVariant {
   /** Condition that selects this variant based on the root's final segment. */
   condition: 'after-voiceless' | 'after-voiced' | 'after-sibilant' | 'after-alveolar-stop' | 'before-bilabial';
   /** Phoneme sequence for this variant. */
   phonemes: string[];
+  /** Explicit syllable structure for this variant. */
+  syllables?: AffixSyllable[];
   /** Number of syllables this variant adds. */
   syllableCount: number;
   /** Written form if different from the base affix (e.g. "-es" vs "-s"). */
@@ -519,6 +528,8 @@ export interface Affix {
   written: string;
   /** Default phoneme sequence (IPA sound strings matching phonemes in the inventory). */
   phonemes: string[];
+  /** Explicit syllable structure for this affix. */
+  syllables?: AffixSyllable[];
   /** Number of syllables this affix adds. */
   syllableCount: number;
   /** How this affix affects stress placement. */

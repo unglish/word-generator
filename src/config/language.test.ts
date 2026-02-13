@@ -130,6 +130,12 @@ describe("morphology config", () => {
     expect(lexicon.bare + lexicon.suffixed + lexicon.prefixed + lexicon.both).toBe(100);
   });
 
+  it("all affixes should have syllables defined", () => {
+    for (const affix of [...englishConfig.morphology!.prefixes, ...englishConfig.morphology!.suffixes]) {
+      expect(affix.syllables, `${affix.written} missing syllables`).toBeDefined();
+    }
+  });
+
   it("should have allomorphs on -ed and -s", () => {
     const ed = englishConfig.morphology!.suffixes.find(s => s.written === "ed");
     const s = englishConfig.morphology!.suffixes.find(s => s.written === "s");

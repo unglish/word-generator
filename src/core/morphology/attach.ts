@@ -1,30 +1,17 @@
-import { Phoneme, Syllable, WordGenerationContext, GenerationMode } from "../types.js";
-import { MorphologyConfig, Affix, AllomorphVariant } from "../config/language.js";
-import { generatePronunciation } from "./pronounce.js";
-import getWeightedOption from "../utils/getWeightedOption.js";
-import type { RNG } from "../utils/random.js";
+import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
+import { Affix, AllomorphVariant, AffixSyllable } from "../../config/language.js";
+import { generatePronunciation } from "../pronounce.js";
+import type { MorphologyPlan } from "./plan.js";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-type Template = "bare" | "suffixed" | "prefixed" | "both";
-
-interface MorphologyPlan {
-  template: Template;
-  prefix?: Affix;
-  suffix?: Affix;
-  /** Resolved prefix allomorph (set after root is generated). */
-  prefixVariant?: { phonemes: string[]; syllableCount: number; written: string };
-  /** Resolved suffix allomorph (set after root is generated). */
-  suffixVariant?: { phonemes: string[]; syllableCount: number; written: string };
-}
-
 interface GeneratorRuntime {
   config: {
-    morphology?: MorphologyConfig;
+    morphology?: import("../../config/language.js").MorphologyConfig;
     phonemes: Phoneme[];
-    vowelReduction?: import("../config/language.js").VowelReductionConfig;
+    vowelReduction?: import("../../config/language.js").VowelReductionConfig;
   };
 }
 
@@ -39,21 +26,6 @@ const CONSONANTS_RE = /[bcdfghjklmnpqrstvwxyz]/i;
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-function pickWeighted<T>(items: T[], getWeight: (item: T) => number, rand: RNG): T {
-  const options: [T, number][] = items.map(item => [item, getWeight(item)]);
-  return getWeightedOption(options, rand);
-}
-
-function pickTemplate(config: MorphologyConfig, mode: GenerationMode, rand: RNG): Template {
-  const w = config.templateWeights[mode];
-  return getWeightedOption<Template>([
-    ["bare", w.bare],
-    ["suffixed", w.suffixed],
-    ["prefixed", w.prefixed],
-    ["both", w.both],
-  ], rand);
-}
 
 function getLastPhoneme(context: WordGenerationContext): Phoneme | undefined {
   const syllables = context.word.syllables;
@@ -81,8 +53,8 @@ function resolveAllomorph(
   affix: Affix,
   phoneme: Phoneme | undefined,
   isPrefix: boolean,
-): { phonemes: string[]; syllableCount: number; written: string } {
-  const base = { phonemes: affix.phonemes, syllableCount: affix.syllableCount, written: affix.written };
+): { phonemes: string[]; syllables?: AffixSyllable[]; syllableCount: number; written: string } {
+  const base = { phonemes: affix.phonemes, syllables: affix.syllables, syllableCount: affix.syllableCount, written: affix.written };
   if (!affix.allomorphs || !phoneme) return base;
 
   // Sort by specificity: sibilant/alveolar-stop/before-bilabial before voiceless/voiced
@@ -96,6 +68,7 @@ function resolveAllomorph(
     if (matchesCondition(variant.condition, phoneme, isPrefix)) {
       return {
         phonemes: variant.phonemes,
+        syllables: variant.syllables,
         syllableCount: variant.syllableCount,
         written: variant.written ?? affix.written,
       };
@@ -244,6 +217,37 @@ function phonemeSoundsToSyllables(sounds: string[], inventory: Phoneme[]): Sylla
 }
 
 // ---------------------------------------------------------------------------
+// AffixSyllable → Syllable conversion
+// ---------------------------------------------------------------------------
+
+function affixSyllablesToSyllables(templates: AffixSyllable[], inventory: Phoneme[]): Syllable[] {
+  const phonemeMap = new Map<string, Phoneme>();
+  for (const p of inventory) {
+    phonemeMap.set(p.sound, p);
+  }
+
+  function resolve(sound: string): Phoneme {
+    const p = phonemeMap.get(sound);
+    if (!p) {
+      return {
+        sound, voiced: true,
+        mannerOfArticulation: "midVowel" as const,
+        placeOfArticulation: "central" as const,
+        startWord: 1, midWord: 1, endWord: 1,
+      };
+    }
+    return p;
+  }
+
+  return templates.map(t => ({
+    onset: t.onset.map(resolve),
+    nucleus: t.nucleus.map(resolve),
+    coda: t.coda.map(resolve),
+    stress: undefined,
+  }));
+}
+
+// ---------------------------------------------------------------------------
 // Stress adjustment
 // ---------------------------------------------------------------------------
 
@@ -280,36 +284,6 @@ function adjustStress(
 // ---------------------------------------------------------------------------
 
 /**
- * Plan morphology BEFORE root generation — picks template and affixes,
- * returns the plan and the syllable count adjustment.
- */
-export function planMorphology(
-  config: MorphologyConfig,
-  mode: GenerationMode,
-  rand: RNG,
-): { plan: MorphologyPlan; syllableReduction: number } {
-  const template = pickTemplate(config, mode, rand);
-
-  if (template === "bare") {
-    return { plan: { template }, syllableReduction: 0 };
-  }
-
-  const plan: MorphologyPlan = { template };
-  let reduction = 0;
-
-  if (template === "prefixed" || template === "both") {
-    plan.prefix = pickWeighted(config.prefixes, a => a.frequency, rand);
-    reduction += plan.prefix.syllableCount;
-  }
-  if (template === "suffixed" || template === "both") {
-    plan.suffix = pickWeighted(config.suffixes, a => a.frequency, rand);
-    reduction += plan.suffix.syllableCount;
-  }
-
-  return { plan, syllableReduction: reduction };
-}
-
-/**
  * Apply a morphology plan to a generated root word.
  * Mutates `context.word` in place.
  */
@@ -325,8 +299,8 @@ export function applyMorphology(
   let rootWritten = context.word.written.clean;
 
   // Resolve allomorphs now that we have the root
-  let prefixVariant: MorphologyPlan["prefixVariant"];
-  let suffixVariant: MorphologyPlan["suffixVariant"];
+  let prefixVariant: { phonemes: string[]; syllables?: AffixSyllable[]; syllableCount: number; written: string } | undefined;
+  let suffixVariant: { phonemes: string[]; syllables?: AffixSyllable[]; syllableCount: number; written: string } | undefined;
 
   if (plan.prefix) {
     const firstPhoneme = getFirstPhoneme(context);
@@ -348,13 +322,17 @@ export function applyMorphology(
   const suffixWritten = suffixVariant?.written ?? "";
   const cleanForm = prefixWritten + rootWritten + suffixWritten;
 
-  // Build syllables from affixes
+  // Build syllables from affixes (prefer explicit templates, fall back to heuristic)
   const inventory = config.phonemes;
   const prefixSyllables = prefixVariant
-    ? phonemeSoundsToSyllables(prefixVariant.phonemes, inventory)
+    ? (prefixVariant.syllables !== undefined
+        ? affixSyllablesToSyllables(prefixVariant.syllables, inventory)
+        : phonemeSoundsToSyllables(prefixVariant.phonemes, inventory))
     : [];
   const suffixSyllables = suffixVariant
-    ? phonemeSoundsToSyllables(suffixVariant.phonemes, inventory)
+    ? (suffixVariant.syllables !== undefined
+        ? affixSyllablesToSyllables(suffixVariant.syllables, inventory)
+        : phonemeSoundsToSyllables(suffixVariant.phonemes, inventory))
     : [];
 
   // Handle zero-syllable affixes (e.g. -ed → /t/ or /d/): append to last syllable's coda
