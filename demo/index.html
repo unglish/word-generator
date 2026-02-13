@@ -518,10 +518,137 @@
                 newGameRound();
             }
 
+            // ===== STATS TAB =====
+
+            const engLetterFreq = {e:12.49,t:9.28,a:8.04,o:7.60,i:7.57,n:7.23,s:6.51,r:6.28,h:5.05,l:4.07,d:3.82,c:3.34,u:2.73,m:2.51,f:2.40,p:2.14,g:1.87,w:1.68,y:1.66,b:1.48,v:1.05,k:0.54,x:0.23,j:0.16,q:0.12,z:0.09};
+            const engLetterOrder = ['e','t','a','o','i','n','s','r','h','l','d','c','u','m','f','p','g','w','y','b','v','k','x','j','q','z'];
+            const engBigrams = {th:3.56,he:3.07,in:2.43,er:2.05,an:1.99,re:1.85,on:1.76,at:1.49,en:1.45,nd:1.35,ti:1.34,es:1.34,or:1.28,te:1.27,of:1.17,ed:1.17,is:1.13,it:1.12,al:1.09,ar:1.07};
+            const engBigramOrder = ['th','he','in','er','an','re','on','at','en','nd','ti','es','or','te','of','ed','is','it','al','ar'];
+            const engLengthDist = {1:2.5,2:14.8,3:22.7,4:17.6,5:12.4,6:10.1,7:7.6,8:5.4,9:3.5,10:1.8,11:0.9,12:0.4,13:0.3};
+
+            function pearsonR(xs, ys) {
+                const n = xs.length;
+                const mx = xs.reduce((a,b) => a+b, 0) / n;
+                const my = ys.reduce((a,b) => a+b, 0) / n;
+                let num = 0, dx2 = 0, dy2 = 0;
+                for (let i = 0; i < n; i++) {
+                    const dx = xs[i] - mx, dy = ys[i] - my;
+                    num += dx * dy; dx2 += dx * dx; dy2 += dy * dy;
+                }
+                return num / Math.sqrt(dx2 * dy2);
+            }
+
+            let statsWorker = null;
+            let statsInited = false;
+
+            function runStats() {
+                $('stats-status').textContent = 'Generating 10,000 words...';
+                if (statsWorker) statsWorker.terminate();
+                statsWorker = new Worker('statsWorker.js');
+                statsWorker.onmessage = function(ev) {
+                    if (ev.data.type === 'stats') {
+                        renderStats(ev.data.words);
+                        statsWorker.terminate();
+                        statsWorker = null;
+                    }
+                };
+                statsWorker.postMessage({ action: 'generateStats', count: 10000 });
+            }
+
+            function renderStats(words) {
+                $('stats-status').textContent = words.length.toLocaleString() + ' words generated.';
+
+                // Letter frequency
+                const letterCounts = {};
+                let totalLetters = 0;
+                for (const w of words) {
+                    for (const ch of w.toLowerCase()) {
+                        if (ch >= 'a' && ch <= 'z') { letterCounts[ch] = (letterCounts[ch] || 0) + 1; totalLetters++; }
+                    }
+                }
+                const maxLetterPct = 15;
+                const genLetterPcts = engLetterOrder.map(ch => totalLetters ? (letterCounts[ch] || 0) / totalLetters * 100 : 0);
+                const engLetterPcts = engLetterOrder.map(ch => engLetterFreq[ch]);
+                const letterR = pearsonR(genLetterPcts, engLetterPcts);
+                $('stats-letter-r').textContent = 'Pearson r = ' + letterR.toFixed(4);
+                $('stats-letter-legend').innerHTML = '<span style="display:inline-block;width:0.8em;height:0.8em;background:steelblue;vertical-align:middle"></span> Generated &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:darkgrey;vertical-align:middle"></span> English';
+                $('stats-letter-chart').innerHTML = engLetterOrder.map((ch, idx) => {
+                    const gen = genLetterPcts[idx];
+                    const eng = engLetterPcts[idx];
+                    const wG = (gen / maxLetterPct * 100).toFixed(1);
+                    const wE = (eng / maxLetterPct * 100).toFixed(1);
+                    return '<div class="freq-row"><div class="freq-letter">' + ch.toUpperCase() + '</div><div class="freq-bars">' +
+                        '<div class="freq-bar" style="width:' + wG + '%;background:steelblue"></div>' +
+                        '<div class="freq-bar" style="width:' + wE + '%;background:darkgrey"></div>' +
+                        '</div><div class="freq-val">' + gen.toFixed(1) + ' / ' + eng.toFixed(1) + '</div></div>';
+                }).join('');
+
+                // Bigram frequency
+                const bigramCounts = {};
+                let totalBigrams = 0;
+                for (const w of words) {
+                    const lw = w.toLowerCase();
+                    for (let i = 0; i < lw.length - 1; i++) {
+                        const bg = lw[i] + lw[i+1];
+                        if (bg[0] >= 'a' && bg[0] <= 'z' && bg[1] >= 'a' && bg[1] <= 'z') {
+                            bigramCounts[bg] = (bigramCounts[bg] || 0) + 1; totalBigrams++;
+                        }
+                    }
+                }
+                const maxBigramPct = 5;
+                const genBigramPcts = engBigramOrder.map(bg => totalBigrams ? (bigramCounts[bg] || 0) / totalBigrams * 100 : 0);
+                const engBigramPcts = engBigramOrder.map(bg => engBigrams[bg]);
+                const bigramR = pearsonR(genBigramPcts, engBigramPcts);
+                $('stats-bigram-r').textContent = 'Pearson r = ' + bigramR.toFixed(4);
+                $('stats-bigram-legend').innerHTML = '<span style="display:inline-block;width:0.8em;height:0.8em;background:steelblue;vertical-align:middle"></span> Generated &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:darkgrey;vertical-align:middle"></span> English';
+                $('stats-bigram-chart').innerHTML = engBigramOrder.map((bg, idx) => {
+                    const gen = genBigramPcts[idx];
+                    const eng = engBigramPcts[idx];
+                    const wG = (gen / maxBigramPct * 100).toFixed(1);
+                    const wE = (eng / maxBigramPct * 100).toFixed(1);
+                    return '<div class="freq-row"><div class="freq-letter" style="width:2.5em">' + bg.toUpperCase() + '</div><div class="freq-bars">' +
+                        '<div class="freq-bar" style="width:' + wG + '%;background:steelblue"></div>' +
+                        '<div class="freq-bar" style="width:' + wE + '%;background:darkgrey"></div>' +
+                        '</div><div class="freq-val">' + gen.toFixed(2) + ' / ' + eng.toFixed(2) + '</div></div>';
+                }).join('');
+
+                // Word length distribution
+                const lenCounts = {};
+                for (const w of words) {
+                    const len = Math.min(w.length, 13);
+                    lenCounts[len] = (lenCounts[len] || 0) + 1;
+                }
+                const totalWords = words.length;
+                const maxLenPct = 30;
+                $('stats-length-legend').innerHTML = '<span style="display:inline-block;width:0.8em;height:0.8em;background:steelblue;vertical-align:middle"></span> Generated &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:darkgrey;vertical-align:middle"></span> English';
+                let lenHtml = '';
+                for (let i = 1; i <= 13; i++) {
+                    const genPct = (lenCounts[i] || 0) / totalWords * 100;
+                    const engPct = engLengthDist[i] || 0;
+                    const label = i === 13 ? '13+' : String(i);
+                    const wG = (genPct / maxLenPct * 100).toFixed(1);
+                    const wE = (engPct / maxLenPct * 100).toFixed(1);
+                    lenHtml += '<div class="freq-row"><div class="freq-letter" style="width:2.5em">' + label + '</div><div class="freq-bars">' +
+                        '<div class="freq-bar" style="width:' + wG + '%;background:steelblue"></div>' +
+                        '<div class="freq-bar" style="width:' + wE + '%;background:darkgrey"></div>' +
+                        '</div><div class="freq-val">' + genPct.toFixed(1) + ' / ' + engPct.toFixed(1) + '</div></div>';
+                }
+                $('stats-length-chart').innerHTML = lenHtml;
+            }
+
+            function initStats() {
+                if (statsInited) return;
+                statsInited = true;
+                runStats();
+            }
+
+            $('refresh-stats').addEventListener('click', runStats);
+
             // Hook into tab switching
             document.querySelectorAll('.tab-bar button').forEach(btn => {
                 btn.addEventListener('click', () => {
                     if (btn.dataset.tab === 'content-lexicon') initLexicon();
+                    if (btn.dataset.tab === 'content-stats') initStats();
                 });
             });
 
@@ -545,6 +672,7 @@
         <div class="tab-bar">
             <button disabled data-tab="content-text">Text</button>
             <button data-tab="content-lexicon">Lexicon</button>
+            <button data-tab="content-stats">Stats</button>
             <label style="margin-left:auto;display:flex;align-items:center;gap:0.3em;font-size:0.9em;cursor:pointer">
                 <input type="checkbox" id="morph-toggle"> Include affixes
             </label>
@@ -631,6 +759,29 @@
                 <div class="game-score" id="game-score"></div>
                 <div id="game-words"></div>
                 <div class="game-actions" id="game-actions"></div>
+            </div>
+        </div>
+        <div id="content-stats" class="tab-content">
+            <div class="card">
+                <h2>Letter Frequency — Generated vs English</h2>
+                <button class="refresh" id="refresh-stats" title="Regenerate">&#x21bb;</button>
+                <div id="stats-status" class="stat-line">Click Regenerate or switch to this tab to generate 10,000 words.</div>
+                <div id="stats-letter-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
+                <div class="legend" id="stats-letter-legend"></div>
+                <div id="stats-letter-chart"></div>
+            </div>
+
+            <div class="card">
+                <h2>Bigram Frequency — Generated vs English</h2>
+                <div id="stats-bigram-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
+                <div class="legend" id="stats-bigram-legend"></div>
+                <div id="stats-bigram-chart"></div>
+            </div>
+
+            <div class="card">
+                <h2>Word Length Distribution — Generated vs English</h2>
+                <div id="stats-length-chart"></div>
+                <div class="legend" id="stats-length-legend"></div>
             </div>
         </div>
     </div>
