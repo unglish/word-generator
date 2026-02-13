@@ -502,7 +502,7 @@ export interface LanguageConfig {
 /** A single allomorphic variant of an affix. */
 export interface AllomorphVariant {
   /** Condition that selects this variant based on the root's final segment. */
-  condition: 'after-voiceless' | 'after-voiced' | 'after-sibilant' | 'after-alveolar-stop';
+  condition: 'after-voiceless' | 'after-voiced' | 'after-sibilant' | 'after-alveolar-stop' | 'before-bilabial';
   /** Phoneme sequence for this variant. */
   phonemes: string[];
   /** Number of syllables this variant adds. */

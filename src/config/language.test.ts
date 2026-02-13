@@ -119,9 +119,9 @@ describe("morphology config", () => {
     expect(englishConfig.morphology!.enabled).toBe(true);
   });
 
-  it("should have 16 suffixes and 7 prefixes", () => {
+  it("should have 16 suffixes and 8 prefixes", () => {
     expect(englishConfig.morphology!.suffixes).toHaveLength(16);
-    expect(englishConfig.morphology!.prefixes).toHaveLength(7);
+    expect(englishConfig.morphology!.prefixes).toHaveLength(8);
   });
 
   it("should have template weights summing to 100 for both modes", () => {
