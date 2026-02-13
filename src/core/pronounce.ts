@@ -61,19 +61,23 @@ const aspirateSyllable = (position: number, context: WordGenerationContext): voi
 
   if (shouldAspirate) {
     if (position === syllableCount - 1 && syllable.coda.length === 1) {
-      // Aspirate the coda for word-final position
-      const aspiratedPhoneme: Phoneme = {
-        ...syllable.coda[0],
-        sound: syllable.coda[0].sound + 'ʰ'
-      };
-      syllable.coda[0] = aspiratedPhoneme;
+      // Aspirate the coda for word-final position (guard against double aspiration)
+      if (!syllable.coda[0].sound.endsWith('ʰ')) {
+        const aspiratedPhoneme: Phoneme = {
+          ...syllable.coda[0],
+          sound: syllable.coda[0].sound + 'ʰ'
+        };
+        syllable.coda[0] = aspiratedPhoneme;
+      }
     } else {
-      // Aspirate the onset for all other positions
-      const aspiratedPhoneme: Phoneme = {
-        ...syllable.onset[0],
-        sound: syllable.onset[0].sound + 'ʰ'
-      };
-      syllable.onset[0] = aspiratedPhoneme;
+      // Aspirate the onset for all other positions (guard against double aspiration)
+      if (!syllable.onset[0].sound.endsWith('ʰ')) {
+        const aspiratedPhoneme: Phoneme = {
+          ...syllable.onset[0],
+          sound: syllable.onset[0].sound + 'ʰ'
+        };
+        syllable.onset[0] = aspiratedPhoneme;
+      }
     }
   }
 };
