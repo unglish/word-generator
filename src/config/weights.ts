@@ -79,15 +79,15 @@ export const CODA_LENGTH_MONOSYLLABIC_DEFAULT: [number, number][] = [
 ];
 
 /** Coda length weight for the zero-length option in polysyllabic words (end of word). */
-export const CODA_ZERO_WEIGHT_END_OF_WORD = 1200;
+export const CODA_ZERO_WEIGHT_END_OF_WORD = 600;
 
 /** Coda length weight for the zero-length option in polysyllabic words (mid word). */
-export const CODA_ZERO_WEIGHT_MID_WORD = 6000;
+export const CODA_ZERO_WEIGHT_MID_WORD = 3000;
 
 /** Coda length weights for polysyllabic words (non-zero lengths). */
 export const CODA_LENGTH_POLYSYLLABIC_NONZERO: [number, number][] = [
   [1, 3000],
-  [2, 900],
+  [2, 1500],
   [3, 100],
 ];
 
@@ -96,7 +96,7 @@ export const CODA_LENGTH_POLYSYLLABIC_NONZERO: [number, number][] = [
 // ---------------------------------------------------------------------------
 
 /** Chance (out of 100) to append a final 's' phoneme at end of word. */
-export const FINAL_S_CHANCE = 15;
+export const FINAL_S_CHANCE = 8;
 
 // ---------------------------------------------------------------------------
 // Syllable boundary adjustment
@@ -122,7 +122,7 @@ export const HAS_CODA_MONOSYLLABIC = 90;
 export const HAS_CODA_END_OF_WORD = 90;
 
 /** Chance (out of 100) that a non-final syllable of a polysyllabic word has a coda. */
-export const HAS_CODA_MID_WORD = 30;
+export const HAS_CODA_MID_WORD = 45;
 
 // ---------------------------------------------------------------------------
 // Mode-specific syllable count distributions
