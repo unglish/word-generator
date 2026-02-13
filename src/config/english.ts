@@ -139,7 +139,7 @@ export const englishConfig: LanguageConfig = {
     trigger: "lax-vowel",
     probability: 80,
     maxPerWord: 1,
-    neverDouble: ["v", "w", "j", "h", "ŋ", "θ", "ð", "ʒ", "k"],
+    neverDouble: ["v", "w", "x", "y", "q", "j", "dʒ", "h", "ŋ", "θ", "ð", "ʒ", "k"],
     finalDoublingOnly: ["f", "s", "l", "z"],
     suppressAfterReduction: true,
     suppressBeforeTense: true,
