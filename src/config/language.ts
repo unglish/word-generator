@@ -277,6 +277,10 @@ export interface DoublingConfig {
   suppressBeforeTense: boolean;
   /** Probability modifier for unstressed syllable context (0.0-1.0). */
   unstressedModifier?: number;
+  /** Map of phoneme sounds to their doubled form (overrides simple repetition). e.g. { k: 'ck' } */
+  doubledForms?: Record<string, string>;
+  /** Sounds that should never double word-finally. */
+  neverDoubleFinal?: string[];
 }
 
 /**
