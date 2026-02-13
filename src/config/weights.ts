@@ -96,7 +96,7 @@ export const CODA_LENGTH_POLYSYLLABIC_NONZERO: [number, number][] = [
 // ---------------------------------------------------------------------------
 
 /** Chance (out of 100) to append a final 's' phoneme at end of word. */
-export const FINAL_S_CHANCE = 15;
+export const FINAL_S_CHANCE = 8;
 
 // ---------------------------------------------------------------------------
 // Syllable boundary adjustment
