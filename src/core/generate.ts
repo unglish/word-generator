@@ -7,7 +7,7 @@ import { applyStress, generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
-import { planMorphology, applyMorphology } from "./morphology.js";
+import { planMorphology, applyMorphology } from "./morphology/index.js";
 import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------

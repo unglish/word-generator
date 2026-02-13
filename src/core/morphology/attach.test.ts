@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { planMorphology, applyMorphology } from "./morphology.js";
-import { createSeededRng } from "../utils/random.js";
-import { MorphologyConfig, Affix } from "../config/language.js";
-import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
-import { phonemes as allPhonemes } from "../elements/phonemes.js";
+import { planMorphology, applyMorphology } from "./index.js";
+import { createSeededRng } from "../../utils/random.js";
+import { MorphologyConfig, Affix } from "../../config/language.js";
+import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
+import { phonemes as allPhonemes } from "../../elements/phonemes.js";
 
 // ---------------------------------------------------------------------------
 // Helpers
