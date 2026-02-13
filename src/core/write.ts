@@ -1183,21 +1183,22 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       appendSilentE(cleanParts, hyphenatedParts, syllables, appendAfterLookup, rand);
     }
 
-    // Hard-g fix: if a syllable ends with 'g' (from /g/ in coda) and the
-    // next syllable's written form starts with e, i, or y, insert silent 'u'
-    // to prevent the 'g' from being read as soft-g (/dʒ/).
-    for (let si = 0; si < cleanParts.length - 1; si++) {
-      const part = cleanParts[si];
-      const nextPart = cleanParts[si + 1];
-      if (part.length > 0 && nextPart.length > 0 &&
-          part[part.length - 1] === 'g' &&
-          syllables[si].coda.length > 0 &&
-          syllables[si].coda[syllables[si].coda.length - 1].sound === 'g' &&
-          /^[eiy]/i.test(nextPart)) {
-        cleanParts[si] = part + 'u';
-        // hyphenatedParts interleaves syllable strings (even indices) with
-        // "&shy;" separators (odd indices), so syllable `si` maps to index `si * 2`.
-        hyphenatedParts[si * 2] = hyphenatedParts[si * 2] + 'u';
+    // Orthographic repairs: configurable boundary-based insertion rules
+    // (e.g. insert silent 'u' after 'g' before e/i/y to preserve hard-g).
+    const orthoRepairs = config.writtenFormConstraints?.orthographicRepairs;
+    if (orthoRepairs) {
+      for (let si = 0; si < cleanParts.length - 1; si++) {
+        const part = cleanParts[si];
+        const nextPart = cleanParts[si + 1];
+        if (part.length === 0 || nextPart.length === 0) continue;
+        const junction = part[part.length - 1] + nextPart[0];
+        for (const repair of orthoRepairs) {
+          if (repair.boundaryMatch.test(junction)) {
+            cleanParts[si] = part + repair.insert;
+            hyphenatedParts[si * 2] = hyphenatedParts[si * 2] + repair.insert;
+            break;
+          }
+        }
       }
     }
 

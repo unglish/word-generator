@@ -332,6 +332,13 @@ export const englishConfig: LanguageConfig = {
     maxConsonantLetters: 4,
     maxFinalConsonantLetters: 3,
     maxVowelLetters: 2,
+    orthographicRepairs: [
+      {
+        name: 'hard-g-silent-u',
+        boundaryMatch: /g([eiy])/i,
+        insert: 'u',
+      },
+    ],
   },
 
   sonorityConstraints: {
