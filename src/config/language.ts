@@ -389,6 +389,19 @@ export interface WrittenFormConstraints {
    * Applied after consonant repairs. Default: no limit.
    */
   maxVowelLetters?: number;
+
+  /** Orthographic repair rules applied after grapheme generation. */
+  orthographicRepairs?: OrthographicRepair[];
+}
+
+/** A post-write orthographic repair rule. */
+export interface OrthographicRepair {
+  /** Human-readable name. */
+  name: string;
+  /** Regex to test on the junction between adjacent syllable written forms. */
+  boundaryMatch: RegExp;
+  /** String to insert between the syllables when the match fires. */
+  insert: string;
 }
 
 // ---------------------------------------------------------------------------
