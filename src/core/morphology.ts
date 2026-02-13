@@ -115,7 +115,7 @@ function matchesCondition(
     case "after-voiced":
       return !isPrefix && phoneme.voiced;
     case "after-sibilant":
-      return !isPrefix && phoneme.mannerOfArticulation === "sibilant";
+      return !isPrefix && (phoneme.mannerOfArticulation === "sibilant" || phoneme.mannerOfArticulation === "affricate");
     case "after-alveolar-stop":
       return !isPrefix && phoneme.mannerOfArticulation === "stop" && phoneme.placeOfArticulation === "alveolar";
     case "before-bilabial":
@@ -141,11 +141,13 @@ function applyBoundaryRules(rootWritten: string, affix: Affix): string {
     }
   }
 
+  let droppedE = false;
   if (affix.boundaryRules.dropSilentE && result.endsWith("e")) {
     result = result.slice(0, -1);
+    droppedE = true;
   }
 
-  if (affix.boundaryRules.doubleConsonant && result.length >= 2) {
+  if (affix.boundaryRules.doubleConsonant && !droppedE && result.length >= 2) {
     const lastChar = result[result.length - 1].toLowerCase();
     const secondLastChar = result[result.length - 2].toLowerCase();
     if (
@@ -229,6 +231,13 @@ function phonemeSoundsToSyllables(sounds: string[], inventory: Phoneme[]): Sylla
   // If no vowel found, put everything in one syllable
   if (syllables.length === 0) {
     syllables.push({ onset: resolved, nucleus: [], coda: [], stress: undefined });
+  }
+
+  // Maximal onset principle: move intervocalic consonants from coda to next onset
+  for (let i = 0; i < syllables.length - 1; i++) {
+    if (syllables[i].coda.length > 0 && syllables[i + 1].onset.length === 0) {
+      syllables[i + 1].onset.unshift(syllables[i].coda.pop()!);
+    }
   }
 
   return syllables;

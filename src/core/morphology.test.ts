@@ -376,4 +376,51 @@ describe("morphology", () => {
       expect(syllableReduction).toBe(2);
     });
   });
+
+  describe("affricate sibilant allomorph", () => {
+    it("-s after affricate /tʃ/ → 'es' (sibilant allomorph)", () => {
+      const rt = makeRuntime();
+      const ctx = makeContext(
+        [makeSyllable(["b"], ["ɔ"], ["tʃ"])],
+        "botch",
+      );
+      const plan = { template: "suffixed" as const, suffix: sSuffix };
+      applyMorphology(rt, ctx, plan);
+      expect(ctx.word.written.clean).toBe("botches");
+    });
+  });
+
+  describe("dropSilentE prevents doubleConsonant", () => {
+    it("dropSilentE prevents doubleConsonant", () => {
+      const rt = makeRuntime();
+      const ctx = makeContext(
+        [makeSyllable(["d"], ["aɪ"], ["n"])],
+        "dine",
+      );
+      const plan = { template: "suffixed" as const, suffix: simpleSuffix }; // -ing has both rules
+      applyMorphology(rt, ctx, plan);
+      expect(ctx.word.written.clean).toBe("dining"); // not "dinning"
+    });
+  });
+
+  describe("maximal onset resyllabification", () => {
+    it("-able syllables use maximal onset (/ə.bəl/ not /əb.əl/)", () => {
+      const rt = makeRuntime();
+      const ableSuffix: Affix = {
+        type: "suffix", written: "able", phonemes: ["ə", "b", "ə", "l"],
+        syllableCount: 2, stressEffect: "none", frequency: 40,
+        boundaryRules: { dropSilentE: true, doubleConsonant: true, yToI: true },
+      };
+      const ctx = makeContext(
+        [makeSyllable(["t"], ["ɛ"], ["s", "t"])],
+        "test",
+      );
+      const plan = { template: "suffixed" as const, suffix: ableSuffix };
+      applyMorphology(rt, ctx, plan);
+      // Second affix syllable should have /b/ in onset, not first syllable coda
+      const affixSyls = ctx.word.syllables.slice(1); // skip root syllable
+      expect(affixSyls[0].coda.length).toBe(0); // no /b/ in coda
+      expect(affixSyls[1].onset[0]?.sound).toBe("b"); // /b/ in onset of second affix syllable
+    });
+  });
 });
