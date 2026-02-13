@@ -407,7 +407,7 @@ export const vowelGraphemes: Grapheme[] = [
     phoneme: "ʌ", 
     form: "uh", 
     origin: 0, 
-    frequency: 30,
+    frequency: 3,
     startWord: 1,
     midWord: 4,
     endWord: 1,
