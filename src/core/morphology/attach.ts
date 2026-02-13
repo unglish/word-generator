@@ -1,5 +1,5 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
-import { Affix, AllomorphVariant, AffixSyllable } from "../../config/language.js";
+import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, PhonologicalCondition } from "../../config/language.js";
 import { generatePronunciation } from "../pronounce.js";
 import type { MorphologyPlan } from "./plan.js";
 
@@ -14,14 +14,6 @@ interface GeneratorRuntime {
     vowelReduction?: import("../../config/language.js").VowelReductionConfig;
   };
 }
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
-
-const NEVER_DOUBLE = new Set(["v", "w", "x", "y", "q", "j", "h", "k"]);
-const VOWELS = new Set(["a", "e", "i", "o", "u"]);
-const CONSONANTS_RE = /[bcdfghjklmnpqrstvwxyz]/i;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -49,6 +41,44 @@ function getFirstPhoneme(context: WordGenerationContext): Phoneme | undefined {
   return undefined;
 }
 
+// ---------------------------------------------------------------------------
+// Config-driven boundary transforms
+// ---------------------------------------------------------------------------
+
+export function applyBoundaryTransforms(rootWritten: string, transforms: BoundaryTransform[]): string {
+  const fired = new Set<string>();
+  let result = rootWritten;
+  for (const t of transforms) {
+    if (t.blockedBy && t.blockedBy.some(name => fired.has(name))) continue;
+    if (t.match.test(result)) {
+      result = result.replace(t.match, t.replace);
+      fired.add(t.name);
+    }
+  }
+  return result;
+}
+
+// ---------------------------------------------------------------------------
+// Config-driven phonological condition matching
+// ---------------------------------------------------------------------------
+
+export function matchesPhonologicalCondition(
+  condition: PhonologicalCondition,
+  phoneme: Phoneme,
+  isPrefix: boolean,
+): boolean {
+  if (condition.position === 'preceding' && isPrefix) return false;
+  if (condition.position === 'following' && !isPrefix) return false;
+  if (condition.voiced !== undefined && phoneme.voiced !== condition.voiced) return false;
+  if (condition.manner && !condition.manner.includes(phoneme.mannerOfArticulation)) return false;
+  if (condition.place && !condition.place.includes(phoneme.placeOfArticulation)) return false;
+  return true;
+}
+
+// ---------------------------------------------------------------------------
+// Allomorph resolution
+// ---------------------------------------------------------------------------
+
 function resolveAllomorph(
   affix: Affix,
   phoneme: Phoneme | undefined,
@@ -57,15 +87,16 @@ function resolveAllomorph(
   const base = { phonemes: affix.phonemes, syllables: affix.syllables, syllableCount: affix.syllableCount, written: affix.written };
   if (!affix.allomorphs || !phoneme) return base;
 
-  // Sort by specificity: sibilant/alveolar-stop/before-bilabial before voiceless/voiced
+  // Sort by specificity: conditions with manner/place constraints before voiced-only
   const sorted = [...affix.allomorphs].sort((a, b) => {
-    const specificity = (c: string) =>
-      c === "after-sibilant" || c === "after-alveolar-stop" || c === "before-bilabial" ? 0 : 1;
-    return specificity(a.condition) - specificity(b.condition);
+    const specificity = (v: AllomorphVariant) => {
+      return (v.phonologicalCondition.manner || v.phonologicalCondition.place) ? 0 : 1;
+    };
+    return specificity(a) - specificity(b);
   });
 
   for (const variant of sorted) {
-    if (matchesCondition(variant.condition, phoneme, isPrefix)) {
+    if (matchesPhonologicalCondition(variant.phonologicalCondition, phoneme, isPrefix)) {
       return {
         phonemes: variant.phonemes,
         syllables: variant.syllables,
@@ -77,147 +108,8 @@ function resolveAllomorph(
   return base;
 }
 
-function matchesCondition(
-  condition: AllomorphVariant["condition"],
-  phoneme: Phoneme,
-  isPrefix: boolean,
-): boolean {
-  switch (condition) {
-    case "after-voiceless":
-      return !isPrefix && !phoneme.voiced;
-    case "after-voiced":
-      return !isPrefix && phoneme.voiced;
-    case "after-sibilant":
-      return !isPrefix && (phoneme.mannerOfArticulation === "sibilant" || phoneme.mannerOfArticulation === "affricate");
-    case "after-alveolar-stop":
-      return !isPrefix && phoneme.mannerOfArticulation === "stop" && phoneme.placeOfArticulation === "alveolar";
-    case "before-bilabial":
-      return isPrefix && phoneme.placeOfArticulation === "bilabial";
-    default:
-      return false;
-  }
-}
-
 // ---------------------------------------------------------------------------
-// Boundary rules
-// ---------------------------------------------------------------------------
-
-function applyBoundaryRules(rootWritten: string, affix: Affix): string {
-  if (!affix.boundaryRules) return rootWritten;
-  let result = rootWritten;
-
-  if (affix.boundaryRules.yToI && result.length >= 2) {
-    const last = result[result.length - 1];
-    const secondLast = result[result.length - 2];
-    if (last === "y" && !VOWELS.has(secondLast.toLowerCase())) {
-      result = result.slice(0, -1) + "i";
-    }
-  }
-
-  let droppedE = false;
-  if (affix.boundaryRules.dropSilentE && result.endsWith("e")) {
-    result = result.slice(0, -1);
-    droppedE = true;
-  }
-
-  if (affix.boundaryRules.doubleConsonant && !droppedE && result.length >= 2) {
-    const lastChar = result[result.length - 1].toLowerCase();
-    const secondLastChar = result[result.length - 2].toLowerCase();
-    if (
-      CONSONANTS_RE.test(lastChar) &&
-      !NEVER_DOUBLE.has(lastChar) &&
-      VOWELS.has(secondLastChar) &&
-      // Check single vowel preceded by non-vowel (or start of word)
-      (result.length < 3 || !VOWELS.has(result[result.length - 3].toLowerCase()))
-    ) {
-      result = result + lastChar;
-    }
-  }
-
-  return result;
-}
-
-// ---------------------------------------------------------------------------
-// Syllable construction from affix phonemes
-// ---------------------------------------------------------------------------
-
-function phonemeSoundsToSyllables(sounds: string[], inventory: Phoneme[]): Syllable[] {
-  if (sounds.length === 0) return [];
-
-  const phonemeMap = new Map<string, Phoneme>();
-  for (const p of inventory) {
-    phonemeMap.set(p.sound, p);
-  }
-
-  const resolved: Phoneme[] = sounds.map(s => {
-    const p = phonemeMap.get(s);
-    if (!p) {
-      // Create a minimal phoneme for unknown sounds
-      return {
-        sound: s, voiced: true,
-        mannerOfArticulation: "midVowel" as const,
-        placeOfArticulation: "central" as const,
-        startWord: 1, midWord: 1, endWord: 1,
-      };
-    }
-    return p;
-  });
-
-  function isVowel(p: Phoneme): boolean {
-    return ["highVowel", "midVowel", "lowVowel"].includes(p.mannerOfArticulation);
-  }
-
-  // Simple heuristic: split into syllables at vowel boundaries
-  const syllables: Syllable[] = [];
-  let onset: Phoneme[] = [];
-  let nucleus: Phoneme[] = [];
-  let coda: Phoneme[] = [];
-  let inNucleus = false;
-
-  for (const p of resolved) {
-    if (isVowel(p)) {
-      if (inNucleus && nucleus.length > 0) {
-        // New vowel after vowel — flush current syllable, start new one
-        syllables.push({ onset, nucleus, coda, stress: undefined });
-        onset = [];
-        nucleus = [p];
-        coda = [];
-      } else {
-        inNucleus = true;
-        nucleus.push(p);
-      }
-    } else {
-      if (inNucleus) {
-        // Consonant after vowel — goes to coda (may be re-assigned to next onset)
-        coda.push(p);
-      } else {
-        onset.push(p);
-      }
-    }
-  }
-
-  // Flush final syllable
-  if (nucleus.length > 0 || onset.length > 0 || coda.length > 0) {
-    syllables.push({ onset, nucleus, coda, stress: undefined });
-  }
-
-  // If no vowel found, put everything in one syllable
-  if (syllables.length === 0) {
-    syllables.push({ onset: resolved, nucleus: [], coda: [], stress: undefined });
-  }
-
-  // Maximal onset principle: move intervocalic consonants from coda to next onset
-  for (let i = 0; i < syllables.length - 1; i++) {
-    if (syllables[i].coda.length > 0 && syllables[i + 1].onset.length === 0) {
-      syllables[i + 1].onset.unshift(syllables[i].coda.pop()!);
-    }
-  }
-
-  return syllables;
-}
-
-// ---------------------------------------------------------------------------
-// AffixSyllable → Syllable conversion
+// AffixSyllable -> Syllable conversion
 // ---------------------------------------------------------------------------
 
 function affixSyllablesToSyllables(templates: AffixSyllable[], inventory: Phoneme[]): Syllable[] {
@@ -260,21 +152,19 @@ function adjustStress(
   if (stressEffect === "none" || affixSyllableIndices.length === 0) return;
 
   if (stressEffect === "primary") {
-    // Demote existing primary to secondary
     for (const syl of syllables) {
-      if (syl.stress === "ˈ") syl.stress = "ˌ";
+      if (syl.stress === "\u02C8") syl.stress = "\u02CC";
     }
-    syllables[affixSyllableIndices[0]].stress = "ˈ";
+    syllables[affixSyllableIndices[0]].stress = "\u02C8";
   } else if (stressEffect === "secondary") {
-    syllables[affixSyllableIndices[0]].stress = "ˌ";
+    syllables[affixSyllableIndices[0]].stress = "\u02CC";
   } else if (stressEffect === "attract-preceding" && !isPrefix) {
-    // The syllable immediately before the suffix gets primary stress
     const firstAffixIdx = affixSyllableIndices[0];
     if (firstAffixIdx > 0) {
       for (const syl of syllables) {
-        if (syl.stress === "ˈ") syl.stress = "ˌ";
+        if (syl.stress === "\u02C8") syl.stress = "\u02CC";
       }
-      syllables[firstAffixIdx - 1].stress = "ˈ";
+      syllables[firstAffixIdx - 1].stress = "\u02C8";
     }
   }
 }
@@ -283,10 +173,6 @@ function adjustStress(
 // Main API
 // ---------------------------------------------------------------------------
 
-/**
- * Apply a morphology plan to a generated root word.
- * Mutates `context.word` in place.
- */
 export function applyMorphology(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
@@ -298,7 +184,6 @@ export function applyMorphology(
   const syllables = context.word.syllables;
   let rootWritten = context.word.written.clean;
 
-  // Resolve allomorphs now that we have the root
   let prefixVariant: { phonemes: string[]; syllables?: AffixSyllable[]; syllableCount: number; written: string } | undefined;
   let suffixVariant: { phonemes: string[]; syllables?: AffixSyllable[]; syllableCount: number; written: string } | undefined;
 
@@ -312,41 +197,61 @@ export function applyMorphology(
     suffixVariant = resolveAllomorph(plan.suffix, lastPhoneme, false);
   }
 
-  // Apply boundary rules to root written form (suffix only)
-  if (plan.suffix && suffixVariant) {
-    rootWritten = applyBoundaryRules(rootWritten, plan.suffix);
+  // Apply boundary transforms to root written form (suffix only)
+  if (plan.suffix && suffixVariant && plan.suffix.boundaryTransforms) {
+    rootWritten = applyBoundaryTransforms(rootWritten, plan.suffix.boundaryTransforms);
   }
 
-  // Build written form
   const prefixWritten = prefixVariant?.written ?? "";
   const suffixWritten = suffixVariant?.written ?? "";
   const cleanForm = prefixWritten + rootWritten + suffixWritten;
 
-  // Build syllables from affixes (prefer explicit templates, fall back to heuristic)
   const inventory = config.phonemes;
+  const phonemeMap = new Map<string, Phoneme>();
+  for (const p of inventory) {
+    phonemeMap.set(p.sound, p);
+  }
+
+  function resolvePhoneme(sound: string): Phoneme {
+    return phonemeMap.get(sound) ?? {
+      sound, voiced: true,
+      mannerOfArticulation: "midVowel" as const,
+      placeOfArticulation: "central" as const,
+      startWord: 1, midWord: 1, endWord: 1,
+    };
+  }
+
   const prefixSyllables = prefixVariant
-    ? (prefixVariant.syllables !== undefined
+    ? (prefixVariant.syllables !== undefined && prefixVariant.syllables.length > 0
         ? affixSyllablesToSyllables(prefixVariant.syllables, inventory)
-        : phonemeSoundsToSyllables(prefixVariant.phonemes, inventory))
+        : [])
     : [];
   const suffixSyllables = suffixVariant
-    ? (suffixVariant.syllables !== undefined
+    ? (suffixVariant.syllables !== undefined && suffixVariant.syllables.length > 0
         ? affixSyllablesToSyllables(suffixVariant.syllables, inventory)
-        : phonemeSoundsToSyllables(suffixVariant.phonemes, inventory))
+        : [])
     : [];
 
-  // Handle zero-syllable affixes (e.g. -ed → /t/ or /d/): append to last syllable's coda
-  if (suffixVariant && suffixVariant.syllableCount === 0 && suffixSyllables.length > 0) {
+  // Handle zero-syllable affixes: append phonemes directly to root coda/onset
+  if (suffixVariant && suffixVariant.syllableCount === 0 && suffixSyllables.length === 0 && suffixVariant.phonemes.length > 0) {
     const lastSyl = syllables[syllables.length - 1];
-    // Flatten all phonemes from suffix syllables into coda
+    for (const s of suffixVariant.phonemes) {
+      lastSyl.coda.push(resolvePhoneme(s));
+    }
+  } else if (suffixVariant && suffixVariant.syllableCount === 0 && suffixSyllables.length > 0) {
+    const lastSyl = syllables[syllables.length - 1];
     for (const ss of suffixSyllables) {
       lastSyl.coda.push(...ss.onset, ...ss.nucleus, ...ss.coda);
     }
     suffixSyllables.length = 0;
   }
 
-  // Similarly for zero-syllable prefixes
-  if (prefixVariant && prefixVariant.syllableCount === 0 && prefixSyllables.length > 0) {
+  if (prefixVariant && prefixVariant.syllableCount === 0 && prefixSyllables.length === 0 && prefixVariant.phonemes.length > 0) {
+    const firstSyl = syllables[0];
+    for (const s of prefixVariant.phonemes) {
+      firstSyl.onset.unshift(resolvePhoneme(s));
+    }
+  } else if (prefixVariant && prefixVariant.syllableCount === 0 && prefixSyllables.length > 0) {
     const firstSyl = syllables[0];
     for (const ps of prefixSyllables) {
       firstSyl.onset.unshift(...ps.onset, ...ps.nucleus, ...ps.coda);
@@ -354,7 +259,6 @@ export function applyMorphology(
     prefixSyllables.length = 0;
   }
 
-  // Prepend/append affix syllables
   const prefixIndices: number[] = [];
   const suffixIndices: number[] = [];
 
@@ -366,7 +270,6 @@ export function applyMorphology(
     suffixIndices.push(prefixSyllables.length + syllables.length + i);
   }
 
-  // Adjust stress
   if (plan.prefix && prefixIndices.length > 0) {
     adjustStress(context.word.syllables, plan.prefix.stressEffect, prefixIndices, true);
   }
@@ -374,13 +277,10 @@ export function applyMorphology(
     adjustStress(context.word.syllables, plan.suffix.stressEffect, suffixIndices, false);
   }
 
-  // Regenerate pronunciation
   generatePronunciation(context, config.vowelReduction);
 
-  // Set written form
   context.word.written.clean = cleanForm;
 
-  // Build hyphenated form
   const parts: string[] = [];
   if (prefixWritten) parts.push(prefixWritten);
   parts.push(rootWritten);

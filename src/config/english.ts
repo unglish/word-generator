@@ -1,4 +1,17 @@
-import { Affix, AffixSyllable, LanguageConfig } from "./language.js";
+import { Affix, AffixSyllable, BoundaryTransform, LanguageConfig } from "./language.js";
+
+// ---------------------------------------------------------------------------
+// Shared boundary transforms
+// ---------------------------------------------------------------------------
+
+const Y_TO_I: BoundaryTransform = { name: 'y-to-i', match: /([^aeiou])y$/i, replace: '$1i' };
+const DROP_SILENT_E: BoundaryTransform = { name: 'drop-silent-e', match: /e$/i, replace: '' };
+const DOUBLE_CONSONANT: BoundaryTransform = { name: 'double-consonant', match: /([^aeiou])([aeiou])([bcdfghlmnprst])$/i, replace: '$1$2$3$3', blockedBy: ['drop-silent-e'] };
+
+const BT_E_DOUBLE: BoundaryTransform[] = [DROP_SILENT_E, DOUBLE_CONSONANT];
+const BT_Y: BoundaryTransform[] = [Y_TO_I];
+const BT_E: BoundaryTransform[] = [DROP_SILENT_E];
+const BT_ALL: BoundaryTransform[] = [Y_TO_I, DROP_SILENT_E, DOUBLE_CONSONANT];
 import {
   VOICED_BONUS,
   TENSE_BONUS,
@@ -377,38 +390,38 @@ export const englishConfig: LanguageConfig = {
       { type: 'prefix', written: 'over', phonemes: ["əʊ", "v", "ɚ"], syllables: [{ onset: [], nucleus: ["əʊ"], coda: [] }, { onset: ["v"], nucleus: ["ɚ"], coda: [] }], syllableCount: 2, stressEffect: 'primary', frequency: 20 },
       { type: 'prefix', written: 'out', phonemes: ["aʊ", "t"], syllables: [{ onset: [], nucleus: ["aʊ"], coda: ["t"] }], syllableCount: 1, stressEffect: 'primary', frequency: 20 },
       { type: 'prefix', written: 'mis', phonemes: ["m", "ɪ", "s"], syllables: [{ onset: ["m"], nucleus: ["ɪ"], coda: ["s"] }], syllableCount: 1, stressEffect: 'secondary', frequency: 30 },
-      { type: 'prefix', written: 'in', phonemes: ["ɪ", "n"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["n"] }], syllableCount: 1, stressEffect: 'secondary', frequency: 50, allomorphs: [{ condition: 'before-bilabial', phonemes: ["ɪ", "m"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["m"] }], syllableCount: 1, written: "im" }] },
+      { type: 'prefix', written: 'in', phonemes: ["ɪ", "n"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["n"] }], syllableCount: 1, stressEffect: 'secondary', frequency: 50, allomorphs: [{ phonologicalCondition: { position: 'following', place: ['bilabial'] }, phonemes: ["ɪ", "m"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["m"] }], syllableCount: 1, written: "im" }] },
     ] satisfies Affix[],
     suffixes: [
-      { type: 'suffix', written: 'ing', phonemes: ["ɪ", "ŋ"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }], syllableCount: 1, stressEffect: 'none', frequency: 100, boundaryRules: { dropSilentE: true, doubleConsonant: true } },
+      { type: 'suffix', written: 'ing', phonemes: ["ɪ", "ŋ"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }], syllableCount: 1, stressEffect: 'none', frequency: 100, boundaryTransforms: BT_E_DOUBLE },
       { type: 'suffix', written: 'tion', phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 80 },
-      { type: 'suffix', written: 'ly', phonemes: ["l", "i:"], syllables: [{ onset: ["l"], nucleus: ["i:"], coda: [] }], syllableCount: 1, stressEffect: 'none', frequency: 90, boundaryRules: { yToI: true } },
+      { type: 'suffix', written: 'ly', phonemes: ["l", "i:"], syllables: [{ onset: ["l"], nucleus: ["i:"], coda: [] }], syllableCount: 1, stressEffect: 'none', frequency: 90, boundaryTransforms: BT_Y },
       {
         type: 'suffix', written: 'ed', phonemes: ["d"], syllables: [], syllableCount: 0, stressEffect: 'none', frequency: 70,
-        boundaryRules: { dropSilentE: true, doubleConsonant: true },
+        boundaryTransforms: BT_E_DOUBLE,
         allomorphs: [
-          { condition: 'after-voiceless', phonemes: ["t"], syllables: [], syllableCount: 0 },
-          { condition: 'after-voiced', phonemes: ["d"], syllables: [], syllableCount: 0 },
-          { condition: 'after-alveolar-stop', phonemes: ["ɪ", "d"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["d"] }], syllableCount: 1, written: "ed" },
+          { phonologicalCondition: { position: 'preceding', voiced: false }, phonemes: ["t"], syllables: [], syllableCount: 0 },
+          { phonologicalCondition: { position: 'preceding', voiced: true }, phonemes: ["d"], syllables: [], syllableCount: 0 },
+          { phonologicalCondition: { position: 'preceding', manner: ['stop'], place: ['alveolar'] }, phonemes: ["ɪ", "d"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["d"] }], syllableCount: 1, written: "ed" },
         ],
       },
-      { type: 'suffix', written: 'ness', phonemes: ["n", "ə", "s"], syllables: [{ onset: ["n"], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: 'none', frequency: 60, boundaryRules: { yToI: true } },
-      { type: 'suffix', written: 'er', phonemes: ["ɚ"], syllables: [{ onset: [], nucleus: ["ɚ"], coda: [] }], syllableCount: 1, stressEffect: 'none', frequency: 70, boundaryRules: { dropSilentE: true, doubleConsonant: true } },
-      { type: 'suffix', written: 'est', phonemes: ["ɪ", "s", "t"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["s", "t"] }], syllableCount: 1, stressEffect: 'none', frequency: 40, boundaryRules: { dropSilentE: true, doubleConsonant: true } },
+      { type: 'suffix', written: 'ness', phonemes: ["n", "ə", "s"], syllables: [{ onset: ["n"], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: 'none', frequency: 60, boundaryTransforms: BT_Y },
+      { type: 'suffix', written: 'er', phonemes: ["ɚ"], syllables: [{ onset: [], nucleus: ["ɚ"], coda: [] }], syllableCount: 1, stressEffect: 'none', frequency: 70, boundaryTransforms: BT_E_DOUBLE },
+      { type: 'suffix', written: 'est', phonemes: ["ɪ", "s", "t"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["s", "t"] }], syllableCount: 1, stressEffect: 'none', frequency: 40, boundaryTransforms: BT_E_DOUBLE },
       { type: 'suffix', written: 'ment', phonemes: ["m", "ə", "n", "t"], syllables: [{ onset: ["m"], nucleus: ["ə"], coda: ["n", "t"] }], syllableCount: 1, stressEffect: 'none', frequency: 50 },
-      { type: 'suffix', written: 'able', phonemes: ["ə", "b", "ə", "l"], syllables: [{ onset: [], nucleus: ["ə"], coda: [] }, { onset: ["b"], nucleus: ["ə"], coda: ["l"] }], syllableCount: 2, stressEffect: 'none', frequency: 40, boundaryRules: { dropSilentE: true, doubleConsonant: true, yToI: true } },
-      { type: 'suffix', written: 'ful', phonemes: ["f", "ə", "l"], syllables: [{ onset: ["f"], nucleus: ["ə"], coda: ["l"] }], syllableCount: 1, stressEffect: 'none', frequency: 40, boundaryRules: { yToI: true } },
+      { type: 'suffix', written: 'able', phonemes: ["ə", "b", "ə", "l"], syllables: [{ onset: [], nucleus: ["ə"], coda: [] }, { onset: ["b"], nucleus: ["ə"], coda: ["l"] }], syllableCount: 2, stressEffect: 'none', frequency: 40, boundaryTransforms: BT_ALL },
+      { type: 'suffix', written: 'ful', phonemes: ["f", "ə", "l"], syllables: [{ onset: ["f"], nucleus: ["ə"], coda: ["l"] }], syllableCount: 1, stressEffect: 'none', frequency: 40, boundaryTransforms: BT_Y },
       { type: 'suffix', written: 'less', phonemes: ["l", "ə", "s"], syllables: [{ onset: ["l"], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: 'none', frequency: 40 },
-      { type: 'suffix', written: 'ous', phonemes: ["ə", "s"], syllables: [{ onset: [], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryRules: { dropSilentE: true } },
-      { type: 'suffix', written: 'ive', phonemes: ["ɪ", "v"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["v"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryRules: { dropSilentE: true } },
-      { type: 'suffix', written: 'al', phonemes: ["ə", "l"], syllables: [{ onset: [], nucleus: ["ə"], coda: ["l"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryRules: { dropSilentE: true } },
-      { type: 'suffix', written: 'ity', phonemes: ["ɪ", "t", "i:"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: [] }, { onset: ["t"], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 50, boundaryRules: { dropSilentE: true } },
+      { type: 'suffix', written: 'ous', phonemes: ["ə", "s"], syllables: [{ onset: [], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryTransforms: BT_E },
+      { type: 'suffix', written: 'ive', phonemes: ["ɪ", "v"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["v"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryTransforms: BT_E },
+      { type: 'suffix', written: 'al', phonemes: ["ə", "l"], syllables: [{ onset: [], nucleus: ["ə"], coda: ["l"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 30, boundaryTransforms: BT_E },
+      { type: 'suffix', written: 'ity', phonemes: ["ɪ", "t", "i:"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: [] }, { onset: ["t"], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 50, boundaryTransforms: BT_E },
       {
         type: 'suffix', written: 's', phonemes: ["z"], syllables: [], syllableCount: 0, stressEffect: 'none', frequency: 100,
         allomorphs: [
-          { condition: 'after-voiceless', phonemes: ["s"], syllables: [], syllableCount: 0 },
-          { condition: 'after-voiced', phonemes: ["z"], syllables: [], syllableCount: 0 },
-          { condition: 'after-sibilant', phonemes: ["ɪ", "z"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }], syllableCount: 1, written: "es" },
+          { phonologicalCondition: { position: 'preceding', voiced: false }, phonemes: ["s"], syllables: [], syllableCount: 0 },
+          { phonologicalCondition: { position: 'preceding', voiced: true }, phonemes: ["z"], syllables: [], syllableCount: 0 },
+          { phonologicalCondition: { position: 'preceding', manner: ['sibilant', 'affricate'] }, phonemes: ["ɪ", "z"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }], syllableCount: 1, written: "es" },
         ],
       },
     ] satisfies Affix[],

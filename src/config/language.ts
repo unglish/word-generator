@@ -506,10 +506,34 @@ export interface AffixSyllable {
   coda: string[];    // phoneme sounds
 }
 
+/** Orthographic transform applied at affix\u2194root junctions. */
+export interface BoundaryTransform {
+  /** Human-readable name for this rule. */
+  name: string;
+  /** Regex to test against the root's written form (for suffixes) or reversed form (for prefixes). */
+  match: RegExp;
+  /** Replacement string (passed to String.replace). */
+  replace: string;
+  /** Names of other transforms that, if they fired, block this one. */
+  blockedBy?: string[];
+}
+
+/** Phonological condition for allomorph selection. */
+export interface PhonologicalCondition {
+  /** Which phoneme to test: the one adjacent to the affix boundary. */
+  position: 'preceding' | 'following';
+  /** If set, phoneme.voiced must match this value. */
+  voiced?: boolean;
+  /** If set, phoneme.mannerOfArticulation must be one of these. */
+  manner?: string[];
+  /** If set, phoneme.placeOfArticulation must be one of these. */
+  place?: string[];
+}
+
 /** A single allomorphic variant of an affix. */
 export interface AllomorphVariant {
-  /** Condition that selects this variant based on the root's final segment. */
-  condition: 'after-voiceless' | 'after-voiced' | 'after-sibilant' | 'after-alveolar-stop' | 'before-bilabial';
+  /** Config-driven phonological condition. */
+  phonologicalCondition: PhonologicalCondition;
   /** Phoneme sequence for this variant. */
   phonemes: string[];
   /** Explicit syllable structure for this variant. */
@@ -536,12 +560,8 @@ export interface Affix {
   stressEffect: 'none' | 'attract-preceding' | 'primary' | 'secondary';
   /** Relative frequency weight for selection. */
   frequency: number;
-  /** Boundary rules when attaching to a root. */
-  boundaryRules?: {
-    dropSilentE?: boolean;
-    doubleConsonant?: boolean;
-    yToI?: boolean;
-  };
+  /** Config-driven boundary transforms applied at affix\u2194root junctions. */
+  boundaryTransforms?: BoundaryTransform[];
   /** Allomorphic variants selected by root-final context. If present, overrides base phonemes/syllableCount. */
   allomorphs?: AllomorphVariant[];
 }
