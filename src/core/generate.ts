@@ -388,6 +388,19 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
     maxLength,
   });
 
+  // Extend word-final singleton nasal codas with their voiced homorganic stop
+  const nasalExt = probability.nasalStopExtension ?? 0;
+  if (isEndOfWord && nasalExt > 0 && coda.length === 1 &&
+      coda[0].mannerOfArticulation === "nasal" &&
+      getWeightedOption([[true, nasalExt], [false, 100 - nasalExt]], rand)) {
+    const nasalSound = coda[0].sound;
+    const stopSound = nasalSound === "n" ? "d" : nasalSound === "m" ? "b" : nasalSound === "ŋ" ? "g" : null;
+    if (stopSound) {
+      const stopPhoneme = rt.config.phonemes.find(p => p.sound === stopSound);
+      if (stopPhoneme) coda.push(stopPhoneme);
+    }
+  }
+
   // Add 's' to the end of the last syllable occasionally
   if (isEndOfWord && getWeightedOption([[true, probability.finalS], [false, 100 - probability.finalS]], rand)) {
     const sPhoneme = rt.config.phonemes.find(p => p.sound === 's');
