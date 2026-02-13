@@ -889,6 +889,76 @@ describe('silent-e integration', () => {
     expect(parts[0]).toBe('gym');
   });
 
+  // -----------------------------------------------------------------------
+  // Consonant doubling: Issue #14
+  // -----------------------------------------------------------------------
+
+  it('produces "ck" (not "kk") when k doubles after lax vowel', () => {
+    const gen = createGenerator(englishConfig);
+    let ckCount = 0;
+    let kkCount = 0;
+    const total = 10000;
+
+    for (let i = 0; i < total; i++) {
+      const word = gen.generateWord({ seed: i });
+      const clean = word.written.clean.toLowerCase();
+      if (clean.includes('ck')) ckCount++;
+      if (clean.includes('kk')) kkCount++;
+    }
+
+    console.log(`  ck occurrences: ${ckCount}/${total}, kk occurrences: ${kkCount}/${total}`);
+    expect(kkCount).toBe(0);
+    expect(ckCount).toBeGreaterThan(0);
+  });
+
+  it('never doubles consonants in unstressed syllables (modifier = 0)', () => {
+    expect(englishConfig.doubling?.unstressedModifier).toBe(0);
+  });
+
+  it('never doubles b, d, g word-finally via doubling system', () => {
+    // Note: a few "gg" endings may appear from the dʒ→"gg" grapheme (not from doubling).
+    // We check that b and d never produce doubled forms word-finally,
+    // and that gg is very rare (only from the grapheme, not doubling).
+    const gen = createGenerator(englishConfig);
+    let finalBB = 0;
+    let finalDD = 0;
+    let finalGG = 0;
+    const total = 10000;
+
+    for (let i = 0; i < total; i++) {
+      const word = gen.generateWord({ seed: i });
+      const clean = word.written.clean.toLowerCase();
+      if (clean.endsWith('bb')) finalBB++;
+      if (clean.endsWith('dd')) finalDD++;
+      if (clean.endsWith('gg')) finalGG++;
+    }
+
+    console.log(`  Word-final bb: ${finalBB}, dd: ${finalDD}, gg: ${finalGG}`);
+    expect(finalBB).toBe(0);
+    expect(finalDD).toBe(0);
+    // gg may appear from dʒ→"gg" grapheme (endWord:0, but fallback selection);
+    // neverDoubleFinal prevents doubling-sourced gg. Allow up to 10 from grapheme.
+    expect(finalGG).toBeLessThan(10);
+  });
+
+  it('ck counts toward maxPerWord doubling limit', () => {
+    const gen = createGenerator(englishConfig);
+    let violations = 0;
+    const total = 10000;
+    const doublePattern = /([bcdfglmnprst])\1/;
+
+    for (let i = 0; i < total; i++) {
+      const word = gen.generateWord({ seed: i });
+      const clean = word.written.clean.toLowerCase();
+      if (clean.includes('ck') && doublePattern.test(clean)) {
+        violations++;
+      }
+    }
+
+    console.log(`  Words with both ck and another double: ${violations}/${total}`);
+    expect(violations).toBe(0);
+  });
+
   it('very few words end in bare "v" in 10k generated words', () => {
     const gen = createGenerator(englishConfig);
     let bareV = 0;

@@ -152,11 +152,13 @@ export const englishConfig: LanguageConfig = {
     trigger: "lax-vowel",
     probability: 80,
     maxPerWord: 1,
-    neverDouble: ["v", "w", "x", "y", "q", "j", "dʒ", "h", "ŋ", "θ", "ð", "ʒ", "k"],
+    neverDouble: ["v", "w", "x", "y", "q", "j", "dʒ", "h", "ŋ", "θ", "ð", "ʒ"],
     finalDoublingOnly: ["f", "s", "l", "z"],
     suppressAfterReduction: true,
     suppressBeforeTense: true,
-    unstressedModifier: 0.5,
+    unstressedModifier: 0,
+    doubledForms: { k: 'ck' },
+    neverDoubleFinal: ['b', 'd', 'g'],
   },
 
   silentE: {
