@@ -7,6 +7,7 @@ import { applyStress, generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
+import { planMorphology, applyMorphology } from "./morphology.js";
 import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------
@@ -583,8 +584,21 @@ function generateOneWord(
   rand: RNG,
   mode: GenerationMode,
   syllableCount: number,
+  applyMorph: boolean = false,
 ): Word {
+  // Plan morphology before generating root (to adjust syllable count)
+  const morphConfig = rt.config.morphology;
+  const morphPlan = morphConfig?.enabled && applyMorph
+    ? planMorphology(morphConfig, mode, rand)
+    : undefined;
+
   for (let attempt = 0; attempt <= MAX_LENGTH_RETRIES; attempt++) {
+    // Adjust syllable count for affix syllables
+    let rootSyllableCount = syllableCount;
+    if (morphPlan && morphPlan.syllableReduction > 0 && rootSyllableCount > 0) {
+      rootSyllableCount = Math.max(1, rootSyllableCount - morphPlan.syllableReduction);
+    }
+
     const context: WordGenerationContext = {
       rand,
       word: {
@@ -592,10 +606,16 @@ function generateOneWord(
         pronunciation: '',
         written: { clean: '', hyphenated: '' },
       },
-      syllableCount,
+      syllableCount: rootSyllableCount,
       currSyllableIndex: 0,
     };
     runPipeline(rt, context, mode);
+
+    // Apply morphology after pipeline produces the bare root
+    if (morphPlan) {
+      applyMorphology(rt, context, morphPlan.plan);
+    }
+
     if (attempt === MAX_LENGTH_RETRIES || acceptLetterLength(rt, context)) {
       return context.word;
     }
@@ -657,7 +677,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 
   return {
     generateWord: (options: WordGenerationOptions = {}): Word => {
-      return generateOneWord(rt, resolveRng(options), options.mode ?? "text", options.syllableCount || 0);
+      return generateOneWord(rt, resolveRng(options), options.mode ?? "text", options.syllableCount || 0, options.morphology ?? false);
     },
   };
 }
@@ -678,7 +698,7 @@ const defaultRuntime = buildRuntime(englishConfig);
  * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
-  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "text", options.syllableCount || 0);
+  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "text", options.syllableCount || 0, options.morphology ?? false);
 };
 
 /**
@@ -706,7 +726,7 @@ export const generateWords = (count: number, options: WordGenerationOptions = {}
   const syllableCount = options.syllableCount || 0;
   const results: Word[] = [];
   for (let i = 0; i < count; i++) {
-    results.push(generateOneWord(defaultRuntime, rand, mode, syllableCount));
+    results.push(generateOneWord(defaultRuntime, rand, mode, syllableCount, options.morphology ?? false));
   }
   return results;
 };
