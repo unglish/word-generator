@@ -82,7 +82,7 @@ function buildCategorySets(phonemes: Phoneme[]): Map<string, Set<string>> {
       if (p.placeOfArticulation === "front") categories.get("front-vowel")!.add(p.sound);
       if (p.placeOfArticulation === "back") categories.get("back-vowel")!.add(p.sound);
       // Vowels that cause c-softening (written as e/i): i:, ɪ, e, ɛ, eɪ, ɪə, eə
-      const cSoftSounds = new Set(["i:", "ɪ", "e", "ɛ", "eɪ", "ɪə", "eə"]);
+      const cSoftSounds = new Set(["i:", "ɪ", "e", "ɛ", "eɪ", "ɪə", "eə", "aɪ", "ə"]);
       if (cSoftSounds.has(p.sound)) categories.get("c-soft-vowel")!.add(p.sound);
     } else {
       categories.get("consonant")!.add(p.sound);
@@ -1141,12 +1141,12 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const isEndOfWord = syllableIndex === syllables.length - 1;
 
       // Pipeline
+      const isLastPhoneme = phonemeIndex === flattenedPhonemes.length - 1;
       const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
       const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord);
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
       const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord);
       if (position === "nucleus") currentNucleusForm = selected.form;
-      const isLastPhoneme = phonemeIndex === flattenedPhonemes.length - 1;
       const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand);
 
       if (currentSyllable.length > 0 && form.length > 0 &&
