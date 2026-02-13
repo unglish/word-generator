@@ -313,7 +313,6 @@ function applyDoubling(
   position: "onset" | "nucleus" | "coda",
   isCluster: boolean,
   isEndOfWord: boolean,
-  isLastPhoneme: boolean,
   syllableStress: string | undefined,
   prevReduced: boolean,
   neverDoubleSet: Set<string>,
@@ -332,9 +331,6 @@ function applyDoubling(
     const isLax = prevPhoneme.tense === false;
     if (!isAfterVowel || !isLax) return form;
   }
-
-  // neverDoubleFinal — suppress word-final doubling for specific sounds
-  if (isEndOfWord && isLastPhoneme && config.neverDoubleFinal?.includes(currPhoneme.sound)) return form;
 
   // neverDouble — check both phoneme sound and grapheme form
   if (neverDoubleSet.has(currPhoneme.sound)) return form;
@@ -364,9 +360,7 @@ function applyDoubling(
   const shouldDouble = getWeightedOption([[true, prob], [false, 100 - prob]], rand);
   if (shouldDouble) {
     doublingCtx.doublingCount++;
-    // Use custom doubled form if configured (e.g. k → ck), otherwise repeat
-    const doubled = config.doubledForms?.[form] ?? (form + form);
-    return doubled;
+    return form + form;
   }
   return form;
 }
@@ -1146,8 +1140,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
       const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord);
       if (position === "nucleus") currentNucleusForm = selected.form;
-      const isLastPhoneme = phonemeIndex === flattenedPhonemes.length - 1;
-      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand);
+      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, stress, prevReduced, neverDoubleSet, rand);
 
       if (currentSyllable.length > 0 && form.length > 0 &&
           currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]) {
