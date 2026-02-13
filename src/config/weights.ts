@@ -106,6 +106,16 @@ export const FINAL_S_CHANCE = 15;
 export const BOUNDARY_DROP_CHANCE = 90;
 
 // ---------------------------------------------------------------------------
+// Nasal + homorganic stop extension
+// ---------------------------------------------------------------------------
+
+/**
+ * Chance (out of 100) that a word-final singleton nasal coda is extended
+ * with its voiced homorganic stop (n → nd, m → mb, ŋ → ŋg).
+ */
+export const NASAL_STOP_EXTENSION_CHANCE = 24;
+
+// ---------------------------------------------------------------------------
 // Onset / coda presence probabilities
 // ---------------------------------------------------------------------------
 

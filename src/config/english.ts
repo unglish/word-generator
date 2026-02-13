@@ -29,6 +29,7 @@ import {
   CODA_LENGTH_POLYSYLLABIC_NONZERO,
   FINAL_S_CHANCE,
   BOUNDARY_DROP_CHANCE,
+  NASAL_STOP_EXTENSION_CHANCE,
   HAS_ONSET_START_OF_WORD,
   HAS_ONSET_AFTER_CODA,
   HAS_CODA_MONOSYLLABIC,
@@ -127,6 +128,7 @@ export const englishConfig: LanguageConfig = {
       hasCodaMidWord: HAS_CODA_MID_WORD,
       finalS: FINAL_S_CHANCE,
       boundaryDrop: BOUNDARY_DROP_CHANCE,
+      nasalStopExtension: NASAL_STOP_EXTENSION_CHANCE,
     },
   },
 

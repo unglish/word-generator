@@ -157,6 +157,11 @@ export interface GenerationWeights {
     finalS: number;
     /** Chance to drop a coda phoneme at a syllable boundary with equal sonority. */
     boundaryDrop: number;
+    /**
+     * Chance (0–100) to extend a word-final singleton nasal coda with its
+     * voiced homorganic stop (n→nd, m→mb, ŋ→ŋg).  Default: 0 (disabled).
+     */
+    nasalStopExtension?: number;
   };
 }
 
