@@ -245,6 +245,12 @@ export interface WordGenerationOptions {
    * - `"lexicon"` — balanced distribution, mimics a dictionary.
    */
   mode?: GenerationMode;
+  /**
+   * Whether to apply morphological affixation (prefixes/suffixes) to the
+   * generated root word. Requires `morphology.enabled` in the language config.
+   * Defaults to `false`.
+   */
+  morphology?: boolean;
 }
 
 /**
