@@ -187,6 +187,38 @@ function repairHomorganicNasalStop(coda: Phoneme[]): void {
  * - /θ/ — monomorphemic (length, strength)
  * - /t/, /d/ — morphologically valid (thanked, longed)
  */
+// ---------------------------------------------------------------------------
+// /h/ after back vowels — phonotactic constraint
+// ---------------------------------------------------------------------------
+
+const BACK_VOWEL_NUCLEI = new Set(["ʌ", "ʊ"]);
+
+/**
+ * Penalize /h/ onset after /ʌ/ or /ʊ/ nucleus with empty coda.
+ * In English this pattern only occurs at morpheme boundaries (un-happy).
+ * We drop the /h/ onset, leaving the next syllable onsetless.
+ */
+export function repairHAfterBackVowel(syllables: Syllable[]): void {
+  for (let i = 0; i < syllables.length - 1; i++) {
+    const curr = syllables[i];
+    const next = syllables[i + 1];
+
+    if (
+      curr.coda.length === 0 &&
+      curr.nucleus.length > 0 &&
+      BACK_VOWEL_NUCLEI.has(curr.nucleus[curr.nucleus.length - 1].sound) &&
+      next.onset.length === 1 &&
+      next.onset[0].sound === "h"
+    ) {
+      next.onset.splice(0, 1);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// /ŋ/ + sibilant repair
+// ---------------------------------------------------------------------------
+
 const NG_SIBILANTS = new Set(["s", "z"]);
 
 export function repairNgCodaSibilant(syllables: Syllable[]): void {
