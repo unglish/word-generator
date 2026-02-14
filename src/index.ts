@@ -8,6 +8,8 @@ export type { GenerationMode } from "./types.js";
 export { LanguageConfig, BySyllablePosition, SonorityHierarchy, SyllableStructureRules, StressRules, GenerationWeights, validateConfig } from "./config/language.js";
 export { englishConfig } from "./config/english.js";
 export { RNG, createSeededRng, createDefaultRng } from "./utils/random.js";
+export type { WordTrace, StageSnapshot, SyllableSnapshot, GraphemeTrace, DoublingTrace, RepairTrace, MorphologyTrace, StructuralTrace } from "./core/trace.js";
+export { TraceCollector } from "./core/trace.js";
 
 /**
  * The word-generator public API.

@@ -31,8 +31,10 @@ export function repairStressedNuclei(
     const nucleus = syllable.nucleus[0];
     if (!nucleus || !banSet.has(nucleus.sound)) continue;
 
+    const before = nucleus.sound;
     // Re-pick from filtered pool
     syllable.nucleus[0] = getWeightedOption(weightedAllowed, context.rand);
+    context.trace?.recordRepair('repairStressedNuclei', before, syllable.nucleus[0].sound, `replaced banned stressed nucleus /${before}/`);
   }
 
   // Future: unstressedNucleusBoost — config is read but no behaviour change yet

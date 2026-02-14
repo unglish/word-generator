@@ -1,4 +1,6 @@
 import { RNG, RandomFunction } from "./utils/random";
+import type { WordTrace } from "./core/trace";
+import type { TraceCollector } from "./core/trace";
 
 /**
  * Generation mode controlling syllable-count distribution and letter-length targeting.
@@ -198,6 +200,8 @@ export interface Word {
   pronunciation: string;
   /** Written (spelled) forms of the word. */
   written: WrittenForm;
+  /** Generation trace (only present when `trace: true` was passed). */
+  trace?: WordTrace;
 }
 
 /**
@@ -251,6 +255,11 @@ export interface WordGenerationOptions {
    * Defaults to `false`.
    */
   morphology?: boolean;
+  /**
+   * When `true`, attaches a detailed generation trace to `word.trace`.
+   * Purely observational — does not affect generation behavior.
+   */
+  trace?: boolean;
 }
 
 /**
@@ -266,6 +275,8 @@ export interface WordGenerationContext {
   syllableCount: number;
   /** Index of the syllable currently being generated. */
   currSyllableIndex: number;
+  /** Trace collector (only present when tracing is enabled). */
+  trace?: TraceCollector;
 }
 
 /**

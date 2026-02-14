@@ -5,6 +5,7 @@
  */
 import { Phoneme, Syllable } from "../types.js";
 import type { ClusterLimits, SonorityConstraints, CodaConstraints } from "../config/language.js";
+import type { TraceCollector } from "./trace.js";
 
 /**
  * Repair cross-syllable consonant cluster violations.
@@ -14,6 +15,7 @@ export function repairClusters(
   syllables: Syllable[],
   bannedSet: Set<string>,
   repair: "drop-coda" | "drop-onset",
+  trace?: TraceCollector,
 ): void {
 
   for (let i = 0; i < syllables.length - 1; i++) {
@@ -22,11 +24,20 @@ export function repairClusters(
 
     if (coda.length === 0 || onset.length === 0) continue;
 
+    const codaBefore = trace ? coda.map(p => p.sound).join(',') : '';
+    const onsetBefore = trace ? onset.map(p => p.sound).join(',') : '';
+
     // Drop phonemes until the boundary is legal (or one side is empty)
     while (coda.length > 0 && onset.length > 0 &&
            bannedSet.has(`${coda[coda.length - 1].sound}|${onset[0].sound}`)) {
       if (repair === "drop-coda") coda.pop();
       else onset.shift();
+    }
+
+    if (trace) {
+      const codaAfter = coda.map(p => p.sound).join(',');
+      const onsetAfter = onset.map(p => p.sound).join(',');
+      trace.recordRepair('repairClusters', `${codaBefore}|${onsetBefore}`, `${codaAfter}|${onsetAfter}`, `boundary ${i}→${i+1}, strategy: ${repair}`);
     }
   }
 }
@@ -38,6 +49,7 @@ export function repairClusters(
 export function repairFinalCoda(
   syllables: Syllable[],
   allowedFinalSet: Set<string>,
+  trace?: TraceCollector,
 ): void {
   if (syllables.length === 0) return;
 
@@ -46,9 +58,15 @@ export function repairFinalCoda(
 
   if (coda.length === 0) return;
 
+  const before = trace ? coda.map(p => p.sound).join(',') : '';
+
   // Keep dropping disallowed final phonemes
   while (coda.length > 0 && !allowedFinalSet.has(coda[coda.length - 1].sound)) {
     coda.pop();
+  }
+
+  if (trace) {
+    trace.recordRepair('repairFinalCoda', before, coda.map(p => p.sound).join(','), 'dropped disallowed final phonemes');
   }
 }
 
@@ -109,11 +127,16 @@ export interface ClusterShapeOptions {
 export function repairClusterShape(
   syllables: Syllable[],
   opts: ClusterShapeOptions,
+  trace?: TraceCollector,
 ): void {
-  for (const syl of syllables) {
+  for (let si = 0; si < syllables.length; si++) {
+    const syl = syllables[si];
+
     // --- Truncate over-long onsets ---
     if (opts.clusterLimits && syl.onset.length > opts.clusterLimits.maxOnset) {
+      const before = trace ? syl.onset.map(p => p.sound).join(',') : '';
       syl.onset.splice(0, syl.onset.length - opts.clusterLimits.maxOnset);
+      if (trace) trace.recordRepair('repairClusterShape:onsetTruncate', before, syl.onset.map(p => p.sound).join(','), `syl ${si}`);
     }
 
     // --- Truncate over-long codas ---
@@ -123,21 +146,27 @@ export function repairClusterShape(
       const effectiveMax = opts.codaAppendantSet?.has(lastSound)
         ? cl.maxCoda + 1
         : cl.maxCoda;
-      while (syl.coda.length > effectiveMax) {
-        // Remove from the beginning (least sonorous edge) to preserve the more
-        // important final consonants
-        syl.coda.shift();
+      if (syl.coda.length > effectiveMax) {
+        const before = trace ? syl.coda.map(p => p.sound).join(',') : '';
+        while (syl.coda.length > effectiveMax) {
+          syl.coda.shift();
+        }
+        if (trace) trace.recordRepair('repairClusterShape:codaTruncate', before, syl.coda.map(p => p.sound).join(','), `syl ${si}`);
       }
     }
 
     // --- Voicing agreement among coda obstruents ---
     if (opts.codaConstraints?.voicingAgreement && syl.coda.length >= 2) {
+      const before = trace ? syl.coda.map(p => p.sound).join(',') : '';
       repairVoicingAgreement(syl.coda);
+      if (trace) trace.recordRepair('repairClusterShape:voicingAgreement', before, syl.coda.map(p => p.sound).join(','), `syl ${si}`);
     }
 
     // --- Homorganic nasal+stop ---
     if (opts.codaConstraints?.homorganicNasalStop && syl.coda.length >= 2) {
+      const before = trace ? syl.coda.map(p => p.sound).join(',') : '';
       repairHomorganicNasalStop(syl.coda);
+      if (trace) trace.recordRepair('repairClusterShape:homorganicNasalStop', before, syl.coda.map(p => p.sound).join(','), `syl ${si}`);
     }
   }
 }
@@ -198,7 +227,7 @@ const BACK_VOWEL_NUCLEI = new Set(["ʌ", "ʊ"]);
  * In English this pattern only occurs at morpheme boundaries (un-happy).
  * We drop the /h/ onset, leaving the next syllable onsetless.
  */
-export function repairHAfterBackVowel(syllables: Syllable[]): void {
+export function repairHAfterBackVowel(syllables: Syllable[], trace?: TraceCollector): void {
   for (let i = 0; i < syllables.length - 1; i++) {
     const curr = syllables[i];
     const next = syllables[i + 1];
@@ -211,6 +240,7 @@ export function repairHAfterBackVowel(syllables: Syllable[]): void {
       next.onset[0].sound === "h"
     ) {
       next.onset.splice(0, 1);
+      trace?.recordRepair('repairHAfterBackVowel', 'h', '', `dropped /h/ onset after /${curr.nucleus[curr.nucleus.length - 1].sound}/ at syl ${i}→${i+1}`);
     }
   }
 }
@@ -221,7 +251,7 @@ export function repairHAfterBackVowel(syllables: Syllable[]): void {
 
 const NG_SIBILANTS = new Set(["s", "z"]);
 
-export function repairNgCodaSibilant(syllables: Syllable[]): void {
+export function repairNgCodaSibilant(syllables: Syllable[], trace?: TraceCollector): void {
   for (const syl of syllables) {
     const coda = syl.coda;
     if (coda.length < 2) continue;
@@ -233,11 +263,15 @@ export function repairNgCodaSibilant(syllables: Syllable[]): void {
     }
     if (ngIdx < 0) continue;
 
+    const before = trace ? coda.map(p => p.sound).join(',') : '';
+
     // Splice backwards to avoid index shifting
     for (let i = coda.length - 1; i > ngIdx; i--) {
       if (NG_SIBILANTS.has(coda[i].sound)) {
         coda.splice(i, 1);
       }
     }
+
+    if (trace) trace.recordRepair('repairNgCodaSibilant', before, coda.map(p => p.sound).join(','), 'stripped sibilant after /ŋ/');
   }
 }
