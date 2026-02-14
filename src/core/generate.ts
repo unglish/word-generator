@@ -407,7 +407,10 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
     const stopSound = nasalSound === "n" ? "d" : nasalSound === "m" ? "b" : nasalSound === "ŋ" ? "g" : null;
     if (stopSound) {
       const stopPhoneme = rt.config.phonemes.find(p => p.sound === stopSound);
-      if (stopPhoneme) coda.push(stopPhoneme);
+      if (stopPhoneme) {
+        coda.push(stopPhoneme);
+        context.trace?.recordStructural('nasalStopExtension', `extended /${nasalSound}/ with /${stopSound}/ (prob ${nasalExt}%)`);
+      }
     }
   }
 
@@ -416,6 +419,7 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
     const sPhoneme = rt.config.phonemes.find(p => p.sound === 's');
     if (sPhoneme) {
       coda.push(sPhoneme);
+      context.trace?.recordStructural('finalS', `appended /s/ to final coda (prob ${probability.finalS}%)`);
     }
   }
 
@@ -430,7 +434,7 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
  * Adjusts two adjacent syllables based on sonority and phonological rules.
  * If the sonorities are equal there's a 90% chance to drop the coda phoneme.
  */
-function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyllable: Syllable, rand: RNG): [Syllable, Syllable] {
+function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyllable: Syllable, rand: RNG, trace?: TraceCollector): [Syllable, Syllable] {
   const lastCodaPhoneme = prevSyllable.coda.at(-1);
   const firstOnsetPhoneme = currentSyllable.onset[0];
 
@@ -440,6 +444,7 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
   const firstOnsetSonority = getSonority(rt, firstOnsetPhoneme);
   const { boundaryDrop } = rt.config.generationWeights.probability;
   if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, boundaryDrop], [false, 100 - boundaryDrop]], rand)) {
+    trace?.recordStructural('boundaryDrop', `dropped coda /${lastCodaPhoneme.sound}/ before onset /${firstOnsetPhoneme.sound}/ (equal sonority ${lastCodaSonority}, prob ${boundaryDrop}%)`);
     prevSyllable.coda.pop();
   }
 
@@ -521,7 +526,7 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
     let newSyllable = generateSyllable(rt, context);
 
     if (prevSyllable) {
-      [prevSyllable, newSyllable] = adjustBoundary(rt, prevSyllable, newSyllable, context.rand);
+      [prevSyllable, newSyllable] = adjustBoundary(rt, prevSyllable, newSyllable, context.rand, context.trace);
     }
 
     context.word.syllables[i] = newSyllable;
@@ -663,6 +668,14 @@ function generateOneWord(
     }
 
     const traceCollector = enableTrace ? new TraceCollector() : undefined;
+    if (traceCollector && morphPlan) {
+      traceCollector.morphologyTrace = {
+        template: morphPlan.plan.template,
+        prefix: morphPlan.plan.prefix?.written,
+        suffix: morphPlan.plan.suffix?.written,
+        syllableReduction: morphPlan.syllableReduction,
+      };
+    }
     const context: WordGenerationContext = {
       rand,
       word: {

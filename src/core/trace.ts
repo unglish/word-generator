@@ -49,11 +49,28 @@ export interface RepairTrace {
   detail?: string;
 }
 
+export interface MorphologyTrace {
+  template: string;
+  prefix?: string;
+  suffix?: string;
+  syllableReduction: number;
+}
+
+export interface StructuralTrace {
+  /** Which phoneme was dropped and why. */
+  event: string;
+  detail: string;
+}
+
 export interface WordTrace {
   /** Target syllable count chosen for this word. */
   syllableCount: number;
   /** How many letter-length rejection attempts before acceptance (0 = first try). */
   attempts: number;
+  /** Morphology plan details (only when morphology was applied). */
+  morphology?: MorphologyTrace;
+  /** Structural decisions during syllable generation (boundary adjustments, extensions). */
+  structural: StructuralTrace[];
   stages: StageSnapshot[];
   graphemeSelections: GraphemeTrace[];
   repairs: RepairTrace[];
@@ -72,6 +89,8 @@ export class TraceCollector {
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
   repairs: RepairTrace[] = [];
+  structural: StructuralTrace[] = [];
+  morphologyTrace?: MorphologyTrace;
   private currentBefore: Map<string, SyllableSnapshot[]> = new Map();
 
   beforeStage(name: string, syllables: Syllable[]): void {
@@ -88,6 +107,10 @@ export class TraceCollector {
     this.graphemeSelections.push(entry);
   }
 
+  recordStructural(event: string, detail: string): void {
+    this.structural.push({ event, detail });
+  }
+
   recordRepair(rule: string, before: string, after: string, detail?: string): void {
     if (before !== after) {
       this.repairs.push({ rule, before, after, detail });
@@ -101,6 +124,8 @@ export class TraceCollector {
     return {
       syllableCount: this.syllableCount,
       attempts: this.attempts,
+      morphology: this.morphologyTrace,
+      structural: this.structural,
       stages: this.stages,
       graphemeSelections: this.graphemeSelections,
       repairs: this.repairs,

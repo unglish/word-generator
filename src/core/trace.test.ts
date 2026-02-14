@@ -79,4 +79,75 @@ describe("trace pipeline", () => {
     const t = word.trace!;
     expect(t.summary.repairCount).toBe(t.repairs.length);
   });
+
+  it("traces morphology plan details when morphology is enabled", () => {
+    let found = false;
+    for (let s = 0; s < 200; s++) {
+      const w = generateWord({ seed: s, morphology: true, trace: true });
+      if (w.trace!.morphology && w.trace!.morphology.template !== "bare") {
+        const m = w.trace!.morphology;
+        expect(typeof m.template).toBe("string");
+        expect(typeof m.syllableReduction).toBe("number");
+        // At least one of prefix/suffix should be defined for non-bare
+        expect(m.prefix !== undefined || m.suffix !== undefined).toBe(true);
+        found = true;
+        break;
+      }
+    }
+    expect(found).toBe(true);
+  });
+
+  it("does not include morphology trace when morphology is not used", () => {
+    const word = generateWord({ seed: 42, trace: true });
+    expect(word.trace!.morphology).toBeUndefined();
+  });
+
+  it("traces boundary adjustment drops", () => {
+    // Multi-syllable words should occasionally trigger boundary drops
+    let found = false;
+    for (let s = 0; s < 500; s++) {
+      const w = generateWord({ seed: s, syllableCount: 3, trace: true });
+      const drops = w.trace!.structural.filter(e => e.event === "boundaryDrop");
+      if (drops.length > 0) {
+        expect(drops[0].detail).toMatch(/dropped coda/);
+        expect(drops[0].detail).toMatch(/equal sonority/);
+        found = true;
+        break;
+      }
+    }
+    expect(found).toBe(true);
+  });
+
+  it("traces final-s extension", () => {
+    let found = false;
+    for (let s = 0; s < 500; s++) {
+      const w = generateWord({ seed: s, trace: true });
+      const finalS = w.trace!.structural.filter(e => e.event === "finalS");
+      if (finalS.length > 0) {
+        expect(finalS[0].detail).toMatch(/appended \/s\//);
+        found = true;
+        break;
+      }
+    }
+    expect(found).toBe(true);
+  });
+
+  it("traces nasal+stop extension", () => {
+    let found = false;
+    for (let s = 0; s < 2000; s++) {
+      const w = generateWord({ seed: s, trace: true });
+      const ext = w.trace!.structural.filter(e => e.event === "nasalStopExtension");
+      if (ext.length > 0) {
+        expect(ext[0].detail).toMatch(/extended/);
+        found = true;
+        break;
+      }
+    }
+    expect(found).toBe(true);
+  });
+
+  it("structural array is always present (may be empty)", () => {
+    const word = generateWord({ seed: 42, trace: true });
+    expect(Array.isArray(word.trace!.structural)).toBe(true);
+  });
 });
