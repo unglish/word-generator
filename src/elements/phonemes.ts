@@ -65,7 +65,7 @@ export const phonemes: Phoneme[] = [
   { sound: "ɚ", mannerOfArticulation: "midVowel", tense: false, nucleus: 90, startWord: 1, midWord: 2, endWord: 5, voiced: true, placeOfArticulation: "central" }, // her, letter
 
   // Low Vowels
-  { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 220, startWord: 12, midWord: 6, endWord: 1, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
+  { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 160, startWord: 12, midWord: 6, endWord: 1, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
   { sound: "ɑ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // father
   { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 80, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // ball
   { sound: "o", mannerOfArticulation: "lowVowel", tense: true, nucleus: 100, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // hope
