@@ -9,6 +9,7 @@ import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibila
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
 import type { GenerationWeights } from "../config/language.js";
+import { TraceCollector } from "./trace.js";
 
 // ---------------------------------------------------------------------------
 // Runtime: pre-computed data derived from a LanguageConfig
@@ -633,6 +634,7 @@ function generateOneWord(
   mode: GenerationMode,
   syllableCount: number,
   applyMorph: boolean = false,
+  enableTrace: boolean = false,
 ): Word {
   // Plan morphology before generating root (to adjust syllable count)
   const morphConfig = rt.config.morphology;
@@ -660,6 +662,7 @@ function generateOneWord(
       rootSyllableCount = Math.max(1, rootSyllableCount - morphPlan.syllableReduction);
     }
 
+    const traceCollector = enableTrace ? new TraceCollector() : undefined;
     const context: WordGenerationContext = {
       rand,
       word: {
@@ -669,15 +672,20 @@ function generateOneWord(
       },
       syllableCount: rootSyllableCount,
       currSyllableIndex: 0,
+      trace: traceCollector,
     };
     runPipeline(rt, context, mode);
 
     // Apply morphology after pipeline produces the bare root
+    const morphApplied = !!morphPlan;
     if (morphPlan) {
       applyMorphology(rt, context, morphPlan.plan);
     }
 
     if (attempt === MAX_LENGTH_RETRIES || acceptLetterLength(rt, context)) {
+      if (traceCollector) {
+        context.word.trace = traceCollector.toTrace(morphApplied);
+      }
       return context.word;
     }
   }
@@ -688,9 +696,21 @@ function generateOneWord(
  * Shared pipeline: syllable generation → repair → write → pronounce.
  */
 function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode: GenerationMode = "text"): void {
+  const t = context.trace;
+
+  t?.beforeStage('generateSyllables', context.word.syllables);
   generateSyllables(rt, context, mode);
+  t?.afterStage('generateSyllables', context.word.syllables);
+
+  t?.beforeStage('repairClusters', context.word.syllables);
   if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
+  t?.afterStage('repairClusters', context.word.syllables);
+
+  t?.beforeStage('repairFinalCoda', context.word.syllables);
   if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet);
+  t?.afterStage('repairFinalCoda', context.word.syllables);
+
+  t?.beforeStage('repairClusterShape', context.word.syllables);
   if (rt.clusterLimits || rt.config.codaConstraints?.voicingAgreement || rt.config.codaConstraints?.homorganicNasalStop) {
     repairClusterShape(context.word.syllables, {
       clusterLimits: rt.clusterLimits,
@@ -701,13 +721,33 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
       sonorityExemptSet: rt.sonorityExemptSet,
     });
   }
+  t?.afterStage('repairClusterShape', context.word.syllables);
+
+  t?.beforeStage('repairNgCodaSibilant', context.word.syllables);
   repairNgCodaSibilant(context.word.syllables);
+  t?.afterStage('repairNgCodaSibilant', context.word.syllables);
+
+  t?.beforeStage('repairHAfterBackVowel', context.word.syllables);
   repairHAfterBackVowel(context.word.syllables);
+  t?.afterStage('repairHAfterBackVowel', context.word.syllables);
+
   const stressRules = rt.config.stress ?? { strategy: "weight-sensitive" };
+
+  t?.beforeStage('applyStress', context.word.syllables);
   applyStress(context, stressRules);
+  t?.afterStage('applyStress', context.word.syllables);
+
+  t?.beforeStage('repairStressedNuclei', context.word.syllables);
   repairStressedNuclei(context, rt.positionPhonemes.nucleus, stressRules);
+  t?.afterStage('repairStressedNuclei', context.word.syllables);
+
+  t?.beforeStage('generateWrittenForm', context.word.syllables);
   rt.generateWrittenForm(context);
+  t?.afterStage('generateWrittenForm', context.word.syllables);
+
+  t?.beforeStage('generatePronunciation', context.word.syllables);
   generatePronunciation(context, rt.config.vowelReduction);
+  t?.afterStage('generatePronunciation', context.word.syllables);
 }
 
 // ---------------------------------------------------------------------------
@@ -739,7 +779,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 
   return {
     generateWord: (options: WordGenerationOptions = {}): Word => {
-      return generateOneWord(rt, resolveRng(options), options.mode ?? "text", options.syllableCount || 0, options.morphology ?? false);
+      return generateOneWord(rt, resolveRng(options), options.mode ?? "text", options.syllableCount || 0, options.morphology ?? false, options.trace ?? false);
     },
   };
 }
@@ -761,7 +801,7 @@ const defaultRuntime = buildRuntime(englishConfig);
  * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
-  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "text", options.syllableCount || 0, options.morphology ?? false);
+  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "text", options.syllableCount || 0, options.morphology ?? false, options.trace ?? false);
 };
 
 /**
@@ -790,7 +830,7 @@ export const generateWords = (count: number, options: WordGenerationOptions = {}
   const syllableCount = options.syllableCount || 0;
   const results: Word[] = [];
   for (let i = 0; i < count; i++) {
-    results.push(generateOneWord(defaultRuntime, rand, mode, syllableCount, options.morphology ?? false));
+    results.push(generateOneWord(defaultRuntime, rand, mode, syllableCount, options.morphology ?? false, options.trace ?? false));
   }
   return results;
 };

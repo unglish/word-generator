@@ -267,15 +267,26 @@ export function filterByPosition(
 // Pipeline Step 4: Frequency-weighted random selection
 // ---------------------------------------------------------------------------
 
+interface FrequencyResult extends Grapheme {
+  _weights?: [string, number][];
+  _roll?: number;
+}
+
 function selectByFrequency(
   candidates: Grapheme[],
   rand: RNG,
   isStartOfWord: boolean,
   isEndOfWord: boolean,
-): Grapheme {
+  captureTrace: boolean = false,
+): FrequencyResult {
   if (candidates.length === 0) return { phoneme: '', form: '', origin: 0, frequency: 0, startWord: 0, midWord: 0, endWord: 0 };
-  if (candidates.length === 1) return candidates[0];
+  if (candidates.length === 1) {
+    const r: FrequencyResult = { ...candidates[0] };
+    if (captureTrace) { r._weights = [[candidates[0].form, 1]]; r._roll = 0; }
+    return r;
+  }
 
+  const weights: [string, number][] = [];
   let cumulative = 0;
   const cumulatives: number[] = [];
   for (const g of candidates) {
@@ -284,20 +295,33 @@ function selectByFrequency(
       : isEndOfWord
         ? (g.endWord ?? 1)
         : (g.midWord ?? 1);
-    cumulative += g.frequency * posWeight;
+    const w = g.frequency * posWeight;
+    cumulative += w;
     cumulatives.push(cumulative);
+    if (captureTrace) weights.push([g.form, w]);
   }
 
   const totalFrequency = cumulatives[cumulatives.length - 1];
   const randomValue = rand() * totalFrequency;
 
+  let result: FrequencyResult;
+  let found = false;
   for (let i = 0; i < candidates.length; i++) {
     if (randomValue < cumulatives[i]) {
-      return candidates[i];
+      result = { ...candidates[i] };
+      found = true;
+      break;
     }
   }
 
-  return candidates[candidates.length - 1];
+  if (!found) result = { ...candidates[candidates.length - 1] };
+
+  if (captureTrace) {
+    result!._weights = weights;
+    result!._roll = randomValue;
+  }
+
+  return result!;
 }
 
 // ---------------------------------------------------------------------------
@@ -1150,9 +1174,25 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
       const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord);
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
-      const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord);
+      const tracing = !!context.trace;
+      const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord, tracing);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand);
+
+      if (context.trace) {
+        context.trace.recordGraphemeSelection({
+          phoneme: phoneme.sound,
+          position,
+          syllableIndex,
+          candidates: candidates.map(g => g.form),
+          afterCondition: conditioned.map(g => g.form),
+          afterPosition: positional.map(g => g.form),
+          weights: selected._weights ?? [],
+          roll: selected._roll ?? 0,
+          selected: selected.form,
+          doubled: form !== selected.form,
+        });
+      }
 
       if (currentSyllable.length > 0 && form.length > 0 &&
           currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]) {
