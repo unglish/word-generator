@@ -336,6 +336,15 @@ function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStart
   if (maxLength === 0) return [];
 
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
+
+  // OCP for glides: block /j/ and /w/ onsets after any bare nucleus.
+  // English essentially never places a glide onset immediately after a vowel
+  // with no intervening coda — any vowel can write as a letter that collides
+  // with the glide grapheme (ə→u + w = "uw", ʌ→u + w = "uw", ə→i + j = "iy").
+  if (isFollowingNucleus) {
+    toIgnore.push("j", "w");
+  }
+
   return buildCluster(rt, {
     rand,
     position: "onset",
@@ -502,7 +511,9 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
     context.syllableCount = getWeightedOption(getSyllableCountWeights(rt, mode), context.rand);
   }
 
-  const syllables = new Array(context.syllableCount);
+  // Use context.word.syllables directly so generateSyllable can see
+  // previous syllables (needed for OCP glide filtering in pickOnset).
+  context.word.syllables = new Array(context.syllableCount);
   let prevSyllable: Syllable | undefined;
 
   for (let i = 0; i < context.syllableCount; i++) {
@@ -512,10 +523,12 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
       [prevSyllable, newSyllable] = adjustBoundary(rt, prevSyllable, newSyllable, context.rand);
     }
 
-    syllables[i] = newSyllable;
+    context.word.syllables[i] = newSyllable;
     prevSyllable = newSyllable;
     context.currSyllableIndex++;
   }
+
+  const syllables = context.word.syllables;
 
   // Repair vowel hiatus: insert glide onset when two nuclei meet with no
   // intervening consonant (no coda on prev + no onset on current).
@@ -546,9 +559,12 @@ function repairVowelHiatus(rt: GeneratorRuntime, syllables: Syllable[]): void {
       const lastNucleus = prev.nucleus[prev.nucleus.length - 1];
       if (!lastNucleus) continue;
 
-      const place = lastNucleus.placeOfArticulation;
-      const glide = place === 'back' ? wPhoneme : jPhoneme;
-      curr.onset = [glide];
+      // OCP: don't insert glides after any nucleus — the resulting
+      // grapheme collisions (uw, iy, iw) look non-English regardless
+      // of the vowel quality. Leave the hiatus unrepaired; adjacent
+      // vowel graphemes across syllable boundaries are more natural
+      // than phantom glide bigrams.
+      continue;
     }
   }
 }
