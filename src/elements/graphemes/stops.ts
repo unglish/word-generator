@@ -109,6 +109,7 @@ export const stopGraphemes: Grapheme[] = [
     condition: { wordPosition: ["final"] },
   },
   // c: before back vowels and consonants (cat, cold, cup, craft, become, record)
+  // endWord kept low: bare word-final c is rare in English (music, panic)
   { phoneme: "k", 
     form: "c", 
     origin: 3, 
@@ -116,18 +117,18 @@ export const stopGraphemes: Grapheme[] = [
     cluster: 100,
     startWord: 100,
     midWord: 80,
-    endWord: 40,
+    endWord: 10,
     condition: { notRightContext: ["c-soft-vowel"] },
   },
   {
     phoneme: "k",
     form: "ck",
     origin: 3,
-    frequency: 15,
+    frequency: 80,
     onset: 0,
     startWord: 0,
     midWord: 1,
-    endWord: 8,
+    endWord: 150,
     condition: { leftContext: ["lax-vowel"] },
   },
   {
