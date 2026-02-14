@@ -55,14 +55,14 @@ export const forwardnessToPlaceOfArticulation = {
 export const phonemes: Phoneme[] = [
   // High Vowels
   { sound: "i:", mannerOfArticulation: "highVowel", tense: true, nucleus: 150, startWord: 3, midWord: 1, endWord: 8, voiced: true, placeOfArticulation: "front" }, // sheep
-  { sound: "ɪ", mannerOfArticulation: "highVowel", tense: false, nucleus: 230, startWord: 3, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "front" }, // sit
+  { sound: "ɪ", mannerOfArticulation: "highVowel", tense: false, nucleus: 280, startWord: 3, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "front" }, // sit
 
   // Mid Vowels
   { sound: "e", mannerOfArticulation: "midVowel", tense: false, nucleus: 140, startWord: 3, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // red
   { sound: "ɛ", mannerOfArticulation: "midVowel", tense: false, nucleus: 280, startWord: 3, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // let
   { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 330, startWord: 4, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
   { sound: "ɜ", mannerOfArticulation: "midVowel", tense: false, nucleus: 50, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // bed, said, execute
-  { sound: "ɚ", mannerOfArticulation: "midVowel", tense: false, nucleus: 90, startWord: 1, midWord: 2, endWord: 5, voiced: true, placeOfArticulation: "central" }, // her, letter
+  { sound: "ɚ", mannerOfArticulation: "midVowel", tense: false, nucleus: 120, startWord: 1, midWord: 2, endWord: 5, voiced: true, placeOfArticulation: "central" }, // her, letter
 
   // Low Vowels
   { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 160, startWord: 12, midWord: 6, endWord: 1, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
@@ -96,17 +96,17 @@ export const phonemes: Phoneme[] = [
 
   // Liquids
   { sound: "l", mannerOfArticulation: "liquid", onset: 200, coda: 200, startWord: 5, midWord: 5, endWord: 8, voiced: true, placeOfArticulation: "alveolar" }, // lid
-  { sound: "r", mannerOfArticulation: "liquid", onset: 300, coda: 100, startWord: 4, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "postalveolar" }, // rank
+  { sound: "r", mannerOfArticulation: "liquid", onset: 300, coda: 140, startWord: 4, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "postalveolar" }, // rank
 
   // Nasals
   { sound: "m", mannerOfArticulation: "nasal", onset: 100, coda: 176, startWord: 12, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "bilabial" }, // mouse
-  { sound: "n", mannerOfArticulation: "nasal", onset: 350, coda: 350, startWord: 3, midWord: 2, endWord: 10, voiced: true, placeOfArticulation: "alveolar" }, // notice
+  { sound: "n", mannerOfArticulation: "nasal", onset: 400, coda: 450, startWord: 3, midWord: 2, endWord: 10, voiced: true, placeOfArticulation: "alveolar" }, // notice
   { sound: "ŋ", mannerOfArticulation: "nasal", onset: 0, coda: 40, startWord: 0, midWord: 2, endWord: 30, voiced: true, placeOfArticulation: "velar" }, // bring
 
   // Voiceless Fricatives
   { sound: "f", mannerOfArticulation: "fricative", onset: 100, coda: 100, startWord: 14, midWord: 2, endWord: 4, voiced: false, placeOfArticulation: "labiodental" }, // fish
   { sound: "θ", mannerOfArticulation: "fricative", onset: 50, coda: 50, startWord: 4, midWord: 2, endWord: 4, voiced: false, placeOfArticulation: "dental" }, // think
-  { sound: "h", mannerOfArticulation: "fricative", onset: 180, coda: 0, startWord: 10, midWord: 2, endWord: 0, voiced: false, placeOfArticulation: "glottal" }, // he
+  { sound: "h", mannerOfArticulation: "fricative", onset: 220, coda: 0, startWord: 10, midWord: 2, endWord: 0, voiced: false, placeOfArticulation: "glottal" }, // he
 
   // Voiced Fricatives
   { sound: "v", mannerOfArticulation: "fricative", onset: 100, coda: 20, startWord: 6, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "labiodental" }, // victor
@@ -115,7 +115,7 @@ export const phonemes: Phoneme[] = [
   // Sibilants
   { sound: "z", mannerOfArticulation: "sibilant", onset: 25, coda: 50, startWord: 2, midWord: 4, endWord: 4, voiced: true, placeOfArticulation: "alveolar" }, // zebra
   { sound: "ʒ", mannerOfArticulation: "sibilant", onset: 5, coda: 3, startWord: 0, midWord: 6, endWord: 0, voiced: true, placeOfArticulation: "postalveolar" }, // measure
-  { sound: "s", mannerOfArticulation: "sibilant", onset: 200, coda: 100, startWord: 10, midWord: 2, endWord: 10, voiced: false, placeOfArticulation: "alveolar" }, // see
+  { sound: "s", mannerOfArticulation: "sibilant", onset: 200, coda: 80, startWord: 10, midWord: 2, endWord: 10, voiced: false, placeOfArticulation: "alveolar" }, // see
   { sound: "ʃ", mannerOfArticulation: "sibilant", onset: 35, coda: 80, startWord: 4, midWord: 1, endWord: 5, voiced: false, placeOfArticulation: "postalveolar" }, // she
 
   // Affricates

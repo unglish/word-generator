@@ -47,10 +47,10 @@ export const rhoticGraphemes: Grapheme[] = [
   phoneme: "ɚ",
   form: "or",
   origin: 3,
-  frequency: 150,
+  frequency: 220,
   startWord: 0,
-  midWord: 20,
-  endWord: 50,
+  midWord: 30,
+  endWord: 60,
 },
 {
   phoneme: "ɚ",

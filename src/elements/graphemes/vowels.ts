@@ -80,7 +80,7 @@ export const vowelGraphemes: Grapheme[] = [
     frequency: 1000,
     startWord: 5,
     midWord: 10,
-    endWord: 0.01,
+    endWord: 1.0,
   },
   // Note: /ɪ/ before /ŋ/ already maps to "i" via the default entry above.
   // myth

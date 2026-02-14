@@ -14,7 +14,7 @@
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "dev": "concurrently \"vite\" \"tsc --watch\"",
-    "build": "tsc && vite build && npm run copy-worker",
+    "build": "tsc && vite build && node scripts/inject-build-info.js && npm run copy-worker",
     "preview": "vite preview",
     "copy-worker": "cp dist-demo/unglish-worker.js demo/"
   },
