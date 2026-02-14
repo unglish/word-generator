@@ -91,8 +91,8 @@ export const phonemes: Phoneme[] = [
   { sound: "əʊə", mannerOfArticulation: "midVowel", tense: true, nucleus: 3, startWord: 1, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // lower, mower
 
   // Glides
-  { sound: "j", mannerOfArticulation: "glide", onset: 10, coda: 20, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "palatal" }, // yes
-  { sound: "w", mannerOfArticulation: "glide", onset: 120, coda: 10, startWord: 10, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "labial-velar" }, // wow
+  { sound: "j", mannerOfArticulation: "glide", onset: 10, coda: 0, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "palatal" }, // yes — onset only, diphthongs are nuclei
+  { sound: "w", mannerOfArticulation: "glide", onset: 120, coda: 0, startWord: 10, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "labial-velar" }, // wow — onset only, diphthongs are nuclei
 
   // Liquids
   { sound: "l", mannerOfArticulation: "liquid", onset: 200, coda: 200, startWord: 5, midWord: 5, endWord: 8, voiced: true, placeOfArticulation: "alveolar" }, // lid
