@@ -703,11 +703,11 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.afterStage('generateSyllables', context.word.syllables);
 
   t?.beforeStage('repairClusters', context.word.syllables);
-  if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!);
+  if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!, t);
   t?.afterStage('repairClusters', context.word.syllables);
 
   t?.beforeStage('repairFinalCoda', context.word.syllables);
-  if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet);
+  if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet, t);
   t?.afterStage('repairFinalCoda', context.word.syllables);
 
   t?.beforeStage('repairClusterShape', context.word.syllables);
@@ -719,16 +719,16 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
       sonorityBySound: rt.sonorityBySound,
       codaAppendantSet: rt.codaAppendantSet,
       sonorityExemptSet: rt.sonorityExemptSet,
-    });
+    }, t);
   }
   t?.afterStage('repairClusterShape', context.word.syllables);
 
   t?.beforeStage('repairNgCodaSibilant', context.word.syllables);
-  repairNgCodaSibilant(context.word.syllables);
+  repairNgCodaSibilant(context.word.syllables, t);
   t?.afterStage('repairNgCodaSibilant', context.word.syllables);
 
   t?.beforeStage('repairHAfterBackVowel', context.word.syllables);
-  repairHAfterBackVowel(context.word.syllables);
+  repairHAfterBackVowel(context.word.syllables, t);
   t?.afterStage('repairHAfterBackVowel', context.word.syllables);
 
   const stressRules = rt.config.stress ?? { strategy: "weight-sensitive" };

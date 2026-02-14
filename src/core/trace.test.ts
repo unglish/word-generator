@@ -56,4 +56,27 @@ describe("trace pipeline", () => {
       }
     }
   });
+
+  it("captures repair traces with rule, before, and after", () => {
+    let foundRepair = false;
+    for (let s = 0; s < 200; s++) {
+      const w = generateWord({ seed: s, trace: true });
+      if (w.trace!.repairs.length > 0) {
+        const r = w.trace!.repairs[0];
+        expect(typeof r.rule).toBe("string");
+        expect(typeof r.before).toBe("string");
+        expect(typeof r.after).toBe("string");
+        expect(r.before).not.toBe(r.after);
+        foundRepair = true;
+        break;
+      }
+    }
+    expect(foundRepair).toBe(true);
+  });
+
+  it("summary.repairCount matches repairs array length", () => {
+    const word = generateWord({ seed: 10, trace: true });
+    const t = word.trace!;
+    expect(t.summary.repairCount).toBe(t.repairs.length);
+  });
 });

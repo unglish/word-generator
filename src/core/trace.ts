@@ -25,9 +25,21 @@ export interface GraphemeTrace {
   doubled: boolean;
 }
 
+export interface RepairTrace {
+  /** Which repair function fired. */
+  rule: string;
+  /** What was there before the repair. */
+  before: string;
+  /** What it became after the repair. */
+  after: string;
+  /** Optional detail (e.g. which phoneme was dropped, why). */
+  detail?: string;
+}
+
 export interface WordTrace {
   stages: StageSnapshot[];
   graphemeSelections: GraphemeTrace[];
+  repairs: RepairTrace[];
   summary: { totalDecisions: number; repairCount: number; morphologyApplied: boolean };
 }
 
@@ -42,6 +54,7 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 export class TraceCollector {
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
+  repairs: RepairTrace[] = [];
   private currentBefore: Map<string, SyllableSnapshot[]> = new Map();
 
   beforeStage(name: string, syllables: Syllable[]): void {
@@ -58,14 +71,20 @@ export class TraceCollector {
     this.graphemeSelections.push(entry);
   }
 
+  recordRepair(rule: string, before: string, after: string, detail?: string): void {
+    if (before !== after) {
+      this.repairs.push({ rule, before, after, detail });
+    }
+  }
+
   toTrace(morphApplied: boolean): WordTrace {
-    const repairCount = this.stages.filter(s => s.name.startsWith("repair")).length;
     return {
       stages: this.stages,
       graphemeSelections: this.graphemeSelections,
+      repairs: this.repairs,
       summary: {
         totalDecisions: this.graphemeSelections.length,
-        repairCount,
+        repairCount: this.repairs.length,
         morphologyApplied: morphApplied,
       },
     };

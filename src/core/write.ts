@@ -1258,7 +1258,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const wfc = config.writtenFormConstraints;
     const maxGraphemes = wfc?.maxConsonantGraphemes;
     if (maxGraphemes) {
+      const before = context.trace ? cleanParts.join('') : '';
       repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes);
+      context.trace?.recordRepair('repairConsonantPileups', before, cleanParts.join(''));
     }
 
     // Feature-based junction validation
@@ -1273,26 +1275,36 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           onsetCluster: nextOnset,
         });
       }
+      const beforeJunction = context.trace ? cleanParts.join('') : '';
       repairJunctions(cleanParts, hyphenatedParts, boundaries, wfc?.consonantGraphemes);
+      context.trace?.recordRepair('repairJunctions', beforeJunction, cleanParts.join(''));
       // Re-run pileup repair in case junction repair changed things
       if (maxGraphemes) {
+        const beforePileup = context.trace ? cleanParts.join('') : '';
         repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes);
+        context.trace?.recordRepair('repairConsonantPileups:postJunction', beforePileup, cleanParts.join(''));
       }
     }
 
     // Raw consonant letter backstop
     if (wfc?.maxConsonantLetters) {
+      const before = context.trace ? cleanParts.join('') : '';
       repairConsonantLetters(cleanParts, hyphenatedParts, wfc.maxConsonantLetters);
+      context.trace?.recordRepair('repairConsonantLetters', before, cleanParts.join(''));
     }
 
     // Word-final consonant letter limit
     if (wfc?.maxFinalConsonantLetters) {
+      const before = context.trace ? cleanParts.join('') : '';
       repairFinalConsonantLetters(cleanParts, hyphenatedParts, wfc.maxFinalConsonantLetters);
+      context.trace?.recordRepair('repairFinalConsonantLetters', before, cleanParts.join(''));
     }
 
     // Raw vowel letter backstop
     if (wfc?.maxVowelLetters) {
+      const before = context.trace ? cleanParts.join('') : '';
       repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters);
+      context.trace?.recordRepair('repairVowelLetters', before, cleanParts.join(''));
     }
 
     // Post-join pass: apply word-scope spelling rules
@@ -1318,6 +1330,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     if (wfc?.maxConsonantGraphemes || wfc?.maxConsonantLetters) {
       const postParts = [finalClean];
       const postHyph = [finalClean];
+      const beforePost = context.trace ? finalClean : '';
       if (wfc.maxConsonantGraphemes) {
         repairConsonantPileups(postParts, postHyph, wfc.maxConsonantGraphemes, wfc.consonantGraphemes);
       }
@@ -1328,6 +1341,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         repairFinalConsonantLetters(postParts, postHyph, wfc.maxFinalConsonantLetters);
       }
       finalClean = postParts[0];
+      context.trace?.recordRepair('postSpellingBackstop', beforePost, finalClean);
     }
 
     written.clean = finalClean;
