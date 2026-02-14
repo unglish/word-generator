@@ -1287,9 +1287,6 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       finalClean = postParts[0];
     }
 
-    // Final spelling pass: catch patterns created by vowel/consonant repairs
-    finalClean = applySpellingRules(finalClean, wordRules, rand);
-
     written.clean = finalClean;
     written.hyphenated = hyphenatedParts.join('');
   };

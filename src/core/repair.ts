@@ -216,39 +216,6 @@ export function repairHAfterBackVowel(syllables: Syllable[]): void {
 }
 
 // ---------------------------------------------------------------------------
-// Glide absorption: drop onset glide when previous nucleus already ends
-// in the same glide direction (Obligatory Contour Principle for glides).
-//   palatal diphthongs/vowels (/aɪ/, /eɪ/, /ɔɪ/, /iː/, /ɪ/) + /j/ → drop /j/
-//   labial diphthongs/vowels (/aʊ/, /əʊ/, /uː/, /ʊ/)         + /w/ → drop /w/
-// ---------------------------------------------------------------------------
-
-const PALATAL_NUCLEI = new Set(["aɪ", "eɪ", "ɔɪ", "i:", "ɪ"]);
-const LABIAL_NUCLEI = new Set(["aʊ", "əʊ", "u:", "u", "ʊ"]);
-
-export function repairGlideAbsorption(syllables: Syllable[]): void {
-  for (let i = 0; i < syllables.length - 1; i++) {
-    const curr = syllables[i];
-    const next = syllables[i + 1];
-
-    // Only applies when current syllable has no coda (open syllable)
-    if (curr.coda.length > 0) continue;
-    if (curr.nucleus.length === 0 || next.onset.length === 0) continue;
-
-    const nucleusSound = curr.nucleus[curr.nucleus.length - 1].sound;
-    const onsetSound = next.onset[0].sound;
-
-    // Palatal: front diphthong/vowel + /j/ → drop /j/
-    if (PALATAL_NUCLEI.has(nucleusSound) && onsetSound === "j") {
-      next.onset.splice(0, 1);
-    }
-    // Labial: back diphthong/vowel + /w/ → drop /w/
-    if (LABIAL_NUCLEI.has(nucleusSound) && onsetSound === "w") {
-      next.onset.splice(0, 1);
-    }
-  }
-}
-
-// ---------------------------------------------------------------------------
 // /ŋ/ + sibilant repair
 // ---------------------------------------------------------------------------
 

@@ -276,20 +276,6 @@ export const englishConfig: LanguageConfig = {
       probability: 100,
       scope: "word",
     },
-    {
-      name: "glide-absorb-iy",
-      pattern: "iy",
-      replacement: "y",
-      probability: 100,
-      scope: "word",
-    },
-    {
-      name: "glide-absorb-uw",
-      pattern: "uw",
-      replacement: "w",
-      probability: 100,
-      scope: "word",
-    },
   ],
 
   clusterConstraint: {

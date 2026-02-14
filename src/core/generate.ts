@@ -5,10 +5,16 @@ import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, S
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
-import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant, repairHAfterBackVowel, repairGlideAbsorption } from "./repair.js";
+import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
 import type { GenerationWeights } from "../config/language.js";
+
+// ---------------------------------------------------------------------------
+// OCP glide absorption: nuclei that already end in a palatal/labial glide
+// ---------------------------------------------------------------------------
+const PALATAL_NUCLEI = new Set(["aɪ", "eɪ", "ɔɪ", "i:", "ɪ"]);
+const LABIAL_NUCLEI = new Set(["aʊ", "əʊ", "u:", "u", "ʊ"]);
 
 // ---------------------------------------------------------------------------
 // Runtime: pre-computed data derived from a LanguageConfig
@@ -336,6 +342,17 @@ function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStart
   if (maxLength === 0) return [];
 
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
+
+  // OCP for glides: don't pick /j/ onset after palatal nucleus, /w/ after labial
+  if (isFollowingNucleus && prevSyllable.nucleus.length > 0) {
+    const prevNucleus = prevSyllable.nucleus[prevSyllable.nucleus.length - 1].sound;
+    // Block both glides after any glide-final nucleus: English disallows
+    // hiatus between front vowels and /w/ or back vowels and /j/ within roots
+    if (PALATAL_NUCLEI.has(prevNucleus) || LABIAL_NUCLEI.has(prevNucleus)) {
+      toIgnore.push("j", "w");
+    }
+  }
+
   return buildCluster(rt, {
     rand,
     position: "onset",
@@ -502,7 +519,9 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
     context.syllableCount = getWeightedOption(getSyllableCountWeights(rt, mode), context.rand);
   }
 
-  const syllables = new Array(context.syllableCount);
+  // Use context.word.syllables directly so generateSyllable can see
+  // previous syllables (needed for OCP glide filtering in pickOnset).
+  context.word.syllables = new Array(context.syllableCount);
   let prevSyllable: Syllable | undefined;
 
   for (let i = 0; i < context.syllableCount; i++) {
@@ -512,10 +531,12 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
       [prevSyllable, newSyllable] = adjustBoundary(rt, prevSyllable, newSyllable, context.rand);
     }
 
-    syllables[i] = newSyllable;
+    context.word.syllables[i] = newSyllable;
     prevSyllable = newSyllable;
     context.currSyllableIndex++;
   }
+
+  const syllables = context.word.syllables;
 
   // Repair vowel hiatus: insert glide onset when two nuclei meet with no
   // intervening consonant (no coda on prev + no onset on current).
@@ -545,6 +566,11 @@ function repairVowelHiatus(rt: GeneratorRuntime, syllables: Syllable[]): void {
       // Pick glide based on the place of the preceding nucleus vowel
       const lastNucleus = prev.nucleus[prev.nucleus.length - 1];
       if (!lastNucleus) continue;
+
+      // OCP: don't insert any glide after a nucleus that ends in a glide
+      // direction — English doesn't allow V-glide hiatus within roots
+      const nucSound = lastNucleus.sound;
+      if (PALATAL_NUCLEI.has(nucSound) || LABIAL_NUCLEI.has(nucSound)) continue;
 
       const place = lastNucleus.placeOfArticulation;
       const glide = place === 'back' ? wPhoneme : jPhoneme;
@@ -687,7 +713,6 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   }
   repairNgCodaSibilant(context.word.syllables);
   repairHAfterBackVowel(context.word.syllables);
-  repairGlideAbsorption(context.word.syllables);
   const stressRules = rt.config.stress ?? { strategy: "weight-sensitive" };
   applyStress(context, stressRules);
   repairStressedNuclei(context, rt.positionPhonemes.nucleus, stressRules);
