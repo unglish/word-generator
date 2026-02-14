@@ -684,6 +684,8 @@ function generateOneWord(
 
     if (attempt === MAX_LENGTH_RETRIES || acceptLetterLength(rt, context)) {
       if (traceCollector) {
+        traceCollector.syllableCount = context.syllableCount;
+        traceCollector.attempts = attempt;
         context.word.trace = traceCollector.toTrace(morphApplied);
       }
       return context.word;

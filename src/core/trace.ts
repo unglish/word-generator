@@ -12,6 +12,17 @@ export interface StageSnapshot {
   after: SyllableSnapshot[];
 }
 
+export interface DoublingTrace {
+  /** Whether doubling was attempted. */
+  attempted: boolean;
+  /** Why doubling was skipped (if it was). */
+  reason?: string;
+  /** Final probability used for the doubling roll. */
+  probability?: number;
+  /** The doubled form that was produced. */
+  result?: string;
+}
+
 export interface GraphemeTrace {
   phoneme: string;
   position: string;
@@ -23,6 +34,8 @@ export interface GraphemeTrace {
   roll: number;
   selected: string;
   doubled: boolean;
+  /** Detailed doubling decision (only present when tracing). */
+  doubling?: DoublingTrace;
 }
 
 export interface RepairTrace {
@@ -37,6 +50,10 @@ export interface RepairTrace {
 }
 
 export interface WordTrace {
+  /** Target syllable count chosen for this word. */
+  syllableCount: number;
+  /** How many letter-length rejection attempts before acceptance (0 = first try). */
+  attempts: number;
   stages: StageSnapshot[];
   graphemeSelections: GraphemeTrace[];
   repairs: RepairTrace[];
@@ -77,8 +94,13 @@ export class TraceCollector {
     }
   }
 
+  syllableCount: number = 0;
+  attempts: number = 0;
+
   toTrace(morphApplied: boolean): WordTrace {
     return {
+      syllableCount: this.syllableCount,
+      attempts: this.attempts,
       stages: this.stages,
       graphemeSelections: this.graphemeSelections,
       repairs: this.repairs,

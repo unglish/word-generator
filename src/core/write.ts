@@ -1,6 +1,7 @@
 import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from '../utils/random.js';
+import type { TraceCollector } from "./trace.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 
 // ---------------------------------------------------------------------------
@@ -28,10 +29,11 @@ function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
 /**
  * Apply a list of compiled spelling rules to a string, handling probabilistic replacements.
  */
-function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG): string {
+function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string): string {
   let result = str;
-  for (const { regex, replacement, probability } of rules) {
+  for (const { name, regex, replacement, probability } of rules) {
     regex.lastIndex = 0;
+    const before = trace ? result : '';
     if (probability >= 100) {
       result = result.replace(regex, replacement);
     } else {
@@ -47,6 +49,9 @@ function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RN
         }
         return match;
       });
+    }
+    if (trace && result !== before) {
+      trace.recordRepair(`spellingRule:${name}`, before, result, scope);
     }
   }
   return result;
@@ -332,6 +337,13 @@ interface DoublingContext {
   doublingCount: number;
 }
 
+interface DoublingTraceInfo {
+  attempted: boolean;
+  reason?: string;
+  probability?: number;
+  result?: string;
+}
+
 function applyDoubling(
   form: string,
   config: DoublingConfig | undefined,
@@ -347,39 +359,42 @@ function applyDoubling(
   prevReduced: boolean,
   neverDoubleSet: Set<string>,
   rand: RNG,
+  traceOut?: DoublingTraceInfo,
 ): string {
-  if (!config || !config.enabled) return form;
-  if (!prevPhoneme) return form;
-  if (isCluster) return form;
-  if (form.length !== 1) return form;
-  if (position !== "onset" && position !== "coda") return form;
-  if (doublingCtx.doublingCount >= config.maxPerWord) return form;
+  const skip = (reason: string) => { if (traceOut) { traceOut.attempted = false; traceOut.reason = reason; } return form; };
+
+  if (!config || !config.enabled) return skip('disabled');
+  if (!prevPhoneme) return skip('no-prev-phoneme');
+  if (isCluster) return skip('in-cluster');
+  if (form.length !== 1) return skip('multi-char-grapheme');
+  if (position !== "onset" && position !== "coda") return skip('nucleus-position');
+  if (doublingCtx.doublingCount >= config.maxPerWord) return skip('max-per-word');
 
   // Check trigger
   if (config.trigger === "lax-vowel") {
     const isAfterVowel = prevPhoneme.nucleus != null && prevPhoneme.nucleus > 0;
     const isLax = prevPhoneme.tense === false;
-    if (!isAfterVowel || !isLax) return form;
+    if (!isAfterVowel || !isLax) return skip('trigger:not-after-lax-vowel');
   }
 
   // neverDoubleFinal — suppress word-final doubling for specific sounds
-  if (isEndOfWord && isLastPhoneme && config.neverDoubleFinal?.includes(currPhoneme.sound)) return form;
+  if (isEndOfWord && isLastPhoneme && config.neverDoubleFinal?.includes(currPhoneme.sound)) return skip('never-double-final');
 
   // neverDouble — check both phoneme sound and grapheme form
-  if (neverDoubleSet.has(currPhoneme.sound)) return form;
-  if (neverDoubleSet.has(form)) return form;
+  if (neverDoubleSet.has(currPhoneme.sound)) return skip('never-double:sound');
+  if (neverDoubleSet.has(form)) return skip('never-double:form');
 
   // finalDoublingOnly
   if (isEndOfWord && config.finalDoublingOnly && config.finalDoublingOnly.length > 0) {
-    if (!config.finalDoublingOnly.includes(currPhoneme.sound)) return form;
+    if (!config.finalDoublingOnly.includes(currPhoneme.sound)) return skip('final-doubling-only');
   }
 
   // suppressAfterReduction
-  if (config.suppressAfterReduction && prevReduced) return form;
+  if (config.suppressAfterReduction && prevReduced) return skip('suppress-after-reduction');
 
   // suppressBeforeTense
   if (config.suppressBeforeTense && nextNucleus) {
-    if (nextNucleus.tense === true) return form;
+    if (nextNucleus.tense === true) return skip('suppress-before-tense');
   }
 
   // Calculate probability
@@ -388,15 +403,17 @@ function applyDoubling(
     prob *= config.unstressedModifier;
   }
   prob = Math.min(100, Math.max(0, Math.round(prob)));
-  if (prob <= 0) return form;
+  if (prob <= 0) return skip('zero-probability:unstressed');
 
   const shouldDouble = getWeightedOption([[true, prob], [false, 100 - prob]], rand);
   if (shouldDouble) {
     doublingCtx.doublingCount++;
     // Use custom doubled form if configured (e.g. k → ck), otherwise repeat
     const doubled = config.doubledForms?.[form] ?? (form + form);
+    if (traceOut) { traceOut.attempted = true; traceOut.probability = prob; traceOut.result = doubled; }
     return doubled;
   }
+  if (traceOut) { traceOut.attempted = true; traceOut.probability = prob; traceOut.reason = 'roll-failed'; }
   return form;
 }
 
@@ -1177,7 +1194,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const tracing = !!context.trace;
       const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord, tracing);
       if (position === "nucleus") currentNucleusForm = selected.form;
-      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand);
+      const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
+      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand, doublingTraceInfo);
 
       if (context.trace) {
         context.trace.recordGraphemeSelection({
@@ -1191,6 +1209,12 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           roll: selected._roll ?? 0,
           selected: selected.form,
           doubled: form !== selected.form,
+          doubling: doublingTraceInfo ? {
+            attempted: doublingTraceInfo.attempted,
+            reason: doublingTraceInfo.reason,
+            probability: doublingTraceInfo.probability,
+            result: doublingTraceInfo.result,
+          } : undefined,
         });
       }
 
@@ -1202,7 +1226,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
 
       if (!nextEntry || nextEntry.syllableIndex !== syllableIndex) {
-        let syllableStr = applySpellingRules(currentSyllable.join(''), syllableRules, rand);
+        let syllableStr = applySpellingRules(currentSyllable.join(''), syllableRules, rand, context.trace, `syllable:${syllableIndex}`);
 
         if (cleanParts.length > 0 && syllableStr.length > 0 &&
             cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
@@ -1308,7 +1332,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     }
 
     // Post-join pass: apply word-scope spelling rules
-    let finalClean = applySpellingRules(cleanParts.join(''), wordRules, rand);
+    let finalClean = applySpellingRules(cleanParts.join(''), wordRules, rand, context.trace, 'word');
 
     // Post-join vowel repair for cross-boundary runs
     if (wfc?.maxVowelLetters) {
