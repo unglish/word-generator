@@ -11,12 +11,6 @@ import { planMorphology, applyMorphology } from "./morphology/index.js";
 import type { GenerationWeights } from "../config/language.js";
 
 // ---------------------------------------------------------------------------
-// OCP glide absorption: nuclei that already end in a palatal/labial glide
-// ---------------------------------------------------------------------------
-const PALATAL_NUCLEI = new Set(["aɪ", "eɪ", "ɔɪ", "i:", "ɪ"]);
-const LABIAL_NUCLEI = new Set(["aʊ", "əʊ", "u:", "u", "ʊ"]);
-
-// ---------------------------------------------------------------------------
 // Runtime: pre-computed data derived from a LanguageConfig
 // ---------------------------------------------------------------------------
 
@@ -343,14 +337,12 @@ function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStart
 
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
 
-  // OCP for glides: don't pick /j/ onset after palatal nucleus, /w/ after labial
-  if (isFollowingNucleus && prevSyllable.nucleus.length > 0) {
-    const prevNucleus = prevSyllable.nucleus[prevSyllable.nucleus.length - 1].sound;
-    // Block both glides after any glide-final nucleus: English disallows
-    // hiatus between front vowels and /w/ or back vowels and /j/ within roots
-    if (PALATAL_NUCLEI.has(prevNucleus) || LABIAL_NUCLEI.has(prevNucleus)) {
-      toIgnore.push("j", "w");
-    }
+  // OCP for glides: block /j/ and /w/ onsets after any bare nucleus.
+  // English essentially never places a glide onset immediately after a vowel
+  // with no intervening coda — any vowel can write as a letter that collides
+  // with the glide grapheme (ə→u + w = "uw", ʌ→u + w = "uw", ə→i + j = "iy").
+  if (isFollowingNucleus) {
+    toIgnore.push("j", "w");
   }
 
   return buildCluster(rt, {
@@ -567,14 +559,12 @@ function repairVowelHiatus(rt: GeneratorRuntime, syllables: Syllable[]): void {
       const lastNucleus = prev.nucleus[prev.nucleus.length - 1];
       if (!lastNucleus) continue;
 
-      // OCP: don't insert any glide after a nucleus that ends in a glide
-      // direction — English doesn't allow V-glide hiatus within roots
-      const nucSound = lastNucleus.sound;
-      if (PALATAL_NUCLEI.has(nucSound) || LABIAL_NUCLEI.has(nucSound)) continue;
-
-      const place = lastNucleus.placeOfArticulation;
-      const glide = place === 'back' ? wPhoneme : jPhoneme;
-      curr.onset = [glide];
+      // OCP: don't insert glides after any nucleus — the resulting
+      // grapheme collisions (uw, iy, iw) look non-English regardless
+      // of the vowel quality. Leave the hiatus unrepaired; adjacent
+      // vowel graphemes across syllable boundaries are more natural
+      // than phantom glide bigrams.
+      continue;
     }
   }
 }
