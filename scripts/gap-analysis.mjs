@@ -1,10 +1,16 @@
 /**
  * Issue #162 Step 1: Full bigram/trigram gap analysis
  * Generate 200k lexicon words, compute letter + bigram + trigram frequencies,
- * compare to English reference data, rank by |gap| × english_frequency.
+ * compare to English reference data from Norvig corpus files.
  */
 
 import { generateWord } from '../dist/index.js';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const dataDir = join(__dirname, '..', 'data', 'norvig');
 
 // English letter frequencies (from Norvig/Google Books, lowercase)
 const ENGLISH_LETTER_FREQ = {
@@ -15,43 +21,48 @@ const ENGLISH_LETTER_FREQ = {
   q: 0.12, z: 0.09
 };
 
-// English bigram frequencies (from Norvig, % of all bigrams)
-const ENGLISH_BIGRAM_FREQ = {
-  th: 3.56, he: 3.07, in: 2.43, er: 2.05, an: 1.99, re: 1.85,
-  on: 1.76, at: 1.49, en: 1.45, nd: 1.35, ti: 1.34, es: 1.34,
-  or: 1.28, te: 1.27, of: 1.17, ed: 1.17, is: 1.13, it: 1.12,
-  al: 1.09, ar: 1.07, st: 1.05, to: 1.05, nt: 1.04, ng: 0.95,
-  se: 0.93, ha: 0.93, as: 0.87, ou: 0.87, io: 0.83, le: 0.83,
-  ve: 0.83, co: 0.79, me: 0.79, de: 0.76, hi: 0.73, ri: 0.73,
-  ro: 0.73, ic: 0.70, ne: 0.69, ea: 0.69, ra: 0.69, ce: 0.65,
-  li: 0.62, ch: 0.60, ll: 0.58, be: 0.58, ma: 0.57, si: 0.55,
-  om: 0.55, ur: 0.54, ca: 0.53, el: 0.53, ta: 0.53, la: 0.53,
-  ns: 0.51, ge: 0.51, ha: 0.93, di: 0.50, ol: 0.47, ly: 0.47,
-  no: 0.45, pe: 0.44, us: 0.44, ss: 0.44, ec: 0.43, un: 0.43,
-  lo: 0.43, ni: 0.43, ut: 0.43, il: 0.42, rs: 0.41, em: 0.41,
-  nc: 0.41, so: 0.40, rt: 0.40, sh: 0.39, ie: 0.39, ai: 0.39,
-  ct: 0.38, ot: 0.38, tr: 0.38, fo: 0.37, wh: 0.36, ho: 0.35,
-  ac: 0.35, tu: 0.35, et: 0.35, su: 0.33, pr: 0.32, ck: 0.31,
-  oo: 0.31, ad: 0.31, wi: 0.31, po: 0.30, we: 0.30, na: 0.30,
-  ee: 0.30, ow: 0.29, tt: 0.29, da: 0.29, id: 0.28, th: 3.56
-};
+/**
+ * Load n-gram frequencies from a Norvig TSV file.
+ * Returns { ngram: percentage } using the *\/* (total) column.
+ */
+function loadNgramFreqs(filename) {
+  const lines = readFileSync(join(dataDir, filename), 'utf8').trim().split('\n');
+  const freqs = {};
+  let total = 0;
+  const entries = [];
+  for (let i = 1; i < lines.length; i++) {
+    const parts = lines[i].split('\t');
+    const ngram = parts[0].toLowerCase();
+    const count = parseInt(parts[1], 10);
+    if (isNaN(count)) continue;
+    entries.push({ ngram, count });
+    total += count;
+  }
+  for (const { ngram, count } of entries) {
+    freqs[ngram] = (count / total) * 100;
+  }
+  return freqs;
+}
 
-// English trigram frequencies (top ones, % of all trigrams)
-const ENGLISH_TRIGRAM_FREQ = {
-  the: 3.51, and: 1.59, ing: 1.47, her: 0.82, hat: 0.65,
-  his: 0.60, tha: 0.59, ere: 0.56, for: 0.55, ent: 0.53,
-  ion: 0.51, ter: 0.46, was: 0.46, you: 0.44, ith: 0.43,
-  ver: 0.43, all: 0.42, wit: 0.40, thi: 0.39, tin: 0.38,
-  ate: 0.36, ati: 0.35, tion: 0.31, con: 0.30, are: 0.30,
-  ess: 0.30, not: 0.29, ive: 0.29, ons: 0.28, ste: 0.27,
-  man: 0.27, ers: 0.27, est: 0.26, rea: 0.26, ted: 0.25,
-  oun: 0.25, ome: 0.25, eve: 0.25, nce: 0.24, ine: 0.24,
-  one: 0.24, hou: 0.24, hen: 0.23, res: 0.23, ght: 0.23,
-  rin: 0.23, ore: 0.22, han: 0.22, our: 0.22, igh: 0.22,
-  ove: 0.22, ell: 0.22, out: 0.21, end: 0.21, ble: 0.21,
-  ine: 0.24, ill: 0.21, com: 0.20, ect: 0.20, ard: 0.20,
-  int: 0.20, igh: 0.22, age: 0.20
-};
+const ENGLISH_BIGRAM_FREQ = loadNgramFreqs('ngrams2.tsv');
+const ENGLISH_TRIGRAM_FREQ = loadNgramFreqs('ngrams3.tsv');
+
+console.log(`Loaded ${Object.keys(ENGLISH_BIGRAM_FREQ).length} English bigrams, ${Object.keys(ENGLISH_TRIGRAM_FREQ).length} trigrams from Norvig corpus`);
+
+// Pearson correlation
+function pearson(x, y) {
+  const n = x.length;
+  const mx = x.reduce((a, b) => a + b, 0) / n;
+  const my = y.reduce((a, b) => a + b, 0) / n;
+  let num = 0, dx = 0, dy = 0;
+  for (let i = 0; i < n; i++) {
+    const xi = x[i] - mx, yi = y[i] - my;
+    num += xi * yi;
+    dx += xi * xi;
+    dy += yi * yi;
+  }
+  return num / Math.sqrt(dx * dy);
+}
 
 const SAMPLE_SIZE = 200_000;
 const MODE = 'lexicon';
@@ -194,32 +205,73 @@ for (const { trigram, genFreq, engFreq, gap, ratio, impact } of trigramGaps.slic
   console.log(`  ${trigram.padEnd(5)} | ${genFreq.toFixed(3).padStart(6)} | ${engFreq.toFixed(3).padStart(6)} | ${dir}${gap.toFixed(3).padStart(6)} | ${ratio.toFixed(2).padStart(5)} | ${impact.toFixed(3).padStart(6)}`);
 }
 
-// === OVER-GENERATED BIGRAMS (not in English top list) ===
+// Trigram correlation
+const engTrigramKeys = Object.keys(ENGLISH_TRIGRAM_FREQ);
+const engTrigramVals = engTrigramKeys.map(t => ENGLISH_TRIGRAM_FREQ[t]);
+const genTrigramVals = engTrigramKeys.map(t => trigramFreqs[t] || 0);
+console.log(`\nTrigram correlation (r): ${pearson(engTrigramVals, genTrigramVals).toFixed(4)}`);
+
+// === MOST OVER-REPRESENTED TRIGRAMS ===
 console.log('\n═══════════════════════════════════════════════════════════');
-console.log('TOP GENERATED BIGRAMS NOT IN ENGLISH TOP-100');
+console.log('MOST OVER-REPRESENTED TRIGRAMS (ratio > 3, min 0.05% gen)');
 console.log('═══════════════════════════════════════════════════════════');
 
-const novelBigrams = Object.entries(bigramFreqs)
-  .filter(([bg]) => !ENGLISH_BIGRAM_FREQ[bg])
-  .map(([bg, freq]) => ({ bigram: bg, freq: +freq.toFixed(3) }))
-  .sort((a, b) => b.freq - a.freq)
+const overTrigrams = trigramGaps
+  .filter(t => t.genFreq >= 0.05 && t.ratio > 3)
+  .sort((a, b) => b.ratio - a.ratio)
   .slice(0, 20);
 
-for (const { bigram, freq } of novelBigrams) {
-  console.log(`  ${bigram}: ${freq.toFixed(3)}%`);
+console.log('Trigram | Gen%    | Eng%    | Ratio');
+console.log('--------|---------|---------|------');
+for (const { trigram, genFreq, engFreq, ratio } of overTrigrams) {
+  console.log(`  ${trigram.padEnd(5)} | ${genFreq.toFixed(3).padStart(6)} | ${engFreq.toFixed(3).padStart(6)} | ${ratio.toFixed(1).padStart(5)}`);
 }
 
-// Pearson correlation
-function pearson(x, y) {
-  const n = x.length;
-  const mx = x.reduce((a, b) => a + b, 0) / n;
-  const my = y.reduce((a, b) => a + b, 0) / n;
-  let num = 0, dx = 0, dy = 0;
-  for (let i = 0; i < n; i++) {
-    const xi = x[i] - mx, yi = y[i] - my;
-    num += xi * yi;
-    dx += xi * xi;
-    dy += yi * yi;
-  }
-  return num / Math.sqrt(dx * dy);
+// === MOST UNDER-REPRESENTED TRIGRAMS ===
+console.log('\n═══════════════════════════════════════════════════════════');
+console.log('MOST UNDER-REPRESENTED TRIGRAMS (ratio < 0.3, min 0.1% eng)');
+console.log('═══════════════════════════════════════════════════════════');
+
+const underTrigrams = trigramGaps
+  .filter(t => t.engFreq >= 0.1 && t.ratio < 0.3 && t.ratio > 0)
+  .sort((a, b) => a.ratio - b.ratio)
+  .slice(0, 20);
+
+console.log('Trigram | Gen%    | Eng%    | Ratio');
+console.log('--------|---------|---------|------');
+for (const { trigram, genFreq, engFreq, ratio } of underTrigrams) {
+  console.log(`  ${trigram.padEnd(5)} | ${genFreq.toFixed(3).padStart(6)} | ${engFreq.toFixed(3).padStart(6)} | ${ratio.toFixed(2).padStart(5)}`);
 }
+
+// === MOST OVER-REPRESENTED BIGRAMS (by ratio, min 0.1% generated) ===
+console.log('\n═══════════════════════════════════════════════════════════');
+console.log('MOST OVER-REPRESENTED BIGRAMS (ratio > 2, min 0.1% gen)');
+console.log('═══════════════════════════════════════════════════════════');
+
+const overBigrams = bigramGaps
+  .filter(b => b.genFreq >= 0.1 && b.ratio > 2)
+  .sort((a, b) => b.ratio - a.ratio)
+  .slice(0, 20);
+
+console.log('Bigram | Gen%    | Eng%    | Ratio');
+console.log('-------|---------|---------|------');
+for (const { bigram, genFreq, engFreq, ratio } of overBigrams) {
+  console.log(`  ${bigram.padEnd(4)} | ${genFreq.toFixed(3).padStart(6)} | ${engFreq.toFixed(3).padStart(6)} | ${ratio.toFixed(1).padStart(5)}`);
+}
+
+// === MOST UNDER-REPRESENTED BIGRAMS (by ratio, min 0.1% English) ===
+console.log('\n═══════════════════════════════════════════════════════════');
+console.log('MOST UNDER-REPRESENTED BIGRAMS (ratio < 0.5, min 0.1% eng)');
+console.log('═══════════════════════════════════════════════════════════');
+
+const underBigrams = bigramGaps
+  .filter(b => b.engFreq >= 0.1 && b.ratio < 0.5 && b.ratio > 0)
+  .sort((a, b) => a.ratio - b.ratio)
+  .slice(0, 20);
+
+console.log('Bigram | Gen%    | Eng%    | Ratio');
+console.log('-------|---------|---------|------');
+for (const { bigram, genFreq, engFreq, ratio } of underBigrams) {
+  console.log(`  ${bigram.padEnd(4)} | ${genFreq.toFixed(3).padStart(6)} | ${engFreq.toFixed(3).padStart(6)} | ${ratio.toFixed(2).padStart(5)}`);
+}
+
