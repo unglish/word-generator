@@ -5,7 +5,7 @@ import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, S
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
-import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant, repairHAfterBackVowel } from "./repair.js";
+import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant, repairHAfterBackVowel, repairGlideAbsorption } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
 import type { GenerationWeights } from "../config/language.js";
@@ -687,6 +687,7 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   }
   repairNgCodaSibilant(context.word.syllables);
   repairHAfterBackVowel(context.word.syllables);
+  repairGlideAbsorption(context.word.syllables);
   const stressRules = rt.config.stress ?? { strategy: "weight-sensitive" };
   applyStress(context, stressRules);
   repairStressedNuclei(context, rt.positionPhonemes.nucleus, stressRules);
