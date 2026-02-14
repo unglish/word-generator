@@ -80,6 +80,9 @@ function buildCategorySets(phonemes: Phoneme[]): Map<string, Set<string>> {
       if (p.tense === false) categories.get("lax-vowel")!.add(p.sound);
       if (p.tense === true) categories.get("tense-vowel")!.add(p.sound);
       if (p.placeOfArticulation === "front") categories.get("front-vowel")!.add(p.sound);
+      // Triphthong /aɪə/ is classified as central but writes with a leading
+      // "i" grapheme — include it in front-vowel to block ti/ci/si/xi collisions.
+      if (p.sound === "aɪə") categories.get("front-vowel")!.add(p.sound);
       if (p.placeOfArticulation === "back") categories.get("back-vowel")!.add(p.sound);
       // Vowels that cause c-softening (written as e/i): i:, ɪ, e, ɛ, eɪ, ɪə, eə
       // Vowels that cause c-softening: front vowels that typically write as e/i/y.

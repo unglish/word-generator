@@ -276,27 +276,6 @@ export const englishConfig: LanguageConfig = {
       probability: 100,
       scope: "word",
     },
-    {
-      name: "iy-to-y",
-      pattern: "iy",
-      replacement: "y",
-      probability: 100,
-      scope: "word",
-    },
-    {
-      name: "uw-to-w",
-      pattern: "uw",
-      replacement: "w",
-      probability: 100,
-      scope: "word",
-    },
-    {
-      name: "iw-to-w",
-      pattern: "iw",
-      replacement: "w",
-      probability: 100,
-      scope: "word",
-    },
   ],
 
   clusterConstraint: {
