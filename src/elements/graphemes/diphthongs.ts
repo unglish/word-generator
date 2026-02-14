@@ -32,6 +32,9 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 2,
     endWord: 5,
+    condition: {
+      notRightContext: ["consonant"],
+    },
   },
   {
     phoneme: "aɪ",
@@ -315,7 +318,7 @@ export const diphthongGraphemes: Grapheme[] = [
     frequency: 5,
     startWord: 0,
     midWord: 0,
-    endWord: 0,
+    endWord: 4,
   },
   { 
     phoneme: "eɪ", 

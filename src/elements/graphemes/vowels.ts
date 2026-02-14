@@ -40,6 +40,7 @@ export const vowelGraphemes: Grapheme[] = [
     endWord: 5,
     condition: {
       wordPosition: ["final"],
+      notRightContext: ["consonant"],
     },
   },
   {
