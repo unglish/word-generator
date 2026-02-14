@@ -276,6 +276,7 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    condition: { notRightContext: ["front-vowel"] },
   },
   {
     phoneme: "ʃ",

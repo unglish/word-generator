@@ -98,6 +98,7 @@ export const affricateGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    condition: { notRightContext: ["front-vowel"] },
   },
   {
     phoneme: "dʒ",
