@@ -213,7 +213,7 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
-    condition: { rightContext: ["vowel"], notRightContext: ["front-vowel"] },
+    condition: { rightContext: ["vowel"], notRightContext: ["front-vowel", "back-vowel"] },
   },
   {
     phoneme: "ʃ",
@@ -224,7 +224,7 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
-    condition: { rightContext: ["vowel"], notRightContext: ["front-vowel"] },
+    condition: { rightContext: ["vowel"], notRightContext: ["front-vowel", "back-vowel"] },
   },
   {
     phoneme: "ʃ",
@@ -255,7 +255,7 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
-    condition: { rightContext: ["vowel"], notRightContext: ["front-vowel"] },
+    condition: { rightContext: ["vowel"], notRightContext: ["front-vowel", "back-vowel"] },
   },
   {
     phoneme: "ʃ",
@@ -276,7 +276,7 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
-    condition: { notRightContext: ["front-vowel"] },
+    condition: { notRightContext: ["front-vowel", "back-vowel"] },
   },
   {
     phoneme: "ʃ",
@@ -297,7 +297,7 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
-    condition: { notRightContext: ["front-vowel"] },
+    condition: { notRightContext: ["front-vowel", "back-vowel"] },
   },
   {
     phoneme: "ʃ",
