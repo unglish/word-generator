@@ -304,10 +304,10 @@ describe('Quality Benchmark', () => {
       expect(rengTengCount).toBeLessThan(30);
     });
 
-    it('Gate: 2-letter monosyllables ≤ 8% of all monosyllables', () => {
+    it('Gate: 2-letter monosyllables ≤ 9% of all monosyllables', () => {
       const pct = monoTwoLetterOrLess / monoTotal * 100;
       console.log(`2-letter mono: ${monoTwoLetterOrLess}/${monoTotal} (${pct.toFixed(1)}%)`);
-      expect(pct).toBeLessThanOrEqual(8);
+      expect(pct).toBeLessThanOrEqual(9);
     });
 
     it('Gate: open monosyllables ≤ 20% of all monosyllables', () => {

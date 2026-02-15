@@ -465,8 +465,30 @@ export const englishConfig: LanguageConfig = {
 
   clusterWeights: {
     coda: {
-      "n,s": 0.20,  // Reduce /ns/ clusters from ~5.5% to ~2.5-3.0% (~50% reduction)
-      "n,z": 0.20,  // Reduce /nz/ clusters from ~5.5% to ~2.5-3.0% (~50% reduction)
+      final: {
+        "t,s": 0.0001,    // Ultra-aggressive reduction for word-final pseudo-plurals
+        "t,z": 0.0001,
+        "n,s": 0.0001,    // Ultra-aggressive reduction  
+        "n,z": 0.0001,
+        "d,s": 0.0001,    // Also block after nasalStopExtension (n→nd+s)
+        "d,z": 0.0001,
+        "b,s": 0.0001,    // Also block after nasalStopExtension (m→mb+s)
+        "b,z": 0.0001,
+        "g,s": 0.0001,    // Also block after nasalStopExtension (ŋ→ŋg+s)
+        "g,z": 0.0001,
+      },
+      nonFinal: {
+        "t,s": 0.4,     // Moderate reduction for mid-word clusters
+        "t,z": 0.4,
+        "n,s": 0.4,
+        "n,z": 0.4,
+        "d,s": 0.4,
+        "d,z": 0.4,
+        "b,s": 0.4,
+        "b,z": 0.4,
+        "g,s": 0.4,
+        "g,z": 0.4,
+      },
     },
   },
 };
