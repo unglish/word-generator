@@ -575,6 +575,110 @@ describe('filterByPosition', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Monosyllable position weight selection
+// ---------------------------------------------------------------------------
+
+describe('monosyllable position weight selection', () => {
+  it('monosyllabic /dz/ words should prefer "ds" over "dse"', () => {
+    // Generate 1000 monosyllabic words ending in /dz/
+    // Check that "dse" appears very rarely (<1%)
+    const words = generateWords(10000, { seed: 123 });
+    
+    let dzWords = 0;
+    let dseCount = 0;
+    let dsCount = 0;
+    
+    for (const w of words) {
+      // Check if word is monosyllabic and ends with /dz/
+      if (w.syllables.length === 1 && 
+          w.syllables[0].coda.length > 0 && 
+          w.syllables[0].coda[w.syllables[0].coda.length - 1].sound === 'dz') {
+        dzWords++;
+        const clean = w.written.clean.toLowerCase();
+        if (clean.endsWith('dse')) {
+          dseCount++;
+        } else if (clean.endsWith('ds')) {
+          dsCount++;
+        }
+      }
+    }
+    
+    if (dzWords > 0) {
+      const dsePercent = (dseCount / dzWords) * 100;
+      const dsPercent = (dsCount / dzWords) * 100;
+      console.log(`  Monosyllabic /dz/ endings: ${dzWords} total`);
+      console.log(`  - "dse": ${dseCount} (${dsePercent.toFixed(2)}%)`);
+      console.log(`  - "ds": ${dsCount} (${dsPercent.toFixed(2)}%)`);
+      
+      // With the fix, "dse" should be near-zero for monosyllables (startWord: 0 grapheme)
+      expect(dsePercent).toBeLessThan(1.0);
+      // "ds" should be the dominant form
+      expect(dsPercent).toBeGreaterThan(50);
+    }
+  });
+
+  it('monosyllable fix should not affect multi-syllable /dz/ words', () => {
+    // Multi-syllable words ending in /dz/ should still allow "dse" in final position
+    const words = generateWords(10000, { seed: 456 });
+    
+    let multiSyllableDzWords = 0;
+    let dseCount = 0;
+    
+    for (const w of words) {
+      // Check if word is multi-syllabic and ends with /dz/
+      if (w.syllables.length > 1 && 
+          w.syllables[w.syllables.length - 1].coda.length > 0 && 
+          w.syllables[w.syllables.length - 1].coda[w.syllables[w.syllables.length - 1].coda.length - 1].sound === 'dz') {
+        multiSyllableDzWords++;
+        const clean = w.written.clean.toLowerCase();
+        if (clean.endsWith('dse')) {
+          dseCount++;
+        }
+      }
+    }
+    
+    if (multiSyllableDzWords > 0) {
+      const dsePercent = (dseCount / multiSyllableDzWords) * 100;
+      console.log(`  Multi-syllable /dz/ endings: ${multiSyllableDzWords} total`);
+      console.log(`  - "dse": ${dseCount} (${dsePercent.toFixed(2)}%)`);
+      
+      // For multi-syllable words, "dse" should still appear at reasonable frequency
+      // (position weighting should work normally for final syllables)
+      expect(dsePercent).toBeGreaterThan(5);
+    }
+  });
+
+  it('monosyllable max position weight applies to all phonemes', () => {
+    // Test that the monosyllable fix (using max position weight) applies consistently
+    // Generate many monosyllables and verify no graphemes with startWord:0 appear
+    const words = generateWords(5000, { seed: 789 });
+    
+    const monosyllables = words.filter(w => w.syllables.length === 1);
+    console.log(`  Testing ${monosyllables.length} monosyllables`);
+    
+    // This is a smoke test - we can't easily check internal grapheme selection
+    // but we can verify that the words generated are plausible and don't show
+    // obvious artifacts of incorrect position weighting
+    expect(monosyllables.length).toBeGreaterThan(100);
+    
+    // Count how many monosyllables end with graphemes that should have startWord:0
+    // (like "dse", "ck" at start, etc.)
+    let suspiciousEndings = 0;
+    for (const w of monosyllables) {
+      const clean = w.written.clean.toLowerCase();
+      // "dse" is the main offender we know about
+      if (clean.endsWith('dse')) {
+        suspiciousEndings++;
+      }
+    }
+    
+    const suspiciousPercent = (suspiciousEndings / monosyllables.length) * 100;
+    console.log(`  Suspicious endings in monosyllables: ${suspiciousEndings} (${suspiciousPercent.toFixed(2)}%)`);
+    expect(suspiciousPercent).toBeLessThan(0.5);
+  });
+});
+
+// ---------------------------------------------------------------------------
 // Syllable-based position filtering integration
 // ---------------------------------------------------------------------------
 
