@@ -515,6 +515,34 @@ export interface LanguageConfig {
 
   /** Morphological word-formation configuration. */
   morphology?: MorphologyConfig;
+
+  /**
+   * Cluster-specific frequency weights to suppress over-represented phoneme combinations.
+   *
+   * Each entry maps a comma-separated sequence of phoneme sounds (e.g., `"n,s"`, `"n,z"`)
+   * to a multiplier (0.0–1.0) applied to the combined probability when that exact sequence
+   * is generated in the specified position.
+   *
+   * **Use case:** English /ns/ and /nz/ coda clusters are phonotactically valid but occur
+   * ~5× more frequently than in real English (~5.5% vs ~1–2%). Applying a weight of 0.3
+   * reduces their frequency by ~72% to match natural distributions.
+   *
+   * @example
+   * ```ts
+   * clusterWeights: {
+   *   coda: {
+   *     "n,s": 0.3,  // Reduce /ns/ clusters to 30% of base probability
+   *     "n,z": 0.3   // Reduce /nz/ clusters to 30% of base probability
+   *   }
+   * }
+   * ```
+   */
+  clusterWeights?: {
+    /** Weights for onset clusters (not currently used in English). */
+    onset?: Record<string, number>;
+    /** Weights for coda clusters. */
+    coda?: Record<string, number>;
+  };
 }
 
 // ---------------------------------------------------------------------------
