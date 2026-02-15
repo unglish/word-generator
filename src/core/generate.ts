@@ -44,7 +44,10 @@ interface GeneratorRuntime {
   attestedCodaPrefixSet?: Set<string>;
   clusterWeights?: {
     onset?: Map<string, number>;
-    coda?: Map<string, number>;
+    coda?: Map<string, number> | {
+      final?: Map<string, number>;
+      nonFinal?: Map<string, number>;
+    };
   };
 }
 
@@ -95,7 +98,16 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
   // Build cluster weight maps from config
   const clusterWeights = config.clusterWeights ? {
     onset: config.clusterWeights.onset ? new Map(Object.entries(config.clusterWeights.onset)) : undefined,
-    coda: config.clusterWeights.coda ? new Map(Object.entries(config.clusterWeights.coda)) : undefined,
+    coda: config.clusterWeights.coda ? (
+      // Check if position-based format (has 'final' or 'nonFinal' keys)
+      typeof config.clusterWeights.coda === 'object' &&
+      ('final' in config.clusterWeights.coda || 'nonFinal' in config.clusterWeights.coda)
+        ? {
+            final: config.clusterWeights.coda.final ? new Map(Object.entries(config.clusterWeights.coda.final)) : undefined,
+            nonFinal: config.clusterWeights.coda.nonFinal ? new Map(Object.entries(config.clusterWeights.coda.nonFinal)) : undefined,
+          }
+        : new Map(Object.entries(config.clusterWeights.coda as Record<string, number>))
+    ) : undefined,
   } : undefined;
 
   return {
@@ -172,6 +184,36 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
   // Reject phonemes banned from coda position entirely
   if (context.position === "coda" && rt.bannedCodaSet?.has(p.sound)) {
     return false;
+  }
+
+  // Check cluster weight threshold: reject if weight multiplier is below 0.01 (1%)
+  // This prevents overly suppressed clusters from being generated at all
+  if (context.cluster.length > 0 && rt.clusterWeights) {
+    const weightsForPosition = context.position === "onset" ? rt.clusterWeights.onset : rt.clusterWeights.coda;
+    if (weightsForPosition) {
+      const clusterSounds = context.cluster.map(ph => ph.sound);
+      const fullCluster = [...clusterSounds, p.sound];
+      
+      // Get the appropriate weight map
+      let weightMap: Map<string, number> | undefined;
+      if (typeof weightsForPosition === 'object' && 'final' in weightsForPosition) {
+        const isFinalSyllable = context.isEndOfWord;
+        weightMap = isFinalSyllable ? weightsForPosition.final : weightsForPosition.nonFinal;
+      } else {
+        weightMap = weightsForPosition as Map<string, number>;
+      }
+      
+      // Check if any cluster suffix has a weight below threshold
+      if (weightMap) {
+        for (let i = 0; i < fullCluster.length; i++) {
+          const suffix = fullCluster.slice(i).join(",");
+          const weight = weightMap.get(suffix);
+          if (weight !== undefined && weight < 0.01) {
+            return false;  // Reject this candidate
+          }
+        }
+      }
+    }
   }
 
   // When attested onset whitelist exists, use it as the primary gate for onsets
@@ -294,9 +336,36 @@ function selectPhoneme(validCandidates: Phoneme[], context: ClusterContext, rt?:
     if (rt && cluster.length > 0 && rt.clusterWeights) {
       const weightsForPosition = position === "onset" ? rt.clusterWeights.onset : rt.clusterWeights.coda;
       if (weightsForPosition) {
-        // Build the cluster key: existing cluster phonemes + candidate phoneme
-        const clusterKey = [...cluster.map(ph => ph.sound), p.sound].join(",");
-        const multiplier = weightsForPosition.get(clusterKey);
+        // Build potential cluster keys: check all suffixes of the forming cluster
+        // For cluster [n, t] + candidate s, check: "s", "t,s", "n,t,s"
+        const clusterSounds = cluster.map(ph => ph.sound);
+        const fullCluster = [...clusterSounds, p.sound];
+        let multiplier: number | undefined;
+        
+        // Get the appropriate weight map based on format
+        let weightMap: Map<string, number> | undefined;
+        if (typeof weightsForPosition === 'object' && 'final' in weightsForPosition) {
+          // Position-based format: check final vs. nonFinal
+          const isFinalSyllable = isEndOfWord;
+          weightMap = isFinalSyllable ? weightsForPosition.final : weightsForPosition.nonFinal;
+        } else {
+          // Uniform format: single map
+          weightMap = weightsForPosition as Map<string, number>;
+        }
+        
+        // Check all possible cluster suffixes, longest first
+        // This allows matching both specific long clusters (n,t,s) and shorter patterns (t,s)
+        if (weightMap) {
+          for (let i = 0; i < fullCluster.length; i++) {
+            const suffix = fullCluster.slice(i).join(",");
+            const weight = weightMap.get(suffix);
+            if (weight !== undefined) {
+              multiplier = weight;
+              break;  // Use first (longest) match
+            }
+          }
+        }
+        
         if (multiplier !== undefined) {
           baseWeight *= multiplier;
         }
@@ -447,17 +516,47 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
   // Add 's' to the end of the last syllable occasionally
   if (isEndOfWord) {
     let finalSProbability = probability.finalS;
+    let shouldSkipFinalS = false;
     
     // Apply cluster-specific weight if appending /s/ would create a weighted cluster
     if (coda.length > 0 && rt.clusterWeights?.coda) {
-      const clusterKey = [...coda.map(ph => ph.sound), 's'].join(',');
-      const multiplier = rt.clusterWeights.coda.get(clusterKey);
-      if (multiplier !== undefined) {
+      const clusterSounds = coda.map(ph => ph.sound);
+      const fullCluster = [...clusterSounds, 's'];
+      let multiplier: number | undefined;
+      
+      // Get the appropriate weight map
+      const codaWeights = rt.clusterWeights.coda;
+      let weightMap: Map<string, number> | undefined;
+      if (typeof codaWeights === 'object' && 'final' in codaWeights) {
+        // Position-based format: use final weights (since isEndOfWord is true)
+        weightMap = codaWeights.final;
+      } else {
+        // Uniform format: single map
+        weightMap = codaWeights as Map<string, number>;
+      }
+      
+      // Check all possible cluster suffixes, longest first
+      if (weightMap) {
+        for (let i = 0; i < fullCluster.length; i++) {
+          const suffix = fullCluster.slice(i).join(',');
+          const weight = weightMap.get(suffix);
+          if (weight !== undefined) {
+            multiplier = weight;
+            // Apply threshold check: if weight < 0.01, skip finalS entirely
+            if (weight < 0.01) {
+              shouldSkipFinalS = true;
+            }
+            break;
+          }
+        }
+      }
+      
+      if (multiplier !== undefined && !shouldSkipFinalS) {
         finalSProbability *= multiplier;
       }
     }
     
-    if (getWeightedOption([[true, finalSProbability], [false, 100 - finalSProbability]], rand)) {
+    if (!shouldSkipFinalS && getWeightedOption([[true, finalSProbability], [false, 100 - finalSProbability]], rand)) {
       const sPhoneme = rt.config.phonemes.find(p => p.sound === 's');
       if (sPhoneme) {
         coda.push(sPhoneme);
