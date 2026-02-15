@@ -295,11 +295,15 @@ function selectByFrequency(
   let cumulative = 0;
   const cumulatives: number[] = [];
   for (const g of candidates) {
-    const posWeight = isStartOfWord
-      ? (g.startWord ?? 1)
-      : isEndOfWord
-        ? (g.endWord ?? 1)
-        : (g.midWord ?? 1);
+    // For monosyllables (both isStartOfWord AND isEndOfWord), use the maximum position weight
+    // to avoid defaulting to startWord=0 for final phonemes (e.g. /dz/ → "dse")
+    const posWeight = (isStartOfWord && isEndOfWord)
+      ? Math.max(g.startWord ?? 1, g.endWord ?? 1, g.midWord ?? 1)
+      : isStartOfWord
+        ? (g.startWord ?? 1)
+        : isEndOfWord
+          ? (g.endWord ?? 1)
+          : (g.midWord ?? 1);
     const w = g.frequency * posWeight;
     cumulative += w;
     cumulatives.push(cumulative);
