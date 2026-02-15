@@ -124,7 +124,7 @@ export const phonemes: Phoneme[] = [
 
   // Voiceless Stops
   { sound: "p", voiced: false, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 100, coda: 50, startWord: 8, midWord: 10, endWord: 6 }, // pop
-  { sound: "t", voiced: false, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 260, coda: 200, startWord: 5, midWord: 10, endWord: 10 }, // top
+  { sound: "t", voiced: false, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 260, coda: 100, startWord: 5, midWord: 10, endWord: 10 }, // top
   { sound: "k", voiced: false, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 160, coda: 100, startWord: 4, midWord: 10, endWord: 10 }, // cat
 
   // Voiced Stops
