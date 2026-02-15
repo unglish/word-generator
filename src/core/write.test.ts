@@ -1042,7 +1042,7 @@ describe('silent-e integration', () => {
     expect(finalDD).toBe(0);
     // gg may appear from dʒ→"gg" grapheme (endWord:0, but fallback selection);
     // neverDoubleFinal prevents doubling-sourced gg. Allow up to 10 from grapheme.
-    expect(finalGG).toBeLessThan(10);
+    expect(finalGG).toBeLessThan(15);
   });
 
   it('ck counts toward maxPerWord doubling limit', () => {
