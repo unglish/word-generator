@@ -376,6 +376,6 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 0,
     endWord: 0,
-    condition: { rightContext: ["u", "ʊ", "o", "ɔ", "əʊ"] }  // Only "who", "whole", "whore" patterns
+    condition: { rightContext: ["u:", "o", "ɔ", "əʊ"] }  // Only "who" (/hu:/), "whole" (/həʊl/), "whore" (/hɔ:/) patterns - blocks "whu" (/hʊ/)
   }
 ];
