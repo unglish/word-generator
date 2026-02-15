@@ -261,6 +261,17 @@ export const stopGraphemes: Grapheme[] = [
     endWord: 0,
   },
 
+  // Example: "lion", "pion", "ion" (cross-syllable)
+  {
+    phoneme: "aɪə",
+    form: "io",
+    origin: 0,
+    frequency: 150,
+    startWord: 2,
+    midWord: 10,
+    endWord: 30,
+  },
+
   // Example: "hour", "flour"
   {
     phoneme: "aʊə",
