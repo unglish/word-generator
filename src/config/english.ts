@@ -462,4 +462,11 @@ export const englishConfig: LanguageConfig = {
       lexicon: { bare: 40, suffixed: 35, prefixed: 15, both: 10 },
     },
   },
+
+  clusterWeights: {
+    coda: {
+      "n,s": 0.20,  // Reduce /ns/ clusters from ~5.5% to ~2.5-3.0% (~50% reduction)
+      "n,z": 0.20,  // Reduce /nz/ clusters from ~5.5% to ~2.5-3.0% (~50% reduction)
+    },
+  },
 };

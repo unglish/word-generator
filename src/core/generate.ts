@@ -42,6 +42,10 @@ interface GeneratorRuntime {
   attestedCodaSet?: Set<string>;
   attestedOnsetPrefixSet?: Set<string>;
   attestedCodaPrefixSet?: Set<string>;
+  clusterWeights?: {
+    onset?: Map<string, number>;
+    coda?: Map<string, number>;
+  };
 }
 
 /** Build a set of all proper prefixes for attested clusters (excludes the full key). */
@@ -88,6 +92,12 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
   const cl = config.clusterLimits;
   const sc = config.sonorityConstraints;
 
+  // Build cluster weight maps from config
+  const clusterWeights = config.clusterWeights ? {
+    onset: config.clusterWeights.onset ? new Map(Object.entries(config.clusterWeights.onset)) : undefined,
+    coda: config.clusterWeights.coda ? new Map(Object.entries(config.clusterWeights.coda)) : undefined,
+  } : undefined;
+
   return {
     config, sonorityLevels, sonorityBySound, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
     bannedSet,
@@ -115,6 +125,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     attestedCodaPrefixSet: cl?.attestedCodas
       ? buildPrefixSet(cl.attestedCodas)
       : undefined,
+    clusterWeights,
   };
 }
 
@@ -137,7 +148,7 @@ function buildCluster(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] 
     const validCandidates = getValidCandidates(allPositionPhonemes, rt, context);
     if (validCandidates.length === 0) break;
 
-    const newPhoneme = selectPhoneme(validCandidates, context);
+    const newPhoneme = selectPhoneme(validCandidates, context, rt);
     if (!newPhoneme) break;
 
     context.cluster.push(newPhoneme);
@@ -267,15 +278,34 @@ function checkCodaSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, prevPhone
 // Phoneme selection
 // ---------------------------------------------------------------------------
 
-function selectPhoneme(validCandidates: Phoneme[], { position, isStartOfWord, isEndOfWord, rand }: ClusterContext): Phoneme | null {
+function selectPhoneme(validCandidates: Phoneme[], context: ClusterContext, rt?: GeneratorRuntime): Phoneme | null {
+  const { position, isStartOfWord, isEndOfWord, rand, cluster } = context;
+  
   const weightedCandidates = validCandidates.map(p => {
     const positionWeight = p[position] ?? 0;
     const wordPositionModifier =
       (isStartOfWord && p.startWord) ||
       (isEndOfWord && p.endWord) ||
       p.midWord || 1;
-    return [p, positionWeight * wordPositionModifier] as [Phoneme, number];
+    
+    let baseWeight = positionWeight * wordPositionModifier;
+    
+    // Apply cluster-specific weight multiplier if this phoneme would create a weighted cluster
+    if (rt && cluster.length > 0 && rt.clusterWeights) {
+      const weightsForPosition = position === "onset" ? rt.clusterWeights.onset : rt.clusterWeights.coda;
+      if (weightsForPosition) {
+        // Build the cluster key: existing cluster phonemes + candidate phoneme
+        const clusterKey = [...cluster.map(ph => ph.sound), p.sound].join(",");
+        const multiplier = weightsForPosition.get(clusterKey);
+        if (multiplier !== undefined) {
+          baseWeight *= multiplier;
+        }
+      }
+    }
+    
+    return [p, baseWeight] as [Phoneme, number];
   });
+  
   return getWeightedOption(weightedCandidates, rand);
 }
 
@@ -415,11 +445,28 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
   }
 
   // Add 's' to the end of the last syllable occasionally
-  if (isEndOfWord && getWeightedOption([[true, probability.finalS], [false, 100 - probability.finalS]], rand)) {
-    const sPhoneme = rt.config.phonemes.find(p => p.sound === 's');
-    if (sPhoneme) {
-      coda.push(sPhoneme);
-      context.trace?.recordStructural('finalS', `appended /s/ to final coda (prob ${probability.finalS}%)`);
+  if (isEndOfWord) {
+    let finalSProbability = probability.finalS;
+    
+    // Apply cluster-specific weight if appending /s/ would create a weighted cluster
+    if (coda.length > 0 && rt.clusterWeights?.coda) {
+      const clusterKey = [...coda.map(ph => ph.sound), 's'].join(',');
+      const multiplier = rt.clusterWeights.coda.get(clusterKey);
+      if (multiplier !== undefined) {
+        finalSProbability *= multiplier;
+      }
+    }
+    
+    if (getWeightedOption([[true, finalSProbability], [false, 100 - finalSProbability]], rand)) {
+      const sPhoneme = rt.config.phonemes.find(p => p.sound === 's');
+      if (sPhoneme) {
+        coda.push(sPhoneme);
+        if (finalSProbability !== probability.finalS) {
+          context.trace?.recordStructural('finalS', `appended /s/ to final coda (prob ${probability.finalS}% × cluster weight ${finalSProbability / probability.finalS})`);
+        } else {
+          context.trace?.recordStructural('finalS', `appended /s/ to final coda (prob ${probability.finalS}%)`);
+        }
+      }
     }
   }
 
