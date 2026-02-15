@@ -330,7 +330,7 @@ export const englishConfig: LanguageConfig = {
       // Nasal + homorganic stop
       ["m","p"],["m","b"],["n","t"],["n","d"],["ŋ","k"],
       // Nasal + fricative
-      ["m","f"],["m","s"],["m","z"],["m","θ"],["n","s"],["n","z"],["n","θ"],["ŋ","s"],["ŋ","z"],["ŋ","θ"],
+      ["m","s"],["m","z"],["m","θ"],["n","s"],["n","z"],["n","θ"],["ŋ","s"],["ŋ","z"],["ŋ","θ"],
       // Nasal + affricate
       ["n","tʃ"],["n","dʒ"],
       // Obstruent + s/z
