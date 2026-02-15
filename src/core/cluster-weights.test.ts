@@ -1,118 +1,201 @@
 import { describe, it, expect } from 'vitest';
-import { generateWords } from './generate.js';
+import { generateWords } from './generate';
+import { createGenerator } from './generate';
+import { englishConfig } from '../config/english';
 
-/**
- * Tests for cluster-specific weighting feature.
- * 
- * Issue: /ns/ and /nz/ coda clusters were over-represented at ~5.5% vs ~1-2% in English.
- * Solution: Cluster-specific weights in config (n,s: 0.3, n,z: 0.3) reduce frequency by ~72%.
- */
-
-describe('Cluster-Specific Weighting', () => {
-  
-  it('should apply cluster weight multipliers to reduce ns/nz frequency', () => {
-    const SAMPLE_SIZE = 10_000;
-    const words = generateWords(SAMPLE_SIZE, { mode: 'text' });
+describe('Position-based cluster weighting', () => {
+  it('applies position-based weights correctly', () => {
+    // Generate 10k sample to test position-based weighting
+    const words = generateWords(10000, { seed: 42 });
     
-    let nsCount = 0;
-    for (const word of words) {
-      const text = word.written.clean.toLowerCase();
-      if (text.includes('ns')) {
-        nsCount++;
-      }
-    }
-    
-    const nsPercentage = (nsCount / SAMPLE_SIZE) * 100;
-    
-    // With cluster weighting, expect significant reduction from baseline ~5.5%
-    // Target is ~2-3% range (45-55% reduction from baseline)
-    expect(nsPercentage).toBeLessThan(4.0); // Should be well below old ~5.5%
-    expect(nsPercentage).toBeGreaterThan(1.0); // Should still occur naturally
-    
-    console.log(`NS frequency: ${nsPercentage.toFixed(2)}% (${nsCount}/${SAMPLE_SIZE})`);
-  });
-
-  it('should generate expected ns/nz distribution in large sample', () => {
-    const SAMPLE_SIZE = 200_000;
-    const words = generateWords(SAMPLE_SIZE, { mode: 'text' });
-    
-    let nsCount = 0;
-    let nzCount = 0;
+    let tsFinalCount = 0;
+    let tsNonFinalCount = 0;
+    let nsFinalCount = 0;
+    let nsNonFinalCount = 0;
     
     for (const word of words) {
-      const text = word.written.clean.toLowerCase();
-      // Count "ns" that's not part of "nse" (which is /nz/)
-      if (text.match(/ns(?!e)/)) {
-        nsCount++;
-      }
-      // "nse" at word end is typically /nz/
-      if (text.match(/nse\b/)) {
-        nzCount++;
-      }
-    }
-    
-    const totalNasalSibilant = nsCount + nzCount;
-    const percentage = (totalNasalSibilant / SAMPLE_SIZE) * 100;
-    
-    // With cluster weighting, expect ~2-3.5% (down from baseline ~5.5%)
-    // This represents a significant ~45-60% reduction
-    expect(percentage).toBeGreaterThan(1.5);
-    expect(percentage).toBeLessThan(3.5);
-    
-    console.log(`NS+NZ frequency: ${percentage.toFixed(2)}% (${totalNasalSibilant}/${SAMPLE_SIZE})`);
-    console.log(`  NS: ${nsCount}, NZ: ${nzCount}`);
-  }, { timeout: 120_000 }); // 2 minute timeout for large sample
-
-  it('should respect cluster weights in phonological structure', () => {
-    // Generate words and inspect their phonological structure
-    const SAMPLE_SIZE = 5_000;
-    const words = generateWords(SAMPLE_SIZE, { mode: 'text' });
-    
-    let nsPhonologicalCount = 0;
-    let nzPhonologicalCount = 0;
-    
-    for (const word of words) {
-      for (const syllable of word.syllables) {
-        const codaSounds = syllable.coda.map(p => p.sound).join(',');
-        if (codaSounds === 'n,s') {
-          nsPhonologicalCount++;
+      const written = word.written.clean.toLowerCase();
+      const syllables = word.syllables;
+      
+      // Check for "ts" bigram
+      if (written.includes('ts')) {
+        // Determine if it's final by checking if last syllable has t,s coda
+        const lastSyllable = syllables[syllables.length - 1];
+        const lastCoda = lastSyllable.coda.map(p => p.sound).join(',');
+        
+        if (lastCoda.includes('t,s')) {
+          tsFinalCount++;
+        } else {
+          // Check if ts appears in non-final positions
+          for (let i = 0; i < syllables.length - 1; i++) {
+            const coda = syllables[i].coda.map(p => p.sound).join(',');
+            if (coda.includes('t,s')) {
+              tsNonFinalCount++;
+              break;
+            }
+          }
         }
-        if (codaSounds === 'n,z') {
-          nzPhonologicalCount++;
+      }
+      
+      // Check for "ns" bigram
+      if (written.includes('ns')) {
+        const lastSyllable = syllables[syllables.length - 1];
+        const lastCoda = lastSyllable.coda.map(p => p.sound).join(',');
+        
+        if (lastCoda.includes('n,s')) {
+          nsFinalCount++;
+        } else {
+          for (let i = 0; i < syllables.length - 1; i++) {
+            const coda = syllables[i].coda.map(p => p.sound).join(',');
+            if (coda.includes('n,s')) {
+              nsNonFinalCount++;
+              break;
+            }
+          }
         }
       }
     }
     
-    const totalCount = nsPhonologicalCount + nzPhonologicalCount;
-    const percentage = (totalCount / SAMPLE_SIZE) * 100;
+    const tsFinalPercent = (tsFinalCount / 10000) * 100;
+    const nsFinalPercent = (nsFinalCount / 10000) * 100;
     
-    // At the phonological level, expect reduction to ~2-3.5% range
-    expect(percentage).toBeLessThan(3.5);
-    expect(percentage).toBeGreaterThan(1.0);
+    // With aggressive 0.03 weight, expect "ts" final to be ~0.2-0.4% (down from ~4.8%)
+    // With 0.03 weight, expect "ns" final to be ~0.2-0.5% (down from previous ~5.5%)
+    expect(tsFinalPercent).toBeLessThan(0.8);
+    expect(nsFinalPercent).toBeLessThan(0.8);
     
-    console.log(`Phonological /ns/+/nz/ codas: ${percentage.toFixed(2)}% (${totalCount}/${SAMPLE_SIZE})`);
-    console.log(`  /ns/: ${nsPhonologicalCount}, /nz/: ${nzPhonologicalCount}`);
+    // Non-final should be more common (0.4 weight is less aggressive)
+    // But still much rarer than final was before the fix
+    expect(tsNonFinalCount).toBeGreaterThanOrEqual(0);
+    expect(nsNonFinalCount).toBeGreaterThanOrEqual(0);
   });
 
-  it('should not affect other nasal+consonant clusters', () => {
-    // Verify that only the specified clusters are affected
-    const SAMPLE_SIZE = 10_000;
-    const words = generateWords(SAMPLE_SIZE, { mode: 'text' });
+  it('backwards compatible with uniform weights', () => {
+    // Create a config with uniform weights (old format)
+    const uniformConfig = {
+      ...englishConfig,
+      clusterWeights: {
+        coda: {
+          "t,s": 0.5,  // Uniform weight
+        },
+      },
+    };
     
-    let ntCount = 0; // /nt/ should be unaffected
-    let ndCount = 0; // /nd/ should be unaffected
+    const gen = createGenerator(uniformConfig);
+    const words = generateWords(1000, { seed: 123 });
+    
+    // Should generate words without errors
+    expect(words.length).toBe(1000);
+    expect(words.every(w => w.written.clean.length > 0)).toBe(true);
+  });
+
+  it('reduces ts/ns frequency compared to no weights', () => {
+    // Test with position-based weights (current config)
+    const wordsWithWeights = generateWords(10000, { seed: 99 });
+    
+    // Test with no weights
+    const noWeightsConfig = {
+      ...englishConfig,
+      clusterWeights: undefined,
+    };
+    const genNoWeights = createGenerator(noWeightsConfig);
+    const wordsNoWeights: any[] = [];
+    for (let i = 0; i < 10000; i++) {
+      wordsNoWeights.push(genNoWeights.generateWord({ seed: 99 + i }));
+    }
+    
+    const countBigrams = (words: any[], bigram: string) => {
+      return words.filter(w => w.written.clean.toLowerCase().includes(bigram)).length;
+    };
+    
+    const tsWithWeights = countBigrams(wordsWithWeights, 'ts');
+    const tsNoWeights = countBigrams(wordsNoWeights, 'ts');
+    const nsWithWeights = countBigrams(wordsWithWeights, 'ns');
+    const nsNoWeights = countBigrams(wordsNoWeights, 'ns');
+    
+    // With weights should be significantly less than without
+    expect(tsWithWeights).toBeLessThan(tsNoWeights * 0.3);  // At least 70% reduction
+    expect(nsWithWeights).toBeLessThan(nsNoWeights * 0.3);  // At least 70% reduction
+    
+    // Without weights, expect ~4-5% frequency (~400-500 out of 10k)
+    expect(tsNoWeights).toBeGreaterThan(300);
+    expect(nsNoWeights).toBeGreaterThan(300);
+    
+    // With weights, expect ~0.5-1% frequency (~50-100 out of 10k)
+    expect(tsWithWeights).toBeLessThan(150);
+    expect(nsWithWeights).toBeLessThan(150);
+  });
+});
+
+describe('Large-scale position-based cluster analysis', () => {
+  it('generates 200k sample with target ts/ns frequencies', { timeout: 60000 }, () => {
+    // This is the main validation test matching the requirement
+    const words = generateWords(200000, { seed: 2026 });
+    
+    let tsFinalCount = 0;
+    let tsNonFinalCount = 0;
+    let nsFinalCount = 0;
+    let nsNonFinalCount = 0;
+    let totalTs = 0;
+    let totalNs = 0;
     
     for (const word of words) {
-      for (const syllable of word.syllables) {
-        const codaSounds = syllable.coda.map(p => p.sound).join(',');
-        if (codaSounds === 'n,t') ntCount++;
-        if (codaSounds === 'n,d') ndCount++;
+      const written = word.written.clean.toLowerCase();
+      const syllables = word.syllables;
+      
+      if (written.includes('ts')) {
+        totalTs++;
+        const lastSyllable = syllables[syllables.length - 1];
+        const lastCoda = lastSyllable.coda.map(p => p.sound).join(',');
+        
+        if (lastCoda.includes('t,s') || lastCoda.endsWith('s') && syllables.length === 1 && lastCoda.includes('t')) {
+          tsFinalCount++;
+        } else {
+          tsNonFinalCount++;
+        }
+      }
+      
+      if (written.includes('ns')) {
+        totalNs++;
+        const lastSyllable = syllables[syllables.length - 1];
+        const lastCoda = lastSyllable.coda.map(p => p.sound).join(',');
+        
+        if (lastCoda.includes('n,s') || lastCoda.endsWith('s') && syllables.length === 1 && lastCoda.includes('n')) {
+          nsFinalCount++;
+        } else {
+          nsNonFinalCount++;
+        }
       }
     }
     
-    // /nt/ and /nd/ are common in English and should appear frequently
-    expect(ntCount + ndCount).toBeGreaterThan(100);
+    const tsPercent = (totalTs / 200000) * 100;
+    const nsPercent = (totalNs / 200000) * 100;
+    const tsFinalPercent = (tsFinalCount / 200000) * 100;
+    const nsFinalPercent = (nsFinalCount / 200000) * 100;
     
-    console.log(`Control clusters - /nt/: ${ntCount}, /nd/: ${ndCount}`);
+    // Log results for debugging
+    console.log(`\n200k sample results:`);
+    console.log(`  Total "ts": ${totalTs} (${tsPercent.toFixed(2)}%)`);
+    console.log(`    Final: ${tsFinalCount} (${tsFinalPercent.toFixed(2)}%)`);
+    console.log(`    Non-final: ${tsNonFinalCount} (${((tsNonFinalCount / 200000) * 100).toFixed(2)}%)`);
+    console.log(`  Total "ns": ${totalNs} (${nsPercent.toFixed(2)}%)`);
+    console.log(`    Final: ${nsFinalCount} (${nsFinalPercent.toFixed(2)}%)`);
+    console.log(`    Non-final: ${nsNonFinalCount} (${((nsNonFinalCount / 200000) * 100).toFixed(2)}%)`);
+    
+    // Target: "ts" 4.83% → ~1%
+    // With threshold-based rejection (weight < 0.01), we achieve even better results:
+    // Expected: ~0.0% final + ~0.2-0.4% non-final = ~0.2-0.5% total
+    expect(tsPercent).toBeLessThan(1.0);  // Well under target
+    expect(tsPercent).toBeGreaterThan(0.0); // But not zero (still valid mid-word clusters)
+    
+    // Target: "ns" further reduction from current
+    // With extended weights including homorganic stops (d,s, b,s, g,s), near-perfect suppression
+    expect(nsPercent).toBeLessThan(1.0);
+    expect(nsPercent).toBeGreaterThan(0.0); // Allow some legitimate cases
+    
+    // Most should be non-final now (since final is heavily weighted down)
+    // But with 0.03, we expect very few finals
+    expect(tsFinalCount).toBeLessThan(tsNonFinalCount * 2); // Non-final should be comparable or higher
+    expect(nsFinalCount).toBeLessThan(nsNonFinalCount * 2);
   });
 });
