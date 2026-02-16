@@ -332,7 +332,7 @@ export const englishConfig: LanguageConfig = {
       ["l","p"],["l","b"],["l","t"],["l","d"],["l","k"],["l","f"],["l","v"],["l","s"],["l","z"],["l","θ"],["l","ʃ"],["l","tʃ"],["l","dʒ"],
       ["r","p"],["r","b"],["r","t"],["r","d"],["r","k"],["r","g"],["r","f"],["r","v"],["r","s"],["r","z"],["r","θ"],["r","ʃ"],["r","tʃ"],["r","dʒ"],
       // Liquid + nasal
-      ["l","m"],["l","n"],["r","m"],["r","n"],["r","l"],
+      ["l","m"],["r","m"],["r","n"],["r","l"],
       // Nasal + homorganic stop
       ["m","p"],["m","b"],["n","t"],["n","d"],["ŋ","k"],
       // Nasal + fricative
