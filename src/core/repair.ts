@@ -275,3 +275,13 @@ export function repairNgCodaSibilant(syllables: Syllable[], trace?: TraceCollect
     if (trace) trace.recordRepair('repairNgCodaSibilant', before, coda.map(p => p.sound).join(','), 'stripped sibilant after /ŋ/');
   }
 }
+
+// ---------------------------------------------------------------------------
+// Rhotic vowel + /ŋ/ constraint (REMOVED)
+// ---------------------------------------------------------------------------
+// This constraint has been refactored from repair-based to prevention-based.
+// Rhotic vowels (/ɚ/, /ɝ/) + /ŋ/ combinations are now blocked during coda
+// selection via codaConstraints.bannedNucleusCodaCombinations in the config.
+// See: src/config/language.ts (CodaConstraints interface)
+//      src/config/english.ts (bannedNucleusCodaCombinations config)
+//      src/core/generate.ts (isValidCandidate nucleus-aware filtering)
