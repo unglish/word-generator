@@ -314,6 +314,12 @@ export const englishConfig: LanguageConfig = {
     ],
     voicingAgreement: true,
     homorganicNasalStop: true,
+    bannedNucleusCodaCombinations: [
+      {
+        nucleus: ["ɚ", "ɝ"],
+        coda: ["ŋ"],
+      },
+    ],
   },
 
   clusterLimits: {
@@ -330,7 +336,7 @@ export const englishConfig: LanguageConfig = {
       // Nasal + homorganic stop
       ["m","p"],["m","b"],["n","t"],["n","d"],["ŋ","k"],
       // Nasal + fricative
-      ["m","f"],["m","s"],["m","z"],["m","θ"],["n","s"],["n","z"],["n","θ"],["ŋ","s"],["ŋ","z"],["ŋ","θ"],
+      ["m","s"],["m","z"],["m","θ"],["n","s"],["n","z"],["n","θ"],["ŋ","s"],["ŋ","z"],["ŋ","θ"],
       // Nasal + affricate
       ["n","tʃ"],["n","dʒ"],
       // Obstruent + s/z
@@ -347,7 +353,7 @@ export const englishConfig: LanguageConfig = {
       ["l","p","s"],["l","t","s"],["l","d","s"],["l","k","s"],["l","v","z"],["l","θ","s"],["l","p","t"],["l","f","θ"],
       ["r","p","s"],["r","t","s"],["r","d","s"],["r","k","s"],["r","v","z"],["r","θ","s"],
       ["m","p","s"],["n","t","s"],["n","d","s"],["ŋ","k","s"],["ŋ","k","θ"],
-      ["k","s","t"],["k","t","s"],["f","t","s"],["s","t","s"],["s","p","s"],["s","k","s"],["s","k","t"],
+      ["k","s","t"],["k","t","s"],["f","t","s"],["s","t","s"],["s","p","s"],["s","k","s"],
       ["n","tʃ","t"],["n","dʒ","d"],
       // 4-consonant codas
       ["l","p","t","s"],["l","f","θ","s"],["ŋ","k","θ","s"],["k","s","t","s"],

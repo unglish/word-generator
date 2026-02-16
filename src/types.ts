@@ -300,4 +300,9 @@ export interface ClusterContext {
   maxLength: number;
   /** Total syllable count of the word being generated. */
   syllableCount: number;
+  /**
+   * Nucleus phonemes of the syllable being built (for nucleus-aware coda filtering).
+   * Only populated when position === "coda".
+   */
+  nucleus?: Phoneme[];
 }
