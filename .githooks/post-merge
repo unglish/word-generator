@@ -1,0 +1,3 @@
+#!/bin/bash
+# Auto-deploy demo after git pull/merge
+bash scripts/deploy-local.sh
