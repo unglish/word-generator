@@ -5,7 +5,7 @@ import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, S
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
-import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant, repairHAfterBackVowel } from "./repair.js";
+import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant, repairHAfterBackVowel, repairRhoticVowelNgCoda } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
 import type { GenerationWeights } from "../config/language.js";
@@ -887,6 +887,10 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.beforeStage('repairNgCodaSibilant', context.word.syllables);
   repairNgCodaSibilant(context.word.syllables, t);
   t?.afterStage('repairNgCodaSibilant', context.word.syllables);
+
+  t?.beforeStage('repairRhoticVowelNgCoda', context.word.syllables);
+  repairRhoticVowelNgCoda(context.word.syllables, t);
+  t?.afterStage('repairRhoticVowelNgCoda', context.word.syllables);
 
   t?.beforeStage('repairHAfterBackVowel', context.word.syllables);
   repairHAfterBackVowel(context.word.syllables, t);

@@ -275,3 +275,46 @@ export function repairNgCodaSibilant(syllables: Syllable[], trace?: TraceCollect
     if (trace) trace.recordRepair('repairNgCodaSibilant', before, coda.map(p => p.sound).join(','), 'stripped sibilant after /ŋ/');
   }
 }
+
+// ---------------------------------------------------------------------------
+// Rhotic vowel + /ŋ/ repair
+// ---------------------------------------------------------------------------
+
+const RHOTIC_VOWELS = new Set(["ɚ", "ɝ"]);
+
+/**
+ * Drop /ŋ/ codas after rhotic vowels (/ɚ/, /ɝ/).
+ * 
+ * Rhotic vowels already incorporate an /r/ sound, making the combination
+ * /ɚŋ/ or /ɝŋ/ phonotactically unnatural in English. English lacks words
+ * with this nucleus+coda pairing in monomorphemic contexts.
+ * 
+ * Examples of what this prevents:
+ * - /bɚŋ/ *bern → repair → /bɚ/ ber
+ * - /tɝŋk/ *terngk → repair → /tɝk/ terk
+ */
+export function repairRhoticVowelNgCoda(syllables: Syllable[], trace?: TraceCollector): void {
+  for (let si = 0; si < syllables.length; si++) {
+    const syl = syllables[si];
+    if (syl.coda.length === 0 || syl.nucleus.length === 0) continue;
+
+    const nucleus = syl.nucleus[syl.nucleus.length - 1];
+    if (!RHOTIC_VOWELS.has(nucleus.sound)) continue;
+
+    const before = trace ? syl.coda.map(p => p.sound).join(',') : '';
+    const initialLength = syl.coda.length;
+
+    // Remove all /ŋ/ phonemes from the coda
+    syl.coda = syl.coda.filter(p => p.sound !== "ŋ");
+
+    if (trace && syl.coda.length < initialLength) {
+      const after = syl.coda.map(p => p.sound).join(',') || '(empty)';
+      trace.recordRepair(
+        'repairRhoticVowelNgCoda',
+        before,
+        after,
+        `dropped /ŋ/ after rhotic /${nucleus.sound}/ at syl ${si}`
+      );
+    }
+  }
+}
