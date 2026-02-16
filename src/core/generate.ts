@@ -5,7 +5,7 @@ import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, S
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
-import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant, repairHAfterBackVowel, repairRhoticVowelNgCoda } from "./repair.js";
+import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
 import type { GenerationWeights } from "../config/language.js";
@@ -33,6 +33,8 @@ interface GeneratorRuntime {
   clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
   bannedCodaSet?: Set<string>;
+  /** Map from nucleus sound to set of banned coda sounds. */
+  bannedNucleusCodaMap?: Map<string, Set<string>>;
   clusterLimits?: ClusterLimits;
   sonorityConstraints?: SonorityConstraints;
   codaAppendantSet?: Set<string>;
@@ -110,6 +112,22 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     ) : undefined,
   } : undefined;
 
+  // Build banned nucleus+coda map for efficient lookup during coda selection
+  const bannedNucleusCodaMap = config.codaConstraints?.bannedNucleusCodaCombinations
+    ? (() => {
+        const map = new Map<string, Set<string>>();
+        for (const { nucleus, coda } of config.codaConstraints.bannedNucleusCodaCombinations) {
+          for (const n of nucleus) {
+            if (!map.has(n)) map.set(n, new Set());
+            for (const c of coda) {
+              map.get(n)!.add(c);
+            }
+          }
+        }
+        return map;
+      })()
+    : undefined;
+
   return {
     config, sonorityLevels, sonorityBySound, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
     bannedSet,
@@ -120,6 +138,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     bannedCodaSet: config.codaConstraints?.bannedCodas
       ? new Set(config.codaConstraints.bannedCodas)
       : undefined,
+    bannedNucleusCodaMap,
     clusterLimits: cl,
     sonorityConstraints: sc,
     codaAppendantSet: cl?.codaAppendants ? new Set(cl.codaAppendants) : undefined,
@@ -184,6 +203,17 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
   // Reject phonemes banned from coda position entirely
   if (context.position === "coda" && rt.bannedCodaSet?.has(p.sound)) {
     return false;
+  }
+
+  // Reject coda phonemes banned after the current nucleus
+  if (context.position === "coda" && context.nucleus && rt.bannedNucleusCodaMap) {
+    // Check each nucleus phoneme (typically just one, but could be complex nucleus)
+    for (const nuc of context.nucleus) {
+      const bannedCodas = rt.bannedNucleusCodaMap.get(nuc.sound);
+      if (bannedCodas?.has(p.sound)) {
+        return false;
+      }
+    }
   }
 
   // Check cluster weight threshold: reject if weight multiplier is below 0.01 (1%)
@@ -495,6 +525,7 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
     isEndOfWord,
     syllableCount,
     maxLength,
+    nucleus: newSyllable.nucleus,
   });
 
   // Extend word-final singleton nasal codas with their voiced homorganic stop
@@ -887,10 +918,6 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.beforeStage('repairNgCodaSibilant', context.word.syllables);
   repairNgCodaSibilant(context.word.syllables, t);
   t?.afterStage('repairNgCodaSibilant', context.word.syllables);
-
-  t?.beforeStage('repairRhoticVowelNgCoda', context.word.syllables);
-  repairRhoticVowelNgCoda(context.word.syllables, t);
-  t?.afterStage('repairRhoticVowelNgCoda', context.word.syllables);
 
   t?.beforeStage('repairHAfterBackVowel', context.word.syllables);
   repairHAfterBackVowel(context.word.syllables, t);

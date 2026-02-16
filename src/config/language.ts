@@ -19,6 +19,17 @@ export interface CodaConstraints {
   voicingAgreement?: boolean;
   /** Require nasal+stop to agree in place of articulation. */
   homorganicNasalStop?: boolean;
+  /**
+   * Nucleus+coda combinations that are phonotactically illegal.
+   * Prevents generation of impossible nucleus+coda pairings (e.g., /ɚŋ/, /ɝŋ/).
+   * Applied during coda selection to filter out banned codas before weighting.
+   */
+  bannedNucleusCodaCombinations?: Array<{
+    /** Nucleus phoneme sounds (IPA symbols, e.g., ["ɚ", "ɝ"]). */
+    nucleus: string[];
+    /** Coda phoneme sounds that cannot follow these nuclei (e.g., ["ŋ"]). */
+    coda: string[];
+  }>;
 }
 
 export interface ClusterLimits {

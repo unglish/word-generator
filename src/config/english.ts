@@ -314,6 +314,12 @@ export const englishConfig: LanguageConfig = {
     ],
     voicingAgreement: true,
     homorganicNasalStop: true,
+    bannedNucleusCodaCombinations: [
+      {
+        nucleus: ["ɚ", "ɝ"],
+        coda: ["ŋ"],
+      },
+    ],
   },
 
   clusterLimits: {
