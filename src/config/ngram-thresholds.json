@@ -1,6 +1,10 @@
 {
   "maxBigramOverRepresentation": 7.55,
   "maxTrigramOverRepresentation": 5.46,
+  "minBigramRepresentation": 0,
+  "minTrigramRepresentation": 0,
+  "minBigramBaselineFreq": 0.001,
+  "minTrigramBaselineFreq": 0.0005,
   "sampleSize": 200000,
   "lastUpdated": "2026-02-16",
   "history": [
@@ -9,7 +13,13 @@
       "bigram": 7.55,
       "trigram": 5.46,
       "note": "Initial baseline — worst outliers: 'th' (6.86×) and 'the' (4.96×)"
+    },
+    {
+      "date": "2026-02-16",
+      "minBigram": 0,
+      "minTrigram": 0,
+      "note": "Initial under-representation baseline — many common patterns (ko, ngs, nce) are near-zero in generated output. Thresholds start at 0; ratchet up as generator improves."
     }
   ],
-  "_comment": "Quality ratchet: after each tuning fix, re-run 5× analysis (seeds 42/123/456/789/1337), update thresholds to new max + 10% margin, commit as part of fix PR."
+  "_comment": "Quality ratchet: after each tuning fix, re-run 5× analysis (seeds 42/123/456/789/1337), update thresholds to new max + 10% margin (over-rep) or new min - 10% margin (under-rep), commit as part of fix PR."
 }
