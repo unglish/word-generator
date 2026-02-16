@@ -177,11 +177,14 @@ A typical tuning session:
 
 ## N-gram Quality Ratchet
 
-The test suite includes n-gram over-representation gates (`src/core/ngram-quality.test.ts`)
+The test suite includes n-gram quality gates (`src/core/ngram-quality.test.ts`)
 that compare generated bigram/trigram frequencies against the CMU lexicon baseline.
+Gates catch both **over-representation** (too much of a pattern) and
+**under-representation** (common patterns missing or severely rare).
 
 Thresholds are in `src/config/ngram-thresholds.json` and follow a **ratchet** pattern:
 
+### Over-representation
 1. After each successful tuning fix, re-run the 5× baseline analysis:
    - Seeds: 42, 123, 456, 789, 1337 — 200k words each
    - Compare to CMU baseline frequencies
@@ -189,9 +192,21 @@ Thresholds are in `src/config/ngram-thresholds.json` and follow a **ratchet** pa
 2. Set new threshold = max ratio × 1.1 (10% margin)
 3. Commit updated `ngram-thresholds.json` as part of the fix PR
 
-This ensures thresholds only tighten over time — improvements are locked in.
+### Under-representation
+1. Same 5× analysis, but look at the **lowest** generated/CMU ratio
+2. Only consider **common** patterns (bigrams >0.1% in CMU, trigrams >0.05%)
+   — avoids flagging obscure patterns the generator shouldn't need to produce
+3. Set new threshold = min ratio × 0.9 (10% margin, more lenient)
+4. As the generator covers more English patterns, ratchet thresholds **up**
 
-See `memory/ngram-threshold-baseline.md` for the initial 5-run data.
+**Current state:** Many common patterns (ko, ngs, nce) are near-absent in
+generated output, so initial under-rep thresholds are 0. These will tighten
+as the generator improves.
+
+Both directions ensure thresholds only tighten over time — improvements are locked in.
+
+See `memory/ngram-threshold-baseline.md` and `memory/ngram-underrep-threshold-baseline.md`
+for the initial 5-run data.
 
 ## Reference Data
 
