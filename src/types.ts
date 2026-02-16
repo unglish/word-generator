@@ -127,6 +127,10 @@ export interface GraphemeCondition {
   notLeftContext?: string[];
   /** Next phoneme's sound must NOT be in this list. */
   notRightContext?: string[];
+  /** Previous grapheme's last letter must be one of these (raw letters, not phoneme categories). */
+  leftGraphemeContext?: string[];
+  /** Previous grapheme's last letter must NOT be one of these. */
+  notLeftGraphemeContext?: string[];
   /** This grapheme is only valid in these word positions. */
   wordPosition?: ("initial" | "medial" | "final")[];
 }

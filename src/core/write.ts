@@ -127,6 +127,8 @@ interface PreExpandedCondition {
   rightContext?: Set<string>;
   notLeftContext?: Set<string>;
   notRightContext?: Set<string>;
+  leftGraphemeContext?: Set<string>;
+  notLeftGraphemeContext?: Set<string>;
   wordPosition?: ("initial" | "medial" | "final")[];
 }
 
@@ -142,6 +144,8 @@ function preExpandConditions(
     if (g.condition.rightContext) expanded.rightContext = expandContext(g.condition.rightContext, categories);
     if (g.condition.notLeftContext) expanded.notLeftContext = expandContext(g.condition.notLeftContext, categories);
     if (g.condition.notRightContext) expanded.notRightContext = expandContext(g.condition.notRightContext, categories);
+    if (g.condition.leftGraphemeContext) expanded.leftGraphemeContext = new Set(g.condition.leftGraphemeContext);
+    if (g.condition.notLeftGraphemeContext) expanded.notLeftGraphemeContext = new Set(g.condition.notLeftGraphemeContext);
     if (g.condition.wordPosition) expanded.wordPosition = g.condition.wordPosition;
     result.set(g, expanded);
   }
@@ -172,6 +176,7 @@ function meetsPreExpandedCondition(
   isEndOfWord: boolean,
   totalPhonemes: number,
   phonemeIndex: number,
+  prevGraphemeForm?: string,
 ): boolean {
   if (!condition) return true;
 
@@ -207,6 +212,19 @@ function meetsPreExpandedCondition(
     if (nextPhoneme && condition.notRightContext.has(nextPhoneme.sound)) return false;
   }
 
+  if (condition.leftGraphemeContext) {
+    if (!prevGraphemeForm) return false;
+    const lastLetter = prevGraphemeForm[prevGraphemeForm.length - 1];
+    if (!condition.leftGraphemeContext.has(lastLetter)) return false;
+  }
+
+  if (condition.notLeftGraphemeContext) {
+    if (prevGraphemeForm) {
+      const lastLetter = prevGraphemeForm[prevGraphemeForm.length - 1];
+      if (condition.notLeftGraphemeContext.has(lastLetter)) return false;
+    }
+  }
+
   return true;
 }
 
@@ -219,6 +237,7 @@ function filterByCondition(
   totalPhonemes: number,
   isStartOfWord: boolean,
   isEndOfWord: boolean,
+  prevGraphemeForm?: string,
 ): Grapheme[] {
   const filtered = candidates.filter(g =>
     meetsPreExpandedCondition(
@@ -229,6 +248,7 @@ function filterByCondition(
       isEndOfWord,
       totalPhonemes,
       phonemeIndex,
+      prevGraphemeForm,
     )
   );
   return filtered.length > 0 ? filtered : candidates;
@@ -1166,6 +1186,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const doublingCtx: DoublingContext = { doublingCount: 0 };
     const nucleusGraphemes: string[] = []; // Track nucleus grapheme form per syllable
     let currentNucleusForm = '';
+    let prevGraphemeForm: string | undefined;
 
     for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
       const { phoneme, syllableIndex, position, stress } = flattenedPhonemes[phonemeIndex];
@@ -1193,13 +1214,14 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       // Pipeline
       const isLastPhoneme = phonemeIndex === flattenedPhonemes.length - 1;
       const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
-      const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord);
+      const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord, prevGraphemeForm);
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
       const tracing = !!context.trace;
       const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord, tracing);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
       const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand, doublingTraceInfo);
+      prevGraphemeForm = form;
 
       if (context.trace) {
         context.trace.recordGraphemeSelection({
