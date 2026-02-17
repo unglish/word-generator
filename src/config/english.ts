@@ -155,11 +155,11 @@ export const englishConfig: LanguageConfig = {
     probability: 80,
     maxPerWord: 1,
     neverDouble: ["v", "w", "x", "y", "q", "j", "dʒ", "h", "ŋ", "θ", "ð", "ʒ"],
-    finalDoublingOnly: ["f", "s", "l", "z"],
+    finalDoublingOnly: ["f", "s", "l", "z", "k"],
     suppressAfterReduction: true,
     suppressBeforeTense: true,
     unstressedModifier: 0,
-    doubledForms: { k: 'ck' },
+    doubledForms: { k: 'ck', c: 'ck' },
     neverDoubleFinal: ['b', 'd', 'g'],
   },
 
@@ -167,22 +167,28 @@ export const englishConfig: LanguageConfig = {
     enabled: true,
     probability: 35,
     swaps: [
-      // /eɪ/ — "ai" → "a" + e (make, lake, name)
+      // /eɪ/ — "a" + e (make, lake, name); also digraph swaps
+      { phoneme: "eɪ", from: "a", to: "a" },
       { phoneme: "eɪ", from: "ai", to: "a" },
       { phoneme: "eɪ", from: "ae", to: "a" },
       { phoneme: "eɪ", from: "ea", to: "a" },
-      // /iː/ — "ee" → "e" + e (these, Pete)
+      // /iː/ — "e" + e (these, Pete); also digraph swaps
+      { phoneme: "i:", from: "e", to: "e" },
       { phoneme: "i:", from: "ee", to: "e" },
       { phoneme: "i:", from: "ea", to: "e" },
-      // /aɪ/ — "igh" → "i" + e (time, life); "ie" → "i" + e (ditto)
+      // /aɪ/ — "i" + e (time, life); also digraph swaps
+      { phoneme: "aɪ", from: "i", to: "i" },
       { phoneme: "aɪ", from: "igh", to: "i" },
       { phoneme: "aɪ", from: "ie", to: "i" },
-      // /əʊ/ — "ow" → "o" + e (home, bone)
+      // /əʊ/ — "o" + e (home, bone); also digraph swaps
+      { phoneme: "əʊ", from: "o", to: "o" },
       { phoneme: "əʊ", from: "ow", to: "o" },
       { phoneme: "əʊ", from: "oe", to: "o" },
-      // /o/ — "oa" → "o" + e (hope, note)
+      // /o/ — "o" + e (hope, note); also digraph swap
+      { phoneme: "o", from: "o", to: "o" },
       { phoneme: "o", from: "oa", to: "o" },
-      // /uː/ — "oo" → "u" + e (rude, tube); "ue" → "u" + e
+      // /uː/ — "u" + e (rude, tube); also digraph swaps
+      { phoneme: "u", from: "u", to: "u" },
       { phoneme: "u", from: "oo", to: "u" },
       { phoneme: "u", from: "ue", to: "u" },
     ],

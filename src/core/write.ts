@@ -384,12 +384,16 @@ function applyDoubling(
   neverDoubleSet: Set<string>,
   rand: RNG,
   traceOut?: DoublingTraceInfo,
+  isMonosyllabic?: boolean,
+  isFirstInCoda?: boolean,
 ): string {
   const skip = (reason: string) => { if (traceOut) { traceOut.attempted = false; traceOut.reason = reason; } return form; };
 
   if (!config || !config.enabled) return skip('disabled');
   if (!prevPhoneme) return skip('no-prev-phoneme');
-  if (isCluster) return skip('in-cluster');
+  // Allow doubling for the first consonant in a coda cluster (e.g. "backs" = ck+s).
+  // Block doubling for non-first cluster members and all onset clusters.
+  if (isCluster && !(position === "coda" && isFirstInCoda)) return skip('in-cluster');
   if (form.length !== 1) return skip('multi-char-grapheme');
   if (position !== "onset" && position !== "coda") return skip('nucleus-position');
   if (doublingCtx.doublingCount >= config.maxPerWord) return skip('max-per-word');
@@ -423,7 +427,9 @@ function applyDoubling(
 
   // Calculate probability
   let prob = config.probability;
-  if (config.unstressedModifier != null && !syllableStress) {
+  // Monosyllables are inherently stressed even without a ˈ marker.
+  // Only apply unstressed modifier to genuinely unstressed syllables in polysyllabic words.
+  if (config.unstressedModifier != null && !syllableStress && !isMonosyllabic) {
     prob *= config.unstressedModifier;
   }
   prob = Math.min(100, Math.max(0, Math.round(prob)));
@@ -1050,14 +1056,14 @@ export function applySilentE(
   const lastSylIdx = syllables.length - 1;
   const lastSyl = syllables[lastSylIdx];
 
-  // Must have exactly 1 coda consonant
-  if (lastSyl.coda.length !== 1) return;
+  // Must have 1-2 coda consonants (silent-e works with clusters like "nce", "nge", "rse")
+  if (lastSyl.coda.length < 1 || lastSyl.coda.length > 2) return;
 
   // Must have a nucleus
   if (lastSyl.nucleus.length !== 1) return;
 
-  // Check excluded coda sounds
-  const codaSound = lastSyl.coda[0].sound;
+  // Check excluded coda sounds (check last coda consonant — the one before "e")
+  const codaSound = lastSyl.coda[lastSyl.coda.length - 1].sound;
   if (excludedCodas.has(codaSound)) return;
 
   // Check if nucleus phoneme has eligible swaps
@@ -1073,8 +1079,10 @@ export function applySilentE(
   const swap = swaps.find(s => s.from === nucleusForm);
   if (!swap) return;
 
-  // Probability check
-  if (rand() >= probability / 100) return;
+  // Probability check — monosyllables get a higher rate (English monosyllables
+  // have ~16.6% silent-e vs ~8-10% for polysyllabic words)
+  const effectiveProb = syllables.length === 1 ? Math.min(100, probability * 2.0) : probability;
+  if (rand() >= effectiveProb / 100) return;
 
   // Apply the swap: replace the vowel grapheme in the last clean part and append 'e'
   const lastPartIdx = cleanParts.length - 1;
@@ -1220,7 +1228,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord, tracing);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
-      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand, doublingTraceInfo);
+      const isMonosyllabic = syllables.length === 1;
+      const isFirstInCoda = position === "coda" && prevEntry?.position !== "coda";
+      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand, doublingTraceInfo, isMonosyllabic, isFirstInCoda);
       prevGraphemeForm = form;
 
       if (context.trace) {

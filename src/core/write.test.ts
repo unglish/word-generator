@@ -755,16 +755,16 @@ describe('syllable-based position filtering', () => {
     let violations = 0;
 
     for (const w of words) {
-      const hyph = w.written.hyphenated.toLowerCase();
-      const syllableParts = hyph.split('&shy;');
-
-      if (syllableParts.length > 0 && syllableParts[0].includes('ck')) {
+      // "ck" has startWord/onset: 0 — it should never START a word.
+      // It's fine in the coda of any syllable (including the first).
+      const word = w.written.clean.toLowerCase();
+      if (word.startsWith('ck')) {
         violations++;
       }
     }
 
-    console.log(`  ck in first syllable: ${violations}/10000`);
-    expect(violations).toBeLessThanOrEqual(2);
+    console.log(`  words starting with ck: ${violations}/10000`);
+    expect(violations).toBe(0);
   });
 });
 
@@ -820,12 +820,20 @@ describe('applySilentE', () => {
     expect(clean[0]).toBe('time');
   });
 
-  it('does not apply when coda has 2+ consonants', () => {
+  it('applies when coda has 2 consonants (e.g. "nce", "nge")', () => {
     const clean = ['maiks'];
     const hyph = ['maiks'];
     const syllables = [{ onset: [ph('m')], nucleus: [ph('eɪ')], coda: [ph('k'), ph('s')] }];
     applySilentE(clean, hyph, syllables, ['ai'], lookup, excluded, 100, () => 0);
-    expect(clean[0]).toBe('maiks');
+    expect(clean[0]).toBe('makse');
+  });
+
+  it('does not apply when coda has 3+ consonants', () => {
+    const clean = ['maikst'];
+    const hyph = ['maikst'];
+    const syllables = [{ onset: [ph('m')], nucleus: [ph('eɪ')], coda: [ph('k'), ph('s'), ph('t')] }];
+    applySilentE(clean, hyph, syllables, ['ai'], lookup, excluded, 100, () => 0);
+    expect(clean[0]).toBe('maikst');
   });
 
   it('does not apply when coda sound is excluded', () => {
@@ -837,11 +845,15 @@ describe('applySilentE', () => {
   });
 
   it('respects probability (rand >= threshold → no change)', () => {
-    const clean = ['maik'];
-    const hyph = ['maik'];
-    const syllables = [{ onset: [ph('m')], nucleus: [ph('eɪ')], coda: [ph('k')] }];
-    applySilentE(clean, hyph, syllables, ['ai'], lookup, excluded, 50, () => 0.99);
-    expect(clean[0]).toBe('maik');
+    // Use a polysyllabic word to avoid monosyllable probability boost
+    const clean = ['ba', 'maik'];
+    const hyph = ['ba', '&shy;', 'maik'];
+    const syllables = [
+      { onset: [ph('b')], nucleus: [ph('ə')], coda: [] },
+      { onset: [ph('m')], nucleus: [ph('eɪ')], coda: [ph('k')] },
+    ];
+    applySilentE(clean, hyph, syllables, ['a', 'ai'], lookup, excluded, 50, () => 0.99);
+    expect(clean[1]).toBe('maik');
   });
 
   it('applies only to last syllable in multi-syllable words', () => {
