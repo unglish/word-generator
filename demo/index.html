@@ -184,6 +184,10 @@
         }
         .start-btn:hover { background: gray; }
         .ref-line { font-size: 0.8em; color: var(--muted); font-style: italic; margin-top: 0.3em; }
+
+        .sort-btn { padding: 0.2em 0.7em; border: 1px solid var(--muted); background: var(--bg); color: var(--fg); cursor: pointer; font-size: 0.9em; border-radius: 3px; }
+        .sort-btn:hover:not(.active) { background: var(--muted); color: var(--bg); }
+        .sort-btn.active { background: var(--fg); color: var(--bg); }
     </style>
     <script src="cmuBaselines.js"></script>
     <script type="module">
@@ -485,6 +489,33 @@
 
             let statsWorker = null;
             let statsInited = false;
+            let chartData = null;
+
+            function sortItems(items, mode) {
+                const sorted = [...items];
+                if (mode === 'divergence') {
+                    sorted.sort((a, b) => {
+                        const da = a.eng !== null ? Math.abs(a.gen - a.eng) : -1;
+                        const db = b.eng !== null ? Math.abs(b.gen - b.eng) : -1;
+                        return db - da;
+                    });
+                } else if (mode === 'english') {
+                    sorted.sort((a, b) => (b.eng ?? -Infinity) - (a.eng ?? -Infinity));
+                } else { // unglish
+                    sorted.sort((a, b) => b.gen - a.gen);
+                }
+                return sorted;
+            }
+
+            function rerenderCharts(mode) {
+                if (!chartData) return;
+                renderPaginatedChart('stats-letter-chart', 'stats-letter-pager', sortItems(chartData.letterItems, mode), 15, '1.5em', 1);
+                renderPaginatedChart('stats-bigram-chart', 'stats-bigram-pager', sortItems(chartData.bigramItems, mode), 5, '2.5em', 2);
+                renderPaginatedChart('stats-trigram-chart', 'stats-trigram-pager', sortItems(chartData.trigramItems, mode), 2, '2.5em', 2);
+                if (chartData.phonemeItems.length > 0) {
+                    renderPaginatedChart('stats-phoneme-chart', 'stats-phoneme-pager', sortItems(chartData.phonemeItems, mode), 10, '2.5em', 2);
+                }
+            }
 
             function runStats() {
                 $('stats-status').textContent = 'Generating 10,000 words...';
@@ -555,7 +586,6 @@
                 const letterEngPcts = letterItems.map(x => x.eng);
                 $('stats-letter-r').textContent = 'Pearson r = ' + pearsonR(letterGenPcts, letterEngPcts).toFixed(4);
                 $('stats-letter-legend').innerHTML = legendHtml;
-                renderPaginatedChart('stats-letter-chart', 'stats-letter-pager', letterItems, 15, '1.5em', 1);
 
                 // Bigram frequency — all generated bigrams
                 const bigramCounts = {};
@@ -576,7 +606,6 @@
                 const sharedBi = bigramItems.filter(x => x.eng !== null);
                 if (sharedBi.length > 1) $('stats-bigram-r').textContent = 'Pearson r = ' + pearsonR(sharedBi.map(x => x.gen), sharedBi.map(x => x.eng)).toFixed(4) + ' (on ' + sharedBi.length + ' shared)';
                 $('stats-bigram-legend').innerHTML = legendHtml;
-                renderPaginatedChart('stats-bigram-chart', 'stats-bigram-pager', bigramItems, 5, '2.5em', 2);
 
                 // Trigram frequency — all generated trigrams
                 const trigramCounts = {};
@@ -596,23 +625,25 @@
                 const sharedTri = trigramItems.filter(x => x.eng !== null);
                 if (sharedTri.length > 1) $('stats-trigram-r').textContent = 'Pearson r = ' + pearsonR(sharedTri.map(x => x.gen), sharedTri.map(x => x.eng)).toFixed(4) + ' (on ' + sharedTri.length + ' shared)';
                 $('stats-trigram-legend').innerHTML = legendHtml;
-                renderPaginatedChart('stats-trigram-chart', 'stats-trigram-pager', trigramItems, 2, '2.5em', 2);
 
                 // Phoneme frequency — all generated phonemes
+                let phonemeItems = [];
                 if (phonemeData) {
                     const phCounts = {};
                     let totalPh = 0;
                     for (const sounds of phonemeData) {
                         for (const s of sounds) { phCounts[s] = (phCounts[s] || 0) + 1; totalPh++; }
                     }
-                    const phonemeItems = Object.entries(phCounts)
+                    phonemeItems = Object.entries(phCounts)
                         .map(([ph, c]) => ({ key: ph, label: ph, gen: c / totalPh * 100, eng: cmuPhonemes[ph] ?? null }))
                         .sort((a, b) => b.gen - a.gen);
                     const sharedPh = phonemeItems.filter(x => x.eng !== null);
                     if (sharedPh.length > 1) $('stats-phoneme-r').textContent = 'Pearson r = ' + pearsonR(sharedPh.map(x => x.gen), sharedPh.map(x => x.eng)).toFixed(4) + ' (on ' + sharedPh.length + ' shared)';
                     $('stats-phoneme-legend').innerHTML = legendHtml;
-                    renderPaginatedChart('stats-phoneme-chart', 'stats-phoneme-pager', phonemeItems, 10, '2.5em', 2);
                 }
+
+                chartData = { letterItems, bigramItems, trigramItems, phonemeItems };
+                rerenderCharts(currentSort);
 
                 // Word length distribution
                 const lenCounts = {};
@@ -642,6 +673,15 @@
             }
 
             $('refresh-stats').addEventListener('click', runStats);
+
+            let currentSort = 'divergence';
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentSort = btn.dataset.sort;
+                    document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b === btn));
+                    rerenderCharts(currentSort);
+                });
+            });
 
             // Hook into tab switching
             document.querySelectorAll('.tab-bar button').forEach(btn => {
@@ -742,6 +782,12 @@
             </div>
         </div>
         <div id="content-stats" class="tab-content">
+            <div style="display:flex;align-items:center;gap:0.5em;margin:0 0 1em 0;font-size:0.9em">
+                <span style="color:var(--muted)">Sort:</span>
+                <button class="sort-btn active" data-sort="divergence">Deviation</button>
+                <button class="sort-btn" data-sort="english">English freq</button>
+                <button class="sort-btn" data-sort="unglish">Unglish freq</button>
+            </div>
             <div class="card">
                 <h2>Letter Frequency — Generated vs CMU Dictionary</h2>
                 <button class="refresh" id="refresh-stats" title="Regenerate">&#x21bb;</button>
