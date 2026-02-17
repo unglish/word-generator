@@ -1,5 +1,6 @@
 /**
  * Analyze letter-length distribution: CMU dictionary vs generated (lexicon mode).
+ * Uses pre-computed baseline from data/cmu-length-baseline.json.
  * Shows overall distribution and per-syllable-count breakdown with current
  * letterLengthTargets overlaid.
  *
@@ -11,29 +12,10 @@ import { LETTER_LENGTH_TARGETS } from "../src/config/weights.js";
 
 const SAMPLE = Number(process.argv.find((_, i, a) => a[i - 1] === "--sample") ?? 200000);
 
-// --- CMU dictionary ---
-const cmuLines = readFileSync("data/cmudict-0.7b.txt", "utf8").split("\n");
-const cmuByLen: Record<number, number> = {};
-const cmuBySylLen: Record<number, Record<number, number>> = {};
-let cmuTotal = 0;
-
-for (const line of cmuLines) {
-  if (!line || line.startsWith(";;;")) continue;
-  const spaceIdx = line.indexOf(" ");
-  if (spaceIdx < 0) continue;
-  const word = line.slice(0, spaceIdx).replace(/\(\d+\)$/, "");
-  const phonemes = line.slice(spaceIdx + 1).trim();
-  if (!word || !phonemes) continue;
-
-  const sylCount = (phonemes.match(/\d/g) || []).length;
-  if (sylCount === 0) continue;
-  const len = word.length;
-
-  cmuByLen[len] = (cmuByLen[len] || 0) + 1;
-  if (!cmuBySylLen[sylCount]) cmuBySylLen[sylCount] = {};
-  cmuBySylLen[sylCount][len] = (cmuBySylLen[sylCount][len] || 0) + 1;
-  cmuTotal++;
-}
+// --- Load pre-computed CMU baseline ---
+const baseline = JSON.parse(readFileSync("data/cmu-length-baseline.json", "utf8"));
+const cmuByLen: Record<number, number> = baseline.byLen;
+const cmuTotal: number = baseline.total;
 
 // --- Generated ---
 const genByLen: Record<number, number> = {};
@@ -72,9 +54,9 @@ for (let i = 1; i <= Math.min(maxLen, 22); i++) {
 console.log("\n=== Letter-Length Distribution by Syllable Count ===");
 
 for (let syl = 1; syl <= 5; syl++) {
-  const cmuSyl = cmuBySylLen[syl] || {};
+  const cmuSyl = baseline.bySylLen[syl]?.byLen || {};
   const genSyl = genBySylLen[syl] || {};
-  const cmuSylTotal = Object.values(cmuSyl).reduce((a, b) => a + b, 0);
+  const cmuSylTotal = Object.values(cmuSyl as Record<string, number>).reduce((a: number, b: number) => a + b, 0);
   const genSylTotal = Object.values(genSyl).reduce((a, b) => a + b, 0);
   if (cmuSylTotal === 0 && genSylTotal === 0) continue;
 
@@ -82,6 +64,10 @@ for (let syl = 1; syl <= 5; syl++) {
   const targetStr = targets
     ? `[min=${targets[0]}, peakMin=${targets[1]}, peakMax=${targets[2]}, max=${targets[3]}]`
     : "none";
+
+  const cmuMean = baseline.bySylLen[syl]?.stats?.mean ?? "N/A";
+  const genLens = Object.entries(genSyl).flatMap(([l, c]) => Array(c as number).fill(Number(l)));
+  const genMean = genLens.length ? (genLens.reduce((a: number, b: number) => a + b) / genLens.length).toFixed(1) : "N/A";
 
   console.log(`\n--- ${syl}-syllable words (CMU: ${cmuSylTotal}, Gen: ${genSylTotal}) ---`);
   console.log(`    letterLengthTargets: ${targetStr}`);
@@ -93,7 +79,7 @@ for (let syl = 1; syl <= 5; syl++) {
     ...Object.keys(genSyl).map(Number)
   );
   for (let i = 1; i <= Math.min(sylMaxLen, 20); i++) {
-    const cmuPct = cmuSylTotal > 0 ? ((cmuSyl[i] || 0) / cmuSylTotal) * 100 : 0;
+    const cmuPct = cmuSylTotal > 0 ? (((cmuSyl as any)[i] || 0) / cmuSylTotal) * 100 : 0;
     const genPct = genSylTotal > 0 ? ((genSyl[i] || 0) / genSylTotal) * 100 : 0;
     if (cmuPct < 0.05 && genPct < 0.05) continue;
     const ratio = cmuPct > 0.05 ? (genPct / cmuPct).toFixed(2) : "N/A";
@@ -107,10 +93,5 @@ for (let syl = 1; syl <= 5; syl++) {
       `${String(i).padStart(3)} | ${cmuPct.toFixed(2).padStart(6)}%  | ${genPct.toFixed(2).padStart(6)}%  | ${String(ratio).padStart(6)} | ${inTarget}`
     );
   }
-
-  // Stats
-  const cmuLens = Object.entries(cmuSyl).flatMap(([l, c]) => Array(c).fill(Number(l)));
-  const genLens = Object.entries(genSyl).flatMap(([l, c]) => Array(c).fill(Number(l)));
-  const mean = (arr: number[]) => arr.length ? (arr.reduce((a, b) => a + b) / arr.length).toFixed(1) : "N/A";
-  console.log(`    CMU mean: ${mean(cmuLens)}, Gen mean: ${mean(genLens)}`);
+  console.log(`    CMU mean: ${cmuMean}, Gen mean: ${genMean}`);
 }
