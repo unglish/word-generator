@@ -69,6 +69,9 @@
             line-height: 1;
         }
         .refresh:hover { color: var(--fg); }
+        .page-btn { padding: 0.2em 0.6em; border: 1px solid var(--muted); background: var(--bg); color: var(--fg); cursor: pointer; font-size: 0.85em; }
+        .page-btn:hover:not(:disabled) { background: var(--muted); color: var(--bg); }
+        .page-btn:disabled { opacity: 0.4; cursor: default; }
 
         /* Single word */
         .single-written { font-size: 2em; font-weight: 700; }
@@ -182,6 +185,7 @@
         .start-btn:hover { background: gray; }
         .ref-line { font-size: 0.8em; color: var(--muted); font-style: italic; margin-top: 0.3em; }
     </style>
+    <script src="cmuBaselines.js"></script>
     <script type="module">
         import unglish, { generateWords } from '../dist/index.js';
         import { realWords } from './realwords.js';
@@ -352,67 +356,6 @@
                 $('wall-legend').innerHTML = sylLabels.map((l,i) =>
                     '<span><span class="word-pill ' + sylColors[i] + '">' + l + '</span></span>'
                 ).join('');
-                genSylChart();
-                genLenChart();
-            }
-
-            function genSylChart() {
-                const counts = [0,0,0,0];
-                lexWords.forEach(w => { const s = Math.min(w.syllables.length, 4); counts[s-1]++; });
-                const total = lexWords.length;
-                $('syl-chart').innerHTML = counts.map((c,i) => {
-                    const pct = (c / total * 100).toFixed(1);
-                    return '<div class="bar-row"><div class="bar-label">' + sylLabels[i] + '</div>' +
-                        '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:' + sylBgNames[i] + '"></div></div>' +
-                        '<div class="bar-value">' + c + ' (' + pct + '%)</div></div>';
-                }).join('');
-            }
-
-            function genLenChart() {
-                const counts = {};
-                lexWords.forEach(w => {
-                    const len = Math.min(w.written.clean.length, 12);
-                    counts[len] = (counts[len] || 0) + 1;
-                });
-                const maxCount = Math.max(...Object.values(counts));
-                let html = '';
-                for (let i = 1; i <= 12; i++) {
-                    const c = counts[i] || 0;
-                    const pct = (c / maxCount * 100).toFixed(1);
-                    const label = i === 12 ? '12+' : String(i);
-                    html += '<div class="bar-row"><div class="bar-label">' + label + '</div>' +
-                        '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:gray"></div></div>' +
-                        '<div class="bar-value">' + c + '</div></div>';
-                }
-                $('len-chart').innerHTML = html;
-                const avgLen = (lexWords.reduce((s,w) => s + w.written.clean.length, 0) / lexWords.length).toFixed(1);
-                $('len-ref').textContent = 'Unglish avg: ' + avgLen + ' letters · English avg: ~4.7 (running text), ~8.5 (dictionary)';
-            }
-
-            // Letter frequency
-            function genFreqChart() {
-                const engFreq = {e:12.7,t:9.1,a:8.2,o:7.5,i:7.0,n:6.7,s:6.3,h:6.1,r:6.0,d:4.3,l:4.0,c:2.8,u:2.8,m:2.4,w:2.4,f:2.2,g:2.0,y:2.0,p:1.9,b:1.5,v:1.0,k:0.8,j:0.2,x:0.2,q:0.1,z:0.1};
-                const words1k = generateWords(1000, { mode: 'lexicon', morphology: useMorph() });
-                const letterCounts = {};
-                let totalLetters = 0;
-                words1k.forEach(w => {
-                    for (const ch of w.written.clean.toLowerCase()) {
-                        if (ch >= 'a' && ch <= 'z') { letterCounts[ch] = (letterCounts[ch] || 0) + 1; totalLetters++; }
-                    }
-                });
-                const sorted = Object.keys(engFreq).sort((a,b) => engFreq[b] - engFreq[a]);
-                const maxPct = 15;
-                $('freq-legend').innerHTML = '<span style="display:inline-block;width:0.8em;height:0.8em;background:dimgray;vertical-align:middle"></span> Unglish &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:silver;vertical-align:middle"></span> English';
-                $('freq-chart').innerHTML = sorted.map(ch => {
-                    const ung = totalLetters ? ((letterCounts[ch] || 0) / totalLetters * 100) : 0;
-                    const eng = engFreq[ch];
-                    const wU = (ung / maxPct * 100).toFixed(1);
-                    const wE = (eng / maxPct * 100).toFixed(1);
-                    return '<div class="freq-row"><div class="freq-letter">' + ch + '</div><div class="freq-bars">' +
-                        '<div class="freq-bar freq-unglish" style="width:' + wU + '%"></div>' +
-                        '<div class="freq-bar freq-english" style="width:' + wE + '%"></div>' +
-                        '</div><div class="freq-val">' + ung.toFixed(1) + ' / ' + eng.toFixed(1) + '</div></div>';
-                }).join('');
             }
 
                         // Common words race
@@ -511,7 +454,7 @@
                 });
             }
 
-            $('refresh-wall').addEventListener('click', () => { genWordWall(); genFreqChart(); });
+            $('refresh-wall').addEventListener('click', () => { genWordWall(); });
 
             // Init lexicon on first tab switch (lazy) or immediately if active
             let lexiconInited = false;
@@ -519,21 +462,13 @@
                 if (lexiconInited) return;
                 lexiconInited = true;
                 genWordWall();
-                genFreqChart();
                 newGameRound();
             }
 
             // ===== STATS TAB =====
 
-            // CMU Pronouncing Dictionary baseline (unique words, lexicon mode)
-            const engLetterFreq = {e:11.46,a:8.80,r:7.76,i:7.65,n:7.28,s:6.92,o:6.42,t:5.85,l:5.83,c:3.91,d:3.52,m:3.11,u:3.07,h:2.88,g:2.77,p:2.29,b:2.25,k:1.80,y:1.60,f:1.39,w:1.10,v:1.05,z:0.65,j:0.26,x:0.23,q:0.14};
-            const engLetterOrder = ['e','a','r','i','n','s','o','t','l','c','d','m','u','h','g','p','b','k','y','f','w','v','z','j','x','q'];
             // CMU Pronouncing Dictionary baselines (unique words, lexicon mode)
-            const engBigrams = {er:2.71,in:2.16,an:1.72,on:1.42,en:1.35,re:1.32,le:1.31,ar:1.30,es:1.29,te:1.28,st:1.10,ng:1.07,ra:1.05,ti:1.04,al:1.01,ri:1.00,el:1.00,at:0.99,ne:0.95,or:0.95};
-            const engBigramOrder = ['er','in','an','on','en','re','le','ar','es','te','st','ng','ra','ti','al','ri','el','at','ne','or'];
-            const engTrigrams = {ing:1.02,ter:0.45,ers:0.42,ion:0.42,man:0.40,ati:0.35,ent:0.34,ell:0.33,lin:0.32,ate:0.32,tio:0.32,and:0.28,ste:0.28,tin:0.26,all:0.26,ber:0.25,der:0.25,ine:0.25,ill:0.25,che:0.24};
-            const engTrigramOrder = ['ing','ter','ers','ion','man','ati','ent','ell','lin','ate','tio','and','ste','tin','all','ber','der','ine','ill','che'];
-            // CMU Pronouncing Dictionary baseline (unique words, lexicon mode)
+            const engLetterFreq = {e:11.46,a:8.80,r:7.76,i:7.65,n:7.28,s:6.92,o:6.42,t:5.85,l:5.83,c:3.91,d:3.52,m:3.11,u:3.07,h:2.88,g:2.77,p:2.29,b:2.25,k:1.80,y:1.60,f:1.39,w:1.10,v:1.05,z:0.65,j:0.26,x:0.23,q:0.14};
             const engLengthDist = {1:0,2:0.2,3:1.3,4:5.2,5:11.5,6:17.4,7:18.6,8:15.5,9:11.7,10:8.1,11:4.8,12:2.7,13:2.4};
 
             function pearsonR(xs, ys) {
@@ -554,10 +489,10 @@
             function runStats() {
                 $('stats-status').textContent = 'Generating 10,000 words...';
                 if (statsWorker) statsWorker.terminate();
-                statsWorker = new Worker('statsWorker.js');
+                statsWorker = new Worker('statsWorker.js?v=' + Date.now());
                 statsWorker.onmessage = function(ev) {
                     if (ev.data.type === 'stats') {
-                        renderStats(ev.data.words);
+                        renderStats(ev.data.words, ev.data.phonemes);
                         statsWorker.terminate();
                         statsWorker = null;
                     }
@@ -565,10 +500,47 @@
                 statsWorker.postMessage({ action: 'generateStats', count: 10000 });
             }
 
-            function renderStats(words) {
+            // Paginated chart helper
+            const PAGE_SIZE = 50;
+            const legendHtml = '<span style="display:inline-block;width:0.8em;height:0.8em;background:steelblue;vertical-align:middle"></span> Generated &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:darkgrey;vertical-align:middle"></span> CMU Dictionary';
+
+            function renderPaginatedChart(chartId, pagerId, items, maxPct, labelWidth, decimals) {
+                // items: [{key, gen, eng}] sorted by gen desc
+                let page = 0;
+                const totalPages = Math.ceil(items.length / PAGE_SIZE);
+
+                function renderPage() {
+                    const start = page * PAGE_SIZE;
+                    const slice = items.slice(start, start + PAGE_SIZE);
+                    $(chartId).innerHTML = slice.map(item => {
+                        const wG = (item.gen / maxPct * 100).toFixed(1);
+                        const wE = item.eng !== null ? (item.eng / maxPct * 100).toFixed(1) : '0';
+                        const engStr = item.eng !== null ? item.eng.toFixed(decimals) : '—';
+                        return '<div class="freq-row"><div class="freq-letter" style="width:' + labelWidth + '">' + item.label + '</div><div class="freq-bars">' +
+                            '<div class="freq-bar" style="width:' + wG + '%;background:steelblue"></div>' +
+                            (item.eng !== null ? '<div class="freq-bar" style="width:' + wE + '%;background:darkgrey"></div>' : '') +
+                            '</div><div class="freq-val">' + item.gen.toFixed(decimals) + ' / ' + engStr + '</div></div>';
+                    }).join('');
+
+                    if (totalPages > 1) {
+                        $(pagerId).innerHTML = '<div style="display:flex;align-items:center;gap:0.5em;margin:0.5em 0;font-size:0.85em">' +
+                            '<button ' + (page === 0 ? 'disabled' : '') + ' class="page-btn" data-dir="-1">← Prev</button>' +
+                            '<span>Page ' + (page + 1) + ' of ' + totalPages + ' (' + items.length + ' total)</span>' +
+                            '<button ' + (page >= totalPages - 1 ? 'disabled' : '') + ' class="page-btn" data-dir="1">Next →</button></div>';
+                        $(pagerId).querySelectorAll('.page-btn').forEach(btn => {
+                            btn.addEventListener('click', () => { page += parseInt(btn.dataset.dir); renderPage(); });
+                        });
+                    } else {
+                        $(pagerId).innerHTML = '<div style="font-size:0.85em;color:var(--muted);margin:0.3em 0">' + items.length + ' entries</div>';
+                    }
+                }
+                renderPage();
+            }
+
+            function renderStats(words, phonemeData) {
                 $('stats-status').textContent = words.length.toLocaleString() + ' words generated.';
 
-                // Letter frequency
+                // Letter frequency (always 26)
                 const letterCounts = {};
                 let totalLetters = 0;
                 for (const w of words) {
@@ -576,24 +548,16 @@
                         if (ch >= 'a' && ch <= 'z') { letterCounts[ch] = (letterCounts[ch] || 0) + 1; totalLetters++; }
                     }
                 }
-                const maxLetterPct = 15;
-                const genLetterPcts = engLetterOrder.map(ch => totalLetters ? (letterCounts[ch] || 0) / totalLetters * 100 : 0);
-                const engLetterPcts = engLetterOrder.map(ch => engLetterFreq[ch]);
-                const letterR = pearsonR(genLetterPcts, engLetterPcts);
-                $('stats-letter-r').textContent = 'Pearson r = ' + letterR.toFixed(4);
-                $('stats-letter-legend').innerHTML = '<span style="display:inline-block;width:0.8em;height:0.8em;background:steelblue;vertical-align:middle"></span> Generated &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:darkgrey;vertical-align:middle"></span> CMU Dictionary';
-                $('stats-letter-chart').innerHTML = engLetterOrder.map((ch, idx) => {
-                    const gen = genLetterPcts[idx];
-                    const eng = engLetterPcts[idx];
-                    const wG = (gen / maxLetterPct * 100).toFixed(1);
-                    const wE = (eng / maxLetterPct * 100).toFixed(1);
-                    return '<div class="freq-row"><div class="freq-letter">' + ch.toUpperCase() + '</div><div class="freq-bars">' +
-                        '<div class="freq-bar" style="width:' + wG + '%;background:steelblue"></div>' +
-                        '<div class="freq-bar" style="width:' + wE + '%;background:darkgrey"></div>' +
-                        '</div><div class="freq-val">' + gen.toFixed(1) + ' / ' + eng.toFixed(1) + '</div></div>';
-                }).join('');
+                const letterItems = Object.keys(engLetterFreq)
+                    .map(ch => ({ key: ch, label: ch.toUpperCase(), gen: totalLetters ? (letterCounts[ch] || 0) / totalLetters * 100 : 0, eng: engLetterFreq[ch] }))
+                    .sort((a, b) => b.gen - a.gen);
+                const letterGenPcts = letterItems.map(x => x.gen);
+                const letterEngPcts = letterItems.map(x => x.eng);
+                $('stats-letter-r').textContent = 'Pearson r = ' + pearsonR(letterGenPcts, letterEngPcts).toFixed(4);
+                $('stats-letter-legend').innerHTML = legendHtml;
+                renderPaginatedChart('stats-letter-chart', 'stats-letter-pager', letterItems, 15, '1.5em', 1);
 
-                // Bigram frequency
+                // Bigram frequency — all generated bigrams
                 const bigramCounts = {};
                 let totalBigrams = 0;
                 for (const w of words) {
@@ -605,24 +569,16 @@
                         }
                     }
                 }
-                const maxBigramPct = 5;
-                const genBigramPcts = engBigramOrder.map(bg => totalBigrams ? (bigramCounts[bg] || 0) / totalBigrams * 100 : 0);
-                const engBigramPcts = engBigramOrder.map(bg => engBigrams[bg]);
-                const bigramR = pearsonR(genBigramPcts, engBigramPcts);
-                $('stats-bigram-r').textContent = 'Pearson r = ' + bigramR.toFixed(4);
-                $('stats-bigram-legend').innerHTML = '<span style="display:inline-block;width:0.8em;height:0.8em;background:steelblue;vertical-align:middle"></span> Generated &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:darkgrey;vertical-align:middle"></span> CMU Dictionary';
-                $('stats-bigram-chart').innerHTML = engBigramOrder.map((bg, idx) => {
-                    const gen = genBigramPcts[idx];
-                    const eng = engBigramPcts[idx];
-                    const wG = (gen / maxBigramPct * 100).toFixed(1);
-                    const wE = (eng / maxBigramPct * 100).toFixed(1);
-                    return '<div class="freq-row"><div class="freq-letter" style="width:2.5em">' + bg.toUpperCase() + '</div><div class="freq-bars">' +
-                        '<div class="freq-bar" style="width:' + wG + '%;background:steelblue"></div>' +
-                        '<div class="freq-bar" style="width:' + wE + '%;background:darkgrey"></div>' +
-                        '</div><div class="freq-val">' + gen.toFixed(2) + ' / ' + eng.toFixed(2) + '</div></div>';
-                }).join('');
+                const bigramItems = Object.entries(bigramCounts)
+                    .map(([bg, c]) => ({ key: bg, label: bg.toUpperCase(), gen: c / totalBigrams * 100, eng: cmuBigrams[bg] ?? null }))
+                    .sort((a, b) => b.gen - a.gen);
+                // Pearson r on shared keys only
+                const sharedBi = bigramItems.filter(x => x.eng !== null);
+                if (sharedBi.length > 1) $('stats-bigram-r').textContent = 'Pearson r = ' + pearsonR(sharedBi.map(x => x.gen), sharedBi.map(x => x.eng)).toFixed(4) + ' (on ' + sharedBi.length + ' shared)';
+                $('stats-bigram-legend').innerHTML = legendHtml;
+                renderPaginatedChart('stats-bigram-chart', 'stats-bigram-pager', bigramItems, 5, '2.5em', 2);
 
-                // Trigram frequency
+                // Trigram frequency — all generated trigrams
                 const trigramCounts = {};
                 let totalTrigrams = 0;
                 for (const w of words) {
@@ -634,32 +590,36 @@
                         }
                     }
                 }
-                const maxTrigramPct = 2;
-                const genTrigramPcts = engTrigramOrder.map(tg => totalTrigrams ? (trigramCounts[tg] || 0) / totalTrigrams * 100 : 0);
-                const engTrigramPcts = engTrigramOrder.map(tg => engTrigrams[tg]);
-                const trigramR = pearsonR(genTrigramPcts, engTrigramPcts);
-                $('stats-trigram-r').textContent = 'Pearson r = ' + trigramR.toFixed(4);
-                $('stats-trigram-legend').innerHTML = '<span style="display:inline-block;width:0.8em;height:0.8em;background:steelblue;vertical-align:middle"></span> Generated &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:darkgrey;vertical-align:middle"></span> CMU Dictionary';
-                $('stats-trigram-chart').innerHTML = engTrigramOrder.map((tg, idx) => {
-                    const gen = genTrigramPcts[idx];
-                    const eng = engTrigramPcts[idx];
-                    const wG = (gen / maxTrigramPct * 100).toFixed(1);
-                    const wE = (eng / maxTrigramPct * 100).toFixed(1);
-                    return '<div class="freq-row"><div class="freq-letter" style="width:2.5em">' + tg.toUpperCase() + '</div><div class="freq-bars">' +
-                        '<div class="freq-bar" style="width:' + wG + '%;background:steelblue"></div>' +
-                        '<div class="freq-bar" style="width:' + wE + '%;background:darkgrey"></div>' +
-                        '</div><div class="freq-val">' + gen.toFixed(2) + ' / ' + eng.toFixed(2) + '</div></div>';
-                }).join('');
+                const trigramItems = Object.entries(trigramCounts)
+                    .map(([tg, c]) => ({ key: tg, label: tg.toUpperCase(), gen: c / totalTrigrams * 100, eng: cmuTrigrams[tg] ?? null }))
+                    .sort((a, b) => b.gen - a.gen);
+                const sharedTri = trigramItems.filter(x => x.eng !== null);
+                if (sharedTri.length > 1) $('stats-trigram-r').textContent = 'Pearson r = ' + pearsonR(sharedTri.map(x => x.gen), sharedTri.map(x => x.eng)).toFixed(4) + ' (on ' + sharedTri.length + ' shared)';
+                $('stats-trigram-legend').innerHTML = legendHtml;
+                renderPaginatedChart('stats-trigram-chart', 'stats-trigram-pager', trigramItems, 2, '2.5em', 2);
+
+                // Phoneme frequency — all generated phonemes
+                if (phonemeData) {
+                    const phCounts = {};
+                    let totalPh = 0;
+                    for (const sounds of phonemeData) {
+                        for (const s of sounds) { phCounts[s] = (phCounts[s] || 0) + 1; totalPh++; }
+                    }
+                    const phonemeItems = Object.entries(phCounts)
+                        .map(([ph, c]) => ({ key: ph, label: ph, gen: c / totalPh * 100, eng: cmuPhonemes[ph] ?? null }))
+                        .sort((a, b) => b.gen - a.gen);
+                    const sharedPh = phonemeItems.filter(x => x.eng !== null);
+                    if (sharedPh.length > 1) $('stats-phoneme-r').textContent = 'Pearson r = ' + pearsonR(sharedPh.map(x => x.gen), sharedPh.map(x => x.eng)).toFixed(4) + ' (on ' + sharedPh.length + ' shared)';
+                    $('stats-phoneme-legend').innerHTML = legendHtml;
+                    renderPaginatedChart('stats-phoneme-chart', 'stats-phoneme-pager', phonemeItems, 10, '2.5em', 2);
+                }
 
                 // Word length distribution
                 const lenCounts = {};
-                for (const w of words) {
-                    const len = Math.min(w.length, 13);
-                    lenCounts[len] = (lenCounts[len] || 0) + 1;
-                }
+                for (const w of words) { const len = Math.min(w.length, 13); lenCounts[len] = (lenCounts[len] || 0) + 1; }
                 const totalWords = words.length;
                 const maxLenPct = 30;
-                $('stats-length-legend').innerHTML = '<span style="display:inline-block;width:0.8em;height:0.8em;background:steelblue;vertical-align:middle"></span> Generated &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:darkgrey;vertical-align:middle"></span> English';
+                $('stats-length-legend').innerHTML = legendHtml;
                 let lenHtml = '';
                 for (let i = 1; i <= 13; i++) {
                     const genPct = (lenCounts[i] || 0) / totalWords * 100;
@@ -763,26 +723,6 @@
                 <div class="legend" id="wall-legend"></div>
             </div>
 
-            <!-- Syllable Distribution -->
-            <div class="card">
-                <h2>Syllable Distribution</h2>
-                <div class="bar-chart" id="syl-chart"></div>
-            </div>
-
-            <!-- Letter Length Distribution -->
-            <div class="card">
-                <h2>Word Length Distribution</h2>
-                <div class="bar-chart" id="len-chart"></div>
-                <div class="ref-line" id="len-ref"></div>
-            </div>
-
-            <!-- Letter Frequency -->
-            <div class="card">
-                <h2>Letter Frequency — Unglish vs English</h2>
-                <div class="legend" id="freq-legend"></div>
-                <div id="freq-chart"></div>
-            </div>
-
             <!-- Common Words Race -->
             <div class="card">
                 <h2>Common Words Race</h2>
@@ -809,6 +749,7 @@
                 <div id="stats-letter-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
                 <div class="legend" id="stats-letter-legend"></div>
                 <div id="stats-letter-chart"></div>
+                <div id="stats-letter-pager"></div>
             </div>
 
             <div class="card">
@@ -816,6 +757,7 @@
                 <div id="stats-bigram-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
                 <div class="legend" id="stats-bigram-legend"></div>
                 <div id="stats-bigram-chart"></div>
+                <div id="stats-bigram-pager"></div>
             </div>
 
             <div class="card">
@@ -823,6 +765,15 @@
                 <div id="stats-trigram-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
                 <div class="legend" id="stats-trigram-legend"></div>
                 <div id="stats-trigram-chart"></div>
+                <div id="stats-trigram-pager"></div>
+            </div>
+
+            <div class="card">
+                <h2>Phoneme Frequency — Generated vs CMU Dictionary</h2>
+                <div id="stats-phoneme-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
+                <div class="legend" id="stats-phoneme-legend"></div>
+                <div id="stats-phoneme-chart"></div>
+                <div id="stats-phoneme-pager"></div>
             </div>
 
             <div class="card">

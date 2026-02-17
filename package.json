@@ -17,7 +17,7 @@
     "build": "tsc && vite build && node scripts/inject-build-info.js && npm run copy-worker && npm run copy-demo-assets",
     "preview": "vite preview",
     "copy-worker": "cp dist-demo/unglish-worker.js demo/",
-    "copy-demo-assets": "cp demo/commonWordsWorker.js demo/statsWorker.js demo/matchWorker.js demo/duplicateWorker.js demo/realwords.js demo/index.js dist-demo/ 2>/dev/null || true"
+    "copy-demo-assets": "cp demo/commonWordsWorker.js demo/statsWorker.js demo/matchWorker.js demo/duplicateWorker.js demo/realwords.js demo/index.js demo/cmuBaselines.js dist-demo/ 2>/dev/null || true"
   },
   "repository": {
     "type": "git",
