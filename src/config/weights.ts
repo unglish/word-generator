@@ -34,9 +34,9 @@ export const SYLLABLE_COUNT_WEIGHTS: [number, number][] = [
 // Onset length weights
 // ---------------------------------------------------------------------------
 
-/** Onset length weights for monosyllabic words. */
+/** Onset length weights for monosyllabic words. CMU: only ~4% have no onset. */
 export const ONSET_LENGTH_MONOSYLLABIC: [number, number][] = [
-  [0, 50],
+  [0, 5],
   [1, 100],
   [2, 200],
   [3, 150],
@@ -52,22 +52,30 @@ export const ONSET_LENGTH_FOLLOWING_NUCLEUS: [number, number][] = [
 
 /** Onset length weights for polysyllabic words (default). */
 export const ONSET_LENGTH_DEFAULT: [number, number][] = [
-  [0, 150],
+  [0, 30],
   [1, 675],
   [2, 125],
   [3, 80],
+];
+
+/** Onset length weights for longer words (4+ syllables). More empty onsets to match CMU. */
+export const ONSET_LENGTH_LONG: [number, number][] = [
+  [0, 150],
+  [1, 675],
+  [2, 60],
+  [3, 20],
 ];
 
 // ---------------------------------------------------------------------------
 // Coda length weights
 // ---------------------------------------------------------------------------
 
-/** Coda length weights for monosyllabic words, keyed by onset length. */
+/** Coda length weights for monosyllabic words, keyed by onset length. CMU: ~6% have no coda. */
 export const CODA_LENGTH_MONOSYLLABIC: Record<number, [number, number][]> = {
-  0: [[0, 20], [1, 100], [2, 200], [3, 150]],
-  1: [[0, 80], [1, 150], [2, 150], [3, 100]],
-  2: [[0, 50], [1, 200], [2, 100], [3, 50]],
-  3: [[0, 100], [1, 300], [2, 50], [3, 20]],
+  0: [[0, 10], [1, 100], [2, 200], [3, 150]],
+  1: [[0, 20], [1, 150], [2, 150], [3, 100]],
+  2: [[0, 15], [1, 200], [2, 100], [3, 50]],
+  3: [[0, 30], [1, 300], [2, 50], [3, 20]],
 };
 
 /** Coda length weights for monosyllabic words with onset length >= 4 (fallback). */
@@ -119,20 +127,20 @@ export const NASAL_STOP_EXTENSION_CHANCE = 24;
 // Onset / coda presence probabilities
 // ---------------------------------------------------------------------------
 
-/** Chance (out of 100) that the first syllable has an onset. */
-export const HAS_ONSET_START_OF_WORD = 85;
+/** Chance (out of 100) that the first syllable has an onset. CMU: ~96% of monosyllables have onsets. */
+export const HAS_ONSET_START_OF_WORD = 95;
 
-/** Chance (out of 100) that a non-initial syllable has an onset when the previous syllable has a coda. */
-export const HAS_ONSET_AFTER_CODA = 80;
+/** Chance (out of 100) that a non-initial syllable has an onset when the previous syllable has a coda. CMU: ~93%. */
+export const HAS_ONSET_AFTER_CODA = 90;
 
-/** Chance (out of 100) that a monosyllabic word has a coda. */
-export const HAS_CODA_MONOSYLLABIC = 90;
+/** Chance (out of 100) that a monosyllabic word has a coda. CMU: ~94%. */
+export const HAS_CODA_MONOSYLLABIC = 94;
 
-/** Chance (out of 100) that the final syllable of a polysyllabic word has a coda. */
+/** Chance (out of 100) that the final syllable of a polysyllabic word has a coda. CMU: ~93% for 2-syl. */
 export const HAS_CODA_END_OF_WORD = 90;
 
-/** Chance (out of 100) that a non-final syllable of a polysyllabic word has a coda. */
-export const HAS_CODA_MID_WORD = 30;
+/** Chance (out of 100) that a non-final syllable of a polysyllabic word has a coda. CMU: ~60% for 2-syl mid. */
+export const HAS_CODA_MID_WORD = 55;
 
 // ---------------------------------------------------------------------------
 // Mode-specific syllable count distributions

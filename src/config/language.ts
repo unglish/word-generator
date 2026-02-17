@@ -136,6 +136,8 @@ export interface GenerationWeights {
     followingNucleus: [number, number][];
     /** Default weights for polysyllabic onsets. */
     default: [number, number][];
+    /** Weights for longer words (4+ syllables). Falls back to default if not set. */
+    long?: [number, number][];
   };
 
   /** Coda length distributions */

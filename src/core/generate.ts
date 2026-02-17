@@ -459,9 +459,12 @@ function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStart
   const { onsetLength } = rt.config.generationWeights;
 
   const rand = context.rand;
+  const polysyllabicWeights = isFollowingNucleus
+    ? onsetLength.followingNucleus
+    : (syllableCount >= 3 && onsetLength.long) ? onsetLength.long : onsetLength.default;
   const maxLength = monosyllabic
     ? getWeightedOption(onsetLength.monosyllabic, rand)
-    : getWeightedOption(isFollowingNucleus ? onsetLength.followingNucleus : onsetLength.default, rand);
+    : getWeightedOption(polysyllabicWeights, rand);
 
   if (maxLength === 0) return [];
 
