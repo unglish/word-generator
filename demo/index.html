@@ -664,6 +664,31 @@
                         '</div><div class="freq-val">' + genPct.toFixed(1) + ' / ' + engPct.toFixed(1) + '</div></div>';
                 }
                 $('stats-length-chart').innerHTML = lenHtml;
+
+                // Phoneme length distribution
+                if (phonemeData && phonemeData.length > 0) {
+                    const phLenCounts = {};
+                    for (const sounds of phonemeData) {
+                        const len = Math.min(sounds.length, 15);
+                        phLenCounts[len] = (phLenCounts[len] || 0) + 1;
+                    }
+                    const totalPhWords = phonemeData.length;
+                    const maxPhLenPct = 30;
+                    let phLenHtml = '';
+                    for (let i = 1; i <= 15; i++) {
+                        const genPct = (phLenCounts[i] || 0) / totalPhWords * 100;
+                        const engPct = cmuPhonemeLength[i] || 0;
+                        const wG = (genPct / maxPhLenPct * 100).toFixed(1);
+                        const wE = (engPct / maxPhLenPct * 100).toFixed(1);
+                        const label = i === 15 ? '15+' : String(i);
+                        phLenHtml += '<div class="freq-row"><div class="freq-letter" style="width:2.5em">' + label + '</div><div class="freq-bars">' +
+                            '<div class="freq-bar" style="width:' + wG + '%;background:steelblue"></div>' +
+                            '<div class="freq-bar" style="width:' + wE + '%;background:darkgrey"></div>' +
+                            '</div><div class="freq-val">' + genPct.toFixed(1) + ' / ' + engPct.toFixed(1) + '</div></div>';
+                    }
+                    $('stats-phoneme-length-chart').innerHTML = phLenHtml;
+                    $('stats-phoneme-length-legend').innerHTML = legendHtml;
+                }
             }
 
             function initStats() {
@@ -826,6 +851,12 @@
                 <h2>Word Length Distribution — Generated vs CMU Dictionary</h2>
                 <div id="stats-length-chart"></div>
                 <div class="legend" id="stats-length-legend"></div>
+            </div>
+
+            <div class="card">
+                <h2>Word Length — Phonemes</h2>
+                <div class="legend" id="stats-phoneme-length-legend"></div>
+                <div id="stats-phoneme-length-chart"></div>
             </div>
         </div>
     </div>
