@@ -303,6 +303,9 @@ function selectByFrequency(
   isStartOfWord: boolean,
   isEndOfWord: boolean,
   captureTrace: boolean = false,
+  position?: "onset" | "nucleus" | "coda",
+  stress?: string,
+  syllableCount?: number,
 ): FrequencyResult {
   if (candidates.length === 0) return { phoneme: '', form: '', origin: 0, frequency: 0, startWord: 0, midWord: 0, endWord: 0 };
   if (candidates.length === 1) {
@@ -324,7 +327,23 @@ function selectByFrequency(
         : isEndOfWord
           ? (g.endWord ?? 1)
           : (g.midWord ?? 1);
-    const w = g.frequency * posWeight;
+    // In unstressed syllables of polysyllabic words, penalize multi-letter
+    // vowel graphemes. CMU data shows vowel LPP drops from 1.58 (1-syl) to
+    // 1.02 (5-syl) — unstressed vowels are almost always single letters.
+    let stressModifier = 1;
+    if (stress !== "ˈ" && syllableCount && syllableCount >= 2 && g.form.length > 1) {
+      // Unstressed syllables in polysyllabic words favor simpler graphemes.
+      // CMU data: vowel LPP drops from 1.58 (1-syl) to 1.02 (5-syl),
+      // consonant LPP from 1.20 to 1.13. Monosyllables excluded by >= 2 check.
+      if (position === "nucleus") {
+        // Vowels: strong penalty — unstressed vowels are almost always single letters
+        stressModifier = Math.max(0.02, 0.15 / syllableCount);
+      } else {
+        // Consonants: lighter penalty — digraphs like "th","sh" still appear but less often
+        stressModifier = Math.max(0.15, 0.5 / syllableCount);
+      }
+    }
+    const w = g.frequency * posWeight * stressModifier;
     cumulative += w;
     cumulatives.push(cumulative);
     if (captureTrace) weights.push([g.form, w]);
@@ -1225,7 +1244,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord, prevGraphemeForm);
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
       const tracing = !!context.trace;
-      const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord, tracing);
+      const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord, tracing, position, stress, syllables.length);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
       const isMonosyllabic = syllables.length === 1;
