@@ -5,8 +5,20 @@ How we identify, diagnose, and fix phonotactic and orthographic outliers.
 ## Overview
 
 ```
-Baseline → Analyze → Diagnose → Fix → Verify → Regress → Ship
+Baseline → Analyze (phonemes first) → Diagnose → Fix → Verify → Guardrails → Ship
 ```
+
+## Phoneme-First Policy (active)
+
+- Primary optimization target: **phoneme distribution alignment**
+- Primary merge gates: **phoneme guardrails** (`src/config/phoneme-thresholds.json`)
+- Trigram analysis remains important, but is **observational/non-blocking** during this phase unless catastrophic regressions appear.
+- `src/core/ngram-quality.test.ts` runs in monitoring mode by default; set `NGRAM_GATES_BLOCKING=1` to enforce strict n-gram thresholds.
+- Allowed levers for this cycle:
+  - phoneme inventory weights (`src/elements/phonemes.ts`)
+  - generation probabilities (`src/config/weights.ts`, `src/config/english.ts`)
+- Frozen levers for this cycle:
+  - grapheme/spelling tuning
 
 ## Canonical Run Defaults
 
@@ -18,6 +30,27 @@ Use this default profile unless a specific experiment needs otherwise:
 - **Morphology:** `false`
 - **Primary analyzer:** `node scripts/analyze-cmu-trigrams.mjs`
 - **Canonical outputs:** `memory/trigram-2m-analysis.json` and `memory/trigram-2m-analysis.md`
+
+For the phoneme-first track, add:
+
+- **Primary analyzer:** `node scripts/analyze-cmu-phonemes.mjs`
+- **Canonical outputs:** `memory/phoneme-2m-analysis.json` and `memory/phoneme-2m-analysis.md`
+- **Normalization source of truth:** `memory/phoneme-normalization.json`
+
+## Non-CMU Phoneme Handling (required)
+
+The generator can emit phoneme symbols that are not present in the CMU-mapped baseline.
+Handle them explicitly; do not silently drop them.
+
+- Compute and report `generatedOnlyPhonemes` (symbol + generated frequency)
+- Shared-key Pearson uses only `shared` keys by definition
+- Always report:
+  - `nonCmuMassPct` (total generated mass on generated-only phonemes)
+  - `coverageAdjustedR = sharedPearsonR * (1 - nonCmuMassPct / 100)`
+- Escalation rule:
+  - if `nonCmuMassPct > 1.5%`, prioritize generated-only contributors before other gaps
+- Bucketed reporting is mandatory:
+  - `shared`, `generatedOnly`, `cmuOnly`
 
 ## Phase 1: Baseline
 
@@ -42,25 +75,27 @@ Use this default profile unless a specific experiment needs otherwise:
 **Goal:** Generate a large sample and compare to baseline to find outliers.
 
 1. Generate **2M words** (5 seeds × 400k each; canonical run)
-2. Extract letter, bigram, and trigram frequencies
-3. Compare to CMU lexicon baseline using ratio (generated freq / baseline freq)
-4. Rank by ratio — highest over-represented and under-represented
-5. Flag anything **>50×** as a major outlier (trigrams) or **>15×** (bigrams)
+2. Extract **phoneme** frequencies
+3. Compare to CMU lexicon phoneme baseline using ratio (generated freq / baseline freq)
+4. Rank by ratio and absolute gap
+5. Track generated-only mass and coverage-adjusted Pearson
 
-**Tools:** `scripts/analyze-cmu-trigrams.mjs` (canonical 2M trigram analysis)
+**Tools:** `scripts/analyze-cmu-phonemes.mjs` (canonical 2M phoneme analysis)
 
-**Output:** Saved to `memory/trigram-2m-analysis.{json,md}`
+**Output:** Saved to `memory/phoneme-2m-analysis.{json,md}`
 
 ### Standard report fields
 
-Each canonical analysis report should include:
+Each canonical phoneme report should include:
 
 - `generatedAt` timestamp
 - Config: seeds, words-per-seed, total words, mode, morphology
 - Aggregate metrics: shared-key count, Pearson r
-- Top over-represented trigrams (ratio, gap, generated freq, baseline freq)
-- Top under-represented trigrams (ratio, gap, generated freq, baseline freq)
-- Top absolute-gap trigrams
+- Top over-represented phonemes (ratio, gap, generated freq, baseline freq)
+- Top under-represented phonemes (ratio, gap, generated freq, baseline freq)
+- Top absolute-gap phonemes
+- Generated-only phonemes + non-CMU mass
+- Coverage-adjusted Pearson
 - Per-seed worst over/under entries
 
 ### Improvement opportunities
@@ -155,17 +190,21 @@ Do not conclude a cause from surface strings alone.
 - **Automated verification script**: `scripts/verify-fix.ts <pattern> <before-count> <sample-size>`
 - **A/B comparison**: Generate same-seed samples with and without fix for direct comparison
 
-## Phase 6: Regression Check
+## Phase 6: Guardrails (Primary)
 
-**Goal:** Ensure the fix doesn't break other things.
+**Goal:** enforce phoneme distribution quality as the merge gate.
 
-1. Run **full test suite** (`npm test`) — all tests must pass
-2. Generate **100k+ sample** and run lexicon comparison
-3. Compare to previous analysis — flag any pattern that changed **>20%**
-4. Check for **new outliers** that appeared
-5. Verify the fix didn't just **shift** the problem (e.g., fixing "ns" made "ts" worse)
+1. Run phoneme quality tests (`src/core/phoneme-quality.test.ts`)
+2. Validate thresholds in `src/config/phoneme-thresholds.json`:
+   - minimum shared Pearson r
+   - maximum non-CMU generated mass
+   - maximum over-representation ratio among common phonemes
+   - minimum under-representation ratio among common phonemes
+   - maximum absolute-gap among common phonemes
+3. Run build + existing core tests
+4. Run trigram report for monitoring (non-blocking during phoneme-first cycle)
 
-**Output:** Saved to `memory/{pattern}-regression.md` or combined with verification
+**Output:** Saved to `memory/phoneme-2m-analysis.{json,md}` + scout diffs
 
 ### Improvement opportunities
 - **Quality benchmark expansion**: The existing `vitest.quality.config.ts` could include n-gram gates (e.g., "no trigram >500× over-represented")
@@ -210,43 +249,35 @@ A typical tuning session:
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/analyze-cmu-trigrams.mjs` | Canonical 2M trigram analysis and report generation |
+| `scripts/analyze-cmu-phonemes.mjs` | Canonical 2M phoneme analysis and report generation |
+| `scripts/build-cmu-phoneme-baseline.mjs` | Build CMU phoneme baseline mapped to generator symbols |
+| `scripts/analyze-cmu-trigrams.mjs` | Trigram monitoring report (non-blocking for phoneme-first cycle) |
 | `scripts/diagnose.ts` | Pattern-specific diagnosis with WordTrace sampling |
 | `scripts/sync-demo-cmu-baselines.mjs` | Sync/check `demo/cmuBaselines.js` against `memory` baselines |
-| `vitest.quality.config.ts` | Quality benchmark gates |
+| `src/core/phoneme-quality.test.ts` | Phoneme guardrail test gates |
 
-## N-gram Quality Ratchet
+## Phoneme Guardrail Ratchet
 
-The test suite includes n-gram quality gates (`src/core/ngram-quality.test.ts`)
-that compare generated bigram/trigram frequencies against the CMU lexicon baseline.
-Gates catch both **over-representation** (too much of a pattern) and
-**under-representation** (common patterns missing or severely rare).
+The test suite includes phoneme quality gates (`src/core/phoneme-quality.test.ts`)
+that compare generated phoneme frequencies against the CMU lexicon phoneme baseline.
+Gates cover both representation shape and coverage:
 
-Thresholds are in `src/config/ngram-thresholds.json` and follow a **ratchet** pattern:
+- shared-key Pearson floor
+- non-CMU generated mass ceiling
+- over-/under-representation ratio bounds for common phonemes
+- absolute-gap ceiling for common phonemes
 
-### Over-representation
-1. After each successful tuning fix, re-run the 5× baseline analysis:
-   - Seeds: 42, 123, 456, 789, 1337 — 200k words each
-   - Compare to CMU baseline frequencies
-   - Find the worst over-representation ratio across all 5 runs
-2. Set new threshold = max ratio × 1.1 (10% margin)
-3. Commit updated `ngram-thresholds.json` as part of the fix PR
+Thresholds are in `src/config/phoneme-thresholds.json` and follow a **ratchet** pattern:
 
-### Under-representation
-1. Same 5× analysis, but look at the **lowest** generated/CMU ratio
-2. Only consider **common** patterns (bigrams >0.1% in CMU, trigrams >0.05%)
-   — avoids flagging obscure patterns the generator shouldn't need to produce
-3. Set new threshold = min ratio × 0.9 (10% margin, more lenient)
-4. As the generator covers more English patterns, ratchet thresholds **up**
-
-**Current state:** Many common patterns (ko, ngs, nce) are near-absent in
-generated output, so initial under-rep thresholds are 0. These will tighten
-as the generator improves.
-
-Both directions ensure thresholds only tighten over time — improvements are locked in.
-
-See `memory/ngram-threshold-baseline.md` and `memory/ngram-underrep-threshold-baseline.md`
-for the initial 5-run data.
+1. After each successful phoneme tuning fix, re-run the 5× phoneme scout:
+   - Seeds: 42, 123, 456, 789, 1337
+2. Tighten thresholds with a safety margin:
+   - Pearson floor: new observed minimum × 0.98
+   - Non-CMU mass ceiling: new observed maximum × 1.05 (never below policy floor until fixed)
+   - Over-rep ceiling: new observed maximum × 1.10
+   - Under-rep floor: new observed minimum × 0.90
+   - Absolute-gap ceiling: new observed maximum × 1.10
+3. Commit updated `src/config/phoneme-thresholds.json` with the tuning PR.
 
 ## Reference Data
 
@@ -255,6 +286,8 @@ for the initial 5-run data.
 | `memory/cmu-lexicon-letters.json` | CMU letter frequencies |
 | `memory/cmu-lexicon-bigrams.json` | CMU bigram frequencies (638 unique) |
 | `memory/cmu-lexicon-trigrams.json` | CMU trigram frequencies (8,190 unique) |
+| `memory/cmu-lexicon-phonemes.json` | CMU phoneme frequencies mapped to generator symbols |
+| `memory/phoneme-normalization.json` | Shared normalization policy (analyzer + demo) |
 | `memory/cmu-lexicon-baseline.md` | Human-readable baseline report |
 
 ## History
