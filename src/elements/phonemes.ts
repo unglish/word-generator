@@ -104,7 +104,9 @@ export const phonemes: Phoneme[] = [
 
   // Voiced Fricatives
   { sound: "v", mannerOfArticulation: "fricative", onset: 230, coda: 20, startWord: 6, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "labiodental" }, // victor
-  { sound: "ð", mannerOfArticulation: "fricative", onset: 250, coda: 50, startWord: 6, midWord: 2, endWord: 4, voiced: true, placeOfArticulation: "dental" }, // this
+  // /ð/ is common in function words ("the", "this") but relatively sparse in
+  // lexicon-style type distributions. Downweight to reduce "the" trigram bias.
+  { sound: "ð", mannerOfArticulation: "fricative", onset: 45, coda: 18, startWord: 2, midWord: 1, endWord: 1, voiced: true, placeOfArticulation: "dental" }, // this
 
   // Sibilants
   { sound: "z", mannerOfArticulation: "sibilant", onset: 25, coda: 50, startWord: 2, midWord: 4, endWord: 4, voiced: true, placeOfArticulation: "alveolar" }, // zebra
