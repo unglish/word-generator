@@ -709,7 +709,14 @@ function sampleTargetPhonemeCount(
   const allWeights = getTopDownPhonemeLengthWeights(rt, mode);
   if (!forcedSyllableCount) return getWeightedOption(allWeights, rand);
 
-  const filtered = allWeights.filter(([phonemeCount]) => phonemeCount >= forcedSyllableCount);
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  // +1 allows count-mutating extensions (e.g. final /s/) to satisfy rare edge cases.
+  const maxPhonemes = forcedSyllableCount + forcedSyllableCount * (maxOnset + maxCoda) + 1;
+
+  const filtered = allWeights.filter(([phonemeCount]) =>
+    phonemeCount >= forcedSyllableCount && phonemeCount <= maxPhonemes,
+  );
   const pool = filtered.length > 0 ? filtered : allWeights;
   return getWeightedOption(pool, rand);
 }
@@ -722,7 +729,20 @@ function sampleSyllableCountForTarget(
   forcedSyllableCount?: number,
 ): number {
   if (forcedSyllableCount && forcedSyllableCount > 0) return forcedSyllableCount;
-  return getWeightedOption(getTopDownSyllableWeights(rt, mode, targetPhonemes), rand);
+
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  const canSatisfy = (syllableCount: number) => {
+    const maxPhonemes = syllableCount + syllableCount * (maxOnset + maxCoda) + 1;
+    return targetPhonemes <= maxPhonemes;
+  };
+
+  const weights = getTopDownSyllableWeights(rt, mode, targetPhonemes);
+  const feasible = weights.filter(([syllableCount]) => canSatisfy(syllableCount));
+  if (feasible.length > 0) {
+    return getWeightedOption(feasible, rand);
+  }
+  return getWeightedOption(weights, rand);
 }
 
 function sampleConsonantPlan(rt: GeneratorRuntime, syllableCount: number, rand: RNG): SyllableShapePlan[] {
@@ -828,7 +848,8 @@ function distributePhonemes(
   const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
   const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
   const maxConsonants = syllableCount * (maxOnset + maxCoda);
-  if (targetConsonants > maxConsonants) {
+  const maxConsonantsWithMutations = maxConsonants + 1;
+  if (targetConsonants > maxConsonantsWithMutations) {
     throw new Error(`Target phoneme count ${targetPhonemes} exceeds max cluster capacity for ${syllableCount} syllables`);
   }
 
@@ -869,7 +890,7 @@ function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext, 
   newSyllable.nucleus = pickNucleus(rt, context, isStartOfWord, isEndOfWord);
 
   if (syllablePlan.codaLength > 0) {
-    newSyllable.coda = pickCoda(rt, context, newSyllable, isEndOfWord, monosyllabic, syllablePlan.codaLength, false);
+    newSyllable.coda = pickCoda(rt, context, newSyllable, isEndOfWord, monosyllabic, syllablePlan.codaLength);
   }
 
   return newSyllable;
@@ -892,14 +913,18 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
   // Use context.word.syllables directly so generateSyllable can see
   // previous syllables (needed for OCP glide filtering in pickOnset).
   context.word.syllables = new Array(context.syllableCount);
+  let prevSyllable: Syllable | undefined;
 
   for (let i = 0; i < context.syllableCount; i++) {
     const syllablePlan = context.syllablePlans[i];
     let newSyllable = generateSyllable(rt, context, syllablePlan);
 
-    // Boundary drop mutates phoneme count; keep top-down counts stable.
+    if (prevSyllable) {
+      [prevSyllable, newSyllable] = adjustBoundary(rt, prevSyllable, newSyllable, context.rand, context.trace);
+    }
 
     context.word.syllables[i] = newSyllable;
+    prevSyllable = newSyllable;
     context.currSyllableIndex++;
   }
 
@@ -1044,16 +1069,17 @@ function generateOneWord(
   let lastTraceCollector: TraceCollector | undefined;
   let lastMorphApplied = false;
 
-  for (let attempt = 0; attempt <= maxAttempts; attempt++) {
-    // Adjust syllable count for affix syllables
-    let rootSyllableCount = syllableCount;
-    if (morphPlan && morphPlan.syllableReduction > 0 && rootSyllableCount > 0) {
-      rootSyllableCount = Math.max(1, rootSyllableCount - morphPlan.syllableReduction);
-    }
+  // Adjust syllable count for affix syllables.
+  let rootSyllableCount = syllableCount;
+  if (morphPlan && morphPlan.syllableReduction > 0 && rootSyllableCount > 0) {
+    rootSyllableCount = Math.max(1, rootSyllableCount - morphPlan.syllableReduction);
+  }
 
-    const forcedRootSyllableCount = rootSyllableCount > 0 ? rootSyllableCount : undefined;
-    const targetPhonemeCount = sampleTargetPhonemeCount(rt, mode, rand, forcedRootSyllableCount);
-    const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCount, rand, forcedRootSyllableCount);
+  const forcedRootSyllableCount = rootSyllableCount > 0 ? rootSyllableCount : undefined;
+  const targetPhonemeCount = sampleTargetPhonemeCount(rt, mode, rand, forcedRootSyllableCount);
+  const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCount, rand, forcedRootSyllableCount);
+
+  for (let attempt = 0; attempt <= maxAttempts; attempt++) {
     const syllablePlans = distributePhonemes(rt, targetPhonemeCount, sampledSyllableCount, rand);
 
     const traceCollector = enableTrace ? new TraceCollector() : undefined;
