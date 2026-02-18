@@ -84,11 +84,8 @@ export const phonemes: Phoneme[] = [
   { sound: "aʊ", mannerOfArticulation: "midVowel", tense: true, nucleus: 20, startWord: 1, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "back" }, // cow (/kaʊ/) or how (/haʊ/)
 
   // Triphthongs
-  { sound: "aɪə", mannerOfArticulation: "lowVowel", tense: true, nucleus: 50, startWord: 1, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "central" }, // fire, lire, tire
-  { sound: "aʊə", mannerOfArticulation: "lowVowel", tense: true, nucleus: 5, startWord: 1, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // hour, shower, power
-  { sound: "eɪə", mannerOfArticulation: "midVowel", tense: true, nucleus: 4, startWord: 0, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "central" }, // player, layer
-  { sound: "ɔɪə", mannerOfArticulation: "midVowel", tense: true, nucleus: 3, startWord: 0, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // employer, royal, loyal
-  { sound: "əʊə", mannerOfArticulation: "midVowel", tense: true, nucleus: 3, startWord: 1, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // lower, mower
+  // Triphthongs removed — they decompose naturally into diphthong + /ə/
+  // across syllable boundaries (e.g. "fire" = /faɪ.ə/, "hour" = /aʊ.ə/).
 
   // Glides
   { sound: "j", mannerOfArticulation: "glide", onset: 10, coda: 0, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "palatal" }, // yes — onset only, diphthongs are nuclei

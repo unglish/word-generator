@@ -72,10 +72,12 @@ describe('IPA to ARPABET conversion', () => {
     expect(ipaToArpabet('kʰ')).toBe('K');
   });
 
-  it('converts triphthongs', () => {
-    expect(ipaToArpabet('aɪə')).toBe('AY ER');
-    expect(ipaToArpabet('aʊə')).toBe('AW ER');
-    expect(ipaToArpabet('eɪə')).toBe('EY ER');
+    // Triphthongs removed from inventory — they decompose into diphthong + /ə/.
+  // The mapper returns null for unknown phonemes.
+  it('returns null for removed triphthongs', () => {
+    expect(ipaToArpabet('aɪə')).toBeNull();
+    expect(ipaToArpabet('aʊə')).toBeNull();
+    expect(ipaToArpabet('eɪə')).toBeNull();
   });
 
   it('converts a full generated word to valid ARPABET tokens', () => {
