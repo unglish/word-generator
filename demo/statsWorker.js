@@ -24,7 +24,7 @@ onmessage = function(e) {
       words.push(w.written.clean);
       const sounds = w.syllables.flatMap(function(s) {
         return [].concat(s.onset, s.nucleus, s.coda).map(function(p) {
-          return p.sound.replace(/\u02B0/g, ''); // strip aspiration
+          return p.sound;
         });
       });
       phonemes.push(sounds);

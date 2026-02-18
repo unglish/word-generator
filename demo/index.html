@@ -517,6 +517,14 @@
                 }
             }
 
+            function normalizePhonemeForStats(sound) {
+                if (!sound || typeof sound !== 'string') return null;
+                let normalized = sound.replace(/\u02B0/g, '');
+                const aliasMap = phonemeNormalization?.generatedAliases || {};
+                if (aliasMap[normalized]) normalized = aliasMap[normalized];
+                return normalized;
+            }
+
             function runStats() {
                 const countInput = parseInt(($('stats-sample-size')?.value || '200000'), 10);
                 const seedInput = parseInt(($('stats-seed-start')?.value || ''), 10);
@@ -664,13 +672,22 @@
                     const phCounts = {};
                     let totalPh = 0;
                     for (const sounds of phonemeData) {
-                        for (const s of sounds) { phCounts[s] = (phCounts[s] || 0) + 1; totalPh++; }
+                        for (const raw of sounds) {
+                            const s = normalizePhonemeForStats(raw);
+                            if (!s) continue;
+                            phCounts[s] = (phCounts[s] || 0) + 1;
+                            totalPh++;
+                        }
                     }
                     phonemeItems = Object.entries(phCounts)
                         .map(([ph, c]) => ({ key: ph, label: ph, gen: c / totalPh * 100, eng: cmuPhonemes[ph] ?? null }))
                         .sort((a, b) => b.gen - a.gen);
                     const sharedPh = phonemeItems.filter(x => x.eng !== null);
                     if (sharedPh.length > 1) $('stats-phoneme-r').textContent = 'Pearson r = ' + pearsonR(sharedPh.map(x => x.gen), sharedPh.map(x => x.eng)).toFixed(4) + ' (on ' + sharedPh.length + ' shared)';
+                    const generatedOnlyMass = phonemeItems
+                        .filter(x => x.eng === null)
+                        .reduce((sum, x) => sum + x.gen, 0);
+                    $('stats-phoneme-r').textContent += ' • Non-CMU mass = ' + generatedOnlyMass.toFixed(2) + '%';
                     $('stats-phoneme-legend').innerHTML = legendHtml;
                 }
 
