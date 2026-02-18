@@ -236,9 +236,16 @@ export interface PhonemeToSyllableWeights {
  */
 export interface StressRules {
   /** Strategy for assigning primary stress */
-  strategy: "fixed" | "weight-sensitive" | "penultimate" | "initial" | "custom";
+  strategy: "fixed" | "weight-sensitive" | "penultimate" | "initial" | "custom" | "ot";
   /** For fixed strategy: 0-indexed syllable that receives primary stress */
   fixedPosition?: number;
+
+  /**
+   * Harmonic OT configuration. Required when `strategy` is `"ot"`.
+   * Constraints are weighted (not ranked); optional Gaussian noise
+   * produces stochastic variation within a dialect.
+   */
+  otConfig?: import("../core/ot-stress.js").OTStressConfig;
 
   // -- Primary stress --
 

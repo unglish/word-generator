@@ -3,6 +3,7 @@ import type { RNG } from "../utils/random.js";
 import { StressRules, VowelReductionConfig } from "../config/language.js";
 import { phonemes } from "../elements/phonemes.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
+import { otEvaluate } from "./ot-stress.js";
 
 const aspirateSyllable = (position: number, context: WordGenerationContext): void => {
   const { word, syllableCount, rand } = context;
@@ -98,31 +99,38 @@ const applyPrimaryStress = (context: WordGenerationContext, rand: RNG, stress: S
   const syllables = word.syllables;
   const syllableCount = syllables.length;
 
-  const disyllabic = stress.disyllabicWeights ?? [70, 30];
-  const poly = stress.polysyllabicWeights;
-
-  let primaryStressIndex: number;
-
   if (syllableCount === 1) {
     // Monosyllabic words don't need stress marking
     return;
-  } else if (syllableCount === 2) {
-    // For disyllabic words, weight on first vs second syllable
-    primaryStressIndex = getWeightedOption([[0, disyllabic[0]], [1, disyllabic[1]]], rand);
+  }
+
+  let primaryStressIndex: number;
+
+  if (stress.strategy === "ot" && stress.otConfig) {
+    // Harmonic OT evaluation
+    primaryStressIndex = otEvaluate(syllables, stress.otConfig, rand);
   } else {
-    const penultimateHeavy = isHeavySyllable(syllables[syllableCount - 2]);
-    const penultWeight = penultimateHeavy
-      ? (poly?.heavyPenult ?? 70)
-      : (poly?.lightPenult ?? 30);
-    const antepenultWeight = penultimateHeavy
-      ? (poly?.antepenultHeavy ?? 20)
-      : (poly?.antepenultLight ?? 60);
-    const initialWeight = poly?.initial ?? 10;
-    primaryStressIndex = getWeightedOption([
-      [syllableCount - 2, penultWeight],
-      [syllableCount - 3, antepenultWeight],
-      [0, initialWeight]
-    ], rand);
+    // Legacy weight-sensitive strategy
+    const disyllabic = stress.disyllabicWeights ?? [70, 30];
+    const poly = stress.polysyllabicWeights;
+
+    if (syllableCount === 2) {
+      primaryStressIndex = getWeightedOption([[0, disyllabic[0]], [1, disyllabic[1]]], rand);
+    } else {
+      const penultimateHeavy = isHeavySyllable(syllables[syllableCount - 2]);
+      const penultWeight = penultimateHeavy
+        ? (poly?.heavyPenult ?? 70)
+        : (poly?.lightPenult ?? 30);
+      const antepenultWeight = penultimateHeavy
+        ? (poly?.antepenultHeavy ?? 20)
+        : (poly?.antepenultLight ?? 60);
+      const initialWeight = poly?.initial ?? 10;
+      primaryStressIndex = getWeightedOption([
+        [syllableCount - 2, penultWeight],
+        [syllableCount - 3, antepenultWeight],
+        [0, initialWeight]
+      ], rand);
+    }
   }
 
   syllables[primaryStressIndex].stress = 'ˈ';
