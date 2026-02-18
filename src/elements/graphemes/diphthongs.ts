@@ -1,4 +1,4 @@
-/** Diphthong graphemes: /aɪ/, /aʊ/, /ɔɪ/, /eɪ/, /əʊ/, /ɪə/, /eə/, /ʊə/. */
+/** Diphthong graphemes: /aɪ/, /aʊ/, /ɔɪ/, /eɪ/, /əʊ/. */
 import { Grapheme, GraphemeCondition } from "../../types.js";
 
 export const diphthongGraphemes: Grapheme[] = [
@@ -74,50 +74,6 @@ export const diphthongGraphemes: Grapheme[] = [
     endWord: 2,
   },
 
-  // Example: "sure"
-{
-  phoneme: "ʊə",
-  form: "ue",
-  origin: 0,
-  frequency: 50,
-  startWord: 4,
-  midWord: 3,
-  endWord: 100,
-},
-
-// Example: "tour"
-{
-  phoneme: "ʊə",
-  form: "ou",
-  origin: 0,
-  frequency: 30,
-  startWord: 3,
-  midWord: 2,
-  endWord: 100,
-},
-
-// Example: "endure"
-{
-  phoneme: "ʊə",
-  form: "ue",
-  origin: 0,
-  frequency: 20,
-  startWord: 2,
-  midWord: 3,
-  endWord: 80,
-},
-
-// Example: "poor"
-{
-  phoneme: "ʊə",
-  form: "oo",
-  origin: 0,
-  frequency: 10,
-  startWord: 2,
-  midWord: 2,
-  endWord: 100,
-},
-
   // now
   {
     phoneme: "aʊ",
@@ -159,105 +115,6 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 20,
-  },
-
-  // Example: "fair", "hair", "pair"
-{
-  phoneme: "eə",
-  form: "ai",
-  origin: 0,
-  frequency: 50,
-  startWord: 4,
-  midWord: 5,
-  endWord: 100,
-},
-
-// Example: "care", "bare", "stare"
-{
-  phoneme: "eə",
-  form: "ae",
-  origin: 0,
-  frequency: 40,
-  startWord: 4,
-  midWord: 4,
-  endWord: 100,
-},
-
-// Example: "bear", "wear", "tear"
-{
-  phoneme: "eə",
-  form: "ea",
-  origin: 0,
-  frequency: 15,
-  startWord: 4,
-  midWord: 3,
-  endWord: 100,
-},
-
-// Example: "their", "heir"
-{
-  phoneme: "eə",
-  form: "ei",
-  origin: 0,
-  frequency: 10,
-  startWord: 3,
-  midWord: 2,
-  endWord: 50,
-},
-
-// Example: "there", "where"
-{
-  phoneme: "eə",
-  form: "ee",
-  origin: 0,
-  frequency: 2,
-  startWord: 0,
-  midWord: 3,
-  endWord: 80,
-},
-
-// Example: "layer" (in some dialects)
-{
-  phoneme: "eə",
-  form: "aye",
-  origin: 0,
-  frequency: 5,
-  startWord: 3,
-  midWord: 1,
-  endWord: 50,
-},
-
-
-  // fear
-  {
-    phoneme: "ɪə",
-    form: "ea",
-    origin: 0,
-    frequency: 3,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
-  {
-    phoneme: "ɪə",
-    form: "ee",
-    origin: 0,
-    frequency: 2,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
-  {
-    phoneme: "ɪə",
-    form: "ie",
-    origin: 1,
-    frequency: 2,
-    onset: 0,
-    startWord: 0,
-    midWord: 1,
-    endWord: 1,
   },
 
   // day
