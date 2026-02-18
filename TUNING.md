@@ -8,6 +8,17 @@ How we identify, diagnose, and fix phonotactic and orthographic outliers.
 Baseline → Analyze → Diagnose → Fix → Verify → Regress → Ship
 ```
 
+## Canonical Run Defaults
+
+Use this default profile unless a specific experiment needs otherwise:
+
+- **Total sample size:** 2,000,000 words
+- **Seed policy:** `42, 123, 456, 789, 1337` (400k words per seed)
+- **Mode:** `lexicon`
+- **Morphology:** `false`
+- **Primary analyzer:** `node scripts/analyze-cmu-trigrams.mjs`
+- **Canonical outputs:** `memory/trigram-2m-analysis.json` and `memory/trigram-2m-analysis.md`
+
 ## Phase 1: Baseline
 
 **Goal:** Establish a reference corpus that matches what we're generating.
@@ -16,6 +27,9 @@ Baseline → Analyze → Diagnose → Fix → Verify → Regress → Ship
 - Prose corpora (Norvig, Google Books) skew toward function words and don't reflect word-internal structure
 - Baselines stored in `memory/cmu-lexicon-{letters,bigrams,trigrams}.json`
 - Regenerate baselines if the reference dictionary changes
+- Keep demo baseline parity with:
+  - `node scripts/sync-demo-cmu-baselines.mjs --check` (verify)
+  - `node scripts/sync-demo-cmu-baselines.mjs` (update)
 
 **Lesson learned:** We initially used prose-based baselines and got misleading results (e.g., "of" appearing under-represented because it's a function word, not a word-internal pattern). Switching to CMU lexicon baselines made outlier analysis meaningful.
 
@@ -27,15 +41,27 @@ Baseline → Analyze → Diagnose → Fix → Verify → Regress → Ship
 
 **Goal:** Generate a large sample and compare to baseline to find outliers.
 
-1. Generate **1M words** (takes ~90s, gives statistical confidence)
+1. Generate **2M words** (5 seeds × 400k each; canonical run)
 2. Extract letter, bigram, and trigram frequencies
 3. Compare to CMU lexicon baseline using ratio (generated freq / baseline freq)
 4. Rank by ratio — highest over-represented and under-represented
 5. Flag anything **>50×** as a major outlier (trigrams) or **>15×** (bigrams)
 
-**Tools:** `scripts/ngram-analysis.ts` (reusable analysis script)
+**Tools:** `scripts/analyze-cmu-trigrams.mjs` (canonical 2M trigram analysis)
 
-**Output:** Saved to `memory/lexicon-comparison-analysis-N.md` for tracking over time
+**Output:** Saved to `memory/trigram-2m-analysis.{json,md}`
+
+### Standard report fields
+
+Each canonical analysis report should include:
+
+- `generatedAt` timestamp
+- Config: seeds, words-per-seed, total words, mode, morphology
+- Aggregate metrics: shared-key count, Pearson r
+- Top over-represented trigrams (ratio, gap, generated freq, baseline freq)
+- Top under-represented trigrams (ratio, gap, generated freq, baseline freq)
+- Top absolute-gap trigrams
+- Per-seed worst over/under entries
 
 ### Improvement opportunities
 - **Automate as CI job**: Run lexicon comparison on every PR and post a comment with top outliers and deltas from main
@@ -57,6 +83,19 @@ Baseline → Analyze → Diagnose → Fix → Verify → Regress → Ship
    - Which config/rule allowed it
 5. **Categorize** instances by root cause (percentages)
 6. Identify the specific config entry, weight, or missing constraint
+
+### WordTrace requirement (mandatory)
+
+For n-gram root-cause claims, use `trace: true` evidence by default.
+Do not conclude a cause from surface strings alone.
+
+### WordTrace field-to-question mapping
+
+- `stages`: Where in the pipeline did the syllable structure shift?
+- `graphemeSelections`: Did grapheme weighting/conditioning create the written trigram?
+- `structural`: Was it introduced by `finalS`, `nasalStopExtension`, boundary events, etc.?
+- `repairs`: Did a repair rule create or preserve the pattern?
+- `morphology`: Is the pattern affix-driven vs base-form generation?
 
 **Key questions during diagnosis:**
 - Is this phonotactically valid in English? (Check CMU dictionary for real examples)
@@ -156,10 +195,10 @@ Baseline → Analyze → Diagnose → Fix → Verify → Regress → Ship
 A typical tuning session:
 
 ```
-1. Run lexicon analysis (1M sample)          → "What's broken?"
+1. Run canonical lexicon analysis (2M sample) → "What's broken?"
 2. Pick biggest outlier                       → "What hurts most?"
 3. Check CMU dictionary for real examples     → "Is this even valid English?"
-4. Run word trace (50k sample, 10% traced)   → "Why is this happening?"
+4. Run word trace (`trace: true`, 50k sample, 10% traced) → "Why is this happening?"
 5. Identify fix level and implement           → "How do we fix it?"
 6. Verify (100k-500k sample)                 → "Did it work?"
 7. Check regressions (full test suite + comparison) → "Did we break anything?"
@@ -171,8 +210,9 @@ A typical tuning session:
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/ngram-analysis.ts` | Full n-gram frequency analysis |
-| `scripts/{pattern}-diagnostic.ts` | Pattern-specific word trace |
+| `scripts/analyze-cmu-trigrams.mjs` | Canonical 2M trigram analysis and report generation |
+| `scripts/diagnose.ts` | Pattern-specific diagnosis with WordTrace sampling |
+| `scripts/sync-demo-cmu-baselines.mjs` | Sync/check `demo/cmuBaselines.js` against `memory` baselines |
 | `vitest.quality.config.ts` | Quality benchmark gates |
 
 ## N-gram Quality Ratchet
@@ -227,3 +267,11 @@ for the initial 5-run data.
 | 2026-02-15 | PR #202 | whu (grapheme constraints) | 99.9% |
 | 2026-02-15 | PR #202 | skt (invalid attestedCodas) | 98.9% |
 | 2026-02-15 | PR #202 | rng (bannedNucleusCodaCombinations) | 100% |
+
+## Post-Tuning Documentation Ratchet
+
+After each successful tuning cycle:
+
+1. Update this file with new strategy patterns that worked.
+2. Update `docs/word-trace-diagnostics.md` with new trace signatures and anti-patterns.
+3. Record concrete threshold/process changes (with dates) in `memory/` artifacts.
