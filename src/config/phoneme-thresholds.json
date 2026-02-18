@@ -1,0 +1,12 @@
+{
+  "sampleSize": 200000,
+  "seed": 42,
+  "minCommonBaselinePct": 0.5,
+  "maxOverRepresentation": 2.75,
+  "minRepresentation": 0.08,
+  "maxAbsoluteGapPct": 4.5,
+  "minSharedPearsonR": 0.82,
+  "maxGeneratedOnlyMassPct": 6.7,
+  "generatedOnlyEscalationThresholdPct": 1.5,
+  "_comment": "Phoneme quality ratchet: after each successful phoneme tuning fix, run 5× analysis and tighten thresholds with a safety margin while keeping canonical defaults (lexicon, morphology off)."
+}
