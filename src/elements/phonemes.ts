@@ -54,7 +54,7 @@ export const forwardnessToPlaceOfArticulation = {
 
 export const phonemes: Phoneme[] = [
   // High Vowels
-  { sound: "i:", mannerOfArticulation: "highVowel", tense: true, nucleus: 150, startWord: 3, midWord: 1, endWord: 8, voiced: true, placeOfArticulation: "front" }, // sheep
+  { sound: "i:", mannerOfArticulation: "highVowel", tense: true, nucleus: 120, startWord: 3, midWord: 1, endWord: 8, voiced: true, placeOfArticulation: "front" }, // sheep
   { sound: "ɪ", mannerOfArticulation: "highVowel", tense: false, nucleus: 320, startWord: 3, midWord: 15, endWord: 1, voiced: true, placeOfArticulation: "front" }, // sit
 
   // Mid Vowels
