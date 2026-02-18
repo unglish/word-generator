@@ -149,7 +149,18 @@ export const englishConfig: LanguageConfig = {
   },
 
   stress: {
-    strategy: "weight-sensitive",
+    strategy: "ot",
+    otConfig: {
+      constraints: [
+        { name: "WSP", weight: 3 },
+        { name: "ALIGN-LEFT", weight: 6.5 },
+        { name: "ALIGN-RIGHT", weight: 1 },
+        { name: "NONFINALITY", weight: 12 },
+        { name: "NONINITIAL", weight: 8.5 },
+      ],
+      noise: 4,
+    },
+    // Legacy weights kept as fallback documentation
     disyllabicWeights: [75, 25],
     polysyllabicWeights: {
       heavyPenult: 45,

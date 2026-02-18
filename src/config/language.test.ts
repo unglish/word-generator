@@ -119,8 +119,10 @@ describe("LanguageConfig", () => {
   });
 
   describe("stress", () => {
-    it("should use weight-sensitive strategy", () => {
-      expect(englishConfig.stress.strategy).toBe("weight-sensitive");
+    it("should use ot strategy", () => {
+      expect(englishConfig.stress.strategy).toBe("ot");
+      expect(englishConfig.stress.otConfig).toBeDefined();
+      expect(englishConfig.stress.otConfig!.constraints.length).toBeGreaterThan(0);
     });
   });
 });
