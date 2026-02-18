@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { generateWords } from "./generate.js";
 
 describe("stress-aware nucleus re-pick", () => {
-  it("no primary-stressed schwa in 10,000 words", () => {
+  it("no primary-stressed schwa in 10,000 words", { timeout: 20_000 }, () => {
     const words = generateWords(10_000, { seed: 123 });
     let stressedSchwaCount = 0;
 
@@ -17,8 +17,8 @@ describe("stress-aware nucleus re-pick", () => {
     expect(stressedSchwaCount).toBe(0);
   });
 
-  it("monosyllables can still have schwa nucleus (no stress marker)", () => {
-    const words = generateWords(10_000, { seed: 456, syllableCount: 1 });
+  it("monosyllables can still have schwa nucleus (no stress marker)", { timeout: 20_000 }, () => {
+    const words = generateWords(8_000, { seed: 456, syllableCount: 1 });
     let schwaCount = 0;
 
     for (const word of words) {

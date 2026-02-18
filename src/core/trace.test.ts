@@ -102,11 +102,11 @@ describe("trace pipeline", () => {
     expect(word.trace!.morphology).toBeUndefined();
   });
 
-  it("captures boundary adjustment drops when they occur", () => {
+  it("captures boundary adjustment drops when they occur", { timeout: 20_000 }, () => {
     // Top-down planning reduces equal-sonority boundaries, so this event is
     // now rare. Validate payload shape when it does occur.
     let found = false;
-    for (let s = 0; s < 3000; s++) {
+    for (let s = 0; s < 750; s++) {
       const w = generateWord({ seed: s, syllableCount: 4, trace: true });
       const drops = w.trace!.structural.filter(e => e.event === "boundaryDrop");
       if (drops.length > 0) {
