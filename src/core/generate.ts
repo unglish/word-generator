@@ -5,7 +5,7 @@ import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, S
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
-import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant, repairHAfterBackVowel } from "./repair.js";
+import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
 import { TraceCollector } from "./trace.js";
@@ -1167,10 +1167,6 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
     }, t);
   }
   t?.afterStage('repairClusterShape', context.word.syllables);
-
-  t?.beforeStage('repairNgCodaSibilant', context.word.syllables);
-  repairNgCodaSibilant(context.word.syllables, t);
-  t?.afterStage('repairNgCodaSibilant', context.word.syllables);
 
   t?.beforeStage('repairHAfterBackVowel', context.word.syllables);
   repairHAfterBackVowel(context.word.syllables, t);
