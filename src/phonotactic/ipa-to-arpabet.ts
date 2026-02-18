@@ -15,10 +15,7 @@ import { Phoneme, Word } from '../types.js';
 const IPA_TO_ARPABET: Record<string, string> = {
   // Diphthongs
   'eɪ':  'EY',       // day
-  'ɪə':  'IH R',     // dear (approximation)
-  'eə':  'EH R',     // fair (approximation)
   'aɪ':  'AY',       // fly
-  'ʊə':  'UH R',     // sure (approximation)
   'əʊ':  'OW',       // globe
   'ɔɪ':  'OY',       // boy
   'aʊ':  'AW',       // cow

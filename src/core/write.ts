@@ -87,10 +87,9 @@ function buildCategorySets(phonemes: Phoneme[]): Map<string, Set<string>> {
       if (p.placeOfArticulation === "front") categories.get("front-vowel")!.add(p.sound);
       // (Triphthongs removed — /aɪə/ decomposed into diphthong + /ə/.)
       if (p.placeOfArticulation === "back") categories.get("back-vowel")!.add(p.sound);
-      // Vowels that cause c-softening (written as e/i): i:, ɪ, e, ɛ, eɪ, ɪə, eə
       // Vowels that cause c-softening: front vowels that typically write as e/i/y.
       // Schwa excluded: it often writes as a/o/u where c should be hard (canal, collect).
-      const cSoftSounds = new Set(["i:", "ɪ", "e", "ɛ", "eɪ", "ɪə", "eə", "aɪ"]);
+      const cSoftSounds = new Set(["i:", "ɪ", "e", "ɛ", "eɪ", "aɪ"]);
       if (cSoftSounds.has(p.sound)) categories.get("c-soft-vowel")!.add(p.sound);
     } else {
       categories.get("consonant")!.add(p.sound);

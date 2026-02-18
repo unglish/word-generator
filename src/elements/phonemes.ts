@@ -75,10 +75,7 @@ export const phonemes: Phoneme[] = [
 
   // Diphthongs (typically treated as mid or low vowels)
   { sound: "eɪ", mannerOfArticulation: "midVowel", tense: true, nucleus: 170, startWord: 6, midWord: 2, endWord: 3, voiced: true, placeOfArticulation: "front" }, // day, late, gate
-  { sound: "ɪə", mannerOfArticulation: "midVowel", tense: true, nucleus: 30, startWord: 4, midWord: 2, endWord: 4, voiced: true, placeOfArticulation: "central" }, // dear, fear
-  { sound: "eə", mannerOfArticulation: "midVowel", tense: true, nucleus: 20, startWord: 4, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "central" }, // fair, care
   { sound: "aɪ", mannerOfArticulation: "midVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 3, voiced: true, placeOfArticulation: "front" }, // fly, time, rhyme
-  { sound: "ʊə", mannerOfArticulation: "midVowel", tense: true, nucleus: 10, startWord: 6, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // sure /ʃʊə/, cure /kjʊə/
   { sound: "əʊ", mannerOfArticulation: "midVowel", tense: true, nucleus: 80, startWord: 1, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "back" }, // globe, show, blow
   { sound: "ɔɪ", mannerOfArticulation: "midVowel", tense: true, nucleus: 20, startWord: 4, midWord: 2, endWord: 4, voiced: true, placeOfArticulation: "front" }, // boy, join, coin
   { sound: "aʊ", mannerOfArticulation: "midVowel", tense: true, nucleus: 20, startWord: 1, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "back" }, // cow (/kaʊ/) or how (/haʊ/)
