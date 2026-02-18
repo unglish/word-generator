@@ -2,7 +2,8 @@ importScripts('./unglish-worker.js');
 
 onmessage = function(e) {
   if (e.data.action === 'generateStats') {
-    const count = e.data.count || 10000;
+    const count = e.data.count || 200000;
+    const PROGRESS_EVERY = 10000;
     const words = [];
     const phonemes = [];
     for (let i = 0; i < count; i++) {
@@ -14,6 +15,9 @@ onmessage = function(e) {
         });
       });
       phonemes.push(sounds);
+      if ((i + 1) % PROGRESS_EVERY === 0 && (i + 1) < count) {
+        postMessage({ type: 'progress', done: i + 1, total: count });
+      }
     }
     postMessage({ type: 'stats', words: words, phonemes: phonemes });
   }

@@ -518,17 +518,19 @@
             }
 
             function runStats() {
-                $('stats-status').textContent = 'Generating 10,000 words...';
+                $('stats-status').textContent = 'Generating 200,000 words...';
                 if (statsWorker) statsWorker.terminate();
                 statsWorker = new Worker('statsWorker.js?v=' + Date.now());
                 statsWorker.onmessage = function(ev) {
-                    if (ev.data.type === 'stats') {
+                    if (ev.data.type === 'progress') {
+                        $('stats-status').textContent = 'Generating 200,000 words... ' + ev.data.done.toLocaleString() + '/' + ev.data.total.toLocaleString();
+                    } else if (ev.data.type === 'stats') {
                         renderStats(ev.data.words, ev.data.phonemes);
                         statsWorker.terminate();
                         statsWorker = null;
                     }
                 };
-                statsWorker.postMessage({ action: 'generateStats', count: 10000 });
+                statsWorker.postMessage({ action: 'generateStats', count: 200000 });
             }
 
             // Paginated chart helper
