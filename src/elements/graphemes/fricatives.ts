@@ -190,16 +190,6 @@ export const fricativeGraphemes: Grapheme[] = [
     midWord: 0,
     endWord: 1,
   },
-  {
-    phoneme: "z",
-    form: "se",
-    origin: 3,
-    frequency: 1,
-    onset: 0,
-    startWord: 0,
-    midWord: 0,
-    endWord: 1,
-  },
 
   // she
   { phoneme: "ʃ", form: "sh", origin: 0, frequency: 750, startWord: 1,
