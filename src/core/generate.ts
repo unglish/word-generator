@@ -853,27 +853,16 @@ function distributePhonemes(
   const maxConsonants = syllableCount * (maxOnset + maxCoda);
 
   // Clamp target consonants to feasible range instead of throwing.
-  // This handles edge cases where the sampling chain produces an
-  // out-of-range target — we get as close as possible.
   const rawTargetConsonants = targetPhonemes - syllableCount;
   const targetConsonants = Math.max(0, Math.min(rawTargetConsonants, maxConsonants));
 
-  let bestPlan: SyllableShapePlan[] | null = null;
-  let bestDiff = Number.POSITIVE_INFINITY;
-
-  for (let attempt = 0; attempt < 200; attempt++) {
-    const sampled = sampleConsonantPlan(rt, syllableCount, rand);
-    const consonants = sampled.reduce((sum, s) => sum + s.onsetLength + s.codaLength, 0);
-    const diff = Math.abs(consonants - targetConsonants);
-
-    if (diff < bestDiff) {
-      bestDiff = diff;
-      bestPlan = sampled;
-      if (bestDiff === 0) return sampled;
-    }
-  }
-
-  return tweakConsonantPlanToBudget(rt, bestPlan ?? sampleConsonantPlan(rt, syllableCount, rand), targetConsonants, rand);
+  // Sample one natural plan, then tweak to match the budget.
+  // The old approach tried 200 random samples hoping for an exact match —
+  // this is O(syllableCount) instead of O(200 × syllableCount).
+  const plan = sampleConsonantPlan(rt, syllableCount, rand);
+  const consonants = plan.reduce((sum, s) => sum + s.onsetLength + s.codaLength, 0);
+  if (consonants === targetConsonants) return plan;
+  return tweakConsonantPlanToBudget(rt, plan, targetConsonants, rand);
 }
 
 function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext, syllablePlan: SyllableShapePlan): Syllable {
