@@ -112,11 +112,14 @@ export interface SyllableStructureRules {
   maxCodaLength: number;
   /** Maximum nucleus length (English: 1 — no complex nuclei). */
   maxNucleusLength: number;
-  /** Weighted distribution of syllable counts: [count, weight][] */
+  /**
+   * @deprecated Superseded by top-down phoneme-length targeting
+   * ({@link PhonemeLengthWeights}). Retained for backward compatibility.
+   */
   syllableCountWeights: [number, number][];
-  /** Syllable count weights for "text" mode. Falls back to syllableCountWeights. */
+  /** @deprecated See {@link syllableCountWeights}. */
   syllableCountWeightsText?: [number, number][];
-  /** Syllable count weights for "lexicon" mode. Falls back to syllableCountWeights. */
+  /** @deprecated See {@link syllableCountWeights}. */
   syllableCountWeightsLexicon?: [number, number][];
   /** Letter-length targets per syllable count: [min, peak_min, peak_max, max]. */
   letterLengthTargets?: Record<number, [number, number, number, number]>;
@@ -183,6 +186,11 @@ export interface GenerationWeights {
  *
  * Each tuple is `[phonemeCount, weight]`. Weights are relative and do not need
  * to sum to 100.
+ *
+ * **Required** on {@link LanguageConfig}. Generation samples a target phoneme
+ * count from these distributions before building syllables.
+ *
+ * @since 0.6.0
  */
 export interface PhonemeLengthWeights {
   /** Distribution for text mode generation. */
@@ -193,6 +201,10 @@ export interface PhonemeLengthWeights {
 
 /**
  * Mapping from target phoneme length to syllable-count distribution.
+ *
+ * **Required** on {@link LanguageConfig}. For each phoneme count in
+ * {@link PhonemeLengthWeights}, there must be a corresponding entry here
+ * mapping to feasible syllable counts with weights.
  *
  * Example:
  * ```ts
@@ -205,6 +217,8 @@ export interface PhonemeLengthWeights {
  *   }
  * }
  * ```
+ *
+ * @since 0.6.0
  */
 export interface PhonemeToSyllableWeights {
   /** Mapping used in text mode. */

@@ -11,8 +11,8 @@ import { generateWord } from './generate.js';
  * Update MIN_WORDS_PER_SEC if you intentionally accept a speed tradeoff.
  */
 
-// Conservative CI floor — top-down planning is heavier than prior bottom-up flow.
-const MIN_WORDS_PER_SEC = 3500;
+// CI floor — top-down planning with single-sample + tweak distribution.
+const MIN_WORDS_PER_SEC = 4500;
 const SAMPLE_SIZE = 10000;
 const WARMUP_COUNT = 50;
 

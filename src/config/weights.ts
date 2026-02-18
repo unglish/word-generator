@@ -19,7 +19,11 @@ export const TENSE_BONUS = 0.25;
 // Syllable count distribution
 // ---------------------------------------------------------------------------
 
-/** Weights for how many syllables a word should have (1–7). */
+/**
+ * @deprecated Superseded by top-down phoneme-length targeting
+ * ({@link PHONEME_LENGTH_WEIGHTS_LEXICON} / {@link PHONEME_LENGTH_WEIGHTS_TEXT}).
+ * Retained for backward compatibility with configs that reference them.
+ */
 export const SYLLABLE_COUNT_WEIGHTS: [number, number][] = [
   [1, 5000],
   [2, 30000],
@@ -151,6 +155,9 @@ export const HAS_CODA_MID_WORD = 55;
  *
  * Derived from CMU Pronouncing Dictionary × Google Books token frequencies
  * (Norvig/Mayzner 2013, 744B tokens, 98.2% coverage).
+ *
+ * @deprecated Superseded by top-down phoneme-length targeting
+ * ({@link PHONEME_LENGTH_WEIGHTS_TEXT}).
  */
 export const SYLLABLE_COUNT_WEIGHTS_TEXT: [number, number][] = [
   [1, 63600],  // 63.6% — function words, common verbs/nouns
@@ -166,6 +173,9 @@ export const SYLLABLE_COUNT_WEIGHTS_TEXT: [number, number][] = [
  *
  * Derived from CMU Pronouncing Dictionary type counts
  * (each unique word counted once, ~117k entries).
+ *
+ * @deprecated Superseded by top-down phoneme-length targeting
+ * ({@link PHONEME_LENGTH_WEIGHTS_LEXICON}).
  */
 export const SYLLABLE_COUNT_WEIGHTS_LEXICON: [number, number][] = [
   [1, 12900],  // 12.9%

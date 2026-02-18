@@ -719,7 +719,7 @@ function sampleTargetPhonemeCount(
 
   const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
   const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
-  // +1 allows count-mutating extensions (e.g. final /s/) to satisfy rare edge cases.
+  // +1 provides headroom for rare plan overshoots (e.g. repair passes).
   const maxPhonemes = forcedSyllableCount + forcedSyllableCount * (maxOnset + maxCoda) + 1;
 
   const filtered = allWeights.filter(([phonemeCount]) =>
@@ -781,9 +781,9 @@ function tweakConsonantPlanToBudget(
   const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
   const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
 
-  const totalConsonants = () => adjusted.reduce((sum, s) => sum + s.onsetLength + s.codaLength, 0);
+  let total = adjusted.reduce((sum, s) => sum + s.onsetLength + s.codaLength, 0);
 
-  while (totalConsonants() < targetConsonants) {
+  while (total < targetConsonants) {
     const candidates: Array<{
       syllableIndex: number;
       position: "onset" | "coda";
@@ -809,9 +809,10 @@ function tweakConsonantPlanToBudget(
     if (candidates.length === 0) break;
     const picked = getWeightedOption(candidates.map(c => [c, c.weight]), rand);
     adjusted[picked.syllableIndex][picked.position === "onset" ? "onsetLength" : "codaLength"]++;
+    total++;
   }
 
-  while (totalConsonants() > targetConsonants) {
+  while (total > targetConsonants) {
     const candidates: Array<{
       syllableIndex: number;
       position: "onset" | "coda";
@@ -837,6 +838,7 @@ function tweakConsonantPlanToBudget(
     if (candidates.length === 0) break;
     const picked = getWeightedOption(candidates.map(c => [c, c.weight]), rand);
     adjusted[picked.syllableIndex][picked.position === "onset" ? "onsetLength" : "codaLength"]--;
+    total--;
   }
 
   return adjusted;
