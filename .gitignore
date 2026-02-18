@@ -153,3 +153,24 @@ demo/*.d.ts
 demo/*.d.ts.map
 demo/main.js
 REVIEW-*.md
+
+# Agent workspace artifacts (analysis scripts, diagnostic dumps, sample data)
+memory/
+data/cmudict*
+cmudict*
+*-diagnostic-report.md
+*-instances.json
+*-analysis.json
+*-traced-words.json
+*-deep-trace.json
+*-phoneme-analysis.json
+
+# Root-level ad-hoc scripts (agent-generated, not part of the project)
+/analyze*.js
+/analyze*.py
+/check-outliers.js
+/extract_*.py
+/generate_sample.js
+/lexicon_comparison.py
+/phoneme-dist-check.ts
+/sct-*.json
