@@ -13,13 +13,6 @@
 import { Phoneme, Word } from '../types.js';
 
 const IPA_TO_ARPABET: Record<string, string> = {
-  // Triphthongs
-  'aɪə': 'AY ER',   // fire
-  'aʊə': 'AW ER',   // hour
-  'eɪə': 'EY ER',   // player
-  'ɔɪə': 'OY ER',   // employer
-  'əʊə': 'OW ER',   // lower
-
   // Diphthongs
   'eɪ':  'EY',       // day
   'ɪə':  'IH R',     // dear (approximation)

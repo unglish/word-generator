@@ -447,8 +447,8 @@ export const vowelGraphemes: Grapheme[] = [
     endWord: 1,
   },
   // Note: "i" before /ŋ/ handled via spelling rule (eng→ing) rather than
-  // grapheme condition, since the nucleus is often a triphthong (aɪə) that
-  // gets decomposed during writing.
+  // grapheme condition, since the nucleus can span diphthong + schwa
+  // across syllables.
   { 
     phoneme: "ə", 
     form: "a", 
