@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { generateWord, generateWords } from './generate';
+import { createGenerator, generateWord, generateWords } from './generate';
 import { createSeededRng } from '../utils/random';
+import { englishConfig } from '../config/english';
 
 describe('generateWords (batch API)', () => {
   it('returns the requested number of words', () => {
@@ -113,5 +114,33 @@ describe('generateWord RNG priority', () => {
     const word42b = generateWord({ seed: 42 });
 
     expect(word42a.written.clean).toBe(word42b.written.clean);
+  });
+});
+
+describe('top-down phoneme targeting', () => {
+  it('throws when top-down phoneme length config is missing', () => {
+    const badConfig = {
+      ...englishConfig,
+      phonemeLengthWeights: undefined as any,
+    };
+    expect(() => createGenerator(badConfig as any)).toThrow('phonemeLengthWeights.text is required');
+  });
+
+  it('keeps lexicon 6-phoneme bucket near CMU target in a sample', () => {
+    const sample = generateWords(10000, { seed: 2026, mode: 'lexicon' });
+    let sixPhonemeCount = 0;
+
+    for (const word of sample) {
+      let phonemes = 0;
+      for (const syllable of word.syllables) {
+        phonemes += syllable.onset.length + syllable.nucleus.length + syllable.coda.length;
+      }
+      if (phonemes === 6) sixPhonemeCount++;
+    }
+
+    const sixPct = (sixPhonemeCount / sample.length) * 100;
+    // CMU target is 20.39%. Allow a tight sampling window.
+    expect(sixPct).toBeGreaterThan(18.5);
+    expect(sixPct).toBeLessThan(22.0);
   });
 });

@@ -1,4 +1,4 @@
-import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, getPhonemePositionWeight, GenerationMode } from "../types.js";
+import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, SyllableShapePlan, getPhonemePositionWeight, GenerationMode } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
@@ -8,7 +8,6 @@ import { createWrittenFormGenerator } from "./write.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairNgCodaSibilant, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
-import type { GenerationWeights } from "../config/language.js";
 import { TraceCollector } from "./trace.js";
 
 // ---------------------------------------------------------------------------
@@ -452,7 +451,13 @@ function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime):
 // Syllable picking
 // ---------------------------------------------------------------------------
 
-function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStartOfWord: boolean, monosyllabic: boolean): Phoneme[] {
+function pickOnset(
+  rt: GeneratorRuntime,
+  context: WordGenerationContext,
+  isStartOfWord: boolean,
+  monosyllabic: boolean,
+  targetLength?: number,
+): Phoneme[] {
   const prevSyllable = context.word.syllables[context.currSyllableIndex - 1];
   const isFollowingNucleus = prevSyllable && prevSyllable.coda.length === 0;
   const syllableCount = context.syllableCount;
@@ -462,9 +467,9 @@ function pickOnset(rt: GeneratorRuntime, context: WordGenerationContext, isStart
   const polysyllabicWeights = isFollowingNucleus
     ? onsetLength.followingNucleus
     : (syllableCount >= 3 && onsetLength.long) ? onsetLength.long : onsetLength.default;
-  const maxLength = monosyllabic
+  const maxLength = targetLength ?? (monosyllabic
     ? getWeightedOption(onsetLength.monosyllabic, rand)
-    : getWeightedOption(polysyllabicWeights, rand);
+    : getWeightedOption(polysyllabicWeights, rand));
 
   if (maxLength === 0) return [];
 
@@ -503,7 +508,19 @@ function pickNucleus(rt: GeneratorRuntime, context: WordGenerationContext, isSta
   });
 }
 
-function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSyllable: Syllable, isEndOfWord: boolean, monosyllabic: boolean): Phoneme[] {
+function pickCoda(
+  rt: GeneratorRuntime,
+  context: WordGenerationContext,
+  newSyllable: Syllable,
+  isEndOfWord: boolean,
+  monosyllabic: boolean,
+  targetLength?: number,
+): Phoneme[] {
+  // In plan-driven mode (targetLength set), suppress count-mutating extensions
+  // when the coda already matches the plan. This avoids burning retries on
+  // overshoots while still allowing mutations when the cluster builder
+  // under-fills (giving mutations a chance to close the gap).
+  const planDriven = targetLength !== undefined;
   const syllableCount = context.syllableCount;
   const onsetLen = newSyllable.onset.length;
   const { codaLength, probability } = rt.config.generationWeights;
@@ -516,7 +533,7 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
       ];
 
   const rand = context.rand;
-  const maxLength: number = getWeightedOption(weights, rand);
+  const maxLength: number = targetLength ?? getWeightedOption(weights, rand);
   if (maxLength === 0) return [];
 
   const coda: Phoneme[] = buildCluster(rt, {
@@ -532,8 +549,12 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
   });
 
   // Extend word-final singleton nasal codas with their voiced homorganic stop
+  // In plan-driven mode, allow mutations when coda under-filled OR exactly at
+  // target (since mutations close the gap toward the phoneme count target —
+  // the outer loop will reject if the total overshoots).
   const nasalExt = probability.nasalStopExtension ?? 0;
-  if (isEndOfWord && nasalExt > 0 && coda.length === 1 &&
+  const allowMutations = !planDriven || coda.length <= targetLength;
+  if (allowMutations && isEndOfWord && nasalExt > 0 && coda.length === 1 &&
       coda[0].mannerOfArticulation === "nasal" &&
       getWeightedOption([[true, nasalExt], [false, 100 - nasalExt]], rand)) {
     const nasalSound = coda[0].sound;
@@ -548,7 +569,7 @@ function pickCoda(rt: GeneratorRuntime, context: WordGenerationContext, newSylla
   }
 
   // Add 's' to the end of the last syllable occasionally
-  if (isEndOfWord) {
+  if (allowMutations && isEndOfWord) {
     let finalSProbability = probability.finalS;
     let shouldSkipFinalS = false;
     
@@ -635,10 +656,220 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
 // Syllable generation
 // ---------------------------------------------------------------------------
 
-function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext): Syllable {
+function getOnsetLengthWeights(
+  rt: GeneratorRuntime,
+  syllableCount: number,
+  prevCodaLength: number,
+): [number, number][] {
+  const { onsetLength } = rt.config.generationWeights;
+  if (syllableCount === 1) return onsetLength.monosyllabic;
+  if (prevCodaLength === 0) return onsetLength.followingNucleus;
+  if (syllableCount >= 3 && onsetLength.long) return onsetLength.long;
+  return onsetLength.default;
+}
+
+function getCodaLengthWeights(
+  rt: GeneratorRuntime,
+  syllableCount: number,
+  onsetLen: number,
+  isEndOfWord: boolean,
+): [number, number][] {
+  const { codaLength } = rt.config.generationWeights;
+  if (syllableCount === 1) {
+    return codaLength.monosyllabic[onsetLen] ?? codaLength.monosyllabicDefault;
+  }
+  return [
+    [0, isEndOfWord ? codaLength.zeroWeightEndOfWord : codaLength.zeroWeightMidWord],
+    ...codaLength.polysyllabicNonzero,
+  ];
+}
+
+function getLengthWeight(weights: [number, number][], length: number): number {
+  return weights.find(([len]) => len === length)?.[1] ?? 0.0001;
+}
+
+function getTopDownPhonemeLengthWeights(rt: GeneratorRuntime, mode: GenerationMode): [number, number][] {
+  const weights = rt.config.phonemeLengthWeights[mode];
+  if (!weights?.length) {
+    throw new Error(`Missing phonemeLengthWeights.${mode} in language config`);
+  }
+  return weights;
+}
+
+function getTopDownSyllableWeights(rt: GeneratorRuntime, mode: GenerationMode, phonemeCount: number): [number, number][] {
+  const table = rt.config.phonemeToSyllableWeights[mode];
+  if (!table) {
+    throw new Error(`Missing phonemeToSyllableWeights.${mode} in language config`);
+  }
+  const weights = table[phonemeCount];
+  if (!weights?.length) {
+    throw new Error(`Missing phonemeToSyllableWeights.${mode}.${phonemeCount} in language config`);
+  }
+  return weights;
+}
+
+function sampleTargetPhonemeCount(
+  rt: GeneratorRuntime,
+  mode: GenerationMode,
+  rand: RNG,
+  forcedSyllableCount?: number,
+): number {
+  const allWeights = getTopDownPhonemeLengthWeights(rt, mode);
+  if (!forcedSyllableCount) return getWeightedOption(allWeights, rand);
+
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  // +1 provides headroom for rare plan overshoots (e.g. repair passes).
+  const maxPhonemes = forcedSyllableCount + forcedSyllableCount * (maxOnset + maxCoda) + 1;
+
+  const filtered = allWeights.filter(([phonemeCount]) =>
+    phonemeCount >= forcedSyllableCount && phonemeCount <= maxPhonemes,
+  );
+  const pool = filtered.length > 0 ? filtered : allWeights;
+  return getWeightedOption(pool, rand);
+}
+
+function sampleSyllableCountForTarget(
+  rt: GeneratorRuntime,
+  mode: GenerationMode,
+  targetPhonemes: number,
+  rand: RNG,
+  forcedSyllableCount?: number,
+): number {
+  if (forcedSyllableCount && forcedSyllableCount > 0) return forcedSyllableCount;
+
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  const canSatisfy = (syllableCount: number) => {
+    const maxPhonemes = syllableCount + syllableCount * (maxOnset + maxCoda) + 1;
+    return targetPhonemes <= maxPhonemes;
+  };
+
+  const weights = getTopDownSyllableWeights(rt, mode, targetPhonemes);
+  const feasible = weights.filter(([syllableCount]) => canSatisfy(syllableCount));
+  if (feasible.length > 0) {
+    return getWeightedOption(feasible, rand);
+  }
+  return getWeightedOption(weights, rand);
+}
+
+function sampleConsonantPlan(rt: GeneratorRuntime, syllableCount: number, rand: RNG): SyllableShapePlan[] {
+  const plan: SyllableShapePlan[] = [];
+  let prevCodaLength = 0;
+
+  for (let i = 0; i < syllableCount; i++) {
+    const isEndOfWord = i === syllableCount - 1;
+    const onsetWeights = getOnsetLengthWeights(rt, syllableCount, prevCodaLength);
+    const onsetLength = getWeightedOption(onsetWeights, rand);
+    const codaWeights = getCodaLengthWeights(rt, syllableCount, onsetLength, isEndOfWord);
+    const codaLength = getWeightedOption(codaWeights, rand);
+    plan.push({ onsetLength, codaLength });
+    prevCodaLength = codaLength;
+  }
+
+  return plan;
+}
+
+function tweakConsonantPlanToBudget(
+  rt: GeneratorRuntime,
+  plan: SyllableShapePlan[],
+  targetConsonants: number,
+  rand: RNG,
+): SyllableShapePlan[] {
+  const adjusted = plan.map(s => ({ ...s }));
+  const syllableCount = adjusted.length;
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+
+  let total = adjusted.reduce((sum, s) => sum + s.onsetLength + s.codaLength, 0);
+
+  while (total < targetConsonants) {
+    const candidates: Array<{
+      syllableIndex: number;
+      position: "onset" | "coda";
+      weight: number;
+    }> = [];
+
+    for (let i = 0; i < syllableCount; i++) {
+      const isEndOfWord = i === syllableCount - 1;
+      const prevCodaLength = i === 0 ? 0 : adjusted[i - 1].codaLength;
+      const onsetWeights = getOnsetLengthWeights(rt, syllableCount, prevCodaLength);
+      const codaWeights = getCodaLengthWeights(rt, syllableCount, adjusted[i].onsetLength, isEndOfWord);
+
+      if (adjusted[i].onsetLength < maxOnset) {
+        const next = adjusted[i].onsetLength + 1;
+        candidates.push({ syllableIndex: i, position: "onset", weight: getLengthWeight(onsetWeights, next) });
+      }
+      if (adjusted[i].codaLength < maxCoda) {
+        const next = adjusted[i].codaLength + 1;
+        candidates.push({ syllableIndex: i, position: "coda", weight: getLengthWeight(codaWeights, next) });
+      }
+    }
+
+    if (candidates.length === 0) break;
+    const picked = getWeightedOption(candidates.map(c => [c, c.weight]), rand);
+    adjusted[picked.syllableIndex][picked.position === "onset" ? "onsetLength" : "codaLength"]++;
+    total++;
+  }
+
+  while (total > targetConsonants) {
+    const candidates: Array<{
+      syllableIndex: number;
+      position: "onset" | "coda";
+      weight: number;
+    }> = [];
+
+    for (let i = 0; i < syllableCount; i++) {
+      const isEndOfWord = i === syllableCount - 1;
+      const prevCodaLength = i === 0 ? 0 : adjusted[i - 1].codaLength;
+      const onsetWeights = getOnsetLengthWeights(rt, syllableCount, prevCodaLength);
+      const codaWeights = getCodaLengthWeights(rt, syllableCount, adjusted[i].onsetLength, isEndOfWord);
+
+      if (adjusted[i].onsetLength > 0) {
+        const curr = adjusted[i].onsetLength;
+        candidates.push({ syllableIndex: i, position: "onset", weight: 1 / getLengthWeight(onsetWeights, curr) });
+      }
+      if (adjusted[i].codaLength > 0) {
+        const curr = adjusted[i].codaLength;
+        candidates.push({ syllableIndex: i, position: "coda", weight: 1 / getLengthWeight(codaWeights, curr) });
+      }
+    }
+
+    if (candidates.length === 0) break;
+    const picked = getWeightedOption(candidates.map(c => [c, c.weight]), rand);
+    adjusted[picked.syllableIndex][picked.position === "onset" ? "onsetLength" : "codaLength"]--;
+    total--;
+  }
+
+  return adjusted;
+}
+
+function distributePhonemes(
+  rt: GeneratorRuntime,
+  targetPhonemes: number,
+  syllableCount: number,
+  rand: RNG,
+): SyllableShapePlan[] {
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  const maxConsonants = syllableCount * (maxOnset + maxCoda);
+
+  // Clamp target consonants to feasible range instead of throwing.
+  const rawTargetConsonants = targetPhonemes - syllableCount;
+  const targetConsonants = Math.max(0, Math.min(rawTargetConsonants, maxConsonants));
+
+  // Sample one natural plan, then tweak to match the budget.
+  // The old approach tried 200 random samples hoping for an exact match —
+  // this is O(syllableCount) instead of O(200 × syllableCount).
+  const plan = sampleConsonantPlan(rt, syllableCount, rand);
+  const consonants = plan.reduce((sum, s) => sum + s.onsetLength + s.codaLength, 0);
+  if (consonants === targetConsonants) return plan;
+  return tweakConsonantPlanToBudget(rt, plan, targetConsonants, rand);
+}
+
+function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext, syllablePlan: SyllableShapePlan): Syllable {
   const isEndOfWord = context.currSyllableIndex === context.syllableCount - 1;
   const isStartOfWord = context.currSyllableIndex === 0;
-  const prevSyllable = context.word.syllables[context.currSyllableIndex - 1];
   const syllableCount = context.syllableCount;
   const monosyllabic = syllableCount === 1;
 
@@ -648,53 +879,31 @@ function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext):
     coda: [],
   };
 
-  const { probability } = rt.config.generationWeights;
-  const rand = context.rand;
-  const hasOnset = determineHasOnset(probability, isStartOfWord, rand, prevSyllable);
-  const hasCoda = determineHasCoda(probability, isEndOfWord, monosyllabic, rand);
-
-  if (hasOnset) {
-    newSyllable.onset = pickOnset(rt, context, isStartOfWord, monosyllabic);
+  if (syllablePlan.onsetLength > 0) {
+    newSyllable.onset = pickOnset(rt, context, isStartOfWord, monosyllabic, syllablePlan.onsetLength);
   }
 
   newSyllable.nucleus = pickNucleus(rt, context, isStartOfWord, isEndOfWord);
 
-  if (hasCoda) {
-    newSyllable.coda = pickCoda(rt, context, newSyllable, isEndOfWord, monosyllabic);
+  if (syllablePlan.codaLength > 0) {
+    newSyllable.coda = pickCoda(rt, context, newSyllable, isEndOfWord, monosyllabic, syllablePlan.codaLength);
   }
 
   return newSyllable;
 }
 
-function determineHasOnset(p: GenerationWeights["probability"], isStartOfWord: boolean, rand: RNG, prevSyllable?: Syllable): boolean {
-  if (isStartOfWord) {
-    return getWeightedOption([[true, p.hasOnsetStartOfWord], [false, 100 - p.hasOnsetStartOfWord]], rand);
-  } else {
-    const prevHasCoda = prevSyllable && prevSyllable.coda.length > 0;
-    return prevHasCoda ? getWeightedOption([[true, p.hasOnsetAfterCoda], [false, 100 - p.hasOnsetAfterCoda]], rand) : true;
-  }
-}
-
-function determineHasCoda(p: GenerationWeights["probability"], isEndOfWord: boolean, monosyllabic: boolean, rand: RNG): boolean {
-  if (monosyllabic) {
-    return getWeightedOption([[true, p.hasCodaMonosyllabic], [false, 100 - p.hasCodaMonosyllabic]], rand);
-  } else if (isEndOfWord) {
-    return getWeightedOption([[true, p.hasCodaEndOfWord], [false, 100 - p.hasCodaEndOfWord]], rand);
-  } else {
-    return getWeightedOption([[true, p.hasCodaMidWord], [false, 100 - p.hasCodaMidWord]], rand);
-  }
-}
-
-function getSyllableCountWeights(rt: GeneratorRuntime, mode: GenerationMode): [number, number][] {
-  const ss = rt.config.syllableStructure;
-  if (mode === "text" && ss.syllableCountWeightsText) return ss.syllableCountWeightsText;
-  if (mode === "lexicon" && ss.syllableCountWeightsLexicon) return ss.syllableCountWeightsLexicon;
-  return ss.syllableCountWeights;
-}
-
 function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext, mode: GenerationMode) {
-  if (!context.syllableCount) {
-    context.syllableCount = getWeightedOption(getSyllableCountWeights(rt, mode), context.rand);
+  if (!context.syllablePlans || context.syllablePlans.length === 0) {
+    const forcedSyllableCount = context.syllableCount > 0 ? context.syllableCount : undefined;
+    const targetPhonemeCount = sampleTargetPhonemeCount(rt, mode, context.rand, forcedSyllableCount);
+    const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCount, context.rand, forcedSyllableCount);
+    context.syllableCount = sampledSyllableCount;
+    context.targetPhonemeCount = targetPhonemeCount;
+    context.syllablePlans = distributePhonemes(rt, targetPhonemeCount, sampledSyllableCount, context.rand);
+  }
+
+  if (context.syllablePlans.length !== context.syllableCount) {
+    throw new Error(`Top-down syllable plan mismatch: expected ${context.syllableCount}, got ${context.syllablePlans.length}`);
   }
 
   // Use context.word.syllables directly so generateSyllable can see
@@ -703,7 +912,8 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
   let prevSyllable: Syllable | undefined;
 
   for (let i = 0; i < context.syllableCount; i++) {
-    let newSyllable = generateSyllable(rt, context);
+    const syllablePlan = context.syllablePlans[i];
+    let newSyllable = generateSyllable(rt, context, syllablePlan);
 
     if (prevSyllable) {
       [prevSyllable, newSyllable] = adjustBoundary(rt, prevSyllable, newSyllable, context.rand, context.trace);
@@ -783,6 +993,16 @@ function resolveRng(options: WordGenerationOptions): RNG {
 
 /** Maximum retries for letter-length rejection sampling. */
 const MAX_LENGTH_RETRIES = 3;
+/** Maximum retries for top-down phoneme target matching. */
+const MAX_TOPDOWN_RETRIES = 16;
+
+function countPhonemes(syllables: Syllable[]): number {
+  let total = 0;
+  for (const syl of syllables) {
+    total += syl.onset.length + syl.nucleus.length + syl.coda.length;
+  }
+  return total;
+}
 
 /**
  * Check whether a word's letter length passes rejection sampling
@@ -840,12 +1060,23 @@ function generateOneWord(
     }
   }
 
-  for (let attempt = 0; attempt <= MAX_LENGTH_RETRIES; attempt++) {
-    // Adjust syllable count for affix syllables
-    let rootSyllableCount = syllableCount;
-    if (morphPlan && morphPlan.syllableReduction > 0 && rootSyllableCount > 0) {
-      rootSyllableCount = Math.max(1, rootSyllableCount - morphPlan.syllableReduction);
-    }
+  const maxAttempts = MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES;
+  let lastContext: WordGenerationContext | undefined;
+  let lastTraceCollector: TraceCollector | undefined;
+  let lastMorphApplied = false;
+
+  // Adjust syllable count for affix syllables.
+  let rootSyllableCount = syllableCount;
+  if (morphPlan && morphPlan.syllableReduction > 0 && rootSyllableCount > 0) {
+    rootSyllableCount = Math.max(1, rootSyllableCount - morphPlan.syllableReduction);
+  }
+
+  const forcedRootSyllableCount = rootSyllableCount > 0 ? rootSyllableCount : undefined;
+  const targetPhonemeCount = sampleTargetPhonemeCount(rt, mode, rand, forcedRootSyllableCount);
+  const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCount, rand, forcedRootSyllableCount);
+
+  for (let attempt = 0; attempt <= maxAttempts; attempt++) {
+    const syllablePlans = distributePhonemes(rt, targetPhonemeCount, sampledSyllableCount, rand);
 
     const traceCollector = enableTrace ? new TraceCollector() : undefined;
     if (traceCollector && morphPlan) {
@@ -863,11 +1094,16 @@ function generateOneWord(
         pronunciation: '',
         written: { clean: '', hyphenated: '' },
       },
-      syllableCount: rootSyllableCount,
+      syllableCount: sampledSyllableCount,
       currSyllableIndex: 0,
+      targetPhonemeCount,
+      syllablePlans,
       trace: traceCollector,
     };
     runPipeline(rt, context, mode);
+
+    const rootPhonemeCount = countPhonemes(context.word.syllables);
+    const phonemeTargetMatched = rootPhonemeCount === targetPhonemeCount;
 
     // Apply morphology after pipeline produces the bare root
     const morphApplied = !!morphPlan;
@@ -875,7 +1111,12 @@ function generateOneWord(
       applyMorphology(rt, context, morphPlan.plan);
     }
 
-    if (attempt === MAX_LENGTH_RETRIES || acceptLetterLength(rt, context)) {
+    lastContext = context;
+    lastTraceCollector = traceCollector;
+    lastMorphApplied = morphApplied;
+
+    const letterAccepted = attempt >= MAX_LENGTH_RETRIES || acceptLetterLength(rt, context);
+    if (phonemeTargetMatched && letterAccepted) {
       if (traceCollector) {
         traceCollector.syllableCount = context.syllableCount;
         traceCollector.attempts = attempt;
@@ -884,7 +1125,16 @@ function generateOneWord(
       return context.word;
     }
   }
-  throw new Error("unreachable");
+
+  if (!lastContext) {
+    throw new Error("Failed to generate word");
+  }
+  if (lastTraceCollector) {
+    lastTraceCollector.syllableCount = lastContext.syllableCount;
+    lastTraceCollector.attempts = maxAttempts;
+    lastContext.word.trace = lastTraceCollector.toTrace(lastMorphApplied);
+  }
+  return lastContext.word;
 }
 
 /**

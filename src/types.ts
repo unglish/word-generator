@@ -279,8 +279,23 @@ export interface WordGenerationContext {
   syllableCount: number;
   /** Index of the syllable currently being generated. */
   currSyllableIndex: number;
+  /** Target total phoneme count for top-down generation. */
+  targetPhonemeCount?: number;
+  /** Per-syllable onset/coda length targets for top-down generation. */
+  syllablePlans?: SyllableShapePlan[];
   /** Trace collector (only present when tracing is enabled). */
   trace?: TraceCollector;
+}
+
+/**
+ * Planned shape for a generated syllable in top-down mode.
+ *
+ * Values represent consonant counts; each syllable always receives one nucleus
+ * phoneme separately.
+ */
+export interface SyllableShapePlan {
+  onsetLength: number;
+  codaLength: number;
 }
 
 /**

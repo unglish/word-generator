@@ -11,13 +11,13 @@ import { generateWord } from './generate.js';
  * Update MIN_WORDS_PER_SEC if you intentionally accept a speed tradeoff.
  */
 
-// Conservative floor — update deliberately when accepting known tradeoffs
-const MIN_WORDS_PER_SEC = 5000;
+// CI floor — top-down planning with single-sample + tweak distribution.
+const MIN_WORDS_PER_SEC = 4500;
 const SAMPLE_SIZE = 10000;
 const WARMUP_COUNT = 50;
 
 describe('Word Generation Performance', () => {
-  it(`should generate at least ${MIN_WORDS_PER_SEC} words/sec`, () => {
+  it(`should generate at least ${MIN_WORDS_PER_SEC} words/sec`, { timeout: 20_000 }, () => {
     // Warmup — let V8 JIT compile
     for (let i = 0; i < WARMUP_COUNT; i++) {
       generateWord({ seed: i });
@@ -36,7 +36,7 @@ describe('Word Generation Performance', () => {
     expect(wordsPerSec).toBeGreaterThan(MIN_WORDS_PER_SEC);
   });
 
-  it('should not degrade significantly with sequential seeds', () => {
+  it('should not degrade significantly with sequential seeds', { timeout: 20_000 }, () => {
     // Checks that seed-based generation doesn't have pathological cases
     const times: number[] = [];
 

@@ -117,9 +117,10 @@ describe('Position-based cluster weighting', () => {
     expect(tsWithWeights).toBeLessThan(tsNoWeights * 0.3);  // At least 70% reduction
     expect(nsWithWeights).toBeLessThan(nsNoWeights * 0.3);  // At least 70% reduction
     
-    // Without weights, expect ~4-5% frequency (~400-500 out of 10k)
-    expect(tsNoWeights).toBeGreaterThan(300);
-    expect(nsNoWeights).toBeGreaterThan(300);
+    // With top-down phoneme targeting, baseline rates are lower than the old
+    // bottom-up pipeline but should still be materially above weighted rates.
+    expect(tsNoWeights).toBeGreaterThan(100);
+    expect(nsNoWeights).toBeGreaterThan(100);
     
     // With weights, expect ~0.5-1% frequency (~50-100 out of 10k)
     expect(tsWithWeights).toBeLessThan(150);

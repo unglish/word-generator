@@ -112,11 +112,14 @@ export interface SyllableStructureRules {
   maxCodaLength: number;
   /** Maximum nucleus length (English: 1 — no complex nuclei). */
   maxNucleusLength: number;
-  /** Weighted distribution of syllable counts: [count, weight][] */
+  /**
+   * @deprecated Superseded by top-down phoneme-length targeting
+   * ({@link PhonemeLengthWeights}). Retained for backward compatibility.
+   */
   syllableCountWeights: [number, number][];
-  /** Syllable count weights for "text" mode. Falls back to syllableCountWeights. */
+  /** @deprecated See {@link syllableCountWeights}. */
   syllableCountWeightsText?: [number, number][];
-  /** Syllable count weights for "lexicon" mode. Falls back to syllableCountWeights. */
+  /** @deprecated See {@link syllableCountWeights}. */
   syllableCountWeightsLexicon?: [number, number][];
   /** Letter-length targets per syllable count: [min, peak_min, peak_max, max]. */
   letterLengthTargets?: Record<number, [number, number, number, number]>;
@@ -176,6 +179,52 @@ export interface GenerationWeights {
      */
     nasalStopExtension?: number;
   };
+}
+
+/**
+ * Target phoneme-length distributions by generation mode.
+ *
+ * Each tuple is `[phonemeCount, weight]`. Weights are relative and do not need
+ * to sum to 100.
+ *
+ * **Required** on {@link LanguageConfig}. Generation samples a target phoneme
+ * count from these distributions before building syllables.
+ *
+ * @since 0.6.0
+ */
+export interface PhonemeLengthWeights {
+  /** Distribution for text mode generation. */
+  text: [number, number][];
+  /** Distribution for lexicon mode generation. */
+  lexicon: [number, number][];
+}
+
+/**
+ * Mapping from target phoneme length to syllable-count distribution.
+ *
+ * **Required** on {@link LanguageConfig}. For each phoneme count in
+ * {@link PhonemeLengthWeights}, there must be a corresponding entry here
+ * mapping to feasible syllable counts with weights.
+ *
+ * Example:
+ * ```ts
+ * {
+ *   text: {
+ *     4: [[1, 88], [2, 12]]
+ *   },
+ *   lexicon: {
+ *     6: [[2, 68], [3, 30], [4, 2]]
+ *   }
+ * }
+ * ```
+ *
+ * @since 0.6.0
+ */
+export interface PhonemeToSyllableWeights {
+  /** Mapping used in text mode. */
+  text: Record<number, [number, number][]>;
+  /** Mapping used in lexicon mode. */
+  lexicon: Record<number, [number, number][]>;
 }
 
 /**
@@ -491,6 +540,20 @@ export interface LanguageConfig {
   /** Weighted probability tables for generation heuristics. */
   generationWeights: GenerationWeights;
 
+  /**
+   * Required top-down targets for generation.
+   *
+   * Generation first samples a target phoneme count from these distributions,
+   * then samples a compatible syllable count via {@link phonemeToSyllableWeights}.
+   */
+  phonemeLengthWeights: PhonemeLengthWeights;
+
+  /**
+   * Required mode-specific mapping from target phoneme count to syllable-count
+   * probabilities.
+   */
+  phonemeToSyllableWeights: PhonemeToSyllableWeights;
+
   /** Stress assignment rules */
   stress: StressRules;
 
@@ -712,6 +775,68 @@ export function validateConfig(config: LanguageConfig): void {
       throw new Error(
         `generationWeights.probability.${key} is ${value}, must be in [0, 100]`
       );
+    }
+  }
+
+  // Top-down phoneme length weights are required for both modes.
+  if (!config.phonemeLengthWeights?.text?.length) {
+    throw new Error("phonemeLengthWeights.text is required and must be non-empty");
+  }
+  if (!config.phonemeLengthWeights?.lexicon?.length) {
+    throw new Error("phonemeLengthWeights.lexicon is required and must be non-empty");
+  }
+  if (!config.phonemeToSyllableWeights?.text || Object.keys(config.phonemeToSyllableWeights.text).length === 0) {
+    throw new Error("phonemeToSyllableWeights.text is required and must be non-empty");
+  }
+  if (!config.phonemeToSyllableWeights?.lexicon || Object.keys(config.phonemeToSyllableWeights.lexicon).length === 0) {
+    throw new Error("phonemeToSyllableWeights.lexicon is required and must be non-empty");
+  }
+
+  const validateWeightedPairs = (
+    pairs: [number, number][],
+    label: string,
+    keyType: "phoneme" | "syllable" = "phoneme",
+  ): void => {
+    let total = 0;
+    for (const [value, weight] of pairs) {
+      if (!Number.isFinite(value) || !Number.isInteger(value) || value < 1) {
+        throw new Error(`${label} has invalid ${keyType} key "${value}" (must be integer >= 1)`);
+      }
+      if (!Number.isFinite(weight) || weight <= 0) {
+        throw new Error(`${label} has invalid weight "${weight}" for ${value} (must be > 0)`);
+      }
+      total += weight;
+    }
+    if (total <= 0) {
+      throw new Error(`${label} has zero total weight`);
+    }
+  };
+
+  validateWeightedPairs(config.phonemeLengthWeights.text, "phonemeLengthWeights.text");
+  validateWeightedPairs(config.phonemeLengthWeights.lexicon, "phonemeLengthWeights.lexicon");
+
+  for (const mode of ["text", "lexicon"] as const) {
+    const phonemeLengthSet = new Set(
+      config.phonemeLengthWeights[mode].map(([phonemeCount]) => phonemeCount),
+    );
+
+    for (const [phonemeCountStr, weights] of Object.entries(config.phonemeToSyllableWeights[mode])) {
+      const phonemeCount = Number(phonemeCountStr);
+      if (!Number.isInteger(phonemeCount) || phonemeCount < 1) {
+        throw new Error(`phonemeToSyllableWeights.${mode} has invalid phoneme length key "${phonemeCountStr}"`);
+      }
+      if (!Array.isArray(weights) || weights.length === 0) {
+        throw new Error(`phonemeToSyllableWeights.${mode}.${phonemeCount} must be a non-empty array`);
+      }
+      validateWeightedPairs(weights, `phonemeToSyllableWeights.${mode}.${phonemeCount}`, "syllable");
+    }
+
+    for (const phonemeCount of phonemeLengthSet) {
+      if (!config.phonemeToSyllableWeights[mode][phonemeCount]) {
+        throw new Error(
+          `phonemeToSyllableWeights.${mode}.${phonemeCount} is required because phonemeLengthWeights.${mode} includes ${phonemeCount}`,
+        );
+      }
     }
   }
 }
