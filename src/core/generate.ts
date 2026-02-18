@@ -515,8 +515,12 @@ function pickCoda(
   isEndOfWord: boolean,
   monosyllabic: boolean,
   targetLength?: number,
-  allowCountMutations: boolean = true,
 ): Phoneme[] {
+  // In plan-driven mode (targetLength set), suppress count-mutating extensions
+  // when the coda already matches the plan. This avoids burning retries on
+  // overshoots while still allowing mutations when the cluster builder
+  // under-fills (giving mutations a chance to close the gap).
+  const planDriven = targetLength !== undefined;
   const syllableCount = context.syllableCount;
   const onsetLen = newSyllable.onset.length;
   const { codaLength, probability } = rt.config.generationWeights;
@@ -545,8 +549,12 @@ function pickCoda(
   });
 
   // Extend word-final singleton nasal codas with their voiced homorganic stop
+  // In plan-driven mode, allow mutations when coda under-filled OR exactly at
+  // target (since mutations close the gap toward the phoneme count target —
+  // the outer loop will reject if the total overshoots).
   const nasalExt = probability.nasalStopExtension ?? 0;
-  if (allowCountMutations && isEndOfWord && nasalExt > 0 && coda.length === 1 &&
+  const allowMutations = !planDriven || coda.length <= targetLength;
+  if (allowMutations && isEndOfWord && nasalExt > 0 && coda.length === 1 &&
       coda[0].mannerOfArticulation === "nasal" &&
       getWeightedOption([[true, nasalExt], [false, 100 - nasalExt]], rand)) {
     const nasalSound = coda[0].sound;
@@ -561,7 +569,7 @@ function pickCoda(
   }
 
   // Add 's' to the end of the last syllable occasionally
-  if (allowCountMutations && isEndOfWord) {
+  if (allowMutations && isEndOfWord) {
     let finalSProbability = probability.finalS;
     let shouldSkipFinalS = false;
     
@@ -840,18 +848,15 @@ function distributePhonemes(
   syllableCount: number,
   rand: RNG,
 ): SyllableShapePlan[] {
-  const targetConsonants = targetPhonemes - syllableCount;
-  if (targetConsonants < 0) {
-    throw new Error(`Cannot distribute ${targetPhonemes} phonemes across ${syllableCount} syllables`);
-  }
-
   const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
   const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
   const maxConsonants = syllableCount * (maxOnset + maxCoda);
-  const maxConsonantsWithMutations = maxConsonants + 1;
-  if (targetConsonants > maxConsonantsWithMutations) {
-    throw new Error(`Target phoneme count ${targetPhonemes} exceeds max cluster capacity for ${syllableCount} syllables`);
-  }
+
+  // Clamp target consonants to feasible range instead of throwing.
+  // This handles edge cases where the sampling chain produces an
+  // out-of-range target — we get as close as possible.
+  const rawTargetConsonants = targetPhonemes - syllableCount;
+  const targetConsonants = Math.max(0, Math.min(rawTargetConsonants, maxConsonants));
 
   let bestPlan: SyllableShapePlan[] | null = null;
   let bestDiff = Number.POSITIVE_INFINITY;
