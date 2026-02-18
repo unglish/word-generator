@@ -62,7 +62,7 @@ export const phonemes: Phoneme[] = [
   { sound: "ɛ", mannerOfArticulation: "midVowel", tense: false, nucleus: 280, startWord: 3, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // let
   { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 330, startWord: 4, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
   { sound: "ɜ", mannerOfArticulation: "midVowel", tense: false, nucleus: 50, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // bed, said, execute
-  { sound: "ɚ", mannerOfArticulation: "midVowel", tense: false, nucleus: 120, startWord: 1, midWord: 2, endWord: 5, voiced: true, placeOfArticulation: "central" }, // her, letter
+  { sound: "ɚ", mannerOfArticulation: "midVowel", tense: false, nucleus: 160, startWord: 1, midWord: 3, endWord: 7, voiced: true, placeOfArticulation: "central" }, // her, letter
 
   // Low Vowels
   { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 160, startWord: 12, midWord: 6, endWord: 1, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
@@ -103,7 +103,7 @@ export const phonemes: Phoneme[] = [
   { sound: "h", mannerOfArticulation: "fricative", onset: 220, coda: 0, startWord: 10, midWord: 2, endWord: 0, voiced: false, placeOfArticulation: "glottal" }, // he
 
   // Voiced Fricatives
-  { sound: "v", mannerOfArticulation: "fricative", onset: 100, coda: 20, startWord: 6, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "labiodental" }, // victor
+  { sound: "v", mannerOfArticulation: "fricative", onset: 230, coda: 20, startWord: 6, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "labiodental" }, // victor
   { sound: "ð", mannerOfArticulation: "fricative", onset: 250, coda: 50, startWord: 6, midWord: 2, endWord: 4, voiced: true, placeOfArticulation: "dental" }, // this
 
   // Sibilants
@@ -122,9 +122,9 @@ export const phonemes: Phoneme[] = [
   { sound: "k", voiced: false, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 160, coda: 100, startWord: 4, midWord: 10, endWord: 10 }, // cat
 
   // Voiced Stops
-  { sound: "b", voiced: true, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 100, coda: 100, startWord: 14, midWord: 4, endWord: 4 }, // bob
-  { sound: "d", voiced: true, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 210, coda: 210, startWord: 5, midWord: 4, endWord: 8 }, // dog
-  { sound: "g", voiced: true, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 50, coda: 100, startWord: 6, midWord: 4, endWord: 4 }, // go
+  { sound: "b", voiced: true, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 140, coda: 100, startWord: 14, midWord: 4, endWord: 4 }, // bob
+  { sound: "d", voiced: true, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 230, coda: 210, startWord: 5, midWord: 4, endWord: 8 }, // dog
+  { sound: "g", voiced: true, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 170, coda: 100, startWord: 6, midWord: 4, endWord: 4 }, // go
 ];
 
 export const phonemeMaps = {
