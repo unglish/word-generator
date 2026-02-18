@@ -125,7 +125,7 @@ export const phonemes: Phoneme[] = [
 
   // Voiced Stops
   { sound: "b", voiced: true, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 140, coda: 100, startWord: 14, midWord: 4, endWord: 4 }, // bob
-  { sound: "d", voiced: true, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 230, coda: 210, startWord: 5, midWord: 4, endWord: 8 }, // dog
+  { sound: "d", voiced: true, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 230, coda: 180, startWord: 5, midWord: 4, endWord: 8 }, // dog
   { sound: "g", voiced: true, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 170, coda: 100, startWord: 6, midWord: 4, endWord: 4 }, // go
 ];
 
