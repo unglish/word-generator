@@ -106,6 +106,18 @@ describe("LanguageConfig", () => {
     });
   });
 
+  describe("top-down phoneme targeting", () => {
+    it("should define phoneme length weights for text and lexicon modes", () => {
+      expect(englishConfig.phonemeLengthWeights.text.length).toBeGreaterThan(0);
+      expect(englishConfig.phonemeLengthWeights.lexicon.length).toBeGreaterThan(0);
+    });
+
+    it("should define phoneme-to-syllable maps for text and lexicon modes", () => {
+      expect(Object.keys(englishConfig.phonemeToSyllableWeights.text).length).toBeGreaterThan(0);
+      expect(Object.keys(englishConfig.phonemeToSyllableWeights.lexicon).length).toBeGreaterThan(0);
+    });
+  });
+
   describe("stress", () => {
     it("should use weight-sensitive strategy", () => {
       expect(englishConfig.stress.strategy).toBe("weight-sensitive");
@@ -179,5 +191,27 @@ describe("validateConfig", () => {
       },
     };
     expect(() => validateConfig(bad)).toThrow("must be in [0, 100]");
+  });
+
+  it("should throw when phonemeLengthWeights.text is missing", () => {
+    const bad = {
+      ...englishConfig,
+      phonemeLengthWeights: {
+        ...englishConfig.phonemeLengthWeights,
+        text: [],
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow("phonemeLengthWeights.text is required");
+  });
+
+  it("should throw when phonemeToSyllableWeights entry is missing for a configured phoneme length", () => {
+    const bad = {
+      ...englishConfig,
+      phonemeToSyllableWeights: {
+        ...englishConfig.phonemeToSyllableWeights,
+        lexicon: { ...englishConfig.phonemeToSyllableWeights.lexicon, 6: undefined as any },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow("phonemeToSyllableWeights.lexicon.6 must be a non-empty array");
   });
 });
