@@ -230,7 +230,7 @@ export const englishConfig: LanguageConfig = {
       name: "magic-e",
       pattern: "([aiouy])e([bcdfghjklmnpqrstvwxyz])$",
       replacement: "$1$2e",
-      probability: 98,
+      probability: 95,
       scope: "syllable",
     },
     {
