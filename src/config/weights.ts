@@ -169,8 +169,8 @@ export const SYLLABLE_COUNT_WEIGHTS_TEXT: [number, number][] = [
  */
 export const SYLLABLE_COUNT_WEIGHTS_LEXICON: [number, number][] = [
   [1, 12900],  // 12.9%
-  [2, 46000],  // 46.0%
-  [3, 27600],  // 27.6%
+  [2, 41000],  // 41.0% (was 46000 — shifted 5k to 3-syl to fix phoneme-length skew)
+  [3, 32600],  // 32.6% (was 27600)
   [4, 10000],  // 10.0%
   [5, 3840],   //  3.8% (compensate for rejection sampling)
   [6, 550],    //  0.55%
