@@ -518,19 +518,35 @@
             }
 
             function runStats() {
-                $('stats-status').textContent = 'Generating 200,000 words...';
+                const countInput = parseInt(($('stats-sample-size')?.value || '200000'), 10);
+                const seedInput = parseInt(($('stats-seed-start')?.value || ''), 10);
+                const diagnosticsEnabled = !!$('stats-enable-diagnostics')?.checked;
+                const traceSamplePercent = parseFloat(($('stats-trace-sample')?.value || '0'));
+                const count = Number.isFinite(countInput) && countInput > 0 ? countInput : 200000;
+                const seedStart = Number.isFinite(seedInput) ? seedInput : null;
+                const safeTraceSample = Number.isFinite(traceSamplePercent) && traceSamplePercent >= 0 ? traceSamplePercent : 0;
+
+                $('stats-status').textContent = 'Generating ' + count.toLocaleString() + ' words...';
                 if (statsWorker) statsWorker.terminate();
                 statsWorker = new Worker('statsWorker.js?v=' + Date.now());
                 statsWorker.onmessage = function(ev) {
                     if (ev.data.type === 'progress') {
-                        $('stats-status').textContent = 'Generating 200,000 words... ' + ev.data.done.toLocaleString() + '/' + ev.data.total.toLocaleString();
+                        $('stats-status').textContent = 'Generating ' + ev.data.total.toLocaleString() + ' words... ' + ev.data.done.toLocaleString() + '/' + ev.data.total.toLocaleString();
                     } else if (ev.data.type === 'stats') {
-                        renderStats(ev.data.words, ev.data.phonemes);
+                        renderStats(ev.data.words, ev.data.phonemes, ev.data.diagnostics || null);
                         statsWorker.terminate();
                         statsWorker = null;
                     }
                 };
-                statsWorker.postMessage({ action: 'generateStats', count: 200000 });
+                statsWorker.postMessage({
+                    action: 'generateStats',
+                    count,
+                    seedStart,
+                    diagnostics: {
+                        enabled: diagnosticsEnabled,
+                        traceSamplePercent: safeTraceSample,
+                    },
+                });
             }
 
             // Paginated chart helper
@@ -570,8 +586,22 @@
                 renderPage();
             }
 
-            function renderStats(words, phonemeData) {
+            function renderStats(words, phonemeData, diagnostics) {
                 $('stats-status').textContent = words.length.toLocaleString() + ' words generated.';
+                if (diagnostics && diagnostics.enabled) {
+                    const structural = Object.entries(diagnostics.structuralEventCounts || {}).sort((a, b) => b[1] - a[1]).slice(0, 5);
+                    const repairs = Object.entries(diagnostics.repairRuleCounts || {}).sort((a, b) => b[1] - a[1]).slice(0, 5);
+                    const morphology = Object.entries(diagnostics.morphologyTemplateCounts || {}).sort((a, b) => b[1] - a[1]).slice(0, 5);
+                    $('stats-diagnostics').innerHTML =
+                        '<div style="font-size:0.85em;color:var(--muted);margin-bottom:0.4em">Trace diagnostics sampled ' +
+                        diagnostics.tracedWords.toLocaleString() + '/' + diagnostics.totalWords.toLocaleString() +
+                        ' words (' + diagnostics.traceSamplePercent + '%).</div>' +
+                        '<div style="font-size:0.85em"><strong>Structural events:</strong> ' + (structural.map(([k, v]) => k + ' (' + v + ')').join(', ') || 'none') + '</div>' +
+                        '<div style="font-size:0.85em"><strong>Repair rules:</strong> ' + (repairs.map(([k, v]) => k + ' (' + v + ')').join(', ') || 'none') + '</div>' +
+                        '<div style="font-size:0.85em"><strong>Morphology templates:</strong> ' + (morphology.map(([k, v]) => k + ' (' + v + ')').join(', ') || 'none') + '</div>';
+                } else {
+                    $('stats-diagnostics').innerHTML = '<div style="font-size:0.85em;color:var(--muted)">Diagnostics disabled (default).</div>';
+                }
 
                 // Letter frequency (always 26)
                 const letterCounts = {};
@@ -815,10 +845,25 @@
                 <button class="sort-btn" data-sort="english">English freq</button>
                 <button class="sort-btn" data-sort="unglish">Unglish freq</button>
             </div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.7em;margin:0 0 1em 0;font-size:0.85em;color:var(--muted)">
+                <label>Sample
+                    <input id="stats-sample-size" type="number" min="1000" step="1000" value="200000" style="width:7em;margin-left:0.3em">
+                </label>
+                <label>Seed start
+                    <input id="stats-seed-start" type="number" value="42" style="width:5em;margin-left:0.3em">
+                </label>
+                <label style="display:flex;align-items:center;gap:0.3em">
+                    <input type="checkbox" id="stats-enable-diagnostics"> Diagnostics
+                </label>
+                <label>Trace sample %
+                    <input id="stats-trace-sample" type="number" min="0" max="100" step="1" value="10" style="width:4.5em;margin-left:0.3em">
+                </label>
+            </div>
             <div class="card">
                 <h2>Letter Frequency — Generated vs CMU Dictionary</h2>
                 <button class="refresh" id="refresh-stats" title="Regenerate">&#x21bb;</button>
-                <div id="stats-status" class="stat-line">Click Regenerate or switch to this tab to generate 10,000 words.</div>
+                <div id="stats-status" class="stat-line">Click Regenerate or switch to this tab to generate 200,000 words.</div>
+                <div id="stats-diagnostics" class="stat-line"></div>
                 <div id="stats-letter-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
                 <div class="legend" id="stats-letter-legend"></div>
                 <div id="stats-letter-chart"></div>
