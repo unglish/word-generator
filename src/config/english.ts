@@ -466,7 +466,7 @@ export const englishConfig: LanguageConfig = {
     suffixes: [
       // Frequencies calibrated to CMU dictionary word rates (÷ 0.65 morph fire rate × 884 pool)
       { type: 'suffix', written: 'ing', phonemes: ["ɪ", "ŋ"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }], syllableCount: 1, stressEffect: 'none', frequency: 40, boundaryTransforms: BT_E_DOUBLE },
-      { type: 'suffix', written: 'tion', phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 12 },
+      { type: 'suffix', written: 'tion', phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 18 },
       { type: 'suffix', written: 'ly', phonemes: ["l", "i:"], syllables: [{ onset: ["l"], nucleus: ["i:"], coda: [] }], syllableCount: 1, stressEffect: 'none', frequency: 30, boundaryTransforms: BT_Y },
       {
         type: 'suffix', written: 'ed', phonemes: ["d"], syllables: [], syllableCount: 0, stressEffect: 'none', frequency: 120,
@@ -477,7 +477,7 @@ export const englishConfig: LanguageConfig = {
           { phonologicalCondition: { position: 'preceding', manner: ['stop'], place: ['alveolar'] }, phonemes: ["ɪ", "d"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["d"] }], syllableCount: 1, written: "ed" },
         ],
       },
-      { type: 'suffix', written: 'ness', phonemes: ["n", "ə", "s"], syllables: [{ onset: ["n"], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: 'none', frequency: 8, boundaryTransforms: BT_Y },
+      { type: 'suffix', written: 'ness', phonemes: ["n", "ə", "s"], syllables: [{ onset: ["n"], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: 'none', frequency: 6, boundaryTransforms: BT_Y },
       // Note: -er frequency to be re-evaluated after PR #234 (phoneme onset weights) merges,
       // as base-gen /ɚ/ final-syllable rate will increase.
       { type: 'suffix', written: 'er', phonemes: ["ɚ"], syllables: [{ onset: [], nucleus: ["ɚ"], coda: [] }], syllableCount: 1, stressEffect: 'none', frequency: 50, boundaryTransforms: BT_E_DOUBLE },
@@ -500,8 +500,12 @@ export const englishConfig: LanguageConfig = {
       },
       // New suffixes — absent from original config but well-represented in CMU dictionary
       { type: 'suffix', written: 'ist', phonemes: ["ɪ", "s", "t"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["s", "t"] }], syllableCount: 1, stressEffect: 'none', frequency: 5, boundaryTransforms: BT_Y },
-      { type: 'suffix', written: 'ize', phonemes: ["aɪ", "z"], syllables: [{ onset: [], nucleus: ["aɪ"], coda: ["z"] }], syllableCount: 1, stressEffect: 'none', frequency: 3, boundaryTransforms: BT_E },
+      { type: 'suffix', written: 'ize', phonemes: ["aɪ", "z"], syllables: [{ onset: [], nucleus: ["aɪ"], coda: ["z"] }], syllableCount: 1, stressEffect: 'none', frequency: 8, boundaryTransforms: BT_E },
       { type: 'suffix', written: 'ism', phonemes: ["ɪ", "z", "ə", "m"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }, { onset: [], nucleus: ["ə"], coda: ["m"] }], syllableCount: 2, stressEffect: 'none', frequency: 3 },
+      // Nominal derivational suffixes — well-represented in CMU but missing from original config
+      { type: 'suffix', written: 'ary', phonemes: ["ɛ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɛ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 20, boundaryTransforms: BT_E },
+      { type: 'suffix', written: 'ory', phonemes: ["ɔ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɔ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 15, boundaryTransforms: BT_E },
+      { type: 'suffix', written: 'ery', phonemes: ["ɛ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɛ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'none', frequency: 8, boundaryTransforms: BT_E },
     ] satisfies Affix[],
     templateWeights: {
       text: { bare: 55, suffixed: 30, prefixed: 10, both: 5 },
