@@ -1,5 +1,6 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { DEFAULT_PHONEME_NORMALIZATION } from './phoneme-normalization-defaults.mjs';
 
 const CONFIG_PATH = join(process.cwd(), 'memory', 'phoneme-normalization.json');
 
@@ -8,7 +9,9 @@ let cachedNormalization = null;
 
 export function loadPhonemeNormalization() {
   if (!cachedNormalization) {
-    cachedNormalization = JSON.parse(readFileSync(CONFIG_PATH, 'utf8'));
+    cachedNormalization = existsSync(CONFIG_PATH)
+      ? JSON.parse(readFileSync(CONFIG_PATH, 'utf8'))
+      : DEFAULT_PHONEME_NORMALIZATION;
   }
   return cachedNormalization;
 }

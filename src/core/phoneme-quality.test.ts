@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { generateWords } from "./generate.js";
 import { computePhonemeQualityMetrics } from "./phoneme-quality.js";
@@ -20,8 +20,33 @@ interface PhonemeNormalization {
   generatedAliases?: Record<string, string>;
 }
 
+const PHONEME_TOKEN_RE = /^[a-z:\u0250-\u02af\u02c8\u02cc\u02d0]+$/i;
+
 function loadJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, "utf8")) as T;
+}
+
+function extractJsConst<T>(source: string, constName: string): T {
+  const match = source.match(new RegExp(`const ${constName} = (\\{[\\s\\S]*?\\});`));
+  if (!match) {
+    throw new Error(`Could not extract ${constName} from demo/cmuBaselines.js`);
+  }
+  return JSON.parse(match[1]) as T;
+}
+
+function loadNormalization(repoRoot: string): PhonemeNormalization {
+  const path = join(repoRoot, "memory", "phoneme-normalization.json");
+  if (existsSync(path)) return loadJson<PhonemeNormalization>(path);
+  const demoBaselines = readFileSync(join(repoRoot, "demo", "cmuBaselines.js"), "utf8");
+  return extractJsConst<PhonemeNormalization>(demoBaselines, "phonemeNormalization");
+}
+
+function loadBaselineCounts(repoRoot: string): Record<string, number> {
+  const path = join(repoRoot, "memory", "cmu-lexicon-phonemes.json");
+  if (existsSync(path)) return loadJson<Record<string, number>>(path);
+  const demoBaselines = readFileSync(join(repoRoot, "demo", "cmuBaselines.js"), "utf8");
+  // Percentages are fine here because metric code re-normalizes to percentages.
+  return extractJsConst<Record<string, number>>(demoBaselines, "cmuPhonemes");
 }
 
 function normalizeGeneratedPhoneme(sound: string, normalization: PhonemeNormalization): string | null {
@@ -29,15 +54,15 @@ function normalizeGeneratedPhoneme(sound: string, normalization: PhonemeNormaliz
   let normalized = sound.replace(/\u02B0/g, "");
   const aliasMap = normalization.generatedAliases || {};
   if (aliasMap[normalized]) normalized = aliasMap[normalized];
-  return normalized;
+  return PHONEME_TOKEN_RE.test(normalized) ? normalized : null;
 }
 
 describe("Phoneme quality gates", () => {
   it("meets phoneme distribution guardrails", async () => {
     const repoRoot = join(__dirname, "..", "..");
     const thresholds = loadJson<PhonemeThresholds>(join(repoRoot, "src", "config", "phoneme-thresholds.json"));
-    const normalization = loadJson<PhonemeNormalization>(join(repoRoot, "memory", "phoneme-normalization.json"));
-    const baselineCounts = loadJson<Record<string, number>>(join(repoRoot, "memory", "cmu-lexicon-phonemes.json"));
+    const normalization = loadNormalization(repoRoot);
+    const baselineCounts = loadBaselineCounts(repoRoot);
 
     const words = generateWords(thresholds.sampleSize, {
       seed: thresholds.seed,
