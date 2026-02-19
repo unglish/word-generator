@@ -59,7 +59,7 @@ export const phonemes: Phoneme[] = [
 
   // Mid Vowels
   { sound: "ɛ", mannerOfArticulation: "midVowel", tense: false, nucleus: 280, startWord: 3, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // let
-  { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 330, startWord: 4, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
+  { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 365, startWord: 4, midWord: 9, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
   { sound: "ɜ", mannerOfArticulation: "midVowel", tense: false, nucleus: 50, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // bed, said, execute
   { sound: "ɚ", mannerOfArticulation: "midVowel", tense: false, nucleus: 160, startWord: 1, midWord: 3, endWord: 7, voiced: true, placeOfArticulation: "central" }, // her, letter
 
@@ -83,7 +83,7 @@ export const phonemes: Phoneme[] = [
   // across syllable boundaries (e.g. "fire" = /faɪ.ə/, "hour" = /aʊ.ə/).
 
   // Glides
-  { sound: "j", mannerOfArticulation: "glide", onset: 10, coda: 0, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "palatal" }, // yes — onset only, diphthongs are nuclei
+  { sound: "j", mannerOfArticulation: "glide", onset: 52, coda: 0, startWord: 12, midWord: 4, endWord: 1, voiced: true, placeOfArticulation: "palatal" }, // yes — onset only, diphthongs are nuclei
   { sound: "w", mannerOfArticulation: "glide", onset: 120, coda: 0, startWord: 10, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "labial-velar" }, // wow — onset only, diphthongs are nuclei
 
   // Liquids
@@ -107,10 +107,10 @@ export const phonemes: Phoneme[] = [
   { sound: "ð", mannerOfArticulation: "fricative", onset: 45, coda: 18, startWord: 2, midWord: 1, endWord: 1, voiced: true, placeOfArticulation: "dental" }, // this
 
   // Sibilants
-  { sound: "z", mannerOfArticulation: "sibilant", onset: 25, coda: 50, startWord: 2, midWord: 4, endWord: 4, voiced: true, placeOfArticulation: "alveolar" }, // zebra
+  { sound: "z", mannerOfArticulation: "sibilant", onset: 52, coda: 88, startWord: 3, midWord: 6, endWord: 6, voiced: true, placeOfArticulation: "alveolar" }, // zebra
   { sound: "ʒ", mannerOfArticulation: "sibilant", onset: 5, coda: 3, startWord: 0, midWord: 6, endWord: 0, voiced: true, placeOfArticulation: "postalveolar" }, // measure
-  { sound: "s", mannerOfArticulation: "sibilant", onset: 200, coda: 80, startWord: 10, midWord: 2, endWord: 10, voiced: false, placeOfArticulation: "alveolar" }, // see
-  { sound: "ʃ", mannerOfArticulation: "sibilant", onset: 35, coda: 80, startWord: 4, midWord: 1, endWord: 5, voiced: false, placeOfArticulation: "postalveolar" }, // she
+  { sound: "s", mannerOfArticulation: "sibilant", onset: 225, coda: 96, startWord: 11, midWord: 2, endWord: 11, voiced: false, placeOfArticulation: "alveolar" }, // see
+  { sound: "ʃ", mannerOfArticulation: "sibilant", onset: 48, coda: 92, startWord: 5, midWord: 2, endWord: 6, voiced: false, placeOfArticulation: "postalveolar" }, // she
 
   // Affricates
   { sound: "tʃ", voiced: false, placeOfArticulation: "postalveolar", mannerOfArticulation: "affricate", onset: 40, coda: 40, startWord: 4, midWord: 2, endWord: 2 }, // chat
@@ -118,7 +118,7 @@ export const phonemes: Phoneme[] = [
 
   // Voiceless Stops
   { sound: "p", voiced: false, placeOfArticulation: "bilabial", mannerOfArticulation: "stop", onset: 100, coda: 50, startWord: 8, midWord: 10, endWord: 6 }, // pop
-  { sound: "t", voiced: false, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 260, coda: 100, startWord: 5, midWord: 10, endWord: 10 }, // top
+  { sound: "t", voiced: false, placeOfArticulation: "alveolar", mannerOfArticulation: "stop", onset: 220, coda: 75, startWord: 4, midWord: 8, endWord: 8 }, // top
   { sound: "k", voiced: false, placeOfArticulation: "velar", mannerOfArticulation: "stop", onset: 160, coda: 100, startWord: 4, midWord: 10, endWord: 10 }, // cat
 
   // Voiced Stops
