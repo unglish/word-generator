@@ -133,8 +133,8 @@ describe("morphology config", () => {
     expect(englishConfig.morphology!.enabled).toBe(true);
   });
 
-  it("should have 16 suffixes and 8 prefixes", () => {
-    expect(englishConfig.morphology!.suffixes).toHaveLength(16);
+  it("should have 19 suffixes and 8 prefixes", () => {
+    expect(englishConfig.morphology!.suffixes).toHaveLength(19);
     expect(englishConfig.morphology!.prefixes).toHaveLength(8);
   });
 
