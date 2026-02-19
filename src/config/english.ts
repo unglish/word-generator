@@ -403,7 +403,7 @@ export const englishConfig: LanguageConfig = {
   writtenFormConstraints: {
     maxConsonantGraphemes: 4,
     consonantGraphemes: [
-      "tch", "dge",                           // trigraphs (3 letters → 1 unit)
+      "tch", "dge", "sch",                    // trigraphs (3 letters → 1 unit)
       "ch", "sh", "th", "ng", "ph", "wh", "ck", // digraphs (2 letters → 1 unit)
     ],
     maxConsonantLetters: 4,

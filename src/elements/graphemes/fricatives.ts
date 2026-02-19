@@ -304,7 +304,7 @@ export const fricativeGraphemes: Grapheme[] = [
     phoneme: "ʃ",
     form: "sch",
     origin: 3,
-    frequency: 1,
+    frequency: 15,
     coda: 0,
     startWord: 1,
     midWord: 1,
