@@ -410,7 +410,14 @@ function applyDoubling(
   // Allow doubling for the first consonant in a coda cluster (e.g. "backs" = ck+s).
   // Block doubling for non-first cluster members and all onset clusters.
   if (isCluster && !(position === "coda" && isFirstInCoda)) return skip("in-cluster");
-  if (form.length !== 1) return skip("multi-char-grapheme");
+  if (form.length !== 1) {
+    // "ck" etc. selected directly from grapheme map — still counts toward maxPerWord
+    const doubledValues = config.doubledForms ? Object.values(config.doubledForms) : [];
+    if (doubledValues.includes(form)) {
+      doublingCtx.doublingCount++;
+    }
+    return skip("multi-char-grapheme");
+  }
   if (position !== "onset" && position !== "coda") return skip("nucleus-position");
   if (doublingCtx.doublingCount >= config.maxPerWord) return skip("max-per-word");
 
@@ -1240,8 +1247,13 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
       const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord, prevGraphemeForm);
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
+      // When doubling quota is full, exclude doubled-form graphemes (e.g. "ck") so we don't exceed maxPerWord
+      const doubledFormValues = doublingConfig?.doubledForms ? Object.values(doublingConfig.doubledForms) : [];
+      const quotaFiltered = doubledFormValues.length > 0 && doublingCtx.doublingCount >= doublingConfig!.maxPerWord
+        ? positional.filter(g => !doubledFormValues.includes(g.form))
+        : positional;
       const tracing = !!context.trace;
-      const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord, tracing, position, stress, syllables.length);
+      const selected = selectByFrequency(quotaFiltered.length > 0 ? quotaFiltered : positional, rand, isStartOfWord, isEndOfWord, tracing, position, stress, syllables.length);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
       const isMonosyllabic = syllables.length === 1;
