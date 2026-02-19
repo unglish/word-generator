@@ -67,8 +67,8 @@ export function matchesPhonologicalCondition(
   phoneme: Phoneme,
   isPrefix: boolean,
 ): boolean {
-  if (condition.position === 'preceding' && isPrefix) return false;
-  if (condition.position === 'following' && !isPrefix) return false;
+  if (condition.position === "preceding" && isPrefix) return false;
+  if (condition.position === "following" && !isPrefix) return false;
   if (condition.voiced !== undefined && phoneme.voiced !== condition.voiced) return false;
   if (condition.manner && !condition.manner.includes(phoneme.mannerOfArticulation)) return false;
   if (condition.place && !condition.place.includes(phoneme.placeOfArticulation)) return false;
@@ -223,13 +223,13 @@ export function applyMorphology(
 
   const prefixSyllables = prefixVariant
     ? (prefixVariant.syllables !== undefined && prefixVariant.syllables.length > 0
-        ? affixSyllablesToSyllables(prefixVariant.syllables, inventory)
-        : [])
+      ? affixSyllablesToSyllables(prefixVariant.syllables, inventory)
+      : [])
     : [];
   const suffixSyllables = suffixVariant
     ? (suffixVariant.syllables !== undefined && suffixVariant.syllables.length > 0
-        ? affixSyllablesToSyllables(suffixVariant.syllables, inventory)
-        : [])
+      ? affixSyllablesToSyllables(suffixVariant.syllables, inventory)
+      : [])
     : [];
 
   // Handle zero-syllable affixes: append phonemes directly to root coda/onset

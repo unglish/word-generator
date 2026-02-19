@@ -1,4 +1,4 @@
-import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
+import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector } from "./trace.js";
@@ -672,7 +672,6 @@ export function repairConsonantPileups(
     const dropFromCoda = codaTokenCount >= onsetTokenCount;
     const targetPartIdx = dropFromCoda ? startPart : endPart;
     const part = cleanParts[targetPartIdx];
-    const partCharStartPos = targetPartIdx > 0 ? cumLengths[targetPartIdx - 1] : 0;
 
     // Tokenize just this part
     const partTokens = tokenizeGraphemes(part, gList);

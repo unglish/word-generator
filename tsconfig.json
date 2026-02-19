@@ -15,6 +15,7 @@
     "strict": true,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "allowJs": true,
+    "resolveJsonModule": true,
     "typeRoots": ["node_modules/@types", "types"]
   },
   "include": ["src/**/*.ts"],

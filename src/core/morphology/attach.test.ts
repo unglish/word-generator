@@ -55,9 +55,9 @@ function makeRuntime(phonemeInventory: Phoneme[] = allPhonemes) {
 // Shared boundary transforms (mirroring english.ts)
 // ---------------------------------------------------------------------------
 
-const Y_TO_I: BoundaryTransform = { name: 'y-to-i', match: /([^aeiou])y$/i, replace: '$1i' };
-const DROP_SILENT_E: BoundaryTransform = { name: 'drop-silent-e', match: /e$/i, replace: '' };
-const DOUBLE_CONSONANT: BoundaryTransform = { name: 'double-consonant', match: /([^aeiou])([aeiou])([bcdfghlmnprst])$/i, replace: '$1$2$3$3', blockedBy: ['drop-silent-e'] };
+const Y_TO_I: BoundaryTransform = { name: "y-to-i", match: /([^aeiou])y$/i, replace: "$1i" };
+const DROP_SILENT_E: BoundaryTransform = { name: "drop-silent-e", match: /e$/i, replace: "" };
+const DOUBLE_CONSONANT: BoundaryTransform = { name: "double-consonant", match: /([^aeiou])([aeiou])([bcdfghlmnprst])$/i, replace: "$1$2$3$3", blockedBy: ["drop-silent-e"] };
 
 const BT_E_DOUBLE: BoundaryTransform[] = [DROP_SILENT_E, DOUBLE_CONSONANT];
 const BT_Y: BoundaryTransform[] = [Y_TO_I];
@@ -98,9 +98,9 @@ const edSuffix: Affix = {
   frequency: 70,
   boundaryTransforms: BT_E_DOUBLE,
   allomorphs: [
-    { phonologicalCondition: { position: 'preceding', voiced: false }, phonemes: ["t"], syllables: [], syllableCount: 0 },
-    { phonologicalCondition: { position: 'preceding', voiced: true }, phonemes: ["d"], syllables: [], syllableCount: 0 },
-    { phonologicalCondition: { position: 'preceding', manner: ['stop'], place: ['alveolar'] }, phonemes: ["ɪ", "d"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["d"] }], syllableCount: 1, written: "ed" },
+    { phonologicalCondition: { position: "preceding", voiced: false }, phonemes: ["t"], syllables: [], syllableCount: 0 },
+    { phonologicalCondition: { position: "preceding", voiced: true }, phonemes: ["d"], syllables: [], syllableCount: 0 },
+    { phonologicalCondition: { position: "preceding", manner: ["stop"], place: ["alveolar"] }, phonemes: ["ɪ", "d"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["d"] }], syllableCount: 1, written: "ed" },
   ],
 };
 
@@ -113,9 +113,9 @@ const sSuffix: Affix = {
   stressEffect: "none",
   frequency: 100,
   allomorphs: [
-    { phonologicalCondition: { position: 'preceding', voiced: false }, phonemes: ["s"], syllables: [], syllableCount: 0 },
-    { phonologicalCondition: { position: 'preceding', voiced: true }, phonemes: ["z"], syllables: [], syllableCount: 0 },
-    { phonologicalCondition: { position: 'preceding', manner: ['sibilant', 'affricate'] }, phonemes: ["ɪ", "z"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }], syllableCount: 1, written: "es" },
+    { phonologicalCondition: { position: "preceding", voiced: false }, phonemes: ["s"], syllables: [], syllableCount: 0 },
+    { phonologicalCondition: { position: "preceding", voiced: true }, phonemes: ["z"], syllables: [], syllableCount: 0 },
+    { phonologicalCondition: { position: "preceding", manner: ["sibilant", "affricate"] }, phonemes: ["ɪ", "z"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }], syllableCount: 1, written: "es" },
   ],
 };
 
@@ -127,7 +127,7 @@ const inPrefix: Affix = {
   syllableCount: 1,
   stressEffect: "secondary",
   frequency: 50,
-  allomorphs: [{ phonologicalCondition: { position: 'following', place: ['bilabial'] }, phonemes: ["ɪ", "m"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["m"] }], syllableCount: 1, written: "im" }],
+  allomorphs: [{ phonologicalCondition: { position: "following", place: ["bilabial"] }, phonemes: ["ɪ", "m"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["m"] }], syllableCount: 1, written: "im" }],
 };
 
 const tionSuffix: Affix = {
@@ -494,43 +494,43 @@ describe("matchesPhonologicalCondition", () => {
   const alveolarStop = findPhoneme("t");
 
   it("preceding + voiced=false matches voiceless phoneme (suffix context)", () => {
-    const cond: PhonologicalCondition = { position: 'preceding', voiced: false };
+    const cond: PhonologicalCondition = { position: "preceding", voiced: false };
     expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(true);
     expect(matchesPhonologicalCondition(cond, voicedStop, false)).toBe(false);
   });
 
   it("preceding condition returns false in prefix context", () => {
-    const cond: PhonologicalCondition = { position: 'preceding', voiced: false };
+    const cond: PhonologicalCondition = { position: "preceding", voiced: false };
     expect(matchesPhonologicalCondition(cond, voicelessStop, true)).toBe(false);
   });
 
   it("preceding + voiced=true matches voiced phoneme", () => {
-    const cond: PhonologicalCondition = { position: 'preceding', voiced: true };
+    const cond: PhonologicalCondition = { position: "preceding", voiced: true };
     expect(matchesPhonologicalCondition(cond, voicedStop, false)).toBe(true);
     expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(false);
   });
 
   it("manner constraint matches sibilant and affricate", () => {
-    const cond: PhonologicalCondition = { position: 'preceding', manner: ['sibilant', 'affricate'] };
+    const cond: PhonologicalCondition = { position: "preceding", manner: ["sibilant", "affricate"] };
     expect(matchesPhonologicalCondition(cond, sibilant, false)).toBe(true);
     expect(matchesPhonologicalCondition(cond, affricate, false)).toBe(true);
     expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(false);
   });
 
   it("manner + place constraint matches alveolar stop", () => {
-    const cond: PhonologicalCondition = { position: 'preceding', manner: ['stop'], place: ['alveolar'] };
+    const cond: PhonologicalCondition = { position: "preceding", manner: ["stop"], place: ["alveolar"] };
     expect(matchesPhonologicalCondition(cond, alveolarStop, false)).toBe(true);
     expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(false);
   });
 
   it("following + place constraint matches bilabial in prefix context", () => {
-    const cond: PhonologicalCondition = { position: 'following', place: ['bilabial'] };
+    const cond: PhonologicalCondition = { position: "following", place: ["bilabial"] };
     expect(matchesPhonologicalCondition(cond, voicedStop, true)).toBe(true);
     expect(matchesPhonologicalCondition(cond, alveolarStop, true)).toBe(false);
   });
 
   it("following condition returns false in suffix context", () => {
-    const cond: PhonologicalCondition = { position: 'following', place: ['bilabial'] };
+    const cond: PhonologicalCondition = { position: "following", place: ["bilabial"] };
     expect(matchesPhonologicalCondition(cond, voicedStop, false)).toBe(false);
   });
 });

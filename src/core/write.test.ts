@@ -690,7 +690,6 @@ describe("syllable-based position filtering", () => {
     let violations = 0;
 
     for (const w of words) {
-      const clean = w.written.clean.toLowerCase();
       const hyph = w.written.hyphenated.toLowerCase();
       const syllableParts = hyph.split("&shy;");
 

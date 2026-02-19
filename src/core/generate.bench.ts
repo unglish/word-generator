@@ -1,4 +1,4 @@
-import { bench, describe, expect } from "vitest";
+import { bench, describe } from "vitest";
 import { generateWord } from "./generate.js";
 
 /**

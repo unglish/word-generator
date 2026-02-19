@@ -1,5 +1,5 @@
 /** Diphthong graphemes: /aɪ/, /aʊ/, /ɔɪ/, /eɪ/, /əʊ/. */
-import { Grapheme, GraphemeCondition } from "../../types.js";
+import { Grapheme } from "../../types.js";
 
 export const diphthongGraphemes: Grapheme[] = [
   // my

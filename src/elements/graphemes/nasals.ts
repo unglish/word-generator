@@ -1,5 +1,5 @@
 /** Nasal graphemes: /m/, /n/, /ŋ/. */
-import { Grapheme, GraphemeCondition } from "../../types.js";
+import { Grapheme } from "../../types.js";
 
 export const nasalGraphemes: Grapheme[] = [
   // milk

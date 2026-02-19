@@ -1,5 +1,5 @@
 /** Fricative graphemes: /f/, /v/, /θ/, /ð/, /s/, /z/, /ʃ/, /ʒ/, /h/. */
-import { Grapheme, GraphemeCondition } from "../../types.js";
+import { Grapheme } from "../../types.js";
 
 export const fricativeGraphemes: Grapheme[] = [
   // fish

@@ -1,5 +1,5 @@
 /** Affricate graphemes: /tʃ/ (ch), /dʒ/ (j). */
-import { Grapheme, GraphemeCondition } from "../../types.js";
+import { Grapheme } from "../../types.js";
 
 export const affricateGraphemes: Grapheme[] = [
   // cheese

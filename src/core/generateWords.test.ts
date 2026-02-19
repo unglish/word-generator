@@ -86,7 +86,7 @@ describe("generateWord RNG priority", () => {
     const fromSeed99Rng = createSeededRng(99);
     const withSeed99 = generateWord({ rand: fromSeed99Rng });
 
-    const fromSeed42 = generateWord({ seed: 42 });
+    generateWord({ seed: 42 }); // consumed to advance RNG state
 
     expect(withCustom.written.clean).toBe(withSeed99.written.clean);
     // Almost certainly different from seed 42
@@ -121,9 +121,9 @@ describe("top-down phoneme targeting", () => {
   it("throws when top-down phoneme length config is missing", () => {
     const badConfig = {
       ...englishConfig,
-      phonemeLengthWeights: undefined as any,
+      phonemeLengthWeights: undefined,
     };
-    expect(() => createGenerator(badConfig as any)).toThrow("phonemeLengthWeights.text is required");
+    expect(() => createGenerator(badConfig as typeof englishConfig)).toThrow("phonemeLengthWeights.text is required");
   });
 
   it("keeps lexicon 6-phoneme bucket near CMU target in a sample", () => {

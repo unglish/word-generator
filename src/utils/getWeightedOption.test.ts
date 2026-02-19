@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import getWeightedOption from "./getWeightedOption";
-import { createSeededRng, RNG } from "./random";
+import { createSeededRng } from "./random";
 
 describe("getWeightedOption", () => {
   it("uses the provided RNG (not global state)", () => {

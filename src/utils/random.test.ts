@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createSeededRng, createDefaultRng, RNG } from "./random";
+import { createSeededRng, createDefaultRng } from "./random";
 
 describe("createSeededRng (Mulberry32)", () => {
   it("returns values in [0, 1)", () => {

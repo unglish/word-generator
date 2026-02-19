@@ -81,7 +81,7 @@ describe("Position-based cluster weighting", () => {
       },
     };
     
-    const gen = createGenerator(uniformConfig);
+    createGenerator(uniformConfig);
     const words = generateWords(1000, { seed: 123 });
     
     // Should generate words without errors
@@ -99,12 +99,12 @@ describe("Position-based cluster weighting", () => {
       clusterWeights: undefined,
     };
     const genNoWeights = createGenerator(noWeightsConfig);
-    const wordsNoWeights: any[] = [];
+    const wordsNoWeights: { written: { clean: string } }[] = [];
     for (let i = 0; i < 10000; i++) {
       wordsNoWeights.push(genNoWeights.generateWord({ seed: 99 + i }));
     }
     
-    const countBigrams = (words: any[], bigram: string) => {
+    const countBigrams = (words: { written: { clean: string } }[], bigram: string) => {
       return words.filter(w => w.written.clean.toLowerCase().includes(bigram)).length;
     };
     

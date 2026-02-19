@@ -1,4 +1,4 @@
-import { Affix, AffixSyllable, BoundaryTransform, LanguageConfig } from "./language.js";
+import { Affix, BoundaryTransform, LanguageConfig } from "./language.js";
 
 // ---------------------------------------------------------------------------
 // Shared boundary transforms

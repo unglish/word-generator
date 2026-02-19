@@ -40,11 +40,11 @@ export type CumulativeFrequencies = {
 };
 
 /** Type-safe accessor for a grapheme's positional weight. */
-function getPositionWeight(grapheme: Grapheme, position: 'onset' | 'nucleus' | 'coda'): number | undefined {
+function getPositionWeight(grapheme: Grapheme, position: "onset" | "nucleus" | "coda"): number | undefined {
   switch (position) {
-    case 'onset': return grapheme.onset;
-    case 'nucleus': return grapheme.nucleus;
-    case 'coda': return grapheme.coda;
+  case "onset": return grapheme.onset;
+  case "nucleus": return grapheme.nucleus;
+  case "coda": return grapheme.coda;
   }
 }
 
@@ -69,7 +69,7 @@ export function buildGraphemeMaps(allGraphemes: Grapheme[]): {
     coda: new Map<string, number[]>()
   };
 
-  for (const position of ['onset', 'nucleus', 'coda'] as const) {
+  for (const position of ["onset", "nucleus", "coda"] as const) {
     for (const grapheme of allGraphemes) {
       const weight = getPositionWeight(grapheme, position);
       if (weight === undefined || weight > 0) {

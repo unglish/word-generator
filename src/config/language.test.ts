@@ -211,7 +211,7 @@ describe("validateConfig", () => {
       ...englishConfig,
       phonemeToSyllableWeights: {
         ...englishConfig.phonemeToSyllableWeights,
-        lexicon: { ...englishConfig.phonemeToSyllableWeights.lexicon, 6: undefined as any },
+        lexicon: { ...englishConfig.phonemeToSyllableWeights.lexicon, 6: undefined as number[] | undefined },
       },
     };
     expect(() => validateConfig(bad)).toThrow("phonemeToSyllableWeights.lexicon.6 must be a non-empty array");

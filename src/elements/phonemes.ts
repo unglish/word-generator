@@ -135,7 +135,7 @@ export const phonemeMaps = {
 
 for (const position of ["onset", "nucleus", "coda"] as const) {
   for (const phoneme of phonemes) {
-    // @ts-ignore
+    // @ts-expect-error — Phoneme has optional position keys (onset/nucleus/coda) not in the interface
     if (phoneme[position] !== undefined && phoneme[position] > 0) {
       if (!phonemeMaps[position].has(phoneme.sound)) {
         phonemeMaps[position].set(phoneme.sound, []);

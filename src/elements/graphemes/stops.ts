@@ -1,5 +1,5 @@
 /** Stop (plosive) graphemes: /p/, /b/, /t/, /d/, /k/, /g/. */
-import { Grapheme, GraphemeCondition } from "../../types.js";
+import { Grapheme } from "../../types.js";
 
 export const stopGraphemes: Grapheme[] = [
   // pig

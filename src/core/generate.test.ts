@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { generateWord, _buildCluster as buildCluster, _isValidCluster } from "./generate";
-import { ClusterContext, Phoneme } from "../types";
-import { phonemes } from "../elements/phonemes";
+import { generateWord, _buildCluster as buildCluster } from "./generate";
+import { ClusterContext } from "../types";
 import { englishConfig } from "../config/english";
 import { createDefaultRng } from "../utils/random";
 
@@ -101,15 +100,6 @@ describe("buildCluster function", () => {
 });
 
 describe("isValidCluster", () => {
-
-  function getPhonemeBySounds(sounds: string[]): Phoneme[] {
-    return sounds.map(sound => {
-      const phoneme = phonemes.find(phoneme => phoneme.sound === sound);
-      if (!phoneme) throw new Error(`Phoneme with sound "${sound}" not found`);
-      return phoneme;
-    });
-  }
-
   describe("should only generate attested onsets", () => {
     // With the attested onset whitelist replacing the old regex system,
     // invalid onsets are blocked during generation (buildCluster) rather
