@@ -8,6 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "vitest run",
+    "test:perf": "vitest run --config vitest.perf.config.ts --reporter=verbose",
     "test:quality": "vitest run --config vitest.quality.config.ts",
     "test:watch": "vitest",
     "analyze:phonemes": "node scripts/analyze-cmu-phonemes.mjs",
