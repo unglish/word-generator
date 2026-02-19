@@ -1,4 +1,4 @@
-/** Monophthong (pure vowel) graphemes: /iː/, /ɪ/, /e/, /ɛ/, /æ/, /ɑ/, /ɔ/, /o/, /ʊ/, /u/, /ʌ/, /ə/. */
+/** Monophthong (pure vowel) graphemes: /iː/, /ɪ/, /ɛ/, /æ/, /ɑ/, /ɔ/, /ʊ/, /u/, /ʌ/, /ə/. */
 import { Grapheme } from "../../types.js";
 
 export const vowelGraphemes: Grapheme[] = [
@@ -98,47 +98,6 @@ export const vowelGraphemes: Grapheme[] = [
     phoneme: "ɪ",
     form: "ui",
     origin: 1,
-    frequency: 1,
-    startWord: 0,
-    midWord: 1,
-    endWord: 0,
-  },
-
-  // e: red
-  { 
-    phoneme: "e", 
-    form: "e", 
-    origin: 0, 
-    frequency: 50,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-  },
-  // bread
-  {
-    phoneme: "e",
-    form: "ea",
-    origin: 0,
-    frequency: 100,
-    startWord: 0,
-    midWord: 1,
-    endWord: 0,
-  },
-  // said
-  {
-    phoneme: "e",
-    form: "ai",
-    origin: 0,
-    frequency: 5,
-    startWord: 0,
-    midWord: 1,
-    endWord: 0,
-  },
-  // friend
-  {
-    phoneme: "e",
-    form: "ie",
-    origin: 0,
     frequency: 1,
     startWord: 0,
     midWord: 1,
@@ -268,64 +227,6 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 0,
     endWord: 5,
     condition: { rightContext: ["t"] },
-  },
-
-  // hope
-  { 
-    phoneme: "o", 
-    form: "o", 
-    origin: 0, 
-    frequency: 100,
-    startWord: 10,
-    midWord: 10,
-    endWord: 1,
-  },
-  {
-    phoneme: "o",
-    form: "oa",
-    origin: 0,
-    frequency: 30,
-    startWord: 1,
-    midWord: 10,
-    endWord: 0,
-  },
-  {
-    phoneme: "o",
-    form: "ow",
-    origin: 0,
-    frequency: 2,
-    startWord: 0,
-    midWord: 2,
-    endWord: 10,
-  },
-  {
-    phoneme: "o",
-    form: "oe",
-    origin: 0,
-    frequency: 40,
-    startWord: 0,
-    midWord: 0,
-    endWord: 3,
-  },
-  {
-    phoneme: "o",
-    form: "ough",
-    origin: 4,
-    frequency: 1,
-    onset: 0,
-    startWord: 0,
-    midWord: 0,
-    endWord: 0,
-  },
-  {
-    phoneme: "o",
-    form: "ew",
-    origin: 0,
-    frequency: 1,
-    onset: 0,
-    startWord: 0,
-    midWord: 0,
-    endWord: 1,
   },
 
   // book

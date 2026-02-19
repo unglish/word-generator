@@ -42,11 +42,9 @@ const englishReduction: VowelReductionConfig = {
   rules: [
     { source: "ʌ", target: "ə", probability: 85 },
     { source: "ɛ", target: "ɪ", probability: 70 },
-    { source: "e", target: "ɪ", probability: 70 },
     { source: "ɑ", target: "ə", probability: 65 },
     { source: "ɔ", target: "ə", probability: 60 },
     { source: "æ", target: "ə", probability: 40 },
-    { source: "o", target: "ə", probability: 55 },
     { source: "ɜ", target: "ə", probability: 75 },
     { source: "ɪ", target: "ə", probability: 45 },
   ],

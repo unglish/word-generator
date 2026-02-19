@@ -211,9 +211,6 @@ export const englishConfig: LanguageConfig = {
       { phoneme: "əʊ", from: "o", to: "o" },
       { phoneme: "əʊ", from: "ow", to: "o" },
       { phoneme: "əʊ", from: "oe", to: "o" },
-      // /o/ — "o" + e (hope, note); also digraph swap
-      { phoneme: "o", from: "o", to: "o" },
-      { phoneme: "o", from: "oa", to: "o" },
       // /uː/ — "u" + e (rude, tube); also digraph swaps
       { phoneme: "u", from: "u", to: "u" },
       { phoneme: "u", from: "oo", to: "u" },
@@ -430,11 +427,9 @@ export const englishConfig: LanguageConfig = {
     rules: [
       { source: "ʌ", target: "ə", probability: 85 },
       { source: "ɛ", target: "ɪ", probability: 70 },
-      { source: "e", target: "ɪ", probability: 70 },
       { source: "ɑ", target: "ə", probability: 65 },
       { source: "ɔ", target: "ə", probability: 60 },
       { source: "æ", target: "ə", probability: 40 },
-      { source: "o", target: "ə", probability: 55 },
       { source: "ɜ", target: "ə", probability: 75 },
       { source: "ɪ", target: "ə", probability: 45 },  // roses [ˈɹoʊzɪz] → [ˈɹoʊzəz] — common in casual speech
     ],

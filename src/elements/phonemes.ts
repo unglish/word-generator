@@ -58,7 +58,6 @@ export const phonemes: Phoneme[] = [
   { sound: "ɪ", mannerOfArticulation: "highVowel", tense: false, nucleus: 320, startWord: 3, midWord: 15, endWord: 1, voiced: true, placeOfArticulation: "front" }, // sit
 
   // Mid Vowels
-  { sound: "e", mannerOfArticulation: "midVowel", tense: false, nucleus: 140, startWord: 3, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // red
   { sound: "ɛ", mannerOfArticulation: "midVowel", tense: false, nucleus: 280, startWord: 3, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // let
   { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 330, startWord: 4, midWord: 8, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
   { sound: "ɜ", mannerOfArticulation: "midVowel", tense: false, nucleus: 50, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // bed, said, execute
@@ -68,7 +67,6 @@ export const phonemes: Phoneme[] = [
   { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 130, startWord: 12, midWord: 6, endWord: 1, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
   { sound: "ɑ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 150, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // father
   { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 110, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // ball
-  { sound: "o", mannerOfArticulation: "lowVowel", tense: true, nucleus: 130, startWord: 6, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // hope
   { sound: "ʊ", mannerOfArticulation: "highVowel", tense: true, nucleus: 100, startWord: 4, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // book
   { sound: "u", mannerOfArticulation: "highVowel", tense: true, nucleus: 80, startWord: 4, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // blue
   { sound: "ʌ", mannerOfArticulation: "midVowel", tense: false, nucleus: 120, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // cup
