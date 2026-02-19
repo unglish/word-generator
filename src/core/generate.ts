@@ -1140,7 +1140,7 @@ function generateOneWord(
 /**
  * Shared pipeline: syllable generation → repair → write → pronounce.
  */
-function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode: GenerationMode = "text"): void {
+function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode: GenerationMode = "lexicon"): void {
   const t = context.trace;
 
   t?.beforeStage("generateSyllables", context.word.syllables);
@@ -1220,7 +1220,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 
   return {
     generateWord: (options: WordGenerationOptions = {}): Word => {
-      return generateOneWord(rt, resolveRng(options), options.mode ?? "text", options.syllableCount || 0, options.morphology ?? false, options.trace ?? false);
+      return generateOneWord(rt, resolveRng(options), options.mode ?? "lexicon", options.syllableCount || 0, options.morphology ?? false, options.trace ?? false);
     },
   };
 }
@@ -1242,7 +1242,7 @@ const defaultRuntime = buildRuntime(englishConfig);
  * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
-  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "text", options.syllableCount || 0, options.morphology ?? false, options.trace ?? false);
+  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "lexicon", options.syllableCount || 0, options.morphology ?? false, options.trace ?? false);
 };
 
 /**
@@ -1267,7 +1267,7 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
  */
 export const generateWords = (count: number, options: WordGenerationOptions = {}): Word[] => {
   const rand = resolveRng(options);
-  const mode = options.mode ?? "text";
+  const mode = options.mode ?? "lexicon";
   const syllableCount = options.syllableCount || 0;
   const results: Word[] = [];
   for (let i = 0; i < count; i++) {

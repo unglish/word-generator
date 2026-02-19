@@ -249,8 +249,8 @@ export interface WordGenerationOptions {
   rand?: RNG;
   /**
    * Generation mode controlling syllable-count distribution.
-   * - `"text"` (default) — monosyllable-heavy, mimics running text.
-   * - `"lexicon"` — balanced distribution, mimics a dictionary.
+   * - `"text"` — monosyllable-heavy, mimics running text.
+   * - `"lexicon"` (default) — balanced distribution, mimics a dictionary.
    */
   mode?: GenerationMode;
   /**

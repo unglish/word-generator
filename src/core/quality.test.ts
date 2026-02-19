@@ -120,7 +120,7 @@ const fmt = (n: number | null | undefined) =>
 // gates/metrics block so that trialResults is populated for the report.
 
 describe("Quality Benchmark", () => {
-  const strictNgramQuality = process.env.STRICT_NGRAM_QUALITY === "1";
+  const strictNgramQuality = process.env.STRICT_NGRAM_QUALITY !== "0";
 
   const trialResults: Array<Record<number, number | null>> = [];
 
@@ -361,8 +361,8 @@ describe("Quality Benchmark", () => {
       if (strictNgramQuality) {
         expect(r).toBeGreaterThan(0.45);
       } else {
-        // Phoneme-first tuning phase: track n-gram correlation for observability,
-        // but do not block merges on this metric.
+        // Optional monitoring mode (`STRICT_NGRAM_QUALITY=0`) keeps this
+        // observable without merge blocking.
         expect(Number.isFinite(r)).toBe(true);
       }
     });
@@ -383,8 +383,8 @@ describe("Quality Benchmark", () => {
       if (strictNgramQuality) {
         expect(r).toBeGreaterThan(0.33);
       } else {
-        // Phoneme-first tuning phase: track n-gram correlation for observability,
-        // but do not block merges on this metric.
+        // Optional monitoring mode (`STRICT_NGRAM_QUALITY=0`) keeps this
+        // observable without merge blocking.
         expect(Number.isFinite(r)).toBe(true);
       }
     });
