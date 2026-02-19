@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeAll } from 'vitest';
-import { generateWord, generateWords } from './generate.js';
-import { writeFileSync } from 'fs';
-import { join } from 'path';
+import { describe, it, expect, beforeAll } from "vitest";
+import { generateWord, generateWords } from "./generate.js";
+import { writeFileSync } from "fs";
+import { join } from "path";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -9,17 +9,17 @@ import { join } from 'path';
 
 // Top ~100 English words by frequency (Oxford / Corpus of Contemporary American English).
 const COMMON_WORDS = new Set([
-  'a', 'i', 'the', 'be', 'to', 'of', 'and', 'in', 'that', 'have',
-  'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at',
-  'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she',
-  'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what',
-  'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me',
-  'when', 'make', 'can', 'like', 'time', 'no', 'just', 'him', 'know', 'take',
-  'people', 'into', 'year', 'your', 'good', 'some', 'could', 'them', 'see', 'other',
-  'than', 'then', 'now', 'look', 'only', 'come', 'its', 'over', 'think', 'also',
-  'back', 'after', 'use', 'two', 'how', 'our', 'work', 'first', 'well', 'way',
-  'even', 'new', 'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us',
-  'are', 'was', 'had', 'been',
+  "a", "i", "the", "be", "to", "of", "and", "in", "that", "have",
+  "it", "for", "not", "on", "with", "he", "as", "you", "do", "at",
+  "this", "but", "his", "by", "from", "they", "we", "say", "her", "she",
+  "or", "an", "will", "my", "one", "all", "would", "there", "their", "what",
+  "so", "up", "out", "if", "about", "who", "get", "which", "go", "me",
+  "when", "make", "can", "like", "time", "no", "just", "him", "know", "take",
+  "people", "into", "year", "your", "good", "some", "could", "them", "see", "other",
+  "than", "then", "now", "look", "only", "come", "its", "over", "think", "also",
+  "back", "after", "use", "two", "how", "our", "work", "first", "well", "way",
+  "even", "new", "want", "because", "any", "these", "give", "day", "most", "us",
+  "are", "was", "had", "been",
 ]); // 104 words
 
 const MAX_ITERATIONS = 200_000;
@@ -54,7 +54,7 @@ const NORVIG_TRIGRAM_FREQ: Record<string, number> = {
   ted:0.189, ont:0.189, nce:0.186, sto:0.184, ith:0.183, nte:0.181, sin:0.179, tor:0.179, ore:0.177, lin:0.176,
 };
 
-const VOWELS = new Set('aeiouy'.split(''));
+const VOWELS = new Set("aeiouy".split(""));
 const RE_OWNGS = /owngs/;
 const RE_RENG_TENG = /[rt]eng$/;
 
@@ -64,9 +64,9 @@ const RE_RENG_TENG = /[rt]eng$/;
 
 function isVowelChar(ch: string, idx: number, str: string): boolean {
   const lower = ch.toLowerCase();
-  if (lower === 'y') {
-    const next = idx + 1 < str.length ? str[idx + 1].toLowerCase() : '';
-    return !'aeiou'.includes(next);
+  if (lower === "y") {
+    const next = idx + 1 < str.length ? str[idx + 1].toLowerCase() : "";
+    return !"aeiou".includes(next);
   }
   return VOWELS.has(lower);
 }
@@ -107,9 +107,9 @@ function pearsonCorrelation(xs: number[], ys: number[]): number {
   return denom === 0 ? 0 : num / denom;
 }
 
-const fmtNumber = new Intl.NumberFormat('en-US');
+const fmtNumber = new Intl.NumberFormat("en-US");
 const fmt = (n: number | null | undefined) =>
-  n !== null && n !== undefined ? fmtNumber.format(n) : 'not reached';
+  n !== null && n !== undefined ? fmtNumber.format(n) : "not reached";
 
 // ---------------------------------------------------------------------------
 // Quality Benchmark
@@ -119,7 +119,7 @@ const fmt = (n: number | null | undefined) =>
 // sequentially in declaration order. The trial tests must run before the
 // gates/metrics block so that trialResults is populated for the report.
 
-describe('Quality Benchmark', () => {
+describe("Quality Benchmark", () => {
   const trialResults: Array<Record<number, number | null>> = [];
 
   // -------------------------------------------------------------------------
@@ -169,7 +169,7 @@ describe('Quality Benchmark', () => {
   // Gates & Metrics (200k sample)
   // -------------------------------------------------------------------------
 
-  describe('Quality Gates & Metrics', () => {
+  describe("Quality Gates & Metrics", () => {
     let gateWords: string[] = [];
 
     // Shared gate counts — computed once in beforeAll, asserted individually
@@ -185,9 +185,9 @@ describe('Quality Benchmark', () => {
     let avgLength = 0;
     let uniqueRate = 0;
     let lengthDistribution: Record<string, number> = {};
-    let letterCounts: Record<string, number> = {};
-    let bigramCounts: Record<string, number> = {};
-    let trigramCounts: Record<string, number> = {};
+    const letterCounts: Record<string, number> = {};
+    const bigramCounts: Record<string, number> = {};
+    const trigramCounts: Record<string, number> = {};
     let totalLetters = 0;
     let totalBigrams = 0;
     let totalTrigrams = 0;
@@ -215,23 +215,23 @@ describe('Quality Benchmark', () => {
       }
 
       // Single pass to compute all counts
-      const buckets: Record<string, number> = { '1': 0, '2-3': 0, '4-5': 0, '6-8': 0, '9-12': 0, '13+': 0 };
+      const buckets: Record<string, number> = { "1": 0, "2-3": 0, "4-5": 0, "6-8": 0, "9-12": 0, "13+": 0 };
       let totalLen = 0;
       const uniqueWords = new Set<string>();
 
-      for (const ch of 'abcdefghijklmnopqrstuvwxyz') letterCounts[ch] = 0;
+      for (const ch of "abcdefghijklmnopqrstuvwxyz") letterCounts[ch] = 0;
 
       for (const w of gateWords) {
         // Letter & bigram counting
         for (let ci = 0; ci < w.length; ci++) {
           const ch = w[ci];
-          if (ch >= 'a' && ch <= 'z') {
+          if (ch >= "a" && ch <= "z") {
             letterCounts[ch]++;
             totalLetters++;
           }
           if (ci > 0) {
             const prev = w[ci - 1];
-            if (prev >= 'a' && prev <= 'z' && ch >= 'a' && ch <= 'z') {
+            if (prev >= "a" && prev <= "z" && ch >= "a" && ch <= "z") {
               const bg = prev + ch;
               bigramCounts[bg] = (bigramCounts[bg] || 0) + 1;
               totalBigrams++;
@@ -240,7 +240,7 @@ describe('Quality Benchmark', () => {
           if (ci > 1) {
             const pp = w[ci - 2];
             const prev = w[ci - 1];
-            if (pp >= 'a' && pp <= 'z' && prev >= 'a' && prev <= 'z' && ch >= 'a' && ch <= 'z') {
+            if (pp >= "a" && pp <= "z" && prev >= "a" && prev <= "z" && ch >= "a" && ch <= "z") {
               const tg = pp + prev + ch;
               trigramCounts[tg] = (trigramCounts[tg] || 0) + 1;
               totalTrigrams++;
@@ -250,11 +250,11 @@ describe('Quality Benchmark', () => {
         const run = longestConsonantRun(w);
         if (run >= 5) fiveConsCount++;
         if (run >= 4) fourConsCount++;
-        if (w.includes('ngx')) ngxCount++;
-        if (w.includes('bk')) bkCount++;
-        if (w.includes('pk')) pkCount++;
-        if (w.includes('dk')) dkCount++;
-        if (w.includes('ckt')) cktCount++;
+        if (w.includes("ngx")) ngxCount++;
+        if (w.includes("bk")) bkCount++;
+        if (w.includes("pk")) pkCount++;
+        if (w.includes("dk")) dkCount++;
+        if (w.includes("ckt")) cktCount++;
         if (RE_OWNGS.test(w)) owngsCount++;
         if (RE_RENG_TENG.test(w)) rengTengCount++;
 
@@ -262,12 +262,12 @@ describe('Quality Benchmark', () => {
         uniqueWords.add(w);
 
         const len = w.length;
-        if (len <= 1) buckets['1']++;
-        else if (len <= 3) buckets['2-3']++;
-        else if (len <= 5) buckets['4-5']++;
-        else if (len <= 8) buckets['6-8']++;
-        else if (len <= 12) buckets['9-12']++;
-        else buckets['13+']++;
+        if (len <= 1) buckets["1"]++;
+        else if (len <= 3) buckets["2-3"]++;
+        else if (len <= 5) buckets["4-5"]++;
+        else if (len <= 8) buckets["6-8"]++;
+        else if (len <= 12) buckets["9-12"]++;
+        else buckets["13+"]++;
       }
 
       avgLength = +(totalLen / gateWords.length).toFixed(1);
@@ -276,48 +276,48 @@ describe('Quality Benchmark', () => {
     }, 120_000);
 
     // Hard gates
-    it('Gate: no 5+ consecutive consonant letters', () => {
+    it("Gate: no 5+ consecutive consonant letters", () => {
       expect(fiveConsCount).toBe(0);
     });
 
-    it('Gate: no ngx occurrences', () => {
+    it("Gate: no ngx occurrences", () => {
       expect(ngxCount).toBe(0);
     });
 
-    it('Gate: no ckt occurrences', () => {
+    it("Gate: no ckt occurrences", () => {
       expect(cktCount).toBe(0);
     });
 
-    it('Gate: bk < 50', () => {
+    it("Gate: bk < 50", () => {
       expect(bkCount).toBeLessThan(50);
     });
 
-    it('Gate: pk < 50', () => {
+    it("Gate: pk < 50", () => {
       expect(pkCount).toBeLessThan(50);
     });
 
-    it('Gate: owngs = 0', () => {
+    it("Gate: owngs = 0", () => {
       expect(owngsCount).toBe(0);
     });
 
-    it('Gate: rengTeng < 30', () => {
+    it("Gate: rengTeng < 30", () => {
       expect(rengTengCount).toBeLessThan(30);
     });
 
-    it('Gate: 2-letter monosyllables ≤ 9% of all monosyllables', () => {
+    it("Gate: 2-letter monosyllables ≤ 9% of all monosyllables", () => {
       const pct = monoTwoLetterOrLess / monoTotal * 100;
       console.log(`2-letter mono: ${monoTwoLetterOrLess}/${monoTotal} (${pct.toFixed(1)}%)`);
       expect(pct).toBeLessThanOrEqual(9);
     });
 
-    it('Gate: open monosyllables ≤ 20% of all monosyllables', () => {
+    it("Gate: open monosyllables ≤ 20% of all monosyllables", () => {
       const pct = monoOpen / monoTotal * 100;
       console.log(`Open mono: ${monoOpen}/${monoTotal} (${pct.toFixed(1)}%)`);
       expect(pct).toBeLessThanOrEqual(20);
     });
 
     // Orthographic distribution benchmarks
-    it('Letter frequency correlation with English', () => {
+    it("Letter frequency correlation with English", () => {
       const letters = Object.keys(NORVIG_LETTER_FREQ);
       const ours = letters.map(l => (letterCounts[l] || 0) / totalLetters * 100);
       const norvig = letters.map(l => NORVIG_LETTER_FREQ[l]);
@@ -329,19 +329,19 @@ describe('Quality Benchmark', () => {
       const norvigSorted = letters.map(l => ({ l, pct: NORVIG_LETTER_FREQ[l] }))
         .sort((a, b) => b.pct - a.pct);
       console.log(`\n=== Letter Frequency Correlation: r=${r.toFixed(4)} ===`);
-      console.log('Our top 10:', ourSorted.slice(0, 10).map(x => `${x.l}:${x.pct.toFixed(2)}`).join(', '));
-      console.log('Norvig top 10:', norvigSorted.slice(0, 10).map(x => `${x.l}:${x.pct.toFixed(2)}`).join(', '));
+      console.log("Our top 10:", ourSorted.slice(0, 10).map(x => `${x.l}:${x.pct.toFixed(2)}`).join(", "));
+      console.log("Norvig top 10:", norvigSorted.slice(0, 10).map(x => `${x.l}:${x.pct.toFixed(2)}`).join(", "));
 
       const ratios = letters.map(l => ({
         l, ratio: ((letterCounts[l] || 0) / totalLetters * 100) / NORVIG_LETTER_FREQ[l]
       })).sort((a, b) => b.ratio - a.ratio);
-      console.log('Top 5 over-represented:', ratios.slice(0, 5).map(x => `${x.l}:${x.ratio.toFixed(2)}×`).join(', '));
-      console.log('Top 5 under-represented:', ratios.slice(-5).reverse().map(x => `${x.l}:${x.ratio.toFixed(2)}×`).join(', '));
+      console.log("Top 5 over-represented:", ratios.slice(0, 5).map(x => `${x.l}:${x.ratio.toFixed(2)}×`).join(", "));
+      console.log("Top 5 under-represented:", ratios.slice(-5).reverse().map(x => `${x.l}:${x.ratio.toFixed(2)}×`).join(", "));
 
       expect(r).toBeGreaterThan(0.85);
     });
 
-    it('Bigram frequency correlation with English', () => {
+    it("Bigram frequency correlation with English", () => {
       const bigrams = Object.keys(NORVIG_BIGRAM_FREQ);
       const ours = bigrams.map(bg => (bigramCounts[bg] || 0) / totalBigrams * 100);
       const norvig = bigrams.map(bg => NORVIG_BIGRAM_FREQ[bg]);
@@ -351,13 +351,13 @@ describe('Quality Benchmark', () => {
         bg, ratio: ((bigramCounts[bg] || 0) / totalBigrams * 100) / NORVIG_BIGRAM_FREQ[bg]
       })).sort((a, b) => b.ratio - a.ratio);
       console.log(`\n=== Bigram Frequency Correlation: r=${r.toFixed(4)} ===`);
-      console.log('Top 5 over:', ratios.slice(0, 5).map(x => `${x.bg}:${x.ratio.toFixed(2)}×`).join(', '));
-      console.log('Top 5 under:', ratios.slice(-5).reverse().map(x => `${x.bg}:${x.ratio.toFixed(2)}×`).join(', '));
+      console.log("Top 5 over:", ratios.slice(0, 5).map(x => `${x.bg}:${x.ratio.toFixed(2)}×`).join(", "));
+      console.log("Top 5 under:", ratios.slice(-5).reverse().map(x => `${x.bg}:${x.ratio.toFixed(2)}×`).join(", "));
 
       expect(r).toBeGreaterThan(0.45);
     });
 
-    it('Trigram frequency correlation with English', () => {
+    it("Trigram frequency correlation with English", () => {
       const trigrams = Object.keys(NORVIG_TRIGRAM_FREQ);
       const ours = trigrams.map(tg => (trigramCounts[tg] || 0) / totalTrigrams * 100);
       const norvig = trigrams.map(tg => NORVIG_TRIGRAM_FREQ[tg]);
@@ -367,13 +367,13 @@ describe('Quality Benchmark', () => {
         tg, ratio: ((trigramCounts[tg] || 0) / totalTrigrams * 100) / NORVIG_TRIGRAM_FREQ[tg]
       })).sort((a, b) => b.ratio - a.ratio);
       console.log(`\n=== Trigram Frequency Correlation: r=${r.toFixed(4)} ===`);
-      console.log('Top 5 over:', ratios.slice(0, 5).map(x => `${x.tg}:${x.ratio.toFixed(2)}×`).join(', '));
-      console.log('Top 5 under:', ratios.slice(-5).reverse().map(x => `${x.tg}:${x.ratio.toFixed(2)}×`).join(', '));
+      console.log("Top 5 over:", ratios.slice(0, 5).map(x => `${x.tg}:${x.ratio.toFixed(2)}×`).join(", "));
+      console.log("Top 5 under:", ratios.slice(-5).reverse().map(x => `${x.tg}:${x.ratio.toFixed(2)}×`).join(", "));
 
       expect(r).toBeGreaterThan(0.33);
     });
 
-    it('No letter more than 25× over or under expected frequency', () => {
+    it("No letter more than 25× over or under expected frequency", () => {
       const violations: string[] = [];
       for (const [l, expected] of Object.entries(NORVIG_LETTER_FREQ)) {
         const ourPct = (letterCounts[l] || 0) / totalLetters * 100;
@@ -383,15 +383,15 @@ describe('Quality Benchmark', () => {
         }
       }
       if (violations.length > 0) {
-        console.log('\n=== Frequency Violations ===');
+        console.log("\n=== Frequency Violations ===");
         violations.forEach(v => console.log(v));
       }
       expect(violations).toEqual([]);
     });
 
     // Report generation
-    it('Write quality report', () => {
-      console.log('\n=== Quality Metrics ===');
+    it("Write quality report", () => {
+      console.log("\n=== Quality Metrics ===");
       console.log(`5+ consonant runs: ${fiveConsCount}`);
       console.log(`ngx: ${ngxCount}`);
       console.log(`bk: ${bkCount}`);
@@ -403,7 +403,7 @@ describe('Quality Benchmark', () => {
       console.log(`-reng/-teng: ${rengTengCount}`);
       console.log(`Avg length: ${avgLength}`);
       console.log(`Unique rate: ${uniqueRate}%`);
-      console.log(`Length distribution:`, lengthDistribution);
+      console.log("Length distribution:", lengthDistribution);
 
       // Build common words section from trial results (may be empty if gates-only run)
       const milestoneData: Record<string, { median: number | null; values: (number | null)[] }> = {};
@@ -415,11 +415,11 @@ describe('Quality Benchmark', () => {
       const fullReport = {
         commonWords: trialResults.length > 0
           ? {
-              trials: trialResults.length,
-              maxIterations: MAX_ITERATIONS,
-              milestones: milestoneData,
-            }
-          : { trials: 0, maxIterations: MAX_ITERATIONS, milestones: {}, note: 'trials skipped' },
+            trials: trialResults.length,
+            maxIterations: MAX_ITERATIONS,
+            milestones: milestoneData,
+          }
+          : { trials: 0, maxIterations: MAX_ITERATIONS, milestones: {}, note: "trials skipped" },
         gates: {
           fiveConsecutiveConsonants: fiveConsCount,
           ngx: ngxCount,
@@ -439,8 +439,8 @@ describe('Quality Benchmark', () => {
       };
 
       // Write report to repo root (vitest cwd)
-      const reportPath = join(process.cwd(), 'quality-report.json');
-      writeFileSync(reportPath, JSON.stringify(fullReport, null, 2) + '\n');
+      const reportPath = join(process.cwd(), "quality-report.json");
+      writeFileSync(reportPath, JSON.stringify(fullReport, null, 2) + "\n");
       console.log(`\nReport written to ${reportPath}`);
     });
   });
@@ -450,7 +450,7 @@ describe('Quality Benchmark', () => {
 // Generation Mode Benchmarks
 // ---------------------------------------------------------------------------
 
-describe('Generation Mode Benchmarks', () => {
+describe("Generation Mode Benchmarks", () => {
   const MODE_SAMPLE = 50_000;
 
   interface ModeStats {
@@ -458,7 +458,7 @@ describe('Generation Mode Benchmarks', () => {
     avgLetters: number;
   }
 
-  function measureMode(mode: 'text' | 'lexicon'): ModeStats {
+  function measureMode(mode: "text" | "lexicon"): ModeStats {
     const words = generateWords(MODE_SAMPLE, { seed: 1, mode });
     const counts: Record<number, number> = {};
     let totalLetters = 0;
@@ -484,23 +484,23 @@ describe('Generation Mode Benchmarks', () => {
 
   // -- Text mode: should resemble running English prose --
 
-  describe('Text mode', () => {
+  describe("Text mode", () => {
     let stats: ModeStats;
-    beforeAll(() => { stats = measureMode('text'); logStats('Text Mode', stats); }, 120_000);
+    beforeAll(() => { stats = measureMode("text"); logStats("Text Mode", stats); }, 120_000);
 
-    it('monosyllables dominate (> 50%)',     () => expect(stats.syllablePct[1]).toBeGreaterThan(50));
-    it('3-syllable words are rare (< 20%)',  () => expect(stats.syllablePct[3]).toBeLessThan(20));
-    it('average word length is short (< 5.5 letters)', () => expect(stats.avgLetters).toBeLessThan(5.5));
+    it("monosyllables dominate (> 50%)",     () => expect(stats.syllablePct[1]).toBeGreaterThan(50));
+    it("3-syllable words are rare (< 20%)",  () => expect(stats.syllablePct[3]).toBeLessThan(20));
+    it("average word length is short (< 5.5 letters)", () => expect(stats.avgLetters).toBeLessThan(5.5));
   });
 
   // -- Lexicon mode: should resemble a dictionary word list --
 
-  describe('Lexicon mode', () => {
+  describe("Lexicon mode", () => {
     let stats: ModeStats;
-    beforeAll(() => { stats = measureMode('lexicon'); logStats('Lexicon Mode', stats); }, 120_000);
+    beforeAll(() => { stats = measureMode("lexicon"); logStats("Lexicon Mode", stats); }, 120_000);
 
-    it('2-syllable words are most common (> 35%)', () => expect(stats.syllablePct[2]).toBeGreaterThan(35));
-    it('monosyllables are present (> 8%)',          () => expect(stats.syllablePct[1]).toBeGreaterThan(8));
-    it('average word length is moderate (> 6.0 letters)', () => expect(stats.avgLetters).toBeGreaterThan(6.0));
+    it("2-syllable words are most common (> 35%)", () => expect(stats.syllablePct[2]).toBeGreaterThan(35));
+    it("monosyllables are present (> 8%)",          () => expect(stats.syllablePct[1]).toBeGreaterThan(8));
+    it("average word length is moderate (> 6.0 letters)", () => expect(stats.avgLetters).toBeGreaterThan(6.0));
   });
 });

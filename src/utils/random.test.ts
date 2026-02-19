@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
-import { createSeededRng, createDefaultRng, RNG } from './random';
+import { describe, it, expect } from "vitest";
+import { createSeededRng, createDefaultRng, RNG } from "./random";
 
-describe('createSeededRng (Mulberry32)', () => {
-  it('returns values in [0, 1)', () => {
+describe("createSeededRng (Mulberry32)", () => {
+  it("returns values in [0, 1)", () => {
     const rng = createSeededRng(42);
     for (let i = 0; i < 10_000; i++) {
       const val = rng();
@@ -11,7 +11,7 @@ describe('createSeededRng (Mulberry32)', () => {
     }
   });
 
-  it('is deterministic — same seed produces same sequence', () => {
+  it("is deterministic — same seed produces same sequence", () => {
     const a = createSeededRng(42);
     const b = createSeededRng(42);
     for (let i = 0; i < 100; i++) {
@@ -19,7 +19,7 @@ describe('createSeededRng (Mulberry32)', () => {
     }
   });
 
-  it('different seeds produce different sequences', () => {
+  it("different seeds produce different sequences", () => {
     const a = createSeededRng(42);
     const b = createSeededRng(43);
     const aVals = Array.from({ length: 10 }, () => a());
@@ -29,7 +29,7 @@ describe('createSeededRng (Mulberry32)', () => {
     expect(allSame).toBe(false);
   });
 
-  it('independent instances do not interfere', () => {
+  it("independent instances do not interfere", () => {
     const a = createSeededRng(42);
     const reference = createSeededRng(42);
 
@@ -47,7 +47,7 @@ describe('createSeededRng (Mulberry32)', () => {
     expect(a()).toBe(reference());
   });
 
-  it('has reasonable uniformity across 10 bins', () => {
+  it("has reasonable uniformity across 10 bins", () => {
     const rng = createSeededRng(12345);
     const bins = new Array(10).fill(0);
     const N = 100_000;
@@ -61,7 +61,7 @@ describe('createSeededRng (Mulberry32)', () => {
     }
   });
 
-  it('seed 0 works (not degenerate)', () => {
+  it("seed 0 works (not degenerate)", () => {
     const rng = createSeededRng(0);
     const vals = new Set(Array.from({ length: 100 }, () => rng()));
     // Should produce many distinct values, not stuck
@@ -69,8 +69,8 @@ describe('createSeededRng (Mulberry32)', () => {
   });
 });
 
-describe('createDefaultRng', () => {
-  it('returns values in [0, 1)', () => {
+describe("createDefaultRng", () => {
+  it("returns values in [0, 1)", () => {
     const rng = createDefaultRng();
     for (let i = 0; i < 1000; i++) {
       const val = rng();
@@ -79,7 +79,7 @@ describe('createDefaultRng', () => {
     }
   });
 
-  it('is non-deterministic (two instances produce different sequences)', () => {
+  it("is non-deterministic (two instances produce different sequences)", () => {
     const a = createDefaultRng();
     const b = createDefaultRng();
     const aVals = Array.from({ length: 20 }, () => a());

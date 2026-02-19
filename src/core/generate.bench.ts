@@ -1,5 +1,5 @@
-import { bench, describe, expect } from 'vitest';
-import { generateWord } from './generate.js';
+import { bench, describe, expect } from "vitest";
+import { generateWord } from "./generate.js";
 
 /**
  * Performance benchmarks for word generation.
@@ -12,16 +12,16 @@ import { generateWord } from './generate.js';
  * not CI noise.
  */
 
-describe('Word Generation Performance', () => {
-  bench('generate single word', () => {
+describe("Word Generation Performance", () => {
+  bench("generate single word", () => {
     generateWord();
   });
 
-  bench('generate word with seed', () => {
+  bench("generate word with seed", () => {
     generateWord({ seed: 42 });
   });
 
-  bench('generate 100 words', () => {
+  bench("generate 100 words", () => {
     for (let i = 0; i < 100; i++) {
       generateWord({ seed: i });
     }

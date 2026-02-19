@@ -133,7 +133,7 @@ export const phonemeMaps = {
   coda: new Map<string, Phoneme[]>()
 };
 
-for (const position of ['onset', 'nucleus', 'coda'] as const) {
+for (const position of ["onset", "nucleus", "coda"] as const) {
   for (const phoneme of phonemes) {
     // @ts-ignore
     if (phoneme[position] !== undefined && phoneme[position] > 0) {
@@ -162,7 +162,7 @@ export const invalidBoundaryClusters: RegExp[] = [
   /ʃh/,
   /sʃ/,
   /ʒs/,
-]
+];
 
 const invalidGeneralClusters: RegExp[] = [
   ...invalidBoundaryClusters,
@@ -175,7 +175,7 @@ const invalidGeneralClusters: RegExp[] = [
   /pb/,
   /[ʒl]r/,
   /^.*.?[ðŋhʃ].?.*$/, // invalid in any position of a string at least 2 characters long
-]
+];
 
 export const invalidOnsetClusters: RegExp[] = [
   ...invalidGeneralClusters,
@@ -213,4 +213,4 @@ export const invalidCodaClusters: RegExp[] = [
   /[szʒ]l$/,
   /[wðf]r$/,
   /[θðf]rl$/,
-]
+];

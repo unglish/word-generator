@@ -4,14 +4,20 @@ import { join } from 'node:path';
 const CONFIG_PATH = join(process.cwd(), 'memory', 'phoneme-normalization.json');
 
 const PHONEME_TOKEN_RE = /^[a-z:\u0250-\u02af\u02c8\u02cc\u02d0]+$/i;
+let cachedNormalization = null;
 
 export function loadPhonemeNormalization() {
-  return JSON.parse(readFileSync(CONFIG_PATH, 'utf8'));
+  if (!cachedNormalization) {
+    cachedNormalization = JSON.parse(readFileSync(CONFIG_PATH, 'utf8'));
+  }
+  return cachedNormalization;
 }
 
-export function normalizeGeneratedPhoneme(sound) {
+export function normalizeGeneratedPhoneme(sound, normalization = loadPhonemeNormalization()) {
   if (typeof sound !== 'string' || sound.length === 0) return null;
-  const normalized = sound.replace(/\u02B0/g, '');
+  let normalized = sound.replace(/\u02B0/g, '');
+  const aliasMap = normalization?.generatedAliases || {};
+  if (aliasMap[normalized]) normalized = aliasMap[normalized];
   return PHONEME_TOKEN_RE.test(normalized) ? normalized : null;
 }
 

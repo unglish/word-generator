@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { generateWords } from './generate.js';
-import { computePhonemeQualityMetrics } from './phoneme-quality.js';
+import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { generateWords } from "./generate.js";
+import { computePhonemeQualityMetrics } from "./phoneme-quality.js";
 
 interface PhonemeThresholds {
   sampleSize: number;
@@ -16,24 +16,32 @@ interface PhonemeThresholds {
   generatedOnlyEscalationThresholdPct: number;
 }
 
+interface PhonemeNormalization {
+  generatedAliases?: Record<string, string>;
+}
+
 function loadJson<T>(path: string): T {
-  return JSON.parse(readFileSync(path, 'utf8')) as T;
+  return JSON.parse(readFileSync(path, "utf8")) as T;
 }
 
-function normalizeGeneratedPhoneme(sound: string): string | null {
+function normalizeGeneratedPhoneme(sound: string, normalization: PhonemeNormalization): string | null {
   if (!sound) return null;
-  return sound.replace(/\u02B0/g, '');
+  let normalized = sound.replace(/\u02B0/g, "");
+  const aliasMap = normalization.generatedAliases || {};
+  if (aliasMap[normalized]) normalized = aliasMap[normalized];
+  return normalized;
 }
 
-describe('Phoneme quality gates', () => {
-  it('meets phoneme distribution guardrails', async () => {
-    const repoRoot = join(__dirname, '..', '..');
-    const thresholds = loadJson<PhonemeThresholds>(join(repoRoot, 'src', 'config', 'phoneme-thresholds.json'));
-    const baselineCounts = loadJson<Record<string, number>>(join(repoRoot, 'memory', 'cmu-lexicon-phonemes.json'));
+describe("Phoneme quality gates", () => {
+  it("meets phoneme distribution guardrails", async () => {
+    const repoRoot = join(__dirname, "..", "..");
+    const thresholds = loadJson<PhonemeThresholds>(join(repoRoot, "src", "config", "phoneme-thresholds.json"));
+    const normalization = loadJson<PhonemeNormalization>(join(repoRoot, "memory", "phoneme-normalization.json"));
+    const baselineCounts = loadJson<Record<string, number>>(join(repoRoot, "memory", "cmu-lexicon-phonemes.json"));
 
     const words = generateWords(thresholds.sampleSize, {
       seed: thresholds.seed,
-      mode: 'lexicon',
+      mode: "lexicon",
       morphology: false,
     });
 
@@ -41,7 +49,7 @@ describe('Phoneme quality gates', () => {
     for (const word of words) {
       for (const syllable of word.syllables) {
         for (const p of [...syllable.onset, ...syllable.nucleus, ...syllable.coda]) {
-          const sound = normalizeGeneratedPhoneme(p.sound);
+          const sound = normalizeGeneratedPhoneme(p.sound, normalization);
           if (!sound) continue;
           generatedCounts[sound] = (generatedCounts[sound] || 0) + 1;
         }

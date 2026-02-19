@@ -5,7 +5,7 @@
  * with Laplace smoothing, derived from CMU Pronouncing Dictionary frequencies.
  */
 
-import { ARPABET_BIGRAM_COUNTS, ARPABET_TOTAL_COUNTS, ALL_ARPABET_PHONEMES } from './arpabet-bigrams.js';
+import { ARPABET_BIGRAM_COUNTS, ARPABET_TOTAL_COUNTS, ALL_ARPABET_PHONEMES } from "./arpabet-bigrams.js";
 
 export interface ScoredWord {
   arpabet: string;
@@ -56,7 +56,7 @@ function bigramLogProb(first: string, second: string): number {
 function parseArpabet(arpabet: string): string[] | null {
   const phonemes = arpabet.trim().split(/\s+/);
   if (phonemes.length === 0 || !phonemes[0]) return null;
-  return ['#', ...phonemes, '#'];
+  return ["#", ...phonemes, "#"];
 }
 
 /**

@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { generateWord } from './generate.js';
+import { describe, it, expect } from "vitest";
+import { generateWord } from "./generate.js";
 
 /**
  * Performance regression gate for word generation.
@@ -16,7 +16,7 @@ const MIN_WORDS_PER_SEC = 4500;
 const SAMPLE_SIZE = 10000;
 const WARMUP_COUNT = 50;
 
-describe('Word Generation Performance', () => {
+describe("Word Generation Performance", () => {
   it(`should generate at least ${MIN_WORDS_PER_SEC} words/sec`, { timeout: 20_000 }, () => {
     // Warmup — let V8 JIT compile
     for (let i = 0; i < WARMUP_COUNT; i++) {
@@ -36,7 +36,7 @@ describe('Word Generation Performance', () => {
     expect(wordsPerSec).toBeGreaterThan(MIN_WORDS_PER_SEC);
   });
 
-  it('should not degrade significantly with sequential seeds', { timeout: 20_000 }, () => {
+  it("should not degrade significantly with sequential seeds", { timeout: 20_000 }, () => {
     // Checks that seed-based generation doesn't have pathological cases
     const times: number[] = [];
 

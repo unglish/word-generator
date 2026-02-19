@@ -1,15 +1,15 @@
-import { describe, it, expect } from 'vitest';
-import { createGenerator, generateWord, generateWords } from './generate';
-import { createSeededRng } from '../utils/random';
-import { englishConfig } from '../config/english';
+import { describe, it, expect } from "vitest";
+import { createGenerator, generateWord, generateWords } from "./generate";
+import { createSeededRng } from "../utils/random";
+import { englishConfig } from "../config/english";
 
-describe('generateWords (batch API)', () => {
-  it('returns the requested number of words', () => {
+describe("generateWords (batch API)", () => {
+  it("returns the requested number of words", () => {
     const words = generateWords(10, { seed: 42 });
     expect(words).toHaveLength(10);
   });
 
-  it('is deterministic — same seed produces same batch', () => {
+  it("is deterministic — same seed produces same batch", () => {
     const a = generateWords(20, { seed: 42 });
     const b = generateWords(20, { seed: 42 });
     for (let i = 0; i < 20; i++) {
@@ -18,22 +18,22 @@ describe('generateWords (batch API)', () => {
     }
   });
 
-  it('produces different words within a batch', () => {
+  it("produces different words within a batch", () => {
     const words = generateWords(50, { seed: 42 });
     const uniques = new Set(words.map(w => w.written.clean));
     // With 50 words, should have high variety. Allow some collisions but not many.
     expect(uniques.size).toBeGreaterThan(40);
   });
 
-  it('different seeds produce different batches', () => {
+  it("different seeds produce different batches", () => {
     const a = generateWords(10, { seed: 42 });
     const b = generateWords(10, { seed: 99 });
-    const aWords = a.map(w => w.written.clean).join(',');
-    const bWords = b.map(w => w.written.clean).join(',');
+    const aWords = a.map(w => w.written.clean).join(",");
+    const bWords = b.map(w => w.written.clean).join(",");
     expect(aWords).not.toBe(bWords);
   });
 
-  it('batch is NOT equivalent to N individual seeded calls', () => {
+  it("batch is NOT equivalent to N individual seeded calls", () => {
     // N individual calls with the same seed all produce the SAME word
     // (each creates its own Mulberry32 from seed 42).
     // Batch shares one RNG so words differ.
@@ -51,18 +51,18 @@ describe('generateWords (batch API)', () => {
     expect(uniqueBatch.size).toBeGreaterThan(1);
   });
 
-  it('handles count of 0', () => {
+  it("handles count of 0", () => {
     const words = generateWords(0, { seed: 42 });
     expect(words).toHaveLength(0);
   });
 
-  it('handles count of 1', () => {
+  it("handles count of 1", () => {
     const words = generateWords(1, { seed: 42 });
     expect(words).toHaveLength(1);
     expect(words[0].written.clean).toBeTruthy();
   });
 
-  it('respects syllableCount option', () => {
+  it("respects syllableCount option", () => {
     const words = generateWords(10, { seed: 42, syllableCount: 2 });
     for (const word of words) {
       expect(word.syllables).toHaveLength(2);
@@ -70,14 +70,14 @@ describe('generateWords (batch API)', () => {
   });
 });
 
-describe('generateWord RNG priority', () => {
-  it('seed produces deterministic output', () => {
+describe("generateWord RNG priority", () => {
+  it("seed produces deterministic output", () => {
     const a = generateWord({ seed: 42 });
     const b = generateWord({ seed: 42 });
     expect(a.written.clean).toBe(b.written.clean);
   });
 
-  it('custom rand takes priority over seed', () => {
+  it("custom rand takes priority over seed", () => {
     // Create a custom RNG from seed 99
     const customRng = createSeededRng(99);
     const withCustom = generateWord({ rand: customRng, seed: 42 });
@@ -93,7 +93,7 @@ describe('generateWord RNG priority', () => {
     // (tiny chance of collision, but astronomically unlikely)
   });
 
-  it('custom rand function is used for generation', () => {
+  it("custom rand function is used for generation", () => {
     let callCount = 0;
     const countingRng = createSeededRng(42);
     const trackingRng = () => {
@@ -105,7 +105,7 @@ describe('generateWord RNG priority', () => {
     expect(callCount).toBeGreaterThan(0);
   });
 
-  it('interleaved seeded calls do not interfere', () => {
+  it("interleaved seeded calls do not interfere", () => {
     // Generate with seed 42
     const word42a = generateWord({ seed: 42 });
     // Generate with seed 99 (should not affect seed 42)
@@ -117,17 +117,17 @@ describe('generateWord RNG priority', () => {
   });
 });
 
-describe('top-down phoneme targeting', () => {
-  it('throws when top-down phoneme length config is missing', () => {
+describe("top-down phoneme targeting", () => {
+  it("throws when top-down phoneme length config is missing", () => {
     const badConfig = {
       ...englishConfig,
       phonemeLengthWeights: undefined as any,
     };
-    expect(() => createGenerator(badConfig as any)).toThrow('phonemeLengthWeights.text is required');
+    expect(() => createGenerator(badConfig as any)).toThrow("phonemeLengthWeights.text is required");
   });
 
-  it('keeps lexicon 6-phoneme bucket near CMU target in a sample', () => {
-    const sample = generateWords(10000, { seed: 2026, mode: 'lexicon' });
+  it("keeps lexicon 6-phoneme bucket near CMU target in a sample", () => {
+    const sample = generateWords(10000, { seed: 2026, mode: "lexicon" });
     let sixPhonemeCount = 0;
 
     for (const word of sample) {

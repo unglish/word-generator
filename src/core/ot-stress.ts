@@ -142,7 +142,7 @@ function gaussianNoise(stddev: number, rand: RNG): number {
   if (stddev === 0) return 0;
   // Box-Muller requires two uniform samples in (0, 1)
   let u1 = rand();
-  let u2 = rand();
+  const u2 = rand();
   // Guard against log(0)
   if (u1 === 0) u1 = 1e-10;
   return stddev * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);

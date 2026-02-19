@@ -1,28 +1,28 @@
-import { describe, it, expect } from 'vitest';
-import { generateWord, _buildCluster as buildCluster, _isValidCluster } from './generate';
-import { ClusterContext, Phoneme } from '../types';
-import { phonemes } from '../elements/phonemes';
-import { englishConfig } from '../config/english';
-import { createDefaultRng } from '../utils/random';
+import { describe, it, expect } from "vitest";
+import { generateWord, _buildCluster as buildCluster, _isValidCluster } from "./generate";
+import { ClusterContext, Phoneme } from "../types";
+import { phonemes } from "../elements/phonemes";
+import { englishConfig } from "../config/english";
+import { createDefaultRng } from "../utils/random";
 
-describe('Word Generator', () => {
-  it('generates word with specified syllable count', () => {
+describe("Word Generator", () => {
+  it("generates word with specified syllable count", () => {
     const word = generateWord({ syllableCount: 3 });
     expect(word.syllables.length).toBe(3);
   });
 
-  it('generates a word with a valid written form', () => {
+  it("generates a word with a valid written form", () => {
     const word = generateWord();
     expect(word.written.clean).toBeTruthy();
     expect(word.written.hyphenated).toBeTruthy();
   });
 
-  it('generates a word with a valid pronunciation', () => {
+  it("generates a word with a valid pronunciation", () => {
     const word = generateWord();
     expect(word.pronunciation).toBeTruthy();
   });
 
-  it('generates reproducible word with seed', () => {
+  it("generates reproducible word with seed", () => {
     const word1 = generateWord({ seed: 12345 });
     const word2 = generateWord({ seed: 12345 });
     expect(word1.written.clean).toBe(word2.written.clean);
@@ -30,17 +30,17 @@ describe('Word Generator', () => {
   });
 });
 
-describe('buildCluster function', () => {
-  it('produces s + p/t/k + * onset clusters', () => {
+describe("buildCluster function", () => {
+  it("produces s + p/t/k + * onset clusters", () => {
     const attempts = 10000;
-    const exceptionalClusters = ['sp', 'st', 'sk'];
+    const exceptionalClusters = ["sp", "st", "sk"];
     const foundClusters = new Set<string>();
     const allClusters = new Set<string>();
 
     for (let i = 0; i < attempts; i++) {
       const context: ClusterContext = {
         rand: createDefaultRng(),
-        position: 'onset',
+        position: "onset",
         cluster: [],
         ignore: [],
         isStartOfWord: true,
@@ -49,7 +49,7 @@ describe('buildCluster function', () => {
         syllableCount: 1,
       };
       const cluster = buildCluster(context);
-      const clusterString = cluster.map(p => p.sound).join('');
+      const clusterString = cluster.map(p => p.sound).join("");
       
       allClusters.add(clusterString);
       
@@ -67,16 +67,16 @@ describe('buildCluster function', () => {
     });
   });
 
-  it('produces *some* SSP violating clusters in codas', () => {
+  it("produces *some* SSP violating clusters in codas", () => {
     const attempts = 10000;
-    const exceptionalClusters = ['pt', 'ps', 'ks', 'pt'];
+    const exceptionalClusters = ["pt", "ps", "ks", "pt"];
     const foundClusters = new Set<string>();
     const allClusters = new Set<string>();
 
     for (let i = 0; i < attempts; i++) {
       const context: ClusterContext = {
         rand: createDefaultRng(),
-        position: 'coda',
+        position: "coda",
         cluster: [],
         ignore: [],
         isStartOfWord: false,
@@ -85,7 +85,7 @@ describe('buildCluster function', () => {
         syllableCount: 1,
       };
       const cluster = buildCluster(context);
-      const clusterString = cluster.map(p => p.sound).join('');
+      const clusterString = cluster.map(p => p.sound).join("");
       
       allClusters.add(clusterString);
       
@@ -100,7 +100,7 @@ describe('buildCluster function', () => {
   });
 });
 
-describe('isValidCluster', () => {
+describe("isValidCluster", () => {
 
   function getPhonemeBySounds(sounds: string[]): Phoneme[] {
     return sounds.map(sound => {
@@ -110,19 +110,19 @@ describe('isValidCluster', () => {
     });
   }
 
-  describe('should only generate attested onsets', () => {
+  describe("should only generate attested onsets", () => {
     // With the attested onset whitelist replacing the old regex system,
     // invalid onsets are blocked during generation (buildCluster) rather
     // than by a post-hoc isValidCluster check. Verify that 10k generated
     // onsets only produce attested clusters.
-    it('never generates an unattested multi-consonant onset', () => {
+    it("never generates an unattested multi-consonant onset", () => {
       const attestedSet = new Set(
-        englishConfig.clusterLimits!.attestedOnsets!.map((a: string[]) => a.join('|'))
+        englishConfig.clusterLimits!.attestedOnsets!.map((a: string[]) => a.join("|"))
       );
       for (let i = 0; i < 10000; i++) {
         const context: ClusterContext = {
           rand: createDefaultRng(),
-          position: 'onset',
+          position: "onset",
           cluster: [],
           ignore: [],
           isStartOfWord: true,
@@ -132,23 +132,23 @@ describe('isValidCluster', () => {
         };
         const cluster = buildCluster(context);
         if (cluster.length >= 2) {
-          const key = cluster.map(p => p.sound).join('|');
+          const key = cluster.map(p => p.sound).join("|");
           expect(attestedSet.has(key)).toBe(true);
         }
       }
     });
   });
 
-  describe('should only generate attested codas', () => {
-    it('never generates an unattested multi-consonant coda', () => {
+  describe("should only generate attested codas", () => {
+    it("never generates an unattested multi-consonant coda", () => {
       const attestedSet = new Set(
-        englishConfig.clusterLimits!.attestedCodas!.map((a: string[]) => a.join('|'))
+        englishConfig.clusterLimits!.attestedCodas!.map((a: string[]) => a.join("|"))
       );
       const appendants = new Set(englishConfig.clusterLimits!.codaAppendants ?? []);
       for (let i = 0; i < 10000; i++) {
         const context: ClusterContext = {
           rand: createDefaultRng(),
-          position: 'coda',
+          position: "coda",
           cluster: [],
           ignore: [],
           isStartOfWord: false,
@@ -164,8 +164,8 @@ describe('isValidCluster', () => {
             sounds = sounds.slice(0, -1);
           }
           if (sounds.length >= 2) {
-            const key = sounds.join('|');
-            expect(attestedSet.has(key), `unattested coda: ${sounds.join('+')}`).toBe(true);
+            const key = sounds.join("|");
+            expect(attestedSet.has(key), `unattested coda: ${sounds.join("+")}`).toBe(true);
           }
         }
       }
