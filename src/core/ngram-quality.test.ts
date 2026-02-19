@@ -26,7 +26,10 @@ const SEED = 42;
 const SAMPLE_SIZE = 200_000;
 const YIELD_EVERY = 10_000;
 const MIN_OVERREP_CMU_FREQ = 0.001; // over-rep tests: ignore very rare CMU n-grams
-const NGRAM_GATES_BLOCKING = process.env.NGRAM_GATES_BLOCKING === "1";
+const STRICT_NGRAM_QUALITY = process.env.STRICT_NGRAM_QUALITY !== "0";
+const NGRAM_GATES_BLOCKING = process.env.NGRAM_GATES_BLOCKING !== undefined
+  ? process.env.NGRAM_GATES_BLOCKING === "1"
+  : STRICT_NGRAM_QUALITY;
 const CATASTROPHIC_MAX_BIGRAM_OVERREP = 25;
 const CATASTROPHIC_MAX_TRIGRAM_OVERREP = 25;
 
