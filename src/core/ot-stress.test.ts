@@ -7,7 +7,7 @@ import {
   NONFINALITY,
   OTStressConfig,
 } from "./ot-stress.js";
-import type { Syllable } from "../types.js";
+import type { Phoneme, Syllable } from "../types.js";
 import { createSeededRng } from "../utils/random.js";
 
 // ---------------------------------------------------------------------------
@@ -17,15 +17,15 @@ import { createSeededRng } from "../utils/random.js";
 /** Make a light syllable (empty coda, single nucleus). */
 const light = (): Syllable => ({
   onset: [],
-  nucleus: [{ sound: "æ", type: "vowel", ipa: "æ" } as any],
+  nucleus: [{ sound: "æ", type: "vowel", ipa: "æ" } as Phoneme],
   coda: [],
 });
 
 /** Make a heavy syllable (has coda). */
 const heavy = (): Syllable => ({
   onset: [],
-  nucleus: [{ sound: "æ", type: "vowel", ipa: "æ" } as any],
-  coda: [{ sound: "n", type: "consonant", ipa: "n" } as any],
+  nucleus: [{ sound: "æ", type: "vowel", ipa: "æ" } as Phoneme],
+  coda: [{ sound: "n", type: "consonant", ipa: "n" } as Phoneme],
 });
 
 // ---------------------------------------------------------------------------

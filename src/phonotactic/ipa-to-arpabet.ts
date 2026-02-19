@@ -10,59 +10,59 @@
  * direct lookup — no substring/greedy parsing required.
  */
 
-import { Phoneme, Word } from '../types.js';
+import { Phoneme, Word } from "../types.js";
 
 const IPA_TO_ARPABET: Record<string, string> = {
   // Diphthongs
-  'eɪ':  'EY',       // day
-  'aɪ':  'AY',       // fly
-  'əʊ':  'OW',       // globe
-  'ɔɪ':  'OY',       // boy
-  'aʊ':  'AW',       // cow
+  "eɪ":  "EY",       // day
+  "aɪ":  "AY",       // fly
+  "əʊ":  "OW",       // globe
+  "ɔɪ":  "OY",       // boy
+  "aʊ":  "AW",       // cow
 
   // Affricates
-  'tʃ': 'CH',        // chat
-  'dʒ': 'JH',        // judge
+  "tʃ": "CH",        // chat
+  "dʒ": "JH",        // judge
 
   // Vowels
-  'i:': 'IY',        // sheep (long i)
-  'ɪ':  'IH',        // sit
-  'e':  'EH',        // red
-  'ɛ':  'EH',        // let
-  'ə':  'AH',        // the (schwa)
-  'ɜ':  'ER',        // bird
-  'ɚ':  'ER',        // her
-  'æ':  'AE',        // apple
-  'ɑ':  'AA',        // father
-  'ɔ':  'AO',        // ball
-  'o':  'OW',        // hope (GenAm)
-  'ʊ':  'UH',        // book
-  'u':  'UW',        // blue
-  'ʌ':  'AH',        // cup
+  "i:": "IY",        // sheep (long i)
+  "ɪ":  "IH",        // sit
+  "e":  "EH",        // red
+  "ɛ":  "EH",        // let
+  "ə":  "AH",        // the (schwa)
+  "ɜ":  "ER",        // bird
+  "ɚ":  "ER",        // her
+  "æ":  "AE",        // apple
+  "ɑ":  "AA",        // father
+  "ɔ":  "AO",        // ball
+  "o":  "OW",        // hope (GenAm)
+  "ʊ":  "UH",        // book
+  "u":  "UW",        // blue
+  "ʌ":  "AH",        // cup
 
   // Consonants
-  'j':  'Y',
-  'w':  'W',
-  'l':  'L',
-  'r':  'R',
-  'm':  'M',
-  'n':  'N',
-  'ŋ':  'NG',
-  'f':  'F',
-  'θ':  'TH',
-  'h':  'HH',
-  'v':  'V',
-  'ð':  'DH',
-  'z':  'Z',
-  'ʒ':  'ZH',
-  's':  'S',
-  'ʃ':  'SH',
-  'p':  'P',
-  't':  'T',
-  'k':  'K',
-  'b':  'B',
-  'd':  'D',
-  'g':  'G',
+  "j":  "Y",
+  "w":  "W",
+  "l":  "L",
+  "r":  "R",
+  "m":  "M",
+  "n":  "N",
+  "ŋ":  "NG",
+  "f":  "F",
+  "θ":  "TH",
+  "h":  "HH",
+  "v":  "V",
+  "ð":  "DH",
+  "z":  "Z",
+  "ʒ":  "ZH",
+  "s":  "S",
+  "ʃ":  "SH",
+  "p":  "P",
+  "t":  "T",
+  "k":  "K",
+  "b":  "B",
+  "d":  "D",
+  "g":  "G",
 };
 
 /**
@@ -70,7 +70,7 @@ const IPA_TO_ARPABET: Record<string, string> = {
  * Removes aspiration marker (ʰ) since ARPABET doesn't encode it.
  */
 function stripDiacritics(sound: string): string {
-  return sound.replace(/ʰ/g, '');
+  return sound.replace(/ʰ/g, "");
 }
 
 /**
@@ -88,7 +88,7 @@ export function phonemesToArpabet(phonemes: Phoneme[]): string {
   return phonemes
     .map(p => ipaToArpabet(p.sound))
     .filter((a): a is string => a !== null)
-    .join(' ');
+    .join(" ");
 }
 
 /**

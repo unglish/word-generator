@@ -1,5 +1,5 @@
 /** Fricative graphemes: /f/, /v/, /θ/, /ð/, /s/, /z/, /ʃ/, /ʒ/, /h/. */
-import { Grapheme, GraphemeCondition } from "../../types.js";
+import { Grapheme } from "../../types.js";
 
 export const fricativeGraphemes: Grapheme[] = [
   // fish
@@ -190,16 +190,6 @@ export const fricativeGraphemes: Grapheme[] = [
     midWord: 0,
     endWord: 1,
   },
-  {
-    phoneme: "z",
-    form: "se",
-    origin: 3,
-    frequency: 1,
-    onset: 0,
-    startWord: 0,
-    midWord: 0,
-    endWord: 1,
-  },
 
   // she
   { phoneme: "ʃ", form: "sh", origin: 0, frequency: 750, startWord: 1,
@@ -377,6 +367,6 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 0,
     endWord: 0,
-    condition: { rightContext: ["əʊ", "o", "ɔ"] }  // Only "whole" (/həʊl/), "whore" (/hɔ:/) — excludes "u" and "ʊ" to block "whu"
+    condition: { rightContext: ["əʊ", "ɔ"] }  // Only "whole" (/həʊl/), "whore" (/hɔ:/) — excludes "u" and "ʊ" to block "whu"
   }
 ];

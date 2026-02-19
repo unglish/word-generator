@@ -21,6 +21,22 @@ const rng = wordGenerator.random.seedRandom(42);
 const seeded = wordGenerator.generateWord({ rand: rng });
 ```
 
+## Debugging With Trace
+
+Use `trace: true` when diagnosing unexpected outputs. This adds a `word.trace`
+object with stage snapshots, grapheme decisions, structural events, repair logs,
+and morphology metadata.
+
+```ts
+import { generateWord } from "@unglish/word-generator";
+
+const word = generateWord({ mode: "lexicon", trace: true, seed: 42 });
+
+console.log(word.written.clean);
+console.log(word.trace?.summary);
+console.log(word.trace?.graphemeSelections[0]);
+```
+
 ## Demo
 
 Run a local demo with Vite:

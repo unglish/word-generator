@@ -676,7 +676,7 @@ export interface BoundaryTransform {
 /** Phonological condition for allomorph selection. */
 export interface PhonologicalCondition {
   /** Which phoneme to test: the one adjacent to the affix boundary. */
-  position: 'preceding' | 'following';
+  position: "preceding" | "following";
   /** If set, phoneme.voiced must match this value. */
   voiced?: boolean;
   /** If set, phoneme.mannerOfArticulation must be one of these. */
@@ -702,7 +702,7 @@ export interface AllomorphVariant {
 /** A morphological affix (prefix or suffix). */
 export interface Affix {
   /** Whether this attaches before or after the root. */
-  type: 'prefix' | 'suffix';
+  type: "prefix" | "suffix";
   /** Written form (e.g. "ing", "tion", "un", "re"). */
   written: string;
   /** Default phoneme sequence (IPA sound strings matching phonemes in the inventory). */
@@ -712,7 +712,7 @@ export interface Affix {
   /** Number of syllables this affix adds. */
   syllableCount: number;
   /** How this affix affects stress placement. */
-  stressEffect: 'none' | 'attract-preceding' | 'primary' | 'secondary';
+  stressEffect: "none" | "attract-preceding" | "primary" | "secondary";
   /** Relative frequency weight for selection. */
   frequency: number;
   /** Config-driven boundary transforms applied at affix\u2194root junctions. */

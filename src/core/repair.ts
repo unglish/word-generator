@@ -24,8 +24,8 @@ export function repairClusters(
 
     if (coda.length === 0 || onset.length === 0) continue;
 
-    const codaBefore = trace ? coda.map(p => p.sound).join(',') : '';
-    const onsetBefore = trace ? onset.map(p => p.sound).join(',') : '';
+    const codaBefore = trace ? coda.map(p => p.sound).join(",") : "";
+    const onsetBefore = trace ? onset.map(p => p.sound).join(",") : "";
 
     // Drop phonemes until the boundary is legal (or one side is empty)
     while (coda.length > 0 && onset.length > 0 &&
@@ -35,9 +35,9 @@ export function repairClusters(
     }
 
     if (trace) {
-      const codaAfter = coda.map(p => p.sound).join(',');
-      const onsetAfter = onset.map(p => p.sound).join(',');
-      trace.recordRepair('repairClusters', `${codaBefore}|${onsetBefore}`, `${codaAfter}|${onsetAfter}`, `boundary ${i}→${i+1}, strategy: ${repair}`);
+      const codaAfter = coda.map(p => p.sound).join(",");
+      const onsetAfter = onset.map(p => p.sound).join(",");
+      trace.recordRepair("repairClusters", `${codaBefore}|${onsetBefore}`, `${codaAfter}|${onsetAfter}`, `boundary ${i}→${i+1}, strategy: ${repair}`);
     }
   }
 }
@@ -58,7 +58,7 @@ export function repairFinalCoda(
 
   if (coda.length === 0) return;
 
-  const before = trace ? coda.map(p => p.sound).join(',') : '';
+  const before = trace ? coda.map(p => p.sound).join(",") : "";
 
   // Keep dropping disallowed final phonemes
   while (coda.length > 0 && !allowedFinalSet.has(coda[coda.length - 1].sound)) {
@@ -66,7 +66,7 @@ export function repairFinalCoda(
   }
 
   if (trace) {
-    trace.recordRepair('repairFinalCoda', before, coda.map(p => p.sound).join(','), 'dropped disallowed final phonemes');
+    trace.recordRepair("repairFinalCoda", before, coda.map(p => p.sound).join(","), "dropped disallowed final phonemes");
   }
 }
 
@@ -134,9 +134,9 @@ export function repairClusterShape(
 
     // --- Truncate over-long onsets ---
     if (opts.clusterLimits && syl.onset.length > opts.clusterLimits.maxOnset) {
-      const before = trace ? syl.onset.map(p => p.sound).join(',') : '';
+      const before = trace ? syl.onset.map(p => p.sound).join(",") : "";
       syl.onset.splice(0, syl.onset.length - opts.clusterLimits.maxOnset);
-      if (trace) trace.recordRepair('repairClusterShape:onsetTruncate', before, syl.onset.map(p => p.sound).join(','), `syl ${si}`);
+      if (trace) trace.recordRepair("repairClusterShape:onsetTruncate", before, syl.onset.map(p => p.sound).join(","), `syl ${si}`);
     }
 
     // --- Truncate over-long codas ---
@@ -147,26 +147,26 @@ export function repairClusterShape(
         ? cl.maxCoda + 1
         : cl.maxCoda;
       if (syl.coda.length > effectiveMax) {
-        const before = trace ? syl.coda.map(p => p.sound).join(',') : '';
+        const before = trace ? syl.coda.map(p => p.sound).join(",") : "";
         while (syl.coda.length > effectiveMax) {
           syl.coda.shift();
         }
-        if (trace) trace.recordRepair('repairClusterShape:codaTruncate', before, syl.coda.map(p => p.sound).join(','), `syl ${si}`);
+        if (trace) trace.recordRepair("repairClusterShape:codaTruncate", before, syl.coda.map(p => p.sound).join(","), `syl ${si}`);
       }
     }
 
     // --- Voicing agreement among coda obstruents ---
     if (opts.codaConstraints?.voicingAgreement && syl.coda.length >= 2) {
-      const before = trace ? syl.coda.map(p => p.sound).join(',') : '';
+      const before = trace ? syl.coda.map(p => p.sound).join(",") : "";
       repairVoicingAgreement(syl.coda);
-      if (trace) trace.recordRepair('repairClusterShape:voicingAgreement', before, syl.coda.map(p => p.sound).join(','), `syl ${si}`);
+      if (trace) trace.recordRepair("repairClusterShape:voicingAgreement", before, syl.coda.map(p => p.sound).join(","), `syl ${si}`);
     }
 
     // --- Homorganic nasal+stop ---
     if (opts.codaConstraints?.homorganicNasalStop && syl.coda.length >= 2) {
-      const before = trace ? syl.coda.map(p => p.sound).join(',') : '';
+      const before = trace ? syl.coda.map(p => p.sound).join(",") : "";
       repairHomorganicNasalStop(syl.coda);
-      if (trace) trace.recordRepair('repairClusterShape:homorganicNasalStop', before, syl.coda.map(p => p.sound).join(','), `syl ${si}`);
+      if (trace) trace.recordRepair("repairClusterShape:homorganicNasalStop", before, syl.coda.map(p => p.sound).join(","), `syl ${si}`);
     }
   }
 }
@@ -240,7 +240,7 @@ export function repairHAfterBackVowel(syllables: Syllable[], trace?: TraceCollec
       next.onset[0].sound === "h"
     ) {
       next.onset.splice(0, 1);
-      trace?.recordRepair('repairHAfterBackVowel', 'h', '', `dropped /h/ onset after /${curr.nucleus[curr.nucleus.length - 1].sound}/ at syl ${i}→${i+1}`);
+      trace?.recordRepair("repairHAfterBackVowel", "h", "", `dropped /h/ onset after /${curr.nucleus[curr.nucleus.length - 1].sound}/ at syl ${i}→${i+1}`);
     }
   }
 }
@@ -263,7 +263,7 @@ export function repairNgCodaSibilant(syllables: Syllable[], trace?: TraceCollect
     }
     if (ngIdx < 0) continue;
 
-    const before = trace ? coda.map(p => p.sound).join(',') : '';
+    const before = trace ? coda.map(p => p.sound).join(",") : "";
 
     // Splice backwards to avoid index shifting
     for (let i = coda.length - 1; i > ngIdx; i--) {
@@ -272,7 +272,7 @@ export function repairNgCodaSibilant(syllables: Syllable[], trace?: TraceCollect
       }
     }
 
-    if (trace) trace.recordRepair('repairNgCodaSibilant', before, coda.map(p => p.sound).join(','), 'stripped sibilant after /ŋ/');
+    if (trace) trace.recordRepair("repairNgCodaSibilant", before, coda.map(p => p.sound).join(","), "stripped sibilant after /ŋ/");
   }
 }
 

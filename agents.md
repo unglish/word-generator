@@ -103,6 +103,12 @@ When acting as a Codex agent (or similar automated system), you are expected to:
 
 ---
 
+## 🔍 Trace-First Diagnostics Requirement
+
+When diagnosing n-gram outliers, use generation with `trace: true` by default and
+ground root-cause claims in `WordTrace` evidence (`stages`, `graphemeSelections`,
+`structural`, `repairs`, `morphology`). Do not rely on surface string inspection alone.
+
 ## 🧰 Tooling Expectations & Downstream Use Cases
 
 > 🤖 Codex agents: Prefer explicit, composable logic. Avoid random branching or undocumented output variations.

@@ -1,5 +1,5 @@
 /** Glide (semivowel) graphemes: /j/, /w/. */
-import { Grapheme, GraphemeCondition } from "../../types.js";
+import { Grapheme } from "../../types.js";
 
 export const glideGraphemes: Grapheme[] = [
   // yes
@@ -7,7 +7,7 @@ export const glideGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
-   },
+  },
   // /j/ → "i" removed: creates illegal "iy" bigrams when followed by
   // front-vowel graphemes. The "y" form covers all positions.
 
@@ -30,8 +30,8 @@ export const glideGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
-   },
-   { phoneme: "w", 
+  },
+  { phoneme: "w", 
     form: "wh", 
     origin: 0, 
     coda: 0,
@@ -43,5 +43,5 @@ export const glideGraphemes: Grapheme[] = [
       wordPosition: ["initial"],
       notRightContext: ["u", "u:", "ʊ", "ʌ", "ə", "ɚ", "ɜ", "aʊ", "əʊ"]  // Block "whu", "whoo", "whuh", "whur" patterns
     },
-   }
+  }
 ];

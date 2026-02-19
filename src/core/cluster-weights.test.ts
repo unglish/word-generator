@@ -1,12 +1,12 @@
-import { describe, it, expect } from 'vitest';
-import { generateWords } from './generate';
-import { createGenerator } from './generate';
-import { englishConfig } from '../config/english';
+import { describe, it, expect } from "vitest";
+import { generateWords } from "./generate";
+import { createGenerator } from "./generate";
+import { englishConfig } from "../config/english";
 
-describe('Position-based cluster weighting', () => {
-  it('applies position-based weights correctly', () => {
+describe("Position-based cluster weighting", () => {
+  it("applies position-based weights correctly", () => {
     // Generate 10k sample to test position-based weighting
-    const words = generateWords(10000, { seed: 42 });
+    const words = generateWords(10000, { seed: 42, mode: "text" });
     
     let tsFinalCount = 0;
     let tsNonFinalCount = 0;
@@ -18,18 +18,18 @@ describe('Position-based cluster weighting', () => {
       const syllables = word.syllables;
       
       // Check for "ts" bigram
-      if (written.includes('ts')) {
+      if (written.includes("ts")) {
         // Determine if it's final by checking if last syllable has t,s coda
         const lastSyllable = syllables[syllables.length - 1];
-        const lastCoda = lastSyllable.coda.map(p => p.sound).join(',');
+        const lastCoda = lastSyllable.coda.map(p => p.sound).join(",");
         
-        if (lastCoda.includes('t,s')) {
+        if (lastCoda.includes("t,s")) {
           tsFinalCount++;
         } else {
           // Check if ts appears in non-final positions
           for (let i = 0; i < syllables.length - 1; i++) {
-            const coda = syllables[i].coda.map(p => p.sound).join(',');
-            if (coda.includes('t,s')) {
+            const coda = syllables[i].coda.map(p => p.sound).join(",");
+            if (coda.includes("t,s")) {
               tsNonFinalCount++;
               break;
             }
@@ -38,16 +38,16 @@ describe('Position-based cluster weighting', () => {
       }
       
       // Check for "ns" bigram
-      if (written.includes('ns')) {
+      if (written.includes("ns")) {
         const lastSyllable = syllables[syllables.length - 1];
-        const lastCoda = lastSyllable.coda.map(p => p.sound).join(',');
+        const lastCoda = lastSyllable.coda.map(p => p.sound).join(",");
         
-        if (lastCoda.includes('n,s')) {
+        if (lastCoda.includes("n,s")) {
           nsFinalCount++;
         } else {
           for (let i = 0; i < syllables.length - 1; i++) {
-            const coda = syllables[i].coda.map(p => p.sound).join(',');
-            if (coda.includes('n,s')) {
+            const coda = syllables[i].coda.map(p => p.sound).join(",");
+            if (coda.includes("n,s")) {
               nsNonFinalCount++;
               break;
             }
@@ -70,7 +70,7 @@ describe('Position-based cluster weighting', () => {
     expect(nsNonFinalCount).toBeGreaterThanOrEqual(0);
   });
 
-  it('backwards compatible with uniform weights', () => {
+  it("backwards compatible with uniform weights", () => {
     // Create a config with uniform weights (old format)
     const uniformConfig = {
       ...englishConfig,
@@ -81,17 +81,17 @@ describe('Position-based cluster weighting', () => {
       },
     };
     
-    const gen = createGenerator(uniformConfig);
-    const words = generateWords(1000, { seed: 123 });
+    createGenerator(uniformConfig);
+    const words = generateWords(1000, { seed: 123, mode: "text" });
     
     // Should generate words without errors
     expect(words.length).toBe(1000);
     expect(words.every(w => w.written.clean.length > 0)).toBe(true);
   });
 
-  it('reduces ts/ns frequency compared to no weights', () => {
+  it("reduces ts/ns frequency compared to no weights", () => {
     // Test with position-based weights (current config)
-    const wordsWithWeights = generateWords(10000, { seed: 99 });
+    const wordsWithWeights = generateWords(10000, { seed: 99, mode: "text" });
     
     // Test with no weights
     const noWeightsConfig = {
@@ -99,19 +99,19 @@ describe('Position-based cluster weighting', () => {
       clusterWeights: undefined,
     };
     const genNoWeights = createGenerator(noWeightsConfig);
-    const wordsNoWeights: any[] = [];
+    const wordsNoWeights: { written: { clean: string } }[] = [];
     for (let i = 0; i < 10000; i++) {
-      wordsNoWeights.push(genNoWeights.generateWord({ seed: 99 + i }));
+      wordsNoWeights.push(genNoWeights.generateWord({ seed: 99 + i, mode: "text" }));
     }
     
-    const countBigrams = (words: any[], bigram: string) => {
+    const countBigrams = (words: { written: { clean: string } }[], bigram: string) => {
       return words.filter(w => w.written.clean.toLowerCase().includes(bigram)).length;
     };
     
-    const tsWithWeights = countBigrams(wordsWithWeights, 'ts');
-    const tsNoWeights = countBigrams(wordsNoWeights, 'ts');
-    const nsWithWeights = countBigrams(wordsWithWeights, 'ns');
-    const nsNoWeights = countBigrams(wordsNoWeights, 'ns');
+    const tsWithWeights = countBigrams(wordsWithWeights, "ts");
+    const tsNoWeights = countBigrams(wordsNoWeights, "ts");
+    const nsWithWeights = countBigrams(wordsWithWeights, "ns");
+    const nsNoWeights = countBigrams(wordsNoWeights, "ns");
     
     // With weights should be significantly less than without
     expect(tsWithWeights).toBeLessThan(tsNoWeights * 0.3);  // At least 70% reduction
@@ -128,10 +128,10 @@ describe('Position-based cluster weighting', () => {
   });
 });
 
-describe('Large-scale position-based cluster analysis', () => {
-  it('generates 200k sample with target ts/ns frequencies', { timeout: 60000 }, () => {
+describe("Large-scale position-based cluster analysis", () => {
+  it("generates 200k sample with target ts/ns frequencies", { timeout: 60000 }, () => {
     // This is the main validation test matching the requirement
-    const words = generateWords(200000, { seed: 2026 });
+    const words = generateWords(200000, { seed: 2026, mode: "text" });
     
     let tsFinalCount = 0;
     let tsNonFinalCount = 0;
@@ -144,24 +144,24 @@ describe('Large-scale position-based cluster analysis', () => {
       const written = word.written.clean.toLowerCase();
       const syllables = word.syllables;
       
-      if (written.includes('ts')) {
+      if (written.includes("ts")) {
         totalTs++;
         const lastSyllable = syllables[syllables.length - 1];
-        const lastCoda = lastSyllable.coda.map(p => p.sound).join(',');
+        const lastCoda = lastSyllable.coda.map(p => p.sound).join(",");
         
-        if (lastCoda.includes('t,s') || lastCoda.endsWith('s') && syllables.length === 1 && lastCoda.includes('t')) {
+        if (lastCoda.includes("t,s") || lastCoda.endsWith("s") && syllables.length === 1 && lastCoda.includes("t")) {
           tsFinalCount++;
         } else {
           tsNonFinalCount++;
         }
       }
       
-      if (written.includes('ns')) {
+      if (written.includes("ns")) {
         totalNs++;
         const lastSyllable = syllables[syllables.length - 1];
-        const lastCoda = lastSyllable.coda.map(p => p.sound).join(',');
+        const lastCoda = lastSyllable.coda.map(p => p.sound).join(",");
         
-        if (lastCoda.includes('n,s') || lastCoda.endsWith('s') && syllables.length === 1 && lastCoda.includes('n')) {
+        if (lastCoda.includes("n,s") || lastCoda.endsWith("s") && syllables.length === 1 && lastCoda.includes("n")) {
           nsFinalCount++;
         } else {
           nsNonFinalCount++;
@@ -175,7 +175,7 @@ describe('Large-scale position-based cluster analysis', () => {
     const nsFinalPercent = (nsFinalCount / 200000) * 100;
     
     // Log results for debugging
-    console.log(`\n200k sample results:`);
+    console.log("\n200k sample results:");
     console.log(`  Total "ts": ${totalTs} (${tsPercent.toFixed(2)}%)`);
     console.log(`    Final: ${tsFinalCount} (${tsFinalPercent.toFixed(2)}%)`);
     console.log(`    Non-final: ${tsNonFinalCount} (${((tsNonFinalCount / 200000) * 100).toFixed(2)}%)`);

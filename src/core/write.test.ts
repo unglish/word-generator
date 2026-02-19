@@ -1,36 +1,36 @@
-import { describe, it, expect } from 'vitest';
-import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary, applySilentE, appendSilentE } from './write';
-import { generateWord, createGenerator } from './generate';
-import { englishConfig } from '../config/english';
-import { Phoneme } from '../types';
+import { describe, it, expect } from "vitest";
+import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary, applySilentE, appendSilentE } from "./write";
+import { generateWord, createGenerator } from "./generate";
+import { englishConfig } from "../config/english";
+import { Phoneme } from "../types";
 
 // ---------------------------------------------------------------------------
 // tokenizeGraphemes
 // ---------------------------------------------------------------------------
 
-describe('tokenizeGraphemes', () => {
-  it('splits digraphs and trigraphs as atomic units', () => {
-    expect(tokenizeGraphemes('tchwng')).toEqual(['tch', 'w', 'ng']);
+describe("tokenizeGraphemes", () => {
+  it("splits digraphs and trigraphs as atomic units", () => {
+    expect(tokenizeGraphemes("tchwng")).toEqual(["tch", "w", "ng"]);
   });
 
-  it('handles plain letters', () => {
-    expect(tokenizeGraphemes('str')).toEqual(['s', 't', 'r']);
+  it("handles plain letters", () => {
+    expect(tokenizeGraphemes("str")).toEqual(["s", "t", "r"]);
   });
 
-  it('handles mixed vowels and consonants', () => {
-    expect(tokenizeGraphemes('strengths')).toEqual(['s', 't', 'r', 'e', 'ng', 'th', 's']);
+  it("handles mixed vowels and consonants", () => {
+    expect(tokenizeGraphemes("strengths")).toEqual(["s", "t", "r", "e", "ng", "th", "s"]);
   });
 
-  it('handles "dge"', () => {
-    expect(tokenizeGraphemes('bridge')).toEqual(['b', 'r', 'i', 'dge']);
+  it("handles \"dge\"", () => {
+    expect(tokenizeGraphemes("bridge")).toEqual(["b", "r", "i", "dge"]);
   });
 
-  it('handles empty string', () => {
-    expect(tokenizeGraphemes('')).toEqual([]);
+  it("handles empty string", () => {
+    expect(tokenizeGraphemes("")).toEqual([]);
   });
 
-  it('handles "ck"', () => {
-    expect(tokenizeGraphemes('ckstr')).toEqual(['ck', 's', 't', 'r']);
+  it("handles \"ck\"", () => {
+    expect(tokenizeGraphemes("ckstr")).toEqual(["ck", "s", "t", "r"]);
   });
 });
 
@@ -38,60 +38,60 @@ describe('tokenizeGraphemes', () => {
 // repairConsonantPileups (grapheme-aware)
 // ---------------------------------------------------------------------------
 
-describe('repairConsonantPileups', () => {
-  it('does nothing when no run exceeds max', () => {
-    const clean = ['stri', 'ble'];
-    const hyph = ['stri', '&shy;', 'ble'];
+describe("repairConsonantPileups", () => {
+  it("does nothing when no run exceeds max", () => {
+    const clean = ["stri", "ble"];
+    const hyph = ["stri", "&shy;", "ble"];
     repairConsonantPileups(clean, hyph, 4);
-    expect(clean.join('')).toBe('strible');
+    expect(clean.join("")).toBe("strible");
   });
 
-  it('trims a 5-consonant-grapheme run across syllable boundary', () => {
-    const clean = ['strng', 'ths'];
-    const hyph = ['strng', '&shy;', 'ths'];
+  it("trims a 5-consonant-grapheme run across syllable boundary", () => {
+    const clean = ["strng", "ths"];
+    const hyph = ["strng", "&shy;", "ths"];
     repairConsonantPileups(clean, hyph, 4);
-    const word = clean.join('');
+    const word = clean.join("");
     const maxRun = getMaxConsonantGraphemeRun(word);
     expect(maxRun).toBeLessThanOrEqual(4);
   });
 
-  it('treats "tch" as a single grapheme unit', () => {
-    const clean = ['atch', 'str'];
-    const hyph = ['atch', '&shy;', 'str'];
+  it("treats \"tch\" as a single grapheme unit", () => {
+    const clean = ["atch", "str"];
+    const hyph = ["atch", "&shy;", "str"];
     repairConsonantPileups(clean, hyph, 4);
-    expect(clean.join('')).toBe('atchstr');
+    expect(clean.join("")).toBe("atchstr");
   });
 
-  it('does not split "tch" when dropping', () => {
-    const clean = ['atch', 'strk'];
-    const hyph = ['atch', '&shy;', 'strk'];
+  it("does not split \"tch\" when dropping", () => {
+    const clean = ["atch", "strk"];
+    const hyph = ["atch", "&shy;", "strk"];
     repairConsonantPileups(clean, hyph, 4);
-    const word = clean.join('');
+    const word = clean.join("");
     expect(word).not.toMatch(/tc[^h]/);
-    expect(word).not.toContain('tcs');
+    expect(word).not.toContain("tcs");
     const maxRun = getMaxConsonantGraphemeRun(word);
     expect(maxRun).toBeLessThanOrEqual(4);
   });
 
-  it('handles run within a single syllable', () => {
-    const clean = ['strngths'];
-    const hyph = ['strngths'];
+  it("handles run within a single syllable", () => {
+    const clean = ["strngths"];
+    const hyph = ["strngths"];
     repairConsonantPileups(clean, hyph, 4);
-    const maxRun = getMaxConsonantGraphemeRun(clean.join(''));
+    const maxRun = getMaxConsonantGraphemeRun(clean.join(""));
     expect(maxRun).toBeLessThanOrEqual(4);
   });
 
-  it('respects configurable max of 3', () => {
-    const clean = ['blrt', 'fen'];
-    const hyph = ['blrt', '&shy;', 'fen'];
+  it("respects configurable max of 3", () => {
+    const clean = ["blrt", "fen"];
+    const hyph = ["blrt", "&shy;", "fen"];
     repairConsonantPileups(clean, hyph, 3);
-    const maxRun = getMaxConsonantGraphemeRun(clean.join(''));
+    const maxRun = getMaxConsonantGraphemeRun(clean.join(""));
     expect(maxRun).toBeLessThanOrEqual(3);
   });
 
-  it('updates hyphenatedParts in sync', () => {
-    const clean = ['strng', 'ths'];
-    const hyph = ['strng', '&shy;', 'ths'];
+  it("updates hyphenatedParts in sync", () => {
+    const clean = ["strng", "ths"];
+    const hyph = ["strng", "&shy;", "ths"];
     repairConsonantPileups(clean, hyph, 4);
     expect(hyph[0]).toBe(clean[0]);
     expect(hyph[2]).toBe(clean[1]);
@@ -103,7 +103,7 @@ describe('repairConsonantPileups', () => {
 // ---------------------------------------------------------------------------
 
 // Helper to create minimal phoneme objects for testing
-function makePhoneme(overrides: Partial<Phoneme> & { sound: string; mannerOfArticulation: Phoneme['mannerOfArticulation']; placeOfArticulation: Phoneme['placeOfArticulation'] }): Phoneme {
+function makePhoneme(overrides: Partial<Phoneme> & { sound: string; mannerOfArticulation: Phoneme["mannerOfArticulation"]; placeOfArticulation: Phoneme["placeOfArticulation"] }): Phoneme {
   return {
     voiced: false,
     startWord: 1,
@@ -114,59 +114,59 @@ function makePhoneme(overrides: Partial<Phoneme> & { sound: string; mannerOfArti
 }
 
 // Some commonly-needed test phonemes
-const P_t = makePhoneme({ sound: 't', mannerOfArticulation: 'stop', placeOfArticulation: 'alveolar' });
-const P_d = makePhoneme({ sound: 'd', mannerOfArticulation: 'stop', placeOfArticulation: 'alveolar', voiced: true });
-const P_p = makePhoneme({ sound: 'p', mannerOfArticulation: 'stop', placeOfArticulation: 'bilabial' });
-const P_k = makePhoneme({ sound: 'k', mannerOfArticulation: 'stop', placeOfArticulation: 'velar' });
-const P_g = makePhoneme({ sound: 'g', mannerOfArticulation: 'stop', placeOfArticulation: 'velar', voiced: true });
-const P_b = makePhoneme({ sound: 'b', mannerOfArticulation: 'stop', placeOfArticulation: 'bilabial', voiced: true });
-const P_s = makePhoneme({ sound: 's', mannerOfArticulation: 'sibilant', placeOfArticulation: 'alveolar' });
-const P_ʃ = makePhoneme({ sound: 'ʃ', mannerOfArticulation: 'sibilant', placeOfArticulation: 'postalveolar' });
-const P_f = makePhoneme({ sound: 'f', mannerOfArticulation: 'fricative', placeOfArticulation: 'labiodental' });
-const P_v = makePhoneme({ sound: 'v', mannerOfArticulation: 'fricative', placeOfArticulation: 'labiodental', voiced: true });
-const P_θ = makePhoneme({ sound: 'θ', mannerOfArticulation: 'fricative', placeOfArticulation: 'dental' });
-const P_n = makePhoneme({ sound: 'n', mannerOfArticulation: 'nasal', placeOfArticulation: 'alveolar' });
-const P_m = makePhoneme({ sound: 'm', mannerOfArticulation: 'nasal', placeOfArticulation: 'bilabial' });
-const P_ŋ = makePhoneme({ sound: 'ŋ', mannerOfArticulation: 'nasal', placeOfArticulation: 'velar' });
-const P_l = makePhoneme({ sound: 'l', mannerOfArticulation: 'lateralApproximant', placeOfArticulation: 'alveolar' });
-const P_r = makePhoneme({ sound: 'r', mannerOfArticulation: 'liquid', placeOfArticulation: 'postalveolar' });
-const P_w = makePhoneme({ sound: 'w', mannerOfArticulation: 'glide', placeOfArticulation: 'labial-velar' });
+const P_t = makePhoneme({ sound: "t", mannerOfArticulation: "stop", placeOfArticulation: "alveolar" });
+const P_d = makePhoneme({ sound: "d", mannerOfArticulation: "stop", placeOfArticulation: "alveolar", voiced: true });
+const P_p = makePhoneme({ sound: "p", mannerOfArticulation: "stop", placeOfArticulation: "bilabial" });
+const P_k = makePhoneme({ sound: "k", mannerOfArticulation: "stop", placeOfArticulation: "velar" });
+const P_g = makePhoneme({ sound: "g", mannerOfArticulation: "stop", placeOfArticulation: "velar", voiced: true });
+const P_b = makePhoneme({ sound: "b", mannerOfArticulation: "stop", placeOfArticulation: "bilabial", voiced: true });
+const P_s = makePhoneme({ sound: "s", mannerOfArticulation: "sibilant", placeOfArticulation: "alveolar" });
+const P_ʃ = makePhoneme({ sound: "ʃ", mannerOfArticulation: "sibilant", placeOfArticulation: "postalveolar" });
+const P_f = makePhoneme({ sound: "f", mannerOfArticulation: "fricative", placeOfArticulation: "labiodental" });
+const P_v = makePhoneme({ sound: "v", mannerOfArticulation: "fricative", placeOfArticulation: "labiodental", voiced: true });
+const P_θ = makePhoneme({ sound: "θ", mannerOfArticulation: "fricative", placeOfArticulation: "dental" });
+const P_n = makePhoneme({ sound: "n", mannerOfArticulation: "nasal", placeOfArticulation: "alveolar" });
+const P_m = makePhoneme({ sound: "m", mannerOfArticulation: "nasal", placeOfArticulation: "bilabial" });
+const P_ŋ = makePhoneme({ sound: "ŋ", mannerOfArticulation: "nasal", placeOfArticulation: "velar" });
+const P_l = makePhoneme({ sound: "l", mannerOfArticulation: "lateralApproximant", placeOfArticulation: "alveolar" });
+const P_r = makePhoneme({ sound: "r", mannerOfArticulation: "liquid", placeOfArticulation: "postalveolar" });
+const P_w = makePhoneme({ sound: "w", mannerOfArticulation: "glide", placeOfArticulation: "labial-velar" });
 
-describe('mannerGroup', () => {
-  it('maps sibilant to fricative', () => {
-    expect(mannerGroup(P_s)).toBe('fricative');
+describe("mannerGroup", () => {
+  it("maps sibilant to fricative", () => {
+    expect(mannerGroup(P_s)).toBe("fricative");
   });
-  it('maps lateralApproximant to liquid', () => {
-    expect(mannerGroup(P_l)).toBe('liquid');
+  it("maps lateralApproximant to liquid", () => {
+    expect(mannerGroup(P_l)).toBe("liquid");
   });
-  it('passes through stop', () => {
-    expect(mannerGroup(P_t)).toBe('stop');
+  it("passes through stop", () => {
+    expect(mannerGroup(P_t)).toBe("stop");
   });
 });
 
-describe('placeGroup', () => {
-  it('groups bilabial as labial', () => {
-    expect(placeGroup(P_p)).toBe('labial');
+describe("placeGroup", () => {
+  it("groups bilabial as labial", () => {
+    expect(placeGroup(P_p)).toBe("labial");
   });
-  it('groups alveolar as coronal', () => {
-    expect(placeGroup(P_t)).toBe('coronal');
+  it("groups alveolar as coronal", () => {
+    expect(placeGroup(P_t)).toBe("coronal");
   });
-  it('groups velar as dorsal', () => {
-    expect(placeGroup(P_k)).toBe('dorsal');
+  it("groups velar as dorsal", () => {
+    expect(placeGroup(P_k)).toBe("dorsal");
   });
-  it('groups labial-velar as labial', () => {
-    expect(placeGroup(P_w)).toBe('labial');
+  it("groups labial-velar as labial", () => {
+    expect(placeGroup(P_w)).toBe("labial");
   });
 });
 
-describe('isCoronal', () => {
-  it('true for alveolar', () => {
+describe("isCoronal", () => {
+  it("true for alveolar", () => {
     expect(isCoronal(P_t)).toBe(true);
   });
-  it('true for postalveolar', () => {
+  it("true for postalveolar", () => {
     expect(isCoronal(P_ʃ)).toBe(true);
   });
-  it('false for bilabial', () => {
+  it("false for bilabial", () => {
     expect(isCoronal(P_p)).toBe(false);
   });
 });
@@ -175,108 +175,108 @@ describe('isCoronal', () => {
 // isJunctionValid — 7 articulatory rules
 // ---------------------------------------------------------------------------
 
-describe('isJunctionValid', () => {
-  describe('F1: identical phonemes', () => {
-    it('rejects identical sounds', () => {
+describe("isJunctionValid", () => {
+  describe("F1: identical phonemes", () => {
+    it("rejects identical sounds", () => {
       expect(isJunctionValid(P_t, P_t, [P_t])).toBe(false);
     });
   });
 
-  describe('F2: same manner + same place', () => {
-    it('rejects t→d (both stop+coronal)', () => {
+  describe("F2: same manner + same place", () => {
+    it("rejects t→d (both stop+coronal)", () => {
       expect(isJunctionValid(P_t, P_d, [P_d])).toBe(false);
     });
-    it('rejects f→v (both fricative+labial)', () => {
+    it("rejects f→v (both fricative+labial)", () => {
       expect(isJunctionValid(P_f, P_v, [P_v])).toBe(false);
     });
   });
 
-  describe('P1: s-exception', () => {
-    it('allows s as coda before anything', () => {
+  describe("P1: s-exception", () => {
+    it("allows s as coda before anything", () => {
       expect(isJunctionValid(P_s, P_p, [P_p])).toBe(true);
     });
-    it('allows onset s+stop cluster', () => {
+    it("allows onset s+stop cluster", () => {
       expect(isJunctionValid(P_n, P_s, [P_s, P_t])).toBe(true);
     });
   });
 
-  describe('P2: coronal onset', () => {
-    it('allows any coda before coronal onset', () => {
+  describe("P2: coronal onset", () => {
+    it("allows any coda before coronal onset", () => {
       expect(isJunctionValid(P_k, P_t, [P_t])).toBe(true);
     });
-    it('allows labial coda before alveolar onset', () => {
+    it("allows labial coda before alveolar onset", () => {
       expect(isJunctionValid(P_p, P_n, [P_n])).toBe(true);
     });
   });
 
-  describe('P3: homorganic nasal+stop', () => {
-    it('allows ŋ→k (both dorsal)', () => {
+  describe("P3: homorganic nasal+stop", () => {
+    it("allows ŋ→k (both dorsal)", () => {
       expect(isJunctionValid(P_ŋ, P_k, [P_k])).toBe(true);
     });
-    it('allows m→p (both labial)', () => {
+    it("allows m→p (both labial)", () => {
       expect(isJunctionValid(P_m, P_p, [P_p])).toBe(true);
     });
   });
 
-  describe('P4: manner change', () => {
-    it('allows nasal→fricative (different manner)', () => {
+  describe("P4: manner change", () => {
+    it("allows nasal→fricative (different manner)", () => {
       expect(isJunctionValid(P_n, P_f, [P_f])).toBe(true);
     });
-    it('allows stop→liquid (different manner)', () => {
+    it("allows stop→liquid (different manner)", () => {
       expect(isJunctionValid(P_k, P_r, [P_r])).toBe(true);
     });
   });
 
-  describe('P5: place change', () => {
-    it('allows f→θ (different place, same manner, both non-stop)', () => {
+  describe("P5: place change", () => {
+    it("allows f→θ (different place, same manner, both non-stop)", () => {
       expect(isJunctionValid(P_f, P_θ, [P_θ])).toBe(true);
     });
-    it('allows l→r (different place — alveolar vs postalveolar)', () => {
+    it("allows l→r (different place — alveolar vs postalveolar)", () => {
       expect(isJunctionValid(P_l, P_r, [P_r])).toBe(true);
     });
-    it('allows r→l (different place — postalveolar vs alveolar)', () => {
+    it("allows r→l (different place — postalveolar vs alveolar)", () => {
       expect(isJunctionValid(P_r, P_l, [P_l])).toBe(true);
     });
   });
 
-  describe('F3: non-coronal stop+stop', () => {
-    it('rejects b→k (both non-coronal stops)', () => {
+  describe("F3: non-coronal stop+stop", () => {
+    it("rejects b→k (both non-coronal stops)", () => {
       expect(isJunctionValid(P_p, P_k, [P_k])).toBe(false);
     });
-    it('allows k→t (t is coronal)', () => {
+    it("allows k→t (t is coronal)", () => {
       expect(isJunctionValid(P_k, P_t, [P_t])).toBe(true);
     });
-    it('allows p→t (t is coronal)', () => {
+    it("allows p→t (t is coronal)", () => {
       expect(isJunctionValid(P_p, P_t, [P_t])).toBe(true);
     });
   });
 
-  describe('F4: stop+stop voicing disagreement', () => {
-    it('rejects d→k (voiced+voiceless)', () => {
+  describe("F4: stop+stop voicing disagreement", () => {
+    it("rejects d→k (voiced+voiceless)", () => {
       expect(isJunctionValid(P_d, P_k, [P_k])).toBe(false);
     });
-    it('rejects b→t (voiced+voiceless)', () => {
+    it("rejects b→t (voiced+voiceless)", () => {
       expect(isJunctionValid(P_b, P_t, [P_t])).toBe(false);
     });
-    it('rejects g→p (voiced+voiceless)', () => {
+    it("rejects g→p (voiced+voiceless)", () => {
       expect(isJunctionValid(P_g, P_p, [P_p])).toBe(false);
     });
-    it('allows k→t (voiceless+voiceless)', () => {
+    it("allows k→t (voiceless+voiceless)", () => {
       expect(isJunctionValid(P_k, P_t, [P_t])).toBe(true);
     });
-    it('allows g→d (voiced+voiced)', () => {
+    it("allows g→d (voiced+voiced)", () => {
       expect(isJunctionValid(P_g, P_d, [P_d])).toBe(true);
     });
-    it('allows b→d (voiced+voiced)', () => {
+    it("allows b→d (voiced+voiced)", () => {
       expect(isJunctionValid(P_b, P_d, [P_d])).toBe(true);
     });
   });
 
-  describe('default fail', () => {
+  describe("default fail", () => {
     // This is hard to trigger since P4 or P5 usually catches things.
     // Same manner + same place is caught by F2, so default fail is rare.
     // We test that F2 catches it.
-    it('F2 catches same manner+place before default', () => {
+    it("F2 catches same manner+place before default", () => {
       expect(isJunctionValid(P_k, P_g, [P_g])).toBe(false);
     });
   });
@@ -286,57 +286,57 @@ describe('isJunctionValid', () => {
 // repairJunctions (feature-based)
 // ---------------------------------------------------------------------------
 
-describe('repairJunctions (feature-based)', () => {
-  it('does nothing for valid junction', () => {
+describe("repairJunctions (feature-based)", () => {
+  it("does nothing for valid junction", () => {
     // n→f: different manner (nasal vs fricative) → P4 pass
     const boundaries: SyllableBoundary[] = [{
       codaFinal: P_n,
       onsetInitial: P_f,
       onsetCluster: [P_f],
     }];
-    const clean = ['an', 'fe'];
-    const hyph = ['an', '&shy;', 'fe'];
+    const clean = ["an", "fe"];
+    const hyph = ["an", "&shy;", "fe"];
     repairJunctions(clean, hyph, boundaries);
-    expect(clean.join('')).toBe('anfe');
+    expect(clean.join("")).toBe("anfe");
   });
 
-  it('drops coda consonant for invalid junction (F2: t→d)', () => {
+  it("drops coda consonant for invalid junction (F2: t→d)", () => {
     const boundaries: SyllableBoundary[] = [{
       codaFinal: P_t,
       onsetInitial: P_d,
       onsetCluster: [P_d],
     }];
-    const clean = ['art', 'de'];
-    const hyph = ['art', '&shy;', 'de'];
+    const clean = ["art", "de"];
+    const hyph = ["art", "&shy;", "de"];
     repairJunctions(clean, hyph, boundaries);
-    expect(clean[0]).toBe('ar');
+    expect(clean[0]).toBe("ar");
   });
 
-  it('handles empty coda', () => {
+  it("handles empty coda", () => {
     const boundaries: SyllableBoundary[] = [{
       codaFinal: undefined,
       onsetInitial: P_t,
       onsetCluster: [P_t],
     }];
-    const clean = ['a', 'ter'];
-    const hyph = ['a', '&shy;', 'ter'];
+    const clean = ["a", "ter"];
+    const hyph = ["a", "&shy;", "ter"];
     repairJunctions(clean, hyph, boundaries);
-    expect(clean.join('')).toBe('ater');
+    expect(clean.join("")).toBe("ater");
   });
 
-  it('removes doubled consonant grapheme fully for invalid junction (dd→k)', () => {
+  it("removes doubled consonant grapheme fully for invalid junction (dd→k)", () => {
     // d→k: voiced stop + voiceless stop → F4 fail
     const boundaries: SyllableBoundary[] = [{
       codaFinal: P_d,
       onsetInitial: P_k,
       onsetCluster: [P_k],
     }];
-    const clean = ['ridd', 'kerng'];
-    const hyph = ['ridd', '&shy;', 'kerng'];
+    const clean = ["ridd", "kerng"];
+    const hyph = ["ridd", "&shy;", "kerng"];
     repairJunctions(clean, hyph, boundaries);
     // Both d's should be stripped across multiple passes
-    expect(clean[0]).toBe('ri');
-    expect(clean.join('')).toBe('rikerng');
+    expect(clean[0]).toBe("ri");
+    expect(clean.join("")).toBe("rikerng");
   });
 });
 
@@ -344,19 +344,19 @@ describe('repairJunctions (feature-based)', () => {
 // repairConsonantLetters
 // ---------------------------------------------------------------------------
 
-describe('repairConsonantLetters', () => {
-  it('does nothing when under limit', () => {
-    const clean = ['str', 'ong'];
-    const hyph = ['str', '&shy;', 'ong'];
+describe("repairConsonantLetters", () => {
+  it("does nothing when under limit", () => {
+    const clean = ["str", "ong"];
+    const hyph = ["str", "&shy;", "ong"];
     repairConsonantLetters(clean, hyph, 4);
-    expect(clean.join('')).toBe('strong');
+    expect(clean.join("")).toBe("strong");
   });
 
-  it('trims 5 consonant letters to 4', () => {
-    const clean = ['strnk', 'a'];
-    const hyph = ['strnk', '&shy;', 'a'];
+  it("trims 5 consonant letters to 4", () => {
+    const clean = ["strnk", "a"];
+    const hyph = ["strnk", "&shy;", "a"];
     repairConsonantLetters(clean, hyph, 4);
-    const word = clean.join('');
+    const word = clean.join("");
     const maxRun = getMaxConsonantLetterRun(word);
     expect(maxRun).toBeLessThanOrEqual(4);
   });
@@ -366,34 +366,34 @@ describe('repairConsonantLetters', () => {
 // repairVowelLetters
 // ---------------------------------------------------------------------------
 
-describe('repairVowelLetters', () => {
-  it('trims 3 consecutive vowels to 2', () => {
-    const clean = ['drogeoom'];
-    const hyph = ['drogeoom'];
+describe("repairVowelLetters", () => {
+  it("trims 3 consecutive vowels to 2", () => {
+    const clean = ["drogeoom"];
+    const hyph = ["drogeoom"];
     repairVowelLetters(clean, hyph, 2);
-    expect(clean[0]).toBe('drogeom');
+    expect(clean[0]).toBe("drogeom");
   });
 
-  it('trims initial vowel run', () => {
-    const clean = ['eaorts'];
-    const hyph = ['eaorts'];
+  it("trims initial vowel run", () => {
+    const clean = ["eaorts"];
+    const hyph = ["eaorts"];
     repairVowelLetters(clean, hyph, 2);
-    expect(clean[0]).toBe('earts');
+    expect(clean[0]).toBe("earts");
   });
 
-  it('does nothing when vowels are within limit', () => {
-    const clean = ['steam'];
-    const hyph = ['steam'];
+  it("does nothing when vowels are within limit", () => {
+    const clean = ["steam"];
+    const hyph = ["steam"];
     repairVowelLetters(clean, hyph, 2);
-    expect(clean[0]).toBe('steam');
+    expect(clean[0]).toBe("steam");
   });
 
-  it('treats word-initial Y before vowel as consonant (not part of vowel run)', () => {
-    const clean = ['yoarts'];
-    const hyph = ['yoarts'];
+  it("treats word-initial Y before vowel as consonant (not part of vowel run)", () => {
+    const clean = ["yoarts"];
+    const hyph = ["yoarts"];
     repairVowelLetters(clean, hyph, 2);
     // Y is consonantal here, so vowel run is 'oa' (2) — within limit, no trimming
-    expect(clean[0]).toBe('yoarts');
+    expect(clean[0]).toBe("yoarts");
   });
 });
 
@@ -401,8 +401,8 @@ describe('repairVowelLetters', () => {
 // Integration tests
 // ---------------------------------------------------------------------------
 
-describe('consonant pileup integration', () => {
-  it('generates 100k words with no 5+ consonant grapheme runs', { timeout: 120_000 }, () => {
+describe("consonant pileup integration", () => {
+  it("generates 100k words with no 5+ consonant grapheme runs", { timeout: 120_000 }, () => {
     let violations = 0;
     for (let i = 0; i < 100_000; i++) {
       const word = generateWord({ seed: i });
@@ -413,7 +413,7 @@ describe('consonant pileup integration', () => {
     expect(violations).toBe(0);
   });
 
-  it('generates 100k words with no 5+ consonant letter runs', { timeout: 120_000 }, () => {
+  it("generates 100k words with no 5+ consonant letter runs", { timeout: 120_000 }, () => {
     let violations = 0;
     for (let i = 0; i < 100_000; i++) {
       const word = generateWord({ seed: i });
@@ -424,7 +424,7 @@ describe('consonant pileup integration', () => {
     expect(violations).toBe(0);
   });
 
-  it('with max=3, generates 10k words with no 4+ consonant grapheme runs', () => {
+  it("with max=3, generates 10k words with no 4+ consonant grapheme runs", () => {
     const customConfig = {
       ...englishConfig,
       writtenFormConstraints: {
@@ -451,7 +451,7 @@ describe('consonant pileup integration', () => {
 function getMaxConsonantGraphemeRun(word: string): number {
   const graphemeList = ["tch", "dge", "ch", "sh", "th", "ng", "ph", "wh", "ck"];
   const tokens = tokenizeGraphemes(word.toLowerCase(), graphemeList);
-  const vowels = new Set(['a', 'e', 'i', 'o', 'u', 'y']);
+  const vowels = new Set(["a", "e", "i", "o", "u", "y"]);
   let max = 0;
   let run = 0;
   for (const token of tokens) {
@@ -470,7 +470,7 @@ function getMaxConsonantGraphemeRun(word: string): number {
 }
 
 function getMaxConsonantLetterRun(word: string): number {
-  const vowels = new Set(['a', 'e', 'i', 'o', 'u', 'y']);
+  const vowels = new Set(["a", "e", "i", "o", "u", "y"]);
   let max = 0;
   let run = 0;
   for (const ch of word.toLowerCase()) {
@@ -488,85 +488,85 @@ function getMaxConsonantLetterRun(word: string): number {
 // filterByPosition
 // ---------------------------------------------------------------------------
 
-describe('filterByPosition', () => {
-  const makeGrapheme = (overrides: Partial<import('../types').Grapheme> = {}): import('../types').Grapheme => ({
-    phoneme: 'test', form: 'x', origin: 0, frequency: 10,
+describe("filterByPosition", () => {
+  const makeGrapheme = (overrides: Partial<import("../types").Grapheme> = {}): import("../types").Grapheme => ({
+    phoneme: "test", form: "x", origin: 0, frequency: 10,
     startWord: 5, midWord: 5, endWord: 5,
     ...overrides,
   });
 
-  it('falls back to all candidates (tier 3) when all have midWord: 0 at mid-word position', () => {
+  it("falls back to all candidates (tier 3) when all have midWord: 0 at mid-word position", () => {
     const candidates = [
-      makeGrapheme({ form: 'igh', midWord: 0 }),
-      makeGrapheme({ form: 'ough', midWord: 0 }),
+      makeGrapheme({ form: "igh", midWord: 0 }),
+      makeGrapheme({ form: "ough", midWord: 0 }),
     ];
     const result = filterByPosition(candidates, false, false, false);
     // Tier 1 and 2 both exclude these; tier 3 returns all as last resort
     expect(result).toEqual(candidates);
   });
 
-  it('returns candidates with midWord > 0 when mid-word', () => {
+  it("returns candidates with midWord > 0 when mid-word", () => {
     const candidates = [
-      makeGrapheme({ form: 'igh', midWord: 0 }),
-      makeGrapheme({ form: 'i', midWord: 5 }),
+      makeGrapheme({ form: "igh", midWord: 0 }),
+      makeGrapheme({ form: "i", midWord: 5 }),
     ];
     const result = filterByPosition(candidates, false, false, false);
     expect(result).toHaveLength(1);
-    expect(result[0].form).toBe('i');
+    expect(result[0].form).toBe("i");
   });
 
-  it('does not filter by midWord at start of word', () => {
+  it("does not filter by midWord at start of word", () => {
     const candidates = [
-      makeGrapheme({ form: 'a', midWord: 0, startWord: 5 }),
+      makeGrapheme({ form: "a", midWord: 0, startWord: 5 }),
     ];
     const result = filterByPosition(candidates, false, true, false);
     expect(result).toHaveLength(1);
   });
 
-  it('does not filter by midWord at end of word', () => {
+  it("does not filter by midWord at end of word", () => {
     const candidates = [
-      makeGrapheme({ form: 'a', midWord: 0, endWord: 5 }),
+      makeGrapheme({ form: "a", midWord: 0, endWord: 5 }),
     ];
     const result = filterByPosition(candidates, false, false, true);
     expect(result).toHaveLength(1);
   });
 
-  it('tier 2 excludes explicit startWord: 0 at start position', () => {
+  it("tier 2 excludes explicit startWord: 0 at start position", () => {
     const candidates = [
-      makeGrapheme({ form: 'ck', startWord: 0, midWord: 5, endWord: 5 }),
-      makeGrapheme({ form: 'k', startWord: undefined, midWord: 5, endWord: 5 }),
+      makeGrapheme({ form: "ck", startWord: 0, midWord: 5, endWord: 5 }),
+      makeGrapheme({ form: "k", startWord: undefined, midWord: 5, endWord: 5 }),
     ];
     const result = filterByPosition(candidates, false, true, false);
     expect(result).toHaveLength(1);
-    expect(result[0].form).toBe('k');
+    expect(result[0].form).toBe("k");
   });
 
-  it('tier 2 excludes explicit endWord: 0 at end position', () => {
+  it("tier 2 excludes explicit endWord: 0 at end position", () => {
     const candidates = [
-      makeGrapheme({ form: 'wh', endWord: 0, startWord: 5, midWord: 5 }),
-      makeGrapheme({ form: 'w', endWord: 5, startWord: 5, midWord: 5 }),
+      makeGrapheme({ form: "wh", endWord: 0, startWord: 5, midWord: 5 }),
+      makeGrapheme({ form: "w", endWord: 5, startWord: 5, midWord: 5 }),
     ];
     const result = filterByPosition(candidates, false, false, true);
     expect(result).toHaveLength(1);
-    expect(result[0].form).toBe('w');
+    expect(result[0].form).toBe("w");
   });
 
-  it('tier 1 prefers graphemes with positive position values over undefined', () => {
+  it("tier 1 prefers graphemes with positive position values over undefined", () => {
     const candidates = [
-      makeGrapheme({ form: 'a', startWord: 10 }),
-      makeGrapheme({ form: 'b', startWord: undefined }),
+      makeGrapheme({ form: "a", startWord: 10 }),
+      makeGrapheme({ form: "b", startWord: undefined }),
     ];
     const result = filterByPosition(candidates, false, true, false);
     // Both pass tier 1 (positive or undefined)
     expect(result).toHaveLength(2);
   });
 
-  it('tier 2 relaxed fallback keeps undefined when strict fails', () => {
+  it("tier 2 relaxed fallback keeps undefined when strict fails", () => {
     // All have startWord undefined (pass tier 1 for startWord) but midWord: 0
     // At mid-word: tier 1 requires midWord > 0 or undefined
     const candidates = [
-      makeGrapheme({ form: 'a', midWord: undefined }),
-      makeGrapheme({ form: 'b', midWord: 3 }),
+      makeGrapheme({ form: "a", midWord: undefined }),
+      makeGrapheme({ form: "b", midWord: 3 }),
     ];
     // Both pass tier 1 at mid-word position
     const result = filterByPosition(candidates, false, false, false);
@@ -578,8 +578,8 @@ describe('filterByPosition', () => {
 // Monosyllable position weight selection
 // ---------------------------------------------------------------------------
 
-describe('monosyllable position weight selection', () => {
-  it('monosyllabic /dz/ words should prefer "ds" over "dse"', () => {
+describe("monosyllable position weight selection", () => {
+  it("monosyllabic /dz/ words should prefer \"ds\" over \"dse\"", () => {
     // Generate 1000 monosyllabic words ending in /dz/
     // Check that "dse" appears very rarely (<1%)
     const words = generateWords(10000, { seed: 123 });
@@ -592,12 +592,12 @@ describe('monosyllable position weight selection', () => {
       // Check if word is monosyllabic and ends with /dz/
       if (w.syllables.length === 1 && 
           w.syllables[0].coda.length > 0 && 
-          w.syllables[0].coda[w.syllables[0].coda.length - 1].sound === 'dz') {
+          w.syllables[0].coda[w.syllables[0].coda.length - 1].sound === "dz") {
         dzWords++;
         const clean = w.written.clean.toLowerCase();
-        if (clean.endsWith('dse')) {
+        if (clean.endsWith("dse")) {
           dseCount++;
-        } else if (clean.endsWith('ds')) {
+        } else if (clean.endsWith("ds")) {
           dsCount++;
         }
       }
@@ -617,7 +617,7 @@ describe('monosyllable position weight selection', () => {
     }
   });
 
-  it('monosyllable fix should not affect multi-syllable /dz/ words', () => {
+  it("monosyllable fix should not affect multi-syllable /dz/ words", () => {
     // Multi-syllable words ending in /dz/ should still allow "dse" in final position
     const words = generateWords(10000, { seed: 456 });
     
@@ -628,10 +628,10 @@ describe('monosyllable position weight selection', () => {
       // Check if word is multi-syllabic and ends with /dz/
       if (w.syllables.length > 1 && 
           w.syllables[w.syllables.length - 1].coda.length > 0 && 
-          w.syllables[w.syllables.length - 1].coda[w.syllables[w.syllables.length - 1].coda.length - 1].sound === 'dz') {
+          w.syllables[w.syllables.length - 1].coda[w.syllables[w.syllables.length - 1].coda.length - 1].sound === "dz") {
         multiSyllableDzWords++;
         const clean = w.written.clean.toLowerCase();
-        if (clean.endsWith('dse')) {
+        if (clean.endsWith("dse")) {
           dseCount++;
         }
       }
@@ -648,7 +648,7 @@ describe('monosyllable position weight selection', () => {
     }
   });
 
-  it('monosyllable max position weight applies to all phonemes', () => {
+  it("monosyllable max position weight applies to all phonemes", () => {
     // Test that the monosyllable fix (using max position weight) applies consistently
     // Generate many monosyllables and verify no graphemes with startWord:0 appear
     const words = generateWords(5000, { seed: 789 });
@@ -667,7 +667,7 @@ describe('monosyllable position weight selection', () => {
     for (const w of monosyllables) {
       const clean = w.written.clean.toLowerCase();
       // "dse" is the main offender we know about
-      if (clean.endsWith('dse')) {
+      if (clean.endsWith("dse")) {
         suspiciousEndings++;
       }
     }
@@ -682,21 +682,20 @@ describe('monosyllable position weight selection', () => {
 // Syllable-based position filtering integration
 // ---------------------------------------------------------------------------
 
-import { generateWords } from './generate';
+import { generateWords } from "./generate";
 
-describe('syllable-based position filtering', () => {
-  it('"igh" only appears in the final syllable (10k words)', () => {
+describe("syllable-based position filtering", () => {
+  it("\"igh\" only appears in the final syllable (10k words)", () => {
     const words = generateWords(10000, { seed: 42 });
     let violations = 0;
 
     for (const w of words) {
-      const clean = w.written.clean.toLowerCase();
       const hyph = w.written.hyphenated.toLowerCase();
-      const syllableParts = hyph.split('&shy;');
+      const syllableParts = hyph.split("&shy;");
 
       // Check if "igh" appears in any non-final syllable
       for (let si = 0; si < syllableParts.length - 1; si++) {
-        if (syllableParts[si].includes('igh')) {
+        if (syllableParts[si].includes("igh")) {
           violations++;
         }
       }
@@ -706,17 +705,17 @@ describe('syllable-based position filtering', () => {
     expect(violations).toBeLessThanOrEqual(5);
   });
 
-  it('"wh" only appears in the first syllable (10k words)', () => {
+  it("\"wh\" only appears in the first syllable (10k words)", () => {
     const words = generateWords(10000, { seed: 42 });
     let violations = 0;
 
     for (const w of words) {
       const hyph = w.written.hyphenated.toLowerCase();
-      const syllableParts = hyph.split('&shy;');
+      const syllableParts = hyph.split("&shy;");
 
       // Check if "wh" appears in any non-first syllable
       for (let si = 1; si < syllableParts.length; si++) {
-        if (syllableParts[si].includes('wh')) {
+        if (syllableParts[si].includes("wh")) {
           violations++;
         }
       }
@@ -726,13 +725,13 @@ describe('syllable-based position filtering', () => {
     expect(violations).toBeLessThanOrEqual(5);
   });
 
-  it('"ight" or "ought" mid-word rate < 0.1% in 10k words', () => {
+  it("\"ight\" or \"ought\" mid-word rate < 0.1% in 10k words", () => {
     const words = generateWords(10000, { seed: 42 });
     let midWordCount = 0;
 
     for (const w of words) {
       const written = w.written.clean.toLowerCase();
-      for (const pattern of ['ight', 'ought']) {
+      for (const pattern of ["ight", "ought"]) {
         let idx = written.indexOf(pattern);
         while (idx !== -1) {
           if (idx + pattern.length < written.length) {
@@ -748,7 +747,7 @@ describe('syllable-based position filtering', () => {
     expect(rate).toBeLessThan(0.1);
   });
 
-  it('startWord: 0 graphemes do not appear in the first syllable (10k words)', () => {
+  it("startWord: 0 graphemes do not appear in the first syllable (10k words)", () => {
     // Verify that graphemes banned from word-start don't appear in the first syllable
     // We check "ck" which typically has startWord: 0
     const words = generateWords(10000, { seed: 42 });
@@ -758,7 +757,7 @@ describe('syllable-based position filtering', () => {
       // "ck" has startWord/onset: 0 — it should never START a word.
       // It's fine in the coda of any syllable (including the first).
       const word = w.written.clean.toLowerCase();
-      if (word.startsWith('ck')) {
+      if (word.startsWith("ck")) {
         violations++;
       }
     }
@@ -772,14 +771,14 @@ describe('syllable-based position filtering', () => {
 // applySilentE
 // ---------------------------------------------------------------------------
 
-describe('applySilentE', () => {
+describe("applySilentE", () => {
   // Helper to build a minimal phoneme
   function ph(sound: string, extras: Partial<Phoneme> = {}): Phoneme {
     return {
       sound,
       voiced: false,
-      mannerOfArticulation: 'stop',
-      placeOfArticulation: 'alveolar',
+      mannerOfArticulation: "stop",
+      placeOfArticulation: "alveolar",
       startWord: 1,
       midWord: 1,
       endWord: 1,
@@ -788,92 +787,92 @@ describe('applySilentE', () => {
   }
 
   const lookup = new Map([
-    ['eɪ', [{ from: 'ai', to: 'a' }]],
-    ['i:', [{ from: 'ee', to: 'e' }, { from: 'ea', to: 'e' }]],
-    ['aɪ', [{ from: 'igh', to: 'i' }, { from: 'ie', to: 'i' }]],
-    ['o', [{ from: 'oa', to: 'o' }]],
-    ['u', [{ from: 'oo', to: 'u' }, { from: 'ue', to: 'u' }]],
+    ["eɪ", [{ from: "ai", to: "a" }]],
+    ["i:", [{ from: "ee", to: "e" }, { from: "ea", to: "e" }]],
+    ["aɪ", [{ from: "igh", to: "i" }, { from: "ie", to: "i" }]],
+    ["o", [{ from: "oa", to: "o" }]],
+    ["u", [{ from: "oo", to: "u" }, { from: "ue", to: "u" }]],
   ]);
-  const excluded = new Set(['w', 'j', 'h']);
+  const excluded = new Set(["w", "j", "h"]);
 
-  it('converts "maik" to "make" for /eɪk/', () => {
-    const clean = ['maik'];
-    const hyph = ['maik'];
-    const syllables = [{ onset: [ph('m')], nucleus: [ph('eɪ')], coda: [ph('k')] }];
-    applySilentE(clean, hyph, syllables, ['ai'], lookup, excluded, 100, () => 0);
-    expect(clean[0]).toBe('make');
+  it("converts \"maik\" to \"make\" for /eɪk/", () => {
+    const clean = ["maik"];
+    const hyph = ["maik"];
+    const syllables = [{ onset: [ph("m")], nucleus: [ph("eɪ")], coda: [ph("k")] }];
+    applySilentE(clean, hyph, syllables, ["ai"], lookup, excluded, 100, () => 0);
+    expect(clean[0]).toBe("make");
   });
 
-  it('converts "hoap" to "hope" for /oʊp/ with nucleus "oa"', () => {
-    const clean = ['hoap'];
-    const hyph = ['hoap'];
-    const syllables = [{ onset: [ph('h')], nucleus: [ph('o')], coda: [ph('p')] }];
-    applySilentE(clean, hyph, syllables, ['oa'], lookup, excluded, 100, () => 0);
-    expect(clean[0]).toBe('hope');
+  it("converts \"hoap\" to \"hope\" for /oʊp/ with nucleus \"oa\"", () => {
+    const clean = ["hoap"];
+    const hyph = ["hoap"];
+    const syllables = [{ onset: [ph("h")], nucleus: [ph("o")], coda: [ph("p")] }];
+    applySilentE(clean, hyph, syllables, ["oa"], lookup, excluded, 100, () => 0);
+    expect(clean[0]).toBe("hope");
   });
 
-  it('converts "tighm" to "time" for /aɪm/ with nucleus "igh"', () => {
-    const clean = ['tighm'];
-    const hyph = ['tighm'];
-    const syllables = [{ onset: [ph('t')], nucleus: [ph('aɪ')], coda: [ph('m')] }];
-    applySilentE(clean, hyph, syllables, ['igh'], lookup, excluded, 100, () => 0);
-    expect(clean[0]).toBe('time');
+  it("converts \"tighm\" to \"time\" for /aɪm/ with nucleus \"igh\"", () => {
+    const clean = ["tighm"];
+    const hyph = ["tighm"];
+    const syllables = [{ onset: [ph("t")], nucleus: [ph("aɪ")], coda: [ph("m")] }];
+    applySilentE(clean, hyph, syllables, ["igh"], lookup, excluded, 100, () => 0);
+    expect(clean[0]).toBe("time");
   });
 
-  it('applies when coda has 2 consonants (e.g. "nce", "nge")', () => {
-    const clean = ['maiks'];
-    const hyph = ['maiks'];
-    const syllables = [{ onset: [ph('m')], nucleus: [ph('eɪ')], coda: [ph('k'), ph('s')] }];
-    applySilentE(clean, hyph, syllables, ['ai'], lookup, excluded, 100, () => 0);
-    expect(clean[0]).toBe('makse');
+  it("applies when coda has 2 consonants (e.g. \"nce\", \"nge\")", () => {
+    const clean = ["maiks"];
+    const hyph = ["maiks"];
+    const syllables = [{ onset: [ph("m")], nucleus: [ph("eɪ")], coda: [ph("k"), ph("s")] }];
+    applySilentE(clean, hyph, syllables, ["ai"], lookup, excluded, 100, () => 0);
+    expect(clean[0]).toBe("makse");
   });
 
-  it('does not apply when coda has 3+ consonants', () => {
-    const clean = ['maikst'];
-    const hyph = ['maikst'];
-    const syllables = [{ onset: [ph('m')], nucleus: [ph('eɪ')], coda: [ph('k'), ph('s'), ph('t')] }];
-    applySilentE(clean, hyph, syllables, ['ai'], lookup, excluded, 100, () => 0);
-    expect(clean[0]).toBe('maikst');
+  it("does not apply when coda has 3+ consonants", () => {
+    const clean = ["maikst"];
+    const hyph = ["maikst"];
+    const syllables = [{ onset: [ph("m")], nucleus: [ph("eɪ")], coda: [ph("k"), ph("s"), ph("t")] }];
+    applySilentE(clean, hyph, syllables, ["ai"], lookup, excluded, 100, () => 0);
+    expect(clean[0]).toBe("maikst");
   });
 
-  it('does not apply when coda sound is excluded', () => {
-    const clean = ['maiw'];
-    const hyph = ['maiw'];
-    const syllables = [{ onset: [ph('m')], nucleus: [ph('eɪ')], coda: [ph('w')] }];
-    applySilentE(clean, hyph, syllables, ['ai'], lookup, excluded, 100, () => 0);
-    expect(clean[0]).toBe('maiw');
+  it("does not apply when coda sound is excluded", () => {
+    const clean = ["maiw"];
+    const hyph = ["maiw"];
+    const syllables = [{ onset: [ph("m")], nucleus: [ph("eɪ")], coda: [ph("w")] }];
+    applySilentE(clean, hyph, syllables, ["ai"], lookup, excluded, 100, () => 0);
+    expect(clean[0]).toBe("maiw");
   });
 
-  it('respects probability (rand >= threshold → no change)', () => {
+  it("respects probability (rand >= threshold → no change)", () => {
     // Use a polysyllabic word to avoid monosyllable probability boost
-    const clean = ['ba', 'maik'];
-    const hyph = ['ba', '&shy;', 'maik'];
+    const clean = ["ba", "maik"];
+    const hyph = ["ba", "&shy;", "maik"];
     const syllables = [
-      { onset: [ph('b')], nucleus: [ph('ə')], coda: [] },
-      { onset: [ph('m')], nucleus: [ph('eɪ')], coda: [ph('k')] },
+      { onset: [ph("b")], nucleus: [ph("ə")], coda: [] },
+      { onset: [ph("m")], nucleus: [ph("eɪ")], coda: [ph("k")] },
     ];
-    applySilentE(clean, hyph, syllables, ['a', 'ai'], lookup, excluded, 50, () => 0.99);
-    expect(clean[1]).toBe('maik');
+    applySilentE(clean, hyph, syllables, ["a", "ai"], lookup, excluded, 50, () => 0.99);
+    expect(clean[1]).toBe("maik");
   });
 
-  it('applies only to last syllable in multi-syllable words', () => {
-    const clean = ['bai', 'seek'];
-    const hyph = ['bai', '&shy;', 'seek'];
+  it("applies only to last syllable in multi-syllable words", () => {
+    const clean = ["bai", "seek"];
+    const hyph = ["bai", "&shy;", "seek"];
     const syllables = [
-      { onset: [ph('b')], nucleus: [ph('eɪ')], coda: [] },
-      { onset: [ph('s')], nucleus: [ph('i:')], coda: [ph('k')] },
+      { onset: [ph("b")], nucleus: [ph("eɪ")], coda: [] },
+      { onset: [ph("s")], nucleus: [ph("i:")], coda: [ph("k")] },
     ];
-    applySilentE(clean, hyph, syllables, ['ai', 'ee'], lookup, excluded, 100, () => 0);
-    expect(clean[0]).toBe('bai'); // unchanged
-    expect(clean[1]).toBe('seke'); // ee→e + e
+    applySilentE(clean, hyph, syllables, ["ai", "ee"], lookup, excluded, 100, () => 0);
+    expect(clean[0]).toBe("bai"); // unchanged
+    expect(clean[1]).toBe("seke"); // ee→e + e
   });
 
-  it('does nothing when nucleus grapheme has no matching swap', () => {
-    const clean = ['meyk'];
-    const hyph = ['meyk'];
-    const syllables = [{ onset: [ph('m')], nucleus: [ph('eɪ')], coda: [ph('k')] }];
-    applySilentE(clean, hyph, syllables, ['ey'], lookup, excluded, 100, () => 0);
-    expect(clean[0]).toBe('meyk'); // 'ey' not in swaps
+  it("does nothing when nucleus grapheme has no matching swap", () => {
+    const clean = ["meyk"];
+    const hyph = ["meyk"];
+    const syllables = [{ onset: [ph("m")], nucleus: [ph("eɪ")], coda: [ph("k")] }];
+    applySilentE(clean, hyph, syllables, ["ey"], lookup, excluded, 100, () => 0);
+    expect(clean[0]).toBe("meyk"); // 'ey' not in swaps
   });
 });
 
@@ -881,13 +880,13 @@ describe('applySilentE', () => {
 // appendSilentE (orthographic silent-e for short vowels)
 // ---------------------------------------------------------------------------
 
-describe('appendSilentE', () => {
+describe("appendSilentE", () => {
   function ph(sound: string, extras: Partial<Phoneme> = {}): Phoneme {
     return {
       sound,
       voiced: false,
-      mannerOfArticulation: 'stop',
-      placeOfArticulation: 'alveolar',
+      mannerOfArticulation: "stop",
+      placeOfArticulation: "alveolar",
       startWord: 1,
       midWord: 1,
       endWord: 1,
@@ -895,65 +894,65 @@ describe('appendSilentE', () => {
     };
   }
 
-  const lookup = new Map([['v', 95]]);
+  const lookup = new Map([["v", 95]]);
 
-  it('appends "e" after word-final /v/ — "giv" → "give"', () => {
-    const clean = ['giv'];
-    const hyph = ['giv'];
-    const syllables = [{ onset: [ph('g')], nucleus: [ph('ɪ')], coda: [ph('v')] }];
+  it("appends \"e\" after word-final /v/ — \"giv\" → \"give\"", () => {
+    const clean = ["giv"];
+    const hyph = ["giv"];
+    const syllables = [{ onset: [ph("g")], nucleus: [ph("ɪ")], coda: [ph("v")] }];
     appendSilentE(clean, hyph, syllables, lookup, () => 0);
-    expect(clean[0]).toBe('give');
+    expect(clean[0]).toBe("give");
   });
 
-  it('appends "e" after word-final /v/ — "luv" → "luve"', () => {
-    const clean = ['luv'];
-    const hyph = ['luv'];
-    const syllables = [{ onset: [ph('l')], nucleus: [ph('ʌ')], coda: [ph('v')] }];
+  it("appends \"e\" after word-final /v/ — \"luv\" → \"luve\"", () => {
+    const clean = ["luv"];
+    const hyph = ["luv"];
+    const syllables = [{ onset: [ph("l")], nucleus: [ph("ʌ")], coda: [ph("v")] }];
     appendSilentE(clean, hyph, syllables, lookup, () => 0);
-    expect(clean[0]).toBe('luve');
+    expect(clean[0]).toBe("luve");
   });
 
-  it('does not double-append when word already ends in "e" (magic-e fired)', () => {
-    const clean = ['lave'];
-    const hyph = ['lave'];
-    const syllables = [{ onset: [ph('l')], nucleus: [ph('eɪ')], coda: [ph('v')] }];
+  it("does not double-append when word already ends in \"e\" (magic-e fired)", () => {
+    const clean = ["lave"];
+    const hyph = ["lave"];
+    const syllables = [{ onset: [ph("l")], nucleus: [ph("eɪ")], coda: [ph("v")] }];
     appendSilentE(clean, hyph, syllables, lookup, () => 0);
-    expect(clean[0]).toBe('lave'); // unchanged
+    expect(clean[0]).toBe("lave"); // unchanged
   });
 
-  it('does not apply to sounds not in the lookup', () => {
-    const clean = ['gib'];
-    const hyph = ['gib'];
-    const syllables = [{ onset: [ph('g')], nucleus: [ph('ɪ')], coda: [ph('b')] }];
+  it("does not apply to sounds not in the lookup", () => {
+    const clean = ["gib"];
+    const hyph = ["gib"];
+    const syllables = [{ onset: [ph("g")], nucleus: [ph("ɪ")], coda: [ph("b")] }];
     appendSilentE(clean, hyph, syllables, lookup, () => 0);
-    expect(clean[0]).toBe('gib');
+    expect(clean[0]).toBe("gib");
   });
 
-  it('respects probability (rand >= threshold → no change)', () => {
-    const clean = ['giv'];
-    const hyph = ['giv'];
-    const syllables = [{ onset: [ph('g')], nucleus: [ph('ɪ')], coda: [ph('v')] }];
+  it("respects probability (rand >= threshold → no change)", () => {
+    const clean = ["giv"];
+    const hyph = ["giv"];
+    const syllables = [{ onset: [ph("g")], nucleus: [ph("ɪ")], coda: [ph("v")] }];
     appendSilentE(clean, hyph, syllables, lookup, () => 0.99);
-    expect(clean[0]).toBe('giv');
+    expect(clean[0]).toBe("giv");
   });
 
-  it('works on multi-syllable words (applies to last syllable)', () => {
-    const clean = ['a', 'bov'];
-    const hyph = ['a', '&shy;', 'bov'];
+  it("works on multi-syllable words (applies to last syllable)", () => {
+    const clean = ["a", "bov"];
+    const hyph = ["a", "&shy;", "bov"];
     const syllables = [
-      { onset: [], nucleus: [ph('ə')], coda: [] },
-      { onset: [ph('b')], nucleus: [ph('ʌ')], coda: [ph('v')] },
+      { onset: [], nucleus: [ph("ə")], coda: [] },
+      { onset: [ph("b")], nucleus: [ph("ʌ")], coda: [ph("v")] },
     ];
     appendSilentE(clean, hyph, syllables, lookup, () => 0);
-    expect(clean[1]).toBe('bove');
+    expect(clean[1]).toBe("bove");
   });
 
-  it('does not apply when coda is empty', () => {
-    const clean = ['ba'];
-    const hyph = ['ba'];
-    const syllables = [{ onset: [ph('b')], nucleus: [ph('æ')], coda: [] }];
+  it("does not apply when coda is empty", () => {
+    const clean = ["ba"];
+    const hyph = ["ba"];
+    const syllables = [{ onset: [ph("b")], nucleus: [ph("æ")], coda: [] }];
     appendSilentE(clean, hyph, syllables, lookup, () => 0);
-    expect(clean[0]).toBe('ba');
+    expect(clean[0]).toBe("ba");
   });
 });
 
@@ -961,8 +960,8 @@ describe('appendSilentE', () => {
 // Silent-e integration
 // ---------------------------------------------------------------------------
 
-describe('silent-e integration', () => {
-  it('produces some silent-e words in 10k generated words', () => {
+describe("silent-e integration", () => {
+  it("produces some silent-e words in 10k generated words", () => {
     const gen = createGenerator(englishConfig);
     // Pattern: word ends in consonant + 'e', with a single vowel letter before the consonant
     // e.g., "...aCe" where C is a consonant
@@ -987,29 +986,29 @@ describe('silent-e integration', () => {
   // Y consonant/vowel counting (#63)
   // ---------------------------------------------------------------------------
 
-  it('treats Y before a vowel as consonant in consonant pileup repair', () => {
+  it("treats Y before a vowel as consonant in consonant pileup repair", () => {
     // "yat" → Y is before 'a' (vowel), so Y is consonantal → only 1 consonant letter before the vowel
     // This should NOT be flagged as a consonant pileup
-    const parts = ['yat'];
-    const hyph = ['yat'];
+    const parts = ["yat"];
+    const hyph = ["yat"];
     repairConsonantLetters(parts, hyph, 3);
-    expect(parts[0]).toBe('yat');
+    expect(parts[0]).toBe("yat");
   });
 
-  it('treats Y not before a vowel as vowel in consonant pileup repair', () => {
+  it("treats Y not before a vowel as vowel in consonant pileup repair", () => {
     // "gym" → Y is between g and m, not before a vowel → Y is a vowel
     // g-y-m = consonant-vowel-consonant, no pileup
-    const parts = ['gym'];
-    const hyph = ['gym'];
+    const parts = ["gym"];
+    const hyph = ["gym"];
     repairConsonantLetters(parts, hyph, 3);
-    expect(parts[0]).toBe('gym');
+    expect(parts[0]).toBe("gym");
   });
 
   // -----------------------------------------------------------------------
   // Consonant doubling: Issue #14
   // -----------------------------------------------------------------------
 
-  it('produces "ck" (not "kk") when k doubles after lax vowel', () => {
+  it("produces \"ck\" (not \"kk\") when k doubles after lax vowel", () => {
     const gen = createGenerator(englishConfig);
     let ckCount = 0;
     let kkCount = 0;
@@ -1018,8 +1017,8 @@ describe('silent-e integration', () => {
     for (let i = 0; i < total; i++) {
       const word = gen.generateWord({ seed: i });
       const clean = word.written.clean.toLowerCase();
-      if (clean.includes('ck')) ckCount++;
-      if (clean.includes('kk')) kkCount++;
+      if (clean.includes("ck")) ckCount++;
+      if (clean.includes("kk")) kkCount++;
     }
 
     console.log(`  ck occurrences: ${ckCount}/${total}, kk occurrences: ${kkCount}/${total}`);
@@ -1027,11 +1026,11 @@ describe('silent-e integration', () => {
     expect(ckCount).toBeGreaterThan(0);
   });
 
-  it('never doubles consonants in unstressed syllables (modifier = 0)', () => {
+  it("never doubles consonants in unstressed syllables (modifier = 0)", () => {
     expect(englishConfig.doubling?.unstressedModifier).toBe(0);
   });
 
-  it('never doubles b, d, g word-finally via doubling system', () => {
+  it("never doubles b, d, g word-finally via doubling system", () => {
     // Note: a few "gg" endings may appear from the dʒ→"gg" grapheme (not from doubling).
     // We check that b and d never produce doubled forms word-finally,
     // and that gg is very rare (only from the grapheme, not doubling).
@@ -1044,9 +1043,9 @@ describe('silent-e integration', () => {
     for (let i = 0; i < total; i++) {
       const word = gen.generateWord({ seed: i });
       const clean = word.written.clean.toLowerCase();
-      if (clean.endsWith('bb')) finalBB++;
-      if (clean.endsWith('dd')) finalDD++;
-      if (clean.endsWith('gg')) finalGG++;
+      if (clean.endsWith("bb")) finalBB++;
+      if (clean.endsWith("dd")) finalDD++;
+      if (clean.endsWith("gg")) finalGG++;
     }
 
     console.log(`  Word-final bb: ${finalBB}, dd: ${finalDD}, gg: ${finalGG}`);
@@ -1057,7 +1056,7 @@ describe('silent-e integration', () => {
     expect(finalGG).toBeLessThan(15);
   });
 
-  it('ck counts toward maxPerWord doubling limit', () => {
+  it("ck counts toward maxPerWord doubling limit", () => {
     const gen = createGenerator(englishConfig);
     let violations = 0;
     const total = 10000;
@@ -1066,7 +1065,7 @@ describe('silent-e integration', () => {
     for (let i = 0; i < total; i++) {
       const word = gen.generateWord({ seed: i });
       const clean = word.written.clean.toLowerCase();
-      if (clean.includes('ck') && doublePattern.test(clean)) {
+      if (clean.includes("ck") && doublePattern.test(clean)) {
         violations++;
       }
     }
@@ -1075,7 +1074,7 @@ describe('silent-e integration', () => {
     expect(violations).toBeLessThanOrEqual(5);
   });
 
-  it('very few words end in bare "v" in 10k generated words', () => {
+  it("very few words end in bare \"v\" in 10k generated words", () => {
     const gen = createGenerator(englishConfig);
     let bareV = 0;
     let totalEndingV = 0;
@@ -1084,8 +1083,8 @@ describe('silent-e integration', () => {
     for (let i = 0; i < total; i++) {
       const word = gen.generateWord({ seed: i });
       const clean = word.written.clean.toLowerCase();
-      if (clean.endsWith('v')) bareV++;
-      if (clean.endsWith('v') || clean.endsWith('ve')) totalEndingV++;
+      if (clean.endsWith("v")) bareV++;
+      if (clean.endsWith("v") || clean.endsWith("ve")) totalEndingV++;
     }
 
     console.log(`  Bare 'v' endings: ${bareV}/${total}, total v/ve endings: ${totalEndingV}/${total}`);

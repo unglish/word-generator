@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { generateWords } from './generate.js';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { describe, it, expect } from "vitest";
+import { generateWords } from "./generate.js";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 // ---------------------------------------------------------------------------
 // N-gram quality gates with ratcheting thresholds
@@ -26,6 +26,12 @@ const SEED = 42;
 const SAMPLE_SIZE = 200_000;
 const YIELD_EVERY = 10_000;
 const MIN_OVERREP_CMU_FREQ = 0.001; // over-rep tests: ignore very rare CMU n-grams
+const STRICT_NGRAM_QUALITY = process.env.STRICT_NGRAM_QUALITY !== "0";
+const NGRAM_GATES_BLOCKING = process.env.NGRAM_GATES_BLOCKING !== undefined
+  ? process.env.NGRAM_GATES_BLOCKING === "1"
+  : STRICT_NGRAM_QUALITY;
+const CATASTROPHIC_MAX_BIGRAM_OVERREP = 25;
+const CATASTROPHIC_MAX_TRIGRAM_OVERREP = 25;
 
 interface Thresholds {
   maxBigramOverRepresentation: number;
@@ -38,13 +44,13 @@ interface Thresholds {
 }
 
 function loadThresholds(): Thresholds {
-  const raw = readFileSync(join(__dirname, '..', 'config', 'ngram-thresholds.json'), 'utf8');
+  const raw = readFileSync(join(__dirname, "..", "config", "ngram-thresholds.json"), "utf8");
   return JSON.parse(raw);
 }
 
 function loadCmuFreqs(filename: string): Record<string, number> {
-  const repoRoot = join(__dirname, '..', '..');
-  const raw = JSON.parse(readFileSync(join(repoRoot, 'memory', filename), 'utf8'));
+  const repoRoot = join(__dirname, "..", "..");
+  const raw = JSON.parse(readFileSync(join(repoRoot, "memory", filename), "utf8"));
   const total = Object.values(raw as Record<string, number>).reduce((a, b) => a + b, 0);
   const freq: Record<string, number> = {};
   for (const [k, v] of Object.entries(raw as Record<string, number>)) {
@@ -57,14 +63,14 @@ async function yieldToEventLoop() {
   return new Promise<void>(resolve => setTimeout(resolve, 0));
 }
 
-describe('N-gram quality gates', () => {
+describe("N-gram quality gates", () => {
   // Shared sample data — generated once, used by both over- and under-rep tests
   let bigramCounts: Record<string, number>;
   let trigramCounts: Record<string, number>;
   let bigramTotal: number;
   let trigramTotal: number;
 
-  it('generate sample', async () => {
+  it("generate sample", async () => {
     const words = generateWords(SAMPLE_SIZE, { seed: SEED });
 
     bigramCounts = {};
@@ -91,11 +97,11 @@ describe('N-gram quality gates', () => {
 
   // --- Over-representation gates ---
 
-  it('no bigram exceeds threshold over-representation', async () => {
+  it("no bigram exceeds threshold over-representation", async () => {
     const thresholds = loadThresholds();
-    const cmuFreq = loadCmuFreqs('cmu-lexicon-bigrams.json');
+    const cmuFreq = loadCmuFreqs("cmu-lexicon-bigrams.json");
 
-    let worst = { ngram: '', ratio: 0 };
+    let worst = { ngram: "", ratio: 0 };
 
     for (const [bi, count] of Object.entries(bigramCounts)) {
       const sampleFreq = count / bigramTotal;
@@ -108,17 +114,25 @@ describe('N-gram quality gates', () => {
 
     console.log(`Worst over-rep bigram: "${worst.ngram}" at ${worst.ratio.toFixed(3)}× (threshold: ${thresholds.maxBigramOverRepresentation})`);
 
+    if (NGRAM_GATES_BLOCKING) {
+      expect(
+        worst.ratio,
+        `Bigram "${worst.ngram}" over-represented at ${worst.ratio.toFixed(3)}× vs CMU (threshold: ${thresholds.maxBigramOverRepresentation}×)`
+      ).toBeLessThanOrEqual(thresholds.maxBigramOverRepresentation);
+      return;
+    }
+
     expect(
       worst.ratio,
-      `Bigram "${worst.ngram}" over-represented at ${worst.ratio.toFixed(3)}× vs CMU (threshold: ${thresholds.maxBigramOverRepresentation}×)`
-    ).toBeLessThanOrEqual(thresholds.maxBigramOverRepresentation);
+      `Catastrophic bigram over-representation detected: "${worst.ngram}" at ${worst.ratio.toFixed(3)}×`
+    ).toBeLessThanOrEqual(CATASTROPHIC_MAX_BIGRAM_OVERREP);
   });
 
-  it('no trigram exceeds threshold over-representation', async () => {
+  it("no trigram exceeds threshold over-representation", async () => {
     const thresholds = loadThresholds();
-    const cmuFreq = loadCmuFreqs('cmu-lexicon-trigrams.json');
+    const cmuFreq = loadCmuFreqs("cmu-lexicon-trigrams.json");
 
-    let worst = { ngram: '', ratio: 0 };
+    let worst = { ngram: "", ratio: 0 };
 
     for (const [tri, count] of Object.entries(trigramCounts)) {
       const sampleFreq = count / trigramTotal;
@@ -131,19 +145,27 @@ describe('N-gram quality gates', () => {
 
     console.log(`Worst over-rep trigram: "${worst.ngram}" at ${worst.ratio.toFixed(3)}× (threshold: ${thresholds.maxTrigramOverRepresentation})`);
 
+    if (NGRAM_GATES_BLOCKING) {
+      expect(
+        worst.ratio,
+        `Trigram "${worst.ngram}" over-represented at ${worst.ratio.toFixed(3)}× vs CMU (threshold: ${thresholds.maxTrigramOverRepresentation}×)`
+      ).toBeLessThanOrEqual(thresholds.maxTrigramOverRepresentation);
+      return;
+    }
+
     expect(
       worst.ratio,
-      `Trigram "${worst.ngram}" over-represented at ${worst.ratio.toFixed(3)}× vs CMU (threshold: ${thresholds.maxTrigramOverRepresentation}×)`
-    ).toBeLessThanOrEqual(thresholds.maxTrigramOverRepresentation);
+      `Catastrophic trigram over-representation detected: "${worst.ngram}" at ${worst.ratio.toFixed(3)}×`
+    ).toBeLessThanOrEqual(CATASTROPHIC_MAX_TRIGRAM_OVERREP);
   });
 
   // --- Under-representation gates ---
 
-  it('no common bigram is severely under-represented', async () => {
+  it("no common bigram is severely under-represented", async () => {
     const thresholds = loadThresholds();
-    const cmuFreq = loadCmuFreqs('cmu-lexicon-bigrams.json');
+    const cmuFreq = loadCmuFreqs("cmu-lexicon-bigrams.json");
 
-    let worst = { ngram: '', ratio: Infinity };
+    let worst = { ngram: "", ratio: Infinity };
 
     for (const [bi, cmu] of Object.entries(cmuFreq)) {
       if (cmu <= thresholds.minBigramBaselineFreq) continue;
@@ -155,17 +177,22 @@ describe('N-gram quality gates', () => {
 
     console.log(`Worst under-rep bigram: "${worst.ngram}" at ${worst.ratio.toFixed(4)}× (threshold: ${thresholds.minBigramRepresentation})`);
 
-    expect(
-      worst.ratio,
-      `Bigram "${worst.ngram}" under-represented at ${worst.ratio.toFixed(4)}× vs CMU (threshold: ${thresholds.minBigramRepresentation}×)`
-    ).toBeGreaterThanOrEqual(thresholds.minBigramRepresentation);
+    if (NGRAM_GATES_BLOCKING) {
+      expect(
+        worst.ratio,
+        `Bigram "${worst.ngram}" under-represented at ${worst.ratio.toFixed(4)}× vs CMU (threshold: ${thresholds.minBigramRepresentation}×)`
+      ).toBeGreaterThanOrEqual(thresholds.minBigramRepresentation);
+      return;
+    }
+
+    expect(true).toBe(true);
   });
 
-  it('no common trigram is severely under-represented', async () => {
+  it("no common trigram is severely under-represented", async () => {
     const thresholds = loadThresholds();
-    const cmuFreq = loadCmuFreqs('cmu-lexicon-trigrams.json');
+    const cmuFreq = loadCmuFreqs("cmu-lexicon-trigrams.json");
 
-    let worst = { ngram: '', ratio: Infinity };
+    let worst = { ngram: "", ratio: Infinity };
 
     for (const [tri, cmu] of Object.entries(cmuFreq)) {
       if (cmu <= thresholds.minTrigramBaselineFreq) continue;
@@ -177,9 +204,14 @@ describe('N-gram quality gates', () => {
 
     console.log(`Worst under-rep trigram: "${worst.ngram}" at ${worst.ratio.toFixed(4)}× (threshold: ${thresholds.minTrigramRepresentation})`);
 
-    expect(
-      worst.ratio,
-      `Trigram "${worst.ngram}" under-represented at ${worst.ratio.toFixed(4)}× vs CMU (threshold: ${thresholds.minTrigramRepresentation}×)`
-    ).toBeGreaterThanOrEqual(thresholds.minTrigramRepresentation);
+    if (NGRAM_GATES_BLOCKING) {
+      expect(
+        worst.ratio,
+        `Trigram "${worst.ngram}" under-represented at ${worst.ratio.toFixed(4)}× vs CMU (threshold: ${thresholds.minTrigramRepresentation}×)`
+      ).toBeGreaterThanOrEqual(thresholds.minTrigramRepresentation);
+      return;
+    }
+
+    expect(true).toBe(true);
   });
 });

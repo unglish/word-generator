@@ -1,6 +1,6 @@
-import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
+import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
-import type { RNG } from '../utils/random.js';
+import type { RNG } from "../utils/random.js";
 import type { TraceCollector } from "./trace.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 
@@ -33,7 +33,7 @@ function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RN
   let result = str;
   for (const { name, regex, replacement, probability } of rules) {
     regex.lastIndex = 0;
-    const before = trace ? result : '';
+    const before = trace ? result : "";
     if (probability >= 100) {
       result = result.replace(regex, replacement);
     } else {
@@ -89,7 +89,7 @@ function buildCategorySets(phonemes: Phoneme[]): Map<string, Set<string>> {
       if (p.placeOfArticulation === "back") categories.get("back-vowel")!.add(p.sound);
       // Vowels that cause c-softening: front vowels that typically write as e/i/y.
       // Schwa excluded: it often writes as a/o/u where c should be hard (canal, collect).
-      const cSoftSounds = new Set(["i:", "ɪ", "e", "ɛ", "eɪ", "aɪ"]);
+      const cSoftSounds = new Set(["i:", "ɪ", "ɛ", "eɪ", "aɪ"]);
       if (cSoftSounds.has(p.sound)) categories.get("c-soft-vowel")!.add(p.sound);
     } else {
       categories.get("consonant")!.add(p.sound);
@@ -304,7 +304,7 @@ function selectByFrequency(
   stress?: string,
   syllableCount?: number,
 ): FrequencyResult {
-  if (candidates.length === 0) return { phoneme: '', form: '', origin: 0, frequency: 0, startWord: 0, midWord: 0, endWord: 0 };
+  if (candidates.length === 0) return { phoneme: "", form: "", origin: 0, frequency: 0, startWord: 0, midWord: 0, endWord: 0 };
   if (candidates.length === 1) {
     const r: FrequencyResult = { ...candidates[0] };
     if (captureTrace) { r._weights = [[candidates[0].form, 1]]; r._roll = 0; }
@@ -405,40 +405,47 @@ function applyDoubling(
 ): string {
   const skip = (reason: string) => { if (traceOut) { traceOut.attempted = false; traceOut.reason = reason; } return form; };
 
-  if (!config || !config.enabled) return skip('disabled');
-  if (!prevPhoneme) return skip('no-prev-phoneme');
+  if (!config || !config.enabled) return skip("disabled");
+  if (!prevPhoneme) return skip("no-prev-phoneme");
   // Allow doubling for the first consonant in a coda cluster (e.g. "backs" = ck+s).
   // Block doubling for non-first cluster members and all onset clusters.
-  if (isCluster && !(position === "coda" && isFirstInCoda)) return skip('in-cluster');
-  if (form.length !== 1) return skip('multi-char-grapheme');
-  if (position !== "onset" && position !== "coda") return skip('nucleus-position');
-  if (doublingCtx.doublingCount >= config.maxPerWord) return skip('max-per-word');
+  if (isCluster && !(position === "coda" && isFirstInCoda)) return skip("in-cluster");
+  if (form.length !== 1) {
+    // "ck" etc. selected directly from grapheme map — still counts toward maxPerWord
+    const doubledValues = config.doubledForms ? Object.values(config.doubledForms) : [];
+    if (doubledValues.includes(form)) {
+      doublingCtx.doublingCount++;
+    }
+    return skip("multi-char-grapheme");
+  }
+  if (position !== "onset" && position !== "coda") return skip("nucleus-position");
+  if (doublingCtx.doublingCount >= config.maxPerWord) return skip("max-per-word");
 
   // Check trigger
   if (config.trigger === "lax-vowel") {
     const isAfterVowel = prevPhoneme.nucleus != null && prevPhoneme.nucleus > 0;
     const isLax = prevPhoneme.tense === false;
-    if (!isAfterVowel || !isLax) return skip('trigger:not-after-lax-vowel');
+    if (!isAfterVowel || !isLax) return skip("trigger:not-after-lax-vowel");
   }
 
   // neverDoubleFinal — suppress word-final doubling for specific sounds
-  if (isEndOfWord && isLastPhoneme && config.neverDoubleFinal?.includes(currPhoneme.sound)) return skip('never-double-final');
+  if (isEndOfWord && isLastPhoneme && config.neverDoubleFinal?.includes(currPhoneme.sound)) return skip("never-double-final");
 
   // neverDouble — check both phoneme sound and grapheme form
-  if (neverDoubleSet.has(currPhoneme.sound)) return skip('never-double:sound');
-  if (neverDoubleSet.has(form)) return skip('never-double:form');
+  if (neverDoubleSet.has(currPhoneme.sound)) return skip("never-double:sound");
+  if (neverDoubleSet.has(form)) return skip("never-double:form");
 
   // finalDoublingOnly
   if (isEndOfWord && config.finalDoublingOnly && config.finalDoublingOnly.length > 0) {
-    if (!config.finalDoublingOnly.includes(currPhoneme.sound)) return skip('final-doubling-only');
+    if (!config.finalDoublingOnly.includes(currPhoneme.sound)) return skip("final-doubling-only");
   }
 
   // suppressAfterReduction
-  if (config.suppressAfterReduction && prevReduced) return skip('suppress-after-reduction');
+  if (config.suppressAfterReduction && prevReduced) return skip("suppress-after-reduction");
 
   // suppressBeforeTense
   if (config.suppressBeforeTense && nextNucleus) {
-    if (nextNucleus.tense === true) return skip('suppress-before-tense');
+    if (nextNucleus.tense === true) return skip("suppress-before-tense");
   }
 
   // Calculate probability
@@ -449,7 +456,7 @@ function applyDoubling(
     prob *= config.unstressedModifier;
   }
   prob = Math.min(100, Math.max(0, Math.round(prob)));
-  if (prob <= 0) return skip('zero-probability:unstressed');
+  if (prob <= 0) return skip("zero-probability:unstressed");
 
   const shouldDouble = getWeightedOption([[true, prob], [false, 100 - prob]], rand);
   if (shouldDouble) {
@@ -459,7 +466,7 @@ function applyDoubling(
     if (traceOut) { traceOut.attempted = true; traceOut.probability = prob; traceOut.result = doubled; }
     return doubled;
   }
-  if (traceOut) { traceOut.attempted = true; traceOut.probability = prob; traceOut.reason = 'roll-failed'; }
+  if (traceOut) { traceOut.attempted = true; traceOut.probability = prob; traceOut.reason = "roll-failed"; }
   return form;
 }
 
@@ -467,7 +474,7 @@ function applyDoubling(
 // Consonant pileup repair (grapheme-aware)
 // ---------------------------------------------------------------------------
 
-const VOWEL_LETTERS = new Set(['a', 'e', 'i', 'o', 'u', 'y']);
+const VOWEL_LETTERS = new Set(["a", "e", "i", "o", "u", "y"]);
 
 /**
  * Check if a character is a vowel letter.
@@ -476,11 +483,11 @@ const VOWEL_LETTERS = new Set(['a', 'e', 'i', 'o', 'u', 'y']);
  */
 function isVowelChar(ch: string, idx: number, str: string): boolean {
   const lower = ch.toLowerCase();
-  if (lower === 'y') {
+  if (lower === "y") {
     // Y followed by a vowel letter (a,e,i,o,u) is consonantal (e.g. "yet", "yoga", "beyond")
     // Y in all other positions is a vowel (e.g. "gym", "fly", "myth")
-    const next = idx + 1 < str.length ? str[idx + 1].toLowerCase() : '';
-    return !'aeiou'.includes(next);
+    const next = idx + 1 < str.length ? str[idx + 1].toLowerCase() : "";
+    return !"aeiou".includes(next);
   }
   return VOWEL_LETTERS.has(lower);
 }
@@ -527,7 +534,7 @@ export function tokenizeGraphemes(str: string, graphemeList: string[] = DEFAULT_
 
 /** Check if a grapheme token is a consonant (contains no vowel letters). */
 function isConsonantToken(token: string, tokenIdx?: number, allTokens?: string[]): boolean {
-  const fullStr = allTokens ? allTokens.join('') : token;
+  const fullStr = allTokens ? allTokens.join("") : token;
   // Compute char offset of this token within the full string
   let charOffset = 0;
   if (allTokens && tokenIdx !== undefined) {
@@ -557,7 +564,7 @@ export function repairConsonantPileups(
   const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
 
   for (let pass = 0; pass < 10; pass++) {
-    const word = cleanParts.join('');
+    const word = cleanParts.join("");
     const tokens = tokenizeGraphemes(word, gList);
 
     // Find first consonant run exceeding max (in tokens)
@@ -646,7 +653,7 @@ export function repairConsonantPileups(
       const localStart = runCharStart - partCharStart;
       const localEnd = runCharEnd - partCharStart;
       const part = cleanParts[startPart];
-      cleanParts[startPart] = part.slice(0, localStart) + kept.join('') + part.slice(localEnd);
+      cleanParts[startPart] = part.slice(0, localStart) + kept.join("") + part.slice(localEnd);
       hyphenatedParts[startPart * 2] = cleanParts[startPart];
       continue;
     }
@@ -665,13 +672,12 @@ export function repairConsonantPileups(
     const dropFromCoda = codaTokenCount >= onsetTokenCount;
     const targetPartIdx = dropFromCoda ? startPart : endPart;
     const part = cleanParts[targetPartIdx];
-    const partCharStartPos = targetPartIdx > 0 ? cumLengths[targetPartIdx - 1] : 0;
 
     // Tokenize just this part
     const partTokens = tokenizeGraphemes(part, gList);
 
     // Find the consonant tokens at the relevant edge
-    let edgeTokens: { tokenIdx: number; token: string }[] = [];
+    const edgeTokens: { tokenIdx: number; token: string }[] = [];
     if (dropFromCoda) {
       // Consonant tokens at end of part
       for (let i = partTokens.length - 1; i >= 0 && isConsonantToken(partTokens[i]); i--) {
@@ -708,7 +714,7 @@ export function repairConsonantPileups(
       }
     }
 
-    const newPart = partTokens.filter((_, i) => !toRemoveIndices.has(i)).join('');
+    const newPart = partTokens.filter((_, i) => !toRemoveIndices.has(i)).join("");
     cleanParts[targetPartIdx] = newPart;
     hyphenatedParts[targetPartIdx * 2] = newPart;
   }
@@ -720,21 +726,21 @@ export function repairConsonantPileups(
 
 export function mannerGroup(p: Phoneme): string {
   const m = p.mannerOfArticulation;
-  if (m === 'sibilant') return 'fricative';
-  if (m === 'lateralApproximant') return 'liquid';
+  if (m === "sibilant") return "fricative";
+  if (m === "lateralApproximant") return "liquid";
   return m;
 }
 
 export function isCoronal(p: Phoneme): boolean {
   const place = p.placeOfArticulation;
-  return place === 'alveolar' || place === 'postalveolar' || place === 'dental';
+  return place === "alveolar" || place === "postalveolar" || place === "dental";
 }
 
 export function placeGroup(p: Phoneme): string {
   const place = p.placeOfArticulation;
-  if (place === 'bilabial' || place === 'labiodental' || place === 'labial-velar') return 'labial';
-  if (place === 'dental' || place === 'alveolar' || place === 'postalveolar') return 'coronal';
-  if (place === 'palatal' || place === 'velar') return 'dorsal';
+  if (place === "bilabial" || place === "labiodental" || place === "labial-velar") return "labial";
+  if (place === "dental" || place === "alveolar" || place === "postalveolar") return "coronal";
+  if (place === "palatal" || place === "velar") return "dorsal";
   return place; // glottal etc.
 }
 
@@ -762,21 +768,21 @@ export function isJunctionValid(C1: Phoneme, C2: Phoneme, onsetCluster: Phoneme[
   // F3: stop+stop where neither is coronal
   // (blocks b.k, p.k, g.k, k.b, k.p, k.g — dorsal+labial stops in any direction)
   // F3 also blocks affricate+stop where neither side is coronal — but all English affricates are coronal, so this is moot
-  if (mannerGroup(C1) === 'stop' && mannerGroup(C2) === 'stop' && !isCoronal(C1) && !isCoronal(C2)) return false;
+  if (mannerGroup(C1) === "stop" && mannerGroup(C2) === "stop" && !isCoronal(C1) && !isCoronal(C2)) return false;
 
   // F4: stop+stop voicing disagreement (blocks d.k, b.t, g.p etc.)
-  if (mannerGroup(C1) === 'stop' && mannerGroup(C2) === 'stop' && C1.voiced !== C2.voiced) return false;
+  if (mannerGroup(C1) === "stop" && mannerGroup(C2) === "stop" && C1.voiced !== C2.voiced) return false;
 
   // P1: s-exception
-  if (C1.sound === 's') return true;
-  if (C2.sound === 's' && onsetCluster.length >= 2 && ['t','p','k'].includes(onsetCluster[1]?.sound)) return true;
-  if (onsetCluster.length >= 2 && onsetCluster[0].sound === 's' && ['t','p','k'].includes(onsetCluster[1].sound)) return true;
+  if (C1.sound === "s") return true;
+  if (C2.sound === "s" && onsetCluster.length >= 2 && ["t","p","k"].includes(onsetCluster[1]?.sound)) return true;
+  if (onsetCluster.length >= 2 && onsetCluster[0].sound === "s" && ["t","p","k"].includes(onsetCluster[1].sound)) return true;
 
   // P2: coronal onset
   if (isCoronal(C2)) return true;
 
   // P3: homorganic nasal+stop
-  if (mannerGroup(C1) === 'nasal' && mannerGroup(C2) === 'stop' && placeGroup(C1) === placeGroup(C2)) return true;
+  if (mannerGroup(C1) === "nasal" && mannerGroup(C2) === "stop" && placeGroup(C1) === placeGroup(C2)) return true;
 
   // P4: manner change
   if (mannerGroup(C1) !== mannerGroup(C2)) return true;
@@ -832,7 +838,7 @@ export function repairJunctions(
           codaTokens.splice(newLastIdx, 1);
         }
 
-        cleanParts[i] = codaTokens.join('');
+        cleanParts[i] = codaTokens.join("");
         hyphenatedParts[i * 2] = cleanParts[i];
         repaired.add(i);
         changed = true;
@@ -856,7 +862,7 @@ export function repairConsonantLetters(
   maxLetters: number,
 ): void {
   for (let pass = 0; pass < 10; pass++) {
-    const word = cleanParts.join('');
+    const word = cleanParts.join("");
 
     // Find first run of consonant letters exceeding max
     let runStart = -1;
@@ -950,7 +956,7 @@ export function repairVowelLetters(
 ): void {
   for (let i = 0; i < cleanParts.length; i++) {
     const part = cleanParts[i];
-    let result = '';
+    let result = "";
     let vowelRun = 0;
     for (let j = 0; j < part.length; j++) {
       if (isVowelChar(part[j], j, part)) {
@@ -983,7 +989,7 @@ export function repairFinalConsonantLetters(
 ): void {
   if (cleanParts.length === 0) return;
 
-  const word = cleanParts.join('');
+  const word = cleanParts.join("");
   // Find trailing consonant run
   let runLen = 0;
   for (let i = word.length - 1; i >= 0; i--) {
@@ -1102,7 +1108,7 @@ export function applySilentE(
 
   // Apply the swap: replace the vowel grapheme in the last clean part and append 'e'
   const lastPartIdx = cleanParts.length - 1;
-  let part = cleanParts[lastPartIdx];
+  const part = cleanParts[lastPartIdx];
 
   // Find the vowel grapheme in the written part.
   // The nucleus grapheme should appear before the final consonant grapheme(s).
@@ -1110,7 +1116,7 @@ export function applySilentE(
   if (fromIdx < 0) return;
 
   // Ensure the swap target is in the vowel portion (before the final consonant letters)
-  const newPart = part.slice(0, fromIdx) + swap.to + part.slice(fromIdx + swap.from.length) + 'e';
+  const newPart = part.slice(0, fromIdx) + swap.to + part.slice(fromIdx + swap.from.length) + "e";
   cleanParts[lastPartIdx] = newPart;
   hyphenatedParts[lastPartIdx * 2] = newPart;
 }
@@ -1153,12 +1159,12 @@ export function appendSilentE(
   // Don't append if word already ends in 'e' (magic-e already applied)
   const lastPartIdx = cleanParts.length - 1;
   const part = cleanParts[lastPartIdx];
-  if (part.length === 0 || part[part.length - 1] === 'e') return;
+  if (part.length === 0 || part[part.length - 1] === "e") return;
 
   // Probability check
   if (rand() >= probability / 100) return;
 
-  cleanParts[lastPartIdx] = part + 'e';
+  cleanParts[lastPartIdx] = part + "e";
   hyphenatedParts[lastPartIdx * 2] = cleanParts[lastPartIdx];
 }
 
@@ -1209,7 +1215,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     let currentSyllable: string[] = [];
     const doublingCtx: DoublingContext = { doublingCount: 0 };
     const nucleusGraphemes: string[] = []; // Track nucleus grapheme form per syllable
-    let currentNucleusForm = '';
+    let currentNucleusForm = "";
     let prevGraphemeForm: string | undefined;
 
     for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
@@ -1240,8 +1246,13 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
       const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord, prevGraphemeForm);
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
+      // When doubling quota is full, exclude doubled-form graphemes (e.g. "ck") so we don't exceed maxPerWord
+      const doubledFormValues = doublingConfig?.doubledForms ? Object.values(doublingConfig.doubledForms) : [];
+      const quotaFiltered = doubledFormValues.length > 0 && doublingCtx.doublingCount >= doublingConfig!.maxPerWord
+        ? positional.filter(g => !doubledFormValues.includes(g.form))
+        : positional;
       const tracing = !!context.trace;
-      const selected = selectByFrequency(positional, rand, isStartOfWord, isEndOfWord, tracing, position, stress, syllables.length);
+      const selected = selectByFrequency(quotaFiltered.length > 0 ? quotaFiltered : positional, rand, isStartOfWord, isEndOfWord, tracing, position, stress, syllables.length);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
       const isMonosyllabic = syllables.length === 1;
@@ -1278,7 +1289,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
 
       if (!nextEntry || nextEntry.syllableIndex !== syllableIndex) {
-        let syllableStr = applySpellingRules(currentSyllable.join(''), syllableRules, rand, context.trace, `syllable:${syllableIndex}`);
+        let syllableStr = applySpellingRules(currentSyllable.join(""), syllableRules, rand, context.trace, `syllable:${syllableIndex}`);
 
         if (cleanParts.length > 0 && syllableStr.length > 0 &&
             cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
@@ -1294,7 +1305,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         }
 
         currentSyllable = [];
-        currentNucleusForm = '';
+        currentNucleusForm = "";
       }
     }
 
@@ -1334,9 +1345,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const wfc = config.writtenFormConstraints;
     const maxGraphemes = wfc?.maxConsonantGraphemes;
     if (maxGraphemes) {
-      const before = context.trace ? cleanParts.join('') : '';
+      const before = context.trace ? cleanParts.join("") : "";
       repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes);
-      context.trace?.recordRepair('repairConsonantPileups', before, cleanParts.join(''));
+      context.trace?.recordRepair("repairConsonantPileups", before, cleanParts.join(""));
     }
 
     // Feature-based junction validation
@@ -1351,44 +1362,44 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           onsetCluster: nextOnset,
         });
       }
-      const beforeJunction = context.trace ? cleanParts.join('') : '';
+      const beforeJunction = context.trace ? cleanParts.join("") : "";
       repairJunctions(cleanParts, hyphenatedParts, boundaries, wfc?.consonantGraphemes);
-      context.trace?.recordRepair('repairJunctions', beforeJunction, cleanParts.join(''));
+      context.trace?.recordRepair("repairJunctions", beforeJunction, cleanParts.join(""));
       // Re-run pileup repair in case junction repair changed things
       if (maxGraphemes) {
-        const beforePileup = context.trace ? cleanParts.join('') : '';
+        const beforePileup = context.trace ? cleanParts.join("") : "";
         repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes);
-        context.trace?.recordRepair('repairConsonantPileups:postJunction', beforePileup, cleanParts.join(''));
+        context.trace?.recordRepair("repairConsonantPileups:postJunction", beforePileup, cleanParts.join(""));
       }
     }
 
     // Raw consonant letter backstop
     if (wfc?.maxConsonantLetters) {
-      const before = context.trace ? cleanParts.join('') : '';
+      const before = context.trace ? cleanParts.join("") : "";
       repairConsonantLetters(cleanParts, hyphenatedParts, wfc.maxConsonantLetters);
-      context.trace?.recordRepair('repairConsonantLetters', before, cleanParts.join(''));
+      context.trace?.recordRepair("repairConsonantLetters", before, cleanParts.join(""));
     }
 
     // Word-final consonant letter limit
     if (wfc?.maxFinalConsonantLetters) {
-      const before = context.trace ? cleanParts.join('') : '';
+      const before = context.trace ? cleanParts.join("") : "";
       repairFinalConsonantLetters(cleanParts, hyphenatedParts, wfc.maxFinalConsonantLetters);
-      context.trace?.recordRepair('repairFinalConsonantLetters', before, cleanParts.join(''));
+      context.trace?.recordRepair("repairFinalConsonantLetters", before, cleanParts.join(""));
     }
 
     // Raw vowel letter backstop
     if (wfc?.maxVowelLetters) {
-      const before = context.trace ? cleanParts.join('') : '';
+      const before = context.trace ? cleanParts.join("") : "";
       repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters);
-      context.trace?.recordRepair('repairVowelLetters', before, cleanParts.join(''));
+      context.trace?.recordRepair("repairVowelLetters", before, cleanParts.join(""));
     }
 
     // Post-join pass: apply word-scope spelling rules
-    let finalClean = applySpellingRules(cleanParts.join(''), wordRules, rand, context.trace, 'word');
+    let finalClean = applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word");
 
     // Post-join vowel repair for cross-boundary runs
     if (wfc?.maxVowelLetters) {
-      let vResult = '';
+      let vResult = "";
       let vowelRun = 0;
       for (let ci = 0; ci < finalClean.length; ci++) {
         if (isVowelChar(finalClean[ci], ci, finalClean)) {
@@ -1406,7 +1417,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     if (wfc?.maxConsonantGraphemes || wfc?.maxConsonantLetters) {
       const postParts = [finalClean];
       const postHyph = [finalClean];
-      const beforePost = context.trace ? finalClean : '';
+      const beforePost = context.trace ? finalClean : "";
       if (wfc.maxConsonantGraphemes) {
         repairConsonantPileups(postParts, postHyph, wfc.maxConsonantGraphemes, wfc.consonantGraphemes);
       }
@@ -1417,10 +1428,10 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         repairFinalConsonantLetters(postParts, postHyph, wfc.maxFinalConsonantLetters);
       }
       finalClean = postParts[0];
-      context.trace?.recordRepair('postSpellingBackstop', beforePost, finalClean);
+      context.trace?.recordRepair("postSpellingBackstop", beforePost, finalClean);
     }
 
     written.clean = finalClean;
-    written.hyphenated = hyphenatedParts.join('');
+    written.hyphenated = hyphenatedParts.join("");
   };
 }

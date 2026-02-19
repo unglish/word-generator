@@ -1,5 +1,5 @@
 /** Liquid graphemes: /l/, /r/. */
-import { Grapheme, GraphemeCondition } from "../../types.js";
+import { Grapheme } from "../../types.js";
 
 export const liquidGraphemes: Grapheme[] = [
   // love

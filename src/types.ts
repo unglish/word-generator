@@ -1,4 +1,4 @@
-import { RNG, RandomFunction } from "./utils/random";
+import { RNG } from "./utils/random";
 import type { WordTrace } from "./core/trace";
 import type { TraceCollector } from "./core/trace";
 
@@ -106,11 +106,11 @@ export interface Phoneme {
 }
 
 /** Type-safe accessor for a phoneme's positional weight (onset / nucleus / coda). */
-export function getPhonemePositionWeight(p: Phoneme, position: 'onset' | 'nucleus' | 'coda'): number | undefined {
+export function getPhonemePositionWeight(p: Phoneme, position: "onset" | "nucleus" | "coda"): number | undefined {
   switch (position) {
-    case 'onset': return p.onset;
-    case 'nucleus': return p.nucleus;
-    case 'coda': return p.coda;
+  case "onset": return p.onset;
+  case "nucleus": return p.nucleus;
+  case "coda": return p.coda;
   }
 }
 
@@ -227,7 +227,7 @@ export interface Syllable {
   /** Final consonant cluster (may be empty). */
   coda: Phoneme[];
   /** Stress level: primary (`'ˈ'`), secondary (`'ˌ'`), or unstressed (`undefined`). */
-  stress?: 'ˈ' | 'ˌ' | undefined;
+  stress?: "ˈ" | "ˌ" | undefined;
 }
 
 /**
@@ -249,8 +249,8 @@ export interface WordGenerationOptions {
   rand?: RNG;
   /**
    * Generation mode controlling syllable-count distribution.
-   * - `"text"` (default) — monosyllable-heavy, mimics running text.
-   * - `"lexicon"` — balanced distribution, mimics a dictionary.
+   * - `"text"` — monosyllable-heavy, mimics running text.
+   * - `"lexicon"` (default) — balanced distribution, mimics a dictionary.
    */
   mode?: GenerationMode;
   /**
