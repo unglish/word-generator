@@ -402,14 +402,25 @@ function applyDoubling(
   traceOut?: DoublingTraceInfo,
   isMonosyllabic?: boolean,
   isFirstInCoda?: boolean,
+  nextIsConsonant?: boolean,
 ): string {
   const skip = (reason: string) => { if (traceOut) { traceOut.attempted = false; traceOut.reason = reason; } return form; };
 
   if (!config || !config.enabled) return skip("disabled");
   if (!prevPhoneme) return skip("no-prev-phoneme");
-  // Allow doubling for the first consonant in a coda cluster (e.g. "backs" = ck+s).
-  // Block doubling for non-first cluster members and all onset clusters.
-  if (isCluster && !(position === "coda" && isFirstInCoda)) return skip("in-cluster");
+  // Allow doubling for the first consonant in a coda cluster ONLY if it has a custom
+  // doubledForm (e.g. k→ck in "backs"), not a simple letter repeat (p→pp).
+  // Simple repeats before more coda consonants create impossible clusters: ppt, nnd, ddz, ggz.
+  if (isCluster) {
+    if (position === "coda" && isFirstInCoda && config.doubledForms?.[form]) {
+      // Custom doubled form like k→ck is fine in clusters (e.g. "cks")
+    } else {
+      return skip("in-cluster");
+    }
+  }
+  // Suppress doubling when a coda consonant is followed by another consonant (onset of next syllable).
+  // Doubling here creates impossible cross-syllable clusters: "nn" + "t" → "nnt", "ll" + "d" → "lld".
+  if (position === "coda" && nextIsConsonant) return skip("coda-before-consonant");
   if (form.length !== 1) {
     // "ck" etc. selected directly from grapheme map — still counts toward maxPerWord
     const doubledValues = config.doubledForms ? Object.values(config.doubledForms) : [];
@@ -1257,7 +1268,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
       const isMonosyllabic = syllables.length === 1;
       const isFirstInCoda = position === "coda" && prevEntry?.position !== "coda";
-      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand, doublingTraceInfo, isMonosyllabic, isFirstInCoda);
+      const nextIsConsonant = nextEntry?.position === "onset" || (nextEntry?.syllableIndex === syllableIndex && nextEntry?.position === "coda");
+      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand, doublingTraceInfo, isMonosyllabic, isFirstInCoda, nextIsConsonant);
       prevGraphemeForm = form;
 
       if (context.trace) {
