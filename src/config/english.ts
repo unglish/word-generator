@@ -224,6 +224,13 @@ export const englishConfig: LanguageConfig = {
 
   spellingRules: [
     {
+      name: "nc-to-nk",
+      pattern: "nc(?=[^eiyaouhlr]|$)",
+      replacement: "nk",
+      probability: 100,
+      scope: "word",
+    },
+    {
       name: "magic-e",
       pattern: "([aiouy])e([bcdfghjklmnpqrstvwxyz])$",
       replacement: "$1$2e",
