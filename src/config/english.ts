@@ -251,13 +251,6 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
-      name: "hard-c-before-front-vowel",
-      pattern: "c([eiy])(?=[bcdfghjklmnpqrstvwxyz])",
-      replacement: "k$1",
-      probability: 100,
-      scope: "word",
-    },
-    {
       name: "no-final-v",
       pattern: "v$",
       replacement: "ve",
