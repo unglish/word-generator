@@ -244,6 +244,13 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
+      name: "gz-to-x",
+      pattern: "gz(?=[aeiouy])",
+      replacement: "x",
+      probability: 85,
+      scope: "word",
+    },
+    {
       name: "cw-to-qu",
       pattern: "cw",
       replacement: "qu",
