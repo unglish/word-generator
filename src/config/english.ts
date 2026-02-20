@@ -251,6 +251,13 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
+      name: "sibilant-s-epenthesis",
+      pattern: "((?:t?ch)|sh)s",
+      replacement: "$1es",
+      probability: 100,
+      scope: "word",
+    },
+    {
       name: "cw-to-qu",
       pattern: "cw",
       replacement: "qu",
