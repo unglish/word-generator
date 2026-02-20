@@ -248,6 +248,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    condition: { notLeftContext: ["g"] },
   },
   // could, would, should, courier
   {
@@ -287,6 +288,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 2,
+    condition: { notLeftContext: ["g"] },
   },
   {
     phoneme: "u",
