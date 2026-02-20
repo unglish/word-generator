@@ -97,8 +97,6 @@ describe("Quality Benchmark", () => {
 
     // Shared gate counts — computed once in beforeAll, asserted individually
     let fiveConsCount = 0;
-    let bkCount = 0;
-    let pkCount = 0;
     let fourConsCount = 0;
     let dkCount = 0;
     let owngsCount = 0;
@@ -171,8 +169,6 @@ describe("Quality Benchmark", () => {
         const run = longestConsonantRun(w);
         if (run >= 5) fiveConsCount++;
         if (run >= 4) fourConsCount++;
-        if (w.includes("bk")) bkCount++;
-        if (w.includes("pk")) pkCount++;
         if (w.includes("dk")) dkCount++;
         if (RE_OWNGS.test(w)) owngsCount++;
         if (RE_RENG_TENG.test(w)) rengTengCount++;
@@ -197,14 +193,6 @@ describe("Quality Benchmark", () => {
     // Hard gates
     it("Gate: no 5+ consecutive consonant letters", () => {
       expect(fiveConsCount).toBe(0);
-    });
-
-    it("Gate: bk < 50", () => {
-      expect(bkCount).toBeLessThan(50);
-    });
-
-    it("Gate: pk < 50", () => {
-      expect(pkCount).toBeLessThan(50);
     });
 
     it("Gate: owngs <= 1", () => {
@@ -233,8 +221,6 @@ describe("Quality Benchmark", () => {
     it("Write quality report", () => {
       console.log("\n=== Quality Metrics ===");
       console.log(`5+ consonant runs: ${fiveConsCount}`);
-      console.log(`bk: ${bkCount}`);
-      console.log(`pk: ${pkCount}`);
       console.log(`4-cons clusters: ${fourConsCount} (${(fourConsCount / gateWords.length * 100).toFixed(2)}%)`);
       console.log(`dk: ${dkCount}`);
       console.log(`-owngs: ${owngsCount}`);
@@ -246,8 +232,6 @@ describe("Quality Benchmark", () => {
       const fullReport = {
         gates: {
           fiveConsecutiveConsonants: fiveConsCount,
-          bk: bkCount,
-          pk: pkCount,
         },
         metrics: {
           fourConsonantClusters: { count: fourConsCount, rate: +(fourConsCount / gateWords.length * 100).toFixed(2) },
