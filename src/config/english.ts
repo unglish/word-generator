@@ -502,6 +502,15 @@ export const englishConfig: LanguageConfig = {
   },
 
   clusterWeights: {
+    onset: {
+      // /dr/ onset cluster is ~2.5× over-represented vs CMU; reduce probability.
+      // CMU has tr 3× more common than dr — our generator produces them equally.
+      // "d" suppresses /d/ as the INITIATING consonant of a 2-consonant onset cluster
+      // (requires the cluster.length===0 && maxLength>=2 path in selectPhoneme).
+      // "d,r" keeps the existing multiplier for the second slot (belt-and-suspenders).
+      "d": 0.38,
+      "d,r": 0.38,
+    },
     coda: {
       final: {
         "t,s": 0.0001,    // Ultra-aggressive reduction for word-final pseudo-plurals
