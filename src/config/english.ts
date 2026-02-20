@@ -238,6 +238,20 @@ export const englishConfig: LanguageConfig = {
       scope: "syllable",
     },
     {
+      name: "ew-cluster-simplify",
+      pattern: "ew(?=[bcdfghjklmnpqrstvwxyz]{2})",
+      replacement: "u",
+      probability: 100,
+      scope: "syllable",
+    },
+    {
+      name: "ow-cluster-simplify",
+      pattern: "ow(?=[bcdfghjklmnpqrstvwxyz]{2})",
+      replacement: "ou",
+      probability: 100,
+      scope: "syllable",
+    },
+    {
       name: "ks-to-x",
       pattern: "(?<!^)ks",
       replacement: "x",
