@@ -159,7 +159,7 @@ export const fricativeGraphemes: Grapheme[] = [
     coda: 0,
     startWord: 1,
     midWord: 1,
-    endWord: 0,
+    endWord: 1,
   },
   {
     phoneme: "z",
@@ -286,17 +286,10 @@ export const fricativeGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
   },
-  {
-    phoneme: "ʃ",
-    form: "xi",
-    origin: 3,
-    frequency: 10,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
-    condition: { notRightContext: ["front-vowel", "back-vowel"] },
-  },
+  // Removed: /ʃ/ → "xi" grapheme. In English, "xi" for /ʃ/ only occurs
+  // in Latinate compounds where "x" represents /kʃ/ (e.g., "anxious"),
+  // not as a standalone /ʃ/ grapheme. It produced phantom trigrams like
+  // "lxy", "rxy", "alx" etc. by placing "x" adjacent to consonants.
   {
     phoneme: "ʃ",
     form: "sch",
