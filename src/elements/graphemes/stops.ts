@@ -98,6 +98,16 @@ export const stopGraphemes: Grapheme[] = [
     endWord: 1,
     condition: { rightContext: ["c-soft-vowel"] },
   },
+  // k: after "n" — /ŋk/ writes as "nk" (bank, think, drink)
+  { phoneme: "k",
+    form: "k",
+    origin: 3,
+    frequency: 500,
+    startWord: 0,
+    midWord: 80,
+    endWord: 80,
+    condition: { leftGraphemeContext: ["n"] },
+  },
   // k: word-final (speak, back)
   { phoneme: "k", 
     form: "k", 

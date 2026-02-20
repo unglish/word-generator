@@ -107,5 +107,19 @@ export const nasalGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 1,
+    condition: { notRightContext: ["k", "g"] },
+  },
+  {
+    // /ŋ/ before velar stops writes as "n" (think, bank, anger)
+    phoneme: "ŋ",
+    form: "n",
+    origin: 0,
+    frequency: 100,
+    onset: 0,
+    cluster: 0,
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+    condition: { rightContext: ["k", "g"] },
   }
 ];
