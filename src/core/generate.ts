@@ -361,8 +361,10 @@ function selectPhoneme(validCandidates: Phoneme[], context: ClusterContext, rt?:
     
     let baseWeight = positionWeight * wordPositionModifier;
     
-    // Apply cluster-specific weight multiplier if this phoneme would create a weighted cluster
-    if (rt && cluster.length > 0 && rt.clusterWeights) {
+    // Apply cluster-specific weight multiplier if this phoneme would create a weighted cluster.
+    // Also applies to the FIRST consonant of a planned cluster (cluster.length === 0 but maxLength >= 2)
+    // so that cluster-initiating consonants can be independently weighted (e.g. suppress /dr/).
+    if (rt && (cluster.length > 0 || context.maxLength >= 2) && rt.clusterWeights) {
       const weightsForPosition = position === "onset" ? rt.clusterWeights.onset : rt.clusterWeights.coda;
       if (weightsForPosition) {
         // Build potential cluster keys: check all suffixes of the forming cluster
