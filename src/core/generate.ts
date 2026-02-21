@@ -4,7 +4,7 @@ import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
-import { createWrittenFormGenerator } from "./write.js";
+import { createWrittenFormGenerator, isJunctionSonorityValid } from "./write.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
@@ -635,7 +635,14 @@ function pickCoda(
 
 /**
  * Adjusts two adjacent syllables based on sonority and phonological rules.
- * If the sonorities are equal there's a 90% chance to drop the coda phoneme.
+ *
+ * Two checks, applied in sequence:
+ * 1. Equal-sonority boundary drop (original): 90% chance to drop coda-final
+ *    when it has the same fine-grained sonority as the onset-initial.
+ * 2. Full-cluster SSP validation: if the combined coda+onset cluster violates
+ *    the Sonority Sequencing Principle (using coarse manner-class groupings),
+ *    drop coda phonemes until the cluster is valid. This prevents impossible
+ *    consonant clusters from ever reaching the write phase.
  */
 function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyllable: Syllable, rand: RNG, trace?: TraceCollector): [Syllable, Syllable] {
   const lastCodaPhoneme = prevSyllable.coda.at(-1);
@@ -643,12 +650,23 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
 
   if (!lastCodaPhoneme || !firstOnsetPhoneme) return [prevSyllable, currentSyllable];
 
+  // Check 1: equal-sonority probabilistic drop (fine-grained levels)
   const lastCodaSonority = getSonority(rt, lastCodaPhoneme);
   const firstOnsetSonority = getSonority(rt, firstOnsetPhoneme);
   const { boundaryDrop } = rt.config.generationWeights.probability;
   if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, boundaryDrop], [false, 100 - boundaryDrop]], rand)) {
     trace?.recordStructural("boundaryDrop", `dropped coda /${lastCodaPhoneme.sound}/ before onset /${firstOnsetPhoneme.sound}/ (equal sonority ${lastCodaSonority}, prob ${boundaryDrop}%)`);
     prevSyllable.coda.pop();
+  }
+
+  // Check 2: full-cluster SSP validation (coarse manner-class levels)
+  // Drop coda-final phonemes until the cluster is valid or coda is empty.
+  const maxDrops = prevSyllable.coda.length;
+  for (let d = 0; d < maxDrops; d++) {
+    if (prevSyllable.coda.length === 0) break;
+    if (isJunctionSonorityValid(prevSyllable.coda, currentSyllable.onset)) break;
+    const dropped = prevSyllable.coda.pop()!;
+    trace?.recordStructural("sspBoundaryDrop", `dropped coda /${dropped.sound}/ — SSP violation in cluster [${prevSyllable.coda.map(p => p.sound).join(",")}].{${currentSyllable.onset.map(p => p.sound).join(",")}}`);
   }
 
   return [prevSyllable, currentSyllable];
