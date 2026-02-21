@@ -754,6 +754,8 @@ export function repairConsonantPileups(
  *
  * Exception: /s/ can violate SSP (e.g. "str", "sp", "sts") — the s-exception
  * is well-attested across languages.
+ *
+ * @internal Use {@link validateJunction} as the public API.
  */
 export function isJunctionSonorityValid(
   coda: Phoneme[],
@@ -874,7 +876,11 @@ export function validateJunction(
   return true;
 }
 
-/** Pairwise articulatory junction check (coda-final vs onset-initial). */
+/**
+ * Pairwise articulatory junction check (coda-final vs onset-initial).
+ *
+ * @internal Use {@link validateJunction} as the public API.
+ */
 export function isJunctionValid(C1: Phoneme, C2: Phoneme, onsetCluster: Phoneme[]): boolean {
   // F1: identical phonemes
   if (C1.sound === C2.sound) return false;
@@ -920,7 +926,7 @@ export function repairJunctions(
   hyphenatedParts: string[],
   boundaries: SyllableBoundary[],
   consonantGraphemes?: string[],
-  config?: LanguageConfig, // optional for backward compat; SSP check skipped without it
+  config: LanguageConfig,
 ): void {
   const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
 
@@ -930,11 +936,7 @@ export function repairJunctions(
       const { onsetCluster, codaCluster } = boundaries[i];
       if (codaCluster.length === 0 || onsetCluster.length === 0) continue;
 
-      const invalid = config
-        ? !validateJunction(codaCluster, onsetCluster, config)
-        : codaCluster.length > 0 && onsetCluster.length > 0
-          && !isJunctionValid(codaCluster[codaCluster.length - 1], onsetCluster[0], onsetCluster);
-      if (invalid) {
+      if (!validateJunction(codaCluster, onsetCluster, config)) {
         // Drop the last consonant grapheme token from the coda part
         const codaPart = cleanParts[i];
         if (!codaPart) continue;
