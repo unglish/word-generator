@@ -850,6 +850,30 @@ export interface SyllableBoundary {
 // Feature-based junction validation
 // ---------------------------------------------------------------------------
 
+/**
+ * Validate a syllable junction: articulatory rules (pairwise) + SSP (full cluster).
+ *
+ * Returns true if the junction is valid, false if it should be repaired.
+ */
+export function validateJunction(
+  coda: Phoneme[],
+  onset: Phoneme[],
+  config?: LanguageConfig,
+): boolean {
+  if (coda.length === 0 || onset.length === 0) return true;
+  const C1 = coda[coda.length - 1];
+  const C2 = onset[0];
+
+  // Articulatory rules (pairwise boundary check)
+  if (!isJunctionValid(C1, C2, onset)) return false;
+
+  // SSP rules (full cluster check) — only when config available
+  if (config && !isJunctionSonorityValid(coda, onset, config)) return false;
+
+  return true;
+}
+
+/** Pairwise articulatory junction check (coda-final vs onset-initial). */
 export function isJunctionValid(C1: Phoneme, C2: Phoneme, onsetCluster: Phoneme[]): boolean {
   // F1: identical phonemes
   if (C1.sound === C2.sound) return false;
@@ -902,11 +926,10 @@ export function repairJunctions(
   for (let pass = 0; pass < 10; pass++) {
     let changed = false;
     for (let i = 0; i < boundaries.length; i++) {
-      const { codaFinal, onsetInitial, onsetCluster, codaCluster } = boundaries[i];
-      if (!codaFinal || !onsetInitial) continue;
+      const { onsetCluster, codaCluster } = boundaries[i];
+      if (codaCluster.length === 0 || onsetCluster.length === 0) continue;
 
-      if (!isJunctionValid(codaFinal, onsetInitial, onsetCluster)
-          || (config && !isJunctionSonorityValid(codaCluster, onsetCluster, config))) {
+      if (!validateJunction(codaCluster, onsetCluster, config)) {
         // Drop the last consonant grapheme token from the coda part
         const codaPart = cleanParts[i];
         if (!codaPart) continue;
