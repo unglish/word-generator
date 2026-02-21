@@ -293,6 +293,7 @@ describe("repairJunctions (feature-based)", () => {
       codaFinal: P_n,
       onsetInitial: P_f,
       onsetCluster: [P_f],
+      codaCluster: [P_n],
     }];
     const clean = ["an", "fe"];
     const hyph = ["an", "&shy;", "fe"];
@@ -305,6 +306,7 @@ describe("repairJunctions (feature-based)", () => {
       codaFinal: P_t,
       onsetInitial: P_d,
       onsetCluster: [P_d],
+      codaCluster: [P_t],
     }];
     const clean = ["art", "de"];
     const hyph = ["art", "&shy;", "de"];
@@ -317,6 +319,7 @@ describe("repairJunctions (feature-based)", () => {
       codaFinal: undefined,
       onsetInitial: P_t,
       onsetCluster: [P_t],
+      codaCluster: [],
     }];
     const clean = ["a", "ter"];
     const hyph = ["a", "&shy;", "ter"];
@@ -330,6 +333,7 @@ describe("repairJunctions (feature-based)", () => {
       codaFinal: P_d,
       onsetInitial: P_k,
       onsetCluster: [P_k],
+      codaCluster: [P_d],
     }];
     const clean = ["ridd", "kerng"];
     const hyph = ["ridd", "&shy;", "kerng"];

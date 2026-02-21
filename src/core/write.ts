@@ -941,7 +941,16 @@ export function repairJunctions(
 
         cleanParts[i] = codaTokens.join("");
         hyphenatedParts[i * 2] = cleanParts[i];
-        repaired.add(i);
+
+        // Update phoneme model so subsequent passes can re-evaluate.
+        // Pop the last coda phoneme to match the dropped grapheme.
+        const cc = boundaries[i].codaCluster;
+        if (cc.length > 0) {
+          cc.pop();
+          boundaries[i].codaFinal = cc.length > 0 ? cc[cc.length - 1] : undefined;
+        }
+        // Don't mark as repaired — let the next pass re-check with
+        // updated coda (e.g. /pt.k/ → drop t → /p.k/ still invalid by F3).
         changed = true;
       }
     }
