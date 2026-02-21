@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary, applySilentE, appendSilentE } from "./write";
+import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, isJunctionSonorityValid, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary, applySilentE, appendSilentE } from "./write";
 import { generateWord, createGenerator } from "./generate";
 import { englishConfig } from "../config/english";
 import { Phoneme } from "../types";
@@ -279,6 +279,58 @@ describe("isJunctionValid", () => {
     it("F2 catches same manner+place before default", () => {
       expect(isJunctionValid(P_k, P_g, [P_g])).toBe(false);
     });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// isJunctionSonorityValid
+// ---------------------------------------------------------------------------
+
+describe("isJunctionSonorityValid", () => {
+  // Sonority classes (from sonorityToMannerOfArticulation):
+  //   stop=1, fricative=3, sibilant=4, nasal=5, liquid/lateral=6
+
+  it("two-phoneme junction (totalLen ≤ 2) is always valid", () => {
+    // stop→stop would be blocked by articulatory rules, but SSP passthrough
+    expect(isJunctionSonorityValid([P_t], [P_p], englishConfig)).toBe(true);
+  });
+
+  it("empty coda is valid", () => {
+    expect(isJunctionSonorityValid([], [P_t], englishConfig)).toBe(true);
+  });
+
+  it("empty onset is valid", () => {
+    expect(isJunctionSonorityValid([P_t], [], englishConfig)).toBe(true);
+  });
+
+  it("Rule 1 — coda sonority rises toward boundary → invalid (/ts.g/ → 'tsg')", () => {
+    // coda=[t(1), s(4)]: stop→sibilant is a rise; onset=[g(1)] → totalLen=3
+    expect(isJunctionSonorityValid([P_t, P_s], [P_g], englishConfig)).toBe(false);
+  });
+
+  it("Rule 2 — boundary plateau (same class, 3+ cluster, non-s) → invalid (/kt.p/ → 'ctp')", () => {
+    // coda=[n(5), t(1)]: coda drops; onset=[p(1)]; codaEnd==onsetStart==1 → plateau
+    expect(isJunctionSonorityValid([P_n, P_t], [P_p], englishConfig)).toBe(false);
+  });
+
+  it("Rule 2 s-exception — coda ends with /s/, same class at boundary → valid", () => {
+    // coda=[n(5), s(4)]: drops; onset=[ʃ(4)]; codaEnd==onsetStart==4 but coda[-1] is /s/ → exception
+    expect(isJunctionSonorityValid([P_n, P_s], [P_ʃ], englishConfig)).toBe(true);
+  });
+
+  it("Rule 3 — onset starts higher than coda-final, non-s → invalid", () => {
+    // coda=[n(5), t(1)]; onset=[f(3), r(6)]; onsetStart(3) > codaEnd(1), not /s/ → invalid
+    expect(isJunctionSonorityValid([P_n, P_t], [P_f, P_r], englishConfig)).toBe(false);
+  });
+
+  it("Rule 3 s-exception — onset starts with /s/ even though it's higher than coda-final → valid (/t.str/ → 'tstr')", () => {
+    // coda=[t(1)]; onset=[s(4), t(1), r(6)]; onsetStart(4) > codaEnd(1) but /s/ exception
+    expect(isJunctionSonorityValid([P_t], [P_s, P_t, P_r], englishConfig)).toBe(true);
+  });
+
+  it("valid 3+ cluster with clear sonority valley → valid (/n.tr/ → 'ntr')", () => {
+    // coda=[n(5)]; onset=[t(1), r(6)]; valley: 5→1 boundary, onset rises 1→6
+    expect(isJunctionSonorityValid([P_n], [P_t, P_r], englishConfig)).toBe(true);
   });
 });
 

@@ -661,6 +661,12 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
 
   // Check 2: full-cluster SSP validation (coarse manner-class levels)
   // Drop coda-final phonemes until the cluster is valid or coda is empty.
+  //
+  // maxDrops is computed *after* check 1 may have already popped one phoneme —
+  // it serves as an upper bound so the loop can't run forever. The explicit
+  // `coda.length === 0` guard is here for clarity: isJunctionSonorityValid
+  // returns true for an empty coda anyway, so the loop would terminate on the
+  // next iteration without it, but the early break makes intent clear.
   const maxDrops = prevSyllable.coda.length;
   for (let d = 0; d < maxDrops; d++) {
     if (prevSyllable.coda.length === 0) break;

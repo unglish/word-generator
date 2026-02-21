@@ -1482,7 +1482,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         const coda = syllables[si].coda;
         const nextOnset = syllables[si + 1].onset;
         boundaries.push({
-          codaCluster: coda,
+          codaCluster: [...coda],
           onsetCluster: nextOnset,
         });
       }
