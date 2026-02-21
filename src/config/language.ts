@@ -867,3 +867,18 @@ export function computeSonorityLevels(config: LanguageConfig): Map<Phoneme, numb
     ]),
   );
 }
+
+/**
+ * Coarse manner-only sonority rank for a phoneme.
+ *
+ * Returns the manner-of-articulation component from the language config's
+ * sonority hierarchy, without place/voicing/tense adjustments. This groups
+ * all stops together, all fricatives together, etc.
+ *
+ * Used for SSP validation at syllable boundaries where manner *class* matters
+ * more than fine-grained place distinctions. (All stops are equally bad in a
+ * three-stop cluster like /kt.p/, regardless of which places are involved.)
+ */
+export function sonorityClass(p: Phoneme, config: LanguageConfig): number {
+  return config.sonorityHierarchy.mannerOfArticulation[p.mannerOfArticulation] ?? 0;
+}
