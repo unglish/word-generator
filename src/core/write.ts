@@ -789,6 +789,10 @@ export function isJunctionSonorityValid(
   // Rule 1: Coda must not rise toward boundary. A rising coda (e.g. /ts/: 1→3)
   // creates a sonority peak at the boundary instead of a valley.
   // Blocks /ts.g/ → "tsg", /ts.r/ → "tsr", /ks.n/ → "csn" etc.
+  // TODO(#250): Only checks the last two coda phonemes. A 3+ coda like /n,t,s/
+  // (5→1→4) has a rise from t→s that's caught, but /l,n,t,s/ would only see
+  // t→s. In practice English codas rarely exceed 3 consonants, but a full
+  // scan would be more robust.
   if (codaSon.length >= 2 && codaSon[codaSon.length - 2] < codaEnd) {
     return false;
   }
@@ -839,11 +843,8 @@ export function placeGroup(p: Phoneme): string {
 // ---------------------------------------------------------------------------
 
 export interface SyllableBoundary {
-  codaFinal: Phoneme | undefined;
-  onsetInitial: Phoneme | undefined;
-  onsetCluster: Phoneme[];
-  /** Full coda phoneme array for sonority sequencing. */
   codaCluster: Phoneme[];
+  onsetCluster: Phoneme[];
 }
 
 // ---------------------------------------------------------------------------
@@ -858,7 +859,7 @@ export interface SyllableBoundary {
 export function validateJunction(
   coda: Phoneme[],
   onset: Phoneme[],
-  config?: LanguageConfig,
+  config: LanguageConfig,
 ): boolean {
   if (coda.length === 0 || onset.length === 0) return true;
   const C1 = coda[coda.length - 1];
@@ -867,8 +868,8 @@ export function validateJunction(
   // Articulatory rules (pairwise boundary check)
   if (!isJunctionValid(C1, C2, onset)) return false;
 
-  // SSP rules (full cluster check) — only when config available
-  if (config && !isJunctionSonorityValid(coda, onset, config)) return false;
+  // SSP rules (full cluster check)
+  if (!isJunctionSonorityValid(coda, onset, config)) return false;
 
   return true;
 }
@@ -919,7 +920,7 @@ export function repairJunctions(
   hyphenatedParts: string[],
   boundaries: SyllableBoundary[],
   consonantGraphemes?: string[],
-  config?: LanguageConfig,
+  config?: LanguageConfig, // optional for backward compat; SSP check skipped without it
 ): void {
   const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
 
@@ -929,7 +930,11 @@ export function repairJunctions(
       const { onsetCluster, codaCluster } = boundaries[i];
       if (codaCluster.length === 0 || onsetCluster.length === 0) continue;
 
-      if (!validateJunction(codaCluster, onsetCluster, config)) {
+      const invalid = config
+        ? !validateJunction(codaCluster, onsetCluster, config)
+        : codaCluster.length > 0 && onsetCluster.length > 0
+          && !isJunctionValid(codaCluster[codaCluster.length - 1], onsetCluster[0], onsetCluster);
+      if (invalid) {
         // Drop the last consonant grapheme token from the coda part
         const codaPart = cleanParts[i];
         if (!codaPart) continue;
@@ -956,11 +961,9 @@ export function repairJunctions(
         cleanParts[i] = codaTokens.join("");
         hyphenatedParts[i * 2] = cleanParts[i];
 
-        // Update boundary phonemes for next pass
-        const cc = boundaries[i].codaCluster;
-        if (cc.length > 0) {
-          cc.pop();
-          boundaries[i].codaFinal = cc.length > 0 ? cc[cc.length - 1] : undefined;
+        // Update coda phonemes for next pass (cascading repair)
+        if (boundaries[i].codaCluster.length > 0) {
+          boundaries[i].codaCluster.pop();
         }
         changed = true;
       }
@@ -1479,10 +1482,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         const coda = syllables[si].coda;
         const nextOnset = syllables[si + 1].onset;
         boundaries.push({
-          codaFinal: coda.length > 0 ? coda[coda.length - 1] : undefined,
-          onsetInitial: nextOnset.length > 0 ? nextOnset[0] : undefined,
-          onsetCluster: nextOnset,
           codaCluster: coda,
+          onsetCluster: nextOnset,
         });
       }
       const beforeJunction = context.trace ? cleanParts.join("") : "";

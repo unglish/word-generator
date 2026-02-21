@@ -666,6 +666,8 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
     if (prevSyllable.coda.length === 0) break;
     if (isJunctionSonorityValid(prevSyllable.coda, currentSyllable.onset, rt.config)) break;
     const dropped = prevSyllable.coda.pop()!;
+    // TODO(#250): Trace message shows post-drop coda, which is correct for
+    // "remaining cluster" but could be confusing. Consider showing before/after.
     trace?.recordStructural("sspBoundaryDrop", `dropped coda /${dropped.sound}/ — SSP violation in cluster [${prevSyllable.coda.map(p => p.sound).join(",")}].{${currentSyllable.onset.map(p => p.sound).join(",")}}`);
   }
 

@@ -290,8 +290,6 @@ describe("repairJunctions (feature-based)", () => {
   it("does nothing for valid junction", () => {
     // n→f: different manner (nasal vs fricative) → P4 pass
     const boundaries: SyllableBoundary[] = [{
-      codaFinal: P_n,
-      onsetInitial: P_f,
       onsetCluster: [P_f],
       codaCluster: [P_n],
     }];
@@ -303,8 +301,6 @@ describe("repairJunctions (feature-based)", () => {
 
   it("drops coda consonant for invalid junction (F2: t→d)", () => {
     const boundaries: SyllableBoundary[] = [{
-      codaFinal: P_t,
-      onsetInitial: P_d,
       onsetCluster: [P_d],
       codaCluster: [P_t],
     }];
@@ -316,8 +312,6 @@ describe("repairJunctions (feature-based)", () => {
 
   it("handles empty coda", () => {
     const boundaries: SyllableBoundary[] = [{
-      codaFinal: undefined,
-      onsetInitial: P_t,
       onsetCluster: [P_t],
       codaCluster: [],
     }];
@@ -330,8 +324,6 @@ describe("repairJunctions (feature-based)", () => {
   it("removes doubled consonant grapheme fully for invalid junction (dd→k)", () => {
     // d→k: voiced stop + voiceless stop → F4 fail
     const boundaries: SyllableBoundary[] = [{
-      codaFinal: P_d,
-      onsetInitial: P_k,
       onsetCluster: [P_k],
       codaCluster: [P_d],
     }];
