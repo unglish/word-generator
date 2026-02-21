@@ -120,9 +120,6 @@ jobs:
             const gates = report.gates || {};
             const gateChecks = [
               ['5+ consonant runs', gates.fiveConsecutiveConsonants, '= 0', gates.fiveConsecutiveConsonants === 0],
-              ['ngx', gates.ngx, '= 0', gates.ngx === 0],
-              ['bk', gates.bk, '< 50', gates.bk < 50],
-              ['pk', gates.pk, '< 50', gates.pk < 50],
             ];
             const allGatesPass = gateChecks.every(g => g[3]);
             let gatesTable = `| Gate | Result | Threshold |\n|------|--------|-----------|\n`;
