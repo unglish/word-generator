@@ -732,22 +732,26 @@ export function repairConsonantPileups(
 }
 
 // ---------------------------------------------------------------------------
-// Sonority scale for SSP-based junction validation
+// Sonority helpers for SSP-based junction validation
 // ---------------------------------------------------------------------------
 
 /**
- * Sonority rank for a consonant phoneme.
- * Higher = more sonorous (closer to vowels).
- * Scale: stop(1) < affricate(2) < fricative/sibilant(3) < nasal(4) < liquid(5) < glide(6)
+ * Coarse sonority rank for a consonant phoneme (manner-only, no place adjustment).
+ *
+ * For junction SSP checks we care about *manner class* groupings, not fine-grained
+ * place distinctions. All stops share one rank, all fricatives share one rank, etc.
+ * This prevents false positives where /kt.p/ (velar→alveolar→bilabial) is a valid
+ * fine-grained sonority fall but orthographic "ctp" never appears in English.
  */
 export function sonority(p: Phoneme): number {
   switch (p.mannerOfArticulation) {
     case "stop": return 1;
     case "affricate": return 2;
-    case "sibilant": case "fricative": return 3;
-    case "nasal": return 4;
-    case "lateralApproximant": case "liquid": return 5;
-    case "glide": return 6;
+    case "fricative": return 3;
+    case "sibilant": return 4;
+    case "nasal": return 5;
+    case "lateralApproximant": case "liquid": return 6;
+    case "glide": return 7;
     default: return 0;
   }
 }
