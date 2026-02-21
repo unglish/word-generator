@@ -925,8 +925,8 @@ export function repairJunctions(
   cleanParts: string[],
   hyphenatedParts: string[],
   boundaries: SyllableBoundary[],
-  consonantGraphemes?: string[],
   config: LanguageConfig,
+  consonantGraphemes?: string[],
 ): void {
   const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
 
@@ -1489,7 +1489,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         });
       }
       const beforeJunction = context.trace ? cleanParts.join("") : "";
-      repairJunctions(cleanParts, hyphenatedParts, boundaries, wfc?.consonantGraphemes, config);
+      repairJunctions(cleanParts, hyphenatedParts, boundaries, config, wfc?.consonantGraphemes);
       context.trace?.recordRepair("repairJunctions", beforeJunction, cleanParts.join(""));
       // Re-run pileup repair in case junction repair changed things
       if (maxGraphemes) {

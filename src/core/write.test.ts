@@ -347,7 +347,7 @@ describe("repairJunctions (feature-based)", () => {
     }];
     const clean = ["an", "fe"];
     const hyph = ["an", "&shy;", "fe"];
-    repairJunctions(clean, hyph, boundaries);
+    repairJunctions(clean, hyph, boundaries, englishConfig);
     expect(clean.join("")).toBe("anfe");
   });
 
@@ -358,7 +358,7 @@ describe("repairJunctions (feature-based)", () => {
     }];
     const clean = ["art", "de"];
     const hyph = ["art", "&shy;", "de"];
-    repairJunctions(clean, hyph, boundaries);
+    repairJunctions(clean, hyph, boundaries, englishConfig);
     expect(clean[0]).toBe("ar");
   });
 
@@ -369,7 +369,7 @@ describe("repairJunctions (feature-based)", () => {
     }];
     const clean = ["a", "ter"];
     const hyph = ["a", "&shy;", "ter"];
-    repairJunctions(clean, hyph, boundaries);
+    repairJunctions(clean, hyph, boundaries, englishConfig);
     expect(clean.join("")).toBe("ater");
   });
 
@@ -381,7 +381,7 @@ describe("repairJunctions (feature-based)", () => {
     }];
     const clean = ["ridd", "kerng"];
     const hyph = ["ridd", "&shy;", "kerng"];
-    repairJunctions(clean, hyph, boundaries);
+    repairJunctions(clean, hyph, boundaries, englishConfig);
     // Both d's should be stripped across multiple passes
     expect(clean[0]).toBe("ri");
     expect(clean.join("")).toBe("rikerng");
