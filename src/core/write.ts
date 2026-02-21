@@ -906,11 +906,9 @@ export function repairJunctions(
 ): void {
   const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
 
-  const repaired = new Set<number>();
   for (let pass = 0; pass < 10; pass++) {
     let changed = false;
     for (let i = 0; i < boundaries.length; i++) {
-      if (repaired.has(i)) continue;
       const { codaFinal, onsetInitial, onsetCluster, codaCluster } = boundaries[i];
       if (!codaFinal || !onsetInitial) continue;
 
@@ -942,15 +940,12 @@ export function repairJunctions(
         cleanParts[i] = codaTokens.join("");
         hyphenatedParts[i * 2] = cleanParts[i];
 
-        // Update phoneme model so subsequent passes can re-evaluate.
-        // Pop the last coda phoneme to match the dropped grapheme.
+        // Update boundary phonemes for next pass
         const cc = boundaries[i].codaCluster;
         if (cc.length > 0) {
           cc.pop();
           boundaries[i].codaFinal = cc.length > 0 ? cc[cc.length - 1] : undefined;
         }
-        // Don't mark as repaired — let the next pass re-check with
-        // updated coda (e.g. /pt.k/ → drop t → /p.k/ still invalid by F3).
         changed = true;
       }
     }
