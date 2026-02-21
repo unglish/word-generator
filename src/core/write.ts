@@ -1,5 +1,5 @@
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
-import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
+import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule, sonorityClass } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector } from "./trace.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
@@ -735,26 +735,9 @@ export function repairConsonantPileups(
 // Sonority helpers for SSP-based junction validation
 // ---------------------------------------------------------------------------
 
-/**
- * Coarse sonority rank for a consonant phoneme (manner-only, no place adjustment).
- *
- * For junction SSP checks we care about *manner class* groupings, not fine-grained
- * place distinctions. All stops share one rank, all fricatives share one rank, etc.
- * This prevents false positives where /kt.p/ (velar→alveolar→bilabial) is a valid
- * fine-grained sonority fall but orthographic "ctp" never appears in English.
- */
-export function sonority(p: Phoneme): number {
-  switch (p.mannerOfArticulation) {
-    case "stop": return 1;
-    case "affricate": return 2;
-    case "fricative": return 3;
-    case "sibilant": return 4;
-    case "nasal": return 5;
-    case "lateralApproximant": case "liquid": return 6;
-    case "glide": return 7;
-    default: return 0;
-  }
-}
+// Note: sonority ranking for SSP junction checks uses sonorityClass() from
+// config/language.ts — the manner-only component of the language's sonority
+// hierarchy. See Phase B of #250 for rationale.
 
 /**
  * Check whether a full coda→onset cluster obeys the Sonority Sequencing Principle.
@@ -772,7 +755,11 @@ export function sonority(p: Phoneme): number {
  * Exception: /s/ can violate SSP (e.g. "str", "sp", "sts") — the s-exception
  * is well-attested across languages.
  */
-export function isJunctionSonorityValid(coda: Phoneme[], onset: Phoneme[]): boolean {
+export function isJunctionSonorityValid(
+  coda: Phoneme[],
+  onset: Phoneme[],
+  config: LanguageConfig,
+): boolean {
   if (coda.length === 0 || onset.length === 0) return true;
 
   const totalLen = coda.length + onset.length;
@@ -780,10 +767,11 @@ export function isJunctionSonorityValid(coda: Phoneme[], onset: Phoneme[]): bool
   // handled by the articulatory rules; don't over-constrain.
   if (totalLen <= 2) return true;
 
+  const son = (p: Phoneme) => sonorityClass(p, config);
   const isS = (p: Phoneme) => p.sound === "s";
 
-  const codaSon = coda.map(sonority);
-  const onsetSon = onset.map(sonority);
+  const codaSon = coda.map(son);
+  const onsetSon = onset.map(son);
 
   const codaEnd = codaSon[codaSon.length - 1];
   const onsetStart = onsetSon[0];
@@ -907,6 +895,7 @@ export function repairJunctions(
   hyphenatedParts: string[],
   boundaries: SyllableBoundary[],
   consonantGraphemes?: string[],
+  config?: LanguageConfig,
 ): void {
   const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
 
@@ -917,7 +906,7 @@ export function repairJunctions(
       if (!codaFinal || !onsetInitial) continue;
 
       if (!isJunctionValid(codaFinal, onsetInitial, onsetCluster)
-          || !isJunctionSonorityValid(codaCluster, onsetCluster)) {
+          || (config && !isJunctionSonorityValid(codaCluster, onsetCluster, config))) {
         // Drop the last consonant grapheme token from the coda part
         const codaPart = cleanParts[i];
         if (!codaPart) continue;
@@ -1474,7 +1463,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         });
       }
       const beforeJunction = context.trace ? cleanParts.join("") : "";
-      repairJunctions(cleanParts, hyphenatedParts, boundaries, wfc?.consonantGraphemes);
+      repairJunctions(cleanParts, hyphenatedParts, boundaries, wfc?.consonantGraphemes, config);
       context.trace?.recordRepair("repairJunctions", beforeJunction, cleanParts.join(""));
       // Re-run pileup repair in case junction repair changed things
       if (maxGraphemes) {

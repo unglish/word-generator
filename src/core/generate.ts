@@ -664,7 +664,7 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
   const maxDrops = prevSyllable.coda.length;
   for (let d = 0; d < maxDrops; d++) {
     if (prevSyllable.coda.length === 0) break;
-    if (isJunctionSonorityValid(prevSyllable.coda, currentSyllable.onset)) break;
+    if (isJunctionSonorityValid(prevSyllable.coda, currentSyllable.onset, rt.config)) break;
     const dropped = prevSyllable.coda.pop()!;
     trace?.recordStructural("sspBoundaryDrop", `dropped coda /${dropped.sound}/ — SSP violation in cluster [${prevSyllable.coda.map(p => p.sound).join(",")}].{${currentSyllable.onset.map(p => p.sound).join(",")}}`);
   }
