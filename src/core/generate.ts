@@ -4,7 +4,7 @@ import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
-import { createWrittenFormGenerator, isJunctionSonorityValid } from "./write.js";
+import { createWrittenFormGenerator, validateJunction } from "./write.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
@@ -664,13 +664,13 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
   //
   // maxDrops is computed *after* check 1 may have already popped one phoneme —
   // it serves as an upper bound so the loop can't run forever. The explicit
-  // `coda.length === 0` guard is here for clarity: isJunctionSonorityValid
-  // returns true for an empty coda anyway, so the loop would terminate on the
-  // next iteration without it, but the early break makes intent clear.
+  // `coda.length === 0` guard is here for clarity: validateJunction returns
+  // true for an empty coda anyway, so the loop would terminate on the next
+  // iteration without it, but the early break makes intent clear.
   const maxDrops = prevSyllable.coda.length;
   for (let d = 0; d < maxDrops; d++) {
     if (prevSyllable.coda.length === 0) break;
-    if (isJunctionSonorityValid(prevSyllable.coda, currentSyllable.onset, rt.config)) break;
+    if (validateJunction(prevSyllable.coda, currentSyllable.onset, rt.config)) break;
     const dropped = prevSyllable.coda.pop()!;
     // TODO(#250): Trace message shows post-drop coda, which is correct for
     // "remaining cluster" but could be confusing. Consider showing before/after.
