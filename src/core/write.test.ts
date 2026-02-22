@@ -1142,3 +1142,40 @@ describe("silent-e integration", () => {
     }
   });
 });
+
+describe("nucleus-ends-consonant-letter doubling suppression", () => {
+  it("does not produce doubled consonants after rhotic vowel graphemes (er/or/ur + ss/ll/ff)", () => {
+    const gen = createGenerator(englishConfig);
+    let violations = 0;
+    const total = 10000;
+    const rhoticDoubled = /[rlnm](ss|ll|ff|tt|pp|bb)/;
+
+    for (let i = 0; i < total; i++) {
+      const word = gen.generateWord({ seed: i });
+      const clean = word.written.clean.toLowerCase();
+      if (rhoticDoubled.test(clean)) violations++;
+    }
+
+    // Before fix: ~1.1% of words. After: ~0.1% (residual ngg from /dʒ/→"gg").
+    // Allow up to 0.5% as a generous gate.
+    console.log(`  Sonorant+doubled: ${violations}/${total} (${(violations / total * 100).toFixed(2)}%)`);
+    expect(violations / total).toBeLessThan(0.005);
+  });
+
+  it("still produces doubled consonants after regular vowel graphemes (a/e/i/o/u)", () => {
+    const gen = createGenerator(englishConfig);
+    let doubled = 0;
+    const total = 10000;
+    const vowelDoubled = /[aeiouy](ss|ll|ff|tt|pp|bb|dd|gg|mm|nn|rr|zz)/;
+
+    for (let i = 0; i < total; i++) {
+      const word = gen.generateWord({ seed: i });
+      const clean = word.written.clean.toLowerCase();
+      if (vowelDoubled.test(clean)) doubled++;
+    }
+
+    // Doubling should still fire after regular vowel letters.
+    console.log(`  Vowel+doubled: ${doubled}/${total} (${(doubled / total * 100).toFixed(1)}%)`);
+    expect(doubled).toBeGreaterThan(100);
+  });
+});

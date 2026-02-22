@@ -370,10 +370,10 @@ function selectByFrequency(
 }
 
 // ---------------------------------------------------------------------------
-// Pipeline Step 5: Apply doubling
+// Pipeline Step 5: Doubling (factory pattern)
 // ---------------------------------------------------------------------------
 
-interface DoublingContext {
+interface DoublingState {
   doublingCount: number;
 }
 
@@ -384,101 +384,142 @@ interface DoublingTraceInfo {
   result?: string;
 }
 
-function applyDoubling(
-  form: string,
+/** Per-phoneme context for the doubling decision. */
+interface DoublingSlot {
+  form: string;
+  phoneme: Phoneme;
+  position: "onset" | "nucleus" | "coda";
+  prevPhoneme?: Phoneme;
+  nextNucleus?: Phoneme;
+  nucleusForm: string;
+  stress?: string;
+  prevReduced: boolean;
+  isCluster: boolean;
+  isFirstInCoda: boolean;
+  isLastPhoneme: boolean;
+  isEndOfWord: boolean;
+  isMonosyllabic: boolean;
+  nextIsConsonant: boolean;
+}
+
+type DoublingFn = (slot: DoublingSlot, state: DoublingState, rand: RNG, trace?: DoublingTraceInfo) => string;
+
+/**
+ * Create a doubling function bound to the given config.
+ * Config-level invariants (probability, trigger, never-double list, doubled forms)
+ * are captured once; only per-phoneme context is passed at call time.
+ */
+function createDoublingFn(
   config: DoublingConfig | undefined,
-  doublingCtx: DoublingContext,
-  currPhoneme: Phoneme,
-  prevPhoneme: Phoneme | undefined,
-  nextNucleus: Phoneme | undefined,
-  position: "onset" | "nucleus" | "coda",
-  isCluster: boolean,
-  isEndOfWord: boolean,
-  isLastPhoneme: boolean,
-  syllableStress: string | undefined,
-  prevReduced: boolean,
   neverDoubleSet: Set<string>,
-  rand: RNG,
-  traceOut?: DoublingTraceInfo,
-  isMonosyllabic?: boolean,
-  isFirstInCoda?: boolean,
-  nextIsConsonant?: boolean,
-): string {
-  const skip = (reason: string) => { if (traceOut) { traceOut.attempted = false; traceOut.reason = reason; } return form; };
+  doubledFormSet: Set<string>,
+): DoublingFn {
+  if (!config?.enabled) {
+    return (slot, _state, _rand, trace) => {
+      if (trace) { trace.attempted = false; trace.reason = "disabled"; }
+      return slot.form;
+    };
+  }
 
-  if (!config || !config.enabled) return skip("disabled");
-  if (!prevPhoneme) return skip("no-prev-phoneme");
-  // Allow doubling for the first consonant in a coda cluster ONLY if it has a custom
-  // doubledForm (e.g. k→ck in "backs"), not a simple letter repeat (p→pp).
-  // Simple repeats before more coda consonants create impossible clusters: ppt, nnd, ddz, ggz.
-  if (isCluster) {
-    if (position === "coda" && isFirstInCoda && config.doubledForms?.[form]) {
-      // Custom doubled form like k→ck is fine in clusters (e.g. "cks")
-    } else {
-      return skip("in-cluster");
+  const doubledFormLookup = config.doubledForms ?? {};
+
+  return function applyDoubling(slot, state, rand, trace) {
+    const {
+      form, phoneme, position, prevPhoneme, nextNucleus, nucleusForm,
+      stress, prevReduced, isCluster, isFirstInCoda,
+      isLastPhoneme, isEndOfWord, isMonosyllabic, nextIsConsonant,
+    } = slot;
+
+    const skip = (reason: string) => {
+      if (trace) { trace.attempted = false; trace.reason = reason; }
+      return form;
+    };
+
+    if (!prevPhoneme) return skip("no-prev-phoneme");
+
+    // Allow doubling for the first consonant in a coda cluster ONLY if it has a custom
+    // doubledForm (e.g. k→ck in "backs"), not a simple letter repeat (p→pp).
+    // Simple repeats before more coda consonants create impossible clusters: ppt, nnd, ddz, ggz.
+    if (isCluster) {
+      if (position === "coda" && isFirstInCoda && doubledFormLookup[form]) {
+        // Custom doubled form like k→ck is fine in clusters (e.g. "cks")
+      } else {
+        return skip("in-cluster");
+      }
     }
-  }
-  // Suppress doubling when a coda consonant is followed by another consonant (onset of next syllable).
-  // Doubling here creates impossible cross-syllable clusters: "nn" + "t" → "nnt", "ll" + "d" → "lld".
-  if (position === "coda" && nextIsConsonant) return skip("coda-before-consonant");
-  if (form.length !== 1) {
-    // "ck" etc. selected directly from grapheme map — still counts toward maxPerWord
-    const doubledValues = config.doubledForms ? Object.values(config.doubledForms) : [];
-    if (doubledValues.includes(form)) {
-      doublingCtx.doublingCount++;
+
+    // Suppress doubling when a coda consonant is followed by another consonant (onset of next syllable).
+    // Doubling here creates impossible cross-syllable clusters: "nn" + "t" → "nnt", "ll" + "d" → "lld".
+    if (position === "coda" && nextIsConsonant) return skip("coda-before-consonant");
+
+    if (form.length !== 1) {
+      // "ck" etc. selected directly from grapheme map — still counts toward maxPerWord
+      if (doubledFormSet.has(form)) {
+        state.doublingCount++;
+      }
+      return skip("multi-char-grapheme");
     }
-    return skip("multi-char-grapheme");
-  }
-  if (position !== "onset" && position !== "coda") return skip("nucleus-position");
-  if (doublingCtx.doublingCount >= config.maxPerWord) return skip("max-per-word");
+    if (position !== "onset" && position !== "coda") return skip("nucleus-position");
+    if (state.doublingCount >= config.maxPerWord) return skip("max-per-word");
 
-  // Check trigger
-  if (config.trigger === "lax-vowel") {
-    const isAfterVowel = prevPhoneme.nucleus != null && prevPhoneme.nucleus > 0;
-    const isLax = prevPhoneme.tense === false;
-    if (!isAfterVowel || !isLax) return skip("trigger:not-after-lax-vowel");
-  }
+    // Phonological trigger
+    if (config.trigger === "lax-vowel") {
+      const isAfterVowel = prevPhoneme.nucleus != null && prevPhoneme.nucleus > 0;
+      const isLax = prevPhoneme.tense === false;
+      if (!isAfterVowel || !isLax) return skip("trigger:not-after-lax-vowel");
+    }
 
-  // neverDoubleFinal — suppress word-final doubling for specific sounds
-  if (isEndOfWord && isLastPhoneme && config.neverDoubleFinal?.includes(currPhoneme.sound)) return skip("never-double-final");
+    // Doubling signals "short vowel" to the reader — but only works when the
+    // nucleus *looks like* a vowel on the page. Vowel graphemes that end in a
+    // consonant letter (e.g. /ɚ/ → "er"/"or"/"ur") break the visual signal:
+    // "erss" reads as a consonant pileup, not doubled-after-short-vowel.
+    // Empty on first-syllable onset (no preceding nucleus) — the lax-vowel
+    // trigger above already rejects that case.
+    if (nucleusForm.length > 0) {
+      const lastNucleusChar = nucleusForm[nucleusForm.length - 1].toLowerCase();
+      if (!VOWEL_LETTERS.has(lastNucleusChar)) return skip("nucleus-ends-consonant-letter");
+    }
 
-  // neverDouble — check both phoneme sound and grapheme form
-  if (neverDoubleSet.has(currPhoneme.sound)) return skip("never-double:sound");
-  if (neverDoubleSet.has(form)) return skip("never-double:form");
+    // neverDoubleFinal — suppress word-final doubling for specific sounds
+    if (isEndOfWord && isLastPhoneme && config.neverDoubleFinal?.includes(phoneme.sound)) return skip("never-double-final");
 
-  // finalDoublingOnly
-  if (isEndOfWord && config.finalDoublingOnly && config.finalDoublingOnly.length > 0) {
-    if (!config.finalDoublingOnly.includes(currPhoneme.sound)) return skip("final-doubling-only");
-  }
+    // neverDouble — check both phoneme sound and grapheme form
+    if (neverDoubleSet.has(phoneme.sound)) return skip("never-double:sound");
+    if (neverDoubleSet.has(form)) return skip("never-double:form");
 
-  // suppressAfterReduction
-  if (config.suppressAfterReduction && prevReduced) return skip("suppress-after-reduction");
+    // finalDoublingOnly
+    if (isEndOfWord && config.finalDoublingOnly && config.finalDoublingOnly.length > 0) {
+      if (!config.finalDoublingOnly.includes(phoneme.sound)) return skip("final-doubling-only");
+    }
 
-  // suppressBeforeTense
-  if (config.suppressBeforeTense && nextNucleus) {
-    if (nextNucleus.tense === true) return skip("suppress-before-tense");
-  }
+    // suppressAfterReduction
+    if (config.suppressAfterReduction && prevReduced) return skip("suppress-after-reduction");
 
-  // Calculate probability
-  let prob = config.probability;
-  // Monosyllables are inherently stressed even without a ˈ marker.
-  // Only apply unstressed modifier to genuinely unstressed syllables in polysyllabic words.
-  if (config.unstressedModifier != null && !syllableStress && !isMonosyllabic) {
-    prob *= config.unstressedModifier;
-  }
-  prob = Math.min(100, Math.max(0, Math.round(prob)));
-  if (prob <= 0) return skip("zero-probability:unstressed");
+    // suppressBeforeTense
+    if (config.suppressBeforeTense && nextNucleus) {
+      if (nextNucleus.tense === true) return skip("suppress-before-tense");
+    }
 
-  const shouldDouble = getWeightedOption([[true, prob], [false, 100 - prob]], rand);
-  if (shouldDouble) {
-    doublingCtx.doublingCount++;
-    // Use custom doubled form if configured (e.g. k → ck), otherwise repeat
-    const doubled = config.doubledForms?.[form] ?? (form + form);
-    if (traceOut) { traceOut.attempted = true; traceOut.probability = prob; traceOut.result = doubled; }
-    return doubled;
-  }
-  if (traceOut) { traceOut.attempted = true; traceOut.probability = prob; traceOut.reason = "roll-failed"; }
-  return form;
+    // Calculate probability
+    let prob = config.probability;
+    // Monosyllables are inherently stressed even without a ˈ marker.
+    // Only apply unstressed modifier to genuinely unstressed syllables in polysyllabic words.
+    if (config.unstressedModifier != null && !stress && !isMonosyllabic) {
+      prob *= config.unstressedModifier;
+    }
+    prob = Math.min(100, Math.max(0, Math.round(prob)));
+    if (prob <= 0) return skip("zero-probability:unstressed");
+
+    const shouldDouble = getWeightedOption([[true, prob], [false, 100 - prob]], rand);
+    if (shouldDouble) {
+      state.doublingCount++;
+      const doubled = doubledFormLookup[form] ?? (form + form);
+      if (trace) { trace.attempted = true; trace.probability = prob; trace.result = doubled; }
+      return doubled;
+    }
+    if (trace) { trace.attempted = true; trace.probability = prob; trace.reason = "roll-failed"; }
+    return form;
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -1310,6 +1351,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const wordRules = allCompiledRules.filter(r => r.scope === "word" || r.scope === "both");
   const categories = buildCategorySets(config.phonemes);
   const neverDoubleSet = new Set<string>(doublingConfig?.neverDouble ?? []);
+  const doubledFormSet = new Set(Object.values(doublingConfig?.doubledForms ?? {}));
+  const tryDoubling = createDoublingFn(doublingConfig, neverDoubleSet, doubledFormSet);
 
   // Pre-expand conditions for all graphemes
   const expandedConditions = preExpandConditions(config.graphemes, categories);
@@ -1339,9 +1382,10 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const cleanParts: string[] = [];
     const hyphenatedParts: string[] = [];
     let currentSyllable: string[] = [];
-    const doublingCtx: DoublingContext = { doublingCount: 0 };
+    const doublingCtx: DoublingState = { doublingCount: 0 };
     const nucleusGraphemes: string[] = []; // Track nucleus grapheme form per syllable
     let currentNucleusForm = "";
+    let prevNucleusForm = "";
     let prevGraphemeForm: string | undefined;
 
     for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
@@ -1373,18 +1417,32 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord, prevGraphemeForm);
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
       // When doubling quota is full, exclude doubled-form graphemes (e.g. "ck") so we don't exceed maxPerWord
-      const doubledFormValues = doublingConfig?.doubledForms ? Object.values(doublingConfig.doubledForms) : [];
-      const quotaFiltered = doubledFormValues.length > 0 && doublingCtx.doublingCount >= doublingConfig!.maxPerWord
-        ? positional.filter(g => !doubledFormValues.includes(g.form))
+      const quotaFiltered = doubledFormSet.size > 0 && doublingCtx.doublingCount >= (doublingConfig?.maxPerWord ?? Infinity)
+        ? positional.filter(g => !doubledFormSet.has(g.form))
         : positional;
       const tracing = !!context.trace;
       const selected = selectByFrequency(quotaFiltered.length > 0 ? quotaFiltered : positional, rand, isStartOfWord, isEndOfWord, tracing, position, stress, syllables.length);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
-      const isMonosyllabic = syllables.length === 1;
-      const isFirstInCoda = position === "coda" && prevEntry?.position !== "coda";
-      const nextIsConsonant = nextEntry?.position === "onset" || (nextEntry?.syllableIndex === syllableIndex && nextEntry?.position === "coda");
-      const form = applyDoubling(selected.form, doublingConfig, doublingCtx, phoneme, prevPhoneme, nextNucleus, position, isCluster, isEndOfWord, isLastPhoneme, stress, prevReduced, neverDoubleSet, rand, doublingTraceInfo, isMonosyllabic, isFirstInCoda, nextIsConsonant);
+      // For doubling, use the nucleus grapheme that the reader sees before the
+      // doubled consonant: for coda, that's the current syllable's nucleus; for
+      // onset, it's the previous syllable's (the vowel the doubling "closes").
+      const form = tryDoubling({
+        form: selected.form,
+        phoneme,
+        position,
+        prevPhoneme,
+        nextNucleus,
+        nucleusForm: position === "onset" ? prevNucleusForm : currentNucleusForm,
+        stress,
+        prevReduced,
+        isCluster,
+        isFirstInCoda: position === "coda" && prevEntry?.position !== "coda",
+        isLastPhoneme,
+        isEndOfWord,
+        isMonosyllabic: syllables.length === 1,
+        nextIsConsonant: nextEntry?.position === "onset" || (nextEntry?.syllableIndex === syllableIndex && nextEntry?.position === "coda"),
+      }, doublingCtx, rand, doublingTraceInfo);
       prevGraphemeForm = form;
 
       if (context.trace) {
@@ -1432,6 +1490,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         }
 
         currentSyllable = [];
+        prevNucleusForm = currentNucleusForm;
         currentNucleusForm = "";
       }
     }
