@@ -19,7 +19,20 @@ export {
 export { OTStressConfig, OTConstraint, ConstraintWeight } from "./core/ot-stress.js";
 export { englishConfig } from "./config/english.js";
 export { RNG, createSeededRng, createDefaultRng } from "./utils/random.js";
-export type { WordTrace, StageSnapshot, SyllableSnapshot, GraphemeTrace, DoublingTrace, RepairTrace, MorphologyTrace, StructuralTrace } from "./core/trace.js";
+export type {
+  WordTrace,
+  StageSnapshot,
+  SyllableSnapshot,
+  GraphemeTrace,
+  DoublingTrace,
+  RepairTrace,
+  MorphologyTrace,
+  StructuralTrace,
+  TraceLink,
+  OrthographyCharOwner,
+  OrthographyUnitTrace,
+  OrthographyTrace,
+} from "./core/trace.js";
 export { TraceCollector } from "./core/trace.js";
 
 /**

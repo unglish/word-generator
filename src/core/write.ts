@@ -1,7 +1,7 @@
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule, sonorityClass } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
-import type { TraceCollector } from "./trace.js";
+import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink } from "./trace.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 
 // ---------------------------------------------------------------------------
@@ -55,6 +55,214 @@ function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RN
     }
   }
   return result;
+}
+
+interface TraceUnitSeed {
+  id: number;
+  graphemeSelectionIndex: number;
+  phoneme: string;
+  position: string;
+  syllableIndex: number;
+  selected: string;
+  emitted: string;
+}
+
+type EditOp = "match" | "substitute" | "insert" | "delete";
+
+/**
+ * Map character ownership from a source string onto a rewritten target string.
+ *
+ * Uses edit-distance alignment and propagates ownership through substitutions
+ * and insertions so every target character can be highlighted in the debug UI.
+ */
+function remapOwnersThroughRewrite(source: string, sourceOwners: number[], target: string): number[] {
+  if (source === target) return sourceOwners.slice(0, target.length);
+  if (target.length === 0) return [];
+  if (source.length === 0) return new Array<number>(target.length).fill(-1);
+
+  const m = source.length;
+  const n = target.length;
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array<number>(n + 1).fill(0));
+
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      const substCost = source[i - 1] === target[j - 1] ? 0 : 1;
+      const del = dp[i - 1][j] + 1;
+      const ins = dp[i][j - 1] + 1;
+      const sub = dp[i - 1][j - 1] + substCost;
+      dp[i][j] = Math.min(del, ins, sub);
+    }
+  }
+
+  const ops: EditOp[] = [];
+  let i = m;
+  let j = n;
+  while (i > 0 || j > 0) {
+    if (i > 0 && j > 0) {
+      const substCost = source[i - 1] === target[j - 1] ? 0 : 1;
+      if (dp[i][j] === dp[i - 1][j - 1] + substCost) {
+        ops.push(substCost === 0 ? "match" : "substitute");
+        i--;
+        j--;
+        continue;
+      }
+    }
+    if (j > 0 && dp[i][j] === dp[i][j - 1] + 1) {
+      ops.push("insert");
+      j--;
+      continue;
+    }
+    if (i > 0 && dp[i][j] === dp[i - 1][j] + 1) {
+      ops.push("delete");
+      i--;
+      continue;
+    }
+    // Defensive fallback for any rare tie/rounding edge.
+    if (i > 0 && j > 0) {
+      ops.push("substitute");
+      i--;
+      j--;
+    } else if (j > 0) {
+      ops.push("insert");
+      j--;
+    } else {
+      ops.push("delete");
+      i--;
+    }
+  }
+  ops.reverse();
+
+  const targetOwners = new Array<number>(n).fill(-1);
+  let srcIdx = 0;
+  let tgtIdx = 0;
+
+  for (const op of ops) {
+    if (op === "match" || op === "substitute") {
+      targetOwners[tgtIdx] = sourceOwners[srcIdx] ?? -1;
+      srcIdx++;
+      tgtIdx++;
+      continue;
+    }
+    if (op === "delete") {
+      srcIdx++;
+      continue;
+    }
+    // Inserted character: attach to the closest known neighbor owner.
+    const leftOwner = tgtIdx > 0 ? targetOwners[tgtIdx - 1] : -1;
+    const rightOwner = sourceOwners[srcIdx] ?? -1;
+    targetOwners[tgtIdx] = leftOwner !== -1 ? leftOwner : rightOwner;
+    tgtIdx++;
+  }
+
+  // Fill any unresolved owners by nearest assigned neighbor.
+  for (let k = 0; k < targetOwners.length; k++) {
+    if (targetOwners[k] !== -1) continue;
+    let resolved = -1;
+    for (let l = k - 1; l >= 0; l--) {
+      if (targetOwners[l] !== -1) {
+        resolved = targetOwners[l];
+        break;
+      }
+    }
+    if (resolved === -1) {
+      for (let r = k + 1; r < targetOwners.length; r++) {
+        if (targetOwners[r] !== -1) {
+          resolved = targetOwners[r];
+          break;
+        }
+      }
+    }
+    targetOwners[k] = resolved;
+  }
+
+  return targetOwners;
+}
+
+function buildLinksForUnit(unit: TraceUnitSeed, trace: TraceCollector): TraceLink[] {
+  const links: TraceLink[] = [{
+    kind: "graphemeSelection",
+    index: unit.graphemeSelectionIndex,
+    label: `graphemeSelection:${unit.graphemeSelectionIndex}`,
+  }];
+
+  const repNeedles = [unit.emitted, unit.selected].filter(n => !!n && n.length >= 2);
+  const hasTokenLike = (text: string, needle: string): boolean => {
+    if (!needle || needle.length < 2) return false;
+    // Boundaries are start/end or non-letter to reduce accidental substring matches.
+    const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const rx = new RegExp(`(^|[^a-z])${escaped}([^a-z]|$)`, "i");
+    return rx.test(text);
+  };
+  for (let i = 0; i < trace.repairs.length; i++) {
+    const r = trace.repairs[i];
+    if (repNeedles.some(n => hasTokenLike(r.before, n) || hasTokenLike(r.after, n))) {
+      links.push({ kind: "repair", index: i, label: r.rule });
+    }
+  }
+
+  const phonemeNeedle = `/${unit.phoneme}/`;
+  for (let i = 0; i < trace.structural.length; i++) {
+    const s = trace.structural[i];
+    if (s.detail.includes(phonemeNeedle)) {
+      links.push({ kind: "structural", index: i, label: s.event });
+    }
+  }
+
+  return links;
+}
+
+function buildOrthographyTrace(
+  surface: string,
+  finalOwners: number[],
+  units: TraceUnitSeed[],
+  trace: TraceCollector,
+): OrthographyTrace {
+  const unitById = new Map<number, TraceUnitSeed>(units.map(u => [u.id, u]));
+  const spans = new Map<number, { start: number; end: number }>();
+  for (let i = 0; i < finalOwners.length; i++) {
+    const owner = finalOwners[i];
+    if (!unitById.has(owner)) continue;
+    const existing = spans.get(owner);
+    if (!existing) {
+      spans.set(owner, { start: i, end: i });
+    } else {
+      existing.end = i;
+    }
+  }
+
+  const chars = surface.split("").map((char, index) => {
+    const unitId = finalOwners[index] ?? -1;
+    const owner = unitById.get(unitId);
+    return {
+      index,
+      char,
+      unitId,
+      graphemeSelectionIndex: owner ? owner.graphemeSelectionIndex : -1,
+    };
+  });
+
+  const toUnitTrace = (unit: TraceUnitSeed): OrthographyUnitTrace => {
+    const span = spans.get(unit.id);
+    return {
+      id: unit.id,
+      graphemeSelectionIndex: unit.graphemeSelectionIndex,
+      phoneme: unit.phoneme,
+      position: unit.position,
+      syllableIndex: unit.syllableIndex,
+      selected: unit.selected,
+      emitted: unit.emitted,
+      present: !!span,
+      start: span ? span.start : null,
+      end: span ? span.end : null,
+      links: buildLinksForUnit(unit, trace),
+    };
+  };
+
+  const graphemeUnits = units.map(toUnitTrace);
+  return { surface, chars, graphemeUnits };
 }
 
 // ---------------------------------------------------------------------------
@@ -1375,6 +1583,10 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   return (context: WordGenerationContext) => {
     const rand = context.rand;
     const { syllables, written } = context.word;
+    const tracing = !!context.trace;
+    const traceUnits: TraceUnitSeed[] = [];
+    let preRepairSurface = "";
+    let preRepairOwners: number[] = [];
     const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
       (["onset", "nucleus", "coda"] as const).flatMap((position) =>
         syllable[position].map((phoneme) => ({
@@ -1389,6 +1601,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const cleanParts: string[] = [];
     const hyphenatedParts: string[] = [];
     let currentSyllable: string[] = [];
+    let currentSyllableOwners: number[] = [];
     const doublingCtx: DoublingState = { doublingCount: 0 };
     const nucleusGraphemes: string[] = []; // Track nucleus grapheme form per syllable
     let currentNucleusForm = "";
@@ -1427,7 +1640,6 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const quotaFiltered = doubledFormSet.size > 0 && doublingCtx.doublingCount >= (doublingConfig?.maxPerWord ?? Infinity)
         ? positional.filter(g => !doubledFormSet.has(g.form))
         : positional;
-      const tracing = !!context.trace;
       const selected = selectByFrequency(quotaFiltered.length > 0 ? quotaFiltered : positional, rand, isStartOfWord, isEndOfWord, tracing, position, stress, syllables.length);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
@@ -1452,8 +1664,15 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }, doublingCtx, rand, doublingTraceInfo);
       prevGraphemeForm = form;
 
+      let emitted = form;
+      if (currentSyllable.length > 0 && form.length > 0 &&
+          currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]) {
+        emitted = form.slice(1);
+      }
+
       if (context.trace) {
         context.trace.recordGraphemeSelection({
+          index: phonemeIndex,
           phoneme: phoneme.sound,
           position,
           syllableIndex,
@@ -1463,6 +1682,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           weights: selected._weights ?? [],
           roll: selected._roll ?? 0,
           selected: selected.form,
+          emitted,
           doubled: form !== selected.form,
           doubling: doublingTraceInfo ? {
             attempted: doublingTraceInfo.attempted,
@@ -1472,25 +1692,44 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           } : undefined,
         });
       }
-
-      if (currentSyllable.length > 0 && form.length > 0 &&
-          currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]) {
-        currentSyllable.push(form.slice(1));
-      } else {
-        currentSyllable.push(form);
+      currentSyllable.push(emitted);
+      if (tracing && emitted.length > 0) {
+        for (let ci = 0; ci < emitted.length; ci++) {
+          currentSyllableOwners.push(phonemeIndex);
+        }
+      }
+      if (tracing) {
+        traceUnits.push({
+          id: phonemeIndex,
+          graphemeSelectionIndex: phonemeIndex,
+          phoneme: phoneme.sound,
+          position,
+          syllableIndex,
+          selected: selected.form,
+          emitted,
+        });
       }
 
       if (!nextEntry || nextEntry.syllableIndex !== syllableIndex) {
-        let syllableStr = applySpellingRules(currentSyllable.join(""), syllableRules, rand, context.trace, `syllable:${syllableIndex}`);
+        const rawSyllable = currentSyllable.join("");
+        let syllableStr = applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`);
+        let syllableOwners = tracing
+          ? remapOwnersThroughRewrite(rawSyllable, currentSyllableOwners, syllableStr)
+          : [];
 
         if (cleanParts.length > 0 && syllableStr.length > 0 &&
             cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
           syllableStr = syllableStr.slice(1);
+          if (tracing) syllableOwners = syllableOwners.slice(1);
         }
 
         cleanParts.push(syllableStr);
         hyphenatedParts.push(syllableStr);
         nucleusGraphemes.push(currentNucleusForm);
+        if (tracing) {
+          preRepairSurface += syllableStr;
+          preRepairOwners.push(...syllableOwners);
+        }
 
         if (nextEntry) {
           hyphenatedParts.push("&shy;");
@@ -1498,7 +1737,16 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
         currentSyllable = [];
         prevNucleusForm = currentNucleusForm;
+        currentSyllableOwners = [];
         currentNucleusForm = "";
+      }
+    }
+
+    if (tracing) {
+      const cleanSurface = cleanParts.join("");
+      if (preRepairSurface !== cleanSurface) {
+        preRepairOwners = remapOwnersThroughRewrite(preRepairSurface, preRepairOwners, cleanSurface);
+        preRepairSurface = cleanSurface;
       }
     }
 
@@ -1628,6 +1876,11 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
       finalClean = postParts[0];
       context.trace?.recordRepair("postSpellingBackstop", beforePost, finalClean);
+    }
+
+    if (tracing && context.trace) {
+      const finalOwners = remapOwnersThroughRewrite(preRepairSurface, preRepairOwners, finalClean);
+      context.trace.orthographyTrace = buildOrthographyTrace(finalClean, finalOwners, traceUnits, context.trace);
     }
 
     written.clean = finalClean;

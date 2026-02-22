@@ -188,6 +188,145 @@
         .sort-btn { padding: 0.2em 0.7em; border: 1px solid var(--muted); background: var(--bg); color: var(--fg); cursor: pointer; font-size: 0.9em; border-radius: 3px; }
         .sort-btn:hover:not(.active) { background: var(--muted); color: var(--bg); }
         .sort-btn.active { background: var(--fg); color: var(--bg); }
+
+        /* Debug workbench */
+        .debug-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6em;
+            align-items: center;
+            margin: 0 0 1em 0;
+            font-size: 0.85em;
+            color: var(--muted);
+        }
+        .debug-controls input, .debug-controls select, .debug-controls button {
+            font: inherit;
+        }
+        .debug-controls button {
+            border: 1px solid var(--muted);
+            background: var(--bg);
+            color: var(--fg);
+            padding: 0.25em 0.65em;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .debug-controls button:hover:not(:disabled) {
+            background: var(--muted);
+            color: var(--bg);
+        }
+        .debug-word {
+            font-size: 2.4em;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            line-height: 1.2;
+            margin-bottom: 0.2em;
+            user-select: none;
+        }
+        .debug-char {
+            display: inline-block;
+            padding: 0 0.03em;
+            border-radius: 0.15em;
+            cursor: pointer;
+        }
+        .debug-char.active {
+            background: #222;
+            color: #fff;
+        }
+        .debug-char.selected {
+            outline: 2px solid var(--fg);
+            outline-offset: 1px;
+        }
+        .debug-layer { margin: 0.65em 0; }
+        .debug-layer-title {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 0.35em;
+        }
+        .debug-token {
+            display: inline-block;
+            margin: 0.12em 0.2em 0.12em 0;
+            padding: 0.18em 0.44em;
+            border: 1px solid var(--card-border);
+            border-radius: 3px;
+            font-size: 0.88em;
+            cursor: pointer;
+            user-select: none;
+        }
+        .debug-token:hover { border-color: var(--fg); }
+        .debug-token.active {
+            background: #222;
+            color: #fff;
+            border-color: #222;
+        }
+        .debug-token.selected {
+            outline: 1px dashed var(--fg);
+            outline-offset: 1px;
+        }
+        .debug-grid {
+            display: grid;
+            gap: 0.8em;
+        }
+        .debug-trace-list {
+            border: 1px solid var(--card-border);
+            border-radius: 3px;
+            max-height: 14em;
+            overflow: auto;
+            background: var(--bg);
+        }
+        .debug-trace-row {
+            padding: 0.35em 0.45em;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.82em;
+            font-family: ui-monospace, Menlo, monospace;
+            line-height: 1.35;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .debug-trace-row:last-child { border-bottom: 0; }
+        .debug-trace-row.active {
+            background: #222;
+            color: #fff;
+        }
+        .debug-trace-row.selected {
+            outline: 2px solid var(--fg);
+            outline-offset: -2px;
+        }
+        .debug-selected {
+            font-size: 0.82em;
+            color: var(--muted);
+            margin-top: 0.45em;
+            white-space: pre-wrap;
+        }
+        .debug-comment {
+            width: 100%;
+            min-height: 5em;
+            font: inherit;
+            font-size: 0.88em;
+            border: 1px solid var(--card-border);
+            border-radius: 3px;
+            background: var(--bg);
+            color: var(--fg);
+            padding: 0.5em;
+            box-sizing: border-box;
+        }
+        .debug-copy-actions {
+            display: flex;
+            gap: 0.5em;
+            margin-top: 0.55em;
+        }
+        .debug-status {
+            font-size: 0.8em;
+            color: var(--muted);
+            margin-top: 0.35em;
+            min-height: 1.2em;
+        }
+        .debug-hint {
+            font-size: 0.8em;
+            color: var(--muted);
+            margin: 0.35em 0 0.6em 0;
+        }
     </style>
     <script src="cmuBaselines.js"></script>
     <script type="module">
@@ -757,11 +896,390 @@
                 });
             });
 
+            // ===== DEBUG TAB =====
+            let debugInited = false;
+            let debugWord = null;
+            let debugTrace = null;
+            let debugOptions = null;
+            let debugHoverGs = null;
+            const debugSelectedGrapheme = new Set();
+            const debugSelectedPhoneme = new Set();
+
+            function parseDebugOptions() {
+                const seedRaw = parseInt(($('debug-seed')?.value || '42'), 10);
+                const seed = Number.isFinite(seedRaw) ? seedRaw : 42;
+                const mode = $('debug-mode')?.value === 'text' ? 'text' : 'lexicon';
+                const syllableRaw = parseInt(($('debug-syllable-count')?.value || ''), 10);
+                const options = { seed, mode, trace: true, morphology: useMorph() };
+                if (Number.isFinite(syllableRaw) && syllableRaw >= 1 && syllableRaw <= 7) {
+                    options.syllableCount = syllableRaw;
+                }
+                return options;
+            }
+
+            function escapeHtml(str) {
+                return (str || '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function setDebugStatus(msg) {
+                const el = $('debug-status');
+                if (el) el.textContent = msg || '';
+            }
+
+            function selectedGsIndices() {
+                return Array.from(new Set([...debugSelectedGrapheme, ...debugSelectedPhoneme])).sort((a, b) => a - b);
+            }
+            function selectedGraphemeIndices() {
+                return Array.from(debugSelectedGrapheme).sort((a, b) => a - b);
+            }
+            function selectedPhonemeIndices() {
+                return Array.from(debugSelectedPhoneme).sort((a, b) => a - b);
+            }
+
+            function isRepairLinked(gsIndex, repair) {
+                const g = debugTrace?.graphemeSelections?.[gsIndex];
+                if (!g || !repair) return false;
+                const needles = [g.emitted, g.selected].filter(Boolean);
+                return needles.some(n => repair.before.includes(n) || repair.after.includes(n));
+            }
+
+            function isStructuralLinked(gsIndex, structural) {
+                const g = debugTrace?.graphemeSelections?.[gsIndex];
+                if (!g || !structural) return false;
+                return structural.detail.includes('/' + g.phoneme + '/');
+            }
+
+            function toggleDebugSelection(type, gsIndex) {
+                const targetSet = type === 'phoneme' ? debugSelectedPhoneme : debugSelectedGrapheme;
+                if (targetSet.has(gsIndex)) targetSet.delete(gsIndex);
+                else targetSet.add(gsIndex);
+            }
+
+            function renderDebug() {
+                const wordEl = $('debug-word');
+                const ipaEl = $('debug-ipa');
+                const graphemeLayerEl = $('debug-grapheme-layer');
+                const phonemeLayerEl = $('debug-phoneme-layer');
+                const gsTraceEl = $('debug-trace-graphemes');
+                const repairsTraceEl = $('debug-trace-repairs');
+                const structuralTraceEl = $('debug-trace-structural');
+                const stagesTraceEl = $('debug-trace-stages');
+                const selectionEl = $('debug-selection');
+
+                if (!debugWord || !debugTrace || !debugTrace.orthography) {
+                    wordEl.textContent = 'Generate a traced word to inspect it.';
+                    ipaEl.textContent = '';
+                    graphemeLayerEl.innerHTML = '';
+                    phonemeLayerEl.innerHTML = '';
+                    gsTraceEl.innerHTML = '';
+                    repairsTraceEl.innerHTML = '';
+                    structuralTraceEl.innerHTML = '';
+                    stagesTraceEl.innerHTML = '';
+                    selectionEl.textContent = '';
+                    return;
+                }
+
+                const orth = debugTrace.orthography;
+                const phonemeUnits = orth.phonemeUnits || orth.graphemeUnits;
+                const selectedGs = new Set(selectedGsIndices());
+                const hoveredGs = debugHoverGs !== null && debugHoverGs !== undefined && debugHoverGs >= 0
+                    ? debugHoverGs
+                    : null;
+
+                wordEl.innerHTML = '';
+                for (const ch of orth.chars) {
+                    const span = document.createElement('span');
+                    const isActive = hoveredGs !== null && ch.graphemeSelectionIndex === hoveredGs;
+                    const isSelected = selectedGs.has(ch.graphemeSelectionIndex);
+                    span.className = 'debug-char' + (isActive ? ' active' : '') + (isSelected ? ' selected' : '');
+                    span.textContent = ch.char;
+                    span.dataset.gs = String(ch.graphemeSelectionIndex);
+                    span.dataset.selType = 'grapheme';
+                    wordEl.appendChild(span);
+                }
+                ipaEl.textContent = debugWord.pronunciation || '';
+
+                const renderUnitLayer = (container, units, type) => {
+                    container.innerHTML = '';
+                    units.forEach(unit => {
+                        const token = document.createElement('span');
+                        const isSelected = (type === 'phoneme' ? debugSelectedPhoneme : debugSelectedGrapheme).has(unit.graphemeSelectionIndex);
+                        const isActive = hoveredGs !== null && unit.graphemeSelectionIndex === hoveredGs;
+                        token.className = 'debug-token' + (isActive ? ' active' : '') + (isSelected ? ' selected' : '');
+                        token.dataset.gs = String(unit.graphemeSelectionIndex);
+                        token.dataset.selType = type;
+                        const unitText = type === 'phoneme'
+                            ? ('/' + unit.phoneme + '/')
+                            : (unit.emitted && unit.emitted.length > 0 ? unit.emitted : '[empty]');
+                        token.textContent = unitText;
+                        token.title = '#' + unit.graphemeSelectionIndex + ' ' + unit.position + ' syl:' + unit.syllableIndex;
+                        container.appendChild(token);
+                    });
+                };
+
+                renderUnitLayer(graphemeLayerEl, orth.graphemeUnits, 'grapheme');
+                renderUnitLayer(phonemeLayerEl, phonemeUnits, 'phoneme');
+
+                gsTraceEl.innerHTML = debugTrace.graphemeSelections.map(g => {
+                    const isSelected = selectedGs.has(g.index);
+                    const isActive = hoveredGs !== null && g.index === hoveredGs;
+                    const rowClass = 'debug-trace-row' + (isActive ? ' active' : '') + (isSelected ? ' selected' : '');
+                    const detail = '#' + g.index + ' /' + g.phoneme + '/ ' + g.position +
+                        ' sel=' + g.selected + ' emit=' + (g.emitted || '[empty]') +
+                        ' roll=' + g.roll.toFixed(2);
+                    return '<div class="' + rowClass + '" data-gs="' + g.index + '" data-sel-type="grapheme">' + escapeHtml(detail) + '</div>';
+                }).join('');
+
+                repairsTraceEl.innerHTML = debugTrace.repairs.map((r, idx) => {
+                    const linked = hoveredGs !== null && isRepairLinked(hoveredGs, r);
+                    const rowClass = linked ? 'debug-trace-row active' : 'debug-trace-row';
+                    const detail = '#' + idx + ' ' + r.rule + ' | ' + r.before + ' -> ' + r.after;
+                    return '<div class="' + rowClass + '">' + escapeHtml(detail) + '</div>';
+                }).join('');
+
+                structuralTraceEl.innerHTML = (debugTrace.structural || []).map((s, idx) => {
+                    const linked = hoveredGs !== null && isStructuralLinked(hoveredGs, s);
+                    const rowClass = linked ? 'debug-trace-row active' : 'debug-trace-row';
+                    const detail = '#' + idx + ' ' + s.event + ' | ' + s.detail;
+                    return '<div class="' + rowClass + '">' + escapeHtml(detail) + '</div>';
+                }).join('') || '<div class="debug-trace-row">none</div>';
+
+                stagesTraceEl.innerHTML = (debugTrace.stages || []).map((s, idx) => {
+                    const detail = '#' + idx + ' ' + s.name + ' (' + s.before.length + '→' + s.after.length + ' syllables)';
+                    return '<div class="debug-trace-row">' + escapeHtml(detail) + '</div>';
+                }).join('');
+
+                const selectedLines = [];
+                for (const gs of Array.from(debugSelectedGrapheme).sort((a, b) => a - b)) {
+                    const unit = orth.graphemeUnits.find(u => u.graphemeSelectionIndex === gs);
+                    if (unit) selectedLines.push('grapheme #' + gs + ': "' + (unit.emitted || '[empty]') + '" /' + unit.phoneme + '/');
+                }
+                for (const gs of Array.from(debugSelectedPhoneme).sort((a, b) => a - b)) {
+                    const unit = phonemeUnits.find(u => u.graphemeSelectionIndex === gs);
+                    if (unit) selectedLines.push('phoneme #' + gs + ': /' + unit.phoneme + '/');
+                }
+                selectionEl.textContent = selectedLines.length > 0
+                    ? ('Selected: ' + selectedGs.size + '\n' + selectedLines.join('\n'))
+                    : 'No graphemes/phonemes selected.';
+            }
+
+            function generateDebugWord() {
+                const options = parseDebugOptions();
+                debugWord = unglish.generateWord(options);
+                debugTrace = debugWord.trace || null;
+                debugOptions = options;
+                debugHoverGs = null;
+                debugSelectedGrapheme.clear();
+                debugSelectedPhoneme.clear();
+                renderDebug();
+                setDebugStatus('Generated "' + debugWord.written.clean + '" with seed ' + options.seed + '.');
+            }
+
+            function adjustDebugSeed(delta) {
+                const seedInput = $('debug-seed');
+                const curr = parseInt(seedInput.value || '42', 10);
+                const next = (Number.isFinite(curr) ? curr : 42) + delta;
+                seedInput.value = String(next);
+                generateDebugWord();
+            }
+
+            function buildDebugPayload() {
+                if (!debugWord || !debugTrace || !debugTrace.orthography || !debugOptions) return null;
+                const selectedGraphemes = selectedGraphemeIndices();
+                const selectedPhonemes = selectedPhonemeIndices();
+                const selectedGs = selectedGsIndices();
+                const phonemeUnits = debugTrace.orthography.phonemeUnits || debugTrace.orthography.graphemeUnits;
+                const selectedGraphemeUnits = debugTrace.orthography.graphemeUnits.filter(u => selectedGraphemes.includes(u.graphemeSelectionIndex));
+                const selectedPhonemeUnits = phonemeUnits.filter(u => selectedPhonemes.includes(u.graphemeSelectionIndex));
+                const selectedGraphemeSelections = selectedGraphemes
+                    .map(i => debugTrace.graphemeSelections[i])
+                    .filter(Boolean);
+                const selectedPhonemeSelections = selectedPhonemes
+                    .map(i => debugTrace.graphemeSelections[i])
+                    .filter(Boolean);
+                const selectedRepairs = debugTrace.repairs
+                    .map((r, index) => ({ index, ...r }))
+                    .filter(r => selectedGs.some(gs => isRepairLinked(gs, r)));
+                const selectedStructural = (debugTrace.structural || [])
+                    .map((s, index) => ({ index, ...s }))
+                    .filter(s => selectedGs.some(gs => isStructuralLinked(gs, s)));
+
+                return {
+                    schema: 'unglish-debug-report/v1',
+                    build: BUILD_INFO,
+                    generatedAt: new Date().toISOString(),
+                    repro: {
+                        seed: debugOptions.seed,
+                        mode: debugOptions.mode,
+                        morphology: !!debugOptions.morphology,
+                        trace: true,
+                        syllableCount: debugOptions.syllableCount ?? null,
+                    },
+                    result: {
+                        written: debugWord.written.clean,
+                        pronunciation: debugWord.pronunciation,
+                        syllableCount: debugWord.syllables.length,
+                    },
+                    selection: {
+                        graphemeSelectionIndices: selectedGraphemes,
+                        phonemeSelectionIndices: selectedPhonemes,
+                        graphemeUnits: selectedGraphemeUnits,
+                        phonemeUnits: selectedPhonemeUnits,
+                        graphemeSelections: selectedGraphemeSelections,
+                        phonemeSelections: selectedPhonemeSelections,
+                        repairs: selectedRepairs,
+                        structural: selectedStructural,
+                    },
+                    comment: ($('debug-comment')?.value || '').trim(),
+                };
+            }
+
+            function buildDebugMarkdown(payload) {
+                const selected = payload.selection.graphemeSelectionIndices.length > 0
+                    ? payload.selection.graphemeSelectionIndices.join(', ')
+                    : 'none';
+                const selectedPh = payload.selection.phonemeSelectionIndices.length > 0
+                    ? payload.selection.phonemeSelectionIndices.join(', ')
+                    : 'none';
+                const comment = payload.comment && payload.comment.length > 0 ? payload.comment : '(none)';
+                return [
+                    '# Unglish Debug Report',
+                    '',
+                    '- Word: **' + payload.result.written + '**',
+                    '- Pronunciation: `' + payload.result.pronunciation + '`',
+                    '- Seed: `' + payload.repro.seed + '`',
+                    '- Mode: `' + payload.repro.mode + '`',
+                    '- Syllable count (forced): `' + (payload.repro.syllableCount ?? 'auto') + '`',
+                    '- Morphology: `' + payload.repro.morphology + '`',
+                    '- Selected grapheme indices: `' + selected + '`',
+                    '- Selected phoneme indices: `' + selectedPh + '`',
+                    '- Comment: ' + comment,
+                    '',
+                    '```json',
+                    JSON.stringify(payload, null, 2),
+                    '```',
+                ].join('\n');
+            }
+
+            async function copyDebugReport() {
+                const payload = buildDebugPayload();
+                if (!payload) {
+                    setDebugStatus('Nothing to copy yet.');
+                    return;
+                }
+                const markdown = buildDebugMarkdown(payload);
+                try {
+                    await navigator.clipboard.writeText(markdown);
+                    setDebugStatus('Copied Markdown + JSON report to clipboard.');
+                } catch (err) {
+                    setDebugStatus('Clipboard copy failed in this browser context.');
+                }
+            }
+
+            async function copyDebugRepro() {
+                const payload = buildDebugPayload();
+                if (!payload) {
+                    setDebugStatus('Nothing to copy yet.');
+                    return;
+                }
+                try {
+                    await navigator.clipboard.writeText(JSON.stringify(payload.repro, null, 2));
+                    setDebugStatus('Copied repro args JSON to clipboard.');
+                } catch (err) {
+                    setDebugStatus('Clipboard copy failed in this browser context.');
+                }
+            }
+
+            function initDebug() {
+                if (debugInited) return;
+                debugInited = true;
+                const debugContainers = [
+                    'debug-word',
+                    'debug-grapheme-layer',
+                    'debug-phoneme-layer',
+                    'debug-trace-graphemes',
+                ];
+                const extractSelectableTarget = (event) => {
+                    const path = typeof event.composedPath === 'function' ? event.composedPath() : [];
+                    for (const node of path) {
+                        if (!node || typeof node.getAttribute !== 'function') continue;
+                        const gsAttr = node.getAttribute('data-gs');
+                        const typeAttr = node.getAttribute('data-sel-type');
+                        if (gsAttr !== null && typeAttr !== null) {
+                            return { gsAttr, typeAttr };
+                        }
+                    }
+                    const rawTarget = event.target && event.target.nodeType === 3
+                        ? event.target.parentElement
+                        : event.target;
+                    if (rawTarget && typeof rawTarget.closest === 'function') {
+                        const el = rawTarget.closest('[data-gs][data-sel-type]');
+                        if (el) {
+                            return {
+                                gsAttr: el.getAttribute('data-gs'),
+                                typeAttr: el.getAttribute('data-sel-type'),
+                            };
+                        }
+                    }
+                    return null;
+                };
+                const delegatedSelect = (event) => {
+                    const selectedTarget = extractSelectableTarget(event);
+                    if (selectedTarget) {
+                        const gs = parseInt(selectedTarget.gsAttr || '-1', 10);
+                        const selType = selectedTarget.typeAttr;
+                        if (!Number.isFinite(gs) || gs < 0) return;
+                        if (selType !== 'grapheme' && selType !== 'phoneme') return;
+                        event.preventDefault();
+                        toggleDebugSelection(selType, gs);
+                        setDebugStatus('Selected index #' + gs + ' (' + selType + ').');
+                        renderDebug();
+                    }
+                };
+                const delegatedHover = (event) => {
+                    const selectedTarget = extractSelectableTarget(event);
+                    const gs = selectedTarget ? parseInt(selectedTarget.gsAttr || '-1', 10) : -1;
+                    const nextHover = Number.isFinite(gs) && gs >= 0 ? gs : null;
+                    if (debugHoverGs !== nextHover) {
+                        debugHoverGs = nextHover;
+                        renderDebug();
+                    }
+                };
+                const clearHover = () => {
+                    if (debugHoverGs !== null) {
+                        debugHoverGs = null;
+                        renderDebug();
+                    }
+                };
+                debugContainers.forEach(id => {
+                    $(id).addEventListener('click', delegatedSelect);
+                    $(id).addEventListener('mousemove', delegatedHover);
+                    $(id).addEventListener('mouseleave', clearHover);
+                });
+                $('debug-generate').addEventListener('click', generateDebugWord);
+                $('debug-seed-prev').addEventListener('click', () => adjustDebugSeed(-1));
+                $('debug-seed-next').addEventListener('click', () => adjustDebugSeed(1));
+                $('debug-copy-report').addEventListener('click', copyDebugReport);
+                $('debug-copy-repro').addEventListener('click', copyDebugRepro);
+                $('debug-mode').addEventListener('change', generateDebugWord);
+                $('debug-syllable-count').addEventListener('change', generateDebugWord);
+                $('debug-seed').addEventListener('keydown', (ev) => {
+                    if (ev.key === 'Enter') generateDebugWord();
+                });
+                generateDebugWord();
+            }
+
             // Hook into tab switching
             document.querySelectorAll('.tab-bar button').forEach(btn => {
                 btn.addEventListener('click', () => {
                     if (btn.dataset.tab === 'content-lexicon') initLexicon();
                     if (btn.dataset.tab === 'content-stats') initStats();
+                    if (btn.dataset.tab === 'content-debug') initDebug();
                 });
             });
 
@@ -787,6 +1305,7 @@
             <button disabled data-tab="content-text">Text</button>
             <button data-tab="content-lexicon">Lexicon</button>
             <button data-tab="content-stats">Stats</button>
+            <button data-tab="content-debug">Debug</button>
             <label style="margin-left:auto;display:flex;align-items:center;gap:0.3em;font-size:0.9em;cursor:pointer">
                 <input type="checkbox" id="morph-toggle"> Include affixes
             </label>
@@ -921,6 +1440,80 @@
                 <h2>Word Length — Phonemes</h2>
                 <div class="legend" id="stats-phoneme-length-legend"></div>
                 <div id="stats-phoneme-length-chart"></div>
+            </div>
+        </div>
+
+        <div id="content-debug" class="tab-content">
+            <div class="debug-controls">
+                <button id="debug-seed-prev" title="Previous seed">Seed -1</button>
+                <label>Seed
+                    <input id="debug-seed" type="number" value="42" style="width:6em;margin-left:0.3em">
+                </label>
+                <button id="debug-seed-next" title="Next seed">Seed +1</button>
+                <label>Mode
+                    <select id="debug-mode" style="margin-left:0.3em">
+                        <option value="lexicon" selected>Lexicon</option>
+                        <option value="text">Text</option>
+                    </select>
+                </label>
+                <label>Syllables
+                    <input id="debug-syllable-count" type="number" min="1" max="7" placeholder="auto" style="width:4.5em;margin-left:0.3em">
+                </label>
+                <button id="debug-generate">Generate</button>
+            </div>
+
+            <div class="card">
+                <h2>Word Inspector</h2>
+                <div class="debug-word" id="debug-word"></div>
+                <div class="pronunciation" id="debug-ipa"></div>
+                <div class="debug-hint">Hover to inspect. Click letters, grapheme/phoneme chips, or grapheme trace rows to select.</div>
+
+                <div class="debug-layer">
+                    <div class="debug-layer-title">Graphemes</div>
+                    <div id="debug-grapheme-layer"></div>
+                </div>
+
+                <div class="debug-layer">
+                    <div class="debug-layer-title">Phonemes</div>
+                    <div id="debug-phoneme-layer"></div>
+                </div>
+
+                <div class="debug-layer">
+                    <div class="debug-layer-title">Selected Units</div>
+                    <div class="debug-selected" id="debug-selection"></div>
+                </div>
+
+                <div class="debug-layer">
+                    <div class="debug-layer-title">Comment</div>
+                    <textarea id="debug-comment" class="debug-comment" placeholder="What looks wrong? Include what you expected to happen."></textarea>
+                    <div class="debug-copy-actions">
+                        <button id="debug-copy-report">Copy Report (Markdown + JSON)</button>
+                        <button id="debug-copy-repro">Copy Repro Args</button>
+                    </div>
+                    <div class="debug-status" id="debug-status"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Trace View</h2>
+                <div class="debug-grid">
+                    <div>
+                        <div class="debug-layer-title">Grapheme Selections</div>
+                        <div id="debug-trace-graphemes" class="debug-trace-list"></div>
+                    </div>
+                    <div>
+                        <div class="debug-layer-title">Repairs</div>
+                        <div id="debug-trace-repairs" class="debug-trace-list"></div>
+                    </div>
+                    <div>
+                        <div class="debug-layer-title">Structural</div>
+                        <div id="debug-trace-structural" class="debug-trace-list"></div>
+                    </div>
+                    <div>
+                        <div class="debug-layer-title">Stages</div>
+                        <div id="debug-trace-stages" class="debug-trace-list"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
