@@ -961,6 +961,13 @@ export function isJunctionValid(C1: Phoneme, C2: Phoneme, onsetCluster: Phoneme[
  * Repair coda→onset junctions using feature-based articulatory rules.
  * Drops grapheme tokens from the coda side when the junction is invalid.
  * Mutates `cleanParts` and `hyphenatedParts` in place.
+ *
+ * @backstop Since Phase A (#250) moved full-cluster SSP validation into
+ * `adjustBoundary` (generate.ts), this function no longer fires in practice
+ * — measured at 0 repairs across 50k words (2026-02-21). Retained as a
+ * safety net in case upstream generation changes reintroduce invalid
+ * junctions. If this fires, it likely indicates a regression in the
+ * generation pipeline.
  */
 export function repairJunctions(
   cleanParts: string[],
@@ -1536,7 +1543,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       context.trace?.recordRepair("repairConsonantPileups", before, cleanParts.join(""));
     }
 
-    // Feature-based junction validation
+    // Feature-based junction validation (@backstop — Phase E of #250)
+    // Since Phase A moved SSP validation upstream into adjustBoundary,
+    // this write-phase repair should never fire. Retained as a safety net.
     if (syllables.length > 1) {
       const boundaries: SyllableBoundary[] = [];
       for (let si = 0; si < syllables.length - 1; si++) {
@@ -1549,7 +1558,12 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
       const beforeJunction = context.trace ? cleanParts.join("") : "";
       repairJunctions(cleanParts, hyphenatedParts, boundaries, config, wfc?.consonantGraphemes);
-      context.trace?.recordRepair("repairJunctions", beforeJunction, cleanParts.join(""));
+      if (context.trace) {
+        const afterJunction = cleanParts.join("");
+        if (afterJunction !== beforeJunction) {
+          context.trace.recordRepair("repairJunctions:backstop", beforeJunction, afterJunction);
+        }
+      }
       // Re-run pileup repair in case junction repair changed things
       if (maxGraphemes) {
         const beforePileup = context.trace ? cleanParts.join("") : "";
