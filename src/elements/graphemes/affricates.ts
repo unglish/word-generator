@@ -100,14 +100,4 @@ export const affricateGraphemes: Grapheme[] = [
     endWord: 0,
     condition: { notRightContext: ["front-vowel", "back-vowel"] },
   },
-  {
-    phoneme: "dʒ",
-    form: "gg",
-    origin: 3,
-    frequency: 1,
-    onset: 0,
-    startWord: 0,
-    midWord: 1,
-    endWord: 0,
-  }
 ];
