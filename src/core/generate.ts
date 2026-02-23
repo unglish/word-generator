@@ -1,7 +1,7 @@
 import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, SyllableShapePlan, getPhonemePositionWeight, GenerationMode } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { LanguageConfig, computeSonorityLevels, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
+import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator, validateJunction } from "./write.js";
@@ -50,6 +50,21 @@ interface GeneratorRuntime {
       nonFinal?: Map<string, number>;
     };
   };
+}
+
+const DEFAULT_PLAN_GUARD_PROBABILITY = 98;
+const DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER = 0.08;
+
+function getPlanGuardProbability(rt: GeneratorRuntime): number {
+  return rt.config.hiatusPolicy?.planGuardProbability ?? DEFAULT_PLAN_GUARD_PROBABILITY;
+}
+
+function getPostVowelGlideMultiplier(rt: GeneratorRuntime): number {
+  return rt.config.hiatusPolicy?.postVowelGlideMultiplier ?? DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER;
+}
+
+function getRootFallbackBridges(rt: GeneratorRuntime): [string, number][] {
+  return rt.config.hiatusPolicy?.fallbackBridgeOnsets ?? defaultFallbackBridgeOnsets();
 }
 
 /** Build a set of all proper prefixes for attested clusters (excludes the full key). */
@@ -402,6 +417,14 @@ function selectPhoneme(validCandidates: Phoneme[], context: ClusterContext, rt?:
         }
       }
     }
+
+    // Keep post-vowel glide onsets possible but rare (CMU-like, non-zero).
+    if (position === "onset" &&
+        context.followingOpenNucleus &&
+        cluster.length === 0 &&
+        (p.sound === "j" || p.sound === "w")) {
+      baseWeight *= rt ? getPostVowelGlideMultiplier(rt) : DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER;
+    }
     
     return [p, baseWeight] as [Phoneme, number];
   });
@@ -477,14 +500,6 @@ function pickOnset(
 
   const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
 
-  // OCP for glides: block /j/ and /w/ onsets after any bare nucleus.
-  // English essentially never places a glide onset immediately after a vowel
-  // with no intervening coda — any vowel can write as a letter that collides
-  // with the glide grapheme (ə→u + w = "uw", ʌ→u + w = "uw", ə→i + j = "iy").
-  if (isFollowingNucleus) {
-    toIgnore.push("j", "w");
-  }
-
   return buildCluster(rt, {
     rand,
     position: "onset",
@@ -494,6 +509,7 @@ function pickOnset(
     isEndOfWord: false,
     syllableCount,
     maxLength,
+    followingOpenNucleus: !!isFollowingNucleus,
   });
 }
 
@@ -808,6 +824,23 @@ function tweakConsonantPlanToBudget(
   const syllableCount = adjusted.length;
   const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
   const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  const createsHiatus = (
+    index: number,
+    position: "onset" | "coda",
+    nextLen: number,
+  ): boolean => {
+    if (position === "onset") {
+      if (index === 0) return false;
+      return adjusted[index - 1].codaLength === 0 && nextLen === 0;
+    }
+    if (index >= adjusted.length - 1) return false;
+    return nextLen === 0 && adjusted[index + 1].onsetLength === 0;
+  };
+  const planGuardProbability = getPlanGuardProbability(rt);
+  const shouldBlockHiatusMutation = (wouldCreateHiatus: boolean): boolean => {
+    if (!wouldCreateHiatus) return false;
+    return getWeightedOption([[true, planGuardProbability], [false, 100 - planGuardProbability]], rand);
+  };
 
   let total = adjusted.reduce((sum, s) => sum + s.onsetLength + s.codaLength, 0);
 
@@ -855,11 +888,17 @@ function tweakConsonantPlanToBudget(
 
       if (adjusted[i].onsetLength > 0) {
         const curr = adjusted[i].onsetLength;
-        candidates.push({ syllableIndex: i, position: "onset", weight: 1 / getLengthWeight(onsetWeights, curr) });
+        const next = curr - 1;
+        if (!shouldBlockHiatusMutation(createsHiatus(i, "onset", next))) {
+          candidates.push({ syllableIndex: i, position: "onset", weight: 1 / getLengthWeight(onsetWeights, curr) });
+        }
       }
       if (adjusted[i].codaLength > 0) {
         const curr = adjusted[i].codaLength;
-        candidates.push({ syllableIndex: i, position: "coda", weight: 1 / getLengthWeight(codaWeights, curr) });
+        const next = curr - 1;
+        if (!shouldBlockHiatusMutation(createsHiatus(i, "coda", next))) {
+          candidates.push({ syllableIndex: i, position: "coda", weight: 1 / getLengthWeight(codaWeights, curr) });
+        }
       }
     }
 
@@ -935,7 +974,7 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
   }
 
   // Use context.word.syllables directly so generateSyllable can see
-  // previous syllables (needed for OCP glide filtering in pickOnset).
+  // previous syllables (needed for post-vowel onset weighting in pickOnset).
   context.word.syllables = new Array(context.syllableCount);
   let prevSyllable: Syllable | undefined;
 
@@ -956,39 +995,33 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
 
   // Repair vowel hiatus: insert glide onset when two nuclei meet with no
   // intervening consonant (no coda on prev + no onset on current).
-  repairVowelHiatus(rt, syllables);
+  repairVowelHiatus(rt, syllables, context.rand, context.trace);
 
   context.word.syllables = syllables;
 }
 
 /**
- * Insert a glide onset to break vowel hiatus at syllable boundaries.
+ * Insert a neutral onset to break vowel hiatus at syllable boundaries.
  *
  * When two consecutive syllables have no consonant between them (prev has no
- * coda, current has no onset), a glide is inserted as the onset of the second
- * syllable: /j/ after front vowels, /w/ after back/round vowels, and /j/ as
- * the default for central vowels.
+ * coda, current has no onset), /h/ is inserted as a fallback onset of the
+ * second syllable.
  */
-function repairVowelHiatus(rt: GeneratorRuntime, syllables: Syllable[]): void {
-  const jPhoneme = rt.config.phonemes.find(p => p.sound === "j");
-  const wPhoneme = rt.config.phonemes.find(p => p.sound === "w");
-  if (!jPhoneme || !wPhoneme) return;
+function repairVowelHiatus(rt: GeneratorRuntime, syllables: Syllable[], rand: RNG, trace?: TraceCollector): void {
+  const bridgeOptions: [Phoneme, number][] = getRootFallbackBridges(rt)
+    .map(([sound, weight]) => [rt.config.phonemes.find(p => p.sound === sound), weight] as const)
+    .filter(([p, weight]) => !!p && weight > 0)
+    .map(([p, weight]) => [p!, weight]);
+  if (bridgeOptions.length === 0) return;
 
   for (let i = 1; i < syllables.length; i++) {
     const prev = syllables[i - 1];
     const curr = syllables[i];
 
     if (prev.coda.length === 0 && curr.onset.length === 0) {
-      // Pick glide based on the place of the preceding nucleus vowel
-      const lastNucleus = prev.nucleus[prev.nucleus.length - 1];
-      if (!lastNucleus) continue;
-
-      // OCP: don't insert glides after any nucleus — the resulting
-      // grapheme collisions (uw, iy, iw) look non-English regardless
-      // of the vowel quality. Leave the hiatus unrepaired; adjacent
-      // vowel graphemes across syllable boundaries are more natural
-      // than phantom glide bigrams.
-      continue;
+      const bridge = getWeightedOption(bridgeOptions, rand);
+      curr.onset.unshift(bridge);
+      trace?.recordStructural("vowelHiatusFallback", `inserted /${bridge.sound}/ between syllables ${i - 1} and ${i}`);
     }
   }
 }

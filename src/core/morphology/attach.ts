@@ -1,6 +1,7 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
-import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, PhonologicalCondition } from "../../config/language.js";
+import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, PhonologicalCondition, defaultFallbackBridgeOnsets } from "../../config/language.js";
 import { generatePronunciation } from "../pronounce.js";
+import getWeightedOption from "../../utils/getWeightedOption.js";
 import type { MorphologyPlan } from "./plan.js";
 
 // ---------------------------------------------------------------------------
@@ -13,6 +14,27 @@ interface GeneratorRuntime {
     phonemes: Phoneme[];
     vowelReduction?: import("../../config/language.js").VowelReductionConfig;
   };
+}
+
+function getBoundaryFallbackBridges(rt: GeneratorRuntime): [string, number][] {
+  return rt.config.morphology?.boundaryPolicy?.fallbackBridgeOnsets ?? defaultFallbackBridgeOnsets();
+}
+
+function canApplyPrefixRootFallback(rt: GeneratorRuntime): boolean {
+  return rt.config.morphology?.boundaryPolicy?.enablePrefixRootFallback ?? true;
+}
+
+function canApplyRootSuffixFallback(rt: GeneratorRuntime): boolean {
+  return rt.config.morphology?.boundaryPolicy?.enableRootSuffixFallback ?? true;
+}
+
+function pickBoundaryBridge(rt: GeneratorRuntime, context: WordGenerationContext): Phoneme | undefined {
+  const options: [Phoneme, number][] = getBoundaryFallbackBridges(rt)
+    .map(([sound, weight]) => [rt.config.phonemes.find(p => p.sound === sound), weight] as const)
+    .filter(([phoneme, weight]) => !!phoneme && weight > 0)
+    .map(([phoneme, weight]) => [phoneme!, weight]);
+  if (options.length === 0) return undefined;
+  return getWeightedOption(options, context.rand);
 }
 
 // ---------------------------------------------------------------------------
@@ -197,7 +219,10 @@ export function applyMorphology(
     suffixVariant = resolveAllomorph(plan.suffix, lastPhoneme, false);
   }
 
-  // Apply boundary transforms to root written form (suffix only)
+  // Apply boundary transforms to root written form at both boundaries.
+  if (plan.prefix && prefixVariant && plan.prefix.boundaryTransforms) {
+    rootWritten = applyBoundaryTransforms(rootWritten, plan.prefix.boundaryTransforms);
+  }
   if (plan.suffix && suffixVariant && plan.suffix.boundaryTransforms) {
     rootWritten = applyBoundaryTransforms(rootWritten, plan.suffix.boundaryTransforms);
   }
@@ -257,6 +282,38 @@ export function applyMorphology(
       firstSyl.onset.unshift(...ps.onset, ...ps.nucleus, ...ps.coda);
     }
     prefixSyllables.length = 0;
+  }
+
+  // Prefix/root vowel-hiatus fallback at phoneme boundary.
+  if (canApplyPrefixRootFallback(rt) && prefixSyllables.length > 0 && syllables.length > 0) {
+    const lastPrefix = prefixSyllables[prefixSyllables.length - 1];
+    const firstRoot = syllables[0];
+    if (lastPrefix.coda.length === 0 && firstRoot.onset.length === 0) {
+      const bridge = pickBoundaryBridge(rt, context);
+      if (bridge) {
+        firstRoot.onset.unshift(bridge);
+        context.trace?.recordStructural(
+          "morphPrefixHiatusFallback",
+          `inserted /${bridge.sound}/ at prefix-root boundary`
+        );
+      }
+    }
+  }
+
+  // Root/suffix vowel-hiatus fallback at phoneme boundary.
+  if (canApplyRootSuffixFallback(rt) && suffixSyllables.length > 0 && syllables.length > 0) {
+    const lastRoot = syllables[syllables.length - 1];
+    const firstSuffix = suffixSyllables[0];
+    if (lastRoot.coda.length === 0 && firstSuffix.onset.length === 0) {
+      const bridge = pickBoundaryBridge(rt, context);
+      if (bridge) {
+        firstSuffix.onset.unshift(bridge);
+        context.trace?.recordStructural(
+          "morphSuffixHiatusFallback",
+          `inserted /${bridge.sound}/ at root-suffix boundary`
+        );
+      }
+    }
   }
 
   const prefixIndices: number[] = [];
