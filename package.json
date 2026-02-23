@@ -13,6 +13,7 @@
     "test:watch": "vitest",
     "analyze:phonemes": "node scripts/analyze-cmu-phonemes.mjs",
     "analyze:trigrams": "node scripts/analyze-cmu-trigrams.mjs",
+    "audit:trace": "node scripts/trace-audit.mjs",
     "build:cmu-phonemes": "node scripts/build-cmu-phoneme-baseline.mjs",
     "demo:sync-cmu-baselines": "node scripts/sync-demo-cmu-baselines.mjs",
     "demo:check-cmu-baselines": "node scripts/sync-demo-cmu-baselines.mjs --check",
