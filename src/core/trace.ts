@@ -24,6 +24,8 @@ export interface DoublingTrace {
 }
 
 export interface GraphemeTrace {
+  /** Stable grapheme-decision index in flattened phoneme order. */
+  index: number;
   phoneme: string;
   position: string;
   syllableIndex: number;
@@ -33,6 +35,8 @@ export interface GraphemeTrace {
   weights: [string, number][];
   roll: number;
   selected: string;
+  /** Grapheme form emitted before later orthographic repairs. */
+  emitted: string;
   doubled: boolean;
   /** Detailed doubling decision (only present when tracing). */
   doubling?: DoublingTrace;
@@ -62,6 +66,44 @@ export interface StructuralTrace {
   detail: string;
 }
 
+export interface TraceLink {
+  kind: "graphemeSelection" | "repair" | "structural";
+  index: number;
+  label: string;
+}
+
+export interface OrthographyCharOwner {
+  index: number;
+  char: string;
+  unitId: number;
+  graphemeSelectionIndex: number;
+}
+
+export interface OrthographyUnitTrace {
+  id: number;
+  graphemeSelectionIndex: number;
+  phoneme: string;
+  position: string;
+  syllableIndex: number;
+  selected: string;
+  emitted: string;
+  present: boolean;
+  start: number | null;
+  end: number | null;
+  links?: TraceLink[];
+}
+
+export interface OrthographyTrace {
+  /** Final written form after all orthographic repair stages. */
+  surface: string;
+  /** Per-character ownership in the final written form. */
+  chars: OrthographyCharOwner[];
+  /** Grapheme-level aligned units. */
+  graphemeUnits: OrthographyUnitTrace[];
+  /** Optional phoneme-level aligned units for custom UIs. */
+  phonemeUnits?: OrthographyUnitTrace[];
+}
+
 export interface WordTrace {
   /** Target syllable count chosen for this word. */
   syllableCount: number;
@@ -73,6 +115,7 @@ export interface WordTrace {
   structural: StructuralTrace[];
   stages: StageSnapshot[];
   graphemeSelections: GraphemeTrace[];
+  orthography?: OrthographyTrace;
   repairs: RepairTrace[];
   summary: { totalDecisions: number; repairCount: number; morphologyApplied: boolean };
 }
@@ -88,6 +131,7 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 export class TraceCollector {
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
+  orthographyTrace?: OrthographyTrace;
   repairs: RepairTrace[] = [];
   structural: StructuralTrace[] = [];
   morphologyTrace?: MorphologyTrace;
@@ -128,6 +172,7 @@ export class TraceCollector {
       structural: this.structural,
       stages: this.stages,
       graphemeSelections: this.graphemeSelections,
+      orthography: this.orthographyTrace,
       repairs: this.repairs,
       summary: {
         totalDecisions: this.graphemeSelections.length,

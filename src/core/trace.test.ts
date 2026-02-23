@@ -21,6 +21,7 @@ describe("trace pipeline", () => {
     // grapheme selections
     expect(t.graphemeSelections.length).toBeGreaterThan(0);
     for (const g of t.graphemeSelections) {
+      expect(typeof g.index).toBe("number");
       expect(typeof g.phoneme).toBe("string");
       expect(typeof g.position).toBe("string");
       expect(typeof g.syllableIndex).toBe("number");
@@ -30,6 +31,7 @@ describe("trace pipeline", () => {
       expect(Array.isArray(g.weights)).toBe(true);
       expect(typeof g.roll).toBe("number");
       expect(typeof g.selected).toBe("string");
+      expect(typeof g.emitted).toBe("string");
       expect(typeof g.doubled).toBe("boolean");
     }
 
@@ -78,6 +80,35 @@ describe("trace pipeline", () => {
     const word = generateWord({ seed: 10, trace: true });
     const t = word.trace!;
     expect(t.summary.repairCount).toBe(t.repairs.length);
+  });
+
+  it("captures orthography ownership aligned to final written form", () => {
+    const word = generateWord({ seed: 42, trace: true });
+    const t = word.trace!;
+    expect(t.orthography).toBeDefined();
+
+    const o = t.orthography!;
+    expect(o.surface).toBe(word.written.clean);
+    expect(o.chars.length).toBe(word.written.clean.length);
+    expect(o.graphemeUnits.length).toBe(t.graphemeSelections.length);
+    if (o.phonemeUnits) {
+      expect(o.phonemeUnits.length).toBe(t.graphemeSelections.length);
+    }
+
+    for (let i = 0; i < o.chars.length; i++) {
+      expect(o.chars[i].index).toBe(i);
+      expect(typeof o.chars[i].char).toBe("string");
+    }
+
+    const presentUnits = o.graphemeUnits.filter(u => u.present);
+    expect(presentUnits.length).toBeGreaterThan(0);
+    for (const unit of presentUnits) {
+      expect(unit.start).not.toBeNull();
+      expect(unit.end).not.toBeNull();
+      expect(unit.start!).toBeGreaterThanOrEqual(0);
+      expect(unit.end!).toBeGreaterThanOrEqual(unit.start!);
+      expect(unit.end!).toBeLessThan(word.written.clean.length);
+    }
   });
 
   it("traces morphology plan details when morphology is enabled", () => {
