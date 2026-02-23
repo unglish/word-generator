@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { generateWord } from "./generate.js";
+import { createGenerator, generateWord } from "./generate.js";
+import { englishConfig } from "../config/english.js";
+import { ENGLISH_VOWEL_SOUND_SET } from "./vowel-sounds.js";
 
 describe("trace pipeline", () => {
   it("attaches a trace when trace: true is passed", () => {
@@ -179,6 +181,109 @@ describe("trace pipeline", () => {
       }
     }
     expect(found).toBe(true);
+  });
+
+  it("vowel-hiatus fallback trace entries use expected detail format", () => {
+    for (let s = 0; s < 2000; s++) {
+      const w = generateWord({ seed: s, trace: true });
+      const events = w.trace!.structural.filter(e => e.event === "vowelHiatusFallback");
+      for (const event of events) {
+        expect(event.detail).toMatch(/inserted \/h\//);
+      }
+    }
+  });
+
+  it("post-vowel glide policy controls root glide transitions deterministically", () => {
+    const zeroGlideGenerator = createGenerator({
+      ...englishConfig,
+      hiatusPolicy: {
+        ...englishConfig.hiatusPolicy!,
+        postVowelGlideMultiplier: 0,
+      },
+    });
+    const baselineGenerator = createGenerator({
+      ...englishConfig,
+      hiatusPolicy: {
+        ...englishConfig.hiatusPolicy!,
+        postVowelGlideMultiplier: 0.08,
+      },
+    });
+
+    const countGlideTransitions = (generate: (seed: number) => ReturnType<typeof generateWord>): number => {
+      let transitions = 0;
+      for (let s = 0; s < 2000; s++) {
+        const w = generate(s);
+        const stage = w.trace!.stages.find(st => st.name === "generateSyllables");
+        if (!stage) continue;
+        const seq = stage.after.flatMap(syl => [...syl.onset, ...syl.nucleus, ...syl.coda]);
+        for (let i = 0; i < seq.length - 1; i++) {
+          if (!ENGLISH_VOWEL_SOUND_SET.has(seq[i])) continue;
+          if (seq[i + 1] === "w" || seq[i + 1] === "j") {
+            transitions++;
+          }
+        }
+      }
+      return transitions;
+    };
+
+    const zeroTransitions = countGlideTransitions(seed =>
+      zeroGlideGenerator.generateWord({ seed, trace: true, morphology: false, mode: "lexicon" })
+    );
+    const baselineTransitions = countGlideTransitions(seed =>
+      baselineGenerator.generateWord({ seed, trace: true, morphology: false, mode: "lexicon" })
+    );
+
+    expect(zeroTransitions).toBe(0);
+    expect(baselineTransitions).toBeGreaterThan(0);
+  });
+
+  it("root hiatus fallback honors configured bridge phoneme", () => {
+    const bridgeGenerator = createGenerator({
+      ...englishConfig,
+      hiatusPolicy: {
+        ...englishConfig.hiatusPolicy!,
+        planGuardProbability: 0,
+        postVowelGlideMultiplier: 0,
+        fallbackBridgeOnsets: [["j", 100]],
+      },
+    });
+
+    let found = false;
+    for (let s = 0; s < 6000; s++) {
+      const w = bridgeGenerator.generateWord({
+        seed: s,
+        trace: true,
+        morphology: false,
+        mode: "lexicon",
+        syllableCount: 3,
+      });
+      const events = w.trace!.structural.filter(e => e.event === "vowelHiatusFallback");
+      if (events.length > 0) {
+        for (const event of events) {
+          expect(event.detail).toMatch(/inserted \/j\//);
+        }
+        found = true;
+        break;
+      }
+    }
+    expect(found).toBe(true);
+  });
+
+  it("keeps root-stage hiatus low in traced samples", () => {
+    let hiatus = 0;
+    let boundaries = 0;
+    for (let s = 0; s < 2000; s++) {
+      const w = generateWord({ seed: s, trace: true, morphology: true, mode: "lexicon" });
+      const stage = w.trace!.stages.find(st => st.name === "generateSyllables");
+      if (!stage) continue;
+      const syls = stage.after;
+      for (let i = 1; i < syls.length; i++) {
+        boundaries++;
+        if (syls[i - 1].coda.length === 0 && syls[i].onset.length === 0) hiatus++;
+      }
+    }
+    const rate = boundaries > 0 ? hiatus / boundaries : 0;
+    expect(rate).toBeLessThan(0.02);
   });
 
   it("structural array is always present (may be empty)", () => {

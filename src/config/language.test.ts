@@ -195,6 +195,31 @@ describe("validateConfig", () => {
     expect(() => validateConfig(bad)).toThrow("must be in [0, 100]");
   });
 
+  it("should throw when hiatusPolicy bridge uses unknown phoneme", () => {
+    const bad = {
+      ...englishConfig,
+      hiatusPolicy: {
+        ...englishConfig.hiatusPolicy!,
+        fallbackBridgeOnsets: [["not-a-phoneme", 100] as [string, number]],
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow('hiatusPolicy.fallbackBridgeOnsets contains unknown phoneme "not-a-phoneme"');
+  });
+
+  it("should throw when morphology boundary bridge weight is invalid", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        boundaryPolicy: {
+          ...englishConfig.morphology!.boundaryPolicy!,
+          fallbackBridgeOnsets: [["h", 0] as [string, number]],
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow('morphology.boundaryPolicy.fallbackBridgeOnsets has invalid weight 0 for "h" (must be > 0)');
+  });
+
   it("should throw when phonemeLengthWeights.text is missing", () => {
     const bad = {
       ...englishConfig,

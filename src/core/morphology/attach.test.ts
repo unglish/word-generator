@@ -5,6 +5,7 @@ import { createSeededRng } from "../../utils/random.js";
 import { MorphologyConfig, Affix, BoundaryTransform, PhonologicalCondition } from "../../config/language.js";
 import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
 import { phonemes as allPhonemes } from "../../elements/phonemes.js";
+import { TraceCollector } from "../trace.js";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -42,11 +43,15 @@ function makeContext(
   };
 }
 
-function makeRuntime(phonemeInventory: Phoneme[] = allPhonemes) {
+function makeRuntime(
+  phonemeInventory: Phoneme[] = allPhonemes,
+  morphology?: MorphologyConfig,
+) {
   return {
     config: {
       phonemes: phonemeInventory,
       vowelReduction: undefined,
+      morphology,
     },
   };
 }
@@ -333,6 +338,99 @@ describe("morphology", () => {
       const plan = { template: "suffixed" as const, suffix: nessSuffix };
       applyMorphology(rt, ctx, plan);
       expect(ctx.word.written.clean).toBe("happiness");
+    });
+
+    it("applies prefix boundary transforms to root written form", () => {
+      const rt = makeRuntime();
+      const prePrefix: Affix = {
+        type: "prefix",
+        written: "pre",
+        phonemes: ["p", "r", "i:"],
+        syllables: [{ onset: ["p", "r"], nucleus: ["i:"], coda: [] }],
+        syllableCount: 1,
+        stressEffect: "secondary",
+        frequency: 30,
+        boundaryTransforms: [{ name: "drop-initial-a", match: /^a/i, replace: "" }],
+      };
+      const ctx = makeContext(
+        [makeSyllable([], ["æ"], ["k"])],
+        "ack",
+      );
+      const plan = { template: "prefixed" as const, prefix: prePrefix };
+      applyMorphology(rt, ctx, plan);
+      expect(ctx.word.written.clean).toBe("preck");
+    });
+  });
+
+  describe("morphology boundary hiatus fallback", () => {
+    const rePrefix: Affix = {
+      type: "prefix",
+      written: "re",
+      phonemes: ["r", "ɪ"],
+      syllables: [{ onset: ["r"], nucleus: ["ɪ"], coda: [] }],
+      syllableCount: 1,
+      stressEffect: "secondary",
+      frequency: 40,
+    };
+    const erSuffix: Affix = {
+      type: "suffix",
+      written: "er",
+      phonemes: ["ɚ"],
+      syllables: [{ onset: [], nucleus: ["ɚ"], coda: [] }],
+      syllableCount: 1,
+      stressEffect: "none",
+      frequency: 40,
+    };
+    const defaultBoundaryPolicy: MorphologyConfig = {
+      enabled: true,
+      prefixes: [],
+      suffixes: [],
+      templateWeights: {
+        text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
+        lexicon: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
+      },
+      boundaryPolicy: {
+        enablePrefixRootFallback: true,
+        enableRootSuffixFallback: true,
+        fallbackBridgeOnsets: [["h", 100]],
+      },
+    };
+
+    const makeTracedContext = (syllables: Syllable[], written: string) => {
+      const trace = new TraceCollector();
+      const ctx = makeContext(syllables, written);
+      ctx.trace = trace;
+      return { ctx, trace };
+    };
+
+    it("inserts /h/ at prefix→root boundary when both sides are vowel-adjacent", () => {
+      const { ctx, trace } = makeTracedContext([makeSyllable([], ["æ"], ["t"])], "at");
+      applyMorphology(makeRuntime(), ctx, { template: "prefixed" as const, prefix: rePrefix });
+      expect(ctx.word.syllables[1].onset[0]?.sound).toBe("h");
+      expect(trace.structural.some(s => s.event === "morphPrefixHiatusFallback")).toBe(true);
+    });
+
+    it("inserts /h/ at root→suffix boundary when both sides are vowel-adjacent", () => {
+      const { ctx, trace } = makeTracedContext([makeSyllable(["b"], ["eɪ"], [])], "bae");
+      applyMorphology(makeRuntime(), ctx, { template: "suffixed" as const, suffix: erSuffix });
+      expect(ctx.word.syllables[1].onset[0]?.sound).toBe("h");
+      expect(trace.structural.some(s => s.event === "morphSuffixHiatusFallback")).toBe(true);
+    });
+
+    it("does not insert bridge when prefix→root fallback is disabled", () => {
+      const { ctx, trace } = makeTracedContext([makeSyllable([], ["æ"], ["t"])], "at");
+      const rt = makeRuntime(allPhonemes, {
+        ...defaultBoundaryPolicy,
+        boundaryPolicy: {
+          ...defaultBoundaryPolicy.boundaryPolicy!,
+          enablePrefixRootFallback: false,
+        },
+      });
+
+      applyMorphology(rt, ctx, { template: "prefixed" as const, prefix: rePrefix });
+
+      expect(ctx.word.syllables[1].onset.length).toBe(0);
+      expect(trace.structural.some(s => s.event === "morphPrefixHiatusFallback")).toBe(false);
     });
   });
 
