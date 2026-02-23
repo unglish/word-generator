@@ -42,6 +42,85 @@ function getFirstPhoneme(context: WordGenerationContext): Phoneme | undefined {
 }
 
 // ---------------------------------------------------------------------------
+// Vowel-hiatus repair at morpheme boundaries
+// ---------------------------------------------------------------------------
+
+const VOWELS = new Set(["a", "e", "i", "o", "u"]);
+
+function isVowelLetter(ch: string): boolean {
+  return VOWELS.has(ch.toLowerCase());
+}
+
+/**
+ * Repairs vowel-letter hiatus at prefix–root and root–suffix junctions.
+ *
+ * Suffix boundary:
+ *  - Root ends in 'i' + suffix starts with vowel → 'i' → 'y' (English: cry+ing → crying)
+ *  - Root ends in vowel digraph (ea, ou, etc.) + suffix starts with vowel → drop last char of digraph
+ *  - Root ends with same vowel letter as suffix start → deduplicate
+ *
+ * Prefix boundary:
+ *  - Prefix ends with vowel + root starts with vowel creating 3+ consecutive vowel letters → trim prefix
+ */
+function repairVowelHiatus(
+  prefix: string,
+  root: string,
+  suffix: string,
+): { prefix: string; root: string } {
+  let repairedRoot = root;
+  let repairedPrefix = prefix;
+
+  // --- Suffix boundary ---
+  if (suffix.length > 0 && repairedRoot.length > 0) {
+    const rootEnd = repairedRoot[repairedRoot.length - 1].toLowerCase();
+    const suffStart = suffix[0].toLowerCase();
+
+    if (isVowelLetter(rootEnd) && isVowelLetter(suffStart)) {
+      if (rootEnd === "i") {
+        // 'i' before vowel-starting suffix → 'y' (like English: ski+ing → skiing is rare; cry+ing → crying)
+        repairedRoot = repairedRoot.slice(0, -1) + "y";
+      } else if (rootEnd === suffStart) {
+        // Same vowel letter at junction → deduplicate (hangoous → hangous)
+        repairedRoot = repairedRoot.slice(0, -1);
+      } else if (repairedRoot.length >= 2) {
+        const rootEnd2 = repairedRoot[repairedRoot.length - 2].toLowerCase();
+        if (isVowelLetter(rootEnd2)) {
+          // Root ends in vowel digraph (ea, ou, etc.) + suffix starts with vowel → drop last of digraph
+          // e.g., ultea + ed → ulte + ed = ulteed
+          repairedRoot = repairedRoot.slice(0, -1);
+        }
+      }
+    }
+  }
+
+  // --- Prefix boundary ---
+  if (repairedPrefix.length > 0 && repairedRoot.length > 0) {
+    const prefEnd = repairedPrefix[repairedPrefix.length - 1].toLowerCase();
+    const rootStart = repairedRoot[0].toLowerCase();
+
+    if (isVowelLetter(prefEnd) && isVowelLetter(rootStart)) {
+      // Count consecutive vowel letters at the junction
+      let prefVowels = 0;
+      for (let i = repairedPrefix.length - 1; i >= 0; i--) {
+        if (isVowelLetter(repairedPrefix[i])) prefVowels++;
+        else break;
+      }
+      let rootVowels = 0;
+      for (let i = 0; i < repairedRoot.length; i++) {
+        if (isVowelLetter(repairedRoot[i])) rootVowels++;
+        else break;
+      }
+      if (prefVowels + rootVowels >= 3) {
+        // Trim trailing vowel from prefix (re + aort → r + aort = raort)
+        repairedPrefix = repairedPrefix.slice(0, -1);
+      }
+    }
+  }
+
+  return { prefix: repairedPrefix, root: repairedRoot };
+}
+
+// ---------------------------------------------------------------------------
 // Config-driven boundary transforms
 // ---------------------------------------------------------------------------
 
@@ -202,8 +281,11 @@ export function applyMorphology(
     rootWritten = applyBoundaryTransforms(rootWritten, plan.suffix.boundaryTransforms);
   }
 
-  const prefixWritten = prefixVariant?.written ?? "";
+  let prefixWritten = prefixVariant?.written ?? "";
   const suffixWritten = suffixVariant?.written ?? "";
+
+  // Repair vowel hiatus at morpheme boundaries
+  ({ prefix: prefixWritten, root: rootWritten } = repairVowelHiatus(prefixWritten, rootWritten, suffixWritten));
   const cleanForm = prefixWritten + rootWritten + suffixWritten;
 
   const inventory = config.phonemes;

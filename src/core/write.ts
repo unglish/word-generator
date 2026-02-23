@@ -1860,6 +1860,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       finalClean = vResult;
     }
 
+    // Collapse banned same-vowel pairs (ii, uu) that pass maxVowelLetters but never occur in English
+    finalClean = finalClean.replace(/ii/g, "i").replace(/uu/g, "u");
+
     // Re-run consonant backstop after spelling rules (rules like ngx→nks can introduce new runs)
     if (wfc?.maxConsonantGraphemes || wfc?.maxConsonantLetters) {
       const postParts = [finalClean];
