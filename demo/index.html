@@ -121,7 +121,9 @@
         .freq-bar { height: 0.6em; display: block; margin: 1px 0; }
         .freq-unglish { background: dimgray; }
         .freq-english { background: silver; }
-        .freq-val { font-size: 0.75em; color: var(--muted); padding-left: 0.3em; flex-shrink: 0; width: 6em; }
+        .freq-val { font-size: 0.75em; color: var(--muted); padding-left: 0.3em; flex-shrink: 0; width: 7em; }
+        .freq-val .dev-over { color: #c44; }
+        .freq-val .dev-under { color: #48a; }
 
 
         /* Common words race */
@@ -634,9 +636,13 @@
                 const sorted = [...items];
                 if (mode === 'divergence') {
                     sorted.sort((a, b) => {
-                        const da = a.eng !== null ? Math.abs(a.gen - a.eng) : -1;
-                        const db = b.eng !== null ? Math.abs(b.gen - b.eng) : -1;
-                        return db - da;
+                        const devOf = (x) => {
+                            if (x.eng === null) return -1;
+                            if (x.eng <= 0) return x.gen > 0 ? Infinity : 0;
+                            const r = x.gen / x.eng;
+                            return r >= 1 ? r - 1 : (1 / r) - 1; // symmetric: 2× and 0.5× both score 1.0
+                        };
+                        return devOf(b) - devOf(a);
                     });
                 } else if (mode === 'english') {
                     sorted.sort((a, b) => (b.eng ?? -Infinity) - (a.eng ?? -Infinity));
@@ -648,11 +654,11 @@
 
             function rerenderCharts(mode) {
                 if (!chartData) return;
-                renderPaginatedChart('stats-letter-chart', 'stats-letter-pager', sortItems(chartData.letterItems, mode), 15, '1.5em', 1);
-                renderPaginatedChart('stats-bigram-chart', 'stats-bigram-pager', sortItems(chartData.bigramItems, mode), 5, '2.5em', 2);
-                renderPaginatedChart('stats-trigram-chart', 'stats-trigram-pager', sortItems(chartData.trigramItems, mode), 2, '2.5em', 2);
+                renderPaginatedChart('stats-letter-chart', 'stats-letter-pager', sortItems(chartData.letterItems, mode), 15, '1.5em', 1, mode);
+                renderPaginatedChart('stats-bigram-chart', 'stats-bigram-pager', sortItems(chartData.bigramItems, mode), 5, '2.5em', 2, mode);
+                renderPaginatedChart('stats-trigram-chart', 'stats-trigram-pager', sortItems(chartData.trigramItems, mode), 2, '2.5em', 2, mode);
                 if (chartData.phonemeItems.length > 0) {
-                    renderPaginatedChart('stats-phoneme-chart', 'stats-phoneme-pager', sortItems(chartData.phonemeItems, mode), 10, '2.5em', 2);
+                    renderPaginatedChart('stats-phoneme-chart', 'stats-phoneme-pager', sortItems(chartData.phonemeItems, mode), 10, '2.5em', 2, mode);
                 }
             }
 
@@ -700,10 +706,20 @@
             const PAGE_SIZE = 50;
             const legendHtml = '<span style="display:inline-block;width:0.8em;height:0.8em;background:steelblue;vertical-align:middle"></span> Generated &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:darkgrey;vertical-align:middle"></span> CMU Dictionary';
 
-            function renderPaginatedChart(chartId, pagerId, items, maxPct, labelWidth, decimals) {
+            function renderPaginatedChart(chartId, pagerId, items, maxPct, labelWidth, decimals, sortMode) {
                 // items: [{key, gen, eng}] sorted by gen desc
                 let page = 0;
                 const totalPages = Math.ceil(items.length / PAGE_SIZE);
+
+                function fmtDev(item) {
+                    if (item.eng === null) return '';
+                    if (item.eng <= 0) return item.gen > 0 ? '<span class="dev-over">∞</span>' : '=';
+                    const ratio = item.gen / item.eng;
+                    if (Math.abs(ratio - 1) < 0.005) return '≈1×';
+                    const arrow = ratio > 1 ? '↑' : '↓';
+                    const cls = ratio > 1 ? 'dev-over' : 'dev-under';
+                    return '<span class="' + cls + '">' + arrow + ratio.toFixed(2) + '×</span>';
+                }
 
                 function renderPage() {
                     const start = page * PAGE_SIZE;
@@ -712,10 +728,11 @@
                         const wG = (item.gen / maxPct * 100).toFixed(1);
                         const wE = item.eng !== null ? (item.eng / maxPct * 100).toFixed(1) : '0';
                         const engStr = item.eng !== null ? item.eng.toFixed(decimals) : '—';
+                        const valStr = sortMode === 'divergence' ? fmtDev(item) : item.gen.toFixed(decimals) + ' / ' + engStr;
                         return '<div class="freq-row"><div class="freq-letter" style="width:' + labelWidth + '">' + item.label + '</div><div class="freq-bars">' +
                             '<div class="freq-bar" style="width:' + wG + '%;background:steelblue"></div>' +
                             (item.eng !== null ? '<div class="freq-bar" style="width:' + wE + '%;background:darkgrey"></div>' : '') +
-                            '</div><div class="freq-val">' + item.gen.toFixed(decimals) + ' / ' + engStr + '</div></div>';
+                            '</div><div class="freq-val">' + valStr + '</div></div>';
                     }).join('');
 
                     if (totalPages > 1) {
