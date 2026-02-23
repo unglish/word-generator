@@ -319,6 +319,8 @@ export interface ClusterContext {
   maxLength: number;
   /** Total syllable count of the word being generated. */
   syllableCount: number;
+  /** True when this onset follows a syllable with no coda. */
+  followingOpenNucleus?: boolean;
   /**
    * Nucleus phonemes of the syllable being built (for nucleus-aware coda filtering).
    * Only populated when position === "coda".

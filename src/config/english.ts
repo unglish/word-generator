@@ -1,4 +1,4 @@
-import { Affix, BoundaryTransform, LanguageConfig } from "./language.js";
+import { Affix, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets } from "./language.js";
 
 // ---------------------------------------------------------------------------
 // Shared boundary transforms
@@ -136,6 +136,15 @@ export const englishConfig: LanguageConfig = {
       boundaryDrop: BOUNDARY_DROP_CHANCE,
       nasalStopExtension: NASAL_STOP_EXTENSION_CHANCE,
     },
+  },
+
+  hiatusPolicy: {
+    // Keep most plan decrements from creating V.V boundaries, but allow a
+    // small tail so hiatus remains possible (not hard-zeroed).
+    planGuardProbability: 98,
+    // Rare-but-nonzero post-vowel glide onsets (CMU-aligned direction).
+    postVowelGlideMultiplier: 0.08,
+    fallbackBridgeOnsets: defaultFallbackBridgeOnsets(),
   },
 
   phonemeLengthWeights: {
@@ -476,6 +485,11 @@ export const englishConfig: LanguageConfig = {
 
   morphology: {
     enabled: true,
+    boundaryPolicy: {
+      enablePrefixRootFallback: true,
+      enableRootSuffixFallback: true,
+      fallbackBridgeOnsets: defaultFallbackBridgeOnsets(),
+    },
     prefixes: [
       { type: 'prefix', written: 'un', phonemes: ["ʌ", "n"], syllables: [{ onset: [], nucleus: ["ʌ"], coda: ["n"] }], syllableCount: 1, stressEffect: 'secondary', frequency: 80 },
       { type: 'prefix', written: 're', phonemes: ["r", "ɪ"], syllables: [{ onset: ["r"], nucleus: ["ɪ"], coda: [] }], syllableCount: 1, stressEffect: 'secondary', frequency: 70 },

@@ -181,6 +181,27 @@ export interface GenerationWeights {
   };
 }
 
+/** Policy controls for vowel hiatus and post-vowel glide behavior. */
+export interface HiatusPolicy {
+  /**
+   * Chance (0-100) that top-down consonant-plan decrements should be blocked
+   * when they would create a V.V boundary.
+   */
+  planGuardProbability: number;
+  /**
+   * Multiplier applied to /j,w/ onset weights after open syllables.
+   * Lower values make these glides rarer while keeping them possible.
+   */
+  postVowelGlideMultiplier: number;
+  /** Weighted fallback onsets used for root-level residual hiatus repair. */
+  fallbackBridgeOnsets: [string, number][];
+}
+
+/** Shared default fallback bridge onsets used to repair vowel hiatus. */
+export function defaultFallbackBridgeOnsets(): [string, number][] {
+  return [["h", 100]];
+}
+
 /**
  * Target phoneme-length distributions by generation mode.
  *
@@ -546,6 +567,8 @@ export interface LanguageConfig {
 
   /** Weighted probability tables for generation heuristics. */
   generationWeights: GenerationWeights;
+  /** Policy knobs for hiatus prevention and post-vowel glide behavior. */
+  hiatusPolicy?: HiatusPolicy;
 
   /**
    * Required top-down targets for generation.
@@ -726,6 +749,14 @@ export interface MorphologyConfig {
   enabled: boolean;
   prefixes: Affix[];
   suffixes: Affix[];
+  boundaryPolicy?: {
+    /** Whether to repair prefix→root vowel hiatus at phoneme boundaries. */
+    enablePrefixRootFallback?: boolean;
+    /** Whether to repair root→suffix vowel hiatus at phoneme boundaries. */
+    enableRootSuffixFallback?: boolean;
+    /** Weighted fallback onsets used for morphology boundary repair. */
+    fallbackBridgeOnsets?: [string, number][];
+  };
   templateWeights: {
     text: { bare: number; suffixed: number; prefixed: number; both: number };
     lexicon: { bare: number; suffixed: number; prefixed: number; both: number };
@@ -783,6 +814,46 @@ export function validateConfig(config: LanguageConfig): void {
         `generationWeights.probability.${key} is ${value}, must be in [0, 100]`
       );
     }
+  }
+
+  const phonemeSounds = new Set(config.phonemes.map(p => p.sound));
+  const validateBridgeOnsets = (pairs: [string, number][], label: string): void => {
+    for (const [sound, weight] of pairs) {
+      if (!sound) {
+        throw new Error(`${label} contains an empty sound`);
+      }
+      if (!phonemeSounds.has(sound)) {
+        throw new Error(`${label} contains unknown phoneme "${sound}"`);
+      }
+      if (!Number.isFinite(weight) || weight <= 0) {
+        throw new Error(
+          `${label} has invalid weight ${String(weight)} for "${sound}" (must be > 0)`
+        );
+      }
+    }
+  };
+
+  if (config.hiatusPolicy) {
+    const guard = config.hiatusPolicy.planGuardProbability;
+    if (guard < 0 || guard > 100) {
+      throw new Error(
+        `hiatusPolicy.planGuardProbability is ${guard}, must be in [0, 100]`
+      );
+    }
+    const glideMultiplier = config.hiatusPolicy.postVowelGlideMultiplier;
+    if (!Number.isFinite(glideMultiplier) || glideMultiplier < 0) {
+      throw new Error(
+        `hiatusPolicy.postVowelGlideMultiplier is ${String(glideMultiplier)}, must be a finite number >= 0`
+      );
+    }
+    validateBridgeOnsets(config.hiatusPolicy.fallbackBridgeOnsets, "hiatusPolicy.fallbackBridgeOnsets");
+  }
+
+  if (config.morphology?.boundaryPolicy?.fallbackBridgeOnsets) {
+    validateBridgeOnsets(
+      config.morphology.boundaryPolicy.fallbackBridgeOnsets,
+      "morphology.boundaryPolicy.fallbackBridgeOnsets",
+    );
   }
 
   // Top-down phoneme length weights are required for both modes.
