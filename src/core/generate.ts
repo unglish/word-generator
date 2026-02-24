@@ -1243,7 +1243,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 
   return {
     generateWord: (options: WordGenerationOptions = {}): Word => {
-      return generateOneWord(rt, resolveRng(options), options.mode ?? "lexicon", options.syllableCount || 0, options.morphology ?? false, options.trace ?? false);
+      return generateOneWord(rt, resolveRng(options), options.mode ?? "lexicon", options.syllableCount || 0, options.morphology ?? true, options.trace ?? false);
     },
   };
 }
@@ -1265,7 +1265,7 @@ const defaultRuntime = buildRuntime(englishConfig);
  * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
-  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "lexicon", options.syllableCount || 0, options.morphology ?? false, options.trace ?? false);
+  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "lexicon", options.syllableCount || 0, options.morphology ?? true, options.trace ?? false);
 };
 
 /**
@@ -1294,7 +1294,7 @@ export const generateWords = (count: number, options: WordGenerationOptions = {}
   const syllableCount = options.syllableCount || 0;
   const results: Word[] = [];
   for (let i = 0; i < count; i++) {
-    results.push(generateOneWord(defaultRuntime, rand, mode, syllableCount, options.morphology ?? false, options.trace ?? false));
+    results.push(generateOneWord(defaultRuntime, rand, mode, syllableCount, options.morphology ?? true, options.trace ?? false));
   }
   return results;
 };
