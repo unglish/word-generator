@@ -16,25 +16,6 @@ export const VOICED_BONUS = 0.5;
 export const TENSE_BONUS = 0.25;
 
 // ---------------------------------------------------------------------------
-// Syllable count distribution
-// ---------------------------------------------------------------------------
-
-/**
- * @deprecated Superseded by top-down phoneme-length targeting
- * ({@link PHONEME_LENGTH_WEIGHTS_LEXICON} / {@link PHONEME_LENGTH_WEIGHTS_TEXT}).
- * Retained for backward compatibility with configs that reference them.
- */
-export const SYLLABLE_COUNT_WEIGHTS: [number, number][] = [
-  [1, 5000],
-  [2, 30000],
-  [3, 29700],
-  [4, 3000],
-  [5, 200],
-  [6, 50],
-  [7, 5],
-];
-
-// ---------------------------------------------------------------------------
 // Onset length weights
 // ---------------------------------------------------------------------------
 
@@ -145,47 +126,6 @@ export const HAS_CODA_END_OF_WORD = 90;
 
 /** Chance (out of 100) that a non-final syllable of a polysyllabic word has a coda. CMU: ~60% for 2-syl mid. */
 export const HAS_CODA_MID_WORD = 55;
-
-// ---------------------------------------------------------------------------
-// Mode-specific syllable count distributions
-// ---------------------------------------------------------------------------
-
-/**
- * Syllable count weights for "text" mode (running prose).
- *
- * Derived from CMU Pronouncing Dictionary × Google Books token frequencies
- * (Norvig/Mayzner 2013, 744B tokens, 98.2% coverage).
- *
- * @deprecated Superseded by top-down phoneme-length targeting
- * ({@link PHONEME_LENGTH_WEIGHTS_TEXT}).
- */
-export const SYLLABLE_COUNT_WEIGHTS_TEXT: [number, number][] = [
-  [1, 63600],  // 63.6% — function words, common verbs/nouns
-  [2, 20900],  // 20.9%
-  [3, 10000],  // 10.0%
-  [4, 4200],   //  4.2%
-  [5, 1200],   //  1.2%
-  [6, 100],    //  0.1%
-];
-
-/**
- * Syllable count weights for "lexicon" mode (dictionary/word-list).
- *
- * Derived from CMU Pronouncing Dictionary type counts
- * (each unique word counted once, ~117k entries).
- *
- * @deprecated Superseded by top-down phoneme-length targeting
- * ({@link PHONEME_LENGTH_WEIGHTS_LEXICON}).
- */
-export const SYLLABLE_COUNT_WEIGHTS_LEXICON: [number, number][] = [
-  [1, 12900],  // 12.9%
-  [2, 41000],  // 41.0% (was 46000 — shifted 5k to 3-syl to fix phoneme-length skew)
-  [3, 32600],  // 32.6% (was 27600)
-  [4, 10000],  // 10.0%
-  [5, 3840],   //  3.8% (compensate for rejection sampling)
-  [6, 550],    //  0.55%
-  [7, 85],     //  0.085%
-];
 
 // ---------------------------------------------------------------------------
 // Top-down phoneme-length targets

@@ -246,42 +246,5 @@ export function repairHAfterBackVowel(syllables: Syllable[], trace?: TraceCollec
 }
 
 // ---------------------------------------------------------------------------
-// /ŋ/ + sibilant repair
+// /h/ after back vowels — phonotactic constraint
 // ---------------------------------------------------------------------------
-
-const NG_SIBILANTS = new Set(["s", "z"]);
-
-export function repairNgCodaSibilant(syllables: Syllable[], trace?: TraceCollector): void {
-  for (const syl of syllables) {
-    const coda = syl.coda;
-    if (coda.length < 2) continue;
-
-    // Find /ŋ/ position
-    let ngIdx = -1;
-    for (let i = 0; i < coda.length; i++) {
-      if (coda[i].sound === "ŋ") { ngIdx = i; break; }
-    }
-    if (ngIdx < 0) continue;
-
-    const before = trace ? coda.map(p => p.sound).join(",") : "";
-
-    // Splice backwards to avoid index shifting
-    for (let i = coda.length - 1; i > ngIdx; i--) {
-      if (NG_SIBILANTS.has(coda[i].sound)) {
-        coda.splice(i, 1);
-      }
-    }
-
-    if (trace) trace.recordRepair("repairNgCodaSibilant", before, coda.map(p => p.sound).join(","), "stripped sibilant after /ŋ/");
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Rhotic vowel + /ŋ/ constraint (REMOVED)
-// ---------------------------------------------------------------------------
-// This constraint has been refactored from repair-based to prevention-based.
-// Rhotic vowels (/ɚ/, /ɝ/) + /ŋ/ combinations are now blocked during coda
-// selection via codaConstraints.bannedNucleusCodaCombinations in the config.
-// See: src/config/language.ts (CodaConstraints interface)
-//      src/config/english.ts (bannedNucleusCodaCombinations config)
-//      src/core/generate.ts (isValidCandidate nucleus-aware filtering)

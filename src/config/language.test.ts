@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { englishConfig } from "./english.js";
 import { LanguageConfig, computeSonorityLevels, validateConfig } from "./language.js";
-import { VOICED_BONUS, TENSE_BONUS, SYLLABLE_COUNT_WEIGHTS } from "./weights.js";
+import { VOICED_BONUS, TENSE_BONUS } from "./weights.js";
 import { sonorityLevels } from "../elements/phonemes.js";
 
 describe("LanguageConfig", () => {
@@ -69,10 +69,6 @@ describe("LanguageConfig", () => {
   });
 
   describe("syllable structure", () => {
-    it("should reference shared syllable count weights", () => {
-      expect(englishConfig.syllableStructure.syllableCountWeights).toBe(SYLLABLE_COUNT_WEIGHTS);
-    });
-
     it("should have English-appropriate structural limits", () => {
       expect(englishConfig.syllableStructure.maxOnsetLength).toBe(3);
       expect(englishConfig.syllableStructure.maxCodaLength).toBe(4);
