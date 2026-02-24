@@ -6,7 +6,7 @@ import { createDefaultRng } from "../utils/random";
 
 describe("Word Generator", () => {
   it("generates word with specified syllable count", () => {
-    const word = generateWord({ syllableCount: 3 });
+    const word = generateWord({ syllableCount: 3, morphology: false });
     expect(word.syllables.length).toBe(3);
   });
 

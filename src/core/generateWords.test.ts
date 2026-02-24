@@ -63,7 +63,7 @@ describe("generateWords (batch API)", () => {
   });
 
   it("respects syllableCount option", () => {
-    const words = generateWords(10, { seed: 42, syllableCount: 2 });
+    const words = generateWords(10, { seed: 42, syllableCount: 2, morphology: false });
     for (const word of words) {
       expect(word.syllables).toHaveLength(2);
     }
@@ -127,7 +127,7 @@ describe("top-down phoneme targeting", () => {
   });
 
   it("keeps lexicon 6-phoneme bucket near CMU target in a sample", () => {
-    const sample = generateWords(10000, { seed: 2026, mode: "lexicon" });
+    const sample = generateWords(10000, { seed: 2026, mode: "lexicon", morphology: false });
     let sixPhonemeCount = 0;
 
     for (const word of sample) {

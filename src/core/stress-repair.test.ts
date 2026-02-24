@@ -3,7 +3,7 @@ import { generateWords } from "./generate.js";
 
 describe("stress-aware nucleus re-pick", () => {
   it("no primary-stressed schwa in 10,000 words", { timeout: 20_000 }, () => {
-    const words = generateWords(10_000, { seed: 123 });
+    const words = generateWords(10_000, { seed: 123, morphology: false });
     let stressedSchwaCount = 0;
 
     for (const word of words) {
@@ -18,7 +18,7 @@ describe("stress-aware nucleus re-pick", () => {
   });
 
   it("monosyllables can still have schwa nucleus (no stress marker)", { timeout: 20_000 }, () => {
-    const words = generateWords(10_000, { seed: 456, syllableCount: 1 });
+    const words = generateWords(10_000, { seed: 456, syllableCount: 1, morphology: false });
     let schwaCount = 0;
 
     for (const word of words) {

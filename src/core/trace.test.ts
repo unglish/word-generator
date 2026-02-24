@@ -5,7 +5,7 @@ import { ENGLISH_VOWEL_SOUND_SET } from "./vowel-sounds.js";
 
 describe("trace pipeline", () => {
   it("attaches a trace when trace: true is passed", () => {
-    const word = generateWord({ seed: 42, trace: true });
+    const word = generateWord({ seed: 42, trace: true, morphology: false });
     expect(word.trace).toBeDefined();
     const t = word.trace!;
 
@@ -49,12 +49,12 @@ describe("trace pipeline", () => {
   });
 
   it("does not attach a trace when trace option is not set", () => {
-    const word = generateWord({ seed: 42 });
+    const word = generateWord({ seed: 42, morphology: false });
     expect(word.trace).toBeUndefined();
   });
 
   it("stage snapshots use string arrays, not Phoneme objects", () => {
-    const word = generateWord({ seed: 42, trace: true, syllableCount: 2 });
+    const word = generateWord({ seed: 42, trace: true, syllableCount: 2, morphology: false });
     const afterGen = word.trace!.stages.find(s => s.name === "generateSyllables")!;
     expect(afterGen.after.length).toBeGreaterThan(0);
     for (const snap of afterGen.after) {
@@ -67,7 +67,7 @@ describe("trace pipeline", () => {
   it("captures repair traces with rule, before, and after", () => {
     let foundRepair = false;
     for (let s = 0; s < 200; s++) {
-      const w = generateWord({ seed: s, trace: true });
+      const w = generateWord({ seed: s, trace: true, morphology: false });
       if (w.trace!.repairs.length > 0) {
         const r = w.trace!.repairs[0];
         expect(typeof r.rule).toBe("string");
@@ -82,13 +82,13 @@ describe("trace pipeline", () => {
   });
 
   it("summary.repairCount matches repairs array length", () => {
-    const word = generateWord({ seed: 10, trace: true });
+    const word = generateWord({ seed: 10, trace: true, morphology: false });
     const t = word.trace!;
     expect(t.summary.repairCount).toBe(t.repairs.length);
   });
 
   it("captures orthography ownership aligned to final written form", () => {
-    const word = generateWord({ seed: 42, trace: true });
+    const word = generateWord({ seed: 42, trace: true, morphology: false });
     const t = word.trace!;
     expect(t.orthography).toBeDefined();
 
@@ -134,7 +134,7 @@ describe("trace pipeline", () => {
   });
 
   it("does not include morphology trace when morphology is not used", () => {
-    const word = generateWord({ seed: 42, trace: true });
+    const word = generateWord({ seed: 42, trace: true, morphology: false });
     expect(word.trace!.morphology).toBeUndefined();
   });
 
@@ -146,7 +146,7 @@ describe("trace pipeline", () => {
   it.skip("captures boundary adjustment drops when they occur", () => {
     let found = false;
     for (let s = 0; s < 750; s++) {
-      const w = generateWord({ seed: s, syllableCount: 4, trace: true });
+      const w = generateWord({ seed: s, syllableCount: 4, trace: true, morphology: false });
       const drops = w.trace!.structural.filter(e => e.event === "boundaryDrop");
       if (drops.length > 0) {
         expect(drops[0].detail).toMatch(/dropped coda/);
@@ -161,7 +161,7 @@ describe("trace pipeline", () => {
   it("traces final-s extension", () => {
     let found = false;
     for (let s = 0; s < 500; s++) {
-      const w = generateWord({ seed: s, trace: true });
+      const w = generateWord({ seed: s, trace: true, morphology: false });
       const finalS = w.trace!.structural.filter(e => e.event === "finalS");
       if (finalS.length > 0) {
         expect(finalS[0].detail).toMatch(/appended \/s\//);
@@ -175,7 +175,7 @@ describe("trace pipeline", () => {
   it("traces nasal+stop extension", () => {
     let found = false;
     for (let s = 0; s < 2000; s++) {
-      const w = generateWord({ seed: s, trace: true });
+      const w = generateWord({ seed: s, trace: true, morphology: false });
       const ext = w.trace!.structural.filter(e => e.event === "nasalStopExtension");
       if (ext.length > 0) {
         expect(ext[0].detail).toMatch(/extended/);
@@ -290,7 +290,7 @@ describe("trace pipeline", () => {
   });
 
   it("structural array is always present (may be empty)", () => {
-    const word = generateWord({ seed: 42, trace: true });
+    const word = generateWord({ seed: 42, trace: true, morphology: false });
     expect(Array.isArray(word.trace!.structural)).toBe(true);
   });
 });

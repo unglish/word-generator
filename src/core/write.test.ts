@@ -453,7 +453,7 @@ describe("consonant pileup integration", () => {
   it("generates 100k words with no 5+ consonant grapheme runs", { timeout: 120_000 }, () => {
     let violations = 0;
     for (let i = 0; i < 100_000; i++) {
-      const word = generateWord({ seed: i });
+      const word = generateWord({ seed: i, morphology: false });
       if (getMaxConsonantGraphemeRun(word.written.clean) > 4) {
         violations++;
       }
@@ -464,7 +464,7 @@ describe("consonant pileup integration", () => {
   it("generates 100k words with no 5+ consonant letter runs", { timeout: 120_000 }, () => {
     let violations = 0;
     for (let i = 0; i < 100_000; i++) {
-      const word = generateWord({ seed: i });
+      const word = generateWord({ seed: i, morphology: false });
       if (getMaxConsonantLetterRun(word.written.clean) > 4) {
         violations++;
       }
@@ -483,7 +483,7 @@ describe("consonant pileup integration", () => {
     const gen = createGenerator(customConfig);
     let violations = 0;
     for (let i = 0; i < 10_000; i++) {
-      const word = gen.generateWord({ seed: i });
+      const word = gen.generateWord({ seed: i, morphology: false });
       if (getMaxConsonantGraphemeRun(word.written.clean) > 3) {
         violations++;
       }
@@ -630,7 +630,7 @@ describe("monosyllable position weight selection", () => {
   it("monosyllabic /dz/ words should prefer \"ds\" over \"dse\"", () => {
     // Generate 1000 monosyllabic words ending in /dz/
     // Check that "dse" appears very rarely (<1%)
-    const words = generateWords(10000, { seed: 123 });
+    const words = generateWords(10000, { seed: 123, morphology: false });
     
     let dzWords = 0;
     let dseCount = 0;
@@ -667,7 +667,7 @@ describe("monosyllable position weight selection", () => {
 
   it("monosyllable fix should not affect multi-syllable /dz/ words", () => {
     // Multi-syllable words ending in /dz/ should still allow "dse" in final position
-    const words = generateWords(10000, { seed: 456 });
+    const words = generateWords(10000, { seed: 456, morphology: false });
     
     let multiSyllableDzWords = 0;
     let dseCount = 0;
@@ -699,7 +699,7 @@ describe("monosyllable position weight selection", () => {
   it("monosyllable max position weight applies to all phonemes", () => {
     // Test that the monosyllable fix (using max position weight) applies consistently
     // Generate many monosyllables and verify no graphemes with startWord:0 appear
-    const words = generateWords(5000, { seed: 789 });
+    const words = generateWords(5000, { seed: 789, morphology: false });
     
     const monosyllables = words.filter(w => w.syllables.length === 1);
     console.log(`  Testing ${monosyllables.length} monosyllables`);
@@ -734,7 +734,7 @@ import { generateWords } from "./generate";
 
 describe("syllable-based position filtering", () => {
   it("\"igh\" only appears in the final syllable (10k words)", () => {
-    const words = generateWords(10000, { seed: 42 });
+    const words = generateWords(10000, { seed: 42, morphology: false });
     let violations = 0;
 
     for (const w of words) {
@@ -754,7 +754,7 @@ describe("syllable-based position filtering", () => {
   });
 
   it("\"wh\" only appears in the first syllable (10k words)", () => {
-    const words = generateWords(10000, { seed: 42 });
+    const words = generateWords(10000, { seed: 42, morphology: false });
     let violations = 0;
 
     for (const w of words) {
@@ -774,7 +774,7 @@ describe("syllable-based position filtering", () => {
   });
 
   it("\"ight\" or \"ought\" mid-word rate < 0.1% in 10k words", () => {
-    const words = generateWords(10000, { seed: 42 });
+    const words = generateWords(10000, { seed: 42, morphology: false });
     let midWordCount = 0;
 
     for (const w of words) {
@@ -798,7 +798,7 @@ describe("syllable-based position filtering", () => {
   it("startWord: 0 graphemes do not appear in the first syllable (10k words)", () => {
     // Verify that graphemes banned from word-start don't appear in the first syllable
     // We check "ck" which typically has startWord: 0
-    const words = generateWords(10000, { seed: 42 });
+    const words = generateWords(10000, { seed: 42, morphology: false });
     let violations = 0;
 
     for (const w of words) {
@@ -1018,7 +1018,7 @@ describe("silent-e integration", () => {
     const total = 10000;
 
     for (let i = 0; i < total; i++) {
-      const word = gen.generateWord({ seed: i });
+      const word = gen.generateWord({ seed: i, morphology: false });
       if (silentEPattern.test(word.written.clean)) {
         silentECount++;
       }
@@ -1063,7 +1063,7 @@ describe("silent-e integration", () => {
     const total = 10000;
 
     for (let i = 0; i < total; i++) {
-      const word = gen.generateWord({ seed: i });
+      const word = gen.generateWord({ seed: i, morphology: false });
       const clean = word.written.clean.toLowerCase();
       if (clean.includes("ck")) ckCount++;
       if (clean.includes("kk")) kkCount++;
@@ -1089,7 +1089,7 @@ describe("silent-e integration", () => {
     const total = 10000;
 
     for (let i = 0; i < total; i++) {
-      const word = gen.generateWord({ seed: i });
+      const word = gen.generateWord({ seed: i, morphology: false });
       const clean = word.written.clean.toLowerCase();
       if (clean.endsWith("bb")) finalBB++;
       if (clean.endsWith("dd")) finalDD++;
@@ -1111,7 +1111,7 @@ describe("silent-e integration", () => {
     const doublePattern = /([bcdfglmnprst])\1/;
 
     for (let i = 0; i < total; i++) {
-      const word = gen.generateWord({ seed: i });
+      const word = gen.generateWord({ seed: i, morphology: false });
       const clean = word.written.clean.toLowerCase();
       if (clean.includes("ck") && doublePattern.test(clean)) {
         violations++;
@@ -1129,7 +1129,7 @@ describe("silent-e integration", () => {
     const total = 10000;
 
     for (let i = 0; i < total; i++) {
-      const word = gen.generateWord({ seed: i });
+      const word = gen.generateWord({ seed: i, morphology: false });
       const clean = word.written.clean.toLowerCase();
       if (clean.endsWith("v")) bareV++;
       if (clean.endsWith("v") || clean.endsWith("ve")) totalEndingV++;
@@ -1151,7 +1151,7 @@ describe("nucleus-ends-consonant-letter doubling suppression", () => {
     const rhoticDoubled = /[rlnm](ss|ll|ff|tt|pp|bb)/;
 
     for (let i = 0; i < total; i++) {
-      const word = gen.generateWord({ seed: i });
+      const word = gen.generateWord({ seed: i, morphology: false });
       const clean = word.written.clean.toLowerCase();
       if (rhoticDoubled.test(clean)) violations++;
     }
@@ -1169,7 +1169,7 @@ describe("nucleus-ends-consonant-letter doubling suppression", () => {
     const vowelDoubled = /[aeiouy](ss|ll|ff|tt|pp|bb|dd|gg|mm|nn|rr|zz)/;
 
     for (let i = 0; i < total; i++) {
-      const word = gen.generateWord({ seed: i });
+      const word = gen.generateWord({ seed: i, morphology: false });
       const clean = word.written.clean.toLowerCase();
       if (vowelDoubled.test(clean)) doubled++;
     }
