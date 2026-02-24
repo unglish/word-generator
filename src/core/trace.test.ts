@@ -36,6 +36,9 @@ describe("trace pipeline", () => {
       expect(typeof g.emitted).toBe("string");
       expect(typeof g.doubled).toBe("boolean");
     }
+    const weightedSelections = t.graphemeSelections.filter(g => g.weights.length > 1);
+    expect(weightedSelections.length).toBeGreaterThan(0);
+    expect(weightedSelections.some(g => g.roll > 0)).toBe(true);
 
     // summary
     expect(t.summary).toBeDefined();

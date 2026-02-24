@@ -70,6 +70,8 @@ export function repairFinalCoda(
   }
 }
 
+import { isObstruent, isNasal, isStop } from "../utils/phonemes.js";
+
 // ---------------------------------------------------------------------------
 // Place-of-articulation grouping for homorganic nasal+stop
 // ---------------------------------------------------------------------------
@@ -85,26 +87,6 @@ function getPlaceGroup(sound: string): string | undefined {
     if (members.includes(sound)) return group;
   }
   return undefined;
-}
-
-// ---------------------------------------------------------------------------
-// Obstruent classification for voicing agreement
-// ---------------------------------------------------------------------------
-
-const OBSTRUENT_MANNERS = new Set([
-  "stop", "fricative", "affricate", "sibilant",
-]);
-
-function isObstruent(p: Phoneme): boolean {
-  return OBSTRUENT_MANNERS.has(p.mannerOfArticulation);
-}
-
-function isNasal(p: Phoneme): boolean {
-  return p.mannerOfArticulation === "nasal";
-}
-
-function isStop(p: Phoneme): boolean {
-  return p.mannerOfArticulation === "stop";
 }
 
 // ---------------------------------------------------------------------------

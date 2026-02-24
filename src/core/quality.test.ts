@@ -3,6 +3,8 @@ import { generateWord, generateWords } from "./generate.js";
 import { writeFileSync } from "fs";
 import { join } from "path";
 
+import { isConsonantLetter } from "../utils/letters.js";
+
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
@@ -18,29 +20,12 @@ const GATE_SAMPLE_SIZE = envInt("QUALITY_GATE_SAMPLE_SIZE", 50_000);
 const MODE_SAMPLE_SIZE = envInt("QUALITY_MODE_SAMPLE_SIZE", 50_000);
 const HEARTBEAT_YIELD_EVERY = envInt("QUALITY_HEARTBEAT_EVERY", 10_000);
 
-const VOWELS = new Set("aeiouy".split(""));
 const RE_OWNGS = /owngs/;
 const RE_RENG_TENG = /[rt]eng$/;
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-function isVowelChar(ch: string, idx: number, str: string): boolean {
-  const lower = ch.toLowerCase();
-  if (lower === "y") {
-    const next = idx + 1 < str.length ? str[idx + 1].toLowerCase() : "";
-    return !"aeiou".includes(next);
-  }
-  return VOWELS.has(lower);
-}
-
-function isConsonantLetter(ch: string, idx?: number, str?: string): boolean {
-  if (idx !== undefined && str !== undefined) {
-    return /[a-z]/i.test(ch) && !isVowelChar(ch, idx, str);
-  }
-  return /[a-z]/i.test(ch) && !VOWELS.has(ch.toLowerCase());
-}
 
 function longestConsonantRun(word: string): number {
   let max = 0, cur = 0;
