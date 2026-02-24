@@ -21,7 +21,7 @@ function normalizeToPercentMap(rawCounts) {
   const out = {};
   for (const [k, count] of Object.entries(rawCounts)) {
     const pct = (count / total) * 100;
-    out[k] = Number(pct.toFixed(3));
+    out[k] = Number(pct.toFixed(5));
   }
   return out;
 }
