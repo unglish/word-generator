@@ -15,9 +15,6 @@ const BT_ALL: BoundaryTransform[] = [Y_TO_I, DROP_SILENT_E, DOUBLE_CONSONANT];
 import {
   VOICED_BONUS,
   TENSE_BONUS,
-  SYLLABLE_COUNT_WEIGHTS,
-  SYLLABLE_COUNT_WEIGHTS_TEXT,
-  SYLLABLE_COUNT_WEIGHTS_LEXICON,
   PHONEME_LENGTH_WEIGHTS_TEXT,
   PHONEME_LENGTH_WEIGHTS_LEXICON,
   PHONEME_TO_SYLLABLE_WEIGHTS_TEXT,
@@ -106,9 +103,6 @@ export const englishConfig: LanguageConfig = {
     maxOnsetLength: 3,
     maxCodaLength: 4,
     maxNucleusLength: 1,
-    syllableCountWeights: SYLLABLE_COUNT_WEIGHTS,
-    syllableCountWeightsText: SYLLABLE_COUNT_WEIGHTS_TEXT,
-    syllableCountWeightsLexicon: SYLLABLE_COUNT_WEIGHTS_LEXICON,
     letterLengthTargets: LETTER_LENGTH_TARGETS,
   },
 

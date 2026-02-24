@@ -112,15 +112,6 @@ export interface SyllableStructureRules {
   maxCodaLength: number;
   /** Maximum nucleus length (English: 1 — no complex nuclei). */
   maxNucleusLength: number;
-  /**
-   * @deprecated Superseded by top-down phoneme-length targeting
-   * ({@link PhonemeLengthWeights}). Retained for backward compatibility.
-   */
-  syllableCountWeights: [number, number][];
-  /** @deprecated See {@link syllableCountWeights}. */
-  syllableCountWeightsText?: [number, number][];
-  /** @deprecated See {@link syllableCountWeights}. */
-  syllableCountWeightsLexicon?: [number, number][];
   /** Letter-length targets per syllable count: [min, peak_min, peak_max, max]. */
   letterLengthTargets?: Record<number, [number, number, number, number]>;
 }

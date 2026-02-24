@@ -56,9 +56,6 @@ export { TraceCollector } from "./core/trace.js";
  * // Generate a deterministic word with a seed
  * const seeded = wordGenerator.generateWord({ seed: 42 });
  *
- * // Override the RNG
- * wordGenerator.random.overrideRand(Math.random);
- *
  * // Inspect available phonemes
  * console.log(wordGenerator.phonemes.phonemes.length);
  * ```
@@ -77,7 +74,6 @@ export default {
 
   /**
    * Random-number utilities used internally by the generator.
-   * Exposes {@link random.overrideRand} and {@link random.getRand}.
    */
   random,
 
