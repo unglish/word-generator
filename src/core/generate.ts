@@ -223,7 +223,7 @@ function buildCluster(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] 
   const allPositionPhonemes = rt.positionPhonemes[context.position];
 
   while (context.cluster.length < context.maxLength) {
-    const validCandidates = getValidCandidates(allPositionPhonemes, rt, context);
+    const validCandidates = allPositionPhonemes.filter(p => isValidCandidate(p, rt, context));
     if (validCandidates.length === 0) break;
 
     const newPhoneme = selectPhoneme(validCandidates, context, rt);
@@ -234,10 +234,6 @@ function buildCluster(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] 
   }
 
   return context.cluster;
-}
-
-function getValidCandidates(candidatePhonemes: Phoneme[], rt: GeneratorRuntime, context: ClusterContext): Phoneme[] {
-  return candidatePhonemes.filter(p => isValidCandidate(p, rt, context));
 }
 
 function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterContext): boolean {

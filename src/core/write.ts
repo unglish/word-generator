@@ -3,6 +3,7 @@ import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEApp
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink } from "./trace.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
+import { isVowelChar, isConsonantLetter, VOWEL_LETTERS } from "../utils/letters.js";
 
 // ---------------------------------------------------------------------------
 // Spelling rules (config-driven post-processing)
@@ -519,9 +520,8 @@ function selectByFrequency(
     return r;
   }
 
-  const weights: [string, number][] = [];
-  let cumulative = 0;
-  const cumulatives: number[] = [];
+  const weights: [Grapheme, number][] = [];
+  const traceWeights: [string, number][] = [];
   for (const g of candidates) {
     // For monosyllables (both isStartOfWord AND isEndOfWord), use the maximum position weight
     // to avoid defaulting to startWord=0 for final phonemes (e.g. /dz/ → "dse")
@@ -537,44 +537,38 @@ function selectByFrequency(
     // 1.02 (5-syl) — unstressed vowels are almost always single letters.
     let stressModifier = 1;
     if (stress !== "ˈ" && syllableCount && syllableCount >= 2 && g.form.length > 1) {
-      // Unstressed syllables in polysyllabic words favor simpler graphemes.
-      // CMU data: vowel LPP drops from 1.58 (1-syl) to 1.02 (5-syl),
-      // consonant LPP from 1.20 to 1.13. Monosyllables excluded by >= 2 check.
       if (position === "nucleus") {
-        // Vowels: strong penalty — unstressed vowels are almost always single letters
         stressModifier = Math.max(0.02, 0.15 / syllableCount);
       } else {
-        // Consonants: lighter penalty — digraphs like "th","sh" still appear but less often
         stressModifier = Math.max(0.15, 0.5 / syllableCount);
       }
     }
     const w = g.frequency * posWeight * stressModifier;
-    cumulative += w;
-    cumulatives.push(cumulative);
-    if (captureTrace) weights.push([g.form, w]);
+    weights.push([g, w]);
+    if (captureTrace) traceWeights.push([g.form, w]);
   }
 
-  const totalFrequency = cumulatives[cumulatives.length - 1];
-  const randomValue = rand() * totalFrequency;
+  const totalWeight = weights.reduce((sum, [, weight]) => sum + weight, 0);
+  const randomValue = rand() * totalWeight;
 
-  let result: FrequencyResult;
-  let found = false;
-  for (let i = 0; i < candidates.length; i++) {
-    if (randomValue < cumulatives[i]) {
-      result = { ...candidates[i] };
-      found = true;
+  let cumulativeWeight = 0;
+  let selected = weights[weights.length - 1][0];
+  for (const [option, weight] of weights) {
+    cumulativeWeight += weight;
+    if (randomValue < cumulativeWeight) {
+      selected = option;
       break;
     }
   }
 
-  if (!found) result = { ...candidates[candidates.length - 1] };
+  const result: FrequencyResult = { ...selected };
 
   if (captureTrace) {
-    result!._weights = weights;
-    result!._roll = randomValue;
+    result._weights = traceWeights;
+    result._roll = randomValue;
   }
 
-  return result!;
+  return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -733,31 +727,6 @@ function createDoublingFn(
 // ---------------------------------------------------------------------------
 // Consonant pileup repair (grapheme-aware)
 // ---------------------------------------------------------------------------
-
-const VOWEL_LETTERS = new Set(["a", "e", "i", "o", "u", "y"]);
-
-/**
- * Check if a character is a vowel letter.
- * Y is treated as vowel unless it's at position 0 followed by a vowel (a,e,i,o,u),
- * in which case it's consonantal (e.g. "yet", "yawn").
- */
-function isVowelChar(ch: string, idx: number, str: string): boolean {
-  const lower = ch.toLowerCase();
-  if (lower === "y") {
-    // Y followed by a vowel letter (a,e,i,o,u) is consonantal (e.g. "yet", "yoga", "beyond")
-    // Y in all other positions is a vowel (e.g. "gym", "fly", "myth")
-    const next = idx + 1 < str.length ? str[idx + 1].toLowerCase() : "";
-    return !"aeiou".includes(next);
-  }
-  return VOWEL_LETTERS.has(lower);
-}
-
-function isConsonantLetter(ch: string, idx?: number, str?: string): boolean {
-  if (idx !== undefined && str !== undefined) {
-    return !isVowelChar(ch, idx, str);
-  }
-  return !VOWEL_LETTERS.has(ch.toLowerCase());
-}
 
 /** Default English consonant graphemes (longest first for greedy matching). */
 const DEFAULT_CONSONANT_GRAPHEMES = ["tch", "dge", "ch", "sh", "th", "ng", "ph", "wh", "ck"];
