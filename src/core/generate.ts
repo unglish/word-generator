@@ -4,7 +4,7 @@ import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
-import { createWrittenFormGenerator, validateJunction } from "./write.js";
+import { createWrittenFormGenerator, repairConsonantLetters, validateJunction } from "./write.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
@@ -1132,6 +1132,23 @@ function generateOneWord(
     const morphApplied = !!morphPlan;
     if (morphPlan) {
       applyMorphology(rt, context, morphPlan.plan);
+      // Post-morphology consonant letter repair: suffix attachment can create
+      // consonant runs that exceed the limit (e.g. "marks" + "tion" = "markstion").
+      const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
+      if (maxCons) {
+        const prefixWritten = morphPlan.plan.prefix?.written ?? "";
+        const suffixWritten = morphPlan.plan.suffix?.written ?? "";
+        // Split into prefix, root, suffix as separate grapheme-level parts
+        const rootClean = context.word.written.clean.slice(
+          prefixWritten.length,
+          suffixWritten ? -suffixWritten.length : undefined,
+        );
+        const cleanParts = [prefixWritten, rootClean, suffixWritten].filter(Boolean);
+        const hyphParts = [...cleanParts]; // simplified; hyphenated repaired below
+        repairConsonantLetters(cleanParts, hyphParts, maxCons);
+        context.word.written.clean = cleanParts.join("");
+        context.word.written.hyphenated = hyphParts.join("");
+      }
     }
 
     lastContext = context;
