@@ -538,6 +538,7 @@ export const englishConfig: LanguageConfig = {
       { type: 'suffix', written: 'ory', phonemes: ["ɔ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɔ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 15, boundaryTransforms: BT_E },
       { type: 'suffix', written: 'ery', phonemes: ["ɛ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɛ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'none', frequency: 8, boundaryTransforms: BT_E },
       { type: 'suffix', written: 'ian', phonemes: ["i:", "ə", "n"], syllables: [{ onset: [], nucleus: ["i:"], coda: [] }, { onset: [], nucleus: ["ə"], coda: ["n"] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 8 },
+      { type: 'suffix', written: 'ial', phonemes: ["i:", "ə", "l"], syllables: [{ onset: [], nucleus: ["i:"], coda: [] }, { onset: [], nucleus: ["ə"], coda: ["l"] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 8 },
     ] satisfies Affix[],
     templateWeights: {
       text: { bare: 55, suffixed: 30, prefixed: 10, both: 5 },
