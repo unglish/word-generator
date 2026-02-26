@@ -67,9 +67,9 @@ const ENGLISH_BANNED_CLUSTERS: [string, string][] = [
   ["p", "b"], ["b", "p"],
   ["t", "d"], ["d", "t"],
   ["k", "g"], ["g", "k"],
-  // Nasal+stop place mismatches
+  // Nasal+stop place mismatches (except /n/+bilabial, which is attested and
+  // useful for recovering under-represented "enb"/"emb"-style patterns)
   ["m", "k"], ["m", "g"],
-  ["n", "p"], ["n", "b"],
 ];
 
 /**

@@ -55,4 +55,17 @@ describe("Morphology quality benchmarks", () => {
     const count = sample.filter(w => /ian$/.test(w.written.clean)).length;
     expect(count).toBeGreaterThanOrEqual(3);
   });
+
+  it("enb trigram is reachable in traced lexicon samples", () => {
+    const sample = generateWords(20000, { seed: 4242, morphology: true, mode: "lexicon" });
+    const count = sample.reduce((acc, w) => {
+      const clean = w.written.clean.toLowerCase();
+      let local = 0;
+      for (let i = 0; i < clean.length - 2; i++) {
+        if (clean.slice(i, i + 3) === "enb") local++;
+      }
+      return acc + local;
+    }, 0);
+    expect(count).toBeGreaterThan(0);
+  });
 });
