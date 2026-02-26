@@ -81,6 +81,12 @@ describe("Morphology quality benchmarks", () => {
     expect(count).toBeGreaterThanOrEqual(3);
   });
 
+  it("new orthographic suffix -sion appears in larger deterministic samples", () => {
+    const sample = generateWords(5000, { seed: 2029, morphology: true, mode: "lexicon" });
+    const count = sample.filter(w => /sion$/.test(w.written.clean)).length;
+    expect(count).toBeGreaterThanOrEqual(3);
+  });
+
   it("keeps ia and ian representation above regression floors vs CMU", () => {
     const cmuBigrams = loadCmuFreqs("cmu-lexicon-bigrams.json");
     const cmuTrigrams = loadCmuFreqs("cmu-lexicon-trigrams.json");

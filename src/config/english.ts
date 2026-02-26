@@ -488,7 +488,7 @@ export const englishConfig: LanguageConfig = {
       { type: 'prefix', written: 'un', phonemes: ["ʌ", "n"], syllables: [{ onset: [], nucleus: ["ʌ"], coda: ["n"] }], syllableCount: 1, stressEffect: 'secondary', frequency: 80 },
       { type: 'prefix', written: 're', phonemes: ["r", "ɪ"], syllables: [{ onset: ["r"], nucleus: ["ɪ"], coda: [] }], syllableCount: 1, stressEffect: 'secondary', frequency: 70 },
       { type: 'prefix', written: 'dis', phonemes: ["d", "ɪ", "s"], syllables: [{ onset: ["d"], nucleus: ["ɪ"], coda: ["s"] }], syllableCount: 1, stressEffect: 'secondary', frequency: 18 },
-      { type: 'prefix', written: 'pre', phonemes: ["p", "r", "i:"], syllables: [{ onset: ["p", "r"], nucleus: ["i:"], coda: [] }], syllableCount: 1, stressEffect: 'secondary', frequency: 30 },
+      { type: 'prefix', written: 'pre', phonemes: ["p", "r", "i:"], syllables: [{ onset: ["p", "r"], nucleus: ["i:"], coda: [] }], syllableCount: 1, stressEffect: 'secondary', frequency: 18 },
       { type: 'prefix', written: 'over', phonemes: ["əʊ", "v", "ɚ"], syllables: [{ onset: [], nucleus: ["əʊ"], coda: [] }, { onset: ["v"], nucleus: ["ɚ"], coda: [] }], syllableCount: 2, stressEffect: 'primary', frequency: 20 },
       { type: 'prefix', written: 'out', phonemes: ["aʊ", "t"], syllables: [{ onset: [], nucleus: ["aʊ"], coda: ["t"] }], syllableCount: 1, stressEffect: 'primary', frequency: 20 },
       { type: 'prefix', written: 'mis', phonemes: ["m", "ɪ", "s"], syllables: [{ onset: ["m"], nucleus: ["ɪ"], coda: ["s"] }], syllableCount: 1, stressEffect: 'secondary', frequency: 30 },
@@ -498,6 +498,7 @@ export const englishConfig: LanguageConfig = {
       // Frequencies calibrated to CMU dictionary word rates (÷ 0.65 morph fire rate × 884 pool)
       { type: 'suffix', written: 'ing', phonemes: ["ɪ", "ŋ"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }], syllableCount: 1, stressEffect: 'none', frequency: 40, boundaryTransforms: BT_E_DOUBLE },
       { type: 'suffix', written: 'tion', phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 28 },
+      { type: 'suffix', written: 'sion', phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 10 },
       { type: 'suffix', written: 'ly', phonemes: ["l", "i:"], syllables: [{ onset: ["l"], nucleus: ["i:"], coda: [] }], syllableCount: 1, stressEffect: 'none', frequency: 30, boundaryTransforms: BT_Y },
       {
         type: 'suffix', written: 'ed', phonemes: ["d"], syllables: [], syllableCount: 0, stressEffect: 'none', frequency: 120,
@@ -522,7 +523,7 @@ export const englishConfig: LanguageConfig = {
       { type: 'suffix', written: 'al', phonemes: ["ə", "l"], syllables: [{ onset: [], nucleus: ["ə"], coda: ["l"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 46, boundaryTransforms: BT_E },
       { type: 'suffix', written: 'ity', phonemes: ["ɪ", "t", "i:"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: [] }, { onset: ["t"], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 18, boundaryTransforms: BT_E },
       {
-        type: 'suffix', written: 's', phonemes: ["z"], syllables: [], syllableCount: 0, stressEffect: 'none', frequency: 230,
+        type: 'suffix', written: 's', phonemes: ["z"], syllables: [], syllableCount: 0, stressEffect: 'none', frequency: 190,
         allomorphs: [
           { phonologicalCondition: { position: 'preceding', voiced: false }, phonemes: ["s"], syllables: [], syllableCount: 0 },
           { phonologicalCondition: { position: 'preceding', voiced: true }, phonemes: ["z"], syllables: [], syllableCount: 0 },
@@ -562,8 +563,8 @@ export const englishConfig: LanguageConfig = {
         "t,z": 0.12,
         "n,s": 0.12,
         "n,z": 0.12,
-        "d,s": 0.12,
-        "d,z": 0.12,
+        "d,s": 0.06,
+        "d,z": 0.06,
         "b,s": 0.0001,    // Also block after nasalStopExtension (m→mb+s)
         "b,z": 0.0001,
         "g,s": 0.0001,    // Also block after nasalStopExtension (ŋ→ŋg+s)
@@ -574,8 +575,8 @@ export const englishConfig: LanguageConfig = {
         "t,z": 0.75,
         "n,s": 0.75,
         "n,z": 0.75,
-        "d,s": 0.75,
-        "d,z": 0.75,
+        "d,s": 0.35,
+        "d,z": 0.35,
         "b,s": 0.4,
         "b,z": 0.4,
         "g,s": 0.4,
