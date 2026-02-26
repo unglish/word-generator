@@ -1,60 +1,84 @@
-# word-generator
-Generate English-sounding nonsense words.
+# @unglish/word-generator
 
-## Installation
+Generate English-like nonce words using configurable phonotactics.
+
+## Install
 
 ```bash
 npm install @unglish/word-generator
 ```
 
-## Basic Usage
+## Quick Start
 
 ```ts
-import wordGenerator from '@unglish/word-generator';
+import { generateWord, generateWords } from "@unglish/word-generator";
 
-// Generate a single word
-const word = wordGenerator.generateWord();
-console.log(word);
+const one = generateWord();
+console.log(one.written.clean);
 
-// Deterministic output by seeding
-const rng = wordGenerator.random.seedRandom(42);
-const seeded = wordGenerator.generateWord({ rand: rng });
+const deterministic = generateWord({ seed: 42 });
+console.log(deterministic.written.clean);
+
+const batch = generateWords(5, { seed: 42, mode: "lexicon" });
+console.log(batch.map(w => w.written.clean));
 ```
 
-## Debugging With Trace
+`generateWords(count, { seed })` is deterministic and yields different words in
+the same seeded stream.
 
-Use `trace: true` when diagnosing unexpected outputs. This adds a `word.trace`
-object with stage snapshots, grapheme decisions, structural events, repair logs,
-and morphology metadata.
+By default generation includes morphology when the active config enables it.
+Pass `{ morphology: false }` for bare root forms.
+
+## RNG Control
+
+```ts
+import { createSeededRng, generateWord } from "@unglish/word-generator";
+
+const rand = createSeededRng(42);
+const a = generateWord({ rand });
+const b = generateWord({ rand });
+```
+
+Use `seed` for one-off deterministic calls, or pass `rand` to control a shared
+RNG stream.
+
+## Trace-First Diagnostics
+
+For n-gram or orthography outliers, use `trace: true` and inspect `word.trace`
+instead of only checking surface strings.
 
 ```ts
 import { generateWord } from "@unglish/word-generator";
 
-const word = generateWord({ mode: "lexicon", trace: true, seed: 42 });
+const word = generateWord({ seed: 42, mode: "lexicon", trace: true });
 
 console.log(word.written.clean);
 console.log(word.trace?.summary);
+console.log(word.trace?.stages[0]);
 console.log(word.trace?.graphemeSelections[0]);
 ```
 
-## Demo
+Detailed trace workflow: [`docs/word-trace-diagnostics.md`](./docs/word-trace-diagnostics.md)
 
-Run a local demo with Vite:
-
-```bash
-npm run dev
-```
-
-Then open <http://localhost:5173> to try the interactive demo located in `demo/`.
-
-## Tests
-
-Run the unit tests with:
+## Development
 
 ```bash
 npm test
+npm run lint
+npm run dev
 ```
 
-## Project Goals
+Additional checks:
 
-See [agents.md](./agents.md) for the project's purpose and [core design goals](./agents.md#-core-design-goals).
+- `npm run test:quality`
+- `npm run test:perf`
+- `npm run analyze:phonemes`
+- `npm run analyze:trigrams`
+- `npm run audit:trace`
+
+## Documentation
+
+- Contribution workflow: [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- Agent-specific constraints: [`agents.md`](./agents.md)
+- Diagnostics/design docs index: [`docs/README.md`](./docs/README.md)
+- Tuning notes and diagnostics: [`TUNING.md`](./TUNING.md)
