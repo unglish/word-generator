@@ -49,4 +49,10 @@ describe("Morphology quality benchmarks", () => {
       expect(found, `prefix ${pre}- should appear`).toBe(true);
     }
   });
+
+  it("new nominal suffix -ian appears in larger deterministic samples", () => {
+    const sample = generateWords(5000, { seed: 2026, morphology: true, mode: "lexicon" });
+    const count = sample.filter(w => /ian$/.test(w.written.clean)).length;
+    expect(count).toBeGreaterThanOrEqual(3);
+  });
 });

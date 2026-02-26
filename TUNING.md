@@ -300,6 +300,27 @@ Thresholds are in `src/config/phoneme-thresholds.json` and follow a **ratchet** 
 | 2026-02-15 | PR #202 | whu (grapheme constraints) | 99.9% |
 | 2026-02-15 | PR #202 | skt (invalid attestedCodas) | 98.9% |
 | 2026-02-15 | PR #202 | rng (bannedNucleusCodaCombinations) | 100% |
+| 2026-02-26 | codex/ngram-outlier-remediation | `ea`/`ern`/`dis` over-representation, `io`/`ion`/`tio`/`ns` under-representation | multi-knob retune + `-ian` suffix |
+
+## 2026-02-26 N-gram Outlier Retune Notes
+
+Trace-first diagnosis identified dominant root causes:
+
+- `ea` and `eat` skew: over-weighted `/ɛ/ -> ea` and `/i:/ -> ea`
+- `ern`/`rn` skew: over-weighted `/ɚ/ -> er`
+- `dis` skew: high `dis-` prefix frequency
+- `io`/`ion`/`tio` deficit: low `-tion` suffix incidence relative to CMU
+- `ns` deficit: over-suppressed coda cluster weights from earlier hard clamp
+- `ian` severe deficit: missing `-ian` morphology inventory
+
+Implemented retune strategy:
+
+- Lower `ea` mapping pressure (`/ɛ/`, `/i:/`)
+- Lower `/ɚ/ -> er` pressure
+- Reduce `dis-` prefix frequency
+- Increase `-tion` suffix frequency
+- Relax selected `coda.final` and `coda.nonFinal` cluster multipliers (`n,s`/`t,s`/`d,s` families)
+- Add `-ian` suffix to morphology inventory
 
 ## Post-Tuning Documentation Ratchet
 

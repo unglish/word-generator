@@ -67,3 +67,18 @@ For n-gram tuning PRs:
 - include the target pattern counts/frequencies before and after,
 - include a short trace-based root-cause summary,
 - include at least one concrete trace excerpt in the diagnostic notes.
+
+## Trace Signatures Seen In Lexicon Outliers
+
+Recent lexicon-mode tuning work found repeatable signatures:
+
+- `ea`/`eat` over-representation
+  - Signature: `graphemeSelections` dominated by `/ɛ/>ea` and `/i:/>ea`.
+- `ern`/`rn` over-representation
+  - Signature: `graphemeSelections` dominated by `/ɚ/>er` + `/n/>n`.
+- `dis` over-representation
+  - Signature: `morphology.prefix === "dis"` in a large share of hits.
+- `ion`/`tio` under-representation
+  - Signature: low `morphology.suffix === "tion"` incidence rather than a repair failure.
+- `ns` under-representation
+  - Signature: scarcity aligns with coda cluster weighting, not grapheme repair.

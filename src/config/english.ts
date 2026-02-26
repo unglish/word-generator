@@ -487,7 +487,7 @@ export const englishConfig: LanguageConfig = {
     prefixes: [
       { type: 'prefix', written: 'un', phonemes: ["ʌ", "n"], syllables: [{ onset: [], nucleus: ["ʌ"], coda: ["n"] }], syllableCount: 1, stressEffect: 'secondary', frequency: 80 },
       { type: 'prefix', written: 're', phonemes: ["r", "ɪ"], syllables: [{ onset: ["r"], nucleus: ["ɪ"], coda: [] }], syllableCount: 1, stressEffect: 'secondary', frequency: 70 },
-      { type: 'prefix', written: 'dis', phonemes: ["d", "ɪ", "s"], syllables: [{ onset: ["d"], nucleus: ["ɪ"], coda: ["s"] }], syllableCount: 1, stressEffect: 'secondary', frequency: 40 },
+      { type: 'prefix', written: 'dis', phonemes: ["d", "ɪ", "s"], syllables: [{ onset: ["d"], nucleus: ["ɪ"], coda: ["s"] }], syllableCount: 1, stressEffect: 'secondary', frequency: 18 },
       { type: 'prefix', written: 'pre', phonemes: ["p", "r", "i:"], syllables: [{ onset: ["p", "r"], nucleus: ["i:"], coda: [] }], syllableCount: 1, stressEffect: 'secondary', frequency: 30 },
       { type: 'prefix', written: 'over', phonemes: ["əʊ", "v", "ɚ"], syllables: [{ onset: [], nucleus: ["əʊ"], coda: [] }, { onset: ["v"], nucleus: ["ɚ"], coda: [] }], syllableCount: 2, stressEffect: 'primary', frequency: 20 },
       { type: 'prefix', written: 'out', phonemes: ["aʊ", "t"], syllables: [{ onset: [], nucleus: ["aʊ"], coda: ["t"] }], syllableCount: 1, stressEffect: 'primary', frequency: 20 },
@@ -497,7 +497,7 @@ export const englishConfig: LanguageConfig = {
     suffixes: [
       // Frequencies calibrated to CMU dictionary word rates (÷ 0.65 morph fire rate × 884 pool)
       { type: 'suffix', written: 'ing', phonemes: ["ɪ", "ŋ"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }], syllableCount: 1, stressEffect: 'none', frequency: 40, boundaryTransforms: BT_E_DOUBLE },
-      { type: 'suffix', written: 'tion', phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 18 },
+      { type: 'suffix', written: 'tion', phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 28 },
       { type: 'suffix', written: 'ly', phonemes: ["l", "i:"], syllables: [{ onset: ["l"], nucleus: ["i:"], coda: [] }], syllableCount: 1, stressEffect: 'none', frequency: 30, boundaryTransforms: BT_Y },
       {
         type: 'suffix', written: 'ed', phonemes: ["d"], syllables: [], syllableCount: 0, stressEffect: 'none', frequency: 120,
@@ -537,6 +537,7 @@ export const englishConfig: LanguageConfig = {
       { type: 'suffix', written: 'ary', phonemes: ["ɛ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɛ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 20, boundaryTransforms: BT_E },
       { type: 'suffix', written: 'ory', phonemes: ["ɔ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɔ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 15, boundaryTransforms: BT_E },
       { type: 'suffix', written: 'ery', phonemes: ["ɛ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɛ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'none', frequency: 8, boundaryTransforms: BT_E },
+      { type: 'suffix', written: 'ian', phonemes: ["i:", "ə", "n"], syllables: [{ onset: [], nucleus: ["i:"], coda: [] }, { onset: [], nucleus: ["ə"], coda: ["n"] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 8 },
     ] satisfies Affix[],
     templateWeights: {
       text: { bare: 55, suffixed: 30, prefixed: 10, both: 5 },
@@ -556,24 +557,24 @@ export const englishConfig: LanguageConfig = {
     },
     coda: {
       final: {
-        "t,s": 0.0001,    // Ultra-aggressive reduction for word-final pseudo-plurals
-        "t,z": 0.0001,
-        "n,s": 0.0001,    // Ultra-aggressive reduction  
-        "n,z": 0.0001,
-        "d,s": 0.0001,    // Also block after nasalStopExtension (n→nd+s)
-        "d,z": 0.0001,
+        "t,s": 0.12,      // Relaxed from near-zero to recover under-represented codas
+        "t,z": 0.12,
+        "n,s": 0.12,
+        "n,z": 0.12,
+        "d,s": 0.12,
+        "d,z": 0.12,
         "b,s": 0.0001,    // Also block after nasalStopExtension (m→mb+s)
         "b,z": 0.0001,
         "g,s": 0.0001,    // Also block after nasalStopExtension (ŋ→ŋg+s)
         "g,z": 0.0001,
       },
       nonFinal: {
-        "t,s": 0.4,     // Moderate reduction for mid-word clusters
-        "t,z": 0.4,
-        "n,s": 0.4,
-        "n,z": 0.4,
-        "d,s": 0.4,
-        "d,z": 0.4,
+        "t,s": 0.75,    // Loosened to improve CMU alignment for common sequences
+        "t,z": 0.75,
+        "n,s": 0.75,
+        "n,z": 0.75,
+        "d,s": 0.75,
+        "d,z": 0.75,
         "b,s": 0.4,
         "b,z": 0.4,
         "g,s": 0.4,
