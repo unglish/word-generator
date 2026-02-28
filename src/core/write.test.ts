@@ -773,6 +773,21 @@ describe("syllable-based position filtering", () => {
     expect(violations).toBeLessThanOrEqual(5);
   });
 
+  it("does not produce impossible onset clusters with \"wh\" (twh/swh/cwh/quh)", () => {
+    const words = generateWords(10000, { seed: 254, morphology: false });
+    let violations = 0;
+
+    for (const w of words) {
+      const clean = w.written.clean.toLowerCase();
+      if (/(twh|swh|cwh|quh)/.test(clean)) {
+        violations++;
+      }
+    }
+
+    console.log(`  impossible wh onset clusters: ${violations}/10000`);
+    expect(violations).toBe(0);
+  });
+
   it("\"ight\" or \"ought\" mid-word rate < 0.1% in 10k words", () => {
     const words = generateWords(10000, { seed: 42, morphology: false });
     let midWordCount = 0;
