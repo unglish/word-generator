@@ -6,8 +6,51 @@ import { Phoneme, Grapheme } from "../types.js";
 export interface ClusterConstraint {
   /** [coda sound, onset sound] pairs that are illegal across syllable boundaries. */
   banned?: [string, string][];
+  /**
+   * Rule-based boundary constraints expanded into banned pairs at runtime.
+   *
+   * Use these instead of large manual `banned` lists so new phonemes can be
+   * incorporated by feature rather than by hand-enumerating every pair.
+   */
+  rules?: BoundaryClusterConstraintRule[];
   /** How to repair a banned cluster. */
   repair: "drop-coda" | "drop-onset";
+}
+
+/** Feature selector for filtering coda/onset inventories in boundary rules. */
+export interface BoundaryPhonemeSelector {
+  /** Restrict to these exact phoneme sounds. */
+  sounds?: string[];
+  /** Restrict by manner of articulation. */
+  manner?: Phoneme["mannerOfArticulation"][];
+  /** Restrict by place of articulation. */
+  place?: Phoneme["placeOfArticulation"][];
+  /** Restrict by voicing. */
+  voiced?: boolean;
+}
+
+/** Optional coda↔onset feature relation applied after selector matching. */
+export interface BoundaryPairRelation {
+  /** Require same or different place of articulation. */
+  place?: "same" | "different";
+  /** Require same or different voicing. */
+  voiced?: "same" | "different";
+}
+
+export interface BoundaryClusterConstraintRule {
+  /**
+   * `ban`: matching coda→onset pairs are banned.
+   * `allow-only`: matching codas may only be followed by matching onsets.
+   */
+  mode: "ban" | "allow-only";
+  /** Coda selector for this rule. */
+  coda: BoundaryPhonemeSelector;
+  /** Onset selector for this rule. */
+  onset: BoundaryPhonemeSelector;
+  /** Optional relation between coda and onset features. */
+  relation?: BoundaryPairRelation;
+  /** Explicit pairs to exempt from this rule. */
+  except?: [string, string][];
 }
 
 export interface CodaConstraints {
@@ -758,6 +801,138 @@ export interface MorphologyConfig {
 // Utilities
 // ---------------------------------------------------------------------------
 
+function toBoundaryPairKey(codaSound: string, onsetSound: string): string {
+  return `${codaSound}|${onsetSound}`;
+}
+
+function splitBoundaryPairKey(key: string): [string, string] {
+  const [coda, onset] = key.split("|");
+  return [coda, onset];
+}
+
+function matchesBoundarySelector(phoneme: Phoneme, selector: BoundaryPhonemeSelector): boolean {
+  if (selector.sounds && !selector.sounds.includes(phoneme.sound)) return false;
+  if (selector.manner && !selector.manner.includes(phoneme.mannerOfArticulation)) return false;
+  if (selector.place && !selector.place.includes(phoneme.placeOfArticulation)) return false;
+  if (selector.voiced !== undefined && selector.voiced !== phoneme.voiced) return false;
+  return true;
+}
+
+function matchesBoundaryRelation(
+  coda: Phoneme,
+  onset: Phoneme,
+  relation?: BoundaryPairRelation,
+): boolean {
+  if (!relation) return true;
+
+  if (relation.place) {
+    const isSamePlace = coda.placeOfArticulation === onset.placeOfArticulation;
+    if ((relation.place === "same" && !isSamePlace) || (relation.place === "different" && isSamePlace)) {
+      return false;
+    }
+  }
+
+  if (relation.voiced) {
+    const isSameVoicing = coda.voiced === onset.voiced;
+    if ((relation.voiced === "same" && !isSameVoicing) || (relation.voiced === "different" && isSameVoicing)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function uniquePositionPhonemes(positionMap: Map<string, Phoneme[]>): Phoneme[] {
+  return Array.from(positionMap.values())
+    .flat()
+    .filter((phoneme, idx, phonemes) =>
+      idx === phonemes.findIndex(
+        p =>
+          p.sound === phoneme.sound &&
+          p.mannerOfArticulation === phoneme.mannerOfArticulation &&
+          p.placeOfArticulation === phoneme.placeOfArticulation &&
+          p.voiced === phoneme.voiced,
+      ),
+    );
+}
+
+function expandBoundaryRule(
+  rule: BoundaryClusterConstraintRule,
+  codaInventory: Phoneme[],
+  onsetInventory: Phoneme[],
+): Set<string> {
+  const matchedCodas = codaInventory.filter(p => matchesBoundarySelector(p, rule.coda));
+  const matchedOnsets = onsetInventory.filter(p => matchesBoundarySelector(p, rule.onset));
+  const expanded = new Set<string>();
+
+  if (rule.mode === "ban") {
+    for (const coda of matchedCodas) {
+      for (const onset of matchedOnsets) {
+        if (!matchesBoundaryRelation(coda, onset, rule.relation)) continue;
+        expanded.add(toBoundaryPairKey(coda.sound, onset.sound));
+      }
+    }
+  } else {
+    const allowed = new Set<string>();
+    for (const coda of matchedCodas) {
+      for (const onset of matchedOnsets) {
+        if (!matchesBoundaryRelation(coda, onset, rule.relation)) continue;
+        allowed.add(toBoundaryPairKey(coda.sound, onset.sound));
+      }
+    }
+    for (const coda of matchedCodas) {
+      for (const onset of onsetInventory) {
+        const key = toBoundaryPairKey(coda.sound, onset.sound);
+        if (!allowed.has(key)) expanded.add(key);
+      }
+    }
+  }
+
+  for (const [codaSound, onsetSound] of rule.except ?? []) {
+    expanded.delete(toBoundaryPairKey(codaSound, onsetSound));
+  }
+
+  return expanded;
+}
+
+/**
+ * Expand cluster-constraint rules into concrete [coda, onset] banned pairs.
+ *
+ * This is done at runtime build time, so rules naturally pick up newly added
+ * onset/coda phonemes without manually editing pair lists.
+ */
+export function expandClusterConstraintBans(
+  config: Pick<LanguageConfig, "clusterConstraint" | "phonemeMaps">,
+): [string, string][] {
+  const constraint = config.clusterConstraint;
+  if (!constraint) return [];
+
+  const expanded = new Set<string>();
+  for (const [codaSound, onsetSound] of constraint.banned ?? []) {
+    expanded.add(toBoundaryPairKey(codaSound, onsetSound));
+  }
+
+  if (constraint.rules && constraint.rules.length > 0) {
+    const codaInventory = uniquePositionPhonemes(config.phonemeMaps.coda);
+    const onsetInventory = uniquePositionPhonemes(config.phonemeMaps.onset);
+
+    for (const rule of constraint.rules) {
+      const rulePairs = expandBoundaryRule(rule, codaInventory, onsetInventory);
+      for (const pairKey of rulePairs) expanded.add(pairKey);
+    }
+  }
+
+  return Array.from(expanded)
+    .map(splitBoundaryPairKey)
+    .sort(([codaA, onsetA], [codaB, onsetB]) => {
+      if (codaA < codaB) return -1;
+      if (codaA > codaB) return 1;
+      if (onsetA < onsetB) return -1;
+      if (onsetA > onsetB) return 1;
+      return 0;
+    });
+}
+
 /**
  * Validate a LanguageConfig, throwing on any detected inconsistency.
  *
@@ -808,6 +983,19 @@ export function validateConfig(config: LanguageConfig): void {
   }
 
   const phonemeSounds = new Set(config.phonemes.map(p => p.sound));
+  const onsetSounds = new Set(config.phonemeMaps.onset.keys());
+  const codaSounds = new Set(config.phonemeMaps.coda.keys());
+
+  const assertKnownBoundarySound = (
+    sound: string,
+    position: "onset" | "coda",
+    label: string,
+  ): void => {
+    const lookup = position === "onset" ? onsetSounds : codaSounds;
+    if (!lookup.has(sound)) {
+      throw new Error(`${label} contains unknown ${position} phoneme "${sound}"`);
+    }
+  };
   const validateBridgeOnsets = (pairs: [string, number][], label: string): void => {
     for (const [sound, weight] of pairs) {
       if (!sound) {
@@ -845,6 +1033,28 @@ export function validateConfig(config: LanguageConfig): void {
       config.morphology.boundaryPolicy.fallbackBridgeOnsets,
       "morphology.boundaryPolicy.fallbackBridgeOnsets",
     );
+  }
+
+  if (config.clusterConstraint?.banned) {
+    for (const [codaSound, onsetSound] of config.clusterConstraint.banned) {
+      assertKnownBoundarySound(codaSound, "coda", "clusterConstraint.banned");
+      assertKnownBoundarySound(onsetSound, "onset", "clusterConstraint.banned");
+    }
+  }
+
+  if (config.clusterConstraint?.rules) {
+    config.clusterConstraint.rules.forEach((rule, index) => {
+      for (const sound of rule.coda.sounds ?? []) {
+        assertKnownBoundarySound(sound, "coda", `clusterConstraint.rules[${index}].coda.sounds`);
+      }
+      for (const sound of rule.onset.sounds ?? []) {
+        assertKnownBoundarySound(sound, "onset", `clusterConstraint.rules[${index}].onset.sounds`);
+      }
+      for (const [codaSound, onsetSound] of rule.except ?? []) {
+        assertKnownBoundarySound(codaSound, "coda", `clusterConstraint.rules[${index}].except`);
+        assertKnownBoundarySound(onsetSound, "onset", `clusterConstraint.rules[${index}].except`);
+      }
+    });
   }
 
   // Top-down phoneme length weights are required for both modes.
