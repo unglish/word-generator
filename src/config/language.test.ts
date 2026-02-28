@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { englishConfig } from "./english.js";
-import { LanguageConfig, computeSonorityLevels, validateConfig } from "./language.js";
+import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, validateConfig } from "./language.js";
 import { VOICED_BONUS, TENSE_BONUS } from "./weights.js";
 import { sonorityLevels } from "../elements/phonemes.js";
+import { Phoneme } from "../types.js";
 
 describe("LanguageConfig", () => {
   it("should construct a valid English config", () => {
@@ -46,6 +47,73 @@ describe("LanguageConfig", () => {
       for (const pattern of englishConfig.invalidClusters.onset) {
         expect(typeof pattern).toBe("string");
       }
+    });
+
+    it("should expand English boundary cluster rules to the expected banned pairs", () => {
+      const expected = new Set([
+        // /ŋ/ before anything except /k/, /g/
+        "ŋ|p", "ŋ|b", "ŋ|t", "ŋ|d",
+        "ŋ|f", "ŋ|v", "ŋ|θ", "ŋ|ð",
+        "ŋ|s", "ŋ|z", "ŋ|ʃ", "ŋ|ʒ",
+        "ŋ|tʃ", "ŋ|dʒ", "ŋ|m", "ŋ|n",
+        "ŋ|l", "ŋ|r", "ŋ|j", "ŋ|w",
+        "ŋ|h",
+        // /ʒ/ before stops
+        "ʒ|p", "ʒ|b", "ʒ|t", "ʒ|d", "ʒ|k", "ʒ|g",
+        // /ð/ before stops
+        "ð|p", "ð|b", "ð|t", "ð|d", "ð|k", "ð|g",
+        // Same-place stop sequences with opposite voicing
+        "p|b", "b|p", "t|d", "d|t", "k|g", "g|k",
+        // Bilabial nasal + velar stop
+        "m|k", "m|g",
+      ]);
+      const actual = new Set(
+        expandClusterConstraintBans(englishConfig).map(([coda, onset]) => `${coda}|${onset}`),
+      );
+      expect(actual).toEqual(expected);
+    });
+
+    it("should auto-ban new non-velar onsets after /ŋ/ while allowing new velar onsets", () => {
+      const newPalatalStop: Phoneme = {
+        sound: "c",
+        mannerOfArticulation: "stop",
+        placeOfArticulation: "palatal",
+        voiced: false,
+        onset: 10,
+        coda: 0,
+        startWord: 1,
+        midWord: 1,
+        endWord: 1,
+      };
+      const newVelarStop: Phoneme = {
+        sound: "q",
+        mannerOfArticulation: "stop",
+        placeOfArticulation: "velar",
+        voiced: false,
+        onset: 10,
+        coda: 0,
+        startWord: 1,
+        midWord: 1,
+        endWord: 1,
+      };
+      const onsetMap = new Map(englishConfig.phonemeMaps.onset);
+      onsetMap.set(newPalatalStop.sound, [newPalatalStop]);
+      onsetMap.set(newVelarStop.sound, [newVelarStop]);
+
+      const configWithExtraOnsets: LanguageConfig = {
+        ...englishConfig,
+        phonemes: [...englishConfig.phonemes, newPalatalStop, newVelarStop],
+        phonemeMaps: {
+          ...englishConfig.phonemeMaps,
+          onset: onsetMap,
+        },
+      };
+
+      const expanded = new Set(
+        expandClusterConstraintBans(configWithExtraOnsets).map(([coda, onset]) => `${coda}|${onset}`),
+      );
+      expect(expanded.has("ŋ|c")).toBe(true);
+      expect(expanded.has("ŋ|q")).toBe(false);
     });
   });
 
