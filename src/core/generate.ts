@@ -1,7 +1,7 @@
 import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, SyllableShapePlan, getPhonemePositionWeight, GenerationMode } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints } from "../config/language.js";
+import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints, expandClusterConstraintBans } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
 import { createWrittenFormGenerator, repairConsonantLetters, validateJunction } from "./write.js";
@@ -99,8 +99,9 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
 
   const generateWrittenForm = createWrittenFormGenerator(config);
 
-  const bannedSet = config.clusterConstraint?.banned
-    ? new Set(config.clusterConstraint.banned.map(([a, b]) => `${a}|${b}`))
+  const bannedPairs = expandClusterConstraintBans(config);
+  const bannedSet = bannedPairs.length > 0
+    ? new Set(bannedPairs.map(([a, b]) => `${a}|${b}`))
     : undefined;
 
   const sonorityBySound = new Map<string, number>();
