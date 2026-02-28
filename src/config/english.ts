@@ -1,4 +1,4 @@
-import { Affix, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets } from "./language.js";
+import { Affix, BoundaryClusterConstraintRule, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets } from "./language.js";
 
 // ---------------------------------------------------------------------------
 // Shared boundary transforms
@@ -46,30 +46,19 @@ import {
 } from "../elements/phonemes.js";
 import { graphemes, graphemeMaps } from "../elements/graphemes/index.js";
 
-/**
- * Banned cross-syllable [coda, onset] pairs for English.
- */
-const ENGLISH_BANNED_CLUSTERS: [string, string][] = [
-  // /ŋ/ before anything except /k/, /g/
-  ["ŋ", "p"], ["ŋ", "b"], ["ŋ", "t"], ["ŋ", "d"],
-  ["ŋ", "f"], ["ŋ", "v"], ["ŋ", "θ"], ["ŋ", "ð"],
-  ["ŋ", "s"], ["ŋ", "z"], ["ŋ", "ʃ"], ["ŋ", "ʒ"],
-  ["ŋ", "tʃ"], ["ŋ", "dʒ"], ["ŋ", "m"], ["ŋ", "n"],
-  ["ŋ", "l"], ["ŋ", "r"], ["ŋ", "j"], ["ŋ", "w"],
-  ["ŋ", "h"],
-  // /ʒ/ before stops
-  ["ʒ", "p"], ["ʒ", "b"], ["ʒ", "t"], ["ʒ", "d"],
-  ["ʒ", "k"], ["ʒ", "g"],
-  // /ð/ before stops
-  ["ð", "p"], ["ð", "b"], ["ð", "t"], ["ð", "d"],
-  ["ð", "k"], ["ð", "g"],
-  // Same-place stop sequences
-  ["p", "b"], ["b", "p"],
-  ["t", "d"], ["d", "t"],
-  ["k", "g"], ["g", "k"],
-  // Nasal+stop place mismatches (except /n/+bilabial, which is attested and
-  // useful for recovering under-represented "enb"/"emb"-style patterns)
-  ["m", "k"], ["m", "g"],
+/** Rule-based cross-syllable constraints for English coda→onset boundaries. */
+const ENGLISH_BOUNDARY_CLUSTER_RULES: BoundaryClusterConstraintRule[] = [
+  // /ŋ/ may only be followed by velars (e.g. /k/, /g/ in current inventory).
+  { mode: "allow-only", coda: { sounds: ["ŋ"] }, onset: { place: ["velar"] } },
+
+  // /ʒ/ and /ð/ are strongly disfavored before stop onsets.
+  { mode: "ban", coda: { sounds: ["ʒ", "ð"] }, onset: { manner: ["stop"] } },
+
+  // Same-place stop sequences with opposite voicing are disallowed.
+  { mode: "ban", coda: { manner: ["stop"] }, onset: { manner: ["stop"] }, relation: { place: "same", voiced: "different" } },
+
+  // Bilabial nasal + velar stop boundaries are disallowed.
+  { mode: "ban", coda: { sounds: ["m"] }, onset: { manner: ["stop"], place: ["velar"] } },
 ];
 
 /**
@@ -361,7 +350,7 @@ export const englishConfig: LanguageConfig = {
   ],
 
   clusterConstraint: {
-    banned: ENGLISH_BANNED_CLUSTERS,
+    rules: ENGLISH_BOUNDARY_CLUSTER_RULES,
     repair: "drop-coda",
   },
   codaConstraints: {
