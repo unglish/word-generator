@@ -1,12 +1,12 @@
 {
-  "maxBigramOverRepresentation": 7.55,
-  "maxTrigramOverRepresentation": 5.46,
-  "minBigramRepresentation": 0,
-  "minTrigramRepresentation": 0,
+  "maxBigramOverRepresentation": 4.25,
+  "maxTrigramOverRepresentation": 3.21,
+  "minBigramRepresentation": 0.0285,
+  "minTrigramRepresentation": 0.0062,
   "minBigramBaselineFreq": 0.001,
   "minTrigramBaselineFreq": 0.0005,
   "sampleSize": 200000,
-  "lastUpdated": "2026-02-16",
+  "lastUpdated": "2026-02-26",
   "history": [
     {
       "date": "2026-02-16",
@@ -19,6 +19,18 @@
       "minBigram": 0,
       "minTrigram": 0,
       "note": "Initial under-representation baseline — many common patterns (ko, ngs, nce) are near-zero in generated output. Thresholds start at 0; ratchet up as generator improves."
+    },
+    {
+      "date": "2026-02-26",
+      "bigram": 4.25,
+      "trigram": 3.21,
+      "note": "Post lexicon outlier retune (5x200k, morphology on): worst over-rep `ds` (3.8618x) and `pre` (2.9192x), thresholds set to +10%."
+    },
+    {
+      "date": "2026-02-26",
+      "minBigram": 0.0285,
+      "minTrigram": 0.0062,
+      "note": "Post lexicon outlier retune under-rep ratchet: worst common under-rep `mc` (0.0317x) and `sio` (0.0069x), thresholds set to -10%."
     }
   ],
   "_comment": "Quality ratchet: after each tuning fix, re-run 5× analysis (seeds 42/123/456/789/1337), update thresholds to new max + 10% margin (over-rep) or new min - 10% margin (under-rep), commit as part of fix PR."

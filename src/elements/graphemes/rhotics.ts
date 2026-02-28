@@ -29,7 +29,7 @@ export const rhoticGraphemes: Grapheme[] = [
     phoneme: "ɚ",
     form: "er",
     origin: 0,
-    frequency: 300,
+    frequency: 190,
     startWord: 1,
     midWord: 50,
     endWord: 100,
