@@ -1,4 +1,4 @@
-import { Phoneme, Grapheme } from "../types.js";
+import { Phoneme, Grapheme, GraphemeCondition } from "../types.js";
 // ---------------------------------------------------------------------------
 // Repair constraint types
 // ---------------------------------------------------------------------------
@@ -534,6 +534,11 @@ export interface LanguageConfig {
    * options for that phoneme in the given position.
    */
   graphemeMaps: BySyllablePosition<Map<string, Grapheme[]>>;
+  /**
+   * Reusable grapheme condition presets keyed by alias name.
+   * Grapheme-level condition fields override alias fields when both are present.
+   */
+  graphemeConditionAliases?: Record<string, Omit<GraphemeCondition, "alias">>;
 
   /**
    * Phonotactic constraints: patterns for invalid clusters.

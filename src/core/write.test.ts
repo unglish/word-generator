@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, isJunctionSonorityValid, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary, applySilentE, appendSilentE } from "./write";
+import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, isJunctionValid, isJunctionSonorityValid, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary, applySilentE, appendSilentE, normalizeGraphemeCondition } from "./write";
 import { generateWord, createGenerator } from "./generate";
 import { englishConfig } from "../config/english";
-import { Phoneme } from "../types";
+import { GraphemeCondition, Phoneme } from "../types";
 
 // ---------------------------------------------------------------------------
 // tokenizeGraphemes
@@ -622,6 +622,42 @@ describe("filterByPosition", () => {
   });
 });
 
+describe("normalizeGraphemeCondition", () => {
+  it("merges alias conditions with explicit condition fields", () => {
+    const aliases: Record<string, Omit<GraphemeCondition, "alias">> = {
+      bareSyllableNucleus: {
+        syllableShape: { onset: "empty", coda: "empty" },
+        wordPosition: ["initial", "final"],
+      },
+    };
+    const condition: GraphemeCondition = {
+      alias: "bareSyllableNucleus",
+      wordPosition: ["final"],
+      syllableShape: { onset: "nonEmpty" },
+    };
+    const normalized = normalizeGraphemeCondition(condition, aliases, "eye");
+    expect(normalized).toEqual({
+      wordPosition: ["final"],
+      syllableShape: { onset: "nonEmpty", coda: "empty" },
+    });
+  });
+
+  it("throws on unknown condition alias", () => {
+    const condition: GraphemeCondition = { alias: "missingAlias" };
+    expect(() => normalizeGraphemeCondition(condition, {}, "eye")).toThrow(/Unknown grapheme condition alias/);
+  });
+});
+
+describe("grapheme condition alias wiring", () => {
+  it("fails fast when a grapheme references an unknown alias", () => {
+    const brokenConfig = {
+      ...englishConfig,
+      graphemeConditionAliases: undefined,
+    };
+    expect(() => createGenerator(brokenConfig)).toThrow(/Unknown grapheme condition alias/);
+  });
+});
+
 // ---------------------------------------------------------------------------
 // Monosyllable position weight selection
 // ---------------------------------------------------------------------------
@@ -827,6 +863,66 @@ describe("syllable-based position filtering", () => {
 
     console.log(`  words starting with ck: ${violations}/10000`);
     expect(violations).toBe(0);
+  });
+
+  it("\"eye\" appears only as a bare syllable nucleus (50k words)", () => {
+    const words = generateWords(50000, { seed: 175, morphology: false });
+    let totalEyeSyllables = 0;
+    let violations = 0;
+
+    for (const w of words) {
+      const syllableParts = w.written.hyphenated.toLowerCase().split("&shy;");
+      for (const part of syllableParts) {
+        if (!part.includes("eye")) continue;
+        totalEyeSyllables++;
+        if (part !== "eye") violations++;
+      }
+    }
+
+    console.log(`  eye syllables: ${totalEyeSyllables}/50000`);
+    console.log(`  eye bare-syllable violations: ${violations}/50000`);
+    expect(totalEyeSyllables).toBeGreaterThan(0);
+    expect(violations).toBe(0);
+  });
+
+  it("\"eye\" does not appear in medial syllables (50k words)", () => {
+    const words = generateWords(50000, { seed: 27175, morphology: false });
+    let totalEyeSyllables = 0;
+    let medialViolations = 0;
+
+    for (const w of words) {
+      const syllableParts = w.written.hyphenated.toLowerCase().split("&shy;");
+      for (let i = 0; i < syllableParts.length; i++) {
+        if (!syllableParts[i].includes("eye")) continue;
+        totalEyeSyllables++;
+        if (i > 0 && i < syllableParts.length - 1) medialViolations++;
+      }
+    }
+
+    console.log(`  eye syllables (medial test): ${totalEyeSyllables}/50000`);
+    console.log(`  eye medial-syllable violations: ${medialViolations}/50000`);
+    expect(totalEyeSyllables).toBeGreaterThan(0);
+    expect(medialViolations).toBe(0);
+  });
+
+  it("other /aɪ/ spellings still appear alongside \"eye\" (50k words)", () => {
+    const words = generateWords(50000, { seed: 98175, morphology: false });
+    let eyeWords = 0;
+    let nonEyeAiWords = 0;
+
+    for (const w of words) {
+      const clean = w.written.clean.toLowerCase();
+      if (clean.includes("eye")) {
+        eyeWords++;
+      } else if (/(igh|ie|ai|is|ye|y|i)/.test(clean) && w.syllables.some(s => s.nucleus.some(p => p.sound === "aɪ"))) {
+        nonEyeAiWords++;
+      }
+    }
+
+    console.log(`  eye words: ${eyeWords}/50000`);
+    console.log(`  non-eye /aɪ/ words: ${nonEyeAiWords}/50000`);
+    expect(eyeWords).toBeGreaterThan(0);
+    expect(nonEyeAiWords).toBeGreaterThan(0);
   });
 });
 

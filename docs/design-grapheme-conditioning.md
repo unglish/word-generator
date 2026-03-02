@@ -69,6 +69,12 @@ Examples:
 ```typescript
 interface GraphemeCondition {
   /**
+   * Optional alias key resolved from LanguageConfig.graphemeConditionAliases.
+   * Explicit fields on this condition override alias-provided defaults.
+   */
+  alias?: string;
+
+  /**
    * Left phoneme context filter.
    * If specified, the previous phoneme's sound must be in this list
    * (or match a category shorthand like "lax-vowel", "front-vowel").
@@ -92,6 +98,26 @@ interface GraphemeCondition {
    * If specified, this grapheme is only valid in these positions.
    */
   wordPosition?: ("initial" | "medial" | "final")[];
+
+  /**
+   * Syllable shape requirements for the current syllable.
+   * Useful for constraints like "bare nucleus only".
+   */
+  syllableShape?: {
+    onset?: "empty" | "nonEmpty" | "any";
+    coda?: "empty" | "nonEmpty" | "any";
+    nucleusLength?: number | { min?: number; max?: number };
+  };
+}
+```
+
+Alias presets in language config keep inventories concise:
+
+```typescript
+graphemeConditionAliases: {
+  bareSyllableNucleus: {
+    syllableShape: { onset: "empty", coda: "empty" }
+  }
 }
 ```
 

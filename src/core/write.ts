@@ -1,4 +1,4 @@
-import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
+import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule, sonorityClass } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink } from "./trace.js";
@@ -336,26 +336,87 @@ interface PreExpandedCondition {
   leftGraphemeContext?: Set<string>;
   notLeftGraphemeContext?: Set<string>;
   wordPosition?: ("initial" | "medial" | "final")[];
+  syllableShape?: GraphemeCondition["syllableShape"];
+}
+
+function mergeSyllableShape(
+  aliasShape: GraphemeCondition["syllableShape"],
+  explicitShape: GraphemeCondition["syllableShape"],
+): GraphemeCondition["syllableShape"] {
+  if (!aliasShape && !explicitShape) return undefined;
+  return {
+    ...(aliasShape ?? {}),
+    ...(explicitShape ?? {}),
+  };
+}
+
+/**
+ * Resolve an alias-backed grapheme condition into a plain condition object.
+ * Explicit grapheme condition fields override alias-provided defaults.
+ */
+export function normalizeGraphemeCondition(
+  condition: GraphemeCondition | undefined,
+  aliases: LanguageConfig["graphemeConditionAliases"] | undefined,
+  graphemeForm?: string,
+): Omit<GraphemeCondition, "alias"> | undefined {
+  if (!condition) return undefined;
+  let aliasCondition: Omit<GraphemeCondition, "alias"> | undefined;
+  if (condition.alias) {
+    aliasCondition = aliases?.[condition.alias];
+    if (!aliasCondition) {
+      const suffix = graphemeForm ? ` for grapheme "${graphemeForm}"` : "";
+      throw new Error(`Unknown grapheme condition alias "${condition.alias}"${suffix}`);
+    }
+  }
+
+  const { alias: _alias, syllableShape: explicitSyllableShape, ...explicitFields } = condition;
+  const merged: Omit<GraphemeCondition, "alias"> = {
+    ...(aliasCondition ?? {}),
+    ...explicitFields,
+  };
+  merged.syllableShape = mergeSyllableShape(aliasCondition?.syllableShape, explicitSyllableShape);
+  if (!merged.syllableShape) delete merged.syllableShape;
+  return merged;
 }
 
 function preExpandConditions(
   graphemes: Grapheme[],
   categories: Map<string, Set<string>>,
+  aliases: LanguageConfig["graphemeConditionAliases"] | undefined,
 ): Map<Grapheme, PreExpandedCondition> {
   const result = new Map<Grapheme, PreExpandedCondition>();
   for (const g of graphemes) {
-    if (!g.condition) continue;
+    const normalized = normalizeGraphemeCondition(g.condition, aliases, g.form);
+    if (!normalized) continue;
     const expanded: PreExpandedCondition = {};
-    if (g.condition.leftContext) expanded.leftContext = expandContext(g.condition.leftContext, categories);
-    if (g.condition.rightContext) expanded.rightContext = expandContext(g.condition.rightContext, categories);
-    if (g.condition.notLeftContext) expanded.notLeftContext = expandContext(g.condition.notLeftContext, categories);
-    if (g.condition.notRightContext) expanded.notRightContext = expandContext(g.condition.notRightContext, categories);
-    if (g.condition.leftGraphemeContext) expanded.leftGraphemeContext = new Set(g.condition.leftGraphemeContext);
-    if (g.condition.notLeftGraphemeContext) expanded.notLeftGraphemeContext = new Set(g.condition.notLeftGraphemeContext);
-    if (g.condition.wordPosition) expanded.wordPosition = g.condition.wordPosition;
+    if (normalized.leftContext) expanded.leftContext = expandContext(normalized.leftContext, categories);
+    if (normalized.rightContext) expanded.rightContext = expandContext(normalized.rightContext, categories);
+    if (normalized.notLeftContext) expanded.notLeftContext = expandContext(normalized.notLeftContext, categories);
+    if (normalized.notRightContext) expanded.notRightContext = expandContext(normalized.notRightContext, categories);
+    if (normalized.leftGraphemeContext) expanded.leftGraphemeContext = new Set(normalized.leftGraphemeContext);
+    if (normalized.notLeftGraphemeContext) expanded.notLeftGraphemeContext = new Set(normalized.notLeftGraphemeContext);
+    if (normalized.wordPosition) expanded.wordPosition = normalized.wordPosition;
+    if (normalized.syllableShape) expanded.syllableShape = normalized.syllableShape;
     result.set(g, expanded);
   }
   return result;
+}
+
+function checkClusterShapeRequirement(length: number, requirement: "empty" | "nonEmpty" | "any" | undefined): boolean {
+  if (!requirement || requirement === "any") return true;
+  if (requirement === "empty") return length === 0;
+  return length > 0;
+}
+
+function checkNucleusLengthRequirement(
+  length: number,
+  requirement: NonNullable<GraphemeCondition["syllableShape"]>["nucleusLength"],
+): boolean {
+  if (requirement === undefined) return true;
+  if (typeof requirement === "number") return length === requirement;
+  if (requirement.min !== undefined && length < requirement.min) return false;
+  if (requirement.max !== undefined && length > requirement.max) return false;
+  return true;
 }
 
 // ---------------------------------------------------------------------------
@@ -383,6 +444,9 @@ function meetsPreExpandedCondition(
   totalPhonemes: number,
   phonemeIndex: number,
   prevGraphemeForm?: string,
+  onsetLength?: number,
+  nucleusLength?: number,
+  codaLength?: number,
 ): boolean {
   if (!condition) return true;
 
@@ -431,6 +495,12 @@ function meetsPreExpandedCondition(
     }
   }
 
+  if (condition.syllableShape) {
+    if (!checkClusterShapeRequirement(onsetLength ?? 0, condition.syllableShape.onset)) return false;
+    if (!checkClusterShapeRequirement(codaLength ?? 0, condition.syllableShape.coda)) return false;
+    if (!checkNucleusLengthRequirement(nucleusLength ?? 0, condition.syllableShape.nucleusLength)) return false;
+  }
+
   return true;
 }
 
@@ -444,6 +514,9 @@ function filterByCondition(
   isStartOfWord: boolean,
   isEndOfWord: boolean,
   prevGraphemeForm?: string,
+  onsetLength?: number,
+  nucleusLength?: number,
+  codaLength?: number,
 ): Grapheme[] {
   const filtered = candidates.filter(g =>
     meetsPreExpandedCondition(
@@ -455,6 +528,9 @@ function filterByCondition(
       totalPhonemes,
       phonemeIndex,
       prevGraphemeForm,
+      onsetLength,
+      nucleusLength,
+      codaLength,
     )
   );
   return filtered.length > 0 ? filtered : candidates;
@@ -1539,7 +1615,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const tryDoubling = createDoublingFn(doublingConfig, neverDoubleSet, doubledFormSet);
 
   // Pre-expand conditions for all graphemes
-  const expandedConditions = preExpandConditions(config.graphemes, categories);
+  const expandedConditions = preExpandConditions(config.graphemes, categories, config.graphemeConditionAliases);
 
   // Silent-e pre-compilation
   const silentEConfig = config.silentE;
@@ -1599,11 +1675,27 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
       const isStartOfWord = syllableIndex === 0;
       const isEndOfWord = syllableIndex === syllables.length - 1;
+      const onsetLength = syllables[syllableIndex].onset.length;
+      const nucleusLength = syllables[syllableIndex].nucleus.length;
+      const codaLength = syllables[syllableIndex].coda.length;
 
       // Pipeline
       const isLastPhoneme = phonemeIndex === flattenedPhonemes.length - 1;
       const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
-      const conditioned = filterByCondition(candidates, expandedConditions, prevPhoneme, nextEntry?.phoneme, phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord, prevGraphemeForm);
+      const conditioned = filterByCondition(
+        candidates,
+        expandedConditions,
+        prevPhoneme,
+        nextEntry?.phoneme,
+        phonemeIndex,
+        flattenedPhonemes.length,
+        isStartOfWord,
+        isEndOfWord,
+        prevGraphemeForm,
+        onsetLength,
+        nucleusLength,
+        codaLength,
+      );
       const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
       // When doubling quota is full, exclude doubled-form graphemes (e.g. "ck") so we don't exceed maxPerWord
       const quotaFiltered = doubledFormSet.size > 0 && doublingCtx.doublingCount >= (doublingConfig?.maxPerWord ?? Infinity)
