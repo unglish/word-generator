@@ -85,6 +85,14 @@ export const englishConfig: LanguageConfig = {
 
   graphemes,
   graphemeMaps,
+  graphemeConditionAliases: {
+    bareSyllableNucleus: {
+      syllableShape: {
+        onset: "empty",
+        coda: "empty",
+      },
+    },
+  },
 
   invalidClusters: {
     onset: [],

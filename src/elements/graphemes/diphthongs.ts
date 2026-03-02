@@ -73,6 +73,18 @@ export const diphthongGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 2,
   },
+  {
+    phoneme: "aɪ",
+    form: "eye",
+    origin: 3,
+    frequency: 1,
+    onset: 0,
+    coda: 0,
+    startWord: 2,
+    midWord: 0,
+    endWord: 3,
+    condition: { alias: "bareSyllableNucleus" },
+  },
 
   // now
   {

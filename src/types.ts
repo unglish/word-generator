@@ -119,6 +119,11 @@ export function getPhonemePositionWeight(p: Phoneme, position: "onset" | "nucleu
  * based on surrounding phonemes and word position.
  */
 export interface GraphemeCondition {
+  /**
+   * Optional language-config alias for reusable condition presets.
+   * Resolved from LanguageConfig.graphemeConditionAliases before evaluation.
+   */
+  alias?: string;
   /** Previous phoneme's sound must be in this list (or match a category shorthand). */
   leftContext?: string[];
   /** Next phoneme's sound must be in this list (or match a category shorthand). */
@@ -133,6 +138,15 @@ export interface GraphemeCondition {
   notLeftGraphemeContext?: string[];
   /** This grapheme is only valid in these word positions. */
   wordPosition?: ("initial" | "medial" | "final")[];
+  /**
+   * Syllable-shape guard for the current syllable where this grapheme is applied.
+   * Useful for constraints like bare nucleus spellings.
+   */
+  syllableShape?: {
+    onset?: "empty" | "nonEmpty" | "any";
+    coda?: "empty" | "nonEmpty" | "any";
+    nucleusLength?: number | { min?: number; max?: number };
+  };
 }
 
 /**
