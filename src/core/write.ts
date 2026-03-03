@@ -206,7 +206,7 @@ function buildLinksForUnit(unit: TraceUnitSeed, trace: TraceCollector): TraceLin
 
   for (let i = 0; i < trace.structural.length; i++) {
     const s = trace.structural[i];
-    if (structuralEventReferencesPhoneme(s, unit.phoneme)) {
+    if (structuralEventReferencesUnit(s, unit)) {
       links.push({ kind: "structural", index: i, label: s.event });
     }
   }
@@ -214,25 +214,41 @@ function buildLinksForUnit(unit: TraceUnitSeed, trace: TraceCollector): TraceLin
   return links;
 }
 
-function structuralEventReferencesPhoneme(event: StructuralTrace, phoneme: string): boolean {
+function structuralEventReferencesUnit(event: StructuralTrace, unit: TraceUnitSeed): boolean {
   switch (event.event) {
   case "boundaryDrop":
-    return event.dropped === phoneme || event.beforeOnset === phoneme;
+    // Dropped-coda segment is removed pre-orthography; link only the onset-side survivor.
+    return unit.position === "onset" &&
+      unit.syllableIndex === event.rightSyllableIndex &&
+      unit.phoneme === event.beforeOnset;
   case "sspBoundaryDrop":
-    return event.dropped === phoneme ||
-      event.remainingCoda.includes(phoneme) ||
-      event.onset.includes(phoneme);
+    return (unit.position === "coda" &&
+      unit.syllableIndex === event.leftSyllableIndex &&
+      event.remainingCoda.includes(unit.phoneme)) ||
+      (unit.position === "onset" &&
+      unit.syllableIndex === event.rightSyllableIndex &&
+      event.onset.includes(unit.phoneme));
   case "finalS":
-    return phoneme === "s";
+    return unit.position === "coda" &&
+      unit.syllableIndex === event.syllableIndex &&
+      unit.phoneme === "s";
   case "nasalStopExtension":
-    return event.nasal === phoneme || event.appendedStop === phoneme;
+    return unit.position === "coda" &&
+      unit.syllableIndex === event.syllableIndex &&
+      (unit.phoneme === event.nasal || unit.phoneme === event.appendedStop);
   case "vowelHiatusFallback":
-    return event.inserted === phoneme;
+    return unit.position === "onset" &&
+      unit.syllableIndex === event.rightSyllableIndex &&
+      unit.phoneme === event.inserted;
   case "morphPrefixHiatusFallback":
   case "morphSuffixHiatusFallback":
-    return event.inserted === phoneme;
+    return unit.position === "onset" &&
+      unit.syllableIndex === event.syllableIndex &&
+      unit.phoneme === event.inserted;
   case "aspirationDecision":
-    return event.targetPhoneme === phoneme;
+    return unit.position === "onset" &&
+      unit.syllableIndex === event.syllableIndex &&
+      unit.phoneme === event.targetPhoneme;
   }
 }
 

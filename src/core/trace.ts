@@ -67,6 +67,8 @@ export interface BoundaryDropTrace {
   beforeOnset: string;
   equalSonority: number;
   probability: number;
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
 }
 
 export interface SspBoundaryDropTrace {
@@ -74,6 +76,8 @@ export interface SspBoundaryDropTrace {
   dropped: string;
   remainingCoda: string[];
   onset: string[];
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
 }
 
 export interface FinalSTrace {
@@ -81,6 +85,7 @@ export interface FinalSTrace {
   probability: number;
   clusterWeightApplied?: boolean;
   clusterWeight?: number;
+  syllableIndex: number;
 }
 
 export interface NasalStopExtensionTrace {
@@ -88,6 +93,7 @@ export interface NasalStopExtensionTrace {
   nasal: string;
   appendedStop: string;
   probability: number;
+  syllableIndex: number;
 }
 
 export interface VowelHiatusFallbackTrace {
@@ -100,11 +106,13 @@ export interface VowelHiatusFallbackTrace {
 export interface MorphPrefixHiatusFallbackTrace {
   event: "morphPrefixHiatusFallback";
   inserted: string;
+  syllableIndex: number;
 }
 
 export interface MorphSuffixHiatusFallbackTrace {
   event: "morphSuffixHiatusFallback";
   inserted: string;
+  syllableIndex: number;
 }
 
 export interface AspirationDecisionEvaluatedTrace {

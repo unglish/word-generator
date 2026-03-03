@@ -295,6 +295,7 @@ export function applyMorphology(
         context.trace?.recordStructural({
           event: "morphPrefixHiatusFallback",
           inserted: bridge.sound,
+          syllableIndex: prefixSyllables.length,
         });
       }
     }
@@ -311,6 +312,7 @@ export function applyMorphology(
         context.trace?.recordStructural({
           event: "morphSuffixHiatusFallback",
           inserted: bridge.sound,
+          syllableIndex: prefixSyllables.length + syllables.length,
         });
       }
     }

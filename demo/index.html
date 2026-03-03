@@ -965,28 +965,49 @@
                 return needles.some(n => repair.before.includes(n) || repair.after.includes(n));
             }
 
-            function structuralEventReferencesPhoneme(structural, phoneme) {
-                if (!structural || !phoneme) return false;
+            function structuralEventReferencesUnit(structural, unit) {
+                if (!structural || !unit) return false;
                 switch (structural.event) {
                 case 'boundaryDrop':
-                    return structural.dropped === phoneme || structural.beforeOnset === phoneme;
+                    return unit.position === 'onset' &&
+                        unit.syllableIndex === structural.rightSyllableIndex &&
+                        unit.phoneme === structural.beforeOnset;
                 case 'sspBoundaryDrop':
-                    return structural.dropped === phoneme ||
-                        (Array.isArray(structural.remainingCoda) && structural.remainingCoda.includes(phoneme)) ||
-                        (Array.isArray(structural.onset) && structural.onset.includes(phoneme));
+                    return (
+                        unit.position === 'coda' &&
+                        unit.syllableIndex === structural.leftSyllableIndex &&
+                        Array.isArray(structural.remainingCoda) &&
+                        structural.remainingCoda.includes(unit.phoneme)
+                    ) || (
+                        unit.position === 'onset' &&
+                        unit.syllableIndex === structural.rightSyllableIndex &&
+                        Array.isArray(structural.onset) &&
+                        structural.onset.includes(unit.phoneme)
+                    );
                 case 'finalS':
-                    return phoneme === 's';
+                    return unit.position === 'coda' &&
+                        unit.syllableIndex === structural.syllableIndex &&
+                        unit.phoneme === 's';
                 case 'nasalStopExtension':
-                    return structural.nasal === phoneme || structural.appendedStop === phoneme;
+                    return unit.position === 'coda' &&
+                        unit.syllableIndex === structural.syllableIndex &&
+                        (structural.nasal === unit.phoneme || structural.appendedStop === unit.phoneme);
                 case 'vowelHiatusFallback':
+                    return unit.position === 'onset' &&
+                        unit.syllableIndex === structural.rightSyllableIndex &&
+                        structural.inserted === unit.phoneme;
                 case 'morphPrefixHiatusFallback':
                 case 'morphSuffixHiatusFallback':
-                    return structural.inserted === phoneme;
+                    return unit.position === 'onset' &&
+                        unit.syllableIndex === structural.syllableIndex &&
+                        structural.inserted === unit.phoneme;
                 case 'aspirationDecision':
-                    return structural.targetPhoneme === phoneme;
+                    return unit.position === 'onset' &&
+                        unit.syllableIndex === structural.syllableIndex &&
+                        structural.targetPhoneme === unit.phoneme;
                 default:
                     return typeof structural.detail === 'string'
-                        ? structural.detail.includes('/' + phoneme + '/')
+                        ? structural.detail.includes('/' + unit.phoneme + '/')
                         : false;
                 }
             }
@@ -996,27 +1017,29 @@
                 switch (structural.event) {
                 case 'boundaryDrop':
                     return 'dropped /' + structural.dropped + '/ before /' + structural.beforeOnset +
-                        '/ (equal sonority ' + structural.equalSonority + ', p=' + structural.probability + '%)';
+                        '/ (equal sonority ' + structural.equalSonority + ', p=' + structural.probability +
+                        '%, syll ' + structural.leftSyllableIndex + '→' + structural.rightSyllableIndex + ')';
                 case 'sspBoundaryDrop':
                     return 'dropped /' + structural.dropped + '/ for SSP; coda=[' +
                         (structural.remainingCoda || []).join(',') + '] onset=[' +
-                        (structural.onset || []).join(',') + ']';
+                        (structural.onset || []).join(',') + '] syll ' +
+                        structural.leftSyllableIndex + '→' + structural.rightSyllableIndex;
                 case 'finalS': {
-                    const base = 'appended /s/ to final coda (p=' + structural.probability + '%)';
+                    const base = 'appended /s/ to final coda (p=' + structural.probability + '%, syll=' + structural.syllableIndex + ')';
                     return structural.clusterWeightApplied && structural.clusterWeight != null
                         ? base + ' (clusterWeight=' + structural.clusterWeight.toFixed(3) + ')'
                         : base;
                 }
                 case 'nasalStopExtension':
                     return 'extended /' + structural.nasal + '/ with /' + structural.appendedStop +
-                        '/ (p=' + structural.probability + '%)';
+                        '/ (p=' + structural.probability + '%, syll=' + structural.syllableIndex + ')';
                 case 'vowelHiatusFallback':
                     return 'inserted /' + structural.inserted + '/ between syllables ' +
                         structural.leftSyllableIndex + ' and ' + structural.rightSyllableIndex;
                 case 'morphPrefixHiatusFallback':
-                    return 'inserted /' + structural.inserted + '/ at prefix-root boundary';
+                    return 'inserted /' + structural.inserted + '/ at prefix-root boundary (syll=' + structural.syllableIndex + ')';
                 case 'morphSuffixHiatusFallback':
-                    return 'inserted /' + structural.inserted + '/ at root-suffix boundary';
+                    return 'inserted /' + structural.inserted + '/ at root-suffix boundary (syll=' + structural.syllableIndex + ')';
                 case 'aspirationDecision':
                     return 'syllable ' + structural.syllableIndex +
                         ': context=' + (structural.context ?? 'n/a') +
@@ -1033,7 +1056,7 @@
             function isStructuralLinked(gsIndex, structural) {
                 const g = debugTrace?.graphemeSelections?.[gsIndex];
                 if (!g || !structural) return false;
-                return structuralEventReferencesPhoneme(structural, g.phoneme);
+                return structuralEventReferencesUnit(structural, g);
             }
 
             function toggleDebugSelection(type, gsIndex) {

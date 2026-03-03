@@ -574,6 +574,7 @@ function pickCoda(
           nasal: nasalSound,
           appendedStop: stopSound,
           probability: nasalExt,
+          syllableIndex: context.currSyllableIndex,
         });
       }
     }
@@ -608,6 +609,7 @@ function pickCoda(
           clusterWeight: clusterWeightApplied && probability.finalS > 0
             ? finalSProbability / probability.finalS
             : undefined,
+          syllableIndex: context.currSyllableIndex,
         });
       }
     }
@@ -631,7 +633,15 @@ function pickCoda(
  *    drop coda phonemes until the cluster is valid. This prevents impossible
  *    consonant clusters from ever reaching the write phase.
  */
-function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyllable: Syllable, rand: RNG, trace?: TraceCollector): [Syllable, Syllable] {
+function adjustBoundary(
+  rt: GeneratorRuntime,
+  prevSyllable: Syllable,
+  currentSyllable: Syllable,
+  rand: RNG,
+  rightSyllableIndex: number,
+  trace?: TraceCollector,
+): [Syllable, Syllable] {
+  const leftSyllableIndex = rightSyllableIndex - 1;
   const lastCodaPhoneme = prevSyllable.coda.at(-1);
   const firstOnsetPhoneme = currentSyllable.onset[0];
 
@@ -648,6 +658,8 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
       beforeOnset: firstOnsetPhoneme.sound,
       equalSonority: lastCodaSonority,
       probability: boundaryDrop,
+      leftSyllableIndex,
+      rightSyllableIndex,
     });
     prevSyllable.coda.pop();
   }
@@ -670,6 +682,8 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
       dropped: dropped.sound,
       remainingCoda: prevSyllable.coda.map(p => p.sound),
       onset: currentSyllable.onset.map(p => p.sound),
+      leftSyllableIndex,
+      rightSyllableIndex,
     });
   }
 
@@ -963,7 +977,14 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
     let newSyllable = generateSyllable(rt, context, syllablePlan);
 
     if (prevSyllable) {
-      [prevSyllable, newSyllable] = adjustBoundary(rt, prevSyllable, newSyllable, context.rand, context.trace);
+      [prevSyllable, newSyllable] = adjustBoundary(
+        rt,
+        prevSyllable,
+        newSyllable,
+        context.rand,
+        i,
+        context.trace,
+      );
     }
 
     context.word.syllables[i] = newSyllable;
