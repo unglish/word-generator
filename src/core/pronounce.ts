@@ -48,10 +48,10 @@ const resolveAspirationDecision = (
 
 const recordAspirationDecision = (
   context: WordGenerationContext,
-  payload: Omit<AspirationDecisionTrace, "event">,
+  payload: AspirationDecisionTrace,
 ): void => {
   if (!context.trace) return;
-  context.trace.recordStructural({ event: "aspirationDecision", ...payload });
+  context.trace.recordStructural(payload);
 };
 
 const applyAspiration = (context: WordGenerationContext, aspiration?: AspirationRules): void => {
@@ -68,6 +68,7 @@ const applyAspiration = (context: WordGenerationContext, aspiration?: Aspiration
 
     if (!rules.enabled || !eligible) {
       recordAspirationDecision(context, {
+        event: "aspirationDecision",
         evaluated: false,
         syllableIndex: i,
         context: null,
@@ -89,6 +90,7 @@ const applyAspiration = (context: WordGenerationContext, aspiration?: Aspiration
     }
 
     recordAspirationDecision(context, {
+      event: "aspirationDecision",
       evaluated: true,
       syllableIndex: i,
       context: decision.context,
