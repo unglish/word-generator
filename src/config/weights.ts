@@ -96,7 +96,9 @@ export const FINAL_S_CHANCE = 8;
 // ---------------------------------------------------------------------------
 
 /** Chance (out of 100) to drop a coda phoneme when sonority equals the following onset. */
-export const BOUNDARY_DROP_CHANCE = 90;
+export const EQUAL_SONORITY_DROP_CHANCE = 90;
+/** Chance (out of 100) to drop a coda phoneme when coda sonority rises toward a consonant onset. */
+export const RISING_CODA_BOUNDARY_DROP_CHANCE = 25;
 
 // ---------------------------------------------------------------------------
 // Nasal + homorganic stop extension

@@ -168,6 +168,14 @@ describe("LanguageConfig", () => {
         expect(value, key).toBeLessThanOrEqual(100);
       }
     });
+
+    it("should have boundary policy values between 0 and 100", () => {
+      const { boundaryPolicy } = englishConfig.generationWeights;
+      for (const [key, value] of Object.entries(boundaryPolicy)) {
+        expect(value, key).toBeGreaterThanOrEqual(0);
+        expect(value, key).toBeLessThanOrEqual(100);
+      }
+    });
   });
 
   describe("top-down phoneme targeting", () => {
@@ -290,6 +298,20 @@ describe("validateConfig", () => {
       pronunciation: undefined as unknown as typeof englishConfig.pronunciation,
     };
     expect(() => validateConfig(bad)).toThrow("pronunciation config is required");
+  });
+
+  it("should throw when a boundary policy value is out of range", () => {
+    const bad = {
+      ...englishConfig,
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        boundaryPolicy: {
+          ...englishConfig.generationWeights.boundaryPolicy,
+          risingCodaDrop: 101,
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow("generationWeights.boundaryPolicy.risingCodaDrop is 101, must be in [0, 100]");
   });
 
   it("should throw when hiatusPolicy bridge uses unknown phoneme", () => {

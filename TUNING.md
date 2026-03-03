@@ -8,6 +8,19 @@ How we identify, diagnose, and fix phonotactic and orthographic outliers.
 Baseline → Analyze (phonemes first) → Diagnose → Fix → Verify → Guardrails → Ship
 ```
 
+## #250 Closure Checklist
+
+- Boundary policy keys use `generationWeights.boundaryPolicy` only:
+  - `equalSonorityDrop`
+  - `risingCodaDrop`
+- Junction validation is centralized in `src/core/junction.ts` via
+  `validateJunction`.
+- SSP Rule-1 detection scans the full coda (`hasRisingCodaTowardBoundary`).
+- Structural tracing includes `risingCodaBoundaryDrop` plus enriched
+  `sspBoundaryDrop` payloads (`violation`, `preDropCoda`).
+- `scripts/trace-audit.mjs` reports SSP drops by violation and per-boundary
+  rates.
+
 ## Phoneme-First Policy (active)
 
 - Primary optimization target: **phoneme distribution alignment**

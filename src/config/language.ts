@@ -205,13 +205,19 @@ export interface GenerationWeights {
     hasCodaMidWord: number;
     /** Chance to append a final 's' phoneme. */
     finalS: number;
-    /** Chance to drop a coda phoneme at a syllable boundary with equal sonority. */
-    boundaryDrop: number;
     /**
      * Chance (0–100) to extend a word-final singleton nasal coda with its
      * voiced homorganic stop (n→nd, m→mb, ŋ→ŋg).  Default: 0 (disabled).
      */
     nasalStopExtension?: number;
+  };
+
+  /** Boundary adjustment policy probabilities (0–100). */
+  boundaryPolicy: {
+    /** Chance to drop coda-final phoneme when boundary sonority is equal. */
+    equalSonorityDrop: number;
+    /** Chance to drop coda-final phoneme when coda rises toward boundary. */
+    risingCodaDrop: number;
   };
 }
 
@@ -1060,6 +1066,13 @@ export function validateConfig(config: LanguageConfig): void {
     if (value < 0 || value > 100) {
       throw new Error(
         `generationWeights.probability.${key} is ${value}, must be in [0, 100]`
+      );
+    }
+  }
+  for (const [key, value] of Object.entries(config.generationWeights.boundaryPolicy)) {
+    if (value < 0 || value > 100) {
+      throw new Error(
+        `generationWeights.boundaryPolicy.${key} is ${value}, must be in [0, 100]`
       );
     }
   }
