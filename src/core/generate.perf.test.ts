@@ -41,6 +41,11 @@ describe("Word Generation Performance", () => {
   });
 
   it("should not degrade significantly with sequential seeds", { timeout: 20_000 }, () => {
+    // Self-contained warmup so this test stays stable regardless of run order.
+    for (let i = 0; i < WARMUP_COUNT; i++) {
+      generateWord({ seed: 900_000 + i });
+    }
+
     const trialVariances: number[] = [];
 
     for (let trial = 0; trial < VARIANCE_TRIALS; trial++) {
