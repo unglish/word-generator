@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { generateWord, _buildCluster as buildCluster } from "./generate";
+import { createGenerator, generateWord, _buildCluster as buildCluster } from "./generate";
 import { ClusterContext } from "../types";
 import { englishConfig } from "../config/english";
 import { createDefaultRng } from "../utils/random";
@@ -26,6 +26,86 @@ describe("Word Generator", () => {
     const word2 = generateWord({ seed: 12345 });
     expect(word1.written.clean).toBe(word2.written.clean);
     expect(word1.pronunciation).toBe(word2.pronunciation);
+  });
+
+  it("boundary policy decisions are deterministic for fixed seed", () => {
+    const policyGenerator = createGenerator({
+      ...englishConfig,
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        boundaryPolicy: {
+          ...englishConfig.generationWeights.boundaryPolicy,
+          equalSonorityDrop: 100,
+          risingCodaDrop: 100,
+        },
+      },
+    });
+
+    const first = policyGenerator.generateWord({
+      seed: 4242,
+      mode: "lexicon",
+      morphology: false,
+      trace: true,
+      syllableCount: 4,
+    });
+    const second = policyGenerator.generateWord({
+      seed: 4242,
+      mode: "lexicon",
+      morphology: false,
+      trace: true,
+      syllableCount: 4,
+    });
+
+    expect(first.written.clean).toBe(second.written.clean);
+    expect(first.pronunciation).toBe(second.pronunciation);
+    expect(first.trace?.structural).toEqual(second.trace?.structural);
+  });
+
+  it("risingCodaDrop policy gates rising-coda drop events", () => {
+    const alwaysDrop = createGenerator({
+      ...englishConfig,
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        boundaryPolicy: {
+          ...englishConfig.generationWeights.boundaryPolicy,
+          risingCodaDrop: 100,
+        },
+      },
+    });
+    const neverDrop = createGenerator({
+      ...englishConfig,
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        boundaryPolicy: {
+          ...englishConfig.generationWeights.boundaryPolicy,
+          risingCodaDrop: 0,
+        },
+      },
+    });
+
+    let alwaysCount = 0;
+    let neverCount = 0;
+    for (let s = 0; s < 4000; s++) {
+      const onWord = alwaysDrop.generateWord({
+        seed: s,
+        mode: "lexicon",
+        morphology: false,
+        trace: true,
+        syllableCount: 4,
+      });
+      const offWord = neverDrop.generateWord({
+        seed: s,
+        mode: "lexicon",
+        morphology: false,
+        trace: true,
+        syllableCount: 4,
+      });
+      alwaysCount += onWord.trace!.structural.filter(e => e.event === "risingCodaBoundaryDrop").length;
+      neverCount += offWord.trace!.structural.filter(e => e.event === "risingCodaBoundaryDrop").length;
+    }
+
+    expect(alwaysCount).toBeGreaterThan(0);
+    expect(neverCount).toBe(0);
   });
 });
 

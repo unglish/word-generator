@@ -30,7 +30,8 @@ import {
   CODA_ZERO_WEIGHT_MID_WORD,
   CODA_LENGTH_POLYSYLLABIC_NONZERO,
   FINAL_S_CHANCE,
-  BOUNDARY_DROP_CHANCE,
+  EQUAL_SONORITY_DROP_CHANCE,
+  RISING_CODA_BOUNDARY_DROP_CHANCE,
   NASAL_STOP_EXTENSION_CHANCE,
   HAS_ONSET_START_OF_WORD,
   HAS_ONSET_AFTER_CODA,
@@ -124,8 +125,11 @@ export const englishConfig: LanguageConfig = {
       hasCodaEndOfWord: HAS_CODA_END_OF_WORD,
       hasCodaMidWord: HAS_CODA_MID_WORD,
       finalS: FINAL_S_CHANCE,
-      boundaryDrop: BOUNDARY_DROP_CHANCE,
       nasalStopExtension: NASAL_STOP_EXTENSION_CHANCE,
+    },
+    boundaryPolicy: {
+      equalSonorityDrop: EQUAL_SONORITY_DROP_CHANCE,
+      risingCodaDrop: RISING_CODA_BOUNDARY_DROP_CHANCE,
     },
   },
 

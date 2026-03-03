@@ -4,7 +4,8 @@ import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints, expandClusterConstraintBans } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation } from "./pronounce.js";
-import { createWrittenFormGenerator, repairConsonantLetters, validateJunction } from "./write.js";
+import { createWrittenFormGenerator, repairConsonantLetters } from "./write.js";
+import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
@@ -651,36 +652,68 @@ function adjustBoundary(
   // Check 1: equal-sonority probabilistic drop (fine-grained levels)
   const lastCodaSonority = getSonority(rt, lastCodaPhoneme);
   const firstOnsetSonority = getSonority(rt, firstOnsetPhoneme);
-  const { boundaryDrop } = rt.config.generationWeights.probability;
-  if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, boundaryDrop], [false, 100 - boundaryDrop]], rand)) {
+  const { equalSonorityDrop, risingCodaDrop } = rt.config.generationWeights.boundaryPolicy;
+  if (firstOnsetSonority === lastCodaSonority &&
+      getWeightedOption([[true, equalSonorityDrop], [false, 100 - equalSonorityDrop]], rand)) {
     trace?.recordStructural({
       event: "boundaryDrop",
       dropped: lastCodaPhoneme.sound,
       beforeOnset: firstOnsetPhoneme.sound,
       equalSonority: lastCodaSonority,
-      probability: boundaryDrop,
+      probability: equalSonorityDrop,
       leftSyllableIndex,
       rightSyllableIndex,
     });
     prevSyllable.coda.pop();
   }
 
-  // Check 2: full-cluster SSP validation (coarse manner-class levels)
-  // Drop coda-final phonemes until the cluster is valid or coda is empty.
-  //
-  // maxDrops is computed *after* check 1 may have already popped one phoneme —
-  // it serves as an upper bound so the loop can't run forever. The explicit
-  // `coda.length === 0` guard is here for clarity: validateJunction returns
-  // true for an empty coda anyway, so the loop would terminate on the next
-  // iteration without it, but the early break makes intent clear.
+  // Check 2: rising-coda probabilistic drop (coarse manner-class levels)
+  if (
+    prevSyllable.coda.length > 0 &&
+    currentSyllable.onset.length > 0 &&
+    hasRisingCodaTowardBoundary(prevSyllable.coda, rt.config) &&
+    getWeightedOption([[true, risingCodaDrop], [false, 100 - risingCodaDrop]], rand)
+  ) {
+    const preDropCoda = prevSyllable.coda.map(p => p.sound);
+    const dropped = prevSyllable.coda.pop()!;
+    trace?.recordStructural({
+      event: "risingCodaBoundaryDrop",
+      dropped: dropped.sound,
+      preDropCoda,
+      remainingCoda: prevSyllable.coda.map(p => p.sound),
+      onset: currentSyllable.onset.map(p => p.sound),
+      probability: risingCodaDrop,
+      leftSyllableIndex,
+      rightSyllableIndex,
+    });
+  }
+
+  // Check 3: full junction validation safety loop.
+  // Drop coda-final phonemes until boundary junction is valid or coda is empty.
   const maxDrops = prevSyllable.coda.length;
   for (let d = 0; d < maxDrops; d++) {
     if (prevSyllable.coda.length === 0) break;
     if (validateJunction(prevSyllable.coda, currentSyllable.onset, rt.config)) break;
+    const violation = classifySspViolation(prevSyllable.coda, currentSyllable.onset, rt.config);
+    const preDropCoda = prevSyllable.coda.map(p => p.sound);
     const dropped = prevSyllable.coda.pop()!;
+    if (violation) {
+      trace?.recordStructural({
+        event: "sspBoundaryDrop",
+        dropped: dropped.sound,
+        preDropCoda,
+        remainingCoda: prevSyllable.coda.map(p => p.sound),
+        onset: currentSyllable.onset.map(p => p.sound),
+        violation,
+        leftSyllableIndex,
+        rightSyllableIndex,
+      });
+      continue;
+    }
     trace?.recordStructural({
-      event: "sspBoundaryDrop",
+      event: "junctionBoundaryDrop",
       dropped: dropped.sound,
+      preDropCoda,
       remainingCoda: prevSyllable.coda.map(p => p.sound),
       onset: currentSyllable.onset.map(p => p.sound),
       leftSyllableIndex,

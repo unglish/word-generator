@@ -1,7 +1,8 @@
 import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
-import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule, sonorityClass } from "../config/language.js";
+import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
+import { validateJunction } from "./junction.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { isVowelChar, isConsonantLetter, VOWEL_LETTERS } from "../utils/letters.js";
 
@@ -222,6 +223,14 @@ function structuralEventReferencesUnit(event: StructuralTrace, unit: TraceUnitSe
       unit.syllableIndex === event.rightSyllableIndex &&
       unit.phoneme === event.beforeOnset;
   case "sspBoundaryDrop":
+    return (unit.position === "coda" &&
+      unit.syllableIndex === event.leftSyllableIndex &&
+      event.remainingCoda.includes(unit.phoneme)) ||
+      (unit.position === "onset" &&
+      unit.syllableIndex === event.rightSyllableIndex &&
+      event.onset.includes(unit.phoneme));
+  case "risingCodaBoundaryDrop":
+  case "junctionBoundaryDrop":
     return (unit.position === "coda" &&
       unit.syllableIndex === event.leftSyllableIndex &&
       event.remainingCoda.includes(unit.phoneme)) ||
@@ -1064,91 +1073,6 @@ export function repairConsonantPileups(
 }
 
 // ---------------------------------------------------------------------------
-// Sonority helpers for SSP-based junction validation
-// ---------------------------------------------------------------------------
-
-// Note: sonority ranking for SSP junction checks uses sonorityClass() from
-// config/language.ts — the manner-only component of the language's sonority
-// hierarchy. See Phase B of #250 for rationale.
-
-/**
- * Check whether a full coda→onset cluster obeys the Sonority Sequencing Principle.
- *
- * The core constraint: across the full coda+onset cluster, sonority must form
- * a valley at the boundary. Specifically:
- *
- * 1. Sonority plateaus (same-rank sequences) are only tolerated for clusters
- *    of total length ≤ 2. For 3+ consonants, the boundary must be a *strict*
- *    minimum — otherwise you get impossible runs like "ctp" (/kt.p/).
- *
- * 2. Within the coda, sonority must not rise toward the boundary.
- *    Within the onset, sonority must not fall away from the boundary.
- *
- * Exception: /s/ can violate SSP (e.g. "str", "sp", "sts") — the s-exception
- * is well-attested across languages.
- *
- * @internal Use {@link validateJunction} as the public API.
- */
-export function isJunctionSonorityValid(
-  coda: Phoneme[],
-  onset: Phoneme[],
-  config: LanguageConfig,
-): boolean {
-  if (coda.length === 0 || onset.length === 0) return true;
-
-  const totalLen = coda.length + onset.length;
-  // Two-consonant junctions (e.g. single coda + single onset) are already
-  // handled by the articulatory rules; don't over-constrain.
-  if (totalLen <= 2) return true;
-
-  const son = (p: Phoneme) => sonorityClass(p, config);
-  const isS = (p: Phoneme) => p.sound === "s";
-
-  const codaSon = coda.map(son);
-  const onsetSon = onset.map(son);
-
-  const codaEnd = codaSon[codaSon.length - 1];
-  const onsetStart = onsetSon[0];
-
-  // Onset must rise (not fall) internally, with s-exception
-  // (s+stop onsets like /sp/, /st/, /str/ are well-attested)
-  for (let i = 0; i < onsetSon.length - 1; i++) {
-    if (onsetSon[i] > onsetSon[i + 1] && !isS(onset[i]) && !isS(onset[i + 1])) {
-      return false;
-    }
-  }
-
-  // --- Core SSP: sonority must valley at the boundary ---
-
-  // Rule 1: Coda must not rise toward boundary. A rising coda (e.g. /ts/: 1→3)
-  // creates a sonority peak at the boundary instead of a valley.
-  // Blocks /ts.g/ → "tsg", /ts.r/ → "tsr", /ks.n/ → "csn" etc.
-  // TODO(#250): Only checks the last two coda phonemes. A 3+ coda like /n,t,s/
-  // (5→1→4) has a rise from t→s that's caught, but /l,n,t,s/ would only see
-  // t→s. In practice English codas rarely exceed 3 consonants, but a full
-  // scan would be more robust.
-  if (codaSon.length >= 2 && codaSon[codaSon.length - 2] < codaEnd) {
-    return false;
-  }
-
-  // Rule 2: Boundary must not be a sonority plateau (codaEnd == onsetStart)
-  // for 3+ consonant clusters. E.g. /kt.p/ (1,1,1) — all stops, no valley.
-  // Exception: /s/ at either boundary position.
-  if (codaEnd === onsetStart && !isS(coda[coda.length - 1]) && !isS(onset[0])) {
-    return false;
-  }
-
-  // Rule 3: Onset must not start higher than coda-final (that's a continued rise,
-  // not a valley). E.g. if coda ends at fricative(3) and onset starts at nasal(4).
-  // Exception: /s/ at onset.
-  if (onsetStart > codaEnd && !isS(onset[0])) {
-    return false;
-  }
-
-  return true;
-}
-
-// ---------------------------------------------------------------------------
 // Articulatory helpers for feature-based junction validation
 // ---------------------------------------------------------------------------
 
@@ -1184,69 +1108,6 @@ export interface SyllableBoundary {
 // ---------------------------------------------------------------------------
 // Feature-based junction validation
 // ---------------------------------------------------------------------------
-
-/**
- * Validate a syllable junction: articulatory rules (pairwise) + SSP (full cluster).
- *
- * Returns true if the junction is valid, false if it should be repaired.
- */
-export function validateJunction(
-  coda: Phoneme[],
-  onset: Phoneme[],
-  config: LanguageConfig,
-): boolean {
-  if (coda.length === 0 || onset.length === 0) return true;
-  const C1 = coda[coda.length - 1];
-  const C2 = onset[0];
-
-  // Articulatory rules (pairwise boundary check)
-  if (!isJunctionValid(C1, C2, onset)) return false;
-
-  // SSP rules (full cluster check)
-  if (!isJunctionSonorityValid(coda, onset, config)) return false;
-
-  return true;
-}
-
-/**
- * Pairwise articulatory junction check (coda-final vs onset-initial).
- *
- * @internal Use {@link validateJunction} as the public API.
- */
-export function isJunctionValid(C1: Phoneme, C2: Phoneme, onsetCluster: Phoneme[]): boolean {
-  // F1: identical phonemes
-  if (C1.sound === C2.sound) return false;
-
-  // F2: same mannerGroup AND same exact place of articulation
-  if (mannerGroup(C1) === mannerGroup(C2) && C1.placeOfArticulation === C2.placeOfArticulation) return false;
-
-  // F3: stop+stop where neither is coronal
-  // (blocks b.k, p.k, g.k, k.b, k.p, k.g — dorsal+labial stops in any direction)
-  // F3 also blocks affricate+stop where neither side is coronal — but all English affricates are coronal, so this is moot
-  if (mannerGroup(C1) === "stop" && mannerGroup(C2) === "stop" && !isCoronal(C1) && !isCoronal(C2)) return false;
-
-  // F4: stop+stop voicing disagreement (blocks d.k, b.t, g.p etc.)
-  if (mannerGroup(C1) === "stop" && mannerGroup(C2) === "stop" && C1.voiced !== C2.voiced) return false;
-
-  // P1: s-exception
-  if (C1.sound === "s") return true;
-  if (C2.sound === "s" && onsetCluster.length >= 2 && ["t","p","k"].includes(onsetCluster[1]?.sound)) return true;
-  if (onsetCluster.length >= 2 && onsetCluster[0].sound === "s" && ["t","p","k"].includes(onsetCluster[1].sound)) return true;
-
-  // P2: coronal onset
-  if (isCoronal(C2)) return true;
-
-  // P3: homorganic nasal+stop
-  if (mannerGroup(C1) === "nasal" && mannerGroup(C2) === "stop" && placeGroup(C1) === placeGroup(C2)) return true;
-
-  // P4: manner change
-  if (mannerGroup(C1) !== mannerGroup(C2)) return true;
-
-  // P5: place change
-  if (placeGroup(C1) !== placeGroup(C2)) return true;
-
-  return false; // default fail
-}
 
 /**
  * Repair coda→onset junctions using feature-based articulatory rules.

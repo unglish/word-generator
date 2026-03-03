@@ -71,9 +71,32 @@ export interface BoundaryDropTrace {
   rightSyllableIndex: number;
 }
 
+export interface RisingCodaBoundaryDropTrace {
+  event: "risingCodaBoundaryDrop";
+  dropped: string;
+  preDropCoda: string[];
+  remainingCoda: string[];
+  onset: string[];
+  probability: number;
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
+}
+
 export interface SspBoundaryDropTrace {
   event: "sspBoundaryDrop";
   dropped: string;
+  preDropCoda: string[];
+  remainingCoda: string[];
+  onset: string[];
+  violation: "rule1" | "rule2" | "rule3" | "multi";
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
+}
+
+export interface JunctionBoundaryDropTrace {
+  event: "junctionBoundaryDrop";
+  dropped: string;
+  preDropCoda: string[];
   remainingCoda: string[];
   onset: string[];
   leftSyllableIndex: number;
@@ -145,7 +168,9 @@ export type AspirationDecisionTrace =
 
 export type StructuralTrace =
   | BoundaryDropTrace
+  | RisingCodaBoundaryDropTrace
   | SspBoundaryDropTrace
+  | JunctionBoundaryDropTrace
   | FinalSTrace
   | NasalStopExtensionTrace
   | VowelHiatusFallbackTrace

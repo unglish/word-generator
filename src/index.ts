@@ -19,6 +19,8 @@ export {
   resolveAspirationRules,
   validateConfig,
 } from "./config/language.js";
+export { validateJunction } from "./core/junction.js";
+export type { SspViolation } from "./core/junction.js";
 export { OTStressConfig, OTConstraint, ConstraintWeight } from "./core/ot-stress.js";
 export { englishConfig } from "./config/english.js";
 export { RNG, createSeededRng, createDefaultRng } from "./utils/random.js";
