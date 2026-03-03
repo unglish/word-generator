@@ -213,16 +213,51 @@ function createMetricProcessors(targets) {
     },
     structural: {
       init() {
-        return { counts: {} };
+        return {
+          counts: {},
+          totalBoundaries: 0,
+          sspDrops: 0,
+          sspByViolation: {
+            rule1: 0,
+            rule2: 0,
+            rule3: 0,
+            multi: 0,
+          },
+        };
       },
-      consume(state, _word, _stageAfter, trace) {
+      consume(state, word, _stageAfter, trace) {
+        state.totalBoundaries += countBoundaries(word.syllables);
         if (!trace) return;
         for (const event of trace.structural) {
           state.counts[event.event] = (state.counts[event.event] || 0) + 1;
+          if (event.event === "sspBoundaryDrop") {
+            state.sspDrops++;
+            const violation = event.violation;
+            if (violation && Object.prototype.hasOwnProperty.call(state.sspByViolation, violation)) {
+              state.sspByViolation[violation]++;
+            }
+          }
         }
       },
       finalize(state) {
-        return { structural: state.counts };
+        const boundaries = state.totalBoundaries;
+        const sspRates = {
+          totalDropRatePerBoundary: boundaries > 0 ? state.sspDrops / boundaries : 0,
+          rule1DropRatePerBoundary: boundaries > 0 ? state.sspByViolation.rule1 / boundaries : 0,
+          rule2DropRatePerBoundary: boundaries > 0 ? state.sspByViolation.rule2 / boundaries : 0,
+          rule3DropRatePerBoundary: boundaries > 0 ? state.sspByViolation.rule3 / boundaries : 0,
+          multiDropRatePerBoundary: boundaries > 0 ? state.sspByViolation.multi / boundaries : 0,
+        };
+
+        return {
+          structural: state.counts,
+          ssp: {
+            boundaries,
+            drops: state.sspDrops,
+            byViolation: state.sspByViolation,
+            ...sspRates,
+          },
+        };
       },
     },
   };

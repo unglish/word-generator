@@ -164,6 +164,48 @@ describe("trace pipeline", () => {
     expect(found).toBe(true);
   });
 
+  it("captures structured SSP and rising-coda boundary payloads", () => {
+    const generator = createGenerator({
+      ...englishConfig,
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        boundaryPolicy: {
+          ...englishConfig.generationWeights.boundaryPolicy,
+          equalSonorityDrop: 100,
+          risingCodaDrop: 100,
+        },
+      },
+    });
+
+    let sawSsp = false;
+    let sawRising = false;
+    for (let s = 0; s < 4000; s++) {
+      const w = generator.generateWord({ seed: s, trace: true, morphology: false, mode: "lexicon", syllableCount: 4 });
+      for (const event of w.trace!.structural) {
+        if (event.event === "sspBoundaryDrop") {
+          expect(typeof event.dropped).toBe("string");
+          expect(Array.isArray(event.preDropCoda)).toBe(true);
+          expect(Array.isArray(event.remainingCoda)).toBe(true);
+          expect(Array.isArray(event.onset)).toBe(true);
+          expect(["rule1", "rule2", "rule3", "multi"]).toContain(event.violation);
+          sawSsp = true;
+        }
+        if (event.event === "risingCodaBoundaryDrop") {
+          expect(typeof event.dropped).toBe("string");
+          expect(Array.isArray(event.preDropCoda)).toBe(true);
+          expect(Array.isArray(event.remainingCoda)).toBe(true);
+          expect(Array.isArray(event.onset)).toBe(true);
+          expect(typeof event.probability).toBe("number");
+          sawRising = true;
+        }
+      }
+      if (sawSsp && sawRising) break;
+    }
+
+    expect(sawSsp).toBe(true);
+    expect(sawRising).toBe(true);
+  });
+
   it("traces final-s extension", () => {
     let found = false;
     for (let s = 0; s < 500; s++) {
