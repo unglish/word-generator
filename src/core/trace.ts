@@ -107,16 +107,33 @@ export interface MorphSuffixHiatusFallbackTrace {
   inserted: string;
 }
 
-export interface AspirationDecisionTrace {
+export interface AspirationDecisionEvaluatedTrace {
   event: "aspirationDecision";
+  evaluated: true;
+  syllableIndex: number;
+  context: AspirationContext;
+  probability: number;
+  roll: number;
+  eligible: true;
+  applied: boolean;
+  targetPhoneme: string;
+}
+
+export interface AspirationDecisionSkippedTrace {
+  event: "aspirationDecision";
+  evaluated: false;
   syllableIndex: number;
   context: AspirationContext | null;
   probability: number | null;
   roll: number | null;
   eligible: boolean;
-  applied: boolean;
+  applied: false;
   targetPhoneme: string | null;
 }
+
+export type AspirationDecisionTrace =
+  | AspirationDecisionEvaluatedTrace
+  | AspirationDecisionSkippedTrace;
 
 export type StructuralTrace =
   | BoundaryDropTrace

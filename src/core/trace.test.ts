@@ -213,13 +213,20 @@ describe("trace pipeline", () => {
     const events = w.trace!.structural.filter(byEvent("aspirationDecision"));
     expect(events.length).toBeGreaterThan(0);
     const payload = events[0];
+    expect(typeof payload.evaluated).toBe("boolean");
     expect(typeof payload.syllableIndex).toBe("number");
     expect(typeof payload.eligible).toBe("boolean");
     expect(typeof payload.applied).toBe("boolean");
-    expect(payload).toHaveProperty("context");
-    expect(payload).toHaveProperty("probability");
-    expect(payload).toHaveProperty("roll");
-    expect(payload).toHaveProperty("targetPhoneme");
+    if (payload.evaluated) {
+      expect(typeof payload.context).toBe("string");
+      expect(typeof payload.probability).toBe("number");
+      expect(typeof payload.roll).toBe("number");
+      expect(typeof payload.targetPhoneme).toBe("string");
+    } else {
+      expect(payload.context).toBeNull();
+      expect(payload.probability).toBeNull();
+      expect(payload.roll).toBeNull();
+    }
   });
 
   it("post-vowel glide policy controls root glide transitions deterministically", () => {

@@ -11,6 +11,7 @@ import {
 import { phonemes } from "../elements/phonemes.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { otEvaluate } from "./ot-stress.js";
+import type { AspirationDecisionTrace } from "./trace.js";
 
 const applyAspirationMarker = (phoneme: Phoneme): Phoneme => {
   if (phoneme.aspirated) return phoneme;
@@ -47,15 +48,7 @@ const resolveAspirationDecision = (
 
 const recordAspirationDecision = (
   context: WordGenerationContext,
-  payload: {
-    syllableIndex: number;
-    context: AspirationContext | null;
-    probability: number | null;
-    roll: number | null;
-    eligible: boolean;
-    applied: boolean;
-    targetPhoneme: string | null;
-  },
+  payload: Omit<AspirationDecisionTrace, "event">,
 ): void => {
   if (!context.trace) return;
   context.trace.recordStructural({ event: "aspirationDecision", ...payload });
@@ -75,6 +68,7 @@ const applyAspiration = (context: WordGenerationContext, aspiration?: Aspiration
 
     if (!rules.enabled || !eligible) {
       recordAspirationDecision(context, {
+        evaluated: false,
         syllableIndex: i,
         context: null,
         probability: null,
@@ -95,13 +89,14 @@ const applyAspiration = (context: WordGenerationContext, aspiration?: Aspiration
     }
 
     recordAspirationDecision(context, {
+      evaluated: true,
       syllableIndex: i,
       context: decision.context,
       probability: decision.probability,
       roll: Number(roll.toFixed(5)),
       eligible: true,
       applied,
-      targetPhoneme,
+      targetPhoneme: onset.sound,
     });
   }
 };

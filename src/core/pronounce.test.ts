@@ -358,6 +358,7 @@ describe("applyAspiration", () => {
     expect(events.length).toBe(1);
     expect(events[0].event).toBe("aspirationDecision");
     if (events[0].event === "aspirationDecision") {
+      expect(events[0].evaluated).toBe(true);
       expect(events[0].syllableIndex).toBe(0);
       expect(events[0].eligible).toBe(true);
       expect(events[0].targetPhoneme).toBe("p");
