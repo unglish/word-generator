@@ -59,3 +59,13 @@ Operational guidance for human contributors and coding agents working in
 - Trace evidence included for any distribution/outlier claim.
 - Docs updated when public behavior or workflows change (`README.md`,
   `CONTRIBUTING.md`, relevant files in `docs/`).
+
+## Cursor Cloud specific instructions
+
+- **Runtime**: Node.js 22 + npm. No external services, Docker, or databases required.
+- **Install**: `npm ci` (lockfile present).
+- **Dev server**: `npm run dev` starts Vite + tsc watch via `concurrently` on `http://localhost:5173/`.
+- **Tests**: `npm test` runs Vitest (~80s). Some quality/statistical tests are compute-heavy; a vitest-worker timeout error ("Timeout calling onTaskUpdate") may appear in CI-like environments without affecting test results.
+- **Lint**: `npm run lint` runs ESLint. The codebase has pre-existing lint errors (quote style in `src/config/english.ts`, unused vars in `src/core/quality.test.ts`); these are not regressions.
+- **TypeScript**: Use `npx tsx` to run `.ts` files directly (e.g. `npx tsx -e 'import { generateWord } from "./src/index.ts"; ...'`).
+- See `README.md` for the full list of available npm scripts (quality, perf, analysis, trace audit).
