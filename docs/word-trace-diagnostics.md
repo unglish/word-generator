@@ -28,8 +28,9 @@ Use these fields to answer specific diagnostic questions:
   - Typical signal: low-probability grapheme repeatedly selected for the same phoneme context.
 - `structural`
   - Question: Did structural events inject the pattern?
-  - Typical signal: `finalS`, `nasalStopExtension`, or boundary events.
-  - Schema: typed per-event payloads (no stringified `detail` field). Example:
+  - Typical signal: `finalS`, `nasalStopExtension`, `boundaryDrop`,
+    `risingCodaBoundaryDrop`, or `sspBoundaryDrop`.
+  - Schema: typed per-event payloads. Example:
     `vowelHiatusFallback.inserted`, `boundaryDrop.equalSonority`,
     `aspirationDecision.context/probability/roll`.
 - `repairs`
@@ -53,6 +54,25 @@ When writing diagnostics, categorize each traced instance into one bucket:
 6. Mixed / unknown
 
 Use percentages by bucket to choose the fix level.
+
+## Boundary Structural Events (0.6.0)
+
+Boundary diagnostics now emit dedicated structured events:
+
+- `boundaryDrop`
+  - Equal-sonority policy drop.
+  - Includes: `dropped`, `beforeOnset`, `equalSonority`, `probability`.
+- `risingCodaBoundaryDrop`
+  - Rising-coda policy drop.
+  - Includes: `dropped`, `preDropCoda`, `remainingCoda`, `onset`,
+    `probability`.
+- `sspBoundaryDrop`
+  - Hard SSP safety drop loop.
+  - Includes: `dropped`, `preDropCoda`, `remainingCoda`, `onset`,
+    `violation` (`rule1 | rule2 | rule3 | multi`).
+- `junctionBoundaryDrop`
+  - Non-SSP boundary safety drop (articulatory invalid junction).
+  - Includes: `dropped`, `preDropCoda`, `remainingCoda`, `onset`.
 
 ## Recommended Workflow
 

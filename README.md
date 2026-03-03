@@ -60,6 +60,31 @@ console.log(word.trace?.graphemeSelections[0]);
 
 Detailed trace workflow: [`docs/word-trace-diagnostics.md`](./docs/word-trace-diagnostics.md)
 
+## Boundary Policy Config (0.6.0)
+
+Boundary adjustment probabilities moved to a dedicated
+`generationWeights.boundaryPolicy` object.
+
+```ts
+import { createGenerator, englishConfig } from "@unglish/word-generator";
+
+const generator = createGenerator({
+  ...englishConfig,
+  generationWeights: {
+    ...englishConfig.generationWeights,
+    boundaryPolicy: {
+      equalSonorityDrop: 90,
+      risingCodaDrop: 25,
+    },
+  },
+});
+```
+
+Breaking change:
+
+- `generationWeights.probability.boundaryDrop` was removed.
+- Use `generationWeights.boundaryPolicy.equalSonorityDrop` instead.
+
 ## Development
 
 ```bash

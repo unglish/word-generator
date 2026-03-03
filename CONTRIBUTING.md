@@ -49,6 +49,16 @@ npm run audit:trace
 Agent-specific implementation constraints live in
 [`agents.md`](./agents.md).
 
+## Boundary Policy API (0.6.0)
+
+Boundary-drop tuning now lives under:
+
+- `generationWeights.boundaryPolicy.equalSonorityDrop`
+- `generationWeights.boundaryPolicy.risingCodaDrop`
+
+`generationWeights.probability.boundaryDrop` is removed and should not be used
+in new or updated configs.
+
 ## Diagnostics Rule (Important)
 
 For n-gram anomalies and output outliers, use `trace: true` and ground claims in
