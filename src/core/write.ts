@@ -1,7 +1,7 @@
 import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule, sonorityClass } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
-import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink } from "./trace.js";
+import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { isVowelChar, isConsonantLetter, VOWEL_LETTERS } from "../utils/letters.js";
 
@@ -204,15 +204,52 @@ function buildLinksForUnit(unit: TraceUnitSeed, trace: TraceCollector): TraceLin
     }
   }
 
-  const phonemeNeedle = `/${unit.phoneme}/`;
   for (let i = 0; i < trace.structural.length; i++) {
     const s = trace.structural[i];
-    if (s.detail.includes(phonemeNeedle)) {
+    if (structuralEventReferencesUnit(s, unit)) {
       links.push({ kind: "structural", index: i, label: s.event });
     }
   }
 
   return links;
+}
+
+function structuralEventReferencesUnit(event: StructuralTrace, unit: TraceUnitSeed): boolean {
+  switch (event.event) {
+  case "boundaryDrop":
+    // Dropped-coda segment is removed pre-orthography; link only the onset-side survivor.
+    return unit.position === "onset" &&
+      unit.syllableIndex === event.rightSyllableIndex &&
+      unit.phoneme === event.beforeOnset;
+  case "sspBoundaryDrop":
+    return (unit.position === "coda" &&
+      unit.syllableIndex === event.leftSyllableIndex &&
+      event.remainingCoda.includes(unit.phoneme)) ||
+      (unit.position === "onset" &&
+      unit.syllableIndex === event.rightSyllableIndex &&
+      event.onset.includes(unit.phoneme));
+  case "finalS":
+    return unit.position === "coda" &&
+      unit.syllableIndex === event.syllableIndex &&
+      unit.phoneme === "s";
+  case "nasalStopExtension":
+    return unit.position === "coda" &&
+      unit.syllableIndex === event.syllableIndex &&
+      (unit.phoneme === event.nasal || unit.phoneme === event.appendedStop);
+  case "vowelHiatusFallback":
+    return unit.position === "onset" &&
+      unit.syllableIndex === event.rightSyllableIndex &&
+      unit.phoneme === event.inserted;
+  case "morphPrefixHiatusFallback":
+  case "morphSuffixHiatusFallback":
+    return unit.position === "onset" &&
+      unit.syllableIndex === event.syllableIndex &&
+      unit.phoneme === event.inserted;
+  case "aspirationDecision":
+    return unit.position === "onset" &&
+      unit.syllableIndex === event.syllableIndex &&
+      unit.phoneme === event.targetPhoneme;
+  }
 }
 
 function buildOrthographyTrace(
@@ -369,7 +406,8 @@ export function normalizeGraphemeCondition(
     }
   }
 
-  const { alias: _alias, syllableShape: explicitSyllableShape, ...explicitFields } = condition;
+  const { alias, syllableShape: explicitSyllableShape, ...explicitFields } = condition;
+  void alias;
   const merged: Omit<GraphemeCondition, "alias"> = {
     ...(aliasCondition ?? {}),
     ...explicitFields,

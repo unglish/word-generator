@@ -29,6 +29,9 @@ Use these fields to answer specific diagnostic questions:
 - `structural`
   - Question: Did structural events inject the pattern?
   - Typical signal: `finalS`, `nasalStopExtension`, or boundary events.
+  - Schema: typed per-event payloads (no stringified `detail` field). Example:
+    `vowelHiatusFallback.inserted`, `boundaryDrop.equalSonority`,
+    `aspirationDecision.context/probability/roll`.
 - `repairs`
   - Question: Did a repair rule create/preserve/remove the pattern?
   - Typical signal: frequent rule + before/after strings touching the target pattern.

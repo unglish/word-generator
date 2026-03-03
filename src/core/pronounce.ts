@@ -1,96 +1,120 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import type { RNG } from "../utils/random.js";
-import { StressRules, VowelReductionConfig } from "../config/language.js";
+import {
+  AspirationContext,
+  AspirationRules,
+  PronunciationConfig,
+  StressRules,
+  VowelReductionConfig,
+  resolveAspirationRules,
+} from "../config/language.js";
 import { phonemes } from "../elements/phonemes.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { otEvaluate } from "./ot-stress.js";
+import type { AspirationDecisionTrace } from "./trace.js";
 
-const aspirateSyllable = (position: number, context: WordGenerationContext): void => {
-  const { word, syllableCount, rand } = context;
+const applyAspirationMarker = (phoneme: Phoneme): Phoneme => {
+  if (phoneme.aspirated) return phoneme;
+  return { ...phoneme, aspirated: true };
+};
+
+const isAspiratableOnset = (phoneme: Phoneme | undefined): phoneme is Phoneme =>
+  !!phoneme && !phoneme.voiced && phoneme.mannerOfArticulation === "stop";
+
+const resolveAspirationDecision = (
+  position: number,
+  context: WordGenerationContext,
+  rules: ReturnType<typeof resolveAspirationRules>,
+): { context: AspirationContext; probability: number } => {
+  const { word } = context;
   const syllable = word.syllables[position];
+  const prevSyllable = position > 0 ? word.syllables[position - 1] : undefined;
 
-  // Check if the syllable starts with a voiceless stop consonant
-  const startsWithVoicelessStop = syllable.onset.length > 0 && 
-    !syllable.onset[0].voiced && 
-    syllable.onset[0].mannerOfArticulation === "stop";
+  const matches: Record<AspirationContext, boolean> = {
+    wordInitial: position === 0,
+    postS: prevSyllable?.coda.at(-1)?.sound === "s",
+    stressed: !!syllable.stress,
+    postStressed: !!prevSyllable?.stress,
+    default: true,
+  };
 
-  if (!startsWithVoicelessStop) {
-    return;
-  }
-
-  let shouldAspirate = false;
-
-  // Post-/s/ stops are unaspirated in English (e.g. "spin", "stop").
-  // Early-return so position-based rates don't overwrite the 5% rate.
-  if (position > 0) {
-    const prevSyllable = word.syllables[position - 1];
-    if (prevSyllable.coda.length > 0 && prevSyllable.coda[prevSyllable.coda.length - 1].sound === "s") {
-      if (getWeightedOption([[true, 5], [false, 95]], rand)) {
-        syllable.onset[0] = { ...syllable.onset[0], aspirated: true };
-      }
-      return;
+  for (const candidate of rules.precedence) {
+    if (matches[candidate]) {
+      return { context: candidate, probability: rules.probabilities[candidate] };
     }
   }
+  return { context: "default", probability: rules.probabilities.default };
+};
 
-  // Word-initial position
-  if (position === 0) {
-    shouldAspirate = getWeightedOption([[true, 95], [false, 5]], rand);
-  }
-  // Stressed syllable
-  else if (syllable.stress) {
-    shouldAspirate = getWeightedOption([[true, 90], [false, 10]], rand);
-  }
-  // Word-medial position after a stressed syllable
-  else if (position > 0 && word.syllables[position - 1].stress) {
-    shouldAspirate = getWeightedOption([[true, 50], [false, 50]], rand);
-  }
-  // Word-final position
-  else if (position === syllableCount - 1) {
-    // Only aspirate if it's a single consonant in the coda
-    if (syllable.coda.length === 1 && 
-        !syllable.coda[0].voiced && 
-        syllable.coda[0].mannerOfArticulation === "stop") {
-      shouldAspirate = getWeightedOption([[true, 15], [false, 85]], rand);
-    } else {
-      shouldAspirate = false;
-    }
-  }
-  // Default case (unstressed, non-final syllables)
-  else {
-    shouldAspirate = getWeightedOption([[true, 30], [false, 70]], rand);
-  }
+const recordAspirationDecision = (
+  context: WordGenerationContext,
+  payload: AspirationDecisionTrace,
+): void => {
+  if (!context.trace) return;
+  context.trace.recordStructural(payload);
+};
 
-  if (shouldAspirate) {
-    if (position === syllableCount - 1 && syllable.coda.length === 1) {
-      // Aspirate the coda for word-final position (guard against double aspiration)
-      if (!syllable.coda[0].sound.endsWith("ʰ")) {
-        const aspiratedPhoneme: Phoneme = {
-          ...syllable.coda[0],
-          sound: syllable.coda[0].sound + "ʰ"
-        };
-        syllable.coda[0] = aspiratedPhoneme;
-      }
-    } else {
-      // Aspirate the onset for all other positions (guard against double aspiration)
-      if (!syllable.onset[0].sound.endsWith("ʰ")) {
-        const aspiratedPhoneme: Phoneme = {
-          ...syllable.onset[0],
-          sound: syllable.onset[0].sound + "ʰ"
-        };
-        syllable.onset[0] = aspiratedPhoneme;
-      }
+const applyAspiration = (context: WordGenerationContext, aspiration?: AspirationRules): void => {
+  const rules = resolveAspirationRules(aspiration);
+  const syllables = context.word.syllables;
+
+  // Keep hot path lean when tracing is disabled and aspiration is disabled.
+  if (!context.trace && !rules.enabled) return;
+
+  for (let i = 0; i < syllables.length; i++) {
+    const onset = syllables[i].onset[0];
+    const targetPhoneme = onset?.sound ?? null;
+    const eligible = isAspiratableOnset(onset);
+
+    if (!rules.enabled || !eligible) {
+      recordAspirationDecision(context, {
+        event: "aspirationDecision",
+        evaluated: false,
+        syllableIndex: i,
+        context: null,
+        probability: null,
+        roll: null,
+        eligible,
+        applied: false,
+        targetPhoneme,
+      });
+      continue;
     }
+
+    const decision = resolveAspirationDecision(i, context, rules);
+    const roll = context.rand() * 100;
+    const applied = roll < decision.probability;
+
+    if (applied) {
+      syllables[i].onset[0] = applyAspirationMarker(onset);
+    }
+
+    recordAspirationDecision(context, {
+      event: "aspirationDecision",
+      evaluated: true,
+      syllableIndex: i,
+      context: decision.context,
+      probability: decision.probability,
+      roll: Number(roll.toFixed(5)),
+      eligible: true,
+      applied,
+      targetPhoneme: onset.sound,
+    });
   }
 };
+
+/** @internal exported for testing */
+export const _applyAspiration = applyAspiration;
+
 export const applyStress = (context: WordGenerationContext, stress: StressRules): void => {
   const { rand } = context;
-  // Rule 1: Primary stress 
+  // Rule 1: Primary stress
   applyPrimaryStress(context, rand, stress);
 
-  // Rule 2: Secondary stress 
+  // Rule 2: Secondary stress
   applySecondaryStress(context, rand, stress);
 
-  // Rule 3: Rhythmic stress 
+  // Rule 3: Rhythmic stress
   applyRhythmicStress(context, rand, stress);
 };
 
@@ -128,7 +152,7 @@ const applyPrimaryStress = (context: WordGenerationContext, rand: RNG, stress: S
       primaryStressIndex = getWeightedOption([
         [syllableCount - 2, penultWeight],
         [syllableCount - 3, antepenultWeight],
-        [0, initialWeight]
+        [0, initialWeight],
       ], rand);
     }
   }
@@ -165,7 +189,7 @@ const applyRhythmicStress = (context: WordGenerationContext, rand: RNG, stress: 
   const prob = stress.rhythmicStressProbability ?? 40;
 
   for (let i = 1; i < syllables.length - 1; i++) {
-    if (!syllables[i-1].stress && !syllables[i].stress && !syllables[i+1].stress) {
+    if (!syllables[i - 1].stress && !syllables[i].stress && !syllables[i + 1].stress) {
       if (getWeightedOption([[true, prob], [false, 100 - prob]], rand)) {
         syllables[i].stress = "ˌ";
       }
@@ -180,14 +204,18 @@ const isHeavySyllable = (syllable: Syllable): boolean => {
 const buildPronunciationGuide = (context: WordGenerationContext): void => {
   const { word } = context;
   let pronunciationGuide = "";
+  const render = (phoneme: Phoneme): string =>
+    phoneme.aspirated && !phoneme.sound.endsWith("ʰ")
+      ? `${phoneme.sound}ʰ`
+      : phoneme.sound;
 
   word.syllables.forEach((syllable, index) => {
-    const onset = syllable.onset.map((phoneme: Phoneme) => phoneme.sound).join("");
-    const nucleus = syllable.nucleus.map((phoneme: Phoneme) => phoneme.sound).join("");
-    const coda = syllable.coda.map((phoneme: Phoneme) => phoneme.sound).join("");
+    const onset = syllable.onset.map(render).join("");
+    const nucleus = syllable.nucleus.map(render).join("");
+    const coda = syllable.coda.map(render).join("");
 
     let syllablePronunciation = `${onset}${nucleus}${coda}`;
-    
+
     // Add stress marker if the syllable is stressed
     if (syllable.stress === "ˈ") {
       syllablePronunciation = `ˈ${syllablePronunciation}`;
@@ -287,14 +315,11 @@ export const _reduceUnstressedVowels = reduceUnstressedVowels;
 
 export const generatePronunciation = (
   context: WordGenerationContext,
-  vowelReduction?: VowelReductionConfig,
+  pronunciation: PronunciationConfig,
 ): void => {
-  const syllables = context.word.syllables;
-  for (let i = 0; i < syllables.length; i++) {
-    aspirateSyllable(i, context);
-  }
-  if (vowelReduction?.enabled) {
-    reduceUnstressedVowels(context, vowelReduction, context.rand);
+  applyAspiration(context, pronunciation.aspiration);
+  if (pronunciation.vowelReduction?.enabled) {
+    reduceUnstressedVowels(context, pronunciation.vowelReduction, context.rand);
   }
   buildPronunciationGuide(context);
 };

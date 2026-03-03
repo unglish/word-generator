@@ -242,9 +242,7 @@ export interface PhonemeToSyllableWeights {
 /**
  * Stress assignment rules for polysyllabic words.
  *
- * Currently only `"weight-sensitive"` is implemented.
- * Note: `pronounce.ts` does not yet read this config — stress and
- * aspiration logic is still English-specific. See issue #35.
+ * For modern English config, `"ot"` is the recommended strategy.
  */
 export interface StressRules {
   /** Strategy for assigning primary stress */
@@ -299,6 +297,57 @@ export interface StressRules {
   unstressedNucleusBoost?: Record<string, number>;
 }
 
+/** Aspiration decision contexts used for probability and precedence tables. */
+export type AspirationContext =
+  | "wordInitial"
+  | "postS"
+  | "stressed"
+  | "postStressed"
+  | "default";
+
+/** Default aspiration precedence (most specific → fallback). */
+export const DEFAULT_ASPIRATION_PRECEDENCE: AspirationContext[] = [
+  "postS",
+  "wordInitial",
+  "stressed",
+  "postStressed",
+  "default",
+];
+
+/** Default aspiration probabilities by context (0-100). */
+export const DEFAULT_ASPIRATION_PROBABILITIES: Record<AspirationContext, number> = {
+  wordInitial: 95,
+  postS: 5,
+  stressed: 90,
+  postStressed: 50,
+  default: 30,
+};
+
+/**
+ * Language-level aspiration behavior for pronunciation output.
+ *
+ * Aspiration currently applies to onset-initial voiceless stops only and is
+ * driven by context-specific probabilities plus explicit precedence.
+ */
+export interface AspirationRules {
+  /** Master switch. */
+  enabled: boolean;
+  /** Context-specific aspiration probabilities (0-100). */
+  probabilities?: Partial<Record<AspirationContext, number>>;
+  /**
+   * Context matching order. First matching context supplies the aspiration
+   * probability for the current syllable.
+   */
+  precedence?: AspirationContext[];
+}
+
+/** Fully-resolved aspiration rules with defaults applied. */
+export interface ResolvedAspirationRules {
+  enabled: boolean;
+  probabilities: Record<AspirationContext, number>;
+  precedence: AspirationContext[];
+}
+
 /**
  * A single vowel-reduction mapping: source vowel → target reduced vowel
  * with an associated probability.
@@ -334,6 +383,20 @@ export interface VowelReductionConfig {
     wordMedial?: number;
     wordFinal?: number;
   };
+}
+
+/**
+ * Grouped pronunciation controls for stress, aspiration, and reduction.
+ *
+ * This is the canonical pronunciation entrypoint on LanguageConfig.
+ */
+export interface PronunciationConfig {
+  /** Stress assignment rules. */
+  stress: StressRules;
+  /** Aspiration behavior for pronunciation output. */
+  aspiration?: AspirationRules;
+  /** Vowel reduction settings for unstressed syllables. */
+  vowelReduction?: VowelReductionConfig;
 }
 
 // ---------------------------------------------------------------------------
@@ -580,16 +643,8 @@ export interface LanguageConfig {
    */
   phonemeToSyllableWeights: PhonemeToSyllableWeights;
 
-  /** Stress assignment rules */
-  stress: StressRules;
-
-  /**
-   * Vowel reduction settings for unstressed syllables.
-   *
-   * In stress-timed languages like English, unstressed vowels tend to
-   * reduce toward schwa /ə/. This config controls that behaviour.
-   */
-  vowelReduction?: VowelReductionConfig;
+  /** Pronunciation behavior (stress, aspiration, and reduction). */
+  pronunciation: PronunciationConfig;
 
   /** Consonant doubling strategy. */
   doubling?: DoublingConfig;
@@ -763,6 +818,28 @@ export interface MorphologyConfig {
 // Utilities
 // ---------------------------------------------------------------------------
 
+const ASPIRATION_CONTEXTS: AspirationContext[] = [
+  "wordInitial",
+  "postS",
+  "stressed",
+  "postStressed",
+  "default",
+];
+
+/**
+ * Resolve aspiration config into fully-populated deterministic rules.
+ */
+export function resolveAspirationRules(rules?: AspirationRules): ResolvedAspirationRules {
+  return {
+    enabled: rules?.enabled ?? true,
+    probabilities: {
+      ...DEFAULT_ASPIRATION_PROBABILITIES,
+      ...(rules?.probabilities ?? {}),
+    },
+    precedence: rules?.precedence ? [...rules.precedence] : [...DEFAULT_ASPIRATION_PRECEDENCE],
+  };
+}
+
 /**
  * Validate a LanguageConfig, throwing on any detected inconsistency.
  *
@@ -809,6 +886,41 @@ export function validateConfig(config: LanguageConfig): void {
       throw new Error(
         `generationWeights.probability.${key} is ${value}, must be in [0, 100]`
       );
+    }
+  }
+
+  if (!config.pronunciation) {
+    throw new Error("pronunciation config is required");
+  }
+  if (!config.pronunciation.stress) {
+    throw new Error("pronunciation.stress is required");
+  }
+
+  const aspiration = config.pronunciation.aspiration;
+  if (aspiration?.probabilities) {
+    for (const [key, value] of Object.entries(aspiration.probabilities)) {
+      if (!ASPIRATION_CONTEXTS.includes(key as AspirationContext)) {
+        throw new Error(`pronunciation.aspiration.probabilities has invalid context "${key}"`);
+      }
+      if (value == null) continue;
+      if (!Number.isFinite(value) || value < 0 || value > 100) {
+        throw new Error(`pronunciation.aspiration.probabilities.${key} is ${String(value)}, must be in [0, 100]`);
+      }
+    }
+  }
+  if (aspiration?.precedence) {
+    if (aspiration.precedence.length === 0) {
+      throw new Error("pronunciation.aspiration.precedence must be non-empty");
+    }
+    const seen = new Set<AspirationContext>();
+    for (const ctx of aspiration.precedence) {
+      if (!ASPIRATION_CONTEXTS.includes(ctx)) {
+        throw new Error(`pronunciation.aspiration.precedence has invalid context "${String(ctx)}"`);
+      }
+      if (seen.has(ctx)) {
+        throw new Error(`pronunciation.aspiration.precedence contains duplicate context "${ctx}"`);
+      }
+      seen.add(ctx);
     }
   }
 

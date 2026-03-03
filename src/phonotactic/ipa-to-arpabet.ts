@@ -86,7 +86,10 @@ export function ipaToArpabet(ipaSound: string): string | null {
  */
 export function phonemesToArpabet(phonemes: Phoneme[]): string {
   return phonemes
-    .map(p => ipaToArpabet(p.sound))
+    .map((p) => {
+      const sound = p.aspirated && !p.sound.endsWith("ʰ") ? `${p.sound}ʰ` : p.sound;
+      return ipaToArpabet(sound);
+    })
     .filter((a): a is string => a !== null)
     .join(" ");
 }

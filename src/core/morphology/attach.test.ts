@@ -50,7 +50,10 @@ function makeRuntime(
   return {
     config: {
       phonemes: phonemeInventory,
-      vowelReduction: undefined,
+      pronunciation: {
+        stress: { strategy: "weight-sensitive" },
+        vowelReduction: undefined,
+      },
       morphology,
     },
   };

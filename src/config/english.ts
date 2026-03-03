@@ -159,32 +159,68 @@ export const englishConfig: LanguageConfig = {
     lexicon: PHONEME_TO_SYLLABLE_WEIGHTS_LEXICON,
   },
 
-  stress: {
-    strategy: "ot",
-    otConfig: {
-      constraints: [
-        { name: "WSP", weight: 3 },
-        { name: "ALIGN-LEFT", weight: 6.5 },
-        { name: "ALIGN-RIGHT", weight: 1 },
-        { name: "NONFINALITY", weight: 12 },
-        { name: "NONINITIAL", weight: 8.5 },
+  pronunciation: {
+    stress: {
+      strategy: "ot",
+      otConfig: {
+        constraints: [
+          { name: "WSP", weight: 3 },
+          { name: "ALIGN-LEFT", weight: 6.5 },
+          { name: "ALIGN-RIGHT", weight: 1 },
+          { name: "NONFINALITY", weight: 12 },
+          { name: "NONINITIAL", weight: 8.5 },
+        ],
+        noise: 4,
+      },
+      // Legacy weights kept as fallback documentation
+      disyllabicWeights: [75, 25],
+      polysyllabicWeights: {
+        heavyPenult: 45,
+        lightPenult: 25,
+        antepenultHeavy: 15,
+        antepenultLight: 30,
+        initial: 30,
+      },
+      secondaryStressProbability: 40,
+      secondaryStressHeavyWeight: 70,
+      secondaryStressLightWeight: 30,
+      rhythmicStressProbability: 40,
+      stressedNucleusBan: ["ə"],
+    },
+    aspiration: {
+      enabled: true,
+      probabilities: {
+        postS: 5,
+        wordInitial: 95,
+        stressed: 90,
+        postStressed: 50,
+        default: 30,
+      },
+      precedence: ["postS", "wordInitial", "stressed", "postStressed", "default"],
+    },
+    vowelReduction: {
+      enabled: true,
+      rules: [
+        { source: "ʌ", target: "ə", probability: 85 },
+        { source: "ɛ", target: "ɪ", probability: 70 },
+        { source: "ɑ", target: "ə", probability: 65 },
+        { source: "ɔ", target: "ə", probability: 60 },
+        { source: "æ", target: "ə", probability: 40 },
+        { source: "ɜ", target: "ə", probability: 75 },
+        { source: "ɪ", target: "ə", probability: 45 },  // roses [ˈɹoʊzɪz] → [ˈɹoʊzəz] — common in casual speech
       ],
-      noise: 4,
+      reduceSecondaryStress: true,
+      secondaryStressProbability: 30,
+      // Word-final is lower than medial because final vowels in open syllables
+      // retain more perceptual salience, even though English does reduce many
+      // finals heavily (sofa → [ˈsoʊfə]). This is a conservative choice that
+      // keeps generated words more readable.
+      positionalModifiers: {
+        wordInitial: 0.70,
+        wordMedial: 1.0,
+        wordFinal: 0.65,
+      },
     },
-    // Legacy weights kept as fallback documentation
-    disyllabicWeights: [75, 25],
-    polysyllabicWeights: {
-      heavyPenult: 45,
-      lightPenult: 25,
-      antepenultHeavy: 15,
-      antepenultLight: 30,
-      initial: 30,
-    },
-    secondaryStressProbability: 40,
-    secondaryStressHeavyWeight: 70,
-    secondaryStressLightWeight: 30,
-    rhythmicStressProbability: 40,
-    stressedNucleusBan: ["ə"],
   },
 
   doubling: {
@@ -459,30 +495,6 @@ export const englishConfig: LanguageConfig = {
     fallingCoda: true,
     minSonorityGap: 0,
     exempt: ["s", "z"],
-  },
-
-  vowelReduction: {
-    enabled: true,
-    rules: [
-      { source: "ʌ", target: "ə", probability: 85 },
-      { source: "ɛ", target: "ɪ", probability: 70 },
-      { source: "ɑ", target: "ə", probability: 65 },
-      { source: "ɔ", target: "ə", probability: 60 },
-      { source: "æ", target: "ə", probability: 40 },
-      { source: "ɜ", target: "ə", probability: 75 },
-      { source: "ɪ", target: "ə", probability: 45 },  // roses [ˈɹoʊzɪz] → [ˈɹoʊzəz] — common in casual speech
-    ],
-    reduceSecondaryStress: true,
-    secondaryStressProbability: 30,
-    // Word-final is lower than medial because final vowels in open syllables
-    // retain more perceptual salience, even though English does reduce many
-    // finals heavily (sofa → [ˈsoʊfə]). This is a conservative choice that
-    // keeps generated words more readable.
-    positionalModifiers: {
-      wordInitial: 0.70,
-      wordMedial: 1.0,
-      wordFinal: 0.65,
-    },
   },
 
   morphology: {

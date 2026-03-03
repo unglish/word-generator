@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from "vitest";
-import { ipaToArpabet, wordToArpabet } from "./ipa-to-arpabet.js";
+import { ipaToArpabet, phonemesToArpabet, wordToArpabet } from "./ipa-to-arpabet.js";
 import { scoreArpabetWords, BatchScoreResult } from "./score.js";
 import { generateWord } from "../core/generate.js";
 import englishBaseline from "./english-baseline.json";
@@ -70,6 +70,21 @@ describe("IPA to ARPABET conversion", () => {
     expect(ipaToArpabet("pʰ")).toBe("P");
     expect(ipaToArpabet("tʰ")).toBe("T");
     expect(ipaToArpabet("kʰ")).toBe("K");
+  });
+
+  it("maps aspirated phoneme flags to the same ARPABET tokens", () => {
+    expect(phonemesToArpabet([
+      {
+        sound: "p",
+        aspirated: true,
+        voiced: false,
+        mannerOfArticulation: "stop",
+        placeOfArticulation: "bilabial",
+        startWord: 1,
+        midWord: 1,
+        endWord: 1,
+      },
+    ])).toBe("P");
   });
 
   // Triphthongs removed from inventory — they decompose into diphthong + /ə/.
