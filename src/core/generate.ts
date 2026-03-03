@@ -569,7 +569,12 @@ function pickCoda(
       const stopPhoneme = rt.config.phonemes.find(p => p.sound === stopSound);
       if (stopPhoneme) {
         coda.push(stopPhoneme);
-        context.trace?.recordStructural("nasalStopExtension", `extended /${nasalSound}/ with /${stopSound}/ (prob ${nasalExt}%)`);
+        context.trace?.recordStructural({
+          event: "nasalStopExtension",
+          nasal: nasalSound,
+          appendedStop: stopSound,
+          probability: nasalExt,
+        });
       }
     }
   }
@@ -595,11 +600,15 @@ function pickCoda(
       const sPhoneme = rt.config.phonemes.find(p => p.sound === "s");
       if (sPhoneme) {
         coda.push(sPhoneme);
-        if (finalSProbability !== probability.finalS) {
-          context.trace?.recordStructural("finalS", `appended /s/ to final coda (prob ${probability.finalS}% × cluster weight ${finalSProbability / probability.finalS})`);
-        } else {
-          context.trace?.recordStructural("finalS", `appended /s/ to final coda (prob ${probability.finalS}%)`);
-        }
+        const clusterWeightApplied = finalSProbability !== probability.finalS;
+        context.trace?.recordStructural({
+          event: "finalS",
+          probability: finalSProbability,
+          clusterWeightApplied: clusterWeightApplied || undefined,
+          clusterWeight: clusterWeightApplied && probability.finalS > 0
+            ? finalSProbability / probability.finalS
+            : undefined,
+        });
       }
     }
   }
@@ -633,7 +642,13 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
   const firstOnsetSonority = getSonority(rt, firstOnsetPhoneme);
   const { boundaryDrop } = rt.config.generationWeights.probability;
   if (firstOnsetSonority === lastCodaSonority && getWeightedOption([[true, boundaryDrop], [false, 100 - boundaryDrop]], rand)) {
-    trace?.recordStructural("boundaryDrop", `dropped coda /${lastCodaPhoneme.sound}/ before onset /${firstOnsetPhoneme.sound}/ (equal sonority ${lastCodaSonority}, prob ${boundaryDrop}%)`);
+    trace?.recordStructural({
+      event: "boundaryDrop",
+      dropped: lastCodaPhoneme.sound,
+      beforeOnset: firstOnsetPhoneme.sound,
+      equalSonority: lastCodaSonority,
+      probability: boundaryDrop,
+    });
     prevSyllable.coda.pop();
   }
 
@@ -650,9 +665,12 @@ function adjustBoundary(rt: GeneratorRuntime, prevSyllable: Syllable, currentSyl
     if (prevSyllable.coda.length === 0) break;
     if (validateJunction(prevSyllable.coda, currentSyllable.onset, rt.config)) break;
     const dropped = prevSyllable.coda.pop()!;
-    // TODO(#250): Trace message shows post-drop coda, which is correct for
-    // "remaining cluster" but could be confusing. Consider showing before/after.
-    trace?.recordStructural("sspBoundaryDrop", `dropped coda /${dropped.sound}/ — SSP violation in cluster [${prevSyllable.coda.map(p => p.sound).join(",")}].{${currentSyllable.onset.map(p => p.sound).join(",")}}`);
+    trace?.recordStructural({
+      event: "sspBoundaryDrop",
+      dropped: dropped.sound,
+      remainingCoda: prevSyllable.coda.map(p => p.sound),
+      onset: currentSyllable.onset.map(p => p.sound),
+    });
   }
 
   return [prevSyllable, currentSyllable];
@@ -983,7 +1001,12 @@ function repairVowelHiatus(rt: GeneratorRuntime, syllables: Syllable[], rand: RN
     if (prev.coda.length === 0 && curr.onset.length === 0) {
       const bridge = getWeightedOption(bridgeOptions, rand);
       curr.onset.unshift(bridge);
-      trace?.recordStructural("vowelHiatusFallback", `inserted /${bridge.sound}/ between syllables ${i - 1} and ${i}`);
+      trace?.recordStructural({
+        event: "vowelHiatusFallback",
+        inserted: bridge.sound,
+        leftSyllableIndex: i - 1,
+        rightSyllableIndex: i,
+      });
     }
   }
 }
@@ -1212,7 +1235,7 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   repairHAfterBackVowel(context.word.syllables, t);
   t?.afterStage("repairHAfterBackVowel", context.word.syllables);
 
-  const stressRules = rt.config.stress ?? { strategy: "weight-sensitive" };
+  const stressRules = rt.config.pronunciation.stress;
 
   t?.beforeStage("applyStress", context.word.syllables);
   applyStress(context, stressRules);
@@ -1227,7 +1250,7 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.afterStage("generateWrittenForm", context.word.syllables);
 
   t?.beforeStage("generatePronunciation", context.word.syllables);
-  generatePronunciation(context, rt.config.vowelReduction);
+  generatePronunciation(context, rt.config.pronunciation);
   t?.afterStage("generatePronunciation", context.word.syllables);
 }
 

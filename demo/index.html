@@ -965,10 +965,75 @@
                 return needles.some(n => repair.before.includes(n) || repair.after.includes(n));
             }
 
+            function structuralEventReferencesPhoneme(structural, phoneme) {
+                if (!structural || !phoneme) return false;
+                switch (structural.event) {
+                case 'boundaryDrop':
+                    return structural.dropped === phoneme || structural.beforeOnset === phoneme;
+                case 'sspBoundaryDrop':
+                    return structural.dropped === phoneme ||
+                        (Array.isArray(structural.remainingCoda) && structural.remainingCoda.includes(phoneme)) ||
+                        (Array.isArray(structural.onset) && structural.onset.includes(phoneme));
+                case 'finalS':
+                    return phoneme === 's';
+                case 'nasalStopExtension':
+                    return structural.nasal === phoneme || structural.appendedStop === phoneme;
+                case 'vowelHiatusFallback':
+                case 'morphPrefixHiatusFallback':
+                case 'morphSuffixHiatusFallback':
+                    return structural.inserted === phoneme;
+                case 'aspirationDecision':
+                    return structural.targetPhoneme === phoneme;
+                default:
+                    return typeof structural.detail === 'string'
+                        ? structural.detail.includes('/' + phoneme + '/')
+                        : false;
+                }
+            }
+
+            function formatStructuralEvent(structural) {
+                if (!structural) return '';
+                switch (structural.event) {
+                case 'boundaryDrop':
+                    return 'dropped /' + structural.dropped + '/ before /' + structural.beforeOnset +
+                        '/ (equal sonority ' + structural.equalSonority + ', p=' + structural.probability + '%)';
+                case 'sspBoundaryDrop':
+                    return 'dropped /' + structural.dropped + '/ for SSP; coda=[' +
+                        (structural.remainingCoda || []).join(',') + '] onset=[' +
+                        (structural.onset || []).join(',') + ']';
+                case 'finalS': {
+                    const base = 'appended /s/ to final coda (p=' + structural.probability + '%)';
+                    return structural.clusterWeightApplied && structural.clusterWeight != null
+                        ? base + ' (clusterWeight=' + structural.clusterWeight.toFixed(3) + ')'
+                        : base;
+                }
+                case 'nasalStopExtension':
+                    return 'extended /' + structural.nasal + '/ with /' + structural.appendedStop +
+                        '/ (p=' + structural.probability + '%)';
+                case 'vowelHiatusFallback':
+                    return 'inserted /' + structural.inserted + '/ between syllables ' +
+                        structural.leftSyllableIndex + ' and ' + structural.rightSyllableIndex;
+                case 'morphPrefixHiatusFallback':
+                    return 'inserted /' + structural.inserted + '/ at prefix-root boundary';
+                case 'morphSuffixHiatusFallback':
+                    return 'inserted /' + structural.inserted + '/ at root-suffix boundary';
+                case 'aspirationDecision':
+                    return 'syllable ' + structural.syllableIndex +
+                        ': context=' + (structural.context ?? 'n/a') +
+                        ' p=' + (structural.probability ?? 'n/a') +
+                        ' roll=' + (structural.roll ?? 'n/a') +
+                        ' eligible=' + structural.eligible +
+                        ' applied=' + structural.applied +
+                        ' target=' + (structural.targetPhoneme ?? 'n/a');
+                default:
+                    return typeof structural.detail === 'string' ? structural.detail : JSON.stringify(structural);
+                }
+            }
+
             function isStructuralLinked(gsIndex, structural) {
                 const g = debugTrace?.graphemeSelections?.[gsIndex];
                 if (!g || !structural) return false;
-                return structural.detail.includes('/' + g.phoneme + '/');
+                return structuralEventReferencesPhoneme(structural, g.phoneme);
             }
 
             function toggleDebugSelection(type, gsIndex) {
@@ -1062,7 +1127,7 @@
                 structuralTraceEl.innerHTML = (debugTrace.structural || []).map((s, idx) => {
                     const linked = hoveredGs !== null && isStructuralLinked(hoveredGs, s);
                     const rowClass = linked ? 'debug-trace-row active' : 'debug-trace-row';
-                    const detail = '#' + idx + ' ' + s.event + ' | ' + s.detail;
+                    const detail = '#' + idx + ' ' + s.event + ' | ' + formatStructuralEvent(s);
                     return '<div class="' + rowClass + '">' + escapeHtml(detail) + '</div>';
                 }).join('') || '<div class="debug-trace-row">none</div>';
 

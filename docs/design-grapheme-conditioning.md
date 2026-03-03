@@ -301,8 +301,12 @@ This replaces the hardcoded `reductionRules` array in `write.ts`.
 interface LanguageConfig {
   // ... existing fields ...
 
-  /** Vowel reduction (merged in PR #37) */
-  vowelReduction?: VowelReductionConfig;
+  /** Pronunciation behavior */
+  pronunciation: {
+    stress: StressRules;
+    vowelReduction?: VowelReductionConfig;
+    aspiration?: AspirationRules;
+  };
 
   /** Consonant doubling strategy */
   doubling?: DoublingConfig;

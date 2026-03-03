@@ -2,6 +2,10 @@ import { describe, it, expect } from "vitest";
 import { createGenerator, generateWord } from "./generate.js";
 import { englishConfig } from "../config/english.js";
 import { ENGLISH_VOWEL_SOUND_SET } from "./vowel-sounds.js";
+import type { StructuralTrace } from "./trace.js";
+
+const byEvent = <E extends StructuralTrace["event"]>(event: E) =>
+  (entry: StructuralTrace): entry is Extract<StructuralTrace, { event: E }> => entry.event === event;
 
 describe("trace pipeline", () => {
   it("attaches a trace when trace: true is passed", () => {
@@ -147,10 +151,12 @@ describe("trace pipeline", () => {
     let found = false;
     for (let s = 0; s < 750; s++) {
       const w = generateWord({ seed: s, syllableCount: 4, trace: true, morphology: false });
-      const drops = w.trace!.structural.filter(e => e.event === "boundaryDrop");
+      const drops = w.trace!.structural.filter(byEvent("boundaryDrop"));
       if (drops.length > 0) {
-        expect(drops[0].detail).toMatch(/dropped coda/);
-        expect(drops[0].detail).toMatch(/equal sonority/);
+        expect(typeof drops[0].dropped).toBe("string");
+        expect(typeof drops[0].beforeOnset).toBe("string");
+        expect(typeof drops[0].equalSonority).toBe("number");
+        expect(typeof drops[0].probability).toBe("number");
         found = true;
         break;
       }
@@ -162,9 +168,12 @@ describe("trace pipeline", () => {
     let found = false;
     for (let s = 0; s < 500; s++) {
       const w = generateWord({ seed: s, trace: true, morphology: false });
-      const finalS = w.trace!.structural.filter(e => e.event === "finalS");
+      const finalS = w.trace!.structural.filter(byEvent("finalS"));
       if (finalS.length > 0) {
-        expect(finalS[0].detail).toMatch(/appended \/s\//);
+        expect(finalS[0].probability).toBeGreaterThanOrEqual(0);
+        if (finalS[0].clusterWeightApplied) {
+          expect(typeof finalS[0].clusterWeight).toBe("number");
+        }
         found = true;
         break;
       }
@@ -176,9 +185,11 @@ describe("trace pipeline", () => {
     let found = false;
     for (let s = 0; s < 2000; s++) {
       const w = generateWord({ seed: s, trace: true, morphology: false });
-      const ext = w.trace!.structural.filter(e => e.event === "nasalStopExtension");
+      const ext = w.trace!.structural.filter(byEvent("nasalStopExtension"));
       if (ext.length > 0) {
-        expect(ext[0].detail).toMatch(/extended/);
+        expect(typeof ext[0].nasal).toBe("string");
+        expect(typeof ext[0].appendedStop).toBe("string");
+        expect(typeof ext[0].probability).toBe("number");
         found = true;
         break;
       }
@@ -186,14 +197,29 @@ describe("trace pipeline", () => {
     expect(found).toBe(true);
   });
 
-  it("vowel-hiatus fallback trace entries use expected detail format", () => {
+  it("vowel-hiatus fallback trace entries use typed payload", () => {
     for (let s = 0; s < 2000; s++) {
       const w = generateWord({ seed: s, trace: true });
-      const events = w.trace!.structural.filter(e => e.event === "vowelHiatusFallback");
+      const events = w.trace!.structural.filter(byEvent("vowelHiatusFallback"));
       for (const event of events) {
-        expect(event.detail).toMatch(/inserted \/h\//);
+        expect(event.inserted).toBe("h");
+        expect(event.rightSyllableIndex).toBe(event.leftSyllableIndex + 1);
       }
     }
+  });
+
+  it("aspirationDecision trace entries use typed payload", () => {
+    const w = generateWord({ seed: 42, trace: true, morphology: false });
+    const events = w.trace!.structural.filter(byEvent("aspirationDecision"));
+    expect(events.length).toBeGreaterThan(0);
+    const payload = events[0];
+    expect(typeof payload.syllableIndex).toBe("number");
+    expect(typeof payload.eligible).toBe("boolean");
+    expect(typeof payload.applied).toBe("boolean");
+    expect(payload).toHaveProperty("context");
+    expect(payload).toHaveProperty("probability");
+    expect(payload).toHaveProperty("roll");
+    expect(payload).toHaveProperty("targetPhoneme");
   });
 
   it("post-vowel glide policy controls root glide transitions deterministically", () => {
@@ -260,10 +286,10 @@ describe("trace pipeline", () => {
         mode: "lexicon",
         syllableCount: 3,
       });
-      const events = w.trace!.structural.filter(e => e.event === "vowelHiatusFallback");
+      const events = w.trace!.structural.filter(byEvent("vowelHiatusFallback"));
       if (events.length > 0) {
         for (const event of events) {
-          expect(event.detail).toMatch(/inserted \/j\//);
+          expect(event.inserted).toBe("j");
         }
         found = true;
         break;

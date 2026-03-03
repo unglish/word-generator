@@ -1,7 +1,7 @@
 import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule, sonorityClass } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
-import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink } from "./trace.js";
+import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { isVowelChar, isConsonantLetter, VOWEL_LETTERS } from "../utils/letters.js";
 
@@ -204,15 +204,36 @@ function buildLinksForUnit(unit: TraceUnitSeed, trace: TraceCollector): TraceLin
     }
   }
 
-  const phonemeNeedle = `/${unit.phoneme}/`;
   for (let i = 0; i < trace.structural.length; i++) {
     const s = trace.structural[i];
-    if (s.detail.includes(phonemeNeedle)) {
+    if (structuralEventReferencesPhoneme(s, unit.phoneme)) {
       links.push({ kind: "structural", index: i, label: s.event });
     }
   }
 
   return links;
+}
+
+function structuralEventReferencesPhoneme(event: StructuralTrace, phoneme: string): boolean {
+  switch (event.event) {
+  case "boundaryDrop":
+    return event.dropped === phoneme || event.beforeOnset === phoneme;
+  case "sspBoundaryDrop":
+    return event.dropped === phoneme ||
+      event.remainingCoda.includes(phoneme) ||
+      event.onset.includes(phoneme);
+  case "finalS":
+    return phoneme === "s";
+  case "nasalStopExtension":
+    return event.nasal === phoneme || event.appendedStop === phoneme;
+  case "vowelHiatusFallback":
+    return event.inserted === phoneme;
+  case "morphPrefixHiatusFallback":
+  case "morphSuffixHiatusFallback":
+    return event.inserted === phoneme;
+  case "aspirationDecision":
+    return event.targetPhoneme === phoneme;
+  }
 }
 
 function buildOrthographyTrace(
@@ -369,7 +390,8 @@ export function normalizeGraphemeCondition(
     }
   }
 
-  const { alias: _alias, syllableShape: explicitSyllableShape, ...explicitFields } = condition;
+  const { alias, syllableShape: explicitSyllableShape, ...explicitFields } = condition;
+  void alias;
   const merged: Omit<GraphemeCondition, "alias"> = {
     ...(aliasCondition ?? {}),
     ...explicitFields,

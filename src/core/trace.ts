@@ -1,4 +1,5 @@
 import type { Syllable } from "../types.js";
+import type { AspirationContext } from "../config/language.js";
 
 export interface SyllableSnapshot {
   onset: string[];
@@ -60,11 +61,72 @@ export interface MorphologyTrace {
   syllableReduction: number;
 }
 
-export interface StructuralTrace {
-  /** Which phoneme was dropped and why. */
-  event: string;
-  detail: string;
+export interface BoundaryDropTrace {
+  event: "boundaryDrop";
+  dropped: string;
+  beforeOnset: string;
+  equalSonority: number;
+  probability: number;
 }
+
+export interface SspBoundaryDropTrace {
+  event: "sspBoundaryDrop";
+  dropped: string;
+  remainingCoda: string[];
+  onset: string[];
+}
+
+export interface FinalSTrace {
+  event: "finalS";
+  probability: number;
+  clusterWeightApplied?: boolean;
+  clusterWeight?: number;
+}
+
+export interface NasalStopExtensionTrace {
+  event: "nasalStopExtension";
+  nasal: string;
+  appendedStop: string;
+  probability: number;
+}
+
+export interface VowelHiatusFallbackTrace {
+  event: "vowelHiatusFallback";
+  inserted: string;
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
+}
+
+export interface MorphPrefixHiatusFallbackTrace {
+  event: "morphPrefixHiatusFallback";
+  inserted: string;
+}
+
+export interface MorphSuffixHiatusFallbackTrace {
+  event: "morphSuffixHiatusFallback";
+  inserted: string;
+}
+
+export interface AspirationDecisionTrace {
+  event: "aspirationDecision";
+  syllableIndex: number;
+  context: AspirationContext | null;
+  probability: number | null;
+  roll: number | null;
+  eligible: boolean;
+  applied: boolean;
+  targetPhoneme: string | null;
+}
+
+export type StructuralTrace =
+  | BoundaryDropTrace
+  | SspBoundaryDropTrace
+  | FinalSTrace
+  | NasalStopExtensionTrace
+  | VowelHiatusFallbackTrace
+  | MorphPrefixHiatusFallbackTrace
+  | MorphSuffixHiatusFallbackTrace
+  | AspirationDecisionTrace;
 
 export interface TraceLink {
   kind: "graphemeSelection" | "repair" | "structural";
@@ -151,8 +213,8 @@ export class TraceCollector {
     this.graphemeSelections.push(entry);
   }
 
-  recordStructural(event: string, detail: string): void {
-    this.structural.push({ event, detail });
+  recordStructural(entry: StructuralTrace): void {
+    this.structural.push(entry);
   }
 
   recordRepair(rule: string, before: string, after: string, detail?: string): void {

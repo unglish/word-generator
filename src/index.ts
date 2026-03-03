@@ -11,9 +11,12 @@ export {
   SonorityHierarchy,
   SyllableStructureRules,
   StressRules,
+  AspirationRules,
+  PronunciationConfig,
   GenerationWeights,
   PhonemeLengthWeights,
   PhonemeToSyllableWeights,
+  resolveAspirationRules,
   validateConfig,
 } from "./config/language.js";
 export { OTStressConfig, OTConstraint, ConstraintWeight } from "./core/ot-stress.js";

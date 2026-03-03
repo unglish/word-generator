@@ -12,7 +12,7 @@ interface GeneratorRuntime {
   config: {
     morphology?: import("../../config/language.js").MorphologyConfig;
     phonemes: Phoneme[];
-    vowelReduction?: import("../../config/language.js").VowelReductionConfig;
+    pronunciation: import("../../config/language.js").PronunciationConfig;
   };
 }
 
@@ -292,10 +292,10 @@ export function applyMorphology(
       const bridge = pickBoundaryBridge(rt, context);
       if (bridge) {
         firstRoot.onset.unshift(bridge);
-        context.trace?.recordStructural(
-          "morphPrefixHiatusFallback",
-          `inserted /${bridge.sound}/ at prefix-root boundary`
-        );
+        context.trace?.recordStructural({
+          event: "morphPrefixHiatusFallback",
+          inserted: bridge.sound,
+        });
       }
     }
   }
@@ -308,10 +308,10 @@ export function applyMorphology(
       const bridge = pickBoundaryBridge(rt, context);
       if (bridge) {
         firstSuffix.onset.unshift(bridge);
-        context.trace?.recordStructural(
-          "morphSuffixHiatusFallback",
-          `inserted /${bridge.sound}/ at root-suffix boundary`
-        );
+        context.trace?.recordStructural({
+          event: "morphSuffixHiatusFallback",
+          inserted: bridge.sound,
+        });
       }
     }
   }
@@ -334,7 +334,7 @@ export function applyMorphology(
     adjustStress(context.word.syllables, plan.suffix.stressEffect, suffixIndices, false);
   }
 
-  generatePronunciation(context, config.vowelReduction);
+  generatePronunciation(context, config.pronunciation);
 
   context.word.written.clean = cleanForm;
 
