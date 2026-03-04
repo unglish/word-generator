@@ -16,6 +16,7 @@ export {
   GenerationWeights,
   PhonemeLengthWeights,
   PhonemeToSyllableWeights,
+  resolveStressRules,
   resolveAspirationRules,
   validateConfig,
 } from "./config/language.js";
