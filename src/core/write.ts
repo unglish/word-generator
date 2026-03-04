@@ -64,6 +64,7 @@ interface TraceUnitSeed {
   graphemeSelectionIndex: number;
   phoneme: string;
   position: string;
+  positionIndex: number;
   syllableIndex: number;
   selected: string;
   emitted: string;
@@ -255,8 +256,10 @@ function structuralEventReferencesUnit(event: StructuralTrace, unit: TraceUnitSe
       unit.syllableIndex === event.syllableIndex &&
       unit.phoneme === event.inserted;
   case "aspirationDecision":
-    return unit.position === "onset" &&
+    if (!event.targetPhoneme) return false;
+    return unit.position === (event.targetSegment ?? "onset") &&
       unit.syllableIndex === event.syllableIndex &&
+      (event.targetIndex == null || unit.positionIndex === event.targetIndex) &&
       unit.phoneme === event.targetPhoneme;
   }
 }
@@ -1533,10 +1536,11 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     let preRepairOwners: number[] = [];
     const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
       (["onset", "nucleus", "coda"] as const).flatMap((position) =>
-        syllable[position].map((phoneme) => ({
+        syllable[position].map((phoneme, positionIndex) => ({
           phoneme,
           syllableIndex,
           position,
+          positionIndex,
           stress: syllable.stress,
         }))
       )
@@ -1553,7 +1557,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     let prevGraphemeForm: string | undefined;
 
     for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
-      const { phoneme, syllableIndex, position, stress } = flattenedPhonemes[phonemeIndex];
+      const { phoneme, syllableIndex, position, positionIndex, stress } = flattenedPhonemes[phonemeIndex];
       const prevEntry = flattenedPhonemes[phonemeIndex - 1];
       const nextEntry = flattenedPhonemes[phonemeIndex + 1];
 
@@ -1664,6 +1668,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           graphemeSelectionIndex: phonemeIndex,
           phoneme: phoneme.sound,
           position,
+          positionIndex,
           syllableIndex,
           selected: selected.form,
           emitted,

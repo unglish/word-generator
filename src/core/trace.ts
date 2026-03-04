@@ -137,6 +137,8 @@ export interface MorphSuffixHiatusFallbackTrace {
   syllableIndex: number;
 }
 
+export type AspirationTargetSegment = "onset" | "nucleus" | "coda";
+
 export interface AspirationDecisionEvaluatedTrace {
   event: "aspirationDecision";
   evaluated: true;
@@ -146,6 +148,8 @@ export interface AspirationDecisionEvaluatedTrace {
   roll: number;
   eligible: true;
   applied: boolean;
+  targetSegment: AspirationTargetSegment;
+  targetIndex: number;
   targetPhoneme: string;
 }
 
@@ -158,6 +162,8 @@ export interface AspirationDecisionSkippedTrace {
   roll: number | null;
   eligible: boolean;
   applied: false;
+  targetSegment: AspirationTargetSegment | null;
+  targetIndex: number | null;
   targetPhoneme: string | null;
 }
 

@@ -11,7 +11,7 @@ import {
 import { phonemes } from "../elements/phonemes.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { otEvaluate } from "./ot-stress.js";
-import type { AspirationDecisionTrace } from "./trace.js";
+import type { AspirationDecisionTrace, AspirationTargetSegment } from "./trace.js";
 
 export interface PronunciationRuntimeConfig {
   aspiration: ResolvedAspirationRules;
@@ -19,7 +19,7 @@ export interface PronunciationRuntimeConfig {
 }
 
 interface AspirationTargetMatch {
-  segment: "onset" | "nucleus" | "coda";
+  segment: AspirationTargetSegment;
   index: number;
   phoneme: Phoneme;
 }
@@ -31,7 +31,7 @@ const applyAspirationMarker = (phoneme: Phoneme): Phoneme => {
 
 const getSyllableSegment = (
   syllable: Syllable,
-  segment: "onset" | "nucleus" | "coda",
+  segment: AspirationTargetSegment,
 ): Phoneme[] => {
   if (segment === "onset") return syllable.onset;
   if (segment === "nucleus") return syllable.nucleus;
@@ -133,6 +133,8 @@ const applyAspiration = (context: WordGenerationContext, rules: ResolvedAspirati
 
   for (let i = 0; i < syllables.length; i++) {
     const target = findAspirationTarget(syllables[i], rules.targets);
+    const targetSegment = target?.segment ?? null;
+    const targetIndex = target?.index ?? null;
     const targetPhoneme = target?.phoneme.sound ?? null;
     const eligible = !!target;
 
@@ -146,6 +148,8 @@ const applyAspiration = (context: WordGenerationContext, rules: ResolvedAspirati
         roll: null,
         eligible,
         applied: false,
+        targetSegment,
+        targetIndex,
         targetPhoneme,
       });
       continue;
@@ -169,6 +173,8 @@ const applyAspiration = (context: WordGenerationContext, rules: ResolvedAspirati
       roll: Number(roll.toFixed(5)),
       eligible: true,
       applied,
+      targetSegment: target.segment,
+      targetIndex: target.index,
       targetPhoneme: target.phoneme.sound,
     });
   }
