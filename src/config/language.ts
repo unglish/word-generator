@@ -1203,8 +1203,8 @@ export function validateConfig(config: LanguageConfig): void {
   };
 
   const assertAllowedKeys = (
-    obj: Record<string, unknown>,
-    allowed: string[],
+    obj: object,
+    allowed: readonly string[],
     label: string,
   ): void => {
     for (const key of Object.keys(obj)) {
@@ -1215,7 +1215,7 @@ export function validateConfig(config: LanguageConfig): void {
   };
 
   const stress = config.pronunciation.stress;
-  const primary = stress.primary as Record<string, unknown>;
+  const primary = stress.primary;
   const primaryType = primary.type;
   if (
     primaryType !== "fixed"
@@ -1251,7 +1251,7 @@ export function validateConfig(config: LanguageConfig): void {
         throw new Error(`pronunciation.stress.primary.disyllabicWeights[${i}] must be a number`);
       }
     }
-    const poly = primary.polysyllabicWeights as Record<string, unknown> | undefined;
+    const poly = primary.polysyllabicWeights;
     if (!poly) {
       throw new Error("pronunciation.stress.primary.polysyllabicWeights is required for weight-sensitive");
     }
@@ -1284,17 +1284,17 @@ export function validateConfig(config: LanguageConfig): void {
   }
 
   assertAllowedKeys(
-    stress.secondary as Record<string, unknown>,
+    stress.secondary,
     ["enabled", "probability", "heavyWeight", "lightWeight", "candidateWindow"],
     "pronunciation.stress.secondary",
   );
   assertAllowedKeys(
-    stress.rhythmic as Record<string, unknown>,
+    stress.rhythmic,
     ["enabled", "probability", "requireUnstressedNeighbors"],
     "pronunciation.stress.rhythmic",
   );
   assertAllowedKeys(
-    stress.nucleus as Record<string, unknown>,
+    stress.nucleus,
     ["stressedNucleusBan", "unstressedNucleusBoost"],
     "pronunciation.stress.nucleus",
   );
@@ -1332,7 +1332,7 @@ export function validateConfig(config: LanguageConfig): void {
   const aspiration = config.pronunciation.aspiration;
   if (aspiration) {
     assertAllowedKeys(
-      aspiration as Record<string, unknown>,
+      aspiration,
       ["enabled", "targets", "rules", "fallbackProbability"],
       "pronunciation.aspiration",
     );
@@ -1343,7 +1343,7 @@ export function validateConfig(config: LanguageConfig): void {
     }
     aspiration.targets.forEach((target, targetIndex) => {
       assertAllowedKeys(
-        target as Record<string, unknown>,
+        target,
         ["segment", "index", "sounds", "manner", "place", "voiced"],
         `pronunciation.aspiration.targets[${targetIndex}]`,
       );
@@ -1364,7 +1364,7 @@ export function validateConfig(config: LanguageConfig): void {
     const seenRuleIds = new Set<string>();
     aspiration.rules.forEach((rule, ruleIndex) => {
       assertAllowedKeys(
-        rule as Record<string, unknown>,
+        rule,
         ["id", "when", "probability"],
         `pronunciation.aspiration.rules[${ruleIndex}]`,
       );
@@ -1378,7 +1378,7 @@ export function validateConfig(config: LanguageConfig): void {
       assertProbability(rule.probability, `pronunciation.aspiration.rules[${ruleIndex}].probability`);
 
       assertAllowedKeys(
-        rule.when as Record<string, unknown>,
+        rule.when,
         ["wordInitial", "stressed", "postStressed", "syllableIndexClass", "previousCodaSounds"],
         `pronunciation.aspiration.rules[${ruleIndex}].when`,
       );
