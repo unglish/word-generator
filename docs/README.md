@@ -12,5 +12,4 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
   quality tooling design decisions.
 - [`attested-codas.md`](./attested-codas.md): attested coda cluster references.
 - [`pronunciation-config-migration.md`](./pronunciation-config-migration.md):
-  breaking migration guide for grouped pronunciation config and aspiration
-  table schema.
+  current stress/aspiration pronunciation schema reference.

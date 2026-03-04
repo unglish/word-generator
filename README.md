@@ -85,6 +85,31 @@ Breaking change:
 - `generationWeights.probability.boundaryDrop` was removed.
 - Use `generationWeights.boundaryPolicy.equalSonorityDrop` instead.
 
+## Pronunciation Config
+
+Stress and aspiration are declarative under `pronunciation`.
+
+```ts
+import { createGenerator, englishConfig } from "@unglish/word-generator";
+
+const generator = createGenerator({
+  ...englishConfig,
+  pronunciation: {
+    ...englishConfig.pronunciation,
+    stress: {
+      ...englishConfig.pronunciation.stress,
+      primary: { type: "penultimate" },
+    },
+    aspiration: {
+      enabled: true,
+      targets: [{ segment: "onset", index: 0, manner: ["stop"], voiced: false }],
+      rules: [{ id: "word-initial", when: { wordInitial: true }, probability: 100 }],
+      fallbackProbability: 0,
+    },
+  },
+});
+```
+
 ## Development
 
 ```bash
