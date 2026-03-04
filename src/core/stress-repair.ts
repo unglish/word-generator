@@ -14,7 +14,7 @@ export function repairStressedNuclei(
   nucleusPhonemes: Phoneme[],
   stress: StressRules,
 ): void {
-  const ban = stress.stressedNucleusBan;
+  const ban = stress.nucleus.stressedNucleusBan;
   if (!ban || ban.length === 0) return;
 
   const banSet = new Set(ban);
@@ -38,5 +38,5 @@ export function repairStressedNuclei(
   }
 
   // Future: unstressedNucleusBoost — config is read but no behaviour change yet
-  // const _boost = stress.unstressedNucleusBoost;
+  // const _boost = stress.nucleus.unstressedNucleusBoost;
 }
