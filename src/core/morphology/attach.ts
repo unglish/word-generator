@@ -1,6 +1,6 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
-import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, PhonologicalCondition, defaultFallbackBridgeOnsets } from "../../config/language.js";
-import { generatePronunciation } from "../pronounce.js";
+import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, PhonologicalCondition, defaultFallbackBridgeOnsets, resolveAspirationRules } from "../../config/language.js";
+import { generatePronunciation, PronunciationRuntimeConfig } from "../pronounce.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
 import type { MorphologyPlan } from "./plan.js";
 
@@ -12,8 +12,9 @@ interface GeneratorRuntime {
   config: {
     morphology?: import("../../config/language.js").MorphologyConfig;
     phonemes: Phoneme[];
-    pronunciation: import("../../config/language.js").PronunciationConfig;
+    pronunciation?: import("../../config/language.js").PronunciationConfig;
   };
+  resolvedPronunciation?: PronunciationRuntimeConfig;
 }
 
 function getBoundaryFallbackBridges(rt: GeneratorRuntime): [string, number][] {
@@ -336,7 +337,11 @@ export function applyMorphology(
     adjustStress(context.word.syllables, plan.suffix.stressEffect, suffixIndices, false);
   }
 
-  generatePronunciation(context, config.pronunciation);
+  const pronunciation = rt.resolvedPronunciation ?? {
+    aspiration: resolveAspirationRules(config.pronunciation?.aspiration),
+    vowelReduction: config.pronunciation?.vowelReduction,
+  };
+  generatePronunciation(context, pronunciation);
 
   context.word.written.clean = cleanForm;
 
