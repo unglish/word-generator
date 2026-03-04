@@ -365,7 +365,39 @@ describe("applyAspiration", () => {
       expect(events[0].evaluated).toBe(true);
       expect(events[0].syllableIndex).toBe(0);
       expect(events[0].eligible).toBe(true);
+      expect(events[0].targetSegment).toBe("onset");
+      expect(events[0].targetIndex).toBe(0);
       expect(events[0].targetPhoneme).toBe("p");
+    }
+  });
+
+  it("records target segment/index when non-onset aspiration selectors are used", () => {
+    const c = ctx([
+      {
+        onset: [consonant("k", { placeOfArticulation: "velar" })],
+        nucleus: [vowel("ɑ")],
+        coda: [],
+      },
+    ]);
+    c.trace = new TraceCollector();
+
+    const nucleusAspiration = resolveAspirationRules({
+      enabled: true,
+      targets: [{ segment: "nucleus", index: 0 }],
+      rules: [{ id: "always", when: { wordInitial: true }, probability: 100 }],
+      fallbackProbability: 0,
+    });
+
+    _applyAspiration(c, nucleusAspiration);
+    expect(c.word.syllables[0].nucleus[0].aspirated).toBe(true);
+
+    const events = c.trace.structural.filter((e) => e.event === "aspirationDecision");
+    expect(events.length).toBe(1);
+    expect(events[0].event).toBe("aspirationDecision");
+    if (events[0].event === "aspirationDecision") {
+      expect(events[0].targetSegment).toBe("nucleus");
+      expect(events[0].targetIndex).toBe(0);
+      expect(events[0].targetPhoneme).toBe("ɑ");
     }
   });
 
