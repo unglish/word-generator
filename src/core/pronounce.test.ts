@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { _applyAspiration, _reduceUnstressedVowels } from "./pronounce.js";
 import { generateWord } from "./generate.js";
 import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
-import { AspirationRules, VowelReductionConfig } from "../config/language.js";
+import { resolveAspirationRules, VowelReductionConfig } from "../config/language.js";
 import { createSeededRng } from "../utils/random.js";
 import { TraceCollector } from "./trace.js";
 
@@ -214,17 +214,17 @@ describe("reduceUnstressedVowels", () => {
 });
 
 describe("applyAspiration", () => {
-  const aggressiveAspiration: AspirationRules = {
+  const aggressiveAspiration = resolveAspirationRules({
     enabled: true,
-    probabilities: {
-      postS: 100,
-      wordInitial: 100,
-      stressed: 100,
-      postStressed: 100,
-      default: 100,
-    },
-    precedence: ["postS", "wordInitial", "stressed", "postStressed", "default"],
-  };
+    targets: [{ segment: "onset", index: 0, manner: ["stop"], voiced: false }],
+    rules: [
+      { id: "post-s", when: { previousCodaSounds: ["s"] }, probability: 100 },
+      { id: "word-initial", when: { wordInitial: true }, probability: 100 },
+      { id: "stressed", when: { stressed: true }, probability: 100 },
+      { id: "post-stressed", when: { postStressed: true }, probability: 100 },
+    ],
+    fallbackProbability: 100,
+  });
 
   it("aspirates word-initial voiceless stop onsets", () => {
     const c = ctx([
@@ -287,13 +287,16 @@ describe("applyAspiration", () => {
       },
     ]);
 
-    const postSBlocked: AspirationRules = {
-      ...aggressiveAspiration,
-      probabilities: {
-        ...aggressiveAspiration.probabilities!,
-        postS: 0,
-      },
-    };
+    const postSBlocked = resolveAspirationRules({
+      enabled: true,
+      targets: [{ segment: "onset", index: 0, manner: ["stop"], voiced: false }],
+      rules: [
+        { id: "post-s", when: { previousCodaSounds: ["s"] }, probability: 0 },
+        { id: "word-initial", when: { wordInitial: true }, probability: 100 },
+        { id: "stressed", when: { stressed: true }, probability: 100 },
+      ],
+      fallbackProbability: 100,
+    });
 
     _applyAspiration(c, postSBlocked);
     expect(c.word.syllables[1].onset[0].sound).toBe("t");
@@ -329,14 +332,15 @@ describe("applyAspiration", () => {
       },
     ]);
 
-    const precedenceDriven: AspirationRules = {
+    const precedenceDriven = resolveAspirationRules({
       enabled: true,
-      probabilities: {
-        postS: 0,
-        stressed: 100,
-      },
-      precedence: ["stressed", "postS", "default"],
-    };
+      targets: [{ segment: "onset", index: 0, manner: ["stop"], voiced: false }],
+      rules: [
+        { id: "stressed-priority", when: { stressed: true }, probability: 100 },
+        { id: "post-s", when: { previousCodaSounds: ["s"] }, probability: 0 },
+      ],
+      fallbackProbability: 0,
+    });
 
     _applyAspiration(c, precedenceDriven);
     expect(c.word.syllables[1].onset[0].aspirated).toBe(true);

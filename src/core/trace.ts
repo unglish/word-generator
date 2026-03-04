@@ -1,5 +1,4 @@
 import type { Syllable } from "../types.js";
-import type { AspirationContext } from "../config/language.js";
 
 export interface SyllableSnapshot {
   onset: string[];
@@ -142,7 +141,7 @@ export interface AspirationDecisionEvaluatedTrace {
   event: "aspirationDecision";
   evaluated: true;
   syllableIndex: number;
-  context: AspirationContext;
+  ruleId: string | "fallback";
   probability: number;
   roll: number;
   eligible: true;
@@ -154,7 +153,7 @@ export interface AspirationDecisionSkippedTrace {
   event: "aspirationDecision";
   evaluated: false;
   syllableIndex: number;
-  context: AspirationContext | null;
+  ruleId: string | "fallback" | null;
   probability: number | null;
   roll: number | null;
   eligible: boolean;

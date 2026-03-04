@@ -260,12 +260,12 @@ describe("trace pipeline", () => {
     expect(typeof payload.eligible).toBe("boolean");
     expect(typeof payload.applied).toBe("boolean");
     if (payload.evaluated) {
-      expect(typeof payload.context).toBe("string");
+      expect(typeof payload.ruleId).toBe("string");
       expect(typeof payload.probability).toBe("number");
       expect(typeof payload.roll).toBe("number");
       expect(typeof payload.targetPhoneme).toBe("string");
     } else {
-      expect(payload.context).toBeNull();
+      expect(payload.ruleId).toBeNull();
       expect(payload.probability).toBeNull();
       expect(payload.roll).toBeNull();
     }

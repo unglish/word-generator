@@ -51,7 +51,32 @@ function makeRuntime(
     config: {
       phonemes: phonemeInventory,
       pronunciation: {
-        stress: { strategy: "weight-sensitive" },
+        stress: {
+          primary: {
+            type: "weight-sensitive",
+            disyllabicWeights: [70, 30],
+            polysyllabicWeights: {
+              heavyPenult: 70,
+              lightPenult: 30,
+              antepenultHeavy: 20,
+              antepenultLight: 60,
+              initial: 10,
+            },
+          },
+          secondary: {
+            enabled: true,
+            probability: 40,
+            heavyWeight: 70,
+            lightWeight: 30,
+            candidateWindow: "first-three",
+          },
+          rhythmic: {
+            enabled: true,
+            probability: 40,
+            requireUnstressedNeighbors: true,
+          },
+          nucleus: {},
+        },
         vowelReduction: undefined,
       },
       morphology,
