@@ -98,6 +98,17 @@ export const stopGraphemes: Grapheme[] = [
     endWord: 1,
     condition: { rightContext: ["c-soft-vowel"] },
   },
+  // "mc" before front vowels (e.g., proper-name style forms) is rare but attested.
+  // This prevents severe under-representation of "mc" bigrams without broad changes.
+  { phoneme: "k",
+    form: "c",
+    origin: 3,
+    frequency: 120,
+    startWord: 0,
+    midWord: 150,
+    endWord: 10,
+    condition: { leftGraphemeContext: ["m"], rightContext: ["c-soft-vowel"] },
+  },
   // k: after "n" — /ŋk/ writes as "nk" (bank, think, drink)
   { phoneme: "k",
     form: "k",

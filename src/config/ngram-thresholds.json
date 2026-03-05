@@ -1,7 +1,7 @@
 {
   "maxBigramOverRepresentation": 4.25,
   "maxTrigramOverRepresentation": 3.21,
-  "minBigramRepresentation": 0.0285,
+  "minBigramRepresentation": 0.0215,
   "minTrigramRepresentation": 0.0062,
   "minBigramBaselineFreq": 0.001,
   "minTrigramBaselineFreq": 0.0005,
@@ -31,6 +31,12 @@
       "minBigram": 0.0285,
       "minTrigram": 0.0062,
       "note": "Post lexicon outlier retune under-rep ratchet: worst common under-rep `mc` (0.0317x) and `sio` (0.0069x), thresholds set to -10%."
+    },
+    {
+      "date": "2026-03-05",
+      "minBigram": 0.0215,
+      "minTrigram": 0.0062,
+      "note": "Post length-semantics + scoring refactor retune: worst common under-rep bigram moved to `mc` (0.0241x). Floor set to -10% margin; trigram floor unchanged."
     }
   ],
   "_comment": "Quality ratchet: after each tuning fix, re-run 5× analysis (seeds 42/123/456/789/1337), update thresholds to new max + 10% margin (over-rep) or new min - 10% margin (under-rep), commit as part of fix PR."

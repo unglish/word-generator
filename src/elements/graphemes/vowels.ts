@@ -303,10 +303,10 @@ export const vowelGraphemes: Grapheme[] = [
     phoneme: "u",
     form: "ew",
     origin: 0,
-    frequency: 10,
+    frequency: 7,
     startWord: 1,
-    midWord: 5,
-    endWord: 30,
+    midWord: 4,
+    endWord: 20,
   },
 
   // cup
