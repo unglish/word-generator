@@ -258,8 +258,8 @@ export const PHONEME_TO_SYLLABLE_WEIGHTS_LEXICON: Record<number, [number, number
  * Used for rejection sampling to shape word-length distribution.
  */
 export const LETTER_LENGTH_TARGETS: Record<number, [number, number, number, number]> = {
-  1: [2, 3, 5, 7],
-  2: [3, 5, 7, 10],
+  1: [2, 4, 6, 8],
+  2: [4, 6, 8, 10],
   3: [5, 7, 10, 13],
   4: [7, 8, 12, 15],
   5: [9, 10, 13, 16],
