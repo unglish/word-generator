@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitest/config'
 
 const isCI = process.env.CI === 'true'
+const strictUnhandled = process.env.STRICT_UNHANDLED_ERRORS === '1'
 
 export default defineConfig({
   test: {
@@ -14,8 +15,8 @@ export default defineConfig({
     // Extend timeouts for long-running statistical tests
     testTimeout: isCI ? 120_000 : 60_000,
     teardownTimeout: isCI ? 30_000 : 10_000,
-    // Suppress vitest 3.x worker RPC "onTaskUpdate" timeout flake in CI.
-    // All tests pass; the error is internal to vitest's worker communication.
-    dangerouslyIgnoreUnhandledErrors: isCI,
+    // Suppress vitest 3.x worker RPC "onTaskUpdate" timeout flake.
+    // Enable strict mode with STRICT_UNHANDLED_ERRORS=1 when debugging.
+    dangerouslyIgnoreUnhandledErrors: !strictUnhandled,
   },
 })
