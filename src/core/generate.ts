@@ -13,6 +13,7 @@ import {
   computePhonemeTargetBounds,
   derivePhonemeTargets,
   getPlannedMorphologyPhonemeDelta,
+  scoreGenerationAttempt,
   resolveMorphologyPhonemeDelta,
 } from "./length-semantics.js";
 import { TraceCollector } from "./trace.js";
@@ -1132,29 +1133,6 @@ function countPhonemes(syllables: Syllable[]): number {
 }
 
 /**
- * Check whether a word's letter length passes rejection sampling
- * based on the syllable-count letter-length targets.
- *
- * - Within [peakMin, peakMax] → always accept
- * - Within [min, max] but outside peak → accept with 50% probability
- * - Outside [min, max] → always reject
- */
-function acceptLetterLength(rt: GeneratorRuntime, context: WordGenerationContext): boolean {
-  const targets = rt.config.syllableStructure.letterLengthTargets;
-  if (!targets) return true;
-
-  const bounds = targets[context.syllableCount];
-  if (!bounds) return true;
-
-  const [min, peakMin, peakMax, max] = bounds;
-  const len = context.word.written.clean.length;
-
-  if (len >= peakMin && len <= peakMax) return true;
-  if (len >= min && len <= max) return context.rand() < 0.5;
-  return false;
-}
-
-/**
  * Generate a single word with letter-length rejection sampling.
  *
  * Builds a fresh context on each attempt. After {@link MAX_LENGTH_RETRIES}
@@ -1191,6 +1169,11 @@ function generateOneWord(
   let lastContext: WordGenerationContext | undefined;
   let lastTraceCollector: TraceCollector | undefined;
   let lastMorphApplied = false;
+  let bestContext: WordGenerationContext | undefined;
+  let bestTraceCollector: TraceCollector | undefined;
+  let bestMorphApplied = false;
+  let bestAttempt = 0;
+  let bestScore = Infinity;
 
   // Adjust syllable count for affix syllables.
   let rootSyllableCount = syllableCount;
@@ -1265,18 +1248,36 @@ function generateOneWord(
     }
     const finalPhonemeCount = countPhonemes(context.word.syllables);
     const morphologyDelta = resolveMorphologyPhonemeDelta(rootPhonemeCount, finalPhonemeCount, plannedMorphologyDelta);
-    const rootTargetMatched = rootPhonemeCount === targetPhonemeCountRoot;
-    const finalTargetMatched = finalPhonemeCount === targetPhonemeCountFinal;
-    const phonemeTargetMatched = morphApplied
-      ? finalTargetMatched && (morphologyDelta.resolved !== undefined)
-      : rootTargetMatched;
+    const targetPhonemeCount = morphApplied ? targetPhonemeCountFinal : targetPhonemeCountRoot;
+    const generatedPhonemeCount = morphApplied ? finalPhonemeCount : rootPhonemeCount;
+    const attemptScore = scoreGenerationAttempt(
+      generatedPhonemeCount,
+      targetPhonemeCount,
+      context.word.written.clean.length,
+      context.word.syllables.length,
+      rt.config.syllableStructure.letterLengthTargets,
+    );
 
     lastContext = context;
     lastTraceCollector = traceCollector;
     lastMorphApplied = morphApplied;
 
-    const letterAccepted = attempt >= MAX_LENGTH_RETRIES || acceptLetterLength(rt, context);
-    if (phonemeTargetMatched && letterAccepted) {
+    if (attemptScore.total < bestScore) {
+      bestScore = attemptScore.total;
+      bestContext = context;
+      bestTraceCollector = traceCollector;
+      bestMorphApplied = morphApplied;
+      bestAttempt = attempt;
+    }
+
+    const perfectMatch = attemptScore.phonemeDistance === 0 && attemptScore.letterPenalty === 0;
+    const goodEnoughAfterWarmup =
+      attempt >= MAX_LENGTH_RETRIES &&
+      attemptScore.phonemeDistance === 0 &&
+      attemptScore.letterPenalty <= 0.5 &&
+      morphologyDelta.resolved !== undefined;
+
+    if (perfectMatch || goodEnoughAfterWarmup) {
       if (traceCollector) {
         traceCollector.syllableCount = context.syllableCount;
         traceCollector.attempts = attempt;
@@ -1286,15 +1287,19 @@ function generateOneWord(
     }
   }
 
-  if (!lastContext) {
+  if (!bestContext && !lastContext) {
     throw new Error("Failed to generate word");
   }
-  if (lastTraceCollector) {
-    lastTraceCollector.syllableCount = lastContext.syllableCount;
-    lastTraceCollector.attempts = maxAttempts;
-    lastContext.word.trace = lastTraceCollector.toTrace(lastMorphApplied);
+  const fallbackContext = bestContext ?? lastContext!;
+  const fallbackTraceCollector = bestTraceCollector ?? lastTraceCollector;
+  const fallbackMorphApplied = bestContext ? bestMorphApplied : lastMorphApplied;
+  const fallbackAttempts = bestContext ? bestAttempt : maxAttempts;
+  if (fallbackTraceCollector) {
+    fallbackTraceCollector.syllableCount = fallbackContext.syllableCount;
+    fallbackTraceCollector.attempts = fallbackAttempts;
+    fallbackContext.word.trace = fallbackTraceCollector.toTrace(fallbackMorphApplied);
   }
-  return lastContext.word;
+  return fallbackContext.word;
 }
 
 /**
