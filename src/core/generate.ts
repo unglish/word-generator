@@ -8,7 +8,13 @@ import { createWrittenFormGenerator, repairConsonantLetters } from "./write.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
-import { planMorphology, applyMorphology, type MorphologyPlan } from "./morphology/index.js";
+import { planMorphology, applyMorphology } from "./morphology/index.js";
+import {
+  computePhonemeTargetBounds,
+  derivePhonemeTargets,
+  getPlannedMorphologyPhonemeDelta,
+  resolveMorphologyPhonemeDelta,
+} from "./length-semantics.js";
 import { TraceCollector } from "./trace.js";
 
 // ---------------------------------------------------------------------------
@@ -1125,17 +1131,6 @@ function countPhonemes(syllables: Syllable[]): number {
   return total;
 }
 
-function countPlannedAffixPhonemes(plan?: MorphologyPlan): number {
-  if (!plan) return 0;
-  return (plan.prefix?.phonemes.length ?? 0) + (plan.suffix?.phonemes.length ?? 0);
-}
-
-function maxPhonemesForSyllableCount(rt: GeneratorRuntime, syllableCount: number): number {
-  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
-  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
-  return syllableCount + syllableCount * (maxOnset + maxCoda) + 1;
-}
-
 /**
  * Check whether a word's letter length passes rejection sampling
  * based on the syllable-count letter-length targets.
@@ -1205,16 +1200,15 @@ function generateOneWord(
 
   const forcedFinalSyllableCount = syllableCount > 0 ? syllableCount : undefined;
   const forcedRootSyllableCount = rootSyllableCount > 0 ? rootSyllableCount : undefined;
-  const plannedAffixPhonemes = countPlannedAffixPhonemes(morphPlan?.plan);
-  const minRootPhonemes = forcedRootSyllableCount ?? 1;
-  const maxRootPhonemes = forcedRootSyllableCount ? maxPhonemesForSyllableCount(rt, forcedRootSyllableCount) : Infinity;
+  const plannedMorphologyDelta = getPlannedMorphologyPhonemeDelta(morphPlan?.plan);
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  const bounds = computePhonemeTargetBounds(forcedRootSyllableCount, maxOnset, maxCoda);
   const sampledFinalTarget = sampleTargetPhonemeCount(rt, mode, rand, forcedFinalSyllableCount);
-  const minFinalTarget = minRootPhonemes + plannedAffixPhonemes;
-  const maxFinalTarget = Number.isFinite(maxRootPhonemes) ? maxRootPhonemes + plannedAffixPhonemes : Infinity;
-  const targetPhonemeCountFinal = Math.max(minFinalTarget, Math.min(sampledFinalTarget, maxFinalTarget));
-  const targetPhonemeCountRoot = Math.max(
-    minRootPhonemes,
-    Math.min(targetPhonemeCountFinal - plannedAffixPhonemes, maxRootPhonemes),
+  const { finalTarget: targetPhonemeCountFinal, rootTarget: targetPhonemeCountRoot } = derivePhonemeTargets(
+    sampledFinalTarget,
+    plannedMorphologyDelta.planned,
+    bounds,
   );
   const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCountRoot, rand, forcedRootSyllableCount);
 
@@ -1270,9 +1264,12 @@ function generateOneWord(
       }
     }
     const finalPhonemeCount = countPhonemes(context.word.syllables);
+    const morphologyDelta = resolveMorphologyPhonemeDelta(rootPhonemeCount, finalPhonemeCount, plannedMorphologyDelta);
     const rootTargetMatched = rootPhonemeCount === targetPhonemeCountRoot;
     const finalTargetMatched = finalPhonemeCount === targetPhonemeCountFinal;
-    const phonemeTargetMatched = morphApplied ? finalTargetMatched : rootTargetMatched;
+    const phonemeTargetMatched = morphApplied
+      ? finalTargetMatched && (morphologyDelta.resolved !== undefined)
+      : rootTargetMatched;
 
     lastContext = context;
     lastTraceCollector = traceCollector;
