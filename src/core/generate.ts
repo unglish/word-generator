@@ -22,6 +22,8 @@ interface GeneratorRuntime {
   sonorityLevels: Map<Phoneme, number>;
   /** Sonority level by phoneme sound string (for quick lookup). */
   sonorityBySound: Map<string, number>;
+  /** Phoneme by sound string (avoids repeated config.phonemes.find). */
+  phonemeBySound: Map<string, Phoneme>;
   positionPhonemes: { onset: Phoneme[]; coda: Phoneme[]; nucleus: Phoneme[] };
   invalidClusterRegexes: {
     onset: RegExp | null;
@@ -117,6 +119,11 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     sonorityBySound.set(phoneme.sound, level);
   }
 
+  const phonemeBySound = new Map<string, Phoneme>();
+  for (const p of config.phonemes) {
+    phonemeBySound.set(p.sound, p);
+  }
+
   const cl = config.clusterLimits;
   const sc = config.sonorityConstraints;
 
@@ -152,7 +159,15 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     : undefined;
 
   return {
-    config, resolvedStress, resolvedPronunciation, sonorityLevels, sonorityBySound, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
+    config,
+    resolvedStress,
+    resolvedPronunciation,
+    sonorityLevels,
+    sonorityBySound,
+    phonemeBySound,
+    positionPhonemes,
+    invalidClusterRegexes,
+    generateWrittenForm,
     bannedSet,
     clusterRepair: config.clusterConstraint?.repair,
     allowedFinalSet: config.codaConstraints?.allowedFinal
@@ -287,16 +302,16 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
   // instead of the general sonority/regex checks
   if (context.position === "onset" && rt.attestedOnsetSet && context.cluster.length > 0) {
     const key = [...context.cluster.map(ph => ph.sound), p.sound].join("|");
-    // Must be an exact attested onset or a prefix of one
+    // Must be an exact attested onset or a prefix of one (extendable)
     if (rt.attestedOnsetSet.has(key)) return true;
-    return Array.from(rt.attestedOnsetSet).some(a => a.startsWith(key + "|"));
+    return rt.attestedOnsetPrefixSet!.has(key);
   }
 
   // When attested coda whitelist exists, use it as the primary gate for codas
   if (context.position === "coda" && rt.attestedCodaSet && context.cluster.length > 0) {
     const key = [...context.cluster.map(ph => ph.sound), p.sound].join("|");
     if (rt.attestedCodaSet.has(key)) return true;
-    return Array.from(rt.attestedCodaSet).some(a => a.startsWith(key + "|"));
+    return rt.attestedCodaPrefixSet!.has(key);
   }
 
   // Fallback: standard sonority and regex checks
@@ -450,9 +465,8 @@ function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime):
   if (position === "onset" && rt.attestedOnsetSet && cluster.length >= 2) {
     const key = cluster.map(ph => ph.sound).join("|");
     if (rt.attestedOnsetSet.has(key)) {
-      // Check if any longer attested onset extends this
-      const hasLonger = Array.from(rt.attestedOnsetSet).some(a => a.startsWith(key + "|"));
-      if (!hasLonger) return true;
+      // Key in prefix set means a longer attested onset extends this
+      if (!rt.attestedOnsetPrefixSet!.has(key)) return true;
     }
   }
 
@@ -461,8 +475,7 @@ function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime):
   if (position === "coda" && rt.attestedCodaSet && cluster.length >= 2) {
     const key = cluster.map(ph => ph.sound).join("|");
     if (rt.attestedCodaSet.has(key)) {
-      const hasLonger = Array.from(rt.attestedCodaSet).some(a => a.startsWith(key + "|"));
-      if (!hasLonger) return true;
+      if (!rt.attestedCodaPrefixSet!.has(key)) return true;
     }
   }
 
@@ -575,7 +588,7 @@ function pickCoda(
     const nasalSound = coda[0].sound;
     const stopSound = nasalSound === "n" ? "d" : nasalSound === "m" ? "b" : nasalSound === "ŋ" ? "g" : null;
     if (stopSound) {
-      const stopPhoneme = rt.config.phonemes.find(p => p.sound === stopSound);
+      const stopPhoneme = rt.phonemeBySound.get(stopSound);
       if (stopPhoneme) {
         coda.push(stopPhoneme);
         context.trace?.recordStructural({
@@ -607,7 +620,7 @@ function pickCoda(
     }
     
     if (!shouldSkipFinalS && getWeightedOption([[true, finalSProbability], [false, 100 - finalSProbability]], rand)) {
-      const sPhoneme = rt.config.phonemes.find(p => p.sound === "s");
+      const sPhoneme = rt.phonemeBySound.get("s");
       if (sPhoneme) {
         coda.push(sPhoneme);
         const clusterWeightApplied = finalSProbability !== probability.finalS;
@@ -1051,7 +1064,7 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
  */
 function repairVowelHiatus(rt: GeneratorRuntime, syllables: Syllable[], rand: RNG, trace?: TraceCollector): void {
   const bridgeOptions: [Phoneme, number][] = getRootFallbackBridges(rt)
-    .map(([sound, weight]) => [rt.config.phonemes.find(p => p.sound === sound), weight] as const)
+    .map(([sound, weight]) => [rt.phonemeBySound.get(sound), weight] as const)
     .filter(([p, weight]) => !!p && weight > 0)
     .map(([p, weight]) => [p!, weight]);
   if (bridgeOptions.length === 0) return;
