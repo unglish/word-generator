@@ -17,7 +17,9 @@ onmessage = function(e) {
     let tracedWords = 0;
     for (let i = 0; i < count; i++) {
       const shouldTrace = diagnosticsEnabled && (i % traceStride === 0);
-      const options = { mode: 'lexicon' };
+      // CMU baselines are dictionary surface-word stats; keep stats generation
+      // explicitly in lexicon+affix mode so behavior does not drift with API defaults.
+      const options = { mode: 'lexicon', morphology: true };
       if (seedStart !== null) options.seed = seedStart + i;
       if (shouldTrace) options.trace = true;
       const w = self.unglish.generateWord(options);

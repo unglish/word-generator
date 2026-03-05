@@ -8,7 +8,7 @@ import { createWrittenFormGenerator, repairConsonantLetters } from "./write.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
-import { planMorphology, applyMorphology } from "./morphology/index.js";
+import { planMorphology, applyMorphology, type MorphologyPlan } from "./morphology/index.js";
 import { TraceCollector } from "./trace.js";
 
 // ---------------------------------------------------------------------------
@@ -1125,6 +1125,17 @@ function countPhonemes(syllables: Syllable[]): number {
   return total;
 }
 
+function countPlannedAffixPhonemes(plan?: MorphologyPlan): number {
+  if (!plan) return 0;
+  return (plan.prefix?.phonemes.length ?? 0) + (plan.suffix?.phonemes.length ?? 0);
+}
+
+function maxPhonemesForSyllableCount(rt: GeneratorRuntime, syllableCount: number): number {
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  return syllableCount + syllableCount * (maxOnset + maxCoda) + 1;
+}
+
 /**
  * Check whether a word's letter length passes rejection sampling
  * based on the syllable-count letter-length targets.
@@ -1192,12 +1203,23 @@ function generateOneWord(
     rootSyllableCount = Math.max(1, rootSyllableCount - morphPlan.syllableReduction);
   }
 
+  const forcedFinalSyllableCount = syllableCount > 0 ? syllableCount : undefined;
   const forcedRootSyllableCount = rootSyllableCount > 0 ? rootSyllableCount : undefined;
-  const targetPhonemeCount = sampleTargetPhonemeCount(rt, mode, rand, forcedRootSyllableCount);
-  const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCount, rand, forcedRootSyllableCount);
+  const plannedAffixPhonemes = countPlannedAffixPhonemes(morphPlan?.plan);
+  const minRootPhonemes = forcedRootSyllableCount ?? 1;
+  const maxRootPhonemes = forcedRootSyllableCount ? maxPhonemesForSyllableCount(rt, forcedRootSyllableCount) : Infinity;
+  const sampledFinalTarget = sampleTargetPhonemeCount(rt, mode, rand, forcedFinalSyllableCount);
+  const minFinalTarget = minRootPhonemes + plannedAffixPhonemes;
+  const maxFinalTarget = Number.isFinite(maxRootPhonemes) ? maxRootPhonemes + plannedAffixPhonemes : Infinity;
+  const targetPhonemeCountFinal = Math.max(minFinalTarget, Math.min(sampledFinalTarget, maxFinalTarget));
+  const targetPhonemeCountRoot = Math.max(
+    minRootPhonemes,
+    Math.min(targetPhonemeCountFinal - plannedAffixPhonemes, maxRootPhonemes),
+  );
+  const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCountRoot, rand, forcedRootSyllableCount);
 
   for (let attempt = 0; attempt <= maxAttempts; attempt++) {
-    const syllablePlans = distributePhonemes(rt, targetPhonemeCount, sampledSyllableCount, rand);
+    const syllablePlans = distributePhonemes(rt, targetPhonemeCountRoot, sampledSyllableCount, rand);
 
     const traceCollector = enableTrace ? new TraceCollector() : undefined;
     if (traceCollector && morphPlan) {
@@ -1217,14 +1239,13 @@ function generateOneWord(
       },
       syllableCount: sampledSyllableCount,
       currSyllableIndex: 0,
-      targetPhonemeCount,
+      targetPhonemeCount: targetPhonemeCountRoot,
       syllablePlans,
       trace: traceCollector,
     };
     runPipeline(rt, context, mode);
 
     const rootPhonemeCount = countPhonemes(context.word.syllables);
-    const phonemeTargetMatched = rootPhonemeCount === targetPhonemeCount;
 
     // Apply morphology after pipeline produces the bare root
     const morphApplied = !!morphPlan;
@@ -1248,6 +1269,10 @@ function generateOneWord(
         context.word.written.hyphenated = hyphParts.join("");
       }
     }
+    const finalPhonemeCount = countPhonemes(context.word.syllables);
+    const rootTargetMatched = rootPhonemeCount === targetPhonemeCountRoot;
+    const finalTargetMatched = finalPhonemeCount === targetPhonemeCountFinal;
+    const phonemeTargetMatched = morphApplied ? finalTargetMatched : rootTargetMatched;
 
     lastContext = context;
     lastTraceCollector = traceCollector;
