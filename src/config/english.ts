@@ -544,7 +544,36 @@ export const englishConfig: LanguageConfig = {
       { type: 'suffix', written: 'ous', phonemes: ["ə", "s"], syllables: [{ onset: [], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 14, boundaryTransforms: BT_E },
       { type: 'suffix', written: 'ive', phonemes: ["ɪ", "v"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["v"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 12, boundaryTransforms: BT_E },
       { type: 'suffix', written: 'al', phonemes: ["ə", "l"], syllables: [{ onset: [], nucleus: ["ə"], coda: ["l"] }], syllableCount: 1, stressEffect: 'attract-preceding', frequency: 46, boundaryTransforms: BT_E },
-      { type: 'suffix', written: 'ity', phonemes: ["ɪ", "t", "i:"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: [] }, { onset: ["t"], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: 'attract-preceding', frequency: 18, boundaryTransforms: BT_E },
+      {
+        type: 'suffix',
+        written: 'ity',
+        phonemes: ["ɪ", "t", "i:"],
+        syllables: [{ onset: [], nucleus: ["ɪ"], coda: [] }, { onset: ["t"], nucleus: ["i:"], coda: [] }],
+        syllableCount: 2,
+        stressEffect: 'attract-preceding',
+        frequency: 18,
+        boundaryTransforms: BT_E,
+        // electric → electricity style softening and divine → divinity style flattening.
+        morphophonemicRules: [
+          {
+            name: "ity-velar-softening",
+            priority: 10,
+            phonologicalCondition: { position: "preceding", manner: ["stop"], place: ["velar"] },
+            replaceSound: "s",
+            writtenMatch: /(c|k|ck)$/i,
+            writtenReplace: "s",
+          },
+          {
+            name: "ity-diphthong-flattening",
+            target: "nucleus",
+            priority: 20,
+            phonologicalCondition: { position: "preceding", sounds: ["aɪ"] },
+            replaceSound: "ɪ",
+            writtenMatch: /ine$/i,
+            writtenReplace: "in",
+          },
+        ],
+      },
       {
         type: 'suffix', written: 's', phonemes: ["z"], syllables: [], syllableCount: 0, stressEffect: 'none', frequency: 190,
         allomorphs: [
