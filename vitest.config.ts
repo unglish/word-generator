@@ -5,6 +5,8 @@ const strictUnhandled = process.env.STRICT_UNHANDLED_ERRORS === '1'
 
 export default defineConfig({
   test: {
+    // Avoid intermittent birpc timeout flake ("onTaskUpdate") seen in forks pool.
+    pool: 'threads',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['src/**/quality.test.ts', 'src/**/*.perf.test.ts', '**/node_modules/**'],
     environment: 'node',
