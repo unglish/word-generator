@@ -1,49 +1,120 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import type { RNG } from "../utils/random.js";
 import {
-  AspirationContext,
-  AspirationRules,
-  PronunciationConfig,
-  StressRules,
+  AspirationPredicate,
+  AspirationTargetSelector,
+  ResolvedAspirationRules,
+  ResolvedStressRules,
+  SyllableIndexClass,
   VowelReductionConfig,
-  resolveAspirationRules,
 } from "../config/language.js";
 import { phonemes } from "../elements/phonemes.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { otEvaluate } from "./ot-stress.js";
-import type { AspirationDecisionTrace } from "./trace.js";
+import type { AspirationDecisionTrace, AspirationTargetSegment } from "./trace.js";
+
+export interface PronunciationRuntimeConfig {
+  aspiration: ResolvedAspirationRules;
+  vowelReduction?: VowelReductionConfig;
+}
+
+interface AspirationTargetMatch {
+  segment: AspirationTargetSegment;
+  index: number;
+  phoneme: Phoneme;
+}
 
 const applyAspirationMarker = (phoneme: Phoneme): Phoneme => {
   if (phoneme.aspirated) return phoneme;
   return { ...phoneme, aspirated: true };
 };
 
-const isAspiratableOnset = (phoneme: Phoneme | undefined): phoneme is Phoneme =>
-  !!phoneme && !phoneme.voiced && phoneme.mannerOfArticulation === "stop";
+const getSyllableSegment = (
+  syllable: Syllable,
+  segment: AspirationTargetSegment,
+): Phoneme[] => {
+  if (segment === "onset") return syllable.onset;
+  if (segment === "nucleus") return syllable.nucleus;
+  return syllable.coda;
+};
 
-const resolveAspirationDecision = (
-  position: number,
+const matchesAspirationTarget = (
+  phoneme: Phoneme,
+  selector: AspirationTargetSelector,
+): boolean => {
+  if (selector.sounds && !selector.sounds.includes(phoneme.sound)) return false;
+  if (selector.manner && !selector.manner.includes(phoneme.mannerOfArticulation)) return false;
+  if (selector.place && !selector.place.includes(phoneme.placeOfArticulation)) return false;
+  if (selector.voiced !== undefined && selector.voiced !== phoneme.voiced) return false;
+  return true;
+};
+
+const findAspirationTarget = (
+  syllable: Syllable,
+  selectors: AspirationTargetSelector[],
+): AspirationTargetMatch | undefined => {
+  for (const selector of selectors) {
+    const segment = getSyllableSegment(syllable, selector.segment);
+    const index = selector.index ?? 0;
+    const phoneme = segment[index];
+    if (!phoneme) continue;
+    if (!matchesAspirationTarget(phoneme, selector)) continue;
+    return { segment: selector.segment, index, phoneme };
+  }
+  return undefined;
+};
+
+const classifySyllableIndex = (index: number, syllableCount: number): SyllableIndexClass => {
+  if (index === 0) return "initial";
+  if (index === syllableCount - 1) return "final";
+  return "medial";
+};
+
+const matchesAspirationPredicate = (
+  predicate: AspirationPredicate,
+  syllableIndex: number,
   context: WordGenerationContext,
-  rules: ReturnType<typeof resolveAspirationRules>,
-): { context: AspirationContext; probability: number } => {
-  const { word } = context;
-  const syllable = word.syllables[position];
-  const prevSyllable = position > 0 ? word.syllables[position - 1] : undefined;
+): boolean => {
+  const syllables = context.word.syllables;
+  const syllable = syllables[syllableIndex];
+  const previous = syllableIndex > 0 ? syllables[syllableIndex - 1] : undefined;
 
-  const matches: Record<AspirationContext, boolean> = {
-    wordInitial: position === 0,
-    postS: prevSyllable?.coda.at(-1)?.sound === "s",
-    stressed: !!syllable.stress,
-    postStressed: !!prevSyllable?.stress,
-    default: true,
-  };
-
-  for (const candidate of rules.precedence) {
-    if (matches[candidate]) {
-      return { context: candidate, probability: rules.probabilities[candidate] };
+  if (predicate.wordInitial !== undefined && predicate.wordInitial !== (syllableIndex === 0)) {
+    return false;
+  }
+  if (predicate.stressed !== undefined && predicate.stressed !== Boolean(syllable.stress)) {
+    return false;
+  }
+  if (predicate.postStressed !== undefined && predicate.postStressed !== Boolean(previous?.stress)) {
+    return false;
+  }
+  if (
+    predicate.syllableIndexClass !== undefined
+    && predicate.syllableIndexClass !== classifySyllableIndex(syllableIndex, syllables.length)
+  ) {
+    return false;
+  }
+  if (predicate.previousCodaSounds) {
+    const previousCoda = previous?.coda.at(-1)?.sound;
+    if (!previousCoda || !predicate.previousCodaSounds.includes(previousCoda)) {
+      return false;
     }
   }
-  return { context: "default", probability: rules.probabilities.default };
+
+  return true;
+};
+
+const resolveAspirationDecision = (
+  syllableIndex: number,
+  context: WordGenerationContext,
+  rules: ResolvedAspirationRules,
+): { ruleId: string | "fallback"; probability: number } => {
+  for (const rule of rules.rules) {
+    if (matchesAspirationPredicate(rule.when, syllableIndex, context)) {
+      return { ruleId: rule.id, probability: rule.probability };
+    }
+  }
+  return { ruleId: "fallback", probability: rules.fallbackProbability };
 };
 
 const recordAspirationDecision = (
@@ -54,28 +125,31 @@ const recordAspirationDecision = (
   context.trace.recordStructural(payload);
 };
 
-const applyAspiration = (context: WordGenerationContext, aspiration?: AspirationRules): void => {
-  const rules = resolveAspirationRules(aspiration);
+const applyAspiration = (context: WordGenerationContext, rules: ResolvedAspirationRules): void => {
   const syllables = context.word.syllables;
 
   // Keep hot path lean when tracing is disabled and aspiration is disabled.
   if (!context.trace && !rules.enabled) return;
 
   for (let i = 0; i < syllables.length; i++) {
-    const onset = syllables[i].onset[0];
-    const targetPhoneme = onset?.sound ?? null;
-    const eligible = isAspiratableOnset(onset);
+    const target = findAspirationTarget(syllables[i], rules.targets);
+    const targetSegment = target?.segment ?? null;
+    const targetIndex = target?.index ?? null;
+    const targetPhoneme = target?.phoneme.sound ?? null;
+    const eligible = !!target;
 
-    if (!rules.enabled || !eligible) {
+    if (!rules.enabled || !target) {
       recordAspirationDecision(context, {
         event: "aspirationDecision",
         evaluated: false,
         syllableIndex: i,
-        context: null,
+        ruleId: null,
         probability: null,
         roll: null,
         eligible,
         applied: false,
+        targetSegment,
+        targetIndex,
         targetPhoneme,
       });
       continue;
@@ -86,19 +160,22 @@ const applyAspiration = (context: WordGenerationContext, aspiration?: Aspiration
     const applied = roll < decision.probability;
 
     if (applied) {
-      syllables[i].onset[0] = applyAspirationMarker(onset);
+      const segment = getSyllableSegment(syllables[i], target.segment);
+      segment[target.index] = applyAspirationMarker(target.phoneme);
     }
 
     recordAspirationDecision(context, {
       event: "aspirationDecision",
       evaluated: true,
       syllableIndex: i,
-      context: decision.context,
+      ruleId: decision.ruleId,
       probability: decision.probability,
       roll: Number(roll.toFixed(5)),
       eligible: true,
       applied,
-      targetPhoneme: onset.sound,
+      targetSegment: target.segment,
+      targetIndex: target.index,
+      targetPhoneme: target.phoneme.sound,
     });
   }
 };
@@ -106,7 +183,7 @@ const applyAspiration = (context: WordGenerationContext, aspiration?: Aspiration
 /** @internal exported for testing */
 export const _applyAspiration = applyAspiration;
 
-export const applyStress = (context: WordGenerationContext, stress: StressRules): void => {
+export const applyStress = (context: WordGenerationContext, stress: ResolvedStressRules): void => {
   const { rand } = context;
   // Rule 1: Primary stress
   applyPrimaryStress(context, rand, stress);
@@ -118,81 +195,128 @@ export const applyStress = (context: WordGenerationContext, stress: StressRules)
   applyRhythmicStress(context, rand, stress);
 };
 
-const applyPrimaryStress = (context: WordGenerationContext, rand: RNG, stress: StressRules): void => {
-  const { word } = context;
-  const syllables = word.syllables;
+const chooseWeightSensitivePrimaryStress = (
+  syllables: Syllable[],
+  rand: RNG,
+  disyllabicWeights: [number, number],
+  polysyllabicWeights: {
+    heavyPenult: number;
+    lightPenult: number;
+    antepenultHeavy: number;
+    antepenultLight: number;
+    initial: number;
+  },
+): number => {
+  if (syllables.length === 2) {
+    return getWeightedOption([[0, disyllabicWeights[0]], [1, disyllabicWeights[1]]], rand);
+  }
+
+  const penultimateIndex = syllables.length - 2;
+  const antepenultIndex = Math.max(0, syllables.length - 3);
+  const penultimateHeavy = isHeavySyllable(syllables[penultimateIndex]);
+
+  const penultWeight = penultimateHeavy
+    ? polysyllabicWeights.heavyPenult
+    : polysyllabicWeights.lightPenult;
+  const antepenultWeight = penultimateHeavy
+    ? polysyllabicWeights.antepenultHeavy
+    : polysyllabicWeights.antepenultLight;
+
+  return getWeightedOption([
+    [penultimateIndex, penultWeight],
+    [antepenultIndex, antepenultWeight],
+    [0, polysyllabicWeights.initial],
+  ], rand);
+};
+
+const applyPrimaryStress = (context: WordGenerationContext, rand: RNG, stress: ResolvedStressRules): void => {
+  const syllables = context.word.syllables;
   const syllableCount = syllables.length;
 
-  if (syllableCount === 1) {
+  if (syllableCount <= 1) {
     // Monosyllabic words don't need stress marking
     return;
   }
 
-  let primaryStressIndex: number;
+  let primaryStressIndex = 0;
 
-  if (stress.strategy === "ot" && stress.otConfig) {
-    // Harmonic OT evaluation
-    primaryStressIndex = otEvaluate(syllables, stress.otConfig, rand);
-  } else {
-    // Legacy weight-sensitive strategy
-    const disyllabic = stress.disyllabicWeights ?? [70, 30];
-    const poly = stress.polysyllabicWeights;
-
-    if (syllableCount === 2) {
-      primaryStressIndex = getWeightedOption([[0, disyllabic[0]], [1, disyllabic[1]]], rand);
-    } else {
-      const penultimateHeavy = isHeavySyllable(syllables[syllableCount - 2]);
-      const penultWeight = penultimateHeavy
-        ? (poly?.heavyPenult ?? 70)
-        : (poly?.lightPenult ?? 30);
-      const antepenultWeight = penultimateHeavy
-        ? (poly?.antepenultHeavy ?? 20)
-        : (poly?.antepenultLight ?? 60);
-      const initialWeight = poly?.initial ?? 10;
-      primaryStressIndex = getWeightedOption([
-        [syllableCount - 2, penultWeight],
-        [syllableCount - 3, antepenultWeight],
-        [0, initialWeight],
-      ], rand);
+  switch (stress.primary.type) {
+    case "fixed": {
+      primaryStressIndex = Math.max(0, Math.min(syllableCount - 1, stress.primary.fixedPosition));
+      break;
+    }
+    case "initial": {
+      primaryStressIndex = 0;
+      break;
+    }
+    case "penultimate": {
+      primaryStressIndex = Math.max(0, syllableCount - 2);
+      break;
+    }
+    case "weight-sensitive": {
+      primaryStressIndex = chooseWeightSensitivePrimaryStress(
+        syllables,
+        rand,
+        stress.primary.disyllabicWeights,
+        stress.primary.polysyllabicWeights,
+      );
+      break;
+    }
+    case "ot": {
+      primaryStressIndex = otEvaluate(syllables, stress.primary.otConfig, rand);
+      break;
     }
   }
 
   syllables[primaryStressIndex].stress = "ˈ";
 };
 
-const applySecondaryStress = (context: WordGenerationContext, rand: RNG, stress: StressRules): void => {
-  const { word } = context;
-  const syllables = word.syllables;
+const applySecondaryStress = (context: WordGenerationContext, rand: RNG, stress: ResolvedStressRules): void => {
+  const syllables = context.word.syllables;
   const syllableCount = syllables.length;
 
-  if (syllableCount === 1) return;
+  if (syllableCount <= 1 || !stress.secondary.enabled) return;
 
-  const heavyW = stress.secondaryStressHeavyWeight ?? 70;
-  const lightW = stress.secondaryStressLightWeight ?? 30;
-  const prob = stress.secondaryStressProbability ?? 40;
+  const primaryStressIndex = syllables.findIndex((s) => s.stress === "ˈ");
+  if (primaryStressIndex < 0) return;
 
-  const primaryStressIndex = syllables.findIndex(s => s.stress === "ˈ");
-  const potentialIndices = [0, 1, 2].filter(i => i !== primaryStressIndex && i <= syllableCount - 1);
+  const potentialIndices = (
+    stress.secondary.candidateWindow === "all-nonprimary"
+      ? Array.from({ length: syllableCount }, (_, i) => i)
+      : [0, 1, 2].filter((i) => i < syllableCount)
+  ).filter((i) => i !== primaryStressIndex);
+
+  if (potentialIndices.length === 0) return;
+
   const secondaryStressIndex = getWeightedOption(
-    potentialIndices.map(i => [i, isHeavySyllable(syllables[i]) ? heavyW : lightW]),
+    potentialIndices.map((i) => [
+      i,
+      isHeavySyllable(syllables[i])
+        ? stress.secondary.heavyWeight
+        : stress.secondary.lightWeight,
+    ]),
     rand,
   );
 
-  if (getWeightedOption([[true, prob], [false, 100 - prob]], rand)) {
+  if (getWeightedOption([[true, stress.secondary.probability], [false, 100 - stress.secondary.probability]], rand)) {
     syllables[secondaryStressIndex].stress = "ˌ";
   }
 };
 
-const applyRhythmicStress = (context: WordGenerationContext, rand: RNG, stress: StressRules): void => {
-  const { word } = context;
-  const syllables = word.syllables;
-  const prob = stress.rhythmicStressProbability ?? 40;
+const applyRhythmicStress = (context: WordGenerationContext, rand: RNG, stress: ResolvedStressRules): void => {
+  const syllables = context.word.syllables;
+  if (!stress.rhythmic.enabled) return;
 
   for (let i = 1; i < syllables.length - 1; i++) {
-    if (!syllables[i - 1].stress && !syllables[i].stress && !syllables[i + 1].stress) {
-      if (getWeightedOption([[true, prob], [false, 100 - prob]], rand)) {
-        syllables[i].stress = "ˌ";
-      }
+    if (syllables[i].stress) continue;
+
+    const hasUnstressedNeighbors = !syllables[i - 1].stress && !syllables[i + 1].stress;
+    if (stress.rhythmic.requireUnstressedNeighbors && !hasUnstressedNeighbors) {
+      continue;
+    }
+
+    if (getWeightedOption([[true, stress.rhythmic.probability], [false, 100 - stress.rhythmic.probability]], rand)) {
+      syllables[i].stress = "ˌ";
     }
   }
 };
@@ -315,7 +439,7 @@ export const _reduceUnstressedVowels = reduceUnstressedVowels;
 
 export const generatePronunciation = (
   context: WordGenerationContext,
-  pronunciation: PronunciationConfig,
+  pronunciation: PronunciationRuntimeConfig,
 ): void => {
   applyAspiration(context, pronunciation.aspiration);
   if (pronunciation.vowelReduction?.enabled) {

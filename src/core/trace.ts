@@ -1,5 +1,4 @@
 import type { Syllable } from "../types.js";
-import type { AspirationContext } from "../config/language.js";
 
 export interface SyllableSnapshot {
   onset: string[];
@@ -138,15 +137,19 @@ export interface MorphSuffixHiatusFallbackTrace {
   syllableIndex: number;
 }
 
+export type AspirationTargetSegment = "onset" | "nucleus" | "coda";
+
 export interface AspirationDecisionEvaluatedTrace {
   event: "aspirationDecision";
   evaluated: true;
   syllableIndex: number;
-  context: AspirationContext;
+  ruleId: string | "fallback";
   probability: number;
   roll: number;
   eligible: true;
   applied: boolean;
+  targetSegment: AspirationTargetSegment;
+  targetIndex: number;
   targetPhoneme: string;
 }
 
@@ -154,11 +157,13 @@ export interface AspirationDecisionSkippedTrace {
   event: "aspirationDecision";
   evaluated: false;
   syllableIndex: number;
-  context: AspirationContext | null;
+  ruleId: string | "fallback" | null;
   probability: number | null;
   roll: number | null;
   eligible: boolean;
   applied: false;
+  targetSegment: AspirationTargetSegment | null;
+  targetIndex: number | null;
   targetPhoneme: string | null;
 }
 

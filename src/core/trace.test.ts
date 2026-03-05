@@ -260,15 +260,42 @@ describe("trace pipeline", () => {
     expect(typeof payload.eligible).toBe("boolean");
     expect(typeof payload.applied).toBe("boolean");
     if (payload.evaluated) {
-      expect(typeof payload.context).toBe("string");
+      expect(typeof payload.ruleId).toBe("string");
       expect(typeof payload.probability).toBe("number");
       expect(typeof payload.roll).toBe("number");
+      expect(typeof payload.targetSegment).toBe("string");
+      expect(typeof payload.targetIndex).toBe("number");
       expect(typeof payload.targetPhoneme).toBe("string");
     } else {
-      expect(payload.context).toBeNull();
+      expect(payload.ruleId).toBeNull();
       expect(payload.probability).toBeNull();
       expect(payload.roll).toBeNull();
+      expect(payload.targetSegment === null || typeof payload.targetSegment === "string").toBe(true);
+      expect(payload.targetIndex === null || typeof payload.targetIndex === "number").toBe(true);
     }
+  });
+
+  it("records target segment/index for non-onset aspiration rules", () => {
+    const generator = createGenerator({
+      ...englishConfig,
+      pronunciation: {
+        ...englishConfig.pronunciation,
+        aspiration: {
+          enabled: true,
+          targets: [{ segment: "nucleus", index: 0 }],
+          rules: [{ id: "always", when: { wordInitial: true }, probability: 100 }],
+          fallbackProbability: 100,
+        },
+      },
+    });
+
+    const w = generator.generateWord({ seed: 42, trace: true, morphology: false });
+    const events = w.trace!.structural.filter(byEvent("aspirationDecision"));
+    expect(events.length).toBeGreaterThan(0);
+    const payload = events[0];
+    expect(payload.targetSegment).toBe("nucleus");
+    expect(payload.targetIndex).toBe(0);
+    expect(typeof payload.targetPhoneme).toBe("string");
   });
 
   it("post-vowel glide policy controls root glide transitions deterministically", () => {

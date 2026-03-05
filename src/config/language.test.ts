@@ -192,17 +192,17 @@ describe("LanguageConfig", () => {
 
   describe("stress", () => {
     it("should use ot strategy", () => {
-      expect(englishConfig.pronunciation.stress.strategy).toBe("ot");
-      expect(englishConfig.pronunciation.stress.otConfig).toBeDefined();
-      expect(englishConfig.pronunciation.stress.otConfig!.constraints.length).toBeGreaterThan(0);
+      expect(englishConfig.pronunciation.stress.primary.type).toBe("ot");
+      expect(englishConfig.pronunciation.stress.primary.otConfig).toBeDefined();
+      expect(englishConfig.pronunciation.stress.primary.otConfig!.constraints.length).toBeGreaterThan(0);
     });
   });
 
   describe("aspiration", () => {
-    it("should define English aspiration probabilities", () => {
+    it("should define English aspiration rules", () => {
       expect(englishConfig.pronunciation.aspiration).toBeDefined();
-      expect(englishConfig.pronunciation.aspiration!.probabilities!.wordInitial).toBeGreaterThan(0);
-      expect(englishConfig.pronunciation.aspiration!.probabilities!.postS).toBeGreaterThanOrEqual(0);
+      expect(englishConfig.pronunciation.aspiration!.targets.length).toBeGreaterThan(0);
+      expect(englishConfig.pronunciation.aspiration!.rules.length).toBeGreaterThan(0);
     });
   });
 });
@@ -275,21 +275,18 @@ describe("validateConfig", () => {
     expect(() => validateConfig(bad)).toThrow("must be in [0, 100]");
   });
 
-  it("should throw when aspiration probability is out of range", () => {
+  it("should throw when aspiration rule probability is out of range", () => {
     const bad = {
       ...englishConfig,
       pronunciation: {
         ...englishConfig.pronunciation,
         aspiration: {
           ...englishConfig.pronunciation.aspiration!,
-          probabilities: {
-            ...englishConfig.pronunciation.aspiration!.probabilities!,
-            wordInitial: 101,
-          },
+          rules: [{ ...englishConfig.pronunciation.aspiration!.rules[0], probability: 101 }],
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.probabilities.wordInitial is 101, must be in [0, 100]");
+    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.rules[0].probability is 101, must be in [0, 100]");
   });
 
   it("should throw when pronunciation config is missing", () => {

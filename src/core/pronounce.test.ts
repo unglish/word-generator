@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { _applyAspiration, _reduceUnstressedVowels } from "./pronounce.js";
 import { generateWord } from "./generate.js";
 import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
-import { AspirationRules, VowelReductionConfig } from "../config/language.js";
+import { resolveAspirationRules, VowelReductionConfig } from "../config/language.js";
 import { createSeededRng } from "../utils/random.js";
 import { TraceCollector } from "./trace.js";
 
@@ -214,17 +214,17 @@ describe("reduceUnstressedVowels", () => {
 });
 
 describe("applyAspiration", () => {
-  const aggressiveAspiration: AspirationRules = {
+  const aggressiveAspiration = resolveAspirationRules({
     enabled: true,
-    probabilities: {
-      postS: 100,
-      wordInitial: 100,
-      stressed: 100,
-      postStressed: 100,
-      default: 100,
-    },
-    precedence: ["postS", "wordInitial", "stressed", "postStressed", "default"],
-  };
+    targets: [{ segment: "onset", index: 0, manner: ["stop"], voiced: false }],
+    rules: [
+      { id: "post-s", when: { previousCodaSounds: ["s"] }, probability: 100 },
+      { id: "word-initial", when: { wordInitial: true }, probability: 100 },
+      { id: "stressed", when: { stressed: true }, probability: 100 },
+      { id: "post-stressed", when: { postStressed: true }, probability: 100 },
+    ],
+    fallbackProbability: 100,
+  });
 
   it("aspirates word-initial voiceless stop onsets", () => {
     const c = ctx([
@@ -287,13 +287,16 @@ describe("applyAspiration", () => {
       },
     ]);
 
-    const postSBlocked: AspirationRules = {
-      ...aggressiveAspiration,
-      probabilities: {
-        ...aggressiveAspiration.probabilities!,
-        postS: 0,
-      },
-    };
+    const postSBlocked = resolveAspirationRules({
+      enabled: true,
+      targets: [{ segment: "onset", index: 0, manner: ["stop"], voiced: false }],
+      rules: [
+        { id: "post-s", when: { previousCodaSounds: ["s"] }, probability: 0 },
+        { id: "word-initial", when: { wordInitial: true }, probability: 100 },
+        { id: "stressed", when: { stressed: true }, probability: 100 },
+      ],
+      fallbackProbability: 100,
+    });
 
     _applyAspiration(c, postSBlocked);
     expect(c.word.syllables[1].onset[0].sound).toBe("t");
@@ -329,14 +332,15 @@ describe("applyAspiration", () => {
       },
     ]);
 
-    const precedenceDriven: AspirationRules = {
+    const precedenceDriven = resolveAspirationRules({
       enabled: true,
-      probabilities: {
-        postS: 0,
-        stressed: 100,
-      },
-      precedence: ["stressed", "postS", "default"],
-    };
+      targets: [{ segment: "onset", index: 0, manner: ["stop"], voiced: false }],
+      rules: [
+        { id: "stressed-priority", when: { stressed: true }, probability: 100 },
+        { id: "post-s", when: { previousCodaSounds: ["s"] }, probability: 0 },
+      ],
+      fallbackProbability: 0,
+    });
 
     _applyAspiration(c, precedenceDriven);
     expect(c.word.syllables[1].onset[0].aspirated).toBe(true);
@@ -361,7 +365,39 @@ describe("applyAspiration", () => {
       expect(events[0].evaluated).toBe(true);
       expect(events[0].syllableIndex).toBe(0);
       expect(events[0].eligible).toBe(true);
+      expect(events[0].targetSegment).toBe("onset");
+      expect(events[0].targetIndex).toBe(0);
       expect(events[0].targetPhoneme).toBe("p");
+    }
+  });
+
+  it("records target segment/index when non-onset aspiration selectors are used", () => {
+    const c = ctx([
+      {
+        onset: [consonant("k", { placeOfArticulation: "velar" })],
+        nucleus: [vowel("ɑ")],
+        coda: [],
+      },
+    ]);
+    c.trace = new TraceCollector();
+
+    const nucleusAspiration = resolveAspirationRules({
+      enabled: true,
+      targets: [{ segment: "nucleus", index: 0 }],
+      rules: [{ id: "always", when: { wordInitial: true }, probability: 100 }],
+      fallbackProbability: 0,
+    });
+
+    _applyAspiration(c, nucleusAspiration);
+    expect(c.word.syllables[0].nucleus[0].aspirated).toBe(true);
+
+    const events = c.trace.structural.filter((e) => e.event === "aspirationDecision");
+    expect(events.length).toBe(1);
+    expect(events[0].event).toBe("aspirationDecision");
+    if (events[0].event === "aspirationDecision") {
+      expect(events[0].targetSegment).toBe("nucleus");
+      expect(events[0].targetIndex).toBe(0);
+      expect(events[0].targetPhoneme).toBe("ɑ");
     }
   });
 

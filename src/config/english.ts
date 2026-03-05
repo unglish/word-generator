@@ -154,42 +154,52 @@ export const englishConfig: LanguageConfig = {
 
   pronunciation: {
     stress: {
-      strategy: "ot",
-      otConfig: {
-        constraints: [
-          { name: "WSP", weight: 3 },
-          { name: "ALIGN-LEFT", weight: 6.5 },
-          { name: "ALIGN-RIGHT", weight: 1 },
-          { name: "NONFINALITY", weight: 12 },
-          { name: "NONINITIAL", weight: 8.5 },
-        ],
-        noise: 4,
+      primary: {
+        type: "ot",
+        otConfig: {
+          constraints: [
+            { name: "WSP", weight: 3 },
+            { name: "ALIGN-LEFT", weight: 6.5 },
+            { name: "ALIGN-RIGHT", weight: 1 },
+            { name: "NONFINALITY", weight: 12 },
+            { name: "NONINITIAL", weight: 8.5 },
+          ],
+          noise: 4,
+        },
       },
-      // Legacy weights kept as fallback documentation
-      disyllabicWeights: [75, 25],
-      polysyllabicWeights: {
-        heavyPenult: 45,
-        lightPenult: 25,
-        antepenultHeavy: 15,
-        antepenultLight: 30,
-        initial: 30,
+      secondary: {
+        enabled: true,
+        probability: 40,
+        heavyWeight: 70,
+        lightWeight: 30,
+        candidateWindow: "first-three",
       },
-      secondaryStressProbability: 40,
-      secondaryStressHeavyWeight: 70,
-      secondaryStressLightWeight: 30,
-      rhythmicStressProbability: 40,
-      stressedNucleusBan: ["ə"],
+      rhythmic: {
+        enabled: true,
+        probability: 40,
+        requireUnstressedNeighbors: true,
+      },
+      nucleus: {
+        stressedNucleusBan: ["ə"],
+      },
     },
     aspiration: {
       enabled: true,
-      probabilities: {
-        postS: 5,
-        wordInitial: 95,
-        stressed: 90,
-        postStressed: 50,
-        default: 30,
-      },
-      precedence: ["postS", "wordInitial", "stressed", "postStressed", "default"],
+      targets: [
+        {
+          segment: "onset",
+          index: 0,
+          manner: ["stop"],
+          voiced: false,
+        },
+      ],
+      rules: [
+        { id: "post-s", when: { previousCodaSounds: ["s"] }, probability: 5 },
+        { id: "word-initial", when: { wordInitial: true }, probability: 95 },
+        { id: "stressed-onset", when: { stressed: true }, probability: 90 },
+        { id: "post-stressed", when: { postStressed: true }, probability: 50 },
+      ],
+      fallbackProbability: 30,
     },
     vowelReduction: {
       enabled: true,

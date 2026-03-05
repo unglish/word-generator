@@ -1,9 +1,9 @@
 import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, SyllableShapePlan, getPhonemePositionWeight, GenerationMode } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints, expandClusterConstraintBans } from "../config/language.js";
+import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints, expandClusterConstraintBans, ResolvedStressRules, resolveStressRules, resolveAspirationRules } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
-import { applyStress, generatePronunciation } from "./pronounce.js";
+import { applyStress, generatePronunciation, PronunciationRuntimeConfig } from "./pronounce.js";
 import { createWrittenFormGenerator, repairConsonantLetters } from "./write.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
@@ -17,6 +17,8 @@ import { TraceCollector } from "./trace.js";
 
 interface GeneratorRuntime {
   config: LanguageConfig;
+  resolvedStress: ResolvedStressRules;
+  resolvedPronunciation: PronunciationRuntimeConfig;
   sonorityLevels: Map<Phoneme, number>;
   /** Sonority level by phoneme sound string (for quick lookup). */
   sonorityBySound: Map<string, number>;
@@ -82,6 +84,11 @@ function buildPrefixSet(clusters: string[][]): Set<string> {
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
   validateConfig(config);
   const sonorityLevels = computeSonorityLevels(config);
+  const resolvedStress = resolveStressRules(config.pronunciation.stress);
+  const resolvedPronunciation: PronunciationRuntimeConfig = {
+    aspiration: resolveAspirationRules(config.pronunciation.aspiration),
+    vowelReduction: config.pronunciation.vowelReduction,
+  };
 
   const positionPhonemes = {
     onset: Array.from(config.phonemeMaps.onset.values()).flat(),
@@ -145,7 +152,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     : undefined;
 
   return {
-    config, sonorityLevels, sonorityBySound, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
+    config, resolvedStress, resolvedPronunciation, sonorityLevels, sonorityBySound, positionPhonemes, invalidClusterRegexes, generateWrittenForm,
     bannedSet,
     clusterRepair: config.clusterConstraint?.repair,
     allowedFinalSet: config.codaConstraints?.allowedFinal
@@ -1290,7 +1297,7 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   repairHAfterBackVowel(context.word.syllables, t);
   t?.afterStage("repairHAfterBackVowel", context.word.syllables);
 
-  const stressRules = rt.config.pronunciation.stress;
+  const stressRules = rt.resolvedStress;
 
   t?.beforeStage("applyStress", context.word.syllables);
   applyStress(context, stressRules);
@@ -1305,7 +1312,7 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.afterStage("generateWrittenForm", context.word.syllables);
 
   t?.beforeStage("generatePronunciation", context.word.syllables);
-  generatePronunciation(context, rt.config.pronunciation);
+  generatePronunciation(context, rt.resolvedPronunciation);
   t?.afterStage("generatePronunciation", context.word.syllables);
 }
 

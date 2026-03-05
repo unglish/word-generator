@@ -288,113 +288,131 @@ export interface PhonemeToSyllableWeights {
   lexicon: Record<number, [number, number][]>;
 }
 
-/**
- * Stress assignment rules for polysyllabic words.
- *
- * For modern English config, `"ot"` is the recommended strategy.
- */
-export interface StressRules {
-  /** Strategy for assigning primary stress */
-  strategy: "fixed" | "weight-sensitive" | "penultimate" | "initial" | "custom" | "ot";
-  /** For fixed strategy: 0-indexed syllable that receives primary stress */
-  fixedPosition?: number;
+export interface FixedPrimaryStressRules {
+  type: "fixed";
+  fixedPosition: number;
+}
 
-  /**
-   * Harmonic OT configuration. Required when `strategy` is `"ot"`.
-   * Constraints are weighted (not ranked); optional Gaussian noise
-   * produces stochastic variation within a dialect.
-   */
-  otConfig?: import("../core/ot-stress.js").OTStressConfig;
+export interface InitialPrimaryStressRules {
+  type: "initial";
+}
 
-  // -- Primary stress --
+export interface PenultimatePrimaryStressRules {
+  type: "penultimate";
+}
 
-  /** [firstSyllableWeight, secondSyllableWeight] for disyllabic words. Default: [70, 30]. */
-  disyllabicWeights?: [number, number];
-  /** Polysyllabic primary-stress weights by penultimate syllable weight. */
-  polysyllabicWeights?: {
-    /** Weight for penultimate when it is heavy. Default: 70. */
+export interface WeightSensitivePrimaryStressRules {
+  type: "weight-sensitive";
+  disyllabicWeights: [number, number];
+  polysyllabicWeights: {
     heavyPenult: number;
-    /** Weight for penultimate when it is light. Default: 30. */
     lightPenult: number;
-    /** Weight for antepenultimate when penult is heavy. Default: 20. */
     antepenultHeavy: number;
-    /** Weight for antepenultimate when penult is light. Default: 60. */
     antepenultLight: number;
-    /** Weight for initial syllable (fallback). Default: 10. */
     initial: number;
   };
+}
 
-  // -- Secondary stress --
+export interface OTPrimaryStressRules {
+  type: "ot";
+  otConfig: import("../core/ot-stress.js").OTStressConfig;
+}
 
-  /** Probability (0-100) of assigning secondary stress. Default: 40. */
-  secondaryStressProbability?: number;
-  /** Weight for heavy syllable candidates for secondary stress. Default: 70. */
-  secondaryStressHeavyWeight?: number;
-  /** Weight for light syllable candidates for secondary stress. Default: 30. */
-  secondaryStressLightWeight?: number;
+export type PrimaryStressRules =
+  | FixedPrimaryStressRules
+  | InitialPrimaryStressRules
+  | PenultimatePrimaryStressRules
+  | WeightSensitivePrimaryStressRules
+  | OTPrimaryStressRules;
 
-  // -- Rhythmic stress --
+export interface SecondaryStressRules {
+  enabled: boolean;
+  probability: number;
+  heavyWeight: number;
+  lightWeight: number;
+  candidateWindow: "first-three" | "all-nonprimary";
+}
 
-  /** Probability (0-100) of assigning rhythmic secondary stress. Default: 40. */
-  rhythmicStressProbability?: number;
+export interface RhythmicStressRules {
+  enabled: boolean;
+  probability: number;
+  requireUnstressedNeighbors: boolean;
+}
 
-  // -- Nucleus interaction (PR C) --
-
-  /** Phoneme sounds banned in stressed nuclei (e.g. ["ə"]). */
+export interface StressNucleusRules {
   stressedNucleusBan?: string[];
-  /** Weight boosts for unstressed nuclei (e.g. {"ə": 3}). */
   unstressedNucleusBoost?: Record<string, number>;
 }
 
-/** Aspiration decision contexts used for probability and precedence tables. */
-export type AspirationContext =
-  | "wordInitial"
-  | "postS"
-  | "stressed"
-  | "postStressed"
-  | "default";
-
-/** Default aspiration precedence (most specific → fallback). */
-export const DEFAULT_ASPIRATION_PRECEDENCE: AspirationContext[] = [
-  "postS",
-  "wordInitial",
-  "stressed",
-  "postStressed",
-  "default",
-];
-
-/** Default aspiration probabilities by context (0-100). */
-export const DEFAULT_ASPIRATION_PROBABILITIES: Record<AspirationContext, number> = {
-  wordInitial: 95,
-  postS: 5,
-  stressed: 90,
-  postStressed: 50,
-  default: 30,
-};
-
 /**
- * Language-level aspiration behavior for pronunciation output.
- *
- * Aspiration currently applies to onset-initial voiceless stops only and is
- * driven by context-specific probabilities plus explicit precedence.
+ * Declarative stress assignment rules for pronunciation generation.
  */
-export interface AspirationRules {
-  /** Master switch. */
-  enabled: boolean;
-  /** Context-specific aspiration probabilities (0-100). */
-  probabilities?: Partial<Record<AspirationContext, number>>;
-  /**
-   * Context matching order. First matching context supplies the aspiration
-   * probability for the current syllable.
-   */
-  precedence?: AspirationContext[];
+export interface StressRules {
+  primary: PrimaryStressRules;
+  secondary: SecondaryStressRules;
+  rhythmic: RhythmicStressRules;
+  nucleus: StressNucleusRules;
 }
 
-/** Fully-resolved aspiration rules with defaults applied. */
+export type SyllableIndexClass = "initial" | "medial" | "final";
+
+/**
+ * Feature-based selector for aspiration targets.
+ */
+export interface AspirationTargetSelector {
+  /** Which syllable segment to match. */
+  segment: "onset" | "nucleus" | "coda";
+  /** Optional index inside the segment (defaults to first element). */
+  index?: number;
+  /** Restrict by phoneme sound. */
+  sounds?: string[];
+  /** Restrict by manner of articulation. */
+  manner?: Phoneme["mannerOfArticulation"][];
+  /** Restrict by place of articulation. */
+  place?: Phoneme["placeOfArticulation"][];
+  /** Restrict by voicing. */
+  voiced?: boolean;
+}
+
+/**
+ * Predicate evaluated for each syllable when deciding aspiration probability.
+ */
+export interface AspirationPredicate {
+  wordInitial?: boolean;
+  stressed?: boolean;
+  postStressed?: boolean;
+  syllableIndexClass?: SyllableIndexClass;
+  previousCodaSounds?: string[];
+}
+
+export interface AspirationRule {
+  id: string;
+  when: AspirationPredicate;
+  probability: number;
+}
+
+/**
+ * Language-level aspiration behavior expressed as ordered declarative rules.
+ */
+export interface AspirationRules {
+  enabled: boolean;
+  targets: AspirationTargetSelector[];
+  rules: AspirationRule[];
+  fallbackProbability: number;
+}
+
 export interface ResolvedAspirationRules {
   enabled: boolean;
-  probabilities: Record<AspirationContext, number>;
-  precedence: AspirationContext[];
+  targets: AspirationTargetSelector[];
+  rules: AspirationRule[];
+  fallbackProbability: number;
+}
+
+export interface ResolvedStressRules {
+  primary: PrimaryStressRules;
+  secondary: SecondaryStressRules;
+  rhythmic: RhythmicStressRules;
+  nucleus: StressNucleusRules;
 }
 
 /**
@@ -867,25 +885,119 @@ export interface MorphologyConfig {
 // Utilities
 // ---------------------------------------------------------------------------
 
-const ASPIRATION_CONTEXTS: AspirationContext[] = [
-  "wordInitial",
-  "postS",
-  "stressed",
-  "postStressed",
-  "default",
-];
+const DEFAULT_STRESS_RULES: ResolvedStressRules = {
+  primary: {
+    type: "weight-sensitive",
+    disyllabicWeights: [70, 30],
+    polysyllabicWeights: {
+      heavyPenult: 70,
+      lightPenult: 30,
+      antepenultHeavy: 20,
+      antepenultLight: 60,
+      initial: 10,
+    },
+  },
+  secondary: {
+    enabled: true,
+    probability: 40,
+    heavyWeight: 70,
+    lightWeight: 30,
+    candidateWindow: "first-three",
+  },
+  rhythmic: {
+    enabled: true,
+    probability: 40,
+    requireUnstressedNeighbors: true,
+  },
+  nucleus: {},
+};
+
+const DEFAULT_ASPIRATION_RULES: ResolvedAspirationRules = {
+  enabled: true,
+  targets: [
+    {
+      segment: "onset",
+      index: 0,
+      manner: ["stop"],
+      voiced: false,
+    },
+  ],
+  rules: [
+    { id: "post-s", when: { previousCodaSounds: ["s"] }, probability: 5 },
+    { id: "word-initial", when: { wordInitial: true }, probability: 95 },
+    { id: "stressed-onset", when: { stressed: true }, probability: 90 },
+    { id: "post-stressed", when: { postStressed: true }, probability: 50 },
+  ],
+  fallbackProbability: 30,
+};
+
+export function resolveStressRules(rules: StressRules): ResolvedStressRules {
+  return {
+    primary: rules.primary,
+    secondary: {
+      enabled: rules.secondary.enabled ?? DEFAULT_STRESS_RULES.secondary.enabled,
+      probability: rules.secondary.probability ?? DEFAULT_STRESS_RULES.secondary.probability,
+      heavyWeight: rules.secondary.heavyWeight ?? DEFAULT_STRESS_RULES.secondary.heavyWeight,
+      lightWeight: rules.secondary.lightWeight ?? DEFAULT_STRESS_RULES.secondary.lightWeight,
+      candidateWindow: rules.secondary.candidateWindow ?? DEFAULT_STRESS_RULES.secondary.candidateWindow,
+    },
+    rhythmic: {
+      enabled: rules.rhythmic.enabled ?? DEFAULT_STRESS_RULES.rhythmic.enabled,
+      probability: rules.rhythmic.probability ?? DEFAULT_STRESS_RULES.rhythmic.probability,
+      requireUnstressedNeighbors:
+        rules.rhythmic.requireUnstressedNeighbors
+        ?? DEFAULT_STRESS_RULES.rhythmic.requireUnstressedNeighbors,
+    },
+    nucleus: {
+      stressedNucleusBan: rules.nucleus.stressedNucleusBan
+        ? [...rules.nucleus.stressedNucleusBan]
+        : undefined,
+      unstressedNucleusBoost: rules.nucleus.unstressedNucleusBoost
+        ? { ...rules.nucleus.unstressedNucleusBoost }
+        : undefined,
+    },
+  };
+}
 
 /**
  * Resolve aspiration config into fully-populated deterministic rules.
  */
 export function resolveAspirationRules(rules?: AspirationRules): ResolvedAspirationRules {
+  if (!rules) {
+    return {
+      enabled: DEFAULT_ASPIRATION_RULES.enabled,
+      targets: DEFAULT_ASPIRATION_RULES.targets.map((t) => ({ ...t, sounds: t.sounds ? [...t.sounds] : undefined, manner: t.manner ? [...t.manner] : undefined, place: t.place ? [...t.place] : undefined })),
+      rules: DEFAULT_ASPIRATION_RULES.rules.map((r) => ({
+        id: r.id,
+        probability: r.probability,
+        when: {
+          ...r.when,
+          previousCodaSounds: r.when.previousCodaSounds ? [...r.when.previousCodaSounds] : undefined,
+        },
+      })),
+      fallbackProbability: DEFAULT_ASPIRATION_RULES.fallbackProbability,
+    };
+  }
+
   return {
-    enabled: rules?.enabled ?? true,
-    probabilities: {
-      ...DEFAULT_ASPIRATION_PROBABILITIES,
-      ...(rules?.probabilities ?? {}),
-    },
-    precedence: rules?.precedence ? [...rules.precedence] : [...DEFAULT_ASPIRATION_PRECEDENCE],
+    enabled: rules.enabled ?? DEFAULT_ASPIRATION_RULES.enabled,
+    targets: (rules.targets && rules.targets.length > 0 ? rules.targets : DEFAULT_ASPIRATION_RULES.targets)
+      .map((target) => ({
+        ...target,
+        sounds: target.sounds ? [...target.sounds] : undefined,
+        manner: target.manner ? [...target.manner] : undefined,
+        place: target.place ? [...target.place] : undefined,
+      })),
+    rules: (rules.rules && rules.rules.length > 0 ? rules.rules : DEFAULT_ASPIRATION_RULES.rules)
+      .map((rule) => ({
+        id: rule.id,
+        probability: rule.probability,
+        when: {
+          ...rule.when,
+          previousCodaSounds: rule.when.previousCodaSounds ? [...rule.when.previousCodaSounds] : undefined,
+        },
+      })),
+    fallbackProbability: rules.fallbackProbability ?? DEFAULT_ASPIRATION_RULES.fallbackProbability,
   };
 }
 
@@ -1084,32 +1196,214 @@ export function validateConfig(config: LanguageConfig): void {
     throw new Error("pronunciation.stress is required");
   }
 
-  const aspiration = config.pronunciation.aspiration;
-  if (aspiration?.probabilities) {
-    for (const [key, value] of Object.entries(aspiration.probabilities)) {
-      if (!ASPIRATION_CONTEXTS.includes(key as AspirationContext)) {
-        throw new Error(`pronunciation.aspiration.probabilities has invalid context "${key}"`);
+  const assertProbability = (value: number, label: string): void => {
+    if (!Number.isFinite(value) || value < 0 || value > 100) {
+      throw new Error(`${label} is ${String(value)}, must be in [0, 100]`);
+    }
+  };
+
+  const assertAllowedKeys = (
+    obj: object,
+    allowed: readonly string[],
+    label: string,
+  ): void => {
+    for (const key of Object.keys(obj)) {
+      if (!allowed.includes(key)) {
+        throw new Error(`${label} has unsupported field "${key}"`);
       }
-      if (value == null) continue;
-      if (!Number.isFinite(value) || value < 0 || value > 100) {
-        throw new Error(`pronunciation.aspiration.probabilities.${key} is ${String(value)}, must be in [0, 100]`);
+    }
+  };
+
+  const stress = config.pronunciation.stress;
+  const primary = stress.primary;
+  const primaryType = primary.type;
+  if (
+    primaryType !== "fixed"
+    && primaryType !== "initial"
+    && primaryType !== "penultimate"
+    && primaryType !== "weight-sensitive"
+    && primaryType !== "ot"
+  ) {
+    throw new Error(`pronunciation.stress.primary.type has invalid value "${String(primaryType)}"`);
+  }
+
+  if (primaryType === "fixed") {
+    assertAllowedKeys(primary, ["type", "fixedPosition"], "pronunciation.stress.primary");
+    const fixedPosition = primary.fixedPosition;
+    if (!Number.isInteger(fixedPosition) || (fixedPosition as number) < 0) {
+      throw new Error("pronunciation.stress.primary.fixedPosition must be an integer >= 0");
+    }
+  } else if (primaryType === "initial" || primaryType === "penultimate") {
+    assertAllowedKeys(primary, ["type"], "pronunciation.stress.primary");
+  } else if (primaryType === "weight-sensitive") {
+    assertAllowedKeys(
+      primary,
+      ["type", "disyllabicWeights", "polysyllabicWeights"],
+      "pronunciation.stress.primary",
+    );
+    const disyllabic = primary.disyllabicWeights as unknown;
+    if (!Array.isArray(disyllabic) || disyllabic.length !== 2) {
+      throw new Error("pronunciation.stress.primary.disyllabicWeights must be a [number, number] tuple");
+    }
+    for (let i = 0; i < disyllabic.length; i++) {
+      const weight = disyllabic[i];
+      if (typeof weight !== "number") {
+        throw new Error(`pronunciation.stress.primary.disyllabicWeights[${i}] must be a number`);
+      }
+    }
+    const poly = primary.polysyllabicWeights;
+    if (!poly) {
+      throw new Error("pronunciation.stress.primary.polysyllabicWeights is required for weight-sensitive");
+    }
+    assertAllowedKeys(
+      poly,
+      ["heavyPenult", "lightPenult", "antepenultHeavy", "antepenultLight", "initial"],
+      "pronunciation.stress.primary.polysyllabicWeights",
+    );
+    for (const key of ["heavyPenult", "lightPenult", "antepenultHeavy", "antepenultLight", "initial"] as const) {
+      const weight = poly[key];
+      if (typeof weight !== "number") {
+        throw new Error(`pronunciation.stress.primary.polysyllabicWeights.${key} must be a number`);
+      }
+    }
+  } else if (primaryType === "ot") {
+    assertAllowedKeys(primary, ["type", "otConfig"], "pronunciation.stress.primary");
+    if (!primary.otConfig || typeof primary.otConfig !== "object") {
+      throw new Error("pronunciation.stress.primary.otConfig is required for ot strategy");
+    }
+  }
+
+  if (!stress.secondary || typeof stress.secondary !== "object") {
+    throw new Error("pronunciation.stress.secondary is required");
+  }
+  if (!stress.rhythmic || typeof stress.rhythmic !== "object") {
+    throw new Error("pronunciation.stress.rhythmic is required");
+  }
+  if (!stress.nucleus || typeof stress.nucleus !== "object") {
+    throw new Error("pronunciation.stress.nucleus is required");
+  }
+
+  assertAllowedKeys(
+    stress.secondary,
+    ["enabled", "probability", "heavyWeight", "lightWeight", "candidateWindow"],
+    "pronunciation.stress.secondary",
+  );
+  assertAllowedKeys(
+    stress.rhythmic,
+    ["enabled", "probability", "requireUnstressedNeighbors"],
+    "pronunciation.stress.rhythmic",
+  );
+  assertAllowedKeys(
+    stress.nucleus,
+    ["stressedNucleusBan", "unstressedNucleusBoost"],
+    "pronunciation.stress.nucleus",
+  );
+
+  assertProbability(stress.secondary.probability, "pronunciation.stress.secondary.probability");
+  assertProbability(stress.rhythmic.probability, "pronunciation.stress.rhythmic.probability");
+
+  if (
+    stress.secondary.candidateWindow !== "first-three"
+    && stress.secondary.candidateWindow !== "all-nonprimary"
+  ) {
+    throw new Error(
+      `pronunciation.stress.secondary.candidateWindow has invalid value "${String(stress.secondary.candidateWindow)}"`,
+    );
+  }
+
+  if (stress.nucleus.stressedNucleusBan) {
+    for (const [idx, sound] of stress.nucleus.stressedNucleusBan.entries()) {
+      if (!sound) {
+        throw new Error(`pronunciation.stress.nucleus.stressedNucleusBan[${idx}] must be non-empty`);
       }
     }
   }
-  if (aspiration?.precedence) {
-    if (aspiration.precedence.length === 0) {
-      throw new Error("pronunciation.aspiration.precedence must be non-empty");
-    }
-    const seen = new Set<AspirationContext>();
-    for (const ctx of aspiration.precedence) {
-      if (!ASPIRATION_CONTEXTS.includes(ctx)) {
-        throw new Error(`pronunciation.aspiration.precedence has invalid context "${String(ctx)}"`);
+  if (stress.nucleus.unstressedNucleusBoost) {
+    for (const [sound, boost] of Object.entries(stress.nucleus.unstressedNucleusBoost)) {
+      if (!sound) {
+        throw new Error("pronunciation.stress.nucleus.unstressedNucleusBoost has an empty sound key");
       }
-      if (seen.has(ctx)) {
-        throw new Error(`pronunciation.aspiration.precedence contains duplicate context "${ctx}"`);
+      if (!Number.isFinite(boost) || boost < 0) {
+        throw new Error(`pronunciation.stress.nucleus.unstressedNucleusBoost.${sound} must be >= 0`);
       }
-      seen.add(ctx);
     }
+  }
+
+  const aspiration = config.pronunciation.aspiration;
+  if (aspiration) {
+    assertAllowedKeys(
+      aspiration,
+      ["enabled", "targets", "rules", "fallbackProbability"],
+      "pronunciation.aspiration",
+    );
+    assertProbability(aspiration.fallbackProbability, "pronunciation.aspiration.fallbackProbability");
+
+    if (!Array.isArray(aspiration.targets) || aspiration.targets.length === 0) {
+      throw new Error("pronunciation.aspiration.targets must contain at least one selector");
+    }
+    aspiration.targets.forEach((target, targetIndex) => {
+      assertAllowedKeys(
+        target,
+        ["segment", "index", "sounds", "manner", "place", "voiced"],
+        `pronunciation.aspiration.targets[${targetIndex}]`,
+      );
+      if (!["onset", "nucleus", "coda"].includes(target.segment)) {
+        throw new Error(`pronunciation.aspiration.targets[${targetIndex}].segment has invalid value "${String(target.segment)}"`);
+      }
+      if (target.index != null && (!Number.isInteger(target.index) || target.index < 0)) {
+        throw new Error(`pronunciation.aspiration.targets[${targetIndex}].index must be an integer >= 0`);
+      }
+      if (target.sounds && target.sounds.some((sound) => !sound)) {
+        throw new Error(`pronunciation.aspiration.targets[${targetIndex}].sounds must not contain empty values`);
+      }
+    });
+
+    if (!Array.isArray(aspiration.rules) || aspiration.rules.length === 0) {
+      throw new Error("pronunciation.aspiration.rules must contain at least one rule");
+    }
+    const seenRuleIds = new Set<string>();
+    aspiration.rules.forEach((rule, ruleIndex) => {
+      assertAllowedKeys(
+        rule,
+        ["id", "when", "probability"],
+        `pronunciation.aspiration.rules[${ruleIndex}]`,
+      );
+      if (!rule.id || typeof rule.id !== "string") {
+        throw new Error(`pronunciation.aspiration.rules[${ruleIndex}].id must be a non-empty string`);
+      }
+      if (seenRuleIds.has(rule.id)) {
+        throw new Error(`pronunciation.aspiration.rules has duplicate id "${rule.id}"`);
+      }
+      seenRuleIds.add(rule.id);
+      assertProbability(rule.probability, `pronunciation.aspiration.rules[${ruleIndex}].probability`);
+
+      assertAllowedKeys(
+        rule.when,
+        ["wordInitial", "stressed", "postStressed", "syllableIndexClass", "previousCodaSounds"],
+        `pronunciation.aspiration.rules[${ruleIndex}].when`,
+      );
+
+      if (
+        rule.when.syllableIndexClass != null
+        && !["initial", "medial", "final"].includes(rule.when.syllableIndexClass)
+      ) {
+        throw new Error(
+          `pronunciation.aspiration.rules[${ruleIndex}].when.syllableIndexClass has invalid value "${String(rule.when.syllableIndexClass)}"`,
+        );
+      }
+      if (rule.when.previousCodaSounds) {
+        if (rule.when.previousCodaSounds.length === 0) {
+          throw new Error(
+            `pronunciation.aspiration.rules[${ruleIndex}].when.previousCodaSounds must not be empty`,
+          );
+        }
+        if (rule.when.previousCodaSounds.some((sound) => !sound)) {
+          throw new Error(
+            `pronunciation.aspiration.rules[${ruleIndex}].when.previousCodaSounds must not contain empty values`,
+          );
+        }
+      }
+    });
   }
 
   const phonemeSounds = new Set(config.phonemes.map(p => p.sound));

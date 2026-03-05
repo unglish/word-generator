@@ -1,17 +1,9 @@
-# Pronunciation Config Migration
+# Pronunciation Config Update
 
-This release consolidates pronunciation controls under a required
-`LanguageConfig.pronunciation` object.
+Pronunciation behavior is configured under `LanguageConfig.pronunciation`.
+Stress and aspiration are declarative and data-driven.
 
-## Breaking change summary
-
-Old top-level fields are removed:
-
-- `stress`
-- `aspiration`
-- `vowelReduction`
-
-New required grouped field:
+## Current shape
 
 ```ts
 interface LanguageConfig {
@@ -23,43 +15,81 @@ interface LanguageConfig {
 }
 ```
 
-## Aspiration schema update
-
-Aspiration now uses context tables instead of individual probability fields.
-
-Old:
+## Stress schema
 
 ```ts
-aspiration: {
-  enabled: true,
-  postSProbability: 5,
-  wordInitialProbability: 95,
-  stressedProbability: 90,
-  postStressedProbability: 50,
-  defaultProbability: 30,
+type PrimaryStressRules =
+  | { type: "fixed"; fixedPosition: number }
+  | { type: "initial" }
+  | { type: "penultimate" }
+  | {
+      type: "weight-sensitive";
+      disyllabicWeights: [number, number];
+      polysyllabicWeights: {
+        heavyPenult: number;
+        lightPenult: number;
+        antepenultHeavy: number;
+        antepenultLight: number;
+        initial: number;
+      };
+    }
+  | { type: "ot"; otConfig: OTStressConfig };
+
+interface StressRules {
+  primary: PrimaryStressRules;
+  secondary: {
+    enabled: boolean;
+    probability: number;
+    heavyWeight: number;
+    lightWeight: number;
+    candidateWindow: "first-three" | "all-nonprimary";
+  };
+  rhythmic: {
+    enabled: boolean;
+    probability: number;
+    requireUnstressedNeighbors: boolean;
+  };
+  nucleus: {
+    stressedNucleusBan?: string[];
+    unstressedNucleusBoost?: Record<string, number>;
+  };
 }
 ```
 
-New:
+## Aspiration schema
 
 ```ts
-pronunciation: {
-  aspiration: {
-    enabled: true,
-    probabilities: {
-      postS: 5,
-      wordInitial: 95,
-      stressed: 90,
-      postStressed: 50,
-      default: 30,
-    },
-    precedence: ["postS", "wordInitial", "stressed", "postStressed", "default"],
-  },
+interface AspirationRules {
+  enabled: boolean;
+  targets: AspirationTargetSelector[];
+  rules: AspirationRule[];
+  fallbackProbability: number;
+}
+
+interface AspirationTargetSelector {
+  segment: "onset" | "nucleus" | "coda";
+  index?: number;
+  sounds?: string[];
+  manner?: Phoneme["mannerOfArticulation"][];
+  place?: Phoneme["placeOfArticulation"][];
+  voiced?: boolean;
+}
+
+interface AspirationRule {
+  id: string;
+  when: {
+    wordInitial?: boolean;
+    stressed?: boolean;
+    postStressed?: boolean;
+    syllableIndexClass?: "initial" | "medial" | "final";
+    previousCodaSounds?: string[];
+  };
+  probability: number;
 }
 ```
 
 ## Notes
 
-- Aspiration is now represented on phonemes via `phoneme.aspirated = true`.
+- Aspiration is represented on phonemes via `phoneme.aspirated = true`.
 - `phoneme.sound` remains canonical (no mutation to append `ʰ`).
 - Pronunciation output still renders aspiration diacritics when `aspirated` is set.
