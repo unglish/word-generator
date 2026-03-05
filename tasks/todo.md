@@ -8,12 +8,12 @@
 - [x] Add initial English alternation rules for `-ity` family.
 - [x] Add focused unit/integration tests for alternation behavior and trace evidence.
 - [x] Run targeted + project-level test suites (`attach`, `trace`, config, full `npm test`).
-- [ ] Commit in atomic logical steps and push branch.
+- [x] Commit in atomic logical steps and push branch.
 
 ## Review (to fill after implementation)
 
-- Status: In progress.
-- Notes: Implemented config/runtime/test changes; full suite passing; atomic commits created.
+- Status: Completed.
+- Notes: Implemented config/runtime/test changes; full suite passing; atomic commits pushed to remote branch.
 
 ---
 
