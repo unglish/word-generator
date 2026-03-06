@@ -240,7 +240,7 @@ describe("applyAspiration", () => {
     expect(c.word.syllables[0].onset[0].aspirated).toBe(true);
   });
 
-  it("does not aspirate voiced stop onsets", () => {
+  it("does not aspirate onsets outside the default English selectors", () => {
     const c = ctx([
       {
         onset: [consonant("b", { voiced: true, placeOfArticulation: "bilabial" })],
@@ -252,6 +252,24 @@ describe("applyAspiration", () => {
     _applyAspiration(c, aggressiveAspiration);
     expect(c.word.syllables[0].onset[0].sound).toBe("b");
     expect(c.word.syllables[0].onset[0].aspirated).toBeUndefined();
+  });
+
+  it("uses target selectors from config to determine eligibility", () => {
+    const c = ctx([
+      {
+        onset: [consonant("b", { voiced: true, placeOfArticulation: "bilabial" })],
+        nucleus: [vowel("ɑ")],
+        coda: [],
+      },
+    ]);
+
+    _applyAspiration(c, {
+      ...aggressiveAspiration,
+      targets: [{ segment: "onset", index: 0, sounds: ["b"] }],
+    });
+
+    expect(c.word.syllables[0].onset[0].sound).toBe("b");
+    expect(c.word.syllables[0].onset[0].aspirated).toBe(true);
   });
 
   it("does not aspirate word-final codas", () => {
@@ -303,6 +321,32 @@ describe("applyAspiration", () => {
     expect(c.word.syllables[1].onset[0].aspirated).toBeUndefined();
   });
 
+  it("uses previousCodaSounds rules from config to determine suppression", () => {
+    const c = ctx([
+      {
+        onset: [consonant("m", { mannerOfArticulation: "nasal", voiced: true, placeOfArticulation: "bilabial" })],
+        nucleus: [vowel("ɑ")],
+        coda: [consonant("ʃ", { mannerOfArticulation: "sibilant", placeOfArticulation: "postalveolar" })],
+      },
+      {
+        onset: [consonant("t")],
+        nucleus: [vowel("ɑ")],
+        coda: [],
+      },
+    ]);
+
+    _applyAspiration(c, {
+      ...aggressiveAspiration,
+      rules: [
+        { id: "custom-post-sh", when: { previousCodaSounds: ["ʃ"] }, probability: 0 },
+        { id: "default", when: {}, probability: 100 },
+      ],
+      fallbackProbability: 100,
+    });
+
+    expect(c.word.syllables[1].onset[0].aspirated).toBeUndefined();
+  });
+
   it("can disable aspiration entirely", () => {
     const c = ctx([
       {
@@ -311,10 +355,19 @@ describe("applyAspiration", () => {
         coda: [],
       },
     ]);
+    c.trace = new TraceCollector();
 
     _applyAspiration(c, { ...aggressiveAspiration, enabled: false });
     expect(c.word.syllables[0].onset[0].sound).toBe("p");
     expect(c.word.syllables[0].onset[0].aspirated).toBeUndefined();
+    const events = c.trace.structural.filter((e) => e.event === "aspirationDecision");
+    expect(events.length).toBe(1);
+    if (events[0].event === "aspirationDecision") {
+      expect(events[0].evaluated).toBe(false);
+      expect(events[0].targetPhoneme).toBe("p");
+      expect(events[0].probability).toBeNull();
+      expect(events[0].roll).toBeNull();
+    }
   });
 
   it("applies custom precedence order deterministically", () => {
@@ -410,6 +463,30 @@ describe("applyAspiration", () => {
         }
       }
     }
+  });
+
+  it("default English generation only aspirates first-onset /p t k/", () => {
+    let foundAspiratedWord = false;
+
+    for (let seed = 0; seed < 3000; seed++) {
+      const word = generateWord({ seed, morphology: false, mode: "lexicon" });
+      word.syllables.forEach((syllable) => {
+        for (const phoneme of syllable.nucleus) {
+          expect(phoneme.aspirated).toBeUndefined();
+        }
+        for (const phoneme of syllable.coda) {
+          expect(phoneme.aspirated).toBeUndefined();
+        }
+        syllable.onset.forEach((phoneme, onsetIndex) => {
+          if (!phoneme.aspirated) return;
+          foundAspiratedWord = true;
+          expect(onsetIndex).toBe(0);
+          expect(["p", "t", "k"]).toContain(phoneme.sound);
+        });
+      });
+    }
+
+    expect(foundAspiratedWord).toBe(true);
   });
 
   it("encodes aspiration with `aspirated: true` while pronunciation still renders ʰ", () => {
