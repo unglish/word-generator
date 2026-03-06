@@ -76,17 +76,14 @@ import { isObstruent, isNasal, isStop } from "../utils/phonemes.js";
 // Place-of-articulation grouping for homorganic nasal+stop
 // ---------------------------------------------------------------------------
 
-const PLACE_GROUPS: Record<string, string[]> = {
-  bilabial: ["m", "p", "b"],
-  alveolar: ["n", "t", "d"],
-  velar: ["ŋ", "k", "g"],
-};
+const PLACE_GROUP_MAP = new Map<string, string>([
+  ["m", "bilabial"], ["p", "bilabial"], ["b", "bilabial"],
+  ["n", "alveolar"], ["t", "alveolar"], ["d", "alveolar"],
+  ["ŋ", "velar"],    ["k", "velar"],    ["g", "velar"],
+]);
 
 function getPlaceGroup(sound: string): string | undefined {
-  for (const [group, members] of Object.entries(PLACE_GROUPS)) {
-    if (members.includes(sound)) return group;
-  }
-  return undefined;
+  return PLACE_GROUP_MAP.get(sound);
 }
 
 // ---------------------------------------------------------------------------
