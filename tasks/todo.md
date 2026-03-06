@@ -6,12 +6,12 @@
 - [x] Manually resolve remaining lint violations (`no-unused-vars`, residual indent/quotes).
 - [x] Re-run `npm run lint` until clean.
 - [x] Re-run targeted tests impacted by lint edits.
-- [ ] Commit and push lint-only fix.
+- [x] Commit and push lint-only fix.
 
 ## Review (to fill after implementation)
 
-- Status: In progress.
-- Notes: Lint now passes; targeted tests (`language`, `pronounce`, `write`) pass.
+- Status: Completed.
+- Notes: Lint passes with `npm run lint`; targeted regression tests pass.
 
 ---
 
