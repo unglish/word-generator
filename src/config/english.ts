@@ -567,6 +567,8 @@ export const englishConfig: LanguageConfig = {
             name: "ity-diphthong-flattening",
             target: "nucleus",
             priority: 20,
+            // TODO(issue-15): Restrict this rule to aligned orthographic contexts
+            // (e.g., ...ine -> ...in) so phoneme flattening does not over-apply.
             phonologicalCondition: { position: "preceding", sounds: ["aɪ"] },
             replaceSound: "ɪ",
             writtenMatch: /ine$/i,
