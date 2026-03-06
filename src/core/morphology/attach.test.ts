@@ -184,7 +184,7 @@ const itySuffix: Affix = {
   morphophonemicRules: [
     {
       name: "ity-velar-softening",
-      phonologicalCondition: { position: "preceding", manner: ["stop"], place: ["velar"] },
+      phonologicalCondition: { position: "preceding", voiced: false, manner: ["stop"], place: ["velar"] },
       replaceSound: "s",
       writtenMatch: /(c|k|ck)$/i,
       writtenReplace: "s",
@@ -575,6 +575,14 @@ describe("morphology", () => {
       applyMorphology(rt, ctx, { template: "suffixed" as const, suffix: itySuffix });
       expect(ctx.word.written.clean).toBe("basity");
       expect(ctx.word.syllables[0].coda[0]?.sound).toBe("s");
+    });
+
+    it("does not apply velar softening to voiced /g/ before -ity", () => {
+      const rt = makeRuntime();
+      const ctx = makeContext([makeSyllable(["b"], ["æ"], ["g"])], "bag");
+      applyMorphology(rt, ctx, { template: "suffixed" as const, suffix: itySuffix });
+      expect(ctx.word.written.clean).toBe("bagity");
+      expect(ctx.word.syllables[0].coda[0]?.sound).toBe("g");
     });
 
     it("applies nucleus flattening before -ity and records trace evidence", () => {

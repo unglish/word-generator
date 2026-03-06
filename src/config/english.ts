@@ -558,7 +558,7 @@ export const englishConfig: LanguageConfig = {
           {
             name: "ity-velar-softening",
             priority: 10,
-            phonologicalCondition: { position: "preceding", manner: ["stop"], place: ["velar"] },
+            phonologicalCondition: { position: "preceding", voiced: false, manner: ["stop"], place: ["velar"] },
             replaceSound: "s",
             writtenMatch: /(c|k|ck)$/i,
             writtenReplace: "s",
