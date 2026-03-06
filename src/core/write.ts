@@ -838,7 +838,7 @@ function createDoublingFn(
     prob = Math.min(100, Math.max(0, Math.round(prob)));
     if (prob <= 0) return skip("zero-probability:unstressed");
 
-    const shouldDouble = getWeightedOption([[true, prob], [false, 100 - prob]], rand);
+    const shouldDouble = rand() * 100 < prob;
     if (shouldDouble) {
       state.doublingCount++;
       const doubled = doubledFormLookup[form] ?? (form + form);

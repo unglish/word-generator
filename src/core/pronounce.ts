@@ -13,6 +13,11 @@ import getWeightedOption from "../utils/getWeightedOption.js";
 import { otEvaluate } from "./ot-stress.js";
 import type { AspirationDecisionTrace, AspirationTargetSegment } from "./trace.js";
 
+/** Fast boolean probability check (avoids tuple array allocation). */
+function coinFlip(rand: RNG, probability: number): boolean {
+  return rand() * 100 < probability;
+}
+
 export interface PronunciationRuntimeConfig {
   aspiration: ResolvedAspirationRules;
   vowelReduction?: VowelReductionConfig;
@@ -298,7 +303,7 @@ const applySecondaryStress = (context: WordGenerationContext, rand: RNG, stress:
     rand,
   );
 
-  if (getWeightedOption([[true, stress.secondary.probability], [false, 100 - stress.secondary.probability]], rand)) {
+  if (coinFlip(rand, stress.secondary.probability)) {
     syllables[secondaryStressIndex].stress = "ˌ";
   }
 };
@@ -315,7 +320,7 @@ const applyRhythmicStress = (context: WordGenerationContext, rand: RNG, stress: 
       continue;
     }
 
-    if (getWeightedOption([[true, stress.rhythmic.probability], [false, 100 - stress.rhythmic.probability]], rand)) {
+    if (coinFlip(rand, stress.rhythmic.probability)) {
       syllables[i].stress = "ˌ";
     }
   }
@@ -427,7 +432,7 @@ const reduceUnstressedVowels = (
       const target = phonemes.find((p) => p.sound === rule.target);
       if (!target) continue;
 
-      if (getWeightedOption([[true, prob], [false, 100 - prob]], rand)) {
+      if (coinFlip(rand, prob)) {
         syllable.nucleus[i] = { ...target, reduced: true };
       }
     }
