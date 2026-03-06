@@ -392,7 +392,10 @@ export interface AspirationRule {
 }
 
 /**
- * Language-level aspiration behavior expressed as ordered declarative rules.
+ * Language-level aspiration behavior for pronunciation output.
+ *
+ * Aspiration eligibility is driven by explicit target selectors plus
+ * ordered probability rules.
  */
 export interface AspirationRules {
   enabled: boolean;
@@ -1430,18 +1433,49 @@ export function validateConfig(config: LanguageConfig): void {
 
   const phonemeSounds = new Set(config.phonemes.map(p => p.sound));
   const onsetSounds = new Set(config.phonemeMaps.onset.keys());
+  const nucleusSounds = new Set(config.phonemeMaps.nucleus.keys());
   const codaSounds = new Set(config.phonemeMaps.coda.keys());
 
-  const assertKnownBoundarySound = (
+  const assertKnownPositionSound = (
     sound: string,
-    position: "onset" | "coda",
+    position: "onset" | "nucleus" | "coda",
     label: string,
   ): void => {
-    const lookup = position === "onset" ? onsetSounds : codaSounds;
+    const lookup = position === "onset"
+      ? onsetSounds
+      : position === "nucleus"
+        ? nucleusSounds
+        : codaSounds;
     if (!lookup.has(sound)) {
       throw new Error(`${label} contains unknown ${position} phoneme "${sound}"`);
     }
   };
+
+  if (aspiration) {
+    aspiration.targets.forEach((target, targetIndex) => {
+      if (!target.sounds) return;
+      if (target.sounds.length === 0) {
+        throw new Error(`pronunciation.aspiration.targets[${targetIndex}].sounds must not be empty`);
+      }
+      for (const sound of target.sounds) {
+        assertKnownPositionSound(
+          sound,
+          target.segment,
+          `pronunciation.aspiration.targets[${targetIndex}].sounds`,
+        );
+      }
+    });
+
+    aspiration.rules.forEach((rule, ruleIndex) => {
+      for (const sound of rule.when.previousCodaSounds ?? []) {
+        assertKnownPositionSound(
+          sound,
+          "coda",
+          `pronunciation.aspiration.rules[${ruleIndex}].when.previousCodaSounds`,
+        );
+      }
+    });
+  }
   const validateBridgeOnsets = (pairs: [string, number][], label: string): void => {
     for (const [sound, weight] of pairs) {
       if (!sound) {
@@ -1572,22 +1606,22 @@ export function validateConfig(config: LanguageConfig): void {
 
   if (config.clusterConstraint?.banned) {
     for (const [codaSound, onsetSound] of config.clusterConstraint.banned) {
-      assertKnownBoundarySound(codaSound, "coda", "clusterConstraint.banned");
-      assertKnownBoundarySound(onsetSound, "onset", "clusterConstraint.banned");
+      assertKnownPositionSound(codaSound, "coda", "clusterConstraint.banned");
+      assertKnownPositionSound(onsetSound, "onset", "clusterConstraint.banned");
     }
   }
 
   if (config.clusterConstraint?.rules) {
     config.clusterConstraint.rules.forEach((rule, index) => {
       for (const sound of rule.coda.sounds ?? []) {
-        assertKnownBoundarySound(sound, "coda", `clusterConstraint.rules[${index}].coda.sounds`);
+        assertKnownPositionSound(sound, "coda", `clusterConstraint.rules[${index}].coda.sounds`);
       }
       for (const sound of rule.onset.sounds ?? []) {
-        assertKnownBoundarySound(sound, "onset", `clusterConstraint.rules[${index}].onset.sounds`);
+        assertKnownPositionSound(sound, "onset", `clusterConstraint.rules[${index}].onset.sounds`);
       }
       for (const [codaSound, onsetSound] of rule.except ?? []) {
-        assertKnownBoundarySound(codaSound, "coda", `clusterConstraint.rules[${index}].except`);
-        assertKnownBoundarySound(onsetSound, "onset", `clusterConstraint.rules[${index}].except`);
+        assertKnownPositionSound(codaSound, "coda", `clusterConstraint.rules[${index}].except`);
+        assertKnownPositionSound(onsetSound, "onset", `clusterConstraint.rules[${index}].except`);
       }
     });
   }

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { englishConfig } from "./english.js";
-import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, validateConfig } from "./language.js";
+import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, resolveAspirationRules, validateConfig } from "./language.js";
 import { VOICED_BONUS, TENSE_BONUS } from "./weights.js";
 import { sonorityLevels } from "../elements/phonemes.js";
 import { Phoneme } from "../types.js";
@@ -204,6 +204,22 @@ describe("LanguageConfig", () => {
       expect(englishConfig.pronunciation.aspiration!.targets.length).toBeGreaterThan(0);
       expect(englishConfig.pronunciation.aspiration!.rules.length).toBeGreaterThan(0);
     });
+
+    it("should resolve default aspiration selectors and rules", () => {
+      expect(resolveAspirationRules()).toMatchObject({
+        enabled: true,
+        targets: [
+          {
+            segment: "onset",
+            index: 0,
+            manner: ["stop"],
+            voiced: false,
+          },
+        ],
+        fallbackProbability: 30,
+      });
+      expect(resolveAspirationRules().rules.length).toBeGreaterThan(0);
+    });
   });
 });
 
@@ -287,6 +303,67 @@ describe("validateConfig", () => {
       },
     };
     expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.rules[0].probability is 101, must be in [0, 100]");
+  });
+
+  it("should throw when aspiration target selector sounds is empty", () => {
+    const bad = {
+      ...englishConfig,
+      pronunciation: {
+        ...englishConfig.pronunciation,
+        aspiration: {
+          ...englishConfig.pronunciation.aspiration!,
+          targets: [{ segment: "onset", sounds: [] }],
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.targets[0].sounds must not be empty");
+  });
+
+  it("should throw when aspiration target selector uses an unknown onset", () => {
+    const bad = {
+      ...englishConfig,
+      pronunciation: {
+        ...englishConfig.pronunciation,
+        aspiration: {
+          ...englishConfig.pronunciation.aspiration!,
+          targets: [{ segment: "onset", sounds: ["not-a-phoneme"] }],
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow('pronunciation.aspiration.targets[0].sounds contains unknown onset phoneme "not-a-phoneme"');
+  });
+
+  it("should throw when aspiration target selector uses an unknown nucleus", () => {
+    const bad = {
+      ...englishConfig,
+      pronunciation: {
+        ...englishConfig.pronunciation,
+        aspiration: {
+          ...englishConfig.pronunciation.aspiration!,
+          targets: [{ segment: "nucleus", sounds: ["not-a-phoneme"] }],
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow('pronunciation.aspiration.targets[0].sounds contains unknown nucleus phoneme "not-a-phoneme"');
+  });
+
+  it("should throw when aspiration previousCodaSounds uses an unknown coda", () => {
+    const bad = {
+      ...englishConfig,
+      pronunciation: {
+        ...englishConfig.pronunciation,
+        aspiration: {
+          ...englishConfig.pronunciation.aspiration!,
+          rules: [
+            {
+              ...englishConfig.pronunciation.aspiration!.rules[0],
+              when: { previousCodaSounds: ["not-a-phoneme"] },
+            },
+          ],
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow('pronunciation.aspiration.rules[0].when.previousCodaSounds contains unknown coda phoneme "not-a-phoneme"');
   });
 
   it("should throw when pronunciation config is missing", () => {
