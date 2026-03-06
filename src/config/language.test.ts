@@ -319,7 +319,7 @@ describe("validateConfig", () => {
         fallbackBridgeOnsets: [["not-a-phoneme", 100] as [string, number]],
       },
     };
-    expect(() => validateConfig(bad)).toThrow('hiatusPolicy.fallbackBridgeOnsets contains unknown phoneme "not-a-phoneme"');
+    expect(() => validateConfig(bad)).toThrow("hiatusPolicy.fallbackBridgeOnsets contains unknown phoneme \"not-a-phoneme\"");
   });
 
   it("should throw when morphology boundary bridge weight is invalid", () => {
@@ -333,7 +333,7 @@ describe("validateConfig", () => {
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow('morphology.boundaryPolicy.fallbackBridgeOnsets has invalid weight 0 for "h" (must be > 0)');
+    expect(() => validateConfig(bad)).toThrow("morphology.boundaryPolicy.fallbackBridgeOnsets has invalid weight 0 for \"h\" (must be > 0)");
   });
 
   it("should throw when a morphophonemic rule uses an unknown replacement phoneme", () => {
@@ -344,15 +344,15 @@ describe("validateConfig", () => {
         suffixes: englishConfig.morphology!.suffixes.map((suffix) =>
           suffix.written === "ity"
             ? {
-                ...suffix,
-                morphophonemicRules: [
-                  {
-                    name: "bad-replacement",
-                    phonologicalCondition: { position: "preceding", place: ["velar"] },
-                    replaceSound: "not-a-phoneme",
-                  },
-                ],
-              }
+              ...suffix,
+              morphophonemicRules: [
+                {
+                  name: "bad-replacement",
+                  phonologicalCondition: { position: "preceding", place: ["velar"] },
+                  replaceSound: "not-a-phoneme",
+                },
+              ],
+            }
             : suffix,
         ),
       },
@@ -368,15 +368,15 @@ describe("validateConfig", () => {
         suffixes: englishConfig.morphology!.suffixes.map((suffix) =>
           suffix.written === "ity"
             ? {
-                ...suffix,
-                morphophonemicRules: [
-                  {
-                    name: "bad-position",
-                    phonologicalCondition: { position: "following", place: ["velar"] },
-                    replaceSound: "s",
-                  },
-                ],
-              }
+              ...suffix,
+              morphophonemicRules: [
+                {
+                  name: "bad-position",
+                  phonologicalCondition: { position: "following", place: ["velar"] },
+                  replaceSound: "s",
+                },
+              ],
+            }
             : suffix,
         ),
       },

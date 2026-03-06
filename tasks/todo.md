@@ -1,3 +1,20 @@
+# Lint Remediation — In Progress
+
+## Plan
+
+- [x] Run `eslint --fix` across `src/**/*.ts`.
+- [x] Manually resolve remaining lint violations (`no-unused-vars`, residual indent/quotes).
+- [x] Re-run `npm run lint` until clean.
+- [x] Re-run targeted tests impacted by lint edits.
+- [ ] Commit and push lint-only fix.
+
+## Review (to fill after implementation)
+
+- Status: In progress.
+- Notes: Lint now passes; targeted tests (`language`, `pronounce`, `write`) pass.
+
+---
+
 # Issue #15 — Morphophonemic Alternations (In Progress)
 
 ## Plan

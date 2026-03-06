@@ -241,31 +241,31 @@ const applyPrimaryStress = (context: WordGenerationContext, rand: RNG, stress: R
   let primaryStressIndex = 0;
 
   switch (stress.primary.type) {
-    case "fixed": {
-      primaryStressIndex = Math.max(0, Math.min(syllableCount - 1, stress.primary.fixedPosition));
-      break;
-    }
-    case "initial": {
-      primaryStressIndex = 0;
-      break;
-    }
-    case "penultimate": {
-      primaryStressIndex = Math.max(0, syllableCount - 2);
-      break;
-    }
-    case "weight-sensitive": {
-      primaryStressIndex = chooseWeightSensitivePrimaryStress(
-        syllables,
-        rand,
-        stress.primary.disyllabicWeights,
-        stress.primary.polysyllabicWeights,
-      );
-      break;
-    }
-    case "ot": {
-      primaryStressIndex = otEvaluate(syllables, stress.primary.otConfig, rand);
-      break;
-    }
+  case "fixed": {
+    primaryStressIndex = Math.max(0, Math.min(syllableCount - 1, stress.primary.fixedPosition));
+    break;
+  }
+  case "initial": {
+    primaryStressIndex = 0;
+    break;
+  }
+  case "penultimate": {
+    primaryStressIndex = Math.max(0, syllableCount - 2);
+    break;
+  }
+  case "weight-sensitive": {
+    primaryStressIndex = chooseWeightSensitivePrimaryStress(
+      syllables,
+      rand,
+      stress.primary.disyllabicWeights,
+      stress.primary.polysyllabicWeights,
+    );
+    break;
+  }
+  case "ot": {
+    primaryStressIndex = otEvaluate(syllables, stress.primary.otConfig, rand);
+    break;
+  }
   }
 
   syllables[primaryStressIndex].stress = "ˈ";
