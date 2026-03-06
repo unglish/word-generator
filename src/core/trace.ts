@@ -58,6 +58,17 @@ export interface MorphologyTrace {
   prefix?: string;
   suffix?: string;
   syllableReduction: number;
+  alternations?: MorphophonemicAlternationTrace[];
+}
+
+export interface MorphophonemicAlternationTrace {
+  rule: string;
+  affix: string;
+  boundary: "prefix-root" | "root-suffix";
+  soundBefore?: string;
+  soundAfter?: string;
+  writtenBefore?: string;
+  writtenAfter?: string;
 }
 
 export interface BoundaryDropTrace {

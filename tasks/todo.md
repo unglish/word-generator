@@ -1,3 +1,39 @@
+# Lint Remediation — In Progress
+
+## Plan
+
+- [x] Run `eslint --fix` across `src/**/*.ts`.
+- [x] Manually resolve remaining lint violations (`no-unused-vars`, residual indent/quotes).
+- [x] Re-run `npm run lint` until clean.
+- [x] Re-run targeted tests impacted by lint edits.
+- [x] Commit and push lint-only fix.
+
+## Review (to fill after implementation)
+
+- Status: Completed.
+- Notes: Lint passes with `npm run lint`; targeted regression tests pass.
+
+---
+
+# Issue #15 — Morphophonemic Alternations (In Progress)
+
+## Plan
+
+- [x] Add typed morphophonemic rule config + validation plumbing (`language.ts` + tests).
+- [x] Implement alternation engine in morphology attachment (`attach.ts`) with deterministic rule ordering.
+- [x] Extend trace payload to include fired alternation evidence.
+- [x] Add initial English alternation rules for `-ity` family.
+- [x] Add focused unit/integration tests for alternation behavior and trace evidence.
+- [x] Run targeted + project-level test suites (`attach`, `trace`, config, full `npm test`).
+- [x] Commit in atomic logical steps and push branch.
+
+## Review (to fill after implementation)
+
+- Status: Completed.
+- Notes: Implemented config/runtime/test changes; full suite passing; atomic commits pushed to remote branch.
+
+---
+
 # Word Generation Performance ROI — Completed
 
 ## Summary

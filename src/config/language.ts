@@ -818,6 +818,8 @@ export interface BoundaryTransform {
 export interface PhonologicalCondition {
   /** Which phoneme to test: the one adjacent to the affix boundary. */
   position: "preceding" | "following";
+  /** If set, phoneme.sound must be one of these exact sounds. */
+  sounds?: string[];
   /** If set, phoneme.voiced must match this value. */
   voiced?: boolean;
   /** If set, phoneme.mannerOfArticulation must be one of these. */
@@ -840,6 +842,24 @@ export interface AllomorphVariant {
   written?: string;
 }
 
+/** A root alternation applied at an affix boundary (morphophonemics). */
+export interface MorphophonemicRule {
+  /** Human-readable id used in traces. */
+  name: string;
+  /** Lower values apply first. Default is 100. */
+  priority?: number;
+  /** Which root segment near the boundary should be inspected/replaced. */
+  target?: "edge" | "nucleus";
+  /** Optional boundary condition for the adjacent root phoneme. */
+  phonologicalCondition?: PhonologicalCondition;
+  /** Replace the matched boundary root phoneme with this sound. */
+  replaceSound?: string;
+  /** Optional regex-based rewrite on root written form. */
+  writtenMatch?: RegExp;
+  /** Replacement for {@link writtenMatch}. */
+  writtenReplace?: string;
+}
+
 /** A morphological affix (prefix or suffix). */
 export interface Affix {
   /** Whether this attaches before or after the root. */
@@ -860,6 +880,8 @@ export interface Affix {
   boundaryTransforms?: BoundaryTransform[];
   /** Allomorphic variants selected by root-final context. If present, overrides base phonemes/syllableCount. */
   allomorphs?: AllomorphVariant[];
+  /** Morphophonemic alternations applied at this affix boundary. */
+  morphophonemicRules?: MorphophonemicRule[];
 }
 
 /** Configuration for morphological word formation. */
@@ -1457,6 +1479,95 @@ export function validateConfig(config: LanguageConfig): void {
       config.morphology.boundaryPolicy.fallbackBridgeOnsets,
       "morphology.boundaryPolicy.fallbackBridgeOnsets",
     );
+  }
+
+  const validatePhonologicalCondition = (
+    condition: PhonologicalCondition,
+    label: string,
+  ): void => {
+    if (condition.position !== "preceding" && condition.position !== "following") {
+      throw new Error(`${label}.position has invalid value "${String(condition.position)}"`);
+    }
+    if (condition.sounds) {
+      if (condition.sounds.length === 0) {
+        throw new Error(`${label}.sounds must not be empty`);
+      }
+      for (const sound of condition.sounds) {
+        if (!sound) {
+          throw new Error(`${label}.sounds must not contain empty values`);
+        }
+        if (!phonemeSounds.has(sound)) {
+          throw new Error(`${label}.sounds contains unknown phoneme "${sound}"`);
+        }
+      }
+    }
+    if (condition.manner && condition.manner.length === 0) {
+      throw new Error(`${label}.manner must not be empty`);
+    }
+    if (condition.place && condition.place.length === 0) {
+      throw new Error(`${label}.place must not be empty`);
+    }
+  };
+
+  const validateMorphophonemicRule = (
+    affix: Affix,
+    rule: MorphophonemicRule,
+    label: string,
+  ): void => {
+    if (!rule.name || typeof rule.name !== "string") {
+      throw new Error(`${label}.name must be a non-empty string`);
+    }
+    if (rule.priority != null && (!Number.isFinite(rule.priority) || rule.priority < 0)) {
+      throw new Error(`${label}.priority must be a finite number >= 0`);
+    }
+    if (rule.target != null && rule.target !== "edge" && rule.target !== "nucleus") {
+      throw new Error(`${label}.target has invalid value "${String(rule.target)}"`);
+    }
+    if (rule.replaceSound && !phonemeSounds.has(rule.replaceSound)) {
+      throw new Error(`${label}.replaceSound contains unknown phoneme "${rule.replaceSound}"`);
+    }
+    const hasWrittenMatch = rule.writtenMatch instanceof RegExp;
+    const hasWrittenReplace = typeof rule.writtenReplace === "string";
+    if (hasWrittenMatch !== hasWrittenReplace) {
+      throw new Error(`${label} must provide both writtenMatch and writtenReplace together`);
+    }
+    if (!rule.replaceSound && !hasWrittenMatch) {
+      throw new Error(`${label} must define at least one action (replaceSound or written rewrite)`);
+    }
+    if (rule.phonologicalCondition) {
+      validatePhonologicalCondition(rule.phonologicalCondition, `${label}.phonologicalCondition`);
+      const expectedPosition = affix.type === "suffix" ? "preceding" : "following";
+      if (rule.phonologicalCondition.position !== expectedPosition) {
+        throw new Error(
+          `${label}.phonologicalCondition.position must be "${expectedPosition}" for ${affix.type} rules`,
+        );
+      }
+    }
+  };
+
+  if (config.morphology) {
+    for (let i = 0; i < config.morphology.prefixes.length; i++) {
+      const affix = config.morphology.prefixes[i];
+      if (!affix.morphophonemicRules) continue;
+      for (let j = 0; j < affix.morphophonemicRules.length; j++) {
+        validateMorphophonemicRule(
+          affix,
+          affix.morphophonemicRules[j],
+          `morphology.prefixes[${i}].morphophonemicRules[${j}]`,
+        );
+      }
+    }
+    for (let i = 0; i < config.morphology.suffixes.length; i++) {
+      const affix = config.morphology.suffixes[i];
+      if (!affix.morphophonemicRules) continue;
+      for (let j = 0; j < affix.morphophonemicRules.length; j++) {
+        validateMorphophonemicRule(
+          affix,
+          affix.morphophonemicRules[j],
+          `morphology.suffixes[${i}].morphophonemicRules[${j}]`,
+        );
+      }
+    }
   }
 
   if (config.clusterConstraint?.banned) {

@@ -1,5 +1,5 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
-import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, PhonologicalCondition, defaultFallbackBridgeOnsets, resolveAspirationRules } from "../../config/language.js";
+import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, MorphophonemicRule, PhonologicalCondition, defaultFallbackBridgeOnsets, resolveAspirationRules } from "../../config/language.js";
 import { generatePronunciation, PronunciationRuntimeConfig } from "../pronounce.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
 import type { MorphologyPlan } from "./plan.js";
@@ -64,6 +64,69 @@ function getFirstPhoneme(context: WordGenerationContext): Phoneme | undefined {
   return undefined;
 }
 
+type BoundarySegment = "onset" | "nucleus" | "coda";
+
+interface BoundarySegmentRef {
+  syllableIndex: number;
+  segment: BoundarySegment;
+  index: number;
+  phoneme: Phoneme;
+}
+
+function getBoundarySegmentRef(
+  syllables: Syllable[],
+  isPrefix: boolean,
+  target: MorphophonemicRule["target"] = "edge",
+): BoundarySegmentRef | undefined {
+  if (syllables.length === 0) return undefined;
+
+  if (target === "nucleus") {
+    const syllableIndex = isPrefix ? 0 : syllables.length - 1;
+    const syllable = syllables[syllableIndex];
+    if (syllable.nucleus.length === 0) return undefined;
+    const index = isPrefix ? 0 : syllable.nucleus.length - 1;
+    return {
+      syllableIndex,
+      segment: "nucleus",
+      index,
+      phoneme: syllable.nucleus[index],
+    };
+  }
+
+  if (isPrefix) {
+    for (let i = 0; i < syllables.length; i++) {
+      const syl = syllables[i];
+      if (syl.onset.length > 0) {
+        return { syllableIndex: i, segment: "onset", index: 0, phoneme: syl.onset[0] };
+      }
+      if (syl.nucleus.length > 0) {
+        return { syllableIndex: i, segment: "nucleus", index: 0, phoneme: syl.nucleus[0] };
+      }
+      if (syl.coda.length > 0) {
+        return { syllableIndex: i, segment: "coda", index: 0, phoneme: syl.coda[0] };
+      }
+    }
+    return undefined;
+  }
+
+  for (let i = syllables.length - 1; i >= 0; i--) {
+    const syl = syllables[i];
+    if (syl.coda.length > 0) {
+      const idx = syl.coda.length - 1;
+      return { syllableIndex: i, segment: "coda", index: idx, phoneme: syl.coda[idx] };
+    }
+    if (syl.nucleus.length > 0) {
+      const idx = syl.nucleus.length - 1;
+      return { syllableIndex: i, segment: "nucleus", index: idx, phoneme: syl.nucleus[idx] };
+    }
+    if (syl.onset.length > 0) {
+      const idx = syl.onset.length - 1;
+      return { syllableIndex: i, segment: "onset", index: idx, phoneme: syl.onset[idx] };
+    }
+  }
+  return undefined;
+}
+
 // ---------------------------------------------------------------------------
 // Config-driven boundary transforms
 // ---------------------------------------------------------------------------
@@ -92,6 +155,7 @@ export function matchesPhonologicalCondition(
 ): boolean {
   if (condition.position === "preceding" && isPrefix) return false;
   if (condition.position === "following" && !isPrefix) return false;
+  if (condition.sounds && !condition.sounds.includes(phoneme.sound)) return false;
   if (condition.voiced !== undefined && phoneme.voiced !== condition.voiced) return false;
   if (condition.manner && !condition.manner.includes(phoneme.mannerOfArticulation)) return false;
   if (condition.place && !condition.place.includes(phoneme.placeOfArticulation)) return false;
@@ -192,6 +256,76 @@ function adjustStress(
   }
 }
 
+interface FiredMorphophonemicRule {
+  rule: string;
+  affix: string;
+  boundary: "prefix-root" | "root-suffix";
+  soundBefore?: string;
+  soundAfter?: string;
+  writtenBefore?: string;
+  writtenAfter?: string;
+}
+
+function applyMorphophonemicRules(
+  rootSyllables: Syllable[],
+  rootWritten: string,
+  affix: Affix,
+  isPrefix: boolean,
+  resolvePhoneme: (sound: string) => Phoneme,
+): { rootWritten: string; fired: FiredMorphophonemicRule[] } {
+  if (!affix.morphophonemicRules || affix.morphophonemicRules.length === 0) {
+    return { rootWritten, fired: [] };
+  }
+
+  const sortedRules = [...affix.morphophonemicRules].sort(
+    (a, b) => (a.priority ?? 100) - (b.priority ?? 100),
+  );
+  const fired: FiredMorphophonemicRule[] = [];
+  let written = rootWritten;
+
+  for (const rule of sortedRules) {
+    const boundaryRef = getBoundarySegmentRef(rootSyllables, isPrefix, rule.target ?? "edge");
+    if (!boundaryRef) continue;
+    if (
+      rule.phonologicalCondition
+      && !matchesPhonologicalCondition(rule.phonologicalCondition, boundaryRef.phoneme, isPrefix)
+    ) {
+      continue;
+    }
+
+    let changed = false;
+    const event: FiredMorphophonemicRule = {
+      rule: rule.name,
+      affix: affix.written,
+      boundary: isPrefix ? "prefix-root" : "root-suffix",
+    };
+
+    if (rule.replaceSound && rule.replaceSound !== boundaryRef.phoneme.sound) {
+      const next = resolvePhoneme(rule.replaceSound);
+      rootSyllables[boundaryRef.syllableIndex][boundaryRef.segment][boundaryRef.index] = next;
+      event.soundBefore = boundaryRef.phoneme.sound;
+      event.soundAfter = next.sound;
+      changed = true;
+    }
+
+    if (rule.writtenMatch && rule.writtenReplace !== undefined) {
+      const rewritten = written.replace(rule.writtenMatch, rule.writtenReplace);
+      if (rewritten !== written) {
+        event.writtenBefore = written;
+        event.writtenAfter = rewritten;
+        written = rewritten;
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      fired.push(event);
+    }
+  }
+
+  return { rootWritten: written, fired };
+}
+
 // ---------------------------------------------------------------------------
 // Main API
 // ---------------------------------------------------------------------------
@@ -220,18 +354,6 @@ export function applyMorphology(
     suffixVariant = resolveAllomorph(plan.suffix, lastPhoneme, false);
   }
 
-  // Apply boundary transforms to root written form at both boundaries.
-  if (plan.prefix && prefixVariant && plan.prefix.boundaryTransforms) {
-    rootWritten = applyBoundaryTransforms(rootWritten, plan.prefix.boundaryTransforms);
-  }
-  if (plan.suffix && suffixVariant && plan.suffix.boundaryTransforms) {
-    rootWritten = applyBoundaryTransforms(rootWritten, plan.suffix.boundaryTransforms);
-  }
-
-  const prefixWritten = prefixVariant?.written ?? "";
-  const suffixWritten = suffixVariant?.written ?? "";
-  const cleanForm = prefixWritten + rootWritten + suffixWritten;
-
   const inventory = config.phonemes;
   const phonemeMap = new Map<string, Phoneme>();
   for (const p of inventory) {
@@ -246,6 +368,42 @@ export function applyMorphology(
       startWord: 1, midWord: 1, endWord: 1,
     };
   }
+
+  const firedMorphophonemics: FiredMorphophonemicRule[] = [];
+  if (plan.prefix && prefixVariant) {
+    const applied = applyMorphophonemicRules(
+      syllables,
+      rootWritten,
+      plan.prefix,
+      true,
+      resolvePhoneme,
+    );
+    rootWritten = applied.rootWritten;
+    firedMorphophonemics.push(...applied.fired);
+  }
+  if (plan.suffix && suffixVariant) {
+    const applied = applyMorphophonemicRules(
+      syllables,
+      rootWritten,
+      plan.suffix,
+      false,
+      resolvePhoneme,
+    );
+    rootWritten = applied.rootWritten;
+    firedMorphophonemics.push(...applied.fired);
+  }
+
+  // Apply boundary transforms to root written form at both boundaries.
+  if (plan.prefix && prefixVariant && plan.prefix.boundaryTransforms) {
+    rootWritten = applyBoundaryTransforms(rootWritten, plan.prefix.boundaryTransforms);
+  }
+  if (plan.suffix && suffixVariant && plan.suffix.boundaryTransforms) {
+    rootWritten = applyBoundaryTransforms(rootWritten, plan.suffix.boundaryTransforms);
+  }
+
+  const prefixWritten = prefixVariant?.written ?? "";
+  const suffixWritten = suffixVariant?.written ?? "";
+  const cleanForm = prefixWritten + rootWritten + suffixWritten;
 
   const prefixSyllables = prefixVariant
     ? (prefixVariant.syllables !== undefined && prefixVariant.syllables.length > 0
@@ -344,6 +502,9 @@ export function applyMorphology(
   generatePronunciation(context, pronunciation);
 
   context.word.written.clean = cleanForm;
+  if (context.trace?.morphologyTrace && firedMorphophonemics.length > 0) {
+    context.trace.morphologyTrace.alternations = firedMorphophonemics;
+  }
 
   const parts: string[] = [];
   if (prefixWritten) parts.push(prefixWritten);

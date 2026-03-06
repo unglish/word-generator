@@ -36,43 +36,11 @@ function longestConsonantRun(word: string): number {
   return max;
 }
 
-function median(values: (number | null)[]): number | null {
-  const nums = values.filter((v): v is number => v !== null).sort((a, b) => a - b);
-  if (nums.length === 0) return null;
-  const mid = Math.floor(nums.length / 2);
-  return nums.length % 2 ? nums[mid] : Math.round((nums[mid - 1] + nums[mid]) / 2);
-}
-
-function pearsonCorrelation(xs: number[], ys: number[]): number {
-  const n = xs.length;
-  const mx = xs.reduce((a, b) => a + b, 0) / n;
-  const my = ys.reduce((a, b) => a + b, 0) / n;
-  let num = 0, dx2 = 0, dy2 = 0;
-  for (let i = 0; i < n; i++) {
-    const dx = xs[i] - mx, dy = ys[i] - my;
-    num += dx * dy; dx2 += dx * dx; dy2 += dy * dy;
-  }
-  const denom = Math.sqrt(dx2 * dy2);
-  return denom === 0 ? 0 : num / denom;
-}
-
-const fmtNumber = new Intl.NumberFormat("en-US");
-const fmt = (n: number | null | undefined) =>
-  n !== null && n !== undefined ? fmtNumber.format(n) : "not reached";
-
 // ---------------------------------------------------------------------------
 // Quality Benchmark
 // ---------------------------------------------------------------------------
 
-// NOTE: Test ordering matters. Vitest runs tests within a describe block
-// sequentially in declaration order. The trial tests must run before the
-// gates/metrics block so that trialResults is populated for the report.
-
 describe("Quality Benchmark", () => {
-  const strictNgramQuality = process.env.STRICT_NGRAM_QUALITY !== "0";
-
-  const trialResults: Array<Record<number, number | null>> = [];
-
   // -------------------------------------------------------------------------
   // Gates & Metrics (200k sample)
   // -------------------------------------------------------------------------
@@ -226,6 +194,9 @@ describe("Quality Benchmark", () => {
           avgLength,
           uniqueRate,
           lengthDistribution,
+          totalLetters,
+          totalBigrams,
+          totalTrigrams,
         },
       };
 

@@ -173,6 +173,33 @@ const tionSuffix: Affix = {
   frequency: 80,
 };
 
+const itySuffix: Affix = {
+  type: "suffix",
+  written: "ity",
+  phonemes: ["ɪ", "t", "i:"],
+  syllables: [{ onset: [], nucleus: ["ɪ"], coda: [] }, { onset: ["t"], nucleus: ["i:"], coda: [] }],
+  syllableCount: 2,
+  stressEffect: "attract-preceding",
+  frequency: 18,
+  morphophonemicRules: [
+    {
+      name: "ity-velar-softening",
+      phonologicalCondition: { position: "preceding", voiced: false, manner: ["stop"], place: ["velar"] },
+      replaceSound: "s",
+      writtenMatch: /(c|k|ck)$/i,
+      writtenReplace: "s",
+    },
+    {
+      name: "ity-diphthong-flattening",
+      target: "nucleus",
+      phonologicalCondition: { position: "preceding", sounds: ["aɪ"] },
+      replaceSound: "ɪ",
+      writtenMatch: /ine$/i,
+      writtenReplace: "in",
+    },
+  ],
+};
+
 function makeConfig(overrides: Partial<MorphologyConfig> = {}): MorphologyConfig {
   return {
     enabled: true,
@@ -541,6 +568,43 @@ describe("morphology", () => {
     });
   });
 
+  describe("morphophonemic alternations", () => {
+    it("applies velar softening before -ity", () => {
+      const rt = makeRuntime();
+      const ctx = makeContext([makeSyllable(["b"], ["æ"], ["k"])], "bak");
+      applyMorphology(rt, ctx, { template: "suffixed" as const, suffix: itySuffix });
+      expect(ctx.word.written.clean).toBe("basity");
+      expect(ctx.word.syllables[0].coda[0]?.sound).toBe("s");
+    });
+
+    it("does not apply velar softening to voiced /g/ before -ity", () => {
+      const rt = makeRuntime();
+      const ctx = makeContext([makeSyllable(["b"], ["æ"], ["g"])], "bag");
+      applyMorphology(rt, ctx, { template: "suffixed" as const, suffix: itySuffix });
+      expect(ctx.word.written.clean).toBe("bagity");
+      expect(ctx.word.syllables[0].coda[0]?.sound).toBe("g");
+    });
+
+    it("applies nucleus flattening before -ity and records trace evidence", () => {
+      const rt = makeRuntime();
+      const trace = new TraceCollector();
+      trace.morphologyTrace = {
+        template: "suffixed",
+        suffix: "ity",
+        syllableReduction: 2,
+      };
+      const ctx = makeContext([makeSyllable(["d"], ["aɪ"], ["n"])], "dine");
+      ctx.trace = trace;
+      applyMorphology(rt, ctx, { template: "suffixed" as const, suffix: itySuffix });
+
+      expect(ctx.word.written.clean).toBe("dinity");
+      expect(ctx.word.syllables[0].nucleus[0]?.sound).toBe("ɪ");
+      expect(trace.morphologyTrace.alternations?.some(
+        a => a.rule === "ity-diphthong-flattening" && a.soundBefore === "aɪ" && a.soundAfter === "ɪ",
+      )).toBe(true);
+    });
+  });
+
   describe("maximal onset resyllabification", () => {
     it("-able syllables use maximal onset (/ə.bəl/ not /əb.əl/)", () => {
       const rt = makeRuntime();
@@ -658,5 +722,11 @@ describe("matchesPhonologicalCondition", () => {
   it("following condition returns false in suffix context", () => {
     const cond: PhonologicalCondition = { position: "following", place: ["bilabial"] };
     expect(matchesPhonologicalCondition(cond, voicedStop, false)).toBe(false);
+  });
+
+  it("sounds constraint matches exact sounds only", () => {
+    const cond: PhonologicalCondition = { position: "preceding", sounds: ["aɪ"] };
+    expect(matchesPhonologicalCondition(cond, findPhoneme("aɪ"), false)).toBe(true);
+    expect(matchesPhonologicalCondition(cond, findPhoneme("ɪ"), false)).toBe(false);
   });
 });
