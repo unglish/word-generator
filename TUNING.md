@@ -199,6 +199,27 @@ Do not conclude a cause from surface strings alone.
 
 **Output:** Saved to `memory/{pattern}-fix-verification.md`
 
+## Phoneme-Length Acceptance (#223)
+
+Top-down phoneme targeting is now the supported English generation model.
+When tuning phoneme-length behavior, verify against the configured target tables
+instead of depending on a raw local CMU dictionary file.
+
+Normal verification:
+
+- `npm run analyze:phoneme-length`
+- `npm test`
+- `npm run test:quality`
+- `npm run audit:trace`
+- `npm run analyze:trigrams`
+
+Acceptance thresholds for `scripts/phoneme-length-dist.ts`:
+
+- all phoneme-length buckets within `1.0pp` of the configured lexicon target
+- 6-phoneme bucket within `1.5pp`
+- `mode=lexicon`
+- `morphology=false`
+
 ### Improvement opportunities
 - **Automated verification script**: `scripts/verify-fix.ts <pattern> <before-count> <sample-size>`
 - **A/B comparison**: Generate same-seed samples with and without fix for direct comparison
@@ -263,11 +284,26 @@ A typical tuning session:
 | Script | Purpose |
 |--------|---------|
 | `scripts/analyze-cmu-phonemes.mjs` | Canonical 2M phoneme analysis and report generation |
+| `scripts/phoneme-length-dist.ts` | Manual acceptance check for top-down phoneme-length targeting |
 | `scripts/build-cmu-phoneme-baseline.mjs` | Build CMU phoneme baseline mapped to generator symbols |
 | `scripts/analyze-cmu-trigrams.mjs` | Trigram monitoring report (non-blocking for phoneme-first cycle) |
 | `scripts/diagnose.ts` | Pattern-specific diagnosis with WordTrace sampling |
 | `scripts/sync-demo-cmu-baselines.mjs` | Sync/check `demo/cmuBaselines.js` against `memory` baselines |
 | `src/core/phoneme-quality.test.ts` | Phoneme guardrail test gates |
+
+## CMU Tooling Audit (2026-03-07)
+
+The raw CMU dictionary remains local-only and ignored. Normal verification
+should rely on committed baselines and config, not on `data/cmudict-0.7b.txt`.
+
+| Script | Classification | Notes |
+|--------|----------------|-------|
+| `scripts/phoneme-length-dist.ts` | keep and repair | Normal verification; now compares generated output to committed top-down targets. |
+| `scripts/build-cmu-phoneme-baseline.mjs` | keep and repair | Local helper for rebuilding `memory/cmu-lexicon-phonemes.json`; can mirror committed demo baseline when raw CMU is absent. |
+| `scripts/build-cmu-baseline.ts` | manual source-regeneration | Rebuilds committed `data/cmu-length-baseline.json`; requires local ignored `data/cmudict-0.7b.txt`. |
+| `scripts/generate-bigram-table.ts` | manual source-regeneration | Rebuilds `src/phonotactic/arpabet-bigrams.ts`; prefers local raw CMU file, otherwise downloads upstream. Not required for normal verification. |
+| `scripts/generate-baseline.ts` | manual source-regeneration | Rebuilds `src/phonotactic/english-baseline.json`; prefers local raw CMU file, otherwise downloads upstream. Not required for normal verification. |
+| `scripts/full-cmu-baseline.ts` | remove | Stale duplicate of the phonotactic baseline flow with no active references. |
 
 ## Phoneme Guardrail Ratchet
 

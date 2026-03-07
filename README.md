@@ -60,6 +60,30 @@ console.log(word.trace?.graphemeSelections[0]);
 
 Detailed trace workflow: [`docs/word-trace-diagnostics.md`](./docs/word-trace-diagnostics.md)
 
+## Top-Down Phoneme Targeting
+
+Generation now plans words top-down:
+
+1. sample a target phoneme count,
+2. sample a compatible syllable count,
+3. distribute onset/coda consonant budgets across syllables,
+4. generate phonemes, repairs, pronunciation, and spelling.
+
+The built-in English config ships with this wired through:
+
+- `phonemeLengthWeights`
+- `phonemeToSyllableWeights`
+
+Custom language configs should provide both tables. They are required parts of
+`LanguageConfig`, not optional tuning extras.
+
+After retuning those tables, run:
+
+```bash
+npm run analyze:phoneme-length
+npm run test:quality
+```
+
 ## Boundary Policy Config (0.6.0)
 
 Boundary adjustment probabilities moved to a dedicated
@@ -121,6 +145,7 @@ npm run dev
 Additional checks:
 
 - `npm run test:quality`
+- `npm run analyze:phoneme-length`
 - `npm run test:perf`
 - `npm run analyze:phonemes`
 - `npm run analyze:trigrams`
