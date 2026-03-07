@@ -45,4 +45,20 @@ export const glideGraphemes: Grapheme[] = [
       notRightContext: ["u", "u:", "ʊ", "ʌ", "ə", "ɚ", "ɜ", "aʊ", "əʊ"]  // Block "whu", "whoo", "whuh", "whur" patterns
     },
   }
+  ,
+  {
+    phoneme: "w",
+    form: "wh",
+    origin: 0,
+    coda: 0,
+    frequency: 180,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+    condition: {
+      wordPosition: ["initial"],
+      notLeftContext: ["consonant"],
+      rightContext: ["ɪ", "ɛ", "ɑ"],
+    },
+  }
 ];

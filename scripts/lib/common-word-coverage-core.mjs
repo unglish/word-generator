@@ -5,7 +5,6 @@ const DEFAULTS = {
   mode: "lexicon",
   morphology: true,
   traceMisses: 0,
-  trackUnique: false,
 };
 
 const TRACE_BUCKETS = {
@@ -14,68 +13,6 @@ const TRACE_BUCKETS = {
   morphology: "morphology interaction",
   mixed: "mixed / unclear",
 };
-
-function serializePhonemeSequence(phonemes = []) {
-  return phonemes.join("\u0001");
-}
-
-function parseGapSpellingTargetLayer(detail) {
-  if (typeof detail !== "string" || !detail.startsWith("targetLayer:")) {
-    return undefined;
-  }
-  return detail.slice("targetLayer:".length) || undefined;
-}
-
-export function buildGapSpellingCatalog(gapSpellings = []) {
-  const byWord = new Map();
-  for (const gapSpelling of gapSpellings) {
-    const word = String(gapSpelling.replacement ?? "").trim().toLowerCase();
-    if (!word) continue;
-
-    const entry = byWord.get(word) ?? {
-      names: [],
-      targetLayers: [],
-      phonemeKeys: [],
-    };
-    if (gapSpelling.name && !entry.names.includes(gapSpelling.name)) {
-      entry.names.push(gapSpelling.name);
-    }
-    if (gapSpelling.targetLayer && !entry.targetLayers.includes(gapSpelling.targetLayer)) {
-      entry.targetLayers.push(gapSpelling.targetLayer);
-    }
-    const phonemeKey = serializePhonemeSequence(gapSpelling.phonemes);
-    if (phonemeKey && !entry.phonemeKeys.includes(phonemeKey)) {
-      entry.phonemeKeys.push(phonemeKey);
-    }
-    byWord.set(word, entry);
-  }
-  return byWord;
-}
-
-function classifyTargetWord(word, gapSpellingCatalog) {
-  const metadata = gapSpellingCatalog.get(word);
-  if (!metadata) {
-    return {
-      spellingPath: "productive",
-      gapSpellingNames: [],
-      gapTargetLayers: [],
-    };
-  }
-  return {
-    spellingPath: "gap-spelling",
-    gapSpellingNames: metadata.names,
-    gapTargetLayers: metadata.targetLayers,
-  };
-}
-
-function isGapSpellingSiblingCompetition(target, candidateWord, gapSpellingCatalog) {
-  if (!gapSpellingCatalog || target === candidateWord) return false;
-  const targetMetadata = gapSpellingCatalog.get(target);
-  const candidateMetadata = gapSpellingCatalog.get(candidateWord);
-  if (!targetMetadata || !candidateMetadata) return false;
-
-  return targetMetadata.phonemeKeys.some((phonemeKey) => candidateMetadata.phonemeKeys.includes(phonemeKey));
-}
 
 function readFlagValue(argv, name) {
   const flag = `--${name}`;
@@ -126,7 +63,6 @@ export function parseCommonWordCoverageArgs(argv) {
   const mode = readFlagValue(argv, "mode");
   const morphology = parseBooleanFlag(argv, "morphology", DEFAULTS.morphology);
   const traceMisses = parseTraceMissesFlag(argv);
-  const trackUnique = parseBooleanFlag(argv, "track-unique", DEFAULTS.trackUnique);
 
   const resolvedMode = mode === undefined || mode === true ? DEFAULTS.mode : mode;
   if (resolvedMode !== "lexicon" && resolvedMode !== "text") {
@@ -143,7 +79,6 @@ export function parseCommonWordCoverageArgs(argv) {
     mode: resolvedMode,
     morphology,
     traceMisses,
-    trackUnique,
   };
 }
 
@@ -223,18 +158,17 @@ export function runCoverage({
   targetWords,
   minCount,
   maxCount,
-  trackUnique = false,
   nextWord,
 }) {
   const tracker = createCoverageTracker(targetWords);
-  const uniqueGenerated = trackUnique ? new Set() : null;
+  const uniqueGenerated = new Set();
   let totalIterations = 0;
   let stopReason = "max-count-reached";
 
   while (totalIterations < maxCount) {
     totalIterations += 1;
     const normalized = normalizeWordRecord(nextWord({ trace: false }));
-    uniqueGenerated?.add(normalized.clean);
+    uniqueGenerated.add(normalized.clean);
     tracker.consume(normalized.clean, totalIterations);
 
     if (totalIterations >= minCount && tracker.isComplete()) {
@@ -246,8 +180,7 @@ export function runCoverage({
   return {
     tracker,
     totalIterations,
-    trackedUniqueCount: trackUnique,
-    uniqueGeneratedCount: uniqueGenerated ? uniqueGenerated.size : null,
+    uniqueGeneratedCount: uniqueGenerated.size,
     stopReason,
   };
 }
@@ -309,16 +242,9 @@ function isPlausibleNearMiss(target, clean, distance) {
 
 function summarizeTrace(record) {
   const trace = record.trace;
-  const repairs = trace?.repairs ?? [];
   return {
     graphemes: trace?.graphemeSelections?.slice(0, 10).map((entry) => `${entry.phoneme}>${entry.selected}`) ?? [],
-    repairs: repairs.slice(0, 8).map((entry) => entry.rule),
-    gapSpellings: repairs
-      .filter((entry) => entry.rule?.startsWith("gapSpelling:"))
-      .map((entry) => ({
-        rule: entry.rule,
-        targetLayer: parseGapSpellingTargetLayer(entry.detail),
-      })),
+    repairs: trace?.repairs?.slice(0, 8).map((entry) => entry.rule) ?? [],
     morphologyTemplate: trace?.morphology?.template,
   };
 }
@@ -344,7 +270,7 @@ function insertCandidate(list, candidate, maxCandidatesPerWord) {
   }
 }
 
-function classifyNearMiss(target, candidate, gapSpellingCatalog = new Map()) {
+function classifyNearMiss(target, candidate) {
   if (!candidate) {
     return {
       bucket: TRACE_BUCKETS.mixed,
@@ -354,11 +280,10 @@ function classifyNearMiss(target, candidate, gapSpellingCatalog = new Map()) {
 
   const clean = candidate.word;
   const repairs = new Set(candidate.traceSummary.repairs);
-  const morphologyTemplate = candidate.traceSummary.morphologyTemplate;
-  if (morphologyTemplate && morphologyTemplate !== "bare") {
+  if (candidate.traceSummary.morphologyTemplate) {
     return {
       bucket: TRACE_BUCKETS.morphology,
-      note: `Best near miss "${clean}" arrived with morphology template "${morphologyTemplate}".`,
+      note: `Best near miss "${clean}" arrived with morphology template "${candidate.traceSummary.morphologyTemplate}".`,
     };
   }
 
@@ -404,33 +329,8 @@ function classifyNearMiss(target, candidate, gapSpellingCatalog = new Map()) {
     };
   }
 
-  if (candidate.traceSummary.gapSpellings.length > 0) {
-    if (isGapSpellingSiblingCompetition(target, clean, gapSpellingCatalog)) {
-      return {
-        bucket: TRACE_BUCKETS.grapheme,
-        note: `Observed "${clean}" near "${target}", which points to weighted gap-spelling competition rather than a missing spelling path.`,
-      };
-    }
-    const targetLayers = Array.from(new Set(
-      candidate.traceSummary.gapSpellings
-        .map((entry) => entry.targetLayer)
-        .filter(Boolean),
-    ));
-    const layerSummary = targetLayers.length > 0
-      ? ` targeted at ${targetLayers.join(", ")}`
-      : "";
-    return {
-      bucket: TRACE_BUCKETS.structural,
-      note: `Trace repairs on "${clean}" show that the near miss still depends on a gap-spelling path${layerSummary}.`,
-    };
-  }
-
   if (
-    repairs.has("gapSpelling:who")
-    || repairs.has("gapSpelling:would")
-    || repairs.has("gapSpelling:could")
-    || repairs.has("gapSpelling:people")
-    || repairs.has("spellingRule:whu-to-who")
+    repairs.has("spellingRule:whu-to-who")
     || repairs.has("spellingRule:oud-to-ould")
     || repairs.has("spellingRule:eopVowel-l-to-eople")
   ) {
@@ -451,7 +351,6 @@ export function traceMissingWords({
   maxIterations,
   maxCandidatesPerWord,
   nextWord,
-  gapSpellingCatalog = new Map(),
 }) {
   if (missingWords.length === 0 || maxCandidatesPerWord <= 0 || maxIterations <= 0) {
     return { analyses: [], sampledIterations: 0 };
@@ -482,15 +381,11 @@ export function traceMissingWords({
 
   const analyses = orderedTargets.map((target) => {
     const candidates = candidatesByTarget.get(target) ?? [];
-    const classification = classifyNearMiss(target, candidates[0], gapSpellingCatalog);
-    const targetClassification = classifyTargetWord(target, gapSpellingCatalog);
+    const classification = classifyNearMiss(target, candidates[0]);
     return {
       target,
       bucket: classification.bucket,
       note: classification.note,
-      spellingPath: targetClassification.spellingPath,
-      gapSpellingNames: targetClassification.gapSpellingNames,
-      gapTargetLayers: targetClassification.gapTargetLayers,
       candidates: candidates.map(({ score, ...rest }) => rest),
     };
   });
@@ -526,12 +421,10 @@ export function summarizeNearMissBuckets(analyses) {
 export function buildCoverageReport({
   tracker,
   totalIterations,
-  trackedUniqueCount,
   uniqueGeneratedCount,
   stopReason,
   config,
   targetSource,
-  gapSpellingCatalog = new Map(),
   nearMisses = [],
   nearMissBuckets = [],
   traceMissDiagnostics,
@@ -539,23 +432,19 @@ export function buildCoverageReport({
   const words = tracker.rows.map((row) => ({
     ...row,
     found: row.firstSeenGeneration !== null,
-    ...classifyTargetWord(row.word, gapSpellingCatalog),
   }));
   const foundCount = words.filter((row) => row.found).length;
   const missingWords = words.filter((row) => !row.found).map((row) => row.word);
-  const gapManagedTargetCount = words.filter((row) => row.spellingPath === "gap-spelling").length;
   return {
+    generatedAt: new Date().toISOString(),
     config,
     targetSource,
     summary: {
       totalIterations,
-      trackedUniqueCount,
       uniqueGeneratedCount,
       targetCount: words.length,
       foundCount,
       missingCount: missingWords.length,
-      gapManagedTargetCount,
-      productiveTargetCount: words.length - gapManagedTargetCount,
       stopReason,
     },
     words,
@@ -568,7 +457,7 @@ export function buildCoverageReport({
 
 export function renderCoverageCsv(report) {
   const lines = [
-    "word,hits,firstSeenGeneration,found,spellingPath,gapTargetLayers,bucket,nearMiss",
+    "word,hits,firstSeenGeneration,found,bucket,nearMiss",
   ];
 
   const byWord = new Map(report.nearMisses.map((analysis) => [analysis.target, analysis]));
@@ -580,8 +469,6 @@ export function renderCoverageCsv(report) {
       row.hits,
       row.firstSeenGeneration ?? "",
       row.found ? "true" : "false",
-      row.spellingPath,
-      row.gapTargetLayers.join("|"),
       analysis?.bucket ?? "",
       nearMiss,
     ].join(","));
@@ -593,6 +480,8 @@ export function renderCoverageCsv(report) {
 export function renderCoverageMarkdown(report) {
   const lines = [
     "# Common Word Coverage",
+    "",
+    `Generated: ${report.generatedAt}`,
     "",
     "## Run",
     "",
@@ -607,11 +496,9 @@ export function renderCoverageMarkdown(report) {
     "",
     `- Stop reason: \`${report.summary.stopReason}\``,
     `- Total iterations: \`${report.summary.totalIterations.toLocaleString()}\``,
-    `- Unique generated words: \`${report.summary.trackedUniqueCount ? report.summary.uniqueGeneratedCount.toLocaleString() : "not tracked (bounded-memory mode)"}\``,
+    `- Unique generated words: \`${report.summary.uniqueGeneratedCount.toLocaleString()}\``,
     `- Found: \`${report.summary.foundCount} / ${report.summary.targetCount}\``,
     `- Missing: \`${report.summary.missingCount}\``,
-    `- Gap-spelling targets: \`${report.summary.gapManagedTargetCount}\``,
-    `- Productive targets: \`${report.summary.productiveTargetCount}\``,
   ];
 
   if (report.missingWords.length > 0) {
@@ -622,9 +509,9 @@ export function renderCoverageMarkdown(report) {
     "",
     "## Per-Word Counts",
     "",
-    "| Word | Hits | First seen | Path | Target layers |",
-    "|------|------|------------|------|---------------|",
-    ...report.words.map((row) => `| ${row.word} | ${row.hits} | ${row.firstSeenGeneration ?? "-"} | ${row.spellingPath} | ${row.gapTargetLayers.join(", ") || "-"} |`),
+    "| Word | Hits | First seen |",
+    "|------|------|------------|",
+    ...report.words.map((row) => `| ${row.word} | ${row.hits} | ${row.firstSeenGeneration ?? "-"} |`),
   );
 
   if (report.traceMissDiagnostics && report.nearMisses.length > 0) {
@@ -646,7 +533,6 @@ export function renderCoverageMarkdown(report) {
           continue;
         }
         lines.push(`- \`${analysis.target}\`: ${analysis.note}`);
-        lines.push(`  Expected path: \`${analysis.spellingPath}\`${analysis.gapTargetLayers.length > 0 ? ` (${analysis.gapTargetLayers.join(", ")})` : ""}`);
         lines.push(`  Best near miss: \`${best.word}\` (distance ${best.distance})`);
       }
       lines.push("");
