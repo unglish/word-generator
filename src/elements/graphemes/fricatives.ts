@@ -362,11 +362,11 @@ export const fricativeGraphemes: Grapheme[] = [
     phoneme: "h",
     form: "wh",
     origin: 0,
-    frequency: 0.1,  // Extremely rare to avoid "whu" patterns
+    frequency: 0.2,  // Extremely rare, but allow the "who" class explicitly
     coda: 0,
     startWord: 1,
     midWord: 0,
-    endWord: 0,
-    condition: { rightContext: ["əʊ", "ɔ"] }  // Only "whole" (/həʊl/), "whore" (/hɔ:/) — excludes "u" and "ʊ" to block "whu"
+    endWord: 1,
+    condition: { rightContext: ["u", "əʊ", "ɔ"] }  // "who", "whole", "whore"
   }
 ];
