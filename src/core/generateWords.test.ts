@@ -1,7 +1,16 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import { createGenerator, generateWord, generateWords } from "./generate";
 import { createSeededRng } from "../utils/random";
 import { englishConfig } from "../config/english";
+import { PHONEME_LENGTH_WEIGHTS_LEXICON } from "../config/weights";
+
+function countWordPhonemes(word: ReturnType<typeof generateWords>[number]): number {
+  let total = 0;
+  for (const syllable of word.syllables) {
+    total += syllable.onset.length + syllable.nucleus.length + syllable.coda.length;
+  }
+  return total;
+}
 
 describe("generateWords (batch API)", () => {
   it("returns the requested number of words", () => {
@@ -118,6 +127,24 @@ describe("generateWord RNG priority", () => {
 });
 
 describe("top-down phoneme targeting", () => {
+  const SAMPLE_SIZE = 10_000;
+  const SAMPLE_SEED = 42;
+  let phonemeLengthCounts = new Map<number, number>();
+
+  beforeAll(() => {
+    const sample = generateWords(SAMPLE_SIZE, {
+      seed: SAMPLE_SEED,
+      mode: "lexicon",
+      morphology: false,
+    });
+
+    phonemeLengthCounts = new Map<number, number>();
+    for (const word of sample) {
+      const phonemes = countWordPhonemes(word);
+      phonemeLengthCounts.set(phonemes, (phonemeLengthCounts.get(phonemes) ?? 0) + 1);
+    }
+  }, 15_000);
+
   it("throws when top-down phoneme length config is missing", () => {
     const badConfig = {
       ...englishConfig,
@@ -127,20 +154,21 @@ describe("top-down phoneme targeting", () => {
   });
 
   it("keeps lexicon 6-phoneme bucket near CMU target in a sample", () => {
-    const sample = generateWords(10000, { seed: 2026, mode: "lexicon", morphology: false });
-    let sixPhonemeCount = 0;
-
-    for (const word of sample) {
-      let phonemes = 0;
-      for (const syllable of word.syllables) {
-        phonemes += syllable.onset.length + syllable.nucleus.length + syllable.coda.length;
-      }
-      if (phonemes === 6) sixPhonemeCount++;
-    }
-
-    const sixPct = (sixPhonemeCount / sample.length) * 100;
+    const sixPct = ((phonemeLengthCounts.get(6) ?? 0) / SAMPLE_SIZE) * 100;
     // CMU target is 20.39%. Allow a tight sampling window.
     expect(sixPct).toBeGreaterThan(18.5);
     expect(sixPct).toBeLessThan(22.0);
-  });
+  }, 15_000);
+
+  it("keeps full lexicon phoneme-length distribution close to configured targets", () => {
+    let maxAbsGap = 0;
+
+    for (const [phonemeCount, targetPct] of PHONEME_LENGTH_WEIGHTS_LEXICON) {
+      const generatedPct = ((phonemeLengthCounts.get(phonemeCount) ?? 0) / SAMPLE_SIZE) * 100;
+      const absGap = Math.abs(generatedPct - targetPct);
+      maxAbsGap = Math.max(maxAbsGap, absGap);
+    }
+
+    expect(maxAbsGap).toBeLessThanOrEqual(1.0);
+  }, 15_000);
 });
