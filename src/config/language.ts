@@ -1580,6 +1580,51 @@ export function validateConfig(config: LanguageConfig): void {
   };
 
   if (config.morphology) {
+    const { prefixes, suffixes, templateWeights } = config.morphology;
+    for (const mode of ["text", "lexicon"] as const) {
+      const modeWeights = templateWeights[mode];
+      const weightEntries: Array<[keyof typeof modeWeights, number]> = [
+        ["bare", modeWeights.bare],
+        ["suffixed", modeWeights.suffixed],
+        ["prefixed", modeWeights.prefixed],
+        ["both", modeWeights.both],
+      ];
+      let totalTemplateWeight = 0;
+      for (const [template, weight] of weightEntries) {
+        if (!Number.isFinite(weight) || weight < 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.${template} must be a finite number >= 0`,
+          );
+        }
+        totalTemplateWeight += weight;
+      }
+      if (totalTemplateWeight <= 0) {
+        throw new Error(`morphology.templateWeights.${mode} must have total weight > 0`);
+      }
+      if (modeWeights.prefixed > 0 && prefixes.length === 0) {
+        throw new Error(
+          `morphology.templateWeights.${mode}.prefixed > 0 requires at least one prefix`,
+        );
+      }
+      if (modeWeights.suffixed > 0 && suffixes.length === 0) {
+        throw new Error(
+          `morphology.templateWeights.${mode}.suffixed > 0 requires at least one suffix`,
+        );
+      }
+      if (modeWeights.both > 0) {
+        if (prefixes.length === 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.both > 0 requires at least one prefix`,
+          );
+        }
+        if (suffixes.length === 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.both > 0 requires at least one suffix`,
+          );
+        }
+      }
+    }
+
     for (let i = 0; i < config.morphology.prefixes.length; i++) {
       const affix = config.morphology.prefixes[i];
       if (!affix.morphophonemicRules) continue;

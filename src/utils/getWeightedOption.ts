@@ -14,6 +14,9 @@ import type { RNG } from "./random.js";
  * @param rand - RNG function returning a value in [0, 1).
  */
 const getWeightedOption = <T>(options: [T, number][], rand: RNG): T => {
+  if (options.length === 0) {
+    throw new Error("getWeightedOption requires at least one option");
+  }
   const totalWeight = options.reduce((sum, [, weight]) => sum + weight, 0);
   const randomValue = rand() * totalWeight;
   
