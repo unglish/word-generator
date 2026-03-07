@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * Build CMU lexicon phoneme baseline mapped to generator IPA symbols.
+ * Rebuild the local phoneme baseline input used by CMU phoneme analysis.
+ *
+ * This is a tuning helper, not a day-to-day verification requirement. It
+ * prefers a local ignored raw CMU file and otherwise mirrors the committed demo
+ * baseline into `memory/` so analyzer scripts have a local file to read.
  *
  * Output:
  *   memory/cmu-lexicon-phonemes.json (raw counts)
