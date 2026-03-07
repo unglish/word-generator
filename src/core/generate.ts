@@ -1137,6 +1137,14 @@ function resolveRng(options: WordGenerationOptions): RNG {
 const MAX_LENGTH_RETRIES = 3;
 /** Maximum retries for top-down phoneme target matching. */
 const MAX_TOPDOWN_RETRIES = 16;
+/**
+ * For affixed words, some plans find a strong candidate quickly and then spend
+ * the rest of the retry budget chasing a perfect score that rarely materializes.
+ * Allow an early return only after a sustained no-improvement window.
+ */
+const MORPHOLOGY_STAGNATION_EXIT_SCORE = 2;
+const MORPHOLOGY_STAGNATION_EXIT_WINDOW = 6;
+const MORPHOLOGY_STAGNATION_MIN_ATTEMPT = MAX_LENGTH_RETRIES + MORPHOLOGY_STAGNATION_EXIT_WINDOW;
 
 function countPhonemes(syllables: Syllable[]): number {
   let total = 0;
@@ -1290,14 +1298,26 @@ function generateOneWord(
       attemptScore.phonemeDistance === 0 &&
       attemptScore.letterPenalty <= 0.5 &&
       morphologyDelta.resolved !== undefined;
+    const accepted = perfectMatch || goodEnoughAfterWarmup;
 
-    if (perfectMatch || goodEnoughAfterWarmup) {
-      if (traceCollector) {
-        traceCollector.syllableCount = context.syllableCount;
-        traceCollector.attempts = attempt;
-        context.word.trace = traceCollector.toTrace(morphApplied);
+    const shouldReturnStagnantBest =
+      morphApplied &&
+      bestContext !== undefined &&
+      bestScore <= MORPHOLOGY_STAGNATION_EXIT_SCORE &&
+      attempt >= MORPHOLOGY_STAGNATION_MIN_ATTEMPT &&
+      attempt - bestAttempt >= MORPHOLOGY_STAGNATION_EXIT_WINDOW;
+
+    if (accepted || shouldReturnStagnantBest) {
+      const returnContext = accepted ? context : bestContext!;
+      const returnTraceCollector = accepted ? traceCollector : bestTraceCollector;
+      const returnMorphApplied = accepted ? morphApplied : bestMorphApplied;
+      const returnAttempt = accepted ? attempt : bestAttempt;
+      if (returnTraceCollector) {
+        returnTraceCollector.syllableCount = returnContext.syllableCount;
+        returnTraceCollector.attempts = returnAttempt;
+        returnContext.word.trace = returnTraceCollector.toTrace(returnMorphApplied);
       }
-      return context.word;
+      return returnContext.word;
     }
   }
 
