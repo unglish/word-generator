@@ -461,6 +461,77 @@ describe("validateConfig", () => {
     expect(() => validateConfig(bad)).toThrow(/morphology\.suffixes\[\d+\]\.morphophonemicRules\[0\]\.phonologicalCondition\.position must be "preceding" for suffix rules/);
   });
 
+  it("should throw when prefixed templates are weighted but no prefixes exist", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [],
+        templateWeights: {
+          ...englishConfig.morphology!.templateWeights,
+          text: { bare: 0, suffixed: 0, prefixed: 100, both: 0 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 100, both: 0 },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text.prefixed > 0 requires at least one prefix",
+    );
+  });
+
+  it("should throw when suffixed templates are weighted but no suffixes exist", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        suffixes: [],
+        templateWeights: {
+          ...englishConfig.morphology!.templateWeights,
+          text: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text.suffixed > 0 requires at least one suffix",
+    );
+  });
+
+  it("should throw when both-templates are weighted but one side is missing", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        suffixes: [],
+        templateWeights: {
+          ...englishConfig.morphology!.templateWeights,
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text.both > 0 requires at least one suffix",
+    );
+  });
+
+  it("should throw when morphology template weights sum to zero", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        templateWeights: {
+          ...englishConfig.morphology!.templateWeights,
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 0 },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text must have total weight > 0",
+    );
+  });
+
   it("should throw when phonemeLengthWeights.text is missing", () => {
     const bad = {
       ...englishConfig,

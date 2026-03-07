@@ -153,6 +153,24 @@ describe("top-down phoneme targeting", () => {
     expect(() => createGenerator(badConfig as typeof englishConfig)).toThrow("phonemeLengthWeights.text is required");
   });
 
+  it("throws early when morphology template weights require missing affix inventory", () => {
+    const badConfig = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [],
+        templateWeights: {
+          ...englishConfig.morphology!.templateWeights,
+          text: { bare: 0, suffixed: 0, prefixed: 100, both: 0 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 100, both: 0 },
+        },
+      },
+    };
+    expect(() => createGenerator(badConfig as typeof englishConfig)).toThrow(
+      "morphology.templateWeights.text.prefixed > 0 requires at least one prefix",
+    );
+  });
+
   it("keeps lexicon 6-phoneme bucket near CMU target in a sample", () => {
     const sixPct = ((phonemeLengthCounts.get(6) ?? 0) / SAMPLE_SIZE) * 100;
     // CMU target is 20.39%. Allow a tight sampling window.
