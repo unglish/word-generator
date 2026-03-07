@@ -62,10 +62,21 @@ interface GeneratorRuntime {
       nonFinal?: Map<string, number>;
     };
   };
+  /** Pre-resolved bridge phoneme options for vowel hiatus repair. */
+  bridgePhonemeOptions: [Phoneme, number][];
 }
 
 const DEFAULT_PLAN_GUARD_PROBABILITY = 98;
 const DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER = 0.08;
+
+/**
+ * Fast boolean probability check — equivalent to
+ * `getWeightedOption([[true, p], [false, 100 - p]], rand)`
+ * but avoids allocating two tuple arrays per call.
+ */
+function coinFlip(rand: RNG, probability: number): boolean {
+  return rand() * 100 < probability;
+}
 
 function getPlanGuardProbability(rt: GeneratorRuntime): number {
   return rt.config.hiatusPolicy?.planGuardProbability ?? DEFAULT_PLAN_GUARD_PROBABILITY;
@@ -122,13 +133,10 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     : undefined;
 
   const sonorityBySound = new Map<string, number>();
+  const phonemeBySound = new Map<string, Phoneme>();
   for (const [phoneme, level] of sonorityLevels) {
     sonorityBySound.set(phoneme.sound, level);
-  }
-
-  const phonemeBySound = new Map<string, Phoneme>();
-  for (const p of config.phonemes) {
-    phonemeBySound.set(p.sound, p);
+    phonemeBySound.set(phoneme.sound, phoneme);
   }
 
   const cl = config.clusterLimits;
@@ -164,6 +172,14 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
       return map;
     })()
     : undefined;
+
+  // Pre-resolve bridge phoneme options for vowel hiatus repair
+  const bridgePairs = config.hiatusPolicy?.fallbackBridgeOnsets ?? defaultFallbackBridgeOnsets();
+  const bridgePhonemeOptions: [Phoneme, number][] = [];
+  for (const [sound, weight] of bridgePairs) {
+    const p = phonemeBySound.get(sound);
+    if (p && weight > 0) bridgePhonemeOptions.push([p, weight]);
+  }
 
   return {
     config,
@@ -202,6 +218,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
       ? buildPrefixSet(cl.attestedCodas)
       : undefined,
     clusterWeights,
+    bridgePhonemeOptions,
   };
 }
 
@@ -311,14 +328,14 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
     const key = [...context.cluster.map(ph => ph.sound), p.sound].join("|");
     // Must be an exact attested onset or a prefix of one (extendable)
     if (rt.attestedOnsetSet.has(key)) return true;
-    return rt.attestedOnsetPrefixSet!.has(key);
+    return !!rt.attestedOnsetPrefixSet?.has(key);
   }
 
   // When attested coda whitelist exists, use it as the primary gate for codas
   if (context.position === "coda" && rt.attestedCodaSet && context.cluster.length > 0) {
     const key = [...context.cluster.map(ph => ph.sound), p.sound].join("|");
     if (rt.attestedCodaSet.has(key)) return true;
-    return rt.attestedCodaPrefixSet!.has(key);
+    return !!rt.attestedCodaPrefixSet?.has(key);
   }
 
   // Fallback: standard sonority and regex checks
@@ -372,14 +389,14 @@ function checkOnsetSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, cluster:
   const isSClusterException =
     cluster.length === 1 &&
     cluster[0].sound === "s" &&
-    ["t", "p", "k"].includes(currPhoneme.sound);
+    (currPhoneme.sound === "t" || currPhoneme.sound === "p" || currPhoneme.sound === "k");
 
   if (isSClusterException) return true;
 
   if (currPhoneme.placeOfArticulation === prevPhoneme?.placeOfArticulation) return false;
 
-  const lastPhonemeWasAStop = prevPhoneme && ["stop"].includes(prevPhoneme.mannerOfArticulation);
-  const canFollowAStop = lastPhonemeWasAStop ? ["glide", "liquid"].includes(currPhoneme.mannerOfArticulation) : false;
+  const lastPhonemeWasAStop = prevPhoneme?.mannerOfArticulation === "stop";
+  const canFollowAStop = lastPhonemeWasAStop ? (currPhoneme.mannerOfArticulation === "glide" || currPhoneme.mannerOfArticulation === "liquid") : false;
 
   return lastPhonemeWasAStop ? canFollowAStop : getSonority(rt, currPhoneme) > getSonority(rt, prevPhoneme!);
 }
@@ -412,28 +429,30 @@ function checkCodaSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, prevPhone
 function selectPhoneme(validCandidates: Phoneme[], context: ClusterContext, rt?: GeneratorRuntime): Phoneme | null {
   const { position, isStartOfWord, isEndOfWord, rand, cluster } = context;
   
+  // Pre-compute cluster weight lookup data outside the per-candidate loop
+  const hasClusterWeights = rt && (cluster.length > 0 || context.maxLength >= 2) && rt.clusterWeights;
+  const weightsForPosition = hasClusterWeights
+    ? (position === "onset" ? rt!.clusterWeights!.onset : rt!.clusterWeights!.coda)
+    : undefined;
+  const clusterSounds = weightsForPosition ? cluster.map(ph => ph.sound) : undefined;
+  const weightMap = weightsForPosition ? getClusterWeightMap(weightsForPosition, isEndOfWord) : undefined;
+
   const weightedCandidates = validCandidates.map(p => {
     const positionWeight = p[position] ?? 0;
     const wordPositionModifier =
       (isStartOfWord && p.startWord) ||
       (isEndOfWord && p.endWord) ||
       p.midWord || 1;
-    
+
     let baseWeight = positionWeight * wordPositionModifier;
-    
+
     // Apply cluster-specific weight multiplier if this phoneme would create a weighted cluster.
     // Also applies to the FIRST consonant of a planned cluster (cluster.length === 0 but maxLength >= 2)
     // so that cluster-initiating consonants can be independently weighted (e.g. suppress /dr/).
-    if (rt && (cluster.length > 0 || context.maxLength >= 2) && rt.clusterWeights) {
-      const weightsForPosition = position === "onset" ? rt.clusterWeights.onset : rt.clusterWeights.coda;
-      if (weightsForPosition) {
-        const clusterSounds = cluster.map(ph => ph.sound);
-        const weightMap = getClusterWeightMap(weightsForPosition, isEndOfWord);
-        
-        const { multiplier } = findClusterWeightMultiplier(clusterSounds, p.sound, weightMap);
-        if (multiplier !== undefined) {
-          baseWeight *= multiplier;
-        }
+    if (clusterSounds && weightMap) {
+      const { multiplier } = findClusterWeightMultiplier(clusterSounds, p.sound, weightMap);
+      if (multiplier !== undefined) {
+        baseWeight *= multiplier;
       }
     }
 
@@ -472,8 +491,8 @@ function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime):
   if (position === "onset" && rt.attestedOnsetSet && cluster.length >= 2) {
     const key = cluster.map(ph => ph.sound).join("|");
     if (rt.attestedOnsetSet.has(key)) {
-      // Key in prefix set means a longer attested onset extends this
-      if (!rt.attestedOnsetPrefixSet!.has(key)) return true;
+      // Check if any longer attested onset extends this (prefix set has all proper prefixes)
+      if (!rt.attestedOnsetPrefixSet?.has(key)) return true;
     }
   }
 
@@ -482,7 +501,7 @@ function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime):
   if (position === "coda" && rt.attestedCodaSet && cluster.length >= 2) {
     const key = cluster.map(ph => ph.sound).join("|");
     if (rt.attestedCodaSet.has(key)) {
-      if (!rt.attestedCodaPrefixSet!.has(key)) return true;
+      if (!rt.attestedCodaPrefixSet?.has(key)) return true;
     }
   }
 
@@ -591,7 +610,7 @@ function pickCoda(
   const allowMutations = !planDriven || coda.length <= targetLength;
   if (allowMutations && isEndOfWord && nasalExt > 0 && coda.length === 1 &&
       coda[0].mannerOfArticulation === "nasal" &&
-      getWeightedOption([[true, nasalExt], [false, 100 - nasalExt]], rand)) {
+      coinFlip(rand, nasalExt)) {
     const nasalSound = coda[0].sound;
     const stopSound = nasalSound === "n" ? "d" : nasalSound === "m" ? "b" : nasalSound === "ŋ" ? "g" : null;
     if (stopSound) {
@@ -626,7 +645,7 @@ function pickCoda(
       }
     }
     
-    if (!shouldSkipFinalS && getWeightedOption([[true, finalSProbability], [false, 100 - finalSProbability]], rand)) {
+    if (!shouldSkipFinalS && coinFlip(rand, finalSProbability)) {
       const sPhoneme = rt.phonemeBySound.get("s");
       if (sPhoneme) {
         coda.push(sPhoneme);
@@ -680,8 +699,7 @@ function adjustBoundary(
   const lastCodaSonority = getSonority(rt, lastCodaPhoneme);
   const firstOnsetSonority = getSonority(rt, firstOnsetPhoneme);
   const { equalSonorityDrop, risingCodaDrop } = rt.config.generationWeights.boundaryPolicy;
-  if (firstOnsetSonority === lastCodaSonority &&
-      getWeightedOption([[true, equalSonorityDrop], [false, 100 - equalSonorityDrop]], rand)) {
+  if (firstOnsetSonority === lastCodaSonority && coinFlip(rand, equalSonorityDrop)) {
     trace?.recordStructural({
       event: "boundaryDrop",
       dropped: lastCodaPhoneme.sound,
@@ -699,7 +717,7 @@ function adjustBoundary(
     prevSyllable.coda.length > 0 &&
     currentSyllable.onset.length > 0 &&
     hasRisingCodaTowardBoundary(prevSyllable.coda, rt.config) &&
-    getWeightedOption([[true, risingCodaDrop], [false, 100 - risingCodaDrop]], rand)
+    coinFlip(rand, risingCodaDrop)
   ) {
     const preDropCoda = prevSyllable.coda.map(p => p.sound);
     const dropped = prevSyllable.coda.pop()!;
@@ -894,7 +912,7 @@ function tweakConsonantPlanToBudget(
   const planGuardProbability = getPlanGuardProbability(rt);
   const shouldBlockHiatusMutation = (wouldCreateHiatus: boolean): boolean => {
     if (!wouldCreateHiatus) return false;
-    return getWeightedOption([[true, planGuardProbability], [false, 100 - planGuardProbability]], rand);
+    return coinFlip(rand, planGuardProbability);
   };
 
   let total = adjusted.reduce((sum, s) => sum + s.onsetLength + s.codaLength, 0);
@@ -1070,18 +1088,14 @@ function generateSyllables(rt: GeneratorRuntime, context: WordGenerationContext,
  * second syllable.
  */
 function repairVowelHiatus(rt: GeneratorRuntime, syllables: Syllable[], rand: RNG, trace?: TraceCollector): void {
-  const bridgeOptions: [Phoneme, number][] = getRootFallbackBridges(rt)
-    .map(([sound, weight]) => [rt.phonemeBySound.get(sound), weight] as const)
-    .filter(([p, weight]) => !!p && weight > 0)
-    .map(([p, weight]) => [p!, weight]);
-  if (bridgeOptions.length === 0) return;
+  if (rt.bridgePhonemeOptions.length === 0) return;
 
   for (let i = 1; i < syllables.length; i++) {
     const prev = syllables[i - 1];
     const curr = syllables[i];
 
     if (prev.coda.length === 0 && curr.onset.length === 0) {
-      const bridge = getWeightedOption(bridgeOptions, rand);
+      const bridge = getWeightedOption(rt.bridgePhonemeOptions, rand);
       curr.onset.unshift(bridge);
       trace?.recordStructural({
         event: "vowelHiatusFallback",
