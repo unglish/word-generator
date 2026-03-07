@@ -11,6 +11,7 @@
     "test:perf": "vitest run --config vitest.perf.config.ts --reporter=verbose",
     "test:quality": "vitest run --config vitest.quality.config.ts",
     "test:watch": "vitest",
+    "analyze:common-words": "node --import tsx scripts/common-word-coverage.ts",
     "analyze:phonemes": "node scripts/analyze-cmu-phonemes.mjs",
     "analyze:phoneme-length": "node --import tsx scripts/phoneme-length-dist.ts",
     "analyze:trigrams": "node scripts/analyze-cmu-trigrams.mjs",
