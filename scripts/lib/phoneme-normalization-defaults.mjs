@@ -1,6 +1,6 @@
 export const DEFAULT_PHONEME_NORMALIZATION = {
   version: 1,
-  notes: "Default CMU ARPABET -> generator IPA normalization used when memory/phoneme-normalization.json is unavailable.",
+  notes: "Default CMU ARPABET -> generator IPA normalization used when data/cmu/phoneme-normalization.json is unavailable.",
   generatedOnlyEscalationThresholdPct: 1.5,
   commonPhonemeMinBaselinePct: 0.5,
   generatedAliases: {

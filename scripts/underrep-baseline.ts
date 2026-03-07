@@ -19,7 +19,7 @@ const MIN_BIGRAM_BASELINE_FREQ = 0.001;   // 0.1%
 const MIN_TRIGRAM_BASELINE_FREQ = 0.0005;  // 0.05%
 
 function loadCmuFreqs(filename: string): Record<string, number> {
-  const raw = JSON.parse(readFileSync(join(__dirname, '..', 'memory', filename), 'utf8'));
+  const raw = JSON.parse(readFileSync(join(__dirname, '..', 'data', 'cmu', filename), 'utf8'));
   const total = Object.values(raw as Record<string, number>).reduce((a, b) => a + b, 0);
   const freq: Record<string, number> = {};
   for (const [k, v] of Object.entries(raw as Record<string, number>)) {

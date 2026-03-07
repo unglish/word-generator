@@ -1,6 +1,6 @@
 /**
  * Analyze syllable count distribution: CMU dictionary vs generated (lexicon mode).
- * Uses pre-computed baseline from data/cmu-length-baseline.json.
+ * Uses pre-computed baseline from data/cmu/cmu-length-baseline.json.
  *
  * Usage: npx tsx scripts/analyze-syllable-distribution.ts [--sample N]
  */
@@ -10,7 +10,7 @@ import { readFileSync } from "fs";
 const SAMPLE = Number(process.argv.find((_, i, a) => a[i - 1] === "--sample") ?? 200000);
 
 // --- Load pre-computed CMU baseline ---
-const baseline = JSON.parse(readFileSync("data/cmu-length-baseline.json", "utf8"));
+const baseline = JSON.parse(readFileSync("data/cmu/cmu-length-baseline.json", "utf8"));
 const cmuSylCounts: Record<number, number> = baseline.bySyl;
 const cmuTotal: number = baseline.total;
 

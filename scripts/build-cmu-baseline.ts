@@ -2,11 +2,11 @@
  * Manual source-regeneration tool for word-length analysis baselines.
  *
  * Not required for normal verification. Use only when refreshing the committed
- * `data/cmu-length-baseline.json` artifact from a local ignored CMU source file.
+ * `data/cmu/cmu-length-baseline.json` artifact from a local ignored CMU source file.
  *
  * Run once (or after updating cmudict): npx tsx scripts/build-cmu-baseline.ts
  *
- * Outputs: data/cmu-length-baseline.json
+ * Outputs: data/cmu/cmu-length-baseline.json
  */
 import { existsSync, readFileSync, writeFileSync } from "fs";
 
@@ -81,5 +81,5 @@ const baseline = {
   overallStats: stats(byLen),
 };
 
-writeFileSync("data/cmu-length-baseline.json", JSON.stringify(baseline, null, 2) + "\n");
-console.log(`Wrote data/cmu-length-baseline.json (${total} words)`);
+writeFileSync("data/cmu/cmu-length-baseline.json", JSON.stringify(baseline, null, 2) + "\n");
+console.log(`Wrote data/cmu/cmu-length-baseline.json (${total} words)`);

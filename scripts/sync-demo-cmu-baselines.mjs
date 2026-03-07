@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
 /**
- * Keep demo CMU baselines in sync with memory baselines.
+ * Keep demo CMU baselines in sync with committed `data/cmu` baselines.
  *
  * Source:
- *   - memory/cmu-lexicon-bigrams.json
- *   - memory/cmu-lexicon-trigrams.json
- *   - memory/cmu-lexicon-phonemes.json
- *   - memory/phoneme-normalization.json
+ *   - data/cmu/cmu-lexicon-bigrams.json
+ *   - data/cmu/cmu-lexicon-trigrams.json
+ *   - data/cmu/cmu-lexicon-phonemes.json
+ *   - data/cmu/phoneme-normalization.json
  *
  * Target:
  *   - demo/cmuBaselines.js (cmuBigrams + cmuTrigrams + cmuPhonemes + phonemeNormalization)
@@ -54,10 +54,10 @@ function upsertConstSource(fileText, constName, replacementObjectLiteral) {
 function main() {
   const checkOnly = process.argv.includes("--check");
 
-  const bigramsRaw = JSON.parse(readFileSync(join(process.cwd(), "memory", "cmu-lexicon-bigrams.json"), "utf8"));
-  const trigramsRaw = JSON.parse(readFileSync(join(process.cwd(), "memory", "cmu-lexicon-trigrams.json"), "utf8"));
-  const phonemesRaw = JSON.parse(readFileSync(join(process.cwd(), "memory", "cmu-lexicon-phonemes.json"), "utf8"));
-  const phonemeNormalization = JSON.parse(readFileSync(join(process.cwd(), "memory", "phoneme-normalization.json"), "utf8"));
+  const bigramsRaw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "cmu-lexicon-bigrams.json"), "utf8"));
+  const trigramsRaw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "cmu-lexicon-trigrams.json"), "utf8"));
+  const phonemesRaw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "cmu-lexicon-phonemes.json"), "utf8"));
+  const phonemeNormalization = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "phoneme-normalization.json"), "utf8"));
   const baselinesPath = join(process.cwd(), "demo", "cmuBaselines.js");
 
   const bigrams = sortByValueDesc(normalizeToPercentMap(bigramsRaw));
@@ -83,20 +83,20 @@ function main() {
   if (checkOnly) {
     const changed = file !== next;
     if (changed) {
-      console.error("demo/cmuBaselines.js is out of sync with memory CMU baselines.");
+      console.error("demo/cmuBaselines.js is out of sync with data/cmu baselines.");
       process.exit(1);
     }
-    console.log("demo/cmuBaselines.js is in sync with memory CMU baselines.");
+    console.log("demo/cmuBaselines.js is in sync with data/cmu baselines.");
     return;
   }
 
   if (file === next) {
-    console.log("No changes needed. demo/cmuBaselines.js already matches memory baselines.");
+    console.log("No changes needed. demo/cmuBaselines.js already matches data/cmu baselines.");
     return;
   }
 
   writeFileSync(baselinesPath, next);
-  console.log("Updated demo/cmuBaselines.js from memory CMU baselines.");
+  console.log("Updated demo/cmuBaselines.js from data/cmu baselines.");
 }
 
 main();

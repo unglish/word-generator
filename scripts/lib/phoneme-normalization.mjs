@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { DEFAULT_PHONEME_NORMALIZATION } from './phoneme-normalization-defaults.mjs';
 
-const CONFIG_PATH = join(process.cwd(), 'memory', 'phoneme-normalization.json');
+const CONFIG_PATH = join(process.cwd(), 'data', 'cmu', 'phoneme-normalization.json');
 
 const PHONEME_TOKEN_RE = /^[a-z:\u0250-\u02af\u02c8\u02cc\u02d0]+$/i;
 let cachedNormalization = null;

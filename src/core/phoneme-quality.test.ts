@@ -35,14 +35,14 @@ function extractJsConst<T>(source: string, constName: string): T {
 }
 
 function loadNormalization(repoRoot: string): PhonemeNormalization {
-  const path = join(repoRoot, "memory", "phoneme-normalization.json");
+  const path = join(repoRoot, "data", "cmu", "phoneme-normalization.json");
   if (existsSync(path)) return loadJson<PhonemeNormalization>(path);
   const demoBaselines = readFileSync(join(repoRoot, "demo", "cmuBaselines.js"), "utf8");
   return extractJsConst<PhonemeNormalization>(demoBaselines, "phonemeNormalization");
 }
 
 function loadBaselineCounts(repoRoot: string): Record<string, number> {
-  const path = join(repoRoot, "memory", "cmu-lexicon-phonemes.json");
+  const path = join(repoRoot, "data", "cmu", "cmu-lexicon-phonemes.json");
   if (existsSync(path)) return loadJson<Record<string, number>>(path);
   const demoBaselines = readFileSync(join(repoRoot, "demo", "cmuBaselines.js"), "utf8");
   // Percentages are fine here because metric code re-normalizes to percentages.

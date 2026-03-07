@@ -5,10 +5,10 @@
  *
  * This is a tuning helper, not a day-to-day verification requirement. It
  * prefers a local ignored raw CMU file and otherwise mirrors the committed demo
- * baseline into `memory/` so analyzer scripts have a local file to read.
+ * baseline into `data/cmu/` so analyzer scripts have a stable local file to read.
  *
  * Output:
- *   memory/cmu-lexicon-phonemes.json (raw counts)
+ *   data/cmu/cmu-lexicon-phonemes.json (raw counts)
  */
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -19,7 +19,7 @@ function main() {
   const normalization = loadPhonemeNormalization();
   const cmuPath = join(process.cwd(), 'data', 'cmudict-0.7b.txt');
   const demoBaselinesPath = join(process.cwd(), 'demo', 'cmuBaselines.js');
-  const outPath = join(process.cwd(), 'memory', 'cmu-lexicon-phonemes.json');
+  const outPath = join(process.cwd(), 'data', 'cmu', 'cmu-lexicon-phonemes.json');
 
   const counts = {};
   const allowedIpa = new Set(Object.values(normalization.arpabetToIpa));

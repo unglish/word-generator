@@ -50,7 +50,7 @@ function loadThresholds(): Thresholds {
 
 function loadCmuFreqs(filename: string): Record<string, number> {
   const repoRoot = join(__dirname, "..", "..");
-  const raw = JSON.parse(readFileSync(join(repoRoot, "memory", filename), "utf8"));
+  const raw = JSON.parse(readFileSync(join(repoRoot, "data", "cmu", filename), "utf8"));
   const total = Object.values(raw as Record<string, number>).reduce((a, b) => a + b, 0);
   const freq: Record<string, number> = {};
   for (const [k, v] of Object.entries(raw as Record<string, number>)) {
