@@ -55,7 +55,7 @@ function measure(sample: number, seedStart: number, morphology: boolean): Metric
 const sample = parseArg("--sample", 30000);
 const seedStart = parseArg("--seed", 1000);
 
-const cmuLengthBaseline = JSON.parse(readFileSync("data/cmu-length-baseline.json", "utf8"));
+const cmuLengthBaseline = JSON.parse(readFileSync("data/cmu/cmu-length-baseline.json", "utf8"));
 const cmuMeanLetters = Number(cmuLengthBaseline?.overallStats?.mean ?? NaN);
 
 const withMorph = measure(sample, seedStart, true);

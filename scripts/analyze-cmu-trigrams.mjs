@@ -40,7 +40,7 @@ function toSortedEntries(obj) {
 }
 
 function loadCmuFrequencies() {
-  const raw = JSON.parse(readFileSync(join(process.cwd(), "memory", "cmu-lexicon-trigrams.json"), "utf8"));
+  const raw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "cmu-lexicon-trigrams.json"), "utf8"));
   const total = Object.values(raw).reduce((sum, value) => sum + value, 0);
   const freq = {};
   for (const [tri, count] of Object.entries(raw)) {

@@ -43,7 +43,7 @@ function parseSeeds(input) {
 }
 
 function loadCmuPhonemeCounts() {
-  return JSON.parse(readFileSync(join(process.cwd(), 'memory', 'cmu-lexicon-phonemes.json'), 'utf8'));
+  return JSON.parse(readFileSync(join(process.cwd(), 'data', 'cmu', 'cmu-lexicon-phonemes.json'), 'utf8'));
 }
 
 function countSamplePhonemes({ seed, count, mode, morphology }) {
@@ -270,8 +270,8 @@ function main() {
     aggregate,
     bySeed,
     artifacts: {
-      cmuBaseline: 'memory/cmu-lexicon-phonemes.json',
-      normalization: 'memory/phoneme-normalization.json',
+      cmuBaseline: 'data/cmu/cmu-lexicon-phonemes.json',
+      normalization: 'data/cmu/phoneme-normalization.json',
     },
   };
 

@@ -54,14 +54,14 @@ function checkCmu(pattern: string): CmuResult {
   const len = pattern.length;
   let jsonFile: string;
   if (len === 1) {
-    jsonFile = 'memory/cmu-lexicon-letters.json';
+    jsonFile = 'data/cmu/cmu-lexicon-letters.json';
   } else if (len === 2) {
-    jsonFile = 'memory/cmu-lexicon-bigrams.json';
+    jsonFile = 'data/cmu/cmu-lexicon-bigrams.json';
   } else if (len === 3) {
-    jsonFile = 'memory/cmu-lexicon-trigrams.json';
+    jsonFile = 'data/cmu/cmu-lexicon-trigrams.json';
   } else {
     // For longer patterns, try trigrams as fallback
-    jsonFile = 'memory/cmu-lexicon-trigrams.json';
+    jsonFile = 'data/cmu/cmu-lexicon-trigrams.json';
   }
 
   const filePath = path.resolve(process.cwd(), jsonFile);

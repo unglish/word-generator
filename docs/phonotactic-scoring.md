@@ -76,4 +76,9 @@ npx tsx scripts/generate-bigram-table.ts   # → src/phonotactic/arpabet-bigrams
 npx tsx scripts/generate-baseline.ts       # → src/phonotactic/english-baseline.json
 ```
 
-Both scripts download the CMU Pronouncing Dictionary and process it locally.
+These are **manual source-regeneration utilities**, not part of normal
+verification for day-to-day tuning or `#223` acceptance.
+
+They prefer a local ignored CMU source file at `data/cmudict-0.7b.txt`; if that
+file is absent they may download the current upstream CMU dictionary and process
+it locally.

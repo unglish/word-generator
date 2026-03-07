@@ -1,10 +1,10 @@
 #!/usr/bin/env tsx
 
 /**
- * Generate real ARPABET bigram frequency table from CMU Pronouncing Dictionary.
- * 
- * Downloads CMU dict, parses ARPABET pronunciations, counts bigrams (including word boundaries),
- * and outputs a TypeScript file to replace the hand-waved bigrams.
+ * Manual source-regeneration tool for `src/phonotactic/arpabet-bigrams.ts`.
+ *
+ * Not required for normal verification. This prefers a local ignored CMU
+ * source file and falls back to downloading upstream data when needed.
  */
 
 import fs from 'fs';
@@ -24,26 +24,33 @@ function cleanPhoneme(phoneme: string): string {
 }
 
 /**
- * Download and parse CMU Pronouncing Dictionary
+ * Load CMU Pronouncing Dictionary from a local ignored file when present,
+ * otherwise download it from upstream.
  */
-async function downloadCMUDict(): Promise<string[]> {
-  const cmuUrl = 'http://svn.code.sf.net/p/cmusphinx/code/trunk/cmudict/cmudict-0.7b';
-  
-  console.log(`🔄 Downloading CMU Pronouncing Dictionary from ${cmuUrl}...`);
-  
+async function loadCMUDict(): Promise<string[]> {
+  const localPath = path.join(process.cwd(), 'data', 'cmudict-0.7b.txt');
+  const remoteUrl = 'https://raw.githubusercontent.com/cmusphinx/cmudict/master/cmudict.dict';
+
+  if (fs.existsSync(localPath)) {
+    console.log(`📘 Using local CMU dictionary: ${localPath}`);
+    return fs.readFileSync(localPath, 'utf8').split('\n');
+  }
+
+  console.log(`🔄 Downloading CMU Pronouncing Dictionary from ${remoteUrl}...`);
+
   try {
-    const response = await fetch(cmuUrl);
+    const response = await fetch(remoteUrl);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    
+
     const text = await response.text();
     const lines = text.split('\n');
-    
+
     console.log(`✅ Downloaded ${lines.length} lines from CMU dictionary`);
     return lines;
   } catch (error) {
-    console.error(`❌ Failed to download CMU dictionary: ${error}`);
+    console.error(`❌ Failed to load CMU dictionary: ${error}`);
     process.exit(1);
   }
 }
@@ -278,7 +285,7 @@ async function main() {
   console.log('🎯 Generating ARPABET bigram table from CMU Pronouncing Dictionary...\n');
   
   // Download and parse CMU dictionary
-  const lines = await downloadCMUDict();
+  const lines = await loadCMUDict();
   const pronunciations = parseCMUDict(lines);
   
   // Count bigrams

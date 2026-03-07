@@ -1,16 +1,15 @@
 #!/usr/bin/env tsx
 
 /**
- * Generate English baseline phonotactic scores using the TypeScript scorer.
- * 
- * Scores ALL CMU dictionary words (~135k) to establish a comprehensive
- * baseline for comparison with generated words.
+ * Manual source-regeneration tool for `src/phonotactic/english-baseline.json`.
+ *
+ * Not required for normal verification. This prefers a local ignored CMU
+ * source file and falls back to downloading upstream data when needed.
  */
 
 import fs from 'fs';
 import path from 'path';
 
-// We need to manually fetch the CMU dict since we don't have a package for it
 interface BaselineData {
   description: string;
   validatedAt: string;
@@ -47,20 +46,28 @@ function cleanPhoneme(phoneme: string): string {
   return phoneme.replace(/[0-9]/g, '');
 }
 
-/**
- * Download and parse CMU dictionary to extract word-pronunciation pairs
- */
-async function getCMUWords(): Promise<{ word: string; arpabet: string }[]> {
-  const cmuUrl = 'http://svn.code.sf.net/p/cmusphinx/code/trunk/cmudict/cmudict-0.7b';
-  
+async function loadCMUDictText(): Promise<string> {
+  const localPath = path.join(process.cwd(), 'data', 'cmudict-0.7b.txt');
+  const remoteUrl = 'https://raw.githubusercontent.com/cmusphinx/cmudict/master/cmudict.dict';
+
+  if (fs.existsSync(localPath)) {
+    console.log(`📘 Using local CMU dictionary: ${localPath}`);
+    return fs.readFileSync(localPath, 'utf8');
+  }
+
   console.log('🔄 Downloading CMU dictionary for baseline generation...');
-  
-  const response = await fetch(cmuUrl);
+  const response = await fetch(remoteUrl);
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
   }
-  
-  const text = await response.text();
+  return await response.text();
+}
+
+/**
+ * Load and parse CMU dictionary to extract word-pronunciation pairs.
+ */
+async function getCMUWords(): Promise<{ word: string; arpabet: string }[]> {
+  const text = await loadCMUDictText();
   const lines = text.split('\n');
   const words: { word: string; arpabet: string }[] = [];
   

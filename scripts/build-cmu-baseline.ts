@@ -1,12 +1,24 @@
 /**
- * Pre-compute CMU dictionary baseline stats for word-length analysis.
+ * Manual source-regeneration tool for word-length analysis baselines.
+ *
+ * Not required for normal verification. Use only when refreshing the committed
+ * `data/cmu/cmu-length-baseline.json` artifact from a local ignored CMU source file.
+ *
  * Run once (or after updating cmudict): npx tsx scripts/build-cmu-baseline.ts
  *
- * Outputs: data/cmu-length-baseline.json
+ * Outputs: data/cmu/cmu-length-baseline.json
  */
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 
-const cmuLines = readFileSync("data/cmudict-0.7b.txt", "utf8").split("\n");
+const CMU_PATH = "data/cmudict-0.7b.txt";
+
+if (!existsSync(CMU_PATH)) {
+  throw new Error(
+    `Missing ${CMU_PATH}. This is a manual source-regeneration script and expects a local ignored CMU dictionary file.`,
+  );
+}
+
+const cmuLines = readFileSync(CMU_PATH, "utf8").split("\n");
 
 const byLen: Record<number, number> = {};
 const bySyl: Record<number, number> = {};
@@ -69,5 +81,5 @@ const baseline = {
   overallStats: stats(byLen),
 };
 
-writeFileSync("data/cmu-length-baseline.json", JSON.stringify(baseline, null, 2) + "\n");
-console.log(`Wrote data/cmu-length-baseline.json (${total} words)`);
+writeFileSync("data/cmu/cmu-length-baseline.json", JSON.stringify(baseline, null, 2) + "\n");
+console.log(`Wrote data/cmu/cmu-length-baseline.json (${total} words)`);

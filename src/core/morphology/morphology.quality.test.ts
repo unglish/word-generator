@@ -5,7 +5,7 @@ import { join } from "path";
 
 function loadCmuFreqs(filename: string): Record<string, number> {
   const repoRoot = join(__dirname, "..", "..", "..");
-  const raw = JSON.parse(readFileSync(join(repoRoot, "memory", filename), "utf8")) as Record<string, number>;
+  const raw = JSON.parse(readFileSync(join(repoRoot, "data", "cmu", filename), "utf8")) as Record<string, number>;
   const total = Object.values(raw).reduce((a, b) => a + b, 0);
   const freq: Record<string, number> = {};
   for (const [k, v] of Object.entries(raw)) freq[k] = v / total;
