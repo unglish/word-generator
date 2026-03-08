@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { englishConfig } from "./english.js";
-import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, resolveAspirationRules, validateConfig } from "./language.js";
+import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, isWholeWordAnchoredSpellingRule, resolveAspirationRules, validateConfig } from "./language.js";
 import { VOICED_BONUS, TENSE_BONUS } from "./weights.js";
 import { sonorityLevels } from "../elements/phonemes.js";
 import { Phoneme } from "../types.js";
@@ -259,6 +259,34 @@ describe("morphology config", () => {
 describe("validateConfig", () => {
   it("should pass for the English config", () => {
     expect(() => validateConfig(englishConfig)).not.toThrow();
+  });
+
+  it("should reject whole-word anchored spelling rules", () => {
+    const bad = {
+      ...englishConfig,
+      spellingRules: [
+        ...(englishConfig.spellingRules ?? []),
+        {
+          name: "lexical-patch",
+          pattern: "^foo$",
+          replacement: "bar",
+          scope: "word" as const,
+        },
+      ],
+    };
+    expect(isWholeWordAnchoredSpellingRule(bad.spellingRules[bad.spellingRules.length - 1])).toBe(true);
+    expect(() => validateConfig(bad)).toThrow("must not use whole-word anchored patterns");
+  });
+
+  it("should reject duplicate orthography exception phoneme sequences", () => {
+    const bad = {
+      ...englishConfig,
+      orthographyExceptions: [
+        ...(englishConfig.orthographyExceptions ?? []),
+        { name: "duplicate-to", phonemes: ["t", "u"], replacement: "toe" },
+      ],
+    };
+    expect(() => validateConfig(bad)).toThrow('orthographyExceptions has duplicate phoneme sequence for "duplicate-to"');
   });
 
   it("should throw when a phonemeMap references a phoneme not in phonemes[]", () => {

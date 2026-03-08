@@ -81,6 +81,9 @@ export const rhoticGraphemes: Grapheme[] = [
     condition: {
       leftContext: ["ð"],
       wordPosition: ["final"],
+      syllableShape: {
+        coda: "empty",
+      },
     },
   },
   {

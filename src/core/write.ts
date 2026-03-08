@@ -1,5 +1,5 @@
-import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
-import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
+import { Phoneme, Grapheme, GraphemeCondition, Syllable, WordGenerationContext } from "../types.js";
+import { LanguageConfig, DoublingConfig, OrthographyException, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
@@ -16,6 +16,47 @@ interface CompiledSpellingRule {
   replacement: string;
   probability: number;
   scope: "syllable" | "word" | "both";
+}
+
+interface CompiledOrthographyException {
+  name: string;
+  replacement: string;
+  hyphenated: string;
+}
+
+function serializePhonemeSequence(phonemes: string[]): string {
+  return phonemes.join("\u0001");
+}
+
+function compileOrthographyExceptions(
+  exceptions: OrthographyException[],
+): Map<string, CompiledOrthographyException> {
+  const compiled = new Map<string, CompiledOrthographyException>();
+  for (const exception of exceptions) {
+    if (exception.phonemes.length === 0) {
+      throw new Error(`Orthography exception "${exception.name}" must include at least one phoneme`);
+    }
+    const key = serializePhonemeSequence(exception.phonemes);
+    if (compiled.has(key)) {
+      throw new Error(`Duplicate orthography exception phoneme sequence for "${exception.name}"`);
+    }
+    compiled.set(key, {
+      name: exception.name,
+      replacement: exception.replacement,
+      hyphenated: exception.hyphenated ?? exception.replacement,
+    });
+  }
+  return compiled;
+}
+
+function buildWordPhonemeKey(syllables: Syllable[]): string {
+  return serializePhonemeSequence(
+    syllables.flatMap((syllable) => [
+      ...syllable.onset.map((phoneme) => phoneme.sound),
+      ...syllable.nucleus.map((phoneme) => phoneme.sound),
+      ...syllable.coda.map((phoneme) => phoneme.sound),
+    ]),
+  );
 }
 
 function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
@@ -1508,6 +1549,7 @@ export function appendSilentE(
 export function createWrittenFormGenerator(config: LanguageConfig): (context: WordGenerationContext) => void {
   const gMaps = config.graphemeMaps;
   const doublingConfig = config.doubling;
+  const orthographyExceptionMap = compileOrthographyExceptions(config.orthographyExceptions ?? []);
   const allCompiledRules = compileSpellingRules(config.spellingRules ?? []);
   const syllableRules = allCompiledRules.filter(r => r.scope === "syllable" || r.scope === "both");
   const wordRules = allCompiledRules.filter(r => r.scope === "word" || r.scope === "both");
@@ -1808,6 +1850,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
     // Post-join pass: apply word-scope spelling rules
     let finalClean = applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word");
+    let finalHyphenated = hyphenatedParts.join("");
 
     // Post-join vowel repair for cross-boundary runs
     if (wfc?.maxVowelLetters) {
@@ -1843,12 +1886,20 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       context.trace?.recordRepair("postSpellingBackstop", beforePost, finalClean);
     }
 
+    const orthographyException = orthographyExceptionMap.get(buildWordPhonemeKey(syllables));
+    if (orthographyException) {
+      const before = finalClean;
+      finalClean = orthographyException.replacement;
+      finalHyphenated = orthographyException.hyphenated;
+      context.trace?.recordRepair(`orthographyException:${orthographyException.name}`, before, finalClean, "word");
+    }
+
     if (tracing && context.trace) {
       const finalOwners = remapOwnersThroughRewrite(preRepairSurface, preRepairOwners, finalClean);
       context.trace.orthographyTrace = buildOrthographyTrace(finalClean, finalOwners, traceUnits, context.trace);
     }
 
     written.clean = finalClean;
-    written.hyphenated = hyphenatedParts.join("");
+    written.hyphenated = finalHyphenated;
   };
 }

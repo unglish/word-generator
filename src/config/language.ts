@@ -562,7 +562,12 @@ export interface SilentEConfig {
 export interface SpellingRule {
   /** Human-readable name for debugging. */
   name: string;
-  /** Regex pattern to match in the written form. */
+  /**
+   * Regex pattern to match in the written form.
+   *
+   * Must stay productive: exact whole-word anchored rewrites belong in
+   * {@link OrthographyException}, not in `spellingRules`.
+   */
   pattern: string;
   /** Regex flags (default: "g"). */
   flags?: string;
@@ -572,6 +577,21 @@ export interface SpellingRule {
   probability?: number;
   /** When to apply: "syllable" (per-syllable), "word" (full word), or "both" (default). */
   scope?: "syllable" | "word" | "both";
+}
+
+/** An exact phoneme-sequence override for lexicalized orthography. */
+export interface OrthographyException {
+  /** Human-readable name for trace output and debugging. */
+  name: string;
+  /** Full flattened phoneme sequence for the word. */
+  phonemes: string[];
+  /** Final written form that should win for this exact sequence. */
+  replacement: string;
+  /**
+   * Optional hyphenated written form. Defaults to {@link replacement} when
+   * omitted.
+   */
+  hyphenated?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -721,6 +741,9 @@ export interface LanguageConfig {
 
   /** Silent-e (magic-e / split digraph) configuration. */
   silentE?: SilentEConfig;
+
+  /** Exact whole-word orthography overrides keyed by phoneme sequence. */
+  orthographyExceptions?: OrthographyException[];
 
   /** Post-selection spelling adjustments. */
   spellingRules?: SpellingRule[];
@@ -904,6 +927,13 @@ export interface MorphologyConfig {
     text: { bare: number; suffixed: number; prefixed: number; both: number };
     lexicon: { bare: number; suffixed: number; prefixed: number; both: number };
   };
+}
+
+export function isWholeWordAnchoredSpellingRule(rule: SpellingRule): boolean {
+  const scope = rule.scope ?? "both";
+  return (scope === "word" || scope === "both")
+    && rule.pattern.startsWith("^")
+    && rule.pattern.endsWith("$");
 }
 
 // ---------------------------------------------------------------------------
@@ -1435,6 +1465,43 @@ export function validateConfig(config: LanguageConfig): void {
   const onsetSounds = new Set(config.phonemeMaps.onset.keys());
   const nucleusSounds = new Set(config.phonemeMaps.nucleus.keys());
   const codaSounds = new Set(config.phonemeMaps.coda.keys());
+  const orthographyExceptionKeys = new Set<string>();
+
+  for (let i = 0; i < (config.orthographyExceptions?.length ?? 0); i++) {
+    const exception = config.orthographyExceptions![i];
+    if (!exception.name || typeof exception.name !== "string") {
+      throw new Error(`orthographyExceptions[${i}].name must be a non-empty string`);
+    }
+    if (!Array.isArray(exception.phonemes) || exception.phonemes.length === 0) {
+      throw new Error(`orthographyExceptions[${i}].phonemes must be a non-empty array`);
+    }
+    for (let j = 0; j < exception.phonemes.length; j++) {
+      const sound = exception.phonemes[j];
+      if (!sound) {
+        throw new Error(`orthographyExceptions[${i}].phonemes[${j}] must be non-empty`);
+      }
+      if (!phonemeSounds.has(sound)) {
+        throw new Error(`orthographyExceptions[${i}].phonemes[${j}] contains unknown phoneme "${sound}"`);
+      }
+    }
+    if (!exception.replacement || typeof exception.replacement !== "string") {
+      throw new Error(`orthographyExceptions[${i}].replacement must be a non-empty string`);
+    }
+    const exceptionKey = exception.phonemes.join("\u0001");
+    if (orthographyExceptionKeys.has(exceptionKey)) {
+      throw new Error(`orthographyExceptions has duplicate phoneme sequence for "${exception.name}"`);
+    }
+    orthographyExceptionKeys.add(exceptionKey);
+  }
+
+  for (let i = 0; i < (config.spellingRules?.length ?? 0); i++) {
+    const rule = config.spellingRules![i];
+    if (isWholeWordAnchoredSpellingRule(rule)) {
+      throw new Error(
+        `spellingRules[${i}] (${rule.name}) must not use whole-word anchored patterns; move lexical rewrites to orthographyExceptions`,
+      );
+    }
+  }
 
   const assertKnownPositionSound = (
     sound: string,

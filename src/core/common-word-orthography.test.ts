@@ -69,22 +69,34 @@ function writeWord(graphemes: Grapheme[], syllables: Syllable[], rand = () => 0)
   };
 }
 
-describe("common-word orthography coverage", () => {
-  it("supports targeted bare-final-e /i:/ outputs", () => {
-    const result = writeWord(
-      [
-        cloneGrapheme("b", "b"),
-        cloneGrapheme("i:", "e", (entry) => entry.condition?.leftContext?.includes("b")),
-        cloneGrapheme("i:", "ee"),
-      ],
-      [makeSyllable(["b"], ["i:"], [])],
-    );
+function hasRepair(trace: TraceCollector, rule: string) {
+  return trace.repairs.some((entry) => entry.rule === rule);
+}
 
-    expect(result.word.written.clean).toBe("be");
-    expect(result.trace.graphemeSelections.some((entry) => entry.phoneme === "i:" && entry.selected === "e")).toBe(true);
+describe("common-word orthography coverage", () => {
+  it("supports lexical exceptions for bare-final-e function words", () => {
+    const cases = [
+      { word: "be", onset: "b", rule: "orthographyException:be" },
+      { word: "he", onset: "h", rule: "orthographyException:he" },
+      { word: "me", onset: "m", rule: "orthographyException:me" },
+      { word: "we", onset: "w", rule: "orthographyException:we" },
+    ] as const;
+
+    for (const { word, onset, rule } of cases) {
+      const result = writeWord(
+        [
+          cloneGrapheme(onset, onset),
+          cloneGrapheme("i:", "ee"),
+        ],
+        [makeSyllable([onset], ["i:"], [])],
+      );
+
+      expect(result.word.written.clean).toBe(word);
+      expect(hasRepair(result.trace, rule)).toBe(true);
+    }
   });
 
-  it("applies the ould repair to would/could class outputs", () => {
+  it("supports lexical exceptions for would/could spellings", () => {
     const would = writeWord(
       [
         cloneGrapheme("w", "w"),
@@ -104,11 +116,11 @@ describe("common-word orthography coverage", () => {
 
     expect(would.word.written.clean).toBe("would");
     expect(could.word.written.clean).toBe("could");
-    expect(would.trace.repairs.some((entry) => entry.rule === "spellingRule:oud-to-ould")).toBe(true);
-    expect(could.trace.repairs.some((entry) => entry.rule === "spellingRule:oud-to-ould")).toBe(true);
+    expect(hasRepair(would.trace, "orthographyException:would")).toBe(true);
+    expect(hasRepair(could.trace, "orthographyException:could")).toBe(true);
   });
 
-  it("supports exact wh common-word repairs without broad /w/ -> wh weighting", () => {
+  it("supports lexical exceptions for wh common words without broad /w/ -> wh weighting", () => {
     const which = writeWord(
       [
         cloneGrapheme("w", "w"),
@@ -137,12 +149,12 @@ describe("common-word orthography coverage", () => {
     expect(which.word.written.clean).toBe("which");
     expect(when.word.written.clean).toBe("when");
     expect(what.word.written.clean).toBe("what");
-    expect(which.trace.repairs.some((entry) => entry.rule === "spellingRule:wich-to-which")).toBe(true);
-    expect(when.trace.repairs.some((entry) => entry.rule === "spellingRule:wen-to-when")).toBe(true);
-    expect(what.trace.repairs.some((entry) => entry.rule === "spellingRule:wat-family-to-what")).toBe(true);
+    expect(hasRepair(which.trace, "orthographyException:which")).toBe(true);
+    expect(hasRepair(when.trace, "orthographyException:when")).toBe(true);
+    expect(hasRepair(what.trace, "orthographyException:what")).toBe(true);
   });
 
-  it("supports who via an exact hu -> who repair", () => {
+  it("supports who via a lexical exception", () => {
     const result = writeWord(
       [
         cloneGrapheme("h", "h"),
@@ -154,7 +166,7 @@ describe("common-word orthography coverage", () => {
 
     expect(result.word.written.clean).toBe("who");
     expect(result.trace.graphemeSelections.some((entry) => entry.phoneme === "h" && entry.selected === "h")).toBe(true);
-    expect(result.trace.repairs.some((entry) => entry.rule === "spellingRule:hu-to-who")).toBe(true);
+    expect(hasRepair(result.trace, "orthographyException:who")).toBe(true);
   });
 
   it("supports the new rhotic spellings for their/first classes", () => {
@@ -183,29 +195,59 @@ describe("common-word orthography coverage", () => {
     expect(first.trace.graphemeSelections.some((entry) => entry.phoneme === "ɚ" && entry.selected === "ir")).toBe(true);
   });
 
-  it("supports the targeted high-vowel, any, and people orthography classes", () => {
+  it("keeps eir limited to open final syllables", () => {
+    const third = writeWord(
+      [
+        cloneGrapheme("ð", "th"),
+        cloneGrapheme("ɚ", "eir"),
+        cloneGrapheme("ɚ", "er"),
+        cloneGrapheme("d", "d"),
+      ],
+      [makeSyllable(["ð"], ["ɚ"], ["d"])],
+    );
+    const thirst = writeWord(
+      [
+        cloneGrapheme("ð", "th"),
+        cloneGrapheme("ɚ", "eir"),
+        cloneGrapheme("ɚ", "er"),
+        cloneGrapheme("s", "s"),
+        cloneGrapheme("t", "t"),
+      ],
+      [makeSyllable(["ð"], ["ɚ"], ["s", "t"])],
+    );
+
+    expect(third.word.written.clean).not.toBe("theird");
+    expect(thirst.word.written.clean).not.toBe("theirst");
+    expect(third.trace.graphemeSelections.some((entry) => entry.phoneme === "ɚ" && entry.selected === "eir")).toBe(false);
+    expect(thirst.trace.graphemeSelections.some((entry) => entry.phoneme === "ɚ" && entry.selected === "eir")).toBe(false);
+  });
+
+  it("supports lexical exceptions for short common-word spellings", () => {
     const to = writeWord(
       [
         cloneGrapheme("t", "t"),
-        cloneGrapheme("u", "o", (entry) => entry.condition?.leftContext?.includes("t")),
         cloneGrapheme("u", "u"),
       ],
       [makeSyllable(["t"], ["u"], [])],
     );
+    const doWord = writeWord(
+      [
+        cloneGrapheme("d", "d"),
+        cloneGrapheme("u", "u"),
+      ],
+      [makeSyllable(["d"], ["u"], [])],
+    );
     const you = writeWord(
       [
         cloneGrapheme("j", "y"),
-        cloneGrapheme("u", "ou", (entry) => entry.condition?.leftContext?.includes("j")),
         cloneGrapheme("u", "u"),
       ],
       [makeSyllable(["j"], ["u"], [])],
     );
     const any = writeWord(
       [
-        cloneGrapheme("ɛ", "a", (entry) => entry.condition?.rightContext?.includes("n")),
         cloneGrapheme("ɛ", "e"),
         cloneGrapheme("n", "n"),
-        cloneGrapheme("i:", "y"),
         cloneGrapheme("i:", "ee"),
       ],
       [
@@ -216,7 +258,6 @@ describe("common-word orthography coverage", () => {
     const people = writeWord(
       [
         cloneGrapheme("p", "p"),
-        cloneGrapheme("i:", "eo"),
         cloneGrapheme("i:", "ee"),
         cloneGrapheme("ə", "u"),
         cloneGrapheme("l", "l"),
@@ -228,12 +269,48 @@ describe("common-word orthography coverage", () => {
     );
 
     expect(to.word.written.clean).toBe("to");
+    expect(doWord.word.written.clean).toBe("do");
     expect(you.word.written.clean).toBe("you");
     expect(any.word.written.clean).toBe("any");
     expect(people.word.written.clean).toBe("people");
-    expect(to.trace.graphemeSelections.some((entry) => entry.phoneme === "u" && entry.selected === "o")).toBe(true);
-    expect(you.trace.graphemeSelections.some((entry) => entry.phoneme === "u" && entry.selected === "ou")).toBe(true);
-    expect(any.trace.graphemeSelections.some((entry) => entry.phoneme === "ɛ" && entry.selected === "a")).toBe(true);
-    expect(people.trace.repairs.some((entry) => entry.rule === "spellingRule:eopVowel-l-to-eople")).toBe(true);
+    expect(any.word.written.hyphenated).toBe("a&shy;ny");
+    expect(people.word.written.hyphenated).toBe("peo&shy;ple");
+    expect(hasRepair(to.trace, "orthographyException:to")).toBe(true);
+    expect(hasRepair(doWord.trace, "orthographyException:do")).toBe(true);
+    expect(hasRepair(you.trace, "orthographyException:you")).toBe(true);
+    expect(hasRepair(any.trace, "orthographyException:any")).toBe(true);
+    expect(hasRepair(people.trace, "orthographyException:people")).toBe(true);
+  });
+
+  it("does not leak lexical exceptions into broader phoneme classes", () => {
+    const send = writeWord(
+      [
+        cloneGrapheme("s", "s"),
+        cloneGrapheme("ɛ", "e"),
+        cloneGrapheme("n", "n"),
+        cloneGrapheme("d", "d"),
+      ],
+      [makeSyllable(["s"], ["ɛ"], ["n", "d"])],
+    );
+    const stu = writeWord(
+      [
+        cloneGrapheme("s", "s"),
+        cloneGrapheme("t", "t"),
+        cloneGrapheme("u", "u"),
+      ],
+      [makeSyllable(["s", "t"], ["u"], [])],
+    );
+    const nyu = writeWord(
+      [
+        cloneGrapheme("n", "n"),
+        cloneGrapheme("j", "y"),
+        cloneGrapheme("u", "u"),
+      ],
+      [makeSyllable(["n", "j"], ["u"], [])],
+    );
+
+    expect(send.word.written.clean).toBe("send");
+    expect(stu.word.written.clean).toBe("stu");
+    expect(nyu.word.written.clean).toBe("nyu");
   });
 });
