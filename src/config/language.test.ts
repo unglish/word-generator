@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { englishConfig } from "./english.js";
-import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, resolveAspirationRules, validateConfig } from "./language.js";
+import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, isWholeWordAnchoredSpellingRule, resolveAspirationRules, validateConfig } from "./language.js";
 import { VOICED_BONUS, TENSE_BONUS } from "./weights.js";
 import { sonorityLevels } from "../elements/phonemes.js";
 import { Phoneme } from "../types.js";
@@ -274,132 +274,19 @@ describe("validateConfig", () => {
         },
       ],
     };
-    expect(() => validateConfig(bad)).toThrow("must not use exact literal whole-word rewrites");
+    expect(isWholeWordAnchoredSpellingRule(bad.spellingRules[bad.spellingRules.length - 1])).toBe(true);
+    expect(() => validateConfig(bad)).toThrow("must not use whole-word anchored patterns");
   });
 
-  it("should allow productive anchored spelling rules with captures", () => {
-    const ok = {
-      ...englishConfig,
-      spellingRules: [
-        ...(englishConfig.spellingRules ?? []),
-        {
-          name: "plural-y-to-ies",
-          pattern: "^(.+)y$",
-          replacement: "$1ies",
-          scope: "word" as const,
-        },
-      ],
-    };
-    expect(() => validateConfig(ok)).not.toThrow();
-  });
-
-  it("should allow anchored spelling rules that use regex syntax", () => {
-    const ok = {
-      ...englishConfig,
-      spellingRules: [
-        ...(englishConfig.spellingRules ?? []),
-        {
-          name: "optional-u",
-          pattern: "^colou?r$",
-          replacement: "color",
-          scope: "word" as const,
-        },
-      ],
-    };
-    expect(() => validateConfig(ok)).not.toThrow();
-  });
-
-  it("should allow weighted gap-spelling variants on the same phoneme sequence", () => {
-    const ok = {
-      ...englishConfig,
-      gapSpellings: [
-        ...(englishConfig.gapSpellings ?? []),
-        { name: "toe", phonemes: ["t", "u"], replacement: "toe", weight: 5, targetLayer: "grapheme" as const },
-      ],
-    };
-    expect(() => validateConfig(ok)).not.toThrow();
-  });
-
-  it("should reject duplicate gap-spelling variants", () => {
+  it("should reject duplicate orthography exception phoneme sequences", () => {
     const bad = {
       ...englishConfig,
-      gapSpellings: [
-        ...(englishConfig.gapSpellings ?? []),
-        { name: "duplicate-to", phonemes: ["t", "u"], replacement: "to", targetLayer: "grapheme" as const },
+      orthographyExceptions: [
+        ...(englishConfig.orthographyExceptions ?? []),
+        { name: "duplicate-to", phonemes: ["t", "u"], replacement: "toe" },
       ],
     };
-    expect(() => validateConfig(bad)).toThrow('gapSpellings has duplicate variant for "duplicate-to"');
-  });
-
-  it("should reject duplicate gap-spelling variants even when target layers differ", () => {
-    const bad = {
-      ...englishConfig,
-      gapSpellings: [
-        ...(englishConfig.gapSpellings ?? []),
-        { name: "duplicate-to-layer", phonemes: ["t", "u"], replacement: "to", targetLayer: "spellingRule" as const },
-      ],
-    };
-    expect(() => validateConfig(bad)).toThrow('gapSpellings has duplicate variant for "duplicate-to-layer"');
-  });
-
-  it("should reject duplicate gap-spelling variants even when hyphenation differs", () => {
-    const bad = {
-      ...englishConfig,
-      gapSpellings: [
-        ...(englishConfig.gapSpellings ?? []),
-        {
-          name: "duplicate-any-hyphenation",
-          phonemes: ["ɛ", "n", "i:"],
-          replacement: "any",
-          hyphenated: "an&shy;y",
-          targetLayer: "grapheme" as const,
-        },
-      ],
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      'gapSpellings has duplicate variant for "duplicate-any-hyphenation"',
-    );
-  });
-
-  it("should reject invalid gap-spelling weights", () => {
-    const bad = {
-      ...englishConfig,
-      gapSpellings: [
-        ...(englishConfig.gapSpellings ?? []),
-        { name: "bad-weight", phonemes: ["t", "u"], replacement: "tow", weight: 0, targetLayer: "grapheme" as const },
-      ],
-    };
-    expect(() => validateConfig(bad)).toThrow("gapSpellings[16].weight must be a finite number > 0");
-  });
-
-  it("should reject gap spellings without a target layer", () => {
-    const bad = {
-      ...englishConfig,
-      gapSpellings: [
-        ...(englishConfig.gapSpellings ?? []),
-        { name: "layerless", phonemes: ["t", "u"], replacement: "teau" } as unknown as NonNullable<typeof englishConfig.gapSpellings>[number],
-      ],
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "gapSpellings[16].targetLayer must be one of grapheme|spellingRule|phonotactics|morphology|unknown",
-    );
-  });
-
-  it("should reject gap spellings with unknown phonemes", () => {
-    const bad = {
-      ...englishConfig,
-      gapSpellings: [
-        ...(englishConfig.gapSpellings ?? []),
-        { name: "bad-phoneme", phonemes: ["not-a-phoneme"], replacement: "x", targetLayer: "unknown" as const },
-      ],
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      'gapSpellings[16].phonemes[0] contains unknown phoneme "not-a-phoneme"',
-    );
-  });
-
-  it("should keep the English gap-spelling count on a ratchet", () => {
-    expect(englishConfig.gapSpellings).toHaveLength(16);
+    expect(() => validateConfig(bad)).toThrow('orthographyExceptions has duplicate phoneme sequence for "duplicate-to"');
   });
 
   it("should throw when a phonemeMap references a phoneme not in phonemes[]", () => {
@@ -552,88 +439,6 @@ describe("validateConfig", () => {
       },
     };
     expect(() => validateConfig(bad)).toThrow("morphology.boundaryPolicy.fallbackBridgeOnsets has invalid weight 0 for \"h\" (must be > 0)");
-  });
-
-  it("should throw when suffixed template weight is enabled without suffixes", () => {
-    const bad = {
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!,
-        suffixes: [],
-        templateWeights: {
-          text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
-          lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
-        },
-      },
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "morphology.templateWeights.lexicon.suffixed requires at least one morphology.suffixes entry",
-    );
-  });
-
-  it("should throw when both template weight is enabled without prefixes", () => {
-    const bad = {
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!,
-        prefixes: [],
-        templateWeights: {
-          text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
-          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
-        },
-      },
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "morphology.templateWeights.lexicon.both requires at least one morphology.prefixes entry",
-    );
-  });
-
-  it("should throw when enabled morphology has zero total template weight for a mode", () => {
-    const bad = {
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!,
-        templateWeights: {
-          text: { bare: 0, suffixed: 0, prefixed: 0, both: 0 },
-          lexicon: englishConfig.morphology!.templateWeights.lexicon,
-        },
-      },
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "morphology.templateWeights.text must have positive total weight",
-    );
-  });
-
-  it("should throw when a morphology template weight is negative", () => {
-    const bad = {
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!,
-        templateWeights: {
-          text: { bare: 100, suffixed: 0, prefixed: -1, both: 0 },
-          lexicon: englishConfig.morphology!.templateWeights.lexicon,
-        },
-      },
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "morphology.templateWeights.text.prefixed must be a finite number >= 0",
-    );
-  });
-
-  it("should throw when a morphology template weight is not finite", () => {
-    const bad = {
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!,
-        templateWeights: {
-          text: { bare: 100, suffixed: 0, prefixed: Number.POSITIVE_INFINITY, both: 0 },
-          lexicon: englishConfig.morphology!.templateWeights.lexicon,
-        },
-      },
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "morphology.templateWeights.text.prefixed must be a finite number >= 0",
-    );
   });
 
   it("should throw when a morphophonemic rule uses an unknown replacement phoneme", () => {

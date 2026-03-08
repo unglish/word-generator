@@ -565,8 +565,8 @@ export interface SpellingRule {
   /**
    * Regex pattern to match in the written form.
    *
-   * Must stay productive: exact literal whole-word rewrites belong in
-   * {@link GapSpelling}, not in `spellingRules`.
+   * Must stay productive: exact whole-word anchored rewrites belong in
+   * {@link OrthographyException}, not in `spellingRules`.
    */
   pattern: string;
   /** Regex flags (default: "g"). */
@@ -579,37 +579,14 @@ export interface SpellingRule {
   scope?: "syllable" | "word" | "both";
 }
 
-export type GapSpellingTargetLayer =
-  | "grapheme"
-  | "spellingRule"
-  | "phonotactics"
-  | "morphology"
-  | "unknown";
-
-/**
- * A bare-word spelling override used to capture exact phoneme→surface mappings
- * that the current foundational rules do not yet model productively.
- *
- * As the catalog grows, repeated patterns in these entries should inform more
- * general phonotactic, orthographic, or morphological rules that can replace
- * individual overrides over time.
- */
-export interface GapSpelling {
-  /** Human-readable name for trace output, debugging, and audits. */
+/** An exact phoneme-sequence override for lexicalized orthography. */
+export interface OrthographyException {
+  /** Human-readable name for trace output and debugging. */
   name: string;
   /** Full flattened phoneme sequence for the word. */
   phonemes: string[];
   /** Final written form that should win for this exact sequence. */
   replacement: string;
-  /** Relative selection weight when multiple variants share the same phonemes. */
-  weight?: number;
-  /**
-   * Which foundational rule family this entry most likely belongs to.
-   *
-   * This is audit/trace metadata and does not change when the override applies:
-   * gap spellings remain exact bare-word overrides.
-   */
-  targetLayer: GapSpellingTargetLayer;
   /**
    * Optional hyphenated written form. Defaults to {@link replacement} when
    * omitted.
@@ -765,8 +742,8 @@ export interface LanguageConfig {
   /** Silent-e (magic-e / split digraph) configuration. */
   silentE?: SilentEConfig;
 
-  /** Bare-word spelling overrides keyed by exact phoneme sequence. */
-  gapSpellings?: GapSpelling[];
+  /** Exact whole-word orthography overrides keyed by phoneme sequence. */
+  orthographyExceptions?: OrthographyException[];
 
   /** Post-selection spelling adjustments. */
   spellingRules?: SpellingRule[];
@@ -952,23 +929,11 @@ export interface MorphologyConfig {
   };
 }
 
-const REGEX_LITERAL_META = /[\\.*+?()[\]{}|]/;
-
-function isLiteralWholeWordPattern(pattern: string): boolean {
-  if (!pattern.startsWith("^") || !pattern.endsWith("$")) return false;
-  const inner = pattern.slice(1, -1);
-  return inner.length > 0 && !REGEX_LITERAL_META.test(inner);
-}
-
-function isLiteralReplacement(replacement: string): boolean {
-  return replacement.length > 0 && !replacement.includes("$");
-}
-
-function isExactLiteralWholeWordSpellingRule(rule: SpellingRule): boolean {
+export function isWholeWordAnchoredSpellingRule(rule: SpellingRule): boolean {
   const scope = rule.scope ?? "both";
   return (scope === "word" || scope === "both")
-    && isLiteralWholeWordPattern(rule.pattern)
-    && isLiteralReplacement(rule.replacement);
+    && rule.pattern.startsWith("^")
+    && rule.pattern.endsWith("$");
 }
 
 // ---------------------------------------------------------------------------
@@ -1500,56 +1465,40 @@ export function validateConfig(config: LanguageConfig): void {
   const onsetSounds = new Set(config.phonemeMaps.onset.keys());
   const nucleusSounds = new Set(config.phonemeMaps.nucleus.keys());
   const codaSounds = new Set(config.phonemeMaps.coda.keys());
-  const gapSpellingVariantKeys = new Set<string>();
+  const orthographyExceptionKeys = new Set<string>();
 
-  for (let i = 0; i < (config.gapSpellings?.length ?? 0); i++) {
-    const gapSpelling = config.gapSpellings![i];
-    if (!gapSpelling.name || typeof gapSpelling.name !== "string") {
-      throw new Error(`gapSpellings[${i}].name must be a non-empty string`);
+  for (let i = 0; i < (config.orthographyExceptions?.length ?? 0); i++) {
+    const exception = config.orthographyExceptions![i];
+    if (!exception.name || typeof exception.name !== "string") {
+      throw new Error(`orthographyExceptions[${i}].name must be a non-empty string`);
     }
-    if (!Array.isArray(gapSpelling.phonemes) || gapSpelling.phonemes.length === 0) {
-      throw new Error(`gapSpellings[${i}].phonemes must be a non-empty array`);
+    if (!Array.isArray(exception.phonemes) || exception.phonemes.length === 0) {
+      throw new Error(`orthographyExceptions[${i}].phonemes must be a non-empty array`);
     }
-    for (let j = 0; j < gapSpelling.phonemes.length; j++) {
-      const sound = gapSpelling.phonemes[j];
+    for (let j = 0; j < exception.phonemes.length; j++) {
+      const sound = exception.phonemes[j];
       if (!sound) {
-        throw new Error(`gapSpellings[${i}].phonemes[${j}] must be non-empty`);
+        throw new Error(`orthographyExceptions[${i}].phonemes[${j}] must be non-empty`);
       }
       if (!phonemeSounds.has(sound)) {
-        throw new Error(`gapSpellings[${i}].phonemes[${j}] contains unknown phoneme "${sound}"`);
+        throw new Error(`orthographyExceptions[${i}].phonemes[${j}] contains unknown phoneme "${sound}"`);
       }
     }
-    if (!gapSpelling.replacement || typeof gapSpelling.replacement !== "string") {
-      throw new Error(`gapSpellings[${i}].replacement must be a non-empty string`);
+    if (!exception.replacement || typeof exception.replacement !== "string") {
+      throw new Error(`orthographyExceptions[${i}].replacement must be a non-empty string`);
     }
-    if (gapSpelling.weight !== undefined && (!Number.isFinite(gapSpelling.weight) || gapSpelling.weight <= 0)) {
-      throw new Error(`gapSpellings[${i}].weight must be a finite number > 0`);
+    const exceptionKey = exception.phonemes.join("\u0001");
+    if (orthographyExceptionKeys.has(exceptionKey)) {
+      throw new Error(`orthographyExceptions has duplicate phoneme sequence for "${exception.name}"`);
     }
-    if (
-      gapSpelling.targetLayer !== "grapheme"
-      && gapSpelling.targetLayer !== "spellingRule"
-      && gapSpelling.targetLayer !== "phonotactics"
-      && gapSpelling.targetLayer !== "morphology"
-      && gapSpelling.targetLayer !== "unknown"
-    ) {
-      throw new Error(`gapSpellings[${i}].targetLayer must be one of grapheme|spellingRule|phonotactics|morphology|unknown`);
-    }
-    const gapKey = gapSpelling.phonemes.join("\u0001");
-    const variantKey = [
-      gapKey,
-      gapSpelling.replacement,
-    ].join("\u0001");
-    if (gapSpellingVariantKeys.has(variantKey)) {
-      throw new Error(`gapSpellings has duplicate variant for "${gapSpelling.name}"`);
-    }
-    gapSpellingVariantKeys.add(variantKey);
+    orthographyExceptionKeys.add(exceptionKey);
   }
 
   for (let i = 0; i < (config.spellingRules?.length ?? 0); i++) {
     const rule = config.spellingRules![i];
-    if (isExactLiteralWholeWordSpellingRule(rule)) {
+    if (isWholeWordAnchoredSpellingRule(rule)) {
       throw new Error(
-        `spellingRules[${i}] (${rule.name}) must not use exact literal whole-word rewrites; move lexical overrides to gapSpellings`,
+        `spellingRules[${i}] (${rule.name}) must not use whole-word anchored patterns; move lexical rewrites to orthographyExceptions`,
       );
     }
   }
@@ -1698,50 +1647,6 @@ export function validateConfig(config: LanguageConfig): void {
   };
 
   if (config.morphology) {
-    if (config.morphology.enabled) {
-      for (const mode of ["text", "lexicon"] as const) {
-        const weights = config.morphology.templateWeights[mode];
-        const entries: Array<[keyof typeof weights, number]> = [
-          ["bare", weights.bare],
-          ["suffixed", weights.suffixed],
-          ["prefixed", weights.prefixed],
-          ["both", weights.both],
-        ];
-        let totalWeight = 0;
-        for (const [template, weight] of entries) {
-          if (!Number.isFinite(weight) || weight < 0) {
-            throw new Error(
-              `morphology.templateWeights.${mode}.${template} must be a finite number >= 0`,
-            );
-          }
-          totalWeight += weight;
-        }
-        if (!Number.isFinite(totalWeight) || totalWeight <= 0) {
-          throw new Error(`morphology.templateWeights.${mode} must have positive total weight`);
-        }
-        if (weights.prefixed > 0 && config.morphology.prefixes.length === 0) {
-          throw new Error(
-            `morphology.templateWeights.${mode}.prefixed requires at least one morphology.prefixes entry`,
-          );
-        }
-        if (weights.suffixed > 0 && config.morphology.suffixes.length === 0) {
-          throw new Error(
-            `morphology.templateWeights.${mode}.suffixed requires at least one morphology.suffixes entry`,
-          );
-        }
-        if (weights.both > 0 && config.morphology.prefixes.length === 0) {
-          throw new Error(
-            `morphology.templateWeights.${mode}.both requires at least one morphology.prefixes entry`,
-          );
-        }
-        if (weights.both > 0 && config.morphology.suffixes.length === 0) {
-          throw new Error(
-            `morphology.templateWeights.${mode}.both requires at least one morphology.suffixes entry`,
-          );
-        }
-      }
-    }
-
     for (let i = 0; i < config.morphology.prefixes.length; i++) {
       const affix = config.morphology.prefixes[i];
       if (!affix.morphophonemicRules) continue;
