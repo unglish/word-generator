@@ -436,7 +436,6 @@ export function buildCoverageReport({
   const foundCount = words.filter((row) => row.found).length;
   const missingWords = words.filter((row) => !row.found).map((row) => row.word);
   return {
-    generatedAt: new Date().toISOString(),
     config,
     targetSource,
     summary: {
@@ -480,8 +479,6 @@ export function renderCoverageCsv(report) {
 export function renderCoverageMarkdown(report) {
   const lines = [
     "# Common Word Coverage",
-    "",
-    `Generated: ${report.generatedAt}`,
     "",
     "## Run",
     "",

@@ -98,9 +98,7 @@ describe("common-word-coverage-core", () => {
 
     const first = makeReport();
     const second = makeReport();
-    expect(first.words).toEqual(second.words);
-    expect(first.summary).toEqual(second.summary);
-    expect(first.config).toEqual(second.config);
+    expect(first).toEqual(second);
   });
 
   it("classifies wh near misses as grapheme competition", () => {
