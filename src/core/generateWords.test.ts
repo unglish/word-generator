@@ -71,6 +71,11 @@ describe("generateWords (batch API)", () => {
     expect(words[0].written.clean).toBeTruthy();
   });
 
+  it("throws for non-finite or non-integer batch count", () => {
+    expect(() => generateWords(Infinity, { seed: 42 })).toThrow("count must be a finite integer >= 0");
+    expect(() => generateWords(2.5, { seed: 42 })).toThrow("count must be a finite integer >= 0");
+  });
+
   it("respects syllableCount option", () => {
     const words = generateWords(10, { seed: 42, syllableCount: 2, morphology: false });
     for (const word of words) {
@@ -123,6 +128,20 @@ describe("generateWord RNG priority", () => {
     const word42b = generateWord({ seed: 42 });
 
     expect(word42a.written.clean).toBe(word42b.written.clean);
+  });
+
+  it("throws for invalid forced syllableCount values", () => {
+    expect(() => generateWord({ syllableCount: Infinity, morphology: false })).toThrow(
+      "options.syllableCount must be a finite integer >= 1 when provided",
+    );
+    expect(() => generateWord({ syllableCount: 0.5, morphology: false })).toThrow(
+      "options.syllableCount must be a finite integer >= 1 when provided",
+    );
+
+    const generator = createGenerator(englishConfig);
+    expect(() => generator.generateWord({ syllableCount: Infinity, morphology: false })).toThrow(
+      "options.syllableCount must be a finite integer >= 1 when provided",
+    );
   });
 });
 
