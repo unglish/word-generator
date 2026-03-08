@@ -108,25 +108,43 @@ describe("common-word orthography coverage", () => {
     expect(could.trace.repairs.some((entry) => entry.rule === "spellingRule:oud-to-ould")).toBe(true);
   });
 
-  it("keeps /w/ -> wh available for which-style words", () => {
-    const result = writeWord(
+  it("supports exact wh common-word repairs without broad /w/ -> wh weighting", () => {
+    const which = writeWord(
       [
-        cloneGrapheme("w", "wh", (entry) => entry.condition?.rightContext?.includes("ɪ")),
         cloneGrapheme("w", "w"),
         cloneGrapheme("ɪ", "i"),
         cloneGrapheme("tʃ", "ch"),
       ],
       [makeSyllable(["w"], ["ɪ"], ["tʃ"])],
     );
+    const when = writeWord(
+      [
+        cloneGrapheme("w", "w"),
+        cloneGrapheme("ɛ", "e"),
+        cloneGrapheme("n", "n"),
+      ],
+      [makeSyllable(["w"], ["ɛ"], ["n"])],
+    );
+    const what = writeWord(
+      [
+        cloneGrapheme("w", "w"),
+        cloneGrapheme("ɑ", "a"),
+        cloneGrapheme("t", "t"),
+      ],
+      [makeSyllable(["w"], ["ɑ"], ["t"])],
+    );
 
-    expect(result.word.written.clean).toBe("which");
-    expect(result.trace.graphemeSelections.some((entry) => entry.phoneme === "w" && entry.selected === "wh")).toBe(true);
+    expect(which.word.written.clean).toBe("which");
+    expect(when.word.written.clean).toBe("when");
+    expect(what.word.written.clean).toBe("what");
+    expect(which.trace.repairs.some((entry) => entry.rule === "spellingRule:wich-to-which")).toBe(true);
+    expect(when.trace.repairs.some((entry) => entry.rule === "spellingRule:wen-to-when")).toBe(true);
+    expect(what.trace.repairs.some((entry) => entry.rule === "spellingRule:wat-family-to-what")).toBe(true);
   });
 
-  it("supports who via the split wh-for-/h/ path plus spelling repair", () => {
+  it("supports who via an exact hu -> who repair", () => {
     const result = writeWord(
       [
-        cloneGrapheme("h", "wh"),
         cloneGrapheme("h", "h"),
         cloneGrapheme("u", "u"),
         cloneGrapheme("u", "oo"),
@@ -135,8 +153,8 @@ describe("common-word orthography coverage", () => {
     );
 
     expect(result.word.written.clean).toBe("who");
-    expect(result.trace.graphemeSelections.some((entry) => entry.phoneme === "h" && entry.selected === "wh")).toBe(true);
-    expect(result.trace.repairs.some((entry) => entry.rule === "spellingRule:whu-to-who")).toBe(true);
+    expect(result.trace.graphemeSelections.some((entry) => entry.phoneme === "h" && entry.selected === "h")).toBe(true);
+    expect(result.trace.repairs.some((entry) => entry.rule === "spellingRule:hu-to-who")).toBe(true);
   });
 
   it("supports the new rhotic spellings for their/first classes", () => {

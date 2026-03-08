@@ -328,9 +328,39 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
-      name: "whu-to-who",
-      pattern: "^whu$",
+      name: "hu-to-who",
+      pattern: "^hu$",
       replacement: "who",
+      probability: 100,
+      scope: "word",
+    },
+    // TODO(issue-85): Replace these exact word-scope rewrites with a typed
+    // lexicalized orthography exception layer instead of regex patches.
+    {
+      name: "wen-to-when",
+      pattern: "^wen$",
+      replacement: "when",
+      probability: 100,
+      scope: "word",
+    },
+    {
+      name: "wich-to-which",
+      pattern: "^wich$",
+      replacement: "which",
+      probability: 100,
+      scope: "word",
+    },
+    {
+      name: "whitch-to-which",
+      pattern: "^whitch$",
+      replacement: "which",
+      probability: 100,
+      scope: "word",
+    },
+    {
+      name: "wat-family-to-what",
+      pattern: "^(?:wat|wot|whot)$",
+      replacement: "what",
       probability: 100,
       scope: "word",
     },
