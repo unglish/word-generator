@@ -32,23 +32,6 @@ export const vowelGraphemes: Grapheme[] = [
   },
   {
     phoneme: "i:",
-    form: "e",
-    origin: 0,
-    frequency: 12,
-    startWord: 30,
-    midWord: 0,
-    endWord: 35,
-    condition: {
-      leftContext: ["b", "h", "m", "w"],
-      wordPosition: ["final"],
-      syllableShape: {
-        onset: "nonEmpty",
-        coda: "empty",
-      },
-    },
-  },
-  {
-    phoneme: "i:",
     form: "y",
     origin: 1,
     frequency: 3,
@@ -84,7 +67,7 @@ export const vowelGraphemes: Grapheme[] = [
     form: "eo",
     origin: 1,  
     frequency: 1, 
-    startWord: 5,
+    startWord: 0,
     midWord: 1,
     endWord: 0,
   },
@@ -145,19 +128,6 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 10,
     endWord: 5,
   },
-  {
-    phoneme: "ɛ",
-    form: "a",
-    origin: 0,
-    frequency: 8,
-    startWord: 6,
-    midWord: 6,
-    endWord: 0,
-    condition: {
-      rightContext: ["n"],
-    },
-  },
-
   // æ: cat
   { 
     phoneme: "æ", 
@@ -302,23 +272,6 @@ export const vowelGraphemes: Grapheme[] = [
   },
   {
     phoneme: "u",
-    form: "ou",
-    origin: 1,
-    frequency: 8,
-    startWord: 10,
-    midWord: 0,
-    endWord: 60,
-    condition: {
-      leftContext: ["j"],
-      wordPosition: ["final"],
-      syllableShape: {
-        onset: "nonEmpty",
-        coda: "empty",
-      },
-    },
-  },
-  {
-    phoneme: "u",
     form: "oo",
     origin: 0,
     frequency: 30,
@@ -335,23 +288,6 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 10,
     endWord: 2,
     condition: { notLeftContext: ["g"] },
-  },
-  {
-    phoneme: "u",
-    form: "o",
-    origin: 0,
-    frequency: 6,
-    startWord: 12,
-    midWord: 0,
-    endWord: 45,
-    condition: {
-      leftContext: ["t", "d"],
-      wordPosition: ["final"],
-      syllableShape: {
-        onset: "nonEmpty",
-        coda: "empty",
-      },
-    },
   },
   {
     phoneme: "u",

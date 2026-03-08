@@ -330,7 +330,11 @@ function classifyNearMiss(target, candidate) {
   }
 
   if (
-    repairs.has("spellingRule:whu-to-who")
+    repairs.has("orthographyException:who")
+    || repairs.has("orthographyException:would")
+    || repairs.has("orthographyException:could")
+    || repairs.has("orthographyException:people")
+    || repairs.has("spellingRule:whu-to-who")
     || repairs.has("spellingRule:oud-to-ould")
     || repairs.has("spellingRule:eopVowel-l-to-eople")
   ) {
