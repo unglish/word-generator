@@ -71,6 +71,16 @@ describe("generateWords (batch API)", () => {
     expect(words[0].written.clean).toBeTruthy();
   });
 
+  it("rejects non-finite batch counts", () => {
+    expect(() => generateWords(Number.POSITIVE_INFINITY, { seed: 42 })).toThrow("count must be a finite integer");
+    expect(() => generateWords(Number.NaN, { seed: 42 })).toThrow("count must be a finite integer");
+  });
+
+  it("rejects non-integer or negative batch counts", () => {
+    expect(() => generateWords(1.5, { seed: 42 })).toThrow("count must be a finite integer");
+    expect(() => generateWords(-1, { seed: 42 })).toThrow("count must be greater than or equal to 0");
+  });
+
   it("respects syllableCount option", () => {
     const words = generateWords(10, { seed: 42, syllableCount: 2, morphology: false });
     for (const word of words) {
@@ -123,6 +133,14 @@ describe("generateWord RNG priority", () => {
     const word42b = generateWord({ seed: 42 });
 
     expect(word42a.written.clean).toBe(word42b.written.clean);
+  });
+
+  it("rejects invalid syllableCount values", () => {
+    expect(() => generateWord({ syllableCount: Number.POSITIVE_INFINITY })).toThrow("syllableCount must be a finite integer");
+    expect(() => generateWord({ syllableCount: 1.5 })).toThrow("syllableCount must be a finite integer");
+    expect(() => generateWords(1, { syllableCount: Number.POSITIVE_INFINITY })).toThrow("syllableCount must be a finite integer");
+    expect(() => generateWord({ syllableCount: 8 })).toThrow("syllableCount must be between 1 and 7, or 0 for auto");
+    expect(() => generateWord({ syllableCount: -1 })).toThrow("syllableCount must be between 1 and 7, or 0 for auto");
   });
 });
 

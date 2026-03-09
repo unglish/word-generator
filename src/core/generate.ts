@@ -1133,6 +1133,35 @@ function resolveRng(options: WordGenerationOptions): RNG {
   return options.rand ?? (options.seed !== undefined ? createSeededRng(options.seed) : createDefaultRng());
 }
 
+const MAX_GENERATE_WORDS_COUNT = 1_000_000;
+const MIN_FORCED_SYLLABLE_COUNT = 1;
+const MAX_FORCED_SYLLABLE_COUNT = 7;
+
+function resolveForcedSyllableCount(syllableCount: number | undefined): number {
+  if (syllableCount === undefined) return 0;
+  if (!Number.isFinite(syllableCount) || !Number.isInteger(syllableCount)) {
+    throw new Error("syllableCount must be a finite integer");
+  }
+  if (syllableCount === 0) return 0;
+  if (syllableCount < MIN_FORCED_SYLLABLE_COUNT || syllableCount > MAX_FORCED_SYLLABLE_COUNT) {
+    throw new Error(`syllableCount must be between ${MIN_FORCED_SYLLABLE_COUNT} and ${MAX_FORCED_SYLLABLE_COUNT}, or 0 for auto`);
+  }
+  return syllableCount;
+}
+
+function resolveGenerateWordsCount(count: number): number {
+  if (!Number.isFinite(count) || !Number.isInteger(count)) {
+    throw new Error("count must be a finite integer");
+  }
+  if (count < 0) {
+    throw new Error("count must be greater than or equal to 0");
+  }
+  if (count > MAX_GENERATE_WORDS_COUNT) {
+    throw new Error(`count must be <= ${MAX_GENERATE_WORDS_COUNT}`);
+  }
+  return count;
+}
+
 /** Maximum retries for letter-length rejection sampling. */
 const MAX_LENGTH_RETRIES = 3;
 /** Maximum retries for top-down phoneme target matching. */
@@ -1399,7 +1428,14 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 
   return {
     generateWord: (options: WordGenerationOptions = {}): Word => {
-      return generateOneWord(rt, resolveRng(options), options.mode ?? "lexicon", options.syllableCount || 0, options.morphology ?? true, options.trace ?? false);
+      return generateOneWord(
+        rt,
+        resolveRng(options),
+        options.mode ?? "lexicon",
+        resolveForcedSyllableCount(options.syllableCount),
+        options.morphology ?? true,
+        options.trace ?? false,
+      );
     },
   };
 }
@@ -1421,7 +1457,14 @@ const defaultRuntime = buildRuntime(englishConfig);
  * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
-  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "lexicon", options.syllableCount || 0, options.morphology ?? true, options.trace ?? false);
+  return generateOneWord(
+    defaultRuntime,
+    resolveRng(options),
+    options.mode ?? "lexicon",
+    resolveForcedSyllableCount(options.syllableCount),
+    options.morphology ?? true,
+    options.trace ?? false,
+  );
 };
 
 /**
@@ -1445,11 +1488,12 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
  * ```
  */
 export const generateWords = (count: number, options: WordGenerationOptions = {}): Word[] => {
+  const resolvedCount = resolveGenerateWordsCount(count);
   const rand = resolveRng(options);
   const mode = options.mode ?? "lexicon";
-  const syllableCount = options.syllableCount || 0;
+  const syllableCount = resolveForcedSyllableCount(options.syllableCount);
   const results: Word[] = [];
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < resolvedCount; i++) {
     results.push(generateOneWord(defaultRuntime, rand, mode, syllableCount, options.morphology ?? true, options.trace ?? false));
   }
   return results;
