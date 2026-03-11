@@ -1,5 +1,5 @@
-import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
-import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
+import { Phoneme, Grapheme, GraphemeCondition, Syllable, WordGenerationContext } from "../types.js";
+import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule, sonorityClass } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
@@ -674,15 +674,16 @@ function selectByFrequency(
     if (captureTrace) traceWeights.push([g.form, w]);
   }
 
-  const totalWeight = weights.reduce((sum, [, weight]) => sum + weight, 0);
+  let totalWeight = 0;
+  for (let i = 0; i < weights.length; i++) totalWeight += weights[i][1];
   const randomValue = rand() * totalWeight;
 
   let cumulativeWeight = 0;
   let selected = weights[weights.length - 1][0];
-  for (const [option, weight] of weights) {
-    cumulativeWeight += weight;
+  for (let i = 0; i < weights.length; i++) {
+    cumulativeWeight += weights[i][1];
     if (randomValue < cumulativeWeight) {
-      selected = option;
+      selected = weights[i][0];
       break;
     }
   }
@@ -1534,17 +1535,30 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const traceUnits: TraceUnitSeed[] = [];
     let preRepairSurface = "";
     let preRepairOwners: number[] = [];
-    const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
-      (["onset", "nucleus", "coda"] as const).flatMap((position) =>
-        syllable[position].map((phoneme, positionIndex) => ({
-          phoneme,
-          syllableIndex,
-          position,
-          positionIndex,
-          stress: syllable.stress,
-        }))
-      )
-    );
+    const POSITIONS = ["onset", "nucleus", "coda"] as const;
+    const flattenedPhonemes: {
+      phoneme: Phoneme;
+      syllableIndex: number;
+      position: "onset" | "nucleus" | "coda";
+      positionIndex: number;
+      stress: Syllable["stress"];
+    }[] = [];
+    for (let si = 0; si < syllables.length; si++) {
+      const syllable = syllables[si];
+      const stress = syllable.stress;
+      for (const position of POSITIONS) {
+        const phonemes = syllable[position];
+        for (let phi = 0; phi < phonemes.length; phi++) {
+          flattenedPhonemes.push({
+            phoneme: phonemes[phi],
+            syllableIndex: si,
+            position,
+            positionIndex: phi,
+            stress,
+          });
+        }
+      }
+    }
 
     const cleanParts: string[] = [];
     const hyphenatedParts: string[] = [];

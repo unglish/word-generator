@@ -199,11 +199,21 @@ function resolveAllomorph(
 // AffixSyllable -> Syllable conversion
 // ---------------------------------------------------------------------------
 
+/** Cached phoneme-by-sound map, keyed by inventory identity (reference). */
+let _cachedInventory: Phoneme[] | undefined;
+let _cachedPhonemeMap: Map<string, Phoneme> | undefined;
+
+function getPhonemeMap(inventory: Phoneme[]): Map<string, Phoneme> {
+  if (_cachedInventory === inventory && _cachedPhonemeMap) return _cachedPhonemeMap;
+  const map = new Map<string, Phoneme>();
+  for (const p of inventory) map.set(p.sound, p);
+  _cachedInventory = inventory;
+  _cachedPhonemeMap = map;
+  return map;
+}
+
 function affixSyllablesToSyllables(templates: AffixSyllable[], inventory: Phoneme[]): Syllable[] {
-  const phonemeMap = new Map<string, Phoneme>();
-  for (const p of inventory) {
-    phonemeMap.set(p.sound, p);
-  }
+  const phonemeMap = getPhonemeMap(inventory);
 
   function resolve(sound: string): Phoneme {
     const p = phonemeMap.get(sound);
@@ -355,10 +365,7 @@ export function applyMorphology(
   }
 
   const inventory = config.phonemes;
-  const phonemeMap = new Map<string, Phoneme>();
-  for (const p of inventory) {
-    phonemeMap.set(p.sound, p);
-  }
+  const phonemeMap = getPhonemeMap(inventory);
 
   function resolvePhoneme(sound: string): Phoneme {
     return phonemeMap.get(sound) ?? {

@@ -14,14 +14,15 @@ import type { RNG } from "./random.js";
  * @param rand - RNG function returning a value in [0, 1).
  */
 const getWeightedOption = <T>(options: [T, number][], rand: RNG): T => {
-  const totalWeight = options.reduce((sum, [, weight]) => sum + weight, 0);
+  let totalWeight = 0;
+  for (let i = 0; i < options.length; i++) totalWeight += options[i][1];
   const randomValue = rand() * totalWeight;
   
   let cumulativeWeight = 0;
-  for (const [option, weight] of options) {
-    cumulativeWeight += weight;
+  for (let i = 0; i < options.length; i++) {
+    cumulativeWeight += options[i][1];
     if (randomValue < cumulativeWeight) {
-      return option;
+      return options[i][0];
     }
   }
   
