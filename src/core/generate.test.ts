@@ -21,6 +21,11 @@ describe("Word Generator", () => {
     expect(word.pronunciation).toBeTruthy();
   });
 
+  it("keeps hyphenated output aligned after morphology consonant repair", () => {
+    const word = generateWord({ seed: 11420, morphology: true });
+    expect(word.written.hyphenated).toBe(word.written.clean);
+  });
+
   it("generates reproducible word with seed", () => {
     const word1 = generateWord({ seed: 12345 });
     const word2 = generateWord({ seed: 12345 });
