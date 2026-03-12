@@ -22,15 +22,12 @@ const MAX_MEDIAN_VARIANCE = process.env.CI === "true" ? 4.0 : 3.0;
 
 describe("Word Generation Performance", () => {
   it(`should generate at least ${MIN_WORDS_PER_SEC} words/sec`, { timeout: 20_000 }, () => {
-    // Warmup — let V8 JIT compile
-    for (let i = 0; i < WARMUP_COUNT; i++) {
-      generateWord({ seed: i });
-    }
+    // Warmup — let V8 JIT compile all morphology code paths
+    generateWords(WARMUP_COUNT, { seed: 0 });
 
+    // Measure using batch API (what real consumers use)
     const start = performance.now();
-    for (let i = 0; i < SAMPLE_SIZE; i++) {
-      generateWord({ seed: i + WARMUP_COUNT });
-    }
+    generateWords(SAMPLE_SIZE, { seed: 42 });
     const elapsed = performance.now() - start;
     const wordsPerSec = (SAMPLE_SIZE / elapsed) * 1000;
 

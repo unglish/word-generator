@@ -14,7 +14,7 @@ import { otEvaluate } from "./ot-stress.js";
 import type { AspirationDecisionTrace, AspirationTargetSegment } from "./trace.js";
 
 /** Fast boolean probability check (avoids tuple array allocation). */
-function coinFlip(rand: RNG, probability: number): boolean {
+export function coinFlip(rand: RNG, probability: number): boolean {
   return rand() * 100 < probability;
 }
 
@@ -331,33 +331,27 @@ const isHeavySyllable = (syllable: Syllable): boolean => {
 };
 
 const buildPronunciationGuide = (context: WordGenerationContext): void => {
-  const { word } = context;
-  let pronunciationGuide = "";
+  const { syllables } = context.word;
+  let guide = "";
   const render = (phoneme: Phoneme): string =>
     phoneme.aspirated && !phoneme.sound.endsWith("ʰ")
       ? `${phoneme.sound}ʰ`
       : phoneme.sound;
 
-  word.syllables.forEach((syllable, index) => {
-    const onset = syllable.onset.map(render).join("");
-    const nucleus = syllable.nucleus.map(render).join("");
-    const coda = syllable.coda.map(render).join("");
+  for (let index = 0; index < syllables.length; index++) {
+    const syllable = syllables[index];
 
-    let syllablePronunciation = `${onset}${nucleus}${coda}`;
+    // Add stress/separator prefix
+    if (syllable.stress === "ˈ") guide += "ˈ";
+    else if (syllable.stress === "ˌ") guide += "ˌ";
+    else if (index > 0) guide += ".";
 
-    // Add stress marker if the syllable is stressed
-    if (syllable.stress === "ˈ") {
-      syllablePronunciation = `ˈ${syllablePronunciation}`;
-    } else if (syllable.stress === "ˌ") {
-      syllablePronunciation = `ˌ${syllablePronunciation}`;
-    } else if (index > 0) {
-      syllablePronunciation = `.${syllablePronunciation}`;
-    }
+    for (let i = 0; i < syllable.onset.length; i++) guide += render(syllable.onset[i]);
+    for (let i = 0; i < syllable.nucleus.length; i++) guide += render(syllable.nucleus[i]);
+    for (let i = 0; i < syllable.coda.length; i++) guide += render(syllable.coda[i]);
+  }
 
-    pronunciationGuide += syllablePronunciation;
-  });
-
-  word.pronunciation = pronunciationGuide;
+  context.word.pronunciation = guide;
 };
 
 /**

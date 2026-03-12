@@ -77,6 +77,8 @@ const DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER = 0.08;
 function coinFlip(rand: RNG, probability: number): boolean {
   return rand() * 100 < probability;
 }
+/** Shared empty set for ClusterContext.ignoreSet when no phonemes should be ignored. */
+const _emptySet: ReadonlySet<string> = Object.freeze(new Set<string>());
 
 function getPlanGuardProbability(rt: GeneratorRuntime): number {
   return rt.config.hiatusPolicy?.planGuardProbability ?? DEFAULT_PLAN_GUARD_PROBABILITY;
@@ -245,22 +247,35 @@ function getClusterWeightMap(
   return weightsForPosition as Map<string, number>;
 }
 
+/** Sentinel: no cluster weight found. */
+const NO_CLUSTER_WEIGHT = -1;
+
+/**
+ * Find the cluster weight multiplier for a candidate phoneme sound.
+ * Returns the weight (>= 0) or NO_CLUSTER_WEIGHT (-1) if no weight applies.
+ */
 function findClusterWeightMultiplier(
   clusterSounds: string[],
   candidateSound: string,
   weightMap: Map<string, number> | undefined
-): { multiplier: number | undefined; shouldSkip: boolean } {
-  if (!weightMap) return { multiplier: undefined, shouldSkip: false };
+): number {
+  if (!weightMap) return NO_CLUSTER_WEIGHT;
 
-  const fullCluster = [...clusterSounds, candidateSound];
-  for (let i = 0; i < fullCluster.length; i++) {
-    const suffix = fullCluster.slice(i).join(",");
-    const weight = weightMap.get(suffix);
-    if (weight !== undefined) {
-      return { multiplier: weight, shouldSkip: weight < 0.01 };
+  // Build suffix keys without allocating arrays.
+  // For clusterSounds=[a,b] and candidate=c, check: "a,b,c", "b,c", "c"
+  const len = clusterSounds.length;
+  for (let i = 0; i <= len; i++) {
+    let suffix = "";
+    for (let j = i; j < len; j++) {
+      if (suffix) suffix += ",";
+      suffix += clusterSounds[j];
     }
+    if (suffix) suffix += ",";
+    suffix += candidateSound;
+    const weight = weightMap.get(suffix);
+    if (weight !== undefined) return weight;
   }
-  return { multiplier: undefined, shouldSkip: false };
+  return NO_CLUSTER_WEIGHT;
 }
 
 // ---------------------------------------------------------------------------
@@ -269,15 +284,23 @@ function findClusterWeightMultiplier(
 
 function buildCluster(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] {
   const allPositionPhonemes = rt.positionPhonemes[context.position];
+  // Reusable buffer for valid candidates — avoids allocating a new array each iteration.
+  const validBuf: Phoneme[] = [];
 
   while (context.cluster.length < context.maxLength) {
-    const validCandidates = allPositionPhonemes.filter(p => isValidCandidate(p, rt, context));
-    if (validCandidates.length === 0) break;
+    validBuf.length = 0;
+    for (let i = 0; i < allPositionPhonemes.length; i++) {
+      if (isValidCandidate(allPositionPhonemes[i], rt, context)) {
+        validBuf.push(allPositionPhonemes[i]);
+      }
+    }
+    if (validBuf.length === 0) break;
 
-    const newPhoneme = selectPhoneme(validCandidates, context, rt);
+    const newPhoneme = selectPhoneme(validBuf, context, rt);
     if (!newPhoneme) break;
 
     context.cluster.push(newPhoneme);
+    context.clusterSounds.push(newPhoneme.sound);
     if (shouldStopClusterGrowth(context, rt)) break;
   }
 
@@ -285,55 +308,51 @@ function buildCluster(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] 
 }
 
 function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterContext): boolean {
-  if (context.ignore.includes(p.sound) ||
-      context.cluster.some(existingP => existingP.sound === p.sound) ||
-      !isValidPosition(p, context)) {
+  const sound = p.sound;
+  const { clusterSounds } = context;
+
+  // Fast checks first: Set lookup + linear scan of small array of cached strings
+  if (context.ignoreSet.has(sound) || clusterSounds.includes(sound) || !isValidPosition(p, context)) {
     return false;
   }
 
   // Reject phonemes banned from coda position entirely
-  if (context.position === "coda" && rt.bannedCodaSet?.has(p.sound)) {
+  if (context.position === "coda" && rt.bannedCodaSet?.has(sound)) {
     return false;
   }
 
   // Reject coda phonemes banned after the current nucleus
   if (context.position === "coda" && context.nucleus && rt.bannedNucleusCodaMap) {
-    // Check each nucleus phoneme (typically just one, but could be complex nucleus)
     for (const nuc of context.nucleus) {
       const bannedCodas = rt.bannedNucleusCodaMap.get(nuc.sound);
-      if (bannedCodas?.has(p.sound)) {
+      if (bannedCodas?.has(sound)) {
         return false;
       }
     }
   }
 
   // Check cluster weight threshold: reject if weight multiplier is below 0.01 (1%)
-  // This prevents overly suppressed clusters from being generated at all
-  if (context.cluster.length > 0 && rt.clusterWeights) {
+  if (clusterSounds.length > 0 && rt.clusterWeights) {
     const weightsForPosition = context.position === "onset" ? rt.clusterWeights.onset : rt.clusterWeights.coda;
     if (weightsForPosition) {
-      const clusterSounds = context.cluster.map(ph => ph.sound);
       const weightMap = getClusterWeightMap(weightsForPosition, context.isEndOfWord);
-      
-      const { shouldSkip } = findClusterWeightMultiplier(clusterSounds, p.sound, weightMap);
-      if (shouldSkip) {
-        return false;  // Reject this candidate
+      const weight = findClusterWeightMultiplier(clusterSounds, sound, weightMap);
+      if (weight !== NO_CLUSTER_WEIGHT && weight < 0.01) {
+        return false;
       }
     }
   }
 
   // When attested onset whitelist exists, use it as the primary gate for onsets
-  // instead of the general sonority/regex checks
-  if (context.position === "onset" && rt.attestedOnsetSet && context.cluster.length > 0) {
-    const key = [...context.cluster.map(ph => ph.sound), p.sound].join("|");
-    // Must be an exact attested onset or a prefix of one (extendable)
+  if (context.position === "onset" && rt.attestedOnsetSet && clusterSounds.length > 0) {
+    const key = clusterSounds.join("|") + "|" + sound;
     if (rt.attestedOnsetSet.has(key)) return true;
     return !!rt.attestedOnsetPrefixSet?.has(key);
   }
 
   // When attested coda whitelist exists, use it as the primary gate for codas
-  if (context.position === "coda" && rt.attestedCodaSet && context.cluster.length > 0) {
-    const key = [...context.cluster.map(ph => ph.sound), p.sound].join("|");
+  if (context.position === "coda" && rt.attestedCodaSet && clusterSounds.length > 0) {
+    const key = clusterSounds.join("|") + "|" + sound;
     if (rt.attestedCodaSet.has(key)) return true;
     return !!rt.attestedCodaPrefixSet?.has(key);
   }
@@ -343,7 +362,10 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
 
   const regex = rt.invalidClusterRegexes[context.position];
   if (regex) {
-    const potentialCluster = context.cluster.map(ph => ph.sound).join("") + p.sound;
+    // Build potential cluster string without allocating array
+    let potentialCluster = "";
+    for (let i = 0; i < clusterSounds.length; i++) potentialCluster += clusterSounds[i];
+    potentialCluster += sound;
     if (regex.test(potentialCluster)) return false;
   }
 
@@ -360,7 +382,8 @@ function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: C
 function isValidCluster(rt: GeneratorRuntime, cluster: Phoneme[], position: "onset" | "coda" | "nucleus"): boolean {
   const regex = rt.invalidClusterRegexes[position];
   if (!regex) return true;
-  const potentialCluster = cluster.map(ph => ph.sound).join("");
+  let potentialCluster = "";
+  for (let i = 0; i < cluster.length; i++) potentialCluster += cluster[i].sound;
   return !regex.test(potentialCluster);
 }
 
@@ -427,17 +450,25 @@ function checkCodaSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, prevPhone
 // ---------------------------------------------------------------------------
 
 function selectPhoneme(validCandidates: Phoneme[], context: ClusterContext, rt?: GeneratorRuntime): Phoneme | null {
-  const { position, isStartOfWord, isEndOfWord, rand, cluster } = context;
-  
-  // Pre-compute cluster weight lookup data outside the per-candidate loop
-  const hasClusterWeights = rt && (cluster.length > 0 || context.maxLength >= 2) && rt.clusterWeights;
-  const weightsForPosition = hasClusterWeights
-    ? (position === "onset" ? rt!.clusterWeights!.onset : rt!.clusterWeights!.coda)
-    : undefined;
-  const clusterSounds = weightsForPosition ? cluster.map(ph => ph.sound) : undefined;
-  const weightMap = weightsForPosition ? getClusterWeightMap(weightsForPosition, isEndOfWord) : undefined;
+  const { position, isStartOfWord, isEndOfWord, rand, clusterSounds } = context;
 
-  const weightedCandidates = validCandidates.map(p => {
+  // Pre-compute cluster weight map once for all candidates
+  let weightMap: Map<string, number> | undefined;
+  if (rt && (clusterSounds.length > 0 || context.maxLength >= 2) && rt.clusterWeights) {
+    const weightsForPosition = position === "onset" ? rt.clusterWeights.onset : rt.clusterWeights.coda;
+    if (weightsForPosition) {
+      weightMap = getClusterWeightMap(weightsForPosition, isEndOfWord);
+    }
+  }
+
+  const applyGlide = position === "onset" && context.followingOpenNucleus && clusterSounds.length === 0;
+  const glideMultiplier = applyGlide
+    ? (rt ? getPostVowelGlideMultiplier(rt) : DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER)
+    : 1;
+
+  const weightedCandidates: [Phoneme, number][] = new Array(validCandidates.length);
+  for (let i = 0; i < validCandidates.length; i++) {
+    const p = validCandidates[i];
     const positionWeight = p[position] ?? 0;
     const wordPositionModifier =
       (isStartOfWord && p.startWord) ||
@@ -446,27 +477,20 @@ function selectPhoneme(validCandidates: Phoneme[], context: ClusterContext, rt?:
 
     let baseWeight = positionWeight * wordPositionModifier;
 
-    // Apply cluster-specific weight multiplier if this phoneme would create a weighted cluster.
-    // Also applies to the FIRST consonant of a planned cluster (cluster.length === 0 but maxLength >= 2)
-    // so that cluster-initiating consonants can be independently weighted (e.g. suppress /dr/).
-    if (clusterSounds && weightMap) {
-      const { multiplier } = findClusterWeightMultiplier(clusterSounds, p.sound, weightMap);
-      if (multiplier !== undefined) {
+    if (weightMap) {
+      const multiplier = findClusterWeightMultiplier(clusterSounds, p.sound, weightMap);
+      if (multiplier !== NO_CLUSTER_WEIGHT) {
         baseWeight *= multiplier;
       }
     }
 
-    // Keep post-vowel glide onsets possible but rare (CMU-like, non-zero).
-    if (position === "onset" &&
-        context.followingOpenNucleus &&
-        cluster.length === 0 &&
-        (p.sound === "j" || p.sound === "w")) {
-      baseWeight *= rt ? getPostVowelGlideMultiplier(rt) : DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER;
+    if (applyGlide && (p.sound === "j" || p.sound === "w")) {
+      baseWeight *= glideMultiplier;
     }
-    
-    return [p, baseWeight] as [Phoneme, number];
-  });
-  
+
+    weightedCandidates[i] = [p, baseWeight];
+  }
+
   return getWeightedOption(weightedCandidates, rand);
 }
 
@@ -489,19 +513,20 @@ function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime):
   // For onsets with attested whitelist: stop if current cluster is an exact match
   // and no longer attested onset extends it
   if (position === "onset" && rt.attestedOnsetSet && cluster.length >= 2) {
-    const key = cluster.map(ph => ph.sound).join("|");
+    const key = context.clusterSounds.join("|");
     if (rt.attestedOnsetSet.has(key)) {
-      // Check if any longer attested onset extends this (prefix set has all proper prefixes)
-      if (!rt.attestedOnsetPrefixSet?.has(key)) return true;
+      const hasLonger = rt.attestedOnsetPrefixSet?.has(key) ?? false;
+      if (!hasLonger) return true;
     }
   }
 
   // For codas with attested whitelist: stop if current cluster is an exact match
   // and no longer attested coda extends it
   if (position === "coda" && rt.attestedCodaSet && cluster.length >= 2) {
-    const key = cluster.map(ph => ph.sound).join("|");
+    const key = context.clusterSounds.join("|");
     if (rt.attestedCodaSet.has(key)) {
-      if (!rt.attestedCodaPrefixSet?.has(key)) return true;
+      const hasLonger = rt.attestedCodaPrefixSet?.has(key) ?? false;
+      if (!hasLonger) return true;
     }
   }
 
@@ -534,13 +559,14 @@ function pickOnset(
 
   if (maxLength === 0) return [];
 
-  const toIgnore = prevSyllable ? prevSyllable.coda.map((coda) => coda.sound) : [];
+  const toIgnore = prevSyllable ? new Set(prevSyllable.coda.map((coda) => coda.sound)) : _emptySet;
 
   return buildCluster(rt, {
     rand,
     position: "onset",
     cluster: [],
-    ignore: toIgnore,
+    clusterSounds: [],
+    ignoreSet: toIgnore,
     isStartOfWord,
     isEndOfWord: false,
     syllableCount,
@@ -554,7 +580,8 @@ function pickNucleus(rt: GeneratorRuntime, context: WordGenerationContext, isSta
     rand: context.rand,
     position: "nucleus",
     cluster: [],
-    ignore: [],
+    clusterSounds: [],
+    ignoreSet: _emptySet,
     isStartOfWord,
     isEndOfWord,
     maxLength: 1,
@@ -594,7 +621,8 @@ function pickCoda(
     rand: context.rand,
     position: "coda",
     cluster: [],
-    ignore: [],
+    clusterSounds: [],
+    ignoreSet: _emptySet,
     isStartOfWord: false,
     isEndOfWord,
     syllableCount,
@@ -638,10 +666,10 @@ function pickCoda(
       const clusterSounds = coda.map(ph => ph.sound);
       const weightMap = getClusterWeightMap(rt.clusterWeights.coda, isEndOfWord);
       
-      const res = findClusterWeightMultiplier(clusterSounds, "s", weightMap);
-      if (res.multiplier !== undefined) {
-        finalSProbability *= res.multiplier;
-        shouldSkipFinalS = res.shouldSkip;
+      const weight = findClusterWeightMultiplier(clusterSounds, "s", weightMap);
+      if (weight !== NO_CLUSTER_WEIGHT) {
+        finalSProbability *= weight;
+        shouldSkipFinalS = weight < 0.01;
       }
     }
     

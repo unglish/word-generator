@@ -323,8 +323,10 @@ export interface ClusterContext {
   position: "onset" | "coda" | "nucleus";
   /** Phonemes accumulated so far in this cluster. */
   cluster: Phoneme[];
-  /** Phoneme sounds to exclude from candidate selection. */
-  ignore: string[];
+  /** Cached sound strings parallel to cluster[] — avoids repeated .map(ph => ph.sound). */
+  clusterSounds: string[];
+  /** Phoneme sounds to exclude from candidate selection (Set for O(1) lookup). */
+  ignoreSet: ReadonlySet<string>;
   /** Whether this cluster begins the word. */
   isStartOfWord: boolean;
   /** Whether this cluster ends the word. */
