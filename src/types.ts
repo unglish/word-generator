@@ -326,7 +326,7 @@ export interface ClusterContext {
   /** Cached sound strings parallel to cluster[] — avoids repeated .map(ph => ph.sound). */
   clusterSounds: string[];
   /** Phoneme sounds to exclude from candidate selection (Set for O(1) lookup). */
-  ignoreSet: Set<string>;
+  ignoreSet: ReadonlySet<string>;
   /** Whether this cluster begins the word. */
   isStartOfWord: boolean;
   /** Whether this cluster ends the word. */

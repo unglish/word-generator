@@ -78,7 +78,7 @@ function coinFlip(rand: RNG, probability: number): boolean {
   return rand() * 100 < probability;
 }
 /** Shared empty set for ClusterContext.ignoreSet when no phonemes should be ignored. */
-const _emptySet: Set<string> = new Set();
+const _emptySet: ReadonlySet<string> = Object.freeze(new Set<string>());
 
 function getPlanGuardProbability(rt: GeneratorRuntime): number {
   return rt.config.hiatusPolicy?.planGuardProbability ?? DEFAULT_PLAN_GUARD_PROBABILITY;

@@ -3,6 +3,7 @@ import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEApp
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
+import { coinFlip } from "./pronounce.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { isVowelChar, isConsonantLetter, VOWEL_LETTERS } from "../utils/letters.js";
 
@@ -839,7 +840,7 @@ function createDoublingFn(
     prob = Math.min(100, Math.max(0, Math.round(prob)));
     if (prob <= 0) return skip("zero-probability:unstressed");
 
-    const shouldDouble = rand() * 100 < prob;
+    const shouldDouble = coinFlip(rand, prob);
     if (shouldDouble) {
       state.doublingCount++;
       const doubled = doubledFormLookup[form] ?? (form + form);
