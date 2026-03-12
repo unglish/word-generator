@@ -71,6 +71,12 @@ describe("generateWords (batch API)", () => {
     expect(words[0].written.clean).toBeTruthy();
   });
 
+  it("rejects invalid batch counts", () => {
+    expect(() => generateWords(1.5, { seed: 42 })).toThrow("count must be a finite non-negative integer");
+    expect(() => generateWords(Infinity, { seed: 42 })).toThrow("count must be a finite non-negative integer");
+    expect(() => generateWords(-1, { seed: 42 })).toThrow("count must be a finite non-negative integer");
+  });
+
   it("respects syllableCount option", () => {
     const words = generateWords(10, { seed: 42, syllableCount: 2, morphology: false });
     for (const word of words) {
@@ -123,6 +129,37 @@ describe("generateWord RNG priority", () => {
     const word42b = generateWord({ seed: 42 });
 
     expect(word42a.written.clean).toBe(word42b.written.clean);
+  });
+
+  it("rejects invalid syllableCount values", () => {
+    expect(() => generateWord({ syllableCount: 1.5, morphology: false })).toThrow(
+      "syllableCount must be a finite integer",
+    );
+    expect(() => generateWord({ syllableCount: Infinity, morphology: false })).toThrow(
+      "syllableCount must be a finite integer",
+    );
+    expect(() => generateWord({ syllableCount: -1, morphology: false })).toThrow(
+      "syllableCount must be 0 or a positive integer",
+    );
+    expect(() => generateWord({ syllableCount: 8, morphology: false })).toThrow(
+      "syllableCount must be between 1 and 7",
+    );
+    expect(() => generateWords(1, { syllableCount: -1, morphology: false })).toThrow(
+      "syllableCount must be 0 or a positive integer",
+    );
+
+    const generator = createGenerator(englishConfig);
+    expect(() => generator.generateWord({ syllableCount: Infinity, morphology: false })).toThrow(
+      "syllableCount must be a finite integer",
+    );
+    expect(() => generateWords(1, { syllableCount: Infinity, morphology: false })).toThrow(
+      "syllableCount must be a finite integer",
+    );
+  });
+
+  it("keeps 0 syllableCount as auto mode for compatibility", () => {
+    const word = generateWord({ syllableCount: 0, seed: 42, morphology: false });
+    expect(word.syllables.length).toBeGreaterThan(0);
   });
 });
 
