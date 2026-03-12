@@ -1,13 +1,5 @@
 import { Phoneme, Grapheme, GraphemeCondition, Syllable, WordGenerationContext } from "../types.js";
-import {
-  LanguageConfig,
-  DoublingConfig,
-  OrthographyException,
-  SpellingRule,
-  SilentEConfig,
-  SilentEAppendRule,
-  sonorityClass,
-} from "../config/language.js";
+import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
@@ -25,47 +17,6 @@ interface CompiledSpellingRule {
   replacement: string;
   probability: number;
   scope: "syllable" | "word" | "both";
-}
-
-interface CompiledOrthographyException {
-  name: string;
-  replacement: string;
-  hyphenated: string;
-}
-
-function serializePhonemeSequence(phonemes: string[]): string {
-  return phonemes.join("\u0001");
-}
-
-function compileOrthographyExceptions(
-  exceptions: OrthographyException[],
-): Map<string, CompiledOrthographyException> {
-  const compiled = new Map<string, CompiledOrthographyException>();
-  for (const exception of exceptions) {
-    if (exception.phonemes.length === 0) {
-      throw new Error(`Orthography exception "${exception.name}" must include at least one phoneme`);
-    }
-    const key = serializePhonemeSequence(exception.phonemes);
-    if (compiled.has(key)) {
-      throw new Error(`Duplicate orthography exception phoneme sequence for "${exception.name}"`);
-    }
-    compiled.set(key, {
-      name: exception.name,
-      replacement: exception.replacement,
-      hyphenated: exception.hyphenated ?? exception.replacement,
-    });
-  }
-  return compiled;
-}
-
-function buildWordPhonemeKey(syllables: Syllable[]): string {
-  return serializePhonemeSequence(
-    syllables.flatMap((syllable) => [
-      ...syllable.onset.map((phoneme) => phoneme.sound),
-      ...syllable.nucleus.map((phoneme) => phoneme.sound),
-      ...syllable.coda.map((phoneme) => phoneme.sound),
-    ]),
-  );
 }
 
 function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
@@ -363,6 +314,50 @@ function buildOrthographyTrace(
 
   const graphemeUnits = units.map(toUnitTrace);
   return { surface, chars, graphemeUnits };
+}
+
+export function rewriteOrthographyTraceSurface(trace: TraceCollector, surface: string): void {
+  const orthography = trace.orthographyTrace;
+  if (!orthography) return;
+
+  const unitById = new Map<number, OrthographyUnitTrace>(
+    orthography.graphemeUnits.map((unit) => [unit.id, unit]),
+  );
+  const sourceOwners = orthography.chars.map((char) => char.unitId);
+  const remappedOwners = remapOwnersThroughRewrite(orthography.surface, sourceOwners, surface);
+  const spans = new Map<number, { start: number; end: number }>();
+
+  for (let i = 0; i < remappedOwners.length; i++) {
+    const owner = remappedOwners[i];
+    if (!unitById.has(owner)) continue;
+    const span = spans.get(owner);
+    if (span) {
+      span.end = i;
+    } else {
+      spans.set(owner, { start: i, end: i });
+    }
+  }
+
+  orthography.surface = surface;
+  orthography.chars = surface.split("").map((char, index) => {
+    const unitId = remappedOwners[index] ?? -1;
+    const unit = unitById.get(unitId);
+    return {
+      index,
+      char,
+      unitId,
+      graphemeSelectionIndex: unit?.graphemeSelectionIndex ?? -1,
+    };
+  });
+  orthography.graphemeUnits = orthography.graphemeUnits.map((unit) => {
+    const span = spans.get(unit.id);
+    return {
+      ...unit,
+      present: !!span,
+      start: span ? span.start : null,
+      end: span ? span.end : null,
+    };
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -1559,7 +1554,6 @@ export function appendSilentE(
 export function createWrittenFormGenerator(config: LanguageConfig): (context: WordGenerationContext) => void {
   const gMaps = config.graphemeMaps;
   const doublingConfig = config.doubling;
-  const orthographyExceptionMap = compileOrthographyExceptions(config.orthographyExceptions ?? []);
   const allCompiledRules = compileSpellingRules(config.spellingRules ?? []);
   const syllableRules = allCompiledRules.filter(r => r.scope === "syllable" || r.scope === "both");
   const wordRules = allCompiledRules.filter(r => r.scope === "word" || r.scope === "both");
@@ -1907,14 +1901,6 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
       finalClean = postParts[0];
       context.trace?.recordRepair("postSpellingBackstop", beforePost, finalClean);
-    }
-
-    const orthographyException = orthographyExceptionMap.get(buildWordPhonemeKey(syllables));
-    if (orthographyException) {
-      const before = finalClean;
-      finalClean = orthographyException.replacement;
-      finalHyphenated = orthographyException.hyphenated;
-      context.trace?.recordRepair(`orthographyException:${orthographyException.name}`, before, finalClean, "word");
     }
 
     if (tracing && context.trace) {
