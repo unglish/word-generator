@@ -128,7 +128,6 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 10,
     endWord: 5,
   },
-
   // æ: cat
   { 
     phoneme: "æ", 
@@ -280,10 +279,10 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 3,
     endWord: 3,
   },
-  { 
-    phoneme: "u", 
-    form: "u", 
-    origin: 0, 
+  {
+    phoneme: "u",
+    form: "u",
+    origin: 0,
     frequency: 10,
     startWord: 10,
     midWord: 10,

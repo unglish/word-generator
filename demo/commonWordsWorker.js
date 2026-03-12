@@ -35,7 +35,10 @@ function findCommonWords() {
 
   while (foundWords.size < commonWords.length) {
     iterations++;
-    const newWord = self.unglish.generateWord();
+    const newWord = self.unglish.generateWord({
+      mode: 'lexicon',
+      morphology: true,
+    });
     const generatedWord = newWord.written.clean.toLowerCase();
     allGenerated.add(generatedWord);
 

@@ -9,6 +9,7 @@ import type { TraceCollector } from "./core/trace";
  * - `"lexicon"` — simulates a dictionary/lexicon (balanced syllable distribution).
  */
 export type GenerationMode = "text" | "lexicon";
+export type MorphologyTemplate = "bare" | "suffixed" | "prefixed" | "both";
 
 /**
  * A single phoneme (minimal sound unit) in the generator's inventory.
