@@ -2,9 +2,11 @@
 
 import fs from "fs";
 import path from "path";
+import { englishConfig } from "../src/config/english.js";
 import { generateWord } from "../src/core/generate.js";
 import { createSeededRng } from "../src/utils/random.js";
 import {
+  buildGapSpellingCatalog,
   buildCoverageReport,
   loadCommonWordsFromDemoWorker,
   parseCommonWordCoverageArgs,
@@ -22,12 +24,14 @@ function main() {
   const workerPath = path.join(process.cwd(), "demo", "commonWordsWorker.js");
   const workerSource = fs.readFileSync(workerPath, "utf8");
   const targetWords = loadCommonWordsFromDemoWorker(workerSource);
+  const gapSpellingCatalog = buildGapSpellingCatalog(englishConfig.gapSpellings ?? []);
 
   const coverageRand = createSeededRng(options.seed);
   const coverageRun = runCoverage({
     targetWords,
     minCount: options.minCount,
     maxCount: options.maxCount,
+    trackUnique: options.trackUnique,
     nextWord: () =>
       generateWord({
         rand: coverageRand,
@@ -45,6 +49,7 @@ function main() {
       missingWords: coverageRun.tracker.rows.filter((row) => row.firstSeenGeneration === null).map((row) => row.word),
       maxIterations: Math.min(options.maxCount, TRACE_SAMPLE_LIMIT),
       maxCandidatesPerWord: options.traceMisses,
+      gapSpellingCatalog,
       nextWord: () =>
         generateWord({
           rand: traceRand,
@@ -65,6 +70,7 @@ function main() {
   const report = buildCoverageReport({
     tracker: coverageRun.tracker,
     totalIterations: coverageRun.totalIterations,
+    trackedUniqueCount: coverageRun.trackedUniqueCount,
     uniqueGeneratedCount: coverageRun.uniqueGeneratedCount,
     stopReason: coverageRun.stopReason,
     config: {
@@ -73,8 +79,10 @@ function main() {
       maxCount: options.maxCount,
       mode: options.mode,
       morphology: options.morphology,
+      trackUnique: options.trackUnique,
     },
     targetSource: "demo/commonWordsWorker.js",
+    gapSpellingCatalog,
     nearMisses,
     nearMissBuckets,
     traceMissDiagnostics,
@@ -94,8 +102,11 @@ function main() {
   console.log(`- Target source: demo/commonWordsWorker.js (${targetWords.length} words)`);
   console.log(`- Stop reason: ${report.summary.stopReason}`);
   console.log(`- Total iterations: ${report.summary.totalIterations.toLocaleString()}`);
+  console.log(`- Unique generated words: ${report.summary.trackedUniqueCount ? report.summary.uniqueGeneratedCount.toLocaleString() : "not tracked (bounded-memory mode)"}`);
   console.log(`- Found: ${report.summary.foundCount}/${report.summary.targetCount}`);
   console.log(`- Missing: ${report.summary.missingCount}`);
+  console.log(`- Gap-spelling targets: ${report.summary.gapManagedTargetCount}`);
+  console.log(`- Productive targets: ${report.summary.productiveTargetCount}`);
   console.log(`- JSON: ${jsonPath}`);
   console.log(`- CSV: ${csvPath}`);
   console.log(`- Markdown: ${markdownPath}`);
