@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 import { englishConfig } from "../config/english.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import { createWrittenFormGenerator } from "./write.js";
+import { createGapSpellingApplicator } from "./gap-spelling.js";
 import { TraceCollector } from "./trace.js";
-import type { Grapheme, Phoneme, Syllable, WordGenerationContext } from "../types.js";
+import type { Grapheme, MorphologyTemplate, Phoneme, Syllable, WordGenerationContext } from "../types.js";
 
 function clonePhoneme(sound: string): Phoneme {
   const phoneme = englishConfig.phonemes.find((entry) => entry.sound === sound);
@@ -48,9 +49,15 @@ function makeScopedConfig(graphemes: Grapheme[]) {
   };
 }
 
-function writeWord(graphemes: Grapheme[], syllables: Syllable[], rand = () => 0) {
+function writeWord(
+  graphemes: Grapheme[],
+  syllables: Syllable[],
+  rand = () => 0,
+  plannedMorphologyTemplate: MorphologyTemplate = "bare",
+) {
   const config = makeScopedConfig(graphemes);
   const trace = new TraceCollector();
+  const applyGapSpellings = createGapSpellingApplicator(config);
   const context: WordGenerationContext = {
     rand,
     trace,
@@ -63,6 +70,9 @@ function writeWord(graphemes: Grapheme[], syllables: Syllable[], rand = () => 0)
     },
   };
   createWrittenFormGenerator(config)(context);
+  if (plannedMorphologyTemplate === "bare") {
+    applyGapSpellings(context);
+  }
   return {
     word: context.word,
     trace,
@@ -74,12 +84,12 @@ function hasRepair(trace: TraceCollector, rule: string) {
 }
 
 describe("common-word orthography coverage", () => {
-  it("supports lexical exceptions for bare-final-e function words", () => {
+  it("supports gap spellings for bare-final-e function words", () => {
     const cases = [
-      { word: "be", onset: "b", rule: "orthographyException:be" },
-      { word: "he", onset: "h", rule: "orthographyException:he" },
-      { word: "me", onset: "m", rule: "orthographyException:me" },
-      { word: "we", onset: "w", rule: "orthographyException:we" },
+      { word: "be", onset: "b", rule: "gapSpelling:be" },
+      { word: "he", onset: "h", rule: "gapSpelling:he" },
+      { word: "me", onset: "m", rule: "gapSpelling:me" },
+      { word: "we", onset: "w", rule: "gapSpelling:we" },
     ] as const;
 
     for (const { word, onset, rule } of cases) {
@@ -96,7 +106,7 @@ describe("common-word orthography coverage", () => {
     }
   });
 
-  it("supports lexical exceptions for would/could spellings", () => {
+  it("supports gap spellings for would/could spellings", () => {
     const would = writeWord(
       [
         cloneGrapheme("w", "w"),
@@ -116,11 +126,11 @@ describe("common-word orthography coverage", () => {
 
     expect(would.word.written.clean).toBe("would");
     expect(could.word.written.clean).toBe("could");
-    expect(hasRepair(would.trace, "orthographyException:would")).toBe(true);
-    expect(hasRepair(could.trace, "orthographyException:could")).toBe(true);
+    expect(hasRepair(would.trace, "gapSpelling:would")).toBe(true);
+    expect(hasRepair(could.trace, "gapSpelling:could")).toBe(true);
   });
 
-  it("supports lexical exceptions for wh common words without broad /w/ -> wh weighting", () => {
+  it("supports gap spellings for wh common words without broad /w/ -> wh weighting", () => {
     const which = writeWord(
       [
         cloneGrapheme("w", "w"),
@@ -149,12 +159,12 @@ describe("common-word orthography coverage", () => {
     expect(which.word.written.clean).toBe("which");
     expect(when.word.written.clean).toBe("when");
     expect(what.word.written.clean).toBe("what");
-    expect(hasRepair(which.trace, "orthographyException:which")).toBe(true);
-    expect(hasRepair(when.trace, "orthographyException:when")).toBe(true);
-    expect(hasRepair(what.trace, "orthographyException:what")).toBe(true);
+    expect(hasRepair(which.trace, "gapSpelling:which")).toBe(true);
+    expect(hasRepair(when.trace, "gapSpelling:when")).toBe(true);
+    expect(hasRepair(what.trace, "gapSpelling:what")).toBe(true);
   });
 
-  it("supports who via a lexical exception", () => {
+  it("supports who via a gap spelling", () => {
     const result = writeWord(
       [
         cloneGrapheme("h", "h"),
@@ -166,7 +176,7 @@ describe("common-word orthography coverage", () => {
 
     expect(result.word.written.clean).toBe("who");
     expect(result.trace.graphemeSelections.some((entry) => entry.phoneme === "h" && entry.selected === "h")).toBe(true);
-    expect(hasRepair(result.trace, "orthographyException:who")).toBe(true);
+    expect(hasRepair(result.trace, "gapSpelling:who")).toBe(true);
   });
 
   it("supports the new rhotic spellings for their/first classes", () => {
@@ -222,13 +232,21 @@ describe("common-word orthography coverage", () => {
     expect(thirst.trace.graphemeSelections.some((entry) => entry.phoneme === "ɚ" && entry.selected === "eir")).toBe(false);
   });
 
-  it("supports lexical exceptions for short common-word spellings", () => {
+  it("supports gap spellings for short common-word spellings", () => {
     const to = writeWord(
       [
         cloneGrapheme("t", "t"),
         cloneGrapheme("u", "u"),
       ],
       [makeSyllable(["t"], ["u"], [])],
+    );
+    const two = writeWord(
+      [
+        cloneGrapheme("t", "t"),
+        cloneGrapheme("u", "u"),
+      ],
+      [makeSyllable(["t"], ["u"], [])],
+      () => 0.99,
     );
     const doWord = writeWord(
       [
@@ -269,20 +287,24 @@ describe("common-word orthography coverage", () => {
     );
 
     expect(to.word.written.clean).toBe("to");
+    expect(two.word.written.clean).toBe("two");
     expect(doWord.word.written.clean).toBe("do");
     expect(you.word.written.clean).toBe("you");
     expect(any.word.written.clean).toBe("any");
     expect(people.word.written.clean).toBe("people");
     expect(any.word.written.hyphenated).toBe("a&shy;ny");
     expect(people.word.written.hyphenated).toBe("peo&shy;ple");
-    expect(hasRepair(to.trace, "orthographyException:to")).toBe(true);
-    expect(hasRepair(doWord.trace, "orthographyException:do")).toBe(true);
-    expect(hasRepair(you.trace, "orthographyException:you")).toBe(true);
-    expect(hasRepair(any.trace, "orthographyException:any")).toBe(true);
-    expect(hasRepair(people.trace, "orthographyException:people")).toBe(true);
+    expect(hasRepair(to.trace, "gapSpelling:to")).toBe(true);
+    expect(hasRepair(two.trace, "gapSpelling:two")).toBe(true);
+    expect(hasRepair(doWord.trace, "gapSpelling:do")).toBe(true);
+    expect(hasRepair(you.trace, "gapSpelling:you")).toBe(true);
+    expect(hasRepair(any.trace, "gapSpelling:any")).toBe(true);
+    expect(hasRepair(people.trace, "gapSpelling:people")).toBe(true);
+    expect(to.trace.repairs.find((entry) => entry.rule === "gapSpelling:to")?.detail).toBe("targetLayer:grapheme");
+    expect(people.trace.repairs.find((entry) => entry.rule === "gapSpelling:people")?.detail).toBe("targetLayer:spellingRule");
   });
 
-  it("does not leak lexical exceptions into broader phoneme classes", () => {
+  it("does not leak gap spellings into broader phoneme classes", () => {
     const send = writeWord(
       [
         cloneGrapheme("s", "s"),
@@ -312,5 +334,20 @@ describe("common-word orthography coverage", () => {
     expect(send.word.written.clean).toBe("send");
     expect(stu.word.written.clean).toBe("stu");
     expect(nyu.word.written.clean).toBe("nyu");
+  });
+
+  it("skips bare-word gap spellings when morphology will affix the root", () => {
+    const result = writeWord(
+      [
+        cloneGrapheme("j", "y"),
+        cloneGrapheme("u", "u"),
+      ],
+      [makeSyllable(["j"], ["u"], [])],
+      () => 0,
+      "prefixed",
+    );
+
+    expect(result.word.written.clean).toBe("yu");
+    expect(hasRepair(result.trace, "gapSpelling:you")).toBe(false);
   });
 });
