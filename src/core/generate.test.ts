@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createGenerator, generateWord, _buildCluster as buildCluster } from "./generate";
+import { createGenerator, generateWord, generateWords, _buildCluster as buildCluster } from "./generate";
 import { ClusterContext } from "../types";
 import { englishConfig } from "../config/english";
 import { createDefaultRng } from "../utils/random";
@@ -26,6 +26,18 @@ describe("Word Generator", () => {
     const word2 = generateWord({ seed: 12345 });
     expect(word1.written.clean).toBe(word2.written.clean);
     expect(word1.pronunciation).toBe(word2.pronunciation);
+  });
+
+  it("rejects invalid forced syllable counts", () => {
+    expect(() => generateWord({ syllableCount: 2.5, morphology: false })).toThrow(RangeError);
+    expect(() => generateWord({ syllableCount: Number.POSITIVE_INFINITY, morphology: false })).toThrow(RangeError);
+    expect(() => generateWord({ syllableCount: -1, morphology: false })).toThrow(RangeError);
+  });
+
+  it("rejects invalid batch counts", () => {
+    expect(() => generateWords(Number.POSITIVE_INFINITY, { seed: 1, morphology: false })).toThrow(RangeError);
+    expect(() => generateWords(3.2, { seed: 1, morphology: false })).toThrow(RangeError);
+    expect(() => generateWords(-1, { seed: 1, morphology: false })).toThrow(RangeError);
   });
 
   it("boundary policy decisions are deterministic for fixed seed", () => {
