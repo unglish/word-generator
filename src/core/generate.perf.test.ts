@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { generateWord } from "./generate.js";
+import { generateWord, generateWords } from "./generate.js";
 
 /**
  * Performance regression gate for word generation.
