@@ -11,7 +11,7 @@
  *   - memory/phoneme-2m-analysis.md
  */
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import unglish from '../dist/index.js';
 import {
@@ -275,8 +275,10 @@ function main() {
     },
   };
 
-  const outJson = join(process.cwd(), 'memory', `${reportBasename}.json`);
-  const outMd = join(process.cwd(), 'memory', `${reportBasename}.md`);
+  const outputDir = join(process.cwd(), 'memory');
+  mkdirSync(outputDir, { recursive: true });
+  const outJson = join(outputDir, `${reportBasename}.json`);
+  const outMd = join(outputDir, `${reportBasename}.md`);
 
   writeFileSync(outJson, `${JSON.stringify(report, null, 2)}\n`);
   writeFileSync(outMd, toMarkdown(report));

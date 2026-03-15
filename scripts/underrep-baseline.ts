@@ -6,7 +6,7 @@
  * subtracts 10% margin → initial threshold.
  */
 import { generateWords } from '../src/core/generate.js';
-import { readFileSync, writeFileSync } from 'fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -160,7 +160,9 @@ ${r.top10Trigrams.map(t => `| ${t.ngram} | ${t.ratio.toFixed(4)} | gen=${t.genFr
 - minTrigramRepresentation: ${trigramThreshold}
 `;
 
-writeFileSync(join(__dirname, '..', 'memory', 'ngram-underrep-threshold-baseline.md'), report);
+const outputDir = join(__dirname, '..', 'memory');
+mkdirSync(outputDir, { recursive: true });
+writeFileSync(join(outputDir, 'ngram-underrep-threshold-baseline.md'), report);
 console.log('\nSaved to memory/ngram-underrep-threshold-baseline.md');
 
 // Output JSON for easy copy
