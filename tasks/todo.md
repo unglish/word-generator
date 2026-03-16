@@ -89,3 +89,18 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 
 - Status: Completed.
 - Notes: Found deterministic ENOENT crashes in CMU analysis scripts after durable baseline move removed implicit `memory/` directory from clean checkouts. Fixed by creating `memory/` recursively before report writes in all affected scripts; validated with `npm run build`, reduced-size `analyze:trigrams`/`analyze:phonemes`, and full `scripts/underrep-baseline.ts` run from a clean `memory/` state.
+
+# Critical Bug Inspection — 2026-03-16 (In Progress)
+
+## Plan
+
+- [ ] Inspect recent commits for high-blast-radius behavioral changes.
+- [ ] Trace affected runtime paths for concrete crash/data-loss/security triggers.
+- [ ] Validate suspected issues with focused reproduction (tests or executable scenario).
+- [ ] Implement minimal fix and tests only if severity is critical and confirmed.
+- [ ] Run verification (targeted tests and relevant full checks), then summarize findings.
+
+## Review (to fill after implementation)
+
+- Status: In progress.
+- Notes: Pending investigation results.

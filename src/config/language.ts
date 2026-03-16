@@ -1580,6 +1580,32 @@ export function validateConfig(config: LanguageConfig): void {
   };
 
   if (config.morphology) {
+    if (config.morphology.enabled) {
+      for (const mode of ["text", "lexicon"] as const) {
+        const weights = config.morphology.templateWeights[mode];
+        if (weights.prefixed > 0 && config.morphology.prefixes.length === 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.prefixed requires at least one morphology.prefixes entry`,
+          );
+        }
+        if (weights.suffixed > 0 && config.morphology.suffixes.length === 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.suffixed requires at least one morphology.suffixes entry`,
+          );
+        }
+        if (weights.both > 0 && config.morphology.prefixes.length === 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.both requires at least one morphology.prefixes entry`,
+          );
+        }
+        if (weights.both > 0 && config.morphology.suffixes.length === 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.both requires at least one morphology.suffixes entry`,
+          );
+        }
+      }
+    }
+
     for (let i = 0; i < config.morphology.prefixes.length; i++) {
       const affix = config.morphology.prefixes[i];
       if (!affix.morphophonemicRules) continue;
