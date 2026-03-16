@@ -420,7 +420,7 @@ describe("validateConfig", () => {
         ...englishConfig.morphology!,
         suffixes: [],
         templateWeights: {
-          ...englishConfig.morphology!.templateWeights,
+          text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
           lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
         },
       },
@@ -437,7 +437,7 @@ describe("validateConfig", () => {
         ...englishConfig.morphology!,
         prefixes: [],
         templateWeights: {
-          ...englishConfig.morphology!.templateWeights,
+          text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
           lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
         },
       },
