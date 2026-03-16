@@ -94,13 +94,13 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 
 ## Plan
 
-- [ ] Inspect recent commits for high-blast-radius behavioral changes.
-- [ ] Trace affected runtime paths for concrete crash/data-loss/security triggers.
-- [ ] Validate suspected issues with focused reproduction (tests or executable scenario).
-- [ ] Implement minimal fix and tests only if severity is critical and confirmed.
-- [ ] Run verification (targeted tests and relevant full checks), then summarize findings.
+- [x] Inspect recent commits for high-blast-radius behavioral changes.
+- [x] Trace affected runtime paths for concrete crash/data-loss/security triggers.
+- [x] Validate suspected issues with focused reproduction (tests or executable scenario).
+- [x] Implement minimal fix and tests only if severity is critical and confirmed.
+- [x] Run verification (targeted tests and relevant full checks), then summarize findings.
 
 ## Review (to fill after implementation)
 
-- Status: In progress.
-- Notes: Pending investigation results.
+- Status: Completed.
+- Notes: Fixed critical morphology planning crash by validating template-weight/affix-inventory consistency; added regression tests and verified via `npm test -- src/config/language.test.ts` and `npm test -- src/core/generate.test.ts`.
