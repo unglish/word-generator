@@ -53,11 +53,13 @@ Its goal is not to model "real" English—but to convincingly echo its sound pat
 
 ### Code Structure
 
-* Core logic lives in `/src`, separated by linguistic unit:
+* Core logic lives in `/src`, separated by concern:
 
-  * `/phonemes` – inventories and distributions
-  * `/syllables` – construction and combination logic
-  * `/words` – final output assembly
+  * `elements/` – phoneme & grapheme inventories and distributions
+  * `core/` – generation pipeline (generate, pronounce, write, repair, morphology)
+  * `config/` – language configs, weights, and quality thresholds
+  * `phonotactic/` – phonotactic scoring and validation
+  * `utils/` – RNG and weighted selection helpers
 * Tests live alongside the source files they are testing, using the `.test.ts` naming convention.
 
 ### Testing & Benchmarking
