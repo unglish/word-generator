@@ -1398,6 +1398,28 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.afterStage("generatePronunciation", context.word.syllables);
 }
 
+const MAX_FORCED_SYLLABLE_COUNT = 7;
+const MAX_BATCH_COUNT = 1_000_000;
+
+function resolveForcedSyllableCount(options: WordGenerationOptions): number {
+  const syllableCount = options.syllableCount;
+  if (syllableCount === undefined || syllableCount === 0) return 0;
+  if (!Number.isInteger(syllableCount) || syllableCount < 1 || syllableCount > MAX_FORCED_SYLLABLE_COUNT) {
+    throw new RangeError("options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).");
+  }
+  return syllableCount;
+}
+
+function resolveBatchCount(count: number): number {
+  if (!Number.isInteger(count) || count < 0) {
+    throw new RangeError("count must be a non-negative integer.");
+  }
+  if (count > MAX_BATCH_COUNT) {
+    throw new RangeError(`count must be less than or equal to ${MAX_BATCH_COUNT}.`);
+  }
+  return count;
+}
+
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
@@ -1427,7 +1449,7 @@ export function createGenerator(config: LanguageConfig): WordGenerator {
 
   return {
     generateWord: (options: WordGenerationOptions = {}): Word => {
-      return generateOneWord(rt, resolveRng(options), options.mode ?? "lexicon", options.syllableCount || 0, options.morphology ?? true, options.trace ?? false);
+      return generateOneWord(rt, resolveRng(options), options.mode ?? "lexicon", resolveForcedSyllableCount(options), options.morphology ?? true, options.trace ?? false);
     },
   };
 }
@@ -1449,7 +1471,7 @@ const defaultRuntime = buildRuntime(englishConfig);
  * ```
  */
 export const generateWord = (options: WordGenerationOptions = {}): Word => {
-  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "lexicon", options.syllableCount || 0, options.morphology ?? true, options.trace ?? false);
+  return generateOneWord(defaultRuntime, resolveRng(options), options.mode ?? "lexicon", resolveForcedSyllableCount(options), options.morphology ?? true, options.trace ?? false);
 };
 
 /**
@@ -1460,7 +1482,7 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
  * calling `generateWord({ seed: 42 })` 50 times — the latter creates 50
  * identical RNG streams and therefore 50 identical words.
  *
- * @param count - Number of words to generate.
+ * @param count - Number of words to generate. Must be an integer from 0 to 1,000,000.
  * @param options - Generation options (seed, rand, syllableCount, etc.).
  * @returns An array of generated {@link Word} objects.
  *
@@ -1473,11 +1495,12 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
  * ```
  */
 export const generateWords = (count: number, options: WordGenerationOptions = {}): Word[] => {
+  const total = resolveBatchCount(count);
   const rand = resolveRng(options);
   const mode = options.mode ?? "lexicon";
-  const syllableCount = options.syllableCount || 0;
+  const syllableCount = resolveForcedSyllableCount(options);
   const results: Word[] = [];
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < total; i++) {
     results.push(generateOneWord(defaultRuntime, rand, mode, syllableCount, options.morphology ?? true, options.trace ?? false));
   }
   return results;
