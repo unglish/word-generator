@@ -11,7 +11,7 @@
  *   - memory/trigram-2m-analysis.md
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import unglish from "../dist/index.js";
 
@@ -278,8 +278,10 @@ function main() {
     },
   };
 
-  const jsonPath = join(process.cwd(), "memory", `${reportBasename}.json`);
-  const mdPath = join(process.cwd(), "memory", `${reportBasename}.md`);
+  const outputDir = join(process.cwd(), "memory");
+  mkdirSync(outputDir, { recursive: true });
+  const jsonPath = join(outputDir, `${reportBasename}.json`);
+  const mdPath = join(outputDir, `${reportBasename}.md`);
 
   writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`);
   writeFileSync(mdPath, toMarkdown(report));

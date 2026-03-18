@@ -72,3 +72,20 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 - **RNG reuse for `generateWords`:** When calling `generateWord({ seed: i })` in a loop, each call creates a new `createSeededRng(i)`. Recommend `generateWords(n, { seed })` for batch use.
 - **getWeightedOption pre-compute:** For static weight arrays, total could be cached — but arrays are usually small (2–10 items), so ROI is low.
 - **pronounce.ts / morphology/attach.ts:** Same `phonemes.find` pattern exists; could pass `phonemeBySound` if those paths become hot.
+
+---
+
+# Critical Bug Inspection — 2026-03-15 (In Progress)
+
+## Plan
+
+- [x] Inspect recent high-blast-radius commits (`perf`, generation core, persistence/config movement) and shortlist risky behavioral changes.
+- [x] Trace each shortlisted change through caller chains to confirm or reject concrete critical failure scenarios.
+- [x] If a critical bug is confirmed, implement a minimal fix and add regression tests.
+- [x] Run targeted and relevant full tests to validate the fix and avoid regressions.
+- [x] Commit and push audit results (and fix if needed) to `cursor/critical-bug-inspection-60bf`.
+
+## Review (to fill after implementation)
+
+- Status: Completed.
+- Notes: Found deterministic ENOENT crashes in CMU analysis scripts after durable baseline move removed implicit `memory/` directory from clean checkouts. Fixed by creating `memory/` recursively before report writes in all affected scripts; validated with `npm run build`, reduced-size `analyze:trigrams`/`analyze:phonemes`, and full `scripts/underrep-baseline.ts` run from a clean `memory/` state.
