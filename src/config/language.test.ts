@@ -447,6 +447,22 @@ describe("validateConfig", () => {
     );
   });
 
+  it("should throw when enabled morphology has zero total template weight for a mode", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        templateWeights: {
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 0 },
+          lexicon: englishConfig.morphology!.templateWeights.lexicon,
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text must have positive total weight",
+    );
+  });
+
   it("should throw when a morphophonemic rule uses an unknown replacement phoneme", () => {
     const bad = {
       ...englishConfig,

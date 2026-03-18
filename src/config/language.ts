@@ -1583,6 +1583,10 @@ export function validateConfig(config: LanguageConfig): void {
     if (config.morphology.enabled) {
       for (const mode of ["text", "lexicon"] as const) {
         const weights = config.morphology.templateWeights[mode];
+        const totalWeight = weights.bare + weights.suffixed + weights.prefixed + weights.both;
+        if (!Number.isFinite(totalWeight) || totalWeight <= 0) {
+          throw new Error(`morphology.templateWeights.${mode} must have positive total weight`);
+        }
         if (weights.prefixed > 0 && config.morphology.prefixes.length === 0) {
           throw new Error(
             `morphology.templateWeights.${mode}.prefixed requires at least one morphology.prefixes entry`,
