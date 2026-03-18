@@ -36,6 +36,15 @@ export const rhoticGraphemes: Grapheme[] = [
   },
   {
     phoneme: "ɚ",
+    form: "ir",
+    origin: 0,
+    frequency: 35,
+    startWord: 1,
+    midWord: 35,
+    endWord: 40,
+  },
+  {
+    phoneme: "ɚ",
     form: "ur",
     origin: 0,
     frequency: 100,
@@ -60,6 +69,22 @@ export const rhoticGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 10,
     endWord: 40,
+  },
+  {
+    phoneme: "ɚ",
+    form: "eir",
+    origin: 0,
+    frequency: 25,
+    startWord: 1,
+    midWord: 0,
+    endWord: 45,
+    condition: {
+      leftContext: ["ð"],
+      wordPosition: ["final"],
+      syllableShape: {
+        coda: "empty",
+      },
+    },
   },
   {
     phoneme: "ɚ",

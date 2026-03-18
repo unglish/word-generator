@@ -562,7 +562,12 @@ export interface SilentEConfig {
 export interface SpellingRule {
   /** Human-readable name for debugging. */
   name: string;
-  /** Regex pattern to match in the written form. */
+  /**
+   * Regex pattern to match in the written form.
+   *
+   * Must stay productive: exact literal whole-word rewrites belong in
+   * {@link GapSpelling}, not in `spellingRules`.
+   */
   pattern: string;
   /** Regex flags (default: "g"). */
   flags?: string;
@@ -572,6 +577,44 @@ export interface SpellingRule {
   probability?: number;
   /** When to apply: "syllable" (per-syllable), "word" (full word), or "both" (default). */
   scope?: "syllable" | "word" | "both";
+}
+
+export type GapSpellingTargetLayer =
+  | "grapheme"
+  | "spellingRule"
+  | "phonotactics"
+  | "morphology"
+  | "unknown";
+
+/**
+ * A bare-word spelling override used to capture exact phoneme→surface mappings
+ * that the current foundational rules do not yet model productively.
+ *
+ * As the catalog grows, repeated patterns in these entries should inform more
+ * general phonotactic, orthographic, or morphological rules that can replace
+ * individual overrides over time.
+ */
+export interface GapSpelling {
+  /** Human-readable name for trace output, debugging, and audits. */
+  name: string;
+  /** Full flattened phoneme sequence for the word. */
+  phonemes: string[];
+  /** Final written form that should win for this exact sequence. */
+  replacement: string;
+  /** Relative selection weight when multiple variants share the same phonemes. */
+  weight?: number;
+  /**
+   * Which foundational rule family this entry most likely belongs to.
+   *
+   * This is audit/trace metadata and does not change when the override applies:
+   * gap spellings remain exact bare-word overrides.
+   */
+  targetLayer: GapSpellingTargetLayer;
+  /**
+   * Optional hyphenated written form. Defaults to {@link replacement} when
+   * omitted.
+   */
+  hyphenated?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -721,6 +764,9 @@ export interface LanguageConfig {
 
   /** Silent-e (magic-e / split digraph) configuration. */
   silentE?: SilentEConfig;
+
+  /** Bare-word spelling overrides keyed by exact phoneme sequence. */
+  gapSpellings?: GapSpelling[];
 
   /** Post-selection spelling adjustments. */
   spellingRules?: SpellingRule[];
@@ -904,6 +950,25 @@ export interface MorphologyConfig {
     text: { bare: number; suffixed: number; prefixed: number; both: number };
     lexicon: { bare: number; suffixed: number; prefixed: number; both: number };
   };
+}
+
+const REGEX_LITERAL_META = /[\\.*+?()[\]{}|]/;
+
+function isLiteralWholeWordPattern(pattern: string): boolean {
+  if (!pattern.startsWith("^") || !pattern.endsWith("$")) return false;
+  const inner = pattern.slice(1, -1);
+  return inner.length > 0 && !REGEX_LITERAL_META.test(inner);
+}
+
+function isLiteralReplacement(replacement: string): boolean {
+  return replacement.length > 0 && !replacement.includes("$");
+}
+
+function isExactLiteralWholeWordSpellingRule(rule: SpellingRule): boolean {
+  const scope = rule.scope ?? "both";
+  return (scope === "word" || scope === "both")
+    && isLiteralWholeWordPattern(rule.pattern)
+    && isLiteralReplacement(rule.replacement);
 }
 
 // ---------------------------------------------------------------------------
@@ -1435,6 +1500,59 @@ export function validateConfig(config: LanguageConfig): void {
   const onsetSounds = new Set(config.phonemeMaps.onset.keys());
   const nucleusSounds = new Set(config.phonemeMaps.nucleus.keys());
   const codaSounds = new Set(config.phonemeMaps.coda.keys());
+  const gapSpellingVariantKeys = new Set<string>();
+
+  for (let i = 0; i < (config.gapSpellings?.length ?? 0); i++) {
+    const gapSpelling = config.gapSpellings![i];
+    if (!gapSpelling.name || typeof gapSpelling.name !== "string") {
+      throw new Error(`gapSpellings[${i}].name must be a non-empty string`);
+    }
+    if (!Array.isArray(gapSpelling.phonemes) || gapSpelling.phonemes.length === 0) {
+      throw new Error(`gapSpellings[${i}].phonemes must be a non-empty array`);
+    }
+    for (let j = 0; j < gapSpelling.phonemes.length; j++) {
+      const sound = gapSpelling.phonemes[j];
+      if (!sound) {
+        throw new Error(`gapSpellings[${i}].phonemes[${j}] must be non-empty`);
+      }
+      if (!phonemeSounds.has(sound)) {
+        throw new Error(`gapSpellings[${i}].phonemes[${j}] contains unknown phoneme "${sound}"`);
+      }
+    }
+    if (!gapSpelling.replacement || typeof gapSpelling.replacement !== "string") {
+      throw new Error(`gapSpellings[${i}].replacement must be a non-empty string`);
+    }
+    if (gapSpelling.weight !== undefined && (!Number.isFinite(gapSpelling.weight) || gapSpelling.weight <= 0)) {
+      throw new Error(`gapSpellings[${i}].weight must be a finite number > 0`);
+    }
+    if (
+      gapSpelling.targetLayer !== "grapheme"
+      && gapSpelling.targetLayer !== "spellingRule"
+      && gapSpelling.targetLayer !== "phonotactics"
+      && gapSpelling.targetLayer !== "morphology"
+      && gapSpelling.targetLayer !== "unknown"
+    ) {
+      throw new Error(`gapSpellings[${i}].targetLayer must be one of grapheme|spellingRule|phonotactics|morphology|unknown`);
+    }
+    const gapKey = gapSpelling.phonemes.join("\u0001");
+    const variantKey = [
+      gapKey,
+      gapSpelling.replacement,
+    ].join("\u0001");
+    if (gapSpellingVariantKeys.has(variantKey)) {
+      throw new Error(`gapSpellings has duplicate variant for "${gapSpelling.name}"`);
+    }
+    gapSpellingVariantKeys.add(variantKey);
+  }
+
+  for (let i = 0; i < (config.spellingRules?.length ?? 0); i++) {
+    const rule = config.spellingRules![i];
+    if (isExactLiteralWholeWordSpellingRule(rule)) {
+      throw new Error(
+        `spellingRules[${i}] (${rule.name}) must not use exact literal whole-word rewrites; move lexical overrides to gapSpellings`,
+      );
+    }
+  }
 
   const assertKnownPositionSound = (
     sound: string,
@@ -1583,7 +1701,21 @@ export function validateConfig(config: LanguageConfig): void {
     if (config.morphology.enabled) {
       for (const mode of ["text", "lexicon"] as const) {
         const weights = config.morphology.templateWeights[mode];
-        const totalWeight = weights.bare + weights.suffixed + weights.prefixed + weights.both;
+        const entries: Array<[keyof typeof weights, number]> = [
+          ["bare", weights.bare],
+          ["suffixed", weights.suffixed],
+          ["prefixed", weights.prefixed],
+          ["both", weights.both],
+        ];
+        let totalWeight = 0;
+        for (const [template, weight] of entries) {
+          if (!Number.isFinite(weight) || weight < 0) {
+            throw new Error(
+              `morphology.templateWeights.${mode}.${template} must be a finite number >= 0`,
+            );
+          }
+          totalWeight += weight;
+        }
         if (!Number.isFinite(totalWeight) || totalWeight <= 0) {
           throw new Error(`morphology.templateWeights.${mode} must have positive total weight`);
         }

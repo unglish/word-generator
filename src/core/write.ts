@@ -1,5 +1,5 @@
 import { Phoneme, Grapheme, GraphemeCondition, Syllable, WordGenerationContext } from "../types.js";
-import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule, sonorityClass } from "../config/language.js";
+import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
@@ -314,6 +314,50 @@ function buildOrthographyTrace(
 
   const graphemeUnits = units.map(toUnitTrace);
   return { surface, chars, graphemeUnits };
+}
+
+export function rewriteOrthographyTraceSurface(trace: TraceCollector, surface: string): void {
+  const orthography = trace.orthographyTrace;
+  if (!orthography) return;
+
+  const unitById = new Map<number, OrthographyUnitTrace>(
+    orthography.graphemeUnits.map((unit) => [unit.id, unit]),
+  );
+  const sourceOwners = orthography.chars.map((char) => char.unitId);
+  const remappedOwners = remapOwnersThroughRewrite(orthography.surface, sourceOwners, surface);
+  const spans = new Map<number, { start: number; end: number }>();
+
+  for (let i = 0; i < remappedOwners.length; i++) {
+    const owner = remappedOwners[i];
+    if (!unitById.has(owner)) continue;
+    const span = spans.get(owner);
+    if (span) {
+      span.end = i;
+    } else {
+      spans.set(owner, { start: i, end: i });
+    }
+  }
+
+  orthography.surface = surface;
+  orthography.chars = surface.split("").map((char, index) => {
+    const unitId = remappedOwners[index] ?? -1;
+    const unit = unitById.get(unitId);
+    return {
+      index,
+      char,
+      unitId,
+      graphemeSelectionIndex: unit?.graphemeSelectionIndex ?? -1,
+    };
+  });
+  orthography.graphemeUnits = orthography.graphemeUnits.map((unit) => {
+    const span = spans.get(unit.id);
+    return {
+      ...unit,
+      present: !!span,
+      start: span ? span.start : null,
+      end: span ? span.end : null,
+    };
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -1823,6 +1867,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
     // Post-join pass: apply word-scope spelling rules
     let finalClean = applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word");
+    let finalHyphenated = hyphenatedParts.join("");
 
     // Post-join vowel repair for cross-boundary runs
     if (wfc?.maxVowelLetters) {
@@ -1864,6 +1909,6 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     }
 
     written.clean = finalClean;
-    written.hyphenated = hyphenatedParts.join("");
+    written.hyphenated = finalHyphenated;
   };
 }

@@ -1,5 +1,5 @@
 import { MorphologyConfig, Affix } from "../../config/language.js";
-import { GenerationMode } from "../../types.js";
+import { GenerationMode, MorphologyTemplate } from "../../types.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
 import type { RNG } from "../../utils/random.js";
 
@@ -7,10 +7,8 @@ import type { RNG } from "../../utils/random.js";
 // Types
 // ---------------------------------------------------------------------------
 
-type Template = "bare" | "suffixed" | "prefixed" | "both";
-
 export interface MorphologyPlan {
-  template: Template;
+  template: MorphologyTemplate;
   prefix?: Affix;
   suffix?: Affix;
 }
@@ -24,9 +22,9 @@ function pickWeighted<T>(items: T[], getWeight: (item: T) => number, rand: RNG):
   return getWeightedOption(options, rand);
 }
 
-function pickTemplate(config: MorphologyConfig, mode: GenerationMode, rand: RNG): Template {
+function pickTemplate(config: MorphologyConfig, mode: GenerationMode, rand: RNG): MorphologyTemplate {
   const w = config.templateWeights[mode];
-  return getWeightedOption<Template>([
+  return getWeightedOption<MorphologyTemplate>([
     ["bare", w.bare],
     ["suffixed", w.suffixed],
     ["prefixed", w.prefixed],

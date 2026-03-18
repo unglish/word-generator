@@ -272,6 +272,25 @@ export const englishConfig: LanguageConfig = {
     ],
   },
 
+  gapSpellings: [
+    { name: "be", phonemes: ["b", "i:"], replacement: "be", targetLayer: "grapheme" },
+    { name: "he", phonemes: ["h", "i:"], replacement: "he", targetLayer: "grapheme" },
+    { name: "me", phonemes: ["m", "i:"], replacement: "me", targetLayer: "grapheme" },
+    { name: "we", phonemes: ["w", "i:"], replacement: "we", targetLayer: "grapheme" },
+    { name: "to", phonemes: ["t", "u"], replacement: "to", weight: 85, targetLayer: "grapheme" },
+    { name: "two", phonemes: ["t", "u"], replacement: "two", weight: 15, targetLayer: "grapheme" },
+    { name: "do", phonemes: ["d", "u"], replacement: "do", targetLayer: "grapheme" },
+    { name: "you", phonemes: ["j", "u"], replacement: "you", targetLayer: "grapheme" },
+    { name: "any", phonemes: ["ɛ", "n", "i:"], replacement: "any", hyphenated: "a&shy;ny", targetLayer: "grapheme" },
+    { name: "people", phonemes: ["p", "i:", "p", "ə", "l"], replacement: "people", hyphenated: "peo&shy;ple", targetLayer: "spellingRule" },
+    { name: "would", phonemes: ["w", "ʊ", "d"], replacement: "would", targetLayer: "spellingRule" },
+    { name: "could", phonemes: ["k", "ʊ", "d"], replacement: "could", targetLayer: "spellingRule" },
+    { name: "who", phonemes: ["h", "u"], replacement: "who", targetLayer: "grapheme" },
+    { name: "when", phonemes: ["w", "ɛ", "n"], replacement: "when", targetLayer: "grapheme" },
+    { name: "which", phonemes: ["w", "ɪ", "tʃ"], replacement: "which", targetLayer: "grapheme" },
+    { name: "what", phonemes: ["w", "ɑ", "t"], replacement: "what", targetLayer: "grapheme" },
+  ],
+
   spellingRules: [
     {
       name: "nc-to-nk",

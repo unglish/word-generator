@@ -357,7 +357,7 @@ export const fricativeGraphemes: Grapheme[] = [
     endWord: 1,
   },
   
-  // Example: "who" /hu/, "whole" /həʊl/ — but "wh" for /h/ is rare, keep frequency very low
+  // Example: "whole" /həʊl/, "whore" /hɔ:/ — but "wh" for /h/ is rare, keep frequency very low
   {
     phoneme: "h",
     form: "wh",
@@ -367,6 +367,6 @@ export const fricativeGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 0,
     endWord: 0,
-    condition: { rightContext: ["əʊ", "ɔ"] }  // Only "whole" (/həʊl/), "whore" (/hɔ:/) — excludes "u" and "ʊ" to block "whu"
+    condition: { rightContext: ["əʊ", "ɔ"] }  // "whole" (/həʊl/), "whore" (/hɔ:/)
   }
 ];

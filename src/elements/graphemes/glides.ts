@@ -35,10 +35,10 @@ export const glideGraphemes: Grapheme[] = [
     form: "wh", 
     origin: 0, 
     coda: 0,
-    frequency: 100,
+    frequency: 5,
     startWord: 1,
     midWord: 1,
-    endWord: 0,
+    endWord: 1,
     condition: { 
       wordPosition: ["initial"],
       notLeftContext: ["consonant"],
