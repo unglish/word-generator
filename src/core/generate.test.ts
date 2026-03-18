@@ -38,6 +38,7 @@ describe("Word Generator", () => {
     expect(() => generateWords(Number.POSITIVE_INFINITY, { seed: 1, morphology: false })).toThrow(RangeError);
     expect(() => generateWords(3.2, { seed: 1, morphology: false })).toThrow(RangeError);
     expect(() => generateWords(-1, { seed: 1, morphology: false })).toThrow(RangeError);
+    expect(() => generateWords(1_000_001, { seed: 1, morphology: false })).toThrow(RangeError);
   });
 
   it("boundary policy decisions are deterministic for fixed seed", () => {

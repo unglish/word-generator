@@ -1399,6 +1399,7 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
 }
 
 const MAX_FORCED_SYLLABLE_COUNT = 7;
+const MAX_BATCH_COUNT = 1_000_000;
 
 function resolveForcedSyllableCount(options: WordGenerationOptions): number {
   const syllableCount = options.syllableCount;
@@ -1410,8 +1411,11 @@ function resolveForcedSyllableCount(options: WordGenerationOptions): number {
 }
 
 function resolveBatchCount(count: number): number {
-  if (!Number.isSafeInteger(count) || count < 0) {
-    throw new RangeError("count must be a non-negative safe integer.");
+  if (!Number.isInteger(count) || count < 0) {
+    throw new RangeError("count must be a non-negative integer.");
+  }
+  if (count > MAX_BATCH_COUNT) {
+    throw new RangeError(`count must be less than or equal to ${MAX_BATCH_COUNT}.`);
   }
   return count;
 }
@@ -1478,7 +1482,7 @@ export const generateWord = (options: WordGenerationOptions = {}): Word => {
  * calling `generateWord({ seed: 42 })` 50 times — the latter creates 50
  * identical RNG streams and therefore 50 identical words.
  *
- * @param count - Number of words to generate.
+ * @param count - Number of words to generate. Must be an integer from 0 to 1,000,000.
  * @param options - Generation options (seed, rand, syllableCount, etc.).
  * @returns An array of generated {@link Word} objects.
  *
