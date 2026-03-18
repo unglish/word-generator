@@ -3,6 +3,11 @@ import getWeightedOption from "./getWeightedOption";
 import { createSeededRng } from "./random";
 
 describe("getWeightedOption", () => {
+  it("throws when called with no options", () => {
+    const rng = createSeededRng(42);
+    expect(() => getWeightedOption([], rng)).toThrow("getWeightedOption requires at least one option");
+  });
+
   it("uses the provided RNG (not global state)", () => {
     // Two identical RNGs should produce the same sequence of choices
     const rngA = createSeededRng(42);
