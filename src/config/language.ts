@@ -1689,7 +1689,21 @@ export function validateConfig(config: LanguageConfig): void {
     if (config.morphology.enabled) {
       for (const mode of ["text", "lexicon"] as const) {
         const weights = config.morphology.templateWeights[mode];
-        const totalWeight = weights.bare + weights.suffixed + weights.prefixed + weights.both;
+        const entries: Array<[keyof typeof weights, number]> = [
+          ["bare", weights.bare],
+          ["suffixed", weights.suffixed],
+          ["prefixed", weights.prefixed],
+          ["both", weights.both],
+        ];
+        let totalWeight = 0;
+        for (const [template, weight] of entries) {
+          if (!Number.isFinite(weight) || weight < 0) {
+            throw new Error(
+              `morphology.templateWeights.${mode}.${template} must be a finite number >= 0`,
+            );
+          }
+          totalWeight += weight;
+        }
         if (!Number.isFinite(totalWeight) || totalWeight <= 0) {
           throw new Error(`morphology.templateWeights.${mode} must have positive total weight`);
         }

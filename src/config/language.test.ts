@@ -573,6 +573,38 @@ describe("validateConfig", () => {
     );
   });
 
+  it("should throw when a morphology template weight is negative", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        templateWeights: {
+          text: { bare: 100, suffixed: 0, prefixed: -1, both: 0 },
+          lexicon: englishConfig.morphology!.templateWeights.lexicon,
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text.prefixed must be a finite number >= 0",
+    );
+  });
+
+  it("should throw when a morphology template weight is not finite", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        templateWeights: {
+          text: { bare: 100, suffixed: 0, prefixed: Number.POSITIVE_INFINITY, both: 0 },
+          lexicon: englishConfig.morphology!.templateWeights.lexicon,
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text.prefixed must be a finite number >= 0",
+    );
+  });
+
   it("should throw when a morphophonemic rule uses an unknown replacement phoneme", () => {
     const bad = {
       ...englishConfig,
