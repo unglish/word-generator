@@ -523,6 +523,56 @@ describe("validateConfig", () => {
     expect(() => validateConfig(bad)).toThrow("morphology.boundaryPolicy.fallbackBridgeOnsets has invalid weight 0 for \"h\" (must be > 0)");
   });
 
+  it("should throw when suffixed template weight is enabled without suffixes", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        suffixes: [],
+        templateWeights: {
+          text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.lexicon.suffixed requires at least one morphology.suffixes entry",
+    );
+  });
+
+  it("should throw when both template weight is enabled without prefixes", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [],
+        templateWeights: {
+          text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.lexicon.both requires at least one morphology.prefixes entry",
+    );
+  });
+
+  it("should throw when enabled morphology has zero total template weight for a mode", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        templateWeights: {
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 0 },
+          lexicon: englishConfig.morphology!.templateWeights.lexicon,
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text must have positive total weight",
+    );
+  });
+
   it("should throw when a morphophonemic rule uses an unknown replacement phoneme", () => {
     const bad = {
       ...englishConfig,
