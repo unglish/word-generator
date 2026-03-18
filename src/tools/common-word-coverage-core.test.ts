@@ -170,6 +170,60 @@ describe("common-word-coverage-core", () => {
     ]);
   });
 
+  it("does not treat bare morphology traces as morphology interactions", () => {
+    const traceRun = traceMissingWords({
+      missingWords: ["which"],
+      maxIterations: 1,
+      maxCandidatesPerWord: 1,
+      gapSpellingCatalog: GAP_SPELLING_CATALOG,
+      nextWord: () => ({
+        written: { clean: "wich" },
+        pronunciation: "wItS",
+        trace: {
+          morphology: { template: "bare" },
+          graphemeSelections: [
+            { phoneme: "w", selected: "w" },
+          ],
+          repairs: [],
+        },
+      }),
+    });
+
+    expect(traceRun.analyses[0]).toMatchObject({
+      bucket: "grapheme competition / orthography-selection miss",
+      spellingPath: "gap-spelling",
+      gapTargetLayers: ["grapheme"],
+    });
+    expect(traceRun.analyses[0].note).toContain("orthography competition");
+  });
+
+  it("classifies affixed morphology traces as morphology interactions", () => {
+    const traceRun = traceMissingWords({
+      missingWords: ["to"],
+      maxIterations: 1,
+      maxCandidatesPerWord: 1,
+      gapSpellingCatalog: GAP_SPELLING_CATALOG,
+      nextWord: () => ({
+        written: { clean: "unto" },
+        pronunciation: "untu",
+        trace: {
+          morphology: { template: "prefixed" },
+          graphemeSelections: [
+            { phoneme: "t", selected: "t" },
+          ],
+          repairs: [],
+        },
+      }),
+    });
+
+    expect(traceRun.analyses[0]).toMatchObject({
+      bucket: "morphology interaction",
+      spellingPath: "gap-spelling",
+      gapTargetLayers: ["grapheme"],
+    });
+    expect(traceRun.analyses[0].note).toContain('template "prefixed"');
+  });
+
   it("classifies gap-spelling-backed near misses with target-layer detail", () => {
     const traceRun = traceMissingWords({
       missingWords: ["to"],

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { englishConfig } from "./english.js";
-import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, isWholeWordAnchoredSpellingRule, resolveAspirationRules, validateConfig } from "./language.js";
+import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, resolveAspirationRules, validateConfig } from "./language.js";
 import { VOICED_BONUS, TENSE_BONUS } from "./weights.js";
 import { sonorityLevels } from "../elements/phonemes.js";
 import { Phoneme } from "../types.js";
@@ -274,8 +274,39 @@ describe("validateConfig", () => {
         },
       ],
     };
-    expect(isWholeWordAnchoredSpellingRule(bad.spellingRules[bad.spellingRules.length - 1])).toBe(true);
-    expect(() => validateConfig(bad)).toThrow("must not use whole-word anchored patterns");
+    expect(() => validateConfig(bad)).toThrow("must not use exact literal whole-word rewrites");
+  });
+
+  it("should allow productive anchored spelling rules with captures", () => {
+    const ok = {
+      ...englishConfig,
+      spellingRules: [
+        ...(englishConfig.spellingRules ?? []),
+        {
+          name: "plural-y-to-ies",
+          pattern: "^(.+)y$",
+          replacement: "$1ies",
+          scope: "word" as const,
+        },
+      ],
+    };
+    expect(() => validateConfig(ok)).not.toThrow();
+  });
+
+  it("should allow anchored spelling rules that use regex syntax", () => {
+    const ok = {
+      ...englishConfig,
+      spellingRules: [
+        ...(englishConfig.spellingRules ?? []),
+        {
+          name: "optional-u",
+          pattern: "^colou?r$",
+          replacement: "color",
+          scope: "word" as const,
+        },
+      ],
+    };
+    expect(() => validateConfig(ok)).not.toThrow();
   });
 
   it("should allow weighted gap-spelling variants on the same phoneme sequence", () => {

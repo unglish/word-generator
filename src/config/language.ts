@@ -565,7 +565,7 @@ export interface SpellingRule {
   /**
    * Regex pattern to match in the written form.
    *
-   * Must stay productive: exact whole-word anchored rewrites belong in
+   * Must stay productive: exact literal whole-word rewrites belong in
    * {@link GapSpelling}, not in `spellingRules`.
    */
   pattern: string;
@@ -952,11 +952,23 @@ export interface MorphologyConfig {
   };
 }
 
-export function isWholeWordAnchoredSpellingRule(rule: SpellingRule): boolean {
+const REGEX_LITERAL_META = /[\\.*+?()[\]{}|]/;
+
+function isLiteralWholeWordPattern(pattern: string): boolean {
+  if (!pattern.startsWith("^") || !pattern.endsWith("$")) return false;
+  const inner = pattern.slice(1, -1);
+  return inner.length > 0 && !REGEX_LITERAL_META.test(inner);
+}
+
+function isLiteralReplacement(replacement: string): boolean {
+  return replacement.length > 0 && !replacement.includes("$");
+}
+
+function isExactLiteralWholeWordSpellingRule(rule: SpellingRule): boolean {
   const scope = rule.scope ?? "both";
   return (scope === "word" || scope === "both")
-    && rule.pattern.startsWith("^")
-    && rule.pattern.endsWith("$");
+    && isLiteralWholeWordPattern(rule.pattern)
+    && isLiteralReplacement(rule.replacement);
 }
 
 // ---------------------------------------------------------------------------
@@ -1535,9 +1547,9 @@ export function validateConfig(config: LanguageConfig): void {
 
   for (let i = 0; i < (config.spellingRules?.length ?? 0); i++) {
     const rule = config.spellingRules![i];
-    if (isWholeWordAnchoredSpellingRule(rule)) {
+    if (isExactLiteralWholeWordSpellingRule(rule)) {
       throw new Error(
-        `spellingRules[${i}] (${rule.name}) must not use whole-word anchored patterns; move lexical rewrites to gapSpellings`,
+        `spellingRules[${i}] (${rule.name}) must not use exact literal whole-word rewrites; move lexical overrides to gapSpellings`,
       );
     }
   }
