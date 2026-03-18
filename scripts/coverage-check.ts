@@ -3,6 +3,9 @@
 /**
  * Check how many common English words the generator can produce.
  *
+ * Exploratory only. For deterministic issue-85 coverage against the demo
+ * 100-word list, use `npm run analyze:common-words`.
+ *
  * Usage:
  *   npx tsx scripts/coverage-check.ts
  *   npx tsx scripts/coverage-check.ts --top 500 --count 1000000
@@ -40,6 +43,7 @@ const targetWords = new Set(allCommonWords.slice(0, TOP_N));
 
 console.log(`Loaded ${allCommonWords.length} common words, using top ${TOP_N}`);
 console.log(`Generating ${GEN_COUNT.toLocaleString()} words...\n`);
+console.log("Note: this script is exploratory and nondeterministic. Use `npm run analyze:common-words` for deterministic issue-85 coverage.\n");
 
 // --- Generate and check ---
 const generated = new Set<string>();

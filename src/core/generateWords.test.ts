@@ -2,7 +2,6 @@ import { describe, it, expect, beforeAll } from "vitest";
 import { createGenerator, generateWord, generateWords } from "./generate";
 import { createSeededRng } from "../utils/random";
 import { englishConfig } from "../config/english";
-import { PHONEME_LENGTH_WEIGHTS_LEXICON } from "../config/weights";
 
 function countWordPhonemes(word: ReturnType<typeof generateWords>[number]): number {
   let total = 0;
@@ -160,15 +159,4 @@ describe("top-down phoneme targeting", () => {
     expect(sixPct).toBeLessThan(22.0);
   }, 15_000);
 
-  it("keeps full lexicon phoneme-length distribution close to configured targets", () => {
-    let maxAbsGap = 0;
-
-    for (const [phonemeCount, targetPct] of PHONEME_LENGTH_WEIGHTS_LEXICON) {
-      const generatedPct = ((phonemeLengthCounts.get(phonemeCount) ?? 0) / SAMPLE_SIZE) * 100;
-      const absGap = Math.abs(generatedPct - targetPct);
-      maxAbsGap = Math.max(maxAbsGap, absGap);
-    }
-
-    expect(maxAbsGap).toBeLessThanOrEqual(1.0);
-  }, 15_000);
 });

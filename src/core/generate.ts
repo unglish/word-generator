@@ -5,6 +5,7 @@ import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, val
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation, PronunciationRuntimeConfig } from "./pronounce.js";
 import { createWrittenFormGenerator, repairConsonantLetters } from "./write.js";
+import { createGapSpellingApplicator } from "./gap-spelling.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
@@ -40,6 +41,7 @@ interface GeneratorRuntime {
     nucleus: RegExp | null;
   };
   generateWrittenForm: (context: WordGenerationContext) => void;
+  applyGapSpellings: (context: WordGenerationContext) => void;
   bannedSet?: Set<string>;
   clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
@@ -128,6 +130,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
   };
 
   const generateWrittenForm = createWrittenFormGenerator(config);
+  const applyGapSpellings = createGapSpellingApplicator(config);
 
   const bannedPairs = expandClusterConstraintBans(config);
   const bannedSet = bannedPairs.length > 0
@@ -193,6 +196,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     positionPhonemes,
     invalidClusterRegexes,
     generateWrittenForm,
+    applyGapSpellings,
     bannedSet,
     clusterRepair: config.clusterConstraint?.repair,
     allowedFinalSet: config.codaConstraints?.allowedFinal
@@ -1287,6 +1291,11 @@ function generateOneWord(
         context.word.written.clean = cleanParts.join("");
         context.word.written.hyphenated = hyphParts.join("");
       }
+    }
+    // Gap spellings are exact bare-word overrides. Affixed forms should be
+    // handled by morphology or more general rule systems instead.
+    if (!morphPlan || morphPlan.plan.template === "bare") {
+      rt.applyGapSpellings(context);
     }
     const finalPhonemeCount = countPhonemes(context.word.syllables);
     const morphologyDelta = resolveMorphologyPhonemeDelta(rootPhonemeCount, finalPhonemeCount, plannedMorphologyDelta);
