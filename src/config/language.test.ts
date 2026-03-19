@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { englishConfig } from "./english.js";
-import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, resolveAspirationRules, validateConfig } from "./language.js";
+import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, isWholeWordAnchoredSpellingRule, resolveAspirationRules, validateConfig } from "./language.js";
 import { VOICED_BONUS, TENSE_BONUS } from "./weights.js";
 import { sonorityLevels } from "../elements/phonemes.js";
 import { Phoneme } from "../types.js";
@@ -274,7 +274,25 @@ describe("validateConfig", () => {
         },
       ],
     };
-    expect(() => validateConfig(bad)).toThrow("must not use exact literal whole-word rewrites");
+    expect(isWholeWordAnchoredSpellingRule(bad.spellingRules[bad.spellingRules.length - 1])).toBe(true);
+    expect(() => validateConfig(bad)).toThrow("must not use whole-word anchored patterns");
+  });
+
+  it("should reject whole-word anchored spelling rules that delete the word", () => {
+    const bad = {
+      ...englishConfig,
+      spellingRules: [
+        ...(englishConfig.spellingRules ?? []),
+        {
+          name: "drop-word",
+          pattern: "^foo$",
+          replacement: "",
+          scope: "word" as const,
+        },
+      ],
+    };
+    expect(isWholeWordAnchoredSpellingRule(bad.spellingRules[bad.spellingRules.length - 1])).toBe(true);
+    expect(() => validateConfig(bad)).toThrow("must not use whole-word anchored patterns");
   });
 
   it("should allow productive anchored spelling rules with captures", () => {
@@ -290,6 +308,7 @@ describe("validateConfig", () => {
         },
       ],
     };
+    expect(isWholeWordAnchoredSpellingRule(ok.spellingRules[ok.spellingRules.length - 1])).toBe(false);
     expect(() => validateConfig(ok)).not.toThrow();
   });
 
@@ -306,6 +325,7 @@ describe("validateConfig", () => {
         },
       ],
     };
+    expect(isWholeWordAnchoredSpellingRule(ok.spellingRules[ok.spellingRules.length - 1])).toBe(false);
     expect(() => validateConfig(ok)).not.toThrow();
   });
 
@@ -554,88 +574,6 @@ describe("validateConfig", () => {
     expect(() => validateConfig(bad)).toThrow("morphology.boundaryPolicy.fallbackBridgeOnsets has invalid weight 0 for \"h\" (must be > 0)");
   });
 
-  it("should throw when suffixed template weight is enabled without suffixes", () => {
-    const bad = {
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!,
-        suffixes: [],
-        templateWeights: {
-          text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
-          lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
-        },
-      },
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "morphology.templateWeights.lexicon.suffixed requires at least one morphology.suffixes entry",
-    );
-  });
-
-  it("should throw when both template weight is enabled without prefixes", () => {
-    const bad = {
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!,
-        prefixes: [],
-        templateWeights: {
-          text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
-          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
-        },
-      },
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "morphology.templateWeights.lexicon.both requires at least one morphology.prefixes entry",
-    );
-  });
-
-  it("should throw when enabled morphology has zero total template weight for a mode", () => {
-    const bad = {
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!,
-        templateWeights: {
-          text: { bare: 0, suffixed: 0, prefixed: 0, both: 0 },
-          lexicon: englishConfig.morphology!.templateWeights.lexicon,
-        },
-      },
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "morphology.templateWeights.text must have positive total weight",
-    );
-  });
-
-  it("should throw when a morphology template weight is negative", () => {
-    const bad = {
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!,
-        templateWeights: {
-          text: { bare: 100, suffixed: 0, prefixed: -1, both: 0 },
-          lexicon: englishConfig.morphology!.templateWeights.lexicon,
-        },
-      },
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "morphology.templateWeights.text.prefixed must be a finite number >= 0",
-    );
-  });
-
-  it("should throw when a morphology template weight is not finite", () => {
-    const bad = {
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!,
-        templateWeights: {
-          text: { bare: 100, suffixed: 0, prefixed: Number.POSITIVE_INFINITY, both: 0 },
-          lexicon: englishConfig.morphology!.templateWeights.lexicon,
-        },
-      },
-    };
-    expect(() => validateConfig(bad)).toThrow(
-      "morphology.templateWeights.text.prefixed must be a finite number >= 0",
-    );
-  });
-
   it("should throw when a morphophonemic rule uses an unknown replacement phoneme", () => {
     const bad = {
       ...englishConfig,
@@ -682,6 +620,88 @@ describe("validateConfig", () => {
       },
     };
     expect(() => validateConfig(bad)).toThrow(/morphology\.suffixes\[\d+\]\.morphophonemicRules\[0\]\.phonologicalCondition\.position must be "preceding" for suffix rules/);
+  });
+
+  it("should throw when suffixed template weight is enabled without suffixes", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        suffixes: [],
+        templateWeights: {
+          text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.lexicon.suffixed requires at least one morphology.suffixes entry",
+    );
+  });
+
+  it("should throw when both template weight is enabled without prefixes", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [],
+        templateWeights: {
+          text: { bare: 100, suffixed: 0, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 100, both: 0 },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.lexicon.prefixed requires at least one morphology.prefixes entry",
+    );
+  });
+
+  it("should throw when enabled morphology has zero total template weight for a mode", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        templateWeights: {
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 0 },
+          lexicon: { ...englishConfig.morphology!.templateWeights.lexicon },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text must have positive total weight",
+    );
+  });
+
+  it("should throw when a morphology template weight is negative", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        templateWeights: {
+          text: { bare: 100, suffixed: 0, prefixed: -1, both: 0 },
+          lexicon: { ...englishConfig.morphology!.templateWeights.lexicon },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text.prefixed must be a finite number >= 0",
+    );
+  });
+
+  it("should throw when a morphology template weight is not finite", () => {
+    const bad = {
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!,
+        templateWeights: {
+          text: { bare: 100, suffixed: 0, prefixed: Number.POSITIVE_INFINITY, both: 0 },
+          lexicon: { ...englishConfig.morphology!.templateWeights.lexicon },
+        },
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.templateWeights.text.prefixed must be a finite number >= 0",
+    );
   });
 
   it("should throw when phonemeLengthWeights.text is missing", () => {

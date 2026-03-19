@@ -221,7 +221,7 @@ describe("common-word-coverage-core", () => {
       spellingPath: "gap-spelling",
       gapTargetLayers: ["grapheme"],
     });
-    expect(traceRun.analyses[0].note).toContain('template "prefixed"');
+    expect(traceRun.analyses[0].note).toContain("template \"prefixed\"");
   });
 
   it("classifies gap-spelling-backed near misses with target-layer detail", () => {

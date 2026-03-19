@@ -3,7 +3,6 @@ import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEApp
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
-import { coinFlip } from "./pronounce.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { isVowelChar, isConsonantLetter, VOWEL_LETTERS } from "../utils/letters.js";
 
@@ -719,16 +718,15 @@ function selectByFrequency(
     if (captureTrace) traceWeights.push([g.form, w]);
   }
 
-  let totalWeight = 0;
-  for (let i = 0; i < weights.length; i++) totalWeight += weights[i][1];
+  const totalWeight = weights.reduce((sum, [, weight]) => sum + weight, 0);
   const randomValue = rand() * totalWeight;
 
   let cumulativeWeight = 0;
   let selected = weights[weights.length - 1][0];
-  for (let i = 0; i < weights.length; i++) {
-    cumulativeWeight += weights[i][1];
+  for (const [option, weight] of weights) {
+    cumulativeWeight += weight;
     if (randomValue < cumulativeWeight) {
-      selected = weights[i][0];
+      selected = option;
       break;
     }
   }
@@ -884,7 +882,7 @@ function createDoublingFn(
     prob = Math.min(100, Math.max(0, Math.round(prob)));
     if (prob <= 0) return skip("zero-probability:unstressed");
 
-    const shouldDouble = coinFlip(rand, prob);
+    const shouldDouble = rand() * 100 < prob;
     if (shouldDouble) {
       state.doublingCount++;
       const doubled = doubledFormLookup[form] ?? (form + form);
@@ -1580,30 +1578,17 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const traceUnits: TraceUnitSeed[] = [];
     let preRepairSurface = "";
     let preRepairOwners: number[] = [];
-    const POSITIONS = ["onset", "nucleus", "coda"] as const;
-    const flattenedPhonemes: {
-      phoneme: Phoneme;
-      syllableIndex: number;
-      position: "onset" | "nucleus" | "coda";
-      positionIndex: number;
-      stress: Syllable["stress"];
-    }[] = [];
-    for (let si = 0; si < syllables.length; si++) {
-      const syllable = syllables[si];
-      const stress = syllable.stress;
-      for (const position of POSITIONS) {
-        const phonemes = syllable[position];
-        for (let phi = 0; phi < phonemes.length; phi++) {
-          flattenedPhonemes.push({
-            phoneme: phonemes[phi],
-            syllableIndex: si,
-            position,
-            positionIndex: phi,
-            stress,
-          });
-        }
-      }
-    }
+    const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
+      (["onset", "nucleus", "coda"] as const).flatMap((position) =>
+        syllable[position].map((phoneme, positionIndex) => ({
+          phoneme,
+          syllableIndex,
+          position,
+          positionIndex,
+          stress: syllable.stress,
+        }))
+      )
+    );
 
     const cleanParts: string[] = [];
     const hyphenatedParts: string[] = [];

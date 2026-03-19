@@ -354,11 +354,10 @@ function classifyNearMiss(target, candidate, gapSpellingCatalog = new Map()) {
 
   const clean = candidate.word;
   const repairs = new Set(candidate.traceSummary.repairs);
-  const morphologyTemplate = candidate.traceSummary.morphologyTemplate;
-  if (morphologyTemplate && morphologyTemplate !== "bare") {
+  if (candidate.traceSummary.morphologyTemplate && candidate.traceSummary.morphologyTemplate !== "bare") {
     return {
       bucket: TRACE_BUCKETS.morphology,
-      note: `Best near miss "${clean}" arrived with morphology template "${morphologyTemplate}".`,
+      note: `Best near miss "${clean}" arrived with morphology template "${candidate.traceSummary.morphologyTemplate}".`,
     };
   }
 
