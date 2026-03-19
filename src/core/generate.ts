@@ -1286,7 +1286,12 @@ function generateOneWord(
           suffixWritten ? -suffixWritten.length : undefined,
         );
         const cleanParts = [prefixWritten, rootClean, suffixWritten].filter(Boolean);
-        const hyphParts = [...cleanParts]; // simplified; hyphenated repaired below
+        // repairConsonantLetters expects part strings at even indices, matching write.ts.
+        const hyphParts: string[] = [];
+        for (let i = 0; i < cleanParts.length; i++) {
+          hyphParts.push(cleanParts[i]);
+          if (i < cleanParts.length - 1) hyphParts.push("");
+        }
         repairConsonantLetters(cleanParts, hyphParts, maxCons);
         context.word.written.clean = cleanParts.join("");
         context.word.written.hyphenated = hyphParts.join("");
