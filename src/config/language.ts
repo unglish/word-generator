@@ -952,11 +952,17 @@ export interface MorphologyConfig {
   };
 }
 
+const REGEX_LITERAL_META = /[\\.*+?()[\]{}|]/;
+
 export function isWholeWordAnchoredSpellingRule(rule: SpellingRule): boolean {
   const scope = rule.scope ?? "both";
-  return (scope === "word" || scope === "both")
-    && rule.pattern.startsWith("^")
-    && rule.pattern.endsWith("$");
+  const isLiteralPattern = (() => {
+    if (!rule.pattern.startsWith("^") || !rule.pattern.endsWith("$")) return false;
+    const inner = rule.pattern.slice(1, -1);
+    return inner.length > 0 && !REGEX_LITERAL_META.test(inner);
+  })();
+  const isLiteralReplacement = !rule.replacement.includes("$");
+  return (scope === "word" || scope === "both") && isLiteralPattern && isLiteralReplacement;
 }
 
 // ---------------------------------------------------------------------------
@@ -1686,6 +1692,48 @@ export function validateConfig(config: LanguageConfig): void {
   };
 
   if (config.morphology) {
+    if (config.morphology.enabled) {
+      for (const mode of ["text", "lexicon"] as const) {
+        const weights = config.morphology.templateWeights[mode];
+        const entries: Array<[keyof typeof weights, number]> = [
+          ["bare", weights.bare],
+          ["suffixed", weights.suffixed],
+          ["prefixed", weights.prefixed],
+          ["both", weights.both],
+        ];
+        let totalWeight = 0;
+        for (const [template, weight] of entries) {
+          if (!Number.isFinite(weight) || weight < 0) {
+            throw new Error(`morphology.templateWeights.${mode}.${template} must be a finite number >= 0`);
+          }
+          totalWeight += weight;
+        }
+        if (!Number.isFinite(totalWeight) || totalWeight <= 0) {
+          throw new Error(`morphology.templateWeights.${mode} must have positive total weight`);
+        }
+        if (weights.prefixed > 0 && config.morphology.prefixes.length === 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.prefixed requires at least one morphology.prefixes entry`,
+          );
+        }
+        if (weights.suffixed > 0 && config.morphology.suffixes.length === 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.suffixed requires at least one morphology.suffixes entry`,
+          );
+        }
+        if (weights.both > 0 && config.morphology.prefixes.length === 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.both requires at least one morphology.prefixes entry`,
+          );
+        }
+        if (weights.both > 0 && config.morphology.suffixes.length === 0) {
+          throw new Error(
+            `morphology.templateWeights.${mode}.both requires at least one morphology.suffixes entry`,
+          );
+        }
+      }
+    }
+
     for (let i = 0; i < config.morphology.prefixes.length; i++) {
       const affix = config.morphology.prefixes[i];
       if (!affix.morphophonemicRules) continue;
