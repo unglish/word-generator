@@ -3,9 +3,15 @@ import * as phonemes from "./elements/phonemes.js";
 import * as graphemes from "./elements/graphemes/index.js";
 import * as random from "./utils/random.js";
 
-export { createGenerator, generateWord, generateWords, WordGenerator } from "./core/generate.js";
+export { createGenerator, generateWord, generateWords } from "./core/generate.js";
+export type { WordGenerator } from "./core/generate.js";
 export type { GenerationMode } from "./types.js";
 export {
+  resolveStressRules,
+  resolveAspirationRules,
+  validateConfig,
+} from "./config/language.js";
+export type {
   LanguageConfig,
   BySyllablePosition,
   SonorityHierarchy,
@@ -16,15 +22,13 @@ export {
   GenerationWeights,
   PhonemeLengthWeights,
   PhonemeToSyllableWeights,
-  resolveStressRules,
-  resolveAspirationRules,
-  validateConfig,
 } from "./config/language.js";
 export { validateJunction } from "./core/junction.js";
 export type { SspViolation } from "./core/junction.js";
-export { OTStressConfig, OTConstraint, ConstraintWeight } from "./core/ot-stress.js";
+export type { OTStressConfig, OTConstraint, ConstraintWeight } from "./core/ot-stress.js";
 export { englishConfig } from "./config/english.js";
-export { RNG, createSeededRng, createDefaultRng } from "./utils/random.js";
+export { createSeededRng, createDefaultRng } from "./utils/random.js";
+export type { RNG } from "./utils/random.js";
 export type {
   WordTrace,
   StageSnapshot,
