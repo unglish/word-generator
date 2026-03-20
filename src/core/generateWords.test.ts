@@ -72,6 +72,7 @@ describe("generateWords (batch API)", () => {
 
   it("rejects invalid batch counts", () => {
     expect(() => generateWords(1.5, { seed: 42 })).toThrow("count must be a non-negative integer.");
+    expect(() => generateWords(Number.NaN, { seed: 42 })).toThrow("count must be a non-negative integer.");
     expect(() => generateWords(Infinity, { seed: 42 })).toThrow("count must be a non-negative integer.");
     expect(() => generateWords(-1, { seed: 42 })).toThrow("count must be a non-negative integer.");
   });
@@ -137,6 +138,9 @@ describe("generateWord RNG priority", () => {
     expect(() => generateWord({ syllableCount: Infinity, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
+    expect(() => generateWord({ syllableCount: Number.NaN, morphology: false })).toThrow(
+      "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
+    );
     expect(() => generateWord({ syllableCount: -1, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
@@ -151,7 +155,13 @@ describe("generateWord RNG priority", () => {
     expect(() => generator.generateWord({ syllableCount: Infinity, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
+    expect(() => generator.generateWord({ syllableCount: Number.NaN, morphology: false })).toThrow(
+      "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
+    );
     expect(() => generateWords(1, { syllableCount: Infinity, morphology: false })).toThrow(
+      "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
+    );
+    expect(() => generateWords(1, { syllableCount: Number.NaN, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
   });
