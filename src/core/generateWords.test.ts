@@ -70,11 +70,12 @@ describe("generateWords (batch API)", () => {
     expect(words[0].written.clean).toBeTruthy();
   });
 
-  it("rejects invalid batch counts", () => {
+  it("throws for invalid batch counts", () => {
     expect(() => generateWords(1.5, { seed: 42 })).toThrow("count must be a non-negative integer.");
     expect(() => generateWords(Number.NaN, { seed: 42 })).toThrow("count must be a non-negative integer.");
     expect(() => generateWords(Infinity, { seed: 42 })).toThrow("count must be a non-negative integer.");
     expect(() => generateWords(-1, { seed: 42 })).toThrow("count must be a non-negative integer.");
+    expect(() => generateWords(2.5, { seed: 42 })).toThrow("count must be a non-negative integer.");
   });
 
   it("respects syllableCount option", () => {
@@ -110,13 +111,13 @@ describe("generateWord RNG priority", () => {
 
   it("custom rand function is used for generation", () => {
     let callCount = 0;
-    const countingRng = createSeededRng(42);
-    const trackingRng = () => {
+    const seededRng = createSeededRng(42);
+    const countingRng = () => {
       callCount++;
-      return countingRng();
+      return seededRng();
     };
 
-    generateWord({ rand: trackingRng });
+    generateWord({ rand: countingRng });
     expect(callCount).toBeGreaterThan(0);
   });
 
@@ -131,23 +132,23 @@ describe("generateWord RNG priority", () => {
     expect(word42a.written.clean).toBe(word42b.written.clean);
   });
 
-  it("rejects invalid syllableCount values", () => {
+  it("throws for invalid forced syllableCount values", () => {
     expect(() => generateWord({ syllableCount: 1.5, morphology: false })).toThrow(
+      "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
+    );
+    expect(() => generateWord({ syllableCount: Number.NaN, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
     expect(() => generateWord({ syllableCount: Infinity, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
-    expect(() => generateWord({ syllableCount: Number.NaN, morphology: false })).toThrow(
+    expect(() => generateWord({ syllableCount: 0.5, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
     expect(() => generateWord({ syllableCount: -1, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
     expect(() => generateWord({ syllableCount: 8, morphology: false })).toThrow(
-      "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
-    );
-    expect(() => generateWords(1, { syllableCount: -1, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
 
@@ -158,10 +159,17 @@ describe("generateWord RNG priority", () => {
     expect(() => generator.generateWord({ syllableCount: Number.NaN, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
-    expect(() => generateWords(1, { syllableCount: Infinity, morphology: false })).toThrow(
+
+    expect(() => generateWords(1, { syllableCount: -1, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
     expect(() => generateWords(1, { syllableCount: Number.NaN, morphology: false })).toThrow(
+      "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
+    );
+    expect(() => generateWords(1, { syllableCount: Infinity, morphology: false })).toThrow(
+      "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
+    );
+    expect(() => generateWords(1, { syllableCount: 0.5, morphology: false })).toThrow(
       "options.syllableCount must be an integer from 1 to 7 (or 0/undefined for automatic sampling).",
     );
   });
@@ -205,5 +213,4 @@ describe("top-down phoneme targeting", () => {
     expect(sixPct).toBeGreaterThan(18.5);
     expect(sixPct).toBeLessThan(22.0);
   }, 15_000);
-
 });
