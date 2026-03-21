@@ -219,7 +219,7 @@ export const vowelGraphemes: Grapheme[] = [
     phoneme: "ɔ",
     form: "ough",
     origin: 0,
-    frequency: 3,
+    frequency: 4,
     onset: 0,
     coda: 0,
     startWord: 0,

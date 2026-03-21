@@ -4,7 +4,7 @@ import { DEFAULT_PHONEME_NORMALIZATION } from './phoneme-normalization-defaults.
 
 const CONFIG_PATH = join(process.cwd(), 'data', 'cmu', 'phoneme-normalization.json');
 
-const PHONEME_TOKEN_RE = /^[a-z:\u0250-\u02af\u02c8\u02cc\u02d0]+$/i;
+const PHONEME_TOKEN_RE = /^[\p{Letter}:]+$/u;
 let cachedNormalization = null;
 
 export function loadPhonemeNormalization() {
