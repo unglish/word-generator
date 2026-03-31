@@ -294,9 +294,7 @@ export interface WordGenerationContext {
   syllableCount: number;
   /** Index of the syllable currently being generated. */
   currSyllableIndex: number;
-  /** Target total phoneme count for top-down generation. */
-  targetPhonemeCount?: number;
-  /** Per-syllable onset/coda length targets for top-down generation. */
+  /** Per-syllable onset/coda length targets for generation. */
   syllablePlans?: SyllableShapePlan[];
   /** Trace collector (only present when tracing is enabled). */
   trace?: TraceCollector;

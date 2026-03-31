@@ -3,14 +3,6 @@ import { createGenerator, generateWord, generateWords } from "./generate";
 import { createSeededRng } from "../utils/random";
 import { englishConfig } from "../config/english";
 
-function countWordPhonemes(word: ReturnType<typeof generateWords>[number]): number {
-  let total = 0;
-  for (const syllable of word.syllables) {
-    total += syllable.onset.length + syllable.nucleus.length + syllable.coda.length;
-  }
-  return total;
-}
-
 describe("generateWords (batch API)", () => {
   it("returns the requested number of words", () => {
     const words = generateWords(10, { seed: 42 });
@@ -180,37 +172,13 @@ describe("generateWord RNG priority", () => {
   });
 });
 
-describe("top-down phoneme targeting", () => {
-  const SAMPLE_SIZE = 10_000;
-  const SAMPLE_SEED = 42;
-  let phonemeLengthCounts = new Map<number, number>();
-
-  beforeAll(() => {
-    const sample = generateWords(SAMPLE_SIZE, {
-      seed: SAMPLE_SEED,
-      mode: "lexicon",
-      morphology: false,
-    });
-
-    phonemeLengthCounts = new Map<number, number>();
-    for (const word of sample) {
-      const phonemes = countWordPhonemes(word);
-      phonemeLengthCounts.set(phonemes, (phonemeLengthCounts.get(phonemes) ?? 0) + 1);
-    }
-  }, 15_000);
-
-  it("throws when top-down phoneme length config is missing", () => {
-    const badConfig = {
+describe("syllable-count distribution", () => {
+  it("accepts config without phonemeLengthWeights", () => {
+    const config = {
       ...englishConfig,
       phonemeLengthWeights: undefined,
+      phonemeToSyllableWeights: undefined,
     };
-    expect(() => createGenerator(badConfig as typeof englishConfig)).toThrow("phonemeLengthWeights.text is required");
+    expect(() => createGenerator(config as typeof englishConfig)).not.toThrow();
   });
-
-  it("keeps lexicon 6-phoneme bucket near CMU target in a sample", () => {
-    const sixPct = ((phonemeLengthCounts.get(6) ?? 0) / SAMPLE_SIZE) * 100;
-    // CMU target is 20.39%. Allow a tight sampling window.
-    expect(sixPct).toBeGreaterThan(18.5);
-    expect(sixPct).toBeLessThan(22.0);
-  }, 15_000);
 });

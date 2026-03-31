@@ -704,23 +704,21 @@ describe("validateConfig", () => {
     );
   });
 
-  it("should throw when phonemeLengthWeights.text is missing", () => {
-    const bad = {
+  it("should accept config when phonemeLengthWeights is omitted", () => {
+    const ok = {
       ...englishConfig,
-      phonemeLengthWeights: {
-        ...englishConfig.phonemeLengthWeights,
-        text: [],
-      },
+      phonemeLengthWeights: undefined,
+      phonemeToSyllableWeights: undefined,
     };
-    expect(() => validateConfig(bad)).toThrow("phonemeLengthWeights.text is required");
+    expect(() => validateConfig(ok as typeof englishConfig)).not.toThrow();
   });
 
-  it("should throw when phonemeToSyllableWeights entry is missing for a configured phoneme length", () => {
+  it("should throw when phonemeToSyllableWeights entry has invalid data", () => {
     const bad = {
       ...englishConfig,
       phonemeToSyllableWeights: {
         ...englishConfig.phonemeToSyllableWeights,
-        lexicon: { ...englishConfig.phonemeToSyllableWeights.lexicon, 6: undefined as number[] | undefined },
+        lexicon: { ...englishConfig.phonemeToSyllableWeights!.lexicon, 6: [] as [number, number][] },
       },
     };
     expect(() => validateConfig(bad)).toThrow("phonemeToSyllableWeights.lexicon.6 must be a non-empty array");

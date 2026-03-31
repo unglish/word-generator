@@ -743,18 +743,18 @@ export interface LanguageConfig {
   hiatusPolicy?: HiatusPolicy;
 
   /**
-   * Required top-down targets for generation.
-   *
-   * Generation first samples a target phoneme count from these distributions,
-   * then samples a compatible syllable count via {@link phonemeToSyllableWeights}.
+   * Optional phoneme-length distributions used to derive marginal syllable-count
+   * weights when syllable count is not forced. If omitted, a uniform fallback
+   * distribution is used.
    */
-  phonemeLengthWeights: PhonemeLengthWeights;
+  phonemeLengthWeights?: PhonemeLengthWeights;
 
   /**
-   * Required mode-specific mapping from target phoneme count to syllable-count
-   * probabilities.
+   * Optional mode-specific mapping from phoneme count to syllable-count
+   * probabilities. Used together with {@link phonemeLengthWeights} to derive
+   * the marginal syllable-count distribution.
    */
-  phonemeToSyllableWeights: PhonemeToSyllableWeights;
+  phonemeToSyllableWeights?: PhonemeToSyllableWeights;
 
   /** Pronunciation behavior (stress, aspiration, and reduction). */
   pronunciation: PronunciationConfig;
@@ -1780,64 +1780,47 @@ export function validateConfig(config: LanguageConfig): void {
     });
   }
 
-  // Top-down phoneme length weights are required for both modes.
-  if (!config.phonemeLengthWeights?.text?.length) {
-    throw new Error("phonemeLengthWeights.text is required and must be non-empty");
-  }
-  if (!config.phonemeLengthWeights?.lexicon?.length) {
-    throw new Error("phonemeLengthWeights.lexicon is required and must be non-empty");
-  }
-  if (!config.phonemeToSyllableWeights?.text || Object.keys(config.phonemeToSyllableWeights.text).length === 0) {
-    throw new Error("phonemeToSyllableWeights.text is required and must be non-empty");
-  }
-  if (!config.phonemeToSyllableWeights?.lexicon || Object.keys(config.phonemeToSyllableWeights.lexicon).length === 0) {
-    throw new Error("phonemeToSyllableWeights.lexicon is required and must be non-empty");
-  }
-
-  const validateWeightedPairs = (
-    pairs: [number, number][],
-    label: string,
-    keyType: "phoneme" | "syllable" = "phoneme",
-  ): void => {
-    let total = 0;
-    for (const [value, weight] of pairs) {
-      if (!Number.isFinite(value) || !Number.isInteger(value) || value < 1) {
-        throw new Error(`${label} has invalid ${keyType} key "${value}" (must be integer >= 1)`);
+  // Validate phoneme-length weight tables if provided (optional, used for
+  // deriving the marginal syllable-count distribution).
+  if (config.phonemeLengthWeights && config.phonemeToSyllableWeights) {
+    const validateWeightedPairs = (
+      pairs: [number, number][],
+      label: string,
+      keyType: "phoneme" | "syllable" = "phoneme",
+    ): void => {
+      let total = 0;
+      for (const [value, weight] of pairs) {
+        if (!Number.isFinite(value) || !Number.isInteger(value) || value < 1) {
+          throw new Error(`${label} has invalid ${keyType} key "${value}" (must be integer >= 1)`);
+        }
+        if (!Number.isFinite(weight) || weight <= 0) {
+          throw new Error(`${label} has invalid weight "${weight}" for ${value} (must be > 0)`);
+        }
+        total += weight;
       }
-      if (!Number.isFinite(weight) || weight <= 0) {
-        throw new Error(`${label} has invalid weight "${weight}" for ${value} (must be > 0)`);
+      if (total <= 0) {
+        throw new Error(`${label} has zero total weight`);
       }
-      total += weight;
-    }
-    if (total <= 0) {
-      throw new Error(`${label} has zero total weight`);
-    }
-  };
+    };
 
-  validateWeightedPairs(config.phonemeLengthWeights.text, "phonemeLengthWeights.text");
-  validateWeightedPairs(config.phonemeLengthWeights.lexicon, "phonemeLengthWeights.lexicon");
-
-  for (const mode of ["text", "lexicon"] as const) {
-    const phonemeLengthSet = new Set(
-      config.phonemeLengthWeights[mode].map(([phonemeCount]) => phonemeCount),
-    );
-
-    for (const [phonemeCountStr, weights] of Object.entries(config.phonemeToSyllableWeights[mode])) {
-      const phonemeCount = Number(phonemeCountStr);
-      if (!Number.isInteger(phonemeCount) || phonemeCount < 1) {
-        throw new Error(`phonemeToSyllableWeights.${mode} has invalid phoneme length key "${phonemeCountStr}"`);
+    for (const mode of ["text", "lexicon"] as const) {
+      const phonemeWeights = config.phonemeLengthWeights[mode];
+      if (phonemeWeights?.length) {
+        validateWeightedPairs(phonemeWeights, `phonemeLengthWeights.${mode}`);
       }
-      if (!Array.isArray(weights) || weights.length === 0) {
-        throw new Error(`phonemeToSyllableWeights.${mode}.${phonemeCount} must be a non-empty array`);
-      }
-      validateWeightedPairs(weights, `phonemeToSyllableWeights.${mode}.${phonemeCount}`, "syllable");
-    }
 
-    for (const phonemeCount of phonemeLengthSet) {
-      if (!config.phonemeToSyllableWeights[mode][phonemeCount]) {
-        throw new Error(
-          `phonemeToSyllableWeights.${mode}.${phonemeCount} is required because phonemeLengthWeights.${mode} includes ${phonemeCount}`,
-        );
+      const syllableTable = config.phonemeToSyllableWeights[mode];
+      if (syllableTable) {
+        for (const [phonemeCountStr, weights] of Object.entries(syllableTable)) {
+          const phonemeCount = Number(phonemeCountStr);
+          if (!Number.isInteger(phonemeCount) || phonemeCount < 1) {
+            throw new Error(`phonemeToSyllableWeights.${mode} has invalid phoneme length key "${phonemeCountStr}"`);
+          }
+          if (!Array.isArray(weights) || weights.length === 0) {
+            throw new Error(`phonemeToSyllableWeights.${mode}.${phonemeCount} must be a non-empty array`);
+          }
+          validateWeightedPairs(weights, `phonemeToSyllableWeights.${mode}.${phonemeCount}`, "syllable");
+        }
       }
     }
   }

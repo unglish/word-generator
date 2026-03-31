@@ -343,18 +343,32 @@ describe("trace pipeline", () => {
   });
 
   it("root hiatus fallback honors configured bridge phoneme", () => {
+    // Override generation weights to produce frequent zero-onset and zero-coda
+    // syllables, which creates vowel hiatus conditions.
+    // Default config has zero weight for onset=0 following a nucleus, so we
+    // must enable it explicitly to trigger hiatus.
     const bridgeGenerator = createGenerator({
       ...englishConfig,
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        onsetLength: {
+          ...englishConfig.generationWeights.onsetLength,
+          followingNucleus: [[0, 50], [1, 50]],
+        },
+        codaLength: {
+          ...englishConfig.generationWeights.codaLength,
+          zeroWeightMidWord: 95,
+        },
+      },
       hiatusPolicy: {
         ...englishConfig.hiatusPolicy!,
-        planGuardProbability: 0,
         postVowelGlideMultiplier: 0,
         fallbackBridgeOnsets: [["j", 100]],
       },
     });
 
     let found = false;
-    for (let s = 0; s < 6000; s++) {
+    for (let s = 0; s < 10000; s++) {
       const w = bridgeGenerator.generateWord({
         seed: s,
         trace: true,
