@@ -11,6 +11,26 @@ permissions:
   pull-requests: write
 
 jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run review:typecheck
+      - run: npx eslint "evaluation/review/**/*.ts" "demo/review/**/*.ts"
+      - run: npm run test:review
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:review:e2e
+      - run: npx supabase start
+      - run: npm run test:review:db
+      - run: npm run test:review:smoke
+      - if: always()
+        run: npx supabase stop
+
   build:
     runs-on: ubuntu-latest
     steps:

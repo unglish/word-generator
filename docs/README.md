@@ -2,6 +2,9 @@
 
 This directory contains design notes, diagnostics workflows, and tuning docs.
 
+- [`human-review.md`](./human-review.md): anonymous written-plausibility studies,
+  private Supabase setup, owner exports, and pilot interpretation.
+
 - [`word-trace-diagnostics.md`](./word-trace-diagnostics.md): how to diagnose
   generation behavior with `trace: true`.
 - [`phonotactic-scoring.md`](./phonotactic-scoring.md): scoring heuristics used

@@ -27,6 +27,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          VITE_REVIEW_SUPABASE_URL: ${{ vars.VITE_REVIEW_SUPABASE_URL }}
+          VITE_REVIEW_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_REVIEW_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_REVIEW_STUDY_ID: ${{ vars.VITE_REVIEW_STUDY_ID }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

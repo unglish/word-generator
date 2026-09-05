@@ -154,6 +154,15 @@ demo/*.d.ts.map
 demo/main.js
 REVIEW-*.md
 
+# Private human-review data and local test services
+/review-exports/
+/evaluation/review/exports/
+/supabase/.temp/
+/supabase/.branches/
+/test-results/
+/playwright-report/
+/.impeccable/review/
+
 # Agent workspace artifacts (analysis scripts, diagnostic dumps, sample data)
 memory/
 data/cmudict*

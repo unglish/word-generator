@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Review spellings · Unglish</title>
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="./review/style.css">
+  </head>
+  <body>
+    <main>
+      <header><h1>Does it look like English?</h1></header>
+      <section id="intro" aria-labelledby="intro-title">
+        <h2 id="intro-title">A small study of unfamiliar words</h2>
+        <p>Help us understand which spellings feel plausible in English. You’ll review 20 words. Judge their appearance without looking them up; a spelling does not need to be a word you already know.</p>
+        <p>If you’re comfortable reading English, you have everything you need. There are no right or wrong answers.</p>
+        <button id="start" type="button" disabled>Start reviewing</button>
+        <p class="privacy">No account, name, or email is requested. Responses go to the study owner. This device saves your progress until your responses are sent.</p>
+      </section>
+
+      <section id="review" hidden aria-labelledby="word">
+        <p id="progress" class="progress"></p>
+        <h2 id="word" tabindex="-1"></h2>
+        <form id="rating-form">
+          <fieldset id="rating-fieldset">
+            <legend>How plausible is this spelling as an English word?</legend>
+            <div id="rating-options" class="rating-options"></div>
+          </fieldset>
+          <label class="familiar"><input id="familiar" type="checkbox"> <span>I knew this as an English word before this review.</span></label>
+          <div class="actions">
+            <button id="submit" type="submit" disabled>Submit and next</button>
+            <button id="skip" class="secondary" type="button">Skip — I can’t judge this</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="finished" hidden aria-labelledby="finished-title">
+        <h2 id="finished-title" tabindex="-1"></h2>
+        <p id="finished-copy"></p>
+      </section>
+
+      <div class="connection">
+        <p id="status" role="status" aria-live="polite">Checking local storage…</p>
+        <p id="error" role="alert" hidden></p>
+        <button id="retry" class="secondary" type="button" hidden>Retry connection</button>
+      </div>
+      <noscript><p>JavaScript is needed to save and submit your review.</p></noscript>
+    </main>
+    <script type="module" src="./review/main.ts"></script>
+  </body>
+</html>
