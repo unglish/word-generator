@@ -60,3 +60,25 @@ it("limits optional comments without changing legacy answers", () => {
   expect(validAnswer({ status: "skipped", rating: null, familiar: null, comment: "A thought" })).toBe(true);
   expect(validAnswer({ status: "rated", rating: 4, familiar: false, comment: "x".repeat(2001) })).toBe(false);
 });
+
+it("starts only one next batch and never discards pending responses", async () => {
+  const key = crypto.randomUUID();
+  const first = await store.ensure(key);
+  await store.assign(key, assignment);
+  await expect(store.nextBatch(key, first.id)).rejects.toThrow();
+  await store.enqueue(key, 0, {status: "rated", rating: 3, familiar: false});
+  const done = await store.enqueue(key, 1, {status: "skipped", rating: null, familiar: null});
+  await expect(store.nextBatch(key, first.id)).rejects.toThrow();
+  for (const response of done.outbox) await store.acknowledge(key, response.response_id);
+  const [a, b] = await Promise.all([store.nextBatch(key, first.id), store.nextBatch(key, first.id)]);
+  expect(a).toEqual(b);
+  expect(a.id).not.toBe(first.id);
+  expect(a.token).not.toBe(first.token);
+  expect(a.assignment).toBeNull();
+  expect(a.next).toBe(0);
+  expect(a.revision).toBeGreaterThan(done.revision);
+  expect(await store.get(key)).toEqual(a);
+  await store.assign(key, assignment);
+  await expect(store.enqueue(key, 0, { status: "rated", rating: 1, familiar: false }, first.id)).rejects.toBeInstanceOf(StalePositionError);
+  expect((await store.get(key))?.next).toBe(0);
+});

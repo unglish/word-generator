@@ -253,3 +253,28 @@ test("resumes unfinished v1 reviews using their original scale", async ({ page, 
   await page.getByRole("button", { name: "Start reviewing" }).click();
   await expect(page.locator("#question")).toHaveText(RUBRIC.question);
 });
+
+test("continues beyond twenty words with a durable new batch", async ({ page, context }) => {
+  const server = await backend(context);
+  await begin(page);
+  const oldTab = await context.newPage();
+  await oldTab.goto("/review.html");
+  await expect(oldTab.locator("#word")).toHaveText("blim");
+  for (let i = 0; i < 20; i++) await rate(page);
+  const more = page.getByRole("button", { name: "Review 20 more words" });
+  await expect(more).toBeVisible();
+  await expect(more).toBeEnabled();
+  await more.dblclick();
+  await expect(page.locator("#progress")).toHaveText("Word 1 of 20");
+  await expect(page.getByRole("radio", { name: "Completely", exact: true })).not.toBeChecked();
+  await page.reload();
+  await expect(page.locator("#progress")).toHaveText("Word 1 of 20");
+  await oldTab.getByRole("radio", { name: "Not at all", exact: true }).check();
+  await oldTab.getByRole("button", { name: "Submit and next" }).click();
+  await expect(oldTab.getByRole("alert")).toContainText("already submitted in another tab");
+  expect(server.received.size).toBe(20);
+  await rate(page);
+  await expect.poll(() => server.received.size).toBe(21);
+  expect(new Set([...server.received.values()].map(r => r.session_id)).size).toBe(2);
+  expect(server.starts).toBe(2);
+});

@@ -59,10 +59,25 @@ export class ReviewStore {
 
   get(key: string): Promise<LocalSession | undefined> { return this.transaction(key); }
 
-  async ensure(key: string): Promise<LocalSession> {
-    return (await this.transaction(key, existing => existing ?? {
+  private newSession(): LocalSession {
+    return {
       id: crypto.randomUUID(), token: [...crypto.getRandomValues(new Uint8Array(32))].map(byte => byte.toString(16).padStart(2, "0")).join(""),
       revision: 0, assignment: null, next: 0, outbox: [],
+    };
+  }
+
+  async ensure(key: string): Promise<LocalSession> {
+    return (await this.transaction(key, existing => existing ?? this.newSession()))!;
+  }
+
+  async nextBatch(key: string, completedId: string): Promise<LocalSession> {
+    return (await this.transaction(key, existing => {
+      if (!existing) throw new Error("Local session is missing.");
+      if (existing.id !== completedId) return existing;
+      if (!existing.assignment || existing.next !== existing.assignment.items.length || existing.outbox.length) {
+        throw new Error("Wait until all responses are received before continuing.");
+      }
+      return this.newSession();
     }))!;
   }
 
@@ -74,11 +89,11 @@ export class ReviewStore {
     }))!;
   }
 
-  async enqueue(key: string, position: number, answer: Answer): Promise<LocalSession> {
+  async enqueue(key: string, position: number, answer: Answer, sessionId?: string): Promise<LocalSession> {
     if (!validAnswer(answer)) throw new Error("Choose a rating or skip this word.");
     return (await this.transaction(key, session => {
       if (!session?.assignment) throw new Error("The assignment is missing.");
-      if (session.next !== position) throw new StalePositionError();
+      if ((sessionId !== undefined && session.id !== sessionId) || session.next !== position) throw new StalePositionError();
       if (position >= session.assignment.items.length) throw new Error("This review is already complete.");
       return { ...session, next: position + 1, outbox: [...session.outbox, {
         session_id: session.id, submission_token: session.token, response_id: crypto.randomUUID(), position, ...answer,

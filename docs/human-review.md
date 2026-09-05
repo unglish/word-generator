@@ -120,3 +120,5 @@ Apply all migrations in order, including `20260905000000_review_v2.sql`, before 
 Each v2 word has an optional comment, limited to 2,000 characters, saved with either a rating or a skip. Submitted comments are immutable, included in JSON/CSV owner exports, and excluded from numeric score calculations. Blank comments are null. Comments share the response’s local outbox and idempotent retry behavior. Older clients may omit the comment parameter.
 
 CSV cells beginning with spreadsheet formula markers are prefixed with an apostrophe for safe viewing. JSON retains the exact submitted comment.
+
+After all 20 responses are acknowledged, reviewers may choose “Review 20 more words”. Each continuation creates a separate anonymous session. A repeated click or competing tab reuses the newly created local session, and unsent responses cannot be discarded to start another batch. Assignment coverage balancing still applies across the study; words may recur across batches. Multiple sessions must not be interpreted as independent reviewers.
