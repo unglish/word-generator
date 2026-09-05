@@ -12,6 +12,7 @@ function element<T extends HTMLElement>(id: string): T {
 const start = element<HTMLButtonElement>("start");
 const submit = element<HTMLButtonElement>("submit");
 const skip = element<HTMLButtonElement>("skip");
+const more = element<HTMLButtonElement>("more");
 const retry = element<HTMLButtonElement>("retry");
 const form = element<HTMLFormElement>("rating-form");
 const status = element("status");
@@ -62,7 +63,10 @@ function updateControls(): void {
 
 function acceptSession(next: LocalSession | undefined): void {
   // A delayed acknowledgement must never move the UI behind a newer local submission.
-  if (next && (!session || next.revision >= session.revision)) session = next;
+  if (next && (!session || next.revision >= session.revision)) {
+    if (session && next.id !== session.id) renderedPosition = -1;
+    session = next;
+  }
 }
 
 function render(): void {
@@ -88,8 +92,10 @@ function render(): void {
     if (heading.textContent !== title) { heading.textContent = title; heading.focus(); }
     element("finished-copy").textContent = pending
       ? "Your responses are saved on this device. Keep this page open while they send, or return on this device when the connection is back."
-      : "Your judgments will help us understand which spellings look like English words. You can close this page.";
+      : "Your judgments will help us understand which spellings look like English words. You can stop here or review another batch.";
   }
+  more.hidden = !finished || !!pending || session?.assignment?.rubric.version !== RUBRIC.version;
+  more.disabled = starting || storageFailed || permanentFailure;
   element("next-study").hidden = !finished || !!pending || session?.assignment?.rubric.version === RUBRIC.version;
   if (!storageFailed) status.textContent = pending
     ? `${pending} ${pending === 1 ? "response" : "responses"} saved on this device; waiting to send.`
@@ -125,13 +131,26 @@ async function startSession(): Promise<void> {
   void flush();
 }
 
+async function continueReview(): Promise<void> {
+  if (starting || flushing || storageFailed || permanentFailure || !session?.assignment || session.outbox.length) return;
+  starting = true;
+  render();
+  try {
+    acceptSession(await store.nextBatch(key, session.id));
+    renderedPosition = -1;
+    showError("");
+  } catch { storageError(); }
+  finally { starting = false; }
+  if (!storageFailed) await startSession();
+}
+
 async function save(answer: Answer): Promise<void> {
   if (!session || saving || storageFailed || permanentFailure) return;
   saving = true;
   updateControls();
   const comment = element("comment-field").hidden ? null : element<HTMLTextAreaElement>("comment").value.trim() || null;
   try {
-    acceptSession(await store.enqueue(key, renderedPosition, { ...answer, comment }));
+    acceptSession(await store.enqueue(key, renderedPosition, { ...answer, comment }, session.id));
     showError("");
   } catch (failure) {
     if (failure instanceof StalePositionError) {
@@ -168,6 +187,7 @@ async function flush(): Promise<void> {
   finally { flushing = false; render(); }
 }
 
+more.addEventListener("click", () => void continueReview());
 start.addEventListener("click", () => void startSession());
 form.addEventListener("change", updateControls);
 form.addEventListener("submit", event => {
