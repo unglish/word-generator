@@ -46,9 +46,10 @@ async function smoke(): Promise<void> {
       await page.getByRole("button", { name: "Start reviewing" }).click();
       for (let position = 0; position < 20; position++) {
         await expect(page.locator("#progress")).toHaveText(`Word ${position + 1} of 20`);
+        if (position < 2) await page.getByLabel("Comment (optional)").fill(`Test comment ${index}/${position}`);
         if (position === 1) await page.getByRole("button", { name: "Skip — I can’t judge this" }).click();
         else {
-          await page.getByRole("radio", { name: "Somewhat plausible", exact: true }).check();
+          await page.getByRole("radio", { name: "Very much", exact: true }).check();
           if (position === 0) await page.getByRole("checkbox").check();
           await page.getByRole("button", { name: "Submit and next" }).click();
         }
@@ -62,6 +63,7 @@ async function smoke(): Promise<void> {
     const report = buildReport(exported);
     expect(report.coverage.sessions_completed).toBe(2);
     expect(exported.responses).toHaveLength(40);
+    expect(exported.responses.filter(response => response.comment?.startsWith("Test comment"))).toHaveLength(4);
     expect(report.coverage.ratings).toBe(38);
     expect(report.coverage.skips).toBe(2);
     expect(report.familiarity.flagged).toBe(2);

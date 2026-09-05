@@ -2,7 +2,7 @@
 
 The first study collects perceived **written wordlikeness** from readers comfortable with English. It does not test the generator's intended pronunciation. The frozen baseline contains 200 consecutive, unfiltered generator draws with seed `20260904`, lexicon mode, morphology enabled, and traces enabled. Each anonymous session reviews 20 distinct spellings.
 
-The review question is “How plausible is this spelling as an English word?” Ratings run from 1 (very implausible) to 5 (very plausible), with a neutral midpoint. Reviewers can flag prior familiarity or skip. No answer is preselected. Reviewers receive no results, history, diagnostics, or account.
+The review question is “How much does this look like an English word?” Ratings are 1 Not at all, 2 A little, 3 Moderately, 4 Very much, and 5 Completely. The instruction is “It can be made up. Go with your first impression of the spelling.” Reviewers can flag prior familiarity or skip. No answer is preselected. Reviewers receive no results, history, diagnostics, or account.
 
 Graded wordlikeness judgments have linguistic precedent ([Frisch et al., 2000](https://pmc.ncbi.nlm.nih.gov/articles/PMC3129706/)). Reading and spelling consistency are related, distinct measurements ([Wiley et al., 2024](https://pmc.ncbi.nlm.nih.gov/articles/PMC11362297/)). This particular written rubric is a pilot instrument, not a validated universal Englishness scale.
 
@@ -17,7 +17,7 @@ Copy `.env.example` to `.env.local` and fill in:
 ```dotenv
 VITE_REVIEW_SUPABASE_URL=https://PROJECT.supabase.co
 VITE_REVIEW_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
-VITE_REVIEW_STUDY_ID=written-v1-baseline
+VITE_REVIEW_STUDY_ID=written-v2-baseline
 SUPABASE_URL=https://PROJECT.supabase.co
 SUPABASE_SECRET_KEY=sb_secret_...
 ```
@@ -27,7 +27,7 @@ Keep `.env.local` private. The owner commands load it automatically. Vite reads 
 Import the already-frozen baseline:
 
 ```sh
-npm run review:import -- --file evaluation/review/studies/written-v1-baseline.json
+npm run review:import -- --file evaluation/review/studies/written-v2-baseline.json
 ```
 
 The importer checks the snapshot and every existing row, inserts missing samples into a closed study, reads them back, then opens enrollment. Identical imports are safe to repeat; altered content requires a new study ID. Never regenerate or curate the baseline because some outputs look poor. Duplicate spellings retain their original draw multiplicity.
@@ -59,7 +59,7 @@ Only the owner uses the Supabase dashboard or owner CLI. To close enrollment in 
 ```sql
 update public.review_studies
 set enrollment_open = false
-where id = 'written-v1-baseline';
+where id = 'written-v2-baseline';
 ```
 
 Set the flag to `true` to reopen. Existing sessions can recover assignments and flush saved responses after enrollment closes. Closing enrollment therefore does not freeze in-flight submissions.
@@ -67,7 +67,7 @@ Set the flag to `true` to reopen. Existing sessions can recover assignments and 
 Export into a new ignored directory, then report:
 
 ```sh
-npm run review:export -- --study written-v1-baseline --out review-exports/baseline-001
+npm run review:export -- --study written-v2-baseline --out review-exports/baseline-001
 npm run review:report -- --input review-exports/baseline-001/export.json --out review-exports/baseline-001/summary
 ```
 
@@ -110,3 +110,13 @@ The smoke command starts an isolated local review page and completes two real br
 Before sharing the production link, use a separate synthetic study to verify two browser sessions, lost acknowledgements, direct anonymous table denial, owner exports, and deployment configuration. Remove the synthetic study or close it after the check. Do not mix smoke-test judgments into the production baseline.
 
 Implementation is complete only after the live collection path and owner export are verified. A passing local test suite alone does not establish deployment or a generator acceptance threshold.
+
+## Revised wording and comments
+
+`written-v2-baseline` reuses the original 200 frozen words, configuration, and generator provenance. Only the study ID, rubric, digest, and sample IDs change. Do not regenerate these words. Keep v1 and v2 ratings in separate reports; the wording and optional comment prompt differ. Both snapshots remain supported by owner exports and reports.
+
+Apply all migrations in order, including `20260905000000_review_v2.sql`, before publishing v2. Import v2 and change the public study setting to `written-v2-baseline`. After publication, close v1 enrollment; existing v1 sessions can still submit and retry. On the same browser, unfinished v1 assignments resume with their original wording and no comment prompt; after completion, reviewers can start v2.
+
+Each v2 word has an optional comment, limited to 2,000 characters, saved with either a rating or a skip. Submitted comments are immutable, included in JSON/CSV owner exports, and excluded from numeric score calculations. Blank comments are null. Comments share the response’s local outbox and idempotent retry behavior. Older clients may omit the comment parameter.
+
+CSV cells beginning with spreadsheet formula markers are prefixed with an apostrophe for safe viewing. JSON retains the exact submitted comment.

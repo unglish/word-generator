@@ -107,6 +107,20 @@ describe("anonymous HTTP boundary", () => {
     await expect(owner.importStudy(conflicting)).rejects.toThrow();
   });
 
+  it("stores private comments on ratings and skips with immutable retries", async () => {
+    const c = credentials();
+    await rpc("start_review", c);
+    const response = { ...answer(c), comment: "A familiar ending, but not a word I know.\nSecond line." };
+    expect((await rpc("submit_review_response", { ...response, comment: "x".repeat(2001) })).status).toBe(400);
+    expect((await rpc("submit_review_response", response)).status).toBe(200);
+    expect((await rpc("submit_review_response", response)).status).toBe(200);
+    expect((await rpc("submit_review_response", { ...response, comment: "Changed" })).status).toBe(409);
+    expect((await rpc("submit_review_response", { ...answer(c, 1), status: "skipped", rating: null, familiar: null, comment: "Unsure" })).status).toBe(200);
+    const exported = await owner.exportStudy(study.manifest.study_id);
+    expect(exported.responses.find(r => r.id === response.response_id)?.comment).toBe(response.comment);
+    expect(exported.responses.filter(r => r.session_id === c.session_id)).toHaveLength(2);
+  });
+
   it("balances assignments and prioritizes coverage independently of rating values", async () => {
     const pool = fixtureSnapshot(`test-coverage-${randomUUID()}`, ["blim", "sproke", "thindle", "glave", "prane", "strem"], 2);
     await owner.importStudy(pool);

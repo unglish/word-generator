@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import type { BrowserContext, Page } from "@playwright/test";
-import { RUBRIC } from "../protocol.js";
+import { RUBRIC, LEGACY_RUBRIC } from "../protocol.js";
 import type { Submission } from "../protocol.js";
 
 const spellings = ["blim", "sproke", "thindle", "plond", "frale", "strem", "noffle", "crusp", "trindle", "glave", "prane", "smindle", "glisk", "nust", "twem", "drail", "flemp", "skavel", "swint", "blarn"];
@@ -32,7 +32,7 @@ async function begin(page: Page) {
 }
 async function rate(page: Page, familiar = false) {
   const progress = await page.locator("#progress").textContent();
-  await page.getByRole("radio", { name: "Very plausible", exact: true }).check();
+  await page.getByRole("radio", { name: "Completely", exact: true }).check();
   if (familiar) await page.getByRole("checkbox").check();
   await page.getByRole("button", { name: "Submit and next" }).click();
   await page.waitForFunction(previous => document.querySelector("#progress")?.textContent !== previous || !document.querySelector<HTMLElement>("#finished")?.hidden, progress);
@@ -95,7 +95,7 @@ test("two tabs cannot overwrite the same position", async ({ page, context }) =>
   await other.goto("/review.html");
   await expect(other.getByRole("heading", { name: "blim", exact: true })).toBeVisible();
   await rate(page);
-  await other.getByRole("radio", { name: "Very implausible", exact: true }).check();
+  await other.getByRole("radio", { name: "Not at all", exact: true }).check();
   await other.getByRole("button", { name: "Submit and next" }).click();
   await expect(other.getByRole("heading", { name: "sproke", exact: true })).toBeVisible();
   await expect.poll(() => server.received.size).toBe(1);
@@ -121,7 +121,7 @@ test("a failed local enqueue leaves the current word unanswered", async ({ page,
     };
   });
   await begin(page);
-  await page.getByRole("radio", { name: "Very plausible", exact: true }).check();
+  await page.getByRole("radio", { name: "Completely", exact: true }).check();
   await page.getByRole("button", { name: "Submit and next" }).click();
   await expect(page.getByRole("alert")).toContainText("could not save your progress");
   await expect(page.getByRole("heading", { name: "blim", exact: true })).toBeVisible();
@@ -153,7 +153,7 @@ test("a failed acknowledgement write retains the response for an identical retry
 test("rapid submit clicks advance only one word", async ({ page, context }) => {
   const server = await backend(context);
   await begin(page);
-  await page.getByRole("radio", { name: "Very plausible", exact: true }).check();
+  await page.getByRole("radio", { name: "Completely", exact: true }).check();
   await page.locator("#submit").evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
   await expect(page.getByRole("heading", { name: "sproke", exact: true })).toBeVisible();
   await expect.poll(() => server.received.size).toBe(1);
@@ -169,7 +169,7 @@ test("long spellings wrap without hiding controls or overflowing the page", asyn
   await page.getByRole("button", { name: "Start reviewing" }).click();
   await expect(page.getByRole("heading", { name: long, exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-  await page.getByRole("radio", { name: "Very plausible", exact: true }).check();
+  await page.getByRole("radio", { name: "Completely", exact: true }).check();
   await expect(page.getByRole("button", { name: "Submit and next" })).toBeEnabled();
 });
 
@@ -196,13 +196,60 @@ test("keyboard controls and responsive light/dark layouts", async ({ page, conte
   await backend(context);
   await begin(page);
   await page.keyboard.press("Tab");
-  await expect(page.getByRole("radio", { name: "Very implausible", exact: true })).toBeFocused();
+  await expect(page.getByRole("radio", { name: "Not at all", exact: true })).toBeFocused();
   await page.keyboard.press("ArrowDown");
-  await expect(page.getByRole("radio", { name: "Somewhat implausible", exact: true })).toBeChecked();
+  await expect(page.getByRole("radio", { name: "A little", exact: true })).toBeChecked();
   await expect(page.getByRole("heading", { name: "blim", exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   for (const colorScheme of ["light", "dark"] as const) {
     await page.emulateMedia({ colorScheme });
     await page.screenshot({ path: `.impeccable/review/${testInfo.project.name}-${colorScheme}.png`, fullPage: true });
   }
+});
+
+test("keeps optional comments through offline reload and clears them for the next word", async ({ page, context }) => {
+  const server = await backend(context);
+  await begin(page);
+  await expect(page.locator("#question")).toHaveText(RUBRIC.question);
+  await expect(page.locator("#instruction")).toHaveText(RUBRIC.instruction);
+  await page.getByLabel("Comment (optional)").fill("An ending I recognize.\nBut unfamiliar.");
+  server.offline = true;
+  await rate(page);
+  await expect(page.getByLabel("Comment (optional)")).toHaveValue("");
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "sproke", exact: true })).toBeVisible();
+  server.offline = false;
+  await page.evaluate(() => window.dispatchEvent(new Event("online")));
+  await expect.poll(() => server.received.size).toBe(1);
+  expect([...server.received.values()][0].comment).toBe("An ending I recognize.\nBut unfamiliar.");
+  await page.getByLabel("Comment (optional)").fill("Cannot decide");
+  await page.getByRole("button", { name: "Skip — I can’t judge this" }).click();
+  await expect.poll(() => server.received.size).toBe(2);
+  expect([...server.received.values()][1].comment).toBe("Cannot decide");
+});
+
+test("resumes unfinished v1 reviews using their original scale", async ({ page, context }) => {
+  await backend(context);
+  await page.goto("/review.html");
+  await page.evaluate(async rubric => {
+    const request = indexedDB.open("unglish-review-v1", 1);
+    await new Promise<void>((resolve, reject) => {
+      request.onsuccess = () => {
+        const db = request.result;
+        const tx = db.transaction("sessions", "readwrite");
+        tx.objectStore("sessions").put({ revision: 1, id: crypto.randomUUID(), token: "a".repeat(64), next: 0, outbox: [], assignment: { rubric, items: [{position: 0, sample_id: "old", spelling: "oldword"}] } }, "https://review.test|written-v1-baseline");
+        tx.oncomplete = () => { db.close(); resolve(); };
+        tx.onerror = () => reject(tx.error);
+      };
+    });
+  }, LEGACY_RUBRIC);
+  await page.reload();
+  await expect(page.locator("#question")).toHaveText(LEGACY_RUBRIC.question);
+  await expect(page.getByLabel("Comment (optional)")).toBeHidden();
+  await page.getByRole("radio", { name: "Very plausible", exact: true }).check();
+  await page.getByRole("button", { name: "Submit and next" }).click();
+  await expect(page.getByRole("link", { name: "Start a review with the updated question" })).toBeVisible();
+  await page.reload();
+  await page.getByRole("button", { name: "Start reviewing" }).click();
+  await expect(page.locator("#question")).toHaveText(RUBRIC.question);
 });

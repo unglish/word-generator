@@ -12,7 +12,7 @@
       <header><h1>Does it look like English?</h1></header>
       <section id="intro" aria-labelledby="intro-title">
         <h2 id="intro-title">A small study of unfamiliar words</h2>
-        <p>Help us understand which spellings feel plausible in English. You’ll review 20 words. Judge their appearance without looking them up; a spelling does not need to be a word you already know.</p>
+        <p>Help us understand which spellings look like English words. You’ll review 20 words without looking them up.</p>
         <p>If you’re comfortable reading English, you have everything you need. There are no right or wrong answers.</p>
         <button id="start" type="button" disabled>Start reviewing</button>
         <p class="privacy">No account, name, or email is requested. Responses go to the study owner. This device saves your progress until your responses are sent.</p>
@@ -23,10 +23,16 @@
         <h2 id="word" tabindex="-1"></h2>
         <form id="rating-form">
           <fieldset id="rating-fieldset">
-            <legend>How plausible is this spelling as an English word?</legend>
+            <legend id="question">How much does this look like an English word?</legend>
+            <p id="instruction">It can be made up. Go with your first impression of the spelling.</p>
             <div id="rating-options" class="rating-options"></div>
           </fieldset>
-          <label class="familiar"><input id="familiar" type="checkbox"> <span>I knew this as an English word before this review.</span></label>
+          <label class="familiar"><input id="familiar" type="checkbox"> <span id="familiar-label">I recognize this as an existing English word.</span></label>
+          <div id="comment-field" class="comment-field">
+            <label for="comment">Comment (optional)</label>
+            <textarea id="comment" rows="3" maxlength="2000" aria-describedby="comment-help"></textarea>
+            <p id="comment-help">Anything you’d like to add about this spelling. Up to 2,000 characters.</p>
+          </div>
           <div class="actions">
             <button id="submit" type="submit" disabled>Submit and next</button>
             <button id="skip" class="secondary" type="button">Skip — I can’t judge this</button>
@@ -37,6 +43,7 @@
       <section id="finished" hidden aria-labelledby="finished-title">
         <h2 id="finished-title" tabindex="-1"></h2>
         <p id="finished-copy"></p>
+        <p id="next-study" hidden><a href="./review.html">Start a review with the updated question</a></p>
       </section>
 
       <div class="connection">

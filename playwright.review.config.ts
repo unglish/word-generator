@@ -17,7 +17,7 @@ export default defineConfig({
     env: {
       VITE_REVIEW_SUPABASE_URL: "https://review.test",
       VITE_REVIEW_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_browser_test",
-      VITE_REVIEW_STUDY_ID: "browser-test",
+      VITE_REVIEW_STUDY_ID: "written-v2-baseline",
     },
   },
 });

@@ -123,7 +123,7 @@ export function buildReport(data: ReviewExport) {
     }]))];
   }));
   return {
-    study_id: data.study.id, snapshot_digest: data.study.digest, exported_at: data.exported_at,
+    rubric: data.study.manifest.rubric, study_id: data.study.id, snapshot_digest: data.study.digest, exported_at: data.exported_at,
     coverage: {
       draws: data.samples.length, distinct_spellings: items.length, rated_spellings: items.filter(item => item.ratings > 0).length,
       sessions_started: data.sessions.length, sessions_completed: data.sessions.filter(session => responseCounts.get(session.id) === session.assignments.length).length,
@@ -140,7 +140,7 @@ const cell = (value: string) => value.replace(/\|/g, "\\|").replace(/[\r\n]/g, "
 
 export function reportMarkdown(report: ReturnType<typeof buildReport>): string {
   const lines = [
-    `# Written plausibility: ${report.study_id}`, "", `Snapshot: ${report.snapshot_digest}`, "",
+    `# Written wordlikeness: ${report.study_id}`, "", `Rubric: ${report.rubric.version} — ${report.rubric.question}`, "", report.rubric.labels.map((label, i) => `${i + 1}: ${label}`).join("; "), "", `Snapshot: ${report.snapshot_digest}`, "",
     "Descriptive pilot data. Sessions are not verified distinct people. Missing ratings are not failures; skips are excluded from score denominators. Aggregate distributions weight each spelling by its original draw multiplicity. No population estimate or generator acceptance threshold is implied.", "",
     "## Coverage", "", `- ${report.coverage.rated_spellings}/${report.coverage.distinct_spellings} spellings rated across ${report.coverage.draws} draws.`,
     `- ${report.coverage.sessions_completed}/${report.coverage.sessions_started} sessions completed; ${report.coverage.ratings} ratings and ${report.coverage.skips} skips.`,
@@ -160,18 +160,20 @@ export function reportMarkdown(report: ReturnType<typeof buildReport>): string {
 }
 
 function csvCell(value: unknown): string {
-  return `"${String(value ?? "").replace(/"/g, "\"\"")}"`;
+  const text = String(value ?? "");
+  const safe = /^[=+@\-\t\r]/.test(text) ? `'${text}` : text;
+  return `"${safe.replace(/"/g, "\"\"")}"`;
 }
 
 export function responseCsv(data: ReviewExport): string {
   validateExport(data);
   const samples = new Map(data.samples.map(sample => [sample.id, sample]));
-  const headers = ["study_id", "snapshot_digest", "session_id", "response_id", "position", "sample_id", "spelling", "draw_indices", "status", "rating", "familiar", "received_at"];
+  const headers = ["study_id", "snapshot_digest", "session_id", "response_id", "position", "sample_id", "spelling", "draw_indices", "status", "rating", "familiar", "comment", "received_at"];
   const rows = data.responses.map((r: ResponseRow) => {
     const spelling = samples.get(r.sample_id)!.spelling;
     return [data.study.id, data.study.digest, r.session_id, r.id, r.position, r.sample_id, spelling,
       data.samples.filter(sample => sample.spelling === spelling).map(sample => sample.draw_index).join(";"),
-      r.status, r.rating, r.familiar, r.received_at];
+      r.status, r.rating, r.familiar, r.comment, r.received_at];
   });
   return `${[headers, ...rows].map(row => row.map(csvCell).join(",")).join("\r\n")}\r\n`;
 }

@@ -1,12 +1,12 @@
 import type { Word } from "../../src/types.js";
-import type { RUBRIC, Submission } from "./protocol.js";
+import type { Rubric, Submission } from "./protocol.js";
 
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
 export interface SourceFile { path: string; content: string }
 export interface Manifest {
   schema_version: 1;
   study_id: string;
-  rubric: typeof RUBRIC;
+  rubric: Rubric;
   session_length: number;
   sample_count: number;
   options: { seed: number; mode: "lexicon"; morphology: true; trace: true };
