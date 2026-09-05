@@ -4,7 +4,7 @@ Generate English-like nonce words using configurable phonotactics.
 
 ## Human review pilot
 
-The separate `review.html` page collects anonymous written-plausibility judgments
+The separate `review.html` page collects anonymous written-wordlikeness judgments
 on frozen samples. Supabase stores responses privately for the owner; reviewers
 can only receive words and submit ratings. See the
 [setup, export, and verification guide](./docs/human-review.md).

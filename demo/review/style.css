@@ -23,7 +23,7 @@ header { border-bottom: 1px solid var(--line); padding-bottom: 1.25rem; margin-b
 h1 { font-size: 1.5rem; font-weight: 400; margin: 0; text-wrap: balance; }
 h2 { font-size: 1.65rem; line-height: 1.25; margin: 0 0 1.25rem; text-wrap: balance; }
 p { font-size: 1.125rem; line-height: 1.65; margin: 0 0 1.25rem; }
-button, input { font: inherit; }
+button, input, textarea { font: inherit; }
 button { min-height: 3rem; padding: .75rem 1.25rem; border: 1px solid var(--fg); border-radius: 4px; background: var(--fg); color: var(--bg); cursor: pointer; }
 button:hover:not(:disabled) { opacity: .8; }
 button:disabled { opacity: .45; cursor: default; }
@@ -53,3 +53,10 @@ input { width: 1.15rem; height: 1.15rem; flex-shrink: 0; margin: 0; }
   .actions { flex-direction: column; }
   .actions button { width: 100%; }
 }
+
+#instruction, #comment-help { color: var(--muted); font-size: .95rem; }
+.comment-field { margin-block: 1.5rem; }
+.comment-field label { display: block; margin-bottom: .5rem; }
+textarea { width: 100%; resize: vertical; min-height: 5rem; padding: .75rem; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--fg); caret-color: var(--fg); }
+#comment-help { margin-top: .5rem; }
+a { color: inherit; text-underline-offset: .2em; }

@@ -21,7 +21,7 @@ describe("durable one-way session", () => {
     await store.ensure(key);
     await store.assign(key, assignment);
     const attempts = await Promise.allSettled([
-      store.enqueue(key, 0, { status: "rated", rating: 5, familiar: false }),
+      store.enqueue(key, 0, { status: "rated", rating: 5, familiar: false, comment: "Looks familiar\nA second thought" }),
       store.enqueue(key, 0, { status: "rated", rating: 1, familiar: true }),
     ]);
     expect(attempts.filter(attempt => attempt.status === "fulfilled")).toHaveLength(1);
@@ -33,6 +33,7 @@ describe("durable one-way session", () => {
     expect(saved.next).toBe(1);
     expect(saved.outbox).toHaveLength(1);
     const response = saved.outbox[0];
+    expect(response.comment).toBe("Looks familiar\nA second thought");
     expect((await store.get(key))!.outbox[0]).toEqual(response);
     await store.acknowledge(key, response.response_id);
     const acknowledged = await store.acknowledge(key, response.response_id);
@@ -53,4 +54,9 @@ it("distinguishes skipping from a midpoint rating and rejects altered scales", (
   expect(validAnswer({ status: "rated", rating: 3, familiar: false })).toBe(true);
   expect(() => parseAssignment({ ...assignment, rubric: { ...RUBRIC, labels: ["good", "bad"] } })).toThrow();
   expect(() => parseAssignment({ ...assignment, items: [assignment.items[0], { ...assignment.items[0], position: 1 }] })).toThrow();
+});
+
+it("limits optional comments without changing legacy answers", () => {
+  expect(validAnswer({ status: "skipped", rating: null, familiar: null, comment: "A thought" })).toBe(true);
+  expect(validAnswer({ status: "rated", rating: 4, familiar: false, comment: "x".repeat(2001) })).toBe(false);
 });

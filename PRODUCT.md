@@ -12,7 +12,7 @@ The owner develops a deterministic English-like word generator. Anonymous Englis
 
 ## Product Purpose
 
-Generate convincing individual words and collect evidence about their perceived written plausibility. Real-word matches are allowed. The first study establishes a descriptive baseline before generator refactoring or tuning.
+Generate convincing individual words and collect evidence about their perceived written wordlikeness. Real-word matches are allowed. The first study establishes a descriptive baseline before generator refactoring or tuning.
 
 ## Operating Context
 
@@ -20,7 +20,7 @@ The existing vanilla web demo is built with Vite and hosted on GitHub Pages. The
 
 ## Capabilities and Constraints
 
-Frozen, traceable samples; anonymous sessions of 20 distinct spellings; a five-point written-plausibility rubric; familiarity and skip controls; durable local submission buffering. Preserve strict TypeScript, public generator APIs, deterministic generation, and minimal runtime dependencies.
+Frozen, traceable samples; anonymous sessions of 20 distinct spellings; a five-point written-wordlikeness rubric; familiarity and skip controls; durable local submission buffering. Preserve strict TypeScript, public generator APIs, deterministic generation, and minimal runtime dependencies.
 
 ## Evidence on Hand
 

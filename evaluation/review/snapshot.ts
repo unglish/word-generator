@@ -3,7 +3,7 @@ import { execFileSync } from "node:child_process";
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { englishConfig, generateWords } from "../../src/index.js";
-import { RUBRIC } from "./protocol.js";
+import { RUBRIC, supportedRubric } from "./protocol.js";
 import type { Json, Manifest, Snapshot, SourceFile } from "./model.js";
 
 export function canonical(value: unknown): Json {
@@ -67,8 +67,7 @@ export async function freezeStudy(root: string, studyId: string, seed = 20260904
 
 export function validateSnapshot(snapshot: Snapshot): void {
   const { manifest, samples } = snapshot;
-  if (manifest.schema_version !== 1 || manifest.rubric.version !== RUBRIC.version ||
-      digest(manifest.rubric) !== digest(RUBRIC) || samples.length !== manifest.sample_count ||
+  if (manifest.schema_version !== 1 || !supportedRubric(manifest.rubric) || samples.length !== manifest.sample_count ||
       !Number.isInteger(manifest.session_length) || manifest.session_length < 1 || manifest.session_length > 20 ||
       digest(manifest.generator.source_files) !== manifest.generator.source_digest ||
       digest({ manifest, words: samples.map(sample => sample.word) }) !== snapshot.digest) {

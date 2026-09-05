@@ -19,8 +19,8 @@ const error = element("error");
 const url = import.meta.env.VITE_REVIEW_SUPABASE_URL ?? "";
 const publishableKey = import.meta.env.VITE_REVIEW_SUPABASE_PUBLISHABLE_KEY ?? "";
 const study = import.meta.env.VITE_REVIEW_STUDY_ID ?? "";
-const key = `${url}|${study}`;
-const api = new ReviewApi(url, publishableKey, study);
+let key = `${url}|${study}`;
+let api = new ReviewApi(url, publishableKey, study);
 let store: ReviewStore;
 let ready = false;
 let session: LocalSession | undefined;
@@ -29,15 +29,23 @@ let starting = false, saving = false, flushing = false, storageFailed = false, p
 let retryCount = 0;
 let timer: ReturnType<typeof setTimeout> | undefined;
 
-for (const [index, text] of RUBRIC.labels.entries()) {
-  const label = document.createElement("label");
-  const input = document.createElement("input");
-  input.type = "radio";
-  input.name = "rating";
-  input.value = String(index + 1);
-  input.required = true;
-  label.append(input, document.createTextNode(text));
-  element("rating-options").append(label);
+function renderRubric(): void {
+  const rubric = session?.assignment?.rubric ?? RUBRIC;
+  element("question").textContent = rubric.question;
+  element("instruction").textContent = rubric.instruction ?? "";
+  element("instruction").hidden = !rubric.instruction;
+  element("familiar-label").textContent = rubric.familiarity;
+  element("comment-field").hidden = rubric.version !== RUBRIC.version;
+  element("rating-options").replaceChildren(...rubric.labels.map((text, index) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "rating";
+    input.value = String(index + 1);
+    input.required = true;
+    label.append(input, document.createTextNode(text));
+    return label;
+  }));
 }
 
 function showError(message: string): void {
@@ -47,6 +55,7 @@ function showError(message: string): void {
 
 function updateControls(): void {
   element<HTMLFieldSetElement>("rating-fieldset").disabled = saving || storageFailed || permanentFailure;
+  element<HTMLTextAreaElement>("comment").disabled = saving || storageFailed || permanentFailure;
   submit.disabled = saving || storageFailed || permanentFailure || !form.querySelector("input[name=rating]:checked");
   skip.disabled = saving || storageFailed || permanentFailure;
 }
@@ -67,6 +76,7 @@ function render(): void {
     const item = assignment.items[session!.next];
     element("progress").textContent = `Word ${session!.next + 1} of ${assignment.items.length}`;
     element("word").textContent = item.spelling;
+    renderRubric();
     form.reset();
     renderedPosition = session!.next;
     element("word").focus();
@@ -78,8 +88,9 @@ function render(): void {
     if (heading.textContent !== title) { heading.textContent = title; heading.focus(); }
     element("finished-copy").textContent = pending
       ? "Your responses are saved on this device. Keep this page open while they send, or return on this device when the connection is back."
-      : "Your judgments will help us understand which spellings feel plausible in English. You can close this page.";
+      : "Your judgments will help us understand which spellings look like English words. You can close this page.";
   }
+  element("next-study").hidden = !finished || !!pending || session?.assignment?.rubric.version === RUBRIC.version;
   if (!storageFailed) status.textContent = pending
     ? `${pending} ${pending === 1 ? "response" : "responses"} saved on this device; waiting to send.`
     : assignment ? "All submitted responses have been received." : "Your progress will be saved on this device.";
@@ -118,8 +129,9 @@ async function save(answer: Answer): Promise<void> {
   if (!session || saving || storageFailed || permanentFailure) return;
   saving = true;
   updateControls();
+  const comment = element("comment-field").hidden ? null : element<HTMLTextAreaElement>("comment").value.trim() || null;
   try {
-    acceptSession(await store.enqueue(key, renderedPosition, answer));
+    acceptSession(await store.enqueue(key, renderedPosition, { ...answer, comment }));
     showError("");
   } catch (failure) {
     if (failure instanceof StalePositionError) {
@@ -187,6 +199,16 @@ async function initialize(): Promise<void> {
     store = await ReviewStore.open();
     ready = true;
     acceptSession(await store.get(key));
+    if (!session && study === "written-v2-baseline") {
+      const legacyKey = `${url}|written-v1-baseline`;
+      const legacy = await store.get(legacyKey);
+      if (legacy?.assignment && (legacy.next < legacy.assignment.items.length || legacy.outbox.length)) {
+        key = legacyKey;
+        api = new ReviewApi(url, publishableKey, "written-v1-baseline");
+        acceptSession(legacy);
+      }
+    }
+    renderRubric();
     render();
     if (session?.assignment) void flush();
   } catch { storageError(); }

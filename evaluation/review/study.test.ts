@@ -69,3 +69,24 @@ it("exports all pages with stable keyset pagination", async () => {
   expect(requests).toHaveLength(3);
   expect(requests[1].searchParams.get("id")).toBe("gt.b");
 });
+
+it("keeps the original and revised studies independently verifiable with identical draws", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const old = JSON.parse(await readFile("evaluation/review/studies/written-v1-baseline.json", "utf8"));
+  const current = JSON.parse(await readFile("evaluation/review/studies/written-v2-baseline.json", "utf8"));
+  validateSnapshot(old);
+  validateSnapshot(current);
+  expect(current.manifest.rubric.version).toBe("written-v2");
+  expect(old.manifest.rubric.version).toBe("written-v1");
+  expect(current.samples.map((s: { word: unknown }) => s.word)).toEqual(old.samples.map((s: { word: unknown }) => s.word));
+  expect(current.manifest.generator).toEqual(old.manifest.generator);
+  expect(current.digest).not.toBe(old.digest);
+  expect(current.samples[0].id).not.toBe(old.samples[0].id);
+});
+
+it("exports comments as text and retains the original in JSON data", () => {
+  const data = fixtureExport();
+  data.responses[0].comment = "=SUM(1,2)";
+  expect(responseCsv(data)).toContain("'=SUM(1,2)");
+  expect(data.responses[0].comment).toBe("=SUM(1,2)");
+});
