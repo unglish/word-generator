@@ -1,6 +1,6 @@
 # Anonymous written-word review
 
-The first study collects perceived **written wordlikeness** from readers comfortable with English. It does not test the generator's intended pronunciation. The frozen baseline contains 200 consecutive, unfiltered generator draws with seed `20260904`, lexicon mode, morphology enabled, and traces enabled. Each anonymous session reviews 20 distinct spellings.
+The first study collects perceived **written wordlikeness** from readers comfortable with English. It does not test the generator's intended pronunciation. The frozen baseline contains 200 consecutive, unfiltered generator draws with seed `20260904`, lexicon mode, morphology enabled, and traces enabled. Each anonymous batch reviews up to 20 distinct spellings. Continuing batches are linked in a study-scoped anonymous chain and never repeat a spelling assigned earlier in that chain.
 
 The review question is “How much does this look like an English word?” Ratings are 1 Not at all, 2 A little, 3 Moderately, 4 Very much, and 5 Completely. The instruction is “It can be made up. Go with your first impression of the spelling.” Reviewers can flag prior familiarity or skip. No answer is preselected. Reviewers receive no results, history, diagnostics, or account.
 
@@ -10,7 +10,7 @@ Graded wordlikeness judgments have linguistic precedent ([Frisch et al., 2000](h
 
 Use Node.js 22 or newer. Install dependencies with `npm ci`.
 
-Create an owner-controlled Supabase project. No reviewer Auth configuration is necessary. Apply `supabase/migrations/20260904000000_review.sql` through the project's SQL editor, or link the Supabase CLI to the intended project and run `npx supabase db push`. Review the target project before applying migrations. Only `public` should be exposed to the Data API; never expose the `private` implementation schema.
+Create an owner-controlled Supabase project. No reviewer Auth configuration is necessary. Apply every file in `supabase/migrations/` in filename order through the project's SQL editor, or link the Supabase CLI to the intended project and run `npx supabase db push`. Review the target project before applying migrations. Only `public` should be exposed to the Data API; never expose the `private` implementation schema.
 
 Copy `.env.example` to `.env.local` and fill in:
 
@@ -42,15 +42,19 @@ The existing Pages deployment builds the review page alongside the demo. Share t
 
 ## Access and storage
 
-Four tables store studies, complete sampled draws, sessions, and responses. All have RLS enabled and no reviewer table grants or policies. Only two public RPC wrappers are callable by the anonymous role. Their privileged implementations live in an unexposed schema with an empty search path and qualified relations.
+Four tables store studies, complete sampled draws, sessions, and responses. All have RLS enabled and no reviewer table grants or policies. Only three public RPC wrappers are callable by the anonymous role. Their privileged implementations live in an unexposed schema with an empty search path and qualified relations.
 
-`start_review` accepts a study ID, random session UUID, and random 32-byte submission token. The server hashes the token and persists an ordered assignment. A matching retry returns the same words and rubric, never responses or progress. Selection prioritizes fewer completed ratings, then fewer assignments, with random ties and presentation order. It uses counts rather than score values. Equal spellings use the earliest draw as their representative ID.
+`start_review` accepts a study ID, random session UUID, and random 32-byte submission token. The server hashes the token and persists an ordered assignment. A matching retry returns the same words and rubric, never responses or progress. Each new session starts a random opaque chain whose identifier is private to owner exports. Selection prioritizes fewer completed ratings, then fewer assignments, with random ties and presentation order. It uses counts rather than score values. Equal spellings use the earliest draw as their representative ID. `session_length` is the maximum batch size: a smaller pool produces a partial first batch.
+
+`continue_review` accepts the completed batch’s study ID, session ID, and submission token as continuation authorization. It links exactly one successor to that batch and retains the same private chain identifier. It excludes spellings assigned anywhere in the chain, including skipped words and other draws of the same spelling, before applying the same coverage priorities among eligible words. Study allocation and predecessor locks serialize competing requests. A repeated request returns the same next assignment and credentials, even after that batch has progressed or enrollment has closed. Successor tokens are derived with HMAC from the parent credential and successor UUID; the database stores only their hashes. No anonymous endpoint returns chain IDs, predecessor links, judgments, response history, or progress.
+
+With fewer than 20 eligible spellings, continuation returns the remaining spellings as a shorter batch. With none remaining, it persistently acknowledges exhaustion and creates no empty session. The browser displays “Thank you. You’ve reviewed every spelling in this study.”
 
 `submit_review_response` verifies the token and position, derives the sample ID server-side, and inserts once. Exact retries acknowledge the same response ID; changed payloads or IDs for an occupied position fail. Acknowledgements contain no judgments or result counts. A session is complete when every position has a rating or skip.
 
-The browser saves credentials before requesting an assignment and saves responses before advancing. IndexedDB transactions and revision numbers protect competing tabs and asynchronous acknowledgements. Responses leave the outbox only after server acknowledgement. Transient delivery failures retry with bounded backoff and on reconnection; a retry button is also available. Permanent failures preserve the outbox and pause further advancement. Clearing site storage loses unsent responses; there is deliberately no server history-recovery endpoint.
+The browser saves credentials before requesting an assignment and saves responses before advancing. Before continuation, it durably records the request alongside the completed batch’s credentials. It replaces that record with the next batch atomically only after receiving a valid continuation reply, so a lost reply or failed local write can retry the same successor after reload. Pending responses must all be acknowledged first. IndexedDB transactions and revision numbers protect competing tabs and asynchronous acknowledgements. Responses leave the outbox only after server acknowledgement. Transient delivery failures retry with bounded backoff and on reconnection; a retry button is also available. Permanent failures preserve the outbox and pause further advancement. Clearing site storage loses unsent responses; there is deliberately no server history-recovery endpoint.
 
-The application does not collect names, emails, IP addresses, user-agent strings, or a cross-session identity. Hosting providers may retain operational logs. Session tokens authorize submissions but do not establish that sessions belong to distinct people or prevent one person from starting multiple sessions. This is a small shared-link pilot, not a public survey with identity or abuse detection.
+The application does not collect names, emails, IP addresses, user-agent strings, fingerprints, or a cross-device identity. Hosting providers may retain operational logs. Session tokens authorize submissions and continuation, but neither sessions nor chains establish distinct people or prevent one person from starting multiple chains. This is a small shared-link pilot, not a public survey with identity or abuse detection.
 
 ## Inspect, close, and export
 
@@ -62,7 +66,7 @@ set enrollment_open = false
 where id = 'written-v2-baseline';
 ```
 
-Set the flag to `true` to reopen. Existing sessions can recover assignments and flush saved responses after enrollment closes. Closing enrollment therefore does not freeze in-flight submissions.
+Set the flag to `true` to reopen. Existing sessions can recover assignments and flush saved responses after enrollment closes. Already allocated continuations and acknowledged exhaustion remain recoverable; allocating another batch requires open enrollment. Closing enrollment therefore does not freeze in-flight submissions.
 
 Export into a new ignored directory, then report:
 
@@ -71,7 +75,7 @@ npm run review:export -- --study written-v2-baseline --out review-exports/baseli
 npm run review:report -- --input review-exports/baseline-001/export.json --out review-exports/baseline-001/summary
 ```
 
-The JSON export contains the manifest, all sampled draws, ordered assignments, and responses. The CSV contains one row per response, including the spelling and all matching draw indices. Token hashes are excluded. Pagination retrieves every page; exports collect responses received before the export began. Because collection may still be active, repeat the export into a new directory after pending sessions finish for the final dataset. Files are never silently overwritten. Store exports outside published assets and do not commit real judgments.
+The JSON export contains the manifest, all sampled draws, ordered assignments, chain IDs, predecessor session IDs, and responses. The CSV contains one row per response, including the spelling, all matching draw indices, `chain_id`, and `previous_session_id`. Submission tokens and token hashes are excluded. These additive fields retain export schema version 1; older exports without chain fields remain reportable and produce blank chain CSV cells. Reports accept shorter batches and keep the original numeric weighting. Pagination retrieves every page; exports collect responses received before the export began. Because collection may still be active, repeat the export into a new directory after pending sessions finish for the final dataset. Files are never silently overwritten. Store exports outside published assets and do not commit real judgments.
 
 The report includes all-rating and unfamiliar-only distributions, 4–5 and 1–2 shares, coverage, skips, familiarity, per-spelling histograms, and length/syllable/morphology strata. For each view it averages the per-spelling score proportions using original draw multiplicities. Unequal reviewer counts do not give a spelling extra weight. Skips are excluded, missing scores remain missing, and every stratum includes denominators. Equal spellings share judgments across their originating draws, including when those draws have different morphology.
 
@@ -105,7 +109,7 @@ Docker is required for local Supabase tests. The DB runner reads local CLI crede
 
 The local stack enables Supabase's Auth service to issue its API keys, with both normal and anonymous signups disabled. The reviewer never calls Auth or creates a user.
 
-The smoke command starts an isolated local review page and completes two real browser sessions against Supabase, including a deliberately lost acknowledgement. It exercises the owner import/export/report commands, verifies 40 stored responses, and removes its synthetic database study. Inspect its ignored artifacts in `review-exports/test-smoke-*/`. Response positions in exports are zero-based.
+The smoke command starts an isolated local review page and completes two anonymous chains against Supabase, each with a full batch and a partial final batch. It deliberately loses submission and continuation acknowledgements, resumes after reload, verifies exhaustion, and exercises owner import/export/report commands. It checks all 50 stored responses and private chain links, then removes its synthetic database study. Inspect its ignored artifacts in `review-exports/test-smoke-*/`. Response positions in exports are zero-based.
 
 Before sharing the production link, use a separate synthetic study to verify two browser sessions, lost acknowledgements, direct anonymous table denial, owner exports, and deployment configuration. Remove the synthetic study or close it after the check. Do not mix smoke-test judgments into the production baseline.
 
@@ -121,4 +125,12 @@ Each v2 word has an optional comment, limited to 2,000 characters, saved with ei
 
 CSV cells beginning with spreadsheet formula markers are prefixed with an apostrophe for safe viewing. JSON retains the exact submitted comment.
 
-After all 20 responses are acknowledged, reviewers may choose “Review 20 more words”. Each continuation creates a separate anonymous session. A repeated click or competing tab reuses the newly created local session, and unsent responses cannot be discarded to start another batch. Assignment coverage balancing still applies across the study; words may recur across batches. Multiple sessions must not be interpreted as independent reviewers.
+## Continuing batches and migration
+
+Apply `20260906000000_review_chains.sql` after the earlier migrations and before publishing the updated browser. The migration gives every existing session its own opaque chain ID and a null predecessor. It preserves all assignments, responses, comments, and credentials. It never links separate historical sessions based on timing, browser assumptions, or matching answers. An existing browser session can continue using its existing submission token; no account or local storage reset is needed. Older clients can still call `start_review` and submit as before, but cannot link the separate batches they create.
+
+After every response in a batch is acknowledged, reviewers may choose “Review more words”. Each continuation is a new session in the same chain and study. Repeated clicks and competing tabs reuse the successor; stale replies cannot overwrite a later batch or discard its outbox.
+
+Deduplication uses exact stored spelling equality within one chain and study ID. Frozen studies and rubric versions have separate chains, so a new study (including written-v1 → written-v2) can present previously reviewed spellings. Finishing an old v1 session preserves its original rubric; the updated-question link starts a separate v2 chain.
+
+The chain survives reloads and browser restarts through site storage. Clearing that storage, using a different browser/profile/device, or starting again without the saved credentials creates a new chain and may repeat spellings. Clearing storage also loses unsent responses. There is no fingerprinting, cross-device matching, or endpoint for recovering prior judgments. A chain records a sequence of batches, not proof of one distinct or independent person.

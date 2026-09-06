@@ -1,4 +1,4 @@
-import type { Answer, Assignment, Submission } from "../../evaluation/review/protocol.js";
+import type { Answer, Assignment, Continuation, Submission } from "../../evaluation/review/protocol.js";
 import { validAnswer } from "../../evaluation/review/protocol.js";
 
 export interface LocalSession {
@@ -8,6 +8,8 @@ export interface LocalSession {
   assignment: Assignment | null;
   next: number;
   outbox: Submission[];
+  continuing?: boolean;
+  exhausted?: boolean;
 }
 
 export class StalePositionError extends Error {
@@ -73,19 +75,33 @@ export class ReviewStore {
   async nextBatch(key: string, completedId: string): Promise<LocalSession> {
     return (await this.transaction(key, existing => {
       if (!existing) throw new Error("Local session is missing.");
-      if (existing.id !== completedId) return existing;
+      if (existing.id !== completedId || existing.continuing || existing.exhausted) return existing;
       if (!existing.assignment || existing.next !== existing.assignment.items.length || existing.outbox.length) {
         throw new Error("Wait until all responses are received before continuing.");
       }
-      return this.newSession();
+      return { ...existing, continuing: true };
     }))!;
   }
 
-  async assign(key: string, assignment: Assignment): Promise<LocalSession> {
+  async assign(key: string, assignment: Assignment, sessionId?: string): Promise<LocalSession> {
     return (await this.transaction(key, session => {
       if (!session) throw new Error("Local session is missing.");
+      if (sessionId !== undefined && session.id !== sessionId) return session;
       if (session.assignment && JSON.stringify(session.assignment.items) !== JSON.stringify(assignment.items)) throw new Error("The saved assignment has changed. Please contact the study owner.");
       return { ...session, assignment };
+    }))!;
+  }
+
+  async continued(key: string, previousId: string, result: Continuation): Promise<LocalSession> {
+    return (await this.transaction(key, session => {
+      if (!session) throw new Error("Local session is missing.");
+      // A delayed response may arrive after another tab has already advanced.
+      if (session.id !== previousId || !session.continuing) return session;
+      if (result.exhausted) return { ...session, continuing: false, exhausted: true };
+      return {
+        revision: session.revision, id: result.session_id, token: result.submission_token,
+        assignment: result.assignment, next: 0, outbox: [],
+      };
     }))!;
   }
 

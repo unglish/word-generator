@@ -1,5 +1,5 @@
-import { parseAssignment } from "../../evaluation/review/protocol.js";
-import type { Assignment, Submission } from "../../evaluation/review/protocol.js";
+import { parseAssignment, parseContinuation } from "../../evaluation/review/protocol.js";
+import type { Assignment, Continuation, Submission } from "../../evaluation/review/protocol.js";
 import type { LocalSession } from "./local.js";
 
 export class ApiError extends Error {
@@ -18,7 +18,7 @@ export class ReviewApi {
       });
     } catch { throw new ApiError("The connection was interrupted. Your saved responses are still on this device.", true); }
     if (!response.ok) {
-      if (response.status === 404 && name === "start_review") throw new ApiError("This study is unavailable or closed to new reviews.", false);
+      if (response.status === 404 && (name === "start_review" || name === "continue_review")) throw new ApiError("This study is unavailable or closed to new reviews.", false);
       if (response.status === 429 || response.status >= 500) throw new ApiError("Submissions are temporarily unavailable. Your saved responses will be retried.", true);
       throw new ApiError("The study could not accept this request. Your saved responses remain on this device. Please contact the study owner.", false);
     }
@@ -28,6 +28,12 @@ export class ReviewApi {
 
   async start(session: LocalSession): Promise<Assignment> {
     return parseAssignment(await this.rpc("start_review", { study_id: this.study, session_id: session.id, submission_token: session.token }));
+  }
+
+  async continue(session: LocalSession): Promise<Continuation> {
+    const result = await this.rpc("continue_review", { study_id: this.study, session_id: session.id, submission_token: session.token });
+    try { return parseContinuation(result); }
+    catch { throw new ApiError("The server returned an invalid continuation. Please retry.", true); }
   }
 
   async submit(response: Submission): Promise<void> {
