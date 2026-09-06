@@ -37,7 +37,8 @@
     "test:review": "vitest run --config vitest.review.config.ts",
     "test:review:db": "node --import tsx evaluation/review/run-db-tests.ts",
     "test:review:e2e": "playwright test --config playwright.review.config.ts",
-    "test:review:smoke": "node --import tsx evaluation/review/smoke.ts"
+    "test:review:smoke": "node --import tsx evaluation/review/smoke.ts",
+    "review:wordlikeness": "node --import tsx evaluation/review/wordlikeness/cli.ts"
   },
   "repository": {
     "type": "git",
