@@ -1,19 +1,37 @@
 import { test, expect } from "@playwright/test";
 import type { BrowserContext, Page } from "@playwright/test";
 import { RUBRIC, LEGACY_RUBRIC } from "../protocol.js";
-import type { Submission } from "../protocol.js";
+import type { Continuation, Submission } from "../protocol.js";
 
 const spellings = ["blim", "sproke", "thindle", "plond", "frale", "strem", "noffle", "crusp", "trindle", "glave", "prane", "smindle", "glisk", "nust", "twem", "drail", "flemp", "skavel", "swint", "blarn"];
 const assignment = { rubric: RUBRIC, items: spellings.map((spelling, position) => ({ position, sample_id: `sample-${position}`, spelling })) };
 
 async function backend(context: BrowserContext) {
-  const state = { offline: false, loseAck: false, closed: false, permanent: false, starts: 0, attempts: [] as Submission[], received: new Map<string, Submission>() };
+  const continuations = new Map<string, Continuation>();
+  const state = { loseContinuationAck: false, continuationAttempts: [] as unknown[], continuations, offline: false, loseAck: false, closed: false, permanent: false, starts: 0, attempts: [] as Submission[], received: new Map<string, Submission>() };
   await context.route("https://review.test/rest/v1/rpc/*", async route => {
     const request = route.request();
     if (state.offline) return route.abort("internetdisconnected");
     if (request.url().endsWith("/start_review")) {
       state.starts++;
       return route.fulfill({ status: state.closed ? 404 : 200, json: state.closed ? {} : assignment });
+    }
+    if (request.url().endsWith("/continue_review")) {
+      const body = request.postDataJSON();
+      state.continuationAttempts.push(body);
+      let result = continuations.get(body.session_id);
+      if (!result) {
+        result = { exhausted: true };
+        if (continuations.size < 2) {
+          const items = assignment.items.slice(0, continuations.size ? 2 : 20).map(item => ({
+            ...item, sample_id: `${item.sample_id}-${continuations.size}`, spelling: `${item.spelling}${continuations.size ? "ly" : "ish"}`,
+          }));
+          result = { exhausted: false, session_id: crypto.randomUUID(), submission_token: "b".repeat(64), assignment: { ...assignment, items } };
+        }
+        continuations.set(body.session_id, result);
+      }
+      if (state.loseContinuationAck) { state.loseContinuationAck = false; return route.abort("connectionreset"); }
+      return route.fulfill({ json: result });
     }
     if (state.permanent) return route.fulfill({ status: 409, json: {} });
     const response = request.postDataJSON() as Submission;
@@ -261,7 +279,7 @@ test("continues beyond twenty words with a durable new batch", async ({ page, co
   await oldTab.goto("/review.html");
   await expect(oldTab.locator("#word")).toHaveText("blim");
   for (let i = 0; i < 20; i++) await rate(page);
-  const more = page.getByRole("button", { name: "Review 20 more words" });
+  const more = page.getByRole("button", { name: "Review more words" });
   await expect(more).toBeVisible();
   await expect(more).toBeEnabled();
   await more.dblclick();
@@ -276,5 +294,123 @@ test("continues beyond twenty words with a durable new batch", async ({ page, co
   await rate(page);
   await expect.poll(() => server.received.size).toBe(21);
   expect(new Set([...server.received.values()].map(r => r.session_id)).size).toBe(2);
-  expect(server.starts).toBe(2);
+  expect(server.starts).toBe(1);
+  expect(server.continuations.size).toBe(1);
+  await expect(page.locator("#word")).toHaveText("sprokeish");
 });
+
+test("recovers the same continuation after a lost reply and reload, then finishes the partial last batch", async ({ page, context }, testInfo) => {
+  const server = await backend(context);
+  await begin(page);
+  const seen = new Set<string>();
+  async function reviewBatch(length: number) {
+    for (let i = 0; i < length; i++) {
+      await expect(page.locator("#progress")).toHaveText(`Word ${i + 1} of ${length}`);
+      const word = (await page.locator("#word").textContent())!;
+      expect(seen.has(word)).toBe(false);
+      seen.add(word);
+      await rate(page);
+    }
+    await expect(page.locator("#finished-title")).toHaveText("Thank you. Your review is submitted.");
+  }
+  await reviewBatch(20);
+  server.loseContinuationAck = true;
+  await page.getByRole("button", { name: "Review more words" }).click();
+  await expect(page.getByRole("button", { name: "Retry connection" })).toBeVisible();
+  server.offline = true;
+  await page.reload();
+  await expect(page.getByRole("button", { name: "Retry connection" })).toBeVisible();
+  await expect(page.locator("#finished-title")).toHaveText("Preparing your next words…");
+  server.offline = false;
+  await page.getByRole("button", { name: "Retry connection" }).click();
+  await reviewBatch(20);
+  expect(server.continuationAttempts).toHaveLength(2);
+  expect(server.continuationAttempts[0]).toEqual(server.continuationAttempts[1]);
+  expect(server.continuations.size).toBe(1);
+  await page.getByRole("button", { name: "Review more words" }).click();
+  await expect(page.locator("#progress")).toHaveText("Word 1 of 2");
+  await page.screenshot({ path: `.impeccable/review/${testInfo.project.name}-partial.png`, fullPage: true });
+  await reviewBatch(2);
+  await page.getByRole("button", { name: "Review more words" }).click();
+  await expect(page.locator("#finished-title")).toHaveText("Thank you. You’ve reviewed every spelling in this study.");
+  await expect(page.getByRole("button", { name: "Review more words" })).toBeHidden();
+  await expect(page.locator("#finished-copy")).toContainText("no unseen words left");
+  await page.screenshot({ path: `.impeccable/review/${testInfo.project.name}-exhausted.png`, fullPage: true });
+  expect(server.received.size).toBe(42);
+  const attempts = server.continuationAttempts.length;
+  await page.reload();
+  await expect(page.locator("#finished-title")).toHaveText("Thank you. You’ve reviewed every spelling in this study.");
+  expect(server.continuationAttempts).toHaveLength(attempts);
+});
+
+test("competing completed tabs continue once and recover after a failed local continuation write", async ({ page, context }) => {
+  const server = await backend(context);
+  await begin(page);
+  for (let i = 0; i < 20; i++) await rate(page);
+  await expect(page.getByRole("button", { name: "Review more words" })).toBeVisible();
+  const other = await context.newPage();
+  await other.goto("/review.html");
+  await expect(other.getByRole("button", { name: "Review more words" })).toBeVisible();
+  await page.evaluate(() => {
+    const put = IDBObjectStore.prototype.put;
+    IDBObjectStore.prototype.put = function(value, key) {
+      if (this.name === "sessions" && value.next === 0 && value.assignment) throw new DOMException("Disk full", "QuotaExceededError");
+      return put.call(this, value, key);
+    };
+  });
+  await page.getByRole("button", { name: "Review more words" }).click();
+  await expect(page.getByRole("alert")).toContainText("could not save your progress");
+  await other.getByRole("button", { name: "Review more words" }).click();
+  await expect(other.locator("#word")).toHaveText("blimish");
+  await rate(other);
+  await page.reload();
+  await expect(page.locator("#word")).toHaveText("sprokeish");
+  expect(server.continuations.size).toBe(1);
+  expect(server.received.size).toBe(21);
+});
+
+test("keeps continuation authorization after an invalid acknowledgement", async ({ page, context }) => {
+  const server = await backend(context);
+  await begin(page);
+  for (let i = 0; i < 20; i++) await rate(page);
+  await context.route("https://review.test/rest/v1/rpc/continue_review", route => route.fulfill({ json: { exhausted: false } }), { times: 1 });
+  await page.getByRole("button", { name: "Review more words" }).click();
+  await expect(page.getByRole("alert")).toContainText("invalid continuation");
+  await page.getByRole("button", { name: "Retry connection" }).click();
+  await expect(page.locator("#word")).toHaveText("blimish");
+  expect(server.received.size).toBe(20);
+  expect(server.continuations.size).toBe(1);
+});
+
+for (const resumeEvent of ["visibilitychange", "online"] as const) {
+  test(`an existing tab takes over a pending continuation on ${resumeEvent}`, async ({ page, context }) => {
+    const server = await backend(context);
+    await begin(page);
+    for (let i = 0; i < 20; i++) await rate(page);
+    await expect(page.getByRole("button", { name: "Review more words" })).toBeVisible();
+    const other = await context.newPage();
+    await other.goto("/review.html");
+    await expect(other.getByRole("button", { name: "Review more words" })).toBeVisible();
+    await other.evaluate(() => {
+      Object.defineProperty(document, "visibilityState", { configurable: true, value: "hidden" });
+    });
+
+    server.loseContinuationAck = true;
+    await page.getByRole("button", { name: "Review more words" }).click();
+    await expect(page.getByRole("button", { name: "Retry connection" })).toBeVisible();
+    await page.close();
+
+    await other.evaluate(event => {
+      Object.defineProperty(document, "visibilityState", { configurable: true, value: "visible" });
+      const target = event === "visibilitychange" ? document : window;
+      target.dispatchEvent(new Event(event));
+    }, resumeEvent);
+    await expect(other.locator("#word")).toHaveText("blimish");
+    await expect(other.locator("#progress")).toHaveText("Word 1 of 20");
+    expect(server.continuations.size).toBe(1);
+    expect(server.continuationAttempts).toHaveLength(2);
+    expect(server.continuationAttempts[1]).toEqual(server.continuationAttempts[0]);
+    await rate(other);
+    await expect.poll(() => server.received.size).toBe(21);
+  });
+}

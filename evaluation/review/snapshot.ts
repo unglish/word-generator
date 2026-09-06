@@ -57,7 +57,6 @@ export async function freezeStudy(root: string, studyId: string, seed = 20260904
     },
   };
   const words = generateWords(count, manifest.options);
-  if (new Set(words.map(word => word.written.clean)).size < sessionLength) throw new Error("Not enough distinct spellings for a session.");
   const snapshotDigest = digest({ manifest, words });
   return {
     manifest, digest: snapshotDigest,
@@ -67,7 +66,7 @@ export async function freezeStudy(root: string, studyId: string, seed = 20260904
 
 export function validateSnapshot(snapshot: Snapshot): void {
   const { manifest, samples } = snapshot;
-  if (manifest.schema_version !== 1 || !supportedRubric(manifest.rubric) || samples.length !== manifest.sample_count ||
+  if (manifest.schema_version !== 1 || !supportedRubric(manifest.rubric) || !samples.length || samples.length !== manifest.sample_count ||
       !Number.isInteger(manifest.session_length) || manifest.session_length < 1 || manifest.session_length > 20 ||
       digest(manifest.generator.source_files) !== manifest.generator.source_digest ||
       digest({ manifest, words: samples.map(sample => sample.word) }) !== snapshot.digest) {
@@ -77,5 +76,4 @@ export function validateSnapshot(snapshot: Snapshot): void {
     if (sample.id !== digest([snapshot.digest, index]) || sample.draw_index !== index || sample.study_id !== manifest.study_id ||
         !sample.spelling || sample.spelling !== sample.word.written.clean || !sample.word.trace) throw new Error(`Invalid sample at draw ${index}.`);
   });
-  if (new Set(samples.map(sample => sample.spelling)).size < manifest.session_length) throw new Error("Insufficient distinct spellings.");
 }

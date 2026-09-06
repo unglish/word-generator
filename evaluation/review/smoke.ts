@@ -16,6 +16,7 @@ async function smoke(): Promise<void> {
   const directory = resolve("review-exports", id);
   await mkdir(directory, { recursive: true });
   const snapshot = await freezeStudy(process.cwd(), id, 20260904, 25);
+  const distinctSpellings = new Set(snapshot.samples.map(sample => sample.spelling)).size;
   const snapshotPath = resolve(directory, "snapshot.json");
   await writeFile(snapshotPath, JSON.stringify(snapshot));
   const owner = new OwnerApi(url, secret);
@@ -34,6 +35,7 @@ async function smoke(): Promise<void> {
     for (let index = 0; index < 2; index++) {
       const context = await browser.newContext();
       const page = await context.newPage();
+      const seen = new Set<string>();
       let loseAck = index === 0;
       await context.route(`${url}/rest/v1/rpc/submit_review_response`, async route => {
         if (!loseAck) return route.continue();
@@ -46,6 +48,7 @@ async function smoke(): Promise<void> {
       await page.getByRole("button", { name: "Start reviewing" }).click();
       for (let position = 0; position < 20; position++) {
         await expect(page.locator("#progress")).toHaveText(`Word ${position + 1} of 20`);
+        seen.add((await page.locator("#word").textContent())!);
         if (position < 2) await page.getByLabel("Comment (optional)").fill(`Test comment ${index}/${position}`);
         if (position === 1) await page.getByRole("button", { name: "Skip — I can’t judge this" }).click();
         else {
@@ -55,20 +58,49 @@ async function smoke(): Promise<void> {
         }
       }
       await expect(page.getByRole("heading", { name: "Thank you. Your review is submitted." })).toBeVisible({ timeout: 30000 });
+      let loseContinuation = index === 0;
+      await context.route(`${url}/rest/v1/rpc/continue_review`, async route => {
+        if (!loseContinuation) return route.continue();
+        loseContinuation = false;
+        const response = await route.fetch();
+        expect(response.status()).toBe(200);
+        await route.abort("connectionreset");
+      });
+      await page.getByRole("button", { name: "Review more words" }).click();
+      if (index === 0) {
+        await expect(page.getByRole("button", { name: "Retry connection" })).toBeVisible();
+        await page.reload();
+      }
+      const remaining = distinctSpellings - 20;
+      for (let position = 0; position < remaining; position++) {
+        await expect(page.locator("#progress")).toHaveText(`Word ${position + 1} of ${remaining}`);
+        const spelling = (await page.locator("#word").textContent())!;
+        expect(seen.has(spelling)).toBe(false);
+        seen.add(spelling);
+        await page.getByRole("radio", { name: "Very much", exact: true }).check();
+        await page.getByRole("button", { name: "Submit and next" }).click();
+      }
+      await expect(page.getByRole("heading", { name: "Thank you. Your review is submitted." })).toBeVisible();
+      await page.getByRole("button", { name: "Review more words" }).click();
+      await expect(page.locator("#finished-title")).toHaveText("Thank you. You’ve reviewed every spelling in this study.");
+      expect(seen.size).toBe(distinctSpellings);
       await context.close();
     }
     command("export", ["--study", id, "--out", resolve(directory, "export")]);
     command("report", ["--input", resolve(directory, "export/export.json"), "--out", resolve(directory, "summary")]);
     const exported: ReviewExport = JSON.parse(await readFile(resolve(directory, "export/export.json"), "utf8"));
     const report = buildReport(exported);
-    expect(report.coverage.sessions_completed).toBe(2);
-    expect(exported.responses).toHaveLength(40);
+    expect(report.coverage.sessions_completed).toBe(4);
+    expect(exported.responses).toHaveLength(distinctSpellings * 2);
+    expect(new Set(exported.sessions.map(session => session.chain_id)).size).toBe(2);
+    expect(exported.sessions.filter(session => session.previous_session_id)).toHaveLength(2);
+    expect(JSON.stringify(exported)).not.toMatch(/token_hash|submission_token/);
     expect(exported.responses.filter(response => response.comment?.startsWith("Test comment"))).toHaveLength(4);
-    expect(report.coverage.ratings).toBe(38);
+    expect(report.coverage.ratings).toBe(distinctSpellings * 2 - 2);
     expect(report.coverage.skips).toBe(2);
     expect(report.familiarity.flagged).toBe(2);
     expect(report.all.share_4_5).toBe(1);
-    console.log(`Real browser → Supabase → owner CLI verified: 2 sessions, 40 responses, including a lost acknowledgement. Artifacts: ${directory}`);
+    console.log(`Real browser → Supabase → owner CLI verified: 2 chains, 4 batches, ${exported.responses.length} responses, lost submission and continuation acknowledgements, and pool exhaustion. Artifacts: ${directory}`);
   } finally {
     await browser.close();
     await server.close();

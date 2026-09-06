@@ -1,4 +1,4 @@
-import type { ResponseRow, ReviewExport, Sample } from "./model.js";
+import type { ResponseRow, ReviewExport, Sample, SessionRow } from "./model.js";
 import { validAnswer } from "./protocol.js";
 import { validateSnapshot } from "./snapshot.js";
 
@@ -22,6 +22,29 @@ interface Distribution {
   share_1_2: number | null;
 }
 
+function validateChains(sessions: Map<string, SessionRow>, samples: Map<string, Sample>): void {
+  const chainSpellings = new Map<string, Set<string>>();
+  const predecessors = new Set<string>();
+  for (const session of sessions.values()) {
+    if (session.chain_id !== undefined) {
+      if (!session.chain_id) throw new Error("Invalid exported chain.");
+      const seen = chainSpellings.get(session.chain_id) ?? new Set<string>();
+      for (const id of session.assignments) {
+        const spelling = samples.get(id)!.spelling;
+        if (seen.has(spelling)) throw new Error("Repeated spelling in exported chain.");
+        seen.add(spelling);
+      }
+      chainSpellings.set(session.chain_id, seen);
+    }
+    if (session.previous_session_id != null) {
+      const previous = sessions.get(session.previous_session_id);
+      if (!session.chain_id || !previous || previous.id === session.id || previous.chain_id !== session.chain_id ||
+          predecessors.has(previous.id)) throw new Error("Invalid exported chain relationship.");
+      predecessors.add(previous.id);
+    }
+  }
+}
+
 export function validateExport(data: ReviewExport): void {
   if (data.schema_version !== 1) throw new Error("Unsupported export schema.");
   validateSnapshot({ manifest: data.study.manifest, digest: data.study.digest, samples: data.samples });
@@ -31,10 +54,11 @@ export function validateExport(data: ReviewExport): void {
   const ids = new Set<string>();
   const positions = new Set<string>();
   for (const session of data.sessions) {
-    if (session.study_id !== data.study.id || session.assignments.length !== data.study.session_length ||
+    if (session.study_id !== data.study.id || session.assignments.length < 1 || session.assignments.length > data.study.session_length ||
         session.assignments.some(id => !samples.has(id)) ||
         new Set(session.assignments.map(id => samples.get(id)?.spelling)).size !== session.assignments.length) throw new Error("Invalid exported assignment.");
   }
+  validateChains(sessions, samples);
   for (const response of data.responses) {
     const positionKey = `${response.session_id}:${response.position}`;
     if (!validAnswer(response) || !Number.isInteger(response.position) ||
@@ -141,7 +165,7 @@ const cell = (value: string) => value.replace(/\|/g, "\\|").replace(/[\r\n]/g, "
 export function reportMarkdown(report: ReturnType<typeof buildReport>): string {
   const lines = [
     `# Written wordlikeness: ${report.study_id}`, "", `Rubric: ${report.rubric.version} — ${report.rubric.question}`, "", report.rubric.labels.map((label, i) => `${i + 1}: ${label}`).join("; "), "", `Snapshot: ${report.snapshot_digest}`, "",
-    "Descriptive pilot data. Sessions are not verified distinct people. Missing ratings are not failures; skips are excluded from score denominators. Aggregate distributions weight each spelling by its original draw multiplicity. No population estimate or generator acceptance threshold is implied.", "",
+    "Descriptive pilot data. Sessions are not verified distinct people. Chains link batches within a study and are not verified distinct people either. Missing ratings are not failures; skips are excluded from score denominators. Aggregate distributions weight each spelling by its original draw multiplicity. No population estimate or generator acceptance threshold is implied.", "",
     "## Coverage", "", `- ${report.coverage.rated_spellings}/${report.coverage.distinct_spellings} spellings rated across ${report.coverage.draws} draws.`,
     `- ${report.coverage.sessions_completed}/${report.coverage.sessions_started} sessions completed; ${report.coverage.ratings} ratings and ${report.coverage.skips} skips.`,
     `- ${report.coverage.spellings_with_three_sessions}/${report.coverage.distinct_spellings} spellings have ratings from at least three sessions (collection target).`,
@@ -168,10 +192,12 @@ function csvCell(value: unknown): string {
 export function responseCsv(data: ReviewExport): string {
   validateExport(data);
   const samples = new Map(data.samples.map(sample => [sample.id, sample]));
-  const headers = ["study_id", "snapshot_digest", "session_id", "response_id", "position", "sample_id", "spelling", "draw_indices", "status", "rating", "familiar", "comment", "received_at"];
+  const sessions = new Map(data.sessions.map(session => [session.id, session]));
+  const headers = ["study_id", "snapshot_digest", "session_id", "chain_id", "previous_session_id", "response_id", "position", "sample_id", "spelling", "draw_indices", "status", "rating", "familiar", "comment", "received_at"];
   const rows = data.responses.map((r: ResponseRow) => {
     const spelling = samples.get(r.sample_id)!.spelling;
-    return [data.study.id, data.study.digest, r.session_id, r.id, r.position, r.sample_id, spelling,
+    const session = sessions.get(r.session_id)!;
+    return [data.study.id, data.study.digest, r.session_id, session.chain_id, session.previous_session_id, r.id, r.position, r.sample_id, spelling,
       data.samples.filter(sample => sample.spelling === spelling).map(sample => sample.draw_index).join(";"),
       r.status, r.rating, r.familiar, r.comment, r.received_at];
   });
