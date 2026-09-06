@@ -117,7 +117,7 @@ Implementation is complete only after the live collection path and owner export 
 
 ## Revised wording and comments
 
-`written-v2-baseline` reuses the original 200 frozen words, configuration, and generator provenance. Only the study ID, rubric, digest, and sample IDs change. Do not regenerate these words. Keep v1 and v2 ratings in separate reports; the wording and optional comment prompt differ. Both snapshots remain supported by owner exports and reports.
+`written-v2-baseline` reuses the original 200 frozen words, configuration, and generator provenance. Only the study ID, rubric, digest, and sample IDs change. Do not regenerate these words. The collection reports keep v1 and v2 ratings separate because the wording and optional comment prompt differ. The [algorithmic wordlikeness evaluation](wordlikeness-evaluation.md) pools both versions for its agreed primary exploratory analysis and retains separate rubric sensitivity views. Both snapshots remain supported by owner exports and reports.
 
 Apply all migrations in order, including `20260905000000_review_v2.sql`, before publishing v2. Import v2 and change the public study setting to `written-v2-baseline`. After publication, close v1 enrollment; existing v1 sessions can still submit and retry. On the same browser, unfinished v1 assignments resume with their original wording and no comment prompt; after completion, reviewers can start v2.
 
