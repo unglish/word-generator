@@ -9,7 +9,12 @@ import { createGapSpellingApplicator } from "./gap-spelling.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
-import { planMorphology, applyMorphology } from "./morphology/index.js";
+import {
+  planMorphology,
+  guardMorphologyPlan,
+  getConservativeMorphologyBudget,
+  applyMorphology,
+} from "./morphology/index.js";
 import {
   computePhonemeTargetBounds,
   derivePhonemeTargets,
@@ -88,10 +93,6 @@ function getPlanGuardProbability(rt: GeneratorRuntime): number {
 
 function getPostVowelGlideMultiplier(rt: GeneratorRuntime): number {
   return rt.config.hiatusPolicy?.postVowelGlideMultiplier ?? DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER;
-}
-
-function getRootFallbackBridges(rt: GeneratorRuntime): [string, number][] {
-  return rt.config.hiatusPolicy?.fallbackBridgeOnsets ?? defaultFallbackBridgeOnsets();
 }
 
 /** Build a set of all proper prefixes for attested clusters (excludes the full key). */
@@ -1194,20 +1195,52 @@ function generateOneWord(
 ): Word {
   // Plan morphology before generating root (to adjust syllable count)
   const morphConfig = rt.config.morphology;
-  const morphPlan = morphConfig?.enabled && applyMorph
+  let morphPlan = morphConfig?.enabled && applyMorph
     ? planMorphology(morphConfig, mode, rand)
     : undefined;
 
-  // Guard: if "both" template would reduce root below 1 syllable, downgrade to single affix
+  const forcedFinalSyllableCount = syllableCount > 0 ? syllableCount : undefined;
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  const sampledFinalTarget = sampleTargetPhonemeCount(rt, mode, rand, forcedFinalSyllableCount);
+
+  let morphologyGuardDecision;
+  if (morphPlan) {
+    const guarded = guardMorphologyPlan(morphPlan, sampledFinalTarget, (selection) => {
+      const selectionBudget = getConservativeMorphologyBudget(selection.plan);
+      const selectionRootSyllableCount = syllableCount > 0
+        ? syllableCount - selectionBudget.syllables
+        : syllableCount;
+      if (syllableCount > 0 && selectionRootSyllableCount <= 0) {
+        // Candidates that consume the full forced syllable budget cannot
+        // satisfy the caller's requested final syllable count.
+        return { finalTarget: sampledFinalTarget, rootTarget: 0 };
+      }
+      const selectionForcedRootSyllableCount = selectionRootSyllableCount > 0
+        ? selectionRootSyllableCount
+        : undefined;
+      const selectionBounds = computePhonemeTargetBounds(selectionForcedRootSyllableCount, maxOnset, maxCoda);
+      const { finalTarget, rootTarget } = derivePhonemeTargets(
+        sampledFinalTarget,
+        selectionBudget.phonemes,
+        selectionBounds,
+      );
+      return { finalTarget, rootTarget };
+    });
+    morphPlan = guarded.selection;
+    morphologyGuardDecision = guarded.decision;
+  }
+
+  // Preserve the original "both" plan through the phoneme-budget guard so it
+  // can choose between prefix-only and suffix-only fallbacks before we apply
+  // the older forced-syllable downgrade.
   if (morphPlan && morphPlan.plan.template === "both" && syllableCount > 0) {
     const rootAfterReduction = syllableCount - morphPlan.syllableReduction;
-    if (rootAfterReduction < 1) {
-      // Drop prefix, keep suffix (more natural in English)
-      if (morphPlan.plan.prefix) {
-        morphPlan.syllableReduction -= morphPlan.plan.prefix.syllableCount;
-        morphPlan.plan.prefix = undefined;
-        morphPlan.plan.template = "suffixed";
-      }
+    if (rootAfterReduction < 1 && morphPlan.plan.prefix) {
+      // Drop prefix, keep suffix (more natural in English).
+      morphPlan.syllableReduction -= morphPlan.plan.prefix.syllableCount;
+      morphPlan.plan.prefix = undefined;
+      morphPlan.plan.template = "suffixed";
     }
   }
 
@@ -1221,19 +1254,16 @@ function generateOneWord(
   let bestAttempt = 0;
   let bestScore = Infinity;
 
-  // Adjust syllable count for affix syllables.
+  // Reserve the selected plan's baseline affix syllables for root generation.
+  // Longer allomorphs are filtered by the forced-final-count acceptance check.
   let rootSyllableCount = syllableCount;
   if (morphPlan && morphPlan.syllableReduction > 0 && rootSyllableCount > 0) {
     rootSyllableCount = Math.max(1, rootSyllableCount - morphPlan.syllableReduction);
   }
 
-  const forcedFinalSyllableCount = syllableCount > 0 ? syllableCount : undefined;
   const forcedRootSyllableCount = rootSyllableCount > 0 ? rootSyllableCount : undefined;
   const plannedMorphologyDelta = getPlannedMorphologyPhonemeDelta(morphPlan?.plan);
-  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
-  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
   const bounds = computePhonemeTargetBounds(forcedRootSyllableCount, maxOnset, maxCoda);
-  const sampledFinalTarget = sampleTargetPhonemeCount(rt, mode, rand, forcedFinalSyllableCount);
   const { finalTarget: targetPhonemeCountFinal, rootTarget: targetPhonemeCountRoot } = derivePhonemeTargets(
     sampledFinalTarget,
     plannedMorphologyDelta.planned,
@@ -1245,6 +1275,12 @@ function generateOneWord(
     const syllablePlans = distributePhonemes(rt, targetPhonemeCountRoot, sampledSyllableCount, rand);
 
     const traceCollector = enableTrace ? new TraceCollector() : undefined;
+    if (traceCollector && morphologyGuardDecision) {
+      traceCollector.recordStructural({
+        event: "morphologyGuard",
+        ...morphologyGuardDecision,
+      });
+    }
     if (traceCollector && morphPlan) {
       traceCollector.morphologyTrace = {
         template: morphPlan.plan.template,
@@ -1271,7 +1307,7 @@ function generateOneWord(
     const rootPhonemeCount = countPhonemes(context.word.syllables);
 
     // Apply morphology after pipeline produces the bare root
-    const morphApplied = !!morphPlan;
+    const morphApplied = !!morphPlan && morphPlan.plan.template !== "bare";
     if (morphPlan) {
       applyMorphology(rt, context, morphPlan.plan);
       // Post-morphology consonant letter repair: suffix attachment can create
@@ -1313,21 +1349,30 @@ function generateOneWord(
       context.word.syllables.length,
       rt.config.syllableStructure.letterLengthTargets,
     );
+    const forcedFinalSyllableDistance = forcedFinalSyllableCount
+      ? Math.abs(context.word.syllables.length - forcedFinalSyllableCount)
+      : 0;
+    const totalAttemptScore = attemptScore.total + forcedFinalSyllableDistance * 100;
 
     lastContext = context;
     lastTraceCollector = traceCollector;
     lastMorphApplied = morphApplied;
 
-    if (attemptScore.total < bestScore) {
-      bestScore = attemptScore.total;
+    if (totalAttemptScore < bestScore) {
+      bestScore = totalAttemptScore;
       bestContext = context;
       bestTraceCollector = traceCollector;
       bestMorphApplied = morphApplied;
       bestAttempt = attempt;
     }
 
-    const perfectMatch = attemptScore.phonemeDistance === 0 && attemptScore.letterPenalty === 0;
+    const matchesForcedFinalSyllableCount = !forcedFinalSyllableCount
+      || context.word.syllables.length === forcedFinalSyllableCount;
+    const perfectMatch = matchesForcedFinalSyllableCount
+      && attemptScore.phonemeDistance === 0
+      && attemptScore.letterPenalty === 0;
     const goodEnoughAfterWarmup =
+      matchesForcedFinalSyllableCount &&
       attempt >= MAX_LENGTH_RETRIES &&
       attemptScore.phonemeDistance === 0 &&
       attemptScore.letterPenalty <= 0.5 &&
@@ -1336,6 +1381,8 @@ function generateOneWord(
     if (perfectMatch || goodEnoughAfterWarmup) {
       if (traceCollector) {
         traceCollector.syllableCount = context.syllableCount;
+        traceCollector.targetPhonemeCount = context.targetPhonemeCount;
+        traceCollector.syllablePlans = context.syllablePlans;
         traceCollector.attempts = attempt;
         context.word.trace = traceCollector.toTrace(morphApplied);
       }
@@ -1352,6 +1399,8 @@ function generateOneWord(
   const fallbackAttempts = bestContext ? bestAttempt : maxAttempts;
   if (fallbackTraceCollector) {
     fallbackTraceCollector.syllableCount = fallbackContext.syllableCount;
+    fallbackTraceCollector.targetPhonemeCount = fallbackContext.targetPhonemeCount;
+    fallbackTraceCollector.syllablePlans = fallbackContext.syllablePlans;
     fallbackTraceCollector.attempts = fallbackAttempts;
     fallbackContext.word.trace = fallbackTraceCollector.toTrace(fallbackMorphApplied);
   }
