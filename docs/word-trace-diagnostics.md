@@ -119,3 +119,8 @@ Recent lexicon-mode tuning work found repeatable signatures:
   - Signature: low `morphology.suffix === "tion"` incidence rather than a repair failure.
 - `ns` under-representation
   - Signature: scarcity aligns with coda cluster weighting, not grapheme repair.
+
+## Focused common-word probes
+
+For controlled `of`/`off`/`ofe` writer tests and a seeded root-plan-to-spelling
+probe, see [productive `of` spelling diagnostics](of-spelling-diagnostics.md).
