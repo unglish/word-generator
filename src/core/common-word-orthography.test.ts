@@ -41,11 +41,15 @@ function makeSyllable(onset: string[], nucleus: string[], coda: string[]): Sylla
   };
 }
 
-function makeScopedConfig(graphemes: Grapheme[]) {
+function makeScopedConfig(
+  graphemes: Grapheme[],
+  gapSpellings = englishConfig.gapSpellings ?? [],
+) {
   return {
     ...englishConfig,
     graphemes,
     graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
+    gapSpellings,
   };
 }
 
@@ -54,8 +58,9 @@ function writeWord(
   syllables: Syllable[],
   rand = () => 0,
   plannedMorphologyTemplate: MorphologyTemplate = "bare",
+  gapSpellings = englishConfig.gapSpellings ?? [],
 ) {
-  const config = makeScopedConfig(graphemes);
+  const config = makeScopedConfig(graphemes, gapSpellings);
   const trace = new TraceCollector();
   const applyGapSpellings = createGapSpellingApplicator(config);
   const context: WordGenerationContext = {
@@ -302,6 +307,58 @@ describe("common-word orthography coverage", () => {
     expect(hasRepair(people.trace, "gapSpelling:people")).toBe(true);
     expect(to.trace.repairs.find((entry) => entry.rule === "gapSpelling:to")?.detail).toBe("targetLayer:grapheme");
     expect(people.trace.repairs.find((entry) => entry.rule === "gapSpelling:people")?.detail).toBe("targetLayer:spellingRule");
+  });
+
+  it("documents the productive writer paths around of without gap spellings", () => {
+    const structuralOf = writeWord(
+      [
+        cloneGrapheme("ɔ", "o"),
+        cloneGrapheme("f", "f"),
+      ],
+      [makeSyllable([], ["ɔ"], ["f"])],
+      () => 0,
+      "bare",
+      [],
+    );
+    const laxOff = writeWord(
+      [
+        cloneGrapheme("ʌ", "o"),
+        cloneGrapheme("f", "f"),
+      ],
+      [makeSyllable([], ["ʌ"], ["f"])],
+      () => 0,
+      "bare",
+      [],
+    );
+    const schwaOff = writeWord(
+      [
+        cloneGrapheme("ə", "o"),
+        cloneGrapheme("f", "f"),
+      ],
+      [makeSyllable([], ["ə"], ["f"])],
+      () => 0,
+      "bare",
+      [],
+    );
+    const voicedOfe = writeWord(
+      [
+        cloneGrapheme("ɔ", "o"),
+        cloneGrapheme("v", "f"),
+      ],
+      [makeSyllable([], ["ɔ"], ["v"])],
+      () => 0,
+      "bare",
+      [],
+    );
+
+    expect(structuralOf.word.written.clean).toBe("of");
+    expect(laxOff.word.written.clean).toBe("off");
+    expect(schwaOff.word.written.clean).toBe("off");
+    expect(voicedOfe.word.written.clean).toBe("ofe");
+    expect(structuralOf.trace.repairs.some((entry) => entry.rule.startsWith("gapSpelling:"))).toBe(false);
+    expect(laxOff.trace.repairs.some((entry) => entry.rule.startsWith("gapSpelling:"))).toBe(false);
+    expect(schwaOff.trace.repairs.some((entry) => entry.rule.startsWith("gapSpelling:"))).toBe(false);
+    expect(voicedOfe.trace.repairs.some((entry) => entry.rule.startsWith("gapSpelling:"))).toBe(false);
   });
 
   it("does not leak gap spellings into broader phoneme classes", () => {

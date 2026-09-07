@@ -1,4 +1,4 @@
-import type { Syllable } from "../types.js";
+import type { Syllable, SyllableShapePlan } from "../types.js";
 
 export interface SyllableSnapshot {
   onset: string[];
@@ -148,6 +148,22 @@ export interface MorphSuffixHiatusFallbackTrace {
   syllableIndex: number;
 }
 
+export interface MorphologyGuardTrace {
+  event: "morphologyGuard";
+  /** Morphology template selected before the phoneme-budget downgrade. */
+  originalTemplate: string;
+  /** Final template kept after guard evaluation. */
+  adjustedTemplate: string;
+  /** Effective final target for the original plan that triggered guard evaluation. */
+  sampledFinalTarget: number;
+  /** Minimum allowed root phoneme budget for an affixed form. */
+  minRootPhonemes: number;
+  /** Root phoneme budget before downgrading the plan. */
+  rootPhonemesBefore: number;
+  /** Root phoneme budget after downgrading the plan. */
+  rootPhonemesAfter: number;
+}
+
 export type AspirationTargetSegment = "onset" | "nucleus" | "coda";
 
 export interface AspirationDecisionEvaluatedTrace {
@@ -192,6 +208,7 @@ export type StructuralTrace =
   | VowelHiatusFallbackTrace
   | MorphPrefixHiatusFallbackTrace
   | MorphSuffixHiatusFallbackTrace
+  | MorphologyGuardTrace
   | AspirationDecisionTrace;
 
 export interface TraceLink {
@@ -235,9 +252,13 @@ export interface OrthographyTrace {
 export interface WordTrace {
   /** Target syllable count chosen for this word. */
   syllableCount: number;
+  /** Target phoneme count for the generated root before morphology. */
+  targetPhonemeCount?: number;
+  /** Planned onset/coda counts for each generated root syllable. */
+  syllablePlans?: SyllableShapePlan[];
   /** How many letter-length rejection attempts before acceptance (0 = first try). */
   attempts: number;
-  /** Morphology plan details (only when morphology was applied). */
+  /** Final morphology plan selected for this generation, including guarded bare outcomes. */
   morphology?: MorphologyTrace;
   /** Structural decisions during syllable generation (boundary adjustments, extensions). */
   structural: StructuralTrace[];
@@ -290,11 +311,15 @@ export class TraceCollector {
   }
 
   syllableCount: number = 0;
+  targetPhonemeCount?: number;
+  syllablePlans?: SyllableShapePlan[];
   attempts: number = 0;
 
   toTrace(morphApplied: boolean): WordTrace {
     return {
       syllableCount: this.syllableCount,
+      targetPhonemeCount: this.targetPhonemeCount,
+      syllablePlans: this.syllablePlans,
       attempts: this.attempts,
       morphology: this.morphologyTrace,
       structural: this.structural,

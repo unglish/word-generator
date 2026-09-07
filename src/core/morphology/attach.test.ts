@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { planMorphology, applyMorphology } from "./index.js";
+import { planMorphology, guardMorphologyPlan, applyMorphology } from "./index.js";
 import { applyBoundaryTransforms, matchesPhonologicalCondition } from "./attach.js";
 import { createSeededRng } from "../../utils/random.js";
 import { MorphologyConfig, Affix, BoundaryTransform, PhonologicalCondition } from "../../config/language.js";
@@ -249,6 +249,143 @@ describe("morphology", () => {
       const rand = createSeededRng(42);
       const { syllableReduction } = planMorphology(config, "text", rand);
       expect(syllableReduction).toBe(1);
+    });
+
+    it("downgrades both->suffixed when both would leave too few root phonemes", () => {
+      const config = makeConfig({
+        prefixes: [simplePrefix],
+        suffixes: [simpleSuffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+        },
+      });
+      const rand = createSeededRng(42);
+      const selected = planMorphology(config, "text", rand);
+      const guarded = guardMorphologyPlan(selected, 5);
+
+      expect(guarded.selection.plan.template).toBe("suffixed");
+      expect(guarded.selection.plan.suffix?.written).toBe("ing");
+      expect(guarded.selection.syllableReduction).toBe(1);
+      expect(guarded.decision).toMatchObject({
+        originalTemplate: "both",
+        adjustedTemplate: "suffixed",
+        rootPhonemesBefore: 1,
+        rootPhonemesAfter: 3,
+      });
+    });
+
+    it("downgrades both->prefixed when suffix-only still leaves too few root phonemes", () => {
+      const longSuffix: Affix = {
+        type: "suffix",
+        written: "tion",
+        phonemes: ["ʃ", "ə", "n"],
+        syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }],
+        syllableCount: 1,
+        stressEffect: "none",
+        frequency: 100,
+        boundaryTransforms: [],
+      };
+      const config = makeConfig({
+        prefixes: [simplePrefix],
+        suffixes: [longSuffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+        },
+      });
+      const rand = createSeededRng(42);
+      const selected = planMorphology(config, "text", rand);
+      const guarded = guardMorphologyPlan(selected, 5);
+
+      expect(guarded.selection.plan.template).toBe("prefixed");
+      expect(guarded.selection.plan.prefix?.written).toBe("un");
+      expect(guarded.selection.syllableReduction).toBe(1);
+      expect(guarded.decision).toMatchObject({
+        originalTemplate: "both",
+        adjustedTemplate: "prefixed",
+        rootPhonemesBefore: 0,
+        rootPhonemesAfter: 3,
+      });
+    });
+
+    it("downgrades single-affix plans to bare when the remaining root budget is too short", () => {
+      const config = makeConfig({ suffixes: [simpleSuffix] });
+      const rand = createSeededRng(42);
+      const selected = planMorphology(config, "text", rand);
+      const guarded = guardMorphologyPlan(selected, 2);
+
+      expect(guarded.selection.plan.template).toBe("bare");
+      expect(guarded.selection.syllableReduction).toBe(0);
+      expect(guarded.decision).toMatchObject({
+        originalTemplate: "suffixed",
+        adjustedTemplate: "bare",
+        rootPhonemesBefore: 0,
+        rootPhonemesAfter: 2,
+      });
+    });
+
+    it("uses the largest allomorph phoneme budget when guarding short roots", () => {
+      const config = makeConfig({ suffixes: [edSuffix] });
+      const rand = createSeededRng(42);
+      const selected = planMorphology(config, "text", rand);
+      const guarded = guardMorphologyPlan(selected, 4);
+
+      expect(guarded.selection.plan.template).toBe("bare");
+      expect(guarded.selection.syllableReduction).toBe(0);
+      expect(guarded.decision).toMatchObject({
+        originalTemplate: "suffixed",
+        adjustedTemplate: "bare",
+        rootPhonemesBefore: 2,
+        rootPhonemesAfter: 4,
+      });
+    });
+
+    it("keeps an affix plan when the remaining root budget is sufficient", () => {
+      const config = makeConfig({ suffixes: [simpleSuffix] });
+      const rand = createSeededRng(42);
+      const selected = planMorphology(config, "text", rand);
+      const guarded = guardMorphologyPlan(selected, 5);
+
+      expect(guarded.selection.plan.template).toBe("suffixed");
+      expect(guarded.selection.syllableReduction).toBe(1);
+      expect(guarded.decision).toBeUndefined();
+    });
+
+    it("re-evaluates downgraded candidates against their own derived budgets", () => {
+      const config = makeConfig({
+        prefixes: [simplePrefix],
+        suffixes: [simpleSuffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+        },
+      });
+      const rand = createSeededRng(42);
+      const selected = planMorphology(config, "text", rand);
+      const guarded = guardMorphologyPlan(selected, 3, (candidate) => {
+        switch (candidate.plan.template) {
+        case "both":
+          return { finalTarget: 5, rootTarget: 1 };
+        case "suffixed":
+          return { finalTarget: 4, rootTarget: 2 };
+        case "prefixed":
+          return { finalTarget: 5, rootTarget: 3 };
+        case "bare":
+          return { finalTarget: 3, rootTarget: 3 };
+        }
+      });
+
+      expect(guarded.selection.plan.template).toBe("prefixed");
+      expect(guarded.selection.plan.prefix?.written).toBe("un");
+      expect(guarded.selection.syllableReduction).toBe(1);
+      expect(guarded.decision).toMatchObject({
+        originalTemplate: "both",
+        adjustedTemplate: "prefixed",
+        sampledFinalTarget: 5,
+        rootPhonemesBefore: 1,
+        rootPhonemesAfter: 3,
+      });
     });
   });
 
