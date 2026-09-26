@@ -1,0 +1,15 @@
+{
+  "reportSha256": "816130947eb580b91fe1a2ed13b3dcdd57e00c6e7c6eb7baab6fdf29fb312fa3",
+  "manifestFileSha256": "ad2f93c2ebf2e702f2dea6bfb43cee5dc59149b3012387e5cf87524ddeac34cc",
+  "verifierSha256": "a21d6030ad16e48be7c69ddaba62823f25656b70b7238d1b609105d951f3b5ce",
+  "words": 200000,
+  "exactAgreement": true,
+  "checks": [
+    "all pinned artifact bytes/hashes",
+    "generator source digest",
+    "exact shard set",
+    "every draw identity/order",
+    "every profile/replicate/morphology/stress-position count",
+    "stage-specific pair transitions"
+  ]
+}
