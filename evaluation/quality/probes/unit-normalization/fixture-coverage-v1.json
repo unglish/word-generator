@@ -1,0 +1,243 @@
+{
+  "version": 1,
+  "scope": "Manual requirement-to-assertion reconciliation; test-name presence alone is not proof of semantics. All listed cases were read with their assertions. Formal parity/corpus/timing are separate.",
+  "protocolSha256": "a6ceecddecf068d427980176efbcf21a60b31a128f654bc4989153759af19a5c",
+  "testFile": "src/core/spelling-normalization.test.ts",
+  "testFileSha256": "466d54a0f054873daac91b79d2de5e00542fcb41caebe0b5d4f8b75c0882cc38",
+  "mechanisms": [
+    {
+      "requirement": "c|ch /k,t\u0283/",
+      "tests": [
+        "retains /%s/ %s followed by /%s/ %s with reason %s"
+      ]
+    },
+    {
+      "requirement": "s|sh /s,\u0283/",
+      "tests": [
+        "retains /%s/ %s followed by /%s/ %s with reason %s"
+      ]
+    },
+    {
+      "requirement": "ch|h /t\u0283,h/",
+      "tests": [
+        "retains /%s/ %s followed by /%s/ %s with reason %s"
+      ]
+    },
+    {
+      "requirement": "ph|h /f,h/",
+      "tests": [
+        "retains /%s/ %s followed by /%s/ %s with reason %s"
+      ]
+    },
+    {
+      "requirement": "c|c /k,s/",
+      "tests": [
+        "retains /%s/ %s followed by /%s/ %s with reason %s"
+      ]
+    },
+    {
+      "requirement": "y|y /j,i:/",
+      "tests": [
+        "retains /%s/ %s followed by /%s/ %s with reason %s"
+      ]
+    },
+    {
+      "requirement": "ur|r /\u025a,r/",
+      "tests": [
+        "retains /%s/ %s followed by /%s/ %s with reason %s"
+      ]
+    },
+    {
+      "requirement": "s|s /s,s/",
+      "tests": [
+        "retains /%s/ %s followed by /%s/ %s with reason %s"
+      ]
+    },
+    {
+      "requirement": "o|o /\u028c,\u028c/",
+      "tests": [
+        "retains /%s/ %s followed by /%s/ %s with reason %s"
+      ]
+    },
+    {
+      "requirement": "single-phone ff",
+      "tests": [
+        "preserves the complete single-phone /%s/ form %s without an internal deduplication episode"
+      ]
+    },
+    {
+      "requirement": "single-phone ss",
+      "tests": [
+        "preserves the complete single-phone /%s/ form %s without an internal deduplication episode"
+      ]
+    },
+    {
+      "requirement": "single-phone ee",
+      "tests": [
+        "preserves the complete single-phone /%s/ form %s without an internal deduplication episode"
+      ]
+    },
+    {
+      "requirement": "single-phone ck",
+      "tests": [
+        "preserves the complete single-phone /%s/ form %s without an internal deduplication episode"
+      ]
+    },
+    {
+      "requirement": "ed\u2192d positive",
+      "tests": [
+        "public API emits a replayable positive certificate with identical trace-on/off output for registered seed %i"
+      ]
+    },
+    {
+      "requirement": "lk\u2192k conditioned positive and ineligible",
+      "tests": [
+        "checks the conditioned lk-to-k remainder with eligibility=%s"
+      ]
+    },
+    {
+      "requirement": "lm\u2192m positive",
+      "tests": [
+        "licenses complete %s remainder %s-to-%s"
+      ]
+    },
+    {
+      "requirement": "doubling p0 and p100",
+      "tests": [
+        "respects configured doubling support at probability %s"
+      ]
+    },
+    {
+      "requirement": "soft quota and forced doubling",
+      "tests": [
+        "certifies the existing soft-quota relaxation when every legal spelling exceeds the preference",
+        "requires the actual increment for a forced equal-text doubling outcome"
+      ]
+    },
+    {
+      "requirement": "singleton zero",
+      "tests": [
+        "rejects a sole zero-weight public choice instead of issuing unsupported normalization evidence"
+      ]
+    },
+    {
+      "requirement": "ordinary pool excludes fallbackOnly",
+      "tests": [
+        "does not borrow a fallback-only remainder from outside the active ordinary pool"
+      ]
+    },
+    {
+      "requirement": "missing target reading",
+      "tests": [
+        "refuses a supported remainder with %s reading evidence"
+      ]
+    },
+    {
+      "requirement": "unresolved left and right ownership",
+      "tests": [
+        "refuses a collision whose left cell has unresolved rewrite ownership",
+        "keeps a rewritten right unit unresolved even when it spells the same suffix"
+      ]
+    },
+    {
+      "requirement": "marker-bearing previous unit",
+      "tests": [
+        "retains a marker-bearing predecessor's unresolved construction obligation"
+      ]
+    },
+    {
+      "requirement": "open-vowel remainder",
+      "tests": [
+        "refuses a supported remainder with %s reading evidence"
+      ]
+    },
+    {
+      "requirement": "mutable custom conditions",
+      "tests": [
+        "rejects replay when a caller changes the supporting custom condition"
+      ]
+    },
+    {
+      "requirement": "empty preceding entry",
+      "tests": [
+        "records empty spelling guards without comparing across the empty previous unit"
+      ]
+    },
+    {
+      "requirement": "case-sensitive comparison",
+      "tests": [
+        "preserves case-sensitive noncollisions through the public writer"
+      ]
+    },
+    {
+      "requirement": "UTF-16 offsets",
+      "tests": [
+        "uses UTF-16 cell offsets after a supplementary character"
+      ]
+    },
+    {
+      "requirement": "three consecutive units",
+      "tests": [
+        "preserves historical choices and separate phones across two consecutive normalizations"
+      ]
+    },
+    {
+      "requirement": "two edits in one word",
+      "tests": [
+        "preserves historical choices and separate phones across two consecutive normalizations"
+      ]
+    },
+    {
+      "requirement": "normalized-context cap refusal",
+      "tests": [
+        "retains normalization history for cap refusal after every normalized cell is rewritten"
+      ]
+    },
+    {
+      "requirement": "clean/hyphenated agreement",
+      "tests": [
+        "preserves the registered public t|th syllable join for $sound at seed $seed",
+        "preserves separate final /s/ phone IDs through the public API at seed %i"
+      ]
+    },
+    {
+      "requirement": "detached snapshots",
+      "tests": [
+        "detaches all nested certificate and boundary snapshot data"
+      ]
+    },
+    {
+      "requirement": "tampered context/features/IDs/parts/license",
+      "tests": [
+        "rejects a forged %s claim",
+        "rejects a changed writer-boundary vowel feature that changes target doubling support"
+      ]
+    },
+    {
+      "requirement": "failed commit retains next IDs",
+      "tests": [
+        "rejects forged probability %s before advancing IDs"
+      ]
+    }
+  ],
+  "publicSeeds": [
+    13,
+    137,
+    4099
+  ],
+  "publicCases": [
+    "join-t-theta",
+    "join-t-eth",
+    "adjacent-ed-to-d",
+    "separate-final-s"
+  ],
+  "historicalAnchors": {
+    "completeV2Records": 64,
+    "partialThAnchors": 31
+  },
+  "limits": [
+    "Unresolved-left case is an adversarial pure-normalizer input; actual right rewrite and join cases have ledger replay.",
+    "Mutable-condition fixture rejects stale evidence against changed configuration; it does not claim immutable caller configuration.",
+    "Supplemental parity diagnostics disclose inherited returned-value aliasing separately from compatibility."
+  ]
+}

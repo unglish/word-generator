@@ -1,0 +1,505 @@
+{
+  "schemaVersion": 1,
+  "id": "q13c-unit-normalization-v1",
+  "phase": "protocol preparation before runtime behavior",
+  "created": "2026-09-26",
+  "hypothesis": "At existing adjacent-letter and syllable-join sites, certify a whole later-unit shortening only when the nonempty remainder has positive support under actual historical selection/doubling state and a context-complete single-phone reading; otherwise retain cells with typed refusal.",
+  "control": {
+    "commit": "569adf516a7fa03a77124d3515c9e1a17a8f71ac",
+    "runtimeSourceDigest": "3dfffb12c5f595507276983f0eae78fedf010726c928ed69cd182db987c3da5b",
+    "archiveId": "spelling-coverage-candidate",
+    "archiveSourceDigest": "f0a9da1fa95cb7f0d8901b82567d94f1b565a36a83c58d404f7c8b0528a79666",
+    "archiveManifestSha256": "6ada36379c87d12dd2030b575f71a5402de6a377ce82963362620406f7f5521f",
+    "equivalence": "#331 exact 800000-call output/trace/RNG/certificate study versus immutable #328 archive",
+    "protocolDigest": "451f4e5fab7285cc7f61f886391d6ac21ed042eb468e262790ea9e467a6c9862",
+    "evaluatorDigest": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007",
+    "referenceDigest": "38cf9d0bab164881ce06756118070d1d96db1056b8f51698ef85ef6294c5b858"
+  },
+  "designSha256": "30d5da435be9dbbeda86a33275b2a34f465ca46aa4db6bd633979d7a6060b135",
+  "candidateScope": {
+    "sites": [
+      "deduplicateAdjacentLetters",
+      "deduplicateSyllableJoin"
+    ],
+    "timing": "unchanged application points; no regex reorder, writer replay or additional sampling",
+    "proposal": "exact legacy first UTF-16 code-unit removal, committed only as an entire right-unit replacement",
+    "acceptedTargetReading": "single-phone with all affected neighboring obligations decidable at the site",
+    "selectionHistory": "original selected/afterDoubling forms and actual quota history; local normalization does not retrospectively resample",
+    "alternativeOrder": "stable original inventory/outcome order among supported exact remainder forms",
+    "jointOwnership": "not supported in this experiment",
+    "policy": "preserve-phones only; omitted policy preserves exact legacy behavior"
+  },
+  "certificate": {
+    "family": "local-unit-normalization",
+    "version": 1,
+    "ledgerVersion": 3,
+    "capability": {
+      "exactParts": 1,
+      "licensedOrigins": 1,
+      "writerBoundary": 1,
+      "unitNormalization": 1
+    },
+    "origin": "normalized",
+    "binding": "exact writer-boundary phones/features, unit and input cell IDs, append/edit cursor, actual pre-unit history, positive inventory entry and doubling support, part IDs, affected neighbor reading dependencies",
+    "probabilityClaim": "local conditional support only, never whole-word counterfactual probability",
+    "validation": "before mutation or ID advancement; independent fresh replay; reject missing evidence, unknown versions or capability combinations",
+    "historicalSupport": [
+      "ledger v1",
+      "ledger v2"
+    ],
+    "missingEpisodes": "unavailable, never clean or certified",
+    "cursorReplay": "For mid-writer normalization snapshots, materialize only units through lastAppendedUnitId and edits preceding nextEditId; do not use historical append-all-first reconstruction for these snapshots."
+  },
+  "capBoundary": {
+    "policy": "freeze normalized spans; if whole-sequence certification would use stale realization/history, retain spelling and refuse",
+    "reason": "normalization-context-unavailable",
+    "scope": "refuse the whole over-budget word when current whole-word certificate cannot exclude the dependency",
+    "numericLimits": "unchanged",
+    "searchVisitedStateBound": 8192,
+    "searchTraversalAndTieConvention": "unchanged",
+    "requiredCounts": "all new reason-specific episodes and unique affected words, by scope/profile/stream/morphology"
+  },
+  "primary": [
+    {
+      "key": "uncertifiedDedupDeletions",
+      "definition": "Any applied shortening without the required complete unit normalization or declared future joint license; legacy deletions are not certified",
+      "target": 0
+    },
+    {
+      "key": "dedupAttributedNoLineageUnits",
+      "definition": "Final base unit with no surviving exact/lineage owner whose last consuming edit is a dedup operation",
+      "target": 0
+    },
+    {
+      "key": "dedupAttributedPartialSourceUnits",
+      "definition": "Some but not all original source cells survive, no surviving licensed/rewrite replacement lineage, and at least one missing source cell was consumed by dedup",
+      "target": 0
+    },
+    {
+      "key": "dedupAttributedPartialThUnits",
+      "definition": "Previous definition restricted to selected th with one original source cell surviving",
+      "target": 0
+    },
+    {
+      "key": "normalizationPhoneMultiplicityViolations",
+      "definition": "Accepted operation loses, duplicates or reorders any original affected phone identity",
+      "target": 0
+    },
+    {
+      "key": "normalizationCertificateReplayFraction",
+      "definition": "All emitted normalization certificates pass fresh structural, source/config eligibility and reading verification; unavailable is not success",
+      "target": 1,
+      "numerator": "verified emitted normalization certificates",
+      "denominator": "all emitted normalization certificates",
+      "zeroDenominator": {
+        "fraction": null,
+        "status": "not-applicable",
+        "emitted": 0,
+        "verified": 0
+      },
+      "missingHistoricalEvidence": {
+        "fraction": null,
+        "status": "unavailable"
+      },
+      "requiredCompanionCounts": [
+        "emittedNormalizationCertificates",
+        "verifiedNormalizationCertificates"
+      ],
+      "targetApplies": "only when emittedNormalizationCertificates > 0; the required positive controlled fixture separately rules out retain-all behavior"
+    }
+  ],
+  "incidence": [
+    "wordsWithLegacyDedup",
+    "wordsWithUncertifiedDedup",
+    "wordsWithDedupNoLineage",
+    "wordsWithDedupPartialSource",
+    "wordsWithDedupPartialTh",
+    "wordsWithNormalizedOutcome",
+    "wordsWithRetainedOutcome",
+    "wordsWithNormalizationContextCapRefusal"
+  ],
+  "denominators": {
+    "words": "all scheduled outputs per profile and actual morphology stratum",
+    "phoneUnits": "all base writer-boundary phone/unit occurrences",
+    "selectedThUnits": "all original selected th units",
+    "selectedThOnsetUnits": "selected th whose source phone role is onset",
+    "structuralAdjacentUnitSlots": "ordered consecutive source units in the same syllable; not a count of actual nonempty comparisons",
+    "structuralSyllableBoundarySlots": "number of represented source syllables minus one",
+    "actualSiteComparisons": "new runtime counters at the actual existing sites, after original nonempty guards; unavailable historically",
+    "actualCollisions": "equal compared UTF-16 code units at actual sites; equals typed episode count in candidate",
+    "eventVsWord": "count every event and unit separately; each any-event word incidence at most once per key"
+  },
+  "strata": [
+    "total",
+    "four fixed profiles",
+    "twenty fixed profile/seed streams",
+    "profile plus actual resolved prefix/suffix/both/bare morphology"
+  ],
+  "guardrails": [
+    "all existing quality, distribution, diversity, written-length and timing gates unchanged",
+    "cap-attributed coverage damage remains zero",
+    "all later regex and magic-e damage remains separately attributed",
+    "all upstream duplicate phones remain visible; no phone changes to fit text",
+    "single-phone doubling and unknown ownership preserved",
+    "new refusal counts and raw-letter overruns reported",
+    "five inherited unit failures and one quality failure retained; changed failure set disclosed"
+  ],
+  "capture": {
+    "cohort": "development only",
+    "profiles": 4,
+    "replicatesPerProfile": 5,
+    "drawsPerReplicate": 10000,
+    "words": 200000,
+    "schedule": "exact pinned #307 protocol; same immutable #328 control via #331 parity",
+    "beforeAfterPins": [
+      "runtime source closure",
+      "observer/verifier closure",
+      "protocol and fixture bytes",
+      "exact archive file set and artifact hashes"
+    ],
+    "independentRecount": "raw counts and edit/phone structure independent of production license verifier; label scopes separately",
+    "noTuning": "no weight, threshold, limit, search, or objective change based on candidate results"
+  },
+  "parity": {
+    "omittedPolicy": {
+      "drawsPerReplicate": 1000,
+      "streams": 20,
+      "paths": [
+        "control traced",
+        "candidate traced",
+        "control untraced",
+        "candidate untraced"
+      ],
+      "calls": 80000,
+      "checks": [
+        "complete word and old trace equality",
+        "per-draw cumulative RNG calls and next value",
+        "mutation isolation and between-call configuration behavior"
+      ]
+    },
+    "candidateOwnTraceParity": {
+      "drawsPerReplicate": 1000,
+      "streams": 20,
+      "paths": [
+        "candidate traced",
+        "candidate untraced"
+      ],
+      "calls": 40000
+    },
+    "activeVsControl": "No full RNG/phone equality claim: retained text may change later existing probabilistic rule inputs. Check phone multiplicity at each operation and report fixed-study distribution changes."
+  },
+  "fixtures": {
+    "file": "fixtures/control-witnesses.json.gz",
+    "sha256": "ec2aed1151be0be4c19a0cad2bd106465d877e9f727598e4c89a3362079e8814",
+    "uncompressedSha256": "d0fd77f3883fd26fc1eec62ea88a7f98892c3a10a7bd773f9b576428006d1755",
+    "completeArchivedRecords": 64,
+    "partialThCoordinates": [
+      [
+        "lexicon-default",
+        69212153,
+        5789
+      ],
+      [
+        "lexicon-default",
+        101601885,
+        8666
+      ],
+      [
+        "lexicon-default",
+        101601885,
+        9770
+      ],
+      [
+        "lexicon-default",
+        3921817393,
+        208
+      ],
+      [
+        "lexicon-default",
+        3921817393,
+        3381
+      ],
+      [
+        "lexicon-default",
+        3921817393,
+        4291
+      ],
+      [
+        "lexicon-default",
+        3921817393,
+        6449
+      ],
+      [
+        "lexicon-default",
+        3921817393,
+        7699
+      ],
+      [
+        "lexicon-default",
+        3921817393,
+        9103
+      ],
+      [
+        "lexicon-default",
+        2089697863,
+        8081
+      ],
+      [
+        "lexicon-default",
+        2089697863,
+        8103
+      ],
+      [
+        "lexicon-default",
+        2089697863,
+        8538
+      ],
+      [
+        "lexicon-bare",
+        2380207674,
+        305
+      ],
+      [
+        "lexicon-bare",
+        772709128,
+        3325
+      ],
+      [
+        "lexicon-bare",
+        772709128,
+        3660
+      ],
+      [
+        "lexicon-bare",
+        772709128,
+        5373
+      ],
+      [
+        "lexicon-bare",
+        772709128,
+        7933
+      ],
+      [
+        "lexicon-bare",
+        1304238451,
+        2631
+      ],
+      [
+        "lexicon-bare",
+        1304238451,
+        4036
+      ],
+      [
+        "lexicon-bare",
+        1304238451,
+        5109
+      ],
+      [
+        "lexicon-bare",
+        1304238451,
+        8712
+      ],
+      [
+        "lexicon-bare",
+        1696751198,
+        2808
+      ],
+      [
+        "lexicon-bare",
+        1696751198,
+        8484
+      ],
+      [
+        "lexicon-bare",
+        1696751198,
+        8864
+      ],
+      [
+        "lexicon-bare",
+        1498885173,
+        236
+      ],
+      [
+        "lexicon-bare",
+        1498885173,
+        1204
+      ],
+      [
+        "lexicon-bare",
+        1498885173,
+        8401
+      ],
+      [
+        "lexicon-bare",
+        1498885173,
+        9785
+      ],
+      [
+        "text-default",
+        1999736106,
+        476
+      ],
+      [
+        "text-default",
+        1665836705,
+        1292
+      ],
+      [
+        "text-default",
+        1665836705,
+        8099
+      ]
+    ],
+    "publicApiCases": [
+      {
+        "id": "join-t-theta",
+        "onset": "θ",
+        "nucleus": "æ",
+        "coda": "t",
+        "syllables": 2,
+        "graphemes": {
+          "θ": "th",
+          "æ": "a",
+          "t": "t"
+        },
+        "expected": "retain both t and th units"
+      },
+      {
+        "id": "join-t-eth",
+        "onset": "ð",
+        "nucleus": "æ",
+        "coda": "t",
+        "syllables": 2,
+        "graphemes": {
+          "ð": "th",
+          "æ": "a",
+          "t": "t"
+        },
+        "expected": "retain both t and th units"
+      },
+      {
+        "id": "adjacent-ed-to-d",
+        "onset": "b",
+        "nucleus": "ɛ",
+        "coda": "d",
+        "syllables": 1,
+        "graphemes": {
+          "b": "b",
+          "ɛ": "e",
+          "d": [
+            [
+              "ed",
+              1000
+            ],
+            [
+              "d",
+              1
+            ]
+          ]
+        },
+        "expected": "a supported complete ed-to-d normalization; no erased phone"
+      },
+      {
+        "id": "separate-final-s",
+        "onset": "b",
+        "nucleus": "æ",
+        "coda": "s",
+        "syllables": 1,
+        "finalS": 100,
+        "graphemes": {
+          "b": "b",
+          "æ": "a",
+          "s": "s"
+        },
+        "expected": "retain two original coda phone IDs; no joint license"
+      }
+    ],
+    "publicApiSeeds": [
+      13,
+      137,
+      4099
+    ],
+    "publicApiSharedConfig": "Only specified phones/forms; fixed one onset/nucleus/coda per syllable; morphology false; aspiration/reduction/doubling/silentE/spellingRules/gapSpellings off unless case explicitly tests them; permissive structural junction config; numeric cap policy unchanged or named mechanical fixture limits; calls use createGenerator API. Pure normalization fixtures separately exercise adversarial conditions.",
+    "requiredMechanismCases": [
+      "c|ch /k,tʃ/",
+      "s|sh /s,ʃ/",
+      "ch|h /tʃ,h/",
+      "ph|h /f,h/",
+      "c|c /k,s/",
+      "y|y /j,i:/",
+      "ur|r /ɚ,r/",
+      "s|s /s,s/",
+      "o|o /ʌ,ʌ/",
+      "single-phone ff",
+      "single-phone ss",
+      "single-phone ee",
+      "single-phone ck",
+      "ed→d positive",
+      "lk→k conditioned positive and ineligible",
+      "lm→m positive",
+      "doubling p0 and p100",
+      "soft quota and forced doubling",
+      "singleton zero",
+      "ordinary pool excludes fallbackOnly",
+      "missing target reading",
+      "unresolved left and right ownership",
+      "marker-bearing previous unit",
+      "open-vowel remainder",
+      "mutable custom conditions",
+      "empty preceding entry",
+      "case-sensitive comparison",
+      "UTF-16 offsets",
+      "three consecutive units",
+      "two edits in one word",
+      "normalized-context cap refusal",
+      "clean/hyphenated agreement",
+      "detached snapshots",
+      "tampered context/features/IDs/parts/license",
+      "failed commit retains next IDs"
+    ],
+    "positiveCriterion": "At least one controlled supported normalization must succeed; no required sampled-success minimum",
+    "certifiedControlFixture": {
+      "file": "fixtures/certified-control.json.gz",
+      "coordinate": [
+        "lexicon-default",
+        69212153,
+        663
+      ],
+      "sha256": "6c87ac8c6bb5a9b37b5fea5b37dce0ddc8d1420cea7f1aa0ccba29c5a64298c3",
+      "uncompressedSha256": "20a9a884ee86a7baf13146138a0464df32491873c7ddf4f6ad7c112b0e11b2df"
+    },
+    "totalCompleteArchivedRecords": 65
+  },
+  "timing": {
+    "baseline": "exact #331",
+    "candidate": "frozen reviewed behavior source",
+    "command": "npm run test:perf",
+    "trials": 12,
+    "pairs": 6,
+    "fixedOrder": [
+      "A",
+      "B",
+      "B",
+      "A",
+      "A",
+      "B",
+      "B",
+      "A",
+      "A",
+      "B",
+      "B",
+      "A"
+    ],
+    "environment": "same host/runtime/dependencies, fresh process each run; parent-reserved idle interval with no generator/test/recount workloads",
+    "report": [
+      "raw logs/hashes",
+      "exact run order and environment",
+      "each gate status and unrounded available throughput",
+      "paired B/A ratios and median/range",
+      "interruptions retained"
+    ],
+    "acceptance": "existing throughput and variance floors must pass; report paired effect and broader Q13 regression without a new percentage target",
+    "interruption": "mark incomplete series and retain logs; no selective replacement or extra tuning. Any fresh complete series requires a documented external interruption reason and parent review."
+  },
+  "implementationHold": "This registration and historical observer do not authorize runtime activation. Parent reviews source scope and protocol hash before behavior implementation."
+}
