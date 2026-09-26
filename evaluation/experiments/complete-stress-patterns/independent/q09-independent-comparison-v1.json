@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "freezeSha256": "c8a5cca78f59da6d2e39d1de66f07699061ce603a3e47c6cbd87a9e752b68ae9",
+  "typeScriptReportSha256": "a2f6fee96a09a2c6f53e6464a7cdbb202aeadffe7496490bd3d90627d3961a39",
+  "typeScriptObserverDigest": "40c7068d486e04533cc3fd700e41debb5852223d0d05ee18f75c5d3bf98c1dba",
+  "scope": "All descriptive counts, ordered event replay and prior-origin/snapshot/final-Word binding; primary OT-law not independently recomputed",
+  "modes": {
+    "control": {
+      "independentReportSha256": "29356e0105f3213db3ada133ac646a85af6efad3dd33d5935b4816c5385613f1",
+      "words": 200000,
+      "streams": 20,
+      "profiles": 4,
+      "streamStrata": 290,
+      "comparedIntegerLeaves": 51744,
+      "allCountersEqual": true,
+      "assignmentEvents": 0
+    },
+    "candidate": {
+      "independentReportSha256": "a409aa71f575529507dd6fd0f23a8b2438a3fc1d83e5fa00ff5002ae12c733fc",
+      "words": 200000,
+      "streams": 20,
+      "profiles": 4,
+      "streamStrata": 290,
+      "comparedIntegerLeaves": 73767,
+      "allCountersEqual": true,
+      "assignmentEvents": 281110
+    }
+  },
+  "comparisonScriptSha256": "d3632502fd997cea9519e2b0e0e45a3a475c3faa02dc7c5e4b22f541fa7bb78a"
+}

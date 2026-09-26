@@ -1,0 +1,61 @@
+{
+  "runtimeCommit": "564dc5727bb28d0f421f73092b9bfb05ea9c9938",
+  "focusedRuntimeTests": {
+    "passed": 25
+  },
+  "focusedObserverTests": {
+    "passed": 34,
+    "includesCanonicalArchivedConfigRegression": true
+  },
+  "fullUnit": {
+    "passed": 493,
+    "skipped": 1,
+    "failed": 3,
+    "failures": [
+      {
+        "test": "Q06 seed167 historical word",
+        "expected": "immamsed",
+        "actual": "inlodsed"
+      },
+      {
+        "test": "Q06 selected im count >30",
+        "observed": 29
+      },
+      {
+        "test": "rare ugh floor",
+        "ratio": 0.004901057711283718,
+        "floor": 0.0062
+      }
+    ]
+  },
+  "quality": {
+    "passed": 12,
+    "failed": 0
+  },
+  "runtimeStrictTypeScriptExit": 0,
+  "observerStrictTypeScriptExit": 0,
+  "touchedEslintExit": 0,
+  "diffCheckExit": 0,
+  "scope": "No gate or inherited assertion changed. Full results match the immediate control except new passing observation fixtures.",
+  "performance": {
+    "orderedModes": [
+      "control",
+      "candidate"
+    ],
+    "control": {
+      "wordsPerSecond": 6603,
+      "medianVariance": 1.32,
+      "passed": 2
+    },
+    "candidate": {
+      "wordsPerSecond": 6768,
+      "medianVariance": 1.37,
+      "passed": 2
+    },
+    "unchangedFloors": {
+      "wordsPerSecond": 4500,
+      "medianVarianceLessThan": 3
+    },
+    "repeats": 0
+  }
+}

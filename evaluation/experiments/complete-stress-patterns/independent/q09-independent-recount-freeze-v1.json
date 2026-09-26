@@ -1,0 +1,37 @@
+{
+  "frozenAt": "2026-09-26T19:22:16.278403+00:00",
+  "formalCountsNotStarted": true,
+  "purpose": "Independent full archived execution replay and all raw descriptive counters, not primary OT-law reconstruction or evidence of output improvement",
+  "scratchTests": {
+    "groups": 6,
+    "publicDevelopmentWords": 400,
+    "allTSAndPythonCounterEquality": true
+  },
+  "preflightCorrection": "Evaluator identity includes metric definitions; initial metadata-only preflight rejected a files-only digest. Corrected before freeze and before formal word recount.",
+  "files": [
+    {
+      "path": "/private/tmp/q09-independent-patterns.py",
+      "sha256": "5dbedee64a1c70993697722b4dcbdcea324f77afbabe05a0a34bfb8a2b3c08f3"
+    },
+    {
+      "path": "/private/tmp/q09-independent-patterns-test.py",
+      "sha256": "0a6ccd1332a27fbcbfeca95fd76679e847bc149b81bbbe3cc6edb0910fa008d2"
+    },
+    {
+      "path": "/private/tmp/q09-independent-fixtures-v1.jsonl",
+      "sha256": "e0e44e71b670a0c6f47eebac98a318443a97f95cb3f3c6cacd3e9f9eae9c3b97"
+    }
+  ],
+  "inputs": {
+    "control": {
+      "run": "/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/memory/quality-runs/lexical-metadata-detachment",
+      "manifestSha256": "239e956960301e010a709a0bd020432fa8f0cef2668699899c74c9c78bfe2628",
+      "sourceDigest": "d2370383c8a3be674c18d37ccb3ca11b55e3d9687ee68eb09195ef01cd02ad2e"
+    },
+    "candidate": {
+      "run": "/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/memory/quality-runs/complete-stress-patterns",
+      "manifestSha256": "1c7c178faece23800ffd11d9a2ae8203dade5de0349e06133d0bf68b2810dc60",
+      "sourceDigest": "9a9a352580489152e7cd10d4429b21e94c29b175cc8f37dfbbda8a9a3ab249dc"
+    }
+  }
+}
