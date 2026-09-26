@@ -1,0 +1,274 @@
+{
+  "version": "cmu-legacy-score-reference-formal-acceptance-v1",
+  "executionPlanSha256": "f5dc259d04e9c183ce2c9875d04069b3104962d2e851e4085afe2382d6d861e9",
+  "runnerSha256": "7a2db7cdfd1cb1e080e65bdd49cebbda36c28e756a6f954b801223b5c03591ca",
+  "reviewFreezeSha256": "cb0e284b1b694b51308df3e13223b018f9dc4a7201e9f1df9b0e5f95e0ee92d1",
+  "parentReviewSha256": "f792ed0863de483a442aa3a7c2ce633cbbc92df712544b4ff591ed21c11e4ef6",
+  "artifactSha256": "ab9702442d1d3ca78610b3f9d90b91e431964b911f7c7e9b556e457dfc2a799f",
+  "artifactDigest": "efeb3a9a94d37b477c31633281044adbd6a3074b19c147954ee119f9e4fceeb4",
+  "implementationDigest": "9164fecf511fb20a64c580c3e6edb709e3a8b1bfd6c8c3ab95e000ea770f73ff",
+  "independentVerificationSha256": "3e4a1beb731949de9b3cbd153880763c8922b6030ecf0fd386913f5aaee66ea5",
+  "entries": 117485,
+  "phoneEvents": 742333,
+  "transitionEvents": 859818,
+  "historicalModel": {
+    "tableSha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7",
+    "scorerSha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f",
+    "rows": 40,
+    "pairs": 1338,
+    "vocabulary": [
+      "#",
+      "AA",
+      "AE",
+      "AH",
+      "AO",
+      "AW",
+      "AY",
+      "B",
+      "CH",
+      "D",
+      "DH",
+      "EH",
+      "ER",
+      "EY",
+      "F",
+      "G",
+      "HH",
+      "IH",
+      "IY",
+      "JH",
+      "K",
+      "L",
+      "M",
+      "N",
+      "NG",
+      "OW",
+      "OY",
+      "P",
+      "R",
+      "S",
+      "SH",
+      "T",
+      "TH",
+      "UH",
+      "UW",
+      "V",
+      "W",
+      "Y",
+      "Z",
+      "ZH"
+    ]
+  },
+  "summary": {
+    "total": {
+      "mean": -28.401300194936404,
+      "min": -108.04680161371668,
+      "median": -27.30310972778124,
+      "max": -8.36322192495201
+    },
+    "perTransition": {
+      "mean": -3.905332152470734,
+      "min": -8.1942420364111,
+      "median": -3.8492028595566405,
+      "max": -2.3725021069327754
+    }
+  },
+  "numericComparison": {
+    "absoluteTolerance": 1e-10,
+    "relativeTolerance": 1e-12,
+    "comparedScoreValues": 234978,
+    "maximumAbsoluteError": 0.0,
+    "maximumRelativeError": 0.0,
+    "maximumAbsoluteErrorWitness": {
+      "path": [
+        "scores",
+        "rows",
+        0,
+        "total"
+      ],
+      "actual": -8.731094963567834,
+      "reference": -8.731094963567834,
+      "absoluteError": 0.0,
+      "relativeError": 0.0
+    },
+    "maximumRelativeErrorWitness": {
+      "path": [
+        "scores",
+        "rows",
+        0,
+        "total"
+      ],
+      "actual": -8.731094963567834,
+      "reference": -8.731094963567834,
+      "absoluteError": 0.0,
+      "relativeError": 0.0
+    }
+  },
+  "twoFreshBuildsByteIdentical": true,
+  "allOrderedRowsCompared": true,
+  "allMetadataExact": true,
+  "sourceAndArtifactStable": true,
+  "protectedParentFilesUnchanged": 289,
+  "commands": [
+    {
+      "name": "help",
+      "exitCode": 0,
+      "expectedExitCode": 0
+    },
+    {
+      "name": "no-arguments",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "first-build",
+      "exitCode": 0,
+      "expectedExitCode": 0
+    },
+    {
+      "name": "second-build",
+      "exitCode": 0,
+      "expectedExitCode": 0
+    },
+    {
+      "name": "existing-output",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "existing-symlink",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "dangling-symlink",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "source-as-output",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "source-hardlink-output",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "source-directory-alias-output",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "empty-source",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "truncated-source",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "invalid-utf8",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "changed-source-case",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "missing-source",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "unknown-table-option",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "duplicate-argument",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "valueless-argument",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "unsupported-policy",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "unsupported-projection",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "unsupported-scorer",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "protected-active-score-baseline",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "protected-active-table",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "protected-prior-transition-package",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "protected-demo",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "protected-evidence-alias",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "protected-runtime-alias",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "missing-output-parent",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "changed-historical-table",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "changed-historical-scorer",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "changed-published-parent",
+      "exitCode": 1,
+      "expectedExitCode": 1
+    },
+    {
+      "name": "independent-full-row-recount",
+      "exitCode": 0,
+      "expectedExitCode": 0
+    }
+  ]
+}

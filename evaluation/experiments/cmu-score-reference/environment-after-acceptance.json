@@ -1,0 +1,8 @@
+{
+  "recordedAfterAcceptance": true,
+  "node": "v24.11.1",
+  "python": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+  "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "architecture": "arm64",
+  "purpose": "Reproduction context recorded during packaging; not a performance observation or an assertion of cross-platform numeric identity."
+}

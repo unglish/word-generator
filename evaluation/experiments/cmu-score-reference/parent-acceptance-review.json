@@ -1,0 +1,13 @@
+{
+  "version": "q15-score-parent-acceptance-review-v1",
+  "acceptanceSha256": "7e75d91bcc125df570776d46879b7d7391eaeef5fe012e7c0086ab98231153ec",
+  "verificationSha256": "3e4a1beb731949de9b3cbd153880763c8922b6030ecf0fd386913f5aaee66ea5",
+  "artifactSha256": "ab9702442d1d3ca78610b3f9d90b91e431964b911f7c7e9b556e457dfc2a799f",
+  "sourceFreezeSha256": "cb0e284b1b694b51308df3e13223b018f9dc4a7201e9f1df9b0e5f95e0ee92d1",
+  "reviewedCommands": 32,
+  "reviewedSnapshotFiles": 36,
+  "protectedParentFilesUnchanged": 289,
+  "allAcceptanceClaimsConfirmed": true,
+  "noGeneratorOrGateAdoption": true,
+  "scope": "Parent source/fixture review and exact evidence/identity/command audit; independent row math performed by separately reviewed Python verifier, not another parent corpus rescore."
+}
