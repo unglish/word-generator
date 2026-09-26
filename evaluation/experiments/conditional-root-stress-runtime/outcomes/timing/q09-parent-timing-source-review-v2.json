@@ -1,0 +1,35 @@
+{
+  "schema": "q09-parent-timing-source-review-v2",
+  "reviewedManifestSha256": "e200105a5dd31827a49742db648b318057ac950562a7cb06e467d2096c6d9de4",
+  "reviewed": {
+    "matrix": {
+      "path": "/private/tmp/q09-runtime-timing-matrix-v1.mjs",
+      "sha256": "677d0f8f0e61b5990e808389c4ba5af7f498888e837bdec65e1bae97efa68769"
+    },
+    "benchmark": {
+      "path": "/private/tmp/q09-runtime-timing-v1.mjs",
+      "sha256": "bd3fc2259783dd01f714d4323b0fad0037636cdbed0aaf3929d232dc53d899c8"
+    },
+    "benchmarkTests": {
+      "path": "/private/tmp/q09-runtime-timing-test-v1.mjs",
+      "sha256": "132042ceda3c55a5192fbba82eff8f448bb70ea87c8f6377e78d9307eb461250"
+    },
+    "contract": {
+      "path": "/private/tmp/q09-runtime-timing-contract-v1.md",
+      "sha256": "c0f5b730b04f0b7827b80facf6553bbb9b078de3c46c08569126e3a5cfb787bf"
+    },
+    "matrixTests": {
+      "path": "/private/tmp/q09-runtime-timing-matrix-test-v1.mjs",
+      "sha256": "ff24e6b7d905145d0adc0b9b67f61b019ab9c6e0995c9e535790ce35545ed3e2"
+    },
+    "tsx": {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/loader.mjs",
+      "sha256": "0b1c5b86192772fe9257710e739959cee5947c11ae1f93b61abfaa9b80c6def1"
+    }
+  },
+  "syntheticTests": 31,
+  "syntheticLogSha256": "2a6dc199121f2156ce1118d5151f21b2f40f617b09ce0476aaa0d184665a5e81",
+  "passed": true,
+  "executionCondition": "Only after parent/agent corpus and test processes are terminal; env CI unset; no claim of eliminating host noise",
+  "scope": "Public configured-factory workload, fixed24freshprocesses; unchanged untraced gates; trace-on descriptive; all failures retained"
+}

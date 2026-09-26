@@ -1,0 +1,178 @@
+{
+  "schema": "q09-parent-observer-source-review-v1",
+  "scope": "Bounded independent source review and independently executed synthetic fixtures, not corpus outcomes or formal capture freeze",
+  "sourceReviewPassed": true,
+  "predecessorCheckpointSha256": "88acd925c373c5d07668c2c2bf3e7e03cfe8720db3c59ba1da8629817dffbc21",
+  "tools": [
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/analyze.mjs",
+      "bytes": 8803,
+      "sha256": "65e6dd2b21b8ae0042cb50f1c8cca3d1d2654dc23bb4172be2c896a99d5c7d1d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/analyze.test.mjs",
+      "bytes": 5470,
+      "sha256": "d1497373a1a801d26f4ab7e028a2444f3986d3f2e51235872f53c3743b749c34"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/capture-contract-v1.md",
+      "bytes": 5021,
+      "sha256": "355b95c49584a06109c21e73322acf6d537860b7888e04b5e012b3cc82445855"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/capture-core.mjs",
+      "bytes": 14081,
+      "sha256": "7d73b8717b32b1ea740ec1ded703a579ffb49655d7d683229ad7a272fde19d13"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs",
+      "bytes": 15111,
+      "sha256": "3551b804cbc89c587fdb6061be34a609e9ac7394336d82841c029e605c5da5bf"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/capture.mjs",
+      "bytes": 13680,
+      "sha256": "a51c8764dedf569b8fcd63cca372cbdda33fa7eb91e7964d01bb059334db7f21"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/capture.test.mjs",
+      "bytes": 2293,
+      "sha256": "795e0eef7bc519e4be2d22763c6e15543c3914e0bfdadec049c6e9ff2944f324"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/design-v1.md",
+      "bytes": 31510,
+      "sha256": "2b053e85960d724924d0d38b8dbe82db68810580fdb1ef0179003e6b9300f7af"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/fixture-plan-v1.md",
+      "bytes": 1895,
+      "sha256": "756c7be3b3565d0e01866a4edc951655a7eb9bd8cddba73a1dc594cd5ddd0b8a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/frozen-quality-v1.json",
+      "bytes": 1334,
+      "sha256": "ba1c8d44633a8d21eae8c09079cd843e177d71daed61a17a14b942140557332f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/implementation-notes-v1.md",
+      "bytes": 1136,
+      "sha256": "36211569b0d63bb5f1e947812dd1760c4104ab1d00e83cfbb5e2e76ff987c044"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/mechanism.mjs",
+      "bytes": 4606,
+      "sha256": "354498c28d3e54ed50882d60d4f223c21eefd8293470457759396b7dad6e8b2a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/mechanism.test.mjs",
+      "bytes": 2598,
+      "sha256": "83b68833b276d639883ff695c827a12f91345faae1e95f1c809c3cfbdc719de6"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/observe.mjs",
+      "bytes": 18684,
+      "sha256": "4aacbbc4bbb471e0346938e7953d77845d5bc399b766cd351aef03e81d3acc83"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/observe.test.mjs",
+      "bytes": 8281,
+      "sha256": "a165ca58ba94e0264831d70760f94fa1fff6d043a771f9330f4b2a0451631b72"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/observer-contract-v1.md",
+      "bytes": 5220,
+      "sha256": "8f9a838a802d37287164ac4f4663107de00f673f713941c54284cfd90c010c2d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/observer-dependencies-v1.json",
+      "bytes": 639,
+      "sha256": "eca94b6a4fba2c34493757cfa56b8c116942e1a46fb949a9acce51226d139a05"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/observer-tools-v1.md",
+      "bytes": 3283,
+      "sha256": "019505dd2405e161ee620b4b01350dd5083f5bd23070968c31bc15741d82d78b"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/parity-contract-v1.md",
+      "bytes": 2445,
+      "sha256": "56cc289196f1d1cd8c0f32df9b7f73d6bbff9498cd02bb292fdcde72644620e3"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/parity.mjs",
+      "bytes": 12709,
+      "sha256": "12e7283c12f583621810afd028166e0af28831d459124191036050fd70369b5c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/parity.test.mjs",
+      "bytes": 5303,
+      "sha256": "39d97f51011fd70997e232e4c4a2bd0e93835d8c2dd3eee659e55e0f8fb42906"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/protocol-v1.json",
+      "bytes": 3609,
+      "sha256": "f817926b0fce0c10582f0dc5dc03423e52c7c32189fd7b77b4a753b349447669"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/recount-runtime-test.py",
+      "bytes": 6990,
+      "sha256": "2aa2eea1131dfe15a84cb8569526afa99209c073bda200cd284774a82a62b560"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/recount-runtime.py",
+      "bytes": 16158,
+      "sha256": "9ef9eaf423b5da09f231dd710a584c84a7b8bdde4b23a961e242e14ba461e7f0"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/registration-v1.json",
+      "bytes": 16224,
+      "sha256": "6f63da551c524b75f8731d59dfd5de1c895cab7a4e286c03def3ab6bde85ac66"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/verify-mechanism-test.py",
+      "bytes": 5220,
+      "sha256": "8afa31214c50d68ec9751806b9b8c35f9681083b6a6aaef0564fb0d7a8cba8b7"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/verify-mechanism.py",
+      "bytes": 6981,
+      "sha256": "7d766cf1ee961ab26f8885c70bf4b6ccbe9a7f4538ea30641d901df9af13e189"
+    }
+  ],
+  "finding": {
+    "problem": "Python recount allowed a fresh proof output inside the frozen control checkout",
+    "fix": "Bind the output guard to the externally pinned freeze, exclude the original checkout including aliases, and protect before verification/publication",
+    "fixtures": "Direct/aliased original, candidate, raw, exact inputs, occupied output and untrusted freeze"
+  },
+  "tests": {
+    "node": 29,
+    "pythonMechanism": 6,
+    "pythonRecount": 6
+  },
+  "logs": [
+    {
+      "path": "/private/tmp/q09-parent-observer-tool-tests-v1.log",
+      "sha256": "0bf539d96ad8f5af4fbe03f8cafd7a7b42e91a134c8cef11f0c173f29baaff0a"
+    },
+    {
+      "path": "/private/tmp/q09-parent-recount-tests-v1.log",
+      "sha256": "37d8a0769d6c800296764c21f8e08feca52d770d400afabe65713604062cf749"
+    },
+    {
+      "path": "/private/tmp/q09-parent-mechanism-tests-v1.log",
+      "sha256": "d28b7e4ca28b671bb34e07de7e86de81dd27019af58728b15ec2a9c9f09cf657"
+    }
+  ],
+  "unchanged": {
+    "runtimePackageFiles": 52,
+    "delegationToolFiles": 8,
+    "publishedFiles": 77
+  },
+  "limits": [
+    "No active corpus or timing study",
+    "Same-engine sampler integration differs from independent Fraction/Decimal law verification",
+    "Returned-attempt contexts are not an unbiased sample of rejected attempts",
+    "Python count proof does not independently replay sampler/morphology events"
+  ]
+}

@@ -1,0 +1,14 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator
+
+ ✓ src/core/conditional-stress-pattern.test.ts (36 tests) 736ms
+ ✓ src/core/stress-pattern.test.ts (25 tests) 803ms
+   ✓ passive complete stress-pattern tracing > keeps full generation and RNG consumption identical with observation off/on  648ms
+ ✓ src/core/syllable-weight.test.ts (27 tests) 1206ms
+   ✓ shared analytical and operational syllable weight > classifies every sampled open diphthong as heavy without changing other operational cases  679ms
+
+ Test Files  3 passed (3)
+      Tests  88 passed (88)
+   Start at  14:41:16
+   Duration  1.63s (transform 289ms, setup 0ms, collect 760ms, tests 2.74s, environment 0ms, prepare 150ms)
+

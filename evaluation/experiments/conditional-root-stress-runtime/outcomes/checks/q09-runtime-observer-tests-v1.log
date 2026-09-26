@@ -1,0 +1,14 @@
+✔ public active fixtures replay K0, fixed-K disyllables, variable support and proposal endpoints (105.460292ms)
+✔ public resolved morphology replays zero arrays, changed allomorph counts and overwrites (30.170666ms)
+✔ v1 remains separate and its frozen observer rejects an active word (21.579875ms)
+✔ active observer rejects forged actual domains, origins, weights and proposal labels (24.734833ms)
+✔ sample transcript transfer rejects missing uniforms, branches, component IDs and coherent policy forgery (19.235458ms)
+✔ morphology origins bind to actual resolved arrays rather than plausible declared offsets (7.923042ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 416.354709

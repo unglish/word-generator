@@ -1,0 +1,28 @@
+{
+  "scope": "bounded runtime integration source review and focused fixtures; not corpus, formal delegation, performance or human evidence",
+  "baseCommit": "9e772f257def91b4370462e17156f71b8f54575d",
+  "files": {
+    "src/config/language.ts": "30009175cd8b999a3ccd0c879266ee7d7fffd8eade1dca5f75164f5ce4b601b4",
+    "src/core/generate.ts": "97169148f776008c8ae3b8095a213440c644dc0947217f74024af67da0133541",
+    "src/core/morphology/attach.ts": "dbfa7a456f0d7f88b87ac62cb506c1a88cb3ff8bec1531f20db3d3e4ff9a4f7c",
+    "src/core/pronounce.ts": "d1aea435500c1828e69ffcc307684bdaf46616dfa6a5209f2c25925f063517e9",
+    "src/core/trace.ts": "8fe12d14bd26fd2c2a032b31cc5e0a84de5c130c0334a4f8696dfd6931c58953",
+    "src/index.ts": "d6043ed7082bda800da490fb3f592c208e5447268b6e133b85ad6b541ca44b75",
+    "src/core/conditional-stress-pattern.ts": "13b3e58858a904b35faf3d73558c331e59a6fc19e69b5948db56d2770bb7b2b7",
+    "src/core/conditional-stress-pattern.test.ts": "1ffb6142101520e23730190aaf28e2cbba9654edd03b4dbc571ea54b969ba59a",
+    "docs/conditional-root-stress-runtime.md": "2cf82fb9ceaa615aecb2b2df3734e0a6c1ebf06ad271082e4bde907cc00729c5"
+  },
+  "immutablePublishedFilesVerified": 77,
+  "registeredDocumentsVerified": 3,
+  "command": [
+    "vitest",
+    "run",
+    "src/core/conditional-stress-pattern.test.ts",
+    "src/core/stress-pattern.test.ts",
+    "src/core/syllable-weight.test.ts"
+  ],
+  "exitCode": 0,
+  "log": "/private/tmp/q09-parent-runtime-focused-v1.log",
+  "logSha256": "0e2c3a68c9a004a590ba95e7ee5ad3558af90a7ec8d46ebcd9297b65384c1aac",
+  "sourceStable": true
+}

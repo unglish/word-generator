@@ -1,0 +1,235 @@
+{
+  "schema": "q09-runtime-timing-api-smoke-v1",
+  "passed": true,
+  "interpretation": "Correctness and interface smoke only; no elapsed measurements or benchmark outcomes",
+  "reviewManifestSha256": "8bd99214cf8fe8113ada7afa2f0bc33c01597779aaa3777829980c487ec08bd6",
+  "sourceFreezeSha256": "c217a04a03b0613e1121283b95f5d16396d23182bc32a1e647e34728aa517b38",
+  "sourceIntegrityPassed": true,
+  "attemptedFactoryWords": 60,
+  "completedFactoryWords": 60,
+  "attemptedReferenceBatchCalls": 4,
+  "completedReferenceBatchCalls": 4,
+  "completedReferenceWords": 24,
+  "cases": [
+    {
+      "variant": "control",
+      "trace": false,
+      "factoryKeys": [
+        "generateWord"
+      ],
+      "batches": [
+        {
+          "count": 5,
+          "seed": 0,
+          "sha256": "7bae33c44af34273fa0f543835aa4aaa44b66ff1cb8b0b98af29074b89d22867",
+          "legacyPublicBatchEqual": true
+        },
+        {
+          "count": 7,
+          "seed": 42,
+          "sha256": "380692a131fd547bccf1dfdb22bb5c1910863e77d204df2e418283f488409126",
+          "legacyPublicBatchEqual": true
+        }
+      ],
+      "serial": [
+        {
+          "seed": 900000,
+          "sha256": "8be222c957ab529b5cb72fc8162d302d02b95fec93d9f5930cde54de2f93f2c6"
+        },
+        {
+          "seed": 0,
+          "sha256": "d14a30ce9e6c3dcbe1e8b601f127d71e42409ff9f9a7af7a29a2be71ce2e4ea0"
+        },
+        {
+          "seed": 100000,
+          "sha256": "8c1b10143bce35f34bd784d819fd502b3264c2fb5ae61e7a98b6026e27664521"
+        }
+      ],
+      "completed": true,
+      "accounting": {
+        "attemptedWords": 15,
+        "completedWords": 15,
+        "attemptedApiCalls": 15,
+        "completedApiCalls": 15,
+        "attemptedLogicalCalls": 5,
+        "completedLogicalCalls": 5,
+        "attemptedRngFactoryCalls": 2,
+        "completedRngFactoryCalls": 2
+      }
+    },
+    {
+      "variant": "control",
+      "trace": true,
+      "factoryKeys": [
+        "generateWord"
+      ],
+      "batches": [
+        {
+          "count": 5,
+          "seed": 0,
+          "sha256": "18ac3ee4d27ba9c9548f3447f81a6abb6f248bc907c71e99e4aad8cf200c26cb",
+          "legacyPublicBatchEqual": true
+        },
+        {
+          "count": 7,
+          "seed": 42,
+          "sha256": "ba4e5ace2b3cb509923ec2355d8496d2d5e6140ea1838a0ab4884fc3e100b3f6",
+          "legacyPublicBatchEqual": true
+        }
+      ],
+      "serial": [
+        {
+          "seed": 900000,
+          "sha256": "508938911e0f785e8e4718c46f9eedb541bc9d6b52c22300ec41135734afedcf"
+        },
+        {
+          "seed": 0,
+          "sha256": "cebc03ecf81b27cb461c2604738f34d369423bc35fb7870ca959cc783bd03d9b"
+        },
+        {
+          "seed": 100000,
+          "sha256": "561d8b3422d7ff8d042d1f74fc147d3a2a4eed1c3cc951b95503448da1751e5a"
+        }
+      ],
+      "completed": true,
+      "accounting": {
+        "attemptedWords": 15,
+        "completedWords": 15,
+        "attemptedApiCalls": 15,
+        "completedApiCalls": 15,
+        "attemptedLogicalCalls": 5,
+        "completedLogicalCalls": 5,
+        "attemptedRngFactoryCalls": 2,
+        "completedRngFactoryCalls": 2
+      }
+    },
+    {
+      "variant": "active",
+      "trace": false,
+      "factoryKeys": [
+        "generateWord"
+      ],
+      "batches": [
+        {
+          "count": 5,
+          "seed": 0,
+          "sha256": "52b899db4abc3c5d8ddd93ca676e12b7e74bea82b8bf1d5e4497da601cf19230",
+          "legacyPublicBatchEqual": null
+        },
+        {
+          "count": 7,
+          "seed": 42,
+          "sha256": "dcdb23b6fc212fc36e738a583fea9518174e1e68483facb8a5e2a9f8d5ae3ccb",
+          "legacyPublicBatchEqual": null
+        }
+      ],
+      "serial": [
+        {
+          "seed": 900000,
+          "sha256": "e291ac7b721abff33ec13eee8a06e861b8d8af7f1a758380a6f2a11f48165d2d"
+        },
+        {
+          "seed": 0,
+          "sha256": "d14a30ce9e6c3dcbe1e8b601f127d71e42409ff9f9a7af7a29a2be71ce2e4ea0"
+        },
+        {
+          "seed": 100000,
+          "sha256": "8c1b10143bce35f34bd784d819fd502b3264c2fb5ae61e7a98b6026e27664521"
+        }
+      ],
+      "completed": true,
+      "accounting": {
+        "attemptedWords": 15,
+        "completedWords": 15,
+        "attemptedApiCalls": 15,
+        "completedApiCalls": 15,
+        "attemptedLogicalCalls": 5,
+        "completedLogicalCalls": 5,
+        "attemptedRngFactoryCalls": 2,
+        "completedRngFactoryCalls": 2
+      }
+    },
+    {
+      "variant": "active",
+      "trace": true,
+      "factoryKeys": [
+        "generateWord"
+      ],
+      "batches": [
+        {
+          "count": 5,
+          "seed": 0,
+          "sha256": "faff705cbc64a3bb3b95bc5348b552d78de9d7fd642cb8f5b673fccc605222b0",
+          "legacyPublicBatchEqual": null
+        },
+        {
+          "count": 7,
+          "seed": 42,
+          "sha256": "a3ad954a637b0adc9b81263aeccd6f700f88ed16d5a3c9f7d7c2015db043ce97",
+          "legacyPublicBatchEqual": null
+        }
+      ],
+      "serial": [
+        {
+          "seed": 900000,
+          "sha256": "818d58ae6e4c6d528ca65d0dd0e2db370625424f425c04a3f84dd95ee3aec800"
+        },
+        {
+          "seed": 0,
+          "sha256": "afd9d393986f24e9363692f7bee973b4917c1d08d74c10fa670c9b1c6d4718d7"
+        },
+        {
+          "seed": 100000,
+          "sha256": "9fd64dd66ac1a61dbbe367589f702ebb9ee9cd65b9c67247db9dd8d83d4000d9"
+        }
+      ],
+      "completed": true,
+      "accounting": {
+        "attemptedWords": 15,
+        "completedWords": 15,
+        "attemptedApiCalls": 15,
+        "completedApiCalls": 15,
+        "attemptedLogicalCalls": 5,
+        "completedLogicalCalls": 5,
+        "attemptedRngFactoryCalls": 2,
+        "completedRngFactoryCalls": 2
+      }
+    }
+  ],
+  "engine": {
+    "executable": "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "sha256": "4255a388254ca4319e2f95f1da375d5deaddf25baf9c7c85070b67f9543b15d0",
+    "version": "v24.11.1",
+    "versions": {
+      "node": "24.11.1",
+      "acorn": "8.15.0",
+      "ada": "3.3.0",
+      "amaro": "1.1.4",
+      "ares": "1.34.5",
+      "brotli": "1.1.0",
+      "cjs_module_lexer": "2.1.0",
+      "cldr": "47.0",
+      "icu": "77.1",
+      "llhttp": "9.3.0",
+      "modules": "137",
+      "napi": "10",
+      "nbytes": "0.1.1",
+      "ncrypto": "0.0.1",
+      "nghttp2": "1.66.0",
+      "openssl": "3.5.4",
+      "simdjson": "4.0.7",
+      "simdutf": "6.4.0",
+      "sqlite": "3.50.4",
+      "tz": "2025b",
+      "undici": "7.16.0",
+      "unicode": "16.0",
+      "uv": "1.51.0",
+      "uvwasi": "0.0.23",
+      "v8": "13.6.233.10-node.28",
+      "zlib": "1.3.1-470d3a2",
+      "zstd": "1.5.7"
+    },
+    "platform": "darwin",
+    "arch": "arm64"
+  }
+}

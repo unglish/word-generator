@@ -1,0 +1,14 @@
+{
+  "source": "/private/tmp/q09-runtime-supplement-result-v2.json",
+  "originalBytes": 1507751990,
+  "originalSha256": "6a51e736296f436e9b55b0c97d14680b332ca7609a32b21941b5dda79e84e8dc",
+  "compressed": "/private/tmp/q09-runtime-supplement-result-v2.json.xz",
+  "compressedBytes": 20039908,
+  "compressedSha256": "dd2c5cf03014f42dba7f13130547570d04a22c2b8673e12a75d261de070d3c08",
+  "compression": {
+    "format": "xz",
+    "preset": 9,
+    "check": "CRC64"
+  },
+  "roundTripVerified": true
+}

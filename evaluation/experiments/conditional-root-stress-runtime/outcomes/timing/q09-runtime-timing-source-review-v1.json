@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "q09-timing-source-review-v1",
+  "scope": "read-only source review; no real timing execution",
+  "reviewedSources": [
+    {
+      "path": "/private/tmp/q09-runtime-timing-v1.mjs",
+      "sha256": "12267670aa6da8739a4a97c99a7d3e606abc4a6d1683c76da9c3b767e40dcd8f",
+      "currentBytesStillMatchReview": true
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-test-v1.mjs",
+      "sha256": "a73547c1dd960629b5914417c0519f73580985c0ace12f0243c718b829caab1c",
+      "currentBytesStillMatchReview": true
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-contract-v1.md",
+      "sha256": "f304f0c326bc2e5b9457577e36f0501fc3e191c1de2699b9d9cba3e1a768e34c",
+      "currentBytesStillMatchReview": true
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/src/core/generate.perf.test.ts",
+      "sha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83",
+      "currentBytesStillMatchReview": true
+    }
+  ],
+  "workload": {
+    "wordsPerProcess": 13100,
+    "apiCallsPerProcess": 3052,
+    "processes": 24,
+    "totalWords": 314400,
+    "seedsAndBatchSizesMatchInheritedTest": true
+  },
+  "gates": {
+    "traceOffWordsPerSecondFloor": 4500,
+    "traceOffMedianVarianceExclusiveCeiling": 3,
+    "testDeadlineMs": 20000,
+    "traceOn": "descriptive only",
+    "newPercentageRegressionGate": false
+  },
+  "findings": [
+    {
+      "priority": "before-timing",
+      "line": 43,
+      "issue": "Preflight/import/configuration/factory failures precede the report handler and leave no retained JSON result. Reserve protected output and preserve failure records including zero/partial accounting."
+    },
+    {
+      "priority": "before-timing",
+      "line": 24,
+      "issue": "The current variance trial is attached only after all five batches finish. A mid-trial failure discards already completed batch timings. Attach its mutable record before the loop."
+    },
+    {
+      "priority": "authority",
+      "line": 44,
+      "issue": "Output protection covers both source trees but not immutable raw archive trees. Extend protected roots to preserve exact archive path sets."
+    },
+    {
+      "priority": "execution-ledger",
+      "issue": "Twenty-four fresh processes and ABBAABBAABBA per mode are specified in the contract but not enforced by this single-run tool. Retain an explicit fixed ordered ledger with pair,mode,variant,command,output and outcome."
+    }
+  ],
+  "limits": [
+    "Source identity checks delegate to the frozen capture boundary.",
+    "Four existing fake-API tests were inspected; no new real performance measurements.",
+    "No quiet timing window while parent tests or Q13 analysis remain active."
+  ]
+}

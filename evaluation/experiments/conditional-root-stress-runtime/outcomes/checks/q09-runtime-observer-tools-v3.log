@@ -1,0 +1,37 @@
+✔ aggregate observation keeps unavailable legacy phases distinct from actual six-domain marks (23.886167ms)
+✔ control counts retain explicit/rhythm domains without inventing a sampled-application domain (11.924917ms)
+✔ groups recount context uses and real proposal/application changes without conflating fixed K (1.165958ms)
+✔ resolved zero-written affix identity remains a morphology stratum (0.09075ms)
+✔ analysis preflight rejects untrusted freeze bytes without writing a success or failure report (18.123834ms)
+✔ frozen reader/rescorer preserve exact words and producer while raw summaries cannot be compared (167.657416ms)
+✔ raw identity requires externally expected producer and effective configuration (21.874458ms)
+✔ raw publication retains incomplete schedule failures and refuses existing output (15.796792ms)
+✔ a source preservation failure prevents completed manifest publication (15.679209ms)
+✔ coordinate forgery remains invalid even with coherent compressed hashes (23.665916ms)
+✔ dropped, extra, and malformed raw artifacts cannot pass the strict capture reader (78.097666ms)
+✔ self-consistent source and accounting forgeries are not trusted (85.221458ms)
+✔ coherently redigested shorter or reordered schedules remain bound to the reviewed producer (43.243833ms)
+✔ generation environment cannot differ from the externally reviewed engine (23.338208ms)
+✔ adapter after-failure retains staged bytes without any completed scored manifest (93.711834ms)
+✔ late publication gate failure leaves only explicitly incomplete final files (89.343333ms)
+✔ early frozen-rescore rejection preserves the original error in an incomplete pending directory (28.861375ms)
+✔ capture publication refuses source/proof trees through lexical and aliased paths (18.860667ms)
+✔ capture refuses a self-consistent but unreviewed freeze digest before publication (6.286958ms)
+✔ hand two-pattern law has one-half prior clash and one-third tilted clash (1.527375ms)
+✔ all zero candidate weights retain the unsupported pattern as an exact zero row (0.237292ms)
+✔ well-formed absent K is an error and no input is silently truncated (1.160875ms)
+✔ registry sums repeated contexts but detaches input/results and rejects unsupported actual marks (1.434666ms)
+✔ public active fixtures replay K0, fixed-K disyllables, variable support and proposal endpoints (112.783542ms)
+✔ public resolved morphology replays zero arrays, changed allomorph counts and overwrites (31.046542ms)
+✔ v1 remains separate and its frozen observer rejects an active word (18.459083ms)
+✔ active observer rejects forged actual domains, origins, weights and proposal labels (28.368416ms)
+✔ sample transcript transfer rejects missing uniforms, branches, component IDs and coherent policy forgery (22.992ms)
+✔ morphology origins bind to actual resolved arrays rather than plausible declared offsets (8.868833ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 948.42625

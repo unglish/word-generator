@@ -1,0 +1,51 @@
+{"command": ["/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node", "--test", "/private/tmp/q09-runtime-timing-test-v1.mjs"], "exitCode": 0}
+✔ exact frozen seed schedule, batch sizes, logical calls and word totals (9.825333ms)
+✔ trace workload is identical but cannot pass invented existing trace gates (4.712042ms)
+✔ unchanged untraced floor and deadlines retain slow outcomes (2.888708ms)
+✔ failed public calls retain attempted and completed accounting separately (2.165542ms)
+✔ mid-trial failures retain every completed batch and partial call accounting (2.65125ms)
+✔ tools failure retains exclusive JSON with zero completed accounting (10.779709ms)
+✔ preflight failure retains exclusive JSON with zero completed accounting (2.923292ms)
+✔ runtime-import failure retains exclusive JSON with zero completed accounting (2.777666ms)
+✔ configuration failure retains exclusive JSON with zero completed accounting (4.564917ms)
+✔ factory-construction failure retains exclusive JSON with zero completed accounting (3.150833ms)
+✔ bad self hash fails before tool imports but preserves its reserved report (1.993334ms)
+✔ measurement failures retain counts and still perform final integrity verification (3.608083ms)
+✔ postflight failure cannot publish a successful authority result (3.999417ms)
+✔ protected raw archives and source aliases cannot receive a timing output (2.836083ms)
+✔ gate failures remain completed outcomes but yield a failing process classification (4.892792ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 151.386666
+
+{"command": ["/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node", "--test", "/private/tmp/q09-runtime-timing-matrix-test-v1.mjs"], "exitCode": 0}
+✔ fixed 24-slot schedule preserves six adjacent AB/BA pairs in each trace mode (1.253125ms)
+✔ 24 injected invocations are sequential, use exact commands, and preserve raw output and append-only events (361.685833ms)
+✔ slow gates, partial workload failure, process crash, and launcher rejection keep their scheduled slots without retries (337.091458ms)
+✔ incorrect completed accounting is retained as invalid and does not replace the run (341.117625ms)
+✔ every reviewed pin is checked before any launch or output creation (21.850709ms)
+✔ post-process benchmark, contract, loader and frozen engine mutation aborts with the failed invocation preserved (120.312958ms)
+✔ child source, config, trace, variant, engine and freeze mismatch abort instead of accepting a timing (214.805875ms)
+✔ fresh exclusive output and ledger paths protect both source roots, raw archives, and symlink aliases (19.565541ms)
+✔ manifest, matrix identity, and production freeze authority cannot silently drift (4.904458ms)
+✔ matrix and test pin byte mismatches are rejected without changing those actual files (8.015667ms)
+✔ malformed reports remain raw outcomes and completed reports with a failing exit remain process failures (334.645875ms)
+✔ forged or incomplete completed timing fields and gate claims are rejected while preserving all 24 slots (333.699ms)
+✔ a forged untraced gate is rejected from the retained raw timings (330.751625ms)
+✔ ledger cannot occupy the output directory or any scheduled child output path (6.354125ms)
+✔ pure timing summary keeps slow gate-failed pairs, all six positions, and exact trace overhead ratios (0.636333ms)
+✔ summary reports null and reasons for missing, invalid and incomplete slots without compressing the schedule (0.419ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2498.573333
+

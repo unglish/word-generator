@@ -1,0 +1,17 @@
+✔ live parity rejects a missing undefined key even when JSON is equal (1.667625ms)
+✔ live parity includes nested nonenumerable own keys (0.312125ms)
+✔ live parity includes descriptor and own-key order changes (0.370625ms)
+✔ only trace-on/off projection removes the trace key, without mutating words (0.333125ms)
+✔ complete legacy trace differences are not projected away (0.885208ms)
+✔ the schedule pin rejects changed options, seed, count, order and serialization (5.007208ms)
+✔ pinned source verification rejects changed, absent and aliased files (4.45575ms)
+✔ fresh-output preflight refuses an existing file, directory or broken alias (1.93825ms)
+✔ source pins and discovery reject symlink ancestors through the declared checkout root (2.474166ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 76.030167

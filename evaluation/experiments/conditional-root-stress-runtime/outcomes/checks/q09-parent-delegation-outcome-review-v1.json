@@ -1,0 +1,16 @@
+{
+  "scope": "Independent review of published delegation report, exact stream schedule, all recorded RNG/word hashes and current pinned source bytes; does not rerun generation",
+  "passed": true,
+  "reportSha256": "8f93fc67dd8e050764e6ebb31e88a736d00b61ef126c18e9e7603dfd6e23f73c",
+  "inputsSha256": "1903ef2da196cb1131fe2696c302dd312a13cb5c7f3342771fa4fa0bdff02523",
+  "streams": 20,
+  "calls": 160000,
+  "coordinates": 20000,
+  "nextRngCalls": 160,
+  "sourceFilesChecked": 111,
+  "limits": [
+    "no positive-lambda output quality claim",
+    "no performance claim",
+    "active adapter/corpus still pending"
+  ]
+}

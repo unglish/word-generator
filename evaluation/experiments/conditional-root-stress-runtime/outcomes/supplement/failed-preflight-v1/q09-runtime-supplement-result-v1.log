@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/private/tmp/q09-supplement-run-v1.py", line 241, in <module>
+    main()
+    ~~~~^^
+  File "/private/tmp/q09-supplement-run-v1.py", line 235, in main
+    result = run_exclusive(args.spec, args.spec_sha256, args.fresh_report)
+  File "/private/tmp/q09-supplement-run-v1.py", line 210, in run_exclusive
+    authority = helper.Authority(spec_path, expected_sha, own_sources)
+  File "/private/tmp/q09-supplement-authority-v1.py", line 211, in __init__
+    require(digest(lexical["manifest"]) == envelope["digest"], "Manifest internal digest differs")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/q09-supplement-authority-v1.py", line 31, in require
+    raise AuthorityError(message)
+q09_supplement_authority.AuthorityError: Manifest internal digest differs

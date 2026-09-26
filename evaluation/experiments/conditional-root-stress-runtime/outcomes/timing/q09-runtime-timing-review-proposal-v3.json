@@ -1,0 +1,59 @@
+{
+  "schema": "q09-runtime-timing-review-v2",
+  "pins": {
+    "matrix": {
+      "path": "/private/tmp/q09-runtime-timing-matrix-v2.mjs",
+      "sha256": "12bb39e9b302d761e54ee968b1dfa563db83cb7422b3f3dc027a5861d9624664"
+    },
+    "benchmark": {
+      "path": "/private/tmp/q09-runtime-timing-v2.mjs",
+      "sha256": "6d2f2b0caf209e3379263625c0e8e5eb6d355d105d2991f69556def58fc4de44"
+    },
+    "benchmarkTests": {
+      "path": "/private/tmp/q09-runtime-timing-test-v2.mjs",
+      "sha256": "1d9a1e61645a637e5690b7732e83042439f2eb61e280c95ee7505d1ff203d63a"
+    },
+    "contract": {
+      "path": "/private/tmp/q09-runtime-timing-contract-v2.md",
+      "sha256": "d73e6d50a66a5fc73f3b67677f1820e07ee1c30baa82241992cbd6255a78fcfb"
+    },
+    "matrixTests": {
+      "path": "/private/tmp/q09-runtime-timing-matrix-test-v2.mjs",
+      "sha256": "f15805e3da866be6e8b1907bd5127996f2323e1fd155b8816292e78e650024f6"
+    },
+    "smoke": {
+      "path": "/private/tmp/q09-runtime-timing-smoke-v1.mjs",
+      "sha256": "89d0f0b1256f6231c943779626ef7898669bfaf080a7871c88ed3def5540ff03"
+    },
+    "preservation": {
+      "path": "/private/tmp/q09-runtime-timing-factory-api-amendment-preservation-v1.json",
+      "sha256": "6e1052de75fdd097b55a8f6f5f65dd11764351d31f180d12df23509b92b84d7e"
+    },
+    "tsx": {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/loader.mjs",
+      "sha256": "0b1c5b86192772fe9257710e739959cee5947c11ae1f93b61abfaa9b80c6def1"
+    }
+  },
+  "captureFreeze": {
+    "path": "/private/tmp/q09-runtime-capture-freeze-v1.json",
+    "sha256": "c217a04a03b0613e1121283b95f5d16396d23182bc32a1e647e34728aa517b38"
+  },
+  "rawArchiveRoots": [
+    "/private/tmp/q09-runtime-control-raw-v1",
+    "/private/tmp/q09-runtime-active-raw-v1"
+  ],
+  "amendment": {
+    "reason": "All 24 prior slots failed on nonexistent factory generateWords before any word; no valid timing observed.",
+    "previousManifest": {
+      "path": "/private/tmp/q09-runtime-timing-review-proposal-v2.json",
+      "sha256": "e200105a5dd31827a49742db648b318057ac950562a7cb06e467d2096c6d9de4"
+    },
+    "completedSlotCounts": {
+      "words": 13100,
+      "publicGenerationCalls": 13100,
+      "logicalWorkloadCalls": 3052,
+      "explicitRngFactoryCalls": 2
+    },
+    "timingAuthorization": "Source review and new quiet window required; smoke is correctness only."
+  }
+}

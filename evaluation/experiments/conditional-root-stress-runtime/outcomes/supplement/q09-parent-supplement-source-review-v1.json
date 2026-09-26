@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "q09-parent-supplement-source-review-v1",
+  "authoritySha256": "0087550226681465121379c4870bb26a8866e818336b8f4ba835431c56a971ee",
+  "sources": [
+    {
+      "path": "/private/tmp/q09-supplement-authority-v1.py",
+      "bytes": 25132,
+      "sha256": "dfdf800d1d2c0445412cf37d3e9f43b24ac2d70449cec22691bdb825af2298e7"
+    },
+    {
+      "path": "/private/tmp/q09-supplement-authority-test-v1.py",
+      "bytes": 22020,
+      "sha256": "3a4ddd73876133c8134646ada5580a66995d9aaff0d6d4af6bc7ccd859eb1483"
+    },
+    {
+      "path": "/private/tmp/q09-supplement-expectations-v1.py",
+      "bytes": 17113,
+      "sha256": "80b07bb65b81a51fce8089a3e13923a2a8aa00d177146f5a42200e0b82de17af"
+    },
+    {
+      "path": "/private/tmp/q09-supplement-expectations-test-v1.py",
+      "bytes": 14571,
+      "sha256": "0540a772df5be86276fcba29334b8746b7a947317b9f78117c0ea05da7309021"
+    },
+    {
+      "path": "/private/tmp/q09-supplement-observe-v1.py",
+      "bytes": 17865,
+      "sha256": "d6275203395d16b4783acc6c2d8da43877f391aa9187a3bf99c7f14d067b2fc1"
+    },
+    {
+      "path": "/private/tmp/q09-supplement-observe-test-v1.py",
+      "bytes": 9666,
+      "sha256": "17ece8af3a88ac451a09efbfddbe8bd9f320cc918338a840870110b601b13877"
+    },
+    {
+      "path": "/private/tmp/q09-supplement-run-v1.py",
+      "bytes": 14518,
+      "sha256": "33395b8eedf464cb113e9b485b640ff573475d91ea5f49449228c5c85a9fc3c6"
+    },
+    {
+      "path": "/private/tmp/q09-supplement-run-test-v1.py",
+      "bytes": 7481,
+      "sha256": "6c673f60aaea274cadbdb190adef779c13e3e55bc31819b72248f1ac2c95344d"
+    },
+    {
+      "path": "/private/tmp/q09-supplement-contract-v1.md",
+      "bytes": 6777,
+      "sha256": "a97b81be9495cf1c9b3e865dc4a538d9e266661710f7b5461f1e83e5cb53cb06"
+    }
+  ],
+  "reviewed": [
+    "complete four implementation modules and four synthetic test modules",
+    "declared availability, orientation, boundaries, run positions, count and fixed-weight denominators",
+    "exact rational and Decimal100/140 expectations from independent literal-history law",
+    "retained-context interpretation and full signed mechanism deltas",
+    "before/after source/archive integrity, exclusive failure retention and no generator imports"
+  ],
+  "syntheticTests": 62,
+  "testLogSha256": "f7f302a8f2a710278bbdda62aad21351c8d618f8ccda5c03b8ec635c27e1a675",
+  "formalCorpusScanApproved": true,
+  "limitations": [
+    "No perceptual-quality inference",
+    "Not a new finite-machine sampler proof",
+    "No causal pairing of control/active word coordinates"
+  ]
+}

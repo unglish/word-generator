@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "q09-timing-preserved-source-v1",
+  "sources": [
+    {
+      "source": "/private/tmp/q09-runtime-timing-v1.mjs",
+      "snapshot": "/private/tmp/q09-runtime-timing-before-fixes-v1.mjs",
+      "bytes": 5202,
+      "sha256": "12267670aa6da8739a4a97c99a7d3e606abc4a6d1683c76da9c3b767e40dcd8f"
+    },
+    {
+      "source": "/private/tmp/q09-runtime-timing-test-v1.mjs",
+      "snapshot": "/private/tmp/q09-runtime-timing-test-before-fixes-v1.mjs",
+      "bytes": 2972,
+      "sha256": "a73547c1dd960629b5914417c0519f73580985c0ace12f0243c718b829caab1c"
+    },
+    {
+      "source": "/private/tmp/q09-runtime-timing-contract-v1.md",
+      "snapshot": "/private/tmp/q09-runtime-timing-contract-before-fixes-v1.md",
+      "bytes": 3054,
+      "sha256": "f304f0c326bc2e5b9457577e36f0501fc3e191c1de2699b9d9cba3e1a768e34c"
+    }
+  ],
+  "review": "/private/tmp/q09-runtime-timing-source-review-v1.json",
+  "reviewSha256": "00c923adfcdc4887c45472029ab79a9e08b6ded0223b758b9def98c1e393b611"
+}
