@@ -1,4 +1,5 @@
 import type { Syllable } from "../types.js";
+import type { StressWeightTrace } from "./syllable-weight.js";
 
 export interface SyllableSnapshot {
   onset: string[];
@@ -233,6 +234,8 @@ export interface OrthographyTrace {
 }
 
 export interface WordTrace {
+  /** Weight input and decisions before root nucleus repair/reduction. Absent in historical traces. */
+  stressWeight?: StressWeightTrace;
   /** Target syllable count chosen for this word. */
   syllableCount: number;
   /** How many letter-length rejection attempts before acceptance (0 = first try). */
@@ -257,6 +260,7 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 }
 
 export class TraceCollector {
+  stressWeight?: StressWeightTrace;
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
   orthographyTrace?: OrthographyTrace;
@@ -302,6 +306,7 @@ export class TraceCollector {
       graphemeSelections: this.graphemeSelections,
       orthography: this.orthographyTrace,
       repairs: this.repairs,
+      stressWeight: this.stressWeight,
       summary: {
         totalDecisions: this.graphemeSelections.length,
         repairCount: this.repairs.length,
