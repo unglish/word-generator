@@ -946,11 +946,11 @@ export interface MorphologyConfig {
   prefixes: Affix[];
   suffixes: Affix[];
   boundaryPolicy?: {
-    /** Whether to repair prefix→root vowel hiatus at phoneme boundaries. */
+    /** Insert a fallback consonant at prefix→root hiatus. English disables this; omission retains legacy true. */
     enablePrefixRootFallback?: boolean;
-    /** Whether to repair root→suffix vowel hiatus at phoneme boundaries. */
+    /** Insert a fallback consonant at root→suffix hiatus. English disables this; omission retains legacy true. */
     enableRootSuffixFallback?: boolean;
-    /** Weighted fallback onsets used for morphology boundary repair. */
+    /** Optional phonemic insertion; does not add a corresponding written grapheme. */
     fallbackBridgeOnsets?: [string, number][];
   };
   templateWeights: {
