@@ -1,0 +1,42 @@
+[
+  {
+    "path": "evaluation/quality/probes/root-rime-compatibility/analyze.ts",
+    "sha256": "68e1a5a61d4db1a8386196aaa87be0d37821189cecbc81e29d7c253cd067554c",
+    "bytes": 9105
+  },
+  {
+    "path": "evaluation/quality/probes/root-rime-compatibility/observe.test.ts",
+    "sha256": "12b2340b1d5bf7c60132eb6ee95e8aef691f639ce88a8ef7a96c97de0bde4cbb",
+    "bytes": 10041
+  },
+  {
+    "path": "evaluation/quality/probes/root-rime-compatibility/observe.ts",
+    "sha256": "68dea43dfaf3eb47c6b210a3990911795f17f10367f9f651f4dea607026052f8",
+    "bytes": 12700
+  },
+  {
+    "path": "evaluation/quality/probes/root-rime-compatibility/parity.mjs",
+    "sha256": "5aae22c1f22200ad71552b4ac11a627ce3c8f0ac9f9e5949dba8a917c4bc600a",
+    "bytes": 2694
+  },
+  {
+    "path": "evaluation/quality/probes/root-rime-compatibility/protocol.json",
+    "sha256": "de53aea203a37ea1c1c8f1c19036133b7a71fb44c12e586c85352c716c3bd706",
+    "bytes": 2971
+  },
+  {
+    "path": "evaluation/quality/probes/root-rime-compatibility/tsconfig.json",
+    "sha256": "8d6e01bea4385bf5e38f861342fb47d78d28aca44791950fccd66d98c3d1955d",
+    "bytes": 294
+  },
+  {
+    "path": "evaluation/quality/probes/root-rime-compatibility/verify.py",
+    "sha256": "e04a701dee1ae2a9e11a2b26c238cb3f883404cfd592b4f10f42fee393a024b8",
+    "bytes": 6852
+  },
+  {
+    "path": "evaluation/quality/probes/root-rime-compatibility/vitest.config.ts",
+    "sha256": "f401be6b6264c780b415898dbaa2c2ec3a1be1296208f88f8f4d36536f90f88e",
+    "bytes": 239
+  }
+]

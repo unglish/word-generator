@@ -36,6 +36,7 @@ export type {
   GraphemeTrace,
   DoublingTrace,
   RepairTrace,
+  NucleusReplacementTrace,
   MorphologyTrace,
   StructuralTrace,
   TraceLink,

@@ -2,6 +2,8 @@ import { Phoneme, WordGenerationContext } from "../types.js";
 import { StressRules } from "../config/language.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { isNucleusWordPositionAllowed, nucleusWordEdges } from "./nucleus-position.js";
+import { isNucleusCompatibleWithCoda } from "./rime-compatibility.js";
+import type { BannedNucleusCodaPairs } from "./rime-compatibility.js";
 
 /**
  * After stress assignment, re-pick any nucleus whose sound is banned under
@@ -14,6 +16,7 @@ export function repairStressedNuclei(
   context: WordGenerationContext,
   nucleusPhonemes: Phoneme[],
   stress: StressRules,
+  bannedPairs?: BannedNucleusCodaPairs,
 ): void {
   const ban = stress.nucleus.stressedNucleusBan;
   if (!ban || ban.length === 0) return;
@@ -22,7 +25,6 @@ export function repairStressedNuclei(
 
   // Pre-filter the pool once — remove banned sounds
   const allowed = nucleusPhonemes.filter(p => !banSet.has(p.sound));
-  if (allowed.length === 0) return; // nothing to pick from
 
   const weightedAllowed: [Phoneme, number][] = allowed.map(p => [p, p.nucleus ?? 1]);
 
@@ -33,12 +35,29 @@ export function repairStressedNuclei(
     if (!nucleus || !banSet.has(nucleus.sound)) continue;
 
     const before = nucleus.sound;
-    // Re-pick from filtered pool
     const edges = nucleusWordEdges(syllable, syllableIndex, context.word.syllables.length, 0);
-    const eligible = weightedAllowed.filter(([phoneme]) => isNucleusWordPositionAllowed(phoneme, edges));
-    if (eligible.length === 0) throw new Error("No eligible stressed nucleus for the realized base-word segment position.");
+    const eligible: [Phoneme, number][] = [];
+    let positivePairExclusions = 0;
+    let totalWeight = 0;
+    for (const [phoneme, weight] of weightedAllowed) {
+      if (!Number.isFinite(weight) || weight <= 0 || !isNucleusWordPositionAllowed(phoneme, edges)) continue;
+      if (!isNucleusCompatibleWithCoda(phoneme.sound, syllable.coda, bannedPairs)) {
+        positivePairExclusions++;
+        continue;
+      }
+      eligible.push([phoneme, weight]);
+      totalWeight += weight;
+    }
+    if (eligible.length === 0 || !Number.isFinite(totalWeight)) {
+      throw new Error("No eligible stressed nucleus with finite positive weight for the realized lexical-root position and retained coda.");
+    }
     syllable.nucleus[0] = getWeightedOption(eligible, context.rand);
-    context.trace?.recordRepair("repairStressedNuclei", before, syllable.nucleus[0].sound, `replaced banned stressed nucleus /${before}/`);
+    context.trace?.recordRepair("repairStressedNuclei", before, syllable.nucleus[0].sound,
+      `replaced banned stressed nucleus /${before}/`, {
+        domain: "lexical-root", syllableIndex, nucleusIndex: 0,
+        coda: syllable.coda.map(phoneme => phoneme.sound), edges, weighting: "nucleus-only",
+        eligibleCandidateEntries: eligible.length, positivePairExclusions, totalWeight,
+      });
   }
 
   // Future: unstressedNucleusBoost — config is read but no behaviour change yet

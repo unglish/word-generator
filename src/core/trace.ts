@@ -42,6 +42,21 @@ export interface GraphemeTrace {
   doubling?: DoublingTrace;
 }
 
+/** A changed nucleus selected during lexical-root stress or edge repair. */
+export interface NucleusReplacementTrace {
+  domain: "lexical-root";
+  syllableIndex: number;
+  nucleusIndex: number;
+  /** Retained coda at selection time, before later surface/affix processing. */
+  coda: string[];
+  edges: { initial: boolean; final: boolean };
+  weighting: "nucleus-only" | "nucleus-times-word-position";
+  eligibleCandidateEntries: number;
+  /** Finite positive candidates removed only by configured nucleus/coda pairs. */
+  positivePairExclusions: number;
+  totalWeight: number;
+}
+
 export interface RepairTrace {
   /** Which repair function fired. */
   rule: string;
@@ -51,6 +66,7 @@ export interface RepairTrace {
   after: string;
   /** Optional detail (e.g. which phoneme was dropped, why). */
   detail?: string;
+  nucleusReplacement?: NucleusReplacementTrace;
 }
 
 export interface MorphologyTrace {
@@ -298,9 +314,15 @@ export class TraceCollector {
     this.structural.push(entry);
   }
 
-  recordRepair(rule: string, before: string, after: string, detail?: string): void {
+  recordRepair(rule: string, before: string, after: string, detail?: string, nucleusReplacement?: NucleusReplacementTrace): void {
     if (before !== after) {
-      this.repairs.push({ rule, before, after, detail });
+      const repair: RepairTrace = { rule, before, after, detail };
+      if (nucleusReplacement) {
+        repair.nucleusReplacement = {
+          ...nucleusReplacement, coda: [...nucleusReplacement.coda], edges: { ...nucleusReplacement.edges },
+        };
+      }
+      this.repairs.push(repair);
     }
   }
 

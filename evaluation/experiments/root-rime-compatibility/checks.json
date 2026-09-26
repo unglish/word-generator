@@ -1,0 +1,24 @@
+{
+  "unit": {
+    "passed": 453,
+    "skipped": 1
+  },
+  "quality": {
+    "passed": 12
+  },
+  "focusedContractFixtures": 21,
+  "observerArchiveFixtures": 19,
+  "types": "pass",
+  "lint": "pass",
+  "performance": {
+    "wordsPerSecond": 6101,
+    "floor": 4500,
+    "medianBatchVariance": 1.4,
+    "limit": 3.0
+  },
+  "rawDrawsIndependentlyCounted": 600000,
+  "candidateRuntimeDigest": "c6c6e85c0664ae237cd4df38b3b1d485d9b1b55658456d11b1920e557f10ac1f",
+  "observerDigest": "a236febc098e021cea0a29209b0fce379cc3dc5091a618007ed1622f1bcb3a21",
+  "conditionalOutputRngParity": 20000,
+  "byteIdenticalMonosyllableDraws": 50000
+}

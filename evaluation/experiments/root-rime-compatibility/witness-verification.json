@@ -1,0 +1,17 @@
+[
+  {
+    "run": "original",
+    "buckets": 9,
+    "uniqueVerifiedDraws": 8
+  },
+  {
+    "run": "control",
+    "buckets": 9,
+    "uniqueVerifiedDraws": 9
+  },
+  {
+    "run": "candidate",
+    "buckets": 3,
+    "uniqueVerifiedDraws": 9
+  }
+]
