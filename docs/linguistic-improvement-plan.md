@@ -43,7 +43,7 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | [Draft PR #328](https://github.com/unglish/word-generator/pull/328), against the exact Q02a + Q12a + Q06 dependency control; cap-partial `th` 126→0 and cap-attributed units with no surviving lineage 1,700→0 in 200,000 words; 1,517 certificates replayed; longer clusters, quality failures and a material performance regression retained |
 | Q13 performance | Reuse full spelling context during budget measurement | Exact word/trace/RNG/certificate parity; fixed paired timing against #328 | [PR #331](https://github.com/unglish/word-generator/pull/331); 800,000 core and 84,800 supplementary API calls preserve behavior; six fixed pairs show 6.4% median paired local throughput gain and 0/6→6/6 speed-floor passes; inherited quality failures remain |
 | Q13b | Aligned spelling of multiple phonemes by one grapheme | Explicit ownership and pronunciation preservation for /ks, gz/→x and similar units | Q13; Q12a exposes reliance on illegal /z/→ze choices for the current `gz-to-x` string repair |
-| Q13c | Preserve units through adjacent-letter deduplication | Exact source-phone multiplicity and context-licensed whole-unit normalization | Independent replay of Q13's 200,000-word archive agrees on all 902 registered historical count leaves, including 7,712 deletion events, 7,398 fully erased later units and 31 final partial `th` units. The frozen 200,000-word candidate now has zero deduplication-attributed erased units and partial `th` units; independent structural replay agrees on 13,835 integer leaves. All 25 normalization certificates pass production license replay. Broader regressions and performance remain part of acceptance; true shared constructions remain Q13b |
+| Q13c | Preserve units through adjacent-letter deduplication | Exact source-phone multiplicity and context-licensed whole-unit normalization | [Draft PR #335](https://github.com/unglish/word-generator/pull/335), stacked on #331. Independent replay of Q13's 200,000-word archive agrees on all 902 registered historical count leaves, including 7,712 deletion events, 7,398 fully erased later units and 31 final partial `th` units. The frozen 200,000-word candidate now has zero deduplication-attributed erased units and partial `th` units; independent structural replay agrees on 13,835 integer leaves. All 25 normalization certificates pass production license replay. Raw five-consonant words increase 203→252; median paired local throughput falls 4.22%, speed-floor passes 6/6→2/6, and quality failures remain. True shared constructions remain Q13b |
 | Q14a | Complete split-digraph constructions | No unresolved spelling obligation; alternatives and pronunciation retained | Q12a, Q13 |
 | Q14b | Following-letter conditions for soft c/g | No incompatible following letters; licensed exceptions and search-fallback rates | Q12a, Q13, Q14a |
 | Q15a | Shared source parsing and explicit compatible population | Lossless records, complete entry accounting, model/score parity with new implementation provenance | [PR #323](https://github.com/unglish/word-generator/pull/323), stacked on #304; 135,166 source records reconciled, 117,485 accepted; every model field and all 400 frozen score rows unchanged; old artifacts preserved |
@@ -450,3 +450,47 @@ unique monosyllable spellings increase by 1,293. The already recorded new doubli
 gate failure and other quality failures remain; controlled timing is pending.
 These observations support the registered deletion correction, not a general
 claim that readers prefer the candidate.
+
+
+Q13c is now published as [Draft PR #335](https://github.com/unglish/word-generator/pull/335).
+Three commits separate the unchanged baseline harness, normalization behavior and
+registered tests, and measured evidence. The outcome bundle pins 103 copied
+artifacts; all 140 frozen source/tool bytes still match after packaging. The
+fixed six-pair local performance series retains every outcome: median
+candidate/control throughput is 0.95777 (4.22% lower), range 0.92277–0.96097.
+The predecessor passes the 4,500 words/sec floor in 6/6 runs, the candidate in
+2/6; both pass all six variance gates. Raw five-consonant words increase from
+203 to 252 in the 200,000-word corpus, most strongly in forced monosyllables
+(68→111 of 50,000). Existing full-suite and quality failures remain. The draft
+is a measured correction with unresolved tradeoffs, not a merge recommendation.
+
+The Q09 archived-word supplement now passes source/archive checks across all
+400,000 words and independently checks 788 retained conditional contexts. At
+final lexical structure, adjacent marked pairs fall 47,730→46,180; words with
+unstressed runs of at least two syllables fall 25,355→24,937. Words with
+secondary schwa after surface realization fall 9,403→9,190. Aggregate movement
+is not uniform: bare-root runs of at least three unstressed syllables increase
+1,771→1,822, and default-lexicon lexical secondary-schwa words increase
+2,143→2,168. Stressed-nucleus repair events rise 44,689→44,702; selected-attempt
+index sums rise 509,882→510,537. These are archived population comparisons, not
+matched words or a full rejected-attempt study. All strata and witnesses remain
+in the supplemental report.
+
+Q09's unchanged default performance suite passes both gates (6,862 words/sec;
+median variance 1.37). Its first separate configured timing matrix is invalid:
+all 24 slots fail before returning a word because the external runner assumes
+a nonexistent factory `generateWords` method. Those failures and original tools
+are preserved. The corrected external runner uses public `generateWord` with a
+shared public seeded RNG for each batch, counts 13,100 generation calls separately
+from 3,052 logical operations, and passes 34 synthetic checks plus a small real
+control/active, trace-off/on interface smoke. A new complete fixed timing series
+is pending; no opt-in speed comparison is claimed from the failed matrix.
+
+Q15's paired transition-reference study has a reviewed freeze of 338 source
+files (325 unchanged parent files and 13 new study files) and 30 input files.
+The frozen CLI matrix passes all 15 cases and its two full 317,485-row runs
+produce 22 byte-identical files. Independent Python numerical/structural proof
+remains pending. Per-word scores and the registered tolerance are unchanged;
+separately labeled compensated arithmetic stabilizes only decomposition sums.
+This holds generated vectors fixed and measures reference sensitivity, not a
+new generator, reference adoption or held-out wordlikeness improvement.
