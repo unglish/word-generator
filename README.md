@@ -36,6 +36,10 @@ the same seeded stream.
 By default generation includes morphology when the active config enables it.
 Pass `{ morphology: false }` for bare root forms.
 
+English stress uses a [partial vowel quantity model](./docs/english-partial-quantity.md)
+that recognizes open diphthongs as heavy. Unspecified quantities retain an
+explicit legacy fallback; the guide also documents the legacy stress opt-out.
+
 ## RNG Control
 
 ```ts

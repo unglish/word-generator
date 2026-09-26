@@ -1,13 +1,13 @@
 # Shared syllable weight
 
 OT stress, the alternative weight-sensitive primary strategy, and secondary
-stress now consume one analysis per syllable. With no new configuration, their
-decisions retain the existing rule: a coda or more than one nucleus **segment**
-makes a syllable operationally heavy. This counts array elements, not characters
-in a phoneme symbol. An atomic diphthong therefore remains operationally light in
-an open syllable under the default policy. This change supplies a shared, typed
-representation; it does not activate new English quantity assignments or change
-constraint weights, candidates, noise, tie order, or random draws.
+stress consume one analysis per syllable. The default English configuration uses
+a [partial quantity model](./english-partial-quantity.md): its five atomic
+diphthongs are bimoraic and therefore heavy in open syllables. Unresolved
+quantities remain explicit unknowns. Custom configurations that omit the policy
+retain the legacy rule: a coda or more than one nucleus **segment** makes a
+syllable operationally heavy. That rule counts array elements, not characters in
+a phoneme symbol.
 
 ## Quantity and weight are different
 
@@ -21,8 +21,8 @@ It states the segment's nuclear contribution in that phonological analysis. It
 does not predict acoustic duration. The existing `tense` flag continues to affect
 its existing sonority, reduction and spelling rules; it supplies no quantity
 information. Missing metadata, a different analysis name, and an absent stress
-mark do not imply one mora. No English inventory entries receive quantity data
-in this change, including the unresolved legacy /ɜ/ entry.
+mark do not imply one mora. The partial English model deliberately leaves the
+unresolved legacy /ɜ/ entry unspecified.
 
 Moraic structure is a phonological representation whose consonantal contribution
 can vary by language and analysis, rather than a direct duration measurement.
@@ -67,10 +67,10 @@ The analysis reports two separate results:
   `unknown: "error"` concerns unknown **weight**, so a closed syllable can pass
   while its nuclear quantity is unknown.
 
-The default `{ type: "legacy-segment-count" }` reports analytical weight as
+The fallback policy `{ type: "legacy-segment-count" }` reports analytical weight as
 unknown and operational weight as the original rule. It does not interpret even
-declared quantities as belonging to an implicitly selected model. A future
-English partial model can be activated and measured independently.
+declared quantities as belonging to an implicitly selected model. Set it
+explicitly to opt out of the default English quantity activation.
 
 ## Reading the trace
 
@@ -100,10 +100,10 @@ at every word boundary and the next RNG value. Controlled custom-model fixtures
 exercise all primary strategies, secondary selection rates, unknown policies,
 multi-element nuclei and immutable observations. No gate or weight is tuned.
 
-This is an additive modeling foundation. English quantity activation, final-vowel
-effects, a different WSP objective, rhythm, dialect migration and the ordering of
-final morphological stress remain separate changes. The reference dialect has
-not been established by user preference.
+The shared analytical foundation was verified separately from English quantity
+activation. Final-vowel effects, a different WSP objective, rhythm, dialect
+migration and the ordering of final morphological stress remain separate changes.
+The reference dialect has not been established by user preference.
 
 The [frozen comparison](../evaluation/experiments/syllable-weight/README.md)
 passed all 20,000 scheduled draws with exact legacy output, trace and RNG parity.
