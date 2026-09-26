@@ -1,0 +1,35 @@
+{
+  "version": "cmu-parser-package-v1",
+  "artifacts": [
+    {
+      "file": "README.md",
+      "bytes": 4065,
+      "sha256": "b7277617e82f218a1af28b4f2aaec557980fd3bd55a1e1ec4ce12d00ea01a4b4"
+    },
+    {
+      "file": "frozen-scores-parser-v1.json.gz",
+      "bytes": 241244,
+      "sha256": "3c73d75de28e474171c0db7c3f4977b2a5099bee261a15386c83377ee23199ff"
+    },
+    {
+      "file": "reference-parser-v1.json.gz",
+      "bytes": 37315,
+      "sha256": "86d26067c2fa54d5ef2c838af64c1ddb40a7cf50d22ff950ec63659a9bbc22eb"
+    },
+    {
+      "file": "source-audit.json.gz",
+      "bytes": 132354,
+      "sha256": "5fbfae83e3a1a3c018fe00333ef6e22d4d32078781c2334de6472b7158b5c5e4"
+    },
+    {
+      "file": "sources.json.gz",
+      "bytes": 13623,
+      "sha256": "bce4d0124a622d0951f87c0a900c969b1e349b5b3d172b3886eee5d0e71a2cfb"
+    },
+    {
+      "file": "verification.json",
+      "bytes": 1370,
+      "sha256": "ac7a9e0214c0382e405e5abed161941af2359e1dfad3dff61e59b70bc8512ab7"
+    }
+  ]
+}
