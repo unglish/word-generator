@@ -1,5 +1,6 @@
 import type { BaseSpellingTrace } from "./base-spelling.js";
 import type { Syllable } from "../types.js";
+import type { MorphologyRealizationTrace } from "./morphology/realization.js";
 
 export interface SyllableSnapshot {
   onset: string[];
@@ -69,10 +70,14 @@ export interface RepairTrace {
 
 export interface MorphologyTrace {
   template: string;
+  /** Planned prefix spelling, before allomorph selection. */
   prefix?: string;
+  /** Planned suffix spelling, before allomorph selection. */
   suffix?: string;
   syllableReduction: number;
   alternations?: MorphophonemicAlternationTrace[];
+  /** Selected forms and written parts; absent in historical traces. */
+  realization?: MorphologyRealizationTrace;
 }
 
 export interface MorphophonemicAlternationTrace {
