@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "rootDir": ".", "incremental": false, "noEmit": true },
+  "include": ["evaluation/quality/probes/ngram-gates/*.ts", "evaluation/experiments/ngram-gates/verify-control.ts"],
+  "exclude": ["node_modules", "dist", "demo"]
+}

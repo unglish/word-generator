@@ -1,0 +1,212 @@
+{
+  "reportSha256": "2ede80ff3c2c14a52f6e63b4c12af398eced38792c7e9a6aa9438c0ca129800b",
+  "verifierSha256": "2d0735310353c1a84cc7aacecb6b324f44e247067b613744b0cee92faed00519",
+  "verified": [
+    {
+      "id": "control",
+      "words": 200000,
+      "traceWitnesses": 1031,
+      "counts": [
+        1293843,
+        1093845
+      ]
+    },
+    {
+      "id": "study-01",
+      "words": 200000,
+      "traceWitnesses": 1029,
+      "counts": [
+        1293880,
+        1093881
+      ]
+    },
+    {
+      "id": "study-02",
+      "words": 200000,
+      "traceWitnesses": 1018,
+      "counts": [
+        1295025,
+        1095031
+      ]
+    },
+    {
+      "id": "study-03",
+      "words": 200000,
+      "traceWitnesses": 1045,
+      "counts": [
+        1291501,
+        1091501
+      ]
+    },
+    {
+      "id": "study-04",
+      "words": 200000,
+      "traceWitnesses": 1027,
+      "counts": [
+        1295661,
+        1095663
+      ]
+    },
+    {
+      "id": "study-05",
+      "words": 200000,
+      "traceWitnesses": 1000,
+      "counts": [
+        1295701,
+        1095704
+      ]
+    },
+    {
+      "id": "study-06",
+      "words": 200000,
+      "traceWitnesses": 1025,
+      "counts": [
+        1293889,
+        1093892
+      ]
+    },
+    {
+      "id": "study-07",
+      "words": 200000,
+      "traceWitnesses": 1010,
+      "counts": [
+        1295139,
+        1095140
+      ]
+    },
+    {
+      "id": "study-08",
+      "words": 200000,
+      "traceWitnesses": 1018,
+      "counts": [
+        1296123,
+        1096124
+      ]
+    },
+    {
+      "id": "study-09",
+      "words": 200000,
+      "traceWitnesses": 1058,
+      "counts": [
+        1295164,
+        1095168
+      ]
+    },
+    {
+      "id": "study-10",
+      "words": 200000,
+      "traceWitnesses": 1022,
+      "counts": [
+        1293877,
+        1093879
+      ]
+    },
+    {
+      "id": "study-11",
+      "words": 200000,
+      "traceWitnesses": 1037,
+      "counts": [
+        1294290,
+        1094291
+      ]
+    },
+    {
+      "id": "study-12",
+      "words": 200000,
+      "traceWitnesses": 1023,
+      "counts": [
+        1294906,
+        1094908
+      ]
+    },
+    {
+      "id": "study-13",
+      "words": 200000,
+      "traceWitnesses": 1032,
+      "counts": [
+        1292830,
+        1092830
+      ]
+    },
+    {
+      "id": "study-14",
+      "words": 200000,
+      "traceWitnesses": 1035,
+      "counts": [
+        1293106,
+        1093109
+      ]
+    },
+    {
+      "id": "study-15",
+      "words": 200000,
+      "traceWitnesses": 1033,
+      "counts": [
+        1294414,
+        1094415
+      ]
+    },
+    {
+      "id": "study-16",
+      "words": 200000,
+      "traceWitnesses": 1034,
+      "counts": [
+        1292643,
+        1092646
+      ]
+    },
+    {
+      "id": "study-17",
+      "words": 200000,
+      "traceWitnesses": 1042,
+      "counts": [
+        1294066,
+        1094070
+      ]
+    },
+    {
+      "id": "study-18",
+      "words": 200000,
+      "traceWitnesses": 1043,
+      "counts": [
+        1293573,
+        1093583
+      ]
+    },
+    {
+      "id": "study-19",
+      "words": 200000,
+      "traceWitnesses": 1042,
+      "counts": [
+        1294619,
+        1094621
+      ]
+    },
+    {
+      "id": "study-20",
+      "words": 200000,
+      "traceWitnesses": 1048,
+      "counts": [
+        1294550,
+        1094551
+      ]
+    }
+  ],
+  "failureCounts": {
+    "bigramOver": 0,
+    "bigramUnder": 0,
+    "trigramOver": 0,
+    "trigramUnder": 12
+  },
+  "anyGateFailures": 12,
+  "checks": [
+    "exact file set and hashes",
+    "source/protocol identity",
+    "phase schedule and capacities",
+    "all written draws and n-gram counts",
+    "all first-three witness indices",
+    "witness spelling and RNG coordinates",
+    "all four gate extrema and denominators",
+    "control excluded from study rejection counts"
+  ]
+}

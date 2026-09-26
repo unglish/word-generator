@@ -1,0 +1,149 @@
+{
+  "protocol": {
+    "id": "unchanged-ngram-gates-v1",
+    "hypothesis": "Measure rejection of the unchanged original generator by its existing four n-gram gates across preregistered RNG streams; do not change any threshold or infer human acceptability.",
+    "generatorCommit": "8e9ceb2fb1d8a7a6d4a6d4239e501ccaaed73c1c",
+    "wordsPerReplicate": 200000,
+    "replicates": 20,
+    "controlSeed": 42,
+    "options": {
+      "mode": "lexicon",
+      "morphology": true
+    },
+    "seedSchedule": "Take the first uint32, big-endian, of SHA-256(id) as anchor. For i=0..19, let phase=floor(i*2^32/20) and seed=(anchor+0x6d2b79f5*phase) modulo 2^32. The control seed 42 is reported separately.",
+    "streamValidity": "Count all RNG calls; abort if a replicate would exceed its reserved phase interval. This certifies disjoint consumed Mulberry32 states among the 20 study streams, not probabilistic independence or disjointness from historical development/validation streams. Never inspect validation outputs.",
+    "gates": "Reproduce src/core/ngram-quality.test.ts exactly: clean written lowercase UTF-16 overlapping within-word bigrams/trigrams; count-weighted reference frequencies; overrepresentation reference cutoff >0.001; underrepresentation cutoffs and all four thresholds from unchanged src/config/ngram-thresholds.json. Preserve source iteration order for ties.",
+    "primaryOutcome": "Number of the 20 unchanged-generator study replicates failing each fixed gate and any gate, with exact event counts, generated/reference opportunity denominators, ratios and per-stream outcomes. This is observed rejection frequency, not a linguistic false-positive rate or a calibrated confidence interval.",
+    "witnesses": "Eligibility is the union of reference categories used by over- and underrepresentation gates. For each eligible bigram/trigram retain the first three matching draw indices per replicate, counting a repeated gram within one word as one witness. Replay those exact word-start RNG states with trace:true through generateWord, requiring identical complete nontrace output and RNG consumption. Report zero-count categories explicitly; witness availability does not establish that every occurrence has the same origin.",
+    "integrity": "Freeze all generator src files, package/lock/tsconfig, reference count JSON, gate test/thresholds, probe/protocol and environment. Compare source/reference bytes before and after all generation. Store complete written archives and counts for independent verification, plus trace witnesses. Exclusive new output directory, no overwrites. The script is frozen before the full study.",
+    "acceptance": "Exact control agreement with current seed-42 gate values, public batch/stream parity fixtures, trace replay equality, complete archive/count accounting, certified study stream separation, and an independent archive counting implementation. Do not tune generator or thresholds from study outcomes. Any proposed gate redesign is a separately reviewed follow-up."
+  },
+  "schedule": [
+    {
+      "id": "control",
+      "seed": 42,
+      "phase": null,
+      "capacity": 4294967296
+    },
+    {
+      "id": "study-01",
+      "seed": 3988283555,
+      "phase": 0,
+      "capacity": 214748364
+    },
+    {
+      "id": "study-02",
+      "seed": 1019792351,
+      "phase": 214748364,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-03",
+      "seed": 4177834256,
+      "phase": 429496729,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-04",
+      "seed": 3040908865,
+      "phase": 644245094,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-05",
+      "seed": 1903983474,
+      "phase": 858993459,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-06",
+      "seed": 767058083,
+      "phase": 1073741824,
+      "capacity": 214748364
+    },
+    {
+      "id": "study-07",
+      "seed": 2093534175,
+      "phase": 1288490188,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-08",
+      "seed": 956608784,
+      "phase": 1503238553,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-09",
+      "seed": 4114650689,
+      "phase": 1717986918,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-10",
+      "seed": 2977725298,
+      "phase": 1932735283,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-11",
+      "seed": 1840799907,
+      "phase": 2147483648,
+      "capacity": 214748364
+    },
+    {
+      "id": "study-12",
+      "seed": 3167275999,
+      "phase": 2362232012,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-13",
+      "seed": 2030350608,
+      "phase": 2576980377,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-14",
+      "seed": 893425217,
+      "phase": 2791728742,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-15",
+      "seed": 4051467122,
+      "phase": 3006477107,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-16",
+      "seed": 2914541731,
+      "phase": 3221225472,
+      "capacity": 214748364
+    },
+    {
+      "id": "study-17",
+      "seed": 4241017823,
+      "phase": 3435973836,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-18",
+      "seed": 3104092432,
+      "phase": 3650722201,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-19",
+      "seed": 1967167041,
+      "phase": 3865470566,
+      "capacity": 214748365
+    },
+    {
+      "id": "study-20",
+      "seed": 830241650,
+      "phase": 4080218931,
+      "capacity": 214748365
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "unchanged-ngram-gates-v1",
+  "hypothesis": "Measure rejection of the unchanged original generator by its existing four n-gram gates across preregistered RNG streams; do not change any threshold or infer human acceptability.",
+  "generatorCommit": "8e9ceb2fb1d8a7a6d4a6d4239e501ccaaed73c1c",
+  "wordsPerReplicate": 200000,
+  "replicates": 20,
+  "controlSeed": 42,
+  "options": { "mode": "lexicon", "morphology": true },
+  "seedSchedule": "Take the first uint32, big-endian, of SHA-256(id) as anchor. For i=0..19, let phase=floor(i*2^32/20) and seed=(anchor+0x6d2b79f5*phase) modulo 2^32. The control seed 42 is reported separately.",
+  "streamValidity": "Count all RNG calls; abort if a replicate would exceed its reserved phase interval. This certifies disjoint consumed Mulberry32 states among the 20 study streams, not probabilistic independence or disjointness from historical development/validation streams. Never inspect validation outputs.",
+  "gates": "Reproduce src/core/ngram-quality.test.ts exactly: clean written lowercase UTF-16 overlapping within-word bigrams/trigrams; count-weighted reference frequencies; overrepresentation reference cutoff >0.001; underrepresentation cutoffs and all four thresholds from unchanged src/config/ngram-thresholds.json. Preserve source iteration order for ties.",
+  "primaryOutcome": "Number of the 20 unchanged-generator study replicates failing each fixed gate and any gate, with exact event counts, generated/reference opportunity denominators, ratios and per-stream outcomes. This is observed rejection frequency, not a linguistic false-positive rate or a calibrated confidence interval.",
+  "witnesses": "Eligibility is the union of reference categories used by over- and underrepresentation gates. For each eligible bigram/trigram retain the first three matching draw indices per replicate, counting a repeated gram within one word as one witness. Replay those exact word-start RNG states with trace:true through generateWord, requiring identical complete nontrace output and RNG consumption. Report zero-count categories explicitly; witness availability does not establish that every occurrence has the same origin.",
+  "integrity": "Freeze all generator src files, package/lock/tsconfig, reference count JSON, gate test/thresholds, probe/protocol and environment. Compare source/reference bytes before and after all generation. Store complete written archives and counts for independent verification, plus trace witnesses. Exclusive new output directory, no overwrites. The script is frozen before the full study.",
+  "acceptance": "Exact control agreement with current seed-42 gate values, public batch/stream parity fixtures, trace replay equality, complete archive/count accounting, certified study stream separation, and an independent archive counting implementation. Do not tune generator or thresholds from study outcomes. Any proposed gate redesign is a separately reviewed follow-up."
+}

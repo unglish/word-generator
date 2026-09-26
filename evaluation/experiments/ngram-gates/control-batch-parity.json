@@ -1,0 +1,7 @@
+{
+  "words": 200000,
+  "seed": 42,
+  "publicBatchMatchesEveryArchivedSpelling": true,
+  "controlArchiveSha256": "315f0bbffaf50e14335e5aaa4ca8679a60c2bc92948803ea59809ce8669c5801",
+  "verifierSha256": "356189ebf04a621dee2fac8198de5ba45cc1a4e4018d2674a0fe7addf09e425b"
+}
