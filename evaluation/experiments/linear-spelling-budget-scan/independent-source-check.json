@@ -1,0 +1,15 @@
+{
+  "reportSha256": "9e2092529c714b4ed1d964eacb83161685c352e5f084a85c08c2d82c8c8e8880",
+  "runtimeFilesPerSource": 52,
+  "allCurrentSourceHashesMatch": true,
+  "archivedOriginalSourceMatchesExactly": true,
+  "onlyRuntimeDifference": [
+    "src/core/spelling-budget.ts"
+  ],
+  "observerFilesUnchanged": 23,
+  "completeSchedule": true,
+  "coordinates": 200000,
+  "apiCalls": 800000,
+  "certificates": 1517,
+  "scope": "Independent source/schedule/report reconciliation; full trace and RNG parity execution was independently source-reviewed, not repeated."
+}
