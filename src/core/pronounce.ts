@@ -15,6 +15,7 @@ import { analyzeWordWeight } from "./syllable-weight.js";
 import type { SyllableWeightAnalysis, StressWeightTrace } from "./syllable-weight.js";
 import type { AspirationDecisionTrace, AspirationTargetSegment } from "./trace.js";
 import { clonePhoneme, cloneSyllables } from "./lexical.js";
+import { observeStressDraws } from "./stress-pattern.js";
 
 /** Fast boolean probability check (avoids tuple array allocation). */
 export function coinFlip(rand: RNG, probability: number): boolean {
@@ -196,11 +197,22 @@ export const _applyAspiration = applyAspiration;
 export const applyStress = (context: WordGenerationContext, stress: ResolvedStressRules): void => {
   const { rand } = context;
   const analysis = analyzeWordWeight(context.word.syllables, stress.syllableWeight);
+  const pattern = context.trace?.beginStressPattern(context.word.syllables, stress);
   // Rule 1: Primary stress
-  const primaryIndex = applyPrimaryStress(context, rand, stress, analysis);
+  const primaryIndex = applyPrimaryStress(context, observeStressDraws(rand, pattern?.trace.primary.draws), stress, analysis);
+  if (pattern) {
+    pattern.trace.primary.selectedIndex = primaryIndex;
+    if (primaryIndex !== null) pattern.assignment(primaryIndex, context.word.syllables[primaryIndex].stress, { kind: "root-primary" });
+    pattern.snapshot("root-after-primary", context.word.syllables);
+  }
 
   // Rule 2: Secondary stress
-  const secondary = applySecondaryStress(context, rand, stress, analysis);
+  const secondaryDraws: number[] | undefined = pattern ? [] : undefined;
+  const secondary = applySecondaryStress(context, observeStressDraws(rand, secondaryDraws), stress, analysis);
+  if (pattern) {
+    pattern.secondary(secondary, secondaryDraws!, context.word.syllables);
+    pattern.snapshot("root-after-explicit-secondary", context.word.syllables);
+  }
 
   if (context.trace) {
     context.trace.stressWeight = {
@@ -216,6 +228,7 @@ export const applyStress = (context: WordGenerationContext, stress: ResolvedStre
 
   // Rule 3: Rhythmic stress
   applyRhythmicStress(context, rand, stress);
+  pattern?.snapshot("root-after-rhythmic", context.word.syllables);
 };
 
 const chooseWeightSensitivePrimaryStress = (
@@ -338,16 +351,30 @@ const applyRhythmicStress = (context: WordGenerationContext, rand: RNG, stress: 
   const syllables = context.word.syllables;
   if (!stress.rhythmic.enabled) return;
 
+  const pattern = context.trace?.stressPatternObserver;
   for (let i = 1; i < syllables.length - 1; i++) {
-    if (syllables[i].stress) continue;
-
-    const hasUnstressedNeighbors = !syllables[i - 1].stress && !syllables[i + 1].stress;
-    if (stress.rhythmic.requireUnstressedNeighbors && !hasUnstressedNeighbors) {
+    const observation = pattern?.rhythmicIteration(i, syllables);
+    if (syllables[i].stress) {
+      if (observation) observation.skipped = "already-marked";
       continue;
     }
 
-    if (coinFlip(rand, stress.rhythmic.probability)) {
+    const hasUnstressedNeighbors = !syllables[i - 1].stress && !syllables[i + 1].stress;
+    if (observation) observation.neighborCheckPerformed = true;
+    if (stress.rhythmic.requireUnstressedNeighbors && !hasUnstressedNeighbors) {
+      if (observation) observation.skipped = "marked-neighbor";
+      continue;
+    }
+
+    const draws: number[] | undefined = observation ? [] : undefined;
+    const applied = coinFlip(observeStressDraws(rand, draws), stress.rhythmic.probability);
+    if (observation) {
+      observation.draw = draws![0];
+      observation.applied = applied;
+    }
+    if (applied) {
       syllables[i].stress = "ˌ";
+      pattern?.assignment(i, syllables[i].stress, { kind: "rhythmic", iteration: pattern.trace.rhythmic.iterations.length - 1 });
     }
   }
 };

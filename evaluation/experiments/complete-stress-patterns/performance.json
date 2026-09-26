@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "design": "One unchanged control-first then candidate interval; no repeats, unchanged thresholds; normal desktop activity not controlled.",
+  "orderedModes": [
+    "control",
+    "candidate"
+  ],
+  "definitionHashes": {
+    "vitest.perf.config.ts": "6556fff991ef112563aa2d342ac550fd3d1db70a9c788bba96e43f8e51fa1455",
+    "src/core/generate.perf.test.ts": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83",
+    "package.json": "030a6926d51e520fcc4998cb38f4fe29738a99776cc44a304ede911dbab33a00",
+    "package-lock.json": "985093dd683275e3c5c5f10ae2210c7395914de9bb669f71c9b1e34350218bc6"
+  },
+  "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "node": "v24.11.1",
+  "cpu": "Apple M1 Max",
+  "runs": [
+    {
+      "mode": "control",
+      "cwd": "/private/tmp/q09-observer-control.e87Jz5",
+      "commit": "cf017f74e063d0478556d1790c13fe494566545a",
+      "sourceDigest": "d6dcb30417dfc56e78e11764465180a539d03b87eb046684d2dcc63e42e726c9",
+      "command": [
+        "npm",
+        "run",
+        "test:perf"
+      ],
+      "started": "2026-09-26T19:28:08.745968+00:00",
+      "ended": "2026-09-26T19:28:11.657750+00:00",
+      "exitCode": 0,
+      "logSha256": "cc8f834cabb38ed07bd96c758f6b9eefb00dde1499abe41c94d42775994720bf",
+      "sourceAndDefinitionsUnchanged": true
+    },
+    {
+      "mode": "candidate",
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator",
+      "commit": "564dc5727bb28d0f421f73092b9bfb05ea9c9938",
+      "sourceDigest": "a3af8a5960a61f6a67ecf91bfa2078e25d1d0f1090a62d6ed4ecfb83e9f4c952",
+      "command": [
+        "npm",
+        "run",
+        "test:perf"
+      ],
+      "started": "2026-09-26T19:28:11.669694+00:00",
+      "ended": "2026-09-26T19:28:14.563645+00:00",
+      "exitCode": 0,
+      "logSha256": "6d6158ef097ea98cbfd0773572262e81faa78cbcbb02991afbe813d274a520f1",
+      "sourceAndDefinitionsUnchanged": true
+    }
+  ],
+  "runnerSha256": "35f784a4f4048c51485aa681310b4c19b4b79a2a06479804c3af059211571e43"
+}

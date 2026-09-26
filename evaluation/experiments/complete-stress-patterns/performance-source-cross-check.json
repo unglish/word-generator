@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "performanceReportSha256": "a99dccf70cd387f2e5e63f00d311cfdda09225d2079183b1ea636fe1abd25c9c",
+  "timedDigestScheme": "SHA256(JSON.stringify(Object.entries(relativePathToFileSHA256).sort(([a],[b]) => a.localeCompare(b))))",
+  "canonicalGeneratorDigestScheme": "Frozen serialization.digest of ordered generator [{path,content}] source list; packages excluded",
+  "statement": "The original performance sourceDigest fields are map digests, not canonical archive generator digests. This report binds the exact timed bytes to the archived generator closures without relabeling or repeating timing.",
+  "runs": [
+    {
+      "mode": "control",
+      "timedCommit": "cf017f74e063d0478556d1790c13fe494566545a",
+      "archiveCommit": "72222591a3b8fd03c7be40d7c54766ef4163529c",
+      "timedPathHashMapDigest": "d6dcb30417dfc56e78e11764465180a539d03b87eb046684d2dcc63e42e726c9",
+      "timedMapFileCount": 48,
+      "canonicalGeneratorDigest": "d2370383c8a3be674c18d37ccb3ca11b55e3d9687ee68eb09195ef01cd02ad2e",
+      "generatorFileCount": 45,
+      "archiveGeneratorAndPackagesExactlyMatchTimedMap": true,
+      "additionalTimedPaths": [
+        "package.json",
+        "package-lock.json",
+        "tsconfig.json"
+      ],
+      "definitionsExact": true,
+      "parityReportSha256": "43cccf5ce95eb0daa23e7178693462fcab4ff7f0ee2136bc7f1f7473b8758961"
+    },
+    {
+      "mode": "candidate",
+      "timedCommit": "564dc5727bb28d0f421f73092b9bfb05ea9c9938",
+      "archiveCommit": "564dc5727bb28d0f421f73092b9bfb05ea9c9938",
+      "timedPathHashMapDigest": "a3af8a5960a61f6a67ecf91bfa2078e25d1d0f1090a62d6ed4ecfb83e9f4c952",
+      "timedMapFileCount": 49,
+      "canonicalGeneratorDigest": "9a9a352580489152e7cd10d4429b21e94c29b175cc8f37dfbbda8a9a3ab249dc",
+      "generatorFileCount": 46,
+      "archiveGeneratorAndPackagesExactlyMatchTimedMap": true,
+      "additionalTimedPaths": [
+        "package.json",
+        "package-lock.json",
+        "tsconfig.json"
+      ],
+      "definitionsExact": true,
+      "parityReportSha256": "e586ab79f3eb7a5d0ed246608b08d3810e23503ca337b57504e8464ce2c95ace"
+    }
+  ]
+}

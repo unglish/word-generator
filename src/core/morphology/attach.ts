@@ -2,6 +2,7 @@ import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
 import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, MorphophonemicRule, PhonologicalCondition, defaultFallbackBridgeOnsets } from "../../config/language.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
 import type { MorphologyPlan } from "./plan.js";
+import type { StressPatternObserver } from "../stress-pattern.js";
 import { snapshotAffixForm, snapshotWrittenParts } from "./realization.js";
 import type { MorphologyResult, MorphologyWrittenPart, ResolvedAffix } from "./realization.js";
 
@@ -244,23 +245,34 @@ function adjustStress(
   stressEffect: Affix["stressEffect"],
   affixSyllableIndices: number[],
   isPrefix: boolean,
+  observer?: StressPatternObserver,
+  effectId?: number,
 ): void {
   if (stressEffect === "none" || affixSyllableIndices.length === 0) return;
 
   if (stressEffect === "primary") {
-    for (const syl of syllables) {
-      if (syl.stress === "\u02C8") syl.stress = "\u02CC";
+    for (let index = 0; index < syllables.length; index++) {
+      const syl = syllables[index];
+      if (syl.stress !== "\u02C8") continue;
+      syl.stress = "\u02CC";
+      observer?.assignment(index, syl.stress, { kind: "morphology", effectId: effectId!, action: "demote-primary" });
     }
     syllables[affixSyllableIndices[0]].stress = "\u02C8";
+    observer?.assignment(affixSyllableIndices[0], "\u02C8", { kind: "morphology", effectId: effectId!, action: "affix-primary" });
   } else if (stressEffect === "secondary") {
     syllables[affixSyllableIndices[0]].stress = "\u02CC";
+    observer?.assignment(affixSyllableIndices[0], "\u02CC", { kind: "morphology", effectId: effectId!, action: "affix-secondary" });
   } else if (stressEffect === "attract-preceding" && !isPrefix) {
     const firstAffixIdx = affixSyllableIndices[0];
     if (firstAffixIdx > 0) {
-      for (const syl of syllables) {
-        if (syl.stress === "\u02C8") syl.stress = "\u02CC";
+      for (let index = 0; index < syllables.length; index++) {
+        const syl = syllables[index];
+        if (syl.stress !== "\u02C8") continue;
+        syl.stress = "\u02CC";
+        observer?.assignment(index, syl.stress, { kind: "morphology", effectId: effectId!, action: "demote-primary" });
       }
       syllables[firstAffixIdx - 1].stress = "\u02C8";
+      observer?.assignment(firstAffixIdx - 1, "\u02C8", { kind: "morphology", effectId: effectId!, action: "preceding-primary" });
     }
   }
 }
@@ -475,11 +487,15 @@ export function prepareMorphology(
     suffixIndices.push(prefixSyllables.length + syllables.length + i);
   }
 
-  if (plan.prefix && prefixIndices.length > 0) {
-    adjustStress(context.word.syllables, plan.prefix.stressEffect, prefixIndices, true);
+  const observer = context.trace?.stressPatternObserver;
+  observer?.assemble(context.word.syllables, prefixSyllables.length);
+  if (plan.prefix) {
+    const effectId = observer?.affix("prefix", plan.prefix.stressEffect, prefixIndices);
+    if (prefixIndices.length > 0) adjustStress(context.word.syllables, plan.prefix.stressEffect, prefixIndices, true, observer, effectId);
   }
-  if (plan.suffix && suffixIndices.length > 0) {
-    adjustStress(context.word.syllables, plan.suffix.stressEffect, suffixIndices, false);
+  if (plan.suffix) {
+    const effectId = observer?.affix("suffix", plan.suffix.stressEffect, suffixIndices);
+    if (suffixIndices.length > 0) adjustStress(context.word.syllables, plan.suffix.stressEffect, suffixIndices, false, observer, effectId);
   }
 
   return { plan, prefix, suffix, rootSyllableStart: prefixSyllables.length, rules };

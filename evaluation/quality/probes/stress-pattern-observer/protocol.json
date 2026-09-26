@@ -1,0 +1,17 @@
+{
+  "id": "complete-stress-pattern-observation-v1",
+  "schemaVersion": 1,
+  "controlGeneratorDigest": "d2370383c8a3be674c18d37ccb3ca11b55e3d9687ee68eb09195ef01cd02ad2e",
+  "controlManifestSha256": "239e956960301e010a709a0bd020432fa8f0cef2668699899c74c9c78bfe2628",
+  "coreEvaluatorDigest": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007",
+  "coreProtocolDigest": "451f4e5fab7285cc7f61f886391d6ac21ed042eb468e262790ea9e467a6c9862",
+  "scheduledWords": 200000,
+  "parity": "Every archived word and all old trace fields must equal the immediate control after removing only trace.stressPattern. No RNG, policy, sampling, weight or rejection change is permitted.",
+  "domains": ["root-before-primary", "root-after-primary", "root-after-explicit-secondary", "root-after-rhythmic", "assembled-after-morphology", "final-lexical-before-realization", "surface-after-realization"],
+  "historicalAvailability": "Pinned detached control has exact labels for five domains; after-primary and after-explicit-secondary labels and all assignment origins/draw details are unavailable. No reconstruction from final labels.",
+  "primaryAcceptance": "All candidate records pass independent decision-to-event replay, exact assignment/event bijection, backward-origin/snapshot validation, actual root-to-word geometry and final phones/labels. All scheduled raw draws pass source/artifact/shard/order/count verification and parity.",
+  "descriptiveOutcomes": ["Full P/S/U pattern counts per domain, with stream totals and resolved morphology (bare/prefixed/suffixed/both) crossed with final syllable-count strata", "Ordered adjacent marked pairs including PP, PS, SP, SS", "Maximal unmarked-run lengths split whole-word/initial/internal/final", "Signed secondary distance to each primary; no-primary separate", "Boundary and ordered-origin pair counts", "Declared nuclear metadata per domain; root observed operational policy strata", "Executed stress draws, rhythmic skip/gate outcomes and morphology effects"],
+  "interpretation": "Representation proxies only, with known unmarked labels distinct from absent evidence. No desired adjacency-rate decrease, metrical feet, acoustic duration/prominence, naturalness or human quality gain is claimed. Only the returned attempt is observed.",
+  "witnessPolicy": "First complete candidate per stream, first each morphology status, first each boundary adjacent-label category with its complete origin events, first lexical nucleus change and first surface nucleus change; at most one witness per category per stream, selected in raw draw order.",
+  "sourceFingerprint": "Before formal capture, declare SHA-256 digest of the canonical ordered source snapshot produced by sourceSnapshot; pass that exact digest to analyze. The report pins these source bytes and rejects changes during analysis. Existing frozen evaluator and detachment tools are not edited."
+}

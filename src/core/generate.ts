@@ -1272,6 +1272,9 @@ function generateOneWord(
     const preparedMorphology = morphPlan ? prepareMorphology(rt, context, morphPlan.plan) : undefined;
     traceCollector?.afterStage("assembleMorphology", context.word.syllables);
     const rootSyllableStart = preparedMorphology?.rootSyllableStart ?? 0;
+    const stressPattern = traceCollector?.stressPatternObserver;
+    if (!preparedMorphology) stressPattern?.assemble(context.word.syllables, 0);
+    stressPattern?.snapshot("assembled-after-morphology", context.word.syllables);
 
     // Final primary stress may fall on a formerly unstressed root vowel. Repair
     // the lexical choice before spelling, while retaining genuine alternations
@@ -1329,9 +1332,11 @@ function generateOneWord(
       const realization = traceCollector?.morphologyTrace?.realization;
       if (realization) realization.emittedParts = morphology.parts.map(part => ({ ...part }));
     }
+    stressPattern?.snapshot("final-lexical-before-realization", context.word.syllables);
     traceCollector?.beforeStage("generatePronunciation", context.word.syllables);
     generatePronunciation(context, rt.resolvedPronunciation);
     traceCollector?.afterStage("generatePronunciation", context.word.syllables);
+    stressPattern?.snapshot("surface-after-realization", context.word.syllables);
     // Gap spellings are exact bare-word overrides. Affixed forms should be
     // handled by morphology or more general rule systems instead.
     if (!morphPlan || morphPlan.plan.template === "bare") {

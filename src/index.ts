@@ -30,6 +30,8 @@ export type { SspViolation } from "./core/junction.js";
 export type { OTStressConfig, OTConstraint, ConstraintWeight } from "./core/ot-stress.js";
 export type { NuclearQuantity, SyllableWeightPolicy, SyllableWeightAnalysis, NuclearQuantityObservation, StressWeightTrace } from "./core/syllable-weight.js";
 export { analyzeSyllableWeight, analyzeWordWeight } from "./core/syllable-weight.js";
+export { analyzeStressPattern } from "./core/stress-pattern.js";
+export type { StressMark, StressOrigin, StressPatternDomain, StressPhoneSnapshot, StressPatternSyllable, StressPatternSnapshot, StressAssignmentCause, StressAssignment, RhythmicIteration, AffixStressEffect, StressPatternTrace, StressPatternInput, ObservedStressPatternAnalysis } from "./core/stress-pattern.js";
 export { englishConfig } from "./config/english.js";
 export { createSeededRng, createDefaultRng } from "./utils/random.js";
 export type { RNG } from "./utils/random.js";

@@ -1,0 +1,23 @@
+{
+  "runs": [
+    {
+      "mode": "control",
+      "archiveCommit": "72222591a3b8fd03c7be40d7c54766ef4163529c",
+      "parityCommit": "cf017f74e063d0478556d1790c13fe494566545a",
+      "manifestSha256": "239e956960301e010a709a0bd020432fa8f0cef2668699899c74c9c78bfe2628",
+      "generatorDigest": "d2370383c8a3be674c18d37ccb3ca11b55e3d9687ee68eb09195ef01cd02ad2e",
+      "generatorFilesExactlyAtArchiveCommit": 45,
+      "allArchivedGeneratorAndPackageFilesMatchParitySource": true
+    },
+    {
+      "mode": "candidate",
+      "archiveCommit": "564dc5727bb28d0f421f73092b9bfb05ea9c9938",
+      "parityCommit": "564dc5727bb28d0f421f73092b9bfb05ea9c9938",
+      "manifestSha256": "1c7c178faece23800ffd11d9a2ae8203dade5de0349e06133d0bf68b2810dc60",
+      "generatorDigest": "9a9a352580489152e7cd10d4429b21e94c29b175cc8f37dfbbda8a9a3ab249dc",
+      "generatorFilesExactlyAtArchiveCommit": 46,
+      "allArchivedGeneratorAndPackageFilesMatchParitySource": true
+    }
+  ],
+  "allFrozenCoreProfilesIdentical": true
+}
