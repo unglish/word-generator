@@ -301,7 +301,7 @@ should rely on committed baselines and config, not on `data/cmudict-0.7b.txt`.
 |--------|----------------|-------|
 | `scripts/phoneme-length-dist.ts` | keep and repair | Normal verification; now compares generated output to committed top-down targets. |
 | `scripts/build-cmu-phoneme-baseline.mjs` | explicit source-regeneration | Requires pinned raw source and a fresh output path; no fallback or overwrite. Existing analyzer/demo baselines are not migrated. |
-| `scripts/build-cmu-baseline.ts` | manual source-regeneration | Rebuilds committed `data/cmu/cmu-length-baseline.json`; requires local ignored `data/cmudict-0.7b.txt`. |
+| `scripts/build-cmu-baseline.ts` | explicit source-regeneration | Creates a fresh versioned length reference from pinned source/policy/entry units; see [builder contract](docs/cmu-length-builder.md). Existing analyzer inputs are not migrated. |
 | `scripts/generate-bigram-table.ts` | manual source-regeneration | Rebuilds `src/phonotactic/arpabet-bigrams.ts`; prefers local raw CMU file, otherwise downloads upstream. Not required for normal verification. |
 | `scripts/generate-baseline.ts` | manual source-regeneration | Rebuilds `src/phonotactic/english-baseline.json`; prefers local raw CMU file, otherwise downloads upstream. Not required for normal verification. |
 | `scripts/full-cmu-baseline.ts` | remove | Stale duplicate of the phonotactic baseline flow with no active references. |
@@ -338,7 +338,7 @@ Thresholds are in `src/config/phoneme-thresholds.json` and follow a **ratchet** 
 | `data/cmu/cmu-lexicon-trigrams.json` | CMU trigram frequencies (8,190 unique) |
 | `data/cmu/cmu-lexicon-phonemes.json` | CMU phoneme frequencies mapped to generator symbols |
 | `data/cmu/phoneme-normalization.json` | Shared normalization policy (analyzer + demo) |
-| `data/cmu/cmu-length-baseline.json` | CMU word-length and syllable-count baseline |
+| `data/cmu/cmu-length-baseline.json` | Historical written-length and syllable-count baseline in pronunciation-line units; retained for existing consumers |
 | `data/cmu/cmu-lexicon-baseline.md` | Human-readable baseline report |
 
 ## History
