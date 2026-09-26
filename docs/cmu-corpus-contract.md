@@ -52,8 +52,9 @@ The compact source/audit/model/score proof is in
 from the pinned upstream URL and checked before use.
 
 Record parsing, population selection, phonemic projection and numeric units are
-separate contracts. This first PR does not adopt a new reference for any legacy
-consumer. Q15b will derive matched-population integer counts and compare old/new
-references on the same immutable generator archive. Q15c will migrate manual
+separate contracts. The extraction does not adopt a new reference for any legacy
+consumer. [Q15b](cmu-matched-reference.md) derives matched-population integer
+counts and compares old/new references on the same immutable generator archive.
+Q15c will migrate manual
 consumers individually. Existing reference percentages, runtime weights, tests
 and thresholds remain outside this extraction.
