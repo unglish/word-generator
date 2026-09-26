@@ -382,9 +382,15 @@ positive-penalty quality gain.
 The Q09 capture review corrected schedule and engine bindings and delayed final
 scored publication until broader source checks pass. Thirteen adapter tests pass
 independently, including coherently rehashed shorter/reordered archives and both
-post-rescore failure paths. The mechanism observer and independent conditional
-pattern analysis remain under preparation; active corpus and timing studies are
-pending. The runtime candidate has not yet been published as a PR.
+post-rescore failure paths. The completed mechanism observer and independent
+conditional-pattern verifier have now passed bounded source review and 41
+independently executed synthetic checks (29 Node, 12 Python). Review also closed
+a Python report-path gap: the verifier now excludes the frozen control checkout,
+including aliases, before writing. All 52 runtime/package files, eight delegation
+tool files and 77 published proof files remain unchanged. The 27-file measurement
+tool closure and fixed development schedule are frozen for the control/active
+corpus study; timing and measured quality outcomes remain pending. The runtime
+candidate has not yet been published as a PR.
 
 Q13c has 137 passing related tests (87 normalization, 44 coverage, six observer).
 A source-pinned mapping reconciles all 35 registered mechanism requirements with
@@ -400,11 +406,17 @@ The separately versioned Q13c analyzer has passed independent bounded source
 review. It binds external source/manifest hashes, exact archive/schedule sets,
 configuration and source bundles, and before/after integrity. Its production
 license replay remains distinct from the required independent raw recount.
-The compatibility harness is ready for review: 80,000 omitted-policy calls and
-40,000 active trace-on/off calls, plus eight separately accounted mutation calls.
-Fifteen combined analyzer/parity tool tests pass; no formal Q13c parity run or
-candidate corpus is claimed yet. A diagnostic against exact #331 shows both
-control and candidate can alias a returned phoneme into later calls: mutation
-compatibility passes, while returned-value isolation is explicitly false. That
-inherited behavior is not silently fixed or reported as successful isolation in
-this spelling experiment.
+The independently reviewed compatibility harness has now completed 80,000
+omitted-policy calls and 40,000 active trace-on/off calls over 20,000 coordinates,
+plus eight separately accounted mutation calls. Every scheduled comparison
+passes: omitted-policy live properties, complete words/v1 traces and consumed RNG
+bytes match exact #331; active trace-on/off outputs and RNG behavior match each
+other. Source checks pass before and after. Independent report reconciliation
+checks all 20 streams, 140 current source/tool files, ten historical preparation
+pins and 55 control files against Git. This is sampled compatibility, not an
+active/control equality or quality claim; the 200,000-word candidate capture,
+independent structural recount and timing remain pending. Both control and
+candidate still alias a returned phoneme into later calls: mutation compatibility
+passes, while returned-value isolation is explicitly false. That inherited
+behavior is not silently fixed or reported as successful isolation in this
+spelling experiment.
