@@ -5,7 +5,7 @@ import * as random from "./utils/random.js";
 
 export { createGenerator, generateWord, generateWords } from "./core/generate.js";
 export type { WordGenerator } from "./core/generate.js";
-export type { GenerationMode } from "./types.js";
+export type { GenerationMode, NucleusWordPositionWeights } from "./types.js";
 export {
   resolveStressRules,
   resolveAspirationRules,
