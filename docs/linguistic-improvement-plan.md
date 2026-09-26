@@ -43,7 +43,7 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | [Draft PR #328](https://github.com/unglish/word-generator/pull/328), against the exact Q02a + Q12a + Q06 dependency control; cap-partial `th` 126→0 and cap-attributed units with no surviving lineage 1,700→0 in 200,000 words; 1,517 certificates replayed; longer clusters, quality failures and a material performance regression retained |
 | Q13 performance | Reuse full spelling context during budget measurement | Exact word/trace/RNG/certificate parity; fixed paired timing against #328 | [PR #331](https://github.com/unglish/word-generator/pull/331); 800,000 core and 84,800 supplementary API calls preserve behavior; six fixed pairs show 6.4% median paired local throughput gain and 0/6→6/6 speed-floor passes; inherited quality failures remain |
 | Q13b | Aligned spelling of multiple phonemes by one grapheme | Explicit ownership and pronunciation preservation for /ks, gz/→x and similar units | Q13; Q12a exposes reliance on illegal /z/→ze choices for the current `gz-to-x` string repair |
-| Q13c | Preserve units through adjacent-letter deduplication | Exact source-phone multiplicity and context-licensed whole-unit normalization | Independent replay of Q13's 200,000-word archive agrees on all 902 registered historical count leaves, including 7,712 deletion events, 7,398 fully erased later units and 31 final partial `th` units. The local-normalization contract is registered; implementation is in progress, with no candidate capture yet. True shared constructions remain Q13b |
+| Q13c | Preserve units through adjacent-letter deduplication | Exact source-phone multiplicity and context-licensed whole-unit normalization | Independent replay of Q13's 200,000-word archive agrees on all 902 registered historical count leaves, including 7,712 deletion events, 7,398 fully erased later units and 31 final partial `th` units. The frozen 200,000-word candidate now has zero deduplication-attributed erased units and partial `th` units; independent structural replay agrees on 13,835 integer leaves. All 25 normalization certificates pass production license replay. Broader regressions and performance remain part of acceptance; true shared constructions remain Q13b |
 | Q14a | Complete split-digraph constructions | No unresolved spelling obligation; alternatives and pronunciation retained | Q12a, Q13 |
 | Q14b | Following-letter conditions for soft c/g | No incompatible following letters; licensed exceptions and search-fallback rates | Q12a, Q13, Q14a |
 | Q15a | Shared source parsing and explicit compatible population | Lossless records, complete entry accounting, model/score parity with new implementation provenance | [PR #323](https://github.com/unglish/word-generator/pull/323), stacked on #304; 135,166 source records reconciled, 117,485 accepted; every model field and all 400 frozen score rows unchanged; old artifacts preserved |
@@ -420,3 +420,33 @@ candidate still alias a returned phoneme into later calls: mutation compatibilit
 passes, while returned-value isolation is explicitly false. That inherited
 behavior is not silently fixed or reported as successful isolation in this
 spelling experiment.
+
+The frozen Q09 runtime study now contains 200,000 control and 200,000 active
+words, independently observed and rescored with the unchanged common evaluator.
+The independent active recount agrees across all 20 streams and 788 contexts;
+3,112 same-primary/count law queries retain 1,802 positive and 1,310 exact-zero
+patterns. Within the active returned attempts, proposal versus applied adjacency
+falls from 29,760 to 28,194 while secondary count remains 37,783. This is a
+within-attempt mechanism result, not a causal pairing of control and active words.
+Trigram divergence worsens against the immediate control in the three
+non-monosyllable profiles, and disyllabic clashes remain. The final dedicated
+quality suite passes 12/12; the broader suite has 555 passes, one skip and the
+same three inherited failures. Preregistered broader rhythm/quantity endpoints
+are being completed through a separate archived-word supplement. Controlled
+timing and those endpoints remain pending, so runtime activation is not yet a
+completed PR or an overall quality improvement.
+
+The Q13c formal candidate capture and independent structural recount are now
+complete. Across 200,000 words, all 13,835 integer leaves agree; exact ordered
+UTF-16 append/edit/guard replay and certificate phone multiplicity pass. Compared
+with the dependency control, deduplication-attributed units with no surviving
+lineage fall from 7,398 to zero and partial `th` units from 31 to zero. Of 7,530
+candidate collision episodes, 7,505 retain their units and 25 normalize a whole
+unit. All 25 emitted normalization certificates pass the separate production
+license replay. The independent structural proof does not independently establish
+English readings or conditional spelling support. Common metrics remain mixed:
+monosyllable trigram divergence increases by approximately 0.006672 bits while
+unique monosyllable spellings increase by 1,293. The already recorded new doubling
+gate failure and other quality failures remain; controlled timing is pending.
+These observations support the registered deletion correction, not a general
+claim that readers prefer the candidate.
