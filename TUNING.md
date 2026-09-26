@@ -303,7 +303,7 @@ should rely on committed baselines and config, not on `data/cmudict-0.7b.txt`.
 | `scripts/build-cmu-phoneme-baseline.mjs` | explicit source-regeneration | Requires pinned raw source and a fresh output path; no fallback or overwrite. Existing analyzer/demo baselines are not migrated. |
 | `scripts/build-cmu-baseline.ts` | explicit source-regeneration | Creates a fresh versioned length reference from pinned source/policy/entry units; see [builder contract](docs/cmu-length-builder.md). Existing analyzer inputs are not migrated. |
 | `scripts/generate-bigram-table.ts` | explicit reference construction | Requires pinned CMU source, policy, units and a fresh output path; creates a versioned native/base phone-transition artifact. Does not download or replace the active scorer table. See `docs/cmu-transition-builder.md`. |
-| `scripts/generate-baseline.ts` | manual source-regeneration | Rebuilds `src/phonotactic/english-baseline.json`; prefers local raw CMU file, otherwise downloads upstream. Not required for normal verification. |
+| `scripts/generate-baseline.ts` | explicit score-reference construction | Requires pinned source, policy, base projection, historical scorer profile and fresh output; preserves the active score baseline and gates. See `docs/cmu-score-reference.md`. Not required for normal verification. |
 | `scripts/full-cmu-baseline.ts` | remove | Stale duplicate of the phonotactic baseline flow with no active references. |
 
 ## Phoneme Guardrail Ratchet
