@@ -102,3 +102,6 @@ export default {
 };
 
 export type { BaseSpellingTrace, SpellingPhone, SpellingUnit, SpellingCell, SpellingCellOrigin, SpellingEdit } from "./core/base-spelling.js";
+
+export type { GraphemeReading } from "./types.js";
+export type { SpellingBudgetOutcome, SpellingBudgetMeasurement, SpellingBudgetValues, SpellingBudgetRefusal, SpellingCoverageCertificate, SpellingChoiceLicense, SpellingUnitReplacement } from "./core/spelling-coverage-types.js";

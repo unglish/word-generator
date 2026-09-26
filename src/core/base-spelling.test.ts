@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
+import { createGenerator, createSeededRng, englishConfig } from "../index.js";
 import { BaseSpelling, expandReplacement } from "./base-spelling.js";
+
+const legacyConfig = { ...englishConfig, writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined } };
+const { generateWord } = createGenerator(legacyConfig);
 
 // Q12a changes seeded spelling paths; these coordinates belong to its dependency control.
 function archivedDraws(indices: number[]) {
@@ -61,7 +64,7 @@ describe("exact base-spelling provenance", () => {
     const source = generateWord(options);
     const phonemes = source.syllables.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda].map(phone => phone.sound));
     const generator = createGenerator({
-      ...englishConfig,
+      ...legacyConfig,
       gapSpellings: [{ name: "probe", phonemes, replacement: "other", targetLayer: "unknown" }],
     });
     const word = generator.generateWord(options);
@@ -77,7 +80,7 @@ describe("exact base-spelling provenance", () => {
 
   it.each([100, 53])("keeps public-API output and RNG parity with custom regex probability %s", probability => {
     const generator = createGenerator({
-      ...englishConfig,
+      ...legacyConfig,
       spellingRules: [{ name: "probe", pattern: "([aeiou])", replacement: "$1$1", probability, scope: "both" }],
     });
     const onRng = createSeededRng(281);

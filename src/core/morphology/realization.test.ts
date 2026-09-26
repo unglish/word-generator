@@ -53,7 +53,7 @@ function fixedRoot(options: { prefix?: Affix; suffix?: Affix; onset?: string; co
     },
     morphology: { ...englishConfig.morphology!, prefixes: prefix ? [prefix] : [], suffixes: suffix ? [suffix] : [], templateWeights: { text: weights, lexicon: weights } },
     doubling: undefined, silentE: undefined, spellingRules: [], gapSpellings: [],
-    writtenFormConstraints: { ...englishConfig.writtenFormConstraints, maxConsonantLetters: maxConsonants },
+    writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined, maxConsonantLetters: maxConsonants },
   };
   const generator = createGenerator(config);
   const generation = { seed: 13, morphology: true, syllableCount: 1 + (prefix?.syllableCount ?? 0) + (suffix?.syllableCount ?? 0) };
