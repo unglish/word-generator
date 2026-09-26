@@ -23,9 +23,9 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q02 | Final-word trace provenance and orthographic ownership | Final surface equals output; resolved affix and segment ownership; trace on/off parity | Shared representation with Q04/Q13 |
 | Q03 | Rejection and fallback accounting | Actual attempts, selected attempt, status and reason counts; impossible/late-acceptance fixtures | [PR #311](https://github.com/unglish/word-generator/pull/311); applicable CI passes; 20,000-word output and RNG parity verified |
 | Q04 | Underlying lexical forms; morphology and final stress before surface realization | Missing primary, primary schwa and primary reduced-vowel rates; lexical/surface provenance; one realization pass | [Draft PR #309](https://github.com/unglish/word-generator/pull/309); stress defects removed in 200,000-word capture, rhythm/open-vowel tradeoffs and `ugh` gate failure disclosed; coordinate with #305 |
-| Q05 | Licensed hiatus across morphological boundaries | Unlicensed /h/ bridges by boundary type; phone/spelling agreement | Final morphology representation |
-| Q06 | Preserve resolved allomorphs | Resolved written and phone variants survive final reconstruction; allomorph matrix | In progress; coordinate with Q04/Q02 |
-| Q07 | Segment edge versus syllable position | /ʊ/ coverage in closed final syllables; forbidden open-position rate; audited inventory migration | [PR #314](https://github.com/unglish/word-generator/pull/314); closed-final base FOOT 15→2,506 in 200,000 words, open-final FOOT 3→0 in bases and 2→0 in outputs; local checks pass, mixed broader diagnostics retained |
+| Q05 | Licensed hiatus across morphological boundaries | Unlicensed /h/ bridges by boundary type; phone/spelling agreement | [Draft PR #316](https://github.com/unglish/word-generator/pull/316); 8,343 affected words→0 in 200,000 words, 12,563 preserved boundaries checked, morphology-disabled archives byte-identical; `ugh` gate failure and broader tradeoffs retained |
+| Q06 | Preserve resolved allomorphs | Resolved written and phone variants survive final reconstruction; allomorph matrix | [PR #315](https://github.com/unglish/word-generator/pull/315); all 248 identifiable `in`→`im` opportunities now retain `im`; 13 core diagnostic counts unchanged; applicable CI passes; coordinate with Q04/Q02 |
+| Q07 | Segment edge versus syllable position | /ʊ/ coverage in closed final syllables; forbidden open-position rate; audited inventory migration | [PR #314](https://github.com/unglish/word-generator/pull/314); closed-final base FOOT 15→2,506 in 200,000 words, open-final FOOT 3→0 in bases and 2→0 in outputs; applicable CI passes, mixed broader diagnostics retained |
 | Q08 | Typed vowel quantity and shared syllable-weight analysis | Open long-vowel/diphthong classification and resulting stress distributions | Declared dialect/quantity contract |
 | Q09 | Whole-pattern secondary stress and rhythm | Clash/lapse and secondary-schwa rates by length and morphology; explicit exceptions | Q04, Q08 |
 | Q10 | Conditional nucleus/coda legality | /æŋ/ coverage; final open checked vowels; legality after nucleus replacement | Q07; coordinate with Q04 |
@@ -33,12 +33,12 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q11b | Preserve cluster legality through morphological alternations | Transformation-specific collision rates and trace ownership; retain licensed boundary repetition | Existing /sk/→/ss/ after `ity` softening identified by Q11; separate from root extensions |
 | Q12a | Licensed positive-weight grapheme selection | Zero-weight and forbidden-choice rates, including singleton candidates; fallback counts | [Draft PR #310](https://github.com/unglish/word-generator/pull/310); zero-weight choices removed in 200,000-word capture, `ex` gate failure disclosed |
 | Q12b | Restore ordinary /ɛ/→e before /t/ | Conditioned /ɛt/ spellings and traced contribution to exceptional ea patterns | [Draft PR #312](https://github.com/unglish/word-generator/pull/312); restored e in all 2,632 eligible candidate pairs, while exposing 13 consonantal-y magic-e errors; weights unchanged |
-| Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | Design in progress; coordinate base-word alignment with Q02/Q06 final-word provenance |
+| Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | Additive base-edit ledger implemented and undergoing parity/replay review first; behavior-preserving provenance precedes repair-policy changes; coordinate with Q02/Q06 |
 | Q13b | Aligned spelling of multiple phonemes by one grapheme | Explicit ownership and pronunciation preservation for /ks, gz/→x and similar units | Q13; Q12a exposes reliance on illegal /z/→ze choices for the current `gz-to-x` string repair |
 | Q14a | Complete split-digraph constructions | No unresolved spelling obligation; alternatives and pronunciation retained | Q12a, Q13 |
 | Q14b | Following-letter conditions for soft c/g | No incompatible following letters; licensed exceptions and search-fallback rates | Q12a, Q13, Q14a |
 | Q15 | Coherent corpus processing and reference populations | Pinned sources/checksums/licenses; common filtering/variant policy; matched population sizes | Coordinate with existing PR #304 |
-| Q16 | Target dialect, phonemic identity and display notation | Complete mapping coverage; explicit coarse versus stress-preserving scores | Independent contract; coordinate with Q08/Q15 |
+| Q16 | Target dialect, phonemic identity and display notation | Complete mapping coverage; explicit coarse versus stress-preserving scores | Additive legacy identity/projection contract in progress; preserve current output, mark contradictory /ɜ/ identity unresolved; dialect migration separate, coordinate with Q08/Q15 |
 | Q17 | Offline conditional onset/rime model | Held-out fit by stress/position/class; smoothed backoff, rare-tail and diversity checks | Q07, Q08, Q10, Q15, Q16; reuse #304 where appropriate |
 | Q18 | Typed stem/affix compatibility | Category transitions; incompatible combinations absent; permitted combinations retained | Q04, Q06; productivity assumptions explicit |
 | Q19 | Frequency-based running-text targets | Sourced type/token policy; held-out length/phone fit; function-word handling | Q15 |
@@ -105,3 +105,12 @@ custom fixtures expose its remaining general checked-vowel limitation for Q10.
 
 The [baseline guide](quality-baselines.md) defines the frozen protocol and
 comparison limits. Original captures remain immutable when evaluators evolve.
+
+Q06 retains all 248 source-identifiable `im` selections in the spelling, while
+all 13 core diagnostic counts and eligible denominators remain unchanged.
+Explicit realization covers 57,509 affixed words and 64,031 selected affixes.
+Fifty existing root cleanup edits remain visible; morphological parts are not
+phone-to-character ownership. Q05 removes all recorded morphology bridge
+insertions and preserves 12,563 traced vowel boundaries. Its 100,000 bare outputs
+are byte-identical to the original, while affixed sampling and several broader
+diagnostics change. Its failed rare-spelling gate keeps the candidate in draft.
