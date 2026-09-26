@@ -1,4 +1,5 @@
 import { RNG } from "./utils/random";
+import type { NuclearQuantity } from "./core/syllable-weight.js";
 import type { WordTrace } from "./core/trace";
 import type { TraceCollector } from "./core/trace";
 
@@ -92,8 +93,10 @@ export interface Phoneme {
   onset?: number;
   /** Weighting for appearing in a syllable coda (final consonant cluster). */
   coda?: number;
-  /** Whether the vowel is tense (long) as opposed to lax (short). */
+  /** Legacy tense classification used by existing sonority, reduction and spelling rules; not quantity or duration. */
   tense?: boolean;
+  /** Explicit phonological quantity under a named analysis. Missing means unspecified. */
+  nuclearQuantity?: NuclearQuantity;
 
   /** Whether this vowel was reduced (e.g. schwa substitution in unstressed syllables). */
   reduced?: boolean;
