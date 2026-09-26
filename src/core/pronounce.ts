@@ -14,7 +14,7 @@ import { otEvaluate } from "./ot-stress.js";
 import { analyzeWordWeight } from "./syllable-weight.js";
 import type { SyllableWeightAnalysis, StressWeightTrace } from "./syllable-weight.js";
 import type { AspirationDecisionTrace, AspirationTargetSegment } from "./trace.js";
-import { cloneSyllables } from "./lexical.js";
+import { clonePhoneme, cloneSyllables } from "./lexical.js";
 
 /** Fast boolean probability check (avoids tuple array allocation). */
 export function coinFlip(rand: RNG, probability: number): boolean {
@@ -34,7 +34,9 @@ interface AspirationTargetMatch {
 
 const applyAspirationMarker = (phoneme: Phoneme): Phoneme => {
   if (phoneme.aspirated) return phoneme;
-  return { ...phoneme, aspirated: true };
+  const aspirated = clonePhoneme(phoneme);
+  aspirated.aspirated = true;
+  return aspirated;
 };
 
 const getSyllableSegment = (
@@ -447,7 +449,9 @@ const reduceUnstressedVowels = (
       if (!target) continue;
 
       if (coinFlip(rand, prob)) {
-        syllable.nucleus[i] = { ...target, reduced: true };
+        const reduced = clonePhoneme(target);
+        reduced.reduced = true;
+        syllable.nucleus[i] = reduced;
       }
     }
   }

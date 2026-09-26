@@ -204,3 +204,76 @@ describe("lexical composition before surface realization", () => {
     expect(unstressedSchwas).toBeGreaterThan(0);
   });
 });
+
+describe("structured lexical metadata detachment", () => {
+  it.each(["root", "assembled", "surface"] as const)("detaches %s quantity from other views, inventory and later calls", view => {
+    const generator = lexicalGenerator({ suffix: "tion" });
+    const options = { seed: 855, syllableCount: 3, morphology: true, trace: true };
+    const word = generator.generateWord(options);
+    const original = structuredClone(word);
+    const views = { root: word.lexical!.root, assembled: word.lexical!.syllables, surface: word.syllables };
+    const phone = views[view][1].nucleus[0];
+    expect(phone.sound).toBe("ʌ");
+    const inventory = englishConfig.phonemes.find(candidate => candidate.sound === phone.sound)!;
+    const quantity = phone.nuclearQuantity!;
+    expect(quantity).toBeDefined();
+    expect(quantity).not.toBe(inventory.nuclearQuantity);
+    for (const [name, syllables] of Object.entries(views)) {
+      if (name !== view) expect(quantity).not.toBe(syllables[1].nucleus[0].nuclearQuantity);
+    }
+    const expectedQuantity = { ...quantity };
+    quantity.analysis = "caller-edited";
+    quantity.moras = 2;
+    expect(inventory.nuclearQuantity).toEqual(expectedQuantity);
+    for (const [name, syllables] of Object.entries(views)) {
+      if (name !== view) expect(syllables[1].nucleus[0].nuclearQuantity).toEqual(expectedQuantity);
+    }
+    expect(generator.generateWord(options)).toEqual(original);
+  });
+
+  it("detaches a promoted replacement copied back into the lexical root", () => {
+    const generator = lexicalGenerator({ suffix: "tion", vowels: ["ʌ", "ə"] });
+    let checked = 0;
+    for (let seed = 0; seed < 100; seed++) {
+      const options = { seed, syllableCount: 3, morphology: true, trace: true };
+      const word = generator.generateWord(options);
+      const stage = word.trace!.stages.find(entry => entry.name === "repairFinalStressedNuclei")!;
+      if (stage.before[1].nucleus[0] !== "ə") continue;
+      expect(stage.after[1].nucleus[0]).toBe("ʌ");
+      const original = structuredClone(word);
+      const rootQuantity = word.lexical!.root[1].nucleus[0].nuclearQuantity!;
+      const assembledQuantity = word.lexical!.syllables[1].nucleus[0].nuclearQuantity!;
+      const surfaceQuantity = word.syllables[1].nucleus[0].nuclearQuantity!;
+      const inventory = englishConfig.phonemes.find(phone => phone.sound === "ʌ")!;
+      expect(rootQuantity).not.toBe(inventory.nuclearQuantity);
+      expect(new Set([rootQuantity, assembledQuantity, surfaceQuantity]).size).toBe(3);
+      const expectedQuantity = { ...rootQuantity };
+      rootQuantity.analysis = "caller-edited-promoted-root";
+      expect(assembledQuantity).toEqual(expectedQuantity);
+      expect(surfaceQuantity).toEqual(expectedQuantity);
+      expect(inventory.nuclearQuantity).toEqual(expectedQuantity);
+      expect(generator.generateWord(options)).toEqual(original);
+      checked++;
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
+
+  it("detaches a reduced target from the global inventory and other reduced occurrences", () => {
+    const generator = lexicalGenerator({ suffix: "tion" });
+    const options = { seed: 855, syllableCount: 3, morphology: true, trace: true };
+    const word = generator.generateWord(options);
+    const original = structuredClone(word);
+    const reduced = word.syllables[0].nucleus[0];
+    expect(reduced).toMatchObject({ sound: "ə", reduced: true });
+    const inventory = englishConfig.phonemes.find(phone => phone.sound === "ə")!;
+    expect(reduced.nuclearQuantity).not.toBe(inventory.nuclearQuantity);
+    for (const phone of word.syllables.slice(1).flatMap(syllable => syllable.nucleus)) {
+      expect(reduced.nuclearQuantity).not.toBe(phone.nuclearQuantity);
+    }
+    const expectedQuantity = { ...reduced.nuclearQuantity! };
+    reduced.nuclearQuantity!.analysis = "caller-edited-reduction";
+    expect(inventory.nuclearQuantity).toEqual(expectedQuantity);
+    expect(word.lexical!.syllables[0].nucleus[0].sound).toBe("ʌ");
+    expect(generator.generateWord(options)).toEqual(original);
+  });
+});

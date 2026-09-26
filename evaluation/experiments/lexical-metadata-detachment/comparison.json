@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "probe": "stress-view-detachment-comparison-v1",
+  "result": "pass",
+  "completeWordsCompared": 200000,
+  "completeRawShardsByteIdentical": true,
+  "fullLegacyTracesEqual": true,
+  "rngScheduledDraws": 20000,
+  "rngBoundariesCallsNextValueEqual": true,
+  "traceOnOffEqual": true,
+  "before": {
+    "commit": "ca6654cfff2b827bee16bb5cc8d9fbc5f9fd34d2",
+    "generatorDigest": "3f5b125a15e9a2aaa98ab79d14feeb5502fc77b8584307da025162fe55f2ea63",
+    "manifestDigest": "179fd333b25dc5cecdbde9424d23f75b84e62ae6901dc95e4327b9f16c9659dd",
+    "parityReportSha256": "236b83fc6915660b998ec79f7e88c0e5a93e9b1279a3bc30a029752f1cecf624"
+  },
+  "after": {
+    "commit": "72222591a3b8fd03c7be40d7c54766ef4163529c",
+    "generatorDigest": "d2370383c8a3be674c18d37ccb3ca11b55e3d9687ee68eb09195ef01cd02ad2e",
+    "manifestDigest": "8fec60bbe01206fd5ed3b6e624b6de375d7e79f1c7557c2c3a499b07a15c6195",
+    "parityReportSha256": "4128a4cc5946934780ecb04461d3b1e5d914b0f26d891a9425a0b514c0b41630"
+  },
+  "parityToolSha256": "e17809ba870009541fa3fe51cb29174c8dfec0bf4514aa73b77bc75ced251f18",
+  "comparatorSha256": "549c15fc38fb9cc37a0681cdbbc61584c56cecfebcf86654cf4c262a3e01484f",
+  "shards": [
+    {
+      "file": "words/lexicon-default-69212153.jsonl.gz",
+      "sha256": "c080fa470d569e62f36418e19d5ad0a8aea2757a5716d74f14ff1be31d3446de",
+      "bytes": 6955773
+    },
+    {
+      "file": "words/lexicon-default-101601885.jsonl.gz",
+      "sha256": "9a6ba7a469408a33c30ab6c1e25ba060ed946021a6a8a06cf7504722f114e8a2",
+      "bytes": 6980843
+    },
+    {
+      "file": "words/lexicon-default-3921817393.jsonl.gz",
+      "sha256": "f6caec860c4163a7456b33bdaa1d3d93b7a862408ec5ba600183994503fdbff5",
+      "bytes": 7029014
+    },
+    {
+      "file": "words/lexicon-default-3948943232.jsonl.gz",
+      "sha256": "644e39c270d7a1be7d5dc8852316c729c885e14c85133fc8ec987be6ae7eec4c",
+      "bytes": 6985979
+    },
+    {
+      "file": "words/lexicon-default-2089697863.jsonl.gz",
+      "sha256": "a457b3996b5f556f371b478311f5230c5e1dc097d6c392397d89776806a33312",
+      "bytes": 6930440
+    },
+    {
+      "file": "words/lexicon-bare-2380207674.jsonl.gz",
+      "sha256": "21522bf3d92ad1b520818ec91afa35bcafc582c11f98a7de480f139e79fbaf0f",
+      "bytes": 7418175
+    },
+    {
+      "file": "words/lexicon-bare-772709128.jsonl.gz",
+      "sha256": "b4be7a99e16e8960eb90a2c4ea6b0dcec0be5f5d03fc8e93a7d99c4c1ed073b7",
+      "bytes": 7423061
+    },
+    {
+      "file": "words/lexicon-bare-1304238451.jsonl.gz",
+      "sha256": "2b448a0a6240220abee38f563b5f17936f4b40136ff213180e75655d29300bce",
+      "bytes": 7425008
+    },
+    {
+      "file": "words/lexicon-bare-1696751198.jsonl.gz",
+      "sha256": "c6e5e86849a4e344b2049c692f1b0703861049f7fec832f6a6139fa94c1f7c89",
+      "bytes": 7419150
+    },
+    {
+      "file": "words/lexicon-bare-1498885173.jsonl.gz",
+      "sha256": "e3c13697863f50f36e1f0ad2380422cdf16bc0f3dfda933c0783d608f31ba6b5",
+      "bytes": 7409348
+    },
+    {
+      "file": "words/monosyllables-bare-462530651.jsonl.gz",
+      "sha256": "d05415ef2b7119edf08bddebf915243c5c16e011dde5fa4d41345cb5c34bddb8",
+      "bytes": 4084698
+    },
+    {
+      "file": "words/monosyllables-bare-62358955.jsonl.gz",
+      "sha256": "36722f9318d905ad8b6761fa620ca3a8b51a1075220287325026112a870c7d4c",
+      "bytes": 4080289
+    },
+    {
+      "file": "words/monosyllables-bare-3297327738.jsonl.gz",
+      "sha256": "283be73858d4adf1bc2d8f00cc3f91f9f4225403fe1d34099472d92581d25442",
+      "bytes": 4086729
+    },
+    {
+      "file": "words/monosyllables-bare-2001884366.jsonl.gz",
+      "sha256": "3f6c6184b97211a4c299715152bf7b2b053adf4dc97c932c2cc8cb3f4203d76c",
+      "bytes": 4088400
+    },
+    {
+      "file": "words/monosyllables-bare-2353354178.jsonl.gz",
+      "sha256": "24857812bfd8c8beb8f98e8518b922ec6d35f8ee4553cb4207eede5fe09afc2d",
+      "bytes": 4102310
+    },
+    {
+      "file": "words/text-default-4167471042.jsonl.gz",
+      "sha256": "bec5cc3e1646ad8158ae292e1e8df1b3842aa317dd1bbcbb838ca8f3f67a4223",
+      "bytes": 5288902
+    },
+    {
+      "file": "words/text-default-2666001996.jsonl.gz",
+      "sha256": "237d6263afc11fdc43fd253a3c58672ca8d0ad17e1a28bc47cb496cd153a24d5",
+      "bytes": 5218172
+    },
+    {
+      "file": "words/text-default-3562318933.jsonl.gz",
+      "sha256": "82a3f770fc3d6ff41e8a4b68ae7189db4227bab029f653d1507966d126013175",
+      "bytes": 5245600
+    },
+    {
+      "file": "words/text-default-1999736106.jsonl.gz",
+      "sha256": "7fcc18c0da0b8cbe4ed1ca5c549a4f718f5af6da9cd7404be4e6398eb5c23cc8",
+      "bytes": 5337467
+    },
+    {
+      "file": "words/text-default-1665836705.jsonl.gz",
+      "sha256": "b2f5f353056a0c7b9881bf8f7b29b942c497e6736eb1b0990b904aa630e91dd6",
+      "bytes": 5292485
+    }
+  ]
+}

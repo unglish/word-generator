@@ -31,7 +31,7 @@ surface phones.
 ## Historical dependency fixtures
 
 Two Q06 assertions retain their original source-specific expectations:
-seed 167 expects `immamsed`, while this combination accepts `inlodsed`;
+seed 167 expects `immamsed`, while this combination produces `inlodsed`;
 the 10,000-word seed-20260926 stream expects more than 30 `im` selections,
 while this combination observes 29. These failures remain visible. They
 are not silently relabeled as passing or used to retune the generator.
@@ -56,11 +56,53 @@ not establish overall quality improvement for the combined draft stack.
 
 ## Staged verification
 
-The next prerequisite detaches structured phoneme metadata across lexical
-and surface views, including promoted replacements and reduction targets.
-It is a separate change requiring exact unmutated value/legacy-trace/RNG
-parity against this composition. The later Q09a observer will similarly
-require exact parity after removing only its new trace field. Controls
-use the frozen #307 evaluator and all four development profiles; original
-and independent PR archives remain unchanged. Neither capture has yet
-been run for this composition.
+The pre-detachment composition is committed as `ca6654c`. Its complete
+200,000-word control is archived at
+`memory/quality-runs/stress-pattern-composition`, with generator digest
+`3f5b125a15e9a2aaa98ab79d14feeb5502fc77b8584307da025162fe55f2ea63`.
+All 25 artifact hashes and all 45 generator source files were verified,
+including equality to that commit. The frozen evaluator digest is
+`ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007`.
+
+The separate metadata correction uses one typed `clonePhoneme` for
+lexical copies, promoted nucleus propagation, reduction targets and
+aspiration copies. It preserves scalar values and explicitly clones
+`nuclearQuantity`; positional metadata from Q07 is outside this stack.
+Existing reduction target lookup and every probability/RNG call remain
+unchanged. Five public mutation fixtures fail against the composition
+and pass with this correction, while the complete lexical suite passes
+16 tests. The corrected full suite records 468 passes, one skip, and the
+same three failures (including the unchanged 0.004901× `ugh` ratio).
+Dedicated quality remains 12/12; strict runtime/parity-tool TypeScript
+and touched-file ESLint pass.
+
+The correction requires exact unmutated value/full-trace/RNG parity
+against the composition. The pre-fix 20,000-draw paired trace-on/off report
+has been captured with the
+[detachment parity tool](../evaluation/quality/probes/stress-pattern/README.md).
+The corrected control at
+`memory/quality-runs/lexical-metadata-detachment` contains exactly the
+same 200,000 complete returned words and full old traces: all 20 raw
+compressed shards are byte-identical. Every frozen profile summary is
+also equal. The paired 20,000-draw reports match complete output hashes,
+full trace hashes, RNG call counts at every word boundary, total calls
+and the next RNG value under both trace modes. All 400,000 archived draw
+coordinates and source/artifact integrity were independently rechecked.
+
+Corrected generator digest:
+`d2370383c8a3be674c18d37ccb3ca11b55e3d9687ee68eb09195ef01cd02ad2e`
+at source commit `7222259`. The
+[compact evidence](../evaluation/experiments/lexical-metadata-detachment/comparison.json)
+retains both controls, parity reports, independent verification and the
+failed-before/passed-after mutation logs. Full raw shards remain in the
+local immutable runs and can be regenerated from the pinned commits.
+These observations establish value/RNG parity for the stated schedules;
+the fixture improvement concerns mutation isolation, not wordlikeness.
+
+In one coordinated idle interval, the unchanged performance suite passes
+2/2 for both sources: control 6,898 words/sec and 1.29× median batch
+variance; correction 6,778 words/sec and 1.37×. The fixed gates remain
+4,500 words/sec and <3×. The control ran first; this single ordered
+measurement is descriptive, not a stable estimate of slowdown. The later
+Q09a observer separately requires exact parity after removing only its
+new trace field. Original and independent PR archives remain unchanged.

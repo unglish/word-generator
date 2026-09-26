@@ -10,7 +10,7 @@ import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } f
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { planMorphology, prepareMorphology, writeMorphology } from "./morphology/index.js";
-import { cloneSyllables } from "./lexical.js";
+import { clonePhoneme, cloneSyllables } from "./lexical.js";
 import {
   computePhonemeTargetBounds,
   derivePhonemeTargets,
@@ -1284,7 +1284,7 @@ function generateOneWord(
       const finalNucleus = context.word.syllables[finalIndex].nucleus;
       for (let index = 0; index < finalNucleus.length; index++) {
         if (finalNucleus[index] !== nucleiBeforeRepair[finalIndex][index]) {
-          lexicalRoot[rootIndex].nucleus[index] = { ...finalNucleus[index] };
+          lexicalRoot[rootIndex].nucleus[index] = clonePhoneme(finalNucleus[index]);
         }
       }
     }

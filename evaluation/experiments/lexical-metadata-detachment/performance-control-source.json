@@ -1,0 +1,8 @@
+{
+  "checkout": "/private/tmp/q09-composition-perf-xw1_lvfd",
+  "commit": "ca6654cfff2b827bee16bb5cc8d9fbc5f9fd34d2",
+  "sourceFilesMatched": 45,
+  "perfConfigSha256": "6556fff991ef112563aa2d342ac550fd3d1db70a9c788bba96e43f8e51fa1455",
+  "perfTestSha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83",
+  "nodeModules": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules"
+}
