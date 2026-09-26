@@ -84,3 +84,19 @@ hashed by `artifacts.json`. Probe sources are under
 `evaluation/quality/probes/spelling-coverage`; the allomorph probe is the unchanged
 `evaluation/quality/probes/resolved-allomorphs` dependency. No Q13 budget policy is
 active in this control.
+
+## Evidence correction
+
+The first derived report in evidence commit `53ee6c9` stored candidate witness
+objects by reference before comparison normalization. Counts and equality checks
+were correct, but those witnesses lost their displayed candidate spelling and
+realization. The verifier now snapshots detached word pairs, and both report
+writers require exclusive new outputs. A public-API regression fixture checks that
+later normalization cannot mutate retained evidence.
+
+The corrected verifier and parity reports were rerun to new output paths against
+the same immutable runtime/archives. All 20 stream hashes and every profile count
+are unchanged; retained candidate witnesses now contain the actual differences.
+`verification-v1.json.gz` and `parity-v1.json.gz` preserve the superseded reports,
+whose source versions remain in `53ee6c9`. The unversioned report filenames contain
+the corrected evidence. No generator source or archive was regenerated.

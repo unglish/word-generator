@@ -3,8 +3,8 @@
   "files": [
     {
       "file": "README.md",
-      "bytes": 5340,
-      "sha256": "f6e424162fb90e3a53c8ae4fe8cd080324c1067b8fa30984ae460dc1ca4fc033"
+      "bytes": 6299,
+      "sha256": "2c5b6f82161f5644dcd059c174f17ebe63baa277f5635f1d34cda48bf0f651d6"
     },
     {
       "file": "allomorph-probe.json.gz",
@@ -42,9 +42,14 @@
       "sha256": "a30824ee32a3e9d2670cea3607bb1bd4d22ae870207d49153f4d1c251ca6653c"
     },
     {
-      "file": "parity.json.gz",
+      "file": "parity-v1.json.gz",
       "bytes": 8372,
       "sha256": "23e3211eac4c4c236de195ca4fcf7047ea41771da100f7e5da047579b859fa79"
+    },
+    {
+      "file": "parity.json.gz",
+      "bytes": 38477,
+      "sha256": "c253aaaf7882962225d750b504022509b1fd2adc1fae19337065eaa2dd278166"
     },
     {
       "file": "previous-manifest.json.gz",
@@ -67,14 +72,19 @@
       "sha256": "9c35ea7ba9ab806b5b3affe7373fbbdc6d67f1801f2d7fb6ba0a331ce001f2a7"
     },
     {
-      "file": "verification.json.gz",
+      "file": "verification-v1.json.gz",
       "bytes": 29885,
       "sha256": "8003edc66e414fb3043aa04de824cc9a9b5a6ac27298cf5430ae341e60b5d1ee"
     },
     {
+      "file": "verification.json.gz",
+      "bytes": 31139,
+      "sha256": "683945f3f8dc967ef82bb34700cebc6465cf844387d6bd102e537fe54f33eef0"
+    },
+    {
       "file": "verify.ts",
-      "bytes": 14786,
-      "sha256": "fd3e4d861f391f199ad07046dcb4b45bec6fc6b28ddcb770c9c0db2e07500c1a"
+      "bytes": 14832,
+      "sha256": "8e2c42f620e3f111aff1de41e39caa4e7ffcc47cf69dda872bf12d909fc0d308"
     },
     {
       "file": "witnesses.json.gz",

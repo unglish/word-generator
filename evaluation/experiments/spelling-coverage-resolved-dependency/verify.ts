@@ -1,4 +1,4 @@
-import { verifyMorphologyIntegration } from "../../quality/probes/spelling-coverage/morphology-integration.js";
+import { snapshotWordDifference, verifyMorphologyIntegration } from "../../quality/probes/spelling-coverage/morphology-integration.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { createReadStream, readFileSync, writeFileSync } from "node:fs";
@@ -320,7 +320,7 @@ for (const profile of control.manifest.protocol.profiles) {
       if (verifyMorphologyIntegration(expected.word, candidate.word, maximum, legacyWriter.repairConsonantLetters)) {
         statistics.writtenChanges++;
         const examples = (witnesses.morphologyHandoffChange ??= []);
-        if (examples.length < 3) examples.push({ profile: candidate.profile, seed, drawIndex, original: expected.word, candidate: candidate.word });
+        if (examples.length < 3) examples.push({ profile: candidate.profile, seed, drawIndex, ...snapshotWordDifference(expected.word, candidate.word) });
       }
       assert.deepEqual(candidate.word.trace!.baseSpelling, expected.word.trace!.baseSpelling);
       if (candidate.word.trace!.morphology) delete candidate.word.trace!.morphology.realization;
@@ -387,7 +387,7 @@ const report = {
   streams,
   profiles,
 };
-writeFileSync(resolve(outputArg), JSON.stringify(report, null, 2) + "\n");
+writeFileSync(resolve(outputArg), JSON.stringify(report, null, 2) + "\n", { flag: "wx" });
 console.log(
   JSON.stringify({
     result: report.result,

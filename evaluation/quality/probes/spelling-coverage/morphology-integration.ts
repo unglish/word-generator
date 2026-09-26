@@ -48,3 +48,8 @@ export function verifyMorphologyIntegration(original: Word, candidate: Word, max
   assert.deepEqual(actual, expected, "Unexpected word or legacy trace change outside Q06 written handoff");
   return JSON.stringify(original.written) !== JSON.stringify(candidate.written);
 }
+
+/** Evidence must survive the later normalization used only for equality checks. */
+export function snapshotWordDifference(original: Word, candidate: Word): { original: Word; candidate: Word } {
+  return { original: structuredClone(original), candidate: structuredClone(candidate) };
+}

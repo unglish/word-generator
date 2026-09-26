@@ -1,4 +1,4 @@
-import { verifyMorphologyIntegration } from "./morphology-integration.js";
+import { snapshotWordDifference, verifyMorphologyIntegration } from "./morphology-integration.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -50,7 +50,7 @@ for (const profile of protocol.profiles) {
       const changed = verifyMorphologyIntegration(words[0], words[2], maximum, legacyWriter.repairConsonantLetters);
       if (changed) {
         changedWritten++;
-        if (witnesses.length < 8) witnesses.push({ profile: profile.id, seed, drawIndex: draw, original: words[0], candidate: words[2] });
+        if (witnesses.length < 8) witnesses.push({ profile: profile.id, seed, drawIndex: draw, ...snapshotWordDifference(words[0], words[2]) });
       }
       hash.update(JSON.stringify(words[0]) + "\n");
       candidateHash.update(JSON.stringify(words[2]) + "\n");
@@ -133,5 +133,5 @@ const report = {
   changedWritten, witnesses,
   comparedDraws: 20000, customDraws: 1600, mutationDraws: 800, apiCalls: 84800, streams, custom, mutationCases,
 };
-writeFileSync(resolve(reportArg), JSON.stringify(report, null, 2) + "\n");
+writeFileSync(resolve(reportArg), JSON.stringify(report, null, 2) + "\n", { flag: "wx" });
 console.log(JSON.stringify({ result: report.result, compared: report.comparedDraws, apiCalls: report.apiCalls }));
