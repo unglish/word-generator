@@ -1,0 +1,12 @@
+{
+  "version": "q09-sampler-parent-source-review-v1",
+  "sourceFreezeSha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a",
+  "reviewReadySha256": "1aacb9e2c0c48f6dd63ad172ae73cd7be892988ed893fdfb55a373e09b42c208",
+  "exactSourceFilesVerified": 116,
+  "samplerSourceFilesReviewed": 22,
+  "scope": "Reviewed numeric tree search, exact same-Node API/predicate replay, independent rational histories and coordinates, immutable tape creation, full transcript capture, independent exact leaf transfer and 1440-bin frequency verifier; reviewed synthetic/forgery tests and execution boundaries.",
+  "authorization": "Run numerical-tree capture and all 84 fixed/mutation calls, same-Node replay and independent Python prerequisite verification only. Hold actual OS tapes and frequency outcomes until those exact artifacts are reviewed.",
+  "unchangedProductionLaw": true,
+  "unchangedProductionLawTypes": true,
+  "registeredFrequencySamplesExecuted": 0
+}

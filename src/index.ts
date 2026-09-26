@@ -31,6 +31,9 @@ export type { OTStressConfig, OTConstraint, ConstraintWeight } from "./core/ot-s
 export type { NuclearQuantity, SyllableWeightPolicy, SyllableWeightAnalysis, NuclearQuantityObservation, StressWeightTrace } from "./core/syllable-weight.js";
 export { analyzeSyllableWeight, analyzeWordWeight } from "./core/syllable-weight.js";
 export { analyzeStressPattern } from "./core/stress-pattern.js";
+export { createRootStressLaw } from "./core/root-stress-law.js";
+export { RootStressLawError } from "./core/root-stress-law-types.js";
+export type { RootStressLawInput, RootLogMass, RootStressComponent, RootComponentMass, RootLawWork, RootCountAnalysis, RootPatternMass, RootComponentDraw, RootBackwardChoice, RootPatternSample, RootStressLaw, RootStressLawErrorCode } from "./core/root-stress-law-types.js";
 export type { StressMark, StressOrigin, StressPatternDomain, StressPhoneSnapshot, StressPatternSyllable, StressPatternSnapshot, StressAssignmentCause, StressAssignment, RhythmicIteration, AffixStressEffect, StressPatternTrace, StressPatternInput, ObservedStressPatternAnalysis } from "./core/stress-pattern.js";
 export { englishConfig } from "./config/english.js";
 export { createSeededRng, createDefaultRng } from "./utils/random.js";

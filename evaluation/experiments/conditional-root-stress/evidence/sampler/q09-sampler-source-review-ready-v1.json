@@ -1,0 +1,64 @@
+{
+  "version": "q09-sampler-source-review-ready-v1",
+  "sourceFreeze": "/private/tmp/q09-sampler-source-freeze-v1.json",
+  "sourceFreezeSha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a",
+  "sourceFiles": 116,
+  "samplerFiles": {
+    "evaluation/experiments/conditional-root-stress/sampler/README.md": "9a64bad4c2662d83e4e497d685e2fbc833321447b4c1f52017df32385cfc873e",
+    "evaluation/experiments/conditional-root-stress/sampler/capture-frequency.mjs": "c3c0de0e8bc025c85ea966d620ea5b95a2e00225634c8e18e6c3a71f07c65263",
+    "evaluation/experiments/conditional-root-stress/sampler/create-tape.mjs": "a797888db7b4c8f5caf6df95098740bfbbbf5b1e6c819b89aa005c2d062f502a",
+    "evaluation/experiments/conditional-root-stress/sampler/design.md": "371e255fe69fff275e708c331272556e1814aced40f084d26e3d3b286887a630",
+    "evaluation/experiments/conditional-root-stress/sampler/fixtures/hand-samples.json": "4bbee4f89253c600c491c048e9d3ff71bf8f1eebcc703855ebd3a98dbc59c67c",
+    "evaluation/experiments/conditional-root-stress/sampler/freeze.mjs": "c60e7c3ff9079dccf8a1c39c0a4cdc6c521684ddedf6118e818fe419a29c3b1d",
+    "evaluation/experiments/conditional-root-stress/sampler/frequency-common.mjs": "015f86d81a310414b9e97d302e72b6da1d2a57a936ac25f2f845554b6b46ac17",
+    "evaluation/experiments/conditional-root-stress/sampler/frequency.test.mjs": "7081349efec8c19e8abc335948d40f2680a58afb9d8a3d5cc34ecfc662e8fe5d",
+    "evaluation/experiments/conditional-root-stress/sampler/integrity.mjs": "ae870a10830695acfeeaab55353ca11fd6fc2970346680ab4a2318cdf0a90de1",
+    "evaluation/experiments/conditional-root-stress/sampler/integrity.test.mjs": "5c42668adec624a6b3f9ff6cd95282ef7fb6387a0b9fc286fc3a22670610de90",
+    "evaluation/experiments/conditional-root-stress/sampler/numeric-grid.mjs": "c18b4d737117333c2c84142025ed63cabe4e651d3e60cd382138c3fa1bae4979",
+    "evaluation/experiments/conditional-root-stress/sampler/numeric-grid.test.mjs": "c9e4d5cdb5f00fc938d50c061ebd059ab21e888be2c07306c937230949785105",
+    "evaluation/experiments/conditional-root-stress/sampler/pre-execution-amendment-v1.json": "c295e65ba415000cf2f72ff4ec9d0930f215e807db8bdd929b15778d17aa155d",
+    "evaluation/experiments/conditional-root-stress/sampler/protocol.json": "5fec61ae76fa0c81e317637f2dac065e43ced844ca46836236db47b8045929f4",
+    "evaluation/experiments/conditional-root-stress/sampler/reference-test.py": "b052ae44e3dd331cc38dde2e8fd2176bff7651e2483203248462088bb9cc0475",
+    "evaluation/experiments/conditional-root-stress/sampler/reference.py": "ff51faa0302bc6fc631eec480d984faaee3175f0cacb70d2c9838704f05c7e59",
+    "evaluation/experiments/conditional-root-stress/sampler/registration.json": "26512d2b7c06d7ac708671a5cb2278fc3ae277421a34c3a1a30bfc620bf1d527",
+    "evaluation/experiments/conditional-root-stress/sampler/replay-numeric.mjs": "926155a1d60993f4a07e788f0e48b7fe9f3c764305f9d7ecfca861bf589b7054",
+    "evaluation/experiments/conditional-root-stress/sampler/verify-frequency-test.py": "f38107f21c11a8836a01f15981f6ef3cf12f4949fb29a5b658191d1110894964",
+    "evaluation/experiments/conditional-root-stress/sampler/verify-frequency.py": "9b716652e57de2637188ac3897fc2387254af86a309472157d4e08581412cbf9",
+    "evaluation/experiments/conditional-root-stress/sampler/verify-reference-test.py": "7fa49c8bcd727dbc8784a14d4802fc2c778c4c108c4994739e44d7c29a27387f",
+    "evaluation/experiments/conditional-root-stress/sampler/verify-reference.py": "881c807d928400bd0c0caffe13cd381461639de8b7cd2f1dd7013d5a6bb6a468"
+  },
+  "checks": {
+    "nodeSynthetic": {
+      "passed": 13,
+      "failed": 0
+    },
+    "pythonRationalSynthetic": {
+      "passed": 11,
+      "failed": 0
+    },
+    "pythonReferenceIntegrity": {
+      "passed": 4,
+      "failed": 0
+    },
+    "pythonFrequencySynthetic": {
+      "passed": 8,
+      "failed": 0
+    },
+    "portableOracleSelfTests": {
+      "passed": 11,
+      "failed": 0
+    },
+    "touchedMjsLint": true,
+    "gitDiffCheck": true,
+    "pythonJsSourceClosureAgreement": true,
+    "historicalEvidenceByteCheck": 8,
+    "unchangedPriorTrackedFilesApartFromIndex": 361
+  },
+  "execution": {
+    "registeredNumericTree": false,
+    "actualRandomTape": false,
+    "frequencyCapture": false,
+    "runtimeIntegration": false
+  },
+  "clarityPass": "Scoped code-simplifier review retained separate evidence authorities and extracted reusable schedule, binding, exact-leaf and publication functions without touching frozen production law."
+}

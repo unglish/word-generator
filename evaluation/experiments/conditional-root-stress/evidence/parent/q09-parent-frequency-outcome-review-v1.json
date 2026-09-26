@@ -1,0 +1,58 @@
+{
+  "version": "q09-parent-frequency-outcome-review-v1",
+  "passed": true,
+  "auditSourceSha256": "b5d4b11a0ddbddfd0575dd2ea4c1fc68dae80e48fb0d3f66406b68253419c35c",
+  "sourceFreezeSha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a",
+  "verificationSha256": "9743c6296a00b42112d82abc98fe1b8d309dbf754981e2ae14b792253d7f8881",
+  "runReviewSha256": "bd8a252274c7a0b9654e99a242e91b0d5cdad1f8227c51e16b48500a4c6cce4f",
+  "independentParentChecks": {
+    "sourceFiles": 116,
+    "archiveRows": 600000,
+    "frequencyComparisons": 1440,
+    "blockTranscriptHashes": 30,
+    "consumedUniforms": 1501143,
+    "unusedTapeCells": 7498857
+  },
+  "coverage": [
+    {
+      "caseId": "duplicate-history",
+      "positiveNumericPatterns": 3,
+      "observedPatterns": 3,
+      "unobservedPositiveNumericMasks": []
+    },
+    {
+      "caseId": "primary-shift",
+      "positiveNumericPatterns": 2,
+      "observedPatterns": 2,
+      "unobservedPositiveNumericMasks": []
+    },
+    {
+      "caseId": "directional-unequal",
+      "positiveNumericPatterns": 3,
+      "observedPatterns": 3,
+      "unobservedPositiveNumericMasks": []
+    },
+    {
+      "caseId": "unrestricted-neighbors",
+      "positiveNumericPatterns": 9,
+      "observedPatterns": 9,
+      "unobservedPositiveNumericMasks": []
+    },
+    {
+      "caseId": "zero-weight-rare-rhythm",
+      "positiveNumericPatterns": 15,
+      "observedPatterns": 14,
+      "unobservedPositiveNumericMasks": [
+        "20"
+      ]
+    },
+    {
+      "caseId": "all-zero-last-candidate",
+      "positiveNumericPatterns": 2,
+      "observedPatterns": 2,
+      "unobservedPositiveNumericMasks": []
+    }
+  ],
+  "scope": "Independent parent recount of raw archive masks, schedules, used tape uniforms, block hashes, aggregate counts, exact target fractions/errors/limits and source/artifact identities. Full leaf semantics, detailed witness first occurrence and rational/numeric branch proof are established by the separately reviewed frozen independent verifier, not reimplemented by this audit. Frequency claims assume independent uniform inputs; no linguistic claim.",
+  "authorization": "Package exact frozen source and full tape/transcript/law evidence for a pure-law and sampler PR. No source changes, generator integration, reroll or additional frequency draws."
+}

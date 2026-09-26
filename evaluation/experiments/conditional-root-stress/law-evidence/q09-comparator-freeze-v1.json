@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "frozenBeforeCandidateComparison": true,
+  "comparatorSha256": "e2d925847de3c31b93ae672489e59313de7b7592bdfb8bada18261900a7ddfa9",
+  "comparatorBytes": 11196,
+  "protocolSha256": "93c09bc77c513a5933ba146a31884fcba7947828ed6901ea95d97bd03b6852f2",
+  "checks": "All small same-primary patterns including exact zeros, every K, component masses, finite logs and probabilities, normalizations, dimension bounds, zero-support rejection without draws, input immutability; long endpoint support only. No sampling-frequency claim."
+}

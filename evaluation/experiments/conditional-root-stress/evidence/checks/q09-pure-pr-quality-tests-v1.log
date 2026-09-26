@@ -1,0 +1,91 @@
+
+> @unglish/word-generator@0.6.0 test:quality
+> vitest run --config vitest.quality.config.ts
+
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator
+
+stdout | src/core/quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: 2-letter monosyllables ≤ 9% of all monosyllables
+2-letter mono: 8/4521 (0.2%)
+
+stdout | src/core/quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: open monosyllables ≤ 20% of all monosyllables
+Open mono: 176/4521 (3.9%)
+
+stdout | src/core/quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Write quality report
+
+=== Quality Metrics ===
+5+ consonant runs: 0
+4-cons clusters: 667 (1.33%)
+dk: 0
+-owngs: 0
+-reng/-teng: 0
+Avg length: 7.5
+Unique rate: 88.4%
+Length distribution: {
+  '1': 0,
+  '2-3': 490,
+  '4-5': 7771,
+  '6-8': 27767,
+  '9-12': 12708,
+  '13+': 1264
+}
+
+stdout | src/core/quality.test.ts > Generation Mode Benchmarks > Text mode
+
+=== Text Mode ===
+  1-syl: 45.5%
+  2-syl: 34.4%
+  3-syl: 14.5%
+  4-syl: 4.5%
+  5-syl: 1.0%
+  6-syl: 0.1%
+  7-syl: 0.0%
+  Avg letters: 5.6
+
+stdout | src/core/quality.test.ts > Generation Mode Benchmarks > Lexicon mode
+
+=== Lexicon Mode ===
+  1-syl: 9.0%
+  2-syl: 41.7%
+  3-syl: 33.5%
+  4-syl: 12.0%
+  5-syl: 3.0%
+  6-syl: 0.6%
+  7-syl: 0.1%
+  Avg letters: 7.5
+
+ ❯ src/core/quality.test.ts (12 tests | 1 failed) 18607ms
+   ✓ Quality Benchmark > Quality Gates & Metrics > Gate: no 5+ consecutive consonant letters 1ms
+   ✓ Quality Benchmark > Quality Gates & Metrics > Gate: owngs <= 1 0ms
+   ✓ Quality Benchmark > Quality Gates & Metrics > Gate: rengTeng < 30 0ms
+   ✓ Quality Benchmark > Quality Gates & Metrics > Gate: 2-letter monosyllables ≤ 9% of all monosyllables 1ms
+   ✓ Quality Benchmark > Quality Gates & Metrics > Gate: open monosyllables ≤ 20% of all monosyllables 0ms
+   × Quality Benchmark > Quality Gates & Metrics > Write quality report 5ms
+     → EPERM: operation not permitted, open '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/quality-report.json'
+   ✓ Generation Mode Benchmarks > Text mode > monosyllables dominate (> 35%) 0ms
+   ✓ Generation Mode Benchmarks > Text mode > 3-syllable words are rare (< 20%) 0ms
+   ✓ Generation Mode Benchmarks > Text mode > average word length is short (< 6.5 letters) 0ms
+   ✓ Generation Mode Benchmarks > Lexicon mode > 2-syllable words are most common (> 25%) 0ms
+   ✓ Generation Mode Benchmarks > Lexicon mode > monosyllables are present (> 5%) 0ms
+   ✓ Generation Mode Benchmarks > Lexicon mode > average word length is moderate (> 6.0 letters) 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Write quality report
+Error: EPERM: operation not permitted, open '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/quality-report.json'
+ ❯ src/core/quality.test.ts:205:7
+    203|       // Write report to repo root (vitest cwd)
+    204|       const reportPath = join(process.cwd(), "quality-report.json");
+    205|       writeFileSync(reportPath, JSON.stringify(fullReport, null, 2) + …
+       |       ^
+    206|       console.log(`\nReport written to ${reportPath}`);
+    207|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  14:09:36
+   Duration  19.08s (transform 199ms, setup 0ms, collect 269ms, tests 18.61s, environment 0ms, prepare 52ms)
+

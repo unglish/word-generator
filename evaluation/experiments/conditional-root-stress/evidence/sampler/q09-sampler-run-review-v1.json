@@ -1,0 +1,195 @@
+{
+  "version": "q09-sampler-run-review-v1",
+  "passed": true,
+  "structuralChecksPassed": true,
+  "frequencyComparisons": 1440,
+  "failedFrequencyComparisons": 0,
+  "primaryFrequencyDraws": 600000,
+  "supplementaryPrerequisiteCalls": 3348,
+  "supplementaryFrequencyCalls": 0,
+  "treeCallsPerPass": 1590,
+  "fixedIncludingReplayCallsPerPass": 72,
+  "inputMutationCallsPerPass": 12,
+  "numericDecisionsCheckedPerPrerequisitePass": 7294,
+  "treeNodes": 94,
+  "supportedPatterns": 34,
+  "observedPatterns": 33,
+  "firstWitnessRecords": 104,
+  "consumedTapeCells": 1501143,
+  "unusedTapeCells": 7498857,
+  "largestFrequencyDeviation": {
+    "caseId": "unrestricted-neighbors",
+    "block": 0,
+    "secondaryMask": "18",
+    "N": 20000,
+    "count": 7420,
+    "target": {
+      "numerator": "568474205780071614039706772144914285425728215190414248221",
+      "denominator": "1569275433846670190958947355801916604025588861116008628224",
+      "probability": 0.3622526635662709
+    },
+    "absoluteError": {
+      "numerator": "1715872522130378350757837107199596833470656535453119106263",
+      "denominator": "196159429230833773869868419475239575503198607639501078528000",
+      "probability": 0.008747336433729106
+    },
+    "limit": 0.017727602600970952,
+    "passed": true
+  },
+  "unobservedPositivePattern": {
+    "caseId": "zero-weight-rare-rhythm",
+    "secondaryMask": "20",
+    "numericGrid": {
+      "numerator": "6089574666015004380290371282651875",
+      "denominator": "680564733841876926926749214863536422912",
+      "probability": 8.947825773513944e-06
+    },
+    "continuous": {
+      "numerator": "1",
+      "denominator": "111759",
+      "probability": 8.947825231077587e-06
+    },
+    "draws": 100000,
+    "expectedCountAtNumericTarget": 0.8947825773513944,
+    "observed": 0,
+    "witness": "unavailable; no fabricated witness or added draws"
+  },
+  "coverage": [
+    {
+      "caseId": "duplicate-history",
+      "positiveNumericPatterns": 3,
+      "observedPatterns": 3,
+      "unobservedPositiveNumericMasks": []
+    },
+    {
+      "caseId": "primary-shift",
+      "positiveNumericPatterns": 2,
+      "observedPatterns": 2,
+      "unobservedPositiveNumericMasks": []
+    },
+    {
+      "caseId": "directional-unequal",
+      "positiveNumericPatterns": 3,
+      "observedPatterns": 3,
+      "unobservedPositiveNumericMasks": []
+    },
+    {
+      "caseId": "unrestricted-neighbors",
+      "positiveNumericPatterns": 9,
+      "observedPatterns": 9,
+      "unobservedPositiveNumericMasks": []
+    },
+    {
+      "caseId": "zero-weight-rare-rhythm",
+      "positiveNumericPatterns": 15,
+      "observedPatterns": 14,
+      "unobservedPositiveNumericMasks": [
+        "20"
+      ]
+    },
+    {
+      "caseId": "all-zero-last-candidate",
+      "positiveNumericPatterns": 2,
+      "observedPatterns": 2,
+      "unobservedPositiveNumericMasks": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/private/tmp/q09-sampler-source-freeze-v1.json",
+      "bytes": 14122,
+      "sha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-source-review-ready-v1.json",
+      "bytes": 4479,
+      "sha256": "1aacb9e2c0c48f6dd63ad172ae73cd7be892988ed893fdfb55a373e09b42c208"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-parent-source-review-v1.json",
+      "bytes": 969,
+      "sha256": "c065cbe9bebdad92486771a899a9e1cdb39fbf7c535934b78958e1ce9de5151f"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-parent-prerequisite-review-v1.json",
+      "bytes": 1681,
+      "sha256": "75c9866816c627239d51e218fb4dca69f3810168de51ee5a00f864459d2b1f17"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-parent-tape-review-v1.json",
+      "bytes": 841,
+      "sha256": "06949444e611ab8f34cd22508b4f93506f7072e4141cbd6f0e0d305deea938a2"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-numeric-tree-v1.json.gz",
+      "bytes": 75774,
+      "sha256": "0a789f8b7a047ed61e9cad0f7ddea2bbd276efd1d1150e0d3288a57e8dc36b2f"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-node-replay-v1.json",
+      "bytes": 2546,
+      "sha256": "1cbc4f37943d95aa12f4f1f44a99470b40d0d3acad6601564b164be79d5533e0"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-independent-reference-v1.json",
+      "bytes": 36065,
+      "sha256": "c127fb0dc60378554841b1e81d9d9fdff816dc615cdc1d591ad79e074714b488"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-frequency-tape-v1.bin",
+      "bytes": 36000000,
+      "sha256": "227ed134f2adf17121824617e77e1dd13f722a3ea4d5d420f71575ca0f962249"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-frequency-tape-v1.manifest.json",
+      "bytes": 9180,
+      "sha256": "d3d52d90cc15f916a083eeb41358a8a96875fd891f144f0a02d5ee80a1e4798f"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-frequency-capture-v1.jsonl.gz",
+      "bytes": 37191354,
+      "sha256": "75ede9332b34cdb57767313560974139c51a83fab012669ae34060a364efd9f7"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-frequency-capture-v1.summary.json",
+      "bytes": 60987,
+      "sha256": "9dfb705b6cb5cd9a073d82ff25ac7d780c7d59de5c6fd4dd8fe9088c1bac50fb"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-frequency-verification-v1.json",
+      "bytes": 713561,
+      "sha256": "9743c6296a00b42112d82abc98fe1b8d309dbf754981e2ae14b792253d7f8881"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-numeric-tree-v1.log",
+      "bytes": 88,
+      "sha256": "55da291a37ef6867199efb3301b8df1427d99533832818e2ac93455a8c467f97"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-node-replay-v1.log",
+      "bytes": 68,
+      "sha256": "0087fc10ea69825ea42958c4a0717b5c864e975c33b9d0a9052dbb529c1a6f82"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-independent-reference-v1.log",
+      "bytes": 159,
+      "sha256": "67f4196cbe1572105a2934e52e2897aaf3e1cc564b8225773650c3b14c9d4b06"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-frequency-tape-v1.log",
+      "bytes": 320,
+      "sha256": "289028d6a3b21413fb9d6c1939d8fa10c4df52816226d54b25a31844bf80857a"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-frequency-capture-v1.log",
+      "bytes": 280,
+      "sha256": "0b75f75adc744a52adeddcd03e6020d68c9a8bf8520f9271f1422f622d8cfa0d"
+    },
+    {
+      "path": "/private/tmp/q09-sampler-frequency-verification-v1.log",
+      "bytes": 185,
+      "sha256": "c6043134c505838f7ea4c1d51ff55c7aa47260b0858d7e5fb36d7970f85334da"
+    }
+  ],
+  "scope": "Pure sampler proof under declared input and reviewed monotonic same-Node grid predicate; frequency bound assumes independent uniform tape rows. No generator activation or linguistic quality improvement measured."
+}

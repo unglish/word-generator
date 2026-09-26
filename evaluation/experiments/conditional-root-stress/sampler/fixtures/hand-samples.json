@@ -1,0 +1,425 @@
+{
+  "version": "q09-hand-sampler-fixtures-v1",
+  "provenance": "Hand-derived rational witnesses, not captured candidate outputs. Work fields are synthetic dimension-bounded values; exact runtime bookkeeping belongs to Node replay.",
+  "row": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "duplicate": {
+    "sample": {
+      "marks": [
+        "unmarked",
+        "secondary",
+        "unmarked",
+        "primary"
+      ],
+      "count": {
+        "secondaryCount": 1,
+        "logPartition": {
+          "status": "finite",
+          "value": -0.556287997842748
+        },
+        "components": [
+          {
+            "component": {
+              "kind": "no-explicit-mark"
+            },
+            "prior": {
+              "status": "finite",
+              "value": -0.5108256237659907
+            },
+            "tiltedMassAtK": {
+              "status": "finite",
+              "value": -1.4271163556401458
+            }
+          },
+          {
+            "component": {
+              "kind": "explicit-mark",
+              "syllableIndex": 0
+            },
+            "prior": {
+              "status": "finite",
+              "value": -2.0149030205422647
+            },
+            "tiltedMassAtK": {
+              "status": "finite",
+              "value": -2.0149030205422647
+            }
+          },
+          {
+            "component": {
+              "kind": "explicit-mark",
+              "syllableIndex": 1
+            },
+            "prior": {
+              "status": "finite",
+              "value": -2.0149030205422647
+            },
+            "tiltedMassAtK": {
+              "status": "finite",
+              "value": -2.0149030205422647
+            }
+          },
+          {
+            "component": {
+              "kind": "explicit-mark",
+              "syllableIndex": 2
+            },
+            "prior": {
+              "status": "finite",
+              "value": -2.0149030205422647
+            },
+            "tiltedMassAtK": {
+              "status": "finite",
+              "value": -2.70805020110221
+            }
+          }
+        ],
+        "work": {
+          "componentPasses": 4,
+          "positions": 16,
+          "statesVisited": 4,
+          "transitionsConsidered": 8,
+          "allocatedCells": 32,
+          "peakRetainedCells": 8
+        }
+      },
+      "selectedComponentIndex": 0,
+      "componentTermination": "accepted-candidate",
+      "componentDraws": [
+        {
+          "candidateIndex": 0,
+          "remainingFromIndex": 1,
+          "logCandidateMass": -1.4271163556401458,
+          "logRemainingMass": -1.0986122886681098,
+          "uniform": 0,
+          "drawOrdinal": 0,
+          "takeCandidate": true
+        }
+      ],
+      "backward": [
+        {
+          "kind": "forced",
+          "syllableIndex": 3,
+          "previousMarked": false,
+          "remainingSecondaryCount": 1
+        },
+        {
+          "kind": "forced",
+          "syllableIndex": 2,
+          "previousMarked": true,
+          "remainingSecondaryCount": 1
+        },
+        {
+          "kind": "forced",
+          "syllableIndex": 1,
+          "previousMarked": false,
+          "remainingSecondaryCount": 1
+        },
+        {
+          "kind": "forced",
+          "syllableIndex": 0,
+          "previousMarked": false,
+          "remainingSecondaryCount": 0
+        }
+      ],
+      "selectedPatternPriorLogMass": -0.9852836033611064,
+      "selectedPatternConditionalLogMass": -0.4289956055183584,
+      "work": {
+        "componentPasses": 5,
+        "positions": 20,
+        "statesVisited": 5,
+        "transitionsConsidered": 10,
+        "allocatedCells": 52,
+        "peakRetainedCells": 20
+      }
+    },
+    "consumed": 1
+  },
+  "coherentWrongNumericBranch": {
+    "sample": {
+      "marks": [
+        "secondary",
+        "unmarked",
+        "unmarked",
+        "primary"
+      ],
+      "count": {
+        "secondaryCount": 1,
+        "logPartition": {
+          "status": "finite",
+          "value": -0.556287997842748
+        },
+        "components": [
+          {
+            "component": {
+              "kind": "no-explicit-mark"
+            },
+            "prior": {
+              "status": "finite",
+              "value": -0.5108256237659907
+            },
+            "tiltedMassAtK": {
+              "status": "finite",
+              "value": -1.4271163556401458
+            }
+          },
+          {
+            "component": {
+              "kind": "explicit-mark",
+              "syllableIndex": 0
+            },
+            "prior": {
+              "status": "finite",
+              "value": -2.0149030205422647
+            },
+            "tiltedMassAtK": {
+              "status": "finite",
+              "value": -2.0149030205422647
+            }
+          },
+          {
+            "component": {
+              "kind": "explicit-mark",
+              "syllableIndex": 1
+            },
+            "prior": {
+              "status": "finite",
+              "value": -2.0149030205422647
+            },
+            "tiltedMassAtK": {
+              "status": "finite",
+              "value": -2.0149030205422647
+            }
+          },
+          {
+            "component": {
+              "kind": "explicit-mark",
+              "syllableIndex": 2
+            },
+            "prior": {
+              "status": "finite",
+              "value": -2.0149030205422647
+            },
+            "tiltedMassAtK": {
+              "status": "finite",
+              "value": -2.70805020110221
+            }
+          }
+        ],
+        "work": {
+          "componentPasses": 4,
+          "positions": 16,
+          "statesVisited": 4,
+          "transitionsConsidered": 8,
+          "allocatedCells": 32,
+          "peakRetainedCells": 8
+        }
+      },
+      "selectedComponentIndex": 1,
+      "componentTermination": "accepted-candidate",
+      "componentDraws": [
+        {
+          "candidateIndex": 0,
+          "remainingFromIndex": 1,
+          "logCandidateMass": -1.4271163556401458,
+          "logRemainingMass": -1.0986122886681098,
+          "uniform": 0,
+          "drawOrdinal": 0,
+          "takeCandidate": false
+        },
+        {
+          "candidateIndex": 1,
+          "remainingFromIndex": 2,
+          "logCandidateMass": -2.0149030205422647,
+          "logRemainingMass": -1.6094379124341003,
+          "uniform": 0,
+          "drawOrdinal": 1,
+          "takeCandidate": true
+        }
+      ],
+      "backward": [
+        {
+          "kind": "forced",
+          "syllableIndex": 3,
+          "previousMarked": false,
+          "remainingSecondaryCount": 1
+        },
+        {
+          "kind": "forced",
+          "syllableIndex": 2,
+          "previousMarked": false,
+          "remainingSecondaryCount": 1
+        },
+        {
+          "kind": "forced",
+          "syllableIndex": 1,
+          "previousMarked": true,
+          "remainingSecondaryCount": 1
+        },
+        {
+          "kind": "forced",
+          "syllableIndex": 0,
+          "previousMarked": false,
+          "remainingSecondaryCount": 1
+        }
+      ],
+      "selectedPatternPriorLogMass": -2.0149030205422647,
+      "selectedPatternConditionalLogMass": -1.4586150226995167,
+      "work": {
+        "componentPasses": 5,
+        "positions": 20,
+        "statesVisited": 5,
+        "transitionsConsidered": 10,
+        "allocatedCells": 52,
+        "peakRetainedCells": 20
+      }
+    },
+    "consumed": 2
+  },
+  "backward": {
+    "sample": {
+      "marks": [
+        "unmarked",
+        "secondary",
+        "unmarked",
+        "unmarked",
+        "primary"
+      ],
+      "count": {
+        "secondaryCount": 1,
+        "logPartition": {
+          "status": "finite",
+          "value": -1.0216512475319814
+        },
+        "components": [
+          {
+            "component": {
+              "kind": "no-explicit-mark"
+            },
+            "prior": {
+              "status": "finite",
+              "value": 0.0
+            },
+            "tiltedMassAtK": {
+              "status": "finite",
+              "value": -1.0216512475319814
+            }
+          },
+          {
+            "component": {
+              "kind": "explicit-mark",
+              "syllableIndex": 0
+            },
+            "prior": {
+              "status": "zero"
+            },
+            "tiltedMassAtK": {
+              "status": "zero"
+            }
+          },
+          {
+            "component": {
+              "kind": "explicit-mark",
+              "syllableIndex": 1
+            },
+            "prior": {
+              "status": "zero"
+            },
+            "tiltedMassAtK": {
+              "status": "zero"
+            }
+          },
+          {
+            "component": {
+              "kind": "explicit-mark",
+              "syllableIndex": 2
+            },
+            "prior": {
+              "status": "zero"
+            },
+            "tiltedMassAtK": {
+              "status": "zero"
+            }
+          }
+        ],
+        "work": {
+          "componentPasses": 1,
+          "positions": 5,
+          "statesVisited": 1,
+          "transitionsConsidered": 2,
+          "allocatedCells": 8,
+          "peakRetainedCells": 8
+        }
+      },
+      "selectedComponentIndex": 0,
+      "componentTermination": "only-positive",
+      "componentDraws": [],
+      "backward": [
+        {
+          "kind": "drawn",
+          "syllableIndex": 4,
+          "previousMarked": false,
+          "remainingSecondaryCount": 1,
+          "logUnmarkedMass": -1.2447947988461912,
+          "logMarkedMass": -2.631089159966082,
+          "uniform": 0,
+          "drawOrdinal": 0
+        },
+        {
+          "kind": "drawn",
+          "syllableIndex": 3,
+          "previousMarked": false,
+          "remainingSecondaryCount": 1,
+          "logUnmarkedMass": -1.9379419794061366,
+          "logMarkedMass": -1.9379419794061366,
+          "uniform": 0,
+          "drawOrdinal": 1
+        },
+        {
+          "kind": "forced",
+          "syllableIndex": 2,
+          "previousMarked": true,
+          "remainingSecondaryCount": 1
+        },
+        {
+          "kind": "forced",
+          "syllableIndex": 1,
+          "previousMarked": false,
+          "remainingSecondaryCount": 1
+        },
+        {
+          "kind": "forced",
+          "syllableIndex": 0,
+          "previousMarked": false,
+          "remainingSecondaryCount": 0
+        }
+      ],
+      "selectedPatternPriorLogMass": -1.9379419794061366,
+      "selectedPatternConditionalLogMass": -0.916290731874155,
+      "work": {
+        "componentPasses": 2,
+        "positions": 10,
+        "statesVisited": 2,
+        "transitionsConsidered": 4,
+        "allocatedCells": 32,
+        "peakRetainedCells": 24
+      }
+    },
+    "consumed": 2
+  }
+}
