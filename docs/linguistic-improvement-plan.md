@@ -39,7 +39,7 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q11b | Preserve cluster legality through morphological alternations | Transformation-specific collision rates and trace ownership; retain licensed boundary repetition | Existing /sk/→/ss/ after `ity` softening identified by Q11; separate from root extensions |
 | Q12a | Licensed positive-weight grapheme selection | Zero-weight and forbidden-choice rates, including singleton candidates; fallback counts | [Draft PR #310](https://github.com/unglish/word-generator/pull/310); zero-weight choices removed in 200,000-word capture, `ex` gate failure disclosed |
 | Q12b | Restore ordinary /ɛ/→e before /t/ | Conditioned /ɛt/ spellings and traced contribution to exceptional ea patterns | [Draft PR #312](https://github.com/unglish/word-generator/pull/312); restored e in all 2,632 eligible candidate pairs, while exposing 13 consonantal-y magic-e errors; weights unchanged |
-| Q12c | Preserve phonemic readings through configured doubling | Sound-specific doubled-form support; distinguish sampled doubling from adjacent letters belonging to different phones | Q13c's fixed-gate trace replay exposes two `/s/ → c → ck` witnesses. Register a separate doubling-license hypothesis; do not bundle a phoneme/spelling policy change into the deduplication experiment |
+| Q12c | Preserve phonemic readings through configured doubling | Sound-specific doubled-form support; distinguish sampled doubling from adjacent letters belonging to different phones | Registered on `codex/phoneme-aware-doubling`, based on exact #335. Full 200,000-word archived control audit finds 220 sampled `/s/: c→ck`, 1,458 `/z/: s→ss`, and four `/ʃ/: s→ss` events. The latter two are ordinary-policy unsupported, not universally impossible English. Structured sound/form/result rules and repair-reading propagation are preregistered; runtime and candidate measurement remain outstanding |
 | Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | [Draft PR #328](https://github.com/unglish/word-generator/pull/328), against the exact Q02a + Q12a + Q06 dependency control; cap-partial `th` 126→0 and cap-attributed units with no surviving lineage 1,700→0 in 200,000 words; 1,517 certificates replayed; longer clusters, quality failures and a material performance regression retained |
 | Q13 performance | Reuse full spelling context during budget measurement | Exact word/trace/RNG/certificate parity; fixed paired timing against #328 | [PR #331](https://github.com/unglish/word-generator/pull/331); 800,000 core and 84,800 supplementary API calls preserve behavior; six fixed pairs show 6.4% median paired local throughput gain and 0/6→6/6 speed-floor passes; inherited quality failures remain |
 | Q13b | Aligned spelling of multiple phonemes by one grapheme | Explicit ownership and pronunciation preservation for /ks, gz/→x and similar units | Q13; Q12a exposes reliance on illegal /z/→ze choices for the current `gz-to-x` string repair |
@@ -525,3 +525,17 @@ Full-suite inherited failures, mixed distribution results and throughput costs
 remain disclosed. Neither draft establishes human preference or default adoption.
 Both remote draft heads and intended stacked bases were verified after creation;
 no merge or CI-success claim is made.
+
+Q12c now has a committed preregistration and complete exploratory control inventory
+on `codex/phoneme-aware-doubling` (`3ed13d3`), stacked on exact #335. The observer
+verified the external manifest SHA and every archive artifact before and after
+reading 200,000 existing records; no generation occurred. It reconciles 1,010,404
+root spelling units to grapheme events, 17,362 sampled expansions, 3,408 failed
+rolls and 2,878 directly selected quota-counted ck units. All 465 relation/reason
+categories and 18 first complete trace witnesses are preserved. This observer
+provides integrity/consistency evidence, not an independent linguistic proof.
+The design explicitly covers output-reading propagation through both repair
+planners, legacy custom-policy parity, legal-expansion coverage, full corpus
+side effects and six paired fresh-process timing comparisons. Candidate source,
+formal observer and independent recount must be reviewed and frozen before the
+new 200,000-word capture. Runtime implementation and a measured PR remain open.
