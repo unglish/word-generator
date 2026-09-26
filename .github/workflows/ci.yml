@@ -63,6 +63,9 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Typecheck and lint the frozen quality harness
+        run: npm run quality:typecheck && npx eslint "evaluation/quality/**/*.ts"
+
   benchmark:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest

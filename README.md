@@ -158,6 +158,10 @@ Additional checks:
 - `npm run analyze:trigrams`
 - `npm run audit:trace`
 
+For frozen baselines and per-step linguistic comparisons, see
+[quality baselines](./docs/quality-baselines.md). The benchmark preserves traced
+outputs, source/configuration provenance, and original/previous-step comparisons.
+
 ## Documentation
 
 - Contribution workflow: [`CONTRIBUTING.md`](./CONTRIBUTING.md)
