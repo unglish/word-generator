@@ -1,0 +1,3919 @@
+{
+  "schemaVersion": 1,
+  "protocol": "nucleus-edges-v1",
+  "probeDigest": "70246cd35d937832791df5144e1c9d2dd6410fcc3ed4e43eea71140f553f5fec",
+  "frozenCoreEvaluatorDigest": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007",
+  "protocolDigest": "451f4e5fab7285cc7f61f886391d6ac21ed042eb468e262790ea9e467a6c9862",
+  "original": {
+    "id": "initial-development",
+    "manifestDigest": "6b52ce4a010786f8ca1bdd86165ee46873fd4f8856c822269194a6a4b75843fd",
+    "generatorSourceDigest": "3eedb62e232de6ecbb6f4dc9ec1675d7339afd11568ccf30abcc80e904ce08f2"
+  },
+  "candidate": {
+    "id": "nucleus-word-edges",
+    "manifestDigest": "d664087d50dd6bc532b15de6e40970b520d930a3051913a820bf5e8e0e748578",
+    "generatorSourceDigest": "b82040120f95f742eac8eb9ef50b5391998f11b75ffa494502ea5a4e0d7f23cf"
+  },
+  "artifacts": [
+    {
+      "file": "nucleus-original.json.gz",
+      "sha256": "c125147c1fa90baba6df49563cffc893f49be071a6cb3a4aae932fdbc24e2ee4",
+      "bytes": 23732,
+      "uncompressedSha256": "d095456099845303c806ad25272ef308c0e2fe996b9396f59b269abc82b78901"
+    },
+    {
+      "file": "nucleus-candidate.json.gz",
+      "sha256": "4b53e061359c63c0d0e79f5fa789de7fafcf543145d15c22dc1bb26d58783167",
+      "bytes": 29047,
+      "uncompressedSha256": "7e16112cb62709ba1ab7d137ae0d1f042d528b4d16a6e54215a2e1488afdb58e"
+    }
+  ],
+  "observations": {
+    "wordsPerRun": 200000,
+    "closedFinalFootInEveryReplicate": true,
+    "closedMonosyllabicFootInEveryReplicate": true,
+    "candidateOpenFinalBaseFoot": 0,
+    "candidateOpenFinalOutputFoot": 0,
+    "edgeRepairWords": 0,
+    "edgeRepairCaveat": "No selected default sample exercised the final edge-repair replacement path. Deterministic custom-config tests exercise both FOOT→GOOSE and FOOT→TRAP after coda deletion; general checked-vowel legality remains Q10."
+  },
+  "independentVerification": {
+    "method": "Independent Python gzip reader and flattened segment-edge counter on all 10,000 lexicon-bare seed 2380207674 draws from each original/candidate archive.",
+    "originalMatch": true,
+    "candidateMatch": true
+  },
+  "profiles": [
+    {
+      "id": "lexicon-default",
+      "original": {
+        "words": 50000,
+        "layers": {
+          "generatedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 0,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 0,
+                "eligible": 35133
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 14867
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 11432
+              }
+            }
+          },
+          "preparedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 7,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 5,
+                "eligible": 35132
+              },
+              "openFinalEdge": {
+                "hits": 2,
+                "eligible": 14868
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 11431
+              }
+            }
+          },
+          "output": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 6,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 5,
+                "eligible": 39142
+              },
+              "openFinalEdge": {
+                "hits": 1,
+                "eligible": 10858
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 4358
+              }
+            }
+          }
+        },
+        "edgeRepairWords": 0,
+        "stressRepickWords": 6782,
+        "unavailableRepairs": 0,
+        "edgeRepairTransitions": {},
+        "openCheckedAfterRepair": {
+          "hits": 0,
+          "eligible": 0
+        }
+      },
+      "candidate": {
+        "words": 50000,
+        "layers": {
+          "generatedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 657,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 657,
+                "eligible": 35176
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 14824
+              },
+              "closedMonosyllable": {
+                "hits": 105,
+                "eligible": 11445
+              }
+            }
+          },
+          "preparedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 666,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 666,
+                "eligible": 35176
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 14824
+              },
+              "closedMonosyllable": {
+                "hits": 105,
+                "eligible": 11445
+              }
+            }
+          },
+          "output": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 461,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 461,
+                "eligible": 38955
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 11045
+              },
+              "closedMonosyllable": {
+                "hits": 41,
+                "eligible": 4167
+              }
+            }
+          }
+        },
+        "edgeRepairWords": 0,
+        "stressRepickWords": 6713,
+        "unavailableRepairs": 0,
+        "edgeRepairTransitions": {},
+        "openCheckedAfterRepair": {
+          "hits": 0,
+          "eligible": 0
+        }
+      },
+      "replicates": [
+        {
+          "seed": 69212153,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 7039
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2961
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 2311
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 7039
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2961
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 2311
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 7826
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2174
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 852
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1386,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 114,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 114,
+                    "eligible": 7011
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2989
+                  },
+                  "closedMonosyllable": {
+                    "hits": 14,
+                    "eligible": 2241
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 116,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 116,
+                    "eligible": 7011
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2989
+                  },
+                  "closedMonosyllable": {
+                    "hits": 14,
+                    "eligible": 2241
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 79,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 79,
+                    "eligible": 7762
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2238
+                  },
+                  "closedMonosyllable": {
+                    "hits": 6,
+                    "eligible": 803
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1339,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 101601885,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 7001
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2999
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 2260
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 2,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 7000
+                  },
+                  "openFinalEdge": {
+                    "hits": 1,
+                    "eligible": 3000
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 2259
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 2,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 2,
+                    "eligible": 7842
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2158
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 874
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1298,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 133,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 133,
+                    "eligible": 7022
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2978
+                  },
+                  "closedMonosyllable": {
+                    "hits": 17,
+                    "eligible": 2281
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 135,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 135,
+                    "eligible": 7022
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2978
+                  },
+                  "closedMonosyllable": {
+                    "hits": 17,
+                    "eligible": 2281
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 94,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 94,
+                    "eligible": 7826
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2174
+                  },
+                  "closedMonosyllable": {
+                    "hits": 1,
+                    "eligible": 817
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1330,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 3921817393,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 6982
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3018
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 2283
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 6982
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3018
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 2283
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 7832
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2168
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 894
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1390,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 134,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 134,
+                    "eligible": 7055
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2945
+                  },
+                  "closedMonosyllable": {
+                    "hits": 23,
+                    "eligible": 2280
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 136,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 136,
+                    "eligible": 7055
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2945
+                  },
+                  "closedMonosyllable": {
+                    "hits": 23,
+                    "eligible": 2280
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 102,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 102,
+                    "eligible": 7768
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2232
+                  },
+                  "closedMonosyllable": {
+                    "hits": 11,
+                    "eligible": 846
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1354,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 3948943232,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 7009
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2991
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 2274
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 7009
+                  },
+                  "openFinalEdge": {
+                    "hits": 1,
+                    "eligible": 2991
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 2274
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 7812
+                  },
+                  "openFinalEdge": {
+                    "hits": 1,
+                    "eligible": 2188
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 867
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1350,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 142,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 142,
+                    "eligible": 6974
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3026
+                  },
+                  "closedMonosyllable": {
+                    "hits": 25,
+                    "eligible": 2318
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 143,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 143,
+                    "eligible": 6974
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3026
+                  },
+                  "closedMonosyllable": {
+                    "hits": 25,
+                    "eligible": 2318
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 89,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 89,
+                    "eligible": 7776
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2224
+                  },
+                  "closedMonosyllable": {
+                    "hits": 13,
+                    "eligible": 857
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1338,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 2089697863,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 7102
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2898
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 2304
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 2,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 2,
+                    "eligible": 7102
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2898
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 2304
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 2,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 2,
+                    "eligible": 7830
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2170
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 871
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1358,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 134,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 134,
+                    "eligible": 7114
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2886
+                  },
+                  "closedMonosyllable": {
+                    "hits": 26,
+                    "eligible": 2325
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 136,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 136,
+                    "eligible": 7114
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2886
+                  },
+                  "closedMonosyllable": {
+                    "hits": 26,
+                    "eligible": 2325
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 97,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 97,
+                    "eligible": 7823
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2177
+                  },
+                  "closedMonosyllable": {
+                    "hits": 10,
+                    "eligible": 844
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1352,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "lexicon-bare",
+      "original": {
+        "words": 50000,
+        "layers": {
+          "generatedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 0,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 0,
+                "eligible": 40733
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 9267
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 5853
+              }
+            }
+          },
+          "preparedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 8,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 7,
+                "eligible": 40733
+              },
+              "openFinalEdge": {
+                "hits": 1,
+                "eligible": 9267
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 5853
+              }
+            }
+          },
+          "output": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 8,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 7,
+                "eligible": 40733
+              },
+              "openFinalEdge": {
+                "hits": 1,
+                "eligible": 9267
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 5853
+              }
+            }
+          }
+        },
+        "edgeRepairWords": 0,
+        "stressRepickWords": 9826,
+        "unavailableRepairs": 0,
+        "edgeRepairTransitions": {},
+        "openCheckedAfterRepair": {
+          "hits": 0,
+          "eligible": 0
+        }
+      },
+      "candidate": {
+        "words": 50000,
+        "layers": {
+          "generatedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 830,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 830,
+                "eligible": 40775
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 9225
+              },
+              "closedMonosyllable": {
+                "hits": 59,
+                "eligible": 5901
+              }
+            }
+          },
+          "preparedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 841,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 841,
+                "eligible": 40775
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 9225
+              },
+              "closedMonosyllable": {
+                "hits": 59,
+                "eligible": 5901
+              }
+            }
+          },
+          "output": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 841,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 841,
+                "eligible": 40775
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 9225
+              },
+              "closedMonosyllable": {
+                "hits": 59,
+                "eligible": 5901
+              }
+            }
+          }
+        },
+        "edgeRepairWords": 0,
+        "stressRepickWords": 9794,
+        "unavailableRepairs": 0,
+        "edgeRepairTransitions": {},
+        "openCheckedAfterRepair": {
+          "hits": 0,
+          "eligible": 0
+        }
+      },
+      "replicates": [
+        {
+          "seed": 2380207674,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 8197
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1803
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1163
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 2,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 8197
+                  },
+                  "openFinalEdge": {
+                    "hits": 1,
+                    "eligible": 1803
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1163
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 2,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 8197
+                  },
+                  "openFinalEdge": {
+                    "hits": 1,
+                    "eligible": 1803
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1163
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1988,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 152,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 152,
+                    "eligible": 8191
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1809
+                  },
+                  "closedMonosyllable": {
+                    "hits": 14,
+                    "eligible": 1212
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 155,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 155,
+                    "eligible": 8191
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1809
+                  },
+                  "closedMonosyllable": {
+                    "hits": 14,
+                    "eligible": 1212
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 155,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 155,
+                    "eligible": 8191
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1809
+                  },
+                  "closedMonosyllable": {
+                    "hits": 14,
+                    "eligible": 1212
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1955,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 772709128,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 8193
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1807
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1224
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 3,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 3,
+                    "eligible": 8193
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1807
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1224
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 3,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 3,
+                    "eligible": 8193
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1807
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1224
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1962,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 163,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 163,
+                    "eligible": 8097
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1903
+                  },
+                  "closedMonosyllable": {
+                    "hits": 12,
+                    "eligible": 1150
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 163,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 163,
+                    "eligible": 8097
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1903
+                  },
+                  "closedMonosyllable": {
+                    "hits": 12,
+                    "eligible": 1150
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 163,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 163,
+                    "eligible": 8097
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1903
+                  },
+                  "closedMonosyllable": {
+                    "hits": 12,
+                    "eligible": 1150
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1937,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 1304238451,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 8154
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1846
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1138
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 2,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 2,
+                    "eligible": 8154
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1846
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1138
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 2,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 2,
+                    "eligible": 8154
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1846
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1138
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1939,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 177,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 177,
+                    "eligible": 8210
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1790
+                  },
+                  "closedMonosyllable": {
+                    "hits": 12,
+                    "eligible": 1205
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 183,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 183,
+                    "eligible": 8210
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1790
+                  },
+                  "closedMonosyllable": {
+                    "hits": 12,
+                    "eligible": 1205
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 183,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 183,
+                    "eligible": 8210
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1790
+                  },
+                  "closedMonosyllable": {
+                    "hits": 12,
+                    "eligible": 1205
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1974,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 1696751198,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 8146
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1854
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1155
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 8146
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1854
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1155
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 8146
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1854
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1155
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 2006,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 169,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 169,
+                    "eligible": 8169
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1831
+                  },
+                  "closedMonosyllable": {
+                    "hits": 12,
+                    "eligible": 1147
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 169,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 169,
+                    "eligible": 8169
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1831
+                  },
+                  "closedMonosyllable": {
+                    "hits": 12,
+                    "eligible": 1147
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 169,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 169,
+                    "eligible": 8169
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1831
+                  },
+                  "closedMonosyllable": {
+                    "hits": 12,
+                    "eligible": 1147
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1961,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 1498885173,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 8043
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1957
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1173
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 8043
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1957
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1173
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 8043
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1957
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 1173
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1931,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 169,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 169,
+                    "eligible": 8108
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1892
+                  },
+                  "closedMonosyllable": {
+                    "hits": 9,
+                    "eligible": 1187
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 171,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 171,
+                    "eligible": 8108
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1892
+                  },
+                  "closedMonosyllable": {
+                    "hits": 9,
+                    "eligible": 1187
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 171,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 171,
+                    "eligible": 8108
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1892
+                  },
+                  "closedMonosyllable": {
+                    "hits": 9,
+                    "eligible": 1187
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 1967,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "monosyllables-bare",
+      "original": {
+        "words": 50000,
+        "layers": {
+          "generatedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 0,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 0,
+                "eligible": 49178
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 822
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 49178
+              }
+            }
+          },
+          "preparedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 0,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 0,
+                "eligible": 49178
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 822
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 49178
+              }
+            }
+          },
+          "output": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 0,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 0,
+                "eligible": 49178
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 822
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 49178
+              }
+            }
+          }
+        },
+        "edgeRepairWords": 0,
+        "stressRepickWords": 0,
+        "unavailableRepairs": 0,
+        "edgeRepairTransitions": {},
+        "openCheckedAfterRepair": {
+          "hits": 0,
+          "eligible": 0
+        }
+      },
+      "candidate": {
+        "words": 50000,
+        "layers": {
+          "generatedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 540,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 540,
+                "eligible": 49148
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 852
+              },
+              "closedMonosyllable": {
+                "hits": 540,
+                "eligible": 49148
+              }
+            }
+          },
+          "preparedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 540,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 540,
+                "eligible": 49148
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 852
+              },
+              "closedMonosyllable": {
+                "hits": 540,
+                "eligible": 49148
+              }
+            }
+          },
+          "output": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 540,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 540,
+                "eligible": 49148
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 852
+              },
+              "closedMonosyllable": {
+                "hits": 540,
+                "eligible": 49148
+              }
+            }
+          }
+        },
+        "edgeRepairWords": 0,
+        "stressRepickWords": 0,
+        "unavailableRepairs": 0,
+        "edgeRepairTransitions": {},
+        "openCheckedAfterRepair": {
+          "hits": 0,
+          "eligible": 0
+        }
+      },
+      "replicates": [
+        {
+          "seed": 462530651,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9827
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 173
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9827
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9827
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 173
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9827
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9827
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 173
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9827
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 0,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 124,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 124,
+                    "eligible": 9835
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 165
+                  },
+                  "closedMonosyllable": {
+                    "hits": 124,
+                    "eligible": 9835
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 124,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 124,
+                    "eligible": 9835
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 165
+                  },
+                  "closedMonosyllable": {
+                    "hits": 124,
+                    "eligible": 9835
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 124,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 124,
+                    "eligible": 9835
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 165
+                  },
+                  "closedMonosyllable": {
+                    "hits": 124,
+                    "eligible": 9835
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 0,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 62358955,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9849
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 151
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9849
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9849
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 151
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9849
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9849
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 151
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9849
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 0,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 98,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 98,
+                    "eligible": 9820
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 180
+                  },
+                  "closedMonosyllable": {
+                    "hits": 98,
+                    "eligible": 9820
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 98,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 98,
+                    "eligible": 9820
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 180
+                  },
+                  "closedMonosyllable": {
+                    "hits": 98,
+                    "eligible": 9820
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 98,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 98,
+                    "eligible": 9820
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 180
+                  },
+                  "closedMonosyllable": {
+                    "hits": 98,
+                    "eligible": 9820
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 0,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 3297327738,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9818
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 182
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9818
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9818
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 182
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9818
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9818
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 182
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9818
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 0,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 115,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 115,
+                    "eligible": 9813
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 187
+                  },
+                  "closedMonosyllable": {
+                    "hits": 115,
+                    "eligible": 9813
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 115,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 115,
+                    "eligible": 9813
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 187
+                  },
+                  "closedMonosyllable": {
+                    "hits": 115,
+                    "eligible": 9813
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 115,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 115,
+                    "eligible": 9813
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 187
+                  },
+                  "closedMonosyllable": {
+                    "hits": 115,
+                    "eligible": 9813
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 0,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 2001884366,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9843
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 157
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9843
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9843
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 157
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9843
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9843
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 157
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9843
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 0,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 103,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 103,
+                    "eligible": 9850
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 150
+                  },
+                  "closedMonosyllable": {
+                    "hits": 103,
+                    "eligible": 9850
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 103,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 103,
+                    "eligible": 9850
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 150
+                  },
+                  "closedMonosyllable": {
+                    "hits": 103,
+                    "eligible": 9850
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 103,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 103,
+                    "eligible": 9850
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 150
+                  },
+                  "closedMonosyllable": {
+                    "hits": 103,
+                    "eligible": 9850
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 0,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 2353354178,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9841
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 159
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9841
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9841
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 159
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9841
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 9841
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 159
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 9841
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 0,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 100,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 100,
+                    "eligible": 9830
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 170
+                  },
+                  "closedMonosyllable": {
+                    "hits": 100,
+                    "eligible": 9830
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 100,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 100,
+                    "eligible": 9830
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 170
+                  },
+                  "closedMonosyllable": {
+                    "hits": 100,
+                    "eligible": 9830
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 100,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 100,
+                    "eligible": 9830
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 170
+                  },
+                  "closedMonosyllable": {
+                    "hits": 100,
+                    "eligible": 9830
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 0,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "text-default",
+      "original": {
+        "words": 50000,
+        "layers": {
+          "generatedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 0,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 0,
+                "eligible": 34825
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 15175
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 24721
+              }
+            }
+          },
+          "preparedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 3,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 3,
+                "eligible": 34825
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 15175
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 24721
+              }
+            }
+          },
+          "output": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 3,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 3,
+                "eligible": 40067
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 9933
+              },
+              "closedMonosyllable": {
+                "hits": 0,
+                "eligible": 20997
+              }
+            }
+          }
+        },
+        "edgeRepairWords": 0,
+        "stressRepickWords": 2742,
+        "unavailableRepairs": 0,
+        "edgeRepairTransitions": {},
+        "openCheckedAfterRepair": {
+          "hits": 0,
+          "eligible": 0
+        }
+      },
+      "candidate": {
+        "words": 50000,
+        "layers": {
+          "generatedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 457,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 457,
+                "eligible": 34847
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 15153
+              },
+              "closedMonosyllable": {
+                "hits": 219,
+                "eligible": 24576
+              }
+            }
+          },
+          "preparedBase": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 459,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 459,
+                "eligible": 34846
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 15154
+              },
+              "closedMonosyllable": {
+                "hits": 219,
+                "eligible": 24575
+              }
+            }
+          },
+          "output": {
+            "observed": 50000,
+            "unavailable": 0,
+            "measures": {
+              "final": {
+                "hits": 405,
+                "eligible": 50000
+              },
+              "closedFinal": {
+                "hits": 405,
+                "eligible": 39992
+              },
+              "openFinalEdge": {
+                "hits": 0,
+                "eligible": 10008
+              },
+              "closedMonosyllable": {
+                "hits": 181,
+                "eligible": 20886
+              }
+            }
+          }
+        },
+        "edgeRepairWords": 0,
+        "stressRepickWords": 2846,
+        "unavailableRepairs": 0,
+        "edgeRepairTransitions": {},
+        "openCheckedAfterRepair": {
+          "hits": 0,
+          "eligible": 0
+        }
+      },
+      "replicates": [
+        {
+          "seed": 4167471042,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 7011
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2989
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4957
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 7011
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2989
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4957
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 7968
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2032
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4185
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 575,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 86,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 86,
+                    "eligible": 6968
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3032
+                  },
+                  "closedMonosyllable": {
+                    "hits": 40,
+                    "eligible": 4921
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 86,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 86,
+                    "eligible": 6968
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3032
+                  },
+                  "closedMonosyllable": {
+                    "hits": 40,
+                    "eligible": 4921
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 79,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 79,
+                    "eligible": 7956
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2044
+                  },
+                  "closedMonosyllable": {
+                    "hits": 32,
+                    "eligible": 4189
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 554,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 2666001996,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 6922
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3078
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4932
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 6922
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3078
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4932
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 8017
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1983
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4203
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 564,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 95,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 95,
+                    "eligible": 6886
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3114
+                  },
+                  "closedMonosyllable": {
+                    "hits": 49,
+                    "eligible": 4856
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 95,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 95,
+                    "eligible": 6885
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3115
+                  },
+                  "closedMonosyllable": {
+                    "hits": 49,
+                    "eligible": 4855
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 84,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 84,
+                    "eligible": 7935
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2065
+                  },
+                  "closedMonosyllable": {
+                    "hits": 42,
+                    "eligible": 4115
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 582,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 3562318933,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 6927
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3073
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4961
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 6927
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3073
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4961
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 1,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 1,
+                    "eligible": 8047
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1953
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4287
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 508,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 98,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 98,
+                    "eligible": 6967
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3033
+                  },
+                  "closedMonosyllable": {
+                    "hits": 54,
+                    "eligible": 4983
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 98,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 98,
+                    "eligible": 6967
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3033
+                  },
+                  "closedMonosyllable": {
+                    "hits": 54,
+                    "eligible": 4983
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 91,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 91,
+                    "eligible": 8042
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1958
+                  },
+                  "closedMonosyllable": {
+                    "hits": 48,
+                    "eligible": 4281
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 535,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 1999736106,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 6950
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3050
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4880
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 6950
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3050
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4880
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 8003
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1997
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4120
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 560,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 85,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 85,
+                    "eligible": 6960
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3040
+                  },
+                  "closedMonosyllable": {
+                    "hits": 36,
+                    "eligible": 4889
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 87,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 87,
+                    "eligible": 6960
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 3040
+                  },
+                  "closedMonosyllable": {
+                    "hits": 36,
+                    "eligible": 4889
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 74,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 74,
+                    "eligible": 8003
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1997
+                  },
+                  "closedMonosyllable": {
+                    "hits": 27,
+                    "eligible": 4140
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 568,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        },
+        {
+          "seed": 1665836705,
+          "original": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 7015
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2985
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4991
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 7015
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2985
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4991
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 0,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 0,
+                    "eligible": 8032
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1968
+                  },
+                  "closedMonosyllable": {
+                    "hits": 0,
+                    "eligible": 4202
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 535,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          },
+          "candidate": {
+            "words": 10000,
+            "layers": {
+              "generatedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 93,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 93,
+                    "eligible": 7066
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2934
+                  },
+                  "closedMonosyllable": {
+                    "hits": 40,
+                    "eligible": 4927
+                  }
+                }
+              },
+              "preparedBase": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 93,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 93,
+                    "eligible": 7066
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 2934
+                  },
+                  "closedMonosyllable": {
+                    "hits": 40,
+                    "eligible": 4927
+                  }
+                }
+              },
+              "output": {
+                "observed": 10000,
+                "unavailable": 0,
+                "measures": {
+                  "final": {
+                    "hits": 77,
+                    "eligible": 10000
+                  },
+                  "closedFinal": {
+                    "hits": 77,
+                    "eligible": 8056
+                  },
+                  "openFinalEdge": {
+                    "hits": 0,
+                    "eligible": 1944
+                  },
+                  "closedMonosyllable": {
+                    "hits": 32,
+                    "eligible": 4161
+                  }
+                }
+              }
+            },
+            "edgeRepairWords": 0,
+            "stressRepickWords": 607,
+            "unavailableRepairs": 0,
+            "edgeRepairTransitions": {},
+            "openCheckedAfterRepair": {
+              "hits": 0,
+              "eligible": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

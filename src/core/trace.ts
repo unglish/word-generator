@@ -129,6 +129,20 @@ export interface NasalStopExtensionTrace {
   syllableIndex: number;
 }
 
+export type CodaExtensionRejectionReason =
+  | "excluded" | "repetition" | "position" | "banned-coda" | "nucleus-coda"
+  | "cluster-weight" | "attestation" | "sonority" | "pattern"
+  | "length" | "voicing" | "place" | "word-final";
+
+export interface CodaExtensionRejectedTrace {
+  event: "codaExtensionRejected";
+  extension: "finalS" | "nasalStopExtension";
+  candidate: string;
+  coda: string[];
+  reason: CodaExtensionRejectionReason;
+  syllableIndex: number;
+}
+
 export interface VowelHiatusFallbackTrace {
   event: "vowelHiatusFallback";
   inserted: string;
@@ -189,6 +203,7 @@ export type StructuralTrace =
   | JunctionBoundaryDropTrace
   | FinalSTrace
   | NasalStopExtensionTrace
+  | CodaExtensionRejectedTrace
   | VowelHiatusFallbackTrace
   | MorphPrefixHiatusFallbackTrace
   | MorphSuffixHiatusFallbackTrace
