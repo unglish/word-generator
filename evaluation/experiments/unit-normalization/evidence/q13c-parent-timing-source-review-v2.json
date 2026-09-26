@@ -1,0 +1,15 @@
+{
+  "scope": "parent source review of complete v2 runner, plan,23 synthetic tests; no actual timing yet",
+  "approvedForFixedQuietSeries": true,
+  "files": {
+    "/private/tmp/q13c-performance-series-v2.py": "4beb81cb851e679a7cba1a6b68495f9198d7ea3d96847b489a78115539ec69fb",
+    "/private/tmp/q13c-performance-series-test-v2.py": "1d3311a2f77fbf9b777834b28ecc4eea0ee5c419162fdc5d52db5afa96d20001",
+    "/private/tmp/q13c-performance-plan-v2.md": "8d5c6f4d2d590d2891a5af41d68cf56748f214fea08e32496f9aa87c99915ab3",
+    "/private/tmp/q13c-performance-parent-synthetic-v2.log": "afe60b86bb1c5163a2e4691a8ba1fcef5b2c6250399e48b66ffbd5288b57cd43"
+  },
+  "preservedLimitations": [
+    "local nonhermetic host",
+    "fixed12 slots; no slow outcome replacement",
+    "printed rates rounded; gate statuses authoritative"
+  ]
+}
