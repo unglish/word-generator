@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/opt/homebrew/opt/python@3.13/bin/python3.13",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-rejection/word-generator/evaluation/corpus/verify-model-sensitivity.py",
+    "--freeze",
+    "/private/tmp/q15-model-sensitivity-freeze-v1.json",
+    "--freeze-sha256",
+    "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569",
+    "--run",
+    "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run",
+    "--report-sha256",
+    "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240",
+    "--out",
+    "/private/tmp/q15-model-sensitivity-independent-proof-v1.json"
+  ],
+  "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-rejection/word-generator",
+  "startedAt": "2026-09-26T23:19:58.974188+00:00",
+  "finishedAt": "2026-09-26T23:22:35.019798+00:00",
+  "exitCode": 0,
+  "log": "/private/tmp/q15-model-sensitivity-independent-proof-v1.log",
+  "output": "/private/tmp/q15-model-sensitivity-independent-proof-v1.json",
+  "reportAuthoritySha256": "eea6b6137d4f3e8eba189098a081785ecb8a8b8e0fa7117d69bc80569653fa10"
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "--import",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/loader.mjs",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-rejection/word-generator/evaluation/corpus/model-sensitivity-acceptance.ts",
+    "/private/tmp/q15-model-sensitivity-freeze-v1.json",
+    "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569",
+    "/private/tmp/q15-model-sensitivity-acceptance-v1"
+  ],
+  "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-rejection/word-generator",
+  "startedAt": "2026-09-26T23:17:38.135303+00:00",
+  "finishedAt": "2026-09-26T23:19:37.062105+00:00",
+  "exitCode": 0,
+  "log": "/private/tmp/q15-model-sensitivity-acceptance-v1.log",
+  "output": "/private/tmp/q15-model-sensitivity-acceptance-v1"
+}
