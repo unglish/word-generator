@@ -131,3 +131,33 @@ later opportunities and RNG rejection paths, so later words are not paired outco
 The existing Q12a `ex` gate failure (0.0155307585 vs 0.0215) is a declared dependency
 condition. Its joint-grapheme remedy remains separate. New exploratory findings
 will be labelled exploratory without rewriting this hypothesis or success criteria.
+
+## Dependency amendment before behavioral implementation
+
+Before any Q13 activation, source inspection identified that final morphology
+cleanup reconstructs planned affix spellings even when the raw cap does not fire.
+Bypassing that cleanup would conflate Q06 allomorph restoration with cap protection.
+Therefore Q06/#315 (`a27f7fe`) is now an explicit prerequisite, integrated separately
+at `875e832` after the parity-verified resolver extraction (`8eeeb12`). All earlier
+controls remain immutable. A revised full development control is captured as
+`spelling-coverage-resolved-dependency` before Q13 behavior is written.
+
+Integration verification permits only the Q06 written handoff and additive
+`morphology.realization`. It reconstructs both old planned-label cleanup and new
+resolved-part cleanup with the unchanged legacy cap implementation, checks all
+other complete word/trace fields and base ledgers, and measures RNG boundaries
+through the public APIs. The standalone Q06 seed167 witness (`immamsed`) and the
+combined dependency seed435 witness (`inmorn` → `immorn`) are retained separately.
+The existing reachability test observes30 im cases against unchanged `>30`; its
+failure is reported, not retuned.
+
+Q13 must also honor preservation at final cleanup, otherwise that step could
+immediately clip a cluster retained by the base planner. Resolved written parts
+supply exact morphological text boundaries, but do not certify affix phone
+ownership. A final over-budget surface without that ownership is retained with a
+separately scoped `infeasible: unresolved-ownership` outcome. Report its affected
+words/episodes and final constraint values independently of base certificates.
+This is an explicit refusal, not a claim of full-affix phonological certification.
+Under-budget resolved cleanup and omitted-policy custom configurations retain
+their established behavior. No numeric cap, gate, primary hypothesis, search
+objective, or search bound changes in this amendment.
