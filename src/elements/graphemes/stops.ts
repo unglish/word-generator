@@ -127,7 +127,7 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 2,
-    condition: { wordPosition: ["final"] },
+    condition: { segmentPosition: ["final"] },
   },
   // c: before back vowels and consonants (cat, cold, cup, craft, become, record)
   // endWord kept low: bare word-final c is rare in English (music, panic)
@@ -147,10 +147,13 @@ export const stopGraphemes: Grapheme[] = [
     origin: 3,
     frequency: 80,
     onset: 0,
-    startWord: 0,
+    // This preference belongs to the final rime, including /ks/ and /kt/.
+    // Literal word-initial ck is excluded separately by onset and context.
+    positionScope: "syllable",
+    startWord: 1,
     midWord: 1,
     endWord: 150,
-    condition: { leftContext: ["lax-vowel"] },
+    condition: { leftContext: ["lax-vowel"], segmentPosition: ["medial", "final"] },
   },
   {
     phoneme: "k",

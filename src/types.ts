@@ -137,7 +137,9 @@ export interface GraphemeCondition {
   leftGraphemeContext?: string[];
   /** Previous grapheme's last letter must NOT be one of these. */
   notLeftGraphemeContext?: string[];
-  /** This grapheme is only valid in these word positions. */
+  /** Literal segment positions; unlike wordPosition, these do not describe the containing syllable. */
+  segmentPosition?: ("initial" | "medial" | "final")[];
+  /** Legacy syllable-position restriction. Prefer segmentPosition for literal word edges. */
   wordPosition?: ("initial" | "medial" | "final")[];
   /**
    * Syllable-shape guard for the current syllable where this grapheme is applied.
@@ -179,12 +181,19 @@ export interface Grapheme {
   /** Weighting modifier when used inside a consonant cluster. */
   cluster?: number;
 
-  /** Weighting for appearing at the start of a word. */
+  /** Initial position weight in positionScope; zero excludes the candidate. */
   startWord: number;
-  /** Weighting for appearing in the middle of a word. */
+  /** Medial position weight in positionScope; zero excludes the candidate. */
   midWord: number;
-  /** Weighting for appearing at the end of a word. */
+  /** Final position weight in positionScope; zero excludes the candidate. */
   endWord: number;
+
+  /** Scope of startWord/midWord/endWord. Omission retains legacy syllable scope. */
+  positionScope?: "segment" | "syllable";
+  /** Explicit weight for a syllable that is both first and last; zero forbids it. */
+  isolatedSyllableWeight?: number;
+  /** Consider only when the ordinary pool has no legal positive-weight spelling. */
+  fallbackOnly?: boolean;
 
   /** Context condition restricting when this grapheme is valid. */
   condition?: GraphemeCondition;
