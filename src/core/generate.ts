@@ -90,10 +90,6 @@ function getPostVowelGlideMultiplier(rt: GeneratorRuntime): number {
   return rt.config.hiatusPolicy?.postVowelGlideMultiplier ?? DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER;
 }
 
-function getRootFallbackBridges(rt: GeneratorRuntime): [string, number][] {
-  return rt.config.hiatusPolicy?.fallbackBridgeOnsets ?? defaultFallbackBridgeOnsets();
-}
-
 /** Build a set of all proper prefixes for attested clusters (excludes the full key). */
 function buildPrefixSet(clusters: string[][]): Set<string> {
   const set = new Set<string>();
@@ -1273,19 +1269,13 @@ function generateOneWord(
     // Apply morphology after pipeline produces the bare root
     const morphApplied = !!morphPlan;
     if (morphPlan) {
-      applyMorphology(rt, context, morphPlan.plan);
+      const morphology = applyMorphology(rt, context, morphPlan.plan);
       // Post-morphology consonant letter repair: suffix attachment can create
       // consonant runs that exceed the limit (e.g. "marks" + "tion" = "markstion").
       const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
       if (maxCons) {
-        const prefixWritten = morphPlan.plan.prefix?.written ?? "";
-        const suffixWritten = morphPlan.plan.suffix?.written ?? "";
-        // Split into prefix, root, suffix as separate grapheme-level parts
-        const rootClean = context.word.written.clean.slice(
-          prefixWritten.length,
-          suffixWritten ? -suffixWritten.length : undefined,
-        );
-        const cleanParts = [prefixWritten, rootClean, suffixWritten].filter(Boolean);
+        const activeParts = morphology.parts.filter(part => part.text);
+        const cleanParts = activeParts.map(part => part.text);
         // repairConsonantLetters expects part strings at even indices, matching write.ts.
         const hyphParts: string[] = [];
         for (let i = 0; i < cleanParts.length; i++) {
@@ -1293,9 +1283,12 @@ function generateOneWord(
           if (i < cleanParts.length - 1) hyphParts.push("");
         }
         repairConsonantLetters(cleanParts, hyphParts, maxCons);
+        for (let i = 0; i < activeParts.length; i++) activeParts[i].text = cleanParts[i];
         context.word.written.clean = cleanParts.join("");
         context.word.written.hyphenated = hyphParts.join("");
       }
+      const realization = traceCollector?.morphologyTrace?.realization;
+      if (realization) realization.emittedParts = morphology.parts.map(part => ({ ...part }));
     }
     // Gap spellings are exact bare-word overrides. Affixed forms should be
     // handled by morphology or more general rule systems instead.

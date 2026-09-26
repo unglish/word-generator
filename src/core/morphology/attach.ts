@@ -3,6 +3,8 @@ import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, Morphophonem
 import { generatePronunciation, PronunciationRuntimeConfig } from "../pronounce.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
 import type { MorphologyPlan } from "./plan.js";
+import { snapshotAffixForm, snapshotWrittenParts } from "./realization.js";
+import type { MorphologyResult, MorphologyWrittenPart, ResolvedAffix } from "./realization.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -166,33 +168,32 @@ export function matchesPhonologicalCondition(
 // Allomorph resolution
 // ---------------------------------------------------------------------------
 
+function allomorphSpecificity(variant: AllomorphVariant): number {
+  return (variant.phonologicalCondition.manner || variant.phonologicalCondition.place) ? 0 : 1;
+}
+
 function resolveAllomorph(
   affix: Affix,
   phoneme: Phoneme | undefined,
   isPrefix: boolean,
-): { phonemes: string[]; syllables?: AffixSyllable[]; syllableCount: number; written: string } {
-  const base = { phonemes: affix.phonemes, syllables: affix.syllables, syllableCount: affix.syllableCount, written: affix.written };
-  if (!affix.allomorphs || !phoneme) return base;
-
+): ResolvedAffix {
   // Sort by specificity: conditions with manner/place constraints before voiced-only
-  const sorted = [...affix.allomorphs].sort((a, b) => {
-    const specificity = (v: AllomorphVariant) => {
-      return (v.phonologicalCondition.manner || v.phonologicalCondition.place) ? 0 : 1;
-    };
-    return specificity(a) - specificity(b);
-  });
-
-  for (const variant of sorted) {
-    if (matchesPhonologicalCondition(variant.phonologicalCondition, phoneme, isPrefix)) {
-      return {
-        phonemes: variant.phonemes,
-        syllables: variant.syllables,
-        syllableCount: variant.syllableCount,
-        written: variant.written ?? affix.written,
-      };
-    }
-  }
-  return base;
+  const selected = phoneme ? affix.allomorphs
+    ?.map((variant, index) => ({ variant, index }))
+    .sort((a, b) => allomorphSpecificity(a.variant) - allomorphSpecificity(b.variant))
+    .find(({ variant }) => matchesPhonologicalCondition(variant.phonologicalCondition, phoneme, isPrefix)) : undefined;
+  const form = selected ? { ...selected.variant, written: selected.variant.written ?? affix.written } : affix;
+  return {
+    planned: snapshotAffixForm(affix),
+    resolved: snapshotAffixForm(form),
+    allomorphIndex: selected?.index ?? null,
+    boundaryPhoneme: phoneme ? {
+      sound: phoneme.sound,
+      voiced: phoneme.voiced,
+      mannerOfArticulation: phoneme.mannerOfArticulation,
+      placeOfArticulation: phoneme.placeOfArticulation,
+    } : undefined,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -344,25 +345,27 @@ export function applyMorphology(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   plan: MorphologyPlan,
-): void {
-  if (plan.template === "bare") return;
+): MorphologyResult {
+  if (plan.template === "bare") return { parts: [{ role: "root", text: context.word.written.clean }] };
 
   const config = rt.config;
   const syllables = context.word.syllables;
   let rootWritten = context.word.written.clean;
 
-  let prefixVariant: { phonemes: string[]; syllables?: AffixSyllable[]; syllableCount: number; written: string } | undefined;
-  let suffixVariant: { phonemes: string[]; syllables?: AffixSyllable[]; syllableCount: number; written: string } | undefined;
+  let prefix: ResolvedAffix | undefined;
+  let suffix: ResolvedAffix | undefined;
 
   if (plan.prefix) {
     const firstPhoneme = getFirstPhoneme(context);
-    prefixVariant = resolveAllomorph(plan.prefix, firstPhoneme, true);
+    prefix = resolveAllomorph(plan.prefix, firstPhoneme, true);
   }
 
   if (plan.suffix) {
     const lastPhoneme = getLastPhoneme(context);
-    suffixVariant = resolveAllomorph(plan.suffix, lastPhoneme, false);
+    suffix = resolveAllomorph(plan.suffix, lastPhoneme, false);
   }
+  const prefixVariant = prefix?.resolved;
+  const suffixVariant = suffix?.resolved;
 
   const inventory = config.phonemes;
   const phonemeMap = getPhonemeMap(inventory);
@@ -513,9 +516,17 @@ export function applyMorphology(
     context.trace.morphologyTrace.alternations = firedMorphophonemics;
   }
 
-  const parts: string[] = [];
-  if (prefixWritten) parts.push(prefixWritten);
-  parts.push(rootWritten);
-  if (suffixWritten) parts.push(suffixWritten);
-  context.word.written.hyphenated = parts.join("-");
+  const parts: MorphologyWrittenPart[] = [];
+  if (prefix) parts.push({ role: "prefix", text: prefixWritten });
+  parts.push({ role: "root", text: rootWritten });
+  if (suffix) parts.push({ role: "suffix", text: suffixWritten });
+  context.word.written.hyphenated = parts.filter(part => part.role === "root" || part.text).map(part => part.text).join("-");
+  if (context.trace?.morphologyTrace) {
+    context.trace.morphologyTrace.realization = {
+      prefix, suffix,
+      assembledParts: snapshotWrittenParts(parts),
+      emittedParts: snapshotWrittenParts(parts),
+    };
+  }
+  return { prefix, suffix, parts };
 }
