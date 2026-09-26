@@ -1,0 +1,11 @@
+{
+  "version": "q15-score-parent-source-review-v1",
+  "sourceFreezeSha256": "cb0e284b1b694b51308df3e13223b018f9dc4a7201e9f1df9b0e5f95e0ee92d1",
+  "filesVerified": 36,
+  "logsVerified": 3,
+  "protectedParentFilesVerified": 289,
+  "productionDigest": "9164fecf511fb20a64c580c3e6edb709e3a8b1bfd6c8c3ab95e000ea770f73ff",
+  "verifierDigest": "21b4d7511b5db1e16ade7da5c84fb209ccd3dc8a5bb2073d43d308fa6d349e8f",
+  "scope": "Full source and fixture review; ordered score/metadata trust boundary, historical model identity, independent restricted table parser, immutable inputs, exact aggregate semantics and numeric witnesses reviewed. No full corpus scored by parent.",
+  "authorization": "Proceed with registered two fresh builds, full independent per-row recount and real CLI acceptance matrix. Preserve failures and all frozen bytes."
+}
