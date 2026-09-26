@@ -1,6 +1,9 @@
 import { Phoneme } from "../types.js";
 import { VOICED_BONUS, TENSE_BONUS } from "../config/weights.js";
 
+/** Partial phonological quantity model; unspecified vowels retain explicit unknowns. */
+export const ENGLISH_PARTIAL_QUANTITY_ANALYSIS = "english-legacy-partial-quantity-v1";
+
 export const sonorityToMannerOfArticulation = {
   "highVowel": 9,
   "midVowel": 8.5,
@@ -55,28 +58,28 @@ export const forwardnessToPlaceOfArticulation = {
 export const phonemes: Phoneme[] = [
   // High Vowels
   { sound: "i:", mannerOfArticulation: "highVowel", tense: true, nucleus: 133, startWord: 3, midWord: 1, endWord: 9, voiced: true, placeOfArticulation: "front" }, // sheep
-  { sound: "ɪ", mannerOfArticulation: "highVowel", tense: false, nucleus: 330, startWord: 3, midWord: 15, endWord: 1, voiced: true, placeOfArticulation: "front" }, // sit
+  { sound: "ɪ", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 1 }, mannerOfArticulation: "highVowel", tense: false, nucleus: 330, startWord: 3, midWord: 15, endWord: 1, voiced: true, placeOfArticulation: "front" }, // sit
 
   // Mid Vowels
-  { sound: "ɛ", mannerOfArticulation: "midVowel", tense: false, nucleus: 331, startWord: 4, midWord: 3, endWord: 1, voiced: true, placeOfArticulation: "front" }, // let
-  { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 457, startWord: 5, midWord: 11, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
+  { sound: "ɛ", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 1 }, mannerOfArticulation: "midVowel", tense: false, nucleus: 331, startWord: 4, midWord: 3, endWord: 1, voiced: true, placeOfArticulation: "front" }, // let
+  { sound: "ə", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 1 }, mannerOfArticulation: "midVowel", tense: false, nucleus: 457, startWord: 5, midWord: 11, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
   { sound: "ɜ", mannerOfArticulation: "midVowel", tense: false, nucleus: 41, startWord: 4, midWord: 1, endWord: 1, voiced: true, placeOfArticulation: "central" }, // bed, said, execute
   { sound: "ɚ", mannerOfArticulation: "midVowel", tense: false, nucleus: 131, startWord: 1, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // her, letter
 
   // Low Vowels
-  { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 121, startWord: 11, midWord: 6, endWord: 1, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
+  { sound: "æ", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 1 }, mannerOfArticulation: "lowVowel", tense: false, nucleus: 121, startWord: 11, midWord: 6, endWord: 1, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
   { sound: "ɑ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 187, startWord: 7, midWord: 3, endWord: 1, voiced: true, placeOfArticulation: "back" }, // father
   { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 97, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // ball
-  { sound: "ʊ", mannerOfArticulation: "highVowel", tense: true, nucleus: 57, startWord: 2, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // book
+  { sound: "ʊ", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 1 }, mannerOfArticulation: "highVowel", tense: true, nucleus: 57, startWord: 2, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // book
   { sound: "u", mannerOfArticulation: "highVowel", tense: true, nucleus: 80, startWord: 4, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // blue
-  { sound: "ʌ", mannerOfArticulation: "midVowel", tense: false, nucleus: 150, startWord: 5, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // cup
+  { sound: "ʌ", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 1 }, mannerOfArticulation: "midVowel", tense: false, nucleus: 150, startWord: 5, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // cup
 
   // Diphthongs (typically treated as mid or low vowels)
-  { sound: "eɪ", mannerOfArticulation: "midVowel", tense: true, nucleus: 139, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // day, late, gate
-  { sound: "aɪ", mannerOfArticulation: "midVowel", tense: true, nucleus: 127, startWord: 3, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // fly, time, rhyme
-  { sound: "əʊ", mannerOfArticulation: "midVowel", tense: true, nucleus: 90, startWord: 2, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "back" }, // globe, show, blow
-  { sound: "ɔɪ", mannerOfArticulation: "midVowel", tense: true, nucleus: 12, startWord: 2, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "front" }, // boy, join, coin
-  { sound: "aʊ", mannerOfArticulation: "midVowel", tense: true, nucleus: 18, startWord: 1, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "back" }, // cow (/kaʊ/) or how (/haʊ/)
+  { sound: "eɪ", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 2 }, mannerOfArticulation: "midVowel", tense: true, nucleus: 139, startWord: 4, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // day, late, gate
+  { sound: "aɪ", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 2 }, mannerOfArticulation: "midVowel", tense: true, nucleus: 127, startWord: 3, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "front" }, // fly, time, rhyme
+  { sound: "əʊ", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 2 }, mannerOfArticulation: "midVowel", tense: true, nucleus: 90, startWord: 2, midWord: 2, endWord: 8, voiced: true, placeOfArticulation: "back" }, // globe, show, blow
+  { sound: "ɔɪ", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 2 }, mannerOfArticulation: "midVowel", tense: true, nucleus: 12, startWord: 2, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "front" }, // boy, join, coin
+  { sound: "aʊ", nuclearQuantity: { analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS, moras: 2 }, mannerOfArticulation: "midVowel", tense: true, nucleus: 18, startWord: 1, midWord: 1, endWord: 6, voiced: true, placeOfArticulation: "back" }, // cow (/kaʊ/) or how (/haʊ/)
 
   // Triphthongs
   // Triphthongs removed — they decompose naturally into diphthong + /ə/

@@ -6,8 +6,13 @@ import type { Phoneme, Syllable } from "../types.js";
 
 const moraic: SyllableWeightPolicy = { type: "moraic", analysis: "fixture", coda: "weight-by-position", unknown: "legacy-segment-count" };
 
-function configFor(options: { policy?: SyllableWeightPolicy; primary?: PrimaryStressRules; quantities?: boolean; secondary?: boolean } = {}): LanguageConfig {
-  const phones = englishConfig.phonemes.map(phone => ({ ...phone, nuclearQuantity: options.quantities && phone.nucleus ? { analysis: "fixture", moras: phone.sound === "aɪ" ? 2 : 1 } as NuclearQuantity : undefined }));
+function configFor(options: { policy?: SyllableWeightPolicy; primary?: PrimaryStressRules; quantities?: boolean | "english"; secondary?: boolean } = {}): LanguageConfig {
+  const phones = englishConfig.phonemes.map(phone => {
+    let nuclearQuantity: NuclearQuantity | undefined;
+    if (options.quantities === "english") nuclearQuantity = phone.nuclearQuantity && { ...phone.nuclearQuantity };
+    else if (options.quantities && phone.nucleus) nuclearQuantity = { analysis: "fixture", moras: phone.sound === "aɪ" ? 2 : 1 };
+    return { ...phone, nuclearQuantity };
+  });
   const bySound = new Map(phones.map(phone => [phone.sound, phone]));
   const onset = bySound.get("b")!;
   const light = bySound.get("ɪ")!;
@@ -48,8 +53,8 @@ function configFor(options: { policy?: SyllableWeightPolicy; primary?: PrimarySt
 const generate = (config: LanguageConfig, seed = 9) => createGenerator(config).generateWord({ seed, syllableCount: 3, morphology: false, trace: true });
 
 describe("shared analytical and operational syllable weight", () => {
-  it("keeps unspecified English quantities unknown under the legacy default", () => {
-    const word = generateWord({ seed: 404, trace: true });
+  it("keeps unspecified custom quantities unknown under the legacy fallback", () => {
+    const word = generate(configFor(), 404);
     const observation = word.trace!.stressWeight!;
     expect(observation.policy).toEqual({ type: "legacy-segment-count" });
     expect(observation.domain).toBe("root-before-nucleus-repair");
@@ -60,6 +65,87 @@ describe("shared analytical and operational syllable weight", () => {
       expect(syllable.nucleus.every(phone => phone.quantity.status === "unknown" && phone.quantity.reason === "unspecified")).toBe(true);
       expect(syllable.operational).toEqual({ weight: before[index].coda.length || before[index].nucleus.length > 1 ? "heavy" : "light", basis: "legacy-rule" });
     }
+  });
+
+  it("declares only the eleven partial English quantities without inferring tense or ambiguous vowels", () => {
+    const policy = englishConfig.pronunciation.stress.syllableWeight!;
+    expect(policy).toEqual({ type: "moraic", analysis: "english-legacy-partial-quantity-v1", coda: "weight-by-position", unknown: "legacy-segment-count" });
+    const one = ["ɪ", "ɛ", "æ", "ʊ", "ʌ", "ə"];
+    const two = ["eɪ", "aɪ", "əʊ", "ɔɪ", "aʊ"];
+    const unknown = ["i:", "u", "ɑ", "ɔ", "ɚ", "ɜ"];
+    const vowels = englishConfig.phonemes.filter(phone => phone.nucleus);
+    expect(vowels.map(phone => phone.sound).sort()).toEqual([...one, ...two, ...unknown].sort());
+    const open = analyzeWordWeight(vowels.map(phone => ({ onset: [], nucleus: [phone], coda: [] })), policy);
+    for (const analysis of open) {
+      const sound = analysis.nucleus[0].sound;
+      if (unknown.includes(sound)) {
+        expect(analysis.nucleusMoras).toBeNull();
+        expect(analysis.nucleus[0].declared).toBeUndefined();
+        expect(analysis.analytical.weight).toBe("unknown");
+        expect(analysis.operational).toEqual({ weight: "light", basis: "legacy-fallback" });
+      } else {
+        expect(analysis.nucleusMoras).toBe(two.includes(sound) ? 2 : 1);
+        expect(analysis.operational.weight).toBe(two.includes(sound) ? "heavy" : "light");
+      }
+    }
+    const coda = englishConfig.phonemes.find(phone => phone.sound === "t")!;
+    const closed = analyzeWordWeight(vowels.map(phone => ({ onset: [], nucleus: [phone], coda: [coda] })), policy);
+    expect(closed.every(analysis => analysis.analytical.weight === "heavy")).toBe(true);
+    expect(englishConfig.phonemes.find(phone => phone.sound === "ʊ")!.tense).toBe(true);
+    expect(new Set(vowels.flatMap(phone => phone.nuclearQuantity ? [phone.nuclearQuantity] : [])).size).toBe(11);
+  });
+
+  it("uses default English quantity for controlled OT, alternate primary and secondary decisions", () => {
+    const policy = englishConfig.pronunciation.stress.syllableWeight;
+    const alternate: PrimaryStressRules = { type: "weight-sensitive", disyllabicWeights: [1, 0], polysyllabicWeights: { heavyPenult: 1, lightPenult: 0, antepenultHeavy: 0, antepenultLight: 1, initial: 0 } };
+    const ot = createGenerator(configFor({ policy, quantities: "english", secondary: true }));
+    const other = createGenerator(configFor({ policy, quantities: "english", primary: alternate, secondary: true }));
+    let noninitialHeavy = 0;
+    for (let seed = 0; seed < 100; seed++) {
+      const options = { seed, syllableCount: 3, morphology: false, trace: true };
+      const trace = ot.generateWord(options).trace!.stressWeight!;
+      const firstHeavy = trace.syllables.findIndex(s => s.nucleus[0].sound === "aɪ");
+      expect(trace.primary.selectedIndex).toBe(firstHeavy < 0 ? 0 : firstHeavy);
+      if (firstHeavy > 0) noninitialHeavy++;
+      const alternative = other.generateWord(options).trace!.stressWeight!;
+      expect(alternative.primary.selectedIndex).toBe(alternative.syllables[1].nucleus[0].sound === "aɪ" ? 1 : 0);
+      for (const evidence of [trace, alternative]) {
+        for (const candidate of evidence.secondary.candidates) {
+          expect(candidate.weight).toBe(evidence.syllables[candidate.syllableIndex].nucleus[0].sound === "aɪ" ? 70 : 30);
+        }
+      }
+    }
+    expect(noninitialHeavy).toBeGreaterThan(5);
+  });
+
+  it("classifies every sampled open diphthong as heavy without changing other operational cases", () => {
+    const rand = createSeededRng(771901);
+    let openDiphthongs = 0;
+    let fallbackUnknowns = 0;
+    for (let draw = 0; draw < 2000; draw++) {
+      const word = generateWord({ rand, trace: true });
+      for (const syllable of word.trace!.stressWeight!.syllables) {
+        const diphthong = syllable.nucleus.length === 1 && ["eɪ", "aɪ", "əʊ", "ɔɪ", "aʊ"].includes(syllable.nucleus[0].sound);
+        const heavy = syllable.coda.length > 0 || syllable.nucleus.length > 1 || diphthong;
+        expect(syllable.operational.weight).toBe(heavy ? "heavy" : "light");
+        if (diphthong && syllable.coda.length === 0) openDiphthongs++;
+        if (syllable.operational.basis === "legacy-fallback") fallbackUnknowns++;
+      }
+    }
+    expect(openDiphthongs).toBeGreaterThan(50);
+    expect(fallbackUnknowns).toBeGreaterThan(50);
+  });
+
+  it("keeps active-model tracing observational for complete outputs and random draws", () => {
+    const rngs = [createSeededRng(917), createSeededRng(917)];
+    const calls = [0, 0];
+    for (let draw = 0; draw < 500; draw++) {
+      const words = rngs.map((rng, index) => generateWord({ rand: () => { calls[index]++; return rng(); }, trace: index === 0 }));
+      delete words[0].trace;
+      expect(words[0]).toEqual(words[1]);
+      expect(calls[0]).toBe(calls[1]);
+    }
+    expect(rngs[0]()).toBe(rngs[1]());
   });
 
   it("uses atomic diphthong quantity for opt-in OT while explicit legacy stays unchanged", () => {

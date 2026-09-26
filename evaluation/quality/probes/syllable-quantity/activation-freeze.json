@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-26T17:47:11.921Z",
+  "generatorHead": "dd957d4",
+  "evaluatorDigest": "0fae63827768edc4d4c27dc8a3bef45a46ead5ef2a5829633a50437ef25c5911",
+  "sourceFiles": [
+    "evaluation/quality/capture.ts",
+    "evaluation/quality/distribution.ts",
+    "evaluation/quality/metrics.ts",
+    "evaluation/quality/model.ts",
+    "evaluation/quality/probes/syllable-quantity/README.md",
+    "evaluation/quality/probes/syllable-quantity/activation-amendment.md",
+    "evaluation/quality/probes/syllable-quantity/analyze.ts",
+    "evaluation/quality/probes/syllable-quantity/archive.ts",
+    "evaluation/quality/probes/syllable-quantity/observe.ts",
+    "evaluation/quality/serialization.ts"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "core-comparison.json.gz": {
+    "bytes": 30364,
+    "sha256": "612dbd9aaea50256665a1e29ed194cb1965af9f0c6d265bb22ae81d5b9daeb29"
+  },
+  "core-comparison.md": {
+    "bytes": 20087,
+    "sha256": "2db2a3a51d62bd169325e3d8eca0e43ac3d39b8c574820f054f248f7fd33c087"
+  },
+  "distributions.json.gz": {
+    "bytes": 74262,
+    "sha256": "126dfe942dc18860c05ecf4d4abdc9d7af72bb931c58c22fd7461c2cc0ae831a"
+  },
+  "legacy-opt-out-sources.json.gz": {
+    "bytes": 259537,
+    "sha256": "d7115f4e6efd455b4f20592b489050eac6ad6a72aa357fc1ef61df86fc903cca"
+  },
+  "legacy-opt-out.json.gz": {
+    "bytes": 12313,
+    "sha256": "9abff5aa5a569b9bf6d1d1adaf0eecb4efb2dac0bbb33c2fffceaae9d2fbdc3e"
+  },
+  "manifest.json": {
+    "bytes": 126437,
+    "sha256": "dece039e82f03bb64a3151e8005da977926845618573b82336b2cfe39f06e657"
+  },
+  "quantity-observation.json.gz": {
+    "bytes": 1014363,
+    "sha256": "8b0c485bb1a382ec332a160cc9b5513d59534828511579da1364a77c11ffeb9c"
+  },
+  "review-samples.json.gz": {
+    "bytes": 384305,
+    "sha256": "436af1f221fd4dbd62b9be572a7a88eeb51388c9d4b1c29d99d06e642571d479"
+  },
+  "sources.json.gz": {
+    "bytes": 178179,
+    "sha256": "c4b06e858f671388e8d2c16ce2c2048952aefd25e660540a843d79221efa28d7"
+  },
+  "summary.json": {
+    "bytes": 86271,
+    "sha256": "898b4099c3bc97beccb5a9f3eabbfb7e1315c4c02bb541c2d29cbfc593e39587"
+  },
+  "witnesses.json.gz": {
+    "bytes": 26989,
+    "sha256": "e3553f96e948df0e0c38829034af85aded5104e46d1409aed2de49e3096acbfb"
+  }
+}

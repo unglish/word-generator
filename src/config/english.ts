@@ -40,6 +40,7 @@ import {
   HAS_CODA_MID_WORD,
 } from "./weights.js";
 import {
+  ENGLISH_PARTIAL_QUANTITY_ANALYSIS,
   phonemes,
   phonemeMaps,
   sonorityToMannerOfArticulation,
@@ -154,6 +155,12 @@ export const englishConfig: LanguageConfig = {
 
   pronunciation: {
     stress: {
+      syllableWeight: {
+        type: "moraic",
+        analysis: ENGLISH_PARTIAL_QUANTITY_ANALYSIS,
+        coda: "weight-by-position",
+        unknown: "legacy-segment-count",
+      },
       primary: {
         type: "ot",
         otConfig: {
