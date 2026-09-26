@@ -1,0 +1,33 @@
+{
+  "version": "cmu-score-reference-final-checks-v1",
+  "reviewTests": 248,
+  "newTypeScriptFixtures": 37,
+  "pythonSyntheticGroups": 9,
+  "legacyScorerOnlyFixtures": 3,
+  "typechecks": [
+    "tsconfig.corpus.json",
+    "tsconfig.review.json"
+  ],
+  "lint": "four changed TypeScript files; passed",
+  "diffCheck": "passed",
+  "formalCommands": 32,
+  "twoFreshBuildsByteIdentical": true,
+  "independentRows": 117485,
+  "independentNumericValues": 234978,
+  "maximumAbsoluteError": 0,
+  "maximumRelativeError": 0,
+  "trackedParentFiles": 292,
+  "protectedParentFilesUnchanged": 289,
+  "changedParentFiles": [
+    "TUNING.md",
+    "docs/phonotactic-scoring.md",
+    "scripts/generate-baseline.ts"
+  ],
+  "sourceReviewSnapshotAll36FilesExact": true,
+  "generatorCapture": "not run; generator/scorer/table/gates unchanged",
+  "performance": "not measured; offline construction only",
+  "automaticCI": "stacked PR does not trigger main-only workflow",
+  "allFrozenSourceContentStableWithDocumentedTransportAndGuideAmendments": true,
+  "stagedDiffCheck": "pass after transport-only compression of original legacy source",
+  "inheritedArchivedWhitespaceLinesPreserved": 19
+}

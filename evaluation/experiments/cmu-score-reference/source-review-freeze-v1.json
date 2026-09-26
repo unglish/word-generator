@@ -1,0 +1,273 @@
+{
+  "version": "cmu-legacy-score-reference-source-review-freeze-v1",
+  "status": "frozen-for-parent-review-before-full-corpus-scoring",
+  "parentCommit": "bd70cbfef2a9f58442cf9bb066faec23b79ee2ef",
+  "production": {
+    "scheme": "jsonDigest(ordered {path,content} snapshots)",
+    "digest": "9164fecf511fb20a64c580c3e6edb709e3a8b1bfd6c8c3ab95e000ea770f73ff",
+    "paths": [
+      "evaluation/corpus/cmu.ts",
+      "evaluation/corpus/identity.ts",
+      "evaluation/corpus/joint.ts",
+      "evaluation/corpus/joint-artifact.ts",
+      "evaluation/corpus/joint-cli.ts",
+      "evaluation/review/wordlikeness/model.ts",
+      "evaluation/corpus/phone-transitions.ts",
+      "evaluation/corpus/transition-builder.ts",
+      "scripts/generate-bigram-table.ts",
+      "package-lock.json",
+      "evaluation/corpus/score-reference.ts",
+      "evaluation/corpus/score-reference-builder.ts",
+      "scripts/generate-baseline.ts",
+      "src/phonotactic/score.ts",
+      "src/phonotactic/arpabet-bigrams.ts"
+    ]
+  },
+  "verifier": {
+    "scheme": "jsonDigest(ordered {path,sha256} list)",
+    "digest": "21b4d7511b5db1e16ade7da5c84fb209ccd3dc8a5bb2073d43d308fa6d349e8f",
+    "files": [
+      {
+        "path": "evaluation/corpus/verify-parser.py",
+        "sha256": "a59cfa124b1462f4147416236fe6b2ad267a788cb9e5a0c72acf0e9b2ec08c50"
+      },
+      {
+        "path": "evaluation/corpus/verify-joint.py",
+        "sha256": "a4a80097c1e57076eef30136ca5008a80a9a9803dc108ab1121c1bbaeff5699b"
+      },
+      {
+        "path": "evaluation/corpus/verify-transitions.py",
+        "sha256": "a241fab741c8539df496b0235342957b818088a86cfb6cf3ace3e11cb21294eb"
+      },
+      {
+        "path": "evaluation/corpus/verify-score-reference.py",
+        "sha256": "9da4fdf64886d14b189e79d4eb0413fb4561db8cadbf32944bd01a0cfd7d944b"
+      },
+      {
+        "path": "evaluation/corpus/verify-score-reference-test.py",
+        "sha256": "305ff26dfb4184c1c19866db7e32f249bfb5a77db092045ecc2141f19615fd35"
+      },
+      {
+        "path": "evaluation/experiments/cmu-transition-builder/protocol.json",
+        "sha256": "3dd173301978c980d1ab1f2afee19da43487ad6db433aad679bb14d6b2b86131"
+      },
+      {
+        "path": "evaluation/experiments/cmu-transition-builder/protocol-amendment-01.json",
+        "sha256": "95593fde227dcadb0dda0e1875fe80ae7f88632d44a8e9d5d8ae90fe1a7907aa"
+      },
+      {
+        "path": "evaluation/experiments/cmu-score-reference/protocol.json",
+        "sha256": "be46836df65c94d2e61f4e713de004e8581db75c81abdd4ebcf8aa74a43b1f78"
+      }
+    ]
+  },
+  "checks": {
+    "reviewTests": 248,
+    "newTypeScriptFixtures": 37,
+    "pythonSyntheticGroups": 9,
+    "unchangedScorerFixtures": 3,
+    "corpusTypecheck": "pass",
+    "reviewTypecheck": "pass",
+    "explicitTypeScriptLint": "pass",
+    "diffCheck": "pass",
+    "parentFiles": 292,
+    "protectedParentFilesUnchanged": 289,
+    "fullCorpusScoring": "not-run-awaiting-parent-review"
+  },
+  "logs": [
+    {
+      "path": "/private/tmp/q15-score-review-tests-v1.log",
+      "sha256": "b219aa6974d21aa4cf8f97c3a7f35102728a7d3d7b9a56b3ed70884a9a8d5a31"
+    },
+    {
+      "path": "/private/tmp/q15-score-python-tests-final.log",
+      "sha256": "81f560108a3049945e6edf426af469af6fef7ff61f032bcf3318f39c251696a8"
+    },
+    {
+      "path": "/private/tmp/q15-score-legacy-fixtures-v1.log",
+      "sha256": "4e4d7a0052a9b8757bfe02f9936b756217aecd08362ae8d5aad39cc4ecaa1919"
+    }
+  ],
+  "files": [
+    {
+      "path": "evaluation/corpus/cmu.ts",
+      "bytes": 5632,
+      "sha256": "1cfc3c2584a7da80623e5357e6a9f3004226dad3d6685f106e41f85e5232d0e4"
+    },
+    {
+      "path": "evaluation/corpus/identity.ts",
+      "bytes": 860,
+      "sha256": "306901b931ebfb25654668f507702809e50714cf6b70b5c8412fec9e6a1b8d44"
+    },
+    {
+      "path": "evaluation/corpus/joint.ts",
+      "bytes": 10902,
+      "sha256": "c57e4a1e452462e346dd44efee46510480399b22b6df901be2d1042fec54d253"
+    },
+    {
+      "path": "evaluation/corpus/joint-artifact.ts",
+      "bytes": 12354,
+      "sha256": "fe2641f9be7865c0ac29263eef2d0c49c827b8760b77c39bd55fbb979036c3d9"
+    },
+    {
+      "path": "evaluation/corpus/joint-cli.ts",
+      "bytes": 861,
+      "sha256": "01fc2fe0741160e6d6cccd435703123a43289cc269c354866631a73d318a58f8"
+    },
+    {
+      "path": "evaluation/review/wordlikeness/model.ts",
+      "bytes": 4969,
+      "sha256": "c1e90a044397ff1427c254c4b6db8e74c57ce4fe8779a3a7cbaddb8e013d749f"
+    },
+    {
+      "path": "evaluation/corpus/phone-transitions.ts",
+      "bytes": 2852,
+      "sha256": "2d220f77643c1b3a3f6c7835a573e17ffe2de8817335c119170d47c045aad88e"
+    },
+    {
+      "path": "evaluation/corpus/transition-builder.ts",
+      "bytes": 10929,
+      "sha256": "a106294a6dc1cdf58c67f7f64566b53f155e33e2f09de7690625841914bf52cc"
+    },
+    {
+      "path": "scripts/generate-bigram-table.ts",
+      "bytes": 2399,
+      "sha256": "130e15918e8e0e63c239e39d9b1a8b00d47b97e1f8ff2e1823d085e4c76d07f4"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 121792,
+      "sha256": "985093dd683275e3c5c5f10ae2210c7395914de9bb669f71c9b1e34350218bc6"
+    },
+    {
+      "path": "evaluation/corpus/score-reference.ts",
+      "bytes": 4664,
+      "sha256": "af8c9e7a12132faa65398bcc4dc103165382651fd4bc52532c45d8b3380136ee"
+    },
+    {
+      "path": "evaluation/corpus/score-reference-builder.ts",
+      "bytes": 7875,
+      "sha256": "525a9023c107f78186e70faad3ec623661c1277af1aa7207bee716e95ec5c8ce"
+    },
+    {
+      "path": "scripts/generate-baseline.ts",
+      "bytes": 2550,
+      "sha256": "d1a8ccf698bd1d1adee27a9055cb2ef9a846ae3679ac79f7f54edf192d92c394"
+    },
+    {
+      "path": "src/phonotactic/score.ts",
+      "bytes": 2572,
+      "sha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f"
+    },
+    {
+      "path": "src/phonotactic/arpabet-bigrams.ts",
+      "bytes": 18585,
+      "sha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7"
+    },
+    {
+      "path": "evaluation/corpus/verify-parser.py",
+      "bytes": 8439,
+      "sha256": "a59cfa124b1462f4147416236fe6b2ad267a788cb9e5a0c72acf0e9b2ec08c50"
+    },
+    {
+      "path": "evaluation/corpus/verify-joint.py",
+      "bytes": 19306,
+      "sha256": "a4a80097c1e57076eef30136ca5008a80a9a9803dc108ab1121c1bbaeff5699b"
+    },
+    {
+      "path": "evaluation/corpus/verify-transitions.py",
+      "bytes": 10845,
+      "sha256": "a241fab741c8539df496b0235342957b818088a86cfb6cf3ace3e11cb21294eb"
+    },
+    {
+      "path": "evaluation/corpus/verify-score-reference.py",
+      "bytes": 16680,
+      "sha256": "9da4fdf64886d14b189e79d4eb0413fb4561db8cadbf32944bd01a0cfd7d944b"
+    },
+    {
+      "path": "evaluation/corpus/verify-score-reference-test.py",
+      "bytes": 9606,
+      "sha256": "305ff26dfb4184c1c19866db7e32f249bfb5a77db092045ecc2141f19615fd35"
+    },
+    {
+      "path": "evaluation/experiments/cmu-transition-builder/protocol.json",
+      "bytes": 3150,
+      "sha256": "3dd173301978c980d1ab1f2afee19da43487ad6db433aad679bb14d6b2b86131"
+    },
+    {
+      "path": "evaluation/experiments/cmu-transition-builder/protocol-amendment-01.json",
+      "bytes": 573,
+      "sha256": "95593fde227dcadb0dda0e1875fe80ae7f88632d44a8e9d5d8ae90fe1a7907aa"
+    },
+    {
+      "path": "evaluation/experiments/cmu-score-reference/protocol.json",
+      "bytes": 2887,
+      "sha256": "be46836df65c94d2e61f4e713de004e8581db75c81abdd4ebcf8aa74a43b1f78"
+    },
+    {
+      "path": "evaluation/review/cmu-score-reference.test.ts",
+      "bytes": 18785,
+      "sha256": "de174e8c98a10031cf438088561ea8e8febdda54deea2f02093df1ffe47170d2"
+    },
+    {
+      "path": "docs/cmu-score-reference.md",
+      "bytes": 6863,
+      "sha256": "01478358b6791d55a51625b881a44e72738abc4af318ea1df1b5077fdf84f599"
+    },
+    {
+      "path": "docs/phonotactic-scoring.md",
+      "bytes": 4513,
+      "sha256": "9743870f64fc4261d0493e543ee0cbab34c69e057c6edd33f6734f3ceceaeaf4"
+    },
+    {
+      "path": "TUNING.md",
+      "bytes": 18918,
+      "sha256": "b90129dd050bc21db14969931c4b0c987c106295c71debed83f54542b0032158"
+    },
+    {
+      "path": "package.json",
+      "bytes": 3565,
+      "sha256": "058bafc161c52baad2d90762211084971e5ee94798d466f016a22268ee5df8bd"
+    },
+    {
+      "path": "tsconfig.corpus.json",
+      "bytes": 125,
+      "sha256": "5b943fe85ad27d92ffbec83e497267ccb871453c4f9d80266862dbe789826cc2"
+    },
+    {
+      "path": "tsconfig.review.json",
+      "bytes": 375,
+      "sha256": "d0199407c4899ff118dea980a98d385aa5241adde7a1658d96a9bc0a8ceb7feb"
+    },
+    {
+      "path": "vitest.review.config.ts",
+      "bytes": 267,
+      "sha256": "452fe63c2ba50147230ea5ff9a5dbce35051670c592e908e333052206bdaf095"
+    },
+    {
+      "path": "evaluation/experiments/cmu-score-reference/design.md",
+      "bytes": 19480,
+      "sha256": "f98067c080e93f06263d9bf6f0cdef228bef5c57be47a7d634cde3bc2c1ca337"
+    },
+    {
+      "path": "evaluation/experiments/cmu-score-reference/fixtures-plan.json",
+      "bytes": 1257,
+      "sha256": "0b96b35911476e3d2934f65ba7ab8177558ecf77ce9a787f317514d1189531ef"
+    },
+    {
+      "path": "evaluation/experiments/cmu-score-reference/parent-files.json",
+      "bytes": 31918,
+      "sha256": "3cca2c06252fbd7155c880aed0e4a91bb8d9dd94042273df20e463b45f2a5814"
+    },
+    {
+      "path": "evaluation/experiments/cmu-score-reference/legacy-builder.ts",
+      "bytes": 7730,
+      "sha256": "1d6bdb282c44f51a8b55ff929d34654977d3161df61bfc2f7ce285741b46fbab"
+    },
+    {
+      "path": "evaluation/experiments/cmu-score-reference/api-reproduction.json",
+      "bytes": 722,
+      "sha256": "74956f8a8c92d44a348a757345087a523114a56bcb6a35d431c4a305c01f728e"
+    }
+  ]
+}
