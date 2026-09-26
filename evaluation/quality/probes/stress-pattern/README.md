@@ -37,3 +37,27 @@ assembled and surface views, a promoted vowel copied back to root,
 and a reduction target copied from the inventory. Assertions verify
 separate metadata objects before mutating them, so running the expected
 pre-fix failures cannot pollute the shared inventory.
+
+Compare the full controls and paired RNG reports without regenerating:
+
+```sh
+node --import tsx evaluation/quality/probes/stress-pattern/compare-detachment.ts BEFORE_RUN AFTER_RUN BEFORE_PARITY.json AFTER_PARITY.json REPORT.json
+```
+
+The comparator verifies both archives with the frozen foundation reader,
+requires exact source/report correspondence, exact raw shard sets, equal
+profile summaries/configuration/environments, and byte-identical pinned
+word shards. It separately validates every scheduled RNG stream and
+compares all recorded word/trace hashes and RNG observations.
+
+An independent Python pass checks artifact bytes/hashes, source content
+against the pinned Git commit, evaluator/reference identities, shard sets,
+every draw coordinate, and summary/profile/replicate counts:
+
+```sh
+python3 evaluation/quality/probes/stress-pattern/verify-archive.py RUN CHECKOUT REPORT.json
+```
+
+The foundation reader verifies the JavaScript-canonical manifest digest;
+the Python report pins the same manifest file bytes with SHA-256 instead
+of pretending Python's JSON key ordering is the same serialization.

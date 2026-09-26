@@ -1,0 +1,112 @@
+{
+  "result": "pass",
+  "manifestDigest": "8fec60bbe01206fd5ed3b6e624b6de375d7e79f1c7557c2c3a499b07a15c6195",
+  "manifestFileSha256": "239e956960301e010a709a0bd020432fa8f0cef2668699899c74c9c78bfe2628",
+  "generator": "d2370383c8a3be674c18d37ccb3ca11b55e3d9687ee68eb09195ef01cd02ad2e",
+  "commit": "72222591a3b8fd03c7be40d7c54766ef4163529c",
+  "evaluator": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007",
+  "sourceFiles": 45,
+  "verifiedDraws": 200000,
+  "shards": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "draws": 10000
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "draws": 10000
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "draws": 10000
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "draws": 10000
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "draws": 10000
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "draws": 10000
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "draws": 10000
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "draws": 10000
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "draws": 10000
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "draws": 10000
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "draws": 10000
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "draws": 10000
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "draws": 10000
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "draws": 10000
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "draws": 10000
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "draws": 10000
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "draws": 10000
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "draws": 10000
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "draws": 10000
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "draws": 10000
+    }
+  ]
+}

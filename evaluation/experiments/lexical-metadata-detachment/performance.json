@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "orderedRuns": [
+    {
+      "source": "ca6654c",
+      "role": "control",
+      "roundedWordsPerSecond": 6898,
+      "medianBatchVariance": 1.29,
+      "testsPassed": 2
+    },
+    {
+      "source": "7222259",
+      "role": "candidate",
+      "roundedWordsPerSecond": 6778,
+      "medianBatchVariance": 1.37,
+      "testsPassed": 2
+    }
+  ],
+  "wordsPerSecondFloor": 4500,
+  "medianBatchVarianceCeilingExclusive": 3,
+  "interpretation": "One coordinated idle interval, control first then candidate; not a stable causal throughput estimate."
+}

@@ -31,7 +31,7 @@ surface phones.
 ## Historical dependency fixtures
 
 Two Q06 assertions retain their original source-specific expectations:
-seed 167 expects `immamsed`, while this combination accepts `inlodsed`;
+seed 167 expects `immamsed`, while this combination produces `inlodsed`;
 the 10,000-word seed-20260926 stream expects more than 30 `im` selections,
 while this combination observes 29. These failures remain visible. They
 are not silently relabeled as passing or used to retune the generator.
@@ -80,6 +80,29 @@ The correction requires exact unmutated value/full-trace/RNG parity
 against the composition. The pre-fix 20,000-draw paired trace-on/off report
 has been captured with the
 [detachment parity tool](../evaluation/quality/probes/stress-pattern/README.md).
-The post-fix full control and comparison are still pending. The later
+The corrected control at
+`memory/quality-runs/lexical-metadata-detachment` contains exactly the
+same 200,000 complete returned words and full old traces: all 20 raw
+compressed shards are byte-identical. Every frozen profile summary is
+also equal. The paired 20,000-draw reports match complete output hashes,
+full trace hashes, RNG call counts at every word boundary, total calls
+and the next RNG value under both trace modes. All 400,000 archived draw
+coordinates and source/artifact integrity were independently rechecked.
+
+Corrected generator digest:
+`d2370383c8a3be674c18d37ccb3ca11b55e3d9687ee68eb09195ef01cd02ad2e`
+at source commit `7222259`. The
+[compact evidence](../evaluation/experiments/lexical-metadata-detachment/comparison.json)
+retains both controls, parity reports, independent verification and the
+failed-before/passed-after mutation logs. Full raw shards remain in the
+local immutable runs and can be regenerated from the pinned commits.
+These observations establish value/RNG parity for the stated schedules;
+the fixture improvement concerns mutation isolation, not wordlikeness.
+
+In one coordinated idle interval, the unchanged performance suite passes
+2/2 for both sources: control 6,898 words/sec and 1.29× median batch
+variance; correction 6,778 words/sec and 1.37×. The fixed gates remain
+4,500 words/sec and <3×. The control ran first; this single ordered
+measurement is descriptive, not a stable estimate of slowdown. The later
 Q09a observer separately requires exact parity after removing only its
 new trace field. Original and independent PR archives remain unchanged.
