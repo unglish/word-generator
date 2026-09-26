@@ -15,16 +15,56 @@ import { stopGraphemes } from "./stops.js";
 
 export const ORIGINS = ["Germanic", "French", "Greek", "Latin", "Other"] as const;
 
+/** Vowel weights were tuned by syllable, including an explicit isolated-syllable case.
+ * Consonant weights describe actual segment edges (e.g. coda /z/ in the first
+ * syllable is medial, not word-initial). Keep these dimensions separate.
+ */
+function withPositions(items: Grapheme[], scope: "segment" | "syllable"): Grapheme[] {
+  return items.map(grapheme => {
+    const positionScope = grapheme.positionScope ?? scope;
+    // Preserve the old positive intersection where it existed. /eɪ/ had no
+    // such intersection at all, so its isolated spellings need their own
+    // explicit licensing rather than the former implicit restoration.
+    const hasBothEdges = items.some(candidate =>
+      candidate.phoneme === grapheme.phoneme && candidate.startWord > 0 && candidate.endWord > 0
+    );
+    const isolatedAllowed = !hasBothEdges || (grapheme.startWord > 0 && grapheme.endWord > 0);
+    return {
+      ...grapheme,
+      positionScope,
+      ...(positionScope === "syllable" ? {
+        isolatedSyllableWeight: isolatedAllowed
+          ? Math.max(grapheme.startWord, grapheme.midWord, grapheme.endWord) : 0,
+      } : {}),
+    };
+  });
+}
+
 export const graphemes: Grapheme[] = [
-  ...vowelGraphemes,
-  ...diphthongGraphemes,
-  ...rhoticGraphemes,
-  ...glideGraphemes,
-  ...liquidGraphemes,
-  ...nasalGraphemes,
-  ...fricativeGraphemes,
-  ...affricateGraphemes,
-  ...stopGraphemes,
+  ...withPositions(vowelGraphemes, "syllable"),
+  ...withPositions(diphthongGraphemes, "syllable"),
+  ...withPositions(rhoticGraphemes, "syllable"),
+  ...withPositions(glideGraphemes, "segment"),
+  ...withPositions(liquidGraphemes, "segment"),
+  ...withPositions(nasalGraphemes, "segment"),
+  ...withPositions(fricativeGraphemes, "segment"),
+  ...withPositions(affricateGraphemes, "segment"),
+  ...withPositions(stopGraphemes, "segment"),
+  // These alternatives preserve hard contextual bans when the legacy vowel
+  // preferences leave an initial syllable unspellable. They are not eligible
+  // until every ordinary candidate has been excluded.
+  {
+    phoneme: "ɛ", form: "ea", origin: 0, frequency: 140,
+    onset: 0, coda: 0, positionScope: "syllable", fallbackOnly: true,
+    startWord: 1, midWord: 0, endWord: 0, isolatedSyllableWeight: 10,
+    condition: { rightContext: ["t"] },
+  },
+  {
+    phoneme: "ʊ", form: "oo", origin: 0, frequency: 80,
+    onset: 0, coda: 0, positionScope: "syllable", fallbackOnly: true,
+    startWord: 1, midWord: 0, endWord: 0, isolatedSyllableWeight: 5,
+    condition: { leftContext: ["g"] },
+  },
 ];
 
 export type GraphemeMaps = {

@@ -76,7 +76,7 @@ export const affricateGraphemes: Grapheme[] = [
     onset: 0,
     startWord: 1,
     midWord: 1,
-    endWord: 0,
+    endWord: 1, // age: final ge is licensed after tense as well as lax vowels.
   },
   {
     phoneme: "dʒ",
