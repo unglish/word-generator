@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.review.json",
+  "include": ["evaluation/corpus/**/*.ts", "evaluation/review/cmu-joint.test.ts"]
+}
