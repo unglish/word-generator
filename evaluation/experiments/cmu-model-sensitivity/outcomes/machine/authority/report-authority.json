@@ -1,0 +1,8 @@
+{
+  "freezeSha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569",
+  "reportPath": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/report.json",
+  "reportBytes": 164954928,
+  "reportSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240",
+  "acceptancePath": "/private/tmp/q15-model-sensitivity-acceptance-v1/acceptance.json",
+  "acceptanceSha256": "74a23c4346883bf3b8ee64013a386b7a0926344332eeeba4e29bb50e44b73a30"
+}
