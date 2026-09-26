@@ -6,7 +6,7 @@ import * as random from "./utils/random.js";
 export { createGenerator, generateWord, generateWords } from "./core/generate.js";
 export type { WordGenerator } from "./core/generate.js";
 export type { AffixForm, AllomorphBoundaryPhoneme, ResolvedAffix, MorphologyWrittenPart, MorphologyRealizationTrace } from "./core/morphology/realization.js";
-export type { GenerationMode } from "./types.js";
+export type { GenerationMode, NucleusWordPositionWeights } from "./types.js";
 export {
   resolveStressRules,
   resolveAspirationRules,

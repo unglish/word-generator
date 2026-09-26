@@ -9,6 +9,7 @@ import { createGapSpellingApplicator } from "./gap-spelling.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
+import { nucleusWordPositionWeight, repairNucleusWordPositions } from "./nucleus-position.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
 import {
   computePhonemeTargetBounds,
@@ -372,8 +373,11 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
   return true;
 }
 
-function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: ClusterContext): boolean {
+function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord, nucleusWordEdges }: ClusterContext): boolean {
   const positionWeight = getPhonemePositionWeight(p, position);
+  if (position === "nucleus" && nucleusWordEdges && p.nucleusWordPosition) {
+    return (positionWeight === undefined || positionWeight > 0) && nucleusWordPositionWeight(p, nucleusWordEdges)! > 0;
+  }
   return (positionWeight === undefined || positionWeight > 0) &&
          (!isStartOfWord || p.startWord === undefined || p.startWord > 0) &&
          (!isEndOfWord || p.endWord === undefined || p.endWord > 0);
@@ -470,10 +474,13 @@ function selectPhoneme(validCandidates: Phoneme[], context: ClusterContext, rt?:
   for (let i = 0; i < validCandidates.length; i++) {
     const p = validCandidates[i];
     const positionWeight = p[position] ?? 0;
-    const wordPositionModifier =
+    const explicitNucleusWeight = position === "nucleus" && context.nucleusWordEdges
+      ? nucleusWordPositionWeight(p, context.nucleusWordEdges)
+      : undefined;
+    const wordPositionModifier = explicitNucleusWeight ?? (
       (isStartOfWord && p.startWord) ||
       (isEndOfWord && p.endWord) ||
-      p.midWord || 1;
+      p.midWord || 1);
 
     let baseWeight = positionWeight * wordPositionModifier;
 
@@ -575,7 +582,7 @@ function pickOnset(
   });
 }
 
-function pickNucleus(rt: GeneratorRuntime, context: WordGenerationContext, isStartOfWord: boolean, isEndOfWord: boolean): Phoneme[] {
+function pickNucleus(rt: GeneratorRuntime, context: WordGenerationContext, isStartOfWord: boolean, isEndOfWord: boolean, onsetLength: number, plannedCodaLength: number): Phoneme[] {
   return buildCluster(rt, {
     rand: context.rand,
     position: "nucleus",
@@ -584,6 +591,7 @@ function pickNucleus(rt: GeneratorRuntime, context: WordGenerationContext, isSta
     ignoreSet: _emptySet,
     isStartOfWord,
     isEndOfWord,
+    nucleusWordEdges: { initial: isStartOfWord && onsetLength === 0, final: isEndOfWord && plannedCodaLength === 0 },
     maxLength: 1,
     syllableCount: context.syllableCount,
   });
@@ -1051,7 +1059,8 @@ function generateSyllable(rt: GeneratorRuntime, context: WordGenerationContext, 
     newSyllable.onset = pickOnset(rt, context, isStartOfWord, monosyllabic, syllablePlan.onsetLength);
   }
 
-  newSyllable.nucleus = pickNucleus(rt, context, isStartOfWord, isEndOfWord);
+  newSyllable.nucleus = pickNucleus(rt, context, isStartOfWord, isEndOfWord, newSyllable.onset.length, syllablePlan.codaLength);
+  if (newSyllable.nucleus.length === 0) throw new Error("No eligible nucleus for the planned base-word segment position.");
 
   if (syllablePlan.codaLength > 0) {
     newSyllable.coda = pickCoda(rt, context, newSyllable, isEndOfWord, monosyllabic, syllablePlan.codaLength);
@@ -1395,6 +1404,10 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.beforeStage("repairStressedNuclei", context.word.syllables);
   repairStressedNuclei(context, rt.positionPhonemes.nucleus, stressRules);
   t?.afterStage("repairStressedNuclei", context.word.syllables);
+
+  t?.beforeStage("repairNucleusWordPositions", context.word.syllables);
+  repairNucleusWordPositions(context, rt.positionPhonemes.nucleus, stressRules);
+  t?.afterStage("repairNucleusWordPositions", context.word.syllables);
 
   t?.beforeStage("generateWrittenForm", context.word.syllables);
   rt.generateWrittenForm(context);
