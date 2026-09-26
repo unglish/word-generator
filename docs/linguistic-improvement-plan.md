@@ -29,7 +29,8 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q07 | Segment edge versus syllable position | /ʊ/ coverage in closed final syllables; forbidden open-position rate; audited inventory migration | [PR #314](https://github.com/unglish/word-generator/pull/314); closed-final base FOOT 15→2,506 in 200,000 words, open-final FOOT 3→0 in bases and 2→0 in outputs; applicable CI passes, mixed broader diagnostics retained |
 | Q08a | Typed vowel quantity and shared syllable-weight analysis | Shared operational decisions; exact word, legacy-trace and RNG parity | [PR #319](https://github.com/unglish/word-generator/pull/319); applicable CI passes; initial 20,000-draw RNG/trace control and complete 200,000-word archive equality; all 340,840 root nuclei remain unspecified |
 | Q08b | Activate a named partial English quantity model | Open modeled diphthongs use heavy weight; conditioned primary/secondary stress and broader diagnostics | [Draft PR #322](https://github.com/unglish/word-generator/pull/322), stacked on Q08a; light open diphthongs 14,024/14,024→0/14,093; default monosyllabic-schwa regression and `ugh` failure retained; exact legacy opt-out/RNG parity verified |
-| Q09 | Whole-pattern secondary stress and rhythm | Clash/lapse and secondary-schwa rates by length and morphology; explicit exceptions | Q09a observation plan approved on exact Q04 + Q08b + Q06 composition; metadata detachment and complete parity controls precede observation; Q09b rhythm behavior remains separate |
+| Q09 prerequisite | Detach structured metadata across lexical views | Caller-mutation isolation; complete word/trace/RNG parity | [PR #326](https://github.com/unglish/word-generator/pull/326), against the exact Q04 + Q08b + Q06 composition; five mutation fixtures fail before and pass after; all 200,000 word/trace records are byte-identical and 20,000 scheduled draws preserve RNG use; inherited failures retained |
+| Q09 | Whole-pattern secondary stress and rhythm | Clash/lapse and secondary-schwa rates by length and morphology; explicit exceptions | Q09a observation proceeds from #326's independently verified detached control; Q09b rhythm behavior remains separate |
 | Q10a | Restore ordinary /æŋ/ availability | Generation-stage versus later /æŋ/ coverage; existing custom exclusions retained | [Draft PR #320](https://github.com/unglish/word-generator/pull/320); initial /æŋ/ syllables 0→1,664 across all 20 streams; independent archive counters agree; `ang` gate failure, increased trigram divergence and other regressions retained |
 | Q10b1 | Preserve configured rime legality during root nucleus replacement | Existing pair exclusions after stress/edge replacement; retain the selected coda | [PR #324](https://github.com/unglish/word-generator/pull/324), against the exact Q07 + Q11 dependency control; prepared-root violations 22/327,029→0/326,957 pair slots in 200,000 words; 600,000 original/control/candidate draws independently checked; all local gates pass; broader metrics remain mixed |
 | Q10b2 | Preserve final checked-vowel legality through realization and assembly | Separately scoped final lexical/surface contract and morphology ownership | Q04 and final ownership remain necessary; Q10b1's root assertion does not establish final-word legality |
@@ -37,13 +38,14 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q11b | Preserve cluster legality through morphological alternations | Transformation-specific collision rates and trace ownership; retain licensed boundary repetition | Existing /sk/→/ss/ after `ity` softening identified by Q11; separate from root extensions |
 | Q12a | Licensed positive-weight grapheme selection | Zero-weight and forbidden-choice rates, including singleton candidates; fallback counts | [Draft PR #310](https://github.com/unglish/word-generator/pull/310); zero-weight choices removed in 200,000-word capture, `ex` gate failure disclosed |
 | Q12b | Restore ordinary /ɛ/→e before /t/ | Conditioned /ɛt/ spellings and traced contribution to exceptional ea patterns | [Draft PR #312](https://github.com/unglish/word-generator/pull/312); restored e in all 2,632 eligible candidate pairs, while exposing 13 consonantal-y magic-e errors; weights unchanged |
-| Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | Q02a + Q12a and subsequent Q06 controls each verified over 200,000 words; detached-witness correction preserves all counts and archives; omitted-policy parity verified over 84,800 API calls; implementation/certificate review continues before candidate capture; exact lineage alone is not a pronunciation license |
+| Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | [Draft PR #328](https://github.com/unglish/word-generator/pull/328), against the exact Q02a + Q12a + Q06 dependency control; cap-partial `th` 126→0 and cap-attributed units with no surviving lineage 1,700→0 in 200,000 words; 1,517 certificates replayed; longer clusters, quality failures and a material performance regression retained |
 | Q13b | Aligned spelling of multiple phonemes by one grapheme | Explicit ownership and pronunciation preservation for /ks, gz/→x and similar units | Q13; Q12a exposes reliance on illegal /z/→ze choices for the current `gz-to-x` string repair |
+| Q13c | Preserve units through adjacent-letter deduplication | Exact source-phone multiplicity and licensed shared spelling | Q13's cap policy leaves 31 observed partial `th` units from syllable-join deduplication; this requires a separate construction/ownership hypothesis |
 | Q14a | Complete split-digraph constructions | No unresolved spelling obligation; alternatives and pronunciation retained | Q12a, Q13 |
 | Q14b | Following-letter conditions for soft c/g | No incompatible following letters; licensed exceptions and search-fallback rates | Q12a, Q13, Q14a |
 | Q15a | Shared source parsing and explicit compatible population | Lossless records, complete entry accounting, model/score parity with new implementation provenance | [PR #323](https://github.com/unglish/word-generator/pull/323), stacked on #304; 135,166 source records reconciled, 117,485 accepted; every model field and all 400 frozen score rows unchanged; old artifacts preserved |
 | Q15b | Matched-population reference statistics | Shared selected-entry digest, integer event counts, independent recount and archived-word reference sensitivity | [PR #325](https://github.com/unglish/word-generator/pull/325), stacked on Q15a; all joint/legacy tables independently reconstructed; same 200,000 original words compared under both references and independently recounted; no generator or historical baseline changes; local validation passes |
-| Q15c | Explicit regeneration and consumer migration | Pinned source, policy, units and output identity; no mutable or percentage fallback | Q15b; migrate each consumer separately; runtime weights and gate adoption require separate behavior studies |
+| Q15c | Explicit regeneration and consumer migration | Pinned source, policy, units and output identity; no mutable or percentage fallback | [PR #327](https://github.com/unglish/word-generator/pull/327) migrates the manual phoneme builder; 95 tests and 12 real CLI checks pass, all 742,333 phone events independently reconstructed, historical consumers unchanged; remaining builders/consumers and gate adoption stay separate |
 | Q16 | Target dialect, phonemic identity and display notation | Complete mapping coverage; explicit coarse versus stress-preserving scores | [PR #318](https://github.com/unglish/word-generator/pull/318) adds a pure legacy observer; all 1,146,606 original segments accounted for, including 3,456 ambiguous /ɜ/, with independent count verification; applicable CI passes; no generator behavior or dialect migration; coordinate with Q08/Q15 |
 | Q17 | Offline conditional onset/rime model | Held-out fit by stress/position/class; smoothed backoff, rare-tail and diversity checks | Q07, Q08, Q10, Q15, Q16; reuse #304 where appropriate |
 | Q18 | Typed stem/affix compatibility | Category transitions; incompatible combinations absent; permitted combinations retained | Q04, Q06; productivity assumptions explicit |
@@ -188,3 +190,37 @@ stress and diversity diagnostics move in both directions. The current `ugh` gate
 passes, but this neither repairs nor waives the Q11 dependency's recorded failure.
 The PR targets an explicit dependency-control branch; repository CI only triggers
 against `main`, so its completed checks are local rather than automatic CI runs.
+
+The Q09 metadata prerequisite fixes shared nested quantity objects without changing
+sampled generator behavior. Five public mutation fixtures distinguish the corrected
+root, assembled and surface views from the composition control. All twenty raw
+archive shards are byte-identical, and the separate trace-on/off comparison retains
+every prior trace field and RNG boundary. Both isolated performance runs pass.
+The composition's three inherited test failures remain visible; this is preparation
+for observation, not acceptance of the draft stress models.
+
+Q13 now supplies a bounded spelling-repair experiment with explicit reading
+obligations. Its 1,517 certificates cover 1,549 changed-phone occurrences in 1,516
+words; 5,317 words have at least one refusal. Independent Python counting and cell
+replay agree with every report table. Reading and probability licenses are separately
+replayed by the frozen production TypeScript verifier, not reimplemented in Python.
+The observer implementation was finalized after generation began; its preregistered
+endpoints and both report revisions remain documented. Historical missing budget
+episodes are unavailable evidence, not zero repair need.
+
+This cap policy removes the targeted deletions, but raw five-consonant-run words
+rise from 22 to 203 per 200,000 words. The full suite retains five failures against
+unchanged gates, and one quality gate fails. An isolated candidate-first timing
+pair measures approximately 4,140 versus 6,705 words/sec, below the unchanged
+4,500 floor. The draft preserves these costs. Performance work will use this frozen
+candidate as its own control; duplicate deletion and final affix ownership remain
+separate work.
+
+Q15c's first migration makes the manual phoneme builder require explicit source,
+policy, integer units and a fresh destination. Native stress tokens and the two
+declared projections match the independently reconstructed parent reference exactly.
+Direct and npm builds produce identical bytes; missing inputs, existing outputs
+and protected paths are exercised through the real CLI. Historical references,
+analyzers, demo inputs and generator behavior remain unchanged. These three new
+PRs target explicit dependency branches and therefore have local validation rather
+than automatic main-targeted CI runs.
