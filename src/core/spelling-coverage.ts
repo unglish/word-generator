@@ -21,6 +21,7 @@ interface Option {
   grapheme: Grapheme;
   form: string;
   countIncrement: number;
+  reading: Grapheme["reading"];
   license: SpellingChoiceLicense;
 }
 interface SurfaceCell { text: string; unitId: number | null; partId: number | null }
@@ -80,7 +81,7 @@ function checkReadings(original: SurfaceCell[], proposed: SurfaceCell[], choices
   const changedParts = new Set([...changed].map(id => choices[id].slot.syllableIndex));
   if (proposed.some(cell => cell.unitId === null && (cell.partId === null || changedParts.has(cell.partId)))) return "unresolved-ownership";
   for (let unitId = 0; unitId < choices.length; unitId++) {
-    const reading = options[unitId].grapheme.reading;
+    const reading = options[unitId].reading;
     const samePart = changedParts.has(choices[unitId].slot.syllableIndex);
     if (samePart && !reading) return "unknown-reading";
     if (samePart && reading?.kind === "unsupported-construction") return "construction-obligation";
@@ -138,6 +139,7 @@ export function createSpellingCoveragePlanner(
           { form: decision.doubledForm, probability: decision.probability / 100, countIncrement: 1 },
         ];
       for (const outcome of outcomes) options.push({ grapheme, form: outcome.form, countIncrement: outcome.countIncrement,
+        reading: doubling.readingFor(grapheme, outcome.form),
         license: { unitId, inventoryIndex: inventory.get(grapheme) ?? -1, selected: grapheme.form, afterDoubling: outcome.form,
           graphemeProbability: weight / total, doublingProbability: outcome.probability,
           pool: pool.fallback ? "fallback" : "ordinary", quotaRelaxed: !!pool.preferenceRelaxed } });
@@ -192,7 +194,7 @@ export function createSpellingCoveragePlanner(
     const replacements = [...changed].map(unitId => ({
       unitId, phoneIds: [...state.units[unitId].phoneIds], partId: spans.get(unitId)!.partId,
       inputCellIds: spans.get(unitId)!.cells.map(cell => cell.id), before: choices[unitId].form,
-      after: options[unitId].form, reading: options[unitId].grapheme.reading!,
+      after: options[unitId].form, reading: options[unitId].reading!,
     }));
     if (!equal(plan.replacements, replacements) || !equal(plan.phoneIds, replacements.flatMap(entry => entry.phoneIds))) fail();
   }
@@ -230,7 +232,7 @@ export function createSpellingCoveragePlanner(
       const replacements: SpellingUnitReplacement[] = [...changed].sort((a, b) => a - b).map(unitId => ({
         unitId, phoneIds: [...state.units[unitId].phoneIds], partId: spans.get(unitId)!.partId,
         inputCellIds: spans.get(unitId)!.cells.map(cell => cell.id), before: choices[unitId].form,
-        after: selected[unitId].form, reading: selected[unitId].grapheme.reading!,
+        after: selected[unitId].form, reading: selected[unitId].reading!,
       }));
       const plan: Omit<SpellingCoverageCertificate, "id"> = {
         version: 1, inputCellIds: state.cells.map(cell => cell.id), before: surface, after, replacements,
@@ -248,7 +250,7 @@ export function createSpellingCoveragePlanner(
       // choices cannot supply a missing reading or an owned marker to this unit.
       if (changed.has(index - 1)) {
         const choice = choices[index - 1];
-        const reading = selected[index - 1].grapheme.reading;
+        const reading = selected[index - 1].reading;
         if (unresolvedParts.has(choice.slot.syllableIndex)) { note("unresolved-ownership"); return; }
         if (!reading) { note("unknown-reading"); return; }
         if (reading.kind === "unsupported-construction" ||
