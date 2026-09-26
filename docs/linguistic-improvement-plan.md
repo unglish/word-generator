@@ -39,6 +39,7 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q11b | Preserve cluster legality through morphological alternations | Transformation-specific collision rates and trace ownership; retain licensed boundary repetition | Existing /sk/→/ss/ after `ity` softening identified by Q11; separate from root extensions |
 | Q12a | Licensed positive-weight grapheme selection | Zero-weight and forbidden-choice rates, including singleton candidates; fallback counts | [Draft PR #310](https://github.com/unglish/word-generator/pull/310); zero-weight choices removed in 200,000-word capture, `ex` gate failure disclosed |
 | Q12b | Restore ordinary /ɛ/→e before /t/ | Conditioned /ɛt/ spellings and traced contribution to exceptional ea patterns | [Draft PR #312](https://github.com/unglish/word-generator/pull/312); restored e in all 2,632 eligible candidate pairs, while exposing 13 consonantal-y magic-e errors; weights unchanged |
+| Q12c | Preserve phonemic readings through configured doubling | Sound-specific doubled-form support; distinguish sampled doubling from adjacent letters belonging to different phones | Q13c's fixed-gate trace replay exposes two `/s/ → c → ck` witnesses. Register a separate doubling-license hypothesis; do not bundle a phoneme/spelling policy change into the deduplication experiment |
 | Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | [Draft PR #328](https://github.com/unglish/word-generator/pull/328), against the exact Q02a + Q12a + Q06 dependency control; cap-partial `th` 126→0 and cap-attributed units with no surviving lineage 1,700→0 in 200,000 words; 1,517 certificates replayed; longer clusters, quality failures and a material performance regression retained |
 | Q13 performance | Reuse full spelling context during budget measurement | Exact word/trace/RNG/certificate parity; fixed paired timing against #328 | [PR #331](https://github.com/unglish/word-generator/pull/331); 800,000 core and 84,800 supplementary API calls preserve behavior; six fixed pairs show 6.4% median paired local throughput gain and 0/6→6/6 speed-floor passes; inherited quality failures remain |
 | Q13b | Aligned spelling of multiple phonemes by one grapheme | Explicit ownership and pronunciation preservation for /ks, gz/→x and similar units | Q13; Q12a exposes reliance on illegal /z/→ze choices for the current `gz-to-x` string repair |
@@ -326,6 +327,20 @@ also emits identical JavaScript to its frozen predecessor after its declared
 function rename. These checks improve measurement integrity; candidate corpus
 and performance evidence remain pending, and generic regex execution is not
 independently authenticated by this guard verifier.
+
+The pre-capture full suite has 606 passes, one skip and five failures: `ex`
+representation, three consonant-run gates, and a newly failing `ck`/double-letter
+gate. The earlier `ugh` failure now passes; equal failure totals do not imply
+unchanged failures. Dedicated quality passes 11/12, with 64 raw long-consonant
+words versus the predecessor's 62. These are fixed test schedules, not the
+registered 200,000-word candidate comparison. Replaying the doubling gate's
+10,000 seeds with full traces reproduces all eight witnesses. Each has exactly
+one original doubling increment; its `rr` consists of separately owned /ɚ/ and
+/r/ units retained with `would-erase-phone`. This distinguishes letter adjacency
+from a second executed doubling, without waiving the gate. Two of those same
+traces also record `/s/ → c → ck`, motivating the separate Q12c reading-license
+investigation. All outcomes and the new gate failure remain in the candidate
+record; no threshold changed.
 
 The transition-builder migration in #332 produces a fresh reference from the same
 117,485 selected entries. Both independent implementations agree on 859,818
