@@ -45,7 +45,7 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q14b | Following-letter conditions for soft c/g | No incompatible following letters; licensed exceptions and search-fallback rates | Q12a, Q13, Q14a |
 | Q15a | Shared source parsing and explicit compatible population | Lossless records, complete entry accounting, model/score parity with new implementation provenance | [PR #323](https://github.com/unglish/word-generator/pull/323), stacked on #304; 135,166 source records reconciled, 117,485 accepted; every model field and all 400 frozen score rows unchanged; old artifacts preserved |
 | Q15b | Matched-population reference statistics | Shared selected-entry digest, integer event counts, independent recount and archived-word reference sensitivity | [PR #325](https://github.com/unglish/word-generator/pull/325), stacked on Q15a; all joint/legacy tables independently reconstructed; same 200,000 original words compared under both references and independently recounted; no generator or historical baseline changes; local validation passes |
-| Q15c | Explicit regeneration and consumer migration | Pinned source, policy, units and output identity; no mutable or percentage fallback | [PR #327](https://github.com/unglish/word-generator/pull/327) migrates the manual phoneme builder; 95 tests and 12 real CLI checks pass, all 742,333 phone events independently reconstructed, historical consumers unchanged; remaining builders/consumers and gate adoption stay separate |
+| Q15c | Explicit regeneration and consumer migration | Pinned source, policy, units and output identity; no mutable or percentage fallback | [PR #327](https://github.com/unglish/word-generator/pull/327) migrates the manual phoneme builder; [PR #329](https://github.com/unglish/word-generator/pull/329) separately migrates the length builder, with 144 corpus tests, eight independent verifier tests and 15 real CLI checks; all length marginals and syllable-conditioned rows independently reconstructed for 117,485 entries; historical consumers and gate adoption remain separate |
 | Q16 | Target dialect, phonemic identity and display notation | Complete mapping coverage; explicit coarse versus stress-preserving scores | [PR #318](https://github.com/unglish/word-generator/pull/318) adds a pure legacy observer; all 1,146,606 original segments accounted for, including 3,456 ambiguous /ɜ/, with independent count verification; applicable CI passes; no generator behavior or dialect migration; coordinate with Q08/Q15 |
 | Q17 | Offline conditional onset/rime model | Held-out fit by stress/position/class; smoothed backoff, rare-tail and diversity checks | Q07, Q08, Q10, Q15, Q16; reuse #304 where appropriate |
 | Q18 | Typed stem/affix compatibility | Category transitions; incompatible combinations absent; permitted combinations retained | Q04, Q06; productivity assumptions explicit |
@@ -221,6 +221,17 @@ policy, integer units and a fresh destination. Native stress tokens and the two
 declared projections match the independently reconstructed parent reference exactly.
 Direct and npm builds produce identical bytes; missing inputs, existing outputs
 and protected paths are exercised through the real CLI. Historical references,
-analyzers, demo inputs and generator behavior remain unchanged. These three new
-PRs target explicit dependency branches and therefore have local validation rather
-than automatic main-targeted CI runs.
+analyzers, demo inputs and generator behavior remain unchanged.
+
+The separate length-builder migration in #329 requires the same explicit pinned
+inputs and fresh-output contract. Independent Python reconstruction verifies every
+written, phone and syllable histogram bin and each syllable-conditioned written
+and phone row. All 247 protected prior files remain byte-identical. Its population
+of 117,485 selected ASCII spellings differs explicitly from the historical length
+baseline's 135,158 pronunciation lines; it does not silently replace that baseline
+or migrate a consumer. Conditional marginals do not encode the full written/phone
+joint distribution. This is a reproducibility improvement, with no generator
+output or reader-preference gain claimed.
+
+These dependency-targeted PRs have local validation; the repository's automatic
+CI workflow triggers only for PRs targeting main.
