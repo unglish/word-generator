@@ -484,13 +484,22 @@ are preserved. The corrected external runner uses public `generateWord` with a
 shared public seeded RNG for each batch, counts 13,100 generation calls separately
 from 3,052 logical operations, and passes 34 synthetic checks plus a small real
 control/active, trace-off/on interface smoke. A new complete fixed timing series
-is pending; no opt-in speed comparison is claimed from the failed matrix.
+has now completed all 24 slots and 314,400 words with unchanged source authority.
+All original untraced gates pass. Median active/control throughput is 0.82916
+without tracing (17.08% lower; range 0.82180–0.84578) and 0.51919 with tracing
+(48.08% lower; range 0.50890–0.53457). The trace-on measurements are descriptive,
+not an invented trace-on gate. The failed first matrix remains preserved and
+contributes no usable speed observations. Runtime PR publication is next.
 
 Q15's paired transition-reference study has a reviewed freeze of 338 source
 files (325 unchanged parent files and 13 new study files) and 30 input files.
 The frozen CLI matrix passes all 15 cases and its two full 317,485-row runs
 produce 22 byte-identical files. Independent Python numerical/structural proof
-remains pending. Per-word scores and the registered tolerance are unchanged;
+passes all 317,485 rows and 5,325,847 numeric comparisons with zero sign/near-zero
+disagreements. The largest absolute difference is approximately 6.935e-12; the
+largest relative discrepancy is on a near-zero decomposition residual, with
+absolute difference 3.482e-13, still within the fixed tolerance. All 338 source
+and 30 input pins remain unchanged. Per-word scores and tolerance are unchanged;
 separately labeled compensated arithmetic stabilizes only decomposition sums.
 This holds generated vectors fixed and measures reference sensitivity, not a
 new generator, reference adoption or held-out wordlikeness improvement.
