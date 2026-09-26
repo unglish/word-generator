@@ -156,6 +156,7 @@ export function createSpellingCoveragePlanner(
     const equal = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
     if (plan.version !== 1 || plan.choices.length !== choices.length || !equal(plan.contexts, contextsFor(choices)) || hasInvalidJunction(choices, config)) fail();
     const state = base.current();
+    if ((state.normalizationCount ?? 0) > 0 || state.cells.some(cell => cell.origin.kind === "normalized")) fail();
     if (!equal(plan.inputCellIds, state.cells.map(cell => cell.id)) ||
         plan.before !== state.cells.map(cell => cell.text).join("")) fail();
     const spans = unitSpans(state.cells, choices);
@@ -206,6 +207,7 @@ export function createSpellingCoveragePlanner(
     const refuse = (reason: SpellingBudgetRefusal, refusals: Partial<Record<SpellingBudgetRefusal, number>>): SpellingBudgetOutcome =>
       ({ ...common, status: "infeasible", reason, refusals });
     if (invalidJunction) return refuse("invalid-junction", { "invalid-junction": 1 });
+    if ((state.normalizationCount ?? 0) > 0 || state.cells.some(cell => cell.origin.kind === "normalized")) return refuse("normalization-context-unavailable", { "normalization-context-unavailable": 1 });
     if (!base.projectParts(choices[0]?.slot.syllableCount ?? 0)) return refuse("unresolved-ownership", { "unresolved-ownership": 1 });
     const spans = unitSpans(state.cells, choices);
     const originalCells = project(state.cells, spans, new Map());

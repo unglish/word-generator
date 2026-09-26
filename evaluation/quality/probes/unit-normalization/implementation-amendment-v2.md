@@ -1,0 +1,13 @@
+# Q13c v3 implementation clarification 2
+
+Added during implementation review, before candidate capture or evaluation. The original protocol and historical preparation reader remain unchanged.
+
+The initial v3 verifier bounded executed comparison counts between collision counts and structural slot counts. An altered count inside that range could pass. That was insufficient evidence for the registered executed-comparison denominator.
+
+The writer now records a checkpoint for every adjacent-choice guard and every completed-syllable join guard, including first-unit/first-syllable and empty-form skips. Each checkpoint contains its site and the actual append/edit cursor. This complete schedule is required in v3; historical v1/v2 availability remains unchanged. Counters remain independent of trace retention, and no random draws or spelling decisions are added.
+
+The new checkpoint verifier checks the complete ordered schedule, replays edits up to each cursor, excludes future selections, and derives actual left/right characters from that state. For adjacent checks it inspects the immediately preceding emitted unit, not an earlier nonempty unit. For joins it inspects the preceding and current written parts after their actual syllable rewrites. Empty units and empty parts therefore do not fabricate comparisons. Every observed collision must reconcile with one recorded normalization episode; every episode must reconcile with a checkpoint. Exact recounted comparison/collision totals replace the former interval check.
+
+Regression tests cover an altered denominator within the former bounds, deletion of a noncollision checkpoint with a matching lowered count, deletion of a retained collision and its count, an empty immediately preceding unit, and joins after complete syllable deletion. Existing positive normalization, cursor, doubling, old-reader and cap tests continue to apply. These diagnostics establish observations at the recorded writer checkpoints, not an independent proof that arbitrary generic regex rewrites preserve pronunciation.
+
+An independent implementation review reproduced a second flaw before capture: delaying the last adjacent guard until after a syllable deletion could lower the denominator even with a complete guard list. Cursors now equal the exact edit prefix allowed at each scheduled site. Certified adjacent normalization follows its unit's guard, generic syllable edits follow all adjacent guards for that part and precede its join guard, certified join normalization follows that join guard, and word/gap edits follow all guards. Regression tests reject both delayed adjacent guards and prematurely advanced joins. The original witness is retained separately; no protocol endpoint or tolerance changed.

@@ -1,0 +1,328 @@
+{
+  "version": 1,
+  "phase": "pre-behavior preparation; runtime activation is not authorized",
+  "parentCommit": "569adf516a7fa03a77124d3515c9e1a17a8f71ac",
+  "runtimeSourceDigest": "3dfffb12c5f595507276983f0eae78fedf010726c928ed69cd182db987c3da5b",
+  "protocolSha256": "a6ceecddecf068d427980176efbcf21a60b31a128f654bc4989153759af19a5c",
+  "observerImplementationDigest": "e088436a2227ecbbc55486834a0a0a232dba4b28f73752a10ca416c79f2ae194",
+  "fixtureRecords": {
+    "originalMechanisms": 64,
+    "additionalAuthenticatedCertificate": 1,
+    "total": 65
+  },
+  "scope": "Historical structural counting and proposed local certificate contract; future normalization verifier not implemented",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 4462,
+      "sha256": "6be7042ecbedbb04e18319e81b2d86ca3c3d0d5aaa997ab656734d97c845cf96"
+    },
+    {
+      "file": "analyze.ts",
+      "bytes": 6887,
+      "sha256": "0f373d0618d62b4c85d66f4171bb5d57b6d4cb0ba50443e99846945fca1ee0c1"
+    },
+    {
+      "file": "certificate-contract.ts",
+      "bytes": 3063,
+      "sha256": "ceca16e766e66b35781506f16df76be9f26374e78d30bf23354e37ad09d2483a"
+    },
+    {
+      "file": "control-observations.json",
+      "bytes": 85717,
+      "sha256": "a510414bd9918cf1e9689da4511d3fe8d657f5659b8918758dc91872858252eb"
+    },
+    {
+      "file": "design.md",
+      "bytes": 22643,
+      "sha256": "30d5da435be9dbbeda86a33275b2a34f465ca46aa4db6bd633979d7a6060b135"
+    },
+    {
+      "file": "fixtures/certified-control.json.gz",
+      "bytes": 5082,
+      "sha256": "6c87ac8c6bb5a9b37b5fea5b37dce0ddc8d1420cea7f1aa0ccba29c5a64298c3"
+    },
+    {
+      "file": "fixtures/control-witnesses.json.gz",
+      "bytes": 205870,
+      "sha256": "ec2aed1151be0be4c19a0cad2bd106465d877e9f727598e4c89a3362079e8814"
+    },
+    {
+      "file": "observe.test.ts",
+      "bytes": 7650,
+      "sha256": "664e544cfbf3a120437ea426155702a02edd014f6cf29a7afa1c6fd13103eca0"
+    },
+    {
+      "file": "observe.ts",
+      "bytes": 9737,
+      "sha256": "e672e37613466326d9b8993692bcc9d8d1100a698059edaf2a4262845921ff90"
+    },
+    {
+      "file": "protocol.json",
+      "bytes": 16685,
+      "sha256": "a6ceecddecf068d427980176efbcf21a60b31a128f654bc4989153759af19a5c"
+    }
+  ],
+  "runtimeFiles": [
+    {
+      "file": "src/config/english.ts",
+      "bytes": 28001,
+      "sha256": "64624a5baf7fa6bf07668577ffa7dc2d5f15cd8cb8e274952f8f6d4a05f4881a"
+    },
+    {
+      "file": "src/config/language.ts",
+      "bytes": 68237,
+      "sha256": "09384fe388b47747df511f9e0d42abdbfffc9ee2765c1643ab7e0c392f759c86"
+    },
+    {
+      "file": "src/config/ngram-thresholds.json",
+      "bytes": 1706,
+      "sha256": "a8ded5db4d69f7699f22289287f8471d249837c5a67efaef4cc62c7aa23aa739"
+    },
+    {
+      "file": "src/config/phoneme-thresholds.json",
+      "bytes": 476,
+      "sha256": "a77e276e34eff4a028f4edd22f364a60d0f188ff686fa2c2c6e0b5defb952442"
+    },
+    {
+      "file": "src/config/weights.ts",
+      "bytes": 9142,
+      "sha256": "842d16e5df9b15875cccd1ca455ae3b8fb62aecc0da16503411041629e31debc"
+    },
+    {
+      "file": "src/core/base-spelling.ts",
+      "bytes": 12759,
+      "sha256": "334ff5873f7578b64f3ea6ae2ad541c887cdd8c48c053af05082e6e24d1568cc"
+    },
+    {
+      "file": "src/core/gap-spelling.ts",
+      "bytes": 4418,
+      "sha256": "ebcc507938784205c9d902e4567be0416b59d6782808d4e5f53d0723db19c91f"
+    },
+    {
+      "file": "src/core/generate.ts",
+      "bytes": 60299,
+      "sha256": "a8d61b24975f6b55c59ddfe7e4d0eb8e3005c79ac68092be1148ff2909f18e17"
+    },
+    {
+      "file": "src/core/grapheme-selection.ts",
+      "bytes": 16993,
+      "sha256": "17e683fc5674da3f91d545cec84d2102eab747fd2a8af96787c2dffbb180d487"
+    },
+    {
+      "file": "src/core/junction.ts",
+      "bytes": 4991,
+      "sha256": "ec181ba1e8085e9b3a808d472231f30dbc20dc5445c72abd786d84405ff199f7"
+    },
+    {
+      "file": "src/core/length-semantics.ts",
+      "bytes": 4187,
+      "sha256": "47f74d41fd2e5b2ae492574b31926d8cf070da15264381e9d96936be35bbde1a"
+    },
+    {
+      "file": "src/core/morphology/attach.ts",
+      "bytes": 19379,
+      "sha256": "e96c9ccc6e5695b2b717c40720c79f45c5c20c8e012af2bbecf4d1563a1d9394"
+    },
+    {
+      "file": "src/core/morphology/index.ts",
+      "bytes": 140,
+      "sha256": "da6b9d63ed469b7fd6e48e22792bf8f4a2b2c736e8d67cc3220b46ba303993b0"
+    },
+    {
+      "file": "src/core/morphology/plan.ts",
+      "bytes": 2298,
+      "sha256": "f23a874cc668b56d5fc9ca4c86875bead4f91c81c87a21a4997b6874dacee65f"
+    },
+    {
+      "file": "src/core/morphology/realization.ts",
+      "bytes": 1562,
+      "sha256": "22958bc36109a604312484c3eb89b9d8a256acf7f1b789795dbe35378325987a"
+    },
+    {
+      "file": "src/core/ot-stress.ts",
+      "bytes": 6544,
+      "sha256": "07d1433a2d4156c79ed97cc151c0070d81f27c654ad979e1070af8a687d76fe2"
+    },
+    {
+      "file": "src/core/phoneme-quality.ts",
+      "bytes": 3227,
+      "sha256": "65b881151447dfd699bc13bf93ac65c42543e41f60dce94084c2b90a6ab7471d"
+    },
+    {
+      "file": "src/core/pronounce.ts",
+      "bytes": 14194,
+      "sha256": "4c58c68fefdece4cdb4c0077b4cefe9b5b2e7c36fe062c1447c2cc19e83dd645"
+    },
+    {
+      "file": "src/core/repair.ts",
+      "bytes": 8508,
+      "sha256": "f2b8ed1a8976009b2193611a867738f112f64bb7211c3d4caa4c1aceabd01d91"
+    },
+    {
+      "file": "src/core/spelling-budget.ts",
+      "bytes": 3833,
+      "sha256": "47fa1f6361f175dd779ff02d5d616e63bbffb69df093ea242ed6312f92ad695d"
+    },
+    {
+      "file": "src/core/spelling-context.ts",
+      "bytes": 2513,
+      "sha256": "81324074e3ee6da29e3ea5ffb58afa13936b049f0b459b1484736eb1f15cd476"
+    },
+    {
+      "file": "src/core/spelling-coverage-types.ts",
+      "bytes": 2498,
+      "sha256": "32e2955b2c9391fd82161327b6549e5817bfce797053f23832a11ff038864955"
+    },
+    {
+      "file": "src/core/spelling-coverage.ts",
+      "bytes": 18102,
+      "sha256": "3c3fe2a4fe60badb7ae9ae3799f26d7bfe72fdcdae07c6c0a65542b6e7acf2af"
+    },
+    {
+      "file": "src/core/spelling-doubling.ts",
+      "bytes": 6554,
+      "sha256": "000f3cb0af30db4494439a07b17f85f152db36932bf9d71b0492e653c4501f14"
+    },
+    {
+      "file": "src/core/spelling-evidence.ts",
+      "bytes": 7363,
+      "sha256": "78d68a5fb320143b52a0ef21cccd42bb3b5f229d68fc27d53d10d515cd36600b"
+    },
+    {
+      "file": "src/core/stress-repair.ts",
+      "bytes": 1648,
+      "sha256": "b09e840a814d5c8368381abefc3c8211c62226ea91f7ddccd7acf20e4ca9fa59"
+    },
+    {
+      "file": "src/core/trace.ts",
+      "bytes": 9776,
+      "sha256": "f246a6eaf7e6497b9f14bc1f1c371e95faec9ccd8f1f5e3f7578e8a645a50fa2"
+    },
+    {
+      "file": "src/core/vowel-sounds.ts",
+      "bytes": 413,
+      "sha256": "51d38dae7c5ca265f6dacad6ffcf1476aae941ee4fd113615780d758b9bcb533"
+    },
+    {
+      "file": "src/core/write.ts",
+      "bytes": 55822,
+      "sha256": "5fb35011a40aa6ddd613dd251612a336d4445ab5751c2539912b0e1430f560c2"
+    },
+    {
+      "file": "src/elements/graphemes/affricates.ts",
+      "bytes": 1750,
+      "sha256": "b608568378a69d390f1960cda8aabd82d8820d1892adda7e377c8fa9445f3b25"
+    },
+    {
+      "file": "src/elements/graphemes/diphthongs.ts",
+      "bytes": 3700,
+      "sha256": "629bbe20d77931f9b1e3e969ff5ba240a9f6c9aa3d955f537ea00aead11286ed"
+    },
+    {
+      "file": "src/elements/graphemes/fricatives.ts",
+      "bytes": 6659,
+      "sha256": "a3a5ca2fab076196125082ce961579e4bbc939a9c4b6b904f161cf80c4813cfd"
+    },
+    {
+      "file": "src/elements/graphemes/glides.ts",
+      "bytes": 1029,
+      "sha256": "704ee2bb7d12742116260b9236f2cfad210cf84fe89dec5df4a1adec3c104f56"
+    },
+    {
+      "file": "src/elements/graphemes/index.ts",
+      "bytes": 5449,
+      "sha256": "9f29cea96f3aa6317787abecdeb7f86e060c64298ad2df87abf6837633cbbc8e"
+    },
+    {
+      "file": "src/elements/graphemes/liquids.ts",
+      "bytes": 754,
+      "sha256": "e50c337abcc41013805f84c01e1b5afac4a66371ba873303822d5a91ad87522d"
+    },
+    {
+      "file": "src/elements/graphemes/nasals.ts",
+      "bytes": 2056,
+      "sha256": "2abbc56a60c9467047f733c0c278bf558596880fa74a74cb826acf0d826730a9"
+    },
+    {
+      "file": "src/elements/graphemes/reading.ts",
+      "bytes": 5985,
+      "sha256": "b01988281e0b119eb7737d6bb620dca92a28cad51e2aaa5d551bb60acdcdee66"
+    },
+    {
+      "file": "src/elements/graphemes/rhotics.ts",
+      "bytes": 1716,
+      "sha256": "ef498f201ba06f0b3347014dbc52cc18992753431c62c99d46b2de60086a7b06"
+    },
+    {
+      "file": "src/elements/graphemes/stops.ts",
+      "bytes": 4418,
+      "sha256": "6ea329970a5d40da3002a16129b244b1fa078c4c7bffa705de20c508018a0f30"
+    },
+    {
+      "file": "src/elements/graphemes/vowels.ts",
+      "bytes": 6116,
+      "sha256": "29f931978a41be75eb842615a6dc734eafdfc83cc602dbd254d8db495709eb31"
+    },
+    {
+      "file": "src/elements/phonemes.ts",
+      "bytes": 12294,
+      "sha256": "ae82c5d0de9ec9830bdc3b673aac734d1d823d54c5f1313fccbf46f01a33b22e"
+    },
+    {
+      "file": "src/index.ts",
+      "bytes": 3360,
+      "sha256": "d5f10b2d88f1d19194c8ae7cc7ffb4a84f8c211f2d53cdb39d38e4e614628df8"
+    },
+    {
+      "file": "src/phonotactic/arpabet-bigrams.ts",
+      "bytes": 18585,
+      "sha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7"
+    },
+    {
+      "file": "src/phonotactic/english-baseline.json",
+      "bytes": 651,
+      "sha256": "b09571249718792461073319d610dd634705bdac6fc9454aa9a7950a715d760b"
+    },
+    {
+      "file": "src/phonotactic/ipa-to-arpabet.ts",
+      "bytes": 2787,
+      "sha256": "e225cbe65a4820e727b8e4bf7f009089b6f3d566cfb07ccf3b13c3d127172913"
+    },
+    {
+      "file": "src/phonotactic/score.ts",
+      "bytes": 2572,
+      "sha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f"
+    },
+    {
+      "file": "src/types.ts",
+      "bytes": 13573,
+      "sha256": "6da50d369f9a0d7ea4b46d919d9c2e3e3d71843b71583286c03e308d09f8eef5"
+    },
+    {
+      "file": "src/utils/getWeightedOption.ts",
+      "bytes": 1189,
+      "sha256": "4d16a72fa6edd11da1593a60195fcaab09768514a5727f1b9b1ff0885d12853e"
+    },
+    {
+      "file": "src/utils/letters.ts",
+      "bytes": 937,
+      "sha256": "f8287f6025e51fe8b6745a077c2cdaa907dbdefde6761e001ce071c42da690c8"
+    },
+    {
+      "file": "src/utils/phonemes.ts",
+      "bytes": 426,
+      "sha256": "619f5e6ab0d520b21636589acdb2593c65a21f4ee3040b80c220c61c37b198f9"
+    },
+    {
+      "file": "src/utils/random.ts",
+      "bytes": 1073,
+      "sha256": "4967fc0c37a98835e7fef3d1be5cfda591b49927029352333b77cba7e9c922d7"
+    },
+    {
+      "file": "src/worker-entry.js",
+      "bytes": 133,
+      "sha256": "2fccd58b877a21ee6d968415390b194490376654be03df6da5b3122e5149bc12"
+    }
+  ]
+}

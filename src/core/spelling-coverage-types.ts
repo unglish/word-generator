@@ -65,7 +65,8 @@ export type SpellingBudgetRefusal =
   | "construction-obligation"
   | "no-licensed-plan"
   | "search-budget"
-  | "invalid-junction";
+  | "invalid-junction"
+  | "normalization-context-unavailable";
 
 interface SpellingBudgetEpisode {
   version: 1;

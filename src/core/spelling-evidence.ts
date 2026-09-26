@@ -1,12 +1,13 @@
+import { createNormalizationEvidenceVerifier } from "./spelling-normalization-evidence.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
 import type { LanguageConfig } from "../config/language.js";
-import type { BaseSpellingTrace, SpellingCell } from "./base-spelling.js";
+import type { BaseSpellingTrace, BaseSpellingTraceV1, BaseSpellingTraceV2, SpellingCell } from "./base-spelling.js";
 import { createSpellingCoveragePlanner } from "./spelling-coverage.js";
 
 /** Exact ledger replay. V1 has no available part identity or licensed replacement capability. */
-export function createBaseSpellingEvidenceVerifier(config?: LanguageConfig) {
+function createHistoricalSpellingEvidenceVerifier(config?: LanguageConfig) {
   const planner = config ? createSpellingCoveragePlanner(config) : undefined;
-  return (trace: BaseSpellingTrace): { version: 1 | 2; verifiedCertificates: number } => {
+  return (trace: BaseSpellingTraceV1 | BaseSpellingTraceV2): { version: 1 | 2; verifiedCertificates: number } => {
     const require = (condition: unknown, message: string): void => { if (!condition) throw new Error(`Invalid spelling evidence: ${message}`); };
     const equal = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
     require(trace.version === 1 || trace.version === 2, "unsupported ledger version");
@@ -92,6 +93,24 @@ export function createBaseSpellingEvidenceVerifier(config?: LanguageConfig) {
   };
 }
 
-export function verifyBaseSpellingEvidence(trace: BaseSpellingTrace, config?: LanguageConfig): { version: 1 | 2; verifiedCertificates: number } {
+export function createBaseSpellingEvidenceVerifier(config?: LanguageConfig) {
+  const historical = createHistoricalSpellingEvidenceVerifier(config);
+  let normalization: ReturnType<typeof createNormalizationEvidenceVerifier> | undefined;
+  return (trace: BaseSpellingTrace) => {
+    if (trace.version !== 1 && trace.version !== 2 && trace.version !== 3) {
+      throw new Error("Invalid spelling evidence: unsupported ledger version");
+    }
+    if (trace.version === 3) {
+      normalization ??= createNormalizationEvidenceVerifier(config);
+      return normalization(trace);
+    }
+    if ("normalization" in trace || "normalizationCertificates" in trace || trace.units.some(unit => "doublingIncrement" in unit)) {
+      throw new Error("Invalid spelling evidence: normalization fields require v3");
+    }
+    return historical(trace);
+  };
+}
+
+export function verifyBaseSpellingEvidence(trace: BaseSpellingTrace, config?: LanguageConfig) {
   return createBaseSpellingEvidenceVerifier(config)(trace);
 }

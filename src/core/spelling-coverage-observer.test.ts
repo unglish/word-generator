@@ -4,7 +4,7 @@ import type { Grapheme } from "../types.js";
 import type { LanguageConfig } from "../config/language.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import { verifyBaseSpellingEvidence } from "./spelling-evidence.js";
-import { observeSpelling } from "../../evaluation/quality/probes/spelling-coverage/observe.js";
+import { createCurrentSpellingObserver } from "../../evaluation/quality/probes/unit-normalization/observe-current.js";
 
 const glyph = (phoneme: string, form: string, frequency = 1): Grapheme => ({
   phoneme, form, frequency, origin: 0, startWord: 1, midWord: 1, endWord: 1,
@@ -35,8 +35,7 @@ function observeRoot(finals: Grapheme[], policy: "preserve-phones" | false = "pr
   };
   const word = createGenerator(config).generateWord({ seed: 13, syllableCount: 1, morphology: false, trace: true });
   verifyBaseSpellingEvidence(word.trace!.baseSpelling!, config);
-  const counts: Record<string, number> = {};
-  observeSpelling({ word }, counts);
+  const counts = createCurrentSpellingObserver(config)({ word });
   return { word, counts };
 }
 
@@ -54,10 +53,10 @@ describe("spelling coverage observations from public generator output", () => {
     expect(count(legacy.counts, "episodes")).toBe(0);
   });
 
-  it("counts an intact v2 th as a refusal, not partial loss or a certificate", () => {
+  it("counts an intact v3 th as a refusal, not partial loss or a certificate", () => {
     const { word, counts } = observeRoot([glyph("θ", "th")]);
     expect(word.written.clean).toBe("bath");
-    expect(counts).toMatchObject({ "ledgerVersion:2": 1, selectedThUnits: 1, verifiedCertificates: 0, changedUnits: 0, wordsWithOverBudgetEpisode: 1, wordsWithInfeasibleBudget: 1 });
+    expect(counts).toMatchObject({ "ledgerVersion:3": 1, selectedThUnits: 1, verifiedCertificates: 0, changedUnits: 0, wordsWithOverBudgetEpisode: 1, wordsWithInfeasibleBudget: 1 });
     expect(count(counts, "infeasibleReason:no-licensed-plan")).toBeGreaterThan(0);
     for (const key of ["capPartialThUnits", "partialSourceUnits", "noSurvivingLineageUnits", "capEdits", "budgetEpisodesUnavailableWords"]) {
       expect(count(counts, key), key).toBe(0);
@@ -70,7 +69,7 @@ describe("spelling coverage observations from public generator output", () => {
     expect(word.trace!.baseSpelling!.certificates![0].replacements[0]).toMatchObject({ before: "ph", after: "f", phoneIds: [2] });
     expect(counts).toMatchObject({ "selectedSpelling:[\"f\",\"ph\"]": 1, "licensedSpelling:[\"f\",\"ph\",\"f\"]": 1,
       "wordsWithRespell": 1, "wordsWithOverBudgetEpisode": 1, "writtenLength:3": 1, "legacySelectedAttemptIndex:0": 1, "base-before-word-rules:before:consonantLetters:2": 1,
-      "base-before-word-rules:after:consonantLetters:1": 1, "ledgerVersion:2": 1, "episodeStatus:respell": 1,
+      "base-before-word-rules:after:consonantLetters:1": 1, "ledgerVersion:3": 1, "episodeStatus:respell": 1,
       verifiedCertificates: 1, changedPhoneIdsInCertificates: 1, changedUnits: 1, "replayedPool:ordinary": 3 });
     for (const key of ["partialSourceUnits", "noSurvivingLineageUnits", "capEdits", "unresolvedCells"]) {
       expect(count(counts, key), key).toBe(0);
