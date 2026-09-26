@@ -1,0 +1,65 @@
+{
+  "schema": "q13c-performance-runner-source-review-v2",
+  "scope": "External performance-runner preparation and synthetic fixtures only",
+  "realBenchmarkProcesses": 0,
+  "corpusScans": 0,
+  "originalV1FilesUnchanged": true,
+  "syntheticTests": 23,
+  "passed": true,
+  "files": [
+    {
+      "path": "/private/tmp/q13c-performance-series-v2.py",
+      "bytes": 21596,
+      "sha256": "4beb81cb851e679a7cba1a6b68495f9198d7ea3d96847b489a78115539ec69fb"
+    },
+    {
+      "path": "/private/tmp/q13c-performance-series-test-v2.py",
+      "bytes": 20746,
+      "sha256": "1d3311a2f77fbf9b777834b28ecc4eea0ee5c419162fdc5d52db5afa96d20001"
+    },
+    {
+      "path": "/private/tmp/q13c-performance-plan-v2.md",
+      "bytes": 5151,
+      "sha256": "8d5c6f4d2d590d2891a5af41d68cf56748f214fea08e32496f9aa87c99915ab3"
+    },
+    {
+      "path": "/private/tmp/q13c-performance-before-binding-fixes-v1.json",
+      "bytes": 670,
+      "sha256": "7bfb9cbb421b34f477579b86a253cfa6c1e1ab6b330cbcb61f35d606b275c97f"
+    },
+    {
+      "path": "/private/tmp/q13c-performance-synthetic-v2.log",
+      "bytes": 7032,
+      "sha256": "150e5bd109447bed3430f31b864463a13afb0c7864053694ffb32baf0ede4bdf"
+    },
+    {
+      "path": "/private/tmp/q13c-performance-synthetic-v3.log",
+      "bytes": 3157,
+      "sha256": "7349f73d008933d142d309b632ee2f256314538bcf091197931ad793eae3c13b"
+    },
+    {
+      "path": "/private/tmp/q13c-performance-synthetic-v4.log",
+      "bytes": 3640,
+      "sha256": "47d8a1dae2403b7770eae69033770e04ba099fed92635822bc9cab8bd79a8321"
+    }
+  ],
+  "failedPreparationLog": {
+    "path": "/private/tmp/q13c-performance-synthetic-v2.log",
+    "cause": "The synthetic shared dependency directory lacked Node\u2019s required node_modules name, so ordinary Node-style sibling package resolution failed; corrected fixture layout only before passing reruns."
+  },
+  "changes": [
+    "Same installed dependency realpath for both checkouts; installed Vitest/vite-node/tsx declared closure plus npm bundled files pinned before/after, named caches excluded.",
+    "Frozen Node and resolved npm CLI; Node bin prepended to PATH, npm .bin/node shadows rejected; environment override aliases and effective npm node-options/script-shell preflight validated.",
+    "Exact control source paths; externally fixed plan hash; optimized Python rejected.",
+    "Exclusive safe output; started/terminal per-slot records, interrupted child termination, partial metrics and log hashes, source-check logs retained.",
+    "Exact fixed schedule, parser ambiguity rejection, failed gate retention, separate unavailable/not-run accounting."
+  ],
+  "limitations": [
+    "No real benchmark or corpus scan was executed.",
+    "Installed byte stability does not authenticate registry provenance; the host environment is not hermetic.",
+    "The declared closure covers installed reachable dependency/optional/peer packages, not all unrelated installs.",
+    "An unrecoverable process kill can leave only its pre-launch started record.",
+    "Before/after pins do not constitute continuous filesystem monitoring."
+  ],
+  "approvalBoundary": "Parent source review and an explicitly reserved quiet timing window remain required before actual twelve-process timing."
+}

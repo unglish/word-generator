@@ -1,0 +1,26 @@
+{
+  "pair": 1,
+  "position": 2,
+  "version": "B",
+  "status": "completed",
+  "startedAt": "2026-09-26T23:13:24.124920+00:00",
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+    "run",
+    "test:perf"
+  ],
+  "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator",
+  "log": "01-2-B.log",
+  "endedAt": "2026-09-26T23:13:27.965581+00:00",
+  "exitCode": 0,
+  "logSha256": "093cfce7ba96964d627260a98eeafa899f2db0b61e95a3a7fcc4064003c4e3d1",
+  "error": null,
+  "measurementError": null,
+  "reportedWordsPerSecond": 4506,
+  "reportedBatchMilliseconds": 2219,
+  "reportedVarianceTrials": "1.68x, 1.49x, 1.50x",
+  "reportedMedianVariance": 1.5,
+  "floorGatePassed": true,
+  "varianceGatePassed": true
+}
