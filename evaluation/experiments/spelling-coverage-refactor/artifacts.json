@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 2371,
+      "sha256": "7f61ab36c1ef8dd3faa4dbc9e153a1b4594bf2275cd0acb6021a74e0ef9506b9"
+    },
+    {
+      "file": "candidate-sources.json.gz",
+      "bytes": 104346,
+      "sha256": "59a0e71e4fbf40458074898996fc4291ff5a2c35da2abef95b37d5b57f4b751e"
+    },
+    {
+      "file": "parity.json.gz",
+      "bytes": 5797,
+      "sha256": "424b4d5c0de1eb489d9ddd5b8120b1fdd39681a2817c1c49223a794836bdedec"
+    }
+  ]
+}
