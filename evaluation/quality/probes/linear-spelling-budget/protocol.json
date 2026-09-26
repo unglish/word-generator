@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "id": "linear-spelling-budget-scan-v1",
+  "approvedPlanSha256": "36c5e3299fe765cf4ff27efd8be7c80d4a0592d7892561f6f7dcf4e5dde7d9c9",
+  "originalCommit": "973406761e17f9b1795ba519a694cade68a7c2db",
+  "originalGeneratorDigest": "f0a9da1fa95cb7f0d8901b82567d94f1b565a36a83c58d404f7c8b0528a79666",
+  "allowedRuntimeFiles": [
+    "src/core/spelling-budget.ts"
+  ],
+  "allowedRuntimeScope": "measureSpellingBudgets body and removal of its now-unused isConsonantLetter import only",
+  "hypothesis": "Avoid repeated letter classification and token string/offset reconstruction while preserving complete generator output, trace, RNG, snapshots and search semantics.",
+  "measurementCases": {
+    "definition": "cases.ts",
+    "oracle": "reference.ts",
+    "oracleRelocationsOnly": true,
+    "gridStrings": 11111,
+    "gridConfigurations": 22,
+    "gridComparisons": 244442,
+    "edgeComparisons": 3600,
+    "totalComparisons": 248042,
+    "handFixtures": "src/core/spelling-budget.test.ts"
+  },
+  "parity": {
+    "protocolSha256": "451f4e5fab7285cc7f61f886391d6ac21ed042eb468e262790ea9e467a6c9862",
+    "split": "development",
+    "drawsPerStream": 10000,
+    "streams": 20,
+    "coordinates": 200000,
+    "variants": [
+      "original-trace-on",
+      "original-trace-off",
+      "candidate-trace-on",
+      "candidate-trace-off"
+    ],
+    "apiCalls": 800000,
+    "comparisons": [
+      "complete original/candidate traced words without field stripping",
+      "all nontrace word fields across four variants",
+      "RNG call count at every draw boundary",
+      "next RNG value at each replicate end without inserting extra draws",
+      "all original/candidate serialized traced words against immutable Q13 archive",
+      "all archived proposed certificates against frozen production verifier"
+    ],
+    "archive": "memory/quality-runs/spelling-coverage-candidate",
+    "searchSemantics": {
+      "visitedAssignmentBound": 8192,
+      "scoreTieTolerance": 1e-12,
+      "counterEquality": "all visit/options/refusal/ID and certificate fields exact"
+    }
+  },
+  "supplementaryParity": {
+    "omittedPolicy": {
+      "probe": "evaluation/quality/probes/spelling-coverage/legacy-parity.ts",
+      "streamDraws": 1000,
+      "streams": 20,
+      "customSeed": 744,
+      "customDraws": 200,
+      "customDoublingConfigurations": 8,
+      "factoryMutationConfigurations": 4
+    },
+    "sourceFixtures": [
+      "src/core/spelling-coverage.test.ts",
+      "src/core/spelling-coverage-observer.test.ts",
+      "src/core/base-spelling.test.ts"
+    ],
+    "newMutationFixtures": [
+      "ordered custom-token list mutation and replacement",
+      "empty list versus undefined",
+      "fresh measurement subobjects",
+      "constraint getter access order"
+    ]
+  },
+  "performance": {
+    "pairOrder": [
+      [
+        "A",
+        "B"
+      ],
+      [
+        "B",
+        "A"
+      ],
+      [
+        "A",
+        "B"
+      ],
+      [
+        "B",
+        "A"
+      ],
+      [
+        "A",
+        "B"
+      ],
+      [
+        "B",
+        "A"
+      ]
+    ],
+    "A": "original frozen Q13",
+    "B": "candidate frozen revision",
+    "freshProcesses": true,
+    "command": "npm run test:perf",
+    "harness": [
+      "src/core/generate.perf.test.ts",
+      "vitest.perf.config.ts"
+    ],
+    "localFloorWordsPerSecond": 4500,
+    "maxMedianVarianceExclusive": 3,
+    "CI": "unset",
+    "warmup": {
+      "words": 50,
+      "seed": 0
+    },
+    "batch": {
+      "words": 10000,
+      "seed": 42
+    },
+    "acceptance": {
+      "exactParityRequired": true,
+      "medianPairedRatioExclusiveMinimum": 1,
+      "positivePairsRequired": 5,
+      "floorPassSeparateFromImprovement": true
+    },
+    "quietWindow": "Parent must explicitly reserve; all capture/test/build/recount workloads held.",
+    "retainAllOutcomes": true,
+    "noPostHocTuning": true,
+    "interruption": "Retain interrupted series; repeat the entire fixed series only in a newly reserved quiet window."
+  },
+  "unchangedQualityFailures": {
+    "fullSuite": 5,
+    "qualitySuite": 1,
+    "requireExactQualityAndFailureEquivalence": true
+  }
+}
