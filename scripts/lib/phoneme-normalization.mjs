@@ -4,7 +4,6 @@ import { DEFAULT_PHONEME_NORMALIZATION } from './phoneme-normalization-defaults.
 
 const CONFIG_PATH = join(process.cwd(), 'data', 'cmu', 'phoneme-normalization.json');
 
-const PHONEME_TOKEN_RE = /^[\p{Letter}:]+$/u;
 let cachedNormalization = null;
 
 export function loadPhonemeNormalization() {
@@ -14,14 +13,6 @@ export function loadPhonemeNormalization() {
       : DEFAULT_PHONEME_NORMALIZATION;
   }
   return cachedNormalization;
-}
-
-export function normalizeGeneratedPhoneme(sound, normalization = loadPhonemeNormalization()) {
-  if (typeof sound !== 'string' || sound.length === 0) return null;
-  let normalized = sound.replace(/\u02B0/g, '');
-  const aliasMap = normalization?.generatedAliases || {};
-  if (aliasMap[normalized]) normalized = aliasMap[normalized];
-  return PHONEME_TOKEN_RE.test(normalized) ? normalized : null;
 }
 
 export function normalizeArpabetToIpa(token, normalization) {

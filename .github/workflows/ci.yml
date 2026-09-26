@@ -63,6 +63,9 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Diagnostic sampling and metric regressions
+        run: npm run test:diagnostics
+
   benchmark:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest

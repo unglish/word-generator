@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { generateWords } from "./generate.js";
 import { computePhonemeQualityMetrics } from "./phoneme-quality.js";
+import { normalizeGeneratedPhoneme, PhonemeNormalization } from "./phoneme-normalization.js";
 
 interface PhonemeThresholds {
   sampleSize: number;
@@ -15,12 +16,6 @@ interface PhonemeThresholds {
   maxGeneratedOnlyMassPct: number;
   generatedOnlyEscalationThresholdPct: number;
 }
-
-interface PhonemeNormalization {
-  generatedAliases?: Record<string, string>;
-}
-
-const PHONEME_TOKEN_RE = /^[a-z:\u0250-\u02af\u02c8\u02cc\u02d0]+$/i;
 
 function loadJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, "utf8")) as T;
@@ -49,14 +44,6 @@ function loadBaselineCounts(repoRoot: string): Record<string, number> {
   return extractJsConst<Record<string, number>>(demoBaselines, "cmuPhonemes");
 }
 
-function normalizeGeneratedPhoneme(sound: string, normalization: PhonemeNormalization): string | null {
-  if (!sound) return null;
-  let normalized = sound.replace(/\u02B0/g, "");
-  const aliasMap = normalization.generatedAliases || {};
-  if (aliasMap[normalized]) normalized = aliasMap[normalized];
-  return PHONEME_TOKEN_RE.test(normalized) ? normalized : null;
-}
-
 describe("Phoneme quality gates", () => {
   it("meets phoneme distribution guardrails", async () => {
     const repoRoot = join(__dirname, "..", "..");
@@ -71,11 +58,15 @@ describe("Phoneme quality gates", () => {
     });
 
     const generatedCounts: Record<string, number> = {};
+    const normalizationLosses: Record<string, number> = {};
     for (const word of words) {
       for (const syllable of word.syllables) {
         for (const p of [...syllable.onset, ...syllable.nucleus, ...syllable.coda]) {
           const sound = normalizeGeneratedPhoneme(p.sound, normalization);
-          if (!sound) continue;
+          if (!sound) {
+            normalizationLosses[p.sound] = (normalizationLosses[p.sound] || 0) + 1;
+            continue;
+          }
           generatedCounts[sound] = (generatedCounts[sound] || 0) + 1;
         }
       }
@@ -86,6 +77,7 @@ describe("Phoneme quality gates", () => {
       baselineCounts,
       thresholds.minCommonBaselinePct,
     );
+    expect(normalizationLosses).toEqual({});
 
     const worstOver = metrics.topOverRepresented[0];
     const worstUnder = metrics.topUnderRepresented[0];
