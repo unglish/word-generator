@@ -1,0 +1,9 @@
+{
+  "version": "cmu-transition-protocol-amendment-v1",
+  "timing": "before formal source freeze and acceptance",
+  "originalProtocolSha256": "3dd173301978c980d1ab1f2afee19da43487ad6db433aad679bb14d6b2b86131",
+  "reason": "Parent review identified TUNING.md documentation advertising obsolete download and runtime overwrite behavior.",
+  "additionalAllowedParentEdit": "TUNING.md",
+  "restriction": "Only generate-bigram-table.ts table row changes; all other rows preserved.",
+  "impact": "Documentation only; no population, units, runtime, metric, or validation change."
+}
