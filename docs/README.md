@@ -14,5 +14,7 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
 - [`design-rng-and-quality-dx.md`](./design-rng-and-quality-dx.md): RNG and
   quality tooling design decisions.
 - [`attested-codas.md`](./attested-codas.md): attested coda cluster references.
+- [`coda-extensions.md`](./coda-extensions.md): shared legality for root coda
+  construction and optional final consonant extensions.
 - [`pronunciation-config-migration.md`](./pronunciation-config-migration.md):
   current stress/aspiration pronunciation schema reference.
