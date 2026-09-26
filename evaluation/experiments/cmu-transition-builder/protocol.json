@@ -1,0 +1,62 @@
+{
+  "version": "cmu-phone-transition-construction-protocol-v1",
+  "status": "frozen-before-implementation-and-formal-construction",
+  "parentCommit": "c2ffd4f6c553564dbec60f1314df5ef047f8b9fd",
+  "designSha256": "4b797bb3e6822729714ad7bccba7e7916ccaa60bd0e656a6f22dcd2d9a540daa",
+  "parentFilesSha256": "e32703fcc159681bbcfe5ef6d0160f434d247bbc19fe1a430ce9b844c9085afa",
+  "allowedParentEdits": [
+    "scripts/generate-bigram-table.ts",
+    "docs/phonotactic-scoring.md"
+  ],
+  "source": {
+    "revision": "74790861f652b15e4ac49015a90074ad62a27690",
+    "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+  },
+  "population": "cmu-ascii-first-v1",
+  "units": "integer-phone-transition-occurrences",
+  "views": [
+    "original-native-stress-tokens",
+    "cmu-arpabet-base-v1"
+  ],
+  "boundaries": "one # start and one # end per entry; no cross-word pairs or # -> #",
+  "primaryAcceptance": "Every native/base transition bin reconstructed independently from pinned raw source; exact selected-entry identity and conservation against published joint parent.",
+  "formalConstruction": "Pending source/test review and exact production/verifier source freeze; no formal successful artifact before approval.",
+  "independentRecount": {
+    "parser": "evaluation/corpus/verify-parser.py",
+    "parserSha256": "a59cfa124b1462f4147416236fe6b2ad267a788cb9e5a0c72acf0e9b2ec08c50",
+    "traversal": "Python Counter over separate entry token sequences and adjacent endpoints; no TypeScript aggregate imports",
+    "comparison": "Every pair bin, row total, observed vocabulary, projection, entry digest and parent/native/base marginals; strict JSON types/fields; externally pinned implementation closure; artifact digest checked separately."
+  },
+  "fixtures": [
+    "single vowel",
+    "repeated phones",
+    "stress 0/1/2 preserved before named base projection",
+    "no cross-entry transitions",
+    "selector exclusions and comments",
+    "detached snapshots",
+    "full-table forgery with preserved marginals and redigested envelope",
+    "missing/extra/fractional/negative bins",
+    "wrong projection/policy/units/parent/source",
+    "forged source closure",
+    "CLI required/duplicate/unknown flags",
+    "unrelated cwd and spaced paths",
+    "protected directories, missing targets, source and directory aliases",
+    "exclusive file and symlink refusal",
+    "wrong/truncated/invalid UTF-8 raw bytes"
+  ],
+  "preservation": "All tracked parent files except the two named manual-workflow files unchanged; no generator/scorer/gate/demo/reference adoption; no new generator capture or performance claim.",
+  "preReviewChecks": [
+    "focused corpus fixtures",
+    "full test:review",
+    "strict corpus and review TypeScript",
+    "explicit touched TypeScript lint",
+    "independent Python fixture tests without formal corpus construction",
+    "all-parent-file hash comparison"
+  ],
+  "formalAcceptanceAfterReview": [
+    "two byte-identical builds at fresh paths",
+    "independent Python full-bin recount",
+    "real CLI success and failure matrix with unchanged protected inputs",
+    "compact source/evidence manifests"
+  ]
+}

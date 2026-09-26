@@ -67,18 +67,26 @@ npm ci        # install (no Python required)
 npm test      # run all tests including phonotactic gates
 ```
 
-## Regenerating Data
+## Constructing reference data
 
-The bigram table and baseline can be regenerated from source:
+The manual phone-transition builder requires an explicit pinned source, selection
+policy, units and fresh output path:
 
 ```bash
-npx tsx scripts/generate-bigram-table.ts   # → src/phonotactic/arpabet-bigrams.ts
-npx tsx scripts/generate-baseline.ts       # → src/phonotactic/english-baseline.json
+node --import tsx scripts/generate-bigram-table.ts \
+  --source /absolute/path/to/cmudict.dict \
+  --policy cmu-ascii-first-v1 \
+  --units integer-phone-transition-occurrences \
+  --out /absolute/path/to/new-transition-reference.json
 ```
 
-These are **manual source-regeneration utilities**, not part of normal
-verification for day-to-day tuning or `#223` acceptance.
+It creates a separately versioned native/base transition reference and leaves
+`src/phonotactic/arpabet-bigrams.ts`, this scorer, and its gates unchanged. See
+[the construction contract](cmu-transition-builder.md). Adopting its population
+in a scorer requires a separate same-output comparison and calibration review.
 
-They prefer a local ignored CMU source file at `data/cmudict-0.7b.txt`; if that
-file is absent they may download the current upstream CMU dictionary and process
-it locally.
+`scripts/generate-baseline.ts` remains a separate legacy manual workflow. Its
+local/mutable-download source path, scorer-return-type mismatch and output-schema
+mismatch have not been migrated. Do not use it as the next step for adopting the
+new transition artifact. Normal verification uses the committed historical
+scorer table and baseline; neither regeneration command is required.

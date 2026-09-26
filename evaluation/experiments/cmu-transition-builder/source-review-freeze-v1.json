@@ -1,0 +1,156 @@
+{
+  "version": "cmu-transition-source-review-freeze-v1",
+  "status": "source-and-fixtures-frozen-pending-parent-review; no-successful-formal-construction",
+  "parentCommit": "c2ffd4f6c553564dbec60f1314df5ef047f8b9fd",
+  "implementationDigest": "d4ac881dd120d5c10f7cc3690618e37fcaed30ef5780e6295eb8a51bd4c46f2c",
+  "implementationDigestScheme": "jsonDigest(exact ordered {path,content} source snapshots), identical to production artifact identity",
+  "implementationFiles": [
+    {
+      "path": "evaluation/corpus/cmu.ts",
+      "sha256": "1cfc3c2584a7da80623e5357e6a9f3004226dad3d6685f106e41f85e5232d0e4"
+    },
+    {
+      "path": "evaluation/corpus/identity.ts",
+      "sha256": "306901b931ebfb25654668f507702809e50714cf6b70b5c8412fec9e6a1b8d44"
+    },
+    {
+      "path": "evaluation/corpus/joint.ts",
+      "sha256": "c57e4a1e452462e346dd44efee46510480399b22b6df901be2d1042fec54d253"
+    },
+    {
+      "path": "evaluation/corpus/joint-artifact.ts",
+      "sha256": "fe2641f9be7865c0ac29263eef2d0c49c827b8760b77c39bd55fbb979036c3d9"
+    },
+    {
+      "path": "evaluation/corpus/joint-cli.ts",
+      "sha256": "01fc2fe0741160e6d6cccd435703123a43289cc269c354866631a73d318a58f8"
+    },
+    {
+      "path": "evaluation/review/wordlikeness/model.ts",
+      "sha256": "c1e90a044397ff1427c254c4b6db8e74c57ce4fe8779a3a7cbaddb8e013d749f"
+    },
+    {
+      "path": "evaluation/corpus/phone-transitions.ts",
+      "sha256": "2d220f77643c1b3a3f6c7835a573e17ffe2de8817335c119170d47c045aad88e"
+    },
+    {
+      "path": "evaluation/corpus/transition-builder.ts",
+      "sha256": "a106294a6dc1cdf58c67f7f64566b53f155e33e2f09de7690625841914bf52cc"
+    },
+    {
+      "path": "scripts/generate-bigram-table.ts",
+      "sha256": "130e15918e8e0e63c239e39d9b1a8b00d47b97e1f8ff2e1823d085e4c76d07f4"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "985093dd683275e3c5c5f10ae2210c7395914de9bb669f71c9b1e34350218bc6"
+    }
+  ],
+  "verifierDigest": "9ec58b914cfde97bc0b27779d31d4603791f1473097fb42f4a99b14d829d569a",
+  "verifierDigestScheme": "jsonDigest(ordered {path,sha256} list); distinct from production source digest",
+  "files": [
+    {
+      "path": "evaluation/corpus/phone-transitions.ts",
+      "bytes": 2852,
+      "sha256": "2d220f77643c1b3a3f6c7835a573e17ffe2de8817335c119170d47c045aad88e"
+    },
+    {
+      "path": "evaluation/corpus/transition-builder.ts",
+      "bytes": 10929,
+      "sha256": "a106294a6dc1cdf58c67f7f64566b53f155e33e2f09de7690625841914bf52cc"
+    },
+    {
+      "path": "scripts/generate-bigram-table.ts",
+      "bytes": 2399,
+      "sha256": "130e15918e8e0e63c239e39d9b1a8b00d47b97e1f8ff2e1823d085e4c76d07f4"
+    },
+    {
+      "path": "evaluation/review/cmu-transition-builder.test.ts",
+      "bytes": 17098,
+      "sha256": "6ce720788a72e9cb191c1d0e8c3207b915fe765b02f9953a288ac59fa877eb39"
+    },
+    {
+      "path": "evaluation/corpus/verify-transitions.py",
+      "bytes": 10845,
+      "sha256": "a241fab741c8539df496b0235342957b818088a86cfb6cf3ace3e11cb21294eb"
+    },
+    {
+      "path": "evaluation/corpus/verify-transitions-test.py",
+      "bytes": 4710,
+      "sha256": "7866b5e940735cd8af5f17bfc0ebbd68e8779a2e4f5534c4762ed41376b4265d"
+    },
+    {
+      "path": "evaluation/corpus/verify-parser.py",
+      "bytes": 8439,
+      "sha256": "a59cfa124b1462f4147416236fe6b2ad267a788cb9e5a0c72acf0e9b2ec08c50"
+    },
+    {
+      "path": "evaluation/corpus/verify-joint.py",
+      "bytes": 19306,
+      "sha256": "a4a80097c1e57076eef30136ca5008a80a9a9803dc108ab1121c1bbaeff5699b"
+    },
+    {
+      "path": "docs/cmu-transition-builder.md",
+      "bytes": 5122,
+      "sha256": "788de4a668031a094798728b08d82ed64952508b8c6b0a3f4b472c7533dd5c8e"
+    },
+    {
+      "path": "docs/phonotactic-scoring.md",
+      "bytes": 3865,
+      "sha256": "1279589425f7214bfd61356dc47e96edf06ef9833197796b14b6d990561fb52c"
+    },
+    {
+      "path": "TUNING.md",
+      "bytes": 18840,
+      "sha256": "6c956b8f4014bb4dc0396e8be5d10a4fcb94cf546a5da4d89aa890fe1ced170c"
+    },
+    {
+      "path": "evaluation/experiments/cmu-transition-builder/design.md",
+      "bytes": 19121,
+      "sha256": "4b797bb3e6822729714ad7bccba7e7916ccaa60bd0e656a6f22dcd2d9a540daa"
+    },
+    {
+      "path": "evaluation/experiments/cmu-transition-builder/protocol.json",
+      "bytes": 3150,
+      "sha256": "3dd173301978c980d1ab1f2afee19da43487ad6db433aad679bb14d6b2b86131"
+    },
+    {
+      "path": "evaluation/experiments/cmu-transition-builder/protocol-amendment-01.json",
+      "bytes": 573,
+      "sha256": "95593fde227dcadb0dda0e1875fe80ae7f88632d44a8e9d5d8ae90fe1a7907aa"
+    },
+    {
+      "path": "evaluation/experiments/cmu-transition-builder/parent-files.json",
+      "bytes": 28158,
+      "sha256": "e32703fcc159681bbcfe5ef6d0160f434d247bbc19fe1a430ce9b844c9085afa"
+    }
+  ],
+  "parentPreservation": {
+    "tracked": 264,
+    "unchanged": 261,
+    "changed": [
+      "TUNING.md",
+      "docs/phonotactic-scoring.md",
+      "scripts/generate-bigram-table.ts"
+    ]
+  },
+  "checks": {
+    "reviewTests": {
+      "passed": 211,
+      "files": 8,
+      "transitionTests": 39,
+      "logSha256": "952da99cc488c6b0ad9ea8f8f9d5078b518897e61daa942c1f6d9785251717cc"
+    },
+    "independentPythonFixtureGroups": 7,
+    "strictCorpusTypes": "pass",
+    "strictReviewTypes": "pass",
+    "explicitTouchedTypeScriptLint": "pass",
+    "diffCheck": "pass"
+  },
+  "notes": [
+    "Argument-fixture typing and temporary-directory canonical-path corrections completed before final checks.",
+    "CLI symlink entrypoint detection and Python report path guard added before freeze.",
+    "All artifact-validation examples are labeled synthetic, not a CMU pair reference.",
+    "Formal raw-source construction and independent full-bin recount remain pending approval."
+  ]
+}
