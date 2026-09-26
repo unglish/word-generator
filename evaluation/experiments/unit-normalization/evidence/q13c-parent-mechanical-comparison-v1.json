@@ -1,0 +1,97 @@
+{
+  "scope": "Observed fixed development sample; immediate #331 control behavior backed by published800000callparity to #328 archive",
+  "sources": [
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/spelling-coverage/coverage-v2.json.gz",
+      "sha256": "8242cdd0b21953446d36a6483292422f8cc150cac03dea9e6e94263123e8b149"
+    },
+    {
+      "path": "/private/tmp/q13c-unit-normalization-observation-v1.json",
+      "sha256": "aadba358cdd8b7062bb7219442d055a4cf2effe810d45df1ac37381008ef5bc3"
+    },
+    {
+      "path": "/private/tmp/q13c-parent-independent-historical-recount-v1.json",
+      "sha256": "e6d0d5cbdff8ddc5ffc2ec7719e95dfef742b970a005402a114935f2c1604401"
+    },
+    {
+      "path": "/private/tmp/q13c-unit-normalization-independent-proof-v1.json",
+      "sha256": "893d4497e0f28ebdcaef81f4c7ddcb4abd59e3ef21735cf6429351c5c590df7c"
+    }
+  ],
+  "mechanical": {
+    "dedupAttributedNoLineageUnits": {
+      "control": 7398,
+      "candidate": 0
+    },
+    "dedupAttributedPartialThUnits": {
+      "control": 31,
+      "candidate": 0
+    },
+    "wordsWithDedupNoLineage": {
+      "control": 7388,
+      "candidate": 0
+    },
+    "wordsWithDedupPartialTh": {
+      "control": 31,
+      "candidate": 0
+    }
+  },
+  "profiles": [
+    {
+      "profile": "lexicon-default",
+      "controlWords": 50000,
+      "candidateWords": 50000,
+      "rawFiveConsonantWords": {
+        "control": 73,
+        "candidate": 79
+      },
+      "normalized": 5,
+      "retained": 706
+    },
+    {
+      "profile": "lexicon-bare",
+      "controlWords": 50000,
+      "candidateWords": 50000,
+      "rawFiveConsonantWords": {
+        "control": 26,
+        "candidate": 25
+      },
+      "normalized": 13,
+      "retained": 1174
+    },
+    {
+      "profile": "monosyllables-bare",
+      "controlWords": 50000,
+      "candidateWords": 50000,
+      "rawFiveConsonantWords": {
+        "control": 68,
+        "candidate": 111
+      },
+      "normalized": 2,
+      "retained": 5104
+    },
+    {
+      "profile": "text-default",
+      "controlWords": 50000,
+      "candidateWords": 50000,
+      "rawFiveConsonantWords": {
+        "control": 36,
+        "candidate": 37
+      },
+      "normalized": 5,
+      "retained": 521
+    }
+  ],
+  "candidateNormalizations": 25,
+  "candidateRetentions": 7505,
+  "rawFiveConsonantWords": {
+    "control": 203,
+    "candidate": 252
+  },
+  "limitations": [
+    "Not paired control/candidate words",
+    "Independent structural proof does not independently prove reading licenses",
+    "Shared-grapheme constructions and phonemic doubling remain separate",
+    "Fixed quality gates still fail; performance pending; no human preference claim"
+  ]
+}

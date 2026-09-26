@@ -1,0 +1,12 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/spelling-coverage-observer.test.ts (6 tests) 22ms
+ ✓ src/core/spelling-normalization.test.ts (85 tests) 139ms
+ ✓ src/core/spelling-coverage.test.ts (44 tests) 334ms
+
+ Test Files  3 passed (3)
+      Tests  135 passed (135)
+   Start at  14:52:49
+   Duration  757ms (transform 374ms, setup 0ms, collect 779ms, tests 495ms, environment 0ms, prepare 133ms)
+
