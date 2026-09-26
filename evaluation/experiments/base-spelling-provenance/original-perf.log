@@ -22,4 +22,3 @@ stdout | src/core/generate.perf.test.ts > Word Generation Performance > should n
       Tests  2 passed (2)
    Start at  09:59:58
    Duration  2.14s (transform 189ms, setup 0ms, collect 257ms, tests 1.71s, environment 0ms, prepare 43ms)
-
