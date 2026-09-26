@@ -1,0 +1,135 @@
+✖ frozen reader/rescorer preserve exact words and producer while raw summaries cannot be compared (2.83175ms)
+✖ raw identity requires externally expected producer and effective configuration (2.471709ms)
+✖ raw publication retains incomplete schedule failures and refuses existing output (1.378084ms)
+✖ a source preservation failure prevents completed manifest publication (1.013417ms)
+✖ coordinate forgery remains invalid even with coherent compressed hashes (0.768417ms)
+✖ dropped, extra, and malformed raw artifacts cannot pass the strict capture reader (0.656167ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 243.082
+
+✖ failing tests:
+
+test at evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:55:1
+✖ frozen reader/rescorer preserve exact words and producer while raw summaries cannot be compared (2.83175ms)
+  Error: ENOENT: no such file or directory, scandir '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'
+      at async readdir (node:internal/fs/promises:958:18)
+      at async sources (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:26:17)
+      at async fixture (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:32:23)
+      at async file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:56:15
+      at async temporary (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:43:9)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'scandir',
+    path: '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'
+  }
+
+test at evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:70:1
+✖ raw identity requires externally expected producer and effective configuration (2.471709ms)
+  Error: ENOENT: no such file or directory, scandir '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'
+      at async readdir (node:internal/fs/promises:958:18)
+      at async sources (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:26:17)
+      at async fixture (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:32:23)
+      at async file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:71:15
+      at async temporary (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:43:9)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'scandir',
+    path: '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'
+  }
+
+test at evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:75:1
+✖ raw publication retains incomplete schedule failures and refuses existing output (1.378084ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Incomplete raw stream/. Input:
+  
+  "Error: ENOENT: no such file or directory, scandir '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'"
+  
+      at async file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:77:3
+      at async temporary (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:43:9)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: ENOENT: no such file or directory, scandir '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'
+        at async readdir (node:internal/fs/promises:958:18)
+        at async sources (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:26:17)
+        at async fixture (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:32:23)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:77:3
+        at async temporary (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:43:9)
+        at async Test.run (node:internal/test_runner/test:1113:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:788:7),
+    expected: /Incomplete raw stream/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:83:1
+✖ a source preservation failure prevents completed manifest publication (1.013417ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /source changed/. Input:
+  
+  "Error: ENOENT: no such file or directory, scandir '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'"
+  
+      at async file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:84:3
+      at async temporary (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:43:9)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: ENOENT: no such file or directory, scandir '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'
+        at async readdir (node:internal/fs/promises:958:18)
+        at async sources (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:26:17)
+        at async fixture (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:32:23)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:84:3
+        at async temporary (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:43:9)
+        at async Test.run (node:internal/test_runner/test:1113:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:788:7),
+    expected: /source changed/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:89:1
+✖ coordinate forgery remains invalid even with coherent compressed hashes (0.768417ms)
+  Error: ENOENT: no such file or directory, scandir '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'
+      at async readdir (node:internal/fs/promises:958:18)
+      at async sources (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:26:17)
+      at async fixture (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:32:23)
+      at async file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:90:15
+      at async temporary (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:43:9)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'scandir',
+    path: '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'
+  }
+
+test at evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:96:1
+✖ dropped, extra, and malformed raw artifacts cannot pass the strict capture reader (0.656167ms)
+  Error: ENOENT: no such file or directory, scandir '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'
+      at async readdir (node:internal/fs/promises:958:18)
+      at async sources (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:26:17)
+      at async fixture (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:32:23)
+      at async file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:108:55
+      at async temporary (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:43:9)
+      at async TestContext.<anonymous> (file:///Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress-runtime/capture-core.test.mjs:108:6)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'scandir',
+    path: '/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/data/cmu'
+  }

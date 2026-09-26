@@ -1,0 +1,37 @@
+{
+  "schema": "q09-runtime-timing-review-v1",
+  "pins": {
+    "matrix": {
+      "path": "/private/tmp/q09-runtime-timing-matrix-v1.mjs",
+      "sha256": "677d0f8f0e61b5990e808389c4ba5af7f498888e837bdec65e1bae97efa68769"
+    },
+    "benchmark": {
+      "path": "/private/tmp/q09-runtime-timing-v1.mjs",
+      "sha256": "bd3fc2259783dd01f714d4323b0fad0037636cdbed0aaf3929d232dc53d899c8"
+    },
+    "benchmarkTests": {
+      "path": "/private/tmp/q09-runtime-timing-test-v1.mjs",
+      "sha256": "132042ceda3c55a5192fbba82eff8f448bb70ea87c8f6377e78d9307eb461250"
+    },
+    "contract": {
+      "path": "/private/tmp/q09-runtime-timing-contract-v1.md",
+      "sha256": "c0f5b730b04f0b7827b80facf6553bbb9b078de3c46c08569126e3a5cfb787bf"
+    },
+    "matrixTests": {
+      "path": "/private/tmp/q09-runtime-timing-matrix-test-v1.mjs",
+      "sha256": "ff24e6b7d905145d0adc0b9b67f61b019ab9c6e0995c9e535790ce35545ed3e2"
+    },
+    "tsx": {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/loader.mjs",
+      "sha256": "0b1c5b86192772fe9257710e739959cee5947c11ae1f93b61abfaa9b80c6def1"
+    }
+  },
+  "captureFreeze": {
+    "path": "/private/tmp/q09-runtime-capture-freeze-v1.json",
+    "sha256": "c217a04a03b0613e1121283b95f5d16396d23182bc32a1e647e34728aa517b38"
+  },
+  "rawArchiveRoots": [
+    "/private/tmp/q09-runtime-control-raw-v1",
+    "/private/tmp/q09-runtime-active-raw-v1"
+  ]
+}

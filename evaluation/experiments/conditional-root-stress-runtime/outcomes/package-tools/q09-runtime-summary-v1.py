@@ -1,0 +1,14 @@
+"""Readable selection of existing published report fields, not a new corpus recount."""
+from pathlib import Path
+import hashlib,json
+r=Path('/private/tmp')
+paths={'supplementOverview':r/'q09-runtime-supplement-overview-v2.json','commonComparison':r/'q09-runtime-common-comparison-v1/comparison.json','timingAudit':r/'q09-parent-timing-outcome-review-v2.json','delegation':r/'q09-runtime-delegation-parity-v1.json','independentProof':r/'q09-runtime-independent-proof-v1.json'}
+d={k:json.loads(p.read_bytes()) for k,p in paths.items()}
+s=d['supplementOverview'];active=s['variants']['active']['groups']['total']['counts']
+rows=[]
+for p in d['commonComparison']['profiles']:
+ name=p['id'];c=s['variants']['control']['groups']['profile:'+name]['counts'];a=s['variants']['active']['groups']['profile:'+name]['counts'];clash=next(m for m in p['metrics'] if m['id']=='disyllable_stress_clash')
+ rows.append({'profile':name,'wordsPerVariant':p['words'],'finalLexicalAdjacentPairs':{'control':c['final-lexical-before-realization:adjacentMarkedPairs'],'active':a['final-lexical-before-realization:adjacentMarkedPairs']},'rootGe3UnmarkedRunWords':{'control':c['root-placement-complete:unmarkedRun:all:ge3:wordsWith'],'active':a['root-placement-complete:unmarkedRun:all:ge3:wordsWith']},'rootGe3UnmarkedRuns':{'control':c['root-placement-complete:unmarkedRun:all:ge3:count'],'active':a['root-placement-complete:unmarkedRun:all:ge3:count']},'trigramJsdBits':{'control':p['distributions']['trigrams']['jensenShannonBits']['previous'],'active':p['distributions']['trigrams']['jensenShannonBits']['candidate'],'delta':p['distributions']['trigrams']['jensenShannonBits']['deltaVsPrevious']},'disyllableClash':{'control':clash['previous'],'active':clash['candidate']}})
+out={'schema':'q09-runtime-measured-summary-v1','derivedFrom':{k:{'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for k,p in paths.items()},'scope':'Selections of existing exact report fields; no new generation/recount or quality verdict','withinActiveRetainedAttempts':{'words':active['words'],'proposalAdjacentPairs':active['mechanism:proposal:adjacentMarkedPairs'],'applicationAdjacentPairs':active['mechanism:application:adjacentMarkedPairs'],'proposalSecondaryMarks':active['mechanism:proposal:secondaryCount'],'applicationSecondaryMarks':active['mechanism:application:secondaryCount'],'adjacencyDeltaCounts':{str(i):active[f'mechanism:adjacencyDelta:{i}'] for i in range(-8,9)}},'profiles':rows,'timing':d['timingAudit']['timingSummary'],'delegation':{k:d['delegation'][k] for k in ['passed','primaryGenerationCalls','supplementaryNextRngCalls','completedCoordinates','generationPassed','sourceIntegrityPassed']},'independentActiveProof':d['independentProof'],'limitations':s['limitations']}
+with (r/'q09-runtime-measured-summary-v1.json').open('x') as f:json.dump(out,f,indent=2);f.write('\n')
+print('Derived summary written from pinned existing reports; no corpus scan.')

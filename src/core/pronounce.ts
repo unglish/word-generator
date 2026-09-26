@@ -16,6 +16,11 @@ import type { SyllableWeightAnalysis, StressWeightTrace } from "./syllable-weigh
 import type { AspirationDecisionTrace, AspirationTargetSegment } from "./trace.js";
 import { clonePhoneme, cloneSyllables } from "./lexical.js";
 import { observeStressDraws } from "./stress-pattern.js";
+import type { StressMark, StressPatternObserver } from "./stress-pattern.js";
+import { conditionalLawInput, conditionalMarks, RootProposalObserver } from "./conditional-stress-pattern.js";
+import type { RhythmicSink } from "./conditional-stress-pattern.js";
+import { createRootStressLaw } from "./root-stress-law.js";
+import { RootStressLawError } from "./root-stress-law-types.js";
 
 /** Fast boolean probability check (avoids tuple array allocation). */
 export function coinFlip(rand: RNG, probability: number): boolean {
@@ -195,7 +200,29 @@ const applyAspiration = (context: WordGenerationContext, rules: ResolvedAspirati
 export const _applyAspiration = applyAspiration;
 
 export const applyStress = (context: WordGenerationContext, stress: ResolvedStressRules): void => {
-  const { rand } = context;
+  const policy = stress.rootPattern;
+  if (policy.type === "legacy") return applyLegacyStress(context, stress);
+  const beforePrimary = conditionalMarks(context.word.syllables, "before-primary");
+  const rand: RNG = () => {
+    const value = context.rand();
+    if (!Number.isFinite(value) || value < 0 || value >= 1) throw new RootStressLawError("invalid-rng", "Stress RNG must return a finite value in [0, 1).");
+    return value;
+  };
+  if (policy.lambda === 0) {
+    applyLegacyStress(context, stress, rand, analysis => {
+      createRootStressLaw(conditionalLawInput(beforePrimary, context.word.syllables, analysis, stress, 0));
+    });
+    return;
+  }
+  applyConditionalStress(context, stress, policy.lambda, beforePrimary, rand);
+};
+
+const applyLegacyStress = (
+  context: WordGenerationContext,
+  stress: ResolvedStressRules,
+  rand = context.rand,
+  validateAfterPrimary?: (analysis: SyllableWeightAnalysis[]) => void,
+): void => {
   const analysis = analyzeWordWeight(context.word.syllables, stress.syllableWeight);
   const pattern = context.trace?.beginStressPattern(context.word.syllables, stress);
   // Rule 1: Primary stress
@@ -205,6 +232,8 @@ export const applyStress = (context: WordGenerationContext, stress: ResolvedStre
     if (primaryIndex !== null) pattern.assignment(primaryIndex, context.word.syllables[primaryIndex].stress, { kind: "root-primary" });
     pattern.snapshot("root-after-primary", context.word.syllables);
   }
+
+  validateAfterPrimary?.(analysis);
 
   // Rule 2: Secondary stress
   const secondaryDraws: number[] | undefined = pattern ? [] : undefined;
@@ -227,8 +256,55 @@ export const applyStress = (context: WordGenerationContext, stress: ResolvedStre
   }
 
   // Rule 3: Rhythmic stress
-  applyRhythmicStress(context, rand, stress);
+  applyRhythmicStress(context, rand, stress, legacyRhythmicSink(pattern));
   pattern?.snapshot("root-after-rhythmic", context.word.syllables);
+};
+
+const applyConditionalStress = (context: WordGenerationContext, stress: ResolvedStressRules, lambda: number, beforePrimary: StressMark[], rand: RNG): void => {
+  const syllables = context.word.syllables;
+  const analysis = analyzeWordWeight(syllables, stress.syllableWeight);
+  const pattern = context.trace?.beginConditionalStressPattern(syllables, stress, analysis);
+  const primaryIndex = applyPrimaryStress(context, observeStressDraws(rand, pattern?.primaryDraws), stress, analysis);
+  const input = conditionalLawInput(beforePrimary, syllables, analysis, stress, lambda);
+  const law = createRootStressLaw(input);
+  if (primaryIndex === null) throw new RootStressLawError("invalid-input", "Conditional root stress requires a primary.");
+  pattern?.primary(primaryIndex, syllables);
+
+  const proposalContext: WordGenerationContext = {
+    ...context, trace: undefined,
+    word: { syllables: cloneSyllables(syllables), written: { clean: "", hyphenated: "" }, pronunciation: "" },
+  };
+  const proposal = pattern ? new RootProposalObserver(stress) : undefined;
+  const secondaryDraws: number[] | undefined = proposal ? [] : undefined;
+  const secondary = applySecondaryStress(proposalContext, observeStressDraws(rand, secondaryDraws), stress, analysis);
+  proposal?.secondary(secondary, secondaryDraws!, proposalContext.word.syllables);
+  applyRhythmicStress(proposalContext, rand, stress, proposal?.rhythm);
+  const count = proposalContext.word.syllables.filter(syllable => syllable.stress === "ˌ").length;
+  const sampled = law.sample(count, rand);
+  if (sampled.marks.length !== syllables.length || sampled.marks.filter(mark => mark === "primary").length !== 1 ||
+      sampled.marks[primaryIndex] !== "primary" || sampled.marks.filter(mark => mark === "secondary").length !== count) {
+    throw new Error("Conditional root stress application invariant failed");
+  }
+  for (const [index, mark] of sampled.marks.entries()) {
+    if (mark !== "secondary") continue;
+    syllables[index].stress = "ˌ";
+    pattern?.assignment(index, "ˌ", { kind: "root-pattern-sampler", decisionId: 0 });
+  }
+  if (pattern && proposal) pattern.rootApplied(lambda, proposal.finish(proposalContext.word.syllables), sampled, syllables);
+};
+
+const legacyRhythmicSink = (pattern: StressPatternObserver | undefined): RhythmicSink | undefined => {
+  if (!pattern) return undefined;
+  return (index, syllables) => {
+    const observation = pattern.rhythmicIteration(index, syllables);
+    const iteration = pattern.trace.rhythmic.iterations.length - 1;
+    return {
+      skipped: reason => { observation.skipped = reason; },
+      checkedNeighbors: () => { observation.neighborCheckPerformed = true; },
+      gate: (draw, assigned) => { observation.draw = draw; observation.applied = assigned; },
+      assigned: () => { pattern.assignment(index, syllables[index].stress, { kind: "rhythmic", iteration }); },
+    };
+  };
 };
 
 const chooseWeightSensitivePrimaryStress = (
@@ -347,34 +423,30 @@ const applySecondaryStress = (context: WordGenerationContext, rand: RNG, stress:
   return { candidates, selectedIndex: secondaryStressIndex, applied };
 };
 
-const applyRhythmicStress = (context: WordGenerationContext, rand: RNG, stress: ResolvedStressRules): void => {
+const applyRhythmicStress = (context: WordGenerationContext, rand: RNG, stress: ResolvedStressRules, observe?: RhythmicSink): void => {
   const syllables = context.word.syllables;
   if (!stress.rhythmic.enabled) return;
 
-  const pattern = context.trace?.stressPatternObserver;
   for (let i = 1; i < syllables.length - 1; i++) {
-    const observation = pattern?.rhythmicIteration(i, syllables);
+    const observation = observe?.(i, syllables);
     if (syllables[i].stress) {
-      if (observation) observation.skipped = "already-marked";
+      observation?.skipped("already-marked");
       continue;
     }
 
     const hasUnstressedNeighbors = !syllables[i - 1].stress && !syllables[i + 1].stress;
-    if (observation) observation.neighborCheckPerformed = true;
+    observation?.checkedNeighbors();
     if (stress.rhythmic.requireUnstressedNeighbors && !hasUnstressedNeighbors) {
-      if (observation) observation.skipped = "marked-neighbor";
+      observation?.skipped("marked-neighbor");
       continue;
     }
 
     const draws: number[] | undefined = observation ? [] : undefined;
     const applied = coinFlip(observeStressDraws(rand, draws), stress.rhythmic.probability);
-    if (observation) {
-      observation.draw = draws![0];
-      observation.applied = applied;
-    }
+    observation?.gate(draws![0], applied);
     if (applied) {
       syllables[i].stress = "ˌ";
-      pattern?.assignment(i, syllables[i].stress, { kind: "rhythmic", iteration: pattern.trace.rhythmic.iterations.length - 1 });
+      observation?.assigned();
     }
   }
 };

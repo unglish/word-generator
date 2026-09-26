@@ -1,0 +1,454 @@
+{
+  "schema": "q09-runtime-measured-summary-v1",
+  "derivedFrom": {
+    "supplementOverview": {
+      "path": "/private/tmp/q09-runtime-supplement-overview-v2.json",
+      "sha256": "84bbcd728bde7b30bd1e34ea8ea18624f5b1145ff72aa371a6c68ef44becec76"
+    },
+    "commonComparison": {
+      "path": "/private/tmp/q09-runtime-common-comparison-v1/comparison.json",
+      "sha256": "7d5bdd9a94cb07e8b783792fe57de3caee14509f90e5dd97c496d1c31d3ac78d"
+    },
+    "timingAudit": {
+      "path": "/private/tmp/q09-parent-timing-outcome-review-v2.json",
+      "sha256": "36928d6725d3a4d58eb3f2252d4b833f7588dc06b97e7cc929346f614f62fd35"
+    },
+    "delegation": {
+      "path": "/private/tmp/q09-runtime-delegation-parity-v1.json",
+      "sha256": "8f93fc67dd8e050764e6ebb31e88a736d00b61ef126c18e9e7603dfd6e23f73c"
+    },
+    "independentProof": {
+      "path": "/private/tmp/q09-runtime-independent-proof-v1.json",
+      "sha256": "cb621d97e585ef7493a7ca310a7a0d6e98da8fb119b4096ce60bc3f0e980a608"
+    }
+  },
+  "scope": "Selections of existing exact report fields; no new generation/recount or quality verdict",
+  "withinActiveRetainedAttempts": {
+    "words": 200000,
+    "proposalAdjacentPairs": 29760,
+    "applicationAdjacentPairs": 28194,
+    "proposalSecondaryMarks": 37783,
+    "applicationSecondaryMarks": 37783,
+    "adjacencyDeltaCounts": {
+      "-8": 0,
+      "-7": 0,
+      "-6": 0,
+      "-5": 0,
+      "-4": 0,
+      "-3": 0,
+      "-2": 0,
+      "-1": 3169,
+      "0": 195228,
+      "1": 1603,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0
+    }
+  },
+  "profiles": [
+    {
+      "profile": "lexicon-default",
+      "wordsPerVariant": 50000,
+      "finalLexicalAdjacentPairs": {
+        "control": 21743,
+        "active": 21125
+      },
+      "rootGe3UnmarkedRunWords": {
+        "control": 975,
+        "active": 911
+      },
+      "rootGe3UnmarkedRuns": {
+        "control": 975,
+        "active": 911
+      },
+      "trigramJsdBits": {
+        "control": 0.15783589767832393,
+        "active": 0.15906141787307151,
+        "delta": 0.0012255201947475869
+      },
+      "disyllableClash": {
+        "control": {
+          "hits": 8757,
+          "eligible": 20829,
+          "rate": 0.42042344807720006
+        },
+        "active": {
+          "hits": 8764,
+          "eligible": 20887,
+          "rate": 0.4195911332407718
+        }
+      }
+    },
+    {
+      "profile": "lexicon-bare",
+      "wordsPerVariant": 50000,
+      "finalLexicalAdjacentPairs": {
+        "control": 14661,
+        "active": 13787
+      },
+      "rootGe3UnmarkedRunWords": {
+        "control": 1771,
+        "active": 1822
+      },
+      "rootGe3UnmarkedRuns": {
+        "control": 1771,
+        "active": 1823
+      },
+      "trigramJsdBits": {
+        "control": 0.1835409384801317,
+        "active": 0.18517556603926613,
+        "delta": 0.0016346275591344328
+      },
+      "disyllableClash": {
+        "control": {
+          "hits": 9357,
+          "eligible": 22960,
+          "rate": 0.4075348432055749
+        },
+        "active": {
+          "hits": 9422,
+          "eligible": 22951,
+          "rate": 0.4105267744324866
+        }
+      }
+    },
+    {
+      "profile": "monosyllables-bare",
+      "wordsPerVariant": 50000,
+      "finalLexicalAdjacentPairs": {
+        "control": 0,
+        "active": 0
+      },
+      "rootGe3UnmarkedRunWords": {
+        "control": 0,
+        "active": 0
+      },
+      "rootGe3UnmarkedRuns": {
+        "control": 0,
+        "active": 0
+      },
+      "trigramJsdBits": {
+        "control": 0.5064358600975396,
+        "active": 0.5064358600975396,
+        "delta": 0
+      },
+      "disyllableClash": {
+        "control": {
+          "hits": 0,
+          "eligible": 0,
+          "rate": null
+        },
+        "active": {
+          "hits": 0,
+          "eligible": 0,
+          "rate": null
+        }
+      }
+    },
+    {
+      "profile": "text-default",
+      "wordsPerVariant": 50000,
+      "finalLexicalAdjacentPairs": {
+        "control": 11326,
+        "active": 11268
+      },
+      "rootGe3UnmarkedRunWords": {
+        "control": 480,
+        "active": 448
+      },
+      "rootGe3UnmarkedRuns": {
+        "control": 480,
+        "active": 448
+      },
+      "trigramJsdBits": {
+        "control": 0.17885844988806154,
+        "active": 0.18154707243320065,
+        "delta": 0.002688622545139102
+      },
+      "disyllableClash": {
+        "control": {
+          "hits": 7532,
+          "eligible": 17038,
+          "rate": 0.44207066557107644
+        },
+        "active": {
+          "hits": 7679,
+          "eligible": 17266,
+          "rate": 0.4447469014247654
+        }
+      }
+    }
+  ],
+  "timing": {
+    "throughputByMode": [
+      {
+        "modeId": "trace-false",
+        "trace": false,
+        "ratioDefinition": "active.wordsPerSecond / control.wordsPerSecond",
+        "pairs": [
+          {
+            "pairId": "trace-false-pair-1",
+            "pairOrdinal": 1,
+            "controlOrdinal": 1,
+            "activeOrdinal": 2,
+            "ratio": 0.8218004730182543,
+            "reason": null
+          },
+          {
+            "pairId": "trace-false-pair-2",
+            "pairOrdinal": 2,
+            "controlOrdinal": 4,
+            "activeOrdinal": 3,
+            "ratio": 0.8282073058297376,
+            "reason": null
+          },
+          {
+            "pairId": "trace-false-pair-3",
+            "pairOrdinal": 3,
+            "controlOrdinal": 5,
+            "activeOrdinal": 6,
+            "ratio": 0.840857241258001,
+            "reason": null
+          },
+          {
+            "pairId": "trace-false-pair-4",
+            "pairOrdinal": 4,
+            "controlOrdinal": 8,
+            "activeOrdinal": 7,
+            "ratio": 0.8301131018841621,
+            "reason": null
+          },
+          {
+            "pairId": "trace-false-pair-5",
+            "pairOrdinal": 5,
+            "controlOrdinal": 9,
+            "activeOrdinal": 10,
+            "ratio": 0.8457817810617128,
+            "reason": null
+          },
+          {
+            "pairId": "trace-false-pair-6",
+            "pairOrdinal": 6,
+            "controlOrdinal": 12,
+            "activeOrdinal": 11,
+            "ratio": 0.8281037793927034,
+            "reason": null
+          }
+        ],
+        "availableCount": 6,
+        "median": 0.8291602038569499,
+        "range": [
+          0.8218004730182543,
+          0.8457817810617128
+        ]
+      },
+      {
+        "modeId": "trace-true",
+        "trace": true,
+        "ratioDefinition": "active.wordsPerSecond / control.wordsPerSecond",
+        "pairs": [
+          {
+            "pairId": "trace-true-pair-1",
+            "pairOrdinal": 1,
+            "controlOrdinal": 13,
+            "activeOrdinal": 14,
+            "ratio": 0.5155695325547082,
+            "reason": null
+          },
+          {
+            "pairId": "trace-true-pair-2",
+            "pairOrdinal": 2,
+            "controlOrdinal": 16,
+            "activeOrdinal": 15,
+            "ratio": 0.5089045061200623,
+            "reason": null
+          },
+          {
+            "pairId": "trace-true-pair-3",
+            "pairOrdinal": 3,
+            "controlOrdinal": 17,
+            "activeOrdinal": 18,
+            "ratio": 0.5295090499553671,
+            "reason": null
+          },
+          {
+            "pairId": "trace-true-pair-4",
+            "pairOrdinal": 4,
+            "controlOrdinal": 20,
+            "activeOrdinal": 19,
+            "ratio": 0.5345730965161091,
+            "reason": null
+          },
+          {
+            "pairId": "trace-true-pair-5",
+            "pairOrdinal": 5,
+            "controlOrdinal": 21,
+            "activeOrdinal": 22,
+            "ratio": 0.5224355935062203,
+            "reason": null
+          },
+          {
+            "pairId": "trace-true-pair-6",
+            "pairOrdinal": 6,
+            "controlOrdinal": 24,
+            "activeOrdinal": 23,
+            "ratio": 0.5159427430374149,
+            "reason": null
+          }
+        ],
+        "availableCount": 6,
+        "median": 0.5191891682718176,
+        "range": [
+          0.5089045061200623,
+          0.5345730965161091
+        ]
+      }
+    ],
+    "traceOverhead": {
+      "ratioDefinition": "trace-on.batchMs / trace-off.batchMs",
+      "pairs": [
+        {
+          "pairOrdinal": 1,
+          "variant": "control",
+          "traceOffOrdinal": 1,
+          "traceOnOrdinal": 13,
+          "ratio": 1.7894089619197961,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 1,
+          "variant": "active",
+          "traceOffOrdinal": 2,
+          "traceOnOrdinal": 14,
+          "ratio": 2.852257626710613,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 2,
+          "variant": "active",
+          "traceOffOrdinal": 3,
+          "traceOnOrdinal": 15,
+          "ratio": 2.8699147819881436,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 2,
+          "variant": "control",
+          "traceOffOrdinal": 4,
+          "traceOnOrdinal": 16,
+          "ratio": 1.7634625467003473,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 3,
+          "variant": "control",
+          "traceOffOrdinal": 5,
+          "traceOnOrdinal": 17,
+          "ratio": 1.806415789000993,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 3,
+          "variant": "active",
+          "traceOffOrdinal": 6,
+          "traceOnOrdinal": 18,
+          "ratio": 2.8685775947215695,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 4,
+          "variant": "active",
+          "traceOffOrdinal": 7,
+          "traceOnOrdinal": 19,
+          "ratio": 2.8703713182922237,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 4,
+          "variant": "control",
+          "traceOffOrdinal": 8,
+          "traceOnOrdinal": 20,
+          "ratio": 1.8484508680657115,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 5,
+          "variant": "control",
+          "traceOffOrdinal": 9,
+          "traceOnOrdinal": 21,
+          "ratio": 1.7866829093106296,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 5,
+          "variant": "active",
+          "traceOffOrdinal": 10,
+          "traceOnOrdinal": 22,
+          "ratio": 2.8924978925871647,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 6,
+          "variant": "active",
+          "traceOffOrdinal": 11,
+          "traceOnOrdinal": 23,
+          "ratio": 2.882545425485065,
+          "reason": null
+        },
+        {
+          "pairOrdinal": 6,
+          "variant": "control",
+          "traceOffOrdinal": 12,
+          "traceOnOrdinal": 24,
+          "ratio": 1.7959444586104747,
+          "reason": null
+        }
+      ],
+      "availableCount": 12,
+      "median": 2.3503542473881622,
+      "range": [
+        1.7634625467003473,
+        2.8924978925871647
+      ]
+    },
+    "gateFailureCount": 0,
+    "gateFailures": []
+  },
+  "delegation": {
+    "passed": true,
+    "primaryGenerationCalls": 160000,
+    "supplementaryNextRngCalls": 160,
+    "completedCoordinates": 20000,
+    "generationPassed": true,
+    "sourceIntegrityPassed": true
+  },
+  "independentActiveProof": {
+    "schemaVersion": "q09-independent-runtime-recount-v1",
+    "passed": true,
+    "words": 200000,
+    "streams": 20,
+    "contexts": 788,
+    "queries": 3112,
+    "positive": 1802,
+    "zero": 1310,
+    "scope": "all active context masses/support and raw aggregate counts; production sampler/event replay remains separate",
+    "freezeSha256": "c217a04a03b0613e1121283b95f5d16396d23182bc32a1e647e34728aa517b38",
+    "analysisSha256": "6ff3af6829bf71747158b083963a83989cbaff5210757a02c285a5dad500fcdd",
+    "manifestSha256": "b0ea21b6d3839318c1cdf6fca6f1b5b75384528399447067a0f42bdcb38c4241",
+    "verifierSha256": "9ef9eaf423b5da09f231dd710a584c84a7b8bdde4b23a961e242e14ba461e7f0",
+    "python": {
+      "version": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+      "executableSha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5"
+    }
+  },
+  "limitations": [
+    "retained attempts only",
+    "control/active word coordinates are not causal pairs",
+    "no new machine sampler-frequency proof",
+    "no perceptual quality inference"
+  ]
+}

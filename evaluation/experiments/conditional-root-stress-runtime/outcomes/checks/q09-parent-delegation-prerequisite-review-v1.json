@@ -1,0 +1,24 @@
+{
+  "scope": "Parent source/fixture review clears registered160000-call delegation study only",
+  "sourceHashes": {
+    "evaluation/experiments/conditional-root-stress-runtime/parity.mjs": "12e7283c12f583621810afd028166e0af28831d459124191036050fd70369b5c",
+    "evaluation/experiments/conditional-root-stress-runtime/parity.test.mjs": "39d97f51011fd70997e232e4c4a2bd0e93835d8c2dd3eee659e55e0f8fb42906",
+    "evaluation/experiments/conditional-root-stress-runtime/parity-contract-v1.md": "56cc289196f1d1cd8c0f32df9b7f73d6bbff9498cd02bb292fdcde72644620e3",
+    "src/core/conditional-stress-pattern.test.ts": "2c747d01c762810f943fae29dab5705cddffe59052c5ce3aab2f0c6fe61a8cb2"
+  },
+  "tests": {
+    "paritySynthetic": 9,
+    "runtimeIntegration": 38
+  },
+  "logs": {
+    "/private/tmp/q09-parent-parity-tool-tests-v1.log": "24df9de114e33a7c4a6da31ede6694bc94a1430f2a580b2b97589bbb0dffbc30",
+    "/private/tmp/q09-parent-runtime-focused-v2.log": "a4d76af6167297590c4909a2a8ccaaa126784977a2d17e2dd66aed6b27f8e0e1"
+  },
+  "fixedReviewFindings": [
+    "count attempted generation before invocation",
+    "reject symlink ancestors through declared checkout root",
+    "direct mutation of policy object tested",
+    "returned-attempt isolation tested"
+  ],
+  "authorization": "Freeze source and run registered160000 delegation calls; active corpus, adapter, performance and default activation remain pending"
+}

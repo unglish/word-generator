@@ -19,6 +19,7 @@ export type {
   SonorityHierarchy,
   SyllableStructureRules,
   StressRules,
+  RootPatternPolicy,
   AspirationRules,
   PronunciationConfig,
   GenerationWeights,
@@ -31,6 +32,7 @@ export type { OTStressConfig, OTConstraint, ConstraintWeight } from "./core/ot-s
 export type { NuclearQuantity, SyllableWeightPolicy, SyllableWeightAnalysis, NuclearQuantityObservation, StressWeightTrace } from "./core/syllable-weight.js";
 export { analyzeSyllableWeight, analyzeWordWeight } from "./core/syllable-weight.js";
 export { analyzeStressPattern } from "./core/stress-pattern.js";
+export type { WordStressPatternTrace, ConditionalStressPatternTrace, ConditionalStressDomain, AppliedOriginV2, AppliedCauseV2, AppliedAssignmentV2, AppliedSnapshotV2, RootPatternDecision, LegacyRootProposal, ProposalAssignment, ProposalSecondary, ProposalRhythmicIteration } from "./core/conditional-stress-pattern.js";
 export { createRootStressLaw } from "./core/root-stress-law.js";
 export { RootStressLawError } from "./core/root-stress-law-types.js";
 export type { RootStressLawInput, RootLogMass, RootStressComponent, RootComponentMass, RootLawWork, RootCountAnalysis, RootPatternMass, RootComponentDraw, RootBackwardChoice, RootPatternSample, RootStressLaw, RootStressLawErrorCode } from "./core/root-stress-law-types.js";

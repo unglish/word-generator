@@ -1,0 +1,272 @@
+
+> @unglish/word-generator@0.6.0 test
+> vitest run
+
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator
+
+ ❯ src/core/morphology/realization.test.ts (31 tests | 2 failed) 5906ms
+   × resolved morphology survives final cleanup > retains the default seed-167 im spelling and records planned versus selected forms 22ms
+     → expected 'inlodsed' to be 'immamsed' // Object.is equality
+   ✓ resolved morphology survives final cleanup > selects the configured default prefix before /b/ 1ms
+   ✓ resolved morphology survives final cleanup > selects the configured default prefix before /m/ 1ms
+   ✓ resolved morphology survives final cleanup > selects the configured default prefix before /t/ 1ms
+   ✓ resolved morphology survives final cleanup > selects the configured default prefix before /l/ 1ms
+   ✓ resolved morphology survives final cleanup > preserves explicitly configured il assimilation without adding it to defaults 5ms
+   ✓ resolved morphology survives final cleanup > preserves explicitly configured ir assimilation without adding it to defaults 1ms
+   ✓ resolved morphology survives final cleanup > preserves a prefix variant of different written length: un → over 1ms
+   ✓ resolved morphology survives final cleanup > preserves a prefix variant of different written length: over → a 1ms
+   ✓ resolved morphology survives final cleanup > preserves a suffix variant of different written length: s → ous 1ms
+   ✓ resolved morphology survives final cleanup > preserves a suffix variant of different written length: ness → y 1ms
+   ✓ resolved morphology survives final cleanup > preserves both different-length variants around the same root 1ms
+   ✓ resolved morphology survives final cleanup > preserves ed after /t/, with original variant index 2 5ms
+   ✓ resolved morphology survives final cleanup > preserves ed after /k/, with original variant index 0 1ms
+   ✓ resolved morphology survives final cleanup > preserves ed after /m/, with original variant index 1 1ms
+   ✓ resolved morphology survives final cleanup > preserves s after /s/, with original variant index 2 8ms
+   ✓ resolved morphology survives final cleanup > preserves s after /k/, with original variant index 0 0ms
+   ✓ resolved morphology survives final cleanup > preserves s after /m/, with original variant index 1 0ms
+   ✓ resolved morphology survives final cleanup > carries the transformed root rather than reconstructing its original spelling 0ms
+   ✓ resolved morphology survives final cleanup > composes a changed-length prefix with a real suffix boundary transform 0ms
+   ✓ resolved morphology survives final cleanup > retains paired phonological and written root alternations 1ms
+   ✓ resolved morphology survives final cleanup > records cleanup loss separately from the selected affix 0ms
+   ✓ resolved morphology survives final cleanup > keeps snapshots independent of config, surface phones, and later calls 2ms
+   ✓ resolved morphology survives final cleanup > keeps tracing observational and seeded calls deterministic 11ms
+   ✓ resolved morphology survives final cleanup > snapshots only selection features and detaches them from the root phone 1ms
+   × resolved morphology survives final cleanup > preserves assembly across a continuous 10,000-word public-API stream 5834ms
+     → expected 29 to be greater than 30
+   ✓ Q04 + Q08b + Q06 integration witnesses > retains the separately identified seed-411 im selection through lexical assembly 1ms
+   ✓ Q04 + Q08b + Q06 integration witnesses > preserves resolved forms while prefix and suffix primary effects execute in order 1ms
+   ✓ Q04 + Q08b + Q06 integration witnesses > retains pre-alternation allomorph selection and the already-decided written rule 1ms
+   ✓ Q04 + Q08b + Q06 integration witnesses > uses realized prefix syllables for root coordinates when an allomorph changes length 2ms
+   ✓ Q04 + Q08b + Q06 integration witnesses > keeps original variant indices and specificity when spellings coincide 1ms
+stdout | src/core/y-vowel.test.ts > Y-as-vowel improvements (#63) > Y appears word-finally at a reasonable rate > at least 2% of generated words end in Y
+  Y-final rate: 10.3% (1027/10000)
+
+ ✓ src/core/stress-repair.test.ts (2 tests) 9852ms
+   ✓ stress-aware nucleus re-pick > no primary-stressed schwa in 10,000 words  3195ms
+   ✓ stress-aware nucleus re-pick > standalone monosyllables retain lexical stress without an IPA stress mark  6656ms
+stdout | src/core/y-vowel.test.ts > Y-as-vowel improvements (#63) > Y appears in generated words overall > at least 5% of words contain Y
+  Y-containing rate: 18.4% (1835/10000)
+
+ ✓ src/core/y-vowel.test.ts (2 tests) 4473ms
+   ✓ Y-as-vowel improvements (#63) > Y appears word-finally at a reasonable rate > at least 2% of generated words end in Y  2425ms
+   ✓ Y-as-vowel improvements (#63) > Y appears in generated words overall > at least 5% of words contain Y  2048ms
+ ✓ src/core/trace.test.ts (19 tests | 1 skipped) 4595ms
+   ✓ trace pipeline > captures structured SSP and rising-coda boundary payloads  718ms
+   ✓ trace pipeline > vowel-hiatus fallback trace entries use typed payload  1045ms
+   ✓ trace pipeline > post-vowel glide policy controls root glide transitions deterministically  1816ms
+   ✓ trace pipeline > keeps root-stage hiatus low in traced samples  932ms
+ ✓ src/core/generate.test.ts (13 tests) 16309ms
+   ✓ Word Generator > risingCodaDrop policy gates rising-coda drop events  15509ms
+   ✓ isValidCluster > should only generate attested codas > never generates an unattested multi-consonant coda  327ms
+ ✓ src/core/morphology/morphology.quality.test.ts (11 tests) 15891ms
+   ✓ Morphology quality benchmarks > new nominal suffix -ian appears in larger deterministic samples  1734ms
+   ✓ Morphology quality benchmarks > new nominal suffix -ial appears in larger deterministic samples  1634ms
+   ✓ Morphology quality benchmarks > new orthographic suffix -sion appears in larger deterministic samples  1187ms
+   ✓ Morphology quality benchmarks > keeps ia and ian representation above regression floors vs CMU  6509ms
+   ✓ Morphology quality benchmarks > enb trigram is reachable in traced lexicon samples  4777ms
+ ✓ src/core/lexical.test.ts (16 tests) 6753ms
+   ✓ lexical composition before surface realization > has exactly one primary and no primary reduced vowels in a default affixed sample  6166ms
+ ✓ src/core/generateWords.test.ts (17 tests) 2667ms
+ ✓ src/core/stress-pattern.test.ts (25 tests) 1517ms
+   ✓ passive complete stress-pattern tracing > keeps full generation and RNG consumption identical with observation off/on  1251ms
+ ✓ src/core/syllable-weight.test.ts (27 tests) 2378ms
+   ✓ shared analytical and operational syllable weight > classifies every sampled open diphthong as heavy without changing other operational cases  1278ms
+   ✓ shared analytical and operational syllable weight > keeps active-model tracing observational for complete outputs and random draws  590ms
+   ✓ shared analytical and operational syllable weight > selects heavy secondary candidates at the configured rate in a controlled model  333ms
+ ✓ src/tools/common-word-coverage-core.test.ts (8 tests) 357ms
+   ✓ common-word-coverage-core > is deterministic with a shared seeded RNG and preserves first-hit generations  351ms
+ ✓ src/core/pronounce.test.ts (28 tests) 2785ms
+   ✓ applyAspiration > keeps canonical phoneme sounds free of aspiration diacritics across deterministic sweep  1812ms
+   ✓ applyAspiration > default English generation only aspirates first-onset /p t k/  956ms
+ ✓ src/utils/random.test.ts (8 tests) 231ms
+ ✓ src/utils/getWeightedOption.test.ts (8 tests) 29ms
+ ✓ src/config/language.test.ts (61 tests) 26ms
+ ✓ src/core/ot-stress.test.ts (19 tests) 37ms
+ ✓ src/core/conditional-stress-pattern.test.ts (36 tests) 1012ms
+ ✓ src/core/root-stress-law.test.ts (24 tests) 31ms
+ ✓ src/core/common-word-orthography.test.ts (9 tests) 11ms
+ ✓ src/core/morphology/attach.test.ts (45 tests) 9ms
+ ✓ src/core/repair.test.ts (22 tests) 5ms
+ ✓ src/tools/trace-audit-core.test.ts (6 tests) 3ms
+ ✓ src/core/phoneme-quality.metrics.test.ts (1 test) 2ms
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > per-bigram mean is within gate of English
+
+📊 Generated: per-bigram mean=-4.28 median=-4.22 min=-9.02 n=135000
+   English:   per-bigram mean=-3.89
+   Gap: 0.39 (gate: < 2)
+
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > per-bigram gap has not regressed from recorded baseline
+
+🔒 Regression check: current gap=0.39, baseline gap=0.85, tolerance=0.5
+
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > no generated word has catastrophically low per-bigram score
+
+📊 Min per-bigram: -9.02 (English min: -7.92, floor: -12)
+
+ ✓ src/phonotactic/phonotactic.test.ts (14 tests) 29287ms
+stdout | src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies
+
+200k sample results:
+  Total "ts": 3674 (1.84%)
+    Final: 3170 (1.58%)
+    Non-final: 504 (0.25%)
+  Total "ns": 2309 (1.15%)
+    Final: 1453 (0.73%)
+    Non-final: 856 (0.43%)
+
+ ✓ src/core/cluster-weights.test.ts (4 tests) 31775ms
+   ✓ Position-based cluster weighting > applies position-based weights correctly  2213ms
+   ✓ Position-based cluster weighting > reduces ts/ns frequency compared to no weights  3274ms
+   ✓ Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies  26040ms
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no bigram exceeds threshold over-representation
+Worst over-rep bigram: "ry" at 3.302× (threshold: 4.25)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no trigram exceeds threshold over-representation
+Worst over-rep trigram: "abl" at 2.816× (threshold: 3.21)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented
+Worst under-rep bigram: "ex" at 0.0401× (threshold: 0.0215)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented
+Worst under-rep trigram: "ugh" at 0.0049× (threshold: 0.0062)
+
+ ❯ src/core/ngram-quality.test.ts (5 tests | 1 failed) 32669ms
+   ✓ N-gram quality gates > generate sample  32641ms
+   ✓ N-gram quality gates > no bigram exceeds threshold over-representation 3ms
+   ✓ N-gram quality gates > no trigram exceeds threshold over-representation 10ms
+   ✓ N-gram quality gates > no common bigram is severely under-represented 1ms
+   × N-gram quality gates > no common trigram is severely under-represented 13ms
+     → Trigram "ugh" under-represented at 0.0049× vs CMU (threshold: 0.0062×): expected 0.004901057711283718 to be greater than or equal to 0.0062
+stdout | src/core/write.test.ts > monosyllable position weight selection > monosyllable max position weight applies to all phonemes
+  Testing 636 monosyllables
+  Suspicious endings in monosyllables: 1 (0.16%)
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "igh" only appears in the final syllable (10k words)
+  igh in non-final syllable: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "wh" only appears in the first syllable (10k words)
+  wh in non-first syllable: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > does not produce impossible onset clusters with "wh" (twh/swh/cwh/quh)
+  impossible wh onset clusters: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "ight" or "ought" mid-word rate < 0.1% in 10k words
+  ight/ought mid-word: 0/10000 (0.00%)
+
+stdout | src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails
+Shared phoneme Pearson r: 0.9978 (threshold: 0.82)
+Non-CMU generated mass: 0.0000% (threshold: 6.7%)
+Worst over-rep: k at 1.097x (threshold: 2.75x)
+Worst under-rep: ə at 0.966x (threshold: 0.08x)
+Worst absolute gap: s at 0.506% (threshold: 4.5%)
+
+ ✓ src/core/phoneme-quality.test.ts (1 test) 38293ms
+   ✓ Phoneme quality gates > meets phoneme distribution guardrails  38292ms
+stdout | src/core/write.test.ts > syllable-based position filtering > startWord: 0 graphemes do not appear in the first syllable (10k words)
+  words starting with ck: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "eye" appears only as a bare syllable nucleus (50k words)
+  eye syllables: 45/50000
+  eye bare-syllable violations: 0/50000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "eye" does not appear in medial syllables (50k words)
+  eye syllables (medial test): 45/50000
+  eye medial-syllable violations: 0/50000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > other /aɪ/ spellings still appear alongside "eye" (50k words)
+  eye words: 52/50000
+  non-eye /aɪ/ words: 3846/50000
+
+stdout | src/core/write.test.ts > silent-e integration > produces some silent-e words in 10k generated words
+  Silent-e words: 1209/10000 (12.1%)
+
+stdout | src/core/write.test.ts > silent-e integration > produces "ck" (not "kk") when k doubles after lax vowel
+  ck occurrences: 341/10000, kk occurrences: 0/10000
+
+stdout | src/core/write.test.ts > silent-e integration > never doubles b, d, g word-finally via doubling system
+  Word-final bb: 0, dd: 0, gg: 0
+
+stdout | src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit
+  Words with both ck and another double: 1/10000
+
+stdout | src/core/write.test.ts > silent-e integration > very few words end in bare "v" in 10k generated words
+  Bare 'v' endings: 0/10000, total v/ve endings: 40/10000
+
+stdout | src/core/write.test.ts > nucleus-ends-consonant-letter doubling suppression > does not produce doubled consonants after rhotic vowel graphemes (er/or/ur + ss/ll/ff)
+  Sonorant+doubled: 0/10000 (0.00%)
+
+stdout | src/core/write.test.ts > nucleus-ends-consonant-letter doubling suppression > still produces doubled consonants after regular vowel graphemes (a/e/i/o/u)
+  Vowel+doubled: 1131/10000 (11.3%)
+
+ ✓ src/core/write.test.ts (95 tests) 65243ms
+   ✓ consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs  15867ms
+   ✓ consonant pileup integration > generates 100k words with no 5+ consonant letter runs  12781ms
+   ✓ consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs  1240ms
+   ✓ monosyllable position weight selection > monosyllabic /dz/ words should prefer "ds" over "dse"  1261ms
+   ✓ monosyllable position weight selection > monosyllable fix should not affect multi-syllable /dz/ words  1237ms
+   ✓ monosyllable position weight selection > monosyllable max position weight applies to all phonemes  590ms
+   ✓ syllable-based position filtering > "igh" only appears in the final syllable (10k words)  1207ms
+   ✓ syllable-based position filtering > "wh" only appears in the first syllable (10k words)  1208ms
+   ✓ syllable-based position filtering > does not produce impossible onset clusters with "wh" (twh/swh/cwh/quh)  1197ms
+   ✓ syllable-based position filtering > "ight" or "ought" mid-word rate < 0.1% in 10k words  1263ms
+   ✓ syllable-based position filtering > startWord: 0 graphemes do not appear in the first syllable (10k words)  1211ms
+   ✓ syllable-based position filtering > "eye" appears only as a bare syllable nucleus (50k words)  5938ms
+   ✓ syllable-based position filtering > "eye" does not appear in medial syllables (50k words)  6002ms
+   ✓ syllable-based position filtering > other /aɪ/ spellings still appear alongside "eye" (50k words)  6010ms
+   ✓ silent-e integration > produces some silent-e words in 10k generated words  1180ms
+   ✓ silent-e integration > produces "ck" (not "kk") when k doubles after lax vowel  1219ms
+   ✓ silent-e integration > never doubles b, d, g word-finally via doubling system  1169ms
+   ✓ silent-e integration > ck counts toward maxPerWord doubling limit  1160ms
+   ✓ silent-e integration > very few words end in bare "v" in 10k generated words  1160ms
+   ✓ nucleus-ends-consonant-letter doubling suppression > does not produce doubled consonants after rhotic vowel graphemes (er/or/ur + ss/ll/ff)  1164ms
+   ✓ nucleus-ends-consonant-letter doubling suppression > still produces doubled consonants after regular vowel graphemes (a/e/i/o/u)  1168ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented
+AssertionError: Trigram "ugh" under-represented at 0.0049× vs CMU (threshold: 0.0062×): expected 0.004901057711283718 to be greater than or equal to 0.0062
+ ❯ src/core/ngram-quality.test.ts:211:9
+    209|         worst.ratio,
+    210|         `Trigram "${worst.ngram}" under-represented at ${worst.ratio.t…
+    211|       ).toBeGreaterThanOrEqual(thresholds.minTrigramRepresentation);
+       |         ^
+    212|       return;
+    213|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > retains the default seed-167 im spelling and records planned versus selected forms
+AssertionError: expected 'inlodsed' to be 'immamsed' // Object.is equality
+
+Expected: "immamsed"
+Received: "inlodsed"
+
+ ❯ src/core/morphology/realization.test.ts:66:32
+     64|   it("retains the default seed-167 im spelling and records planned ver…
+     65|     const word = generateWord({ seed: 167, trace: true });
+     66|     expect(word.written.clean).toBe("immamsed");
+       |                                ^
+     67|     expect(word.trace!.morphology!.prefix).toBe("in");
+     68|     const selection = word.trace!.morphology!.realization!.prefix!;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves assembly across a continuous 10,000-word public-API stream
+AssertionError: expected 29 to be greater than 30
+ ❯ src/core/morphology/realization.test.ts:218:24
+    216|     }
+    217|     expect(affixed).toBeGreaterThan(5000);
+    218|     expect(selectedIm).toBeGreaterThan(30);
+       |                        ^
+    219|   });
+    220| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed | 26 passed (28)
+      Tests  3 failed | 553 passed | 1 skipped (557)
+   Start at  14:38:04
+   Duration  65.70s (transform 856ms, setup 0ms, collect 3.94s, tests 272.15s, environment 4ms, prepare 1.82s)
+

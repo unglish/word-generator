@@ -1,0 +1,12 @@
+✔ exact frozen seed schedule, batch sizes, logical calls and word totals (4.780375ms)
+✔ trace workload is identical but cannot pass invented existing trace gates (3.3235ms)
+✔ unchanged untraced floor and deadlines retain slow outcomes (2.307708ms)
+✔ failed public calls retain attempted and completed accounting separately (4.013042ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 246.941583

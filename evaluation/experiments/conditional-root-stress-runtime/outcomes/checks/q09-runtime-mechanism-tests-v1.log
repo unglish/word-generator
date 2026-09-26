@@ -1,0 +1,12 @@
+✔ hand two-pattern law has one-half prior clash and one-third tilted clash (3.86575ms)
+✔ all zero candidate weights retain the unsupported pattern as an exact zero row (0.291333ms)
+✔ well-formed absent K is an error and no input is silently truncated (1.297ms)
+✔ registry sums repeated contexts but detaches input/results and rejects unsupported actual marks (3.469209ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 408.723208

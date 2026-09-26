@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "9e772f257def91b4370462e17156f71b8f54575d",
+  "scope": "source registration before runtime edits; new result directories excluded",
+  "documents": [
+    {
+      "path": "design-v1.md",
+      "sha256": "2b053e85960d724924d0d38b8dbe82db68810580fdb1ef0179003e6b9300f7af"
+    },
+    {
+      "path": "fixture-plan-v1.md",
+      "sha256": "756c7be3b3565d0e01866a4edc951655a7eb9bd8cddba73a1dc594cd5ddd0b8a"
+    },
+    {
+      "path": "protocol-v1.json",
+      "sha256": "f817926b0fce0c10582f0dc5dc03423e52c7c32189fd7b77b4a753b349447669"
+    }
+  ],
+  "immutablePublishedFiles": [
+    {
+      "path": "src/core/root-stress-law.ts",
+      "sha256": "b3050a0d0e68276f861cb89a29f64b402a7a9ad9d69427bff1988194f3a4e4fc"
+    },
+    {
+      "path": "src/core/root-stress-law-types.ts",
+      "sha256": "a91bd0cf7ee2d98392e39124b39a447534faa9d60d54aad5073d9ba417dc07d0"
+    },
+    {
+      "path": "src/core/root-stress-law.test.ts",
+      "sha256": "05a4fcb19c7002d07fc7ce3d927644de22ce09a05e3d2781966370c2ad332789"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/README.md",
+      "sha256": "53c27a48a496fc34f4c9b225e12217251431f82931c9cdba02e580016887d824"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/checks/q09-pure-pr-focused-tests-v1.log",
+      "sha256": "24acb4c6fe8c1dcff1845968698d42700a055a733c2e7062aa60eed689f846e5"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/checks/q09-pure-pr-full-tests-v1.log",
+      "sha256": "37990d3daa1ab03137fb6e6827415853b32eacfe07ec102256cc28720f462b4e"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/checks/q09-pure-pr-lint-v1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/checks/q09-pure-pr-quality-tests-v1.log",
+      "sha256": "a05c91db6085005f5919e58386a5eddcefb27a2790504e2af4238122fab6734a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/checks/q09-pure-pr-quality-tests-v2.log",
+      "sha256": "4fa1a64f18da8fed68f2450a98db52774b58a9d6681b0e3b0145b8b977c6ea22"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/checks/q09-pure-pr-typecheck-v1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/law/q09-oracle-grid-v2.jsonl.gz",
+      "sha256": "ab3324c373b60a1db03d42fb06741c482e1cf39460bf6349b9ad74c14d4b9304"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/law/q09-oracle-grid-v2.jsonl.gz.manifest.json",
+      "sha256": "7b84aff93522c23393201d9e7657733b0a4538089def0deaa38d3c0dbfc46c0f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/package-evidence-v1.py",
+      "sha256": "ee3fea1e0848a36235e19e2d98b23403b6f294db1166cfcc5e7cb8c4a06f76d0"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/package-index.json",
+      "sha256": "3afaf61f234107ce590a02671a1a989b8acaa17b729a35388e26463c51dca603"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/parent/q09-parent-frequency-audit-v1.log",
+      "sha256": "7bb6d50f394ba92eb0f0c20cd9dc38ab9bac89cdb25ec32a6e72c902b271f266"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/parent/q09-parent-frequency-audit-v1.py",
+      "sha256": "b5d4b11a0ddbddfd0575dd2ea4c1fc68dae80e48fb0d3f66406b68253419c35c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/parent/q09-parent-frequency-outcome-review-v1.json",
+      "sha256": "d17d0b3f84693360964fd92957aa5a9fedeff4f1491a36dd01fa2a3533535c98"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/parent/q09-sampler-parent-prerequisite-review-v1.json",
+      "sha256": "75c9866816c627239d51e218fb4dca69f3810168de51ee5a00f864459d2b1f17"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/parent/q09-sampler-parent-source-review-v1.json",
+      "sha256": "c065cbe9bebdad92486771a899a9e1cdb39fbf7c535934b78958e1ce9de5151f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/parent/q09-sampler-parent-tape-review-v1.json",
+      "sha256": "06949444e611ab8f34cd22508b4f93506f7072e4141cbd6f0e0d305deea938a2"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-frequency-capture-v1.jsonl.gz",
+      "sha256": "75ede9332b34cdb57767313560974139c51a83fab012669ae34060a364efd9f7"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-frequency-capture-v1.log",
+      "sha256": "0b75f75adc744a52adeddcd03e6020d68c9a8bf8520f9271f1422f622d8cfa0d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-frequency-capture-v1.summary.json",
+      "sha256": "9dfb705b6cb5cd9a073d82ff25ac7d780c7d59de5c6fd4dd8fe9088c1bac50fb"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-frequency-tape-v1.bin",
+      "sha256": "227ed134f2adf17121824617e77e1dd13f722a3ea4d5d420f71575ca0f962249"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-frequency-tape-v1.log",
+      "sha256": "289028d6a3b21413fb9d6c1939d8fa10c4df52816226d54b25a31844bf80857a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-frequency-tape-v1.manifest.json",
+      "sha256": "d3d52d90cc15f916a083eeb41358a8a96875fd891f144f0a02d5ee80a1e4798f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-frequency-verification-v1.json",
+      "sha256": "9743c6296a00b42112d82abc98fe1b8d309dbf754981e2ae14b792253d7f8881"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-frequency-verification-v1.log",
+      "sha256": "c6043134c505838f7ea4c1d51ff55c7aa47260b0858d7e5fb36d7970f85334da"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-independent-reference-v1.json",
+      "sha256": "c127fb0dc60378554841b1e81d9d9fdff816dc615cdc1d591ad79e074714b488"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-independent-reference-v1.log",
+      "sha256": "67f4196cbe1572105a2934e52e2897aaf3e1cc564b8225773650c3b14c9d4b06"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-node-replay-v1.json",
+      "sha256": "1cbc4f37943d95aa12f4f1f44a99470b40d0d3acad6601564b164be79d5533e0"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-node-replay-v1.log",
+      "sha256": "0087fc10ea69825ea42958c4a0717b5c864e975c33b9d0a9052dbb529c1a6f82"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-numeric-tree-v1.json.gz",
+      "sha256": "0a789f8b7a047ed61e9cad0f7ddea2bbd276efd1d1150e0d3288a57e8dc36b2f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-numeric-tree-v1.log",
+      "sha256": "55da291a37ef6867199efb3301b8df1427d99533832818e2ac93455a8c467f97"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-run-review-v1.json",
+      "sha256": "bd8a252274c7a0b9654e99a242e91b0d5cdad1f8227c51e16b48500a4c6cce4f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-source-freeze-v1.json",
+      "sha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/sampler/q09-sampler-source-review-ready-v1.json",
+      "sha256": "1aacb9e2c0c48f6dd63ad172ae73cd7be892988ed893fdfb55a373e09b42c208"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/evidence/source-bundle-v1.json.gz",
+      "sha256": "8bbdde3a9ebff3399e3b6553fab0d015a626ffcd1703a58a18359fc053c57e8f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/package-index.json",
+      "sha256": "ad326cf6f1ce47655e908137ea35f83a9278c7635b85baf279b02d79f87326ac"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/portable-test-amendment.json",
+      "sha256": "d0641b372817554d686dcae82b299e5a8066faac7c3321604be07247af7a8dcd"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/q09-comparator-freeze-v1.json",
+      "sha256": "9619061e37bf9d148cb360fe35419ec2a4c8f79133f53e28b936cd09cb20e8da"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/q09-law-comparison-v1.json",
+      "sha256": "aaf6ed4d44b8042323129b144db94e300c7750a8f238864ee5bf3b67f141d599"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/q09-law-comparison-v1.log",
+      "sha256": "29b22aaf42541356ba61c256d349fe2326c76cc64cc621151ef84db376d1de7d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/q09-oracle-comparator.mjs",
+      "sha256": "e2d925847de3c31b93ae672489e59313de7b7592bdfb8bada18261900a7ddfa9"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/q09-oracle-freeze-v2.json",
+      "sha256": "bcb53a9207465fe74eb3e181c05c6ab264c300751b7afd492afbf41d3bd037cb"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/q09-oracle-grid-v2.jsonl.gz.manifest.json",
+      "sha256": "7b84aff93522c23393201d9e7657733b0a4538089def0deaa38d3c0dbfc46c0f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/q09-pattern-oracle-test-portable-v1.py",
+      "sha256": "0c3a4ca5b561be878c24567bc36d41580fa3da5d552dfa1b212745f1beddce42"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/q09-pattern-oracle-test.py",
+      "sha256": "1c985086158a377c166db9a59cfc4b9f67cb6ce285b0deb6b224e576df909240"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/q09-pattern-oracle.py",
+      "sha256": "20d7ff793169ef78a0f4ee27e4420f53bb19ad431dcd18e072d42f1ffa0027e9"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/protocol/q09-active-trace-and-oracle-design.md",
+      "sha256": "0fa51ca48533d2df910e8dfb7411f3530f34656d89880fd2fb900aeb5630c85a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/protocol/q09-dp-oracle-protocol-v1.json",
+      "sha256": "1de878d268ddb0262c077a390ed5e71b61c91830e5726f75d72dafa53c540835"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/protocol/q09-dp-oracle-protocol-v2.json",
+      "sha256": "93c09bc77c513a5933ba146a31884fcba7947828ed6901ea95d97bd03b6852f2"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/protocol/q09-exact-dp-design.md",
+      "sha256": "0ebb5ac225d51d9d631881314cdc127b410ccf45041a103cb307d6a066cd7b70"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/protocol/q09-rhythm-design.md",
+      "sha256": "d2c1651422e258e1b1bc258b9519909dabdc5bdff13264cd2fff342629cab1a4"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/protocol/registration.json",
+      "sha256": "342a1caf6817642b320dc668824488e1d8810005856f24f415292120403662e8"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/README.md",
+      "sha256": "9a64bad4c2662d83e4e497d685e2fbc833321447b4c1f52017df32385cfc873e"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/capture-frequency.mjs",
+      "sha256": "c3c0de0e8bc025c85ea966d620ea5b95a2e00225634c8e18e6c3a71f07c65263"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/create-tape.mjs",
+      "sha256": "a797888db7b4c8f5caf6df95098740bfbbbf5b1e6c819b89aa005c2d062f502a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/design.md",
+      "sha256": "371e255fe69fff275e708c331272556e1814aced40f084d26e3d3b286887a630"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/fixtures/hand-samples.json",
+      "sha256": "4bbee4f89253c600c491c048e9d3ff71bf8f1eebcc703855ebd3a98dbc59c67c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/freeze.mjs",
+      "sha256": "c60e7c3ff9079dccf8a1c39c0a4cdc6c521684ddedf6118e818fe419a29c3b1d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/frequency-common.mjs",
+      "sha256": "015f86d81a310414b9e97d302e72b6da1d2a57a936ac25f2f845554b6b46ac17"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/frequency.test.mjs",
+      "sha256": "7081349efec8c19e8abc335948d40f2680a58afb9d8a3d5cc34ecfc662e8fe5d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/integrity.mjs",
+      "sha256": "ae870a10830695acfeeaab55353ca11fd6fc2970346680ab4a2318cdf0a90de1"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/integrity.test.mjs",
+      "sha256": "5c42668adec624a6b3f9ff6cd95282ef7fb6387a0b9fc286fc3a22670610de90"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/numeric-grid.mjs",
+      "sha256": "c18b4d737117333c2c84142025ed63cabe4e651d3e60cd382138c3fa1bae4979"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/numeric-grid.test.mjs",
+      "sha256": "c9e4d5cdb5f00fc938d50c061ebd059ab21e888be2c07306c937230949785105"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/pre-execution-amendment-v1.json",
+      "sha256": "c295e65ba415000cf2f72ff4ec9d0930f215e807db8bdd929b15778d17aa155d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/protocol.json",
+      "sha256": "5fec61ae76fa0c81e317637f2dac065e43ced844ca46836236db47b8045929f4"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/reference-test.py",
+      "sha256": "b052ae44e3dd331cc38dde2e8fd2176bff7651e2483203248462088bb9cc0475"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/reference.py",
+      "sha256": "ff51faa0302bc6fc631eec480d984faaee3175f0cacb70d2c9838704f05c7e59"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/registration.json",
+      "sha256": "26512d2b7c06d7ac708671a5cb2278fc3ae277421a34c3a1a30bfc620bf1d527"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/replay-numeric.mjs",
+      "sha256": "926155a1d60993f4a07e788f0e48b7fe9f3c764305f9d7ecfca861bf589b7054"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/verify-frequency-test.py",
+      "sha256": "f38107f21c11a8836a01f15981f6ef3cf12f4949fb29a5b658191d1110894964"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/verify-frequency.py",
+      "sha256": "9b716652e57de2637188ac3897fc2387254af86a309472157d4e08581412cbf9"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/verify-reference-test.py",
+      "sha256": "7fa49c8bcd727dbc8784a14d4802fc2c778c4c108c4994739e44d7c29a27387f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/sampler/verify-reference.py",
+      "sha256": "881c807d928400bd0c0caffe13cd381461639de8b7cd2f1dd7013d5a6bb6a468"
+    }
+  ],
+  "allowedRuntimeChanges": [
+    "src/config/language.ts",
+    "src/core/pronounce.ts",
+    "src/core/trace.ts",
+    "src/core/morphology/attach.ts",
+    "src/core/generate.ts",
+    "src/index.ts"
+  ],
+  "newRuntimeFiles": "conditional stress observer and public fixtures; docs; separately versioned nested adapter/probe sources"
+}

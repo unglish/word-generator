@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "origin": "unchanged #307 evaluator bytes, rechecked against published #330 complete-stress-patterns archive before new corpus outcomes",
+  "files": [
+    {
+      "path": "evaluation/quality/capture.ts",
+      "sha256": "3b71b7c25bf2fca32b49dbdd74ed54f0b030ef88afc768c1fe3b82ffb8af669a"
+    },
+    {
+      "path": "evaluation/quality/cli.ts",
+      "sha256": "8227d92d8f5f53466005a1721ba01b9c4137a76d27c3f08ddaf0a4ec3e472bf4"
+    },
+    {
+      "path": "evaluation/quality/compare.ts",
+      "sha256": "e4e96174a7339077ed964febb49be291b90923d2500bbfaf6fd3e16187987239"
+    },
+    {
+      "path": "evaluation/quality/distribution.ts",
+      "sha256": "562d595e7918db2264ba11a3f59c7f87729c5d18f48e8706ac5c82e738bb097a"
+    },
+    {
+      "path": "evaluation/quality/metrics.ts",
+      "sha256": "2825ee22233d2868132e243e1156ef5eec310c318916f38e5a5acccb8b355147"
+    },
+    {
+      "path": "evaluation/quality/model.ts",
+      "sha256": "3246f7144380767bea8d9eb2c268d04809c3aefddbe6913a4939660d932a623e"
+    },
+    {
+      "path": "evaluation/quality/protocol.json",
+      "sha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9"
+    },
+    {
+      "path": "evaluation/quality/serialization.ts",
+      "sha256": "c43ee5588d6ce61c1f5d9dd8d79b37e47fb835a0199a6bf9b526a6634b0d0713"
+    }
+  ]
+}

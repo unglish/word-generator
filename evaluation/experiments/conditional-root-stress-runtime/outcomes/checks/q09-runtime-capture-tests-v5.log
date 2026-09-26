@@ -1,0 +1,19 @@
+✔ frozen reader/rescorer preserve exact words and producer while raw summaries cannot be compared (129.157ms)
+✔ raw identity requires externally expected producer and effective configuration (20.293ms)
+✔ raw publication retains incomplete schedule failures and refuses existing output (14.570834ms)
+✔ a source preservation failure prevents completed manifest publication (14.902792ms)
+✔ coordinate forgery remains invalid even with coherent compressed hashes (21.332541ms)
+✔ dropped, extra, and malformed raw artifacts cannot pass the strict capture reader (77.627042ms)
+✔ self-consistent source and accounting forgeries are not trusted (84.567709ms)
+✔ coherently redigested shorter or reordered schedules remain bound to the reviewed producer (41.880833ms)
+✔ generation environment cannot differ from the externally reviewed engine (21.8175ms)
+✔ capture publication refuses source/proof trees through lexical and aliased paths (12.026417ms)
+✔ capture refuses a self-consistent but unreviewed freeze digest before publication (3.706042ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 620.764458

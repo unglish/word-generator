@@ -1,0 +1,113 @@
+{
+  "schema": "q09-timing-public-factory-correction-source-review-v1",
+  "passed": true,
+  "reviewManifest": {
+    "path": "/private/tmp/q09-runtime-timing-review-proposal-v3.json",
+    "bytes": 2425,
+    "sha256": "8bd99214cf8fe8113ada7afa2f0bc33c01597779aaa3777829980c487ec08bd6"
+  },
+  "files": [
+    {
+      "path": "/private/tmp/q09-runtime-timing-matrix-v2.mjs",
+      "bytes": 17692,
+      "sha256": "12bb39e9b302d761e54ee968b1dfa563db83cb7422b3f3dc027a5861d9624664"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-v2.mjs",
+      "bytes": 8638,
+      "sha256": "6d2f2b0caf209e3379263625c0e8e5eb6d355d105d2991f69556def58fc4de44"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-test-v2.mjs",
+      "bytes": 12887,
+      "sha256": "1d9a1e61645a637e5690b7732e83042439f2eb61e280c95ee7505d1ff203d63a"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-contract-v2.md",
+      "bytes": 10011,
+      "sha256": "d73e6d50a66a5fc73f3b67677f1820e07ee1c30baa82241992cbd6255a78fcfb"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-matrix-test-v2.mjs",
+      "bytes": 23583,
+      "sha256": "f15805e3da866be6e8b1907bd5127996f2323e1fd155b8816292e78e650024f6"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-smoke-v1.mjs",
+      "bytes": 6543,
+      "sha256": "89d0f0b1256f6231c943779626ef7898669bfaf080a7871c88ed3def5540ff03"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-factory-api-amendment-preservation-v1.json",
+      "bytes": 23081,
+      "sha256": "6e1052de75fdd097b55a8f6f5f65dd11764351d31f180d12df23509b92b84d7e"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-review-proposal-v3.json",
+      "bytes": 2425,
+      "sha256": "8bd99214cf8fe8113ada7afa2f0bc33c01597779aaa3777829980c487ec08bd6"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-api-smoke-result-v1.json",
+      "bytes": 6673,
+      "sha256": "c2573831822e84eac8fd00ebfc5aa371c74012b818f441d16317d223e00704c8"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-api-smoke-v1.log",
+      "bytes": 101,
+      "sha256": "adbe3f5cfe46b8d07ae7d5444c35256e14fd1c27b209dd566aedb51f81515f54"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-synthetic-api-v2.log",
+      "bytes": 3522,
+      "sha256": "e213f344108f2562f1bb728d2a9f012e12f36a5bbadfa5654ec10c4378ed9ae0"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-synthetic-api-v3.log",
+      "bytes": 3619,
+      "sha256": "3235b1ff06b6dc656c5350dacc0cca6f2cf188d4507db856746fef26f3d9964c"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-api-correction-v1.diff",
+      "bytes": 67570,
+      "sha256": "1f4925b74c69b7c77c20f04f7da76dfc3ab1ae0768c79f45e7618b31b10a7b54"
+    }
+  ],
+  "preservedHistoricalFiles": 81,
+  "preservedHistoricalBytesMatch": true,
+  "priorMatrix": {
+    "slots": 24,
+    "completedWords": 0,
+    "usableTimingSlots": 0,
+    "cause": "Unsupported factory generateWords method; incorrect mock hid it. Full failed outputs preserved."
+  },
+  "syntheticTests": 34,
+  "realSmoke": {
+    "passed": true,
+    "pinnedControlAndActive": true,
+    "traceModes": [
+      false,
+      true
+    ],
+    "factoryGenerateWordCalls": 60,
+    "referenceGenerateWordsCalls": 4,
+    "referenceReturnedWords": 24,
+    "exactControlBatchMatches": 4,
+    "allCurrentSourceAndConfigPinsMatch": true
+  },
+  "completeTimingSlotAccounting": {
+    "publicGenerationCalls": 13100,
+    "returnedWords": 13100,
+    "logicalWorkloadOperations": 3052,
+    "explicitPublicRngConstructions": 2
+  },
+  "changes": [
+    "Local batch adapter invokes only factory generateWord, sharing exactly one public createSeededRng per batch.",
+    "Exact attempted/completed generation, logical operation and RNG factory accounting, including partial failures.",
+    "Versioned report/manifest/matrix schemas and matching strict counter validation.",
+    "Small real public-API smoke pinned into external review manifest; prior sources/results preserved."
+  ],
+  "scope": "External benchmark/matrix/tests/contract only; no runtime/config/evaluator/threshold/seed/workload/default/gate changes.",
+  "verification": "Code-simplifier scoped review completed; helper boundaries retained. Synthetic fixtures and real smoke only; no corrected matrix or performance outcomes executed.",
+  "approvalBoundary": "Parent source review and a quiet window after Q15 terminal required before any corrected real timing."
+}

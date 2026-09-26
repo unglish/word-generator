@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "id": "q09-root-runtime-v1",
+  "status": "preregistered-before-runtime-implementation-and-active-corpus",
+  "base": {
+    "commit": "9e772f257def91b4370462e17156f71b8f54575d",
+    "pr": 334
+  },
+  "policy": {
+    "path": "pronunciation.stress.rootPattern",
+    "legacy": {
+      "type": "legacy"
+    },
+    "active": {
+      "type": "count-conditioned",
+      "lambda": 0.6931471805599453
+    },
+    "defaultRemainsLegacy": true,
+    "zeroLambda": "supported-input validation followed by exact legacy execution; no proposal or sampling"
+  },
+  "scope": {
+    "rootOnly": true,
+    "preserveActualProposalSecondaryCount": true,
+    "preservePrimary": true,
+    "applyOnceAscending": true,
+    "trace": "actual v2 six domains; proposal namespace distinct; no stressWeight v1 property when active",
+    "returnedAttemptOnly": true,
+    "noDefaultActivation": true
+  },
+  "delegation": {
+    "profiles": [
+      "lexicon-default",
+      "lexicon-bare",
+      "monosyllables-bare",
+      "text-default"
+    ],
+    "distinctStreamsPerProfile": 5,
+    "drawsPerStream": 1000,
+    "distinctCoordinates": 20000,
+    "paths": [
+      "published-control",
+      "candidate-omitted",
+      "candidate-explicit-legacy",
+      "candidate-zero"
+    ],
+    "traceModes": [
+      false,
+      true
+    ],
+    "publicApiCalls": 160000,
+    "comparison": "exact live own keys, complete word/full legacy trace, serialized bytes, per-draw RNG counts and next stream value; no stripped fields"
+  },
+  "corpus": {
+    "schedule": "exact original #307 development protocol; validation held back",
+    "profiles": 4,
+    "distinctStreamsPerProfile": 5,
+    "returnedWordsPerStream": 10000,
+    "controlWords": 200000,
+    "activeWords": 200000,
+    "authorization": "separate parent source/adapter/observer review before capture",
+    "noSameIndexPairingAcrossActiveControl": true,
+    "noIndependentStreamClaim": true
+  },
+  "mechanism": {
+    "input": "actual shared root weight before primary, fixed actual primary, actual proposal K",
+    "target": "conditional expected adjacent marked pairs declines strictly iff positive support has varying cost",
+    "observations": "proposal/application within returned attempt; final output separately; no unbiased frequency assertion after attempt selection",
+    "independentHistoryOracleMaxRoot": 9,
+    "unexpectedCohortRoot": "reject incomplete analysis, never omit silently",
+    "tolerances": {
+      "structuralSupportAndCounts": "exact",
+      "probabilityAbsolute": 1e-12,
+      "relativeProbabilityMinimum": 1e-12,
+      "probabilityRelative": 1e-10,
+      "finiteLogAbsolute": 2e-10,
+      "normalizationAbsolute": 2e-12
+    }
+  },
+  "captureAdapter": {
+    "location": "new nested module; never modify frozen #307",
+    "initialIdentity": "distinct adapter/evaluator digest plus actual effectiveConfig and complete source identity",
+    "commonMetrics": "unchanged #307 rescoreRun with immutable producer provenance",
+    "exclusiveOutputs": true,
+    "sourceChecks": "exact declared source set and byte hashes before/after; independent archive schedule/hash validation; engine executable hash"
+  },
+  "inheritedFailures": [
+    "Q06 seed167: inlodsed versus immamsed",
+    "Q06 selected im: 29 versus >30",
+    "ugh ratio: 0.004901057711283718 versus 0.0062"
+  ],
+  "remaining": [
+    "fixed-K disyllabic adjacency",
+    "final-word morphology/refooting",
+    "secondary-count priors",
+    "primary-window/weight hypotheses",
+    "quantity/dialect expansion",
+    "reduction",
+    "lexical classes/compounds",
+    "perceived rhythm evaluation"
+  ]
+}

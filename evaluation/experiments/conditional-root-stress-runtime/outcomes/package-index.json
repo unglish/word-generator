@@ -1,0 +1,2318 @@
+{
+  "schema": "q09-runtime-outcome-package-v2",
+  "baseCommit": "9e772f257def91b4370462e17156f71b8f54575d",
+  "sourceFreezeSha256": "c217a04a03b0613e1121283b95f5d16396d23182bc32a1e647e34728aa517b38",
+  "entries": [
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-raw/generation-accounting.json",
+      "source": "/private/tmp/q09-runtime-control-raw-v1/generation-accounting.json",
+      "transport": "identity",
+      "sourceBytes": 5099,
+      "sourceSha256": "ecf01d4e14a5191b8a3eddcc6d4d40a2a7f423caf77c407a031d64f1c5de2d2c",
+      "bytes": 5099,
+      "sha256": "ecf01d4e14a5191b8a3eddcc6d4d40a2a7f423caf77c407a031d64f1c5de2d2c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-raw/manifest.json",
+      "source": "/private/tmp/q09-runtime-control-raw-v1/manifest.json",
+      "transport": "identity",
+      "sourceBytes": 111815,
+      "sourceSha256": "7f9754f66565664ce6b1c871f588f06aca51ce159cd238fe1eb0ca53762af814",
+      "bytes": 111815,
+      "sha256": "7f9754f66565664ce6b1c871f588f06aca51ce159cd238fe1eb0ca53762af814"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-raw/sources.json.gz",
+      "source": "/private/tmp/q09-runtime-control-raw-v1/sources.json.gz",
+      "transport": "identity",
+      "sourceBytes": 263223,
+      "sourceSha256": "c1eb5ee7b02454cf490b5ec5a2e1dcae758ab744642fcbf948d0d654d8308411",
+      "bytes": 263223,
+      "sha256": "c1eb5ee7b02454cf490b5ec5a2e1dcae758ab744642fcbf948d0d654d8308411"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-raw/summary.json",
+      "source": "/private/tmp/q09-runtime-control-raw-v1/summary.json",
+      "transport": "identity",
+      "sourceBytes": 1673,
+      "sourceSha256": "ce894f71062deb031e7b3f3d3b6ae97b6bb7b7371fec8eed91e0857ba7255a29",
+      "bytes": 1673,
+      "sha256": "ce894f71062deb031e7b3f3d3b6ae97b6bb7b7371fec8eed91e0857ba7255a29"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-scored/distributions.json.gz",
+      "source": "/private/tmp/q09-runtime-control-scored-v1/distributions.json.gz",
+      "transport": "identity",
+      "sourceBytes": 74822,
+      "sourceSha256": "755d319e65621c163dae22f974123fa32d9f561db52bc5c04b290f943211eb1a",
+      "bytes": 74822,
+      "sha256": "755d319e65621c163dae22f974123fa32d9f561db52bc5c04b290f943211eb1a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-scored/manifest.json",
+      "source": "/private/tmp/q09-runtime-control-scored-v1/manifest.json",
+      "transport": "identity",
+      "sourceBytes": 112579,
+      "sourceSha256": "5ed21ae629a01f3a7944bf25aae970e663e9a7cddf42e526f31856200709c687",
+      "bytes": 112579,
+      "sha256": "5ed21ae629a01f3a7944bf25aae970e663e9a7cddf42e526f31856200709c687"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-scored/provenance.json.gz",
+      "source": "/private/tmp/q09-runtime-control-scored-v1/provenance.json.gz",
+      "transport": "identity",
+      "sourceBytes": 276193,
+      "sourceSha256": "d96da1745db4c80437370b4a06e5cf5e493156763398eca832355ff18d59d07c",
+      "bytes": 276193,
+      "sha256": "d96da1745db4c80437370b4a06e5cf5e493156763398eca832355ff18d59d07c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-scored/review-samples.json.gz",
+      "source": "/private/tmp/q09-runtime-control-scored-v1/review-samples.json.gz",
+      "transport": "identity",
+      "sourceBytes": 676706,
+      "sourceSha256": "01480db019dc9544b016ec0846d05b854e87f9cf92ad102915e3ce13718ee218",
+      "bytes": 676706,
+      "sha256": "01480db019dc9544b016ec0846d05b854e87f9cf92ad102915e3ce13718ee218"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-scored/sources.json.gz",
+      "source": "/private/tmp/q09-runtime-control-scored-v1/sources.json.gz",
+      "transport": "identity",
+      "sourceBytes": 216725,
+      "sourceSha256": "36ae53fdf95974d620a4aeab02376833b54f07f1f260b055af36e47766a60c99",
+      "bytes": 216725,
+      "sha256": "36ae53fdf95974d620a4aeab02376833b54f07f1f260b055af36e47766a60c99"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-scored/summary.json",
+      "source": "/private/tmp/q09-runtime-control-scored-v1/summary.json",
+      "transport": "identity",
+      "sourceBytes": 84398,
+      "sourceSha256": "4483dcdcfe0e6e37252ad69a30368df1fdaf3d33e0858e869dc33e545d13e30b",
+      "bytes": 84398,
+      "sha256": "4483dcdcfe0e6e37252ad69a30368df1fdaf3d33e0858e869dc33e545d13e30b"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/control-scored/witnesses.json.gz",
+      "source": "/private/tmp/q09-runtime-control-scored-v1/witnesses.json.gz",
+      "transport": "identity",
+      "sourceBytes": 38055,
+      "sourceSha256": "dbc24c1793bb42c4520c06461f71cceaded25ceda7c284fe432fd9a51670a2cc",
+      "bytes": 38055,
+      "sha256": "dbc24c1793bb42c4520c06461f71cceaded25ceda7c284fe432fd9a51670a2cc"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-raw/generation-accounting.json",
+      "source": "/private/tmp/q09-runtime-active-raw-v1/generation-accounting.json",
+      "transport": "identity",
+      "sourceBytes": 5099,
+      "sourceSha256": "6d3ef6185ea3b0de57bf0e130acd59c5a6ca3207dbd8d6fe1d2845b1b1899ddc",
+      "bytes": 5099,
+      "sha256": "6d3ef6185ea3b0de57bf0e130acd59c5a6ca3207dbd8d6fe1d2845b1b1899ddc"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-raw/manifest.json",
+      "source": "/private/tmp/q09-runtime-active-raw-v1/manifest.json",
+      "transport": "identity",
+      "sourceBytes": 130071,
+      "sourceSha256": "b0ea21b6d3839318c1cdf6fca6f1b5b75384528399447067a0f42bdcb38c4241",
+      "bytes": 130071,
+      "sha256": "b0ea21b6d3839318c1cdf6fca6f1b5b75384528399447067a0f42bdcb38c4241"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-raw/sources.json.gz",
+      "source": "/private/tmp/q09-runtime-active-raw-v1/sources.json.gz",
+      "transport": "identity",
+      "sourceBytes": 268388,
+      "sourceSha256": "e4ff77e960b7bde70f50f356e91603121b7e3e01a1e0331ae4f34e294c506685",
+      "bytes": 268388,
+      "sha256": "e4ff77e960b7bde70f50f356e91603121b7e3e01a1e0331ae4f34e294c506685"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-raw/summary.json",
+      "source": "/private/tmp/q09-runtime-active-raw-v1/summary.json",
+      "transport": "identity",
+      "sourceBytes": 1672,
+      "sourceSha256": "87d1ddc729ee23d797b0bd2d427e0dc763ca6b228b61798f96eeca2bdf1ad79b",
+      "bytes": 1672,
+      "sha256": "87d1ddc729ee23d797b0bd2d427e0dc763ca6b228b61798f96eeca2bdf1ad79b"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-scored/distributions.json.gz",
+      "source": "/private/tmp/q09-runtime-active-scored-v1/distributions.json.gz",
+      "transport": "identity",
+      "sourceBytes": 74624,
+      "sourceSha256": "1275119451be7ede009b069cf4ae7ac4df435f9eb9eab3b9d28f919a36ef5890",
+      "bytes": 74624,
+      "sha256": "1275119451be7ede009b069cf4ae7ac4df435f9eb9eab3b9d28f919a36ef5890"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-scored/manifest.json",
+      "source": "/private/tmp/q09-runtime-active-scored-v1/manifest.json",
+      "transport": "identity",
+      "sourceBytes": 130834,
+      "sourceSha256": "a771bfd3af95df2e72d1f93e697074a3d32057caf10a18d962c25689ab1e5686",
+      "bytes": 130834,
+      "sha256": "a771bfd3af95df2e72d1f93e697074a3d32057caf10a18d962c25689ab1e5686"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-scored/provenance.json.gz",
+      "source": "/private/tmp/q09-runtime-active-scored-v1/provenance.json.gz",
+      "transport": "identity",
+      "sourceBytes": 287093,
+      "sourceSha256": "42c8944f0c58ee177edd3849252557de26282edbbdff9af364d94c7e7f00eecd",
+      "bytes": 287093,
+      "sha256": "42c8944f0c58ee177edd3849252557de26282edbbdff9af364d94c7e7f00eecd"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-scored/review-samples.json.gz",
+      "source": "/private/tmp/q09-runtime-active-scored-v1/review-samples.json.gz",
+      "transport": "identity",
+      "sourceBytes": 733065,
+      "sourceSha256": "d8e7ffc106e9086416c64d05db8964edac4343bb345acb7bf08f0e038f204072",
+      "bytes": 733065,
+      "sha256": "d8e7ffc106e9086416c64d05db8964edac4343bb345acb7bf08f0e038f204072"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-scored/sources.json.gz",
+      "source": "/private/tmp/q09-runtime-active-scored-v1/sources.json.gz",
+      "transport": "identity",
+      "sourceBytes": 222969,
+      "sourceSha256": "85124d2d23df01a822f63d1036906eb610d4c28b3e324eaedb0f60aa18ee8e72",
+      "bytes": 222969,
+      "sha256": "85124d2d23df01a822f63d1036906eb610d4c28b3e324eaedb0f60aa18ee8e72"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-scored/summary.json",
+      "source": "/private/tmp/q09-runtime-active-scored-v1/summary.json",
+      "transport": "identity",
+      "sourceBytes": 84391,
+      "sourceSha256": "cfe3fb6377f7e25d0f5e34ebc95ce5c40c79755ca090da28b1f1de6d3d70f302",
+      "bytes": 84391,
+      "sha256": "cfe3fb6377f7e25d0f5e34ebc95ce5c40c79755ca090da28b1f1de6d3d70f302"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/captures/active-scored/witnesses.json.gz",
+      "source": "/private/tmp/q09-runtime-active-scored-v1/witnesses.json.gz",
+      "transport": "identity",
+      "sourceBytes": 36479,
+      "sourceSha256": "f9b8d034496f0acea60aa0664e3a3024f1644f2e9e20aad06e07db4528f361d9",
+      "bytes": 36479,
+      "sha256": "f9b8d034496f0acea60aa0664e3a3024f1644f2e9e20aad06e07db4528f361d9"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/common-comparison/comparison.json",
+      "source": "/private/tmp/q09-runtime-common-comparison-v1/comparison.json",
+      "transport": "identity",
+      "sourceBytes": 711680,
+      "sourceSha256": "7d5bdd9a94cb07e8b783792fe57de3caee14509f90e5dd97c496d1c31d3ac78d",
+      "bytes": 711680,
+      "sha256": "7d5bdd9a94cb07e8b783792fe57de3caee14509f90e5dd97c496d1c31d3ac78d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/common-comparison/comparison.md",
+      "source": "/private/tmp/q09-runtime-common-comparison-v1/comparison.md",
+      "transport": "identity",
+      "sourceBytes": 20091,
+      "sourceSha256": "796d91bb85e3fef315458230e3eeac0f49e537434786662467be24aafbbfa76d",
+      "bytes": 20091,
+      "sha256": "796d91bb85e3fef315458230e3eeac0f49e537434786662467be24aafbbfa76d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/proofs/q09-runtime-capture-freeze-v1.json.gz",
+      "source": "/private/tmp/q09-runtime-capture-freeze-v1.json",
+      "transport": "gzip",
+      "sourceBytes": 249724,
+      "sourceSha256": "c217a04a03b0613e1121283b95f5d16396d23182bc32a1e647e34728aa517b38",
+      "bytes": 31820,
+      "sha256": "fd32ac8cb8047fd4da7737a59a351acc2ba9b2097cb117de27b10493c21368d9"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/proofs/q09-runtime-control-materialization-v1.json.gz",
+      "source": "/private/tmp/q09-runtime-control-materialization-v1.json",
+      "transport": "gzip",
+      "sourceBytes": 6112,
+      "sourceSha256": "54ff2f29b3e821e334e240d501aa10d30160803acf1b83ab56ff47f8b9eea9e8",
+      "bytes": 2674,
+      "sha256": "041d73f3a29da8016017ea4f48907577ed78ac075604184d0a7d4f6bccd8cd35"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/proofs/q09-runtime-delegation-parity-v1.json.gz",
+      "source": "/private/tmp/q09-runtime-delegation-parity-v1.json",
+      "transport": "gzip",
+      "sourceBytes": 45010,
+      "sourceSha256": "8f93fc67dd8e050764e6ebb31e88a736d00b61ef126c18e9e7603dfd6e23f73c",
+      "bytes": 4767,
+      "sha256": "edf8246278d00b2437de27ebc57b1cb0b0cfef68db5c1a0d2b1180cb87e5067f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/proofs/q09-runtime-delegation-parity-v1.json.inputs.json.gz",
+      "source": "/private/tmp/q09-runtime-delegation-parity-v1.json.inputs.json",
+      "transport": "gzip",
+      "sourceBytes": 15772,
+      "sourceSha256": "1903ef2da196cb1131fe2696c302dd312a13cb5c7f3342771fa4fa0bdff02523",
+      "bytes": 4333,
+      "sha256": "929a4bff9c4b2d7bb150cba8bbac5dd96ddedcb338fd84fdb552b798d6e218bd"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/proofs/q09-runtime-control-observation-v1.json.gz",
+      "source": "/private/tmp/q09-runtime-control-observation-v1.json",
+      "transport": "gzip",
+      "sourceBytes": 1085828,
+      "sourceSha256": "93072bfc2935e0185b4e88fb19b602dd8f6358f1672d45b94689b568085af06b",
+      "bytes": 87509,
+      "sha256": "5c3634008eb83fb015f44712de4cbdc6e6a8cbac13a94a08ccf7f7742b2b830f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/proofs/q09-runtime-active-observation-v1.json.gz",
+      "source": "/private/tmp/q09-runtime-active-observation-v1.json",
+      "transport": "gzip",
+      "sourceBytes": 3113219,
+      "sourceSha256": "6ff3af6829bf71747158b083963a83989cbaff5210757a02c285a5dad500fcdd",
+      "bytes": 564462,
+      "sha256": "16661c894e3f1a4d26abf4a0e775229bad0d93d8412b0fb5a00859e3a6ab5544"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/proofs/q09-runtime-independent-proof-v1.json.gz",
+      "source": "/private/tmp/q09-runtime-independent-proof-v1.json",
+      "transport": "gzip",
+      "sourceBytes": 819,
+      "sourceSha256": "cb621d97e585ef7493a7ca310a7a0d6e98da8fb119b4096ce60bc3f0e980a608",
+      "bytes": 543,
+      "sha256": "242c3270fde4c0d34966c58112723357eed8b0a06538414c82f25490b83c0b09"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/proofs/frozen-source-bundle.json.gz",
+      "source": "/private/tmp/q09-runtime-frozen-source-bundle-v1.json",
+      "transport": "gzip",
+      "sourceBytes": 2200942,
+      "sourceSha256": "c062624eba04ea56346e3304a2a6253d2f8a8564d6a80da186e4228ccaf8df65",
+      "bytes": 614125,
+      "sha256": "ac99b03d95c8fb97ed4bdb8a6059ec62e3b16421112e2ef126ff1031d7b0a913"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/full-report.json.xz",
+      "source": "/private/tmp/q09-runtime-supplement-result-v2.json",
+      "transport": "xz",
+      "sourceBytes": 1507751990,
+      "sourceSha256": "6a51e736296f436e9b55b0c97d14680b332ca7609a32b21941b5dda79e84e8dc",
+      "bytes": 20039908,
+      "sha256": "dd2c5cf03014f42dba7f13130547570d04a22c2b8673e12a75d261de070d3c08",
+      "compression": {
+        "format": "xz",
+        "preset": 9,
+        "check": "CRC64"
+      }
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/sources/q09-supplement-authority-v1.py",
+      "source": "/private/tmp/q09-supplement-authority-v1.py",
+      "transport": "identity",
+      "sourceBytes": 25445,
+      "sourceSha256": "743e49a17c37a72aa5d9dae6f2e7b0a80ebc820efada7696b5ff24a2ed16f1f7",
+      "bytes": 25445,
+      "sha256": "743e49a17c37a72aa5d9dae6f2e7b0a80ebc820efada7696b5ff24a2ed16f1f7"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/sources/q09-supplement-authority-test-v1.py",
+      "source": "/private/tmp/q09-supplement-authority-test-v1.py",
+      "transport": "identity",
+      "sourceBytes": 22356,
+      "sourceSha256": "98c279d2f301ffac7d00daf50fca4aed6eb3233e34b91c52e26fc5c117ce8455",
+      "bytes": 22356,
+      "sha256": "98c279d2f301ffac7d00daf50fca4aed6eb3233e34b91c52e26fc5c117ce8455"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/sources/q09-supplement-expectations-v1.py",
+      "source": "/private/tmp/q09-supplement-expectations-v1.py",
+      "transport": "identity",
+      "sourceBytes": 17113,
+      "sourceSha256": "80b07bb65b81a51fce8089a3e13923a2a8aa00d177146f5a42200e0b82de17af",
+      "bytes": 17113,
+      "sha256": "80b07bb65b81a51fce8089a3e13923a2a8aa00d177146f5a42200e0b82de17af"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/sources/q09-supplement-expectations-test-v1.py",
+      "source": "/private/tmp/q09-supplement-expectations-test-v1.py",
+      "transport": "identity",
+      "sourceBytes": 14571,
+      "sourceSha256": "0540a772df5be86276fcba29334b8746b7a947317b9f78117c0ea05da7309021",
+      "bytes": 14571,
+      "sha256": "0540a772df5be86276fcba29334b8746b7a947317b9f78117c0ea05da7309021"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/sources/q09-supplement-observe-v1.py",
+      "source": "/private/tmp/q09-supplement-observe-v1.py",
+      "transport": "identity",
+      "sourceBytes": 17865,
+      "sourceSha256": "d6275203395d16b4783acc6c2d8da43877f391aa9187a3bf99c7f14d067b2fc1",
+      "bytes": 17865,
+      "sha256": "d6275203395d16b4783acc6c2d8da43877f391aa9187a3bf99c7f14d067b2fc1"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/sources/q09-supplement-observe-test-v1.py",
+      "source": "/private/tmp/q09-supplement-observe-test-v1.py",
+      "transport": "identity",
+      "sourceBytes": 9666,
+      "sourceSha256": "17ece8af3a88ac451a09efbfddbe8bd9f320cc918338a840870110b601b13877",
+      "bytes": 9666,
+      "sha256": "17ece8af3a88ac451a09efbfddbe8bd9f320cc918338a840870110b601b13877"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/sources/q09-supplement-run-v1.py",
+      "source": "/private/tmp/q09-supplement-run-v1.py",
+      "transport": "identity",
+      "sourceBytes": 14518,
+      "sourceSha256": "33395b8eedf464cb113e9b485b640ff573475d91ea5f49449228c5c85a9fc3c6",
+      "bytes": 14518,
+      "sha256": "33395b8eedf464cb113e9b485b640ff573475d91ea5f49449228c5c85a9fc3c6"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/sources/q09-supplement-run-test-v1.py",
+      "source": "/private/tmp/q09-supplement-run-test-v1.py",
+      "transport": "identity",
+      "sourceBytes": 7481,
+      "sourceSha256": "6c673f60aaea274cadbdb190adef779c13e3e55bc31819b72248f1ac2c95344d",
+      "bytes": 7481,
+      "sha256": "6c673f60aaea274cadbdb190adef779c13e3e55bc31819b72248f1ac2c95344d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/sources/q09-supplement-contract-v1.md",
+      "source": "/private/tmp/q09-supplement-contract-v1.md",
+      "transport": "identity",
+      "sourceBytes": 7389,
+      "sourceSha256": "95fb0ce9ba2ed43663ce43c6c7accb48ba5c8156e9046c6ebc1aeaf02fecd3b7",
+      "bytes": 7389,
+      "sha256": "95fb0ce9ba2ed43663ce43c6c7accb48ba5c8156e9046c6ebc1aeaf02fecd3b7"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/q09-supplement-authority-proposal-v2.json",
+      "source": "/private/tmp/q09-supplement-authority-proposal-v2.json",
+      "transport": "identity",
+      "sourceBytes": 3055,
+      "sourceSha256": "1defb60bd1210bd49aeb6a5c6bfa8911b9e98d1a0e0683bfab9d2c35c48dd2ff",
+      "bytes": 3055,
+      "sha256": "1defb60bd1210bd49aeb6a5c6bfa8911b9e98d1a0e0683bfab9d2c35c48dd2ff"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/q09-runtime-supplement-overview-v2.json",
+      "source": "/private/tmp/q09-runtime-supplement-overview-v2.json",
+      "transport": "identity",
+      "sourceBytes": 1469865,
+      "sourceSha256": "84bbcd728bde7b30bd1e34ea8ea18624f5b1145ff72aa371a6c68ef44becec76",
+      "bytes": 1469865,
+      "sha256": "84bbcd728bde7b30bd1e34ea8ea18624f5b1145ff72aa371a6c68ef44becec76"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/q09-runtime-supplement-result-v2.log",
+      "source": "/private/tmp/q09-runtime-supplement-result-v2.log",
+      "transport": "identity",
+      "sourceBytes": 85,
+      "sourceSha256": "ac29ee73c9ae1e6d324e7f28d658642b20cefc8e91b455f998de5e8c523d10a0",
+      "bytes": 85,
+      "sha256": "ac29ee73c9ae1e6d324e7f28d658642b20cefc8e91b455f998de5e8c523d10a0"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/q09-supplement-parent-synthetic-v2.log",
+      "source": "/private/tmp/q09-supplement-parent-synthetic-v2.log",
+      "transport": "identity",
+      "sourceBytes": 635,
+      "sourceSha256": "490cd19c2da564ece9cbb9e160a163348684e58f3e11c06de72594efefc6a44a",
+      "bytes": 635,
+      "sha256": "490cd19c2da564ece9cbb9e160a163348684e58f3e11c06de72594efefc6a44a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/q09-parent-supplement-source-review-v1.json",
+      "source": "/private/tmp/q09-parent-supplement-source-review-v1.json",
+      "transport": "identity",
+      "sourceBytes": 2568,
+      "sourceSha256": "243d0a16cc2d7def8f7b237fdc4f7d5d4622d6be152a07a572af1a863a45c66f",
+      "bytes": 2568,
+      "sha256": "243d0a16cc2d7def8f7b237fdc4f7d5d4622d6be152a07a572af1a863a45c66f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/q09-runtime-package-compress-v1.json",
+      "source": "/private/tmp/q09-runtime-package-compress-v1.json",
+      "transport": "identity",
+      "sourceBytes": 479,
+      "sourceSha256": "03d30833f7472b7ed2f03a54f3de41ad09c5bd8895563c74acd48d3b95216f1a",
+      "bytes": 479,
+      "sha256": "03d30833f7472b7ed2f03a54f3de41ad09c5bd8895563c74acd48d3b95216f1a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/failed-preflight-v1/q09-supplement-authority-proposal-v1.json",
+      "source": "/private/tmp/q09-supplement-authority-proposal-v1.json",
+      "transport": "identity",
+      "sourceBytes": 3055,
+      "sourceSha256": "0087550226681465121379c4870bb26a8866e818336b8f4ba835431c56a971ee",
+      "bytes": 3055,
+      "sha256": "0087550226681465121379c4870bb26a8866e818336b8f4ba835431c56a971ee"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/failed-preflight-v1/q09-supplement-before-index-order-authority-v1.py",
+      "source": "/private/tmp/q09-supplement-before-index-order-authority-v1.py",
+      "transport": "identity",
+      "sourceBytes": 25132,
+      "sourceSha256": "dfdf800d1d2c0445412cf37d3e9f43b24ac2d70449cec22691bdb825af2298e7",
+      "bytes": 25132,
+      "sha256": "dfdf800d1d2c0445412cf37d3e9f43b24ac2d70449cec22691bdb825af2298e7"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/failed-preflight-v1/q09-supplement-before-index-order-authority-test-v1.py",
+      "source": "/private/tmp/q09-supplement-before-index-order-authority-test-v1.py",
+      "transport": "identity",
+      "sourceBytes": 22020,
+      "sourceSha256": "3a4ddd73876133c8134646ada5580a66995d9aaff0d6d4af6bc7ccd859eb1483",
+      "bytes": 22020,
+      "sha256": "3a4ddd73876133c8134646ada5580a66995d9aaff0d6d4af6bc7ccd859eb1483"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/failed-preflight-v1/q09-supplement-before-index-order-contract-v1.md",
+      "source": "/private/tmp/q09-supplement-before-index-order-contract-v1.md",
+      "transport": "identity",
+      "sourceBytes": 6777,
+      "sourceSha256": "a97b81be9495cf1c9b3e865dc4a538d9e266661710f7b5461f1e83e5cb53cb06",
+      "bytes": 6777,
+      "sha256": "a97b81be9495cf1c9b3e865dc4a538d9e266661710f7b5461f1e83e5cb53cb06"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/failed-preflight-v1/q09-runtime-supplement-result-v1.json",
+      "source": "/private/tmp/q09-runtime-supplement-result-v1.json",
+      "transport": "identity",
+      "sourceBytes": 239,
+      "sourceSha256": "027ad7af9a774c7f32770439cf25699ee1984a0fe09e7883f90e4004bed73c5d",
+      "bytes": 239,
+      "sha256": "027ad7af9a774c7f32770439cf25699ee1984a0fe09e7883f90e4004bed73c5d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/failed-preflight-v1/q09-runtime-supplement-result-v1.log",
+      "source": "/private/tmp/q09-runtime-supplement-result-v1.log",
+      "transport": "identity",
+      "sourceBytes": 870,
+      "sourceSha256": "bb24163b10fa044e9d2ad14459e16330330ea9e9f948110ae036258fcaf9a628",
+      "bytes": 870,
+      "sha256": "bb24163b10fa044e9d2ad14459e16330330ea9e9f948110ae036258fcaf9a628"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/failed-preflight-v1/q09-supplement-parent-synthetic-v1.log",
+      "source": "/private/tmp/q09-supplement-parent-synthetic-v1.log",
+      "transport": "identity",
+      "sourceBytes": 509,
+      "sourceSha256": "f7f302a8f2a710278bbdda62aad21351c8d618f8ccda5c03b8ec635c27e1a675",
+      "bytes": 509,
+      "sha256": "f7f302a8f2a710278bbdda62aad21351c8d618f8ccda5c03b8ec635c27e1a675"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-api-correction-checkpoint-v1.json",
+      "source": "/private/tmp/q09-runtime-timing-api-correction-checkpoint-v1.json",
+      "transport": "identity",
+      "sourceBytes": 4423,
+      "sourceSha256": "89206c18e2118f1b9c7a0ed90bd4a8d7443517ee29739d5fd80b2f679b125718",
+      "bytes": 4423,
+      "sha256": "89206c18e2118f1b9c7a0ed90bd4a8d7443517ee29739d5fd80b2f679b125718"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-api-correction-v1.diff",
+      "source": "/private/tmp/q09-runtime-timing-api-correction-v1.diff",
+      "transport": "identity",
+      "sourceBytes": 67570,
+      "sourceSha256": "1f4925b74c69b7c77c20f04f7da76dfc3ab1ae0768c79f45e7618b31b10a7b54",
+      "bytes": 67570,
+      "sha256": "1f4925b74c69b7c77c20f04f7da76dfc3ab1ae0768c79f45e7618b31b10a7b54"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-api-smoke-result-v1.json",
+      "source": "/private/tmp/q09-runtime-timing-api-smoke-result-v1.json",
+      "transport": "identity",
+      "sourceBytes": 6673,
+      "sourceSha256": "c2573831822e84eac8fd00ebfc5aa371c74012b818f441d16317d223e00704c8",
+      "bytes": 6673,
+      "sha256": "c2573831822e84eac8fd00ebfc5aa371c74012b818f441d16317d223e00704c8"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-api-smoke-v1.log",
+      "source": "/private/tmp/q09-runtime-timing-api-smoke-v1.log",
+      "transport": "identity",
+      "sourceBytes": 101,
+      "sourceSha256": "adbe3f5cfe46b8d07ae7d5444c35256e14fd1c27b209dd566aedb51f81515f54",
+      "bytes": 101,
+      "sha256": "adbe3f5cfe46b8d07ae7d5444c35256e14fd1c27b209dd566aedb51f81515f54"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-before-fixes-v1.json",
+      "source": "/private/tmp/q09-runtime-timing-before-fixes-v1.json",
+      "transport": "identity",
+      "sourceBytes": 1000,
+      "sourceSha256": "5ed25763a9d9352c5515433075bf4293654d0ae2327f3ea798bf692c0ea67fcf",
+      "bytes": 1000,
+      "sha256": "5ed25763a9d9352c5515433075bf4293654d0ae2327f3ea798bf692c0ea67fcf"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-before-fixes-v1.mjs",
+      "source": "/private/tmp/q09-runtime-timing-before-fixes-v1.mjs",
+      "transport": "identity",
+      "sourceBytes": 5202,
+      "sourceSha256": "12267670aa6da8739a4a97c99a7d3e606abc4a6d1683c76da9c3b767e40dcd8f",
+      "bytes": 5202,
+      "sha256": "12267670aa6da8739a4a97c99a7d3e606abc4a6d1683c76da9c3b767e40dcd8f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-contract-before-fixes-v1.md",
+      "source": "/private/tmp/q09-runtime-timing-contract-before-fixes-v1.md",
+      "transport": "identity",
+      "sourceBytes": 3054,
+      "sourceSha256": "f304f0c326bc2e5b9457577e36f0501fc3e191c1de2699b9d9cba3e1a768e34c",
+      "bytes": 3054,
+      "sha256": "f304f0c326bc2e5b9457577e36f0501fc3e191c1de2699b9d9cba3e1a768e34c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-contract-v1.md",
+      "source": "/private/tmp/q09-runtime-timing-contract-v1.md",
+      "transport": "identity",
+      "sourceBytes": 5731,
+      "sourceSha256": "c0f5b730b04f0b7827b80facf6553bbb9b078de3c46c08569126e3a5cfb787bf",
+      "bytes": 5731,
+      "sha256": "c0f5b730b04f0b7827b80facf6553bbb9b078de3c46c08569126e3a5cfb787bf"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-contract-v2.md",
+      "source": "/private/tmp/q09-runtime-timing-contract-v2.md",
+      "transport": "identity",
+      "sourceBytes": 10011,
+      "sourceSha256": "d73e6d50a66a5fc73f3b67677f1820e07ee1c30baa82241992cbd6255a78fcfb",
+      "bytes": 10011,
+      "sha256": "d73e6d50a66a5fc73f3b67677f1820e07ee1c30baa82241992cbd6255a78fcfb"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-factory-api-amendment-preservation-v1.json",
+      "source": "/private/tmp/q09-runtime-timing-factory-api-amendment-preservation-v1.json",
+      "transport": "identity",
+      "sourceBytes": 23081,
+      "sourceSha256": "6e1052de75fdd097b55a8f6f5f65dd11764351d31f180d12df23509b92b84d7e",
+      "bytes": 23081,
+      "sha256": "6e1052de75fdd097b55a8f6f5f65dd11764351d31f180d12df23509b92b84d7e"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-ledger-v1.jsonl.gz",
+      "source": "/private/tmp/q09-runtime-timing-ledger-v1.jsonl",
+      "transport": "gzip",
+      "sourceBytes": 2620653,
+      "sourceSha256": "d2b35b252606af535ff3e2bd4b50f7018569dd4380f35d3de9e8253683bb742a",
+      "bytes": 262551,
+      "sha256": "4dcdf7f31b21901dcc57f8273afc117b6fde1ced865082835167e3fd04981182"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-ledger-v2.jsonl.gz",
+      "source": "/private/tmp/q09-runtime-timing-ledger-v2.jsonl",
+      "transport": "gzip",
+      "sourceBytes": 2633198,
+      "sourceSha256": "cff8407d85c9e55f85696ff658ee70818322d2531b2dd0b745375231f7cf1c38",
+      "bytes": 270152,
+      "sha256": "75ddcd548f6587ec247105f81c8139aacba25fb6109075eb83c2b9a37947db85"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-matrix-run-v1.log",
+      "source": "/private/tmp/q09-runtime-timing-matrix-run-v1.log",
+      "transport": "identity",
+      "sourceBytes": 123,
+      "sourceSha256": "45074e608074eb2fb45617bc8b56dee75a0f6f2cdc08e4bcf09ae59567e06280",
+      "bytes": 123,
+      "sha256": "45074e608074eb2fb45617bc8b56dee75a0f6f2cdc08e4bcf09ae59567e06280"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-matrix-run-v2.log",
+      "source": "/private/tmp/q09-runtime-timing-matrix-run-v2.log",
+      "transport": "identity",
+      "sourceBytes": 122,
+      "sourceSha256": "8b61c1fe0817ccbaf3173fed3157b4e330706bf2e765f8bfa25a4c3c8832208f",
+      "bytes": 122,
+      "sha256": "8b61c1fe0817ccbaf3173fed3157b4e330706bf2e765f8bfa25a4c3c8832208f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-matrix-test-v1.mjs",
+      "source": "/private/tmp/q09-runtime-timing-matrix-test-v1.mjs",
+      "transport": "identity",
+      "sourceBytes": 21059,
+      "sourceSha256": "ff24e6b7d905145d0adc0b9b67f61b019ab9c6e0995c9e535790ce35545ed3e2",
+      "bytes": 21059,
+      "sha256": "ff24e6b7d905145d0adc0b9b67f61b019ab9c6e0995c9e535790ce35545ed3e2"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-matrix-test-v2.mjs",
+      "source": "/private/tmp/q09-runtime-timing-matrix-test-v2.mjs",
+      "transport": "identity",
+      "sourceBytes": 23583,
+      "sourceSha256": "f15805e3da866be6e8b1907bd5127996f2323e1fd155b8816292e78e650024f6",
+      "bytes": 23583,
+      "sha256": "f15805e3da866be6e8b1907bd5127996f2323e1fd155b8816292e78e650024f6"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-matrix-v1.mjs",
+      "source": "/private/tmp/q09-runtime-timing-matrix-v1.mjs",
+      "transport": "identity",
+      "sourceBytes": 17169,
+      "sourceSha256": "677d0f8f0e61b5990e808389c4ba5af7f498888e837bdec65e1bae97efa68769",
+      "bytes": 17169,
+      "sha256": "677d0f8f0e61b5990e808389c4ba5af7f498888e837bdec65e1bae97efa68769"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-matrix-v2.mjs",
+      "source": "/private/tmp/q09-runtime-timing-matrix-v2.mjs",
+      "transport": "identity",
+      "sourceBytes": 17692,
+      "sourceSha256": "12bb39e9b302d761e54ee968b1dfa563db83cb7422b3f3dc027a5861d9624664",
+      "bytes": 17692,
+      "sha256": "12bb39e9b302d761e54ee968b1dfa563db83cb7422b3f3dc027a5861d9624664"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-parent-synthetic-v2.log",
+      "source": "/private/tmp/q09-runtime-timing-parent-synthetic-v2.log",
+      "transport": "identity",
+      "sourceBytes": 3247,
+      "sourceSha256": "2a6dc199121f2156ce1118d5151f21b2f40f617b09ce0476aaa0d184665a5e81",
+      "bytes": 3247,
+      "sha256": "2a6dc199121f2156ce1118d5151f21b2f40f617b09ce0476aaa0d184665a5e81"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-parent-synthetic-v3.log",
+      "source": "/private/tmp/q09-runtime-timing-parent-synthetic-v3.log",
+      "transport": "identity",
+      "sourceBytes": 3618,
+      "sourceSha256": "46972c069855ca7e43d97773c8c03964b93915c116b3c10ed634b85a0c5bfd57",
+      "bytes": 3618,
+      "sha256": "46972c069855ca7e43d97773c8c03964b93915c116b3c10ed634b85a0c5bfd57"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-review-proposal-v2.json",
+      "source": "/private/tmp/q09-runtime-timing-review-proposal-v2.json",
+      "transport": "identity",
+      "sourceBytes": 1452,
+      "sourceSha256": "e200105a5dd31827a49742db648b318057ac950562a7cb06e467d2096c6d9de4",
+      "bytes": 1452,
+      "sha256": "e200105a5dd31827a49742db648b318057ac950562a7cb06e467d2096c6d9de4"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-review-proposal-v3.json",
+      "source": "/private/tmp/q09-runtime-timing-review-proposal-v3.json",
+      "transport": "identity",
+      "sourceBytes": 2425,
+      "sourceSha256": "8bd99214cf8fe8113ada7afa2f0bc33c01597779aaa3777829980c487ec08bd6",
+      "bytes": 2425,
+      "sha256": "8bd99214cf8fe8113ada7afa2f0bc33c01597779aaa3777829980c487ec08bd6"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-smoke-v1.mjs",
+      "source": "/private/tmp/q09-runtime-timing-smoke-v1.mjs",
+      "transport": "identity",
+      "sourceBytes": 6543,
+      "sourceSha256": "89d0f0b1256f6231c943779626ef7898669bfaf080a7871c88ed3def5540ff03",
+      "bytes": 6543,
+      "sha256": "89d0f0b1256f6231c943779626ef7898669bfaf080a7871c88ed3def5540ff03"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-source-review-v1.json",
+      "source": "/private/tmp/q09-runtime-timing-source-review-v1.json",
+      "transport": "identity",
+      "sourceBytes": 2725,
+      "sourceSha256": "00c923adfcdc4887c45472029ab79a9e08b6ded0223b758b9def98c1e393b611",
+      "bytes": 2725,
+      "sha256": "00c923adfcdc4887c45472029ab79a9e08b6ded0223b758b9def98c1e393b611"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-synthetic-api-v2.log",
+      "source": "/private/tmp/q09-runtime-timing-synthetic-api-v2.log",
+      "transport": "identity",
+      "sourceBytes": 3522,
+      "sourceSha256": "e213f344108f2562f1bb728d2a9f012e12f36a5bbadfa5654ec10c4378ed9ae0",
+      "bytes": 3522,
+      "sha256": "e213f344108f2562f1bb728d2a9f012e12f36a5bbadfa5654ec10c4378ed9ae0"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-synthetic-api-v3.log",
+      "source": "/private/tmp/q09-runtime-timing-synthetic-api-v3.log",
+      "transport": "identity",
+      "sourceBytes": 3619,
+      "sourceSha256": "3235b1ff06b6dc656c5350dacc0cca6f2cf188d4507db856746fef26f3d9964c",
+      "bytes": 3619,
+      "sha256": "3235b1ff06b6dc656c5350dacc0cca6f2cf188d4507db856746fef26f3d9964c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-synthetic-checkpoint-v2.log",
+      "source": "/private/tmp/q09-runtime-timing-synthetic-checkpoint-v2.log",
+      "transport": "identity",
+      "sourceBytes": 3667,
+      "sourceSha256": "6d7a21bf293a303d02b4d2ef06a7d270fed4168283cad4a9c43e17b6e166bd89",
+      "bytes": 3667,
+      "sha256": "6d7a21bf293a303d02b4d2ef06a7d270fed4168283cad4a9c43e17b6e166bd89"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-synthetic-v1.log",
+      "source": "/private/tmp/q09-runtime-timing-synthetic-v1.log",
+      "transport": "identity",
+      "sourceBytes": 459,
+      "sourceSha256": "fe89e8325a409999cf02153958f69fb93afa24a0914e344e3ce1f1aed959930f",
+      "bytes": 459,
+      "sha256": "fe89e8325a409999cf02153958f69fb93afa24a0914e344e3ce1f1aed959930f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-test-before-fixes-v1.mjs",
+      "source": "/private/tmp/q09-runtime-timing-test-before-fixes-v1.mjs",
+      "transport": "identity",
+      "sourceBytes": 2972,
+      "sourceSha256": "a73547c1dd960629b5914417c0519f73580985c0ace12f0243c718b829caab1c",
+      "bytes": 2972,
+      "sha256": "a73547c1dd960629b5914417c0519f73580985c0ace12f0243c718b829caab1c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-test-v1.mjs",
+      "source": "/private/tmp/q09-runtime-timing-test-v1.mjs",
+      "transport": "identity",
+      "sourceBytes": 10176,
+      "sourceSha256": "132042ceda3c55a5192fbba82eff8f448bb70ea87c8f6377e78d9307eb461250",
+      "bytes": 10176,
+      "sha256": "132042ceda3c55a5192fbba82eff8f448bb70ea87c8f6377e78d9307eb461250"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-test-v2.mjs",
+      "source": "/private/tmp/q09-runtime-timing-test-v2.mjs",
+      "transport": "identity",
+      "sourceBytes": 12887,
+      "sourceSha256": "1d9a1e61645a637e5690b7732e83042439f2eb61e280c95ee7505d1ff203d63a",
+      "bytes": 12887,
+      "sha256": "1d9a1e61645a637e5690b7732e83042439f2eb61e280c95ee7505d1ff203d63a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-v1.mjs",
+      "source": "/private/tmp/q09-runtime-timing-v1.mjs",
+      "transport": "identity",
+      "sourceBytes": 7767,
+      "sourceSha256": "bd3fc2259783dd01f714d4323b0fad0037636cdbed0aaf3929d232dc53d899c8",
+      "bytes": 7767,
+      "sha256": "bd3fc2259783dd01f714d4323b0fad0037636cdbed0aaf3929d232dc53d899c8"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-timing-v2.mjs",
+      "source": "/private/tmp/q09-runtime-timing-v2.mjs",
+      "transport": "identity",
+      "sourceBytes": 8638,
+      "sourceSha256": "6d2f2b0caf209e3379263625c0e8e5eb6d355d105d2991f69556def58fc4de44",
+      "bytes": 8638,
+      "sha256": "6d2f2b0caf209e3379263625c0e8e5eb6d355d105d2991f69556def58fc4de44"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/raw-outcomes-v1.tar.gz",
+      "transport": "tar+gzip",
+      "sourceBytes": 2652160,
+      "sourceSha256": "6225b3277740290173fa4c935fe53867e36450d259a87bd1d4f6e8ff47452143",
+      "bytes": 257084,
+      "sha256": "8a2c78cda01d6df488dd87a25a931bd844e557d21b35b66d955ce1ce6b1b4c74",
+      "members": [
+        {
+          "member": "01-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/01-trace-false-control.json",
+          "bytes": 107146,
+          "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+        },
+        {
+          "member": "01-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/01-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "01-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/01-trace-false-control.stdout",
+          "bytes": 614,
+          "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+        },
+        {
+          "member": "02-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/02-trace-false-active.json",
+          "bytes": 107216,
+          "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+        },
+        {
+          "member": "02-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/02-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "02-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/02-trace-false-active.stdout",
+          "bytes": 613,
+          "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+        },
+        {
+          "member": "03-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/03-trace-false-active.json",
+          "bytes": 107216,
+          "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+        },
+        {
+          "member": "03-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/03-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "03-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/03-trace-false-active.stdout",
+          "bytes": 613,
+          "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+        },
+        {
+          "member": "04-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/04-trace-false-control.json",
+          "bytes": 107146,
+          "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+        },
+        {
+          "member": "04-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/04-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "04-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/04-trace-false-control.stdout",
+          "bytes": 614,
+          "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+        },
+        {
+          "member": "05-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/05-trace-false-control.json",
+          "bytes": 107146,
+          "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+        },
+        {
+          "member": "05-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/05-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "05-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/05-trace-false-control.stdout",
+          "bytes": 614,
+          "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+        },
+        {
+          "member": "06-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/06-trace-false-active.json",
+          "bytes": 107216,
+          "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+        },
+        {
+          "member": "06-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/06-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "06-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/06-trace-false-active.stdout",
+          "bytes": 613,
+          "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+        },
+        {
+          "member": "07-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/07-trace-false-active.json",
+          "bytes": 107216,
+          "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+        },
+        {
+          "member": "07-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/07-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "07-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/07-trace-false-active.stdout",
+          "bytes": 613,
+          "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+        },
+        {
+          "member": "08-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/08-trace-false-control.json",
+          "bytes": 107146,
+          "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+        },
+        {
+          "member": "08-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/08-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "08-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/08-trace-false-control.stdout",
+          "bytes": 614,
+          "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+        },
+        {
+          "member": "09-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/09-trace-false-control.json",
+          "bytes": 107146,
+          "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+        },
+        {
+          "member": "09-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/09-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "09-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/09-trace-false-control.stdout",
+          "bytes": 614,
+          "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+        },
+        {
+          "member": "10-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/10-trace-false-active.json",
+          "bytes": 107216,
+          "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+        },
+        {
+          "member": "10-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/10-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "10-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/10-trace-false-active.stdout",
+          "bytes": 613,
+          "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+        },
+        {
+          "member": "11-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/11-trace-false-active.json",
+          "bytes": 107216,
+          "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+        },
+        {
+          "member": "11-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/11-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "11-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/11-trace-false-active.stdout",
+          "bytes": 613,
+          "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+        },
+        {
+          "member": "12-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/12-trace-false-control.json",
+          "bytes": 107146,
+          "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+        },
+        {
+          "member": "12-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/12-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "12-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/12-trace-false-control.stdout",
+          "bytes": 614,
+          "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+        },
+        {
+          "member": "13-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/13-trace-true-control.json",
+          "bytes": 107145,
+          "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+        },
+        {
+          "member": "13-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/13-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "13-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/13-trace-true-control.stdout",
+          "bytes": 613,
+          "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+        },
+        {
+          "member": "14-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/14-trace-true-active.json",
+          "bytes": 107215,
+          "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+        },
+        {
+          "member": "14-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/14-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "14-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/14-trace-true-active.stdout",
+          "bytes": 612,
+          "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+        },
+        {
+          "member": "15-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/15-trace-true-active.json",
+          "bytes": 107215,
+          "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+        },
+        {
+          "member": "15-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/15-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "15-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/15-trace-true-active.stdout",
+          "bytes": 612,
+          "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+        },
+        {
+          "member": "16-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/16-trace-true-control.json",
+          "bytes": 107145,
+          "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+        },
+        {
+          "member": "16-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/16-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "16-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/16-trace-true-control.stdout",
+          "bytes": 613,
+          "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+        },
+        {
+          "member": "17-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/17-trace-true-control.json",
+          "bytes": 107145,
+          "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+        },
+        {
+          "member": "17-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/17-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "17-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/17-trace-true-control.stdout",
+          "bytes": 613,
+          "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+        },
+        {
+          "member": "18-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/18-trace-true-active.json",
+          "bytes": 107215,
+          "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+        },
+        {
+          "member": "18-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/18-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "18-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/18-trace-true-active.stdout",
+          "bytes": 612,
+          "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+        },
+        {
+          "member": "19-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/19-trace-true-active.json",
+          "bytes": 107215,
+          "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+        },
+        {
+          "member": "19-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/19-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "19-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/19-trace-true-active.stdout",
+          "bytes": 612,
+          "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+        },
+        {
+          "member": "20-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/20-trace-true-control.json",
+          "bytes": 107145,
+          "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+        },
+        {
+          "member": "20-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/20-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "20-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/20-trace-true-control.stdout",
+          "bytes": 613,
+          "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+        },
+        {
+          "member": "21-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/21-trace-true-control.json",
+          "bytes": 107145,
+          "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+        },
+        {
+          "member": "21-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/21-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "21-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/21-trace-true-control.stdout",
+          "bytes": 613,
+          "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+        },
+        {
+          "member": "22-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/22-trace-true-active.json",
+          "bytes": 107215,
+          "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+        },
+        {
+          "member": "22-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/22-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "22-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/22-trace-true-active.stdout",
+          "bytes": 612,
+          "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+        },
+        {
+          "member": "23-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/23-trace-true-active.json",
+          "bytes": 107215,
+          "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+        },
+        {
+          "member": "23-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/23-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "23-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/23-trace-true-active.stdout",
+          "bytes": 612,
+          "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+        },
+        {
+          "member": "24-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/24-trace-true-control.json",
+          "bytes": 107145,
+          "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+        },
+        {
+          "member": "24-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/24-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "24-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v1/24-trace-true-control.stdout",
+          "bytes": 613,
+          "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+        }
+      ]
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/raw-outcomes-v2.tar.gz",
+      "transport": "tar+gzip",
+      "sourceBytes": 2652160,
+      "sourceSha256": "f978e13b2ada58e4542280fb833ccf3de3a08b51b4ad941c5f601c06dab0645a",
+      "bytes": 262774,
+      "sha256": "c21346a76d97116582119f060c19963ebb0adcb5005f808300bf8894c2d5635b",
+      "members": [
+        {
+          "member": "01-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/01-trace-false-control.json",
+          "bytes": 107706,
+          "sha256": "76316b09fe8d62135186dbb91bfbef9ae91f7905340dc24f877f1b931c8fb2f1"
+        },
+        {
+          "member": "01-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/01-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "01-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/01-trace-false-control.stdout",
+          "bytes": 317,
+          "sha256": "02bee8ad680286d35faad5e0eb4b87f2f505c70602e7f7f5489feb4160d7479a"
+        },
+        {
+          "member": "02-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/02-trace-false-active.json",
+          "bytes": 107757,
+          "sha256": "a5eafe1c09b6755a427576d84233ca3ea845ebaef2984cba3b31c440dbada5e8"
+        },
+        {
+          "member": "02-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/02-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "02-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/02-trace-false-active.stdout",
+          "bytes": 315,
+          "sha256": "522fb3b9bd76f30aa58a52296b11ba9e4f48b4aff8fade43c6cbcdd378938ece"
+        },
+        {
+          "member": "03-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/03-trace-false-active.json",
+          "bytes": 107775,
+          "sha256": "ca18746a77ce6ac48c6c3cd50cb134862d017e84f58008ea906d7366b3e5494b"
+        },
+        {
+          "member": "03-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/03-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "03-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/03-trace-false-active.stdout",
+          "bytes": 315,
+          "sha256": "e3a4134d290503c5be9233a667972ba9efb3f3a73420d194139bf92c021d1739"
+        },
+        {
+          "member": "04-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/04-trace-false-control.json",
+          "bytes": 107718,
+          "sha256": "89a0aaa1420fb6c8d789a473de33a191cbaf1b6c72acc09e51bdd797823fd98d"
+        },
+        {
+          "member": "04-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/04-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "04-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/04-trace-false-control.stdout",
+          "bytes": 316,
+          "sha256": "e7ea09654272d8f8d5aa6baf41be4a4c02c692d67e4e2057fa73b2da60eb894c"
+        },
+        {
+          "member": "05-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/05-trace-false-control.json",
+          "bytes": 107701,
+          "sha256": "8307b1cf5d12b529a7051600631fdf29a0594d9ed0c5626ced9f3fa7239744f7"
+        },
+        {
+          "member": "05-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/05-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "05-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/05-trace-false-control.stdout",
+          "bytes": 316,
+          "sha256": "b2f9b2fa9ca56a2aaab7b3d2e14f812e7da19113d930ec76b2e7577397a421d0"
+        },
+        {
+          "member": "06-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/06-trace-false-active.json",
+          "bytes": 107776,
+          "sha256": "0f066b95cc0ca9c5ba33b0ec4e668fd94ed8581277ad2d4915285cd4f38869db"
+        },
+        {
+          "member": "06-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/06-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "06-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/06-trace-false-active.stdout",
+          "bytes": 315,
+          "sha256": "8bb07eafb3c704c8f59b5d90bb7f45b66bc965401c2ad0c027dfcdeef5c42d80"
+        },
+        {
+          "member": "07-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/07-trace-false-active.json",
+          "bytes": 107766,
+          "sha256": "98d8f0d7c4b8a5583217efb3a21c618fd59097290c0b7d422023e3866667e1ab"
+        },
+        {
+          "member": "07-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/07-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "07-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/07-trace-false-active.stdout",
+          "bytes": 315,
+          "sha256": "87500ed1357efd9c54eebf154a5442af7a4f4ef1f7f720d1ca6e39355f0f6fd1"
+        },
+        {
+          "member": "08-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/08-trace-false-control.json",
+          "bytes": 107703,
+          "sha256": "ce28985a170a78aaaccb4a818ae49c879cb4fa0923ca76608d942d22f7314fcc"
+        },
+        {
+          "member": "08-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/08-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "08-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/08-trace-false-control.stdout",
+          "bytes": 316,
+          "sha256": "162c1882fe7c18289bb61d487529835044dfb4ce6e611124c99fbaa9b456b3dd"
+        },
+        {
+          "member": "09-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/09-trace-false-control.json",
+          "bytes": 107710,
+          "sha256": "f6d72ef30b8b77ed507bcbaa2508f07e05497df5a08b54a60ab6b7d82df07db1"
+        },
+        {
+          "member": "09-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/09-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "09-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/09-trace-false-control.stdout",
+          "bytes": 316,
+          "sha256": "70735b71172192d63b2bef4c36d043a9f58fe25430a3f4e92e2fcbe7be610798"
+        },
+        {
+          "member": "10-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/10-trace-false-active.json",
+          "bytes": 107766,
+          "sha256": "0a30302dfa3e7ae3930253a11bf7f77822c8c4e1cbaf417af148cbac53b570eb"
+        },
+        {
+          "member": "10-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/10-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "10-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/10-trace-false-active.stdout",
+          "bytes": 314,
+          "sha256": "9f69efcab28d1f1be172682d2212b02ffe9c2c756d0b3cce293594de1d50b0f5"
+        },
+        {
+          "member": "11-trace-false-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/11-trace-false-active.json",
+          "bytes": 107769,
+          "sha256": "a233e929352230a69f5649d824c2459e01220ae71104ac97ed34f2ce8af9138e"
+        },
+        {
+          "member": "11-trace-false-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/11-trace-false-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "11-trace-false-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/11-trace-false-active.stdout",
+          "bytes": 315,
+          "sha256": "6734956194ddc01e6fe2e35199226c5cf05e00ea43b5de86822ecbbcc863eaf2"
+        },
+        {
+          "member": "12-trace-false-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/12-trace-false-control.json",
+          "bytes": 107709,
+          "sha256": "f627fa1cb8d697cc8e02da502f2db136dc008702aa05a34bf82276247648d178"
+        },
+        {
+          "member": "12-trace-false-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/12-trace-false-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "12-trace-false-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/12-trace-false-control.stdout",
+          "bytes": 316,
+          "sha256": "ece43634dc8946618cf57162fbaf89a3fc59fd003967c9c2e8286253b645ef2f"
+        },
+        {
+          "member": "13-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/13-trace-true-control.json",
+          "bytes": 107639,
+          "sha256": "462a80f80afbf59bcad92b3730de28147d77968808c5955936dbec274b90dc5c"
+        },
+        {
+          "member": "13-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/13-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "13-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/13-trace-true-control.stdout",
+          "bytes": 235,
+          "sha256": "802319985681528cc367cae496482d5ba5f39329f452915f725e77cc91e4be5e"
+        },
+        {
+          "member": "14-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/14-trace-true-active.json",
+          "bytes": 107733,
+          "sha256": "d25748126d3fe5515f8e9c82d6cbf31f08e5de0a0cf10bef835f98dd8cecbcff"
+        },
+        {
+          "member": "14-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/14-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "14-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/14-trace-true-active.stdout",
+          "bytes": 234,
+          "sha256": "f9acaa73f9c39db6a91d348ca502b1b94d7fc8ebc37fe1dd022605280ca7c6af"
+        },
+        {
+          "member": "15-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/15-trace-true-active.json",
+          "bytes": 107719,
+          "sha256": "a6de1f02c735eb211895933f16a58d808d06df371a32363f8791e368e00d8893"
+        },
+        {
+          "member": "15-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/15-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "15-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/15-trace-true-active.stdout",
+          "bytes": 234,
+          "sha256": "97d02b25bee5dac6667d5b9856c40b1859b75692a1088ec62645d5aff5841449"
+        },
+        {
+          "member": "16-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/16-trace-true-control.json",
+          "bytes": 107635,
+          "sha256": "d30be86392e9613f7fe22a75c7f06d47f482ec076a29bd53f0da27144feb4938"
+        },
+        {
+          "member": "16-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/16-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "16-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/16-trace-true-control.stdout",
+          "bytes": 234,
+          "sha256": "4a0c1a16edc23670416c8f36fe7008e6fb1b82541f552f81608c99e6d4614663"
+        },
+        {
+          "member": "17-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/17-trace-true-control.json",
+          "bytes": 107638,
+          "sha256": "4e801b00b403882a6ff04c05d7b21756090554b4651aef47806cd4187b3130b5"
+        },
+        {
+          "member": "17-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/17-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "17-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/17-trace-true-control.stdout",
+          "bytes": 235,
+          "sha256": "8e412f3c7f8cd24467ac93a55673d4802a3defb193b55bb001f6c1ae0091fdbd"
+        },
+        {
+          "member": "18-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/18-trace-true-active.json",
+          "bytes": 107725,
+          "sha256": "2442be6a0ffd5391e16a705552e06ffd22ace2b1507eba02eb57b79aacc7cc61"
+        },
+        {
+          "member": "18-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/18-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "18-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/18-trace-true-active.stdout",
+          "bytes": 234,
+          "sha256": "fb0e96be60c3a7664c5f223dd7b8b7c4bdfd0f504ae9d7a14aeb5b87db8fe46f"
+        },
+        {
+          "member": "19-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/19-trace-true-active.json",
+          "bytes": 107724,
+          "sha256": "e3c9d58a2eb6b1452a1e9b8052a6a86c6f42e344ae9fdb834afd695bdb3ee5c6"
+        },
+        {
+          "member": "19-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/19-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "19-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/19-trace-true-active.stdout",
+          "bytes": 234,
+          "sha256": "f07f186f9b5627670ae03e81429824386150bdb48dbe84f6c0b65b0c2478ae58"
+        },
+        {
+          "member": "20-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/20-trace-true-control.json",
+          "bytes": 107644,
+          "sha256": "7cab1e08f99910c9e2e5ec3528035bcf9bccdbb4baa5eabbad05c5c661d2c524"
+        },
+        {
+          "member": "20-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/20-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "20-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/20-trace-true-control.stdout",
+          "bytes": 235,
+          "sha256": "ab93fc6c0b26f7f21e0c77428ba2aa4e0c29ee2eaff95dcc45cdcff0375b59e9"
+        },
+        {
+          "member": "21-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/21-trace-true-control.json",
+          "bytes": 107639,
+          "sha256": "d59930cad85d85aed9f64c906b53bb9816354ffa63075bb2f568e50f8d579816"
+        },
+        {
+          "member": "21-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/21-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "21-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/21-trace-true-control.stdout",
+          "bytes": 235,
+          "sha256": "9ee87c8c9427d391f4cb98ae305a0a7c14b332bdeba30817007d07227bb12e54"
+        },
+        {
+          "member": "22-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/22-trace-true-active.json",
+          "bytes": 107722,
+          "sha256": "ffb587e29940a0ae162779e65cb2d6efe7ad1ab7e7b863015fcf61cdf2556702"
+        },
+        {
+          "member": "22-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/22-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "22-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/22-trace-true-active.stdout",
+          "bytes": 234,
+          "sha256": "7dc39920438b3c4947e18267566124389695bd5e31e476f1ad06ae25ca480d6a"
+        },
+        {
+          "member": "23-trace-true-active.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/23-trace-true-active.json",
+          "bytes": 107718,
+          "sha256": "803f0fc25f6b9a0293264be1b45206ca47b1fc5cfb2c1202a735606509231a6f"
+        },
+        {
+          "member": "23-trace-true-active.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/23-trace-true-active.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "23-trace-true-active.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/23-trace-true-active.stdout",
+          "bytes": 234,
+          "sha256": "051270698d65b4a3afa50bf16bb0948ca1bccb8df37d604ee57197c4bc1a3e24"
+        },
+        {
+          "member": "24-trace-true-control.json",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/24-trace-true-control.json",
+          "bytes": 107649,
+          "sha256": "1b25593645463d8530fe6ee7df3263bc42095f99e3d4ff271bd06eb0e9203629"
+        },
+        {
+          "member": "24-trace-true-control.stderr",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/24-trace-true-control.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "member": "24-trace-true-control.stdout",
+          "source": "/private/tmp/q09-runtime-timing-results-v2/24-trace-true-control.stdout",
+          "bytes": 235,
+          "sha256": "4f8f23e45f8056556f4a5f60cc0d4383724261a1ab7b6d3a10a9aca78cd23041"
+        }
+      ]
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-parent-timing-outcome-review-v2.json",
+      "source": "/private/tmp/q09-parent-timing-outcome-review-v2.json",
+      "transport": "identity",
+      "sourceBytes": 11176,
+      "sourceSha256": "36928d6725d3a4d58eb3f2252d4b833f7588dc06b97e7cc929346f614f62fd35",
+      "bytes": 11176,
+      "sha256": "36928d6725d3a4d58eb3f2252d4b833f7588dc06b97e7cc929346f614f62fd35"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-parent-timing-source-review-v2.json",
+      "source": "/private/tmp/q09-parent-timing-source-review-v2.json",
+      "transport": "identity",
+      "sourceBytes": 1685,
+      "sourceSha256": "4356a12f8e46ff1b75720655fa033c54e7857bfb37406b0c16e3f9b577d7fac5",
+      "bytes": 1685,
+      "sha256": "4356a12f8e46ff1b75720655fa033c54e7857bfb37406b0c16e3f9b577d7fac5"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-parent-timing-source-review-v3.json",
+      "source": "/private/tmp/q09-parent-timing-source-review-v3.json",
+      "transport": "identity",
+      "sourceBytes": 973,
+      "sourceSha256": "dd10893adddbb890161bce09c58d8141575a514757fa07c42ab9f5485215a8a2",
+      "bytes": 973,
+      "sha256": "dd10893adddbb890161bce09c58d8141575a514757fa07c42ab9f5485215a8a2"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/timing/q09-runtime-default-performance-v1.log",
+      "source": "/private/tmp/q09-runtime-default-performance-v1.log",
+      "transport": "identity",
+      "sourceBytes": 1044,
+      "sourceSha256": "92f916cdb51d3d77aad9a622cc51a7580885e09c497691c87e9dbd708e7c168c",
+      "bytes": 1044,
+      "sha256": "92f916cdb51d3d77aad9a622cc51a7580885e09c497691c87e9dbd708e7c168c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-active-capture-v1.log",
+      "source": "/private/tmp/q09-runtime-active-capture-v1.log",
+      "transport": "identity",
+      "sourceBytes": 881,
+      "sourceSha256": "22e2ad88b95eb9672725bb99f21cbea2abfcf32986e6fa78c8a6322fa3cc07da",
+      "bytes": 881,
+      "sha256": "22e2ad88b95eb9672725bb99f21cbea2abfcf32986e6fa78c8a6322fa3cc07da"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-active-observation-v1.log",
+      "source": "/private/tmp/q09-runtime-active-observation-v1.log",
+      "transport": "identity",
+      "sourceBytes": 497,
+      "sourceSha256": "a22aa2de8dacdb38e848832f06dd6111b080967c0a44455574c4e7be433dbd62",
+      "bytes": 497,
+      "sha256": "a22aa2de8dacdb38e848832f06dd6111b080967c0a44455574c4e7be433dbd62"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-active-rescore-v1.log",
+      "source": "/private/tmp/q09-runtime-active-rescore-v1.log",
+      "transport": "identity",
+      "sourceBytes": 1154,
+      "sourceSha256": "c50c155f9f08dd0079c3d71fa27bb101a91fad94149b151e924e541fe709dd6a",
+      "bytes": 1154,
+      "sha256": "c50c155f9f08dd0079c3d71fa27bb101a91fad94149b151e924e541fe709dd6a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-build-publication-v1.log",
+      "source": "/private/tmp/q09-runtime-build-publication-v1.log",
+      "transport": "identity",
+      "sourceBytes": 0,
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-capture-core-tests-v1.log",
+      "source": "/private/tmp/q09-runtime-capture-core-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 11028,
+      "sourceSha256": "50773a9d3b7dbbba2faae2505683f7f261c5b70d988a238190b3bccdfd651891",
+      "bytes": 11028,
+      "sha256": "50773a9d3b7dbbba2faae2505683f7f261c5b70d988a238190b3bccdfd651891"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-capture-core-tests-v2.log",
+      "source": "/private/tmp/q09-runtime-capture-core-tests-v2.log",
+      "transport": "identity",
+      "sourceBytes": 704,
+      "sourceSha256": "2e0dceefde980475f775dae82777bea666451f616b20e6e671825f2500365438",
+      "bytes": 704,
+      "sha256": "2e0dceefde980475f775dae82777bea666451f616b20e6e671825f2500365438"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-capture-core-tests-v3.log",
+      "source": "/private/tmp/q09-runtime-capture-core-tests-v3.log",
+      "transport": "identity",
+      "sourceBytes": 783,
+      "sourceSha256": "c05d0a293bbaf4306f4fe14b147e427eaa253c8eafed88af28a57c838d5b69d3",
+      "bytes": 783,
+      "sha256": "c05d0a293bbaf4306f4fe14b147e427eaa253c8eafed88af28a57c838d5b69d3"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-capture-tests-v4.log",
+      "source": "/private/tmp/q09-runtime-capture-tests-v4.log",
+      "transport": "identity",
+      "sourceBytes": 983,
+      "sourceSha256": "91f4875f0886f5f56b7846925df40ac55a08100c7675b4454713c75c1e4ea249",
+      "bytes": 983,
+      "sha256": "91f4875f0886f5f56b7846925df40ac55a08100c7675b4454713c75c1e4ea249"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-capture-tests-v5.log",
+      "source": "/private/tmp/q09-runtime-capture-tests-v5.log",
+      "transport": "identity",
+      "sourceBytes": 1178,
+      "sourceSha256": "35d4dd9d2fbfe38fe0e6f520407167657a7c5f9e0ba6174834881340d56c010c",
+      "bytes": 1178,
+      "sha256": "35d4dd9d2fbfe38fe0e6f520407167657a7c5f9e0ba6174834881340d56c010c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-capture-tests-v6.log",
+      "source": "/private/tmp/q09-runtime-capture-tests-v6.log",
+      "transport": "identity",
+      "sourceBytes": 1375,
+      "sourceSha256": "a339e10bf5b052f05865210751a25524b04c3514f2b1cbd8c26aaae31d7a57da",
+      "bytes": 1375,
+      "sha256": "a339e10bf5b052f05865210751a25524b04c3514f2b1cbd8c26aaae31d7a57da"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-common-comparison-v1.log",
+      "source": "/private/tmp/q09-runtime-common-comparison-v1.log",
+      "transport": "identity",
+      "sourceBytes": 75,
+      "sourceSha256": "792c965acb9f288650f469bf02e3152c3a30bdf21b5006f9fb940ea3393e4ef6",
+      "bytes": 75,
+      "sha256": "792c965acb9f288650f469bf02e3152c3a30bdf21b5006f9fb940ea3393e4ef6"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-control-capture-v1.log",
+      "source": "/private/tmp/q09-runtime-control-capture-v1.log",
+      "transport": "identity",
+      "sourceBytes": 882,
+      "sourceSha256": "af89c1a6db69b6c28e648beef66ffd18410e0204e321da3b3e08b6a09338120b",
+      "bytes": 882,
+      "sha256": "af89c1a6db69b6c28e648beef66ffd18410e0204e321da3b3e08b6a09338120b"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-control-observation-v1.log",
+      "source": "/private/tmp/q09-runtime-control-observation-v1.log",
+      "transport": "identity",
+      "sourceBytes": 495,
+      "sourceSha256": "f7a01139dcdab7912eb9eafd8052202431de31272c6ba5a4fe49468d62dba9ed",
+      "bytes": 495,
+      "sha256": "f7a01139dcdab7912eb9eafd8052202431de31272c6ba5a4fe49468d62dba9ed"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-control-rescore-v1.log",
+      "source": "/private/tmp/q09-runtime-control-rescore-v1.log",
+      "transport": "identity",
+      "sourceBytes": 1155,
+      "sourceSha256": "e43ab8c53bfb63e90b50d89a0159793d0dbaf0d7ef753a4b35c2d1fbb5ca93a5",
+      "bytes": 1155,
+      "sha256": "e43ab8c53bfb63e90b50d89a0159793d0dbaf0d7ef753a4b35c2d1fbb5ca93a5"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-delegation-parity-v1.log",
+      "source": "/private/tmp/q09-runtime-delegation-parity-v1.log",
+      "transport": "identity",
+      "sourceBytes": 860,
+      "sourceSha256": "6a311cdec52fed16655c1e64fa783542dab0a38bcaef6e41272acbbaab12f00d",
+      "bytes": 860,
+      "sha256": "6a311cdec52fed16655c1e64fa783542dab0a38bcaef6e41272acbbaab12f00d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-final-full-suite-v1.log",
+      "source": "/private/tmp/q09-runtime-final-full-suite-v1.log",
+      "transport": "identity",
+      "sourceBytes": 18341,
+      "sourceSha256": "6bdecf860ae856944d4a130db4e323fdde0f9f868cc414b9b5879fbc4b8471f9",
+      "bytes": 18341,
+      "sha256": "6bdecf860ae856944d4a130db4e323fdde0f9f868cc414b9b5879fbc4b8471f9"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-final-quality-suite-v1.log",
+      "source": "/private/tmp/q09-runtime-final-quality-suite-v1.log",
+      "transport": "identity",
+      "sourceBytes": 1653,
+      "sourceSha256": "2e98866781390fe1277d8648254897e11406ddafec4758a5415698946683fc04",
+      "bytes": 1653,
+      "sha256": "2e98866781390fe1277d8648254897e11406ddafec4758a5415698946683fc04"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-focused-v2.log",
+      "source": "/private/tmp/q09-runtime-focused-v2.log",
+      "transport": "identity",
+      "sourceBytes": 338,
+      "sourceSha256": "e16146421fc7cfcd412b3772e8664f366de37dfcfd7d633b3864a25a7ecaf055",
+      "bytes": 338,
+      "sha256": "e16146421fc7cfcd412b3772e8664f366de37dfcfd7d633b3864a25a7ecaf055"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-full-v1.log",
+      "source": "/private/tmp/q09-runtime-full-v1.log",
+      "transport": "identity",
+      "sourceBytes": 18887,
+      "sourceSha256": "d633264c278cfb051469e9aa111b93ed2d36889b1ab09b419f7830385152aa6e",
+      "bytes": 18887,
+      "sha256": "d633264c278cfb051469e9aa111b93ed2d36889b1ab09b419f7830385152aa6e"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-independent-proof-v1.log",
+      "source": "/private/tmp/q09-runtime-independent-proof-v1.log",
+      "transport": "identity",
+      "sourceBytes": 0,
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-lint-v2.log",
+      "source": "/private/tmp/q09-runtime-lint-v2.log",
+      "transport": "identity",
+      "sourceBytes": 0,
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-mechanism-python-tests-v1.log",
+      "source": "/private/tmp/q09-runtime-mechanism-python-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 102,
+      "sourceSha256": "5d8a174d448d59185fd227bcbab9c964e39b10a9c2e28965972cfb0c833dd854",
+      "bytes": 102,
+      "sha256": "5d8a174d448d59185fd227bcbab9c964e39b10a9c2e28965972cfb0c833dd854"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-mechanism-python-tests-v2.log",
+      "source": "/private/tmp/q09-runtime-mechanism-python-tests-v2.log",
+      "transport": "identity",
+      "sourceBytes": 102,
+      "sourceSha256": "120fcf1e1b1ef6883b716f1b33b4fbea79c7089f1d1ff950e98c9608d82abb42",
+      "bytes": 102,
+      "sha256": "120fcf1e1b1ef6883b716f1b33b4fbea79c7089f1d1ff950e98c9608d82abb42"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-mechanism-python-tests-v3.log",
+      "source": "/private/tmp/q09-runtime-mechanism-python-tests-v3.log",
+      "transport": "identity",
+      "sourceBytes": 102,
+      "sourceSha256": "80144f3bf12d071a1497821467ab02765712cb11da3f547a5e2b5cf79f938e9a",
+      "bytes": 102,
+      "sha256": "80144f3bf12d071a1497821467ab02765712cb11da3f547a5e2b5cf79f938e9a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-mechanism-python-tests-v4.log",
+      "source": "/private/tmp/q09-runtime-mechanism-python-tests-v4.log",
+      "transport": "identity",
+      "sourceBytes": 103,
+      "sourceSha256": "d4b33ff1434e1d30324f407c5e0b14d695111550875c407b71c6f8d3c149666c",
+      "bytes": 103,
+      "sha256": "d4b33ff1434e1d30324f407c5e0b14d695111550875c407b71c6f8d3c149666c"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-mechanism-python-tests-v5.log",
+      "source": "/private/tmp/q09-runtime-mechanism-python-tests-v5.log",
+      "transport": "identity",
+      "sourceBytes": 104,
+      "sourceSha256": "e045c9c521921507f56653b27ac2a6991dd6ea3dd7a21c6cb0add3bb9d22cbd3",
+      "bytes": 104,
+      "sha256": "e045c9c521921507f56653b27ac2a6991dd6ea3dd7a21c6cb0add3bb9d22cbd3"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-mechanism-tests-v1.log",
+      "source": "/private/tmp/q09-runtime-mechanism-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 495,
+      "sourceSha256": "c3f364b7768537a6e867e1fa12e0b4a00374e6be332c9740309f8172943240fa",
+      "bytes": 495,
+      "sha256": "c3f364b7768537a6e867e1fa12e0b4a00374e6be332c9740309f8172943240fa"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-observer-tests-v1.log",
+      "source": "/private/tmp/q09-runtime-observer-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 751,
+      "sourceSha256": "37e57384473a4c4afd251255acf10408fb8bd7e0a2e86146d09bb6edc92ee6bb",
+      "bytes": 751,
+      "sha256": "37e57384473a4c4afd251255acf10408fb8bd7e0a2e86146d09bb6edc92ee6bb"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-observer-tools-v1.log",
+      "source": "/private/tmp/q09-runtime-observer-tools-v1.log",
+      "transport": "identity",
+      "sourceBytes": 3031,
+      "sourceSha256": "356ae216fe7405c92d0841596c9d4226bb67f0bf0f425dc29750ab399c70440d",
+      "bytes": 3031,
+      "sha256": "356ae216fe7405c92d0841596c9d4226bb67f0bf0f425dc29750ab399c70440d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-observer-tools-v2.log",
+      "source": "/private/tmp/q09-runtime-observer-tools-v2.log",
+      "transport": "identity",
+      "sourceBytes": 3031,
+      "sourceSha256": "19b27894972055e6f78e6fc42de884e7b177f59a5c8591d0035f92c9c3701573",
+      "bytes": 3031,
+      "sha256": "19b27894972055e6f78e6fc42de884e7b177f59a5c8591d0035f92c9c3701573"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-observer-tools-v3.log",
+      "source": "/private/tmp/q09-runtime-observer-tools-v3.log",
+      "transport": "identity",
+      "sourceBytes": 3033,
+      "sourceSha256": "d7d1549e8cdb6bde6bfe2326841ce63e0a9b6a4f51eef944a55a2e7c6775c27b",
+      "bytes": 3033,
+      "sha256": "d7d1549e8cdb6bde6bfe2326841ce63e0a9b6a4f51eef944a55a2e7c6775c27b"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-package-compress-v1.log",
+      "source": "/private/tmp/q09-runtime-package-compress-v1.log",
+      "transport": "identity",
+      "sourceBytes": 443,
+      "sourceSha256": "c602ffae325a527eb4383c073c93dc22a085d944afc2d3e6996141f1d27520d4",
+      "bytes": 443,
+      "sha256": "c602ffae325a527eb4383c073c93dc22a085d944afc2d3e6996141f1d27520d4"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-parity-tool-tests-v1.log",
+      "source": "/private/tmp/q09-runtime-parity-tool-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 781,
+      "sourceSha256": "b132404df01ba07e6f7eb6b2e2368d49b43f16539a4fe7918d2e8b0c7535cf36",
+      "bytes": 781,
+      "sha256": "b132404df01ba07e6f7eb6b2e2368d49b43f16539a4fe7918d2e8b0c7535cf36"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-parity-tool-tests-v2.log",
+      "source": "/private/tmp/q09-runtime-parity-tool-tests-v2.log",
+      "transport": "identity",
+      "sourceBytes": 882,
+      "sourceSha256": "32711883cc1a50d3e81828c5294e3ae6afcef84c49c0536d17496efe94408351",
+      "bytes": 882,
+      "sha256": "32711883cc1a50d3e81828c5294e3ae6afcef84c49c0536d17496efe94408351"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-recount-tests-v1.log",
+      "source": "/private/tmp/q09-runtime-recount-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 103,
+      "sourceSha256": "0f7e4b97443e54aca647179972594d13bb587afcbf151fab8228148587ea844a",
+      "bytes": 103,
+      "sha256": "0f7e4b97443e54aca647179972594d13bb587afcbf151fab8228148587ea844a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-recount-tests-v2.log",
+      "source": "/private/tmp/q09-runtime-recount-tests-v2.log",
+      "transport": "identity",
+      "sourceBytes": 103,
+      "sourceSha256": "0f7e4b97443e54aca647179972594d13bb587afcbf151fab8228148587ea844a",
+      "bytes": 103,
+      "sha256": "0f7e4b97443e54aca647179972594d13bb587afcbf151fab8228148587ea844a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-recount-tests-v3.log",
+      "source": "/private/tmp/q09-runtime-recount-tests-v3.log",
+      "transport": "identity",
+      "sourceBytes": 103,
+      "sourceSha256": "0f7e4b97443e54aca647179972594d13bb587afcbf151fab8228148587ea844a",
+      "bytes": 103,
+      "sha256": "0f7e4b97443e54aca647179972594d13bb587afcbf151fab8228148587ea844a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-runtime-types-v2.log",
+      "source": "/private/tmp/q09-runtime-types-v2.log",
+      "transport": "identity",
+      "sourceBytes": 0,
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-capture-tests-v1.log",
+      "source": "/private/tmp/q09-parent-capture-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 1185,
+      "sourceSha256": "c5965f58715752d76d2f5de31ddee6d66e7a5272b3a580ca4c8747b1271ea1d2",
+      "bytes": 1185,
+      "sha256": "c5965f58715752d76d2f5de31ddee6d66e7a5272b3a580ca4c8747b1271ea1d2"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-capture-tests-v2.log",
+      "source": "/private/tmp/q09-parent-capture-tests-v2.log",
+      "transport": "identity",
+      "sourceBytes": 1377,
+      "sourceSha256": "17e48b2c4c65f0ce632d9ca5b1ba41948eca49c5c653aec68753efada026d75e",
+      "bytes": 1377,
+      "sha256": "17e48b2c4c65f0ce632d9ca5b1ba41948eca49c5c653aec68753efada026d75e"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-parity-tool-tests-v1.log",
+      "source": "/private/tmp/q09-parent-parity-tool-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 883,
+      "sourceSha256": "24df9de114e33a7c4a6da31ede6694bc94a1430f2a580b2b97589bbb0dffbc30",
+      "bytes": 883,
+      "sha256": "24df9de114e33a7c4a6da31ede6694bc94a1430f2a580b2b97589bbb0dffbc30"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-runtime-focused-v1.log",
+      "source": "/private/tmp/q09-parent-runtime-focused-v1.log",
+      "transport": "identity",
+      "sourceBytes": 737,
+      "sourceSha256": "0e2c3a68c9a004a590ba95e7ee5ad3558af90a7ec8d46ebcd9297b65384c1aac",
+      "bytes": 737,
+      "sha256": "0e2c3a68c9a004a590ba95e7ee5ad3558af90a7ec8d46ebcd9297b65384c1aac"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-runtime-focused-v2.log",
+      "source": "/private/tmp/q09-parent-runtime-focused-v2.log",
+      "transport": "identity",
+      "sourceBytes": 338,
+      "sourceSha256": "a4d76af6167297590c4909a2a8ccaaa126784977a2d17e2dd66aed6b27f8e0e1",
+      "bytes": 338,
+      "sha256": "a4d76af6167297590c4909a2a8ccaaa126784977a2d17e2dd66aed6b27f8e0e1"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-mechanism-tests-v1.log",
+      "source": "/private/tmp/q09-parent-mechanism-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 104,
+      "sourceSha256": "d28b7e4ca28b671bb34e07de7e86de81dd27019af58728b15ec2a9c9f09cf657",
+      "bytes": 104,
+      "sha256": "d28b7e4ca28b671bb34e07de7e86de81dd27019af58728b15ec2a9c9f09cf657"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-recount-tests-v1.log",
+      "source": "/private/tmp/q09-parent-recount-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 104,
+      "sourceSha256": "37d8a0769d6c800296764c21f8e08feca52d770d400afabe65713604062cf749",
+      "bytes": 104,
+      "sha256": "37d8a0769d6c800296764c21f8e08feca52d770d400afabe65713604062cf749"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-observer-tool-tests-v1.log",
+      "source": "/private/tmp/q09-parent-observer-tool-tests-v1.log",
+      "transport": "identity",
+      "sourceBytes": 3038,
+      "sourceSha256": "0bf539d96ad8f5af4fbe03f8cafd7a7b42e91a134c8cef11f0c173f29baaff0a",
+      "bytes": 3038,
+      "sha256": "0bf539d96ad8f5af4fbe03f8cafd7a7b42e91a134c8cef11f0c173f29baaff0a"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-runtime-review-v1.json",
+      "source": "/private/tmp/q09-parent-runtime-review-v1.json",
+      "transport": "identity",
+      "sourceBytes": 1578,
+      "sourceSha256": "64134041856762459fe2495cb931a8c7f86e09fc56815bb3e5ab729af4300e92",
+      "bytes": 1578,
+      "sha256": "64134041856762459fe2495cb931a8c7f86e09fc56815bb3e5ab729af4300e92"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-delegation-outcome-review-v1.json",
+      "source": "/private/tmp/q09-parent-delegation-outcome-review-v1.json",
+      "transport": "identity",
+      "sourceBytes": 617,
+      "sourceSha256": "686eafaafb8e950a8dac4240bc5ef536166424bc1e65d34ceb35d4d46421547d",
+      "bytes": 617,
+      "sha256": "686eafaafb8e950a8dac4240bc5ef536166424bc1e65d34ceb35d4d46421547d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-delegation-prerequisite-review-v1.json",
+      "source": "/private/tmp/q09-parent-delegation-prerequisite-review-v1.json",
+      "transport": "identity",
+      "sourceBytes": 1401,
+      "sourceSha256": "e32cdcfc035e76e88d7b545426db67bad3d3eb06736b16297449ddb123fb728d",
+      "bytes": 1401,
+      "sha256": "e32cdcfc035e76e88d7b545426db67bad3d3eb06736b16297449ddb123fb728d"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/checks/q09-parent-observer-source-review-v1.json",
+      "source": "/private/tmp/q09-parent-observer-source-review-v1.json",
+      "transport": "identity",
+      "sourceBytes": 7364,
+      "sourceSha256": "97c772ac0ae112c2b69ecad04937b95faa9a2b6c91c9be94358f948ff52cc4f2",
+      "bytes": 7364,
+      "sha256": "97c772ac0ae112c2b69ecad04937b95faa9a2b6c91c9be94358f948ff52cc4f2"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/package-tools/q09-runtime-build-publication-v1.py",
+      "source": "/private/tmp/q09-runtime-build-publication-v1.py",
+      "transport": "identity",
+      "sourceBytes": 9800,
+      "sourceSha256": "5061f17fdb4a816ab4cf9b1c03658d06af931c8da242ac3573c337f82d128263",
+      "bytes": 9800,
+      "sha256": "5061f17fdb4a816ab4cf9b1c03658d06af931c8da242ac3573c337f82d128263"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/package-tools/q09-runtime-package-compress-v1.py",
+      "source": "/private/tmp/q09-runtime-package-compress-v1.py",
+      "transport": "identity",
+      "sourceBytes": 1239,
+      "sourceSha256": "d79c9a273b10bd0053c470571ba9741fc2d74dcffca69253f2148b29476784aa",
+      "bytes": 1239,
+      "sha256": "d79c9a273b10bd0053c470571ba9741fc2d74dcffca69253f2148b29476784aa"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/README.md",
+      "source": "/private/tmp/q09-runtime-outcomes-README-v1.md",
+      "transport": "identity",
+      "role": "outcome companion",
+      "sourceBytes": 12677,
+      "sourceSha256": "692677756a555c249a0f366aa90de3365a3c0a58d9fbf1d92252f1ad70879f0f",
+      "bytes": 12677,
+      "sha256": "692677756a555c249a0f366aa90de3365a3c0a58d9fbf1d92252f1ad70879f0f"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/measured-summary.json",
+      "source": "/private/tmp/q09-runtime-measured-summary-v1.json",
+      "transport": "identity",
+      "role": "selection of existing report fields",
+      "sourceBytes": 12351,
+      "sourceSha256": "59e0e92e7595e35206672401e3261a36812232bb9ecdeed8f0577d4fbfae9168",
+      "bytes": 12351,
+      "sha256": "59e0e92e7595e35206672401e3261a36812232bb9ecdeed8f0577d4fbfae9168"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/package-tools/q09-runtime-summary-v1.py",
+      "source": "/private/tmp/q09-runtime-summary-v1.py",
+      "transport": "identity",
+      "role": "companion derivation source",
+      "sourceBytes": 2951,
+      "sourceSha256": "36928d4432f4a1c8a3f3987b773626844ee508213488f27398658e4aa56b27d9",
+      "bytes": 2951,
+      "sha256": "36928d4432f4a1c8a3f3987b773626844ee508213488f27398658e4aa56b27d9"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/package-tools/q09-runtime-package-xz-v1.py",
+      "source": "/private/tmp/q09-runtime-package-xz-v1.py",
+      "transport": "identity",
+      "role": "transport source",
+      "sourceBytes": 1473,
+      "sourceSha256": "826d8e2d4c347be830574faf9cd3b3f2c9dc72b7d419da836ab8304887d397f2",
+      "bytes": 1473,
+      "sha256": "826d8e2d4c347be830574faf9cd3b3f2c9dc72b7d419da836ab8304887d397f2"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/supplement/q09-runtime-package-xz-v1.json",
+      "source": "/private/tmp/q09-runtime-package-xz-v1.json",
+      "transport": "identity",
+      "role": "transport verification",
+      "sourceBytes": 493,
+      "sourceSha256": "223d80dc51f799c77bb037f966e2517a67c1b803fa99d8fd34b913170a2153bf",
+      "bytes": 493,
+      "sha256": "223d80dc51f799c77bb037f966e2517a67c1b803fa99d8fd34b913170a2153bf"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress-runtime/outcomes/package-tools/q09-runtime-package-finalize-v2.py",
+      "source": "/private/tmp/q09-runtime-package-finalize-v2.py",
+      "transport": "identity",
+      "role": "transport finalization source",
+      "sourceBytes": 4227,
+      "sourceSha256": "69c768e7dfa27be854c4ec8104a887ca1ccbffaf3b66c6cfdf87d36139b63f64",
+      "bytes": 4227,
+      "sha256": "69c768e7dfa27be854c4ec8104a887ca1ccbffaf3b66c6cfdf87d36139b63f64"
+    }
+  ],
+  "unbundledInputs": [
+    {
+      "source": "/private/tmp/q09-runtime-control-raw-v1/words",
+      "role": "control-raw word shards",
+      "files": 20,
+      "bytes": 166660468,
+      "authorityManifest": "captures/control-raw/manifest.json"
+    },
+    {
+      "source": "/private/tmp/q09-runtime-control-scored-v1/words",
+      "role": "control-scored word shards",
+      "files": 20,
+      "bytes": 166660468,
+      "authorityManifest": "captures/control-scored/manifest.json"
+    },
+    {
+      "source": "/private/tmp/q09-runtime-active-raw-v1/words",
+      "role": "active-raw word shards",
+      "files": 20,
+      "bytes": 178527063,
+      "authorityManifest": "captures/active-raw/manifest.json"
+    },
+    {
+      "source": "/private/tmp/q09-runtime-active-scored-v1/words",
+      "role": "active-scored word shards",
+      "files": 20,
+      "bytes": 178527063,
+      "authorityManifest": "captures/active-scored/manifest.json"
+    }
+  ],
+  "scope": "Outcome evidence transports only. Top-level capture/scored artifacts are not complete readRun directories until omitted word shards are restored. Full supplement and timing outcomes are included. Original absolute execution paths remain historical provenance.",
+  "allTransportsRoundTripVerified": true,
+  "inheritedPublishedFilesVerified": 77,
+  "artifactLimitBytesExclusive": 100000000,
+  "transportAmendment": {
+    "scope": "Lossless transport only; no raw source/report bytes changed",
+    "previousGzip": {
+      "source": "/private/tmp/q09-runtime-supplement-result-v2.json",
+      "originalBytes": 1507751990,
+      "originalSha256": "6a51e736296f436e9b55b0c97d14680b332ca7609a32b21941b5dda79e84e8dc",
+      "compressed": "/private/tmp/q09-runtime-supplement-result-v2.json.gz",
+      "compressedBytes": 99506107,
+      "compressedSha256": "286c744960a3f9bc864d629b23330b55c3ad8ecc87b584c835c9b6cf07dac0d9",
+      "compression": {
+        "format": "gzip",
+        "level": 9,
+        "mtime": 0,
+        "filename": ""
+      }
+    },
+    "selectedXz": {
+      "source": "/private/tmp/q09-runtime-supplement-result-v2.json",
+      "originalBytes": 1507751990,
+      "originalSha256": "6a51e736296f436e9b55b0c97d14680b332ca7609a32b21941b5dda79e84e8dc",
+      "compressed": "/private/tmp/q09-runtime-supplement-result-v2.json.xz",
+      "compressedBytes": 20039908,
+      "compressedSha256": "dd2c5cf03014f42dba7f13130547570d04a22c2b8673e12a75d261de070d3c08",
+      "compression": {
+        "format": "xz",
+        "preset": 9,
+        "check": "CRC64"
+      },
+      "roundTripVerified": true
+    },
+    "gzipRetainedExternally": true
+  }
+}

@@ -1,0 +1,10 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator
+
+ ✓ src/core/conditional-stress-pattern.test.ts (38 tests) 575ms
+
+ Test Files  1 passed (1)
+      Tests  38 passed (38)
+   Start at  14:44:14
+   Duration  985ms (transform 224ms, setup 0ms, collect 262ms, tests 575ms, environment 0ms, prepare 42ms)
+

@@ -1,7 +1,9 @@
 import type { Syllable } from "../types.js";
 import type { ResolvedStressRules } from "../config/language.js";
 import { StressPatternObserver } from "./stress-pattern.js";
-import type { StressPatternTrace } from "./stress-pattern.js";
+import { ConditionalStressPatternObserver } from "./conditional-stress-pattern.js";
+import type { AppliedStressObserver, WordStressPatternTrace } from "./conditional-stress-pattern.js";
+import type { SyllableWeightAnalysis } from "./syllable-weight.js";
 import type { StressWeightTrace } from "./syllable-weight.js";
 import type { MorphologyRealizationTrace } from "./morphology/realization.js";
 
@@ -256,7 +258,7 @@ export interface OrthographyTrace {
 
 export interface WordTrace {
   /** Complete stage labels and executed stress origins; absent in historical traces. */
-  stressPattern?: StressPatternTrace;
+  stressPattern?: WordStressPatternTrace;
   /** Weight input and decisions before root nucleus repair/reduction. Absent in historical traces. */
   stressWeight?: StressWeightTrace;
   /** Target syllable count chosen for this word. */
@@ -292,8 +294,20 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 
 export class TraceCollector {
   stressPatternObserver?: StressPatternObserver;
+  private conditionalStressPatternObserver?: ConditionalStressPatternObserver;
+
+  appliedStressObserver(): AppliedStressObserver | undefined {
+    return this.conditionalStressPatternObserver ?? this.stressPatternObserver;
+  }
+
+  beginConditionalStressPattern(syllables: Syllable[], rules: ResolvedStressRules, analysis: SyllableWeightAnalysis[]): ConditionalStressPatternObserver {
+    if (this.stressPatternObserver || this.conditionalStressPatternObserver) throw new Error("Stress observer already active");
+    this.conditionalStressPatternObserver = new ConditionalStressPatternObserver(syllables, rules, analysis);
+    return this.conditionalStressPatternObserver;
+  }
 
   beginStressPattern(syllables: Syllable[], rules: ResolvedStressRules): StressPatternObserver {
+    if (this.conditionalStressPatternObserver) throw new Error("Conditional stress observer already active");
     this.stressPatternObserver = new StressPatternObserver(syllables, rules);
     return this.stressPatternObserver;
   }
@@ -343,8 +357,8 @@ export class TraceCollector {
       graphemeSelections: this.graphemeSelections,
       orthography: this.orthographyTrace,
       repairs: this.repairs,
-      stressWeight: this.stressWeight,
-      stressPattern: this.stressPatternObserver?.trace,
+      ...(this.conditionalStressPatternObserver ? {} : { stressWeight: this.stressWeight }),
+      stressPattern: this.conditionalStressPatternObserver?.toTrace() ?? this.stressPatternObserver?.trace,
       summary: {
         totalDecisions: this.graphemeSelections.length,
         repairCount: this.repairs.length,

@@ -1,0 +1,39 @@
+✔ fixed 24-slot schedule preserves six adjacent AB/BA pairs in each trace mode (1.875875ms)
+✔ 24 injected invocations are sequential, use exact commands, and preserve raw output and append-only events (358.838625ms)
+✔ slow gates, partial workload failure, process crash, and launcher rejection keep their scheduled slots without retries (486.249708ms)
+✔ incorrect completed accounting is retained as invalid and does not replace the run (371.848542ms)
+✔ every reviewed pin is checked before any launch or output creation (17.218625ms)
+✔ post-process benchmark, contract, loader and frozen engine mutation aborts with the failed invocation preserved (116.840333ms)
+✔ child source, config, trace, variant, engine and freeze mismatch abort instead of accepting a timing (206.97325ms)
+✔ fresh exclusive output and ledger paths protect both source roots, raw archives, and symlink aliases (17.659625ms)
+✔ manifest, matrix identity, and production freeze authority cannot silently drift (3.633083ms)
+✔ matrix and test pin byte mismatches are rejected without changing those actual files (7.070541ms)
+✔ malformed reports remain raw outcomes and completed reports with a failing exit remain process failures (306.978291ms)
+✔ forged or incomplete completed timing fields and gate claims are rejected while preserving all 24 slots (316.9195ms)
+✔ a forged untraced gate is rejected from the retained raw timings (303.245792ms)
+✔ ledger cannot occupy the output directory or any scheduled child output path (5.750958ms)
+✔ pure timing summary keeps slow gate-failed pairs, all six positions, and exact trace overhead ratios (0.450667ms)
+✔ summary reports null and reasons for missing, invalid and incomplete slots without compressing the schedule (0.286ms)
+✔ exact frozen seed schedule, batch sizes, logical calls and word totals (7.410542ms)
+✔ trace workload is identical but cannot pass invented existing trace gates (5.30475ms)
+✔ unchanged untraced floor and deadlines retain slow outcomes (4.817792ms)
+✔ failed public calls retain attempted and completed accounting separately (2.03ms)
+✔ mid-trial failures retain every completed batch and partial call accounting (2.113667ms)
+✔ tools failure retains exclusive JSON with zero completed accounting (11.997125ms)
+✔ preflight failure retains exclusive JSON with zero completed accounting (6.976084ms)
+✔ runtime-import failure retains exclusive JSON with zero completed accounting (6.744667ms)
+✔ configuration failure retains exclusive JSON with zero completed accounting (7.912334ms)
+✔ factory-construction failure retains exclusive JSON with zero completed accounting (6.406ms)
+✔ bad self hash fails before tool imports but preserves its reserved report (1.961875ms)
+✔ measurement failures retain counts and still perform final integrity verification (6.724375ms)
+✔ postflight failure cannot publish a successful authority result (6.008125ms)
+✔ protected raw archives and source aliases cannot receive a timing output (2.46875ms)
+✔ gate failures remain completed outcomes but yield a failing process classification (4.658292ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2591.439292

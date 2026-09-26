@@ -1,0 +1,23 @@
+{
+  "schema": "q09-parent-timing-api-correction-review-v1",
+  "approvedConditionalOnQuietWindow": true,
+  "scope": "Complete source diff reviewed;34synthetic tests independently rerun; real84-word smoke evidence checked; no corrected timing yet",
+  "reviewManifest": {
+    "path": "/private/tmp/q09-runtime-timing-review-proposal-v3.json",
+    "sha256": "8bd99214cf8fe8113ada7afa2f0bc33c01597779aaa3777829980c487ec08bd6"
+  },
+  "smoke": {
+    "path": "/private/tmp/q09-runtime-timing-api-smoke-result-v1.json",
+    "sha256": "c2573831822e84eac8fd00ebfc5aa371c74012b818f441d16317d223e00704c8"
+  },
+  "parentTests": {
+    "path": "/private/tmp/q09-runtime-timing-parent-synthetic-v3.log",
+    "sha256": "46972c069855ca7e43d97773c8c03964b93915c116b3c10ed634b85a0c5bfd57"
+  },
+  "historicalFilesVerified": 81,
+  "limits": [
+    "factory public-call overhead included",
+    "failed v1matrix remains invalid and preserved",
+    "Q15 fullproof must terminate before timing"
+  ]
+}

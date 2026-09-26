@@ -1,0 +1,42 @@
+✔ fixed 24-slot schedule preserves six adjacent AB/BA pairs in each trace mode (1.312875ms)
+✔ 24 injected invocations are sequential, use exact commands, and preserve raw output and append-only events (367.298084ms)
+✔ slow gates, partial workload failure, process crash, and launcher rejection keep their scheduled slots without retries (318.562417ms)
+✔ incorrect completed accounting is retained as invalid and does not replace the run (319.974333ms)
+✔ every reviewed pin is checked before any launch or output creation (30.40475ms)
+✔ post-process benchmark, contract, loader and frozen engine mutation aborts with the failed invocation preserved (115.924459ms)
+✔ child source, config, trace, variant, engine and freeze mismatch abort instead of accepting a timing (200.671041ms)
+✔ fresh exclusive output and ledger paths protect both source roots, raw archives, and symlink aliases (21.646ms)
+✔ manifest, matrix identity, and production freeze authority cannot silently drift (4.629459ms)
+✔ matrix and test pin byte mismatches are rejected without changing those actual files (11.376791ms)
+✔ malformed reports remain raw outcomes and completed reports with a failing exit remain process failures (304.910125ms)
+✔ forged or incomplete completed timing fields and gate claims are rejected while preserving all 24 slots (314.663167ms)
+✔ a forged untraced gate is rejected from the retained raw timings (307.187333ms)
+✔ ledger cannot occupy the output directory or any scheduled child output path (6.012292ms)
+✔ pure timing summary keeps slow gate-failed pairs, all six positions, and exact trace overhead ratios (0.456625ms)
+✔ summary reports null and reasons for missing, invalid and incomplete slots without compressing the schedule (0.316417ms)
+✔ v2 accounting rejects historical logical-as-API totals and altered partial denominators (311.330583ms)
+✔ exact workload uses one shared public RNG per batch and only the real factory generateWord method (7.404125ms)
+✔ trace workload is identical but cannot pass invented existing trace gates (4.413875ms)
+✔ unchanged untraced floor and deadlines retain slow outcomes (2.612583ms)
+✔ first and mid-batch failures count actual word/API attempts without counting unattempted batch words (3.275ms)
+✔ RNG factory failure is separate from generation and retains the in-progress logical operation (0.23975ms)
+✔ mid-trial failures retain completed batches and partial generation/logical counts (1.9075ms)
+✔ local batch helper and counters are separate from the public factory object (3.163542ms)
+✔ tools failure retains exclusive JSON with zero completed accounting (10.957584ms)
+✔ preflight failure retains exclusive JSON with zero completed accounting (7.2175ms)
+✔ runtime-import failure retains exclusive JSON with zero completed accounting (6.402084ms)
+✔ configuration failure retains exclusive JSON with zero completed accounting (3.493042ms)
+✔ factory-construction failure retains exclusive JSON with zero completed accounting (6.757ms)
+✔ bad self hash fails before tool imports but preserves its reserved report (5.654375ms)
+✔ measurement failures retain counts and still perform final integrity verification (8.044625ms)
+✔ postflight failure cannot publish a successful authority result (7.240458ms)
+✔ protected raw archives and source aliases cannot receive a timing output (3.057375ms)
+✔ gate failures remain completed outcomes but yield a failing process classification (4.3775ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2694.667958

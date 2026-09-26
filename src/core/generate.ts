@@ -1272,7 +1272,7 @@ function generateOneWord(
     const preparedMorphology = morphPlan ? prepareMorphology(rt, context, morphPlan.plan) : undefined;
     traceCollector?.afterStage("assembleMorphology", context.word.syllables);
     const rootSyllableStart = preparedMorphology?.rootSyllableStart ?? 0;
-    const stressPattern = traceCollector?.stressPatternObserver;
+    const stressPattern = traceCollector?.appliedStressObserver();
     if (!preparedMorphology) stressPattern?.assemble(context.word.syllables, 0);
     stressPattern?.snapshot("assembled-after-morphology", context.word.syllables);
 

@@ -1,0 +1,605 @@
+{
+  "schema": "q09-timing-api-fix-preservation-v1",
+  "files": [
+    {
+      "path": "/private/tmp/q09-runtime-timing-v1.mjs",
+      "bytes": 7767,
+      "sha256": "bd3fc2259783dd01f714d4323b0fad0037636cdbed0aaf3929d232dc53d899c8"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-matrix-v1.mjs",
+      "bytes": 17169,
+      "sha256": "677d0f8f0e61b5990e808389c4ba5af7f498888e837bdec65e1bae97efa68769"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-test-v1.mjs",
+      "bytes": 10176,
+      "sha256": "132042ceda3c55a5192fbba82eff8f448bb70ea87c8f6377e78d9307eb461250"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-matrix-test-v1.mjs",
+      "bytes": 21059,
+      "sha256": "ff24e6b7d905145d0adc0b9b67f61b019ab9c6e0995c9e535790ce35545ed3e2"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-contract-v1.md",
+      "bytes": 5731,
+      "sha256": "c0f5b730b04f0b7827b80facf6553bbb9b078de3c46c08569126e3a5cfb787bf"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-review-proposal-v2.json",
+      "bytes": 1452,
+      "sha256": "e200105a5dd31827a49742db648b318057ac950562a7cb06e467d2096c6d9de4"
+    },
+    {
+      "path": "/private/tmp/q09-parent-timing-source-review-v2.json",
+      "bytes": 1685,
+      "sha256": "4356a12f8e46ff1b75720655fa033c54e7857bfb37406b0c16e3f9b577d7fac5"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-ledger-v1.jsonl",
+      "bytes": 2620653,
+      "sha256": "d2b35b252606af535ff3e2bd4b50f7018569dd4380f35d3de9e8253683bb742a"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-matrix-run-v1.log",
+      "bytes": 123,
+      "sha256": "45074e608074eb2fb45617bc8b56dee75a0f6f2cdc08e4bcf09ae59567e06280"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/01-trace-false-control.json",
+      "bytes": 107146,
+      "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/01-trace-false-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/01-trace-false-control.stdout",
+      "bytes": 614,
+      "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/02-trace-false-active.json",
+      "bytes": 107216,
+      "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/02-trace-false-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/02-trace-false-active.stdout",
+      "bytes": 613,
+      "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/03-trace-false-active.json",
+      "bytes": 107216,
+      "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/03-trace-false-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/03-trace-false-active.stdout",
+      "bytes": 613,
+      "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/04-trace-false-control.json",
+      "bytes": 107146,
+      "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/04-trace-false-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/04-trace-false-control.stdout",
+      "bytes": 614,
+      "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/05-trace-false-control.json",
+      "bytes": 107146,
+      "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/05-trace-false-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/05-trace-false-control.stdout",
+      "bytes": 614,
+      "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/06-trace-false-active.json",
+      "bytes": 107216,
+      "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/06-trace-false-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/06-trace-false-active.stdout",
+      "bytes": 613,
+      "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/07-trace-false-active.json",
+      "bytes": 107216,
+      "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/07-trace-false-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/07-trace-false-active.stdout",
+      "bytes": 613,
+      "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/08-trace-false-control.json",
+      "bytes": 107146,
+      "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/08-trace-false-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/08-trace-false-control.stdout",
+      "bytes": 614,
+      "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/09-trace-false-control.json",
+      "bytes": 107146,
+      "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/09-trace-false-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/09-trace-false-control.stdout",
+      "bytes": 614,
+      "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/10-trace-false-active.json",
+      "bytes": 107216,
+      "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/10-trace-false-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/10-trace-false-active.stdout",
+      "bytes": 613,
+      "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/11-trace-false-active.json",
+      "bytes": 107216,
+      "sha256": "8165a8e2f7843c99b919c3597ab94db50650f91b0118a94de0cc320dcbda29a3"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/11-trace-false-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/11-trace-false-active.stdout",
+      "bytes": 613,
+      "sha256": "b97819065356b53cc2f1e50d5e2f0bd15fa06aa4c702df3ac2216bbf9f10e92d"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/12-trace-false-control.json",
+      "bytes": 107146,
+      "sha256": "51254216017fbeb28c8ad13ab82b8bc753623be2409a2c2672f4697d5d95d22b"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/12-trace-false-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/12-trace-false-control.stdout",
+      "bytes": 614,
+      "sha256": "99fe94becd9e95e8085ac274f294cc6fd8b176b417da13185d594adfea2455ce"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/13-trace-true-control.json",
+      "bytes": 107145,
+      "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/13-trace-true-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/13-trace-true-control.stdout",
+      "bytes": 613,
+      "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/14-trace-true-active.json",
+      "bytes": 107215,
+      "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/14-trace-true-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/14-trace-true-active.stdout",
+      "bytes": 612,
+      "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/15-trace-true-active.json",
+      "bytes": 107215,
+      "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/15-trace-true-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/15-trace-true-active.stdout",
+      "bytes": 612,
+      "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/16-trace-true-control.json",
+      "bytes": 107145,
+      "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/16-trace-true-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/16-trace-true-control.stdout",
+      "bytes": 613,
+      "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/17-trace-true-control.json",
+      "bytes": 107145,
+      "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/17-trace-true-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/17-trace-true-control.stdout",
+      "bytes": 613,
+      "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/18-trace-true-active.json",
+      "bytes": 107215,
+      "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/18-trace-true-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/18-trace-true-active.stdout",
+      "bytes": 612,
+      "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/19-trace-true-active.json",
+      "bytes": 107215,
+      "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/19-trace-true-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/19-trace-true-active.stdout",
+      "bytes": 612,
+      "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/20-trace-true-control.json",
+      "bytes": 107145,
+      "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/20-trace-true-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/20-trace-true-control.stdout",
+      "bytes": 613,
+      "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/21-trace-true-control.json",
+      "bytes": 107145,
+      "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/21-trace-true-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/21-trace-true-control.stdout",
+      "bytes": 613,
+      "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/22-trace-true-active.json",
+      "bytes": 107215,
+      "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/22-trace-true-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/22-trace-true-active.stdout",
+      "bytes": 612,
+      "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/23-trace-true-active.json",
+      "bytes": 107215,
+      "sha256": "0a4440a2b96e24b5c0862eba02d67a501ca67550e1d7019354982f317e2286e8"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/23-trace-true-active.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/23-trace-true-active.stdout",
+      "bytes": 612,
+      "sha256": "6881c1b933afe2e269d18157c47b681213378d7a8805ce5fc1158e0305b93b16"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/24-trace-true-control.json",
+      "bytes": 107145,
+      "sha256": "ceadc8d3db318e3e3a9ea0bebf0ba85526341cb19d93e8aa6f7cd298ea97a5b2"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/24-trace-true-control.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/24-trace-true-control.stdout",
+      "bytes": 613,
+      "sha256": "0daa6e22d675fb2979ff699b800d548e31679119ec759ad6184b7cc5eea912d4"
+    }
+  ],
+  "failedSlots": [
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/01-trace-false-control.json",
+      "variant": "control",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/02-trace-false-active.json",
+      "variant": "active",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/03-trace-false-active.json",
+      "variant": "active",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/04-trace-false-control.json",
+      "variant": "control",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/05-trace-false-control.json",
+      "variant": "control",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/06-trace-false-active.json",
+      "variant": "active",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/07-trace-false-active.json",
+      "variant": "active",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/08-trace-false-control.json",
+      "variant": "control",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/09-trace-false-control.json",
+      "variant": "control",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/10-trace-false-active.json",
+      "variant": "active",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/11-trace-false-active.json",
+      "variant": "active",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/12-trace-false-control.json",
+      "variant": "control",
+      "trace": false,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/13-trace-true-control.json",
+      "variant": "control",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/14-trace-true-active.json",
+      "variant": "active",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/15-trace-true-active.json",
+      "variant": "active",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/16-trace-true-control.json",
+      "variant": "control",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/17-trace-true-control.json",
+      "variant": "control",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/18-trace-true-active.json",
+      "variant": "active",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/19-trace-true-active.json",
+      "variant": "active",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/20-trace-true-control.json",
+      "variant": "control",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/21-trace-true-control.json",
+      "variant": "control",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/22-trace-true-active.json",
+      "variant": "active",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/23-trace-true-active.json",
+      "variant": "active",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    },
+    {
+      "path": "/private/tmp/q09-runtime-timing-results-v1/24-trace-true-control.json",
+      "variant": "control",
+      "trace": true,
+      "completedWords": 0,
+      "legacyAttemptedApiCalls": 1,
+      "error": "api.generateWords is not a function"
+    }
+  ],
+  "interpretation": "24 slots failed before any generated word; historical attemptedApiCalls is the attempted unsupported property call, not a real public generation API invocation. No usable timing exists. All bytes retained at original paths."
+}
