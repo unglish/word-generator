@@ -526,8 +526,8 @@ export const englishConfig: LanguageConfig = {
   morphology: {
     enabled: true,
     boundaryPolicy: {
-      enablePrefixRootFallback: true,
-      enableRootSuffixFallback: true,
+      enablePrefixRootFallback: false,
+      enableRootSuffixFallback: false,
       fallbackBridgeOnsets: defaultFallbackBridgeOnsets(),
     },
     prefixes: [

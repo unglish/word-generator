@@ -38,6 +38,40 @@ function pickBoundaryBridge(rt: GeneratorRuntime, context: WordGenerationContext
   return getWeightedOption(options, context.rand);
 }
 
+function realizeBoundaryHiatus(
+  rt: GeneratorRuntime,
+  context: WordGenerationContext,
+  left: Syllable,
+  right: Syllable,
+  boundary: "prefix-root" | "root-suffix",
+  rightSyllableIndex: number,
+  fallbackEnabled: boolean,
+): void {
+  if (left.coda.length > 0 || right.onset.length > 0) return;
+  const bridge = fallbackEnabled ? pickBoundaryBridge(rt, context) : undefined;
+  if (bridge) {
+    right.onset.unshift(bridge);
+    context.trace?.recordStructural({
+      event: boundary === "prefix-root" ? "morphPrefixHiatusFallback" : "morphSuffixHiatusFallback",
+      inserted: bridge.sound,
+      syllableIndex: rightSyllableIndex,
+    });
+  }
+  if (left.nucleus.length > 0 && right.nucleus.length > 0) {
+    context.trace?.recordStructural({
+      event: "morphHiatusDecision",
+      boundary,
+      leftSyllableIndex: rightSyllableIndex - 1,
+      rightSyllableIndex,
+      leftNucleus: left.nucleus.map(phone => phone.sound),
+      rightNucleus: right.nucleus.map(phone => phone.sound),
+      fallbackEnabled,
+      outcome: bridge ? "inserted" : fallbackEnabled ? "no-bridge-candidate" : "preserved",
+      inserted: bridge?.sound,
+    });
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -450,38 +484,18 @@ export function applyMorphology(
     prefixSyllables.length = 0;
   }
 
-  // Prefix/root vowel-hiatus fallback at phoneme boundary.
-  if (canApplyPrefixRootFallback(rt) && prefixSyllables.length > 0 && syllables.length > 0) {
-    const lastPrefix = prefixSyllables[prefixSyllables.length - 1];
-    const firstRoot = syllables[0];
-    if (lastPrefix.coda.length === 0 && firstRoot.onset.length === 0) {
-      const bridge = pickBoundaryBridge(rt, context);
-      if (bridge) {
-        firstRoot.onset.unshift(bridge);
-        context.trace?.recordStructural({
-          event: "morphPrefixHiatusFallback",
-          inserted: bridge.sound,
-          syllableIndex: prefixSyllables.length,
-        });
-      }
-    }
+  if (prefixSyllables.length > 0 && syllables.length > 0) {
+    realizeBoundaryHiatus(
+      rt, context, prefixSyllables[prefixSyllables.length - 1], syllables[0],
+      "prefix-root", prefixSyllables.length, canApplyPrefixRootFallback(rt),
+    );
   }
 
-  // Root/suffix vowel-hiatus fallback at phoneme boundary.
-  if (canApplyRootSuffixFallback(rt) && suffixSyllables.length > 0 && syllables.length > 0) {
-    const lastRoot = syllables[syllables.length - 1];
-    const firstSuffix = suffixSyllables[0];
-    if (lastRoot.coda.length === 0 && firstSuffix.onset.length === 0) {
-      const bridge = pickBoundaryBridge(rt, context);
-      if (bridge) {
-        firstSuffix.onset.unshift(bridge);
-        context.trace?.recordStructural({
-          event: "morphSuffixHiatusFallback",
-          inserted: bridge.sound,
-          syllableIndex: prefixSyllables.length + syllables.length,
-        });
-      }
-    }
+  if (suffixSyllables.length > 0 && syllables.length > 0) {
+    realizeBoundaryHiatus(
+      rt, context, syllables[syllables.length - 1], suffixSyllables[0],
+      "root-suffix", prefixSyllables.length + syllables.length, canApplyRootSuffixFallback(rt),
+    );
   }
 
   const prefixIndices: number[] = [];

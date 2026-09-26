@@ -261,6 +261,9 @@ function structuralEventReferencesUnit(event: StructuralTrace, unit: TraceUnitSe
       unit.syllableIndex === event.syllableIndex &&
       (event.targetIndex == null || unit.positionIndex === event.targetIndex) &&
       unit.phoneme === event.targetPhoneme;
+  case "morphHiatusDecision":
+    // Morphology follows base spelling; these coordinates have a different scope.
+    return false;
   }
 }
 
