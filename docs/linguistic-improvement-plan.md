@@ -315,6 +315,18 @@ will expose unknown constructions and normalization-related cap refusals, retain
 existing gates, and leave upstream duplicate phones, final affix ownership and
 split-marker interpretation to their separately scoped work.
 
+Implementation review exposed two denominator-verification gaps before Q13c
+capture: an altered count could fit the original interval check, and a guard
+could be moved past a later syllable deletion. The candidate now records every
+scheduled guard, including empty skips, and replays its exact phase/part cursor
+to recount comparisons and collision episodes. Both adversarial cases are
+covered by regressions; independent review reproduces their rejection. All 98
+related tests, TypeScript and touched lint pass. The typed historical reader
+also emits identical JavaScript to its frozen predecessor after its declared
+function rename. These checks improve measurement integrity; candidate corpus
+and performance evidence remain pending, and generic regex execution is not
+independently authenticated by this guard verifier.
+
 The transition-builder migration in #332 produces a fresh reference from the same
 117,485 selected entries. Both independent implementations agree on 859,818
 transition events per view, all 2,985 stress-preserving bins and all 1,339 base-phone
