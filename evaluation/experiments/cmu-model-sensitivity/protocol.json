@@ -1,0 +1,55 @@
+{
+  "version": "phone-transition-model-sensitivity-v1",
+  "baseCommit": "91a1888140f45392a46b08af323610ebaff0a3b3",
+  "designSha256": "6cd973cc86e50a55f1efb53f75c67f80938237e91ec445ed0f3993c926aaca1b",
+  "parentFilesSha256": "9d4ed4d864042c19158e38906d2537b01a154eed8d00008340ea3c088ba58d20",
+  "population": {
+    "english": 117485,
+    "generated": 200000,
+    "generatedArchive": "baseline-development-v1",
+    "cohort": "development"
+  },
+  "models": {
+    "A": {
+      "bins": 1338,
+      "events": 976831
+    },
+    "B": {
+      "bins": 1339,
+      "events": 859818
+    },
+    "vocabulary": 40,
+    "alpha": 1,
+    "logBase": 2
+  },
+  "scoring": "ordered sum over # + complete vector + #; normalize by phoneCount+1; no null deletion",
+  "groups": [
+    "English total and exact phone counts",
+    "generated total, each profile and stream, each with exact phone counts",
+    "nested generated source-identity-complete view in every group"
+  ],
+  "summary": "independently sorted sequential binary64 means; upper-middle median; min/max; exact sign counts; null empty groups",
+  "nearZeroAbsolute": 1e-10,
+  "numericalTolerance": {
+    "absolute": 1e-10,
+    "relative": 1e-12
+  },
+  "witnesses": "first row per changed support category/missing/ambiguous/unknown; maximum abs(total delta), first tie; separate English/generated",
+  "identity": {
+    "commit": "12032afb0450dff33a6f939fb7230fce095f63a0",
+    "path": "src/phonology/identity.ts",
+    "sha256": "f3f9077fed9237deaadf5212e908abbd5669a8675609482d51453d1bde7d372c",
+    "bytes": 10335,
+    "sourceProfile": "english-legacy-v1",
+    "layer": "surface"
+  },
+  "acceptance": [
+    "review source/fixtures/Python verifier/CLI matrix before any full scoring",
+    "two fresh complete outputs exactly identical under the same pinned engine",
+    "independent full-row raw-source reconstruction under frozen tolerances",
+    "all parent files unchanged before/after",
+    "no generator calls, sealed validation, live gate changes or adoption"
+  ],
+  "sourcePolicy": "all parent tracked files plus explicit new study paths and external inputs; extra matching study source files rejected; outputs outside checkout/inputs; externally supplied freeze byte SHA required",
+  "publication": "fresh directory, exclusive files, completed report written last only after all source/input/post guards; failures retained as incomplete"
+}

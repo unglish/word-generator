@@ -1,0 +1,3250 @@
+{
+  "english/all": {
+    "rows": 117485,
+    "identityUnavailable": 117485,
+    "loss": null,
+    "observedMultiPreimageTokens": null
+  },
+  "generated/all": {
+    "rows": 200000,
+    "identityUnavailable": 0,
+    "loss": {
+      "segments": 1146606,
+      "identities": {
+        "resolved": 1143150,
+        "ambiguous": 3456,
+        "unknown": 0
+      },
+      "mapped": 1146606,
+      "missing": 0,
+      "sourceCounts": {
+        "ɛ": 30475,
+        "ʃ": 12266,
+        "ɪ": 58483,
+        "s": 110292,
+        "t": 69376,
+        "h": 18293,
+        "æ": 26324,
+        "d": 42824,
+        "z": 33097,
+        "eɪ": 16189,
+        "ə": 79995,
+        "i:": 41466,
+        "aʊ": 3913,
+        "ʌ": 18834,
+        "l": 63970,
+        "r": 77138,
+        "n": 81644,
+        "k": 53677,
+        "ɑ": 29822,
+        "ɚ": 25842,
+        "m": 38911,
+        "b": 29132,
+        "ɔ": 13802,
+        "p": 24560,
+        "v": 11391,
+        "ŋ": 17670,
+        "əʊ": 17960,
+        "g": 14363,
+        "aɪ": 12238,
+        "u": 12228,
+        "f": 19197,
+        "w": 14103,
+        "ɔɪ": 1386,
+        "j": 4718,
+        "ɜ": 3456,
+        "dʒ": 5923,
+        "tʃ": 5515,
+        "ʊ": 1856,
+        "ð": 410,
+        "θ": 3450,
+        "ʒ": 417
+      },
+      "coarsePreimages": {
+        "EH": {
+          "ɛ": 30475
+        },
+        "SH": {
+          "ʃ": 12266
+        },
+        "IH": {
+          "ɪ": 58483
+        },
+        "S": {
+          "s": 110292
+        },
+        "T": {
+          "t": 69376
+        },
+        "HH": {
+          "h": 18293
+        },
+        "AE": {
+          "æ": 26324
+        },
+        "D": {
+          "d": 42824
+        },
+        "Z": {
+          "z": 33097
+        },
+        "EY": {
+          "eɪ": 16189
+        },
+        "AH": {
+          "ə": 79995,
+          "ʌ": 18834
+        },
+        "IY": {
+          "i:": 41466
+        },
+        "AW": {
+          "aʊ": 3913
+        },
+        "L": {
+          "l": 63970
+        },
+        "R": {
+          "r": 77138
+        },
+        "N": {
+          "n": 81644
+        },
+        "K": {
+          "k": 53677
+        },
+        "AA": {
+          "ɑ": 29822
+        },
+        "ER": {
+          "ɚ": 25842,
+          "ɜ": 3456
+        },
+        "M": {
+          "m": 38911
+        },
+        "B": {
+          "b": 29132
+        },
+        "AO": {
+          "ɔ": 13802
+        },
+        "P": {
+          "p": 24560
+        },
+        "V": {
+          "v": 11391
+        },
+        "NG": {
+          "ŋ": 17670
+        },
+        "OW": {
+          "əʊ": 17960
+        },
+        "G": {
+          "g": 14363
+        },
+        "AY": {
+          "aɪ": 12238
+        },
+        "UW": {
+          "u": 12228
+        },
+        "F": {
+          "f": 19197
+        },
+        "W": {
+          "w": 14103
+        },
+        "OY": {
+          "ɔɪ": 1386
+        },
+        "Y": {
+          "j": 4718
+        },
+        "JH": {
+          "dʒ": 5923
+        },
+        "CH": {
+          "tʃ": 5515
+        },
+        "UH": {
+          "ʊ": 1856
+        },
+        "DH": {
+          "ð": 410
+        },
+        "TH": {
+          "θ": 3450
+        },
+        "ZH": {
+          "ʒ": 417
+        }
+      },
+      "stressByNucleus": {
+        "ɛ": {
+          "unmarked": 14908,
+          "primary": 12988,
+          "secondary": 2579
+        },
+        "ɪ": {
+          "unmarked": 28652,
+          "secondary": 14666,
+          "primary": 15165
+        },
+        "æ": {
+          "unmarked": 14199,
+          "secondary": 1882,
+          "primary": 10243
+        },
+        "eɪ": {
+          "primary": 5402,
+          "unmarked": 9407,
+          "secondary": 1380
+        },
+        "ə": {
+          "unmarked": 68784,
+          "primary": 1601,
+          "secondary": 9610
+        },
+        "i:": {
+          "unmarked": 27070,
+          "secondary": 6651,
+          "primary": 7745
+        },
+        "aʊ": {
+          "secondary": 648,
+          "unmarked": 1570,
+          "primary": 1695
+        },
+        "ʌ": {
+          "primary": 6337,
+          "unmarked": 7266,
+          "secondary": 5231
+        },
+        "ɑ": {
+          "unmarked": 17137,
+          "primary": 10421,
+          "secondary": 2264
+        },
+        "ɚ": {
+          "unmarked": 16617,
+          "secondary": 4337,
+          "primary": 4888
+        },
+        "ɔ": {
+          "primary": 4637,
+          "unmarked": 8148,
+          "secondary": 1017
+        },
+        "əʊ": {
+          "primary": 4857,
+          "secondary": 3187,
+          "unmarked": 9916
+        },
+        "aɪ": {
+          "unmarked": 7040,
+          "primary": 4150,
+          "secondary": 1048
+        },
+        "u": {
+          "secondary": 1181,
+          "unmarked": 7334,
+          "primary": 3713
+        },
+        "ɔɪ": {
+          "primary": 435,
+          "unmarked": 788,
+          "secondary": 163
+        },
+        "ɜ": {
+          "secondary": 268,
+          "primary": 1479,
+          "unmarked": 1709
+        },
+        "ʊ": {
+          "primary": 1248,
+          "secondary": 203,
+          "unmarked": 405
+        }
+      },
+      "recordedAspiration": {
+        "unknown": 1099796,
+        "true": 46810
+      },
+      "recordedReduction": {
+        "unknown": 1120676,
+        "true": 25930
+      },
+      "reductionByNucleus": {
+        "true": 25930,
+        "false": 0,
+        "unknown": 368339
+      },
+      "symbolAspiration": 0,
+      "notationAliases": 0,
+      "potentialMergerSegments": 176562,
+      "aspirationLoss": 46810,
+      "wordsAffected": {
+        "potentialMerger": 126233,
+        "nucleusStress:unmarked": 182592,
+        "nucleusStress:primary": 97004,
+        "recordedReduction": 23468,
+        "nucleusStress:secondary": 53664,
+        "aspiration": 42856,
+        "ambiguous": 3448
+      },
+      "overlappingLossMaskWords": {
+        "nucleusStress:unmarked|potentialMerger": 36179,
+        "nucleusStress:unmarked": 41989,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 6141,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 9117,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 301,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 23402,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger": 7251,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 3867,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked": 565,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 2964,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 1534,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 3581,
+        "nucleusStress:secondary|nucleusStress:unmarked": 3306,
+        "nucleusStress:primary|nucleusStress:unmarked": 8432,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 3916,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 7483,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 5990,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 249,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1757,
+        "nucleusStress:primary|nucleusStress:secondary": 3697,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 1017,
+        "nucleusStress:unmarked|potentialMerger|recordedReduction": 1657,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 3225,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 185,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked": 2727,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary": 1795,
+        "ambiguous|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 627,
+        "nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 1147,
+        "aspiration|nucleusStress:unmarked|potentialMerger": 4992,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 346,
+        "aspiration|nucleusStress:unmarked|potentialMerger|recordedReduction": 87,
+        "nucleusStress:primary|nucleusStress:secondary|recordedReduction": 86,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 79,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 351,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 208,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 72,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 452,
+        "nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 190,
+        "aspiration|nucleusStress:unmarked": 6110,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 272,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 176,
+        "ambiguous|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 149,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 170,
+        "ambiguous|nucleusStress:unmarked|potentialMerger": 1153,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 231,
+        "nucleusStress:unmarked|recordedReduction": 247,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 118,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|recordedReduction": 41,
+        "ambiguous|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 36,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 81,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 43,
+        "aspiration|nucleusStress:unmarked|recordedReduction": 13,
+        "ambiguous|aspiration|nucleusStress:unmarked|potentialMerger": 171,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 7,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 6,
+        "ambiguous|nucleusStress:unmarked|potentialMerger|recordedReduction": 5,
+        "ambiguous|aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 4,
+        "ambiguous|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 3
+      }
+    },
+    "observedMultiPreimageTokens": {
+      "AH": {
+        "ə": 79995,
+        "ʌ": 18834
+      },
+      "ER": {
+        "ɚ": 25842,
+        "ɜ": 3456
+      }
+    }
+  },
+  "generated/identity-complete": {
+    "rows": 196552,
+    "identityUnavailable": 0,
+    "loss": {
+      "segments": 1125533,
+      "identities": {
+        "resolved": 1125533,
+        "ambiguous": 0,
+        "unknown": 0
+      },
+      "mapped": 1125533,
+      "missing": 0,
+      "sourceCounts": {
+        "ɛ": 30272,
+        "ʃ": 12043,
+        "ɪ": 57818,
+        "s": 108455,
+        "t": 68050,
+        "h": 18057,
+        "æ": 26185,
+        "d": 42062,
+        "z": 32486,
+        "eɪ": 16090,
+        "ə": 79001,
+        "i:": 40938,
+        "aʊ": 3871,
+        "ʌ": 18725,
+        "l": 62745,
+        "r": 75769,
+        "n": 80159,
+        "k": 52601,
+        "ɑ": 29644,
+        "ɚ": 25491,
+        "m": 38191,
+        "b": 28576,
+        "ɔ": 13689,
+        "p": 24092,
+        "v": 11163,
+        "ŋ": 17351,
+        "əʊ": 17710,
+        "g": 14081,
+        "aɪ": 12158,
+        "u": 12138,
+        "f": 18868,
+        "w": 13829,
+        "ɔɪ": 1376,
+        "j": 4614,
+        "dʒ": 5800,
+        "tʃ": 5423,
+        "ʊ": 1834,
+        "ð": 394,
+        "θ": 3379,
+        "ʒ": 405
+      },
+      "coarsePreimages": {
+        "EH": {
+          "ɛ": 30272
+        },
+        "SH": {
+          "ʃ": 12043
+        },
+        "IH": {
+          "ɪ": 57818
+        },
+        "S": {
+          "s": 108455
+        },
+        "T": {
+          "t": 68050
+        },
+        "HH": {
+          "h": 18057
+        },
+        "AE": {
+          "æ": 26185
+        },
+        "D": {
+          "d": 42062
+        },
+        "Z": {
+          "z": 32486
+        },
+        "EY": {
+          "eɪ": 16090
+        },
+        "AH": {
+          "ə": 79001,
+          "ʌ": 18725
+        },
+        "IY": {
+          "i:": 40938
+        },
+        "AW": {
+          "aʊ": 3871
+        },
+        "L": {
+          "l": 62745
+        },
+        "R": {
+          "r": 75769
+        },
+        "N": {
+          "n": 80159
+        },
+        "K": {
+          "k": 52601
+        },
+        "AA": {
+          "ɑ": 29644
+        },
+        "ER": {
+          "ɚ": 25491
+        },
+        "M": {
+          "m": 38191
+        },
+        "B": {
+          "b": 28576
+        },
+        "AO": {
+          "ɔ": 13689
+        },
+        "P": {
+          "p": 24092
+        },
+        "V": {
+          "v": 11163
+        },
+        "NG": {
+          "ŋ": 17351
+        },
+        "OW": {
+          "əʊ": 17710
+        },
+        "G": {
+          "g": 14081
+        },
+        "AY": {
+          "aɪ": 12158
+        },
+        "UW": {
+          "u": 12138
+        },
+        "F": {
+          "f": 18868
+        },
+        "W": {
+          "w": 13829
+        },
+        "OY": {
+          "ɔɪ": 1376
+        },
+        "Y": {
+          "j": 4614
+        },
+        "JH": {
+          "dʒ": 5800
+        },
+        "CH": {
+          "tʃ": 5423
+        },
+        "UH": {
+          "ʊ": 1834
+        },
+        "DH": {
+          "ð": 394
+        },
+        "TH": {
+          "θ": 3379
+        },
+        "ZH": {
+          "ʒ": 405
+        }
+      },
+      "stressByNucleus": {
+        "ɛ": {
+          "unmarked": 14841,
+          "primary": 12894,
+          "secondary": 2537
+        },
+        "ɪ": {
+          "unmarked": 28289,
+          "secondary": 14497,
+          "primary": 15032
+        },
+        "æ": {
+          "unmarked": 14134,
+          "secondary": 1862,
+          "primary": 10189
+        },
+        "eɪ": {
+          "primary": 5370,
+          "unmarked": 9359,
+          "secondary": 1361
+        },
+        "ə": {
+          "unmarked": 67972,
+          "primary": 1592,
+          "secondary": 9437
+        },
+        "i:": {
+          "unmarked": 26699,
+          "secondary": 6535,
+          "primary": 7704
+        },
+        "aʊ": {
+          "secondary": 638,
+          "unmarked": 1550,
+          "primary": 1683
+        },
+        "ʌ": {
+          "primary": 6309,
+          "unmarked": 7250,
+          "secondary": 5166
+        },
+        "ɑ": {
+          "unmarked": 17040,
+          "primary": 10362,
+          "secondary": 2242
+        },
+        "ɚ": {
+          "unmarked": 16375,
+          "secondary": 4257,
+          "primary": 4859
+        },
+        "ɔ": {
+          "primary": 4610,
+          "unmarked": 8081,
+          "secondary": 998
+        },
+        "əʊ": {
+          "primary": 4822,
+          "secondary": 3133,
+          "unmarked": 9755
+        },
+        "aɪ": {
+          "unmarked": 6989,
+          "primary": 4141,
+          "secondary": 1028
+        },
+        "u": {
+          "secondary": 1163,
+          "unmarked": 7288,
+          "primary": 3687
+        },
+        "ɔɪ": {
+          "primary": 434,
+          "unmarked": 784,
+          "secondary": 158
+        },
+        "ʊ": {
+          "primary": 1240,
+          "secondary": 203,
+          "unmarked": 391
+        }
+      },
+      "recordedAspiration": {
+        "unknown": 1079691,
+        "true": 45842
+      },
+      "recordedReduction": {
+        "unknown": 1100034,
+        "true": 25499
+      },
+      "reductionByNucleus": {
+        "true": 25499,
+        "false": 0,
+        "unknown": 361441
+      },
+      "symbolAspiration": 0,
+      "notationAliases": 0,
+      "potentialMergerSegments": 171199,
+      "aspirationLoss": 45842,
+      "wordsAffected": {
+        "potentialMerger": 122785,
+        "nucleusStress:unmarked": 179547,
+        "nucleusStress:primary": 94928,
+        "recordedReduction": 23066,
+        "nucleusStress:secondary": 52631,
+        "aspiration": 41990
+      },
+      "overlappingLossMaskWords": {
+        "nucleusStress:unmarked|potentialMerger": 36179,
+        "nucleusStress:unmarked": 41989,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 6141,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 9117,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 301,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 23402,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger": 7251,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 3867,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked": 565,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 2964,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 1534,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 3581,
+        "nucleusStress:secondary|nucleusStress:unmarked": 3306,
+        "nucleusStress:primary|nucleusStress:unmarked": 8432,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 3916,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 7483,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 5990,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1757,
+        "nucleusStress:primary|nucleusStress:secondary": 3697,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 1017,
+        "nucleusStress:unmarked|potentialMerger|recordedReduction": 1657,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 3225,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked": 2727,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary": 1795,
+        "nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 1147,
+        "aspiration|nucleusStress:unmarked|potentialMerger": 4992,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 346,
+        "aspiration|nucleusStress:unmarked|potentialMerger|recordedReduction": 87,
+        "nucleusStress:primary|nucleusStress:secondary|recordedReduction": 86,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 351,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 208,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 452,
+        "nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 190,
+        "aspiration|nucleusStress:unmarked": 6110,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 176,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 170,
+        "nucleusStress:unmarked|recordedReduction": 247,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|recordedReduction": 41,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 43,
+        "aspiration|nucleusStress:unmarked|recordedReduction": 13
+      }
+    },
+    "observedMultiPreimageTokens": {
+      "AH": {
+        "ə": 79001,
+        "ʌ": 18725
+      }
+    }
+  },
+  "profile/lexicon-bare/all": {
+    "rows": 50000,
+    "identityUnavailable": 0,
+    "loss": {
+      "segments": 317625,
+      "identities": {
+        "resolved": 316513,
+        "ambiguous": 1112,
+        "unknown": 0
+      },
+      "mapped": 317625,
+      "missing": 0,
+      "sourceCounts": {
+        "ə": 21194,
+        "r": 17745,
+        "ɚ": 9840,
+        "k": 16889,
+        "s": 19241,
+        "l": 17970,
+        "t": 18214,
+        "aɪ": 4119,
+        "i:": 13135,
+        "n": 21482,
+        "ɑ": 9312,
+        "v": 3931,
+        "u": 3765,
+        "f": 5155,
+        "æ": 8194,
+        "tʃ": 1765,
+        "ŋ": 3591,
+        "ʊ": 959,
+        "p": 7653,
+        "b": 7978,
+        "ɔ": 4155,
+        "m": 11341,
+        "ɛ": 10462,
+        "j": 1745,
+        "eɪ": 5091,
+        "d": 12045,
+        "z": 8503,
+        "ʌ": 4775,
+        "ɪ": 17990,
+        "əʊ": 7405,
+        "h": 3525,
+        "dʒ": 2233,
+        "ʃ": 3436,
+        "aʊ": 1248,
+        "g": 5353,
+        "w": 3142,
+        "ɜ": 1112,
+        "θ": 1075,
+        "ɔɪ": 457,
+        "ð": 186,
+        "ʒ": 214
+      },
+      "coarsePreimages": {
+        "AH": {
+          "ə": 21194,
+          "ʌ": 4775
+        },
+        "R": {
+          "r": 17745
+        },
+        "ER": {
+          "ɚ": 9840,
+          "ɜ": 1112
+        },
+        "K": {
+          "k": 16889
+        },
+        "S": {
+          "s": 19241
+        },
+        "L": {
+          "l": 17970
+        },
+        "T": {
+          "t": 18214
+        },
+        "AY": {
+          "aɪ": 4119
+        },
+        "IY": {
+          "i:": 13135
+        },
+        "N": {
+          "n": 21482
+        },
+        "AA": {
+          "ɑ": 9312
+        },
+        "V": {
+          "v": 3931
+        },
+        "UW": {
+          "u": 3765
+        },
+        "F": {
+          "f": 5155
+        },
+        "AE": {
+          "æ": 8194
+        },
+        "CH": {
+          "tʃ": 1765
+        },
+        "NG": {
+          "ŋ": 3591
+        },
+        "UH": {
+          "ʊ": 959
+        },
+        "P": {
+          "p": 7653
+        },
+        "B": {
+          "b": 7978
+        },
+        "AO": {
+          "ɔ": 4155
+        },
+        "M": {
+          "m": 11341
+        },
+        "EH": {
+          "ɛ": 10462
+        },
+        "Y": {
+          "j": 1745
+        },
+        "EY": {
+          "eɪ": 5091
+        },
+        "D": {
+          "d": 12045
+        },
+        "Z": {
+          "z": 8503
+        },
+        "IH": {
+          "ɪ": 17990
+        },
+        "OW": {
+          "əʊ": 7405
+        },
+        "HH": {
+          "h": 3525
+        },
+        "JH": {
+          "dʒ": 2233
+        },
+        "SH": {
+          "ʃ": 3436
+        },
+        "AW": {
+          "aʊ": 1248
+        },
+        "G": {
+          "g": 5353
+        },
+        "W": {
+          "w": 3142
+        },
+        "TH": {
+          "θ": 1075
+        },
+        "OY": {
+          "ɔɪ": 457
+        },
+        "DH": {
+          "ð": 186
+        },
+        "ZH": {
+          "ʒ": 214
+        }
+      },
+      "stressByNucleus": {
+        "ə": {
+          "unmarked": 17170,
+          "secondary": 4024
+        },
+        "ɚ": {
+          "primary": 2026,
+          "unmarked": 5582,
+          "secondary": 2232
+        },
+        "aɪ": {
+          "primary": 2034,
+          "unmarked": 1653,
+          "secondary": 432
+        },
+        "i:": {
+          "unmarked": 7402,
+          "secondary": 2721,
+          "primary": 3012
+        },
+        "ɑ": {
+          "primary": 4860,
+          "unmarked": 3508,
+          "secondary": 944
+        },
+        "u": {
+          "unmarked": 1743,
+          "primary": 1479,
+          "secondary": 543
+        },
+        "æ": {
+          "unmarked": 2526,
+          "primary": 4898,
+          "secondary": 770
+        },
+        "ʊ": {
+          "primary": 672,
+          "unmarked": 215,
+          "secondary": 72
+        },
+        "ɔ": {
+          "primary": 2179,
+          "unmarked": 1536,
+          "secondary": 440
+        },
+        "ɛ": {
+          "unmarked": 2770,
+          "primary": 6534,
+          "secondary": 1158
+        },
+        "eɪ": {
+          "secondary": 606,
+          "primary": 2400,
+          "unmarked": 2085
+        },
+        "ʌ": {
+          "unmarked": 1147,
+          "primary": 3078,
+          "secondary": 550
+        },
+        "ɪ": {
+          "unmarked": 7729,
+          "secondary": 2627,
+          "primary": 7634
+        },
+        "əʊ": {
+          "primary": 1608,
+          "unmarked": 4308,
+          "secondary": 1489
+        },
+        "aʊ": {
+          "secondary": 280,
+          "primary": 273,
+          "unmarked": 695
+        },
+        "ɜ": {
+          "primary": 709,
+          "unmarked": 287,
+          "secondary": 116
+        },
+        "ɔɪ": {
+          "primary": 181,
+          "unmarked": 213,
+          "secondary": 63
+        }
+      },
+      "recordedAspiration": {
+        "unknown": 300601,
+        "true": 17024
+      },
+      "recordedReduction": {
+        "unknown": 309093,
+        "true": 8532
+      },
+      "reductionByNucleus": {
+        "true": 8532,
+        "false": 0,
+        "unknown": 114681
+      },
+      "symbolAspiration": 0,
+      "notationAliases": 0,
+      "potentialMergerSegments": 54788,
+      "aspirationLoss": 17024,
+      "wordsAffected": {
+        "potentialMerger": 36069,
+        "nucleusStress:unmarked": 40680,
+        "nucleusStress:primary": 43577,
+        "aspiration": 15159,
+        "recordedReduction": 7733,
+        "nucleusStress:secondary": 18895,
+        "ambiguous": 1106
+      },
+      "overlappingLossMaskWords": {
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 10023,
+        "nucleusStress:unmarked|potentialMerger": 2391,
+        "nucleusStress:primary|nucleusStress:unmarked": 4090,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 3913,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1201,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 1923,
+        "nucleusStress:primary|nucleusStress:secondary": 2053,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 3145,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 2710,
+        "aspiration|nucleusStress:unmarked|potentialMerger": 337,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 2545,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger": 3928,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked": 1444,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1328,
+        "nucleusStress:unmarked": 3209,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 103,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary": 970,
+        "ambiguous|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 340,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1323,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 408,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 188,
+        "nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 409,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 554,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 136,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 41,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 79,
+        "nucleusStress:primary|nucleusStress:secondary|recordedReduction": 40,
+        "aspiration|nucleusStress:unmarked": 397,
+        "ambiguous|nucleusStress:unmarked|potentialMerger": 78,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 66,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 123,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 117,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 27,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 61,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|recordedReduction": 12,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 91,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 85,
+        "ambiguous|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 73,
+        "ambiguous|aspiration|nucleusStress:unmarked|potentialMerger": 11,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 27,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 1
+      }
+    },
+    "observedMultiPreimageTokens": {
+      "AH": {
+        "ə": 21194,
+        "ʌ": 4775
+      },
+      "ER": {
+        "ɚ": 9840,
+        "ɜ": 1112
+      }
+    }
+  },
+  "profile/lexicon-bare/identity-complete": {
+    "rows": 48894,
+    "identityUnavailable": 0,
+    "loss": {
+      "segments": 310217,
+      "identities": {
+        "resolved": 310217,
+        "ambiguous": 0,
+        "unknown": 0
+      },
+      "mapped": 310217,
+      "missing": 0,
+      "sourceCounts": {
+        "ə": 20777,
+        "r": 17334,
+        "ɚ": 9667,
+        "k": 16496,
+        "s": 18829,
+        "l": 17535,
+        "t": 17751,
+        "aɪ": 4066,
+        "i:": 12910,
+        "n": 20959,
+        "ɑ": 9214,
+        "v": 3831,
+        "u": 3718,
+        "f": 5036,
+        "æ": 8133,
+        "tʃ": 1733,
+        "ŋ": 3506,
+        "ʊ": 950,
+        "p": 7489,
+        "b": 7804,
+        "ɔ": 4103,
+        "m": 11085,
+        "ɛ": 10357,
+        "j": 1692,
+        "eɪ": 5037,
+        "d": 11795,
+        "z": 8311,
+        "ʌ": 4729,
+        "ɪ": 17693,
+        "əʊ": 7288,
+        "h": 3435,
+        "dʒ": 2178,
+        "ʃ": 3364,
+        "aʊ": 1231,
+        "g": 5221,
+        "w": 3068,
+        "θ": 1049,
+        "ɔɪ": 455,
+        "ð": 180,
+        "ʒ": 208
+      },
+      "coarsePreimages": {
+        "AH": {
+          "ə": 20777,
+          "ʌ": 4729
+        },
+        "R": {
+          "r": 17334
+        },
+        "ER": {
+          "ɚ": 9667
+        },
+        "K": {
+          "k": 16496
+        },
+        "S": {
+          "s": 18829
+        },
+        "L": {
+          "l": 17535
+        },
+        "T": {
+          "t": 17751
+        },
+        "AY": {
+          "aɪ": 4066
+        },
+        "IY": {
+          "i:": 12910
+        },
+        "N": {
+          "n": 20959
+        },
+        "AA": {
+          "ɑ": 9214
+        },
+        "V": {
+          "v": 3831
+        },
+        "UW": {
+          "u": 3718
+        },
+        "F": {
+          "f": 5036
+        },
+        "AE": {
+          "æ": 8133
+        },
+        "CH": {
+          "tʃ": 1733
+        },
+        "NG": {
+          "ŋ": 3506
+        },
+        "UH": {
+          "ʊ": 950
+        },
+        "P": {
+          "p": 7489
+        },
+        "B": {
+          "b": 7804
+        },
+        "AO": {
+          "ɔ": 4103
+        },
+        "M": {
+          "m": 11085
+        },
+        "EH": {
+          "ɛ": 10357
+        },
+        "Y": {
+          "j": 1692
+        },
+        "EY": {
+          "eɪ": 5037
+        },
+        "D": {
+          "d": 11795
+        },
+        "Z": {
+          "z": 8311
+        },
+        "IH": {
+          "ɪ": 17693
+        },
+        "OW": {
+          "əʊ": 7288
+        },
+        "HH": {
+          "h": 3435
+        },
+        "JH": {
+          "dʒ": 2178
+        },
+        "SH": {
+          "ʃ": 3364
+        },
+        "AW": {
+          "aʊ": 1231
+        },
+        "G": {
+          "g": 5221
+        },
+        "W": {
+          "w": 3068
+        },
+        "TH": {
+          "θ": 1049
+        },
+        "OY": {
+          "ɔɪ": 455
+        },
+        "DH": {
+          "ð": 180
+        },
+        "ZH": {
+          "ʒ": 208
+        }
+      },
+      "stressByNucleus": {
+        "ə": {
+          "unmarked": 16828,
+          "secondary": 3949
+        },
+        "ɚ": {
+          "primary": 2013,
+          "unmarked": 5465,
+          "secondary": 2189
+        },
+        "aɪ": {
+          "primary": 2028,
+          "unmarked": 1616,
+          "secondary": 422
+        },
+        "i:": {
+          "unmarked": 7251,
+          "secondary": 2666,
+          "primary": 2993
+        },
+        "ɑ": {
+          "primary": 4828,
+          "unmarked": 3450,
+          "secondary": 936
+        },
+        "u": {
+          "unmarked": 1715,
+          "primary": 1466,
+          "secondary": 537
+        },
+        "æ": {
+          "unmarked": 2492,
+          "primary": 4875,
+          "secondary": 766
+        },
+        "ʊ": {
+          "primary": 669,
+          "unmarked": 209,
+          "secondary": 72
+        },
+        "ɔ": {
+          "primary": 2166,
+          "unmarked": 1508,
+          "secondary": 429
+        },
+        "ɛ": {
+          "unmarked": 2734,
+          "primary": 6485,
+          "secondary": 1138
+        },
+        "eɪ": {
+          "secondary": 599,
+          "primary": 2378,
+          "unmarked": 2060
+        },
+        "ʌ": {
+          "unmarked": 1133,
+          "primary": 3063,
+          "secondary": 533
+        },
+        "ɪ": {
+          "unmarked": 7566,
+          "secondary": 2581,
+          "primary": 7546
+        },
+        "əʊ": {
+          "primary": 1599,
+          "unmarked": 4224,
+          "secondary": 1465
+        },
+        "aʊ": {
+          "secondary": 276,
+          "primary": 271,
+          "unmarked": 684
+        },
+        "ɔɪ": {
+          "primary": 180,
+          "unmarked": 212,
+          "secondary": 63
+        }
+      },
+      "recordedAspiration": {
+        "unknown": 293587,
+        "true": 16630
+      },
+      "recordedReduction": {
+        "unknown": 301864,
+        "true": 8353
+      },
+      "reductionByNucleus": {
+        "true": 8353,
+        "false": 0,
+        "unknown": 111975
+      },
+      "symbolAspiration": 0,
+      "notationAliases": 0,
+      "potentialMergerSegments": 52818,
+      "aspirationLoss": 16630,
+      "wordsAffected": {
+        "potentialMerger": 34963,
+        "nucleusStress:unmarked": 39772,
+        "nucleusStress:primary": 42560,
+        "aspiration": 14811,
+        "recordedReduction": 7564,
+        "nucleusStress:secondary": 18455
+      },
+      "overlappingLossMaskWords": {
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 10023,
+        "nucleusStress:unmarked|potentialMerger": 2391,
+        "nucleusStress:primary|nucleusStress:unmarked": 4090,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 3913,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1201,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 1923,
+        "nucleusStress:primary|nucleusStress:secondary": 2053,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 3145,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 2710,
+        "aspiration|nucleusStress:unmarked|potentialMerger": 337,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 2545,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger": 3928,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked": 1444,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1328,
+        "nucleusStress:unmarked": 3209,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary": 970,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1323,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 408,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 188,
+        "nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 409,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 554,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 79,
+        "nucleusStress:primary|nucleusStress:secondary|recordedReduction": 40,
+        "aspiration|nucleusStress:unmarked": 397,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 66,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 117,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|recordedReduction": 12,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 91
+      }
+    },
+    "observedMultiPreimageTokens": {
+      "AH": {
+        "ə": 20777,
+        "ʌ": 4729
+      }
+    }
+  },
+  "profile/lexicon-default/all": {
+    "rows": 50000,
+    "identityUnavailable": 0,
+    "loss": {
+      "segments": 323611,
+      "identities": {
+        "resolved": 322759,
+        "ambiguous": 852,
+        "unknown": 0
+      },
+      "mapped": 323611,
+      "missing": 0,
+      "sourceCounts": {
+        "ɛ": 7636,
+        "ʃ": 3894,
+        "ɪ": 21859,
+        "s": 19109,
+        "t": 16562,
+        "h": 7040,
+        "æ": 6731,
+        "d": 13241,
+        "z": 12857,
+        "eɪ": 4501,
+        "ə": 28714,
+        "i:": 15694,
+        "aʊ": 1538,
+        "ʌ": 5921,
+        "l": 18117,
+        "r": 18287,
+        "n": 23682,
+        "k": 11878,
+        "ɑ": 8265,
+        "ɚ": 9637,
+        "m": 10913,
+        "b": 7041,
+        "ɔ": 4030,
+        "p": 5848,
+        "v": 4034,
+        "ŋ": 4529,
+        "əʊ": 6435,
+        "g": 3905,
+        "aɪ": 3639,
+        "u": 3575,
+        "f": 4553,
+        "w": 2653,
+        "ɔɪ": 410,
+        "j": 1465,
+        "ɜ": 852,
+        "dʒ": 1589,
+        "tʃ": 1302,
+        "ʊ": 663,
+        "ð": 122,
+        "θ": 744,
+        "ʒ": 146
+      },
+      "coarsePreimages": {
+        "EH": {
+          "ɛ": 7636
+        },
+        "SH": {
+          "ʃ": 3894
+        },
+        "IH": {
+          "ɪ": 21859
+        },
+        "S": {
+          "s": 19109
+        },
+        "T": {
+          "t": 16562
+        },
+        "HH": {
+          "h": 7040
+        },
+        "AE": {
+          "æ": 6731
+        },
+        "D": {
+          "d": 13241
+        },
+        "Z": {
+          "z": 12857
+        },
+        "EY": {
+          "eɪ": 4501
+        },
+        "AH": {
+          "ə": 28714,
+          "ʌ": 5921
+        },
+        "IY": {
+          "i:": 15694
+        },
+        "AW": {
+          "aʊ": 1538
+        },
+        "L": {
+          "l": 18117
+        },
+        "R": {
+          "r": 18287
+        },
+        "N": {
+          "n": 23682
+        },
+        "K": {
+          "k": 11878
+        },
+        "AA": {
+          "ɑ": 8265
+        },
+        "ER": {
+          "ɚ": 9637,
+          "ɜ": 852
+        },
+        "M": {
+          "m": 10913
+        },
+        "B": {
+          "b": 7041
+        },
+        "AO": {
+          "ɔ": 4030
+        },
+        "P": {
+          "p": 5848
+        },
+        "V": {
+          "v": 4034
+        },
+        "NG": {
+          "ŋ": 4529
+        },
+        "OW": {
+          "əʊ": 6435
+        },
+        "G": {
+          "g": 3905
+        },
+        "AY": {
+          "aɪ": 3639
+        },
+        "UW": {
+          "u": 3575
+        },
+        "F": {
+          "f": 4553
+        },
+        "W": {
+          "w": 2653
+        },
+        "OY": {
+          "ɔɪ": 410
+        },
+        "Y": {
+          "j": 1465
+        },
+        "JH": {
+          "dʒ": 1589
+        },
+        "CH": {
+          "tʃ": 1302
+        },
+        "UH": {
+          "ʊ": 663
+        },
+        "DH": {
+          "ð": 122
+        },
+        "TH": {
+          "θ": 744
+        },
+        "ZH": {
+          "ʒ": 146
+        }
+      },
+      "stressByNucleus": {
+        "ɛ": {
+          "unmarked": 2173,
+          "primary": 4421,
+          "secondary": 1042
+        },
+        "ɪ": {
+          "unmarked": 9131,
+          "secondary": 7547,
+          "primary": 5181
+        },
+        "æ": {
+          "unmarked": 2169,
+          "secondary": 842,
+          "primary": 3720
+        },
+        "eɪ": {
+          "primary": 1965,
+          "unmarked": 1972,
+          "secondary": 564
+        },
+        "ə": {
+          "unmarked": 23898,
+          "primary": 1008,
+          "secondary": 3808
+        },
+        "i:": {
+          "unmarked": 9987,
+          "secondary": 2655,
+          "primary": 3052
+        },
+        "aʊ": {
+          "secondary": 253,
+          "unmarked": 430,
+          "primary": 855
+        },
+        "ʌ": {
+          "primary": 2268,
+          "unmarked": 777,
+          "secondary": 2876
+        },
+        "ɑ": {
+          "unmarked": 3372,
+          "primary": 3868,
+          "secondary": 1025
+        },
+        "ɚ": {
+          "unmarked": 6227,
+          "secondary": 1487,
+          "primary": 1923
+        },
+        "ɔ": {
+          "primary": 1710,
+          "unmarked": 1883,
+          "secondary": 437
+        },
+        "əʊ": {
+          "primary": 2194,
+          "secondary": 1205,
+          "unmarked": 3036
+        },
+        "aɪ": {
+          "unmarked": 1722,
+          "primary": 1443,
+          "secondary": 474
+        },
+        "u": {
+          "secondary": 455,
+          "unmarked": 1713,
+          "primary": 1407
+        },
+        "ɔɪ": {
+          "primary": 132,
+          "unmarked": 203,
+          "secondary": 75
+        },
+        "ɜ": {
+          "secondary": 115,
+          "primary": 554,
+          "unmarked": 183
+        },
+        "ʊ": {
+          "primary": 427,
+          "secondary": 98,
+          "unmarked": 138
+        }
+      },
+      "recordedAspiration": {
+        "unknown": 309264,
+        "true": 14347
+      },
+      "recordedReduction": {
+        "unknown": 311922,
+        "true": 11689
+      },
+      "reductionByNucleus": {
+        "true": 11689,
+        "false": 0,
+        "unknown": 118411
+      },
+      "symbolAspiration": 0,
+      "notationAliases": 0,
+      "potentialMergerSegments": 59195,
+      "aspirationLoss": 14347,
+      "wordsAffected": {
+        "potentialMerger": 37509,
+        "nucleusStress:unmarked": 44498,
+        "nucleusStress:primary": 36128,
+        "recordedReduction": 10494,
+        "nucleusStress:secondary": 22839,
+        "aspiration": 12841,
+        "ambiguous": 850
+      },
+      "overlappingLossMaskWords": {
+        "nucleusStress:unmarked|potentialMerger": 4016,
+        "nucleusStress:unmarked": 3008,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 2308,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 4485,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 159,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 8023,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger": 2182,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 1870,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked": 271,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1170,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 744,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 1185,
+        "nucleusStress:secondary|nucleusStress:unmarked": 1426,
+        "nucleusStress:primary|nucleusStress:unmarked": 2635,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1990,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 2435,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 2593,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 121,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 909,
+        "nucleusStress:primary|nucleusStress:secondary": 1094,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 438,
+        "nucleusStress:unmarked|potentialMerger|recordedReduction": 833,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1535,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 68,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked": 856,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary": 558,
+        "ambiguous|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 187,
+        "nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 440,
+        "aspiration|nucleusStress:unmarked|potentialMerger": 370,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 185,
+        "aspiration|nucleusStress:unmarked|potentialMerger|recordedReduction": 55,
+        "nucleusStress:primary|nucleusStress:secondary|recordedReduction": 38,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 31,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 115,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 103,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 35,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 302,
+        "nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 116,
+        "aspiration|nucleusStress:unmarked": 344,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 85,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 80,
+        "ambiguous|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 58,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 110,
+        "ambiguous|nucleusStress:unmarked|potentialMerger": 67,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 78,
+        "nucleusStress:unmarked|recordedReduction": 117,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 41,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|recordedReduction": 19,
+        "ambiguous|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 14,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 42,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 27,
+        "aspiration|nucleusStress:unmarked|recordedReduction": 6,
+        "ambiguous|aspiration|nucleusStress:unmarked|potentialMerger": 8,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 6,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 6,
+        "ambiguous|nucleusStress:unmarked|potentialMerger|recordedReduction": 1,
+        "ambiguous|aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 2
+      }
+    },
+    "observedMultiPreimageTokens": {
+      "AH": {
+        "ə": 28714,
+        "ʌ": 5921
+      },
+      "ER": {
+        "ɚ": 9637,
+        "ɜ": 852
+      }
+    }
+  },
+  "profile/lexicon-default/identity-complete": {
+    "rows": 49150,
+    "identityUnavailable": 0,
+    "loss": {
+      "segments": 317685,
+      "identities": {
+        "resolved": 317685,
+        "ambiguous": 0,
+        "unknown": 0
+      },
+      "mapped": 317685,
+      "missing": 0,
+      "sourceCounts": {
+        "ɛ": 7571,
+        "ʃ": 3830,
+        "ɪ": 21589,
+        "s": 18801,
+        "t": 16230,
+        "h": 6952,
+        "æ": 6675,
+        "d": 12992,
+        "z": 12627,
+        "eɪ": 4466,
+        "ə": 28299,
+        "i:": 15486,
+        "aʊ": 1517,
+        "ʌ": 5876,
+        "l": 17770,
+        "r": 17960,
+        "n": 23242,
+        "k": 11621,
+        "ɑ": 8208,
+        "ɚ": 9505,
+        "m": 10715,
+        "b": 6898,
+        "ɔ": 3987,
+        "p": 5733,
+        "v": 3961,
+        "ŋ": 4454,
+        "əʊ": 6331,
+        "g": 3838,
+        "aɪ": 3616,
+        "u": 3542,
+        "f": 4475,
+        "w": 2594,
+        "ɔɪ": 404,
+        "j": 1440,
+        "dʒ": 1547,
+        "tʃ": 1284,
+        "ʊ": 655,
+        "ð": 118,
+        "θ": 733,
+        "ʒ": 143
+      },
+      "coarsePreimages": {
+        "EH": {
+          "ɛ": 7571
+        },
+        "SH": {
+          "ʃ": 3830
+        },
+        "IH": {
+          "ɪ": 21589
+        },
+        "S": {
+          "s": 18801
+        },
+        "T": {
+          "t": 16230
+        },
+        "HH": {
+          "h": 6952
+        },
+        "AE": {
+          "æ": 6675
+        },
+        "D": {
+          "d": 12992
+        },
+        "Z": {
+          "z": 12627
+        },
+        "EY": {
+          "eɪ": 4466
+        },
+        "AH": {
+          "ə": 28299,
+          "ʌ": 5876
+        },
+        "IY": {
+          "i:": 15486
+        },
+        "AW": {
+          "aʊ": 1517
+        },
+        "L": {
+          "l": 17770
+        },
+        "R": {
+          "r": 17960
+        },
+        "N": {
+          "n": 23242
+        },
+        "K": {
+          "k": 11621
+        },
+        "AA": {
+          "ɑ": 8208
+        },
+        "ER": {
+          "ɚ": 9505
+        },
+        "M": {
+          "m": 10715
+        },
+        "B": {
+          "b": 6898
+        },
+        "AO": {
+          "ɔ": 3987
+        },
+        "P": {
+          "p": 5733
+        },
+        "V": {
+          "v": 3961
+        },
+        "NG": {
+          "ŋ": 4454
+        },
+        "OW": {
+          "əʊ": 6331
+        },
+        "G": {
+          "g": 3838
+        },
+        "AY": {
+          "aɪ": 3616
+        },
+        "UW": {
+          "u": 3542
+        },
+        "F": {
+          "f": 4475
+        },
+        "W": {
+          "w": 2594
+        },
+        "OY": {
+          "ɔɪ": 404
+        },
+        "Y": {
+          "j": 1440
+        },
+        "JH": {
+          "dʒ": 1547
+        },
+        "CH": {
+          "tʃ": 1284
+        },
+        "UH": {
+          "ʊ": 655
+        },
+        "DH": {
+          "ð": 118
+        },
+        "TH": {
+          "θ": 733
+        },
+        "ZH": {
+          "ʒ": 143
+        }
+      },
+      "stressByNucleus": {
+        "ɛ": {
+          "unmarked": 2151,
+          "primary": 4392,
+          "secondary": 1028
+        },
+        "ɪ": {
+          "unmarked": 8980,
+          "secondary": 7458,
+          "primary": 5151
+        },
+        "æ": {
+          "unmarked": 2148,
+          "secondary": 831,
+          "primary": 3696
+        },
+        "eɪ": {
+          "primary": 1956,
+          "unmarked": 1956,
+          "secondary": 554
+        },
+        "ə": {
+          "unmarked": 23560,
+          "primary": 1000,
+          "secondary": 3739
+        },
+        "i:": {
+          "unmarked": 9831,
+          "secondary": 2614,
+          "primary": 3041
+        },
+        "aʊ": {
+          "secondary": 247,
+          "unmarked": 421,
+          "primary": 849
+        },
+        "ʌ": {
+          "primary": 2260,
+          "unmarked": 775,
+          "secondary": 2841
+        },
+        "ɑ": {
+          "unmarked": 3341,
+          "primary": 3851,
+          "secondary": 1016
+        },
+        "ɚ": {
+          "unmarked": 6133,
+          "secondary": 1464,
+          "primary": 1908
+        },
+        "ɔ": {
+          "primary": 1700,
+          "unmarked": 1856,
+          "secondary": 431
+        },
+        "əʊ": {
+          "primary": 2172,
+          "secondary": 1179,
+          "unmarked": 2980
+        },
+        "aɪ": {
+          "unmarked": 1709,
+          "primary": 1440,
+          "secondary": 467
+        },
+        "u": {
+          "secondary": 448,
+          "unmarked": 1696,
+          "primary": 1398
+        },
+        "ɔɪ": {
+          "primary": 132,
+          "unmarked": 201,
+          "secondary": 71
+        },
+        "ʊ": {
+          "primary": 424,
+          "secondary": 98,
+          "unmarked": 133
+        }
+      },
+      "recordedAspiration": {
+        "unknown": 303645,
+        "true": 14040
+      },
+      "recordedReduction": {
+        "unknown": 306189,
+        "true": 11496
+      },
+      "reductionByNucleus": {
+        "true": 11496,
+        "false": 0,
+        "unknown": 116231
+      },
+      "symbolAspiration": 0,
+      "notationAliases": 0,
+      "potentialMergerSegments": 57582,
+      "aspirationLoss": 14040,
+      "wordsAffected": {
+        "potentialMerger": 36659,
+        "nucleusStress:unmarked": 43786,
+        "nucleusStress:primary": 35370,
+        "recordedReduction": 10315,
+        "nucleusStress:secondary": 22419,
+        "aspiration": 12572
+      },
+      "overlappingLossMaskWords": {
+        "nucleusStress:unmarked|potentialMerger": 4016,
+        "nucleusStress:unmarked": 3008,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 2308,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 4485,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 159,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 8023,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger": 2182,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 1870,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked": 271,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1170,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 744,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 1185,
+        "nucleusStress:secondary|nucleusStress:unmarked": 1426,
+        "nucleusStress:primary|nucleusStress:unmarked": 2635,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1990,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 2435,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 2593,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 909,
+        "nucleusStress:primary|nucleusStress:secondary": 1094,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 438,
+        "nucleusStress:unmarked|potentialMerger|recordedReduction": 833,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1535,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked": 856,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary": 558,
+        "nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 440,
+        "aspiration|nucleusStress:unmarked|potentialMerger": 370,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 185,
+        "aspiration|nucleusStress:unmarked|potentialMerger|recordedReduction": 55,
+        "nucleusStress:primary|nucleusStress:secondary|recordedReduction": 38,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 115,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 103,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 302,
+        "nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 116,
+        "aspiration|nucleusStress:unmarked": 344,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 80,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 110,
+        "nucleusStress:unmarked|recordedReduction": 117,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|recordedReduction": 19,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 27,
+        "aspiration|nucleusStress:unmarked|recordedReduction": 6
+      }
+    },
+    "observedMultiPreimageTokens": {
+      "AH": {
+        "ə": 28299,
+        "ʌ": 5876
+      }
+    }
+  },
+  "profile/monosyllables-bare/all": {
+    "rows": 50000,
+    "identityUnavailable": 0,
+    "loss": {
+      "segments": 264100,
+      "identities": {
+        "resolved": 263315,
+        "ambiguous": 785,
+        "unknown": 0
+      },
+      "mapped": 264100,
+      "missing": 0,
+      "sourceCounts": {
+        "s": 54282,
+        "p": 7031,
+        "r": 26192,
+        "ɛ": 6312,
+        "k": 16920,
+        "t": 23476,
+        "n": 18699,
+        "u": 1593,
+        "dʒ": 922,
+        "d": 7712,
+        "ə": 10762,
+        "ʌ": 3476,
+        "z": 3436,
+        "ɑ": 6071,
+        "g": 2497,
+        "m": 8453,
+        "w": 5561,
+        "i:": 1681,
+        "l": 14465,
+        "æ": 5947,
+        "b": 8035,
+        "ɚ": 602,
+        "ɪ": 4834,
+        "f": 5505,
+        "eɪ": 2512,
+        "aɪ": 1737,
+        "ŋ": 5072,
+        "θ": 998,
+        "v": 811,
+        "tʃ": 1338,
+        "əʊ": 840,
+        "h": 816,
+        "ɔ": 2667,
+        "ʃ": 1441,
+        "j": 425,
+        "ɜ": 785,
+        "ɔɪ": 94,
+        "aʊ": 87,
+        "ð": 13
+      },
+      "coarsePreimages": {
+        "S": {
+          "s": 54282
+        },
+        "P": {
+          "p": 7031
+        },
+        "R": {
+          "r": 26192
+        },
+        "EH": {
+          "ɛ": 6312
+        },
+        "K": {
+          "k": 16920
+        },
+        "T": {
+          "t": 23476
+        },
+        "N": {
+          "n": 18699
+        },
+        "UW": {
+          "u": 1593
+        },
+        "JH": {
+          "dʒ": 922
+        },
+        "D": {
+          "d": 7712
+        },
+        "AH": {
+          "ə": 10762,
+          "ʌ": 3476
+        },
+        "Z": {
+          "z": 3436
+        },
+        "AA": {
+          "ɑ": 6071
+        },
+        "G": {
+          "g": 2497
+        },
+        "M": {
+          "m": 8453
+        },
+        "W": {
+          "w": 5561
+        },
+        "IY": {
+          "i:": 1681
+        },
+        "L": {
+          "l": 14465
+        },
+        "AE": {
+          "æ": 5947
+        },
+        "B": {
+          "b": 8035
+        },
+        "ER": {
+          "ɚ": 602,
+          "ɜ": 785
+        },
+        "IH": {
+          "ɪ": 4834
+        },
+        "F": {
+          "f": 5505
+        },
+        "EY": {
+          "eɪ": 2512
+        },
+        "AY": {
+          "aɪ": 1737
+        },
+        "NG": {
+          "ŋ": 5072
+        },
+        "TH": {
+          "θ": 998
+        },
+        "V": {
+          "v": 811
+        },
+        "CH": {
+          "tʃ": 1338
+        },
+        "OW": {
+          "əʊ": 840
+        },
+        "HH": {
+          "h": 816
+        },
+        "AO": {
+          "ɔ": 2667
+        },
+        "SH": {
+          "ʃ": 1441
+        },
+        "Y": {
+          "j": 425
+        },
+        "OY": {
+          "ɔɪ": 94
+        },
+        "AW": {
+          "aʊ": 87
+        },
+        "DH": {
+          "ð": 13
+        }
+      },
+      "stressByNucleus": {
+        "ɛ": {
+          "unmarked": 6312
+        },
+        "u": {
+          "unmarked": 1593
+        },
+        "ə": {
+          "unmarked": 10762
+        },
+        "ʌ": {
+          "unmarked": 3476
+        },
+        "ɑ": {
+          "unmarked": 6071
+        },
+        "i:": {
+          "unmarked": 1681
+        },
+        "æ": {
+          "unmarked": 5947
+        },
+        "ɚ": {
+          "unmarked": 602
+        },
+        "ɪ": {
+          "unmarked": 4834
+        },
+        "eɪ": {
+          "unmarked": 2512
+        },
+        "aɪ": {
+          "unmarked": 1737
+        },
+        "əʊ": {
+          "unmarked": 840
+        },
+        "ɔ": {
+          "unmarked": 2667
+        },
+        "ɜ": {
+          "unmarked": 785
+        },
+        "ɔɪ": {
+          "unmarked": 94
+        },
+        "aʊ": {
+          "unmarked": 87
+        }
+      },
+      "recordedAspiration": {
+        "unknown": 257036,
+        "true": 7064
+      },
+      "recordedReduction": {
+        "unknown": 264100
+      },
+      "reductionByNucleus": {
+        "true": 0,
+        "false": 0,
+        "unknown": 50000
+      },
+      "symbolAspiration": 0,
+      "notationAliases": 0,
+      "potentialMergerSegments": 22777,
+      "aspirationLoss": 7064,
+      "wordsAffected": {
+        "potentialMerger": 22777,
+        "nucleusStress:unmarked": 50000,
+        "aspiration": 7064,
+        "ambiguous": 785
+      },
+      "overlappingLossMaskWords": {
+        "nucleusStress:unmarked|potentialMerger": 18917,
+        "nucleusStress:unmarked": 23344,
+        "aspiration|nucleusStress:unmarked": 3879,
+        "aspiration|nucleusStress:unmarked|potentialMerger": 3075,
+        "ambiguous|nucleusStress:unmarked|potentialMerger": 675,
+        "ambiguous|aspiration|nucleusStress:unmarked|potentialMerger": 110
+      }
+    },
+    "observedMultiPreimageTokens": {
+      "AH": {
+        "ə": 10762,
+        "ʌ": 3476
+      },
+      "ER": {
+        "ɚ": 602,
+        "ɜ": 785
+      }
+    }
+  },
+  "profile/monosyllables-bare/identity-complete": {
+    "rows": 49215,
+    "identityUnavailable": 0,
+    "loss": {
+      "segments": 259938,
+      "identities": {
+        "resolved": 259938,
+        "ambiguous": 0,
+        "unknown": 0
+      },
+      "mapped": 259938,
+      "missing": 0,
+      "sourceCounts": {
+        "s": 53432,
+        "p": 6908,
+        "r": 25757,
+        "ɛ": 6312,
+        "k": 16655,
+        "t": 23112,
+        "n": 18425,
+        "u": 1593,
+        "dʒ": 907,
+        "d": 7602,
+        "ə": 10762,
+        "ʌ": 3476,
+        "z": 3378,
+        "ɑ": 6071,
+        "g": 2453,
+        "m": 8319,
+        "w": 5464,
+        "i:": 1681,
+        "l": 14237,
+        "æ": 5947,
+        "b": 7901,
+        "ɚ": 602,
+        "ɪ": 4834,
+        "f": 5428,
+        "eɪ": 2512,
+        "aɪ": 1737,
+        "ŋ": 4996,
+        "θ": 980,
+        "v": 799,
+        "tʃ": 1315,
+        "əʊ": 840,
+        "h": 809,
+        "ɔ": 2667,
+        "ʃ": 1414,
+        "j": 420,
+        "ɔɪ": 94,
+        "aʊ": 87,
+        "ð": 12
+      },
+      "coarsePreimages": {
+        "S": {
+          "s": 53432
+        },
+        "P": {
+          "p": 6908
+        },
+        "R": {
+          "r": 25757
+        },
+        "EH": {
+          "ɛ": 6312
+        },
+        "K": {
+          "k": 16655
+        },
+        "T": {
+          "t": 23112
+        },
+        "N": {
+          "n": 18425
+        },
+        "UW": {
+          "u": 1593
+        },
+        "JH": {
+          "dʒ": 907
+        },
+        "D": {
+          "d": 7602
+        },
+        "AH": {
+          "ə": 10762,
+          "ʌ": 3476
+        },
+        "Z": {
+          "z": 3378
+        },
+        "AA": {
+          "ɑ": 6071
+        },
+        "G": {
+          "g": 2453
+        },
+        "M": {
+          "m": 8319
+        },
+        "W": {
+          "w": 5464
+        },
+        "IY": {
+          "i:": 1681
+        },
+        "L": {
+          "l": 14237
+        },
+        "AE": {
+          "æ": 5947
+        },
+        "B": {
+          "b": 7901
+        },
+        "ER": {
+          "ɚ": 602
+        },
+        "IH": {
+          "ɪ": 4834
+        },
+        "F": {
+          "f": 5428
+        },
+        "EY": {
+          "eɪ": 2512
+        },
+        "AY": {
+          "aɪ": 1737
+        },
+        "NG": {
+          "ŋ": 4996
+        },
+        "TH": {
+          "θ": 980
+        },
+        "V": {
+          "v": 799
+        },
+        "CH": {
+          "tʃ": 1315
+        },
+        "OW": {
+          "əʊ": 840
+        },
+        "HH": {
+          "h": 809
+        },
+        "AO": {
+          "ɔ": 2667
+        },
+        "SH": {
+          "ʃ": 1414
+        },
+        "Y": {
+          "j": 420
+        },
+        "OY": {
+          "ɔɪ": 94
+        },
+        "AW": {
+          "aʊ": 87
+        },
+        "DH": {
+          "ð": 12
+        }
+      },
+      "stressByNucleus": {
+        "ɛ": {
+          "unmarked": 6312
+        },
+        "u": {
+          "unmarked": 1593
+        },
+        "ə": {
+          "unmarked": 10762
+        },
+        "ʌ": {
+          "unmarked": 3476
+        },
+        "ɑ": {
+          "unmarked": 6071
+        },
+        "i:": {
+          "unmarked": 1681
+        },
+        "æ": {
+          "unmarked": 5947
+        },
+        "ɚ": {
+          "unmarked": 602
+        },
+        "ɪ": {
+          "unmarked": 4834
+        },
+        "eɪ": {
+          "unmarked": 2512
+        },
+        "aɪ": {
+          "unmarked": 1737
+        },
+        "əʊ": {
+          "unmarked": 840
+        },
+        "ɔ": {
+          "unmarked": 2667
+        },
+        "ɔɪ": {
+          "unmarked": 94
+        },
+        "aʊ": {
+          "unmarked": 87
+        }
+      },
+      "recordedAspiration": {
+        "unknown": 252984,
+        "true": 6954
+      },
+      "recordedReduction": {
+        "unknown": 259938
+      },
+      "reductionByNucleus": {
+        "true": 0,
+        "false": 0,
+        "unknown": 49215
+      },
+      "symbolAspiration": 0,
+      "notationAliases": 0,
+      "potentialMergerSegments": 21992,
+      "aspirationLoss": 6954,
+      "wordsAffected": {
+        "potentialMerger": 21992,
+        "nucleusStress:unmarked": 49215,
+        "aspiration": 6954
+      },
+      "overlappingLossMaskWords": {
+        "nucleusStress:unmarked|potentialMerger": 18917,
+        "nucleusStress:unmarked": 23344,
+        "aspiration|nucleusStress:unmarked": 3879,
+        "aspiration|nucleusStress:unmarked|potentialMerger": 3075
+      }
+    },
+    "observedMultiPreimageTokens": {
+      "AH": {
+        "ə": 10762,
+        "ʌ": 3476
+      }
+    }
+  },
+  "profile/text-default/all": {
+    "rows": 50000,
+    "identityUnavailable": 0,
+    "loss": {
+      "segments": 241270,
+      "identities": {
+        "resolved": 240563,
+        "ambiguous": 707,
+        "unknown": 0
+      },
+      "mapped": 241270,
+      "missing": 0,
+      "sourceCounts": {
+        "æ": 5452,
+        "h": 6912,
+        "ɪ": 13800,
+        "v": 2615,
+        "ɛ": 6065,
+        "ŋ": 4478,
+        "s": 17660,
+        "u": 3295,
+        "ʃ": 3495,
+        "ə": 19325,
+        "n": 17781,
+        "i:": 10956,
+        "l": 13418,
+        "eɪ": 4085,
+        "r": 14914,
+        "g": 2608,
+        "dʒ": 1179,
+        "t": 11124,
+        "w": 2747,
+        "ʌ": 4662,
+        "ɑ": 6174,
+        "d": 9826,
+        "ɚ": 5763,
+        "j": 1083,
+        "m": 8204,
+        "b": 6078,
+        "k": 7990,
+        "z": 8301,
+        "tʃ": 1110,
+        "f": 3984,
+        "əʊ": 3280,
+        "aɪ": 2743,
+        "ɔɪ": 425,
+        "p": 4028,
+        "ɜ": 707,
+        "ɔ": 2950,
+        "θ": 633,
+        "aʊ": 1040,
+        "ʒ": 57,
+        "ʊ": 234,
+        "ð": 89
+      },
+      "coarsePreimages": {
+        "AE": {
+          "æ": 5452
+        },
+        "HH": {
+          "h": 6912
+        },
+        "IH": {
+          "ɪ": 13800
+        },
+        "V": {
+          "v": 2615
+        },
+        "EH": {
+          "ɛ": 6065
+        },
+        "NG": {
+          "ŋ": 4478
+        },
+        "S": {
+          "s": 17660
+        },
+        "UW": {
+          "u": 3295
+        },
+        "SH": {
+          "ʃ": 3495
+        },
+        "AH": {
+          "ə": 19325,
+          "ʌ": 4662
+        },
+        "N": {
+          "n": 17781
+        },
+        "IY": {
+          "i:": 10956
+        },
+        "L": {
+          "l": 13418
+        },
+        "EY": {
+          "eɪ": 4085
+        },
+        "R": {
+          "r": 14914
+        },
+        "G": {
+          "g": 2608
+        },
+        "JH": {
+          "dʒ": 1179
+        },
+        "T": {
+          "t": 11124
+        },
+        "W": {
+          "w": 2747
+        },
+        "AA": {
+          "ɑ": 6174
+        },
+        "D": {
+          "d": 9826
+        },
+        "ER": {
+          "ɚ": 5763,
+          "ɜ": 707
+        },
+        "Y": {
+          "j": 1083
+        },
+        "M": {
+          "m": 8204
+        },
+        "B": {
+          "b": 6078
+        },
+        "K": {
+          "k": 7990
+        },
+        "Z": {
+          "z": 8301
+        },
+        "CH": {
+          "tʃ": 1110
+        },
+        "F": {
+          "f": 3984
+        },
+        "OW": {
+          "əʊ": 3280
+        },
+        "AY": {
+          "aɪ": 2743
+        },
+        "OY": {
+          "ɔɪ": 425
+        },
+        "P": {
+          "p": 4028
+        },
+        "AO": {
+          "ɔ": 2950
+        },
+        "TH": {
+          "θ": 633
+        },
+        "AW": {
+          "aʊ": 1040
+        },
+        "ZH": {
+          "ʒ": 57
+        },
+        "UH": {
+          "ʊ": 234
+        },
+        "DH": {
+          "ð": 89
+        }
+      },
+      "stressByNucleus": {
+        "æ": {
+          "primary": 1625,
+          "unmarked": 3557,
+          "secondary": 270
+        },
+        "ɪ": {
+          "unmarked": 6958,
+          "primary": 2350,
+          "secondary": 4492
+        },
+        "ɛ": {
+          "unmarked": 3653,
+          "primary": 2033,
+          "secondary": 379
+        },
+        "u": {
+          "primary": 827,
+          "secondary": 183,
+          "unmarked": 2285
+        },
+        "ə": {
+          "unmarked": 16954,
+          "secondary": 1778,
+          "primary": 593
+        },
+        "i:": {
+          "primary": 1681,
+          "unmarked": 8000,
+          "secondary": 1275
+        },
+        "eɪ": {
+          "primary": 1037,
+          "unmarked": 2838,
+          "secondary": 210
+        },
+        "ʌ": {
+          "unmarked": 1866,
+          "secondary": 1805,
+          "primary": 991
+        },
+        "ɑ": {
+          "unmarked": 4186,
+          "secondary": 295,
+          "primary": 1693
+        },
+        "ɚ": {
+          "secondary": 618,
+          "unmarked": 4206,
+          "primary": 939
+        },
+        "əʊ": {
+          "unmarked": 1732,
+          "primary": 1055,
+          "secondary": 493
+        },
+        "aɪ": {
+          "unmarked": 1928,
+          "primary": 673,
+          "secondary": 142
+        },
+        "ɔɪ": {
+          "unmarked": 278,
+          "primary": 122,
+          "secondary": 25
+        },
+        "ɜ": {
+          "primary": 216,
+          "unmarked": 454,
+          "secondary": 37
+        },
+        "ɔ": {
+          "unmarked": 2062,
+          "primary": 748,
+          "secondary": 140
+        },
+        "aʊ": {
+          "secondary": 115,
+          "primary": 567,
+          "unmarked": 358
+        },
+        "ʊ": {
+          "primary": 149,
+          "unmarked": 52,
+          "secondary": 33
+        }
+      },
+      "recordedAspiration": {
+        "unknown": 232895,
+        "true": 8375
+      },
+      "recordedReduction": {
+        "unknown": 235561,
+        "true": 5709
+      },
+      "reductionByNucleus": {
+        "true": 5709,
+        "false": 0,
+        "unknown": 85247
+      },
+      "symbolAspiration": 0,
+      "notationAliases": 0,
+      "potentialMergerSegments": 39802,
+      "aspirationLoss": 8375,
+      "wordsAffected": {
+        "nucleusStress:primary": 17299,
+        "nucleusStress:unmarked": 47414,
+        "potentialMerger": 29878,
+        "recordedReduction": 5241,
+        "aspiration": 7792,
+        "nucleusStress:secondary": 11930,
+        "ambiguous": 707
+      },
+      "overlappingLossMaskWords": {
+        "nucleusStress:primary|nucleusStress:unmarked": 1707,
+        "nucleusStress:unmarked|potentialMerger": 10855,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 5356,
+        "nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 298,
+        "aspiration|nucleusStress:unmarked|potentialMerger": 1210,
+        "aspiration|nucleusStress:unmarked": 1490,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 473,
+        "nucleusStress:unmarked": 12428,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 1997,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 1487,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 236,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 603,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 848,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 852,
+        "nucleusStress:secondary|nucleusStress:unmarked": 1880,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 1135,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 25,
+        "nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 74,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger": 1141,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked": 294,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 466,
+        "nucleusStress:primary|nucleusStress:secondary": 550,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1123,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 51,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 30,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary": 267,
+        "nucleusStress:unmarked|recordedReduction": 130,
+        "ambiguous|nucleusStress:unmarked|potentialMerger": 333,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 171,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 489,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 51,
+        "nucleusStress:unmarked|potentialMerger|recordedReduction": 824,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 32,
+        "ambiguous|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 100,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked": 427,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 150,
+        "aspiration|nucleusStress:unmarked|potentialMerger|recordedReduction": 32,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 60,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 44,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 48,
+        "ambiguous|aspiration|nucleusStress:unmarked|potentialMerger": 42,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|recordedReduction": 10,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 10,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 26,
+        "ambiguous|nucleusStress:unmarked|potentialMerger|recordedReduction": 4,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 30,
+        "ambiguous|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 18,
+        "nucleusStress:primary|nucleusStress:secondary|recordedReduction": 8,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 16,
+        "ambiguous|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 3,
+        "ambiguous|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 22,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 16,
+        "aspiration|nucleusStress:unmarked|recordedReduction": 7,
+        "ambiguous|aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 7,
+        "ambiguous|aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 2,
+        "ambiguous|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 12
+      }
+    },
+    "observedMultiPreimageTokens": {
+      "AH": {
+        "ə": 19325,
+        "ʌ": 4662
+      },
+      "ER": {
+        "ɚ": 5763,
+        "ɜ": 707
+      }
+    }
+  },
+  "profile/text-default/identity-complete": {
+    "rows": 49293,
+    "identityUnavailable": 0,
+    "loss": {
+      "segments": 237693,
+      "identities": {
+        "resolved": 237693,
+        "ambiguous": 0,
+        "unknown": 0
+      },
+      "mapped": 237693,
+      "missing": 0,
+      "sourceCounts": {
+        "æ": 5430,
+        "h": 6861,
+        "ɪ": 13702,
+        "v": 2572,
+        "ɛ": 6032,
+        "ŋ": 4395,
+        "s": 17393,
+        "u": 3285,
+        "ʃ": 3435,
+        "ə": 19163,
+        "n": 17533,
+        "i:": 10861,
+        "l": 13203,
+        "eɪ": 4075,
+        "r": 14718,
+        "g": 2569,
+        "dʒ": 1168,
+        "t": 10957,
+        "w": 2703,
+        "ʌ": 4644,
+        "ɑ": 6151,
+        "d": 9673,
+        "ɚ": 5717,
+        "j": 1062,
+        "m": 8072,
+        "b": 5973,
+        "k": 7829,
+        "z": 8170,
+        "tʃ": 1091,
+        "f": 3929,
+        "əʊ": 3251,
+        "aɪ": 2739,
+        "ɔɪ": 423,
+        "p": 3962,
+        "ɔ": 2932,
+        "θ": 617,
+        "aʊ": 1036,
+        "ʒ": 54,
+        "ʊ": 229,
+        "ð": 84
+      },
+      "coarsePreimages": {
+        "AE": {
+          "æ": 5430
+        },
+        "HH": {
+          "h": 6861
+        },
+        "IH": {
+          "ɪ": 13702
+        },
+        "V": {
+          "v": 2572
+        },
+        "EH": {
+          "ɛ": 6032
+        },
+        "NG": {
+          "ŋ": 4395
+        },
+        "S": {
+          "s": 17393
+        },
+        "UW": {
+          "u": 3285
+        },
+        "SH": {
+          "ʃ": 3435
+        },
+        "AH": {
+          "ə": 19163,
+          "ʌ": 4644
+        },
+        "N": {
+          "n": 17533
+        },
+        "IY": {
+          "i:": 10861
+        },
+        "L": {
+          "l": 13203
+        },
+        "EY": {
+          "eɪ": 4075
+        },
+        "R": {
+          "r": 14718
+        },
+        "G": {
+          "g": 2569
+        },
+        "JH": {
+          "dʒ": 1168
+        },
+        "T": {
+          "t": 10957
+        },
+        "W": {
+          "w": 2703
+        },
+        "AA": {
+          "ɑ": 6151
+        },
+        "D": {
+          "d": 9673
+        },
+        "ER": {
+          "ɚ": 5717
+        },
+        "Y": {
+          "j": 1062
+        },
+        "M": {
+          "m": 8072
+        },
+        "B": {
+          "b": 5973
+        },
+        "K": {
+          "k": 7829
+        },
+        "Z": {
+          "z": 8170
+        },
+        "CH": {
+          "tʃ": 1091
+        },
+        "F": {
+          "f": 3929
+        },
+        "OW": {
+          "əʊ": 3251
+        },
+        "AY": {
+          "aɪ": 2739
+        },
+        "OY": {
+          "ɔɪ": 423
+        },
+        "P": {
+          "p": 3962
+        },
+        "AO": {
+          "ɔ": 2932
+        },
+        "TH": {
+          "θ": 617
+        },
+        "AW": {
+          "aʊ": 1036
+        },
+        "ZH": {
+          "ʒ": 54
+        },
+        "UH": {
+          "ʊ": 229
+        },
+        "DH": {
+          "ð": 84
+        }
+      },
+      "stressByNucleus": {
+        "æ": {
+          "primary": 1618,
+          "unmarked": 3547,
+          "secondary": 265
+        },
+        "ɪ": {
+          "unmarked": 6909,
+          "primary": 2335,
+          "secondary": 4458
+        },
+        "ɛ": {
+          "unmarked": 3644,
+          "primary": 2017,
+          "secondary": 371
+        },
+        "u": {
+          "primary": 823,
+          "secondary": 178,
+          "unmarked": 2284
+        },
+        "ə": {
+          "unmarked": 16822,
+          "secondary": 1749,
+          "primary": 592
+        },
+        "i:": {
+          "primary": 1670,
+          "unmarked": 7936,
+          "secondary": 1255
+        },
+        "eɪ": {
+          "primary": 1036,
+          "unmarked": 2831,
+          "secondary": 208
+        },
+        "ʌ": {
+          "unmarked": 1866,
+          "secondary": 1792,
+          "primary": 986
+        },
+        "ɑ": {
+          "unmarked": 4178,
+          "secondary": 290,
+          "primary": 1683
+        },
+        "ɚ": {
+          "secondary": 604,
+          "unmarked": 4175,
+          "primary": 938
+        },
+        "əʊ": {
+          "unmarked": 1711,
+          "primary": 1051,
+          "secondary": 489
+        },
+        "aɪ": {
+          "unmarked": 1927,
+          "primary": 673,
+          "secondary": 139
+        },
+        "ɔɪ": {
+          "unmarked": 277,
+          "primary": 122,
+          "secondary": 24
+        },
+        "ɔ": {
+          "unmarked": 2050,
+          "primary": 744,
+          "secondary": 138
+        },
+        "aʊ": {
+          "secondary": 115,
+          "primary": 563,
+          "unmarked": 358
+        },
+        "ʊ": {
+          "primary": 147,
+          "unmarked": 49,
+          "secondary": 33
+        }
+      },
+      "recordedAspiration": {
+        "unknown": 229475,
+        "true": 8218
+      },
+      "recordedReduction": {
+        "unknown": 232043,
+        "true": 5650
+      },
+      "reductionByNucleus": {
+        "true": 5650,
+        "false": 0,
+        "unknown": 84020
+      },
+      "symbolAspiration": 0,
+      "notationAliases": 0,
+      "potentialMergerSegments": 38807,
+      "aspirationLoss": 8218,
+      "wordsAffected": {
+        "nucleusStress:primary": 16998,
+        "nucleusStress:unmarked": 46774,
+        "potentialMerger": 29171,
+        "recordedReduction": 5187,
+        "aspiration": 7653,
+        "nucleusStress:secondary": 11757
+      },
+      "overlappingLossMaskWords": {
+        "nucleusStress:primary|nucleusStress:unmarked": 1707,
+        "nucleusStress:unmarked|potentialMerger": 10855,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 5356,
+        "nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 298,
+        "aspiration|nucleusStress:unmarked|potentialMerger": 1210,
+        "aspiration|nucleusStress:unmarked": 1490,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger": 473,
+        "nucleusStress:unmarked": 12428,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 1997,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 1487,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 236,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 603,
+        "nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 848,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 852,
+        "nucleusStress:secondary|nucleusStress:unmarked": 1880,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger": 1135,
+        "nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 74,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger": 1141,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked": 294,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 466,
+        "nucleusStress:primary|nucleusStress:secondary": 550,
+        "nucleusStress:primary|nucleusStress:unmarked|potentialMerger|recordedReduction": 1123,
+        "nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 51,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary": 267,
+        "nucleusStress:unmarked|recordedReduction": 130,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked": 171,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 489,
+        "nucleusStress:unmarked|potentialMerger|recordedReduction": 824,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked": 427,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger": 150,
+        "aspiration|nucleusStress:unmarked|potentialMerger|recordedReduction": 32,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|potentialMerger|recordedReduction": 60,
+        "nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 44,
+        "aspiration|nucleusStress:primary|nucleusStress:unmarked|recordedReduction": 48,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|recordedReduction": 10,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|potentialMerger|recordedReduction": 26,
+        "aspiration|nucleusStress:primary|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 30,
+        "nucleusStress:primary|nucleusStress:secondary|recordedReduction": 8,
+        "aspiration|nucleusStress:secondary|nucleusStress:unmarked|recordedReduction": 16,
+        "aspiration|nucleusStress:unmarked|recordedReduction": 7
+      }
+    },
+    "observedMultiPreimageTokens": {
+      "AH": {
+        "ə": 19163,
+        "ʌ": 4644
+      }
+    }
+  }
+}
