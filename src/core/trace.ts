@@ -39,6 +39,19 @@ export interface GraphemeTrace {
   /** Grapheme form emitted before later orthographic repairs. */
   emitted: string;
   doubled: boolean;
+  /** Selection diagnostics added by the legal-weight writer. Missing means legacy/unobserved. */
+  selection?: {
+    version: 1;
+    positionScope: "segment" | "syllable";
+    segmentPosition: "initial" | "medial" | "final" | "isolated";
+    syllablePosition: "initial" | "medial" | "final" | "isolated";
+    ordinaryCandidates: number;
+    afterCondition: number;
+    afterPosition: number;
+    positiveCandidates: number;
+    fallback?: "no-conditioned-candidates" | "no-positional-candidates" | "no-positive-weights";
+    preferenceRelaxed?: "doubling-quota";
+  };
   /** Detailed doubling decision (only present when tracing). */
   doubling?: DoublingTrace;
 }

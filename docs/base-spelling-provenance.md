@@ -1,9 +1,11 @@
 # Base-spelling provenance (Q02a / Q13 foundation)
 
-`generateWord({ seed: 2643, morphology: true, trace: true })` still produces
-`bunhtreern`. Its `/θ/` selected `th`, and the raw consonant-letter cap deleted the
+In the instrumentation-only control at commit `a602888`,
+`generateWord({ seed: 2643, morphology: true, trace: true })` produced `bunhtreern`.
+Its `/θ/` selected `th`, and the raw consonant-letter cap deleted the
 `t`. `trace.baseSpelling` now identifies that exact source cell and edit. This is
-an additive diagnostic and representation change: it does not repair the clipped
+an additive diagnostic and representation change at that control: it does not
+repair the clipped
 spelling or change the generated words, probabilities, or RNG calls.
 
 ## Contract and boundary
@@ -36,8 +38,8 @@ generated words or rejected attempts. The chosen attempt carries the trace.
 The default scope, `root-before-morphology`, ends after base-word spelling rules
 and repairs. It excludes affixes, morphophonemic changes, and post-morphology
 cleanup. Consequently `baseSpelling.surface` can differ from `written.clean`.
-For example seed 38 with morphology enabled emits `canes`, while its base surface
-is `cane`. For a selected bare gap override the scope becomes
+For example, original-control seed 38 with morphology enabled emitted `canes`,
+while its base surface was `cane`. For a selected bare gap override the scope becomes
 `bare-after-gap-spelling`, and its exact whole-word replacement is recorded.
 Whole-word gap mappings do not automatically provide per-letter phone ownership.
 
@@ -86,6 +88,11 @@ Subsequent independent changes must address sound coverage and licensed spelling
    boundaries by slicing planned affix lengths or infer ownership across root
    transformations.
 
-Known witnesses remain unchanged: seed 38 `canes` /seɪnz/, seed 661 `spam` /speɪm/,
+Original-control witnesses were: seed 38 `canes` /seɪnz/, seed 661 `spam` /speɪm/,
 and seed 2643 `bunhtreern` with clipped `/θ/`. All three require
 `{ mode: "lexicon", morphology: true, trace: true }`, with no forced syllable count.
+
+The coverage-policy branch integrates the Q12a legal-selection dependency after
+this control. Seeded choices change with that dependency; current tests use its
+own trace-grounded coordinates (including `remhtrile` with clipped `th` and
+`ilenes` with an unowned inserted marker). Historical control data remains frozen.

@@ -434,6 +434,7 @@ interface PreExpandedCondition {
   leftGraphemeContext?: Set<string>;
   notLeftGraphemeContext?: Set<string>;
   wordPosition?: ("initial" | "medial" | "final")[];
+  segmentPosition?: ("initial" | "medial" | "final")[];
   syllableShape?: GraphemeCondition["syllableShape"];
 }
 
@@ -495,6 +496,7 @@ function preExpandConditions(
     if (normalized.leftGraphemeContext) expanded.leftGraphemeContext = new Set(normalized.leftGraphemeContext);
     if (normalized.notLeftGraphemeContext) expanded.notLeftGraphemeContext = new Set(normalized.notLeftGraphemeContext);
     if (normalized.wordPosition) expanded.wordPosition = normalized.wordPosition;
+    if (normalized.segmentPosition) expanded.segmentPosition = normalized.segmentPosition;
     if (normalized.syllableShape) expanded.syllableShape = normalized.syllableShape;
     result.set(g, expanded);
   }
@@ -561,6 +563,16 @@ function meetsPreExpandedCondition(
       if (pos === "medial" && isMedial) positionMatch = true;
     }
     if (!positionMatch) return false;
+  }
+
+  if (condition.segmentPosition) {
+    const initial = phonemeIndex === 0;
+    const final = phonemeIndex === totalPhonemes - 1;
+    if (!condition.segmentPosition.some(position =>
+      (position === "initial" && initial) ||
+      (position === "final" && final) ||
+      (position === "medial" && !initial && !final)
+    )) return false;
   }
 
   if (condition.leftContext) {
@@ -632,118 +644,103 @@ function filterByCondition(
       codaLength,
     )
   );
-  return filtered.length > 0 ? filtered : candidates;
+  return filtered;
 }
 
 // ---------------------------------------------------------------------------
 // Pipeline Step 3: Filter by position
 // ---------------------------------------------------------------------------
 
+interface SegmentPosition {
+  initial: boolean;
+  final: boolean;
+}
+
+function positionLabel(initial: boolean, final: boolean): "initial" | "medial" | "final" | "isolated" {
+  if (initial && final) return "isolated";
+  if (initial) return "initial";
+  return final ? "final" : "medial";
+}
+
+function positionWeight(
+  grapheme: Grapheme,
+  firstSyllable: boolean,
+  lastSyllable: boolean,
+  segment?: SegmentPosition,
+): number {
+  const atSegment = grapheme.positionScope === "segment" && segment;
+  const initial = atSegment ? atSegment.initial : firstSyllable;
+  const final = atSegment ? atSegment.final : lastSyllable;
+  if (initial && final) {
+    if (!atSegment && grapheme.isolatedSyllableWeight !== undefined) return grapheme.isolatedSyllableWeight;
+    // Legacy custom configurations must satisfy both edge exclusions.
+    return Math.min(grapheme.startWord ?? 1, grapheme.endWord ?? 1);
+  }
+  if (initial) return grapheme.startWord ?? 1;
+  return final ? (grapheme.endWord ?? 1) : (grapheme.midWord ?? 1);
+}
+
 export function filterByPosition(
   candidates: Grapheme[],
   isCluster: boolean,
-  isStartOfWord: boolean,
-  isEndOfWord: boolean,
+  firstSyllable: boolean,
+  lastSyllable: boolean,
+  segment?: SegmentPosition,
 ): Grapheme[] {
-  const isMidWord = !isStartOfWord && !isEndOfWord;
-
-  // Tier 1: strict — require positive values (undefined = pass)
-  const strict = candidates.filter(g =>
-    (!isCluster || g.cluster === undefined || g.cluster > 0) &&
-    (!isStartOfWord || g.startWord === undefined || g.startWord > 0) &&
-    (!isEndOfWord || g.endWord === undefined || g.endWord > 0) &&
-    (!isMidWord || g.midWord === undefined || g.midWord > 0)
+  return candidates.filter(grapheme =>
+    (!isCluster || grapheme.cluster === undefined || grapheme.cluster > 0) &&
+    positionWeight(grapheme, firstSyllable, lastSyllable, segment) > 0
   );
-  if (strict.length > 0) return strict;
-
-  // Tier 2: relaxed — only exclude explicit bans (=== 0)
-  const relaxed = candidates.filter(g =>
-    (!isCluster || g.cluster !== 0) &&
-    (!isStartOfWord || g.startWord !== 0) &&
-    (!isEndOfWord || g.endWord !== 0) &&
-    (!isMidWord || g.midWord !== 0)
-  );
-  if (relaxed.length > 0) return relaxed;
-
-  // Tier 3: last resort (should never happen with well-configured graphemes)
-  return candidates;
 }
 
-// ---------------------------------------------------------------------------
-// Pipeline Step 4: Frequency-weighted random selection
-// ---------------------------------------------------------------------------
+function frequencyWeight(
+  grapheme: Grapheme,
+  firstSyllable: boolean,
+  lastSyllable: boolean,
+  segment: SegmentPosition,
+  position: "onset" | "nucleus" | "coda",
+  stress: string | undefined,
+  syllableCount: number,
+): number {
+  let modifier = 1;
+  if (stress !== "ˈ" && syllableCount >= 2 && grapheme.form.length > 1) {
+    modifier = position === "nucleus"
+      ? Math.max(0.02, 0.15 / syllableCount)
+      : Math.max(0.15, 0.5 / syllableCount);
+  }
+  return grapheme.frequency * positionWeight(grapheme, firstSyllable, lastSyllable, segment) * modifier;
+}
+
+type GraphemeFallbackReason = "no-conditioned-candidates" | "no-positional-candidates" | "no-positive-weights";
+
+function fallbackReason(conditionedCount: number, positionalCount: number): GraphemeFallbackReason {
+  if (conditionedCount === 0) return "no-conditioned-candidates";
+  if (positionalCount === 0) return "no-positional-candidates";
+  return "no-positive-weights";
+}
 
 interface FrequencyResult extends Grapheme {
   _weights?: [string, number][];
-  _roll?: number;
+  _roll: number;
 }
 
-function selectByFrequency(
-  candidates: Grapheme[],
-  rand: RNG,
-  isStartOfWord: boolean,
-  isEndOfWord: boolean,
-  captureTrace: boolean = false,
-  position?: "onset" | "nucleus" | "coda",
-  stress?: string,
-  syllableCount?: number,
-): FrequencyResult {
-  if (candidates.length === 0) return { phoneme: "", form: "", origin: 0, frequency: 0, startWord: 0, midWord: 0, endWord: 0 };
-  if (candidates.length === 1) {
-    const r: FrequencyResult = { ...candidates[0] };
-    if (captureTrace) { r._weights = [[candidates[0].form, 1]]; r._roll = 0; }
-    return r;
-  }
-
-  const weights: [Grapheme, number][] = [];
-  const traceWeights: [string, number][] = [];
-  for (const g of candidates) {
-    // For monosyllables (both isStartOfWord AND isEndOfWord), use the maximum position weight
-    // to avoid defaulting to startWord=0 for final phonemes (e.g. /dz/ → "dse")
-    const posWeight = (isStartOfWord && isEndOfWord)
-      ? Math.max(g.startWord ?? 1, g.endWord ?? 1, g.midWord ?? 1)
-      : isStartOfWord
-        ? (g.startWord ?? 1)
-        : isEndOfWord
-          ? (g.endWord ?? 1)
-          : (g.midWord ?? 1);
-    // In unstressed syllables of polysyllabic words, penalize multi-letter
-    // vowel graphemes. CMU data shows vowel LPP drops from 1.58 (1-syl) to
-    // 1.02 (5-syl) — unstressed vowels are almost always single letters.
-    let stressModifier = 1;
-    if (stress !== "ˈ" && syllableCount && syllableCount >= 2 && g.form.length > 1) {
-      if (position === "nucleus") {
-        stressModifier = Math.max(0.02, 0.15 / syllableCount);
-      } else {
-        stressModifier = Math.max(0.15, 0.5 / syllableCount);
-      }
-    }
-    const w = g.frequency * posWeight * stressModifier;
-    weights.push([g, w]);
-    if (captureTrace) traceWeights.push([g.form, w]);
-  }
-
+function selectByFrequency(weights: [Grapheme, number][], rand: RNG, tracing: boolean): FrequencyResult {
+  if (weights.length === 0) throw new Error("No legal positive-weight grapheme candidates");
   const totalWeight = weights.reduce((sum, [, weight]) => sum + weight, 0);
-  const randomValue = rand() * totalWeight;
-
-  let cumulativeWeight = 0;
-  let selected = weights[weights.length - 1][0];
-  for (const [option, weight] of weights) {
-    cumulativeWeight += weight;
-    if (randomValue < cumulativeWeight) {
-      selected = option;
-      break;
+  if (!(totalWeight > 0) || !Number.isFinite(totalWeight)) {
+    throw new Error("Grapheme weights must have a finite positive total");
+  }
+  // Preserve the singleton RNG contract, but report its real configured weight.
+  const roll = weights.length === 1 ? 0 : rand() * totalWeight;
+  if (!(roll >= 0 && roll < totalWeight)) throw new Error("Grapheme RNG must return a value in [0, 1)");
+  let cumulative = 0;
+  for (const [grapheme, weight] of weights) {
+    cumulative += weight;
+    if (roll < cumulative) {
+      return { ...grapheme, _weights: tracing ? weights.map(([g, w]) => [g.form, w]) : undefined, _roll: roll };
     }
   }
-
-  const result: FrequencyResult = { ...selected };
-
-  if (captureTrace) {
-    result._weights = traceWeights;
-    result._roll = randomValue;
-  }
-
-  return result;
+  throw new Error("Grapheme selection failed despite positive weights");
 }
 
 // ---------------------------------------------------------------------------
@@ -1583,10 +1580,18 @@ export function appendSilentE(
 
 /**
  * Creates a `generateWrittenForm` function bound to the given language config's
- * grapheme maps. The cumulative frequency table is pre-computed once at creation.
+ * grapheme maps. Conditions are compiled and numeric weights checked at creation.
  */
 export function createWrittenFormGenerator(config: LanguageConfig): (context: WordGenerationContext) => void {
   const gMaps = config.graphemeMaps;
+  const allGraphemes = config.graphemes;
+  for (const grapheme of allGraphemes) {
+    const weights = [grapheme.frequency, grapheme.startWord, grapheme.midWord, grapheme.endWord,
+      grapheme.onset, grapheme.nucleus, grapheme.coda, grapheme.cluster, grapheme.isolatedSyllableWeight];
+    if (weights.some(weight => weight !== undefined && (!Number.isFinite(weight) || weight < 0))) {
+      throw new Error(`Invalid grapheme weight for /${grapheme.phoneme}/ → ${grapheme.form}`);
+    }
+  }
   const doublingConfig = config.doubling;
   const allCompiledRules = compileSpellingRules(config.spellingRules ?? []);
   const syllableRules = allCompiledRules.filter(r => r.scope === "syllable" || r.scope === "both");
@@ -1597,7 +1602,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const tryDoubling = createDoublingFn(doublingConfig, neverDoubleSet, doubledFormSet);
 
   // Pre-expand conditions for all graphemes
-  const expandedConditions = preExpandConditions(config.graphemes, categories, config.graphemeConditionAliases);
+  const expandedConditions = preExpandConditions(allGraphemes, categories, config.graphemeConditionAliases);
 
   // Silent-e pre-compilation
   const silentEConfig = config.silentE;
@@ -1671,26 +1676,40 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       // Pipeline
       const isLastPhoneme = phonemeIndex === flattenedPhonemes.length - 1;
       const candidates = getGraphemeCandidates(gMaps, phoneme.sound, position);
-      const conditioned = filterByCondition(
-        candidates,
-        expandedConditions,
-        prevPhoneme,
-        nextEntry?.phoneme,
-        phonemeIndex,
-        flattenedPhonemes.length,
-        isStartOfWord,
-        isEndOfWord,
-        prevGraphemeForm,
-        onsetLength,
-        nucleusLength,
-        codaLength,
+      const segment = { initial: phonemeIndex === 0, final: isLastPhoneme };
+      const ordinary = candidates.filter(grapheme => !grapheme.fallbackOnly);
+      const conditionCandidates = (pool: Grapheme[]): Grapheme[] => filterByCondition(
+        pool, expandedConditions, prevPhoneme, nextEntry?.phoneme,
+        phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord,
+        prevGraphemeForm, onsetLength, nucleusLength, codaLength,
       );
-      const positional = filterByPosition(conditioned, isCluster, isStartOfWord, isEndOfWord);
-      // When doubling quota is full, exclude doubled-form graphemes (e.g. "ck") so we don't exceed maxPerWord
-      const quotaFiltered = doubledFormSet.size > 0 && doublingCtx.doublingCount >= (doublingConfig?.maxPerWord ?? Infinity)
-        ? positional.filter(g => !doubledFormSet.has(g.form))
-        : positional;
-      const selected = selectByFrequency(quotaFiltered.length > 0 ? quotaFiltered : positional, rand, isStartOfWord, isEndOfWord, tracing, position, stress, syllables.length);
+      const positionCandidates = (pool: Grapheme[]): Grapheme[] =>
+        filterByPosition(pool, isCluster, isStartOfWord, isEndOfWord, segment);
+      const positiveWeights = (pool: Grapheme[]): [Grapheme, number][] => pool
+        .map((grapheme): [Grapheme, number] => [grapheme, frequencyWeight(
+          grapheme, isStartOfWord, isEndOfWord, segment, position, stress, syllables.length,
+        )])
+        .filter(([, weight]) => weight > 0 && Number.isFinite(weight));
+      const conditioned = conditionCandidates(ordinary);
+      const positional = positionCandidates(conditioned);
+      let weights = positiveWeights(positional);
+      const positiveCount = weights.length;
+      let fallback: GraphemeFallbackReason | undefined;
+      if (weights.length === 0) {
+        fallback = fallbackReason(conditioned.length, positional.length);
+        weights = positiveWeights(positionCandidates(conditionCandidates(
+          candidates.filter(grapheme => grapheme.fallbackOnly),
+        )));
+        if (weights.length === 0) {
+          throw new Error(`No legal grapheme for /${phoneme.sound}/ at segment ${phonemeIndex} ` +
+            `(${position}, syllable ${syllableIndex}; ${fallback})`);
+        }
+      }
+      const quotaFull = doubledFormSet.size > 0 &&
+        doublingCtx.doublingCount >= (doublingConfig?.maxPerWord ?? Infinity);
+      const quotaWeights = quotaFull ? weights.filter(([g]) => !doubledFormSet.has(g.form)) : weights;
+      const preferenceRelaxed = quotaWeights.length === 0 ? "doubling-quota" as const : undefined;
+      const selected = selectByFrequency(quotaWeights.length > 0 ? quotaWeights : weights, rand, tracing);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
       // For doubling, use the nucleus grapheme that the reader sees before the
@@ -1737,6 +1756,18 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           selected: selected.form,
           emitted,
           doubled: form !== selected.form,
+          selection: {
+            version: 1,
+            positionScope: selected.positionScope ?? "syllable",
+            segmentPosition: positionLabel(segment.initial, segment.final),
+            syllablePosition: positionLabel(isStartOfWord, isEndOfWord),
+            ordinaryCandidates: ordinary.length,
+            afterCondition: conditioned.length,
+            afterPosition: positional.length,
+            positiveCandidates: positiveCount,
+            fallback,
+            preferenceRelaxed,
+          },
           doubling: doublingTraceInfo ? {
             attempted: doublingTraceInfo.attempted,
             reason: doublingTraceInfo.reason,

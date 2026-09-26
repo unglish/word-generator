@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
 import { BaseSpelling, expandReplacement } from "./base-spelling.js";
 
+// Q12a changes seeded spelling paths; these coordinates belong to its dependency control.
 function archivedDraws(indices: number[]) {
   const rand = createSeededRng(1304238451);
   const selected = new Map<number, ReturnType<typeof generateWord>>();
@@ -14,8 +15,8 @@ function archivedDraws(indices: number[]) {
 
 describe("exact base-spelling provenance", () => {
   it("records a cut within th at its actual source cell without claiming it is repaired", () => {
-    const word = generateWord({ seed: 2643, morphology: true, trace: true });
-    expect(word.written.clean).toBe("bunhtreern");
+    const word = archivedDraws([1148]).get(1148)!;
+    expect(word.written.clean).toBe("remhtrile");
     const base = word.trace!.baseSpelling!;
     const edit = base.edits.find(entry => entry.rule === "repairConsonantLetters")!;
     expect(edit.before).toBe("t");
@@ -28,32 +29,31 @@ describe("exact base-spelling provenance", () => {
   });
 
   it("exposes the untraced join, boundary insertion and post-join vowel cap", () => {
-    const draws = archivedDraws([963, 1921, 4322]);
-    expect(draws.get(963)!.written.clean).toBe("cageatsaps");
-    expect(draws.get(963)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "deduplicateSyllableJoin", before: "e", after: "" }));
-    expect(draws.get(1921)!.written.clean).toBe("owloduety");
-    expect(draws.get(1921)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "postJoinVowelCap", before: "a", after: "" }));
-    expect(draws.get(4322)!.written.clean).toBe("atiguet");
-    expect(draws.get(4322)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "orthographicRepair:hard-g-silent-u", before: "", after: "u" }));
+    const draws = archivedDraws([50, 278]);
+    expect(draws.get(278)!.written.clean).toBe("farcheacilhon");
+    expect(draws.get(278)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "deduplicateSyllableJoin", before: "c", after: "" }));
+    expect(draws.get(50)!.written.clean).toBe("voguind");
+    expect(draws.get(50)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "postJoinVowelCap", before: "e", after: "" }));
+    expect(draws.get(50)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "orthographicRepair:hard-g-silent-u", before: "", after: "u" }));
   });
 
   it("records empty emission separately from phoneme deletion", () => {
-    const word = generateWord({ seed: 38, syllableCount: 1, morphology: false, trace: true });
+    const word = archivedDraws([52]).get(52)!;
     const base = word.trace!.baseSpelling!;
-    expect(word.written.clean).toBe("quants");
-    expect(base.units[6].afterDoubling).toBe("s");
-    expect(base.phones[6].soundAtSpelling).toBe("s");
+    expect(word.written.clean).toBe("arolpise");
+    expect(base.units[7].afterDoubling).toBe("s");
+    expect(base.phones[7].soundAtSpelling).toBe("s");
     expect(base.edits).toContainEqual(expect.objectContaining({ rule: "deduplicateAdjacentLetters", before: "s", after: "" }));
   });
 
   it("keeps inserted silent-e ownership unresolved instead of assigning it to n", () => {
-    const word = generateWord({ seed: 38, morphology: true, trace: true });
-    expect(word.written.clean).toBe("canes");
+    const word = generateWord({ seed: 32, morphology: true, trace: true });
+    expect(word.written.clean).toBe("ilenes");
     const base = word.trace!.baseSpelling!;
-    expect(base.surface).toBe("cane");
+    expect(base.surface).toBe("ilene");
     expect(base.scope).toBe("root-before-morphology");
-    expect(base.cells[3].origin).toMatchObject({ kind: "rewrite", sourceUnitIds: [], ownership: "unresolved" });
-    expect(base.edits[0]).toMatchObject({ rule: "silentE:marker", before: "", after: "e" });
+    expect(base.cells[4].origin).toMatchObject({ kind: "rewrite", sourceUnitIds: [], ownership: "unresolved" });
+    expect(base.edits.find(edit => edit.rule === "silentE:marker")).toMatchObject({ rule: "silentE:marker", before: "", after: "e" });
   });
 
   it("records a bare gap override as an exact edit with unresolved internal ownership", () => {
