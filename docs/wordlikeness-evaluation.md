@@ -112,12 +112,22 @@ Run from the repository root with installed development dependencies. The CLI
 has no new runtime dependencies. Output files use exclusive creation; choose
 fresh paths when reproducing, then compare with the committed artifacts.
 
+The shared-parser extraction preserves the v1 model and every frozen score,
+while giving the implementation a new fingerprint. Historical
+`reference-v1.json` and `frozen-scores-v1.json` remain immutable and belong to
+commit `820f80dd72edac7d69ffc7c4e03212f2e2399a2f`. Reproduce their original bytes at
+that commit. Current code requires a newly built reference; it deliberately
+rejects the historical implementation fingerprint. The fresh equivalent
+artifacts and complete comparison proof are packaged under
+`evaluation/experiments/cmu-shared-parser/`. See the
+[shared source contract](cmu-corpus-contract.md) for policy and provenance.
+
 ```bash
 curl -fL https://raw.githubusercontent.com/cmusphinx/cmudict/74790861f652b15e4ac49015a90074ad62a27690/cmudict.dict -o /tmp/wordlikeness-cmudict.dict
+node --import tsx evaluation/corpus/audit.ts --source /tmp/wordlikeness-cmudict.dict --out /tmp/cmu-parser-audit.json
 npm run review:wordlikeness -- build --corpus /tmp/wordlikeness-cmudict.dict --out /tmp/reference-v1.json
 npm run review:wordlikeness -- score --model /tmp/reference-v1.json --snapshot evaluation/review/studies/written-v1-baseline.json --snapshot evaluation/review/studies/written-v2-baseline.json --out /tmp/frozen-scores-v1.json
-cmp /tmp/reference-v1.json evaluation/review/wordlikeness/artifacts/reference-v1.json
-cmp /tmp/frozen-scores-v1.json evaluation/review/wordlikeness/artifacts/frozen-scores-v1.json
+python3 evaluation/corpus/verify-parser.py --source /tmp/wordlikeness-cmudict.dict --audit /tmp/cmu-parser-audit.json --reference /tmp/reference-v1.json --scores /tmp/frozen-scores-v1.json --out /tmp/cmu-parser-parity.json
 ```
 
 The build command enforces the corpus checksum. Artifacts carry the scoring
@@ -144,7 +154,7 @@ would double-count immutable responses. No cloud access is needed for analysis
 of existing local exports.
 
 ```bash
-npm run review:wordlikeness -- evaluate --scores evaluation/review/wordlikeness/artifacts/frozen-scores-v1.json --input review-exports/v1/export.json --input review-exports/v2/export.json --run pilot-001
+npm run review:wordlikeness -- evaluate --scores /tmp/frozen-scores-v1.json --input review-exports/v1/export.json --input review-exports/v2/export.json --run pilot-001
 ```
 
 This writes `report.md` and `report.json` exclusively to

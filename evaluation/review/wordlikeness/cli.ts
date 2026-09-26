@@ -26,7 +26,10 @@ async function sourceDigest(paths: string[]): Promise<string> {
 }
 interface ModelArtifact { version: string; digest: string; implementation_digest: string; model: ReferenceModel }
 async function main(): Promise<void> {
-  const implementationDigest = await sourceDigest(["model.ts", "score.ts", "artifact.ts"].map(path => `evaluation/review/wordlikeness/${path}`));
+  const implementationDigest = await sourceDigest([
+    ...["model.ts", "score.ts", "artifact.ts"].map(path => `evaluation/review/wordlikeness/${path}`),
+    "evaluation/corpus/cmu.ts",
+  ]);
   const comparatorDigest = await sourceDigest(["src/phonotactic/score.ts", "src/phonotactic/arpabet-bigrams.ts", "src/phonotactic/ipa-to-arpabet.ts"]);
   if (command === "build") {
     const text = await readFile(required(values.corpus, "corpus"), "utf8");

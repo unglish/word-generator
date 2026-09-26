@@ -1,0 +1,29 @@
+{
+  "version": "cmu-parser-parity-v1",
+  "sourceSha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+  "entryDigest": "d6a702f18c1bc17f7d7b41206d37498ecab0a7712c862f0398c9a8fde7a13d29",
+  "records": {
+    "entry": 135166,
+    "comment": 0,
+    "blank": 0
+  },
+  "accepted": 117485,
+  "excluded": {
+    "non_ascii_spelling": 8559,
+    "alternate_pronunciation": 9114,
+    "no_vowel": 8
+  },
+  "independentSourceAccounting": true,
+  "completeModelEquality": true,
+  "completeFrozenScoreRowsEquality": true,
+  "frozenScoreRows": 400,
+  "priorReferenceSha256": "3006f65d7039820a428ba3419b63fd486de17fb3ccbb1f9d24c1cda354ffe3de",
+  "priorScoresSha256": "a39b126fc0d45f351c8831986324b5bf0a5553eaa9f78fa2409e1084bf65eddc",
+  "priorImplementationDigest": "e143e94ef9463771a806c69e4201e5bcfda7932dac1747907cc021a2f4950904",
+  "implementationDigest": "efc86ae1614d1a92df831aa1b96b16afba26be80e6b3c12cc4456cfd18643730",
+  "sourceAuditSha256": "b58f191ef3ac9435241679d1db78fc5862ffeef2c5a4533a2ae237cfb786f91e",
+  "referenceSha256": "eb0ddfaa1565b5fdde4b4f65d167f1438f132cec7366ea591dcb44be30b84c7e",
+  "scoresSha256": "4e1801a2df321a208ea730bf7fcb8453e6ff4c3cf7e6b6ddb49b2570f4f7139f",
+  "verifierSha256": "a59cfa124b1462f4147416236fe6b2ad267a788cb9e5a0c72acf0e9b2ec08c50",
+  "scoreArtifactIntegrity": "validated with the pinned JavaScript canonicalizer"
+}
