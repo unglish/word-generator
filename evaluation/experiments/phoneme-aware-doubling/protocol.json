@@ -1,0 +1,169 @@
+{
+  "version": "q12c-phoneme-aware-doubling-registration-v1",
+  "status": "registered before runtime edits; exploratory control inspection disclosed",
+  "controlCommit": "ce3800dd3454feb33cdb32f8be96cf2fc684c4eb",
+  "controlArchive": "/private/tmp/q13c-unit-normalization-candidate-v1",
+  "controlManifestSha256": "dd931b501b6c26bbd17f953683eabee0d3b6d45aa0f3ead593d8902678d8dff3",
+  "controlSourceDigest": "75cb1cb805112a1dee06d15a3b54636d94825fd10952e40aff7010d4997f6450",
+  "developmentProtocol": "linguistic-quality-v1",
+  "profiles": 4,
+  "streamsPerProfile": 5,
+  "wordsPerStream": 10000,
+  "candidateWords": 200000,
+  "validation": "sealed; do not inspect during tuning",
+  "primary": [
+    "sampled-s-c-ck count = 0",
+    "sampled expansions outside registered ordinary relation set = 0",
+    "every declared relation has positive support in an explicit eligible fixture",
+    "no new missing/erased phone ownership credited as clean"
+  ],
+  "ordinaryRelations": [
+    [
+      "b",
+      "b",
+      "bb"
+    ],
+    [
+      "d",
+      "d",
+      "dd"
+    ],
+    [
+      "f",
+      "f",
+      "ff"
+    ],
+    [
+      "g",
+      "g",
+      "gg"
+    ],
+    [
+      "l",
+      "l",
+      "ll"
+    ],
+    [
+      "m",
+      "m",
+      "mm"
+    ],
+    [
+      "n",
+      "n",
+      "nn"
+    ],
+    [
+      "p",
+      "p",
+      "pp"
+    ],
+    [
+      "r",
+      "r",
+      "rr"
+    ],
+    [
+      "s",
+      "s",
+      "ss"
+    ],
+    [
+      "t",
+      "t",
+      "tt"
+    ],
+    [
+      "z",
+      "z",
+      "zz"
+    ],
+    [
+      "k",
+      "c",
+      "ck"
+    ],
+    [
+      "k",
+      "k",
+      "ck"
+    ]
+  ],
+  "denominators": [
+    "all words",
+    "all spelling units",
+    "sampled attempts",
+    "sampled successes",
+    "direct quota increments",
+    "each sound/selected/output relation",
+    "profile and stream"
+  ],
+  "comparisons": [
+    "exact #335 immediate control",
+    "original frozen development baseline; do not credit inherited improvements"
+  ],
+  "secondary": [
+    "all common quality metrics and raw consonant clusters",
+    "morphology and syllable-length strata",
+    "selection fallback and rejection/attempt counts",
+    "uniqueness and distributions",
+    "deduplication phone retention and partial digraph integrity",
+    "full trace witnesses and downstream repair effects"
+  ],
+  "parity": {
+    "legacyCoordinates": 20000,
+    "streams": 20,
+    "api": "public generateWord/generateWords/createGenerator only",
+    "checks": [
+      "complete words",
+      "traced and untraced outputs",
+      "legacy traces",
+      "RNG calls",
+      "next RNG value",
+      "custom legacy override configurations"
+    ]
+  },
+  "performance": {
+    "pairs": 6,
+    "order": [
+      "A",
+      "B",
+      "B",
+      "A",
+      "A",
+      "B",
+      "B",
+      "A",
+      "A",
+      "B",
+      "B",
+      "A"
+    ],
+    "freshProcesses": 12,
+    "control": "exact #335",
+    "suite": "unchanged test:perf workload and gates",
+    "report": [
+      "paired throughput ratios",
+      "per-slot gate outcomes",
+      "variance",
+      "inherited failures"
+    ],
+    "rule": "freeze timing source/workload/engine before execution; retain failed preparation history"
+  },
+  "requiredChecks": [
+    "npm test",
+    "npm run test:quality",
+    "npm run test:perf",
+    "strict TypeScript",
+    "targeted lint",
+    "meaningful new runtime/config/planner fixtures",
+    "independent archived trace recount"
+  ],
+  "freeze": "pin runtime, evaluator, protocol, reference, engine and dependency identities before formal candidate capture; no edits after measured outcomes",
+  "limits": [
+    "root sampler support is not complete final-word pronunciation",
+    "ordinary unsupported is not universally impossible English",
+    "changed RNG means corpus coordinates are not causal word pairs",
+    "no human preference claim"
+  ]
+}
