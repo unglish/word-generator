@@ -9,7 +9,8 @@ import { createGapSpellingApplicator } from "./gap-spelling.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
-import { planMorphology, applyMorphology } from "./morphology/index.js";
+import { planMorphology, prepareMorphology, writeMorphology } from "./morphology/index.js";
+import { cloneSyllables } from "./lexical.js";
 import {
   computePhonemeTargetBounds,
   derivePhonemeTargets,
@@ -88,10 +89,6 @@ function getPlanGuardProbability(rt: GeneratorRuntime): number {
 
 function getPostVowelGlideMultiplier(rt: GeneratorRuntime): number {
   return rt.config.hiatusPolicy?.postVowelGlideMultiplier ?? DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER;
-}
-
-function getRootFallbackBridges(rt: GeneratorRuntime): [string, number][] {
-  return rt.config.hiatusPolicy?.fallbackBridgeOnsets ?? defaultFallbackBridgeOnsets();
 }
 
 /** Build a set of all proper prefixes for attested clusters (excludes the full key). */
@@ -1269,11 +1266,49 @@ function generateOneWord(
     runPipeline(rt, context, mode);
 
     const rootPhonemeCount = countPhonemes(context.word.syllables);
+    const lexicalRoot = cloneSyllables(context.word.syllables);
 
-    // Apply morphology after pipeline produces the bare root
+    traceCollector?.beforeStage("assembleMorphology", context.word.syllables);
+    const preparedMorphology = morphPlan ? prepareMorphology(rt, context, morphPlan.plan) : undefined;
+    traceCollector?.afterStage("assembleMorphology", context.word.syllables);
+    const rootSyllableStart = preparedMorphology?.rootSyllableStart ?? 0;
+
+    // Final primary stress may fall on a formerly unstressed root vowel. Repair
+    // the lexical choice before spelling, while retaining genuine alternations
+    // (such as -ity shortening) as separate base and derived segments.
+    const nucleiBeforeRepair = context.word.syllables.map(syllable => [...syllable.nucleus]);
+    traceCollector?.beforeStage("repairFinalStressedNuclei", context.word.syllables);
+    repairStressedNuclei(context, rt.positionPhonemes.nucleus, rt.resolvedStress);
+    for (let rootIndex = 0; rootIndex < lexicalRoot.length; rootIndex++) {
+      const finalIndex = rootSyllableStart + rootIndex;
+      const finalNucleus = context.word.syllables[finalIndex].nucleus;
+      for (let index = 0; index < finalNucleus.length; index++) {
+        if (finalNucleus[index] !== nucleiBeforeRepair[finalIndex][index]) {
+          lexicalRoot[rootIndex].nucleus[index] = { ...finalNucleus[index] };
+        }
+      }
+    }
+    traceCollector?.afterStage("repairFinalStressedNuclei", context.word.syllables);
+    context.word.lexical = {
+      root: lexicalRoot,
+      syllables: cloneSyllables(context.word.syllables),
+      rootSyllableStart,
+    };
+
+    const rootContext: WordGenerationContext = {
+      ...context,
+      word: { syllables: lexicalRoot, written: { clean: "", hyphenated: "" }, pronunciation: "" },
+      orthographySource: { kind: "lexical-root", wordSyllableStart: rootSyllableStart },
+    };
+    traceCollector?.beforeStage("generateWrittenForm", lexicalRoot);
+    rt.generateWrittenForm(rootContext);
+    context.word.written = rootContext.word.written;
+    traceCollector?.afterStage("generateWrittenForm", lexicalRoot);
+
+    // Realize spelling from the same resolved attachment used for the phones.
     const morphApplied = !!morphPlan;
-    if (morphPlan) {
-      applyMorphology(rt, context, morphPlan.plan);
+    if (morphPlan && preparedMorphology) {
+      writeMorphology(context, preparedMorphology);
       // Post-morphology consonant letter repair: suffix attachment can create
       // consonant runs that exceed the limit (e.g. "marks" + "tion" = "markstion").
       const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
@@ -1297,6 +1332,9 @@ function generateOneWord(
         context.word.written.hyphenated = hyphParts.join("");
       }
     }
+    traceCollector?.beforeStage("generatePronunciation", context.word.syllables);
+    generatePronunciation(context, rt.resolvedPronunciation);
+    traceCollector?.afterStage("generatePronunciation", context.word.syllables);
     // Gap spellings are exact bare-word overrides. Affixed forms should be
     // handled by morphology or more general rule systems instead.
     if (!morphPlan || morphPlan.plan.template === "bare") {
@@ -1359,7 +1397,7 @@ function generateOneWord(
 }
 
 /**
- * Shared pipeline: syllable generation → repair → write → pronounce.
+ * Build a lexical root; morphology, spelling and surface realization follow.
  */
 function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode: GenerationMode = "lexicon"): void {
   const t = context.trace;
@@ -1402,14 +1440,6 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.beforeStage("repairStressedNuclei", context.word.syllables);
   repairStressedNuclei(context, rt.positionPhonemes.nucleus, stressRules);
   t?.afterStage("repairStressedNuclei", context.word.syllables);
-
-  t?.beforeStage("generateWrittenForm", context.word.syllables);
-  rt.generateWrittenForm(context);
-  t?.afterStage("generateWrittenForm", context.word.syllables);
-
-  t?.beforeStage("generatePronunciation", context.word.syllables);
-  generatePronunciation(context, rt.resolvedPronunciation);
-  t?.afterStage("generatePronunciation", context.word.syllables);
 }
 
 const MAX_FORCED_SYLLABLE_COUNT = 7;
