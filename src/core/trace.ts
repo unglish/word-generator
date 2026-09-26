@@ -1,3 +1,4 @@
+import type { SpellingBudgetOutcome } from "./spelling-coverage-types.js";
 import type { BaseSpellingTrace } from "./base-spelling.js";
 import type { Syllable } from "../types.js";
 import type { MorphologyRealizationTrace } from "./morphology/realization.js";
@@ -256,6 +257,7 @@ export interface OrthographyTrace {
 export interface WordTrace {
   /** Exact base edit provenance, separate from legacy inferred ownership. */
   baseSpelling?: BaseSpellingTrace;
+  spellingBudgets?: SpellingBudgetOutcome[];
   /** Target syllable count chosen for this word. */
   syllableCount: number;
   /** How many letter-length rejection attempts before acceptance (0 = first try). */
@@ -281,6 +283,7 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 
 export class TraceCollector {
   baseSpelling?: BaseSpellingTrace;
+  spellingBudgets?: SpellingBudgetOutcome[];
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
   orthographyTrace?: OrthographyTrace;
@@ -297,6 +300,10 @@ export class TraceCollector {
     const before = this.currentBefore.get(name) ?? [];
     this.currentBefore.delete(name);
     this.stages.push({ name, before, after: snapshotSyllables(syllables) });
+  }
+
+  recordSpellingBudget(outcome: SpellingBudgetOutcome): void {
+    (this.spellingBudgets ??= []).push(outcome);
   }
 
   recordGraphemeSelection(entry: GraphemeTrace): void {
@@ -327,6 +334,7 @@ export class TraceCollector {
       orthography: this.orthographyTrace,
       repairs: this.repairs,
       baseSpelling: this.baseSpelling,
+      ...(this.spellingBudgets ? { spellingBudgets: this.spellingBudgets } : {}),
       summary: {
         totalDecisions: this.graphemeSelections.length,
         repairCount: this.repairs.length,

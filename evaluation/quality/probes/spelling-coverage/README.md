@@ -161,3 +161,32 @@ This is an explicit refusal, not a claim of full-affix phonological certificatio
 Under-budget resolved cleanup and omitted-policy custom configurations retain
 their established behavior. No numeric cap, gate, primary hypothesis, search
 objective, or search bound changes in this amendment.
+
+## Search pruning clarification before the formal candidate capture
+
+The visited-state counter increments for each partial assignment before expanding
+or rejecting it. A branch then stops immediately when its newly changed unit has
+missing/unsupported reading metadata, requires an unavailable split marker in a
+closed syllable, or belongs to a part with fixed unresolved rewrite cells. These
+are necessary failures independent of the remaining assignments. Candidate order,
+objective/tolerance, and the 8,192-state bound remain unchanged. Fully explored
+fixtures must retain the same optimum and tie order; reduced search can allow a
+previously exhausted branch to finish, so bounded-search outcomes are reported
+separately rather than claimed equivalent to the unpruned exploratory version.
+One deep-detached phone snapshot per writer boundary is shared among contexts;
+its nested metadata is preserved. Search and certificate verification accumulate
+each grapheme log and then doubling log in the same left-to-right order.
+
+## Eligibility evidence binding before candidate freeze
+
+V2 additionally declares `writerBoundary: 1`. Each original phone retains a deep
+detached feature/stress snapshot, and each original unit retains its actual
+inventory index. These records are made at the writer application point outside
+repair certificates. The observer derives every fixed slot and doubling field
+from them, including cluster status, reduction, stress, next nucleus and segment
+shape; it checks complete feature objects, not only sound strings. Pre-plan
+choices must match original selections or the prior verified certificate. V1
+archives have no such snapshot and remain unavailable for this certification.
+The frozen archive/source hashes bind these observations to their generation;
+this is an execution-evidence contract, not cryptographic proof of arbitrary
+untrusted generators. Context-only adversarial changes must be rejected.

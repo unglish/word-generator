@@ -499,6 +499,7 @@ export const englishConfig: LanguageConfig = {
   },
 
   writtenFormConstraints: {
+    policy: "preserve-phones",
     maxConsonantGraphemes: 4,
     consonantGraphemes: [
       "tch", "dge", "sch",                    // trigraphs (3 letters → 1 unit)

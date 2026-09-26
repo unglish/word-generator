@@ -12,6 +12,7 @@ import { nasalGraphemes } from "./nasals.js";
 import { fricativeGraphemes } from "./fricatives.js";
 import { affricateGraphemes } from "./affricates.js";
 import { stopGraphemes } from "./stops.js";
+import { withEnglishReadings } from "./reading.js";
 
 export const ORIGINS = ["Germanic", "French", "Greek", "Latin", "Other"] as const;
 
@@ -40,7 +41,7 @@ function withPositions(items: Grapheme[], scope: "segment" | "syllable"): Graphe
   });
 }
 
-export const graphemes: Grapheme[] = [
+export const graphemes: Grapheme[] = withEnglishReadings([
   ...withPositions(vowelGraphemes, "syllable"),
   ...withPositions(diphthongGraphemes, "syllable"),
   ...withPositions(rhoticGraphemes, "syllable"),
@@ -65,7 +66,7 @@ export const graphemes: Grapheme[] = [
     startWord: 1, midWord: 0, endWord: 0, isolatedSyllableWeight: 5,
     condition: { leftContext: ["g"] },
   },
-];
+]);
 
 export type GraphemeMaps = {
   onset: Map<string, Grapheme[]>;

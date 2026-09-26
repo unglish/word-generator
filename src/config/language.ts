@@ -622,6 +622,8 @@ export interface GapSpelling {
 // ---------------------------------------------------------------------------
 
 export interface WrittenFormConstraints {
+  /** Explicit opt-in: budgets yield to licensed phone coverage. Omission retains legacy repairs. */
+  policy?: "preserve-phones";
   /**
    * Max consecutive consonant grapheme units allowed. Default: 4.
    *
