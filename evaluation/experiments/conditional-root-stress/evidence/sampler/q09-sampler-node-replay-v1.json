@@ -1,0 +1,99 @@
+{
+  "version": "q09-sampler-node-replay-v1",
+  "passed": true,
+  "archiveSha256": "0a789f8b7a047ed61e9cad0f7ddea2bbd276efd1d1150e0d3288a57e8dc36b2f",
+  "sourceFreezeSha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a",
+  "protocolSha256": "5fec61ae76fa0c81e317637f2dac065e43ced844ca46836236db47b8045929f4",
+  "engine": {
+    "node": "v24.11.1",
+    "versions": {
+      "node": "24.11.1",
+      "acorn": "8.15.0",
+      "ada": "3.3.0",
+      "amaro": "1.1.4",
+      "ares": "1.34.5",
+      "brotli": "1.1.0",
+      "cjs_module_lexer": "2.1.0",
+      "cldr": "47.0",
+      "icu": "77.1",
+      "llhttp": "9.3.0",
+      "modules": "137",
+      "napi": "10",
+      "nbytes": "0.1.1",
+      "ncrypto": "0.0.1",
+      "nghttp2": "1.66.0",
+      "openssl": "3.5.4",
+      "simdjson": "4.0.7",
+      "simdutf": "6.4.0",
+      "sqlite": "3.50.4",
+      "tz": "2025b",
+      "undici": "7.16.0",
+      "unicode": "16.0",
+      "uv": "1.51.0",
+      "uvwasi": "0.0.23",
+      "v8": "13.6.233.10-node.28",
+      "zlib": "1.3.1-470d3a2",
+      "zstd": "1.5.7"
+    },
+    "platform": "darwin",
+    "architecture": "arm64",
+    "executableSha256": "4255a388254ca4319e2f95f1da375d5deaddf25baf9c7c85070b67f9543b15d0"
+  },
+  "cases": [
+    {
+      "id": "duplicate-history",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 109
+      },
+      "numericDecisionsChecked": 285
+    },
+    {
+      "id": "primary-shift",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 37
+      },
+      "numericDecisionsChecked": 51
+    },
+    {
+      "id": "directional-unequal",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 109
+      },
+      "numericDecisionsChecked": 312
+    },
+    {
+      "id": "unrestricted-neighbors",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 505
+      },
+      "numericDecisionsChecked": 2434
+    },
+    {
+      "id": "zero-weight-rare-rhythm",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 793
+      },
+      "numericDecisionsChecked": 4161
+    },
+    {
+      "id": "all-zero-last-candidate",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 37
+      },
+      "numericDecisionsChecked": 51
+    }
+  ],
+  "scope": "Exact same-Node public-API and numeric-predicate replay; independent rational proof is separate; no frequency draws"
+}

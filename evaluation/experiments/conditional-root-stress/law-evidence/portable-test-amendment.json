@@ -1,0 +1,13 @@
+{
+  "version": "q09-portable-oracle-test-amendment-v1",
+  "change": "Only protocol path resolution is package-relative; all11 tests and exact effective protocol hash assertion are retained. The frozen original remains unchanged.",
+  "original": {
+    "path": "q09-pattern-oracle-test.py",
+    "sha256": "1c985086158a377c166db9a59cfc4b9f67cb6ce285b0deb6b224e576df909240"
+  },
+  "portable": {
+    "path": "q09-pattern-oracle-test-portable-v1.py",
+    "sha256": "0c3a4ca5b561be878c24567bc36d41580fa3da5d552dfa1b212745f1beddce42"
+  },
+  "protocolSha256": "93c09bc77c513a5933ba146a31884fcba7947828ed6901ea95d97bd03b6852f2"
+}

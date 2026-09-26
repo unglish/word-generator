@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "protocolSha256": "93c09bc77c513a5933ba146a31884fcba7947828ed6901ea95d97bd03b6852f2",
+  "oracleSha256": "20d7ff793169ef78a0f4ee27e4420f53bb19ad431dcd18e072d42f1ffa0027e9",
+  "factorCases": 229587,
+  "sectionCases": {
+    "coreGrid": 226800,
+    "extendedGrid": 2592,
+    "longRootChecks": 192,
+    "numericPositiveMass": 3
+  },
+  "compressedSha256": "ab3324c373b60a1db03d42fb06741c482e1cf39460bf6349b9ad74c14d4b9304",
+  "compressedBytes": 14682873,
+  "independentArithmetic": "Fraction literal histories; Decimal log precision100 checked at140",
+  "scope": "declared real-valued law, not literal finite-grid RNG law or linguistic quality"
+}

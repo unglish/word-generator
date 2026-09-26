@@ -1,0 +1,14 @@
+{
+  "version": "q09-sampler-parent-tape-review-v1",
+  "tapeSha256": "227ed134f2adf17121824617e77e1dd13f722a3ea4d5d420f71575ca0f962249",
+  "manifestSha256": "d3d52d90cc15f916a083eeb41358a8a96875fd891f144f0a02d5ee80a1e4798f",
+  "bytes": 36000000,
+  "segmentsVerified": 30,
+  "scheduledPrimaryDraws": 600000,
+  "executedPrimaryDrawsAtReview": 0,
+  "registeredRowsPerBlock": 20000,
+  "uint32PerRow": 15,
+  "sourceFreezeSha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a",
+  "referenceSha256": "c127fb0dc60378554841b1e81d9d9fdff816dc615cdc1d591ad79e074714b488",
+  "authorization": "Execute the one registered 600000-draw capture using these exact bytes, then frozen independent transcript/frequency verification. Preserve full results including passed:false; no reroll, adaptive samples, source changes or new targets."
+}

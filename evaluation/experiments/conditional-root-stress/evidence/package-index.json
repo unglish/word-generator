@@ -1,0 +1,212 @@
+{
+  "version": "q09-pure-law-sampler-evidence-package-v1",
+  "baseCommit": "3d5f1a9feb07b7c13cd384b8c0daf9036295da60",
+  "sourceFreezeSha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a",
+  "files": [
+    {
+      "path": "sampler/q09-sampler-source-freeze-v1.json",
+      "sha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a",
+      "bytes": 14122,
+      "historicalPath": "/private/tmp/q09-sampler-source-freeze-v1.json"
+    },
+    {
+      "path": "sampler/q09-sampler-source-review-ready-v1.json",
+      "sha256": "1aacb9e2c0c48f6dd63ad172ae73cd7be892988ed893fdfb55a373e09b42c208",
+      "bytes": 4479,
+      "historicalPath": "/private/tmp/q09-sampler-source-review-ready-v1.json"
+    },
+    {
+      "path": "parent/q09-sampler-parent-source-review-v1.json",
+      "sha256": "c065cbe9bebdad92486771a899a9e1cdb39fbf7c535934b78958e1ce9de5151f",
+      "bytes": 969,
+      "historicalPath": "/private/tmp/q09-sampler-parent-source-review-v1.json"
+    },
+    {
+      "path": "parent/q09-sampler-parent-prerequisite-review-v1.json",
+      "sha256": "75c9866816c627239d51e218fb4dca69f3810168de51ee5a00f864459d2b1f17",
+      "bytes": 1681,
+      "historicalPath": "/private/tmp/q09-sampler-parent-prerequisite-review-v1.json"
+    },
+    {
+      "path": "parent/q09-sampler-parent-tape-review-v1.json",
+      "sha256": "06949444e611ab8f34cd22508b4f93506f7072e4141cbd6f0e0d305deea938a2",
+      "bytes": 841,
+      "historicalPath": "/private/tmp/q09-sampler-parent-tape-review-v1.json"
+    },
+    {
+      "path": "sampler/q09-sampler-numeric-tree-v1.json.gz",
+      "sha256": "0a789f8b7a047ed61e9cad0f7ddea2bbd276efd1d1150e0d3288a57e8dc36b2f",
+      "bytes": 75774,
+      "historicalPath": "/private/tmp/q09-sampler-numeric-tree-v1.json.gz"
+    },
+    {
+      "path": "sampler/q09-sampler-node-replay-v1.json",
+      "sha256": "1cbc4f37943d95aa12f4f1f44a99470b40d0d3acad6601564b164be79d5533e0",
+      "bytes": 2546,
+      "historicalPath": "/private/tmp/q09-sampler-node-replay-v1.json"
+    },
+    {
+      "path": "sampler/q09-sampler-independent-reference-v1.json",
+      "sha256": "c127fb0dc60378554841b1e81d9d9fdff816dc615cdc1d591ad79e074714b488",
+      "bytes": 36065,
+      "historicalPath": "/private/tmp/q09-sampler-independent-reference-v1.json"
+    },
+    {
+      "path": "sampler/q09-sampler-frequency-tape-v1.bin",
+      "sha256": "227ed134f2adf17121824617e77e1dd13f722a3ea4d5d420f71575ca0f962249",
+      "bytes": 36000000,
+      "historicalPath": "/private/tmp/q09-sampler-frequency-tape-v1.bin"
+    },
+    {
+      "path": "sampler/q09-sampler-frequency-tape-v1.manifest.json",
+      "sha256": "d3d52d90cc15f916a083eeb41358a8a96875fd891f144f0a02d5ee80a1e4798f",
+      "bytes": 9180,
+      "historicalPath": "/private/tmp/q09-sampler-frequency-tape-v1.manifest.json"
+    },
+    {
+      "path": "sampler/q09-sampler-frequency-capture-v1.jsonl.gz",
+      "sha256": "75ede9332b34cdb57767313560974139c51a83fab012669ae34060a364efd9f7",
+      "bytes": 37191354,
+      "historicalPath": "/private/tmp/q09-sampler-frequency-capture-v1.jsonl.gz"
+    },
+    {
+      "path": "sampler/q09-sampler-frequency-capture-v1.summary.json",
+      "sha256": "9dfb705b6cb5cd9a073d82ff25ac7d780c7d59de5c6fd4dd8fe9088c1bac50fb",
+      "bytes": 60987,
+      "historicalPath": "/private/tmp/q09-sampler-frequency-capture-v1.summary.json"
+    },
+    {
+      "path": "sampler/q09-sampler-frequency-verification-v1.json",
+      "sha256": "9743c6296a00b42112d82abc98fe1b8d309dbf754981e2ae14b792253d7f8881",
+      "bytes": 713561,
+      "historicalPath": "/private/tmp/q09-sampler-frequency-verification-v1.json"
+    },
+    {
+      "path": "sampler/q09-sampler-numeric-tree-v1.log",
+      "sha256": "55da291a37ef6867199efb3301b8df1427d99533832818e2ac93455a8c467f97",
+      "bytes": 88,
+      "historicalPath": "/private/tmp/q09-sampler-numeric-tree-v1.log"
+    },
+    {
+      "path": "sampler/q09-sampler-node-replay-v1.log",
+      "sha256": "0087fc10ea69825ea42958c4a0717b5c864e975c33b9d0a9052dbb529c1a6f82",
+      "bytes": 68,
+      "historicalPath": "/private/tmp/q09-sampler-node-replay-v1.log"
+    },
+    {
+      "path": "sampler/q09-sampler-independent-reference-v1.log",
+      "sha256": "67f4196cbe1572105a2934e52e2897aaf3e1cc564b8225773650c3b14c9d4b06",
+      "bytes": 159,
+      "historicalPath": "/private/tmp/q09-sampler-independent-reference-v1.log"
+    },
+    {
+      "path": "sampler/q09-sampler-frequency-tape-v1.log",
+      "sha256": "289028d6a3b21413fb9d6c1939d8fa10c4df52816226d54b25a31844bf80857a",
+      "bytes": 320,
+      "historicalPath": "/private/tmp/q09-sampler-frequency-tape-v1.log"
+    },
+    {
+      "path": "sampler/q09-sampler-frequency-capture-v1.log",
+      "sha256": "0b75f75adc744a52adeddcd03e6020d68c9a8bf8520f9271f1422f622d8cfa0d",
+      "bytes": 280,
+      "historicalPath": "/private/tmp/q09-sampler-frequency-capture-v1.log"
+    },
+    {
+      "path": "sampler/q09-sampler-frequency-verification-v1.log",
+      "sha256": "c6043134c505838f7ea4c1d51ff55c7aa47260b0858d7e5fb36d7970f85334da",
+      "bytes": 185,
+      "historicalPath": "/private/tmp/q09-sampler-frequency-verification-v1.log"
+    },
+    {
+      "path": "sampler/q09-sampler-run-review-v1.json",
+      "sha256": "bd8a252274c7a0b9654e99a242e91b0d5cdad1f8227c51e16b48500a4c6cce4f",
+      "bytes": 6646,
+      "historicalPath": "/private/tmp/q09-sampler-run-review-v1.json"
+    },
+    {
+      "path": "parent/q09-parent-frequency-outcome-review-v1.json",
+      "sha256": "d17d0b3f84693360964fd92957aa5a9fedeff4f1491a36dd01fa2a3533535c98",
+      "bytes": 2324,
+      "historicalPath": "/private/tmp/q09-parent-frequency-outcome-review-v1.json"
+    },
+    {
+      "path": "parent/q09-parent-frequency-audit-v1.py",
+      "sha256": "b5d4b11a0ddbddfd0575dd2ea4c1fc68dae80e48fb0d3f66406b68253419c35c",
+      "bytes": 7612,
+      "historicalPath": "/private/tmp/q09-parent-frequency-audit-v1.py"
+    },
+    {
+      "path": "parent/q09-parent-frequency-audit-v1.log",
+      "sha256": "7bb6d50f394ba92eb0f0c20cd9dc38ab9bac89cdb25ec32a6e72c902b271f266",
+      "bytes": 318,
+      "historicalPath": "/private/tmp/q09-parent-frequency-audit-v1.log"
+    },
+    {
+      "path": "law/q09-oracle-grid-v2.jsonl.gz",
+      "sha256": "ab3324c373b60a1db03d42fb06741c482e1cf39460bf6349b9ad74c14d4b9304",
+      "bytes": 14682873,
+      "historicalPath": "/private/tmp/q09-oracle-grid-v2.jsonl.gz"
+    },
+    {
+      "path": "law/q09-oracle-grid-v2.jsonl.gz.manifest.json",
+      "sha256": "7b84aff93522c23393201d9e7657733b0a4538089def0deaa38d3c0dbfc46c0f",
+      "bytes": 667,
+      "historicalPath": "/private/tmp/q09-oracle-grid-v2.jsonl.gz.manifest.json"
+    },
+    {
+      "path": "checks/q09-pure-pr-focused-tests-v1.log",
+      "sha256": "24acb4c6fe8c1dcff1845968698d42700a055a733c2e7062aa60eed689f846e5",
+      "bytes": 325,
+      "historicalPath": "/private/tmp/q09-pure-pr-focused-tests-v1.log"
+    },
+    {
+      "path": "checks/q09-pure-pr-typecheck-v1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "historicalPath": "/private/tmp/q09-pure-pr-typecheck-v1.log"
+    },
+    {
+      "path": "checks/q09-pure-pr-lint-v1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "historicalPath": "/private/tmp/q09-pure-pr-lint-v1.log"
+    },
+    {
+      "path": "checks/q09-pure-pr-full-tests-v1.log",
+      "sha256": "37990d3daa1ab03137fb6e6827415853b32eacfe07ec102256cc28720f462b4e",
+      "bytes": 18917,
+      "historicalPath": "/private/tmp/q09-pure-pr-full-tests-v1.log"
+    },
+    {
+      "path": "checks/q09-pure-pr-quality-tests-v1.log",
+      "sha256": "a05c91db6085005f5919e58386a5eddcefb27a2790504e2af4238122fab6734a",
+      "bytes": 3545,
+      "historicalPath": "/private/tmp/q09-pure-pr-quality-tests-v1.log"
+    },
+    {
+      "path": "checks/q09-pure-pr-quality-tests-v2.log",
+      "sha256": "4fa1a64f18da8fed68f2450a98db52774b58a9d6681b0e3b0145b8b977c6ea22",
+      "bytes": 1653,
+      "historicalPath": "/private/tmp/q09-pure-pr-quality-tests-v2.log"
+    },
+    {
+      "path": "source-bundle-v1.json.gz",
+      "sha256": "8bbdde3a9ebff3399e3b6553fab0d015a626ffcd1703a58a18359fc053c57e8f",
+      "bytes": 468790
+    },
+    {
+      "path": "package-evidence-v1.py",
+      "sha256": "ee3fea1e0848a36235e19e2d98b23403b6f294db1166cfcc5e7cb8c4a06f76d0",
+      "bytes": 4744,
+      "historicalPath": "/private/tmp/q09-package-evidence-v1.py"
+    }
+  ],
+  "fullRawEvidenceIncluded": {
+    "analyticalOracleBytes": 14682873,
+    "randomTapeBytes": 36000000,
+    "frequencyTranscriptCompressedBytes": 37191354
+  },
+  "historicalSources": "Original protocol/law-evidence/sampler files remain byte-identical outside this outcomes directory.",
+  "publicationAmendment": "The full prior oracle archive is now included. The unchanged historical law package note reflects its original local-only retention.",
+  "scope": "Pure law and sampler; no generator activation or claim of linguistic output improvement. Exact raw tape and transcripts are included, not only private local references."
+}

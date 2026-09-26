@@ -1,0 +1,20 @@
+{
+  "version": "q09-sampler-pre-execution-clarification-v1",
+  "approved": "Parent before numerical-tree acceptance, tape generation or frequencies",
+  "preservedProtocolSha256": "5fec61ae76fa0c81e317637f2dac065e43ced844ca46836236db47b8045929f4",
+  "changes": [
+    {
+      "topic": "numeric branch authority",
+      "rule": "Python independently proves rational masses, support, coordinates and prefix/suffix factorization. A separately frozen same-Node public-API replay proves complete actual transcript and numeric predicate; Python acceptance requires its externally pinned report bound to archive/source/protocol and engine including executable SHA. No cross-engine exact libm boolean assertion."
+    },
+    {
+      "topic": "strict numeric schema",
+      "rule": "All integer transcript coordinates/IDs/counts/ordinals reject booleans."
+    },
+    {
+      "topic": "call accounting",
+      "rule": "600000 is only primary frequency draws.84 fixed transcript/input-mutation calls, every tree call, and every separately replayed call are supplementary; none enters frequency N or consumes/reassigns tape rows."
+    }
+  ],
+  "unchanged": "Continuous/ideal-grid/numeric-grid targets; all TV/log/probability/frequency limits; six-case schedule; no random tape replacement."
+}

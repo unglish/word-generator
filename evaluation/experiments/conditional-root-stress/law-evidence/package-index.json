@@ -1,0 +1,59 @@
+{
+  "version": "q09-law-historical-package-v1",
+  "files": [
+    {
+      "path": "q09-pattern-oracle.py",
+      "sha256": "20d7ff793169ef78a0f4ee27e4420f53bb19ad431dcd18e072d42f1ffa0027e9",
+      "bytes": 13084,
+      "historicalPath": "/private/tmp/q09-pattern-oracle.py"
+    },
+    {
+      "path": "q09-pattern-oracle-test.py",
+      "sha256": "1c985086158a377c166db9a59cfc4b9f67cb6ce285b0deb6b224e576df909240",
+      "bytes": 6371,
+      "historicalPath": "/private/tmp/q09-pattern-oracle-test.py"
+    },
+    {
+      "path": "q09-oracle-comparator.mjs",
+      "sha256": "e2d925847de3c31b93ae672489e59313de7b7592bdfb8bada18261900a7ddfa9",
+      "bytes": 11196,
+      "historicalPath": "/private/tmp/q09-oracle-comparator.mjs"
+    },
+    {
+      "path": "q09-oracle-freeze-v2.json",
+      "sha256": "bcb53a9207465fe74eb3e181c05c6ab264c300751b7afd492afbf41d3bd037cb",
+      "bytes": 742,
+      "historicalPath": "/private/tmp/q09-oracle-freeze-v2.json"
+    },
+    {
+      "path": "q09-comparator-freeze-v1.json",
+      "sha256": "9619061e37bf9d148cb360fe35419ec2a4c8f79133f53e28b936cd09cb20e8da",
+      "bytes": 545,
+      "historicalPath": "/private/tmp/q09-comparator-freeze-v1.json"
+    },
+    {
+      "path": "q09-law-comparison-v1.json",
+      "sha256": "aaf6ed4d44b8042323129b144db94e300c7750a8f238864ee5bf3b67f141d599",
+      "bytes": 16341,
+      "historicalPath": "/private/tmp/q09-law-comparison-v1.json"
+    },
+    {
+      "path": "q09-law-comparison-v1.log",
+      "sha256": "29b22aaf42541356ba61c256d349fe2326c76cc64cc621151ef84db376d1de7d",
+      "bytes": 2326,
+      "historicalPath": "/private/tmp/q09-law-comparison-v1.log"
+    },
+    {
+      "path": "q09-oracle-grid-v2.jsonl.gz.manifest.json",
+      "sha256": "7b84aff93522c23393201d9e7657733b0a4538089def0deaa38d3c0dbfc46c0f",
+      "bytes": 667,
+      "historicalPath": "/private/tmp/q09-oracle-grid-v2.jsonl.gz.manifest.json"
+    }
+  ],
+  "rawOracleArchive": {
+    "path": "/private/tmp/q09-oracle-grid-v2.jsonl.gz",
+    "sha256": "ab3324c373b60a1db03d42fb06741c482e1cf39460bf6349b9ad74c14d4b9304",
+    "bytes": 14682873,
+    "retention": "Retained outside Git; reproducible from packaged oracle and pinned v2 protocol."
+  }
+}

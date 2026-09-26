@@ -1,0 +1,1155 @@
+{
+  "version": "q09-independent-sampler-reference-v1",
+  "passed": true,
+  "protocolSha256": "5fec61ae76fa0c81e317637f2dac065e43ced844ca46836236db47b8045929f4",
+  "numericArchiveSha256": "0a789f8b7a047ed61e9cad0f7ddea2bbd276efd1d1150e0d3288a57e8dc36b2f",
+  "nodeReplaySha256": "1cbc4f37943d95aa12f4f1f44a99470b40d0d3acad6601564b164be79d5533e0",
+  "sourceFreezeSha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a",
+  "engine": {
+    "node": "v24.11.1",
+    "versions": {
+      "node": "24.11.1",
+      "acorn": "8.15.0",
+      "ada": "3.3.0",
+      "amaro": "1.1.4",
+      "ares": "1.34.5",
+      "brotli": "1.1.0",
+      "cjs_module_lexer": "2.1.0",
+      "cldr": "47.0",
+      "icu": "77.1",
+      "llhttp": "9.3.0",
+      "modules": "137",
+      "napi": "10",
+      "nbytes": "0.1.1",
+      "ncrypto": "0.0.1",
+      "nghttp2": "1.66.0",
+      "openssl": "3.5.4",
+      "simdjson": "4.0.7",
+      "simdutf": "6.4.0",
+      "sqlite": "3.50.4",
+      "tz": "2025b",
+      "undici": "7.16.0",
+      "unicode": "16.0",
+      "uv": "1.51.0",
+      "uvwasi": "0.0.23",
+      "v8": "13.6.233.10-node.28",
+      "zlib": "1.3.1-470d3a2",
+      "zstd": "1.5.7"
+    },
+    "platform": "darwin",
+    "architecture": "arm64",
+    "executableSha256": "4255a388254ca4319e2f95f1da375d5deaddf25baf9c7c85070b67f9543b15d0"
+  },
+  "cases": [
+    {
+      "id": "duplicate-history",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 109
+      },
+      "nodeReplayCalls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 109
+      },
+      "checkedNumericDecisionsPerPass": 285,
+      "nodes": 7,
+      "patterns": [
+        {
+          "marks": [
+            "secondary",
+            "unmarked",
+            "unmarked",
+            "primary"
+          ],
+          "secondaryMask": "1",
+          "continuous": {
+            "numerator": "10",
+            "denominator": "43",
+            "probability": 0.23255813953488372
+          },
+          "idealGrid": {
+            "numerator": "4289940483236888271",
+            "denominator": "18446744073709551616",
+            "probability": 0.23255813958794744
+          },
+          "numericGrid": {
+            "numerator": "4289940483236888271",
+            "denominator": "18446744073709551616",
+            "probability": 0.23255813958794744
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "primary"
+          ],
+          "secondaryMask": "2",
+          "continuous": {
+            "numerator": "28",
+            "denominator": "43",
+            "probability": 0.6511627906976745
+          },
+          "idealGrid": {
+            "numerator": "51590431405838426418960684475",
+            "denominator": "79228162514264337593543950336",
+            "probability": 0.6511627907128354
+          },
+          "numericGrid": {
+            "numerator": "51590431405838426418960684475",
+            "denominator": "79228162514264337593543950336",
+            "probability": 0.6511627907128354
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "secondary",
+            "primary"
+          ],
+          "secondaryMask": "4",
+          "continuous": {
+            "numerator": "5",
+            "denominator": "43",
+            "probability": 0.11627906976744186
+          },
+          "idealGrid": {
+            "numerator": "9212577031137039829832280645",
+            "denominator": "79228162514264337593543950336",
+            "probability": 0.11627906969921707
+          },
+          "numericGrid": {
+            "numerator": "9212577031137039829832280645",
+            "denominator": "79228162514264337593543950336",
+            "probability": 0.11627906969921707
+          }
+        }
+      ],
+      "totalVariation": {
+        "idealToContinuous": {
+          "numerator": "232428975284931683945",
+          "denominator": "3406810988113366516522389864448",
+          "probability": 6.822479324385615e-11
+        },
+        "numericToContinuous": {
+          "numerator": "232428975284931683945",
+          "denominator": "3406810988113366516522389864448",
+          "probability": 6.822479324385615e-11
+        },
+        "numericToIdeal": {
+          "numerator": "0",
+          "denominator": "1",
+          "probability": 0.0
+        }
+      }
+    },
+    {
+      "id": "primary-shift",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 37
+      },
+      "nodeReplayCalls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 37
+      },
+      "checkedNumericDecisionsPerPass": 51,
+      "nodes": 3,
+      "patterns": [
+        {
+          "marks": [
+            "secondary",
+            "unmarked",
+            "primary",
+            "unmarked"
+          ],
+          "secondaryMask": "1",
+          "continuous": {
+            "numerator": "2",
+            "denominator": "3",
+            "probability": 0.6666666666666666
+          },
+          "idealGrid": {
+            "numerator": "2863311531",
+            "denominator": "4294967296",
+            "probability": 0.6666666667442769
+          },
+          "numericGrid": {
+            "numerator": "2863311531",
+            "denominator": "4294967296",
+            "probability": 0.6666666667442769
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "primary",
+            "unmarked"
+          ],
+          "secondaryMask": "2",
+          "continuous": {
+            "numerator": "1",
+            "denominator": "3",
+            "probability": 0.3333333333333333
+          },
+          "idealGrid": {
+            "numerator": "1431655765",
+            "denominator": "4294967296",
+            "probability": 0.3333333332557231
+          },
+          "numericGrid": {
+            "numerator": "1431655765",
+            "denominator": "4294967296",
+            "probability": 0.3333333332557231
+          }
+        }
+      ],
+      "totalVariation": {
+        "idealToContinuous": {
+          "numerator": "1",
+          "denominator": "12884901888",
+          "probability": 7.761021455128987e-11
+        },
+        "numericToContinuous": {
+          "numerator": "1",
+          "denominator": "12884901888",
+          "probability": 7.761021455128987e-11
+        },
+        "numericToIdeal": {
+          "numerator": "0",
+          "denominator": "1",
+          "probability": 0.0
+        }
+      }
+    },
+    {
+      "id": "directional-unequal",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 109
+      },
+      "nodeReplayCalls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 109
+      },
+      "checkedNumericDecisionsPerPass": 312,
+      "nodes": 7,
+      "patterns": [
+        {
+          "marks": [
+            "secondary",
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "unmarked",
+            "primary"
+          ],
+          "secondaryMask": "5",
+          "continuous": {
+            "numerator": "35",
+            "denominator": "122",
+            "probability": 0.28688524590163933
+          },
+          "idealGrid": {
+            "numerator": "661512338706987225",
+            "denominator": "2305843009213693952",
+            "probability": 0.286885245900833
+          },
+          "numericGrid": {
+            "numerator": "355146732713175599999496645",
+            "denominator": "1237940039285380274899124224",
+            "probability": 0.28688524600770604
+          }
+        },
+        {
+          "marks": [
+            "secondary",
+            "unmarked",
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "primary"
+          ],
+          "secondaryMask": "9",
+          "continuous": {
+            "numerator": "21",
+            "denominator": "122",
+            "probability": 0.1721311475409836
+          },
+          "idealGrid": {
+            "numerator": "396907403224192335",
+            "denominator": "2305843009213693952",
+            "probability": 0.17213114754049977
+          },
+          "numericGrid": {
+            "numerator": "213088039416221411613462075",
+            "denominator": "1237940039285380274899124224",
+            "probability": 0.1721311474336267
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "primary"
+          ],
+          "secondaryMask": "10",
+          "continuous": {
+            "numerator": "33",
+            "denominator": "61",
+            "probability": 0.5409836065573771
+          },
+          "idealGrid": {
+            "numerator": "155927908410314299",
+            "denominator": "288230376151711744",
+            "probability": 0.5409836065586673
+          },
+          "numericGrid": {
+            "numerator": "155927908410314299",
+            "denominator": "288230376151711744",
+            "probability": 0.5409836065586673
+          }
+        }
+      ],
+      "totalVariation": {
+        "idealToContinuous": {
+          "numerator": "22684687",
+          "denominator": "17582052945254416384",
+          "probability": 1.2902183306257668e-12
+        },
+        "numericToContinuous": {
+          "numerator": "8106986778019617777",
+          "denominator": "75514342396408196768846577664",
+          "probability": 1.0735691420660802e-10
+        },
+        "numericToIdeal": {
+          "numerator": "132302467741397445",
+          "denominator": "1237940039285380274899124224",
+          "probability": 1.0687308233262336e-10
+        }
+      }
+    },
+    {
+      "id": "unrestricted-neighbors",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 505
+      },
+      "nodeReplayCalls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 505
+      },
+      "checkedNumericDecisionsPerPass": 2434,
+      "nodes": 29,
+      "patterns": [
+        {
+          "marks": [
+            "secondary",
+            "secondary",
+            "primary",
+            "unmarked",
+            "unmarked",
+            "unmarked"
+          ],
+          "secondaryMask": "3",
+          "continuous": {
+            "numerator": "7",
+            "denominator": "219",
+            "probability": 0.0319634703196347
+          },
+          "idealGrid": {
+            "numerator": "2719151336643765935760084607136333295",
+            "denominator": "85070591730234615865843651857942052864",
+            "probability": 0.03196347035255619
+          },
+          "numericGrid": {
+            "numerator": "2719151336643765935760084607136333295",
+            "denominator": "85070591730234615865843651857942052864",
+            "probability": 0.03196347035255619
+          }
+        },
+        {
+          "marks": [
+            "secondary",
+            "unmarked",
+            "primary",
+            "secondary",
+            "unmarked",
+            "unmarked"
+          ],
+          "secondaryMask": "9",
+          "continuous": {
+            "numerator": "14",
+            "denominator": "219",
+            "probability": 0.0639269406392694
+          },
+          "idealGrid": {
+            "numerator": "5438302669488921337870747324178334225",
+            "denominator": "85070591730234615865843651857942052864",
+            "probability": 0.06392694066045992
+          },
+          "numericGrid": {
+            "numerator": "5438302669488921337870747324178334225",
+            "denominator": "85070591730234615865843651857942052864",
+            "probability": 0.06392694066045992
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "primary",
+            "secondary",
+            "unmarked",
+            "unmarked"
+          ],
+          "secondaryMask": "10",
+          "continuous": {
+            "numerator": "11",
+            "denominator": "73",
+            "probability": 0.1506849315068493
+          },
+          "idealGrid": {
+            "numerator": "51275425163926893360480891996987551575",
+            "denominator": "340282366920938463463374607431768211456",
+            "probability": 0.15068493154051757
+          },
+          "numericGrid": {
+            "numerator": "51275425197209957069230707148667055959",
+            "denominator": "340282366920938463463374607431768211456",
+            "probability": 0.15068493163832772
+          }
+        },
+        {
+          "marks": [
+            "secondary",
+            "unmarked",
+            "primary",
+            "unmarked",
+            "secondary",
+            "unmarked"
+          ],
+          "secondaryMask": "17",
+          "continuous": {
+            "numerator": "28",
+            "denominator": "219",
+            "probability": 0.1278538812785388
+          },
+          "idealGrid": {
+            "numerator": "5064814043490111287277159987",
+            "denominator": "39614081257132168796771975168",
+            "probability": 0.12785388131595848
+          },
+          "numericGrid": {
+            "numerator": "5064814043490111287277159987",
+            "denominator": "39614081257132168796771975168",
+            "probability": 0.12785388131595848
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "primary",
+            "unmarked",
+            "secondary",
+            "unmarked"
+          ],
+          "secondaryMask": "18",
+          "continuous": {
+            "numerator": "238",
+            "denominator": "657",
+            "probability": 0.3622526636225266
+          },
+          "idealGrid": {
+            "numerator": "568474205882398973755665595078072008881221443337602681117",
+            "denominator": "1569275433846670190958947355801916604025588861116008628224",
+            "probability": 0.3622526636314776
+          },
+          "numericGrid": {
+            "numerator": "568474205780071614039706772144914285425728215190414248221",
+            "denominator": "1569275433846670190958947355801916604025588861116008628224",
+            "probability": 0.3622526635662709
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "primary",
+            "secondary",
+            "secondary",
+            "unmarked"
+          ],
+          "secondaryMask": "24",
+          "continuous": {
+            "numerator": "119",
+            "denominator": "657",
+            "probability": 0.1811263318112633
+          },
+          "idealGrid": {
+            "numerator": "284237102840659678133175294764380588498596622735864805091",
+            "denominator": "1569275433846670190958947355801916604025588861116008628224",
+            "probability": 0.18112633175167117
+          },
+          "numericGrid": {
+            "numerator": "284237102789495998293064592065272342411163602512616666851",
+            "denominator": "1569275433846670190958947355801916604025588861116008628224",
+            "probability": 0.18112633171906778
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "primary",
+            "unmarked",
+            "unmarked",
+            "secondary"
+          ],
+          "secondaryMask": "34",
+          "continuous": {
+            "numerator": "2",
+            "denominator": "73",
+            "probability": 0.0273972602739726
+          },
+          "idealGrid": {
+            "numerator": "85987694937305105458649819787677335343778683676477142755",
+            "denominator": "3138550867693340381917894711603833208051177722232017256448",
+            "probability": 0.027397260252309135
+          },
+          "numericGrid": {
+            "numerator": "85987694937305105458649819787677335343778683676477142755",
+            "denominator": "3138550867693340381917894711603833208051177722232017256448",
+            "probability": 0.027397260252309135
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "primary",
+            "secondary",
+            "unmarked",
+            "secondary"
+          ],
+          "secondaryMask": "40",
+          "continuous": {
+            "numerator": "2",
+            "denominator": "73",
+            "probability": 0.0273972602739726
+          },
+          "idealGrid": {
+            "numerator": "85987694937305105458649819787677335343778683676477142755",
+            "denominator": "3138550867693340381917894711603833208051177722232017256448",
+            "probability": 0.027397260252309135
+          },
+          "numericGrid": {
+            "numerator": "85987694937305105458649819787677335343778683676477142755",
+            "denominator": "3138550867693340381917894711603833208051177722232017256448",
+            "probability": 0.027397260252309135
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "primary",
+            "unmarked",
+            "secondary",
+            "secondary"
+          ],
+          "secondaryMask": "48",
+          "continuous": {
+            "numerator": "2",
+            "denominator": "73",
+            "probability": 0.0273972602739726
+          },
+          "idealGrid": {
+            "numerator": "42993847453637124962148934822013725583937869235486935325",
+            "denominator": "1569275433846670190958947355801916604025588861116008628224",
+            "probability": 0.027397260242740754
+          },
+          "numericGrid": {
+            "numerator": "42993847453637124962148934822013725583937869235486935325",
+            "denominator": "1569275433846670190958947355801916604025588861116008628224",
+            "probability": 0.027397260242740754
+          }
+        }
+      ],
+      "totalVariation": {
+        "idealToContinuous": {
+          "numerator": "138311489115936942114966498823339116572445916439405",
+          "denominator": "1031013960037262315460028412761859208844811881753217668743168",
+          "probability": 1.3415093730732625e-10
+        },
+        "numericToContinuous": {
+          "numerator": "16619119404941483835967796559725",
+          "denominator": "74521838355685523498479039027557238308864",
+          "probability": 2.2301005680536268e-10
+        },
+        "numericToIdeal": {
+          "numerator": "1804278499",
+          "denominator": "18446744073709551616",
+          "probability": 9.781013341923425e-11
+        }
+      }
+    },
+    {
+      "id": "zero-weight-rare-rhythm",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 793
+      },
+      "nodeReplayCalls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 793
+      },
+      "checkedNumericDecisionsPerPass": 4161,
+      "nodes": 45,
+      "patterns": [
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "secondary",
+            "primary",
+            "unmarked",
+            "unmarked",
+            "unmarked",
+            "unmarked"
+          ],
+          "secondaryMask": "6",
+          "continuous": {
+            "numerator": "3301",
+            "denominator": "111759",
+            "probability": 0.029536771087787114
+          },
+          "idealGrid": {
+            "numerator": "5396004920331695655295910598063377863552187175",
+            "denominator": "182687704666362864775460604089535377456991567872",
+            "probability": 0.029536771126367038
+          },
+          "numericGrid": {
+            "numerator": "5396004920331695655295910598063377863552187175",
+            "denominator": "182687704666362864775460604089535377456991567872",
+            "probability": 0.029536771126367038
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "primary",
+            "secondary",
+            "unmarked",
+            "unmarked",
+            "unmarked"
+          ],
+          "secondaryMask": "18",
+          "continuous": {
+            "numerator": "6602",
+            "denominator": "111759",
+            "probability": 0.05907354217557423
+          },
+          "idealGrid": {
+            "numerator": "10792009833127923710456318593238398202978321625",
+            "denominator": "182687704666362864775460604089535377456991567872",
+            "probability": 0.059073542211486266
+          },
+          "numericGrid": {
+            "numerator": "10792009833127923710456318593238398202978321625",
+            "denominator": "182687704666362864775460604089535377456991567872",
+            "probability": 0.059073542211486266
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "secondary",
+            "primary",
+            "secondary",
+            "unmarked",
+            "unmarked",
+            "unmarked"
+          ],
+          "secondaryMask": "20",
+          "continuous": {
+            "numerator": "1",
+            "denominator": "111759",
+            "probability": 8.947825231077587e-06
+          },
+          "idealGrid": {
+            "numerator": "6089574666015004380290371282651875",
+            "denominator": "680564733841876926926749214863536422912",
+            "probability": 8.947825773513944e-06
+          },
+          "numericGrid": {
+            "numerator": "6089574666015004380290371282651875",
+            "denominator": "680564733841876926926749214863536422912",
+            "probability": 8.947825773513944e-06
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "primary",
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "unmarked"
+          ],
+          "secondaryMask": "34",
+          "continuous": {
+            "numerator": "26404",
+            "denominator": "111759",
+            "probability": 0.2362583774013726
+          },
+          "idealGrid": {
+            "numerator": "23172154245665716038539315859868937606792460204897500505",
+            "denominator": "98079714615416886934934209737619787751599303819750539264",
+            "probability": 0.2362583775506148
+          },
+          "numericGrid": {
+            "numerator": "23172154245665716038539315859868937606792460204897500505",
+            "denominator": "98079714615416886934934209737619787751599303819750539264",
+            "probability": 0.2362583775506148
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "secondary",
+            "primary",
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "unmarked"
+          ],
+          "secondaryMask": "36",
+          "continuous": {
+            "numerator": "6602",
+            "denominator": "111759",
+            "probability": 0.05907354217557423
+          },
+          "idealGrid": {
+            "numerator": "5793916160006967823525758822605155153991072359915422375",
+            "denominator": "98079714615416886934934209737619787751599303819750539264",
+            "probability": 0.059073542197034874
+          },
+          "numericGrid": {
+            "numerator": "5793916160006967823525758822605155153991072359915422375",
+            "denominator": "98079714615416886934934209737619787751599303819750539264",
+            "probability": 0.059073542197034874
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "unmarked",
+            "primary",
+            "secondary",
+            "secondary",
+            "unmarked",
+            "unmarked"
+          ],
+          "secondaryMask": "48",
+          "continuous": {
+            "numerator": "3301",
+            "denominator": "111759",
+            "probability": 0.029536771087787114
+          },
+          "idealGrid": {
+            "numerator": "674500613829659994735577530152484622463830005",
+            "denominator": "22835963083295358096932575511191922182123945984",
+            "probability": 0.02953677107330153
+          },
+          "numericGrid": {
+            "numerator": "674500613829659994735577530152484622463830005",
+            "denominator": "22835963083295358096932575511191922182123945984",
+            "probability": 0.02953677107330153
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "primary",
+            "unmarked",
+            "unmarked",
+            "secondary",
+            "unmarked"
+          ],
+          "secondaryMask": "66",
+          "continuous": {
+            "numerator": "13204",
+            "denominator": "111759",
+            "probability": 0.11814708435114846
+          },
+          "idealGrid": {
+            "numerator": "160813478067924697604387440153176046383",
+            "denominator": "1361129467683753853853498429727072845824",
+            "probability": 0.11814708437808082
+          },
+          "numericGrid": {
+            "numerator": "172672157264453699566146671255180093736255749733",
+            "denominator": "1461501637330902918203684832716283019655932542976",
+            "probability": 0.11814708437809193
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "secondary",
+            "primary",
+            "unmarked",
+            "unmarked",
+            "secondary",
+            "unmarked"
+          ],
+          "secondaryMask": "68",
+          "continuous": {
+            "numerator": "2",
+            "denominator": "111759",
+            "probability": 1.7895650462155174e-05
+          },
+          "idealGrid": {
+            "numerator": "24358298636399256100289730235073745",
+            "denominator": "1361129467683753853853498429727072845824",
+            "probability": 1.7895651526705972e-05
+          },
+          "numericGrid": {
+            "numerator": "26154524015503482916167973904505941809168795",
+            "denominator": "1461501637330902918203684832716283019655932542976",
+            "probability": 1.7895651532261513e-05
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "unmarked",
+            "primary",
+            "secondary",
+            "unmarked",
+            "secondary",
+            "unmarked"
+          ],
+          "secondaryMask": "80",
+          "continuous": {
+            "numerator": "2",
+            "denominator": "111759",
+            "probability": 1.7895650462155174e-05
+          },
+          "idealGrid": {
+            "numerator": "5671358351146479708011311",
+            "denominator": "316912650057057350374175801344",
+            "probability": 1.789565153087263e-05
+          },
+          "numericGrid": {
+            "numerator": "6089574654846295261712572777759953",
+            "denominator": "340282366920938463463374607431768211456",
+            "probability": 1.7895651514206002e-05
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "unmarked",
+            "primary",
+            "unmarked",
+            "secondary",
+            "secondary",
+            "unmarked"
+          ],
+          "secondaryMask": "96",
+          "continuous": {
+            "numerator": "6602",
+            "denominator": "111759",
+            "probability": 0.05907354217557423
+          },
+          "idealGrid": {
+            "numerator": "1256355296168934505320632559631185843",
+            "denominator": "21267647932558653966460912964485513216",
+            "probability": 0.05907354213088978
+          },
+          "numericGrid": {
+            "numerator": "1256355296168934505320632559631185843",
+            "denominator": "21267647932558653966460912964485513216",
+            "probability": 0.05907354213088978
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "primary",
+            "unmarked",
+            "unmarked",
+            "unmarked",
+            "secondary"
+          ],
+          "secondaryMask": "130",
+          "continuous": {
+            "numerator": "4356",
+            "denominator": "37253",
+            "probability": 0.11693018011972191
+          },
+          "idealGrid": {
+            "numerator": "366991318223338920133619236827989574725254744599690713055",
+            "denominator": "3138550867693340381917894711603833208051177722232017256448",
+            "probability": 0.1169301801034874
+          },
+          "numericGrid": {
+            "numerator": "394053927543622810882242283117713245827809186572877637604766550005",
+            "denominator": "3369993333393829974333376885877453834204643052817571560137951281152",
+            "probability": 0.1169301801397873
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "secondary",
+            "primary",
+            "unmarked",
+            "unmarked",
+            "unmarked",
+            "secondary"
+          ],
+          "secondaryMask": "132",
+          "continuous": {
+            "numerator": "2178",
+            "denominator": "37253",
+            "probability": 0.058465090059860954
+          },
+          "idealGrid": {
+            "numerator": "183495659047584341446278536542411454429793670327572129825",
+            "denominator": "3138550867693340381917894711603833208051177722232017256448",
+            "probability": 0.058465090031325
+          },
+          "numericGrid": {
+            "numerator": "197026963703000533260894027654525707285410020331113199612384344075",
+            "denominator": "3369993333393829974333376885877453834204643052817571560137951281152",
+            "probability": 0.05846509004947495
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "unmarked",
+            "primary",
+            "secondary",
+            "unmarked",
+            "unmarked",
+            "secondary"
+          ],
+          "secondaryMask": "144",
+          "continuous": {
+            "numerator": "2178",
+            "denominator": "37253",
+            "probability": 0.058465090059860954
+          },
+          "idealGrid": {
+            "numerator": "42723412413687387914388888621889134648182151135",
+            "denominator": "730750818665451459101842416358141509827966271488",
+            "probability": 0.05846509004493746
+          },
+          "numericGrid": {
+            "numerator": "45873914729853526051304093199811197141031566595756419105",
+            "denominator": "784637716923335095479473677900958302012794430558004314112",
+            "probability": 0.058465089990487606
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "unmarked",
+            "primary",
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "secondary"
+          ],
+          "secondaryMask": "160",
+          "continuous": {
+            "numerator": "4356",
+            "denominator": "37253",
+            "probability": 0.11693018011972191
+          },
+          "idealGrid": {
+            "numerator": "21361706199383204249536540859015066359515605025",
+            "denominator": "182687704666362864775460604089535377456991567872",
+            "probability": 0.11693018004903753
+          },
+          "numericGrid": {
+            "numerator": "21361706199383204249536540859015066359515605025",
+            "denominator": "182687704666362864775460604089535377456991567872",
+            "probability": 0.11693018004903753
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "unmarked",
+            "primary",
+            "unmarked",
+            "unmarked",
+            "secondary",
+            "secondary"
+          ],
+          "secondaryMask": "192",
+          "continuous": {
+            "numerator": "2178",
+            "denominator": "37253",
+            "probability": 0.058465090059860954
+          },
+          "idealGrid": {
+            "numerator": "2486829899850586852340487703374674019",
+            "denominator": "42535295865117307932921825928971026432",
+            "probability": 0.0584650899746064
+          },
+          "numericGrid": {
+            "numerator": "2486829899850586852340487703374674019",
+            "denominator": "42535295865117307932921825928971026432",
+            "probability": 0.0584650899746064
+          }
+        }
+      ],
+      "totalVariation": {
+        "idealToContinuous": {
+          "numerator": "233777062399163827709281047648387838351543",
+          "denominator": "850708132742001975185029235518432677050663359741952",
+          "probability": 2.7480290055022014e-10
+        },
+        "numericToContinuous": {
+          "numerator": "37018462328648009188991845555419909614715625046943237400586057",
+          "denominator": "125542361648920348033841289129592787685625567646612993329819099076755456",
+          "probability": 2.948682965847836e-10
+        },
+        "numericToIdeal": {
+          "numerator": "42736489675694124726737831559631102190290442207",
+          "denominator": "784637716923335095479473677900958302012794430558004314112",
+          "probability": 5.4466524810035094e-11
+        }
+      }
+    },
+    {
+      "id": "all-zero-last-candidate",
+      "calls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 37
+      },
+      "nodeReplayCalls": {
+        "fixedIncludingReplay": 12,
+        "inputMutation": 2,
+        "tree": 37
+      },
+      "checkedNumericDecisionsPerPass": 51,
+      "nodes": 3,
+      "patterns": [
+        {
+          "marks": [
+            "unmarked",
+            "secondary",
+            "unmarked",
+            "primary",
+            "unmarked",
+            "unmarked"
+          ],
+          "secondaryMask": "2",
+          "continuous": {
+            "numerator": "297",
+            "denominator": "299",
+            "probability": 0.9933110367892977
+          },
+          "idealGrid": {
+            "numerator": "2133119209",
+            "denominator": "2147483648",
+            "probability": 0.9933110368438065
+          },
+          "numericGrid": {
+            "numerator": "2133119209",
+            "denominator": "2147483648",
+            "probability": 0.9933110368438065
+          }
+        },
+        {
+          "marks": [
+            "unmarked",
+            "unmarked",
+            "unmarked",
+            "primary",
+            "unmarked",
+            "secondary"
+          ],
+          "secondaryMask": "32",
+          "continuous": {
+            "numerator": "2",
+            "denominator": "299",
+            "probability": 0.006688963210702341
+          },
+          "idealGrid": {
+            "numerator": "14364439",
+            "denominator": "2147483648",
+            "probability": 0.006688963156193495
+          },
+          "numericGrid": {
+            "numerator": "14364439",
+            "denominator": "2147483648",
+            "probability": 0.006688963156193495
+          }
+        }
+      ],
+      "totalVariation": {
+        "idealToContinuous": {
+          "numerator": "35",
+          "denominator": "642097610752",
+          "probability": 5.450884634037082e-11
+        },
+        "numericToContinuous": {
+          "numerator": "35",
+          "denominator": "642097610752",
+          "probability": 5.450884634037082e-11
+        },
+        "numericToIdeal": {
+          "numerator": "0",
+          "denominator": "1",
+          "probability": 0.0
+        }
+      }
+    }
+  ],
+  "primaryFrequencyDraws": 0,
+  "scope": "Independent literal-history mathematics/structure; separately pinned same-Node numerical authority; grid boundaries conditional on reviewed monotonic predicate; no frequency evidence"
+}

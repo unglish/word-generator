@@ -1,0 +1,19 @@
+{
+  "version": "q09-sampler-registration-v1",
+  "status": "approved protocol registered before reference outcomes and random tape generation",
+  "protocolSha256": "5fec61ae76fa0c81e317637f2dac065e43ced844ca46836236db47b8045929f4",
+  "designSha256": "371e255fe69fff275e708c331272556e1814aced40f084d26e3d3b286887a630",
+  "pureRuntime": {
+    "src/core/root-stress-law.ts": "b3050a0d0e68276f861cb89a29f64b402a7a9ad9d69427bff1988194f3a4e4fc",
+    "src/core/root-stress-law-types.ts": "a91bd0cf7ee2d98392e39124b39a447534faa9d60d54aad5073d9ba417dc07d0"
+  },
+  "accounting": {
+    "primaryFrequencyDraws": 600000,
+    "fixedTranscriptRows": 36,
+    "fixedTranscriptApiCallsIncludingDetachedReplay": 72,
+    "inputMutationApiCalls": 12,
+    "treeCalls": "every numerical-tree boundary search/probe/leaf call counted separately; deterministic count depends on the frozen tree algorithm",
+    "frequencyDenominator": "Only the600000 primary frequency calls. Deterministic fixtures/replays/tree calls never enter N or consume/reassign frequency tape cells."
+  },
+  "nextGate": "Parent source review before numerical-tree acceptance, tape generation or frequency outcomes"
+}

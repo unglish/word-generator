@@ -1,0 +1,21 @@
+{
+  "frozenBeforeFullGridAndCandidateComparison": true,
+  "selfTestGroupsPassed": 11,
+  "files": [
+    {
+      "path": "/private/tmp/q09-pattern-oracle.py",
+      "sha256": "20d7ff793169ef78a0f4ee27e4420f53bb19ad431dcd18e072d42f1ffa0027e9",
+      "bytes": 13084
+    },
+    {
+      "path": "/private/tmp/q09-pattern-oracle-test.py",
+      "sha256": "1c985086158a377c166db9a59cfc4b9f67cb6ce285b0deb6b224e576df909240",
+      "bytes": 6371
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/linguistic-diagnostics/word-generator/evaluation/experiments/conditional-root-stress/protocol/q09-dp-oracle-protocol-v2.json",
+      "sha256": "93c09bc77c513a5933ba146a31884fcba7947828ed6901ea95d97bd03b6852f2",
+      "bytes": 11528
+    }
+  ]
+}

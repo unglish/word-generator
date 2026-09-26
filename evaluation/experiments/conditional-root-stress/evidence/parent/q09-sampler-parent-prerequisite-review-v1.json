@@ -1,0 +1,31 @@
+{
+  "version": "q09-sampler-parent-prerequisite-review-v1",
+  "sourceFreezeSha256": "624794b43f79bbb21e7e0c762a25b893ab89c571d313986757502eee80b70b0a",
+  "artifacts": {
+    "tree": {
+      "path": "/private/tmp/q09-sampler-numeric-tree-v1.json.gz",
+      "sha256": "0a789f8b7a047ed61e9cad0f7ddea2bbd276efd1d1150e0d3288a57e8dc36b2f"
+    },
+    "replay": {
+      "path": "/private/tmp/q09-sampler-node-replay-v1.json",
+      "sha256": "1cbc4f37943d95aa12f4f1f44a99470b40d0d3acad6601564b164be79d5533e0"
+    },
+    "reference": {
+      "path": "/private/tmp/q09-sampler-independent-reference-v1.json",
+      "sha256": "c127fb0dc60378554841b1e81d9d9fdff816dc615cdc1d591ad79e074714b488"
+    }
+  },
+  "parentScope": "Exact artifact/source/engine bindings and independent rational traversal of archived tree mass, all distribution/TV values and supplementary call accounting. Component/prefix/suffix law proof remains the reviewed independent verifier.",
+  "parentAuditCorrection": "First read-only audit command stopped on an erroneous dict >= dict expression before completion. Removing that extraneous expression allowed this exact-equality audit to complete. No source, study artifact, target, tolerance or sampler call changed.",
+  "counts": {
+    "treeNodes": 94,
+    "supportedPatterns": 34,
+    "fixedCalls": 72,
+    "mutationCalls": 12,
+    "treeCalls": 1590,
+    "numericDecisionsPerPass": 7294
+  },
+  "maximumNumericToContinuousTV": 2.948682965847836e-10,
+  "passed": true,
+  "authorization": "Create the one registered OS random tape and immutable manifest; report exact hashes before any frequency capture. No reroll, sample-size change, source change or tolerance change."
+}
