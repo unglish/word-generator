@@ -1,3 +1,4 @@
+import type { BaseSpelling } from "./core/base-spelling.js";
 import { RNG } from "./utils/random";
 import type { NuclearQuantity } from "./core/syllable-weight.js";
 import type { WordTrace } from "./core/trace";
@@ -303,6 +304,8 @@ export interface WordGenerationOptions {
  * @internal
  */
 export interface WordGenerationContext {
+  /** Live base-word spelling state; internal and independent of trace collection. */
+  baseSpelling?: BaseSpelling;
   /** Per-word RNG instance — all randomness in the pipeline draws from this. */
   rand: RNG;
   /** The word being built. */
