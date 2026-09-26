@@ -367,3 +367,44 @@ Model/corpus overlap and the historical population remain unresolved. The
 archived old builder's whitespace-related packaging failure is retained; gzip
 transport preserves its original bytes. No runtime generator or consumer changed,
 and this dependency-targeted PR has local validation rather than automatic CI.
+
+The Q09 opt-in runtime has independently passing integration fixtures, including
+original-policy mutation and returned-attempt isolation. All 77 frozen published
+law/proof files and three registered design documents retain their hashes. The
+formal delegation study completes 160,000 public calls over 20,000 development
+coordinates, plus 160 subsequent RNG checks. Omitted, explicit legacy and
+supported zero-penalty paths match the exact #334 control for live properties,
+full v1 traces and RNG consumption. Independent review confirms all stream
+coordinates, recorded output/RNG hashes, report/input binding and 111 pinned
+source/tool files. This is sampled delegation compatibility, not evidence of a
+positive-penalty quality gain.
+
+The Q09 capture review corrected schedule and engine bindings and delayed final
+scored publication until broader source checks pass. Thirteen adapter tests pass
+independently, including coherently rehashed shorter/reordered archives and both
+post-rescore failure paths. The mechanism observer and independent conditional
+pattern analysis remain under preparation; active corpus and timing studies are
+pending. The runtime candidate has not yet been published as a PR.
+
+Q13c has 137 passing related tests (87 normalization, 44 coverage, six observer).
+A source-pinned mapping reconciles all 35 registered mechanism requirements with
+inspected assertions. Public join, positive-normalization and separate-final-/s/
+cases run all three registered seeds. Additional checks cover UTF-16 offsets,
+actual marker-bearing spellings, separate nuclei, successive normalizations,
+soft quotas, changed conditions/features and forged licenses/versions. Strict
+TypeScript and touched lint pass; all ten frozen preparation files are unchanged.
+Initial fixture-input mistakes and failed logs are retained. These additions
+change test coverage, not generator behavior or the reported quality failures.
+
+The separately versioned Q13c analyzer has passed independent bounded source
+review. It binds external source/manifest hashes, exact archive/schedule sets,
+configuration and source bundles, and before/after integrity. Its production
+license replay remains distinct from the required independent raw recount.
+The compatibility harness is ready for review: 80,000 omitted-policy calls and
+40,000 active trace-on/off calls, plus eight separately accounted mutation calls.
+Fifteen combined analyzer/parity tool tests pass; no formal Q13c parity run or
+candidate corpus is claimed yet. A diagnostic against exact #331 shows both
+control and candidate can alias a returned phoneme into later calls: mutation
+compatibility passes, while returned-value isolation is explicitly false. That
+inherited behavior is not silently fixed or reported as successful isolation in
+this spelling experiment.
