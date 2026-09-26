@@ -9,6 +9,7 @@ import { createGapSpellingApplicator } from "./gap-spelling.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
+import { assertRootRimeCompatibility, isNucleusCodaPairAllowed } from "./rime-compatibility.js";
 import { nucleusWordPositionWeight, repairNucleusWordPositions } from "./nucleus-position.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
 import {
@@ -337,8 +338,7 @@ function clusterCandidateRejection(p: Phoneme, rt: GeneratorRuntime, context: Cl
   // Reject coda phonemes banned after the current nucleus
   if (context.position === "coda" && context.nucleus && rt.bannedNucleusCodaMap) {
     for (const nuc of context.nucleus) {
-      const bannedCodas = rt.bannedNucleusCodaMap.get(nuc.sound);
-      if (bannedCodas?.has(sound)) {
+      if (!isNucleusCodaPairAllowed(nuc.sound, sound, rt.bannedNucleusCodaMap)) {
         return "nucleus-coda";
       }
     }
@@ -1453,12 +1453,14 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.afterStage("applyStress", context.word.syllables);
 
   t?.beforeStage("repairStressedNuclei", context.word.syllables);
-  repairStressedNuclei(context, rt.positionPhonemes.nucleus, stressRules);
+  repairStressedNuclei(context, rt.positionPhonemes.nucleus, stressRules, rt.bannedNucleusCodaMap);
   t?.afterStage("repairStressedNuclei", context.word.syllables);
 
   t?.beforeStage("repairNucleusWordPositions", context.word.syllables);
-  repairNucleusWordPositions(context, rt.positionPhonemes.nucleus, stressRules);
+  repairNucleusWordPositions(context, rt.positionPhonemes.nucleus, stressRules, rt.bannedNucleusCodaMap);
   t?.afterStage("repairNucleusWordPositions", context.word.syllables);
+
+  assertRootRimeCompatibility(context.word.syllables, rt.bannedNucleusCodaMap);
 
   t?.beforeStage("generateWrittenForm", context.word.syllables);
   rt.generateWrittenForm(context);
