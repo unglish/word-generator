@@ -21,19 +21,19 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q01 | Canonical analyzer stream sampling and complete distribution metrics | No overlapping per-word seed ranges; synthetic absent-category penalties; explicit normalization losses | [PR #308](https://github.com/unglish/word-generator/pull/308); applicable CI passes; output preserved |
 | Q01b | Calibrate distribution gates against independently sampled variation | Reproducible baseline false-alarm rates, event provenance and reference uncertainty; no candidate-specific threshold fitting | Follow-up identified by Q04/Q12a; existing gates remain unchanged |
 | Q02 | Final-word trace provenance and orthographic ownership | Final surface equals output; resolved affix and segment ownership; trace on/off parity | Shared representation with Q04/Q13 |
-| Q03 | Rejection and fallback accounting | Actual attempts, selected attempt, status and reason counts; impossible/late-acceptance fixtures | In progress; 20,000-word output and RNG parity verified |
+| Q03 | Rejection and fallback accounting | Actual attempts, selected attempt, status and reason counts; impossible/late-acceptance fixtures | [PR #311](https://github.com/unglish/word-generator/pull/311); applicable CI passes; 20,000-word output and RNG parity verified |
 | Q04 | Underlying lexical forms; morphology and final stress before surface realization | Missing primary, primary schwa and primary reduced-vowel rates; lexical/surface provenance; one realization pass | [Draft PR #309](https://github.com/unglish/word-generator/pull/309); stress defects removed in 200,000-word capture, rhythm/open-vowel tradeoffs and `ugh` gate failure disclosed; coordinate with #305 |
 | Q05 | Licensed hiatus across morphological boundaries | Unlicensed /h/ bridges by boundary type; phone/spelling agreement | Final morphology representation |
-| Q06 | Preserve resolved allomorphs | Resolved written and phone variants survive final reconstruction; allomorph matrix | Coordinate with Q04 |
-| Q07 | Segment edge versus syllable position | /ʊ/ coverage in closed final syllables; forbidden open-position rate; audited inventory migration | Independent |
+| Q06 | Preserve resolved allomorphs | Resolved written and phone variants survive final reconstruction; allomorph matrix | In progress; coordinate with Q04/Q02 |
+| Q07 | Segment edge versus syllable position | /ʊ/ coverage in closed final syllables; forbidden open-position rate; audited inventory migration | [PR #314](https://github.com/unglish/word-generator/pull/314); closed-final base FOOT 15→2,506 in 200,000 words, open-final FOOT 3→0 in bases and 2→0 in outputs; local checks pass, mixed broader diagnostics retained |
 | Q08 | Typed vowel quantity and shared syllable-weight analysis | Open long-vowel/diphthong classification and resulting stress distributions | Declared dialect/quantity contract |
 | Q09 | Whole-pattern secondary stress and rhythm | Clash/lapse and secondary-schwa rates by length and morphology; explicit exceptions | Q04, Q08 |
 | Q10 | Conditional nucleus/coda legality | /æŋ/ coverage; final open checked vowels; legality after nucleus replacement | Q07; coordinate with Q04 |
-| Q11 | Legal cluster extensions | No adjacent duplicate coda segments introduced by extension; legal final-/s/ continuation; separated repeats and cluster coverage retained | In progress, independent |
+| Q11 | Legal cluster extensions | No adjacent duplicate coda segments introduced by extension; legal final-/s/ continuation; separated repeats and cluster coverage retained | [Draft PR #313](https://github.com/unglish/word-generator/pull/313); 6,045 root-stage duplicates removed in 200,000 words; three morphology residuals, cluster-frequency shifts, stress-clash increase and `ugh` gate failure disclosed |
 | Q11b | Preserve cluster legality through morphological alternations | Transformation-specific collision rates and trace ownership; retain licensed boundary repetition | Existing /sk/→/ss/ after `ity` softening identified by Q11; separate from root extensions |
 | Q12a | Licensed positive-weight grapheme selection | Zero-weight and forbidden-choice rates, including singleton candidates; fallback counts | [Draft PR #310](https://github.com/unglish/word-generator/pull/310); zero-weight choices removed in 200,000-word capture, `ex` gate failure disclosed |
-| Q12b | Restore ordinary /ɛ/→e before /t/ | Conditioned /ɛt/ spellings and traced contribution to exceptional ea patterns | In progress, independent; retain existing positive weight, measure before tuning |
-| Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | Q02 |
+| Q12b | Restore ordinary /ɛ/→e before /t/ | Conditioned /ɛt/ spellings and traced contribution to exceptional ea patterns | [Draft PR #312](https://github.com/unglish/word-generator/pull/312); restored e in all 2,632 eligible candidate pairs, while exposing 13 consonantal-y magic-e errors; weights unchanged |
+| Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | Design in progress; coordinate base-word alignment with Q02/Q06 final-word provenance |
 | Q13b | Aligned spelling of multiple phonemes by one grapheme | Explicit ownership and pronunciation preservation for /ks, gz/→x and similar units | Q13; Q12a exposes reliance on illegal /z/→ze choices for the current `gz-to-x` string repair |
 | Q14a | Complete split-digraph constructions | No unresolved spelling obligation; alternatives and pronunciation retained | Q12a, Q13 |
 | Q14b | Following-letter conditions for soft c/g | No incompatible following letters; licensed exceptions and search-fallback rates | Q12a, Q13, Q14a |
@@ -85,6 +85,23 @@ Q03 preserves 20,000 outputs, selected candidate indices, RNG call counts and
 next RNG values while exposing actual search costs. Historical traces cannot
 supply executed-attempt counts; reproduced baseline code establishes parity,
 and archived baseline words independently anchor the output comparison.
+
+Q11 eliminates observed root-stage coda duplication while preserving separated
+repetition such as /sts/ and /ksts/. The three final residuals all follow the
+existing `-ity` /sk/→/ss/ alternation. Large changes in some cluster frequencies
+and a small stress-clash increase are retained in its report. Q12b restores
+ordinary e without tuning any weight, but its traced supplementary probe detects
+13 new consonantal-y errors in a later magic-e rewrite even though the current
+test suite passes. That exploratory defect keeps Q12b in draft. Passing one
+target metric or the existing test suite is insufficient to declare a general
+quality improvement.
+
+Q07 supplies the first narrow nucleus-position override, migrating only FOOT.
+Its selected candidate samples satisfy the declared open-edge restriction and
+restore closed-rime coverage in every stream. Bare-lexicon corpus divergence and
+zero-weight grapheme counts, and some text-mode diagnostics, worsen. The report
+retains these tradeoffs. No selected sample exercised post-coda replacement;
+custom fixtures expose its remaining general checked-vowel limitation for Q10.
 
 The [baseline guide](quality-baselines.md) defines the frozen protocol and
 comparison limits. Original captures remain immutable when evaluators evolve.
