@@ -464,10 +464,6 @@ export const englishConfig: LanguageConfig = {
     homorganicNasalStop: true,
     bannedNucleusCodaCombinations: [
       {
-        nucleus: ["æ"],
-        coda: ["ŋ"],
-      },
-      {
         nucleus: ["ɚ", "ɝ"],
         coda: ["ŋ"],
       },
