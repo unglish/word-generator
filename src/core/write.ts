@@ -1,9 +1,10 @@
-import { Phoneme, Grapheme, GraphemeCondition, Syllable, WordGenerationContext } from "../types.js";
+import { BaseSpelling, expandReplacement } from "./base-spelling.js";
+import type { PartEditObserver, SpellingEditObserver } from "./base-spelling.js";
+import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
-import getWeightedOption from "../utils/getWeightedOption.js";
 import { isVowelChar, isConsonantLetter, VOWEL_LETTERS } from "../utils/letters.js";
 
 // ---------------------------------------------------------------------------
@@ -31,30 +32,34 @@ function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
 /**
  * Apply a list of compiled spelling rules to a string, handling probabilistic replacements.
  */
-function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string): string {
+function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string, observe?: SpellingEditObserver): string {
   let result = str;
   for (const { name, regex, replacement, probability } of rules) {
     regex.lastIndex = 0;
-    const before = trace ? result : "";
-    if (probability >= 100) {
-      result = result.replace(regex, replacement);
-    } else {
-      result = result.replace(regex, (match, ...args) => {
-        if (rand() < probability / 100) {
-          let rep = replacement;
-          for (let i = 0; i < args.length - 2; i++) {
-            if (args[i] !== undefined) {
-              rep = rep.replace(`$${i + 1}`, args[i]);
-            }
-          }
-          return rep;
+    const source = result;
+    let delta = 0;
+    result = result.replace(regex, (match: string, ...args: unknown[]) => {
+      const named = typeof args[args.length - 1] === "object";
+      const offset = args[args.length - (named ? 3 : 2)] as number;
+      let rep: string;
+      if (probability >= 100) {
+        const captures = args.slice(0, -(named ? 3 : 2)) as Array<string | undefined>;
+        const groups = named ? args[args.length - 1] as Record<string, string> : undefined;
+        rep = expandReplacement(replacement, match, captures, offset, source, groups);
+      } else {
+        if (!(rand() < probability / 100)) return match;
+        // Preserve the existing probabilistic replacement contract, including its
+        // limited capture expansion, independently of provenance collection.
+        rep = replacement;
+        for (let i = 0; i < args.length - 2; i++) {
+          if (args[i] !== undefined) rep = rep.replace(`$${i + 1}`, String(args[i]));
         }
-        return match;
-      });
-    }
-    if (trace && result !== before) {
-      trace.recordRepair(`spellingRule:${name}`, before, result, scope);
-    }
+      }
+      observe?.(offset + delta, match.length, rep, `spellingRule:${name}`);
+      delta += rep.length - match.length;
+      return rep;
+    });
+    if (trace && result !== source) trace.recordRepair(`spellingRule:${name}`, source, result, scope);
   }
   return result;
 }
@@ -312,7 +317,7 @@ function buildOrthographyTrace(
   };
 
   const graphemeUnits = units.map(toUnitTrace);
-  return { surface, chars, graphemeUnits };
+  return { surface, chars, graphemeUnits, alignment: "inferred" };
 }
 
 export function rewriteOrthographyTraceSurface(trace: TraceCollector, surface: string): void {
@@ -959,6 +964,7 @@ export function repairConsonantPileups(
   hyphenatedParts: string[],
   maxConsonantGraphemes: number,
   consonantGraphemes?: string[],
+  observe?: PartEditObserver,
 ): void {
   const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
 
@@ -1052,6 +1058,13 @@ export function repairConsonantPileups(
       const localStart = runCharStart - partCharStart;
       const localEnd = runCharEnd - partCharStart;
       const part = cleanParts[startPart];
+      let tokenOffset = localStart + runTokens[0].length;
+      const deletions: Array<{ start: number; length: number }> = [];
+      for (let i = 0; i < interior.length; i++) {
+        if (toRemoveSet.has(i)) deletions.push({ start: tokenOffset, length: interior[i].length });
+        tokenOffset += interior[i].length;
+      }
+      for (const deletion of deletions.reverse()) observe?.(startPart, deletion.start, deletion.length, "", "repairConsonantPileups");
       cleanParts[startPart] = part.slice(0, localStart) + kept.join("") + part.slice(localEnd);
       hyphenatedParts[startPart * 2] = cleanParts[startPart];
       continue;
@@ -1113,6 +1126,13 @@ export function repairConsonantPileups(
       }
     }
 
+    let tokenOffset = 0;
+    const deletions: Array<{ start: number; length: number }> = [];
+    for (let i = 0; i < partTokens.length; i++) {
+      if (toRemoveIndices.has(i)) deletions.push({ start: tokenOffset, length: partTokens[i].length });
+      tokenOffset += partTokens[i].length;
+    }
+    for (const deletion of deletions.reverse()) observe?.(targetPartIdx, deletion.start, deletion.length, "", "repairConsonantPileups");
     const newPart = partTokens.filter((_, i) => !toRemoveIndices.has(i)).join("");
     cleanParts[targetPartIdx] = newPart;
     hyphenatedParts[targetPartIdx * 2] = newPart;
@@ -1174,6 +1194,7 @@ export function repairJunctions(
   boundaries: SyllableBoundary[],
   config: LanguageConfig,
   consonantGraphemes?: string[],
+  observe?: PartEditObserver,
 ): void {
   const gList = consonantGraphemes ?? DEFAULT_CONSONANT_GRAPHEMES;
 
@@ -1197,6 +1218,8 @@ export function repairJunctions(
 
         // Save the dropped token, then splice it out
         const droppedToken = codaTokens[lastCodaConsonantIdx];
+        const droppedStart = codaTokens.slice(0, lastCodaConsonantIdx).join("").length;
+        observe?.(i, droppedStart, droppedToken.length, "", "repairJunctions:backstop");
         codaTokens.splice(lastCodaConsonantIdx, 1);
 
         // If the new last consonant is identical (doubled), drop it too
@@ -1204,6 +1227,8 @@ export function repairJunctions(
           ? codaTokens.reduce((last, t, j) => isConsonantToken(t) ? j : last, -1)
           : -1;
         if (newLastIdx >= 0 && codaTokens[newLastIdx] === droppedToken) {
+          const secondStart = codaTokens.slice(0, newLastIdx).join("").length;
+          observe?.(i, secondStart, codaTokens[newLastIdx].length, "", "repairJunctions:backstop");
           codaTokens.splice(newLastIdx, 1);
         }
 
@@ -1233,6 +1258,7 @@ export function repairConsonantLetters(
   cleanParts: string[],
   hyphenatedParts: string[],
   maxLetters: number,
+  observe?: PartEditObserver,
 ): void {
   for (let pass = 0; pass < 10; pass++) {
     const word = cleanParts.join("");
@@ -1312,6 +1338,7 @@ export function repairConsonantLetters(
       ? interior[Math.floor(interior.length / 2)]
       : consonantIndices[Math.floor(consonantIndices.length / 2)];
 
+    observe?.(dropPartIdx, dropIdx, 1, "", "repairConsonantLetters");
     cleanParts[dropPartIdx] = part.slice(0, dropIdx) + part.slice(dropIdx + 1);
     hyphenatedParts[dropPartIdx * 2] = cleanParts[dropPartIdx];
   }
@@ -1326,6 +1353,7 @@ export function repairVowelLetters(
   cleanParts: string[],
   hyphenatedParts: string[],
   maxLetters: number,
+  observe?: PartEditObserver,
 ): void {
   for (let i = 0; i < cleanParts.length; i++) {
     const part = cleanParts[i];
@@ -1335,6 +1363,7 @@ export function repairVowelLetters(
       if (isVowelChar(part[j], j, part)) {
         vowelRun++;
         if (vowelRun <= maxLetters) result += part[j];
+        else observe?.(i, result.length, 1, "", "repairVowelLetters");
       } else {
         vowelRun = 0;
         result += part[j];
@@ -1359,6 +1388,7 @@ export function repairFinalConsonantLetters(
   cleanParts: string[],
   hyphenatedParts: string[],
   maxLetters: number,
+  observe?: PartEditObserver,
 ): void {
   if (cleanParts.length === 0) return;
 
@@ -1397,6 +1427,7 @@ export function repairFinalConsonantLetters(
   if (cluster.length <= maxLetters) return;
 
   // Keep the last `maxLetters` letters (preserves word-final sounds)
+  observe?.(lastIdx, clusterStart, cluster.length - maxLetters, "", "repairFinalConsonantLetters");
   const trimmed = cluster.slice(cluster.length - maxLetters);
   part = part.slice(0, clusterStart) + trimmed;
 
@@ -1445,6 +1476,7 @@ export function applySilentE(
   excludedCodas: Set<string>,
   probability: number,
   rand: RNG,
+  observe?: PartEditObserver,
 ): void {
   if (syllables.length === 0 || cleanParts.length === 0) return;
 
@@ -1489,6 +1521,8 @@ export function applySilentE(
   if (fromIdx < 0) return;
 
   // Ensure the swap target is in the vowel portion (before the final consonant letters)
+  observe?.(lastPartIdx, fromIdx, swap.from.length, swap.to, "silentE:swap");
+  observe?.(lastPartIdx, part.length - swap.from.length + swap.to.length, 0, "e", "silentE:marker");
   const newPart = part.slice(0, fromIdx) + swap.to + part.slice(fromIdx + swap.from.length) + "e";
   cleanParts[lastPartIdx] = newPart;
   hyphenatedParts[lastPartIdx * 2] = newPart;
@@ -1518,6 +1552,7 @@ export function appendSilentE(
   syllables: { onset: Phoneme[]; nucleus: Phoneme[]; coda: Phoneme[] }[],
   appendLookup: AppendAfterLookup,
   rand: RNG,
+  observe?: PartEditObserver,
 ): void {
   if (syllables.length === 0 || cleanParts.length === 0) return;
 
@@ -1537,6 +1572,7 @@ export function appendSilentE(
   // Probability check
   if (rand() >= probability / 100) return;
 
+  observe?.(lastPartIdx, part.length, 0, "e", "silentE:append");
   cleanParts[lastPartIdx] = part + "e";
   hyphenatedParts[lastPartIdx * 2] = cleanParts[lastPartIdx];
 }
@@ -1590,8 +1626,14 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       )
     );
 
+    const baseSpelling = new BaseSpelling(flattenedPhonemes.map((entry, id) => ({
+      id, part: "root", syllableIndex: entry.syllableIndex, segment: entry.position,
+      segmentIndex: entry.positionIndex, soundAtSpelling: entry.phoneme.sound,
+    })), tracing);
+    context.baseSpelling = baseSpelling;
     const cleanParts: string[] = [];
     const hyphenatedParts: string[] = [];
+    const observeParts = baseSpelling.observeParts(cleanParts);
     let currentSyllable: string[] = [];
     let currentSyllableOwners: number[] = [];
     const doublingCtx: DoublingState = { doublingCount: 0 };
@@ -1672,9 +1714,12 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }, doublingCtx, rand, doublingTraceInfo);
       prevGraphemeForm = form;
 
+      const choiceStart = baseSpelling.length;
+      baseSpelling.appendChoice(phonemeIndex, selected.form, form);
       let emitted = form;
       if (currentSyllable.length > 0 && form.length > 0 &&
           currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]) {
+        baseSpelling.edit(choiceStart, 1, "", "deduplicateAdjacentLetters");
         emitted = form.slice(1);
       }
 
@@ -1721,13 +1766,16 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
       if (!nextEntry || nextEntry.syllableIndex !== syllableIndex) {
         const rawSyllable = currentSyllable.join("");
-        let syllableStr = applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`);
+        const syllableStart = cleanParts.reduce((length, part) => length + part.length, 0);
+        baseSpelling.setPhase("syllable");
+        let syllableStr = applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`, baseSpelling.observe(syllableStart));
         let syllableOwners = tracing
           ? remapOwnersThroughRewrite(rawSyllable, currentSyllableOwners, syllableStr)
           : [];
 
         if (cleanParts.length > 0 && syllableStr.length > 0 &&
             cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
+          baseSpelling.edit(syllableStart, 1, "", "deduplicateSyllableJoin");
           syllableStr = syllableStr.slice(1);
           if (tracing) syllableOwners = syllableOwners.slice(1);
         }
@@ -1759,17 +1807,18 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
     }
 
+    baseSpelling.setPhase("word");
     // Silent-e: rewrite final VCe patterns (magic-e for long vowels)
     if (silentELookup && silentEConfig) {
       applySilentE(
         cleanParts, hyphenatedParts, syllables, nucleusGraphemes,
-        silentELookup, silentEExcluded, silentEConfig.probability, rand,
+        silentELookup, silentEExcluded, silentEConfig.probability, rand, observeParts,
       );
     }
 
     // Silent-e: orthographic append for consonants that can't end bare (e.g. 'v')
     if (appendAfterLookup) {
-      appendSilentE(cleanParts, hyphenatedParts, syllables, appendAfterLookup, rand);
+      appendSilentE(cleanParts, hyphenatedParts, syllables, appendAfterLookup, rand, observeParts);
     }
 
     // Orthographic repairs: configurable boundary-based insertion rules
@@ -1783,6 +1832,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         const junction = part[part.length - 1] + nextPart[0];
         for (const repair of orthoRepairs) {
           if (repair.boundaryMatch.test(junction)) {
+            observeParts(si, part.length, 0, repair.insert, `orthographicRepair:${repair.name}`);
             cleanParts[si] = part + repair.insert;
             hyphenatedParts[si * 2] = hyphenatedParts[si * 2] + repair.insert;
             break;
@@ -1796,7 +1846,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const maxGraphemes = wfc?.maxConsonantGraphemes;
     if (maxGraphemes) {
       const before = context.trace ? cleanParts.join("") : "";
-      repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes);
+      repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes, observeParts);
       context.trace?.recordRepair("repairConsonantPileups", before, cleanParts.join(""));
     }
 
@@ -1814,7 +1864,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         });
       }
       const beforeJunction = context.trace ? cleanParts.join("") : "";
-      repairJunctions(cleanParts, hyphenatedParts, boundaries, config, wfc?.consonantGraphemes);
+      repairJunctions(cleanParts, hyphenatedParts, boundaries, config, wfc?.consonantGraphemes, observeParts);
       if (context.trace) {
         const afterJunction = cleanParts.join("");
         if (afterJunction !== beforeJunction) {
@@ -1824,7 +1874,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       // Re-run pileup repair in case junction repair changed things
       if (maxGraphemes) {
         const beforePileup = context.trace ? cleanParts.join("") : "";
-        repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes);
+        repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes, observeParts);
         context.trace?.recordRepair("repairConsonantPileups:postJunction", beforePileup, cleanParts.join(""));
       }
     }
@@ -1832,27 +1882,27 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     // Raw consonant letter backstop
     if (wfc?.maxConsonantLetters) {
       const before = context.trace ? cleanParts.join("") : "";
-      repairConsonantLetters(cleanParts, hyphenatedParts, wfc.maxConsonantLetters);
+      repairConsonantLetters(cleanParts, hyphenatedParts, wfc.maxConsonantLetters, observeParts);
       context.trace?.recordRepair("repairConsonantLetters", before, cleanParts.join(""));
     }
 
     // Word-final consonant letter limit
     if (wfc?.maxFinalConsonantLetters) {
       const before = context.trace ? cleanParts.join("") : "";
-      repairFinalConsonantLetters(cleanParts, hyphenatedParts, wfc.maxFinalConsonantLetters);
+      repairFinalConsonantLetters(cleanParts, hyphenatedParts, wfc.maxFinalConsonantLetters, observeParts);
       context.trace?.recordRepair("repairFinalConsonantLetters", before, cleanParts.join(""));
     }
 
     // Raw vowel letter backstop
     if (wfc?.maxVowelLetters) {
       const before = context.trace ? cleanParts.join("") : "";
-      repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters);
+      repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters, observeParts);
       context.trace?.recordRepair("repairVowelLetters", before, cleanParts.join(""));
     }
 
     // Post-join pass: apply word-scope spelling rules
-    let finalClean = applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word");
-    let finalHyphenated = hyphenatedParts.join("");
+    let finalClean = applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word", baseSpelling.observe());
+    const finalHyphenated = hyphenatedParts.join("");
 
     // Post-join vowel repair for cross-boundary runs
     if (wfc?.maxVowelLetters) {
@@ -1862,6 +1912,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         if (isVowelChar(finalClean[ci], ci, finalClean)) {
           vowelRun++;
           if (vowelRun <= wfc.maxVowelLetters) vResult += finalClean[ci];
+          else baseSpelling.edit(vResult.length, 1, "", "postJoinVowelCap");
         } else {
           vowelRun = 0;
           vResult += finalClean[ci];
@@ -1875,14 +1926,15 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const postParts = [finalClean];
       const postHyph = [finalClean];
       const beforePost = context.trace ? finalClean : "";
+      const observePost = baseSpelling.observeParts(postParts);
       if (wfc.maxConsonantGraphemes) {
-        repairConsonantPileups(postParts, postHyph, wfc.maxConsonantGraphemes, wfc.consonantGraphemes);
+        repairConsonantPileups(postParts, postHyph, wfc.maxConsonantGraphemes, wfc.consonantGraphemes, observePost);
       }
       if (wfc.maxConsonantLetters) {
-        repairConsonantLetters(postParts, postHyph, wfc.maxConsonantLetters);
+        repairConsonantLetters(postParts, postHyph, wfc.maxConsonantLetters, observePost);
       }
       if (wfc.maxFinalConsonantLetters) {
-        repairFinalConsonantLetters(postParts, postHyph, wfc.maxFinalConsonantLetters);
+        repairFinalConsonantLetters(postParts, postHyph, wfc.maxFinalConsonantLetters, observePost);
       }
       finalClean = postParts[0];
       context.trace?.recordRepair("postSpellingBackstop", beforePost, finalClean);
@@ -1893,6 +1945,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       context.trace.orthographyTrace = buildOrthographyTrace(finalClean, finalOwners, traceUnits, context.trace);
     }
 
+    baseSpelling.assertSurface(finalClean);
+    if (context.trace) context.trace.baseSpelling = baseSpelling.snapshot();
     written.clean = finalClean;
     written.hyphenated = finalHyphenated;
   };

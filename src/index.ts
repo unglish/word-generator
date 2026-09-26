@@ -99,3 +99,5 @@ export default {
    */
   graphemes,
 };
+
+export type { BaseSpellingTrace, SpellingPhone, SpellingUnit, SpellingCell, SpellingCellOrigin, SpellingEdit } from "./core/base-spelling.js";
