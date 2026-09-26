@@ -1,0 +1,892 @@
+{
+  "baseline": {
+    "lexicon-default": {
+      "words": 50000,
+      "trigrams": 273079,
+      "ugh": 1,
+      "oughSelections": 0,
+      "opportunities": 17,
+      "expectedChoices": 1.1800165662876343,
+      "zeroWeightChoices": 0,
+      "replicates": {
+        "69212153": {
+          "words": 10000,
+          "trigrams": 54538,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 0,
+          "expectedChoices": 0
+        },
+        "101601885": {
+          "words": 10000,
+          "trigrams": 54382,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 4,
+          "expectedChoices": 0.10669435061748976
+        },
+        "2089697863": {
+          "words": 10000,
+          "trigrams": 54811,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 7,
+          "expectedChoices": 0.4110723094970992
+        },
+        "3921817393": {
+          "words": 10000,
+          "trigrams": 54535,
+          "ugh": 1,
+          "oughSelections": 0,
+          "opportunities": 5,
+          "expectedChoices": 0.6332082798419708
+        },
+        "3948943232": {
+          "words": 10000,
+          "trigrams": 54813,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 1,
+          "expectedChoices": 0.02904162633107454
+        }
+      },
+      "witnesses": [
+        {
+          "seed": "3921817393",
+          "index": 8356,
+          "written": "ughiline",
+          "pronunciation": "ˈʌg.həl.i:n",
+          "choices": [],
+          "repairs": [
+            {
+              "rule": "spellingRule:magic-e",
+              "before": "ien",
+              "after": "ine",
+              "detail": "syllable:2"
+            }
+          ],
+          "stages": [
+            {
+              "name": "generateWrittenForm",
+              "before": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ʌ"
+                  ],
+                  "coda": [
+                    "g"
+                  ]
+                },
+                {
+                  "onset": [
+                    "h"
+                  ],
+                  "nucleus": [
+                    "ə"
+                  ],
+                  "coda": [
+                    "l"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "i:"
+                  ],
+                  "coda": [
+                    "n"
+                  ]
+                }
+              ],
+              "after": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ʌ"
+                  ],
+                  "coda": [
+                    "g"
+                  ]
+                },
+                {
+                  "onset": [
+                    "h"
+                  ],
+                  "nucleus": [
+                    "ə"
+                  ],
+                  "coda": [
+                    "l"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "i:"
+                  ],
+                  "coda": [
+                    "n"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "generatePronunciation",
+              "before": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ʌ"
+                  ],
+                  "coda": [
+                    "g"
+                  ]
+                },
+                {
+                  "onset": [
+                    "h"
+                  ],
+                  "nucleus": [
+                    "ə"
+                  ],
+                  "coda": [
+                    "l"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "i:"
+                  ],
+                  "coda": [
+                    "n"
+                  ]
+                }
+              ],
+              "after": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ʌ"
+                  ],
+                  "coda": [
+                    "g"
+                  ]
+                },
+                {
+                  "onset": [
+                    "h"
+                  ],
+                  "nucleus": [
+                    "ə"
+                  ],
+                  "coda": [
+                    "l"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "i:"
+                  ],
+                  "coda": [
+                    "n"
+                  ]
+                }
+              ]
+            }
+          ],
+          "morphology": {
+            "template": "bare",
+            "syllableReduction": 0
+          }
+        }
+      ]
+    },
+    "lexicon-bare": {
+      "words": 50000,
+      "trigrams": 270922,
+      "ugh": 0,
+      "oughSelections": 0,
+      "opportunities": 19,
+      "expectedChoices": 0.9170791232936027,
+      "zeroWeightChoices": 0,
+      "replicates": {
+        "772709128": {
+          "words": 10000,
+          "trigrams": 53877,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 5,
+          "expectedChoices": 0.109065859550634
+        },
+        "1304238451": {
+          "words": 10000,
+          "trigrams": 54711,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 4,
+          "expectedChoices": 0.33823253937307113
+        },
+        "1498885173": {
+          "words": 10000,
+          "trigrams": 54166,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 4,
+          "expectedChoices": 0.06573912435036391
+        },
+        "1696751198": {
+          "words": 10000,
+          "trigrams": 54212,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 3,
+          "expectedChoices": 0.07765272428641523
+        },
+        "2380207674": {
+          "words": 10000,
+          "trigrams": 53956,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 3,
+          "expectedChoices": 0.3263888757331185
+        }
+      },
+      "witnesses": []
+    }
+  },
+  "candidate": {
+    "lexicon-default": {
+      "words": 50000,
+      "trigrams": 274938,
+      "ugh": 1,
+      "oughSelections": 0,
+      "opportunities": 28,
+      "expectedChoices": 1.4063455019658995,
+      "zeroWeightChoices": 0,
+      "replicates": {
+        "69212153": {
+          "words": 10000,
+          "trigrams": 55034,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 4,
+          "expectedChoices": 0.06573912435036391
+        },
+        "101601885": {
+          "words": 10000,
+          "trigrams": 55062,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 10,
+          "expectedChoices": 0.740374039052144
+        },
+        "2089697863": {
+          "words": 10000,
+          "trigrams": 54912,
+          "ugh": 1,
+          "oughSelections": 0,
+          "opportunities": 4,
+          "expectedChoices": 0.355430502064193
+        },
+        "3921817393": {
+          "words": 10000,
+          "trigrams": 55104,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 4,
+          "expectedChoices": 0.10669435061748977
+        },
+        "3948943232": {
+          "words": 10000,
+          "trigrams": 54826,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 6,
+          "expectedChoices": 0.13810748588170854
+        }
+      },
+      "witnesses": [
+        {
+          "seed": "2089697863",
+          "index": 8150,
+          "written": "dughisikided",
+          "pronunciation": "ˈdʌg.həzˌɪ.ki:d.ɪd",
+          "choices": [],
+          "repairs": [
+            {
+              "rule": "repairStressedNuclei",
+              "before": "ə",
+              "after": "ʌ",
+              "detail": "replaced banned stressed nucleus /ə/"
+            },
+            {
+              "rule": "spellingRule:magic-e",
+              "before": "kied",
+              "after": "kide",
+              "detail": "syllable:3"
+            }
+          ],
+          "stages": [
+            {
+              "name": "assembleMorphology",
+              "before": [
+                {
+                  "onset": [
+                    "d"
+                  ],
+                  "nucleus": [
+                    "ʌ"
+                  ],
+                  "coda": [
+                    "g"
+                  ],
+                  "stress": "ˈ"
+                },
+                {
+                  "onset": [
+                    "h"
+                  ],
+                  "nucleus": [
+                    "ə"
+                  ],
+                  "coda": [
+                    "z"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [],
+                  "stress": "ˌ"
+                },
+                {
+                  "onset": [
+                    "k"
+                  ],
+                  "nucleus": [
+                    "i:"
+                  ],
+                  "coda": [
+                    "d"
+                  ]
+                }
+              ],
+              "after": [
+                {
+                  "onset": [
+                    "d"
+                  ],
+                  "nucleus": [
+                    "ʌ"
+                  ],
+                  "coda": [
+                    "g"
+                  ],
+                  "stress": "ˈ"
+                },
+                {
+                  "onset": [
+                    "h"
+                  ],
+                  "nucleus": [
+                    "ə"
+                  ],
+                  "coda": [
+                    "z"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [],
+                  "stress": "ˌ"
+                },
+                {
+                  "onset": [
+                    "k"
+                  ],
+                  "nucleus": [
+                    "i:"
+                  ],
+                  "coda": [
+                    "d"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [
+                    "d"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "generateWrittenForm",
+              "before": [
+                {
+                  "onset": [
+                    "d"
+                  ],
+                  "nucleus": [
+                    "ʌ"
+                  ],
+                  "coda": [
+                    "g"
+                  ],
+                  "stress": "ˈ"
+                },
+                {
+                  "onset": [
+                    "h"
+                  ],
+                  "nucleus": [
+                    "ə"
+                  ],
+                  "coda": [
+                    "z"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [],
+                  "stress": "ˌ"
+                },
+                {
+                  "onset": [
+                    "k"
+                  ],
+                  "nucleus": [
+                    "i:"
+                  ],
+                  "coda": [
+                    "d"
+                  ]
+                }
+              ],
+              "after": [
+                {
+                  "onset": [
+                    "d"
+                  ],
+                  "nucleus": [
+                    "ʌ"
+                  ],
+                  "coda": [
+                    "g"
+                  ],
+                  "stress": "ˈ"
+                },
+                {
+                  "onset": [
+                    "h"
+                  ],
+                  "nucleus": [
+                    "ə"
+                  ],
+                  "coda": [
+                    "z"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [],
+                  "stress": "ˌ"
+                },
+                {
+                  "onset": [
+                    "k"
+                  ],
+                  "nucleus": [
+                    "i:"
+                  ],
+                  "coda": [
+                    "d"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "generatePronunciation",
+              "before": [
+                {
+                  "onset": [
+                    "d"
+                  ],
+                  "nucleus": [
+                    "ʌ"
+                  ],
+                  "coda": [
+                    "g"
+                  ],
+                  "stress": "ˈ"
+                },
+                {
+                  "onset": [
+                    "h"
+                  ],
+                  "nucleus": [
+                    "ə"
+                  ],
+                  "coda": [
+                    "z"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [],
+                  "stress": "ˌ"
+                },
+                {
+                  "onset": [
+                    "k"
+                  ],
+                  "nucleus": [
+                    "i:"
+                  ],
+                  "coda": [
+                    "d"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [
+                    "d"
+                  ]
+                }
+              ],
+              "after": [
+                {
+                  "onset": [
+                    "d"
+                  ],
+                  "nucleus": [
+                    "ʌ"
+                  ],
+                  "coda": [
+                    "g"
+                  ],
+                  "stress": "ˈ"
+                },
+                {
+                  "onset": [
+                    "h"
+                  ],
+                  "nucleus": [
+                    "ə"
+                  ],
+                  "coda": [
+                    "z"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [],
+                  "stress": "ˌ"
+                },
+                {
+                  "onset": [
+                    "k"
+                  ],
+                  "nucleus": [
+                    "i:"
+                  ],
+                  "coda": [
+                    "d"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [
+                    "d"
+                  ]
+                }
+              ]
+            }
+          ],
+          "morphology": {
+            "template": "suffixed",
+            "suffix": "ed",
+            "syllableReduction": 0
+          }
+        }
+      ]
+    },
+    "lexicon-bare": {
+      "words": 50000,
+      "trigrams": 270031,
+      "ugh": 1,
+      "oughSelections": 1,
+      "opportunities": 15,
+      "expectedChoices": 1.0838909411802857,
+      "zeroWeightChoices": 0,
+      "replicates": {
+        "772709128": {
+          "words": 10000,
+          "trigrams": 54040,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 3,
+          "expectedChoices": 0.3169167210263101
+        },
+        "1304238451": {
+          "words": 10000,
+          "trigrams": 53638,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 2,
+          "expectedChoices": 0.2925342952396568
+        },
+        "1498885173": {
+          "words": 10000,
+          "trigrams": 54252,
+          "ugh": 1,
+          "oughSelections": 1,
+          "opportunities": 4,
+          "expectedChoices": 0.3411453931949975
+        },
+        "1696751198": {
+          "words": 10000,
+          "trigrams": 53892,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 3,
+          "expectedChoices": 0.07765272428641523
+        },
+        "2380207674": {
+          "words": 10000,
+          "trigrams": 54209,
+          "ugh": 0,
+          "oughSelections": 0,
+          "opportunities": 3,
+          "expectedChoices": 0.05564180743290616
+        }
+      },
+      "witnesses": [
+        {
+          "seed": "1498885173",
+          "index": 3260,
+          "written": "ursought",
+          "pronunciation": "ɚsˈɔt",
+          "choices": [
+            {
+              "index": 2,
+              "phoneme": "ɔ",
+              "position": "nucleus",
+              "syllableIndex": 1,
+              "candidates": [
+                "o",
+                "aw",
+                "ough"
+              ],
+              "afterCondition": [
+                "o",
+                "aw",
+                "ough"
+              ],
+              "afterPosition": [
+                "o",
+                "aw",
+                "ough"
+              ],
+              "weights": [
+                [
+                  "o",
+                  50
+                ],
+                [
+                  "aw",
+                  2
+                ],
+                [
+                  "ough",
+                  20
+                ]
+              ],
+              "roll": 68.61867536790669,
+              "selected": "ough",
+              "emitted": "ough",
+              "doubled": false,
+              "doubling": {
+                "attempted": false,
+                "reason": "multi-char-grapheme"
+              }
+            }
+          ],
+          "repairs": [
+            {
+              "rule": "repairStressedNuclei",
+              "before": "ə",
+              "after": "ɔ",
+              "detail": "replaced banned stressed nucleus /ə/"
+            }
+          ],
+          "stages": [
+            {
+              "name": "assembleMorphology",
+              "before": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɚ"
+                  ],
+                  "coda": [
+                    "s"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɔ"
+                  ],
+                  "coda": [
+                    "t"
+                  ],
+                  "stress": "ˈ"
+                }
+              ],
+              "after": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɚ"
+                  ],
+                  "coda": [
+                    "s"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɔ"
+                  ],
+                  "coda": [
+                    "t"
+                  ],
+                  "stress": "ˈ"
+                }
+              ]
+            },
+            {
+              "name": "generateWrittenForm",
+              "before": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɚ"
+                  ],
+                  "coda": [
+                    "s"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɔ"
+                  ],
+                  "coda": [
+                    "t"
+                  ],
+                  "stress": "ˈ"
+                }
+              ],
+              "after": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɚ"
+                  ],
+                  "coda": [
+                    "s"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɔ"
+                  ],
+                  "coda": [
+                    "t"
+                  ],
+                  "stress": "ˈ"
+                }
+              ]
+            },
+            {
+              "name": "generatePronunciation",
+              "before": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɚ"
+                  ],
+                  "coda": [
+                    "s"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɔ"
+                  ],
+                  "coda": [
+                    "t"
+                  ],
+                  "stress": "ˈ"
+                }
+              ],
+              "after": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɚ"
+                  ],
+                  "coda": [
+                    "s"
+                  ]
+                },
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɔ"
+                  ],
+                  "coda": [
+                    "t"
+                  ],
+                  "stress": "ˈ"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

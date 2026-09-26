@@ -1,10 +1,16 @@
 import type { Syllable } from "../types.js";
 import type { StressWeightTrace } from "./syllable-weight.js";
+import type { MorphologyRealizationTrace } from "./morphology/realization.js";
 
 export interface SyllableSnapshot {
   onset: string[];
   nucleus: string[];
   coda: string[];
+  stress?: Syllable["stress"];
+  /** Nucleus indices reduced during surface realization. */
+  reducedNuclei?: number[];
+  /** Segment coordinates aspirated during surface realization. */
+  aspirated?: { segment: "onset" | "nucleus" | "coda"; index: number }[];
 }
 
 export interface StageSnapshot {
@@ -56,10 +62,14 @@ export interface RepairTrace {
 
 export interface MorphologyTrace {
   template: string;
+  /** Planned prefix spelling, before allomorph selection. */
   prefix?: string;
+  /** Planned suffix spelling, before allomorph selection. */
   suffix?: string;
   syllableReduction: number;
   alternations?: MorphophonemicAlternationTrace[];
+  /** Selected forms and written parts; absent in historical traces. */
+  realization?: MorphologyRealizationTrace;
 }
 
 export interface MorphophonemicAlternationTrace {
@@ -222,7 +232,15 @@ export interface OrthographyUnitTrace {
   links?: TraceLink[];
 }
 
+/** Coordinates and provenance of the lexical material passed to the writer. */
+export interface OrthographySource {
+  kind: "lexical-root";
+  /** Offset into the assembled word; unit syllable indices remain root-relative. */
+  wordSyllableStart: number;
+}
+
 export interface OrthographyTrace {
+  source?: OrthographySource;
   /** Final written form after all orthographic repair stages. */
   surface: string;
   /** Per-character ownership in the final written form. */
@@ -252,11 +270,19 @@ export interface WordTrace {
 }
 
 function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
-  return syllables.map(s => ({
-    onset: s.onset.map(p => p.sound),
-    nucleus: s.nucleus.map(p => p.sound),
-    coda: s.coda.map(p => p.sound),
-  }));
+  return syllables.map(s => {
+    const reducedNuclei = s.nucleus.flatMap((p, index) => p.reduced ? [index] : []);
+    const aspirated = (["onset", "nucleus", "coda"] as const).flatMap(segment =>
+      s[segment].flatMap((p, index) => p.aspirated ? [{ segment, index }] : []));
+    return {
+      onset: s.onset.map(p => p.sound),
+      nucleus: s.nucleus.map(p => p.sound),
+      coda: s.coda.map(p => p.sound),
+      stress: s.stress,
+      ...(reducedNuclei.length > 0 ? { reducedNuclei } : {}),
+      ...(aspirated.length > 0 ? { aspirated } : {}),
+    };
+  });
 }
 
 export class TraceCollector {

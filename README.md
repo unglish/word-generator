@@ -71,6 +71,9 @@ console.log(word.trace?.graphemeSelections[0]);
 
 Detailed trace workflow: [`docs/word-trace-diagnostics.md`](./docs/word-trace-diagnostics.md)
 
+Underlying segments and final stress are retained in `word.lexical`; surface
+phones remain in `word.syllables`. See [lexical and surface realization](./docs/lexical-realization.md).
+
 ## Top-Down Phoneme Targeting
 
 Generation now plans words top-down:

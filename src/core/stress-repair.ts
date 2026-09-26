@@ -6,8 +6,8 @@ import getWeightedOption from "../utils/getWeightedOption.js";
  * After stress assignment, re-pick any nucleus whose sound is banned under
  * primary stress (e.g. schwa /ə/ should not carry primary stress in English).
  *
- * Monosyllables are unaffected because `applyPrimaryStress` skips them
- * (no stress marker is assigned), so the ban naturally does not apply.
+ * Lexical monosyllables carry internal primary stress even when their IPA
+ * display omits the stress mark. They obey the same nucleus restrictions.
  */
 export function repairStressedNuclei(
   context: WordGenerationContext,
