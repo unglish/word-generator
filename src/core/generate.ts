@@ -9,6 +9,7 @@ import { createGapSpellingApplicator } from "./gap-spelling.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
+import { RejectionTraceCollector } from "./rejection-trace.js";
 import { planMorphology, applyMorphology } from "./morphology/index.js";
 import {
   computePhonemeTargetBounds,
@@ -1181,8 +1182,8 @@ function countPhonemes(syllables: Syllable[]): number {
 /**
  * Generate a single word with letter-length rejection sampling.
  *
- * Builds a fresh context on each attempt. After {@link MAX_LENGTH_RETRIES}
- * failed length checks, the last word is accepted unconditionally.
+ * Builds a fresh context on each attempt. After the warmup, near-target letter
+ * lengths can be accepted; exhaustion returns the lowest-scoring attempted word.
  */
 function generateOneWord(
   rt: GeneratorRuntime,
@@ -1240,6 +1241,11 @@ function generateOneWord(
     bounds,
   );
   const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCountRoot, rand, forcedRootSyllableCount);
+  const rejectionTrace = enableTrace ? new RejectionTraceCollector({
+    rootPhonemes: targetPhonemeCountRoot,
+    finalPhonemes: targetPhonemeCountFinal,
+    scoredPhonemes: morphPlan ? targetPhonemeCountFinal : targetPhonemeCountRoot,
+  }, { maxAttempts: maxAttempts + 1, warmupAttempts: MAX_LENGTH_RETRIES, relaxedLetterPenalty: 0.5 }) : undefined;
 
   for (let attempt = 0; attempt <= maxAttempts; attempt++) {
     const syllablePlans = distributePhonemes(rt, targetPhonemeCountRoot, sampledSyllableCount, rand);
@@ -1333,10 +1339,18 @@ function generateOneWord(
       attemptScore.letterPenalty <= 0.5 &&
       morphologyDelta.resolved !== undefined;
 
+    rejectionTrace?.record({
+      syllables: context.word.syllables.length,
+      phonemes: generatedPhonemeCount,
+      letters: context.word.written.clean.length,
+      morphologyPhonemes: finalPhonemeCount - rootPhonemeCount,
+    }, attemptScore, perfectMatch || goodEnoughAfterWarmup, morphologyDelta.resolved !== undefined);
+
     if (perfectMatch || goodEnoughAfterWarmup) {
       if (traceCollector) {
         traceCollector.syllableCount = context.syllableCount;
         traceCollector.attempts = attempt;
+        traceCollector.selection = rejectionTrace!.finish(attempt, perfectMatch ? "exact" : "relaxed");
         context.word.trace = traceCollector.toTrace(morphApplied);
       }
       return context.word;
@@ -1349,10 +1363,11 @@ function generateOneWord(
   const fallbackContext = bestContext ?? lastContext!;
   const fallbackTraceCollector = bestTraceCollector ?? lastTraceCollector;
   const fallbackMorphApplied = bestContext ? bestMorphApplied : lastMorphApplied;
-  const fallbackAttempts = bestContext ? bestAttempt : maxAttempts;
+  const selectedAttempt = bestContext ? bestAttempt : maxAttempts;
   if (fallbackTraceCollector) {
     fallbackTraceCollector.syllableCount = fallbackContext.syllableCount;
-    fallbackTraceCollector.attempts = fallbackAttempts;
+    fallbackTraceCollector.selection = rejectionTrace!.finish(selectedAttempt, null);
+    fallbackTraceCollector.attempts = fallbackTraceCollector.selection.attemptsExecuted - 1;
     fallbackContext.word.trace = fallbackTraceCollector.toTrace(fallbackMorphApplied);
   }
   return fallbackContext.word;

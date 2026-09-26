@@ -31,6 +31,8 @@ export { createSeededRng, createDefaultRng } from "./utils/random.js";
 export type { RNG } from "./utils/random.js";
 export type {
   WordTrace,
+  SelectionTrace,
+  AttemptLengths,
   StageSnapshot,
   SyllableSnapshot,
   GraphemeTrace,

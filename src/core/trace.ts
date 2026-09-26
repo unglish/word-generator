@@ -1,4 +1,31 @@
 import type { Syllable } from "../types.js";
+import type { AttemptScore } from "./length-semantics.js";
+
+export interface AttemptLengths {
+  syllables: number;
+  phonemes: number;
+  letters: number;
+  /** Resolved final-minus-root phoneme count, including boundary changes. */
+  morphologyPhonemes: number;
+}
+
+export interface SelectionTrace {
+  status: "accepted" | "fallback";
+  /** null means no attempt met an acceptance criterion. */
+  acceptedBy: "exact" | "relaxed" | null;
+  attemptsExecuted: number;
+  /** Zero-based index of the returned attempt, which may precede the final attempt. */
+  selectedAttempt: number;
+  /** Includes the selected attempt when it was returned as a fallback. */
+  rejectedAttempts: number;
+  /** Counts rejected attempts failing each condition; reasons can overlap. */
+  rejectionReasons: { phonemeTarget: number; letterLength: number; warmup: number; morphologyResolution: number };
+  targets: { rootPhonemes: number; finalPhonemes: number; scoredPhonemes: number };
+  criteria: { maxAttempts: number; warmupAttempts: number; relaxedLetterPenalty: number };
+  selected: AttemptLengths & { score: AttemptScore };
+  /** Compact proposal distribution; no rejected spelling or Word payloads are retained. */
+  proposedLengths: Array<AttemptLengths & { count: number }>;
+}
 
 export interface SyllableSnapshot {
   onset: string[];
@@ -235,8 +262,10 @@ export interface OrthographyTrace {
 export interface WordTrace {
   /** Target syllable count chosen for this word. */
   syllableCount: number;
-  /** How many letter-length rejection attempts before acceptance (0 = first try). */
+  /** Retries actually executed (0 = first try); use selection for outcome and selected index. */
   attempts: number;
+  /** Absent in historical traces and manually assembled collector snapshots. */
+  selection?: SelectionTrace;
   /** Morphology plan details (only when morphology was applied). */
   morphology?: MorphologyTrace;
   /** Structural decisions during syllable generation (boundary adjustments, extensions). */
@@ -291,11 +320,13 @@ export class TraceCollector {
 
   syllableCount: number = 0;
   attempts: number = 0;
+  selection?: SelectionTrace;
 
   toTrace(morphApplied: boolean): WordTrace {
     return {
       syllableCount: this.syllableCount,
       attempts: this.attempts,
+      selection: this.selection,
       morphology: this.morphologyTrace,
       structural: this.structural,
       stages: this.stages,
