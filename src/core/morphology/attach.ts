@@ -2,7 +2,7 @@ import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
 import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, MorphophonemicRule, PhonologicalCondition, defaultFallbackBridgeOnsets } from "../../config/language.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
 import type { MorphologyPlan } from "./plan.js";
-import type { StressPatternObserver } from "../stress-pattern.js";
+import type { AppliedStressObserver } from "../conditional-stress-pattern.js";
 import { snapshotAffixForm, snapshotWrittenParts } from "./realization.js";
 import type { MorphologyResult, MorphologyWrittenPart, ResolvedAffix } from "./realization.js";
 
@@ -245,7 +245,7 @@ function adjustStress(
   stressEffect: Affix["stressEffect"],
   affixSyllableIndices: number[],
   isPrefix: boolean,
-  observer?: StressPatternObserver,
+  observer?: AppliedStressObserver,
   effectId?: number,
 ): void {
   if (stressEffect === "none" || affixSyllableIndices.length === 0) return;
@@ -487,7 +487,7 @@ export function prepareMorphology(
     suffixIndices.push(prefixSyllables.length + syllables.length + i);
   }
 
-  const observer = context.trace?.stressPatternObserver;
+  const observer = context.trace?.appliedStressObserver();
   observer?.assemble(context.word.syllables, prefixSyllables.length);
   if (plan.prefix) {
     const effectId = observer?.affix("prefix", plan.prefix.stressEffect, prefixIndices);

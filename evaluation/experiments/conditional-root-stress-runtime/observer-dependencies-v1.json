@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "origin": "unchanged published #334 source bytes",
+  "files": [
+    {
+      "path": "evaluation/quality/probes/stress-pattern-observer/validate.ts",
+      "sha256": "7b0be5bec3ac63eb317bf7fad46d278a940f86eb486ac625ed257f89c60b67af"
+    },
+    {
+      "path": "evaluation/quality/probes/stress-pattern-observer/observe.ts",
+      "sha256": "93289f08e1c0ae09842747780ee39162ce7586536f43ee66b93498c3213d6608"
+    },
+    {
+      "path": "evaluation/experiments/conditional-root-stress/law-evidence/q09-pattern-oracle.py",
+      "sha256": "20d7ff793169ef78a0f4ee27e4420f53bb19ad431dcd18e072d42f1ffa0027e9"
+    }
+  ]
+}

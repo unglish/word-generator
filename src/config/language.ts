@@ -349,7 +349,11 @@ export interface StressNucleusRules {
 /**
  * Declarative stress assignment rules for pronunciation generation.
  */
+export type RootPatternPolicy = { type: "legacy" } | { type: "count-conditioned"; lambda: number };
+
 export interface StressRules {
+  /** Experimental root placement; omission and supported lambda=0 preserve legacy execution. */
+  rootPattern?: RootPatternPolicy;
   /** Shared quantity/weight analysis; omission preserves legacy decisions. */
   syllableWeight?: SyllableWeightPolicy;
   primary: PrimaryStressRules;
@@ -416,6 +420,7 @@ export interface ResolvedAspirationRules {
 }
 
 export interface ResolvedStressRules {
+  rootPattern: RootPatternPolicy;
   syllableWeight: SyllableWeightPolicy;
   primary: PrimaryStressRules;
   secondary: SecondaryStressRules;
@@ -975,6 +980,7 @@ export function isWholeWordAnchoredSpellingRule(rule: SpellingRule): boolean {
 // ---------------------------------------------------------------------------
 
 const DEFAULT_STRESS_RULES: ResolvedStressRules = {
+  rootPattern: { type: "legacy" },
   syllableWeight: LEGACY_SYLLABLE_WEIGHT,
   primary: {
     type: "weight-sensitive",
@@ -1023,6 +1029,7 @@ const DEFAULT_ASPIRATION_RULES: ResolvedAspirationRules = {
 
 export function resolveStressRules(rules: StressRules): ResolvedStressRules {
   return {
+    rootPattern: { ...(rules.rootPattern ?? { type: "legacy" }) },
     syllableWeight: { ...(rules.syllableWeight ?? LEGACY_SYLLABLE_WEIGHT) },
     primary: rules.primary,
     secondary: {
@@ -1306,6 +1313,15 @@ export function validateConfig(config: LanguageConfig): void {
   };
 
   const stress = config.pronunciation.stress;
+  const rootPattern = stress.rootPattern;
+  if (rootPattern !== undefined) {
+    if (!rootPattern || typeof rootPattern !== "object") throw new Error("rootPattern must be a policy object");
+    if (rootPattern.type === "legacy") assertAllowedKeys(rootPattern, ["type"], "pronunciation.stress.rootPattern");
+    else if (rootPattern.type === "count-conditioned") {
+      assertAllowedKeys(rootPattern, ["type", "lambda"], "pronunciation.stress.rootPattern");
+      if (!Number.isFinite(rootPattern.lambda) || rootPattern.lambda < 0) throw new Error("rootPattern.lambda must be finite and nonnegative");
+    } else throw new Error("Invalid rootPattern.type");
+  }
   const weightPolicy = stress.syllableWeight;
   if (weightPolicy !== undefined) {
     if (!weightPolicy || typeof weightPolicy !== "object") throw new Error("syllableWeight must be a policy object");
