@@ -56,11 +56,30 @@ not establish overall quality improvement for the combined draft stack.
 
 ## Staged verification
 
-The next prerequisite detaches structured phoneme metadata across lexical
-and surface views, including promoted replacements and reduction targets.
-It is a separate change requiring exact unmutated value/legacy-trace/RNG
-parity against this composition. The later Q09a observer will similarly
-require exact parity after removing only its new trace field. Controls
-use the frozen #307 evaluator and all four development profiles; original
-and independent PR archives remain unchanged. Neither capture has yet
-been run for this composition.
+The pre-detachment composition is committed as `ca6654c`. Its complete
+200,000-word control is archived at
+`memory/quality-runs/stress-pattern-composition`, with generator digest
+`3f5b125a15e9a2aaa98ab79d14feeb5502fc77b8584307da025162fe55f2ea63`.
+All 25 artifact hashes and all 45 generator source files were verified,
+including equality to that commit. The frozen evaluator digest is
+`ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007`.
+
+The separate metadata correction uses one typed `clonePhoneme` for
+lexical copies, promoted nucleus propagation, reduction targets and
+aspiration copies. It preserves scalar values and explicitly clones
+`nuclearQuantity`; positional metadata from Q07 is outside this stack.
+Existing reduction target lookup and every probability/RNG call remain
+unchanged. Five public mutation fixtures fail against the composition
+and pass with this correction, while the complete lexical suite passes
+16 tests. The corrected full suite records 468 passes, one skip, and the
+same three failures (including the unchanged 0.004901× `ugh` ratio).
+Dedicated quality remains 12/12; strict runtime/parity-tool TypeScript
+and touched-file ESLint pass.
+
+The correction requires exact unmutated value/full-trace/RNG parity
+against the composition. The pre-fix 20,000-draw paired trace-on/off report
+has been captured with the
+[detachment parity tool](../evaluation/quality/probes/stress-pattern/README.md).
+The post-fix full control and comparison are still pending. The later
+Q09a observer separately requires exact parity after removing only its
+new trace field. Original and independent PR archives remain unchanged.
