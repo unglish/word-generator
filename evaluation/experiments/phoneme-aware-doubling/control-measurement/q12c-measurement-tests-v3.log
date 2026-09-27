@@ -1,0 +1,55 @@
+✔ aggregates every event with explicit word denominators and retains the first full witness (3.114625ms)
+✔ splits profile and stream populations without multiplying the global denominator (0.869041ms)
+✔ uses resolved allomorph identity rather than the plan (0.328042ms)
+✔ does not silently classify missing morphology resolution as bare (0.910542ms)
+✔ rejects noninteger production counts instead of silently rounding (0.408458ms)
+✔ rejects omitted applied morphology rather than counting a bare word (0.53525ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ runs a complete bounded archive through stream validation, aggregation and production replay (306.142875ms)
+✔ rejects a wrong external manifest authority before creating an output (13.3325ms)
+✔ rejects archive-byte tampering before creating an output (132.989084ms)
+✔ retains an explicit failure and no completion report for duplicate draws (146.030625ms)
+✔ requires every scheduled stream (15.380709ms)
+✔ rejects malformed and aliased artifact paths (7.762375ms)
+✔ does not allow an output parent symlink to redirect into the archive (6.469208ms)
+✔ rejects overlapping seeds before any corpus processing (0.442167ms)
+✔ observes archived relation ["b","b","bb","sampled-success",null] (1.299209ms)
+✔ observes archived relation ["d","d","dd","sampled-success",null] (0.162458ms)
+✔ observes archived relation ["f","f","ff","sampled-success",null] (0.087625ms)
+✔ observes archived relation ["g","g","gg","sampled-success",null] (0.074875ms)
+✔ observes archived relation ["k","c","ck","sampled-success",null] (0.079458ms)
+✔ observes archived relation ["k","ck","ck","direct-counted","multi-char-grapheme"] (0.1335ms)
+✔ observes archived relation ["k","k","ck","sampled-success",null] (0.071458ms)
+✔ observes archived relation ["l","l","ll","sampled-success",null] (0.090167ms)
+✔ observes archived relation ["m","m","mm","sampled-success",null] (0.087208ms)
+✔ observes archived relation ["n","n","nn","sampled-success",null] (0.128875ms)
+✔ observes archived relation ["p","p","pp","sampled-success",null] (0.083209ms)
+✔ observes archived relation ["r","r","rr","sampled-success",null] (0.058542ms)
+✔ observes archived relation ["s","c","ck","sampled-success",null] (0.055292ms)
+✔ observes archived relation ["s","s","ss","sampled-success",null] (0.038792ms)
+✔ observes archived relation ["t","t","tt","sampled-success",null] (0.058417ms)
+✔ observes archived relation ["z","s","ss","sampled-success",null] (0.055708ms)
+✔ observes archived relation ["z","z","zz","sampled-success",null] (0.064459ms)
+✔ observes archived relation ["ʃ","s","ss","sampled-success",null] (0.048917ms)
+✔ separates the concrete s→ck mismatch from ordinary-policy exclusions (0.133792ms)
+✔ rejects missing trace rather than assigning a clean count (1.1235ms)
+✔ rejects wrong version rather than assigning a clean count (0.3285ms)
+✔ rejects missing unit rather than assigning a clean count (0.318542ms)
+✔ rejects missing phone rather than assigning a clean count (0.285041ms)
+✔ rejects wrong ownership rather than assigning a clean count (0.535458ms)
+✔ rejects wrong selected spelling rather than assigning a clean count (0.360083ms)
+✔ rejects wrong source sound rather than assigning a clean count (0.302667ms)
+✔ rejects missing increment rather than assigning a clean count (0.318958ms)
+✔ rejects missing success rather than assigning a clean count (0.3075ms)
+✔ rejects missing attempt rather than assigning a clean count (0.328708ms)
+✔ rejects wrong result rather than assigning a clean count (0.311334ms)
+✔ rejects invalid probability rather than assigning a clean count (0.291042ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 45
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 839.729542

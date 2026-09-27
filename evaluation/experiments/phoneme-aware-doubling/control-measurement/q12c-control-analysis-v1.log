@@ -1,0 +1,12 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AbortError: The operation was aborted
+    at Object.destroyer (node:internal/streams/destroy:328:11)
+    at createAsyncIterator (node:internal/streams/readable:1404:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  code: 'ABORT_ERR'
+}
+
+Node.js v24.11.1
