@@ -1,3 +1,4 @@
+import { applySpellingRules } from "./write.js";
 import { describe, expect, it } from "vitest";
 import { englishConfig } from "../index.js";
 import { englishSharedSpellings } from "../elements/graphemes/shared.js";
@@ -116,5 +117,92 @@ describe("atomic shared-spelling ledger commits", () => {
   it("does not let the old evidence verifier accept the new capability", () => {
     const base = fixture(); form(base);
     expect(() => verifyBaseSpellingEvidence(base.snapshot(), englishConfig)).toThrow(/unsupported ledger version/);
+  });
+});
+
+
+describe("shared-spelling preservation during generic edits", () => {
+  it.each([
+    { start: 0, count: 1, insert: "", reason: "consumes-shared-spelling" },
+    { start: 0, count: 2, insert: "k", reason: "consumes-shared-spelling" },
+    { start: 1, count: 0, insert: "h", reason: "splits-shared-spelling" },
+  ])("refuses qu edit $start/$count and retains the live ledger", spec => {
+    const base = fixture(["k", "w"], ["c", "w"], [0, 1]); form(base, "cw-to-qu", [0, 1]);
+    const before = structuredClone(base.constructionState());
+    expect(base.edit(spec.start, spec.count, spec.insert, "destructive-test")).toBe(false);
+    expect(base.constructionState()).toEqual(before);
+    const trace = base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    expect(trace.shared.editGuards).toMatchObject([{ cursor: { nextEditId: 1 }, rule: "destructive-test",
+      decision: { status: "refused", constructionId: 0, reason: spec.reason } }]);
+    expect(trace.edits).toHaveLength(1);
+  });
+
+  it("refuses a prefix deletion that would expose initial x", () => {
+    const base = fixture(); form(base);
+    expect(base.edit(0, 1, "", "drop-prefix")).toBe(false);
+    expect(base.snapshot().surface).toBe("ax");
+  });
+
+  it("allows an unrelated same-part prefix rewrite", () => {
+    const base = fixture(); form(base);
+    expect(base.edit(0, 1, "e", "prefix-rewrite")).toBe(true);
+    expect(base.snapshot().surface).toBe("ex");
+    expect(base.snapshot().cells[1].origin).toMatchObject({ kind: "shared", phoneIds: [1, 2] });
+  });
+
+  it("preserves syllable-relative position when rewriting within the original part", () => {
+    const base = fixture(undefined, undefined, [0, 0, 0]); base.setPhase("syllable");
+    const local = { phase: "syllable", partId: 0 } as const;
+    const attempt = planner().decide(base.constructionState(), local, "ks-to-x", [1, 2], () => 0);
+    base.recordSharedAttempt(local, "ks-to-x", [1, 2], attempt);
+    expect(base.edit(0, 1, "e", "prefix-rewrite")).toBe(true);
+    expect(base.snapshot().surface).toBe("ex");
+  });
+
+  it.each([{ start: 2, count: 1, insert: "" }, { start: 2, count: 0, insert: "h" },
+    { start: 2, count: 1, insert: "e" }])("refuses loss of authenticated gz vowel context: $insert", spec => {
+    const base = fixture(["ɛ", "g", "z", "æ"], ["e", "g", "z", "a"], [0, 0, 1, 1]); form(base, "gz-to-x");
+    expect(base.edit(spec.start, spec.count, spec.insert, "change-vowel")).toBe(false);
+    expect(base.snapshot().surface).toBe("exa");
+  });
+
+  it("allows unrelated edits after the complete gz following vowel", () => {
+    const base = fixture(["ɛ", "g", "z", "æ", "t"], ["e", "g", "z", "a", "t"], [0, 0, 1, 1, 1]); form(base, "gz-to-x");
+    expect(base.edit(3, 1, "tt", "following-coda")).toBe(true);
+    expect(base.snapshot().surface).toBe("exatt");
+  });
+
+  it("treats identical-text edits as no-ops without erasing ownership", () => {
+    const base = fixture(); form(base); const before = base.snapshot();
+    expect(base.edit(1, 1, "x", "same-text")).toBe(true);
+    expect(base.snapshot()).toEqual(before);
+  });
+
+  it("returns refusals through both observer interfaces", () => {
+    const base = fixture(["k", "w"], ["c", "w"], [0, 0]); form(base, "cw-to-qu", [0, 1]);
+    expect(base.observe()(0, 1, "", "observer-delete")).toBe(false);
+    expect(base.observeParts(["qu"])(0, 1, 0, "h", "part-insert")).toBe(false);
+    expect(base.snapshot().surface).toBe("qu");
+  });
+});
+
+
+describe("regex writer refusal propagation", () => {
+  it.each([
+    { sounds: ["k", "w", "k", "w"], forms: ["c", "w", "c", "w"], ids: [0, 1], pattern: "q|c", expected: "quaaw" },
+    { sounds: ["t", "k", "w"], forms: ["t", "c", "w"], ids: [1, 2], pattern: "t|q", expected: "aaqu" },
+  ])("keeps offsets correct when an earlier or later match is refused: $pattern", spec => {
+    const base = fixture(spec.sounds, spec.forms, spec.sounds.map(() => 0)); form(base, "cw-to-qu", spec.ids);
+    let draws = 0;
+    const result = applySpellingRules(base.snapshot().surface,
+      [{ name: "guard-test", regex: new RegExp(spec.pattern, "g"), replacement: "aa", probability: 50, scope: "word" }],
+      () => { draws++; return 0.1; }, undefined, "word", base.observe());
+    expect(result).toBe(spec.expected);
+    base.assertSurface(result);
+    expect(draws).toBe(2);
+    const trace = base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    expect(trace.shared.editGuards.map(guard => guard.decision.status).sort()).toEqual(["allowed", "refused"]);
   });
 });

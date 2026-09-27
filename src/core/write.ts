@@ -45,7 +45,7 @@ function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
 /**
  * Apply a list of compiled spelling rules to a string, handling probabilistic replacements.
  */
-function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string, observe?: SpellingEditObserver): string {
+export function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string, observe?: SpellingEditObserver): string {
   let result = str;
   for (const { name, regex, replacement, probability } of rules) {
     regex.lastIndex = 0;
@@ -68,7 +68,7 @@ function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RN
           if (args[i] !== undefined) rep = rep.replace(`$${i + 1}`, String(args[i]));
         }
       }
-      observe?.(offset + delta, match.length, rep, `spellingRule:${name}`);
+      if (observe?.(offset + delta, match.length, rep, `spellingRule:${name}`) === false) return match;
       delta += rep.length - match.length;
       return rep;
     });
