@@ -1,0 +1,108 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ❯ src/core/spelling-construction-evidence.test.ts (10 tests | 10 failed) 7ms
+   × v4 ledger semantic replay > reconstructs the full shared, generic, batch and gap history 4ms
+     → Invalid spelling evidence: writer boundary
+   × v4 ledger semantic replay > reconstructs appends after a syllable formation with exact allocation 0ms
+     → Invalid spelling evidence: writer boundary
+   × v4 ledger semantic replay > authenticates normalization certificates and the complete check schedule 0ms
+     → Invalid spelling evidence: writer boundary
+   × v4 ledger semantic replay > authenticates a whole coverage plan after shared formation 0ms
+     → Invalid spelling evidence: writer boundary
+   × v4 ledger semantic replay > rejects append-id chronology corruption 0ms
+     → Invalid spelling evidence: writer boundary
+   × v4 ledger semantic replay > rejects missing-check chronology corruption 0ms
+     → Invalid spelling evidence: writer boundary
+   × v4 ledger semantic replay > rejects missing-event chronology corruption 0ms
+     → Invalid spelling evidence: writer boundary
+   × v4 ledger semantic replay > rejects reorder chronology corruption 0ms
+     → Invalid spelling evidence: writer boundary
+   × v4 ledger semantic replay > rejects final-live chronology corruption 0ms
+     → Invalid spelling evidence: writer boundary
+   × v4 ledger semantic replay > rejects standalone chronology corruption 0ms
+     → Invalid spelling evidence: writer boundary
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > reconstructs the full shared, generic, batch and gap history
+Error: Invalid spelling evidence: writer boundary
+ ❯ spellingBoundaryContexts src/core/spelling-context.ts:17:13
+     15|     if (!phone.boundary || phone.id !== index || phone.soundAtSpelling…
+     16|         !shapes[phone.syllableIndex] || phone.segmentIndex !== shapes[…
+     17|       throw new Error("Invalid spelling evidence: writer boundary");
+       |             ^
+     18|     }
+     19|     shapes[phone.syllableIndex][phone.segment]++;
+ ❯ fixture src/core/spelling-construction-evidence.test.ts:29:20
+ ❯ src/core/spelling-construction-evidence.test.ts:74:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > reconstructs appends after a syllable formation with exact allocation
+Error: Invalid spelling evidence: writer boundary
+ ❯ spellingBoundaryContexts src/core/spelling-context.ts:17:13
+     15|     if (!phone.boundary || phone.id !== index || phone.soundAtSpelling…
+     16|         !shapes[phone.syllableIndex] || phone.segmentIndex !== shapes[…
+     17|       throw new Error("Invalid spelling evidence: writer boundary");
+       |             ^
+     18|     }
+     19|     shapes[phone.syllableIndex][phone.segment]++;
+ ❯ fixture src/core/spelling-construction-evidence.test.ts:29:20
+ ❯ src/core/spelling-construction-evidence.test.ts:88:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > authenticates normalization certificates and the complete check schedule
+Error: Invalid spelling evidence: writer boundary
+ ❯ spellingBoundaryContexts src/core/spelling-context.ts:17:13
+     15|     if (!phone.boundary || phone.id !== index || phone.soundAtSpelling…
+     16|         !shapes[phone.syllableIndex] || phone.segmentIndex !== shapes[…
+     17|       throw new Error("Invalid spelling evidence: writer boundary");
+       |             ^
+     18|     }
+     19|     shapes[phone.syllableIndex][phone.segment]++;
+ ❯ fixture src/core/spelling-construction-evidence.test.ts:29:20
+ ❯ src/core/spelling-construction-evidence.test.ts:94:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > authenticates a whole coverage plan after shared formation
+Error: Invalid spelling evidence: writer boundary
+ ❯ spellingBoundaryContexts src/core/spelling-context.ts:17:13
+     15|     if (!phone.boundary || phone.id !== index || phone.soundAtSpelling…
+     16|         !shapes[phone.syllableIndex] || phone.segmentIndex !== shapes[…
+     17|       throw new Error("Invalid spelling evidence: writer boundary");
+       |             ^
+     18|     }
+     19|     shapes[phone.syllableIndex][phone.segment]++;
+ ❯ fixture src/core/spelling-construction-evidence.test.ts:29:20
+ ❯ src/core/spelling-construction-evidence.test.ts:100:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects append-id chronology corruption
+ FAIL  src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects missing-check chronology corruption
+ FAIL  src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects missing-event chronology corruption
+ FAIL  src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects reorder chronology corruption
+ FAIL  src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects final-live chronology corruption
+ FAIL  src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects standalone chronology corruption
+Error: Invalid spelling evidence: writer boundary
+ ❯ spellingBoundaryContexts src/core/spelling-context.ts:17:13
+     15|     if (!phone.boundary || phone.id !== index || phone.soundAtSpelling…
+     16|         !shapes[phone.syllableIndex] || phone.segmentIndex !== shapes[…
+     17|       throw new Error("Invalid spelling evidence: writer boundary");
+       |             ^
+     18|     }
+     19|     shapes[phone.syllableIndex][phone.segment]++;
+ ❯ fixture src/core/spelling-construction-evidence.test.ts:29:20
+ ❯ src/core/spelling-construction-evidence.test.ts:109:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  10 failed (10)
+   Start at  20:05:14
+   Duration  523ms (transform 291ms, setup 0ms, collect 339ms, tests 7ms, environment 0ms, prepare 49ms)
+
