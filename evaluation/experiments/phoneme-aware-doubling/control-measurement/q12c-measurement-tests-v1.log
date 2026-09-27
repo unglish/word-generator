@@ -1,0 +1,44 @@
+✔ aggregates every event with explicit word denominators and retains the first full witness (2.52875ms)
+✔ splits profile and stream populations without multiplying the global denominator (0.840917ms)
+✔ uses resolved allomorph identity rather than the plan (0.346834ms)
+✔ does not silently classify missing morphology resolution as bare (0.812625ms)
+✔ rejects noninteger production counts instead of silently rounding (0.4135ms)
+✔ observes archived relation ["b","b","bb","sampled-success",null] (1.259458ms)
+✔ observes archived relation ["d","d","dd","sampled-success",null] (0.169292ms)
+✔ observes archived relation ["f","f","ff","sampled-success",null] (0.097ms)
+✔ observes archived relation ["g","g","gg","sampled-success",null] (0.085125ms)
+✔ observes archived relation ["k","c","ck","sampled-success",null] (0.09525ms)
+✔ observes archived relation ["k","ck","ck","direct-counted","multi-char-grapheme"] (0.067584ms)
+✔ observes archived relation ["k","k","ck","sampled-success",null] (0.066208ms)
+✔ observes archived relation ["l","l","ll","sampled-success",null] (0.087208ms)
+✔ observes archived relation ["m","m","mm","sampled-success",null] (0.171042ms)
+✔ observes archived relation ["n","n","nn","sampled-success",null] (0.205792ms)
+✔ observes archived relation ["p","p","pp","sampled-success",null] (0.101125ms)
+✔ observes archived relation ["r","r","rr","sampled-success",null] (0.0715ms)
+✔ observes archived relation ["s","c","ck","sampled-success",null] (0.071959ms)
+✔ observes archived relation ["s","s","ss","sampled-success",null] (0.046708ms)
+✔ observes archived relation ["t","t","tt","sampled-success",null] (0.612125ms)
+✔ observes archived relation ["z","s","ss","sampled-success",null] (0.07925ms)
+✔ observes archived relation ["z","z","zz","sampled-success",null] (0.044917ms)
+✔ observes archived relation ["ʃ","s","ss","sampled-success",null] (0.04ms)
+✔ separates the concrete s→ck mismatch from ordinary-policy exclusions (0.149583ms)
+✔ rejects missing trace rather than assigning a clean count (1.004584ms)
+✔ rejects wrong version rather than assigning a clean count (0.327416ms)
+✔ rejects missing unit rather than assigning a clean count (0.298959ms)
+✔ rejects missing phone rather than assigning a clean count (0.2725ms)
+✔ rejects wrong ownership rather than assigning a clean count (0.538959ms)
+✔ rejects wrong selected spelling rather than assigning a clean count (0.374584ms)
+✔ rejects wrong source sound rather than assigning a clean count (0.297667ms)
+✔ rejects missing increment rather than assigning a clean count (0.299833ms)
+✔ rejects missing success rather than assigning a clean count (0.325083ms)
+✔ rejects missing attempt rather than assigning a clean count (0.333791ms)
+✔ rejects wrong result rather than assigning a clean count (0.978166ms)
+✔ rejects invalid probability rather than assigning a clean count (0.428708ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 76.320792

@@ -1,0 +1,121 @@
+{
+  "version": "q12c-implementation-checkpoint-v1",
+  "head": "91fd20a93d8b91c1fd3f2477ea66d83d1f8f3a4c",
+  "formalCaptureFrozen": false,
+  "targetedTests": 184,
+  "fullSuite": {
+    "passed": 676,
+    "failed": 5,
+    "skipped": 1
+  },
+  "quality": {
+    "passed": 11,
+    "failed": 1,
+    "fiveConsonantLetterWords": 65
+  },
+  "typecheckPassed": true,
+  "targetedLintPassed": true,
+  "logs": {
+    "q12c-targeted-v1.log": {
+      "bytes": 555,
+      "sha256": "43f0004a990cd4e541c8af018b1760f3c0f8cb2e515664a516fd8be63b9d0eb5"
+    },
+    "q12c-targeted-v2.log": {
+      "bytes": 11591,
+      "sha256": "db2077630cd740bcfc2fd988016a30df6625fea5d6b1aca4f94b92a6f9e80f04"
+    },
+    "q12c-targeted-v3.log": {
+      "bytes": 446,
+      "sha256": "5f0177a3c4322967d9976a90c35a405ecba46e35b170be4a7fbb57ca96b644d0"
+    },
+    "q12c-targeted-v4.log": {
+      "bytes": 861,
+      "sha256": "ee97ccbf03ce48449f9f28b32a1a837300f436660073f25cf7bbe99fc4249423"
+    },
+    "q12c-targeted-v5.log": {
+      "bytes": 861,
+      "sha256": "ced03d4819155c1a79ac1b454e71b8adaea1301ab718cce26a429a0c2ace2d30"
+    },
+    "q12c-targeted-v6.log": {
+      "bytes": 914,
+      "sha256": "3e239d487fd32e39e1bbfba96fc23996ed7add7d8f19db8ba489056e6b5c7d43"
+    },
+    "q12c-full-suite-v1.log": {
+      "bytes": 24207,
+      "sha256": "1af3323eea486333994263188d7be1c9a5c7f9f420bc6e8675521f0dfcf1a1fa"
+    },
+    "q12c-full-suite-v2.log": {
+      "bytes": 21350,
+      "sha256": "4aad370395b87454b5f4e2b7dec6603532c7ddfe8164686ca0e0f5ff6df2a998"
+    },
+    "q12c-quality-v1.log": {
+      "bytes": 4132,
+      "sha256": "97b6f2739dde23d3c88abd6f16ceb8af87e4b0fc618e82c2c77d1db6c8ddf0ff"
+    },
+    "q12c-quality-v2.log": {
+      "bytes": 3644,
+      "sha256": "c8cbea5114ebc87cdbe27e2e27052fc884f48000ab20f5656fc8249d9a5d7008"
+    },
+    "q12c-quality-report-v2.json": {
+      "bytes": 477,
+      "sha256": "1eba4d67e49985a3aa6d2b52f0318c92ef18af142418a14b9321ed3c27cadacd"
+    },
+    "q12c-lint-v2.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q12c-lint-v3.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "implementationFiles": {
+    "README.md": {
+      "sha256": "8c27a969c5c7b7f33065d64cd946efa13950bca12ee0278d50067701d485d01a"
+    },
+    "docs/phoneme-aware-doubling.md": {
+      "sha256": "4c36f945924d01ce4d0b688288c014f94e6825c9bb416c73077513efdd8cfaa7"
+    },
+    "src/config/english.ts": {
+      "sha256": "61780ce7d5f0558cac52515e252a54768900a10a175a1c52c7ac9a5a613384d9"
+    },
+    "src/config/language.ts": {
+      "sha256": "d153a41097792b6a103ba2eb4a687af487e0e207ac1ba6be92426b51c5642576"
+    },
+    "src/core/base-spelling.test.ts": {
+      "sha256": "8d2567aa9904ad2af905f7ec7153d854770552c24e2c535471f1fe42cc74418b"
+    },
+    "src/core/grapheme-selection.ts": {
+      "sha256": "78c16c5099bc7cde2069fd225d67b928f46cb69591d666189d75a37d17981891"
+    },
+    "src/core/spelling-coverage.ts": {
+      "sha256": "6fed7c743c51bafb0a430b571ded2e520377f1a95b21609d8244c356f10b21a5"
+    },
+    "src/core/spelling-doubling.test.ts": {
+      "sha256": "ec39b2c3823d2b8939a6ea56391dbfaef67a688cc33425833d6ecb8b71769291"
+    },
+    "src/core/spelling-doubling.ts": {
+      "sha256": "4235539cdaab56fc063f4fc9b99469829a6a1b34126aff912df59203c388c8b9"
+    },
+    "src/core/spelling-normalization.test.ts": {
+      "sha256": "c207933ab3db3ee343884831ce78cf5538f7e26fb6fb7e57c82e7e0bba0fe6cb"
+    },
+    "src/core/spelling-normalization.ts": {
+      "sha256": "2ac52142ab7f6b049ab4d93af8c152580b6dbac1804ce41d53a1f539226275d4"
+    },
+    "src/elements/graphemes/doubling.ts": {
+      "sha256": "296160eab49a6fbe66f40292fc43af072b348bd11becb543958503aaf032f825"
+    },
+    "src/index.ts": {
+      "sha256": "2e71b55007b0d384d320e9d839ddf78d3a60a988331bf07126add6b4c2de2c05"
+    }
+  },
+  "outstanding": [
+    "exact-control legacy parity",
+    "formal observer and independent recount",
+    "formal freeze and 200000 candidate capture",
+    "common corpus comparison",
+    "paired timing",
+    "measured PR"
+  ]
+}

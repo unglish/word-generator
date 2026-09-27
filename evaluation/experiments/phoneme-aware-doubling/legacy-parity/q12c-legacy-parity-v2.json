@@ -1,0 +1,589 @@
+{
+  "version": "q12c-legacy-parity-v2",
+  "passed": true,
+  "generationCalls": 83072,
+  "coordinates": 20768,
+  "registeredCoordinates": 20000,
+  "customCoordinates": 768,
+  "nextValueProbes": 128,
+  "authoritySha256": "1b75d22bf965013acf074c13019b50c8228a1549c617fa0fb0bdbe9b187e46bc",
+  "results": [
+    {
+      "id": "lexicon-default",
+      "seed": 69212153,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 90895,
+      "nextValues": [
+        0.8332789263222367,
+        0.8332789263222367,
+        0.8332789263222367,
+        0.8332789263222367
+      ],
+      "wordDigests": [
+        "3dd49b1b4f38d03298fd88f5c9e7203cdeae790f5fa7e0997f747f497df88b17",
+        "76d66b82fe03dd55a8957c701fb7ad965f919337b9453e46589002a3fba9948f",
+        "3dd49b1b4f38d03298fd88f5c9e7203cdeae790f5fa7e0997f747f497df88b17",
+        "76d66b82fe03dd55a8957c701fb7ad965f919337b9453e46589002a3fba9948f"
+      ]
+    },
+    {
+      "id": "lexicon-default",
+      "seed": 101601885,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 96489,
+      "nextValues": [
+        0.05049390043132007,
+        0.05049390043132007,
+        0.05049390043132007,
+        0.05049390043132007
+      ],
+      "wordDigests": [
+        "e4ccb840cdbe9b2afe1e568a724472c9fa222b302f130871e6beee9d7a3c168e",
+        "1f277fe454ed53f8dd165e6e0ac7c3d1b27f7ca4b6e0daf91c5f54b7cd566932",
+        "e4ccb840cdbe9b2afe1e568a724472c9fa222b302f130871e6beee9d7a3c168e",
+        "1f277fe454ed53f8dd165e6e0ac7c3d1b27f7ca4b6e0daf91c5f54b7cd566932"
+      ]
+    },
+    {
+      "id": "lexicon-default",
+      "seed": 3921817393,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 88815,
+      "nextValues": [
+        0.9322042351122946,
+        0.9322042351122946,
+        0.9322042351122946,
+        0.9322042351122946
+      ],
+      "wordDigests": [
+        "eece33c098fca86c3fccbb8d5a332baf22c6df8a336673d58db55f855e1dbb15",
+        "62ff0aa31715088ba16a5db2a8db436a6b21596f0a8e17ec769730d7820fbd4e",
+        "eece33c098fca86c3fccbb8d5a332baf22c6df8a336673d58db55f855e1dbb15",
+        "62ff0aa31715088ba16a5db2a8db436a6b21596f0a8e17ec769730d7820fbd4e"
+      ]
+    },
+    {
+      "id": "lexicon-default",
+      "seed": 3948943232,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 85452,
+      "nextValues": [
+        0.9087937397416681,
+        0.9087937397416681,
+        0.9087937397416681,
+        0.9087937397416681
+      ],
+      "wordDigests": [
+        "3a46e740ab5dd8092687382d4e488432c186111faf96f4216319563465a0fdd9",
+        "a607587d2d229f6edecd042453ab6f1d325b07d1a08809ebfcee7341360a7343",
+        "3a46e740ab5dd8092687382d4e488432c186111faf96f4216319563465a0fdd9",
+        "a607587d2d229f6edecd042453ab6f1d325b07d1a08809ebfcee7341360a7343"
+      ]
+    },
+    {
+      "id": "lexicon-default",
+      "seed": 2089697863,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 88678,
+      "nextValues": [
+        0.20930571807548404,
+        0.20930571807548404,
+        0.20930571807548404,
+        0.20930571807548404
+      ],
+      "wordDigests": [
+        "721cbbd3925207c71543bccc87a6412dc7dd4da2443f44cf6ea42693cd468b13",
+        "5e35061e69d91feeb739324dcd4f9fc8fb9e9bc7c367450bd37f66a8314515f2",
+        "721cbbd3925207c71543bccc87a6412dc7dd4da2443f44cf6ea42693cd468b13",
+        "5e35061e69d91feeb739324dcd4f9fc8fb9e9bc7c367450bd37f66a8314515f2"
+      ]
+    },
+    {
+      "id": "lexicon-bare",
+      "seed": 2380207674,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 84815,
+      "nextValues": [
+        0.20212258398532867,
+        0.20212258398532867,
+        0.20212258398532867,
+        0.20212258398532867
+      ],
+      "wordDigests": [
+        "fdb6ad3b01bb9ed767b70d1ba3c22c56b68bc816269f885e92b7458c827c2478",
+        "7c07b1051e00b43aebcb6b16068cafc2f7275dcbf206560714a1bfc56eed973e",
+        "fdb6ad3b01bb9ed767b70d1ba3c22c56b68bc816269f885e92b7458c827c2478",
+        "7c07b1051e00b43aebcb6b16068cafc2f7275dcbf206560714a1bfc56eed973e"
+      ]
+    },
+    {
+      "id": "lexicon-bare",
+      "seed": 772709128,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 88173,
+      "nextValues": [
+        0.7600296044256538,
+        0.7600296044256538,
+        0.7600296044256538,
+        0.7600296044256538
+      ],
+      "wordDigests": [
+        "7f5204ccd935b999add555584b2efbcd1d4bc6221fb9d5aa63be88d810820439",
+        "1a89ee277f183ec9d7598eb73228f23cc62b45c6a9e979a52fe425955e33b1b4",
+        "7f5204ccd935b999add555584b2efbcd1d4bc6221fb9d5aa63be88d810820439",
+        "1a89ee277f183ec9d7598eb73228f23cc62b45c6a9e979a52fe425955e33b1b4"
+      ]
+    },
+    {
+      "id": "lexicon-bare",
+      "seed": 1304238451,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 76007,
+      "nextValues": [
+        0.7963850027881563,
+        0.7963850027881563,
+        0.7963850027881563,
+        0.7963850027881563
+      ],
+      "wordDigests": [
+        "cbda260fd3a1968023a78db20506d512fbea95765814734ff5ba9bb9ddf504be",
+        "f838d5b5d2ddc9fa18416a6bd6bdc450a861312ea99b60138f046663f90b5264",
+        "cbda260fd3a1968023a78db20506d512fbea95765814734ff5ba9bb9ddf504be",
+        "f838d5b5d2ddc9fa18416a6bd6bdc450a861312ea99b60138f046663f90b5264"
+      ]
+    },
+    {
+      "id": "lexicon-bare",
+      "seed": 1696751198,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 86510,
+      "nextValues": [
+        0.678884492488578,
+        0.678884492488578,
+        0.678884492488578,
+        0.678884492488578
+      ],
+      "wordDigests": [
+        "6b640ef40dd93093dd42c9bd7d065b5338b598103203a65da7e724c9115e3185",
+        "c78c0c0fde9b791d4ae8d8d469656a68c48e16df109327f85df91a0d47d1237b",
+        "6b640ef40dd93093dd42c9bd7d065b5338b598103203a65da7e724c9115e3185",
+        "c78c0c0fde9b791d4ae8d8d469656a68c48e16df109327f85df91a0d47d1237b"
+      ]
+    },
+    {
+      "id": "lexicon-bare",
+      "seed": 1498885173,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 86370,
+      "nextValues": [
+        0.9157105246558785,
+        0.9157105246558785,
+        0.9157105246558785,
+        0.9157105246558785
+      ],
+      "wordDigests": [
+        "efa35f3943c9c7958f4458832580621a58e7cbac18ba5bf9afe16a6b33d87d66",
+        "bdf6ee011204bdcadf04b8fc3f6855603a8c52f7ebdc385db958ac1920e0fc0b",
+        "efa35f3943c9c7958f4458832580621a58e7cbac18ba5bf9afe16a6b33d87d66",
+        "bdf6ee011204bdcadf04b8fc3f6855603a8c52f7ebdc385db958ac1920e0fc0b"
+      ]
+    },
+    {
+      "id": "monosyllables-bare",
+      "seed": 462530651,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 118573,
+      "nextValues": [
+        0.5862902915105224,
+        0.5862902915105224,
+        0.5862902915105224,
+        0.5862902915105224
+      ],
+      "wordDigests": [
+        "fbb82bbcf7396e2b8270fb012b6a40203ce05ac4fc5d37a1f45e9a91ca90bc77",
+        "d7cc4ae146177dbd10478b36b7e7fa2cf946c12fe67eb64ef8537e5d77490aaf",
+        "fbb82bbcf7396e2b8270fb012b6a40203ce05ac4fc5d37a1f45e9a91ca90bc77",
+        "d7cc4ae146177dbd10478b36b7e7fa2cf946c12fe67eb64ef8537e5d77490aaf"
+      ]
+    },
+    {
+      "id": "monosyllables-bare",
+      "seed": 62358955,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 122631,
+      "nextValues": [
+        0.11862728861160576,
+        0.11862728861160576,
+        0.11862728861160576,
+        0.11862728861160576
+      ],
+      "wordDigests": [
+        "7cdc2b7a058e8b38077be61156cf7bd6c509e5841ba84d8810d5cffbc1de1a54",
+        "5e2b48ec9d1851767c342f48ac30fe94a28a2568f460daf4e4c72fa8550d652a",
+        "7cdc2b7a058e8b38077be61156cf7bd6c509e5841ba84d8810d5cffbc1de1a54",
+        "5e2b48ec9d1851767c342f48ac30fe94a28a2568f460daf4e4c72fa8550d652a"
+      ]
+    },
+    {
+      "id": "monosyllables-bare",
+      "seed": 3297327738,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 124280,
+      "nextValues": [
+        0.48603693465702236,
+        0.48603693465702236,
+        0.48603693465702236,
+        0.48603693465702236
+      ],
+      "wordDigests": [
+        "9ec6e43f87003934f0d98b2fe90e6851e9d1edc002e3e61b88c40f47783035c1",
+        "03a5cbf726c9a5b331f44c51400f3fbd9d710756d820fbfbc4ab5b40d67aa34e",
+        "9ec6e43f87003934f0d98b2fe90e6851e9d1edc002e3e61b88c40f47783035c1",
+        "03a5cbf726c9a5b331f44c51400f3fbd9d710756d820fbfbc4ab5b40d67aa34e"
+      ]
+    },
+    {
+      "id": "monosyllables-bare",
+      "seed": 2001884366,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 123295,
+      "nextValues": [
+        0.47676413622684777,
+        0.47676413622684777,
+        0.47676413622684777,
+        0.47676413622684777
+      ],
+      "wordDigests": [
+        "4896e0d558b0d43458f4a328e90fddd326b2c2464ae5b978865aef5b2061d1ce",
+        "78668c773f09222c5bd290d64b2f8ecf345f24b2de51dad4bbfc22986a84e403",
+        "4896e0d558b0d43458f4a328e90fddd326b2c2464ae5b978865aef5b2061d1ce",
+        "78668c773f09222c5bd290d64b2f8ecf345f24b2de51dad4bbfc22986a84e403"
+      ]
+    },
+    {
+      "id": "monosyllables-bare",
+      "seed": 2353354178,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 120313,
+      "nextValues": [
+        0.547272322466597,
+        0.547272322466597,
+        0.547272322466597,
+        0.547272322466597
+      ],
+      "wordDigests": [
+        "83c8526cd1dcdbd231f06efa669698979e7f7edb04ff0f5aacc8f4c5452ef89d",
+        "8b45a2816d6e958f8ec9b850f43c59e836ea530de0ccccd316ac91c0e737c76a",
+        "83c8526cd1dcdbd231f06efa669698979e7f7edb04ff0f5aacc8f4c5452ef89d",
+        "8b45a2816d6e958f8ec9b850f43c59e836ea530de0ccccd316ac91c0e737c76a"
+      ]
+    },
+    {
+      "id": "text-default",
+      "seed": 4167471042,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 63454,
+      "nextValues": [
+        0.7861647487152368,
+        0.7861647487152368,
+        0.7861647487152368,
+        0.7861647487152368
+      ],
+      "wordDigests": [
+        "5067246aed972544a62fe3d19d49998e11c77859888c18a94e6f406c98e6e7cb",
+        "33daaef68af40d6f109a1055420f7fce4ea38d9e5f70b306865906ff284a4c25",
+        "5067246aed972544a62fe3d19d49998e11c77859888c18a94e6f406c98e6e7cb",
+        "33daaef68af40d6f109a1055420f7fce4ea38d9e5f70b306865906ff284a4c25"
+      ]
+    },
+    {
+      "id": "text-default",
+      "seed": 2666001996,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 63181,
+      "nextValues": [
+        0.012359779328107834,
+        0.012359779328107834,
+        0.012359779328107834,
+        0.012359779328107834
+      ],
+      "wordDigests": [
+        "bf2c1898df784b01b3448452c8b87be6eefa6d580de0c9095829dd963a9aea21",
+        "e83a2d03596a61f9ee97ecfbaccd94114644db172e0dbcd0e526bcf51a4f944c",
+        "bf2c1898df784b01b3448452c8b87be6eefa6d580de0c9095829dd963a9aea21",
+        "e83a2d03596a61f9ee97ecfbaccd94114644db172e0dbcd0e526bcf51a4f944c"
+      ]
+    },
+    {
+      "id": "text-default",
+      "seed": 3562318933,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 67809,
+      "nextValues": [
+        0.8404423450119793,
+        0.8404423450119793,
+        0.8404423450119793,
+        0.8404423450119793
+      ],
+      "wordDigests": [
+        "7038c5d8e50017259aeb15a8f5aa7494f9222de33610223af9919e7954d8d0a3",
+        "cf1a5cc1fd0265fa58e58f319c71ec3db81b21c681f9f93275194f388d1f6d74",
+        "7038c5d8e50017259aeb15a8f5aa7494f9222de33610223af9919e7954d8d0a3",
+        "cf1a5cc1fd0265fa58e58f319c71ec3db81b21c681f9f93275194f388d1f6d74"
+      ]
+    },
+    {
+      "id": "text-default",
+      "seed": 1999736106,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 61842,
+      "nextValues": [
+        0.6285553500056267,
+        0.6285553500056267,
+        0.6285553500056267,
+        0.6285553500056267
+      ],
+      "wordDigests": [
+        "895d06b08eb22cc68cbb49839756e9c06f03916284bb12667aebd55258bd04be",
+        "4cf1b9e920bd0edad7d22ae3c13105d8af3da96bc8171cb86f9a8ef45827b5a0",
+        "895d06b08eb22cc68cbb49839756e9c06f03916284bb12667aebd55258bd04be",
+        "4cf1b9e920bd0edad7d22ae3c13105d8af3da96bc8171cb86f9a8ef45827b5a0"
+      ]
+    },
+    {
+      "id": "text-default",
+      "seed": 1665836705,
+      "coordinates": 1000,
+      "rngCallsPerVariant": 65905,
+      "nextValues": [
+        0.08305832790210843,
+        0.08305832790210843,
+        0.08305832790210843,
+        0.08305832790210843
+      ],
+      "wordDigests": [
+        "01bcde58b46192ca9422cdcbdc9da4bff0d5a3c8917aef831cc8aaeb66cafb01",
+        "187ae5b86110e40c183a5a6980ba3bd273ff06886814bb1f0d64a470cc5742e5",
+        "01bcde58b46192ca9422cdcbdc9da4bff0d5a3c8917aef831cc8aaeb66cafb01",
+        "187ae5b86110e40c183a5a6980ba3bd273ff06886814bb1f0d64a470cc5742e5"
+      ]
+    },
+    {
+      "id": "identity-form",
+      "seed": 7,
+      "coordinates": 64,
+      "rngCallsPerVariant": 4762,
+      "nextValues": [
+        0.7143441243097186,
+        0.7143441243097186,
+        0.7143441243097186,
+        0.7143441243097186
+      ],
+      "wordDigests": [
+        "932d39cb71b85e0e2a79f3dafec63017e36796b3f6de345c8069dacf60db3b7b",
+        "96993576fe390b1851484c9ee44c0184a38a89c77977845087604231681ad884",
+        "932d39cb71b85e0e2a79f3dafec63017e36796b3f6de345c8069dacf60db3b7b",
+        "96993576fe390b1851484c9ee44c0184a38a89c77977845087604231681ad884"
+      ]
+    },
+    {
+      "id": "identity-form",
+      "seed": 1214,
+      "coordinates": 64,
+      "rngCallsPerVariant": 5605,
+      "nextValues": [
+        0.7113037863746285,
+        0.7113037863746285,
+        0.7113037863746285,
+        0.7113037863746285
+      ],
+      "wordDigests": [
+        "aa2a1a9366d9153ba5db38d82c0df1b16112f313d01cd55a82d06349eca0ebd9",
+        "4e319a17a4b6264f3c560c84ca161ec7bb2314a49d8430c27b191b6fe0d87f64",
+        "aa2a1a9366d9153ba5db38d82c0df1b16112f313d01cd55a82d06349eca0ebd9",
+        "4e319a17a4b6264f3c560c84ca161ec7bb2314a49d8430c27b191b6fe0d87f64"
+      ]
+    },
+    {
+      "id": "identity-form",
+      "seed": 6123,
+      "coordinates": 64,
+      "rngCallsPerVariant": 6364,
+      "nextValues": [
+        0.7734701544977725,
+        0.7734701544977725,
+        0.7734701544977725,
+        0.7734701544977725
+      ],
+      "wordDigests": [
+        "744ba0ea1ae7481e9ac864efe95fbca5632d76d1671971a3cbfd3b64473afcbb",
+        "c9823a2c0da2f58e2fd00a8ebfdc317db14c16373e58c723972c3f234058b912",
+        "744ba0ea1ae7481e9ac864efe95fbca5632d76d1671971a3cbfd3b64473afcbb",
+        "c9823a2c0da2f58e2fd00a8ebfdc317db14c16373e58c723972c3f234058b912"
+      ]
+    },
+    {
+      "id": "identity-form",
+      "seed": 8675309,
+      "coordinates": 64,
+      "rngCallsPerVariant": 6188,
+      "nextValues": [
+        0.003575448878109455,
+        0.003575448878109455,
+        0.003575448878109455,
+        0.003575448878109455
+      ],
+      "wordDigests": [
+        "258d384e95e945a35b93366ef7728594e31c567621e5b629961e56e52c25b4ee",
+        "32657bdc22638a51a00ce249d5b5bb6302212010f78c912e41d2dc3d5edb967d",
+        "258d384e95e945a35b93366ef7728594e31c567621e5b629961e56e52c25b4ee",
+        "32657bdc22638a51a00ce249d5b5bb6302212010f78c912e41d2dc3d5edb967d"
+      ]
+    },
+    {
+      "id": "custom-repeat",
+      "seed": 7,
+      "coordinates": 64,
+      "rngCallsPerVariant": 5839,
+      "nextValues": [
+        0.06888204184360802,
+        0.06888204184360802,
+        0.06888204184360802,
+        0.06888204184360802
+      ],
+      "wordDigests": [
+        "d507ebe9d75dd6f66be5cf6c541450a0022620c0beb58582eac7c3a16a2bc685",
+        "234f0a871313bd84ba635e17286fcace8ea0c8f698cd47310df89e7c33b541db",
+        "d507ebe9d75dd6f66be5cf6c541450a0022620c0beb58582eac7c3a16a2bc685",
+        "234f0a871313bd84ba635e17286fcace8ea0c8f698cd47310df89e7c33b541db"
+      ]
+    },
+    {
+      "id": "custom-repeat",
+      "seed": 1214,
+      "coordinates": 64,
+      "rngCallsPerVariant": 5542,
+      "nextValues": [
+        0.951108114561066,
+        0.951108114561066,
+        0.951108114561066,
+        0.951108114561066
+      ],
+      "wordDigests": [
+        "1361c4c26224c95b79d87a898e6903a6438ea942b3bc68eaf56daed8d4f05b7e",
+        "fb2f32f8e14b89f9f90ca52a1d978bbbea98d33ed0f558126238ee93acf72804",
+        "1361c4c26224c95b79d87a898e6903a6438ea942b3bc68eaf56daed8d4f05b7e",
+        "fb2f32f8e14b89f9f90ca52a1d978bbbea98d33ed0f558126238ee93acf72804"
+      ]
+    },
+    {
+      "id": "custom-repeat",
+      "seed": 6123,
+      "coordinates": 64,
+      "rngCallsPerVariant": 6364,
+      "nextValues": [
+        0.7734701544977725,
+        0.7734701544977725,
+        0.7734701544977725,
+        0.7734701544977725
+      ],
+      "wordDigests": [
+        "2b1b784fb4b86ffc9e021cf124858ef04122aedb95d88e33f9fd93642a5f585b",
+        "978809c3bf5ec6ef3ad90400ac3cd3161f151bb373c3805051422532d5eecc40",
+        "2b1b784fb4b86ffc9e021cf124858ef04122aedb95d88e33f9fd93642a5f585b",
+        "978809c3bf5ec6ef3ad90400ac3cd3161f151bb373c3805051422532d5eecc40"
+      ]
+    },
+    {
+      "id": "custom-repeat",
+      "seed": 8675309,
+      "coordinates": 64,
+      "rngCallsPerVariant": 4675,
+      "nextValues": [
+        0.1158538565505296,
+        0.1158538565505296,
+        0.1158538565505296,
+        0.1158538565505296
+      ],
+      "wordDigests": [
+        "b66e1424a74b42d1ffa0609456712fe7c9efbb674fc3a70e1b5a72643f0a8c4c",
+        "5741c66389d55c872dc8e4ea124de39d04841baa6fe2bd589dfe649e5bfb0a7a",
+        "b66e1424a74b42d1ffa0609456712fe7c9efbb674fc3a70e1b5a72643f0a8c4c",
+        "5741c66389d55c872dc8e4ea124de39d04841baa6fe2bd589dfe649e5bfb0a7a"
+      ]
+    },
+    {
+      "id": "disabled",
+      "seed": 7,
+      "coordinates": 64,
+      "rngCallsPerVariant": 4097,
+      "nextValues": [
+        0.6234512177761644,
+        0.6234512177761644,
+        0.6234512177761644,
+        0.6234512177761644
+      ],
+      "wordDigests": [
+        "ac7d0d9a92cd376707589c2444dfc2e2702692edba85e20705c1200e24ecd126",
+        "7aa5a0b1fc56f7331fd6868ab766f92f3d202cb0c4fd3c729415836614791282",
+        "ac7d0d9a92cd376707589c2444dfc2e2702692edba85e20705c1200e24ecd126",
+        "7aa5a0b1fc56f7331fd6868ab766f92f3d202cb0c4fd3c729415836614791282"
+      ]
+    },
+    {
+      "id": "disabled",
+      "seed": 1214,
+      "coordinates": 64,
+      "rngCallsPerVariant": 4555,
+      "nextValues": [
+        0.5581461060792208,
+        0.5581461060792208,
+        0.5581461060792208,
+        0.5581461060792208
+      ],
+      "wordDigests": [
+        "c547d186368f07e420733de9fea315413ffbdd1b0ab9cff170b3eb133c39ff0d",
+        "860024f840977050080581d38f7f288a46b4c546bdf70606b84472e201500cff",
+        "c547d186368f07e420733de9fea315413ffbdd1b0ab9cff170b3eb133c39ff0d",
+        "860024f840977050080581d38f7f288a46b4c546bdf70606b84472e201500cff"
+      ]
+    },
+    {
+      "id": "disabled",
+      "seed": 6123,
+      "coordinates": 64,
+      "rngCallsPerVariant": 4720,
+      "nextValues": [
+        0.8036947080399841,
+        0.8036947080399841,
+        0.8036947080399841,
+        0.8036947080399841
+      ],
+      "wordDigests": [
+        "e2e0ad7ac0be60b8be6db3d57aba2312408f221f93bd7c3d061f61b52b278ba8",
+        "d6b8749ae082fdcdf15a225a80acb6e69c2468c703be0204d6148eed157fde8d",
+        "e2e0ad7ac0be60b8be6db3d57aba2312408f221f93bd7c3d061f61b52b278ba8",
+        "d6b8749ae082fdcdf15a225a80acb6e69c2468c703be0204d6148eed157fde8d"
+      ]
+    },
+    {
+      "id": "disabled",
+      "seed": 8675309,
+      "coordinates": 64,
+      "rngCallsPerVariant": 3771,
+      "nextValues": [
+        0.45367630384862423,
+        0.45367630384862423,
+        0.45367630384862423,
+        0.45367630384862423
+      ],
+      "wordDigests": [
+        "d2b080770242f9c2ff4f6d606eda16e806978896013a1aad7ab9dc2c32a4e05c",
+        "6fe2572799d7251267f96d680ae82f05164fa30f22e937ef7be9b7e803b433cb",
+        "d2b080770242f9c2ff4f6d606eda16e806978896013a1aad7ab9dc2c32a4e05c",
+        "6fe2572799d7251267f96d680ae82f05164fa30f22e937ef7be9b7e803b433cb"
+      ]
+    }
+  ],
+  "scope": "Public configured generateWord; snapshots taken immediately to compare values, not cross-call alias ownership. No candidate active-policy quality conclusion."
+}

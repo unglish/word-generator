@@ -1,0 +1,407 @@
+{
+  "completed": true,
+  "sourcesUnchanged": true,
+  "installedDependenciesUnchanged": true,
+  "inputsSha256": "8852e02048195dcaa5465db7ca5a89a81cd8a806852cc2556b7d325ea7e9c84e",
+  "runs": [
+    {
+      "pair": 1,
+      "position": 1,
+      "version": "A",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:08.610805+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/private/tmp/q12c-performance-control-v1",
+      "log": "01-1-A.log",
+      "endedAt": "2026-09-27T00:48:12.724953+00:00",
+      "exitCode": 1,
+      "logSha256": "03ea3ad094d5e263aae5e720172d6f9242f1c544ba5f821ea3250465a58bc50e",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4212,
+      "reportedBatchMilliseconds": 2374,
+      "reportedVarianceTrials": "1.61x, 2.33x, 1.50x",
+      "reportedMedianVariance": 1.61,
+      "floorGatePassed": false,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 1,
+      "position": 2,
+      "version": "B",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:13.315270+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator",
+      "log": "01-2-B.log",
+      "endedAt": "2026-09-27T00:48:17.086489+00:00",
+      "exitCode": 0,
+      "logSha256": "f687a735aee4e56e90816275021e5ace8e956cc9c14a7b6cc8b9b8217f18433b",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4733,
+      "reportedBatchMilliseconds": 2113,
+      "reportedVarianceTrials": "1.72x, 1.47x, 1.54x",
+      "reportedMedianVariance": 1.54,
+      "floorGatePassed": true,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 2,
+      "position": 1,
+      "version": "B",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:17.679106+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator",
+      "log": "02-1-B.log",
+      "endedAt": "2026-09-27T00:48:21.448031+00:00",
+      "exitCode": 0,
+      "logSha256": "e0f087fed791bd0f4d64faf489b2c00aab7b548e4e030472b72a23f1a8194037",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4706,
+      "reportedBatchMilliseconds": 2125,
+      "reportedVarianceTrials": "1.70x, 1.48x, 1.55x",
+      "reportedMedianVariance": 1.55,
+      "floorGatePassed": true,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 2,
+      "position": 2,
+      "version": "A",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:22.040865+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/private/tmp/q12c-performance-control-v1",
+      "log": "02-2-A.log",
+      "endedAt": "2026-09-27T00:48:25.966148+00:00",
+      "exitCode": 1,
+      "logSha256": "6386b663093e8b2981029ddc03e2556b8b7c2de9a59ba11473da86160fb38a46",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4412,
+      "reportedBatchMilliseconds": 2267,
+      "reportedVarianceTrials": "1.64x, 1.45x, 1.55x",
+      "reportedMedianVariance": 1.55,
+      "floorGatePassed": false,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 3,
+      "position": 1,
+      "version": "A",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:26.551948+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/private/tmp/q12c-performance-control-v1",
+      "log": "03-1-A.log",
+      "endedAt": "2026-09-27T00:48:30.574446+00:00",
+      "exitCode": 1,
+      "logSha256": "37c1ebb19e34c6c76726194c035e08c07bc2e5035c191c099398c2f684973d4f",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4246,
+      "reportedBatchMilliseconds": 2355,
+      "reportedVarianceTrials": "1.68x, 1.48x, 1.49x",
+      "reportedMedianVariance": 1.49,
+      "floorGatePassed": false,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 3,
+      "position": 2,
+      "version": "B",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:31.175560+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator",
+      "log": "03-2-B.log",
+      "endedAt": "2026-09-27T00:48:34.966544+00:00",
+      "exitCode": 0,
+      "logSha256": "24aea9179fc25a1707bf7a3a67e169140c71fc2f2b46bc1f361d7c346367eec2",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4728,
+      "reportedBatchMilliseconds": 2115,
+      "reportedVarianceTrials": "1.68x, 1.45x, 1.57x",
+      "reportedMedianVariance": 1.57,
+      "floorGatePassed": true,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 4,
+      "position": 1,
+      "version": "B",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:35.571259+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator",
+      "log": "04-1-B.log",
+      "endedAt": "2026-09-27T00:48:39.377177+00:00",
+      "exitCode": 0,
+      "logSha256": "cab13dbf35dca0185a1f98fddebc7ef42102c0d4694d55d2e7297617f2266477",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4685,
+      "reportedBatchMilliseconds": 2134,
+      "reportedVarianceTrials": "1.68x, 1.49x, 1.54x",
+      "reportedMedianVariance": 1.54,
+      "floorGatePassed": true,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 4,
+      "position": 2,
+      "version": "A",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:39.973379+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/private/tmp/q12c-performance-control-v1",
+      "log": "04-2-A.log",
+      "endedAt": "2026-09-27T00:48:43.924209+00:00",
+      "exitCode": 1,
+      "logSha256": "fe3ebf92d7b5d6b4a1ec5b280c25e29b7b40171d6b35b34f5553b90b6efc7b3e",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4367,
+      "reportedBatchMilliseconds": 2290,
+      "reportedVarianceTrials": "1.65x, 1.49x, 1.51x",
+      "reportedMedianVariance": 1.51,
+      "floorGatePassed": false,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 5,
+      "position": 1,
+      "version": "A",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:44.512940+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/private/tmp/q12c-performance-control-v1",
+      "log": "05-1-A.log",
+      "endedAt": "2026-09-27T00:48:48.451376+00:00",
+      "exitCode": 1,
+      "logSha256": "be6db82d9eeac25fcd952109f43b4a214cfec43b36d3caae9461ef93d383424d",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4380,
+      "reportedBatchMilliseconds": 2283,
+      "reportedVarianceTrials": "1.68x, 1.46x, 1.50x",
+      "reportedMedianVariance": 1.5,
+      "floorGatePassed": false,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 5,
+      "position": 2,
+      "version": "B",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:49.055766+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator",
+      "log": "05-2-B.log",
+      "endedAt": "2026-09-27T00:48:52.829956+00:00",
+      "exitCode": 0,
+      "logSha256": "92cc5119038f087cf8b4477bd17d185c77149e972098b2c58be26fc913c6bc8b",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4705,
+      "reportedBatchMilliseconds": 2126,
+      "reportedVarianceTrials": "1.64x, 1.49x, 1.52x",
+      "reportedMedianVariance": 1.52,
+      "floorGatePassed": true,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 6,
+      "position": 1,
+      "version": "B",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:53.417175+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator",
+      "log": "06-1-B.log",
+      "endedAt": "2026-09-27T00:48:57.208966+00:00",
+      "exitCode": 0,
+      "logSha256": "ebf1f20e29234abdaa2e62ee08e606db0471fe47c3d609278990ff513888dd11",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4692,
+      "reportedBatchMilliseconds": 2131,
+      "reportedVarianceTrials": "1.65x, 1.48x, 1.60x",
+      "reportedMedianVariance": 1.6,
+      "floorGatePassed": true,
+      "varianceGatePassed": true
+    },
+    {
+      "pair": 6,
+      "position": 2,
+      "version": "A",
+      "status": "completed",
+      "startedAt": "2026-09-27T00:48:57.797236+00:00",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:perf"
+      ],
+      "cwd": "/private/tmp/q12c-performance-control-v1",
+      "log": "06-2-A.log",
+      "endedAt": "2026-09-27T00:49:01.795585+00:00",
+      "exitCode": 1,
+      "logSha256": "a96453adba032525fbc0278ed4c285a7dd9e5c4eb21d037c843cabece08bc661",
+      "error": null,
+      "measurementError": null,
+      "reportedWordsPerSecond": 4264,
+      "reportedBatchMilliseconds": 2345,
+      "reportedVarianceTrials": "1.65x, 1.50x, 1.51x",
+      "reportedMedianVariance": 1.51,
+      "floorGatePassed": false,
+      "varianceGatePassed": true
+    }
+  ],
+  "pairs": [
+    {
+      "pair": 1,
+      "BoverA": 1.1236942070275404,
+      "roundingInterval": [
+        1.1234421364985163,
+        1.123946337409474
+      ]
+    },
+    {
+      "pair": 2,
+      "BoverA": 1.0666364460562103,
+      "roundingInterval": [
+        1.0664022662889519,
+        1.0668706789074012
+      ]
+    },
+    {
+      "pair": 3,
+      "BoverA": 1.1135186057465851,
+      "roundingInterval": [
+        1.1132697515601084,
+        1.1137675185490519
+      ]
+    },
+    {
+      "pair": 4,
+      "BoverA": 1.0728188687886422,
+      "roundingInterval": [
+        1.0725815684029765,
+        1.0730562235199816
+      ]
+    },
+    {
+      "pair": 5,
+      "BoverA": 1.0742009132420092,
+      "roundingInterval": [
+        1.0739641593425409,
+        1.0744377212010503
+      ]
+    },
+    {
+      "pair": 6,
+      "BoverA": 1.100375234521576,
+      "roundingInterval": [
+        1.1001289717434635,
+        1.1006215550603964
+      ]
+    }
+  ],
+  "availablePairs": 6,
+  "medianPairedThroughputRatio": 1.0872880738817927,
+  "pairedRatioRange": [
+    1.0666364460562103,
+    1.1236942070275404
+  ],
+  "gates": {
+    "A": {
+      "floorGatePassed": {
+        "passed": 0,
+        "failed": 6,
+        "unavailable": 0,
+        "notRun": 0
+      },
+      "varianceGatePassed": {
+        "passed": 6,
+        "failed": 0,
+        "unavailable": 0,
+        "notRun": 0
+      }
+    },
+    "B": {
+      "floorGatePassed": {
+        "passed": 6,
+        "failed": 0,
+        "unavailable": 0,
+        "notRun": 0
+      },
+      "varianceGatePassed": {
+        "passed": 6,
+        "failed": 0,
+        "unavailable": 0,
+        "notRun": 0
+      }
+    }
+  },
+  "scope": "Fixed local series; all gate outcomes retained, no quality or general speed claim."
+}

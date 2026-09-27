@@ -1,0 +1,28 @@
+test_control_exact_source_set_rejects_extra_test_and_parent_alias (__main__.BoundariesTests.test_control_exact_source_set_rejects_extra_test_and_parent_alias) ... ok
+test_effective_npm_preflight_retains_success_failure_and_error (__main__.BoundariesTests.test_effective_npm_preflight_retains_success_failure_and_error) ... ok
+test_node_environment_policy_and_npm_case_aliases (__main__.BoundariesTests.test_node_environment_policy_and_npm_case_aliases) ... ok
+test_optimized_python_rejects_before_launch (__main__.BoundariesTests.test_optimized_python_rejects_before_launch) ... ok
+test_output_rejects_existing_dangling_alias_and_all_protected_descendants (__main__.BoundariesTests.test_output_rejects_existing_dangling_alias_and_all_protected_descendants) ... ok
+test_dependency_links_record_inbounds_target_and_reject_escape_cycle (__main__.DependencyTests.test_dependency_links_record_inbounds_target_and_reject_escape_cycle) ... ok
+test_distinct_install_links_and_missing_required_package_reject (__main__.DependencyTests.test_distinct_install_links_and_missing_required_package_reject) ... ok
+test_generated_caches_and_unrelated_installs_are_excluded_but_extra_runtime_file_is_not (__main__.DependencyTests.test_generated_caches_and_unrelated_installs_are_excluded_but_extra_runtime_file_is_not) ... ok
+test_new_installed_optional_and_nested_resolution_change_snapshot (__main__.DependencyTests.test_new_installed_optional_and_nested_resolution_change_snapshot) ... ok
+test_reachable_packages_npm_native_and_resolution_records_are_pinned (__main__.DependencyTests.test_reachable_packages_npm_native_and_resolution_records_are_pinned) ... ok
+test_duplicate_measurements_or_gate_are_errors (__main__.ParserTests.test_duplicate_measurements_or_gate_are_errors) ... ok
+test_exact_six_pairs_and_partial_accounting (__main__.ParserTests.test_exact_six_pairs_and_partial_accounting) ... ok
+test_logged_gate_status_not_rounded_rate_decides (__main__.ParserTests.test_logged_gate_status_not_rounded_rate_decides) ... ok
+test_malformed_variance_trials_and_median_are_errors (__main__.ParserTests.test_malformed_variance_trials_and_median_are_errors) ... ok
+test_missing_observation_is_unavailable (__main__.ParserTests.test_missing_observation_is_unavailable) ... ok
+test_scheduled_prefix_rejects_duplicates_reordering_boolean_coordinates (__main__.ParserTests.test_scheduled_prefix_rejects_duplicates_reordering_boolean_coordinates) ... ok
+test_dependency_preflight_error_is_retained_before_any_slot (__main__.PreparationTests.test_dependency_preflight_error_is_retained_before_any_slot) ... ok
+test_exclusive_publication_and_sigterm_handler (__main__.PreparationTests.test_exclusive_publication_and_sigterm_handler) ... ok
+test_full_control_flow_uses_frozen_node_npm_and_fixed_schedule_with_mock_children (__main__.PreparationTests.test_full_control_flow_uses_frozen_node_npm_and_fixed_schedule_with_mock_children) ... ok
+test_interruption_keeps_started_partial_metrics_and_kills_child_group (__main__.ProcessRetentionTests.test_interruption_keeps_started_partial_metrics_and_kills_child_group) ... ok
+test_nonzero_suite_is_completed_retained_and_not_retried (__main__.ProcessRetentionTests.test_nonzero_suite_is_completed_retained_and_not_retried) ... ok
+test_parser_ambiguity_retains_raw_log_and_error (__main__.ProcessRetentionTests.test_parser_ambiguity_retains_raw_log_and_error) ... ok
+test_spawn_failure_has_started_error_and_empty_log_hash (__main__.ProcessRetentionTests.test_spawn_failure_has_started_error_and_empty_log_hash) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.403s
+
+OK
