@@ -1,0 +1,21 @@
+
+/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/aligned-shared-graphemes/analyze-shared.mjs
+  74:1  error  Expected indentation of 4 spaces but found 2    indent
+  75:1  error  Expected indentation of 6 spaces but found 4    indent
+  76:1  error  Expected indentation of 6 spaces but found 4    indent
+  77:1  error  Expected indentation of 6 spaces but found 4    indent
+  78:1  error  Expected indentation of 8 spaces but found 6    indent
+  79:1  error  Expected indentation of 8 spaces but found 6    indent
+  80:1  error  Expected indentation of 8 spaces but found 6    indent
+  81:1  error  Expected indentation of 10 spaces but found 8   indent
+  82:1  error  Expected indentation of 10 spaces but found 8   indent
+  83:1  error  Expected indentation of 12 spaces but found 10  indent
+  84:1  error  Expected indentation of 10 spaces but found 8   indent
+  85:1  error  Expected indentation of 8 spaces but found 6    indent
+  86:1  error  Expected indentation of 6 spaces but found 4    indent
+  87:1  error  Expected indentation of 6 spaces but found 4    indent
+  88:1  error  Expected indentation of 4 spaces but found 2    indent
+
+✖ 15 problems (15 errors, 0 warnings)
+  15 errors and 0 warnings potentially fixable with the `--fix` option.
+
