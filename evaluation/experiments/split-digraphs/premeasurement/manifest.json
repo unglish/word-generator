@@ -1,0 +1,27 @@
+{
+  "q14a-control-materialization-v1.json.gz": {
+    "sha256": "932c803cd2cac4a0cd2e215921ea392968321edc9bd020d798e6a640fa82fc37",
+    "uncompressedSha256": "037515616a4172244e61a2da7a19f3016f3ff5cfec82e2cab476a0a14eea01d1",
+    "uncompressedBytes": 18118
+  },
+  "q14a-legacy-parity-v1.json.gz": {
+    "sha256": "ef0b14180d75f45fde55cf570c2bae437e7a6211efb7217d487f54072fd653f9",
+    "uncompressedSha256": "d4e6e878b20b36adbdf9ccff28b5eb5eb527c9dbc9f294b4041035ab091726a5",
+    "uncompressedBytes": 19875
+  },
+  "q14a-legacy-parity-authority-v1.json.gz": {
+    "sha256": "e5a068e45ff980b1ed36943cbaa6a3b3c2e06d16740c3349e4b325c636e44737",
+    "uncompressedSha256": "026dfc07911a3fde00bcdcd3fc896496a895a3ee06637989b135f09d1bdd9b2b",
+    "uncompressedBytes": 30370
+  },
+  "q14a-legacy-parity-v1.log.gz": {
+    "sha256": "ac343c7612a96c68dd097c9a1526b316e08343ba0dd1bf9fa6822ce4a6135128",
+    "uncompressedSha256": "8d770e3d76968c9dd0c7c2cf7083ed3b4913316977c7128eca5a141e5f2ec9c0",
+    "uncompressedBytes": 1153
+  },
+  "q14a-premeasurement-full-tests.log.gz": {
+    "sha256": "ba7da66f55627740bbe1b9e7db74996cd718026b6aa45e1ab08e6f968f56c461",
+    "uncompressedSha256": "3bfc6f289e6526a2616fc85555fb2306675832e8b8afd1802f35be2b524cd20d",
+    "uncompressedBytes": 21953
+  }
+}

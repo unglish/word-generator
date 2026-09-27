@@ -63,4 +63,21 @@ describe("split vowel public writer integration", () => {
     expect(() => createBaseSpellingEvidenceVerifier()(trace)).toThrow("v5 requires");
   });
 
+  it("keeps empty support diagnostic with explicit refusals and no legacy formation edits", () => {
+    const config = { ...englishConfig, sharedSpellings: englishSharedSpellings,
+      splitVowels: { ...splitVowels, supports: [] } };
+    const generator = createGenerator(config); const verify = createBaseSpellingEvidenceVerifier(config);
+    const rand = createSeededRng(2718); let attempts = 0;
+    for (let draw = 0; draw < 64; draw++) {
+      const trace = generator.generateWord({ rand, trace: true, morphology: false }).trace!.baseSpelling!;
+      if (trace.version !== 5) throw new Error("Expected v5");
+      expect(() => verify(trace)).not.toThrow();
+      expect(trace.split.constructions).toHaveLength(0);
+      expect(trace.split.attempts.every(entry => entry.attempt.status !== "evaluated")).toBe(true);
+      expect(trace.edits.some(edit => edit.rule === "spellingRule:magic-e" || edit.rule.startsWith("silentE:swap"))).toBe(false);
+      attempts += trace.split.attempts.length;
+    }
+    expect(attempts).toBeGreaterThan(0);
+  });
+
 });
