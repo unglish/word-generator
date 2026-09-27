@@ -15,7 +15,7 @@ function fixture(choices: Choice[]) {
 }
 const pair = () => fixture([{ sound: "k", form: "ck" }, { sound: "s", form: "s" }]);
 const mutable = (base: BaseSpelling) => structuredClone(base.constructionState()) as {
-  -readonly [Key in keyof ConstructionLedgerView]: Array<ConstructionLedgerView[Key][number]>
+  -readonly [Key in keyof ConstructionLedgerView]: ConstructionLedgerView[Key] extends readonly (infer Item)[] ? Item[] : ConstructionLedgerView[Key]
 };
 
 describe("shared spelling source ownership", () => {
