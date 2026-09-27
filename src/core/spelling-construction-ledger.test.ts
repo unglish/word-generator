@@ -206,3 +206,88 @@ describe("regex writer refusal propagation", () => {
     expect(trace.shared.editGuards.map(guard => guard.decision.status).sort()).toEqual(["allowed", "refused"]);
   });
 });
+
+
+describe("explicit lexical gap supersession", () => {
+  it("retires live shared ownership while preserving construction and source history", () => {
+    const base = fixture(); form(base); const before = base.snapshot();
+    base.replaceWithGapSpelling("ax", "other", "lexical");
+    const trace = base.snapshot();
+    if (trace.version !== 4 || before.version !== 4) throw new Error("Expected shared traces");
+    expect(trace.surface).toBe("other");
+    expect(trace.scope).toBe("bare-after-gap-spelling");
+    expect(trace.units).toEqual(before.units);
+    expect(trace.phones).toEqual(before.phones);
+    expect(trace.shared.constructions).toEqual(before.shared.constructions);
+    expect(trace.shared.liveConstructionIds).toEqual([]);
+    expect(trace.shared.supersessions).toEqual([{ version: 1, id: 0, cursor: { lastAppendedUnitId: 2, nextEditId: 1 },
+      editId: 1, rule: "gapSpelling:lexical", constructionIds: [0], rootPhoneIds: [0, 1, 2],
+      inputCellIds: [0, 4], outputCellIds: [5, 6, 7, 8, 9], before: "ax", after: "other", ownership: "unavailable" }]);
+    expect(trace.cells.every(cell => cell.origin.kind === "rewrite" && cell.origin.ownership === "unresolved")).toBe(true);
+    expect(trace.unresolvedCells).toBe(5);
+    expect(trace.edits[1]).toMatchObject({ phase: "gap", rule: "gapSpelling:lexical", before: "ax", after: "other" });
+    expect(trace.shared.editGuards).toEqual([]);
+  });
+
+  it("does not let a gap-like rule name bypass ordinary edit preservation", () => {
+    const base = fixture(); form(base); base.markGapSpelling();
+    expect(base.edit(0, 2, "other", "gapSpelling:not-an-explicit-supersession")).toBe(false);
+    expect(base.snapshot().surface).toBe("ax");
+  });
+
+  it("replaces ownership even when the explicit lexical spelling has identical text", () => {
+    const base = fixture(); form(base);
+    base.replaceWithGapSpelling("ax", "ax", "same-text-lexical");
+    const trace = base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    expect(trace.surface).toBe("ax");
+    expect(trace.shared.liveConstructionIds).toEqual([]);
+    expect(trace.shared.supersessions[0]).toMatchObject({ inputCellIds: [0, 4], outputCellIds: [5, 6], ownership: "unavailable" });
+    expect(trace.unresolvedCells).toBe(2);
+  });
+
+  it("keeps legacy same-text no-op behavior and permissive historical rule names", () => {
+    const source = fixture().snapshot();
+    const base = new BaseSpelling(source.phones, true, true, true);
+    source.units.forEach(unit => base.appendChoice(unit.choiceId, unit.selected, unit.afterDoubling, unit.inventoryIndex, unit.doublingIncrement));
+    base.replaceWithGapSpelling("acks", "acks", "");
+    expect(base.snapshot()).toMatchObject({ version: 3, surface: "acks", scope: "bare-after-gap-spelling", edits: [] });
+    base.replaceWithGapSpelling("acks", "other", "");
+    expect(base.snapshot().edits[0]).toMatchObject({ phase: "gap", rule: "gapSpelling:", before: "acks", after: "other" });
+  });
+
+  it("refuses stale full-root replacement before changing any state", () => {
+    const base = fixture(); form(base); const before = base.snapshot();
+    expect(() => base.replaceWithGapSpelling("acks", "other", "stale")).toThrow(/Unrecorded/);
+    expect(base.snapshot()).toEqual(before);
+  });
+
+  it("allows later edits without treating retired constructions as live", () => {
+    const base = fixture(); form(base);
+    base.replaceWithGapSpelling("ax", "other", "lexical");
+    expect(base.edit(0, 1, "a", "later-edit")).toBe(true);
+    expect(base.snapshot().surface).toBe("ather");
+    const attempt = planner().decide(base.constructionState(), slot, "ks-to-x", [1, 2], () => { throw new Error("Unexpected draw"); });
+    expect(attempt.result).toEqual({ status: "unavailable", reason: "unresolved-ownership" });
+  });
+
+  it("records repeated lexical replacements without retiring the same construction twice", () => {
+    const base = fixture(); form(base);
+    base.replaceWithGapSpelling("ax", "other", "first");
+    base.replaceWithGapSpelling("other", "new", "second");
+    const trace = base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    expect(trace.shared.supersessions.map(entry => entry.constructionIds)).toEqual([[0], []]);
+    expect(trace.shared.supersessions.map(entry => entry.editId)).toEqual([1, 2]);
+    expect(trace.surface).toBe("new");
+  });
+
+  it("keeps traced and untraced live ownership equal through supersession and subsequent edits", () => {
+    const traced = fixture(); const untraced = fixture(undefined, undefined, undefined, false);
+    for (const base of [traced, untraced]) {
+      form(base); base.replaceWithGapSpelling("ax", "other", "lexical");
+      expect(base.edit(0, 1, "a", "later-edit")).toBe(true);
+    }
+    expect(traced.constructionState()).toEqual(untraced.constructionState());
+  });
+});
