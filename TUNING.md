@@ -26,7 +26,7 @@ Baseline → Analyze (phonemes first) → Diagnose → Fix → Verify → Guardr
 - Primary optimization target: **phoneme distribution alignment**
 - Primary merge gates: **phoneme guardrails** (`src/config/phoneme-thresholds.json`)
 - Trigram analysis remains important, but is **observational/non-blocking** during this phase unless catastrophic regressions appear.
-- `src/core/ngram-quality.test.ts` follows `STRICT_NGRAM_QUALITY` by default (strict unless explicitly set to `0`). `NGRAM_GATES_BLOCKING` can still override for backwards compatibility.
+- `src/core/ngram-quality.test.ts` follows `STRICT_NGRAM_QUALITY` by default (strict unless explicitly set to `0`). `NGRAM_GATES_BLOCKING` can still override for backwards compatibility. The trigram under-representation gate is the exception: it logs its worst trigram but blocks only with `NGRAM_TRIGRAM_UNDERREP_BLOCKING=1`, because the rarest common trigram (e.g. `ugh`, ~6 per 200k words) varies across seeds by more than the ratchet margin.
 - Allowed levers for this cycle:
   - phoneme inventory weights (`src/elements/phonemes.ts`)
   - generation probabilities (`src/config/weights.ts`, `src/config/english.ts`)
