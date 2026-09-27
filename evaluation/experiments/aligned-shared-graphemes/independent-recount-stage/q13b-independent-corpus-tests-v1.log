@@ -1,0 +1,21 @@
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ runs a complete bounded archive through stream validation, aggregation and production replay (507.876292ms)
+✔ rejects a wrong external manifest authority before creating an output (12.51ms)
+✔ rejects archive-byte tampering before creating an output (232.178334ms)
+✔ retains an explicit failure and no completion report for duplicate draws (241.704833ms)
+✔ requires every scheduled stream (14.963958ms)
+✔ rejects malformed and aliased artifact paths (6.931417ms)
+✔ does not allow an output parent symlink to redirect into the archive (5.507792ms)
+✔ rejects overlapping seeds before any corpus processing (0.332625ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent pinned archive recount accepts complete report and rejects rehashed corruptions (1540.033084ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2767.953416

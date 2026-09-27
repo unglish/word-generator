@@ -1,0 +1,62 @@
+✔ aggregates complete events, repairs, selected/shared forms and retained full witnesses (16.482541ms)
+✔ historical populations have null shared counts rather than clean zeros (3.368209ms)
+✔ mixed observations retain unavailable population counts (8.906959ms)
+✔ returned reports and caller mutations cannot change retained witnesses or accumulated counters (10.122916ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ runs a complete bounded archive through stream validation, aggregation and production replay (734.472792ms)
+✔ rejects a wrong external manifest authority before creating an output (15.296709ms)
+✔ rejects archive-byte tampering before creating an output (326.232083ms)
+✔ retains an explicit failure and no completion report for duplicate draws (309.97925ms)
+✔ requires every scheduled stream (18.218ms)
+✔ rejects malformed and aliased artifact paths (9.355458ms)
+✔ does not allow an output parent symlink to redirect into the archive (6.387708ms)
+✔ rejects overlapping seeds before any corpus processing (0.381667ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent pinned archive recount accepts complete report and rejects rehashed corruptions (1702.450666ms)
+✔ freeze detects changed bytes and added source paths (31.530958ms)
+✔ rejects active loader or binary overrides without exposing their values (0.418833ms)
+✔ candidate freeze rejects an absent, empty or changed shared policy (1.257125ms)
+✔ observes 500 generated ledgers without treating successful replay as independent proof (516.513584ms)
+✔ historical eligibility remains unavailable, not zero (1.25175ms)
+✔ reports unsupported source sequences (0.552125ms)
+✔ reports partial consumption instead of trusting a construction's input claim (0.477334ms)
+✔ reports altered phone multiplicity (0.4475ms)
+✔ finds actual silent erasure in a consistently edited archive (0.691333ms)
+✔ refuses incomplete observation fields (2.776542ms)
+✔ refuses missing attempts rather than accepting a smaller eligibility denominator (0.955708ms)
+✔ does not alias returned event metadata into the original word (1.285791ms)
+✔ finds an insertion that separates the cells of a surviving qu construction (0.698166ms)
+✔ preserves every retained v3 repair counter on 500 public legacy words (569.176583ms)
+✔ retains repair counters and joint lineage on actual v4 words (289.587291ms)
+✔ detects a previously truncated original unit even when all surviving cells are consumed (0.784458ms)
+✔ pure licensed extent fixture requires the entire recorded replacement and matching unit (0.26875ms)
+✔ pure normalized extent fixture requires the entire recorded replacement and matching unit (0.099167ms)
+✔ independent recount matches every grouped integer and complete first witness on 1000 public words (1494.51175ms)
+✔ independent aggregate comparison rejects repair counter (1334.39075ms)
+✔ independent aggregate comparison rejects doubling counter (1335.260542ms)
+✔ independent aggregate comparison rejects shared counter (1403.205541ms)
+✔ independent aggregate comparison rejects boolean count (1372.727542ms)
+✔ independent aggregate comparison rejects missing group (1355.097042ms)
+✔ independent aggregate comparison rejects extra counter (1328.328041ms)
+✔ independent aggregate comparison rejects missing witness (1335.62775ms)
+✔ independent aggregate comparison rejects altered full witness (1335.667333ms)
+✔ independent aggregate comparison rejects unknown eligibility changed to zero (1323.98175ms)
+✔ independent Python reconstructs every shared observation on 500 public v4 and 500 v3 archives (867.82025ms)
+✔ independent Python reports unsupported sequence from altered archive (41.107584ms)
+✔ independent Python reports partial consumption from altered archive (44.391834ms)
+✔ independent Python reports phone multiplicity from altered archive (46.893166ms)
+✔ independent Python reports silent erasure from altered archive (50.413875ms)
+✔ independent Python refuses incomplete attempts, fields, and forged cell history (195.605875ms)
+✔ independent Python refuses optimized execution that would disable verification (51.06325ms)
+✔ independent repair arithmetic matches every counter on 500 active and 500 legacy public words (1295.505375ms)
+✔ repair recount rejects forged normalization totals and incomplete scheduled checks (160.927833ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15449.643375

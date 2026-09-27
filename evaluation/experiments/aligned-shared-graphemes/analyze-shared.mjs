@@ -151,8 +151,8 @@ export async function analyze(options) {
     await verifyArchive(); assert.deepEqual(await closure(), before, "Measurement closure changed");
     assert.equal(sha(await readFile(options.protocol)), options["protocol-sha256"]);
     assert.equal(sha(await readFile(options.registration)), options["registration-sha256"]);
-    const result = { version: "q13b-shared-corpus-v1", variant: options.variant,
-      authoritySha256: sha(await readFile(join(out, "authority.json"))), streams, ...report };
+    const result = { ...report, version: "q13b-shared-corpus-v1", variant: options.variant,
+      authoritySha256: sha(await readFile(join(out, "authority.json"))), streams };
     await writeFile(join(out, "report.partial.json"), JSON.stringify(result) + "\n", { flag: "wx" });
     await rename(join(out, "report.partial.json"), join(out, "report.json"));
     return result;

@@ -1,0 +1,38 @@
+{
+  "evaluation/experiments/aligned-shared-graphemes/recount-shared.py": {
+    "bytes": 11952,
+    "sha256": "caabe9158d9f449b24e9261dc90154c49b611a0e4d9decebfc31ddac8394adac"
+  },
+  "evaluation/experiments/aligned-shared-graphemes/recount-repairs.py": {
+    "bytes": 14242,
+    "sha256": "2348cdb799a5dc981a78a7671943175a8f50fa39689a48b37b706c4fa625fe56"
+  },
+  "evaluation/experiments/aligned-shared-graphemes/recount-doubling.py": {
+    "bytes": 5843,
+    "sha256": "2813f6a8b349f809bbfa5a2bc681e56de9fbaa3079e9e4594f24056637a651b3"
+  },
+  "evaluation/experiments/aligned-shared-graphemes/recount-aggregate.py": {
+    "bytes": 7234,
+    "sha256": "110ab607acab3b96cb69facea8390ea178f4949a2d2033f04709471555c69adf"
+  },
+  "evaluation/experiments/aligned-shared-graphemes/recount-corpus.py": {
+    "bytes": 7454,
+    "sha256": "4fd92b41f89815c0bbcdb33a5c001b33a5cc45683315fd85cd4835473f8a84ed"
+  },
+  "evaluation/experiments/aligned-shared-graphemes/recount-shared.test.mjs": {
+    "bytes": 5650,
+    "sha256": "2bd063ad9799739f05f9d28f3d8bb697179208da64a0197cea09fb3857ccb3f8"
+  },
+  "evaluation/experiments/aligned-shared-graphemes/recount-aggregate.test.mjs": {
+    "bytes": 3422,
+    "sha256": "66799f45ab79b671c3e7a307c10f2748b888b9d67694e27a413c9c9fc37e2cc9"
+  },
+  "evaluation/experiments/aligned-shared-graphemes/analyze-shared.mjs": {
+    "bytes": 9784,
+    "sha256": "1007f98ae766be5970738f37551626c5cc123cc81b1482c8031e44c90265b1ac"
+  },
+  "evaluation/experiments/aligned-shared-graphemes/analyze-shared.test.mjs": {
+    "bytes": 7144,
+    "sha256": "69ff04487a91fd060ca1584de11cf00d39e638904bb9e7d71090381ca532f5a5"
+  }
+}
