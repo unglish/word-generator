@@ -1,0 +1,106 @@
+{
+  "version": "q13b-aligned-shared-graphemes-registration-v1",
+  "status": "registered after exploratory control audit, before runtime edits",
+  "controlCommit": "b2373ca83cdbf5e8ad127b604e83397a8afe0d45",
+  "controlArchive": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1",
+  "controlManifestSha256": "1bd32617b8ab62b034eeb0ae91ac8e2d1da675035c9b03a49c1912fee751e3fb",
+  "developmentProtocol": "linguistic-quality-v1",
+  "words": 200000,
+  "legacyCoordinates": 20000,
+  "performanceOrder": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "constructions": [
+    {
+      "id": "ks-to-x",
+      "phonemes": [
+        {
+          "sound": "k"
+        },
+        {
+          "sound": "s"
+        }
+      ],
+      "form": "x",
+      "probability": 25,
+      "scope": "both",
+      "context": {
+        "nonInitial": true
+      }
+    },
+    {
+      "id": "gz-to-x",
+      "phonemes": [
+        {
+          "sound": "g"
+        },
+        {
+          "sound": "z"
+        }
+      ],
+      "form": "x",
+      "probability": 85,
+      "scope": "word",
+      "context": {
+        "nonInitial": true,
+        "following": {
+          "phoneClass": "vowel",
+          "letters": [
+            "a",
+            "e",
+            "i",
+            "o",
+            "u",
+            "y"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cw-to-qu",
+      "phonemes": [
+        {
+          "sound": "k"
+        },
+        {
+          "sound": "w"
+        }
+      ],
+      "form": "qu",
+      "probability": 100,
+      "scope": "word",
+      "context": {}
+    }
+  ],
+  "migratedLegacyRules": [
+    "ks-to-x",
+    "cx-to-x",
+    "gz-to-x",
+    "cw-to-qu"
+  ],
+  "primary": [
+    "zero unsupported formed sound sequences",
+    "zero partial source-unit consumption",
+    "exact ordered phone multiplicity for every construction",
+    "zero silently split live constructions after root edits",
+    "positive fixture support and observed use for every declared construction"
+  ],
+  "limits": [
+    "historical eligibility unavailable",
+    "generic ancestry is not pronunciation ownership",
+    "final morphology ownership remains Q02",
+    "no human preference claim"
+  ],
+  "validation": "sealed; do not inspect during tuning"
+}
