@@ -1,3 +1,4 @@
+import type { SplitVowelCellOrigin } from "./spelling-split-transaction.js";
 import { createSharedCandidateScanner } from "./spelling-construction-scan.js";
 import type { RNG } from "../utils/random.js";
 import { createSharedEditGuard, createSharedSurfaceGuard } from "./spelling-construction-edit.js";
@@ -53,6 +54,7 @@ export interface SpellingUnitV3 extends SpellingUnit {
 }
 
 export type SpellingCellOrigin =
+  | SplitVowelCellOrigin
   | SharedCellOrigin
   | NormalizedCellOrigin
   | { kind: "selection"; unitId: number; offset: number }

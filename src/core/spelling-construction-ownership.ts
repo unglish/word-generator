@@ -18,7 +18,7 @@ export interface ConstructionLedgerView {
 
 export type ConstructionOwnershipRefusal = "invalid-units" | "invalid-phones" | "missing-boundary"
   | "unresolved-ownership" | "missing-unit" | "partial-unit" | "mixed-origin" | "missing-license"
-  | "noncontiguous-span" | "wrong-part" | "already-shared";
+  | "noncontiguous-span" | "wrong-part" | "already-shared" | "already-split";
 
 export interface CompleteConstructionSpan {
   status: "complete";
@@ -46,6 +46,7 @@ function sameIds(a: readonly number[], b: readonly number[]): boolean {
 function completeUnit(view: ConstructionLedgerView, unit: SpellingUnit, cells: SpellingCell[]): ConstructionOwnershipRefusal | undefined {
   if (!cells.length) return "missing-unit";
   const first = cells[0].origin;
+  if (first.kind === "split-vowel") return "already-split";
   if (first.kind === "shared") return "already-shared";
   if (first.kind === "rewrite") return "unresolved-ownership";
   if (cells.some(cell => cell.origin.kind !== first.kind)) return "mixed-origin";
@@ -103,6 +104,7 @@ function resolveSpan(view: ConstructionLedgerView, sourceUnitIds: readonly numbe
   const phones = units.map(unit => view.phones[unit.id]);
   if (phones.some(phone => !phone.boundary || phone.boundary.phoneme.sound !== phone.soundAtSpelling)) return refuse("missing-boundary");
   const wanted = new Set(sourceUnitIds);
+  if (view.cells.some(cell => cell.origin.kind === "split-vowel" && wanted.has(cell.origin.unitId))) return refuse("already-split");
   if (view.cells.some(cell => cell.origin.kind === "shared" && cell.origin.sourceUnitIds.some(id => wanted.has(id)))) return refuse("already-shared");
   if (view.cells.some(cell => cell.origin.kind === "rewrite" && cell.origin.sourceUnitIds.some(id => wanted.has(id)))) {
     return refuse("unresolved-ownership");

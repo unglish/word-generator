@@ -27,6 +27,7 @@ export interface SplitVowelConstruction {
   markerCellIds: number[];
   codaUnitIds: number[];
   preservedCodaCellIds: number[];
+  preservedCodaCells: SpellingCell[];
   sharedCodaIds: number[];
   partId: number;
   reading: { sound: string; component: string; marker: string };
@@ -76,7 +77,7 @@ export function prepareSplitVowelTransaction(view: ConstructionLedgerView, plann
     id: constructionId, editId, nucleusUnitId: unitId, phoneId,
     inputCellIds: [...span.nucleus.inputCellIds], componentCellIds: component.map(cell => cell.id),
     markerCellIds: marker.map(cell => cell.id), codaUnitIds: [...span.codaUnitIds],
-    preservedCodaCellIds: [...span.codaCellIds], sharedCodaIds: [...span.sharedCodaIds], partId,
+    preservedCodaCellIds: [...span.codaCellIds], preservedCodaCells: structuredClone(coda), sharedCodaIds: [...span.sharedCodaIds], partId,
     reading: { sound: trial.support.vowel.sound, component: trial.support.vowel.component, marker: trial.support.marker },
     attempt: structuredClone(attempt),
   };
