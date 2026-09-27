@@ -1,3 +1,5 @@
+import { createSharedConstructionPlanner } from "./spelling-construction.js";
+import { englishSharedSpellings } from "../elements/graphemes/shared.js";
 import { describe, expect, it } from "vitest";
 import { englishConfig } from "../index.js";
 import type { Grapheme, GraphemeReading } from "../types.js";
@@ -79,5 +81,70 @@ describe("neighbor readings around a proposed shared construction", () => {
     if (result.status !== "preserved" || result.checks[0].reading.kind !== "following-letter") throw new Error("Expected preserved fixture");
     result.checks[0].reading.forbid!.push("x");
     expect(f.guard(f.base.constructionState(), [1, 2], "x").status).toBe("preserved");
+  });
+});
+
+
+describe("neighbor-checked construction planning and commit", () => {
+  const slot = { phase: "word", partId: null } as const;
+  function configured(reading: GraphemeReading) {
+    const f = fixture(reading);
+    const original = f.base.snapshot();
+    const base = new BaseSpelling(original.phones, true, true, true, englishSharedSpellings, f.config);
+    original.units.forEach(unit => base.appendChoice(unit.id, unit.selected, unit.afterDoubling, unit.inventoryIndex, unit.doublingIncrement));
+    base.setPhase("word");
+    return { ...f, base, planner: createSharedConstructionPlanner(englishSharedSpellings, f.config) };
+  }
+
+  it("refuses incompatible neighbors before sampling and records the refusal without a spelling edit", () => {
+    const f = configured({ kind: "following-letter", require: ["c"] });
+    const before = structuredClone(f.base.constructionState());
+    const attempt = f.planner.decide(f.base.constructionState(), slot, "ks-to-x", [1, 2], () => { throw new Error("Unexpected draw"); });
+    expect(attempt.result).toMatchObject({ status: "neighbor-refused", neighbors: { unitId: 0, reason: "reading-obligation" } });
+    f.planner.verify(f.base.constructionState(), slot, "ks-to-x", [1, 2], attempt);
+    expect(f.base.recordSharedAttempt(slot, "ks-to-x", [1, 2], attempt)).toBeNull();
+    expect(f.base.constructionState()).toEqual(before);
+    const trace = f.base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    expect(trace.shared.attempts).toMatchObject([{ constructionId: null, attempt: { result: { status: "neighbor-refused" } } }]);
+    expect(trace.edits).toEqual([]);
+  });
+
+  it("binds checked neighboring readings into a successful construction certificate", () => {
+    const f = configured({ kind: "following-letter", forbid: ["e", "i", "y"] }); let draws = 0;
+    const attempt = f.planner.decide(f.base.constructionState(), slot, "ks-to-x", [1, 2], () => { draws++; return 0.1; });
+    expect(attempt.result).toMatchObject({ status: "evaluated", trial: { status: "formed" }, neighbors: { status: "preserved", checks: [{ unitId: 0 }] } });
+    expect(draws).toBe(1);
+    expect(f.base.recordSharedAttempt(slot, "ks-to-x", [1, 2], attempt)).toBe(0);
+    const trace = f.base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    expect(trace.surface).toBe("gx");
+    expect(trace.shared.constructions[0].attempt.result).toEqual(attempt.result);
+    expect(draws).toBe(1);
+  });
+
+  it("rejects a permissive planner's attempt at a ledger configured with stricter readings", () => {
+    const f = configured({ kind: "following-letter", require: ["c"] });
+    const permissive = structuredClone(f.config);
+    permissive.graphemes[0].reading = { kind: "single-phone" };
+    const attempt = createSharedConstructionPlanner(englishSharedSpellings, permissive)
+      .decide(f.base.constructionState(), slot, "ks-to-x", [1, 2], () => 0);
+    const before = f.base.snapshot();
+    expect(() => f.base.recordSharedAttempt(slot, "ks-to-x", [1, 2], attempt)).toThrow(/Invalid shared spelling attempt/);
+    expect(f.base.snapshot()).toEqual(before);
+  });
+
+  it("rejects forged neighboring evidence before committing", () => {
+    const f = configured({ kind: "single-phone" });
+    const attempt = f.planner.decide(f.base.constructionState(), slot, "ks-to-x", [1, 2], () => 0);
+    if (attempt.result.status !== "evaluated" || !attempt.result.neighbors) throw new Error("Expected checked fixture");
+    attempt.result.neighbors.checks[0].inputCellIds = [99];
+    const before = f.base.snapshot();
+    expect(() => f.base.recordSharedAttempt(slot, "ks-to-x", [1, 2], attempt)).toThrow();
+    expect(f.base.snapshot()).toEqual(before);
+  });
+
+  it("requires a reading configuration for a shared ledger", () => {
+    expect(() => new BaseSpelling([], true, true, true, englishSharedSpellings)).toThrow(/reading configuration/);
   });
 });

@@ -1,4 +1,6 @@
-import type { SharedSpellingRule } from "../config/language.js";
+import { createConstructionNeighborGuard } from "./spelling-construction-neighbors.js";
+import type { ConstructionNeighborResult } from "./spelling-construction-neighbors.js";
+import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { LedgerCursor } from "./spelling-normalization-types.js";
 import { resolveConstructionSpan } from "./spelling-construction-ownership.js";
@@ -9,7 +11,9 @@ import type { SharedSpellingContext, SharedSpellingTrial } from "./spelling-cons
 export type SharedSpellingSlot = { phase: "word"; partId: null } | { phase: "syllable"; partId: number };
 export type SharedConstructionResult =
   | { status: "unavailable"; reason: ConstructionOwnershipRefusal | "outside-scope" }
-  | { status: "evaluated"; span: CompleteConstructionSpan; context: SharedSpellingContext; trial: SharedSpellingTrial };
+  | { status: "neighbor-refused"; span: CompleteConstructionSpan; context: SharedSpellingContext; neighbors: Extract<ConstructionNeighborResult, { status: "refused" }> }
+  | { status: "evaluated"; span: CompleteConstructionSpan; context: SharedSpellingContext; trial: SharedSpellingTrial;
+      neighbors?: Extract<ConstructionNeighborResult, { status: "preserved" }> };
 
 /** Event-time decision only. A formed trial still requires an authenticated atomic ledger commit. */
 export interface SharedConstructionAttempt {
@@ -36,8 +40,10 @@ function validateSlot(slot: SharedSpellingSlot): void {
 }
 
 /** Combines live complete ownership with phonological support before any random draw. */
-export function createSharedConstructionPlanner(rules: readonly SharedSpellingRule[]) {
+export function createSharedConstructionPlanner(rules: readonly SharedSpellingRule[], readingConfig: Pick<LanguageConfig, "graphemes" | "doubling">) {
+  if (!readingConfig) throw new Error("Shared construction planning requires a reading configuration");
   const policy = createSharedSpellingPolicy(rules);
+  const checkNeighbors = createConstructionNeighborGuard(readingConfig);
 
   function decide(view: ConstructionLedgerView, slot: SharedSpellingSlot, ruleId: string,
     sourceUnitIds: readonly number[], rand: RNG): SharedConstructionAttempt {
@@ -55,8 +61,12 @@ export function createSharedConstructionPlanner(rules: readonly SharedSpellingRu
     const context: SharedSpellingContext = { phase: slot.phase, offsetInScope: offset,
       phonemes: structuredClone(span.phonemes), followingLetter: span.following.known ? span.following.letter : "",
       ...(span.following.known && span.following.phoneme ? { followingPhoneme: structuredClone(span.following.phoneme) } : {}) };
+    const support = policy.describe(ruleId, context);
+    if (support.status === "refused") return attempt({ status: "evaluated", span, context, trial: support });
+    const neighbors = checkNeighbors(view, sourceUnitIds, support.form);
+    if (neighbors.status === "refused") return attempt({ status: "neighbor-refused", span, context, neighbors });
     const trial = policy.sample(ruleId, context, rand);
-    return attempt({ status: "evaluated", span, context, trial });
+    return attempt({ status: "evaluated", span, context, trial, neighbors });
   }
 
   /** Replay against authoritative event-time state and slot; never consumes a generator RNG. */
