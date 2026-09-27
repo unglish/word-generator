@@ -2,9 +2,11 @@
 
 `LanguageConfig.sharedSpellings` opts into structured spellings for ordered
 sequences of two or more phones. This candidate enables the registered English
-policy for /ks, gz/ → x and /k, w/ → qu. Its registered corpus comparison and
-performance measurements are still outstanding; passing integration tests is
-not evidence of improved wordlikeness or readiness to release.
+policy for /ks, gz/ → x and /k, w/ → qu. The completed registered study records
+5,156 supported formations in 200,000 candidate words and fewer unresolved root
+spelling cells, alongside a 16.18% median local throughput decrease and retained
+quality failures. This candidate remains experimental. See the
+[measured results and limitations](../evaluation/experiments/aligned-shared-graphemes/RESULTS.md).
 
 Each rule has an `id`, ordered `phonemes: [{ sound }]`, `form`, percentage
 `probability`, `scope` (`syllable`, `word`, or `both`) and `context`. Context can
@@ -46,5 +48,7 @@ its self-consistent operation stream is not sufficient evidence of completeness.
 The combined verifier is producer-assisted, not an independent implementation of
 the generator. Generic regex sampling and lexical-gap eligibility are not
 independently regenerated. Morphological ownership after the root remains a
-separate task. The registered corpus, independent recount and performance checks
-remain necessary before any quality claim or release of this candidate.
+separate task. The completed independent recount verifies arithmetic and
+structure across 400,000 control/candidate words; it does not independently
+implement reading-license semantics. These measurements do not establish an
+overall wordlikeness gain or release readiness.
