@@ -40,7 +40,7 @@ describe("split-vowel ledger commit", () => {
     expect(trace.split.attempts).toHaveLength(1); expect(trace.edits).toHaveLength(1);
     trace.split.constructions[0].reading.component = "!";
     expect(base.snapshot()).not.toEqual(trace);
-    expect(() => verifyBaseSpellingEvidence(base.snapshot(), englishConfig)).toThrow("unsupported ledger version");
+    expect(() => verifyBaseSpellingEvidence(base.snapshot(), englishConfig)).toThrow("v5 requires its split spelling configuration");
   });
   it("refuses destructive edits and batches atomically", () => {
     const { base } = formed(); const before = base.snapshot();

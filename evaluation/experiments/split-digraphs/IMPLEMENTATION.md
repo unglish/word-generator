@@ -19,8 +19,11 @@ commits. `verifyCompletionSchedule` separately checks a contiguous, complete,
 source-ordered final completion pass and refuses subsequent ordinary root edits.
 It permits later lexical whole-root supersession. `createSplitFormationScheduleVerifier` separately verifies every required
 syllable and word formation trial at its registered slot, including refusals.
-These checks still need composition with the broader shared-writer schedule;
-the public general evidence verifier still rejects v5. Root provenance does not certify final morphology.
+The main `createBaseSpellingEvidenceVerifier` now composes these checks with
+the broader shared-writer schedule and normalization comparison/episode checks
+for v5 when supplied its split configuration. This verifies the recorded root
+writer contract; it does not reconstruct the original grapheme-selection RNG
+stream or establish human-rated pronunciation quality. Root provenance does not certify final morphology.
 
 The initial public API integration test covers 500 words from seed 129, alternating
 morphology and text/lexicon modes. Every word passes operation replay, formation-slot verification and completion
@@ -29,8 +32,7 @@ RNG value agree. Both formation and completion occur. This is an integration
 check, not the registered corpus experiment, an independent linguistic recount,
 a performance result, or a quality claim.
 
-Before measurement and publication, compose the complete writer-schedule checks,
-exercise repair interactions and diagnostic empty policy, verify exact legacy
+Before measurement and publication, exercise repair interactions and diagnostic empty policy, verify exact legacy
 parity against the pinned predecessor, run the registered corpus and paired
 performance protocols, and retain all unavailable/infeasible outcomes and failed
 gates. The registered law and evidence files remain unchanged.
