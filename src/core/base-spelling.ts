@@ -1,3 +1,8 @@
+import { isSingleOwned, sourceUnits } from "./spelling-ownership.js";
+import type { SharedSpellingRule } from "../config/language.js";
+import { createSharedConstructionPlanner } from "./spelling-construction.js";
+import type { SharedConstructionAttempt, SharedSpellingSlot } from "./spelling-construction.js";
+import type { SharedCellOrigin, SharedSpellingConstruction } from "./spelling-construction-types.js";
 import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
 import type { Phoneme } from "../types.js";
 import type { SpellingCoverageCertificate } from "./spelling-coverage-types.js";
@@ -34,6 +39,7 @@ export interface SpellingUnitV3 extends SpellingUnit {
 }
 
 export type SpellingCellOrigin =
+  | SharedCellOrigin
   | NormalizedCellOrigin
   | { kind: "selection"; unitId: number; offset: number }
   | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[] }
@@ -97,7 +103,16 @@ export interface BaseSpellingTraceV3 extends BaseSpellingTraceData {
   normalizationCertificates: UnitNormalizationCertificate[];
   normalization: UnitNormalizationObservation;
 }
-export type BaseSpellingTrace = BaseSpellingTraceV1 | BaseSpellingTraceV2 | BaseSpellingTraceV3;
+export interface BaseSpellingTraceV4 extends Omit<BaseSpellingTraceV3, "version" | "capabilities"> {
+  version: 4;
+  capabilities: BaseSpellingTraceV3["capabilities"] & { sharedConstructions: 1 };
+  shared: {
+    version: 1;
+    attempts: Array<{ id: number; attempt: SharedConstructionAttempt; constructionId: number | null }>;
+    constructions: SharedSpellingConstruction[];
+  };
+}
+export type BaseSpellingTrace = BaseSpellingTraceV1 | BaseSpellingTraceV2 | BaseSpellingTraceV3 | BaseSpellingTraceV4;
 
 export type SpellingEditObserver = (
   start: number,
@@ -124,6 +139,10 @@ export class BaseSpelling {
   private readonly normalizationChecks?: UnitNormalizationCheck[];
   private readonly normalizationEpisodes?: UnitNormalizationEpisode[];
   private nextNormalizationEpisodeId = 0;
+  private readonly sharedPlanner?: ReturnType<typeof createSharedConstructionPlanner>;
+  private readonly sharedConstructions: SharedSpellingConstruction[] = [];
+  private readonly sharedAttempts?: BaseSpellingTraceV4["shared"]["attempts"];
+  private nextSharedAttemptId = 0;
   private nextCellId = 0;
   private nextEditId = 0;
   private readonly edits?: SpellingEdit[];
@@ -135,7 +154,13 @@ export class BaseSpelling {
     retainHistory: boolean,
     private readonly licensed = false,
     private readonly normalizeUnits = false,
+    sharedRules?: readonly SharedSpellingRule[],
   ) {
+    if (sharedRules !== undefined) {
+      if (!normalizeUnits || !licensed) throw new Error("Shared spelling requires normalized spelling provenance");
+      this.sharedPlanner = createSharedConstructionPlanner(sharedRules);
+      if (retainHistory) this.sharedAttempts = [];
+    }
     if (normalizeUnits && !licensed) throw new Error("Unit normalization requires licensed spelling provenance");
     if (retainHistory) {
       this.edits = [];
@@ -196,11 +221,7 @@ export class BaseSpelling {
     const id = this.nextEditId++;
     const sourceUnitIds = [
       ...new Set(
-        input.flatMap((cell) =>
-          cell.origin.kind !== "rewrite"
-            ? [cell.origin.unitId]
-            : cell.origin.sourceUnitIds,
-        ),
+        input.flatMap(cell => [...sourceUnits(cell.origin)]),
       ),
     ];
     const parts = new Set(input.map(cell => cell.partId));
@@ -299,7 +320,42 @@ export class BaseSpelling {
     const id = this.nextNormalizationEpisodeId++;
     this.normalizationEpisodes?.push({ version: 1, id, site, cursor,
       predecessorCellId: previous.id, rightCellId: first.id,
-      rightUnitId: first.origin.kind === "rewrite" ? null : first.origin.unitId, outcome });
+      rightUnitId: !isSingleOwned(first.origin) ? null : first.origin.unitId, outcome });
+  }
+
+  /** Revalidate against live state before committing cells, IDs, certificates or attempts. */
+  recordSharedAttempt(slot: SharedSpellingSlot, ruleId: string, sourceUnitIds: readonly number[], attempt: SharedConstructionAttempt): number | null {
+    if (!this.sharedPlanner || this.phase !== slot.phase) throw new Error("Missing shared spelling capability or phase");
+    this.sharedPlanner.verify(this.constructionState(), slot, ruleId, sourceUnitIds, attempt);
+    const result = attempt.result;
+    let constructionId: number | null = null;
+    if (result.status === "evaluated" && result.trial.status === "formed") {
+      const { span, trial } = result;
+      const id = this.sharedConstructions.length;
+      const editId = this.nextEditId;
+      const input = this.cells.slice(span.start, span.end);
+      const output = trial.support.form.split("").map((text, offset): SpellingCell => ({
+        id: this.nextCellId + offset, text, partId: span.displayPartId,
+        origin: { kind: "shared", constructionId: id, editId, offset,
+          sourceUnitIds: [...span.sourceUnitIds], phoneIds: [...span.phoneIds] },
+      }));
+      const construction: SharedSpellingConstruction = structuredClone({ version: 1, id, editId,
+        attemptId: this.nextSharedAttemptId, sourceUnitIds: span.sourceUnitIds, phoneIds: span.phoneIds,
+        inputCellIds: span.inputCellIds, outputCellIds: output.map(cell => cell.id),
+        sourcePartIds: span.sourcePartIds, displayPartId: span.displayPartId,
+        before: span.before, after: trial.support.form,
+        reading: { kind: "shared-phones", sounds: trial.support.sounds }, attempt });
+      this.cells.splice(span.start, input.length, ...output);
+      this.nextCellId += output.length;
+      this.nextEditId++;
+      this.sharedConstructions.push(construction);
+      this.edits?.push({ id: editId, phase: this.phase, rule: `sharedSpelling:${ruleId}`, start: span.start,
+        input, output, before: span.before, after: trial.support.form, partId: span.displayPartId });
+      constructionId = id;
+    }
+    this.sharedAttempts?.push({ id: this.nextSharedAttemptId, attempt: structuredClone(attempt), constructionId });
+    this.nextSharedAttemptId++;
+    return constructionId;
   }
 
   /** Caller authenticates support; this atomic commit separately validates cell/phone structure. */
@@ -323,13 +379,13 @@ export class BaseSpelling {
         plan.targetReading.kind !== "single-phone") fail();
     const start = this.cells.findIndex(cell => cell.id === plan.inputCellIds[0]);
     const input = this.cells.slice(start, start + plan.inputCellIds.length);
-    const owned = this.cells.filter(cell => cell.origin.kind !== "rewrite" && cell.origin.unitId === unit.id);
+    const owned = this.cells.filter(cell => isSingleOwned(cell.origin) && cell.origin.unitId === unit.id);
     const previous = this.cells[start - 1];
     const prior = [...this.normalizationCertificates].reverse().find(certificate => certificate.unitId === unit.id);
     if (start < 1 || !previous || previous.id !== plan.predecessorCellId || previous.text !== input[0]?.text ||
         plan.before !== (prior?.after ?? unit.afterDoubling) || owned.length !== input.length || !input.length ||
         input.map(cell => cell.text).join("") !== plan.before ||
-        input.some((cell, offset) => cell.id !== plan.inputCellIds[offset] || cell.origin.kind === "rewrite" ||
+        input.some((cell, offset) => cell.id !== plan.inputCellIds[offset] || !isSingleOwned(cell.origin) ||
           cell.origin.kind === "licensed" || cell.origin.unitId !== unit.id || cell.origin.offset !== offset || cell.partId !== plan.partId ||
           (prior ? cell.origin.kind !== "normalized" || cell.origin.certificateId !== prior.id : cell.origin.kind !== "selection"))) fail();
     const certificateId = this.normalizationCertificates.length;
@@ -366,11 +422,11 @@ export class BaseSpelling {
       const previousLicense = [...this.certificates].reverse().find(certificate => certificate.replacements.some(entry => entry.unitId === unit.id));
       const currentForm = previousLicense?.replacements.find(entry => entry.unitId === unit.id)?.after ?? unit.afterDoubling;
       if (replacement.before !== currentForm) fail();
-      const owned = this.cells.filter(cell => cell.origin.kind !== "rewrite" && cell.origin.unitId === unit.id);
+      const owned = this.cells.filter(cell => isSingleOwned(cell.origin) && cell.origin.unitId === unit.id);
       const start = this.cells.findIndex(cell => cell.id === replacement.inputCellIds[0]);
       const input = this.cells.slice(start, start + replacement.inputCellIds.length);
       if (start < previousEnd || owned.length !== input.length || input.length === 0 ||
-          input.some((cell, i) => cell.id !== replacement.inputCellIds[i] || cell.origin.kind === "rewrite" ||
+          input.some((cell, i) => cell.id !== replacement.inputCellIds[i] || !isSingleOwned(cell.origin) ||
             cell.origin.unitId !== unit.id || cell.origin.offset !== i || cell.partId !== replacement.partId) ||
           input.map(cell => cell.text).join("") !== replacement.before ||
           replacement.partId !== this.phones[unit.phoneIds[0]].syllableIndex) fail();
@@ -437,12 +493,16 @@ export class BaseSpelling {
         if (doublingIncrement !== 0 && doublingIncrement !== 1) throw new Error("Missing actual doubling increment");
         return { ...unit, doublingIncrement };
       });
-      return structuredClone({ version: 3, ...data, units,
+      const trace: BaseSpellingTraceV3 = { version: 3, ...data, units,
         capabilities: { ...capabilities, unitNormalization: 1 }, certificates: this.certificates,
         normalizationCertificates: this.normalizationCertificates,
         normalization: { version: 1, checks: this.normalizationChecks ?? [], comparisons: this.normalizationComparisons, collisions: this.normalizationCollisions,
           episodes: this.normalizationEpisodes ?? [] },
-      });
+      };
+      if (this.sharedPlanner) return structuredClone({ ...trace, version: 4,
+        capabilities: { ...trace.capabilities, sharedConstructions: 1 },
+        shared: { version: 1, attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions } });
+      return structuredClone(trace);
     }
     return structuredClone({ version: 2, capabilities, certificates: this.certificates, ...data });
   }

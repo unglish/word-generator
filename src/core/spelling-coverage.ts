@@ -1,3 +1,4 @@
+import { isSingleOwned } from "./spelling-ownership.js";
 import type { Grapheme } from "../types.js";
 import type { LanguageConfig } from "../config/language.js";
 import { validateJunction } from "./junction.js";
@@ -28,7 +29,7 @@ interface SurfaceCell { text: string; unitId: number | null; partId: number | nu
 interface UnitSpan { start: number; end: number; partId: number; cells: SpellingCell[] }
 
 function owner(cell: SpellingCell): number | null {
-  return cell.origin.kind === "rewrite" ? null : cell.origin.unitId;
+  return isSingleOwned(cell.origin) ? cell.origin.unitId : null;
 }
 
 function unitSpans(cells: readonly SpellingCell[], choices: SpellingChoiceState[]): Map<number, UnitSpan> {
