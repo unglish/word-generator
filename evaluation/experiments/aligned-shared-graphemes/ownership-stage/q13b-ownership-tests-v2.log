@@ -1,0 +1,68 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/spelling-construction-policy.test.ts (36 tests) 23ms
+ ❯ src/core/spelling-construction-ownership.test.ts (27 tests | 1 failed) 14ms
+   ✓ shared spelling source ownership > consumes the full k selection for /k/, then /s/ 2ms
+   ✓ shared spelling source ownership > consumes the full ck selection for /k/, then /s/ 0ms
+   ✓ shared spelling source ownership > retains ordered /g,z/ parts across a syllable boundary 0ms
+   ✓ shared spelling source ownership > retains ordered /k,w/ parts across a syllable boundary 0ms
+   ✓ shared spelling source ownership > detaches returned phone data and all ownership arrays 0ms
+   ✓ shared spelling source ownership > refuses invalid ordered unit request [] 0ms
+   ✓ shared spelling source ownership > refuses invalid ordered unit request [ +0 ] 0ms
+   ✓ shared spelling source ownership > refuses invalid ordered unit request [ 1, +0 ] 0ms
+   ✓ shared spelling source ownership > refuses invalid ordered unit request [ +0, +0 ] 0ms
+   ✓ shared spelling source ownership > refuses invalid ordered unit request [ +0, 2 ] 0ms
+   ✓ shared spelling source ownership > refuses invalid ordered unit request [ -1, +0 ] 0ms
+   ✓ shared spelling source ownership > refuses invalid ordered unit request [ +0, 1.5 ] 0ms
+   ✓ shared spelling source ownership > refuses a phone claimed by multiple original units 0ms
+   ✓ shared spelling source ownership > refuses absent writer boundary evidence 0ms
+   ✓ shared spelling source ownership > refuses mismatch writer boundary evidence 0ms
+   ✓ shared spelling source ownership > refuses ck when source cell 0 is missing 0ms
+   ✓ shared spelling source ownership > refuses ck when source cell 1 is missing 0ms
+   ✓ shared spelling source ownership > refuses a unit with no surviving cells 0ms
+   ✓ shared spelling source ownership > refuses generic rewrite ancestry even when the text remains identical 0ms
+   ✓ shared spelling source ownership > refuses reordered whole units 0ms
+   ✓ shared spelling source ownership > refuses a spelling cell attributed to the wrong source part 0ms
+   ✓ shared spelling source ownership > refuses a mixture of initial and licensed cells 0ms
+   ✓ shared spelling source ownership > refuses licensed origins without a recorded license 0ms
+   ✓ shared spelling source ownership > refuses normalized origins without a recorded license 0ms
+   ✓ shared spelling source ownership > does not infer following phone context from a rewritten vowel letter 0ms
+   × shared spelling source ownership > does not use a partially surviving following vowel unit as context 8ms
+     → expected { status: 'complete', start: +0, …(9) } to match object { status: 'complete', …(1) }
+(20 matching properties omitted from actual)
+   ✓ shared spelling source ownership > does not treat an unappended next phone as the end of the word 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > does not use a partially surviving following vowel unit as context
+AssertionError: expected { status: 'complete', start: +0, …(9) } to match object { status: 'complete', …(1) }
+(20 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "following": {
+-     "known": false,
++     "known": true,
+    },
+    "status": "complete",
+  }
+
+ ❯ src/core/spelling-construction-ownership.test.ts:111:51
+    109|     const view = mutable(fixture([{ sound: "g", form: "g" }, { sound: …
+    110|     view.cells.pop();
+    111|     expect(resolveConstructionSpan(view, [0, 1])).toMatchObject({ stat…
+       |                                                   ^
+    112|   });
+    113| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 62 passed (63)
+   Start at  18:20:52
+   Duration  404ms (transform 279ms, setup 0ms, collect 368ms, tests 37ms, environment 0ms, prepare 84ms)
+
