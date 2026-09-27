@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "purpose": "exploratory retained edits; not intervention registration",
+  "files": {
+    "control-inventory-v1.json.gz": {
+      "bytes": 243496,
+      "sha256": "8d75d73479b37161a20e2690ac6484dedb3a07df80ae029b9b2abae01e137240"
+    },
+    "control-inventory-v1.log": {
+      "bytes": 868,
+      "sha256": "9a729f8f6fd2cf0e2d043cd54ffba863dae7b3a28921572fc9dd03b7349ba386"
+    },
+    "control-manifest.json.gz": {
+      "bytes": 16228,
+      "sha256": "65d08fa4e5a63487a19aa3f9628975197ac13ccab61eb3209dbc48d9464c89c2"
+    },
+    "control_inventory.py": {
+      "bytes": 4536,
+      "sha256": "46b57c994706b5884eb7421358029079b6d515cef7bb1d49709923f4adc8109f"
+    },
+    "index_witnesses.py": {
+      "bytes": 1820,
+      "sha256": "7c7c1c98ed83abd832e9f24ddc185f56f479203c0b1ebc1d47f1e6e0100b391b"
+    },
+    "magic-e-witness-index.json": {
+      "bytes": 54000,
+      "sha256": "809daed9e26c5cbecd6de0fb6260bd82b2e7f0dc157ec78ad84d573f989a3c29"
+    },
+    "README.md": {
+      "bytes": 1916,
+      "sha256": "0676089dd9bbcb3d6a5a0cd1127254660a3b23ef36ce64c9b9778704f84977f0"
+    },
+    "build_coda_evidence.py": {
+      "bytes": 2929,
+      "sha256": "5ac5bf68ba2d0a4ab8c50cc3c7f26169a98609a673bc6f68afa78bfb93eedd3c"
+    },
+    "coda-evidence.json": {
+      "bytes": 15534,
+      "sha256": "2446b1fe64590994d568954ae682d5d112c4330a662d6cd18039135cf9c6d0aa"
+    }
+  },
+  "uncompressedReportSha256": "dc2d3626c8a6274952c47a0d51751450beb7a74459d701e54fe0113c36e8df61",
+  "validation": "20 streams, 200000 words, all rule totals reconciled and all 88 first-witness categories checked; archive artifacts verified before and after scan"
+}

@@ -1,0 +1,933 @@
+{
+  "version": 1,
+  "sourcePath": "/private/tmp/q15-cmudict-74790861.dict",
+  "sourceSha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+  "scriptSha256": "5ac5bf68ba2d0a4ab8c50cc3c7f26169a98609a673bc6f68afa78bfb93eedd3c",
+  "rows": [
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "b"
+      ],
+      "codaWritten": "b",
+      "marker": "e",
+      "example": {
+        "word": "babe",
+        "phones": [
+          "B",
+          "EY1",
+          "B"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "d"
+      ],
+      "codaWritten": "d",
+      "marker": "e",
+      "example": {
+        "word": "made",
+        "phones": [
+          "M",
+          "EY1",
+          "D"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "f"
+      ],
+      "codaWritten": "f",
+      "marker": "e",
+      "example": {
+        "word": "safe",
+        "phones": [
+          "S",
+          "EY1",
+          "F"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "k"
+      ],
+      "codaWritten": "k",
+      "marker": "e",
+      "example": {
+        "word": "lake",
+        "phones": [
+          "L",
+          "EY1",
+          "K"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "l"
+      ],
+      "codaWritten": "l",
+      "marker": "e",
+      "example": {
+        "word": "male",
+        "phones": [
+          "M",
+          "EY1",
+          "L"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "m"
+      ],
+      "codaWritten": "m",
+      "marker": "e",
+      "example": {
+        "word": "name",
+        "phones": [
+          "N",
+          "EY1",
+          "M"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "n"
+      ],
+      "codaWritten": "n",
+      "marker": "e",
+      "example": {
+        "word": "cane",
+        "phones": [
+          "K",
+          "EY1",
+          "N"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "p"
+      ],
+      "codaWritten": "p",
+      "marker": "e",
+      "example": {
+        "word": "tape",
+        "phones": [
+          "T",
+          "EY1",
+          "P"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "s"
+      ],
+      "codaWritten": "c",
+      "marker": "e",
+      "example": {
+        "word": "face",
+        "phones": [
+          "F",
+          "EY1",
+          "S"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "t"
+      ],
+      "codaWritten": "t",
+      "marker": "e",
+      "example": {
+        "word": "late",
+        "phones": [
+          "L",
+          "EY1",
+          "T"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "v"
+      ],
+      "codaWritten": "v",
+      "marker": "e",
+      "example": {
+        "word": "save",
+        "phones": [
+          "S",
+          "EY1",
+          "V"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "z"
+      ],
+      "codaWritten": "z",
+      "marker": "e",
+      "example": {
+        "word": "maze",
+        "phones": [
+          "M",
+          "EY1",
+          "Z"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "ð"
+      ],
+      "codaWritten": "th",
+      "marker": "e",
+      "example": {
+        "word": "bathe",
+        "phones": [
+          "B",
+          "EY1",
+          "DH"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "s",
+        "t"
+      ],
+      "codaWritten": "st",
+      "marker": "e",
+      "example": {
+        "word": "paste",
+        "phones": [
+          "P",
+          "EY1",
+          "S",
+          "T"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "eɪ",
+        "component": "a"
+      },
+      "codaSounds": [
+        "n",
+        "dʒ"
+      ],
+      "codaWritten": "ng",
+      "marker": "e",
+      "example": {
+        "word": "range",
+        "phones": [
+          "R",
+          "EY1",
+          "N",
+          "JH"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "i:",
+        "component": "e"
+      },
+      "codaSounds": [
+        "d"
+      ],
+      "codaWritten": "d",
+      "marker": "e",
+      "example": {
+        "word": "cede",
+        "phones": [
+          "S",
+          "IY1",
+          "D"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "i:",
+        "component": "e"
+      },
+      "codaSounds": [
+        "n"
+      ],
+      "codaWritten": "n",
+      "marker": "e",
+      "example": {
+        "word": "gene",
+        "phones": [
+          "JH",
+          "IY1",
+          "N"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "i:",
+        "component": "e"
+      },
+      "codaSounds": [
+        "m"
+      ],
+      "codaWritten": "m",
+      "marker": "e",
+      "example": {
+        "word": "theme",
+        "phones": [
+          "TH",
+          "IY1",
+          "M"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "i:",
+        "component": "e"
+      },
+      "codaSounds": [
+        "z"
+      ],
+      "codaWritten": "s",
+      "marker": "e",
+      "example": {
+        "word": "these",
+        "phones": [
+          "DH",
+          "IY1",
+          "Z"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "i:",
+        "component": "e"
+      },
+      "codaSounds": [
+        "v"
+      ],
+      "codaWritten": "v",
+      "marker": "e",
+      "example": {
+        "word": "eve",
+        "phones": [
+          "IY1",
+          "V"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "m"
+      ],
+      "codaWritten": "m",
+      "marker": "e",
+      "example": {
+        "word": "time",
+        "phones": [
+          "T",
+          "AY1",
+          "M"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "f"
+      ],
+      "codaWritten": "f",
+      "marker": "e",
+      "example": {
+        "word": "life",
+        "phones": [
+          "L",
+          "AY1",
+          "F"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "k"
+      ],
+      "codaWritten": "k",
+      "marker": "e",
+      "example": {
+        "word": "like",
+        "phones": [
+          "L",
+          "AY1",
+          "K"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "l"
+      ],
+      "codaWritten": "l",
+      "marker": "e",
+      "example": {
+        "word": "mile",
+        "phones": [
+          "M",
+          "AY1",
+          "L"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "n"
+      ],
+      "codaWritten": "n",
+      "marker": "e",
+      "example": {
+        "word": "line",
+        "phones": [
+          "L",
+          "AY1",
+          "N"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "p"
+      ],
+      "codaWritten": "p",
+      "marker": "e",
+      "example": {
+        "word": "pipe",
+        "phones": [
+          "P",
+          "AY1",
+          "P"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "s"
+      ],
+      "codaWritten": "c",
+      "marker": "e",
+      "example": {
+        "word": "rice",
+        "phones": [
+          "R",
+          "AY1",
+          "S"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "t"
+      ],
+      "codaWritten": "t",
+      "marker": "e",
+      "example": {
+        "word": "bite",
+        "phones": [
+          "B",
+          "AY1",
+          "T"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "v"
+      ],
+      "codaWritten": "v",
+      "marker": "e",
+      "example": {
+        "word": "five",
+        "phones": [
+          "F",
+          "AY1",
+          "V"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "z"
+      ],
+      "codaWritten": "z",
+      "marker": "e",
+      "example": {
+        "word": "size",
+        "phones": [
+          "S",
+          "AY1",
+          "Z"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "aɪ",
+        "component": "i"
+      },
+      "codaSounds": [
+        "ð"
+      ],
+      "codaWritten": "th",
+      "marker": "e",
+      "example": {
+        "word": "tithe",
+        "phones": [
+          "T",
+          "AY1",
+          "DH"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "əʊ",
+        "component": "o"
+      },
+      "codaSounds": [
+        "b"
+      ],
+      "codaWritten": "b",
+      "marker": "e",
+      "example": {
+        "word": "robe",
+        "phones": [
+          "R",
+          "OW1",
+          "B"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "əʊ",
+        "component": "o"
+      },
+      "codaSounds": [
+        "d"
+      ],
+      "codaWritten": "d",
+      "marker": "e",
+      "example": {
+        "word": "code",
+        "phones": [
+          "K",
+          "OW1",
+          "D"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "əʊ",
+        "component": "o"
+      },
+      "codaSounds": [
+        "p"
+      ],
+      "codaWritten": "p",
+      "marker": "e",
+      "example": {
+        "word": "hope",
+        "phones": [
+          "HH",
+          "OW1",
+          "P"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "əʊ",
+        "component": "o"
+      },
+      "codaSounds": [
+        "l"
+      ],
+      "codaWritten": "l",
+      "marker": "e",
+      "example": {
+        "word": "hole",
+        "phones": [
+          "HH",
+          "OW1",
+          "L"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "əʊ",
+        "component": "o"
+      },
+      "codaSounds": [
+        "m"
+      ],
+      "codaWritten": "m",
+      "marker": "e",
+      "example": {
+        "word": "home",
+        "phones": [
+          "HH",
+          "OW1",
+          "M"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "əʊ",
+        "component": "o"
+      },
+      "codaSounds": [
+        "n"
+      ],
+      "codaWritten": "n",
+      "marker": "e",
+      "example": {
+        "word": "bone",
+        "phones": [
+          "B",
+          "OW1",
+          "N"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "əʊ",
+        "component": "o"
+      },
+      "codaSounds": [
+        "t"
+      ],
+      "codaWritten": "t",
+      "marker": "e",
+      "example": {
+        "word": "note",
+        "phones": [
+          "N",
+          "OW1",
+          "T"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "əʊ",
+        "component": "o"
+      },
+      "codaSounds": [
+        "z"
+      ],
+      "codaWritten": "s",
+      "marker": "e",
+      "example": {
+        "word": "rose",
+        "phones": [
+          "R",
+          "OW1",
+          "Z"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "əʊ",
+        "component": "o"
+      },
+      "codaSounds": [
+        "ð"
+      ],
+      "codaWritten": "th",
+      "marker": "e",
+      "example": {
+        "word": "clothe",
+        "phones": [
+          "K",
+          "L",
+          "OW1",
+          "DH"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "codaSounds": [
+        "d"
+      ],
+      "codaWritten": "d",
+      "marker": "e",
+      "example": {
+        "word": "rude",
+        "phones": [
+          "R",
+          "UW1",
+          "D"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "codaSounds": [
+        "b"
+      ],
+      "codaWritten": "b",
+      "marker": "e",
+      "example": {
+        "word": "tube",
+        "phones": [
+          "T",
+          "UW1",
+          "B"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "codaSounds": [
+        "k"
+      ],
+      "codaWritten": "k",
+      "marker": "e",
+      "example": {
+        "word": "duke",
+        "phones": [
+          "D",
+          "UW1",
+          "K"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "codaSounds": [
+        "l"
+      ],
+      "codaWritten": "l",
+      "marker": "e",
+      "example": {
+        "word": "rule",
+        "phones": [
+          "R",
+          "UW1",
+          "L"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "codaSounds": [
+        "n"
+      ],
+      "codaWritten": "n",
+      "marker": "e",
+      "example": {
+        "word": "dune",
+        "phones": [
+          "D",
+          "UW1",
+          "N"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "codaSounds": [
+        "s"
+      ],
+      "codaWritten": "s",
+      "marker": "e",
+      "example": {
+        "word": "use",
+        "phones": [
+          "Y",
+          "UW1",
+          "S"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "codaSounds": [
+        "t"
+      ],
+      "codaWritten": "t",
+      "marker": "e",
+      "example": {
+        "word": "flute",
+        "phones": [
+          "F",
+          "L",
+          "UW1",
+          "T"
+        ]
+      }
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "codaSounds": [
+        "dʒ"
+      ],
+      "codaWritten": "g",
+      "marker": "e",
+      "example": {
+        "word": "huge",
+        "phones": [
+          "HH",
+          "Y",
+          "UW1",
+          "JH"
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Explicit attestations, not estimated probabilities or a complete English grammar.",
+    "Dictionary pronunciation alone does not align letters; each written interval is an explicit proposed analysis.",
+    "CMU American phones are mapped to existing generator identities without changing its dialect.",
+    "Examples with /j/ retain that onset; u_e does not authorize adding a new phone.",
+    "Before activation, each coda must also have complete live ownership and compatible configured readings."
+  ]
+}
