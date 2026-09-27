@@ -76,7 +76,7 @@ function ownedPositions(view: ConstructionLedgerView, unitId: number): number[] 
   return view.cells.flatMap((cell, index) => isSingleOwned(cell.origin) && cell.origin.unitId === unitId ? [index] : []);
 }
 
-function followingContext(view: ConstructionLedgerView, phoneId: number, end: number): CompleteConstructionSpan["following"] {
+export function followingConstructionContext(view: ConstructionLedgerView, phoneId: number, end: number): CompleteConstructionSpan["following"] {
   const phone = view.phones[phoneId];
   const cell = view.cells[end];
   if (!phone && !cell) return { known: true, letter: "" };
@@ -117,7 +117,7 @@ export function resolveConstructionSpan(view: ConstructionLedgerView, sourceUnit
   const cells = indices.map(index => view.cells[index]);
   if (new Set(cells.map(cell => cell.id)).size !== cells.length) return refuse("partial-unit");
   const end = indices[indices.length - 1] + 1;
-  const following = followingContext(view, phones[phones.length - 1].id + 1, end);
+  const following = followingConstructionContext(view, phones[phones.length - 1].id + 1, end);
   return { status: "complete", start: indices[0], end, before: cells.map(cell => cell.text).join(""),
     sourceUnitIds: [...sourceUnitIds], phoneIds: phones.map(phone => phone.id), inputCellIds: cells.map(cell => cell.id),
     sourcePartIds: phones.map(phone => phone.syllableIndex), displayPartId: phones[0].syllableIndex,

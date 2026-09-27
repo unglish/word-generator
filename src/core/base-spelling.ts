@@ -1,4 +1,6 @@
-import { isSingleOwned, sourceUnits } from "./spelling-ownership.js";
+import { createSharedEditGuard } from "./spelling-construction-edit.js";
+import type { SharedEditDecision } from "./spelling-construction-edit.js";
+import { editPart, isSingleOwned, sourceUnits } from "./spelling-ownership.js";
 import type { SharedSpellingRule } from "../config/language.js";
 import { createSharedConstructionPlanner } from "./spelling-construction.js";
 import type { SharedConstructionAttempt, SharedSpellingSlot } from "./spelling-construction.js";
@@ -110,6 +112,7 @@ export interface BaseSpellingTraceV4 extends Omit<BaseSpellingTraceV3, "version"
     version: 1;
     attempts: Array<{ id: number; attempt: SharedConstructionAttempt; constructionId: number | null }>;
     constructions: SharedSpellingConstruction[];
+    editGuards: Array<{ cursor: LedgerCursor; phase: SpellingEdit["phase"]; rule: string; start: number; deleteCount: number; insert: string; partId: number | null; decision: SharedEditDecision }>;
   };
 }
 export type BaseSpellingTrace = BaseSpellingTraceV1 | BaseSpellingTraceV2 | BaseSpellingTraceV3 | BaseSpellingTraceV4;
@@ -119,14 +122,14 @@ export type SpellingEditObserver = (
   deleteCount: number,
   insert: string,
   rule: string,
-) => void;
+) => void | boolean;
 export type PartEditObserver = (
   part: number,
   start: number,
   deleteCount: number,
   insert: string,
   rule: string,
-) => void;
+) => void | boolean;
 
 /** Live units/cells exist independently of tracing; only discarded edit history is optional. */
 export class BaseSpelling {
@@ -142,6 +145,8 @@ export class BaseSpelling {
   private readonly sharedPlanner?: ReturnType<typeof createSharedConstructionPlanner>;
   private readonly sharedConstructions: SharedSpellingConstruction[] = [];
   private readonly sharedAttempts?: BaseSpellingTraceV4["shared"]["attempts"];
+  private readonly sharedEditGuard?: ReturnType<typeof createSharedEditGuard>;
+  private readonly sharedEditGuards?: BaseSpellingTraceV4["shared"]["editGuards"];
   private nextSharedAttemptId = 0;
   private nextCellId = 0;
   private nextEditId = 0;
@@ -159,6 +164,8 @@ export class BaseSpelling {
     if (sharedRules !== undefined) {
       if (!normalizeUnits || !licensed) throw new Error("Shared spelling requires normalized spelling provenance");
       this.sharedPlanner = createSharedConstructionPlanner(sharedRules);
+      this.sharedEditGuard = createSharedEditGuard(sharedRules);
+      if (retainHistory) this.sharedEditGuards = [];
       if (retainHistory) this.sharedAttempts = [];
     }
     if (normalizeUnits && !licensed) throw new Error("Unit normalization requires licensed spelling provenance");
@@ -205,7 +212,7 @@ export class BaseSpelling {
     return this.cells.length;
   }
 
-  edit(start: number, deleteCount: number, insert: string, rule: string, partId?: number): void {
+  edit(start: number, deleteCount: number, insert: string, rule: string, partId?: number): boolean {
     if (
       !Number.isInteger(start) ||
       !Number.isInteger(deleteCount) ||
@@ -217,16 +224,19 @@ export class BaseSpelling {
     }
     const input = this.cells.slice(start, start + deleteCount);
     const before = input.map((cell) => cell.text).join("");
-    if (before === insert) return;
+    if (before === insert) return true;
+    if (this.sharedEditGuard && this.sharedConstructions.length) {
+      const decision = this.sharedEditGuard(this.constructionState(), this.sharedConstructions, { start, deleteCount, insert, partId });
+      this.sharedEditGuards?.push({ cursor: this.constructionState().cursor, phase: this.phase, rule, start, deleteCount, insert, partId: partId ?? null, decision });
+      if (decision.status === "refused") return false;
+    }
     const id = this.nextEditId++;
     const sourceUnitIds = [
       ...new Set(
         input.flatMap(cell => [...sourceUnits(cell.origin)]),
       ),
     ];
-    const parts = new Set(input.map(cell => cell.partId));
-    const resolvedPart = parts.size === 1 && !parts.has(null) && !parts.has(undefined)
-      ? input[0].partId! : input.length === 0 ? partId ?? null : null;
+    const resolvedPart = editPart(input, partId);
     const output = insert.split("").map(
       (text): SpellingCell => ({
         id: this.nextCellId++,
@@ -252,6 +262,7 @@ export class BaseSpelling {
       after: insert,
       ...(this.licensed ? { partId: resolvedPart } : {}),
     });
+    return true;
   }
 
   observe(offset = 0, partId?: number): SpellingEditObserver {
@@ -263,7 +274,7 @@ export class BaseSpelling {
     return (part, start, deleteCount, insert, rule) => {
       let offset = start;
       for (let i = 0; i < part; i++) offset += parts[i].length;
-      this.edit(offset, deleteCount, insert, rule, part);
+      return this.edit(offset, deleteCount, insert, rule, part);
     };
   }
 
@@ -501,7 +512,7 @@ export class BaseSpelling {
       };
       if (this.sharedPlanner) return structuredClone({ ...trace, version: 4,
         capabilities: { ...trace.capabilities, sharedConstructions: 1 },
-        shared: { version: 1, attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions } });
+        shared: { version: 1, attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, editGuards: this.sharedEditGuards ?? [] } });
       return structuredClone(trace);
     }
     return structuredClone({ version: 2, capabilities, certificates: this.certificates, ...data });
