@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "stage": "pure policy only; not integrated or a candidate quality result",
+  "files": [
+    {
+      "file": "q13b-policy-tests-v1.log",
+      "bytes": 335,
+      "sha256": "4d1ca9f55a9f2f4e682dad2ca50988ef6cae042e5b5f56455f40fb96edc42f1c"
+    },
+    {
+      "file": "q13b-policy-tests-v2.log",
+      "bytes": 335,
+      "sha256": "ce5e37c0f3ce88dd5a1578af64772e3052db827677b8ec0e46b65536c262df3e"
+    },
+    {
+      "file": "q13b-policy-tests-v3.log",
+      "bytes": 335,
+      "sha256": "c6163611e7eb4b91a70265285e4d7a5f910f59b8dd92385ade8e8913dde84be6"
+    },
+    {
+      "file": "q13b-policy-typecheck-v1.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "q13b-policy-lint-v1.log",
+      "bytes": 422,
+      "sha256": "abfa3486b0920f00fc9752fe624092c178dcb299b1212c37a14094e64597696b"
+    },
+    {
+      "file": "q13b-policy-lint-v2.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

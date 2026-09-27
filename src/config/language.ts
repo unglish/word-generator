@@ -568,6 +568,20 @@ export interface SilentEConfig {
   appendAfter?: SilentEAppendRule[];
 }
 
+/** One configured spelling for an ordered sequence of multiple phonemes. */
+export interface SharedSpellingRule {
+  id: string;
+  phonemes: Array<{ sound: string }>;
+  form: string;
+  probability: number;
+  scope: "syllable" | "word" | "both";
+  context: {
+    /** Relative to the active syllable/word pass, not necessarily the root. */
+    nonInitial?: boolean;
+    following?: { phoneClass: "vowel"; letters: string[] };
+  };
+}
+
 /**
  * A post-selection spelling rule (regex-based transformation on written output).
  */
