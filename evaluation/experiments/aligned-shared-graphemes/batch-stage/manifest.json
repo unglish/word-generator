@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "files": {
+    "README.md": {
+      "bytes": 2803,
+      "sha256": "f69f746ff38fc67509d5e5844fe346fccd28435af7a8ec1d3fd501efe4e2db4a"
+    },
+    "q13b-batch-full-suite-v1.log": {
+      "bytes": 21490,
+      "sha256": "0e7bd48af0e07f164918b774f6597e38b370ca108e3afd09aa1d46283cfaaf12"
+    },
+    "q13b-batch-lint-v1.log": {
+      "bytes": 283,
+      "sha256": "de840f3b17a4e86f627e7569023eda0aa492874b4b29cf8f902241f1e0952f39"
+    },
+    "q13b-batch-lint-v2.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-batch-regression-v1.log": {
+      "bytes": 877,
+      "sha256": "b4c360b8899ec6ed63ab6e1cfcc6386d78037d99a75b48488987edafa9dc5a36"
+    },
+    "q13b-batch-tests-v1.log": {
+      "bytes": 877,
+      "sha256": "dca3db75402b60866296d83028ca06209436a0e5dadf94269c09b7e79c128d9a"
+    },
+    "q13b-batch-typecheck-v1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-batch-typecheck-v2.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-batch-typecheck-v3.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

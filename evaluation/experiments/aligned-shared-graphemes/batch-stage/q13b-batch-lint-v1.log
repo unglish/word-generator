@@ -1,0 +1,7 @@
+
+/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/base-spelling.ts
+  271:9  error  'cells' is never reassigned. Use 'const' instead  prefer-const
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+

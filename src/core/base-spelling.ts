@@ -114,6 +114,7 @@ export interface BaseSpellingTraceV4 extends Omit<BaseSpellingTraceV3, "version"
     constructions: SharedSpellingConstruction[];
     supersessions: SharedSpellingSupersession[];
     liveConstructionIds: number[];
+    transactions: SpellingEditTransaction[];
     editGuards: Array<{ cursor: LedgerCursor; phase: SpellingEdit["phase"]; rule: string; start: number; deleteCount: number; insert: string; partId: number | null; decision: SharedEditDecision }>;
   };
 }
@@ -125,13 +126,38 @@ export type SpellingEditObserver = (
   insert: string,
   rule: string,
 ) => void | boolean;
-export type PartEditObserver = (
+export interface PartSpellingBatchEdit { part: number; start: number; deleteCount: number; insert: string; rule: string }
+export type PartEditObserver = ((
   part: number,
   start: number,
   deleteCount: number,
   insert: string,
   rule: string,
-) => void | boolean;
+) => void | boolean) & { batch?: (edits: readonly PartSpellingBatchEdit[]) => boolean };
+
+export interface SpellingBatchEdit {
+  start: number;
+  deleteCount: number;
+  insert: string;
+  rule: string;
+  partId?: number;
+}
+export interface SpellingEditTransaction {
+  cursor: LedgerCursor;
+  phase: SpellingEdit["phase"];
+  edits: SpellingBatchEdit[];
+  checks: SharedEditDecision[];
+  status: "applied" | "refused";
+}
+
+function rewriteCells(input: readonly SpellingCell[], insert: string, editId: number,
+  nextCellId: number, partId: number | null, licensed: boolean): SpellingCell[] {
+  const sourceUnitIds = [...new Set(input.flatMap(cell => [...sourceUnits(cell.origin)]))];
+  return insert.split("").map((text, offset) => ({ id: nextCellId + offset, text,
+    ...(licensed ? { partId } : {}),
+    origin: { kind: "rewrite", editId, sourceUnitIds, ownership: "unresolved" },
+  }));
+}
 
 /** Live units/cells exist independently of tracing; only discarded edit history is optional. */
 export class BaseSpelling {
@@ -151,6 +177,7 @@ export class BaseSpelling {
   private readonly sharedEditGuards?: BaseSpellingTraceV4["shared"]["editGuards"];
   private readonly sharedSupersessions: SharedSpellingSupersession[] = [];
   private readonly supersededConstructions = new Set<number>();
+  private readonly sharedTransactions?: SpellingEditTransaction[];
   private nextSharedAttemptId = 0;
   private nextCellId = 0;
   private nextEditId = 0;
@@ -169,7 +196,7 @@ export class BaseSpelling {
       if (!normalizeUnits || !licensed) throw new Error("Shared spelling requires normalized spelling provenance");
       this.sharedPlanner = createSharedConstructionPlanner(sharedRules);
       this.sharedEditGuard = createSharedEditGuard(sharedRules);
-      if (retainHistory) this.sharedEditGuards = [];
+      if (retainHistory) { this.sharedEditGuards = []; this.sharedTransactions = []; }
       if (retainHistory) this.sharedAttempts = [];
     }
     if (normalizeUnits && !licensed) throw new Error("Unit normalization requires licensed spelling provenance");
@@ -239,6 +266,40 @@ export class BaseSpelling {
     return true;
   }
 
+  /** Coordinates refer to the evolving surface; no step is committed unless all are accepted. */
+  editBatch(edits: readonly SpellingBatchEdit[]): boolean {
+    const cells = this.cells.slice();
+    let nextEditId = this.nextEditId;
+    let nextCellId = this.nextCellId;
+    const checks: SharedEditDecision[] = [];
+    const liveConstructions = this.sharedEditGuard ? this.liveConstructions() : [];
+    const cursor = this.constructionState().cursor;
+    const prepared: Array<{ edit: SpellingBatchEdit; input: SpellingCell[]; before: string }> = [];
+    for (const edit of edits) {
+      const { start, deleteCount, insert, partId } = edit;
+      if (!Number.isInteger(start) || !Number.isInteger(deleteCount) || start < 0 || deleteCount < 0 ||
+          start + deleteCount > cells.length) throw new Error(`Invalid base-spelling batch range: ${edit.rule}`);
+      const input = cells.slice(start, start + deleteCount);
+      const before = input.map(cell => cell.text).join("");
+      const decision: SharedEditDecision = before === insert || !this.sharedEditGuard || !liveConstructions.length
+        ? { status: "allowed" }
+        : this.sharedEditGuard({ ...this.constructionState(), cells, cursor: { ...cursor, nextEditId } }, liveConstructions, edit);
+      checks.push(decision);
+      if (decision.status === "refused") {
+        this.sharedTransactions?.push(structuredClone({ cursor, phase: this.phase, edits: [...edits], checks, status: "refused" }));
+        return false;
+      }
+      if (before === insert) continue;
+      prepared.push({ edit, input, before });
+      const output = rewriteCells(input, insert, nextEditId++, nextCellId, editPart(input, partId), this.licensed);
+      nextCellId += output.length;
+      cells.splice(start, deleteCount, ...output);
+    }
+    for (const { edit, input, before } of prepared) this.commitRewrite(edit.start, input, before, edit.insert, edit.rule, edit.partId);
+    this.sharedTransactions?.push(structuredClone({ cursor, phase: this.phase, edits: [...edits], checks, status: "applied" }));
+    return true;
+  }
+
   private liveConstructions(): SharedSpellingConstruction[] {
     return this.sharedConstructions.filter(construction => !this.supersededConstructions.has(construction.id));
   }
@@ -246,25 +307,9 @@ export class BaseSpelling {
   /** Validated callers choose whether an identical-text replacement is a semantic edit. */
   private commitRewrite(start: number, input: SpellingCell[], before: string, insert: string, rule: string, partId?: number): void {
     const id = this.nextEditId++;
-    const sourceUnitIds = [
-      ...new Set(
-        input.flatMap(cell => [...sourceUnits(cell.origin)]),
-      ),
-    ];
     const resolvedPart = editPart(input, partId);
-    const output = insert.split("").map(
-      (text): SpellingCell => ({
-        id: this.nextCellId++,
-        text,
-        ...(this.licensed ? { partId: resolvedPart } : {}),
-        origin: {
-          kind: "rewrite",
-          editId: id,
-          sourceUnitIds,
-          ownership: "unresolved",
-        },
-      }),
-    );
+    const output = rewriteCells(input, insert, id, this.nextCellId, resolvedPart, this.licensed);
+    this.nextCellId += output.length;
     this.cells.splice(start, input.length, ...output);
     this.edits?.push({
       id,
@@ -285,11 +330,26 @@ export class BaseSpelling {
   }
 
   observeParts(parts: string[]): PartEditObserver {
-    return (part, start, deleteCount, insert, rule) => {
+    const observe: PartEditObserver = (part, start, deleteCount, insert, rule) => {
       let offset = start;
       for (let i = 0; i < part; i++) offset += parts[i].length;
       return this.edit(offset, deleteCount, insert, rule, part);
     };
+    observe.batch = edits => {
+      this.assertSurface(parts.join(""));
+      const projected = [...parts];
+      const absolute: SpellingBatchEdit[] = [];
+      for (const edit of edits) {
+        const part = projected[edit.part];
+        if (!Number.isInteger(edit.part) || part === undefined || edit.start < 0 || edit.deleteCount < 0 ||
+            edit.start + edit.deleteCount > part.length) throw new Error("Invalid part batch range");
+        const offset = projected.slice(0, edit.part).reduce((sum, value) => sum + value.length, 0);
+        absolute.push({ start: offset + edit.start, deleteCount: edit.deleteCount, insert: edit.insert, rule: edit.rule, partId: edit.part });
+        projected[edit.part] = part.slice(0, edit.start) + edit.insert + part.slice(edit.start + edit.deleteCount);
+      }
+      return this.editBatch(absolute);
+    };
+    return observe;
   }
 
   setPhase(phase: SpellingEdit["phase"]): void {
@@ -549,7 +609,7 @@ export class BaseSpelling {
       if (this.sharedPlanner) return structuredClone({ ...trace, version: 4,
         capabilities: { ...trace.capabilities, sharedConstructions: 1 },
         shared: { version: 1, attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
-          liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [] } });
+          liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [], transactions: this.sharedTransactions ?? [] } });
       return structuredClone(trace);
     }
     return structuredClone({ version: 2, capabilities, certificates: this.certificates, ...data });
