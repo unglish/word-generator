@@ -66,11 +66,15 @@ async function capture(out) {
   assert.equal(protocol.wordsPerReplicate, 10000);
   assert.equal(protocol.profiles.length, 4);
   assert(protocol.profiles.every(profile => profile.seeds.development.length === 5));
+  const toolPinsBytes = await readFile(join(experiment, "measurement-tools.json"));
+  const toolPins = JSON.parse(toolPinsBytes);
+  assert.equal(toolPins.version, "q14a-measurement-tools-v1");
+  for (const [name, expected] of Object.entries(toolPins.files)) assert.deepEqual(await pin(join(root, name)), expected, `Changed measurement input: ${name}`);
   const evidence = `${out}-freeze`;
   await mkdir(evidence);
   const before = await snapshot();
   await writeFile(join(evidence, "before.json"), JSON.stringify({ version: 1, out, cohort: "development",
-    controlManifestSha256: sha(controlBytes), registrationSha256: sha(registrationBytes), before }, null, 2) + "\n", { flag: "wx" });
+    controlManifestSha256: sha(controlBytes), registrationSha256: sha(registrationBytes), measurementToolsSha256: sha(toolPinsBytes), before }, null, 2) + "\n", { flag: "wx" });
   try {
     const summary = await captureRun({ root, out, id: "q14a-split-vowels-v1", cohort: "development", protocol, configuration, progress: console.log });
     assert.equal(summary.profiles.reduce((sum, profile) => sum + profile.words, 0), 200000);
