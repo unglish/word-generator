@@ -115,7 +115,7 @@ describe("public v4 evidence capability", () => {
   it("requires the matching explicit configuration", () => {
     const trace = fixture();
     expect(() => createBaseSpellingEvidenceVerifier()(trace)).toThrow("requires its shared spelling configuration");
-    expect(() => createBaseSpellingEvidenceVerifier(englishConfig)(trace)).toThrow("requires its shared spelling configuration");
+    expect(() => createBaseSpellingEvidenceVerifier({ ...englishConfig, sharedSpellings: undefined })(trace)).toThrow("requires its shared spelling configuration");
     expect(() => createBaseSpellingEvidenceVerifier({ ...config, sharedSpellings: [] })(trace)).toThrow();
   });
   it("does not let correct scheduling hide an invalid recorded construction decision", () => {

@@ -1,0 +1,65 @@
+✔ aggregates complete events, repairs, selected/shared forms and retained full witnesses (15.112459ms)
+✔ historical populations have null shared counts rather than clean zeros (4.591333ms)
+✔ mixed observations retain unavailable population counts (7.099333ms)
+✔ returned reports and caller mutations cannot change retained witnesses or accumulated counters (10.915959ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ runs a complete bounded archive through stream validation, aggregation and production replay (752.617125ms)
+✔ rejects a wrong external manifest authority before creating an output (13.270625ms)
+✔ rejects archive-byte tampering before creating an output (296.962584ms)
+✔ retains an explicit failure and no completion report for duplicate draws (400.554917ms)
+✔ requires every scheduled stream (16.2745ms)
+✔ rejects malformed and aliased artifact paths (8.484583ms)
+✔ does not allow an output parent symlink to redirect into the archive (6.070042ms)
+✔ rejects overlapping seeds before any corpus processing (0.366375ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent pinned control archive recount accepts complete report and rejects rehashed corruptions (1642.685208ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent pinned candidate archive recount accepts complete report and rejects rehashed corruptions (1629.4795ms)
+✔ freeze detects changed bytes and added source paths (13.773167ms)
+✔ rejects active loader or binary overrides without exposing their values (0.404875ms)
+✔ candidate freeze rejects an absent, empty or changed shared policy (1.202833ms)
+✔ observes 500 generated ledgers without treating successful replay as independent proof (500.089625ms)
+✔ historical eligibility remains unavailable, not zero (0.94225ms)
+✔ reports unsupported source sequences (0.504708ms)
+✔ reports partial consumption instead of trusting a construction's input claim (0.463292ms)
+✔ reports altered phone multiplicity (0.460125ms)
+✔ finds actual silent erasure in a consistently edited archive (0.512208ms)
+✔ refuses incomplete observation fields (2.457416ms)
+✔ refuses missing attempts rather than accepting a smaller eligibility denominator (0.88275ms)
+✔ does not alias returned event metadata into the original word (1.246709ms)
+✔ finds an insertion that separates the cells of a surviving qu construction (0.668375ms)
+✔ preserves every retained v3 repair counter on 500 public legacy words (573.371834ms)
+✔ retains repair counters and joint lineage on actual v4 words (285.294833ms)
+✔ detects a previously truncated original unit even when all surviving cells are consumed (0.722375ms)
+✔ pure licensed extent fixture requires the entire recorded replacement and matching unit (0.251208ms)
+✔ pure normalized extent fixture requires the entire recorded replacement and matching unit (0.087667ms)
+✔ independent recount matches every grouped integer and complete first witness on 1000 public words (1477.166959ms)
+✔ independent aggregate comparison rejects repair counter (1432.330708ms)
+✔ independent aggregate comparison rejects doubling counter (1361.206ms)
+✔ independent aggregate comparison rejects shared counter (1332.626625ms)
+✔ independent aggregate comparison rejects boolean count (1360.451541ms)
+✔ independent aggregate comparison rejects missing group (1336.455125ms)
+✔ independent aggregate comparison rejects extra counter (1330.7565ms)
+✔ independent aggregate comparison rejects missing witness (1349.017708ms)
+✔ independent aggregate comparison rejects altered full witness (1402.411042ms)
+✔ independent aggregate comparison rejects unknown eligibility changed to zero (1372.936792ms)
+✔ independent Python reconstructs every shared observation on 500 public v4 and 500 v3 archives (901.181583ms)
+✔ independent Python reports unsupported sequence from altered archive (37.094333ms)
+✔ independent Python reports partial consumption from altered archive (37.071834ms)
+✔ independent Python reports phone multiplicity from altered archive (38.0595ms)
+✔ independent Python reports silent erasure from altered archive (36.68925ms)
+✔ independent Python refuses incomplete attempts, fields, and forged cell history (176.8755ms)
+✔ independent Python refuses optimized execution that would disable verification (47.813375ms)
+✔ independent repair arithmetic matches every counter on 500 active and 500 legacy public words (1294.465042ms)
+✔ repair recount rejects forged normalization totals and incomplete scheduled checks (175.147417ms)
+ℹ tests 51
+ℹ suites 0
+ℹ pass 51
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15551.492209

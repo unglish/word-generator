@@ -1,10 +1,10 @@
 # Experimental shared spellings
 
 `LanguageConfig.sharedSpellings` opts into structured spellings for ordered
-sequences of two or more phones. The English default does not enable this
-experiment yet. Its registered corpus comparison and performance measurements
-are still outstanding; passing integration tests is not evidence of improved
-wordlikeness.
+sequences of two or more phones. This candidate enables the registered English
+policy for /ks, gz/ → x and /k, w/ → qu. Its registered corpus comparison and
+performance measurements are still outstanding; passing integration tests is
+not evidence of improved wordlikeness or readiness to release.
 
 Each rule has an `id`, ordered `phonemes: [{ sound }]`, `form`, percentage
 `probability`, `scope` (`syllable`, `word`, or `both`) and `context`. Context can
@@ -47,4 +47,4 @@ The combined verifier is producer-assisted, not an independent implementation of
 the generator. Generic regex sampling and lexical-gap eligibility are not
 independently regenerated. Morphological ownership after the root remains a
 separate task. The registered corpus, independent recount and performance checks
-remain necessary before any quality claim or default activation.
+remain necessary before any quality claim or release of this candidate.

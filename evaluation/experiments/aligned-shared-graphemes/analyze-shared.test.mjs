@@ -13,7 +13,9 @@ import { englishConfig, createGenerator } from "../../../src/index.ts";
 const registrationPath = new URL("./protocol.json", import.meta.url);
 const registrationBytes = await readFile(registrationPath);
 const word = createGenerator({ ...englishConfig, sharedSpellings: undefined }).generateWord({ seed: 129, trace: true });
-async function fixture(modify = rows => rows) {
+async function fixture(modify = rows => rows, variant = "control") {
+  const config = { ...englishConfig, sharedSpellings: variant === "candidate" ? englishConfig.sharedSpellings : undefined };
+  const fixtureWord = variant === "candidate" ? createGenerator(config).generateWord({ seed: 129, trace: true }) : word;
   const root = await mkdtemp(join(tmpdir(), "q13b-runner-test-")); const archive = join(root, "archive");
   await mkdir(join(archive, "words"), { recursive: true });
   const protocol = { schemaVersion: 1, wordsPerReplicate: 1, profiles: [
@@ -23,16 +25,15 @@ async function fixture(modify = rows => rows) {
   await writeFile(protocolPath, protocolBytes);
   const artifacts = [];
   for (const seed of [1, 2]) {
-    const rows = modify([{ profile: "fixture", seed, drawIndex: 0, word }]);
+    const rows = modify([{ profile: "fixture", seed, drawIndex: 0, word: fixtureWord }]);
     const bytes = gzipSync(rows.map(row => JSON.stringify(row) + "\n").join(""));
     const file = `words/fixture-${seed}.jsonl.gz`; await writeFile(join(archive, file), bytes);
     artifacts.push({ file, bytes: bytes.length, sha256: sha(bytes) });
   }
-  const config = { ...englishConfig, sharedSpellings: undefined };
   const envelope = { manifest: { schemaVersion: 1, cohort: "development", protocol,
     generator: { sourceDigest: "1".repeat(64), effectiveConfig: canonical(config) }, artifacts } };
   const manifestBytes = Buffer.from(JSON.stringify(envelope)); await writeFile(join(archive, "manifest.json"), manifestBytes);
-  return { root, archive, envelope, options: { archive, out: join(root, "out"), variant: "control",
+  return { root, archive, envelope, options: { archive, out: join(root, "out"), variant,
     protocol: protocolPath, "protocol-sha256": sha(protocolBytes), registration: registrationPath,
     "registration-sha256": sha(registrationBytes), "manifest-sha256": sha(manifestBytes), "source-digest": "1".repeat(64) } };
 }
@@ -79,8 +80,8 @@ test("rejects overlapping seeds before any corpus processing", () => {
     profiles: [{ id: "a", seeds: { development: [1] } }, { id: "b", seeds: { development: [1] } }] }));
 });
 
-test("independent pinned archive recount accepts complete report and rejects rehashed corruptions", async () => {
-  const f = await fixture(); const report = await analyze(f.options);
+for (const variant of ["control", "candidate"]) test(`independent pinned ${variant} archive recount accepts complete report and rejects rehashed corruptions`, async () => {
+  const f = await fixture(undefined, variant); const report = await analyze(f.options);
   const reportPath = join(f.options.out, "report.json");
   const authority = JSON.parse(await readFile(join(f.options.out, "authority.json")));
   const script = fileURLToPath(new URL("./recount-corpus.py", import.meta.url));
@@ -99,6 +100,7 @@ test("independent pinned archive recount accepts complete report and rejects reh
   const valid = await verify(report);
   assert.equal(valid.result.status, 0, valid.result.stderr);
   assert.equal(JSON.parse(valid.output).words, 2);
+  assert.equal(report.groups[0].sharedAvailability.status, variant === "candidate" ? "available" : "unavailable");
   for (const mutate of [candidate => { candidate.groups[0].repairReplay.words++; },
     candidate => { candidate.groups[0].doublingCounts.units++; },
     candidate => { candidate.groups[0].sharedCounts = {}; },
