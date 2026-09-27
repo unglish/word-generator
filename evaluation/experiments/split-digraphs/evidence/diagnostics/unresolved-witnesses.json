@@ -1,0 +1,4963 @@
+{
+  "scope": "Production event counts pending independent recount. Stratified first witnesses, not a random sample.",
+  "bySound": [
+    {
+      "category": "completion:infeasible",
+      "sound": "eɪ",
+      "count": 2676
+    },
+    {
+      "category": "completion:prefix-unavailable",
+      "sound": "aɪ",
+      "count": 18
+    },
+    {
+      "category": "completion:infeasible",
+      "sound": "u",
+      "count": 77
+    },
+    {
+      "category": "completion:infeasible",
+      "sound": "əʊ",
+      "count": 50
+    },
+    {
+      "category": "completion:infeasible",
+      "sound": "aɪ",
+      "count": 51
+    },
+    {
+      "category": "completion:prefix-unavailable",
+      "sound": "əʊ",
+      "count": 12
+    },
+    {
+      "category": "completion:prefix-unavailable",
+      "sound": "u",
+      "count": 2
+    },
+    {
+      "category": "completion:infeasible",
+      "sound": "i:",
+      "count": 1
+    }
+  ],
+  "witnesses": [
+    {
+      "category": "[\"lexicon-default\",\"completion:infeasible\",\"eɪ\",\"ˈ\"]",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 71,
+      "word": "aspeention",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 4,
+          "nextEditId": 0
+        },
+        "nucleusId": 0,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 0,
+          "inputCellIds": [
+            0
+          ],
+          "form": "a"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 2,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 51,
+            "form": "a",
+            "weight": 250,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 57,
+            "form": "ae",
+            "weight": 2,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 2,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:infeasible\",\"eɪ\",\"unspecified\"]",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 366,
+      "word": "rasergorn",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 0
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "a"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "r",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.09999999999999999,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 51,
+            "form": "a",
+            "weight": 250,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 57,
+            "form": "ae",
+            "weight": 0.09999999999999999,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.09999999999999999,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:prefix-unavailable\",\"aɪ\",\"ˌ\"]",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 654,
+      "word": "sieguid",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 4,
+          "nextEditId": 1
+        },
+        "nucleusId": 3,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 3,
+          "inputCellIds": [
+            4
+          ],
+          "form": "i"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "nonadjacent-prefix"
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:infeasible\",\"u\",\"ˌ\"]",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 2040,
+      "word": "cundeelsity",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 0
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "u"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "c",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 0.525,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 27,
+            "form": "u",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 29,
+            "form": "ew",
+            "weight": 0.525,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "neighbor-reading",
+              "unitId": 0
+            },
+            "refusal": "neighbor-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 0.525,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "neighbor-reading",
+                "unitId": 0
+              },
+              "refusal": "neighbor-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:infeasible\",\"u\",\"ˈ\"]",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 3653,
+      "word": "recusiels",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 5,
+          "nextEditId": 0
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "u"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "c",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 7,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 27,
+            "form": "u",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 29,
+            "form": "ew",
+            "weight": 7,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "neighbor-reading",
+              "unitId": 0
+            },
+            "refusal": "neighbor-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 7,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "neighbor-reading",
+                "unitId": 0
+              },
+              "refusal": "neighbor-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:infeasible\",\"eɪ\",\"ˌ\"]",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 3796,
+      "word": "barowed",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 3,
+          "nextEditId": 0
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "a"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "b",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.15,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 51,
+            "form": "a",
+            "weight": 250,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 57,
+            "form": "ae",
+            "weight": 0.15,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.15,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:infeasible\",\"əʊ\",\"unspecified\"]",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 4413,
+      "word": "hicoumbos",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 7,
+          "nextEditId": 1
+        },
+        "nucleusId": 6,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 6,
+          "inputCellIds": [
+            9
+          ],
+          "form": "o"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "b",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 12.499999999999998,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.49999999999999994,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 58,
+            "form": "ow",
+            "weight": 12.499999999999998,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 59,
+            "form": "o",
+            "weight": 2500,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 61,
+            "form": "oe",
+            "weight": 0.49999999999999994,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 12.499999999999998,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.49999999999999994,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:infeasible\",\"aɪ\",\"ˈ\"]",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 5922,
+      "word": "alichesang",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 1
+        },
+        "nucleusId": 2,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 2,
+          "inputCellIds": [
+            2
+          ],
+          "form": "i"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "l",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 43,
+              "form": "ai",
+              "weight": 1,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            },
+            {
+              "inventoryIndex": 45,
+              "form": "ye",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 39,
+            "form": "i",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 42,
+            "form": "ie",
+            "weight": 10,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 43,
+            "form": "ai",
+            "weight": 1,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          },
+          {
+            "inventoryIndex": 45,
+            "form": "ye",
+            "weight": 10,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 43,
+              "form": "ai",
+              "weight": 1,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 45,
+              "form": "ye",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:infeasible\",\"u\",\"unspecified\"]",
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 548,
+      "word": "culsderr",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 0
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "u"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "c",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 0.525,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 27,
+            "form": "u",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 29,
+            "form": "ew",
+            "weight": 0.525,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "neighbor-reading",
+              "unitId": 0
+            },
+            "refusal": "neighbor-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 0.525,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "neighbor-reading",
+                "unitId": 0
+              },
+              "refusal": "neighbor-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:prefix-unavailable\",\"əʊ\",\"unspecified\"]",
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 6247,
+      "word": "pryolled",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 5,
+          "nextEditId": 1
+        },
+        "nucleusId": 4,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 4,
+          "inputCellIds": [
+            4
+          ],
+          "form": "o"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "unresolved-ownership"
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:infeasible\",\"əʊ\",\"ˌ\"]",
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 3729,
+      "word": "basonks",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 5,
+          "nextEditId": 1
+        },
+        "nucleusId": 3,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 3,
+          "inputCellIds": [
+            3
+          ],
+          "form": "o"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "s",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 18.75,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.75,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 58,
+            "form": "ow",
+            "weight": 18.75,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 4
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 59,
+            "form": "o",
+            "weight": 2500,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 61,
+            "form": "oe",
+            "weight": 0.75,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 4
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 18.75,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 4
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.75,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 4
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:prefix-unavailable\",\"aɪ\",\"ˈ\"]",
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 6821,
+      "word": "aguing",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 3,
+          "nextEditId": 1
+        },
+        "nucleusId": 2,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 2,
+          "inputCellIds": [
+            2
+          ],
+          "form": "i"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "nonadjacent-prefix"
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:prefix-unavailable\",\"u\",\"ˌ\"]",
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 8149,
+      "word": "ipeuguyal",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 4,
+          "nextEditId": 3
+        },
+        "nucleusId": 2,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 2,
+          "inputCellIds": [
+            5
+          ],
+          "form": "u"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "nonadjacent-prefix"
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:prefix-unavailable\",\"aɪ\",\"unspecified\"]",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 472,
+      "word": "ogosteguin",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 8,
+          "nextEditId": 1
+        },
+        "nucleusId": 7,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 7,
+          "inputCellIds": [
+            7
+          ],
+          "form": "i"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "nonadjacent-prefix"
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:infeasible\",\"əʊ\",\"ˈ\"]",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 2489,
+      "word": "metonks",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 1
+        },
+        "nucleusId": 3,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 3,
+          "inputCellIds": [
+            3
+          ],
+          "form": "o"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "t",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 250,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 58,
+            "form": "ow",
+            "weight": 250,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 4
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 59,
+            "form": "o",
+            "weight": 2500,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 61,
+            "form": "oe",
+            "weight": 10,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 4
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 250,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 4
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 4
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-default\",\"completion:prefix-unavailable\",\"u\",\"unspecified\"]",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 7002,
+      "word": "adapiteushes",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 7,
+          "nextEditId": 1
+        },
+        "nucleusId": 6,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 6,
+          "inputCellIds": [
+            9
+          ],
+          "form": "u"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "nonadjacent-prefix"
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"eɪ\",\"ˈ\"]",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 25,
+      "word": "wanpemand",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 8,
+          "nextEditId": 0
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "a"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "w",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 2,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 51,
+            "form": "a",
+            "weight": 250,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 57,
+            "form": "ae",
+            "weight": 2,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 2,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"eɪ\",\"unspecified\"]",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 77,
+      "word": "maltazy",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 0
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "a"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "m",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.09999999999999999,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 51,
+            "form": "a",
+            "weight": 250,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 57,
+            "form": "ae",
+            "weight": 0.09999999999999999,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.09999999999999999,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"eɪ\",\"ˌ\"]",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 649,
+      "word": "ageso",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 3,
+          "nextEditId": 0
+        },
+        "nucleusId": 0,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 0,
+          "inputCellIds": [
+            0
+          ],
+          "form": "a"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.15,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 51,
+            "form": "a",
+            "weight": 250,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 57,
+            "form": "ae",
+            "weight": 0.15,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.15,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"əʊ\",\"ˌ\"]",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 668,
+      "word": "negouchon",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 1
+        },
+        "nucleusId": 5,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 5,
+          "inputCellIds": [
+            9
+          ],
+          "form": "o"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "ch",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 12.499999999999998,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.49999999999999994,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 58,
+            "form": "ow",
+            "weight": 12.499999999999998,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 59,
+            "form": "o",
+            "weight": 2500,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 61,
+            "form": "oe",
+            "weight": 0.49999999999999994,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 12.499999999999998,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.49999999999999994,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:prefix-unavailable\",\"aɪ\",\"unspecified\"]",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 2140,
+      "word": "baguiguil",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 2
+        },
+        "nucleusId": 5,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 5,
+          "inputCellIds": [
+            5
+          ],
+          "form": "i"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "nonadjacent-prefix"
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"u\",\"ˈ\"]",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 2529,
+      "word": "cunzieds",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 0
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "u"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "c",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 7,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 27,
+            "form": "u",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 29,
+            "form": "ew",
+            "weight": 7,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "neighbor-reading",
+              "unitId": 0
+            },
+            "refusal": "neighbor-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 7,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "neighbor-reading",
+                "unitId": 0
+              },
+              "refusal": "neighbor-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:prefix-unavailable\",\"aɪ\",\"ˌ\"]",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 4199,
+      "word": "liguin",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 4,
+          "nextEditId": 1
+        },
+        "nucleusId": 3,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 3,
+          "inputCellIds": [
+            3
+          ],
+          "form": "i"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "nonadjacent-prefix"
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:prefix-unavailable\",\"əʊ\",\"unspecified\"]",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 5037,
+      "word": "niteop",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 4,
+          "nextEditId": 1
+        },
+        "nucleusId": 3,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 3,
+          "inputCellIds": [
+            6
+          ],
+          "form": "o"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "nonadjacent-prefix"
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"əʊ\",\"unspecified\"]",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 7912,
+      "word": "shodossy",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 4,
+          "nextEditId": 1
+        },
+        "nucleusId": 3,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 3,
+          "inputCellIds": [
+            4
+          ],
+          "form": "o"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "d",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 18.75,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.75,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 58,
+            "form": "ow",
+            "weight": 18.75,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 4
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 59,
+            "form": "o",
+            "weight": 2500,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 61,
+            "form": "oe",
+            "weight": 0.75,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 4
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 18.75,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 4
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.75,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 4
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"aɪ\",\"unspecified\"]",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 9964,
+      "word": "inks",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 3,
+          "nextEditId": 1
+        },
+        "nucleusId": 0,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 0,
+          "inputCellIds": [
+            0
+          ],
+          "form": "i"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 39,
+            "form": "i",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 42,
+            "form": "ie",
+            "weight": 10,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 1
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 1
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"əʊ\",\"ˈ\"]",
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 1550,
+      "word": "smegoches",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 1
+        },
+        "nucleusId": 4,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 4,
+          "inputCellIds": [
+            4
+          ],
+          "form": "o"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "g",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 250,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 58,
+            "form": "ow",
+            "weight": 250,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 5
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 59,
+            "form": "o",
+            "weight": 2500,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 61,
+            "form": "oe",
+            "weight": 10,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 5
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 250,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 5
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 5
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"aɪ\",\"ˈ\"]",
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 3338,
+      "word": "wikidyax",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 8,
+          "nextEditId": 2
+        },
+        "nucleusId": 3,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 3,
+          "inputCellIds": [
+            3
+          ],
+          "form": "i"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "k",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 43,
+              "form": "ai",
+              "weight": 1,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            },
+            {
+              "inventoryIndex": 45,
+              "form": "ye",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 39,
+            "form": "i",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 42,
+            "form": "ie",
+            "weight": 10,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 4
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 43,
+            "form": "ai",
+            "weight": 1,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          },
+          {
+            "inventoryIndex": 45,
+            "form": "ye",
+            "weight": 10,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 4
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 4
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 43,
+              "form": "ai",
+              "weight": 1,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 45,
+              "form": "ye",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 4
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"i:\",\"ˈ\"]",
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 7630,
+      "word": "cechesu",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 4,
+          "nextEditId": 1
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "e"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "c",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 1,
+              "form": "ea",
+              "weight": 40,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 2,
+              "form": "e",
+              "weight": 500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 5,
+              "form": "ei",
+              "weight": 20,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 1,
+            "form": "ea",
+            "weight": 40,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 2
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 2,
+            "form": "e",
+            "weight": 500,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 5,
+            "form": "ei",
+            "weight": 20,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 2
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 1,
+              "form": "ea",
+              "weight": 40,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 2
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 2,
+              "form": "e",
+              "weight": 500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 5,
+              "form": "ei",
+              "weight": 20,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 2
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"lexicon-bare\",\"completion:infeasible\",\"u\",\"unspecified\"]",
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 6298,
+      "word": "rernunks",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 7,
+          "nextEditId": 1
+        },
+        "nucleusId": 4,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 4,
+          "inputCellIds": [
+            4
+          ],
+          "form": "u"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "n",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 26,
+              "form": "oo",
+              "weight": 6.75,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 20,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 28,
+              "form": "ue",
+              "weight": 37.5,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 10.5,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 26,
+            "form": "oo",
+            "weight": 6.75,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 5
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 27,
+            "form": "u",
+            "weight": 20,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 28,
+            "form": "ue",
+            "weight": 37.5,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 5
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 29,
+            "form": "ew",
+            "weight": 10.5,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 5
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 26,
+              "form": "oo",
+              "weight": 6.75,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 5
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 20,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 28,
+              "form": "ue",
+              "weight": 37.5,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 5
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 10.5,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 5
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"monosyllables-bare\",\"completion:infeasible\",\"aɪ\",\"unspecified\"]",
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 46,
+      "word": "winks",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 4,
+          "nextEditId": 1
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "i"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "w",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 39,
+            "form": "i",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 42,
+            "form": "ie",
+            "weight": 10,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 2
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 2
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"monosyllables-bare\",\"completion:infeasible\",\"u\",\"unspecified\"]",
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 1247,
+      "word": "scungeed",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 5,
+          "nextEditId": 0
+        },
+        "nucleusId": 2,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 2,
+          "inputCellIds": [
+            2
+          ],
+          "form": "u"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "c",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 140,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 27,
+            "form": "u",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 29,
+            "form": "ew",
+            "weight": 140,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "neighbor-reading",
+              "unitId": 1
+            },
+            "refusal": "neighbor-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 140,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "neighbor-reading",
+                "unitId": 1
+              },
+              "refusal": "neighbor-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"monosyllables-bare\",\"completion:infeasible\",\"eɪ\",\"unspecified\"]",
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 1773,
+      "word": "blanks",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 5,
+          "nextEditId": 1
+        },
+        "nucleusId": 2,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 2,
+          "inputCellIds": [
+            2
+          ],
+          "form": "a"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "l",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 52,
+              "form": "ai",
+              "weight": 20,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 53,
+              "form": "ay",
+              "weight": 35,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 55,
+              "form": "ea",
+              "weight": 2,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            },
+            {
+              "inventoryIndex": 56,
+              "form": "ey",
+              "weight": 20,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 2,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 51,
+            "form": "a",
+            "weight": 250,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 52,
+            "form": "ai",
+            "weight": 20,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 53,
+            "form": "ay",
+            "weight": 35,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 55,
+            "form": "ea",
+            "weight": 2,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          },
+          {
+            "inventoryIndex": 56,
+            "form": "ey",
+            "weight": 20,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 57,
+            "form": "ae",
+            "weight": 2,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 52,
+              "form": "ai",
+              "weight": 20,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 53,
+              "form": "ay",
+              "weight": 35,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 55,
+              "form": "ea",
+              "weight": 2,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 56,
+              "form": "ey",
+              "weight": 20,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 2,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"monosyllables-bare\",\"completion:infeasible\",\"əʊ\",\"unspecified\"]",
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 7043,
+      "word": "donks",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 4,
+          "nextEditId": 1
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "o"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "d",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 250,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 58,
+            "form": "ow",
+            "weight": 250,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 2
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 59,
+            "form": "o",
+            "weight": 2500,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 61,
+            "form": "oe",
+            "weight": 10,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 2
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 250,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 2
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 2
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:infeasible\",\"əʊ\",\"unspecified\"]",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 2,
+      "word": "nitoulthond",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 8,
+          "nextEditId": 1
+        },
+        "nucleusId": 6,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 6,
+          "inputCellIds": [
+            10
+          ],
+          "form": "o"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "th",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 12.499999999999998,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.49999999999999994,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 58,
+            "form": "ow",
+            "weight": 12.499999999999998,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 59,
+            "form": "o",
+            "weight": 2500,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 61,
+            "form": "oe",
+            "weight": 0.49999999999999994,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 3
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 12.499999999999998,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.49999999999999994,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 3
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:infeasible\",\"eɪ\",\"ˈ\"]",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 11,
+      "word": "sapinang",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 0
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "a"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "s",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 2,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 51,
+            "form": "a",
+            "weight": 250,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 57,
+            "form": "ae",
+            "weight": 2,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 2,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:infeasible\",\"eɪ\",\"unspecified\"]",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 217,
+      "word": "kaczerds",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 0
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "a"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "k",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.15,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 51,
+            "form": "a",
+            "weight": 250,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 57,
+            "form": "ae",
+            "weight": 0.15,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.15,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:infeasible\",\"eɪ\",\"ˌ\"]",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 302,
+      "word": "alcowtone",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 1
+        },
+        "nucleusId": 0,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 0,
+          "inputCellIds": [
+            0
+          ],
+          "form": "a"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.09999999999999999,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 51,
+            "form": "a",
+            "weight": 250,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 57,
+            "form": "ae",
+            "weight": 0.09999999999999999,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 51,
+              "form": "a",
+              "weight": 250,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 57,
+              "form": "ae",
+              "weight": 0.09999999999999999,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:prefix-unavailable\",\"əʊ\",\"unspecified\"]",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 1209,
+      "word": "ifeoc",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 3,
+          "nextEditId": 1
+        },
+        "nucleusId": 2,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 2,
+          "inputCellIds": [
+            5
+          ],
+          "form": "o"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "nonadjacent-prefix"
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:infeasible\",\"u\",\"unspecified\"]",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 1407,
+      "word": "scur",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 3,
+          "nextEditId": 0
+        },
+        "nucleusId": 2,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 2,
+          "inputCellIds": [
+            2
+          ],
+          "form": "u"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "c",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 140,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 27,
+            "form": "u",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 29,
+            "form": "ew",
+            "weight": 140,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "neighbor-reading",
+              "unitId": 1
+            },
+            "refusal": "neighbor-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 140,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "neighbor-reading",
+                "unitId": 1
+              },
+              "refusal": "neighbor-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:infeasible\",\"aɪ\",\"ˌ\"]",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 6007,
+      "word": "risswing",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 5,
+          "nextEditId": 1
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "i"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "r",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 10,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 0.75,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 44,
+              "form": "is",
+              "weight": 0.075,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading"
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 39,
+            "form": "i",
+            "weight": 10,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 42,
+            "form": "ie",
+            "weight": 0.75,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 2
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 44,
+            "form": "is",
+            "weight": 0.075,
+            "reading": {
+              "kind": "unsupported-construction",
+              "reason": "Requires lexical identity not represented by the spelling unit."
+            },
+            "refusal": "unsupported-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 10,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 0.75,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 2
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 44,
+              "form": "is",
+              "weight": 0.075,
+              "reading": {
+                "kind": "unsupported-construction",
+                "reason": "Requires lexical identity not represented by the spelling unit."
+              },
+              "refusal": "unsupported-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:infeasible\",\"aɪ\",\"unspecified\"]",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 8163,
+      "word": "inks",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 3,
+          "nextEditId": 1
+        },
+        "nucleusId": 0,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 0,
+          "inputCellIds": [
+            0
+          ],
+          "form": "i"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 39,
+            "form": "i",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 42,
+            "form": "ie",
+            "weight": 10,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 1
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 39,
+              "form": "i",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 42,
+              "form": "ie",
+              "weight": 10,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 1
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:infeasible\",\"əʊ\",\"ˌ\"]",
+      "profile": "text-default",
+      "seed": 2666001996,
+      "drawIndex": 8221,
+      "word": "oroutsos",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 6,
+          "nextEditId": 1
+        },
+        "nucleusId": 5,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 5,
+          "inputCellIds": [
+            8
+          ],
+          "form": "o"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "s",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 12.499999999999998,
+              "reading": {
+                "kind": "single-phone"
+              }
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.49999999999999994,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 58,
+            "form": "ow",
+            "weight": 12.499999999999998,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 2
+            },
+            "refusal": "unresolved-neighbor"
+          },
+          {
+            "inventoryIndex": 59,
+            "form": "o",
+            "weight": 2500,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 61,
+            "form": "oe",
+            "weight": 0.49999999999999994,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "unresolved-neighbor",
+              "unitId": 2
+            },
+            "refusal": "unresolved-neighbor"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 58,
+              "form": "ow",
+              "weight": 12.499999999999998,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 2
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 59,
+              "form": "o",
+              "weight": 2500,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 61,
+              "form": "oe",
+              "weight": 0.49999999999999994,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "unresolved-neighbor",
+                "unitId": 2
+              },
+              "refusal": "unresolved-neighbor",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:infeasible\",\"u\",\"ˈ\"]",
+      "profile": "text-default",
+      "seed": 3562318933,
+      "drawIndex": 1101,
+      "word": "cughipe",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 5,
+          "nextEditId": 1
+        },
+        "nucleusId": 1,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 1,
+          "inputCellIds": [
+            1
+          ],
+          "form": "u"
+        },
+        "status": "evaluated",
+        "prefix": {
+          "status": "available",
+          "prefix": {
+            "previousForm": "c",
+            "doublingCount": 0
+          },
+          "evidence": {
+            "doublingCount": 0,
+            "quotaSource": "original"
+          }
+        },
+        "pool": {
+          "status": "available",
+          "pool": "ordinary",
+          "quotaRelaxed": false,
+          "proposals": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 7,
+              "reading": {
+                "kind": "single-phone"
+              }
+            }
+          ]
+        },
+        "proposals": [
+          {
+            "inventoryIndex": 27,
+            "form": "u",
+            "weight": 100,
+            "reading": {
+              "kind": "open-vowel-or-split-marker"
+            },
+            "refusal": "unresolved-vowel-obligation"
+          },
+          {
+            "inventoryIndex": 29,
+            "form": "ew",
+            "weight": 7,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "projection": {
+              "status": "refused",
+              "reason": "neighbor-reading",
+              "unitId": 0
+            },
+            "refusal": "neighbor-reading"
+          }
+        ],
+        "sample": {
+          "status": "infeasible",
+          "candidates": [
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation",
+              "retainedWeight": 0,
+              "probability": 0
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 7,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "neighbor-reading",
+                "unitId": 0
+              },
+              "refusal": "neighbor-reading",
+              "retainedWeight": 0,
+              "probability": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "category": "[\"text-default\",\"completion:prefix-unavailable\",\"aɪ\",\"ˌ\"]",
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 8366,
+      "word": "fifeid",
+      "detail": {
+        "cursor": {
+          "lastAppendedUnitId": 4,
+          "nextEditId": 1
+        },
+        "nucleusId": 3,
+        "obligation": {
+          "status": "unresolved",
+          "unitId": 3,
+          "inputCellIds": [
+            6
+          ],
+          "form": "i"
+        },
+        "status": "prefix-unavailable",
+        "prefix": {
+          "status": "unavailable",
+          "reason": "nonadjacent-prefix"
+        }
+      }
+    }
+  ]
+}
