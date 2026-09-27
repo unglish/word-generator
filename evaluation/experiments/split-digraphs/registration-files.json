@@ -1,0 +1,67 @@
+{
+  "version": "q14a-split-vowel-registration-v1",
+  "phase": "before runtime implementation",
+  "controlCommit": "5f9b3ebd495857e02e4104a3b02f89e9c06bfc8c",
+  "files": {
+    "completion-law.md": {
+      "bytes": 2964,
+      "sha256": "e498b785c90585535e62713c5e9eb57d1168560657ba573ca2e2c5d85e54b155"
+    },
+    "design.md": {
+      "bytes": 7700,
+      "sha256": "46b0f99f68d17300f4a1ee63718d0ebec2b57d79ad20b57219b30c980de9d644"
+    },
+    "exploration/README.md": {
+      "bytes": 1916,
+      "sha256": "0676089dd9bbcb3d6a5a0cd1127254660a3b23ef36ce64c9b9778704f84977f0"
+    },
+    "exploration/build_coda_evidence.py": {
+      "bytes": 2929,
+      "sha256": "5ac5bf68ba2d0a4ab8c50cc3c7f26169a98609a673bc6f68afa78bfb93eedd3c"
+    },
+    "exploration/coda-evidence.json": {
+      "bytes": 15534,
+      "sha256": "2446b1fe64590994d568954ae682d5d112c4330a662d6cd18039135cf9c6d0aa"
+    },
+    "exploration/control-inventory-v1.json.gz": {
+      "bytes": 243496,
+      "sha256": "8d75d73479b37161a20e2690ac6484dedb3a07df80ae029b9b2abae01e137240"
+    },
+    "exploration/control-inventory-v1.log": {
+      "bytes": 868,
+      "sha256": "9a729f8f6fd2cf0e2d043cd54ffba863dae7b3a28921572fc9dd03b7349ba386"
+    },
+    "exploration/control-manifest.json.gz": {
+      "bytes": 16228,
+      "sha256": "65d08fa4e5a63487a19aa3f9628975197ac13ccab61eb3209dbc48d9464c89c2"
+    },
+    "exploration/control_inventory.py": {
+      "bytes": 4536,
+      "sha256": "46b57c994706b5884eb7421358029079b6d515cef7bb1d49709923f4adc8109f"
+    },
+    "exploration/index_witnesses.py": {
+      "bytes": 1820,
+      "sha256": "7c7c1c98ed83abd832e9f24ddc185f56f479203c0b1ebc1d47f1e6e0100b391b"
+    },
+    "exploration/magic-e-witness-index.json": {
+      "bytes": 54000,
+      "sha256": "809daed9e26c5cbecd6de0fb6260bd82b2e7f0dc157ec78ad84d573f989a3c29"
+    },
+    "exploration/manifest.json": {
+      "bytes": 1656,
+      "sha256": "f8e69faeee65d1c4090603aba1c7329c813d7c4febc5dc70dc54686573afbf2a"
+    },
+    "formation-law.md": {
+      "bytes": 5247,
+      "sha256": "e1671db75354ded29418b9b3ec3657903c5e2b98a1a57bbeecc3f81e2497222e"
+    },
+    "linguistic-design-notes.md": {
+      "bytes": 2630,
+      "sha256": "764da3849f73d2fca759ad93c4953aa2b9fa77f989cfdd60c6e115fd538e6eb5"
+    },
+    "source-audit.md": {
+      "bytes": 4796,
+      "sha256": "f8e8a671f8bc9ef5639e64efb3e55c7d76a3aae2f9f2ac9135dfb248827332cd"
+    }
+  }
+}
