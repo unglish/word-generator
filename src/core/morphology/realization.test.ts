@@ -194,15 +194,39 @@ describe("resolved morphology survives final cleanup", () => {
     expect(fixture.word().trace!.morphology!.realization!.prefix!.boundaryPhoneme).toEqual({ sound: "b", voiced: true, mannerOfArticulation: "stop", placeOfArticulation: "bilabial" });
   });
 
+  it("preserves im across 100 stratified bilabial-root generations", () => {
+    const fixtures = ["b", "p", "m"].map(onset => fixedRoot({ prefix: prefixIn, onset }));
+    let selected = 0;
+    for (let seed = 0; seed < 100; seed++) {
+      const fixture = fixtures[seed % fixtures.length];
+      const word = fixture.generator.generateWord({ ...fixture.generation, seed, trace: true });
+      const prefix = word.trace!.morphology!.realization!.prefix!;
+      expect(prefix.boundaryPhoneme!.placeOfArticulation).toBe("bilabial");
+      expect(prefix.resolved.written).toBe("im");
+      expect(prefix.resolved.phonemes).toEqual(["ɪ", "m"]);
+      expect(word.written.clean.startsWith("im")).toBe(true);
+      selected++;
+    }
+    expect(selected).toBe(100);
+  });
+
   it("preserves assembly across a continuous 10,000-word public-API stream", { timeout: 30_000 }, () => {
     const rand = createSeededRng(20260926);
     let affixed = 0;
     let selectedIm = 0;
+    let eligibleIm = 0;
     for (let i = 0; i < 10_000; i++) {
       const word = generateWord({ rand, trace: true });
       const realization = word.trace!.morphology?.realization;
       if (!realization) continue;
       affixed++;
+      const prefix = realization.prefix;
+      if (prefix?.planned.written === "in") {
+        const eligible = prefix.boundaryPhoneme?.placeOfArticulation === "bilabial";
+        eligibleIm += Number(eligible);
+        expect(prefix.resolved.written).toBe(eligible ? "im" : "in");
+        expect(prefix.allomorphIndex).toBe(eligible ? 0 : null);
+      }
       expect(realization.emittedParts.map(part => part.text).join("")).toBe(word.written.clean);
       for (const role of ["prefix", "suffix"] as const) {
         const selection = realization[role];
@@ -215,6 +239,7 @@ describe("resolved morphology survives final cleanup", () => {
       }
     }
     expect(affixed).toBeGreaterThan(5000);
-    expect(selectedIm).toBeGreaterThan(30);
+    expect(eligibleIm).toBeGreaterThan(0);
+    expect(selectedIm).toBe(eligibleIm);
   });
 });

@@ -1,6 +1,5 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
-import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, MorphophonemicRule, PhonologicalCondition, defaultFallbackBridgeOnsets, resolveAspirationRules } from "../../config/language.js";
-import { generatePronunciation, PronunciationRuntimeConfig } from "../pronounce.js";
+import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, MorphophonemicRule, PhonologicalCondition, defaultFallbackBridgeOnsets } from "../../config/language.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
 import type { MorphologyPlan } from "./plan.js";
 import { snapshotAffixForm, snapshotWrittenParts } from "./realization.js";
@@ -16,7 +15,6 @@ interface GeneratorRuntime {
     phonemes: Phoneme[];
     pronunciation?: import("../../config/language.js").PronunciationConfig;
   };
-  resolvedPronunciation?: PronunciationRuntimeConfig;
 }
 
 function getBoundaryFallbackBridges(rt: GeneratorRuntime): [string, number][] {
@@ -277,22 +275,36 @@ interface FiredMorphophonemicRule {
   writtenAfter?: string;
 }
 
-function applyMorphophonemicRules(
+interface PreparedMorphophonemicRule {
+  rule: MorphophonemicRule;
+  event: FiredMorphophonemicRule;
+}
+
+/** Resolved attachment retained between lexical assembly and spelling. */
+export interface PreparedMorphology {
+  plan: MorphologyPlan;
+  prefix?: ResolvedAffix;
+  suffix?: ResolvedAffix;
+  prefixWritten: string;
+  suffixWritten: string;
+  rootSyllableStart: number;
+  rules: PreparedMorphophonemicRule[];
+}
+
+function prepareMorphophonemicRules(
   rootSyllables: Syllable[],
-  rootWritten: string,
   affix: Affix,
   isPrefix: boolean,
   resolvePhoneme: (sound: string) => Phoneme,
-): { rootWritten: string; fired: FiredMorphophonemicRule[] } {
+): PreparedMorphophonemicRule[] {
   if (!affix.morphophonemicRules || affix.morphophonemicRules.length === 0) {
-    return { rootWritten, fired: [] };
+    return [];
   }
 
   const sortedRules = [...affix.morphophonemicRules].sort(
     (a, b) => (a.priority ?? 100) - (b.priority ?? 100),
   );
-  const fired: FiredMorphophonemicRule[] = [];
-  let written = rootWritten;
+  const prepared: PreparedMorphophonemicRule[] = [];
 
   for (const rule of sortedRules) {
     const boundaryRef = getBoundarySegmentRef(rootSyllables, isPrefix, rule.target ?? "edge");
@@ -304,7 +316,6 @@ function applyMorphophonemicRules(
       continue;
     }
 
-    let changed = false;
     const event: FiredMorphophonemicRule = {
       rule: rule.name,
       affix: affix.written,
@@ -316,41 +327,27 @@ function applyMorphophonemicRules(
       rootSyllables[boundaryRef.syllableIndex][boundaryRef.segment][boundaryRef.index] = next;
       event.soundBefore = boundaryRef.phoneme.sound;
       event.soundAfter = next.sound;
-      changed = true;
     }
 
-    if (rule.writtenMatch && rule.writtenReplace !== undefined) {
-      const rewritten = written.replace(rule.writtenMatch, rule.writtenReplace);
-      if (rewritten !== written) {
-        event.writtenBefore = written;
-        event.writtenAfter = rewritten;
-        written = rewritten;
-        changed = true;
-      }
-    }
-
-    if (changed) {
-      fired.push(event);
-    }
+    prepared.push({ rule, event });
   }
 
-  return { rootWritten: written, fired };
+  return prepared;
 }
 
 // ---------------------------------------------------------------------------
 // Main API
 // ---------------------------------------------------------------------------
 
-export function applyMorphology(
+export function prepareMorphology(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   plan: MorphologyPlan,
-): MorphologyResult {
-  if (plan.template === "bare") return { parts: [{ role: "root", text: context.word.written.clean }] };
+): PreparedMorphology | undefined {
+  if (plan.template === "bare") return undefined;
 
   const config = rt.config;
   const syllables = context.word.syllables;
-  let rootWritten = context.word.written.clean;
 
   let prefix: ResolvedAffix | undefined;
   let suffix: ResolvedAffix | undefined;
@@ -379,41 +376,26 @@ export function applyMorphology(
     };
   }
 
-  const firedMorphophonemics: FiredMorphophonemicRule[] = [];
+  const rules: PreparedMorphophonemicRule[] = [];
   if (plan.prefix && prefixVariant) {
-    const applied = applyMorphophonemicRules(
+    rules.push(...prepareMorphophonemicRules(
       syllables,
-      rootWritten,
       plan.prefix,
       true,
       resolvePhoneme,
-    );
-    rootWritten = applied.rootWritten;
-    firedMorphophonemics.push(...applied.fired);
+    ));
   }
   if (plan.suffix && suffixVariant) {
-    const applied = applyMorphophonemicRules(
+    rules.push(...prepareMorphophonemicRules(
       syllables,
-      rootWritten,
       plan.suffix,
       false,
       resolvePhoneme,
-    );
-    rootWritten = applied.rootWritten;
-    firedMorphophonemics.push(...applied.fired);
-  }
-
-  // Apply boundary transforms to root written form at both boundaries.
-  if (plan.prefix && prefixVariant && plan.prefix.boundaryTransforms) {
-    rootWritten = applyBoundaryTransforms(rootWritten, plan.prefix.boundaryTransforms);
-  }
-  if (plan.suffix && suffixVariant && plan.suffix.boundaryTransforms) {
-    rootWritten = applyBoundaryTransforms(rootWritten, plan.suffix.boundaryTransforms);
+    ));
   }
 
   const prefixWritten = prefixVariant?.written ?? "";
   const suffixWritten = suffixVariant?.written ?? "";
-  const cleanForm = prefixWritten + rootWritten + suffixWritten;
 
   const prefixSyllables = prefixVariant
     ? (prefixVariant.syllables !== undefined && prefixVariant.syllables.length > 0
@@ -505,16 +487,31 @@ export function applyMorphology(
     adjustStress(context.word.syllables, plan.suffix.stressEffect, suffixIndices, false);
   }
 
-  const pronunciation = rt.resolvedPronunciation ?? {
-    aspiration: resolveAspirationRules(config.pronunciation?.aspiration),
-    vowelReduction: config.pronunciation?.vowelReduction,
-  };
-  generatePronunciation(context, pronunciation);
+  return { plan, prefix, suffix, prefixWritten, suffixWritten, rootSyllableStart: prefixSyllables.length, rules };
+}
 
-  context.word.written.clean = cleanForm;
-  if (context.trace?.morphologyTrace && firedMorphophonemics.length > 0) {
-    context.trace.morphologyTrace.alternations = firedMorphophonemics;
+/** Apply the written halves of the already-resolved morphological rules once. */
+export function writeMorphology(context: WordGenerationContext, prepared: PreparedMorphology): MorphologyResult {
+  const { plan, prefix, suffix, prefixWritten, suffixWritten } = prepared;
+  let rootWritten = context.word.written.clean;
+  const fired: FiredMorphophonemicRule[] = [];
+  for (const { rule, event } of prepared.rules) {
+    const writtenEvent = { ...event };
+    if (rule.writtenMatch && rule.writtenReplace !== undefined) {
+      const rewritten = rootWritten.replace(rule.writtenMatch, rule.writtenReplace);
+      if (rewritten !== rootWritten) {
+        writtenEvent.writtenBefore = rootWritten;
+        writtenEvent.writtenAfter = rewritten;
+        rootWritten = rewritten;
+      }
+    }
+    if (writtenEvent.soundBefore !== undefined || writtenEvent.writtenBefore !== undefined) fired.push(writtenEvent);
   }
+  for (const affix of [plan.prefix, plan.suffix]) {
+    if (affix?.boundaryTransforms) rootWritten = applyBoundaryTransforms(rootWritten, affix.boundaryTransforms);
+  }
+  if (context.trace?.morphologyTrace && fired.length > 0) context.trace.morphologyTrace.alternations = fired;
+  context.word.written.clean = prefixWritten + rootWritten + suffixWritten;
 
   const parts: MorphologyWrittenPart[] = [];
   if (prefix) parts.push({ role: "prefix", text: prefixWritten });
@@ -529,4 +526,10 @@ export function applyMorphology(
     };
   }
   return { prefix, suffix, parts };
+}
+
+/** Attach morphology to an already-spelled lexical root; surface realization is separate. */
+export function applyMorphology(rt: GeneratorRuntime, context: WordGenerationContext, plan: MorphologyPlan): MorphologyResult {
+  const prepared = prepareMorphology(rt, context, plan);
+  return prepared ? writeMorphology(context, prepared) : { parts: [{ role: "root", text: context.word.written.clean }] };
 }

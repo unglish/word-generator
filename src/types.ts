@@ -1,6 +1,6 @@
 import type { BaseSpelling } from "./core/base-spelling.js";
 import { RNG } from "./utils/random";
-import type { WordTrace } from "./core/trace";
+import type { WordTrace, OrthographySource } from "./core/trace";
 import type { TraceCollector } from "./core/trace";
 
 /**
@@ -232,6 +232,8 @@ export interface WrittenForm {
  * ```
  */
 export interface Word {
+  /** Lexical segments and stress before surface aspiration and vowel reduction. */
+  lexical?: LexicalForm;
   /** Ordered array of syllables that make up the word. */
   syllables: Syllable[];
   /** IPA pronunciation string for the full word. */
@@ -240,6 +242,15 @@ export interface Word {
   written: WrittenForm;
   /** Generation trace (only present when `trace: true` was passed). */
   trace?: WordTrace;
+}
+
+export interface LexicalForm {
+  /** Base-root syllables used for spelling, including the root's lexical stress. */
+  root: Syllable[];
+  /** Full derived word after morphology and final stress resolution. */
+  syllables: Syllable[];
+  /** Position of the first root syllable in the full lexical form. */
+  rootSyllableStart: number;
 }
 
 /**
@@ -321,6 +332,8 @@ export interface WordGenerationContext {
   syllablePlans?: SyllableShapePlan[];
   /** Trace collector (only present when tracing is enabled). */
   trace?: TraceCollector;
+  /** Source domain of syllables passed to the orthographic writer. */
+  orthographySource?: OrthographySource;
 }
 
 /**

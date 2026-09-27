@@ -22,7 +22,7 @@ import type { PartEditObserver, PartSpellingBatchEdit, SpellingEditObserver } fr
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { LanguageConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
-import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
+import type { TraceCollector, OrthographySource, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
 import { isVowelChar, isConsonantLetter } from "../utils/letters.js";
 
@@ -219,7 +219,7 @@ function remapOwnersThroughRewrite(source: string, sourceOwners: number[], targe
   return targetOwners;
 }
 
-function buildLinksForUnit(unit: TraceUnitSeed, trace: TraceCollector): TraceLink[] {
+function buildLinksForUnit(unit: TraceUnitSeed, trace: TraceCollector, source?: OrthographySource): TraceLink[] {
   const links: TraceLink[] = [{
     kind: "graphemeSelection",
     index: unit.graphemeSelectionIndex,
@@ -243,7 +243,7 @@ function buildLinksForUnit(unit: TraceUnitSeed, trace: TraceCollector): TraceLin
 
   for (let i = 0; i < trace.structural.length; i++) {
     const s = trace.structural[i];
-    if (structuralEventReferencesUnit(s, unit)) {
+    if (structuralEventReferencesUnit(s, unit, source)) {
       links.push({ kind: "structural", index: i, label: s.event });
     }
   }
@@ -251,7 +251,7 @@ function buildLinksForUnit(unit: TraceUnitSeed, trace: TraceCollector): TraceLin
   return links;
 }
 
-function structuralEventReferencesUnit(event: StructuralTrace, unit: TraceUnitSeed): boolean {
+function structuralEventReferencesUnit(event: StructuralTrace, unit: TraceUnitSeed, source?: OrthographySource): boolean {
   switch (event.event) {
   case "boundaryDrop":
     // Dropped-coda segment is removed pre-orthography; link only the onset-side survivor.
@@ -287,6 +287,9 @@ function structuralEventReferencesUnit(event: StructuralTrace, unit: TraceUnitSe
       unit.phoneme === event.inserted;
   case "morphPrefixHiatusFallback":
   case "morphSuffixHiatusFallback":
+    // Morphology inserts these phones only in the assembled derived word.
+    // They have no grapheme in the base root, even if its index/sound matches.
+    if (source?.kind === "lexical-root") return false;
     return unit.position === "onset" &&
       unit.syllableIndex === event.syllableIndex &&
       unit.phoneme === event.inserted;
@@ -304,6 +307,7 @@ function buildOrthographyTrace(
   finalOwners: number[],
   units: TraceUnitSeed[],
   trace: TraceCollector,
+  source?: OrthographySource,
 ): OrthographyTrace {
   const unitById = new Map<number, TraceUnitSeed>(units.map(u => [u.id, u]));
   const spans = new Map<number, { start: number; end: number }>();
@@ -342,12 +346,12 @@ function buildOrthographyTrace(
       present: !!span,
       start: span ? span.start : null,
       end: span ? span.end : null,
-      links: buildLinksForUnit(unit, trace),
+      links: buildLinksForUnit(unit, trace, source),
     };
   };
 
   const graphemeUnits = units.map(toUnitTrace);
-  return { surface, chars, graphemeUnits, alignment: "inferred" };
+  return { surface, chars, graphemeUnits, alignment: "inferred", ...(source ? { source } : {}) };
 }
 
 export function rewriteOrthographyTraceSurface(trace: TraceCollector, surface: string): void {
@@ -1557,7 +1561,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
     if (tracing && context.trace) {
       const finalOwners = remapOwnersThroughRewrite(preRepairSurface, preRepairOwners, finalClean);
-      context.trace.orthographyTrace = buildOrthographyTrace(finalClean, finalOwners, traceUnits, context.trace);
+      context.trace.orthographyTrace = buildOrthographyTrace(finalClean, finalOwners, traceUnits, context.trace, context.orthographySource);
     }
 
     baseSpelling.assertSurface(finalClean);
