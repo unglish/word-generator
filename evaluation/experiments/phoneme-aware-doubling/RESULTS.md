@@ -69,6 +69,10 @@ split digraphs and complete final-word pronunciation remain separate work.
 Ordinary-policy unsupported ss does not mean all lexical ss readings are
 impossible. No human preference gain is claimed.
 
+The final no-emit TypeScript invocation initially could not write its incremental
+cache under the execution sandbox. Repeating with `--incremental false` passes
+with identical strictness settings; both logs are retained.
+
 ## Reproduction and review map
 
 The original registration and exploratory control inspection are preserved in
