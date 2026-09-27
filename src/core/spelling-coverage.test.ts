@@ -116,6 +116,11 @@ describe("shared readings during coverage planning and commits", () => {
       } else {
         expect(outcome.status).toBe("respell");
         expect(candidate.snapshot().surface).toBe("axe");
+        const candidateTrace = candidate.snapshot();
+        if (candidateTrace.version !== 4) throw new Error("Expected shared trace");
+        expect(candidateTrace.shared.timeline[candidateTrace.shared.timeline.length - 1]).toEqual({
+          kind: "coverage", index: 0, cursor: { lastAppendedUnitId: 3, nextEditId: 1 },
+        });
         const proof = certificate(candidate);
         expect(proof.preservedSharedConstructionIds).toEqual([0]);
         expect(proof.replacements.some(entry => entry.unitId === 1 || entry.unitId === 2)).toBe(false);

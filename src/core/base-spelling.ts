@@ -4,7 +4,7 @@ import { editPart, isSingleOwned, sourceUnits } from "./spelling-ownership.js";
 import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
 import { createSharedConstructionPlanner } from "./spelling-construction.js";
 import type { SharedConstructionAttempt, SharedSpellingSlot } from "./spelling-construction.js";
-import type { SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession, SharedSpellingEvent } from "./spelling-construction-types.js";
+import type { SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession, SharedSpellingEvent, SpellingTimelineEntry } from "./spelling-construction-types.js";
 import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
 import type { Phoneme } from "../types.js";
 import type { SpellingCoverageCertificate, SpellingUnitReplacement } from "./spelling-coverage-types.js";
@@ -111,6 +111,7 @@ export interface BaseSpellingTraceV4 extends Omit<BaseSpellingTraceV3, "version"
   shared: {
     version: 1;
     events: SharedSpellingEvent[];
+    timeline: SpellingTimelineEntry[];
     attempts: Array<{ id: number; attempt: SharedConstructionAttempt; constructionId: number | null }>;
     constructions: SharedSpellingConstruction[];
     supersessions: SharedSpellingSupersession[];
@@ -188,6 +189,7 @@ export class BaseSpelling {
   private readonly supersededConstructions = new Set<number>();
   private readonly sharedTransactions?: SpellingEditTransaction[];
   private readonly sharedEvents?: SharedSpellingEvent[];
+  private readonly sharedTimeline?: SpellingTimelineEntry[];
   private nextSharedAttemptId = 0;
   private nextCellId = 0;
   private nextEditId = 0;
@@ -214,6 +216,7 @@ export class BaseSpelling {
         this.sharedTransactions = [];
         this.sharedAttempts = [];
         this.sharedEvents = [];
+        this.sharedTimeline = [];
       }
     }
     if (normalizeUnits && !licensed) throw new Error("Unit normalization requires licensed spelling provenance");
@@ -254,6 +257,7 @@ export class BaseSpelling {
       sourceCellIds: cells.map((cell) => cell.id),
     });
     this.cells.push(...cells);
+    this.recordTimeline("append", id, { lastAppendedUnitId: id - 1, nextEditId: this.nextEditId });
   }
 
   get length(): number {
@@ -273,14 +277,17 @@ export class BaseSpelling {
     const input = this.cells.slice(start, start + deleteCount);
     const before = input.map((cell) => cell.text).join("");
     if (before === insert) return true;
-    if (this.sharedEditGuard && this.supersededConstructions.size < this.sharedConstructions.length) {
+    const activeGuard = this.supersededConstructions.size < this.sharedConstructions.length ? this.sharedEditGuard : undefined;
+    const cursor = this.normalizationState().cursor;
+    if (activeGuard) {
       const liveConstructions = this.liveConstructions();
-      const decision = this.sharedEditGuard(this.constructionState(), liveConstructions, { start, deleteCount, insert, partId });
+      const decision = activeGuard(this.constructionState(), liveConstructions, { start, deleteCount, insert, partId });
       this.sharedEditGuards?.push({ cursor: this.constructionState().cursor, phase: this.phase, rule, start, deleteCount, insert, partId: partId ?? null, decision });
       this.recordSharedEvent("guard", (this.sharedEditGuards?.length ?? 1) - 1, this.constructionState().cursor);
       if (decision.status === "refused") return false;
     }
     this.commitRewrite(start, input, before, insert, rule, partId);
+    if (!activeGuard) this.recordTimeline("rewrite", cursor.nextEditId, cursor);
     return true;
   }
 
@@ -322,6 +329,11 @@ export class BaseSpelling {
 
   private recordSharedEvent(kind: SharedSpellingEvent["kind"], index: number, cursor: LedgerCursor): void {
     this.sharedEvents?.push({ kind, index, cursor: { ...cursor } });
+    this.recordTimeline("shared", (this.sharedEvents?.length ?? 1) - 1, cursor);
+  }
+
+  private recordTimeline(kind: SpellingTimelineEntry["kind"], index: number, cursor: LedgerCursor): void {
+    this.sharedTimeline?.push({ kind, index, cursor: { ...cursor } });
   }
 
   private liveConstructions(): SharedSpellingConstruction[] {
@@ -434,6 +446,7 @@ export class BaseSpelling {
     if (!this.normalizeUnits) throw new Error("Missing normalization capability");
     this.normalizationChecks?.push({ site, cursor: this.normalizationState().cursor });
     if (compared) this.normalizationComparisons[site]++;
+    this.recordTimeline("normalization-check", (this.normalizationChecks?.length ?? 1) - 1, this.normalizationState().cursor);
   }
 
   recordNormalization(site: NormalizationSite, rightIndex: number, decision: NormalizationDecision): void {
@@ -446,13 +459,14 @@ export class BaseSpelling {
       throw new Error("Mismatched normalization application point");
     }
     const outcome = decision.status === "normalized"
-      ? { status: "normalized" as const, certificateId: this.commitNormalization(decision.plan) }
+      ? { status: "normalized" as const, certificateId: this.applyNormalization(decision.plan, false) }
       : { status: "retained" as const, reason: decision.reason };
     this.normalizationCollisions[site]++;
     const id = this.nextNormalizationEpisodeId++;
     this.normalizationEpisodes?.push({ version: 1, id, site, cursor,
       predecessorCellId: previous.id, rightCellId: first.id,
       rightUnitId: !isSingleOwned(first.origin) ? null : first.origin.unitId, outcome });
+    this.recordTimeline("normalization-episode", id, cursor);
   }
 
   /** Revalidate against live state before committing cells, IDs, certificates or attempts. */
@@ -493,6 +507,10 @@ export class BaseSpelling {
 
   /** Caller authenticates support; this atomic commit separately validates cell/phone structure. */
   commitNormalization(plan: NormalizationPlan): number {
+    return this.applyNormalization(plan, true);
+  }
+
+  private applyNormalization(plan: NormalizationPlan, record: boolean): number {
     const fail = (): never => { throw new Error("Invalid local normalization certificate"); };
     const equal = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
     const unit = this.units[plan.unitId];
@@ -542,11 +560,13 @@ export class BaseSpelling {
     this.edits?.push({ id: editId, phase: this.phase, rule: `unitNormalization:${plan.site}`, start,
       input, output, before: plan.before, after: plan.after, partId: plan.partId });
     this.normalizationCertificates.push(certificate);
+    if (record) this.recordTimeline("normalization", certificateId, cursor);
     return certificateId;
   }
 
   /** Structural validation precedes every mutation, including ID advancement. */
   commitLicensedPlan(plan: Omit<SpellingCoverageCertificate, "id">): number {
+    const cursor = this.normalizationState().cursor;
     const fail = (): never => { throw new Error("Invalid spelling coverage certificate"); };
     if (!this.licensed || plan.version !== 1 || plan.budgets.exceeded.length > 0 || this.normalizationCertificates.length > 0) fail();
     if (plan.before !== this.cells.map(cell => cell.text).join("") ||
@@ -616,6 +636,7 @@ export class BaseSpelling {
         input, output, before: replacement.before, after: replacement.after, partId: replacement.partId });
     }
     this.certificates.push(structuredClone({ ...plan, id: certificateId }));
+    this.recordTimeline("coverage", certificateId, cursor);
     return certificateId;
   }
 
@@ -657,7 +678,7 @@ export class BaseSpelling {
       };
       if (this.sharedPlanner) return structuredClone({ ...trace, version: 4,
         capabilities: { ...trace.capabilities, sharedConstructions: 1 },
-        shared: { version: 1, events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
+        shared: { version: 1, timeline: this.sharedTimeline ?? [], events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
           liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [], transactions: this.sharedTransactions ?? [] } });
       return structuredClone(trace);
     }

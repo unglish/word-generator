@@ -1,0 +1,2 @@
+src/core/base-spelling.ts(284,24): error TS2532: Object is possibly 'undefined'.
+src/core/base-spelling.ts(284,24): error TS2722: Cannot invoke an object which is possibly 'undefined'.

@@ -51,3 +51,10 @@ export interface SharedSpellingEvent {
   index: number;
   cursor: LedgerCursor;
 }
+
+/** Actual producer operation order, including decisions that allocate no cells or edits. */
+export interface SpellingTimelineEntry {
+  kind: "append" | "rewrite" | "shared" | "normalization-check" | "normalization-episode" | "normalization" | "coverage";
+  index: number;
+  cursor: LedgerCursor;
+}
