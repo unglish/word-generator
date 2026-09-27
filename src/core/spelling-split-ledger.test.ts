@@ -45,7 +45,12 @@ describe("split-vowel ledger commit", () => {
     expect(base.edit(3, 1, "", "delete-marker", 0)).toBe(false);
     expect(base.editBatch([{ start: 0, deleteCount: 1, insert: "d", rule: "onset", partId: 0 },
       { start: 3, deleteCount: 1, insert: "", rule: "marker", partId: 0 }])).toBe(false);
-    expect(base.snapshot()).toEqual(before);
+    const after = base.snapshot();
+    expect(after.cells).toEqual(before.cells); expect(after.edits).toEqual(before.edits);
+    if (after.version !== 5) throw new Error("fixture");
+    expect(after.split.guards).toHaveLength(2);
+    expect(after.split.guards.map(entry => entry.decision.status)).toEqual(["refused", "refused"]);
+    expect(after.shared.timeline.filter(entry => entry.kind === "split-guard").map(entry => entry.index)).toEqual([0, 1]);
     expect(base.edit(0, 1, "d", "onset", 0)).toBe(true);
     expect(base.snapshot().surface).toBe("date");
   });

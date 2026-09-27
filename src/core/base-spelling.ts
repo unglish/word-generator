@@ -1,4 +1,5 @@
 import { createSplitConstructionPlanner } from "./spelling-split-planner.js";
+import type { SplitLiveResult } from "./spelling-split-live.js";
 import { createSplitLiveGuard } from "./spelling-split-live.js";
 import { prepareSplitVowelTransaction } from "./spelling-split-transaction.js";
 import type { SplitConstructionAttempt, SplitVowelConstruction } from "./spelling-split-transaction.js";
@@ -150,6 +151,7 @@ export interface BaseSpellingTraceV5 extends Omit<BaseSpellingTraceV4, "version"
   version: 5;
   capabilities: BaseSpellingTraceV4["capabilities"] & { splitVowels: 1 };
   split: { version: 1; attempts: Array<{ attempt: SplitConstructionAttempt; constructionId: number | null }>;
+    guards: Array<{ cursor: LedgerCursor; phase: SpellingEdit["phase"]; edits: SpellingBatchEdit[]; decision: SplitLiveResult }>;
     constructions: SplitVowelConstruction[]; supersessions: SharedSpellingSupersession[]; liveConstructionIds: number[] };
 }
 export type BaseSpellingTrace = BaseSpellingTraceV5 | BaseSpellingTraceV1 | BaseSpellingTraceV2 | BaseSpellingTraceV3 | BaseSpellingTraceV4;
@@ -230,6 +232,7 @@ export class BaseSpelling {
   private readonly splitConstructions: SplitVowelConstruction[] = [];
   private readonly splitSupersessions: SharedSpellingSupersession[] = [];
   private readonly supersededSplitIds = new Set<number>();
+  private readonly splitGuards: BaseSpellingTraceV5["split"]["guards"] = [];
   private readonly splitAttempts: BaseSpellingTraceV5["split"]["attempts"] = [];
   private nextCellId = 0;
   private nextEditId = 0;
@@ -326,7 +329,7 @@ export class BaseSpelling {
     if (this.splitRuntime && this.splitConstructions.length) {
       const projected = this.cells.slice();
       projected.splice(start, deleteCount, ...rewriteCells(input, insert, this.nextEditId, this.nextCellId, editPart(input, partId), this.licensed));
-      if (this.splitRuntime.guard(projected, this.phones, this.liveSplitConstructions()).status === "refused") return false;
+      if (!this.recordSplitGuard(projected, [{ start, deleteCount, insert, rule, partId }])) return false;
     }
     const activeGuard = this.supersededConstructions.size < this.sharedConstructions.length ? this.sharedEditGuard : undefined;
     const cursor = this.normalizationState().cursor;
@@ -372,11 +375,20 @@ export class BaseSpelling {
       nextCellId += output.length;
       cells.splice(start, deleteCount, ...output);
     }
-    if (this.splitRuntime && this.splitRuntime.guard(cells, this.phones, this.liveSplitConstructions()).status === "refused") return false;
+    if (this.splitRuntime && !this.recordSplitGuard(cells, edits)) return false;
     for (const { edit, input, before } of prepared) this.commitRewrite(edit.start, input, before, edit.insert, edit.rule, edit.partId);
     this.sharedTransactions?.push(structuredClone({ cursor, phase: this.phase, edits: [...edits], checks, status: "applied" }));
     this.recordSharedEvent("transaction", (this.sharedTransactions?.length ?? 1) - 1, cursor);
     return true;
+  }
+
+  private recordSplitGuard(projected: readonly SpellingCell[], edits: readonly SpellingBatchEdit[]): boolean {
+    if (!this.splitRuntime) return true;
+    const cursor = this.constructionState().cursor;
+    const decision = this.splitRuntime.guard(projected, this.phones, this.liveSplitConstructions());
+    this.splitGuards.push(structuredClone({ cursor, phase: this.phase, edits: [...edits], decision }));
+    this.recordTimeline("split-guard", this.splitGuards.length - 1, cursor);
+    return decision.status === "preserved";
   }
 
   private recordSharedEvent(kind: SharedSpellingEvent["kind"], index: number, cursor: LedgerCursor): void {
@@ -628,6 +640,7 @@ export class BaseSpelling {
         start: plan.start, input: plan.input, output: plan.output, before: plan.before, after: plan.after, partId: plan.construction.partId });
     }
     this.splitAttempts.push({ attempt: structuredClone(attempt), constructionId });
+    this.recordTimeline("split-attempt", this.splitAttempts.length - 1, attempt.cursor);
     return constructionId;
   }
 
@@ -813,7 +826,7 @@ export class BaseSpelling {
             liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [], transactions: this.sharedTransactions ?? [] } });
         if (this.splitRuntime) return structuredClone({ ...sharedTrace, version: 5,
           capabilities: { ...sharedTrace.capabilities, splitVowels: 1 },
-          split: { version: 1, attempts: this.splitAttempts, constructions: this.splitConstructions,
+          split: { version: 1, attempts: this.splitAttempts, guards: this.splitGuards, constructions: this.splitConstructions,
             supersessions: this.splitSupersessions, liveConstructionIds: this.liveSplitConstructions().map(entry => entry.id) } });
         return sharedTrace;
       }
