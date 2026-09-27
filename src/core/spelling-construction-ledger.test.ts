@@ -1,4 +1,4 @@
-import { applySpellingRules } from "./write.js";
+import { applySpellingRules, applySilentE, repairConsonantPileups, repairConsonantLetters, repairFinalConsonantLetters, repairVowelLetters } from "./write.js";
 import { describe, expect, it } from "vitest";
 import { englishConfig } from "../index.js";
 import { englishSharedSpellings } from "../elements/graphemes/shared.js";
@@ -289,5 +289,93 @@ describe("explicit lexical gap supersession", () => {
       expect(base.edit(0, 1, "a", "later-edit")).toBe(true);
     }
     expect(traced.constructionState()).toEqual(untraced.constructionState());
+  });
+});
+
+
+describe("atomic writer repair transactions", () => {
+  it("does not commit an earlier allowed edit when a later batch edit is refused", () => {
+    const base = fixture(["k", "w", "s", "t"], ["c", "w", "s", "t"], [0, 0, 0, 0]); form(base, "cw-to-qu", [0, 1]);
+    const before = structuredClone(base.constructionState());
+    expect(base.editBatch([{ start: 3, deleteCount: 1, insert: "", rule: "safe-tail" },
+      { start: 1, deleteCount: 1, insert: "", rule: "unsafe-shared" }])).toBe(false);
+    expect(base.constructionState()).toEqual(before);
+    const trace = base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    expect(trace.shared.transactions[0]).toMatchObject({ status: "refused", cursor: { nextEditId: 1 },
+      checks: [{ status: "allowed" }, { status: "refused", reason: "consumes-shared-spelling" }] });
+    expect(trace.edits).toHaveLength(1);
+  });
+
+  it("rejects an invalid later range without committing an earlier valid edit", () => {
+    const base = fixture(); form(base); const before = base.snapshot();
+    expect(() => base.editBatch([{ start: 0, deleteCount: 1, insert: "e", rule: "first" },
+      { start: 9, deleteCount: 1, insert: "", rule: "invalid" }])).toThrow(/batch range/);
+    expect(base.snapshot()).toEqual(before);
+  });
+
+  it("commits accepted batches with the same cells and edit IDs as sequential writes", () => {
+    const batched = fixture(); const sequential = fixture();
+    for (const base of [batched, sequential]) form(base);
+    const edits = [{ start: 0, deleteCount: 1, insert: "ee", rule: "prefix" },
+      { start: 3, deleteCount: 0, insert: "a", rule: "tail" },
+      { start: 0, deleteCount: 2, insert: "ee", rule: "noop" }];
+    expect(batched.editBatch(edits)).toBe(true);
+    for (const edit of edits) expect(sequential.edit(edit.start, edit.deleteCount, edit.insert, edit.rule)).toBe(true);
+    expect(batched.constructionState()).toEqual(sequential.constructionState());
+    expect(batched.snapshot().edits).toEqual(sequential.snapshot().edits);
+  });
+
+  it("uses evolving part offsets when earlier parts change length", () => {
+    const base = fixture(); form(base);
+    const parts = ["ax", ""];
+    expect(base.observeParts(parts).batch!([
+      { part: 0, start: 0, deleteCount: 1, insert: "ee", rule: "prefix" },
+      { part: 1, start: 0, deleteCount: 0, insert: "a", rule: "next-part" },
+    ])).toBe(true);
+    expect(base.snapshot().surface).toBe("eexa");
+    expect(base.projectParts(2)).toEqual(["eex", "a"]);
+    expect(parts).toEqual(["ax", ""]);
+  });
+
+  it("keeps the consonant-pileup text unchanged when its second deletion is refused", () => {
+    const base = fixture(["æ", "b", "k", "s", "t", "r"], ["a", "b", "k", "s", "t", "r"], [0, 0, 0, 0, 0, 0]);
+    form(base, "ks-to-x", [2, 3]);
+    const parts = ["abxtr"]; const hyphenated = [...parts];
+    repairConsonantPileups(parts, hyphenated, 2, undefined, base.observeParts(parts));
+    expect(parts).toEqual(["abxtr"]); expect(hyphenated).toEqual(parts); base.assertSurface(parts.join(""));
+    const trace = base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    expect(trace.shared.transactions[0]).toMatchObject({ status: "refused", checks: [{ status: "allowed" }, { status: "refused" }] });
+  });
+
+  it("retains a refused final cluster and stops a later refused single-letter deletion", () => {
+    const base = fixture(["æ", "b", "k", "s", "t", "r"], ["a", "b", "k", "s", "t", "r"], [0, 0, 0, 0, 0, 0]);
+    form(base, "ks-to-x", [2, 3]);
+    const parts = ["abxtr"]; const hyphenated = [...parts];
+    repairFinalConsonantLetters(parts, hyphenated, 2, base.observeParts(parts));
+    expect(parts).toEqual(["abxtr"]); base.assertSurface(parts.join(""));
+    repairConsonantLetters(parts, hyphenated, 2, base.observeParts(parts));
+    expect(parts).toEqual(["abxr"]); expect(hyphenated).toEqual(parts); base.assertSurface(parts.join(""));
+  });
+
+  it("keeps the complete following vowel when vowel trimming would invalidate gz", () => {
+    const base = fixture(["ɛ", "g", "z", "æ"], ["e", "g", "z", "aa"], [0, 0, 0, 0]); form(base, "gz-to-x");
+    const parts = ["exaa"]; const hyphenated = [...parts];
+    repairVowelLetters(parts, hyphenated, 1, base.observeParts(parts));
+    expect(parts).toEqual(["exaa"]); expect(hyphenated).toEqual(parts); base.assertSurface(parts.join(""));
+  });
+
+  it("does not append a silent-e marker after its vowel swap is refused", () => {
+    const base = fixture(["ɛ", "g", "z", "æ", "t"], ["e", "g", "z", "a", "t"], [0, 0, 1, 1, 1]); form(base, "gz-to-x");
+    const phone = (sound: string) => englishConfig.phonemes.find(entry => entry.sound === sound)!;
+    const syllables = [{ onset: [], nucleus: [phone("ɛ")], coda: [phone("g")] },
+      { onset: [phone("z")], nucleus: [phone("æ")], coda: [phone("t")] }];
+    const parts = ["ex", "at"]; const hyphenated = ["ex", "&shy;", "at"];
+    applySilentE(parts, hyphenated, syllables, ["e", "a"], new Map([["æ", [{ from: "a", to: "ae" }]]]),
+      new Set(), 100, () => 0, base.observeParts(parts));
+    expect(parts).toEqual(["ex", "at"]); expect(hyphenated).toEqual(["ex", "&shy;", "at"]);
+    base.assertSurface(parts.join(""));
+    expect(base.snapshot().edits).toHaveLength(1);
   });
 });

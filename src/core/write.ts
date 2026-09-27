@@ -12,7 +12,7 @@ import type { DoublingState, DoublingTraceInfo } from "./spelling-doubling.js";
 import { createGraphemeResolver, positionLabel } from "./grapheme-selection.js";
 export { filterByPosition, normalizeGraphemeCondition } from "./grapheme-selection.js";
 import { BaseSpelling, expandReplacement } from "./base-spelling.js";
-import type { PartEditObserver, SpellingEditObserver } from "./base-spelling.js";
+import type { PartEditObserver, PartSpellingBatchEdit, SpellingEditObserver } from "./base-spelling.js";
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { LanguageConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
@@ -75,6 +75,17 @@ export function applySpellingRules(str: string, rules: CompiledSpellingRule[], r
     if (trace && result !== source) trace.recordRepair(`spellingRule:${name}`, source, result, scope);
   }
   return result;
+}
+
+/** Rejecting observers must supply batch for atomic multi-edit operations. */
+export function applyPartEditBatch(edits: readonly PartSpellingBatchEdit[], observe?: PartEditObserver): boolean {
+  if (observe?.batch) return observe.batch(edits);
+  for (const edit of edits) {
+    if (observe?.(edit.part, edit.start, edit.deleteCount, edit.insert, edit.rule) === false) {
+      throw new Error("A rejecting multi-edit observer must implement batch");
+    }
+  }
+  return true;
 }
 
 interface TraceUnitSeed {
@@ -524,7 +535,8 @@ export function repairConsonantPileups(
         if (toRemoveSet.has(i)) deletions.push({ start: tokenOffset, length: interior[i].length });
         tokenOffset += interior[i].length;
       }
-      for (const deletion of deletions.reverse()) observe?.(startPart, deletion.start, deletion.length, "", "repairConsonantPileups");
+      if (!applyPartEditBatch(deletions.reverse().map(deletion => ({ part: startPart, start: deletion.start,
+        deleteCount: deletion.length, insert: "", rule: "repairConsonantPileups" })), observe)) return;
       cleanParts[startPart] = part.slice(0, localStart) + kept.join("") + part.slice(localEnd);
       hyphenatedParts[startPart * 2] = cleanParts[startPart];
       continue;
@@ -592,7 +604,8 @@ export function repairConsonantPileups(
       if (toRemoveIndices.has(i)) deletions.push({ start: tokenOffset, length: partTokens[i].length });
       tokenOffset += partTokens[i].length;
     }
-    for (const deletion of deletions.reverse()) observe?.(targetPartIdx, deletion.start, deletion.length, "", "repairConsonantPileups");
+    if (!applyPartEditBatch(deletions.reverse().map(deletion => ({ part: targetPartIdx, start: deletion.start,
+      deleteCount: deletion.length, insert: "", rule: "repairConsonantPileups" })), observe)) return;
     const newPart = partTokens.filter((_, i) => !toRemoveIndices.has(i)).join("");
     cleanParts[targetPartIdx] = newPart;
     hyphenatedParts[targetPartIdx * 2] = newPart;
@@ -679,7 +692,8 @@ export function repairJunctions(
         // Save the dropped token, then splice it out
         const droppedToken = codaTokens[lastCodaConsonantIdx];
         const droppedStart = codaTokens.slice(0, lastCodaConsonantIdx).join("").length;
-        observe?.(i, droppedStart, droppedToken.length, "", "repairJunctions:backstop");
+        const deletions: PartSpellingBatchEdit[] = [{ part: i, start: droppedStart, deleteCount: droppedToken.length,
+          insert: "", rule: "repairJunctions:backstop" }];
         codaTokens.splice(lastCodaConsonantIdx, 1);
 
         // If the new last consonant is identical (doubled), drop it too
@@ -688,10 +702,12 @@ export function repairJunctions(
           : -1;
         if (newLastIdx >= 0 && codaTokens[newLastIdx] === droppedToken) {
           const secondStart = codaTokens.slice(0, newLastIdx).join("").length;
-          observe?.(i, secondStart, codaTokens[newLastIdx].length, "", "repairJunctions:backstop");
+          deletions.push({ part: i, start: secondStart, deleteCount: codaTokens[newLastIdx].length,
+            insert: "", rule: "repairJunctions:backstop" });
           codaTokens.splice(newLastIdx, 1);
         }
 
+        if (!applyPartEditBatch(deletions, observe)) continue;
         cleanParts[i] = codaTokens.join("");
         hyphenatedParts[i * 2] = cleanParts[i];
 
@@ -798,7 +814,7 @@ export function repairConsonantLetters(
       ? interior[Math.floor(interior.length / 2)]
       : consonantIndices[Math.floor(consonantIndices.length / 2)];
 
-    observe?.(dropPartIdx, dropIdx, 1, "", "repairConsonantLetters");
+    if (observe?.(dropPartIdx, dropIdx, 1, "", "repairConsonantLetters") === false) return;
     cleanParts[dropPartIdx] = part.slice(0, dropIdx) + part.slice(dropIdx + 1);
     hyphenatedParts[dropPartIdx * 2] = cleanParts[dropPartIdx];
   }
@@ -823,7 +839,7 @@ export function repairVowelLetters(
       if (isVowelChar(part[j], j, part)) {
         vowelRun++;
         if (vowelRun <= maxLetters) result += part[j];
-        else observe?.(i, result.length, 1, "", "repairVowelLetters");
+        else if (observe?.(i, result.length, 1, "", "repairVowelLetters") === false) result += part[j];
       } else {
         vowelRun = 0;
         result += part[j];
@@ -887,7 +903,7 @@ export function repairFinalConsonantLetters(
   if (cluster.length <= maxLetters) return;
 
   // Keep the last `maxLetters` letters (preserves word-final sounds)
-  observe?.(lastIdx, clusterStart, cluster.length - maxLetters, "", "repairFinalConsonantLetters");
+  if (observe?.(lastIdx, clusterStart, cluster.length - maxLetters, "", "repairFinalConsonantLetters") === false) return;
   const trimmed = cluster.slice(cluster.length - maxLetters);
   part = part.slice(0, clusterStart) + trimmed;
 
@@ -981,8 +997,10 @@ export function applySilentE(
   if (fromIdx < 0) return;
 
   // Ensure the swap target is in the vowel portion (before the final consonant letters)
-  observe?.(lastPartIdx, fromIdx, swap.from.length, swap.to, "silentE:swap");
-  observe?.(lastPartIdx, part.length - swap.from.length + swap.to.length, 0, "e", "silentE:marker");
+  if (!applyPartEditBatch([
+    { part: lastPartIdx, start: fromIdx, deleteCount: swap.from.length, insert: swap.to, rule: "silentE:swap" },
+    { part: lastPartIdx, start: part.length - swap.from.length + swap.to.length, deleteCount: 0, insert: "e", rule: "silentE:marker" },
+  ], observe)) return;
   const newPart = part.slice(0, fromIdx) + swap.to + part.slice(fromIdx + swap.from.length) + "e";
   cleanParts[lastPartIdx] = newPart;
   hyphenatedParts[lastPartIdx * 2] = newPart;
@@ -1032,7 +1050,7 @@ export function appendSilentE(
   // Probability check
   if (rand() >= probability / 100) return;
 
-  observe?.(lastPartIdx, part.length, 0, "e", "silentE:append");
+  if (observe?.(lastPartIdx, part.length, 0, "e", "silentE:append") === false) return;
   cleanParts[lastPartIdx] = part + "e";
   hyphenatedParts[lastPartIdx * 2] = cleanParts[lastPartIdx];
 }
@@ -1322,7 +1340,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         const junction = part[part.length - 1] + nextPart[0];
         for (const repair of orthoRepairs) {
           if (repair.boundaryMatch.test(junction)) {
-            observeParts(si, part.length, 0, repair.insert, `orthographicRepair:${repair.name}`);
+            if (observeParts(si, part.length, 0, repair.insert, `orthographicRepair:${repair.name}`) === false) continue;
             cleanParts[si] = part + repair.insert;
             hyphenatedParts[si * 2] = hyphenatedParts[si * 2] + repair.insert;
             break;
