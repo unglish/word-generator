@@ -4,7 +4,7 @@ import { editPart, isSingleOwned, sourceUnits } from "./spelling-ownership.js";
 import type { SharedSpellingRule } from "../config/language.js";
 import { createSharedConstructionPlanner } from "./spelling-construction.js";
 import type { SharedConstructionAttempt, SharedSpellingSlot } from "./spelling-construction.js";
-import type { SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession } from "./spelling-construction-types.js";
+import type { SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession, SharedSpellingEvent } from "./spelling-construction-types.js";
 import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
 import type { Phoneme } from "../types.js";
 import type { SpellingCoverageCertificate } from "./spelling-coverage-types.js";
@@ -110,6 +110,7 @@ export interface BaseSpellingTraceV4 extends Omit<BaseSpellingTraceV3, "version"
   capabilities: BaseSpellingTraceV3["capabilities"] & { sharedConstructions: 1 };
   shared: {
     version: 1;
+    events: SharedSpellingEvent[];
     attempts: Array<{ id: number; attempt: SharedConstructionAttempt; constructionId: number | null }>;
     constructions: SharedSpellingConstruction[];
     supersessions: SharedSpellingSupersession[];
@@ -178,6 +179,7 @@ export class BaseSpelling {
   private readonly sharedSupersessions: SharedSpellingSupersession[] = [];
   private readonly supersededConstructions = new Set<number>();
   private readonly sharedTransactions?: SpellingEditTransaction[];
+  private readonly sharedEvents?: SharedSpellingEvent[];
   private nextSharedAttemptId = 0;
   private nextCellId = 0;
   private nextEditId = 0;
@@ -196,8 +198,12 @@ export class BaseSpelling {
       if (!normalizeUnits || !licensed) throw new Error("Shared spelling requires normalized spelling provenance");
       this.sharedPlanner = createSharedConstructionPlanner(sharedRules);
       this.sharedEditGuard = createSharedEditGuard(sharedRules);
-      if (retainHistory) { this.sharedEditGuards = []; this.sharedTransactions = []; }
-      if (retainHistory) this.sharedAttempts = [];
+      if (retainHistory) {
+        this.sharedEditGuards = [];
+        this.sharedTransactions = [];
+        this.sharedAttempts = [];
+        this.sharedEvents = [];
+      }
     }
     if (normalizeUnits && !licensed) throw new Error("Unit normalization requires licensed spelling provenance");
     if (retainHistory) {
@@ -260,6 +266,7 @@ export class BaseSpelling {
       const liveConstructions = this.liveConstructions();
       const decision = this.sharedEditGuard(this.constructionState(), liveConstructions, { start, deleteCount, insert, partId });
       this.sharedEditGuards?.push({ cursor: this.constructionState().cursor, phase: this.phase, rule, start, deleteCount, insert, partId: partId ?? null, decision });
+      this.recordSharedEvent("guard", (this.sharedEditGuards?.length ?? 1) - 1, this.constructionState().cursor);
       if (decision.status === "refused") return false;
     }
     this.commitRewrite(start, input, before, insert, rule, partId);
@@ -287,6 +294,7 @@ export class BaseSpelling {
       checks.push(decision);
       if (decision.status === "refused") {
         this.sharedTransactions?.push(structuredClone({ cursor, phase: this.phase, edits: [...edits], checks, status: "refused" }));
+        this.recordSharedEvent("transaction", (this.sharedTransactions?.length ?? 1) - 1, cursor);
         return false;
       }
       if (before === insert) continue;
@@ -297,7 +305,12 @@ export class BaseSpelling {
     }
     for (const { edit, input, before } of prepared) this.commitRewrite(edit.start, input, before, edit.insert, edit.rule, edit.partId);
     this.sharedTransactions?.push(structuredClone({ cursor, phase: this.phase, edits: [...edits], checks, status: "applied" }));
+    this.recordSharedEvent("transaction", (this.sharedTransactions?.length ?? 1) - 1, cursor);
     return true;
+  }
+
+  private recordSharedEvent(kind: SharedSpellingEvent["kind"], index: number, cursor: LedgerCursor): void {
+    this.sharedEvents?.push({ kind, index, cursor: { ...cursor } });
   }
 
   private liveConstructions(): SharedSpellingConstruction[] {
@@ -381,6 +394,7 @@ export class BaseSpelling {
     this.commitRewrite(0, this.cells.slice(), before, after, rule);
     for (const id of constructionIds) this.supersededConstructions.add(id);
     this.sharedSupersessions.push(supersession);
+    this.recordSharedEvent("supersession", supersession.id, cursor);
   }
 
   assertSurface(surface: string): void {
@@ -461,6 +475,7 @@ export class BaseSpelling {
       constructionId = id;
     }
     this.sharedAttempts?.push({ id: this.nextSharedAttemptId, attempt: structuredClone(attempt), constructionId });
+    this.recordSharedEvent("attempt", this.nextSharedAttemptId, attempt.cursor);
     this.nextSharedAttemptId++;
     return constructionId;
   }
@@ -608,7 +623,7 @@ export class BaseSpelling {
       };
       if (this.sharedPlanner) return structuredClone({ ...trace, version: 4,
         capabilities: { ...trace.capabilities, sharedConstructions: 1 },
-        shared: { version: 1, attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
+        shared: { version: 1, events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
           liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [], transactions: this.sharedTransactions ?? [] } });
       return structuredClone(trace);
     }
