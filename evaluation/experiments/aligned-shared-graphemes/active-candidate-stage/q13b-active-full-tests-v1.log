@@ -1,0 +1,1394 @@
+
+> @unglish/word-generator@0.6.0 test
+> vitest run
+
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/stress-repair.test.ts (2 tests) 17622ms
+   ✓ stress-aware nucleus re-pick > no primary-stressed schwa in 10,000 words  5423ms
+   ✓ stress-aware nucleus re-pick > monosyllables can still have schwa nucleus (no stress marker)  12198ms
+stdout | src/core/y-vowel.test.ts > Y-as-vowel improvements (#63) > Y appears word-finally at a reasonable rate > at least 2% of generated words end in Y
+  Y-final rate: 10.0% (997/10000)
+
+ ✓ src/core/grapheme-selection.test.ts (9 tests) 24469ms
+   ✓ legal grapheme selection > retains the established isolated /ɛ/ pool while keeping the /t/ restriction explicit  9360ms
+   ✓ legal grapheme selection > keeps positive real weights and correct edge scopes across 10k public outputs  14900ms
+stdout | src/core/y-vowel.test.ts > Y-as-vowel improvements (#63) > Y appears in generated words overall > at least 5% of words contain Y
+  Y-containing rate: 18.4% (1843/10000)
+
+ ✓ src/core/y-vowel.test.ts (2 tests) 8589ms
+   ✓ Y-as-vowel improvements (#63) > Y appears word-finally at a reasonable rate > at least 2% of generated words end in Y  4720ms
+   ✓ Y-as-vowel improvements (#63) > Y appears in generated words overall > at least 5% of words contain Y  3867ms
+ ✓ src/core/morphology/morphology.quality.test.ts (11 tests) 27303ms
+   ✓ Morphology quality benchmarks > new nominal suffix -ian appears in larger deterministic samples  3087ms
+   ✓ Morphology quality benchmarks > new nominal suffix -ial appears in larger deterministic samples  2124ms
+   ✓ Morphology quality benchmarks > new orthographic suffix -sion appears in larger deterministic samples  1906ms
+   ✓ Morphology quality benchmarks > keeps ia and ian representation above regression floors vs CMU  11874ms
+   ✓ Morphology quality benchmarks > enb trigram is reachable in traced lexicon samples  8257ms
+ ✓ src/core/generateWords.test.ts (17 tests) 4379ms
+ ✓ src/core/pronounce.test.ts (28 tests) 3964ms
+   ✓ applyAspiration > keeps canonical phoneme sounds free of aspiration diacritics across deterministic sweep  2685ms
+   ✓ applyAspiration > default English generation only aspirates first-onset /p t k/  1264ms
+ ✓ src/core/spelling-budget.test.ts (25 tests) 1463ms
+   ✓ spelling budget scan equivalence > matches the frozen original over 248,042 preregistered cases  1459ms
+ ✓ src/core/spelling-construction-writer.test.ts (4 tests) 1372ms
+   ✓ shared spelling public writer integration > replays generated ledgers and preserves traced/untraced output and RNG  1343ms
+ ❯ src/core/morphology/realization.test.ts (26 tests | 24 failed) 16964ms
+   ✓ resolved morphology survives final cleanup > retains the dependency seed-435 im spelling and records planned versus selected forms 9ms
+   × resolved morphology survives final cleanup > selects the configured default prefix before /b/ 9ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > selects the configured default prefix before /m/ 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > selects the configured default prefix before /t/ 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > selects the configured default prefix before /l/ 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves explicitly configured il assimilation without adding it to defaults 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves explicitly configured ir assimilation without adding it to defaults 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves a prefix variant of different written length: un → over 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves a prefix variant of different written length: over → a 5ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves a suffix variant of different written length: s → ous 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves a suffix variant of different written length: ness → y 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves both different-length variants around the same root 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves ed after /t/, with original variant index 2 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves ed after /k/, with original variant index 0 3ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves ed after /m/, with original variant index 1 2ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves s after /s/, with original variant index 2 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves s after /k/, with original variant index 0 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > preserves s after /m/, with original variant index 1 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > carries the transformed root rather than reconstructing its original spelling 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > composes a changed-length prefix with a real suffix boundary transform 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > retains paired phonological and written root alternations 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > records cleanup loss separately from the selected affix 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > keeps snapshots independent of config, surface phones, and later calls 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > keeps tracing observational and seeded calls deterministic 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × resolved morphology survives final cleanup > snapshots only selection features and detaches them from the root phone 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   ✓ resolved morphology survives final cleanup > preserves assembly across a continuous 10,000-word public-API stream  16924ms
+ ✓ src/core/trace.test.ts (19 tests | 1 skipped) 15178ms
+   ✓ trace pipeline > captures structured SSP and rising-coda boundary payloads  3023ms
+   ✓ trace pipeline > vowel-hiatus fallback trace entries use typed payload  3615ms
+   ✓ trace pipeline > post-vowel glide policy controls root glide transitions deterministically  5344ms
+   ✓ trace pipeline > keeps root-stage hiatus low in traced samples  3102ms
+ ❯ src/elements/graphemes/reading.test.ts (43 tests | 1 failed) 39ms
+   ✓ English grapheme reading obligations > explicitly classifies every inventory entry, including fallback and zero-weight entries 6ms
+   ✓ English grapheme reading obligations > adds only reading data and leaves source objects, ordering and selection fields intact 13ms
+   ✓ English grapheme reading obligations > requires open-vowel or explicit marker evidence for /i:/ -> e 0ms
+   ✓ English grapheme reading obligations > requires open-vowel or explicit marker evidence for /i:/ -> y 0ms
+   ✓ English grapheme reading obligations > requires open-vowel or explicit marker evidence for /u/ -> u 0ms
+   ✓ English grapheme reading obligations > requires open-vowel or explicit marker evidence for /aɪ/ -> i 0ms
+   ✓ English grapheme reading obligations > requires open-vowel or explicit marker evidence for /aɪ/ -> y 0ms
+   ✓ English grapheme reading obligations > requires open-vowel or explicit marker evidence for /eɪ/ -> a 0ms
+   ✓ English grapheme reading obligations > requires open-vowel or explicit marker evidence for /əʊ/ -> o 0ms
+   ✓ English grapheme reading obligations > retains the whole configured unit /j/ -> y without a letter blacklist 0ms
+   ✓ English grapheme reading obligations > retains the whole configured unit /ɪ/ -> y without a letter blacklist 0ms
+   ✓ English grapheme reading obligations > retains the whole configured unit /i:/ -> ea without a letter blacklist 0ms
+   ✓ English grapheme reading obligations > retains the whole configured unit /ɛ/ -> ea without a letter blacklist 0ms
+   ✓ English grapheme reading obligations > retains the whole configured unit /ə/ -> e without a letter blacklist 0ms
+   ✓ English grapheme reading obligations > retains the whole configured unit /θ/ -> th without a letter blacklist 0ms
+   ✓ English grapheme reading obligations > retains the whole configured unit /ð/ -> th without a letter blacklist 0ms
+   ✓ English grapheme reading obligations > retains the whole configured unit /aɪ/ -> ie without a letter blacklist 0ms
+   ✓ English grapheme reading obligations > retains the whole configured unit /dʒ/ -> dge without a letter blacklist 0ms
+   ✓ English grapheme reading obligations > requires letters rather than phonological frontness for soft c/g 0ms
+   ✓ English grapheme reading obligations > keeps the exceptional Mc entry distinct from general hard c 1ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /s/ -> ce 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /s/ -> se 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /dʒ/ -> ge 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /z/ -> ze 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /v/ -> ve 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /ʒ/ -> g 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /ʒ/ -> ge 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /ʃ/ -> ci 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /ʃ/ -> sc 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /k/ -> ch 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /ɜ/ -> e 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /ɜ/ -> ai 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /ɪ/ -> ui 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /i:/ -> eo 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /aɪ/ -> is 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /t/ -> ed 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /d/ -> ed 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /k/ -> q 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /v/ -> ph 0ms
+   ✓ English grapheme reading obligations > does not certify an unrepresented construction /t/ -> th 0ms
+   ✓ English grapheme reading obligations > does not share mutable metadata between entries or repeated annotation calls 0ms
+   ✓ English grapheme reading obligations > leaves unannotated custom inventories unknown, even for familiar phone/form pairs 0ms
+   × English grapheme reading obligations > keeps public generation and RNG unchanged when no reading policy consumes the metadata 14ms
+     → Shared spellings require preserve-phones
+ ❯ src/core/spelling-coverage.test.ts (50 tests | 5 failed) 1079ms
+   ✓ shared readings during coverage planning and commits > checks gz following context through 'a' → a and ee → 'e' 11ms
+   ✓ shared readings during coverage planning and commits > checks gz following context through 'a' → a and ee → 'h' 8ms
+   ✓ shared readings during coverage planning and commits > checks gz following context through 'aa' → a and ee → 'e' 9ms
+   ✓ shared readings during coverage planning and commits > checks gz following context through 'aa' → a and ee → 'h' 4ms
+   ✓ whole-unit spelling budgets > rejects certificate-only stress context changes against the actual writer boundary 2ms
+   ✓ whole-unit spelling budgets > rejects certificate-only cluster context changes against the actual writer boundary 1ms
+   ✓ whole-unit spelling budgets > rejects certificate-only features context changes against the actual writer boundary 1ms
+   ✓ whole-unit spelling budgets > rejects certificate-only next-features context changes against the actual writer boundary 1ms
+   ✓ whole-unit spelling budgets > rejects certificate-only doubling-stress context changes against the actual writer boundary 1ms
+   ✓ whole-unit spelling budgets > rejects certificate-only doubling-cluster context changes against the actual writer boundary 1ms
+   ✓ whole-unit spelling budgets > rejects certificate-only prev-reduced context changes against the actual writer boundary 1ms
+   ✓ whole-unit spelling budgets > rejects certificate-only first-coda context changes against the actual writer boundary 1ms
+   ✓ whole-unit spelling budgets > rejects certificate-only next-consonant context changes against the actual writer boundary 1ms
+   ✓ whole-unit spelling budgets > rejects certificate-only next-nucleus context changes against the actual writer boundary 1ms
+   ✓ whole-unit spelling budgets > rejects extra-phone original ledger corruption 0ms
+   ✓ whole-unit spelling budgets > rejects missing-phone original ledger corruption 0ms
+   ✓ whole-unit spelling budgets > rejects selected-form original ledger corruption 0ms
+   ✓ whole-unit spelling budgets > rejects selected-inventory original ledger corruption 0ms
+   ✓ whole-unit spelling budgets > detaches nested boundary features from inventory and returned snapshots 0ms
+   × whole-unit spelling budgets > respells a complete ph unit through the public API without changing its phone 10ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × whole-unit spelling budgets > preserves th and reports infeasibility when no shorter licensed spelling exists 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × whole-unit spelling budgets > keeps omitted-policy custom configurations on the v1 legacy repair contract 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × whole-unit spelling budgets > does not invent a reading certificate for unannotated custom alternatives 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   ✓ whole-unit spelling budgets > retains an intact /l f θ s/ cluster even though lfths cannot fit a three-letter final preference 1ms
+   ✓ whole-unit spelling budgets > uses normalized full-sequence probabilities, invariant to a uniform per-phone weight rescaling 2ms
+   ✓ whole-unit spelling budgets > matches exhaustive unpruned enumeration for fully explored weighted/tied plans (tie=false) 1ms
+   ✓ whole-unit spelling budgets > matches exhaustive unpruned enumeration for fully explored weighted/tied plans (tie=true) 1ms
+   ✓ whole-unit spelling budgets > never unlocks fallback-only short forms merely to fit a budget 0ms
+   ✓ whole-unit spelling budgets > does not undouble a forced 100-percent realization 0ms
+   ✓ whole-unit spelling budgets > rechecks an unchanged soft c when a neighboring vowel spelling changes 0ms
+   ✓ whole-unit spelling budgets > does not treat a phonologically open vowel as open after a later same-part insertion closes it 0ms
+   ✓ whole-unit spelling budgets > refuses a vowel respelling beside an unchanged unsupported final-e unit 0ms
+   ✓ whole-unit spelling budgets > preserves an invalid-junction refusal through both budget passes 1ms
+   ✓ whole-unit spelling budgets > excludes zero-weight short alternatives rather than turning them into repairs 0ms
+   ✓ whole-unit spelling budgets > marks cross-part replacements as unknown and rejects mismatched part evidence 0ms
+   ✓ whole-unit spelling budgets > keeps unresolved rewrite ownership explicit and unchanged 0ms
+   ✓ whole-unit spelling budgets > reports bounded search exhaustion separately and does not commit a provisional plan 76ms
+   ✓ whole-unit spelling budgets > rejects a mismatched phone certificate before any cell or counter mutation 1ms
+   ✓ whole-unit spelling budgets > rejects a mismatched part certificate before any cell or counter mutation 1ms
+   ✓ whole-unit spelling budgets > rejects a mismatched probability certificate before any cell or counter mutation 1ms
+   ✓ whole-unit spelling budgets > rejects a mismatched inventory certificate before any cell or counter mutation 4ms
+   ✓ whole-unit spelling budgets > rejects a mismatched version certificate before any cell or counter mutation 4ms
+   ✓ whole-unit spelling budgets > rejects a mismatched surface certificate before any cell or counter mutation 1ms
+   × whole-unit spelling budgets > rejects unknown evidence versions and preserves v1 as unavailable part identity 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   ✓ whole-unit spelling budgets > resolves complete source units after an authenticated coverage repair 1ms
+   ✓ whole-unit spelling budgets > checks a neighboring reading from a replayed whole-unit repair certificate 1ms
+   ✓ whole-unit spelling budgets > keeps identical left-to-right log accumulation in the search and verifier 1ms
+   ✓ whole-unit spelling budgets > retains resolved morphology presentation when final ownership is unavailable 6ms
+   ✓ whole-unit spelling budgets > replays the same floating-point accumulation order at the seed-23656 witness 8ms
+   ✓ whole-unit spelling budgets > keeps trace on/off output and RNG-call parity with active policy  911ms
+ ✓ src/tools/common-word-coverage-core.test.ts (8 tests) 561ms
+   ✓ common-word-coverage-core > is deterministic with a shared seeded RNG and preserves first-hit generations  543ms
+ ✓ src/utils/random.test.ts (8 tests) 212ms
+ ❯ src/core/spelling-normalization.test.ts (93 tests | 22 failed) 179ms
+   × local whole-unit normalization > preserves the registered public t|th syllable join for 'θ' at seed 13 11ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > preserves the registered public t|th syllable join for 'ð' at seed 13 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > preserves the registered public t|th syllable join for 'θ' at seed 137 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > preserves the registered public t|th syllable join for 'ð' at seed 137 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > preserves the registered public t|th syllable join for 'θ' at seed 4099 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > preserves the registered public t|th syllable join for 'ð' at seed 4099 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 13 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 137 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 4099 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   ✓ local whole-unit normalization > licenses ed-to-d from actual pre-unit support without requiring ed itself to be a new reading certificate 6ms
+   ✓ local whole-unit normalization > licenses complete k remainder lk-to-k 2ms
+   ✓ local whole-unit normalization > licenses complete m remainder lm-to-m 1ms
+   ✓ local whole-unit normalization > checks the conditioned lk-to-k remainder with eligibility=true 1ms
+   ✓ local whole-unit normalization > checks the conditioned lk-to-k remainder with eligibility=false 1ms
+   ✓ local whole-unit normalization > does not borrow a fallback-only remainder from outside the active ordinary pool 0ms
+   ✓ local whole-unit normalization > refuses a supported remainder with missing reading evidence 1ms
+   ✓ local whole-unit normalization > refuses a supported remainder with open-vowel reading evidence 0ms
+   ✓ local whole-unit normalization > retains t|th for /t,θ/ with both phones intact 1ms
+   ✓ local whole-unit normalization > retains t|th for /t,ð/ with both phones intact 0ms
+   ✓ local whole-unit normalization > retains /k/ c followed by /tʃ/ ch with reason no-legal-remainder 1ms
+   ✓ local whole-unit normalization > retains /s/ s followed by /ʃ/ sh with reason no-legal-remainder 0ms
+   ✓ local whole-unit normalization > retains /tʃ/ ch followed by /h/ h with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /f/ ph followed by /h/ h with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /k/ c followed by /s/ c with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /s/ c followed by /k/ c with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /j/ y followed by /i:/ y with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /ɚ/ ur followed by /r/ r with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /s/ s followed by /s/ s with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /ʌ/ o followed by /ʌ/ o with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > preserves the complete single-phone /f/ form ff without an internal deduplication episode 0ms
+   ✓ local whole-unit normalization > preserves the complete single-phone /s/ form ss without an internal deduplication episode 0ms
+   ✓ local whole-unit normalization > preserves the complete single-phone /i:/ form ee without an internal deduplication episode 0ms
+   ✓ local whole-unit normalization > preserves the complete single-phone /k/ form ck without an internal deduplication episode 0ms
+   ✓ local whole-unit normalization > rechecks hard-c when the first following letter changes from c to e 0ms
+   ✓ local whole-unit normalization > can license a standalone target before future units without borrowing their letters 0ms
+   ✓ local whole-unit normalization > refuses when a same-part neighbor needs a following letter that has not been written 0ms
+   ✓ local whole-unit normalization > keeps a rewritten right unit unresolved even when it spells the same suffix 1ms
+   ✓ local whole-unit normalization > rejects forged probability 0 before advancing IDs 1ms
+   ✓ local whole-unit normalization > rejects forged probability NaN before advancing IDs 1ms
+   ✓ local whole-unit normalization > rejects forged probability Infinity before advancing IDs 1ms
+   ✓ local whole-unit normalization > rejects finite weights whose total overflows instead of certifying zero support 0ms
+   ✓ local whole-unit normalization > rejects an underflowed alternative probability 0ms
+   ✓ local whole-unit normalization > retains normalization history for cap refusal after every normalized cell is rewritten 1ms
+   × local whole-unit normalization > public API emits a replayable positive certificate with identical trace-on/off output for registered seed 13 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > public API emits a replayable positive certificate with identical trace-on/off output for registered seed 137 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > public API emits a replayable positive certificate with identical trace-on/off output for registered seed 4099 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   ✓ local whole-unit normalization > respects configured doubling support at probability 0 0ms
+   ✓ local whole-unit normalization > respects configured doubling support at probability 100 0ms
+   ✓ local whole-unit normalization > respects configured doubling support at probability NaN 0ms
+   ✓ local whole-unit normalization > reconstructs equal-text probabilistic quota increment 0 before later selection 1ms
+   ✓ local whole-unit normalization > reconstructs equal-text probabilistic quota increment 1 before later selection 1ms
+   ✓ local whole-unit normalization > requires the actual increment for a forced equal-text doubling outcome 1ms
+   × local whole-unit normalization > captures equal-text sampler increments identically with and without tracing 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   ✓ local whole-unit normalization > retains a marker-bearing predecessor's unresolved construction obligation 0ms
+   ✓ local whole-unit normalization > refuses a collision whose left cell has unresolved rewrite ownership 0ms
+   ✓ local whole-unit normalization > certifies the existing soft-quota relaxation when every legal spelling exceeds the preference 1ms
+   ✓ local whole-unit normalization > rejects a changed writer-boundary vowel feature that changes target doubling support 5ms
+   × local whole-unit normalization > preserves case-sensitive noncollisions through the public writer 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   ✓ local whole-unit normalization > uses UTF-16 cell offsets after a supplementary character 1ms
+   ✓ local whole-unit normalization > preserves historical choices and separate phones across two consecutive normalizations 1ms
+   × local whole-unit normalization > rejects a sole zero-weight public choice instead of issuing unsupported normalization evidence 3ms
+     → expected [Function] to throw error matching /No legal grapheme/ but got 'Shared spelling requires one unique p…'
+   ✓ local whole-unit normalization > rejects replay when a caller changes the supporting custom condition 1ms
+   ✓ local whole-unit normalization > detaches all nested certificate and boundary snapshot data 1ms
+   ✓ local whole-unit normalization > rejects a forged cursor claim 1ms
+   ✓ local whole-unit normalization > rejects a forged pre-unit quota claim 1ms
+   ✓ local whole-unit normalization > rejects a forged input cell claim 1ms
+   ✓ local whole-unit normalization > rejects a forged phone identity claim 1ms
+   ✓ local whole-unit normalization > rejects a forged part claim 1ms
+   ✓ local whole-unit normalization > rejects a forged support claim 1ms
+   ✓ local whole-unit normalization > rejects a forged neighbor claim 1ms
+   ✓ local whole-unit normalization > rejects a forged license reading claim 1ms
+   ✓ local whole-unit normalization > rejects a forged certificate version claim 1ms
+   ✓ local whole-unit normalization > rejects a forged origin claim 1ms
+   ✓ local whole-unit normalization > keeps all 64 frozen v2 witnesses readable and unchanged 72ms
+   ✓ local whole-unit normalization > retains the exact t|th mechanism in each of the 31 archived partial-th anchors 23ms
+   × local whole-unit normalization > distinguishes zero/not-applicable replay from a positive authenticated outcome 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   ✓ local whole-unit normalization > does not accept normalized origins disguised as a historical version 0ms
+   ✓ local whole-unit normalization > does not add v3 doubling or observation fields to direct v2 ledgers 0ms
+   ✓ local whole-unit normalization > replays a local certificate before later units exist and rejects a future cursor 1ms
+   ✓ local whole-unit normalization > licenses a complete unit at the existing post-syllable-rule join site 1ms
+   × local whole-unit normalization > rejects an altered comparison denominator even inside the old structural bounds 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > rejects dropping a noncollision checkpoint even with a matching lowered counter 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > records empty spelling guards without comparing across the empty previous unit 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   ✓ local whole-unit normalization > rejects omission of a retained collision and its matching counter 0ms
+   × local whole-unit normalization > recounts skipped joins after a syllable rule removes the complete written part 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > rejects a delay-adjacent checkpoint across its syllable rewrite 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × local whole-unit normalization > rejects a advance-join checkpoint across its syllable rewrite 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   ✓ realized doubling readings in repair planners > checks the expanded ck neighbor rather than the original hard c before e 1ms
+   ✓ realized doubling readings in repair planners > records and verifies ck's resulting reading in a coverage replacement 4ms
+   ✓ joint readings during normalization commit > checks normalization after qu (false/false) 4ms
+   ✓ joint readings during normalization commit > checks normalization after qu (true/false) 2ms
+   ✓ joint readings during normalization commit > checks normalization after qu (false/true) 3ms
+   ✓ joint readings during normalization commit > checks normalization after qu (true/true) 2ms
+ ❯ src/core/spelling-construction-ledger.test.ts (77 tests | 1 failed) 101ms
+   ✓ atomic shared-spelling ledger commits > preserves original units while recording exact joint output and all source parts 5ms
+   ✓ atomic shared-spelling ledger commits > keeps both qu cells in a single joint construction 1ms
+   ✓ atomic shared-spelling ledger commits > preserves both shared readings in successive formations (reverse=false) 2ms
+   ✓ atomic shared-spelling ledger commits > preserves both shared readings in successive formations (reverse=true) 2ms
+   ✓ atomic shared-spelling ledger commits > projects cross-part formation onto its first source part when preserving an existing syllable reading 1ms
+   ✓ atomic shared-spelling ledger commits > preserves an existing gz reading and its actual following vowel across a later formation 1ms
+   ✓ atomic shared-spelling ledger commits > permits a cross-part formation before an existing word-scoped x 1ms
+   ✓ atomic shared-spelling ledger commits > refuses missing live shared records before a further probabilistic draw 1ms
+   ✓ atomic shared-spelling ledger commits > refuses duplicate live shared records before a further probabilistic draw 1ms
+   ✓ atomic shared-spelling ledger commits > records failed rolls without advancing cell or edit IDs 3ms
+   ✓ atomic shared-spelling ledger commits > rejects forged phones before any ledger mutation 1ms
+   ✓ atomic shared-spelling ledger commits > rejects forged input before any ledger mutation 1ms
+   ✓ atomic shared-spelling ledger commits > rejects forged cursor before any ledger mutation 1ms
+   ✓ atomic shared-spelling ledger commits > rejects forged form before any ledger mutation 1ms
+   ✓ atomic shared-spelling ledger commits > rejects forged roll before any ledger mutation 1ms
+   ✓ atomic shared-spelling ledger commits > does not reuse consumed phones for a second formation 1ms
+   ✓ atomic shared-spelling ledger commits > detaches committed evidence from caller attempts and returned traces 4ms
+   ✓ atomic shared-spelling ledger commits > produces equal live ownership with trace history disabled 1ms
+   ✓ atomic shared-spelling ledger commits > requires shared capability and the actual writer phase 0ms
+   × atomic shared-spelling ledger commits > requires explicit shared configuration for v4 evidence 10ms
+     → expected [Function] to throw error matching /requires its shared spelling configur…/ but got 'Invalid shared writer schedule: appen…'
+   ✓ shared-spelling preservation during generic edits > refuses qu edit +0/1 and retains the live ledger 3ms
+   ✓ shared-spelling preservation during generic edits > refuses qu edit +0/2 and retains the live ledger 2ms
+   ✓ shared-spelling preservation during generic edits > refuses qu edit 1/+0 and retains the live ledger 2ms
+   ✓ shared-spelling preservation during generic edits > refuses a prefix deletion that would expose initial x 1ms
+   ✓ shared-spelling preservation during generic edits > allows an unrelated same-part prefix rewrite 2ms
+   ✓ shared-spelling preservation during generic edits > preserves syllable-relative position when rewriting within the original part 2ms
+   ✓ shared-spelling preservation during generic edits > refuses loss of authenticated gz vowel context: '' 1ms
+   ✓ shared-spelling preservation during generic edits > refuses loss of authenticated gz vowel context: 'h' 11ms
+   ✓ shared-spelling preservation during generic edits > refuses loss of authenticated gz vowel context: 'e' 1ms
+   ✓ shared-spelling preservation during generic edits > allows unrelated edits after the complete gz following vowel 1ms
+   ✓ shared-spelling preservation during generic edits > treats identical-text edits as no-ops without erasing ownership 1ms
+   ✓ shared-spelling preservation during generic edits > returns refusals through both observer interfaces 0ms
+   ✓ regex writer refusal propagation > keeps offsets correct when an earlier or later match is refused: 'q|c' 1ms
+   ✓ regex writer refusal propagation > keeps offsets correct when an earlier or later match is refused: 't|q' 1ms
+   ✓ explicit lexical gap supersession > retires live shared ownership while preserving construction and source history 1ms
+   ✓ explicit lexical gap supersession > does not let a gap-like rule name bypass ordinary edit preservation 0ms
+   ✓ explicit lexical gap supersession > replaces ownership even when the explicit lexical spelling has identical text 0ms
+   ✓ explicit lexical gap supersession > keeps legacy same-text no-op behavior and permissive historical rule names 0ms
+   ✓ explicit lexical gap supersession > refuses stale full-root replacement before changing any state 1ms
+   ✓ explicit lexical gap supersession > allows later edits without treating retired constructions as live 1ms
+   ✓ explicit lexical gap supersession > records repeated lexical replacements without retiring the same construction twice 0ms
+   ✓ explicit lexical gap supersession > keeps traced and untraced live ownership equal through supersession and subsequent edits 1ms
+   ✓ atomic writer repair transactions > does not commit an earlier allowed edit when a later batch edit is refused 1ms
+   ✓ atomic writer repair transactions > rejects an invalid later range without committing an earlier valid edit 1ms
+   ✓ atomic writer repair transactions > commits accepted batches with the same cells and edit IDs as sequential writes 1ms
+   ✓ atomic writer repair transactions > uses evolving part offsets when earlier parts change length 1ms
+   ✓ atomic writer repair transactions > keeps the consonant-pileup text unchanged when its second deletion is refused 1ms
+   ✓ atomic writer repair transactions > retains a refused final cluster and stops a later refused single-letter deletion 1ms
+   ✓ atomic writer repair transactions > keeps the complete following vowel when vowel trimming would invalidate gz 0ms
+   ✓ atomic writer repair transactions > does not append a silent-e marker after its vowel swap is refused 1ms
+   ✓ shared decision event order > records interleaved attempts, guards, transactions and supersession at their original cursors 1ms
+   ✓ shared decision event order > replays shared decisions against actual evolving state without mutating the input 2ms
+   ✓ shared decision event order > replays an atomic applied batch without retaining provisional edits 1ms
+   ✓ shared decision event order > replays an atomic refused batch without retaining provisional edits 1ms
+   ✓ shared decision event order > replays an atomic noop batch without retaining provisional edits 1ms
+   ✓ shared decision event order > uses the supplied rule configuration instead of trusting archived support 1ms
+   ✓ shared decision event order > rejects semantic roll corruption during replay 4ms
+   ✓ shared decision event order > rejects semantic guard corruption during replay 2ms
+   ✓ shared decision event order > rejects semantic batch corruption during replay 1ms
+   ✓ shared decision event order > rejects semantic gap corruption during replay 1ms
+   ✓ shared decision event order > rejects semantic allocation corruption during replay 1ms
+   ✓ shared decision event order > rejects missing event ordering corruption 1ms
+   ✓ shared decision event order > rejects duplicate event ordering corruption 1ms
+   ✓ shared decision event order > rejects cursor event ordering corruption 1ms
+   ✓ shared decision event order > rejects index event ordering corruption 1ms
+   ✓ shared decision event order > rejects backwards event ordering corruption 1ms
+   ✓ shared decision event order > rejects unreferenced event ordering corruption 1ms
+   ✓ shared decision event order > rejects kind event ordering corruption 1ms
+   ✓ shared decision event order > rejects attempt formation binding corruption 1ms
+   ✓ shared decision event order > rejects orphan formation binding corruption 1ms
+   ✓ shared decision event order > rejects duplicate formation binding corruption 1ms
+   ✓ shared decision event order > rejects edit formation binding corruption 1ms
+   ✓ shared decision event order > rejects origin formation binding corruption 1ms
+   ✓ shared decision event order > rejects output formation binding corruption 1ms
+   ✓ shared decision event order > rejects failed-link formation binding corruption 1ms
+   ✓ shared decision event order > records empty appends and unguarded rewrites without inventing edit events for no-ops 0ms
+   ✓ shared decision event order > detaches returned event cursors 0ms
+ ✓ src/core/spelling-construction-evidence.test.ts (25 tests) 46ms
+ ✓ src/core/spelling-construction-policy.test.ts (36 tests) 33ms
+ ❯ src/core/spelling-construction-schedule.test.ts (14 tests | 1 failed) 68ms
+   ✓ configured writer schedule evidence > derives all slots from configuration and all passes from the original phones 9ms
+   ✓ configured writer schedule evidence > detects an omitted empty scan even when ledger reconstruction remains self-consistent 6ms
+   ✓ configured writer schedule evidence > detects removal of the entire empty shared slot with all references compacted 19ms
+   ✓ configured writer schedule evidence > detects removal of a regex slot that made no edits 3ms
+   ✓ configured writer schedule evidence > rejects forged rule schedule evidence 1ms
+   ✓ configured writer schedule evidence > rejects forged part schedule evidence 1ms
+   ✓ configured writer schedule evidence > rejects forged phase schedule evidence 2ms
+   ✓ configured writer schedule evidence > rejects forged cursor schedule evidence 1ms
+   ✓ configured writer schedule evidence > rejects forged duplicate schedule evidence 1ms
+   ✓ configured writer schedule evidence > rejects forged missing-pass schedule evidence 1ms
+   ✓ configured writer schedule evidence > rejects a word pass moved ahead of the final syllable join 1ms
+   ✓ configured writer schedule evidence > rejects foreign configuration and malformed syllable identity 2ms
+   × public v4 evidence capability > requires the matching explicit configuration 18ms
+     → expected [Function] to throw an error
+   ✓ public v4 evidence capability > does not let correct scheduling hide an invalid recorded construction decision 2ms
+ ✓ src/core/common-word-orthography.test.ts (9 tests) 33ms
+ ❯ src/core/spelling-coverage-observer.test.ts (6 tests | 6 failed) 19ms
+   × spelling coverage observations from public generator output > attributes a v1 half-th to its cap without inventing unavailable budget decisions 13ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × spelling coverage observations from public generator output > counts an intact v3 th as a refusal, not partial loss or a certificate 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × spelling coverage observations from public generator output > retains the lineage of a certified whole ph-to-f replacement 1ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × spelling coverage observations from public generator output > distinguishes missing reading evidence from missing cell ownership 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × spelling coverage observations from public generator output > counts generic rewrite ancestry as unresolved even when every source unit retains lineage 0ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+   × spelling coverage observations from public generator output > counts unresolved rewrite cells consumed by a legacy cap separately from surviving unknown cells 3ms
+     → Shared spelling requires one unique predecessor slot: ks-to-x
+ ✓ src/config/language.test.ts (61 tests) 23ms
+ ✓ src/core/ot-stress.test.ts (19 tests) 26ms
+ ✓ src/utils/getWeightedOption.test.ts (8 tests) 36ms
+ ✓ src/core/spelling-construction-neighbors.test.ts (16 tests) 12ms
+ ✓ src/core/spelling-doubling.test.ts (29 tests) 8ms
+ ✓ src/core/spelling-construction.test.ts (25 tests) 14ms
+ ✓ src/core/morphology/attach.test.ts (45 tests) 8ms
+ ✓ src/core/spelling-construction-slots.test.ts (10 tests) 5ms
+ ✓ src/core/spelling-construction-ownership.test.ts (27 tests) 12ms
+ ✓ src/core/repair.test.ts (22 tests) 5ms
+ ✓ src/tools/trace-audit-core.test.ts (6 tests) 3ms
+ ✓ src/core/phoneme-quality.metrics.test.ts (1 test) 2ms
+ ✓ src/core/generate.test.ts (13 tests) 51569ms
+   ✓ Word Generator > risingCodaDrop policy gates rising-coda drop events  50906ms
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > per-bigram mean is within gate of English
+
+📊 Generated: per-bigram mean=-4.26 median=-4.21 min=-8.31 n=135000
+   English:   per-bigram mean=-3.89
+   Gap: 0.37 (gate: < 2)
+
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > per-bigram gap has not regressed from recorded baseline
+
+🔒 Regression check: current gap=0.37, baseline gap=0.85, tolerance=0.5
+
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > no generated word has catastrophically low per-bigram score
+
+📊 Min per-bigram: -8.31 (English min: -7.92, floor: -12)
+
+ ✓ src/phonotactic/phonotactic.test.ts (14 tests) 53988ms
+stdout | src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies
+
+200k sample results:
+  Total "ts": 3617 (1.81%)
+    Final: 3112 (1.56%)
+    Non-final: 505 (0.25%)
+  Total "ns": 2429 (1.21%)
+    Final: 1466 (0.73%)
+    Non-final: 963 (0.48%)
+
+ ✓ src/core/cluster-weights.test.ts (4 tests) 58466ms
+   ✓ Position-based cluster weighting > applies position-based weights correctly  4191ms
+   ✓ Position-based cluster weighting > reduces ts/ns frequency compared to no weights  4924ms
+   ✓ Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies  49057ms
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no bigram exceeds threshold over-representation
+Worst over-rep bigram: "ry" at 3.323× (threshold: 4.25)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no trigram exceeds threshold over-representation
+Worst over-rep trigram: "abl" at 2.799× (threshold: 3.21)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented
+Worst under-rep bigram: "aw" at 0.0488× (threshold: 0.0215)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented
+Worst under-rep trigram: "ugh" at 0.0074× (threshold: 0.0062)
+
+ ✓ src/core/ngram-quality.test.ts (5 tests) 61104ms
+   ✓ N-gram quality gates > generate sample  61078ms
+stdout | src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails
+Shared phoneme Pearson r: 0.9986 (threshold: 0.82)
+Non-CMU generated mass: 0.0000% (threshold: 6.7%)
+Worst over-rep: z at 1.100x (threshold: 2.75x)
+Worst under-rep: n at 0.998x (threshold: 0.08x)
+Worst absolute gap: k at 0.505% (threshold: 4.5%)
+
+ ✓ src/core/phoneme-quality.test.ts (1 test) 68991ms
+   ✓ Phoneme quality gates > meets phoneme distribution guardrails  68990ms
+stdout | src/core/write.test.ts > syllable-based position filtering > "igh" only appears in the final syllable (10k words)
+  igh in non-final syllable: 2/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "wh" only appears in the first syllable (10k words)
+  wh in non-first syllable: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > does not produce impossible onset clusters with "wh" (twh/swh/cwh/quh)
+  impossible wh onset clusters: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "ight" or "ought" mid-word rate < 0.1% in 10k words
+  ight/ought mid-word: 2/10000 (0.02%)
+
+stdout | src/core/write.test.ts > syllable-based position filtering > startWord: 0 graphemes do not appear in the first syllable (10k words)
+  words starting with ck: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "eye" appears only as a bare syllable nucleus (50k words)
+  eye syllables: 34/50000
+  eye bare-syllable violations: 0/50000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "eye" does not appear in medial syllables (50k words)
+  eye syllables (medial test): 46/50000
+  eye medial-syllable violations: 0/50000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > other /aɪ/ spellings still appear alongside "eye" (50k words)
+  eye words: 53/50000
+  non-eye /aɪ/ words: 3901/50000
+
+stdout | src/core/write.test.ts > silent-e integration > produces some silent-e words in 10k generated words
+  Silent-e words: 1192/10000 (11.9%)
+
+stdout | src/core/write.test.ts > silent-e integration > produces "ck" (not "kk") when k doubles after lax vowel
+  ck occurrences: 368/10000, kk occurrences: 0/10000
+
+stdout | src/core/write.test.ts > silent-e integration > never doubles b, d, g word-finally via doubling system
+  Word-final bb: 0, dd: 0, gg: 0
+
+stdout | src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit
+  Words with both ck and another double: 6/10000
+
+stdout | src/core/write.test.ts > silent-e integration > very few words end in bare "v" in 10k generated words
+  Bare 'v' endings: 0/10000, total v/ve endings: 35/10000
+
+stdout | src/core/write.test.ts > nucleus-ends-consonant-letter doubling suppression > does not produce doubled consonants after rhotic vowel graphemes (er/or/ur + ss/ll/ff)
+  Sonorant+doubled: 19/10000 (0.19%)
+
+stdout | src/core/write.test.ts > nucleus-ends-consonant-letter doubling suppression > still produces doubled consonants after regular vowel graphemes (a/e/i/o/u)
+  Vowel+doubled: 1275/10000 (12.8%)
+
+ ❯ src/core/write.test.ts (95 tests | 4 failed) 131278ms
+   ✓ tokenizeGraphemes > splits digraphs and trigraphs as atomic units 1ms
+   ✓ tokenizeGraphemes > handles plain letters 0ms
+   ✓ tokenizeGraphemes > handles mixed vowels and consonants 0ms
+   ✓ tokenizeGraphemes > handles "dge" 0ms
+   ✓ tokenizeGraphemes > handles empty string 0ms
+   ✓ tokenizeGraphemes > handles "ck" 0ms
+   ✓ repairConsonantPileups > does nothing when no run exceeds max 0ms
+   ✓ repairConsonantPileups > trims a 5-consonant-grapheme run across syllable boundary 0ms
+   ✓ repairConsonantPileups > treats "tch" as a single grapheme unit 0ms
+   ✓ repairConsonantPileups > does not split "tch" when dropping 0ms
+   ✓ repairConsonantPileups > handles run within a single syllable 0ms
+   ✓ repairConsonantPileups > respects configurable max of 3 0ms
+   ✓ repairConsonantPileups > updates hyphenatedParts in sync 0ms
+   ✓ mannerGroup > maps sibilant to fricative 0ms
+   ✓ mannerGroup > maps lateralApproximant to liquid 0ms
+   ✓ mannerGroup > passes through stop 0ms
+   ✓ placeGroup > groups bilabial as labial 0ms
+   ✓ placeGroup > groups alveolar as coronal 0ms
+   ✓ placeGroup > groups velar as dorsal 0ms
+   ✓ placeGroup > groups labial-velar as labial 0ms
+   ✓ isCoronal > true for alveolar 0ms
+   ✓ isCoronal > true for postalveolar 0ms
+   ✓ isCoronal > false for bilabial 0ms
+   ✓ validateJunction > two-phoneme stop boundary can pass 0ms
+   ✓ validateJunction > identical phonemes are rejected 0ms
+   ✓ validateJunction > same manner+place are rejected (t->d) 0ms
+   ✓ validateJunction > s-exception allows s+stop onset 0ms
+   ✓ validateJunction > Rule 1 rising coda is rejected (/ts.g/) 0ms
+   ✓ validateJunction > Rule 2 plateau is rejected (/nt.p/) 0ms
+   ✓ validateJunction > Rule 2 s-exception is allowed (/ns.ʃ/) 0ms
+   ✓ validateJunction > Rule 3 onset rise is rejected (/nt.fr/) 0ms
+   ✓ validateJunction > Rule 3 s-exception onset is allowed (/t.str/) 0ms
+   ✓ validateJunction > clear valley is allowed (/n.tr/) 0ms
+   ✓ validateJunction > interior coda rise regression is rejected (/lnts.g/) 0ms
+   ✓ repairJunctions (feature-based) > does nothing for valid junction 0ms
+   ✓ repairJunctions (feature-based) > drops coda consonant for invalid junction (F2: t→d) 0ms
+   ✓ repairJunctions (feature-based) > handles empty coda 0ms
+   ✓ repairJunctions (feature-based) > removes doubled consonant grapheme fully for invalid junction (dd→k) 0ms
+   ✓ repairConsonantLetters > does nothing when under limit 0ms
+   ✓ repairConsonantLetters > trims 5 consonant letters to 4 0ms
+   ✓ repairVowelLetters > trims 3 consecutive vowels to 2 0ms
+   ✓ repairVowelLetters > trims initial vowel run 0ms
+   ✓ repairVowelLetters > does nothing when vowels are within limit 0ms
+   ✓ repairVowelLetters > treats word-initial Y before vowel as consonant (not part of vowel run) 0ms
+   × consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs 32599ms
+     → expected 9 to be +0 // Object.is equality
+   × consonant pileup integration > generates 100k words with no 5+ consonant letter runs 25956ms
+     → expected 28 to be +0 // Object.is equality
+   × consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs 2462ms
+     → expected 43 to be +0 // Object.is equality
+   ✓ filterByPosition > preserves explicit position bans when every candidate is excluded 0ms
+   ✓ filterByPosition > returns candidates with midWord > 0 when mid-word 0ms
+   ✓ filterByPosition > does not filter by midWord at start of word 0ms
+   ✓ filterByPosition > does not filter by midWord at end of word 0ms
+   ✓ filterByPosition > tier 2 excludes explicit startWord: 0 at start position 0ms
+   ✓ filterByPosition > tier 2 excludes explicit endWord: 0 at end position 0ms
+   ✓ filterByPosition > tier 1 prefers graphemes with positive position values over undefined 0ms
+   ✓ filterByPosition > tier 2 relaxed fallback keeps undefined when strict fails 0ms
+   ✓ normalizeGraphemeCondition > merges alias conditions with explicit condition fields 0ms
+   ✓ normalizeGraphemeCondition > throws on unknown condition alias 0ms
+   ✓ grapheme condition alias wiring > fails fast when a grapheme references an unknown alias 1ms
+   ✓ monosyllable position weight selection > monosyllabic /dz/ words should prefer "ds" over "dse"  2283ms
+   ✓ monosyllable position weight selection > monosyllable fix should not affect multi-syllable /dz/ words  2323ms
+   ✓ monosyllable position weight selection > uses literal segment positions for consonants in monosyllables  5719ms
+   ✓ syllable-based position filtering > "igh" only appears in the final syllable (10k words)  2246ms
+   ✓ syllable-based position filtering > "wh" only appears in the first syllable (10k words)  2293ms
+   ✓ syllable-based position filtering > does not produce impossible onset clusters with "wh" (twh/swh/cwh/quh)  2333ms
+   ✓ syllable-based position filtering > "ight" or "ought" mid-word rate < 0.1% in 10k words  2205ms
+   ✓ syllable-based position filtering > startWord: 0 graphemes do not appear in the first syllable (10k words)  2173ms
+   ✓ syllable-based position filtering > "eye" appears only as a bare syllable nucleus (50k words)  10946ms
+   ✓ syllable-based position filtering > "eye" does not appear in medial syllables (50k words)  10938ms
+   ✓ syllable-based position filtering > other /aɪ/ spellings still appear alongside "eye" (50k words)  11163ms
+   ✓ applySilentE > converts "maik" to "make" for /eɪk/ 0ms
+   ✓ applySilentE > converts "hoap" to "hope" for /oʊp/ with nucleus "oa" 0ms
+   ✓ applySilentE > converts "tighm" to "time" for /aɪm/ with nucleus "igh" 0ms
+   ✓ applySilentE > applies when coda has 2 consonants (e.g. "nce", "nge") 0ms
+   ✓ applySilentE > does not apply when coda has 3+ consonants 0ms
+   ✓ applySilentE > does not apply when coda sound is excluded 0ms
+   ✓ applySilentE > respects probability (rand >= threshold → no change) 0ms
+   ✓ applySilentE > applies only to last syllable in multi-syllable words 0ms
+   ✓ applySilentE > does nothing when nucleus grapheme has no matching swap 0ms
+   ✓ appendSilentE > appends "e" after word-final /v/ — "giv" → "give" 0ms
+   ✓ appendSilentE > appends "e" after word-final /v/ — "luv" → "luve" 0ms
+   ✓ appendSilentE > does not double-append when word already ends in "e" (magic-e fired) 0ms
+   ✓ appendSilentE > does not apply to sounds not in the lookup 0ms
+   ✓ appendSilentE > respects probability (rand >= threshold → no change) 0ms
+   ✓ appendSilentE > works on multi-syllable words (applies to last syllable) 0ms
+   ✓ appendSilentE > does not apply when coda is empty 0ms
+   ✓ silent-e integration > produces some silent-e words in 10k generated words  2271ms
+   ✓ silent-e integration > treats Y before a vowel as consonant in consonant pileup repair 0ms
+   ✓ silent-e integration > treats Y not before a vowel as vowel in consonant pileup repair 0ms
+   ✓ silent-e integration > produces "ck" (not "kk") when k doubles after lax vowel  2234ms
+   ✓ silent-e integration > never doubles consonants in unstressed syllables (modifier = 0) 0ms
+   ✓ silent-e integration > never doubles b, d, g word-finally via doubling system  2231ms
+   × silent-e integration > ck counts toward maxPerWord doubling limit 2242ms
+     → expected 6 to be less than or equal to 5
+   ✓ silent-e integration > very few words end in bare "v" in 10k generated words  2266ms
+   ✓ nucleus-ends-consonant-letter doubling suppression > does not produce doubled consonants after rhotic vowel graphemes (er/or/ur + ss/ll/ff)  2196ms
+   ✓ nucleus-ends-consonant-letter doubling suppression > still produces doubled consonants after regular vowel graphemes (a/e/i/o/u)  2187ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/base-spelling.test.ts [ src/core/base-spelling.test.ts ]
+Error: Shared spellings require preserve-phones
+ ❯ createWrittenFormGenerator src/core/write.ts:1081:59
+    1079|   const tryDoubling = doublingModel.sample;
+    1080|   const preservePhones = config.writtenFormConstraints?.policy === "pr…
+    1081|   if (sharedRules !== undefined && !preservePhones) throw new Error("S…
+       |                                                           ^
+    1082|   const sharedRuntime = sharedRules === undefined ? undefined : create…
+    1083|   const planCoverage = preservePhones ? createSpellingCoveragePlanner(…
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/base-spelling.test.ts:6:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/65]⎯
+
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 64 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > requires explicit shared configuration for v4 evidence
+AssertionError: expected [Function] to throw error matching /requires its shared spelling configur…/ but got 'Invalid shared writer schedule: appen…'
+
+- Expected: 
+/requires its shared spelling configuration/
+
++ Received: 
+"Invalid shared writer schedule: append position"
+
+ ❯ src/core/spelling-construction-ledger.test.ts:191:78
+    189|   it("requires explicit shared configuration for v4 evidence", () => {
+    190|     const base = fixture(); form(base);
+    191|     expect(() => verifyBaseSpellingEvidence(base.snapshot(), englishCo…
+       |                                                                              ^
+    192|   });
+    193| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/65]⎯
+
+ FAIL  src/core/spelling-construction-schedule.test.ts > public v4 evidence capability > requires the matching explicit configuration
+AssertionError: expected [Function] to throw an error
+
+- Expected: 
+null
+
++ Received: 
+undefined
+
+ ❯ src/core/spelling-construction-schedule.test.ts:118:76
+    116|     const trace = fixture();
+    117|     expect(() => createBaseSpellingEvidenceVerifier()(trace)).toThrow(…
+    118|     expect(() => createBaseSpellingEvidenceVerifier(englishConfig)(tra…
+       |                                                                            ^
+    119|     expect(() => createBaseSpellingEvidenceVerifier({ ...config, share…
+    120|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/65]⎯
+
+ FAIL  src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > attributes a v1 half-th to its cap without inventing unavailable budget decisions
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ observeRoot src/core/spelling-coverage-observer.test.ts:36:16
+ ❯ src/core/spelling-coverage-observer.test.ts:46:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/65]⎯
+
+ FAIL  src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > counts an intact v3 th as a refusal, not partial loss or a certificate
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ observeRoot src/core/spelling-coverage-observer.test.ts:36:16
+ ❯ src/core/spelling-coverage-observer.test.ts:57:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/65]⎯
+
+ FAIL  src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > retains the lineage of a certified whole ph-to-f replacement
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ observeRoot src/core/spelling-coverage-observer.test.ts:36:16
+ ❯ src/core/spelling-coverage-observer.test.ts:67:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/65]⎯
+
+ FAIL  src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > distinguishes missing reading evidence from missing cell ownership
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ observeRoot src/core/spelling-coverage-observer.test.ts:36:16
+ ❯ src/core/spelling-coverage-observer.test.ts:81:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/65]⎯
+
+ FAIL  src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > counts generic rewrite ancestry as unresolved even when every source unit retains lineage
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ observeRoot src/core/spelling-coverage-observer.test.ts:36:16
+ ❯ src/core/spelling-coverage-observer.test.ts:91:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/65]⎯
+
+ FAIL  src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > counts unresolved rewrite cells consumed by a legacy cap separately from surviving unknown cells
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ observeRoot src/core/spelling-coverage-observer.test.ts:36:16
+ ❯ src/core/spelling-coverage-observer.test.ts:102:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/65]⎯
+
+ FAIL  src/core/spelling-coverage.test.ts > whole-unit spelling budgets > respells a complete ph unit through the public API without changing its phone
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/spelling-coverage.test.ts:66:10
+ ❯ src/core/spelling-coverage.test.ts:181:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/65]⎯
+
+ FAIL  src/core/spelling-coverage.test.ts > whole-unit spelling budgets > preserves th and reports infeasibility when no shorter licensed spelling exists
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/spelling-coverage.test.ts:66:10
+ ❯ src/core/spelling-coverage.test.ts:191:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/65]⎯
+
+ FAIL  src/core/spelling-coverage.test.ts > whole-unit spelling budgets > keeps omitted-policy custom configurations on the v1 legacy repair contract
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/spelling-coverage.test.ts:66:10
+ ❯ src/core/spelling-coverage.test.ts:199:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/65]⎯
+
+ FAIL  src/core/spelling-coverage.test.ts > whole-unit spelling budgets > does not invent a reading certificate for unannotated custom alternatives
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/spelling-coverage.test.ts:66:10
+ ❯ src/core/spelling-coverage.test.ts:207:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/65]⎯
+
+ FAIL  src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects unknown evidence versions and preserves v1 as unavailable part identity
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/spelling-coverage.test.ts:66:10
+ ❯ src/core/spelling-coverage.test.ts:373:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves the registered public t|th syllable join for 'θ' at seed 13
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves the registered public t|th syllable join for 'ð' at seed 13
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves the registered public t|th syllable join for 'θ' at seed 137
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves the registered public t|th syllable join for 'ð' at seed 137
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves the registered public t|th syllable join for 'θ' at seed 4099
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves the registered public t|th syllable join for 'ð' at seed 4099
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:124:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 13
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 137
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 4099
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:137:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > public API emits a replayable positive certificate with identical trace-on/off output for registered seed 13
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > public API emits a replayable positive certificate with identical trace-on/off output for registered seed 137
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > public API emits a replayable positive certificate with identical trace-on/off output for registered seed 4099
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:300:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > captures equal-text sampler increments identically with and without tracing
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:350:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves case-sensitive noncollisions through the public writer
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:406:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > rejects a sole zero-weight public choice instead of issuing unsupported normalization evidence
+AssertionError: expected [Function] to throw error matching /No legal grapheme/ but got 'Shared spelling requires one unique p…'
+
+- Expected: 
+/No legal grapheme/
+
++ Received: 
+"Shared spelling requires one unique predecessor slot: ks-to-x"
+
+ ❯ src/core/spelling-normalization.test.ts:441:8
+    439|     const config = publicConfig([glyph("d", "ed", 0)]);
+    440|     expect(() => createGenerator(config).generateWord({ seed: 13, syll…
+    441|       .toThrow(/No legal grapheme/);
+       |        ^
+    442|   });
+    443| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > distinguishes zero/not-applicable replay from a positive authenticated outcome
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:518:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > rejects an altered comparison denominator even inside the old structural bounds
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:572:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > rejects dropping a noncollision checkpoint even with a matching lowered counter
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:584:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > records empty spelling guards without comparing across the empty previous unit
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:596:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > recounts skipped joins after a syllable rule removes the complete written part
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:617:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/65]⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > rejects a delay-adjacent checkpoint across its syllable rewrite
+ FAIL  src/core/spelling-normalization.test.ts > local whole-unit normalization > rejects a advance-join checkpoint across its syllable rewrite
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/core/spelling-normalization.test.ts:628:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/65]⎯
+
+ FAIL  src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs
+AssertionError: expected 9 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 9
+
+ ❯ src/core/write.test.ts:330:24
+    328|       }
+    329|     }
+    330|     expect(violations).toBe(0);
+       |                        ^
+    331|   });
+    332| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/65]⎯
+
+ FAIL  src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs
+AssertionError: expected 28 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 28
+
+ ❯ src/core/write.test.ts:341:24
+    339|       }
+    340|     }
+    341|     expect(violations).toBe(0);
+       |                        ^
+    342|   });
+    343| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/65]⎯
+
+ FAIL  src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs
+AssertionError: expected 43 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 43
+
+ ❯ src/core/write.test.ts:360:24
+    358|       }
+    359|     }
+    360|     expect(violations).toBe(0);
+       |                        ^
+    361|   });
+    362| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/65]⎯
+
+ FAIL  src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit
+AssertionError: expected 6 to be less than or equal to 5
+ ❯ src/core/write.test.ts:1088:24
+    1086| 
+    1087|     console.log(`  Words with both ck and another double: ${violations…
+    1088|     expect(violations).toBeLessThanOrEqual(5);
+       |                        ^
+    1089|   });
+    1090| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/65]⎯
+
+ FAIL  src/elements/graphemes/reading.test.ts > English grapheme reading obligations > keeps public generation and RNG unchanged when no reading policy consumes the metadata
+Error: Shared spellings require preserve-phones
+ ❯ createWrittenFormGenerator src/core/write.ts:1081:59
+    1079|   const tryDoubling = doublingModel.sample;
+    1080|   const preservePhones = config.writtenFormConstraints?.policy === "pr…
+    1081|   if (sharedRules !== undefined && !preservePhones) throw new Error("S…
+       |                                                           ^
+    1082|   const sharedRuntime = sharedRules === undefined ? undefined : create…
+    1083|   const planCoverage = preservePhones ? createSpellingCoveragePlanner(…
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ src/elements/graphemes/reading.test.ts:120:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > selects the configured default prefix before /b/
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > selects the configured default prefix before /m/
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > selects the configured default prefix before /t/
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > selects the configured default prefix before /l/
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:79:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves explicitly configured il assimilation without adding it to defaults
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves explicitly configured ir assimilation without adding it to defaults
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:90:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves a prefix variant of different written length: un → over
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves a prefix variant of different written length: over → a
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves a suffix variant of different written length: s → ous
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves a suffix variant of different written length: ness → y
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:99:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves both different-length variants around the same root
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:107:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves ed after /t/, with original variant index 2
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves ed after /k/, with original variant index 0
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves ed after /m/, with original variant index 1
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves s after /s/, with original variant index 2
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves s after /k/, with original variant index 0
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves s after /m/, with original variant index 1
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:119:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > carries the transformed root rather than reconstructing its original spelling
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:131:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > composes a changed-length prefix with a real suffix boundary transform
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:137:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > retains paired phonological and written root alternations
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:145:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > records cleanup loss separately from the selected affix
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:153:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > keeps snapshots independent of config, surface phones, and later calls
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:162:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > keeps tracing observational and seeded calls deterministic
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:177:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/65]⎯
+
+ FAIL  src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > snapshots only selection features and detaches them from the root phone
+Error: Shared spelling requires one unique predecessor slot: ks-to-x
+ ❯ createSpellingRuleSlots src/core/spelling-construction-slots.ts:26:15
+     24|       const matches = predecessors.filter(predecessor => predecessor.n…
+     25|       if (rule.id === "cx-to-x" || matches.length !== 1) {
+     26|         throw new Error(`Shared spelling requires one unique predecess…
+       |               ^
+     27|       }
+     28|       for (const phase of ["syllable", "word"] as const) {
+ ❯ createWrittenFormGenerator src/core/write.ts:1074:60
+ ❯ buildRuntime src/core/generate.ts:129:31
+ ❯ createGenerator src/core/generate.ts:1465:14
+ ❯ fixedRoot src/core/morphology/realization.test.ts:58:21
+ ❯ src/core/morphology/realization.test.ts:185:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/65]⎯
+
+
+ Test Files  9 failed | 31 passed (40)
+      Tests  64 failed | 848 passed | 1 skipped (913)
+   Start at  21:21:31
+   Duration  131.73s (transform 1.34s, setup 0ms, collect 6.08s, tests 549.22s, environment 5ms, prepare 2.36s)
+

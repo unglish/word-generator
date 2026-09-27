@@ -188,7 +188,7 @@ describe("atomic shared-spelling ledger commits", () => {
 
   it("requires explicit shared configuration for v4 evidence", () => {
     const base = fixture(); form(base);
-    expect(() => verifyBaseSpellingEvidence(base.snapshot(), englishConfig)).toThrow(/requires its shared spelling configuration/);
+    expect(() => verifyBaseSpellingEvidence(base.snapshot(), { ...englishConfig, sharedSpellings: undefined })).toThrow(/requires its shared spelling configuration/);
   });
 });
 

@@ -27,7 +27,7 @@ function observeRoot(finals: Grapheme[], policy: "preserve-phones" | false = "pr
       onsetLength: { monosyllabic: one, followingNucleus: one, default: one, long: one },
       codaLength: { monosyllabic: { 1: one }, monosyllabicDefault: one, polysyllabicNonzero: one, zeroWeightEndOfWord: 0, zeroWeightMidWord: 0 },
       probability: { ...englishConfig.generationWeights.probability, finalS: 0, nasalStopExtension: 0 } },
-    doubling: undefined, silentE: undefined, spellingRules, gapSpellings: [],
+    sharedSpellings: undefined, doubling: undefined, silentE: undefined, spellingRules, gapSpellings: [],
     pronunciation: { ...englishConfig.pronunciation,
       aspiration: { enabled: false, targets: [{ segment: "onset" }], rules: [{ id: "disabled", when: {}, probability: 0 }], fallbackProbability: 0 },
       vowelReduction: { enabled: false, rules: [], reduceSecondaryStress: false } },

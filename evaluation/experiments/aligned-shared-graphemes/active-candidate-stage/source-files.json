@@ -1,0 +1,46 @@
+{
+  "src/config/english.ts": {
+    "bytes": 28247,
+    "sha256": "c169a67e74727a497396c4d657d01896f77a952453ad3306463a811a9c562df4"
+  },
+  "docs/shared-spellings.md": {
+    "bytes": 3208,
+    "sha256": "1671ef121f0c0ee9007e29c6d0bd2e230708dbc237e98967d47f90dcf9d902c1"
+  },
+  "evaluation/experiments/aligned-shared-graphemes/analyze-shared.test.mjs": {
+    "bytes": 7538,
+    "sha256": "0c2f0a67ab5e1978a443f58fe2707eef2d8d8a8b52fa4a8256f7104a69b27197"
+  },
+  "src/core/base-spelling.test.ts": {
+    "bytes": 7238,
+    "sha256": "88a53e975cc7e79a4939569818c77573819ac1483f3af0477e5155bc631482ea"
+  },
+  "src/core/morphology/realization.test.ts": {
+    "bytes": 12650,
+    "sha256": "8f321595b3c7e704361c546dfe200489b51355595356f051e49bde323ae726cb"
+  },
+  "src/core/spelling-construction-ledger.test.ts": {
+    "bytes": 34865,
+    "sha256": "77930c37983a3f566c3321ed9508edf3d243a60ee3f69fafceb49a22c9712d3c"
+  },
+  "src/core/spelling-construction-schedule.test.ts": {
+    "bytes": 7742,
+    "sha256": "7e5241687c003963ede78a6a373d36393377d6d49cb22ac083267dcb8ba86ae8"
+  },
+  "src/core/spelling-coverage-observer.test.ts": {
+    "bytes": 7582,
+    "sha256": "4059f95701cc0ce1024aac91d9aa8f0f7cd755a494735106900d14cfbd62bb32"
+  },
+  "src/core/spelling-coverage.test.ts": {
+    "bytes": 29220,
+    "sha256": "4201e4445b2999816dcc741648b7fb83a09678a0b2c71ab45c402d7c2e672e91"
+  },
+  "src/core/spelling-normalization.test.ts": {
+    "bytes": 52653,
+    "sha256": "0222a3edcd32c9e73d49f2bb84dc2c717777f4e23bb21be6d8007f0b4891fe13"
+  },
+  "src/elements/graphemes/reading.test.ts": {
+    "bytes": 6385,
+    "sha256": "3fd9b4857b578a915cd488542bb48c8ed08402ad1221d8e6b47dab190083286e"
+  }
+}

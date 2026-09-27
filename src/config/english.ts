@@ -1,3 +1,4 @@
+import { englishSharedSpellings } from "../elements/graphemes/shared.js";
 import { englishDoublingRealizations } from "../elements/graphemes/doubling.js";
 import { Affix, BoundaryClusterConstraintRule, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets } from "./language.js";
 
@@ -499,6 +500,8 @@ export const englishConfig: LanguageConfig = {
       ["s","p","l"],["s","p","r"],["s","t","r"],["s","k","r"],["s","k","w"],
     ],
   },
+
+  sharedSpellings: englishSharedSpellings,
 
   writtenFormConstraints: {
     policy: "preserve-phones",
