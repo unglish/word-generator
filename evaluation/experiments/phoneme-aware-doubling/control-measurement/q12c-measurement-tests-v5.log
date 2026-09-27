@@ -1,0 +1,186 @@
+✔ aggregates every event with explicit word denominators and retains the first full witness (3.174667ms)
+✔ splits profile and stream populations without multiplying the global denominator (0.818417ms)
+✔ uses resolved allomorph identity rather than the plan (0.339041ms)
+✔ does not silently classify missing morphology resolution as bare (0.9225ms)
+✔ rejects noninteger production counts instead of silently rounding (0.408334ms)
+✔ rejects omitted applied morphology rather than counting a bare word (0.5275ms)
+✖ runs a complete bounded archive through stream validation, aggregation and production replay (136.199083ms)
+✔ rejects a wrong external manifest authority before creating an output (9.752583ms)
+✔ rejects archive-byte tampering before creating an output (93.175417ms)
+✖ retains an explicit failure and no completion report for duplicate draws (88.896458ms)
+✔ requires every scheduled stream (13.082083ms)
+✔ rejects malformed and aliased artifact paths (6.369583ms)
+✔ does not allow an output parent symlink to redirect into the archive (6.807292ms)
+✔ rejects overlapping seeds before any corpus processing (0.394334ms)
+✖ independent Python reconstructs every bounded group/event and complete witness (86.3135ms)
+✖ independent Python rejects forged count even with a newly supplied report hash (87.955417ms)
+✖ independent Python rejects forged group even with a newly supplied report hash (95.476625ms)
+✖ independent Python rejects forged witness even with a newly supplied report hash (90.465375ms)
+✖ independent Python rejects forged boolean-denominator even with a newly supplied report hash (90.835625ms)
+✔ pins recursive dependencies, installed optional bytes and missing optional resolutions (29.097042ms)
+✔ missing required dependency fails (4.713125ms)
+✔ malformed installed optional package is not treated as absent (4.078709ms)
+✔ observes archived relation ["b","b","bb","sampled-success",null] (1.405583ms)
+✔ observes archived relation ["d","d","dd","sampled-success",null] (0.1815ms)
+✔ observes archived relation ["f","f","ff","sampled-success",null] (0.090666ms)
+✔ observes archived relation ["g","g","gg","sampled-success",null] (0.080584ms)
+✔ observes archived relation ["k","c","ck","sampled-success",null] (0.074667ms)
+✔ observes archived relation ["k","ck","ck","direct-counted","multi-char-grapheme"] (0.053375ms)
+✔ observes archived relation ["k","k","ck","sampled-success",null] (0.054667ms)
+✔ observes archived relation ["l","l","ll","sampled-success",null] (0.082875ms)
+✔ observes archived relation ["m","m","mm","sampled-success",null] (0.080167ms)
+✔ observes archived relation ["n","n","nn","sampled-success",null] (0.121209ms)
+✔ observes archived relation ["p","p","pp","sampled-success",null] (0.090333ms)
+✔ observes archived relation ["r","r","rr","sampled-success",null] (0.069958ms)
+✔ observes archived relation ["s","c","ck","sampled-success",null] (0.05475ms)
+✔ observes archived relation ["s","s","ss","sampled-success",null] (0.040542ms)
+✔ observes archived relation ["t","t","tt","sampled-success",null] (0.06ms)
+✔ observes archived relation ["z","s","ss","sampled-success",null] (0.054708ms)
+✔ observes archived relation ["z","z","zz","sampled-success",null] (0.050209ms)
+✔ observes archived relation ["ʃ","s","ss","sampled-success",null] (0.038583ms)
+✔ separates the concrete s→ck mismatch from ordinary-policy exclusions (0.128458ms)
+✔ rejects missing trace rather than assigning a clean count (1.207417ms)
+✔ rejects wrong version rather than assigning a clean count (0.387041ms)
+✔ rejects missing unit rather than assigning a clean count (0.316792ms)
+✔ rejects missing phone rather than assigning a clean count (0.284709ms)
+✔ rejects wrong ownership rather than assigning a clean count (0.546ms)
+✔ rejects wrong selected spelling rather than assigning a clean count (0.357375ms)
+✔ rejects wrong source sound rather than assigning a clean count (0.306583ms)
+✔ rejects missing increment rather than assigning a clean count (0.318334ms)
+✔ rejects missing success rather than assigning a clean count (0.314292ms)
+✔ rejects missing attempt rather than assigning a clean count (0.42125ms)
+✔ rejects wrong result rather than assigning a clean count (0.322958ms)
+✔ rejects invalid probability rather than assigning a clean count (0.292458ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 46
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1079.386084
+
+✖ failing tests:
+
+test at evaluation/experiments/phoneme-aware-doubling/analyze-doubling.test.mjs:41:1
+✖ runs a complete bounded archive through stream validation, aggregation and production replay (136.199083ms)
+  Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './package.json' is not defined by "exports" in /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/get-tsconfig/package.json
+      at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+      at packageExportsResolve (node:internal/modules/esm/resolve:661:9)
+      at resolveExports (node:internal/modules/cjs/loader:679:36)
+      at Module._findPath (node:internal/modules/cjs/loader:746:31)
+      at node:internal/modules/cjs/loader:1406:27
+      at m._resolveFilename (file:///Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+      at nextResolveSimple (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+      at resolveTsPaths (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760) {
+    code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'
+  }
+
+test at evaluation/experiments/phoneme-aware-doubling/analyze-doubling.test.mjs:58:1
+✖ retains an explicit failure and no completion report for duplicate draws (88.896458ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Extra draw|strictly equal/. Input:
+  
+  `Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './package.json' is not defined by "exports" in /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/get-tsconfig/package.json`
+  
+      at async TestContext.<anonymous> (file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/phoneme-aware-doubling/analyze-doubling.test.mjs:60:3)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './package.json' is not defined by "exports" in /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/get-tsconfig/package.json
+        at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+        at packageExportsResolve (node:internal/modules/esm/resolve:661:9)
+        at resolveExports (node:internal/modules/cjs/loader:679:36)
+        at Module._findPath (node:internal/modules/cjs/loader:746:31)
+        at node:internal/modules/cjs/loader:1406:27
+        at m._resolveFilename (file:///Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+        at nextResolveSimple (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+        at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+        at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+        at resolveTsPaths (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760),
+    expected: /Extra draw|strictly equal/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at evaluation/experiments/phoneme-aware-doubling/analyze-doubling.test.mjs:91:1
+✖ independent Python reconstructs every bounded group/event and complete witness (86.3135ms)
+  Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './package.json' is not defined by "exports" in /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/get-tsconfig/package.json
+      at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+      at packageExportsResolve (node:internal/modules/esm/resolve:661:9)
+      at resolveExports (node:internal/modules/cjs/loader:679:36)
+      at Module._findPath (node:internal/modules/cjs/loader:746:31)
+      at node:internal/modules/cjs/loader:1406:27
+      at m._resolveFilename (file:///Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+      at nextResolveSimple (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+      at resolveTsPaths (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760) {
+    code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'
+  }
+
+test at evaluation/experiments/phoneme-aware-doubling/analyze-doubling.test.mjs:99:3
+✖ independent Python rejects forged count even with a newly supplied report hash (87.955417ms)
+  Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './package.json' is not defined by "exports" in /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/get-tsconfig/package.json
+      at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+      at packageExportsResolve (node:internal/modules/esm/resolve:661:9)
+      at resolveExports (node:internal/modules/cjs/loader:679:36)
+      at Module._findPath (node:internal/modules/cjs/loader:746:31)
+      at node:internal/modules/cjs/loader:1406:27
+      at m._resolveFilename (file:///Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+      at nextResolveSimple (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+      at resolveTsPaths (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760) {
+    code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'
+  }
+
+test at evaluation/experiments/phoneme-aware-doubling/analyze-doubling.test.mjs:99:3
+✖ independent Python rejects forged group even with a newly supplied report hash (95.476625ms)
+  Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './package.json' is not defined by "exports" in /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/get-tsconfig/package.json
+      at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+      at packageExportsResolve (node:internal/modules/esm/resolve:661:9)
+      at resolveExports (node:internal/modules/cjs/loader:679:36)
+      at Module._findPath (node:internal/modules/cjs/loader:746:31)
+      at node:internal/modules/cjs/loader:1406:27
+      at m._resolveFilename (file:///Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+      at nextResolveSimple (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+      at resolveTsPaths (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760) {
+    code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'
+  }
+
+test at evaluation/experiments/phoneme-aware-doubling/analyze-doubling.test.mjs:99:3
+✖ independent Python rejects forged witness even with a newly supplied report hash (90.465375ms)
+  Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './package.json' is not defined by "exports" in /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/get-tsconfig/package.json
+      at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+      at packageExportsResolve (node:internal/modules/esm/resolve:661:9)
+      at resolveExports (node:internal/modules/cjs/loader:679:36)
+      at Module._findPath (node:internal/modules/cjs/loader:746:31)
+      at node:internal/modules/cjs/loader:1406:27
+      at m._resolveFilename (file:///Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+      at nextResolveSimple (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+      at resolveTsPaths (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760) {
+    code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'
+  }
+
+test at evaluation/experiments/phoneme-aware-doubling/analyze-doubling.test.mjs:99:3
+✖ independent Python rejects forged boolean-denominator even with a newly supplied report hash (90.835625ms)
+  Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './package.json' is not defined by "exports" in /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/get-tsconfig/package.json
+      at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+      at packageExportsResolve (node:internal/modules/esm/resolve:661:9)
+      at resolveExports (node:internal/modules/cjs/loader:679:36)
+      at Module._findPath (node:internal/modules/cjs/loader:746:31)
+      at node:internal/modules/cjs/loader:1406:27
+      at m._resolveFilename (file:///Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+      at nextResolveSimple (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+      at /Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+      at resolveTsPaths (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760) {
+    code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'
+  }

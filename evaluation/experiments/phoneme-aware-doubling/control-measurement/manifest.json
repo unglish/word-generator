@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "file": "q12c-control-independent-v1.json",
+      "source": "/private/tmp/q12c-control-independent-v1.json",
+      "sourceBytes": 987,
+      "sourceSha256": "6af2437113b09907f64ee40265b320bc99a213cdd2412861137b9b536ce35a39",
+      "sha256": "6af2437113b09907f64ee40265b320bc99a213cdd2412861137b9b536ce35a39"
+    },
+    {
+      "file": "q12c-control-independent-command-v1.json",
+      "source": "/private/tmp/q12c-control-independent-command-v1.json",
+      "sourceBytes": 1118,
+      "sourceSha256": "ef615620c0d60bd98f8d18231877f9c5927c5f79d71659786e1ab78d2b207595",
+      "sha256": "ef615620c0d60bd98f8d18231877f9c5927c5f79d71659786e1ab78d2b207595"
+    },
+    {
+      "file": "q12c-control-independent-v1.log",
+      "source": "/private/tmp/q12c-control-independent-v1.log",
+      "sourceBytes": 0,
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "q12c-control-analysis-command-v1.json",
+      "source": "/private/tmp/q12c-control-analysis-command-v1.json",
+      "sourceBytes": 989,
+      "sourceSha256": "adc12e4c0a30e185376989556be9e169077e2e1a235e3b6a74a629f4339e266b",
+      "sha256": "adc12e4c0a30e185376989556be9e169077e2e1a235e3b6a74a629f4339e266b"
+    },
+    {
+      "file": "q12c-control-analysis-command-v3.json",
+      "source": "/private/tmp/q12c-control-analysis-command-v3.json",
+      "sourceBytes": 989,
+      "sourceSha256": "3c430f3dc9b4b23e0775d6ac953f12bc5e64bfa5b8d948a762b54b35267dd752",
+      "sha256": "3c430f3dc9b4b23e0775d6ac953f12bc5e64bfa5b8d948a762b54b35267dd752"
+    },
+    {
+      "file": "q12c-measurement-tests-v1.log",
+      "source": "/private/tmp/q12c-measurement-tests-v1.log",
+      "sourceBytes": 3052,
+      "sourceSha256": "02382bc34d5711b308b98999484d88291af1d239ada8cbecaf3e796590916dab",
+      "sha256": "02382bc34d5711b308b98999484d88291af1d239ada8cbecaf3e796590916dab"
+    },
+    {
+      "file": "q12c-measurement-tests-v2.log",
+      "source": "/private/tmp/q12c-measurement-tests-v2.log",
+      "sourceBytes": 4563,
+      "sourceSha256": "b33f447b552408c8abc973a2a2b29a6084364bf0f52b0f7ab6ccd103d513acb8",
+      "sha256": "b33f447b552408c8abc973a2a2b29a6084364bf0f52b0f7ab6ccd103d513acb8"
+    },
+    {
+      "file": "q12c-measurement-tests-v3.log",
+      "source": "/private/tmp/q12c-measurement-tests-v3.log",
+      "sourceBytes": 3835,
+      "sourceSha256": "8fccecc0b99e5579bb1e060d75e481fc8bd5f341eb4848082b3d8c7ee397c1d5",
+      "sha256": "8fccecc0b99e5579bb1e060d75e481fc8bd5f341eb4848082b3d8c7ee397c1d5"
+    },
+    {
+      "file": "q12c-measurement-tests-v4.log",
+      "source": "/private/tmp/q12c-measurement-tests-v4.log",
+      "sourceBytes": 4602,
+      "sourceSha256": "822606362ac86c6847f314e44625b4eafed841a6f5d78ea345493e200592d7ae",
+      "sha256": "822606362ac86c6847f314e44625b4eafed841a6f5d78ea345493e200592d7ae"
+    },
+    {
+      "file": "q12c-measurement-tests-v5.log",
+      "source": "/private/tmp/q12c-measurement-tests-v5.log",
+      "sourceBytes": 16431,
+      "sourceSha256": "3a92a8e4314ef0946726168a71df29d3112e8b6689b29ba79cceab9cc0aea5d7",
+      "sha256": "3a92a8e4314ef0946726168a71df29d3112e8b6689b29ba79cceab9cc0aea5d7"
+    },
+    {
+      "file": "q12c-measurement-tests-v6.log",
+      "source": "/private/tmp/q12c-measurement-tests-v6.log",
+      "sourceBytes": 4840,
+      "sourceSha256": "9c2f1faa68556842654efdd9f39856c1046a9218dba07bf2c1d26059f5f6835b",
+      "sha256": "9c2f1faa68556842654efdd9f39856c1046a9218dba07bf2c1d26059f5f6835b"
+    },
+    {
+      "file": "q12c-measurement-tests-v7.log",
+      "source": "/private/tmp/q12c-measurement-tests-v7.log",
+      "sourceBytes": 5087,
+      "sourceSha256": "3d6515b6c7ace24df791ffe161d00e68cf05d08f1508d0ccd3158cd38756e67b",
+      "sha256": "3d6515b6c7ace24df791ffe161d00e68cf05d08f1508d0ccd3158cd38756e67b"
+    },
+    {
+      "file": "q12c-control-analysis-v1.log",
+      "source": "/private/tmp/q12c-control-analysis-v1.log",
+      "sourceBytes": 366,
+      "sourceSha256": "631879e270cf88bd74a8b83532f5b7e8aba0404792c30329b6c8c9f6bdde8288",
+      "sha256": "631879e270cf88bd74a8b83532f5b7e8aba0404792c30329b6c8c9f6bdde8288"
+    },
+    {
+      "file": "q12c-control-analysis-v2.log",
+      "source": "/private/tmp/q12c-control-analysis-v2.log",
+      "sourceBytes": 1196,
+      "sourceSha256": "a70e83e25e99a5d574d0bac03ffa8cf760851d905d143906ad9b4e02fdb8bf62",
+      "sha256": "a70e83e25e99a5d574d0bac03ffa8cf760851d905d143906ad9b4e02fdb8bf62"
+    },
+    {
+      "file": "q12c-control-analysis-v3.log",
+      "source": "/private/tmp/q12c-control-analysis-v3.log",
+      "sourceBytes": 938,
+      "sourceSha256": "f35ec5c5cb0c8488232d4f618dbb91712193ae495fe569d300b6628f9b18a7bf",
+      "sha256": "f35ec5c5cb0c8488232d4f618dbb91712193ae495fe569d300b6628f9b18a7bf"
+    },
+    {
+      "file": "run-1-authority.json",
+      "source": "/private/tmp/q12c-doubling-control-analysis-v1/authority.json",
+      "sourceBytes": 69441,
+      "sourceSha256": "c9a87a5a00c8576c23996583387ab2284e1a3dde780a5c5bdf0c758357073c09",
+      "sha256": "c9a87a5a00c8576c23996583387ab2284e1a3dde780a5c5bdf0c758357073c09"
+    },
+    {
+      "file": "run-1-failure.json",
+      "source": "/private/tmp/q12c-doubling-control-analysis-v1/failure.json",
+      "sourceBytes": 81,
+      "sourceSha256": "6bad559d505c047b7c31fdf99a81420148b3865728c0772f302d5068e4c03451",
+      "sha256": "6bad559d505c047b7c31fdf99a81420148b3865728c0772f302d5068e4c03451"
+    },
+    {
+      "file": "run-2-authority.json",
+      "source": "/private/tmp/q12c-doubling-control-analysis-v2/authority.json",
+      "sourceBytes": 69441,
+      "sourceSha256": "d726201901d01d939f05118a812fc9d136d57110dbd74f108fa56f6bcb846180",
+      "sha256": "d726201901d01d939f05118a812fc9d136d57110dbd74f108fa56f6bcb846180"
+    },
+    {
+      "file": "run-2-failure.json",
+      "source": "/private/tmp/q12c-doubling-control-analysis-v2/failure.json",
+      "sourceBytes": 109,
+      "sourceSha256": "8c66d0f56516102254669a5eec6765f13c154b71f883f260bcff055f5d8baee2",
+      "sha256": "8c66d0f56516102254669a5eec6765f13c154b71f883f260bcff055f5d8baee2"
+    },
+    {
+      "file": "run-3-authority.json",
+      "source": "/private/tmp/q12c-doubling-control-analysis-v3/authority.json",
+      "sourceBytes": 69659,
+      "sourceSha256": "9a8db7247435529f8354257dcc37ecb847a2d85a83b46e91490da3aa22292362",
+      "sha256": "9a8db7247435529f8354257dcc37ecb847a2d85a83b46e91490da3aa22292362"
+    },
+    {
+      "file": "run-3-report.json.gz",
+      "source": "/private/tmp/q12c-doubling-control-analysis-v3/report.json",
+      "sourceBytes": 9524196,
+      "sourceSha256": "97d7cc602c80004d84fc4584723192b6b0d19c4df4c6bca0aeb40d7337666d48",
+      "sha256": "55f22f36ecdf8b3f20e4e8dd37b5b308e72ff6020d23e5dcad5a5df76cf725f5"
+    }
+  ]
+}
