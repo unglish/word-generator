@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "files": {
+    "README.md": {
+      "bytes": 1682,
+      "sha256": "6f0c1735eee6fa0a7e17fafd8593472a159530b4d2902ac74946bcfe860531d0"
+    },
+    "q13b-normalization-commit-lint-v1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-normalization-commit-tests-v1.log": {
+      "bytes": 401,
+      "sha256": "ac4081c3b0c73b583418ce0ee56c1a21fcef44af659b7b318f8896990c0662c8"
+    },
+    "q13b-normalization-commit-tests-v2.log": {
+      "bytes": 947,
+      "sha256": "c4f0b55996b1de9bbbdb61b8f296dc3f97aa13899a820ae80e873ed6bd21a022"
+    },
+    "q13b-normalization-commit-types-v1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

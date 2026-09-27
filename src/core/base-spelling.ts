@@ -523,11 +523,21 @@ export class BaseSpelling {
           (prior ? cell.origin.kind !== "normalized" || cell.origin.certificateId !== prior.id : cell.origin.kind !== "selection"))) fail();
     const certificateId = this.normalizationCertificates.length;
     const certificate = structuredClone({ ...plan, id: certificateId });
-    const editId = this.nextEditId++;
+    const editId = this.nextEditId;
     const output = plan.after.split("").map((text, offset): SpellingCell => ({
-      id: this.nextCellId++, text, partId: plan.partId,
+      id: this.nextCellId + offset, text, partId: plan.partId,
       origin: { kind: "normalized", unitId: unit.id, offset, editId, certificateId, sourceUnitIds: [unit.id] },
     }));
+    if (this.sharedSurfaceGuard) {
+      const projected = this.cells.slice();
+      projected.splice(start, input.length, ...output);
+      const view = this.constructionState();
+      const decision = this.sharedSurfaceGuard(view, { ...view, cells: projected,
+        normalizationCertificates: [...this.normalizationCertificates, certificate] }, view.constructions);
+      if (decision.status === "refused") fail();
+    }
+    this.nextEditId++;
+    this.nextCellId += output.length;
     this.cells.splice(start, input.length, ...output);
     this.edits?.push({ id: editId, phase: this.phase, rule: `unitNormalization:${plan.site}`, start,
       input, output, before: plan.before, after: plan.after, partId: plan.partId });
