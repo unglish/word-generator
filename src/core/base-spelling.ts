@@ -4,7 +4,7 @@ import { editPart, isSingleOwned, sourceUnits } from "./spelling-ownership.js";
 import type { SharedSpellingRule } from "../config/language.js";
 import { createSharedConstructionPlanner } from "./spelling-construction.js";
 import type { SharedConstructionAttempt, SharedSpellingSlot } from "./spelling-construction.js";
-import type { SharedCellOrigin, SharedSpellingConstruction } from "./spelling-construction-types.js";
+import type { SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession } from "./spelling-construction-types.js";
 import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
 import type { Phoneme } from "../types.js";
 import type { SpellingCoverageCertificate } from "./spelling-coverage-types.js";
@@ -112,6 +112,8 @@ export interface BaseSpellingTraceV4 extends Omit<BaseSpellingTraceV3, "version"
     version: 1;
     attempts: Array<{ id: number; attempt: SharedConstructionAttempt; constructionId: number | null }>;
     constructions: SharedSpellingConstruction[];
+    supersessions: SharedSpellingSupersession[];
+    liveConstructionIds: number[];
     editGuards: Array<{ cursor: LedgerCursor; phase: SpellingEdit["phase"]; rule: string; start: number; deleteCount: number; insert: string; partId: number | null; decision: SharedEditDecision }>;
   };
 }
@@ -147,6 +149,8 @@ export class BaseSpelling {
   private readonly sharedAttempts?: BaseSpellingTraceV4["shared"]["attempts"];
   private readonly sharedEditGuard?: ReturnType<typeof createSharedEditGuard>;
   private readonly sharedEditGuards?: BaseSpellingTraceV4["shared"]["editGuards"];
+  private readonly sharedSupersessions: SharedSpellingSupersession[] = [];
+  private readonly supersededConstructions = new Set<number>();
   private nextSharedAttemptId = 0;
   private nextCellId = 0;
   private nextEditId = 0;
@@ -225,11 +229,22 @@ export class BaseSpelling {
     const input = this.cells.slice(start, start + deleteCount);
     const before = input.map((cell) => cell.text).join("");
     if (before === insert) return true;
-    if (this.sharedEditGuard && this.sharedConstructions.length) {
-      const decision = this.sharedEditGuard(this.constructionState(), this.sharedConstructions, { start, deleteCount, insert, partId });
+    if (this.sharedEditGuard && this.supersededConstructions.size < this.sharedConstructions.length) {
+      const liveConstructions = this.liveConstructions();
+      const decision = this.sharedEditGuard(this.constructionState(), liveConstructions, { start, deleteCount, insert, partId });
       this.sharedEditGuards?.push({ cursor: this.constructionState().cursor, phase: this.phase, rule, start, deleteCount, insert, partId: partId ?? null, decision });
       if (decision.status === "refused") return false;
     }
+    this.commitRewrite(start, input, before, insert, rule, partId);
+    return true;
+  }
+
+  private liveConstructions(): SharedSpellingConstruction[] {
+    return this.sharedConstructions.filter(construction => !this.supersededConstructions.has(construction.id));
+  }
+
+  /** Validated callers choose whether an identical-text replacement is a semantic edit. */
+  private commitRewrite(start: number, input: SpellingCell[], before: string, insert: string, rule: string, partId?: number): void {
     const id = this.nextEditId++;
     const sourceUnitIds = [
       ...new Set(
@@ -250,7 +265,7 @@ export class BaseSpelling {
         },
       }),
     );
-    this.cells.splice(start, deleteCount, ...output);
+    this.cells.splice(start, input.length, ...output);
     this.edits?.push({
       id,
       phase: this.phase,
@@ -262,7 +277,6 @@ export class BaseSpelling {
       after: insert,
       ...(this.licensed ? { partId: resolvedPart } : {}),
     });
-    return true;
   }
 
   observe(offset = 0, partId?: number): SpellingEditObserver {
@@ -285,6 +299,28 @@ export class BaseSpelling {
   markGapSpelling(): void {
     this.scope = "bare-after-gap-spelling";
     this.phase = "gap";
+  }
+
+  replaceWithGapSpelling(before: string, after: string, name: string): void {
+    this.assertSurface(before);
+    const rule = `gapSpelling:${name}`;
+    if (!this.sharedPlanner) {
+      this.markGapSpelling();
+      this.edit(0, before.length, after, rule);
+      return;
+    }
+    if (typeof after !== "string" || typeof name !== "string" || !name) throw new Error("Invalid gap spelling replacement");
+    const constructionIds = this.liveConstructions().map(construction => construction.id);
+    const cursor = this.constructionState().cursor;
+    const inputCellIds = this.cells.map(cell => cell.id);
+    const outputCellIds = after.split("").map((_, offset) => this.nextCellId + offset);
+    const supersession: SharedSpellingSupersession = { version: 1, id: this.sharedSupersessions.length,
+      cursor, editId: cursor.nextEditId, rule, constructionIds, rootPhoneIds: this.phones.map(phone => phone.id),
+      inputCellIds, outputCellIds, before, after, ownership: "unavailable" };
+    this.markGapSpelling();
+    this.commitRewrite(0, this.cells.slice(), before, after, rule);
+    for (const id of constructionIds) this.supersededConstructions.add(id);
+    this.sharedSupersessions.push(supersession);
   }
 
   assertSurface(surface: string): void {
@@ -512,7 +548,8 @@ export class BaseSpelling {
       };
       if (this.sharedPlanner) return structuredClone({ ...trace, version: 4,
         capabilities: { ...trace.capabilities, sharedConstructions: 1 },
-        shared: { version: 1, attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, editGuards: this.sharedEditGuards ?? [] } });
+        shared: { version: 1, attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
+          liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [] } });
       return structuredClone(trace);
     }
     return structuredClone({ version: 2, capabilities, certificates: this.certificates, ...data });
