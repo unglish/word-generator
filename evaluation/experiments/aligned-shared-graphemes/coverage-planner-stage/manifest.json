@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "files": {
+    "README.md": {
+      "bytes": 2410,
+      "sha256": "f1361edd49e1ac97b20cb0840b7d6b7066ef9f9f89e0eae88c25ce15028564f2"
+    },
+    "q13b-coverage-planner-lint-v1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-coverage-planner-lint-v2.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-coverage-planner-tests-v1.log": {
+      "bytes": 435,
+      "sha256": "4cd754d9970a31014d1630f8b0a39beeda2379025c5ef9af29b6605d1278877b"
+    },
+    "q13b-coverage-planner-tests-v2.log": {
+      "bytes": 948,
+      "sha256": "485828e622f581885102ec00431459f48631d78ea502805d8430f29a1a35072b"
+    },
+    "q13b-coverage-planner-tests-v3.log": {
+      "bytes": 435,
+      "sha256": "b2aabb4c3192248d7ab0e412e27ef9d3941f2b9101d560f54cee124e3045fa08"
+    },
+    "q13b-coverage-planner-types-v1.log": {
+      "bytes": 1116,
+      "sha256": "6432ebe489ae6315f294205c14d4ea47af8852cd44f07b4429259abe06622921"
+    },
+    "q13b-coverage-planner-types-v2.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

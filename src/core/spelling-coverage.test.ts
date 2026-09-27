@@ -68,13 +68,14 @@ function fixedRoot(finals: Grapheme[], policy: "preserve-phones" | false = "pres
 
 function certificate(base: BaseSpelling): SpellingCoverageCertificate { return base.snapshot().certificates![0]; }
 
-describe("shared readings during atomic coverage commits", () => {
+describe("shared readings during coverage planning and commits", () => {
   it.each([{ after: "e", prefix: "a" }, { after: "h", prefix: "a" }, { after: "e", prefix: "aa" }, { after: "h", prefix: "aa" }])(
     "checks gz following context through $prefix → a and ee → $after", ({ after, prefix }) => {
       // h is deliberately declared as a synthetic vowel spelling: ownership alone
       // must not override the existing shared rule's separate written-letter condition.
       const f = fixture([glyph("æ", prefix), glyph("g", "g"), glyph("z", "z"), glyph("i:", "ee")],
         [glyph("i:", after), ...(prefix === "aa" ? [glyph("æ", "a")] : [])], { writtenFormConstraints: { maxConsonantLetters: 10, maxVowelLetters: 1 } });
+      const originalChoices = f.choices.map(choice => ({ ...choice }));
       expect(f.planner.apply(f.base, f.choices, "base-before-word-rules").status).toBe("respell");
       const plan = structuredClone(certificate(f.base));
       const target = f.makeBase(true);
@@ -99,6 +100,34 @@ describe("shared readings during atomic coverage commits", () => {
         expect(trace.cells[1]).toEqual(before.cells[prefix.length]);
         expect(target.constructionState().constructions[0].phoneIds).toEqual([1, 2]);
         expect(trace.cells[2].origin).toMatchObject({ kind: "licensed", unitId: 3, certificateId: 0 });
+      }
+      const candidate = f.makeBase(true);
+      candidate.setPhase("word");
+      const candidateAttempt = createSharedConstructionPlanner(englishSharedSpellings, f.config)
+        .decide(candidate.constructionState(), slot, "gz-to-x", [1, 2], () => 0);
+      candidate.recordSharedAttempt(slot, "gz-to-x", [1, 2], candidateAttempt);
+      const input = structuredClone(candidate.constructionState());
+      const snapshot = candidate.snapshot();
+      const planner = createSpellingCoveragePlanner(f.config, undefined, undefined, englishSharedSpellings);
+      const outcome = planner.apply(candidate, originalChoices.map(choice => ({ ...choice })), "base-after-word-rules");
+      if (after === "h") {
+        expect(outcome).toMatchObject({ status: "infeasible", reason: "construction-obligation" });
+        expect(candidate.snapshot()).toEqual(snapshot);
+      } else {
+        expect(outcome.status).toBe("respell");
+        expect(candidate.snapshot().surface).toBe("axe");
+        const proof = certificate(candidate);
+        expect(proof.preservedSharedConstructionIds).toEqual([0]);
+        expect(proof.replacements.some(entry => entry.unitId === 1 || entry.unitId === 2)).toBe(false);
+        const replay = { current: () => ({ ...input, normalizationCount: 0 }), constructionState: () => input };
+        planner.verify(replay, originalChoices, proof);
+        expect(() => f.planner.verify(replay, originalChoices, proof)).toThrow(/coverage certificate/);
+        const missing = { ...input, constructions: [] };
+        expect(() => planner.verify({ current: () => ({ ...missing, normalizationCount: 0 }), constructionState: () => missing }, originalChoices, proof))
+          .toThrow(/coverage certificate/);
+        const forged = structuredClone(proof);
+        forged.preservedSharedConstructionIds = [];
+        expect(() => planner.verify(replay, originalChoices, forged)).toThrow(/coverage certificate/);
       }
     });
 });
