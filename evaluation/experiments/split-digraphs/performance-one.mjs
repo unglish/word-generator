@@ -1,3 +1,4 @@
+import { canonical } from '../../quality/serialization.ts';
 import assert from 'node:assert/strict';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
@@ -41,7 +42,7 @@ async function main(root, variant, out) {
   assert.deepEqual(await treePins(join(root,'src')),before,'Performance source changed');
   await writeFile(out,JSON.stringify({variant,root,node:process.version,
     executableSha256:createHash('sha256').update(await readFile(process.execPath)).digest('hex'),
-    environment:executionEnvironment(),source:before,...result},null,2)+'\n',{flag:'wx'});
+    environment:executionEnvironment(),configuration:canonical(configuration),source:before,...result},null,2)+'\n',{flag:'wx'});
   console.log(JSON.stringify({variant,wordsPerSec:result.wordsPerSec,speedPass:result.speedPass,variancePass:result.variancePass}));
 }
 if(process.argv[1] && resolve(process.argv[1])===fileURLToPath(import.meta.url)) {
