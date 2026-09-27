@@ -1,3 +1,4 @@
+import { createSharedEventReplayer } from "./spelling-construction-replay.js";
 import { validateSharedFormationBindings } from "./spelling-construction-bindings.js";
 import { validateSharedEventOrder } from "./spelling-construction-events.js";
 import { applySpellingRules, applySilentE, repairConsonantPileups, repairConsonantLetters, repairFinalConsonantLetters, repairVowelLetters } from "./write.js";
@@ -478,6 +479,72 @@ describe("shared decision event order", () => {
     ]);
     expect(validateSharedEventOrder(trace)).toEqual({ events: 6 });
     expect(validateSharedFormationBindings(trace)).toEqual({ formations: 1 });
+  });
+
+  it("replays shared decisions against actual evolving state without mutating the input", () => {
+    const base = fixture();
+    const initial = { view: structuredClone(base.constructionState()), nextCellId: 4 };
+    const untouched = structuredClone(initial);
+    const trace = history();
+    const replay = createSharedEventReplayer(readingConfig(base), englishSharedSpellings);
+    let state = initial;
+    let applied = 0;
+    for (const event of trace.shared.events) {
+      const result = replay(trace, event, state);
+      applied += result.appliedEdits;
+      state = result;
+    }
+    expect(initial).toEqual(untouched);
+    expect(applied).toBe(trace.edits.length);
+    expect(state.view.cells).toEqual(trace.cells);
+    expect(state.view.constructions).toEqual([]);
+    expect(state.view.cursor.nextEditId).toBe(trace.edits.length);
+  });
+
+  it.each(["applied", "refused", "noop"])("replays an atomic %s batch without retaining provisional edits", status => {
+    const base = fixture(); form(base);
+    const initial = { view: structuredClone(base.constructionState()), nextCellId: 5 };
+    const before = structuredClone(initial);
+    const edits = status === "noop" ? [{ start: 0, deleteCount: 1, insert: "a", rule: "noop" }] : [
+      { start: 0, deleteCount: 1, insert: "e", rule: "prefix" },
+      { start: status === "refused" ? 1 : 2, deleteCount: status === "refused" ? 1 : 0, insert: "n", rule: "suffix" },
+    ];
+    base.editBatch(edits);
+    const trace = base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    const result = createSharedEventReplayer(readingConfig(base), englishSharedSpellings)(trace, trace.shared.events[1], initial);
+    expect(initial).toEqual(before);
+    expect(result.view.cells).toEqual(trace.cells);
+    expect(result.appliedEdits).toBe(status === "applied" ? 2 : 0);
+    expect(result.nextCellId).toBe(status === "applied" ? 7 : 5);
+  });
+
+  it("uses the supplied rule configuration instead of trusting archived support", () => {
+    const base = fixture(); const trace = history();
+    const rules = structuredClone(englishSharedSpellings);
+    rules.find(rule => rule.id === "ks-to-x")!.probability = 10;
+    const replay = createSharedEventReplayer(readingConfig(base), rules);
+    let state = { view: structuredClone(base.constructionState()), nextCellId: 4 };
+    expect(() => {
+      for (const event of trace.shared.events) state = replay(trace, event, state);
+    }).toThrow();
+  });
+
+  it.each(["roll", "guard", "batch", "gap", "allocation"])("rejects semantic %s corruption during replay", corruption => {
+    const base = fixture(); const trace = history();
+    let state = { view: structuredClone(base.constructionState()), nextCellId: corruption === "allocation" ? 99 : 4 };
+    if (corruption === "roll") {
+      const attempt = trace.shared.attempts[1].attempt;
+      if (attempt.result.status !== "evaluated" || attempt.result.trial.status !== "formed") throw new Error("Expected formation");
+      attempt.result.trial.roll = 0.9;
+    }
+    if (corruption === "guard") trace.shared.editGuards[0].decision = { status: "allowed" };
+    if (corruption === "batch") trace.shared.transactions[0].status = "applied";
+    if (corruption === "gap") trace.shared.supersessions[0].constructionIds = [];
+    const replay = createSharedEventReplayer(readingConfig(base), englishSharedSpellings);
+    expect(() => {
+      for (const event of trace.shared.events) state = replay(trace, event, state);
+    }).toThrow();
   });
 
   it.each(["missing", "duplicate", "cursor", "index", "backwards", "unreferenced", "kind"])("rejects %s event ordering corruption", corruption => {
