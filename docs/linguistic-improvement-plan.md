@@ -39,7 +39,7 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q11b | Preserve cluster legality through morphological alternations | Transformation-specific collision rates and trace ownership; retain licensed boundary repetition | Existing /sk/→/ss/ after `ity` softening identified by Q11; separate from root extensions |
 | Q12a | Licensed positive-weight grapheme selection | Zero-weight and forbidden-choice rates, including singleton candidates; fallback counts | [Draft PR #310](https://github.com/unglish/word-generator/pull/310); zero-weight choices removed in 200,000-word capture, `ex` gate failure disclosed |
 | Q12b | Restore ordinary /ɛ/→e before /t/ | Conditioned /ɛt/ spellings and traced contribution to exceptional ea patterns | [Draft PR #312](https://github.com/unglish/word-generator/pull/312); restored e in all 2,632 eligible candidate pairs, while exposing 13 consonantal-y magic-e errors; weights unchanged |
-| Q12c | Preserve phonemic readings through configured doubling | Sound-specific doubled-form support; distinguish sampled doubling from adjacent letters belonging to different phones | Registered on `codex/phoneme-aware-doubling`, based on exact #335. Full 200,000-word archived control audit finds 220 sampled `/s/: c→ck`, 1,458 `/z/: s→ss`, and four `/ʃ/: s→ss` events. The latter two are ordinary-policy unsupported, not universally impossible English. Structured sound/form/result rules and repair-reading propagation are preregistered; runtime and candidate measurement remain outstanding |
+| Q12c | Preserve phonemic readings through configured doubling | Sound-specific doubled-form support; distinguish sampled doubling from adjacent letters belonging to different phones | Registered on `codex/phoneme-aware-doubling`, based on exact #335. Full 200,000-word archived control audit finds 220 sampled `/s/: c→ck`, 1,458 `/z/: s→ss`, and four `/ʃ/: s→ss` events. The latter two are ordinary-policy unsupported, not universally impossible English. Structured sound/form/result rules and repair-reading propagation are implemented at `91fd20a`; 184 targeted tests pass. Formal legacy parity, independent observer/recount, corpus comparison and paired timing remain outstanding |
 | Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | [Draft PR #328](https://github.com/unglish/word-generator/pull/328), against the exact Q02a + Q12a + Q06 dependency control; cap-partial `th` 126→0 and cap-attributed units with no surviving lineage 1,700→0 in 200,000 words; 1,517 certificates replayed; longer clusters, quality failures and a material performance regression retained |
 | Q13 performance | Reuse full spelling context during budget measurement | Exact word/trace/RNG/certificate parity; fixed paired timing against #328 | [PR #331](https://github.com/unglish/word-generator/pull/331); 800,000 core and 84,800 supplementary API calls preserve behavior; six fixed pairs show 6.4% median paired local throughput gain and 0/6→6/6 speed-floor passes; inherited quality failures remain |
 | Q13b | Aligned spelling of multiple phonemes by one grapheme | Explicit ownership and pronunciation preservation for /ks, gz/→x and similar units | Q13; Q12a exposes reliance on illegal /z/→ze choices for the current `gz-to-x` string repair |
@@ -539,3 +539,27 @@ planners, legacy custom-policy parity, legal-expansion coverage, full corpus
 side effects and six paired fresh-process timing comparisons. Candidate source,
 formal observer and independent recount must be reviewed and frozen before the
 new 200,000-word capture. Runtime implementation and a measured PR remain open.
+
+Q12c candidate implementation is committed at `91fd20a93d8b91c1fd3f2477ea66d83d1f8f3a4c`.
+The model binds expansions and direct-form quota classification to sound plus
+spelling; both repair planners propagate the resulting reading through search,
+certificates and verification. English declares fourteen ordinary relations.
+Custom configurations can explicitly retain legacy behavior, including equal-text
+overrides; archived-coordinate fixtures keep their original expectations with
+that opt-out. The focused simplification pass replaces serialized lookup keys
+with nested native maps. All 184 targeted fixtures pass, including forged
+certificate rejection; strict TypeScript and targeted lint pass.
+The unchanged quality suite currently reports 11/12 passing, with 65 words
+failing the five-consonant-letter gate. An initial report-write permission
+failure is preserved separately and the permitted rerun writes its report.
+These are preparation results, not the registered 200,000-word comparison or
+a human-quality claim. Formal source/tool freeze and independent measurement
+remain required before a measured PR is ready.
+
+The exact Q12c implementation revision's full-suite rerun completes with 676
+passing, one skipped and five failing tests: ex representation 0.010933807 versus
+0.0215, consonant-run counts 10 and 33 in the 100k schedules, 39 in the custom
+10k schedule, and six ck-plus-double regex matches versus a maximum of five.
+All remain failures; repeated-letter matches are not automatically evidence of
+two sampler doublings. The two legacy-coordinate failures in the first run
+are resolved by explicit legacy configuration, with expected values unchanged.
