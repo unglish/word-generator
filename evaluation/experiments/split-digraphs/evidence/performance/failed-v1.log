@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/split-digraphs/performance-series.py", line 65, in <module>
+    main(parser.parse_args())
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/split-digraphs/performance-series.py", line 44, in main
+    subprocess.run(command, cwd=root, stdout=log, stderr=subprocess.STDOUT, check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node', '--import', 'tsx', '/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/split-digraphs/performance-one.mjs', '/private/tmp/q14a-control-5f9b3eb-v1', 'A', '/private/tmp/q14a-performance-v1/01-A.json']' returned non-zero exit status 1.

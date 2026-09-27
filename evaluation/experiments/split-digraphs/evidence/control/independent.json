@@ -1,0 +1,389 @@
+{
+  "version": "q14a-independent-recount-v1",
+  "words": 200000,
+  "integerComparisons": 2200011,
+  "counts": {
+    "words": 200000,
+    "phones": 1011384,
+    "rootNuclei": 341288,
+    "unresolvedCells": 57428,
+    "finalRoot:not-target": 275801,
+    "finalRoot:unavailable": 20205,
+    "finalRoot:unresolved": 29835,
+    "finalRoot:satisfied": 15447,
+    "finalRoot:satisfied:split": 0,
+    "finalRoot:satisfied:open": 15447,
+    "formationEligibilityUnavailableWords": 200000
+  },
+  "streams": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 48732,
+        "rootNuclei": 19743,
+        "unresolvedCells": 3195,
+        "finalRoot:not-target": 15596,
+        "finalRoot:unavailable": 1217,
+        "finalRoot:unresolved": 1702,
+        "finalRoot:satisfied": 1228,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 1228,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 48685,
+        "rootNuclei": 19655,
+        "unresolvedCells": 3061,
+        "finalRoot:not-target": 15645,
+        "finalRoot:unavailable": 1146,
+        "finalRoot:unresolved": 1668,
+        "finalRoot:satisfied": 1196,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 1196,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 48647,
+        "rootNuclei": 19730,
+        "unresolvedCells": 3114,
+        "finalRoot:not-target": 15767,
+        "finalRoot:unavailable": 1162,
+        "finalRoot:unresolved": 1622,
+        "finalRoot:satisfied": 1179,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 1179,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 48503,
+        "rootNuclei": 19672,
+        "unresolvedCells": 3247,
+        "finalRoot:not-target": 15549,
+        "finalRoot:unavailable": 1241,
+        "finalRoot:unresolved": 1647,
+        "finalRoot:satisfied": 1235,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 1235,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 47761,
+        "rootNuclei": 19334,
+        "unresolvedCells": 3037,
+        "finalRoot:not-target": 15322,
+        "finalRoot:unavailable": 1153,
+        "finalRoot:unresolved": 1606,
+        "finalRoot:satisfied": 1253,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 1253,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 63595,
+        "rootNuclei": 24532,
+        "unresolvedCells": 3934,
+        "finalRoot:not-target": 19654,
+        "finalRoot:unavailable": 1390,
+        "finalRoot:unresolved": 2160,
+        "finalRoot:satisfied": 1328,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 1328,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 63062,
+        "rootNuclei": 24434,
+        "unresolvedCells": 4127,
+        "finalRoot:not-target": 19399,
+        "finalRoot:unavailable": 1461,
+        "finalRoot:unresolved": 2275,
+        "finalRoot:satisfied": 1299,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 1299,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 63355,
+        "rootNuclei": 24472,
+        "unresolvedCells": 4122,
+        "finalRoot:not-target": 19493,
+        "finalRoot:unavailable": 1457,
+        "finalRoot:unresolved": 2181,
+        "finalRoot:satisfied": 1341,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 1341,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 63733,
+        "rootNuclei": 24646,
+        "unresolvedCells": 4023,
+        "finalRoot:not-target": 19651,
+        "finalRoot:unavailable": 1412,
+        "finalRoot:unresolved": 2204,
+        "finalRoot:satisfied": 1379,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 1379,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 63338,
+        "rootNuclei": 24542,
+        "unresolvedCells": 4117,
+        "finalRoot:not-target": 19532,
+        "finalRoot:unavailable": 1440,
+        "finalRoot:unresolved": 2187,
+        "finalRoot:satisfied": 1383,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 1383,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 53047,
+        "rootNuclei": 10000,
+        "unresolvedCells": 1649,
+        "finalRoot:not-target": 8571,
+        "finalRoot:unavailable": 463,
+        "finalRoot:unresolved": 956,
+        "finalRoot:satisfied": 10,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 10,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 52819,
+        "rootNuclei": 10000,
+        "unresolvedCells": 1675,
+        "finalRoot:not-target": 8585,
+        "finalRoot:unavailable": 449,
+        "finalRoot:unresolved": 961,
+        "finalRoot:satisfied": 5,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 5,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 52698,
+        "rootNuclei": 10000,
+        "unresolvedCells": 1667,
+        "finalRoot:not-target": 8599,
+        "finalRoot:unavailable": 453,
+        "finalRoot:unresolved": 940,
+        "finalRoot:satisfied": 8,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 8,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 52839,
+        "rootNuclei": 10000,
+        "unresolvedCells": 1609,
+        "finalRoot:not-target": 8601,
+        "finalRoot:unavailable": 428,
+        "finalRoot:unresolved": 964,
+        "finalRoot:satisfied": 7,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 7,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 52799,
+        "rootNuclei": 10000,
+        "unresolvedCells": 1612,
+        "finalRoot:not-target": 8598,
+        "finalRoot:unavailable": 425,
+        "finalRoot:unresolved": 964,
+        "finalRoot:satisfied": 13,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 13,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 37508,
+        "rootNuclei": 14023,
+        "unresolvedCells": 2685,
+        "finalRoot:not-target": 11367,
+        "finalRoot:unavailable": 965,
+        "finalRoot:unresolved": 1186,
+        "finalRoot:satisfied": 505,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 505,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 37574,
+        "rootNuclei": 14100,
+        "unresolvedCells": 2534,
+        "finalRoot:not-target": 11496,
+        "finalRoot:unavailable": 929,
+        "finalRoot:unresolved": 1127,
+        "finalRoot:satisfied": 548,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 548,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 37548,
+        "rootNuclei": 14103,
+        "unresolvedCells": 2680,
+        "finalRoot:not-target": 11390,
+        "finalRoot:unavailable": 1007,
+        "finalRoot:unresolved": 1175,
+        "finalRoot:satisfied": 531,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 531,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 37572,
+        "rootNuclei": 14072,
+        "unresolvedCells": 2642,
+        "finalRoot:not-target": 11443,
+        "finalRoot:unavailable": 982,
+        "finalRoot:unresolved": 1162,
+        "finalRoot:satisfied": 485,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 485,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "words": 10000,
+      "counts": {
+        "words": 10000,
+        "phones": 37569,
+        "rootNuclei": 14230,
+        "unresolvedCells": 2698,
+        "finalRoot:not-target": 11543,
+        "finalRoot:unavailable": 1025,
+        "finalRoot:unresolved": 1148,
+        "finalRoot:satisfied": 514,
+        "finalRoot:satisfied:split": 0,
+        "finalRoot:satisfied:open": 514,
+        "formationEligibilityUnavailableWords": 10000
+      }
+    }
+  ],
+  "manifestSha256": "8fa4c8216beedf0d2803f18c2864ddbde1ea805af866071fac1c30ab34b1f876",
+  "analysisSealSha256": "5b8776cc4f0c875a5a63a6eaa8e74bd2bd56fb886104251cb5db41616f201204",
+  "tools": {
+    "recount_structure.py": "59f8378ec6f2d2c590306484d6e5b487ad780c4c732933a3ac78fb62fce132f3",
+    "recount_completion.py": "019ccacf5d6a90242791a7b45f42f8e37df1dbaa178cf5cf1694cf4c0b3c1bb6",
+    "recount_archive.py": "d0fac5894d68932ba6afff25f94ee508828d0f0c69093af6653657c343b27356",
+    "recount_root.py": "a6819f885b5c5f8415de2b660701ebb938e6317fec5e75bdbeff7a1d34932afd"
+  },
+  "scope": "Independent count, arithmetic, structure and final-root checks; production verifier authenticates eligibility and prior semantic licenses."
+}

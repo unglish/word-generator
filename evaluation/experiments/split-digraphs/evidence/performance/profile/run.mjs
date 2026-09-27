@@ -1,0 +1,15 @@
+import { Session } from 'node:inspector';
+import { writeFileSync, readFileSync } from 'node:fs';
+import { createGenerator, englishConfig, createSeededRng } from '/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/index.ts';
+const root='/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator';
+const measurement=JSON.parse(readFileSync(root+'/evaluation/experiments/split-digraphs/measurement.json','utf8'));
+const generator=createGenerator({...englishConfig,splitVowels:measurement.splitVowels});
+for(let i=0;i<100;i++)generator.generateWord({seed:i});
+const session=new Session();session.connect();
+const post=(method)=>new Promise((resolve,reject)=>session.post(method,(e,r)=>e?reject(e):resolve(r)));
+await post('Profiler.enable');await post('Profiler.start');
+const rand=createSeededRng(42);
+for(let i=0;i<5000;i++)generator.generateWord({rand});
+const {profile}=await post('Profiler.stop');session.disconnect();
+writeFileSync('/private/tmp/q14a-cpu-profile-v1/candidate.cpuprofile',JSON.stringify(profile));
+console.log('Profiled 5000 untraced candidate words after 100 warmups; diagnostic only, concurrent verifier active.');

@@ -1,0 +1,14 @@
+{
+  "manifestSha256": "7593ad8e8e77e7428c3d07c00f6166fe09ff06c8533741eb1e1d6f1259e3735c",
+  "scriptSha256": "48828f67f448a0f58359c4a40c407642149b9eb25a7ea5a068b340dcad59dda5",
+  "artifacts": [
+    {
+      "file": "report.json",
+      "sha256": "da51d7c6e970d0c6ce92d287397a825db8e5f2fcf9bb96ef9013a3f82ced5387"
+    },
+    {
+      "file": "witnesses.jsonl.gz",
+      "sha256": "943c6ee07e5d8766a5a3651c92c15084a15f551d153bb974342337fc71c2de3c"
+    }
+  ]
+}

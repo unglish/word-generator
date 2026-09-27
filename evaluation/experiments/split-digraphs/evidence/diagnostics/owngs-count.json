@@ -1,0 +1,1827 @@
+{
+  "scope": "Post-capture exploratory count. Co-occurrence of ow completion and owngs is not proof that every matching substring was created by that edit. Complete archive trace remains authority; not a replacement for structural replay.",
+  "manifestSha256": "7593ad8e8e77e7428c3d07c00f6166fe09ff06c8533741eb1e1d6f1259e3735c",
+  "counts": {
+    "words": 200000,
+    "owngs": 138,
+    "owngs_with_ow_completion": 138
+  },
+  "profiles": {
+    "lexicon-default": {
+      "words": 50000,
+      "owngs": 51,
+      "owngs_with_ow_completion": 51
+    },
+    "lexicon-bare": {
+      "words": 50000,
+      "owngs": 50,
+      "owngs_with_ow_completion": 50
+    },
+    "monosyllables-bare": {
+      "words": 50000,
+      "owngs": 13,
+      "owngs_with_ow_completion": 13
+    },
+    "text-default": {
+      "words": 50000,
+      "owngs": 24,
+      "owngs_with_ow_completion": 24
+    }
+  },
+  "matches": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 582,
+      "written": {
+        "clean": "erowngs",
+        "hyphenated": "erowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "erowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 2429,
+      "written": {
+        "clean": "nalitowngs",
+        "hyphenated": "nalitowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "nalitowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 3373,
+      "written": {
+        "clean": "utowngs",
+        "hyphenated": "utowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "utowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 5307,
+      "written": {
+        "clean": "unasowngs",
+        "hyphenated": "unasowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "asowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 6466,
+      "written": {
+        "clean": "rerowngs",
+        "hyphenated": "rerowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "rowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 7365,
+      "written": {
+        "clean": "unpanowngs",
+        "hyphenated": "unpanowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "panowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 7800,
+      "written": {
+        "clean": "idowngsal",
+        "hyphenated": "idowngsal"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "idowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 8809,
+      "written": {
+        "clean": "vowngses",
+        "hyphenated": "vowngses"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "vowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 9158,
+      "written": {
+        "clean": "rowngses",
+        "hyphenated": "rowngses"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "rowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 413,
+      "written": {
+        "clean": "ewsowngs",
+        "hyphenated": "ewsowngs"
+      },
+      "owCompletionCertificateIds": [
+        1
+      ],
+      "rootSurface": "ewsowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 672,
+      "written": {
+        "clean": "patowngs",
+        "hyphenated": "patowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "patowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 1384,
+      "written": {
+        "clean": "vabowngses",
+        "hyphenated": "vabowngses"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "vabowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 2775,
+      "written": {
+        "clean": "carowngs",
+        "hyphenated": "carowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "carowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 4344,
+      "written": {
+        "clean": "sonowngs",
+        "hyphenated": "sonowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "sonowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 6931,
+      "written": {
+        "clean": "owngs",
+        "hyphenated": "owngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "owngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 7453,
+      "written": {
+        "clean": "rowngs",
+        "hyphenated": "rowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "rowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 9019,
+      "written": {
+        "clean": "uvowngs",
+        "hyphenated": "uvowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "uvowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 2538,
+      "written": {
+        "clean": "imowngs",
+        "hyphenated": "imowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "imowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 3933,
+      "written": {
+        "clean": "edvowngs",
+        "hyphenated": "edvowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "edvowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 4541,
+      "written": {
+        "clean": "gadowngsal",
+        "hyphenated": "gadowngsal"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "gadowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 4623,
+      "written": {
+        "clean": "adgowngs",
+        "hyphenated": "adgowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "adgowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 4638,
+      "written": {
+        "clean": "browngs",
+        "hyphenated": "browngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "browngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 5384,
+      "written": {
+        "clean": "ulowngs",
+        "hyphenated": "ulowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "ulowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 5863,
+      "written": {
+        "clean": "sucowngs",
+        "hyphenated": "sucowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "sucowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 6769,
+      "written": {
+        "clean": "nidowngs",
+        "hyphenated": "nidowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "nidowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 7055,
+      "written": {
+        "clean": "azeogibowngs",
+        "hyphenated": "azeogibowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "azeogibowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 7421,
+      "written": {
+        "clean": "gimowngs",
+        "hyphenated": "gimowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "gimowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 8224,
+      "written": {
+        "clean": "fenifowngs",
+        "hyphenated": "fenifowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "fenifowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 8513,
+      "written": {
+        "clean": "fapowngs",
+        "hyphenated": "fapowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "fapowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 9474,
+      "written": {
+        "clean": "reasowngs",
+        "hyphenated": "reasowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "asowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 547,
+      "written": {
+        "clean": "atowngs",
+        "hyphenated": "atowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "atowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 922,
+      "written": {
+        "clean": "balowngs",
+        "hyphenated": "balowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "balowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 972,
+      "written": {
+        "clean": "mutowngs",
+        "hyphenated": "mutowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "mutowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 2093,
+      "written": {
+        "clean": "arowngs",
+        "hyphenated": "arowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "arowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 2125,
+      "written": {
+        "clean": "ilowngs",
+        "hyphenated": "ilowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "ilowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 3195,
+      "written": {
+        "clean": "elowngs",
+        "hyphenated": "elowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "elowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 3708,
+      "written": {
+        "clean": "vacowngs",
+        "hyphenated": "vacowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "vacowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 4864,
+      "written": {
+        "clean": "ietowngs",
+        "hyphenated": "ietowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "ietowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 5211,
+      "written": {
+        "clean": "inatowngs",
+        "hyphenated": "inatowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "atowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 5416,
+      "written": {
+        "clean": "mulowngs",
+        "hyphenated": "mulowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "mulowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 7572,
+      "written": {
+        "clean": "andilowngs",
+        "hyphenated": "andilowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "andilowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 8921,
+      "written": {
+        "clean": "hicodowngs",
+        "hyphenated": "hicodowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "hicodowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 214,
+      "written": {
+        "clean": "indopowngs",
+        "hyphenated": "indopowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "dopowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 1633,
+      "written": {
+        "clean": "owngsial",
+        "hyphenated": "owngsial"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "owngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 2296,
+      "written": {
+        "clean": "edowngs",
+        "hyphenated": "edowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "edowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 2777,
+      "written": {
+        "clean": "indapelipowngs",
+        "hyphenated": "indapelipowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "dapelipowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 2826,
+      "written": {
+        "clean": "busnorcitlinowngs",
+        "hyphenated": "busnorcitlinowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "busnorcitlinowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 2890,
+      "written": {
+        "clean": "omanowngs",
+        "hyphenated": "omanowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "omanowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 3219,
+      "written": {
+        "clean": "watowngs",
+        "hyphenated": "watowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "watowngs"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 6706,
+      "written": {
+        "clean": "havowngs",
+        "hyphenated": "havowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "havowng"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 8832,
+      "written": {
+        "clean": "arowngsly",
+        "hyphenated": "arowngsly"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "arowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 173,
+      "written": {
+        "clean": "otowngs",
+        "hyphenated": "o&shy;towngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "otowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 1961,
+      "written": {
+        "clean": "mikimowngs",
+        "hyphenated": "mi&shy;ki&shy;mowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "mikimowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 3368,
+      "written": {
+        "clean": "poptowngs",
+        "hyphenated": "pop&shy;towngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "poptowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 3753,
+      "written": {
+        "clean": "odowngs",
+        "hyphenated": "o&shy;downgs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "odowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 3769,
+      "written": {
+        "clean": "maplowngs",
+        "hyphenated": "map&shy;lowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "maplowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 6924,
+      "written": {
+        "clean": "namsowngs",
+        "hyphenated": "nam&shy;sowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "namsowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 7229,
+      "written": {
+        "clean": "yacowngs",
+        "hyphenated": "ya&shy;cowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "yacowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 7331,
+      "written": {
+        "clean": "icowngs",
+        "hyphenated": "i&shy;cowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "icowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 7379,
+      "written": {
+        "clean": "humowngs",
+        "hyphenated": "hu&shy;mowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "humowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 7917,
+      "written": {
+        "clean": "afowngs",
+        "hyphenated": "a&shy;fowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "afowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 8271,
+      "written": {
+        "clean": "inowngs",
+        "hyphenated": "in&shy;owngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "inowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 8361,
+      "written": {
+        "clean": "vohowngs",
+        "hyphenated": "vo&shy;howngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "vohowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 9211,
+      "written": {
+        "clean": "avinadowngs",
+        "hyphenated": "a&shy;vin&shy;a&shy;downgs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "avinadowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 9448,
+      "written": {
+        "clean": "eressenowngs",
+        "hyphenated": "e&shy;re&shy;sse&shy;nowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "eressenowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 302,
+      "written": {
+        "clean": "wafrijowngs",
+        "hyphenated": "waf&shy;ri&shy;jowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "wafrijowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 1090,
+      "written": {
+        "clean": "anatasenowngs",
+        "hyphenated": "a&shy;na&shy;ta&shy;se&shy;nowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "anatasenowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 2212,
+      "written": {
+        "clean": "cuhowngs",
+        "hyphenated": "cu&shy;howngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "cuhowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 3792,
+      "written": {
+        "clean": "ichodowngs",
+        "hyphenated": "i&shy;cho&shy;downgs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "ichodowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 4239,
+      "written": {
+        "clean": "icowngs",
+        "hyphenated": "i&shy;cowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "icowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 4246,
+      "written": {
+        "clean": "arowngs",
+        "hyphenated": "a&shy;rowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "arowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 4475,
+      "written": {
+        "clean": "begrowngs",
+        "hyphenated": "beg&shy;rowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "begrowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 4688,
+      "written": {
+        "clean": "arowngs",
+        "hyphenated": "a&shy;rowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "arowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 5444,
+      "written": {
+        "clean": "icowngs",
+        "hyphenated": "i&shy;cowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "icowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 8731,
+      "written": {
+        "clean": "ihowngs",
+        "hyphenated": "i&shy;howngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "ihowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 9716,
+      "written": {
+        "clean": "umvowngs",
+        "hyphenated": "um&shy;vowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "umvowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 9953,
+      "written": {
+        "clean": "itowngs",
+        "hyphenated": "i&shy;towngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "itowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 3168,
+      "written": {
+        "clean": "gashefowngs",
+        "hyphenated": "gas&shy;he&shy;fowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "gashefowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 4165,
+      "written": {
+        "clean": "arowngs",
+        "hyphenated": "a&shy;rowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "arowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 5572,
+      "written": {
+        "clean": "bowngs",
+        "hyphenated": "bowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "bowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 5976,
+      "written": {
+        "clean": "aniegowngs",
+        "hyphenated": "a&shy;nieg&shy;owngs"
+      },
+      "owCompletionCertificateIds": [
+        1
+      ],
+      "rootSurface": "aniegowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 6323,
+      "written": {
+        "clean": "sneptsowngss",
+        "hyphenated": "snept&shy;sowngss"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "sneptsowngss"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 6355,
+      "written": {
+        "clean": "ecowngs",
+        "hyphenated": "e&shy;cowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "ecowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 7490,
+      "written": {
+        "clean": "hendicowngs",
+        "hyphenated": "hen&shy;di&shy;cowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "hendicowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 954,
+      "written": {
+        "clean": "atowngs",
+        "hyphenated": "a&shy;towngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "atowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 1455,
+      "written": {
+        "clean": "bivowngs",
+        "hyphenated": "bi&shy;vowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "bivowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 4728,
+      "written": {
+        "clean": "asowngs",
+        "hyphenated": "as&shy;owngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "asowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 5513,
+      "written": {
+        "clean": "sutowngs",
+        "hyphenated": "su&shy;towngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "sutowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 6208,
+      "written": {
+        "clean": "gatowngs",
+        "hyphenated": "ga&shy;towngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "gatowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 7225,
+      "written": {
+        "clean": "rowngs",
+        "hyphenated": "rowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "rowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 7628,
+      "written": {
+        "clean": "ottegowngs",
+        "hyphenated": "o&shy;tte&shy;gowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "ottegowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 9687,
+      "written": {
+        "clean": "datowngs",
+        "hyphenated": "da&shy;towngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "datowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 9974,
+      "written": {
+        "clean": "olowngs",
+        "hyphenated": "o&shy;lowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "olowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 130,
+      "written": {
+        "clean": "begacowngs",
+        "hyphenated": "be&shy;ga&shy;cowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "begacowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 205,
+      "written": {
+        "clean": "britowngs",
+        "hyphenated": "bri&shy;towngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "britowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 897,
+      "written": {
+        "clean": "vudowngs",
+        "hyphenated": "vu&shy;downgs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "vudowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 1031,
+      "written": {
+        "clean": "tandowngs",
+        "hyphenated": "tan&shy;downgs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "tandowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 1808,
+      "written": {
+        "clean": "edrowngs",
+        "hyphenated": "e&shy;drowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "edrowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 4244,
+      "written": {
+        "clean": "ututenowngs",
+        "hyphenated": "u&shy;tu&shy;te&shy;nowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "ututenowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 4957,
+      "written": {
+        "clean": "culowngs",
+        "hyphenated": "cu&shy;lowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "culowngs"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 9457,
+      "written": {
+        "clean": "cagrirowngs",
+        "hyphenated": "cag&shy;ri&shy;rowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "cagrirowngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 1212,
+      "written": {
+        "clean": "scrowngs",
+        "hyphenated": "scrowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "scrowngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 2772,
+      "written": {
+        "clean": "lowngss",
+        "hyphenated": "lowngss"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "lowngss"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 4950,
+      "written": {
+        "clean": "smowngs",
+        "hyphenated": "smowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "smowngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 5364,
+      "written": {
+        "clean": "lowngs",
+        "hyphenated": "lowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "lowngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 7438,
+      "written": {
+        "clean": "sprowngs",
+        "hyphenated": "sprowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "sprowngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "drawIndex": 3809,
+      "written": {
+        "clean": "strowngs",
+        "hyphenated": "strowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "strowngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "drawIndex": 3836,
+      "written": {
+        "clean": "slowngs",
+        "hyphenated": "slowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "slowngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "drawIndex": 7773,
+      "written": {
+        "clean": "frowngs",
+        "hyphenated": "frowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "frowngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "drawIndex": 8051,
+      "written": {
+        "clean": "owngs",
+        "hyphenated": "owngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "owngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "drawIndex": 2798,
+      "written": {
+        "clean": "squowngs",
+        "hyphenated": "squowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "squowngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "drawIndex": 3653,
+      "written": {
+        "clean": "owngs",
+        "hyphenated": "owngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "owngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "drawIndex": 4354,
+      "written": {
+        "clean": "sowngs",
+        "hyphenated": "sowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "sowngs"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "drawIndex": 8341,
+      "written": {
+        "clean": "howngs",
+        "hyphenated": "howngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "howngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 777,
+      "written": {
+        "clean": "mowngs",
+        "hyphenated": "mowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "mowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 2118,
+      "written": {
+        "clean": "garowngs",
+        "hyphenated": "garowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "garowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 2584,
+      "written": {
+        "clean": "howngs",
+        "hyphenated": "howngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "howngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 6906,
+      "written": {
+        "clean": "papowngs",
+        "hyphenated": "papowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "papowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 9160,
+      "written": {
+        "clean": "wilicowngs",
+        "hyphenated": "wilicowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "wilicowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "drawIndex": 4158,
+      "written": {
+        "clean": "sowngsal",
+        "hyphenated": "sowngsal"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "sowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "drawIndex": 4233,
+      "written": {
+        "clean": "dogacowngs",
+        "hyphenated": "dogacowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "dogacowng"
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "drawIndex": 7564,
+      "written": {
+        "clean": "sowngs",
+        "hyphenated": "sowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "sowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "drawIndex": 9097,
+      "written": {
+        "clean": "howngs",
+        "hyphenated": "howngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "howngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "drawIndex": 9185,
+      "written": {
+        "clean": "errepowngs",
+        "hyphenated": "errepowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "errepowng"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 4227,
+      "written": {
+        "clean": "owngss",
+        "hyphenated": "owngss"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "owngss"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 5564,
+      "written": {
+        "clean": "cesramowngs",
+        "hyphenated": "cesramowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "cesramowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 5719,
+      "written": {
+        "clean": "usowngs",
+        "hyphenated": "usowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "usowng"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 7341,
+      "written": {
+        "clean": "owngs",
+        "hyphenated": "owngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "owngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 8108,
+      "written": {
+        "clean": "akipzowngs",
+        "hyphenated": "akipzowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "akipzowng"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 9030,
+      "written": {
+        "clean": "lowngs",
+        "hyphenated": "lowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "lowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 370,
+      "written": {
+        "clean": "urowngs",
+        "hyphenated": "urowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "urowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 743,
+      "written": {
+        "clean": "sazowngs",
+        "hyphenated": "sazowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "sazowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 870,
+      "written": {
+        "clean": "icorishowngs",
+        "hyphenated": "icorishowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "icorishowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 2307,
+      "written": {
+        "clean": "owngs",
+        "hyphenated": "owngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "owngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 2553,
+      "written": {
+        "clean": "towngs",
+        "hyphenated": "towngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "towng"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 3960,
+      "written": {
+        "clean": "mowngs",
+        "hyphenated": "mowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "mowngs"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 4329,
+      "written": {
+        "clean": "mowngs",
+        "hyphenated": "mowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "mowng"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 7802,
+      "written": {
+        "clean": "nedarowngs",
+        "hyphenated": "nedarowngs"
+      },
+      "owCompletionCertificateIds": [
+        0
+      ],
+      "rootSurface": "nedarowngs"
+    }
+  ]
+}

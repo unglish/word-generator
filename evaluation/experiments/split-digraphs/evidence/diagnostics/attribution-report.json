@@ -1,0 +1,2632 @@
+{
+  "scope": "Root-cell attribution only. Final-word ownership is not certified; complete matching witnesses retained.",
+  "counts": {
+    "rowsScanned": 200000,
+    "matchingWords": 138,
+    "wordsWithRootOwngBoundToCompletion": 138
+  },
+  "records": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 582,
+      "surface": "erowngs",
+      "rootSurface": "erowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 2429,
+      "surface": "nalitowngs",
+      "rootSurface": "nalitowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 3373,
+      "surface": "utowngs",
+      "rootSurface": "utowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 5307,
+      "surface": "unasowngs",
+      "rootSurface": "asowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 6466,
+      "surface": "rerowngs",
+      "rootSurface": "rowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 7365,
+      "surface": "unpanowngs",
+      "rootSurface": "panowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 7800,
+      "surface": "idowngsal",
+      "rootSurface": "idowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 8809,
+      "surface": "vowngses",
+      "rootSurface": "vowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 9158,
+      "surface": "rowngses",
+      "rootSurface": "rowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 413,
+      "surface": "ewsowngs",
+      "rootSurface": "ewsowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 1,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 672,
+      "surface": "patowngs",
+      "rootSurface": "patowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 1384,
+      "surface": "vabowngses",
+      "rootSurface": "vabowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 2775,
+      "surface": "carowngs",
+      "rootSurface": "carowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 4344,
+      "surface": "sonowngs",
+      "rootSurface": "sonowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 6931,
+      "surface": "owngs",
+      "rootSurface": "owngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 0,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 7453,
+      "surface": "rowngs",
+      "rootSurface": "rowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "drawIndex": 9019,
+      "surface": "uvowngs",
+      "rootSurface": "uvowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 2538,
+      "surface": "imowngs",
+      "rootSurface": "imowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 3933,
+      "surface": "edvowngs",
+      "rootSurface": "edvowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 4541,
+      "surface": "gadowngsal",
+      "rootSurface": "gadowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 4623,
+      "surface": "adgowngs",
+      "rootSurface": "adgowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 4638,
+      "surface": "browngs",
+      "rootSurface": "browngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 5384,
+      "surface": "ulowngs",
+      "rootSurface": "ulowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 5863,
+      "surface": "sucowngs",
+      "rootSurface": "sucowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 6769,
+      "surface": "nidowngs",
+      "rootSurface": "nidowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 7055,
+      "surface": "azeogibowngs",
+      "rootSurface": "azeogibowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 7,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 7421,
+      "surface": "gimowngs",
+      "rootSurface": "gimowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 8224,
+      "surface": "fenifowngs",
+      "rootSurface": "fenifowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 8513,
+      "surface": "fapowngs",
+      "rootSurface": "fapowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 9474,
+      "surface": "reasowngs",
+      "rootSurface": "asowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 547,
+      "surface": "atowngs",
+      "rootSurface": "atowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 922,
+      "surface": "balowngs",
+      "rootSurface": "balowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 972,
+      "surface": "mutowngs",
+      "rootSurface": "mutowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 2093,
+      "surface": "arowngs",
+      "rootSurface": "arowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 2125,
+      "surface": "ilowngs",
+      "rootSurface": "ilowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 3195,
+      "surface": "elowngs",
+      "rootSurface": "elowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 3708,
+      "surface": "vacowngs",
+      "rootSurface": "vacowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 4864,
+      "surface": "ietowngs",
+      "rootSurface": "ietowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 5211,
+      "surface": "inatowngs",
+      "rootSurface": "atowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 5416,
+      "surface": "mulowngs",
+      "rootSurface": "mulowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 7572,
+      "surface": "andilowngs",
+      "rootSurface": "andilowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 8921,
+      "surface": "hicodowngs",
+      "rootSurface": "hicodowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 214,
+      "surface": "indopowngs",
+      "rootSurface": "dopowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 1633,
+      "surface": "owngsial",
+      "rootSurface": "owngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 0,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 2296,
+      "surface": "edowngs",
+      "rootSurface": "edowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 2777,
+      "surface": "indapelipowngs",
+      "rootSurface": "dapelipowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 7,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 2826,
+      "surface": "busnorcitlinowngs",
+      "rootSurface": "busnorcitlinowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 12,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            16,
+            17
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 2890,
+      "surface": "omanowngs",
+      "rootSurface": "omanowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 4,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 3219,
+      "surface": "watowngs",
+      "rootSurface": "watowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 6706,
+      "surface": "havowngs",
+      "rootSurface": "havowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 8832,
+      "surface": "arowngsly",
+      "rootSurface": "arowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 173,
+      "surface": "otowngs",
+      "rootSurface": "otowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 1961,
+      "surface": "mikimowngs",
+      "rootSurface": "mikimowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 3368,
+      "surface": "poptowngs",
+      "rootSurface": "poptowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 4,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 3753,
+      "surface": "odowngs",
+      "rootSurface": "odowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 3769,
+      "surface": "maplowngs",
+      "rootSurface": "maplowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 4,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 6924,
+      "surface": "namsowngs",
+      "rootSurface": "namsowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 4,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 7229,
+      "surface": "yacowngs",
+      "rootSurface": "yacowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 7331,
+      "surface": "icowngs",
+      "rootSurface": "icowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 7379,
+      "surface": "humowngs",
+      "rootSurface": "humowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 7917,
+      "surface": "afowngs",
+      "rootSurface": "afowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 8271,
+      "surface": "inowngs",
+      "rootSurface": "inowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 8361,
+      "surface": "vohowngs",
+      "rootSurface": "vohowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 9211,
+      "surface": "avinadowngs",
+      "rootSurface": "avinadowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 6,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 9448,
+      "surface": "eressenowngs",
+      "rootSurface": "eressenowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 7,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 302,
+      "surface": "wafrijowngs",
+      "rootSurface": "wafrijowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 6,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 1090,
+      "surface": "anatasenowngs",
+      "rootSurface": "anatasenowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 8,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            12,
+            13
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 2212,
+      "surface": "cuhowngs",
+      "rootSurface": "cuhowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 3792,
+      "surface": "ichodowngs",
+      "rootSurface": "ichodowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 4239,
+      "surface": "icowngs",
+      "rootSurface": "icowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 4246,
+      "surface": "arowngs",
+      "rootSurface": "arowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 4475,
+      "surface": "begrowngs",
+      "rootSurface": "begrowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 4,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 4688,
+      "surface": "arowngs",
+      "rootSurface": "arowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 5444,
+      "surface": "icowngs",
+      "rootSurface": "icowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 8731,
+      "surface": "ihowngs",
+      "rootSurface": "ihowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 9716,
+      "surface": "umvowngs",
+      "rootSurface": "umvowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "drawIndex": 9953,
+      "surface": "itowngs",
+      "rootSurface": "itowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 3168,
+      "surface": "gashefowngs",
+      "rootSurface": "gashefowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 6,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 4165,
+      "surface": "arowngs",
+      "rootSurface": "arowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 5572,
+      "surface": "bowngs",
+      "rootSurface": "bowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 5976,
+      "surface": "aniegowngs",
+      "rootSurface": "aniegowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 1,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 6323,
+      "surface": "sneptsowngss",
+      "rootSurface": "sneptsowngss",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 6,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 6355,
+      "surface": "ecowngs",
+      "rootSurface": "ecowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 7490,
+      "surface": "hendicowngs",
+      "rootSurface": "hendicowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 6,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 954,
+      "surface": "atowngs",
+      "rootSurface": "atowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 1455,
+      "surface": "bivowngs",
+      "rootSurface": "bivowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 4728,
+      "surface": "asowngs",
+      "rootSurface": "asowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 5513,
+      "surface": "sutowngs",
+      "rootSurface": "sutowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 6208,
+      "surface": "gatowngs",
+      "rootSurface": "gatowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 7225,
+      "surface": "rowngs",
+      "rootSurface": "rowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 7628,
+      "surface": "ottegowngs",
+      "rootSurface": "ottegowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 9687,
+      "surface": "datowngs",
+      "rootSurface": "datowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "drawIndex": 9974,
+      "surface": "olowngs",
+      "rootSurface": "olowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 130,
+      "surface": "begacowngs",
+      "rootSurface": "begacowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 205,
+      "surface": "britowngs",
+      "rootSurface": "britowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 4,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 897,
+      "surface": "vudowngs",
+      "rootSurface": "vudowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 1031,
+      "surface": "tandowngs",
+      "rootSurface": "tandowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 4,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 1808,
+      "surface": "edrowngs",
+      "rootSurface": "edrowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 4244,
+      "surface": "ututenowngs",
+      "rootSurface": "ututenowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 6,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 4957,
+      "surface": "culowngs",
+      "rootSurface": "culowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "drawIndex": 9457,
+      "surface": "cagrirowngs",
+      "rootSurface": "cagrirowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 6,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 1212,
+      "surface": "scrowngs",
+      "rootSurface": "scrowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 2772,
+      "surface": "lowngss",
+      "rootSurface": "lowngss",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 4950,
+      "surface": "smowngs",
+      "rootSurface": "smowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 5364,
+      "surface": "lowngs",
+      "rootSurface": "lowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "drawIndex": 7438,
+      "surface": "sprowngs",
+      "rootSurface": "sprowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "drawIndex": 3809,
+      "surface": "strowngs",
+      "rootSurface": "strowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "drawIndex": 3836,
+      "surface": "slowngs",
+      "rootSurface": "slowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "drawIndex": 7773,
+      "surface": "frowngs",
+      "rootSurface": "frowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "drawIndex": 8051,
+      "surface": "owngs",
+      "rootSurface": "owngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 0,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "drawIndex": 2798,
+      "surface": "squowngs",
+      "rootSurface": "squowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "drawIndex": 3653,
+      "surface": "owngs",
+      "rootSurface": "owngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 0,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "drawIndex": 4354,
+      "surface": "sowngs",
+      "rootSurface": "sowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "drawIndex": 8341,
+      "surface": "howngs",
+      "rootSurface": "howngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 777,
+      "surface": "mowngs",
+      "rootSurface": "mowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 2118,
+      "surface": "garowngs",
+      "rootSurface": "garowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 2584,
+      "surface": "howngs",
+      "rootSurface": "howngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 6906,
+      "surface": "papowngs",
+      "rootSurface": "papowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 9160,
+      "surface": "wilicowngs",
+      "rootSurface": "wilicowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "drawIndex": 4158,
+      "surface": "sowngsal",
+      "rootSurface": "sowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "drawIndex": 4233,
+      "surface": "dogacowngs",
+      "rootSurface": "dogacowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "drawIndex": 7564,
+      "surface": "sowngs",
+      "rootSurface": "sowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "drawIndex": 9097,
+      "surface": "howngs",
+      "rootSurface": "howngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "drawIndex": 9185,
+      "surface": "errepowngs",
+      "rootSurface": "errepowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 4227,
+      "surface": "owngss",
+      "rootSurface": "owngss",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 0,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 5564,
+      "surface": "cesramowngs",
+      "rootSurface": "cesramowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 6,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 5719,
+      "surface": "usowngs",
+      "rootSurface": "usowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 7341,
+      "surface": "owngs",
+      "rootSurface": "owngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 0,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 8108,
+      "surface": "akipzowngs",
+      "rootSurface": "akipzowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "drawIndex": 9030,
+      "surface": "lowngs",
+      "rootSurface": "lowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 370,
+      "surface": "urowngs",
+      "rootSurface": "urowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 2,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 743,
+      "surface": "sazowngs",
+      "rootSurface": "sazowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 3,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 870,
+      "surface": "icorishowngs",
+      "rootSurface": "icorishowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 7,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 2307,
+      "surface": "owngs",
+      "rootSurface": "owngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 0,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 2553,
+      "surface": "towngs",
+      "rootSurface": "towng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 3960,
+      "surface": "mowngs",
+      "rootSurface": "mowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 4329,
+      "surface": "mowngs",
+      "rootSurface": "mowng",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 1,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "drawIndex": 7802,
+      "surface": "nedarowngs",
+      "rootSurface": "nedarowngs",
+      "boundRootOccurrences": [
+        {
+          "rootOffset": 5,
+          "certificateId": 0,
+          "before": "o",
+          "after": "ow",
+          "cellIds": [
+            9,
+            10
+          ]
+        }
+      ]
+    }
+  ]
+}

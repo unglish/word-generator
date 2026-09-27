@@ -1,0 +1,25 @@
+{
+  "scope": "Existing quality test with only its generator and letter-helper imports replaced. Exact assertions, sample sizes, seeds and timeouts retained. Configured shared RNG batch adapter. No frozen source files modified. Post-capture additional validation.",
+  "files": [
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/quality.test.ts",
+      "sha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf"
+    },
+    {
+      "path": "/private/tmp/q14a-candidate-quality-v1/quality.test.ts",
+      "sha256": "e63cf6129542ad40194c0e1f78b1ba17aee697ed3529e94ff4f7709b728e665c"
+    },
+    {
+      "path": "/private/tmp/q14a-candidate-quality-v1/candidate-api.ts",
+      "sha256": "c5b44cef2168fbbd52ef8daf1f6ca443999df2007c07fd4967351862b63f8e34"
+    },
+    {
+      "path": "/private/tmp/q14a-candidate-quality-v1/vitest.config.mjs",
+      "sha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a"
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/split-digraphs/measurement.json",
+      "sha256": "38d23119aa5d92ad6bd5055b246bea62d4ed56f3b27de149003d18dd317963bd"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "scope": "Prospective performance follow-up; no generator edits and no speedup claim. Profile was concurrent with offline replay.",
+  "findings": [
+    "recordSplitAttempt verifies before prepareSplitVowelTransaction verifies the same successful attempt again.",
+    "recordCompletionAttempt verifies before prepareCompletionTransaction verifies the same selected attempt again.",
+    "splitAttempts and completionAttempts are always allocated and cloned; shared attempt histories already depend on retainHistory."
+  ],
+  "constraints": [
+    "Preserve public transaction authentication and rejection of forged or stale attempts.",
+    "Preserve required live construction/certificate ownership when trace is off.",
+    "Keep full trace contents and ordering unchanged when trace is on.",
+    "Keep completion pass boundary and repeated-pass rejection.",
+    "Prove same full words, traces, RNG calls and next draws against the frozen candidate.",
+    "Rerun fixed fresh paired performance workload without concurrent diagnostics; do not extrapolate profile percentages into speedup."
+  ],
+  "possibleDesign": "Route formed/selected attempts through the transaction verifier once, keeping verification for noncommitting attempts. Separate history-only attempt retention from counters/state required for runtime invariants. Validate both changes independently.",
+  "sourcePins": [
+    {
+      "file": "src/core/base-spelling.ts",
+      "sha256": "25cf7f5ddb540ce21f658f2d1ea637d7021dcf148bbe242bf4accedfcd0cf115"
+    },
+    {
+      "file": "src/core/spelling-split-planner.ts",
+      "sha256": "6c6e1397d1237a4adac0128339eb2467c0e26e4b259e782567e2fe5ef106fca4"
+    },
+    {
+      "file": "src/core/spelling-split-transaction.ts",
+      "sha256": "059b0789f6e1a98dea07f0de18c753b44c6d950445f01ef1cecd0fa26b71d42e"
+    },
+    {
+      "file": "src/core/spelling-completion-transaction.ts",
+      "sha256": "5a95dec96ce2a02ad8827fb6876d2e43217503d9757c913a3b99c2d470526c8e"
+    }
+  ]
+}

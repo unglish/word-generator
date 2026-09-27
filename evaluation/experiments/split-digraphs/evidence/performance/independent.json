@@ -1,0 +1,7 @@
+{
+  "runs": 12,
+  "pairs": 6,
+  "medianPairedPercentChange": -63.437220929874776,
+  "reportSha256": "1cda3f0ae5c6cf568721e939927c52474c27fdd0f0d220c4f1918bbd55c38bd0",
+  "scope": "Independent arithmetic and gate reconstruction from raw recorded timings."
+}

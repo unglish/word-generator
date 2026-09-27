@@ -1,0 +1,102 @@
+{
+  "scope": "One archived development witness; no population attribution or same-seed causal control claimed.",
+  "witnessSha256": "77e054e328830e2909a870d961c93608170805a3f2a3f03cf365621824a1dd3f",
+  "profile": "lexicon-default",
+  "seed": 69212153,
+  "drawIndex": 582,
+  "output": "erowngs",
+  "completion": {
+    "unitId": 2,
+    "before": "o",
+    "after": "ow",
+    "inventoryIndex": 58,
+    "roll": 0.7904281301889569,
+    "candidates": [
+      {
+        "form": "ow",
+        "retainedWeight": 250,
+        "probability": 0.9615384615384616
+      },
+      {
+        "form": "o",
+        "retainedWeight": 0,
+        "probability": 0
+      },
+      {
+        "form": "oe",
+        "retainedWeight": 10,
+        "probability": 0.038461538461538464
+      }
+    ]
+  },
+  "splitOutcomes": [
+    {
+      "route": "syllable",
+      "status": "ownership-refused",
+      "reason": "missing-coda"
+    },
+    {
+      "route": "syllable",
+      "status": "policy-refused",
+      "reason": "unsupported-coda"
+    },
+    {
+      "route": "word",
+      "status": "policy-refused",
+      "reason": "unsupported-coda"
+    }
+  ],
+  "morphology": {
+    "template": "suffixed",
+    "suffix": "s",
+    "syllableReduction": 0,
+    "realization": {
+      "suffix": {
+        "planned": {
+          "written": "s",
+          "phonemes": [
+            "z"
+          ],
+          "syllableCount": 0,
+          "syllables": []
+        },
+        "resolved": {
+          "written": "s",
+          "phonemes": [
+            "z"
+          ],
+          "syllableCount": 0,
+          "syllables": []
+        },
+        "allomorphIndex": 1,
+        "boundaryPhoneme": {
+          "sound": "\u014b",
+          "voiced": true,
+          "mannerOfArticulation": "nasal",
+          "placeOfArticulation": "velar"
+        }
+      },
+      "assembledParts": [
+        {
+          "role": "root",
+          "text": "erowng"
+        },
+        {
+          "role": "suffix",
+          "text": "s"
+        }
+      ],
+      "emittedParts": [
+        {
+          "role": "root",
+          "text": "erowng"
+        },
+        {
+          "role": "suffix",
+          "text": "s"
+        }
+      ]
+    }
+  },
+  "nextQuestion": "How many archived owngs outputs contain this completion path, and which contextual reading constraints are absent?"
+}
