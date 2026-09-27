@@ -1,0 +1,37 @@
+✔ aggregates complete events, repairs, selected/shared forms and retained full witnesses (15.875083ms)
+✔ historical populations have null shared counts rather than clean zeros (3.466833ms)
+✔ mixed observations retain unavailable population counts (8.318ms)
+✔ returned reports and caller mutations cannot change retained witnesses or accumulated counters (9.8735ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ runs a complete bounded archive through stream validation, aggregation and production replay (621.456667ms)
+✔ rejects a wrong external manifest authority before creating an output (13.161833ms)
+✔ rejects archive-byte tampering before creating an output (246.372583ms)
+✔ retains an explicit failure and no completion report for duplicate draws (243.528166ms)
+✔ requires every scheduled stream (15.630292ms)
+✔ rejects malformed and aliased artifact paths (6.730708ms)
+✔ does not allow an output parent symlink to redirect into the archive (7.43475ms)
+✔ rejects overlapping seeds before any corpus processing (0.461958ms)
+✔ freeze detects changed bytes and added source paths (9.610208ms)
+✔ rejects active loader or binary overrides without exposing their values (0.372208ms)
+✔ candidate freeze rejects an absent, empty or changed shared policy (1.2515ms)
+✔ observes 500 generated ledgers without treating successful replay as independent proof (504.535708ms)
+✔ historical eligibility remains unavailable, not zero (1.300125ms)
+✔ reports unsupported source sequences (0.513083ms)
+✔ reports partial consumption instead of trusting a construction's input claim (0.417292ms)
+✔ reports altered phone multiplicity (0.43825ms)
+✔ finds actual silent erasure in a consistently edited archive (0.504ms)
+✔ refuses incomplete observation fields (2.496791ms)
+✔ refuses missing attempts rather than accepting a smaller eligibility denominator (0.71525ms)
+✔ does not alias returned event metadata into the original word (1.242125ms)
+✔ finds an insertion that separates the cells of a surviving qu construction (0.654875ms)
+✔ preserves every retained v3 repair counter on 500 public legacy words (445.950125ms)
+✔ retains repair counters and joint lineage on actual v4 words (282.026916ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2089.227333

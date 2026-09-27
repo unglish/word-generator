@@ -1,0 +1,20 @@
+✔ observes 500 generated ledgers without treating successful replay as independent proof (504.494542ms)
+✔ historical eligibility remains unavailable, not zero (1.123667ms)
+✔ reports unsupported source sequences (0.520417ms)
+✔ reports partial consumption instead of trusting a construction's input claim (0.431125ms)
+✔ reports altered phone multiplicity (0.442834ms)
+✔ finds actual silent erasure in a consistently edited archive (0.516792ms)
+✔ refuses incomplete observation fields (2.777458ms)
+✔ refuses missing attempts rather than accepting a smaller eligibility denominator (0.774375ms)
+✔ does not alias returned event metadata into the original word (1.464083ms)
+✔ finds an insertion that separates the cells of a surviving qu construction (0.730625ms)
+✔ preserves every retained v3 repair counter on 500 public legacy words (455.422666ms)
+✔ retains repair counters and joint lineage on actual v4 words (285.318708ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2095.965084
