@@ -6,5 +6,9 @@
   "q14a-independent-completion-fixtures-v1-result.json.gz": {
     "sha256": "167f093170699ace111e753c9df12979aa9a8ca0d2fab3516a4405a2bbc5e210",
     "uncompressedSha256": "360366da348f96944ad9dd687edb9cea162dc20c5e25093651b091cf49e50520"
+  },
+  "configuration.json": {
+    "sha256": "db7c7106fd8622cadc76e022e56aac6991eb487904986e4510c02f616f862fcc",
+    "bytes": 175262
   }
 }
