@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { createCompletionObligationInspector } from "./spelling-completion-obligation.js";
+import { englishSplitVowelSupports } from "../elements/graphemes/split-vowels.js";
 import { englishConfig } from "../config/english.js";
 import { BaseSpelling, createSplitSpellingRuntime } from "./base-spelling.js";
 import { verifyBaseSpellingEvidence } from "./spelling-evidence.js";
@@ -61,6 +63,14 @@ describe("split-vowel ledger commit", () => {
     expect(trace.split.supersessions).toHaveLength(1);
     expect(trace.split.supersessions[0]).toMatchObject({ constructionIds: [0], before: "tate", after: "word", ownership: "unavailable" });
     expect(trace.unresolvedCells).toBe(4);
+  });
+  it("marks a live split obligation satisfied and damaged marker evidence unavailable", () => {
+    const { base } = formed(); const trace = base.snapshot(); if (trace.version !== 5) throw new Error("fixture");
+    const inspect = createCompletionObligationInspector(englishConfig, englishSplitVowelSupports);
+    const view = base.constructionState();
+    expect(inspect(view, 1, trace.split.constructions)).toEqual({ status: "satisfied", reading: "split", constructionId: 0 });
+    expect(inspect({ ...view, cells: view.cells.slice(0, -1) }, 1, trace.split.constructions))
+      .toEqual({ status: "unavailable", reason: "invalid-split-reading" });
   });
   it("rejects stale attempts without committing any cells or trace records", () => {
     const { base, planner } = fixture("t", "t", { kind: "single-phone" });
