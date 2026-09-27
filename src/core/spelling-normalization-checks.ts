@@ -3,7 +3,7 @@ import type { BaseSpellingTraceV3, SpellingCell, SpellingEdit } from "./base-spe
 import type { NormalizationSite } from "./spelling-normalization-types.js";
 
 /** Recount every scheduled writer guard, including guards that compare no letters. */
-export function verifyNormalizationChecks(trace: BaseSpellingTraceV3): void {
+export function verifyNormalizationChecks(trace: Pick<BaseSpellingTraceV3, "normalization" | "units" | "phones" | "normalizationCertificates" | "edits">): void {
   function require(condition: unknown, reason: string): asserts condition {
     if (!condition) throw new Error(`Invalid spelling evidence: normalization checks ${reason}`);
   }
