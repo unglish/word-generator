@@ -1,3 +1,4 @@
+import { createConstructionNeighborGuard } from "./spelling-construction-neighbors.js";
 import { resolveConstructionSpan } from "./spelling-construction-ownership.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
 import { describe, expect, it } from "vitest";
@@ -314,6 +315,16 @@ describe("whole-unit spelling budgets", () => {
     const forged = structuredClone(f.base.constructionState());
     forged.certificates[0].replacements[0].phoneIds = [99];
     expect(resolveConstructionSpan(forged, [0, 1])).toEqual({ status: "refused", reason: "missing-license" });
+  });
+
+  it("checks a neighboring reading from a replayed whole-unit repair certificate", () => {
+    const f = fixture([glyph("æ", "a"), glyph("f", "ph"), glyph("k", "k"), glyph("s", "s")], [glyph("f", "f")],
+      { writtenFormConstraints: { maxConsonantLetters: 3 } });
+    expect(f.planner.apply(f.base, f.choices, "base-before-word-rules").status).toBe("respell");
+    expect(verifyBaseSpellingEvidence(f.base.snapshot(), f.config)).toMatchObject({ verifiedCertificates: 1 });
+    expect(createConstructionNeighborGuard(f.config)(f.base.constructionState(), [2, 3], "x")).toMatchObject({ status: "preserved",
+      checks: [{ unitId: 1, form: "f", reading: { kind: "single-phone" }, before: { nextLetter: "k" }, after: { nextLetter: "x" } }],
+      unchangedContextUnitIds: [0] });
   });
 
   it("keeps identical left-to-right log accumulation in the search and verifier", () => {

@@ -91,9 +91,9 @@ export function followingConstructionContext(view: ConstructionLedgerView, phone
 }
 
 /** Never infers complete ownership from the union of generic rewrite ancestors. */
-export function resolveConstructionSpan(view: ConstructionLedgerView, sourceUnitIds: readonly number[]): ConstructionSpanResult {
+function resolveSpan(view: ConstructionLedgerView, sourceUnitIds: readonly number[], minimumUnits: number): ConstructionSpanResult {
   const refuse = (reason: ConstructionOwnershipRefusal): ConstructionSpanResult => ({ status: "refused", reason });
-  if (sourceUnitIds.length < 2 || sourceUnitIds.some((id, index) => !Number.isSafeInteger(id) || id < 0 ||
+  if (sourceUnitIds.length < minimumUnits || sourceUnitIds.some((id, index) => !Number.isSafeInteger(id) || id < 0 ||
       view.units[id]?.id !== id || (index > 0 && id !== sourceUnitIds[index - 1] + 1))) return refuse("invalid-units");
   const units = sourceUnitIds.map(id => view.units[id]);
   if (units.some(unit => unit.choiceId !== unit.id || !sameIds(unit.phoneIds, [unit.id]) ||
@@ -122,4 +122,13 @@ export function resolveConstructionSpan(view: ConstructionLedgerView, sourceUnit
     sourceUnitIds: [...sourceUnitIds], phoneIds: phones.map(phone => phone.id), inputCellIds: cells.map(cell => cell.id),
     sourcePartIds: phones.map(phone => phone.syllableIndex), displayPartId: phones[0].syllableIndex,
     phonemes: phones.map(phone => structuredClone(phone.boundary!.phoneme)), following };
+}
+
+export function resolveConstructionSpan(view: ConstructionLedgerView, sourceUnitIds: readonly number[]): ConstructionSpanResult {
+  return resolveSpan(view, sourceUnitIds, 2);
+}
+
+/** Complete singular extent, with the same identity and prior-license requirements as a shared input. */
+export function resolveSingleSpellingUnit(view: ConstructionLedgerView, unitId: number): ConstructionSpanResult {
+  return resolveSpan(view, [unitId], 1);
 }
