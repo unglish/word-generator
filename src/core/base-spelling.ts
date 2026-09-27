@@ -1,4 +1,4 @@
-import { createSharedEditGuard } from "./spelling-construction-edit.js";
+import { createSharedEditGuard, createSharedSurfaceGuard } from "./spelling-construction-edit.js";
 import type { SharedEditDecision } from "./spelling-construction-edit.js";
 import { editPart, isSingleOwned, sourceUnits } from "./spelling-ownership.js";
 import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
@@ -7,7 +7,7 @@ import type { SharedConstructionAttempt, SharedSpellingSlot } from "./spelling-c
 import type { SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession, SharedSpellingEvent } from "./spelling-construction-types.js";
 import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
 import type { Phoneme } from "../types.js";
-import type { SpellingCoverageCertificate } from "./spelling-coverage-types.js";
+import type { SpellingCoverageCertificate, SpellingUnitReplacement } from "./spelling-coverage-types.js";
 import type { NormalizationDecision, NormalizationPlan } from "./spelling-normalization.js";
 import type { LedgerCursor, NormalizationSite, NormalizedCellOrigin, UnitNormalizationCertificate, UnitNormalizationCheck, UnitNormalizationEpisode, UnitNormalizationObservation } from "./spelling-normalization-types.js";
 
@@ -160,6 +160,13 @@ function rewriteCells(input: readonly SpellingCell[], insert: string, editId: nu
   }));
 }
 
+function licensedCells(replacement: SpellingUnitReplacement, editId: number, certificateId: number, nextCellId: number): SpellingCell[] {
+  return replacement.after.split("").map((text, offset) => ({
+    id: nextCellId + offset, text, partId: replacement.partId,
+    origin: { kind: "licensed", unitId: replacement.unitId, offset, editId, certificateId, sourceUnitIds: [replacement.unitId] },
+  }));
+}
+
 /** Live units/cells exist independently of tracing; only discarded edit history is optional. */
 export class BaseSpelling {
   private cells: SpellingCell[] = [];
@@ -174,6 +181,7 @@ export class BaseSpelling {
   private readonly sharedPlanner?: ReturnType<typeof createSharedConstructionPlanner>;
   private readonly sharedConstructions: SharedSpellingConstruction[] = [];
   private readonly sharedAttempts?: BaseSpellingTraceV4["shared"]["attempts"];
+  private readonly sharedSurfaceGuard?: ReturnType<typeof createSharedSurfaceGuard>;
   private readonly sharedEditGuard?: ReturnType<typeof createSharedEditGuard>;
   private readonly sharedEditGuards?: BaseSpellingTraceV4["shared"]["editGuards"];
   private readonly sharedSupersessions: SharedSpellingSupersession[] = [];
@@ -200,6 +208,7 @@ export class BaseSpelling {
       if (!readingConfig) throw new Error("Shared spelling requires a reading configuration");
       this.sharedPlanner = createSharedConstructionPlanner(sharedRules, readingConfig);
       this.sharedEditGuard = createSharedEditGuard(sharedRules);
+      this.sharedSurfaceGuard = createSharedSurfaceGuard(sharedRules);
       if (retainHistory) {
         this.sharedEditGuards = [];
         this.sharedTransactions = [];
@@ -572,13 +581,26 @@ export class BaseSpelling {
     if (surface !== plan.after) fail();
 
     const certificateId = this.certificates.length;
+    if (this.sharedSurfaceGuard) {
+      const projected = this.cells.slice();
+      let nextCellId = this.nextCellId;
+      let nextEditId = this.nextEditId;
+      for (const { start, count, replacement } of [...ranges].reverse()) {
+        const editId = nextEditId++;
+        const output = licensedCells(replacement, editId, certificateId, nextCellId);
+        nextCellId += output.length;
+        projected.splice(start, count, ...output);
+      }
+      const view = this.constructionState();
+      const decision = this.sharedSurfaceGuard(view, { ...view, cells: projected,
+        certificates: [...this.certificates, { ...plan, id: certificateId }] }, view.constructions);
+      if (decision.status === "refused") fail();
+    }
     for (const { start, count, replacement } of ranges.reverse()) {
       const editId = this.nextEditId++;
       const input = this.cells.slice(start, start + count);
-      const output = replacement.after.split("").map((text, offset): SpellingCell => ({
-        id: this.nextCellId++, text, partId: replacement.partId,
-        origin: { kind: "licensed", unitId: replacement.unitId, offset, editId, certificateId, sourceUnitIds: [replacement.unitId] },
-      }));
+      const output = licensedCells(replacement, editId, certificateId, this.nextCellId);
+      this.nextCellId += output.length;
       this.cells.splice(start, count, ...output);
       this.edits?.push({ id: editId, phase: this.phase, rule: "spellingBudget:respell", start,
         input, output, before: replacement.before, after: replacement.after, partId: replacement.partId });

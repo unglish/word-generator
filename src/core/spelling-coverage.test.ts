@@ -1,3 +1,5 @@
+import { englishSharedSpellings } from "../elements/graphemes/shared.js";
+import { createSharedConstructionPlanner } from "./spelling-construction.js";
 import { createConstructionNeighborGuard } from "./spelling-construction-neighbors.js";
 import { resolveConstructionSpan } from "./spelling-construction-ownership.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
@@ -33,9 +35,9 @@ function fixture(chosen: Grapheme[], alternatives: Grapheme[] = [], extra: Parti
   const choices: SpellingChoiceState[] = chosen.map((grapheme, index) => ({
     ...contexts[index], grapheme, form: forms[index],
   }));
-  const makeBase = () => {
-    const base = new BaseSpelling(structuredClone(boundary), true, true);
-    chosen.forEach((g, i) => base.appendChoice(i, g.form, forms[i], i));
+  const makeBase = (shared = false) => {
+    const base = new BaseSpelling(structuredClone(boundary), true, true, shared, shared ? englishSharedSpellings : undefined, shared ? config : undefined);
+    chosen.forEach((g, i) => base.appendChoice(i, g.form, forms[i], i, shared ? 0 : undefined));
     return base;
   };
   return { config, choices, base: makeBase(), makeBase, planner: createSpellingCoveragePlanner(config) };
@@ -65,6 +67,41 @@ function fixedRoot(finals: Grapheme[], policy: "preserve-phones" | false = "pres
 }
 
 function certificate(base: BaseSpelling): SpellingCoverageCertificate { return base.snapshot().certificates![0]; }
+
+describe("shared readings during atomic coverage commits", () => {
+  it.each([{ after: "e", prefix: "a" }, { after: "h", prefix: "a" }, { after: "e", prefix: "aa" }, { after: "h", prefix: "aa" }])(
+    "checks gz following context through $prefix → a and ee → $after", ({ after, prefix }) => {
+      // h is deliberately declared as a synthetic vowel spelling: ownership alone
+      // must not override the existing shared rule's separate written-letter condition.
+      const f = fixture([glyph("æ", prefix), glyph("g", "g"), glyph("z", "z"), glyph("i:", "ee")],
+        [glyph("i:", after), ...(prefix === "aa" ? [glyph("æ", "a")] : [])], { writtenFormConstraints: { maxConsonantLetters: 10, maxVowelLetters: 1 } });
+      expect(f.planner.apply(f.base, f.choices, "base-before-word-rules").status).toBe("respell");
+      const plan = structuredClone(certificate(f.base));
+      const target = f.makeBase(true);
+      target.setPhase("word");
+      const slot = { phase: "word", partId: null } as const;
+      const attempt = createSharedConstructionPlanner(englishSharedSpellings, f.config)
+        .decide(target.constructionState(), slot, "gz-to-x", [1, 2], () => 0);
+      expect(target.recordSharedAttempt(slot, "gz-to-x", [1, 2], attempt)).toBe(0);
+      // Rebind the independent repair's surface to test the commit's structural
+      // contract. This does not claim coverage-search integration or v4 replay.
+      plan.before = prefix + "xee";
+      plan.after = "ax" + after;
+      plan.inputCellIds = target.current().cells.map(cell => cell.id);
+      const before = target.snapshot();
+      if (after === "h") {
+        expect(() => target.commitLicensedPlan(plan)).toThrow(/coverage certificate/);
+        expect(target.snapshot()).toEqual(before);
+      } else {
+        expect(target.commitLicensedPlan(plan)).toBe(0);
+        const trace = target.snapshot();
+        expect(trace.surface).toBe("axe");
+        expect(trace.cells[1]).toEqual(before.cells[prefix.length]);
+        expect(target.constructionState().constructions[0].phoneIds).toEqual([1, 2]);
+        expect(trace.cells[2].origin).toMatchObject({ kind: "licensed", unitId: 3, certificateId: 0 });
+      }
+    });
+});
 
 describe("whole-unit spelling budgets", () => {
   it.each(["stress", "cluster", "features", "next-features", "doubling-stress", "doubling-cluster", "prev-reduced", "first-coda", "next-consonant", "next-nucleus"])("rejects certificate-only %s context changes against the actual writer boundary", field => {
