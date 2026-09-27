@@ -1,0 +1,27 @@
+{
+  "gates": {
+    "fiveConsecutiveConsonants": 86
+  },
+  "metrics": {
+    "fourConsonantClusters": {
+      "count": 1123,
+      "rate": 2.25
+    },
+    "dk": 0,
+    "owngs": 49,
+    "rengTeng": 1,
+    "avgLength": 7.6,
+    "uniqueRate": 87.7,
+    "lengthDistribution": {
+      "1": 0,
+      "2-3": 589,
+      "4-5": 7646,
+      "6-8": 27054,
+      "9-12": 13356,
+      "13+": 1355
+    },
+    "totalLetters": 377556,
+    "totalBigrams": 327556,
+    "totalTrigrams": 277556
+  }
+}

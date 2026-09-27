@@ -104,6 +104,9 @@ export function createSharedWriterScheduleVerifier(config: Pick<LanguageConfig, 
           : wordReady && !wordFinished && !activePass), "split attempt outside formation phase");
       } else if (entry.kind === "completion-attempt") {
         require(trace.version === 5 && wordFinished && !activePass, "completion before word pass finished");
+      } else if (entry.kind === "following-guard") {
+        const guard = trace.followingGuards?.[entry.index]; require(guard, "missing following guard");
+        for (const edit of guard.edits) checkRegex(edit.rule, guard.phase, edit.partId);
       } else if (entry.kind === "split-guard") {
         require(trace.version === 5, "split guard without capability");
         const guard = trace.split.guards[entry.index]; require(guard, "missing split guard");

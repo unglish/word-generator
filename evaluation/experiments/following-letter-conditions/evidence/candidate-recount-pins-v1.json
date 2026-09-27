@@ -1,0 +1,10 @@
+{
+  "sources": {
+    "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/following-letter-conditions/recount_corpus.py": "fea4c11e60bd2e64da2474d5410b62e9fa7ddde7662bb223349515b11c5ed79f",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/following-letter-conditions/recount_following.py": "baa7959eda0c9ec4e7c86c48c1bbc626388b0731aff07b2e3b8b1abae30cd788",
+    "/private/tmp/q14b-run-candidate-independent-v1.py": "13cb74665711f9ce64efd4688729906b6ea30a533a149770a2a26851ef843051"
+  },
+  "python": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+  "pythonVersion": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+  "manifestSha256": "87a58f8b36b1fafaf5882fbc7b2e7ea89b91746d85ca45051d7a962ff7903317"
+}

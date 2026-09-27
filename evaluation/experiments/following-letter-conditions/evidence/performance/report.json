@@ -1,0 +1,36 @@
+{
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "runnerSha256": "83168199c8d806b09b8befff89cc2f4c55b609cffdd7ea8037c4484ee95d3b85",
+  "pairedPercentChanges": [
+    -50.57547176040028,
+    -50.83425197070595,
+    -50.98700507374736,
+    -50.76967997936153,
+    -50.73073543234528,
+    -50.47867957492767
+  ],
+  "medianPairedPercentChange": -50.7502077058534,
+  "gates": {
+    "A": {
+      "speedPass": 0,
+      "variancePass": 6
+    },
+    "B": {
+      "speedPass": 0,
+      "variancePass": 6
+    }
+  }
+}
