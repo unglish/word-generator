@@ -742,6 +742,14 @@ describe("joint readings during normalization commit", () => {
       expect(trace.cells.slice(0, 2)).toEqual(before.cells.slice(0, 2));
       expect(trace.cells[2].origin).toMatchObject({ kind: "normalized", unitId: 2, certificateId: 0, editId: 1 });
       expect(target.constructionState().constructions[0].phoneIds).toEqual([0, 1]);
+      const coverageConfig = { ...f.config, writtenFormConstraints: { policy: "preserve-phones" as const, maxVowelLetters: 1 } };
+      const coverage = createSpellingCoveragePlanner(coverageConfig, undefined, undefined, rules);
+      const choices = f.contexts.map((context, id) => ({ ...context, grapheme: f.graphemes[id], form: target.current().units[id].afterDoubling }));
+      const beforeCoverage = target.snapshot();
+      expect(coverage.apply(target, choices, "base-after-word-rules")).toMatchObject({
+        status: "infeasible", reason: "normalization-context-unavailable", visitedAssignments: 0,
+      });
+      expect(target.snapshot()).toEqual(beforeCoverage);
     }
   });
 });
