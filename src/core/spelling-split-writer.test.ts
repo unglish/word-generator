@@ -1,9 +1,9 @@
+import { createBaseSpellingEvidenceVerifier } from "./spelling-evidence.js";
 import { createSplitFormationScheduleVerifier } from "./spelling-split-schedule.js";
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig } from "../index.js";
 import { englishSplitVowelSupports } from "../elements/graphemes/split-vowels.js";
 import { englishSharedSpellings } from "../elements/graphemes/shared.js";
-import { createSplitLedgerReplayer } from "./spelling-split-replay.js";
 import { verifyCompletionSchedule } from "./spelling-completion-schedule.js";
 
 const splitVowels = { supports: englishSplitVowelSupports, routes: {
@@ -15,7 +15,7 @@ describe("split vowel public writer integration", () => {
     const config = { ...englishConfig, sharedSpellings: englishSharedSpellings, splitVowels };
     const generator = createGenerator(config);
     const formationSchedule = createSplitFormationScheduleVerifier(config);
-    const replay = createSplitLedgerReplayer(config, splitVowels.supports, splitVowels.routes);
+    const fullVerifier = createBaseSpellingEvidenceVerifier(config);
     const on = createSeededRng(129); const off = createSeededRng(129);
     let tracedCalls = 0; let plainCalls = 0; let formations = 0; let completions = 0;
     for (let draw = 0; draw < 500; draw++) {
@@ -24,7 +24,7 @@ describe("split vowel public writer integration", () => {
       const plain = generator.generateWord({ ...options, rand: () => { plainCalls++; return off(); } });
       const trace = traced.trace!.baseSpelling!;
       if (trace.version !== 5) throw new Error("Expected v5");
-      expect(() => replay(trace), `draw ${draw}`).not.toThrow();
+      expect(() => fullVerifier(trace), `draw ${draw}`).not.toThrow();
       expect(() => formationSchedule(trace), `draw ${draw}`).not.toThrow();
       expect(() => verifyCompletionSchedule(trace), `draw ${draw}`).not.toThrow();
       formations += trace.split.constructions.length; completions += trace.completion.certificates.length;
@@ -46,6 +46,21 @@ describe("split vowel public writer integration", () => {
     const position = moved.shared.timeline.findIndex(entry => entry.kind === "split-attempt");
     const [entry] = moved.shared.timeline.splice(position, 1); moved.shared.timeline.push(entry);
     expect(() => verify(moved)).toThrow();
+  });
+
+  it("rejects missing required events through the main evidence API", () => {
+    const config = { ...englishConfig, sharedSpellings: englishSharedSpellings, splitVowels };
+    const verify = createBaseSpellingEvidenceVerifier(config);
+    const trace = createGenerator(config).generateWord({ seed: 129, trace: true, morphology: false }).trace!.baseSpelling!;
+    if (trace.version !== 5) throw new Error("Expected v5");
+    expect(verify(trace)).toMatchObject({ version: 5, writerSchedule: "verified" });
+    for (const kind of ["completion-attempt", "split-attempt", "normalization-check", "writer-step"] as const) {
+      const damaged = structuredClone(trace);
+      const index = damaged.shared.timeline.findIndex(entry => entry.kind === kind);
+      expect(index).toBeGreaterThanOrEqual(0); damaged.shared.timeline.splice(index, 1);
+      expect(() => verify(damaged)).toThrow();
+    }
+    expect(() => createBaseSpellingEvidenceVerifier()(trace)).toThrow("v5 requires");
   });
 
 });

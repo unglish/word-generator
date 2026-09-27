@@ -1,3 +1,4 @@
+import { createSplitWriterEvidenceVerifier } from "./spelling-split-evidence.js";
 import { createSharedWriterEvidenceVerifier } from "./spelling-construction-evidence.js";
 import { sourceUnits } from "./spelling-ownership.js";
 import { createNormalizationEvidenceVerifier } from "./spelling-normalization-evidence.js";
@@ -98,8 +99,14 @@ function createHistoricalSpellingEvidenceVerifier(config?: LanguageConfig) {
 export function createBaseSpellingEvidenceVerifier(config?: LanguageConfig) {
   const historical = createHistoricalSpellingEvidenceVerifier(config);
   let normalization: ReturnType<typeof createNormalizationEvidenceVerifier> | undefined;
+  let split: ReturnType<typeof createSplitWriterEvidenceVerifier> | undefined;
   let shared: ReturnType<typeof createSharedWriterEvidenceVerifier> | undefined;
   return (trace: BaseSpellingTrace) => {
+    if (trace.version === 5) {
+      if (!config?.splitVowels) throw new Error("Invalid spelling evidence: v5 requires its split spelling configuration");
+      split ??= createSplitWriterEvidenceVerifier(config);
+      return split(trace);
+    }
     if (trace.version === 4) {
       if (!config) throw new Error("Invalid spelling evidence: v4 requires its shared spelling configuration");
       shared ??= createSharedWriterEvidenceVerifier(config);
