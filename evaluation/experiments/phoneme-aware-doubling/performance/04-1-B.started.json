@@ -1,0 +1,15 @@
+{
+  "pair": 4,
+  "position": 1,
+  "version": "B",
+  "status": "started",
+  "startedAt": "2026-09-27T00:48:35.571259+00:00",
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+    "run",
+    "test:perf"
+  ],
+  "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator",
+  "log": "04-1-B.log"
+}

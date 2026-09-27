@@ -1,0 +1,54 @@
+{
+  "schema": "q12c-performance-series-v1",
+  "startedAt": "2026-09-27T00:48:08.018081+00:00",
+  "order": [
+    "AB",
+    "BA",
+    "AB",
+    "BA",
+    "AB",
+    "BA"
+  ],
+  "controlManifestSha256": "3b473580f13cc736a42c9f77437f615c61ff1b91bcdd25914dd50f5ffda32e31",
+  "candidateFreezeSha256": "26bc35d55c633140b576b14b035228ea3ba246fd2d5223cf4b6c388dad7a453c",
+  "scriptSha256": "59471d76d94893446fe562f5ef70046357b3ef367244491d7178e465cda88778",
+  "planSha256": "d76d2d6110468f39851f9f79d967bdc0cf2302fba276651b833318e3ac22c4f8",
+  "harness": {
+    "src/core/generate.perf.test.ts": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83",
+    "vitest.perf.config.ts": "6556fff991ef112563aa2d342ac550fd3d1db70a9c788bba96e43f8e51fa1455",
+    "package.json": "030a6926d51e520fcc4998cb38f4fe29738a99776cc44a304ede911dbab33a00",
+    "package-lock.json": "985093dd683275e3c5c5f10ae2210c7395914de9bb669f71c9b1e34350218bc6"
+  },
+  "node": "v24.11.1",
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+    "run",
+    "test:perf"
+  ],
+  "environment": {
+    "CI": null,
+    "PATH": "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Applications/ChatGPT.app/Contents/Resources/codex-cli/codex-path:/Users/ryanbetts/.codex/tmp/arg0/codex-arg032dOeQ:/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/ryanbetts/Library/Android/sdk/platform-tools:/Users/ryanbetts/Library/Android/sdk/emulator:/Users/ryanbetts/.local/bin:/Users/ryanbetts/.antigravity/antigravity/bin:/opt/homebrew/opt/python@3.13/libexec/bin:/Users/ryanbetts/.bun/bin:/Users/ryanbetts/.codeium/windsurf/bin:/Users/ryanbetts/Library/pnpm:/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin:/Users/ryanbetts/.cargo/bin:/Users/ryanbetts/.foundry/bin:/Users/ryanbetts/.radicle/bin:/Users/ryanbetts/.risc0/bin:/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS",
+    "recorded": {
+      "NODE_OPTIONS": null,
+      "NODE_PATH": null,
+      "ESBUILD_BINARY_PATH": null,
+      "npm_config_node_options": null,
+      "npm_config_script_shell": null,
+      "NODE_ENV": null,
+      "VITEST_POOL": null,
+      "VITEST_MAX_THREADS": null,
+      "VITEST_MIN_THREADS": null,
+      "FORCE_COLOR": null,
+      "NO_COLOR": "1"
+    },
+    "npmOverrideAliases": {},
+    "policy": "Only CI unset and frozen Node bin prepended; listed loader/binary/shell overrides rejected; other environment inherited, not a hermetic host claim"
+  },
+  "dependencyManifestSha256": "3ab817932d03bfa3402688b98d96ecc552bfe185ecb3d371733464219b81c26a",
+  "precision": "Unchanged suite rounds rates/milliseconds/variance; full-precision assertions decide gates.",
+  "roots": {
+    "A": "/private/tmp/q12c-performance-control-v1",
+    "B": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator"
+  }
+}
