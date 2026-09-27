@@ -12,16 +12,23 @@ function fixture(sounds = ["æ", "k", "s"], forms = ["a", "ck", "s"], parts = [0
   const base = new BaseSpelling(sounds.map((sound, id) => ({ id, part: "root", syllableIndex: parts[id],
     segment: "onset", segmentIndex: id, soundAtSpelling: sound,
     boundary: { phoneme: structuredClone(englishConfig.phonemes.find(phone => phone.sound === sound)!) } })),
-  trace, true, true, englishSharedSpellings);
+  trace, true, true, englishSharedSpellings, { doubling: undefined,
+    graphemes: forms.map((form, id) => ({ phoneme: sounds[id], form, frequency: 1, origin: 0,
+      startWord: 1, midWord: 1, endWord: 1, reading: { kind: "single-phone" } })) });
   forms.forEach((form, id) => base.appendChoice(id, form, form, id, 0));
   base.setPhase("word");
   return base;
 }
 const slot = { phase: "word", partId: null } as const;
-const planner = () => createSharedConstructionPlanner(englishSharedSpellings);
+function readingConfig(base: BaseSpelling) {
+  const { units, phones } = base.current();
+  return { doubling: undefined, graphemes: units.map(unit => ({ phoneme: phones[unit.id].soundAtSpelling,
+    form: unit.selected, frequency: 1, origin: 0, startWord: 1, midWord: 1, endWord: 1, reading: { kind: "single-phone" as const } })) };
+}
+const planner = (base: BaseSpelling) => createSharedConstructionPlanner(englishSharedSpellings, readingConfig(base));
 
 function form(base: BaseSpelling, ruleId = "ks-to-x", ids = [1, 2], roll = 0.1) {
-  const attempt = planner().decide(base.constructionState(), slot, ruleId, ids, () => roll);
+  const attempt = planner(base).decide(base.constructionState(), slot, ruleId, ids, () => roll);
   const id = base.recordSharedAttempt(slot, ruleId, ids, attempt);
   return { attempt, id };
 }
@@ -71,7 +78,7 @@ describe("atomic shared-spelling ledger commits", () => {
 
   it.each(["phones", "input", "cursor", "form", "roll"])("rejects forged %s before any ledger mutation", field => {
     const base = fixture(); const before = base.snapshot();
-    const attempt = planner().decide(base.constructionState(), slot, "ks-to-x", [1, 2], () => 0.1);
+    const attempt = planner(base).decide(base.constructionState(), slot, "ks-to-x", [1, 2], () => 0.1);
     if (attempt.result.status !== "evaluated" || attempt.result.trial.status === "refused") throw new Error("Expected eligible fixture");
     if (field === "phones") attempt.result.span.phoneIds = [1, 1];
     if (field === "input") attempt.result.span.inputCellIds.pop();
@@ -85,7 +92,7 @@ describe("atomic shared-spelling ledger commits", () => {
 
   it("does not reuse consumed phones for a second formation", () => {
     const base = fixture(); form(base);
-    const attempt = planner().decide(base.constructionState(), slot, "ks-to-x", [1, 2], () => { throw new Error("Unexpected draw"); });
+    const attempt = planner(base).decide(base.constructionState(), slot, "ks-to-x", [1, 2], () => { throw new Error("Unexpected draw"); });
     expect(attempt.result).toEqual({ status: "unavailable", reason: "already-shared" });
     expect(base.recordSharedAttempt(slot, "ks-to-x", [1, 2], attempt)).toBeNull();
     expect(base.snapshot().surface).toBe("ax");
@@ -109,7 +116,7 @@ describe("atomic shared-spelling ledger commits", () => {
   });
 
   it("requires shared capability and the actual writer phase", () => {
-    const base = fixture(); const attempt = planner().decide(base.constructionState(), slot, "ks-to-x", [1, 2], () => 0);
+    const base = fixture(); const attempt = planner(base).decide(base.constructionState(), slot, "ks-to-x", [1, 2], () => 0);
     base.setPhase("syllable");
     expect(() => base.recordSharedAttempt(slot, "ks-to-x", [1, 2], attempt)).toThrow(/capability or phase/);
     expect(() => new BaseSpelling([], true, true, false, englishSharedSpellings)).toThrow(/provenance/);
@@ -155,7 +162,7 @@ describe("shared-spelling preservation during generic edits", () => {
   it("preserves syllable-relative position when rewriting within the original part", () => {
     const base = fixture(undefined, undefined, [0, 0, 0]); base.setPhase("syllable");
     const local = { phase: "syllable", partId: 0 } as const;
-    const attempt = planner().decide(base.constructionState(), local, "ks-to-x", [1, 2], () => 0);
+    const attempt = planner(base).decide(base.constructionState(), local, "ks-to-x", [1, 2], () => 0);
     base.recordSharedAttempt(local, "ks-to-x", [1, 2], attempt);
     expect(base.edit(0, 1, "e", "prefix-rewrite")).toBe(true);
     expect(base.snapshot().surface).toBe("ex");
@@ -268,7 +275,7 @@ describe("explicit lexical gap supersession", () => {
     base.replaceWithGapSpelling("ax", "other", "lexical");
     expect(base.edit(0, 1, "a", "later-edit")).toBe(true);
     expect(base.snapshot().surface).toBe("ather");
-    const attempt = planner().decide(base.constructionState(), slot, "ks-to-x", [1, 2], () => { throw new Error("Unexpected draw"); });
+    const attempt = planner(base).decide(base.constructionState(), slot, "ks-to-x", [1, 2], () => { throw new Error("Unexpected draw"); });
     expect(attempt.result).toEqual({ status: "unavailable", reason: "unresolved-ownership" });
   });
 

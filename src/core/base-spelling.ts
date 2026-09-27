@@ -1,7 +1,7 @@
 import { createSharedEditGuard } from "./spelling-construction-edit.js";
 import type { SharedEditDecision } from "./spelling-construction-edit.js";
 import { editPart, isSingleOwned, sourceUnits } from "./spelling-ownership.js";
-import type { SharedSpellingRule } from "../config/language.js";
+import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
 import { createSharedConstructionPlanner } from "./spelling-construction.js";
 import type { SharedConstructionAttempt, SharedSpellingSlot } from "./spelling-construction.js";
 import type { SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession, SharedSpellingEvent } from "./spelling-construction-types.js";
@@ -193,10 +193,12 @@ export class BaseSpelling {
     private readonly licensed = false,
     private readonly normalizeUnits = false,
     sharedRules?: readonly SharedSpellingRule[],
+    readingConfig?: Pick<LanguageConfig, "graphemes" | "doubling">,
   ) {
     if (sharedRules !== undefined) {
       if (!normalizeUnits || !licensed) throw new Error("Shared spelling requires normalized spelling provenance");
-      this.sharedPlanner = createSharedConstructionPlanner(sharedRules);
+      if (!readingConfig) throw new Error("Shared spelling requires a reading configuration");
+      this.sharedPlanner = createSharedConstructionPlanner(sharedRules, readingConfig);
       this.sharedEditGuard = createSharedEditGuard(sharedRules);
       if (retainHistory) {
         this.sharedEditGuards = [];
