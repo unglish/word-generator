@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { mkdtemp, mkdir, readFile, writeFile, access, symlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -36,6 +38,7 @@ async function fixture(modify = rows => rows) {
 }
 test("runs a complete bounded archive through stream validation, aggregation and production replay", async () => {
   const f = await fixture(); const report = await analyze(f.options);
+  assert.equal(report.version, "q13b-shared-corpus-v1");
   assert.equal(report.words, 2); assert.equal(report.streams.length, 2);
   const all = report.groups.find(g => g.dimensions[0] === "all");
   assert.equal(all.sharedCounts, null); assert.equal(all.repairReplay.words, 2);
@@ -74,4 +77,36 @@ test("does not allow an output parent symlink to redirect into the archive", asy
 test("rejects overlapping seeds before any corpus processing", () => {
   assert.throws(() => expectedStreams({ schemaVersion: 1, wordsPerReplicate: 1,
     profiles: [{ id: "a", seeds: { development: [1] } }, { id: "b", seeds: { development: [1] } }] }));
+});
+
+test("independent pinned archive recount accepts complete report and rejects rehashed corruptions", async () => {
+  const f = await fixture(); const report = await analyze(f.options);
+  const reportPath = join(f.options.out, "report.json");
+  const authority = JSON.parse(await readFile(join(f.options.out, "authority.json")));
+  const script = fileURLToPath(new URL("./recount-corpus.py", import.meta.url));
+  let attempt = 0;
+  async function verify(candidate) {
+    const bytes = Buffer.from(JSON.stringify(candidate)); await writeFile(reportPath, bytes);
+    const out = join(f.root, `independent-${attempt++}.json`);
+    const options = { archive: f.archive, "manifest-sha256": f.options["manifest-sha256"], report: reportPath,
+      "report-sha256": sha(bytes), protocol: f.options.protocol, "protocol-sha256": f.options["protocol-sha256"],
+      registration: fileURLToPath(registrationPath), "registration-sha256": f.options["registration-sha256"],
+      "source-root": authority.sourceRoot, out };
+    const result = spawnSync("python3", [script, ...Object.entries(options).flatMap(([name, value]) => [`--${name}`, value])],
+      { encoding: "utf8", maxBuffer: 4 * 1024 * 1024 });
+    return { result, output: await readFile(out, "utf8") };
+  }
+  const valid = await verify(report);
+  assert.equal(valid.result.status, 0, valid.result.stderr);
+  assert.equal(JSON.parse(valid.output).words, 2);
+  for (const mutate of [candidate => { candidate.groups[0].repairReplay.words++; },
+    candidate => { candidate.groups[0].doublingCounts.units++; },
+    candidate => { candidate.groups[0].sharedCounts = {}; },
+    candidate => { candidate.streams.pop(); },
+    candidate => { candidate.version = 1; }]) {
+    const candidate = structuredClone(report); mutate(candidate);
+    const invalid = await verify(candidate);
+    assert.notEqual(invalid.result.status, 0);
+    assert.equal(invalid.output, "");
+  }
 });

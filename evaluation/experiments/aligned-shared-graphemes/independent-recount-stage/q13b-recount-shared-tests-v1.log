@@ -1,0 +1,15 @@
+✔ independent Python reconstructs every shared observation on 500 public v4 and 500 v3 archives (849.368625ms)
+✔ independent Python reports unsupported sequence from altered archive (36.3325ms)
+✔ independent Python reports partial consumption from altered archive (36.984625ms)
+✔ independent Python reports phone multiplicity from altered archive (37.933584ms)
+✔ independent Python reports silent erasure from altered archive (37.879583ms)
+✔ independent Python refuses incomplete attempts, fields, and forged cell history (180.360375ms)
+✔ independent Python refuses optimized execution that would disable verification (67.077375ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2107.694083
