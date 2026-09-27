@@ -1,0 +1,362 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/grapheme-selection.test.ts (9 tests) 13024ms
+   ✓ legal grapheme selection > retains the established isolated /ɛ/ pool while keeping the /t/ restriction explicit  4406ms
+   ✓ legal grapheme selection > keeps positive real weights and correct edge scopes across 10k public outputs  8491ms
+ ✓ src/core/stress-repair.test.ts (2 tests) 15822ms
+   ✓ stress-aware nucleus re-pick > no primary-stressed schwa in 10,000 words  4599ms
+   ✓ stress-aware nucleus re-pick > monosyllables can still have schwa nucleus (no stress marker)  11222ms
+stdout | src/core/y-vowel.test.ts > Y-as-vowel improvements (#63) > Y appears word-finally at a reasonable rate > at least 2% of generated words end in Y
+  Y-final rate: 10.0% (998/10000)
+
+stdout | src/core/y-vowel.test.ts > Y-as-vowel improvements (#63) > Y appears in generated words overall > at least 5% of words contain Y
+  Y-containing rate: 18.4% (1843/10000)
+
+ ✓ src/core/y-vowel.test.ts (2 tests) 8640ms
+   ✓ Y-as-vowel improvements (#63) > Y appears word-finally at a reasonable rate > at least 2% of generated words end in Y  4578ms
+   ✓ Y-as-vowel improvements (#63) > Y appears in generated words overall > at least 5% of words contain Y  4061ms
+ ✓ src/core/morphology/realization.test.ts (26 tests) 8165ms
+   ✓ resolved morphology survives final cleanup > preserves assembly across a continuous 10,000-word public-API stream  8108ms
+ ✓ src/core/generate.test.ts (13 tests) 25171ms
+   ✓ Word Generator > risingCodaDrop policy gates rising-coda drop events  24407ms
+ ✓ src/core/morphology/morphology.quality.test.ts (11 tests) 26654ms
+   ✓ Morphology quality benchmarks > new nominal suffix -ian appears in larger deterministic samples  2516ms
+   ✓ Morphology quality benchmarks > new nominal suffix -ial appears in larger deterministic samples  1950ms
+   ✓ Morphology quality benchmarks > new orthographic suffix -sion appears in larger deterministic samples  1917ms
+   ✓ Morphology quality benchmarks > keeps ia and ian representation above regression floors vs CMU  12256ms
+   ✓ Morphology quality benchmarks > enb trigram is reachable in traced lexicon samples  7896ms
+ ✓ src/core/trace.test.ts (19 tests | 1 skipped) 6128ms
+   ✓ trace pipeline > captures structured SSP and rising-coda boundary payloads  428ms
+   ✓ trace pipeline > vowel-hiatus fallback trace entries use typed payload  1715ms
+   ✓ trace pipeline > post-vowel glide policy controls root glide transitions deterministically  2451ms
+   ✓ trace pipeline > keeps root-stage hiatus low in traced samples  1480ms
+ ✓ src/core/pronounce.test.ts (28 tests) 3844ms
+   ✓ applyAspiration > keeps canonical phoneme sounds free of aspiration diacritics across deterministic sweep  2561ms
+   ✓ applyAspiration > default English generation only aspirates first-onset /p t k/  1267ms
+ ✓ src/core/generateWords.test.ts (17 tests) 4101ms
+ ✓ src/core/base-spelling.test.ts (13 tests) 1021ms
+   ✓ exact base-spelling provenance > records a cut within th at its actual source cell without claiming it is repaired  366ms
+ ✓ src/core/spelling-budget.test.ts (25 tests) 1696ms
+   ✓ spelling budget scan equivalence > matches the frozen original over 248,042 preregistered cases  1690ms
+ ✓ src/core/spelling-coverage.test.ts (50 tests) 684ms
+   ✓ whole-unit spelling budgets > keeps trace on/off output and RNG-call parity with active policy  546ms
+ ✓ src/tools/common-word-coverage-core.test.ts (8 tests) 569ms
+   ✓ common-word-coverage-core > is deterministic with a shared seeded RNG and preserves first-hit generations  561ms
+ ✓ src/core/spelling-normalization.test.ts (93 tests) 250ms
+ ✓ src/utils/random.test.ts (8 tests) 231ms
+ ✓ src/core/spelling-construction-writer.test.ts (3 tests) 3323ms
+   ✓ shared spelling public writer integration > replays generated ledgers and preserves traced/untraced output and RNG  3317ms
+ ✓ src/elements/graphemes/reading.test.ts (43 tests) 284ms
+ ✓ src/core/spelling-construction-ledger.test.ts (77 tests) 78ms
+ ✓ src/core/spelling-construction-evidence.test.ts (25 tests) 57ms
+ ✓ src/core/spelling-construction-policy.test.ts (36 tests) 39ms
+ ✓ src/utils/getWeightedOption.test.ts (8 tests) 23ms
+ ✓ src/core/ot-stress.test.ts (19 tests) 25ms
+ ✓ src/config/language.test.ts (61 tests) 28ms
+ ✓ src/core/spelling-coverage-observer.test.ts (6 tests) 27ms
+ ✓ src/core/common-word-orthography.test.ts (9 tests) 22ms
+ ✓ src/core/repair.test.ts (22 tests) 5ms
+ ✓ src/core/spelling-construction.test.ts (25 tests) 21ms
+ ✓ src/core/spelling-construction-neighbors.test.ts (16 tests) 15ms
+ ✓ src/core/morphology/attach.test.ts (45 tests) 16ms
+ ✓ src/core/spelling-doubling.test.ts (29 tests) 12ms
+ ✓ src/tools/trace-audit-core.test.ts (6 tests) 3ms
+ ✓ src/core/spelling-construction-slots.test.ts (10 tests) 8ms
+ ✓ src/core/spelling-construction-ownership.test.ts (27 tests) 12ms
+ ✓ src/core/phoneme-quality.metrics.test.ts (1 test) 2ms
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > per-bigram mean is within gate of English
+
+📊 Generated: per-bigram mean=-4.26 median=-4.21 min=-8.31 n=135000
+   English:   per-bigram mean=-3.89
+   Gap: 0.37 (gate: < 2)
+
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > per-bigram gap has not regressed from recorded baseline
+
+🔒 Regression check: current gap=0.37, baseline gap=0.85, tolerance=0.5
+
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > no generated word has catastrophically low per-bigram score
+
+📊 Min per-bigram: -8.31 (English min: -7.92, floor: -12)
+
+ ✓ src/phonotactic/phonotactic.test.ts (14 tests) 48680ms
+stdout | src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies
+
+200k sample results:
+  Total "ts": 3612 (1.81%)
+    Final: 3106 (1.55%)
+    Non-final: 506 (0.25%)
+  Total "ns": 2459 (1.23%)
+    Final: 1489 (0.74%)
+    Non-final: 970 (0.48%)
+
+ ✓ src/core/cluster-weights.test.ts (4 tests) 51559ms
+   ✓ Position-based cluster weighting > applies position-based weights correctly  3466ms
+   ✓ Position-based cluster weighting > reduces ts/ns frequency compared to no weights  4583ms
+   ✓ Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies  43227ms
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no bigram exceeds threshold over-representation
+Worst over-rep bigram: "ry" at 3.313× (threshold: 4.25)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no trigram exceeds threshold over-representation
+Worst over-rep trigram: "abl" at 2.877× (threshold: 3.21)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented
+Worst under-rep bigram: "ex" at 0.0109× (threshold: 0.0215)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented
+Worst under-rep trigram: "ugh" at 0.0086× (threshold: 0.0062)
+
+ ❯ src/core/ngram-quality.test.ts (5 tests | 1 failed) 54954ms
+   ✓ N-gram quality gates > generate sample  54923ms
+   ✓ N-gram quality gates > no bigram exceeds threshold over-representation 4ms
+   ✓ N-gram quality gates > no trigram exceeds threshold over-representation 10ms
+   × N-gram quality gates > no common bigram is severely under-represented 5ms
+     → Bigram "ex" under-represented at 0.0109× vs CMU (threshold: 0.0215×): expected 0.010933806812024306 to be greater than or equal to 0.0215
+   ✓ N-gram quality gates > no common trigram is severely under-represented 9ms
+stdout | src/core/write.test.ts > syllable-based position filtering > "igh" only appears in the final syllable (10k words)
+  igh in non-final syllable: 0/10000
+
+stdout | src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails
+Shared phoneme Pearson r: 0.9985 (threshold: 0.82)
+Non-CMU generated mass: 0.0000% (threshold: 6.7%)
+Worst over-rep: k at 1.103x (threshold: 2.75x)
+Worst under-rep: n at 0.994x (threshold: 0.08x)
+Worst absolute gap: k at 0.526% (threshold: 4.5%)
+
+ ✓ src/core/phoneme-quality.test.ts (1 test) 63114ms
+   ✓ Phoneme quality gates > meets phoneme distribution guardrails  63112ms
+stdout | src/core/write.test.ts > syllable-based position filtering > "wh" only appears in the first syllable (10k words)
+  wh in non-first syllable: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > does not produce impossible onset clusters with "wh" (twh/swh/cwh/quh)
+  impossible wh onset clusters: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "ight" or "ought" mid-word rate < 0.1% in 10k words
+  ight/ought mid-word: 0/10000 (0.00%)
+
+stdout | src/core/write.test.ts > syllable-based position filtering > startWord: 0 graphemes do not appear in the first syllable (10k words)
+  words starting with ck: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "eye" appears only as a bare syllable nucleus (50k words)
+  eye syllables: 35/50000
+  eye bare-syllable violations: 0/50000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "eye" does not appear in medial syllables (50k words)
+  eye syllables (medial test): 42/50000
+  eye medial-syllable violations: 0/50000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > other /aɪ/ spellings still appear alongside "eye" (50k words)
+  eye words: 49/50000
+  non-eye /aɪ/ words: 3915/50000
+
+stdout | src/core/write.test.ts > silent-e integration > produces some silent-e words in 10k generated words
+  Silent-e words: 1185/10000 (11.8%)
+
+stdout | src/core/write.test.ts > silent-e integration > produces "ck" (not "kk") when k doubles after lax vowel
+  ck occurrences: 367/10000, kk occurrences: 0/10000
+
+stdout | src/core/write.test.ts > silent-e integration > never doubles b, d, g word-finally via doubling system
+  Word-final bb: 0, dd: 0, gg: 0
+
+stdout | src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit
+  Words with both ck and another double: 6/10000
+
+stdout | src/core/write.test.ts > silent-e integration > very few words end in bare "v" in 10k generated words
+  Bare 'v' endings: 0/10000, total v/ve endings: 34/10000
+
+stdout | src/core/write.test.ts > nucleus-ends-consonant-letter doubling suppression > does not produce doubled consonants after rhotic vowel graphemes (er/or/ur + ss/ll/ff)
+  Sonorant+doubled: 20/10000 (0.20%)
+
+stdout | src/core/write.test.ts > nucleus-ends-consonant-letter doubling suppression > still produces doubled consonants after regular vowel graphemes (a/e/i/o/u)
+  Vowel+doubled: 1271/10000 (12.7%)
+
+ ❯ src/core/write.test.ts (95 tests | 4 failed) 112052ms
+   ✓ tokenizeGraphemes > splits digraphs and trigraphs as atomic units 1ms
+   ✓ tokenizeGraphemes > handles plain letters 0ms
+   ✓ tokenizeGraphemes > handles mixed vowels and consonants 0ms
+   ✓ tokenizeGraphemes > handles "dge" 0ms
+   ✓ tokenizeGraphemes > handles empty string 0ms
+   ✓ tokenizeGraphemes > handles "ck" 0ms
+   ✓ repairConsonantPileups > does nothing when no run exceeds max 0ms
+   ✓ repairConsonantPileups > trims a 5-consonant-grapheme run across syllable boundary 0ms
+   ✓ repairConsonantPileups > treats "tch" as a single grapheme unit 0ms
+   ✓ repairConsonantPileups > does not split "tch" when dropping 0ms
+   ✓ repairConsonantPileups > handles run within a single syllable 0ms
+   ✓ repairConsonantPileups > respects configurable max of 3 0ms
+   ✓ repairConsonantPileups > updates hyphenatedParts in sync 0ms
+   ✓ mannerGroup > maps sibilant to fricative 0ms
+   ✓ mannerGroup > maps lateralApproximant to liquid 0ms
+   ✓ mannerGroup > passes through stop 0ms
+   ✓ placeGroup > groups bilabial as labial 0ms
+   ✓ placeGroup > groups alveolar as coronal 0ms
+   ✓ placeGroup > groups velar as dorsal 0ms
+   ✓ placeGroup > groups labial-velar as labial 0ms
+   ✓ isCoronal > true for alveolar 0ms
+   ✓ isCoronal > true for postalveolar 0ms
+   ✓ isCoronal > false for bilabial 0ms
+   ✓ validateJunction > two-phoneme stop boundary can pass 0ms
+   ✓ validateJunction > identical phonemes are rejected 0ms
+   ✓ validateJunction > same manner+place are rejected (t->d) 0ms
+   ✓ validateJunction > s-exception allows s+stop onset 0ms
+   ✓ validateJunction > Rule 1 rising coda is rejected (/ts.g/) 0ms
+   ✓ validateJunction > Rule 2 plateau is rejected (/nt.p/) 0ms
+   ✓ validateJunction > Rule 2 s-exception is allowed (/ns.ʃ/) 0ms
+   ✓ validateJunction > Rule 3 onset rise is rejected (/nt.fr/) 0ms
+   ✓ validateJunction > Rule 3 s-exception onset is allowed (/t.str/) 0ms
+   ✓ validateJunction > clear valley is allowed (/n.tr/) 0ms
+   ✓ validateJunction > interior coda rise regression is rejected (/lnts.g/) 0ms
+   ✓ repairJunctions (feature-based) > does nothing for valid junction 0ms
+   ✓ repairJunctions (feature-based) > drops coda consonant for invalid junction (F2: t→d) 0ms
+   ✓ repairJunctions (feature-based) > handles empty coda 0ms
+   ✓ repairJunctions (feature-based) > removes doubled consonant grapheme fully for invalid junction (dd→k) 0ms
+   ✓ repairConsonantLetters > does nothing when under limit 0ms
+   ✓ repairConsonantLetters > trims 5 consonant letters to 4 0ms
+   ✓ repairVowelLetters > trims 3 consecutive vowels to 2 0ms
+   ✓ repairVowelLetters > trims initial vowel run 0ms
+   ✓ repairVowelLetters > does nothing when vowels are within limit 0ms
+   ✓ repairVowelLetters > treats word-initial Y before vowel as consonant (not part of vowel run) 0ms
+   × consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs 30542ms
+     → expected 10 to be +0 // Object.is equality
+   × consonant pileup integration > generates 100k words with no 5+ consonant letter runs 20861ms
+     → expected 33 to be +0 // Object.is equality
+   × consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs 2089ms
+     → expected 39 to be +0 // Object.is equality
+   ✓ filterByPosition > preserves explicit position bans when every candidate is excluded 0ms
+   ✓ filterByPosition > returns candidates with midWord > 0 when mid-word 0ms
+   ✓ filterByPosition > does not filter by midWord at start of word 0ms
+   ✓ filterByPosition > does not filter by midWord at end of word 0ms
+   ✓ filterByPosition > tier 2 excludes explicit startWord: 0 at start position 0ms
+   ✓ filterByPosition > tier 2 excludes explicit endWord: 0 at end position 0ms
+   ✓ filterByPosition > tier 1 prefers graphemes with positive position values over undefined 0ms
+   ✓ filterByPosition > tier 2 relaxed fallback keeps undefined when strict fails 0ms
+   ✓ normalizeGraphemeCondition > merges alias conditions with explicit condition fields 0ms
+   ✓ normalizeGraphemeCondition > throws on unknown condition alias 0ms
+   ✓ grapheme condition alias wiring > fails fast when a grapheme references an unknown alias 0ms
+   ✓ monosyllable position weight selection > monosyllabic /dz/ words should prefer "ds" over "dse"  1980ms
+   ✓ monosyllable position weight selection > monosyllable fix should not affect multi-syllable /dz/ words  1899ms
+   ✓ monosyllable position weight selection > uses literal segment positions for consonants in monosyllables  2263ms
+   ✓ syllable-based position filtering > "igh" only appears in the final syllable (10k words)  2058ms
+   ✓ syllable-based position filtering > "wh" only appears in the first syllable (10k words)  1946ms
+   ✓ syllable-based position filtering > does not produce impossible onset clusters with "wh" (twh/swh/cwh/quh)  1946ms
+   ✓ syllable-based position filtering > "ight" or "ought" mid-word rate < 0.1% in 10k words  1915ms
+   ✓ syllable-based position filtering > startWord: 0 graphemes do not appear in the first syllable (10k words)  1912ms
+   ✓ syllable-based position filtering > "eye" appears only as a bare syllable nucleus (50k words)  9493ms
+   ✓ syllable-based position filtering > "eye" does not appear in medial syllables (50k words)  9783ms
+   ✓ syllable-based position filtering > other /aɪ/ spellings still appear alongside "eye" (50k words)  9806ms
+   ✓ applySilentE > converts "maik" to "make" for /eɪk/ 0ms
+   ✓ applySilentE > converts "hoap" to "hope" for /oʊp/ with nucleus "oa" 0ms
+   ✓ applySilentE > converts "tighm" to "time" for /aɪm/ with nucleus "igh" 0ms
+   ✓ applySilentE > applies when coda has 2 consonants (e.g. "nce", "nge") 0ms
+   ✓ applySilentE > does not apply when coda has 3+ consonants 0ms
+   ✓ applySilentE > does not apply when coda sound is excluded 0ms
+   ✓ applySilentE > respects probability (rand >= threshold → no change) 0ms
+   ✓ applySilentE > applies only to last syllable in multi-syllable words 0ms
+   ✓ applySilentE > does nothing when nucleus grapheme has no matching swap 0ms
+   ✓ appendSilentE > appends "e" after word-final /v/ — "giv" → "give" 0ms
+   ✓ appendSilentE > appends "e" after word-final /v/ — "luv" → "luve" 0ms
+   ✓ appendSilentE > does not double-append when word already ends in "e" (magic-e fired) 0ms
+   ✓ appendSilentE > does not apply to sounds not in the lookup 0ms
+   ✓ appendSilentE > respects probability (rand >= threshold → no change) 0ms
+   ✓ appendSilentE > works on multi-syllable words (applies to last syllable) 0ms
+   ✓ appendSilentE > does not apply when coda is empty 0ms
+   ✓ silent-e integration > produces some silent-e words in 10k generated words  1933ms
+   ✓ silent-e integration > treats Y before a vowel as consonant in consonant pileup repair 0ms
+   ✓ silent-e integration > treats Y not before a vowel as vowel in consonant pileup repair 0ms
+   ✓ silent-e integration > produces "ck" (not "kk") when k doubles after lax vowel  1921ms
+   ✓ silent-e integration > never doubles consonants in unstressed syllables (modifier = 0) 0ms
+   ✓ silent-e integration > never doubles b, d, g word-finally via doubling system  1929ms
+   × silent-e integration > ck counts toward maxPerWord doubling limit 1930ms
+     → expected 6 to be less than or equal to 5
+   ✓ silent-e integration > very few words end in bare "v" in 10k generated words  1966ms
+   ✓ nucleus-ends-consonant-letter doubling suppression > does not produce doubled consonants after rhotic vowel graphemes (er/or/ur + ss/ll/ff)  1932ms
+   ✓ nucleus-ends-consonant-letter doubling suppression > still produces doubled consonants after regular vowel graphemes (a/e/i/o/u)  1936ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented
+AssertionError: Bigram "ex" under-represented at 0.0109× vs CMU (threshold: 0.0215×): expected 0.010933806812024306 to be greater than or equal to 0.0215
+ ❯ src/core/ngram-quality.test.ts:184:9
+    182|         worst.ratio,
+    183|         `Bigram "${worst.ngram}" under-represented at ${worst.ratio.to…
+    184|       ).toBeGreaterThanOrEqual(thresholds.minBigramRepresentation);
+       |         ^
+    185|       return;
+    186|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs
+AssertionError: expected 10 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 10
+
+ ❯ src/core/write.test.ts:330:24
+    328|       }
+    329|     }
+    330|     expect(violations).toBe(0);
+       |                        ^
+    331|   });
+    332| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs
+AssertionError: expected 33 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 33
+
+ ❯ src/core/write.test.ts:341:24
+    339|       }
+    340|     }
+    341|     expect(violations).toBe(0);
+       |                        ^
+    342|   });
+    343| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs
+AssertionError: expected 39 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 39
+
+ ❯ src/core/write.test.ts:360:24
+    358|       }
+    359|     }
+    360|     expect(violations).toBe(0);
+       |                        ^
+    361|   });
+    362| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit
+AssertionError: expected 6 to be less than or equal to 5
+ ❯ src/core/write.test.ts:1088:24
+    1086| 
+    1087|     console.log(`  Words with both ck and another double: ${violations…
+    1088|     expect(violations).toBeLessThanOrEqual(5);
+       |                        ^
+    1089|   });
+    1090| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  2 failed | 37 passed (39)
+      Tests  5 failed | 905 passed | 1 skipped (911)
+   Start at  20:19:55
+   Duration  112.56s (transform 1.23s, setup 0ms, collect 5.63s, tests 450.36s, environment 6ms, prepare 2.61s)
+

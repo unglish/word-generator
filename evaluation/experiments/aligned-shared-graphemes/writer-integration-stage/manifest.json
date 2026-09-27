@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "files": {
+    "README.md": {
+      "bytes": 2791,
+      "sha256": "dc6a490de20ac7c6117ae22acaf5cc325a47ee70174287a23380968e8a98aabe"
+    },
+    "failure-comparison.json": {
+      "bytes": 577,
+      "sha256": "164432ca062e064862c0538058c2a972e8e30e5cf273a6f658b024b0b22cb602"
+    },
+    "final-full.log": {
+      "bytes": 21963,
+      "sha256": "403c8566c676a9ff5610242c41ed136e6d5e99650b71cdb0c2fba2f62374dd62"
+    },
+    "full.log": {
+      "bytes": 21604,
+      "sha256": "16c16ebd5809fea0c7ed29b9b01f082d463d09e58fcd4ade76c219067a08c350"
+    },
+    "lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source-files.json": {
+      "bytes": 1868,
+      "sha256": "93a3b28059fed8ac7ae438bdf3b0798370d4ef1b2d69d3f0560d0c7dc2b8091b"
+    },
+    "targeted.log": {
+      "bytes": 1348,
+      "sha256": "10f814e93965bdd6af6688b765defadde07c45b25fa2a76e8ad509a6f54663bd"
+    },
+    "types.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

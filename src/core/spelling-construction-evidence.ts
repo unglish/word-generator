@@ -1,5 +1,5 @@
 import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
-import { BaseSpelling } from "./base-spelling.js";
+import { BaseSpelling, createSharedSpellingRuntime } from "./base-spelling.js";
 import type { BaseSpellingTraceV4 } from "./base-spelling.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
 import { validateSharedFormationBindings } from "./spelling-construction-bindings.js";
@@ -20,6 +20,7 @@ export function createSharedLedgerReplayer(config: LanguageConfig, rules: readon
   const normalizer = createSpellingNormalizer(config, undefined, undefined, rules);
   const coverage = createSpellingCoveragePlanner(config, undefined, undefined, rules);
   const sharedReplay = createSharedEventReplayer(config, rules);
+  const sharedRuntime = createSharedSpellingRuntime(rules, config);
   return (trace: BaseSpellingTraceV4) => {
     require(trace.version === 4 && equal(trace.capabilities,
       { exactParts: 1, licensedOrigins: 1, writerBoundary: 1, unitNormalization: 1, sharedConstructions: 1 }), "capabilities");
@@ -33,10 +34,12 @@ export function createSharedLedgerReplayer(config: LanguageConfig, rules: readon
       require(unit.id === id && unit.choiceId === id && equal(unit.phoneIds, [id]) && trace.phones[id].id === id &&
         grapheme?.form === unit.selected && grapheme.phoneme === trace.phones[id].soundAtSpelling, "original unit identity");
     }
-    const base = new BaseSpelling(structuredClone(trace.phones), true, true, true, rules, config);
+    const base = new BaseSpelling(structuredClone(trace.phones), true, true, true, rules, config, sharedRuntime);
     const priorChoices = trace.units.map(unit => ({ inventoryIndex: unit.inventoryIndex!, form: unit.afterDoubling }));
     let nextCellId = 0;
     let nextShared = 0;
+    let nextScan = 0;
+    let activeScan: number | undefined;
     let nextCheck = 0;
     let nextEpisode = 0;
     let nextCoverage = 0;
@@ -45,7 +48,20 @@ export function createSharedLedgerReplayer(config: LanguageConfig, rules: readon
     for (const entry of trace.shared.timeline) {
       require(equal(entry.cursor, base.constructionState().cursor) && Number.isSafeInteger(entry.index) && entry.index >= 0, "operation cursor/index");
       require(!pending || entry.kind === "normalization-episode", "missing immediate collision episode");
-      if (entry.kind === "append") {
+      require(activeScan === undefined || entry.kind === "scan-end" ||
+        (entry.kind === "shared" && trace.shared.events[entry.index]?.kind === "attempt"), "interrupted shared scan");
+      if (entry.kind === "scan-start") {
+        require(entry.index === nextScan++ && activeScan === undefined, "scan start order");
+        const scan = trace.shared.scans[entry.index];
+        require(scan && scan.id === entry.index && equal(scan.cursor, entry.cursor), "scan identity");
+        base.setPhase(scan.slot.phase);
+        base.beginSharedScan(scan.slot, scan.ruleId);
+        activeScan = entry.index;
+      } else if (entry.kind === "scan-end") {
+        require(activeScan === entry.index, "scan end order");
+        base.endSharedScan();
+        activeScan = undefined;
+      } else if (entry.kind === "append") {
         const id = base.current().units.length;
         const unit = trace.units[id];
         require(entry.index === id && unit && equal(unit.sourceCellIds, unit.afterDoubling.split("").map((_, offset) => nextCellId + offset)), "append allocation/order");
@@ -129,7 +145,7 @@ export function createSharedLedgerReplayer(config: LanguageConfig, rules: readon
         certificate.choices.forEach((choice, id) => { priorChoices[id] = { inventoryIndex: choice.inventoryIndex, form: choice.afterDoubling }; });
       } else require(false, "unobserved normalization or unknown operation");
     }
-    require(!pending && nextShared === trace.shared.events.length && nextCheck === trace.normalization.checks.length &&
+    require(activeScan === undefined && nextScan === trace.shared.scans.length && !pending && nextShared === trace.shared.events.length && nextCheck === trace.normalization.checks.length &&
       nextEpisode === trace.normalization.episodes.length && nextCoverage === trace.certificates.length &&
       base.current().units.length === trace.units.length, "incomplete operation stream");
     verifyNormalizationChecks(trace);
