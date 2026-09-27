@@ -1,0 +1,268 @@
+{
+  "words": 50000,
+  "finalOpenChecked": 262,
+  "rootStressRepair": 43,
+  "finalStressRepair": 0,
+  "witnesses": [
+    {
+      "seed": 2001884366,
+      "index": 3986,
+      "written": "stu",
+      "pronunciation": "stʊ",
+      "rootRepair": {
+        "name": "repairStressedNuclei",
+        "before": [
+          {
+            "onset": [
+              "s",
+              "t"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ],
+        "after": [
+          {
+            "onset": [
+              "s",
+              "t"
+            ],
+            "nucleus": [
+              "ʊ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ]
+      },
+      "finalRepair": {
+        "name": "repairFinalStressedNuclei",
+        "before": [
+          {
+            "onset": [
+              "s",
+              "t"
+            ],
+            "nucleus": [
+              "ʊ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ],
+        "after": [
+          {
+            "onset": [
+              "s",
+              "t"
+            ],
+            "nucleus": [
+              "ʊ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ]
+      }
+    },
+    {
+      "seed": 2001884366,
+      "index": 4958,
+      "written": "phre",
+      "pronunciation": "frɛ",
+      "rootRepair": {
+        "name": "repairStressedNuclei",
+        "before": [
+          {
+            "onset": [
+              "f",
+              "r"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ],
+        "after": [
+          {
+            "onset": [
+              "f",
+              "r"
+            ],
+            "nucleus": [
+              "ɛ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ]
+      },
+      "finalRepair": {
+        "name": "repairFinalStressedNuclei",
+        "before": [
+          {
+            "onset": [
+              "f",
+              "r"
+            ],
+            "nucleus": [
+              "ɛ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ],
+        "after": [
+          {
+            "onset": [
+              "f",
+              "r"
+            ],
+            "nucleus": [
+              "ɛ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ]
+      }
+    },
+    {
+      "seed": 2001884366,
+      "index": 6211,
+      "written": "squa",
+      "pronunciation": "skwæ",
+      "rootRepair": {
+        "name": "repairStressedNuclei",
+        "before": [
+          {
+            "onset": [
+              "s",
+              "k",
+              "w"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ],
+        "after": [
+          {
+            "onset": [
+              "s",
+              "k",
+              "w"
+            ],
+            "nucleus": [
+              "æ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ]
+      },
+      "finalRepair": {
+        "name": "repairFinalStressedNuclei",
+        "before": [
+          {
+            "onset": [
+              "s",
+              "k",
+              "w"
+            ],
+            "nucleus": [
+              "æ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ],
+        "after": [
+          {
+            "onset": [
+              "s",
+              "k",
+              "w"
+            ],
+            "nucleus": [
+              "æ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ]
+      }
+    },
+    {
+      "seed": 2001884366,
+      "index": 6812,
+      "written": "swe",
+      "pronunciation": "swɛ",
+      "rootRepair": {
+        "name": "repairStressedNuclei",
+        "before": [
+          {
+            "onset": [
+              "s",
+              "w"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ],
+        "after": [
+          {
+            "onset": [
+              "s",
+              "w"
+            ],
+            "nucleus": [
+              "ɛ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ]
+      },
+      "finalRepair": {
+        "name": "repairFinalStressedNuclei",
+        "before": [
+          {
+            "onset": [
+              "s",
+              "w"
+            ],
+            "nucleus": [
+              "ɛ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ],
+        "after": [
+          {
+            "onset": [
+              "s",
+              "w"
+            ],
+            "nucleus": [
+              "ɛ"
+            ],
+            "coda": [],
+            "stress": "ˈ"
+          }
+        ]
+      }
+    }
+  ]
+}

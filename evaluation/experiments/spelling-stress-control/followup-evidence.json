@@ -1,0 +1,19 @@
+{
+  "artifacts": [
+    {
+      "file": "current-fixtures.json.gz",
+      "sha256": "a70bf937db532e05faa7305efeb77fa590c7f25908788029bc10f5a5c4424703"
+    },
+    {
+      "file": "bare-regression.log.gz",
+      "sha256": "7042dc86466b58070eda009ae33c19fd3a16bb4f2d8c34e3cc605668d3fee003"
+    },
+    {
+      "file": "find-fixtures.mjs",
+      "sha256": "731ab3fb545a1fef64ddad1348cb374d1bed51ff74fb0f8731483b8208a2f738"
+    }
+  ],
+  "typecheckExitCode": 0,
+  "regressionBefore": "failed: missing final-morphology budget",
+  "regressionAfter": "1 passed"
+}
