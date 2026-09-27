@@ -1,0 +1,9 @@
+src/core/spelling-coverage.ts(281,101): error TS2339: Property 'units' does not exist on type 'SpellingBudgetRefusal | { view?: ConstructionLedgerView | undefined; units: Set<number>; }'.
+  Property 'units' does not exist on type '"unresolved-ownership"'.
+src/core/spelling-coverage.ts(292,20): error TS2339: Property 'view' does not exist on type 'SpellingBudgetRefusal | { view?: ConstructionLedgerView | undefined; units: Set<number>; }'.
+  Property 'view' does not exist on type '"unresolved-ownership"'.
+src/core/spelling-coverage.ts(292,68): error TS2339: Property 'view' does not exist on type 'SpellingBudgetRefusal | { view?: ConstructionLedgerView | undefined; units: Set<number>; }'.
+  Property 'view' does not exist on type '"unresolved-ownership"'.
+src/core/spelling-coverage.ts(292,91): error TS7006: Parameter 'entry' implicitly has an 'any' type.
+src/core/spelling-coverage.ts(294,42): error TS2339: Property 'view' does not exist on type 'SpellingBudgetRefusal | { view?: ConstructionLedgerView | undefined; units: Set<number>; }'.
+  Property 'view' does not exist on type '"unresolved-ownership"'.

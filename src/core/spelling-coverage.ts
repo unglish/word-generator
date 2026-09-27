@@ -1,6 +1,8 @@
+import { createSharedSurfaceGuard } from "./spelling-construction-edit.js";
+import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
 import { isSingleOwned } from "./spelling-ownership.js";
 import type { Grapheme } from "../types.js";
-import type { LanguageConfig } from "../config/language.js";
+import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
 import { validateJunction } from "./junction.js";
 import { BaseSpelling } from "./base-spelling.js";
 import type { SpellingCell } from "./base-spelling.js";
@@ -25,7 +27,7 @@ interface Option {
   reading: Grapheme["reading"];
   license: SpellingChoiceLicense;
 }
-interface SurfaceCell { text: string; unitId: number | null; partId: number | null }
+interface SurfaceCell { text: string; unitId: number | null; partId: number | null; constructionId?: number }
 interface UnitSpan { start: number; end: number; partId: number; cells: SpellingCell[] }
 
 function owner(cell: SpellingCell): number | null {
@@ -59,7 +61,8 @@ function project(cells: readonly SpellingCell[], spans: Map<number, UnitSpan>, c
       i = entry.span.end;
     } else {
       const cell = cells[i++];
-      result.push({ text: cell.text, unitId: owner(cell), partId: cell.partId ?? null });
+      result.push({ text: cell.text, unitId: owner(cell), partId: cell.partId ?? null,
+        ...(cell.origin.kind === "shared" ? { constructionId: cell.origin.constructionId } : {}) });
     }
   }
   return result;
@@ -78,10 +81,11 @@ function readingContext(cells: SurfaceCell[], unitId: number): { previous: strin
   };
 }
 
-function checkReadings(original: SurfaceCell[], proposed: SurfaceCell[], choices: SpellingChoiceState[], options: Option[], changed: Set<number>): SpellingBudgetRefusal | undefined {
+function checkReadings(original: SurfaceCell[], proposed: SurfaceCell[], choices: SpellingChoiceState[], options: Option[], changed: Set<number>, sharedUnits: ReadonlySet<number>): SpellingBudgetRefusal | undefined {
   const changedParts = new Set([...changed].map(id => choices[id].slot.syllableIndex));
-  if (proposed.some(cell => cell.unitId === null && (cell.partId === null || changedParts.has(cell.partId)))) return "unresolved-ownership";
+  if (proposed.some(cell => cell.unitId === null && cell.constructionId === undefined && (cell.partId === null || changedParts.has(cell.partId)))) return "unresolved-ownership";
   for (let unitId = 0; unitId < choices.length; unitId++) {
+    if (sharedUnits.has(unitId)) continue;
     const reading = options[unitId].reading;
     const samePart = changedParts.has(choices[unitId].slot.syllableIndex);
     if (samePart && !reading) return "unknown-reading";
@@ -122,7 +126,9 @@ export function createSpellingCoveragePlanner(
   config: LanguageConfig,
   resolve = createGraphemeResolver(config),
   doubling = createDoublingModel(config.doubling),
+  sharedRules?: readonly SharedSpellingRule[],
 ) {
+  const preserveShared = sharedRules === undefined ? undefined : createSharedSurfaceGuard(sharedRules);
   const inventory = new Map(config.graphemes.map((grapheme, i) => [grapheme, i]));
   const constraints = config.writtenFormConstraints;
 
@@ -149,16 +155,59 @@ export function createSpellingCoveragePlanner(
     return options.sort((a, b) => Number(b.grapheme === choice.grapheme && b.form === choice.form) - Number(a.grapheme === choice.grapheme && a.form === choice.form));
   }
 
+  type CoverageBase = Pick<BaseSpelling, "current"> & Partial<Pick<BaseSpelling, "constructionState">>;
+  function sharedContext(base: CoverageBase): { view?: ConstructionLedgerView; units: Set<number> } | SpellingBudgetRefusal {
+    const state = base.current();
+    const cells = state.cells;
+    const units = new Set<number>();
+    if (!preserveShared) return cells.some(cell => cell.origin.kind === "shared") ? "unresolved-ownership" : { units };
+    const view = base.constructionState?.();
+    if (!view || view.cells !== state.cells || view.units !== state.units || view.phones !== state.phones) return "unresolved-ownership";
+    const ids = new Set(view.constructions.map(entry => entry.id));
+    if (ids.size !== view.constructions.length || cells.some(cell => cell.origin.kind === "shared" && !ids.has(cell.origin.constructionId))) return "unresolved-ownership";
+    if (preserveShared(view, view, view.constructions).status === "refused") return "construction-obligation";
+    for (const construction of view.constructions) {
+      for (const id of construction.sourceUnitIds) {
+        if (units.has(id)) return "unresolved-ownership";
+        units.add(id);
+      }
+    }
+    return { view, units };
+  }
+
+  function preservesJointReadings(view: ConstructionLedgerView | undefined, plan: Omit<SpellingCoverageCertificate, "id">): boolean {
+    if (!view) return plan.preservedSharedConstructionIds === undefined;
+    if (JSON.stringify(plan.preservedSharedConstructionIds) !== JSON.stringify(view.constructions.map(entry => entry.id))) return false;
+    const cells = view.cells.slice();
+    const certificateId = view.certificates.length;
+    let nextId = -1;
+    let editId = view.cursor.nextEditId;
+    for (const replacement of [...plan.replacements].reverse()) {
+      const start = cells.findIndex(cell => cell.id === replacement.inputCellIds[0]);
+      if (start < 0) return false;
+      const output: SpellingCell[] = replacement.after.split("").map((text, offset) => ({
+        id: nextId--, text, partId: replacement.partId,
+        origin: { kind: "licensed", unitId: replacement.unitId, offset, editId, certificateId, sourceUnitIds: [replacement.unitId] },
+      }));
+      cells.splice(start, replacement.inputCellIds.length, ...output);
+      editId++;
+    }
+    return preserveShared!(view, { ...view, cells, certificates: [...view.certificates, { ...plan, id: certificateId }] }, view.constructions).status === "allowed";
+  }
+
   const contextsFor = (choices: SpellingChoiceState[]) => choices.map(choice => ({
     slot: choice.slot, doubling: choice.doubling, inventoryIndex: inventory.get(choice.grapheme) ?? -1, afterDoubling: choice.form,
   }));
 
   /** Recompute every license and final reading; caller-provided probabilities are not trusted. */
-  function verify(base: Pick<BaseSpelling, "current">, choices: SpellingChoiceState[], plan: Omit<SpellingCoverageCertificate, "id">): void {
+  function verify(base: CoverageBase, choices: SpellingChoiceState[], plan: Omit<SpellingCoverageCertificate, "id">): void {
     const fail = (): never => { throw new Error("Invalid spelling coverage certificate"); };
     const equal = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
     if (plan.version !== 1 || plan.choices.length !== choices.length || !equal(plan.contexts, contextsFor(choices)) || hasInvalidJunction(choices, config)) fail();
     const state = base.current();
+    const shared = sharedContext(base);
+    if (typeof shared === "string") throw new Error("Invalid spelling coverage certificate: " + shared);
+    const { view: sharedView, units: sharedUnits } = shared;
     if ((state.normalizationCount ?? 0) > 0 || state.cells.some(cell => cell.origin.kind === "normalized")) fail();
     if (!equal(plan.inputCellIds, state.cells.map(cell => cell.id)) ||
         plan.before !== state.cells.map(cell => cell.text).join("")) fail();
@@ -190,14 +239,15 @@ export function createSpellingCoveragePlanner(
     const proposed = project(state.cells, spans, new Map([...changed].map(i => [i, options[i].form])));
     const after = proposed.map(cell => cell.text).join("");
     const budgets = measureSpellingBudgets(after, constraints);
-    if (!changed.size || checkReadings(original, proposed, choices, options, changed) ||
+    if (!changed.size || checkReadings(original, proposed, choices, options, changed, sharedUnits) ||
         after !== plan.after || score !== plan.logProbability || !equal(plan.budgets, budgets) || budgets.exceeded.length) fail();
     const replacements = [...changed].map(unitId => ({
       unitId, phoneIds: [...state.units[unitId].phoneIds], partId: spans.get(unitId)!.partId,
       inputCellIds: spans.get(unitId)!.cells.map(cell => cell.id), before: choices[unitId].form,
       after: options[unitId].form, reading: options[unitId].reading!,
     }));
-    if (!equal(plan.replacements, replacements) || !equal(plan.phoneIds, replacements.flatMap(entry => entry.phoneIds))) fail();
+    if (!equal(plan.replacements, replacements) || !equal(plan.phoneIds, replacements.flatMap(entry => entry.phoneIds)) ||
+        !preservesJointReadings(sharedView, plan)) fail();
   }
 
   function apply(base: BaseSpelling, choices: SpellingChoiceState[], scope: SpellingBudgetOutcome["scope"], invalidJunction = hasInvalidJunction(choices, config)): SpellingBudgetOutcome {
@@ -212,9 +262,12 @@ export function createSpellingCoveragePlanner(
     if (invalidJunction) return refuse("invalid-junction", { "invalid-junction": 1 });
     if ((state.normalizationCount ?? 0) > 0 || state.cells.some(cell => cell.origin.kind === "normalized")) return refuse("normalization-context-unavailable", { "normalization-context-unavailable": 1 });
     if (!base.projectParts(choices[0]?.slot.syllableCount ?? 0)) return refuse("unresolved-ownership", { "unresolved-ownership": 1 });
+    const shared = sharedContext(base);
+    if (typeof shared === "string") return refuse(shared, { [shared]: 1 });
+    const { view: sharedView, units: sharedUnits } = shared;
     const spans = unitSpans(state.cells, choices);
     const originalCells = project(state.cells, spans, new Map());
-    const unresolvedParts = new Set(originalCells.filter(cell => cell.unitId === null).map(cell => cell.partId));
+    const unresolvedParts = new Set(originalCells.filter(cell => cell.unitId === null && cell.constructionId === undefined).map(cell => cell.partId));
     const refusals: Partial<Record<SpellingBudgetRefusal, number>> = {};
     const note = (reason: SpellingBudgetRefusal): void => { refusals[reason] = (refusals[reason] ?? 0) + 1; };
     const selected: Option[] = [];
@@ -228,7 +281,7 @@ export function createSpellingCoveragePlanner(
       const after = cells.map(cell => cell.text).join("");
       const budgets = measureSpellingBudgets(after, constraints);
       if (budgets.exceeded.length) return;
-      const readingRefusal = checkReadings(originalCells, cells, choices, selected, changed);
+      const readingRefusal = checkReadings(originalCells, cells, choices, selected, changed, sharedUnits);
       if (readingRefusal) { note(readingRefusal); return; }
       const replacements: SpellingUnitReplacement[] = [...changed].sort((a, b) => a - b).map(unitId => ({
         unitId, phoneIds: [...state.units[unitId].phoneIds], partId: spans.get(unitId)!.partId,
@@ -239,7 +292,9 @@ export function createSpellingCoveragePlanner(
         version: 1, inputCellIds: state.cells.map(cell => cell.id), before: surface, after, replacements,
         choices: selected.map(option => ({ ...option.license })), contexts: structuredClone(contextsFor(choices)), phoneIds: replacements.flatMap(replacement => replacement.phoneIds),
         logProbability: score, budgets,
+        ...(sharedView ? { preservedSharedConstructionIds: sharedView.constructions.map(entry => entry.id) } : {}),
       };
+      if (!preservesJointReadings(sharedView, plan)) { note("construction-obligation"); return; }
       if (!best || score > best.plan.logProbability + 1e-12) best = { plan, options: selected.slice() };
     }
 
