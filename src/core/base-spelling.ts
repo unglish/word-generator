@@ -6,7 +6,7 @@ import { editPart, isSingleOwned, sourceUnits } from "./spelling-ownership.js";
 import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
 import { createSharedConstructionPlanner } from "./spelling-construction.js";
 import type { SharedConstructionAttempt, SharedSpellingSlot } from "./spelling-construction.js";
-import type { SharedSpellingScan, SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession, SharedSpellingEvent, SpellingTimelineEntry } from "./spelling-construction-types.js";
+import type { SharedWriterStep, SharedSpellingScan, SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession, SharedSpellingEvent, SpellingTimelineEntry } from "./spelling-construction-types.js";
 import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
 import type { Phoneme } from "../types.js";
 import type { SpellingCoverageCertificate, SpellingUnitReplacement } from "./spelling-coverage-types.js";
@@ -122,6 +122,7 @@ export interface BaseSpellingTraceV4 extends Omit<BaseSpellingTraceV3, "version"
   capabilities: BaseSpellingTraceV3["capabilities"] & { sharedConstructions: 1 };
   shared: {
     version: 1;
+    writerSteps: SharedWriterStep[];
     scans: SharedSpellingScan[];
     events: SharedSpellingEvent[];
     timeline: SpellingTimelineEntry[];
@@ -205,6 +206,7 @@ export class BaseSpelling {
   private readonly sharedTimeline?: SpellingTimelineEntry[];
   private readonly sharedScanner?: ReturnType<typeof createSharedCandidateScanner>;
   private readonly sharedScans: SharedSpellingScan[] = [];
+  private readonly sharedWriterSteps?: SharedWriterStep[];
   private activeSharedScan?: { scan: SharedSpellingScan; next: number };
   private nextSharedAttemptId = 0;
   private nextCellId = 0;
@@ -236,6 +238,7 @@ export class BaseSpelling {
         this.sharedAttempts = [];
         this.sharedEvents = [];
         this.sharedTimeline = [];
+        this.sharedWriterSteps = [];
       }
     }
     if (normalizeUnits && !licensed) throw new Error("Unit normalization requires licensed spelling provenance");
@@ -488,6 +491,13 @@ export class BaseSpelling {
     this.recordTimeline("normalization-episode", id, cursor);
   }
 
+  recordWriterStep(kind: SharedWriterStep["kind"], slot: SharedSpellingSlot, slotIndex: number | null = null): void {
+    if (!this.sharedPlanner || this.phase !== slot.phase) throw new Error("Invalid shared writer step phase");
+    const cursor = this.constructionState().cursor;
+    this.sharedWriterSteps?.push({ kind, slot: { ...slot }, slotIndex, cursor });
+    this.recordTimeline("writer-step", (this.sharedWriterSteps?.length ?? 1) - 1, cursor);
+  }
+
   beginSharedScan(slot: SharedSpellingSlot, ruleId: string): void {
     if (!this.sharedScanner || this.activeSharedScan || this.phase !== slot.phase) throw new Error("Invalid shared scan start");
     const view = this.constructionState();
@@ -730,7 +740,7 @@ export class BaseSpelling {
       };
       if (this.sharedPlanner) return structuredClone({ ...trace, version: 4,
         capabilities: { ...trace.capabilities, sharedConstructions: 1 },
-        shared: { version: 1, scans: this.sharedScans, timeline: this.sharedTimeline ?? [], events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
+        shared: { version: 1, writerSteps: this.sharedWriterSteps ?? [], scans: this.sharedScans, timeline: this.sharedTimeline ?? [], events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
           liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [], transactions: this.sharedTransactions ?? [] } });
       return structuredClone(trace);
     }

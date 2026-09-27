@@ -1,0 +1,48 @@
+{
+  "files": {
+    "docs/shared-spellings.md": {
+      "bytes": 3143,
+      "sha256": "8c7850052bf65e409f53e636e7d8a27e41a800b3c71fb395b81de9e5d35b5f66"
+    },
+    "src/core/base-spelling.ts": {
+      "bytes": 40049,
+      "sha256": "a40cac4e16130ede1373f3294c9295c314cdd4c5b1c1682c7c9e652be163e33d"
+    },
+    "src/core/spelling-construction-evidence.ts": {
+      "bytes": 12208,
+      "sha256": "d5c530d56d3ca05af671e891631a8262b1fcb2c00e9a5c32c8d2d9fccac75c06"
+    },
+    "src/core/spelling-construction-ledger.test.ts": {
+      "bytes": 34830,
+      "sha256": "a7e71c4a425baa3595024000871a30dab52e77deba670d56b011cbf33ebc7ea6"
+    },
+    "src/core/spelling-construction-scan.ts": {
+      "bytes": 1970,
+      "sha256": "079b1e270bd4e579686b85e5e2097fe2dfded47827a1d6b97beb16824da1532a"
+    },
+    "src/core/spelling-construction-types.ts": {
+      "bytes": 2249,
+      "sha256": "2edd624e33dcc84e2ee5e83b748c7816a22f3631c65418b437a6308b059abde7"
+    },
+    "src/core/spelling-construction-writer.test.ts": {
+      "bytes": 3435,
+      "sha256": "5acc6fad86e6e2800f3c3efce2e380d17b45d63f2df7e52ee9fe2699d5cc0dd1"
+    },
+    "src/core/spelling-evidence.ts": {
+      "bytes": 8722,
+      "sha256": "1393af701e51c13b12c9eb5d5995a6c8134b4a7369f2946cf22b0273679ae602"
+    },
+    "src/core/write.ts": {
+      "bytes": 61462,
+      "sha256": "f0ca7c6b9808a65edd533253eda099a68f39a34020d14ecc8ca5df93345a3a6c"
+    },
+    "src/core/spelling-construction-schedule.ts": {
+      "bytes": 8256,
+      "sha256": "f6867694f16181d87af74d53df60320b1acdbd2921ef44fd57ec01c6a8e66005"
+    },
+    "src/core/spelling-construction-schedule.test.ts": {
+      "bytes": 7707,
+      "sha256": "f61d7c060419a559bf94286f6959dc5bb8d813b94d738aa6076ca5028cffefaf"
+    }
+  }
+}

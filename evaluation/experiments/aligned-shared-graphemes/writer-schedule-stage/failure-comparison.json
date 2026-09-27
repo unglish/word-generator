@@ -1,0 +1,14 @@
+{
+  "reference": "../writer-integration-stage/final-full.log",
+  "candidate": "full.log",
+  "assertionsExactlyMatch": true,
+  "assertions": [
+    "AssertionError: Bigram \"ex\" under-represented at 0.0109\u00d7 vs CMU (threshold: 0.0215\u00d7): expected 0.010933806812024306 to be greater than or equal to 0.0215",
+    "AssertionError: expected 10 to be +0 // Object.is equality",
+    "AssertionError: expected 33 to be +0 // Object.is equality",
+    "AssertionError: expected 39 to be +0 // Object.is equality",
+    "AssertionError: expected 6 to be less than or equal to 5"
+  ],
+  "additionalFailure": "phonotactic beforeAll hook exceeded unchanged 60000 ms while legacy parity also ran",
+  "recheck": "phonotactic-recheck.log: all 14 tests pass in 28.881 seconds; no timeout or test changes"
+}

@@ -1,3 +1,4 @@
+import { createSharedWriterScheduleVerifier } from "./spelling-construction-schedule.js";
 import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
 import { BaseSpelling, createSharedSpellingRuntime } from "./base-spelling.js";
 import type { BaseSpellingTraceV4 } from "./base-spelling.js";
@@ -39,6 +40,7 @@ export function createSharedLedgerReplayer(config: LanguageConfig, rules: readon
     let nextCellId = 0;
     let nextShared = 0;
     let nextScan = 0;
+    let nextWriterStep = 0;
     let activeScan: number | undefined;
     let nextCheck = 0;
     let nextEpisode = 0;
@@ -50,7 +52,13 @@ export function createSharedLedgerReplayer(config: LanguageConfig, rules: readon
       require(!pending || entry.kind === "normalization-episode", "missing immediate collision episode");
       require(activeScan === undefined || entry.kind === "scan-end" ||
         (entry.kind === "shared" && trace.shared.events[entry.index]?.kind === "attempt"), "interrupted shared scan");
-      if (entry.kind === "scan-start") {
+      if (entry.kind === "writer-step") {
+        require(entry.index === nextWriterStep++, "writer step order");
+        const step = trace.shared.writerSteps[entry.index];
+        require(step && equal(step.cursor, entry.cursor), "writer step cursor");
+        base.setPhase(step.slot.phase);
+        base.recordWriterStep(step.kind, step.slot, step.slotIndex);
+      } else if (entry.kind === "scan-start") {
         require(entry.index === nextScan++ && activeScan === undefined, "scan start order");
         const scan = trace.shared.scans[entry.index];
         require(scan && scan.id === entry.index && equal(scan.cursor, entry.cursor), "scan identity");
@@ -145,7 +153,7 @@ export function createSharedLedgerReplayer(config: LanguageConfig, rules: readon
         certificate.choices.forEach((choice, id) => { priorChoices[id] = { inventoryIndex: choice.inventoryIndex, form: choice.afterDoubling }; });
       } else require(false, "unobserved normalization or unknown operation");
     }
-    require(activeScan === undefined && nextScan === trace.shared.scans.length && !pending && nextShared === trace.shared.events.length && nextCheck === trace.normalization.checks.length &&
+    require(nextWriterStep === trace.shared.writerSteps.length && activeScan === undefined && nextScan === trace.shared.scans.length && !pending && nextShared === trace.shared.events.length && nextCheck === trace.normalization.checks.length &&
       nextEpisode === trace.normalization.episodes.length && nextCoverage === trace.certificates.length &&
       base.current().units.length === trace.units.length, "incomplete operation stream");
     verifyNormalizationChecks(trace);
@@ -153,5 +161,18 @@ export function createSharedLedgerReplayer(config: LanguageConfig, rules: readon
     return { version: 4 as const, verifiedSharedEvents: nextShared, verifiedCertificates: nextCoverage,
       verifiedNormalizations: trace.normalizationCertificates.length, verifiedEpisodes: nextEpisode,
       sharedWriterSchedule: "unverified" as const };
+  };
+}
+
+
+/** Configured writer schedule plus producer-assisted event-time license replay. */
+export function createSharedWriterEvidenceVerifier(config: LanguageConfig) {
+  if (config.sharedSpellings === undefined) throw new Error("Invalid spelling evidence: v4 requires its shared spelling configuration");
+  const rules = structuredClone(config.sharedSpellings);
+  const schedule = createSharedWriterScheduleVerifier(config, rules);
+  const replay = createSharedLedgerReplayer(config, rules);
+  return (trace: BaseSpellingTraceV4) => {
+    const scheduling = schedule(trace);
+    return { ...replay(trace), ...scheduling, sharedWriterSchedule: "verified" as const };
   };
 }

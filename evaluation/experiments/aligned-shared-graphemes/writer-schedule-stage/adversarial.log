@@ -1,0 +1,10 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/spelling-construction-schedule.test.ts (12 tests) 25ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  20:30:57
+   Duration  553ms (transform 289ms, setup 0ms, collect 339ms, tests 25ms, environment 0ms, prepare 51ms)
+

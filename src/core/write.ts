@@ -1133,7 +1133,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       const surface = () => baseSpelling.current().cells.filter(cell => slot.phase === "word" || cell.partId === slot.partId)
         .map(cell => cell.text).join("");
       const scope = slot.phase === "word" ? "word" : `syllable:${slot.partId}`;
+      baseSpelling.recordWriterStep("pass-start", slot);
       for (const entry of sharedPasses[slot.phase]!) {
+        baseSpelling.recordWriterStep("slot-start", slot, entry.index);
         const before = surface();
         if (entry.kind === "shared") {
           baseSpelling.scanSharedSlot(slot, entry.ruleId, rand);
@@ -1145,7 +1147,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           applySpellingRules(before, entry.compiled, rand, context.trace, scope,
             baseSpelling.observe(start, slot.partId ?? undefined));
         }
+        baseSpelling.recordWriterStep("slot-end", slot, entry.index);
       }
+      baseSpelling.recordWriterStep("pass-end", slot);
       return surface();
     };
     context.baseSpelling = baseSpelling;

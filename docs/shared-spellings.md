@@ -31,10 +31,20 @@ retry at a word slot; previously consumed phones cannot form another shared
 spelling. Refusals and probabilities zero or 100 use no random draw. Other
 eligible trials use exactly one draw and succeed strictly below probability/100.
 
-Trace version 4 retains scan boundaries (including empty scans), source windows,
-attempts, joint constructions and subsequent guarded edits. The current ledger
-replayer validates each recorded scan's candidate completeness and event-time
-semantics. It still reports `sharedWriterSchedule: "unverified"`: proving that
-all required passes and named slots were recorded at their proper positions
-remains unfinished. The general evidence verifier therefore does not accept v4
-yet. Morphological ownership after the root remains a separate task.
+Trace version 4 retains every pass and rule-slot boundary, including no-op regex
+slots and empty shared scans, plus source windows, attempts, joint constructions
+and subsequent guarded edits. The public evidence verifier requires the matching
+explicit `sharedSpellings` configuration. It derives the required ordered slots
+from that configuration and the required syllable passes from the original phone
+boundaries, then checks complete event-time ledger reconstruction and shared
+reading licenses. Omitted slots, missing scans, misplaced operations and invalid
+joint decisions are rejected. A successful result reports
+`sharedWriterSchedule: "verified"` with pass, slot and scan counts.
+
+The lower-level ledger replayer alone still reports the schedule as unverified;
+its self-consistent operation stream is not sufficient evidence of completeness.
+The combined verifier is producer-assisted, not an independent implementation of
+the generator. Generic regex sampling and lexical-gap eligibility are not
+independently regenerated. Morphological ownership after the root remains a
+separate task. The registered corpus, independent recount and performance checks
+remain necessary before any quality claim or default activation.
