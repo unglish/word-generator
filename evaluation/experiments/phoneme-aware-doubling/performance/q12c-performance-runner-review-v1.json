@@ -1,0 +1,17 @@
+{
+  "historicalRunnerSha256": "4beb81cb851e679a7cba1a6b68495f9198d7ea3d96847b489a78115539ec69fb",
+  "runnerSha256": "59471d76d94893446fe562f5ef70046357b3ef367244491d7178e465cda88778",
+  "replacements": {
+    "/private/tmp/q13c-performance-control-v1": "/private/tmp/q12c-performance-control-v1",
+    "01e9b7ec18bbe4efff8320fa897dfa25671b37034684d5bfb63d8edb67dbe6bb": "3b473580f13cc736a42c9f77437f615c61ff1b91bcdd25914dd50f5ffda32e31",
+    "/private/tmp/q13c-formal-parity-freeze-v1.json": "/private/tmp/q12c-performance-candidate-freeze-v1.json",
+    "fee661104514e33487c95eaa948b0acb1d41e78b1fc956412e4228f1b49e820e": "26bc35d55c633140b576b14b035228ea3ba246fd2d5223cf4b6c388dad7a453c",
+    "/private/tmp/q13c-performance-plan-v2.md": "/private/tmp/q12c-performance-plan-v1.md",
+    "8d5c6f4d2d590d2891a5af41d68cf56748f214fea08e32496f9aa87c99915ab3": "d76d2d6110468f39851f9f79d967bdc0cf2302fba276651b833318e3ac22c4f8",
+    "/private/tmp/q13c-unit-normalization-candidate-v1": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1",
+    "q13c-performance-series-v2": "q12c-performance-series-v1"
+  },
+  "onlyListedReplacements": true,
+  "planSha256": "d76d2d6110468f39851f9f79d967bdc0cf2302fba276651b833318e3ac22c4f8",
+  "testSourceSha256": "2436db3060720cc908108a4ac00badeeceb4b8e3a4248d089e8f6db101618570"
+}

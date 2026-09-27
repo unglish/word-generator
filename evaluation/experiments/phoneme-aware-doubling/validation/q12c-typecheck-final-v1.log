@@ -1,0 +1,1 @@
+error TS5033: Could not write file '/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/tsconfig.tsbuildinfo': EPERM: operation not permitted, open '/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/tsconfig.tsbuildinfo'.

@@ -1,0 +1,17 @@
+
+> @unglish/word-generator@0.6.0 lint
+> eslint src/**/*.ts evaluation/review/**/*.ts demo/review/**/*.ts
+
+
+/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/config/language.test.ts
+  351:47  error  Strings must use doublequote  quotes
+  362:47  error  Strings must use doublequote  quotes
+  380:7   error  Strings must use doublequote  quotes
+  417:7   error  Strings must use doublequote  quotes
+  494:47  error  Strings must use doublequote  quotes
+  508:47  error  Strings must use doublequote  quotes
+  527:47  error  Strings must use doublequote  quotes
+
+✖ 7 problems (7 errors, 0 warnings)
+  7 errors and 0 warnings potentially fixable with the `--fix` option.
+
