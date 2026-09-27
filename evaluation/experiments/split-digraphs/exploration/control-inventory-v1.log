@@ -1,0 +1,22 @@
+lexicon-default 69212153 10000
+lexicon-default 101601885 10000
+lexicon-default 3921817393 10000
+lexicon-default 3948943232 10000
+lexicon-default 2089697863 10000
+lexicon-bare 2380207674 10000
+lexicon-bare 772709128 10000
+lexicon-bare 1304238451 10000
+lexicon-bare 1696751198 10000
+lexicon-bare 1498885173 10000
+monosyllables-bare 462530651 10000
+monosyllables-bare 62358955 10000
+monosyllables-bare 3297327738 10000
+monosyllables-bare 2001884366 10000
+monosyllables-bare 2353354178 10000
+text-default 4167471042 10000
+text-default 2666001996 10000
+text-default 3562318933 10000
+text-default 1999736106 10000
+text-default 1665836705 10000
+{"affectedWords": 22787, "silentE:append": 462, "silentE:marker": 16917, "silentE:swap": 7080, "spellingRule:magic-e": 5537, "words": 200000}
+groups 88 reportSha256 dc2d3626c8a6274952c47a0d51751450beb7a74459d701e54fe0113c36e8df61
