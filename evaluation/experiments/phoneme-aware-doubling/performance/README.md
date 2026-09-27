@@ -23,3 +23,6 @@ interruption and failed-slot retention. The exact replacement list, old/new
 source hashes, plan, test source, all starts/terminal records, configuration
 preflights, raw logs and arithmetic proof are packaged under byte hashes.
 External control materialization remains `/private/tmp/q12c-performance-control-v1`.
+
+The plan retains the earlier Q13c preparation history. Q12c itself ran one
+complete twelve-slot timing series; no measured slot was rerun.
