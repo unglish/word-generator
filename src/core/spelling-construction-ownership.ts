@@ -1,3 +1,4 @@
+import type { SharedSpellingConstruction } from "./spelling-construction-types.js";
 import { isSingleOwned } from "./spelling-ownership.js";
 import type { SpellingCell, SpellingPhone, SpellingUnit } from "./base-spelling.js";
 import type { SpellingCoverageCertificate } from "./spelling-coverage-types.js";
@@ -7,6 +8,7 @@ import type { Phoneme } from "../types.js";
 /** Live producer state, or an archived state whose prior certificates were replayed. */
 export interface ConstructionLedgerView {
   cursor: LedgerCursor;
+  constructions: readonly SharedSpellingConstruction[];
   cells: readonly SpellingCell[];
   units: readonly SpellingUnit[];
   phones: readonly SpellingPhone[];

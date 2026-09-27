@@ -412,7 +412,7 @@ export class BaseSpelling {
 
   /** Read-only live construction input; prior licenses were checked when committed. */
   constructionState(): ConstructionLedgerView {
-    return { cells: this.cells, units: this.units, phones: this.phones,
+    return { cells: this.cells, units: this.units, phones: this.phones, constructions: this.liveConstructions(),
       cursor: { lastAppendedUnitId: this.units.length - 1, nextEditId: this.nextEditId },
       certificates: this.certificates, normalizationCertificates: this.normalizationCertificates };
   }

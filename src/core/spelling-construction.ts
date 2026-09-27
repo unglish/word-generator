@@ -43,7 +43,7 @@ function validateSlot(slot: SharedSpellingSlot): void {
 export function createSharedConstructionPlanner(rules: readonly SharedSpellingRule[], readingConfig: Pick<LanguageConfig, "graphemes" | "doubling">) {
   if (!readingConfig) throw new Error("Shared construction planning requires a reading configuration");
   const policy = createSharedSpellingPolicy(rules);
-  const checkNeighbors = createConstructionNeighborGuard(readingConfig);
+  const checkNeighbors = createConstructionNeighborGuard(readingConfig, rules);
 
   function decide(view: ConstructionLedgerView, slot: SharedSpellingSlot, ruleId: string,
     sourceUnitIds: readonly number[], rand: RNG): SharedConstructionAttempt {

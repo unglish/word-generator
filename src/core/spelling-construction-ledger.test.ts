@@ -64,6 +64,65 @@ describe("atomic shared-spelling ledger commits", () => {
     expect(trace.units.map(unit => unit.phoneIds)).toEqual([[0], [1]]);
   });
 
+  it.each([false, true])("preserves both shared readings in successive formations (reverse=%s)", reverse => {
+    const base = fixture(["æ", "k", "s", "k", "w"], ["a", "ck", "s", "c", "w"], [0, 0, 0, 0, 0]);
+    const first = reverse ? { rule: "cw-to-qu", ids: [3, 4] } : { rule: "ks-to-x", ids: [1, 2] };
+    const second = reverse ? { rule: "ks-to-x", ids: [1, 2] } : { rule: "cw-to-qu", ids: [3, 4] };
+    expect(form(base, first.rule, first.ids).id).toBe(0);
+    const original = structuredClone(base.constructionState().constructions[0]);
+    const result = form(base, second.rule, second.ids);
+    expect(result.id).toBe(1);
+    expect(result.attempt.result).toMatchObject({ status: "evaluated", neighbors: { status: "preserved", sharedConstructionIds: [0] } });
+    expect(base.snapshot().surface).toBe("axqu");
+    const state = base.constructionState();
+    expect(state.constructions[0]).toEqual(original);
+    expect(state.constructions.flatMap(entry => entry.phoneIds).sort()).toEqual([1, 2, 3, 4]);
+    expect(state.units.map(unit => unit.phoneIds)).toEqual([[0], [1], [2], [3], [4]]);
+  });
+
+  it("projects cross-part formation onto its first source part when preserving an existing syllable reading", () => {
+    const base = fixture(["k", "w", "k", "s"], ["c", "w", "c", "s"], [0, 1, 1, 1]);
+    base.setPhase("syllable");
+    const syllableSlot = { phase: "syllable", partId: 1 } as const;
+    const attempt = planner(base).decide(base.constructionState(), syllableSlot, "ks-to-x", [2, 3], () => 0);
+    expect(base.recordSharedAttempt(syllableSlot, "ks-to-x", [2, 3], attempt)).toBe(0);
+    base.setPhase("word");
+    // Removing w from part 1 makes its existing x initial there, invalidating its reading.
+    const result = form(base, "cw-to-qu", [0, 1]);
+    expect(result.id).toBeNull();
+    expect(result.attempt.result).toMatchObject({ status: "neighbor-refused", neighbors: {
+      reason: "shared-reading-obligation", shared: { constructionId: 0, reason: "reading-context" },
+    } });
+    expect(base.snapshot().surface).toBe("cwx");
+  });
+
+  it("preserves an existing gz reading and its actual following vowel across a later formation", () => {
+    const base = fixture(["æ", "g", "z", "æ", "k", "w"], ["a", "g", "z", "a", "c", "w"], [0, 0, 1, 1, 1, 1]);
+    expect(form(base, "gz-to-x", [1, 2]).id).toBe(0);
+    const result = form(base, "cw-to-qu", [4, 5]);
+    expect(result.id).toBe(1);
+    expect(result.attempt.result).toMatchObject({ status: "evaluated", neighbors: { sharedConstructionIds: [0] } });
+    expect(base.snapshot().surface).toBe("axaqu");
+    expect(base.constructionState().constructions[0].reading.sounds).toEqual(["g", "z"]);
+  });
+
+  it("permits a cross-part formation before an existing word-scoped x", () => {
+    const base = fixture(["k", "w", "k", "s"], ["c", "w", "c", "s"], [0, 1, 1, 1]);
+    expect(form(base, "ks-to-x", [2, 3]).id).toBe(0);
+    expect(form(base, "cw-to-qu", [0, 1]).id).toBe(1);
+    expect(base.projectParts(2)).toEqual(["qu", "x"]);
+    expect(base.constructionState().constructions.map(entry => entry.phoneIds)).toEqual([[2, 3], [0, 1]]);
+  });
+
+  it.each(["missing", "duplicate"])("refuses %s live shared records before a further probabilistic draw", corruption => {
+    const base = fixture(["æ", "k", "w", "k", "s"], ["a", "c", "w", "c", "s"], [0, 0, 0, 0, 0]);
+    form(base, "cw-to-qu", [1, 2]);
+    const view = structuredClone(base.constructionState());
+    view.constructions = corruption === "missing" ? [] : [...view.constructions, view.constructions[0]];
+    const attempt = planner(base).decide(view, slot, "ks-to-x", [3, 4], () => { throw new Error("Unexpected draw"); });
+    expect(attempt.result).toMatchObject({ status: "neighbor-refused", neighbors: { reason: "unresolved-neighbor" } });
+  });
+
   it("records failed rolls without advancing cell or edit IDs", () => {
     const base = fixture(); const before = base.constructionState();
     const initial = structuredClone(before);
