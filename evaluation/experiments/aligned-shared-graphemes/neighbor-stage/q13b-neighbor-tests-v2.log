@@ -1,0 +1,12 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/spelling-construction-neighbors.test.ts (10 tests) 6ms
+ ✓ src/core/spelling-coverage.test.ts (46 tests) 385ms
+   ✓ whole-unit spelling budgets > keeps trace on/off output and RNG-call parity with active policy  306ms
+
+ Test Files  2 passed (2)
+      Tests  56 passed (56)
+   Start at  19:10:06
+   Duration  835ms (transform 300ms, setup 0ms, collect 566ms, tests 392ms, environment 0ms, prepare 88ms)
+
