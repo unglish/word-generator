@@ -1,0 +1,19 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/spelling-construction-policy.test.ts (36 tests) 35ms
+ ✓ src/core/common-word-orthography.test.ts (9 tests) 20ms
+ ✓ src/core/spelling-construction-neighbors.test.ts (16 tests) 13ms
+ ✓ src/core/spelling-construction-ownership.test.ts (27 tests) 8ms
+ ✓ src/core/spelling-construction.test.ts (25 tests) 26ms
+ ✓ src/core/spelling-construction-ledger.test.ts (59 tests) 79ms
+ ✓ src/core/spelling-normalization.test.ts (91 tests) 269ms
+ ✓ src/core/spelling-coverage.test.ts (50 tests) 502ms
+   ✓ whole-unit spelling budgets > keeps trace on/off output and RNG-call parity with active policy  343ms
+ ✓ src/core/base-spelling.test.ts (13 tests) 705ms
+
+ Test Files  9 passed (9)
+      Tests  326 passed (326)
+   Start at  19:34:16
+   Duration  1.31s (transform 1.09s, setup 0ms, collect 3.09s, tests 1.66s, environment 1ms, prepare 786ms)
+

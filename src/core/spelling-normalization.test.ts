@@ -1,3 +1,5 @@
+import { englishSharedSpellings } from "../elements/graphemes/shared.js";
+import { createSharedConstructionPlanner } from "./spelling-construction.js";
 import { resolveConstructionSpan } from "./spelling-construction-ownership.js";
 import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
@@ -679,5 +681,44 @@ describe("realized doubling readings in repair planners", () => {
     const forged = structuredClone(base.snapshot());
     forged.certificates![0].replacements[0].reading = hardC().reading;
     expect(() => verifyBaseSpellingEvidence(forged, f.config)).toThrow();
+  });
+});
+
+
+describe("joint readings during normalization commit", () => {
+  it.each([false, true])("checks a whole-unit normalization after qu (restricted=%s)", restricted => {
+    const f = fixture([{ sound: "k", form: "c", position: "onset" }, { sound: "w", form: "u", position: "onset" },
+      { sound: "i:", form: "ue", position: "nucleus" }], [glyph("i:", "e")]);
+    const input = f.input(2);
+    const decision = f.normalizer.decide(input);
+    expect(decision.status).toBe("normalized");
+    if (decision.status !== "normalized") throw new Error("Expected normalization fixture");
+    f.normalizer.verify(input, decision.plan);
+    const rules = structuredClone(englishSharedSpellings);
+    if (restricted) rules.find(rule => rule.id === "cw-to-qu")!.context = { following: { phoneClass: "vowel", letters: ["u"] } };
+    const target = new BaseSpelling(structuredClone(f.base.snapshot().phones), true, true, true, rules, f.config);
+    f.base.snapshot().units.forEach(unit => target.appendChoice(unit.id, unit.selected, unit.afterDoubling, unit.inventoryIndex, 0));
+    target.setPhase("word");
+    const slot = { phase: "word", partId: null } as const;
+    const attempt = createSharedConstructionPlanner(rules, f.config).decide(target.constructionState(), slot, "cw-to-qu", [0, 1], () => 0);
+    expect(target.recordSharedAttempt(slot, "cw-to-qu", [0, 1], attempt)).toBe(0);
+    // Rebind the existing local normalization to test structural commit safety.
+    // The full normalizer's joint-neighbor planning remains a separate integration.
+    const plan = structuredClone(decision.plan);
+    plan.cursor = target.normalizationState().cursor;
+    plan.editId = plan.cursor.nextEditId;
+    plan.predecessorCellId = target.current().cells[1].id;
+    const before = target.snapshot();
+    if (restricted) {
+      expect(() => target.commitNormalization(plan)).toThrow(/normalization certificate/);
+      expect(target.snapshot()).toEqual(before);
+    } else {
+      expect(target.commitNormalization(plan)).toBe(0);
+      const trace = target.snapshot();
+      expect(trace.surface).toBe("que");
+      expect(trace.cells.slice(0, 2)).toEqual(before.cells.slice(0, 2));
+      expect(trace.cells[2].origin).toMatchObject({ kind: "normalized", unitId: 2, certificateId: 0, editId: 1 });
+      expect(target.constructionState().constructions[0].phoneIds).toEqual([0, 1]);
+    }
   });
 });
