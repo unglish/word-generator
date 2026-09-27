@@ -1,3 +1,4 @@
+import { validateSharedFormationBindings } from "./spelling-construction-bindings.js";
 import { validateSharedEventOrder } from "./spelling-construction-events.js";
 import { applySpellingRules, applySilentE, repairConsonantPileups, repairConsonantLetters, repairFinalConsonantLetters, repairVowelLetters } from "./write.js";
 import { describe, expect, it } from "vitest";
@@ -73,7 +74,10 @@ describe("atomic shared-spelling ledger commits", () => {
     const result = form(base, second.rule, second.ids);
     expect(result.id).toBe(1);
     expect(result.attempt.result).toMatchObject({ status: "evaluated", neighbors: { status: "preserved", sharedConstructionIds: [0] } });
-    expect(base.snapshot().surface).toBe("axqu");
+    const trace = base.snapshot();
+    expect(trace.surface).toBe("axqu");
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    expect(validateSharedFormationBindings(trace)).toEqual({ formations: 2 });
     const state = base.constructionState();
     expect(state.constructions[0]).toEqual(original);
     expect(state.constructions.flatMap(entry => entry.phoneIds).sort()).toEqual([1, 2, 3, 4]);
@@ -473,6 +477,7 @@ describe("shared decision event order", () => {
       { kind: "supersession", index: 0, cursor: { lastAppendedUnitId: 2, nextEditId: 2 } },
     ]);
     expect(validateSharedEventOrder(trace)).toEqual({ events: 6 });
+    expect(validateSharedFormationBindings(trace)).toEqual({ formations: 1 });
   });
 
   it.each(["missing", "duplicate", "cursor", "index", "backwards", "unreferenced", "kind"])("rejects %s event ordering corruption", corruption => {
@@ -485,6 +490,18 @@ describe("shared decision event order", () => {
     if (corruption === "unreferenced") trace.shared.editGuards.push(structuredClone(trace.shared.editGuards[0]));
     if (corruption === "kind") Object.assign(trace.shared.events[0], { kind: "unknown" });
     expect(() => validateSharedEventOrder(trace)).toThrow(/event order/);
+  });
+
+  it.each(["attempt", "orphan", "duplicate", "edit", "origin", "output", "failed-link"])("rejects %s formation binding corruption", corruption => {
+    const trace = history();
+    if (corruption === "attempt") trace.shared.constructions[0].attemptId = 0;
+    if (corruption === "orphan") trace.shared.attempts[1].constructionId = null;
+    if (corruption === "duplicate") trace.shared.constructions.push(structuredClone(trace.shared.constructions[0]));
+    if (corruption === "edit") trace.shared.constructions[0].editId = 1;
+    if (corruption === "origin") Object.assign(trace.edits[0].output[0].origin, { phoneIds: [2, 1] });
+    if (corruption === "output") trace.shared.constructions[0].outputCellIds[0]++;
+    if (corruption === "failed-link") trace.shared.attempts[0].constructionId = 0;
+    expect(() => validateSharedFormationBindings(trace)).toThrow(/formation binding/);
   });
 
   it("detaches returned event cursors", () => {
