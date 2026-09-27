@@ -1,0 +1,12 @@
+{
+  "archive": "/private/tmp/q13b-aligned-shared-graphemes-candidate-v1",
+  "manifest-sha256": "8fa4c8216beedf0d2803f18c2864ddbde1ea805af866071fac1c30ab34b1f876",
+  "report": "/private/tmp/q13b-candidate-analysis-v1/report.json",
+  "report-sha256": "d8544b8ec0ade12bc9bbbe50e5fb25cfc51963ba96490b140692c8aa60035fe5",
+  "protocol": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/quality/protocol.json",
+  "protocol-sha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9",
+  "registration": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/aligned-shared-graphemes/protocol.json",
+  "registration-sha256": "425781f541062c9fb581ff330cb45c903b6b29fa5c96f8c38ac90e0d348dd3c0",
+  "source-root": "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator",
+  "out": "/private/tmp/q13b-candidate-independent-v1.json"
+}

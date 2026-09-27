@@ -1,0 +1,4 @@
+Recounting control
+{"variant": "control", "passed": true, "words": 200000, "groups": 798, "integerComparisons": 213715, "fullWitnesses": 0}
+Recounting candidate
+{"variant": "candidate", "passed": true, "words": 200000, "groups": 790, "integerComparisons": 420491, "fullWitnesses": 181}

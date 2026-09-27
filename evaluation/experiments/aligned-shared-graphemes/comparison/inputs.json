@@ -1,0 +1,35 @@
+[
+  {
+    "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone",
+    "manifestSha256": "1e31ad59251eb5fbe8863bae988539062845f081e2597589669343f50e5452e7",
+    "id": "baseline-development-v1",
+    "environment": {
+      "node": "v24.11.1",
+      "platform": "darwin",
+      "arch": "arm64",
+      "packageLockDigest": "d8d7ddde3b5876bcf85b9fa8dbc49ecf32255752c7827abc2996a2ff4b9ec10a"
+    }
+  },
+  {
+    "path": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1",
+    "manifestSha256": "1bd32617b8ab62b034eeb0ae91ac8e2d1da675035c9b03a49c1912fee751e3fb",
+    "id": "q12c-phoneme-aware-doubling-v1",
+    "environment": {
+      "node": "v24.11.1",
+      "platform": "darwin",
+      "arch": "arm64",
+      "packageLockDigest": "d8d7ddde3b5876bcf85b9fa8dbc49ecf32255752c7827abc2996a2ff4b9ec10a"
+    }
+  },
+  {
+    "path": "/private/tmp/q13b-aligned-shared-graphemes-candidate-v1",
+    "manifestSha256": "8fa4c8216beedf0d2803f18c2864ddbde1ea805af866071fac1c30ab34b1f876",
+    "id": "q13b-aligned-shared-graphemes-v1",
+    "environment": {
+      "node": "v24.11.1",
+      "platform": "darwin",
+      "arch": "arm64",
+      "packageLockDigest": "d8d7ddde3b5876bcf85b9fa8dbc49ecf32255752c7827abc2996a2ff4b9ec10a"
+    }
+  }
+]
