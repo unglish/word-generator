@@ -1,5 +1,7 @@
+import { createSharedSurfaceGuard } from "./spelling-construction-edit.js";
+import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
 import { isSingleOwned } from "./spelling-ownership.js";
-import type { LanguageConfig } from "../config/language.js";
+import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
 import type { Grapheme } from "../types.js";
 import type { SpellingCell, SpellingPhone, SpellingUnit } from "./base-spelling.js";
 import { createGraphemeResolver, NoLegalGraphemeError } from "./grapheme-selection.js";
@@ -21,6 +23,8 @@ export interface NormalizationInput {
   cursor: LedgerCursor;
   site: NormalizationSite;
   rightIndex: number;
+  /** Live producer records, or records authenticated by prior semantic replay. */
+  shared?: Pick<ConstructionLedgerView, "constructions" | "certificates">;
 }
 export type NormalizationPlan = Omit<UnitNormalizationCertificate, "id">;
 export type NormalizationDecision =
@@ -36,7 +40,9 @@ export function createSpellingNormalizer(
   config: LanguageConfig,
   resolve = createGraphemeResolver(config),
   doubling = createDoublingModel(config.doubling),
+  sharedRules?: readonly SharedSpellingRule[],
 ) {
+  const preserveShared = sharedRules === undefined ? undefined : createSharedSurfaceGuard(sharedRules);
   const graphemes = config.graphemes;
   const inventory = new Map(graphemes.map((grapheme, index) => [grapheme, index]));
 
@@ -129,10 +135,14 @@ export function createSpellingNormalizer(
     return { previousLetter: known(cells[first - 1]?.text.toLowerCase() ?? ""), nextLetter, openPart };
   }
 
-  function checkNeighbors(input: NormalizationInput, unitId: number, after: string): CheckedNormalizationReading[] | NormalizationRefusal {
+  function checkNeighbors(input: NormalizationInput, unitId: number, after: string, sharedUnits: ReadonlySet<number>): CheckedNormalizationReading[] | NormalizationRefusal {
     const right = intact(input, unitId)!;
     const leftId = owner(input.cells[right.indices[0] - 1]);
     const parts = new Set([input.phones[unitId].syllableIndex, leftId === undefined ? undefined : input.phones[leftId].syllableIndex]);
+    const left = input.cells[right.indices[0] - 1];
+    if (left.origin.kind === "shared") {
+      for (const id of left.origin.sourceUnitIds) parts.add(input.phones[id].syllableIndex);
+    }
     if (input.cells.some(cell => cell.origin.kind === "rewrite" && (cell.partId == null || parts.has(cell.partId)))) return "unresolved-ownership";
     const proposed = input.cells.slice();
     // Context projection uses ownership only; cell IDs remain bound to the original input.
@@ -140,7 +150,7 @@ export function createSpellingNormalizer(
       origin: { kind: "selection" as const, unitId, offset } })));
     const checked: CheckedNormalizationReading[] = [];
     for (const [id, unit] of input.units.entries()) {
-      if (id === unitId || !parts.has(input.phones[id].syllableIndex)) continue;
+      if (id === unitId || sharedUnits.has(id) || !parts.has(input.phones[id].syllableIndex)) continue;
       const own = intact(input, id);
       if (!own) return "unresolved-ownership";
       const reading = doubling.readingFor(own.grapheme, own.form);
@@ -161,13 +171,38 @@ export function createSpellingNormalizer(
     return checked;
   }
 
+  function sharedContext(input: NormalizationInput): { sharedView?: ConstructionLedgerView; sharedUnits: Set<number> } | NormalizationRefusal {
+    const hasShared = input.cells.some(cell => cell.origin.kind === "shared");
+    if (hasShared && (!preserveShared || !input.shared)) return "unsupported-shared-construction";
+    const sharedUnits = new Set<number>();
+    let sharedView: ConstructionLedgerView | undefined;
+    if (input.shared) {
+      if (!preserveShared) return "unsupported-shared-construction";
+      sharedView = { cells: input.cells, units: input.units, phones: input.phones, cursor: input.cursor,
+        constructions: input.shared.constructions, certificates: input.shared.certificates, normalizationCertificates: input.certificates };
+      const ids = new Set(input.shared.constructions.map(entry => entry.id));
+      if (ids.size !== input.shared.constructions.length || input.cells.some(cell => cell.origin.kind === "shared" && !ids.has(cell.origin.constructionId))) return "unresolved-ownership";
+      if (preserveShared(sharedView, sharedView, sharedView.constructions).status === "refused") return "construction-obligation";
+      for (const construction of sharedView.constructions) {
+        for (const id of construction.sourceUnitIds) {
+          if (sharedUnits.has(id)) return "unresolved-ownership";
+          sharedUnits.add(id);
+        }
+      }
+    }
+    return { sharedView, sharedUnits };
+  }
+
   function decide(input: NormalizationInput): NormalizationDecision {
     const refuse = (reason: NormalizationRefusal): NormalizationDecision => ({ status: "retained", reason });
     const left = input.cells[input.rightIndex - 1]; const first = input.cells[input.rightIndex];
     if (!left || !first || left.text !== first.text) throw new Error("Invalid normalization collision");
-    if (left.origin.kind === "shared" || first.origin.kind === "shared") return refuse("unsupported-shared-construction");
+    if (first.origin.kind === "shared") return refuse("unsupported-shared-construction");
+    const shared = sharedContext(input);
+    if (typeof shared === "string") return refuse(shared);
+    const { sharedView, sharedUnits } = shared;
     if (left.origin.kind === "rewrite" || first.origin.kind === "rewrite") return refuse("unresolved-ownership");
-    if (left.origin.unitId === first.origin.unitId) return refuse("unsupported-shared-construction");
+    if (isSingleOwned(left.origin) && left.origin.unitId === first.origin.unitId) return refuse("unsupported-shared-construction");
     const unitId = first.origin.unitId;
     const own = intact(input, unitId);
     if (!own || own.indices[0] !== input.rightIndex) return refuse("unresolved-ownership");
@@ -181,15 +216,28 @@ export function createSpellingNormalizer(
     if (!options.length) return refuse("no-legal-remainder");
     const option = options.find(candidate => candidate.reading?.kind === "single-phone");
     if (!option) return refuse(options.some(candidate => !candidate.reading) ? "unknown-reading" : "construction-obligation");
-    const checkedNeighbors = checkNeighbors(input, unitId, after);
+    const checkedNeighbors = checkNeighbors(input, unitId, after, sharedUnits);
     if (typeof checkedNeighbors === "string") return refuse(checkedNeighbors);
-    return { status: "normalized", plan: {
+    const plan: NormalizationPlan = {
       version: 1, kind: "local-unit-normalization", site: input.site, cursor: { ...input.cursor }, editId: input.cursor.nextEditId,
       unitId, phoneIds: unit.phoneIds.slice(), partId: input.phones[unitId].syllableIndex,
       predecessorCellId: left.id, inputCellIds: own.cells.map(cell => cell.id), before: own.form, after,
       originalInventoryIndex: unit.inventoryIndex!, preUnitState: { ...state }, support: option.support,
       targetReading: { kind: "single-phone" }, checkedNeighbors,
-    } };
+      ...(sharedView ? { preservedSharedConstructionIds: sharedView.constructions.map(entry => entry.id) } : {}),
+    };
+    if (sharedView && preserveShared) {
+      const certificateId = input.certificates.length;
+      const projected = input.cells.slice();
+      projected.splice(own.indices[0], own.cells.length, ...after.split("").map((text, offset): SpellingCell => ({
+        id: -1 - offset, text, partId: plan.partId,
+        origin: { kind: "normalized", unitId, offset, editId: plan.editId, certificateId, sourceUnitIds: [unitId] },
+      })));
+      const decision = preserveShared(sharedView, { ...sharedView, cells: projected,
+        normalizationCertificates: [...input.certificates, { ...plan, id: certificateId }] }, sharedView.constructions);
+      if (decision.status === "refused") return refuse("construction-obligation");
+    }
+    return { status: "normalized", plan };
   }
 
   function verify(input: NormalizationInput, plan: NormalizationPlan): void {

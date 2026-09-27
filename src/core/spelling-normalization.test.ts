@@ -686,9 +686,10 @@ describe("realized doubling readings in repair planners", () => {
 
 
 describe("joint readings during normalization commit", () => {
-  it.each([false, true])("checks a whole-unit normalization after qu (restricted=%s)", restricted => {
-    const f = fixture([{ sound: "k", form: "c", position: "onset" }, { sound: "w", form: "u", position: "onset" },
-      { sound: "i:", form: "ue", position: "nucleus" }], [glyph("i:", "e")]);
+  it.each([{ restricted: false, crossPart: false }, { restricted: true, crossPart: false },
+    { restricted: false, crossPart: true }, { restricted: true, crossPart: true }])("checks normalization after qu ($restricted/$crossPart)", ({ restricted, crossPart }) => {
+    const f = fixture([{ sound: "k", form: "c", position: "onset" }, { sound: "w", form: "u", position: "onset", part: crossPart ? 1 : 0 },
+      { sound: "i:", form: "ue", position: "nucleus", part: crossPart ? 1 : 0 }], [glyph("i:", "e")]);
     const input = f.input(2);
     const decision = f.normalizer.decide(input);
     expect(decision.status).toBe("normalized");
@@ -702,8 +703,29 @@ describe("joint readings during normalization commit", () => {
     const slot = { phase: "word", partId: null } as const;
     const attempt = createSharedConstructionPlanner(rules, f.config).decide(target.constructionState(), slot, "cw-to-qu", [0, 1], () => 0);
     expect(target.recordSharedAttempt(slot, "cw-to-qu", [0, 1], attempt)).toBe(0);
-    // Rebind the existing local normalization to test structural commit safety.
-    // The full normalizer's joint-neighbor planning remains a separate integration.
+    const sharedState = target.constructionState();
+    const jointInput = { ...target.current(), ...target.normalizationState(), contexts: f.contexts, states: input.states,
+      rightIndex: 2, site: "adjacent-choice" as const,
+      shared: { constructions: sharedState.constructions, certificates: sharedState.certificates } };
+    const jointNormalizer = createSpellingNormalizer(f.config, undefined, undefined, rules);
+    const jointDecision = jointNormalizer.decide(jointInput);
+    if (restricted) {
+      expect(jointDecision).toEqual({ status: "retained", reason: "construction-obligation" });
+    } else {
+      expect(jointDecision.status).toBe("normalized");
+      if (jointDecision.status !== "normalized") throw new Error("Expected joint normalization");
+      expect(jointDecision.plan.preservedSharedConstructionIds).toEqual([0]);
+      expect(jointDecision.plan.checkedNeighbors).toEqual([]);
+      jointNormalizer.verify(jointInput, jointDecision.plan);
+      const forged = structuredClone(jointDecision.plan);
+      forged.preservedSharedConstructionIds = [];
+      expect(() => jointNormalizer.verify(jointInput, forged)).toThrow(/normalization certificate/);
+      expect(jointNormalizer.decide({ ...jointInput, shared: { ...jointInput.shared, constructions: [] } }))
+        .toEqual({ status: "retained", reason: "unresolved-ownership" });
+      expect(createSpellingNormalizer(f.config).decide(jointInput))
+        .toEqual({ status: "retained", reason: "unsupported-shared-construction" });
+    }
+    // Separately test commit rejection against a structurally rebound old plan.
     const plan = structuredClone(decision.plan);
     plan.cursor = target.normalizationState().cursor;
     plan.editId = plan.cursor.nextEditId;
@@ -713,7 +735,8 @@ describe("joint readings during normalization commit", () => {
       expect(() => target.commitNormalization(plan)).toThrow(/normalization certificate/);
       expect(target.snapshot()).toEqual(before);
     } else {
-      expect(target.commitNormalization(plan)).toBe(0);
+      if (jointDecision.status !== "normalized") throw new Error("Expected joint normalization");
+      expect(target.commitNormalization(jointDecision.plan)).toBe(0);
       const trace = target.snapshot();
       expect(trace.surface).toBe("que");
       expect(trace.cells.slice(0, 2)).toEqual(before.cells.slice(0, 2));
