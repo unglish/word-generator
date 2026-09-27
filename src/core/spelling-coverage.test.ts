@@ -1,3 +1,4 @@
+import { resolveConstructionSpan } from "./spelling-construction-ownership.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
@@ -302,6 +303,17 @@ describe("whole-unit spelling budgets", () => {
     expect(verifyBaseSpellingEvidence(trace)).toEqual({ version: 1, verifiedCertificates: 0 });
     Object.assign(trace, { version: 99 });
     expect(() => verifyBaseSpellingEvidence(trace)).toThrow(/unsupported ledger version/);
+  });
+
+  it("resolves complete source units after an authenticated coverage repair", () => {
+    const f = fixture([glyph("æ", "a"), glyph("f", "ph")], [glyph("f", "f")], { writtenFormConstraints: { maxConsonantLetters: 1 } });
+    expect(f.planner.apply(f.base, f.choices, "base-before-word-rules").status).toBe("respell");
+    expect(verifyBaseSpellingEvidence(f.base.snapshot(), f.config)).toMatchObject({ verifiedCertificates: 1 });
+    expect(resolveConstructionSpan(f.base.constructionState(), [0, 1])).toMatchObject({ status: "complete", before: "af",
+      phoneIds: [0, 1], sourcePartIds: [0, 0], phonemes: [{ sound: "æ" }, { sound: "f" }] });
+    const forged = structuredClone(f.base.constructionState());
+    forged.certificates[0].replacements[0].phoneIds = [99];
+    expect(resolveConstructionSpan(forged, [0, 1])).toEqual({ status: "refused", reason: "missing-license" });
   });
 
   it("keeps identical left-to-right log accumulation in the search and verifier", () => {

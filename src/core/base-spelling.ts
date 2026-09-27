@@ -1,3 +1,4 @@
+import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
 import type { Phoneme } from "../types.js";
 import type { SpellingCoverageCertificate } from "./spelling-coverage-types.js";
 import type { NormalizationDecision, NormalizationPlan } from "./spelling-normalization.js";
@@ -263,6 +264,12 @@ export class BaseSpelling {
   current(): { cells: readonly SpellingCell[]; units: readonly SpellingUnit[]; phones: readonly SpellingPhone[]; normalizationCount?: number } {
     return { cells: this.cells, units: this.units, phones: this.phones,
       ...(this.normalizeUnits ? { normalizationCount: this.normalizationCertificates.length } : {}) };
+  }
+
+  /** Read-only live construction input; prior licenses were checked when committed. */
+  constructionState(): ConstructionLedgerView {
+    return { cells: this.cells, units: this.units, phones: this.phones,
+      certificates: this.certificates, normalizationCertificates: this.normalizationCertificates };
   }
 
   normalizationState(): { cursor: LedgerCursor; certificates: readonly UnitNormalizationCertificate[] } {

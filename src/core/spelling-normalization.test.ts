@@ -1,3 +1,4 @@
+import { resolveConstructionSpan } from "./spelling-construction-ownership.js";
 import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import type { Word } from "../types.js";
@@ -156,6 +157,11 @@ describe("local whole-unit normalization", () => {
     expect(f.apply(1).status).toBe("normalized");
     expect(f.base.snapshot().surface).toBe("l" + remainder);
     expect(verifyBaseSpellingEvidence(f.base.snapshot(), f.config)).toMatchObject({ verifiedNormalizations: 1 });
+    expect(resolveConstructionSpan(f.base.constructionState(), [0, 1])).toMatchObject({ status: "complete", before: "l" + remainder,
+      phoneIds: [0, 1], phonemes: [{ sound: "l" }, { sound }] });
+    const forged = structuredClone(f.base.constructionState());
+    forged.normalizationCertificates[0].editId += 1;
+    expect(resolveConstructionSpan(forged, [0, 1])).toEqual({ status: "refused", reason: "missing-license" });
   });
 
   it.each([true, false])("checks the conditioned lk-to-k remainder with eligibility=%s", eligible => {
