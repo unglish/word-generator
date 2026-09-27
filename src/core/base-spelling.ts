@@ -151,7 +151,7 @@ export interface BaseSpellingTraceV5 extends Omit<BaseSpellingTraceV4, "version"
   version: 5;
   capabilities: BaseSpellingTraceV4["capabilities"] & { splitVowels: 1 };
   split: { version: 1; attempts: Array<{ attempt: SplitConstructionAttempt; constructionId: number | null }>;
-    guards: Array<{ cursor: LedgerCursor; phase: SpellingEdit["phase"]; edits: SpellingBatchEdit[]; decision: SplitLiveResult }>;
+    guards: Array<{ operation: "edit" | "batch"; cursor: LedgerCursor; phase: SpellingEdit["phase"]; edits: SpellingBatchEdit[]; decision: SplitLiveResult }>;
     constructions: SplitVowelConstruction[]; supersessions: SharedSpellingSupersession[]; liveConstructionIds: number[] };
 }
 export type BaseSpellingTrace = BaseSpellingTraceV5 | BaseSpellingTraceV1 | BaseSpellingTraceV2 | BaseSpellingTraceV3 | BaseSpellingTraceV4;
@@ -329,7 +329,7 @@ export class BaseSpelling {
     if (this.splitRuntime && this.splitConstructions.length) {
       const projected = this.cells.slice();
       projected.splice(start, deleteCount, ...rewriteCells(input, insert, this.nextEditId, this.nextCellId, editPart(input, partId), this.licensed));
-      if (!this.recordSplitGuard(projected, [{ start, deleteCount, insert, rule, partId }])) return false;
+      if (!this.recordSplitGuard(projected, [{ start, deleteCount, insert, rule, partId }], "edit")) return false;
     }
     const activeGuard = this.supersededConstructions.size < this.sharedConstructions.length ? this.sharedEditGuard : undefined;
     const cursor = this.normalizationState().cursor;
@@ -375,18 +375,18 @@ export class BaseSpelling {
       nextCellId += output.length;
       cells.splice(start, deleteCount, ...output);
     }
-    if (this.splitRuntime && !this.recordSplitGuard(cells, edits)) return false;
+    if (this.splitRuntime && !this.recordSplitGuard(cells, edits, "batch")) return false;
     for (const { edit, input, before } of prepared) this.commitRewrite(edit.start, input, before, edit.insert, edit.rule, edit.partId);
     this.sharedTransactions?.push(structuredClone({ cursor, phase: this.phase, edits: [...edits], checks, status: "applied" }));
     this.recordSharedEvent("transaction", (this.sharedTransactions?.length ?? 1) - 1, cursor);
     return true;
   }
 
-  private recordSplitGuard(projected: readonly SpellingCell[], edits: readonly SpellingBatchEdit[]): boolean {
+  private recordSplitGuard(projected: readonly SpellingCell[], edits: readonly SpellingBatchEdit[], operation: "edit" | "batch"): boolean {
     if (!this.splitRuntime) return true;
     const cursor = this.constructionState().cursor;
     const decision = this.splitRuntime.guard(projected, this.phones, this.liveSplitConstructions());
-    this.splitGuards.push(structuredClone({ cursor, phase: this.phase, edits: [...edits], decision }));
+    this.splitGuards.push(structuredClone({ operation, cursor, phase: this.phase, edits: [...edits], decision }));
     this.recordTimeline("split-guard", this.splitGuards.length - 1, cursor);
     return decision.status === "preserved";
   }
