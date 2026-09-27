@@ -1,3 +1,4 @@
+import { createSharedWriterEvidenceVerifier } from "./spelling-construction-evidence.js";
 import { sourceUnits } from "./spelling-ownership.js";
 import { createNormalizationEvidenceVerifier } from "./spelling-normalization-evidence.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
@@ -97,7 +98,13 @@ function createHistoricalSpellingEvidenceVerifier(config?: LanguageConfig) {
 export function createBaseSpellingEvidenceVerifier(config?: LanguageConfig) {
   const historical = createHistoricalSpellingEvidenceVerifier(config);
   let normalization: ReturnType<typeof createNormalizationEvidenceVerifier> | undefined;
+  let shared: ReturnType<typeof createSharedWriterEvidenceVerifier> | undefined;
   return (trace: BaseSpellingTrace) => {
+    if (trace.version === 4) {
+      if (!config) throw new Error("Invalid spelling evidence: v4 requires its shared spelling configuration");
+      shared ??= createSharedWriterEvidenceVerifier(config);
+      return shared(trace);
+    }
     if (trace.version !== 1 && trace.version !== 2 && trace.version !== 3) {
       throw new Error("Invalid spelling evidence: unsupported ledger version");
     }

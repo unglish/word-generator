@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig } from "../index.js";
 import { englishSharedSpellings } from "../elements/graphemes/shared.js";
-import { createSharedLedgerReplayer } from "./spelling-construction-evidence.js";
+import { createBaseSpellingEvidenceVerifier } from "./spelling-evidence.js";
 
 describe("shared spelling public writer integration", () => {
   it("replays generated ledgers and preserves traced/untraced output and RNG", () => {
     const config = { ...englishConfig, sharedSpellings: englishSharedSpellings };
     const generator = createGenerator(config);
-    const replay = createSharedLedgerReplayer(config, englishSharedSpellings);
+    const replay = createBaseSpellingEvidenceVerifier(config);
     const on = createSeededRng(129); const off = createSeededRng(129);
     let a = 0; let b = 0; let formations = 0;
     for (let draw = 0; draw < 500; draw++) {
@@ -17,7 +17,7 @@ describe("shared spelling public writer integration", () => {
       const ledger = traced.trace!.baseSpelling!;
       expect(ledger.version).toBe(4);
       if (ledger.version !== 4) throw new Error("Expected v4");
-      expect(() => replay(ledger), `draw ${draw}`).not.toThrow();
+      expect(replay(ledger), `draw ${draw}`).toMatchObject({ version: 4, sharedWriterSchedule: "verified" });
       const syllables = new Set(ledger.phones.map(phone => phone.syllableIndex)).size;
       expect(ledger.shared.scans.map(scan => scan.ruleId)).toEqual([
         ...Array(syllables).fill("ks-to-x"), "ks-to-x", "gz-to-x", "cw-to-qu",
@@ -46,6 +46,8 @@ describe("shared spelling public writer integration", () => {
     const ledger = word.trace!.baseSpelling!;
     expect(ledger.version).toBe(4);
     if (ledger.version !== 4) throw new Error("Expected v4");
+    expect(createBaseSpellingEvidenceVerifier({ ...englishConfig, sharedSpellings: [] })(ledger))
+      .toMatchObject({ sharedWriterSchedule: "verified", verifiedScans: 0 });
     expect(ledger.shared.scans).toEqual([]);
     expect(ledger.shared.constructions).toEqual([]);
   });

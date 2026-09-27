@@ -61,9 +61,16 @@ export interface SharedSpellingScan {
   firstAttemptId: number;
 }
 
+export interface SharedWriterStep {
+  kind: "pass-start" | "pass-end" | "slot-start" | "slot-end";
+  slot: SharedSpellingSlot;
+  slotIndex: number | null;
+  cursor: LedgerCursor;
+}
+
 /** Actual producer operation order, including decisions that allocate no cells or edits. */
 export interface SpellingTimelineEntry {
-  kind: "scan-start" | "scan-end" | "append" | "rewrite" | "shared" | "normalization-check" | "normalization-episode" | "normalization" | "coverage";
+  kind: "writer-step" | "scan-start" | "scan-end" | "append" | "rewrite" | "shared" | "normalization-check" | "normalization-episode" | "normalization" | "coverage";
   index: number;
   cursor: LedgerCursor;
 }

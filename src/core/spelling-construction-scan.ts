@@ -12,7 +12,7 @@ export function createSharedCandidateScanner(rules: readonly SharedSpellingRule[
   return (view: ConstructionLedgerView, slot: SharedSpellingSlot, ruleId: string): number[][] => {
     const rule = sequences.get(ruleId);
     if (!rule || (rule.scope !== "both" && rule.scope !== slot.phase)) throw new Error("Invalid shared scan rule/phase");
-    if ((slot.phase === "word" && slot.partId !== null) ||
+    if (!["syllable", "word"].includes(slot.phase) || (slot.phase === "word" && slot.partId !== null) ||
         (slot.phase === "syllable" && (!Number.isSafeInteger(slot.partId) || slot.partId < 0))) {
       throw new Error("Invalid shared scan slot");
     }

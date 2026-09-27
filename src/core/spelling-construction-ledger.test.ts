@@ -186,9 +186,9 @@ describe("atomic shared-spelling ledger commits", () => {
     expect(() => new BaseSpelling([], true, true, false, englishSharedSpellings)).toThrow(/provenance/);
   });
 
-  it("does not let the old evidence verifier accept the new capability", () => {
+  it("requires explicit shared configuration for v4 evidence", () => {
     const base = fixture(); form(base);
-    expect(() => verifyBaseSpellingEvidence(base.snapshot(), englishConfig)).toThrow(/unsupported ledger version/);
+    expect(() => verifyBaseSpellingEvidence(base.snapshot(), englishConfig)).toThrow(/requires its shared spelling configuration/);
   });
 });
 
