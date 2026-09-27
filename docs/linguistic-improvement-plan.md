@@ -39,7 +39,7 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q11b | Preserve cluster legality through morphological alternations | Transformation-specific collision rates and trace ownership; retain licensed boundary repetition | Existing /sk/→/ss/ after `ity` softening identified by Q11; separate from root extensions |
 | Q12a | Licensed positive-weight grapheme selection | Zero-weight and forbidden-choice rates, including singleton candidates; fallback counts | [Draft PR #310](https://github.com/unglish/word-generator/pull/310); zero-weight choices removed in 200,000-word capture, `ex` gate failure disclosed |
 | Q12b | Restore ordinary /ɛ/→e before /t/ | Conditioned /ɛt/ spellings and traced contribution to exceptional ea patterns | [Draft PR #312](https://github.com/unglish/word-generator/pull/312); restored e in all 2,632 eligible candidate pairs, while exposing 13 consonantal-y magic-e errors; weights unchanged |
-| Q12c | Preserve phonemic readings through configured doubling | Sound-specific doubled-form support; distinguish sampled doubling from adjacent letters belonging to different phones | Registered on `codex/phoneme-aware-doubling`, based on exact #335. Full 200,000-word archived control audit finds 220 sampled `/s/: c→ck`, 1,458 `/z/: s→ss`, and four `/ʃ/: s→ss` events. The latter two are ordinary-policy unsupported, not universally impossible English. Structured sound/form/result rules and repair-reading propagation are implemented at `91fd20a`; 184 targeted tests pass. Formal legacy parity, independent observer/recount, corpus comparison and paired timing remain outstanding |
+| Q12c | Preserve phonemic readings through configured doubling | Sound-specific doubled-form support; distinguish sampled doubling from adjacent letters belonging to different phones | Registered on `codex/phoneme-aware-doubling`, based on exact #335. Full 200,000-word archived control audit finds 220 sampled `/s/: c→ck`, 1,458 `/z/: s→ss`, and four `/ʃ/: s→ss` events. The latter two are ordinary-policy unsupported, not universally impossible English. Structured sound/form/result rules and repair-reading propagation are implemented at `91fd20a`; 184 targeted tests pass. Legacy parity now passes 83,072 calls over 20,768 coordinates; independent observer/recount, corpus comparison and paired timing remain outstanding |
 | Q13 | Grapheme units preserved through repairs | No partial digraph deletion or unlicensed zero realization; legal long letter clusters | [Draft PR #328](https://github.com/unglish/word-generator/pull/328), against the exact Q02a + Q12a + Q06 dependency control; cap-partial `th` 126→0 and cap-attributed units with no surviving lineage 1,700→0 in 200,000 words; 1,517 certificates replayed; longer clusters, quality failures and a material performance regression retained |
 | Q13 performance | Reuse full spelling context during budget measurement | Exact word/trace/RNG/certificate parity; fixed paired timing against #328 | [PR #331](https://github.com/unglish/word-generator/pull/331); 800,000 core and 84,800 supplementary API calls preserve behavior; six fixed pairs show 6.4% median paired local throughput gain and 0/6→6/6 speed-floor passes; inherited quality failures remain |
 | Q13b | Aligned spelling of multiple phonemes by one grapheme | Explicit ownership and pronunciation preservation for /ks, gz/→x and similar units | Q13; Q12a exposes reliance on illegal /z/→ze choices for the current `gz-to-x` string repair |
@@ -563,3 +563,16 @@ passing, one skipped and five failing tests: ex representation 0.010933807 versu
 All remain failures; repeated-letter matches are not automatically evidence of
 two sampler doublings. The two legacy-coordinate failures in the first run
 are resolved by explicit legacy configuration, with expected values unchanged.
+
+Q12c explicit legacy opt-out now matches the exact #335 control over 20,768
+coordinates and 83,072 public generation calls: 20,000 registered development
+coordinates plus 768 custom-override coordinates. Complete traced/untraced
+values, cumulative RNG calls and all 128 next-value probes agree. Source,
+protocol, registration and executable pins are checked before and after.
+The proof is preserved in the branch's `legacy-parity` directory (commit
+`36c030c`), including the initial failed runner that confused an omitted trace
+property with an explicit undefined property. No runtime correction was needed.
+This is immediate-value compatibility, not cross-call alias isolation or a
+hermetic installed-dependency proof. The new pure retained-event observer has
+31 passing archived-witness and malformed-evidence tests. Full aggregation,
+independent recount, formal freeze/capture and timing remain outstanding.
