@@ -1,0 +1,64 @@
+{
+  "completed": true,
+  "passed": false,
+  "tests": {
+    "passed": 10,
+    "failed": 2
+  },
+  "failures": {
+    "fiveConsecutiveConsonants": 86,
+    "owngs": 49
+  },
+  "files": [
+    {
+      "file": "quality.test.ts",
+      "bytes": 9861,
+      "sha256": "e63cf6129542ad40194c0e1f78b1ba17aee697ed3529e94ff4f7709b728e665c"
+    },
+    {
+      "file": "original-quality.test.ts",
+      "bytes": 9786,
+      "sha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf"
+    },
+    {
+      "file": "vitest.config.mjs",
+      "bytes": 101,
+      "sha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a"
+    },
+    {
+      "file": "input-pins.json",
+      "bytes": 685,
+      "sha256": "0890229b64f84c6211c8669fc197b139a9b832678f9c0bac50c47cf022633a5d"
+    },
+    {
+      "file": "environment.json",
+      "bytes": 198,
+      "sha256": "8db0a77b5dd56b6ed021a3703bb78eb58184309c92d63195533325a0781025e0"
+    },
+    {
+      "file": "candidate-api.ts",
+      "bytes": 769,
+      "sha256": "8404fdd6d52bdf0b7b3bda27636894eb04fda84034a7cc2a0b3c8a2df55c2839"
+    },
+    {
+      "file": "quality-report.json",
+      "bytes": 479,
+      "sha256": "50bba615a56ce92e3990a8113f82be22709218d980278c003693fc96ddaefb33"
+    },
+    {
+      "file": "q14b-quality-v1.log",
+      "bytes": 3776,
+      "sha256": "83a3947e04e8987d56a4e916eecef4c350848b29fa955efab00c8d02130a6a8d"
+    },
+    {
+      "file": "q14b-quality-v1.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    }
+  ],
+  "candidateSourceMatchesCaptureFreeze": true,
+  "limitations": [
+    "Ran concurrently with corpus jobs; elapsed time is not performance evidence.",
+    "Source matched capture freeze after this run; final capture before/after closure still pending."
+  ]
+}

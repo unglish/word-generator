@@ -1,3 +1,6 @@
+import { createFollowingViewGuard } from "./spelling-following-guard.js";
+import { createGraphemeSequenceModel } from "./spelling-sequence-model.js";
+import { createSequenceEvidenceSession } from "./spelling-sequence-evidence.js";
 import { createCompletionPlanner } from "./spelling-completion-planner.js";
 import { createSpellingRuleSlots } from "./spelling-construction-slots.js";
 import type { SharedSpellingSlot } from "./spelling-construction.js";
@@ -1068,6 +1071,7 @@ export function appendSilentE(
  */
 export function createWrittenFormGenerator(config: LanguageConfig): (context: WordGenerationContext) => void {
   const resolveGraphemes = createGraphemeResolver(config);
+  const followingGuard = config.followingLetters ? createFollowingViewGuard(config, config.followingLetters.targets) : undefined;
   const allCompiledRules = compileSpellingRules(config.spellingRules ?? []);
   const syllableRules = allCompiledRules.filter(r => r.scope === "syllable" || r.scope === "both");
   const wordRules = allCompiledRules.filter(r => r.scope === "word" || r.scope === "both");
@@ -1079,6 +1083,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const doublingModel = createDoublingModel(config.doubling);
   const tryDoubling = doublingModel.sample;
   const preservePhones = config.writtenFormConstraints?.policy === "preserve-phones";
+  if (config.followingLetters && !preservePhones) throw new Error("Following-letter conditioning requires preserve-phones");
   if (sharedRules !== undefined && !preservePhones) throw new Error("Shared spellings require preserve-phones");
   const sharedRuntime = sharedRules === undefined ? undefined : createSharedSpellingRuntime(sharedRules, config);
   const splitPolicy = config.splitVowels;
@@ -1123,8 +1128,10 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       id, part: "root", syllableIndex: entry.syllableIndex, segment: entry.position,
       segmentIndex: entry.positionIndex, soundAtSpelling: entry.phoneme.sound,
       ...(preservePhones ? { boundary: { phoneme: structuredClone(entry.phoneme), stress: entry.stress } } : {}),
-    })), tracing, preservePhones, preservePhones, sharedRules, config, sharedRuntime, splitRuntime, completionPlanner);
+    })), tracing, preservePhones, preservePhones, sharedRules, config, sharedRuntime, splitRuntime, completionPlanner, followingGuard);
     const boundaryContexts = preservePhones ? spellingBoundaryContexts(baseSpelling.current().phones) : undefined;
+    const sequence = config.followingLetters ? createSequenceEvidenceSession(createGraphemeSequenceModel(config,
+      boundaryContexts!.map(entry => ({ grapheme: entry.slot, doubling: entry.doubling })), config.followingLetters.targets)) : undefined;
     const spellingChoices: SpellingChoiceState[] = [];
     const selectionStates: HistoricalSelectionState[] = [];
     const normalizeCollision = (site: NormalizationSite, rightIndex: number): boolean => {
@@ -1222,9 +1229,14 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         nucleusForm: currentNucleusForm, previousNucleusForm: prevNucleusForm });
       const { candidates, ordinary, conditioned, positional, weights, positiveCount, fallback, preferenceRelaxed } = resolveGraphemes(
         graphemeSlot, { previousForm: prevGraphemeForm, doublingCount: doublingCtx.doublingCount });
-      const selected = selectByFrequency(weights, rand, tracing);
+      const conditionedChoice = sequence?.next(rand());
+      const selectedSource = conditionedChoice ? config.graphemes[conditionedChoice.choice.inventoryIndex] : undefined;
+      if (conditionedChoice && !selectedSource) throw new Error("Conditioned selection lost inventory identity");
+      const selected: FrequencyResult = conditionedChoice && selectedSource
+        ? { ...selectedSource, _source: selectedSource, _roll: conditionedChoice.roll }
+        : selectByFrequency(weights, rand, tracing);
       if (position === "nucleus") currentNucleusForm = selected.form;
-      const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
+      const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace && !sequence ? { attempted: false } : undefined;
       // For doubling, use the nucleus grapheme that the reader sees before the
       // doubled consonant: for coda, that's the current syllable's nucleus; for
       // onset, it's the previous syllable's (the vowel the doubling "closes").
@@ -1244,7 +1256,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         isMonosyllabic: syllables.length === 1,
         nextIsConsonant: nextEntry?.position === "onset" || (nextEntry?.syllableIndex === syllableIndex && nextEntry?.position === "coda"),
       };
-      const form = tryDoubling(doublingSlot, doublingCtx, rand, doublingTraceInfo);
+      const form = conditionedChoice ? conditionedChoice.choice.realized : tryDoubling(doublingSlot, doublingCtx, rand, doublingTraceInfo);
+      if (conditionedChoice) doublingCtx.doublingCount += conditionedChoice.choice.doublingIncrement;
       if (preservePhones) {
         spellingChoices.push({
           ...boundaryContexts![phonemeIndex],
@@ -1282,7 +1295,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           selected: selected.form,
           emitted,
           doubled: form !== selected.form,
-          selection: {
+          ...(conditionedChoice ? { conditionedSelection: conditionedChoice } : {}),
+          selection: conditionedChoice ? undefined : {
             version: 1,
             positionScope: selected.positionScope ?? "syllable",
             segmentPosition: positionLabel(segment.initial, segment.final),
@@ -1370,6 +1384,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
     }
 
+    sequence?.finish();
     baseSpelling.setPhase("word");
     // Silent-e: rewrite final VCe patterns (magic-e for long vowels)
     if (splitRuntime) {

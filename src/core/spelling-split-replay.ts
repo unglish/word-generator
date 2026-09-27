@@ -1,3 +1,4 @@
+import { createFollowingViewGuard } from "./spelling-following-guard.js";
 import { createCompletionPlanner } from "./spelling-completion-planner.js";
 import { BaseSpelling, createSplitSpellingRuntime } from "./base-spelling.js";
 import type { BaseSpellingTraceV5 } from "./base-spelling.js";
@@ -32,7 +33,7 @@ export function createSplitLedgerReplayer(configuration: LanguageConfig, support
     const contexts = spellingBoundaryContexts(trace.phones);
     const states = normalizer.historicalStates(trace.units, contexts);
     const choices = trace.units.map(unit => ({ inventoryIndex: unit.inventoryIndex!, form: unit.afterDoubling }));
-    const base = new BaseSpelling(structuredClone(trace.phones), true, true, true, rules, config, undefined, runtime, completion);
+    const base = new BaseSpelling(structuredClone(trace.phones), true, true, true, rules, config, undefined, runtime, completion, config.followingLetters ? createFollowingViewGuard(config, config.followingLetters.targets) : undefined);
     let consumed = 0;
     while (consumed < trace.shared.timeline.length) {
       const entry = trace.shared.timeline[consumed];
@@ -61,6 +62,14 @@ export function createSplitLedgerReplayer(configuration: LanguageConfig, support
         if (record.operation === "batch") base.editBatch(record.edits);
         else {
           require(record.operation === "edit" && record.edits.length === 1, "guard operation");
+          const edit = record.edits[0]; base.edit(edit.start, edit.deleteCount, edit.insert, edit.rule, edit.partId);
+        }
+      } else if (entry.kind === "following-guard") {
+        const record = trace.followingGuards?.[entry.index]; require(record && config.followingLetters, "following guard");
+        base.setPhase(record.phase);
+        if (record.operation === "batch") base.editBatch(record.edits);
+        else {
+          require(record.operation === "edit" && record.edits.length === 1, "following guard operation");
           const edit = record.edits[0]; base.edit(edit.start, edit.deleteCount, edit.insert, edit.rule, edit.partId);
         }
       } else if (entry.kind === "rewrite") {

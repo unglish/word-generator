@@ -70,7 +70,7 @@ export interface SharedWriterStep {
 
 /** Actual producer operation order, including decisions that allocate no cells or edits. */
 export interface SpellingTimelineEntry {
-  kind: "completion-attempt" | "split-attempt" | "split-guard" | "writer-step" | "scan-start" | "scan-end" | "append" | "rewrite" | "shared" | "normalization-check" | "normalization-episode" | "normalization" | "coverage";
+  kind: "following-guard" | "completion-attempt" | "split-attempt" | "split-guard" | "writer-step" | "scan-start" | "scan-end" | "append" | "rewrite" | "shared" | "normalization-check" | "normalization-episode" | "normalization" | "coverage";
   index: number;
   cursor: LedgerCursor;
 }

@@ -1,0 +1,30 @@
+{
+  "scope": "Exploratory initial-selection pilot, seeds 1\u20132000. No pre/post execution closure was recorded; this is not formal candidate evidence. Scripts retain original machine-specific paths.",
+  "artifacts": [
+    {
+      "file": "capture.ts",
+      "bytes": 1861,
+      "sha256": "b2162f3fcb0f889644a845f0a0a8c8d1e1e9ba67e0f45cb18f01d1d6352362cc"
+    },
+    {
+      "file": "independent.json",
+      "bytes": 428,
+      "sha256": "83c007ab40f0acffbfdf77f073b995bd7e6d0897b326e914c568d8bedd15c13f"
+    },
+    {
+      "file": "recount.py",
+      "bytes": 1332,
+      "sha256": "192c9cc9a4a16b63bacb940e112407e705a207b439599f11b25c58f96b74e963"
+    },
+    {
+      "file": "summary.json",
+      "bytes": 170942,
+      "sha256": "523680cfeeb582eb56d1ead8645a080a59cd610406a351956454fa96323c9c4e"
+    },
+    {
+      "file": "words.jsonl.gz",
+      "bytes": 9122434,
+      "sha256": "8a98f94179f9d5a806e70549c113e6ef29ae7bcfba102bb06cc8a37a56e626f7"
+    }
+  ]
+}

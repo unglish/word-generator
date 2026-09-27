@@ -1,0 +1,45 @@
+{
+  "status": "development ownership fixtures, not population evidence",
+  "checks": {
+    "targeted": {
+      "words": 5,
+      "events": 54,
+      "integerComparisons": 750
+    },
+    "normalized": {
+      "words": 3,
+      "events": 18,
+      "integerComparisons": 444
+    }
+  },
+  "files": [
+    {
+      "path": "ownership-fixtures/targeted.jsonl.gz",
+      "sha256": "9e72e82e728f04fbc40310d3d6992d8330c544ebe089e0b10ffbac39845c92d3"
+    },
+    {
+      "path": "ownership-fixtures/normalized.jsonl.gz",
+      "sha256": "62ed3ad6e622ed029416a3dc7641deba346eb27dd7b459f310f7baa0205442c1"
+    },
+    {
+      "path": "ownership-fixtures/source-selection.json",
+      "sha256": "22f03934bf8d371b209e40578ed060df1afac0fccbfb91759b32597a578cc5f3"
+    },
+    {
+      "path": "check-targeted.ts",
+      "sha256": "19390a88b645b9dde875c53d971b087b28620bedffb296c31c33dee6eb70766e"
+    },
+    {
+      "path": "check-normalized.ts",
+      "sha256": "0e4da0b1652bcf77b834be78dec7e9e502d0ba51e798351350ba4540776c9705"
+    },
+    {
+      "path": "observe-following.ts",
+      "sha256": "d0dc198b24b12df441e4a42dd69186a425fcf17368198c4d529362f42074edca"
+    },
+    {
+      "path": "recount_following.py",
+      "sha256": "4ed80660e9b54839d98593b78a8a285dbf7f5257860588baea17b21db7656f0e"
+    }
+  ]
+}

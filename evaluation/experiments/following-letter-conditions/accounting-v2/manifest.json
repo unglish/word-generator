@@ -1,0 +1,41 @@
+{
+  "status": "development accounting revision; earlier artifacts retained",
+  "words": 249,
+  "events": 2788,
+  "integerComparisons": 51445,
+  "inputsUnchanged": true,
+  "files": [
+    {
+      "path": "accounting-v2/pilot.jsonl.gz",
+      "sha256": "0965ac04491a551f0cb2f3014c12f9933fe4b9881c629275483d47b6798becea"
+    },
+    {
+      "path": "accounting-v2/targeted.jsonl.gz",
+      "sha256": "482df93b9010a4065a6cc92b9c4841d96662791f4bc60a0e535cab676fa6ce3b"
+    },
+    {
+      "path": "accounting-v2/normalized.jsonl.gz",
+      "sha256": "25e3edc977aad0f5351a5ec882a39eb7d63288527c11da27a807921f8a5a3270"
+    },
+    {
+      "path": "observe-following.ts",
+      "sha256": "00e885dda89ea5af69b3014a7f7763ca9504e3922861665df8ec2e01c42e7762"
+    },
+    {
+      "path": "recount_following.py",
+      "sha256": "baa7959eda0c9ec4e7c86c48c1bbc626388b0731aff07b2e3b8b1abae30cd788"
+    },
+    {
+      "path": "reobserve-fixtures.ts",
+      "sha256": "2e1cd193ecbba961ea415c487d6f2334bdf864b4dfd420799e0eb2e68f2f9dfb"
+    },
+    {
+      "path": "test_recount_following.py",
+      "sha256": "84fd48289dd4655569b5f74bb180bab00be9b80119394b568dd09311617d62db"
+    },
+    {
+      "path": "observe-following.test.ts",
+      "sha256": "71b24a86a38c5a7cebd9efc3d0724471ca60452f2d0e0093f752437b0715a3d2"
+    }
+  ]
+}

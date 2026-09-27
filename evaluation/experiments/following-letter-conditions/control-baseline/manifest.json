@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "archiveManifestSha256": "7593ad8e8e77e7428c3d07c00f6166fe09ff06c8533741eb1e1d6f1259e3735c",
+  "completeSha256": "3f737c634c652e31e754fc35e1e43366057adbd1a1f6c1660f6ed2565da627d1",
+  "artifacts": [
+    {
+      "file": "authority.json.gz",
+      "bytes": 75865,
+      "sha256": "ba182b8b5128c826c1a5c477f73f7d046378ea8b95fc5aa676fb7670feec13c0"
+    },
+    {
+      "file": "complete.json",
+      "bytes": 4305,
+      "sha256": "3f737c634c652e31e754fc35e1e43366057adbd1a1f6c1660f6ed2565da627d1"
+    },
+    {
+      "file": "independent-authority.json",
+      "bytes": 1080,
+      "sha256": "1500a2dc9a637330a8c0c3e2354d36aeb120f3c6640225581c2ca182eb10367d"
+    },
+    {
+      "file": "independent-source-pins.json",
+      "bytes": 693,
+      "sha256": "ea8d6d1e1264d8e0a5cd1aca1cc1b7729087a42dfcb723009747307e1ece480a"
+    },
+    {
+      "file": "independent.json",
+      "bytes": 479,
+      "sha256": "784add4fa221e3353f190ea44f73d02ca6d8bad328a757655dbc1c9bd30c1f91"
+    },
+    {
+      "file": "original-availability.json",
+      "bytes": 4025,
+      "sha256": "935066cd0bd276e1f8d055814fb8847c9b8b2195aab84b6787e15e1636265779"
+    },
+    {
+      "file": "original-comparison-boundary.json",
+      "bytes": 749,
+      "sha256": "9a9ccf8fe5b2585f432bbdb043834e4928b64470e9b8ac0eefb97c19eb057110"
+    },
+    {
+      "file": "report.json.gz",
+      "bytes": 851954,
+      "sha256": "6886fbc90078d316a03c3ed331071b7085b8182a68389a485fc038d68ede7e47"
+    },
+    {
+      "file": "run-independent.py",
+      "bytes": 2085,
+      "sha256": "5fdd7da0ee354c366c34bd53dec8d0da6a1a5fccd26b5e2cda24e89ab1561d38"
+    },
+    {
+      "file": "summary.json",
+      "bytes": 5874,
+      "sha256": "e804f55a0e619eda0e7a0bc55da7bfea4e0751c9e3e7e89c27db85e2beadfdf2"
+    },
+    {
+      "file": "witnesses.json.gz",
+      "bytes": 3399904,
+      "sha256": "ee95514a119f828ddbb5c63462206cc914c3d1a764865c97c19576c424e5a550"
+    }
+  ],
+  "observationStorage": "/private/tmp/q14b-control-analysis-v1/observations",
+  "uncompressedReportSha256": "ff44ceda88f8f3db528e6934c77cb065ca696f034506a1d96ad65c5aa65159fe",
+  "limits": "Observation shards remain in the external run directory and are hash-bound by complete.json. The compressed report decompresses to the exact sealed report. Semantic licenses remain producer-authenticated; diagnostic eventCounts and refusal text are not independently certified."
+}

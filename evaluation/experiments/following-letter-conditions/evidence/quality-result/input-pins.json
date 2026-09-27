@@ -1,0 +1,21 @@
+{
+  "scope": "Existing quality assertions unchanged; only public API and letters imports adapted. Not run yet.",
+  "files": {
+    "quality.test.ts": {
+      "sha256": "e63cf6129542ad40194c0e1f78b1ba17aee697ed3529e94ff4f7709b728e665c",
+      "bytes": 9861
+    },
+    "original-quality.test.ts": {
+      "sha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf",
+      "bytes": 9786
+    },
+    "vitest.config.mjs": {
+      "sha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a",
+      "bytes": 101
+    },
+    "candidate-api.ts": {
+      "sha256": "8404fdd6d52bdf0b7b3bda27636894eb04fda84034a7cc2a0b3c8a2df55c2839",
+      "bytes": 769
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "words": 24,
+  "events": 258,
+  "integerComparisons": 4958,
+  "groups": 86,
+  "manifestSha256": "79ee8d2cf0fb9bd157cba43d0e137bd0ba9a749ce4a4bb1d73756e506d96cf92",
+  "completeSha256": "89d5c88aa58e6fc4051750df6fd96ee9c47ed751fbdba03d179043cd3a96093c",
+  "scope": "independent per-word events except refusal text, all count groups; prior semantic licenses remain producer-authenticated; diagnostic eventCounts are not independently certified"
+}

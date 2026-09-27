@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "words": 24,
+  "manifestSha256": "79ee8d2cf0fb9bd157cba43d0e137bd0ba9a749ce4a4bb1d73756e506d96cf92",
+  "assertions": [
+    "exact manifest binding",
+    "8 complete ordered streams",
+    "all-group word total",
+    "invalid accounting rejected",
+    "source and artifact closure checks"
+  ],
+  "note": "Runner smoke test, not the registered 200000-word baseline"
+}

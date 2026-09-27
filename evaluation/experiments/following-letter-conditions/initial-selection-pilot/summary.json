@@ -1,0 +1,7813 @@
+{
+  "scope": "Exploratory seed 1–2000 pilot; not the registered full candidate corpus",
+  "configuration": {
+    "id": "en",
+    "name": "English",
+    "phonemes": [
+      {
+        "sound": "i:",
+        "mannerOfArticulation": "highVowel",
+        "tense": true,
+        "nucleus": 133,
+        "startWord": 3,
+        "midWord": 1,
+        "endWord": 9,
+        "voiced": true,
+        "placeOfArticulation": "front"
+      },
+      {
+        "sound": "ɪ",
+        "mannerOfArticulation": "highVowel",
+        "tense": false,
+        "nucleus": 330,
+        "startWord": 3,
+        "midWord": 15,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "front"
+      },
+      {
+        "sound": "ɛ",
+        "mannerOfArticulation": "midVowel",
+        "tense": false,
+        "nucleus": 331,
+        "startWord": 4,
+        "midWord": 3,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "front"
+      },
+      {
+        "sound": "ə",
+        "mannerOfArticulation": "midVowel",
+        "tense": false,
+        "nucleus": 457,
+        "startWord": 5,
+        "midWord": 11,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "central"
+      },
+      {
+        "sound": "ɜ",
+        "mannerOfArticulation": "midVowel",
+        "tense": false,
+        "nucleus": 41,
+        "startWord": 4,
+        "midWord": 1,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "central"
+      },
+      {
+        "sound": "ɚ",
+        "mannerOfArticulation": "midVowel",
+        "tense": false,
+        "nucleus": 131,
+        "startWord": 1,
+        "midWord": 2,
+        "endWord": 6,
+        "voiced": true,
+        "placeOfArticulation": "central"
+      },
+      {
+        "sound": "æ",
+        "mannerOfArticulation": "lowVowel",
+        "tense": false,
+        "nucleus": 121,
+        "startWord": 11,
+        "midWord": 6,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "front"
+      },
+      {
+        "sound": "ɑ",
+        "mannerOfArticulation": "lowVowel",
+        "tense": true,
+        "nucleus": 187,
+        "startWord": 7,
+        "midWord": 3,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "back"
+      },
+      {
+        "sound": "ɔ",
+        "mannerOfArticulation": "lowVowel",
+        "tense": true,
+        "nucleus": 97,
+        "startWord": 6,
+        "midWord": 2,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "back"
+      },
+      {
+        "sound": "ʊ",
+        "mannerOfArticulation": "highVowel",
+        "tense": true,
+        "nucleus": 57,
+        "startWord": 2,
+        "midWord": 2,
+        "endWord": 0,
+        "voiced": true,
+        "placeOfArticulation": "back"
+      },
+      {
+        "sound": "u",
+        "mannerOfArticulation": "highVowel",
+        "tense": true,
+        "nucleus": 80,
+        "startWord": 4,
+        "midWord": 2,
+        "endWord": 2,
+        "voiced": true,
+        "placeOfArticulation": "back"
+      },
+      {
+        "sound": "ʌ",
+        "mannerOfArticulation": "midVowel",
+        "tense": false,
+        "nucleus": 150,
+        "startWord": 5,
+        "midWord": 2,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "central"
+      },
+      {
+        "sound": "eɪ",
+        "mannerOfArticulation": "midVowel",
+        "tense": true,
+        "nucleus": 139,
+        "startWord": 4,
+        "midWord": 2,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "front"
+      },
+      {
+        "sound": "aɪ",
+        "mannerOfArticulation": "midVowel",
+        "tense": true,
+        "nucleus": 127,
+        "startWord": 3,
+        "midWord": 2,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "front"
+      },
+      {
+        "sound": "əʊ",
+        "mannerOfArticulation": "midVowel",
+        "tense": true,
+        "nucleus": 90,
+        "startWord": 2,
+        "midWord": 2,
+        "endWord": 8,
+        "voiced": true,
+        "placeOfArticulation": "back"
+      },
+      {
+        "sound": "ɔɪ",
+        "mannerOfArticulation": "midVowel",
+        "tense": true,
+        "nucleus": 12,
+        "startWord": 2,
+        "midWord": 2,
+        "endWord": 2,
+        "voiced": true,
+        "placeOfArticulation": "front"
+      },
+      {
+        "sound": "aʊ",
+        "mannerOfArticulation": "midVowel",
+        "tense": true,
+        "nucleus": 18,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 6,
+        "voiced": true,
+        "placeOfArticulation": "back"
+      },
+      {
+        "sound": "j",
+        "mannerOfArticulation": "glide",
+        "onset": 62,
+        "coda": 0,
+        "startWord": 14,
+        "midWord": 4,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "palatal"
+      },
+      {
+        "sound": "w",
+        "mannerOfArticulation": "glide",
+        "onset": 120,
+        "coda": 0,
+        "startWord": 10,
+        "midWord": 2,
+        "endWord": 2,
+        "voiced": true,
+        "placeOfArticulation": "labial-velar"
+      },
+      {
+        "sound": "l",
+        "mannerOfArticulation": "liquid",
+        "onset": 200,
+        "coda": 200,
+        "startWord": 5,
+        "midWord": 5,
+        "endWord": 8,
+        "voiced": true,
+        "placeOfArticulation": "alveolar"
+      },
+      {
+        "sound": "r",
+        "mannerOfArticulation": "liquid",
+        "onset": 330,
+        "coda": 155,
+        "startWord": 5,
+        "midWord": 3,
+        "endWord": 10,
+        "voiced": true,
+        "placeOfArticulation": "postalveolar"
+      },
+      {
+        "sound": "m",
+        "mannerOfArticulation": "nasal",
+        "onset": 109,
+        "coda": 193,
+        "startWord": 14,
+        "midWord": 3,
+        "endWord": 9,
+        "voiced": true,
+        "placeOfArticulation": "bilabial"
+      },
+      {
+        "sound": "n",
+        "mannerOfArticulation": "nasal",
+        "onset": 400,
+        "coda": 450,
+        "startWord": 3,
+        "midWord": 2,
+        "endWord": 10,
+        "voiced": true,
+        "placeOfArticulation": "alveolar"
+      },
+      {
+        "sound": "ŋ",
+        "mannerOfArticulation": "nasal",
+        "onset": 0,
+        "coda": 48,
+        "startWord": 0,
+        "midWord": 2,
+        "endWord": 36,
+        "voiced": true,
+        "placeOfArticulation": "velar"
+      },
+      {
+        "sound": "f",
+        "mannerOfArticulation": "fricative",
+        "onset": 92,
+        "coda": 92,
+        "startWord": 13,
+        "midWord": 2,
+        "endWord": 3,
+        "voiced": false,
+        "placeOfArticulation": "labiodental"
+      },
+      {
+        "sound": "θ",
+        "mannerOfArticulation": "fricative",
+        "onset": 30,
+        "coda": 30,
+        "startWord": 2,
+        "midWord": 2,
+        "endWord": 2,
+        "voiced": false,
+        "placeOfArticulation": "dental"
+      },
+      {
+        "sound": "h",
+        "mannerOfArticulation": "fricative",
+        "onset": 188,
+        "coda": 0,
+        "startWord": 9,
+        "midWord": 1,
+        "endWord": 0,
+        "voiced": false,
+        "placeOfArticulation": "glottal"
+      },
+      {
+        "sound": "v",
+        "mannerOfArticulation": "fricative",
+        "onset": 191,
+        "coda": 17,
+        "startWord": 5,
+        "midWord": 2,
+        "endWord": 6,
+        "voiced": true,
+        "placeOfArticulation": "labiodental"
+      },
+      {
+        "sound": "ð",
+        "mannerOfArticulation": "fricative",
+        "onset": 25,
+        "coda": 10,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "voiced": true,
+        "placeOfArticulation": "dental"
+      },
+      {
+        "sound": "z",
+        "mannerOfArticulation": "sibilant",
+        "onset": 55,
+        "coda": 92,
+        "startWord": 3,
+        "midWord": 7,
+        "endWord": 7,
+        "voiced": true,
+        "placeOfArticulation": "alveolar"
+      },
+      {
+        "sound": "ʒ",
+        "mannerOfArticulation": "sibilant",
+        "onset": 5,
+        "coda": 3,
+        "startWord": 0,
+        "midWord": 6,
+        "endWord": 0,
+        "voiced": true,
+        "placeOfArticulation": "postalveolar"
+      },
+      {
+        "sound": "s",
+        "mannerOfArticulation": "sibilant",
+        "onset": 259,
+        "coda": 110,
+        "startWord": 13,
+        "midWord": 2,
+        "endWord": 13,
+        "voiced": false,
+        "placeOfArticulation": "alveolar"
+      },
+      {
+        "sound": "ʃ",
+        "mannerOfArticulation": "sibilant",
+        "onset": 50,
+        "coda": 97,
+        "startWord": 5,
+        "midWord": 2,
+        "endWord": 7,
+        "voiced": false,
+        "placeOfArticulation": "postalveolar"
+      },
+      {
+        "sound": "tʃ",
+        "voiced": false,
+        "placeOfArticulation": "postalveolar",
+        "mannerOfArticulation": "affricate",
+        "onset": 51,
+        "coda": 51,
+        "startWord": 6,
+        "midWord": 2,
+        "endWord": 2
+      },
+      {
+        "sound": "dʒ",
+        "voiced": true,
+        "placeOfArticulation": "postalveolar",
+        "mannerOfArticulation": "affricate",
+        "onset": 56,
+        "coda": 37,
+        "startWord": 7,
+        "midWord": 3,
+        "endWord": 3
+      },
+      {
+        "sound": "p",
+        "voiced": false,
+        "placeOfArticulation": "bilabial",
+        "mannerOfArticulation": "stop",
+        "onset": 83,
+        "coda": 41,
+        "startWord": 7,
+        "midWord": 9,
+        "endWord": 5
+      },
+      {
+        "sound": "t",
+        "voiced": false,
+        "placeOfArticulation": "alveolar",
+        "mannerOfArticulation": "stop",
+        "onset": 220,
+        "coda": 75,
+        "startWord": 4,
+        "midWord": 8,
+        "endWord": 8
+      },
+      {
+        "sound": "k",
+        "voiced": false,
+        "placeOfArticulation": "velar",
+        "mannerOfArticulation": "stop",
+        "onset": 152,
+        "coda": 95,
+        "startWord": 4,
+        "midWord": 10,
+        "endWord": 10
+      },
+      {
+        "sound": "b",
+        "voiced": true,
+        "placeOfArticulation": "bilabial",
+        "mannerOfArticulation": "stop",
+        "onset": 140,
+        "coda": 100,
+        "startWord": 14,
+        "midWord": 3,
+        "endWord": 3
+      },
+      {
+        "sound": "d",
+        "voiced": true,
+        "placeOfArticulation": "alveolar",
+        "mannerOfArticulation": "stop",
+        "onset": 221,
+        "coda": 145,
+        "startWord": 5,
+        "midWord": 3,
+        "endWord": 8
+      },
+      {
+        "sound": "g",
+        "voiced": true,
+        "placeOfArticulation": "velar",
+        "mannerOfArticulation": "stop",
+        "onset": 119,
+        "coda": 70,
+        "startWord": 5,
+        "midWord": 4,
+        "endWord": 4
+      }
+    ],
+    "phonemeMaps": {
+      "onset": {},
+      "nucleus": {},
+      "coda": {}
+    },
+    "graphemes": [
+      {
+        "phoneme": "i:",
+        "form": "ee",
+        "origin": 0,
+        "frequency": 3,
+        "startWord": 0,
+        "midWord": 4,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "i:",
+        "form": "ea",
+        "origin": 0,
+        "frequency": 2,
+        "startWord": 20,
+        "midWord": 3,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 20,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "i:",
+        "form": "e",
+        "origin": 0,
+        "frequency": 5,
+        "startWord": 100,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        }
+      },
+      {
+        "phoneme": "i:",
+        "form": "y",
+        "origin": 1,
+        "frequency": 3,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 5,
+        "condition": {
+          "segmentPosition": [
+            "final"
+          ],
+          "notRightContext": [
+            "consonant"
+          ]
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        }
+      },
+      {
+        "phoneme": "i:",
+        "form": "ie",
+        "origin": 0,
+        "frequency": 1,
+        "startWord": 0,
+        "midWord": 5,
+        "endWord": 2,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "i:",
+        "form": "ei",
+        "origin": 0,
+        "frequency": 2,
+        "startWord": 10,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "i:",
+        "form": "eo",
+        "origin": 1,
+        "frequency": 1,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ɪ",
+        "form": "i",
+        "origin": 0,
+        "frequency": 1000,
+        "startWord": 5,
+        "midWord": 10,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɪ",
+        "form": "y",
+        "origin": 1,
+        "frequency": 2,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɪ",
+        "form": "ui",
+        "origin": 1,
+        "frequency": 1,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ɛ",
+        "form": "e",
+        "origin": 0,
+        "frequency": 100,
+        "startWord": 10,
+        "midWord": 10,
+        "endWord": 5,
+        "condition": {
+          "notRightContext": [
+            "t"
+          ]
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɛ",
+        "form": "ea",
+        "origin": 0,
+        "frequency": 140,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 10,
+        "endWord": 5,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "æ",
+        "form": "a",
+        "origin": 0,
+        "frequency": 10,
+        "startWord": 10,
+        "midWord": 10,
+        "endWord": 5,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɑ",
+        "form": "a",
+        "origin": 0,
+        "frequency": 600,
+        "startWord": 10,
+        "midWord": 10,
+        "endWord": 5,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ɑ",
+        "form": "o",
+        "origin": 0,
+        "frequency": 300,
+        "startWord": 10,
+        "midWord": 10,
+        "endWord": 5,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɑ",
+        "form": "ah",
+        "origin": 4,
+        "frequency": 10,
+        "startWord": 0,
+        "midWord": 5,
+        "endWord": 10,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɑ",
+        "form": "aa",
+        "origin": 4,
+        "frequency": 1,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ɑ",
+        "form": "au",
+        "origin": 0,
+        "frequency": 40,
+        "startWord": 1,
+        "midWord": 10,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ɑ",
+        "form": "aue",
+        "origin": 0,
+        "frequency": 40,
+        "startWord": 1,
+        "midWord": 10,
+        "endWord": 10,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ɔ",
+        "form": "o",
+        "origin": 0,
+        "frequency": 10,
+        "startWord": 10,
+        "midWord": 10,
+        "endWord": 5,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ɔ",
+        "form": "aw",
+        "origin": 0,
+        "frequency": 1,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 2,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɔ",
+        "form": "ough",
+        "origin": 0,
+        "frequency": 4,
+        "onset": 0,
+        "coda": 0,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 5,
+        "condition": {
+          "rightContext": [
+            "t"
+          ]
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ʊ",
+        "form": "oo",
+        "origin": 0,
+        "frequency": 80,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 5,
+        "endWord": 4,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ʊ",
+        "form": "u",
+        "origin": 0,
+        "frequency": 30,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "notLeftContext": [
+            "g"
+          ]
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 1,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ʊ",
+        "form": "ou",
+        "origin": 1,
+        "frequency": 8,
+        "startWord": 0,
+        "midWord": 5,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "u",
+        "form": "ou",
+        "origin": 1,
+        "frequency": 2,
+        "startWord": 0,
+        "midWord": 10,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "u",
+        "form": "oo",
+        "origin": 0,
+        "frequency": 30,
+        "startWord": 0,
+        "midWord": 3,
+        "endWord": 3,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "u",
+        "form": "u",
+        "origin": 0,
+        "frequency": 10,
+        "startWord": 10,
+        "midWord": 10,
+        "endWord": 2,
+        "condition": {
+          "notLeftContext": [
+            "g"
+          ]
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        }
+      },
+      {
+        "phoneme": "u",
+        "form": "ue",
+        "origin": 0,
+        "frequency": 10,
+        "startWord": 0,
+        "midWord": 5,
+        "endWord": 50,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "u",
+        "form": "ew",
+        "origin": 0,
+        "frequency": 7,
+        "startWord": 1,
+        "midWord": 4,
+        "endWord": 20,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 20,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ʌ",
+        "form": "u",
+        "origin": 0,
+        "frequency": 1000,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ʌ",
+        "form": "o",
+        "origin": 0,
+        "frequency": 300,
+        "startWord": 3,
+        "midWord": 8,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 8,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ʌ",
+        "form": "uh",
+        "origin": 0,
+        "frequency": 3,
+        "startWord": 1,
+        "midWord": 4,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 4,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ə",
+        "form": "e",
+        "origin": 0,
+        "frequency": 150,
+        "startWord": 5,
+        "midWord": 10,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ə",
+        "form": "a",
+        "origin": 0,
+        "frequency": 300,
+        "startWord": 1000,
+        "midWord": 5,
+        "endWord": 9,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 1000,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ə",
+        "form": "o",
+        "origin": 0,
+        "frequency": 200,
+        "startWord": 1,
+        "midWord": 5,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 5,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ə",
+        "form": "ou",
+        "origin": 0,
+        "frequency": 1,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 1,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ə",
+        "form": "u",
+        "origin": 0,
+        "frequency": 50,
+        "startWord": 5,
+        "midWord": 10,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ə",
+        "form": "i",
+        "origin": 0,
+        "frequency": 220,
+        "startWord": 1,
+        "midWord": 10,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "aɪ",
+        "form": "i",
+        "origin": 3,
+        "frequency": 10,
+        "startWord": 1,
+        "midWord": 10,
+        "endWord": 10,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        }
+      },
+      {
+        "phoneme": "aɪ",
+        "form": "igh",
+        "origin": 0,
+        "frequency": 12,
+        "onset": 0,
+        "coda": 0,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 10,
+        "condition": {
+          "rightContext": [
+            "t"
+          ]
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "aɪ",
+        "form": "y",
+        "origin": 0,
+        "frequency": 3,
+        "startWord": 0,
+        "midWord": 2,
+        "endWord": 5,
+        "condition": {
+          "notRightContext": [
+            "consonant"
+          ]
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        }
+      },
+      {
+        "phoneme": "aɪ",
+        "form": "ie",
+        "origin": 1,
+        "frequency": 1,
+        "startWord": 10,
+        "midWord": 10,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "aɪ",
+        "form": "ai",
+        "origin": 3,
+        "frequency": 1,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "aɪ",
+        "form": "is",
+        "origin": 0,
+        "frequency": 1,
+        "startWord": 1,
+        "midWord": 0,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "aɪ",
+        "form": "ye",
+        "origin": 0,
+        "frequency": 10,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 2,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "aɪ",
+        "form": "eye",
+        "origin": 3,
+        "frequency": 1,
+        "onset": 0,
+        "coda": 0,
+        "startWord": 2,
+        "midWord": 0,
+        "endWord": 3,
+        "condition": {
+          "alias": "bareSyllableNucleus"
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 3,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "aʊ",
+        "form": "ow",
+        "origin": 0,
+        "frequency": 45,
+        "startWord": 1,
+        "midWord": 5,
+        "endWord": 10,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "aʊ",
+        "form": "ou",
+        "origin": 1,
+        "frequency": 55,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 1,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɔɪ",
+        "form": "oi",
+        "origin": 3,
+        "frequency": 10,
+        "coda": 0,
+        "startWord": 5,
+        "midWord": 10,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɔɪ",
+        "form": "oy",
+        "origin": 0,
+        "frequency": 2,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 5,
+        "endWord": 20,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "eɪ",
+        "form": "a",
+        "origin": 0,
+        "frequency": 25,
+        "startWord": 10,
+        "midWord": 0,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        }
+      },
+      {
+        "phoneme": "eɪ",
+        "form": "ai",
+        "origin": 3,
+        "frequency": 10,
+        "coda": 0,
+        "startWord": 0,
+        "midWord": 2,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 2,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "eɪ",
+        "form": "ay",
+        "origin": 0,
+        "frequency": 7,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 5,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 5,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "eɪ",
+        "form": "eigh",
+        "origin": 1,
+        "frequency": 1,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 4,
+        "endWord": 10,
+        "condition": {
+          "rightContext": [
+            "t"
+          ]
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 10,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "eɪ",
+        "form": "ea",
+        "origin": 0,
+        "frequency": 2,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 1,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "eɪ",
+        "form": "ey",
+        "origin": 0,
+        "frequency": 5,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 4,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 4,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "eɪ",
+        "form": "ae",
+        "origin": 3,
+        "frequency": 2,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 1,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "əʊ",
+        "form": "ow",
+        "origin": 0,
+        "frequency": 250,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 1,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "əʊ",
+        "form": "o",
+        "origin": 0,
+        "frequency": 500,
+        "startWord": 1,
+        "midWord": 0,
+        "endWord": 5,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 5,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        }
+      },
+      {
+        "phoneme": "əʊ",
+        "form": "ou",
+        "origin": 1,
+        "frequency": 10,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "əʊ",
+        "form": "oe",
+        "origin": 1,
+        "frequency": 10,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 1,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "əʊ",
+        "form": "ough",
+        "origin": 4,
+        "frequency": 1,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 0,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ɜ",
+        "form": "e",
+        "origin": 0,
+        "frequency": 100,
+        "onset": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 1,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "The inventory's /ɜ/ identity is unresolved; no reading is certified."
+        }
+      },
+      {
+        "phoneme": "ɜ",
+        "form": "ai",
+        "origin": 0,
+        "frequency": 5,
+        "onset": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 1,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "The inventory's /ɜ/ identity is unresolved; no reading is certified."
+        }
+      },
+      {
+        "phoneme": "ɚ",
+        "form": "er",
+        "origin": 0,
+        "frequency": 190,
+        "startWord": 1,
+        "midWord": 50,
+        "endWord": 100,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 100,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɚ",
+        "form": "ir",
+        "origin": 0,
+        "frequency": 35,
+        "startWord": 1,
+        "midWord": 35,
+        "endWord": 40,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 40,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɚ",
+        "form": "ur",
+        "origin": 0,
+        "frequency": 100,
+        "startWord": 10,
+        "midWord": 30,
+        "endWord": 80,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 80,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ɚ",
+        "form": "or",
+        "origin": 3,
+        "frequency": 220,
+        "startWord": 0,
+        "midWord": 30,
+        "endWord": 60,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires stress or rhotic context not represented by this reading obligation."
+        }
+      },
+      {
+        "phoneme": "ɚ",
+        "form": "ar",
+        "origin": 3,
+        "frequency": 80,
+        "startWord": 1,
+        "midWord": 10,
+        "endWord": 40,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 40,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires stress or rhotic context not represented by this reading obligation."
+        }
+      },
+      {
+        "phoneme": "ɚ",
+        "form": "eir",
+        "origin": 0,
+        "frequency": 25,
+        "startWord": 1,
+        "midWord": 0,
+        "endWord": 45,
+        "condition": {
+          "leftContext": [
+            "ð"
+          ],
+          "segmentPosition": [
+            "final"
+          ],
+          "syllableShape": {
+            "coda": "empty"
+          }
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 45,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ɚ",
+        "form": "re",
+        "origin": 1,
+        "frequency": 50,
+        "startWord": 0,
+        "midWord": 5,
+        "endWord": 100,
+        "condition": {
+          "notLeftContext": [
+            "l",
+            "r"
+          ]
+        },
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires stress or rhotic context not represented by this reading obligation."
+        }
+      },
+      {
+        "phoneme": "ɚ",
+        "form": "ure",
+        "origin": 3,
+        "frequency": 30,
+        "startWord": 0,
+        "midWord": 10,
+        "endWord": 80,
+        "positionScope": "syllable",
+        "isolatedSyllableWeight": 0,
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires stress or rhotic context not represented by this reading obligation."
+        }
+      },
+      {
+        "phoneme": "j",
+        "form": "y",
+        "origin": 0,
+        "frequency": 30,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "j",
+        "form": "j",
+        "origin": 3,
+        "frequency": 1,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "w",
+        "form": "w",
+        "origin": 0,
+        "frequency": 100,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "w",
+        "form": "wh",
+        "origin": 0,
+        "coda": 0,
+        "frequency": 5,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "segmentPosition": [
+            "initial"
+          ],
+          "notLeftContext": [
+            "consonant"
+          ],
+          "notRightContext": [
+            "u",
+            "u:",
+            "ʊ",
+            "ʌ",
+            "ə",
+            "ɚ",
+            "ɜ",
+            "aʊ",
+            "əʊ"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "l",
+        "form": "l",
+        "origin": 3,
+        "frequency": 10,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "r",
+        "form": "r",
+        "origin": 3,
+        "frequency": 1000,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "r",
+        "form": "wr",
+        "origin": 0,
+        "frequency": 1,
+        "coda": 0,
+        "cluster": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "condition": {
+          "segmentPosition": [
+            "initial"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "r",
+        "form": "rh",
+        "origin": 2,
+        "frequency": 1,
+        "coda": 0,
+        "cluster": 0,
+        "startWord": 30,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "m",
+        "form": "m",
+        "origin": 3,
+        "frequency": 1000,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "m",
+        "form": "mb",
+        "origin": 5,
+        "frequency": 2,
+        "onset": 0,
+        "cluster": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "segmentPosition": [
+            "final"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "m",
+        "form": "mn",
+        "origin": 2,
+        "frequency": 1,
+        "onset": 0,
+        "cluster": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "m",
+        "form": "lm",
+        "origin": 3,
+        "frequency": 2,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "n",
+        "form": "n",
+        "origin": 3,
+        "frequency": 1000,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "n",
+        "form": "mn",
+        "origin": 2,
+        "frequency": 1,
+        "coda": 0,
+        "cluster": 0,
+        "startWord": 1,
+        "midWord": 0,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "n",
+        "form": "kn",
+        "origin": 0,
+        "frequency": 10,
+        "coda": 0,
+        "cluster": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "condition": {
+          "segmentPosition": [
+            "initial"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "n",
+        "form": "gn",
+        "origin": 0,
+        "frequency": 5,
+        "cluster": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "n",
+        "form": "pn",
+        "origin": 2,
+        "frequency": 1,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 0,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ŋ",
+        "form": "ng",
+        "origin": 0,
+        "frequency": 10,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "notRightContext": [
+            "k",
+            "g"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ŋ",
+        "form": "n",
+        "origin": 0,
+        "frequency": 100,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "condition": {
+          "rightContext": [
+            "k",
+            "g"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "following-letter",
+          "require": [
+            "k",
+            "g"
+          ]
+        }
+      },
+      {
+        "phoneme": "f",
+        "form": "f",
+        "origin": 3,
+        "frequency": 100,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "f",
+        "form": "ph",
+        "origin": 2,
+        "frequency": 8,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "f",
+        "form": "gh",
+        "origin": 0,
+        "frequency": 1,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "v",
+        "form": "v",
+        "origin": 3,
+        "frequency": 100,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "v",
+        "form": "f",
+        "origin": 3,
+        "frequency": 1,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 25,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "v",
+        "form": "ve",
+        "origin": 3,
+        "onset": 0,
+        "frequency": 1,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 50,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "The unit's final e can interact with a preceding vowel; marker scope is unrepresented."
+        }
+      },
+      {
+        "phoneme": "v",
+        "form": "ph",
+        "origin": 2,
+        "frequency": 1,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "θ",
+        "form": "th",
+        "origin": 2,
+        "frequency": 10,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ð",
+        "form": "th",
+        "origin": 2,
+        "frequency": 10,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "s",
+        "form": "s",
+        "origin": 3,
+        "frequency": 1000,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "s",
+        "form": "c",
+        "origin": 3,
+        "frequency": 140,
+        "cluster": 0,
+        "startWord": 8,
+        "midWord": 8,
+        "endWord": 8,
+        "condition": {
+          "rightContext": [
+            "front-vowel",
+            "ɜ",
+            "ɚ"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "following-letter",
+          "require": [
+            "e",
+            "i",
+            "y"
+          ]
+        }
+      },
+      {
+        "phoneme": "s",
+        "form": "sc",
+        "origin": 3,
+        "frequency": 10,
+        "coda": 0,
+        "cluster": 0,
+        "startWord": 8,
+        "midWord": 4,
+        "endWord": 0,
+        "condition": {
+          "rightContext": [
+            "front-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "following-letter",
+          "require": [
+            "e",
+            "i",
+            "y"
+          ]
+        }
+      },
+      {
+        "phoneme": "s",
+        "form": "ps",
+        "origin": 2,
+        "frequency": 1,
+        "coda": 0,
+        "cluster": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "s",
+        "form": "st",
+        "origin": 0,
+        "frequency": 2,
+        "coda": 0,
+        "cluster": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "s",
+        "form": "ce",
+        "origin": 3,
+        "frequency": 15,
+        "onset": 0,
+        "cluster": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 10,
+        "condition": {
+          "leftGraphemeContext": [
+            "a",
+            "e",
+            "i",
+            "o",
+            "u",
+            "y",
+            "n",
+            "r",
+            "l"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "The unit's final e can interact with a preceding vowel; marker scope is unrepresented."
+        }
+      },
+      {
+        "phoneme": "s",
+        "form": "se",
+        "origin": 3,
+        "frequency": 3,
+        "onset": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "The unit's final e can interact with a preceding vowel; marker scope is unrepresented."
+        }
+      },
+      {
+        "phoneme": "z",
+        "form": "z",
+        "origin": 3,
+        "frequency": 100,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "z",
+        "form": "s",
+        "origin": 3,
+        "frequency": 800,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 100,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "z",
+        "form": "x",
+        "origin": 3,
+        "frequency": 1,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 0,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "z",
+        "form": "ze",
+        "origin": 3,
+        "frequency": 4,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "The unit's final e can interact with a preceding vowel; marker scope is unrepresented."
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "sh",
+        "origin": 0,
+        "frequency": 750,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "coda": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "sh",
+        "origin": 0,
+        "frequency": 750,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "onset": 0,
+        "condition": {
+          "notRightContext": [
+            "consonant"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "ti",
+        "origin": 3,
+        "frequency": 80,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "rightContext": [
+            "vowel"
+          ],
+          "notRightContext": [
+            "front-vowel",
+            "back-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a larger vowel/consonant construction not represented by one unit."
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "ci",
+        "origin": 3,
+        "frequency": 50,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "rightContext": [
+            "vowel"
+          ],
+          "notRightContext": [
+            "front-vowel",
+            "back-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a larger vowel/consonant construction not represented by one unit."
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "ch",
+        "origin": 3,
+        "frequency": 30,
+        "onset": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "s",
+        "origin": 3,
+        "frequency": 20,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "si",
+        "origin": 3,
+        "frequency": 20,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "rightContext": [
+            "vowel"
+          ],
+          "notRightContext": [
+            "front-vowel",
+            "back-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a larger vowel/consonant construction not represented by one unit."
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "ce",
+        "origin": 3,
+        "frequency": 8,
+        "onset": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a larger vowel/consonant construction not represented by one unit."
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "ssi",
+        "origin": 3,
+        "frequency": 7,
+        "onset": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "notRightContext": [
+            "front-vowel",
+            "back-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a larger vowel/consonant construction not represented by one unit."
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "sc",
+        "origin": 3,
+        "frequency": 10,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ʃ",
+        "form": "sch",
+        "origin": 3,
+        "frequency": 15,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ʒ",
+        "form": "s",
+        "origin": 3,
+        "frequency": 10,
+        "cluster": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ʒ",
+        "form": "si",
+        "origin": 3,
+        "frequency": 10,
+        "onset": 0,
+        "cluster": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "condition": {
+          "notRightContext": [
+            "front-vowel",
+            "back-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a larger vowel/consonant construction not represented by one unit."
+        }
+      },
+      {
+        "phoneme": "ʒ",
+        "form": "z",
+        "origin": 3,
+        "frequency": 10,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ʒ",
+        "form": "g",
+        "origin": 3,
+        "frequency": 10,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ʒ",
+        "form": "ge",
+        "origin": 3,
+        "frequency": 10,
+        "onset": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "h",
+        "form": "h",
+        "origin": 0,
+        "frequency": 50,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "h",
+        "form": "wh",
+        "origin": 0,
+        "frequency": 0.1,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 0,
+        "endWord": 0,
+        "condition": {
+          "rightContext": [
+            "əʊ",
+            "ɔ"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "tʃ",
+        "form": "ch",
+        "origin": 3,
+        "frequency": 140,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "tʃ",
+        "form": "tch",
+        "origin": 0,
+        "frequency": 30,
+        "onset": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "leftContext": [
+            "lax-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "tʃ",
+        "form": "tu",
+        "origin": 3,
+        "frequency": 1,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a larger vowel/consonant construction not represented by one unit."
+        }
+      },
+      {
+        "phoneme": "tʃ",
+        "form": "te",
+        "origin": 3,
+        "frequency": 1,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a larger vowel/consonant construction not represented by one unit."
+        }
+      },
+      {
+        "phoneme": "dʒ",
+        "form": "g",
+        "origin": 3,
+        "frequency": 15,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "condition": {
+          "rightContext": [
+            "front-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "following-letter",
+          "require": [
+            "e",
+            "i",
+            "y"
+          ]
+        }
+      },
+      {
+        "phoneme": "dʒ",
+        "form": "j",
+        "origin": 3,
+        "frequency": 20,
+        "coda": 0,
+        "cluster": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "dʒ",
+        "form": "ge",
+        "origin": 3,
+        "frequency": 6,
+        "onset": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "The unit's final e can interact with a preceding vowel; marker scope is unrepresented."
+        }
+      },
+      {
+        "phoneme": "dʒ",
+        "form": "dge",
+        "origin": 3,
+        "frequency": 10,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "leftContext": [
+            "lax-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "dʒ",
+        "form": "di",
+        "origin": 3,
+        "frequency": 1,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "condition": {
+          "notRightContext": [
+            "front-vowel",
+            "back-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a larger vowel/consonant construction not represented by one unit."
+        }
+      },
+      {
+        "phoneme": "p",
+        "form": "p",
+        "origin": 3,
+        "frequency": 50,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "b",
+        "form": "b",
+        "origin": 3,
+        "frequency": 100,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "b",
+        "form": "pb",
+        "origin": 3,
+        "frequency": 1,
+        "onset": 0,
+        "cluster": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "t",
+        "form": "t",
+        "origin": 3,
+        "frequency": 2500,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "t",
+        "form": "th",
+        "origin": 2,
+        "frequency": 1,
+        "coda": 0,
+        "cluster": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "t",
+        "form": "bt",
+        "origin": 3,
+        "frequency": 1,
+        "onset": 0,
+        "cluster": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "t",
+        "form": "ed",
+        "origin": 3,
+        "frequency": 2,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a morphological suffix and its pronunciation context."
+        }
+      },
+      {
+        "phoneme": "d",
+        "form": "d",
+        "origin": 3,
+        "frequency": 300,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "d",
+        "form": "ed",
+        "origin": 3,
+        "frequency": 6,
+        "onset": 0,
+        "cluster": 300,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires a morphological suffix and its pronunciation context."
+        }
+      },
+      {
+        "phoneme": "k",
+        "form": "k",
+        "origin": 3,
+        "frequency": 5,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "rightContext": [
+            "c-soft-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "k",
+        "form": "c",
+        "origin": 3,
+        "frequency": 120,
+        "startWord": 0,
+        "midWord": 150,
+        "endWord": 10,
+        "condition": {
+          "leftGraphemeContext": [
+            "m"
+          ],
+          "rightContext": [
+            "c-soft-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires the lexical Mc name pattern."
+        }
+      },
+      {
+        "phoneme": "k",
+        "form": "k",
+        "origin": 3,
+        "frequency": 500,
+        "startWord": 0,
+        "midWord": 80,
+        "endWord": 80,
+        "condition": {
+          "leftGraphemeContext": [
+            "n"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "k",
+        "form": "k",
+        "origin": 3,
+        "frequency": 2,
+        "startWord": 0,
+        "midWord": 0,
+        "endWord": 2,
+        "condition": {
+          "segmentPosition": [
+            "final"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "k",
+        "form": "c",
+        "origin": 3,
+        "frequency": 300,
+        "cluster": 100,
+        "startWord": 100,
+        "midWord": 80,
+        "endWord": 10,
+        "condition": {
+          "notRightContext": [
+            "c-soft-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "following-letter",
+          "forbid": [
+            "e",
+            "i",
+            "y"
+          ]
+        }
+      },
+      {
+        "phoneme": "k",
+        "form": "ck",
+        "origin": 3,
+        "frequency": 80,
+        "onset": 0,
+        "positionScope": "syllable",
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 150,
+        "condition": {
+          "leftContext": [
+            "lax-vowel"
+          ],
+          "segmentPosition": [
+            "medial",
+            "final"
+          ]
+        },
+        "isolatedSyllableWeight": 150,
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "k",
+        "form": "ch",
+        "origin": 3,
+        "frequency": 1,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "condition": {
+          "rightContext": [
+            "vowel",
+            "r",
+            "l"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "k",
+        "form": "lk",
+        "origin": 3,
+        "frequency": 4,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "k",
+        "form": "q",
+        "origin": 3,
+        "frequency": 1,
+        "onset": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity or a joint qu construction; neither is represented."
+        }
+      },
+      {
+        "phoneme": "g",
+        "form": "g",
+        "origin": 3,
+        "frequency": 100,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "following-letter",
+          "forbid": [
+            "e",
+            "i",
+            "y"
+          ]
+        }
+      },
+      {
+        "phoneme": "g",
+        "form": "gh",
+        "origin": 3,
+        "frequency": 2,
+        "coda": 0,
+        "cluster": 0,
+        "startWord": 1,
+        "midWord": 0,
+        "endWord": 0,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "g",
+        "form": "gu",
+        "origin": 3,
+        "frequency": 2,
+        "coda": 0,
+        "startWord": 1,
+        "midWord": 1,
+        "endWord": 0,
+        "condition": {
+          "rightContext": [
+            "front-vowel"
+          ]
+        },
+        "positionScope": "segment",
+        "reading": {
+          "kind": "following-letter",
+          "require": [
+            "e",
+            "i"
+          ]
+        }
+      },
+      {
+        "phoneme": "g",
+        "form": "gue",
+        "origin": 3,
+        "frequency": 1,
+        "onset": 0,
+        "startWord": 0,
+        "midWord": 1,
+        "endWord": 1,
+        "positionScope": "segment",
+        "reading": {
+          "kind": "unsupported-construction",
+          "reason": "Requires lexical identity not represented by the spelling unit."
+        }
+      },
+      {
+        "phoneme": "ɛ",
+        "form": "ea",
+        "origin": 0,
+        "frequency": 140,
+        "onset": 0,
+        "coda": 0,
+        "positionScope": "syllable",
+        "fallbackOnly": true,
+        "startWord": 1,
+        "midWord": 0,
+        "endWord": 0,
+        "isolatedSyllableWeight": 10,
+        "condition": {
+          "rightContext": [
+            "t"
+          ]
+        },
+        "reading": {
+          "kind": "single-phone"
+        }
+      },
+      {
+        "phoneme": "ʊ",
+        "form": "oo",
+        "origin": 0,
+        "frequency": 80,
+        "onset": 0,
+        "coda": 0,
+        "positionScope": "syllable",
+        "fallbackOnly": true,
+        "startWord": 1,
+        "midWord": 0,
+        "endWord": 0,
+        "isolatedSyllableWeight": 5,
+        "condition": {
+          "leftContext": [
+            "g"
+          ]
+        },
+        "reading": {
+          "kind": "single-phone"
+        }
+      }
+    ],
+    "graphemeMaps": {
+      "onset": {},
+      "nucleus": {},
+      "coda": {}
+    },
+    "graphemeConditionAliases": {
+      "bareSyllableNucleus": {
+        "syllableShape": {
+          "onset": "empty",
+          "coda": "empty"
+        }
+      }
+    },
+    "invalidClusters": {
+      "onset": [],
+      "coda": [],
+      "boundary": []
+    },
+    "sonorityHierarchy": {
+      "mannerOfArticulation": {
+        "highVowel": 9,
+        "midVowel": 8.5,
+        "lowVowel": 8,
+        "glide": 7,
+        "liquid": 6,
+        "nasal": 5,
+        "lateralApproximant": 6,
+        "sibilant": 4,
+        "fricative": 3,
+        "affricate": 2,
+        "stop": 1
+      },
+      "placeOfArticulation": {
+        "front": 0.25,
+        "central": 0,
+        "back": -0.25,
+        "bilabial": -0.5,
+        "labiodental": -0.3,
+        "dental": -0.2,
+        "alveolar": 0,
+        "velar": 0.1,
+        "postalveolar": 0.2,
+        "labial-velar": 0.2,
+        "palatal": 0.3,
+        "glottal": 0.5
+      },
+      "voicedBonus": 0.5,
+      "tenseBonus": 0.25
+    },
+    "syllableStructure": {
+      "maxOnsetLength": 3,
+      "maxCodaLength": 4,
+      "maxNucleusLength": 1,
+      "letterLengthTargets": {
+        "1": [
+          2,
+          4,
+          6,
+          8
+        ],
+        "2": [
+          4,
+          6,
+          8,
+          10
+        ],
+        "3": [
+          5,
+          7,
+          10,
+          13
+        ],
+        "4": [
+          7,
+          8,
+          12,
+          15
+        ],
+        "5": [
+          9,
+          10,
+          13,
+          16
+        ]
+      }
+    },
+    "generationWeights": {
+      "onsetLength": {
+        "monosyllabic": [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            100
+          ],
+          [
+            2,
+            200
+          ],
+          [
+            3,
+            150
+          ]
+        ],
+        "followingNucleus": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            675
+          ],
+          [
+            2,
+            125
+          ],
+          [
+            3,
+            80
+          ]
+        ],
+        "default": [
+          [
+            0,
+            30
+          ],
+          [
+            1,
+            675
+          ],
+          [
+            2,
+            125
+          ],
+          [
+            3,
+            80
+          ]
+        ],
+        "long": [
+          [
+            0,
+            150
+          ],
+          [
+            1,
+            675
+          ],
+          [
+            2,
+            60
+          ],
+          [
+            3,
+            20
+          ]
+        ]
+      },
+      "codaLength": {
+        "monosyllabic": {
+          "0": [
+            [
+              0,
+              10
+            ],
+            [
+              1,
+              100
+            ],
+            [
+              2,
+              200
+            ],
+            [
+              3,
+              150
+            ]
+          ],
+          "1": [
+            [
+              0,
+              20
+            ],
+            [
+              1,
+              150
+            ],
+            [
+              2,
+              150
+            ],
+            [
+              3,
+              100
+            ]
+          ],
+          "2": [
+            [
+              0,
+              15
+            ],
+            [
+              1,
+              200
+            ],
+            [
+              2,
+              100
+            ],
+            [
+              3,
+              50
+            ]
+          ],
+          "3": [
+            [
+              0,
+              30
+            ],
+            [
+              1,
+              300
+            ],
+            [
+              2,
+              50
+            ],
+            [
+              3,
+              20
+            ]
+          ]
+        },
+        "monosyllabicDefault": [
+          [
+            0,
+            150
+          ],
+          [
+            1,
+            200
+          ],
+          [
+            2,
+            30
+          ],
+          [
+            3,
+            10
+          ]
+        ],
+        "polysyllabicNonzero": [
+          [
+            1,
+            3000
+          ],
+          [
+            2,
+            900
+          ],
+          [
+            3,
+            100
+          ]
+        ],
+        "zeroWeightEndOfWord": 1200,
+        "zeroWeightMidWord": 6000
+      },
+      "probability": {
+        "hasOnsetStartOfWord": 95,
+        "hasOnsetAfterCoda": 90,
+        "hasCodaMonosyllabic": 94,
+        "hasCodaEndOfWord": 90,
+        "hasCodaMidWord": 55,
+        "finalS": 8,
+        "nasalStopExtension": 18
+      },
+      "boundaryPolicy": {
+        "equalSonorityDrop": 90,
+        "risingCodaDrop": 25
+      }
+    },
+    "hiatusPolicy": {
+      "planGuardProbability": 98,
+      "postVowelGlideMultiplier": 0.08,
+      "fallbackBridgeOnsets": [
+        [
+          "h",
+          100
+        ]
+      ]
+    },
+    "phonemeLengthWeights": {
+      "text": [
+        [
+          1,
+          0.0287
+        ],
+        [
+          2,
+          4.278
+        ],
+        [
+          3,
+          23.659
+        ],
+        [
+          4,
+          33.638
+        ],
+        [
+          5,
+          16.4103
+        ],
+        [
+          6,
+          7.57
+        ],
+        [
+          7,
+          5.1717
+        ],
+        [
+          8,
+          3.7183
+        ],
+        [
+          9,
+          2.423
+        ],
+        [
+          10,
+          1.5167
+        ],
+        [
+          11,
+          0.8323
+        ],
+        [
+          12,
+          0.424
+        ],
+        [
+          13,
+          0.1887
+        ],
+        [
+          14,
+          0.0767
+        ],
+        [
+          15,
+          0.0367
+        ],
+        [
+          16,
+          0.0173
+        ],
+        [
+          17,
+          0.0067
+        ],
+        [
+          18,
+          0.0027
+        ],
+        [
+          19,
+          0.001
+        ],
+        [
+          20,
+          0.0003
+        ]
+      ],
+      "lexicon": [
+        [
+          1,
+          0.0325
+        ],
+        [
+          2,
+          0.7386
+        ],
+        [
+          3,
+          5.2172
+        ],
+        [
+          4,
+          12.5504
+        ],
+        [
+          5,
+          19.5559
+        ],
+        [
+          6,
+          20.3857
+        ],
+        [
+          7,
+          15.5779
+        ],
+        [
+          8,
+          11.1747
+        ],
+        [
+          9,
+          6.7691
+        ],
+        [
+          10,
+          3.7685
+        ],
+        [
+          11,
+          2.0985
+        ],
+        [
+          12,
+          1.1274
+        ],
+        [
+          13,
+          0.5792
+        ],
+        [
+          14,
+          0.2523
+        ],
+        [
+          15,
+          0.0968
+        ],
+        [
+          16,
+          0.0484
+        ],
+        [
+          17,
+          0.0206
+        ],
+        [
+          18,
+          0.0032
+        ],
+        [
+          19,
+          0.0016
+        ],
+        [
+          20,
+          0.0008
+        ]
+      ]
+    },
+    "phonemeToSyllableWeights": {
+      "text": {
+        "1": [
+          [
+            1,
+            100
+          ]
+        ],
+        "2": [
+          [
+            1,
+            100
+          ]
+        ],
+        "3": [
+          [
+            1,
+            98.97
+          ],
+          [
+            2,
+            1.03
+          ]
+        ],
+        "4": [
+          [
+            1,
+            88.09
+          ],
+          [
+            2,
+            11.91
+          ]
+        ],
+        "5": [
+          [
+            1,
+            45.1
+          ],
+          [
+            2,
+            53.43
+          ],
+          [
+            3,
+            1.47
+          ]
+        ],
+        "6": [
+          [
+            1,
+            4.41
+          ],
+          [
+            2,
+            70.16
+          ],
+          [
+            3,
+            25.42
+          ]
+        ],
+        "7": [
+          [
+            1,
+            0.21
+          ],
+          [
+            2,
+            25.23
+          ],
+          [
+            3,
+            72.48
+          ],
+          [
+            4,
+            2.08
+          ]
+        ],
+        "8": [
+          [
+            1,
+            0.01
+          ],
+          [
+            2,
+            6.12
+          ],
+          [
+            3,
+            74.96
+          ],
+          [
+            4,
+            18.91
+          ]
+        ],
+        "9": [
+          [
+            2,
+            1.18
+          ],
+          [
+            3,
+            42.01
+          ],
+          [
+            4,
+            55.67
+          ],
+          [
+            5,
+            1.13
+          ]
+        ],
+        "10": [
+          [
+            2,
+            0.11
+          ],
+          [
+            3,
+            15.67
+          ],
+          [
+            4,
+            74.26
+          ],
+          [
+            5,
+            9.96
+          ]
+        ],
+        "11": [
+          [
+            3,
+            3.72
+          ],
+          [
+            4,
+            62.96
+          ],
+          [
+            5,
+            33.16
+          ],
+          [
+            6,
+            0.16
+          ]
+        ],
+        "12": [
+          [
+            3,
+            0.55
+          ],
+          [
+            4,
+            40.41
+          ],
+          [
+            5,
+            57
+          ],
+          [
+            6,
+            2.04
+          ]
+        ],
+        "13": [
+          [
+            4,
+            18.73
+          ],
+          [
+            5,
+            70.14
+          ],
+          [
+            6,
+            11.13
+          ]
+        ],
+        "14": [
+          [
+            4,
+            7.83
+          ],
+          [
+            5,
+            54.35
+          ],
+          [
+            6,
+            37.83
+          ]
+        ],
+        "15": [
+          [
+            4,
+            0.91
+          ],
+          [
+            5,
+            36.36
+          ],
+          [
+            6,
+            62.73
+          ]
+        ],
+        "16": [
+          [
+            5,
+            7.69
+          ],
+          [
+            6,
+            92.31
+          ]
+        ],
+        "17": [
+          [
+            6,
+            100
+          ]
+        ],
+        "18": [
+          [
+            6,
+            100
+          ]
+        ],
+        "19": [
+          [
+            6,
+            100
+          ]
+        ],
+        "20": [
+          [
+            6,
+            100
+          ]
+        ]
+      },
+      "lexicon": {
+        "1": [
+          [
+            1,
+            100
+          ]
+        ],
+        "2": [
+          [
+            1,
+            98.07
+          ],
+          [
+            2,
+            1.93
+          ]
+        ],
+        "3": [
+          [
+            1,
+            86.56
+          ],
+          [
+            2,
+            13.37
+          ],
+          [
+            3,
+            0.08
+          ]
+        ],
+        "4": [
+          [
+            1,
+            42.27
+          ],
+          [
+            2,
+            56.6
+          ],
+          [
+            3,
+            1.13
+          ]
+        ],
+        "5": [
+          [
+            1,
+            10.78
+          ],
+          [
+            2,
+            80.9
+          ],
+          [
+            3,
+            8.29
+          ],
+          [
+            4,
+            0.03
+          ]
+        ],
+        "6": [
+          [
+            1,
+            1.47
+          ],
+          [
+            2,
+            68.24
+          ],
+          [
+            3,
+            29.56
+          ],
+          [
+            4,
+            0.73
+          ]
+        ],
+        "7": [
+          [
+            1,
+            0.07
+          ],
+          [
+            2,
+            40.05
+          ],
+          [
+            3,
+            53.88
+          ],
+          [
+            4,
+            5.97
+          ],
+          [
+            5,
+            0.03
+          ]
+        ],
+        "8": [
+          [
+            1,
+            0.01
+          ],
+          [
+            2,
+            16.53
+          ],
+          [
+            3,
+            61.23
+          ],
+          [
+            4,
+            21.68
+          ],
+          [
+            5,
+            0.56
+          ]
+        ],
+        "9": [
+          [
+            2,
+            5.41
+          ],
+          [
+            3,
+            48.41
+          ],
+          [
+            4,
+            42.51
+          ],
+          [
+            5,
+            3.66
+          ],
+          [
+            6,
+            0.01
+          ]
+        ],
+        "10": [
+          [
+            2,
+            1.07
+          ],
+          [
+            3,
+            25.07
+          ],
+          [
+            4,
+            56.82
+          ],
+          [
+            5,
+            16.67
+          ],
+          [
+            6,
+            0.36
+          ]
+        ],
+        "11": [
+          [
+            2,
+            0.11
+          ],
+          [
+            3,
+            11.12
+          ],
+          [
+            4,
+            46.39
+          ],
+          [
+            5,
+            39.24
+          ],
+          [
+            6,
+            3.1
+          ],
+          [
+            7,
+            0.04
+          ]
+        ],
+        "12": [
+          [
+            3,
+            2.67
+          ],
+          [
+            4,
+            30.33
+          ],
+          [
+            5,
+            53.62
+          ],
+          [
+            6,
+            13.16
+          ],
+          [
+            7,
+            0.21
+          ]
+        ],
+        "13": [
+          [
+            3,
+            0.55
+          ],
+          [
+            4,
+            14.25
+          ],
+          [
+            5,
+            53.15
+          ],
+          [
+            6,
+            30.27
+          ],
+          [
+            7,
+            1.78
+          ]
+        ],
+        "14": [
+          [
+            4,
+            6.29
+          ],
+          [
+            5,
+            40.57
+          ],
+          [
+            6,
+            44.34
+          ],
+          [
+            7,
+            8.49
+          ],
+          [
+            8,
+            0.31
+          ]
+        ],
+        "15": [
+          [
+            4,
+            0.82
+          ],
+          [
+            5,
+            14.75
+          ],
+          [
+            6,
+            56.56
+          ],
+          [
+            7,
+            24.59
+          ],
+          [
+            8,
+            3.28
+          ]
+        ],
+        "16": [
+          [
+            5,
+            9.84
+          ],
+          [
+            6,
+            39.34
+          ],
+          [
+            7,
+            47.54
+          ],
+          [
+            8,
+            3.28
+          ]
+        ],
+        "17": [
+          [
+            5,
+            3.85
+          ],
+          [
+            6,
+            23.08
+          ],
+          [
+            7,
+            57.69
+          ],
+          [
+            8,
+            15.38
+          ]
+        ],
+        "18": [
+          [
+            7,
+            25
+          ],
+          [
+            8,
+            75
+          ]
+        ],
+        "19": [
+          [
+            8,
+            50
+          ],
+          [
+            9,
+            50
+          ]
+        ],
+        "20": [
+          [
+            9,
+            100
+          ]
+        ]
+      }
+    },
+    "pronunciation": {
+      "stress": {
+        "primary": {
+          "type": "ot",
+          "otConfig": {
+            "constraints": [
+              {
+                "name": "WSP",
+                "weight": 3
+              },
+              {
+                "name": "ALIGN-LEFT",
+                "weight": 6.5
+              },
+              {
+                "name": "ALIGN-RIGHT",
+                "weight": 1
+              },
+              {
+                "name": "NONFINALITY",
+                "weight": 12
+              },
+              {
+                "name": "NONINITIAL",
+                "weight": 8.5
+              }
+            ],
+            "noise": 4
+          }
+        },
+        "secondary": {
+          "enabled": true,
+          "probability": 40,
+          "heavyWeight": 70,
+          "lightWeight": 30,
+          "candidateWindow": "first-three"
+        },
+        "rhythmic": {
+          "enabled": true,
+          "probability": 40,
+          "requireUnstressedNeighbors": true
+        },
+        "nucleus": {
+          "stressedNucleusBan": [
+            "ə"
+          ]
+        }
+      },
+      "aspiration": {
+        "enabled": true,
+        "targets": [
+          {
+            "segment": "onset",
+            "index": 0,
+            "manner": [
+              "stop"
+            ],
+            "voiced": false
+          }
+        ],
+        "rules": [
+          {
+            "id": "post-s",
+            "when": {
+              "previousCodaSounds": [
+                "s"
+              ]
+            },
+            "probability": 5
+          },
+          {
+            "id": "word-initial",
+            "when": {
+              "wordInitial": true
+            },
+            "probability": 95
+          },
+          {
+            "id": "stressed-onset",
+            "when": {
+              "stressed": true
+            },
+            "probability": 90
+          },
+          {
+            "id": "post-stressed",
+            "when": {
+              "postStressed": true
+            },
+            "probability": 50
+          }
+        ],
+        "fallbackProbability": 30
+      },
+      "vowelReduction": {
+        "enabled": true,
+        "rules": [
+          {
+            "source": "ʌ",
+            "target": "ə",
+            "probability": 85
+          },
+          {
+            "source": "ɛ",
+            "target": "ɪ",
+            "probability": 70
+          },
+          {
+            "source": "ɑ",
+            "target": "ə",
+            "probability": 65
+          },
+          {
+            "source": "ɔ",
+            "target": "ə",
+            "probability": 60
+          },
+          {
+            "source": "æ",
+            "target": "ə",
+            "probability": 40
+          },
+          {
+            "source": "ɜ",
+            "target": "ə",
+            "probability": 75
+          },
+          {
+            "source": "ɪ",
+            "target": "ə",
+            "probability": 45
+          }
+        ],
+        "reduceSecondaryStress": true,
+        "secondaryStressProbability": 30,
+        "positionalModifiers": {
+          "wordInitial": 0.7,
+          "wordMedial": 1,
+          "wordFinal": 0.65
+        }
+      }
+    },
+    "doubling": {
+      "enabled": true,
+      "trigger": "lax-vowel",
+      "probability": 80,
+      "maxPerWord": 1,
+      "neverDouble": [
+        "v",
+        "w",
+        "x",
+        "y",
+        "q",
+        "j",
+        "dʒ",
+        "h",
+        "ŋ",
+        "θ",
+        "ð",
+        "ʒ"
+      ],
+      "finalDoublingOnly": [
+        "f",
+        "s",
+        "l",
+        "z",
+        "k"
+      ],
+      "suppressAfterReduction": true,
+      "suppressBeforeTense": true,
+      "unstressedModifier": 0,
+      "doubledForms": {
+        "k": "ck",
+        "c": "ck"
+      },
+      "realizations": [
+        {
+          "phoneme": "b",
+          "from": "b",
+          "to": "bb",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "d",
+          "from": "d",
+          "to": "dd",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "f",
+          "from": "f",
+          "to": "ff",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "g",
+          "from": "g",
+          "to": "gg",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "l",
+          "from": "l",
+          "to": "ll",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "m",
+          "from": "m",
+          "to": "mm",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "n",
+          "from": "n",
+          "to": "nn",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "p",
+          "from": "p",
+          "to": "pp",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "r",
+          "from": "r",
+          "to": "rr",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "s",
+          "from": "s",
+          "to": "ss",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "t",
+          "from": "t",
+          "to": "tt",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "z",
+          "from": "z",
+          "to": "zz",
+          "reading": {
+            "kind": "single-phone"
+          }
+        },
+        {
+          "phoneme": "k",
+          "from": "c",
+          "to": "ck",
+          "reading": {
+            "kind": "single-phone"
+          },
+          "allowInCodaCluster": true
+        },
+        {
+          "phoneme": "k",
+          "from": "k",
+          "to": "ck",
+          "reading": {
+            "kind": "single-phone"
+          },
+          "allowInCodaCluster": true
+        }
+      ],
+      "neverDoubleFinal": [
+        "b",
+        "d",
+        "g"
+      ]
+    },
+    "silentE": {
+      "enabled": true,
+      "probability": 35,
+      "swaps": [
+        {
+          "phoneme": "eɪ",
+          "from": "a",
+          "to": "a"
+        },
+        {
+          "phoneme": "eɪ",
+          "from": "ai",
+          "to": "a"
+        },
+        {
+          "phoneme": "eɪ",
+          "from": "ae",
+          "to": "a"
+        },
+        {
+          "phoneme": "eɪ",
+          "from": "ea",
+          "to": "a"
+        },
+        {
+          "phoneme": "i:",
+          "from": "e",
+          "to": "e"
+        },
+        {
+          "phoneme": "i:",
+          "from": "ee",
+          "to": "e"
+        },
+        {
+          "phoneme": "i:",
+          "from": "ea",
+          "to": "e"
+        },
+        {
+          "phoneme": "aɪ",
+          "from": "i",
+          "to": "i"
+        },
+        {
+          "phoneme": "aɪ",
+          "from": "igh",
+          "to": "i"
+        },
+        {
+          "phoneme": "aɪ",
+          "from": "ie",
+          "to": "i"
+        },
+        {
+          "phoneme": "əʊ",
+          "from": "o",
+          "to": "o"
+        },
+        {
+          "phoneme": "əʊ",
+          "from": "ow",
+          "to": "o"
+        },
+        {
+          "phoneme": "əʊ",
+          "from": "oe",
+          "to": "o"
+        },
+        {
+          "phoneme": "u",
+          "from": "u",
+          "to": "u"
+        },
+        {
+          "phoneme": "u",
+          "from": "oo",
+          "to": "u"
+        },
+        {
+          "phoneme": "u",
+          "from": "ue",
+          "to": "u"
+        }
+      ],
+      "excludedCodas": [
+        "w",
+        "j",
+        "h"
+      ],
+      "appendAfter": [
+        {
+          "sound": "v",
+          "probability": 95
+        }
+      ]
+    },
+    "gapSpellings": [
+      {
+        "name": "be",
+        "phonemes": [
+          "b",
+          "i:"
+        ],
+        "replacement": "be",
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "he",
+        "phonemes": [
+          "h",
+          "i:"
+        ],
+        "replacement": "he",
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "me",
+        "phonemes": [
+          "m",
+          "i:"
+        ],
+        "replacement": "me",
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "we",
+        "phonemes": [
+          "w",
+          "i:"
+        ],
+        "replacement": "we",
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "to",
+        "phonemes": [
+          "t",
+          "u"
+        ],
+        "replacement": "to",
+        "weight": 85,
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "two",
+        "phonemes": [
+          "t",
+          "u"
+        ],
+        "replacement": "two",
+        "weight": 15,
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "do",
+        "phonemes": [
+          "d",
+          "u"
+        ],
+        "replacement": "do",
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "you",
+        "phonemes": [
+          "j",
+          "u"
+        ],
+        "replacement": "you",
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "any",
+        "phonemes": [
+          "ɛ",
+          "n",
+          "i:"
+        ],
+        "replacement": "any",
+        "hyphenated": "a&shy;ny",
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "people",
+        "phonemes": [
+          "p",
+          "i:",
+          "p",
+          "ə",
+          "l"
+        ],
+        "replacement": "people",
+        "hyphenated": "peo&shy;ple",
+        "targetLayer": "spellingRule"
+      },
+      {
+        "name": "would",
+        "phonemes": [
+          "w",
+          "ʊ",
+          "d"
+        ],
+        "replacement": "would",
+        "targetLayer": "spellingRule"
+      },
+      {
+        "name": "could",
+        "phonemes": [
+          "k",
+          "ʊ",
+          "d"
+        ],
+        "replacement": "could",
+        "targetLayer": "spellingRule"
+      },
+      {
+        "name": "who",
+        "phonemes": [
+          "h",
+          "u"
+        ],
+        "replacement": "who",
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "when",
+        "phonemes": [
+          "w",
+          "ɛ",
+          "n"
+        ],
+        "replacement": "when",
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "which",
+        "phonemes": [
+          "w",
+          "ɪ",
+          "tʃ"
+        ],
+        "replacement": "which",
+        "targetLayer": "grapheme"
+      },
+      {
+        "name": "what",
+        "phonemes": [
+          "w",
+          "ɑ",
+          "t"
+        ],
+        "replacement": "what",
+        "targetLayer": "grapheme"
+      }
+    ],
+    "spellingRules": [
+      {
+        "name": "nc-to-nk",
+        "pattern": "nc(?=[^eiyaouhlr]|$)",
+        "replacement": "nk",
+        "probability": 100,
+        "scope": "word"
+      },
+      {
+        "name": "magic-e",
+        "pattern": "([aiouy])e([bcdfghjklmnpqrstvwxyz])$",
+        "replacement": "$1$2e",
+        "probability": 95,
+        "scope": "syllable"
+      },
+      {
+        "name": "ew-cluster-simplify",
+        "pattern": "ew(?=[bcdfghjklmnpqrstvwxyz]{2})",
+        "replacement": "u",
+        "probability": 100,
+        "scope": "syllable"
+      },
+      {
+        "name": "ow-cluster-simplify",
+        "pattern": "ow(?=[bcdfghjklmnpqrstvwxyz]{2})",
+        "replacement": "ou",
+        "probability": 100,
+        "scope": "syllable"
+      },
+      {
+        "name": "ks-to-x",
+        "pattern": "(?<!^)ks",
+        "replacement": "x",
+        "probability": 25
+      },
+      {
+        "name": "cx-to-x",
+        "pattern": "cx",
+        "replacement": "x",
+        "probability": 100,
+        "scope": "word"
+      },
+      {
+        "name": "gz-to-x",
+        "pattern": "gz(?=[aeiouy])",
+        "replacement": "x",
+        "probability": 85,
+        "scope": "word"
+      },
+      {
+        "name": "sibilant-s-epenthesis",
+        "pattern": "((?:t?ch)|sh)s",
+        "replacement": "$1es",
+        "probability": 100,
+        "scope": "word"
+      },
+      {
+        "name": "cw-to-qu",
+        "pattern": "cw",
+        "replacement": "qu",
+        "probability": 100,
+        "scope": "word"
+      },
+      {
+        "name": "no-final-v",
+        "pattern": "v$",
+        "replacement": "ve",
+        "probability": 95,
+        "scope": "word"
+      },
+      {
+        "name": "no-final-j",
+        "pattern": "j$",
+        "replacement": "ge",
+        "probability": 95,
+        "scope": "word"
+      },
+      {
+        "name": "no-final-i",
+        "pattern": "i$",
+        "replacement": "y",
+        "probability": 95,
+        "scope": "word"
+      },
+      {
+        "name": "ngx-to-nks",
+        "pattern": "ngx",
+        "replacement": "nks",
+        "probability": 100,
+        "scope": "word"
+      },
+      {
+        "name": "eng-to-ing",
+        "pattern": "eng(?=s?$)",
+        "replacement": "ing",
+        "probability": 95,
+        "scope": "word"
+      },
+      {
+        "name": "ngk-to-nk",
+        "pattern": "ng([kc])",
+        "replacement": "n$1",
+        "probability": 100,
+        "scope": "word"
+      },
+      {
+        "name": "ckt-to-ct",
+        "pattern": "ckt",
+        "replacement": "ct",
+        "probability": 100,
+        "scope": "word"
+      },
+      {
+        "name": "iy-to-y",
+        "pattern": "iy",
+        "replacement": "y",
+        "probability": 100,
+        "scope": "word"
+      },
+      {
+        "name": "uw-to-w",
+        "pattern": "uw",
+        "replacement": "w",
+        "probability": 100,
+        "scope": "word"
+      },
+      {
+        "name": "iw-to-w",
+        "pattern": "iw",
+        "replacement": "w",
+        "probability": 100,
+        "scope": "word"
+      }
+    ],
+    "clusterConstraint": {
+      "rules": [
+        {
+          "mode": "allow-only",
+          "coda": {
+            "sounds": [
+              "ŋ"
+            ]
+          },
+          "onset": {
+            "place": [
+              "velar"
+            ]
+          }
+        },
+        {
+          "mode": "ban",
+          "coda": {
+            "sounds": [
+              "ʒ",
+              "ð"
+            ]
+          },
+          "onset": {
+            "manner": [
+              "stop"
+            ]
+          }
+        },
+        {
+          "mode": "ban",
+          "coda": {
+            "manner": [
+              "stop"
+            ]
+          },
+          "onset": {
+            "manner": [
+              "stop"
+            ]
+          },
+          "relation": {
+            "place": "same",
+            "voiced": "different"
+          }
+        },
+        {
+          "mode": "ban",
+          "coda": {
+            "sounds": [
+              "m"
+            ]
+          },
+          "onset": {
+            "manner": [
+              "stop"
+            ],
+            "place": [
+              "velar"
+            ]
+          }
+        }
+      ],
+      "repair": "drop-coda"
+    },
+    "codaConstraints": {
+      "bannedCodas": [
+        "h"
+      ],
+      "allowedFinal": [
+        "p",
+        "b",
+        "t",
+        "d",
+        "k",
+        "g",
+        "f",
+        "v",
+        "s",
+        "z",
+        "ʃ",
+        "ʒ",
+        "tʃ",
+        "dʒ",
+        "m",
+        "n",
+        "ŋ",
+        "l",
+        "r",
+        "θ"
+      ],
+      "voicingAgreement": true,
+      "homorganicNasalStop": true,
+      "bannedNucleusCodaCombinations": [
+        {
+          "nucleus": [
+            "æ"
+          ],
+          "coda": [
+            "ŋ"
+          ]
+        },
+        {
+          "nucleus": [
+            "ɚ",
+            "ɝ"
+          ],
+          "coda": [
+            "ŋ"
+          ]
+        }
+      ]
+    },
+    "clusterLimits": {
+      "maxOnset": 3,
+      "maxCoda": 3,
+      "codaAppendants": [
+        "s",
+        "z"
+      ],
+      "onsetPrependers": [
+        "s"
+      ],
+      "attestedCodas": [
+        [
+          "l",
+          "p"
+        ],
+        [
+          "l",
+          "b"
+        ],
+        [
+          "l",
+          "t"
+        ],
+        [
+          "l",
+          "d"
+        ],
+        [
+          "l",
+          "k"
+        ],
+        [
+          "l",
+          "f"
+        ],
+        [
+          "l",
+          "v"
+        ],
+        [
+          "l",
+          "s"
+        ],
+        [
+          "l",
+          "z"
+        ],
+        [
+          "l",
+          "θ"
+        ],
+        [
+          "l",
+          "ʃ"
+        ],
+        [
+          "l",
+          "tʃ"
+        ],
+        [
+          "l",
+          "dʒ"
+        ],
+        [
+          "r",
+          "p"
+        ],
+        [
+          "r",
+          "b"
+        ],
+        [
+          "r",
+          "t"
+        ],
+        [
+          "r",
+          "d"
+        ],
+        [
+          "r",
+          "k"
+        ],
+        [
+          "r",
+          "g"
+        ],
+        [
+          "r",
+          "f"
+        ],
+        [
+          "r",
+          "v"
+        ],
+        [
+          "r",
+          "s"
+        ],
+        [
+          "r",
+          "z"
+        ],
+        [
+          "r",
+          "θ"
+        ],
+        [
+          "r",
+          "ʃ"
+        ],
+        [
+          "r",
+          "tʃ"
+        ],
+        [
+          "r",
+          "dʒ"
+        ],
+        [
+          "l",
+          "m"
+        ],
+        [
+          "r",
+          "m"
+        ],
+        [
+          "r",
+          "n"
+        ],
+        [
+          "r",
+          "l"
+        ],
+        [
+          "m",
+          "p"
+        ],
+        [
+          "m",
+          "b"
+        ],
+        [
+          "n",
+          "t"
+        ],
+        [
+          "n",
+          "d"
+        ],
+        [
+          "ŋ",
+          "k"
+        ],
+        [
+          "m",
+          "s"
+        ],
+        [
+          "m",
+          "z"
+        ],
+        [
+          "m",
+          "θ"
+        ],
+        [
+          "n",
+          "s"
+        ],
+        [
+          "n",
+          "z"
+        ],
+        [
+          "n",
+          "θ"
+        ],
+        [
+          "ŋ",
+          "s"
+        ],
+        [
+          "ŋ",
+          "z"
+        ],
+        [
+          "ŋ",
+          "θ"
+        ],
+        [
+          "n",
+          "tʃ"
+        ],
+        [
+          "n",
+          "dʒ"
+        ],
+        [
+          "p",
+          "s"
+        ],
+        [
+          "b",
+          "z"
+        ],
+        [
+          "t",
+          "s"
+        ],
+        [
+          "d",
+          "z"
+        ],
+        [
+          "k",
+          "s"
+        ],
+        [
+          "g",
+          "z"
+        ],
+        [
+          "f",
+          "s"
+        ],
+        [
+          "v",
+          "z"
+        ],
+        [
+          "θ",
+          "s"
+        ],
+        [
+          "p",
+          "t"
+        ],
+        [
+          "k",
+          "t"
+        ],
+        [
+          "f",
+          "t"
+        ],
+        [
+          "s",
+          "p"
+        ],
+        [
+          "s",
+          "t"
+        ],
+        [
+          "s",
+          "k"
+        ],
+        [
+          "p",
+          "θ"
+        ],
+        [
+          "f",
+          "θ"
+        ],
+        [
+          "l",
+          "p",
+          "s"
+        ],
+        [
+          "l",
+          "t",
+          "s"
+        ],
+        [
+          "l",
+          "d",
+          "s"
+        ],
+        [
+          "l",
+          "k",
+          "s"
+        ],
+        [
+          "l",
+          "v",
+          "z"
+        ],
+        [
+          "l",
+          "θ",
+          "s"
+        ],
+        [
+          "l",
+          "p",
+          "t"
+        ],
+        [
+          "l",
+          "f",
+          "θ"
+        ],
+        [
+          "r",
+          "p",
+          "s"
+        ],
+        [
+          "r",
+          "t",
+          "s"
+        ],
+        [
+          "r",
+          "d",
+          "s"
+        ],
+        [
+          "r",
+          "k",
+          "s"
+        ],
+        [
+          "r",
+          "v",
+          "z"
+        ],
+        [
+          "r",
+          "θ",
+          "s"
+        ],
+        [
+          "m",
+          "p",
+          "s"
+        ],
+        [
+          "n",
+          "t",
+          "s"
+        ],
+        [
+          "n",
+          "d",
+          "s"
+        ],
+        [
+          "ŋ",
+          "k",
+          "s"
+        ],
+        [
+          "ŋ",
+          "k",
+          "θ"
+        ],
+        [
+          "k",
+          "s",
+          "t"
+        ],
+        [
+          "k",
+          "t",
+          "s"
+        ],
+        [
+          "f",
+          "t",
+          "s"
+        ],
+        [
+          "s",
+          "t",
+          "s"
+        ],
+        [
+          "s",
+          "p",
+          "s"
+        ],
+        [
+          "s",
+          "k",
+          "s"
+        ],
+        [
+          "n",
+          "tʃ",
+          "t"
+        ],
+        [
+          "n",
+          "dʒ",
+          "d"
+        ],
+        [
+          "l",
+          "p",
+          "t",
+          "s"
+        ],
+        [
+          "l",
+          "f",
+          "θ",
+          "s"
+        ],
+        [
+          "ŋ",
+          "k",
+          "θ",
+          "s"
+        ],
+        [
+          "k",
+          "s",
+          "t",
+          "s"
+        ]
+      ],
+      "attestedOnsets": [
+        [
+          "p",
+          "l"
+        ],
+        [
+          "p",
+          "r"
+        ],
+        [
+          "b",
+          "l"
+        ],
+        [
+          "b",
+          "r"
+        ],
+        [
+          "t",
+          "r"
+        ],
+        [
+          "d",
+          "r"
+        ],
+        [
+          "k",
+          "l"
+        ],
+        [
+          "k",
+          "r"
+        ],
+        [
+          "g",
+          "l"
+        ],
+        [
+          "g",
+          "r"
+        ],
+        [
+          "f",
+          "l"
+        ],
+        [
+          "f",
+          "r"
+        ],
+        [
+          "θ",
+          "r"
+        ],
+        [
+          "ʃ",
+          "r"
+        ],
+        [
+          "t",
+          "w"
+        ],
+        [
+          "k",
+          "w"
+        ],
+        [
+          "s",
+          "w"
+        ],
+        [
+          "s",
+          "l"
+        ],
+        [
+          "s",
+          "m"
+        ],
+        [
+          "s",
+          "n"
+        ],
+        [
+          "s",
+          "p"
+        ],
+        [
+          "s",
+          "t"
+        ],
+        [
+          "s",
+          "k"
+        ],
+        [
+          "s",
+          "p",
+          "l"
+        ],
+        [
+          "s",
+          "p",
+          "r"
+        ],
+        [
+          "s",
+          "t",
+          "r"
+        ],
+        [
+          "s",
+          "k",
+          "r"
+        ],
+        [
+          "s",
+          "k",
+          "w"
+        ]
+      ]
+    },
+    "sharedSpellings": [
+      {
+        "id": "ks-to-x",
+        "phonemes": [
+          {
+            "sound": "k"
+          },
+          {
+            "sound": "s"
+          }
+        ],
+        "form": "x",
+        "probability": 25,
+        "scope": "both",
+        "context": {
+          "nonInitial": true
+        }
+      },
+      {
+        "id": "gz-to-x",
+        "phonemes": [
+          {
+            "sound": "g"
+          },
+          {
+            "sound": "z"
+          }
+        ],
+        "form": "x",
+        "probability": 85,
+        "scope": "word",
+        "context": {
+          "nonInitial": true,
+          "following": {
+            "phoneClass": "vowel",
+            "letters": [
+              "a",
+              "e",
+              "i",
+              "o",
+              "u",
+              "y"
+            ]
+          }
+        }
+      },
+      {
+        "id": "cw-to-qu",
+        "phonemes": [
+          {
+            "sound": "k"
+          },
+          {
+            "sound": "w"
+          }
+        ],
+        "form": "qu",
+        "probability": 100,
+        "scope": "word",
+        "context": {}
+      }
+    ],
+    "writtenFormConstraints": {
+      "policy": "preserve-phones",
+      "maxConsonantGraphemes": 4,
+      "consonantGraphemes": [
+        "tch",
+        "dge",
+        "sch",
+        "ch",
+        "sh",
+        "th",
+        "ng",
+        "ph",
+        "wh",
+        "ck"
+      ],
+      "maxConsonantLetters": 4,
+      "maxFinalConsonantLetters": 3,
+      "maxVowelLetters": 2,
+      "orthographicRepairs": [
+        {
+          "name": "hard-g-silent-u",
+          "boundaryMatch": {},
+          "insert": "u"
+        }
+      ]
+    },
+    "sonorityConstraints": {
+      "risingOnset": true,
+      "fallingCoda": true,
+      "minSonorityGap": 0,
+      "exempt": [
+        "s",
+        "z"
+      ]
+    },
+    "morphology": {
+      "enabled": true,
+      "boundaryPolicy": {
+        "enablePrefixRootFallback": true,
+        "enableRootSuffixFallback": true,
+        "fallbackBridgeOnsets": [
+          [
+            "h",
+            100
+          ]
+        ]
+      },
+      "prefixes": [
+        {
+          "type": "prefix",
+          "written": "un",
+          "phonemes": [
+            "ʌ",
+            "n"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ʌ"
+              ],
+              "coda": [
+                "n"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "secondary",
+          "frequency": 80
+        },
+        {
+          "type": "prefix",
+          "written": "re",
+          "phonemes": [
+            "r",
+            "ɪ"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": []
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "secondary",
+          "frequency": 70
+        },
+        {
+          "type": "prefix",
+          "written": "dis",
+          "phonemes": [
+            "d",
+            "ɪ",
+            "s"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "d"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "s"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "secondary",
+          "frequency": 18
+        },
+        {
+          "type": "prefix",
+          "written": "pre",
+          "phonemes": [
+            "p",
+            "r",
+            "i:"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "p",
+                "r"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": []
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "secondary",
+          "frequency": 18
+        },
+        {
+          "type": "prefix",
+          "written": "over",
+          "phonemes": [
+            "əʊ",
+            "v",
+            "ɚ"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "əʊ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "v"
+              ],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ],
+          "syllableCount": 2,
+          "stressEffect": "primary",
+          "frequency": 20
+        },
+        {
+          "type": "prefix",
+          "written": "out",
+          "phonemes": [
+            "aʊ",
+            "t"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "aʊ"
+              ],
+              "coda": [
+                "t"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "primary",
+          "frequency": 20
+        },
+        {
+          "type": "prefix",
+          "written": "mis",
+          "phonemes": [
+            "m",
+            "ɪ",
+            "s"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "m"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "s"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "secondary",
+          "frequency": 30
+        },
+        {
+          "type": "prefix",
+          "written": "in",
+          "phonemes": [
+            "ɪ",
+            "n"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "n"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "secondary",
+          "frequency": 50,
+          "allomorphs": [
+            {
+              "phonologicalCondition": {
+                "position": "following",
+                "place": [
+                  "bilabial"
+                ]
+              },
+              "phonemes": [
+                "ɪ",
+                "m"
+              ],
+              "syllables": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [
+                    "m"
+                  ]
+                }
+              ],
+              "syllableCount": 1,
+              "written": "im"
+            }
+          ]
+        }
+      ],
+      "suffixes": [
+        {
+          "type": "suffix",
+          "written": "ing",
+          "phonemes": [
+            "ɪ",
+            "ŋ"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "ŋ"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "none",
+          "frequency": 40,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            },
+            {
+              "name": "double-consonant",
+              "match": {},
+              "replace": "$1$2$3$3",
+              "blockedBy": [
+                "drop-silent-e"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "tion",
+          "phonemes": [
+            "ʃ",
+            "ə",
+            "n"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "ʃ"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "n"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "attract-preceding",
+          "frequency": 28
+        },
+        {
+          "type": "suffix",
+          "written": "sion",
+          "phonemes": [
+            "ʃ",
+            "ə",
+            "n"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "ʃ"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "n"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "attract-preceding",
+          "frequency": 10
+        },
+        {
+          "type": "suffix",
+          "written": "ly",
+          "phonemes": [
+            "l",
+            "i:"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "l"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": []
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "none",
+          "frequency": 30,
+          "boundaryTransforms": [
+            {
+              "name": "y-to-i",
+              "match": {},
+              "replace": "$1i"
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ed",
+          "phonemes": [
+            "d"
+          ],
+          "syllables": [],
+          "syllableCount": 0,
+          "stressEffect": "none",
+          "frequency": 120,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            },
+            {
+              "name": "double-consonant",
+              "match": {},
+              "replace": "$1$2$3$3",
+              "blockedBy": [
+                "drop-silent-e"
+              ]
+            }
+          ],
+          "allomorphs": [
+            {
+              "phonologicalCondition": {
+                "position": "preceding",
+                "voiced": false
+              },
+              "phonemes": [
+                "t"
+              ],
+              "syllables": [],
+              "syllableCount": 0
+            },
+            {
+              "phonologicalCondition": {
+                "position": "preceding",
+                "voiced": true
+              },
+              "phonemes": [
+                "d"
+              ],
+              "syllables": [],
+              "syllableCount": 0
+            },
+            {
+              "phonologicalCondition": {
+                "position": "preceding",
+                "manner": [
+                  "stop"
+                ],
+                "place": [
+                  "alveolar"
+                ]
+              },
+              "phonemes": [
+                "ɪ",
+                "d"
+              ],
+              "syllables": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [
+                    "d"
+                  ]
+                }
+              ],
+              "syllableCount": 1,
+              "written": "ed"
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ness",
+          "phonemes": [
+            "n",
+            "ə",
+            "s"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "n"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "s"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "none",
+          "frequency": 6,
+          "boundaryTransforms": [
+            {
+              "name": "y-to-i",
+              "match": {},
+              "replace": "$1i"
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "er",
+          "phonemes": [
+            "ɚ"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "none",
+          "frequency": 50,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            },
+            {
+              "name": "double-consonant",
+              "match": {},
+              "replace": "$1$2$3$3",
+              "blockedBy": [
+                "drop-silent-e"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "est",
+          "phonemes": [
+            "ɪ",
+            "s",
+            "t"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "s",
+                "t"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "none",
+          "frequency": 15,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            },
+            {
+              "name": "double-consonant",
+              "match": {},
+              "replace": "$1$2$3$3",
+              "blockedBy": [
+                "drop-silent-e"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ment",
+          "phonemes": [
+            "m",
+            "ə",
+            "n",
+            "t"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "m"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "n",
+                "t"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "none",
+          "frequency": 23
+        },
+        {
+          "type": "suffix",
+          "written": "able",
+          "phonemes": [
+            "ə",
+            "b",
+            "ə",
+            "l"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ],
+          "syllableCount": 2,
+          "stressEffect": "none",
+          "frequency": 21,
+          "boundaryTransforms": [
+            {
+              "name": "y-to-i",
+              "match": {},
+              "replace": "$1i"
+            },
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            },
+            {
+              "name": "double-consonant",
+              "match": {},
+              "replace": "$1$2$3$3",
+              "blockedBy": [
+                "drop-silent-e"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ful",
+          "phonemes": [
+            "f",
+            "ə",
+            "l"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "f"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "none",
+          "frequency": 15,
+          "boundaryTransforms": [
+            {
+              "name": "y-to-i",
+              "match": {},
+              "replace": "$1i"
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "less",
+          "phonemes": [
+            "l",
+            "ə",
+            "s"
+          ],
+          "syllables": [
+            {
+              "onset": [
+                "l"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "s"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "none",
+          "frequency": 12
+        },
+        {
+          "type": "suffix",
+          "written": "ous",
+          "phonemes": [
+            "ə",
+            "s"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "s"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "attract-preceding",
+          "frequency": 14,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ive",
+          "phonemes": [
+            "ɪ",
+            "v"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "v"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "attract-preceding",
+          "frequency": 12,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "al",
+          "phonemes": [
+            "ə",
+            "l"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "attract-preceding",
+          "frequency": 46,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ity",
+          "phonemes": [
+            "ɪ",
+            "t",
+            "i:"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "t"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": []
+            }
+          ],
+          "syllableCount": 2,
+          "stressEffect": "attract-preceding",
+          "frequency": 18,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            }
+          ],
+          "morphophonemicRules": [
+            {
+              "name": "ity-velar-softening",
+              "priority": 10,
+              "phonologicalCondition": {
+                "position": "preceding",
+                "voiced": false,
+                "manner": [
+                  "stop"
+                ],
+                "place": [
+                  "velar"
+                ]
+              },
+              "replaceSound": "s",
+              "writtenMatch": {},
+              "writtenReplace": "s"
+            },
+            {
+              "name": "ity-diphthong-flattening",
+              "target": "nucleus",
+              "priority": 20,
+              "phonologicalCondition": {
+                "position": "preceding",
+                "sounds": [
+                  "aɪ"
+                ]
+              },
+              "replaceSound": "ɪ",
+              "writtenMatch": {},
+              "writtenReplace": "in"
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "s",
+          "phonemes": [
+            "z"
+          ],
+          "syllables": [],
+          "syllableCount": 0,
+          "stressEffect": "none",
+          "frequency": 190,
+          "allomorphs": [
+            {
+              "phonologicalCondition": {
+                "position": "preceding",
+                "voiced": false
+              },
+              "phonemes": [
+                "s"
+              ],
+              "syllables": [],
+              "syllableCount": 0
+            },
+            {
+              "phonologicalCondition": {
+                "position": "preceding",
+                "voiced": true
+              },
+              "phonemes": [
+                "z"
+              ],
+              "syllables": [],
+              "syllableCount": 0
+            },
+            {
+              "phonologicalCondition": {
+                "position": "preceding",
+                "manner": [
+                  "sibilant",
+                  "affricate"
+                ]
+              },
+              "phonemes": [
+                "ɪ",
+                "z"
+              ],
+              "syllables": [
+                {
+                  "onset": [],
+                  "nucleus": [
+                    "ɪ"
+                  ],
+                  "coda": [
+                    "z"
+                  ]
+                }
+              ],
+              "syllableCount": 1,
+              "written": "es"
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ist",
+          "phonemes": [
+            "ɪ",
+            "s",
+            "t"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "s",
+                "t"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "none",
+          "frequency": 5,
+          "boundaryTransforms": [
+            {
+              "name": "y-to-i",
+              "match": {},
+              "replace": "$1i"
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ize",
+          "phonemes": [
+            "aɪ",
+            "z"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "aɪ"
+              ],
+              "coda": [
+                "z"
+              ]
+            }
+          ],
+          "syllableCount": 1,
+          "stressEffect": "none",
+          "frequency": 8,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ism",
+          "phonemes": [
+            "ɪ",
+            "z",
+            "ə",
+            "m"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "z"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "m"
+              ]
+            }
+          ],
+          "syllableCount": 2,
+          "stressEffect": "none",
+          "frequency": 3
+        },
+        {
+          "type": "suffix",
+          "written": "ary",
+          "phonemes": [
+            "ɛ",
+            "r",
+            "i:"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "r"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": []
+            }
+          ],
+          "syllableCount": 2,
+          "stressEffect": "attract-preceding",
+          "frequency": 20,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ory",
+          "phonemes": [
+            "ɔ",
+            "r",
+            "i:"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɔ"
+              ],
+              "coda": [
+                "r"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": []
+            }
+          ],
+          "syllableCount": 2,
+          "stressEffect": "attract-preceding",
+          "frequency": 15,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ery",
+          "phonemes": [
+            "ɛ",
+            "r",
+            "i:"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "r"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": []
+            }
+          ],
+          "syllableCount": 2,
+          "stressEffect": "none",
+          "frequency": 8,
+          "boundaryTransforms": [
+            {
+              "name": "drop-silent-e",
+              "match": {},
+              "replace": ""
+            }
+          ]
+        },
+        {
+          "type": "suffix",
+          "written": "ian",
+          "phonemes": [
+            "i:",
+            "ə",
+            "n"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "n"
+              ]
+            }
+          ],
+          "syllableCount": 2,
+          "stressEffect": "attract-preceding",
+          "frequency": 8
+        },
+        {
+          "type": "suffix",
+          "written": "ial",
+          "phonemes": [
+            "i:",
+            "ə",
+            "l"
+          ],
+          "syllables": [
+            {
+              "onset": [],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ],
+          "syllableCount": 2,
+          "stressEffect": "attract-preceding",
+          "frequency": 8
+        }
+      ],
+      "templateWeights": {
+        "text": {
+          "bare": 55,
+          "suffixed": 30,
+          "prefixed": 10,
+          "both": 5
+        },
+        "lexicon": {
+          "bare": 30,
+          "suffixed": 48,
+          "prefixed": 14,
+          "both": 8
+        }
+      }
+    },
+    "clusterWeights": {
+      "onset": {
+        "d": 0.38,
+        "d,r": 0.38
+      },
+      "coda": {
+        "final": {
+          "t,s": 0.12,
+          "t,z": 0.12,
+          "n,s": 0.12,
+          "n,z": 0.12,
+          "d,s": 0.06,
+          "d,z": 0.06,
+          "b,s": 0.0001,
+          "b,z": 0.0001,
+          "g,s": 0.0001,
+          "g,z": 0.0001
+        },
+        "nonFinal": {
+          "t,s": 0.75,
+          "t,z": 0.75,
+          "n,s": 0.75,
+          "n,z": 0.75,
+          "d,s": 0.35,
+          "d,z": 0.35,
+          "b,s": 0.4,
+          "b,z": 0.4,
+          "g,s": 0.4,
+          "g,z": 0.4
+        }
+      }
+    },
+    "splitVowels": {
+      "supports": [
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "b"
+            ],
+            "written": "b"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "d"
+            ],
+            "written": "d"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "f"
+            ],
+            "written": "f"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "k"
+            ],
+            "written": "k"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "l"
+            ],
+            "written": "l"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "m"
+            ],
+            "written": "m"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "n"
+            ],
+            "written": "n"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "p"
+            ],
+            "written": "p"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "s"
+            ],
+            "written": "c"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "t"
+            ],
+            "written": "t"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "v"
+            ],
+            "written": "v"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "z"
+            ],
+            "written": "z"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "ð"
+            ],
+            "written": "th"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "s",
+              "t"
+            ],
+            "written": "st"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "n",
+              "dʒ"
+            ],
+            "written": "ng"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "i:",
+            "component": "e"
+          },
+          "coda": {
+            "sounds": [
+              "d"
+            ],
+            "written": "d"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "i:",
+            "component": "e"
+          },
+          "coda": {
+            "sounds": [
+              "n"
+            ],
+            "written": "n"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "i:",
+            "component": "e"
+          },
+          "coda": {
+            "sounds": [
+              "m"
+            ],
+            "written": "m"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "i:",
+            "component": "e"
+          },
+          "coda": {
+            "sounds": [
+              "z"
+            ],
+            "written": "s"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "i:",
+            "component": "e"
+          },
+          "coda": {
+            "sounds": [
+              "v"
+            ],
+            "written": "v"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "m"
+            ],
+            "written": "m"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "f"
+            ],
+            "written": "f"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "k"
+            ],
+            "written": "k"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "l"
+            ],
+            "written": "l"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "n"
+            ],
+            "written": "n"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "p"
+            ],
+            "written": "p"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "s"
+            ],
+            "written": "c"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "t"
+            ],
+            "written": "t"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "v"
+            ],
+            "written": "v"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "z"
+            ],
+            "written": "z"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "ð"
+            ],
+            "written": "th"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "b"
+            ],
+            "written": "b"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "d"
+            ],
+            "written": "d"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "p"
+            ],
+            "written": "p"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "l"
+            ],
+            "written": "l"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "m"
+            ],
+            "written": "m"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "n"
+            ],
+            "written": "n"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "t"
+            ],
+            "written": "t"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "z"
+            ],
+            "written": "s"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "ð"
+            ],
+            "written": "th"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "d"
+            ],
+            "written": "d"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "b"
+            ],
+            "written": "b"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "k"
+            ],
+            "written": "k"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "l"
+            ],
+            "written": "l"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "n"
+            ],
+            "written": "n"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "s"
+            ],
+            "written": "s"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "t"
+            ],
+            "written": "t"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "dʒ"
+            ],
+            "written": "g"
+          },
+          "marker": "e"
+        }
+      ],
+      "routes": {
+        "syllable": {
+          "forms": [
+            "ae",
+            "ie",
+            "oe",
+            "ue",
+            "ye"
+          ],
+          "probability": 95
+        },
+        "word": {
+          "swaps": [
+            {
+              "phoneme": "eɪ",
+              "from": "a",
+              "to": "a"
+            },
+            {
+              "phoneme": "eɪ",
+              "from": "ai",
+              "to": "a"
+            },
+            {
+              "phoneme": "eɪ",
+              "from": "ae",
+              "to": "a"
+            },
+            {
+              "phoneme": "eɪ",
+              "from": "ea",
+              "to": "a"
+            },
+            {
+              "phoneme": "i:",
+              "from": "e",
+              "to": "e"
+            },
+            {
+              "phoneme": "i:",
+              "from": "ee",
+              "to": "e"
+            },
+            {
+              "phoneme": "i:",
+              "from": "ea",
+              "to": "e"
+            },
+            {
+              "phoneme": "aɪ",
+              "from": "i",
+              "to": "i"
+            },
+            {
+              "phoneme": "aɪ",
+              "from": "igh",
+              "to": "i"
+            },
+            {
+              "phoneme": "aɪ",
+              "from": "ie",
+              "to": "i"
+            },
+            {
+              "phoneme": "əʊ",
+              "from": "o",
+              "to": "o"
+            },
+            {
+              "phoneme": "əʊ",
+              "from": "ow",
+              "to": "o"
+            },
+            {
+              "phoneme": "əʊ",
+              "from": "oe",
+              "to": "o"
+            },
+            {
+              "phoneme": "u",
+              "from": "u",
+              "to": "u"
+            },
+            {
+              "phoneme": "u",
+              "from": "oo",
+              "to": "u"
+            },
+            {
+              "phoneme": "u",
+              "from": "ue",
+              "to": "u"
+            }
+          ],
+          "probability": 35,
+          "monosyllableMultiplier": 2
+        }
+      }
+    },
+    "followingLetters": {
+      "targets": [
+        {
+          "phoneme": "s",
+          "form": "c"
+        },
+        {
+          "phoneme": "s",
+          "form": "sc"
+        },
+        {
+          "phoneme": "dʒ",
+          "form": "g"
+        }
+      ]
+    }
+  },
+  "counts": {
+    "words": 2000,
+    "phones": 9725,
+    "selection:ownership:single-owned": 9725,
+    "selection:stratum:soft-c:c:ownership:single-owned": 37,
+    "selection:selectionCohort:soft-c:c:ownership:single-owned": 37,
+    "selection:stratum:soft-c:sc:ownership:single-owned": 5,
+    "selection:selectionCohort:soft-c:sc:ownership:single-owned": 5,
+    "selection:stratum:soft-g:g:ownership:single-owned": 7,
+    "selection:selectionCohort:soft-g:g:ownership:single-owned": 7,
+    "selection:stratum:hard-c:c:ownership:single-owned": 300,
+    "selection:selectionCohort:hard-c:c:ownership:single-owned": 300,
+    "selection:stratum:hard-g:g:ownership:single-owned": 156,
+    "selection:selectionCohort:hard-g:g:ownership:single-owned": 156,
+    "selection:stratum:hard-g:gu:ownership:single-owned": 2,
+    "selection:selectionCohort:hard-g:gu:ownership:single-owned": 2,
+    "selection:stratum:other:ownership:single-owned": 9218,
+    "selection:selectionCohort:other:ownership:single-owned": 9218,
+    "selection:ownership:joint-owned": 0,
+    "selection:stratum:soft-c:c:ownership:joint-owned": 0,
+    "selection:selectionCohort:soft-c:c:ownership:joint-owned": 0,
+    "selection:stratum:soft-c:sc:ownership:joint-owned": 0,
+    "selection:selectionCohort:soft-c:sc:ownership:joint-owned": 0,
+    "selection:stratum:soft-g:g:ownership:joint-owned": 0,
+    "selection:selectionCohort:soft-g:g:ownership:joint-owned": 0,
+    "selection:stratum:hard-c:c:ownership:joint-owned": 0,
+    "selection:selectionCohort:hard-c:c:ownership:joint-owned": 0,
+    "selection:stratum:hard-g:g:ownership:joint-owned": 0,
+    "selection:selectionCohort:hard-g:g:ownership:joint-owned": 0,
+    "selection:stratum:hard-g:gu:ownership:joint-owned": 0,
+    "selection:selectionCohort:hard-g:gu:ownership:joint-owned": 0,
+    "selection:stratum:other:ownership:joint-owned": 0,
+    "selection:selectionCohort:other:ownership:joint-owned": 0,
+    "selection:ownership:unavailable": 0,
+    "selection:stratum:soft-c:c:ownership:unavailable": 0,
+    "selection:selectionCohort:soft-c:c:ownership:unavailable": 0,
+    "selection:stratum:soft-c:sc:ownership:unavailable": 0,
+    "selection:selectionCohort:soft-c:sc:ownership:unavailable": 0,
+    "selection:stratum:soft-g:g:ownership:unavailable": 0,
+    "selection:selectionCohort:soft-g:g:ownership:unavailable": 0,
+    "selection:stratum:hard-c:c:ownership:unavailable": 0,
+    "selection:selectionCohort:hard-c:c:ownership:unavailable": 0,
+    "selection:stratum:hard-g:g:ownership:unavailable": 0,
+    "selection:selectionCohort:hard-g:g:ownership:unavailable": 0,
+    "selection:stratum:hard-g:gu:ownership:unavailable": 0,
+    "selection:selectionCohort:hard-g:gu:ownership:unavailable": 0,
+    "selection:stratum:other:ownership:unavailable": 0,
+    "selection:selectionCohort:other:ownership:unavailable": 0,
+    "selection:ownership:outside-supported-version": 0,
+    "selection:stratum:soft-c:c:ownership:outside-supported-version": 0,
+    "selection:selectionCohort:soft-c:c:ownership:outside-supported-version": 0,
+    "selection:stratum:soft-c:sc:ownership:outside-supported-version": 0,
+    "selection:selectionCohort:soft-c:sc:ownership:outside-supported-version": 0,
+    "selection:stratum:soft-g:g:ownership:outside-supported-version": 0,
+    "selection:selectionCohort:soft-g:g:ownership:outside-supported-version": 0,
+    "selection:stratum:hard-c:c:ownership:outside-supported-version": 0,
+    "selection:selectionCohort:hard-c:c:ownership:outside-supported-version": 0,
+    "selection:stratum:hard-g:g:ownership:outside-supported-version": 0,
+    "selection:selectionCohort:hard-g:g:ownership:outside-supported-version": 0,
+    "selection:stratum:hard-g:gu:ownership:outside-supported-version": 0,
+    "selection:selectionCohort:hard-g:gu:ownership:outside-supported-version": 0,
+    "selection:stratum:other:ownership:outside-supported-version": 0,
+    "selection:selectionCohort:other:ownership:outside-supported-version": 0,
+    "selection:reading:contextual-compatible": 454,
+    "selection:stratum:soft-c:c:reading:contextual-compatible": 37,
+    "selection:stratum:soft-c:sc:reading:contextual-compatible": 5,
+    "selection:stratum:soft-g:g:reading:contextual-compatible": 7,
+    "selection:stratum:hard-c:c:reading:contextual-compatible": 277,
+    "selection:stratum:hard-g:g:reading:contextual-compatible": 114,
+    "selection:stratum:hard-g:gu:reading:contextual-compatible": 1,
+    "selection:stratum:other:reading:contextual-compatible": 13,
+    "selection:reading:contextual-incompatible": 67,
+    "selection:stratum:soft-c:c:reading:contextual-incompatible": 0,
+    "selection:stratum:soft-c:sc:reading:contextual-incompatible": 0,
+    "selection:stratum:soft-g:g:reading:contextual-incompatible": 0,
+    "selection:stratum:hard-c:c:reading:contextual-incompatible": 23,
+    "selection:stratum:hard-g:g:reading:contextual-incompatible": 42,
+    "selection:stratum:hard-g:gu:reading:contextual-incompatible": 1,
+    "selection:stratum:other:reading:contextual-incompatible": 1,
+    "selection:reading:context-unavailable": 0,
+    "selection:stratum:soft-c:c:reading:context-unavailable": 0,
+    "selection:stratum:soft-c:sc:reading:context-unavailable": 0,
+    "selection:stratum:soft-g:g:reading:context-unavailable": 0,
+    "selection:stratum:hard-c:c:reading:context-unavailable": 0,
+    "selection:stratum:hard-g:g:reading:context-unavailable": 0,
+    "selection:stratum:hard-g:gu:reading:context-unavailable": 0,
+    "selection:stratum:other:reading:context-unavailable": 0,
+    "selection:reading:non-contextual": 8393,
+    "selection:stratum:soft-c:c:reading:non-contextual": 0,
+    "selection:stratum:soft-c:sc:reading:non-contextual": 0,
+    "selection:stratum:soft-g:g:reading:non-contextual": 0,
+    "selection:stratum:hard-c:c:reading:non-contextual": 0,
+    "selection:stratum:hard-g:g:reading:non-contextual": 0,
+    "selection:stratum:hard-g:gu:reading:non-contextual": 0,
+    "selection:stratum:other:reading:non-contextual": 8393,
+    "selection:reading:reading-unavailable": 811,
+    "selection:stratum:soft-c:c:reading:reading-unavailable": 0,
+    "selection:stratum:soft-c:sc:reading:reading-unavailable": 0,
+    "selection:stratum:soft-g:g:reading:reading-unavailable": 0,
+    "selection:stratum:hard-c:c:reading:reading-unavailable": 0,
+    "selection:stratum:hard-g:g:reading:reading-unavailable": 0,
+    "selection:stratum:hard-g:gu:reading:reading-unavailable": 0,
+    "selection:stratum:other:reading:reading-unavailable": 811,
+    "final-root:ownership:single-owned": 9490,
+    "final-root:stratum:soft-c:c:ownership:single-owned": 37,
+    "final-root:selectionCohort:soft-c:c:ownership:single-owned": 37,
+    "final-root:stratum:soft-c:sc:ownership:single-owned": 5,
+    "final-root:selectionCohort:soft-c:sc:ownership:single-owned": 5,
+    "final-root:stratum:soft-g:g:ownership:single-owned": 7,
+    "final-root:selectionCohort:soft-g:g:ownership:single-owned": 7,
+    "final-root:stratum:hard-c:c:ownership:single-owned": 286,
+    "final-root:selectionCohort:hard-c:c:ownership:single-owned": 286,
+    "final-root:stratum:hard-g:g:ownership:single-owned": 152,
+    "final-root:selectionCohort:hard-g:g:ownership:single-owned": 152,
+    "final-root:stratum:hard-g:gu:ownership:single-owned": 2,
+    "final-root:selectionCohort:hard-g:gu:ownership:single-owned": 2,
+    "final-root:stratum:other:ownership:single-owned": 9001,
+    "final-root:selectionCohort:other:ownership:single-owned": 9001,
+    "final-root:ownership:joint-owned": 34,
+    "final-root:stratum:soft-c:c:ownership:joint-owned": 0,
+    "final-root:selectionCohort:soft-c:c:ownership:joint-owned": 0,
+    "final-root:stratum:soft-c:sc:ownership:joint-owned": 0,
+    "final-root:selectionCohort:soft-c:sc:ownership:joint-owned": 0,
+    "final-root:stratum:soft-g:g:ownership:joint-owned": 0,
+    "final-root:selectionCohort:soft-g:g:ownership:joint-owned": 0,
+    "final-root:stratum:hard-c:c:ownership:joint-owned": 0,
+    "final-root:selectionCohort:hard-c:c:ownership:joint-owned": 13,
+    "final-root:stratum:hard-g:g:ownership:joint-owned": 0,
+    "final-root:selectionCohort:hard-g:g:ownership:joint-owned": 3,
+    "final-root:stratum:hard-g:gu:ownership:joint-owned": 0,
+    "final-root:selectionCohort:hard-g:gu:ownership:joint-owned": 0,
+    "final-root:stratum:other:ownership:joint-owned": 34,
+    "final-root:selectionCohort:other:ownership:joint-owned": 18,
+    "final-root:ownership:unavailable": 201,
+    "final-root:stratum:soft-c:c:ownership:unavailable": 0,
+    "final-root:selectionCohort:soft-c:c:ownership:unavailable": 0,
+    "final-root:stratum:soft-c:sc:ownership:unavailable": 0,
+    "final-root:selectionCohort:soft-c:sc:ownership:unavailable": 0,
+    "final-root:stratum:soft-g:g:ownership:unavailable": 0,
+    "final-root:selectionCohort:soft-g:g:ownership:unavailable": 0,
+    "final-root:stratum:hard-c:c:ownership:unavailable": 0,
+    "final-root:selectionCohort:hard-c:c:ownership:unavailable": 1,
+    "final-root:stratum:hard-g:g:ownership:unavailable": 0,
+    "final-root:selectionCohort:hard-g:g:ownership:unavailable": 1,
+    "final-root:stratum:hard-g:gu:ownership:unavailable": 0,
+    "final-root:selectionCohort:hard-g:gu:ownership:unavailable": 0,
+    "final-root:stratum:other:ownership:unavailable": 201,
+    "final-root:selectionCohort:other:ownership:unavailable": 199,
+    "final-root:ownership:outside-supported-version": 0,
+    "final-root:stratum:soft-c:c:ownership:outside-supported-version": 0,
+    "final-root:selectionCohort:soft-c:c:ownership:outside-supported-version": 0,
+    "final-root:stratum:soft-c:sc:ownership:outside-supported-version": 0,
+    "final-root:selectionCohort:soft-c:sc:ownership:outside-supported-version": 0,
+    "final-root:stratum:soft-g:g:ownership:outside-supported-version": 0,
+    "final-root:selectionCohort:soft-g:g:ownership:outside-supported-version": 0,
+    "final-root:stratum:hard-c:c:ownership:outside-supported-version": 0,
+    "final-root:selectionCohort:hard-c:c:ownership:outside-supported-version": 0,
+    "final-root:stratum:hard-g:g:ownership:outside-supported-version": 0,
+    "final-root:selectionCohort:hard-g:g:ownership:outside-supported-version": 0,
+    "final-root:stratum:hard-g:gu:ownership:outside-supported-version": 0,
+    "final-root:selectionCohort:hard-g:gu:ownership:outside-supported-version": 0,
+    "final-root:stratum:other:ownership:outside-supported-version": 0,
+    "final-root:selectionCohort:other:ownership:outside-supported-version": 0,
+    "final-root:reading:contextual-compatible": 438,
+    "final-root:stratum:soft-c:c:reading:contextual-compatible": 37,
+    "final-root:stratum:soft-c:sc:reading:contextual-compatible": 5,
+    "final-root:stratum:soft-g:g:reading:contextual-compatible": 7,
+    "final-root:stratum:hard-c:c:reading:contextual-compatible": 263,
+    "final-root:stratum:hard-g:g:reading:contextual-compatible": 113,
+    "final-root:stratum:hard-g:gu:reading:contextual-compatible": 1,
+    "final-root:stratum:other:reading:contextual-compatible": 12,
+    "final-root:reading:contextual-incompatible": 63,
+    "final-root:stratum:soft-c:c:reading:contextual-incompatible": 0,
+    "final-root:stratum:soft-c:sc:reading:contextual-incompatible": 0,
+    "final-root:stratum:soft-g:g:reading:contextual-incompatible": 0,
+    "final-root:stratum:hard-c:c:reading:contextual-incompatible": 23,
+    "final-root:stratum:hard-g:g:reading:contextual-incompatible": 39,
+    "final-root:stratum:hard-g:gu:reading:contextual-incompatible": 1,
+    "final-root:stratum:other:reading:contextual-incompatible": 0,
+    "final-root:reading:context-unavailable": 0,
+    "final-root:stratum:soft-c:c:reading:context-unavailable": 0,
+    "final-root:stratum:soft-c:sc:reading:context-unavailable": 0,
+    "final-root:stratum:soft-g:g:reading:context-unavailable": 0,
+    "final-root:stratum:hard-c:c:reading:context-unavailable": 0,
+    "final-root:stratum:hard-g:g:reading:context-unavailable": 0,
+    "final-root:stratum:hard-g:gu:reading:context-unavailable": 0,
+    "final-root:stratum:other:reading:context-unavailable": 0,
+    "final-root:reading:non-contextual": 8187,
+    "final-root:stratum:soft-c:c:reading:non-contextual": 0,
+    "final-root:stratum:soft-c:sc:reading:non-contextual": 0,
+    "final-root:stratum:soft-g:g:reading:non-contextual": 0,
+    "final-root:stratum:hard-c:c:reading:non-contextual": 0,
+    "final-root:stratum:hard-g:g:reading:non-contextual": 0,
+    "final-root:stratum:hard-g:gu:reading:non-contextual": 0,
+    "final-root:stratum:other:reading:non-contextual": 8187,
+    "final-root:reading:reading-unavailable": 802,
+    "final-root:stratum:soft-c:c:reading:reading-unavailable": 0,
+    "final-root:stratum:soft-c:sc:reading:reading-unavailable": 0,
+    "final-root:stratum:soft-g:g:reading:reading-unavailable": 0,
+    "final-root:stratum:hard-c:c:reading:reading-unavailable": 0,
+    "final-root:stratum:hard-g:g:reading:reading-unavailable": 0,
+    "final-root:stratum:hard-g:gu:reading:reading-unavailable": 0,
+    "final-root:stratum:other:reading:reading-unavailable": 802,
+    "selection:interpretation:no-departure-established": 8847,
+    "final-root:interpretation:no-departure-established": 8625,
+    "transition:other:non-contextual:non-contextual": 8179,
+    "final-root:interpretation:unsupported-evidence": 1037,
+    "transition:other:non-contextual:unavailable": 196,
+    "selection:interpretation:unsupported-evidence": 811,
+    "transition:other:reading-unavailable:reading-unavailable": 802,
+    "transition:hard-c:c:contextual-compatible:contextual-compatible": 263,
+    "transition:hard-g:g:contextual-compatible:contextual-compatible": 110,
+    "transition:soft-c:c:contextual-compatible:contextual-compatible": 37,
+    "selection:interpretation:hard-g-exception-sensitive": 42,
+    "final-root:interpretation:hard-g-exception-sensitive": 39,
+    "transition:hard-g:g:contextual-incompatible:contextual-incompatible": 39,
+    "transition:hard-c:c:contextual-compatible:joint-owned": 13,
+    "transition:other:non-contextual:joint-owned": 18,
+    "transition:other:contextual-compatible:contextual-compatible": 12,
+    "transition:hard-g:g:contextual-compatible:joint-owned": 3,
+    "selection:interpretation:hard-c-pattern-departure": 23,
+    "final-root:interpretation:hard-c-pattern-departure": 23,
+    "transition:hard-c:c:contextual-incompatible:contextual-incompatible": 23,
+    "transition:soft-g:g:contextual-compatible:contextual-compatible": 7,
+    "transition:soft-c:sc:contextual-compatible:contextual-compatible": 5,
+    "transition:other:reading-unavailable:non-contextual": 8,
+    "transition:other:reading-unavailable:unavailable": 1,
+    "transition:hard-g:g:contextual-incompatible:contextual-compatible": 3,
+    "transition:other:contextual-compatible:unavailable": 1,
+    "transition:hard-g:g:contextual-compatible:unavailable": 1,
+    "selection:interpretation:other-declared-context-departure": 2,
+    "transition:other:contextual-incompatible:unavailable": 1,
+    "transition:hard-c:c:contextual-compatible:unavailable": 1,
+    "transition:hard-g:gu:contextual-compatible:contextual-compatible": 1,
+    "final-root:interpretation:other-declared-context-departure": 1,
+    "transition:hard-g:gu:contextual-incompatible:contextual-incompatible": 1
+  }
+}

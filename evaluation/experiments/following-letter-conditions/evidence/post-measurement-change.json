@@ -1,0 +1,6 @@
+{
+  "file": "src/core/spelling-sequence-probability.ts",
+  "beforeSha256": "cb7009b5926944c2a04ae0af827e6185da63ab5502f645d87678e96fd2321635",
+  "afterSha256": "1e506381ac1ba0707959e34f70f35099e3ec3ca3c215beed861cd0dd4f9b862a",
+  "change": "Header comment only; no executable tokens changed. Measured source remains bound by original freeze."
+}

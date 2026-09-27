@@ -1,0 +1,15 @@
+{
+  "sourcePins": {
+    "manifestSha256": "7593ad8e8e77e7428c3d07c00f6166fe09ff06c8533741eb1e1d6f1259e3735c",
+    "sources": {
+      "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/following-letter-conditions/recount_corpus.py": "fea4c11e60bd2e64da2474d5410b62e9fa7ddde7662bb223349515b11c5ed79f",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/following-letter-conditions/recount_following.py": "baa7959eda0c9ec4e7c86c48c1bbc626388b0731aff07b2e3b8b1abae30cd788"
+    },
+    "python": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+    "pythonVersion": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]"
+  },
+  "sourcePinsSha256": "ea8d6d1e1264d8e0a5cd1aca1cc1b7729087a42dfcb723009747307e1ece480a",
+  "completeSha256": "3f737c634c652e31e754fc35e1e43366057adbd1a1f6c1660f6ed2565da627d1",
+  "reportSha256": "784add4fa221e3353f190ea44f73d02ca6d8bad328a757655dbc1c9bd30c1f91",
+  "wrapperSha256": "5fdd7da0ee354c366c34bd53dec8d0da6a1a5fccd26b5e2cda24e89ab1561d38"
+}

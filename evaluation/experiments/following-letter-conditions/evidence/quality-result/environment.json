@@ -1,0 +1,9 @@
+{
+  "QUALITY_GATE_SAMPLE_SIZE": null,
+  "QUALITY_MODE_SAMPLE_SIZE": null,
+  "QUALITY_HEARTBEAT_EVERY": null,
+  "CI": null,
+  "NODE_OPTIONS": null,
+  "NODE_PATH": null,
+  "TSX_TSCONFIG_PATH": null
+}

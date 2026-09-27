@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "file": "q14b-omitted-parity-final.mjs",
+      "sha256": "28f802ba4821ed1c06e44985374a72d21819879ce406f4c9bdf78f8610fe2ede",
+      "bytes": 2354
+    },
+    {
+      "file": "q14b-omitted-parity-final.json",
+      "sha256": "20dd91ee69d7ea3ef3855c94530c494266b0ca86364a5b26371536045c8956a2",
+      "bytes": 23462
+    },
+    {
+      "file": "q14b-omitted-parity-final.log",
+      "sha256": "72d81e12a7620091a92caebc64ddeac9458b1f1c499f0a91cf0ac88375abb824",
+      "bytes": 99
+    },
+    {
+      "file": "q14b-omitted-parity-final.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    }
+  ]
+}
