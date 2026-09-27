@@ -44,3 +44,10 @@ export interface SharedSpellingSupersession {
   after: string;
   ownership: "unavailable";
 }
+
+/** Orders shared decisions that may consume neither an edit ID nor an RNG value. */
+export interface SharedSpellingEvent {
+  kind: "attempt" | "guard" | "transaction" | "supersession";
+  index: number;
+  cursor: LedgerCursor;
+}

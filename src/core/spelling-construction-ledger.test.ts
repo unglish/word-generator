@@ -1,3 +1,4 @@
+import { validateSharedEventOrder } from "./spelling-construction-events.js";
 import { applySpellingRules, applySilentE, repairConsonantPileups, repairConsonantLetters, repairFinalConsonantLetters, repairVowelLetters } from "./write.js";
 import { describe, expect, it } from "vitest";
 import { englishConfig } from "../index.js";
@@ -377,5 +378,56 @@ describe("atomic writer repair transactions", () => {
     expect(parts).toEqual(["ex", "at"]); expect(hyphenated).toEqual(["ex", "&shy;", "at"]);
     base.assertSurface(parts.join(""));
     expect(base.snapshot().edits).toHaveLength(1);
+  });
+});
+
+
+describe("shared decision event order", () => {
+  function history() {
+    const base = fixture();
+    form(base, "ks-to-x", [1, 2], 0.9);
+    form(base);
+    base.edit(1, 1, "", "refused-single");
+    base.editBatch([{ start: 1, deleteCount: 1, insert: "", rule: "refused-batch" }]);
+    base.edit(0, 1, "e", "accepted-single");
+    base.replaceWithGapSpelling("ex", "other", "lexical");
+    const trace = base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    return trace;
+  }
+
+  it("records interleaved attempts, guards, transactions and supersession at their original cursors", () => {
+    const trace = history();
+    expect(trace.shared.events).toEqual([
+      { kind: "attempt", index: 0, cursor: { lastAppendedUnitId: 2, nextEditId: 0 } },
+      { kind: "attempt", index: 1, cursor: { lastAppendedUnitId: 2, nextEditId: 0 } },
+      { kind: "guard", index: 0, cursor: { lastAppendedUnitId: 2, nextEditId: 1 } },
+      { kind: "transaction", index: 0, cursor: { lastAppendedUnitId: 2, nextEditId: 1 } },
+      { kind: "guard", index: 1, cursor: { lastAppendedUnitId: 2, nextEditId: 1 } },
+      { kind: "supersession", index: 0, cursor: { lastAppendedUnitId: 2, nextEditId: 2 } },
+    ]);
+    expect(validateSharedEventOrder(trace)).toEqual({ events: 6 });
+  });
+
+  it.each(["missing", "duplicate", "cursor", "index", "backwards", "unreferenced", "kind"])("rejects %s event ordering corruption", corruption => {
+    const trace = history();
+    if (corruption === "missing") trace.shared.events.splice(2, 1);
+    if (corruption === "duplicate") trace.shared.events.splice(2, 0, structuredClone(trace.shared.events[1]));
+    if (corruption === "cursor") trace.shared.events[0].cursor.nextEditId = 1;
+    if (corruption === "index") trace.shared.events[0].index = 1;
+    if (corruption === "backwards") trace.shared.events.unshift(trace.shared.events.pop()!);
+    if (corruption === "unreferenced") trace.shared.editGuards.push(structuredClone(trace.shared.editGuards[0]));
+    if (corruption === "kind") Object.assign(trace.shared.events[0], { kind: "unknown" });
+    expect(() => validateSharedEventOrder(trace)).toThrow(/event order/);
+  });
+
+  it("detaches returned event cursors", () => {
+    const base = fixture(); form(base);
+    const trace = base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    trace.shared.events[0].cursor.nextEditId = 99;
+    const fresh = base.snapshot();
+    if (fresh.version !== 4) throw new Error("Expected shared trace");
+    expect(fresh.shared.events[0].cursor.nextEditId).toBe(0);
   });
 });
