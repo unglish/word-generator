@@ -1,0 +1,160 @@
+{
+  "version": 1,
+  "status": "candidate measured; paired performance and final publication review outstanding",
+  "files": [
+    {
+      "file": "q12c-candidate-independent-v1.json",
+      "source": "/private/tmp/q12c-candidate-independent-v1.json",
+      "sourceBytes": 987,
+      "sourceSha256": "aae2c7502d2290e3fe69f9ffc62458100b965b5a4a99a7e1d07c06784dde37de",
+      "sha256": "aae2c7502d2290e3fe69f9ffc62458100b965b5a4a99a7e1d07c06784dde37de"
+    },
+    {
+      "file": "q12c-candidate-independent-v1.log",
+      "source": "/private/tmp/q12c-candidate-independent-v1.log",
+      "sourceBytes": 0,
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "q12c-candidate-independent-command-v1.json",
+      "source": "/private/tmp/q12c-candidate-independent-command-v1.json",
+      "sourceBytes": 1126,
+      "sourceSha256": "90e2984990f6d658374fbeb778aa1901ddccea191a267732a1b53b297931d145",
+      "sha256": "90e2984990f6d658374fbeb778aa1901ddccea191a267732a1b53b297931d145"
+    },
+    {
+      "file": "q12c-candidate-analysis-command-v1.json",
+      "source": "/private/tmp/q12c-candidate-analysis-command-v1.json",
+      "sourceBytes": 997,
+      "sourceSha256": "a70e9c866ec5e33e8af772eb5e84905768c1c539bf587b02f366eff343e36ac5",
+      "sha256": "a70e9c866ec5e33e8af772eb5e84905768c1c539bf587b02f366eff343e36ac5"
+    },
+    {
+      "file": "q12c-candidate-analysis-v1.log",
+      "source": "/private/tmp/q12c-candidate-analysis-v1.log",
+      "sourceBytes": 938,
+      "sourceSha256": "f35ec5c5cb0c8488232d4f618dbb91712193ae495fe569d300b6628f9b18a7bf",
+      "sha256": "f35ec5c5cb0c8488232d4f618dbb91712193ae495fe569d300b6628f9b18a7bf"
+    },
+    {
+      "file": "q12c-candidate-capture-v1.log",
+      "source": "/private/tmp/q12c-candidate-capture-v1.log",
+      "sourceBytes": 1187,
+      "sourceSha256": "9ccf5896bd875ce22650b2769ed954cfad0ce621f333b0b515054aceb080ac7b",
+      "sha256": "9ccf5896bd875ce22650b2769ed954cfad0ce621f333b0b515054aceb080ac7b"
+    },
+    {
+      "file": "q12c-freeze-tests-v1.log",
+      "source": "/private/tmp/q12c-freeze-tests-v1.log",
+      "sourceBytes": 273,
+      "sourceSha256": "4399371c5e39b97bb0854ed686d51ca107a7d5b4300c2c78ffd083d58eb3838c",
+      "sha256": "4399371c5e39b97bb0854ed686d51ca107a7d5b4300c2c78ffd083d58eb3838c"
+    },
+    {
+      "file": "q12c-broad-comparison-inputs-v1.json",
+      "source": "/private/tmp/q12c-broad-comparison-inputs-v1.json",
+      "sourceBytes": 1277,
+      "sourceSha256": "1207219d5f946bb4484cf1f3a575e980c84f181fc0f71e4ee4b9372098130a8f",
+      "sha256": "1207219d5f946bb4484cf1f3a575e980c84f181fc0f71e4ee4b9372098130a8f"
+    },
+    {
+      "file": "q12c-broad-comparison-v1.log",
+      "source": "/private/tmp/q12c-broad-comparison-v1.log",
+      "sourceBytes": 67,
+      "sourceSha256": "3b23a5b8d06b0bb10d94623404cae1f109a5731b3a56df0e177cef2fddf3cf6c",
+      "sha256": "3b23a5b8d06b0bb10d94623404cae1f109a5731b3a56df0e177cef2fddf3cf6c"
+    },
+    {
+      "file": "q12c-headline-mechanical-comparison-v1.json",
+      "source": "/private/tmp/q12c-headline-mechanical-comparison-v1.json",
+      "sourceBytes": 1803,
+      "sourceSha256": "0284ecb618676448ebbfe9c4470f000a19c06396e4a362821189370f68458e14",
+      "sha256": "0284ecb618676448ebbfe9c4470f000a19c06396e4a362821189370f68458e14"
+    },
+    {
+      "file": "freeze-before.json.gz",
+      "source": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1-freeze/before.json",
+      "sourceBytes": 140251,
+      "sourceSha256": "2b53028235f1c61c44b191dd5b14f5fc05db42e76705d1487b29e2c83e57d1c3",
+      "sha256": "6a7c7d5b13d90fee201f66bd60b5eb1743a06527022854527a744d5d8251513d"
+    },
+    {
+      "file": "freeze-complete.json.gz",
+      "source": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1-freeze/complete.json",
+      "sourceBytes": 140200,
+      "sourceSha256": "3e5c0c4a3dd5e2e04281b542a821fa913a1c49cf892e2797eebf5877842fcb60",
+      "sha256": "a5bfdb65fa3c07641da04a57cd3191944c256070278a22e2b13f42d1e32cc91c"
+    },
+    {
+      "file": "analysis-authority.json",
+      "source": "/private/tmp/q12c-doubling-candidate-analysis-v1/authority.json",
+      "sourceBytes": 75138,
+      "sourceSha256": "340f518531fc041dcca4bcff2685af281bd8bf6a3d58a8864611b9c5e5ad42b8",
+      "sha256": "340f518531fc041dcca4bcff2685af281bd8bf6a3d58a8864611b9c5e5ad42b8"
+    },
+    {
+      "file": "analysis-report.json.gz",
+      "source": "/private/tmp/q12c-doubling-candidate-analysis-v1/report.json",
+      "sourceBytes": 9653120,
+      "sourceSha256": "77680edaaff2ff2555ae77de31f4b2a4aacec6c4ce7acda4a16fbf81134fe8fc",
+      "sha256": "8e71e5dcf80e70dcf02708fdb06c3a204e84e80bad300f8597c86a2f27398614"
+    },
+    {
+      "file": "comparison-comparison.json.gz",
+      "source": "/private/tmp/q12c-broad-comparison-v1/comparison.json",
+      "sourceBytes": 747002,
+      "sourceSha256": "4f390262bc4bd54f8cc058c70c19529b9e820639f41213b55d2a3c9a8bc07637",
+      "sha256": "7def24fb455708bf8b57d85f679afabb985f57e237c2e5b2c76bc352d6851074"
+    },
+    {
+      "file": "comparison-comparison.md",
+      "source": "/private/tmp/q12c-broad-comparison-v1/comparison.md",
+      "sourceBytes": 20307,
+      "sourceSha256": "b3fd90d57f3c58dec16f420e43263f1caa6ce835ec50ee2f34eecbf3dea51326",
+      "sha256": "b3fd90d57f3c58dec16f420e43263f1caa6ce835ec50ee2f34eecbf3dea51326"
+    },
+    {
+      "file": "capture-sources.json.gz",
+      "source": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1/sources.json.gz",
+      "sourceBytes": 205550,
+      "sourceSha256": "9634cf6d71b83a708f638e7cc1c016f22a1986e698704cae6427267d9fd0f83c",
+      "sha256": "9634cf6d71b83a708f638e7cc1c016f22a1986e698704cae6427267d9fd0f83c"
+    },
+    {
+      "file": "capture-summary.json",
+      "source": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1/summary.json",
+      "sourceBytes": 88052,
+      "sourceSha256": "ef1cc7d9a3c4d0d9cc03eb424c64060dbe9ba7d5eb9b3d1dfbec7b94e50078c8",
+      "sha256": "ef1cc7d9a3c4d0d9cc03eb424c64060dbe9ba7d5eb9b3d1dfbec7b94e50078c8"
+    },
+    {
+      "file": "capture-review-samples.json.gz",
+      "source": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1/review-samples.json.gz",
+      "sourceBytes": 634411,
+      "sourceSha256": "8e82d680b66292816a482287345a4251023c746637e49e6b8d5871e4a6a21383",
+      "sha256": "8e82d680b66292816a482287345a4251023c746637e49e6b8d5871e4a6a21383"
+    },
+    {
+      "file": "capture-witnesses.json.gz",
+      "source": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1/witnesses.json.gz",
+      "sourceBytes": 40801,
+      "sourceSha256": "adbcc7c7b83c0cb752d7c815c3da018b21049577da4c34a1d32ce0deb7d04807",
+      "sha256": "adbcc7c7b83c0cb752d7c815c3da018b21049577da4c34a1d32ce0deb7d04807"
+    },
+    {
+      "file": "capture-distributions.json.gz",
+      "source": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1/distributions.json.gz",
+      "sourceBytes": 74259,
+      "sourceSha256": "6c1920d5b7e80b66c355dc737c2990e301aa4f18220b5f01fe3b689664365676",
+      "sha256": "6c1920d5b7e80b66c355dc737c2990e301aa4f18220b5f01fe3b689664365676"
+    },
+    {
+      "file": "capture-manifest.json.gz",
+      "source": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1/manifest.json",
+      "sourceBytes": 174863,
+      "sourceSha256": "1bd32617b8ab62b034eeb0ae91ac8e2d1da675035c9b03a49c1912fee751e3fb",
+      "sha256": "c77bf4b67007704ceb133d1edff6148bdd82927be6b54f7ef22fa08b14e69794"
+    }
+  ]
+}
