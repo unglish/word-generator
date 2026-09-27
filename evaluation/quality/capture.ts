@@ -1,3 +1,4 @@
+import type { LanguageConfig } from "../../src/config/language.js";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { constants, createReadStream, createWriteStream } from "node:fs";
@@ -6,7 +7,7 @@ import { basename, dirname, join } from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import { createGunzip, createGzip, gunzipSync, gzipSync } from "node:zlib";
-import { createSeededRng, englishConfig, generateWord } from "../../src/index.js";
+import { createSeededRng, englishConfig, generateWord, createGenerator } from "../../src/index.js";
 import type { Word } from "../../src/types.js";
 import { canonical, digest } from "./serialization.js";
 import type { SourceFile } from "./serialization.js";
@@ -112,6 +113,8 @@ export interface CaptureOptions {
   cohort: Cohort;
   protocol: Protocol;
   progress?: (message: string) => void;
+  /** Explicit candidate configuration, snapshotted before asynchronous capture begins. */
+  configuration?: LanguageConfig;
 }
 
 function validateRunId(id: string): void {
@@ -249,6 +252,8 @@ async function evaluateCorpus(
 
 export async function captureRun(options: CaptureOptions): Promise<RunSummary> {
   const { root, out, id, cohort, protocol } = options;
+  const configuration = structuredClone(options.configuration ?? englishConfig);
+  const generate = options.configuration ? createGenerator(configuration).generateWord : generateWord;
   validateRunId(id);
   validateProtocol(protocol);
   const sources = await captureSources(root);
@@ -257,13 +262,13 @@ export async function captureRun(options: CaptureOptions): Promise<RunSummary> {
     commit: git("rev-parse", "HEAD"),
     dirty: git("status", "--porcelain", "--", "src").length > 0,
     sourceDigest: digest(sources.generator),
-    effectiveConfig: canonical(englishConfig),
+    effectiveConfig: canonical(configuration),
     patch: git("diff", "HEAD", "--", "src"),
   };
   const source: DrawSource = async function* (profile, seed) {
     const rand = createSeededRng(seed);
     for (let drawIndex = 0; drawIndex < protocol.wordsPerReplicate; drawIndex++) {
-      const word: Word = generateWord({ ...profile.options, rand, trace: true });
+      const word: Word = generate({ ...profile.options, rand, trace: true });
       yield { profile: profile.id, seed, drawIndex, word };
     }
   };
