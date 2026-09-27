@@ -1,0 +1,28 @@
+[
+  {
+    "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone",
+    "manifestSha256": "1e31ad59251eb5fbe8863bae988539062845f081e2597589669343f50e5452e7",
+    "id": "baseline-development-v1",
+    "evaluatorDigest": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007",
+    "referenceDigest": "38cf9d0bab164881ce06756118070d1d96db1056b8f51698ef85ef6294c5b858",
+    "environment": {
+      "node": "v24.11.1",
+      "platform": "darwin",
+      "arch": "arm64",
+      "packageLockDigest": "d8d7ddde3b5876bcf85b9fa8dbc49ecf32255752c7827abc2996a2ff4b9ec10a"
+    }
+  },
+  {
+    "path": "/private/tmp/q13c-unit-normalization-candidate-v1",
+    "manifestSha256": "dd931b501b6c26bbd17f953683eabee0d3b6d45aa0f3ead593d8902678d8dff3",
+    "id": "q13c-unit-normalization-candidate-v1",
+    "evaluatorDigest": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007",
+    "referenceDigest": "38cf9d0bab164881ce06756118070d1d96db1056b8f51698ef85ef6294c5b858",
+    "environment": {
+      "node": "v24.11.1",
+      "platform": "darwin",
+      "arch": "arm64",
+      "packageLockDigest": "d8d7ddde3b5876bcf85b9fa8dbc49ecf32255752c7827abc2996a2ff4b9ec10a"
+    }
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "version": "q12c-independent-doubling-recount-v1",
+  "passed": true,
+  "words": 200000,
+  "groups": 667,
+  "integerComparisons": 65815,
+  "fullWitnesses": 60,
+  "pythonVersion": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+  "pythonExecutable": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+  "pythonExecutableSha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5",
+  "reportSha256": "77680edaaff2ff2555ae77de31f4b2a4aacec6c4ce7acda4a16fbf81134fe8fc",
+  "manifestSha256": "1bd32617b8ab62b034eeb0ae91ac8e2d1da675035c9b03a49c1912fee751e3fb",
+  "scope": "Independent source-unit/decision consistency, doubling integers, strata, event histograms and full first witnesses. No JS observer imports or generation.",
+  "excluded": "Production replay counters except their word denominator, sampler law, final-word pronunciation, and human judgments are not independently proved here."
+}
