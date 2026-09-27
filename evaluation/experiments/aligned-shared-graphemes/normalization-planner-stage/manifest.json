@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "files": {
+    "README.md": {
+      "bytes": 2166,
+      "sha256": "38c156404be56bac17049fbc97689ee5ae64c880dea4bdd309d2f6071cd61bc2"
+    },
+    "q13b-normalization-planner-lint-v1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-normalization-planner-tests-v1.log": {
+      "bytes": 400,
+      "sha256": "88d4ba1e45fd36f144f9f49db0511debfd028b569749a7e34c4adadc766c082c"
+    },
+    "q13b-normalization-planner-tests-v2.log": {
+      "bytes": 948,
+      "sha256": "fe1f9e8b5b576057692cd37aa37abeb86d72d42cc93c879195627dc6779f8662"
+    },
+    "q13b-normalization-planner-types-v1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-normalization-planner-types-v2.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}
