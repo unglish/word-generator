@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "phase": "exploratory control inspection before runtime edits; not a registered candidate result",
+  "controlCommit": "b2373ca83cdbf5e8ad127b604e83397a8afe0d45",
+  "files": [
+    {
+      "file": "q13b-control-inventory-v1.py",
+      "source": "/private/tmp/q13b-control-inventory-v1.py",
+      "sourceBytes": 4429,
+      "sourceSha256": "08c7cc5a52c6c72c9d873a3dee78a63d41021f9d85c74c0e1f06d041b22d0a92",
+      "sha256": "08c7cc5a52c6c72c9d873a3dee78a63d41021f9d85c74c0e1f06d041b22d0a92"
+    },
+    {
+      "file": "q13b-control-inventory-v1.log",
+      "source": "/private/tmp/q13b-control-inventory-v1.log",
+      "sourceBytes": 1090,
+      "sourceSha256": "95875566a69492c7099f708b34031d93b0fa2c8d42af8039875b1215cc4c33eb",
+      "sha256": "95875566a69492c7099f708b34031d93b0fa2c8d42af8039875b1215cc4c33eb"
+    },
+    {
+      "file": "q13b-control-inventory-v1.json.gz",
+      "source": "/private/tmp/q13b-control-inventory-v1.json",
+      "sourceBytes": 161889,
+      "sourceSha256": "5e840fbf5fd7c625b204c61065bd2f3eeaa765841f613a90b7bad9b475a6e09b",
+      "sha256": "07ee4026b8305dbce99ba6909a1a81d5a6d4ee28cfd1f4ae982fa32dafef7849"
+    },
+    {
+      "file": "q13b-control-inventory-v2.py",
+      "source": "/private/tmp/q13b-control-inventory-v2.py",
+      "sourceBytes": 4539,
+      "sourceSha256": "04fc101b8894cc6e6d2f38b5b0ef1ed5dcc3121aca8d0fa37de8495f7b9667b3",
+      "sha256": "04fc101b8894cc6e6d2f38b5b0ef1ed5dcc3121aca8d0fa37de8495f7b9667b3"
+    },
+    {
+      "file": "q13b-control-inventory-v2.log",
+      "source": "/private/tmp/q13b-control-inventory-v2.log",
+      "sourceBytes": 1205,
+      "sourceSha256": "b04a63d96cc64ef302a1d502be5bf7f4f586893cb9b064eaaec2994e2ea19b47",
+      "sha256": "b04a63d96cc64ef302a1d502be5bf7f4f586893cb9b064eaaec2994e2ea19b47"
+    },
+    {
+      "file": "q13b-control-inventory-v2.json.gz",
+      "source": "/private/tmp/q13b-control-inventory-v2.json",
+      "sourceBytes": 213327,
+      "sourceSha256": "65ab3a6dcb37df38675ba113ab6cba4d6d461598e262723f70510bfbbe6ff1d5",
+      "sha256": "067df117548173bc857da6398bb9ac411c4c49765f7b475151227a5974ae106a"
+    },
+    {
+      "file": "control-manifest.json.gz",
+      "source": "/private/tmp/q12c-phoneme-aware-doubling-candidate-v1/manifest.json",
+      "sourceBytes": 174863,
+      "sourceSha256": "1bd32617b8ab62b034eeb0ae91ac8e2d1da675035c9b03a49c1912fee751e3fb",
+      "sha256": "c77bf4b67007704ceb133d1edff6148bdd82927be6b54f7ef22fa08b14e69794"
+    }
+  ]
+}
