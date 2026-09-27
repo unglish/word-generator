@@ -241,6 +241,7 @@ export class BaseSpelling {
   private readonly splitAttempts: BaseSpellingTraceV5["split"]["attempts"] = [];
   private readonly completionCertificates: CompletionCertificate[] = [];
   private readonly completionAttempts: BaseSpellingTraceV5["completion"]["attempts"] = [];
+  private completionPassStarted = false;
   private nextCellId = 0;
   private nextEditId = 0;
   private readonly edits?: SpellingEdit[];
@@ -652,6 +653,18 @@ export class BaseSpelling {
     this.splitAttempts.push({ attempt: structuredClone(attempt), constructionId });
     this.recordTimeline("split-attempt", this.splitAttempts.length - 1, attempt.cursor);
     return constructionId;
+  }
+
+  /** Run the registered single final pass; each decision observes all earlier committed replacements. */
+  completeVowels(rand: RNG): void {
+    if (!this.completionPlanner || this.phase !== "word" || this.units.length !== this.phones.length ||
+        this.completionPassStarted || this.completionAttempts.length) throw new Error("Invalid completion pass boundary");
+    this.completionPassStarted = true;
+    for (const phone of this.phones) {
+      if (phone.segment !== "nucleus") continue;
+      const attempt = this.completionPlanner.decide(this.constructionState(), phone.id, this.liveSplitConstructions(), rand);
+      this.recordCompletionAttempt(attempt);
+    }
   }
 
   /** Authenticate a final-pass decision before committing its complete nucleus replacement. */
