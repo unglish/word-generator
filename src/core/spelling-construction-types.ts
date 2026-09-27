@@ -1,5 +1,5 @@
 import type { LedgerCursor } from "./spelling-normalization-types.js";
-import type { SharedConstructionAttempt } from "./spelling-construction.js";
+import type { SharedConstructionAttempt, SharedSpellingSlot } from "./spelling-construction.js";
 
 /** Multiple ordered phones share these cells; no singular unit owner is implied. */
 export interface SharedCellOrigin {
@@ -52,9 +52,18 @@ export interface SharedSpellingEvent {
   cursor: LedgerCursor;
 }
 
+export interface SharedSpellingScan {
+  id: number;
+  slot: SharedSpellingSlot;
+  ruleId: string;
+  cursor: LedgerCursor;
+  candidates: number[][];
+  firstAttemptId: number;
+}
+
 /** Actual producer operation order, including decisions that allocate no cells or edits. */
 export interface SpellingTimelineEntry {
-  kind: "append" | "rewrite" | "shared" | "normalization-check" | "normalization-episode" | "normalization" | "coverage";
+  kind: "scan-start" | "scan-end" | "append" | "rewrite" | "shared" | "normalization-check" | "normalization-episode" | "normalization" | "coverage";
   index: number;
   cursor: LedgerCursor;
 }

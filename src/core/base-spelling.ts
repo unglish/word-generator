@@ -1,15 +1,27 @@
+import { createSharedCandidateScanner } from "./spelling-construction-scan.js";
+import type { RNG } from "../utils/random.js";
 import { createSharedEditGuard, createSharedSurfaceGuard } from "./spelling-construction-edit.js";
 import type { SharedEditDecision } from "./spelling-construction-edit.js";
 import { editPart, isSingleOwned, sourceUnits } from "./spelling-ownership.js";
 import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
 import { createSharedConstructionPlanner } from "./spelling-construction.js";
 import type { SharedConstructionAttempt, SharedSpellingSlot } from "./spelling-construction.js";
-import type { SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession, SharedSpellingEvent, SpellingTimelineEntry } from "./spelling-construction-types.js";
+import type { SharedSpellingScan, SharedCellOrigin, SharedSpellingConstruction, SharedSpellingSupersession, SharedSpellingEvent, SpellingTimelineEntry } from "./spelling-construction-types.js";
 import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
 import type { Phoneme } from "../types.js";
 import type { SpellingCoverageCertificate, SpellingUnitReplacement } from "./spelling-coverage-types.js";
 import type { NormalizationDecision, NormalizationPlan } from "./spelling-normalization.js";
 import type { LedgerCursor, NormalizationSite, NormalizedCellOrigin, UnitNormalizationCertificate, UnitNormalizationCheck, UnitNormalizationEpisode, UnitNormalizationObservation } from "./spelling-normalization-types.js";
+
+/** Stateless compiled policy shared by ledgers from one configured writer. */
+export function createSharedSpellingRuntime(rules: readonly SharedSpellingRule[], config: Pick<LanguageConfig, "graphemes" | "doubling">) {
+  return {
+    scanner: createSharedCandidateScanner(rules),
+    planner: createSharedConstructionPlanner(rules, config),
+    editGuard: createSharedEditGuard(rules),
+    surfaceGuard: createSharedSurfaceGuard(rules),
+  };
+}
 
 /** Exact base-word edit provenance. Offsets are JavaScript UTF-16 string offsets. */
 export interface SpellingPhone {
@@ -110,6 +122,7 @@ export interface BaseSpellingTraceV4 extends Omit<BaseSpellingTraceV3, "version"
   capabilities: BaseSpellingTraceV3["capabilities"] & { sharedConstructions: 1 };
   shared: {
     version: 1;
+    scans: SharedSpellingScan[];
     events: SharedSpellingEvent[];
     timeline: SpellingTimelineEntry[];
     attempts: Array<{ id: number; attempt: SharedConstructionAttempt; constructionId: number | null }>;
@@ -190,6 +203,9 @@ export class BaseSpelling {
   private readonly sharedTransactions?: SpellingEditTransaction[];
   private readonly sharedEvents?: SharedSpellingEvent[];
   private readonly sharedTimeline?: SpellingTimelineEntry[];
+  private readonly sharedScanner?: ReturnType<typeof createSharedCandidateScanner>;
+  private readonly sharedScans: SharedSpellingScan[] = [];
+  private activeSharedScan?: { scan: SharedSpellingScan; next: number };
   private nextSharedAttemptId = 0;
   private nextCellId = 0;
   private nextEditId = 0;
@@ -204,13 +220,16 @@ export class BaseSpelling {
     private readonly normalizeUnits = false,
     sharedRules?: readonly SharedSpellingRule[],
     readingConfig?: Pick<LanguageConfig, "graphemes" | "doubling">,
+    sharedRuntime?: ReturnType<typeof createSharedSpellingRuntime>,
   ) {
     if (sharedRules !== undefined) {
       if (!normalizeUnits || !licensed) throw new Error("Shared spelling requires normalized spelling provenance");
       if (!readingConfig) throw new Error("Shared spelling requires a reading configuration");
-      this.sharedPlanner = createSharedConstructionPlanner(sharedRules, readingConfig);
-      this.sharedEditGuard = createSharedEditGuard(sharedRules);
-      this.sharedSurfaceGuard = createSharedSurfaceGuard(sharedRules);
+      const runtime = sharedRuntime ?? createSharedSpellingRuntime(sharedRules, readingConfig);
+      this.sharedScanner = runtime.scanner;
+      this.sharedPlanner = runtime.planner;
+      this.sharedEditGuard = runtime.editGuard;
+      this.sharedSurfaceGuard = runtime.surfaceGuard;
       if (retainHistory) {
         this.sharedEditGuards = [];
         this.sharedTransactions = [];
@@ -469,10 +488,43 @@ export class BaseSpelling {
     this.recordTimeline("normalization-episode", id, cursor);
   }
 
+  beginSharedScan(slot: SharedSpellingSlot, ruleId: string): void {
+    if (!this.sharedScanner || this.activeSharedScan || this.phase !== slot.phase) throw new Error("Invalid shared scan start");
+    const view = this.constructionState();
+    const candidates = this.sharedScanner(view, slot, ruleId);
+    const scan: SharedSpellingScan = { id: this.sharedScans.length, slot: { ...slot }, ruleId,
+      cursor: { ...view.cursor }, candidates, firstAttemptId: this.nextSharedAttemptId };
+    this.sharedScans.push(scan);
+    this.activeSharedScan = { scan, next: 0 };
+    this.recordTimeline("scan-start", scan.id, view.cursor);
+  }
+
+  endSharedScan(): void {
+    const active = this.activeSharedScan;
+    if (!active || active.next !== active.scan.candidates.length) throw new Error("Incomplete shared scan");
+    this.recordTimeline("scan-end", active.scan.id, this.constructionState().cursor);
+    this.activeSharedScan = undefined;
+  }
+
+  /** Includes empty scans and retries each source window against the current ledger. */
+  scanSharedSlot(slot: SharedSpellingSlot, ruleId: string, rand: RNG): void {
+    this.beginSharedScan(slot, ruleId);
+    const candidates = this.activeSharedScan!.scan.candidates;
+    for (const ids of candidates) {
+      const attempt = this.sharedPlanner!.decide(this.constructionState(), slot, ruleId, ids, rand);
+      this.recordSharedAttempt(slot, ruleId, ids, attempt);
+    }
+    this.endSharedScan();
+  }
+
   /** Revalidate against live state before committing cells, IDs, certificates or attempts. */
   recordSharedAttempt(slot: SharedSpellingSlot, ruleId: string, sourceUnitIds: readonly number[], attempt: SharedConstructionAttempt): number | null {
     if (!this.sharedPlanner || this.phase !== slot.phase) throw new Error("Missing shared spelling capability or phase");
+    const active = this.activeSharedScan;
+    if (active && (active.scan.ruleId !== ruleId || JSON.stringify(active.scan.slot) !== JSON.stringify(slot) ||
+        JSON.stringify(active.scan.candidates[active.next]) !== JSON.stringify(sourceUnitIds))) throw new Error("Invalid shared scan candidate order");
     this.sharedPlanner.verify(this.constructionState(), slot, ruleId, sourceUnitIds, attempt);
+    if (active) active.next++;
     const result = attempt.result;
     let constructionId: number | null = null;
     if (result.status === "evaluated" && result.trial.status === "formed") {
@@ -678,7 +730,7 @@ export class BaseSpelling {
       };
       if (this.sharedPlanner) return structuredClone({ ...trace, version: 4,
         capabilities: { ...trace.capabilities, sharedConstructions: 1 },
-        shared: { version: 1, timeline: this.sharedTimeline ?? [], events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
+        shared: { version: 1, scans: this.sharedScans, timeline: this.sharedTimeline ?? [], events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
           liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [], transactions: this.sharedTransactions ?? [] } });
       return structuredClone(trace);
     }

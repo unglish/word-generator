@@ -138,3 +138,71 @@ describe("v4 ledger semantic replay", () => {
     expect(() => f.replay(trace)).toThrow();
   });
 });
+
+
+describe("shared source scans and replay", () => {
+  const word = { phase: "word", partId: null } as const;
+  it("records and replays empty scans without drawing", () => {
+    const f = fixture();
+    f.base.scanSharedSlot(word, "cw-to-qu", () => { throw new Error("Unexpected draw"); });
+    expect(f.trace().shared.scans).toEqual([{ id: 0, slot: word, ruleId: "cw-to-qu",
+      cursor: { lastAppendedUnitId: 2, nextEditId: 0 }, candidates: [], firstAttemptId: 0 }]);
+    expect(f.trace().shared.timeline.slice(-2).map(entry => entry.kind)).toEqual(["scan-start", "scan-end"]);
+    expect(f.replay(f.trace()).verifiedSharedEvents).toBe(0);
+  });
+  it("scans source order and revalidates each live state", () => {
+    const f = fixture(["æ", "k", "s", "k", "s"], ["a", "c", "s", "c", "s"], [0, 0, 0, 0, 0]);
+    let draws = 0;
+    f.base.scanSharedSlot(word, "ks-to-x", () => { draws++; return 0; });
+    expect(draws).toBe(2);
+    expect(f.trace().shared.scans[0].candidates).toEqual([[1, 2], [3, 4]]);
+    expect(f.trace().shared.attempts.map(entry => entry.attempt.cursor.nextEditId)).toEqual([0, 1]);
+    expect(f.trace().surface).toBe("axx");
+    expect(f.replay(f.trace()).verifiedSharedEvents).toBe(2);
+    f.base.scanSharedSlot(word, "ks-to-x", () => { throw new Error("Consumed phone drew"); });
+    expect(f.trace().shared.attempts.slice(2).map(entry => entry.attempt.result.status)).toEqual(["unavailable", "unavailable"]);
+    expect(f.replay(f.trace()).verifiedSharedEvents).toBe(4);
+  });
+  it("permits a failed syllable trial to retry at the word pass", () => {
+    const f = fixture();
+    let draws = 0;
+    f.base.setPhase("syllable");
+    f.base.scanSharedSlot({ phase: "syllable", partId: 0 }, "ks-to-x", () => { draws++; return 0.9; });
+    f.base.setPhase("word");
+    f.base.scanSharedSlot(word, "ks-to-x", () => { draws++; return 0; });
+    expect(draws).toBe(2);
+    expect(f.trace().surface).toBe("ax");
+    expect(f.replay(f.trace()).verifiedSharedEvents).toBe(2);
+  });
+  it("restricts syllable scans but allows cross-part word candidates", () => {
+    const f = fixture(["æ", "k", "s"], ["a", "c", "s"], [0, 0, 1]);
+    f.base.setPhase("syllable");
+    f.base.scanSharedSlot({ phase: "syllable", partId: 0 }, "ks-to-x", () => { throw new Error("Cross-part syllable draw"); });
+    f.base.setPhase("word");
+    f.base.scanSharedSlot(word, "ks-to-x", () => 0);
+    expect(f.trace().shared.scans.map(scan => scan.candidates)).toEqual([[], [[1, 2]]]);
+    expect(f.replay(f.trace()).verifiedSharedEvents).toBe(1);
+  });
+  it.each(["candidate", "first-attempt", "missing-end", "missing-start", "interrupt"])("rejects corrupt scan %s", kind => {
+    const f = fixture();
+    f.base.scanSharedSlot(word, "ks-to-x", () => 0);
+    const trace = f.trace();
+    const start = trace.shared.timeline.findIndex(entry => entry.kind === "scan-start");
+    if (kind === "candidate") trace.shared.scans[0].candidates = [];
+    if (kind === "first-attempt") trace.shared.scans[0].firstAttemptId = 1;
+    if (kind === "missing-end") trace.shared.timeline.pop();
+    if (kind === "missing-start") trace.shared.timeline.splice(start, 1);
+    if (kind === "interrupt") trace.shared.timeline.splice(start + 1, 0, { ...trace.shared.timeline[0], cursor: trace.shared.timeline[start].cursor });
+    expect(() => f.replay(trace)).toThrow();
+  });
+  it("rejects premature scan completion, nested scans and wrong candidate order", () => {
+    const f = fixture();
+    f.base.beginSharedScan(word, "ks-to-x");
+    expect(() => f.base.endSharedScan()).toThrow("Incomplete");
+    expect(() => f.base.beginSharedScan(word, "ks-to-x")).toThrow("start");
+    expect(() => f.shared("ks-to-x", [0, 1])).toThrow("candidate order");
+    f.shared("ks-to-x", [1, 2]);
+    f.base.endSharedScan();
+    expect(f.replay(f.trace()).verifiedSharedEvents).toBe(1);
+  });
+});

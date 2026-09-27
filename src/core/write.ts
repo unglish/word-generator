@@ -1,3 +1,5 @@
+import { createSpellingRuleSlots } from "./spelling-construction-slots.js";
+import type { SharedSpellingSlot } from "./spelling-construction.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
 import { createSpellingCoveragePlanner } from "./spelling-coverage.js";
 import type { SpellingChoiceState } from "./spelling-coverage.js";
@@ -11,7 +13,7 @@ import type { HistoricalSelectionState, NormalizationSite } from "./spelling-nor
 import type { DoublingState, DoublingTraceInfo } from "./spelling-doubling.js";
 import { createGraphemeResolver, positionLabel } from "./grapheme-selection.js";
 export { filterByPosition, normalizeGraphemeCondition } from "./grapheme-selection.js";
-import { BaseSpelling, expandReplacement } from "./base-spelling.js";
+import { BaseSpelling, createSharedSpellingRuntime, expandReplacement } from "./base-spelling.js";
 import type { PartEditObserver, PartSpellingBatchEdit, SpellingEditObserver } from "./base-spelling.js";
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { LanguageConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
@@ -1068,11 +1070,18 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const allCompiledRules = compileSpellingRules(config.spellingRules ?? []);
   const syllableRules = allCompiledRules.filter(r => r.scope === "syllable" || r.scope === "both");
   const wordRules = allCompiledRules.filter(r => r.scope === "word" || r.scope === "both");
+  const sharedRules = config.sharedSpellings === undefined ? undefined : structuredClone(config.sharedSpellings);
+  const schedule = sharedRules === undefined ? undefined : createSpellingRuleSlots(config.spellingRules ?? [], sharedRules);
+  const compilePass = (phase: "syllable" | "word") => schedule?.slots(phase).map(slot => slot.kind === "shared"
+    ? slot : { ...slot, compiled: compileSpellingRules([slot.rule]) });
+  const sharedPasses = { syllable: compilePass("syllable"), word: compilePass("word") };
   const doublingModel = createDoublingModel(config.doubling);
   const tryDoubling = doublingModel.sample;
   const preservePhones = config.writtenFormConstraints?.policy === "preserve-phones";
-  const planCoverage = preservePhones ? createSpellingCoveragePlanner(config, resolveGraphemes, doublingModel) : undefined;
-  const normalizer = preservePhones ? createSpellingNormalizer(config, resolveGraphemes, doublingModel) : undefined;
+  if (sharedRules !== undefined && !preservePhones) throw new Error("Shared spellings require preserve-phones");
+  const sharedRuntime = sharedRules === undefined ? undefined : createSharedSpellingRuntime(sharedRules, config);
+  const planCoverage = preservePhones ? createSpellingCoveragePlanner(config, resolveGraphemes, doublingModel, sharedRules) : undefined;
+  const normalizer = preservePhones ? createSpellingNormalizer(config, resolveGraphemes, doublingModel, sharedRules) : undefined;
 
   // Silent-e pre-compilation
   const silentEConfig = config.silentE;
@@ -1105,17 +1114,39 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       id, part: "root", syllableIndex: entry.syllableIndex, segment: entry.position,
       segmentIndex: entry.positionIndex, soundAtSpelling: entry.phoneme.sound,
       ...(preservePhones ? { boundary: { phoneme: structuredClone(entry.phoneme), stress: entry.stress } } : {}),
-    })), tracing, preservePhones, preservePhones);
+    })), tracing, preservePhones, preservePhones, sharedRules, config, sharedRuntime);
     const boundaryContexts = preservePhones ? spellingBoundaryContexts(baseSpelling.current().phones) : undefined;
     const spellingChoices: SpellingChoiceState[] = [];
     const selectionStates: HistoricalSelectionState[] = [];
     const normalizeCollision = (site: NormalizationSite, rightIndex: number): boolean => {
+      const sharedView = sharedRules === undefined ? undefined : baseSpelling.constructionState();
       const input = { ...baseSpelling.current(), ...baseSpelling.normalizationState(), contexts: boundaryContexts!,
-        states: selectionStates, site, rightIndex };
+        states: selectionStates, site, rightIndex, ...(sharedView ? {
+          shared: { constructions: sharedView.constructions, certificates: sharedView.certificates },
+        } : {}) };
       const decision = normalizer!.decide(input);
       if (decision.status === "normalized") normalizer!.verify(input, decision.plan);
       baseSpelling.recordNormalization(site, rightIndex, decision);
       return decision.status === "normalized";
+    };
+    const applySharedPass = (slot: SharedSpellingSlot): string => {
+      const surface = () => baseSpelling.current().cells.filter(cell => slot.phase === "word" || cell.partId === slot.partId)
+        .map(cell => cell.text).join("");
+      const scope = slot.phase === "word" ? "word" : `syllable:${slot.partId}`;
+      for (const entry of sharedPasses[slot.phase]!) {
+        const before = surface();
+        if (entry.kind === "shared") {
+          baseSpelling.scanSharedSlot(slot, entry.ruleId, rand);
+          context.trace?.recordRepair(`sharedSpelling:${entry.ruleId}`, before, surface(), scope);
+        } else {
+          const cells = baseSpelling.current().cells;
+          const first = slot.phase === "word" ? 0 : cells.findIndex(cell => cell.partId != null && cell.partId >= slot.partId);
+          const start = first < 0 ? cells.length : first;
+          applySpellingRules(before, entry.compiled, rand, context.trace, scope,
+            baseSpelling.observe(start, slot.partId ?? undefined));
+        }
+      }
+      return surface();
     };
     context.baseSpelling = baseSpelling;
     const cleanParts: string[] = [];
@@ -1271,7 +1302,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         const rawSyllable = currentSyllable.join("");
         const syllableStart = cleanParts.reduce((length, part) => length + part.length, 0);
         baseSpelling.setPhase("syllable");
-        let syllableStr = applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`, baseSpelling.observe(syllableStart, syllableIndex));
+        let syllableStr = schedule ? applySharedPass({ phase: "syllable", partId: syllableIndex })
+          : applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`, baseSpelling.observe(syllableStart, syllableIndex));
         let syllableOwners = tracing
           ? remapOwnersThroughRewrite(rawSyllable, currentSyllableOwners, syllableStr)
           : [];
@@ -1422,7 +1454,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     }
 
     // Post-join pass: apply word-scope spelling rules
-    let finalClean = applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word", baseSpelling.observe());
+    let finalClean = schedule ? applySharedPass({ phase: "word", partId: null })
+      : applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word", baseSpelling.observe());
     let finalHyphenated = hyphenatedParts.join("");
 
     if (planCoverage) {

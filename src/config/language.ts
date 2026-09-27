@@ -799,6 +799,10 @@ export interface LanguageConfig {
   /** Post-selection spelling adjustments. */
   spellingRules?: SpellingRule[];
 
+  /** Shared phone spellings replace matching named spellingRules slots. Absent retains legacy behavior;
+   * an empty list disables migrated ks/gz/cw formations and cx cleanup. Requires preserve-phones. */
+  sharedSpellings?: SharedSpellingRule[];
+
   /** Cross-syllable consonant cluster repair constraints. */
   clusterConstraint?: ClusterConstraint;
 
