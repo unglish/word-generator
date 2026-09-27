@@ -1,7 +1,7 @@
 import { editPart } from "./spelling-ownership.js";
 import type { SpellingCell } from "./base-spelling.js";
 import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
-import { followingConstructionContext } from "./spelling-construction-ownership.js";
+import { followingConstructionContext, resolveConstructionSpan } from "./spelling-construction-ownership.js";
 import type { SharedSpellingConstruction } from "./spelling-construction-types.js";
 import type { SharedSpellingRule } from "../config/language.js";
 import { createSharedSpellingPolicy } from "./spelling-construction-policy.js";
@@ -11,7 +11,7 @@ export type SharedEditDecision = { status: "allowed" } | {
   constructionId: number;
   reason: "invalid-live-construction" | "consumes-shared-spelling" | "splits-shared-spelling" | "reading-context";
 };
-export interface ProposedSpellingEdit { start: number; deleteCount: number; insert: string; partId?: number }
+export interface ProposedSpellingEdit { start: number; deleteCount: number; insert: string; partId?: number; formationSourceUnitIds?: readonly number[] }
 
 function liveConstructionIndices(view: ConstructionLedgerView, construction: SharedSpellingConstruction): number[] | undefined {
   const indices = view.cells.flatMap((cell, index) => cell.origin.kind === "shared" &&
@@ -34,7 +34,12 @@ export function createSharedEditGuard(rules: readonly SharedSpellingRule[]) {
     const { start, deleteCount, insert } = edit;
     if (!Number.isSafeInteger(start) || !Number.isSafeInteger(deleteCount) || start < 0 || deleteCount < 0 ||
         start + deleteCount > view.cells.length) throw new Error("Invalid shared edit range");
-    const partId = editPart(view.cells.slice(start, start + deleteCount), edit.partId);
+    let partId = editPart(view.cells.slice(start, start + deleteCount), edit.partId);
+    if (edit.formationSourceUnitIds) {
+      const span = resolveConstructionSpan(view, edit.formationSourceUnitIds);
+      if (span.status !== "complete" || span.start !== start || span.end !== start + deleteCount) throw new Error("Invalid shared formation projection");
+      partId = span.displayPartId;
+    }
     const inserted: SpellingCell[] = insert.split("").map((text, offset) => ({ id: -1 - offset, text, partId,
       origin: { kind: "rewrite", editId: view.cursor.nextEditId, sourceUnitIds: [], ownership: "unresolved" } }));
     const proposed = [...view.cells.slice(0, start), ...inserted, ...view.cells.slice(start + deleteCount)];
@@ -54,6 +59,7 @@ export function createSharedEditGuard(rules: readonly SharedSpellingRule[]) {
       if (phonemes.some((phone, index) => !phone || phone.sound !== construction.reading.sounds[index])) return refuse("reading-context");
       const following = followingConstructionContext({ ...view, cells: proposed },
         construction.phoneIds[construction.phoneIds.length - 1] + 1, shifted + indices.length);
+      if (!policy.ruleIds.includes(construction.attempt.ruleId)) return refuse("reading-context");
       const support = policy.describe(construction.attempt.ruleId, { phase: slot.phase, offsetInScope: shifted - scopeStart,
         phonemes: phonemes.map(phone => phone!), followingLetter: following.known ? following.letter : "",
         ...(following.known && following.phoneme ? { followingPhoneme: following.phoneme } : {}) });

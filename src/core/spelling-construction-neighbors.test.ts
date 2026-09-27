@@ -44,7 +44,7 @@ describe("neighbor readings around a proposed shared construction", () => {
 
   it("keeps unchanged context separate from positively checked reading support", () => {
     const f = fixture();
-    expect(f.guard(f.base.constructionState(), [1, 2], "cs")).toEqual({ status: "preserved", checks: [], unchangedContextUnitIds: [0] });
+    expect(f.guard(f.base.constructionState(), [1, 2], "cs")).toEqual({ status: "preserved", checks: [], unchangedContextUnitIds: [0], sharedConstructionIds: [] });
   });
 
   it("refuses unresolved neighboring ancestry even when its visible letter looks legal", () => {

@@ -1,4 +1,6 @@
-import type { LanguageConfig } from "../config/language.js";
+import { createSharedEditGuard } from "./spelling-construction-edit.js";
+import type { SharedEditDecision } from "./spelling-construction-edit.js";
+import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
 import type { GraphemeReading } from "../types.js";
 import type { SpellingCell } from "./base-spelling.js";
 import { resolveConstructionSpan, resolveSingleSpellingUnit } from "./spelling-construction-ownership.js";
@@ -15,8 +17,9 @@ export interface ConstructionNeighborCheck {
   after: ReadingContext;
 }
 export type ConstructionNeighborResult =
-  | { status: "preserved"; checks: ConstructionNeighborCheck[]; unchangedContextUnitIds: number[] }
-  | { status: "refused"; unitId: number | null; reason: "invalid-source" | "unresolved-neighbor" | "unknown-reading" | "reading-obligation" | "context-unavailable" };
+  | { status: "preserved"; checks: ConstructionNeighborCheck[]; unchangedContextUnitIds: number[]; sharedConstructionIds: number[] }
+  | { status: "refused"; unitId: number | null; reason: "invalid-source" | "unresolved-neighbor" | "unknown-reading" | "reading-obligation" | "context-unavailable" | "shared-reading-obligation";
+      shared?: Extract<SharedEditDecision, { status: "refused" }> };
 
 function readingContext(view: ConstructionLedgerView, cells: readonly SpellingCell[], inputCellIds: readonly number[], part: number): ReadingContext {
   const end = cells.findIndex(cell => cell.id === inputCellIds[inputCellIds.length - 1]);
@@ -30,7 +33,8 @@ function readingContext(view: ConstructionLedgerView, cells: readonly SpellingCe
 }
 
 /** Prior coverage/normalization certificates must already be authenticated by their producer or replay. */
-export function createConstructionNeighborGuard(config: Pick<LanguageConfig, "graphemes" | "doubling">) {
+export function createConstructionNeighborGuard(config: Pick<LanguageConfig, "graphemes" | "doubling">, sharedRules?: readonly SharedSpellingRule[]) {
+  const preserveShared = sharedRules ? createSharedEditGuard(sharedRules) : undefined;
   const graphemes = structuredClone(config.graphemes);
   const doubling = createDoublingModel(structuredClone(config.doubling));
 
@@ -48,6 +52,23 @@ export function createConstructionNeighborGuard(config: Pick<LanguageConfig, "gr
   return (view: ConstructionLedgerView, sourceUnitIds: readonly number[], after: string): ConstructionNeighborResult => {
     const span = resolveConstructionSpan(view, sourceUnitIds);
     if (span.status !== "complete" || !after) return { status: "refused", unitId: null, reason: "invalid-source" };
+    const sharedIds = new Set(view.constructions.map(construction => construction.id));
+    if (sharedIds.size !== view.constructions.length || view.cells.some(cell => cell.origin.kind === "shared" && !sharedIds.has(cell.origin.constructionId))) {
+      return { status: "refused", unitId: null, reason: "unresolved-neighbor" };
+    }
+    const sharedUnits = new Set<number>();
+    if (view.constructions.length) {
+      if (!preserveShared) return { status: "refused", unitId: null, reason: "unresolved-neighbor" };
+      const shared = preserveShared(view, view.constructions, { start: span.start, deleteCount: span.end - span.start,
+        insert: after, formationSourceUnitIds: sourceUnitIds });
+      if (shared.status === "refused") return { status: "refused", unitId: null, reason: "shared-reading-obligation", shared };
+      for (const construction of view.constructions) {
+        for (const id of construction.sourceUnitIds) {
+          if (sharedUnits.has(id)) return { status: "refused", unitId: id, reason: "unresolved-neighbor" };
+          sharedUnits.add(id);
+        }
+      }
+    }
     const proposed = view.cells.slice();
     proposed.splice(span.start, span.end - span.start, ...after.split("").map((text, offset): SpellingCell => ({
       id: -1 - offset, text, partId: span.displayPartId, origin: { kind: "shared", constructionId: -1,
@@ -59,7 +80,7 @@ export function createConstructionNeighborGuard(config: Pick<LanguageConfig, "gr
     const checks: ConstructionNeighborCheck[] = [];
     const unchangedContextUnitIds: number[] = [];
     for (const unit of view.units) {
-      if (consumed.has(unit.id) || !changedParts.has(view.phones[unit.id].syllableIndex)) continue;
+      if (consumed.has(unit.id) || sharedUnits.has(unit.id) || !changedParts.has(view.phones[unit.id].syllableIndex)) continue;
       const refuse = (reason: Extract<ConstructionNeighborResult, { status: "refused" }>["reason"]): ConstructionNeighborResult =>
         ({ status: "refused", unitId: unit.id, reason });
       const own = resolveSingleSpellingUnit(view, unit.id);
@@ -86,6 +107,6 @@ export function createConstructionNeighborGuard(config: Pick<LanguageConfig, "gr
       checks.push({ unitId: unit.id, inputCellIds: [...own.inputCellIds], form: own.before,
         reading: structuredClone(reading), before, after: context });
     }
-    return { status: "preserved", checks, unchangedContextUnitIds };
+    return { status: "preserved", checks, unchangedContextUnitIds, sharedConstructionIds: [...sharedIds] };
   };
 }
