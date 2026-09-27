@@ -1,3 +1,4 @@
+import { isSingleOwned, sourceUnits } from "./spelling-ownership.js";
 import { verifyNormalizationChecks } from "./spelling-normalization-checks.js";
 import type { LanguageConfig } from "../config/language.js";
 import type { BaseSpellingTraceV3, SpellingCell } from "./base-spelling.js";
@@ -10,7 +11,7 @@ const equal = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.st
 function require(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(`Invalid spelling evidence: ${message}`);
 }
-const sources = (cell: SpellingCell): number[] => cell.origin.kind === "rewrite" ? cell.origin.sourceUnitIds : [cell.origin.unitId];
+const sources = (cell: SpellingCell): number[] => [...sourceUnits(cell.origin)];
 
 /** V3 replay authenticates local emitted licenses separately from whole-sequence cap plans. */
 export function createNormalizationEvidenceVerifier(config?: LanguageConfig) {
@@ -72,7 +73,7 @@ export function createNormalizationEvidenceVerifier(config?: LanguageConfig) {
         const rightIndex = prefix.findIndex(cell => cell.id === episode.rightCellId);
         const right = prefix[rightIndex]; const previous = prefix[rightIndex - 1];
         require(rightIndex > 0 && previous?.id === episode.predecessorCellId && right.text === previous.text, "episode collision cells");
-        require(episode.rightUnitId === (right.origin.kind === "rewrite" ? null : right.origin.unitId), "episode right ownership");
+        require(episode.rightUnitId === (isSingleOwned(right.origin) ? right.origin.unitId : null), "episode right ownership");
         if (episode.site === "adjacent-choice") {
           require(right.origin.kind === "selection" && right.origin.unitId === end && right.origin.offset === 0 &&
             trace.phones[end - 1]?.syllableIndex === trace.phones[end].syllableIndex &&

@@ -1,0 +1,30 @@
+src/core/spelling-construction-ownership.ts(56,19): error TS2339: Property 'certificateId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'certificateId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-construction-ownership.ts(56,43): error TS2339: Property 'certificateId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'certificateId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-construction-ownership.ts(67,60): error TS2339: Property 'certificateId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin'.
+  Property 'certificateId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-construction-ownership.ts(68,33): error TS2339: Property 'certificateId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin'.
+  Property 'certificateId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-construction-ownership.ts(74,92): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-coverage.ts(31,62): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-evidence.ts(51,136): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-normalization-checks.ts(59,109): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-normalization-checks.ts(66,94): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-normalization-evidence.ts(13,125): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-normalization-evidence.ts(75,96): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-normalization.ts(31,116): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-normalization.ts(168,21): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-normalization.ts(168,45): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.
+src/core/spelling-normalization.ts(169,33): error TS2339: Property 'unitId' does not exist on type 'NormalizedCellOrigin | SharedCellOrigin | { kind: "selection"; unitId: number; offset: number; } | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[]; }'.
+  Property 'unitId' does not exist on type 'SharedCellOrigin'.

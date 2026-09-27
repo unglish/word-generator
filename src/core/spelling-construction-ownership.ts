@@ -1,3 +1,4 @@
+import { isSingleOwned } from "./spelling-ownership.js";
 import type { SpellingCell, SpellingPhone, SpellingUnit } from "./base-spelling.js";
 import type { SpellingCoverageCertificate } from "./spelling-coverage-types.js";
 import type { LedgerCursor, UnitNormalizationCertificate } from "./spelling-normalization-types.js";
@@ -15,7 +16,7 @@ export interface ConstructionLedgerView {
 
 export type ConstructionOwnershipRefusal = "invalid-units" | "invalid-phones" | "missing-boundary"
   | "unresolved-ownership" | "missing-unit" | "partial-unit" | "mixed-origin" | "missing-license"
-  | "noncontiguous-span" | "wrong-part";
+  | "noncontiguous-span" | "wrong-part" | "already-shared";
 
 export interface CompleteConstructionSpan {
   status: "complete";
@@ -43,16 +44,17 @@ function sameIds(a: readonly number[], b: readonly number[]): boolean {
 function completeUnit(view: ConstructionLedgerView, unit: SpellingUnit, cells: SpellingCell[]): ConstructionOwnershipRefusal | undefined {
   if (!cells.length) return "missing-unit";
   const first = cells[0].origin;
+  if (first.kind === "shared") return "already-shared";
   if (first.kind === "rewrite") return "unresolved-ownership";
   if (cells.some(cell => cell.origin.kind !== first.kind)) return "mixed-origin";
-  if (cells.some((cell, offset) => cell.origin.kind === "rewrite" || cell.origin.offset !== offset)) return "partial-unit";
+  if (cells.some((cell, offset) => !isSingleOwned(cell.origin) || cell.origin.offset !== offset)) return "partial-unit";
   if (cells.some(cell => cell.partId !== view.phones[unit.phoneIds[0]].syllableIndex)) return "wrong-part";
   const form = cells.map(cell => cell.text).join("");
   if (first.kind === "selection") {
     if (!sameIds(cells.map(cell => cell.id), unit.sourceCellIds) || form !== unit.afterDoubling) return "partial-unit";
     return;
   }
-  if (cells.some(cell => cell.origin.kind === "selection" || cell.origin.kind === "rewrite" ||
+  if (cells.some(cell => cell.origin.kind === "selection" || !isSingleOwned(cell.origin) ||
       cell.origin.certificateId !== first.certificateId || cell.origin.editId !== first.editId ||
       !sameIds(cell.origin.sourceUnitIds, [unit.id]))) return "mixed-origin";
   if (first.kind === "licensed") {
@@ -71,7 +73,7 @@ function completeUnit(view: ConstructionLedgerView, unit: SpellingUnit, cells: S
 }
 
 function ownedPositions(view: ConstructionLedgerView, unitId: number): number[] {
-  return view.cells.flatMap((cell, index) => cell.origin.kind !== "rewrite" && cell.origin.unitId === unitId ? [index] : []);
+  return view.cells.flatMap((cell, index) => isSingleOwned(cell.origin) && cell.origin.unitId === unitId ? [index] : []);
 }
 
 function followingContext(view: ConstructionLedgerView, phoneId: number, end: number): CompleteConstructionSpan["following"] {
@@ -99,6 +101,7 @@ export function resolveConstructionSpan(view: ConstructionLedgerView, sourceUnit
   const phones = units.map(unit => view.phones[unit.id]);
   if (phones.some(phone => !phone.boundary || phone.boundary.phoneme.sound !== phone.soundAtSpelling)) return refuse("missing-boundary");
   const wanted = new Set(sourceUnitIds);
+  if (view.cells.some(cell => cell.origin.kind === "shared" && cell.origin.sourceUnitIds.some(id => wanted.has(id)))) return refuse("already-shared");
   if (view.cells.some(cell => cell.origin.kind === "rewrite" && cell.origin.sourceUnitIds.some(id => wanted.has(id)))) {
     return refuse("unresolved-ownership");
   }

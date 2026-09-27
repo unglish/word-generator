@@ -1,3 +1,4 @@
+import { isSingleOwned } from "./spelling-ownership.js";
 import type { LanguageConfig } from "../config/language.js";
 import type { Grapheme } from "../types.js";
 import type { SpellingCell, SpellingPhone, SpellingUnit } from "./base-spelling.js";
@@ -28,7 +29,7 @@ export type NormalizationDecision =
 
 const equal = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
 const known = <T>(value: T): Observed<T> => ({ known: true, value });
-const owner = (cell: SpellingCell): number | undefined => cell.origin.kind === "rewrite" ? undefined : cell.origin.unitId;
+const owner = (cell: SpellingCell): number | undefined => isSingleOwned(cell.origin) ? cell.origin.unitId : undefined;
 
 /** Local support only. It never rerolls or changes original selection/quota history. */
 export function createSpellingNormalizer(
@@ -164,6 +165,7 @@ export function createSpellingNormalizer(
     const refuse = (reason: NormalizationRefusal): NormalizationDecision => ({ status: "retained", reason });
     const left = input.cells[input.rightIndex - 1]; const first = input.cells[input.rightIndex];
     if (!left || !first || left.text !== first.text) throw new Error("Invalid normalization collision");
+    if (left.origin.kind === "shared" || first.origin.kind === "shared") return refuse("unsupported-shared-construction");
     if (left.origin.kind === "rewrite" || first.origin.kind === "rewrite") return refuse("unresolved-ownership");
     if (left.origin.unitId === first.origin.unitId) return refuse("unsupported-shared-construction");
     const unitId = first.origin.unitId;
