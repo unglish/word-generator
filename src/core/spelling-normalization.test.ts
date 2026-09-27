@@ -736,8 +736,17 @@ describe("joint readings during normalization commit", () => {
       expect(target.snapshot()).toEqual(before);
     } else {
       if (jointDecision.status !== "normalized") throw new Error("Expected joint normalization");
-      expect(target.commitNormalization(jointDecision.plan)).toBe(0);
+      if (crossPart) expect(target.commitNormalization(jointDecision.plan)).toBe(0);
+      else {
+        target.recordNormalizationCheck("adjacent-choice", true);
+        target.recordNormalization("adjacent-choice", 2, jointDecision);
+      }
       const trace = target.snapshot();
+      if (trace.version !== 4) throw new Error("Expected shared trace");
+      const cursor = { lastAppendedUnitId: 2, nextEditId: 1 };
+      expect(trace.shared.timeline.slice(4)).toEqual(crossPart
+        ? [{ kind: "normalization", index: 0, cursor }]
+        : [{ kind: "normalization-check", index: 0, cursor }, { kind: "normalization-episode", index: 0, cursor }]);
       expect(trace.surface).toBe("que");
       expect(trace.cells.slice(0, 2)).toEqual(before.cells.slice(0, 2));
       expect(trace.cells[2].origin).toMatchObject({ kind: "normalized", unitId: 2, certificateId: 0, editId: 1 });

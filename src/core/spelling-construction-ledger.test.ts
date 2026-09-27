@@ -477,6 +477,10 @@ describe("shared decision event order", () => {
       { kind: "guard", index: 1, cursor: { lastAppendedUnitId: 2, nextEditId: 1 } },
       { kind: "supersession", index: 0, cursor: { lastAppendedUnitId: 2, nextEditId: 2 } },
     ]);
+    expect(trace.shared.timeline).toEqual([
+      ...[0, 1, 2].map(index => ({ kind: "append", index, cursor: { lastAppendedUnitId: index - 1, nextEditId: 0 } })),
+      ...trace.shared.events.map((event, index) => ({ kind: "shared", index, cursor: event.cursor })),
+    ]);
     expect(validateSharedEventOrder(trace)).toEqual({ events: 6 });
     expect(validateSharedFormationBindings(trace)).toEqual({ formations: 1 });
   });
@@ -569,6 +573,23 @@ describe("shared decision event order", () => {
     if (corruption === "output") trace.shared.constructions[0].outputCellIds[0]++;
     if (corruption === "failed-link") trace.shared.attempts[0].constructionId = 0;
     expect(() => validateSharedFormationBindings(trace)).toThrow(/formation binding/);
+  });
+
+  it("records empty appends and unguarded rewrites without inventing edit events for no-ops", () => {
+    const base = fixture(["æ", "k"], ["", "c"], [0, 0]);
+    base.edit(0, 1, "c", "noop");
+    base.edit(0, 1, "k", "rewrite");
+    const trace = base.snapshot();
+    if (trace.version !== 4) throw new Error("Expected shared trace");
+    expect(trace.shared.timeline).toEqual([
+      { kind: "append", index: 0, cursor: { lastAppendedUnitId: -1, nextEditId: 0 } },
+      { kind: "append", index: 1, cursor: { lastAppendedUnitId: 0, nextEditId: 0 } },
+      { kind: "rewrite", index: 0, cursor: { lastAppendedUnitId: 1, nextEditId: 0 } },
+    ]);
+    trace.shared.timeline[0].cursor.nextEditId = 99;
+    const fresh = base.snapshot();
+    if (fresh.version !== 4) throw new Error("Expected shared trace");
+    expect(fresh.shared.timeline[0].cursor.nextEditId).toBe(0);
   });
 
   it("detaches returned event cursors", () => {
