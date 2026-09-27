@@ -2,7 +2,7 @@ import type { SpellingCell, SpellingCellOrigin } from "./base-spelling.js";
 
 /** Only these origins carry a single original-unit owner. */
 export function isSingleOwned(origin: SpellingCellOrigin): origin is Exclude<SpellingCellOrigin, { kind: "rewrite" | "shared" | "split-vowel" }> {
-  return origin.kind === "selection" || origin.kind === "licensed" || origin.kind === "normalized";
+  return origin.kind === "completion" || origin.kind === "selection" || origin.kind === "licensed" || origin.kind === "normalized";
 }
 
 export function sourceUnits(origin: SpellingCellOrigin): readonly number[] {

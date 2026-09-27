@@ -33,6 +33,7 @@ export function createCompletionObligationInspector(config: Pick<LanguageConfig,
     const origin = view.cells[span.start].origin;
     let reading: GraphemeReading | undefined;
     if (origin.kind === "licensed") reading = view.certificates[origin.certificateId]?.replacements.find(entry => entry.unitId === unitId)?.reading;
+    else if (origin.kind === "completion") reading = view.completionCertificates?.[origin.certificateId]?.reading;
     else if (origin.kind === "normalized") reading = view.normalizationCertificates[origin.certificateId]?.targetReading;
     else if (origin.kind === "selection") {
       const grapheme = unit.inventoryIndex === undefined ? undefined : graphemes[unit.inventoryIndex];

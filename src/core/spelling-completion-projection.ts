@@ -62,6 +62,7 @@ export function createCompletionProjectionGuard(configuration: LanguageConfig, s
       const origin = view.cells[span.start].origin;
       if (unit.id !== nucleusId) {
         if (origin.kind === "licensed") current = view.certificates[origin.certificateId]?.replacements.find(entry => entry.unitId === unit.id)?.reading;
+        else if (origin.kind === "completion") current = view.completionCertificates?.[origin.certificateId]?.reading;
         else if (origin.kind === "normalized") current = view.normalizationCertificates[origin.certificateId]?.targetReading;
         else if (origin.kind === "selection") {
           const selected = unit.inventoryIndex === undefined ? undefined : config.graphemes[unit.inventoryIndex];

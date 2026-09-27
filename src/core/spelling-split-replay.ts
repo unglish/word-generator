@@ -1,3 +1,4 @@
+import { createCompletionPlanner } from "./spelling-completion-planner.js";
 import { BaseSpelling, createSplitSpellingRuntime } from "./base-spelling.js";
 import type { BaseSpellingTraceV5 } from "./base-spelling.js";
 import type { LanguageConfig } from "../config/language.js";
@@ -17,6 +18,7 @@ export function createSplitLedgerReplayer(configuration: LanguageConfig, support
   const config = structuredClone(configuration);
   if (config.sharedSpellings === undefined) throw new Error("Split replay requires shared configuration");
   const rules = config.sharedSpellings;
+  const completion = createCompletionPlanner(config, supports);
   const runtime = createSplitSpellingRuntime(config, supports, routes, rules);
   const normalizer = createSpellingNormalizer(config, undefined, undefined, rules);
   const coverage = createSpellingCoveragePlanner(config, undefined, undefined, rules);
@@ -30,7 +32,7 @@ export function createSplitLedgerReplayer(configuration: LanguageConfig, support
     const contexts = spellingBoundaryContexts(trace.phones);
     const states = normalizer.historicalStates(trace.units, contexts);
     const choices = trace.units.map(unit => ({ inventoryIndex: unit.inventoryIndex!, form: unit.afterDoubling }));
-    const base = new BaseSpelling(structuredClone(trace.phones), true, true, true, rules, config, undefined, runtime);
+    const base = new BaseSpelling(structuredClone(trace.phones), true, true, true, rules, config, undefined, runtime, completion);
     let consumed = 0;
     while (consumed < trace.shared.timeline.length) {
       const entry = trace.shared.timeline[consumed];
@@ -47,6 +49,9 @@ export function createSplitLedgerReplayer(configuration: LanguageConfig, support
         base.setPhase(scan.slot.phase); base.beginSharedScan(scan.slot, scan.ruleId);
       } else if (entry.kind === "scan-end") {
         base.endSharedScan();
+      } else if (entry.kind === "completion-attempt") {
+        const record = trace.completion.attempts[entry.index]; require(record, "completion attempt");
+        base.setPhase("word"); base.recordCompletionAttempt(record.attempt);
       } else if (entry.kind === "split-attempt") {
         const record = trace.split.attempts[entry.index]; require(record, "split attempt");
         base.setPhase(record.attempt.route); base.recordSplitAttempt(record.attempt);

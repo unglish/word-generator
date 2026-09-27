@@ -40,6 +40,7 @@ export function createSplitNeighborGuard(config: Pick<LanguageConfig, "graphemes
   function readingFor(view: ConstructionLedgerView, unitId: number, first: SpellingCell, form: string): GraphemeReading | undefined {
     const origin = first.origin;
     if (origin.kind === "licensed") return view.certificates[origin.certificateId]?.replacements.find(entry => entry.unitId === unitId)?.reading;
+    if (origin.kind === "completion") return view.completionCertificates?.[origin.certificateId]?.reading;
     if (origin.kind === "normalized") return view.normalizationCertificates[origin.certificateId]?.targetReading;
     if (origin.kind !== "selection") return;
     const unit = view.units[unitId];

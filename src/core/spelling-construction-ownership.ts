@@ -1,3 +1,4 @@
+import type { CompletionCertificate } from "./spelling-completion-transaction.js";
 import type { SharedSpellingConstruction } from "./spelling-construction-types.js";
 import { isSingleOwned } from "./spelling-ownership.js";
 import type { SpellingCell, SpellingPhone, SpellingUnit } from "./base-spelling.js";
@@ -7,6 +8,7 @@ import type { Phoneme } from "../types.js";
 
 /** Live producer state, or an archived state whose prior certificates were replayed. */
 export interface ConstructionLedgerView {
+  completionCertificates?: readonly CompletionCertificate[];
   cursor: LedgerCursor;
   constructions: readonly SharedSpellingConstruction[];
   cells: readonly SpellingCell[];
@@ -67,6 +69,13 @@ function completeUnit(view: ConstructionLedgerView, unit: SpellingUnit, cells: S
     const replacement = replacements[0];
     if (!sameIds(replacement.phoneIds, unit.phoneIds) || replacement.after !== form ||
         replacement.partId !== cells[0].partId) return "missing-license";
+    return;
+  }
+  if (first.kind === "completion") {
+    const certificate = view.completionCertificates?.[first.certificateId];
+    if (certificate?.id !== first.certificateId || certificate.editId !== first.editId || certificate.unitId !== unit.id ||
+        !sameIds(certificate.phoneIds, unit.phoneIds) || !sameIds(certificate.outputCellIds, cells.map(cell => cell.id)) ||
+        certificate.after !== form || certificate.partId !== cells[0].partId) return "missing-license";
     return;
   }
   const certificate = view.normalizationCertificates[first.certificateId];

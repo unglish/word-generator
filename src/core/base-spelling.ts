@@ -1,3 +1,6 @@
+import type { createCompletionPlanner } from "./spelling-completion-planner.js";
+import { prepareCompletionTransaction } from "./spelling-completion-transaction.js";
+import type { CompletionAttempt, CompletionCertificate, CompletionCellOrigin } from "./spelling-completion-transaction.js";
 import { createSplitConstructionPlanner } from "./spelling-split-planner.js";
 import type { SplitLiveResult } from "./spelling-split-live.js";
 import { createSplitLiveGuard } from "./spelling-split-live.js";
@@ -65,6 +68,7 @@ export interface SpellingUnitV3 extends SpellingUnit {
 }
 
 export type SpellingCellOrigin =
+  | CompletionCellOrigin
   | SplitVowelCellOrigin
   | SharedCellOrigin
   | NormalizedCellOrigin
@@ -150,6 +154,7 @@ export interface BaseSpellingTraceV4 extends Omit<BaseSpellingTraceV3, "version"
 export interface BaseSpellingTraceV5 extends Omit<BaseSpellingTraceV4, "version" | "capabilities"> {
   version: 5;
   capabilities: BaseSpellingTraceV4["capabilities"] & { splitVowels: 1 };
+  completion: { attempts: Array<{ attempt: CompletionAttempt; certificateId: number | null }>; certificates: CompletionCertificate[] };
   split: { version: 1; attempts: Array<{ attempt: SplitConstructionAttempt; constructionId: number | null }>;
     guards: Array<{ operation: "edit" | "batch"; cursor: LedgerCursor; phase: SpellingEdit["phase"]; edits: SpellingBatchEdit[]; decision: SplitLiveResult }>;
     constructions: SplitVowelConstruction[]; supersessions: SharedSpellingSupersession[]; liveConstructionIds: number[] };
@@ -234,6 +239,8 @@ export class BaseSpelling {
   private readonly supersededSplitIds = new Set<number>();
   private readonly splitGuards: BaseSpellingTraceV5["split"]["guards"] = [];
   private readonly splitAttempts: BaseSpellingTraceV5["split"]["attempts"] = [];
+  private readonly completionCertificates: CompletionCertificate[] = [];
+  private readonly completionAttempts: BaseSpellingTraceV5["completion"]["attempts"] = [];
   private nextCellId = 0;
   private nextEditId = 0;
   private readonly edits?: SpellingEdit[];
@@ -249,7 +256,9 @@ export class BaseSpelling {
     readingConfig?: Pick<LanguageConfig, "graphemes" | "doubling">,
     sharedRuntime?: ReturnType<typeof createSharedSpellingRuntime>,
     private readonly splitRuntime?: ReturnType<typeof createSplitSpellingRuntime>,
+    private readonly completionPlanner?: ReturnType<typeof createCompletionPlanner>,
   ) {
+    if (completionPlanner && !splitRuntime) throw new Error("Completion requires split ledger capability");
     if (splitRuntime && sharedRules === undefined) throw new Error("Split vowels require shared ledger capability");
     if (sharedRules !== undefined) {
       if (!normalizeUnits || !licensed) throw new Error("Shared spelling requires normalized spelling provenance");
@@ -508,7 +517,8 @@ export class BaseSpelling {
   constructionState(): ConstructionLedgerView {
     return { cells: this.cells, units: this.units, phones: this.phones, constructions: this.liveConstructions(),
       cursor: { lastAppendedUnitId: this.units.length - 1, nextEditId: this.nextEditId },
-      certificates: this.certificates, normalizationCertificates: this.normalizationCertificates };
+      certificates: this.certificates, normalizationCertificates: this.normalizationCertificates,
+      ...(this.splitRuntime ? { completionCertificates: this.completionCertificates } : {}) };
   }
 
   normalizationState(): { cursor: LedgerCursor; certificates: readonly UnitNormalizationCertificate[] } {
@@ -642,6 +652,27 @@ export class BaseSpelling {
     this.splitAttempts.push({ attempt: structuredClone(attempt), constructionId });
     this.recordTimeline("split-attempt", this.splitAttempts.length - 1, attempt.cursor);
     return constructionId;
+  }
+
+  /** Authenticate a final-pass decision before committing its complete nucleus replacement. */
+  recordCompletionAttempt(attempt: CompletionAttempt): number | null {
+    if (!this.completionPlanner || this.phase !== "word") throw new Error("Missing completion capability or phase");
+    const view = this.constructionState();
+    const splits = this.liveSplitConstructions();
+    this.completionPlanner.verify(view, attempt.nucleusId, splits, attempt);
+    let certificateId: number | null = null;
+    if (attempt.status === "evaluated" && attempt.sample.status === "selected") {
+      const plan = prepareCompletionTransaction(view, this.completionPlanner, splits, attempt, this.completionCertificates.length, this.nextCellId);
+      this.cells.splice(0, this.cells.length, ...plan.cells);
+      this.nextCellId = plan.nextCellId; this.nextEditId = plan.nextEditId;
+      this.completionCertificates.push(plan.certificate); certificateId = plan.certificate.id;
+      this.edits?.push({ phase: this.phase, id: plan.certificate.editId, rule: "vowelCompletion",
+        start: plan.start, input: plan.input, output: plan.output, before: plan.certificate.before,
+        after: plan.certificate.after, partId: plan.certificate.partId });
+    }
+    this.completionAttempts.push({ attempt: structuredClone(attempt), certificateId });
+    this.recordTimeline("completion-attempt", this.completionAttempts.length - 1, attempt.cursor);
+    return certificateId;
   }
 
   /** Caller authenticates support; this atomic commit separately validates cell/phone structure. */
@@ -826,6 +857,7 @@ export class BaseSpelling {
             liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [], transactions: this.sharedTransactions ?? [] } });
         if (this.splitRuntime) return structuredClone({ ...sharedTrace, version: 5,
           capabilities: { ...sharedTrace.capabilities, splitVowels: 1 },
+          completion: { attempts: this.completionAttempts, certificates: this.completionCertificates },
           split: { version: 1, attempts: this.splitAttempts, guards: this.splitGuards, constructions: this.splitConstructions,
             supersessions: this.splitSupersessions, liveConstructionIds: this.liveSplitConstructions().map(entry => entry.id) } });
         return sharedTrace;
