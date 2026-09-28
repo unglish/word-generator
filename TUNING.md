@@ -317,17 +317,44 @@ Gates cover both representation shape and coverage:
 - over-/under-representation ratio bounds for common phonemes
 - absolute-gap ceiling for common phonemes
 
-Thresholds are in `src/config/phoneme-thresholds.json` and follow a **ratchet** pattern:
+Thresholds are in `src/config/phoneme-thresholds.json` and follow a **ratchet** pattern.
+Each limit is calibrated from how much the metric varies across seeds on the
+current generator, not from a flat percentage of one seed:
 
-1. After each successful phoneme tuning fix, re-run the 5× phoneme scout:
-   - Seeds: 42, 123, 456, 789, 1337
-2. Tighten thresholds with a safety margin:
-   - Pearson floor: new observed minimum × 0.98
-   - Non-CMU mass ceiling: new observed maximum × 1.05 (never below policy floor until fixed)
-   - Over-rep ceiling: new observed maximum × 1.10
-   - Under-rep floor: new observed minimum × 0.90
-   - Absolute-gap ceiling: new observed maximum × 1.10
-3. Commit updated `src/config/phoneme-thresholds.json` with the tuning PR.
+```sh
+npm run calibrate:phonemes            # 30 seeds, k = 3, prints tables to stdout
+npm run calibrate:phonemes -- --output calibration.json
+```
+
+The script runs the gate's exact measurement (sample size, lexicon mode, morphology
+off, shared normalization and `computePhonemeQualityMetrics`) on seed 42 plus 29
+seeds whose Mulberry32 streams start evenly spaced around the RNG cycle, so no two
+runs reuse draws. It reports min, max, mean and sample SD per metric and proposes:
+
+- upper-bound limits: worst observed + 3·SD, rounded up
+- lower-bound limits: worst observed − 3·SD, rounded down
+- zero-spread metrics (generated-only mass, missing CMU phonemes): 0
+
+Why k = 3 past the *worst* seed rather than the mean: any change to RNG consumption
+effectively reseeds the gate, so seed-42 noise must not fail a PR. The worst of 30
+normal draws already sits about 2 SD above the mean, so the limit lands near
+mean + 5 SD. That leaves room for SD being underestimated from 30 samples and
+for skew in the worst-of-many-phonemes metrics. In the first calibration
+([record](evaluation/diagnostics/phoneme-threshold-calibration/2026-09-27.json)), 10 held-out
+seeds exceeded the calibration maximum twice but stayed inside the limits. A
+flat percentage (the old ×1.10 rule) ignores that the spread differs by metric
+by orders of magnitude.
+
+When to re-run:
+
+1. After an intentional distribution change (tuning PR), re-run the calibration on
+   that branch and commit the new limits with it. Explain in the PR why the shift is
+   wanted.
+2. If a PR fails the gate, run `npm run calibrate:phonemes -- --count 10` on it. If
+   the metric moved on most seeds, it is a real shift to review, not noise. Do not
+   loosen limits just to pass it.
+3. Keep `seed`, `sampleSize` and `minCommonBaselinePct` fixed. Changing them
+   invalidates the calibration.
 
 ## Reference Data
 

@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { compareDistributions, toPercentMap } from "./distribution-quality.js";
 import { computePhonemeQualityMetrics } from "./phoneme-quality.js";
-import { normalizeGeneratedPhoneme } from "./phoneme-normalization.js";
+import { countNormalizedPhonemes, normalizeGeneratedPhoneme } from "./phoneme-normalization.js";
+import type { Word } from "../types.js";
 
 describe("complete distribution diagnostics", () => {
   it("retains IPA letters outside the IPA Unicode block and reports invalid tokens", () => {
@@ -9,6 +10,19 @@ describe("complete distribution diagnostics", () => {
     expect(normalizeGeneratedPhoneme("tʰ", {})).toBe("t");
     expect(normalizeGeneratedPhoneme("ə", { generatedAliases: { "ə": "ʌ" } })).toBe("ʌ");
     expect(normalizeGeneratedPhoneme("?", {})).toBeNull();
+  });
+  it("counts every syllable position and keeps rejected tokens separate", () => {
+    const phones = (...sounds: string[]) => sounds.map(sound => ({ sound }));
+    const word = {
+      syllables: [
+        { onset: phones("tʰ"), nucleus: phones("æ"), coda: phones("n") },
+        { onset: phones("?"), nucleus: phones("ə"), coda: phones("t") },
+      ],
+    } as unknown as Word;
+    expect(countNormalizedPhonemes([word], {})).toEqual({
+      counts: { t: 2, "æ": 1, n: 1, "ə": 1 },
+      losses: { "?": 1 },
+    });
   });
   it("retains absent reference phones in rankings and distance", () => {
     const result = computePhonemeQualityMetrics({ a: 60, b: 39 }, { a: 60, b: 39, c: 1 }, 0.5);

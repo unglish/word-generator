@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { generateWords } from "./generate.js";
 import { computePhonemeQualityMetrics } from "./phoneme-quality.js";
-import { normalizeGeneratedPhoneme, PhonemeNormalization } from "./phoneme-normalization.js";
+import { countNormalizedPhonemes, PhonemeNormalization } from "./phoneme-normalization.js";
 
 interface PhonemeThresholds {
   sampleSize: number;
@@ -58,20 +58,7 @@ describe("Phoneme quality gates", () => {
       morphology: false,
     });
 
-    const generatedCounts: Record<string, number> = {};
-    const normalizationLosses: Record<string, number> = {};
-    for (const word of words) {
-      for (const syllable of word.syllables) {
-        for (const p of [...syllable.onset, ...syllable.nucleus, ...syllable.coda]) {
-          const sound = normalizeGeneratedPhoneme(p.sound, normalization);
-          if (!sound) {
-            normalizationLosses[p.sound] = (normalizationLosses[p.sound] || 0) + 1;
-            continue;
-          }
-          generatedCounts[sound] = (generatedCounts[sound] || 0) + 1;
-        }
-      }
-    }
+    const { counts: generatedCounts, losses: normalizationLosses } = countNormalizedPhonemes(words, normalization);
 
     const metrics = computePhonemeQualityMetrics(
       generatedCounts,

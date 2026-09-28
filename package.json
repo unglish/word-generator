@@ -16,6 +16,7 @@
     "analyze:phonemes": "node scripts/analyze-cmu-phonemes.mjs",
     "analyze:phoneme-length": "node --import tsx scripts/phoneme-length-dist.ts",
     "analyze:trigrams": "node scripts/analyze-cmu-trigrams.mjs",
+    "calibrate:phonemes": "node --import tsx scripts/calibrate-phoneme-thresholds.ts",
     "test:diagnostics": "tsc && node --test scripts/lib/analyzer-sampling.test.mjs",
     "audit:trace": "node scripts/trace-audit.mjs",
     "build:cmu-phonemes": "node scripts/build-cmu-phoneme-baseline.mjs",

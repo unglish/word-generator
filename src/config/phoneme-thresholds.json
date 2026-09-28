@@ -2,12 +2,12 @@
   "sampleSize": 200000,
   "seed": 42,
   "minCommonBaselinePct": 0.5,
-  "maxOverRepresentation": 2.75,
-  "minRepresentation": 0.08,
-  "maxAbsoluteGapPct": 4.5,
-  "minSharedPearsonR": 0.82,
-  "maxGeneratedOnlyMassPct": 6.7,
+  "maxOverRepresentation": 1.066,
+  "minRepresentation": 0.918,
+  "maxAbsoluteGapPct": 0.39,
+  "minSharedPearsonR": 0.9983,
+  "maxGeneratedOnlyMassPct": 0,
   "maxCmuOnlyKeyCount": 0,
   "generatedOnlyEscalationThresholdPct": 1.5,
-  "_comment": "Phoneme quality ratchet: after each successful phoneme tuning fix, run 5× analysis and tighten thresholds with a safety margin while keeping canonical defaults (lexicon, morphology off)."
+  "_comment": "Limits calibrated from seed spread, not a flat margin: `npm run calibrate:phonemes` runs this exact gate (sampleSize words, lexicon, morphology off) on 30 seeds whose RNG streams do not overlap, then sets each limit to the worst observed value ± 3 sample SDs, rounded outward. Zero-spread metrics (generated-only mass, missing CMU phonemes) stay at 0. Re-run after an intentional distribution change and commit the new limits with that PR; see TUNING.md."
 }
