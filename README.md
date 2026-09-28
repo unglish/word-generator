@@ -158,6 +158,9 @@ Additional checks:
 - `npm run analyze:trigrams`
 - `npm run audit:trace`
 
+See [corpus diagnostics](./docs/corpus-diagnostics.md) for reproducible analyzer
+streams, complete distribution metrics, and trace-backed outlier reports.
+
 ## Documentation
 
 - Contribution workflow: [`CONTRIBUTING.md`](./CONTRIBUTING.md)

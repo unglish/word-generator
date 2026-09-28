@@ -7,6 +7,7 @@
   "maxAbsoluteGapPct": 4.5,
   "minSharedPearsonR": 0.82,
   "maxGeneratedOnlyMassPct": 6.7,
+  "maxCmuOnlyKeyCount": 0,
   "generatedOnlyEscalationThresholdPct": 1.5,
   "_comment": "Phoneme quality ratchet: after each successful phoneme tuning fix, run 5× analysis and tighten thresholds with a safety margin while keeping canonical defaults (lexicon, morphology off)."
 }
