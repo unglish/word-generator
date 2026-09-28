@@ -340,10 +340,10 @@ effectively reseeds the gate, so seed-42 noise must not fail a PR. The worst of 
 normal draws already sits about 2 SD above the mean, so the limit lands near
 mean + 5 SD. That leaves room for SD being underestimated from 30 samples and
 for skew in the worst-of-many-phonemes metrics. In the first calibration
-([record](evaluation/diagnostics/phoneme-threshold-calibration/2026-09-27.json)), 10 held-out
-seeds exceeded the calibration maximum twice but stayed inside the limits. A
-flat percentage (the old ×1.10 rule) ignores that the spread differs by metric
-by orders of magnitude.
+([record](evaluation/diagnostics/phoneme-threshold-calibration/)), one of 10
+held-out seeds fell outside the calibration range on three metrics but stayed
+inside every limit. A flat percentage (the old ×1.10 rule) ignores that the
+spread differs by metric by orders of magnitude.
 
 When to re-run:
 

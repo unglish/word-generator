@@ -17,7 +17,7 @@ import { cpus } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
-import { generateWords } from "../src/core/generate.js";
+import { generateWord } from "../src/core/generate.js";
 import { countNormalizedPhonemes, type PhonemeNormalization } from "../src/core/phoneme-normalization.js";
 import { computePhonemeQualityMetrics } from "../src/core/phoneme-quality.js";
 import { createSeededRng } from "../src/utils/random.js";
@@ -68,13 +68,16 @@ function measureSeed(seed: number, thresholds: Thresholds): SeedResult {
   const baselineCounts = loadJson<Record<string, number>>(join(REPO_ROOT, "data", "cmu", "cmu-lexicon-phonemes.json"));
   const stream = createSeededRng(seed);
   let draws = 0;
-  // Identical output to `{ seed }`: generateWords builds the same stream internally.
   const rand = () => {
     draws++;
     return stream();
   };
-  const words = generateWords(thresholds.sampleSize, { rand, mode: "lexicon", morphology: false });
-  const { counts, losses } = countNormalizedPhonemes(words, normalization);
+  // Same words as the gate's `generateWords(n, { seed })`, which loops over one shared stream;
+  // streaming avoids holding every word in memory.
+  function* words() {
+    for (let i = 0; i < thresholds.sampleSize; i++) yield generateWord({ rand, mode: "lexicon", morphology: false });
+  }
+  const { counts, losses } = countNormalizedPhonemes(words(), normalization);
   const metrics = computePhonemeQualityMetrics(counts, baselineCounts, thresholds.minCommonBaselinePct);
   const [over] = metrics.topOverRepresented;
   const [under] = metrics.topUnderRepresented;
@@ -97,8 +100,7 @@ function measureSeed(seed: number, thresholds: Thresholds): SeedResult {
 
 /** Index of a seed's starting state in the Mulberry32 cycle (state advances by a fixed odd increment). */
 function streamPosition(seed: number): bigint {
-  const inverse = modInverse(MULBERRY_INCREMENT, CYCLE);
-  return (((BigInt(seed) * inverse) % CYCLE) + CYCLE) % CYCLE;
+  return (((BigInt(seed) * INCREMENT_INVERSE) % CYCLE) + CYCLE) % CYCLE;
 }
 
 function modInverse(a: bigint, m: bigint): bigint {
@@ -110,6 +112,8 @@ function modInverse(a: bigint, m: bigint): bigint {
   }
   return ((oldS % m) + m) % m;
 }
+
+const INCREMENT_INVERSE = modInverse(MULBERRY_INCREMENT, CYCLE);
 
 /** 42 first, then seeds whose streams start at evenly spaced cycle positions after it. */
 function evenlySpacedSeeds(anchor: number, count: number): number[] {
@@ -208,6 +212,22 @@ function printReport(results: SeedResult[], thresholds: Thresholds, k: number) {
   return proposals;
 }
 
+function parseSeeds(input: string): number[] {
+  const tokens = input.split(",").map(token => token.trim());
+  const seeds = tokens.map(Number);
+  if (tokens.some(token => !token) || seeds.some(s => !Number.isSafeInteger(s) || s < 0 || s > 0xffffffff)) {
+    throw new Error("Seeds must be unsigned 32-bit integers.");
+  }
+  if (new Set(seeds).size !== seeds.length) throw new Error("Seeds must be distinct.");
+  return seeds;
+}
+
+function parseCount(flag: string, input: string | undefined): number {
+  const value = Number(input);
+  if (!Number.isSafeInteger(value) || value < 1) throw new Error(`${flag} must be a positive integer.`);
+  return value;
+}
+
 async function main() {
   const { values } = parseArgs({
     options: {
@@ -226,17 +246,14 @@ async function main() {
     return;
   }
 
-  const seeds = values.seeds
-    ? values.seeds.split(",").map(s => Number(s.trim()))
-    : evenlySpacedSeeds(thresholds.seed, Number(values.count));
-  if (seeds.some(s => !Number.isSafeInteger(s) || s < 0 || s > 0xffffffff) || new Set(seeds).size !== seeds.length) {
-    throw new Error("Seeds must be distinct unsigned 32-bit integers.");
-  }
+  const seeds = values.seeds ? parseSeeds(values.seeds) : evenlySpacedSeeds(thresholds.seed, parseCount("--count", values.count));
   if (seeds.length < 2) throw new Error("Need at least two seeds to measure spread.");
+  const jobs = parseCount("--jobs", values.jobs);
   const k = Number(values.k);
+  if (!Number.isFinite(k) || k < 0) throw new Error("--k must be a non-negative number.");
 
-  process.stderr.write(`Measuring ${seeds.length} seeds × ${thresholds.sampleSize} words with ${values.jobs} jobs\n`);
-  const results = await mapConcurrent(seeds, Number(values.jobs), runWorker);
+  process.stderr.write(`Measuring ${seeds.length} seeds × ${thresholds.sampleSize} words with ${jobs} jobs\n`);
+  const results = await mapConcurrent(seeds, jobs, runWorker);
 
   const overlaps = findOverlaps(results);
   if (overlaps.length > 0) throw new Error(`Overlapping RNG streams:\n${overlaps.join("\n")}`);
