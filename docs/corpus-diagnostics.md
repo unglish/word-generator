@@ -66,7 +66,10 @@ npm run analyze:trigrams -- --count-per-seed 20000 --output linguistic-diagnosti
 `test:diagnostics` compiles the library before running CLI tests. Compile again
 after changing source: the analyzers consume `dist/`. The default sample remains
 five streams of 400,000 words; report titles use the actual requested count.
-Duplicate or invalid seeds and fractional draw counts are rejected.
+Duplicate or invalid seeds and fractional draw counts are rejected. Distinct seeds
+can still select overlapping stretches of the generator's single RNG cycle. The
+default seeds are at least 155 million draws apart, about four times what a
+400,000-word replicate consumes, but custom `--seeds` are not checked for overlap.
 
 Tests cover absent/zero categories, extreme finite counts, known divergence,
 continuous sampling, trace replay, and persisted report/witness consistency.
