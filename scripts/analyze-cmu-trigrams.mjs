@@ -49,12 +49,12 @@ function countSampleTrigrams({ seed, count, mode, morphology }) {
   const firstOccurrences = {};
   let totalTrigrams = 0;
 
-  for (const draw of sampleWords({ seed, count, mode, morphology })) {
-    const word = draw.word.written.clean.toLowerCase();
+  for (const { word: generated, ...location } of sampleWords({ seed, count, mode, morphology })) {
+    const word = generated.written.clean.toLowerCase();
     for (let j = 0; j < word.length - 2; j++) {
       const tri = word.slice(j, j + 3);
       if (!isAlphaTrigram(tri)) continue;
-      firstOccurrences[tri] ??= { seed, drawIndex: draw.drawIndex };
+      firstOccurrences[tri] ??= location;
       trigramCounts[tri] = (trigramCounts[tri] || 0) + 1;
       totalTrigrams++;
     }
@@ -66,7 +66,7 @@ function countSampleTrigrams({ seed, count, mode, morphology }) {
 export function deriveMetrics({ trigramCounts, totalTrigrams, cmuFreq, minOverrepFreq, minUnderrepFreq }) {
   const generatedFreq = {};
   for (const [tri, count] of Object.entries(trigramCounts)) {
-    generatedFreq[tri] = totalTrigrams ? count / totalTrigrams : 0;
+    generatedFreq[tri] = count / totalTrigrams;
   }
 
   const sharedKeys = Object.keys(generatedFreq).filter(k => cmuFreq[k] !== undefined);
@@ -196,9 +196,6 @@ function main() {
   const minUnderrepBaselineFreq = Number(getArg("min-underrep-freq", String(DEFAULT_MIN_UNDERREP_BASELINE_FREQ)));
   const reportBasename = getArg("output", "trigram-2m-analysis");
 
-  if (seeds.length === 0) {
-    throw new Error("At least one seed is required.");
-  }
   validateSampleCount(countPerSeed);
 
   const cmuFreq = loadCmuFrequencies();

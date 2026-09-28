@@ -18,28 +18,26 @@ export function validateSampleCount(count) {
 
 export function* sampleWords({ seed, count, mode, morphology, trace = false }) {
   validateSampleCount(count);
-  const rand = createSeededRng(seed);
+  const stream = createSeededRng(seed);
+  let rngOffset = 0;
+  const rand = () => {
+    rngOffset++;
+    return stream();
+  };
   for (let drawIndex = 0; drawIndex < count; drawIndex++) {
-    yield { seed, drawIndex, word: generateWord({ mode, morphology, rand, trace }) };
+    const location = { seed, drawIndex, rngOffset };
+    yield { ...location, word: generateWord({ mode, morphology, rand, trace }) };
   }
 }
 
-export function traceWitnesses(locations, options) {
-  const bySeed = new Map();
+/** Regenerates each located draw with a full trace by fast-forwarding its seed's stream. */
+export function traceWitnesses(locations, { mode, morphology }) {
+  const witnesses = {};
   for (const [category, location] of Object.entries(locations)) {
     if (!location) continue;
-    const requests = bySeed.get(location.seed) ?? new Map();
-    const categories = requests.get(location.drawIndex) ?? [];
-    categories.push(category);
-    requests.set(location.drawIndex, categories);
-    bySeed.set(location.seed, requests);
-  }
-  const witnesses = {};
-  for (const [seed, requests] of bySeed) {
-    const count = Math.max(...requests.keys()) + 1;
-    for (const draw of sampleWords({ ...options, seed, count, trace: true })) {
-      for (const category of requests.get(draw.drawIndex) ?? []) witnesses[category] = draw;
-    }
+    const rand = createSeededRng(location.seed);
+    for (let i = 0; i < location.rngOffset; i++) rand();
+    witnesses[category] = { seed: location.seed, drawIndex: location.drawIndex, word: generateWord({ mode, morphology, rand, trace: true }) };
   }
   return witnesses;
 }

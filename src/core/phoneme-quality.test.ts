@@ -14,6 +14,7 @@ interface PhonemeThresholds {
   maxAbsoluteGapPct: number;
   minSharedPearsonR: number;
   maxGeneratedOnlyMassPct: number;
+  maxCmuOnlyKeyCount: number;
   generatedOnlyEscalationThresholdPct: number;
 }
 
@@ -88,7 +89,7 @@ describe("Phoneme quality gates", () => {
     if (worstOver) console.log(`Worst over-rep: ${worstOver.phoneme} at ${worstOver.ratio.toFixed(3)}x (threshold: ${thresholds.maxOverRepresentation}x)`);
     if (worstUnder) console.log(`Worst under-rep: ${worstUnder.phoneme} at ${worstUnder.ratio.toFixed(3)}x (threshold: ${thresholds.minRepresentation}x)`);
     if (worstGap) console.log(`Worst absolute gap: ${worstGap.phoneme} at ${worstGap.absGapPct.toFixed(3)}% (threshold: ${thresholds.maxAbsoluteGapPct}%)`);
-    console.log(`CMU phonemes never generated: ${metrics.cmuOnlyKeyCount} (threshold: 0)`);
+    console.log(`CMU phonemes never generated: ${metrics.cmuOnlyKeyCount} (threshold: ${thresholds.maxCmuOnlyKeyCount})`);
 
     expect(metrics.sharedPearsonR).toBeGreaterThanOrEqual(thresholds.minSharedPearsonR);
     expect(metrics.nonCmuMassPct).toBeLessThanOrEqual(thresholds.maxGeneratedOnlyMassPct);
@@ -96,6 +97,6 @@ describe("Phoneme quality gates", () => {
     if (worstUnder) expect(worstUnder.ratio).toBeGreaterThanOrEqual(thresholds.minRepresentation);
     if (worstGap) expect(worstGap.absGapPct).toBeLessThanOrEqual(thresholds.maxAbsoluteGapPct);
     // Rankings skip phones below minCommonBaselinePct, so absence is gated separately.
-    expect(metrics.cmuOnlyKeyCount).toBe(0);
+    expect(metrics.cmuOnlyKeyCount).toBeLessThanOrEqual(thresholds.maxCmuOnlyKeyCount);
   }, 120_000);
 });

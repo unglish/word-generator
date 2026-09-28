@@ -37,22 +37,3 @@ export function sortByValueDesc(obj) {
     })
   );
 }
-
-export function pearson(xs, ys) {
-  if (xs.length !== ys.length || xs.length < 2) return 0;
-  const n = xs.length;
-  const mx = xs.reduce((a, b) => a + b, 0) / n;
-  const my = ys.reduce((a, b) => a + b, 0) / n;
-  let num = 0;
-  let dx2 = 0;
-  let dy2 = 0;
-  for (let i = 0; i < n; i++) {
-    const dx = xs[i] - mx;
-    const dy = ys[i] - my;
-    num += dx * dy;
-    dx2 += dx * dx;
-    dy2 += dy * dy;
-  }
-  if (dx2 === 0 || dy2 === 0) return 0;
-  return num / Math.sqrt(dx2 * dy2);
-}

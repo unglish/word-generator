@@ -24,7 +24,7 @@ test('each replicate consumes a continuous public-API RNG stream, reproducibly',
 
 test('replayed outliers retain their exact stream locations and full trace', () => {
   const words = [...sampleWords(options)];
-  const traced = traceWitnesses({ earlier: { seed: 42, drawIndex: 3 }, later: { seed: 42, drawIndex: 21 }, absent: undefined }, options);
+  const traced = traceWitnesses({ earlier: words[3], later: words[21], absent: undefined }, options);
   for (const key of ['earlier', 'later']) {
     const { trace, ...word } = traced[key].word;
     const { trace: untraced, ...expected } = words[traced[key].drawIndex].word;
