@@ -26,6 +26,8 @@ const REPO_ROOT = join(fileURLToPath(import.meta.url), "..", "..");
 const THRESHOLDS_PATH = join(REPO_ROOT, "src", "config", "phoneme-thresholds.json");
 const CYCLE = 2n ** 32n;
 const MULBERRY_INCREMENT = 0x6d2b79f5n;
+/** Lexicon words have used ~86 draws each; the margin lets the pre-run overlap check be conservative. */
+const ESTIMATED_DRAWS_PER_WORD = 100;
 
 interface Thresholds {
   sampleSize: number;
@@ -121,10 +123,10 @@ function evenlySpacedSeeds(anchor: number, count: number): number[] {
   return Array.from({ length: count }, (_, i) => Number((BigInt(anchor) + BigInt(i) * step * MULBERRY_INCREMENT) % CYCLE));
 }
 
-function findOverlaps(results: SeedResult[]): string[] {
+function findOverlaps(runs: Array<Pick<SeedResult, "seed" | "draws">>): string[] {
   const overlaps: string[] = [];
-  for (const a of results) {
-    for (const b of results) {
+  for (const a of runs) {
+    for (const b of runs) {
       if (a === b) continue;
       const ahead = (streamPosition(b.seed) - streamPosition(a.seed) + CYCLE) % CYCLE;
       if (ahead < BigInt(a.draws)) overlaps.push(`seed ${b.seed} starts ${ahead} draws into seed ${a.seed}'s run`);
@@ -207,8 +209,6 @@ function printReport(results: SeedResult[], thresholds: Thresholds, k: number) {
       `| ${p.limit} | ${fmt(p.min, 5)} | ${fmt(p.max, 5)} | ${fmt(p.mean, 5)} | ${fmt(p.sd, 5)} | ${thresholds[p.limit]} | ${p.proposed} |`,
     );
   }
-  const losses = results.filter(r => r.normalizationLosses > 0);
-  if (losses.length > 0) console.log(`\nWARNING: normalization rejected tokens on seeds ${losses.map(r => r.seed).join(", ")}`);
   return proposals;
 }
 
@@ -252,8 +252,20 @@ async function main() {
   const k = Number(values.k);
   if (!Number.isFinite(k) || k < 0) throw new Error("--k must be a non-negative number.");
 
+  const estimatedDraws = thresholds.sampleSize * ESTIMATED_DRAWS_PER_WORD;
+  const likelyOverlaps = findOverlaps(seeds.map(seed => ({ seed, draws: estimatedDraws })));
+  if (likelyOverlaps.length > 0) {
+    throw new Error(`RNG streams would likely overlap (assuming ${estimatedDraws} draws per run):\n${likelyOverlaps.join("\n")}`);
+  }
+
   process.stderr.write(`Measuring ${seeds.length} seeds × ${thresholds.sampleSize} words with ${jobs} jobs\n`);
   const results = await mapConcurrent(seeds, jobs, runWorker);
+
+  const withLosses = results.filter(r => r.normalizationLosses > 0);
+  if (withLosses.length > 0) {
+    // The gate fails on any rejected token, so limits from such runs would be meaningless.
+    throw new Error(`Normalization rejected phoneme tokens on seeds ${withLosses.map(r => r.seed).join(", ")}`);
+  }
 
   const overlaps = findOverlaps(results);
   if (overlaps.length > 0) throw new Error(`Overlapping RNG streams:\n${overlaps.join("\n")}`);
