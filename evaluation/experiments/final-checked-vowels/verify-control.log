@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "archiveHashesAndLengths": 20,
+  "qualitySummaryAgreement": [
+    {
+      "profile": "lexicon-default",
+      "hits": 882,
+      "eligible": 50000
+    },
+    {
+      "profile": "lexicon-bare",
+      "hits": 1347,
+      "eligible": 50000
+    },
+    {
+      "profile": "monosyllables-bare",
+      "hits": 240,
+      "eligible": 50000
+    },
+    {
+      "profile": "text-default",
+      "hits": 1152,
+      "eligible": 50000
+    }
+  ],
+  "witnessesChecked": 39,
+  "witnessesBoundToArchivedRows": 39,
+  "witnessesWithDifferentPreFinalSound": 1,
+  "observationSha256": "d3c055b1643c552cf1d2e9d840d93f37275920b3c54512a165f22ae0aa69e352"
+}
