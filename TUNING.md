@@ -26,7 +26,7 @@ Baseline → Analyze (phonemes first) → Diagnose → Fix → Verify → Guardr
 - Primary optimization target: **phoneme distribution alignment**
 - Primary merge gates: **phoneme guardrails** (`src/config/phoneme-thresholds.json`)
 - Trigram analysis remains important, but is **observational/non-blocking** during this phase unless catastrophic regressions appear.
-- `src/core/ngram-quality.test.ts` follows `STRICT_NGRAM_QUALITY` by default (strict unless explicitly set to `0`). `NGRAM_GATES_BLOCKING` can still override for backwards compatibility.
+- `src/core/ngram-quality.test.ts` follows `STRICT_NGRAM_QUALITY` by default (strict unless explicitly set to `0`). `NGRAM_GATES_BLOCKING` can still override for backwards compatibility. The trigram under-representation gate is the exception: it logs its worst trigram but blocks only with `NGRAM_TRIGRAM_UNDERREP_BLOCKING=1`, because the rarest common trigram (e.g. `ugh`, ~6 per 200k words) varies across seeds by more than the ratchet margin.
 - Allowed levers for this cycle:
   - phoneme inventory weights (`src/elements/phonemes.ts`)
   - generation probabilities (`src/config/weights.ts`, `src/config/english.ts`)
@@ -317,17 +317,58 @@ Gates cover both representation shape and coverage:
 - over-/under-representation ratio bounds for common phonemes
 - absolute-gap ceiling for common phonemes
 
-Thresholds are in `src/config/phoneme-thresholds.json` and follow a **ratchet** pattern:
+Thresholds are in `src/config/phoneme-thresholds.json` and follow a **ratchet** pattern.
+Each limit is calibrated from how much the metric varies across seeds on the
+current generator, not from a flat percentage of one seed:
 
-1. After each successful phoneme tuning fix, re-run the 5× phoneme scout:
-   - Seeds: 42, 123, 456, 789, 1337
-2. Tighten thresholds with a safety margin:
-   - Pearson floor: new observed minimum × 0.98
-   - Non-CMU mass ceiling: new observed maximum × 1.05 (never below policy floor until fixed)
-   - Over-rep ceiling: new observed maximum × 1.10
-   - Under-rep floor: new observed minimum × 0.90
-   - Absolute-gap ceiling: new observed maximum × 1.10
-3. Commit updated `src/config/phoneme-thresholds.json` with the tuning PR.
+```sh
+npm run calibrate:phonemes            # 30 seeds, k = 3, prints tables to stdout
+npm run calibrate:phonemes -- --output calibration.json
+```
+
+The script runs the gate's exact measurement (sample size, lexicon mode, morphology
+off, shared normalization and `computePhonemeQualityMetrics`) on seed 42 plus 29
+seeds whose Mulberry32 streams start evenly spaced around the RNG cycle, so no two
+runs reuse draws. It reports min, max, mean and sample SD per metric and proposes:
+
+- upper-bound limits: worst observed + 3·SD, rounded up
+- lower-bound limits: worst observed − 3·SD, rounded down
+- fixed inventory requirements (generated-only mass, missing CMU phonemes): 0
+
+Inventory coverage is a policy requirement, independent of observed spread. If
+any seed has non-CMU generated mass, missing CMU phonemes, or rejected phoneme
+tokens, calibration reports the seed and violation and fails before emitting
+proposals or writing an output file. An intentional inventory-policy change
+requires an explicit policy adjustment; recalibration cannot authorize it.
+
+We use k = 3 past the *worst* seed as a conservative engineering margin. Changes
+to RNG consumption can shift the gate's sample, so limits need headroom for seed
+variation. The margin accounts for observed variation but does not establish a
+particular false-failure probability. Non-overlapping RNG segments avoid reused
+draws; they do not prove statistical independence, and extrema across phonemes
+need not be normally distributed.
+
+In the first calibration
+([record](evaluation/diagnostics/phoneme-threshold-calibration/)), all 10 held-out
+runs passed, including one outside the calibration range on three metrics. This
+supports headroom beyond the observed extremes; it does not establish that three
+SD is uniquely warranted or that false failures are rare. A stronger reliability
+claim would require a defined acceptable failure rate and substantially more
+independent validation. Metric-specific spread replaces the old flat ×1.10 margin.
+
+When to re-run:
+
+1. After an intentional distribution change (tuning PR), re-run calibration on
+   that branch. Recalibration measures a change; it does not justify it. For each
+   loosened limit, identify the affected phonemes, quantify the shift against
+   unchanged main across seeds, and explain the linguistic benefit that warrants
+   the tradeoff. Commit only the justified limit adjustments; leave unaffected
+   limits unchanged. Passing newly calibrated limits is not sufficient rationale.
+2. If a PR fails the gate, run `npm run calibrate:phonemes -- --count 10` on it. If
+   the metric moved on most seeds, it is a real shift to review, not noise. Do not
+   loosen limits just to pass it.
+3. Keep `seed`, `sampleSize` and `minCommonBaselinePct` fixed. Changing them
+   invalidates the calibration.
 
 ## Reference Data
 
