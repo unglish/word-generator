@@ -28,8 +28,9 @@ try {
 }
 ```
 
-Concurrent calls using the same bindings module share initialization, while each
-backend owns a separate Rust configuration. Failed loads may be retried.
+Concurrent calls using the same bindings module share initialization, including
+calls from independent adapter bundles. Each backend owns a separate Rust
+configuration. Failed loads may be retried.
 Loading, compilation, and configuration errors reject initialization. `dispose()`
 frees the instance's Rust configuration, is idempotent, and causes subsequent
 repair calls to throw. Generated bindings share the compiled module; disposal
