@@ -206,6 +206,23 @@ export class BaseSpelling {
   }
 }
 
+export interface ReplaceCallbackMatch {
+  captures: Array<string | undefined>;
+  offset: number;
+  groups?: Record<string, string>;
+}
+
+/** Decode the arguments after `match` that `String.prototype.replace` passes to a callback. */
+export function parseReplaceCallbackArgs(args: unknown[]): ReplaceCallbackMatch {
+  const named = typeof args[args.length - 1] === "object";
+  const trailing = named ? 3 : 2;
+  return {
+    captures: args.slice(0, -trailing) as Array<string | undefined>,
+    offset: args[args.length - trailing] as number,
+    groups: named ? (args[args.length - 1] as Record<string, string>) : undefined,
+  };
+}
+
 /** Native replacement-string expansion for an observed deterministic regex match. */
 export function expandReplacement(
   template: string,

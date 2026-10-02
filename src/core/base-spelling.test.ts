@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
-import { BaseSpelling, expandReplacement } from "./base-spelling.js";
+import { BaseSpelling, expandReplacement, parseReplaceCallbackArgs } from "./base-spelling.js";
 
 function archivedDraws(indices: number[]) {
   const rand = createSeededRng(1304238451);
@@ -121,9 +121,8 @@ describe("observed native replacement-string semantics", () => {
   ])("preserves replacement expansion for %s / %s", (source, pattern, replacement) => {
     const expected = source.replace(new RegExp(pattern, "g"), replacement);
     const actual = source.replace(new RegExp(pattern, "g"), (match: string, ...args: unknown[]) => {
-      const named = typeof args[args.length - 1] === "object";
-      const count = named ? 3 : 2;
-      return expandReplacement(replacement, match, args.slice(0, -count) as Array<string | undefined>, args[args.length - count] as number, source, named ? args[args.length - 1] as Record<string, string> : undefined);
+      const { captures, offset, groups } = parseReplaceCallbackArgs(args);
+      return expandReplacement(replacement, match, captures, offset, source, groups);
     });
     expect(actual).toBe(expected);
   });

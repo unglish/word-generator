@@ -1,4 +1,4 @@
-import { BaseSpelling, expandReplacement } from "./base-spelling.js";
+import { BaseSpelling, expandReplacement, parseReplaceCallbackArgs } from "./base-spelling.js";
 import type { PartEditObserver, SpellingEditObserver } from "./base-spelling.js";
 import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
@@ -41,12 +41,9 @@ function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RN
     const source = result;
     let delta = 0;
     result = result.replace(regex, (match: string, ...args: unknown[]) => {
-      const named = typeof args[args.length - 1] === "object";
-      const offset = args[args.length - (named ? 3 : 2)] as number;
+      const { captures, offset, groups } = parseReplaceCallbackArgs(args);
       let rep: string;
       if (probability >= 100) {
-        const captures = args.slice(0, -(named ? 3 : 2)) as Array<string | undefined>;
-        const groups = named ? args[args.length - 1] as Record<string, string> : undefined;
         rep = expandReplacement(replacement, match, captures, offset, source, groups);
       } else {
         if (!(rand() < probability / 100)) return match;
