@@ -1,3 +1,4 @@
+import { resolveFinalVowels } from "./final-vowel.js";
 import { replayFinalNuclei } from "./final-nucleus-evidence.js";
 import { serializeTraceEvidence } from "./trace-evidence.js";
 import { FinalPhones, type PhoneIdentitySyllable } from "./final-phones.js";
@@ -51,7 +52,7 @@ export function verifyWordPronunciation(word: Word, config: LanguageConfig): { l
     if (serializeTraceEvidence(pass.before) !== serializeTraceEvidence(context.word.syllables)) throw new Error("Lexical pronunciation input mismatch");
     const state = context.finalPhoneState!;
     verifyPronunciationPass(pass, { aspiration: resolveAspirationRules(config.pronunciation?.aspiration),
-      vowelReduction: config.pronunciation?.vowelReduction }, change => {
+      vowelReduction: config.pronunciation?.vowelReduction, finalVowels: resolveFinalVowels(config.finalNucleus) }, change => {
       state.ledger.realize(state.ids[change.syllableIndex][change.segment][change.index], change.before, change.after, change.rule);
     });
     if (serializeTraceEvidence(pass.after) !== serializeTraceEvidence(word.syllables) || pass.pronunciation !== word.pronunciation) {
@@ -65,7 +66,7 @@ export function verifyWordPronunciation(word: Word, config: LanguageConfig): { l
   const expectedCount = trace.morphology?.realization ? 2 : 1;
   if (passes.length !== expectedCount) throw new Error("Pronunciation pass count mismatch");
   const runtime = { aspiration: resolveAspirationRules(config.pronunciation?.aspiration),
-    vowelReduction: config.pronunciation?.vowelReduction };
+    vowelReduction: config.pronunciation?.vowelReduction, finalVowels: resolveFinalVowels(config.finalNucleus) };
   const ledger = new FinalPhones();
   const ids = ledger.register("root", passes[0].before);
   for (const [index, pass] of passes.entries()) verifyPronunciationPass(pass, runtime, index === 0 ? change => {

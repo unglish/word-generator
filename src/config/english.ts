@@ -74,6 +74,9 @@ export const englishConfig: LanguageConfig = {
 
   phonemes,
   phonemeMaps,
+  finalNucleus: { checkedVowels: [
+    { sound: "ɪ" }, { sound: "ɛ" }, { sound: "æ" }, { sound: "ʌ" }, { sound: "ʊ" },
+  ] },
 
   graphemes,
   graphemeMaps,

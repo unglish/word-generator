@@ -2,6 +2,7 @@ import type { LanguageConfig } from "../config/language.js";
 import { resolveStressRules } from "../config/language.js";
 import type { Word, WordGenerationContext } from "../types.js";
 import { FinalPhones } from "./final-phones.js";
+import { resolveFinalVowels } from "./final-vowel.js";
 import { repairFinalNuclei } from "./final-nucleus.js";
 import { replayMorphologyPreparation } from "./morphology/preparation-evidence.js";
 import { TraceCollector } from "./trace.js";
@@ -35,7 +36,7 @@ export function replayFinalNuclei(word: Word, config: LanguageConfig) {
       return value;
     } };
   const root = structuredClone(rootSource);
-  repairFinalNuclei(context, root, rootStart, Array.from(config.phonemeMaps.nucleus.values()).flat(), resolveStressRules(config.pronunciation?.stress));
+  repairFinalNuclei(context, root, rootStart, Array.from(config.phonemeMaps.nucleus.values()).flat(), resolveStressRules(config.pronunciation?.stress), resolveFinalVowels(config.finalNucleus));
   if (cursor !== record.rolls.length) throw new Error("Unused final nucleus draws");
   if (serializeTraceEvidence(context.trace!.finalNucleus) !== serializeTraceEvidence(record)) throw new Error("Final nucleus replay mismatch");
   if (serializeTraceEvidence(root) !== serializeTraceEvidence(trace.writerInput) ||
