@@ -1,5 +1,5 @@
 import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
-import type { BaseSpellingTraceV4 } from "./base-spelling.js";
+import type { BaseSpellingTraceV4, BaseSpellingTraceV5 } from "./base-spelling.js";
 import type { SharedSpellingSlot } from "./spelling-construction.js";
 import type { SharedWriterStep } from "./spelling-construction-types.js";
 import { createSpellingRuleSlots } from "./spelling-construction-slots.js";
@@ -19,7 +19,7 @@ type ScheduledAction =
 export function createSharedWriterScheduleVerifier(config: Pick<LanguageConfig, "spellingRules">, rules: readonly SharedSpellingRule[]) {
   const compiler = createSpellingRuleSlots(config.spellingRules ?? [], rules);
   const passes = { syllable: compiler.slots("syllable"), word: compiler.slots("word") };
-  return (trace: BaseSpellingTraceV4) => {
+  return (trace: BaseSpellingTraceV4 | BaseSpellingTraceV5) => {
     const expected: ScheduledAction[] = [];
     const pass = (slot: SharedSpellingSlot, end: number) => {
       const push = (step: SharedWriterStep["kind"], slotIndex: number | null = null) =>
@@ -95,7 +95,20 @@ export function createSharedWriterScheduleVerifier(config: Pick<LanguageConfig, 
         continue;
       }
       precedingCheck = undefined;
-      if (entry.kind === "scan-start") {
+      if (entry.kind === "split-attempt") {
+        require(trace.version === 5, "split attempt without capability");
+        // The composed formation verifier checks exact slot, route, source order and cardinality.
+        const attempt = trace.split.attempts[entry.index]?.attempt;
+        require(attempt && (attempt.route === "syllable"
+          ? activePass?.phase === "syllable" && activeSlot?.kind === "regex" && activeSlot.rule.name === "magic-e"
+          : wordReady && !wordFinished && !activePass), "split attempt outside formation phase");
+      } else if (entry.kind === "completion-attempt") {
+        require(trace.version === 5 && wordFinished && !activePass, "completion before word pass finished");
+      } else if (entry.kind === "split-guard") {
+        require(trace.version === 5, "split guard without capability");
+        const guard = trace.split.guards[entry.index]; require(guard, "missing split guard");
+        for (const edit of guard.edits) checkRegex(edit.rule, guard.phase, edit.partId);
+      } else if (entry.kind === "scan-start") {
         const scan = trace.shared.scans[entry.index];
         require(activePass && activeSlot?.kind === "shared" && activeScan === undefined && slotScans === 0 &&
           scan && scan.ruleId === activeSlot.ruleId && equal(scan.slot, activePass), "scan outside configured slot");

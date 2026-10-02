@@ -1,0 +1,145 @@
+{
+  "scope": "Statistical self-time diagnostic; concurrent verifier active; not benchmark timing.",
+  "topSelfTime": [
+    {
+      "function": "structuredClone",
+      "url": "node:internal/worker/js_transferable",
+      "line": 112,
+      "sampledMicroseconds": 927256,
+      "percent": 21.57
+    },
+    {
+      "function": "",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/write.ts",
+      "line": 1,
+      "sampledMicroseconds": 316115,
+      "percent": 7.35
+    },
+    {
+      "function": "structuredClone",
+      "url": "",
+      "line": 0,
+      "sampledMicroseconds": 235750,
+      "percent": 5.48
+    },
+    {
+      "function": "resolveSpan",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/spelling-construction-ownership.ts",
+      "line": 1,
+      "sampledMicroseconds": 188251,
+      "percent": 4.38
+    },
+    {
+      "function": "recordSplitAttempt",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/base-spelling.ts",
+      "line": 1,
+      "sampledMicroseconds": 171786,
+      "percent": 4.0
+    },
+    {
+      "function": "verify",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/spelling-split-planner.ts",
+      "line": 1,
+      "sampledMicroseconds": 153164,
+      "percent": 3.56
+    },
+    {
+      "function": "set Navigator",
+      "url": "",
+      "line": 0,
+      "sampledMicroseconds": 117169,
+      "percent": 2.73
+    },
+    {
+      "function": "",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/grapheme-selection.ts",
+      "line": 1,
+      "sampledMicroseconds": 113086,
+      "percent": 2.63
+    },
+    {
+      "function": "(garbage collector)",
+      "url": "",
+      "line": 0,
+      "sampledMicroseconds": 99955,
+      "percent": 2.33
+    },
+    {
+      "function": "",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/spelling-construction-ownership.ts",
+      "line": 1,
+      "sampledMicroseconds": 95874,
+      "percent": 2.23
+    },
+    {
+      "function": "recordCompletionAttempt",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/base-spelling.ts",
+      "line": 1,
+      "sampledMicroseconds": 80250,
+      "percent": 1.87
+    },
+    {
+      "function": "isValidCandidate",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/generate.ts",
+      "line": 1,
+      "sampledMicroseconds": 78209,
+      "percent": 1.82
+    },
+    {
+      "function": "completeUnit",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/spelling-construction-ownership.ts",
+      "line": 1,
+      "sampledMicroseconds": 73248,
+      "percent": 1.7
+    },
+    {
+      "function": "",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/pronounce.ts",
+      "line": 1,
+      "sampledMicroseconds": 71375,
+      "percent": 1.66
+    },
+    {
+      "function": "checkSonority",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/generate.ts",
+      "line": 1,
+      "sampledMicroseconds": 67630,
+      "percent": 1.57
+    },
+    {
+      "function": "applySpellingRules",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/write.ts",
+      "line": 1,
+      "sampledMicroseconds": 60251,
+      "percent": 1.4
+    },
+    {
+      "function": "",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/spelling-split-ownership.ts",
+      "line": 1,
+      "sampledMicroseconds": 57459,
+      "percent": 1.34
+    },
+    {
+      "function": "buildCluster",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/generate.ts",
+      "line": 1,
+      "sampledMicroseconds": 55877,
+      "percent": 1.3
+    },
+    {
+      "function": "ownedPositions",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/spelling-construction-ownership.ts",
+      "line": 1,
+      "sampledMicroseconds": 47456,
+      "percent": 1.1
+    },
+    {
+      "function": "followingConstructionContext",
+      "url": "file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/spelling-construction-ownership.ts",
+      "line": 1,
+      "sampledMicroseconds": 45205,
+      "percent": 1.05
+    }
+  ]
+}

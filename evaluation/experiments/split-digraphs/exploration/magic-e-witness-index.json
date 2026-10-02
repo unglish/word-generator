@@ -1,0 +1,2781 @@
+{
+  "purpose": "First-witness review index only; not prevalence or complete live ownership reconstruction",
+  "sourceReportSha256": "dc2d3626c8a6274952c47a0d51751450beb7a74459d701e54fe0113c36e8df61",
+  "scriptSha256": "7c7c1c98ed83abd832e9f24ddc185f56f479203c0b1ebc1d47f1e6e0100b391b",
+  "witnesses": [
+    {
+      "coordinate": {
+        "profile": "lexicon-bare",
+        "seed": 1696751198,
+        "drawIndex": 9749
+      },
+      "editId": 0,
+      "before": "aeb",
+      "after": "abe",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "b",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 4,
+          "selected": "b",
+          "afterDoubling": "b"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 2715
+      },
+      "editId": 0,
+      "before": "aec",
+      "after": "ace",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 3,
+          "selected": "c",
+          "afterDoubling": "c"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 7606
+      },
+      "editId": 0,
+      "before": "aed",
+      "after": "ade",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "æ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "d",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "a",
+          "afterDoubling": "a"
+        },
+        {
+          "id": 1,
+          "selected": "ed",
+          "afterDoubling": "ed"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-bare",
+        "seed": 2380207674,
+        "drawIndex": 3843
+      },
+      "editId": 0,
+      "before": "aef",
+      "after": "afe",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "f",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 4,
+          "selected": "f",
+          "afterDoubling": "f"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 3921817393,
+        "drawIndex": 2645
+      },
+      "editId": 0,
+      "before": "aeg",
+      "after": "age",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "g",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 4,
+          "selected": "g",
+          "afterDoubling": "g"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-bare",
+        "seed": 772709128,
+        "drawIndex": 4182
+      },
+      "editId": 0,
+      "before": "aek",
+      "after": "ake",
+      "sourcePhones": [
+        {
+          "id": 4,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 2
+        },
+        {
+          "id": 5,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 2
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 4,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 5,
+          "selected": "k",
+          "afterDoubling": "k"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 2089697863,
+        "drawIndex": 2023
+      },
+      "editId": 0,
+      "before": "ael",
+      "after": "ale",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "l",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 1,
+          "selected": "l",
+          "afterDoubling": "l"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 101601885,
+        "drawIndex": 7681
+      },
+      "editId": 0,
+      "before": "aem",
+      "after": "ame",
+      "sourcePhones": [
+        {
+          "id": 1,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "m",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 1,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 2,
+          "selected": "m",
+          "afterDoubling": "m"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 101601885,
+        "drawIndex": 4174
+      },
+      "editId": 0,
+      "before": "aen",
+      "after": "ane",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "n",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 1,
+          "selected": "n",
+          "afterDoubling": "n"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 8014
+      },
+      "editId": 0,
+      "before": "aep",
+      "after": "ape",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "p",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 4,
+          "selected": "p",
+          "afterDoubling": "p"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 101601885,
+        "drawIndex": 7682
+      },
+      "editId": 0,
+      "before": "aer",
+      "after": "are",
+      "sourcePhones": [
+        {
+          "id": 4,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 5,
+          "sound": "r",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 4,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 5,
+          "selected": "r",
+          "afterDoubling": "r"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 101601885,
+        "drawIndex": 3166
+      },
+      "editId": 0,
+      "before": "aes",
+      "after": "ase",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "z",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 4,
+          "selected": "s",
+          "afterDoubling": "s"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 2113
+      },
+      "editId": 0,
+      "before": "aet",
+      "after": "ate",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "t",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 3,
+          "selected": "t",
+          "afterDoubling": "t"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 101601885,
+        "drawIndex": 3733
+      },
+      "editId": 0,
+      "before": "aev",
+      "after": "ave",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "v",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ae",
+          "afterDoubling": "ae"
+        },
+        {
+          "id": 3,
+          "selected": "v",
+          "afterDoubling": "v"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 2423
+      },
+      "editId": 0,
+      "before": "ieb",
+      "after": "ibe",
+      "sourcePhones": [
+        {
+          "id": 5,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 2
+        },
+        {
+          "id": 6,
+          "sound": "b",
+          "segment": "coda",
+          "syllable": 2
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 5,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 6,
+          "selected": "b",
+          "afterDoubling": "b"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 141
+      },
+      "editId": 0,
+      "before": "iec",
+      "after": "ice",
+      "sourcePhones": [
+        {
+          "id": 8,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 4
+        },
+        {
+          "id": 9,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 4
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 8,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 9,
+          "selected": "c",
+          "afterDoubling": "c"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 583
+      },
+      "editId": 1,
+      "before": "ied",
+      "after": "ide",
+      "sourcePhones": [
+        {
+          "id": 8,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 3
+        },
+        {
+          "id": 9,
+          "sound": "d",
+          "segment": "coda",
+          "syllable": 3
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 8,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 9,
+          "selected": "ed",
+          "afterDoubling": "ed"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 1758
+      },
+      "editId": 0,
+      "before": "ied",
+      "after": "ide",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "d",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 3,
+          "selected": "d",
+          "afterDoubling": "d"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 2146
+      },
+      "editId": 0,
+      "before": "ief",
+      "after": "ife",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "f",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 4,
+          "selected": "f",
+          "afterDoubling": "f"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 452
+      },
+      "editId": 0,
+      "before": "ieg",
+      "after": "ige",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "g",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 3,
+          "selected": "g",
+          "afterDoubling": "g"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 199
+      },
+      "editId": 0,
+      "before": "iek",
+      "after": "ike",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "aɪ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 1,
+          "selected": "k",
+          "afterDoubling": "k"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 717
+      },
+      "editId": 0,
+      "before": "iel",
+      "after": "ile",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "l",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 4,
+          "selected": "l",
+          "afterDoubling": "l"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 247
+      },
+      "editId": 0,
+      "before": "iem",
+      "after": "ime",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "m",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 3,
+          "selected": "m",
+          "afterDoubling": "m"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 33
+      },
+      "editId": 0,
+      "before": "ien",
+      "after": "ine",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "n",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 3,
+          "selected": "n",
+          "afterDoubling": "n"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 1465
+      },
+      "editId": 1,
+      "before": "iep",
+      "after": "ipe",
+      "sourcePhones": [
+        {
+          "id": 4,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 2
+        },
+        {
+          "id": 5,
+          "sound": "p",
+          "segment": "coda",
+          "syllable": 2
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 4,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 5,
+          "selected": "p",
+          "afterDoubling": "p"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-bare",
+        "seed": 2380207674,
+        "drawIndex": 866
+      },
+      "editId": 0,
+      "before": "ieq",
+      "after": "iqe",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 3,
+          "selected": "q",
+          "afterDoubling": "q"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 298
+      },
+      "editId": 0,
+      "before": "ier",
+      "after": "ire",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "r",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 4,
+          "selected": "r",
+          "afterDoubling": "r"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 32
+      },
+      "editId": 0,
+      "before": "ies",
+      "after": "ise",
+      "sourcePhones": [
+        {
+          "id": 5,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 2
+        },
+        {
+          "id": 6,
+          "sound": "z",
+          "segment": "coda",
+          "syllable": 2
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 5,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 6,
+          "selected": "s",
+          "afterDoubling": "s"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 503
+      },
+      "editId": 0,
+      "before": "iet",
+      "after": "ite",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "aɪ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "t",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 1,
+          "selected": "t",
+          "afterDoubling": "t"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 8891
+      },
+      "editId": 0,
+      "before": "iev",
+      "after": "ive",
+      "sourcePhones": [
+        {
+          "id": 5,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 2
+        },
+        {
+          "id": 6,
+          "sound": "v",
+          "segment": "coda",
+          "syllable": 2
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 5,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 6,
+          "selected": "v",
+          "afterDoubling": "v"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 8173
+      },
+      "editId": 0,
+      "before": "iez",
+      "after": "ize",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "aɪ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "ʒ",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "ie",
+          "afterDoubling": "ie"
+        },
+        {
+          "id": 1,
+          "selected": "z",
+          "afterDoubling": "z"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-bare",
+        "seed": 1498885173,
+        "drawIndex": 8671
+      },
+      "editId": 0,
+      "before": "oeb",
+      "after": "obe",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "əʊ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "b",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "oe",
+          "afterDoubling": "oe"
+        },
+        {
+          "id": 3,
+          "selected": "b",
+          "afterDoubling": "b"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 2089697863,
+        "drawIndex": 3748
+      },
+      "editId": 0,
+      "before": "oec",
+      "after": "oce",
+      "sourcePhones": [
+        {
+          "id": 1,
+          "sound": "əʊ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 1,
+          "selected": "oe",
+          "afterDoubling": "oe"
+        },
+        {
+          "id": 2,
+          "selected": "c",
+          "afterDoubling": "c"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 3751
+      },
+      "editId": 0,
+      "before": "oed",
+      "after": "ode",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "ʌ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 3,
+          "sound": "d",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "o",
+          "afterDoubling": "o"
+        },
+        {
+          "id": 3,
+          "selected": "ed",
+          "afterDoubling": "ed"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-bare",
+        "seed": 1304238451,
+        "drawIndex": 724
+      },
+      "editId": 0,
+      "before": "oeg",
+      "after": "oge",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "əʊ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "g",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "oe",
+          "afterDoubling": "oe"
+        },
+        {
+          "id": 3,
+          "selected": "g",
+          "afterDoubling": "g"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 2089697863,
+        "drawIndex": 1777
+      },
+      "editId": 0,
+      "before": "oel",
+      "after": "ole",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "əʊ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "l",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "oe",
+          "afterDoubling": "oe"
+        },
+        {
+          "id": 1,
+          "selected": "l",
+          "afterDoubling": "l"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 8440
+      },
+      "editId": 0,
+      "before": "oem",
+      "after": "ome",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "əʊ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "m",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "oe",
+          "afterDoubling": "oe"
+        },
+        {
+          "id": 4,
+          "selected": "m",
+          "afterDoubling": "m"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-bare",
+        "seed": 2380207674,
+        "drawIndex": 1444
+      },
+      "editId": 0,
+      "before": "oen",
+      "after": "one",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "əʊ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "n",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "oe",
+          "afterDoubling": "oe"
+        },
+        {
+          "id": 4,
+          "selected": "n",
+          "afterDoubling": "n"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-bare",
+        "seed": 1696751198,
+        "drawIndex": 2624
+      },
+      "editId": 0,
+      "before": "oep",
+      "after": "ope",
+      "sourcePhones": [
+        {
+          "id": 1,
+          "sound": "əʊ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "p",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 1,
+          "selected": "oe",
+          "afterDoubling": "oe"
+        },
+        {
+          "id": 2,
+          "selected": "p",
+          "afterDoubling": "p"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 3921817393,
+        "drawIndex": 8935
+      },
+      "editId": 0,
+      "before": "oer",
+      "after": "ore",
+      "sourcePhones": [
+        {
+          "id": 1,
+          "sound": "əʊ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "r",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 1,
+          "selected": "oe",
+          "afterDoubling": "oe"
+        },
+        {
+          "id": 2,
+          "selected": "r",
+          "afterDoubling": "r"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 2089697863,
+        "drawIndex": 8381
+      },
+      "editId": 0,
+      "before": "oes",
+      "after": "ose",
+      "sourcePhones": [
+        {
+          "id": 4,
+          "sound": "əʊ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 5,
+          "sound": "z",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 4,
+          "selected": "oe",
+          "afterDoubling": "oe"
+        },
+        {
+          "id": 5,
+          "selected": "s",
+          "afterDoubling": "s"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 3582
+      },
+      "editId": 0,
+      "before": "ueb",
+      "after": "ube",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "b",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 3,
+          "selected": "b",
+          "afterDoubling": "b"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 5774
+      },
+      "editId": 0,
+      "before": "uec",
+      "after": "uce",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "ɑ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "aue",
+          "afterDoubling": "aue"
+        },
+        {
+          "id": 3,
+          "selected": "c",
+          "afterDoubling": "c"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 3948943232,
+        "drawIndex": 3221
+      },
+      "editId": 1,
+      "before": "ued",
+      "after": "ude",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "d",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 3,
+          "selected": "ed",
+          "afterDoubling": "ed"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 325
+      },
+      "editId": 0,
+      "before": "ued",
+      "after": "ude",
+      "sourcePhones": [
+        {
+          "id": 4,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 5,
+          "sound": "d",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 4,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 5,
+          "selected": "d",
+          "afterDoubling": "d"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 101601885,
+        "drawIndex": 4357
+      },
+      "editId": 0,
+      "before": "uef",
+      "after": "ufe",
+      "sourcePhones": [
+        {
+          "id": 7,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 2
+        },
+        {
+          "id": 8,
+          "sound": "f",
+          "segment": "coda",
+          "syllable": 2
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 7,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 8,
+          "selected": "f",
+          "afterDoubling": "f"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 1650
+      },
+      "editId": 0,
+      "before": "ueg",
+      "after": "uge",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "g",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 4,
+          "selected": "g",
+          "afterDoubling": "g"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 3948943232,
+        "drawIndex": 5041
+      },
+      "editId": 0,
+      "before": "uek",
+      "after": "uke",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "ɑ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "aue",
+          "afterDoubling": "aue"
+        },
+        {
+          "id": 1,
+          "selected": "k",
+          "afterDoubling": "k"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 154
+      },
+      "editId": 0,
+      "before": "uel",
+      "after": "ule",
+      "sourcePhones": [
+        {
+          "id": 1,
+          "sound": "ɑ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "l",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 1,
+          "selected": "aue",
+          "afterDoubling": "aue"
+        },
+        {
+          "id": 2,
+          "selected": "l",
+          "afterDoubling": "l"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 1090
+      },
+      "editId": 0,
+      "before": "uem",
+      "after": "ume",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "m",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 3,
+          "selected": "m",
+          "afterDoubling": "m"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 1274
+      },
+      "editId": 0,
+      "before": "uen",
+      "after": "une",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "n",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 4,
+          "selected": "n",
+          "afterDoubling": "n"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 8432
+      },
+      "editId": 0,
+      "before": "uep",
+      "after": "upe",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "p",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 3,
+          "selected": "p",
+          "afterDoubling": "p"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 4841
+      },
+      "editId": 0,
+      "before": "ueq",
+      "after": "uqe",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 3,
+          "selected": "q",
+          "afterDoubling": "q"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 243
+      },
+      "editId": 0,
+      "before": "uer",
+      "after": "ure",
+      "sourcePhones": [
+        {
+          "id": 4,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 5,
+          "sound": "r",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 4,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 5,
+          "selected": "r",
+          "afterDoubling": "r"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 256
+      },
+      "editId": 0,
+      "before": "ues",
+      "after": "use",
+      "sourcePhones": [
+        {
+          "id": 5,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 2
+        },
+        {
+          "id": 6,
+          "sound": "s",
+          "segment": "coda",
+          "syllable": 2
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 5,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 6,
+          "selected": "s",
+          "afterDoubling": "s"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 1480
+      },
+      "editId": 1,
+      "before": "uet",
+      "after": "ute",
+      "sourcePhones": [
+        {
+          "id": 6,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 2
+        },
+        {
+          "id": 7,
+          "sound": "t",
+          "segment": "coda",
+          "syllable": 2
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 6,
+          "selected": "ue",
+          "afterDoubling": "ue"
+        },
+        {
+          "id": 7,
+          "selected": "t",
+          "afterDoubling": "t"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-bare",
+        "seed": 2380207674,
+        "drawIndex": 6221
+      },
+      "editId": 0,
+      "before": "uev",
+      "after": "uve",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "ɑ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "v",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "aue",
+          "afterDoubling": "aue"
+        },
+        {
+          "id": 3,
+          "selected": "v",
+          "afterDoubling": "v"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 2648
+      },
+      "editId": 0,
+      "before": "yeb",
+      "after": "ybe",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "ɛ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "b",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "e",
+          "afterDoubling": "e"
+        },
+        {
+          "id": 2,
+          "selected": "b",
+          "afterDoubling": "b"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 4092
+      },
+      "editId": 0,
+      "before": "yec",
+      "after": "yce",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "aɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ye",
+          "afterDoubling": "ye"
+        },
+        {
+          "id": 4,
+          "selected": "c",
+          "afterDoubling": "c"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 2404
+      },
+      "editId": 1,
+      "before": "yed",
+      "after": "yde",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "ɛ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "d",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "e",
+          "afterDoubling": "e"
+        },
+        {
+          "id": 2,
+          "selected": "ed",
+          "afterDoubling": "ed"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 2089697863,
+        "drawIndex": 3187
+      },
+      "editId": 0,
+      "before": "yed",
+      "after": "yde",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "d",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "e",
+          "afterDoubling": "e"
+        },
+        {
+          "id": 2,
+          "selected": "d",
+          "afterDoubling": "d"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 9160
+      },
+      "editId": 0,
+      "before": "yef",
+      "after": "yfe",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "aɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "f",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "ye",
+          "afterDoubling": "ye"
+        },
+        {
+          "id": 3,
+          "selected": "f",
+          "afterDoubling": "f"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 7018
+      },
+      "editId": 0,
+      "before": "yeg",
+      "after": "yge",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "g",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "e",
+          "afterDoubling": "e"
+        },
+        {
+          "id": 2,
+          "selected": "g",
+          "afterDoubling": "g"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 3948943232,
+        "drawIndex": 4201
+      },
+      "editId": 0,
+      "before": "yek",
+      "after": "yke",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "ɛ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "k",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "e",
+          "afterDoubling": "e"
+        },
+        {
+          "id": 2,
+          "selected": "k",
+          "afterDoubling": "k"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 2254
+      },
+      "editId": 0,
+      "before": "yel",
+      "after": "yle",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "ɛ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "l",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 3,
+          "selected": "e",
+          "afterDoubling": "e"
+        },
+        {
+          "id": 4,
+          "selected": "l",
+          "afterDoubling": "l"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 4459
+      },
+      "editId": 0,
+      "before": "yem",
+      "after": "yme",
+      "sourcePhones": [
+        {
+          "id": 4,
+          "sound": "aɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 5,
+          "sound": "m",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 4,
+          "selected": "ye",
+          "afterDoubling": "ye"
+        },
+        {
+          "id": 5,
+          "selected": "m",
+          "afterDoubling": "m"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 1919
+      },
+      "editId": 0,
+      "before": "yen",
+      "after": "yne",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "ɛ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "n",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "e",
+          "afterDoubling": "e"
+        },
+        {
+          "id": 2,
+          "selected": "n",
+          "afterDoubling": "n"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 5592
+      },
+      "editId": 0,
+      "before": "yep",
+      "after": "ype",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "ɛ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "p",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "e",
+          "afterDoubling": "e"
+        },
+        {
+          "id": 2,
+          "selected": "p",
+          "afterDoubling": "p"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 4315
+      },
+      "editId": 0,
+      "before": "yer",
+      "after": "yre",
+      "sourcePhones": [
+        {
+          "id": 2,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 1
+        },
+        {
+          "id": 3,
+          "sound": "ɚ",
+          "segment": "nucleus",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 2,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 3,
+          "selected": "er",
+          "afterDoubling": "er"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 3595
+      },
+      "editId": 0,
+      "before": "yes",
+      "after": "yse",
+      "sourcePhones": [
+        {
+          "id": 3,
+          "sound": "aɪ",
+          "segment": "nucleus",
+          "syllable": 1
+        },
+        {
+          "id": 4,
+          "sound": "z",
+          "segment": "coda",
+          "syllable": 1
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 3,
+          "selected": "ye",
+          "afterDoubling": "ye"
+        },
+        {
+          "id": 4,
+          "selected": "s",
+          "afterDoubling": "s"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 3921817393,
+        "drawIndex": 2502
+      },
+      "editId": 0,
+      "before": "yet",
+      "after": "yte",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "ɜ",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "t",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "e",
+          "afterDoubling": "e"
+        },
+        {
+          "id": 2,
+          "selected": "t",
+          "afterDoubling": "t"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 2089697863,
+        "drawIndex": 7462
+      },
+      "editId": 0,
+      "before": "yev",
+      "after": "yve",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "i:",
+          "segment": "nucleus",
+          "syllable": 0
+        },
+        {
+          "id": 2,
+          "sound": "v",
+          "segment": "coda",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "e",
+          "afterDoubling": "e"
+        },
+        {
+          "id": 2,
+          "selected": "v",
+          "afterDoubling": "v"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 8954
+      },
+      "editId": 0,
+      "before": "yew",
+      "after": "ywe",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "u",
+          "segment": "nucleus",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "ew",
+          "afterDoubling": "ew"
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 2089697863,
+        "drawIndex": 3388
+      },
+      "editId": 0,
+      "before": "yey",
+      "after": "yye",
+      "sourcePhones": [
+        {
+          "id": 0,
+          "sound": "j",
+          "segment": "onset",
+          "syllable": 0
+        },
+        {
+          "id": 1,
+          "sound": "eɪ",
+          "segment": "nucleus",
+          "syllable": 0
+        }
+      ],
+      "sourceUnits": [
+        {
+          "id": 0,
+          "selected": "y",
+          "afterDoubling": "y"
+        },
+        {
+          "id": 1,
+          "selected": "ey",
+          "afterDoubling": "ey"
+        }
+      ]
+    }
+  ]
+}

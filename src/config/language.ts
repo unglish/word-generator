@@ -1,3 +1,4 @@
+import type { SplitVowelSupport, SplitVowelRoutes } from "../core/spelling-split-policy.js";
 import { Phoneme, Grapheme, GraphemeCondition, GraphemeReading } from "../types.js";
 // ---------------------------------------------------------------------------
 // Repair constraint types
@@ -802,6 +803,8 @@ export interface LanguageConfig {
   /** Shared phone spellings replace matching named spellingRules slots. Absent retains legacy behavior;
    * an empty list disables migrated ks/gz/cw formations and cx cleanup. Requires preserve-phones. */
   sharedSpellings?: SharedSpellingRule[];
+  /** Opt-in owned split-vowel formation and final obligation completion. Absent preserves legacy behavior. */
+  splitVowels?: { supports: SplitVowelSupport[]; routes: SplitVowelRoutes };
 
   /** Cross-syllable consonant cluster repair constraints. */
   clusterConstraint?: ClusterConstraint;

@@ -1,3 +1,13 @@
+import type { createCompletionPlanner } from "./spelling-completion-planner.js";
+import { prepareCompletionTransaction } from "./spelling-completion-transaction.js";
+import type { CompletionAttempt, CompletionCertificate, CompletionCellOrigin } from "./spelling-completion-transaction.js";
+import { createSplitConstructionPlanner } from "./spelling-split-planner.js";
+import type { SplitLiveResult } from "./spelling-split-live.js";
+import { createSplitLiveGuard } from "./spelling-split-live.js";
+import { prepareSplitVowelTransaction } from "./spelling-split-transaction.js";
+import type { SplitConstructionAttempt, SplitVowelConstruction } from "./spelling-split-transaction.js";
+import type { SplitVowelSupport, SplitVowelRoutes } from "./spelling-split-policy.js";
+import type { SplitVowelCellOrigin } from "./spelling-split-transaction.js";
 import { createSharedCandidateScanner } from "./spelling-construction-scan.js";
 import type { RNG } from "../utils/random.js";
 import { createSharedEditGuard, createSharedSurfaceGuard } from "./spelling-construction-edit.js";
@@ -21,6 +31,11 @@ export function createSharedSpellingRuntime(rules: readonly SharedSpellingRule[]
     editGuard: createSharedEditGuard(rules),
     surfaceGuard: createSharedSurfaceGuard(rules),
   };
+}
+
+export function createSplitSpellingRuntime(config: Pick<LanguageConfig, "graphemes" | "doubling">,
+  supports: readonly SplitVowelSupport[], routes: SplitVowelRoutes, sharedRules: readonly SharedSpellingRule[]) {
+  return { planner: createSplitConstructionPlanner(config, supports, routes, sharedRules), guard: createSplitLiveGuard(supports) };
 }
 
 /** Exact base-word edit provenance. Offsets are JavaScript UTF-16 string offsets. */
@@ -53,6 +68,8 @@ export interface SpellingUnitV3 extends SpellingUnit {
 }
 
 export type SpellingCellOrigin =
+  | CompletionCellOrigin
+  | SplitVowelCellOrigin
   | SharedCellOrigin
   | NormalizedCellOrigin
   | { kind: "selection"; unitId: number; offset: number }
@@ -134,7 +151,15 @@ export interface BaseSpellingTraceV4 extends Omit<BaseSpellingTraceV3, "version"
     editGuards: Array<{ cursor: LedgerCursor; phase: SpellingEdit["phase"]; rule: string; start: number; deleteCount: number; insert: string; partId: number | null; decision: SharedEditDecision }>;
   };
 }
-export type BaseSpellingTrace = BaseSpellingTraceV1 | BaseSpellingTraceV2 | BaseSpellingTraceV3 | BaseSpellingTraceV4;
+export interface BaseSpellingTraceV5 extends Omit<BaseSpellingTraceV4, "version" | "capabilities"> {
+  version: 5;
+  capabilities: BaseSpellingTraceV4["capabilities"] & { splitVowels: 1 };
+  completion: { attempts: Array<{ attempt: CompletionAttempt; certificateId: number | null }>; certificates: CompletionCertificate[] };
+  split: { version: 1; attempts: Array<{ attempt: SplitConstructionAttempt; constructionId: number | null }>;
+    guards: Array<{ operation: "edit" | "batch"; cursor: LedgerCursor; phase: SpellingEdit["phase"]; edits: SpellingBatchEdit[]; decision: SplitLiveResult }>;
+    constructions: SplitVowelConstruction[]; supersessions: SharedSpellingSupersession[]; liveConstructionIds: number[] };
+}
+export type BaseSpellingTrace = BaseSpellingTraceV5 | BaseSpellingTraceV1 | BaseSpellingTraceV2 | BaseSpellingTraceV3 | BaseSpellingTraceV4;
 
 export type SpellingEditObserver = (
   start: number,
@@ -209,6 +234,14 @@ export class BaseSpelling {
   private readonly sharedWriterSteps?: SharedWriterStep[];
   private activeSharedScan?: { scan: SharedSpellingScan; next: number };
   private nextSharedAttemptId = 0;
+  private readonly splitConstructions: SplitVowelConstruction[] = [];
+  private readonly splitSupersessions: SharedSpellingSupersession[] = [];
+  private readonly supersededSplitIds = new Set<number>();
+  private readonly splitGuards: BaseSpellingTraceV5["split"]["guards"] = [];
+  private readonly splitAttempts: BaseSpellingTraceV5["split"]["attempts"] = [];
+  private readonly completionCertificates: CompletionCertificate[] = [];
+  private readonly completionAttempts: BaseSpellingTraceV5["completion"]["attempts"] = [];
+  private completionPassStarted = false;
   private nextCellId = 0;
   private nextEditId = 0;
   private readonly edits?: SpellingEdit[];
@@ -223,7 +256,11 @@ export class BaseSpelling {
     sharedRules?: readonly SharedSpellingRule[],
     readingConfig?: Pick<LanguageConfig, "graphemes" | "doubling">,
     sharedRuntime?: ReturnType<typeof createSharedSpellingRuntime>,
+    private readonly splitRuntime?: ReturnType<typeof createSplitSpellingRuntime>,
+    private readonly completionPlanner?: ReturnType<typeof createCompletionPlanner>,
   ) {
+    if (completionPlanner && !splitRuntime) throw new Error("Completion requires split ledger capability");
+    if (splitRuntime && sharedRules === undefined) throw new Error("Split vowels require shared ledger capability");
     if (sharedRules !== undefined) {
       if (!normalizeUnits || !licensed) throw new Error("Shared spelling requires normalized spelling provenance");
       if (!readingConfig) throw new Error("Shared spelling requires a reading configuration");
@@ -299,6 +336,11 @@ export class BaseSpelling {
     const input = this.cells.slice(start, start + deleteCount);
     const before = input.map((cell) => cell.text).join("");
     if (before === insert) return true;
+    if (this.splitRuntime && this.splitConstructions.length) {
+      const projected = this.cells.slice();
+      projected.splice(start, deleteCount, ...rewriteCells(input, insert, this.nextEditId, this.nextCellId, editPart(input, partId), this.licensed));
+      if (!this.recordSplitGuard(projected, [{ start, deleteCount, insert, rule, partId }], "edit")) return false;
+    }
     const activeGuard = this.supersededConstructions.size < this.sharedConstructions.length ? this.sharedEditGuard : undefined;
     const cursor = this.normalizationState().cursor;
     if (activeGuard) {
@@ -343,10 +385,20 @@ export class BaseSpelling {
       nextCellId += output.length;
       cells.splice(start, deleteCount, ...output);
     }
+    if (this.splitRuntime && !this.recordSplitGuard(cells, edits, "batch")) return false;
     for (const { edit, input, before } of prepared) this.commitRewrite(edit.start, input, before, edit.insert, edit.rule, edit.partId);
     this.sharedTransactions?.push(structuredClone({ cursor, phase: this.phase, edits: [...edits], checks, status: "applied" }));
     this.recordSharedEvent("transaction", (this.sharedTransactions?.length ?? 1) - 1, cursor);
     return true;
+  }
+
+  private recordSplitGuard(projected: readonly SpellingCell[], edits: readonly SpellingBatchEdit[], operation: "edit" | "batch"): boolean {
+    if (!this.splitRuntime) return true;
+    const cursor = this.constructionState().cursor;
+    const decision = this.splitRuntime.guard(projected, this.phones, this.liveSplitConstructions());
+    this.splitGuards.push(structuredClone({ operation, cursor, phase: this.phase, edits: [...edits], decision }));
+    this.recordTimeline("split-guard", this.splitGuards.length - 1, cursor);
+    return decision.status === "preserved";
   }
 
   private recordSharedEvent(kind: SharedSpellingEvent["kind"], index: number, cursor: LedgerCursor): void {
@@ -356,6 +408,10 @@ export class BaseSpelling {
 
   private recordTimeline(kind: SpellingTimelineEntry["kind"], index: number, cursor: LedgerCursor): void {
     this.sharedTimeline?.push({ kind, index, cursor: { ...cursor } });
+  }
+
+  private liveSplitConstructions(): SplitVowelConstruction[] {
+    return this.splitConstructions.filter(entry => !this.supersededSplitIds.has(entry.id));
   }
 
   private liveConstructions(): SharedSpellingConstruction[] {
@@ -438,6 +494,11 @@ export class BaseSpelling {
     this.markGapSpelling();
     this.commitRewrite(0, this.cells.slice(), before, after, rule);
     for (const id of constructionIds) this.supersededConstructions.add(id);
+    if (this.splitRuntime) {
+      const splitIds = this.liveSplitConstructions().map(entry => entry.id);
+      this.splitSupersessions.push(structuredClone({ ...supersession, id: this.splitSupersessions.length, constructionIds: splitIds }));
+      for (const id of splitIds) this.supersededSplitIds.add(id);
+    }
     this.sharedSupersessions.push(supersession);
     this.recordSharedEvent("supersession", supersession.id, cursor);
   }
@@ -457,7 +518,8 @@ export class BaseSpelling {
   constructionState(): ConstructionLedgerView {
     return { cells: this.cells, units: this.units, phones: this.phones, constructions: this.liveConstructions(),
       cursor: { lastAppendedUnitId: this.units.length - 1, nextEditId: this.nextEditId },
-      certificates: this.certificates, normalizationCertificates: this.normalizationCertificates };
+      certificates: this.certificates, normalizationCertificates: this.normalizationCertificates,
+      ...(this.splitRuntime ? { completionCertificates: this.completionCertificates } : {}) };
   }
 
   normalizationState(): { cursor: LedgerCursor; certificates: readonly UnitNormalizationCertificate[] } {
@@ -553,6 +615,10 @@ export class BaseSpelling {
         sourcePartIds: span.sourcePartIds, displayPartId: span.displayPartId,
         before: span.before, after: trial.support.form,
         reading: { kind: "shared-phones", sounds: trial.support.sounds }, attempt });
+      if (this.splitRuntime) {
+        const projected = this.cells.slice(); projected.splice(span.start, input.length, ...output);
+        if (this.splitRuntime.guard(projected, this.phones, this.liveSplitConstructions()).status === "refused") throw new Error("Shared formation damages split vowel");
+      }
       this.cells.splice(span.start, input.length, ...output);
       this.nextCellId += output.length;
       this.nextEditId++;
@@ -565,6 +631,61 @@ export class BaseSpelling {
     this.recordSharedEvent("attempt", this.nextSharedAttemptId, attempt.cursor);
     this.nextSharedAttemptId++;
     return constructionId;
+  }
+
+  /** Revalidate and commit both written spans with one edit identity. */
+  recordSplitAttempt(attempt: SplitConstructionAttempt): number | null {
+    if (!this.splitRuntime || this.phase !== attempt.route) throw new Error("Missing split capability or phase");
+    const view = this.constructionState();
+    this.splitRuntime.planner.verify(view, attempt.nucleusId, attempt.route, attempt);
+    let constructionId: number | null = null;
+    if (attempt.status === "evaluated" && attempt.trial.status === "formed") {
+      const plan = prepareSplitVowelTransaction(view, this.splitRuntime.planner, attempt, this.splitConstructions.length, this.nextCellId);
+      if (this.splitRuntime.guard(plan.cells, this.phones, [...this.liveSplitConstructions(), plan.construction]).status === "refused") {
+        throw new Error("Invalid live split construction");
+      }
+      this.cells.splice(0, this.cells.length, ...plan.cells);
+      this.nextCellId = plan.nextCellId; this.nextEditId = plan.nextEditId;
+      this.splitConstructions.push(plan.construction); constructionId = plan.construction.id;
+      this.edits?.push({ phase: this.phase, id: plan.construction.editId, rule: "splitVowel:" + attempt.route,
+        start: plan.start, input: plan.input, output: plan.output, before: plan.before, after: plan.after, partId: plan.construction.partId });
+    }
+    this.splitAttempts.push({ attempt: structuredClone(attempt), constructionId });
+    this.recordTimeline("split-attempt", this.splitAttempts.length - 1, attempt.cursor);
+    return constructionId;
+  }
+
+  /** Run the registered single final pass; each decision observes all earlier committed replacements. */
+  completeVowels(rand: RNG): void {
+    if (!this.completionPlanner || this.phase !== "word" || this.units.length !== this.phones.length ||
+        this.completionPassStarted || this.completionAttempts.length) throw new Error("Invalid completion pass boundary");
+    this.completionPassStarted = true;
+    for (const phone of this.phones) {
+      if (phone.segment !== "nucleus") continue;
+      const attempt = this.completionPlanner.decide(this.constructionState(), phone.id, this.liveSplitConstructions(), rand);
+      this.recordCompletionAttempt(attempt);
+    }
+  }
+
+  /** Authenticate a final-pass decision before committing its complete nucleus replacement. */
+  recordCompletionAttempt(attempt: CompletionAttempt): number | null {
+    if (!this.completionPlanner || this.phase !== "word") throw new Error("Missing completion capability or phase");
+    const view = this.constructionState();
+    const splits = this.liveSplitConstructions();
+    this.completionPlanner.verify(view, attempt.nucleusId, splits, attempt);
+    let certificateId: number | null = null;
+    if (attempt.status === "evaluated" && attempt.sample.status === "selected") {
+      const plan = prepareCompletionTransaction(view, this.completionPlanner, splits, attempt, this.completionCertificates.length, this.nextCellId);
+      this.cells.splice(0, this.cells.length, ...plan.cells);
+      this.nextCellId = plan.nextCellId; this.nextEditId = plan.nextEditId;
+      this.completionCertificates.push(plan.certificate); certificateId = plan.certificate.id;
+      this.edits?.push({ phase: this.phase, id: plan.certificate.editId, rule: "vowelCompletion",
+        start: plan.start, input: plan.input, output: plan.output, before: plan.certificate.before,
+        after: plan.certificate.after, partId: plan.certificate.partId });
+    }
+    this.completionAttempts.push({ attempt: structuredClone(attempt), certificateId });
+    this.recordTimeline("completion-attempt", this.completionAttempts.length - 1, attempt.cursor);
+    return certificateId;
   }
 
   /** Caller authenticates support; this atomic commit separately validates cell/phone structure. */
@@ -615,6 +736,10 @@ export class BaseSpelling {
       const decision = this.sharedSurfaceGuard(view, { ...view, cells: projected,
         normalizationCertificates: [...this.normalizationCertificates, certificate] }, view.constructions);
       if (decision.status === "refused") fail();
+    }
+    if (this.splitRuntime) {
+      const projected = this.cells.slice(); projected.splice(start, input.length, ...output);
+      if (this.splitRuntime.guard(projected, this.phones, this.liveSplitConstructions()).status === "refused") fail();
     }
     this.nextEditId++;
     this.nextCellId += output.length;
@@ -673,7 +798,7 @@ export class BaseSpelling {
     if (surface !== plan.after) fail();
 
     const certificateId = this.certificates.length;
-    if (this.sharedSurfaceGuard) {
+    if (this.sharedSurfaceGuard || this.splitRuntime) {
       const projected = this.cells.slice();
       let nextCellId = this.nextCellId;
       let nextEditId = this.nextEditId;
@@ -684,9 +809,9 @@ export class BaseSpelling {
         projected.splice(start, count, ...output);
       }
       const view = this.constructionState();
-      const decision = this.sharedSurfaceGuard(view, { ...view, cells: projected,
+      const decision = this.sharedSurfaceGuard?.(view, { ...view, cells: projected,
         certificates: [...this.certificates, { ...plan, id: certificateId }] }, view.constructions);
-      if (decision.status === "refused") fail();
+      if (decision?.status === "refused" || this.splitRuntime?.guard(projected, this.phones, this.liveSplitConstructions()).status === "refused") fail();
     }
     for (const { start, count, replacement } of ranges.reverse()) {
       const editId = this.nextEditId++;
@@ -738,10 +863,18 @@ export class BaseSpelling {
         normalization: { version: 1, checks: this.normalizationChecks ?? [], comparisons: this.normalizationComparisons, collisions: this.normalizationCollisions,
           episodes: this.normalizationEpisodes ?? [] },
       };
-      if (this.sharedPlanner) return structuredClone({ ...trace, version: 4,
-        capabilities: { ...trace.capabilities, sharedConstructions: 1 },
-        shared: { version: 1, writerSteps: this.sharedWriterSteps ?? [], scans: this.sharedScans, timeline: this.sharedTimeline ?? [], events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
-          liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [], transactions: this.sharedTransactions ?? [] } });
+      if (this.sharedPlanner) {
+        const sharedTrace: BaseSpellingTraceV4 = structuredClone({ ...trace, version: 4,
+          capabilities: { ...trace.capabilities, sharedConstructions: 1 },
+          shared: { version: 1, writerSteps: this.sharedWriterSteps ?? [], scans: this.sharedScans, timeline: this.sharedTimeline ?? [], events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
+            liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [], transactions: this.sharedTransactions ?? [] } });
+        if (this.splitRuntime) return structuredClone({ ...sharedTrace, version: 5,
+          capabilities: { ...sharedTrace.capabilities, splitVowels: 1 },
+          completion: { attempts: this.completionAttempts, certificates: this.completionCertificates },
+          split: { version: 1, attempts: this.splitAttempts, guards: this.splitGuards, constructions: this.splitConstructions,
+            supersessions: this.splitSupersessions, liveConstructionIds: this.liveSplitConstructions().map(entry => entry.id) } });
+        return sharedTrace;
+      }
       return structuredClone(trace);
     }
     return structuredClone({ version: 2, capabilities, certificates: this.certificates, ...data });

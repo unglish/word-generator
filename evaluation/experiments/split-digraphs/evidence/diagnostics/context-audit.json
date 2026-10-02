@@ -1,0 +1,34 @@
+{
+  "status": "Source audit; candidate remains frozen; corpus diagnostic pending",
+  "findings": [
+    "The English reading table maps əʊ/ow to single-phone, which does not claim unique decoding.",
+    "The ow inventory entry has frequency 250 and positive start/mid/end weights with no hard following-context condition.",
+    "Completion pool rejects unknown, unsupported and unresolved open-vowel readings; single-phone remains eligible.",
+    "Projected reading validation accepts single-phone without a following-letter test.",
+    "In the preserved erowngs witness the conditioned pool is ow:250, oe:10, giving ow probability 250/260. Morphology appends s."
+  ],
+  "implication": "Structural conformance to the declared reading table does not establish contextual spelling plausibility. The final report must separate these claims.",
+  "nextSteps": [
+    "Finish corpus count and full replay.",
+    "Attribute output substrings to surviving completion cells before making population causal claims.",
+    "Evaluate contextual reading coverage as an independently measured follow-up rather than changing the frozen experiment retrospectively."
+  ],
+  "sourcePins": [
+    {
+      "path": "src/elements/graphemes/reading.ts",
+      "sha256": "b01988281e0b119eb7737d6bb620dca92a28cad51e2aaa5d551bb60acdcdee66"
+    },
+    {
+      "path": "src/elements/graphemes/diphthongs.ts",
+      "sha256": "629bbe20d77931f9b1e3e969ff5ba240a9f6c9aa3d955f537ea00aead11286ed"
+    },
+    {
+      "path": "src/core/spelling-completion-pool.ts",
+      "sha256": "175d5dc6a24738ede5ea077046899fc6b6dce692e860a47afd313240b18dffba"
+    },
+    {
+      "path": "src/core/spelling-completion-projection.ts",
+      "sha256": "b702434de5fa1e4afa652a687ffef3074b499a233e6e4feee2ee2ee9570f380f"
+    }
+  ]
+}
