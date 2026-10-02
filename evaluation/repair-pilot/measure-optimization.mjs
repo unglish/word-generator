@@ -5,9 +5,19 @@ import assert from "node:assert/strict";
 import * as api from "../../dist/index.js";
 import ts from "typescript";
 import { fileURLToPath } from "node:url";
-const recorded = JSON.parse(
-  readFileSync(new URL("optimization-results.json", import.meta.url)),
-);
+const args = process.argv.slice(2);
+const baselineIndex = args.indexOf("--baseline-report");
+const baselineReport = args[baselineIndex + 1];
+if (baselineIndex < 0 || !baselineReport || baselineReport.startsWith("--")) {
+  throw new Error(
+    "Usage: npm run bench:repair-optimization -- --baseline-report PATH [--verify-only]. " +
+    "Download the archived optimization-results.json linked from PR #343.",
+  );
+}
+const recorded = JSON.parse(readFileSync(baselineReport, "utf8"));
+if (typeof recorded.baselineSource !== "string" || !recorded.baselineSource.trim()) {
+  throw new Error("Baseline report must contain the saved adapter baselineSource");
+}
 const configUrl = new URL("../../dist/config/language.js", import.meta.url)
   .href;
 const baselineJs = ts
