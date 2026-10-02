@@ -1,0 +1,40 @@
+✔ aggregates complete events, repairs, selected/shared forms and retained full witnesses (15.644667ms)
+✔ historical populations have null shared counts rather than clean zeros (4.404458ms)
+✔ mixed observations retain unavailable population counts (7.057792ms)
+✔ returned reports and caller mutations cannot change retained witnesses or accumulated counters (10.489458ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ runs a complete bounded archive through stream validation, aggregation and production replay (593.849542ms)
+✔ rejects a wrong external manifest authority before creating an output (13.262792ms)
+✔ rejects archive-byte tampering before creating an output (242.33625ms)
+✔ retains an explicit failure and no completion report for duplicate draws (264.175375ms)
+✔ requires every scheduled stream (14.6365ms)
+✔ rejects malformed and aliased artifact paths (8.078791ms)
+✔ does not allow an output parent symlink to redirect into the archive (6.218958ms)
+✔ rejects overlapping seeds before any corpus processing (0.368167ms)
+✔ freeze detects changed bytes and added source paths (12.213417ms)
+✔ rejects active loader or binary overrides without exposing their values (0.43125ms)
+✔ candidate freeze rejects an absent, empty or changed shared policy (1.238791ms)
+✔ observes 500 generated ledgers without treating successful replay as independent proof (511.089667ms)
+✔ historical eligibility remains unavailable, not zero (0.975042ms)
+✔ reports unsupported source sequences (0.475542ms)
+✔ reports partial consumption instead of trusting a construction's input claim (0.431708ms)
+✔ reports altered phone multiplicity (0.430541ms)
+✔ finds actual silent erasure in a consistently edited archive (0.483958ms)
+✔ refuses incomplete observation fields (2.387ms)
+✔ refuses missing attempts rather than accepting a smaller eligibility denominator (0.707417ms)
+✔ does not alias returned event metadata into the original word (1.228958ms)
+✔ finds an insertion that separates the cells of a surviving qu construction (0.637916ms)
+✔ preserves every retained v3 repair counter on 500 public legacy words (552.374375ms)
+✔ retains repair counters and joint lineage on actual v4 words (285.148625ms)
+✔ detects a previously truncated original unit even when all surviving cells are consumed (0.693625ms)
+✔ pure licensed extent fixture requires the entire recorded replacement and matching unit (0.241ms)
+✔ pure normalized extent fixture requires the entire recorded replacement and matching unit (0.082333ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2210.067458

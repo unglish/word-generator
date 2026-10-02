@@ -1,3 +1,5 @@
+import { createSpellingRuleSlots } from "./spelling-construction-slots.js";
+import type { SharedSpellingSlot } from "./spelling-construction.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
 import { createSpellingCoveragePlanner } from "./spelling-coverage.js";
 import type { SpellingChoiceState } from "./spelling-coverage.js";
@@ -11,8 +13,8 @@ import type { HistoricalSelectionState, NormalizationSite } from "./spelling-nor
 import type { DoublingState, DoublingTraceInfo } from "./spelling-doubling.js";
 import { createGraphemeResolver, positionLabel } from "./grapheme-selection.js";
 export { filterByPosition, normalizeGraphemeCondition } from "./grapheme-selection.js";
-import { BaseSpelling, expandReplacement } from "./base-spelling.js";
-import type { PartEditObserver, SpellingEditObserver } from "./base-spelling.js";
+import { BaseSpelling, createSharedSpellingRuntime, expandReplacement } from "./base-spelling.js";
+import type { PartEditObserver, PartSpellingBatchEdit, SpellingEditObserver } from "./base-spelling.js";
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { LanguageConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
@@ -45,7 +47,7 @@ function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
 /**
  * Apply a list of compiled spelling rules to a string, handling probabilistic replacements.
  */
-function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string, observe?: SpellingEditObserver): string {
+export function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string, observe?: SpellingEditObserver): string {
   let result = str;
   for (const { name, regex, replacement, probability } of rules) {
     regex.lastIndex = 0;
@@ -68,13 +70,24 @@ function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RN
           if (args[i] !== undefined) rep = rep.replace(`$${i + 1}`, String(args[i]));
         }
       }
-      observe?.(offset + delta, match.length, rep, `spellingRule:${name}`);
+      if (observe?.(offset + delta, match.length, rep, `spellingRule:${name}`) === false) return match;
       delta += rep.length - match.length;
       return rep;
     });
     if (trace && result !== source) trace.recordRepair(`spellingRule:${name}`, source, result, scope);
   }
   return result;
+}
+
+/** Rejecting observers must supply batch for atomic multi-edit operations. */
+export function applyPartEditBatch(edits: readonly PartSpellingBatchEdit[], observe?: PartEditObserver): boolean {
+  if (observe?.batch) return observe.batch(edits);
+  for (const edit of edits) {
+    if (observe?.(edit.part, edit.start, edit.deleteCount, edit.insert, edit.rule) === false) {
+      throw new Error("A rejecting multi-edit observer must implement batch");
+    }
+  }
+  return true;
 }
 
 interface TraceUnitSeed {
@@ -524,7 +537,8 @@ export function repairConsonantPileups(
         if (toRemoveSet.has(i)) deletions.push({ start: tokenOffset, length: interior[i].length });
         tokenOffset += interior[i].length;
       }
-      for (const deletion of deletions.reverse()) observe?.(startPart, deletion.start, deletion.length, "", "repairConsonantPileups");
+      if (!applyPartEditBatch(deletions.reverse().map(deletion => ({ part: startPart, start: deletion.start,
+        deleteCount: deletion.length, insert: "", rule: "repairConsonantPileups" })), observe)) return;
       cleanParts[startPart] = part.slice(0, localStart) + kept.join("") + part.slice(localEnd);
       hyphenatedParts[startPart * 2] = cleanParts[startPart];
       continue;
@@ -592,7 +606,8 @@ export function repairConsonantPileups(
       if (toRemoveIndices.has(i)) deletions.push({ start: tokenOffset, length: partTokens[i].length });
       tokenOffset += partTokens[i].length;
     }
-    for (const deletion of deletions.reverse()) observe?.(targetPartIdx, deletion.start, deletion.length, "", "repairConsonantPileups");
+    if (!applyPartEditBatch(deletions.reverse().map(deletion => ({ part: targetPartIdx, start: deletion.start,
+      deleteCount: deletion.length, insert: "", rule: "repairConsonantPileups" })), observe)) return;
     const newPart = partTokens.filter((_, i) => !toRemoveIndices.has(i)).join("");
     cleanParts[targetPartIdx] = newPart;
     hyphenatedParts[targetPartIdx * 2] = newPart;
@@ -679,7 +694,8 @@ export function repairJunctions(
         // Save the dropped token, then splice it out
         const droppedToken = codaTokens[lastCodaConsonantIdx];
         const droppedStart = codaTokens.slice(0, lastCodaConsonantIdx).join("").length;
-        observe?.(i, droppedStart, droppedToken.length, "", "repairJunctions:backstop");
+        const deletions: PartSpellingBatchEdit[] = [{ part: i, start: droppedStart, deleteCount: droppedToken.length,
+          insert: "", rule: "repairJunctions:backstop" }];
         codaTokens.splice(lastCodaConsonantIdx, 1);
 
         // If the new last consonant is identical (doubled), drop it too
@@ -688,10 +704,12 @@ export function repairJunctions(
           : -1;
         if (newLastIdx >= 0 && codaTokens[newLastIdx] === droppedToken) {
           const secondStart = codaTokens.slice(0, newLastIdx).join("").length;
-          observe?.(i, secondStart, codaTokens[newLastIdx].length, "", "repairJunctions:backstop");
+          deletions.push({ part: i, start: secondStart, deleteCount: codaTokens[newLastIdx].length,
+            insert: "", rule: "repairJunctions:backstop" });
           codaTokens.splice(newLastIdx, 1);
         }
 
+        if (!applyPartEditBatch(deletions, observe)) continue;
         cleanParts[i] = codaTokens.join("");
         hyphenatedParts[i * 2] = cleanParts[i];
 
@@ -798,7 +816,7 @@ export function repairConsonantLetters(
       ? interior[Math.floor(interior.length / 2)]
       : consonantIndices[Math.floor(consonantIndices.length / 2)];
 
-    observe?.(dropPartIdx, dropIdx, 1, "", "repairConsonantLetters");
+    if (observe?.(dropPartIdx, dropIdx, 1, "", "repairConsonantLetters") === false) return;
     cleanParts[dropPartIdx] = part.slice(0, dropIdx) + part.slice(dropIdx + 1);
     hyphenatedParts[dropPartIdx * 2] = cleanParts[dropPartIdx];
   }
@@ -823,7 +841,7 @@ export function repairVowelLetters(
       if (isVowelChar(part[j], j, part)) {
         vowelRun++;
         if (vowelRun <= maxLetters) result += part[j];
-        else observe?.(i, result.length, 1, "", "repairVowelLetters");
+        else if (observe?.(i, result.length, 1, "", "repairVowelLetters") === false) result += part[j];
       } else {
         vowelRun = 0;
         result += part[j];
@@ -887,7 +905,7 @@ export function repairFinalConsonantLetters(
   if (cluster.length <= maxLetters) return;
 
   // Keep the last `maxLetters` letters (preserves word-final sounds)
-  observe?.(lastIdx, clusterStart, cluster.length - maxLetters, "", "repairFinalConsonantLetters");
+  if (observe?.(lastIdx, clusterStart, cluster.length - maxLetters, "", "repairFinalConsonantLetters") === false) return;
   const trimmed = cluster.slice(cluster.length - maxLetters);
   part = part.slice(0, clusterStart) + trimmed;
 
@@ -981,8 +999,10 @@ export function applySilentE(
   if (fromIdx < 0) return;
 
   // Ensure the swap target is in the vowel portion (before the final consonant letters)
-  observe?.(lastPartIdx, fromIdx, swap.from.length, swap.to, "silentE:swap");
-  observe?.(lastPartIdx, part.length - swap.from.length + swap.to.length, 0, "e", "silentE:marker");
+  if (!applyPartEditBatch([
+    { part: lastPartIdx, start: fromIdx, deleteCount: swap.from.length, insert: swap.to, rule: "silentE:swap" },
+    { part: lastPartIdx, start: part.length - swap.from.length + swap.to.length, deleteCount: 0, insert: "e", rule: "silentE:marker" },
+  ], observe)) return;
   const newPart = part.slice(0, fromIdx) + swap.to + part.slice(fromIdx + swap.from.length) + "e";
   cleanParts[lastPartIdx] = newPart;
   hyphenatedParts[lastPartIdx * 2] = newPart;
@@ -1032,7 +1052,7 @@ export function appendSilentE(
   // Probability check
   if (rand() >= probability / 100) return;
 
-  observe?.(lastPartIdx, part.length, 0, "e", "silentE:append");
+  if (observe?.(lastPartIdx, part.length, 0, "e", "silentE:append") === false) return;
   cleanParts[lastPartIdx] = part + "e";
   hyphenatedParts[lastPartIdx * 2] = cleanParts[lastPartIdx];
 }
@@ -1050,11 +1070,18 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const allCompiledRules = compileSpellingRules(config.spellingRules ?? []);
   const syllableRules = allCompiledRules.filter(r => r.scope === "syllable" || r.scope === "both");
   const wordRules = allCompiledRules.filter(r => r.scope === "word" || r.scope === "both");
+  const sharedRules = config.sharedSpellings === undefined ? undefined : structuredClone(config.sharedSpellings);
+  const schedule = sharedRules === undefined ? undefined : createSpellingRuleSlots(config.spellingRules ?? [], sharedRules);
+  const compilePass = (phase: "syllable" | "word") => schedule?.slots(phase).map(slot => slot.kind === "shared"
+    ? slot : { ...slot, compiled: compileSpellingRules([slot.rule]) });
+  const sharedPasses = { syllable: compilePass("syllable"), word: compilePass("word") };
   const doublingModel = createDoublingModel(config.doubling);
   const tryDoubling = doublingModel.sample;
   const preservePhones = config.writtenFormConstraints?.policy === "preserve-phones";
-  const planCoverage = preservePhones ? createSpellingCoveragePlanner(config, resolveGraphemes, doublingModel) : undefined;
-  const normalizer = preservePhones ? createSpellingNormalizer(config, resolveGraphemes, doublingModel) : undefined;
+  if (sharedRules !== undefined && !preservePhones) throw new Error("Shared spellings require preserve-phones");
+  const sharedRuntime = sharedRules === undefined ? undefined : createSharedSpellingRuntime(sharedRules, config);
+  const planCoverage = preservePhones ? createSpellingCoveragePlanner(config, resolveGraphemes, doublingModel, sharedRules) : undefined;
+  const normalizer = preservePhones ? createSpellingNormalizer(config, resolveGraphemes, doublingModel, sharedRules) : undefined;
 
   // Silent-e pre-compilation
   const silentEConfig = config.silentE;
@@ -1087,17 +1114,43 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       id, part: "root", syllableIndex: entry.syllableIndex, segment: entry.position,
       segmentIndex: entry.positionIndex, soundAtSpelling: entry.phoneme.sound,
       ...(preservePhones ? { boundary: { phoneme: structuredClone(entry.phoneme), stress: entry.stress } } : {}),
-    })), tracing, preservePhones, preservePhones);
+    })), tracing, preservePhones, preservePhones, sharedRules, config, sharedRuntime);
     const boundaryContexts = preservePhones ? spellingBoundaryContexts(baseSpelling.current().phones) : undefined;
     const spellingChoices: SpellingChoiceState[] = [];
     const selectionStates: HistoricalSelectionState[] = [];
     const normalizeCollision = (site: NormalizationSite, rightIndex: number): boolean => {
+      const sharedView = sharedRules === undefined ? undefined : baseSpelling.constructionState();
       const input = { ...baseSpelling.current(), ...baseSpelling.normalizationState(), contexts: boundaryContexts!,
-        states: selectionStates, site, rightIndex };
+        states: selectionStates, site, rightIndex, ...(sharedView ? {
+          shared: { constructions: sharedView.constructions, certificates: sharedView.certificates },
+        } : {}) };
       const decision = normalizer!.decide(input);
       if (decision.status === "normalized") normalizer!.verify(input, decision.plan);
       baseSpelling.recordNormalization(site, rightIndex, decision);
       return decision.status === "normalized";
+    };
+    const applySharedPass = (slot: SharedSpellingSlot): string => {
+      const surface = () => baseSpelling.current().cells.filter(cell => slot.phase === "word" || cell.partId === slot.partId)
+        .map(cell => cell.text).join("");
+      const scope = slot.phase === "word" ? "word" : `syllable:${slot.partId}`;
+      baseSpelling.recordWriterStep("pass-start", slot);
+      for (const entry of sharedPasses[slot.phase]!) {
+        baseSpelling.recordWriterStep("slot-start", slot, entry.index);
+        const before = surface();
+        if (entry.kind === "shared") {
+          baseSpelling.scanSharedSlot(slot, entry.ruleId, rand);
+          context.trace?.recordRepair(`sharedSpelling:${entry.ruleId}`, before, surface(), scope);
+        } else {
+          const cells = baseSpelling.current().cells;
+          const first = slot.phase === "word" ? 0 : cells.findIndex(cell => cell.partId != null && cell.partId >= slot.partId);
+          const start = first < 0 ? cells.length : first;
+          applySpellingRules(before, entry.compiled, rand, context.trace, scope,
+            baseSpelling.observe(start, slot.partId ?? undefined));
+        }
+        baseSpelling.recordWriterStep("slot-end", slot, entry.index);
+      }
+      baseSpelling.recordWriterStep("pass-end", slot);
+      return surface();
     };
     context.baseSpelling = baseSpelling;
     const cleanParts: string[] = [];
@@ -1253,7 +1306,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         const rawSyllable = currentSyllable.join("");
         const syllableStart = cleanParts.reduce((length, part) => length + part.length, 0);
         baseSpelling.setPhase("syllable");
-        let syllableStr = applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`, baseSpelling.observe(syllableStart, syllableIndex));
+        let syllableStr = schedule ? applySharedPass({ phase: "syllable", partId: syllableIndex })
+          : applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`, baseSpelling.observe(syllableStart, syllableIndex));
         let syllableOwners = tracing
           ? remapOwnersThroughRewrite(rawSyllable, currentSyllableOwners, syllableStr)
           : [];
@@ -1322,7 +1376,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         const junction = part[part.length - 1] + nextPart[0];
         for (const repair of orthoRepairs) {
           if (repair.boundaryMatch.test(junction)) {
-            observeParts(si, part.length, 0, repair.insert, `orthographicRepair:${repair.name}`);
+            if (observeParts(si, part.length, 0, repair.insert, `orthographicRepair:${repair.name}`) === false) continue;
             cleanParts[si] = part + repair.insert;
             hyphenatedParts[si * 2] = hyphenatedParts[si * 2] + repair.insert;
             break;
@@ -1404,7 +1458,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     }
 
     // Post-join pass: apply word-scope spelling rules
-    let finalClean = applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word", baseSpelling.observe());
+    let finalClean = schedule ? applySharedPass({ phase: "word", partId: null })
+      : applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word", baseSpelling.observe());
     let finalHyphenated = hyphenatedParts.join("");
 
     if (planCoverage) {

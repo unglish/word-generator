@@ -568,6 +568,20 @@ export interface SilentEConfig {
   appendAfter?: SilentEAppendRule[];
 }
 
+/** One configured spelling for an ordered sequence of multiple phonemes. */
+export interface SharedSpellingRule {
+  id: string;
+  phonemes: Array<{ sound: string }>;
+  form: string;
+  probability: number;
+  scope: "syllable" | "word" | "both";
+  context: {
+    /** Relative to the active syllable/word pass, not necessarily the root. */
+    nonInitial?: boolean;
+    following?: { phoneClass: "vowel"; letters: string[] };
+  };
+}
+
 /**
  * A post-selection spelling rule (regex-based transformation on written output).
  */
@@ -784,6 +798,10 @@ export interface LanguageConfig {
 
   /** Post-selection spelling adjustments. */
   spellingRules?: SpellingRule[];
+
+  /** Shared phone spellings replace matching named spellingRules slots. Absent retains legacy behavior;
+   * an empty list disables migrated ks/gz/cw formations and cx cleanup. Requires preserve-phones. */
+  sharedSpellings?: SharedSpellingRule[];
 
   /** Cross-syllable consonant cluster repair constraints. */
   clusterConstraint?: ClusterConstraint;

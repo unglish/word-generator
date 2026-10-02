@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "files": {
+    "README.md": {
+      "bytes": 2959,
+      "sha256": "c950bf7e3ed699b3ff67d53d5b4d4fc99f5d1723259d6960548c232c0dacaa63"
+    },
+    "adversarial.log": {
+      "bytes": 337,
+      "sha256": "71e000c989ca60011d9a3540e0e01d45c1ea8c49107998fcc2bec030905afe31"
+    },
+    "failure-comparison.json": {
+      "bytes": 797,
+      "sha256": "17abe4c05f4f5cf27d721d0a9512a080fd6c91d243ec292099cfa4ffcc6aaaf6"
+    },
+    "full.log": {
+      "bytes": 23017,
+      "sha256": "f50696e895d54bad22969c22b8aae3275f6f9997dd8fb4ed54b0e22305988707"
+    },
+    "initial.log": {
+      "bytes": 536,
+      "sha256": "6775131f9ffcf4548b659123c22c8d0b954dc184510703ea8c3ab16c5273d485"
+    },
+    "lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "phonotactic-recheck.log": {
+      "bytes": 985,
+      "sha256": "9ee59a6a9357e1cf4445608392b30a443f01010827b5aca17abbbae385741367"
+    },
+    "public.log": {
+      "bytes": 675,
+      "sha256": "3f28f26886cfd1f4ba10cad5e621dfa193f4a7166e54b31867b4b08fd8e9ab25"
+    },
+    "source-files.json": {
+      "bytes": 1748,
+      "sha256": "5c911414954b1d91169560fe9e6293d3931c3a3b697b30a168d5964bcb05d847"
+    },
+    "targeted.log": {
+      "bytes": 1423,
+      "sha256": "555af1dae2920b3e76a5bb625a826e8b6226a89f9080d94e3225064a800eb21f"
+    },
+    "types.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

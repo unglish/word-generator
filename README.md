@@ -168,3 +168,5 @@ Additional checks:
 See [grapheme selection](docs/grapheme-selection.md) for hard constraints, positional scopes, and explicit fallbacks.
 
 See [sound-specific consonant doubling](docs/phoneme-aware-doubling.md) for the English realization policy, custom rules, and the explicit legacy opt-out.
+
+See [experimental shared spellings](docs/shared-spellings.md) for the opt-in multi-phone spelling policy and its current verification limits.

@@ -1,0 +1,15 @@
+{
+  "version": "q13b-independent-shared-recount-v1",
+  "passed": true,
+  "words": 200000,
+  "groups": 790,
+  "integerComparisons": 420491,
+  "fullWitnesses": 181,
+  "pythonVersion": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+  "pythonExecutable": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+  "pythonExecutableSha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5",
+  "reportSha256": "d8544b8ec0ade12bc9bbbe50e5fb25cfc51963ba96490b140692c8aa60035fe5",
+  "manifestSha256": "8fa4c8216beedf0d2803f18c2864ddbde1ea805af866071fac1c30ab34b1f876",
+  "scope": "Independent shared ownership, repair and doubling arithmetic, every grouped counter, event/form histograms and full first witnesses. No JS observer imports or generation.",
+  "excluded": "Certificate counts are reconstructed, but reading-license semantics and complete writer-slot timing still require production verification. Sampler law, final-word pronunciation and human judgments are not independently proved here."
+}

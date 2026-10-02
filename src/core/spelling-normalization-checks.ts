@@ -1,8 +1,9 @@
+import { isSingleOwned, sourceUnits } from "./spelling-ownership.js";
 import type { BaseSpellingTraceV3, SpellingCell, SpellingEdit } from "./base-spelling.js";
 import type { NormalizationSite } from "./spelling-normalization-types.js";
 
 /** Recount every scheduled writer guard, including guards that compare no letters. */
-export function verifyNormalizationChecks(trace: BaseSpellingTraceV3): void {
+export function verifyNormalizationChecks(trace: Pick<BaseSpellingTraceV3, "normalization" | "units" | "phones" | "normalizationCertificates" | "edits">): void {
   function require(condition: unknown, reason: string): asserts condition {
     if (!condition) throw new Error(`Invalid spelling evidence: normalization checks ${reason}`);
   }
@@ -56,14 +57,14 @@ export function verifyNormalizationChecks(trace: BaseSpellingTraceV3): void {
       cells.splice(edit.start, edit.input.length, ...edit.output);
     }
     const prefix = cells.filter(cell => cell.origin.kind !== "selection" || cell.origin.unitId <= end);
-    require(prefix.every(cell => (cell.origin.kind === "rewrite" ? cell.origin.sourceUnitIds : [cell.origin.unitId]).every(id => id <= end)), "future ownership");
+    require(prefix.every(cell => sourceUnits(cell.origin).every(id => id <= end)), "future ownership");
     let left: SpellingCell | undefined;
     let right: SpellingCell | undefined;
     if (check.site === "adjacent-choice") {
       // The writer checks the immediately preceding emitted unit, even if empty.
       // It does not search backward to an earlier nonempty unit.
       if (trace.phones[end - 1]?.syllableIndex === part) {
-        const previous = prefix.filter(cell => cell.origin.kind !== "rewrite" && cell.origin.unitId === end - 1);
+        const previous = prefix.filter(cell => isSingleOwned(cell.origin) && cell.origin.unitId === end - 1);
         left = previous[previous.length - 1];
       }
       right = prefix.find(cell => cell.origin.kind === "selection" && cell.origin.unitId === end);

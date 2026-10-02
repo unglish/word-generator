@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig } from "../index.js";
 import { BaseSpelling, expandReplacement } from "./base-spelling.js";
 
-const legacyConfig = { ...englishConfig, doubling: { ...englishConfig.doubling!, realizations: undefined }, writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined } };
+const legacyConfig = { ...englishConfig, sharedSpellings: undefined, doubling: { ...englishConfig.doubling!, realizations: undefined }, writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined } };
 const { generateWord } = createGenerator(legacyConfig);
 
 // Q12a changes seeded spelling paths; these coordinates belong to its dependency control.

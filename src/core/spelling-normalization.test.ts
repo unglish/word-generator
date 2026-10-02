@@ -1,3 +1,6 @@
+import { englishSharedSpellings } from "../elements/graphemes/shared.js";
+import { createSharedConstructionPlanner } from "./spelling-construction.js";
+import { resolveConstructionSpan } from "./spelling-construction-ownership.js";
 import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import type { Word } from "../types.js";
@@ -89,7 +92,7 @@ function publicConfig(finals: Grapheme[]): LanguageConfig {
       onsetLength: { monosyllabic: one, followingNucleus: one, default: one, long: one },
       codaLength: { monosyllabic: { 1: one }, monosyllabicDefault: one, polysyllabicNonzero: one, zeroWeightEndOfWord: 0, zeroWeightMidWord: 0 },
       probability: { ...englishConfig.generationWeights.probability, finalS: 0, nasalStopExtension: 0 } },
-    doubling: undefined, silentE: undefined, spellingRules: [], gapSpellings: [],
+    sharedSpellings: undefined, doubling: undefined, silentE: undefined, spellingRules: [], gapSpellings: [],
     pronunciation: { ...englishConfig.pronunciation,
       aspiration: { enabled: false, targets: [{ segment: "onset" }], rules: [{ id: "disabled", when: {}, probability: 0 }], fallbackProbability: 0 },
       vowelReduction: { enabled: false, rules: [], reduceSecondaryStress: false } },
@@ -156,6 +159,11 @@ describe("local whole-unit normalization", () => {
     expect(f.apply(1).status).toBe("normalized");
     expect(f.base.snapshot().surface).toBe("l" + remainder);
     expect(verifyBaseSpellingEvidence(f.base.snapshot(), f.config)).toMatchObject({ verifiedNormalizations: 1 });
+    expect(resolveConstructionSpan(f.base.constructionState(), [0, 1])).toMatchObject({ status: "complete", before: "l" + remainder,
+      phoneIds: [0, 1], phonemes: [{ sound: "l" }, { sound }] });
+    const forged = structuredClone(f.base.constructionState());
+    forged.normalizationCertificates[0].editId += 1;
+    expect(resolveConstructionSpan(forged, [0, 1])).toEqual({ status: "refused", reason: "missing-license" });
   });
 
   it.each([true, false])("checks the conditioned lk-to-k remainder with eligibility=%s", eligible => {
@@ -673,5 +681,84 @@ describe("realized doubling readings in repair planners", () => {
     const forged = structuredClone(base.snapshot());
     forged.certificates![0].replacements[0].reading = hardC().reading;
     expect(() => verifyBaseSpellingEvidence(forged, f.config)).toThrow();
+  });
+});
+
+
+describe("joint readings during normalization commit", () => {
+  it.each([{ restricted: false, crossPart: false }, { restricted: true, crossPart: false },
+    { restricted: false, crossPart: true }, { restricted: true, crossPart: true }])("checks normalization after qu ($restricted/$crossPart)", ({ restricted, crossPart }) => {
+    const f = fixture([{ sound: "k", form: "c", position: "onset" }, { sound: "w", form: "u", position: "onset", part: crossPart ? 1 : 0 },
+      { sound: "i:", form: "ue", position: "nucleus", part: crossPart ? 1 : 0 }], [glyph("i:", "e")]);
+    const input = f.input(2);
+    const decision = f.normalizer.decide(input);
+    expect(decision.status).toBe("normalized");
+    if (decision.status !== "normalized") throw new Error("Expected normalization fixture");
+    f.normalizer.verify(input, decision.plan);
+    const rules = structuredClone(englishSharedSpellings);
+    if (restricted) rules.find(rule => rule.id === "cw-to-qu")!.context = { following: { phoneClass: "vowel", letters: ["u"] } };
+    const target = new BaseSpelling(structuredClone(f.base.snapshot().phones), true, true, true, rules, f.config);
+    f.base.snapshot().units.forEach(unit => target.appendChoice(unit.id, unit.selected, unit.afterDoubling, unit.inventoryIndex, 0));
+    target.setPhase("word");
+    const slot = { phase: "word", partId: null } as const;
+    const attempt = createSharedConstructionPlanner(rules, f.config).decide(target.constructionState(), slot, "cw-to-qu", [0, 1], () => 0);
+    expect(target.recordSharedAttempt(slot, "cw-to-qu", [0, 1], attempt)).toBe(0);
+    const sharedState = target.constructionState();
+    const jointInput = { ...target.current(), ...target.normalizationState(), contexts: f.contexts, states: input.states,
+      rightIndex: 2, site: "adjacent-choice" as const,
+      shared: { constructions: sharedState.constructions, certificates: sharedState.certificates } };
+    const jointNormalizer = createSpellingNormalizer(f.config, undefined, undefined, rules);
+    const jointDecision = jointNormalizer.decide(jointInput);
+    if (restricted) {
+      expect(jointDecision).toEqual({ status: "retained", reason: "construction-obligation" });
+    } else {
+      expect(jointDecision.status).toBe("normalized");
+      if (jointDecision.status !== "normalized") throw new Error("Expected joint normalization");
+      expect(jointDecision.plan.preservedSharedConstructionIds).toEqual([0]);
+      expect(jointDecision.plan.checkedNeighbors).toEqual([]);
+      jointNormalizer.verify(jointInput, jointDecision.plan);
+      const forged = structuredClone(jointDecision.plan);
+      forged.preservedSharedConstructionIds = [];
+      expect(() => jointNormalizer.verify(jointInput, forged)).toThrow(/normalization certificate/);
+      expect(jointNormalizer.decide({ ...jointInput, shared: { ...jointInput.shared, constructions: [] } }))
+        .toEqual({ status: "retained", reason: "unresolved-ownership" });
+      expect(createSpellingNormalizer(f.config).decide(jointInput))
+        .toEqual({ status: "retained", reason: "unsupported-shared-construction" });
+    }
+    // Separately test commit rejection against a structurally rebound old plan.
+    const plan = structuredClone(decision.plan);
+    plan.cursor = target.normalizationState().cursor;
+    plan.editId = plan.cursor.nextEditId;
+    plan.predecessorCellId = target.current().cells[1].id;
+    const before = target.snapshot();
+    if (restricted) {
+      expect(() => target.commitNormalization(plan)).toThrow(/normalization certificate/);
+      expect(target.snapshot()).toEqual(before);
+    } else {
+      if (jointDecision.status !== "normalized") throw new Error("Expected joint normalization");
+      if (crossPart) expect(target.commitNormalization(jointDecision.plan)).toBe(0);
+      else {
+        target.recordNormalizationCheck("adjacent-choice", true);
+        target.recordNormalization("adjacent-choice", 2, jointDecision);
+      }
+      const trace = target.snapshot();
+      if (trace.version !== 4) throw new Error("Expected shared trace");
+      const cursor = { lastAppendedUnitId: 2, nextEditId: 1 };
+      expect(trace.shared.timeline.slice(4)).toEqual(crossPart
+        ? [{ kind: "normalization", index: 0, cursor }]
+        : [{ kind: "normalization-check", index: 0, cursor }, { kind: "normalization-episode", index: 0, cursor }]);
+      expect(trace.surface).toBe("que");
+      expect(trace.cells.slice(0, 2)).toEqual(before.cells.slice(0, 2));
+      expect(trace.cells[2].origin).toMatchObject({ kind: "normalized", unitId: 2, certificateId: 0, editId: 1 });
+      expect(target.constructionState().constructions[0].phoneIds).toEqual([0, 1]);
+      const coverageConfig = { ...f.config, writtenFormConstraints: { policy: "preserve-phones" as const, maxVowelLetters: 1 } };
+      const coverage = createSpellingCoveragePlanner(coverageConfig, undefined, undefined, rules);
+      const choices = f.contexts.map((context, id) => ({ ...context, grapheme: f.graphemes[id], form: target.current().units[id].afterDoubling }));
+      const beforeCoverage = target.snapshot();
+      expect(coverage.apply(target, choices, "base-after-word-rules")).toMatchObject({
+        status: "infeasible", reason: "normalization-context-unavailable", visitedAssignments: 0,
+      });
+      expect(target.snapshot()).toEqual(beforeCoverage);
+    }
   });
 });

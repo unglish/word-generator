@@ -1,0 +1,12 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/spelling-construction-evidence.test.ts (25 tests) 42ms
+ ✓ src/core/spelling-construction-writer.test.ts (4 tests) 1030ms
+   ✓ shared spelling public writer integration > replays generated ledgers and preserves traced/untraced output and RNG  1018ms
+
+ Test Files  2 passed (2)
+      Tests  29 passed (29)
+   Start at  20:29:33
+   Duration  1.51s (transform 297ms, setup 0ms, collect 631ms, tests 1.07s, environment 0ms, prepare 92ms)
+
