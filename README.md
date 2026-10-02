@@ -63,6 +63,7 @@ console.log(word.written.clean);
 console.log(word.trace?.summary);
 console.log(word.trace?.stages[0]);
 console.log(word.trace?.graphemeSelections[0]);
+console.log(word.trace?.finalWord?.spelling.surface); // final operational lineage
 ```
 
 Detailed trace workflow: [`docs/word-trace-diagnostics.md`](./docs/word-trace-diagnostics.md)
