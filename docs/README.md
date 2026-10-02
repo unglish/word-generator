@@ -16,3 +16,6 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
 - [`attested-codas.md`](./attested-codas.md): attested coda cluster references.
 - [`pronunciation-config-migration.md`](./pronunciation-config-migration.md):
   current stress/aspiration pronunciation schema reference.
+
+- [`rust-repair-pilot.md`](./rust-repair-pilot.md): experimental Rust/Wasm repair
+  usage, repair contract, proof limits, and build/check commands.

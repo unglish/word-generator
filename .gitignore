@@ -183,3 +183,11 @@ cmudict*
 /lexicon_comparison.py
 /phoneme-dist-check.ts
 /sct-*.json
+
+# Experimental Rust repair pilot build outputs
+/rust/target/
+/demo/public/repair-wasm/
+/evaluation/repair-pilot/results.local.json
+/evaluation/repair-pilot/optimization-results.local.json
+
+/evaluation/repair-pilot/rust-optimization-results.local.json
