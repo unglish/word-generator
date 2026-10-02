@@ -14,8 +14,12 @@ export interface ClusterRepairBackend {
 }
 
 export interface RustRepairInitialization {
-  /** Defaults to the bindings distributed beside the compiled library. */
-  bindingsUrl?: URL;
+  /**
+   * Absolute URL of the generated `unglish_wasm.js` bindings (shipped in
+   * `dist/wasm`). Required: a default relative to this module would resolve
+   * against the consumer's bundle, where bundlers do not emit these assets.
+   */
+  bindingsUrl: URL;
   /** Node callers supply bytes; browsers default to the adjacent .wasm URL. */
   wasm?: Uint8Array;
 }
@@ -42,8 +46,11 @@ function u32(value: number): number {
 /** Initialize asynchronously, then repair synchronously until dispose(). */
 export async function initializeRustRepair(
   config: LanguageConfig,
-  options: RustRepairInitialization = {},
+  options: RustRepairInitialization,
 ): Promise<ClusterRepairBackend> {
+  if (!(options?.bindingsUrl instanceof URL)) {
+    throw new TypeError("initializeRustRepair requires options.bindingsUrl pointing at the deployed unglish_wasm.js");
+  }
   const ids = new Map<string, number>();
   for (const phoneme of config.phonemes) {
     if (typeof phoneme.sound !== "string" || phoneme.sound.includes("|")) {
@@ -59,7 +66,7 @@ export async function initializeRustRepair(
     const left = ids.get(a), right = ids.get(b);
     if (left !== undefined && right !== undefined) pairs.push(left, right);
   }
-  const url = options.bindingsUrl ?? new URL(/* @vite-ignore */ "../wasm/unglish_wasm.js", import.meta.url);
+  const url = options.bindingsUrl;
   const bindings: RepairBindings = await import(/* @vite-ignore */ url.href);
   let initialized = bindingInitializations.get(bindings);
   if (!initialized) {
