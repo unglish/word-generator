@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { checkPilot } from "./shared.mjs";
+import { checkPilot, checkAdapterContracts } from "./shared.mjs";
 const temp = mkdtempSync(join(tmpdir(), "unglish-repair-package-"));
 try {
   const [packed] = JSON.parse(execFileSync("npm", ["pack", "--ignore-scripts", "--json", "--pack-destination", temp], { encoding: "utf8" }));
@@ -25,5 +25,7 @@ try {
   backend.dispose();
   const corpus = JSON.parse(readFileSync("evaluation/repair-pilot/fixtures.json", "utf8"));
   const url = pathToFileURL(join(root, "dist/wasm/unglish_wasm.js"));
-  console.log(JSON.stringify({ package: packed.filename, bytes: packed.size, ...await checkPilot(api, corpus, url, readFileSync(new URL("unglish_wasm_bg.wasm", url))) }, null, 2));
+  const wasm = readFileSync(new URL("unglish_wasm_bg.wasm", url));
+  const adapterAssertions = await checkAdapterContracts(api, url, wasm);
+  console.log(JSON.stringify({ package: packed.filename, bytes: packed.size, ...await checkPilot(api, corpus, url, wasm), adapterAssertions }, null, 2));
 } finally { rmSync(temp, { recursive: true, force: true }); }
