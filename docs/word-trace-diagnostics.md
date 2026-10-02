@@ -151,3 +151,7 @@ The Q02 [measurement report](../evaluation/experiments/final-word-ownership/RESU
 records replay scope, unavailable evidence, unchanged-output comparisons, failed
 gates and costs. Tracing captures additional snapshots and can materially affect
 time and storage; inspect the measured results for the tested configuration.
+
+## Audit retention
+
+The trace CLI consumes one word at a time using a shared seeded RNG. It retains aggregate metrics rather than the full batch of trace records, so its default 50,000-word audit can complete without accumulating all final-word provenance packets. The report schema, seeded stream and metric thresholds are unchanged. See `evaluation/experiments/stream-trace-audit/RESULTS.md` for the measured comparison.

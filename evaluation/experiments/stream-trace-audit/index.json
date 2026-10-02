@@ -1,0 +1,15 @@
+{
+  "artifacts": {
+    "candidate.json": "e4e72114bedb77477337cb89526de55cb1055e40c232a9dc9ab8e32ffd6a6bec",
+    "verify-parity.mjs": "01a98cf16013b21bc8cdd0f3da9da504254bd3120cec419cb15c54851adcf475",
+    "RESULTS.md": "7eecbe496c8263330c7ba454b74afe2c1b630b7db400ecf98743199415150585",
+    "original-control.json": "e4e72114bedb77477337cb89526de55cb1055e40c232a9dc9ab8e32ffd6a6bec",
+    "control.json": "e4e72114bedb77477337cb89526de55cb1055e40c232a9dc9ab8e32ffd6a6bec"
+  },
+  "reportEquality": true,
+  "pairedWords": 10000,
+  "streams": 20,
+  "nextRngProbes": 20,
+  "candidateExit": 0,
+  "controlExit": 0
+}
