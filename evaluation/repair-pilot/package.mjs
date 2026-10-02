@@ -18,14 +18,17 @@ try {
   for (const [file, hash] of Object.entries(manifest.hashes)) {
     if (createHash("sha256").update(readFileSync(join(root, "dist/wasm", file))).digest("hex") !== hash) throw new Error(`Packed asset hash mismatch: ${file}`);
   }
-  // Default initialization URL must resolve within the unpacked consumer package.
-  const backend = await api.initializeRustRepair(api.englishConfig, { wasm: readFileSync(join(root, "dist/wasm/unglish_wasm_bg.wasm")) });
-  const generator = api.createGenerator(api.englishConfig, { experimentalRepair: backend });
-  if (generator.generateWord({ seed: 342 }).written.clean !== api.generateWord({ seed: 342 }).written.clean) throw new Error("Packed default initialization mismatch");
-  backend.dispose();
-  const corpus = JSON.parse(readFileSync("evaluation/repair-pilot/fixtures.json", "utf8"));
   const url = pathToFileURL(join(root, "dist/wasm/unglish_wasm.js"));
   const wasm = readFileSync(new URL("unglish_wasm_bg.wasm", url));
+  // There is no implicit bindings URL: bundlers would resolve it against the consumer's chunk.
+  let missingUrlRejected = false;
+  try { await api.initializeRustRepair(api.englishConfig, { wasm }); } catch (error) { missingUrlRejected = error instanceof TypeError; }
+  if (!missingUrlRejected) throw new Error("Packed initialization must require bindingsUrl");
+  const backend = await api.initializeRustRepair(api.englishConfig, { bindingsUrl: url, wasm });
+  const generator = api.createGenerator(api.englishConfig, { experimentalRepair: backend });
+  if (generator.generateWord({ seed: 342 }).written.clean !== api.generateWord({ seed: 342 }).written.clean) throw new Error("Packed initialization mismatch");
+  backend.dispose();
+  const corpus = JSON.parse(readFileSync("evaluation/repair-pilot/fixtures.json", "utf8"));
   const adapterAssertions = await checkAdapterContracts(api, url, wasm);
   console.log(JSON.stringify({ package: packed.filename, bytes: packed.size, ...await checkPilot(api, corpus, url, wasm), adapterAssertions }, null, 2));
 } finally { rmSync(temp, { recursive: true, force: true }); }

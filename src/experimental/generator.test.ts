@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, englishConfig, generateWords } from "../index.js";
+import { createGenerator, englishConfig, generateWords, initializeRustRepair } from "../index.js";
 import type { ClusterRepairBackend } from "./rust-repair.js";
 describe("experimental repair integration boundary", () => {
   it("preserves the default sequential batch API and validates counts", () => {
@@ -13,5 +13,11 @@ describe("experimental repair integration boundary", () => {
     const other = { ...englishConfig };
     const backend: ClusterRepairBackend = { name: "rust-wasm-v1", config: other, repair() { throw new Error("must not execute"); }, dispose() {} };
     expect(() => createGenerator(englishConfig, { experimentalRepair: backend })).toThrow("different configuration");
+  });
+  it("requires an explicit bindings URL instead of guessing one relative to the bundle", async () => {
+    for (const options of [undefined, {}, { bindingsUrl: "https://example.test/unglish_wasm.js" }]) {
+      // @ts-expect-error JavaScript callers can omit or mistype the required URL.
+      await expect(initializeRustRepair(englishConfig, options)).rejects.toThrow("requires options.bindingsUrl");
+    }
   });
 });

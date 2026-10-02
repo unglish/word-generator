@@ -9,11 +9,16 @@ history, benchmarks, and the rationale are recorded on
 
 Initialize asynchronously, then use the backend synchronously with the same
 configuration object. Treat the configuration as immutable for its lifetime.
+`bindingsUrl` is required: deploy the generated `dist/wasm` directory alongside
+your app and pass the absolute URL of its `unglish_wasm.js`. There is no default,
+because a URL relative to the library resolves against a bundler's output chunk,
+where `vite build`, `vite dev` and webpack do not emit these assets.
 
 ```ts
 import { initializeRustRepair, createGenerator, englishConfig } from '@unglish/word-generator';
 
-const backend = await initializeRustRepair(englishConfig);
+const bindingsUrl = new URL('/repair-wasm/unglish_wasm.js', location.href);
+const backend = await initializeRustRepair(englishConfig, { bindingsUrl });
 try {
   const generator = createGenerator(englishConfig, { experimentalRepair: backend });
   const words = generator.generateWords(10, { seed: 342, trace: true });
