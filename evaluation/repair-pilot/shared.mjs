@@ -51,6 +51,32 @@ export async function checkAdapterContracts(api, bindingsUrl, wasm) {
   equal(retried.map(repairBoundary), [1, 0], "failed module initialization can be retried concurrently");
   for (const backend of retried) backend.dispose();
 
+  for (const [label, constraint] of [
+    ["missing", { banned: [["ŋ", "t"]] }],
+    ["undefined", { banned: [["ŋ", "t"]], repair: undefined }],
+    ["null", { banned: [["ŋ", "t"]], repair: null }],
+  ]) {
+    let rejected = false;
+    try {
+      await api.initializeRustRepair({ ...api.englishConfig, clusterConstraint: constraint },
+        { bindingsUrl: new URL("invalid-policy-must-not-load.js", url), wasm });
+    }
+    catch (error) { rejected = error instanceof TypeError && /Invalid repair policy/.test(error.message); }
+    check(rejected, `${label} repair policy rejected before loading bindings`);
+  }
+  const unconstrained = { ...api.englishConfig, clusterConstraint: undefined };
+  const unconstrainedBackend = await api.initializeRustRepair(unconstrained, { bindingsUrl: url, wasm });
+  const unconstrainedWord = [{ onset: [], nucleus: [], coda: [{ sound: "ŋ" }] },
+    { onset: [{ sound: "t" }], nucleus: [], coda: [] }];
+  const unconstrainedBefore = JSON.stringify(unconstrainedWord);
+  const unconstrainedTrace = new api.TraceCollector();
+  unconstrainedBackend.repair(unconstrainedWord, unconstrainedTrace);
+  check(JSON.stringify(unconstrainedWord) === unconstrainedBefore && unconstrainedTrace.repairs.length === 0,
+    "absent cluster constraint preserves boundaries and trace");
+  equal(api.createGenerator(unconstrained, { experimentalRepair: unconstrainedBackend }).generateWords(12, { seed: 342 }),
+    api.createGenerator(unconstrained).generateWords(12, { seed: 342 }), "absent cluster constraint preserves generation");
+  unconstrainedBackend.dispose();
+
   const phonemes = sounds => sounds.map(sound => ({ sound }));
   for (const policy of ["drop-coda", "drop-onset"]) {
     const banned = policy === "drop-coda" ? [["p", "t"], ["t", "k"]] : [["k", "p"], ["t", "t"]];

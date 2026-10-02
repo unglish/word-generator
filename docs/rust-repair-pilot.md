@@ -55,6 +55,8 @@ pair list, and `drop-coda` or `drop-onset`. Native IDs are arbitrary u32 values.
 The adapter assigns IDs to distinct sound strings in first-occurrence inventory
 order; duplicate sounds share an ID. It rejects inventory sounds containing `|`,
 unknown word sounds, invalid policies, and malformed packets before mutation.
+A present cluster constraint requires an explicit repair policy, including for
+JavaScript callers.
 Nonempty segment arrays must be distinct, including across onset, nucleus, and
 coda positions; shared arrays raise `TypeError` before mutation or trace events.
 Shared phoneme objects and empty segment arrays remain supported.
