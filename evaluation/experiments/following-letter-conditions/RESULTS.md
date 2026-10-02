@@ -41,12 +41,14 @@ separate outcomes. The feature remains experimental and disabled by default.
   four skips, plus a phonotactic hook timeout under load. The isolated phonotactic
   suite passes all 14 tests with the original timeout.
 
-## Required before publication
+## Performance and evidence packaging
 
 The fixed six-pair performance series is complete: median paired throughput
 change is -50.75%. Both arms fail all six absolute speed gates and pass all six
-variance gates. Final evidence packaging and commit remain outstanding.
+variance gates. Final evidence packaging is committed in `evidence/index.json`;
+all 64 indexed artifact hashes were reverified on October 2, 2026.
 No overall linguistic-quality gain or promotion recommendation is established.
 
 The intended base is Q14a commit f284fb8c3321606f2a1cc3d61a5aad029c7f018f.
-This is a local draft, not a published PR.
+This is an experimental candidate for draft PR review. The index is the
+authority for the retained measurement files and their hashes.
