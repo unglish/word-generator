@@ -4,7 +4,7 @@ import * as graphemes from "./elements/graphemes/index.js";
 import * as random from "./utils/random.js";
 
 export { createGenerator, generateWord, generateWords } from "./core/generate.js";
-export type { WordGenerator } from "./core/generate.js";
+export type { WordGenerator, GeneratorOptions } from "./core/generate.js";
 export type { GenerationMode } from "./types.js";
 export {
   resolveStressRules,
@@ -99,3 +99,6 @@ export default {
    */
   graphemes,
 };
+
+export { initializeRustRepair } from "./experimental/rust-repair.js";
+export type { ClusterRepairBackend, RustRepairInitialization } from "./experimental/rust-repair.js";

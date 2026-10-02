@@ -25,7 +25,13 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.85.1'
+          targets: wasm32-unknown-unknown
+      - run: cargo +1.85.1 install wasm-bindgen-cli --version 0.2.100 --locked
       - run: npm ci
+      - run: npm run build:repair-wasm
       - run: npm run build
         env:
           VITE_REVIEW_SUPABASE_URL: ${{ vars.VITE_REVIEW_SUPABASE_URL }}

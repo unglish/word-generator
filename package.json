@@ -22,7 +22,7 @@
     "demo:sync-cmu-baselines": "node scripts/sync-demo-cmu-baselines.mjs",
     "demo:check-cmu-baselines": "node scripts/sync-demo-cmu-baselines.mjs --check",
     "demo:check-worker-sync": "node scripts/check-demo-worker-sync.mjs",
-    "prepublishOnly": "npm run build && npm run demo:check-worker-sync",
+    "prepublishOnly": "npm run build:repair-wasm && npm run build && npm run demo:check-worker-sync && npm run check:repair-wasm && npm run test:repair-package",
     "lint": "eslint src/**/*.ts evaluation/review/**/*.ts demo/review/**/*.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "dev": "concurrently \"vite\" \"tsc --watch\"",
@@ -38,7 +38,18 @@
     "test:review": "vitest run --config vitest.review.config.ts",
     "test:review:db": "node --import tsx evaluation/review/run-db-tests.ts",
     "test:review:e2e": "playwright test --config playwright.review.config.ts",
-    "test:review:smoke": "node --import tsx evaluation/review/smoke.ts"
+    "test:review:smoke": "node --import tsx evaluation/review/smoke.ts",
+    "build:repair-wasm": "node scripts/build-repair-wasm.mjs",
+    "check:repair-wasm": "node scripts/check-repair-wasm.mjs",
+    "test:repair-native": "cd rust && cargo test --locked --workspace",
+    "test:repair-kani": "cd rust && cargo kani -p unglish-core --output-format terse",
+    "test:repair-wasm": "node evaluation/repair-pilot/node.mjs",
+    "test:repair-browser": "playwright test --config playwright.repair.config.ts",
+    "bench:repair": "node evaluation/repair-pilot/measure.mjs",
+    "bench:repair-optimization": "node evaluation/repair-pilot/measure-optimization.mjs",
+    "fixtures:repair": "node --import tsx evaluation/repair-pilot/fixtures.ts",
+    "test:repair-package": "node evaluation/repair-pilot/package.mjs",
+    "test:repair-types": "tsc --skipLibCheck --lib ESNext,DOM --moduleResolution node --noEmit evaluation/repair-pilot/bindings.types.ts"
   },
   "repository": {
     "type": "git",
@@ -71,5 +82,12 @@
     "typescript-eslint": "^8.56.0",
     "vite": "^7.0.0",
     "vitest": "^3.2.4"
-  }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "docs/rust-repair-pilot.md",
+    "docs/repair-pilot-results.md"
+  ]
 }

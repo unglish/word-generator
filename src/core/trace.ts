@@ -233,6 +233,8 @@ export interface OrthographyTrace {
 }
 
 export interface WordTrace {
+  /** Present only for the explicitly selected experimental repair backend. */
+  repairBackend?: "rust-wasm-v1";
   /** Target syllable count chosen for this word. */
   syllableCount: number;
   /** How many letter-length rejection attempts before acceptance (0 = first try). */
@@ -257,6 +259,7 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 }
 
 export class TraceCollector {
+  repairBackend?: "rust-wasm-v1";
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
   orthographyTrace?: OrthographyTrace;
@@ -294,6 +297,7 @@ export class TraceCollector {
 
   toTrace(morphApplied: boolean): WordTrace {
     return {
+      ...(this.repairBackend ? { repairBackend: this.repairBackend } : {}),
       syllableCount: this.syllableCount,
       attempts: this.attempts,
       morphology: this.morphologyTrace,

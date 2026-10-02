@@ -1,0 +1,26 @@
+[workspace]
+members = ["unglish-core", "unglish-wasm"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85.1"
+license = "MIT"
+publish = false
+
+[workspace.dependencies]
+unglish-core = { path = "unglish-core" }
+wasm-bindgen = { version = "=0.2.100", default-features = false, features = ["std"] }
+serde_json = "=1.0.140"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

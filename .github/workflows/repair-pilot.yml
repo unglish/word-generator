@@ -1,0 +1,75 @@
+name: Rust repair pilot
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  native-wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.85.1'
+          targets: wasm32-unknown-unknown
+          components: rustfmt, clippy
+      - name: Check Rust formatting and lints
+        working-directory: rust
+        run: |
+          cargo fmt --all -- --check
+          cargo clippy --workspace --all-targets --locked -- -D warnings
+          cargo clippy --workspace --lib --target wasm32-unknown-unknown --locked -- -D warnings
+      - run: cargo +1.85.1 install wasm-bindgen-cli --version 0.2.100 --locked
+      - run: npm ci
+      - run: npm run fixtures:repair
+      - run: git diff --exit-code -- evaluation/repair-pilot/fixtures.json
+      - run: npm run test:repair-native
+      - run: npm run build:repair-wasm
+      - run: npm run build
+      - run: npm run test:repair-types
+      - run: npm run check:repair-wasm
+      - run: npm run demo:check-worker-sync
+      - run: npm run test:repair-wasm
+      - run: npm run test:repair-package
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:repair-browser
+      - run: npm run bench:repair
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: repair-pilot-evidence
+          path: |
+            evaluation/repair-pilot/results.local.json
+            test-results/
+  kani:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.85.1'
+      - run: cargo +1.85.1 install kani-verifier --version 0.65.0 --locked
+      - run: cargo kani setup
+      - name: Verify isolated shipping core and record cost
+        working-directory: rust
+        run: |
+          set -o pipefail
+          if ! /usr/bin/time -v cargo kani -p unglish-core --output-format terse 2>&1 | tee ../kani-results.log; then
+            cargo kani -p unglish-core --output-format terse -Z concrete-playback --concrete-playback=print 2>&1 | tee ../kani-counterexamples.log
+            exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kani-results
+          path: |
+            kani-results.log
+            kani-counterexamples.log
