@@ -157,6 +157,7 @@ Additional checks:
 - `npm run analyze:phonemes`
 - `npm run analyze:trigrams`
 - `npm run audit:trace`
+- `npm run calibrate:phonemes` (recalibrates phoneme gate limits from multi-seed spread; see [`TUNING.md`](./TUNING.md#phoneme-guardrail-ratchet))
 
 See [corpus diagnostics](./docs/corpus-diagnostics.md) for reproducible analyzer
 streams, complete distribution metrics, and trace-backed outlier reports.
