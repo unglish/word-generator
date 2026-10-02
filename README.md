@@ -40,7 +40,7 @@ Pass `{ morphology: false }` for bare root forms.
 
 An opt-in Rust/Wasm backend evaluates verified cross-syllable repair while the
 TypeScript backend remains the default. See the [contract, build and usage guide](./docs/rust-repair-pilot.md)
-and [pilot evidence and decision](./docs/repair-pilot-results.md).
+and [evaluation evidence on PR #343](https://github.com/unglish/word-generator/pull/343).
 
 ## RNG Control
 

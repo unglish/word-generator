@@ -18,6 +18,4 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
   current stress/aspiration pronunciation schema reference.
 
 - [`rust-repair-pilot.md`](./rust-repair-pilot.md): experimental Rust/Wasm repair
-  contract, proof scope, initialization, build and dependency policy.
-- [`repair-pilot-results.md`](./repair-pilot-results.md): parity and cost evidence,
-  with the migration decision.
+  usage, repair contract, proof limits, and build/check commands.

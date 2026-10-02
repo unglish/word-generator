@@ -87,7 +87,6 @@
     "dist",
     "README.md",
     "LICENSE",
-    "docs/rust-repair-pilot.md",
-    "docs/repair-pilot-results.md"
+    "docs/rust-repair-pilot.md"
   ]
 }
