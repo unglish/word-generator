@@ -1,0 +1,21 @@
+{"shard": "lexicon-bare-1304238451.jsonl.gz", "rows": 10000, "cumulative": 10000}
+{"shard": "lexicon-bare-1498885173.jsonl.gz", "rows": 10000, "cumulative": 20000}
+{"shard": "lexicon-bare-1696751198.jsonl.gz", "rows": 10000, "cumulative": 30000}
+{"shard": "lexicon-bare-2380207674.jsonl.gz", "rows": 10000, "cumulative": 40000}
+{"shard": "lexicon-bare-772709128.jsonl.gz", "rows": 10000, "cumulative": 50000}
+{"shard": "lexicon-default-101601885.jsonl.gz", "rows": 10000, "cumulative": 60000}
+{"shard": "lexicon-default-2089697863.jsonl.gz", "rows": 10000, "cumulative": 70000}
+{"shard": "lexicon-default-3921817393.jsonl.gz", "rows": 10000, "cumulative": 80000}
+{"shard": "lexicon-default-3948943232.jsonl.gz", "rows": 10000, "cumulative": 90000}
+{"shard": "lexicon-default-69212153.jsonl.gz", "rows": 10000, "cumulative": 100000}
+{"shard": "monosyllables-bare-2001884366.jsonl.gz", "rows": 10000, "cumulative": 110000}
+{"shard": "monosyllables-bare-2353354178.jsonl.gz", "rows": 10000, "cumulative": 120000}
+{"shard": "monosyllables-bare-3297327738.jsonl.gz", "rows": 10000, "cumulative": 130000}
+{"shard": "monosyllables-bare-462530651.jsonl.gz", "rows": 10000, "cumulative": 140000}
+{"shard": "monosyllables-bare-62358955.jsonl.gz", "rows": 10000, "cumulative": 150000}
+{"shard": "text-default-1665836705.jsonl.gz", "rows": 10000, "cumulative": 160000}
+{"shard": "text-default-1999736106.jsonl.gz", "rows": 10000, "cumulative": 170000}
+{"shard": "text-default-2666001996.jsonl.gz", "rows": 10000, "cumulative": 180000}
+{"shard": "text-default-3562318933.jsonl.gz", "rows": 10000, "cumulative": 190000}
+{"shard": "text-default-4167471042.jsonl.gz", "rows": 10000, "cumulative": 200000}
+{"before_final_nucleus:True": 3621, "final_open_checked": 3621, "root_open_checked:True": 3621, "sound:\u00e6": 694, "sound:\u025b": 1058, "sound:\u026a": 1367, "sound:\u028a": 16, "sound:\u028c": 486, "source:segment:root": 3621, "stage:applyStress": 3256, "stage:assembleMorphology": 3621, "stage:generatePronunciation": 3621, "stage:generateSyllables": 3256, "stage:generateWrittenForm": 3621, "stage:repairClusterShape": 3256, "stage:repairClusters": 3256, "stage:repairFinalCoda": 3256, "stage:repairFinalStressedNuclei": 3621, "stage:repairHAfterBackVowel": 3256, "stage:repairStressedNuclei": 3621, "stress:unstressed": 1445, "stress:\u02c8": 1682, "stress:\u02cc": 494, "template:bare": 1242, "template:no-plan": 1587, "template:prefixed": 792, "words": 200000}
