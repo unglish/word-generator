@@ -1,3 +1,4 @@
+import { assertFinalVowelAllowed, isFinalVowelAllowed } from "./final-vowel.js";
 import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import type { RNG } from "../utils/random.js";
 import {
@@ -22,6 +23,7 @@ export function coinFlip(rand: RNG, probability: number): boolean {
 export interface PronunciationRuntimeConfig {
   aspiration: ResolvedAspirationRules;
   vowelReduction?: VowelReductionConfig;
+  finalVowels?: ReadonlySet<string>;
 }
 
 interface AspirationTargetMatch {
@@ -388,6 +390,7 @@ const reduceUnstressedVowels = (
   config: VowelReductionConfig,
   rand: RNG,
   observe?: PronunciationObserver,
+  checked: ReadonlySet<string> = new Set(),
 ): void => {
   const { word } = context;
   const syllables = word.syllables;
@@ -441,6 +444,11 @@ const reduceUnstressedVowels = (
       // Find target phoneme from inventory
       const target = phonemes.find((p) => p.sound === rule.target);
       if (!target) continue;
+      if (!isFinalVowelAllowed(syllables, si, i, target.sound, checked)) {
+        context.trace?.recordRepair("blockFinalCheckedReduction", vowel.sound, vowel.sound,
+          `ineligible target /${target.sound}/ at final nucleus ${si}:${i}; no probability draw`);
+        continue;
+      }
 
       if (coinFlip(rand, prob)) {
         const after = { ...target, reduced: true };
@@ -483,8 +491,9 @@ export const generatePronunciation = (
   } : observe;
   applyAspiration(active, pronunciation.aspiration, record);
   if (pronunciation.vowelReduction?.enabled) {
-    reduceUnstressedVowels(active, pronunciation.vowelReduction, active.rand, record);
+    reduceUnstressedVowels(active, pronunciation.vowelReduction, active.rand, record, pronunciation.finalVowels);
   }
+  assertFinalVowelAllowed(active.word.syllables, pronunciation.finalVowels ?? new Set());
   buildPronunciationGuide(active);
   if (context.trace && before) (context.trace.pronunciationPasses ??= []).push({ version: 1, before,
     after: structuredClone(context.word.syllables), rolls, changes, pronunciation: context.word.pronunciation });
