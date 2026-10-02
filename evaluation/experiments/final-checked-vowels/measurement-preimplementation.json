@@ -149,10 +149,5 @@
     "development seeds are exploratory; do not claim held-out validation",
     "no general dialect-independent classification from Phoneme.tense"
   ],
-  "wordsPerPolicyPerArm": 200000,
-  "protocolPath": "evaluation/quality/protocol.json",
-  "activePolicyRegistration": {
-    "path": "evaluation/experiments/final-word-ownership/measurement.json",
-    "sha256": "7ee6193f4e5e5c9f79bcef9485bdc50e7df4202f0527e97f9c00459e3adeebf1"
-  }
+  "wordsPerPolicyPerArm": 200000
 }
