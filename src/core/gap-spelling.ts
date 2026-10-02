@@ -1,5 +1,5 @@
 import { GapSpelling, GapSpellingTargetLayer, LanguageConfig } from "../config/language.js";
-import { Syllable, WordGenerationContext } from "../types.js";
+import { Syllable, Word, WordGenerationContext } from "../types.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { rewriteOrthographyTraceSurface } from "./write.js";
 
@@ -57,12 +57,19 @@ function selectGapSpelling(
   return getWeightedOption(variants.map((variant) => [variant, variant.weight]), context.rand);
 }
 
+export interface GapSpellingPassTrace {
+  version: 1;
+  before: Word;
+  after: Word;
+  rolls: number[];
+}
+
 export function createGapSpellingApplicator(
   config: Pick<LanguageConfig, "gapSpellings">,
 ): (context: WordGenerationContext) => void {
   const gapSpellingMap = compileGapSpellings(config.gapSpellings ?? []);
 
-  return (context: WordGenerationContext) => {
+  const apply = (context: WordGenerationContext) => {
     if (context.word.syllables.length === 0 || gapSpellingMap.size === 0) return;
 
     const selected = selectGapSpelling(
@@ -72,6 +79,7 @@ export function createGapSpellingApplicator(
     if (!selected) return;
 
     const before = context.word.written.clean;
+    context.finalSpelling?.replace("root", 0, before, selected.replacement, `gapSpelling:${selected.name}`);
     if (context.baseSpelling) {
       context.baseSpelling.replaceWithGapSpelling(before, selected.replacement, selected.name);
       if (context.trace) context.trace.baseSpelling = context.baseSpelling.snapshot();
@@ -87,6 +95,15 @@ export function createGapSpellingApplicator(
     if (context.trace?.orthographyTrace) {
       rewriteOrthographyTraceSurface(context.trace, selected.replacement);
     }
+  };
+  return context => {
+    if (!context.trace) { apply(context); return; }
+    const before = structuredClone(context.word);
+    const rolls: number[] = [];
+    apply({ ...context, rand: () => {
+      const value = context.rand(); rolls.push(value); return value;
+    } });
+    context.trace.gapSpellingPass = { version: 1, before, after: structuredClone(context.word), rolls };
   };
 }
 

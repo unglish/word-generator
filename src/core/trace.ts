@@ -1,8 +1,13 @@
+import type { FinalNucleusTrace } from "./final-nucleus.js";
+import type { GapSpellingPassTrace } from "./gap-spelling.js";
+import type { PronunciationPassTrace } from "./pronounce.js";
+import type { FinalSpellingTrace } from "./final-spelling.js";
+import type { FinalPhoneTrace } from "./final-phones.js";
 import type { SequenceSelectionEvidence } from "./spelling-sequence-evidence.js";
 import type { SpellingBudgetOutcome } from "./spelling-coverage-types.js";
 import type { BaseSpellingTrace } from "./base-spelling.js";
 import type { Syllable } from "../types.js";
-import type { MorphologyRealizationTrace } from "./morphology/realization.js";
+import type { MorphologyRealizationTrace, MorphologyPassTrace, MorphologyPreparationTrace, MorphologyWritingTrace } from "./morphology/realization.js";
 
 export interface SyllableSnapshot {
   onset: string[];
@@ -270,7 +275,22 @@ export interface OrthographyTrace {
   phonemeUnits?: OrthographyUnitTrace[];
 }
 
+export interface FinalWordProvenance {
+  version: 1;
+  spelling: FinalSpellingTrace;
+  phones: FinalPhoneTrace;
+}
+
 export interface WordTrace {
+  writerInput?: Syllable[];
+  writerOutput?: { clean: string; hyphenated: string };
+  gapSpellingPass?: GapSpellingPassTrace;
+  morphologyPass?: MorphologyPassTrace;
+  finalNucleus?: FinalNucleusTrace;
+  morphologyPreparation?: MorphologyPreparationTrace;
+  morphologyWriting?: MorphologyWritingTrace;
+  pronunciationPasses?: PronunciationPassTrace[];
+  finalWord?: FinalWordProvenance;
   /** Exact base edit provenance, separate from legacy inferred ownership. */
   baseSpelling?: BaseSpellingTrace;
   spellingBudgets?: SpellingBudgetOutcome[];
@@ -306,6 +326,15 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 }
 
 export class TraceCollector {
+  writerInput?: Syllable[];
+  writerOutput?: { clean: string; hyphenated: string };
+  gapSpellingPass?: GapSpellingPassTrace;
+  morphologyPass?: MorphologyPassTrace;
+  finalNucleus?: FinalNucleusTrace;
+  morphologyPreparation?: MorphologyPreparationTrace;
+  morphologyWriting?: MorphologyWritingTrace;
+  pronunciationPasses?: PronunciationPassTrace[];
+  finalWord?: FinalWordProvenance;
   baseSpelling?: BaseSpellingTrace;
   spellingBudgets?: SpellingBudgetOutcome[];
   stages: StageSnapshot[] = [];
@@ -358,6 +387,15 @@ export class TraceCollector {
       orthography: this.orthographyTrace,
       repairs: this.repairs,
       baseSpelling: this.baseSpelling,
+      ...(this.finalWord ? { finalWord: this.finalWord } : {}),
+      ...(this.pronunciationPasses ? { pronunciationPasses: this.pronunciationPasses } : {}),
+      ...(this.finalNucleus ? { finalNucleus: this.finalNucleus } : {}),
+      ...(this.morphologyPreparation ? { morphologyPreparation: this.morphologyPreparation } : {}),
+      ...(this.morphologyWriting ? { morphologyWriting: this.morphologyWriting } : {}),
+      ...(this.morphologyPass ? { morphologyPass: this.morphologyPass } : {}),
+      ...(this.writerInput ? { writerInput: this.writerInput } : {}),
+      ...(this.writerOutput ? { writerOutput: this.writerOutput } : {}),
+      ...(this.gapSpellingPass ? { gapSpellingPass: this.gapSpellingPass } : {}),
       ...(this.spellingBudgets ? { spellingBudgets: this.spellingBudgets } : {}),
       summary: {
         totalDecisions: this.graphemeSelections.length,

@@ -1,0 +1,30 @@
+{
+  "scope": "Latest phone-snapshot optimization: retained parity, typecheck and large trace test evidence. Not formal corpus or paired throughput evidence.",
+  "files": {
+    "q02-lexical-parity-phone-optimized.mjs.gz": {
+      "sha256": "b89594e1fd84d538490ae3149997131aa79d50ab49c0b0ca53496f77eed90141",
+      "bytes": 1591,
+      "uncompressedSha256": "1db130bb000c79117ff7965c8e9a2d4b7707e6fc113a7939d1298151ac2e2f51"
+    },
+    "q02-lexical-parity-phone-optimized.log.gz": {
+      "sha256": "de4449b9eb2ace7709fe60aafe2a83829016860dbca50ffc4bbf06596fcc743b",
+      "bytes": 192,
+      "uncompressedSha256": "ac3545896264f655fbc255d2277c9ec05b30d08606ec31c605d30ff3726f037f"
+    },
+    "lexical-parity-phone-optimized-result.json.gz": {
+      "sha256": "53b5cb8e4477189f9bb66ce73dc3c343981b7c817912669e2e9d52136c3b0b98",
+      "bytes": 9381,
+      "uncompressedSha256": "d2cb43c876a7b7a3650efcbc6c2207a55596b6b8ded520afb38c1d646b36f572"
+    },
+    "q02-phone-optimized-typecheck.log.gz": {
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 20,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q02-phone-optimized-large-tests.log.gz": {
+      "sha256": "a9c9a8bd96b95cf3d2ae92c79489554539a869e10f2af77c8ef431a1e243bdd8",
+      "bytes": 616,
+      "uncompressedSha256": "7252f995278642c3f7e8c721ffdac4ab6b43be42932f3b37f85908ae503bb27c"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "revision": "0d841bda8504bce34ec97220ec8c5737d87cbbf6",
+  "files": {
+    "src/core/morphology/attach.ts": "e96c9ccc6e5695b2b717c40720c79f45c5c20c8e012af2bbecf4d1563a1d9394",
+    "src/core/morphology/realization.ts": "22958bc36109a604312484c3eb89b9d8a256acf7f1b789795dbe35378325987a",
+    "src/core/generate.ts": "a8d61b24975f6b55c59ddfe7e4d0eb8e3005c79ac68092be1148ff2909f18e17",
+    "src/core/gap-spelling.ts": "3221f8a209f73e5193fd8eb6d5d54098312f400f264b0ffbe56065ab5b10c677",
+    "src/core/trace.ts": "f65e212e032e9369c0377fca07a9e18bc89f863f2fa11fb23449e542d67a1ab6"
+  }
+}

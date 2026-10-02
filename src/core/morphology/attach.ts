@@ -1,9 +1,12 @@
+import { FinalPhones, type FinalPhoneTrace, type PhoneIdentitySyllable } from "../final-phones.js";
+import { FinalSpelling } from "../final-spelling.js";
+import { replaceWithSpellingEdits } from "../spelling-regex-edits.js";
 import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
 import { Affix, AllomorphVariant, AffixSyllable, BoundaryTransform, MorphophonemicRule, PhonologicalCondition, defaultFallbackBridgeOnsets } from "../../config/language.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
 import type { MorphologyPlan } from "./plan.js";
 import { snapshotAffixForm, snapshotWrittenParts } from "./realization.js";
-import type { MorphologyResult, MorphologyWrittenPart, ResolvedAffix } from "./realization.js";
+import type { MorphologyResult, MorphologyWrittenPart, ResolvedAffix, MorphologyRootEdit, MorphologyRegexState } from "./realization.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -131,13 +134,22 @@ function getBoundarySegmentRef(
 // Config-driven boundary transforms
 // ---------------------------------------------------------------------------
 
-export function applyBoundaryTransforms(rootWritten: string, transforms: BoundaryTransform[]): string {
+export function applyBoundaryTransforms(
+  rootWritten: string, transforms: BoundaryTransform[],
+  record?: (event: Omit<MorphologyRootEdit, "phase" | "boundary">) => void,
+): string {
   const fired = new Set<string>();
   let result = rootWritten;
-  for (const t of transforms) {
+  for (const [ruleIndex, t] of transforms.entries()) {
     if (t.blockedBy && t.blockedBy.some(name => fired.has(name))) continue;
     if (t.match.test(result)) {
-      result = result.replace(t.match, t.replace);
+      if (record) {
+        const applied = replaceWithSpellingEdits(result, t.match, t.replace);
+        record({ rule: t.name, ruleIndex, before: result, after: applied.surface, edits: applied.edits });
+        result = applied.surface;
+      } else {
+        result = result.replace(t.match, t.replace);
+      }
       fired.add(t.name);
     }
   }
@@ -278,6 +290,7 @@ interface FiredMorphophonemicRule {
 interface PreparedMorphophonemicRule {
   rule: MorphophonemicRule;
   event: FiredMorphophonemicRule;
+  ruleIndex: number;
 }
 
 /** Resolved attachment retained between lexical assembly and spelling. */
@@ -289,6 +302,9 @@ export interface PreparedMorphology {
   suffixWritten: string;
   rootSyllableStart: number;
   rules: PreparedMorphophonemicRule[];
+  selectionPhones?: FinalPhoneTrace;
+  phoneAssembly?: FinalPhoneTrace;
+  configurationIndices: { prefix?: number; suffix?: number };
 }
 
 function prepareMorphophonemicRules(
@@ -296,6 +312,7 @@ function prepareMorphophonemicRules(
   affix: Affix,
   isPrefix: boolean,
   resolvePhoneme: (sound: string) => Phoneme,
+  phoneState?: { ledger: FinalPhones; root: PhoneIdentitySyllable[] },
 ): PreparedMorphophonemicRule[] {
   if (!affix.morphophonemicRules || affix.morphophonemicRules.length === 0) {
     return [];
@@ -324,12 +341,14 @@ function prepareMorphophonemicRules(
 
     if (rule.replaceSound && rule.replaceSound !== boundaryRef.phoneme.sound) {
       const next = resolvePhoneme(rule.replaceSound);
+      if (phoneState) phoneState.ledger.replace(phoneState.root[boundaryRef.syllableIndex][boundaryRef.segment][boundaryRef.index],
+        boundaryRef.phoneme.sound, next.sound, `morphophonemic:${isPrefix ? "prefix-root" : "root-suffix"}:${affix.morphophonemicRules.indexOf(rule)}:${rule.name}`);
       rootSyllables[boundaryRef.syllableIndex][boundaryRef.segment][boundaryRef.index] = next;
       event.soundBefore = boundaryRef.phoneme.sound;
       event.soundAfter = next.sound;
     }
 
-    prepared.push({ rule, event });
+    prepared.push({ rule, event, ruleIndex: affix.morphophonemicRules.indexOf(rule) });
   }
 
   return prepared;
@@ -339,7 +358,7 @@ function prepareMorphophonemicRules(
 // Main API
 // ---------------------------------------------------------------------------
 
-export function prepareMorphology(
+function prepareMorphologyOperations(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   plan: MorphologyPlan,
@@ -348,6 +367,10 @@ export function prepareMorphology(
 
   const config = rt.config;
   const syllables = context.word.syllables;
+  const phoneLedger = context.finalPhoneState?.ledger ?? (context.trace ? new FinalPhones() : undefined);
+  const rootIds = context.finalPhoneState?.ids ?? phoneLedger?.register("root", syllables);
+  const phoneState = phoneLedger && rootIds ? { ledger: phoneLedger, root: rootIds } : undefined;
+  const selectionPhones = phoneLedger?.snapshot(rootIds!, syllables);
 
   let prefix: ResolvedAffix | undefined;
   let suffix: ResolvedAffix | undefined;
@@ -383,6 +406,7 @@ export function prepareMorphology(
       plan.prefix,
       true,
       resolvePhoneme,
+      phoneState,
     ));
   }
   if (plan.suffix && suffixVariant) {
@@ -391,6 +415,7 @@ export function prepareMorphology(
       plan.suffix,
       false,
       resolvePhoneme,
+      phoneState,
     ));
   }
 
@@ -408,29 +433,42 @@ export function prepareMorphology(
       : [])
     : [];
 
+  const prefixIds = phoneLedger?.register("prefix", prefixSyllables);
+  const suffixIds = phoneLedger?.register("suffix", suffixSyllables);
+
   // Handle zero-syllable affixes: append phonemes directly to root coda/onset
   if (suffixVariant && suffixVariant.syllableCount === 0 && suffixSyllables.length === 0 && suffixVariant.phonemes.length > 0) {
     const lastSyl = syllables[syllables.length - 1];
-    for (const s of suffixVariant.phonemes) {
+    for (const [index, s] of suffixVariant.phonemes.entries()) {
       lastSyl.coda.push(resolvePhoneme(s));
+      if (phoneLedger) rootIds![rootIds!.length - 1].coda.push(phoneLedger.add(s, { kind: "flat-affix", part: "suffix", index }));
     }
   } else if (suffixVariant && suffixVariant.syllableCount === 0 && suffixSyllables.length > 0) {
     const lastSyl = syllables[syllables.length - 1];
     for (const ss of suffixSyllables) {
       lastSyl.coda.push(...ss.onset, ...ss.nucleus, ...ss.coda);
     }
+    if (suffixIds) {
+      for (const ids of suffixIds) rootIds![rootIds!.length - 1].coda.push(...ids.onset, ...ids.nucleus, ...ids.coda);
+      suffixIds.length = 0;
+    }
     suffixSyllables.length = 0;
   }
 
   if (prefixVariant && prefixVariant.syllableCount === 0 && prefixSyllables.length === 0 && prefixVariant.phonemes.length > 0) {
     const firstSyl = syllables[0];
-    for (const s of prefixVariant.phonemes) {
+    for (const [index, s] of prefixVariant.phonemes.entries()) {
       firstSyl.onset.unshift(resolvePhoneme(s));
+      if (phoneLedger) rootIds![0].onset.unshift(phoneLedger.add(s, { kind: "flat-affix", part: "prefix", index }));
     }
   } else if (prefixVariant && prefixVariant.syllableCount === 0 && prefixSyllables.length > 0) {
     const firstSyl = syllables[0];
     for (const ps of prefixSyllables) {
       firstSyl.onset.unshift(...ps.onset, ...ps.nucleus, ...ps.coda);
+    }
+    if (prefixIds) {
+      for (const ids of prefixIds) rootIds![0].onset.unshift(...ids.onset, ...ids.nucleus, ...ids.coda);
+      prefixIds.length = 0;
     }
     prefixSyllables.length = 0;
   }
@@ -443,6 +481,7 @@ export function prepareMorphology(
       const bridge = pickBoundaryBridge(rt, context);
       if (bridge) {
         firstRoot.onset.unshift(bridge);
+        if (phoneLedger) rootIds![0].onset.unshift(phoneLedger.add(bridge.sound, { kind: "bridge", boundary: "prefix-root" }));
         context.trace?.recordStructural({
           event: "morphPrefixHiatusFallback",
           inserted: bridge.sound,
@@ -460,6 +499,7 @@ export function prepareMorphology(
       const bridge = pickBoundaryBridge(rt, context);
       if (bridge) {
         firstSuffix.onset.unshift(bridge);
+        if (phoneLedger) suffixIds![0].onset.unshift(phoneLedger.add(bridge.sound, { kind: "bridge", boundary: "root-suffix" }));
         context.trace?.recordStructural({
           event: "morphSuffixHiatusFallback",
           inserted: bridge.sound,
@@ -487,18 +527,30 @@ export function prepareMorphology(
     adjustStress(context.word.syllables, plan.suffix.stressEffect, suffixIndices, false);
   }
 
-  return { plan, prefix, suffix, prefixWritten, suffixWritten, rootSyllableStart: prefixSyllables.length, rules };
+  const assemblyIds = phoneLedger ? [...prefixIds!, ...rootIds!, ...suffixIds!] : undefined;
+  const phoneAssembly = phoneLedger?.snapshot(assemblyIds!, context.word.syllables);
+  if (phoneLedger && assemblyIds) context.finalPhoneState = { ledger: phoneLedger, ids: assemblyIds };
+  return { plan, prefix, suffix, prefixWritten, suffixWritten, rootSyllableStart: prefixSyllables.length, rules,
+    selectionPhones, phoneAssembly, configurationIndices: {
+      ...(plan.prefix ? { prefix: config.morphology?.prefixes.indexOf(plan.prefix) ?? -1 } : {}),
+      ...(plan.suffix ? { suffix: config.morphology?.suffixes.indexOf(plan.suffix) ?? -1 } : {}),
+    } };
 }
 
 /** Apply the written halves of the already-resolved morphological rules once. */
-export function writeMorphology(context: WordGenerationContext, prepared: PreparedMorphology): MorphologyResult {
-  const { plan, prefix, suffix, prefixWritten, suffixWritten } = prepared;
+function writeMorphologyOperations(context: WordGenerationContext, prepared: PreparedMorphology): MorphologyResult {
+  const { plan, prefix, suffix, prefixWritten, suffixWritten, selectionPhones, phoneAssembly, configurationIndices } = prepared;
   let rootWritten = context.word.written.clean;
+  const finalSpelling = context.trace ? context.finalSpelling ?? new FinalSpelling(rootWritten, context.baseSpelling?.current().cells) : undefined;
+  const rootEdits: MorphologyRootEdit[] | undefined = context.trace ? [] : undefined;
   const fired: FiredMorphophonemicRule[] = [];
-  for (const { rule, event } of prepared.rules) {
+  for (const { rule, event, ruleIndex } of prepared.rules) {
     const writtenEvent = { ...event };
     if (rule.writtenMatch && rule.writtenReplace !== undefined) {
-      const rewritten = rootWritten.replace(rule.writtenMatch, rule.writtenReplace);
+      const applied = rootEdits ? replaceWithSpellingEdits(rootWritten, rule.writtenMatch, rule.writtenReplace) : undefined;
+      const rewritten = applied ? applied.surface : rootWritten.replace(rule.writtenMatch, rule.writtenReplace);
+      if (applied) rootEdits!.push({ phase: "morphophonemic", boundary: event.boundary,
+        rule: rule.name, ruleIndex, before: rootWritten, after: rewritten, edits: applied.edits });
       if (rewritten !== rootWritten) {
         writtenEvent.writtenBefore = rootWritten;
         writtenEvent.writtenAfter = rewritten;
@@ -507,8 +559,17 @@ export function writeMorphology(context: WordGenerationContext, prepared: Prepar
     }
     if (writtenEvent.soundBefore !== undefined || writtenEvent.writtenBefore !== undefined) fired.push(writtenEvent);
   }
-  for (const affix of [plan.prefix, plan.suffix]) {
-    if (affix?.boundaryTransforms) rootWritten = applyBoundaryTransforms(rootWritten, affix.boundaryTransforms);
+  for (const part of ["prefix", "suffix"] as const) {
+    const affix = plan[part];
+    if (affix?.boundaryTransforms) rootWritten = applyBoundaryTransforms(rootWritten, affix.boundaryTransforms,
+      rootEdits ? event => rootEdits.push({ phase: "boundary", boundary: part === "prefix" ? "prefix-root" : "root-suffix", ...event }) : undefined);
+  }
+  if (finalSpelling) {
+    for (const event of rootEdits ?? []) finalSpelling.applyRootEdits(event.before, event.after, event.edits,
+      `${event.phase}:${event.boundary}:${event.ruleIndex}:${event.rule}`);
+    if (prefix) finalSpelling.attach("prefix", prefixWritten);
+    if (suffix) finalSpelling.attach("suffix", suffixWritten);
+    context.finalSpelling = finalSpelling;
   }
   if (context.trace?.morphologyTrace && fired.length > 0) context.trace.morphologyTrace.alternations = fired;
   context.word.written.clean = prefixWritten + rootWritten + suffixWritten;
@@ -521,15 +582,84 @@ export function writeMorphology(context: WordGenerationContext, prepared: Prepar
   if (context.trace?.morphologyTrace) {
     context.trace.morphologyTrace.realization = {
       prefix, suffix,
+      ...(selectionPhones ? { selectionPhones } : {}),
+      configurationIndices,
+      ...(phoneAssembly ? { phoneAssembly } : {}),
+      ...(rootEdits ? { rootEdits } : {}),
+      ...(finalSpelling ? { finalSpelling: finalSpelling.snapshot() } : {}),
       assembledParts: snapshotWrittenParts(parts),
       emittedParts: snapshotWrittenParts(parts),
     };
   }
-  return { prefix, suffix, parts };
+  return { prefix, suffix, parts, ...(finalSpelling ? { spelling: finalSpelling } : {}) };
+}
+
+
+export function morphologyRegexState(plan: MorphologyPlan): MorphologyRegexState[] {
+  const result: MorphologyRegexState[] = [];
+  for (const part of ["prefix", "suffix"] as const) {
+    const affix = plan[part];
+    affix?.morphophonemicRules?.forEach((rule, index) => {
+      if (rule.writtenMatch) result.push({ part, phase: "morphophonemic", index, lastIndex: rule.writtenMatch.lastIndex });
+    });
+    affix?.boundaryTransforms?.forEach((rule, index) => {
+      result.push({ part, phase: "boundary", index, lastIndex: rule.match.lastIndex });
+    });
+  }
+  return result;
 }
 
 /** Attach morphology to an already-spelled lexical root; surface realization is separate. */
 export function applyMorphology(rt: GeneratorRuntime, context: WordGenerationContext, plan: MorphologyPlan): MorphologyResult {
   const prepared = prepareMorphology(rt, context, plan);
   return prepared ? writeMorphology(context, prepared) : { parts: [{ role: "root", text: context.word.written.clean }] };
+}
+
+export function prepareMorphology(rt: GeneratorRuntime, context: WordGenerationContext, plan: MorphologyPlan): PreparedMorphology | undefined {
+  const trace = context.trace;
+  if (!trace) return prepareMorphologyOperations(rt, context, plan);
+  const before = structuredClone(context.word);
+  const phonesBefore = context.finalPhoneState?.ledger.snapshot(context.finalPhoneState.ids, context.word.syllables);
+  const regexBefore = morphologyRegexState(plan);
+  const structuralStart = trace.structural.length;
+  const rolls: number[] = [];
+  const active = { ...context, rand: () => {
+    const value = context.rand(); rolls.push(value); return value;
+  } };
+  const prepared = prepareMorphologyOperations(rt, active, plan);
+  context.finalPhoneState = active.finalPhoneState;
+  const phonesAfter = context.finalPhoneState?.ledger.snapshot(context.finalPhoneState.ids, context.word.syllables);
+  trace.morphologyPreparation = { version: 1, template: plan.template,
+    configurationIndices: {
+      ...(plan.prefix ? { prefix: rt.config.morphology?.prefixes.indexOf(plan.prefix) ?? -1 } : {}),
+      ...(plan.suffix ? { suffix: rt.config.morphology?.suffixes.indexOf(plan.suffix) ?? -1 } : {}),
+    }, before, after: structuredClone(context.word), rolls, regexBefore, regexAfter: morphologyRegexState(plan),
+    structural: structuredClone(trace.structural.slice(structuralStart)), phonesBefore, phonesAfter,
+    ...(prepared ? { prepared: { prefix: prepared.prefix ? structuredClone(prepared.prefix) : undefined, suffix: prepared.suffix ? structuredClone(prepared.suffix) : undefined,
+      rootSyllableStart: prepared.rootSyllableStart,
+      rules: prepared.rules.map(({ ruleIndex, event }) => ({ ruleIndex, boundary: event.boundary, rule: event.rule })) } } : {}),
+  };
+  return prepared;
+}
+
+export function writeMorphology(context: WordGenerationContext, prepared: PreparedMorphology): MorphologyResult {
+  const trace = context.trace;
+  if (!trace) return writeMorphologyOperations(context, prepared);
+  const before = structuredClone(context.word);
+  const spellingBefore = context.finalSpelling?.snapshot();
+  const regexBefore = morphologyRegexState(prepared.plan);
+  const structuralStart = trace.structural.length;
+  const rolls: number[] = [];
+  const active = { ...context, rand: () => {
+    const value = context.rand(); rolls.push(value); return value;
+  } };
+  const result = writeMorphologyOperations(active, prepared);
+  context.finalSpelling = active.finalSpelling;
+  trace.morphologyWriting = { version: 1, before, after: structuredClone(context.word), rolls,
+    regexBefore, regexAfter: morphologyRegexState(prepared.plan),
+    structural: structuredClone(trace.structural.slice(structuralStart)),
+    spellingBefore, spellingAfter: context.finalSpelling?.snapshot(),
+    ...(trace.morphologyTrace?.realization ? { realization: structuredClone(trace.morphologyTrace.realization) } : {}),
+  };
+  return result;
 }
