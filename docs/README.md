@@ -18,3 +18,8 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
   explicit morphology parts, and planned/resolved trace provenance.
 - [`pronunciation-config-migration.md`](./pronunciation-config-migration.md):
   current stress/aspiration pronunciation schema reference.
+
+- [`rust-repair-pilot.md`](./rust-repair-pilot.md): experimental Rust/Wasm repair
+  contract, proof scope, initialization, build and dependency policy.
+- [`repair-pilot-results.md`](./repair-pilot-results.md): parity and cost evidence,
+  with the migration decision.

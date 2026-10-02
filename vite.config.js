@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from 'vite';
+import { build, defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig(({ mode }) => {
@@ -15,6 +15,24 @@ export default defineConfig(({ mode }) => {
   if (privileged) throw new Error('An owner secret must never be included in the reviewer build. Use the publishable key.');
   return {
   base: './',
+  plugins: [{
+    name: 'standalone-classic-worker',
+    async generateBundle() {
+      // Existing importScripts consumers require one standalone classic script.
+      const built = await build({
+        configFile: false,
+        logLevel: 'warn',
+        build: {
+          write: false,
+          lib: { entry: resolve(__dirname, 'src/worker-entry.js'), name: 'unglishWorker', formats: ['iife'] },
+        },
+      });
+      const outputs = Array.isArray(built) ? built : [built];
+      const chunk = outputs.flatMap(result => result.output).find(output => output.type === 'chunk');
+      if (!chunk) throw new Error('Classic worker build produced no script');
+      this.emitFile({ type: 'asset', fileName: 'unglish-worker.js', source: chunk.code });
+    },
+  }],
   root: 'demo',
   envDir: resolve(__dirname),
   server: {
@@ -26,15 +44,10 @@ export default defineConfig(({ mode }) => {
       input: {
         main: resolve(__dirname, 'demo/index.html'),
         review: resolve(__dirname, 'demo/review.html'),
-        worker: resolve(__dirname, 'src/worker-entry.js')
+        repairPilot: resolve(__dirname, 'demo/repair-pilot.html'),
       },
       output: {
-        entryFileNames: (chunkInfo) => {
-          if (chunkInfo.name === 'worker') {
-            return 'unglish-worker.js';
-          }
-          return '[name].js';
-        }
+        entryFileNames: '[name].js',
       }
     }
   }
