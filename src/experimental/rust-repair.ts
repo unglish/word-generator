@@ -61,7 +61,7 @@ export async function initializeRustRepair(
     }
     if (!ids.has(phoneme.sound)) ids.set(phoneme.sound, u32(ids.size));
   }
-  const policy = config.clusterConstraint?.repair ?? "drop-coda";
+  const policy = config.clusterConstraint ? config.clusterConstraint.repair : "drop-coda";
   if (policy !== "drop-coda" && policy !== "drop-onset") throw new TypeError("Invalid repair policy");
   const pairs: number[] = [];
   for (const [a, b] of expandClusterConstraintBans(config)) {

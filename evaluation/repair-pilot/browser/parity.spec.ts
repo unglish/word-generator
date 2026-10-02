@@ -8,7 +8,7 @@ test("production assets load under a Pages subpath in main thread and module wor
   const report = JSON.parse(await result.textContent() ?? "{}");
   expect(report.main.fixtures).toBe(488);
   expect(report.main.words).toBe(3456);
-  expect(report.main.adapterAssertions).toBe(32);
+  expect(report.main.adapterAssertions).toBe(37);
   expect(report.worker).toEqual(report.main);
   expect(report.repeated).toEqual(report.main);
   expect(errors).toEqual([]);
