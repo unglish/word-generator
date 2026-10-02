@@ -1,11 +1,14 @@
-import { measureSpellingBudgets } from "./spelling-budget.js";
+import { repairFinalNuclei } from "./final-nucleus.js";
+import { FinalSpelling } from "./final-spelling.js";
+import { FinalPhones } from "./final-phones.js";
+import { finalizeMorphologySpelling } from "./morphology/finalize.js";
 import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, SyllableShapePlan, getPhonemePositionWeight, GenerationMode } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints, expandClusterConstraintBans, ResolvedStressRules, resolveStressRules, resolveAspirationRules } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation, PronunciationRuntimeConfig } from "./pronounce.js";
-import { createWrittenFormGenerator, repairConsonantLetters } from "./write.js";
+import { createWrittenFormGenerator } from "./write.js";
 import { createGapSpellingApplicator } from "./gap-spelling.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
@@ -1268,6 +1271,10 @@ function generateOneWord(
 
     const rootPhonemeCount = countPhonemes(context.word.syllables);
     const lexicalRoot = cloneSyllables(context.word.syllables);
+    if (traceCollector) {
+      const ledger = new FinalPhones();
+      context.finalPhoneState = { ledger, ids: ledger.register("root", context.word.syllables) };
+    }
 
     traceCollector?.beforeStage("assembleMorphology", context.word.syllables);
     const preparedMorphology = morphPlan ? prepareMorphology(rt, context, morphPlan.plan) : undefined;
@@ -1277,18 +1284,8 @@ function generateOneWord(
     // Final primary stress may fall on a formerly unstressed root vowel. Repair
     // the lexical choice before spelling, while retaining genuine alternations
     // (such as -ity shortening) as separate base and derived segments.
-    const nucleiBeforeRepair = context.word.syllables.map(syllable => [...syllable.nucleus]);
     traceCollector?.beforeStage("repairFinalStressedNuclei", context.word.syllables);
-    repairStressedNuclei(context, rt.positionPhonemes.nucleus, rt.resolvedStress);
-    for (let rootIndex = 0; rootIndex < lexicalRoot.length; rootIndex++) {
-      const finalIndex = rootSyllableStart + rootIndex;
-      const finalNucleus = context.word.syllables[finalIndex].nucleus;
-      for (let index = 0; index < finalNucleus.length; index++) {
-        if (finalNucleus[index] !== nucleiBeforeRepair[finalIndex][index]) {
-          lexicalRoot[rootIndex].nucleus[index] = { ...finalNucleus[index] };
-        }
-      }
-    }
+    repairFinalNuclei(context, lexicalRoot, rootSyllableStart, rt.positionPhonemes.nucleus, rt.resolvedStress);
     traceCollector?.afterStage("repairFinalStressedNuclei", context.word.syllables);
     context.word.lexical = {
       root: lexicalRoot,
@@ -1302,9 +1299,14 @@ function generateOneWord(
       orthographySource: { kind: "lexical-root", wordSyllableStart: rootSyllableStart },
     };
     traceCollector?.beforeStage("generateWrittenForm", lexicalRoot);
+    if (traceCollector) traceCollector.writerInput = structuredClone(lexicalRoot);
     rt.generateWrittenForm(rootContext);
     context.word.written = rootContext.word.written;
     context.baseSpelling = rootContext.baseSpelling;
+    if (traceCollector) {
+      traceCollector.writerOutput = { ...context.word.written };
+      context.finalSpelling = new FinalSpelling(context.word.written.clean, context.baseSpelling?.current().cells);
+    }
     traceCollector?.afterStage("generateWrittenForm", lexicalRoot);
 
     // Realize spelling from the same resolved attachment used for the phones.
@@ -1312,43 +1314,29 @@ function generateOneWord(
     if (morphPlan) {
       const morphology = preparedMorphology
         ? writeMorphology(context, preparedMorphology)
-        : { parts: [{ role: "root" as const, text: context.word.written.clean }] };
-      // Post-morphology consonant letter repair: suffix attachment can create
-      // consonant runs that exceed the limit (e.g. "marks" + "tion" = "markstion").
-      const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
-      const preservePhones = rt.config.writtenFormConstraints?.policy === "preserve-phones";
-      const finalBudget = preservePhones ? measureSpellingBudgets(context.word.written.clean, rt.config.writtenFormConstraints) : undefined;
-      if (finalBudget) traceCollector?.recordSpellingBudget({
-        version: 1, scope: "final-morphology", before: finalBudget, after: finalBudget,
-        visitedAssignments: 0, legalOptions: 0, unresolvedCells: context.word.written.clean.length,
-        changedUnits: [], ...(finalBudget.exceeded.length
-          ? { status: "infeasible", reason: "unresolved-ownership", refusals: { "unresolved-ownership": 1 } }
-          : { status: "satisfied" }),
-      });
-      if (maxCons) {
-        const activeParts = morphology.parts.filter(part => part.text);
-        const cleanParts = activeParts.map(part => part.text);
-        // repairConsonantLetters expects part strings at even indices, matching write.ts.
-        const hyphParts: string[] = [];
-        for (let i = 0; i < cleanParts.length; i++) {
-          hyphParts.push(cleanParts[i]);
-          if (i < cleanParts.length - 1) hyphParts.push("");
-        }
-        if (!finalBudget?.exceeded.length) repairConsonantLetters(cleanParts, hyphParts, maxCons);
-        for (let i = 0; i < activeParts.length; i++) activeParts[i].text = cleanParts[i];
-        context.word.written.clean = cleanParts.join("");
-        context.word.written.hyphenated = hyphParts.join("");
-      }
-      const realization = traceCollector?.morphologyTrace?.realization;
-      if (realization) realization.emittedParts = morphology.parts.map(part => ({ ...part }));
+        : { parts: [{ role: "root" as const, text: context.word.written.clean }], spelling: context.finalSpelling };
+      finalizeMorphologySpelling(rt.config, context, morphology);
     }
     traceCollector?.beforeStage("generatePronunciation", context.word.syllables);
-    generatePronunciation(context, rt.resolvedPronunciation);
+    generatePronunciation(context, rt.resolvedPronunciation, context.finalPhoneState ? change => {
+      const { ledger, ids } = context.finalPhoneState!;
+      ledger.realize(ids[change.syllableIndex][change.segment][change.index], change.before, change.after, change.rule);
+    } : undefined);
+    if (traceCollector?.morphologyTrace?.realization && context.finalPhoneState) {
+      const { ledger, ids } = context.finalPhoneState;
+      traceCollector.morphologyTrace.realization.finalPhones = ledger.snapshot(ids, context.word.syllables);
+    }
     traceCollector?.afterStage("generatePronunciation", context.word.syllables);
     // Gap spellings are exact bare-word overrides. Affixed forms should be
     // handled by morphology or more general rule systems instead.
     if (!morphPlan || morphPlan.plan.template === "bare") {
       rt.applyGapSpellings(context);
+    }
+    if (traceCollector && context.finalSpelling && context.finalPhoneState) {
+      const spelling = context.finalSpelling.snapshot();
+      if (spelling.surface !== context.word.written.clean) throw new Error("Final spelling surface mismatch");
+      traceCollector.finalWord = { version: 1, spelling,
+        phones: context.finalPhoneState.ledger.snapshot(context.finalPhoneState.ids, context.word.syllables) };
     }
     const finalPhonemeCount = countPhonemes(context.word.syllables);
     const morphologyDelta = resolveMorphologyPhonemeDelta(rootPhonemeCount, finalPhonemeCount, plannedMorphologyDelta);

@@ -1,0 +1,22 @@
+{
+  "focused": {
+    "exitCode": 0,
+    "files": 8,
+    "tests": 133,
+    "log": "focused-review.log.gz"
+  },
+  "typecheck": {
+    "exitCode": 0,
+    "command": "tsc --noEmit --incremental false",
+    "log": "typecheck.log.gz"
+  },
+  "parentParity": {
+    "exitCode": 0,
+    "comparisons": 4000,
+    "publicCalls": 8000,
+    "parentDraws": 321456,
+    "nextValueProbes": 4000,
+    "result": "parent-parity-v3-result.json.gz"
+  },
+  "scope": "Implementation checkpoint only; not a formal quality or performance study."
+}

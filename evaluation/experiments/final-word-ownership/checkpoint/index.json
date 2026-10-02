@@ -1,0 +1,39 @@
+{
+  "artifacts": [
+    {
+      "file": "checks.json",
+      "bytes": 520,
+      "sha256": "e6eec0751cb171463622b0c0936a8c88892bf3155021cc4cbb8c3f5249ceb01a"
+    },
+    {
+      "file": "focused-review.log.gz",
+      "bytes": 695,
+      "sha256": "e1f4cc4a5fc847ab0339159f77b54406cd7314fe4fcba23285e5e4c01c005ac1"
+    },
+    {
+      "file": "parent-parity-v3-result.json.gz",
+      "bytes": 8972,
+      "sha256": "edf8819b5989091c2439c777a6d12e9ccf7492ac59c1b3a60c531bc80e116a0f"
+    },
+    {
+      "file": "parent-parity-v3.log.gz",
+      "bytes": 192,
+      "sha256": "8358346401ccf135cbb29c6dbc5885831bcfb6f1e658f0b891444c9bb13fd8a7"
+    },
+    {
+      "file": "parent-parity-v3.mjs",
+      "bytes": 3797,
+      "sha256": "098206b117132832a575af58b322e3e67e6442435179c10cbdc95b2d3f479ced"
+    },
+    {
+      "file": "parent-source.json",
+      "bytes": 16935,
+      "sha256": "78711b06ea0cc6f6b4084cc3a0237e5a5e4b257f9bf3083f0153f8c6f55f470e"
+    },
+    {
+      "file": "typecheck.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  ]
+}

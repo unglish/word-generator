@@ -1,3 +1,6 @@
+import { verifyBareWordOperations } from "./bare-word-evidence.js";
+import { replayFinalSpelling } from "./final-spelling.js";
+import { replayFinalPhones } from "./final-phones.js";
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig } from "../index.js";
 import { BaseSpelling, expandReplacement } from "./base-spelling.js";
@@ -64,10 +67,10 @@ describe("exact base-spelling provenance", () => {
     const options = { seed: 19, morphology: false, trace: true };
     const source = generateWord(options);
     const phonemes = source.syllables.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda].map(phone => phone.sound));
-    const generator = createGenerator({
-      ...legacyConfig,
-      gapSpellings: [{ name: "probe", phonemes, replacement: "other", targetLayer: "unknown" }],
-    });
+    const config = { ...legacyConfig,
+      gapSpellings: [{ name: "probe", phonemes, replacement: "other", targetLayer: "unknown" as const }],
+    };
+    const generator = createGenerator(config);
     const word = generator.generateWord(options);
     const base = word.trace!.baseSpelling!;
     expect(word.written.clean).toBe("other");
@@ -77,6 +80,14 @@ describe("exact base-spelling provenance", () => {
     expect(edit).toMatchObject({ phase: "gap", rule: "gapSpelling:probe", before: source.written.clean, after: "other" });
     expect(edit.output.every(cell => cell.origin.kind === "rewrite" && cell.origin.ownership === "unresolved")).toBe(true);
     expect(edit.input.map(cell => cell.text).join("")).toBe(source.written.clean);
+    const final = word.trace!.finalWord!;
+    expect(replayFinalSpelling(final.spelling).map(cell => cell.text).join("")).toBe("other");
+    expect(final.spelling.events.at(-1)).toMatchObject({ rule: "gapSpelling:probe", before: source.written.clean, after: "other" });
+    expect(final.spelling.cells.every(cell => cell.source.kind === "edit")).toBe(true);
+    expect(replayFinalPhones(final.phones)).toEqual(phonemes);
+    verifyBareWordOperations(word, config);
+    const forged = structuredClone(word); forged.trace!.gapSpellingPass!.rolls.push(0.5);
+    expect(() => verifyBareWordOperations(forged, config)).toThrow("Unused gap draws");
   });
 
   it.each([100, 53])("keeps public-API output and RNG parity with custom regex probability %s", probability => {

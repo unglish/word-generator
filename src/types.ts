@@ -1,3 +1,5 @@
+import type { FinalSpelling } from "./core/final-spelling.js";
+import type { FinalPhones, PhoneIdentitySyllable } from "./core/final-phones.js";
 import type { BaseSpelling } from "./core/base-spelling.js";
 import { RNG } from "./utils/random";
 import type { WordTrace, OrthographySource } from "./core/trace";
@@ -316,6 +318,8 @@ export interface WordGenerationOptions {
  * @internal
  */
 export interface WordGenerationContext {
+  finalSpelling?: FinalSpelling;
+  finalPhoneState?: { ledger: FinalPhones; ids: PhoneIdentitySyllable[] };
   /** Live base-word spelling state; internal and independent of trace collection. */
   baseSpelling?: BaseSpelling;
   /** Per-word RNG instance — all randomness in the pipeline draws from this. */

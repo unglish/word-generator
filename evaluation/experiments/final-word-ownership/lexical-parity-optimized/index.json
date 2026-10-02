@@ -1,0 +1,28 @@
+{
+  "artifacts": [
+    {
+      "file": "parent-source.json",
+      "sha256": "14c96816a95572cbe6af8e40a70b3d74c64085340e3cf2183f59479666e371b4"
+    },
+    {
+      "file": "result.json.gz",
+      "sha256": "7410b79a4a6d5c75c4559a4535f1b51e1a39ea821b5e83378a64946b5c4c68a7"
+    },
+    {
+      "file": "run.log.gz",
+      "sha256": "de4449b9eb2ace7709fe60aafe2a83829016860dbca50ffc4bbf06596fcc743b"
+    },
+    {
+      "file": "run.mjs",
+      "sha256": "72c21d9fa44c4848c8cb92750d85e4fe3a238992f0e5f45b3976fd91851f2863"
+    },
+    {
+      "file": "trace-gate.log.gz",
+      "sha256": "14daf0f56d93d0fd1b659877c7033f68622fdb790f209adb6b19932125b9a8b6"
+    },
+    {
+      "file": "typecheck.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  ]
+}

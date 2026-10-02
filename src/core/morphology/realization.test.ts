@@ -1,3 +1,11 @@
+import { serializeTraceEvidence } from "../trace-evidence.js";
+import { verifyBareWordOperations } from "../bare-word-evidence.js";
+import { verifyMorphologyOperations } from "./operation-evidence.js";
+import { verifyConfiguredAllomorphs } from "./allomorph-evidence.js";
+import { verifyFinalWordSourceLinks } from "../final-word-sources.js";
+import { replayFinalPhones } from "../final-phones.js";
+import { replayFinalSpelling } from "../final-spelling.js";
+import { replaySpellingEdits } from "../spelling-regex-edits.js";
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, generateWord } from "../../index.js";
 import { englishConfig } from "../../config/english.js";
@@ -150,12 +158,17 @@ describe("resolved morphology survives final cleanup", () => {
   });
 
   it("records cleanup loss separately from the selected affix", () => {
-    const word = fixedRoot({ prefix: customAffix("prefix", "un", "trans"), maxConsonants: 2 }).word();
+    const fixture = fixedRoot({ prefix: customAffix("prefix", "un", "trans"), maxConsonants: 2 });
+    const word = fixture.word();
+    verifyMorphologyOperations(word, fixture.config);
     const realization = word.trace!.morphology!.realization!;
     expect(realization.prefix!.resolved.written).toBe("trans");
     expect(realization.assembledParts[0].text).toBe("trans");
     expect(realization.emittedParts[0].text).toBe("tran");
     expect(word.written.clean).toBe("tranbat");
+    expect(word.trace!.finalWord!.spelling.events.some(event => event.part === "prefix" && event.rule === "repairConsonantLetters")).toBe(true);
+    const forged = structuredClone(word); forged.trace!.finalWord!.spelling.events = [];
+    expect(() => verifyMorphologyOperations(forged, fixture.config)).toThrow("final cell lineage mismatch");
   });
 
   it("keeps snapshots independent of config, surface phones, and later calls", () => {
@@ -242,4 +255,158 @@ describe("resolved morphology survives final cleanup", () => {
     expect(eligibleIm).toBeGreaterThan(0);
     expect(selectedIm).toBe(eligibleIm);
   });
+});
+
+
+describe("recorded morphology root replacements", () => {
+  it("replays actual root edits and preserves public trace-on/off output and RNG", () => {
+    let recorded = 0;
+    for (let seed = 1; seed <= 600; seed++) {
+      const tracedRng = createSeededRng(seed);
+      const plainRng = createSeededRng(seed);
+      const traced = generateWord({ rand: tracedRng, trace: true });
+      const plain = generateWord({ rand: plainRng });
+      const { trace, ...word } = traced;
+      expect(word).toEqual(plain);
+      expect(tracedRng()).toBe(plainRng());
+      verifyFinalWordSourceLinks(traced);
+      verifyMorphologyOperations(traced, englishConfig);
+      verifyBareWordOperations(traced, englishConfig);
+      expect(trace?.finalWord).toBeDefined();
+      expect(replayFinalSpelling(trace!.finalWord!.spelling).map(cell => cell.text).join("")).toBe(traced.written.clean);
+      expect(replayFinalPhones(trace!.finalWord!.phones)).toEqual(traced.syllables.flatMap(syllable =>
+        [...syllable.onset, ...syllable.nucleus, ...syllable.coda].map(phone => phone.sound)));
+      if (trace?.morphology) {
+        expect(trace.morphologyPreparation).toBeDefined();
+        expect(trace.morphologyPreparation!.after.syllables).toEqual(trace.finalNucleus!.before);
+        expect(trace.finalNucleus!.after).toEqual(trace.pronunciationPasses![0].before);
+        if (trace.morphology.realization) expect(trace.morphologyWriting!.before.written).toEqual(trace.writerOutput);
+      }
+      const realization = trace?.morphology?.realization;
+      if (realization?.finalPhones) {
+        const actualSounds = traced.syllables.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda].map(phone => phone.sound));
+        expect(replayFinalPhones(realization.finalPhones)).toEqual(actualSounds);
+        expect(realization.finalPhones.final.map(phone => phone.id)).toEqual(realization.phoneAssembly!.final.map(phone => phone.id));
+      }
+      if (realization?.finalSpelling) {
+        expect(replayFinalSpelling(realization.finalSpelling)).toEqual(realization.finalSpelling.cells);
+        expect(realization.finalSpelling.surface).toBe(traced.written.clean);
+        expect(realization.finalSpelling.cells.map(cell => cell.text).join("")).toBe(traced.written.clean);
+      }
+      if (!realization?.rootEdits?.length) continue;
+      let root = realization.rootEdits[0].before;
+      for (const event of realization.rootEdits) {
+        expect(event.before).toBe(root);
+        root = replaySpellingEdits(root, event.edits);
+        expect(root).toBe(event.after);
+        recorded++;
+      }
+      expect(root).toBe(realization.assembledParts.find(part => part.role === "root")!.text);
+    }
+    expect(recorded).toBeGreaterThan(0);
+  });
+});
+
+it("rejects self-consistent final cell provenance that points at the wrong base cell", () => {
+  const word = generateWord({ seed: 435, trace: true });
+  verifyFinalWordSourceLinks(word);
+  const forged = structuredClone(word);
+  const spelling = forged.trace!.finalWord!.spelling;
+  const cell = spelling.initial.find(item => item.source.kind === "base-cell")!;
+  if (cell.source.kind !== "base-cell") throw new Error("Missing root fixture");
+  cell.source.cellId += 100000;
+  const survivor = spelling.cells.find(item => item.id === cell.id);
+  if (survivor) survivor.source = structuredClone(cell.source);
+  expect(() => replayFinalSpelling(spelling)).not.toThrow();
+  expect(() => verifyFinalWordSourceLinks(forged)).toThrow("base cell");
+});
+
+it("rejects a forged allomorph choice and configured affix identity", () => {
+  const word = generateWord({ seed: 435, trace: true });
+  verifyConfiguredAllomorphs(word, englishConfig);
+  const choice = structuredClone(word);
+  choice.trace!.morphology!.realization!.prefix!.allomorphIndex = null;
+  expect(() => verifyConfiguredAllomorphs(choice, englishConfig)).toThrow("selection priority");
+  const identity = structuredClone(word);
+  identity.trace!.morphology!.realization!.configurationIndices!.prefix = -1;
+  expect(() => verifyConfiguredAllomorphs(identity, englishConfig)).toThrow("configured identity");
+});
+
+it("rejects forged boundary features even when the selected spelling stays unchanged", () => {
+  const word = generateWord({ seed: 435, trace: true });
+  verifyConfiguredAllomorphs(word, englishConfig);
+  const forged = structuredClone(word);
+  const boundary = forged.trace!.morphology!.realization!.prefix!.boundaryPhoneme!;
+  boundary.voiced = !boundary.voiced;
+  expect(() => verifyConfiguredAllomorphs(forged, englishConfig)).toThrow("selection boundary features");
+});
+
+it("rejects reordered morphology operations and unused attachment draws", () => {
+  const fixture = fixedRoot({ suffix: { ...suffixNamed("ness"), boundaryTransforms: [
+    { name: "first", match: /a/g, replace: "e" },
+    { name: "second", match: /e/g, replace: "i" },
+  ] } });
+  const config: LanguageConfig = { ...fixture.config,
+    writtenFormConstraints: { ...fixture.config.writtenFormConstraints, policy: "preserve-phones" } };
+  const word = createGenerator(config).generateWord({ ...fixture.generation, trace: true });
+  verifyMorphologyOperations(word, config);
+  expect(word.trace!.morphologyWriting!.realization!.rootEdits).toHaveLength(2);
+  const reordered = structuredClone(word);
+  reordered.trace!.morphologyWriting!.realization!.rootEdits!.reverse();
+  expect(() => verifyMorphologyOperations(reordered, config)).toThrow("Morphology writing replay mismatch");
+  const extra = structuredClone(word); extra.trace!.morphologyWriting!.rolls.push(0.5);
+  expect(() => verifyMorphologyOperations(extra, config)).toThrow("Morphology writing replay mismatch");
+  const input = structuredClone(word); input.trace!.morphologyWriting!.before.written.clean += "x";
+  expect(() => verifyMorphologyOperations(input, config)).toThrow("Morphology writing input mismatch");
+});
+
+it("replays a licensed prefix hiatus bridge and rejects its omission", () => {
+  const prefix: Affix = { type: "prefix", written: "a", frequency: 1, phonemes: ["ɑ"],
+    syllables: [{ onset: [], nucleus: ["ɑ"], coda: [] }], syllableCount: 1, stressEffect: "none" };
+  const fixture = fixedRoot({ prefix });
+  const zero: [number, number][] = [[0, 1]];
+  const config: LanguageConfig = { ...fixture.config,
+    clusterLimits: { ...fixture.config.clusterLimits!, maxOnset: 0 },
+    syllableStructure: { ...fixture.config.syllableStructure, maxOnsetLength: 0 },
+    generationWeights: { ...fixture.config.generationWeights,
+      onsetLength: { monosyllabic: zero, followingNucleus: zero, default: zero, long: zero } },
+    morphology: { ...fixture.config.morphology!, boundaryPolicy: {
+      enablePrefixRootFallback: true, enableRootSuffixFallback: true, fallbackBridgeOnsets: [["h", 1]],
+    } },
+    writtenFormConstraints: { ...fixture.config.writtenFormConstraints, policy: "preserve-phones" },
+  };
+  const word = createGenerator(config).generateWord({ ...fixture.generation, trace: true });
+  const bridges = word.trace!.finalWord!.phones.initial.filter(phone => phone.source.kind === "bridge");
+  expect(bridges).toHaveLength(1);
+  expect(bridges[0].initialSound).toBe("h");
+  verifyMorphologyOperations(word, config);
+  const forged = structuredClone(word);
+  forged.trace!.morphologyPreparation!.structural = forged.trace!.morphologyPreparation!.structural.filter(event => event.event !== "morphPrefixHiatusFallback");
+  expect(() => verifyMorphologyOperations(forged, config)).toThrow("Morphology preparation replay mismatch");
+});
+
+it("rejects an internally consistent invented root phone change", () => {
+  const bare = generateWord({ seed: 1, morphology: false, trace: true });
+  const forged = structuredClone(bare);
+  const phones = forged.trace!.finalWord!.phones;
+  const first = phones.final[0];
+  phones.changes.push({ id: first.id, before: first.sound, after: first.sound, rule: "invented" });
+  expect(() => replayFinalPhones(phones)).not.toThrow();
+  expect(() => verifyBareWordOperations(forged, englishConfig)).toThrow("phone lineage mismatch");
+  const affixed = generateWord({ seed: 435, trace: true });
+  const selection = affixed.trace!.morphology!.realization!.selectionPhones!;
+  const edge = selection.final[0];
+  selection.changes.push({ id: edge.id, before: edge.sound, after: edge.sound, rule: "invented" });
+  expect(() => replayFinalPhones(selection)).not.toThrow();
+  expect(() => verifyConfiguredAllomorphs(affixed, englishConfig)).toThrow("selection phone lineage");
+});
+
+it("verifies serialized evidence independently of object property order", () => {
+  for (let seed = 1; seed <= 50; seed++) {
+    const word = generateWord({ seed, trace: true });
+    const saved = JSON.parse(serializeTraceEvidence(word)!);
+    verifyFinalWordSourceLinks(saved);
+    verifyMorphologyOperations(saved, englishConfig);
+    verifyBareWordOperations(saved, englishConfig);
+  }
 });

@@ -1,0 +1,20 @@
+{
+  "artifacts": [
+    {
+      "file": "parent-source.json",
+      "sha256": "14c96816a95572cbe6af8e40a70b3d74c64085340e3cf2183f59479666e371b4"
+    },
+    {
+      "file": "result.json.gz",
+      "sha256": "174a4d74bfc17e5464330f9356687af76910c49c5dbc0627181bfb73625ffda3"
+    },
+    {
+      "file": "run.log.gz",
+      "sha256": "de4449b9eb2ace7709fe60aafe2a83829016860dbca50ffc4bbf06596fcc743b"
+    },
+    {
+      "file": "run.mjs",
+      "sha256": "02950189701f1cb6d5494c75cd03bc618b6a702afc35ae29f5d014ca47ce9eea"
+    }
+  ]
+}
