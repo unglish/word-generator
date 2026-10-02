@@ -1,3 +1,4 @@
+import { createFollowingViewGuard } from "./spelling-following-guard.js";
 import { createSharedWriterScheduleVerifier } from "./spelling-construction-schedule.js";
 import type { LanguageConfig, SharedSpellingRule } from "../config/language.js";
 import { BaseSpelling, createSharedSpellingRuntime } from "./base-spelling.js";
@@ -35,7 +36,7 @@ export function createSharedLedgerReplayer(config: LanguageConfig, rules: readon
       require(unit.id === id && unit.choiceId === id && equal(unit.phoneIds, [id]) && trace.phones[id].id === id &&
         grapheme?.form === unit.selected && grapheme.phoneme === trace.phones[id].soundAtSpelling, "original unit identity");
     }
-    const base = new BaseSpelling(structuredClone(trace.phones), true, true, true, rules, config, sharedRuntime);
+    const base = new BaseSpelling(structuredClone(trace.phones), true, true, true, rules, config, sharedRuntime, undefined, undefined, config.followingLetters ? createFollowingViewGuard(config, config.followingLetters.targets) : undefined);
     const priorChoices = trace.units.map(unit => ({ inventoryIndex: unit.inventoryIndex!, form: unit.afterDoubling }));
     let nextCellId = 0;
     let nextShared = 0;
@@ -98,6 +99,14 @@ export function createSharedLedgerReplayer(config: LanguageConfig, rules: readon
         }
         require(equal(base.constructionState(), expected.view), "shared resulting state");
         nextCellId = expected.nextCellId;
+      } else if (entry.kind === "following-guard") {
+        const record = trace.followingGuards?.[entry.index]; require(record && config.followingLetters, "following guard");
+        base.setPhase(record.phase);
+        if (record.operation === "batch") base.editBatch(record.edits);
+        else {
+          require(record.operation === "edit" && record.edits.length === 1, "following guard operation");
+          const edit = record.edits[0]; base.edit(edit.start, edit.deleteCount, edit.insert, edit.rule, edit.partId);
+        }
       } else if (entry.kind === "rewrite") {
         require(entry.index === entry.cursor.nextEditId && !base.constructionState().constructions.length, "unguarded rewrite");
         const edit = trace.edits[entry.index];

@@ -1,0 +1,22 @@
+{
+  "status": "read-only source audit during active baseline",
+  "files": [
+    {
+      "path": "src/core/write.ts",
+      "sha256": "00183233b92be9473ff0869d063139667310cf35f044cebd8de73ba849d1321f"
+    },
+    {
+      "path": "src/core/grapheme-selection.ts",
+      "sha256": "78c16c5099bc7cde2069fd225d67b928f46cb69591d666189d75a37d17981891"
+    },
+    {
+      "path": "src/core/spelling-completion-pool.ts",
+      "sha256": "175d5dc6a24738ede5ea077046899fc6b6dce692e860a47afd313240b18dffba"
+    },
+    {
+      "path": "src/core/spelling-split-neighbors.ts",
+      "sha256": "50f722d758f8f692d11c348c25fa3f71b00a094e93f3f082fdc6a7b70e45a3d7"
+    }
+  ],
+  "documentSha256": "cda40d5c16fe785345d071340daf8c47a242647dbbdc95be21c590f5d307880a"
+}

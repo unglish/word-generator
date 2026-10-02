@@ -1,0 +1,30 @@
+{
+  "defaultFullSuite": {
+    "passed": 1018,
+    "failedAssertions": 4,
+    "skipped": 4,
+    "failedSuites": 1,
+    "failureCounts": [
+      9,
+      28,
+      43,
+      6
+    ],
+    "parentFailureCounts": [
+      9,
+      28,
+      43,
+      6
+    ],
+    "timeout": "phonotactic beforeAll 60000ms"
+  },
+  "isolatedPhonotactic": {
+    "passed": 14,
+    "failed": 0,
+    "unchangedTimeout": true
+  },
+  "relatedCoreTests": 187,
+  "newCoreLint": "passed",
+  "strictTypeScript": "passed",
+  "scope": "Default-policy checks, not enabled candidate quality gates. Earlier temporary parity artifacts disappeared; fresh retained parity evidence remains required."
+}

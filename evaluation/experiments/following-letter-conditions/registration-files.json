@@ -1,0 +1,24 @@
+{
+  "files": {
+    "measurement.json": {
+      "bytes": 16316,
+      "sha256": "53cc8ede384236d88e0fe2a54fb58b2f2e35cf499b185e993d3bae2f82803cf5"
+    },
+    "initial-sequence-law.md": {
+      "bytes": 5308,
+      "sha256": "f6fe4ea061e96ea9b14e771479228aa280679d10df171b106763d294a2644566"
+    },
+    "observer-contract.md": {
+      "bytes": 6924,
+      "sha256": "ec7c8d549fc968a628eb0419804d25315d5e33bb94f31ba6ebbe2bac3e71c97e"
+    },
+    "baseline-binding.json": {
+      "bytes": 1785,
+      "sha256": "45807671b0ea58eb6d2882abd0de87163462602fc39faf5c526cbef2428bf6ac"
+    },
+    "mutation-coverage.md": {
+      "bytes": 3853,
+      "sha256": "9fbd8685602071042ae852f39abcf49b84e3ea0d5624a5fc0368d88274c0f866"
+    }
+  }
+}

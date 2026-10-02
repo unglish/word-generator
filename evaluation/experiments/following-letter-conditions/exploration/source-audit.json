@@ -1,0 +1,44 @@
+{
+  "status": "Read-only preliminary audit; no policy registration or implementation yet",
+  "roadmapItem": "Q14b following-letter conditions for soft c/g",
+  "findings": [
+    "GraphemeCondition.rightContext and notRightContext constrain next phoneme sound, not next written letter.",
+    "The condition API exposes left written context but no right written context.",
+    "The English reading table separately encodes soft c/g requiring e/i/y and hard c/g forbidding them.",
+    "The dʒ/g inventory entry uses a front-vowel phone condition; s/c includes front-vowel, ɜ and ɚ phone contexts.",
+    "The hard g/g entry has no following-context condition; gu/g uses a front-vowel phone condition."
+  ],
+  "openRequirements": [
+    "Measure final-root incompatible following letters from whole owned units, separating opaque ownership and morphology-unavailable cases.",
+    "Specify joint or lookahead selection so conditioning on a future spelling does not silently substitute a phoneme proxy.",
+    "Define weighted sampling, RNG draws, fallback/search exhaustion, lexical exceptions and custom-config compatibility before implementation.",
+    "Preserve Q14a constructions and completion ownership when selecting alternatives.",
+    "Freeze observers, exact immediate control and independent recount before candidate capture."
+  ],
+  "sourcePins": [
+    {
+      "file": "src/types.ts",
+      "sha256": "6da50d369f9a0d7ea4b46d919d9c2e3e3d71843b71583286c03e308d09f8eef5"
+    },
+    {
+      "file": "src/core/grapheme-selection.ts",
+      "sha256": "78c16c5099bc7cde2069fd225d67b928f46cb69591d666189d75a37d17981891"
+    },
+    {
+      "file": "src/elements/graphemes/reading.ts",
+      "sha256": "b01988281e0b119eb7737d6bb620dca92a28cad51e2aaa5d551bb60acdcdee66"
+    },
+    {
+      "file": "src/elements/graphemes/stops.ts",
+      "sha256": "6ea329970a5d40da3002a16129b244b1fa078c4c7bffa705de20c508018a0f30"
+    },
+    {
+      "file": "src/elements/graphemes/affricates.ts",
+      "sha256": "b608568378a69d390f1960cda8aabd82d8820d1892adda7e377c8fa9445f3b25"
+    },
+    {
+      "file": "src/elements/graphemes/fricatives.ts",
+      "sha256": "a3a5ca2fab076196125082ce961579e4bbc939a9c4b6b904f161cf80c4813cfd"
+    }
+  ]
+}

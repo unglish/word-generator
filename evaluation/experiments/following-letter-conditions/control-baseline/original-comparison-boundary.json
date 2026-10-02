@@ -1,0 +1,14 @@
+{
+  "status": "original-baseline comparison boundary",
+  "availabilityReportSha256": "935066cd0bd276e1f8d055814fb8847c9b8b2195aab84b6787e15e1636265779",
+  "availableComparisons": [
+    "Existing broad output metrics rescored with a common evaluator",
+    "Historical selection-trace descriptions with explicitly separate semantics"
+  ],
+  "unavailableComparisons": [
+    "Certified initial-to-final-root ownership transitions",
+    "Configured reading compliance from missing historical reading metadata",
+    "Final assembled ownership"
+  ],
+  "requiredReporting": "Use unavailable, not zero, for original-baseline ownership metrics. Do not backfill modern licenses into old traces. Keep the original and immediate-control comparisons distinct."
+}
