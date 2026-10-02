@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { checkPilot, checkAdapterContracts } from "./shared.mjs";
+import { checkPilot, checkAdapterContracts, checkAdapterCopies } from "./shared.mjs";
 const temp = mkdtempSync(join(tmpdir(), "unglish-repair-package-"));
 try {
   const [packed] = JSON.parse(execFileSync("npm", ["pack", "--ignore-scripts", "--json", "--pack-destination", temp], { encoding: "utf8" }));
@@ -30,5 +30,7 @@ try {
   backend.dispose();
   const corpus = JSON.parse(readFileSync("evaluation/repair-pilot/fixtures.json", "utf8"));
   const adapterAssertions = await checkAdapterContracts(api, url, wasm);
-  console.log(JSON.stringify({ package: packed.filename, bytes: packed.size, ...await checkPilot(api, corpus, url, wasm), adapterAssertions }, null, 2));
+  const adapterCopyAssertions = await checkAdapterCopies(api, url, wasm,
+    pathToFileURL(join(root, "dist/experimental/rust-repair.js")));
+  console.log(JSON.stringify({ package: packed.filename, bytes: packed.size, ...await checkPilot(api, corpus, url, wasm), adapterAssertions, adapterCopyAssertions }, null, 2));
 } finally { rmSync(temp, { recursive: true, force: true }); }

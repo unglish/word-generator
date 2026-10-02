@@ -1,5 +1,22 @@
 let adapterContractRun = 0;
 
+/** Exercise the same contracts through independently loaded adapter copies. */
+export async function checkAdapterCopies(api, bindingsUrl, wasm, adapterUrl) {
+  const copies = await Promise.all([0, 1].map(async index => {
+    const url = new URL(adapterUrl);
+    url.searchParams.set("adapter-copy", `${adapterContractRun}-${index}`);
+    return import(/* @vite-ignore */ url.href);
+  }));
+  if (copies[0].initializeRustRepair === copies[1].initializeRustRepair) {
+    throw new Error("Adapter-copy checks require independent module instances");
+  }
+  let next = 0;
+  return 1 + await checkAdapterContracts({
+    ...api,
+    initializeRustRepair: (...args) => copies[next++ % copies.length].initializeRustRepair(...args),
+  }, bindingsUrl, wasm);
+}
+
 /** Adapter regressions run separately so historical baselines can still check parity. */
 export async function checkAdapterContracts(api, bindingsUrl, wasm) {
   let assertions = 0;

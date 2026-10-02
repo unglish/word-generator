@@ -24,16 +24,19 @@ export interface RustRepairInitialization {
   wasm?: Uint8Array;
 }
 
+const bindingInitialization = Symbol.for("@unglish/word-generator/rust-repair-initialization-v1");
+
 /** Describes the actual generated typed-array ABI, not an untyped serde value. */
 interface RepairBindings {
-  default(options: { module_or_path: Uint8Array | URL }): Promise<unknown>;
+  default: {
+    (options: { module_or_path: Uint8Array | URL }): Promise<unknown>;
+    [bindingInitialization]?: Promise<unknown>;
+  };
   RepairConfig: new (inventorySize: number, pairs: Uint32Array) => {
     repair(packet: Uint32Array, dropOnset: boolean): Uint32Array;
     free(): void;
   };
 }
-
-const bindingInitializations = new WeakMap<RepairBindings, Promise<unknown>>();
 
 const MAX_U32 = 0xffffffff;
 function u32(value: number): number {
@@ -68,13 +71,14 @@ export async function initializeRustRepair(
   }
   const url = options.bindingsUrl;
   const bindings: RepairBindings = await import(/* @vite-ignore */ url.href);
-  let initialized = bindingInitializations.get(bindings);
+  const initialize = bindings.default;
+  let initialized = initialize[bindingInitialization];
   if (!initialized) {
-    // wasm-bindgen caches completed instances, but concurrent cold loads can
-    // replace its shared exports while existing configs still hold old pointers.
-    initialized = bindings.default({ module_or_path: options.wasm ?? new URL("unglish_wasm_bg.wasm", url) })
-      .catch(error => { bindingInitializations.delete(bindings); throw error; });
-    bindingInitializations.set(bindings, initialized);
+    // Store state on the shared initializer so independent adapter bundles also
+    // avoid replacing Wasm exports while configs still hold old instance pointers.
+    initialized = initialize({ module_or_path: options.wasm ?? new URL("unglish_wasm_bg.wasm", url) })
+      .catch(error => { delete initialize[bindingInitialization]; throw error; });
+    initialize[bindingInitialization] = initialized;
   }
   await initialized;
   const compiled = new bindings.RepairConfig(u32(ids.size), new Uint32Array(pairs));
