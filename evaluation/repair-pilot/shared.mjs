@@ -1,3 +1,99 @@
+let adapterContractRun = 0;
+
+/** Adapter regressions run separately so historical baselines can still check parity. */
+export async function checkAdapterContracts(api, bindingsUrl, wasm) {
+  let assertions = 0;
+  const check = (value, message) => { assertions++; if (!value) throw new Error(message); };
+  const equal = (a, b, message) => check(JSON.stringify(a) === JSON.stringify(b), message);
+  const url = new URL(bindingsUrl);
+  // A fresh module is essential: warmed bindings hide the cold initialization race.
+  url.searchParams.set("adapter-contract", String(adapterContractRun++));
+  const configs = [
+    { ...api.englishConfig, clusterConstraint: { repair: "drop-coda", banned: [["t", "p"]] } },
+    { ...api.englishConfig, clusterConstraint: { repair: "drop-coda", banned: [["ŋ", "t"]] } },
+  ];
+  const repairBoundary = backend => {
+    const syllables = [{ onset: [], nucleus: [{ sound: "æ" }], coda: [{ sound: "ŋ" }] },
+      { onset: [{ sound: "t" }], nucleus: [{ sound: "æ" }], coda: [] }];
+    backend.repair(syllables);
+    return syllables[0].coda.length;
+  };
+  const backends = await Promise.all(configs.map(config => api.initializeRustRepair(config, { bindingsUrl: url, wasm })));
+  equal(backends.map(repairBoundary), [1, 0], "concurrent cold initialization preserves each configuration");
+  backends[0].dispose(); backends[0].dispose();
+  equal(repairBoundary(backends[1]), 0, "disposing one concurrent backend preserves the other");
+  backends[1].dispose(); backends[1].dispose();
+
+  const retryUrl = new URL(url);
+  retryUrl.searchParams.set("retry", "1");
+  const failures = await Promise.allSettled(configs.map(config => api.initializeRustRepair(config,
+    { bindingsUrl: retryUrl, wasm: new Uint8Array([0]) })));
+  check(failures.every(result => result.status === "rejected" && String(result.reason).length > 0),
+    "failed concurrent initialization rejects every caller");
+  const retried = await Promise.all(configs.map(config => api.initializeRustRepair(config, { bindingsUrl: retryUrl, wasm })));
+  equal(retried.map(repairBoundary), [1, 0], "failed module initialization can be retried concurrently");
+  for (const backend of retried) backend.dispose();
+
+  const phonemes = sounds => sounds.map(sound => ({ sound }));
+  for (const policy of ["drop-coda", "drop-onset"]) {
+    const banned = policy === "drop-coda" ? [["p", "t"], ["t", "k"]] : [["k", "p"], ["t", "t"]];
+    const config = { ...api.englishConfig, clusterConstraint: { repair: policy, banned } };
+    const backend = await api.initializeRustRepair(config, { bindingsUrl: url, wasm });
+    const word = shared => {
+      const first = phonemes(policy === "drop-coda" ? ["t", "p"] : ["p", "t"]);
+      const second = shared ? first : first.slice();
+      return policy === "drop-coda" ? [
+        { onset: [], nucleus: phonemes(["æ"]), coda: first },
+        { onset: phonemes(["t"]), nucleus: phonemes(["æ"]), coda: second },
+        { onset: phonemes(["k"]), nucleus: phonemes(["æ"]), coda: [] },
+      ] : [
+        { onset: [], nucleus: phonemes(["æ"]), coda: phonemes(["k"]) },
+        { onset: first, nucleus: phonemes(["æ"]), coda: phonemes(["t"]) },
+        { onset: second, nucleus: phonemes(["æ"]), coda: [] },
+      ];
+    };
+    const rejectUnchanged = (syllables, label) => {
+      const before = JSON.stringify(syllables);
+      const arrays = syllables.map(s => [s.onset, s.nucleus, s.coda]);
+      const trace = new api.TraceCollector();
+      let rejected = false;
+      try { backend.repair(syllables, trace); }
+      catch (error) { rejected = error instanceof TypeError && /distinct nonempty segment arrays/.test(error.message); }
+      check(rejected, `${policy}: ${label} rejected explicitly`);
+      check(JSON.stringify(syllables) === before && trace.repairs.length === 0,
+        `${policy}: ${label} rejected before mutation or trace events`);
+      check(syllables.every((s, i) => [s.onset, s.nucleus, s.coda].every((segment, j) => segment === arrays[i][j])),
+        `${policy}: ${label} preserves original arrays`);
+    };
+    rejectUnchanged(word(true), "shared repair segments");
+    const crossRole = word(false);
+    crossRole[1].onset = crossRole[0].coda;
+    rejectUnchanged(crossRole, "shared coda/onset");
+    const nucleusAlias = word(false);
+    nucleusAlias[0].nucleus = policy === "drop-coda" ? nucleusAlias[0].coda : nucleusAlias[1].onset;
+    rejectUnchanged(nucleusAlias, "shared nucleus/repair segment");
+    const longAlias = word(false);
+    for (let i = 0; i < 4; i++) longAlias.push({ onset: phonemes(["t"]), nucleus: phonemes(["æ"]), coda: phonemes(["p"]) });
+    const selectedSegment = policy === "drop-coda" ? "coda" : "onset";
+    longAlias.at(-1)[selectedSegment] = longAlias[policy === "drop-coda" ? 0 : 1][selectedSegment];
+    rejectUnchanged(longAlias, "shared segments in a longer word");
+
+    const distinct = word(false);
+    backend.repair(distinct);
+    equal((policy === "drop-coda" ? [distinct[0].coda, distinct[1].coda] : [distinct[1].onset, distinct[2].onset])
+      .map(segment => segment.map(p => p.sound)), policy === "drop-coda" ? [["t"], ["t", "p"]] : [["t"], ["p", "t"]],
+    `${policy}: distinct segment arrays remain supported`);
+    const empty = Object.freeze([]), sharedPhoneme = { sound: "t", marker: Symbol("metadata") };
+    const supported = [{ onset: empty, nucleus: empty, coda: [sharedPhoneme] },
+      { onset: [sharedPhoneme], nucleus: empty, coda: empty }];
+    backend.repair(supported);
+    check(supported[0].coda[0] === sharedPhoneme && supported[0].onset === empty && supported[1].coda === empty,
+      `${policy}: shared phoneme objects and empty segment arrays remain supported`);
+    backend.dispose();
+  }
+  return assertions;
+}
+
 /** Shared browser/worker/Node checks against the frozen corpus and public API. */
 export async function checkPilot(api, corpus, bindingsUrl, wasm) {
   let assertions = 0;

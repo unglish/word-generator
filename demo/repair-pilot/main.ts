@@ -1,5 +1,5 @@
 import * as api from "../../src/index.js";
-import { checkPilot } from "../../evaluation/repair-pilot/shared.mjs";
+import { checkPilot, checkAdapterContracts } from "../../evaluation/repair-pilot/shared.mjs";
 
 const root = new URL(import.meta.env.BASE_URL, location.href);
 const bindingsUrl = new URL("repair-wasm/unglish_wasm.js", root);
@@ -8,8 +8,8 @@ async function run() {
   const response = await fetch(new URL("repair-wasm/fixtures.json", root));
   if (!response.ok) throw new Error(`Fixture loading failed: ${response.status}`);
   const corpus = await response.json();
-  const first = await checkPilot(api, corpus, bindingsUrl);
-  const second = await checkPilot(api, corpus, bindingsUrl);
+  const first = { ...await checkPilot(api, corpus, bindingsUrl), adapterAssertions: await checkAdapterContracts(api, bindingsUrl) };
+  const second = { ...await checkPilot(api, corpus, bindingsUrl), adapterAssertions: await checkAdapterContracts(api, bindingsUrl) };
   const worker = new Worker(new URL("./worker.ts", import.meta.url), { type: "module" });
   try {
     const workerResult = await new Promise((resolve, reject) => {

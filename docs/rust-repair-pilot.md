@@ -23,6 +23,8 @@ try {
 }
 ```
 
+Concurrent calls using the same bindings module share initialization, while each
+backend owns a separate Rust configuration. Failed loads may be retried.
 Loading, compilation, and configuration errors reject initialization. `dispose()`
 frees the instance's Rust configuration, is idempotent, and causes subsequent
 repair calls to throw. Generated bindings share the compiled module; disposal
@@ -47,6 +49,9 @@ pair list, and `drop-coda` or `drop-onset`. Native IDs are arbitrary u32 values.
 The adapter assigns IDs to distinct sound strings in first-occurrence inventory
 order; duplicate sounds share an ID. It rejects inventory sounds containing `|`,
 unknown word sounds, invalid policies, and malformed packets before mutation.
+Nonempty segment arrays must be distinct, including across onset, nucleus, and
+coda positions; shared arrays raise `TypeError` before mutation or trace events.
+Shared phoneme objects and empty segment arrays remain supported.
 Counts and lengths must fit the u32 ABI and available memory. Proof harness bounds
 do not restrict runtime inputs. Allocation exhaustion is a resource failure.
 

@@ -8,6 +8,7 @@ export interface ClusterRepairBackend {
   readonly name: "rust-wasm-v1";
   /** Configuration identity is part of the contract; never reuse across configs. */
   readonly config: LanguageConfig;
+  /** Nonempty segment arrays must be distinct; phoneme objects may be shared. */
   repair(syllables: Syllable[], trace?: TraceCollector): void;
   dispose(): void;
 }
@@ -27,6 +28,8 @@ interface RepairBindings {
     free(): void;
   };
 }
+
+const bindingInitializations = new WeakMap<RepairBindings, Promise<unknown>>();
 
 const MAX_U32 = 0xffffffff;
 function u32(value: number): number {
@@ -58,7 +61,15 @@ export async function initializeRustRepair(
   }
   const url = options.bindingsUrl ?? new URL(/* @vite-ignore */ "../wasm/unglish_wasm.js", import.meta.url);
   const bindings: RepairBindings = await import(/* @vite-ignore */ url.href);
-  await bindings.default({ module_or_path: options.wasm ?? new URL("unglish_wasm_bg.wasm", url) });
+  let initialized = bindingInitializations.get(bindings);
+  if (!initialized) {
+    // wasm-bindgen caches completed instances, but concurrent cold loads can
+    // replace its shared exports while existing configs still hold old pointers.
+    initialized = bindings.default({ module_or_path: options.wasm ?? new URL("unglish_wasm_bg.wasm", url) })
+      .catch(error => { bindingInitializations.delete(bindings); throw error; });
+    bindingInitializations.set(bindings, initialized);
+  }
+  await initialized;
   const compiled = new bindings.RepairConfig(u32(ids.size), new Uint32Array(pairs));
   let disposed = false;
   return {
@@ -80,11 +91,25 @@ export async function initializeRustRepair(
       packet[0] = 1;
       packet[1] = count;
       let cursor = 2;
+      const segments: Syllable["onset"][] = [];
+      let largeSegments: Set<Syllable["onset"]> | undefined;
       for (const syl of syllables) {
         packet[cursor++] = syl.onset.length;
         packet[cursor++] = syl.nucleus.length;
         packet[cursor++] = syl.coda.length;
         for (const segment of [syl.onset, syl.nucleus, syl.coda]) {
+          // Snapshot cuts cannot preserve sequential mutation through aliases.
+          if (segment.length > 0) {
+            if (largeSegments ? largeSegments.has(segment) : segments.includes(segment)) {
+              throw new TypeError("Rust repair requires distinct nonempty segment arrays");
+            }
+            if (largeSegments) largeSegments.add(segment);
+            else {
+              segments.push(segment);
+              // Bound short identity scans; larger inputs retain linear validation.
+              if (segments.length === 8) largeSegments = new Set(segments);
+            }
+          }
           for (const phoneme of segment) {
             const id = ids.get(phoneme.sound);
             if (id === undefined) throw new TypeError(`Rust repair: unknown inventory sound '${phoneme.sound}'`);
