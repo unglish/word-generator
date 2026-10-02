@@ -117,3 +117,37 @@ using either representation to claim spelling/phone agreement.
 Phone-preserving budget decisions and version-2 certified unit replacements are
 explained in [the spelling coverage policy](./spelling-coverage-policy.md). An
 already-satisfied cap is not a whole-word pronunciation certificate.
+
+## Final-word operational provenance
+
+`word.trace.finalWord` records the final surface after morphology, pronunciation,
+cleanup and bare gap overrides. Its spelling ledger uses persistent UTF-16 cell
+identities with root/prefix/suffix origins, ordered edit events and final live
+cells. Its phone ledger records source identities, realized changes and final
+syllable/segment positions, including affix phones placed in root segments and
+inserted bridges.
+
+```ts
+const final = word.trace?.finalWord;
+console.log(final?.spelling.surface); // equals word.written.clean
+console.log(final?.spelling.cells);   // live cells, in final surface order
+console.log(final?.spelling.events);  // executed post-writer mutations
+console.log(final?.phones.final);     // final phone identities and coordinates
+```
+
+Use `baseSpelling` for root-writer history, then the final ledger for later
+changes. `writerInput`, `writerOutput`, `morphologyPreparation`,
+`morphologyWriting`, `finalNucleus`, `pronunciationPasses` and `gapSpellingPass`
+retain operation boundaries and draw tapes when applicable. Keep the complete
+word/trace and the same configuration when investigating a serialized record;
+a final surface string alone cannot reproduce its operation history.
+
+These records establish operational lineage. They do not establish a licensed
+letter-to-phone reading for every final cell, authenticate root-generation or
+morphology-plan sampling, or demonstrate reader preference. Affix provenance and
+an inferred orthographic alignment must remain distinct from a verified reading.
+
+The Q02 [measurement report](../evaluation/experiments/final-word-ownership/RESULTS.md)
+records replay scope, unavailable evidence, unchanged-output comparisons, failed
+gates and costs. Tracing captures additional snapshots and can materially affect
+time and storage; inspect the measured results for the tested configuration.

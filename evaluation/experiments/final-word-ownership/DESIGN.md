@@ -1,7 +1,9 @@
 # Q02 final-word ownership: mutation audit and implementation contract
 
-Status: local implementation checkpoint. Formal corpus/performance measurement,
-Q04 dependency integration and publication remain outstanding.
+Status: historical design and checkpoint record. The final integrated candidate
+and completed corpus/performance checks are described in [RESULTS.md](RESULTS.md);
+Diagnostic outcomes and retained failures are recorded there; publication
+remains outstanding.
 Immediate spelling source: 0d841bda8504bce34ec97220ec8c5737d87cbbf6.
 The parallel Q04 lexical pipeline must be composed explicitly before claiming
 that the final provenance representation covers that pipeline too.

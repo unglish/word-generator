@@ -1,7 +1,10 @@
 # Q02 adaptation to lexical stress control
 
 Exact control: `905ba3e`. Original Q02 checkpoint: `01c6a50`.
-The current merge is incomplete and must not be treated as a measured candidate.
+This is the retained historical adaptation checklist. The measured candidate
+`7e34a17` completes the composition; [RESULTS.md](RESULTS.md) records its current
+verification and retained diagnostic failures. Intermediate statements
+below remain checkpoint history, not the current measurement status.
 
 Q04 changes the source boundary fundamentally: affix selection and phonemic
 alternations precede the writer, and surface pronunciation executes once after
