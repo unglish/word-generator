@@ -3,7 +3,8 @@
  *
  * Runs the exact measurement of `src/core/phoneme-quality.test.ts` (same sample
  * size, mode, normalization and metric code) on many seeds, then proposes limits
- * at the worst observed value widened by k sample standard deviations.
+ * at the worst observed value widened by k sample standard deviations. Inventory
+ * coverage remains fixed at zero; violating runs cannot produce proposals.
  *
  *   npm run calibrate:phonemes -- [--seeds 42,7,...] [--count 30] [--k 3] [--jobs 8] [--output file.json]
  *
@@ -21,6 +22,7 @@ import { generateWord } from "../src/core/generate.js";
 import { countNormalizedPhonemes, type PhonemeNormalization } from "../src/core/phoneme-normalization.js";
 import { computePhonemeQualityMetrics } from "../src/core/phoneme-quality.js";
 import { createSeededRng } from "../src/utils/random.js";
+import { proposeLimits, type SeedResult } from "./lib/phoneme-calibration.js";
 
 const REPO_ROOT = join(fileURLToPath(import.meta.url), "..", "..");
 const THRESHOLDS_PATH = join(REPO_ROOT, "src", "config", "phoneme-thresholds.json");
@@ -35,31 +37,6 @@ interface Thresholds {
   minCommonBaselinePct: number;
   [limit: string]: number | string;
 }
-
-interface SeedResult {
-  seed: number;
-  draws: number;
-  normalizationLosses: number;
-  sharedPearsonR: number;
-  nonCmuMassPct: number;
-  maxOverRepresentation: number;
-  maxOverPhoneme: string;
-  minRepresentation: number;
-  minRepPhoneme: string;
-  maxAbsoluteGapPct: number;
-  maxGapPhoneme: string;
-  cmuOnlyKeyCount: number;
-}
-
-/** Gate limits, their direction, and the precision they are rounded outward to. */
-const LIMITS = [
-  { limit: "minSharedPearsonR", metric: "sharedPearsonR", bound: "lower", decimals: 4 },
-  { limit: "maxOverRepresentation", metric: "maxOverRepresentation", bound: "upper", decimals: 3 },
-  { limit: "minRepresentation", metric: "minRepresentation", bound: "lower", decimals: 3 },
-  { limit: "maxAbsoluteGapPct", metric: "maxAbsoluteGapPct", bound: "upper", decimals: 3 },
-  { limit: "maxGeneratedOnlyMassPct", metric: "nonCmuMassPct", bound: "upper", decimals: 3 },
-  { limit: "maxCmuOnlyKeyCount", metric: "cmuOnlyKeyCount", bound: "upper", decimals: 0 },
-] as const;
 
 function loadJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, "utf8")) as T;
@@ -165,26 +142,6 @@ async function mapConcurrent<T, R>(items: T[], limit: number, fn: (item: T) => P
   return results;
 }
 
-function summarize(values: number[]) {
-  const mean = values.reduce((a, b) => a + b, 0) / values.length;
-  const variance = values.reduce((a, v) => a + (v - mean) ** 2, 0) / (values.length - 1);
-  return { min: Math.min(...values), max: Math.max(...values), mean, sd: Math.sqrt(variance) };
-}
-
-function roundOutward(value: number, decimals: number, bound: "lower" | "upper"): number {
-  const scale = 10 ** decimals;
-  const rounded = bound === "upper" ? Math.ceil(value * scale - 1e-9) : Math.floor(value * scale + 1e-9);
-  return rounded / scale;
-}
-
-function proposeLimits(results: SeedResult[], k: number) {
-  return LIMITS.map(({ limit, metric, bound, decimals }) => {
-    const stats = summarize(results.map(r => r[metric]));
-    const raw = bound === "upper" ? stats.max + k * stats.sd : stats.min - k * stats.sd;
-    return { limit, metric, bound, ...stats, proposed: roundOutward(raw, decimals, bound) };
-  });
-}
-
 function fmt(value: number, decimals = 4): string {
   return value.toFixed(decimals);
 }
@@ -201,7 +158,7 @@ function printReport(results: SeedResult[], thresholds: Thresholds, k: number) {
         `${fmt(r.nonCmuMassPct)} | ${r.cmuOnlyKeyCount} |`,
     );
   }
-  console.log(`\nSpread and proposed limits (k = ${k}; upper = max + k·SD, lower = min − k·SD, rounded outward)\n`);
+  console.log(`\nSpread and proposed limits (k = ${k}; upper = max + k·SD, lower = min − k·SD, rounded outward; inventory coverage fixed at 0)\n`);
   console.log("| Limit | Min | Max | Mean | SD | Current | Proposed |");
   console.log("|---|---:|---:|---:|---:|---:|---:|");
   for (const p of proposals) {
@@ -260,12 +217,6 @@ async function main() {
 
   process.stderr.write(`Measuring ${seeds.length} seeds × ${thresholds.sampleSize} words with ${jobs} jobs\n`);
   const results = await mapConcurrent(seeds, jobs, runWorker);
-
-  const withLosses = results.filter(r => r.normalizationLosses > 0);
-  if (withLosses.length > 0) {
-    // The gate fails on any rejected token, so limits from such runs would be meaningless.
-    throw new Error(`Normalization rejected phoneme tokens on seeds ${withLosses.map(r => r.seed).join(", ")}`);
-  }
 
   const overlaps = findOverlaps(results);
   if (overlaps.length > 0) throw new Error(`Overlapping RNG streams:\n${overlaps.join("\n")}`);

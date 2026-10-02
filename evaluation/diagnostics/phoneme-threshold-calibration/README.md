@@ -25,3 +25,9 @@ range on three metrics but stays inside every limit:
 | Pearson r | 0.99847 | 0.99852 | 0.9983 |
 | Worst over-representation | 1.05794 | 1.05607 | 1.066 |
 | Worst absolute gap % | 0.35170 | 0.34599 | 0.39 |
+
+These results support headroom beyond the observed calibration extremes. They do
+not establish a particular false-failure probability or prove that k = 3 is the
+unique appropriate margin. Non-overlapping RNG segments avoid reused draws but
+do not prove independence. Generated-only mass and missing CMU phonemes remain
+fixed zero requirements; violating runs cannot produce calibration proposals.

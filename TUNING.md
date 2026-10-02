@@ -333,23 +333,37 @@ runs reuse draws. It reports min, max, mean and sample SD per metric and propose
 
 - upper-bound limits: worst observed + 3·SD, rounded up
 - lower-bound limits: worst observed − 3·SD, rounded down
-- zero-spread metrics (generated-only mass, missing CMU phonemes): 0
+- fixed inventory requirements (generated-only mass, missing CMU phonemes): 0
 
-Why k = 3 past the *worst* seed rather than the mean: any change to RNG consumption
-effectively reseeds the gate, so seed-42 noise must not fail a PR. The worst of 30
-normal draws already sits about 2 SD above the mean, so the limit lands near
-mean + 5 SD. That leaves room for SD being underestimated from 30 samples and
-for skew in the worst-of-many-phonemes metrics. In the first calibration
-([record](evaluation/diagnostics/phoneme-threshold-calibration/)), one of 10
-held-out seeds fell outside the calibration range on three metrics but stayed
-inside every limit. A flat percentage (the old ×1.10 rule) ignores that the
-spread differs by metric by orders of magnitude.
+Inventory coverage is a policy requirement, independent of observed spread. If
+any seed has non-CMU generated mass, missing CMU phonemes, or rejected phoneme
+tokens, calibration reports the seed and violation and fails before emitting
+proposals or writing an output file. An intentional inventory-policy change
+requires an explicit policy adjustment; recalibration cannot authorize it.
+
+We use k = 3 past the *worst* seed as a conservative engineering margin. Changes
+to RNG consumption can shift the gate's sample, so limits need headroom for seed
+variation. The margin accounts for observed variation but does not establish a
+particular false-failure probability. Non-overlapping RNG segments avoid reused
+draws; they do not prove statistical independence, and extrema across phonemes
+need not be normally distributed.
+
+In the first calibration
+([record](evaluation/diagnostics/phoneme-threshold-calibration/)), all 10 held-out
+runs passed, including one outside the calibration range on three metrics. This
+supports headroom beyond the observed extremes; it does not establish that three
+SD is uniquely warranted or that false failures are rare. A stronger reliability
+claim would require a defined acceptable failure rate and substantially more
+independent validation. Metric-specific spread replaces the old flat ×1.10 margin.
 
 When to re-run:
 
-1. After an intentional distribution change (tuning PR), re-run the calibration on
-   that branch and commit the new limits with it. Explain in the PR why the shift is
-   wanted.
+1. After an intentional distribution change (tuning PR), re-run calibration on
+   that branch. Recalibration measures a change; it does not justify it. For each
+   loosened limit, identify the affected phonemes, quantify the shift against
+   unchanged main across seeds, and explain the linguistic benefit that warrants
+   the tradeoff. Commit only the justified limit adjustments; leave unaffected
+   limits unchanged. Passing newly calibrated limits is not sufficient rationale.
 2. If a PR fails the gate, run `npm run calibrate:phonemes -- --count 10` on it. If
    the metric moved on most seeds, it is a real shift to review, not noise. Do not
    loosen limits just to pass it.
