@@ -12,7 +12,8 @@
 
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { generateWords } from "../dist/core/generate.js";
+import { generateWord } from "../dist/core/generate.js";
+import { createSeededRng } from "../dist/utils/random.js";
 import { ENGLISH_VOWEL_SOUND_SET } from "../dist/core/vowel-sounds.js";
 import { parseMetrics, parseFailOn, evaluateFailOn } from "./lib/trace-audit-core.mjs";
 
@@ -290,7 +291,10 @@ function main() {
     throw new Error(`Invalid --mode: ${String(mode)} (expected text|lexicon)`);
   }
 
-  const words = generateWords(count, { seed, mode, morphology, trace: true });
+  if (count > 1_000_000) {
+    throw new RangeError("count must be less than or equal to 1000000.");
+  }
+  const options = { rand: createSeededRng(seed), mode, morphology, trace: true };
 
   const processors = createMetricProcessors(targets);
   const active = selectedMetrics.map(name => ({
@@ -299,7 +303,8 @@ function main() {
     state: processors[name].init(),
   }));
 
-  for (const word of words) {
+  for (let index = 0; index < count; index++) {
+    const word = generateWord(options);
     const trace = word.trace;
     const stageAfter = trace?.stages.find(s => s.name === "generateSyllables")?.after;
     for (const metric of active) {
