@@ -162,6 +162,10 @@ Additional checks:
 See [corpus diagnostics](./docs/corpus-diagnostics.md) for reproducible analyzer
 streams, complete distribution metrics, and trace-backed outlier reports.
 
+For frozen baselines and per-step linguistic comparisons, see
+[quality baselines](./docs/quality-baselines.md). The benchmark preserves traced
+outputs, source/configuration provenance, and original/previous-step comparisons.
+
 ## Documentation
 
 - Contribution workflow: [`CONTRIBUTING.md`](./CONTRIBUTING.md)

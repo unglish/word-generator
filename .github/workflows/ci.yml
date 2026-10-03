@@ -63,6 +63,9 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Typecheck and lint the frozen quality harness
+        run: npm run quality:typecheck && npx eslint "evaluation/quality/**/*.ts"
+
       - name: Diagnostic sampling and metric regressions
         run: npm run test:diagnostics
 

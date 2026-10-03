@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     // Avoid intermittent birpc timeout flake ("onTaskUpdate") seen in forks pool.
     pool: 'threads',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'scripts/lib/phoneme-calibration.test.ts'],
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'scripts/lib/phoneme-calibration.test.ts', 'evaluation/quality/**/*.test.ts'],
     exclude: ['src/**/quality.test.ts', 'src/**/*.perf.test.ts', '**/node_modules/**'],
     environment: 'node',
     // CI stability: avoid intermittent worker RPC timeout ("onTaskUpdate")
