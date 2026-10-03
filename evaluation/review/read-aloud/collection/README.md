@@ -1,9 +1,10 @@
 # Durable first-presentation recording receipts
 
 This collection unit supplies the read-aloud state machine, private filesystem
-journal, loopback API and owner CLI. The browser microphone/encoding/offline
-integration remains separate work. The collector is not yet a complete participant
-application. Synthetic tests exercise bytes and recovery, not speakers or readings.
+journal, loopback API, recording browser and owner CLI. The browser retains the
+first encoded recording before upload and supports exact-byte retries. Synthetic
+tests exercise capture, bytes and recovery; they do not establish human readings
+or pronunciation agreement.
 
 ## Durable boundaries
 
@@ -95,13 +96,53 @@ they are never silently discarded. The backup/report retain the exact discarded
 tail, pending audio commitments and completed reading counts. A material inventory
 also exposes all retained incoming files rather than filtering incomplete ones.
 
-## Remaining participant integration
+## Recording browser
 
-Before revealing a word, the browser must establish the microphone or explicitly
-labelled fixture source at the registered context rate. It must save the request
-ID and later the original encoded WAV locally before transmission. It may retry a
-lost acknowledgement; it must not restart recording after presentation/reload.
-An interrupted capture without retained encoded bytes must become an explicit
-failure. Actual microphone capture, encoding, offline retry, interruption/reload,
-independent receipt reconstruction, prospective outcome calibration and the human
-study remain required before Q23 publication or a quality claim.
+After starting the loopback collector, open its URL with the reader's private token
+as the fragment, for example `http://127.0.0.1:4190/#READER_TOKEN`. The browser
+clears the fragment and keeps the token in that tab's session storage. Reader links
+are credentials; distribute only the assigned link to each reader. Owner tokens
+must not be used as reader links. Static HTML and worklet code contain no source
+spellings or tokens. Reader API calls require the assigned Bearer token.
+
+Start establishes the audio source at the registered context rate before asking
+for a word. Microphone constraints request mono input without echo cancellation,
+noise suppression or automatic gain; actual device settings are retained as
+browser reports, and browser resampling/downmixing may occur. An AudioWorklet
+captures all mono frames from the first armed attempt, stopping at the registered
+frame bound or Finish. Encoding clamps and quantizes those original frames into
+PCM16; it does not trim silence, normalize amplitude or remove frames. The browser
+offers neither playback nor a second recording. Development fixtures use a
+prominently labelled synthetic tone and never request a microphone.
+
+The browser saves the presentation request in IndexedDB before transmission. It
+waits for strict transaction completion before treating either that request or the
+encoded WAV as locally retained. It checks the WAV hash and the server's bound
+receipt before storing an acknowledgement and advancing. Original WAV bytes and
+receipts remain in IndexedDB after completion. A Web Lock permits one active tab
+per reader on that browser origin. Browsers without Web Locks or strict IndexedDB
+transactions must fail before presentation. Tested capture uses Chrome; support
+on other browsers requires their own verification.
+
+Reloading during capture cannot restart the reading. Without retained encoded
+bytes, the reader must explicitly mark the recording lost. A retained WAV may be
+retried after an offline upload, lost acknowledgement or browser restart; the same
+original bytes are sent. The recovery view also permits downloading those bytes.
+If local persistence fails after encoding, keep the tab open: its in-memory first
+WAV can be retried for storage, but closing the tab loses that copy. An interrupted
+presentation acknowledgement is resolved with the original request, never a new
+reading. An original skip or failure can likewise be retried without changing it.
+
+Offline retry preserves an already recorded attempt. Starting another word still
+requires the owner's collector. Browser storage can be evicted or cleared and is
+bound to the exact origin, including port; it is not a backup. Keep the same origin
+when resuming and preserve/download original recordings when needed. Close the
+collector cleanly before copying its complete private store. Shutdown closes unused
+TCP preconnections while allowing accepted requests and journal writes to drain.
+
+Actual browser verification covers the labelled tone, audio worklet, IndexedDB,
+exclusive tab, reload, profile restart, exact retries, explicit skip/loss and the
+getUserMedia pipeline with a fake device. It supplies no human speech. Independent
+reconstruction of retained receipts and PCM is separate from browser assertions.
+Prospective outcome calibration, independent human coding and the actual study
+remain required before Q23 publication or a quality claim.

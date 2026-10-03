@@ -8,6 +8,7 @@ import { createReadAloudCollector } from "./core.js";
 import { initializeReadAloudCollector, ReadAloudJournal, recoverReadAloudCollector } from "./journal.js";
 import type { CaptureSource } from "./model.js";
 import { createReadAloudServer } from "./server.js";
+import { trackUnrequestedConnections } from "./shutdown.js";
 
 const [command, ...args] = process.argv.slice(2);
 const { values } = parseArgs({ args, options: Object.fromEntries([
@@ -34,11 +35,15 @@ try {
     const port = Number(values.port ?? "4190");
     if (!Number.isInteger(port) || port < 0 || port > 65535) throw new Error("--port must be an integer from 0 to 65535.");
     const journal = await ReadAloudJournal.openWriter(resolve(required("input"))), server = createReadAloudServer(journal);
+    const closeUnrequested = trackUnrequestedConnections(server);
     try { await new Promise<void>((accept, reject) => { server.once("error", reject); server.listen(port, "127.0.0.1", accept); }); }
     catch (error) { await journal.close(); throw error; }
     const address = server.address(); if (!address || typeof address === "string") throw new Error("No loopback address.");
-    console.log(`Read-aloud API ready at http://127.0.0.1:${address.port}/. Participant credentials remain private. Browser recording integration is separate.`);
-    const shutdown = () => server.close(() => { void journal.close().catch(error => { console.error(error); process.exitCode = 1; }); });
+    console.log(`Read-aloud collector ready at http://127.0.0.1:${address.port}/. Open a reader link with its private token as the URL fragment. Credentials remain private.`);
+    const shutdown = () => {
+      server.close(() => { void journal.close().catch(error => { console.error(error); process.exitCode = 1; }); });
+      closeUnrequested();
+    };
     process.once("SIGINT", shutdown); process.once("SIGTERM", shutdown);
   } else if (command === "export") {
     const input = resolve(required("input")), journal = await ReadAloudJournal.load(input), state = journal.snapshot(), out = resolve(required("out"));

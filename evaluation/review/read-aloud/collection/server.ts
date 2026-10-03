@@ -1,7 +1,10 @@
+import { randomBytes } from "node:crypto";
 import { createServer } from "node:http";
 import type { IncomingMessage, Server, ServerResponse } from "node:http";
 import { CollectorError } from "../../comparison/collection/collection-core.js";
 import { ReadAloudJournal } from "./journal.js";
+import { readAloudHtml } from "./ui.js";
+import { recorderWorklet } from "./worklet.js";
 
 function bearer(request: IncomingMessage): string {
   const match = /^Bearer ([a-f0-9]{64})$/.exec(request.headers.authorization ?? "");
@@ -33,6 +36,15 @@ export function createReadAloudServer(journal: ReadAloudJournal): Server {
     response.setHeader("cache-control", "no-store"); response.setHeader("x-content-type-options", "nosniff"); response.setHeader("referrer-policy", "no-referrer");
     try {
       const path = new URL(request.url ?? "/", "http://127.0.0.1").pathname;
+      if (request.method === "GET" && path === "/") {
+        const nonce = randomBytes(16).toString("base64");
+        response.setHeader("content-security-policy", `default-src 'none'; script-src 'self' 'nonce-${nonce}'; style-src 'nonce-${nonce}'; connect-src 'self'; worker-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'`);
+        response.setHeader("permissions-policy", "microphone=(self)");
+        response.writeHead(200, { "content-type": "text/html; charset=utf-8" }); response.end(readAloudHtml(nonce)); return;
+      }
+      if (request.method === "GET" && path === "/recorder-worklet.js") {
+        response.writeHead(200, { "content-type": "text/javascript; charset=utf-8" }); response.end(recorderWorklet); return;
+      }
       if (request.method === "GET" && path === "/api/next") {
         json(response, 200, journal.next(journal.participant(bearer(request)))); return;
       }
