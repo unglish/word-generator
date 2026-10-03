@@ -1,0 +1,441 @@
+{
+  "scope": "All 24 registered runs retained; descriptive six-pair results per policy, not confidence intervals or causal estimates of human output quality.",
+  "policies": [
+    {
+      "policy": "default",
+      "arms": {
+        "control": {
+          "runs": 6,
+          "medianWordsPerSec": 2996.513151705487,
+          "speedPasses": 0,
+          "variancePasses": 6
+        },
+        "candidate": {
+          "runs": 6,
+          "medianWordsPerSec": 3093.941815707999,
+          "speedPasses": 0,
+          "variancePasses": 6
+        }
+      },
+      "pairs": [
+        {
+          "slots": [
+            1,
+            2
+          ],
+          "control": 3001.333304503726,
+          "candidate": 3106.184006938678,
+          "candidateRatio": 1.034934707943838,
+          "percentChange": 3.4934707943838017
+        },
+        {
+          "slots": [
+            3,
+            4
+          ],
+          "control": 2983.2489079212514,
+          "candidate": 3114.3354283954636,
+          "candidateRatio": 1.0439408592847033,
+          "percentChange": 4.394085928470326
+        },
+        {
+          "slots": [
+            5,
+            6
+          ],
+          "control": 3019.4003644491722,
+          "candidate": 3069.3235894316563,
+          "candidateRatio": 1.0165341521350686,
+          "percentChange": 1.6534152135068592
+        },
+        {
+          "slots": [
+            7,
+            8
+          ],
+          "control": 2949.974081114727,
+          "candidate": 2978.304651452916,
+          "candidateRatio": 1.009603667543914,
+          "percentChange": 0.9603667543913952
+        },
+        {
+          "slots": [
+            9,
+            10
+          ],
+          "control": 2998.5954584869637,
+          "candidate": 3085.5666986511364,
+          "candidateRatio": 1.0290039924918906,
+          "percentChange": 2.9003992491890562
+        },
+        {
+          "slots": [
+            11,
+            12
+          ],
+          "control": 2994.4308449240107,
+          "candidate": 3102.3169327648616,
+          "candidateRatio": 1.0360289128145115,
+          "percentChange": 3.6028912814511482
+        }
+      ],
+      "medianPairedPercentChange": 3.196935021786429,
+      "pairedPercentChangeRange": [
+        0.9603667543913952,
+        4.394085928470326
+      ],
+      "runs": [
+        {
+          "slot": 1,
+          "arm": "control",
+          "wordsPerSec": 3001.333304503726,
+          "elapsed": 3331.852542,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.6219780095129586,
+          "variancePass": true,
+          "sha256": "b24c8696159ccd891047098d4b3330974a6c0fb51771ee26a7b8a7b871247ede"
+        },
+        {
+          "slot": 2,
+          "arm": "candidate",
+          "wordsPerSec": 3106.184006938678,
+          "elapsed": 3219.384292,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.5490337487479626,
+          "variancePass": true,
+          "sha256": "1b3b8d6c30cc0b4dfd4f777d1c7af6ac393705e8660a497b114d3e7fe49ed107"
+        },
+        {
+          "slot": 3,
+          "arm": "candidate",
+          "wordsPerSec": 3114.3354283954636,
+          "elapsed": 3210.9579169999997,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.6017111043986967,
+          "variancePass": true,
+          "sha256": "696f9e3cc855483c222bf31278e6329372f5d07381c0605f522637f644410576"
+        },
+        {
+          "slot": 4,
+          "arm": "control",
+          "wordsPerSec": 2983.2489079212514,
+          "elapsed": 3352.0501670000003,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.6024186046511788,
+          "variancePass": true,
+          "sha256": "e63d2ba9cd56229299f8f24bbf77f0f81f457a41f46df53ad3e98857907a6329"
+        },
+        {
+          "slot": 5,
+          "arm": "control",
+          "wordsPerSec": 3019.4003644491722,
+          "elapsed": 3311.915875,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.6174147401740435,
+          "variancePass": true,
+          "sha256": "71388b2272f326fae2f02ce01eda0df03f34c606f0e3e83d1fd3698c6b10a9b4"
+        },
+        {
+          "slot": 6,
+          "arm": "candidate",
+          "wordsPerSec": 3069.3235894316563,
+          "elapsed": 3258.046833,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.62887874472562,
+          "variancePass": true,
+          "sha256": "eab6bd9034c6d4a29c8f9db5b022a7546a371837ca07f4fa57be8a8a6c338e60"
+        },
+        {
+          "slot": 7,
+          "arm": "candidate",
+          "wordsPerSec": 2978.304651452916,
+          "elapsed": 3357.6148749999998,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.6496628019592645,
+          "variancePass": true,
+          "sha256": "be245e615e902bee50d0089c71b7f8cf5b39e745aba2e91969a1a23d9be14c77"
+        },
+        {
+          "slot": 8,
+          "arm": "control",
+          "wordsPerSec": 2949.974081114727,
+          "elapsed": 3389.860292,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.636327109546921,
+          "variancePass": true,
+          "sha256": "83ae4cc49f7122e52737a2f57e41b8928a20ece2bdfb6f7f0d9e154b2678b2c1"
+        },
+        {
+          "slot": 9,
+          "arm": "control",
+          "wordsPerSec": 2998.5954584869637,
+          "elapsed": 3334.894666,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.5474337386032921,
+          "variancePass": true,
+          "sha256": "189217d21cbf48ee34af9b6d56bfc8dd9f2efd23d457059f81388cfaa0172fc0"
+        },
+        {
+          "slot": 10,
+          "arm": "candidate",
+          "wordsPerSec": 3085.5666986511364,
+          "elapsed": 3240.89575,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.588871572587477,
+          "variancePass": true,
+          "sha256": "c639f3342d3b139472fb74c587d56a3088c48df14013faba8b9e389385ede742"
+        },
+        {
+          "slot": 11,
+          "arm": "candidate",
+          "wordsPerSec": 3102.3169327648616,
+          "elapsed": 3223.3972919999997,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.5702701191465442,
+          "variancePass": true,
+          "sha256": "dcc2687e92da504b521d3d6059e32dfb32069a03aca97fbc2d8642920bfe5e4e"
+        },
+        {
+          "slot": 12,
+          "arm": "control",
+          "wordsPerSec": 2994.4308449240107,
+          "elapsed": 3339.532792,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.6019326664827371,
+          "variancePass": true,
+          "sha256": "6ff80b0c6035950c060f5414e6ae2e3625108150c21faf416d5f82c53e7e5e4a"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "arms": {
+        "control": {
+          "runs": 6,
+          "medianWordsPerSec": 610.9233028871586,
+          "speedPasses": 0,
+          "variancePasses": 6
+        },
+        "candidate": {
+          "runs": 6,
+          "medianWordsPerSec": 623.932538004251,
+          "speedPasses": 0,
+          "variancePasses": 6
+        }
+      },
+      "pairs": [
+        {
+          "slots": [
+            1,
+            2
+          ],
+          "control": 614.0756737096815,
+          "candidate": 626.9106685966741,
+          "candidateRatio": 1.0209013244401222,
+          "percentChange": 2.090132444012216
+        },
+        {
+          "slots": [
+            3,
+            4
+          ],
+          "control": 608.9341617567989,
+          "candidate": 624.2998168525589,
+          "candidateRatio": 1.0252336887315199,
+          "percentChange": 2.5233688731519877
+        },
+        {
+          "slots": [
+            5,
+            6
+          ],
+          "control": 613.2387984842883,
+          "candidate": 622.7585702730539,
+          "candidateRatio": 1.0155237597691065,
+          "percentChange": 1.552375976910647
+        },
+        {
+          "slots": [
+            7,
+            8
+          ],
+          "control": 612.9124440175182,
+          "candidate": 627.9993724560527,
+          "candidateRatio": 1.0246151446031064,
+          "percentChange": 2.461514460310643
+        },
+        {
+          "slots": [
+            9,
+            10
+          ],
+          "control": 604.74788473849,
+          "candidate": 603.2567964343422,
+          "candidateRatio": 0.9975343637542566,
+          "percentChange": -0.24656362457433634
+        },
+        {
+          "slots": [
+            11,
+            12
+          ],
+          "control": 560.3794471303918,
+          "candidate": 623.5652591559431,
+          "candidateRatio": 1.1127554059113252,
+          "percentChange": 11.275540591132515
+        }
+      ],
+      "medianPairedPercentChange": 2.2758234521614296,
+      "pairedPercentChangeRange": [
+        -0.24656362457433634,
+        11.275540591132515
+      ],
+      "runs": [
+        {
+          "slot": 1,
+          "arm": "control",
+          "wordsPerSec": 614.0756737096815,
+          "elapsed": 16284.637917,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.2670255313484247,
+          "variancePass": true,
+          "sha256": "a7f6d817b722f97e85fc7b2a491cd3c46e54da6385635214c7791d724a36e1a8"
+        },
+        {
+          "slot": 2,
+          "arm": "candidate",
+          "wordsPerSec": 626.9106685966741,
+          "elapsed": 15951.235959000001,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.2228705175589534,
+          "variancePass": true,
+          "sha256": "da014a7dec609813a9d6df38a60d72dfcf8e1bbea98dc6415dc48d46a14393c0"
+        },
+        {
+          "slot": 3,
+          "arm": "candidate",
+          "wordsPerSec": 624.2998168525589,
+          "elapsed": 16017.944791999998,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.228462174506288,
+          "variancePass": true,
+          "sha256": "c53aa8394f81913ddfef9b4564e2bf0f172dc2cb624d4942bb692ec7b3c371c1"
+        },
+        {
+          "slot": 4,
+          "arm": "control",
+          "wordsPerSec": 608.9341617567989,
+          "elapsed": 16422.136625,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.2362984382432392,
+          "variancePass": true,
+          "sha256": "942b3e56cc95f962811810ad2478f85272c870d9fa6c503f17fac50cedb6d467"
+        },
+        {
+          "slot": 5,
+          "arm": "control",
+          "wordsPerSec": 613.2387984842883,
+          "elapsed": 16306.861250000002,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.2325090544686292,
+          "variancePass": true,
+          "sha256": "ac0745637fd0e6a85b47e80fcd09f9711304436ab6baef6e0ba83f74e87aff76"
+        },
+        {
+          "slot": 6,
+          "arm": "candidate",
+          "wordsPerSec": 622.7585702730539,
+          "elapsed": 16057.587125000002,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.2420290069927789,
+          "variancePass": true,
+          "sha256": "fdf7147075885b8e9ddffcca574d332b64ae17449856080b244d0d4eac7b5029"
+        },
+        {
+          "slot": 7,
+          "arm": "candidate",
+          "wordsPerSec": 627.9993724560527,
+          "elapsed": 15923.582791,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.2250019949145101,
+          "variancePass": true,
+          "sha256": "431ceae90ce6a62fe41da1c9135c7567d442c9d31055844bdc10459d31c18fb9"
+        },
+        {
+          "slot": 8,
+          "arm": "control",
+          "wordsPerSec": 612.9124440175182,
+          "elapsed": 16315.544084,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.288234536429015,
+          "variancePass": true,
+          "sha256": "c429536f56e61d5b526fbff8026acb6893448b981f2d7fdb232579cca05bf2fb"
+        },
+        {
+          "slot": 9,
+          "arm": "control",
+          "wordsPerSec": 604.74788473849,
+          "elapsed": 16535.816416,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.2292401596555422,
+          "variancePass": true,
+          "sha256": "1c01a536e6eb53ea02f1a25b8baf2da21de0d7b580ba7ed975c930a9e3a91ace"
+        },
+        {
+          "slot": 10,
+          "arm": "candidate",
+          "wordsPerSec": 603.2567964343422,
+          "elapsed": 16576.6885,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.233424067302579,
+          "variancePass": true,
+          "sha256": "09e31272baa30c363dbbffe403d711bdd5538aff797f69926e2aecb70fff9ff2"
+        },
+        {
+          "slot": 11,
+          "arm": "candidate",
+          "wordsPerSec": 623.5652591559431,
+          "elapsed": 16036.813875000002,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.2479463111947562,
+          "variancePass": true,
+          "sha256": "4e40a32d3a3c806627483b36ba2972bc076d7a6db55e9f4903a19d42dc134ff2"
+        },
+        {
+          "slot": 12,
+          "arm": "control",
+          "wordsPerSec": 560.3794471303918,
+          "elapsed": 17845.051333,
+          "floor": 4500,
+          "speedPass": false,
+          "medianVariance": 1.2259922080991226,
+          "variancePass": true,
+          "sha256": "f9b7839d65c569e540b65247f4dca9463533c58000bfb0a417fd4641db1a6baa"
+        }
+      ]
+    }
+  ]
+}

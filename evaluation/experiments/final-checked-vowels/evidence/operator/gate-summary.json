@@ -1,0 +1,224 @@
+{
+  "scope": "All original terminal gate results and authenticated logs; no reruns or thresholds changed. Timing claims require separate paired measurements.",
+  "gates": [
+    {
+      "stage": "full",
+      "arm": "control",
+      "exitCode": 1,
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator/node_modules/vitest/vitest.mjs",
+        "run",
+        "--maxWorkers=1",
+        "--minWorkers=1",
+        "--no-file-parallelism"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator",
+      "logSha256": "9b62922b49a216722ce8bcc1f2bb2b291bd9a02413831be6851f3516760bf45a",
+      "logBytes": 25063,
+      "failureTitles": [
+        "src/core/generate.test.ts > Word Generator > risingCodaDrop policy gates rising-coda drop events",
+        "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs",
+        "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs",
+        "src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs",
+        "src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit"
+      ],
+      "assertionMessages": [
+        "expected 9 to be +0 // Object.is equality",
+        "expected 29 to be +0 // Object.is equality",
+        "expected 46 to be +0 // Object.is equality",
+        "expected 6 to be less than or equal to 5"
+      ],
+      "timeouts": [
+        "60000"
+      ],
+      "terminalSummary": "Test Files  2 failed | 62 passed (64)\n      Tests  5 failed | 1060 passed | 1 skipped (1066)\n   Start at  18:30:47\n   Duration  548.18s (transform 904ms, setup 0ms, collect 3.58s, tests 537.39s, environment 7ms, prepare 2.52s)"
+    },
+    {
+      "stage": "full",
+      "arm": "candidate",
+      "exitCode": 1,
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator/node_modules/vitest/vitest.mjs",
+        "run",
+        "--maxWorkers=1",
+        "--minWorkers=1",
+        "--no-file-parallelism"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator",
+      "logSha256": "0b95e84f2460c1bd0df8f035da5d82cce159914a5fbfb9525dbbfa416aa5fc99",
+      "logBytes": 43057,
+      "failureTitles": [
+        "src/core/base-spelling.test.ts > exact base-spelling provenance > records a cut within th at its actual source cell without claiming it is repaired",
+        "src/core/base-spelling.test.ts > exact base-spelling provenance > exposes the untraced join, boundary insertion and post-join vowel cap",
+        "src/core/base-spelling.test.ts > exact base-spelling provenance > records empty emission separately from phoneme deletion",
+        "src/core/generate.test.ts > Word Generator > risingCodaDrop policy gates rising-coda drop events",
+        "src/core/lexical.test.ts > lexical composition before surface realization > makes one aspiration decision per final syllable using its final position",
+        "src/core/lexical.test.ts > lexical composition before surface realization > does not attribute an unrelated root grapheme to a morphology bridge",
+        "src/core/spelling-normalization.test.ts > local whole-unit normalization > recounts skipped joins after a syllable rule removes the complete written part",
+        "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs",
+        "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs",
+        "src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs",
+        "src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit"
+      ],
+      "assertionMessages": [
+        "expected 'motwors' to be 'coibruhry' // Object.is equality",
+        "expected 'fejichile' to be 'mechise' // Object.is equality",
+        "expected 'saule' to be 'bazzerm' // Object.is equality",
+        "expected 8 to be +0 // Object.is equality",
+        "expected 28 to be +0 // Object.is equality",
+        "expected 46 to be +0 // Object.is equality",
+        "expected 6 to be less than or equal to 5"
+      ],
+      "timeouts": [
+        "60000"
+      ],
+      "terminalSummary": "Test Files  5 failed | 60 passed (65)\n      Tests  11 failed | 1061 passed | 1 skipped (1073)\n   Start at  18:39:55\n   Duration  549.60s (transform 902ms, setup 0ms, collect 3.72s, tests 538.53s, environment 8ms, prepare 2.55s)"
+    },
+    {
+      "stage": "default-quality",
+      "arm": "control",
+      "exitCode": 1,
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator/node_modules/vitest/vitest.mjs",
+        "run",
+        "--config",
+        "vitest.quality.config.ts"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator",
+      "logSha256": "7191e2dfbd815db8fc776b8b9f8cb4a529ba91aa99987924c4307451b1662c56",
+      "logBytes": 3347,
+      "failureTitles": [
+        "src/core/quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: no 5+ consecutive consonant letters"
+      ],
+      "assertionMessages": [
+        "expected 70 to be +0 // Object.is equality"
+      ],
+      "timeouts": [],
+      "terminalSummary": "Test Files  1 failed (1)\n      Tests  1 failed | 11 passed (12)\n   Start at  18:49:05\n   Duration  37.27s (transform 318ms, setup 0ms, collect 446ms, tests 36.57s, environment 0ms, prepare 47ms)"
+    },
+    {
+      "stage": "default-quality",
+      "arm": "candidate",
+      "exitCode": 1,
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator/node_modules/vitest/vitest.mjs",
+        "run",
+        "--config",
+        "vitest.quality.config.ts"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator",
+      "logSha256": "ea8330425d8407849c148ba0de20e1eac4c202d96c65b9bd77bd3940fd4c2b2b",
+      "logBytes": 3351,
+      "failureTitles": [
+        "src/core/quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: no 5+ consecutive consonant letters"
+      ],
+      "assertionMessages": [
+        "expected 67 to be +0 // Object.is equality"
+      ],
+      "timeouts": [],
+      "terminalSummary": "Test Files  1 failed (1)\n      Tests  1 failed | 11 passed (12)\n   Start at  18:49:43\n   Duration  36.90s (transform 328ms, setup 0ms, collect 449ms, tests 36.22s, environment 0ms, prepare 49ms)"
+    },
+    {
+      "stage": "active-quality",
+      "arm": "control",
+      "exitCode": 1,
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator/node_modules/vitest/vitest.mjs",
+        "run",
+        "--config",
+        "vitest.config.mjs"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/active-quality/control",
+      "logSha256": "860a97b3c19732a9d124a5317744f87988852a57457ff6219eebd327b79c9bf7",
+      "logBytes": 4010,
+      "failureTitles": [
+        "quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: no 5+ consecutive consonant letters",
+        "quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: owngs <= 1"
+      ],
+      "assertionMessages": [
+        "expected 92 to be +0 // Object.is equality",
+        "expected 47 to be less than or equal to 1"
+      ],
+      "timeouts": [],
+      "terminalSummary": "Test Files  1 failed (1)\n      Tests  2 failed | 10 passed (12)\n   Start at  18:50:20\n   Duration  195.49s (transform 320ms, setup 0ms, collect 455ms, tests 194.77s, environment 0ms, prepare 43ms)"
+    },
+    {
+      "stage": "active-quality",
+      "arm": "candidate",
+      "exitCode": 1,
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator/node_modules/vitest/vitest.mjs",
+        "run",
+        "--config",
+        "vitest.config.mjs"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/active-quality/candidate",
+      "logSha256": "ad7972286d9de08f64a8dda7b58c8ce6513ceb0f26058c2c0e39d877189e354a",
+      "logBytes": 4014,
+      "failureTitles": [
+        "quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: no 5+ consecutive consonant letters",
+        "quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: owngs <= 1"
+      ],
+      "assertionMessages": [
+        "expected 86 to be +0 // Object.is equality",
+        "expected 47 to be less than or equal to 1"
+      ],
+      "timeouts": [],
+      "terminalSummary": "Test Files  1 failed (1)\n      Tests  2 failed | 10 passed (12)\n   Start at  18:53:36\n   Duration  191.99s (transform 334ms, setup 0ms, collect 470ms, tests 191.26s, environment 0ms, prepare 55ms)"
+    },
+    {
+      "stage": "default-perf",
+      "arm": "control",
+      "exitCode": 1,
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator/node_modules/vitest/vitest.mjs",
+        "run",
+        "--config",
+        "vitest.perf.config.ts",
+        "--reporter=verbose"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator",
+      "logSha256": "ebb8b0ef0e466a6b364e8ec932fd18472d7bc265bd7c251890d971df0678f962",
+      "logBytes": 1612,
+      "failureTitles": [
+        "src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec"
+      ],
+      "assertionMessages": [
+        "expected 3424.644877134413 to be greater than or equal to 4500"
+      ],
+      "timeouts": [],
+      "terminalSummary": "Test Files  1 failed (1)\n      Tests  1 failed | 1 passed (2)\n   Start at  18:56:48\n   Duration  4.42s (transform 316ms, setup 0ms, collect 442ms, tests 3.80s, environment 0ms, prepare 45ms)"
+    },
+    {
+      "stage": "default-perf",
+      "arm": "candidate",
+      "exitCode": 1,
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator/node_modules/vitest/vitest.mjs",
+        "run",
+        "--config",
+        "vitest.perf.config.ts",
+        "--reporter=verbose"
+      ],
+      "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator",
+      "logSha256": "0228bc8eebd3f224ef1b0d2a1cc5201a0df28d1bb1e0fb925ebc9f639d2eb341",
+      "logBytes": 1616,
+      "failureTitles": [
+        "src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec"
+      ],
+      "assertionMessages": [
+        "expected 3499.5769448920746 to be greater than or equal to 4500"
+      ],
+      "timeouts": [],
+      "terminalSummary": "Test Files  1 failed (1)\n      Tests  1 failed | 1 passed (2)\n   Start at  18:56:53\n   Duration  4.33s (transform 303ms, setup 0ms, collect 429ms, tests 3.73s, environment 0ms, prepare 41ms)"
+    }
+  ]
+}

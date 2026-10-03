@@ -1,0 +1,72 @@
+{
+  "passed": true,
+  "records": {
+    "legal:closed:no-plan": {
+      "endpoint/words": 1
+    },
+    "legal:open:no-plan": {
+      "endpoint/words": 1,
+      "endpoint/lexical/open/ɚ": 1,
+      "endpoint/surface/open/ɚ": 1
+    },
+    "repaired:ˌ": {
+      "endpoint/words": 1,
+      "endpoint/lexical/open/ɚ": 1,
+      "endpoint/surface/open/ɚ": 1,
+      "endpoint/repair/events": 1,
+      "endpoint/repair/from/ɛ": 1,
+      "endpoint/repair/to/ɚ": 1,
+      "endpoint/repair/stress/ˌ": 1
+    },
+    "repaired:unstressed": {
+      "endpoint/words": 1,
+      "endpoint/lexical/open/ɚ": 1,
+      "endpoint/surface/open/ɚ": 1,
+      "endpoint/repair/events": 1,
+      "endpoint/repair/from/ʌ": 1,
+      "endpoint/repair/to/ɚ": 1,
+      "endpoint/repair/stress/unstressed": 1
+    },
+    "repaired:ˈ": {
+      "endpoint/words": 1,
+      "endpoint/lexical/open/eɪ": 1,
+      "endpoint/surface/open/eɪ": 1,
+      "endpoint/repair/events": 1,
+      "endpoint/repair/from/ɪ": 1,
+      "endpoint/repair/to/eɪ": 1,
+      "endpoint/repair/stress/ˈ": 1
+    },
+    "legal:closed:suffixed": {
+      "endpoint/words": 1
+    },
+    "legal:closed:prefixed": {
+      "endpoint/words": 1
+    },
+    "legal:open:suffixed": {
+      "endpoint/words": 1,
+      "endpoint/lexical/open/i:": 1,
+      "endpoint/surface/open/i:": 1
+    },
+    "legal:closed:bare": {
+      "endpoint/words": 1
+    },
+    "legal:open:prefixed": {
+      "endpoint/words": 1,
+      "endpoint/lexical/open/u": 1,
+      "endpoint/surface/open/u": 1
+    },
+    "legal:closed:both": {
+      "endpoint/words": 1
+    },
+    "legal:open:bare": {
+      "endpoint/words": 1,
+      "endpoint/lexical/open/ɜ": 1,
+      "endpoint/surface/open/ɜ": 1
+    },
+    "legal:open:both": {
+      "endpoint/words": 1,
+      "endpoint/lexical/open/i:": 1,
+      "endpoint/surface/open/i:": 1
+    }
+  }
+}

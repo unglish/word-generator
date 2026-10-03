@@ -1,0 +1,13 @@
+{
+  "scope": "Preliminary classification from original full-run logs; no frozen source or tests changed.",
+  "control": {"failedTests": 5, "passedTests": 1060, "skippedTests": 1},
+  "candidate": {"failedTests": 11, "passedTests": 1061, "skippedTests": 1},
+  "commonFailures": ["risingCodaDrop timeout", "three consonant pileup assertions", "ck/doubling limit assertion"],
+  "candidateAdditionalFailures": [
+    {"tests": 3, "file": "src/core/base-spelling.test.ts", "observed": "Historical exact stream word fixtures differ after added RNG draws; provenance assertions were not reached."},
+    {"tests": 1, "file": "src/core/lexical.test.ts", "observed": "Custom test inventory inherits final checked-vowel policy but has no eligible positive replacement nucleus."},
+    {"tests": 1, "file": "src/core/lexical.test.ts", "observed": "Historical bridge fixture no longer has expected onset in that seed output."},
+    {"tests": 1, "file": "src/core/spelling-normalization.test.ts", "observed": "Custom test inventory inherits final checked-vowel policy but has no eligible positive replacement nucleus."}
+  ],
+  "interpretation": "Candidate is not gate-green. Additional failures require targeted source/fixture review after frozen measurements terminate. Do not infer that all failures are harmless or relabel changed tests as unchanged-gate success."
+}
