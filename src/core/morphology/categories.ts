@@ -67,11 +67,11 @@ export function validateCategoryModel(model: MorphologyCategories, affixCounts: 
 
 function constructionRoles(template: "bare" | "prefixed" | "suffixed" | "both", order: MorphologyCategories["order"]): Array<"prefix" | "suffix"> {
   switch (template) {
-    case "bare": return [];
-    case "prefixed": return ["prefix"];
-    case "suffixed": return ["suffix"];
-    case "both": return order === "prefix-then-suffix" ? ["prefix", "suffix"] : ["suffix", "prefix"];
-    default: throw new Error("Unknown morphology template.");
+  case "bare": return [];
+  case "prefixed": return ["prefix"];
+  case "suffixed": return ["suffix"];
+  case "both": return order === "prefix-then-suffix" ? ["prefix", "suffix"] : ["suffix", "prefix"];
+  default: throw new Error("Unknown morphology template.");
   }
 }
 
