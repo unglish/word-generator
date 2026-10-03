@@ -3,7 +3,7 @@ import { syntheticSnapshot } from "../auditory/auditory.fixture.js";
 import { makeTarget } from "../auditory/targets.js";
 import { bytesHash as digestBytes } from "../auditory/audio.js";
 import { freezeReadAloud } from "./freeze.js";
-import { inferReadAloud, prepareReadAloudInference, weightedReadAloudCondition } from "./inference.js";
+import { inferReadAloud, prepareReadAloudInference, resampleReadAloud, weightedReadAloudCondition } from "./inference.js";
 import type { PreparedReadAloudInference } from "./inference.js";
 import type { ReadAloudInferenceProtocol } from "./inference-model.js";
 import { validateReadAloudInference } from "./inference-protocol.js";
@@ -147,4 +147,19 @@ describe("prospective read-aloud crossed stability", () => {
     const second = { readers: first.readers.map(value => value * 1e100), spellings: first.spellings.map(value => value * 1e-100) };
     expect(weightedReadAloudCondition(prepared, first, "baseline", null, "intended_phones").agreement).toBeCloseTo(weightedReadAloudCondition(prepared, second, "baseline", null, "intended_phones").agreement!, 15);
   });
+  it("uses the identical numerical kernel for authenticated reports and synthetic calibration", () => {
+    for (const stress of ["primary", "unknown"] as const) {
+      const fixture = makeExport(comparison(), () => ({ status: "coded", transcription: observed("a", stress) }));
+      const prepared = prepareReadAloudInference(fixture.data, fixture.materials), authenticated = inferReadAloud(fixture.data, fixture.materials);
+      const numerical = resampleReadAloud(prepared, protocol(), fixture.data.comparison.registration.strata.map(stratum => stratum.id));
+      expect(numerical.results).toEqual(authenticated.results);
+      expect(numerical.rng_integer_bin_hashes).toEqual(authenticated.rng_integer_bin_hashes);
+      expect(numerical.rng_draws).toBe(authenticated.rng_draws);
+    }
+  });
+  it("refuses repeated or absent numerical strata rather than duplicating a context", () => {
+    const fixture = makeExport(comparison()), prepared = prepareReadAloudInference(fixture.data, fixture.materials);
+    for (const strata of [[], ["all", "all"], [""]]) expect(() => resampleReadAloud(prepared, protocol(), strata)).toThrow(/unique registered strata/);
+  });
+
 });

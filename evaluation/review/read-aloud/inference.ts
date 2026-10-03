@@ -79,13 +79,12 @@ function withholding(point: ReturnType<typeof estimate>, protocol: ReadAloudInfe
   }
   return reasons;
 }
-export function inferReadAloud(data: ReadAloudExport, materials: ReadingMaterial[], evidence: AlternativeEvidence[] = []) {
-  const protocol = data.comparison.registration.inference;
-  if (!protocol) throw new Error("Freeze the read-aloud stability protocol before observations.");
+/** Numerical kernel for independently reconstructed simulation inputs; no material authentication. */
+export function resampleReadAloud(prepared: PreparedReadAloudInference, protocol: ReadAloudInferenceProtocol, strata: string[]) {
   validateReadAloudInference(protocol);
-  const report = reportReadAloud(data, materials, evidence), prepared = fromReport(data, report.source_draws);
+  if (!strata.length || new Set(strata).size !== strata.length || strata.some(stratum => typeof stratum !== "string" || !stratum)) throw new Error("Numerical contexts require unique registered strata.");
   const unit = { readers: prepared.factors.readers.map(() => 1), spellings: prepared.factors.spellings.map(() => 1) };
-  const contexts = [null, ...data.comparison.registration.strata.map(stratum => stratum.id)].flatMap(stratum =>
+  const contexts = [null, ...strata].flatMap(stratum =>
     AGREEMENT_METRICS.map(metric => ({ stratum, metric, point: estimate(prepared, unit, stratum, metric), replicates: [] as (number | null)[] })));
   const rng = createSeededRng(protocol.seed), binHashes: string[] = [], readerCount = prepared.factors.readers.length;
   const factorCount = readerCount + prepared.factors.spellings.length;
@@ -105,9 +104,18 @@ export function inferReadAloud(data: ReadAloudExport, materials: ReadingMaterial
       point: context.point, interval_withheld_reasons: reasons, stability_interval: reasons.length ? null : [percentile(valid, tail), percentile(valid, 1 - tail)],
       valid_replicates: valid.length, unavailable_replicates: context.replicates.length - valid.length, replicates: context.replicates };
   });
+  return { rng_integer_bin_hashes: binHashes, rng_draws: protocol.replicates * factorCount, results };
+}
+
+export function inferReadAloud(data: ReadAloudExport, materials: ReadingMaterial[], evidence: AlternativeEvidence[] = []) {
+  const protocol = data.comparison.registration.inference;
+  if (!protocol) throw new Error("Freeze the read-aloud stability protocol before observations.");
+  validateReadAloudInference(protocol);
+  const report = reportReadAloud(data, materials, evidence), prepared = fromReport(data, report.source_draws);
+  const resampled = resampleReadAloud(prepared, protocol, data.comparison.registration.strata.map(stratum => stratum.id));
   return { version: "read-aloud-crossed-stability-v1", comparison_digest: data.comparison.digest, plan_digest: data.plan.digest, roster_digest: data.roster.digest,
     export_digest: digest(data), report_digest: digest(report), protocol, protocol_digest: digest(protocol), factors: prepared.factors,
-    rng_integer_bin_hashes: binHashes, rng_draws: protocol.replicates * factorCount, report, results,
+    rng_integer_bin_hashes: resampled.rng_integer_bin_hashes, rng_draws: resampled.rng_draws, report, results: resampled.results,
     calibration: "not-established", population_intervals: null,
     method: "Shared positive exponential reader and spelling factors across arms, strata and all four metrics. Every original source draw remains separate; fixed metric-available reader count divides its observation mass before global weighted aggregation. Axis scaling preserves each ratio. Same-bin midpoint transform and type-7 percentile endpoints.",
     scope: "Uncalibrated engineering stability output, conditional on observed definite readings and source-target availability. No population interval, informative-missingness correction, independent identity/coding proof, causal spelling-only estimate or quality verdict. Exactly one preregistered metric/overall context is primary; other intervals are exploratory and unadjusted. Categorical pronunciation calibration must preserve joint conflicting-target/accepted/stress scores and unavailable states; written-rating calibration is insufficient." };

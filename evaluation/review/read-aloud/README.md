@@ -240,3 +240,12 @@ ratio, percentile construction or categorical pronunciation study. Written-ratin
 calibration does not validate it. New categorical calibration must preserve
 shared/conflicting targets, accepted sets, phones/boundaries/stress, coding
 availability and both conditional and full-population missingness truths.
+
+The exported `resampleReadAloud` numerical kernel accepts prepared synthetic
+scores, a protocol and registered stratum IDs. It does not authenticate source,
+people, material files or observations. It exists so independent categorical
+simulation inputs use exactly the kernel called by authenticated `inferReadAloud`;
+it is not an alternative way to establish human-study evidence. The authenticated
+wrapper always reconstructs and verifies original materials before calling it.
+Kernel extraction preserves every original estimate, factor, replicate and
+endpoint; retained CLI fixtures must match their original outputs exactly.
