@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "focusedTests": 23,
+  "reviewTypeScriptExit": 0,
+  "lintExit": 0,
+  "unchangedGeneratorHistoricalScorerData": true,
+  "scope": "Offline source/builder/model checks; no generator output, quality/performance or human-study measurement."
+}
