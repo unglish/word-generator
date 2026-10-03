@@ -412,14 +412,13 @@ describe("filterByPosition", () => {
     ...overrides,
   });
 
-  it("falls back to all candidates (tier 3) when all have midWord: 0 at mid-word position", () => {
+  it("preserves explicit position bans when every candidate is excluded", () => {
     const candidates = [
       makeGrapheme({ form: "igh", midWord: 0 }),
       makeGrapheme({ form: "ough", midWord: 0 }),
     ];
     const result = filterByPosition(candidates, false, false, false);
-    // Tier 1 and 2 both exclude these; tier 3 returns all as last resort
-    expect(result).toEqual(candidates);
+    expect(result).toEqual([]);
   });
 
   it("returns candidates with midWord > 0 when mid-word", () => {
@@ -601,33 +600,20 @@ describe("monosyllable position weight selection", () => {
     }
   });
 
-  it("monosyllable max position weight applies to all phonemes", () => {
-    // Test that the monosyllable fix (using max position weight) applies consistently
-    // Generate many monosyllables and verify no graphemes with startWord:0 appear
-    const words = generateWords(5000, { seed: 789, morphology: false });
-    
-    const monosyllables = words.filter(w => w.syllables.length === 1);
-    console.log(`  Testing ${monosyllables.length} monosyllables`);
-    
-    // This is a smoke test - we can't easily check internal grapheme selection
-    // but we can verify that the words generated are plausible and don't show
-    // obvious artifacts of incorrect position weighting
-    expect(monosyllables.length).toBeGreaterThan(100);
-    
-    // Count how many monosyllables end with graphemes that should have startWord:0
-    // (like "dse", "ck" at start, etc.)
-    let suspiciousEndings = 0;
-    for (const w of monosyllables) {
-      const clean = w.written.clean.toLowerCase();
-      // "dse" is the main offender we know about
-      if (clean.endsWith("dse")) {
-        suspiciousEndings++;
+  it("uses literal segment positions for consonants in monosyllables", () => {
+    const words = generateWords(2000, { seed: 789, morphology: false, syllableCount: 1, trace: true });
+    let codas = 0;
+    for (const word of words) {
+      const choices = word.trace!.graphemeSelections;
+      for (const choice of choices) {
+        if (choice.position !== "coda") continue;
+        codas++;
+        expect(choice.selection?.positionScope).toBe(choice.selected === "ck" ? "syllable" : "segment");
+        expect(choice.selection?.segmentPosition).toBe(choice.index === choices.length - 1 ? "final" : "medial");
+        expect(choice.weights.every(([, weight]) => weight > 0 && Number.isFinite(weight))).toBe(true);
       }
     }
-    
-    const suspiciousPercent = (suspiciousEndings / monosyllables.length) * 100;
-    console.log(`  Suspicious endings in monosyllables: ${suspiciousEndings} (${suspiciousPercent.toFixed(2)}%)`);
-    expect(suspiciousPercent).toBeLessThan(0.5);
+    expect(codas).toBeGreaterThan(1000);
   });
 });
 

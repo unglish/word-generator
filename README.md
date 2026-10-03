@@ -172,3 +172,5 @@ outputs, source/configuration provenance, and original/previous-step comparisons
 - Agent-specific constraints: [`agents.md`](./agents.md)
 - Diagnostics/design docs index: [`docs/README.md`](./docs/README.md)
 - Tuning notes and diagnostics: [`TUNING.md`](./TUNING.md)
+
+See [grapheme selection](docs/grapheme-selection.md) for hard constraints, positional scopes, and explicit fallbacks.

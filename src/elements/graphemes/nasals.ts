@@ -20,7 +20,7 @@ export const nasalGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 1,
-    condition: { wordPosition: ["final"] },
+    condition: { segmentPosition: ["final"] },
   },
   {
     phoneme: "m",
@@ -73,7 +73,7 @@ export const nasalGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
-    condition: { wordPosition: ["initial"] },
+    condition: { segmentPosition: ["initial"] },
   },
   {
     phoneme: "n",
@@ -96,14 +96,13 @@ export const nasalGraphemes: Grapheme[] = [
     endWord: 0,
   },
 
-  // sing
+  // sing; ng remains intact in legal clusters such as /ŋθ/ (length).
   {
     phoneme: "ŋ",
     form: "ng",
     origin: 0,
     frequency: 10,
     onset: 0,
-    cluster: 0,
     startWord: 0,
     midWord: 1,
     endWord: 1,
@@ -116,7 +115,6 @@ export const nasalGraphemes: Grapheme[] = [
     origin: 0,
     frequency: 100,
     onset: 0,
-    cluster: 0,
     startWord: 0,
     midWord: 1,
     endWord: 0,
