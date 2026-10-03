@@ -86,3 +86,7 @@ population confidence intervals. Synthetic checks test allocation/export
 contracts, not wordlikeness gains. Collection transport/UI, registered
 participant/item-aware inference, actual verified recruitment and observations
 remain before Q21 can count as a completed study or output-quality improvement.
+
+## Inference draft
+
+The [crossed reader/spelling inference draft](written-inference-method.md) binds an optional inference protocol to the comparison before observations. `review:compare infer --input private-export.json --roster private-roster.json --out private-inference.json` uses that frozen protocol and a bound owner-attested enrollment roster. Arithmetic validation, calibration, actual enrollment and real observations are still required; the draft is not proof of human preference.

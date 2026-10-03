@@ -1,3 +1,4 @@
+import { validateInferenceProtocol } from "./inference-protocol.js";
 import { RUBRIC } from "../protocol.js";
 import { digest, validateSnapshot } from "../snapshot.js";
 import type { Sample, Snapshot } from "../model.js";
@@ -23,6 +24,7 @@ function validateRegistration(registration: ComparisonRegistration): void {
       !Array.isArray(registration.participant_slots) || registration.participant_slots.length < 2 || registration.participant_slots.length % 2 ||
       !uniqueIds(registration.participant_slots) || !Array.isArray(registration.strata) || !registration.strata.length ||
       !uniqueIds(registration.strata.map(stratum => stratum.id))) throw new Error("Invalid written comparison registration.");
+  if (registration.inference !== undefined) validateInferenceProtocol(registration.inference);
   for (const stratum of registration.strata) {
     if (!validRange(stratum.lengths) || !validRange(stratum.syllables) || !Array.isArray(stratum.morphology) ||
         !stratum.morphology.length || new Set(stratum.morphology).size !== stratum.morphology.length ||

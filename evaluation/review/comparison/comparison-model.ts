@@ -1,3 +1,4 @@
+import type { WrittenInferenceProtocol } from "./inference-model.js";
 import type { Snapshot } from "../model.js";
 import type { Assignment, Answer } from "../protocol.js";
 
@@ -20,6 +21,7 @@ export interface ComparisonRegistration {
   session_length: number;
   participant_slots: string[];
   strata: WrittenStratum[];
+  inference?: WrittenInferenceProtocol;
 }
 export interface ComparisonDraw {
   condition: Condition;

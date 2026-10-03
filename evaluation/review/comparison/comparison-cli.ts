@@ -3,6 +3,8 @@ import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { allocateComparison, reviewerPacket } from "./comparison-allocation.js";
 import { freezeComparison } from "./comparison-freeze.js";
+import { inferWrittenComparison } from "./comparison-inference.js";
+import type { EnrollmentRoster } from "./inference-model.js";
 import { buildComparisonReport } from "./comparison-report.js";
 import type { Snapshot } from "../model.js";
 import type { ComparisonExport, ComparisonPlan, ComparisonRegistration, WrittenComparison } from "./comparison-model.js";
@@ -10,7 +12,7 @@ import type { ComparisonExport, ComparisonPlan, ComparisonRegistration, WrittenC
 const [command, ...args] = process.argv.slice(2);
 const { values } = parseArgs({ args, options: {
   registration: { type: "string" }, baseline: { type: "string" }, candidate: { type: "string" },
-  input: { type: "string" }, plan: { type: "string" }, session: { type: "string" }, out: { type: "string" },
+  roster: { type: "string" }, input: { type: "string" }, plan: { type: "string" }, session: { type: "string" }, out: { type: "string" },
 } });
 function required(key: keyof typeof values): string {
   const value = values[key]; if (!value) throw new Error(`--${key} is required.`); return value;
@@ -36,5 +38,11 @@ try {
     const report = buildComparisonReport(await load<ComparisonExport>(required("input")));
     await save(resolve(required("out")), report);
     console.log("Wrote descriptive condition/stratum/slot report; no population inference or identity verification.");
-  } else throw new Error("Use prepare, packet, or report.");
+  } else if (command === "infer") {
+    const data = await load<ComparisonExport>(required("input"));
+    const roster = values.roster ? await load<EnrollmentRoster>(values.roster) : undefined;
+    const report = inferWrittenComparison(data, roster);
+    await save(resolve(required("out")), report);
+    console.log("Wrote approximate preregistered crossed-factor inference; no automatic quality or population-generalization verdict.");
+  } else throw new Error("Use prepare, packet, report, or infer.");
 } catch (error) { console.error(error instanceof Error ? error.message : "Comparison command failed."); process.exitCode = 1; }
