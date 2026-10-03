@@ -21,5 +21,3 @@ The primary comparison is matched held-out mean negative log likelihood per dict
 The output retains the selected source identities, splits, integer count tables, every development-grid result, held-out comparisons, license, implementation sources, commit, Node executable hash and lockfile hash. It authenticates source bytes and checks source/runtime state again before writing. Installed loader binaries need a separate execution seal: the lockfile alone does not attest installed dependencies. Independent reconstruction of selection, segmentation, count tables and likelihoods is required before treating an artifact as accepted evidence.
 
 A better held-out score is evidence of better conditional corpus prediction under this protocol. It is not proof of improved generator output, diversity, pronunciation or human wordlikeness. Any runtime use requires a separate deterministic, trace-backed generator experiment.
-
-The [completed results](RESULTS.md) report 9.12% lower held-out mean loss, rare-tail regressions, full independent reconstruction and source-preserving verification. This does not activate the model in generation.

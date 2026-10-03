@@ -1,0 +1,9 @@
+{
+  "root": "/Users/ryanbetts/.codex/worktrees/linguistic-q17-model/word-generator",
+  "branch": "depatched/conditional-onset-rime",
+  "baseCommit": "71f5a6f6af2291e14d0b012f1ab5911a3d7ecca0",
+  "registrationCommit": "a7c6779ccad0151637f062f137d3e8c10ae5c4c8",
+  "rawSource": "/private/tmp/q17-cmudict-74790861.dict",
+  "rawSha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+  "state": "Uncommitted offline model core; registration committed before implementation; corpus fitting and held-out evaluation have not run"
+}
