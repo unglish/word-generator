@@ -57,19 +57,26 @@ export function frequencyObservations(joined: readonly { frequency: FrequencyEnt
   return result;
 }
 
-export function splitFrequencyObservations(entries: readonly FrequencyObservation[], seed: string) {
-  validateObservations(entries);
+export function splitFrequencySpellings<T extends { spelling: string }>(entries: readonly T[], seed: string) {
   if (!seed) throw new Error("Frequency split requires an explicit seed.");
-  const result: { training: FrequencyObservation[]; development: FrequencyObservation[]; heldOut: FrequencyObservation[] } = {
+  const result: { training: T[]; development: T[]; heldOut: T[] } = {
     training: [], development: [], heldOut: [],
   };
+  const seen = new Set<string>();
   for (const entry of entries) {
+    if (!/^[a-z]+$/.test(entry.spelling) || seen.has(entry.spelling)) throw new Error("Split requires unique normalized spellings.");
+    seen.add(entry.spelling);
     const bucket = createHash("sha256").update(JSON.stringify([seed, entry.spelling])).digest().readUInt32BE() % 10000;
     if (bucket < 8000) result.training.push(entry);
     else if (bucket < 9000) result.development.push(entry);
     else result.heldOut.push(entry);
   }
   return result;
+}
+
+export function splitFrequencyObservations(entries: readonly FrequencyObservation[], seed: string) {
+  validateObservations(entries);
+  return splitFrequencySpellings(entries, seed);
 }
 
 export function fitFrequencyCounts(entries: readonly FrequencyObservation[], weighting: FrequencyCounts["weighting"]): FrequencyCounts {

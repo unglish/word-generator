@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parseCmuRecords, selectCompatibleCmu } from "../corpus/cmu.js";
-import { allocatePosTokenMass, FREQUENCY_COLUMNS, joinFrequencyPronunciations, parseFrequencyTable } from "../corpus/frequency-source.js";
+import { allocatePosTokenMass, bindLiteralPosRows, FREQUENCY_COLUMNS, joinFrequencyPronunciations, parseFrequencyTable } from "../corpus/frequency-source.js";
 
 const header = FREQUENCY_COLUMNS.join("\t");
 const row = (word: string, count = "10", lower = "4") => `${word}\t${count}\t2\t${lower}\t1\t99999\t0\t99\t0`;
@@ -32,6 +32,19 @@ describe("raw frequency population", () => {
 });
 
 describe("ambiguous POS modeled allocation", () => {
+  it("binds all literal source rows while retaining missing POS evidence and contradictory tagged mass", () => {
+    const frequencies = parseFrequencyTable(`${header}\n${row("The")}\n${row("cat", "7")}`);
+    const rows = frequencies.map((entry, index) => ({ ...entry, line: index + 2,
+      rawPosTags: index ? null : "Pronoun.Noun", rawPosCounts: index ? null : "8.4" }));
+    const bound = bindLiteralPosRows(frequencies, rows);
+    expect(bound.get("the")!.allocation.wordMinusTaggedCount).toBe(-2);
+    expect(bound.get("cat")!.allocation.masses.unknown.numerator).toBe("7");
+    for (const corrupted of [rows.slice(0, 1), [rows[0], rows[0]],
+      [{ ...rows[0], count: 11 }, rows[1]], [{ ...rows[0], rawPosCounts: "8" }, rows[1]],
+      [rows[0], { ...rows[1], line: 2 }]]) {
+      expect(() => bindLiteralPosRows(frequencies, corrupted)).toThrow();
+    }
+  });
   it("retains a source mass discrepancy and allocates exact rational shares without choosing the dominant tag", () => {
     const allocation = allocatePosTokenMass(10, [{ tag: "Noun", count: 2 }, { tag: "Pronoun", count: 4 }, { tag: "Name", count: 6 }]);
     expect(allocation).toEqual({ interpretation: "modeled-within-row-pos-allocation", wordCount: 10,
