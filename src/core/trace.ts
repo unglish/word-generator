@@ -1,3 +1,4 @@
+import type { CategoryPlanningTrace } from "./morphology/category-planning.js";
 import type { FinalNucleusTrace } from "./final-nucleus.js";
 import type { GapSpellingPassTrace } from "./gap-spelling.js";
 import type { PronunciationPassTrace } from "./pronounce.js";
@@ -83,6 +84,8 @@ export interface RepairTrace {
 }
 
 export interface MorphologyTrace {
+  /** Assigned lexical categories and exact planned/retained paths, when configured. */
+  categories?: CategoryPlanningTrace;
   template: string;
   /** Planned prefix spelling, before allomorph selection. */
   prefix?: string;

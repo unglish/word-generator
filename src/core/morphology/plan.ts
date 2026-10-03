@@ -1,3 +1,4 @@
+import { planCategoryMorphology, type CategoryPlanningTrace } from "./category-planning.js";
 import { MorphologyConfig, Affix } from "../../config/language.js";
 import { GenerationMode, MorphologyTemplate } from "../../types.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
@@ -9,6 +10,7 @@ import type { RNG } from "../../utils/random.js";
 
 export interface MorphologyPlan {
   template: MorphologyTemplate;
+  categories?: CategoryPlanningTrace;
   prefix?: Affix;
   suffix?: Affix;
 }
@@ -44,8 +46,10 @@ export function planMorphology(
   config: MorphologyConfig,
   mode: GenerationMode,
   rand: RNG,
+  forcedSyllableCount: number = 0,
 ): { plan: MorphologyPlan; syllableReduction: number } {
   const template = pickTemplate(config, mode, rand);
+  if (config.categories) return planCategoryMorphology(config, template, rand, forcedSyllableCount);
 
   if (template === "bare") {
     return { plan: { template }, syllableReduction: 0 };

@@ -1244,7 +1244,7 @@ function generateOneWord(
   // Plan morphology before generating root (to adjust syllable count)
   const morphConfig = rt.config.morphology;
   const morphPlan = morphConfig?.enabled && applyMorph
-    ? planMorphology(morphConfig, mode, rand)
+    ? planMorphology(morphConfig, mode, rand, syllableCount)
     : undefined;
 
   // Guard: if "both" template would reduce root below 1 syllable, downgrade to single affix
@@ -1300,6 +1300,7 @@ function generateOneWord(
         prefix: morphPlan.plan.prefix?.written,
         suffix: morphPlan.plan.suffix?.written,
         syllableReduction: morphPlan.syllableReduction,
+        ...(morphPlan.plan.categories ? { categories: structuredClone(morphPlan.plan.categories) } : {}),
       };
     }
     const context: WordGenerationContext = {

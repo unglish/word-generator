@@ -1,3 +1,4 @@
+import { categoryPaths, type MorphologyCategories } from "../core/morphology/categories.js";
 import type { SplitVowelSupport, SplitVowelRoutes } from "../core/spelling-split-policy.js";
 import { Phoneme, Grapheme, GraphemeCondition, GraphemeReading } from "../types.js";
 // ---------------------------------------------------------------------------
@@ -972,6 +973,8 @@ export interface Affix {
 
 /** Configuration for morphological word formation. */
 export interface MorphologyConfig {
+  /** Optional explicit lexical-category contracts; omission preserves legacy planning. */
+  categories?: MorphologyCategories;
   enabled: boolean;
   prefixes: Affix[];
   suffixes: Affix[];
@@ -1729,6 +1732,16 @@ export function validateConfig(config: LanguageConfig): void {
   };
 
   if (config.morphology) {
+    if (config.morphology.categories) {
+      const morphology = config.morphology;
+      const frequencies = { prefix: morphology.prefixes.map(affix => affix.frequency), suffix: morphology.suffixes.map(affix => affix.frequency) };
+      for (const template of ["bare", "prefixed", "suffixed", "both"] as const) {
+        const paths = categoryPaths(morphology.categories!, template, frequencies);
+        if (!paths.length && ["text", "lexicon"].some(mode => morphology.templateWeights[mode as "text" | "lexicon"][template] > 0)) {
+          throw new Error(`Morphology category policy has no licensed path for positive-weight template ${template}.`);
+        }
+      }
+    }
     if (config.morphology.enabled) {
       for (const mode of ["text", "lexicon"] as const) {
         const weights = config.morphology.templateWeights[mode];
