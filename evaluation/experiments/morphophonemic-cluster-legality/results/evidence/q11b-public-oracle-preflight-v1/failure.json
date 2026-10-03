@@ -1,0 +1,4 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '9d2680b37b77ebb2f492f4173b1f1681446e40f4'\n- '9d2680b7a71ca7afb786ca6c892ae985a2f1857c'\n",
+  "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '9d2680b37b77ebb2f492f4173b1f1681446e40f4'\n- '9d2680b7a71ca7afb786ca6c892ae985a2f1857c'\n\n    at snapshot (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/eligibility-tools/public-preflight.mjs:18:10)\n    at <anonymous> (/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/eligibility-tools/public-preflight.mjs:32:24)"
+}

@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "inputPins": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/run_paired_summary_when_quiet.py": "ae3ef2dca9a4348d236de2306191cd5e8f1b39092a2628e636e69f044228307d",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/summary-tools/dependency-closure.mjs": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/summary-tools/paired-changes.test.mjs": "7725315d2136a0de28f7dff7362f58d52d89d18a34019317800ae69d827a4976",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/summary-tools/compare-summaries.mjs": "d1f4e793cb8aba8443781d0ded2c6dc09f5321a156bf102a5a5ad0c368488e56",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/summary-tools/paired-changes.mjs": "d492782fae0447ce9cd5865ac185eb0cdf3ae4f7f0a080d595a0b4cbd00ed129"
+  },
+  "prerequisiteSha256": "c8f6d1834d8efb6a95ffa474e4bd9e3581ca5ce0f138d247853e55ebb2631476",
+  "reportSha256": "1c7c24a9ed4f4cd3e10dccbe9e03bd2564aee59acd9031ac8102c11eeb9d5412",
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "--import",
+    "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/summary-tools/compare-summaries.mjs"
+  ],
+  "exitCode": 0,
+  "scope": "Full 400k-per-arm evaluator summaries; 200k complete bare words/traces byte-identical, 200k same-seed affixed-profile output pairs counted. Rejection may alter later RNG consumption; no human-preference claim."
+}

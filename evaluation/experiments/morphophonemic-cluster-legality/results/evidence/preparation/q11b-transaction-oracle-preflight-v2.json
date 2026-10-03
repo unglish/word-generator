@@ -1,0 +1,114 @@
+{
+  "passed": true,
+  "fixtures": 14,
+  "corruptionCases": 13,
+  "reports": [
+    {
+      "id": "atomic-rejection",
+      "outcomes": [
+        "rejected"
+      ],
+      "changes": 0
+    },
+    {
+      "id": "accepted-softening",
+      "outcomes": [
+        "accepted"
+      ],
+      "changes": 1
+    },
+    {
+      "id": "ordered-reject-accept-reject",
+      "outcomes": [
+        "rejected",
+        "accepted",
+        "rejected"
+      ],
+      "changes": 1
+    },
+    {
+      "id": "condition-unmatched",
+      "outcomes": [
+        "condition-not-matched"
+      ],
+      "changes": 0
+    },
+    {
+      "id": "identity-written-inventory",
+      "outcomes": [
+        "identity",
+        "written-only",
+        "rejected"
+      ],
+      "changes": 0
+    },
+    {
+      "id": "nucleus-coda-rejection",
+      "outcomes": [
+        "rejected"
+      ],
+      "changes": 0
+    },
+    {
+      "id": "fallback-coda-accepted",
+      "outcomes": [
+        "accepted"
+      ],
+      "changes": 1
+    },
+    {
+      "id": "bridges-both-enabled",
+      "outcomes": [
+        "accepted"
+      ],
+      "changes": 1
+    },
+    {
+      "id": "bridges-prefix-disabled",
+      "outcomes": [
+        "accepted"
+      ],
+      "changes": 1
+    },
+    {
+      "id": "bridges-no-positive-bridges",
+      "outcomes": [
+        "accepted"
+      ],
+      "changes": 1
+    },
+    {
+      "id": "observed-default-lexicon-default-835",
+      "outcomes": [
+        "rejected",
+        "condition-not-matched"
+      ],
+      "changes": 0
+    },
+    {
+      "id": "observed-default-text-default-178",
+      "outcomes": [
+        "rejected",
+        "condition-not-matched"
+      ],
+      "changes": 0
+    },
+    {
+      "id": "observed-active-lexicon-default-5864",
+      "outcomes": [
+        "rejected",
+        "condition-not-matched"
+      ],
+      "changes": 0
+    },
+    {
+      "id": "observed-active-text-default-5089",
+      "outcomes": [
+        "rejected",
+        "condition-not-matched"
+      ],
+      "changes": 0
+    }
+  ],
+  "scope": "Independent configured rule/allomorph/guard/ledger/owned assembly/written-half reconstruction preflight. Does not certify corpus frequencies or public generation."
+}

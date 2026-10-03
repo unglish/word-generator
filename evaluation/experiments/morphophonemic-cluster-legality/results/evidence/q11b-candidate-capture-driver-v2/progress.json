@@ -1,0 +1,32 @@
+[
+  {
+    "policy": "default",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/capture/freeze-capture.mjs",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+      "candidate",
+      "default",
+      "9d2680b37b77ebb2f492f4173b1f1681446e40f4",
+      "/private/tmp/q11b-candidate-default-v1"
+    ],
+    "exitCode": 0
+  },
+  {
+    "policy": "active",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/capture/freeze-capture.mjs",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+      "candidate",
+      "active",
+      "9d2680b37b77ebb2f492f4173b1f1681446e40f4",
+      "/private/tmp/q11b-candidate-active-v1"
+    ],
+    "exitCode": 0
+  }
+]

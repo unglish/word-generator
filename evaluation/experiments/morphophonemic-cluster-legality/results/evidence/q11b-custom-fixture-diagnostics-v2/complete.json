@@ -1,0 +1,339 @@
+{
+  "passed": true,
+  "sources": {
+    "src/core/morphology/realization.test.ts": {
+      "bytes": 23680,
+      "sha256": "ff46ef2d29ec232ed4da353c68597e4406d8f4aca9a6cbae86de13730796e4a2"
+    },
+    "src/core/lexical.test.ts": {
+      "bytes": 10628,
+      "sha256": "378a0786725d064da06198c0aefc2fab40debb534f5ab543020f7d47cf3e4355"
+    }
+  },
+  "results": [
+    {
+      "name": "restricted-coda-original-enabled.json",
+      "bytes": 124844,
+      "sha256": "d8e3b5b9d0fc1a5cd4f0ac11515bd67a268a491207976de4f970ddf6f3cb7e81",
+      "written": {
+        "clean": "bakity",
+        "hyphenated": "bakity"
+      },
+      "pronunciation": "ˈbɑk.ɪ.ti:",
+      "evaluations": [
+        {
+          "ruleIndex": 0,
+          "affixIndex": 0,
+          "boundary": "root-suffix",
+          "rule": "ity-velar-softening",
+          "outcome": "rejected",
+          "target": {
+            "syllableIndex": 0,
+            "segment": "coda",
+            "index": 0
+          },
+          "soundBefore": "k",
+          "soundProposed": "s",
+          "guard": {
+            "accepted": false,
+            "rootTarget": {
+              "syllableIndex": 0,
+              "segment": "coda",
+              "index": 0
+            },
+            "assembledTarget": {
+              "syllableIndex": 0,
+              "segment": "coda",
+              "index": 0
+            },
+            "soundBefore": "k",
+            "soundProposed": "s",
+            "syllableBefore": {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɑ"
+              ],
+              "coda": [
+                "k"
+              ]
+            },
+            "syllableProposed": {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɑ"
+              ],
+              "coda": [
+                "s"
+              ]
+            },
+            "rejections": [
+              {
+                "reason": "inventory",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "index": 0,
+                "sounds": [
+                  "s"
+                ],
+                "parts": [
+                  "root"
+                ]
+              }
+            ],
+            "boundaryRepetitionLicenses": []
+          }
+        },
+        {
+          "ruleIndex": 1,
+          "affixIndex": 0,
+          "boundary": "root-suffix",
+          "rule": "ity-diphthong-flattening",
+          "outcome": "condition-not-matched",
+          "target": {
+            "syllableIndex": 0,
+            "segment": "nucleus",
+            "index": 0
+          },
+          "soundBefore": "ɑ",
+          "soundProposed": "ɪ"
+        }
+      ]
+    },
+    {
+      "name": "restricted-coda-legacy-disabled.json",
+      "bytes": 127116,
+      "sha256": "b5740d6c0866eb5e3e7fcd0c0c8cff720781a7b4da246c7901a205daa6f765c6",
+      "written": {
+        "clean": "basity",
+        "hyphenated": "basity"
+      },
+      "pronunciation": "ˈbɑs.ɪ.ti:"
+    },
+    {
+      "name": "restricted-coda-destination-in-position-pool.json",
+      "bytes": 129143,
+      "sha256": "aa3731854542d88ea4313eee816d211b4582b452ee432417747201512e4746f2",
+      "written": {
+        "clean": "basity",
+        "hyphenated": "basity"
+      },
+      "pronunciation": "ˈbɑs.ɪ.ti:",
+      "evaluations": [
+        {
+          "ruleIndex": 0,
+          "affixIndex": 0,
+          "boundary": "root-suffix",
+          "rule": "ity-velar-softening",
+          "outcome": "accepted",
+          "target": {
+            "syllableIndex": 0,
+            "segment": "coda",
+            "index": 0
+          },
+          "soundBefore": "k",
+          "soundProposed": "s",
+          "guard": {
+            "accepted": true,
+            "rootTarget": {
+              "syllableIndex": 0,
+              "segment": "coda",
+              "index": 0
+            },
+            "assembledTarget": {
+              "syllableIndex": 0,
+              "segment": "coda",
+              "index": 0
+            },
+            "soundBefore": "k",
+            "soundProposed": "s",
+            "syllableBefore": {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɑ"
+              ],
+              "coda": [
+                "k"
+              ]
+            },
+            "syllableProposed": {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɑ"
+              ],
+              "coda": [
+                "s"
+              ]
+            },
+            "rejections": [],
+            "boundaryRepetitionLicenses": []
+          }
+        },
+        {
+          "ruleIndex": 1,
+          "affixIndex": 0,
+          "boundary": "root-suffix",
+          "rule": "ity-diphthong-flattening",
+          "outcome": "condition-not-matched",
+          "target": {
+            "syllableIndex": 0,
+            "segment": "nucleus",
+            "index": 0
+          },
+          "soundBefore": "ɑ",
+          "soundProposed": "ɪ"
+        }
+      ]
+    },
+    {
+      "name": "restricted-nucleus-original-enabled.json",
+      "bytes": 165979,
+      "sha256": "31126000c11f634e63a5b430383e93c427b32175aaf4688f5389fce4f013c957",
+      "written": {
+        "clean": "winity",
+        "hyphenated": "winity"
+      },
+      "pronunciation": "ˈwaɪn.ɪ.ti:",
+      "evaluations": [
+        {
+          "ruleIndex": 0,
+          "affixIndex": 0,
+          "boundary": "root-suffix",
+          "rule": "ity-velar-softening",
+          "outcome": "condition-not-matched",
+          "target": {
+            "syllableIndex": 0,
+            "segment": "coda",
+            "index": 0
+          },
+          "soundBefore": "n",
+          "soundProposed": "s"
+        },
+        {
+          "ruleIndex": 1,
+          "affixIndex": 0,
+          "boundary": "root-suffix",
+          "rule": "ity-diphthong-flattening",
+          "outcome": "rejected",
+          "target": {
+            "syllableIndex": 0,
+            "segment": "nucleus",
+            "index": 0
+          },
+          "soundBefore": "aɪ",
+          "soundProposed": "ɪ",
+          "guard": {
+            "accepted": false,
+            "rootTarget": {
+              "syllableIndex": 0,
+              "segment": "nucleus",
+              "index": 0
+            },
+            "assembledTarget": {
+              "syllableIndex": 0,
+              "segment": "nucleus",
+              "index": 0
+            },
+            "soundBefore": "aɪ",
+            "soundProposed": "ɪ",
+            "syllableBefore": {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "aɪ"
+              ],
+              "coda": [
+                "n"
+              ]
+            },
+            "syllableProposed": {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "n"
+              ]
+            },
+            "rejections": [
+              {
+                "reason": "inventory",
+                "syllableIndex": 0,
+                "segment": "nucleus",
+                "index": 0,
+                "sounds": [
+                  "ɪ"
+                ],
+                "parts": [
+                  "root"
+                ]
+              }
+            ],
+            "boundaryRepetitionLicenses": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "restricted-nucleus-legacy-disabled.json",
+      "bytes": 166210,
+      "sha256": "0e64b65146334b28709ab2acd5d70e6a6a9d0e65ae29a9d2c0e51844f4362318",
+      "written": {
+        "clean": "winity",
+        "hyphenated": "winity"
+      },
+      "pronunciation": "ˈwɪn.ɪ.ti:"
+    },
+    {
+      "name": "restricted-nucleus-destination-in-position-pool.json",
+      "bytes": 156797,
+      "sha256": "21723c8a1a24542993e285f203d5e6ec285c92547d945a209631f4e8ae3a8b69",
+      "written": {
+        "clean": "itsity",
+        "hyphenated": "itsity"
+      },
+      "pronunciation": "ˈɪts.ɪ.ti:",
+      "evaluations": [
+        {
+          "ruleIndex": 0,
+          "affixIndex": 0,
+          "boundary": "root-suffix",
+          "rule": "ity-velar-softening",
+          "outcome": "condition-not-matched",
+          "target": {
+            "syllableIndex": 0,
+            "segment": "coda",
+            "index": 1
+          },
+          "soundBefore": "s",
+          "soundProposed": "s"
+        },
+        {
+          "ruleIndex": 1,
+          "affixIndex": 0,
+          "boundary": "root-suffix",
+          "rule": "ity-diphthong-flattening",
+          "outcome": "condition-not-matched",
+          "target": {
+            "syllableIndex": 0,
+            "segment": "nucleus",
+            "index": 0
+          },
+          "soundBefore": "ɪ",
+          "soundProposed": "ɪ"
+        }
+      ]
+    }
+  ],
+  "scope": "Six exact public-API fixture diagnostics. Altered destination pools are diagnostic only, not registered treatment measurements; original failures remain."
+}

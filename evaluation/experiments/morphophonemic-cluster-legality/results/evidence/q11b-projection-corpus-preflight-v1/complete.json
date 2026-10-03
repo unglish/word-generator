@@ -1,0 +1,149 @@
+{
+  "passed": true,
+  "words": 200000,
+  "assemblies": 57343,
+  "unavailable": 142657,
+  "bridges": 8866,
+  "byTemplate": {
+    "suffixed": 38745,
+    "prefixed": 12125,
+    "both": 6473
+  },
+  "before": {
+    "runner": {
+      "bytes": 5240,
+      "sha256": "eeb180d71950d68bc3258ebdd19afa8838516b17f7d30a2b2f5cf13483d9deb9"
+    },
+    "projection": {
+      "bytes": 3644,
+      "sha256": "2c0117203734d56198dce2c84c4a374404594afb670f8efe5b1cf2b41c95ca48"
+    },
+    "manifest": {
+      "bytes": 175354,
+      "sha256": "6b32f2339e23e0d7911154f3375cb08647ace71dc5e8795ea1735314f50d3671"
+    }
+  },
+  "artifacts": [
+    {
+      "file": "words/lexicon-default-69212153.jsonl.gz",
+      "words": 10000,
+      "bytes": 41922188,
+      "sha256": "cf61caeb4cf1da1cd8b8f821db18a266e2589d4b266ad61cf8effa23ca16f13e"
+    },
+    {
+      "file": "words/lexicon-default-101601885.jsonl.gz",
+      "words": 10000,
+      "bytes": 41810098,
+      "sha256": "dd1aeafb1fbe6893b6e1055902e0059fcc217759f8bfe0c64193247e1904251f"
+    },
+    {
+      "file": "words/lexicon-default-3921817393.jsonl.gz",
+      "words": 10000,
+      "bytes": 41733576,
+      "sha256": "e9803a05bccdad2cc546ae60b7a36edc109980345f7cc8e4e400a7ab7a49ddd4"
+    },
+    {
+      "file": "words/lexicon-default-3948943232.jsonl.gz",
+      "words": 10000,
+      "bytes": 41619383,
+      "sha256": "6bc57df21d86fd3acb1d966d1f044c7646397e8dc7b048d0ec99c33389a04c80"
+    },
+    {
+      "file": "words/lexicon-default-2089697863.jsonl.gz",
+      "words": 10000,
+      "bytes": 41777244,
+      "sha256": "e7ed012659b05b9375746e90a80d23fe4cfcff8b2bcb9453e2ffda1e30c53ea0"
+    },
+    {
+      "file": "words/lexicon-bare-2380207674.jsonl.gz",
+      "words": 10000,
+      "bytes": 39688979,
+      "sha256": "28c5126ce2a7ecf755697f6935e1f45b2d4a87e6d2e1d2d7e22f93f219f3311f"
+    },
+    {
+      "file": "words/lexicon-bare-772709128.jsonl.gz",
+      "words": 10000,
+      "bytes": 39751833,
+      "sha256": "285b8260544493cf0a8588063fa3b8214d6acedb9a5009d6844af465d8b48d35"
+    },
+    {
+      "file": "words/lexicon-bare-1304238451.jsonl.gz",
+      "words": 10000,
+      "bytes": 39832862,
+      "sha256": "9b2cbb85ee1885cf207779a49e0e575cb9faf054be984c9c802b70c310e24d17"
+    },
+    {
+      "file": "words/lexicon-bare-1696751198.jsonl.gz",
+      "words": 10000,
+      "bytes": 39824655,
+      "sha256": "afe08316167583ae0e329d63975a7e056bb27de5c42f2c64e323f944b62c5d24"
+    },
+    {
+      "file": "words/lexicon-bare-1498885173.jsonl.gz",
+      "words": 10000,
+      "bytes": 39775701,
+      "sha256": "882e37f672617e7a6f877ce66781a2b02cf309d0262308b1ef1096aae9c2e78b"
+    },
+    {
+      "file": "words/monosyllables-bare-462530651.jsonl.gz",
+      "words": 10000,
+      "bytes": 32307311,
+      "sha256": "e63e21639884db0f87b3025cfabb1bd5d1e67fc9fea0bd033a228b3e3aa614c2"
+    },
+    {
+      "file": "words/monosyllables-bare-62358955.jsonl.gz",
+      "words": 10000,
+      "bytes": 32240735,
+      "sha256": "18bf35ac8bce1ad62aac1c24a1b9a93f852ac2181bbf32a9a967f08c15dbb927"
+    },
+    {
+      "file": "words/monosyllables-bare-3297327738.jsonl.gz",
+      "words": 10000,
+      "bytes": 32298868,
+      "sha256": "1f137f0bb2e6a3bcd2c45566cd6a57b52584512c4f8a028919fa4b439532da69"
+    },
+    {
+      "file": "words/monosyllables-bare-2001884366.jsonl.gz",
+      "words": 10000,
+      "bytes": 32268400,
+      "sha256": "1db6bf108342f98a590f4684513766016da780be9648c01235411b5ca74b1dbc"
+    },
+    {
+      "file": "words/monosyllables-bare-2353354178.jsonl.gz",
+      "words": 10000,
+      "bytes": 32331137,
+      "sha256": "3f7c493400558406f3121bb6e2189c8fda6a9a4407e1c196526ca90e33971fb4"
+    },
+    {
+      "file": "words/text-default-4167471042.jsonl.gz",
+      "words": 10000,
+      "bytes": 34137937,
+      "sha256": "f5ebb1fa941e6211632855c982fe8a0fee7fed94d11973bebca68d988543e602"
+    },
+    {
+      "file": "words/text-default-2666001996.jsonl.gz",
+      "words": 10000,
+      "bytes": 34123681,
+      "sha256": "f4d3aa4e2fe9bd55d33fa9e6bbdd12e52541cf80a6b817bbe9800fe688c5a7a0"
+    },
+    {
+      "file": "words/text-default-3562318933.jsonl.gz",
+      "words": 10000,
+      "bytes": 34076663,
+      "sha256": "4e7b1d85414dda93c333cd53eb701578a7aac0416693e9e3c740104cba143245"
+    },
+    {
+      "file": "words/text-default-1999736106.jsonl.gz",
+      "words": 10000,
+      "bytes": 34037935,
+      "sha256": "b2be35284a12e0d72298d1b590b1a18fb50930c4cdbdb82e937298238f7ef0c2"
+    },
+    {
+      "file": "words/text-default-1665836705.jsonl.gz",
+      "words": 10000,
+      "bytes": 34063483,
+      "sha256": "97fa5ff04909fd539e1cff1ffd3514421376a569eb4ea8f1bac8d49d6c49cb8b"
+    }
+  ],
+  "scope": "Prototype proposal projection agrees on every phone sound and root/prefix/suffix ownership in all emitted nonbare default-policy baseline assemblies before random bridges. Source ledger coordinates are separately authenticated by the prior complete independent structural replay; this preflight does not claim a replacement-policy result."
+}

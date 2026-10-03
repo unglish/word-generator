@@ -1,0 +1,13 @@
+{
+  "failure": "Whole staged diff check reports whitespace in retained historical operator/prototype/patch artifacts.",
+  "preservation": "Only evidence exports are losslessly gzip-compressed; original source bytes and original SHA256 remain unchanged. No measured source or whitespace rules changed.",
+  "files": [
+    "evidence/operator/gate-tools/run-gates.mjs",
+    "evidence/operator/q11-source.patch",
+    "evidence/operator/refactor-parity-tools/parity.mjs",
+    "evidence/operator/treatment-prototype/cluster-validation.ts",
+    "evidence/operator/treatment-prototype/generate-v1.ts",
+    "evidence/operator/treatment-prototype/generate.ts"
+  ],
+  "originalCheckExitCode": 2
+}

@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "arm": "control",
+      "gateFilesAuthenticated": 7
+    },
+    {
+      "arm": "candidate",
+      "gateFilesAuthenticated": 7
+    }
+  ],
+  "scope": "Static clean source heads, all eight original gate/diagnostic source pins per arm and native policy binding. No generation, original gate or timing outcome."
+}

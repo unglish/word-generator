@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "registrationSha256": "3a8540bc6363da0cab32b84eaebb1232af9c3ced9605dfd27d4b7811e141d01b",
+  "checks": [
+    "registered composed control accepted",
+    "wrong commit rejected"
+  ],
+  "scope": "Execution preflight only; corpus capture not started"
+}

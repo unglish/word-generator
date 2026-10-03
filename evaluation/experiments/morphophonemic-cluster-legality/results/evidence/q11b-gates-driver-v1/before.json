@@ -1,0 +1,17 @@
+{
+  "inputPins": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/run_gates_when_quiet.py": "fa437e38685b16c05ea5a263f807c30ca2a7586ef5f42735e64fc82e63cc80a0",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/treatment-measurement.json": "b3941b99564a4cbb6e5a3b97962ae06cf6d0d97c5646e4419760de404ae6985a",
+    "/private/tmp/q11b-gate-static-preflight-v2.json": "508675074aee10d9a1af2683bd061d78b0e5f4f053ed97868b2af3f052f6c910",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/gate-tools/run-gates.mjs": "99f0201b715262e2db9f65a9fa3b2065347892fb3bf1e7188ae714d55097aa7d",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/gate-tools/dependency-closure.mjs": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/gate-tools/binding-registration.json": "27259a3b54c2181cccdbd5aeaa064a65280fd666af98b8faa46c225a5eb50175"
+  },
+  "prerequisites": {
+    "q19-gates": "/private/tmp/q19-gates-driver-v1/complete.json",
+    "q18-gates": "/private/tmp/q18-gates-driver-v1/complete.json",
+    "q11b-full-audits": "/private/tmp/q11b-full-audit-driver-v1/complete.json"
+  },
+  "order": "Q18 audit; Q19 gates/timing; Q18 gates/timing; Q11b captures; Q11b full audits; Q11b original gates/timing.",
+  "quietScope": "No other thread-owned bulk work during this gate/timing interval."
+}

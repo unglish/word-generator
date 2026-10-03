@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "sourceCommit": "9d2680b37b77ebb2f492f4173b1f1681446e40f4",
+  "inputPins": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/run_gates_when_quiet.py": "fa437e38685b16c05ea5a263f807c30ca2a7586ef5f42735e64fc82e63cc80a0",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/treatment-measurement.json": "b3941b99564a4cbb6e5a3b97962ae06cf6d0d97c5646e4419760de404ae6985a",
+    "/private/tmp/q11b-gate-static-preflight-v2.json": "508675074aee10d9a1af2683bd061d78b0e5f4f053ed97868b2af3f052f6c910",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/gate-tools/run-gates.mjs": "99f0201b715262e2db9f65a9fa3b2065347892fb3bf1e7188ae714d55097aa7d",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/gate-tools/dependency-closure.mjs": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/gate-tools/binding-registration.json": "27259a3b54c2181cccdbd5aeaa064a65280fd666af98b8faa46c225a5eb50175"
+  },
+  "prerequisites": {
+    "q19-gates": {
+      "path": "/private/tmp/q19-gates-driver-v1/complete.json",
+      "sha256": "28ace2962ba47bc4186e3ca6b7682ea45549293d43789d4609125bbabefdabe0"
+    },
+    "q18-gates": {
+      "path": "/private/tmp/q18-gates-driver-v1/complete.json",
+      "sha256": "5d824158d90e1e6efd34e426ec66375113a1735b1d0f76b88e70c5f7275b819e"
+    },
+    "q11b-full-audits": {
+      "path": "/private/tmp/q11b-full-audit-driver-v1/complete.json",
+      "sha256": "922d3c42a0ced689cea63f6d12f199e1e0c82f5b728a667268c117339abba855"
+    }
+  },
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/gate-tools/run-gates.mjs"
+  ],
+  "exitCode": 0,
+  "gateCompletionSha256": "aa4e5c0d3fe68e9bc31c428bbb03a52998abd7d9900c2ebc93811221c01aa286",
+  "scope": "Both frozen sources completed original unit/quality/compiled diagnostics and six adjacent native timing pairs. Failures remain failures; marker certifies complete execution/provenance only."
+}

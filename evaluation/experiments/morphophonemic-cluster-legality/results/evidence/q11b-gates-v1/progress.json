@@ -1,0 +1,424 @@
+[
+  {
+    "name": "original-control-unit",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "test"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 55386,
+      "sha256": "7ad179da534dc89f5532e000250f0e95ad564ca5bc4afab0fc2e8a8313f175e3"
+    }
+  },
+  {
+    "name": "compile-control-diagnostics",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/typescript/bin/tsc"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "original-control-quality",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:quality"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 3439,
+      "sha256": "8da669232293ab1dcb715da4df18aa749563372a78233fa76aeb6aeaf4831074"
+    },
+    "original-control-quality-quality-report.json": {
+      "bytes": 477,
+      "sha256": "725d05feafeb09641aebc130d17cf76530b48fc48915b354839bb44196482a3f",
+      "state": "created-or-modified-report"
+    }
+  },
+  {
+    "name": "original-control-trigrams",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "analyze:trigrams"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": true,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 634,
+      "sha256": "e3d9dce9513b82c8e541200423ef6b675fdba9c85fd79d2c827135d508e23819"
+    },
+    "original-control-trigrams-memory-trigram-2m-analysis.json": {
+      "bytes": 114504,
+      "sha256": "37aa9920d7d94315ef38eb0189bad41229d88c01b2a68b7fa96d91c07da0dd04",
+      "state": "created-or-modified-report"
+    },
+    "original-control-trigrams-memory-trigram-2m-analysis.md": {
+      "bytes": 3082,
+      "sha256": "846f085307a86eb365522bf5fbf642902af3bc32dc3739dd76321d3a89b25410",
+      "state": "created-or-modified-report"
+    }
+  },
+  {
+    "name": "original-control-trace",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "audit:trace"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": true,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 2687,
+      "sha256": "cbc73a63e666483e0419b2136a314122d061dc13ce3879675182ca9bf6fa6ed6"
+    }
+  },
+  {
+    "name": "original-candidate-unit",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "test"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 59268,
+      "sha256": "c011a1be33fe8627e88f317e46ccdca882bc0a35e7279d4acf1a71848f9787d7"
+    }
+  },
+  {
+    "name": "compile-candidate-diagnostics",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/node_modules/typescript/bin/tsc"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "original-candidate-quality",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:quality"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 3444,
+      "sha256": "655035f89f83c7e99680a71bcdabde4493d6f9ac900491ed997543e6bc9f714f"
+    },
+    "original-candidate-quality-quality-report.json": {
+      "bytes": 477,
+      "sha256": "725d05feafeb09641aebc130d17cf76530b48fc48915b354839bb44196482a3f",
+      "state": "created-or-modified-report"
+    }
+  },
+  {
+    "name": "original-candidate-trigrams",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "analyze:trigrams"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": true,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 638,
+      "sha256": "e811b2e8cf59decfbb4401321832a12a49d0384fea28d73bb95812694b6a2a99"
+    },
+    "original-candidate-trigrams-memory-trigram-2m-analysis.json": {
+      "bytes": 114504,
+      "sha256": "618904222b27015ce36029cc826e5a58b60dffc3e390c1d7df8d86ba94065c7e",
+      "state": "created-or-modified-report"
+    },
+    "original-candidate-trigrams-memory-trigram-2m-analysis.md": {
+      "bytes": 3082,
+      "sha256": "a759bc075299199d227aa54ba1898f52fdc52a84473491cc6dd5005d049758a9",
+      "state": "created-or-modified-report"
+    }
+  },
+  {
+    "name": "original-candidate-trace",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "audit:trace"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": true,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 2687,
+      "sha256": "cbc73a63e666483e0419b2136a314122d061dc13ce3879675182ca9bf6fa6ed6"
+    }
+  },
+  {
+    "name": "native-pair-1-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "e381a3d1bb027cc141660467c00c5937eaec3151c4bbbe0349f3b61831ef4c4f"
+    }
+  },
+  {
+    "name": "native-pair-1-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "b59a9c78466751459d8d7bd545430a7dc63bad96d3c443c746dbda8304b35f23"
+    }
+  },
+  {
+    "name": "native-pair-2-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1718,
+      "sha256": "721945db643f457b34b02efab4432b4231ae81e3ca819a7046d69ed6438fef1b"
+    }
+  },
+  {
+    "name": "native-pair-2-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1723,
+      "sha256": "018493bc45c7a0009583e68d298360e8c925a5b283f1cde526b190184c714780"
+    }
+  },
+  {
+    "name": "native-pair-3-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1718,
+      "sha256": "24ac2c3c8380f451dc81f4998c83adee3f21a0d6f8d4d51eaf57121f00b5f2a7"
+    }
+  },
+  {
+    "name": "native-pair-3-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1721,
+      "sha256": "606e75affca7d3fa67dfd9d7ae87860ef41294abed1fdb1d14c56d1af9d1d7b4"
+    }
+  },
+  {
+    "name": "native-pair-4-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1718,
+      "sha256": "02ffd2feee7f1951f3102026be0feb1be68d8c5fd3ded36784c9611891f6e32e"
+    }
+  },
+  {
+    "name": "native-pair-4-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1723,
+      "sha256": "ea6789c921bf01c2f95e3593e6522459a644978cacaaca4951ed733458b47e69"
+    }
+  },
+  {
+    "name": "native-pair-5-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1718,
+      "sha256": "bda97d7d5eb12723c5f4f0eb0a4278f5b0111d0af8a1d96008fef2042fc986a6"
+    }
+  },
+  {
+    "name": "native-pair-5-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "117c2c4a84b5eba448b5632fd2da2f7978bd2440f40dda4244e7ea3d6c49ba39"
+    }
+  },
+  {
+    "name": "native-pair-6-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1718,
+      "sha256": "3ee08695360108344ce8f51f3d1012391d3b79c09b5d4da24ed1fa0a94a62038"
+    }
+  },
+  {
+    "name": "native-pair-6-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "d2e7c4901ede597e0ab0ddc479be008f45252501d979cc8360c9a9fe1d970ea1"
+    }
+  }
+]

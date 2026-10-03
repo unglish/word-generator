@@ -1,0 +1,30 @@
+{
+  "inputPins": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/run_full_audits.py": "5449d98dad817577047f130d490c25d9e6978f9bbeb75ed839d9aa1485a4a224",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/treatment-measurement.json": "b3941b99564a4cbb6e5a3b97962ae06cf6d0d97c5646e4419760de404ae6985a",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/quality/protocol.json": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/full-audit-tools/replay-archive.mjs": "3d4b4692d9869956c529ae71c95d2bf2f424c239742b03961c56213b18199a2c",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/full-audit-tools/dependency-closure.mjs": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/transaction-export-complete.json.gz": "fe7035d727ba153c0b7cd6bb562386075daa9c947a71900059eeb0d349f61f1c",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/transaction-fixtures.json.gz": "aff83dff496720bbccba6dceaccba5d48ba479693f4fd83321897af6fe677ea7",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/lineage_recount.py": "21d343c61d5b57798258732224c2629a56237c187860e177ea90300246156f93",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/guard-export-complete.json.gz": "ce1e876fbbae0d3c64bd9aa535135ca0ab3059b95926559d7ae800201f65bfec",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/guard-export-before.json.gz": "e5e9b58659b8d5edfb5893f76f516972312f60ca4dac10f9c6e449f49fcd4133",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/registered-protocol.json": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/guard-fixtures.json.gz": "c69fe660ab738bac5b59a28e96b7bc0624bc1a23d3216d8f99ecdc4ce8a2c423",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/fixtures-manifest.json": "d36e984ea4f756fef27444a0280a0add00ef279bd822eadc6c43d9c247f0ecd1",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/collisions.py": "dfe7389cb590712f8616028da1ca4a212a339f4c938936079edcc6541ca0cf88",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/recount_archive.py": "acedf88e8b3b34a8c57b583995660916e23c1a21ede65c0be34dd9a0893f8aa3",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/test_archive.py": "64c3d5695e4b32625b6e76bce38cda6acda8a9aa213f97a8f37a0388fdb51997",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/.gitignore": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/transaction-export-before.json.gz": "0a4e075ea7732349931588d7942938b545f5ab25383a5e4372b2fdb407000ff3",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/test_collisions.py": "c7b99d0c16c70a617f9de559831b08c3dfd3973cf5e1a6884918c9400c2fbd63",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/test_eligibility.py": "abbbdfcb83042d16e9c4453358de05fc7a1982e66341224cead749af4050b3b2",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/independent/eligibility.py": "cd48bc4e89befd575bd79154304f20557b513c7fe4e0a1a4a1d263fd0698b924"
+  },
+  "upstream": "/private/tmp/q11b-candidate-capture-driver-v2/complete.json",
+  "sourceCommit": "9d2680b37b77ebb2f492f4173b1f1681446e40f4",
+  "wordsPerPolicy": 200000,
+  "wordsPerArm": 400000,
+  "order": "Q18 audit; Q19 gates/timing; Q18 gates/timing; Q11b full captures; these Q11b audits. No new timing during these audits."
+}

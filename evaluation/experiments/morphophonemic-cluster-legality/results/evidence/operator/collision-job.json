@@ -1,0 +1,21 @@
+{
+  "sessionId": 37853,
+  "stage": "Complete: both 200,000-record independent structural replay and transformation-created equality census passed",
+  "tools": ".local-evidence/morphology-cluster-legality/collision-tools",
+  "outputs": [
+    "/private/tmp/q11b-collision-default-v1",
+    "/private/tmp/q11b-collision-active-v1"
+  ],
+  "sourceCommit": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "wordsPerPolicy": 200000,
+  "fixtureGroupsPassed": 5,
+  "scope": "No treatment selected or implemented yet; actual collisions, boundary/source strata and complete witnesses must guide the repair.",
+  "terminalEvidence": [
+    "/private/tmp/q11b-collision-default-v1/complete.json",
+    "/private/tmp/q11b-collision-active-v1/complete.json"
+  ],
+  "createdEqualPairs": {
+    "default": 2,
+    "active": 2
+  }
+}

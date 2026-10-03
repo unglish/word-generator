@@ -1,0 +1,6 @@
+{
+  "stage": "Original staging validation stopped on an incorrect hardcoded355file assertion; actual package354files, first Git stage347 because7 plain logs were ignored.",
+  "retainedOriginal": "Original source command and assertion were returned by the tool; no complete local stderr archive for this first staging operator.",
+  "correction": "Derive required file set from actual package and explicitly stage all evidence paths, including ignored logs. Compare every staged blob with package bytes; verify packaged existing source pins.",
+  "verificationScope": "Disk verification had passed but was not sufficient to prove all artifacts were staged. No measured generator source changes."
+}

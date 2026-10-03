@@ -1,0 +1,57 @@
+{
+  "version": "q11b-replay-inventory-identity-amendment-v1",
+  "priorFrozenHead": "c0ff9c8cd7c512056832ec4863c78bc701e63e9e",
+  "implementationCommit": "a2b6de97df1662141fc36ff487dcf39c71f2965a",
+  "problem": "Configured fallback sonority is keyed by canonical inventory phone references. Trace replay used detached before-state copies, yielding zero sonority for unchanged phones and a different guard decision when attested lists are absent.",
+  "reproducer": {
+    "source": ".local-evidence/morphology-cluster-legality/eligibility-tools/probe-replay-identity-v2.mjs",
+    "results": "/private/tmp/q11b-replay-identity-probe-v2",
+    "successfulWordsChecked": 3,
+    "drawIndex": 2,
+    "rootCoda": [
+      "k",
+      "s",
+      "f"
+    ],
+    "generatorDecision": "accepted",
+    "oldReplay": "Morphology preparation replay mismatch",
+    "witness": {
+      "bytes": 219505,
+      "sha256": "fc8a8f5b25ff145b4be555081e70a42ad4b2243227f1dd9e25d864e772ffbf2a"
+    },
+    "configuration": {
+      "bytes": 328326,
+      "sha256": "639ef2ec8ded6466a63a2c2fa704b6d4d5a5be9267946662c098a1dd0be4597b"
+    }
+  },
+  "fix": "Only enabled evidence replay restores root phones by complete canonical metadata to the cloned configuration inventory before preparation. Unknown metadata is rejected. Generator logic, inventory, policy, RNG sampling, guards and measurement samples/thresholds are unchanged.",
+  "validation": {
+    "mainTypeScript": "pass",
+    "explicitTestSourceTypeScript": "pass",
+    "touchedLint": "pass",
+    "focusedTests": 19,
+    "files": 2,
+    "publicReproducer": "All 3 original seeded monosyllabic successful outputs now replay; no generator failures. Altered metadata is rejected.",
+    "reproducer": {
+      "bytes": 400,
+      "sha256": "fd3fae6dd76e67e5d9b29215c0366d2cc0f259cc00fe2f29a43cb7fdf7d2bb6b"
+    }
+  },
+  "priorParityEvidence": {
+    "path": "/private/tmp/q11b-integrated-preflight-v1",
+    "omitted": {
+      "comparisons": 10000,
+      "publicCalls": 20000,
+      "draws": 938653,
+      "probes": 40
+    },
+    "enabled": {
+      "comparisons": 10000,
+      "publicCalls": 20000,
+      "draws": 938613,
+      "probes": 40
+    },
+    "scope": "Measured at c0ff9c8 before this evidence-only fix. All other tracked source bytes match that preflight seal; does not substitute for candidate corpus replay at the new final source revision."
+  },
+  "preCaptureRequirement": "Commit amendment and evidence fix before capturing or independently auditing any candidate corpus. All candidate seals use the actual final full source revision."
+}

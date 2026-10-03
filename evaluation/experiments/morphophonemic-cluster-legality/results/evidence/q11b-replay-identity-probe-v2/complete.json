@@ -1,0 +1,17 @@
+{
+  "completed": true,
+  "checked": 3,
+  "generatorFailures": [],
+  "replayFailureObserved": true,
+  "files": {
+    "configuration.json": {
+      "bytes": 328326,
+      "sha256": "639ef2ec8ded6466a63a2c2fa704b6d4d5a5be9267946662c098a1dd0be4597b"
+    },
+    "witness.json": {
+      "bytes": 219505,
+      "sha256": "fc8a8f5b25ff145b4be555081e70a42ad4b2243227f1dd9e25d864e772ffbf2a"
+    }
+  },
+  "scope": "Bounded developmental public-API reproducer for configuration without attested clusters; not a population rate or corpus gate."
+}
