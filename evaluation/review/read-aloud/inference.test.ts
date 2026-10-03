@@ -148,4 +148,3 @@ describe("prospective read-aloud crossed stability", () => {
     expect(weightedReadAloudCondition(prepared, first, "baseline", null, "intended_phones").agreement).toBeCloseTo(weightedReadAloudCondition(prepared, second, "baseline", null, "intended_phones").agreement!, 15);
   });
 });
-
