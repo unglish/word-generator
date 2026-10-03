@@ -1,0 +1,117 @@
+{
+  "version": "q17-conditional-onset-rime-v1",
+  "scope": "Offline corpus model experiment; no default-generator or historical-scorer changes and no human-wordlikeness claim",
+  "source": {
+    "revision": "74790861f652b15e4ac49015a90074ad62a27690",
+    "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+    "selection": "cmu-ascii-first-v1",
+    "weighting": "equal selected spelling types"
+  },
+  "split": {
+    "version": "sha256-spelling-buckets-v1",
+    "seed": "q17-2026-10-02",
+    "bucket": "first unsigned big-endian 32 bits of SHA256 of JSON [seed, spelling], modulo 10000",
+    "training": [
+      0,
+      7999
+    ],
+    "development": [
+      8000,
+      8999
+    ],
+    "heldOut": [
+      9000,
+      9999
+    ],
+    "grouping": "all identical normalized spellings together; morphological family grouping unavailable"
+  },
+  "segmentation": {
+    "policy": "maximal-observed-initial-onset-v1",
+    "initialOnsets": "training entries only, including empty onset",
+    "allSplits": "same frozen inferred segmentation; not observed CMU syllable labels"
+  },
+  "contexts": {
+    "constituents": [
+      "onset",
+      "rime"
+    ],
+    "edges": [
+      "wordInitial",
+      "wordFinal"
+    ],
+    "stress": [
+      0,
+      1,
+      2
+    ],
+    "nucleusClasses": [
+      {
+        "id": "diphthong",
+        "vowels": [
+          "AW",
+          "AY",
+          "EY",
+          "OW",
+          "OY"
+        ]
+      },
+      {
+        "id": "rhotic",
+        "vowels": [
+          "ER"
+        ]
+      },
+      {
+        "id": "monophthong",
+        "vowels": [
+          "AA",
+          "AE",
+          "AH",
+          "AO",
+          "EH",
+          "IH",
+          "IY",
+          "UH",
+          "UW"
+        ]
+      }
+    ]
+  },
+  "models": {
+    "baseline": "class-only counts smoothed toward normalized open-support phone/length base",
+    "candidate": "edge-and-stress-and-class counts -> stress-and-class -> class -> normalized open-support base",
+    "probability": "(count + alpha * parentProbability) / (rowTotal + alpha)",
+    "base": "Dirichlet(0.5) categorical phones; onset/coda geometric length with Beta(1,1) stop estimate; rime vowel distribution restricted and normalized within declared class",
+    "alphaGrid": [
+      0.5,
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "selection": "choose smallest development negative log likelihood separately per model; tie choose smaller alpha; no held-out tuning"
+  },
+  "endpoints": {
+    "primary": "held-out mean negative log likelihood per selected spelling, using same inferred constituent observations for both models",
+    "strata": [
+      "constituent",
+      "stress",
+      "word-edge flags",
+      "nucleus class",
+      "training full-context event-count bands 0/1/2/3-5/6-20/>20"
+    ],
+    "tail": "unseen-event mass and probability positivity; retain all events, no floor/clipping",
+    "diversity": "observed support, concentration and novel-event mass with scope explicit; no generator diversity claim without generation experiment"
+  },
+  "verification": [
+    "exact source and selected-entry identities; split disjointness and coverage",
+    "normalized finite positive conditional probabilities and deterministic builds",
+    "training-only segmentation/count fitting; development-only alpha choice",
+    "independent reconstruction of source selection, split, segmentation and every integer table",
+    "unchanged historical scorer artifacts and generator source; tests and source typechecking"
+  ],
+  "candidateRuntime": "No runtime activation in this offline model PR; any later weighted-generator use requires independent output and RNG evidence"
+}

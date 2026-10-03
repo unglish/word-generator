@@ -1,0 +1,12 @@
+{
+  "status": "Offline model core and evaluation helpers implemented; registered corpus fitting and held-out analysis not run",
+  "testsPassed": 12,
+  "testsFailed": 0,
+  "fullReviewTypecheckExit": 0,
+  "targetedLintExit": 0,
+  "files": {
+    "evaluation/corpus/conditional-onset-rime.ts": "ddeb9de66965b41ae78a15c12b6cec9e9d31f0a56d18f4234d27aa6ea5cec0f6",
+    "evaluation/corpus/conditional-experiment.ts": "a1a97bdabcf73521815082c56435453ab4950c8e32d64ebaf4ac968263517d2f",
+    "evaluation/review/wordlikeness/conditional-onset-rime.test.ts": "5e79d1c7929f62bc1267f7cba685e02cfacc470771eaadef4573c428f2bf1d3a"
+  }
+}
