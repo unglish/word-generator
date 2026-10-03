@@ -711,7 +711,14 @@ export interface OrthographicRepair {
  * should be computed from the `sonorityHierarchy` and `phonemes` using
  * {@link computeSonorityLevels} to guarantee consistency.
  */
+/** Final vowel restrictions are explicit phonological data, independent of tenseness. */
+export interface FinalNucleusRules {
+  checkedVowels: Array<{ sound: string }>;
+}
+
 export interface LanguageConfig {
+  /** Optional contract for lexical and surface word-final open nuclei. */
+  finalNucleus?: FinalNucleusRules;
   /** Language identifier (e.g., "en", "es", "fr") */
   id: string;
   /** Human-readable language name */

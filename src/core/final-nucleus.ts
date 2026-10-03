@@ -2,6 +2,7 @@ import type { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import type { StressRules } from "../config/language.js";
 import type { FinalPhoneTrace } from "./final-phones.js";
 import type { RepairTrace } from "./trace.js";
+import { assertFinalVowelAllowed, repairFinalCheckedVowel } from "./final-vowel.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 
 export interface FinalNucleusTrace {
@@ -17,8 +18,17 @@ export interface FinalNucleusTrace {
   phonesAfter?: FinalPhoneTrace;
 }
 
+function recordNucleusChanges(context: WordGenerationContext, before: readonly Phoneme[][], rule: string): void {
+  if (!context.finalPhoneState) return;
+  const { ledger, ids } = context.finalPhoneState;
+  context.word.syllables.forEach((syllable, si) => syllable.nucleus.forEach((phone, ni) => {
+    const prior = before[si][ni];
+    if (phone !== prior) ledger.realize(ids[si].nucleus[ni], prior, phone, rule);
+  }));
+}
+
 export function repairFinalNuclei(context: WordGenerationContext, lexicalRoot: Syllable[], rootSyllableStart: number,
-  pool: Phoneme[], stress: StressRules): void {
+  pool: Phoneme[], stress: StressRules, checked: ReadonlySet<string> = new Set()): void {
   const trace = context.trace;
   const before = trace ? structuredClone(context.word.syllables) : undefined;
   const rootBefore = trace ? structuredClone(lexicalRoot) : undefined;
@@ -30,13 +40,12 @@ export function repairFinalNuclei(context: WordGenerationContext, lexicalRoot: S
   } } : context;
   const nucleiBeforeRepair = context.word.syllables.map(syllable => [...syllable.nucleus]);
   repairStressedNuclei(active, pool, stress);
-  if (context.finalPhoneState) {
-    const { ledger, ids } = context.finalPhoneState;
-    context.word.syllables.forEach((syllable, syllableIndex) => syllable.nucleus.forEach((phone, index) => {
-      const prior = nucleiBeforeRepair[syllableIndex][index];
-      if (phone !== prior) ledger.realize(ids[syllableIndex].nucleus[index], prior, phone, "repairFinalStressedNuclei");
-    }));
-  }
+  recordNucleusChanges(context, nucleiBeforeRepair, "repairFinalStressedNuclei");
+  const beforeCheckedRepair = context.finalPhoneState
+    ? context.word.syllables.map(syllable => [...syllable.nucleus]) : undefined;
+  repairFinalCheckedVowel(active, lexicalRoot, rootSyllableStart, nucleiBeforeRepair, pool, stress, checked);
+  if (beforeCheckedRepair) recordNucleusChanges(context, beforeCheckedRepair, "repairFinalCheckedVowel");
+  assertFinalVowelAllowed(context.word.syllables, checked);
   for (let rootIndex = 0; rootIndex < lexicalRoot.length; rootIndex++) {
     const finalIndex = rootSyllableStart + rootIndex;
     const finalNucleus = context.word.syllables[finalIndex].nucleus;
