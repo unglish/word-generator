@@ -6,6 +6,8 @@
 import { Phoneme, Syllable } from "../types.js";
 import type { ClusterLimits, SonorityConstraints, CodaConstraints } from "../config/language.js";
 import type { TraceCollector } from "./trace.js";
+import { hasConflictingObstruentVoicing, isHeterorganicNasalStop, maximumCodaLength } from "./coda-shape.js";
+import { isObstruent } from "../utils/phonemes.js";
 
 /**
  * Repair cross-syllable consonant cluster violations.
@@ -70,22 +72,6 @@ export function repairFinalCoda(
   }
 }
 
-import { isObstruent, isNasal, isStop } from "../utils/phonemes.js";
-
-// ---------------------------------------------------------------------------
-// Place-of-articulation grouping for homorganic nasal+stop
-// ---------------------------------------------------------------------------
-
-const PLACE_GROUP_MAP = new Map<string, string>([
-  ["m", "bilabial"], ["p", "bilabial"], ["b", "bilabial"],
-  ["n", "alveolar"], ["t", "alveolar"], ["d", "alveolar"],
-  ["ŋ", "velar"],    ["k", "velar"],    ["g", "velar"],
-]);
-
-function getPlaceGroup(sound: string): string | undefined {
-  return PLACE_GROUP_MAP.get(sound);
-}
-
 // ---------------------------------------------------------------------------
 // Cluster shape repair (safety net)
 // ---------------------------------------------------------------------------
@@ -122,9 +108,7 @@ export function repairClusterShape(
     if (opts.clusterLimits && syl.coda.length > 0) {
       const cl = opts.clusterLimits;
       const lastSound = syl.coda[syl.coda.length - 1].sound;
-      const effectiveMax = opts.codaAppendantSet?.has(lastSound)
-        ? cl.maxCoda + 1
-        : cl.maxCoda;
+      const effectiveMax = maximumCodaLength(lastSound, cl, opts.codaAppendantSet);
       if (syl.coda.length > effectiveMax) {
         const before = trace ? syl.coda.map(p => p.sound).join(",") : "";
         while (syl.coda.length > effectiveMax) {
@@ -162,9 +146,9 @@ function repairVoicingAgreement(coda: Phoneme[]): void {
   }
   if (lastObsIdx < 0) return;
 
-  const targetVoiced = coda[lastObsIdx].voiced;
+  const lastObstruent = coda[lastObsIdx];
   for (let i = coda.length - 2; i >= 0; i--) {
-    if (isObstruent(coda[i]) && coda[i].voiced !== targetVoiced) {
+    if (hasConflictingObstruentVoicing(coda[i], lastObstruent)) {
       coda.splice(i, 1);
     }
   }
@@ -176,13 +160,7 @@ function repairVoicingAgreement(coda: Phoneme[]): void {
  */
 function repairHomorganicNasalStop(coda: Phoneme[]): void {
   for (let i = coda.length - 2; i >= 0; i--) {
-    if (isNasal(coda[i]) && isStop(coda[i + 1])) {
-      const nasalPlace = getPlaceGroup(coda[i].sound);
-      const stopPlace = getPlaceGroup(coda[i + 1].sound);
-      if (nasalPlace && stopPlace && nasalPlace !== stopPlace) {
-        coda.splice(i, 1);
-      }
-    }
+    if (isHeterorganicNasalStop(coda[i], coda[i + 1])) coda.splice(i, 1);
   }
 }
 

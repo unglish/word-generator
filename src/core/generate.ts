@@ -18,6 +18,9 @@ import {
   resolveMorphologyPhonemeDelta,
 } from "./length-semantics.js";
 import { TraceCollector } from "./trace.js";
+import type { CodaExtensionRejectionReason } from "./trace.js";
+import { codaShapeRejection, maximumCodaLength } from "./coda-shape.js";
+import { isStop } from "../utils/phonemes.js";
 
 // ---------------------------------------------------------------------------
 // Runtime: pre-computed data derived from a LanguageConfig
@@ -88,10 +91,6 @@ function getPlanGuardProbability(rt: GeneratorRuntime): number {
 
 function getPostVowelGlideMultiplier(rt: GeneratorRuntime): number {
   return rt.config.hiatusPolicy?.postVowelGlideMultiplier ?? DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER;
-}
-
-function getRootFallbackBridges(rt: GeneratorRuntime): [string, number][] {
-  return rt.config.hiatusPolicy?.fallbackBridgeOnsets ?? defaultFallbackBridgeOnsets();
 }
 
 /** Build a set of all proper prefixes for attested clusters (excludes the full key). */
@@ -312,17 +311,26 @@ function buildCluster(rt: GeneratorRuntime, context: ClusterContext): Phoneme[] 
 }
 
 function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterContext): boolean {
+  return clusterCandidateRejection(p, rt, context) === undefined;
+}
+
+function clusterCandidateRejection(p: Phoneme, rt: GeneratorRuntime, context: ClusterContext): CodaExtensionRejectionReason | undefined {
   const sound = p.sound;
   const { clusterSounds } = context;
 
-  // Fast checks first: Set lookup + linear scan of small array of cached strings
-  if (context.ignoreSet.has(sound) || clusterSounds.includes(sound) || !isValidPosition(p, context)) {
-    return false;
+  if (context.ignoreSet.has(sound)) return "excluded";
+  if (clusterSounds[clusterSounds.length - 1] === sound) return "repetition";
+  // Attested coda continuations may repeat a non-adjacent segment (e.g. /sts/).
+  if (clusterSounds.includes(sound) && !(context.position === "coda" && rt.attestedCodaSet)) return "repetition";
+  if (!isValidPosition(p, context)) return "position";
+  if (context.position === "coda") {
+    const shapeReason = codaShapeRejection(context.cluster, p, rt.clusterLimits, rt.codaAppendantSet, rt.config.codaConstraints);
+    if (shapeReason) return shapeReason;
   }
 
   // Reject phonemes banned from coda position entirely
   if (context.position === "coda" && rt.bannedCodaSet?.has(sound)) {
-    return false;
+    return "banned-coda";
   }
 
   // Reject coda phonemes banned after the current nucleus
@@ -330,7 +338,7 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
     for (const nuc of context.nucleus) {
       const bannedCodas = rt.bannedNucleusCodaMap.get(nuc.sound);
       if (bannedCodas?.has(sound)) {
-        return false;
+        return "nucleus-coda";
       }
     }
   }
@@ -342,7 +350,7 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
       const weightMap = getClusterWeightMap(weightsForPosition, context.isEndOfWord);
       const weight = findClusterWeightMultiplier(clusterSounds, sound, weightMap);
       if (weight !== NO_CLUSTER_WEIGHT && weight < 0.01) {
-        return false;
+        return "cluster-weight";
       }
     }
   }
@@ -350,19 +358,17 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
   // When attested onset whitelist exists, use it as the primary gate for onsets
   if (context.position === "onset" && rt.attestedOnsetSet && clusterSounds.length > 0) {
     const key = clusterSounds.join("|") + "|" + sound;
-    if (rt.attestedOnsetSet.has(key)) return true;
-    return !!rt.attestedOnsetPrefixSet?.has(key);
+    return rt.attestedOnsetSet.has(key) || rt.attestedOnsetPrefixSet?.has(key) ? undefined : "attestation";
   }
 
   // When attested coda whitelist exists, use it as the primary gate for codas
   if (context.position === "coda" && rt.attestedCodaSet && clusterSounds.length > 0) {
     const key = clusterSounds.join("|") + "|" + sound;
-    if (rt.attestedCodaSet.has(key)) return true;
-    return !!rt.attestedCodaPrefixSet?.has(key);
+    return rt.attestedCodaSet.has(key) || rt.attestedCodaPrefixSet?.has(key) ? undefined : "attestation";
   }
 
   // Fallback: standard sonority and regex checks
-  if (!checkSonority(p, rt, context)) return false;
+  if (!checkSonority(p, rt, context)) return "sonority";
 
   const regex = rt.invalidClusterRegexes[context.position];
   if (regex) {
@@ -370,10 +376,10 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
     let potentialCluster = "";
     for (let i = 0; i < clusterSounds.length; i++) potentialCluster += clusterSounds[i];
     potentialCluster += sound;
-    if (regex.test(potentialCluster)) return false;
+    if (regex.test(potentialCluster)) return "pattern";
   }
 
-  return true;
+  return undefined;
 }
 
 function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: ClusterContext): boolean {
@@ -506,10 +512,7 @@ function shouldStopClusterGrowth(context: ClusterContext, rt: GeneratorRuntime):
     const cl = rt.clusterLimits;
     if (position === "onset" && cluster.length >= cl.maxOnset) return true;
     if (position === "coda") {
-      const effectiveMax = rt.codaAppendantSet && cluster.length > 0 &&
-        rt.codaAppendantSet.has(cluster[cluster.length - 1].sound)
-        ? cl.maxCoda + 1
-        : cl.maxCoda;
+      const effectiveMax = maximumCodaLength(cluster[cluster.length - 1]?.sound ?? "", cl, rt.codaAppendantSet);
       if (cluster.length >= effectiveMax) return true;
     }
   }
@@ -593,6 +596,45 @@ function pickNucleus(rt: GeneratorRuntime, context: WordGenerationContext, isSta
   });
 }
 
+function codaExtensionRejection(candidate: Phoneme, rt: GeneratorRuntime, context: ClusterContext): CodaExtensionRejectionReason | undefined {
+  const reason = clusterCandidateRejection(candidate, rt, context);
+  if (reason) return reason;
+  if (!rt.clusterLimits && context.cluster.length + 1 > rt.config.syllableStructure.maxCodaLength) return "length";
+  if (rt.allowedFinalSet && !rt.allowedFinalSet.has(candidate.sound)) return "word-final";
+  // A completed extension must be licensed itself, not merely lead toward a
+  // longer listed cluster which this operation will never finish building.
+  if (rt.attestedCodaSet && context.cluster.length > 0) {
+    const completed = [...context.clusterSounds, candidate.sound].join("|");
+    if (!rt.attestedCodaSet.has(completed)) return "attestation";
+  }
+  return undefined;
+}
+
+function canExtendCoda(
+  candidate: Phoneme,
+  rt: GeneratorRuntime,
+  clusterContext: ClusterContext,
+  context: WordGenerationContext,
+  extension: "finalS" | "nasalStopExtension",
+): boolean {
+  const reason = codaExtensionRejection(candidate, rt, clusterContext);
+  if (!reason) return true;
+  context.trace?.recordStructural({
+    event: "codaExtensionRejected",
+    extension,
+    candidate: candidate.sound,
+    coda: [...clusterContext.clusterSounds],
+    reason,
+    syllableIndex: context.currSyllableIndex,
+  });
+  return false;
+}
+
+function appendCoda(candidate: Phoneme, context: ClusterContext): void {
+  context.cluster.push(candidate);
+  context.clusterSounds.push(candidate.sound);
+}
+
 function pickCoda(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
@@ -621,7 +663,7 @@ function pickCoda(
   const maxLength: number = targetLength ?? getWeightedOption(weights, rand);
   if (maxLength === 0) return [];
 
-  const coda: Phoneme[] = buildCluster(rt, {
+  const codaContext: ClusterContext = {
     rand: context.rand,
     position: "coda",
     cluster: [],
@@ -632,7 +674,8 @@ function pickCoda(
     syllableCount,
     maxLength,
     nucleus: newSyllable.nucleus,
-  });
+  };
+  const coda = buildCluster(rt, codaContext);
 
   // Extend word-final singleton nasal codas with their voiced homorganic stop
   // In plan-driven mode, allow mutations when coda under-filled OR exactly at
@@ -643,16 +686,18 @@ function pickCoda(
   if (allowMutations && isEndOfWord && nasalExt > 0 && coda.length === 1 &&
       coda[0].mannerOfArticulation === "nasal" &&
       coinFlip(rand, nasalExt)) {
-    const nasalSound = coda[0].sound;
-    const stopSound = nasalSound === "n" ? "d" : nasalSound === "m" ? "b" : nasalSound === "ŋ" ? "g" : null;
-    if (stopSound) {
-      const stopPhoneme = rt.phonemeBySound.get(stopSound);
-      if (stopPhoneme) {
-        coda.push(stopPhoneme);
+    const nasal = coda[0];
+    const stops = rt.positionPhonemes.coda.filter(candidate =>
+      isStop(candidate) && candidate.voiced && candidate.placeOfArticulation === nasal.placeOfArticulation
+      && canExtendCoda(candidate, rt, codaContext, context, "nasalStopExtension"));
+    if (stops.length > 0) {
+      const stop = stops.length === 1 ? stops[0] : selectPhoneme(stops, codaContext, rt);
+      if (stop) {
+        appendCoda(stop, codaContext);
         context.trace?.recordStructural({
           event: "nasalStopExtension",
-          nasal: nasalSound,
-          appendedStop: stopSound,
+          nasal: nasal.sound,
+          appendedStop: stop.sound,
           probability: nasalExt,
           syllableIndex: context.currSyllableIndex,
         });
@@ -667,10 +712,9 @@ function pickCoda(
     
     // Apply cluster-specific weight if appending /s/ would create a weighted cluster
     if (coda.length > 0 && rt.clusterWeights?.coda) {
-      const clusterSounds = coda.map(ph => ph.sound);
       const weightMap = getClusterWeightMap(rt.clusterWeights.coda, isEndOfWord);
       
-      const weight = findClusterWeightMultiplier(clusterSounds, "s", weightMap);
+      const weight = findClusterWeightMultiplier(codaContext.clusterSounds, "s", weightMap);
       if (weight !== NO_CLUSTER_WEIGHT) {
         finalSProbability *= weight;
         shouldSkipFinalS = weight < 0.01;
@@ -678,9 +722,9 @@ function pickCoda(
     }
     
     if (!shouldSkipFinalS && coinFlip(rand, finalSProbability)) {
-      const sPhoneme = rt.phonemeBySound.get("s");
-      if (sPhoneme) {
-        coda.push(sPhoneme);
+      const sPhoneme = rt.positionPhonemes.coda.find(phoneme => phoneme.sound === "s");
+      if (sPhoneme && canExtendCoda(sPhoneme, rt, codaContext, context, "finalS")) {
+        appendCoda(sPhoneme, codaContext);
         const clusterWeightApplied = finalSProbability !== probability.finalS;
         context.trace?.recordStructural({
           event: "finalS",
