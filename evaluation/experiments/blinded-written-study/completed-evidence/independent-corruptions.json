@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "corruptions": 6,
+  "results": [
+    {
+      "case": "wrong-gate-count",
+      "rejected": true,
+      "error": "AssertionError()",
+      "preservedPackage": "/private/tmp/q21-publication-corruptions-v5/wrong-gate-count"
+    },
+    {
+      "case": "forged-native-exit",
+      "rejected": true,
+      "error": "AssertionError()",
+      "preservedPackage": "/private/tmp/q21-publication-corruptions-v5/forged-native-exit"
+    },
+    {
+      "case": "missing-original-dataset",
+      "rejected": true,
+      "error": "AssertionError()",
+      "preservedPackage": "/private/tmp/q21-publication-corruptions-v5/missing-original-dataset"
+    },
+    {
+      "case": "false-mnar-success",
+      "rejected": true,
+      "error": "AssertionError()",
+      "preservedPackage": "/private/tmp/q21-publication-corruptions-v5/false-mnar-success"
+    },
+    {
+      "case": "corrupted-log-byte",
+      "rejected": true,
+      "error": "AssertionError()",
+      "preservedPackage": "/private/tmp/q21-publication-corruptions-v5/corrupted-log-byte"
+    },
+    {
+      "case": "credential-value-injection",
+      "rejected": true,
+      "error": "AssertionError()",
+      "preservedPackage": "/private/tmp/q21-publication-corruptions-v5/credential-value-injection"
+    }
+  ],
+  "scope": "Complete altered copies preserve all originals; incorrect counts, self-consistent altered native exit, missing raw dataset, false diagnostic success and corrupted bytes rejected."
+}

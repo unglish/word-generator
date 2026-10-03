@@ -1,0 +1,2169 @@
+{
+  "passed": true,
+  "sourceCommit": "5796cb441e9eb806266406becfcea2f822103e95",
+  "records": [
+    {
+      "path": "publication-proof/q21-publication-driver-v3/before.json.gz",
+      "origin": "/private/tmp/q21-publication-driver-v3/before.json",
+      "original": {
+        "bytes": 508,
+        "sha256": "09a8548807164759cf4b61a431495e4b3ef15ca174398d1b0684a1ee853ad26c"
+      },
+      "saved": {
+        "bytes": 292,
+        "sha256": "b2055b9a38f65522c619b32415cbf44db347d80d0f5e9170bc87e6be819116a7"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v3/complete.json.gz",
+      "origin": "/private/tmp/q21-publication-driver-v3/complete.json",
+      "original": {
+        "bytes": 3023,
+        "sha256": "aa279a099db47d0e7b82739cb872468748820b0ecc99343e7e50f0c8c9b3a4d5"
+      },
+      "saved": {
+        "bytes": 1122,
+        "sha256": "1adb66c70778955ce8c4bd053443c3840e238deb620e392c5d2bc7f479a2360f"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v3/independent-full.log.gz",
+      "origin": "/private/tmp/q21-publication-driver-v3/independent-full.log",
+      "original": {
+        "bytes": 598,
+        "sha256": "9c1070901fe79136629151e8a00be231ecbf58004f0fddb567e66835aceac014"
+      },
+      "saved": {
+        "bytes": 386,
+        "sha256": "6b1e08b794f0bc76cfddaf2fb4879d19e69b45e7470a9fca7559012ba2372a48"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v3/negative-checks.log.gz",
+      "origin": "/private/tmp/q21-publication-driver-v3/negative-checks.log",
+      "original": {
+        "bytes": 35,
+        "sha256": "3f84bb0756c14f4532d116a12526bb6053143f9a1e14159d649dbfe9ddeb0051"
+      },
+      "saved": {
+        "bytes": 54,
+        "sha256": "457d06d7911812778d0713585e93f10376f6bba48446e3e10fc8c0b346cd0d24"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v3/prepare.log.gz",
+      "origin": "/private/tmp/q21-publication-driver-v3/prepare.log",
+      "original": {
+        "bytes": 178,
+        "sha256": "9491498028e91d0e2c52d3506eca056747072177b9aedfd7ec4b32edf788d752"
+      },
+      "saved": {
+        "bytes": 157,
+        "sha256": "21b3b3fa8a332b8518fdb45f038c049cb51d2fa88146a04ec2fdd09d8554a9b5"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v3/progress.jsonl.gz",
+      "origin": "/private/tmp/q21-publication-driver-v3/progress.jsonl",
+      "original": {
+        "bytes": 1319,
+        "sha256": "28adf5f9cbffc7c74ede3d6bdaa50af6f9001f164d1d49cf085314e363ba223c"
+      },
+      "saved": {
+        "bytes": 482,
+        "sha256": "b2a7916d9224f50d59c465889e86c46d0ff24d3d038b905481e2316820580c87"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v4/before.json.gz",
+      "origin": "/private/tmp/q21-publication-driver-v4/before.json",
+      "original": {
+        "bytes": 506,
+        "sha256": "1223f2ab0613560ef6aa7ee19aee6803db680b119726c92fd295253c580bf83a"
+      },
+      "saved": {
+        "bytes": 291,
+        "sha256": "26ceb6da1592d0d905cebe19a5595d5ad6c191b59907205d8124355357f46faa"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v4/complete.json.gz",
+      "origin": "/private/tmp/q21-publication-driver-v4/complete.json",
+      "original": {
+        "bytes": 3060,
+        "sha256": "caf9c8068b6b06f0229534dda00a4aac46834da10d18e36c8bac9c57c7fe8828"
+      },
+      "saved": {
+        "bytes": 1144,
+        "sha256": "b9846eb850aba8f3a5b187180fdf1be7f6bb68e23772a6bb07020b80235139a4"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v4/independent-full.log.gz",
+      "origin": "/private/tmp/q21-publication-driver-v4/independent-full.log",
+      "original": {
+        "bytes": 681,
+        "sha256": "97ab1edbf4e5cc8d6a3cbff21a7803070e5377b45c9a0d22e34144c06158641b"
+      },
+      "saved": {
+        "bytes": 424,
+        "sha256": "0c1d7fbb5d2bced6a1dfa8b23af2c8dee3407177746b43a19bdccc4e1399a99b"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v4/negative-checks.log.gz",
+      "origin": "/private/tmp/q21-publication-driver-v4/negative-checks.log",
+      "original": {
+        "bytes": 35,
+        "sha256": "ccf64cc08e16e6b2af281a239134af638b01b213f9fbebadf21b43da9ad3200f"
+      },
+      "saved": {
+        "bytes": 54,
+        "sha256": "d5ce89ba9d00fec39698eb415d0812fd9b88f6593e69c280c31519bccc22f60c"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v4/progress.jsonl.gz",
+      "origin": "/private/tmp/q21-publication-driver-v4/progress.jsonl",
+      "original": {
+        "bytes": 1316,
+        "sha256": "b190c45b8149c80385f1ae040c7a3915bf08cc5f3c60ad31fe99d35c07149950"
+      },
+      "saved": {
+        "bytes": 483,
+        "sha256": "e91830a426b618bbb328d539273816af548314e72196ce5755d07f4b321b474e"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-driver-v4/repack.log.gz",
+      "origin": "/private/tmp/q21-publication-driver-v4/repack.log",
+      "original": {
+        "bytes": 92,
+        "sha256": "99dd2e325a7b40b0f78ffb1bdfc01f115b190842059f6bbaaa301c82ecab6904"
+      },
+      "saved": {
+        "bytes": 100,
+        "sha256": "03edd478286eb10e0abbf3e52c8a697e538c041f2f42511def8418fb36365cbe"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-corruptions-v3/complete.json.gz",
+      "origin": "/private/tmp/q21-publication-corruptions-v3/complete.json",
+      "original": {
+        "bytes": 1256,
+        "sha256": "e5e634a3a11df415ad19aeaab4885e946e93ba4f0356359aa8b47c23020bf585"
+      },
+      "saved": {
+        "bytes": 355,
+        "sha256": "2f6e7c1a7407712e2c5a74d089e513caf2a084ff3deafadb00dc43a5f096326d"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/q21-publication-corruptions-v4/complete.json.gz",
+      "origin": "/private/tmp/q21-publication-corruptions-v4/complete.json",
+      "original": {
+        "bytes": 1471,
+        "sha256": "c6dd5807447df8f03783d42aaeba43194a538b8f6fdd34e6217105d6aedf63ec"
+      },
+      "saved": {
+        "bytes": 377,
+        "sha256": "234aa1edfd3d275b66157aa575aecf830302b74b072a420965523f3fb7b51454"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/encoding-v5/q21-publication-staging-v1/complete.json.gz",
+      "origin": "/private/tmp/q21-publication-staging-v1/complete.json",
+      "original": {
+        "bytes": 96945,
+        "sha256": "cb2c380104449a9adcf9ea97d0beac750e7abc49c53ba206fb05d59e4972947e"
+      },
+      "saved": {
+        "bytes": 5485,
+        "sha256": "443294ce8e6bfd4b8ad6d5edd4842f522d1a5d3bfdaa4fcfe157a053ed13ac04"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/encoding-v5/q21-publication-staging-v1/whitespace-check.log.gz",
+      "origin": "/private/tmp/q21-publication-staging-v1/whitespace-check.log",
+      "original": {
+        "bytes": 2996,
+        "sha256": "47a4637eb9b34543be6fada06b80ba2fdb318c40f45652cf8b8e17b350ed921a"
+      },
+      "saved": {
+        "bytes": 649,
+        "sha256": "cc84007599005da68cc39c942c90bbd551ab2d09a8e997132b78e6fc57362d67"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/encoding-v5/tmp/q21-stage-publication-v1.py.gz",
+      "origin": "/private/tmp/q21-stage-publication-v1.py",
+      "original": {
+        "bytes": 7639,
+        "sha256": "6681b735cbbc0470c704955d058e3b71699f22065ae6d844a17a4624834b131e"
+      },
+      "saved": {
+        "bytes": 3262,
+        "sha256": "1b1486f105abe1837c2d2ea7794d25a28879715d43a8b2ff1f4a4300ee853325"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/encoding-v5/q21-publication-stage-v4/validation-index.json.gz",
+      "origin": "/private/tmp/q21-publication-stage-v4/validation-index.json",
+      "original": {
+        "bytes": 388878,
+        "sha256": "c7f3f1b03ca65ac07ba697c6f067989a02f4e2d02b56a81e5f4c6f7094a92714"
+      },
+      "saved": {
+        "bytes": 71524,
+        "sha256": "e6a3546ba472cbffbb64fdec6944f295e2f84f943fb37537bac955c084d8a557"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/encoding-v5/q21-publication-staging-v2/before.json.gz",
+      "origin": "/private/tmp/q21-publication-staging-v2/before.json",
+      "original": {
+        "bytes": 415,
+        "sha256": "007d11c5c4d8ec16e580732334a989d6b53ccef95f6e052aabd9b11db2bb3349"
+      },
+      "saved": {
+        "bytes": 263,
+        "sha256": "9fda97d0e76d0d200b865f7e71d787f1c71285596027fbab111c160df03644a0"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/encoding-v5/q21-publication-staging-v2/progress.jsonl.gz",
+      "origin": "/private/tmp/q21-publication-staging-v2/progress.jsonl",
+      "original": {
+        "bytes": 1010,
+        "sha256": "6ba695c0128ceba78d2622d1b17c01028157987ca5c23c66b63384e66433a2a0"
+      },
+      "saved": {
+        "bytes": 443,
+        "sha256": "e2800d123fc07f067c4ab03775cfabedda030d3df181a7e154817f50d6d642d1"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/encoding-v5/q21-publication-staging-v2/independent-full.log.gz",
+      "origin": "/private/tmp/q21-publication-staging-v2/independent-full.log",
+      "original": {
+        "bytes": 681,
+        "sha256": "97ab1edbf4e5cc8d6a3cbff21a7803070e5377b45c9a0d22e34144c06158641b"
+      },
+      "saved": {
+        "bytes": 424,
+        "sha256": "0c1d7fbb5d2bced6a1dfa8b23af2c8dee3407177746b43a19bdccc4e1399a99b"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/encoding-v5/q21-publication-staging-v2/negative-checks.log.gz",
+      "origin": "/private/tmp/q21-publication-staging-v2/negative-checks.log",
+      "original": {
+        "bytes": 35,
+        "sha256": "ccf64cc08e16e6b2af281a239134af638b01b213f9fbebadf21b43da9ad3200f"
+      },
+      "saved": {
+        "bytes": 54,
+        "sha256": "d5ce89ba9d00fec39698eb415d0812fd9b88f6593e69c280c31519bccc22f60c"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/encoding-v5/publication-encoding-v5/corruptions.py.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/blinded-written-study/publication-encoding-v5/corruptions.py",
+      "original": {
+        "bytes": 5078,
+        "sha256": "f4342c2d64f18ce5d5f5f4ae06947aa768dc502d5aa307f49965b996ff046b0c"
+      },
+      "saved": {
+        "bytes": 1667,
+        "sha256": "d95dec20e6738748a97a8554984fe59e3409d8cf4b23d33ed42c402510c0960b"
+      },
+      "compression": "gzip"
+    },
+    {
+      "path": "publication-proof/encoding-v5/publication-encoding-v5/repack_stage.py.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/blinded-written-study/publication-encoding-v5/repack_stage.py",
+      "original": {
+        "bytes": 7085,
+        "sha256": "144ed40965adce2c6cc338c13329e657fd4a4b599e7b134c7252f98d98c228d4"
+      },
+      "saved": {
+        "bytes": 2335,
+        "sha256": "4c7da54c626bdf5c69586454e64e1425e2403eb9f7134877583a07529b9b7cfa"
+      },
+      "compression": "gzip"
+    }
+  ],
+  "validationIndex": {
+    "bytes": 389576,
+    "sha256": "5ce305c99d40990860cc904ce75315124e7c456c594714adc770763b01e6da7b"
+  },
+  "results": {
+    "bytes": 6427,
+    "sha256": "d3d2ba79b531e359feddb629737a5b713065bb54a3b8d98a274a1c4f17a3ef68"
+  },
+  "independent": {
+    "bytes": 681,
+    "sha256": "97ab1edbf4e5cc8d6a3cbff21a7803070e5377b45c9a0d22e34144c06158641b"
+  },
+  "corruptions": {
+    "bytes": 1471,
+    "sha256": "2f12f537eb856ee3b04769760ae5bc20921ad874ef87e07a7dea7e1bb881eee2"
+  },
+  "scope": "Final publication operators/outcomes; original V3 complete packet and altered copies remain retained locally.",
+  "losslessReencodedFiles": [
+    {
+      "from": "evidence/retained/execution/q21-calibration-driver-v1/before.json",
+      "to": "evidence/retained/execution/q21-calibration-driver-v1/before.json.gz",
+      "original": {
+        "bytes": 2676,
+        "sha256": "0f5f369d2bd892d5fcf56bdb758f704f616e97e8a84bedc94585290c3c8e910d"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-driver-v1/complete.json",
+      "to": "evidence/retained/execution/q21-calibration-driver-v1/complete.json.gz",
+      "original": {
+        "bytes": 2993,
+        "sha256": "0a99d5b8c8358468b5a67fcdf2816ace441abb548cb7cd1a84176109882b01e8"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-independent-driver-v1/before.json",
+      "to": "evidence/retained/execution/q21-calibration-independent-driver-v1/before.json.gz",
+      "original": {
+        "bytes": 2164,
+        "sha256": "7f338d422077ed32749dee3045cdef7d0045cea254b23b7f845590e65c726390"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-independent-driver-v1/complete.json",
+      "to": "evidence/retained/execution/q21-calibration-independent-driver-v1/complete.json.gz",
+      "original": {
+        "bytes": 2558,
+        "sha256": "ad5ac142ca9a724f647361ce7e252d7b57ec36e63486da5dd10cf3c09b5ff7fa"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-benefit/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-benefit/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66092,
+        "sha256": "3a8e80ba251b765195699c302abd90e3b7475e44054f864d81d57be64236b087"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-benefit/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-benefit/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 106108,
+        "sha256": "2b726c09f964375e1d0e42187bb5334570935c8067fe6a9ed03df77420393005"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-benefit/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-benefit/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10823,
+        "sha256": "15eafeac4a4775402a834814ead87cf53a33b827f8479065160c60f5f22a9d99"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-harm/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-harm/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66200,
+        "sha256": "d6ab4548c8ea43c8dac4449f2cd110b1cf1f71aa83290f15ecff1db54c5cfb77"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-harm/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-harm/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 106602,
+        "sha256": "e2c638f8db60efa1b61b7cce54365c9ff987f65ae18b67d0027380c590a873c4"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-harm/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/candidate-harm/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10827,
+        "sha256": "5f7163d97862c816bbb41f647f066d5176e3257d348b22e2a36d99bdbb8f4c4b"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/complete.json",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/complete.json.gz",
+      "original": {
+        "bytes": 57497,
+        "sha256": "8f096712bbb90b3a59b06eea13821c53f49e560691fc214d0949df304cb6a923"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/crossed-null/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/crossed-null/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66854,
+        "sha256": "b93c9d4a7d17072fa15edcbf42c351a8bea295b015e3e364818fbc8d72f195b9"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/crossed-null/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/crossed-null/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 105668,
+        "sha256": "aef698147ca95edd0235cbb6b61e78887bfbf74471050cea473de59a98acaf76"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/crossed-null/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/crossed-null/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10817,
+        "sha256": "ad2738169934eddfc1ca88bd3fb739ac5b98d4120c18965289de05f7ea64c043"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/iid-small/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/iid-small/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66590,
+        "sha256": "4d0333e70b434a6593f03c23544b7015f2f6ba36d2e5998564c6e372c86f6a46"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/iid-small/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/iid-small/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 30409,
+        "sha256": "0ae5add63c6e47e9b43d13c16f1247186e671a0625663ff6599d3d1343fdaa73"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/iid-small/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/iid-small/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 6731,
+        "sha256": "877ded3f28ac6790733ff9bb417525a0a2810361978c5f6b3588a25906e07b2c"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/informative-candidate-nonresponse/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/informative-candidate-nonresponse/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66052,
+        "sha256": "8461ddbc647bdcd8c844d4823c3b89dd22e0476626313e4d1b0cb418c9aedfc8"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/informative-candidate-nonresponse/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/informative-candidate-nonresponse/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 107325,
+        "sha256": "b976c0a846749496b23f47edc022fda2b20c0aed635742add9dd30dddf4e9788"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/informative-candidate-nonresponse/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/informative-candidate-nonresponse/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10842,
+        "sha256": "ec2666861605eac7f84ce11bf05bf92257aff95dc8234855ce1a7eee7a574b8f"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/missing-completely-at-random/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/missing-completely-at-random/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66763,
+        "sha256": "cb4e98e924156eeb3dbaf3afc7f94400ec6638263074b074e9667296cf94ec8d"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/missing-completely-at-random/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/missing-completely-at-random/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 105661,
+        "sha256": "4f496dfaee90b0490702b587f97b46e5387755895dfee50b8319dc571d8b6840"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/missing-completely-at-random/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/missing-completely-at-random/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10839,
+        "sha256": "2fa05a9b9bc52bbd3e3ff88a975fec148777070da6466b77137685005630a762"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/rare-favorable-ratings/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/rare-favorable-ratings/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66637,
+        "sha256": "8cf57d41024978bea5d898aa0001f5379b2944ebb1665d2f54683528cd16ca99"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/rare-favorable-ratings/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/rare-favorable-ratings/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 105067,
+        "sha256": "ecebd32faae4e5174470f9ca34f8de54c00670621697966879eff411c5ac1c1f"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/rare-favorable-ratings/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/rare-favorable-ratings/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10842,
+        "sha256": "0dd875840e9097c4da7b6572badac2a584bc330bcad81a9bd83c10e401b71939"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/results.jsonl",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/results.jsonl.gz",
+      "original": {
+        "bytes": 13729,
+        "sha256": "f1ed60ef294769d3f31cf81911f4515a17caf7d0f8aca3288fba934b84f4744a"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/shared-spellings-null/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/shared-spellings-null/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66696,
+        "sha256": "2f6659c71d450274f2a1cea7beec6d0a818b429fddd62d6b2b78f49b145b04b1"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/shared-spellings-null/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/shared-spellings-null/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 108266,
+        "sha256": "65ebc15f921368c4c24193c25902a828d7cb0d8d0086c56c1b018007cdffe05b"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/shared-spellings-null/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/shared-spellings-null/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10856,
+        "sha256": "275772866ccf4a3e5d6503ae04933d4f49332fd3cfaea092bc698660a311bbf8"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/sparse-crossed-null/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/sparse-crossed-null/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 67188,
+        "sha256": "676101166aa4776c442c1738ceb1f49b33d73b5f4dbed65f443af72f4c3cab85"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/sparse-crossed-null/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/sparse-crossed-null/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 106117,
+        "sha256": "d7dde361e5d299d17ee0faa80d84d25b7be5c2de00f80f55df6fe4a2f7f103bf"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/sparse-crossed-null/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/sparse-crossed-null/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 18852,
+        "sha256": "2b728cce49e98ef9f91db80ab03bbddfd5285fc10e518af0ed9f0d8cc5ddf81b"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/unequal-draw-multiplicity/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/unequal-draw-multiplicity/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66764,
+        "sha256": "0a721ec9597bec0c476d1acd934fe8f6123f3eb75e144e1ba8b6640833cb1062"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/unequal-draw-multiplicity/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/unequal-draw-multiplicity/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 136089,
+        "sha256": "bcdbea5ccef25af1865d3a456aefc02050c1106666092762157f09eedc1fccbb"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/unequal-draw-multiplicity/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/unequal-draw-multiplicity/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 31000,
+        "sha256": "04825e4304a73ed58233bc730e2fc2c6adc60da9dd9aef18562128b545552501"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/unfamiliar-cohort-independent/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/unfamiliar-cohort-independent/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66846,
+        "sha256": "3e4f6d5303d3068ae0204c76c7be6c478342b2e516e66cad2da61a07a7b35eaa"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/unfamiliar-cohort-independent/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/unfamiliar-cohort-independent/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 107928,
+        "sha256": "63e13f7f27e8946bf148c08e52870925c2816622d0169422f538ab117cecc06a"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/unfamiliar-cohort-independent/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/unfamiliar-cohort-independent/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10835,
+        "sha256": "cb9423166a5ecb23ccb862f50316767ec804a45732b7f719e716dc73249500c2"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/whole-reader-attrition/0000-inference.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/whole-reader-attrition/0000-inference.json.gz.gz",
+      "original": {
+        "bytes": 66808,
+        "sha256": "942dad210356b8830ef0996bd665bba9693654fb88582dd50a2ff8aa1449769c"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/whole-reader-attrition/0000-input.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/whole-reader-attrition/0000-input.json.gz.gz",
+      "original": {
+        "bytes": 102451,
+        "sha256": "c2e09a04b6ce994dd150eb424129964a005e03848c0c3b2e4d0e4637e7cea56b"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-preflight-v1/whole-reader-attrition/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-preflight-v1/whole-reader-attrition/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10840,
+        "sha256": "2ec5b415446f65b473cf4e911510f2780400b5e7c4c49a179e8a4bd563e536f4"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-summary-checks-v1/complete.json",
+      "to": "evidence/retained/execution/q21-calibration-summary-checks-v1/complete.json.gz",
+      "original": {
+        "bytes": 822,
+        "sha256": "d4992c261ddbcbe03aeb6fff04cbcc9d6e93b123ee262baad2a4aaeb0f9725c3"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-summary-driver-v1/before.json",
+      "to": "evidence/retained/execution/q21-calibration-summary-driver-v1/before.json.gz",
+      "original": {
+        "bytes": 964,
+        "sha256": "77aa1239586f37237e1cd18a9f7f58107b4614bf4134a19aa75382dc0471548b"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-summary-driver-v1/complete.json",
+      "to": "evidence/retained/execution/q21-calibration-summary-driver-v1/complete.json.gz",
+      "original": {
+        "bytes": 1326,
+        "sha256": "70c406b335a1ab7e91782634c6cebb50b3c24cc5bc2dfc99cb2e95934a38e007"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-summary-v1/before.json",
+      "to": "evidence/retained/execution/q21-calibration-summary-v1/before.json.gz",
+      "original": {
+        "bytes": 1139,
+        "sha256": "d795caa946e0b44285f6f86c8a04f9237e66445f6bcf4d9c491c25e66523008a"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-summary-v1/complete.json",
+      "to": "evidence/retained/execution/q21-calibration-summary-v1/complete.json.gz",
+      "original": {
+        "bytes": 2770,
+        "sha256": "03c5b93a48f642865bba1618233daf04e7014b3bd2dfc9020ddae00660be58de"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/candidate-benefit/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/candidate-benefit/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10823,
+        "sha256": "15eafeac4a4775402a834814ead87cf53a33b827f8479065160c60f5f22a9d99"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/candidate-harm/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/candidate-harm/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10827,
+        "sha256": "5f7163d97862c816bbb41f647f066d5176e3257d348b22e2a36d99bdbb8f4c4b"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/complete.json",
+      "to": "evidence/retained/execution/q21-calibration-v1/complete.json.gz",
+      "original": {
+        "bytes": 57669,
+        "sha256": "9de527e21c7bf77a99a076a4fe1cc37281f6c91f7bff7037ee32653225e3512e"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/crossed-null/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/crossed-null/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10817,
+        "sha256": "ad2738169934eddfc1ca88bd3fb739ac5b98d4120c18965289de05f7ea64c043"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/iid-small/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/iid-small/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 6731,
+        "sha256": "877ded3f28ac6790733ff9bb417525a0a2810361978c5f6b3588a25906e07b2c"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/informative-candidate-nonresponse/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/informative-candidate-nonresponse/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10842,
+        "sha256": "ec2666861605eac7f84ce11bf05bf92257aff95dc8234855ce1a7eee7a574b8f"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/missing-completely-at-random/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/missing-completely-at-random/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10839,
+        "sha256": "2fa05a9b9bc52bbd3e3ff88a975fec148777070da6466b77137685005630a762"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/rare-favorable-ratings/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/rare-favorable-ratings/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10842,
+        "sha256": "0dd875840e9097c4da7b6572badac2a584bc330bcad81a9bd83c10e401b71939"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/scheduling.jsonl",
+      "to": "evidence/retained/execution/q21-calibration-v1/scheduling.jsonl.gz",
+      "original": {
+        "bytes": 166,
+        "sha256": "a6177c97bbb22734ebdea06287c33b065490473b867013603ae21803e86762e5"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/shared-spellings-null/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/shared-spellings-null/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10856,
+        "sha256": "275772866ccf4a3e5d6503ae04933d4f49332fd3cfaea092bc698660a311bbf8"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/sparse-crossed-null/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/sparse-crossed-null/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 18852,
+        "sha256": "2b728cce49e98ef9f91db80ab03bbddfd5285fc10e518af0ed9f0d8cc5ddf81b"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/unequal-draw-multiplicity/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/unequal-draw-multiplicity/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 31000,
+        "sha256": "04825e4304a73ed58233bc730e2fc2c6adc60da9dd9aef18562128b545552501"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/unfamiliar-cohort-independent/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/unfamiliar-cohort-independent/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10835,
+        "sha256": "cb9423166a5ecb23ccb862f50316767ec804a45732b7f719e716dc73249500c2"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-calibration-v1/whole-reader-attrition/condition-snapshots.json.gz",
+      "to": "evidence/retained/execution/q21-calibration-v1/whole-reader-attrition/condition-snapshots.json.gz.gz",
+      "original": {
+        "bytes": 10840,
+        "sha256": "2ec5b415446f65b473cf4e911510f2780400b5e7c4c49a179e8a4bd563e536f4"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-cli-smoke-v1/complete.json",
+      "to": "evidence/retained/execution/q21-cli-smoke-v1/complete.json.gz",
+      "original": {
+        "bytes": 3360,
+        "sha256": "a71e54da2f143d4d853e4d72c979db496e580c9d3a4ce82108d4969a4613d875"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-cli-smoke-v1/owner/plan.json",
+      "to": "evidence/retained/execution/q21-cli-smoke-v1/owner/plan.json.gz",
+      "original": {
+        "bytes": 2098,
+        "sha256": "dcf050da3b32e241a7c098c4b173de2d8db0021e5f9ef4123ebd54114019d808"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-cli-smoke-v1/packet.json",
+      "to": "evidence/retained/execution/q21-cli-smoke-v1/packet.json.gz",
+      "original": {
+        "bytes": 1172,
+        "sha256": "e9ba7d3ac30d31868524df7b79cb1d017f85476137a7e2f27acf29c74ef36303"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-cli-smoke-v1/registration.json",
+      "to": "evidence/retained/execution/q21-cli-smoke-v1/registration.json.gz",
+      "original": {
+        "bytes": 562,
+        "sha256": "5802f3a93cd0ad05a9e3b3fbc052c97e6f489d9aa3c40fd4ff90909f5366b7f0"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-browser-v1/before.json",
+      "to": "evidence/retained/execution/q21-collection-browser-v1/before.json.gz",
+      "original": {
+        "bytes": 6465,
+        "sha256": "7e7a14adf1f6a8e4eee0b56c94410dacfa497cd8a3e9d8ba92a1e907238d7f67"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-browser-v1/collection/responses.jsonl",
+      "to": "evidence/retained/execution/q21-collection-browser-v1/collection/responses.jsonl.gz",
+      "original": {
+        "bytes": 2368,
+        "sha256": "2b9b19a3925bcf70de22017fe64339f467dde3859ef1bab87b781bb5d7353d8d"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-browser-v1/complete.json",
+      "to": "evidence/retained/execution/q21-collection-browser-v1/complete.json.gz",
+      "original": {
+        "bytes": 7571,
+        "sha256": "68f5990c1a3238024af2f588006227185b9d80b82435e7f02953a8c04ef73ec0"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-browser-v1/network-interruption.json",
+      "to": "evidence/retained/execution/q21-collection-browser-v1/network-interruption.json.gz",
+      "original": {
+        "bytes": 326,
+        "sha256": "f53fccc26d7164bdca12303bc49eca2ac0083f6ae77dceeee944b49a563b4649"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-browser-v1/plan.json",
+      "to": "evidence/retained/execution/q21-collection-browser-v1/plan.json.gz",
+      "original": {
+        "bytes": 4002,
+        "sha256": "a5ae01b5c0f261c3437f830acab4aa0ade50477acb4172d365a6bc29641cda85"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-browser-v1/setup-observation.json",
+      "to": "evidence/retained/execution/q21-collection-browser-v1/setup-observation.json.gz",
+      "original": {
+        "bytes": 299,
+        "sha256": "64851e83ed4d9bd263e6194c0b70ee8cc4bfd9168152700f47f2dfe59b31e91a"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-check-driver-v1/before.json",
+      "to": "evidence/retained/execution/q21-collection-check-driver-v1/before.json.gz",
+      "original": {
+        "bytes": 2711,
+        "sha256": "0ca05278f6c2e49ea5721d30b5339497ec19f8e37af32a922782e44c403db703"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-check-driver-v1/complete.json",
+      "to": "evidence/retained/execution/q21-collection-check-driver-v1/complete.json.gz",
+      "original": {
+        "bytes": 6408,
+        "sha256": "2b8c5e878c89fa688b69994823189f5bdd49ada27d1593919b7cfec93d92179e"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-check-driver-v1/installed.json",
+      "to": "evidence/retained/execution/q21-collection-check-driver-v1/installed.json.gz",
+      "original": {
+        "bytes": 1967,
+        "sha256": "9b436b37000defba1fb48b104c9122095c90712944b320fefd2feaf7b87ab8ba"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-check-driver-v1/progress.json",
+      "to": "evidence/retained/execution/q21-collection-check-driver-v1/progress.json.gz",
+      "original": {
+        "bytes": 1307,
+        "sha256": "8c8bb4fb5533151b6dd36bbb3ee68860fd84f7947bbe2151306a1c8059cca2e0"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v1/before.json",
+      "to": "evidence/retained/execution/q21-collection-cli-v1/before.json.gz",
+      "original": {
+        "bytes": 6454,
+        "sha256": "dc37b15faab35a3972fd409a3a3878b3b77799b279234330818737e546275b1e"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v1/collection/responses.jsonl",
+      "to": "evidence/retained/execution/q21-collection-cli-v1/collection/responses.jsonl.gz",
+      "original": {
+        "bytes": 634,
+        "sha256": "493729464660ddaa17e4ca21db61eed1bac89d76832139a21fb199681b189f38"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v1/failure.json",
+      "to": "evidence/retained/execution/q21-collection-cli-v1/failure.json.gz",
+      "original": {
+        "bytes": 271,
+        "sha256": "bdc53cf53d2e41142f1422f03047286f64b92b111cf6af041bf77bb364b3a9e1"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v1/plan.json",
+      "to": "evidence/retained/execution/q21-collection-cli-v1/plan.json.gz",
+      "original": {
+        "bytes": 4002,
+        "sha256": "a5ae01b5c0f261c3437f830acab4aa0ade50477acb4172d365a6bc29641cda85"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v2/before.json",
+      "to": "evidence/retained/execution/q21-collection-cli-v2/before.json.gz",
+      "original": {
+        "bytes": 6457,
+        "sha256": "c25e0fdc4b8715543745cf18fe1fa5b035ac821114935f0bfac75e2ab5d266d0"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v2/collection/responses.jsonl",
+      "to": "evidence/retained/execution/q21-collection-cli-v2/collection/responses.jsonl.gz",
+      "original": {
+        "bytes": 1228,
+        "sha256": "72506cc25fb34683576893359852aaeec7116f4e2a9b274b6e2d59612e7b8073"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v2/complete.json",
+      "to": "evidence/retained/execution/q21-collection-cli-v2/complete.json.gz",
+      "original": {
+        "bytes": 14264,
+        "sha256": "2b4f2dbb590a7dca5ae42a6e352da57056eb5457ebf37313c03842a1f822dc99"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v2/crash-preserved-copy/responses.jsonl",
+      "to": "evidence/retained/execution/q21-collection-cli-v2/crash-preserved-copy/responses.jsonl.gz",
+      "original": {
+        "bytes": 1228,
+        "sha256": "72506cc25fb34683576893359852aaeec7116f4e2a9b274b6e2d59612e7b8073"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v2/crash-preserved-copy/writer.lock",
+      "to": "evidence/retained/execution/q21-collection-cli-v2/crash-preserved-copy/writer.lock.gz",
+      "original": {
+        "bytes": 54,
+        "sha256": "810bc1df6f8bfa1dbeff84b745199917a48278355001ed23a73aa8d7da4c2b13"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v2/inference.json",
+      "to": "evidence/retained/execution/q21-collection-cli-v2/inference.json.gz",
+      "original": {
+        "bytes": 12844,
+        "sha256": "58269cdda861edc308007b40a2c449b46bccb5ecd5f13509896f48ac082df88f"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v2/plan.json",
+      "to": "evidence/retained/execution/q21-collection-cli-v2/plan.json.gz",
+      "original": {
+        "bytes": 4002,
+        "sha256": "a5ae01b5c0f261c3437f830acab4aa0ade50477acb4172d365a6bc29641cda85"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-collection-cli-v2/report.json",
+      "to": "evidence/retained/execution/q21-collection-cli-v2/report.json.gz",
+      "original": {
+        "bytes": 15755,
+        "sha256": "75f2a9633e01a29178178772f4c9a934342a440379e9ff248daf3c2234764ef6"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-inference-check-driver-v1/before.json",
+      "to": "evidence/retained/execution/q21-inference-check-driver-v1/before.json.gz",
+      "original": {
+        "bytes": 22248,
+        "sha256": "204466e54d8b3b7184503dbec89e33ff2541dd8a210e0b5d7843b25f034b8358"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-inference-check-driver-v1/intentional-interruption.json",
+      "to": "evidence/retained/execution/q21-inference-check-driver-v1/intentional-interruption.json.gz",
+      "original": {
+        "bytes": 501,
+        "sha256": "2ad8bc76b787a05dd35289bdacd25a64398fc7616ddab988baaf4469393085ac"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-inference-check-driver-v2/before.json",
+      "to": "evidence/retained/execution/q21-inference-check-driver-v2/before.json.gz",
+      "original": {
+        "bytes": 22248,
+        "sha256": "bc0c5058239c38b6bb172060d01fc8882130bea92e358959e83925cfad566139"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-inference-check-driver-v2/complete.json",
+      "to": "evidence/retained/execution/q21-inference-check-driver-v2/complete.json.gz",
+      "original": {
+        "bytes": 47041,
+        "sha256": "b093c522d75b862cccfb9362f1ee029a6a051961daa137635544c7b126b77cc3"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-inference-check-driver-v2/progress.json",
+      "to": "evidence/retained/execution/q21-inference-check-driver-v2/progress.json.gz",
+      "original": {
+        "bytes": 2251,
+        "sha256": "768501c0f643d971e6063f30da26573d0b0cb5c0d424e4a463102355c1041f11"
+      }
+    },
+    {
+      "from": "evidence/retained/execution/q21-inference-oracle-v2/independent-complete.json",
+      "to": "evidence/retained/execution/q21-inference-oracle-v2/independent-complete.json.gz",
+      "original": {
+        "bytes": 1112,
+        "sha256": "263057c5644f337c9bdfcf225b7283168f9bc66be177d8c949d38afe1ef26424"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/calibration/independent-operator-v1/status.json",
+      "to": "evidence/retained/operators-and-history/calibration/independent-operator-v1/status.json.gz",
+      "original": {
+        "bytes": 467,
+        "sha256": "05ec8d93556c1c3440b8135fa2339b7b472f4156d1732d520c58274cfbd9b522"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/calibration/pre-observation-binding-amendment.json",
+      "to": "evidence/retained/operators-and-history/calibration/pre-observation-binding-amendment.json.gz",
+      "original": {
+        "bytes": 603,
+        "sha256": "9f4153c63c0b2b7320377e332aa5dd7ec62d80489ef675cf679a8d54f84f8c7a"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/calibration/registration-v1.json",
+      "to": "evidence/retained/operators-and-history/calibration/registration-v1.json.gz",
+      "original": {
+        "bytes": 10904,
+        "sha256": "c4d8f53ba002a4c114861fec377cfcd5eabc2e71cdea759fa3c7fd10419c7bdf"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/calibration/registration-v2.json",
+      "to": "evidence/retained/operators-and-history/calibration/registration-v2.json.gz",
+      "original": {
+        "bytes": 11101,
+        "sha256": "a339d7d831082874eafd0c56747d3ddd23f72efeec6cc1084fd5af4e213323f5"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/calibration/rejected-operator-syntax-v1/reason.json",
+      "to": "evidence/retained/operators-and-history/calibration/rejected-operator-syntax-v1/reason.json.gz",
+      "original": {
+        "bytes": 429,
+        "sha256": "084790945187b98a68835fc970ccf94e75d3f48cd7c17070ced8e20585e9de1f"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/collection-cli-amendment.json",
+      "to": "evidence/retained/operators-and-history/collection-cli-amendment.json.gz",
+      "original": {
+        "bytes": 462,
+        "sha256": "90380ad819442510a6aaf600c0e35b92fd258558d00f7657ff89c045fd8022cd"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/collection-decision-note.md",
+      "to": "evidence/retained/operators-and-history/collection-decision-note.md.gz",
+      "original": {
+        "bytes": 2661,
+        "sha256": "f48b5be478558b374df99e53410674ca87f1f5c13113efd1f096e5eb2e2199c2"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/collection-development/written-collection.md",
+      "to": "evidence/retained/operators-and-history/collection-development/written-collection.md.gz",
+      "original": {
+        "bytes": 7047,
+        "sha256": "cd35f99b7ecbe7f0e5201560e4b904f5b999509e653e489748223faa6568077e"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/collection-draft.json",
+      "to": "evidence/retained/operators-and-history/collection-draft.json.gz",
+      "original": {
+        "bytes": 1895,
+        "sha256": "699fffa13a33ec37685c3b4977b39ac31c650da20ffd83e0116aabb545b501cf"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/implementation/written-comparison.md",
+      "to": "evidence/retained/operators-and-history/implementation/written-comparison.md.gz",
+      "original": {
+        "bytes": 4659,
+        "sha256": "65c9806f96db7bd134520e13f7868d2a987a81fd19c6fa6fca615a2348d0a027"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/inference-development/written-inference-method.md",
+      "to": "evidence/retained/operators-and-history/inference-development/written-inference-method.md.gz",
+      "original": {
+        "bytes": 5543,
+        "sha256": "d9cb2e88d1b8d1c95f07239110389d7b637bb9052901391ee74f1a530c51a457"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/inference-rejected-v1/docs/written-comparison.md",
+      "to": "evidence/retained/operators-and-history/inference-rejected-v1/docs/written-comparison.md.gz",
+      "original": {
+        "bytes": 5152,
+        "sha256": "9468c1ce359268d57427f30b1fb1a8094c3d7ba3aab406b5412e77fd71578e92"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/inference-rejected-v1/docs/written-inference-method.md",
+      "to": "evidence/retained/operators-and-history/inference-rejected-v1/docs/written-inference-method.md.gz",
+      "original": {
+        "bytes": 4288,
+        "sha256": "085c243d285fc6cef83bdd3421b7437862abbc290d6cf97e493e263d46c32184"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/inference-rejected-v1/rejection.json",
+      "to": "evidence/retained/operators-and-history/inference-rejected-v1/rejection.json.gz",
+      "original": {
+        "bytes": 4281,
+        "sha256": "755e552be67d5c438b22ef0498a3a2ec4ea9cb697426cf4b11616e4b5e44bdc1"
+      }
+    },
+    {
+      "from": "evidence/retained/operators-and-history/source-audit.json",
+      "to": "evidence/retained/operators-and-history/source-audit.json.gz",
+      "original": {
+        "bytes": 3753,
+        "sha256": "4fe92ffc27655d9484212cbb9758ca32ec80fb9167bf22c5517c42c2cad7711a"
+      }
+    },
+    {
+      "from": "evidence/retained/source/.env.example",
+      "to": "evidence/retained/source/.env.example.gz",
+      "original": {
+        "bytes": 279,
+        "sha256": "a2a4dce42a26d6d96e4edde9ed20fd5a23bf250642bf367a2cee474764d917e1"
+      }
+    },
+    {
+      "from": "evidence/retained/source/.githooks/post-merge",
+      "to": "evidence/retained/source/.githooks/post-merge.gz",
+      "original": {
+        "bytes": 81,
+        "sha256": "da56acd66ffe28f9fc0f82aa29372039087da030ec761738214f4d0af553d98f"
+      }
+    },
+    {
+      "from": "evidence/retained/source/.github/workflows/ci.yml",
+      "to": "evidence/retained/source/.github/workflows/ci.yml.gz",
+      "original": {
+        "bytes": 6188,
+        "sha256": "8cd60712589445644d61880a5cf713309a6917d085951d6d1147322912f5f2ed"
+      }
+    },
+    {
+      "from": "evidence/retained/source/.github/workflows/deploy-pages.yml",
+      "to": "evidence/retained/source/.github/workflows/deploy-pages.yml.gz",
+      "original": {
+        "bytes": 955,
+        "sha256": "571a6a7ea1580b6992688ef2c05340320aa7cffaa21187f83b4a11f44e14664f"
+      }
+    },
+    {
+      "from": "evidence/retained/source/.gitignore",
+      "to": "evidence/retained/source/.gitignore.gz",
+      "original": {
+        "bytes": 3176,
+        "sha256": "fa16f55dba385d24f40a79aa1804c84eea3551f9351d41085a9fb18013ad0d52"
+      }
+    },
+    {
+      "from": "evidence/retained/source/.prettierrc",
+      "to": "evidence/retained/source/.prettierrc.gz",
+      "original": {
+        "bytes": 106,
+        "sha256": "dfca0626519511080d85e5fc86c1021c7bc8900e2cb525cc7cbbe039a0d5198f"
+      }
+    },
+    {
+      "from": "evidence/retained/source/CHANGELOG.md",
+      "to": "evidence/retained/source/CHANGELOG.md.gz",
+      "original": {
+        "bytes": 723,
+        "sha256": "bb03dfddb067762c3e0a4528580141b426ae1b00316e7bc8b7842dc39509e170"
+      }
+    },
+    {
+      "from": "evidence/retained/source/CONTRIBUTING.md",
+      "to": "evidence/retained/source/CONTRIBUTING.md.gz",
+      "original": {
+        "bytes": 1774,
+        "sha256": "20cffa824c9bf1669024a6a2b739af2e269f466a2e17dac176aa60ec93085ced"
+      }
+    },
+    {
+      "from": "evidence/retained/source/DESIGN.md",
+      "to": "evidence/retained/source/DESIGN.md.gz",
+      "original": {
+        "bytes": 849,
+        "sha256": "f588a8331295ed8e046b6e59534afebf4156fad2b95305f16e7c824950ca691d"
+      }
+    },
+    {
+      "from": "evidence/retained/source/LICENSE",
+      "to": "evidence/retained/source/LICENSE.gz",
+      "original": {
+        "bytes": 1064,
+        "sha256": "ae21a6bcbb3cfb9194e3a7cd7662ff9e7f7669692ed4ba525cf6620085cc5f4b"
+      }
+    },
+    {
+      "from": "evidence/retained/source/PR-SUMMARY.md",
+      "to": "evidence/retained/source/PR-SUMMARY.md.gz",
+      "original": {
+        "bytes": 5364,
+        "sha256": "6b6073345aaa704d827fa3db7ce2ddf8c4afff693fac6a7823b409b7a130e79b"
+      }
+    },
+    {
+      "from": "evidence/retained/source/PRODUCT.md",
+      "to": "evidence/retained/source/PRODUCT.md.gz",
+      "original": {
+        "bytes": 1497,
+        "sha256": "2daf30c862ffb3456cc64864aa3a19e1e56f8fdc205ae3be2393c14e31a8858d"
+      }
+    },
+    {
+      "from": "evidence/retained/source/README.md",
+      "to": "evidence/retained/source/README.md.gz",
+      "original": {
+        "bytes": 4453,
+        "sha256": "8496fb9b2e9f01ea9aa0a0fd850850e8ef9b765a6c4e85c4ba6cf0e14aa7741d"
+      }
+    },
+    {
+      "from": "evidence/retained/source/TUNING.md",
+      "to": "evidence/retained/source/TUNING.md.gz",
+      "original": {
+        "bytes": 18519,
+        "sha256": "0c1aae953ac66d5ed39bfab5b584a3ad382ce3f975be6b24992502a866747752"
+      }
+    },
+    {
+      "from": "evidence/retained/source/agents.md",
+      "to": "evidence/retained/source/agents.md.gz",
+      "original": {
+        "bytes": 2286,
+        "sha256": "2bc122c93c2e834046fa07341ce6ffa5a7a2a2404473090b4018aaec6130352e"
+      }
+    },
+    {
+      "from": "evidence/retained/source/data/cmu/cmu-length-baseline.json",
+      "to": "evidence/retained/source/data/cmu/cmu-length-baseline.json.gz",
+      "original": {
+        "bytes": 4272,
+        "sha256": "f7bd916da8bb33102c28e70cc5a2e34bf58d17c165204d607bc73f60e8754a2e"
+      }
+    },
+    {
+      "from": "evidence/retained/source/data/cmu/cmu-lexicon-baseline.md",
+      "to": "evidence/retained/source/data/cmu/cmu-lexicon-baseline.md.gz",
+      "original": {
+        "bytes": 4371,
+        "sha256": "df17cc47f5a88368f19a8b209bd167b3cd7e1393ed64711bed9bf09bad9ca518"
+      }
+    },
+    {
+      "from": "evidence/retained/source/data/cmu/cmu-lexicon-bigrams.json",
+      "to": "evidence/retained/source/data/cmu/cmu-lexicon-bigrams.json.gz",
+      "original": {
+        "bytes": 8179,
+        "sha256": "c4696557ddb50390298030e8295fb0dba70b03e85c15c525ffab311a8d8f3167"
+      }
+    },
+    {
+      "from": "evidence/retained/source/data/cmu/cmu-lexicon-letters.json",
+      "to": "evidence/retained/source/data/cmu/cmu-lexicon-letters.json.gz",
+      "original": {
+        "bytes": 360,
+        "sha256": "70a5c793cebab577585a5e4414389b38342bf3f07c146d625870f4286469240c"
+      }
+    },
+    {
+      "from": "evidence/retained/source/data/cmu/cmu-lexicon-phonemes.json",
+      "to": "evidence/retained/source/data/cmu/cmu-lexicon-phonemes.json.gz",
+      "original": {
+        "bytes": 650,
+        "sha256": "3d7cb879c6ff7edc7599c8d0b57cba72df6ee1d86bf20f723d88b83ff6863aa9"
+      }
+    },
+    {
+      "from": "evidence/retained/source/data/cmu/phoneme-normalization.json",
+      "to": "evidence/retained/source/data/cmu/phoneme-normalization.json.gz",
+      "original": {
+        "bytes": 932,
+        "sha256": "60ffe6783768e66abeaaca798f8da0c1c0d291505bd5798c0641f938e0d495ba"
+      }
+    },
+    {
+      "from": "evidence/retained/source/data/norvig/ngrams1.tsv",
+      "to": "evidence/retained/source/data/norvig/ngrams1.tsv.gz",
+      "original": {
+        "bytes": 20659,
+        "sha256": "8dbc47d41fdca23ee3f7144bec73328148b32be715bd7260bf020fe3499ce77f"
+      }
+    },
+    {
+      "from": "evidence/retained/source/demo/commonWordsWorker.js",
+      "to": "evidence/retained/source/demo/commonWordsWorker.js.gz",
+      "original": {
+        "bytes": 2585,
+        "sha256": "59f7a4c5b67db59b031dc626101dd0567cd2f359a5fc6bc09d3421f90b730739"
+      }
+    },
+    {
+      "from": "evidence/retained/source/demo/duplicateWorker.js",
+      "to": "evidence/retained/source/demo/duplicateWorker.js.gz",
+      "original": {
+        "bytes": 1682,
+        "sha256": "ff98e00b8ee5535381a94eefc48074b7066b69412ececca94db650e2032dc1e6"
+      }
+    },
+    {
+      "from": "evidence/retained/source/demo/index.js",
+      "to": "evidence/retained/source/demo/index.js.gz",
+      "original": {
+        "bytes": 1991,
+        "sha256": "093dacfb62c2892f9a9f454ad10c1d48c581e27afbd5e7ec56264309442aa0b7"
+      }
+    },
+    {
+      "from": "evidence/retained/source/demo/matchWorker.js",
+      "to": "evidence/retained/source/demo/matchWorker.js.gz",
+      "original": {
+        "bytes": 2933,
+        "sha256": "39c91abe1ccf4b77d6f5af839b08dc585778734df1006e9db4eef29ac06f9c3a"
+      }
+    },
+    {
+      "from": "evidence/retained/source/demo/realwords.js",
+      "to": "evidence/retained/source/demo/realwords.js.gz",
+      "original": {
+        "bytes": 12462,
+        "sha256": "f4e1468367ec8b61ca433104b4d2bc509d9a980dfee1d9bcbf0d23c44f796f07"
+      }
+    },
+    {
+      "from": "evidence/retained/source/demo/review.html",
+      "to": "evidence/retained/source/demo/review.html.gz",
+      "original": {
+        "bytes": 3300,
+        "sha256": "748e46ceca11253c6205532fb049a4bfcb713d9c0292a4478c709387e60f2c52"
+      }
+    },
+    {
+      "from": "evidence/retained/source/demo/review/BRIEF.md",
+      "to": "evidence/retained/source/demo/review/BRIEF.md.gz",
+      "original": {
+        "bytes": 1817,
+        "sha256": "5b81334923f3247092a3dededdebedfe3377c86dae2c477a137a17fd6946fcbb"
+      }
+    },
+    {
+      "from": "evidence/retained/source/demo/review/style.css",
+      "to": "evidence/retained/source/demo/review/style.css.gz",
+      "original": {
+        "bytes": 3466,
+        "sha256": "45f9f795952a06d4049f05acd0feb52595931200cb816bc651a82bc9c1e3e498"
+      }
+    },
+    {
+      "from": "evidence/retained/source/demo/statsWorker.js",
+      "to": "evidence/retained/source/demo/statsWorker.js.gz",
+      "original": {
+        "bytes": 2865,
+        "sha256": "dd30b77e7143191215bf6d90a5864b02652487037e15447f85ce51e96ac46b0f"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/README.md",
+      "to": "evidence/retained/source/docs/README.md.gz",
+      "original": {
+        "bytes": 939,
+        "sha256": "9a875eeda4dcd54067454c68d6bccddcb2735afbf1dc98b4083dcc702da0e20d"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/attested-codas.md",
+      "to": "evidence/retained/source/docs/attested-codas.md.gz",
+      "original": {
+        "bytes": 2327,
+        "sha256": "b0261047f8d760db2b58aa19dcb32afc1050079c1d896d1cef745e88c1eb77e0"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/design-grapheme-conditioning.md",
+      "to": "evidence/retained/source/docs/design-grapheme-conditioning.md.gz",
+      "original": {
+        "bytes": 11032,
+        "sha256": "305fb752a96d1278ef6c956326ecf94c19174fada75bbef25e19d320039ea08d"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/design-rng-and-quality-dx.md",
+      "to": "evidence/retained/source/docs/design-rng-and-quality-dx.md.gz",
+      "original": {
+        "bytes": 10107,
+        "sha256": "e94ac56ebd54ee665abc6ed66f405f6fa08f53ddabc4415b02935177e9e15db4"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/human-review.md",
+      "to": "evidence/retained/source/docs/human-review.md.gz",
+      "original": {
+        "bytes": 15634,
+        "sha256": "5719781b4e272b0456275238086679a5588ebb2b0c8ea1115acf9a631bcbb118"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/linguistic-improvement-plan.md",
+      "to": "evidence/retained/source/docs/linguistic-improvement-plan.md.gz",
+      "original": {
+        "bytes": 52297,
+        "sha256": "7f5a6925d994c515ee3a5e10d54d920c8a9080d8cd9359c59744f8726bca2e06"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/phonotactic-scoring.md",
+      "to": "evidence/retained/source/docs/phonotactic-scoring.md.gz",
+      "original": {
+        "bytes": 3334,
+        "sha256": "4e0747a7e024aab38cf5b28e6dfe0e3d161ec04e69cffd462bc726b8bfbd8062"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/pronunciation-config-migration.md",
+      "to": "evidence/retained/source/docs/pronunciation-config-migration.md.gz",
+      "original": {
+        "bytes": 2156,
+        "sha256": "cf2261e8241c891b4596cfe96327d2741a872f0e1b3bb8214d98c9abec574d98"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/quality-baselines.md",
+      "to": "evidence/retained/source/docs/quality-baselines.md.gz",
+      "original": {
+        "bytes": 10756,
+        "sha256": "9c048407aca5f4bce02fda39a27dabf14acdf915b6d3e064a00fe10953870467"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/word-trace-diagnostics.md",
+      "to": "evidence/retained/source/docs/word-trace-diagnostics.md.gz",
+      "original": {
+        "bytes": 3821,
+        "sha256": "3db50757c156cf0e62848d4b1b90448b7e878c1ed86dcf6bcaadff22657a3136"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/written-collection.md",
+      "to": "evidence/retained/source/docs/written-collection.md.gz",
+      "original": {
+        "bytes": 7906,
+        "sha256": "a3f4b2c12911d14d82f0f22a0aef4738dc739f48c37c39d106edc231ab79e9e4"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/written-comparison.md",
+      "to": "evidence/retained/source/docs/written-comparison.md.gz",
+      "original": {
+        "bytes": 5240,
+        "sha256": "ec69d08bd04bf82298e3c4de73276ff0cac005f791b81432f51f1759b9054a8d"
+      }
+    },
+    {
+      "from": "evidence/retained/source/docs/written-inference-method.md",
+      "to": "evidence/retained/source/docs/written-inference-method.md.gz",
+      "original": {
+        "bytes": 5543,
+        "sha256": "d9cb2e88d1b8d1c95f07239110389d7b637bb9052901391ee74f1a530c51a457"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development-standalone/distributions.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development-standalone/distributions.json.gz.gz",
+      "original": {
+        "bytes": 74189,
+        "sha256": "f37acaa3778afdac4160f21b9b1a5857fe22db29c9097461bf078a0c6aec41ad"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development-standalone/provenance.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development-standalone/provenance.json.gz.gz",
+      "original": {
+        "bytes": 188525,
+        "sha256": "83d167a02b74747d4960491e2696544624f45bbfd9848564ed79f192f1f3a032"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development-standalone/review-samples.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development-standalone/review-samples.json.gz.gz",
+      "original": {
+        "bytes": 344371,
+        "sha256": "e72ea127b6cda7a2ac0fe818c608c9289b25866f606c4862bc995e573ec787c8"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development-standalone/sources.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development-standalone/sources.json.gz.gz",
+      "original": {
+        "bytes": 204582,
+        "sha256": "55ce4b3f32d2ec2a9629e99d4fda466dd0c658572a239edfa15ba55ef6131f68"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development-standalone/witnesses.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development-standalone/witnesses.json.gz.gz",
+      "original": {
+        "bytes": 23856,
+        "sha256": "96e60b5e8e4895f5bc111ce39a601f03459b2bffeeeea9da3bbe62f6db8b2711"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development/distributions.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development/distributions.json.gz.gz",
+      "original": {
+        "bytes": 74189,
+        "sha256": "f37acaa3778afdac4160f21b9b1a5857fe22db29c9097461bf078a0c6aec41ad"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development/review-samples.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development/review-samples.json.gz.gz",
+      "original": {
+        "bytes": 344371,
+        "sha256": "e72ea127b6cda7a2ac0fe818c608c9289b25866f606c4862bc995e573ec787c8"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development/sources.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development/sources.json.gz.gz",
+      "original": {
+        "bytes": 176417,
+        "sha256": "30b92d28e23b4bf09a74c2cceb0d9bb266a51fb24ccf2d93c85b400f8a8f8148"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development/witnesses.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-development/witnesses.json.gz.gz",
+      "original": {
+        "bytes": 23856,
+        "sha256": "96e60b5e8e4895f5bc111ce39a601f03459b2bffeeeea9da3bbe62f6db8b2711"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation-standalone/distributions.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation-standalone/distributions.json.gz.gz",
+      "original": {
+        "bytes": 74615,
+        "sha256": "77daa3566847c341edd858ce1aed7ff5eb31e420b32cd13ceb23123aeeb8f5df"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation-standalone/provenance.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation-standalone/provenance.json.gz.gz",
+      "original": {
+        "bytes": 188514,
+        "sha256": "dc0cada282863d3701c67a59220bf1605fe965ebce13f0414a1a3c1e729d7c0e"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation-standalone/review-samples.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation-standalone/review-samples.json.gz.gz",
+      "original": {
+        "bytes": 347311,
+        "sha256": "0441fc274d8cc9d67b5a39ef22d18cc00a63b89e82dbc8fe189d31fd3190d56f"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation-standalone/sources.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation-standalone/sources.json.gz.gz",
+      "original": {
+        "bytes": 204582,
+        "sha256": "55ce4b3f32d2ec2a9629e99d4fda466dd0c658572a239edfa15ba55ef6131f68"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation-standalone/witnesses.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation-standalone/witnesses.json.gz.gz",
+      "original": {
+        "bytes": 23111,
+        "sha256": "2a291c54732cd3bfda18df67d5a274c2b7ad89c68a03343c517bc9b97f50ff77"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation/distributions.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation/distributions.json.gz.gz",
+      "original": {
+        "bytes": 74615,
+        "sha256": "77daa3566847c341edd858ce1aed7ff5eb31e420b32cd13ceb23123aeeb8f5df"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation/review-samples.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation/review-samples.json.gz.gz",
+      "original": {
+        "bytes": 347311,
+        "sha256": "0441fc274d8cc9d67b5a39ef22d18cc00a63b89e82dbc8fe189d31fd3190d56f"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation/sources.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation/sources.json.gz.gz",
+      "original": {
+        "bytes": 176417,
+        "sha256": "30b92d28e23b4bf09a74c2cceb0d9bb266a51fb24ccf2d93c85b400f8a8f8148"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation/witnesses.json.gz",
+      "to": "evidence/retained/source/evaluation/quality/baselines/2026-09-26-validation/witnesses.json.gz.gz",
+      "original": {
+        "bytes": 23111,
+        "sha256": "2a291c54732cd3bfda18df67d5a274c2b7ad89c68a03343c517bc9b97f50ff77"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/baselines/README.md",
+      "to": "evidence/retained/source/evaluation/quality/baselines/README.md.gz",
+      "original": {
+        "bytes": 2865,
+        "sha256": "90e5f4bff215791d4752d97920d22bd074f6fc1d382ad9f136e6ef27366d3ec0"
+      }
+    },
+    {
+      "from": "evidence/retained/source/evaluation/quality/protocol.json",
+      "to": "evidence/retained/source/evaluation/quality/protocol.json.gz",
+      "original": {
+        "bytes": 1911,
+        "sha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9"
+      }
+    },
+    {
+      "from": "evidence/retained/source/package.json",
+      "to": "evidence/retained/source/package.json.gz",
+      "original": {
+        "bytes": 4041,
+        "sha256": "edc03e70d9f06fe6414c314f12a6094fe7bf428f87c40afc1ad06fa198dd894d"
+      }
+    },
+    {
+      "from": "evidence/retained/source/scripts/deploy-local.sh",
+      "to": "evidence/retained/source/scripts/deploy-local.sh.gz",
+      "original": {
+        "bytes": 292,
+        "sha256": "1998b8499ee01a46abf3f226f9323c588d9327bea0f0073bf3420031ef8be90b"
+      }
+    },
+    {
+      "from": "evidence/retained/source/scripts/inject-build-info.js",
+      "to": "evidence/retained/source/scripts/inject-build-info.js.gz",
+      "original": {
+        "bytes": 961,
+        "sha256": "8eb6b9a863b5e81492cadb60e63f299c1b0947e4fca2d4cbd3d120d141199543"
+      }
+    },
+    {
+      "from": "evidence/retained/source/src/config/ngram-thresholds.json",
+      "to": "evidence/retained/source/src/config/ngram-thresholds.json.gz",
+      "original": {
+        "bytes": 1706,
+        "sha256": "a8ded5db4d69f7699f22289287f8471d249837c5a67efaef4cc62c7aa23aa739"
+      }
+    },
+    {
+      "from": "evidence/retained/source/src/config/phoneme-thresholds.json",
+      "to": "evidence/retained/source/src/config/phoneme-thresholds.json.gz",
+      "original": {
+        "bytes": 476,
+        "sha256": "a77e276e34eff4a028f4edd22f364a60d0f188ff686fa2c2c6e0b5defb952442"
+      }
+    },
+    {
+      "from": "evidence/retained/source/src/phonotactic/english-baseline.json",
+      "to": "evidence/retained/source/src/phonotactic/english-baseline.json.gz",
+      "original": {
+        "bytes": 651,
+        "sha256": "b09571249718792461073319d610dd634705bdac6fc9454aa9a7950a715d760b"
+      }
+    },
+    {
+      "from": "evidence/retained/source/src/worker-entry.js",
+      "to": "evidence/retained/source/src/worker-entry.js.gz",
+      "original": {
+        "bytes": 133,
+        "sha256": "2fccd58b877a21ee6d968415390b194490376654be03df6da5b3122e5149bc12"
+      }
+    },
+    {
+      "from": "evidence/retained/source/supabase/config.toml",
+      "to": "evidence/retained/source/supabase/config.toml.gz",
+      "original": {
+        "bytes": 483,
+        "sha256": "7d49e0f8e4eec0bca2bd5be9ade04a7339e3d314d95fb73ef95e86adfc97e9d9"
+      }
+    },
+    {
+      "from": "evidence/retained/source/supabase/migrations/20260904000000_review.sql",
+      "to": "evidence/retained/source/supabase/migrations/20260904000000_review.sql.gz",
+      "original": {
+        "bytes": 10417,
+        "sha256": "822188687075368ed193d9878c2886b44414c9c2bd872ebb594318862d6cc378"
+      }
+    },
+    {
+      "from": "evidence/retained/source/supabase/migrations/20260905000000_review_v2.sql",
+      "to": "evidence/retained/source/supabase/migrations/20260905000000_review_v2.sql.gz",
+      "original": {
+        "bytes": 4412,
+        "sha256": "64de975d1822dcab79c1cbe26ea638097e97234944105795f71deb33cd3055ad"
+      }
+    },
+    {
+      "from": "evidence/retained/source/supabase/migrations/20260906000000_review_chains.sql",
+      "to": "evidence/retained/source/supabase/migrations/20260906000000_review_chains.sql.gz",
+      "original": {
+        "bytes": 7851,
+        "sha256": "2310d35b705072d553e56aed55dc3fab8bd32e7069de8c5374dad1fa3aed4c0a"
+      }
+    },
+    {
+      "from": "evidence/retained/source/tasks/lessons.md",
+      "to": "evidence/retained/source/tasks/lessons.md.gz",
+      "original": {
+        "bytes": 152,
+        "sha256": "7ebba5c67520d23d26bc10c553511b87b95f3bc36855abe61ad464b42ecf241b"
+      }
+    },
+    {
+      "from": "evidence/retained/source/tasks/todo.md",
+      "to": "evidence/retained/source/tasks/todo.md.gz",
+      "original": {
+        "bytes": 4978,
+        "sha256": "df27b459ef2620879eb5748c1618bb02cb5e956df11ea74dcad28c275d94ac83"
+      }
+    },
+    {
+      "from": "evidence/retained/source/tea.yaml",
+      "to": "evidence/retained/source/tea.yaml.gz",
+      "original": {
+        "bytes": 126,
+        "sha256": "a1c20adbe4b971918f42141423ebfd1b1519573c04b3da337e0b87e292fa2f84"
+      }
+    },
+    {
+      "from": "evidence/retained/source/tsconfig.json",
+      "to": "evidence/retained/source/tsconfig.json.gz",
+      "original": {
+        "bytes": 704,
+        "sha256": "250ce839ecda24468fc9f38856e53ad8aef88b152b9b372cb1e51d29817c0356"
+      }
+    },
+    {
+      "from": "evidence/retained/source/tsconfig.quality.json",
+      "to": "evidence/retained/source/tsconfig.quality.json.gz",
+      "original": {
+        "bytes": 302,
+        "sha256": "e5151e472b866e1966faf0c3e394b56d1229b18556399ac6c6528b1ebdbf8116"
+      }
+    },
+    {
+      "from": "evidence/retained/source/tsconfig.review.json",
+      "to": "evidence/retained/source/tsconfig.review.json.gz",
+      "original": {
+        "bytes": 375,
+        "sha256": "d0199407c4899ff118dea980a98d385aa5241adde7a1658d96a9bc0a8ceb7feb"
+      }
+    },
+    {
+      "from": "evidence/retained/source/vite.config.js",
+      "to": "evidence/retained/source/vite.config.js.gz",
+      "original": {
+        "bytes": 1301,
+        "sha256": "996bd8d0dc90fa21f7350ea2dcebbb1004ee4cdce6cc154307eca0259d89ea6c"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-v3/independent-verification.json",
+      "to": "evidence/execution/q21-original-gates-v3/independent-verification.json.gz",
+      "original": {
+        "bytes": 10752,
+        "sha256": "4934f176297494569e2f48a84f1896acbb625cc31427ce5cb256528e4055c025"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-v3/original-candidate-quality-quality-report.json",
+      "to": "evidence/execution/q21-original-gates-v3/original-candidate-quality-quality-report.json.gz",
+      "original": {
+        "bytes": 476,
+        "sha256": "ddac78824ec55aece2d657e3be54a7335cb89a3c1275700da6f846477c701215"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-v3/original-candidate-trigrams-memory-trigram-2m-analysis.md",
+      "to": "evidence/execution/q21-original-gates-v3/original-candidate-trigrams-memory-trigram-2m-analysis.md.gz",
+      "original": {
+        "bytes": 3084,
+        "sha256": "d15a77f309f9ea12c42a946271f6e2718f9258a9741028f07084b983a5a6f6e7"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-v3/original-control-quality-quality-report.json",
+      "to": "evidence/execution/q21-original-gates-v3/original-control-quality-quality-report.json.gz",
+      "original": {
+        "bytes": 476,
+        "sha256": "ddac78824ec55aece2d657e3be54a7335cb89a3c1275700da6f846477c701215"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-v3/original-control-trigrams-memory-trigram-2m-analysis.md",
+      "to": "evidence/execution/q21-original-gates-v3/original-control-trigrams-memory-trigram-2m-analysis.md.gz",
+      "original": {
+        "bytes": 3084,
+        "sha256": "a8e2d1ffd81ad27288f7e2ee4c5fef62a0cd2af2f8a2a633011b5d4de0f038a2"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-v3/progress.json",
+      "to": "evidence/execution/q21-original-gates-v3/progress.json.gz",
+      "original": {
+        "bytes": 15065,
+        "sha256": "de740dd55b6cb29e947d1053ca2da0752fdb2d87dc1c8f6453868c650edd3b5a"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v3/complete.json",
+      "to": "evidence/execution/q21-original-gates-driver-v3/complete.json.gz",
+      "original": {
+        "bytes": 3988,
+        "sha256": "e87de761a82433abce04f0ad49a690c479ba5aa351bf4d0d5c1023241a38cdf0"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v3/queued-inputs.json",
+      "to": "evidence/execution/q21-original-gates-driver-v3/queued-inputs.json.gz",
+      "original": {
+        "bytes": 1210,
+        "sha256": "4fc1601513be41ff1c1f30730666918d675979f50fd792b16c82e927902dc26a"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v3/science-held.json",
+      "to": "evidence/execution/q21-original-gates-driver-v3/science-held.json.gz",
+      "original": {
+        "bytes": 988,
+        "sha256": "070995dee0f50cf17662a3ad8a42ec2b0848b5cc5478620c5317c6d1529c7245"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v3/science-resumed.json",
+      "to": "evidence/execution/q21-original-gates-driver-v3/science-resumed.json.gz",
+      "original": {
+        "bytes": 723,
+        "sha256": "cdc652d4194721ebc84a4c932f9ac72d292915ba4e604a330965514a4ad687c4"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v3/timing-reservation.json",
+      "to": "evidence/execution/q21-original-gates-driver-v3/timing-reservation.json.gz",
+      "original": {
+        "bytes": 251,
+        "sha256": "6638098c805b857f90771bb8f2243e8f699dac69811ccc442cf02257625f7f07"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v3/unexecuted-v2-supersession.json",
+      "to": "evidence/execution/q21-original-gates-driver-v3/unexecuted-v2-supersession.json.gz",
+      "original": {
+        "bytes": 3306,
+        "sha256": "b5bb17bb53beec5f4eb2fab4fb510e9e3142f9bda6b3fcd372064e5fd22870ac"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v1/earlier-terminal-inputs.json",
+      "to": "evidence/execution/q21-original-gates-driver-v1/earlier-terminal-inputs.json.gz",
+      "original": {
+        "bytes": 1199,
+        "sha256": "187a8eecc6c0bddf933acb6e289a0028f5b3443610ec647564c4792250950570"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v1/failure.json",
+      "to": "evidence/execution/q21-original-gates-driver-v1/failure.json.gz",
+      "original": {
+        "bytes": 1749,
+        "sha256": "cb46c9f3fe8a847ee1acbd2e926232b5213aa65d9219e157a26809dbc95c9af8"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v1/queued-inputs.json",
+      "to": "evidence/execution/q21-original-gates-driver-v1/queued-inputs.json.gz",
+      "original": {
+        "bytes": 663,
+        "sha256": "e0ed9930b36017cfd7c03549822e66d014caa0797f5402a0339802dfd2ad7b7e"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v1/scheduler-held.json",
+      "to": "evidence/execution/q21-original-gates-driver-v1/scheduler-held.json.gz",
+      "original": {
+        "bytes": 710,
+        "sha256": "59b067bdcd579ec6a88b0f8cc8db15604b00f497cf4163b1b0e2ebdb47227db3"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v1/scheduler-resumed.json",
+      "to": "evidence/execution/q21-original-gates-driver-v1/scheduler-resumed.json.gz",
+      "original": {
+        "bytes": 431,
+        "sha256": "64672f886b5e400369e9dc67a089c036ab00ae153ead11ed1da2e8b1df1ebcc1"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v1/timing-reservation.json",
+      "to": "evidence/execution/q21-original-gates-driver-v1/timing-reservation.json.gz",
+      "original": {
+        "bytes": 201,
+        "sha256": "77c9b7d2547e3a333071c45274cdef8477c3f6107a4ead882772254c02cac5ad"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-v1/failure.json",
+      "to": "evidence/execution/q21-original-gates-v1/failure.json.gz",
+      "original": {
+        "bytes": 1260,
+        "sha256": "374c7a3578732e2aa0cdbbe224ab2a248febd73503e45fc5f94ab1bdc2134352"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v2/external-supersession.json",
+      "to": "evidence/execution/q21-original-gates-driver-v2/external-supersession.json.gz",
+      "original": {
+        "bytes": 1050,
+        "sha256": "adba710be0285420e314fb337e537e76f3cc0339daeae046e953b0fe0e08554d"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v2/failure.json",
+      "to": "evidence/execution/q21-original-gates-driver-v2/failure.json.gz",
+      "original": {
+        "bytes": 1272,
+        "sha256": "91fc12b96b236cb205593b8f182054f280075aeb5741e94c418e8dbbadcd17ce"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-original-gates-driver-v2/queued-inputs.json",
+      "to": "evidence/execution/q21-original-gates-driver-v2/queued-inputs.json.gz",
+      "original": {
+        "bytes": 1210,
+        "sha256": "2552f68efd2e849d10212a2b8af3181394df4dc3218652b0b18a7f3b30cdf00a"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-process-hold-check-v3/complete.json",
+      "to": "evidence/execution/q21-process-hold-check-v3/complete.json.gz",
+      "original": {
+        "bytes": 905,
+        "sha256": "7a6ca411c0c20d1fbd9093530324fac75463a23eb4b4f8fce11306340eab4266"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-storage-sharing-v1/before.json",
+      "to": "evidence/execution/q21-storage-sharing-v1/before.json.gz",
+      "original": {
+        "bytes": 419,
+        "sha256": "e1a9e7119272bbf18cb92761fd6d13f2ded8b94f10cbc2cf25fd3cc6f459dfb9"
+      }
+    },
+    {
+      "from": "evidence/execution/q21-storage-sharing-v1/complete.json",
+      "to": "evidence/execution/q21-storage-sharing-v1/complete.json.gz",
+      "original": {
+        "bytes": 782,
+        "sha256": "0e46b9b1795a0ea67b7d797b9af0dbf4127e827d8cd84de66b5a6ba89162809f"
+      }
+    },
+    {
+      "from": "evidence/operators/publication-preparation-failure-v1/failure.json",
+      "to": "evidence/operators/publication-preparation-failure-v1/failure.json.gz",
+      "original": {
+        "bytes": 774,
+        "sha256": "5a4329b80ad45f83c5587a89e272b6c8e5e67e4a69dc673a194df489bea07f1c"
+      }
+    },
+    {
+      "from": "evidence/operators/publication-preparation-v2/README.md",
+      "to": "evidence/operators/publication-preparation-v2/README.md.gz",
+      "original": {
+        "bytes": 5492,
+        "sha256": "2da9418bb2805f9bae6dfec9e22085eec663a09064a560904fcc7d9b7c8a6cf0"
+      }
+    },
+    {
+      "from": "evidence/operators/publication-preparation-v2/index.json",
+      "to": "evidence/operators/publication-preparation-v2/index.json.gz",
+      "original": {
+        "bytes": 1487,
+        "sha256": "8366c21d750aa02caa968964812034b3bef9d5949fe9f73692b17c28ec9b6576"
+      }
+    },
+    {
+      "from": "evidence/operators/publication-preparation-v2/pooled-calibration.json",
+      "to": "evidence/operators/publication-preparation-v2/pooled-calibration.json.gz",
+      "original": {
+        "bytes": 15675,
+        "sha256": "426b8adbee806793052a6ed6e33aaec690b8656da9018a7bf2f2c4e891c7b893"
+      }
+    },
+    {
+      "from": "evidence/operators/publication-preparation-v2/pr-body-preparation.md",
+      "to": "evidence/operators/publication-preparation-v2/pr-body-preparation.md.gz",
+      "original": {
+        "bytes": 1307,
+        "sha256": "cff75f587f4a7ceb3191d04af2356018b350abf7e617e55b60f7445abb665571"
+      }
+    },
+    {
+      "from": "evidence/operators/publication-preparation-v2/registration.json",
+      "to": "evidence/operators/publication-preparation-v2/registration.json.gz",
+      "original": {
+        "bytes": 11101,
+        "sha256": "a339d7d831082874eafd0c56747d3ddd23f72efeec6cc1084fd5af4e213323f5"
+      }
+    },
+    {
+      "from": "evidence/operators/study-publication-gates-v1/q21-registration-v1.json",
+      "to": "evidence/operators/study-publication-gates-v1/q21-registration-v1.json.gz",
+      "original": {
+        "bytes": 1602,
+        "sha256": "7d9caaebf5e7de3e7d3a9757ed0b2b0f229e7c2d67d4d79a6a858a2de84981ef"
+      }
+    },
+    {
+      "from": "evidence/operators/study-publication-gates-v2/q21-registration-v2.json",
+      "to": "evidence/operators/study-publication-gates-v2/q21-registration-v2.json.gz",
+      "original": {
+        "bytes": 1957,
+        "sha256": "e9b1b24ef3e7875008ba8262fd0d9c434b14228c661012e11bf4a61421e3f5b6"
+      }
+    },
+    {
+      "from": "evidence/operators/study-publication-gates-v2/q22-registration-v2.json",
+      "to": "evidence/operators/study-publication-gates-v2/q22-registration-v2.json.gz",
+      "original": {
+        "bytes": 1736,
+        "sha256": "4965127c1c4ab3827e1bc251899877decc66b9400c003942d26ce77e439ae3d8"
+      }
+    },
+    {
+      "from": "evidence/operators/study-publication-gates-v2/q23-registration-v2.json",
+      "to": "evidence/operators/study-publication-gates-v2/q23-registration-v2.json.gz",
+      "original": {
+        "bytes": 1741,
+        "sha256": "e94367a5c5f028664a406f44b709fd67c1048f8cb796fcbbd64d5617b67a4ebd"
+      }
+    },
+    {
+      "from": "evidence/operators/study-publication-gates-v3/q21-registration-v3.json",
+      "to": "evidence/operators/study-publication-gates-v3/q21-registration-v3.json.gz",
+      "original": {
+        "bytes": 2744,
+        "sha256": "96bea0516061e2749a417bc298b84be5086acd55d541d394fe4d1b7fbd9a5aa4"
+      }
+    },
+    {
+      "from": "evidence/operators/study-publication-gates-v3/q22-registration-v3.json",
+      "to": "evidence/operators/study-publication-gates-v3/q22-registration-v3.json.gz",
+      "original": {
+        "bytes": 2205,
+        "sha256": "745296e30452a8741152933559c2166fad7042198a1934958d61d22554cf974c"
+      }
+    },
+    {
+      "from": "evidence/operators/study-publication-gates-v3/q23-registration-v3.json",
+      "to": "evidence/operators/study-publication-gates-v3/q23-registration-v3.json.gz",
+      "original": {
+        "bytes": 2181,
+        "sha256": "85a050892fe961ff6b744ea36a04cff249f281a88880fdd869cab25929c0a645"
+      }
+    },
+    {
+      "from": "evidence/operators/study-publication-gates-v3/unexecuted-v2-supersession.json",
+      "to": "evidence/operators/study-publication-gates-v3/unexecuted-v2-supersession.json.gz",
+      "original": {
+        "bytes": 434,
+        "sha256": "462b40308774dec21707f86be92446857a6fd1c82494c3fc398c06635886eeeb"
+      }
+    }
+  ]
+}
