@@ -71,4 +71,3 @@ export function emptyExport(): AuditoryExport {
   const frozen = comparison();
   return { version: "auditory-export-v1", comparison: frozen, release: freezeRelease(frozen, materials(frozen)), plan: allocateAuditory(frozen), responses: [] };
 }
-

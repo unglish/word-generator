@@ -26,4 +26,3 @@ export async function loadMaterialFiles(manifest: string): Promise<AssetMaterial
   }
   return materials;
 }
-
