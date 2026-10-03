@@ -36,6 +36,17 @@ the same seeded stream.
 By default generation includes morphology when the active config enables it.
 Pass `{ morphology: false }` for bare root forms.
 
+The English configuration enables
+`morphology.morphophonemicPolicy.preserveClusterLegality`. Before an affix changes
+a root sound, the generator checks the affected cluster and selected affix
+boundaries against configured eligibility. Rejected changes preserve the root
+sound and skip the same rule's spelling rewrite, without resampling or extra RNG
+draws. Traces record each rule's outcome, proposal, reasons and any licensed
+repetition across distinct morphemes in `morphologyPreparation.prepared.evaluations`.
+Omitting the policy or setting its flag to `false` preserves legacy execution.
+This policy does not certify every cluster elsewhere in a word or establish
+speaker preference for blocked alternation.
+
 ## RNG Control
 
 ```ts

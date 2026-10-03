@@ -1,0 +1,240 @@
+{
+  "root": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator",
+  "branch": "depatched/morphophonemic-cluster-legality",
+  "control": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "policyCommit": "2c720294ebe1c1ce9ce5afcbdb5c063b48332ff4",
+  "stage": "All400kcandidatecapture/public/independent audits and all22originalgates and fullpairedsummary complete. Gates6pass16fail; fulltrace examples extracting; publication packaging remains.",
+  "checkSession": 74087,
+  "initialFailure": "Missing still-used CodaExtensionRejectionReason type import corrected; initial prototype retained.",
+  "refactorParitySession": 21337,
+  "refactorParity": "/private/tmp/q11b-classifier-refactor-parity-v1",
+  "freeze": "Keep committed Q11b candidate 9d2680b, all queued capture/audit/gate/summary drivers and their inputs unchanged. Order: Q18 audit; Q19 gates/timing; Q18 gates/timing; Q11b captures; Q11b audits; Q11b gates/timing; Q11b paired summaries.",
+  "focusedCodaSuite": {
+    "passedCases": 20,
+    "failedCases": 1,
+    "failure": "Original 20,000-word traced stream exceeds unchanged 30,000ms timeout (reported runtime 114,886ms under concurrent jobs)",
+    "overallProcess": "Still running cluster-weight suite; do not report terminal yet"
+  },
+  "focusedChecks": {
+    "terminalExitCode": 1,
+    "passedCases": 23,
+    "failedCases": 2,
+    "failures": [
+      {
+        "file": "src/core/coda-extensions.test.ts",
+        "case": "20,000-word traced bare stream",
+        "timeoutMs": 30000,
+        "reportedRuntimeMs": 114886
+      },
+      {
+        "file": "src/core/cluster-weights.test.ts",
+        "case": "200,000-word position-based sample",
+        "timeoutMs": 60000,
+        "reportedRuntimeMs": 141541
+      }
+    ],
+    "note": "Both original sample sizes/timeouts retained. 200k sample frequencies printed, but timed-out test is not passing evidence. Control comparison and uncontended gate execution remain necessary before attributing timing."
+  },
+  "checkSessionTerminal": true,
+  "head": "9d2680b37b77ebb2f492f4173b1f1681446e40f4",
+  "refactorParityTerminal": true,
+  "refactorParityResult": {
+    "comparisons": 10000,
+    "publicCalls": 20000,
+    "draws": 938653,
+    "probes": 40,
+    "passed": true
+  },
+  "projection": {
+    "source": "src/core/morphology-projection.ts",
+    "tracked": false,
+    "fixturesPassed": 6,
+    "types": "pass",
+    "lint": "pass",
+    "corpusPreflightSession": 38198,
+    "corpusPreflight": "/private/tmp/q11b-projection-corpus-preflight-v1",
+    "scope": "Pure proposal helper, before random hiatus bridges; no guard enabled or treatment claim",
+    "corpusPreflightTerminal": true,
+    "corpusResult": {
+      "passed": true,
+      "words": 200000,
+      "assemblies": 57343,
+      "unavailable": 142657
+    }
+  },
+  "integrationTestSession": 68903,
+  "integrationChecks": {
+    "terminal": true,
+    "exitCode": 0,
+    "testsPassed": 86,
+    "filesPassed": 5,
+    "mainTypes": "pass",
+    "explicitFixtureTypes": "pass",
+    "touchedLint": "pass",
+    "gitDiffCheck": "pass"
+  },
+  "retainedFailures": [
+    {
+      "stage": "Mechanical test conversion",
+      "failure": "294 lint quote/indent errors; corrected without rule changes"
+    },
+    {
+      "stage": "Explicit fixture-source typing",
+      "failure": "Two position-pool typing errors; corrected and explicit test-source typechecking now passes"
+    },
+    {
+      "stage": "Non-escalated focused test startup",
+      "failure": "EPERM writing Vite temporary configuration outside writable roots; rerun with scoped authorized escalation passes"
+    },
+    {
+      "stage": "Broader lint inspection",
+      "failure": "24 indentation errors in unchanged allomorph-evidence.ts; excluded from touched-file lint claim"
+    },
+    {
+      "stage": "Public independent-oracle preflight v1",
+      "failure": "Incorrect full candidate hash supplied; clean-head assertion stopped before loading generator or making outputs. Original failure record retained; v2 uses verified actual 9d2680b37b77ebb2f492f4173b1f1681446e40f4 and passes."
+    }
+  ],
+  "implementationCommit": "a2b6de97df1662141fc36ff487dcf39c71f2965a",
+  "measurementCommit": "c0ff9c8cd7c512056832ec4863c78bc701e63e9e",
+  "integratedPreflight": {
+    "sessionId": 42916,
+    "out": "/private/tmp/q11b-integrated-preflight-v1",
+    "log": "/private/tmp/q11b-integrated-preflight-v1.log",
+    "tools": ".local-evidence/morphology-cluster-legality/integration-preflight-tools",
+    "stage": "Terminal passed at c0ff9c8 before the evidence-only replay fix; recorded public generator source bytes otherwise unchanged.",
+    "terminal": true,
+    "results": {
+      "omitted": {
+        "comparisons": 10000,
+        "publicCalls": 20000,
+        "draws": 938653,
+        "probes": 40
+      },
+      "enabled": {
+        "comparisons": 10000,
+        "publicCalls": 20000,
+        "draws": 938613,
+        "probes": 40
+      }
+    }
+  },
+  "replayFixCommit": "52832cb7301bab6f52dffbf92a5b6980116bd747",
+  "replayFix": {
+    "failure": "/private/tmp/q11b-replay-identity-probe-v2",
+    "fixed": "/private/tmp/q11b-replay-identity-probe-v3",
+    "successfulWords": 3,
+    "generatorFailures": 0,
+    "followupTestsPassed": 19,
+    "checkSession": 11275,
+    "terminal": true,
+    "mainTypes": "pass",
+    "explicitFixtureTypes": "pass",
+    "touchedLint": "pass",
+    "amendment": "evaluation/experiments/morphophonemic-cluster-legality/replay-amendment.json"
+  },
+  "independentEligibility": {
+    "tools": ".local-evidence/morphology-cluster-legality/eligibility-tools",
+    "guardFixtureCases": 25,
+    "guardExport": "/private/tmp/q11b-eligibility-probes-v1",
+    "guardOracleLog": "/private/tmp/q11b-eligibility-oracle-preflight-v3.log",
+    "transactionFixtureCases": 14,
+    "transactionCorruptionCases": 13,
+    "transactionExport": "/private/tmp/q11b-transaction-probes-v2",
+    "transactionOracle": "/private/tmp/q11b-transaction-oracle-preflight-v2.json",
+    "scope": "Developmental independent model/fixture validation; not candidate corpus efficacy. Complete model includes allomorphs/ordered rules, ownership coordinates, full initial/final identities, configured written halves and explained bridge draw tape. Registered regex corpus uses literal replacements and supported i/g flags; unsupported JS constructs fail explicitly."
+  },
+  "measurementToolsCommit": "9d2680b37b77ebb2f492f4173b1f1681446e40f4",
+  "measurementToolsChecks": {
+    "pythonTests": 17,
+    "nodeRegistrationTests": 8,
+    "bindingLint": "pass",
+    "pythonLog": "/private/tmp/q11b-portable-oracle-worktree-suite-v1.log",
+    "publicPreflight": "/private/tmp/q11b-public-oracle-preflight-v2",
+    "independentPublicPreflight": "/private/tmp/q11b-public-oracle-recount-v1.json",
+    "publicWords": 400,
+    "streams": 40,
+    "affixedWords": 108,
+    "plannedBareWords": 92,
+    "profileDisabledWords": 200,
+    "scope": "Development preflight only; full 400k capture/replay/recount, gates, timing and publication remain."
+  },
+  "candidateCapture": {
+    "sessionId": 18023,
+    "driver": ".local-evidence/morphology-cluster-legality/run_candidate_capture_when_quiet_v2.py",
+    "out": "/private/tmp/q11b-candidate-capture-driver-v2",
+    "stage": "Both complete200kpolicy captures terminal0;400kwords retained.",
+    "policies": [
+      "default",
+      "active"
+    ],
+    "wordsPerPolicy": 200000,
+    "wordsPerArm": 400000,
+    "expectedCommit": "9d2680b37b77ebb2f492f4173b1f1681446e40f4",
+    "terminal": true,
+    "exitCode": 0
+  },
+  "candidateCaptureV1": {
+    "sessionId": 30565,
+    "driver": ".local-evidence/morphology-cluster-legality/run_candidate_capture_when_quiet.py",
+    "out": "/private/tmp/q11b-candidate-capture-driver-v1",
+    "stage": "Intentionally interrupted while authoritatively verified idle, before any candidate capture; source and interruption record retained.",
+    "policies": [
+      "default",
+      "active"
+    ],
+    "wordsPerPolicy": 200000,
+    "wordsPerArm": 400000,
+    "expectedCommit": "9d2680b37b77ebb2f492f4173b1f1681446e40f4",
+    "terminal": true,
+    "exitCode": 130,
+    "interruption": "/private/tmp/q11b-candidate-capture-driver-v1/interruption.json"
+  },
+  "fullAudits": {
+    "sessionId": 51753,
+    "driver": ".local-evidence/morphology-cluster-legality/run_full_audits.py",
+    "tools": ".local-evidence/morphology-cluster-legality/full-audit-tools",
+    "out": "/private/tmp/q11b-full-audit-driver-v1",
+    "stage": "All400kcandidate Word/trace public replays and full independent reconstruction complete.",
+    "scope": "Every full candidate word/trace public replayed then committed Python configured proposal/ledger/ownership/written-half/final cellphone reconstruction. Replayer RNG totals/probes are labeled observations, not matching unrecorded capture probes.",
+    "terminal": true,
+    "exitCode": 0
+  },
+  "originalGates": {
+    "sessionId": 95231,
+    "driver": ".local-evidence/morphology-cluster-legality/run_gates_when_quiet.py",
+    "tools": ".local-evidence/morphology-cluster-legality/gate-tools",
+    "out": "/private/tmp/q11b-gates-driver-v1",
+    "stage": "All22commands complete;6pass16fail; all12nativeperformancecommands fail original4500floor. No passing gate or promotion verdict.",
+    "commands": 22,
+    "nativeTimingRuns": 12,
+    "pairs": 6,
+    "staticPreflight": "/private/tmp/q11b-gate-static-preflight-v2.json",
+    "gateFilesPerArm": 7,
+    "syntax": "pass",
+    "lint": "pass",
+    "scope": "Original frozen source/default configuration and native public batch API, no adapter or relocated gate body; all original limits and failures retained. Active spelling policy corpus validation remains separate.",
+    "terminal": true,
+    "exitCode": 0
+  },
+  "pairedSummary": {
+    "sessionId": 41927,
+    "driver": ".local-evidence/morphology-cluster-legality/run_paired_summary_when_quiet.py",
+    "tools": ".local-evidence/morphology-cluster-legality/summary-tools",
+    "out": "/private/tmp/q11b-paired-summary-driver-v1",
+    "stage": "All400k-per-arm summaries,200kbarebyteparity and200kaffixed ordinal pairs complete.4pronunciation/lexical/syllable and3written-object changes;114774tracechanges.",
+    "wordsPerArm": 400000,
+    "bareWordsPerArm": 200000,
+    "affixedProfilePairs": 200000,
+    "counterTestsPassed": 4,
+    "lint": "pass",
+    "scope": "Full original evaluator comparison plus complete same-seed paired output/trace changes; malformed/misaligned/truncated fixture checks pass. Synthetic counter fixtures do not establish generator quality. Rejection can alter subsequent RNG draws.",
+    "terminal": true,
+    "exitCode": 0
+  },
+  "fullTracePairs": {
+    "sessionId": 54958,
+    "out": "/private/tmp/q11b-complete-trace-pairs-v1",
+    "stage": "Live full200kaffixed pairs/40archivehash extraction; complete traces for every output change."
+  }
+}

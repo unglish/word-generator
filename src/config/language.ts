@@ -972,6 +972,10 @@ export interface Affix {
 
 /** Configuration for morphological word formation. */
 export interface MorphologyConfig {
+  morphophonemicPolicy?: {
+    /** Atomically reject root alternations that violate configured cluster eligibility. */
+    preserveClusterLegality: boolean;
+  };
   enabled: boolean;
   prefixes: Affix[];
   suffixes: Affix[];
@@ -1729,6 +1733,10 @@ export function validateConfig(config: LanguageConfig): void {
   };
 
   if (config.morphology) {
+    const legalityPolicy = config.morphology.morphophonemicPolicy;
+    if (legalityPolicy !== undefined && typeof legalityPolicy?.preserveClusterLegality !== "boolean") {
+      throw new Error("morphology.morphophonemicPolicy.preserveClusterLegality must be boolean");
+    }
     if (config.morphology.enabled) {
       for (const mode of ["text", "lexicon"] as const) {
         const weights = config.morphology.templateWeights[mode];

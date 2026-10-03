@@ -1,0 +1,444 @@
+[
+  {
+    "policy": "default",
+    "profile": "lexicon-default",
+    "seed": 2089697863,
+    "drawIndex": 835,
+    "archiveFile": "words/lexicon-default-2089697863.jsonl.gz",
+    "archiveRowSha256": "8e68ab0955a7178149bf3d539fcf8698f764ef12265bc877a1d3015de7cc8a58",
+    "before": {
+      "syllables": [
+        {
+          "onset": [
+            {
+              "sound": "t",
+              "voiced": false,
+              "placeOfArticulation": "alveolar",
+              "mannerOfArticulation": "stop",
+              "onset": 220,
+              "coda": 75,
+              "startWord": 4,
+              "midWord": 8,
+              "endWord": 8
+            }
+          ],
+          "nucleus": [
+            {
+              "sound": "u",
+              "mannerOfArticulation": "highVowel",
+              "tense": true,
+              "nucleus": 80,
+              "startWord": 4,
+              "midWord": 2,
+              "endWord": 2,
+              "voiced": true,
+              "placeOfArticulation": "back"
+            }
+          ],
+          "coda": []
+        },
+        {
+          "onset": [
+            {
+              "sound": "g",
+              "voiced": true,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 119,
+              "coda": 70,
+              "startWord": 5,
+              "midWord": 4,
+              "endWord": 4
+            }
+          ],
+          "nucleus": [
+            {
+              "sound": "\u025b",
+              "mannerOfArticulation": "midVowel",
+              "tense": false,
+              "nucleus": 331,
+              "startWord": 4,
+              "midWord": 3,
+              "endWord": 1,
+              "voiced": true,
+              "placeOfArticulation": "front"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "f",
+              "mannerOfArticulation": "fricative",
+              "onset": 92,
+              "coda": 92,
+              "startWord": 13,
+              "midWord": 2,
+              "endWord": 3,
+              "voiced": false,
+              "placeOfArticulation": "labiodental"
+            }
+          ],
+          "stress": "\u02c8"
+        },
+        {
+          "onset": [
+            {
+              "sound": "g",
+              "voiced": true,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 119,
+              "coda": 70,
+              "startWord": 5,
+              "midWord": 4,
+              "endWord": 4
+            }
+          ],
+          "nucleus": [
+            {
+              "sound": "\u0259",
+              "mannerOfArticulation": "midVowel",
+              "tense": false,
+              "nucleus": 457,
+              "startWord": 5,
+              "midWord": 11,
+              "endWord": 1,
+              "voiced": true,
+              "placeOfArticulation": "central"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "s",
+              "mannerOfArticulation": "sibilant",
+              "onset": 259,
+              "coda": 110,
+              "startWord": 13,
+              "midWord": 2,
+              "endWord": 13,
+              "voiced": false,
+              "placeOfArticulation": "alveolar"
+            },
+            {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          ]
+        }
+      ],
+      "pronunciation": "",
+      "written": {
+        "clean": "",
+        "hyphenated": ""
+      }
+    },
+    "configurationIndices": {
+      "suffix": 15
+    },
+    "template": "suffixed",
+    "baselineWritten": "tugefgoussity"
+  },
+  {
+    "policy": "default",
+    "profile": "text-default",
+    "seed": 2666001996,
+    "drawIndex": 178,
+    "archiveFile": "words/text-default-2666001996.jsonl.gz",
+    "archiveRowSha256": "bbb65331d4a8aace62a77a7c43e8f5fdcd75deb2762fbfe71cd9c9ee1c659510",
+    "before": {
+      "syllables": [
+        {
+          "onset": [
+            {
+              "sound": "l",
+              "mannerOfArticulation": "liquid",
+              "onset": 200,
+              "coda": 200,
+              "startWord": 5,
+              "midWord": 5,
+              "endWord": 8,
+              "voiced": true,
+              "placeOfArticulation": "alveolar"
+            }
+          ],
+          "nucleus": [
+            {
+              "sound": "\u00e6",
+              "mannerOfArticulation": "lowVowel",
+              "tense": false,
+              "nucleus": 121,
+              "startWord": 11,
+              "midWord": 6,
+              "endWord": 1,
+              "voiced": true,
+              "placeOfArticulation": "front"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "m",
+              "mannerOfArticulation": "nasal",
+              "onset": 109,
+              "coda": 193,
+              "startWord": 14,
+              "midWord": 3,
+              "endWord": 9,
+              "voiced": true,
+              "placeOfArticulation": "bilabial"
+            }
+          ],
+          "stress": "\u02c8"
+        },
+        {
+          "onset": [
+            {
+              "sound": "s",
+              "mannerOfArticulation": "sibilant",
+              "onset": 259,
+              "coda": 110,
+              "startWord": 13,
+              "midWord": 2,
+              "endWord": 13,
+              "voiced": false,
+              "placeOfArticulation": "alveolar"
+            }
+          ],
+          "nucleus": [
+            {
+              "sound": "i:",
+              "mannerOfArticulation": "highVowel",
+              "tense": true,
+              "nucleus": 133,
+              "startWord": 3,
+              "midWord": 1,
+              "endWord": 9,
+              "voiced": true,
+              "placeOfArticulation": "front"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "s",
+              "mannerOfArticulation": "sibilant",
+              "onset": 259,
+              "coda": 110,
+              "startWord": 13,
+              "midWord": 2,
+              "endWord": 13,
+              "voiced": false,
+              "placeOfArticulation": "alveolar"
+            },
+            {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          ],
+          "stress": "\u02cc"
+        }
+      ],
+      "pronunciation": "",
+      "written": {
+        "clean": "",
+        "hyphenated": ""
+      }
+    },
+    "configurationIndices": {
+      "suffix": 15
+    },
+    "template": "suffixed",
+    "baselineWritten": "lamcescity"
+  },
+  {
+    "policy": "active",
+    "profile": "lexicon-default",
+    "seed": 2089697863,
+    "drawIndex": 5864,
+    "archiveFile": "words/lexicon-default-2089697863.jsonl.gz",
+    "archiveRowSha256": "2fe188773b191be449124b1ce570a086e371bfe25daa9001bbf4db01c0adc895",
+    "before": {
+      "syllables": [
+        {
+          "onset": [],
+          "nucleus": [
+            {
+              "sound": "u",
+              "mannerOfArticulation": "highVowel",
+              "tense": true,
+              "nucleus": 80,
+              "startWord": 4,
+              "midWord": 2,
+              "endWord": 2,
+              "voiced": true,
+              "placeOfArticulation": "back"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "l",
+              "mannerOfArticulation": "liquid",
+              "onset": 200,
+              "coda": 200,
+              "startWord": 5,
+              "midWord": 5,
+              "endWord": 8,
+              "voiced": true,
+              "placeOfArticulation": "alveolar"
+            }
+          ],
+          "stress": "\u02c8"
+        },
+        {
+          "onset": [
+            {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          ],
+          "nucleus": [
+            {
+              "sound": "\u025a",
+              "mannerOfArticulation": "midVowel",
+              "tense": false,
+              "nucleus": 131,
+              "startWord": 1,
+              "midWord": 2,
+              "endWord": 6,
+              "voiced": true,
+              "placeOfArticulation": "central"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "s",
+              "mannerOfArticulation": "sibilant",
+              "onset": 259,
+              "coda": 110,
+              "startWord": 13,
+              "midWord": 2,
+              "endWord": 13,
+              "voiced": false,
+              "placeOfArticulation": "alveolar"
+            },
+            {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          ],
+          "stress": "\u02cc"
+        }
+      ],
+      "pronunciation": "",
+      "written": {
+        "clean": "",
+        "hyphenated": ""
+      }
+    },
+    "configurationIndices": {
+      "suffix": 15
+    },
+    "template": "suffixed",
+    "baselineWritten": "ewlkerssity"
+  },
+  {
+    "policy": "active",
+    "profile": "text-default",
+    "seed": 4167471042,
+    "drawIndex": 5089,
+    "archiveFile": "words/text-default-4167471042.jsonl.gz",
+    "archiveRowSha256": "fbd39eec72dff3a2479cfaa10d7727d7a7d9f24e89cc0216c35a3ac6386c21e6",
+    "before": {
+      "syllables": [
+        {
+          "onset": [
+            {
+              "sound": "n",
+              "mannerOfArticulation": "nasal",
+              "onset": 400,
+              "coda": 450,
+              "startWord": 3,
+              "midWord": 2,
+              "endWord": 10,
+              "voiced": true,
+              "placeOfArticulation": "alveolar"
+            }
+          ],
+          "nucleus": [
+            {
+              "sound": "\u025b",
+              "mannerOfArticulation": "midVowel",
+              "tense": false,
+              "nucleus": 331,
+              "startWord": 4,
+              "midWord": 3,
+              "endWord": 1,
+              "voiced": true,
+              "placeOfArticulation": "front"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "s",
+              "mannerOfArticulation": "sibilant",
+              "onset": 259,
+              "coda": 110,
+              "startWord": 13,
+              "midWord": 2,
+              "endWord": 13,
+              "voiced": false,
+              "placeOfArticulation": "alveolar"
+            },
+            {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          ],
+          "stress": "\u02c8"
+        }
+      ],
+      "pronunciation": "",
+      "written": {
+        "clean": "",
+        "hyphenated": ""
+      }
+    },
+    "configurationIndices": {
+      "suffix": 15
+    },
+    "template": "suffixed",
+    "baselineWritten": "nessity"
+  }
+]

@@ -1,3 +1,5 @@
+import { buildClusterRuntime } from "../cluster-runtime.js";
+import { bindMorphophonemicGuard } from "../morphophonemic-guard.js";
 import type { LanguageConfig } from "../../config/language.js";
 import type { Word, WordGenerationContext } from "../../types.js";
 import { FinalPhones } from "../final-phones.js";
@@ -18,6 +20,19 @@ export function restoreMorphologyRegexState(plan: MorphologyPlan, states: Morpho
     const regex = slot.phase === "boundary" ? affix.boundaryTransforms![slot.index].match : affix.morphophonemicRules![slot.index].writtenMatch!;
     regex.lastIndex = state.lastIndex;
   });
+}
+
+function restoreRootInventoryPhones(word: Word, config: LanguageConfig): void {
+  const inventory = new Map(config.phonemes.map(phone => [serializeTraceEvidence(phone), phone]));
+  for (const syllable of word.syllables) {
+    for (const segment of ["onset", "nucleus", "coda"] as const) {
+      syllable[segment] = syllable[segment].map(phone => {
+        const canonical = inventory.get(serializeTraceEvidence(phone));
+        if (!canonical) throw new Error("Morphology root phone metadata is outside the configured inventory");
+        return canonical;
+      });
+    }
+  }
 }
 
 /** Verify configured execution from the recorded root; root generation and plan sampling are separate. */
@@ -43,22 +58,26 @@ export function replayMorphologyPreparation(word: Word, configuration: LanguageC
     plan[part] = pool[index];
   }
   restoreMorphologyRegexState(plan, record.regexBefore);
+  const restoredRoot = structuredClone(record.before);
+  if (config.morphology?.morphophonemicPolicy?.preserveClusterLegality) restoreRootInventoryPhones(restoredRoot, config);
   const ledger = new FinalPhones();
-  const ids = ledger.register("root", record.before.syllables);
+  const ids = ledger.register("root", restoredRoot.syllables);
   if (serializeTraceEvidence(ledger.snapshot(ids, record.before.syllables)) !== serializeTraceEvidence(record.phonesBefore)) {
     throw new Error("Morphology initial phone identities mismatch");
   }
   let cursor = 0;
   const trace = new TraceCollector();
   const context: WordGenerationContext = {
-    word: structuredClone(record.before), trace, syllableCount: record.before.syllables.length, currSyllableIndex: 0,
+    word: restoredRoot, trace, syllableCount: record.before.syllables.length, currSyllableIndex: 0,
     finalPhoneState: { ledger, ids }, rand: () => {
       const value = record.rolls[cursor++];
       if (!Number.isFinite(value) || value < 0 || value >= 1) throw new Error("Invalid preparation draw tape");
       return value;
     },
   };
-  const prepared = prepareMorphology({ config }, context, plan);
+  const runtime = { config, ...(config.morphology?.morphophonemicPolicy?.preserveClusterLegality
+    ? { evaluateMorphophonemicReplacement: bindMorphophonemicGuard(buildClusterRuntime(config)) } : {}) };
+  const prepared = prepareMorphology(runtime, context, plan);
   if (cursor !== record.rolls.length) throw new Error("Unused preparation draws");
   if (serializeTraceEvidence(trace.morphologyPreparation) !== serializeTraceEvidence(record)) {
     throw new Error("Morphology preparation replay mismatch");

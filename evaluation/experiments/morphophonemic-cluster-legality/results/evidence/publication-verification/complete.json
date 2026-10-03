@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "name": "missing-full-trace",
+      "exitCode": 1,
+      "log": {
+        "bytes": 895,
+        "sha256": "0012ead4d874500801ccffc5e68c0fc1b4268b2105c5e88a4df085936e3ec75f"
+      }
+    },
+    {
+      "name": "failed-gate-relabelled",
+      "exitCode": 1,
+      "log": {
+        "bytes": 273,
+        "sha256": "6cc96e0777385f0b5a532219e7210cb255cfd73c99f92b6328ae107e1a878c5c"
+      }
+    },
+    {
+      "name": "forged-proposed-coda",
+      "exitCode": 1,
+      "log": {
+        "bytes": 281,
+        "sha256": "907cbc042d0d46ceb797d61ad966f812a6b64d52a05dab05ec3e3bbc66fe7171"
+      }
+    },
+    {
+      "name": "changed-census-resealed-in-both-reports",
+      "exitCode": 1,
+      "log": {
+        "bytes": 305,
+        "sha256": "c3814ce78b6a9dffc0437793119233ba05682b092e100c19ea6b20a41f6cb98d"
+      }
+    }
+  ],
+  "originalIndex": {
+    "bytes": 506456,
+    "sha256": "926bd6c292c7227f528f56012389cbc2cf20fcc82a6a4157e30b1ff219684274"
+  },
+  "scope": "Four copied synthetic corruptions rejected; originals and all failed copies retained. Not a generator or human-quality check."
+}

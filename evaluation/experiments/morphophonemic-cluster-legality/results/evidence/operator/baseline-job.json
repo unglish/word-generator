@@ -1,0 +1,14 @@
+{
+  "sessionId": 17955,
+  "driverOutput": "/private/tmp/q11b-baseline-driver-v1",
+  "state": "Queued after Q10b2 original-size diagnostics; handle polled separately",
+  "sourceCommit": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "registrationSha256": "3a8540bc6363da0cab32b84eaebb1232af9c3ced9605dfd27d4b7811e141d01b",
+  "captures": [
+    "/private/tmp/q11b-composed-control-default-v1",
+    "/private/tmp/q11b-composed-control-active-v1"
+  ],
+  "scope": "Exploratory composed baseline, not formal candidate efficacy",
+  "stage": "Terminal success: both 200000-word policy captures sealed (400000 total). Full corpus replay/recount, collision study and treatment registration remain.",
+  "completion": "/private/tmp/q11b-baseline-driver-v1/complete.json"
+}

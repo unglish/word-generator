@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/private/tmp/q11b-publication-stage-v1/verify-validation.py", line 69, in <module>
+    assert sum(row['code'] == 0 for row in gates['results']) == 6
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

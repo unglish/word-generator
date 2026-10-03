@@ -1,0 +1,8 @@
+{
+  "intentional": true,
+  "reason": "Q18 gate bindings now validated; complete Q18 after Q19 before starting Q11b full captures. V1 queue interrupted while idle; replace with v2 waiting on Q18 gates as well.",
+  "ownedPid": 59475,
+  "verifiedCommand": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -B .local-evidence/morphology-cluster-legality/run_candidate_capture_when_quiet.py",
+  "candidateCaptureStarted": false,
+  "q19Complete": false
+}

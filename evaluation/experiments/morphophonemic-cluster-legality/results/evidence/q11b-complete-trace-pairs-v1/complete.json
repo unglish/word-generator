@@ -1,0 +1,579 @@
+{
+  "passed": true,
+  "streams": [
+    {
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "words": 10000,
+      "completeWordChanges": 7045,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 7045,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-default-v1/words/lexicon-default-69212153.jsonl.gz",
+          "bytes": 41922188,
+          "sha256": "cf61caeb4cf1da1cd8b8f821db18a266e2589d4b266ad61cf8effa23ca16f13e"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-default-v1/words/lexicon-default-69212153.jsonl.gz",
+          "bytes": 41974142,
+          "sha256": "37432599571b3337248ed0bafed7ff3215b1aedd601e5f773784533c383b369c"
+        }
+      ]
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "words": 10000,
+      "completeWordChanges": 6958,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 6958,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-default-v1/words/lexicon-default-101601885.jsonl.gz",
+          "bytes": 41810098,
+          "sha256": "dd1aeafb1fbe6893b6e1055902e0059fcc217759f8bfe0c64193247e1904251f"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-default-v1/words/lexicon-default-101601885.jsonl.gz",
+          "bytes": 41863263,
+          "sha256": "ef528622c0b65adba11a32856a7d1162f6e0c04f400b29591905df38a48054c3"
+        }
+      ]
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "words": 10000,
+      "completeWordChanges": 7027,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 7027,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-default-v1/words/lexicon-default-3921817393.jsonl.gz",
+          "bytes": 41733576,
+          "sha256": "e9803a05bccdad2cc546ae60b7a36edc109980345f7cc8e4e400a7ab7a49ddd4"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-default-v1/words/lexicon-default-3921817393.jsonl.gz",
+          "bytes": 41782247,
+          "sha256": "c13901d5d7902a72e4338071dec05c5fdaf8ee0d39ae0de24cab981cf5031018"
+        }
+      ]
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "words": 10000,
+      "completeWordChanges": 6913,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 6913,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-default-v1/words/lexicon-default-3948943232.jsonl.gz",
+          "bytes": 41619383,
+          "sha256": "6bc57df21d86fd3acb1d966d1f044c7646397e8dc7b048d0ec99c33389a04c80"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-default-v1/words/lexicon-default-3948943232.jsonl.gz",
+          "bytes": 41671448,
+          "sha256": "e34caaa16890f2db4780a5b068448b7654fecf225863767d90722739cb0b9783"
+        }
+      ]
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "words": 10000,
+      "completeWordChanges": 6998,
+      "spellingChanges": 1,
+      "pronunciationChanges": 1,
+      "lexicalChanges": 1,
+      "syllableChanges": 1,
+      "traceChanges": 6998,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-default-v1/words/lexicon-default-2089697863.jsonl.gz",
+          "bytes": 41777244,
+          "sha256": "e7ed012659b05b9375746e90a80d23fe4cfcff8b2bcb9453e2ffda1e30c53ea0"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-default-v1/words/lexicon-default-2089697863.jsonl.gz",
+          "bytes": 41830016,
+          "sha256": "ac35a2ff8b5b63bea0000652f102701d3754acc58104c1c1389b59fda173bf44"
+        }
+      ]
+    },
+    {
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "words": 10000,
+      "completeWordChanges": 4539,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 4539,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-default-v1/words/text-default-4167471042.jsonl.gz",
+          "bytes": 34137937,
+          "sha256": "f5ebb1fa941e6211632855c982fe8a0fee7fed94d11973bebca68d988543e602"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-default-v1/words/text-default-4167471042.jsonl.gz",
+          "bytes": 34158680,
+          "sha256": "22a9fe094216a3cf69b6999511f717a7aeb736a5e9069c924f8b6d6f34599182"
+        }
+      ]
+    },
+    {
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 2666001996,
+      "words": 10000,
+      "completeWordChanges": 4375,
+      "spellingChanges": 0,
+      "pronunciationChanges": 1,
+      "lexicalChanges": 1,
+      "syllableChanges": 1,
+      "traceChanges": 4375,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-default-v1/words/text-default-2666001996.jsonl.gz",
+          "bytes": 34123681,
+          "sha256": "f4d3aa4e2fe9bd55d33fa9e6bbdd12e52541cf80a6b817bbe9800fe688c5a7a0"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-default-v1/words/text-default-2666001996.jsonl.gz",
+          "bytes": 34144663,
+          "sha256": "b61c66f81e0d4ddede8c31146d70187f8c06a9f328edc9c9b6036e28ba260eb2"
+        }
+      ]
+    },
+    {
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 3562318933,
+      "words": 10000,
+      "completeWordChanges": 4473,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 4473,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-default-v1/words/text-default-3562318933.jsonl.gz",
+          "bytes": 34076663,
+          "sha256": "4e7b1d85414dda93c333cd53eb701578a7aac0416693e9e3c740104cba143245"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-default-v1/words/text-default-3562318933.jsonl.gz",
+          "bytes": 34097861,
+          "sha256": "59c6f06f2a8f084d0d9658df816a1522c2cd3f71d9a54f99444812f271857380"
+        }
+      ]
+    },
+    {
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 1999736106,
+      "words": 10000,
+      "completeWordChanges": 4538,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 4538,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-default-v1/words/text-default-1999736106.jsonl.gz",
+          "bytes": 34037935,
+          "sha256": "b2be35284a12e0d72298d1b590b1a18fb50930c4cdbdb82e937298238f7ef0c2"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-default-v1/words/text-default-1999736106.jsonl.gz",
+          "bytes": 34059673,
+          "sha256": "1a34e180d833e315b8b0f4fba34f407cd6643ff10f40e0e41f75fafe891c820d"
+        }
+      ]
+    },
+    {
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 1665836705,
+      "words": 10000,
+      "completeWordChanges": 4477,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 4477,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-default-v1/words/text-default-1665836705.jsonl.gz",
+          "bytes": 34063483,
+          "sha256": "97fa5ff04909fd539e1cff1ffd3514421376a569eb4ea8f1bac8d49d6c49cb8b"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-default-v1/words/text-default-1665836705.jsonl.gz",
+          "bytes": 34084204,
+          "sha256": "22a7da0ac38f0619dda33e0f09500b99494ee2600da7bc14b63a39a191db3aea"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "words": 10000,
+      "completeWordChanges": 7063,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 7063,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-active-v1/words/lexicon-default-69212153.jsonl.gz",
+          "bytes": 47930886,
+          "sha256": "bd3b1afe1866ccf757ac45492d8a705b69e535dc5c5bb11c0c50a8d5e4ba45ad"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-active-v1/words/lexicon-default-69212153.jsonl.gz",
+          "bytes": 47980964,
+          "sha256": "2e19637e04a75fb293b0e9e558b9d2d6d49b3746956536653a984347efabfdd7"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "words": 10000,
+      "completeWordChanges": 6994,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 6994,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-active-v1/words/lexicon-default-101601885.jsonl.gz",
+          "bytes": 47942956,
+          "sha256": "10c1c5f1ec14a4124179f00cadcc8cf485dc1ed26c8947a1124ec7c6df6a339e"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-active-v1/words/lexicon-default-101601885.jsonl.gz",
+          "bytes": 47993135,
+          "sha256": "b8deba360575f2a059510457acb23f007cfa89761a17ae3bc58fb5d1deeddb8d"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "words": 10000,
+      "completeWordChanges": 7008,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 7008,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-active-v1/words/lexicon-default-3921817393.jsonl.gz",
+          "bytes": 47852886,
+          "sha256": "fd17a652860afa690f9acdd576524885a5d97bc04ba4fc0de7326030a634c9f6"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-active-v1/words/lexicon-default-3921817393.jsonl.gz",
+          "bytes": 47905045,
+          "sha256": "8eb0021bda0c084d32bfffb8155543b01c469184f1f03f5c5a002c31263f7ce4"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "words": 10000,
+      "completeWordChanges": 6963,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 6963,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-active-v1/words/lexicon-default-3948943232.jsonl.gz",
+          "bytes": 48074162,
+          "sha256": "244e16d033e5231a6d9c8f8765627f75245732c4f9ea288438e70686c74ec5e2"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-active-v1/words/lexicon-default-3948943232.jsonl.gz",
+          "bytes": 48124386,
+          "sha256": "8dc7a9e268b82f463fd6343ef8b8f198a0f1bc6c42b047ff404f6a5cd5091f02"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "words": 10000,
+      "completeWordChanges": 7011,
+      "spellingChanges": 1,
+      "pronunciationChanges": 1,
+      "lexicalChanges": 1,
+      "syllableChanges": 1,
+      "traceChanges": 7011,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-active-v1/words/lexicon-default-2089697863.jsonl.gz",
+          "bytes": 47973765,
+          "sha256": "f7ad248b3a5cfc548ffffbe86b4b2db68ec5200b8d92a519f3eb545ededcd210"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-active-v1/words/lexicon-default-2089697863.jsonl.gz",
+          "bytes": 48022792,
+          "sha256": "46c6ea5ef37f0b03d96c9fe73a1178e09bb622832649cb893174e94459c4b048"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "words": 10000,
+      "completeWordChanges": 4477,
+      "spellingChanges": 1,
+      "pronunciationChanges": 1,
+      "lexicalChanges": 1,
+      "syllableChanges": 1,
+      "traceChanges": 4477,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-active-v1/words/text-default-4167471042.jsonl.gz",
+          "bytes": 39204019,
+          "sha256": "baa676b4a70047a7f99511ca3ec09bf80ab74bbca6f8172fa43f5bb952618ff8"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-active-v1/words/text-default-4167471042.jsonl.gz",
+          "bytes": 39227218,
+          "sha256": "b9e695192017bdbd80f1fd250ae262790e31e9397a54828ddb996430b5a3f02c"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 2666001996,
+      "words": 10000,
+      "completeWordChanges": 4481,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 4481,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-active-v1/words/text-default-2666001996.jsonl.gz",
+          "bytes": 39061030,
+          "sha256": "d7e7975716b4c53691b0247d7af5452bd5215a6a412750a4085488d56ab0d05b"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-active-v1/words/text-default-2666001996.jsonl.gz",
+          "bytes": 39085813,
+          "sha256": "663e3c3d240ba755626090acabaa3a7afcdcf4cc867a426d0bfa27350d6b41d0"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 3562318933,
+      "words": 10000,
+      "completeWordChanges": 4442,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 4442,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-active-v1/words/text-default-3562318933.jsonl.gz",
+          "bytes": 39033259,
+          "sha256": "3f550c11a9ec91411ca9f65884957b0aed46034fbac700bacb196fd67185b79b"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-active-v1/words/text-default-3562318933.jsonl.gz",
+          "bytes": 39055873,
+          "sha256": "65ac8c358356e48f42602f99eb780540f4da6c41d13947233d050291c7603849"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 1999736106,
+      "words": 10000,
+      "completeWordChanges": 4496,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 4496,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-active-v1/words/text-default-1999736106.jsonl.gz",
+          "bytes": 39334290,
+          "sha256": "5a09245a9d8eccc92f50971c2e3838fabc50b18bd1318e1ec292daf10f88e9e8"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-active-v1/words/text-default-1999736106.jsonl.gz",
+          "bytes": 39357803,
+          "sha256": "bebc3c5ac3e7acf8b314fd8086313b61119b73000f2660ef8844aff86345ab0c"
+        }
+      ]
+    },
+    {
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 1665836705,
+      "words": 10000,
+      "completeWordChanges": 4496,
+      "spellingChanges": 0,
+      "pronunciationChanges": 0,
+      "lexicalChanges": 0,
+      "syllableChanges": 0,
+      "traceChanges": 4496,
+      "compressedArchiveReceipts": [
+        {
+          "path": "/private/tmp/q11b-composed-control-active-v1/words/text-default-1665836705.jsonl.gz",
+          "bytes": 39500905,
+          "sha256": "f76ed0af400af70f8b570c1bc99e5081d1b80f372c7676a2b5e1c1a1bad1579d"
+        },
+        {
+          "path": "/private/tmp/q11b-candidate-active-v1/words/text-default-1665836705.jsonl.gz",
+          "bytes": 39525977,
+          "sha256": "a13c166fd5751190f6e9d760e5ade2e8e785d9cc78e54865a5619e9d5a8d197c"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "file": "default-lexicon-default-2089697863-835.json",
+      "sha256": "67750f82ed60cac042436bc3508b32ec75a11789a240f470c17a85f4a8e10191",
+      "bytes": 702844,
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 835,
+      "field_changes": {
+        "written": true,
+        "pronunciation": true,
+        "lexical": true,
+        "syllables": true,
+        "trace": true
+      },
+      "duplicate_coda": {
+        "control": true,
+        "candidate": false
+      }
+    },
+    {
+      "file": "default-text-default-2666001996-178.json",
+      "sha256": "b6d8a6f7f99858a5b620452b851ff27c3f89fa8b9eca04f4abf7274b17a1075d",
+      "bytes": 577431,
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 2666001996,
+      "drawIndex": 178,
+      "field_changes": {
+        "written": false,
+        "pronunciation": true,
+        "lexical": true,
+        "syllables": true,
+        "trace": true
+      },
+      "duplicate_coda": {
+        "control": true,
+        "candidate": false
+      }
+    },
+    {
+      "file": "active-lexicon-default-2089697863-5864.json",
+      "sha256": "8805fb9c4d4b8c6722ad6d582bd4b057aa801cecd1e30e5c0d7fb55d5af71fa2",
+      "bytes": 580938,
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 5864,
+      "field_changes": {
+        "written": true,
+        "pronunciation": true,
+        "lexical": true,
+        "syllables": true,
+        "trace": true
+      },
+      "duplicate_coda": {
+        "control": true,
+        "candidate": false
+      }
+    },
+    {
+      "file": "active-text-default-4167471042-5089.json",
+      "sha256": "de254fa771d3d011c7ef6649b5496fc4bba51ed8448097f7e8766e60fdbe06b0",
+      "bytes": 421137,
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "drawIndex": 5089,
+      "field_changes": {
+        "written": true,
+        "pronunciation": true,
+        "lexical": true,
+        "syllables": true,
+        "trace": true
+      },
+      "duplicate_coda": {
+        "control": true,
+        "candidate": false
+      }
+    }
+  ],
+  "inputPins": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/publication-trace-tools-v1/extract_all_output_changes.py": "9b2bb21a759ac81175dd779eedb4d069d0f588373501743b3fd6b3dbe057ed96",
+    "/private/tmp/q11b-paired-summary-v1/complete.json": "1c7c24a9ed4f4cd3e10dccbe9e03bd2564aee59acd9031ac8102c11eeb9d5412",
+    "/private/tmp/q11b-full-audit-driver-v1/complete.json": "922d3c42a0ced689cea63f6d12f199e1e0c82f5b728a667268c117339abba855"
+  },
+  "manifestPins": {
+    "/private/tmp/q11b-composed-control-default-v1/manifest.json": "6b32f2339e23e0d7911154f3375cb08647ace71dc5e8795ea1735314f50d3671",
+    "/private/tmp/q11b-candidate-default-v1/manifest.json": "d43c6934da11ceed7591096ca754887533e102b6234140ff3941697437caa60e",
+    "/private/tmp/q11b-composed-control-active-v1/manifest.json": "657584d83f266004ad8dd7c8b2e07372e8665640b59e0586ebfb4abf47c33f62",
+    "/private/tmp/q11b-candidate-active-v1/manifest.json": "3bc0bef4a53e21d13d9460f95ec30247b1ce89c3f65ed38b952227e523de3775"
+  },
+  "scope": "All200k affixed ordinal pairs reread and all40 compressed archives hashed against original manifests. Complete original WordTrace/stages/graphemeSelections/structural/repairs/morphology retained for every output-changing pair. Matches prior strict Node counters. Descriptive local invariant effect, not English preference or passing gates."
+}

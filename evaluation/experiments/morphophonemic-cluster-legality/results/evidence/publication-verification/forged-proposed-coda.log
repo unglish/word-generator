@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/private/tmp/q11b-publication-stage-v1/verify-validation.py", line 96, in <module>
+    assert pin_bytes(raw) == {k: row[k] for k in ['bytes', 'sha256']}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,87 @@
+{
+  "version": "q11b-independent-eligibility-fixtures-v1",
+  "scope": "Complete original source-pinned Node guard and lexical-stage transaction exports, compressed verbatim. No input fields, expected decisions or traces removed. These are operation fixtures, not corpus quality samples.",
+  "fixtures": {
+    "guard": {
+      "file": "guard-fixtures.json.gz",
+      "cases": 25,
+      "sourceCommit": "c0ff9c8cd7c512056832ec4863c78bc701e63e9e",
+      "uncompressed": {
+        "bytes": 10208432,
+        "sha256": "75875ab1a4ea09264222be016cc36815f95f512ff2f41ba0e911c74e69cb9acd"
+      },
+      "compressed": {
+        "bytes": 449218,
+        "sha256": "c69fe660ab738bac5b59a28e96b7bc0624bc1a23d3216d8f99ecdc4ce8a2c423"
+      },
+      "originalSealSha256": "de791c74da0ec1cce45e9603803ae8eaed1ac4fe52bcfcbc5583871ea8e98d05",
+      "exportSeal": {
+        "before": {
+          "file": "guard-export-before.json.gz",
+          "uncompressed": {
+            "bytes": 362061,
+            "sha256": "7f0b8cd436e541ef28a6e414e3cc8a324badca59a6be080d78947f9819c178c5"
+          },
+          "compressed": {
+            "bytes": 88038,
+            "sha256": "e5e9b58659b8d5edfb5893f76f516972312f60ca4dac10f9c6e449f49fcd4133"
+          }
+        },
+        "complete": {
+          "file": "guard-export-complete.json.gz",
+          "uncompressed": {
+            "bytes": 377374,
+            "sha256": "de791c74da0ec1cce45e9603803ae8eaed1ac4fe52bcfcbc5583871ea8e98d05"
+          },
+          "compressed": {
+            "bytes": 88273,
+            "sha256": "ce1e876fbbae0d3c64bd9aa535135ca0ab3059b95926559d7ae800201f65bfec"
+          }
+        }
+      }
+    },
+    "transaction": {
+      "file": "transaction-fixtures.json.gz",
+      "cases": 14,
+      "sourceCommit": "52832cb7301bab6f52dffbf92a5b6980116bd747",
+      "uncompressed": {
+        "bytes": 6717306,
+        "sha256": "c92bc8e7c5a73551e3d2626087f0be81f5ca4b33d3e5e0ac925be632962a57f2"
+      },
+      "compressed": {
+        "bytes": 307358,
+        "sha256": "aff83dff496720bbccba6dceaccba5d48ba479693f4fd83321897af6fe677ea7"
+      },
+      "originalSealSha256": "e33455005cac3b166885d5d10c8ce991e0cd783a567b69ec3a01b49a8d75c945",
+      "exportSeal": {
+        "before": {
+          "file": "transaction-export-before.json.gz",
+          "uncompressed": {
+            "bytes": 362258,
+            "sha256": "ccea017c8d8f0ab6ad06c5b6608db9be73b5f746bd9d768f2dc6b24b92e06d44"
+          },
+          "compressed": {
+            "bytes": 88098,
+            "sha256": "0a4e075ea7732349931588d7942938b545f5ab25383a5e4372b2fdb407000ff3"
+          }
+        },
+        "complete": {
+          "file": "transaction-export-complete.json.gz",
+          "uncompressed": {
+            "bytes": 377578,
+            "sha256": "e33455005cac3b166885d5d10c8ce991e0cd783a567b69ec3a01b49a8d75c945"
+          },
+          "compressed": {
+            "bytes": 88329,
+            "sha256": "fe7035d727ba153c0b7cd6bb562386075daa9c947a71900059eeb0d349f61f1c"
+          }
+        }
+      }
+    }
+  },
+  "registeredProtocol": {
+    "file": "registered-protocol.json",
+    "bytes": 1911,
+    "sha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "fixtureFile": "fixtures.json.gz",
+  "uncompressedBytes": 805876,
+  "artifact": {
+    "bytes": 49172,
+    "sha256": "c7c2b0099289788fb760294a50348032ce49a3af9cbe43a3d00ee84de31defd2"
+  },
+  "guardCases": 25,
+  "transactionCases": 14,
+  "sourceProof": {
+    "guard": {
+      "commit": "c0ff9c8cd7c512056832ec4863c78bc701e63e9e",
+      "artifact": {
+        "bytes": 10208432,
+        "sha256": "75875ab1a4ea09264222be016cc36815f95f512ff2f41ba0e911c74e69cb9acd"
+      },
+      "seal": {
+        "bytes": 377374,
+        "sha256": "de791c74da0ec1cce45e9603803ae8eaed1ac4fe52bcfcbc5583871ea8e98d05"
+      }
+    },
+    "transaction": {
+      "commit": "52832cb7301bab6f52dffbf92a5b6980116bd747",
+      "artifact": {
+        "bytes": 6717306,
+        "sha256": "c92bc8e7c5a73551e3d2626087f0be81f5ca4b33d3e5e0ac925be632962a57f2"
+      },
+      "seal": {
+        "bytes": 377578,
+        "sha256": "e33455005cac3b166885d5d10c8ce991e0cd783a567b69ec3a01b49a8d75c945"
+      }
+    }
+  },
+  "selectedConfigurationFields": {
+    "guard": [
+      "phonemes",
+      "phonemeMaps",
+      "sonorityHierarchy",
+      "syllableStructure",
+      "clusterLimits",
+      "clusterWeights",
+      "codaConstraints",
+      "clusterConstraint",
+      "invalidClusters"
+    ],
+    "transaction": [
+      "phonemes",
+      "phonemeMaps",
+      "sonorityHierarchy",
+      "syllableStructure",
+      "clusterLimits",
+      "clusterWeights",
+      "codaConstraints",
+      "clusterConstraint",
+      "invalidClusters",
+      "morphology"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "inputPins": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/publication-trace-tools-v1/extract_all_output_changes.py": "9b2bb21a759ac81175dd779eedb4d069d0f588373501743b3fd6b3dbe057ed96",
+    "/private/tmp/q11b-paired-summary-v1/complete.json": "1c7c24a9ed4f4cd3e10dccbe9e03bd2564aee59acd9031ac8102c11eeb9d5412",
+    "/private/tmp/q11b-full-audit-driver-v1/complete.json": "922d3c42a0ced689cea63f6d12f199e1e0c82f5b728a667268c117339abba855"
+  },
+  "scope": "Complete source/trace pairs for all output changes; all 200k affixed ordinal pairs reread. No sampling reduction or preference claim."
+}

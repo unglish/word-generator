@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "commit": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "sourceFiles": 178,
+  "indexedArtifacts": 12,
+  "sourceEquivalentToSuccessfulStreamProbe": true,
+  "trackedCheckoutClean": true,
+  "scope": "Committed dependency-control source and preparatory artifacts; full Q11b experiment remains pending"
+}

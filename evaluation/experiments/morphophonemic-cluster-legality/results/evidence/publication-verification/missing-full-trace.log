@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/private/tmp/q11b-publication-stage-v1/verify-validation.py", line 49, in <module>
+    raw = safe_path(root, row['path']).read_bytes()
+          ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/q11b-publication-stage-v1/verify-validation.py", line 30, in safe_path
+    target = (root / path).resolve(strict=True)
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py", line 670, in resolve
+    return self.with_segments(os.path.realpath(self, strict=strict))
+                              ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen posixpath>", line 454, in realpath
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/q11b-publication-corruptions-v1/missing-full-trace/evidence/q11b-complete-trace-pairs-v1/default-text-default-2666001996-178.json.gz'

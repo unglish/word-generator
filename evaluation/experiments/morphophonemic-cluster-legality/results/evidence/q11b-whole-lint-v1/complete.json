@@ -1,0 +1,19 @@
+{
+  "results": [
+    {
+      "arm": "control",
+      "commit": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+      "code": 1,
+      "bytes": 697,
+      "sha256": "0ce0d7c415e9ba15621995ee346783ae7241e370986347bf042821bdd9a1628f"
+    },
+    {
+      "arm": "treatment",
+      "commit": "9d2680b37b77ebb2f492f4173b1f1681446e40f4",
+      "code": 1,
+      "bytes": 699,
+      "sha256": "6de0c6668b219f1ce3f0a4c0750577540a23bcf12ad835a2bcb0fce73851530c"
+    }
+  ],
+  "scope": "Full original npm run lint without changed rules or files."
+}

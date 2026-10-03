@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/private/tmp/q11b-publication-stage-v1/verify-validation.py", line 89, in <module>
+    assert sum(row['completeWordChanges'] for row in traces['streams']) == 114774
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,60 @@
+{
+  "scope": "Preparatory Q11 dependency composition evidence; not a formal Q11b baseline or candidate capture",
+  "artifacts": [
+    {
+      "file": "control-composition.json",
+      "bytes": 2276,
+      "sha256": "27b864a486fe74f900130349fe1b1feaa724a3e6814b8b3447c748b3937c7682"
+    },
+    {
+      "file": "control-focused.log",
+      "bytes": 3759,
+      "sha256": "ff1b07645194f729f434786aa645204c6982f090d51bc672425ae5d7ca40276d"
+    },
+    {
+      "file": "control-stream-v1.log",
+      "bytes": 230228,
+      "sha256": "a9e11c14bd35d41cb308bd55cade66649374239a295f724aab70a7dc8f7965a2"
+    },
+    {
+      "file": "control-stream-v2.log",
+      "bytes": 277,
+      "sha256": "02b16cab42e3e805b587551c85b084931bcee055a7f0b3d362b34bed04be2208"
+    },
+    {
+      "file": "control-stream.json",
+      "bytes": 948146,
+      "sha256": "e79e43a811a1800d78acca23f8f77344007f1141b54b4ab05e487d3e80bbc825"
+    },
+    {
+      "file": "control-stream.log",
+      "bytes": 230228,
+      "sha256": "a9e11c14bd35d41cb308bd55cade66649374239a295f724aab70a7dc8f7965a2"
+    },
+    {
+      "file": "control-typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "q11-source.patch",
+      "bytes": 30365,
+      "sha256": "06dc3165f0e3e536ffa6b56261c664511ed20918fe97f10b0facf55a4a988414"
+    },
+    {
+      "file": "source-findings.json",
+      "bytes": 3064,
+      "sha256": "2e1ee435d3991c6816fff5dfb8df8b9a0a1f44c7d79cf5acc5273d03ab78e3c3"
+    },
+    {
+      "file": "stream-control-v1.mjs",
+      "bytes": 3144,
+      "sha256": "44f405012e2cadda0b82c3cab542c9079819651a04bbe0f84a5e4a67e5d14ab0"
+    },
+    {
+      "file": "stream-control.mjs",
+      "bytes": 3151,
+      "sha256": "7e7873ca80f4f42ed87d977a3caefc03a7b3fff91979de770ee09a1d5614191e"
+    }
+  ]
+}

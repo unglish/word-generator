@@ -1,0 +1,5 @@
+Authenticated and retained control default 20 complete word/trace archives
+Authenticated and retained candidate default 20 complete word/trace archives
+Authenticated and retained control active 20 complete word/trace archives
+Authenticated and retained candidate active 20 complete word/trace archives
+{"stage": "/private/tmp/q11b-publication-stage-v1", "artifacts": 341, "savedBytes": 34585249, "retainedStreams": 80, "retainedBytes": 3197677847}

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "words": 200000,
+  "policy": "default",
+  "witnessStrata": 2,
+  "manifest": {
+    "bytes": 175354,
+    "sha256": "6b32f2339e23e0d7911154f3375cb08647ace71dc5e8795ea1735314f50d3671"
+  }
+}

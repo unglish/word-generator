@@ -1,0 +1,64 @@
+{
+  "version": "q11b-original-gates-v1",
+  "measuredControl": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "measuredCandidate": "9d2680b37b77ebb2f492f4173b1f1681446e40f4",
+  "measurementPath": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-treatment/word-generator/evaluation/experiments/morphophonemic-cluster-legality/treatment-measurement.json",
+  "measurementSha256": "b3941b99564a4cbb6e5a3b97962ae06cf6d0d97c5646e4419760de404ae6985a",
+  "registrationTiming": "Before original gate/timing outcomes and before full candidate captures. No observed gate results used to change model or thresholds.",
+  "gateSourcePins": {
+    "src/core/quality.test.ts": {
+      "bytes": 9786,
+      "sha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf"
+    },
+    "src/core/generate.perf.test.ts": {
+      "bytes": 2902,
+      "sha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83"
+    },
+    "vitest.config.ts": {
+      "bytes": 1023,
+      "sha256": "be75bb074a2f98e8ac5080a6f381f2bec8f5b20e3b8d3bb79ae2c0e3fad05e4f"
+    },
+    "vitest.quality.config.ts": {
+      "bytes": 188,
+      "sha256": "7e65e6e8e355db02d482e5892daf79ba400e97d0dd4c33ec70a07645d6f7f342"
+    },
+    "vitest.perf.config.ts": {
+      "bytes": 206,
+      "sha256": "6556fff991ef112563aa2d342ac550fd3d1db70a9c788bba96e43f8e51fa1455"
+    },
+    "scripts/analyze-cmu-trigrams.mjs": {
+      "bytes": 9642,
+      "sha256": "a34255fefc73b261a237b579c97c70c702d3e341d744e48b1ed5b1df7fe8fe46"
+    },
+    "scripts/trace-audit.mjs": {
+      "bytes": 11432,
+      "sha256": "4fecc411e7dfd8fbc3af99880ee7d7c6fe5774d231998f482a29e19c5951e5eb"
+    }
+  },
+  "requiredGates": [
+    "npm test",
+    "npm run test:quality",
+    "npm run test:perf",
+    "npm run analyze:trigrams",
+    "npm run audit:trace"
+  ],
+  "timing": {
+    "pairs": 6,
+    "order": "Adjacent control then candidate in each pair; no simultaneous thread-owned capture/replay/fit/gate load.",
+    "command": "npm run test:perf",
+    "sampleSize": 10000,
+    "warmup": 50,
+    "seed": 42,
+    "timeoutMs": 20000,
+    "localWordsPerSecondFloor": 4500,
+    "varianceTrials": 3,
+    "varianceBatches": 5,
+    "varianceBatchSize": 200,
+    "medianVarianceLimit": 3
+  },
+  "commands": 22,
+  "nativeTimingRuns": 12,
+  "scope": "Original default source configuration in each arm: control omits the legality policy; candidate English configuration enables it. No copied test body or batch adapter. Active spelling policy is covered separately by full 200k captures/public replay/independent reconstruction; these original gates do not claim active-policy coverage.",
+  "quietPrerequisite": "Both full candidate policies public replayed and independently reconstructed after Q19 and Q18 complete gates/timing. No concurrent thread-owned bulk work during this interval.",
+  "failures": "All command failures retained; execution completion does not imply quality/performance acceptance. Original 2m trigram/50k trace workloads, heap, 4500 floor, 20s timeout and variance limits unchanged."
+}

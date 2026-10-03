@@ -1,3 +1,5 @@
+import type { MorphophonemicGuardResult } from "../morphophonemic-guard.js";
+import type { MorphophonemicTarget } from "../morphology-projection.js";
 import type { StructuralTrace } from "../trace.js";
 import type { FinalPhoneTrace } from "../final-phones.js";
 import type { FinalSpelling, FinalSpellingTrace } from "../final-spelling.js";
@@ -95,6 +97,18 @@ export interface MorphologyPassTrace {
   realization?: MorphologyRealizationTrace;
 }
 
+export interface MorphophonemicEvaluation {
+  ruleIndex: number;
+  affixIndex: number;
+  boundary: "prefix-root" | "root-suffix";
+  rule: string;
+  outcome: "target-unavailable" | "condition-not-matched" | "identity" | "written-only" | "accepted" | "rejected";
+  target?: MorphophonemicTarget;
+  soundBefore?: string;
+  soundProposed?: string;
+  guard?: MorphophonemicGuardResult;
+}
+
 /** Executed lexical attachment, before final nucleus repair and spelling. */
 export interface MorphologyPreparationTrace extends MorphologyPassTrace {
   template: string;
@@ -105,6 +119,7 @@ export interface MorphologyPreparationTrace extends MorphologyPassTrace {
     prefix?: ResolvedAffix;
     suffix?: ResolvedAffix;
     rootSyllableStart: number;
+    evaluations?: MorphophonemicEvaluation[];
     rules: { ruleIndex: number; boundary: "prefix-root" | "root-suffix"; rule: string }[];
   };
 }

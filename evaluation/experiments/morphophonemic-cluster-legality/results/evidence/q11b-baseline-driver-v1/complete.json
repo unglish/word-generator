@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "words": 400000,
+  "results": [
+    {
+      "policy": "default",
+      "exitCode": 0,
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/baseline-tools/freeze-capture.mjs",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+        "composed-control",
+        "default",
+        "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+        "/private/tmp/q11b-composed-control-default-v1"
+      ],
+      "archive": "/private/tmp/q11b-composed-control-default-v1"
+    },
+    {
+      "policy": "active",
+      "exitCode": 0,
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/baseline-tools/freeze-capture.mjs",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+        "composed-control",
+        "active",
+        "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+        "/private/tmp/q11b-composed-control-active-v1"
+      ],
+      "archive": "/private/tmp/q11b-composed-control-active-v1"
+    }
+  ],
+  "tools": {
+    "freeze-capture.mjs": "a365a22b54eb41d2ae652a0db3be2e2851733b1a462e9b12ddc6b9cae33de927",
+    "measurement.json": "3a8540bc6363da0cab32b84eaebb1232af9c3ced9605dfd27d4b7811e141d01b",
+    "capture-preflight.mjs": "4ad18e294441878b37d084f2f85c7a4f5b0f255ec46622db65e155cc0c85be2c"
+  },
+  "scope": "Exploratory composed-control captures; full replay, collision analysis and candidate registration remain separate."
+}

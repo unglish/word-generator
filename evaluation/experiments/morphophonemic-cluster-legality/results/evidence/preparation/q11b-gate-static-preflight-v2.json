@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "arm": "control",
+      "gateFilesAuthenticated": 7
+    },
+    {
+      "arm": "candidate",
+      "gateFilesAuthenticated": 7
+    }
+  ],
+  "scope": "Static clean source heads, all seven original gate/diagnostic source pins per arm and native policy binding. No generation, original gate or timing outcome.",
+  "correction": "V1 numeric checks correctly recorded seven files per arm; its prose said eight. V1 retained; corrected prose changes no source checks or measurements."
+}

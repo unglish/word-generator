@@ -1,0 +1,43 @@
+{
+  "status": "Uncommitted dependency composition; not a measured Q11b candidate",
+  "root": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+  "branch": "depatched/morphology-cluster-control",
+  "base": "4a5defa56c7649145bfa9c953e698dc57a2d0acd",
+  "Q11SourceHead": "5aa948a171c739037e4372893bd70dc772608247",
+  "changedFiles": {
+    "src/core/coda-extensions.test.ts": "3ddbaa7c640333143fc0b3902052d3ef3f2608cc2b341d4732cd43867f6c505c",
+    "src/core/coda-shape.ts": "596af187f4b6fdf2ae9bccad7a73c77ef5531d09a555c147b9dfcd7e3801bdeb",
+    "src/core/generate.ts": "537d79e045b21dcf40366147a1285817618916cbeaff6d30ccb5bad4c79b4545",
+    "src/core/repair.ts": "b75162d8a7ebea6ad9c42df1f2290547dc06e41972dbb4aac72db1dbcd38aa8a",
+    "src/core/trace.ts": "7675eb4499654d01733ccd67a761b52e9ad77539c78fac41e09c1553be7172da",
+    "src/core/write.ts": "9968643986c63000b6b63e3c336030864f144efc54d209c1d89820fcf96beb54"
+  },
+  "writerResolution": "Retained all current imports and mutable finalHyphenated required by spelling coverage; applied only Q11 codaExtensionRejected structural-event handling.",
+  "typecheck": {
+    "exitCode": 0
+  },
+  "focusedTests": {
+    "exitCode": 1,
+    "passed": 20,
+    "failed": 1,
+    "failure": "Original 20000-word traced bare-stream test exceeded its unchanged 30000ms timeout; no assertions, samples, heap limits or timeouts altered."
+  },
+  "measurement": "A composed baseline capture, full gates and formal registration are pending before Q11b behavior changes.",
+  "streamDiagnostic": {
+    "sessionId": 88364,
+    "output": "/private/tmp/q11b-control-stream.json",
+    "previousAttempt": {
+      "terminalExit": 1,
+      "source": "stream-control-v1.mjs",
+      "log": "control-stream-v1.log",
+      "reason": "Adapter used unsupported rng option instead of public rand; initial 100-word equality check failed before the 20000-word diagnostic. Corrected API use; original assertions and sample retained."
+    },
+    "terminalExit": 0,
+    "passed": true,
+    "words": 20000,
+    "duplicates": 0,
+    "extensions": 500,
+    "rejectedRepeats": 191,
+    "scope": "Separate bounded-retention structural diagnostic. Original test remains timed out; no full-corpus quality or morphology-only attribution claim."
+  }
+}

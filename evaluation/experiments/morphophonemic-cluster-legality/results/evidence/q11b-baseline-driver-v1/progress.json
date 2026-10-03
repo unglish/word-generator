@@ -1,0 +1,34 @@
+[
+  {
+    "policy": "default",
+    "exitCode": 0,
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/baseline-tools/freeze-capture.mjs",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+      "composed-control",
+      "default",
+      "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+      "/private/tmp/q11b-composed-control-default-v1"
+    ],
+    "archive": "/private/tmp/q11b-composed-control-default-v1"
+  },
+  {
+    "policy": "active",
+    "exitCode": 0,
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/morphology-cluster-legality/baseline-tools/freeze-capture.mjs",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+      "composed-control",
+      "active",
+      "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+      "/private/tmp/q11b-composed-control-active-v1"
+    ],
+    "archive": "/private/tmp/q11b-composed-control-active-v1"
+  }
+]
