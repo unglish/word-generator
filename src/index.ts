@@ -6,6 +6,7 @@ import * as random from "./utils/random.js";
 export { createGenerator, generateWord, generateWords } from "./core/generate.js";
 export type { WordGenerator } from "./core/generate.js";
 export type { GenerationMode } from "./types.js";
+export type { LexicalForm } from "./types.js";
 export {
   resolveStressRules,
   resolveAspirationRules,
@@ -42,6 +43,7 @@ export type {
   OrthographyCharOwner,
   OrthographyUnitTrace,
   OrthographyTrace,
+  OrthographySource,
 } from "./core/trace.js";
 export { TraceCollector } from "./core/trace.js";
 
