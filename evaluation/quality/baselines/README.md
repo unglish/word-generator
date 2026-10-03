@@ -37,6 +37,12 @@ Rates use their eligible denominators; each profile contains 50,000 words.
 | Words with primary-stressed schwa | 1,008 / 50,000 (2.02%) | 0 / 50,000 (0%) | 593 / 50,000 (1.19%) |
 | Words with a zero-total-weight grapheme choice | 1,956 / 50,000 (3.91%) | 3,016 / 50,000 (6.03%) | 864 / 50,000 (1.73%) |
 | Affixed words with a traced hiatus fallback | 3,862 / 34,952 (11.05%) | No eligible words | 4,481 / 22,557 (19.87%) |
+| Words whose orthographic trace differs from the final spelling | 34,952 / 50,000 (69.90%) | 0 / 50,000 (0%) | 22,557 / 50,000 (45.11%) |
+
+The orthographic trace mismatches are exactly the affixed words in each profile:
+the trace records the root's spelling and stops before affix spelling is attached.
+Unaffixed words have no mismatches. Item Q02 of the
+[improvement plan](../../../docs/linguistic-improvement-plan.md) tracks this.
 
 The forced bare-monosyllable profile contains **0 / 50,000** words with /ʊ/.
 This is a coverage diagnostic, not a recommendation to maximize that vowel's rate.
