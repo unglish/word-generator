@@ -1,3 +1,5 @@
+import { buildClusterRuntime } from "../cluster-runtime.js";
+import { bindMorphophonemicGuard } from "../morphophonemic-guard.js";
 import type { LanguageConfig } from "../../config/language.js";
 import type { Word, WordGenerationContext } from "../../types.js";
 import { FinalPhones } from "../final-phones.js";
@@ -58,7 +60,9 @@ export function replayMorphologyPreparation(word: Word, configuration: LanguageC
       return value;
     },
   };
-  const prepared = prepareMorphology({ config }, context, plan);
+  const runtime = { config, ...(config.morphology?.morphophonemicPolicy?.preserveClusterLegality
+    ? { evaluateMorphophonemicReplacement: bindMorphophonemicGuard(buildClusterRuntime(config)) } : {}) };
+  const prepared = prepareMorphology(runtime, context, plan);
   if (cursor !== record.rolls.length) throw new Error("Unused preparation draws");
   if (serializeTraceEvidence(trace.morphologyPreparation) !== serializeTraceEvidence(record)) {
     throw new Error("Morphology preparation replay mismatch");

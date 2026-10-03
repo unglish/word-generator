@@ -5,7 +5,7 @@ import { finalizeMorphologySpelling } from "./morphology/finalize.js";
 import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, SyllableShapePlan, GenerationMode } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints, expandClusterConstraintBans, ResolvedStressRules, resolveStressRules, resolveAspirationRules } from "../config/language.js";
+import { LanguageConfig, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints, ResolvedStressRules, resolveStressRules, resolveAspirationRules } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation, PronunciationRuntimeConfig } from "./pronounce.js";
 import { createWrittenFormGenerator } from "./write.js";
@@ -25,6 +25,8 @@ import {
 import { TraceCollector } from "./trace.js";
 import type { CodaExtensionRejectionReason } from "./trace.js";
 import { clusterCandidateRejection, getClusterWeightMap, findClusterWeightMultiplier, NO_CLUSTER_WEIGHT } from "./cluster-validation.js";
+import { buildClusterRuntime } from "./cluster-runtime.js";
+import { bindMorphophonemicGuard, type MorphophonemicGuard } from "./morphophonemic-guard.js";
 import { maximumCodaLength } from "./coda-shape.js";
 import { isStop } from "../utils/phonemes.js";
 
@@ -34,6 +36,7 @@ import { isStop } from "../utils/phonemes.js";
 
 interface GeneratorRuntime {
   config: LanguageConfig;
+  evaluateMorphophonemicReplacement?: MorphophonemicGuard;
   resolvedStress: ResolvedStressRules;
   resolvedPronunciation: PronunciationRuntimeConfig;
   sonorityLevels: Map<Phoneme, number>;
@@ -99,137 +102,35 @@ function getPostVowelGlideMultiplier(rt: GeneratorRuntime): number {
   return rt.config.hiatusPolicy?.postVowelGlideMultiplier ?? DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER;
 }
 
-/** Build a set of all proper prefixes for attested clusters (excludes the full key). */
-function buildPrefixSet(clusters: string[][]): Set<string> {
-  const set = new Set<string>();
-  for (const parts of clusters) {
-    for (let i = 1; i < parts.length; i++) {
-      set.add(parts.slice(0, i).join("|"));
-    }
-  }
-  return set;
-}
-
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
   validateConfig(config);
-  const sonorityLevels = computeSonorityLevels(config);
+  const clusterRuntime = buildClusterRuntime(config);
   const resolvedStress = resolveStressRules(config.pronunciation.stress);
   const resolvedPronunciation: PronunciationRuntimeConfig = {
     aspiration: resolveAspirationRules(config.pronunciation.aspiration),
     vowelReduction: config.pronunciation.vowelReduction,
   };
 
-  const positionPhonemes = {
-    onset: Array.from(config.phonemeMaps.onset.values()).flat(),
-    coda: Array.from(config.phonemeMaps.coda.values()).flat(),
-    nucleus: Array.from(config.phonemeMaps.nucleus.values()).flat(),
-  };
-
-  const makeRegex = (patterns: string[]) =>
-    patterns.length > 0 ? new RegExp(patterns.join("|"), "i") : null;
-
-  const invalidClusterRegexes = {
-    onset: makeRegex(config.invalidClusters.onset),
-    coda: makeRegex(config.invalidClusters.coda),
-    nucleus: makeRegex(config.invalidClusters.boundary),
-  };
-
   const generateWrittenForm = createWrittenFormGenerator(config);
   const applyGapSpellings = createGapSpellingApplicator(config);
-
-  const bannedPairs = expandClusterConstraintBans(config);
-  const bannedSet = bannedPairs.length > 0
-    ? new Set(bannedPairs.map(([a, b]) => `${a}|${b}`))
-    : undefined;
-
-  const sonorityBySound = new Map<string, number>();
-  const phonemeBySound = new Map<string, Phoneme>();
-  for (const [phoneme, level] of sonorityLevels) {
-    sonorityBySound.set(phoneme.sound, level);
-    phonemeBySound.set(phoneme.sound, phoneme);
-  }
-
-  const cl = config.clusterLimits;
-  const sc = config.sonorityConstraints;
-
-  // Build cluster weight maps from config
-  const clusterWeights = config.clusterWeights ? {
-    onset: config.clusterWeights.onset ? new Map(Object.entries(config.clusterWeights.onset)) : undefined,
-    coda: config.clusterWeights.coda ? (
-      // Check if position-based format (has 'final' or 'nonFinal' keys)
-      typeof config.clusterWeights.coda === "object" &&
-      ("final" in config.clusterWeights.coda || "nonFinal" in config.clusterWeights.coda)
-        ? {
-          final: config.clusterWeights.coda.final ? new Map(Object.entries(config.clusterWeights.coda.final)) : undefined,
-          nonFinal: config.clusterWeights.coda.nonFinal ? new Map(Object.entries(config.clusterWeights.coda.nonFinal)) : undefined,
-        }
-        : new Map(Object.entries(config.clusterWeights.coda as Record<string, number>))
-    ) : undefined,
-  } : undefined;
-
-  // Build banned nucleus+coda map for efficient lookup during coda selection
-  const bannedNucleusCodaMap = config.codaConstraints?.bannedNucleusCodaCombinations
-    ? (() => {
-      const map = new Map<string, Set<string>>();
-      for (const { nucleus, coda } of config.codaConstraints.bannedNucleusCodaCombinations) {
-        for (const n of nucleus) {
-          if (!map.has(n)) map.set(n, new Set());
-          for (const c of coda) {
-              map.get(n)!.add(c);
-          }
-        }
-      }
-      return map;
-    })()
-    : undefined;
 
   // Pre-resolve bridge phoneme options for vowel hiatus repair
   const bridgePairs = config.hiatusPolicy?.fallbackBridgeOnsets ?? defaultFallbackBridgeOnsets();
   const bridgePhonemeOptions: [Phoneme, number][] = [];
   for (const [sound, weight] of bridgePairs) {
-    const p = phonemeBySound.get(sound);
+    const p = clusterRuntime.phonemeBySound.get(sound);
     if (p && weight > 0) bridgePhonemeOptions.push([p, weight]);
   }
 
   return {
-    config,
     resolvedStress,
     resolvedPronunciation,
-    sonorityLevels,
-    sonorityBySound,
-    phonemeBySound,
-    positionPhonemes,
-    invalidClusterRegexes,
+    ...clusterRuntime,
     generateWrittenForm,
     applyGapSpellings,
-    bannedSet,
-    clusterRepair: config.clusterConstraint?.repair,
-    allowedFinalSet: config.codaConstraints?.allowedFinal
-      ? new Set(config.codaConstraints.allowedFinal)
-      : undefined,
-    bannedCodaSet: config.codaConstraints?.bannedCodas
-      ? new Set(config.codaConstraints.bannedCodas)
-      : undefined,
-    bannedNucleusCodaMap,
-    clusterLimits: cl,
-    sonorityConstraints: sc,
-    codaAppendantSet: cl?.codaAppendants ? new Set(cl.codaAppendants) : undefined,
-    onsetPrependerSet: cl?.onsetPrependers ? new Set(cl.onsetPrependers) : undefined,
-    sonorityExemptSet: sc?.exempt ? new Set(sc.exempt) : undefined,
-    attestedOnsetSet: cl?.attestedOnsets
-      ? new Set(cl.attestedOnsets.map(a => a.join("|")))
-      : undefined,
-    attestedCodaSet: cl?.attestedCodas
-      ? new Set(cl.attestedCodas.map(a => a.join("|")))
-      : undefined,
-    attestedOnsetPrefixSet: cl?.attestedOnsets
-      ? buildPrefixSet(cl.attestedOnsets)
-      : undefined,
-    attestedCodaPrefixSet: cl?.attestedCodas
-      ? buildPrefixSet(cl.attestedCodas)
-      : undefined,
-    clusterWeights,
     bridgePhonemeOptions,
+    ...(config.morphology?.morphophonemicPolicy?.preserveClusterLegality
+      ? { evaluateMorphophonemicReplacement: bindMorphophonemicGuard(clusterRuntime) } : {}),
   };
 }
 

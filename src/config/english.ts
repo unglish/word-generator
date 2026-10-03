@@ -530,6 +530,7 @@ export const englishConfig: LanguageConfig = {
   },
 
   morphology: {
+    morphophonemicPolicy: { preserveClusterLegality: true },
     enabled: true,
     boundaryPolicy: {
       enablePrefixRootFallback: true,

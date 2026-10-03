@@ -53,3 +53,25 @@ rejection reasons independently, retain every failed repository gate, execute th
 original 2m-word trigram and 50k-word trace diagnostics, and run the six original
 paired timing comparisons without concurrent capture/replay load. No publication
 coverage increment until the independent PR and complete evidence are available.
+
+
+Implementation clarification before treatment measurement: mixed physical clusters
+are also checked with the shared production classifier. A run of adjacent identical
+sounds can receive an explicit cross-morpheme license only when every member has a
+distinct root/prefix/suffix owner. Logical grouping is limited to classifier
+attestation/sonority evaluation; all physical phones, source coordinates, feature
+checks, and ledger identities remain intact. Two root identities cannot receive
+this license. Complete affected-syllable before/proposed sounds are recorded.
+
+The shared classifier preserves the current production semantics. Existing onset
+prependers and sonority-constraint options that it does not currently apply are
+not newly implemented by this treatment; this amendment narrows the earlier
+checklist wording accordingly. The policy checks the declared result cluster and
+nearby boundaries; it does not certify all phonotactics elsewhere in the word.
+
+The public morphology configuration uses the structured optional
+`morphophonemicPolicy.preserveClusterLegality` flag. Omission or false retains
+legacy execution and trace shape; the candidate English configuration enables it.
+Enabled internal attachment requires a bound production guard and fails visibly
+if it is missing. Generator and evidence replay share exactly one cluster runtime
+builder, with no new dependency or RNG draw.
