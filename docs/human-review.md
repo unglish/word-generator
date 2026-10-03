@@ -134,3 +134,7 @@ After every response in a batch is acknowledged, reviewers may choose “Review 
 Deduplication uses exact stored spelling equality within one chain and study ID. Frozen studies and rubric versions have separate chains, so a new study (including written-v1 → written-v2) can present previously reviewed spellings. Finishing an old v1 session preserves its original rubric; the updated-question link starts a separate v2 chain.
 
 The chain survives reloads and browser restarts through site storage. Clearing that storage, using a different browser/profile/device, or starting again without the saved credentials creates a new chain and may repeat spellings. Clearing storage also loses unsent responses. There is no fingerprinting, cross-device matching, or endpoint for recovering prior judgments. A chain records a sequence of batches, not proof of one distinct or independent person.
+
+## Baseline/candidate comparisons
+
+The separate [written comparison workflow](written-comparison.md) retains this rubric, freezes both conditions and prepares balanced participant plans with private condition labels. It does not change anonymous pilot allocation or establish that sessions represent distinct people. Actual collection and participant/item inference remain separate study requirements.

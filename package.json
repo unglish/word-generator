@@ -43,7 +43,8 @@
     "quality:verify": "node --import tsx evaluation/quality/cli.ts verify",
     "quality:rescore": "node --import tsx evaluation/quality/cli.ts rescore",
     "quality:typecheck": "tsc -p tsconfig.quality.json",
-    "test:quality-harness": "vitest run --config vitest.benchmark.config.ts"
+    "test:quality-harness": "vitest run --config vitest.benchmark.config.ts",
+    "review:compare": "node --import tsx evaluation/review/comparison/comparison-cli.ts"
   },
   "repository": {
     "type": "git",

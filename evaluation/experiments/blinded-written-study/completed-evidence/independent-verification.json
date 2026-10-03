@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "artifacts": 658,
+  "datasets": 14400,
+  "independentContrasts": 43156800,
+  "allRetainedBytesRehashed": true,
+  "recountedCalibrationContexts": 36,
+  "gateOutcomes": {
+    "commands": 28,
+    "passing": 26,
+    "failed": 2
+  },
+  "nativeTimingRuns": 12,
+  "medianRoundedTimingRatio": 0.9927090482361378,
+  "privateCredentialFilesRetainedLocally": 4,
+  "credentialValueScanPassed": true,
+  "scope": "Every compact file, original gate, source/compiler/log/report identity and all 14,400 original decision rows verified. Synthetic calibration is not actual reader preference, universal coverage, informative-loss correction or generated-quality improvement."
+}
