@@ -154,3 +154,41 @@ result supports the preregistered FOOT coverage and edge correction in this
 sample while leaving the broader linguistic tradeoffs visible. Candidate runtime
 source fingerprint:
 `b82040120f95f742eac8eb9ef50b5391998f11b75ffa494502ea5a4e0d7f23cf`.
+
+## Cumulative reproduction after Q06 — 2026-10-03
+
+The [current composition checkpoint](../evaluation/experiments/nucleus-word-edges/current-composition-2026-10-03/README.md)
+adds a fresh complete measurement of candidate `fa8c537` against merged control
+`233b455`, with the original four-profile, five-development-seed, 10,000-word
+schedule and frozen evaluator unchanged. Both 200,000-word captures authenticate;
+all 400,000 complete words/traces replay exactly through untouched public APIs.
+An independent Python recount agrees with every core diagnostic, distribution,
+actual stratum, nucleus/morphology counter, sample, and bounded full witness.
+All measured source pins remain unchanged. Earlier results above remain bound
+to their original standalone revisions.
+
+Prepared closed-final FOOT remains 15/159,868 to 2,506/159,945, and output
+open-final FOOT remains 2/30,880 to 0/31,130. Resolved morphology survives:
+control preserves 248/248 eligible `im` forms and candidate 243/243; all
+64,031/63,792 selected forms agree with configuration and assembly, and emitted
+parts concatenate to the output in every affixed word. Changing denominators
+reflect changed streams. The complete cumulative and original-baseline
+comparisons retain the mixed broader diagnostics.
+
+Current whole unit suites pass 513/527 tests with one skip per arm; current
+quality passes twelve per arm, candidate Q06/Q07 targeted tests pass forty, and
+strict types pass. Separate original n-gram/phoneme/quality gate clones also
+pass their unchanged policies. Thirteen of fifteen commands pass; both full
+lint commands retain exactly the same ten inherited errors. The failed first
+gate preparation is retained separately. All twelve unchanged native timing
+runs pass; median candidate/control throughput ratio 0.985001 and observed
+variability do not support a stable performance gain.
+
+All 413 local retained files (334,079,112 bytes) pass full byte/hash checks.
+The published 300-member compact packet includes full bounded trace witnesses,
+sources, operators and outcome logs, with all forty external raw shards and
+selected runtime files explicitly pinned. The portable verifier authenticates
+compact bytes and can rehash the full external archive; it does not rerun the
+science. Default edge-repair exposure remains zero. No human quality, universal
+rime legality, seed independence, complete external test-runner installation,
+or later-main/Q04-composition certificate is inferred.
