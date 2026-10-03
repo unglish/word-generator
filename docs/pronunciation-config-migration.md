@@ -36,6 +36,7 @@ type PrimaryStressRules =
   | { type: "ot"; otConfig: OTStressConfig };
 
 interface StressRules {
+  syllableWeight?: SyllableWeightPolicy;
   primary: PrimaryStressRules;
   secondary: {
     enabled: boolean;
@@ -90,6 +91,9 @@ interface AspirationRule {
 
 ## Notes
 
+- Syllable weight defaults to the existing coda/segment-count rule. An explicit
+  custom moraic model can supply phonological quantity without changing the
+  legacy `tense` flag; see [shared syllable weight](syllable-weight.md).
 - Aspiration is represented on phonemes via `phoneme.aspirated = true`.
 - `phoneme.sound` remains canonical (no mutation to append `ʰ`).
 - Pronunciation output still renders aspiration diacritics when `aspirated` is set.
