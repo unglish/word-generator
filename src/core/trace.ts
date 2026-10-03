@@ -148,6 +148,19 @@ export interface MorphSuffixHiatusFallbackTrace {
   syllableIndex: number;
 }
 
+export interface MorphHiatusDecisionTrace {
+  event: "morphHiatusDecision";
+  boundary: "prefix-root" | "root-suffix";
+  /** Assembled-word coordinates before morphology's pronunciation pass; the root may already be reduced. */
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
+  leftNucleus: string[];
+  rightNucleus: string[];
+  fallbackEnabled: boolean;
+  outcome: "preserved" | "inserted" | "no-bridge-candidate";
+  inserted?: string;
+}
+
 export type AspirationTargetSegment = "onset" | "nucleus" | "coda";
 
 export interface AspirationDecisionEvaluatedTrace {
@@ -192,6 +205,7 @@ export type StructuralTrace =
   | VowelHiatusFallbackTrace
   | MorphPrefixHiatusFallbackTrace
   | MorphSuffixHiatusFallbackTrace
+  | MorphHiatusDecisionTrace
   | AspirationDecisionTrace;
 
 export interface TraceLink {

@@ -7,6 +7,8 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
 
 - [`word-trace-diagnostics.md`](./word-trace-diagnostics.md): how to diagnose
   generation behavior with `trace: true`.
+- [`morphological-hiatus.md`](./morphological-hiatus.md): preserved vowel boundaries,
+  insertion policy, and measured tradeoffs.
 - [`phonotactic-scoring.md`](./phonotactic-scoring.md): scoring heuristics used
   to evaluate phonotactic quality.
 - [`design-grapheme-conditioning.md`](./design-grapheme-conditioning.md):
