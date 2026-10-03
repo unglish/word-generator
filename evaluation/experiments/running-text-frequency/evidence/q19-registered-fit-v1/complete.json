@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "measuredSource": "2144c816efaec4005911e774288258c0ed25f77a",
+  "artifact": {
+    "bytes": 43584950,
+    "sha256": "3d5774fde07d051222ad090bedef963bca0f5427596cb98b9404c22415db16fc"
+  },
+  "coverage": {
+    "types": 74286,
+    "tokens": 49719560,
+    "joinedTypes": 48825,
+    "joinedTokens": 49079866,
+    "missingTypes": 25461,
+    "missingTokens": 639694
+  },
+  "selectedAlpha": {
+    "baseline": 0.5,
+    "candidate": 0.5
+  },
+  "baseline": {
+    "types": 4978,
+    "tokens": 4844807,
+    "phones": 15003352,
+    "objectiveSum": 35998727.043266766,
+    "meanObjective": 7.43037380916655,
+    "jointLengthSyllableNllSum": 17377634.260500353,
+    "meanJointLengthSyllableNll": 3.5868578997058815,
+    "phoneNllSum": 56680143.895573005,
+    "meanPhoneNll": 3.7778320401716234,
+    "units": "natural logarithms; joint length/syllable per word token; marginal phone per phone token"
+  },
+  "candidate": {
+    "types": 4978,
+    "tokens": 4844807,
+    "phones": 15003352,
+    "objectiveSum": 26006880.722020917,
+    "meanObjective": 5.367991072094496,
+    "jointLengthSyllableNllSum": 8522553.159509137,
+    "meanJointLengthSyllableNll": 1.7591109737723583,
+    "phoneNllSum": 53900940.991690114,
+    "meanPhoneNll": 3.592593241276357,
+    "units": "natural logarithms; joint length/syllable per word token; marginal phone per phone token"
+  }
+}

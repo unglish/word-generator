@@ -1,0 +1,11 @@
+{
+  "tools": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/gate-tools/run-gates.mjs": "e9998f560f58ba25460afc448d606310a378c5aa54570e345d34eab0ee6175e7",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/run-gates-when-quiet.py": "1abd7215c01110227856936595ef38b37cf338dd016cdce8a602b8c04f5325e5"
+  },
+  "prerequisites": {
+    "q18-complete-audit": "/private/tmp/q18-audit-driver-v1/complete.json",
+    "q11b-integrated-preflight": "/private/tmp/q11b-integrated-preflight-v1/complete.json"
+  },
+  "reservedExecutionOrder": "Q19 original/configured gates and all six timing pairs precede Q11b candidate captures and Q18 gates. Do not launch other thread-owned bulk work during this reserved interval."
+}

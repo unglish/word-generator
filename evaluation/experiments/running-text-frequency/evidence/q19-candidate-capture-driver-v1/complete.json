@@ -1,0 +1,9 @@
+{
+  "exitCode": 0,
+  "passed": true,
+  "tools": {
+    "capture.mjs": "bae178014225c2b76e948cf4486e12683a406d87f72d17151ff15257971142de",
+    "dependency-closure.mjs": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91",
+    "protocol.json": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9"
+  }
+}

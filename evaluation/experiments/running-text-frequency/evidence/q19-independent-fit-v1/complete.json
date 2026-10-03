@@ -1,0 +1,97 @@
+{
+  "passed": true,
+  "before": {
+    "/private/tmp/q19-subtlexus2.zip": {
+      "bytes": 682780,
+      "sha256": "67e595da1b399d2a21e25a1466a8d9f242f21a219c6bbbd3e089c4779ad83856"
+    },
+    "/private/tmp/q19-subtlexus-pos.xlsx": {
+      "bytes": 10760844,
+      "sha256": "3a8cb93a4e28988c2ce722a63f6b8d394acdc42ebe2ab6e1f0e484ee0d4167a7"
+    },
+    "/private/tmp/q17-cmudict-74790861.dict": {
+      "bytes": 3618488,
+      "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+    },
+    "/private/tmp/q19-subtlexus-license.txt": {
+      "bytes": 471,
+      "sha256": "1c96df5fcc840ebf7e2147ea7f13820fcda223ef78eb55cb505972dfed43248b"
+    },
+    "/private/tmp/q19-registered-fit-v1/artifact.json": {
+      "bytes": 43584950,
+      "sha256": "3d5774fde07d051222ad090bedef963bca0f5427596cb98b9404c22415db16fc"
+    },
+    "/private/tmp/q19-registered-fit-v1/before.json": {
+      "bytes": 108939,
+      "sha256": "39ffa939cc790fcaea6453310ae97fd62794c6126349edf8242f19e59a0c3a85"
+    },
+    "/private/tmp/q19-registered-fit-v1/after.json": {
+      "bytes": 108939,
+      "sha256": "39ffa939cc790fcaea6453310ae97fd62794c6126349edf8242f19e59a0c3a85"
+    },
+    "/private/tmp/q19-registered-fit-v1/complete.json": {
+      "bytes": 1366,
+      "sha256": "c5a3c64b9df9781d874e532e0b85a62cd23f187f19855115bdf4991525dc7e7b"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/verify-fit.py": {
+      "bytes": 7997,
+      "sha256": "f6f885837d0bbfe7bc79e67b627058a67d4cf38baa5b3428c5e7db037e17c811"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/audit_sources.py": {
+      "bytes": 6702,
+      "sha256": "bb987b83ffb9cf83141fb3fa5573a444ef49dbe519119032a63d8c8ef9ac9bf6"
+    }
+  },
+  "after": {
+    "/private/tmp/q19-subtlexus2.zip": {
+      "bytes": 682780,
+      "sha256": "67e595da1b399d2a21e25a1466a8d9f242f21a219c6bbbd3e089c4779ad83856"
+    },
+    "/private/tmp/q19-subtlexus-pos.xlsx": {
+      "bytes": 10760844,
+      "sha256": "3a8cb93a4e28988c2ce722a63f6b8d394acdc42ebe2ab6e1f0e484ee0d4167a7"
+    },
+    "/private/tmp/q17-cmudict-74790861.dict": {
+      "bytes": 3618488,
+      "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+    },
+    "/private/tmp/q19-subtlexus-license.txt": {
+      "bytes": 471,
+      "sha256": "1c96df5fcc840ebf7e2147ea7f13820fcda223ef78eb55cb505972dfed43248b"
+    },
+    "/private/tmp/q19-registered-fit-v1/artifact.json": {
+      "bytes": 43584950,
+      "sha256": "3d5774fde07d051222ad090bedef963bca0f5427596cb98b9404c22415db16fc"
+    },
+    "/private/tmp/q19-registered-fit-v1/before.json": {
+      "bytes": 108939,
+      "sha256": "39ffa939cc790fcaea6453310ae97fd62794c6126349edf8242f19e59a0c3a85"
+    },
+    "/private/tmp/q19-registered-fit-v1/after.json": {
+      "bytes": 108939,
+      "sha256": "39ffa939cc790fcaea6453310ae97fd62794c6126349edf8242f19e59a0c3a85"
+    },
+    "/private/tmp/q19-registered-fit-v1/complete.json": {
+      "bytes": 1366,
+      "sha256": "c5a3c64b9df9781d874e532e0b85a62cd23f187f19855115bdf4991525dc7e7b"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/verify-fit.py": {
+      "bytes": 7997,
+      "sha256": "f6f885837d0bbfe7bc79e67b627058a67d4cf38baa5b3428c5e7db037e17c811"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/audit_sources.py": {
+      "bytes": 6702,
+      "sha256": "bb987b83ffb9cf83141fb3fa5573a444ef49dbe519119032a63d8c8ef9ac9bf6"
+    }
+  },
+  "sourceRows": 74286,
+  "splits": {
+    "training": 38938,
+    "development": 4909,
+    "heldOut": 4978
+  },
+  "developmentTrials": 16,
+  "heldOutWordsPerArm": 4978,
+  "exactPosRows": 74286,
+  "scope": "Complete source/split/count/development-choice/per-word likelihood and rational POS verification. Generator gates and human preference not evaluated."
+}

@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/gate-tools/run-gates.mjs"
+  ],
+  "exitCode": 0,
+  "scope": "All registered commands executed with provenance; individual gate failures are retained separately and are not a passing-quality claim."
+}

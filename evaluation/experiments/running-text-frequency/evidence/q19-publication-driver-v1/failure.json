@@ -1,0 +1,4 @@
+{
+  "error": "Required whole-repository lint failed",
+  "type": "RuntimeError"
+}

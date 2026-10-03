@@ -1,0 +1,7 @@
+{
+  "version": "q19-pre-gate-configured-batching-v1",
+  "timing": "Before all gates and paired timings; no model/config/sample/floor/timeout change",
+  "reason": "Source inspection and binding preflight confirm the #336 factory exposes generateWord only, not generateWords. The initial operator binding failed before any gate executed. Both original failed tools/logs retained.",
+  "binding": "Configured batches now use one public seeded RNG stream and call createGenerator(config).generateWord for every item. Control/candidate use exactly the same wrapper. Valid benchmark batch outputs are compared with native generateWords for control and direct configured public calls for candidate.",
+  "performanceLimit": "This adds a public per-word loop/option-validation overhead absent from native generateWords. Configured timing measures this opt-in use path, not a new native factory batch method. Original repository perf command is run separately. All original benchmark counts, seeds, warmups, trials, thresholds and timeouts stay intact."
+}
