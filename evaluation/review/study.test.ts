@@ -5,6 +5,10 @@ import { buildReport, reportMarkdown, responseCsv } from "./report.js";
 import { OwnerApi } from "./owner-api.js";
 
 describe("frozen study provenance", () => {
+  it("rejects another checkout before binding local output to foreign metadata", async () => {
+    const { tmpdir } = await import("node:os");
+    await expect(freezeStudy(tmpdir(), "foreign-root", 42, 1)).rejects.toThrow("measured checkout");
+  });
   it("captures reproducible full generator output and source", async () => {
     const first = await freezeStudy(process.cwd(), "test-reproducibility", 42, 25);
     const second = await freezeStudy(process.cwd(), "test-reproducibility", 42, 25);
