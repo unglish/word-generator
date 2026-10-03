@@ -1,0 +1,147 @@
+{
+  "version": "q19-frequency-targets-v1",
+  "scope": "Offline token-weighted citation-form targets and opt-in running-text length/ syllable configuration experiment; no claim about connected speech, syntax or human preference.",
+  "baseCommit": "71f5a6f6af2291e14d0b012f1ab5911a3d7ecca0",
+  "sources": {
+    "q19-subtlexus2.zip": {
+      "bytes": 682780,
+      "sha256": "67e595da1b399d2a21e25a1466a8d9f242f21a219c6bbbd3e089c4779ad83856"
+    },
+    "q19-subtlexus5.zip": {
+      "bytes": 1334330,
+      "sha256": "6d5c8c8374cca02be36e227924fc355b84462f5948b0cbf67e0b285bf78616e6"
+    },
+    "q19-subtlexus-pos.xlsx": {
+      "bytes": 10760844,
+      "sha256": "3a8cb93a4e28988c2ce722a63f6b8d394acdc42ebe2ab6e1f0e484ee0d4167a7"
+    },
+    "q19-subtlexus-license.txt": {
+      "bytes": 471,
+      "sha256": "1c96df5fcc840ebf7e2147ea7f13820fcda223ef78eb55cb505972dfed43248b"
+    },
+    "q17-cmudict-74790861.dict": {
+      "bytes": 3618488,
+      "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+    }
+  },
+  "frequencySource": {
+    "url": "https://osf.io/download/7wx25/",
+    "worksheet": "out1g",
+    "word": "Word",
+    "tokenWeight": "FREQcount",
+    "ignoredWeightColumns": [
+      "SUBTLWF",
+      "Lg10WF",
+      "SUBTLCD",
+      "Lg10CD",
+      "Zipf-value"
+    ],
+    "license": "CC BY-NC-SA 4.0; attribution Brysbaert, New and Keuleers; derived research artifacts retain this license and are separate from code/default runtime data"
+  },
+  "selection": {
+    "frequencyPopulation": "74286 ASCII word-form types, unique after lowercase",
+    "pronunciation": "cmu-ascii-first-v1; first unlabelled compatible citation pronunciation; no frequency split over variants",
+    "join": "exact lowercase spelling; unmatched types and token mass remain explicit before any normalization",
+    "rawStringPopulation": "282170 rows / 51010983 counts; diagnostic only, not pooled into word-form target"
+  },
+  "split": {
+    "seed": "q19-2026-10-02",
+    "algorithm": "unsigned first 32 big-endian bits of SHA256(JSON.stringify([seed, spelling])) modulo 10000",
+    "training": [
+      0,
+      7999
+    ],
+    "development": [
+      8000,
+      8999
+    ],
+    "heldOut": [
+      9000,
+      9999
+    ],
+    "unit": "normalized lexical spelling; lexical-type holdout, not subtitle-document holdout; morphology families not grouped"
+  },
+  "models": {
+    "baseline": "equal joined training spelling types",
+    "candidate": "FREQcount-weighted joined training citation entries",
+    "tables": [
+      "ARPABET stress-preserving marginal phone counts",
+      "word phoneme-count counts",
+      "syllable-count conditional on word phoneme count; syllable count equals explicit CMU vowels"
+    ],
+    "smoothing": "(row count + alpha * common normalized base)/(row total + alpha); phone uniform over fixed 69 ARPABET symbols; length geometric P(n)=2^-n for positive integer n; syllable-count uniform 1..phoneme-count",
+    "alphaGrid": [
+      0.5,
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "developmentSelection": "Each arm independently minimizes full FREQcount-weighted mean per-word [negative log joint length/syllable probability + mean negative log phone probability]; ties choose smaller alpha; retain every trial",
+    "heldOut": "Construct and score only after both development choices are fixed; every word and all declared strata retained",
+    "targets": "Export unrounded integer training count tables and smoothed distributions; do not fit on full or held-out corpus"
+  },
+  "functionWordPolicy": {
+    "fullTarget": "Every joined type with FREQcount, including names/function words",
+    "contentTags": [
+      "Adjective",
+      "Adverb",
+      "Noun",
+      "Verb"
+    ],
+    "functionTags": [
+      "Article",
+      "Conjunction",
+      "Determiner",
+      "Ex",
+      "Not",
+      "Preposition",
+      "Pronoun",
+      "To"
+    ],
+    "otherTags": [
+      "Interjection",
+      "Letter",
+      "Name",
+      "Number",
+      "Unclassified"
+    ],
+    "allocation": "Secondary modeled allocation: FREQcount times within-row tag-count share; exact rational masses. Not observed token partition. Missing/noninteger/zero-tag rows enter unknown allocation. Retain all raw POS/FREQ discrepancies; do not choose dominant POS or suppress names."
+  },
+  "runtime": {
+    "policy": "Explicit opt-in adapter sets text phoneme-length and phoneme-to-syllable targets from frozen candidate training joint counts; baseline config unchanged; lexicon weights unchanged",
+    "support": "Existing positive-integer phoneme lengths 1..20 and configured syllable range; explicitly report unsupported target mass before conditioning; reject zero eligible mass; no silently truncated targets",
+    "phoneTargets": "Report source and generated phone distances; this length/syllable experiment does not directly overwrite phoneme inventories or phonotactic weights",
+    "trace": "Public APIs only; common full trace diagnostics and RNG trace/plain parity"
+  },
+  "generatorMeasurement": {
+    "protocol": "evaluation/quality/protocol.json",
+    "split": "development",
+    "profiles": "all four registered profiles",
+    "wordsPerStream": 10000,
+    "streams": 20,
+    "wordsPerArm": 200000,
+    "arms": [
+      "unchanged immediate control",
+      "opt-in frequency length/syllable candidate"
+    ],
+    "gates": [
+      "npm test",
+      "npm run test:quality",
+      "npm run test:perf",
+      "npm run analyze:trigrams",
+      "npm run audit:trace"
+    ],
+    "performance": "six adjacent control/candidate pairs using existing benchmark warmups, seeds, trials, sample counts, speed floors and variance thresholds; retain every outcome"
+  },
+  "reporting": [
+    "source and installed execution pins before/after",
+    "independent population/count/target reconstruction",
+    "held-out word and phone denominators separately; every stratum, including missing POS, names, rare types and frequent function words",
+    "all broader quality/diversity/morphology/stress/length/phone changes, including regressions",
+    "no human preference inference without real independently collected responses"
+  ]
+}
