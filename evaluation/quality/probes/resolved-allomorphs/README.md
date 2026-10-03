@@ -51,7 +51,7 @@ not human preference or an overall wordlikeness improvement.
 
 ```sh
 node evaluation/quality/probes/resolved-allomorphs/analyze.mjs BASELINE CANDIDATE OUTPUT
-node --import tsx --test evaluation/quality/probes/resolved-allomorphs/analyze.test.ts
+npx vitest run evaluation/quality/probes/resolved-allomorphs/analyze.test.ts
 ```
 
 Both captures must be complete. The probe verifies manifest/protocol fingerprints,
