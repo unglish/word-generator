@@ -1,0 +1,53 @@
+{
+  "scope": "Q17 reuse audit; no trained onset/rime model or efficacy claim",
+  "branch": "codex/phone-transition-model-sensitivity",
+  "commit": "71f5a6f6af2291e14d0b012f1ab5911a3d7ecca0",
+  "files": {
+    "evaluation/corpus/cmu.ts": {
+      "bytes": 5632,
+      "sha256": "1cfc3c2584a7da80623e5357e6a9f3004226dad3d6685f106e41f85e5232d0e4"
+    },
+    "evaluation/corpus/phone-transitions.ts": {
+      "bytes": 2852,
+      "sha256": "2d220f77643c1b3a3f6c7835a573e17ffe2de8817335c119170d47c045aad88e"
+    },
+    "evaluation/corpus/transition-builder.ts": {
+      "bytes": 10929,
+      "sha256": "a106294a6dc1cdf58c67f7f64566b53f155e33e2f09de7690625841914bf52cc"
+    },
+    "docs/cmu-transition-builder.md": {
+      "bytes": 5221,
+      "sha256": "08e5d96ac20e0450be349c5b574ef1bbb9ff0ac920ef0db34f7ce23e59eb4888"
+    },
+    "docs/cmu-corpus-contract.md": {
+      "bytes": 3693,
+      "sha256": "825323bce7d94193c2d7d2164343af091434990b9d2429ed8d16de9461857d8f"
+    },
+    "evaluation/review/wordlikeness/model.ts": {
+      "bytes": 4969,
+      "sha256": "c1e90a044397ff1427c254c4b6db8e74c57ce4fe8779a3a7cbaddb8e013d749f"
+    }
+  },
+  "available": [
+    "Lossless CMU records and explicit first-unlabelled ASCII type selection",
+    "Typed native vowel stress 0/1/2 retained before base projection",
+    "Integer adjacent-phone and word-boundary events with explicit population identity",
+    "Pinned-source builder and independent verifier infrastructure",
+    "Existing scorer syllabify implementation: maximal-observed-initial-onset-v1",
+    "Existing onset/rime MLE constituent counts by stress and initial/medial/final position"
+  ],
+  "missing": [
+    "Observed syllable boundaries: transition builder explicitly performs no syllabification",
+    "Declared syllabification/segmentation policy and ambiguity accounting",
+    "Grouped train/development/held-out split that excludes alternate or duplicate lexical leakage",
+    "Conditional onset/rime tables and smoothed backoff with normalized finite probabilities",
+    "Stress/position/class held-out fit, rare-tail and diversity evaluation",
+    "Opt-in runtime adapter with omitted-policy parity and complete trace/source evidence"
+  ],
+  "keyConstraint": "Do not describe adjacent-phone bigrams as an onset/rime model or inferred CMU syllables as observed boundaries.",
+  "reuseConstraints": [
+    "Historical scorer is an unsmoothed descriptive full-population model; keep its artifacts byte-exact.",
+    "For a held-out training experiment, learn initial-onset support from training entries only and apply that frozen inference policy to all splits.",
+    "Inferred syllabification is available; observed source syllable labels remain unavailable."
+  ]
+}
