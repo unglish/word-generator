@@ -1,3 +1,4 @@
+import type { BaseSpellingTrace } from "./base-spelling.js";
 import type { Syllable } from "../types.js";
 
 export interface SyllableSnapshot {
@@ -222,6 +223,8 @@ export interface OrthographyUnitTrace {
 }
 
 export interface OrthographyTrace {
+  /** Legacy edit-distance ownership, not certified sound-to-letter alignment. */
+  alignment?: "inferred";
   /** Final written form after all orthographic repair stages. */
   surface: string;
   /** Per-character ownership in the final written form. */
@@ -233,6 +236,8 @@ export interface OrthographyTrace {
 }
 
 export interface WordTrace {
+  /** Exact base edit provenance, separate from legacy inferred ownership. */
+  baseSpelling?: BaseSpellingTrace;
   /** Target syllable count chosen for this word. */
   syllableCount: number;
   /** How many letter-length rejection attempts before acceptance (0 = first try). */
@@ -257,6 +262,7 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 }
 
 export class TraceCollector {
+  baseSpelling?: BaseSpellingTrace;
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
   orthographyTrace?: OrthographyTrace;
@@ -302,6 +308,7 @@ export class TraceCollector {
       graphemeSelections: this.graphemeSelections,
       orthography: this.orthographyTrace,
       repairs: this.repairs,
+      baseSpelling: this.baseSpelling,
       summary: {
         totalDecisions: this.graphemeSelections.length,
         repairCount: this.repairs.length,

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "probe": "base-spelling-parity-v1",
+  "result": "pass",
+  "generatedWordsPerCheckout": 40000,
+  "distinctScheduledDraws": 20000,
+  "verifiedLedgers": 20000,
+  "wordsEqual": true,
+  "rngCallsAtEveryDrawEqual": true,
+  "nextRngEqual": true,
+  "legacyTracesEqual": true,
+  "traceOnOffEqual": true,
+  "originalReportSha256": "5d1e1fa0e169ac6bf9ab2fcc92109871d1d5c8e9a4051b8f15df3c6cb2a9fb08",
+  "candidateReportSha256": "85fa065fa139f73c5a8910fb33b049e78b6444275c5f4c8205cfc1b0e7534e6c",
+  "originalSourceDigest": "9167a8ca0387526c9c546c255f601f15aa28867d51d1b4c012afa803e50b3412",
+  "candidateSourceDigest": "cb34edaa3e93a50d8af56cdf047ef20ef7d96eda54a639b8e00d0069936fc275",
+  "captureEvaluatorSha256": "3fc29a298443880240ead59ee646da03b168bb71e948359db3b8a5c5fdb1de28",
+  "comparisonEvaluatorSha256": "25afd9ce3e894f1a6c9b6fa1aeac118dd8452799d7799e2a4b13fa8918b0de3c",
+  "scheduleSha256": "fbaa8e8ba1344a8eeeda0695fa42d57398e043e2fe86a32521e5ad83df01cb97"
+}
