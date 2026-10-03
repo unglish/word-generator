@@ -1,0 +1,425 @@
+import type { CategoryPlanningTrace } from "./morphology/category-planning.js";
+import type { FinalNucleusTrace } from "./final-nucleus.js";
+import type { GapSpellingPassTrace } from "./gap-spelling.js";
+import type { PronunciationPassTrace } from "./pronounce.js";
+import type { FinalSpellingTrace } from "./final-spelling.js";
+import type { FinalPhoneTrace } from "./final-phones.js";
+import type { SequenceSelectionEvidence } from "./spelling-sequence-evidence.js";
+import type { SpellingBudgetOutcome } from "./spelling-coverage-types.js";
+import type { BaseSpellingTrace } from "./base-spelling.js";
+import type { Syllable } from "../types.js";
+import type { MorphologyRealizationTrace, MorphologyPassTrace, MorphologyPreparationTrace, MorphologyWritingTrace } from "./morphology/realization.js";
+
+export interface SyllableSnapshot {
+  onset: string[];
+  nucleus: string[];
+  coda: string[];
+  stress?: Syllable["stress"];
+  /** Nucleus indices reduced during surface realization. */
+  reducedNuclei?: number[];
+  /** Segment coordinates aspirated during surface realization. */
+  aspirated?: { segment: "onset" | "nucleus" | "coda"; index: number }[];
+}
+
+export interface StageSnapshot {
+  name: string;
+  before: SyllableSnapshot[];
+  after: SyllableSnapshot[];
+}
+
+export interface DoublingTrace {
+  /** Whether doubling was attempted. */
+  attempted: boolean;
+  /** Why doubling was skipped (if it was). */
+  reason?: string;
+  /** Final probability used for the doubling roll. */
+  probability?: number;
+  /** The doubled form that was produced. */
+  result?: string;
+}
+
+export interface GraphemeTrace {
+  /** Replaces legacy weight/roll and doubling sampling evidence when present. */
+  conditionedSelection?: SequenceSelectionEvidence;
+  /** Stable grapheme-decision index in flattened phoneme order. */
+  index: number;
+  phoneme: string;
+  position: string;
+  syllableIndex: number;
+  candidates: string[];
+  afterCondition: string[];
+  afterPosition: string[];
+  weights: [string, number][];
+  roll: number;
+  selected: string;
+  /** Grapheme form emitted before later orthographic repairs. */
+  emitted: string;
+  doubled: boolean;
+  /** Selection diagnostics added by the legal-weight writer. Missing means legacy/unobserved. */
+  selection?: {
+    version: 1;
+    positionScope: "segment" | "syllable";
+    segmentPosition: "initial" | "medial" | "final" | "isolated";
+    syllablePosition: "initial" | "medial" | "final" | "isolated";
+    ordinaryCandidates: number;
+    afterCondition: number;
+    afterPosition: number;
+    positiveCandidates: number;
+    fallback?: "no-conditioned-candidates" | "no-positional-candidates" | "no-positive-weights";
+    preferenceRelaxed?: "doubling-quota";
+  };
+  /** Detailed doubling decision (only present when tracing). */
+  doubling?: DoublingTrace;
+}
+
+export interface RepairTrace {
+  /** Which repair function fired. */
+  rule: string;
+  /** What was there before the repair. */
+  before: string;
+  /** What it became after the repair. */
+  after: string;
+  /** Optional detail (e.g. which phoneme was dropped, why). */
+  detail?: string;
+}
+
+export interface MorphologyTrace {
+  /** Assigned lexical categories and exact planned/retained paths, when configured. */
+  categories?: CategoryPlanningTrace;
+  template: string;
+  /** Planned prefix spelling, before allomorph selection. */
+  prefix?: string;
+  /** Planned suffix spelling, before allomorph selection. */
+  suffix?: string;
+  syllableReduction: number;
+  alternations?: MorphophonemicAlternationTrace[];
+  /** Selected forms and written parts; absent in historical traces. */
+  realization?: MorphologyRealizationTrace;
+}
+
+export interface MorphophonemicAlternationTrace {
+  rule: string;
+  affix: string;
+  boundary: "prefix-root" | "root-suffix";
+  soundBefore?: string;
+  soundAfter?: string;
+  writtenBefore?: string;
+  writtenAfter?: string;
+}
+
+export interface BoundaryDropTrace {
+  event: "boundaryDrop";
+  dropped: string;
+  beforeOnset: string;
+  equalSonority: number;
+  probability: number;
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
+}
+
+export interface RisingCodaBoundaryDropTrace {
+  event: "risingCodaBoundaryDrop";
+  dropped: string;
+  preDropCoda: string[];
+  remainingCoda: string[];
+  onset: string[];
+  probability: number;
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
+}
+
+export interface SspBoundaryDropTrace {
+  event: "sspBoundaryDrop";
+  dropped: string;
+  preDropCoda: string[];
+  remainingCoda: string[];
+  onset: string[];
+  violation: "rule1" | "rule2" | "rule3" | "multi";
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
+}
+
+export interface JunctionBoundaryDropTrace {
+  event: "junctionBoundaryDrop";
+  dropped: string;
+  preDropCoda: string[];
+  remainingCoda: string[];
+  onset: string[];
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
+}
+
+export interface FinalSTrace {
+  event: "finalS";
+  probability: number;
+  clusterWeightApplied?: boolean;
+  clusterWeight?: number;
+  syllableIndex: number;
+}
+
+export interface NasalStopExtensionTrace {
+  event: "nasalStopExtension";
+  nasal: string;
+  appendedStop: string;
+  probability: number;
+  syllableIndex: number;
+}
+
+export type CodaExtensionRejectionReason =
+  | "excluded" | "repetition" | "position" | "banned-coda" | "nucleus-coda"
+  | "cluster-weight" | "attestation" | "sonority" | "pattern"
+  | "length" | "voicing" | "place" | "word-final";
+
+export interface CodaExtensionRejectedTrace {
+  event: "codaExtensionRejected";
+  extension: "finalS" | "nasalStopExtension";
+  candidate: string;
+  coda: string[];
+  reason: CodaExtensionRejectionReason;
+  syllableIndex: number;
+}
+
+export interface VowelHiatusFallbackTrace {
+  event: "vowelHiatusFallback";
+  inserted: string;
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
+}
+
+export interface MorphPrefixHiatusFallbackTrace {
+  event: "morphPrefixHiatusFallback";
+  inserted: string;
+  syllableIndex: number;
+}
+
+export interface MorphSuffixHiatusFallbackTrace {
+  event: "morphSuffixHiatusFallback";
+  inserted: string;
+  syllableIndex: number;
+}
+
+export type AspirationTargetSegment = "onset" | "nucleus" | "coda";
+
+export interface AspirationDecisionEvaluatedTrace {
+  event: "aspirationDecision";
+  evaluated: true;
+  syllableIndex: number;
+  ruleId: string | "fallback";
+  probability: number;
+  roll: number;
+  eligible: true;
+  applied: boolean;
+  targetSegment: AspirationTargetSegment;
+  targetIndex: number;
+  targetPhoneme: string;
+}
+
+export interface AspirationDecisionSkippedTrace {
+  event: "aspirationDecision";
+  evaluated: false;
+  syllableIndex: number;
+  ruleId: string | "fallback" | null;
+  probability: number | null;
+  roll: number | null;
+  eligible: boolean;
+  applied: false;
+  targetSegment: AspirationTargetSegment | null;
+  targetIndex: number | null;
+  targetPhoneme: string | null;
+}
+
+export type AspirationDecisionTrace =
+  | AspirationDecisionEvaluatedTrace
+  | AspirationDecisionSkippedTrace;
+
+export type StructuralTrace =
+  | BoundaryDropTrace
+  | RisingCodaBoundaryDropTrace
+  | SspBoundaryDropTrace
+  | JunctionBoundaryDropTrace
+  | FinalSTrace
+  | NasalStopExtensionTrace
+  | CodaExtensionRejectedTrace
+  | VowelHiatusFallbackTrace
+  | MorphPrefixHiatusFallbackTrace
+  | MorphSuffixHiatusFallbackTrace
+  | AspirationDecisionTrace;
+
+export interface TraceLink {
+  kind: "graphemeSelection" | "repair" | "structural";
+  index: number;
+  label: string;
+}
+
+export interface OrthographyCharOwner {
+  index: number;
+  char: string;
+  unitId: number;
+  graphemeSelectionIndex: number;
+}
+
+export interface OrthographyUnitTrace {
+  id: number;
+  graphemeSelectionIndex: number;
+  phoneme: string;
+  position: string;
+  syllableIndex: number;
+  selected: string;
+  emitted: string;
+  present: boolean;
+  start: number | null;
+  end: number | null;
+  links?: TraceLink[];
+}
+
+/** Coordinates and provenance of the lexical material passed to the writer. */
+export interface OrthographySource {
+  kind: "lexical-root";
+  /** Offset into the assembled word; unit syllable indices remain root-relative. */
+  wordSyllableStart: number;
+}
+
+export interface OrthographyTrace {
+  /** Legacy edit-distance ownership, not certified sound-to-letter alignment. */
+  alignment?: "inferred";
+  source?: OrthographySource;
+  /** Final written form after all orthographic repair stages. */
+  surface: string;
+  /** Per-character ownership in the final written form. */
+  chars: OrthographyCharOwner[];
+  /** Grapheme-level aligned units. */
+  graphemeUnits: OrthographyUnitTrace[];
+  /** Optional phoneme-level aligned units for custom UIs. */
+  phonemeUnits?: OrthographyUnitTrace[];
+}
+
+export interface FinalWordProvenance {
+  version: 1;
+  spelling: FinalSpellingTrace;
+  phones: FinalPhoneTrace;
+}
+
+export interface WordTrace {
+  writerInput?: Syllable[];
+  writerOutput?: { clean: string; hyphenated: string };
+  gapSpellingPass?: GapSpellingPassTrace;
+  morphologyPass?: MorphologyPassTrace;
+  finalNucleus?: FinalNucleusTrace;
+  morphologyPreparation?: MorphologyPreparationTrace;
+  morphologyWriting?: MorphologyWritingTrace;
+  pronunciationPasses?: PronunciationPassTrace[];
+  finalWord?: FinalWordProvenance;
+  /** Exact base edit provenance, separate from legacy inferred ownership. */
+  baseSpelling?: BaseSpellingTrace;
+  spellingBudgets?: SpellingBudgetOutcome[];
+  /** Target syllable count chosen for this word. */
+  syllableCount: number;
+  /** How many letter-length rejection attempts before acceptance (0 = first try). */
+  attempts: number;
+  /** Morphology plan details (only when morphology was applied). */
+  morphology?: MorphologyTrace;
+  /** Structural decisions during syllable generation (boundary adjustments, extensions). */
+  structural: StructuralTrace[];
+  stages: StageSnapshot[];
+  graphemeSelections: GraphemeTrace[];
+  orthography?: OrthographyTrace;
+  repairs: RepairTrace[];
+  summary: { totalDecisions: number; repairCount: number; morphologyApplied: boolean };
+}
+
+function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
+  return syllables.map(s => {
+    const reducedNuclei = s.nucleus.flatMap((p, index) => p.reduced ? [index] : []);
+    const aspirated = (["onset", "nucleus", "coda"] as const).flatMap(segment =>
+      s[segment].flatMap((p, index) => p.aspirated ? [{ segment, index }] : []));
+    return {
+      onset: s.onset.map(p => p.sound),
+      nucleus: s.nucleus.map(p => p.sound),
+      coda: s.coda.map(p => p.sound),
+      stress: s.stress,
+      ...(reducedNuclei.length > 0 ? { reducedNuclei } : {}),
+      ...(aspirated.length > 0 ? { aspirated } : {}),
+    };
+  });
+}
+
+export class TraceCollector {
+  writerInput?: Syllable[];
+  writerOutput?: { clean: string; hyphenated: string };
+  gapSpellingPass?: GapSpellingPassTrace;
+  morphologyPass?: MorphologyPassTrace;
+  finalNucleus?: FinalNucleusTrace;
+  morphologyPreparation?: MorphologyPreparationTrace;
+  morphologyWriting?: MorphologyWritingTrace;
+  pronunciationPasses?: PronunciationPassTrace[];
+  finalWord?: FinalWordProvenance;
+  baseSpelling?: BaseSpellingTrace;
+  spellingBudgets?: SpellingBudgetOutcome[];
+  stages: StageSnapshot[] = [];
+  graphemeSelections: GraphemeTrace[] = [];
+  orthographyTrace?: OrthographyTrace;
+  repairs: RepairTrace[] = [];
+  structural: StructuralTrace[] = [];
+  morphologyTrace?: MorphologyTrace;
+  private currentBefore: Map<string, SyllableSnapshot[]> = new Map();
+
+  beforeStage(name: string, syllables: Syllable[]): void {
+    this.currentBefore.set(name, snapshotSyllables(syllables));
+  }
+
+  afterStage(name: string, syllables: Syllable[]): void {
+    const before = this.currentBefore.get(name) ?? [];
+    this.currentBefore.delete(name);
+    this.stages.push({ name, before, after: snapshotSyllables(syllables) });
+  }
+
+  recordSpellingBudget(outcome: SpellingBudgetOutcome): void {
+    (this.spellingBudgets ??= []).push(outcome);
+  }
+
+  recordGraphemeSelection(entry: GraphemeTrace): void {
+    this.graphemeSelections.push(entry);
+  }
+
+  recordStructural(entry: StructuralTrace): void {
+    this.structural.push(entry);
+  }
+
+  recordRepair(rule: string, before: string, after: string, detail?: string): void {
+    if (before !== after) {
+      this.repairs.push({ rule, before, after, detail });
+    }
+  }
+
+  syllableCount: number = 0;
+  attempts: number = 0;
+
+  toTrace(morphApplied: boolean): WordTrace {
+    return {
+      syllableCount: this.syllableCount,
+      attempts: this.attempts,
+      morphology: this.morphologyTrace,
+      structural: this.structural,
+      stages: this.stages,
+      graphemeSelections: this.graphemeSelections,
+      orthography: this.orthographyTrace,
+      repairs: this.repairs,
+      baseSpelling: this.baseSpelling,
+      ...(this.finalWord ? { finalWord: this.finalWord } : {}),
+      ...(this.pronunciationPasses ? { pronunciationPasses: this.pronunciationPasses } : {}),
+      ...(this.finalNucleus ? { finalNucleus: this.finalNucleus } : {}),
+      ...(this.morphologyPreparation ? { morphologyPreparation: this.morphologyPreparation } : {}),
+      ...(this.morphologyWriting ? { morphologyWriting: this.morphologyWriting } : {}),
+      ...(this.morphologyPass ? { morphologyPass: this.morphologyPass } : {}),
+      ...(this.writerInput ? { writerInput: this.writerInput } : {}),
+      ...(this.writerOutput ? { writerOutput: this.writerOutput } : {}),
+      ...(this.gapSpellingPass ? { gapSpellingPass: this.gapSpellingPass } : {}),
+      ...(this.spellingBudgets ? { spellingBudgets: this.spellingBudgets } : {}),
+      summary: {
+        totalDecisions: this.graphemeSelections.length,
+        repairCount: this.repairs.length,
+        morphologyApplied: morphApplied,
+      },
+    };
+  }
+}

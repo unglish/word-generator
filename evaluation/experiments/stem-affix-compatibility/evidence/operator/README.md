@@ -1,0 +1,13 @@
+# Opt-in stem and affix categories
+
+`MorphologyConfig.categories` declares weighted stem categories, affix senses and input/output transitions. Categories describe model assignments to generated stems; they are not inferred meanings or lexical attestations. Omitting the property retains the existing morphology planner and RNG schedule.
+
+Each sense references a configured prefix or suffix by its array index. Multiple senses divide that affix's configured frequency in proportion to their sense weights. A path receives the product of its stem weight and those affix/sense masses. The planner samples the existing template first, then samples jointly from licensed category paths. Consequently, stem weights are priors before conditioning on the selected template's compatible affixes; emitted category shares need not equal those weights.
+
+Construction order is explicit and separate from written order. A forced short `both` plan can lose its prefix. Before sampling, the planner recomputes each such suffix-only projection from the original stem and excludes incompatible projections. Compatible projections retain the original complete-path weight, preserving the opportunity represented by each original prefix choice. Several planned paths can therefore share a retained path. Empty pools fail explicitly rather than admitting an incompatible combination or silently choosing another template.
+
+Category traces retain the requested template, eligible path count, excluded projection count, total sampling mass, and both planned and retained paths. Each path records stem category, sense identities, intermediate transitions and final category. Existing phonological attachment, allomorphy, spelling and provenance remain responsible for their respective constraints.
+
+The registered experimental profile covers every current configured affix. Uniform stem priors and equal sense shares are authored experimental assumptions. Category compatibility alone does not establish semantic compatibility, inflectional feature agreement, productivity, or human wordlikeness. Broad categories deliberately do not claim an exhaustive grammar of English derivation.
+
+The committed measurement registration requires complete inventory/path enumeration, public-API trace audits, omitted-policy output/RNG parity, matched large-sample baseline/candidate comparisons, original repository gates, and performance measurements. The baseline has no observed stem categories, so its emitted words must not be retrospectively labeled category violations. Baseline and candidate linguistic metrics remain separately measured; candidate compliance alone is not an overall quality improvement.

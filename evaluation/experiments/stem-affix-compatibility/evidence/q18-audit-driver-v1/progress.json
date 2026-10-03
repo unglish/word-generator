@@ -1,0 +1,66 @@
+[
+  {
+    "stage": "independent-fixtures",
+    "command": [
+      "python3",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/audit-tools/test_category_recount.py"
+    ],
+    "exitCode": 0
+  },
+  {
+    "stage": "trace-plain-parity",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/audit-tools/trace-plain-parity.mjs"
+    ],
+    "exitCode": 0
+  },
+  {
+    "stage": "default-public-replay",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/audit-tools/replay-archive.mjs",
+      "/private/tmp/q18-candidate-default-v1",
+      "/private/tmp/q18-audit-driver-v1/default-public-replay.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "stage": "default-independent",
+    "command": [
+      "python3",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/audit-tools/recount_archive.py",
+      "/private/tmp/q18-candidate-default-v1",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/evaluation/experiments/stem-affix-compatibility/experimental-profile.json",
+      "/private/tmp/q18-audit-driver-v1/default-independent.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "stage": "active-public-replay",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/audit-tools/replay-archive.mjs",
+      "/private/tmp/q18-candidate-active-v1",
+      "/private/tmp/q18-audit-driver-v1/active-public-replay.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "stage": "active-independent",
+    "command": [
+      "python3",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/audit-tools/recount_archive.py",
+      "/private/tmp/q18-candidate-active-v1",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/evaluation/experiments/stem-affix-compatibility/experimental-profile.json",
+      "/private/tmp/q18-audit-driver-v1/active-independent.json"
+    ],
+    "exitCode": 0
+  }
+]

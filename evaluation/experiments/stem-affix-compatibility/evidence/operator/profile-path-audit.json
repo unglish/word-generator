@@ -1,0 +1,48 @@
+{
+  "profileSha256": "51750a29cbfe89d6d9cc6c7b9fd5ab67ee9e8ec0d9203f00f2b52e3a6c0ee266",
+  "affixes": 33,
+  "senses": 45,
+  "templates": {
+    "bare": {
+      "paths": 4,
+      "totalWeight": 4,
+      "categories": {
+        "noun": 1,
+        "verb": 1,
+        "adjective": 1,
+        "adverb": 1
+      }
+    },
+    "prefixed": {
+      "paths": 19,
+      "totalWeight": 568,
+      "categories": {
+        "noun": 7,
+        "verb": 7,
+        "adjective": 5,
+        "adverb": 0
+      }
+    },
+    "suffixed": {
+      "paths": 42,
+      "totalWeight": 783.9999999999999,
+      "categories": {
+        "noun": 19,
+        "verb": 14,
+        "adjective": 9,
+        "adverb": 0
+      }
+    },
+    "both": {
+      "paths": 255,
+      "totalWeight": 145982.33333333334,
+      "categories": {
+        "noun": 113,
+        "verb": 90,
+        "adjective": 52,
+        "adverb": 0
+      }
+    }
+  },
+  "scope": "Draft inventory and path-graph validation, not generator observations or linguistic efficacy."
+}

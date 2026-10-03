@@ -1,0 +1,767 @@
+{
+  "version": "q18-experimental-category-profile-draft-v1",
+  "inventory": {
+    "prefixes": [
+      "un",
+      "re",
+      "dis",
+      "pre",
+      "over",
+      "out",
+      "mis",
+      "in"
+    ],
+    "suffixes": [
+      "ing",
+      "tion",
+      "sion",
+      "ly",
+      "ed",
+      "ness",
+      "er",
+      "est",
+      "ment",
+      "able",
+      "ful",
+      "less",
+      "ous",
+      "ive",
+      "al",
+      "ity",
+      "s",
+      "ist",
+      "ize",
+      "ism",
+      "ary",
+      "ory",
+      "ery",
+      "ian",
+      "ial"
+    ]
+  },
+  "model": {
+    "stems": [
+      {
+        "id": "noun",
+        "weight": 1
+      },
+      {
+        "id": "verb",
+        "weight": 1
+      },
+      {
+        "id": "adjective",
+        "weight": 1
+      },
+      {
+        "id": "adverb",
+        "weight": 1
+      }
+    ],
+    "order": "suffix-then-prefix",
+    "senses": [
+      {
+        "id": "prefix/un/negative",
+        "affix": {
+          "type": "prefix",
+          "index": 0
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "adjective",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "prefix/un/reversal",
+        "affix": {
+          "type": "prefix",
+          "index": 0
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "verb"
+          }
+        ]
+      },
+      {
+        "id": "prefix/re/repetition",
+        "affix": {
+          "type": "prefix",
+          "index": 1
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "verb"
+          },
+          {
+            "input": "noun",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "prefix/dis/opposition",
+        "affix": {
+          "type": "prefix",
+          "index": 2
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "verb"
+          },
+          {
+            "input": "noun",
+            "output": "noun"
+          },
+          {
+            "input": "adjective",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "prefix/pre/anterior",
+        "affix": {
+          "type": "prefix",
+          "index": 3
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          },
+          {
+            "input": "verb",
+            "output": "verb"
+          },
+          {
+            "input": "adjective",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "prefix/over/excess",
+        "affix": {
+          "type": "prefix",
+          "index": 4
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "verb"
+          },
+          {
+            "input": "noun",
+            "output": "noun"
+          },
+          {
+            "input": "adjective",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "prefix/out/verbal",
+        "affix": {
+          "type": "prefix",
+          "index": 5
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "verb"
+          }
+        ]
+      },
+      {
+        "id": "prefix/out/external",
+        "affix": {
+          "type": "prefix",
+          "index": 5
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "prefix/mis/incorrect",
+        "affix": {
+          "type": "prefix",
+          "index": 6
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "verb"
+          },
+          {
+            "input": "noun",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "prefix/in/negative",
+        "affix": {
+          "type": "prefix",
+          "index": 7
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          },
+          {
+            "input": "adjective",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ing/verbal",
+        "affix": {
+          "type": "suffix",
+          "index": 0
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "verb"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ing/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 0
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/tion/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 1
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/sion/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 2
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ly/adverbial",
+        "affix": {
+          "type": "suffix",
+          "index": 3
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "adjective",
+            "output": "adverb"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ly/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 3
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ed/verbal",
+        "affix": {
+          "type": "suffix",
+          "index": 4
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "verb"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ed/participial",
+        "affix": {
+          "type": "suffix",
+          "index": 4
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ness/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 5
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "adjective",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/er/agent",
+        "affix": {
+          "type": "suffix",
+          "index": 6
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/er/inhabitant",
+        "affix": {
+          "type": "suffix",
+          "index": 6
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/er/comparative",
+        "affix": {
+          "type": "suffix",
+          "index": 6
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "adjective",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/est/superlative",
+        "affix": {
+          "type": "suffix",
+          "index": 7
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "adjective",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ment/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 8
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/able/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 9
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ful/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 10
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ful/quantity",
+        "affix": {
+          "type": "suffix",
+          "index": 10
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/less/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 11
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ous/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 12
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ive/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 13
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "adjective"
+          },
+          {
+            "input": "noun",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/al/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 14
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/al/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 14
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ity/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 15
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "adjective",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/s/plural",
+        "affix": {
+          "type": "suffix",
+          "index": 16
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/s/verbal",
+        "affix": {
+          "type": "suffix",
+          "index": 16
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "verb"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ist/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 17
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          },
+          {
+            "input": "adjective",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ize/verbal",
+        "affix": {
+          "type": "suffix",
+          "index": 18
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "verb"
+          },
+          {
+            "input": "adjective",
+            "output": "verb"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ism/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 19
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          },
+          {
+            "input": "adjective",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ary/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 20
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ary/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 20
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ory/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 21
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "verb",
+            "output": "adjective"
+          },
+          {
+            "input": "noun",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ery/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 22
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          },
+          {
+            "input": "verb",
+            "output": "noun"
+          },
+          {
+            "input": "adjective",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ian/nominal",
+        "affix": {
+          "type": "suffix",
+          "index": 23
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "noun"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ian/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 23
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "adjective"
+          }
+        ]
+      },
+      {
+        "id": "suffix/ial/adjectival",
+        "affix": {
+          "type": "suffix",
+          "index": 24
+        },
+        "weight": 1,
+        "transitions": [
+          {
+            "input": "noun",
+            "output": "adjective"
+          }
+        ]
+      }
+    ]
+  },
+  "assumptions": [
+    "Authored coarse lexical-category model; not a corpus-derived grammar.",
+    "Uniform stem weights and equal sense shares are experimental assumptions, not estimated frequencies.",
+    "Inflectional features, semantics, stem phonology and productivity are not proven by category legality.",
+    "The full configured inventory is covered. Individual lexical exceptions are not exhaustively modeled.",
+    "Construction order is declared; written order alone is not evidence for morphological bracketing.",
+    "Draft requires linguistic/table review and path enumeration before preregistration and generator integration."
+  ]
+}

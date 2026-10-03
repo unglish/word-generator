@@ -1,0 +1,37 @@
+{
+  "version": "q18-category-compatibility-v1",
+  "controlCommit": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "profileSha256": "51750a29cbfe89d6d9cc6c7b9fd5ab67ee9e8ec0d9203f00f2b52e3a6c0ee266",
+  "profile": "experimental-profile.json",
+  "scope": "Opt-in complete configured inventory lexical-category contracts; no default English activation and no semantic/productivity/human efficacy claim.",
+  "baseline": "Reuse only authenticated Q11b composed-control archives with the identical 2-policy, 4-profile, 5-development-seed, 10000-per-stream protocol and exact source/configuration identity. Otherwise capture same registered population. Baseline has no observed stem categories; do not label its emitted words category violations.",
+  "treatment": "Template sampled using existing weights; joint licensed stem/sense path sampled from stem weight times configured affix frequencies divided across senses. Forced short both plans project to suffix-only paths before selection, excluding incompatible projections. No silent fallback on empty pools.",
+  "profiles": [
+    "lexicon-default",
+    "lexicon-bare",
+    "monosyllables-bare",
+    "text-default"
+  ],
+  "policies": [
+    "default",
+    "registered-active-Q14b"
+  ],
+  "seeds": "Reuse exact committed Q02 stream coordinates and Q11b baseline measurement protocol; no held-out tuning.",
+  "samplePerStream": 10000,
+  "streamsPerPolicy": 20,
+  "wordsPerArm": 400000,
+  "primary": [
+    "Zero category transition violations in every retained candidate morphology trace",
+    "Independent enumeration agrees on all path identities and weights; each sense and positive-weight compatible path remains eligible",
+    "Observed root/sense/final-category/template distributions with eligibility denominators and requested/retained-template distinctions"
+  ],
+  "secondary": [
+    "Full phoneme, spelling, stress, root-length, RNG and morphology source/provenance comparisons",
+    "Seed-stream diversity and common evaluator metrics; all strata retained even if worsened",
+    "Trace/plain parity and disabled-policy full word/trace plus next-RNG probes",
+    "Existing unchanged full, quality and performance gates; no assertion/sample/timeout/heap changes",
+    "Interleaved same-sample performance with all runs retained"
+  ],
+  "sourceSemantics": "Stem categories and equal priors/sense shares are authored assumptions. Statistical category legality is not proof of semantic or inflectional well-formedness.",
+  "structuralGuard": "Retained suffix-only path must be recomputed from the original stem when a prefix is dropped; do not report stale planned output categories."
+}

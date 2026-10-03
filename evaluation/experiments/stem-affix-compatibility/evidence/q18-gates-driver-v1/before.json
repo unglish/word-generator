@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/run_gates_when_quiet.py": "988329002fc681097757efa7f33198673e7efdd70fe3f02bbca9597932959d19",
+    "/private/tmp/q18-gate-bindings-preflight-v2/complete.json": "cf70a59e70ac83dcbb64b3c02c8eb54f3a0ef2dff054b2c37f8f47952f455bfd",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/validate-bindings.mjs": "eae6e8324141379e66dfc2d3783657d1c8cd35d777ff44d18da34b64a3e10ec8",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/generate.perf.test.ts": "e2afbdc7725a297c0f913e8225fa04b646f4272257eaa4214636222e7b8f8f8e",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/run-gates.mjs": "d64c31cf0dc4b4db948beb1ae8b7b1b456d3f7beb067b82e3349802a68c2521a",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/generate-text.perf.test.ts": "7c660636e358652ad3592486e1b380bc6cda88ed4d9a0d771585384a6a79e245",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/quality.test.ts": "cf5bfc5f9db7de963ce02e8cadd1954b6f35e08b79bbabdab0943f2b10bdcf95",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/dependency-closure.mjs": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/generator.ts": "60ac30509c6f3ac525a4063b71c5f2ac4a9b78e7d9e21db1dd7bfac860e08dcf",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/preflight.mjs": "d50980923073bdcf64f842b4e85dfc675f1b314a32abc6b1f187c6ca0f2389e4",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-generator.ts": "67b4159c19793af49a8751c7904325f0b229c8d472370acbf7f3c069b7b4134f",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/binding-registration.json": "b7fd6f8f21496a2b5ecc91359d9920da1172d7e8677a69c5c26c6e9b7ea09628",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/quality.config.ts": "782bfe56eb39604e4880b48aa8f2046c42571a0810a1325f3de0a2b0d93357fe",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts": "640e87c1e9c4e3b6767c78c585ca5344bad311e0e7b1f32f3c337d4c72e40ed3",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts": "051943367d5ad42da1da0c5e0c9c716e245dc3b8a9d5689df41acaf0011962f8"
+  },
+  "prerequisites": {
+    "q18-full-audit": "/private/tmp/q18-audit-driver-v1/complete.json",
+    "q19-complete-gates-and-timing": "/private/tmp/q19-gates-driver-v1/complete.json"
+  },
+  "executionOrder": "Q18 full audit, Q19 gates/timing, Q18 gates/timing, Q11b captures, Q11b full audits. No other thread-owned bulk job during either gate/timing interval."
+}

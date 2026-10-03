@@ -1,0 +1,10 @@
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+  test: {
+    include: ['/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/generate.perf.test.ts'],
+    environment: 'node',
+    fileParallelism: false,
+    maxWorkers: 1,
+  },
+})

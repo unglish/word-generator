@@ -1,0 +1,32 @@
+{
+  "version": "q18-source-audit-v1",
+  "root": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+  "commit": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "files": {
+    "src/config/language.ts": "046c88fea1f8a580a70f7765b59afbe3853a3d8b5d759d46b73c30a0d3fa71ca",
+    "src/config/english.ts": "c169a67e74727a497396c4d657d01896f77a952453ad3306463a811a9c562df4",
+    "src/core/morphology/plan.ts": "f23a874cc668b56d5fc9ca4c86875bead4f91c81c87a21a4997b6874dacee65f",
+    "src/core/morphology/attach.ts": "cbf0fb6b20e891da4fba417ec733bd5b379ef25376838a058a5886c8cc452386",
+    "src/core/morphology/realization.ts": "820e6ceccadd27f86ca4a0831f258a3796f81916140effe1ec9fc69a1f9a6f8a",
+    "src/core/generate.ts": "537d79e045b21dcf40366147a1285817618916cbeaff6d30ccb5bad4c79b4545",
+    "src/types.ts": "66b9f0b0eb8ef64432d2ec046deef138e664009a7e13302f08d54fcf13e8520f"
+  },
+  "findings": [
+    "Affix has phonological, spelling, stress and frequency properties but no lexical input/output category contract.",
+    "MorphologyConfig has separate prefix and suffix pools and template weights, with no stem category inventory or category transition policy.",
+    "planMorphology chooses the template first, then independently samples prefix and suffix by frequency, before root generation.",
+    "With both template, positive-frequency prefix/suffix pairs are structurally selectable regardless of their lexical category requirements.",
+    "Baseline does not annotate generated roots with observed lexical categories; assigning categories is an explicit model assumption, not evidence extracted from spelling.",
+    "Proposed treatment must represent lexical category and input/output transitions as typed structured data; affix homographs may need distinct senses rather than one broad class.",
+    "Candidate must preserve licensed paths and weighted opportunities, not simply remove difficult suffixes. Empty compatible pools must have an explicit policy.",
+    "Runtime attribution requires disabled-policy output/RNG parity and enabled-policy trace evidence for stem category, transition sequence, eligibility pool and final category.",
+    "Q11b control is frozen for queued baseline capture; this audit does not change that checkout or declare it the final Q18 baseline."
+  ],
+  "measurementRequirements": [
+    "Exhaustive configured transition/path compatibility including both template and affix senses",
+    "Deterministic public-API seeded traces and RNG probes with policy omitted",
+    "Registered large-sample category/template/affix opportunities and all permitted-path coverage",
+    "Retain phonological/spelling/stress/diversity/performance tradeoffs and unsupported cases",
+    "Publish independent PR with explicit productivity assumptions; no human-quality claim without observations"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "--import",
+    "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/parity-tools/omitted-parity.mjs"
+  ],
+  "exitCode": 0,
+  "tools": {
+    "dependency-closure.mjs": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91",
+    "omitted-parity.mjs": "e229fa40e14dc9b17077dc6df58d0ea8be249edb280c0030f41bbf5d05f92acd"
+  }
+}
