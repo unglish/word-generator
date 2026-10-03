@@ -22,6 +22,19 @@ export function restoreMorphologyRegexState(plan: MorphologyPlan, states: Morpho
   });
 }
 
+function restoreRootInventoryPhones(word: Word, config: LanguageConfig): void {
+  const inventory = new Map(config.phonemes.map(phone => [serializeTraceEvidence(phone), phone]));
+  for (const syllable of word.syllables) {
+    for (const segment of ["onset", "nucleus", "coda"] as const) {
+      syllable[segment] = syllable[segment].map(phone => {
+        const canonical = inventory.get(serializeTraceEvidence(phone));
+        if (!canonical) throw new Error("Morphology root phone metadata is outside the configured inventory");
+        return canonical;
+      });
+    }
+  }
+}
+
 /** Verify configured execution from the recorded root; root generation and plan sampling are separate. */
 export function replayMorphologyPreparation(word: Word, configuration: LanguageConfig) {
   const record = word.trace?.morphologyPreparation;
@@ -45,15 +58,17 @@ export function replayMorphologyPreparation(word: Word, configuration: LanguageC
     plan[part] = pool[index];
   }
   restoreMorphologyRegexState(plan, record.regexBefore);
+  const restoredRoot = structuredClone(record.before);
+  if (config.morphology?.morphophonemicPolicy?.preserveClusterLegality) restoreRootInventoryPhones(restoredRoot, config);
   const ledger = new FinalPhones();
-  const ids = ledger.register("root", record.before.syllables);
+  const ids = ledger.register("root", restoredRoot.syllables);
   if (serializeTraceEvidence(ledger.snapshot(ids, record.before.syllables)) !== serializeTraceEvidence(record.phonesBefore)) {
     throw new Error("Morphology initial phone identities mismatch");
   }
   let cursor = 0;
   const trace = new TraceCollector();
   const context: WordGenerationContext = {
-    word: structuredClone(record.before), trace, syllableCount: record.before.syllables.length, currSyllableIndex: 0,
+    word: restoredRoot, trace, syllableCount: record.before.syllables.length, currSyllableIndex: 0,
     finalPhoneState: { ledger, ids }, rand: () => {
       const value = record.rolls[cursor++];
       if (!Number.isFinite(value) || value < 0 || value >= 1) throw new Error("Invalid preparation draw tape");

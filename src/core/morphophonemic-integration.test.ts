@@ -99,6 +99,27 @@ const softening: MorphophonemicRule = {
 };
 
 describe("atomic morphophonemic legality", () => {
+  it("restores inventory identities when replay uses fallback sonority", () => {
+    const config = structuredClone(englishConfig);
+    delete config.clusterLimits!.attestedOnsets;
+    delete config.clusterLimits!.attestedCodas;
+    config.morphology!.suffixes = [{ type: "suffix", written: "x", phonemes: [], syllableCount: 0,
+      stressEffect: "none", frequency: 1,
+      morphophonemicRules: [{ name: "nuclear-replay-probe", target: "nucleus", replaceSound: "i:" }] }];
+    for (const mode of ["lexicon", "text"] as const) config.morphology!.templateWeights[mode] = { bare: 0, prefixed: 0, suffixed: 1, both: 0 };
+    const generator = createGenerator(config), rand = createSeededRng(20261005);
+    for (let index = 0; index < 3; index++) {
+      const word = generator.generateWord({ rand, trace: true, syllableCount: 1 });
+      expect(() => replayMorphologyPreparation(word, config)).not.toThrow();
+      if (index === 2) {
+        expect(word.trace!.morphologyPreparation!.prepared!.evaluations![0].outcome).toBe("accepted");
+        expect(word.trace!.morphologyPreparation!.prepared!.evaluations![0].guard!.syllableBefore.coda).toEqual(["k", "s", "f"]);
+        const forged = structuredClone(word);
+        forged.trace!.morphologyPreparation!.before.syllables[0].coda[0].voiced = true;
+        expect(() => replayMorphologyPreparation(forged, config)).toThrow(/outside the configured inventory/);
+      }
+    }
+  });
   it("rejects a malformed policy at public generator construction", () => {
     const config = structuredClone(englishConfig);
     config.morphology!.morphophonemicPolicy = { preserveClusterLegality: "false" } as unknown as MorphologyConfig["morphophonemicPolicy"];
