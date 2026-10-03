@@ -1,0 +1,1030 @@
+[
+  {
+    "name": "original-control-unit",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "test"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 55586,
+      "sha256": "83f1a58438b73256467d39374fc546a03ca75739aad79723380779a6c0f6044b"
+    }
+  },
+  {
+    "name": "compile-control-diagnostics",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/typescript/bin/tsc"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "original-control-quality",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:quality"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 3440,
+      "sha256": "84212f4055f2cc49a75ae20fa1b1e6eac152cb659f76cf244e695fa44a80f097"
+    },
+    "original-control-quality-quality-report.json": {
+      "bytes": 477,
+      "sha256": "725d05feafeb09641aebc130d17cf76530b48fc48915b354839bb44196482a3f",
+      "state": "created-or-modified-report"
+    }
+  },
+  {
+    "name": "original-control-trigrams",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "analyze:trigrams"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": true,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 634,
+      "sha256": "e3d9dce9513b82c8e541200423ef6b675fdba9c85fd79d2c827135d508e23819"
+    },
+    "original-control-trigrams-memory-trigram-2m-analysis.json": {
+      "bytes": 114504,
+      "sha256": "76fcd7ef6b9c072110cb3c784f225cb9239982ded8aa96f7395162744eb13111",
+      "state": "created-or-modified-report"
+    },
+    "original-control-trigrams-memory-trigram-2m-analysis.md": {
+      "bytes": 3082,
+      "sha256": "ec065c20c15802dbb21b5b791a7b40b3b741e65d51d9355fcf7d645319581110",
+      "state": "created-or-modified-report"
+    }
+  },
+  {
+    "name": "original-control-trace",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "audit:trace"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": true,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 2687,
+      "sha256": "cbc73a63e666483e0419b2136a314122d061dc13ce3879675182ca9bf6fa6ed6"
+    }
+  },
+  {
+    "name": "original-candidate-unit",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "test"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 57573,
+      "sha256": "165dc65b6af1c1ba38c8f9a608ac5ead42c84473f3ba70bdff83208929355a9a"
+    }
+  },
+  {
+    "name": "compile-candidate-diagnostics",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/typescript/bin/tsc"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "name": "original-candidate-quality",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:quality"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 3445,
+      "sha256": "bdcfeaa91b801456816724218da122578e288ced491319c43ea8503dbf23806e"
+    },
+    "original-candidate-quality-quality-report.json": {
+      "bytes": 477,
+      "sha256": "725d05feafeb09641aebc130d17cf76530b48fc48915b354839bb44196482a3f",
+      "state": "created-or-modified-report"
+    }
+  },
+  {
+    "name": "original-candidate-trigrams",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "analyze:trigrams"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": true,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 638,
+      "sha256": "9620a4ccdfaccfb10f9c430ce474200bb8de2c099d49e96ace2c0b0bac8ba69c"
+    },
+    "original-candidate-trigrams-memory-trigram-2m-analysis.json": {
+      "bytes": 114504,
+      "sha256": "d8cb24f59208207e62c083a54a2734e6aee469d76c6e82813c2b08eb52175ecc",
+      "state": "created-or-modified-report"
+    },
+    "original-candidate-trigrams-memory-trigram-2m-analysis.md": {
+      "bytes": 3082,
+      "sha256": "887915ef84e68a9226b4aeabc0ae6d9d110b39dbe7db9a8d1138fa49009ad6b3",
+      "state": "created-or-modified-report"
+    }
+  },
+  {
+    "name": "original-candidate-trace",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "audit:trace"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": true,
+    "code": 0,
+    "signal": null,
+    "log": {
+      "bytes": 2687,
+      "sha256": "cbc73a63e666483e0419b2136a314122d061dc13ce3879675182ca9bf6fa6ed6"
+    }
+  },
+  {
+    "name": "configured-control-quality",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/quality.config.ts"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 4155,
+      "sha256": "754d243e920c0c5f3e6d8450fb72b372e587ce0ee6f3c16ce1f378e758ead48f"
+    },
+    "configured-control-quality-quality-report.json": {
+      "bytes": 477,
+      "sha256": "725d05feafeb09641aebc130d17cf76530b48fc48915b354839bb44196482a3f",
+      "state": "created-or-modified-report"
+    }
+  },
+  {
+    "name": "configured-candidate-quality",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/quality.config.ts"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 4157,
+      "sha256": "1ff73c1631d76c44f16b04c5ff5cf778c09037105c291931ad395b4c971af727"
+    },
+    "configured-candidate-quality-quality-report.json": {
+      "bytes": 477,
+      "sha256": "5ab294eeea43e792233427d4276d5da8aeb67c3f14469f29d5e56f615cfc2014",
+      "state": "created-or-modified-report"
+    }
+  },
+  {
+    "name": "native-pair-1-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "13f64141606102dc27c54194bfe1a16c9e5dd36705afa9788879eab60233f85b"
+    }
+  },
+  {
+    "name": "native-pair-1-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1721,
+      "sha256": "3377119285bb55fa0d287a35b811757f4d176fead857d566792de785b68791cb"
+    }
+  },
+  {
+    "name": "native-pair-2-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "226386422408d382ea9a4e270f47c716e8d252aa2f7162877066549a931aeb27"
+    }
+  },
+  {
+    "name": "native-pair-2-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "68a07333e2c5c565684d067f91374247fabe663c6e5db8ef444ccc980f512a85"
+    }
+  },
+  {
+    "name": "native-pair-3-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "866d1853c9f3df93600c2d444d1fc699f4f4abe378c604a6691db52465ea9c6f"
+    }
+  },
+  {
+    "name": "native-pair-3-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1721,
+      "sha256": "0937fe827812f67f9c4d370057e8370b8ae4e743913e40aa72d316ca689ff210"
+    }
+  },
+  {
+    "name": "native-pair-4-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "1f281f202cd603c5582991935c307f10127d690d9d6a924d6f73169f58e361f4"
+    }
+  },
+  {
+    "name": "native-pair-4-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "8d57c169cdbdcaa230bdce20850cfe7a7fd59d726297eb6ce5f37aff98722a2d"
+    }
+  },
+  {
+    "name": "native-pair-5-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "6e9b8149ec385b7869a58434a630886760090eddb23ddfad91598e1546fe367e"
+    }
+  },
+  {
+    "name": "native-pair-5-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1720,
+      "sha256": "e5f07801bd471ab9ccfd5a86087252595c038f43176f18ea2388abfc0a328b99"
+    }
+  },
+  {
+    "name": "native-pair-6-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1719,
+      "sha256": "80bd03bfe3f6005f45fae68b3e3e9fca82627a32adb3d44d933f6d9f4edd457c"
+    }
+  },
+  {
+    "name": "native-pair-6-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {},
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 1722,
+      "sha256": "150a92e89bab5c8d45dfa2e924c8ab7cba7886bda0b8cb22d158a7052cd4c65f"
+    }
+  },
+  {
+    "name": "configured-pair-1-lexicon-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2220,
+      "sha256": "d80523d805ac227125d4410de9a92da2dba8062f174a3bdc6f9e4f532b949868"
+    }
+  },
+  {
+    "name": "configured-pair-1-lexicon-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2220,
+      "sha256": "e711d7498b8d5e082bf741d204f2c1ecc9d119030c05099b721c9cdb34ef909c"
+    }
+  },
+  {
+    "name": "configured-pair-1-text-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2249,
+      "sha256": "09b286b52ff4b4afe75939a7842971397ae958a4a1a1d742def689a08749c34e"
+    }
+  },
+  {
+    "name": "configured-pair-1-text-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2251,
+      "sha256": "912645633b376bc23e5e9cbe4d621700799fbb7ab738b3148ba41f9e622e0b4e"
+    }
+  },
+  {
+    "name": "configured-pair-2-lexicon-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2217,
+      "sha256": "5b4f0cb900a66bb667e6e83a3303d772f2bde1b210234e5257a5a0dea996cd63"
+    }
+  },
+  {
+    "name": "configured-pair-2-lexicon-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2223,
+      "sha256": "12406a71d306d14f0a41f88261c820d9c94c5b80957018e21ee9774b7e578f06"
+    }
+  },
+  {
+    "name": "configured-pair-2-text-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2250,
+      "sha256": "b690b64de4db0009522ab4d60c5b9244d134a3c967338e761e38d20cf3fa2f67"
+    }
+  },
+  {
+    "name": "configured-pair-2-text-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2252,
+      "sha256": "e4cdf0378fbfdf17595bf4e5ca518d1341aae051b47b6e680b83a506323fb177"
+    }
+  },
+  {
+    "name": "configured-pair-3-lexicon-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2220,
+      "sha256": "70852d71ebe50fff9b7fd12c1739d19db9b65f08386839b4ac41dd0b65ac44c8"
+    }
+  },
+  {
+    "name": "configured-pair-3-lexicon-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2221,
+      "sha256": "02161d174019828f355aeffd07f7a431d04c068a2da426824ab662dc9c81288d"
+    }
+  },
+  {
+    "name": "configured-pair-3-text-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2249,
+      "sha256": "70542a73414b5b27b892494775f264994063c97160e8d9a7528a283778b552ff"
+    }
+  },
+  {
+    "name": "configured-pair-3-text-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2251,
+      "sha256": "5826fb3a03ce38dec2e3042f51aaeeb13c9de21d1c37e89ddbec4768a3e6551a"
+    }
+  },
+  {
+    "name": "configured-pair-4-lexicon-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2217,
+      "sha256": "c820a1de270d873da706d949cd3ae2213ca3350ebe16f055a4c89eac243b86cf"
+    }
+  },
+  {
+    "name": "configured-pair-4-lexicon-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2220,
+      "sha256": "0dde88df46e968116838ad9145cb04e692906bee2a2218f6ca470fe77addeb6f"
+    }
+  },
+  {
+    "name": "configured-pair-4-text-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2247,
+      "sha256": "d49184164abccfceeb63088b1ff0a7ccd8bcf260068f7580cf38d8fabaffa7c0"
+    }
+  },
+  {
+    "name": "configured-pair-4-text-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2251,
+      "sha256": "ebaaa39e16f9a04bf10661132acaf8aaedd1c94cc97dfe7cd1fe57afb2b44586"
+    }
+  },
+  {
+    "name": "configured-pair-5-lexicon-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2220,
+      "sha256": "05d244f8335fa03108096c791ee32efef16d68037c7d213a6cdea99184662318"
+    }
+  },
+  {
+    "name": "configured-pair-5-lexicon-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2222,
+      "sha256": "3dd18e1fdd416ceb73363ac229771a3b524028c78843630f1e887d92791b9921"
+    }
+  },
+  {
+    "name": "configured-pair-5-text-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2247,
+      "sha256": "1d5487671cb31bf091b6f94f5e69dc379c2ce337c20118d26ee04bc44ffd1d54"
+    }
+  },
+  {
+    "name": "configured-pair-5-text-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2251,
+      "sha256": "b868ff21a6aeeb5a96d5dd4def063167e7ce6d4be04d1cc6a3abad0f131ee701"
+    }
+  },
+  {
+    "name": "configured-pair-6-lexicon-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2219,
+      "sha256": "28c46c4abfef77e95c287e98758ba8bb7fb454f1161c4f33190003286c527f7e"
+    }
+  },
+  {
+    "name": "configured-pair-6-lexicon-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2220,
+      "sha256": "d4af31ef6540474ee644b84bb49d067fa7fd3a1ec46232681ea94f33ff54443a"
+    }
+  },
+  {
+    "name": "configured-pair-6-text-control",
+    "arm": "control",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "control"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2249,
+      "sha256": "4d7af3be59f469d6d2bbe5108b6cb0127ec3dfe3a96f893ffcc09bd6523f10cf"
+    }
+  },
+  {
+    "name": "configured-pair-6-text-candidate",
+    "arm": "candidate",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/text-perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+    "environmentOverrides": {
+      "Q18_GATE_ARM": "candidate"
+    },
+    "compiledSourceEligible": null,
+    "code": 1,
+    "signal": null,
+    "log": {
+      "bytes": 2250,
+      "sha256": "752db7c058ec36da58f7e92a20722472709c0af43c3db618690b64ec6a467a1f"
+    }
+  }
+]

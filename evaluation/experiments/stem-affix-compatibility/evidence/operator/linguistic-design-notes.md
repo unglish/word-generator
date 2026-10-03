@@ -1,0 +1,9 @@
+# Q18 model requirements
+
+The source audit identifies missing category contracts and independent affix selection. An implementation must add typed stem categories, sense-specific affix input/output transitions, and a declared order of morphological construction. Written prefix–root–suffix order alone does not settle the order of category transitions.
+
+Hay and Plag (2004) investigate 15 English suffixes and 210 potential two-suffix combinations. They argue that selectional restrictions and processing constraints both affect combinability. Their examples distinguish nominalization with -ity from -ness and show why broad affix strata alone are insufficient. This motivates explicit per-affix contracts, but does not supply an exhaustive table for our inventory. [Author-hosted paper](https://www.anglistik3.hhu.de/fileadmin/redaktion/Fakultaeten/Philosophische_Fakultaet/Anglistik_und_Amerikanistik/Ang3_Linguistics/Dateien/Detailseiten/Plag/2020/WHAT_CONSTRAINS_POSSIBLE_SUFFIX_COMBINATIONS_.pdf).
+
+Implementation inference: category compatibility is one layer of a richer selection policy. It cannot establish semantic compatibility, lexical attestation, productivity or human preference. Generated root categories are model assignments and must be traced as such. The experiment should identify those limits and retain phonological and spelling constraints rather than replacing them with category checks.
+
+Before treatment: enumerate all configured positive-weight paths and their sense/category assignments, register the construction order and weights, authenticate the baseline, and freeze the candidate measurements. Verify every allowed path remains eligible and every prohibited transition is absent, including the combined prefix/suffix template. Omitted-policy output and RNG parity require separate public-API evidence. Do not infer category from the generated word ending or silently omit unsupported affixes.

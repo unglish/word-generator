@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "words": 400000,
+  "results": [
+    {
+      "stage": "preflight",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--test",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/capture-tools/preflight.test.mjs"
+      ],
+      "exitCode": 0
+    },
+    {
+      "stage": "default",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/capture-tools/freeze-capture.mjs",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+        "candidate",
+        "default",
+        "11bdf6a90ed28e1aba09c40b3901c54c6308437f",
+        "/private/tmp/q18-candidate-default-v1"
+      ],
+      "exitCode": 0
+    },
+    {
+      "stage": "active",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/capture-tools/freeze-capture.mjs",
+        "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator",
+        "candidate",
+        "active",
+        "11bdf6a90ed28e1aba09c40b3901c54c6308437f",
+        "/private/tmp/q18-candidate-active-v1"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "tools": {
+    "freeze-capture.mjs": "e04522055152a0dc6522789698c37e07a18ee8d8234b24a8ec6fe79402096ed8",
+    "measurement.json": "636d2c978829c55a3540782b31c1b82f2a52b08b5b8a0f9b5ae4058f741bfd2c",
+    "preflight.test.mjs": "b66114d66e3ec11f43c2699b6cbe4375a0a697481cd3cc5222ea28cf280f346d",
+    "capture-preflight.mjs": "edc6cab401d6154283840db77a826a768d5f55428c474f8ff3c3081cb3719e2f"
+  },
+  "scope": "Complete registered candidate captures with execution seals; independent category and provenance audits and baseline comparisons remain required."
+}

@@ -1,0 +1,51 @@
+{
+  "version": "q18-opt-in-gate-bindings-v1",
+  "measuredCandidate": "11bdf6a90ed28e1aba09c40b3901c54c6308437f",
+  "measuredControl": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "categoryProfileSha256": "51750a29cbfe89d6d9cc6c7b9fd5ab67ee9e8ec0d9203f00f2b52e3a6c0ee266",
+  "registrationTiming": "Before any original or configured gate/timing outcome. Full corpus summaries already observed and disclosed; no changes to model/profile/gate thresholds follow these observations.",
+  "quality": "Original full quality body and config; only generator, letter-helper and include import paths relocated. Both unchanged default source gates also run.",
+  "performance": "Six adjacent control/candidate pairs of original npm run test:perf; six configured pairs separately in lexicon and text mode. Original counts/seeds/floors/variance/warmup/timeouts retained. No concurrent thread-owned bulk work.",
+  "batching": "Both factories expose only generateWord. The same wrapper resolves one public RNG and calls configured public generateWord once per item. Its validation/loop overhead is explicit; these timings are not native custom-config batch timings. Original native default timing remains separate.",
+  "records": [
+    {
+      "original": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/src/core/quality.test.ts",
+      "originalSha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf",
+      "wrapper": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/quality.test.ts",
+      "wrapperSha256": "cf5bfc5f9db7de963ce02e8cadd1954b6f35e08b79bbabdab0943f2b10bdcf95",
+      "bodyUnchangedAfterImportRelocation": true
+    },
+    {
+      "original": "/Users/ryanbetts/.codex/worktrees/linguistic-q18-categories/word-generator/src/core/generate.perf.test.ts",
+      "originalSha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83",
+      "wrapper": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/stem-affix-compatibility/gate-tools/generate.perf.test.ts",
+      "wrapperSha256": "e2afbdc7725a297c0f913e8225fa04b646f4272257eaa4214636222e7b8f8f8e",
+      "bodyUnchangedAfterImportRelocation": true
+    }
+  ],
+  "timing": {
+    "pairs": 6,
+    "sampleSize": 10000,
+    "warmup": 50,
+    "seed": 42,
+    "timeoutMs": 20000,
+    "localWordsPerSecondFloor": 4500,
+    "varianceTrials": 3,
+    "varianceBatches": 5,
+    "varianceBatchSize": 200,
+    "medianVarianceLimit": 3
+  },
+  "requiredCommands": [
+    "npm test",
+    "npm run test:quality",
+    "npm run test:perf",
+    "npm run analyze:trigrams",
+    "npm run audit:trace"
+  ],
+  "diagnostics": "Original 2,000,000-word trigram and 50,000-word trace workloads on both frozen sources. Compiled-source eligibility and freshness recorded; default heap preserved and all failures retained.",
+  "retainedPreparationFailures": [
+    "Initial strict typecheck used --allowImportingTsExtensions, unsupported by the installed compiler; new adapter imports now follow the repository .js convention.",
+    "A type imported through config/language was not exported there; the adapter now references its existing defining interface, and explicit strict source checks pass.",
+    "Five preflight quote-style errors corrected mechanically; no model, counts, seeds or assertions changed."
+  ]
+}
