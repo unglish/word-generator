@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "words": 200000,
+  "streams": 20,
+  "manifest": {
+    "bytes": 180724,
+    "sha256": "657584d83f266004ad8dd7c8b2e07372e8665640b59e0586ebfb4abf47c33f62"
+  },
+  "seal": {
+    "bytes": 364443,
+    "sha256": "b5bb7fbe569318fff5093aff76fe65493efcb9305e2457bfb1582154be9bf3d5"
+  },
+  "baselineSourceCommit": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "scope": "All archive bytes and archived source/evaluator/reference/package contents authenticated; exact protocol, stream counts, effective configuration and immutable committed control matched."
+}

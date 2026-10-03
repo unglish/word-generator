@@ -1,0 +1,24 @@
+{
+  "version": "q20-parity-execution-binding-v1",
+  "measuredCandidate": "4f4c95d555a00f1d8cb44892a72e57748f377948",
+  "control": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "counts": {
+    "comparisons": 30000,
+    "publicCalls": 60000,
+    "streams": 120,
+    "nextStateProbes": 120,
+    "wordsPerPairStream": 250
+  },
+  "scheduling": "Start during Q11b captures; on their completion pause before full 400k public/independent audits and the ensuing original gates/timing, retaining live RNG objects. Resume only after Q11b gate-driver completion. No sample count, seed, output or timeout substitution.",
+  "tools": {
+    "dependency-closure.mjs": {
+      "bytes": 3458,
+      "sha256": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91"
+    },
+    "parity.mjs": {
+      "bytes": 9546,
+      "sha256": "9dc16c73289262b5f1f1c7464df965e6c9cded03f68d361155c7aa9d219a0438"
+    }
+  },
+  "scope": "Compatibility and RNG parity only; full quality measurements and human evidence remain."
+}

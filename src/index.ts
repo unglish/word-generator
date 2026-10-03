@@ -1,3 +1,6 @@
+export type { OriginAssessment, LexicalStyleConfig, LexicalStylePolicy, StyleChoice, StyleSource, StyleWeightEvidence } from "./core/lexical-style-model.js";
+export { englishStyleExperiment } from "./elements/graphemes/style-experiment.js";
+export { englishOriginSources } from "./elements/graphemes/origin-assessment.js";
 import { generateWord } from "./core/generate.js";
 import * as phonemes from "./elements/phonemes.js";
 import * as graphemes from "./elements/graphemes/index.js";

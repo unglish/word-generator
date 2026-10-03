@@ -1,3 +1,4 @@
+import type { OriginAssessment, StyleChoice } from "./core/lexical-style-model.js";
 import type { FinalSpelling } from "./core/final-spelling.js";
 import type { FinalPhones, PhoneIdentitySyllable } from "./core/final-phones.js";
 import type { BaseSpelling } from "./core/base-spelling.js";
@@ -174,11 +175,14 @@ export interface Grapheme {
   /** The written letter(s) (e.g. `"sh"` for /ʃ/, `"ough"` for /oʊ/). */
   form: string;
   /**
-   * Index into the ORIGINS array indicating the grapheme's etymological source.
+   * Deprecated unsourced legacy code, retained for compatibility. It cannot
+   * establish a generated word's etymology; consult originAssessment where present.
    * 0 = Germanic, 1 = French, 2 = Greek, 3 = Latin, 4 = Other.
    * @see ORIGINS in `elements/graphemes`
    */
   origin: number;
+  /** Structured uncertainty and example-specific evidence; not a generated-word history. */
+  originAssessment?: OriginAssessment;
   /** Baseline frequency weight (higher → more likely to be chosen). */
   frequency: number;
 
@@ -313,11 +317,14 @@ export interface WordGenerationOptions {
   trace?: boolean;
 }
 
+export type { OriginAssessment, LexicalStyleConfig, LexicalStylePolicy, StyleChoice } from "./core/lexical-style-model.js";
+
 /**
  * Internal context threaded through the generation pipeline.
  * @internal
  */
 export interface WordGenerationContext {
+  lexicalStyle?: StyleChoice;
   finalSpelling?: FinalSpelling;
   finalPhoneState?: { ledger: FinalPhones; ids: PhoneIdentitySyllable[] };
   /** Live base-word spelling state; internal and independent of trace collection. */

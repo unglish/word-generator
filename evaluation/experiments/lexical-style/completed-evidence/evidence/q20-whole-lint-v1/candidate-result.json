@@ -1,0 +1,15 @@
+{
+  "arm": "candidate",
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+    "run",
+    "lint"
+  ],
+  "code": 1,
+  "signal": null,
+  "startError": null,
+  "log": {
+    "bytes": 694,
+    "sha256": "d4576a3a8a004b7bed0ca9475783f083d1ae00c8623fc346cbc0e4057d83d108"
+  }
+}

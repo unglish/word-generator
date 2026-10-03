@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "artifacts": 529,
+  "wordsPerArm": 400000,
+  "independentWords": 800000,
+  "retainedStreams": 80,
+  "allRawAndSupportRehashed": true,
+  "gateOutcomes": {
+    "commands": 74,
+    "passing": 6,
+    "failed": 68,
+    "nativeTimingRuns": 12,
+    "configuredTimingRuns": 48
+  },
+  "medianNativeRoundedThroughputRatio": 0.9886453533230763,
+  "featureSelections": {
+    "control/default": {
+      "feature/f/ph/selected": 819,
+      "feature/s/ps/selected": 9,
+      "feature/n/mn/selected": 7
+    },
+    "candidate/default": {
+      "feature/f/ph/selected": 762,
+      "feature/s/ps/selected": 11,
+      "feature/n/mn/selected": 5
+    },
+    "control/active": {
+      "feature/f/ph/selected": 779,
+      "feature/s/ps/selected": 13,
+      "feature/n/mn/selected": 11
+    },
+    "candidate/active": {
+      "feature/f/ph/selected": 757,
+      "feature/s/ps/selected": 7,
+      "feature/n/mn/selected": 1
+    }
+  },
+  "scope": "Original complete evidence checked, including failures. No human quality, within-word coherence or promotion claim."
+}

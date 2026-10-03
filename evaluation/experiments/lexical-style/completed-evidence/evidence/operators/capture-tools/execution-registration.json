@@ -1,0 +1,65 @@
+{
+  "version": "q20-capture-execution-v1",
+  "candidateRoot": "/Users/ryanbetts/.codex/worktrees/linguistic-q20-style/word-generator",
+  "controlRoot": "/Users/ryanbetts/.codex/worktrees/linguistic-q11b-control/word-generator",
+  "candidateCommit": "4f4c95d555a00f1d8cb44892a72e57748f377948",
+  "controlCommit": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "preimplementation": {
+    "path": "evaluation/experiments/lexical-style/measurement-preimplementation.json",
+    "pin": {
+      "bytes": 31098,
+      "sha256": "e27370bd1ffadb9bd8e61265e3896ccf52c2f8e6537ca573896dd8001718d225"
+    }
+  },
+  "protocol": {
+    "path": "evaluation/quality/protocol.json",
+    "pin": {
+      "bytes": 1911,
+      "sha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9"
+    }
+  },
+  "activePolicy": {
+    "path": "evaluation/experiments/final-word-ownership/measurement.json",
+    "pin": {
+      "bytes": 18459,
+      "sha256": "7ee6193f4e5e5c9f79bcef9485bdc50e7df4202f0527e97f9c00459e3adeebf1"
+    }
+  },
+  "wordsPerPolicy": 200000,
+  "wordsPerArm": 400000,
+  "tools": {
+    "freeze-capture.mjs": {
+      "bytes": 10301,
+      "sha256": "fb8dc9a2abc5cea3e534614129c91873ba3c60e9a24a9491739dd243a53ecac4"
+    },
+    "dependency-closure.mjs": {
+      "bytes": 3458,
+      "sha256": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91"
+    }
+  },
+  "controlArchives": {
+    "default": {
+      "path": "/private/tmp/q11b-composed-control-default-v1",
+      "manifest": {
+        "bytes": 175354,
+        "sha256": "6b32f2339e23e0d7911154f3375cb08647ace71dc5e8795ea1735314f50d3671"
+      },
+      "seal": {
+        "bytes": 364443,
+        "sha256": "9899451193ded7c59ca126da78a0d4884b9942c72006d2b610c3407e4bab2f82"
+      }
+    },
+    "active": {
+      "path": "/private/tmp/q11b-composed-control-active-v1",
+      "manifest": {
+        "bytes": 180724,
+        "sha256": "657584d83f266004ad8dd7c8b2e07372e8665640b59e0586ebfb4abf47c33f62"
+      },
+      "seal": {
+        "bytes": 364443,
+        "sha256": "b5bb7fbe569318fff5093aff76fe65493efcb9305e2457bfb1582154be9bf3d5"
+      }
+    }
+  },
+  "scope": "Only registered exact pilot enabled; entire inventory gains structured uncertainty annotations. Omission removes only these annotation fields for configuration equivalence; all behavioral config must equal authenticated control."
+}

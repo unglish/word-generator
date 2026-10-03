@@ -1,0 +1,15 @@
+{
+  "arm": "control",
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+    "run",
+    "lint"
+  ],
+  "code": 1,
+  "signal": null,
+  "startError": null,
+  "log": {
+    "bytes": 697,
+    "sha256": "0ce0d7c415e9ba15621995ee346783ae7241e370986347bf042821bdd9a1628f"
+  }
+}

@@ -1,3 +1,5 @@
+import { compileLexicalStyle } from "./lexical-style.js";
+import { createStyledGraphemeResolver } from "./lexical-style-resolver.js";
 import { createFollowingViewGuard } from "./spelling-following-guard.js";
 import { createGraphemeSequenceModel } from "./spelling-sequence-model.js";
 import { createSequenceEvidenceSession } from "./spelling-sequence-evidence.js";
@@ -1076,7 +1078,9 @@ export function appendSilentE(
  * grapheme maps. Conditions are compiled and numeric weights checked at creation.
  */
 export function createWrittenFormGenerator(config: LanguageConfig): (context: WordGenerationContext) => void {
-  const resolveGraphemes = createGraphemeResolver(config);
+  const resolveBaseGraphemes = createGraphemeResolver(config);
+  const styleRuntime = config.lexicalStyle
+    ? compileLexicalStyle(config.lexicalStyle.policy, config.lexicalStyle.id, config.graphemes) : null;
   const followingGuard = config.followingLetters ? createFollowingViewGuard(config, config.followingLetters.targets) : undefined;
   const allCompiledRules = compileSpellingRules(config.spellingRules ?? []);
   const syllableRules = allCompiledRules.filter(r => r.scope === "syllable" || r.scope === "both");
@@ -1100,8 +1104,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   }
   const splitRuntime = splitPolicy ? createSplitSpellingRuntime(config, splitPolicy.supports, splitPolicy.routes, sharedRules!) : undefined;
   const completionPlanner = splitPolicy ? createCompletionPlanner(config, splitPolicy.supports) : undefined;
-  const planCoverage = preservePhones ? createSpellingCoveragePlanner(config, resolveGraphemes, doublingModel, sharedRules) : undefined;
-  const normalizer = preservePhones ? createSpellingNormalizer(config, resolveGraphemes, doublingModel, sharedRules) : undefined;
+  const baseCoverage = preservePhones ? createSpellingCoveragePlanner(config, resolveBaseGraphemes, doublingModel, sharedRules) : undefined;
+  const baseNormalizer = preservePhones ? createSpellingNormalizer(config, resolveBaseGraphemes, doublingModel, sharedRules) : undefined;
 
   // Silent-e pre-compilation
   const silentEConfig = config.silentE;
@@ -1113,6 +1117,16 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
   return (context: WordGenerationContext) => {
     const rand = context.rand;
+    const styleChoice = styleRuntime ? context.lexicalStyle ?? styleRuntime.choose(rand) : undefined;
+    if (styleChoice) {
+      context.lexicalStyle = styleChoice;
+      if (context.trace) context.trace.lexicalStyle = structuredClone(styleChoice);
+    }
+    const resolveGraphemes = createStyledGraphemeResolver(resolveBaseGraphemes, styleRuntime, styleChoice);
+    const planCoverage = styleChoice && preservePhones
+      ? createSpellingCoveragePlanner(config, resolveGraphemes, doublingModel, sharedRules) : baseCoverage;
+    const normalizer = styleChoice && preservePhones
+      ? createSpellingNormalizer(config, resolveGraphemes, doublingModel, sharedRules) : baseNormalizer;
     const { syllables, written } = context.word;
     const tracing = !!context.trace;
     const traceUnits: TraceUnitSeed[] = [];
@@ -1137,7 +1151,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     })), tracing, preservePhones, preservePhones, sharedRules, config, sharedRuntime, splitRuntime, completionPlanner, followingGuard);
     const boundaryContexts = preservePhones ? spellingBoundaryContexts(baseSpelling.current().phones) : undefined;
     const sequence = config.followingLetters ? createSequenceEvidenceSession(createGraphemeSequenceModel(config,
-      boundaryContexts!.map(entry => ({ grapheme: entry.slot, doubling: entry.doubling })), config.followingLetters.targets)) : undefined;
+      boundaryContexts!.map(entry => ({ grapheme: entry.slot, doubling: entry.doubling })), config.followingLetters.targets,
+      styleChoice ? resolveGraphemes : undefined)) : undefined;
     const spellingChoices: SpellingChoiceState[] = [];
     const selectionStates: HistoricalSelectionState[] = [];
     const normalizeCollision = (site: NormalizationSite, rightIndex: number): boolean => {
@@ -1233,7 +1248,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       };
       if (normalizer) selectionStates.push({ previousForm: prevGraphemeForm ?? null, doublingCount: doublingCtx.doublingCount,
         nucleusForm: currentNucleusForm, previousNucleusForm: prevNucleusForm });
-      const { candidates, ordinary, conditioned, positional, weights, positiveCount, fallback, preferenceRelaxed } = resolveGraphemes(
+      const { candidates, ordinary, conditioned, positional, weights, styleWeights, positiveCount, fallback, preferenceRelaxed } = resolveGraphemes(
         graphemeSlot, { previousForm: prevGraphemeForm, doublingCount: doublingCtx.doublingCount });
       const conditionedChoice = sequence?.next(rand());
       const selectedSource = conditionedChoice ? config.graphemes[conditionedChoice.choice.inventoryIndex] : undefined;
@@ -1293,6 +1308,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           phoneme: phoneme.sound,
           position,
           syllableIndex,
+          ...(styleWeights ? { styleWeights: structuredClone(styleWeights) } : {}),
           candidates: candidates.map(g => g.form),
           afterCondition: conditioned.map(g => g.form),
           afterPosition: positional.map(g => g.form),

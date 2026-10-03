@@ -1,3 +1,4 @@
+import type { StyleChoice, StyleWeightEvidence } from "./lexical-style-model.js";
 import type { FinalNucleusTrace } from "./final-nucleus.js";
 import type { GapSpellingPassTrace } from "./gap-spelling.js";
 import type { PronunciationPassTrace } from "./pronounce.js";
@@ -38,6 +39,8 @@ export interface DoublingTrace {
 }
 
 export interface GraphemeTrace {
+  /** Local positive legal weights before sequence conditioning or later repairs. */
+  styleWeights?: StyleWeightEvidence[];
   /** Replaces legacy weight/roll and doubling sampling evidence when present. */
   conditionedSelection?: SequenceSelectionEvidence;
   /** Stable grapheme-decision index in flattened phoneme order. */
@@ -297,6 +300,7 @@ export interface FinalWordProvenance {
 }
 
 export interface WordTrace {
+  lexicalStyle?: StyleChoice;
   writerInput?: Syllable[];
   writerOutput?: { clean: string; hyphenated: string };
   gapSpellingPass?: GapSpellingPassTrace;
@@ -341,6 +345,7 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 }
 
 export class TraceCollector {
+  lexicalStyle?: StyleChoice;
   writerInput?: Syllable[];
   writerOutput?: { clean: string; hyphenated: string };
   gapSpellingPass?: GapSpellingPassTrace;
@@ -393,6 +398,7 @@ export class TraceCollector {
 
   toTrace(morphApplied: boolean): WordTrace {
     return {
+      ...(this.lexicalStyle ? { lexicalStyle: structuredClone(this.lexicalStyle) } : {}),
       syllableCount: this.syllableCount,
       attempts: this.attempts,
       morphology: this.morphologyTrace,

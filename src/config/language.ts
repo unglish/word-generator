@@ -1,3 +1,5 @@
+import { compileLexicalStyle } from "../core/lexical-style.js";
+import type { LexicalStyleConfig } from "../core/lexical-style-model.js";
 import type { SplitVowelSupport, SplitVowelRoutes } from "../core/spelling-split-policy.js";
 import { Phoneme, Grapheme, GraphemeCondition, GraphemeReading } from "../types.js";
 // ---------------------------------------------------------------------------
@@ -731,6 +733,8 @@ export interface LanguageConfig {
    */
   phonemeMaps: BySyllablePosition<Map<string, Phoneme[]>>;
 
+  /** Optional root spelling style; omission and valid zero strength preserve legacy RNG. */
+  lexicalStyle?: LexicalStyleConfig;
   /** Grapheme (spelling) mappings for each phoneme */
   graphemes: Grapheme[];
   /**
@@ -1265,6 +1269,7 @@ export function expandClusterConstraintBans(
  * Call this during development or at startup to catch config errors early.
  */
 export function validateConfig(config: LanguageConfig): void {
+  if (config.lexicalStyle) compileLexicalStyle(config.lexicalStyle.policy, config.lexicalStyle.id, config.graphemes);
   // Check phonemes ⊇ phonemeMaps values
   const phonemeSet = new Set(config.phonemes);
   for (const position of ["onset", "nucleus", "coda"] as const) {

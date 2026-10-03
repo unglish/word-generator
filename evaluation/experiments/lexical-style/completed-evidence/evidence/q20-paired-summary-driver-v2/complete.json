@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "wordsPerArm": 400000,
+  "pairedWords": 400000,
+  "inputPins": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-followup-v2/run_paired_summary_when_quiet.py": {
+      "bytes": 3072,
+      "sha256": "2b7c10bbc0e972355d6dbaf2a5d7b0cd2f3ecd46587b5435cfc67a111d8e3206"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/summary-tools/compare-summaries.mjs": {
+      "bytes": 8035,
+      "sha256": "af1a2c5c0b04014b55a4211c550b252aa7a1ee4604327479130b14090ab7b5cd"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/summary-tools/dependency-closure.mjs": {
+      "bytes": 3458,
+      "sha256": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/summary-tools/paired-changes.mjs": {
+      "bytes": 2169,
+      "sha256": "d492782fae0447ce9cd5865ac185eb0cdf3ae4f7f0a080d595a0b4cbd00ed129"
+    }
+  },
+  "gateCompletion": {
+    "bytes": 5125,
+    "sha256": "ee400bb217d154d9473772a435e78a72f7f9239689bebc6b17a7023be2b94b3a"
+  },
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "--import",
+    "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/summary-tools/compare-summaries.mjs"
+  ],
+  "exitCode": 0,
+  "comparisonCompletion": {
+    "bytes": 786698,
+    "sha256": "e82f78fb1583666d640af939cd9299629b80903e91e010da19e1321c081812d6"
+  },
+  "scope": "Full common-evaluator/ordinal-pair summaries; independent law and feature/source survival remain separately bound. Extra RNG draws alter stream alignment. No fixed-phone causal pairing or human-quality claim."
+}

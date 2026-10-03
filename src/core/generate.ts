@@ -1269,6 +1269,7 @@ function generateOneWord(
   let bestMorphApplied = false;
   let bestAttempt = 0;
   let bestScore = Infinity;
+  let lexicalStyle: WordGenerationContext["lexicalStyle"];
 
   // Adjust syllable count for affix syllables.
   let rootSyllableCount = syllableCount;
@@ -1345,10 +1346,12 @@ function generateOneWord(
       ...context,
       word: { syllables: lexicalRoot, written: { clean: "", hyphenated: "" }, pronunciation: "" },
       orthographySource: { kind: "lexical-root", wordSyllableStart: rootSyllableStart },
+      ...(lexicalStyle ? { lexicalStyle } : {}),
     };
     traceCollector?.beforeStage("generateWrittenForm", lexicalRoot);
     if (traceCollector) traceCollector.writerInput = structuredClone(lexicalRoot);
     rt.generateWrittenForm(rootContext);
+    lexicalStyle = rootContext.lexicalStyle;
     context.word.written = rootContext.word.written;
     context.baseSpelling = rootContext.baseSpelling;
     if (traceCollector) {

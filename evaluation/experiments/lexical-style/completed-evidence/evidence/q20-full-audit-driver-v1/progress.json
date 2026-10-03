@@ -1,0 +1,27 @@
+[
+  {
+    "stage": "default-public-replay",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/replay-archive.mjs",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q20-style/word-generator",
+      "4f4c95d555a00f1d8cb44892a72e57748f377948",
+      "/private/tmp/q20-candidate-default-v1",
+      "/private/tmp/q20-full-audit-driver-v1/default-public-replay.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "stage": "control-default-independent",
+    "command": [
+      "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/audit_archive.py",
+      "control",
+      "default"
+    ],
+    "exitCode": 1
+  }
+]

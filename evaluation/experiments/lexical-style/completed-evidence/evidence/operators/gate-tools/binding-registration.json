@@ -1,0 +1,89 @@
+{
+  "version": "q20-style-gate-bindings-v1",
+  "measuredControl": "1159465fe6c10f55a97e8c5851e8a75c604450e7",
+  "measuredCandidate": "4f4c95d555a00f1d8cb44892a72e57748f377948",
+  "measurementPath": "/Users/ryanbetts/.codex/worktrees/linguistic-q20-style/word-generator/evaluation/experiments/lexical-style/measurement-preimplementation.json",
+  "measurement": {
+    "bytes": 31098,
+    "sha256": "e27370bd1ffadb9bd8e61265e3896ccf52c2f8e6537ca573896dd8001718d225"
+  },
+  "gateSourcePins": {
+    "src/core/quality.test.ts": {
+      "bytes": 9786,
+      "sha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf"
+    },
+    "src/core/generate.perf.test.ts": {
+      "bytes": 2902,
+      "sha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83"
+    },
+    "vitest.config.ts": {
+      "bytes": 1023,
+      "sha256": "be75bb074a2f98e8ac5080a6f381f2bec8f5b20e3b8d3bb79ae2c0e3fad05e4f"
+    },
+    "vitest.quality.config.ts": {
+      "bytes": 188,
+      "sha256": "7e65e6e8e355db02d482e5892daf79ba400e97d0dd4c33ec70a07645d6f7f342"
+    },
+    "vitest.perf.config.ts": {
+      "bytes": 206,
+      "sha256": "6556fff991ef112563aa2d342ac550fd3d1db70a9c788bba96e43f8e51fa1455"
+    },
+    "scripts/analyze-cmu-trigrams.mjs": {
+      "bytes": 9642,
+      "sha256": "a34255fefc73b261a237b579c97c70c702d3e341d744e48b1ed5b1df7fe8fe46"
+    },
+    "scripts/trace-audit.mjs": {
+      "bytes": 11432,
+      "sha256": "4fecc411e7dfd8fbc3af99880ee7d7c6fe5774d231998f482a29e19c5951e5eb"
+    }
+  },
+  "records": [
+    {
+      "original": "/Users/ryanbetts/.codex/worktrees/linguistic-q20-style/word-generator/src/core/quality.test.ts",
+      "originalSha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf",
+      "wrapper": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/quality.test.ts",
+      "wrapperSha256": "30cb6c68da34f676b11691e35f702338e6469300dbca9e4b55975556cad319ec",
+      "bodyUnchangedAfterImportRelocation": true
+    },
+    {
+      "original": "/Users/ryanbetts/.codex/worktrees/linguistic-q20-style/word-generator/src/core/generate.perf.test.ts",
+      "originalSha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83",
+      "wrapper": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/generate.perf.test.ts",
+      "wrapperSha256": "e2afbdc7725a297c0f913e8225fa04b646f4272257eaa4214636222e7b8f8f8e",
+      "bodyUnchangedAfterImportRelocation": true
+    }
+  ],
+  "registrationTiming": "Before any Q20 full candidate capture, original/configured gate or timing result. Compatibility, baseline authentication and development operator fixtures already observed; no generator/strength/threshold changes follow these observations.",
+  "quality": "Original quality body and config unchanged except generator/letter-helper/include import paths. Original default source gates and configured gates on both spelling policies all run.",
+  "batching": "The same public single-word-loop adapter in both arms; validation/loop overhead explicit. Native source default batches timed separately. No native configured-batch timing claim.",
+  "timing": {
+    "pairs": 6,
+    "sampleSize": 10000,
+    "warmup": 50,
+    "seed": 42,
+    "timeoutMs": 20000,
+    "localWordsPerSecondFloor": 4500,
+    "varianceTrials": 3,
+    "varianceBatches": 5,
+    "varianceBatchSize": 200,
+    "medianVarianceLimit": 3
+  },
+  "commands": 74,
+  "nativeTimingRuns": 12,
+  "configuredTimingRuns": 48,
+  "configuredPolicies": [
+    "default",
+    "active"
+  ],
+  "configuredModes": [
+    "lexicon",
+    "text"
+  ],
+  "policyCoverage": "The preimplementation request for configured lexicon/text pairs is instantiated separately on default and registered active Q14b spelling; six adjacent control/candidate pairs in every policy/mode. No count is reduced.",
+  "quietPrerequisites": [
+    "Full Q20 capture/public/independent audit",
+    "Full Q21 calibration, independent reconstruction and registered decision report",
+    "Q11b original gates and paired summaries"
+  ],
+  "failures": "All original sample counts, seeds, timeouts, floors, heap and variance limits remain; command failures are retained as failures. Completion marker certifies execution and provenance only."
+}

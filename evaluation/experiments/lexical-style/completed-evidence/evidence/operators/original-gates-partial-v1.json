@@ -1,0 +1,286 @@
+{
+  "status": "partial-original-gate-evidence-not-full74command-verdict",
+  "registeredCommands": 74,
+  "observedCompletedCommands": 33,
+  "originalUnitSuites": {
+    "control": {
+      "failed": 17,
+      "passed": 1066,
+      "skipped": 4,
+      "total": 1087,
+      "failureHeaders": [
+        "src/phonotactic/phonotactic.test.ts > phonotactic quality gates",
+        "src/core/base-spelling.test.ts > exact base-spelling provenance > records a cut within th at its actual source cell without claiming it is repaired",
+        "src/core/base-spelling.test.ts > exact base-spelling provenance > exposes the untraced join, boundary insertion and post-join vowel cap",
+        "src/core/base-spelling.test.ts > exact base-spelling provenance > records empty emission separately from phoneme deletion",
+        "src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies",
+        "src/core/coda-extensions.test.ts > coda extensions preserve configured legality > produces no adjacent duplicate coda phones in a 20,000-word bare stream",
+        "src/core/generate.test.ts > Word Generator > risingCodaDrop policy gates rising-coda drop events",
+        "src/core/lexical.test.ts > lexical composition before surface realization > has exactly one primary and no primary reduced vowels in a default affixed sample",
+        "src/core/ngram-quality.test.ts > N-gram quality gates > generate sample",
+        "src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented",
+        "src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 13",
+        "src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 137",
+        "src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 4099",
+        "src/core/stress-repair.test.ts > stress-aware nucleus re-pick > standalone monosyllables retain lexical stress without an IPA stress mark",
+        "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs",
+        "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs",
+        "src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs",
+        "src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves assembly across a continuous 10,000-word public-API stream"
+      ],
+      "log": {
+        "bytes": 54541,
+        "sha256": "a50a5f12421c2223feb2e3410e51a8982f6d702868dd5675618f529c6d59b0e8"
+      },
+      "hasOriginal30000msMorphologyTimeout": true
+    },
+    "candidate": {
+      "failed": 17,
+      "passed": 1079,
+      "skipped": 4,
+      "total": 1100,
+      "failureHeaders": [
+        "src/phonotactic/phonotactic.test.ts > phonotactic quality gates",
+        "src/core/base-spelling.test.ts > exact base-spelling provenance > records a cut within th at its actual source cell without claiming it is repaired",
+        "src/core/base-spelling.test.ts > exact base-spelling provenance > exposes the untraced join, boundary insertion and post-join vowel cap",
+        "src/core/base-spelling.test.ts > exact base-spelling provenance > records empty emission separately from phoneme deletion",
+        "src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies",
+        "src/core/coda-extensions.test.ts > coda extensions preserve configured legality > produces no adjacent duplicate coda phones in a 20,000-word bare stream",
+        "src/core/generate.test.ts > Word Generator > risingCodaDrop policy gates rising-coda drop events",
+        "src/core/lexical.test.ts > lexical composition before surface realization > has exactly one primary and no primary reduced vowels in a default affixed sample",
+        "src/core/ngram-quality.test.ts > N-gram quality gates > generate sample",
+        "src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented",
+        "src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 13",
+        "src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 137",
+        "src/core/spelling-normalization.test.ts > local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 4099",
+        "src/core/stress-repair.test.ts > stress-aware nucleus re-pick > standalone monosyllables retain lexical stress without an IPA stress mark",
+        "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs",
+        "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs",
+        "src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs",
+        "src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves assembly across a continuous 10,000-word public-API stream"
+      ],
+      "log": {
+        "bytes": 54954,
+        "sha256": "13407f81503dd16c7fb2b71951bb73d3d4653d7fa1664ab78c221f0d62bd2e48"
+      },
+      "hasOriginal30000msMorphologyTimeout": true
+    }
+  },
+  "sameFailedUnitHeaders": true,
+  "originalQuality": {
+    "exactBytesIdentical": true,
+    "control": {
+      "bytes": 477,
+      "sha256": "725d05feafeb09641aebc130d17cf76530b48fc48915b354839bb44196482a3f"
+    },
+    "candidate": {
+      "bytes": 477,
+      "sha256": "725d05feafeb09641aebc130d17cf76530b48fc48915b354839bb44196482a3f"
+    },
+    "gates": {
+      "fiveConsecutiveConsonants": 73
+    }
+  },
+  "nativeTiming": {
+    "commands": 12,
+    "failures": 12,
+    "allVarianceGatesPassed": true,
+    "roundingOnly": true,
+    "pairs": [
+      {
+        "name": "native-pair-1-control",
+        "arm": "control",
+        "pair": 1,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3179,
+        "roundedElapsedMs": 3146,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1720,
+          "sha256": "63606ae023edccefaa9952384eec9bce63801f351945ad622a971e8b3673de2f"
+        }
+      },
+      {
+        "name": "native-pair-1-candidate",
+        "arm": "candidate",
+        "pair": 1,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3136,
+        "roundedElapsedMs": 3189,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1715,
+          "sha256": "8d8a44444852fd84370663bb22a28af16809e2eacf1ba9ae4546557a19404e2a"
+        }
+      },
+      {
+        "name": "native-pair-2-control",
+        "arm": "control",
+        "pair": 2,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3141,
+        "roundedElapsedMs": 3184,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1720,
+          "sha256": "4ef02f719e51e4d4fbed1cf918c8f9c168a8e180a7be42b55e8d83110ced379e"
+        }
+      },
+      {
+        "name": "native-pair-2-candidate",
+        "arm": "candidate",
+        "pair": 2,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3176,
+        "roundedElapsedMs": 3148,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1717,
+          "sha256": "754a9bd1c3887921f370d99a8069d409cd13ee692bac5226845b4013f998f813"
+        }
+      },
+      {
+        "name": "native-pair-3-control",
+        "arm": "control",
+        "pair": 3,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3143,
+        "roundedElapsedMs": 3182,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1720,
+          "sha256": "4f6827aa57f7fb00d97d6c114cd35a5f8e14dc376b8875eed277c9cd261aee22"
+        }
+      },
+      {
+        "name": "native-pair-3-candidate",
+        "arm": "candidate",
+        "pair": 3,
+        "exitCode": 1,
+        "roundedWordsPerSec": 2951,
+        "roundedElapsedMs": 3388,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1717,
+          "sha256": "257e5e3513b8f65dc024e4ad1c4fad710210dabbe22abcff017a9a659e55bcad"
+        }
+      },
+      {
+        "name": "native-pair-4-control",
+        "arm": "control",
+        "pair": 4,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3158,
+        "roundedElapsedMs": 3166,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1718,
+          "sha256": "30b0614802366902d1d454099f648fe7cf5fcdb9fa0a1b6d66f1b18cc46d850f"
+        }
+      },
+      {
+        "name": "native-pair-4-candidate",
+        "arm": "candidate",
+        "pair": 4,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3129,
+        "roundedElapsedMs": 3196,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1715,
+          "sha256": "9abbb830c5973a58843b5b8295786b9464337fdb2ea720be6d431264b875f965"
+        }
+      },
+      {
+        "name": "native-pair-5-control",
+        "arm": "control",
+        "pair": 5,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3152,
+        "roundedElapsedMs": 3173,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1720,
+          "sha256": "0b14eac4c17e2c085fd2bcc34d1f13e08383578be907f8dfa8a5465339864547"
+        }
+      },
+      {
+        "name": "native-pair-5-candidate",
+        "arm": "candidate",
+        "pair": 5,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3079,
+        "roundedElapsedMs": 3248,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1715,
+          "sha256": "b1a627cf7660dba7063e6dfc2cb1b0c95d29926d7d0d4e6aa1502cc1c7002438"
+        }
+      },
+      {
+        "name": "native-pair-6-control",
+        "arm": "control",
+        "pair": 6,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3154,
+        "roundedElapsedMs": 3171,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1720,
+          "sha256": "a6ae9e19e3beb067bca550a6232e582e5680a3256f4c9726202c38929aa4bac4"
+        }
+      },
+      {
+        "name": "native-pair-6-candidate",
+        "arm": "candidate",
+        "pair": 6,
+        "exitCode": 1,
+        "roundedWordsPerSec": 3147,
+        "roundedElapsedMs": 3178,
+        "originalSampleWords": 10000,
+        "throughputFloor": 4500,
+        "varianceGatePassed": true,
+        "log": {
+          "bytes": 1715,
+          "sha256": "52a39d0176418d8ac6260bd5464fbad8f43d89bab173a7dde901654d0ba14b12"
+        }
+      }
+    ],
+    "candidateControlRatios": [
+      0.9864737338785782,
+      1.0111429481056988,
+      0.9389118676423799,
+      0.9908169727675744,
+      0.9768401015228426,
+      0.9977805960684845
+    ],
+    "medianRoundedRatio": 0.9886453533230763
+  },
+  "sourceProgress": {
+    "bytes": 22962,
+    "sha256": "1487f92a2c0d111611dfeadf987add40e61eca249aa289595c687136642644ec"
+  },
+  "scope": "Full original unit/quality and all six native timing pairs only. Configured quality/performance and final74command verification remain distinct. No surface-outlier causal diagnosis, external-load attribution, human-quality gain or promotion."
+}

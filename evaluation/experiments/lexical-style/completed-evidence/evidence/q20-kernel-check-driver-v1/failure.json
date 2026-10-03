@@ -1,0 +1,4 @@
+{
+  "error": "kernel-lint failed; logs retained and no kernel-passing claim",
+  "type": "RuntimeError"
+}

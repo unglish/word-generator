@@ -1,0 +1,70 @@
+[
+  {
+    "stage": "default-public-replay",
+    "exitCode": 0,
+    "reused": true,
+    "report": "/private/tmp/q20-full-audit-driver-v1/default-public-replay.json",
+    "pin": {
+      "bytes": 763913,
+      "sha256": "443c9bbfef15b299605db6ff7b9d0e9f3721fe5186fb6a911767f70f16a8a90c"
+    }
+  },
+  {
+    "stage": "control-default-independent",
+    "command": [
+      "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-followup-v2/tools/audit_archive.py",
+      "control",
+      "default"
+    ],
+    "exitCode": 0
+  },
+  {
+    "stage": "candidate-default-independent",
+    "command": [
+      "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-followup-v2/tools/audit_archive.py",
+      "candidate",
+      "default"
+    ],
+    "exitCode": 0
+  },
+  {
+    "stage": "active-public-replay",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/replay-archive.mjs",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q20-style/word-generator",
+      "4f4c95d555a00f1d8cb44892a72e57748f377948",
+      "/private/tmp/q20-candidate-active-v1",
+      "/private/tmp/q20-full-audit-driver-v2/active-public-replay.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "stage": "control-active-independent",
+    "command": [
+      "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-followup-v2/tools/audit_archive.py",
+      "control",
+      "active"
+    ],
+    "exitCode": 0
+  },
+  {
+    "stage": "candidate-active-independent",
+    "command": [
+      "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-followup-v2/tools/audit_archive.py",
+      "candidate",
+      "active"
+    ],
+    "exitCode": 0
+  }
+]

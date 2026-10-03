@@ -2,6 +2,9 @@
  * Grapheme inventory barrel — re-exports the combined grapheme array and
  * pre-computed position maps used by the written-form generator.
  */
+import { withEnglishOriginAssessments } from "./origin-assessment.js";
+export { englishOriginSources } from "./origin-assessment.js";
+export { englishStyleExperiment } from "./style-experiment.js";
 import { Grapheme } from "../../types.js";
 import { vowelGraphemes } from "./vowels.js";
 import { diphthongGraphemes } from "./diphthongs.js";
@@ -41,7 +44,7 @@ function withPositions(items: Grapheme[], scope: "segment" | "syllable"): Graphe
   });
 }
 
-export const graphemes: Grapheme[] = withEnglishReadings([
+export const graphemes: Grapheme[] = withEnglishOriginAssessments(withEnglishReadings([
   ...withPositions(vowelGraphemes, "syllable"),
   ...withPositions(diphthongGraphemes, "syllable"),
   ...withPositions(rhoticGraphemes, "syllable"),
@@ -66,7 +69,7 @@ export const graphemes: Grapheme[] = withEnglishReadings([
     startWord: 1, midWord: 0, endWord: 0, isolatedSyllableWeight: 5,
     condition: { leftContext: ["g"] },
   },
-]);
+]), ORIGINS);
 
 export type GraphemeMaps = {
   onset: Map<string, Grapheme[]>;

@@ -1,0 +1,12 @@
+{
+  "report": "/private/tmp/q20-full-audit-driver-v1/default-public-replay.json",
+  "pin": {
+    "bytes": 763913,
+    "sha256": "443c9bbfef15b299605db6ff7b9d0e9f3721fe5186fb6a911767f70f16a8a90c"
+  },
+  "originalDriverBefore": {
+    "bytes": 3376,
+    "sha256": "f569210ad1387d89ca806903fba5cbf935c97795addfc71cc5d7febfb37a51b6"
+  },
+  "scope": "Reused successful complete 200000-word public replay after authenticating every original operator/source/dependency/runtime/archive input. No public generator or captured bytes changed."
+}
