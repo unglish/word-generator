@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "corruptions": 4,
+  "results": [
+    {
+      "case": "wrong-gate-count",
+      "rejected": true,
+      "error": "AssertionError()",
+      "preservedPackage": "/private/tmp/q20-publication-corruptions-v1/wrong-gate-count"
+    },
+    {
+      "case": "forged-native-pass",
+      "rejected": true,
+      "error": "AssertionError()",
+      "preservedPackage": "/private/tmp/q20-publication-corruptions-v1/forged-native-pass"
+    },
+    {
+      "case": "missing-full-stream",
+      "rejected": true,
+      "error": "AssertionError()",
+      "preservedPackage": "/private/tmp/q20-publication-corruptions-v1/missing-full-stream"
+    },
+    {
+      "case": "corrupted-log-byte",
+      "rejected": true,
+      "error": "AssertionError('evidence/q20-gates-v1/original-candidate-unit.log.gz')",
+      "preservedPackage": "/private/tmp/q20-publication-corruptions-v1/corrupted-log-byte"
+    }
+  ],
+  "scope": "Whole-package corrupted bytes, counts, self-consistent forged native verdict and missing full-stream registration rejected; no original experiment or dataset modified."
+}

@@ -1,0 +1,4 @@
+{
+  "error": "Audit failed; complete prior stages and partial evidence retained",
+  "type": "AssertionError"
+}

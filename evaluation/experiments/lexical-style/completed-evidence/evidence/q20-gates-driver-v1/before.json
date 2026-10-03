@@ -1,0 +1,68 @@
+{
+  "inputPins": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/binding-registration.json": {
+      "bytes": 4365,
+      "sha256": "e19482ae8769315fde37234b7f3596b032efa2c03e53676dc5ccf6ecb602146a"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/dependency-closure.mjs": {
+      "bytes": 3458,
+      "sha256": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/generate-text.perf.test.ts": {
+      "bytes": 2908,
+      "sha256": "7c660636e358652ad3592486e1b380bc6cda88ed4d9a0d771585384a6a79e245"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/generate.perf.test.ts": {
+      "bytes": 2903,
+      "sha256": "e2afbdc7725a297c0f913e8225fa04b646f4272257eaa4214636222e7b8f8f8e"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/generator.ts": {
+      "bytes": 2325,
+      "sha256": "35623c1ca042d920da35982ce5dc76847fdc82ffebaf4fdc466dbe27b75889e4"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/perf.config.ts": {
+      "bytes": 333,
+      "sha256": "0a35a519c0a5fd0ae3a7b2af4b1bd91c0f4ee5da3634da9059778a9b08e8566e"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/preflight.mjs": {
+      "bytes": 3293,
+      "sha256": "97cd3d0c4aa1386f5b5d10b5388a02ab4292a24cf6b6b3ed5fac89223b3545c8"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/quality.config.ts": {
+      "bytes": 306,
+      "sha256": "a60a98f6b4f80a098d117a7dfaab498bbcbb7d86250366ef9ae136fb50b939dd"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/quality.test.ts": {
+      "bytes": 9858,
+      "sha256": "30cb6c68da34f676b11691e35f702338e6469300dbca9e4b55975556cad319ec"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/run-gates.mjs": {
+      "bytes": 8585,
+      "sha256": "bf14aa9b9d15cf572c194e2b7d566802241b0ebabaa381471e2275cd99b5b612"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/text-generator.ts": {
+      "bytes": 515,
+      "sha256": "b06144a8437620a87e1d404fa592f81dc942189a8f61bb8c63d34834f60ca56c"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/text-perf.config.ts": {
+      "bytes": 338,
+      "sha256": "2cc04ca1ec1aac2379f9786a7a9bd56e224479e3d724ed8e94bbeca9dc922daa"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/gate-tools/validate-bindings.mjs": {
+      "bytes": 3687,
+      "sha256": "d197407fc0ea52406d47ae3e4e226dfee308c60cd0e80b9580bcd4aeb0295c90"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/run_gates_when_quiet.py": {
+      "bytes": 5297,
+      "sha256": "9d52b6b05eb48332ddac60ac3929bb68bb01a377733d1c8a7d69fd43f6cfb42b"
+    }
+  },
+  "prerequisites": {
+    "q20-full-audit": "/private/tmp/q20-full-audit-driver-v1/complete.json",
+    "q21-calibration": "/private/tmp/q21-calibration-driver-v1/complete.json",
+    "q21-independent": "/private/tmp/q21-calibration-independent-driver-v1/complete.json",
+    "q21-decisions": "/private/tmp/q21-calibration-summary-driver-v1/complete.json",
+    "q11b-paired": "/private/tmp/q11b-paired-summary-driver-v1/complete.json"
+  },
+  "scope": "All 74 original/configured commands: twelve native timing runs plus 48 configured timing runs, six adjacent pairs in each policy/mode. No other thread-owned bulk job during execution."
+}

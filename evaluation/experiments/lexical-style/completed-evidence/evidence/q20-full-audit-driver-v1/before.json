@@ -1,0 +1,53 @@
+{
+  "inputPins": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/capture-tools/execution-registration.json": {
+      "bytes": 2356,
+      "sha256": "9a8db062c1f8c6d49f12321d737bc52a6362376bfd9f288a1eb80b2a6f38d107"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/audit_archive.py": {
+      "bytes": 11079,
+      "sha256": "a0ab079628415d58da08ba2038ebe8409c60d95f131af004a4d17f8508cf384f"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/capture-preflight.mjs": {
+      "bytes": 4601,
+      "sha256": "596d4e351d85c5c027eb55898222abb97ed897fad6174bc6479904b503cdcda2"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/check_fixture.py": {
+      "bytes": 3464,
+      "sha256": "787c898e463649d3d63bd3a47de5df7edd92611dcdf65ad5b4a561fb23dbe5e0"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/dependency-closure.mjs": {
+      "bytes": 3458,
+      "sha256": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/feature_lineage.py": {
+      "bytes": 5867,
+      "sha256": "2cff4e6832cbbcf940f4f8710109769404c8c0150b936e911088b3ffb0b0fe88"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/final_lineage.py": {
+      "bytes": 13279,
+      "sha256": "4ad140256b470157b99a16709ab51fe076fa8a629f69031d482f762ed4ca6cc5"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/independent_model.py": {
+      "bytes": 30363,
+      "sha256": "37947d0fb6a76e118771a6e0cc41c33f7309458823b67f630e502497be8dd600"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/replay-archive.mjs": {
+      "bytes": 8733,
+      "sha256": "43bc101d5280a2bf153033cf15c31806db7e9d8c56ecd86bdefde20e5fcbeaee"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/full-audit-tools/test_independent_model.py": {
+      "bytes": 6857,
+      "sha256": "d28b7f1294d34fd6c9b636f06d3116b929435e367d5c7a63305095d12373c591"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/run_full_audits.py": {
+      "bytes": 5632,
+      "sha256": "36c36afcb1de988828c5be8ef06ccd731832bc5fe9d75cff54f479b60bc8ee86"
+    }
+  },
+  "upstream": "/private/tmp/q20-candidate-capture-driver-v1",
+  "candidateCommit": "4f4c95d555a00f1d8cb44892a72e57748f377948",
+  "candidateWords": 400000,
+  "controlWords": 400000,
+  "scope": "All 400000 candidate words public replayed; all 800000 control/candidate words independently reconstructed with their own laws. No new timing during these audits."
+}

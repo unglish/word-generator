@@ -1,0 +1,15 @@
+{
+  "inputPins": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/run_candidate_capture.py": "5f9df509872aa0cf242b5e8960a967f8b780475b2546aeb6c4d67e8b21143969",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/capture-tools/freeze-capture.mjs": "fb8dc9a2abc5cea3e534614129c91873ba3c60e9a24a9491739dd243a53ecac4",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/capture-tools/dependency-closure.mjs": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/capture-tools/execution-registration.json": "9a8db062c1f8c6d49f12321d737bc52a6362376bfd9f288a1eb80b2a6f38d107"
+  },
+  "prerequisites": {
+    "parity": "/private/tmp/q20-public-parity-v1/complete.json",
+    "q11b-gates": "/private/tmp/q11b-gates-driver-v1/complete.json",
+    "default-preflight": "/private/tmp/q20-candidate-default-v1-preflight/complete.json",
+    "active-preflight": "/private/tmp/q20-candidate-active-v1-preflight/complete.json"
+  },
+  "order": "Q11b full captures/audits/original gates and timing; Q20 complete 30k parity; then both complete Q20 candidate captures."
+}

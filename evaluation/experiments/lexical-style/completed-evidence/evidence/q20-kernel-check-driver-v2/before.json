@@ -1,0 +1,25 @@
+{
+  "inputs": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/run_kernel_checks_v2.py": {
+      "bytes": 3805,
+      "sha256": "9933be04308b326c7e17335e4f861af8263913328d5615759d86274247107b48"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/implementation/style-kernel.test.ts": {
+      "bytes": 5016,
+      "sha256": "10233f1a9423dcb60144ad87cf4008e0f362aea2f6560499b333cef2ac4e8cea"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/implementation/style-kernel.ts": {
+      "bytes": 6148,
+      "sha256": "07a11b3d66156d826d6e186b3213f9339d1e45ca0a4c8083b3eca63016621e2e"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/implementation/style-model.ts": {
+      "bytes": 1377,
+      "sha256": "423f5d007f4182711390b8f85d3f9a5b7d2ce930588fed9683bd643cc595e652"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/lexical-style/implementation/vitest.config.mts": {
+      "bytes": 282,
+      "sha256": "62dae29c2928a7281e23ddf4973ebdc26963b296f36fcf561645e2ba8938fff5"
+    }
+  },
+  "scope": "Unintegrated kernel fixtures only; no generator change, corpus or human result."
+}

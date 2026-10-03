@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "tests": 12,
+  "tools": {
+    "audit_archive.py": {
+      "bytes": 11079,
+      "sha256": "a0ab079628415d58da08ba2038ebe8409c60d95f131af004a4d17f8508cf384f"
+    },
+    "capture-preflight.mjs": {
+      "bytes": 4601,
+      "sha256": "596d4e351d85c5c027eb55898222abb97ed897fad6174bc6479904b503cdcda2"
+    },
+    "check_fixture.py": {
+      "bytes": 3464,
+      "sha256": "787c898e463649d3d63bd3a47de5df7edd92611dcdf65ad5b4a561fb23dbe5e0"
+    },
+    "dependency-closure.mjs": {
+      "bytes": 3458,
+      "sha256": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91"
+    },
+    "feature_lineage.py": {
+      "bytes": 5867,
+      "sha256": "2cff4e6832cbbcf940f4f8710109769404c8c0150b936e911088b3ffb0b0fe88"
+    },
+    "final_lineage.py": {
+      "bytes": 13279,
+      "sha256": "4ad140256b470157b99a16709ab51fe076fa8a629f69031d482f762ed4ca6cc5"
+    },
+    "independent_model.py": {
+      "bytes": 30363,
+      "sha256": "37947d0fb6a76e118771a6e0cc41c33f7309458823b67f630e502497be8dd600"
+    },
+    "replay-archive.mjs": {
+      "bytes": 8733,
+      "sha256": "43bc101d5280a2bf153033cf15c31806db7e9d8c56ecd86bdefde20e5fcbeaee"
+    },
+    "test_independent_model.py": {
+      "bytes": 6857,
+      "sha256": "d28b7f1294d34fd6c9b636f06d3116b929435e367d5c7a63305095d12373c591"
+    }
+  },
+  "exitCode": 0,
+  "scope": "Final analytical probability and corrupted authentic evidence rejection tests, Python compilation and Node parser checks. Full archive authority/replay will run only after original captures."
+}

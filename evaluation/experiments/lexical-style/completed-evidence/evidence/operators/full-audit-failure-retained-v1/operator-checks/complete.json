@@ -1,0 +1,132 @@
+{
+  "passed": true,
+  "tests": 18,
+  "tools": {
+    "audit_archive.py": {
+      "bytes": 11083,
+      "sha256": "aa9c8cf434d5b1dca26c68091f2db602673645b78f46a0d5832e9ca913149aa1"
+    },
+    "capture-preflight.mjs": {
+      "bytes": 4601,
+      "sha256": "596d4e351d85c5c027eb55898222abb97ed897fad6174bc6479904b503cdcda2"
+    },
+    "check_fixture.py": {
+      "bytes": 3464,
+      "sha256": "4930430a703735deac484b88ebd4f763182c36e2c468a0fb7b63e2953bed6632"
+    },
+    "dependency-closure.mjs": {
+      "bytes": 3458,
+      "sha256": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91"
+    },
+    "feature_lineage.py": {
+      "bytes": 7346,
+      "sha256": "0aa4617097db820040b67fe2392f2ce7238050e219db2c665b74d69ec0fb2fbe"
+    },
+    "final_lineage.py": {
+      "bytes": 13279,
+      "sha256": "4ad140256b470157b99a16709ab51fe076fa8a629f69031d482f762ed4ca6cc5"
+    },
+    "independent_model.py": {
+      "bytes": 30363,
+      "sha256": "37947d0fb6a76e118771a6e0cc41c33f7309458823b67f630e502497be8dd600"
+    },
+    "replay-archive.mjs": {
+      "bytes": 8733,
+      "sha256": "43bc101d5280a2bf153033cf15c31806db7e9d8c56ecd86bdefde20e5fcbeaee"
+    },
+    "test_gap_lineage.py": {
+      "bytes": 2807,
+      "sha256": "7fc5746320942f5ec1d096a63293418cb03efa41a25a51042bcbc4c5b2b305be"
+    },
+    "test_independent_model.py": {
+      "bytes": 6857,
+      "sha256": "d28b7f1294d34fd6c9b636f06d3116b929435e367d5c7a63305095d12373c591"
+    }
+  },
+  "exitCode": 0,
+  "before": {
+    "audit_archive.py": {
+      "bytes": 11083,
+      "sha256": "aa9c8cf434d5b1dca26c68091f2db602673645b78f46a0d5832e9ca913149aa1"
+    },
+    "capture-preflight.mjs": {
+      "bytes": 4601,
+      "sha256": "596d4e351d85c5c027eb55898222abb97ed897fad6174bc6479904b503cdcda2"
+    },
+    "check_fixture.py": {
+      "bytes": 3464,
+      "sha256": "4930430a703735deac484b88ebd4f763182c36e2c468a0fb7b63e2953bed6632"
+    },
+    "dependency-closure.mjs": {
+      "bytes": 3458,
+      "sha256": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91"
+    },
+    "feature_lineage.py": {
+      "bytes": 7346,
+      "sha256": "0aa4617097db820040b67fe2392f2ce7238050e219db2c665b74d69ec0fb2fbe"
+    },
+    "final_lineage.py": {
+      "bytes": 13279,
+      "sha256": "4ad140256b470157b99a16709ab51fe076fa8a629f69031d482f762ed4ca6cc5"
+    },
+    "independent_model.py": {
+      "bytes": 30363,
+      "sha256": "37947d0fb6a76e118771a6e0cc41c33f7309458823b67f630e502497be8dd600"
+    },
+    "replay-archive.mjs": {
+      "bytes": 8733,
+      "sha256": "43bc101d5280a2bf153033cf15c31806db7e9d8c56ecd86bdefde20e5fcbeaee"
+    },
+    "test_gap_lineage.py": {
+      "bytes": 2807,
+      "sha256": "7fc5746320942f5ec1d096a63293418cb03efa41a25a51042bcbc4c5b2b305be"
+    },
+    "test_independent_model.py": {
+      "bytes": 6857,
+      "sha256": "d28b7f1294d34fd6c9b636f06d3116b929435e367d5c7a63305095d12373c591"
+    }
+  },
+  "after": {
+    "audit_archive.py": {
+      "bytes": 11083,
+      "sha256": "aa9c8cf434d5b1dca26c68091f2db602673645b78f46a0d5832e9ca913149aa1"
+    },
+    "capture-preflight.mjs": {
+      "bytes": 4601,
+      "sha256": "596d4e351d85c5c027eb55898222abb97ed897fad6174bc6479904b503cdcda2"
+    },
+    "check_fixture.py": {
+      "bytes": 3464,
+      "sha256": "4930430a703735deac484b88ebd4f763182c36e2c468a0fb7b63e2953bed6632"
+    },
+    "dependency-closure.mjs": {
+      "bytes": 3458,
+      "sha256": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91"
+    },
+    "feature_lineage.py": {
+      "bytes": 7346,
+      "sha256": "0aa4617097db820040b67fe2392f2ce7238050e219db2c665b74d69ec0fb2fbe"
+    },
+    "final_lineage.py": {
+      "bytes": 13279,
+      "sha256": "4ad140256b470157b99a16709ab51fe076fa8a629f69031d482f762ed4ca6cc5"
+    },
+    "independent_model.py": {
+      "bytes": 30363,
+      "sha256": "37947d0fb6a76e118771a6e0cc41c33f7309458823b67f630e502497be8dd600"
+    },
+    "replay-archive.mjs": {
+      "bytes": 8733,
+      "sha256": "43bc101d5280a2bf153033cf15c31806db7e9d8c56ecd86bdefde20e5fcbeaee"
+    },
+    "test_gap_lineage.py": {
+      "bytes": 2807,
+      "sha256": "7fc5746320942f5ec1d096a63293418cb03efa41a25a51042bcbc4c5b2b305be"
+    },
+    "test_independent_model.py": {
+      "bytes": 6857,
+      "sha256": "d28b7f1294d34fd6c9b636f06d3116b929435e367d5c7a63305095d12373c591"
+    }
+  },
+  "scope": "Original 12 closed-form/corruption checks unchanged plus six authentic gap override/ancestry/corruption regressions. No corpus or human substitute."
+}
