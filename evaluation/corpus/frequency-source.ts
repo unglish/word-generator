@@ -11,6 +11,15 @@ export interface FrequencyEntry {
   lowercaseCount: number;
 }
 export interface PosCount { tag: string; count: number }
+export interface LiteralPosRow {
+  line: number;
+  label: string;
+  spelling: string;
+  count: number;
+  lowercaseCount: number;
+  rawPosTags: string | null;
+  rawPosCounts: string | null;
+}
 export interface PosCategory { id: string; tags: readonly string[] }
 export const POS_CATEGORIES: readonly PosCategory[] = [
   { id: "content", tags: ["Adjective", "Adverb", "Noun", "Verb"] },
@@ -114,4 +123,31 @@ export function allocatePosTokenMass(wordCount: number, pos: readonly PosCount[]
   masses.unknown = { numerator: taggedCount ? "0" : String(wordCount), denominator: "1" };
   return { interpretation: "modeled-within-row-pos-allocation", wordCount, taggedCount,
     wordMinusTaggedCount: taggedCount === null ? null : wordCount - taggedCount, masses };
+}
+
+/** Verify the full literal workbook population against the authenticated word-form table. */
+export function bindLiteralPosRows(frequencies: readonly FrequencyEntry[], rows: readonly LiteralPosRow[]) {
+  const source = new Map(frequencies.map(entry => [entry.spelling, entry]));
+  if (source.size !== frequencies.length || rows.length !== frequencies.length) throw new Error("POS/source population differs.");
+  const result = new Map<string, { row: LiteralPosRow; counts: PosCount[] | null; allocation: TokenAllocation }>();
+  const lines = new Set<number>();
+  for (const row of rows) {
+    const frequency = source.get(row.spelling);
+    if (!frequency || row.label.toLowerCase() !== row.spelling || result.has(row.spelling)
+      || row.count !== frequency.count || row.lowercaseCount !== frequency.lowercaseCount
+      || !Number.isSafeInteger(row.line) || row.line < 2 || lines.has(row.line)) throw new Error("POS word identity/count mismatch.");
+    lines.add(row.line);
+    if ((row.rawPosTags !== null && typeof row.rawPosTags !== "string")
+      || (row.rawPosCounts !== null && typeof row.rawPosCounts !== "string")) throw new Error("Malformed literal POS fields.");
+    const tags = row.rawPosTags?.split(".");
+    const values = row.rawPosCounts?.split(".");
+    let counts: PosCount[] | null = null;
+    if (tags?.length && values?.length && values.every(value => /^\d+$/.test(value))) {
+      if (tags.length !== values.length) throw new Error("POS tag/count lengths differ.");
+      counts = tags.map((tag, index) => ({ tag, count: integer(values[index], "POS count") }));
+    }
+    const allocation = allocatePosTokenMass(row.count, counts);
+    result.set(row.spelling, { row, counts, allocation });
+  }
+  return result;
 }
