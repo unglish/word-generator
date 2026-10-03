@@ -2,7 +2,7 @@ import { repairFinalNuclei } from "./final-nucleus.js";
 import { FinalSpelling } from "./final-spelling.js";
 import { FinalPhones } from "./final-phones.js";
 import { finalizeMorphologySpelling } from "./morphology/finalize.js";
-import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, SyllableShapePlan, getPhonemePositionWeight, GenerationMode } from "../types.js";
+import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, SyllableShapePlan, GenerationMode } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints, expandClusterConstraintBans, ResolvedStressRules, resolveStressRules, resolveAspirationRules } from "../config/language.js";
@@ -24,7 +24,8 @@ import {
 } from "./length-semantics.js";
 import { TraceCollector } from "./trace.js";
 import type { CodaExtensionRejectionReason } from "./trace.js";
-import { codaShapeRejection, maximumCodaLength } from "./coda-shape.js";
+import { clusterCandidateRejection, getClusterWeightMap, findClusterWeightMultiplier, NO_CLUSTER_WEIGHT } from "./cluster-validation.js";
+import { maximumCodaLength } from "./coda-shape.js";
 import { isStop } from "../utils/phonemes.js";
 
 // ---------------------------------------------------------------------------
@@ -244,48 +245,6 @@ function getSonority(rt: GeneratorRuntime, phoneme: Phoneme): number {
 // Helpers
 // ---------------------------------------------------------------------------
 
-function getClusterWeightMap(
-  weightsForPosition: Map<string, number> | { final?: Map<string, number>; nonFinal?: Map<string, number> } | undefined,
-  isEndOfWord: boolean
-): Map<string, number> | undefined {
-  if (!weightsForPosition) return undefined;
-  if (typeof weightsForPosition === "object" && "final" in weightsForPosition) {
-    return isEndOfWord ? weightsForPosition.final : weightsForPosition.nonFinal;
-  }
-  return weightsForPosition as Map<string, number>;
-}
-
-/** Sentinel: no cluster weight found. */
-const NO_CLUSTER_WEIGHT = -1;
-
-/**
- * Find the cluster weight multiplier for a candidate phoneme sound.
- * Returns the weight (>= 0) or NO_CLUSTER_WEIGHT (-1) if no weight applies.
- */
-function findClusterWeightMultiplier(
-  clusterSounds: string[],
-  candidateSound: string,
-  weightMap: Map<string, number> | undefined
-): number {
-  if (!weightMap) return NO_CLUSTER_WEIGHT;
-
-  // Build suffix keys without allocating arrays.
-  // For clusterSounds=[a,b] and candidate=c, check: "a,b,c", "b,c", "c"
-  const len = clusterSounds.length;
-  for (let i = 0; i <= len; i++) {
-    let suffix = "";
-    for (let j = i; j < len; j++) {
-      if (suffix) suffix += ",";
-      suffix += clusterSounds[j];
-    }
-    if (suffix) suffix += ",";
-    suffix += candidateSound;
-    const weight = weightMap.get(suffix);
-    if (weight !== undefined) return weight;
-  }
-  return NO_CLUSTER_WEIGHT;
-}
-
 // ---------------------------------------------------------------------------
 // Cluster building
 // ---------------------------------------------------------------------------
@@ -319,81 +278,6 @@ function isValidCandidate(p: Phoneme, rt: GeneratorRuntime, context: ClusterCont
   return clusterCandidateRejection(p, rt, context) === undefined;
 }
 
-function clusterCandidateRejection(p: Phoneme, rt: GeneratorRuntime, context: ClusterContext): CodaExtensionRejectionReason | undefined {
-  const sound = p.sound;
-  const { clusterSounds } = context;
-
-  if (context.ignoreSet.has(sound)) return "excluded";
-  if (clusterSounds[clusterSounds.length - 1] === sound) return "repetition";
-  // Attested coda continuations may repeat a non-adjacent segment (e.g. /sts/).
-  if (clusterSounds.includes(sound) && !(context.position === "coda" && rt.attestedCodaSet)) return "repetition";
-  if (!isValidPosition(p, context)) return "position";
-  if (context.position === "coda") {
-    const shapeReason = codaShapeRejection(context.cluster, p, rt.clusterLimits, rt.codaAppendantSet, rt.config.codaConstraints);
-    if (shapeReason) return shapeReason;
-  }
-
-  // Reject phonemes banned from coda position entirely
-  if (context.position === "coda" && rt.bannedCodaSet?.has(sound)) {
-    return "banned-coda";
-  }
-
-  // Reject coda phonemes banned after the current nucleus
-  if (context.position === "coda" && context.nucleus && rt.bannedNucleusCodaMap) {
-    for (const nuc of context.nucleus) {
-      const bannedCodas = rt.bannedNucleusCodaMap.get(nuc.sound);
-      if (bannedCodas?.has(sound)) {
-        return "nucleus-coda";
-      }
-    }
-  }
-
-  // Check cluster weight threshold: reject if weight multiplier is below 0.01 (1%)
-  if (clusterSounds.length > 0 && rt.clusterWeights) {
-    const weightsForPosition = context.position === "onset" ? rt.clusterWeights.onset : rt.clusterWeights.coda;
-    if (weightsForPosition) {
-      const weightMap = getClusterWeightMap(weightsForPosition, context.isEndOfWord);
-      const weight = findClusterWeightMultiplier(clusterSounds, sound, weightMap);
-      if (weight !== NO_CLUSTER_WEIGHT && weight < 0.01) {
-        return "cluster-weight";
-      }
-    }
-  }
-
-  // When attested onset whitelist exists, use it as the primary gate for onsets
-  if (context.position === "onset" && rt.attestedOnsetSet && clusterSounds.length > 0) {
-    const key = clusterSounds.join("|") + "|" + sound;
-    return rt.attestedOnsetSet.has(key) || rt.attestedOnsetPrefixSet?.has(key) ? undefined : "attestation";
-  }
-
-  // When attested coda whitelist exists, use it as the primary gate for codas
-  if (context.position === "coda" && rt.attestedCodaSet && clusterSounds.length > 0) {
-    const key = clusterSounds.join("|") + "|" + sound;
-    return rt.attestedCodaSet.has(key) || rt.attestedCodaPrefixSet?.has(key) ? undefined : "attestation";
-  }
-
-  // Fallback: standard sonority and regex checks
-  if (!checkSonority(p, rt, context)) return "sonority";
-
-  const regex = rt.invalidClusterRegexes[context.position];
-  if (regex) {
-    // Build potential cluster string without allocating array
-    let potentialCluster = "";
-    for (let i = 0; i < clusterSounds.length; i++) potentialCluster += clusterSounds[i];
-    potentialCluster += sound;
-    if (regex.test(potentialCluster)) return "pattern";
-  }
-
-  return undefined;
-}
-
-function isValidPosition(p: Phoneme, { position, isStartOfWord, isEndOfWord }: ClusterContext): boolean {
-  const positionWeight = getPhonemePositionWeight(p, position);
-  return (positionWeight === undefined || positionWeight > 0) &&
-         (!isStartOfWord || p.startWord === undefined || p.startWord > 0) &&
-         (!isEndOfWord || p.endWord === undefined || p.endWord > 0);
-}
-
 function isValidCluster(rt: GeneratorRuntime, cluster: Phoneme[], position: "onset" | "coda" | "nucleus"): boolean {
   const regex = rt.invalidClusterRegexes[position];
   if (!regex) return true;
@@ -405,60 +289,6 @@ function isValidCluster(rt: GeneratorRuntime, cluster: Phoneme[], position: "ons
 // ---------------------------------------------------------------------------
 // Sonority checks
 // ---------------------------------------------------------------------------
-
-function checkSonority(p: Phoneme, rt: GeneratorRuntime, { cluster, position }: ClusterContext): boolean {
-  const prevPhoneme = cluster[cluster.length - 1];
-
-  switch (position) {
-  case "onset":
-    return checkOnsetSonority(p, rt, cluster, prevPhoneme);
-  case "coda":
-    return checkCodaSonority(p, rt, prevPhoneme);
-  case "nucleus":
-    return true;
-  default:
-    return false;
-  }
-}
-
-function checkOnsetSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, cluster: Phoneme[], prevPhoneme: Phoneme | undefined): boolean {
-  if (cluster.length === 0) return true;
-
-  const isSClusterException =
-    cluster.length === 1 &&
-    cluster[0].sound === "s" &&
-    (currPhoneme.sound === "t" || currPhoneme.sound === "p" || currPhoneme.sound === "k");
-
-  if (isSClusterException) return true;
-
-  if (currPhoneme.placeOfArticulation === prevPhoneme?.placeOfArticulation) return false;
-
-  const lastPhonemeWasAStop = prevPhoneme?.mannerOfArticulation === "stop";
-  const canFollowAStop = lastPhonemeWasAStop ? (currPhoneme.mannerOfArticulation === "glide" || currPhoneme.mannerOfArticulation === "liquid") : false;
-
-  return lastPhonemeWasAStop ? canFollowAStop : getSonority(rt, currPhoneme) > getSonority(rt, prevPhoneme!);
-}
-
-function checkCodaSonority(currPhoneme: Phoneme, rt: GeneratorRuntime, prevPhoneme: Phoneme | undefined): boolean {
-  if (!prevPhoneme) return true;
-
-  const prevSonority = getSonority(rt, prevPhoneme);
-  const currSonority = getSonority(rt, currPhoneme);
-
-  const prevManner = prevPhoneme.mannerOfArticulation;
-  const currManner = currPhoneme.mannerOfArticulation;
-
-  const isEqualSonorityException =
-    (prevManner == "fricative" && currManner == "fricative") ||
-    (prevManner == "stop" && currManner == "stop");
-
-  const isReversedSonorityException =
-    (prevManner == "stop" && currManner == "fricative") ||
-    (prevManner == "stop" && currManner == "sibilant") ||
-    (prevManner == "nasal" && currManner === "sibilant");
-
-  return isEqualSonorityException || isReversedSonorityException || (currSonority < prevSonority);
-}
 
 // ---------------------------------------------------------------------------
 // Phoneme selection
