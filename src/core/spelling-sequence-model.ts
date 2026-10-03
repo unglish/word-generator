@@ -32,8 +32,8 @@ function acceptsLetter(reading: FollowingReading, letter: string): boolean {
 /** Initial realized forms only; cell edits and final morphology are not simulated. */
 export function createGraphemeSequenceModel(
   config: LanguageConfig, slots: readonly SequenceSlot[], targets: readonly FollowingTarget[],
+  resolve = createGraphemeResolver(config),
 ): SequenceModel<SpellingSequenceState, SpellingSequenceChoice> {
-  const resolve = createGraphemeResolver(config);
   const doubling = createDoublingModel(config.doubling);
   const targetKeys = new Set(targets.map(target => JSON.stringify([target.phoneme, target.form])));
   const initial: SpellingSequenceState = { doublingCount: 0, currentNucleus: "", previousNucleus: "", pending: [] };
