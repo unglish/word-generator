@@ -1,0 +1,54 @@
+{
+  "sourceCommit": "820f80dd72edac7d69ffc7c4e03212f2e2399a2f",
+  "artifact": "evaluation/review/wordlikeness/artifacts/reference-v1.json",
+  "artifactFileSha256": "3006f65d7039820a428ba3419b63fd486de17fb3ccbb1f9d24c1cda354ffe3de",
+  "artifactDigest": "98d71552d9419d465977520c1101480a1f1ebfa968fb7e3b89eefea30e031878",
+  "corpus": {
+    "name": "CMU Pronouncing Dictionary",
+    "revision": "74790861f652b15e4ac49015a90074ad62a27690",
+    "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+    "accepted": 117485,
+    "excluded": {
+      "non_ascii_spelling": 8559,
+      "alternate_pronunciation": 9114,
+      "no_vowel": 8
+    }
+  },
+  "method": {
+    "syllabification": "maximal-observed-initial-onset-v1",
+    "stress": "primary-and-secondary-stressed",
+    "pronunciation": "first-unlabelled-entry-per-ascii-spelling",
+    "onset_rime": "MLE-no-backoff-null-for-zero",
+    "spelling_alpha": 0.5,
+    "spelling_vocabulary": 27,
+    "log_base": "e"
+  },
+  "rimes": [
+    {
+      "stratum": "rime:final:unstressed",
+      "allRimes": 80853,
+      "aeNgCoda": 14,
+      "exactAeNg": 9
+    },
+    {
+      "stratum": "rime:medial:stressed",
+      "allRimes": 110343,
+      "aeNgCoda": 594,
+      "exactAeNg": 542
+    },
+    {
+      "stratum": "rime:medial:unstressed",
+      "allRimes": 61447,
+      "aeNgCoda": 21,
+      "exactAeNg": 19
+    },
+    {
+      "stratum": "rime:final:stressed",
+      "allRimes": 36632,
+      "aeNgCoda": 223,
+      "exactAeNg": 59
+    }
+  ],
+  "totalAeNgCoda": 852,
+  "totalExactAeNg": 629
+}

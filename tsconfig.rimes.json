@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "incremental": false
+  },
+  "files": [
+    "src/core/ae-ng-rimes.test.ts",
+    "evaluation/quality/probes/ae-ng-rimes.test.ts"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "evaluation/quality/*.ts",
+    "evaluation/quality/probes/ae-ng-rimes.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/**/*.test.ts",
+    "src/**/*.bench.ts",
+    "evaluation/quality/*.test.ts"
+  ]
+}
