@@ -1,0 +1,66 @@
+[
+  {
+    "arm": "control",
+    "stage": "compile",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator/node_modules/typescript/bin/tsc"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator",
+    "exitCode": 0
+  },
+  {
+    "arm": "control",
+    "stage": "trigrams",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "scripts/analyze-cmu-trigrams.mjs"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator",
+    "exitCode": 0
+  },
+  {
+    "arm": "control",
+    "stage": "trace",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "scripts/trace-audit.mjs",
+      "--out",
+      "/private/tmp/q10b2-diagnostics-v2/trace-control.json"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator",
+    "exitCode": 0
+  },
+  {
+    "arm": "candidate",
+    "stage": "compile",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator/node_modules/typescript/bin/tsc"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator",
+    "exitCode": 0
+  },
+  {
+    "arm": "candidate",
+    "stage": "trigrams",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "scripts/analyze-cmu-trigrams.mjs"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator",
+    "exitCode": 0
+  },
+  {
+    "arm": "candidate",
+    "stage": "trace",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "scripts/trace-audit.mjs",
+      "--out",
+      "/private/tmp/q10b2-diagnostics-v2/trace-candidate.json"
+    ],
+    "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator",
+    "exitCode": 0
+  }
+]

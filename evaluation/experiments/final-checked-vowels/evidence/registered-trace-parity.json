@@ -1,0 +1,334 @@
+{
+  "passed": true,
+  "sourceCommit": "8499e925cb69728e38573cceb477f2bb60f90007",
+  "registrationSha256": "c6fcb89d36b7fd83bdee9dc7b9fb9111e4bcce92976f08a88fd186c93ef43e40",
+  "protocolSha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9",
+  "scriptSha256": "1e0815e55966651f067e67efc4524429fdb393823eb486fc493740b258db3193",
+  "comparisons": 20000,
+  "publicCalls": 40000,
+  "draws": 1924814,
+  "nextRngProbes": 40,
+  "streams": [
+    {
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "comparisons": 500,
+      "draws": 45538,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "comparisons": 500,
+      "draws": 44321,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "comparisons": 500,
+      "draws": 46943,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "comparisons": 500,
+      "draws": 46176,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "comparisons": 500,
+      "draws": 48955,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "comparisons": 500,
+      "draws": 44617,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "comparisons": 500,
+      "draws": 40043,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "comparisons": 500,
+      "draws": 41428,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "comparisons": 500,
+      "draws": 46571,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "comparisons": 500,
+      "draws": 47703,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "comparisons": 500,
+      "draws": 64315,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "comparisons": 500,
+      "draws": 62937,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "comparisons": 500,
+      "draws": 63196,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "comparisons": 500,
+      "draws": 59473,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "comparisons": 500,
+      "draws": 59350,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "comparisons": 500,
+      "draws": 31525,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 2666001996,
+      "comparisons": 500,
+      "draws": 29286,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 3562318933,
+      "comparisons": 500,
+      "draws": 31495,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 1999736106,
+      "comparisons": 500,
+      "draws": 32595,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "default",
+      "profile": "text-default",
+      "seed": 1665836705,
+      "comparisons": 500,
+      "draws": 31288,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "comparisons": 500,
+      "draws": 46832,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "comparisons": 500,
+      "draws": 43150,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "comparisons": 500,
+      "draws": 49543,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "comparisons": 500,
+      "draws": 43828,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "comparisons": 500,
+      "draws": 49649,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "comparisons": 500,
+      "draws": 47569,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "comparisons": 500,
+      "draws": 50784,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "comparisons": 500,
+      "draws": 45983,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "comparisons": 500,
+      "draws": 45040,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "comparisons": 500,
+      "draws": 46317,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "comparisons": 500,
+      "draws": 71087,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "comparisons": 500,
+      "draws": 73519,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "comparisons": 500,
+      "draws": 73068,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "comparisons": 500,
+      "draws": 73274,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "comparisons": 500,
+      "draws": 77993,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "comparisons": 500,
+      "draws": 33800,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 2666001996,
+      "comparisons": 500,
+      "draws": 30650,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 3562318933,
+      "comparisons": 500,
+      "draws": 32509,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 1999736106,
+      "comparisons": 500,
+      "draws": 38303,
+      "nextProbeEqual": true
+    },
+    {
+      "policy": "active",
+      "profile": "text-default",
+      "seed": 1665836705,
+      "comparisons": 500,
+      "draws": 34161,
+      "nextProbeEqual": true
+    }
+  ],
+  "scope": "First 500 successive words in each registered development stream under both policies; complete nontrace public output, draw-count and next-probe equality. Not full archived-corpus RNG reconstruction."
+}

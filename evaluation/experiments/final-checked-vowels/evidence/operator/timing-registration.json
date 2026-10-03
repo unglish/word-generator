@@ -1,0 +1,25 @@
+{
+  "status": "registered before timing; corpus sources remain frozen",
+  "policies": [
+    "default",
+    "active"
+  ],
+  "orderPerPolicy": [
+    "control",
+    "candidate",
+    "candidate",
+    "control",
+    "control",
+    "candidate",
+    "candidate",
+    "control",
+    "control",
+    "candidate",
+    "candidate",
+    "control"
+  ],
+  "pairsPerPolicy": 6,
+  "benchmark": "unchanged performance-one-v2.mjs: 10000 batch words, same warmups, seeds, variance trials and thresholds",
+  "concurrency": "no overlap with capture, audits, tests or diagnostics",
+  "allRunsRetained": true
+}
