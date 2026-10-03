@@ -28,19 +28,20 @@ npm run quality:capture -- --id step-01 --cohort development --out memory/qualit
 npm run quality:verify -- --run memory/quality-runs/step-01
 ```
 
-The initial captures are stored in:
+The committed baselines are stored in:
 
-- `evaluation/quality/baselines/2026-09-26-development`
-- `evaluation/quality/baselines/2026-09-26-validation`
+- `evaluation/quality/baselines/2026-09-26-development-standalone`
+- `evaluation/quality/baselines/2026-09-26-validation-standalone`
 
-These capture revision `3fd474d`'s generator, plus the new benchmark evaluator.
-The older written-v2 human-review snapshot remains a separate historical study.
+These hold words captured from revision `3fd474d`'s generator. The older
+written-v2 human-review snapshot remains a separate historical study.
 
-New comparisons use the corresponding `2026-09-26-development-standalone` and
-`2026-09-26-validation-standalone` directories. These rescore the exact original
-words with an evaluator independent of the human-review code. Archive hashes,
-metrics, and original generator provenance were verified identical; the old runs
-remain available and unchanged.
+Each is a rescore of an initial capture (`initial-development`,
+`initial-validation`) with an evaluator independent of the human-review code.
+Archive hashes, metrics, and original generator provenance were verified identical.
+The initial runs are not committed separately: their complete manifests and source
+bundles are retained in each directory's `provenance.json.gz`, and their summaries,
+review samples, distributions, and witnesses were identical to the committed ones.
 
 Every run records:
 
@@ -97,7 +98,7 @@ comparison.
 
 ```sh
 npm run quality:rescore -- \
-  --run evaluation/quality/baselines/2026-09-26-development \
+  --run evaluation/quality/baselines/2026-09-26-development-standalone \
   --id baseline-evaluator-02 \
   --out memory/quality-runs/baseline-evaluator-02
 ```
@@ -182,7 +183,6 @@ Run the normal suites alongside the benchmark:
 npm test
 npm run test:quality
 npm run quality:typecheck
-npm run test:quality-harness
 npm run lint
 npm run test:perf
 ```

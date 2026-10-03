@@ -5,20 +5,14 @@ Captured on 2026-09-26 from the unchanged generator at
 
 | Cohort | Run ID | Words | Purpose |
 |---|---|---:|---|
-| [Development](2026-09-26-development/manifest.json) | `initial-development` | 200,000 | Compare each focused change |
-| [Validation](2026-09-26-validation/manifest.json) | `initial-validation` | 200,000 | Reserved milestone confirmation |
+| [Development](2026-09-26-development-standalone/manifest.json) | `baseline-development-v1` | 200,000 | Compare each focused change |
+| [Validation](2026-09-26-validation-standalone/manifest.json) | `baseline-validation-v1` | 200,000 | Reserved milestone confirmation |
 
-The standalone evaluator rescored these exact archives without regeneration:
-
-| Current comparison baseline | Run ID |
-|---|---|
-| [Development](2026-09-26-development-standalone/manifest.json) | `baseline-development-v1` |
-| [Validation](2026-09-26-validation-standalone/manifest.json) | `baseline-validation-v1` |
-
-Use the `-standalone` directories for new comparisons. They preserve all original
-raw archive hashes, metrics, and generator provenance, and add the complete parent
-manifest/source chain. This removes a dependency on changing human-review code;
-the original directories remain unmodified.
+Each directory is a rescore of an initial capture (`initial-development`,
+`initial-validation`) by an evaluator that no longer depends on changing
+human-review code. The rescores preserve all original raw archive hashes, metrics,
+and generator provenance. The initial runs are not committed separately: their
+complete manifests and source bundles are retained in each `provenance.json.gz`.
 
 Each cohort contains four profiles, each with five independent seeded streams of
 10,000 draws. Every output includes its full generation trace. Both completed
@@ -41,18 +35,17 @@ Rates use their eligible denominators; each profile contains 50,000 words.
 
 The orthographic trace mismatches are exactly the affixed words in each profile:
 the trace records the root's spelling and stops before affix spelling is attached.
-Unaffixed words have no mismatches. Item Q02 of the
-[improvement plan](../../../docs/linguistic-improvement-plan.md) tracks this.
+Unaffixed words have no mismatches. Roadmap item Q02 (final-word trace provenance
+and orthographic ownership) tracks this.
 
 The forced bare-monosyllable profile contains **0 / 50,000** words with /ʊ/.
 This is a coverage diagnostic, not a recommendation to maximize that vowel's rate.
 Validation results are deliberately omitted from this development scoreboard.
 
-See the [complete development summary](2026-09-26-development/summary.json) and
+See the [complete development summary](2026-09-26-development-standalone/summary.json) and
 the [capture and comparison guide](../../../docs/quality-baselines.md) for all
 metrics, denominators, strata, interpretation, and commands.
 
-The large `words/` archives are local and Git-ignored. Preserve a backed-up copy of
-each complete directory before removing this worktree. Compact source bundles,
-manifests, summaries, and evidence are available for version control; they have
-not been committed automatically.
+The large `words/` archives are Git-ignored and are not part of this repository.
+Full verification and rescoring need them; comparisons do not. Compact source
+bundles, manifests, summaries, and evidence are committed alongside this README.
