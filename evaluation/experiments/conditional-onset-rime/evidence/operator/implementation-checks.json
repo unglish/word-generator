@@ -1,0 +1,17 @@
+{
+  "status": "Uncommitted offline model core; registration committed before implementation; corpus fitting and held-out evaluation have not run",
+  "registrationCommit": "a7c6779ccad0151637f062f137d3e8c10ae5c4c8",
+  "tests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "strictModelTypecheckExit": 0,
+  "fullReviewTypecheckExit": 0,
+  "targetedLintExit": 0,
+  "sourceFiles": {
+    "evaluation/corpus/conditional-onset-rime.ts": "ddeb9de66965b41ae78a15c12b6cec9e9d31f0a56d18f4234d27aa6ea5cec0f6",
+    "evaluation/review/wordlikeness/conditional-onset-rime.test.ts": "b35155f0a19eab8a2ca24d9504d7b5c2959389f2e468bec170925e4b6e61a67d"
+  },
+  "priorAttempt": "Initial strict check found a readonly tuple-union reduce incompatibility; explicit readonly string view fixes typing without changing arithmetic; original log retained",
+  "generatorAndHistoricalScorerDiff": ""
+}

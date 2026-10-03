@@ -1,0 +1,9 @@
+A	evaluation/corpus/conditional-builder.ts
+A	evaluation/corpus/conditional-cli.ts
+A	evaluation/corpus/conditional-experiment.ts
+A	evaluation/corpus/conditional-onset-rime.ts
+A	evaluation/experiments/conditional-onset-rime/README.md
+A	evaluation/experiments/conditional-onset-rime/measurement-preimplementation.json
+A	evaluation/experiments/conditional-onset-rime/source-reuse.json
+A	evaluation/review/wordlikeness/conditional-builder.test.ts
+A	evaluation/review/wordlikeness/conditional-onset-rime.test.ts
