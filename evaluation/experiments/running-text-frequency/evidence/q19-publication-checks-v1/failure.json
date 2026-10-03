@@ -1,0 +1,15 @@
+{
+  "results": [
+    {
+      "name": "whole-lint",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/npm",
+        "run",
+        "lint"
+      ],
+      "exitCode": 1,
+      "logSha256": "8a5971b3a0c4a5cf3ef6c495346a08e8fe6ddb53b575bdf64552b4e7ce468e93"
+    }
+  ],
+  "scope": "Required lint failed; no publication or package advancement."
+}

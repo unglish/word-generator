@@ -1,0 +1,300 @@
+{
+  "arm": "candidate",
+  "commit": "2144c816efaec4005911e774288258c0ed25f77a",
+  "words": 200000,
+  "protocol": {
+    "schemaVersion": 1,
+    "id": "linguistic-quality-v1",
+    "wordsPerReplicate": 10000,
+    "reviewDrawsPerReplicate": 40,
+    "profiles": [
+      {
+        "id": "lexicon-default",
+        "options": {
+          "mode": "lexicon",
+          "morphology": true
+        },
+        "seeds": {
+          "development": [
+            69212153,
+            101601885,
+            3921817393,
+            3948943232,
+            2089697863
+          ],
+          "validation": [
+            343148695,
+            588155434,
+            3368386746,
+            3898123730,
+            1246218775
+          ]
+        }
+      },
+      {
+        "id": "lexicon-bare",
+        "options": {
+          "mode": "lexicon",
+          "morphology": false
+        },
+        "seeds": {
+          "development": [
+            2380207674,
+            772709128,
+            1304238451,
+            1696751198,
+            1498885173
+          ],
+          "validation": [
+            1009669289,
+            1929784165,
+            663835973,
+            1913126773,
+            2753803302
+          ]
+        }
+      },
+      {
+        "id": "monosyllables-bare",
+        "options": {
+          "mode": "lexicon",
+          "morphology": false,
+          "syllableCount": 1
+        },
+        "seeds": {
+          "development": [
+            462530651,
+            62358955,
+            3297327738,
+            2001884366,
+            2353354178
+          ],
+          "validation": [
+            1195095943,
+            2228551463,
+            3012376298,
+            3657383406,
+            2724299545
+          ]
+        }
+      },
+      {
+        "id": "text-default",
+        "options": {
+          "mode": "text",
+          "morphology": true
+        },
+        "seeds": {
+          "development": [
+            4167471042,
+            2666001996,
+            3562318933,
+            1999736106,
+            1665836705
+          ],
+          "validation": [
+            1233637419,
+            3612082221,
+            2738163729,
+            2933603771,
+            1320168908
+          ]
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "file": "lexicon-default-69212153.jsonl.gz",
+      "bytes": 4838369,
+      "sha256": "5cf3654e011cc7e1aa0620f82b37b415ed2506210d24010c9ff3f522fdf04897",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "words": 10000,
+      "nextRngProbe": 0.8869794642087072
+    },
+    {
+      "file": "lexicon-default-101601885.jsonl.gz",
+      "bytes": 4813040,
+      "sha256": "f6c656002f5ea5c0cafed183afaae8ef3d5e3e2a4d963290a7e4ff84ffa8a3cd",
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "words": 10000,
+      "nextRngProbe": 0.6508949906565249
+    },
+    {
+      "file": "lexicon-default-3921817393.jsonl.gz",
+      "bytes": 4827838,
+      "sha256": "d846d7c7d8659a4f84e9aa0942efc1d86ebfb6b3bf004e65851a1408078a873f",
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "words": 10000,
+      "nextRngProbe": 0.7991663450375199
+    },
+    {
+      "file": "lexicon-default-3948943232.jsonl.gz",
+      "bytes": 4840860,
+      "sha256": "adb424b54c098e24bdc6c9d2cdc2ac44e936edba79600abd2f04e6d42098164a",
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "words": 10000,
+      "nextRngProbe": 0.5745327991899103
+    },
+    {
+      "file": "lexicon-default-2089697863.jsonl.gz",
+      "bytes": 4857056,
+      "sha256": "5354ed6516ae4761e61f5403a664381b7e46b50be7c4f051da71fe1a2883dacd",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "words": 10000,
+      "nextRngProbe": 0.729228810640052
+    },
+    {
+      "file": "lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 5680581,
+      "sha256": "2dd09b98cd49d77cc9c6d0cf7cc57fc4774ac63f1fcd6abed7929df9bbdbfa90",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "words": 10000,
+      "nextRngProbe": 0.4398602971341461
+    },
+    {
+      "file": "lexicon-bare-772709128.jsonl.gz",
+      "bytes": 5681041,
+      "sha256": "0af75244dfaef6f2da69276a98bbf55f81a737f054e8bf5838f0eda0d5b44a6f",
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "words": 10000,
+      "nextRngProbe": 0.6630691478494555
+    },
+    {
+      "file": "lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 5745628,
+      "sha256": "7be2f502cc92c3bffc737ca61fd1749a4738be342ad54e4177090d595d126630",
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "words": 10000,
+      "nextRngProbe": 0.7838665619492531
+    },
+    {
+      "file": "lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 5698782,
+      "sha256": "6df80b0cdc9d94775ac360952c69ea85742c9210b2077f8d5dfe5f80255f4ed3",
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "words": 10000,
+      "nextRngProbe": 0.7225132996682078
+    },
+    {
+      "file": "lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 5714303,
+      "sha256": "ac101d20f1141f1d239904ebbf080b18b463caf072011bc46282465fc7d00335",
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "words": 10000,
+      "nextRngProbe": 0.08850060566328466
+    },
+    {
+      "file": "monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 2992339,
+      "sha256": "8e956a2587ec2f5fefc56c789c66743311ffb7d155ed74a123569641f628c4d9",
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "words": 10000,
+      "nextRngProbe": 0.7362062667962164
+    },
+    {
+      "file": "monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 2993891,
+      "sha256": "d4bf4bc6061de545224b27f0a7643110d3381dde44e955595bb7a9833786d91b",
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "words": 10000,
+      "nextRngProbe": 0.0415701346937567
+    },
+    {
+      "file": "monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 2995877,
+      "sha256": "3b1ab8fffbfe818a809ab964969330d62f1fcd25be6e3160d360b6cb06cffd8a",
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "words": 10000,
+      "nextRngProbe": 0.8745436596218497
+    },
+    {
+      "file": "monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 2993651,
+      "sha256": "4bb1e4ab375eae8ccf0b5391131bec56fac5a65dd082f1a31e62643055587c25",
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "words": 10000,
+      "nextRngProbe": 0.7158125017303973
+    },
+    {
+      "file": "monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 2989180,
+      "sha256": "4b494946884c1f92d295442f52eca9ae1f6123cbd73935c3a1fda51936f0827b",
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "words": 10000,
+      "nextRngProbe": 0.7389329639263451
+    },
+    {
+      "file": "text-default-4167471042.jsonl.gz",
+      "bytes": 2730976,
+      "sha256": "2188dd4344c7778f03aaa594c6db7aed085c2898a8b02db59f0d7a0df8c42a15",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "words": 10000,
+      "nextRngProbe": 0.09799377853050828
+    },
+    {
+      "file": "text-default-2666001996.jsonl.gz",
+      "bytes": 2700736,
+      "sha256": "a264167372f7da825925a3ea5d163eec40fbc43ddbc6c3b1977465e8522c76c3",
+      "profile": "text-default",
+      "seed": 2666001996,
+      "words": 10000,
+      "nextRngProbe": 0.8371417366433889
+    },
+    {
+      "file": "text-default-3562318933.jsonl.gz",
+      "bytes": 2728509,
+      "sha256": "3c16061777d41447bdc6c65c5aa7239f9026d6df3c44ea43a74e539f0eb0fcf6",
+      "profile": "text-default",
+      "seed": 3562318933,
+      "words": 10000,
+      "nextRngProbe": 0.10353978211060166
+    },
+    {
+      "file": "text-default-1999736106.jsonl.gz",
+      "bytes": 2714512,
+      "sha256": "b6cbf80e7a54d1d10de3f43067665df0002873b2131baae80e3f79f31877ecc8",
+      "profile": "text-default",
+      "seed": 1999736106,
+      "words": 10000,
+      "nextRngProbe": 0.6962665563914925
+    },
+    {
+      "file": "text-default-1665836705.jsonl.gz",
+      "bytes": 2692899,
+      "sha256": "9699fa9f6894efd2763462d69bf9310e0fcde9670189719acf579c5285bdb69e",
+      "profile": "text-default",
+      "seed": 1665836705,
+      "words": 10000,
+      "nextRngProbe": 0.28190581360831857
+    }
+  ],
+  "configuration": {
+    "bytes": 118733,
+    "sha256": "f28444109f7f5662c3c08344c87a9e97e13bd5e80b99a6bd1f752006d3abde37"
+  },
+  "before": {
+    "bytes": 108041,
+    "sha256": "77a4ed2e11b0c789b2c030a6366e7a2de8ffba7700a4d309ba66ddf9d835c14d"
+  },
+  "after": {
+    "bytes": 108041,
+    "sha256": "77a4ed2e11b0c789b2c030a6366e7a2de8ffba7700a4d309ba66ddf9d835c14d"
+  }
+}

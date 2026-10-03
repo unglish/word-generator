@@ -1,0 +1,42 @@
+{
+  "q19-subtlexus2.zip": {
+    "zipSha256": "67e595da1b399d2a21e25a1466a8d9f242f21a219c6bbbd3e089c4779ad83856",
+    "member": "SUBTLEXus74286wordstextversion.txt",
+    "memberSha256": "c5f86f065fc5d057fbf366433b8c5ca550aa7c24e128362dea4394f2b29c86e4",
+    "textProjection": "latin1 lossless byte projection; not a linguistic encoding claim; only ASCII letter spellings selected",
+    "rows": 74286,
+    "columns": [
+      "Word",
+      "FREQcount",
+      "CDcount",
+      "FREQlow",
+      "Cdlow",
+      "SUBTLWF",
+      "Lg10WF",
+      "SUBTLCD",
+      "Lg10CD"
+    ],
+    "totalCount": 49719560,
+    "duplicateFoldedSpellings": 0,
+    "nonAsciiRows": 0,
+    "nonAsciiLetterRows": 0,
+    "freqLowTotal": 39080353
+  },
+  "q19-subtlexus5.zip": {
+    "zipSha256": "6d5c8c8374cca02be36e227924fc355b84462f5948b0cbf67e0b285bf78616e6",
+    "member": "SUBTLEXusrawdata.dat",
+    "memberSha256": "23789b32069fb9083b5d35e210b0f3695b8127ac72aa9437f7b9383308b3291d",
+    "textProjection": "latin1 lossless byte projection; not a linguistic encoding claim; only ASCII letter spellings selected",
+    "rows": 282170,
+    "columns": [
+      "Word",
+      "FREQcount",
+      "CDcount"
+    ],
+    "totalCount": 51010983,
+    "duplicateFoldedSpellings": 49347,
+    "nonAsciiRows": 1993,
+    "nonAsciiLetterRows": 68317,
+    "freqLowTotal": 0
+  }
+}

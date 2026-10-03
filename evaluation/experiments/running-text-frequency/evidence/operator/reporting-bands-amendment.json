@@ -1,0 +1,14 @@
+{
+  "version": "q19-pre-fit-reporting-bands-v1",
+  "timing": "Before any real-source fitting or held-out scoring",
+  "frequencyBands": [
+    "1",
+    "2-9",
+    "10-99",
+    "100-999",
+    "1000+"
+  ],
+  "basis": "Raw full-source FREQcount; descriptive strata only, never tuning or population exclusion",
+  "posReporting": "Every source row retains literal tags/counts, source discrepancy and exact rational category allocation. Independent downstream aggregation must include missing, zero, Name and function allocations.",
+  "mainEndpoint": "Unchanged registered FREQcount-weighted held-out mean objective; all development trials and held-out word scores retained"
+}

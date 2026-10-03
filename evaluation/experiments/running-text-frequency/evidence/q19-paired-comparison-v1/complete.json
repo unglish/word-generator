@@ -1,0 +1,908 @@
+{
+  "passed": true,
+  "wordsPerArm": 200000,
+  "unchangedLexiconWords": 150000,
+  "unchangedStreams": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "words": 10000,
+      "sha256": "5cf3654e011cc7e1aa0620f82b37b415ed2506210d24010c9ff3f522fdf04897"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "words": 10000,
+      "sha256": "f6c656002f5ea5c0cafed183afaae8ef3d5e3e2a4d963290a7e4ff84ffa8a3cd"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "words": 10000,
+      "sha256": "d846d7c7d8659a4f84e9aa0942efc1d86ebfb6b3bf004e65851a1408078a873f"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "words": 10000,
+      "sha256": "adb424b54c098e24bdc6c9d2cdc2ac44e936edba79600abd2f04e6d42098164a"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "words": 10000,
+      "sha256": "5354ed6516ae4761e61f5403a664381b7e46b50be7c4f051da71fe1a2883dacd"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "words": 10000,
+      "sha256": "2dd09b98cd49d77cc9c6d0cf7cc57fc4774ac63f1fcd6abed7929df9bbdbfa90"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "words": 10000,
+      "sha256": "0af75244dfaef6f2da69276a98bbf55f81a737f054e8bf5838f0eda0d5b44a6f"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "words": 10000,
+      "sha256": "7be2f502cc92c3bffc737ca61fd1749a4738be342ad54e4177090d595d126630"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "words": 10000,
+      "sha256": "6df80b0cdc9d94775ac360952c69ea85742c9210b2077f8d5dfe5f80255f4ed3"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "words": 10000,
+      "sha256": "ac101d20f1141f1d239904ebbf080b18b463caf072011bc46282465fc7d00335"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "words": 10000,
+      "sha256": "8e956a2587ec2f5fefc56c789c66743311ffb7d155ed74a123569641f628c4d9"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "words": 10000,
+      "sha256": "d4bf4bc6061de545224b27f0a7643110d3381dde44e955595bb7a9833786d91b"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "words": 10000,
+      "sha256": "3b1ab8fffbfe818a809ab964969330d62f1fcd25be6e3160d360b6cb06cffd8a"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "words": 10000,
+      "sha256": "4bb1e4ab375eae8ccf0b5391131bec56fac5a65dd082f1a31e62643055587c25"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "words": 10000,
+      "sha256": "4b494946884c1f92d295442f52eca9ae1f6123cbd73935c3a1fda51936f0827b"
+    }
+  ],
+  "comparisons": {
+    "lexicon-default": {
+      "distancesAndDiversity": {
+        "uniqueSpellings": {
+          "control": 43501,
+          "candidate": 43501,
+          "delta": 0,
+          "relativeChange": 0.0
+        },
+        "duplicateDraws": {
+          "control": 6499,
+          "candidate": 6499,
+          "delta": 0,
+          "relativeChange": 0.0
+        },
+        "phoneLengthJsdToTokenTraining": {
+          "control": 0.341391531580033,
+          "candidate": 0.341391531580033,
+          "delta": 0.0,
+          "relativeChange": 0.0
+        },
+        "jointLengthSyllableJsdToTokenTraining": {
+          "control": 0.35461062214743627,
+          "candidate": 0.3546106221474359,
+          "delta": -3.885780586188048e-16,
+          "relativeChange": -1.1102230246251565e-15
+        },
+        "coarsePhoneJsdToTokenTraining": {
+          "control": 0.027822346574501992,
+          "candidate": 0.027822346574501975,
+          "delta": -1.734723475976807e-17,
+          "relativeChange": -6.661338147750939e-16
+        },
+        "writtenTrigramJsdToHistoricalCmu": {
+          "control": 0.10992782590667216,
+          "candidate": 0.10992782590667233,
+          "delta": 1.6653345369377348e-16,
+          "relativeChange": 1.5543122344752192e-15
+        }
+      },
+      "rates": {
+        "polysyllablesMissingPrimary": {
+          "denominator": "polysyllables",
+          "controlNumerator": 9342,
+          "candidateNumerator": 9342,
+          "controlDenominator": 45470,
+          "candidateDenominator": 45470,
+          "controlRate": 0.20545414559049924,
+          "candidateRate": 0.20545414559049924
+        },
+        "multiplePrimaryWords": {
+          "denominator": "words",
+          "controlNumerator": 0,
+          "candidateNumerator": 0,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.0,
+          "candidateRate": 0.0
+        },
+        "fiveConsecutiveWrittenConsonantsWords": {
+          "denominator": "words",
+          "controlNumerator": 15,
+          "candidateNumerator": 15,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.0003,
+          "candidateRate": 0.0003
+        },
+        "repairEvents": {
+          "denominator": "words",
+          "controlNumerator": 12319,
+          "candidateNumerator": 12319,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.24638,
+          "candidateRate": 0.24638
+        },
+        "sameSegmentAdjacentEqualPairs": {
+          "denominator": "words",
+          "controlNumerator": 180,
+          "candidateNumerator": 180,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.0036,
+          "candidateRate": 0.0036
+        }
+      },
+      "controlCounts": {
+        "words": 50000,
+        "phones": 323611,
+        "polysyllables": 45470,
+        "polysyllablesMissingPrimary": 9342,
+        "multiplePrimaryWords": 0,
+        "sameSegmentAdjacentEqualPairs": 180,
+        "fiveConsecutiveWrittenConsonantsWords": 15,
+        "repairEvents": 12319
+      },
+      "candidateCounts": {
+        "words": 50000,
+        "phones": 323611,
+        "polysyllables": 45470,
+        "polysyllablesMissingPrimary": 9342,
+        "multiplePrimaryWords": 0,
+        "sameSegmentAdjacentEqualPairs": 180,
+        "fiveConsecutiveWrittenConsonantsWords": 15,
+        "repairEvents": 12319
+      }
+    },
+    "lexicon-bare": {
+      "distancesAndDiversity": {
+        "uniqueSpellings": {
+          "control": 47126,
+          "candidate": 47126,
+          "delta": 0,
+          "relativeChange": 0.0
+        },
+        "duplicateDraws": {
+          "control": 2874,
+          "candidate": 2874,
+          "delta": 0,
+          "relativeChange": 0.0
+        },
+        "phoneLengthJsdToTokenTraining": {
+          "control": 0.3116468516196921,
+          "candidate": 0.3116468516196922,
+          "delta": 1.1102230246251565e-16,
+          "relativeChange": 4.440892098500626e-16
+        },
+        "jointLengthSyllableJsdToTokenTraining": {
+          "control": 0.31717049714888346,
+          "candidate": 0.31717049714888346,
+          "delta": 0.0,
+          "relativeChange": 0.0
+        },
+        "coarsePhoneJsdToTokenTraining": {
+          "control": 0.023577381384115408,
+          "candidate": 0.023577381384115408,
+          "delta": 0.0,
+          "relativeChange": 0.0
+        },
+        "writtenTrigramJsdToHistoricalCmu": {
+          "control": 0.12743921200756503,
+          "candidate": 0.12743921200756458,
+          "delta": -4.440892098500626e-16,
+          "relativeChange": -3.4416913763379853e-15
+        }
+      },
+      "rates": {
+        "polysyllablesMissingPrimary": {
+          "denominator": "polysyllables",
+          "controlNumerator": 0,
+          "candidateNumerator": 0,
+          "controlDenominator": 43577,
+          "candidateDenominator": 43577,
+          "controlRate": 0.0,
+          "candidateRate": 0.0
+        },
+        "multiplePrimaryWords": {
+          "denominator": "words",
+          "controlNumerator": 0,
+          "candidateNumerator": 0,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.0,
+          "candidateRate": 0.0
+        },
+        "fiveConsecutiveWrittenConsonantsWords": {
+          "denominator": "words",
+          "controlNumerator": 0,
+          "candidateNumerator": 0,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.0,
+          "candidateRate": 0.0
+        },
+        "repairEvents": {
+          "denominator": "words",
+          "controlNumerator": 15766,
+          "candidateNumerator": 15766,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.31532,
+          "candidateRate": 0.31532
+        },
+        "sameSegmentAdjacentEqualPairs": {
+          "denominator": "words",
+          "controlNumerator": 272,
+          "candidateNumerator": 272,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.00544,
+          "candidateRate": 0.00544
+        }
+      },
+      "controlCounts": {
+        "words": 50000,
+        "phones": 317625,
+        "polysyllables": 43577,
+        "polysyllablesMissingPrimary": 0,
+        "multiplePrimaryWords": 0,
+        "sameSegmentAdjacentEqualPairs": 272,
+        "fiveConsecutiveWrittenConsonantsWords": 0,
+        "repairEvents": 15766
+      },
+      "candidateCounts": {
+        "words": 50000,
+        "phones": 317625,
+        "polysyllables": 43577,
+        "polysyllablesMissingPrimary": 0,
+        "multiplePrimaryWords": 0,
+        "sameSegmentAdjacentEqualPairs": 272,
+        "fiveConsecutiveWrittenConsonantsWords": 0,
+        "repairEvents": 15766
+      }
+    },
+    "monosyllables-bare": {
+      "distancesAndDiversity": {
+        "uniqueSpellings": {
+          "control": 14397,
+          "candidate": 14397,
+          "delta": 0,
+          "relativeChange": 0.0
+        },
+        "duplicateDraws": {
+          "control": 35603,
+          "candidate": 35603,
+          "delta": 0,
+          "relativeChange": 0.0
+        },
+        "phoneLengthJsdToTokenTraining": {
+          "control": 0.31344713620058656,
+          "candidate": 0.3134471362005865,
+          "delta": -5.551115123125783e-17,
+          "relativeChange": -2.220446049250313e-16
+        },
+        "jointLengthSyllableJsdToTokenTraining": {
+          "control": 0.49340692600180047,
+          "candidate": 0.4934069260018004,
+          "delta": -5.551115123125783e-17,
+          "relativeChange": -1.1102230246251565e-16
+        },
+        "coarsePhoneJsdToTokenTraining": {
+          "control": 0.08671555731623647,
+          "candidate": 0.08671555731623645,
+          "delta": -1.3877787807814457e-17,
+          "relativeChange": -1.1102230246251565e-16
+        },
+        "writtenTrigramJsdToHistoricalCmu": {
+          "control": 0.36453891035364205,
+          "candidate": 0.36453891035364094,
+          "delta": -1.1102230246251565e-15,
+          "relativeChange": -2.9976021664879227e-15
+        }
+      },
+      "rates": {
+        "polysyllablesMissingPrimary": {
+          "denominator": "polysyllables",
+          "controlNumerator": 0,
+          "candidateNumerator": 0,
+          "controlDenominator": 0,
+          "candidateDenominator": 0,
+          "controlRate": null,
+          "candidateRate": null
+        },
+        "multiplePrimaryWords": {
+          "denominator": "words",
+          "controlNumerator": 0,
+          "candidateNumerator": 0,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.0,
+          "candidateRate": 0.0
+        },
+        "fiveConsecutiveWrittenConsonantsWords": {
+          "denominator": "words",
+          "controlNumerator": 0,
+          "candidateNumerator": 0,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.0,
+          "candidateRate": 0.0
+        },
+        "repairEvents": {
+          "denominator": "words",
+          "controlNumerator": 10264,
+          "candidateNumerator": 10264,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.20528,
+          "candidateRate": 0.20528
+        },
+        "sameSegmentAdjacentEqualPairs": {
+          "denominator": "words",
+          "controlNumerator": 5429,
+          "candidateNumerator": 5429,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.10858,
+          "candidateRate": 0.10858
+        }
+      },
+      "controlCounts": {
+        "words": 50000,
+        "phones": 264100,
+        "polysyllables": 0,
+        "polysyllablesMissingPrimary": 0,
+        "multiplePrimaryWords": 0,
+        "sameSegmentAdjacentEqualPairs": 5429,
+        "fiveConsecutiveWrittenConsonantsWords": 0,
+        "repairEvents": 10264
+      },
+      "candidateCounts": {
+        "words": 50000,
+        "phones": 264100,
+        "polysyllables": 0,
+        "polysyllablesMissingPrimary": 0,
+        "multiplePrimaryWords": 0,
+        "sameSegmentAdjacentEqualPairs": 5429,
+        "fiveConsecutiveWrittenConsonantsWords": 0,
+        "repairEvents": 10264
+      }
+    },
+    "text-default": {
+      "distancesAndDiversity": {
+        "uniqueSpellings": {
+          "control": 28443,
+          "candidate": 16503,
+          "delta": -11940,
+          "relativeChange": -0.41978694230566393
+        },
+        "duplicateDraws": {
+          "control": 21557,
+          "candidate": 33497,
+          "delta": 11940,
+          "relativeChange": 0.5538804100756134
+        },
+        "phoneLengthJsdToTokenTraining": {
+          "control": 0.17548393407940616,
+          "candidate": 0.018552072756930882,
+          "delta": -0.15693186132247527,
+          "relativeChange": -0.894280505766778
+        },
+        "jointLengthSyllableJsdToTokenTraining": {
+          "control": 0.18534425042418534,
+          "candidate": 0.05056412867696526,
+          "delta": -0.1347801217472201,
+          "relativeChange": -0.7271880376043907
+        },
+        "coarsePhoneJsdToTokenTraining": {
+          "control": 0.028190446413451614,
+          "candidate": 0.03793954367980218,
+          "delta": 0.009749097266350565,
+          "relativeChange": 0.34582982913312765
+        },
+        "writtenTrigramJsdToHistoricalCmu": {
+          "control": 0.1278716959495723,
+          "candidate": 0.18287348349032265,
+          "delta": 0.05500178754075036,
+          "relativeChange": 0.4301326195160575
+        }
+      },
+      "rates": {
+        "polysyllablesMissingPrimary": {
+          "denominator": "polysyllables",
+          "controlNumerator": 9947,
+          "candidateNumerator": 10235,
+          "controlDenominator": 27246,
+          "candidateDenominator": 22283,
+          "controlRate": 0.36508111282390077,
+          "candidateRate": 0.4593187631826953
+        },
+        "multiplePrimaryWords": {
+          "denominator": "words",
+          "controlNumerator": 0,
+          "candidateNumerator": 0,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.0,
+          "candidateRate": 0.0
+        },
+        "fiveConsecutiveWrittenConsonantsWords": {
+          "denominator": "words",
+          "controlNumerator": 7,
+          "candidateNumerator": 1,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.00014,
+          "candidateRate": 2e-05
+        },
+        "repairEvents": {
+          "denominator": "words",
+          "controlNumerator": 7723,
+          "candidateNumerator": 6947,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.15446,
+          "candidateRate": 0.13894
+        },
+        "sameSegmentAdjacentEqualPairs": {
+          "denominator": "words",
+          "controlNumerator": 167,
+          "candidateNumerator": 44,
+          "controlDenominator": 50000,
+          "candidateDenominator": 50000,
+          "controlRate": 0.00334,
+          "candidateRate": 0.00088
+        }
+      },
+      "controlCounts": {
+        "words": 50000,
+        "phones": 241270,
+        "polysyllables": 27246,
+        "polysyllablesMissingPrimary": 9947,
+        "multiplePrimaryWords": 0,
+        "sameSegmentAdjacentEqualPairs": 167,
+        "fiveConsecutiveWrittenConsonantsWords": 7,
+        "repairEvents": 7723
+      },
+      "candidateCounts": {
+        "words": 50000,
+        "phones": 179724,
+        "polysyllables": 22283,
+        "polysyllablesMissingPrimary": 10235,
+        "multiplePrimaryWords": 0,
+        "sameSegmentAdjacentEqualPairs": 44,
+        "fiveConsecutiveWrittenConsonantsWords": 1,
+        "repairEvents": 6947
+      }
+    }
+  },
+  "before": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/compare-captures.py": {
+      "bytes": 3940,
+      "sha256": "8544629b038319f88abb4251cca117ba005587143ac2f65a45caf5ba1a4dc6b8"
+    },
+    "/private/tmp/q19-control-capture-v1/manifest.json": {
+      "bytes": 8547,
+      "sha256": "09d85b83aae8f56533f9086332432b0d05919bc9531d75e93ed149a2e13d10e4"
+    },
+    "/private/tmp/q19-control-capture-v1/complete.json": {
+      "bytes": 161,
+      "sha256": "926ae61df82c709850b376464b70c8940f4cd3d75d94126f4b41b6363c3d94cd"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-default-69212153.jsonl.gz": {
+      "bytes": 4838369,
+      "sha256": "5cf3654e011cc7e1aa0620f82b37b415ed2506210d24010c9ff3f522fdf04897"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-default-101601885.jsonl.gz": {
+      "bytes": 4813040,
+      "sha256": "f6c656002f5ea5c0cafed183afaae8ef3d5e3e2a4d963290a7e4ff84ffa8a3cd"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-default-3921817393.jsonl.gz": {
+      "bytes": 4827838,
+      "sha256": "d846d7c7d8659a4f84e9aa0942efc1d86ebfb6b3bf004e65851a1408078a873f"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-default-3948943232.jsonl.gz": {
+      "bytes": 4840860,
+      "sha256": "adb424b54c098e24bdc6c9d2cdc2ac44e936edba79600abd2f04e6d42098164a"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-default-2089697863.jsonl.gz": {
+      "bytes": 4857056,
+      "sha256": "5354ed6516ae4761e61f5403a664381b7e46b50be7c4f051da71fe1a2883dacd"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-bare-2380207674.jsonl.gz": {
+      "bytes": 5680581,
+      "sha256": "2dd09b98cd49d77cc9c6d0cf7cc57fc4774ac63f1fcd6abed7929df9bbdbfa90"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-bare-772709128.jsonl.gz": {
+      "bytes": 5681041,
+      "sha256": "0af75244dfaef6f2da69276a98bbf55f81a737f054e8bf5838f0eda0d5b44a6f"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-bare-1304238451.jsonl.gz": {
+      "bytes": 5745628,
+      "sha256": "7be2f502cc92c3bffc737ca61fd1749a4738be342ad54e4177090d595d126630"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-bare-1696751198.jsonl.gz": {
+      "bytes": 5698782,
+      "sha256": "6df80b0cdc9d94775ac360952c69ea85742c9210b2077f8d5dfe5f80255f4ed3"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-bare-1498885173.jsonl.gz": {
+      "bytes": 5714303,
+      "sha256": "ac101d20f1141f1d239904ebbf080b18b463caf072011bc46282465fc7d00335"
+    },
+    "/private/tmp/q19-control-capture-v1/monosyllables-bare-462530651.jsonl.gz": {
+      "bytes": 2992339,
+      "sha256": "8e956a2587ec2f5fefc56c789c66743311ffb7d155ed74a123569641f628c4d9"
+    },
+    "/private/tmp/q19-control-capture-v1/monosyllables-bare-62358955.jsonl.gz": {
+      "bytes": 2993891,
+      "sha256": "d4bf4bc6061de545224b27f0a7643110d3381dde44e955595bb7a9833786d91b"
+    },
+    "/private/tmp/q19-control-capture-v1/monosyllables-bare-3297327738.jsonl.gz": {
+      "bytes": 2995877,
+      "sha256": "3b1ab8fffbfe818a809ab964969330d62f1fcd25be6e3160d360b6cb06cffd8a"
+    },
+    "/private/tmp/q19-control-capture-v1/monosyllables-bare-2001884366.jsonl.gz": {
+      "bytes": 2993651,
+      "sha256": "4bb1e4ab375eae8ccf0b5391131bec56fac5a65dd082f1a31e62643055587c25"
+    },
+    "/private/tmp/q19-control-capture-v1/monosyllables-bare-2353354178.jsonl.gz": {
+      "bytes": 2989180,
+      "sha256": "4b494946884c1f92d295442f52eca9ae1f6123cbd73935c3a1fda51936f0827b"
+    },
+    "/private/tmp/q19-control-capture-v1/text-default-4167471042.jsonl.gz": {
+      "bytes": 3638923,
+      "sha256": "2219d51fa111c340aa113fb235d53c6c1f9aee65f9934289e5cb704ae32a95d8"
+    },
+    "/private/tmp/q19-control-capture-v1/text-default-2666001996.jsonl.gz": {
+      "bytes": 3631769,
+      "sha256": "4ec356c92baa563148e09697aa22fd11f0aa1343e211dce6e0de6f88179bb6d9"
+    },
+    "/private/tmp/q19-control-capture-v1/text-default-3562318933.jsonl.gz": {
+      "bytes": 3580600,
+      "sha256": "bc533cf7d7b8de750552b897dbd95c5aed6890e92a6feac1375f21cb50ce8bfd"
+    },
+    "/private/tmp/q19-control-capture-v1/text-default-1999736106.jsonl.gz": {
+      "bytes": 3645540,
+      "sha256": "30510acbb104340522b0ff402377bf942fd4640ab26f34b7af26f3a320dc610c"
+    },
+    "/private/tmp/q19-control-capture-v1/text-default-1665836705.jsonl.gz": {
+      "bytes": 3609210,
+      "sha256": "1573ea0461384cb568c911c6fd3b4efdc223aa84626a5ce87aeafd16e731b309"
+    },
+    "/private/tmp/q19-control-recount-v1/complete.json": {
+      "bytes": 4414180,
+      "sha256": "dc22a7b46e19cbb4e4744bec8446b094e799d11ec7dee319ccefd0cc24baf87a"
+    },
+    "/private/tmp/q19-candidate-capture-v1/manifest.json": {
+      "bytes": 8551,
+      "sha256": "e4370b4270d346b95c5ef8a332a4c0cd904bed306dcff4ba83d12faa035f2c73"
+    },
+    "/private/tmp/q19-candidate-capture-v1/complete.json": {
+      "bytes": 161,
+      "sha256": "033109fa269f727a322fdab36d61d2ee2375b4f98c2ce9da53a898ca576dae5b"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-default-69212153.jsonl.gz": {
+      "bytes": 4838369,
+      "sha256": "5cf3654e011cc7e1aa0620f82b37b415ed2506210d24010c9ff3f522fdf04897"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-default-101601885.jsonl.gz": {
+      "bytes": 4813040,
+      "sha256": "f6c656002f5ea5c0cafed183afaae8ef3d5e3e2a4d963290a7e4ff84ffa8a3cd"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-default-3921817393.jsonl.gz": {
+      "bytes": 4827838,
+      "sha256": "d846d7c7d8659a4f84e9aa0942efc1d86ebfb6b3bf004e65851a1408078a873f"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-default-3948943232.jsonl.gz": {
+      "bytes": 4840860,
+      "sha256": "adb424b54c098e24bdc6c9d2cdc2ac44e936edba79600abd2f04e6d42098164a"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-default-2089697863.jsonl.gz": {
+      "bytes": 4857056,
+      "sha256": "5354ed6516ae4761e61f5403a664381b7e46b50be7c4f051da71fe1a2883dacd"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-bare-2380207674.jsonl.gz": {
+      "bytes": 5680581,
+      "sha256": "2dd09b98cd49d77cc9c6d0cf7cc57fc4774ac63f1fcd6abed7929df9bbdbfa90"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-bare-772709128.jsonl.gz": {
+      "bytes": 5681041,
+      "sha256": "0af75244dfaef6f2da69276a98bbf55f81a737f054e8bf5838f0eda0d5b44a6f"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-bare-1304238451.jsonl.gz": {
+      "bytes": 5745628,
+      "sha256": "7be2f502cc92c3bffc737ca61fd1749a4738be342ad54e4177090d595d126630"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-bare-1696751198.jsonl.gz": {
+      "bytes": 5698782,
+      "sha256": "6df80b0cdc9d94775ac360952c69ea85742c9210b2077f8d5dfe5f80255f4ed3"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-bare-1498885173.jsonl.gz": {
+      "bytes": 5714303,
+      "sha256": "ac101d20f1141f1d239904ebbf080b18b463caf072011bc46282465fc7d00335"
+    },
+    "/private/tmp/q19-candidate-capture-v1/monosyllables-bare-462530651.jsonl.gz": {
+      "bytes": 2992339,
+      "sha256": "8e956a2587ec2f5fefc56c789c66743311ffb7d155ed74a123569641f628c4d9"
+    },
+    "/private/tmp/q19-candidate-capture-v1/monosyllables-bare-62358955.jsonl.gz": {
+      "bytes": 2993891,
+      "sha256": "d4bf4bc6061de545224b27f0a7643110d3381dde44e955595bb7a9833786d91b"
+    },
+    "/private/tmp/q19-candidate-capture-v1/monosyllables-bare-3297327738.jsonl.gz": {
+      "bytes": 2995877,
+      "sha256": "3b1ab8fffbfe818a809ab964969330d62f1fcd25be6e3160d360b6cb06cffd8a"
+    },
+    "/private/tmp/q19-candidate-capture-v1/monosyllables-bare-2001884366.jsonl.gz": {
+      "bytes": 2993651,
+      "sha256": "4bb1e4ab375eae8ccf0b5391131bec56fac5a65dd082f1a31e62643055587c25"
+    },
+    "/private/tmp/q19-candidate-capture-v1/monosyllables-bare-2353354178.jsonl.gz": {
+      "bytes": 2989180,
+      "sha256": "4b494946884c1f92d295442f52eca9ae1f6123cbd73935c3a1fda51936f0827b"
+    },
+    "/private/tmp/q19-candidate-capture-v1/text-default-4167471042.jsonl.gz": {
+      "bytes": 2730976,
+      "sha256": "2188dd4344c7778f03aaa594c6db7aed085c2898a8b02db59f0d7a0df8c42a15"
+    },
+    "/private/tmp/q19-candidate-capture-v1/text-default-2666001996.jsonl.gz": {
+      "bytes": 2700736,
+      "sha256": "a264167372f7da825925a3ea5d163eec40fbc43ddbc6c3b1977465e8522c76c3"
+    },
+    "/private/tmp/q19-candidate-capture-v1/text-default-3562318933.jsonl.gz": {
+      "bytes": 2728509,
+      "sha256": "3c16061777d41447bdc6c65c5aa7239f9026d6df3c44ea43a74e539f0eb0fcf6"
+    },
+    "/private/tmp/q19-candidate-capture-v1/text-default-1999736106.jsonl.gz": {
+      "bytes": 2714512,
+      "sha256": "b6cbf80e7a54d1d10de3f43067665df0002873b2131baae80e3f79f31877ecc8"
+    },
+    "/private/tmp/q19-candidate-capture-v1/text-default-1665836705.jsonl.gz": {
+      "bytes": 2692899,
+      "sha256": "9699fa9f6894efd2763462d69bf9310e0fcde9670189719acf579c5285bdb69e"
+    },
+    "/private/tmp/q19-candidate-recount-v1/complete.json": {
+      "bytes": 4056252,
+      "sha256": "afbc690827f49fc6b43443f1c634c1f9b4580ffd2704be6800675d8527b9d0b1"
+    }
+  },
+  "after": {
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/compare-captures.py": {
+      "bytes": 3940,
+      "sha256": "8544629b038319f88abb4251cca117ba005587143ac2f65a45caf5ba1a4dc6b8"
+    },
+    "/private/tmp/q19-control-capture-v1/manifest.json": {
+      "bytes": 8547,
+      "sha256": "09d85b83aae8f56533f9086332432b0d05919bc9531d75e93ed149a2e13d10e4"
+    },
+    "/private/tmp/q19-control-capture-v1/complete.json": {
+      "bytes": 161,
+      "sha256": "926ae61df82c709850b376464b70c8940f4cd3d75d94126f4b41b6363c3d94cd"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-default-69212153.jsonl.gz": {
+      "bytes": 4838369,
+      "sha256": "5cf3654e011cc7e1aa0620f82b37b415ed2506210d24010c9ff3f522fdf04897"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-default-101601885.jsonl.gz": {
+      "bytes": 4813040,
+      "sha256": "f6c656002f5ea5c0cafed183afaae8ef3d5e3e2a4d963290a7e4ff84ffa8a3cd"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-default-3921817393.jsonl.gz": {
+      "bytes": 4827838,
+      "sha256": "d846d7c7d8659a4f84e9aa0942efc1d86ebfb6b3bf004e65851a1408078a873f"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-default-3948943232.jsonl.gz": {
+      "bytes": 4840860,
+      "sha256": "adb424b54c098e24bdc6c9d2cdc2ac44e936edba79600abd2f04e6d42098164a"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-default-2089697863.jsonl.gz": {
+      "bytes": 4857056,
+      "sha256": "5354ed6516ae4761e61f5403a664381b7e46b50be7c4f051da71fe1a2883dacd"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-bare-2380207674.jsonl.gz": {
+      "bytes": 5680581,
+      "sha256": "2dd09b98cd49d77cc9c6d0cf7cc57fc4774ac63f1fcd6abed7929df9bbdbfa90"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-bare-772709128.jsonl.gz": {
+      "bytes": 5681041,
+      "sha256": "0af75244dfaef6f2da69276a98bbf55f81a737f054e8bf5838f0eda0d5b44a6f"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-bare-1304238451.jsonl.gz": {
+      "bytes": 5745628,
+      "sha256": "7be2f502cc92c3bffc737ca61fd1749a4738be342ad54e4177090d595d126630"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-bare-1696751198.jsonl.gz": {
+      "bytes": 5698782,
+      "sha256": "6df80b0cdc9d94775ac360952c69ea85742c9210b2077f8d5dfe5f80255f4ed3"
+    },
+    "/private/tmp/q19-control-capture-v1/lexicon-bare-1498885173.jsonl.gz": {
+      "bytes": 5714303,
+      "sha256": "ac101d20f1141f1d239904ebbf080b18b463caf072011bc46282465fc7d00335"
+    },
+    "/private/tmp/q19-control-capture-v1/monosyllables-bare-462530651.jsonl.gz": {
+      "bytes": 2992339,
+      "sha256": "8e956a2587ec2f5fefc56c789c66743311ffb7d155ed74a123569641f628c4d9"
+    },
+    "/private/tmp/q19-control-capture-v1/monosyllables-bare-62358955.jsonl.gz": {
+      "bytes": 2993891,
+      "sha256": "d4bf4bc6061de545224b27f0a7643110d3381dde44e955595bb7a9833786d91b"
+    },
+    "/private/tmp/q19-control-capture-v1/monosyllables-bare-3297327738.jsonl.gz": {
+      "bytes": 2995877,
+      "sha256": "3b1ab8fffbfe818a809ab964969330d62f1fcd25be6e3160d360b6cb06cffd8a"
+    },
+    "/private/tmp/q19-control-capture-v1/monosyllables-bare-2001884366.jsonl.gz": {
+      "bytes": 2993651,
+      "sha256": "4bb1e4ab375eae8ccf0b5391131bec56fac5a65dd082f1a31e62643055587c25"
+    },
+    "/private/tmp/q19-control-capture-v1/monosyllables-bare-2353354178.jsonl.gz": {
+      "bytes": 2989180,
+      "sha256": "4b494946884c1f92d295442f52eca9ae1f6123cbd73935c3a1fda51936f0827b"
+    },
+    "/private/tmp/q19-control-capture-v1/text-default-4167471042.jsonl.gz": {
+      "bytes": 3638923,
+      "sha256": "2219d51fa111c340aa113fb235d53c6c1f9aee65f9934289e5cb704ae32a95d8"
+    },
+    "/private/tmp/q19-control-capture-v1/text-default-2666001996.jsonl.gz": {
+      "bytes": 3631769,
+      "sha256": "4ec356c92baa563148e09697aa22fd11f0aa1343e211dce6e0de6f88179bb6d9"
+    },
+    "/private/tmp/q19-control-capture-v1/text-default-3562318933.jsonl.gz": {
+      "bytes": 3580600,
+      "sha256": "bc533cf7d7b8de750552b897dbd95c5aed6890e92a6feac1375f21cb50ce8bfd"
+    },
+    "/private/tmp/q19-control-capture-v1/text-default-1999736106.jsonl.gz": {
+      "bytes": 3645540,
+      "sha256": "30510acbb104340522b0ff402377bf942fd4640ab26f34b7af26f3a320dc610c"
+    },
+    "/private/tmp/q19-control-capture-v1/text-default-1665836705.jsonl.gz": {
+      "bytes": 3609210,
+      "sha256": "1573ea0461384cb568c911c6fd3b4efdc223aa84626a5ce87aeafd16e731b309"
+    },
+    "/private/tmp/q19-control-recount-v1/complete.json": {
+      "bytes": 4414180,
+      "sha256": "dc22a7b46e19cbb4e4744bec8446b094e799d11ec7dee319ccefd0cc24baf87a"
+    },
+    "/private/tmp/q19-candidate-capture-v1/manifest.json": {
+      "bytes": 8551,
+      "sha256": "e4370b4270d346b95c5ef8a332a4c0cd904bed306dcff4ba83d12faa035f2c73"
+    },
+    "/private/tmp/q19-candidate-capture-v1/complete.json": {
+      "bytes": 161,
+      "sha256": "033109fa269f727a322fdab36d61d2ee2375b4f98c2ce9da53a898ca576dae5b"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-default-69212153.jsonl.gz": {
+      "bytes": 4838369,
+      "sha256": "5cf3654e011cc7e1aa0620f82b37b415ed2506210d24010c9ff3f522fdf04897"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-default-101601885.jsonl.gz": {
+      "bytes": 4813040,
+      "sha256": "f6c656002f5ea5c0cafed183afaae8ef3d5e3e2a4d963290a7e4ff84ffa8a3cd"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-default-3921817393.jsonl.gz": {
+      "bytes": 4827838,
+      "sha256": "d846d7c7d8659a4f84e9aa0942efc1d86ebfb6b3bf004e65851a1408078a873f"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-default-3948943232.jsonl.gz": {
+      "bytes": 4840860,
+      "sha256": "adb424b54c098e24bdc6c9d2cdc2ac44e936edba79600abd2f04e6d42098164a"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-default-2089697863.jsonl.gz": {
+      "bytes": 4857056,
+      "sha256": "5354ed6516ae4761e61f5403a664381b7e46b50be7c4f051da71fe1a2883dacd"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-bare-2380207674.jsonl.gz": {
+      "bytes": 5680581,
+      "sha256": "2dd09b98cd49d77cc9c6d0cf7cc57fc4774ac63f1fcd6abed7929df9bbdbfa90"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-bare-772709128.jsonl.gz": {
+      "bytes": 5681041,
+      "sha256": "0af75244dfaef6f2da69276a98bbf55f81a737f054e8bf5838f0eda0d5b44a6f"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-bare-1304238451.jsonl.gz": {
+      "bytes": 5745628,
+      "sha256": "7be2f502cc92c3bffc737ca61fd1749a4738be342ad54e4177090d595d126630"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-bare-1696751198.jsonl.gz": {
+      "bytes": 5698782,
+      "sha256": "6df80b0cdc9d94775ac360952c69ea85742c9210b2077f8d5dfe5f80255f4ed3"
+    },
+    "/private/tmp/q19-candidate-capture-v1/lexicon-bare-1498885173.jsonl.gz": {
+      "bytes": 5714303,
+      "sha256": "ac101d20f1141f1d239904ebbf080b18b463caf072011bc46282465fc7d00335"
+    },
+    "/private/tmp/q19-candidate-capture-v1/monosyllables-bare-462530651.jsonl.gz": {
+      "bytes": 2992339,
+      "sha256": "8e956a2587ec2f5fefc56c789c66743311ffb7d155ed74a123569641f628c4d9"
+    },
+    "/private/tmp/q19-candidate-capture-v1/monosyllables-bare-62358955.jsonl.gz": {
+      "bytes": 2993891,
+      "sha256": "d4bf4bc6061de545224b27f0a7643110d3381dde44e955595bb7a9833786d91b"
+    },
+    "/private/tmp/q19-candidate-capture-v1/monosyllables-bare-3297327738.jsonl.gz": {
+      "bytes": 2995877,
+      "sha256": "3b1ab8fffbfe818a809ab964969330d62f1fcd25be6e3160d360b6cb06cffd8a"
+    },
+    "/private/tmp/q19-candidate-capture-v1/monosyllables-bare-2001884366.jsonl.gz": {
+      "bytes": 2993651,
+      "sha256": "4bb1e4ab375eae8ccf0b5391131bec56fac5a65dd082f1a31e62643055587c25"
+    },
+    "/private/tmp/q19-candidate-capture-v1/monosyllables-bare-2353354178.jsonl.gz": {
+      "bytes": 2989180,
+      "sha256": "4b494946884c1f92d295442f52eca9ae1f6123cbd73935c3a1fda51936f0827b"
+    },
+    "/private/tmp/q19-candidate-capture-v1/text-default-4167471042.jsonl.gz": {
+      "bytes": 2730976,
+      "sha256": "2188dd4344c7778f03aaa594c6db7aed085c2898a8b02db59f0d7a0df8c42a15"
+    },
+    "/private/tmp/q19-candidate-capture-v1/text-default-2666001996.jsonl.gz": {
+      "bytes": 2700736,
+      "sha256": "a264167372f7da825925a3ea5d163eec40fbc43ddbc6c3b1977465e8522c76c3"
+    },
+    "/private/tmp/q19-candidate-capture-v1/text-default-3562318933.jsonl.gz": {
+      "bytes": 2728509,
+      "sha256": "3c16061777d41447bdc6c65c5aa7239f9026d6df3c44ea43a74e539f0eb0fcf6"
+    },
+    "/private/tmp/q19-candidate-capture-v1/text-default-1999736106.jsonl.gz": {
+      "bytes": 2714512,
+      "sha256": "b6cbf80e7a54d1d10de3f43067665df0002873b2131baae80e3f79f31877ecc8"
+    },
+    "/private/tmp/q19-candidate-capture-v1/text-default-1665836705.jsonl.gz": {
+      "bytes": 2692899,
+      "sha256": "9699fa9f6894efd2763462d69bf9310e0fcde9670189719acf579c5285bdb69e"
+    },
+    "/private/tmp/q19-candidate-recount-v1/complete.json": {
+      "bytes": 4056252,
+      "sha256": "afbc690827f49fc6b43443f1c634c1f9b4580ffd2704be6800675d8527b9d0b1"
+    }
+  },
+  "interpretation": "Paired independent corpus recount. Complete archived lexical profiles are byte-identical with equal next-state probes. Text distances improve for length/joint structure but phone/trigram fit, diversity and stress completeness regress. This comparison does not prove generator gates, timing, human preference or full candidate public replay."
+}

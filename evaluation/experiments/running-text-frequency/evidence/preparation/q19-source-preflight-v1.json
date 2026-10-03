@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "scope": "Complete source selection and token coverage; no fit or generator-output quality measurement.",
+  "commit": "eed4fafe282793bb3e45262dbc73e04605be815f",
+  "before": {
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/evaluation/corpus/frequency-source.ts": {
+      "bytes": 6021,
+      "sha256": "165d2549bf57e871fc29b0e260d0a5978e0a9835a6fb4594ad411d1a1ad8b448"
+    },
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/evaluation/corpus/cmu.ts": {
+      "bytes": 5632,
+      "sha256": "1cfc3c2584a7da80623e5357e6a9f3004226dad3d6685f106e41f85e5232d0e4"
+    },
+    "/private/tmp/q19-subtlexus-wordforms.tsv": {
+      "bytes": 3298971,
+      "sha256": "c5f86f065fc5d057fbf366433b8c5ca550aa7c24e128362dea4394f2b29c86e4"
+    },
+    "/private/tmp/q17-cmudict-74790861.dict": {
+      "bytes": 3618488,
+      "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+    }
+  },
+  "after": {
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/evaluation/corpus/frequency-source.ts": {
+      "bytes": 6021,
+      "sha256": "165d2549bf57e871fc29b0e260d0a5978e0a9835a6fb4594ad411d1a1ad8b448"
+    },
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/evaluation/corpus/cmu.ts": {
+      "bytes": 5632,
+      "sha256": "1cfc3c2584a7da80623e5357e6a9f3004226dad3d6685f106e41f85e5232d0e4"
+    },
+    "/private/tmp/q19-subtlexus-wordforms.tsv": {
+      "bytes": 3298971,
+      "sha256": "c5f86f065fc5d057fbf366433b8c5ca550aa7c24e128362dea4394f2b29c86e4"
+    },
+    "/private/tmp/q17-cmudict-74790861.dict": {
+      "bytes": 3618488,
+      "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+    }
+  },
+  "coverage": {
+    "types": 74286,
+    "tokens": 49719560,
+    "joinedTypes": 48825,
+    "joinedTokens": 49079866,
+    "missingTypes": 25461,
+    "missingTokens": 639694
+  },
+  "selectedDigest": "e94552396a5ac197a336ce987ddd258018acdc0f2590d8d590ff99a2780ae277",
+  "joinedDigest": "c724f5f4920de24c2f76a78b54f01480fcbb80d01f3b0dbb550e5ca5609805d2"
+}

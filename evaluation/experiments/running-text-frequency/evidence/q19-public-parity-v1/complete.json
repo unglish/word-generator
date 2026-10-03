@@ -1,0 +1,330 @@
+{
+  "passed": true,
+  "comparisons": 20000,
+  "publicCalls": 40000,
+  "draws": 1944941,
+  "probes": 40,
+  "streams": [
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "comparisons": 500,
+      "draws": 44969,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "comparisons": 500,
+      "draws": 40838,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "comparisons": 500,
+      "draws": 52508,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "comparisons": 500,
+      "draws": 52072,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "comparisons": 500,
+      "draws": 46066,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "comparisons": 500,
+      "draws": 42963,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "comparisons": 500,
+      "draws": 43705,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "comparisons": 500,
+      "draws": 46165,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "comparisons": 500,
+      "draws": 38910,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "comparisons": 500,
+      "draws": 41814,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "comparisons": 500,
+      "draws": 58774,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "comparisons": 500,
+      "draws": 59744,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "comparisons": 500,
+      "draws": 61188,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "comparisons": 500,
+      "draws": 57496,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "comparisons": 500,
+      "draws": 58313,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "comparisons": 500,
+      "draws": 42880,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "text-default",
+      "seed": 2666001996,
+      "comparisons": 500,
+      "draws": 40012,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "text-default",
+      "seed": 3562318933,
+      "comparisons": 500,
+      "draws": 47337,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "text-default",
+      "seed": 1999736106,
+      "comparisons": 500,
+      "draws": 41450,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "enabled-trace-plain",
+      "profile": "text-default",
+      "seed": 1665836705,
+      "comparisons": 500,
+      "draws": 41644,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "comparisons": 500,
+      "draws": 44969,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "comparisons": 500,
+      "draws": 40838,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "comparisons": 500,
+      "draws": 52508,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "comparisons": 500,
+      "draws": 52072,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "comparisons": 500,
+      "draws": 46066,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "comparisons": 500,
+      "draws": 42963,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "comparisons": 500,
+      "draws": 43705,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "comparisons": 500,
+      "draws": 46165,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "comparisons": 500,
+      "draws": 38910,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "comparisons": 500,
+      "draws": 41814,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "comparisons": 500,
+      "draws": 58774,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "comparisons": 500,
+      "draws": 59744,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "comparisons": 500,
+      "draws": 61188,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "comparisons": 500,
+      "draws": 57496,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "comparisons": 500,
+      "draws": 58313,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "text-default",
+      "seed": 4167471042,
+      "comparisons": 500,
+      "draws": 52731,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "text-default",
+      "seed": 2666001996,
+      "comparisons": 500,
+      "draws": 54588,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "text-default",
+      "seed": 3562318933,
+      "comparisons": 500,
+      "draws": 43104,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "text-default",
+      "seed": 1999736106,
+      "comparisons": 500,
+      "draws": 39201,
+      "nextRngEquality": true
+    },
+    {
+      "contract": "lexicon-unchanged",
+      "profile": "text-default",
+      "seed": 1665836705,
+      "comparisons": 500,
+      "draws": 50944,
+      "nextRngEquality": true
+    }
+  ],
+  "scope": "10,000 enabled trace/plain complete nontrace-output comparisons plus 10,000 lexicon control/candidate complete word/trace comparisons, matched RNG counts after every word and 40 next-state probes. Original profile coordinates retained; text profile explicitly converted to lexicon only for the lexicon-preservation contract."
+}
