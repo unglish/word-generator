@@ -1,8 +1,9 @@
 # Q22 auditory study contracts
 
 These owner-side tools freeze source draws, pronunciation targets, audio bytes,
-balanced sessions and descriptive auditory reports. They do not collect ratings
-yet. No speech, independent human verification, recruitment, actual listener
+balanced sessions and descriptive auditory reports. A private loopback collector
+serves hash-checked audio and saves delivery, reported playback and rating receipts.
+No speech, independent human verification, recruitment, actual listener
 responses or calibrated auditory population inference has been completed.
 
 The implementation is deliberately modality-specific. A spelling is not an
@@ -78,10 +79,11 @@ distinct from listener wordlikeness judgments.
 
 Use `verifyReleaseFiles` immediately before serving assets: release digest
 validation alone authenticates frozen metadata, not present on-disk bytes.
-An auditory collector must hash-check the served bytes, serve only opaque
-asset identifiers, bind responses to audio/session/position, persist immutable
-receipts and playback events, and support interruption/recovery before recruitment.
-The current code supplies packets and export validation, not that collector.
+The auditory collector hash-checks served bytes, uses opaque asset identifiers,
+binds responses to audio/session/position, and persists immutable receipts and
+reported playback events. Startup reauthenticates all private audio, production
+and transcription files. Collector verification is described in
+[the collection guide](collection/README.md).
 An exported complete-playback flag is a recorded claim, not proof of attention.
 
 ## Owner workflow
@@ -125,7 +127,7 @@ The Q21 spelling-factor bootstrap is not automatically valid here: auditory
 dependence belongs to shared pronunciation targets/audio and participants.
 Preregister and independently calibrate an auditory analysis before adding
 population confidence intervals or efficacy decisions. Confirmatory human work
-still needs recruitment/identity evidence, an immutable collector, actual speech
+still needs recruitment/identity evidence, actual speech
 and blind verifications, an agreed stopping rule and real listener observations.
 No current CLI command reports such a verdict.
 
