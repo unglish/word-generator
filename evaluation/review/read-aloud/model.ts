@@ -1,6 +1,8 @@
 import type { ComparisonDraw, ComparisonPlan, ComparisonRegistration, Condition, WrittenComparison } from "../comparison/comparison-model.js";
 import type { AudioFacts, PronunciationPolicy, PronunciationTarget, TargetAssessment } from "../auditory/model.js";
 
+import type { ReadAloudInferenceProtocol } from "./inference-model.js";
+
 export interface AcceptedAlternative {
   condition: Condition;
   sample_id: string;
@@ -13,6 +15,7 @@ export interface ReadAloudRegistration extends Omit<ComparisonRegistration, "ver
   pronunciation: PronunciationPolicy;
   alternatives: AcceptedAlternative[];
   recording: { sample_rate: number; maximum_seconds: number; instructions: string };
+  inference?: ReadAloudInferenceProtocol;
 }
 export interface ReadAloudDraw extends ComparisonDraw {
   intended: TargetAssessment;

@@ -195,3 +195,48 @@ its parent are synced. A failed partial bundle remains for owner inspection
 and cannot be overwritten by a retry. The packet omits original filenames and
 paths. Deliver the complete bundle only to the independently verified blind
 coder. The owner export assembled from frozen artifacts remains private.
+
+## Prospective crossed stability analysis
+
+An optional `registration.inference` freezes a read-aloud protocol before any
+reading. Its version is `read-aloud-crossed-stability-v1`; it names one primary
+metric, a seed, replicate count, nominal confidence, minimum scored readers and
+spellings per arm, original-pool draw coverage, and reader/spelling/missingness/
+coding assumptions. All four intended/accepted phone and combined scores remain
+in the result. Changing a protocol invalidates the comparison and its recordings.
+
+`infer` accepts the same authenticated export, original WAV/coding materials and
+alternative rationale evidence as `report`. It reconstructs that report before
+analysis; a separately edited score table cannot bypass authentication. Original
+source draws retain their multiplicity, and an observed pronunciation scores all
+matching intended targets together. Every registered reader and unique spelling
+has one factor identity, shared across arms, strata and all four metrics.
+
+The candidate estimator divides every observation mass by its draw's fixed
+metric-available reader count, then applies positive reader/spelling factors and
+forms an overall weighted ratio. It does not renormalize reader weights inside
+each draw. Unit factors recover the descriptive mean. Each replicate uses
+independent exponential factors from midpoint-transformed seeded 32-bit bins;
+the retained bin hashes and exact counts support independent reconstruction.
+Axis scaling preserves ratios. Endpoints use linear interpolated percentiles.
+
+An interval is withheld if either arm lacks the frozen number of scored readers,
+spellings or covered original draws, or if any replicate is unavailable. Missing
+receipts, skips, failures, uncoded/uncertain/untranscribable decisions, unknown
+stress and unresolved targets remain in the accompanying full report. Combined
+scores with unknown stress stay unavailable while phone scores can remain usable.
+
+```sh
+node --import tsx evaluation/review/read-aloud/cli.ts infer \
+  --input export.json --materials materials.json --out NEW_STABILITY_RESULT
+```
+
+This is an **uncalibrated engineering estimator**. The output explicitly records
+`calibration: "not-established"` and `population_intervals: null`. Numerical
+stability endpoints are not a population confidence guarantee or human-quality
+result. The crossed-factor motivation in [Owen and Eckles (2012)](https://arxiv.org/abs/1106.2125)
+concerns mean-variance estimation; it does not establish coverage for this weighted
+ratio, percentile construction or categorical pronunciation study. Written-rating
+calibration does not validate it. New categorical calibration must preserve
+shared/conflicting targets, accepted sets, phones/boundaries/stress, coding
+availability and both conditional and full-population missingness truths.

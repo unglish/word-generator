@@ -3,6 +3,7 @@ import type { ComparisonRegistration, Condition } from "../comparison/comparison
 import type { Snapshot } from "../model.js";
 import { digest } from "../snapshot.js";
 import { assessTarget, hash, makeTarget, nonempty, validatePronunciationPolicy } from "../auditory/targets.js";
+import { validateReadAloudInference } from "./inference-protocol.js";
 import { validateProduction } from "../auditory/freeze.js";
 import type { ProductionContract } from "../auditory/model.js";
 import type { ReadAloudComparison, ReadAloudDraw, ReadAloudRegistration } from "./model.js";
@@ -17,6 +18,7 @@ export function freezeReadAloud(registration: ReadAloudRegistration, conditions:
   if (registration.version !== "read-aloud-v1" || !nonempty(registration.recording.instructions) || !Array.isArray(registration.alternatives)) {
     throw new Error("Invalid read-aloud registration.");
   }
+  if (registration.inference !== undefined) validateReadAloudInference(registration.inference);
   validatePronunciationPolicy(registration.pronunciation);
   validateProduction(recordingContract(registration, digest("registration-validation")));
   const partitionRegistration: ComparisonRegistration = {

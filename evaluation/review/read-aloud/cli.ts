@@ -11,6 +11,7 @@ import type { CodingInputFiles, ReadingInputFile } from "./material-files.js";
 import type { ReadAloudComparison, ReadAloudExport, ReadAloudRegistration, ReadAloudRoster, Reading } from "./model.js";
 import { blindCoderPacket, freezeReading, freezeReadAloudRoster, verifyReading } from "./readings.js";
 import { reportReadAloud } from "./report.js";
+import { inferReadAloud } from "./inference.js";
 
 const [command, ...args] = process.argv.slice(2);
 const { values } = parseArgs({ args, options: Object.fromEntries([
@@ -80,12 +81,16 @@ try {
     verifyReading(owner.comparison, owner.plan, owner.roster, reading, files.wav);
     await save(freezeAdjudication(owner.comparison, reading, owner.roster, files.coders, files.decision));
     console.log("Sealed two original coder files and the independent blind decision; truthful independence still requires actual people.");
+  } else if (command === "infer") {
+    const evidence = typeof values.evidence === "string" ? await loadAlternativeEvidence(values.evidence) : [];
+    await save(inferReadAloud(await load<ReadAloudExport>(required("input")), await loadReadingMaterials(required("materials")), evidence));
+    console.log("Saved uncalibrated read-aloud stability replicates and full availability audit. No population intervals or human-quality verdict.");
   } else if (command === "report" || command === "verify") {
     const evidence = typeof values.evidence === "string" ? await loadAlternativeEvidence(values.evidence) : [];
     const report = reportReadAloud(await load<ReadAloudExport>(required("input")), await loadReadingMaterials(required("materials")), evidence);
     if (command === "report") await save(report);
     console.log(`Authenticated ${report.trials.filter(trial => trial.reading_id !== null).length} trial receipts and original recording/annotation bytes. Descriptive conditional agreement only; no calibrated population interval or human-quality verdict.`);
-  } else throw new Error("Use inventory, allocate, packet, roster, recording, coder-packet, adjudicate, report or verify.");
+  } else throw new Error("Use inventory, allocate, packet, roster, recording, coder-packet, adjudicate, report, verify or infer.");
 } catch (error) {
   console.error(error instanceof Error ? error.message : "Read-aloud command failed."); process.exitCode = 1;
 }
