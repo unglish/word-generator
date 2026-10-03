@@ -293,6 +293,8 @@ function structuralEventReferencesUnit(event: StructuralTrace, unit: TraceUnitSe
     return unit.position === "onset" &&
       unit.syllableIndex === event.syllableIndex &&
       unit.phoneme === event.inserted;
+  case "codaExtensionRejected":
+    return false;
   case "aspirationDecision":
     if (!event.targetPhoneme) return false;
     return unit.position === (event.targetSegment ?? "onset") &&

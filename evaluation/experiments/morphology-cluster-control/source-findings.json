@@ -1,0 +1,48 @@
+{
+  "scope": "Read-only source findings for Q11b; no candidate behavior or registered measurement yet",
+  "commit": "8499e925cb69728e38573cceb477f2bb60f90007",
+  "files": {
+    "src/core/morphology/attach.ts": "cbf0fb6b20e891da4fba417ec733bd5b379ef25376838a058a5886c8cc452386",
+    "src/core/final-phones.ts": "0391bcac58dabedff96f518f9c91e259c901d1819178a20054bee9cc0f75c36b",
+    "src/core/morphology/allomorph-evidence.ts": "557e5caa1fcf1533f941f2abec3d45e90d9f8af446e20d72821ed364c5a898d4",
+    "src/config/language.ts": "5fdbd1e7811fd0e9421c8e6ec5147bf3937dd04d82dce94be1fb4a9c151b52e2",
+    "src/config/english.ts": "531e209bb92b3a753fe0fe86084a5299396ccbb10c937bfeed87be2182dfccb5"
+  },
+  "findings": [
+    {
+      "file": "src/core/morphology/attach.ts",
+      "function": "prepareMorphophonemicRules",
+      "behavior": "Boundary replacement checks its single-phone condition and then replaces that phone; no resulting-cluster legality check here."
+    },
+    {
+      "file": "src/core/final-phones.ts",
+      "function": "FinalPhones.snapshot",
+      "behavior": "Every initial identity must remain present; removing or coalescing phones requires an explicit ledger extension and authenticated replay."
+    },
+    {
+      "file": "src/config/english.ts",
+      "rule": "ity-velar-softening",
+      "behavior": "Replaces a preceding voiceless velar stop with s; written rewrite is a separate regex operation."
+    }
+  ],
+  "requiredBeforeImplementation": [
+    "Choose and document the phonological treatment of transformation-created collisions; preserve licensed repetition across distinct morphological sources.",
+    "Measure transformation-specific opportunities and violations on a frozen baseline through public generation APIs and complete WordTrace records.",
+    "Do not equate written double letters with duplicate phonemes; classify segment adjacency, syllable adjacency, origin and transformation separately.",
+    "Design typed configuration and deterministic eligibility; any suppressed rule must retain trace evidence and not apply its written half. Any coalescence must preserve authenticated source lineage and spelling ownership.",
+    "Register a full-sample control/candidate comparison, independent recount, trace/RNG parity and unchanged quality/performance gates before behavior changes."
+  ],
+  "dependencyControlRequirement": {
+    "Q11Branch": "codex/legal-coda-extensions",
+    "Q11Head": "5aa948a171c739037e4372893bd70dc772608247",
+    "Q11SourceFiles": [
+      "src/core/coda-extensions.test.ts",
+      "src/core/coda-shape.ts",
+      "src/core/generate.ts",
+      "src/core/repair.ts",
+      "src/core/trace.ts",
+      "src/core/write.ts"
+    ],
+    "required": "Construct and measure a control combining the Q11 root-cluster behavior with current authenticated source/operation traces. Do not use Q02 alone to claim all residual collisions are morphology-only; its common evaluator still observes root-stage duplicates. Do not carry forward historical dirty-capture source identity without equivalence verification."
+  }
+}
