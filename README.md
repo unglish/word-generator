@@ -61,9 +61,18 @@ const word = generateWord({ seed: 42, mode: "lexicon", trace: true });
 
 console.log(word.written.clean);
 console.log(word.trace?.summary);
+console.log(word.trace?.targetPhonemeCount);
+console.log(word.trace?.syllablePlans);
 console.log(word.trace?.stages[0]);
 console.log(word.trace?.graphemeSelections[0]);
 ```
+
+For top-down length diagnostics, inspect:
+
+- `trace.targetPhonemeCount` for the planned root phoneme budget
+- `trace.syllablePlans` for the per-root-syllable onset/coda budget
+- `trace.structural` entries with `event === "morphologyGuard"` when an affix
+  plan is downgraded because the remaining root would be too short
 
 Detailed trace workflow: [`docs/word-trace-diagnostics.md`](./docs/word-trace-diagnostics.md)
 

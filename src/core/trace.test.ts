@@ -50,6 +50,12 @@ describe("trace pipeline", () => {
     expect(typeof t.summary.repairCount).toBe("number");
     expect(typeof t.summary.morphologyApplied).toBe("boolean");
     expect(t.summary.totalDecisions).toBe(t.graphemeSelections.length);
+    expect(typeof t.targetPhonemeCount).toBe("number");
+    expect(Array.isArray(t.syllablePlans)).toBe(true);
+    expect(t.syllablePlans).toHaveLength(t.syllableCount);
+    expect(
+      t.syllablePlans!.reduce((total, plan) => total + 1 + plan.onsetLength + plan.codaLength, 0),
+    ).toBe(t.targetPhonemeCount);
   });
 
   it("does not attach a trace when trace option is not set", () => {
@@ -66,6 +72,14 @@ describe("trace pipeline", () => {
         expect(typeof sound).toBe("string");
       }
     }
+  });
+
+  it("keeps top-down plan data deterministic for a fixed seed", () => {
+    const first = generateWord({ seed: 85, trace: true, morphology: true, mode: "lexicon" });
+    const second = generateWord({ seed: 85, trace: true, morphology: true, mode: "lexicon" });
+
+    expect(first.trace?.targetPhonemeCount).toBe(second.trace?.targetPhonemeCount);
+    expect(first.trace?.syllablePlans).toEqual(second.trace?.syllablePlans);
   });
 
   it("captures repair traces with rule, before, and after", () => {
@@ -140,6 +154,391 @@ describe("trace pipeline", () => {
   it("does not include morphology trace when morphology is not used", () => {
     const word = generateWord({ seed: 42, trace: true, morphology: false });
     expect(word.trace!.morphology).toBeUndefined();
+  });
+
+  it("records morphologyGuard when an affix plan is downgraded to bare", () => {
+    const suffix: import("../config/language.js").Affix = {
+      type: "suffix",
+      written: "ing",
+      phonemes: ["ɪ", "ŋ"],
+      syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }],
+      syllableCount: 1,
+      stressEffect: "none",
+      frequency: 100,
+      boundaryTransforms: [],
+    };
+    const generator = createGenerator({
+      ...englishConfig,
+      phonemeLengthWeights: {
+        ...englishConfig.phonemeLengthWeights,
+        lexicon: [[2, 100]],
+      },
+      phonemeToSyllableWeights: {
+        ...englishConfig.phonemeToSyllableWeights,
+        lexicon: {
+          ...englishConfig.phonemeToSyllableWeights.lexicon,
+          2: [[1, 100]],
+        },
+      },
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [],
+        suffixes: [suffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+        },
+      },
+    });
+
+    const word = generator.generateWord({ seed: 42, trace: true, morphology: true, mode: "lexicon" });
+    const events = word.trace!.structural.filter(byEvent("morphologyGuard"));
+
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({
+      originalTemplate: "suffixed",
+      adjustedTemplate: "bare",
+      sampledFinalTarget: 3,
+      minRootPhonemes: 3,
+    });
+    expect(word.trace!.morphology).toMatchObject({ template: "bare" });
+    expect(word.trace!.summary.morphologyApplied).toBe(false);
+  });
+
+  it("downgrades forced monosyllables when an allomorphic suffix can add a syllable", () => {
+    const suffix: import("../config/language.js").Affix = {
+      type: "suffix",
+      written: "s",
+      phonemes: ["z"],
+      syllables: [],
+      syllableCount: 0,
+      stressEffect: "none",
+      frequency: 100,
+      allomorphs: [
+        { phonologicalCondition: { position: "preceding", voiced: false }, phonemes: ["s"], syllables: [], syllableCount: 0 },
+        { phonologicalCondition: { position: "preceding", voiced: true }, phonemes: ["z"], syllables: [], syllableCount: 0 },
+        {
+          phonologicalCondition: { position: "preceding", manner: ["sibilant", "affricate"] },
+          phonemes: ["ɪ", "z"],
+          syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }],
+          syllableCount: 1,
+          written: "es",
+        },
+      ],
+    };
+    const generator = createGenerator({
+      ...englishConfig,
+      phonemeLengthWeights: {
+        ...englishConfig.phonemeLengthWeights,
+        lexicon: [[4, 100]],
+      },
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [],
+        suffixes: [suffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+        },
+      },
+    });
+
+    const word = generator.generateWord({
+      seed: 1,
+      trace: true,
+      morphology: true,
+      mode: "lexicon",
+      syllableCount: 1,
+    });
+    const event = word.trace!.structural.find(byEvent("morphologyGuard"));
+
+    expect(event).toMatchObject({
+      originalTemplate: "suffixed",
+      adjustedTemplate: "bare",
+      rootPhonemesBefore: 0,
+    });
+    expect(word.trace!.morphology).toMatchObject({ template: "bare" });
+    expect(word.trace!.summary.morphologyApplied).toBe(false);
+    expect(word.syllables).toHaveLength(1);
+  });
+
+  it("does not downgrade morphology when forced syllable bounds raise the final target", () => {
+    const suffix: import("../config/language.js").Affix = {
+      type: "suffix",
+      written: "ing",
+      phonemes: ["ɪ", "ŋ"],
+      syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }],
+      syllableCount: 1,
+      stressEffect: "none",
+      frequency: 100,
+      boundaryTransforms: [],
+    };
+    const generator = createGenerator({
+      ...englishConfig,
+      phonemeLengthWeights: {
+        ...englishConfig.phonemeLengthWeights,
+        lexicon: [[4, 100]],
+      },
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [],
+        suffixes: [suffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+        },
+      },
+    });
+
+    const word = generator.generateWord({
+      seed: 1,
+      trace: true,
+      morphology: true,
+      mode: "lexicon",
+      syllableCount: 4,
+    });
+    const events = word.trace!.structural.filter(byEvent("morphologyGuard"));
+
+    expect(events).toHaveLength(0);
+    expect(word.trace!.morphology).toMatchObject({ template: "suffixed" });
+    expect(word.trace!.summary.morphologyApplied).toBe(true);
+    expect(word.syllables).toHaveLength(4);
+  });
+
+  it("keeps a valid prefix-only fallback when forced short words cannot fit both affixes", () => {
+    const prefix: import("../config/language.js").Affix = {
+      type: "prefix",
+      written: "un",
+      phonemes: ["ʌ", "n"],
+      syllables: [{ onset: [], nucleus: ["ʌ"], coda: ["n"] }],
+      syllableCount: 1,
+      stressEffect: "secondary",
+      frequency: 100,
+      boundaryTransforms: [],
+    };
+    const suffix: import("../config/language.js").Affix = {
+      type: "suffix",
+      written: "able",
+      phonemes: ["ə", "b", "ə", "l"],
+      syllables: [
+        { onset: [], nucleus: ["ə"], coda: [] },
+        { onset: ["b"], nucleus: ["ə"], coda: ["l"] },
+      ],
+      syllableCount: 2,
+      stressEffect: "none",
+      frequency: 100,
+      boundaryTransforms: [],
+    };
+    const generator = createGenerator({
+      ...englishConfig,
+      phonemeLengthWeights: {
+        ...englishConfig.phonemeLengthWeights,
+        lexicon: [[5, 100]],
+      },
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [prefix],
+        suffixes: [suffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+        },
+      },
+    });
+
+    const word = generator.generateWord({
+      seed: 1,
+      trace: true,
+      morphology: true,
+      mode: "lexicon",
+      syllableCount: 3,
+    });
+    const event = word.trace!.structural.find(byEvent("morphologyGuard"));
+
+    expect(event).toMatchObject({
+      originalTemplate: "both",
+      adjustedTemplate: "prefixed",
+    });
+    expect(word.trace!.morphology).toMatchObject({
+      template: "prefixed",
+      prefix: "un",
+      syllableReduction: 1,
+    });
+    expect(word.trace!.morphology?.suffix).toBeUndefined();
+    expect(word.trace!.summary.morphologyApplied).toBe(true);
+    expect(word.syllables).toHaveLength(3);
+  });
+
+  it("rejects guarded fallbacks that would exceed a forced final syllable count", () => {
+    const prefix = englishConfig.morphology!.prefixes.find((affix) => affix.written === "over");
+    const suffix = englishConfig.morphology!.suffixes.find((affix) => affix.written === "er");
+    expect(prefix).toBeDefined();
+    expect(suffix).toBeDefined();
+
+    const generator = createGenerator({
+      ...englishConfig,
+      phonemeLengthWeights: {
+        ...englishConfig.phonemeLengthWeights,
+        lexicon: [[4, 100]],
+      },
+      phonemeToSyllableWeights: {
+        ...englishConfig.phonemeToSyllableWeights,
+        lexicon: {
+          ...englishConfig.phonemeToSyllableWeights.lexicon,
+          3: [[1, 100]],
+        },
+      },
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [prefix!],
+        suffixes: [suffix!],
+        templateWeights: {
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+        },
+      },
+    });
+
+    const word = generator.generateWord({
+      seed: 1,
+      trace: true,
+      morphology: true,
+      mode: "lexicon",
+      syllableCount: 2,
+    });
+    const event = word.trace!.structural.find(byEvent("morphologyGuard"));
+
+    expect(event).toMatchObject({
+      originalTemplate: "both",
+      adjustedTemplate: "suffixed",
+      rootPhonemesBefore: 0,
+    });
+    expect(word.trace!.morphology).toMatchObject({
+      template: "suffixed",
+      suffix: "er",
+      syllableReduction: 1,
+    });
+    expect(word.trace!.summary.morphologyApplied).toBe(true);
+    expect(word.syllables).toHaveLength(2);
+  });
+
+  it("downgrades forced both-template plans to bare when single-affix re-evaluation is still too short", () => {
+    const prefix: import("../config/language.js").Affix = {
+      type: "prefix",
+      written: "un",
+      phonemes: ["ʌ", "n"],
+      syllables: [{ onset: [], nucleus: ["ʌ"], coda: ["n"] }],
+      syllableCount: 1,
+      stressEffect: "secondary",
+      frequency: 100,
+      boundaryTransforms: [],
+    };
+    const suffix: import("../config/language.js").Affix = {
+      type: "suffix",
+      written: "ing",
+      phonemes: ["ɪ", "ŋ"],
+      syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }],
+      syllableCount: 1,
+      stressEffect: "none",
+      frequency: 100,
+      boundaryTransforms: [],
+    };
+    const generator = createGenerator({
+      ...englishConfig,
+      phonemeLengthWeights: {
+        ...englishConfig.phonemeLengthWeights,
+        lexicon: [[3, 100]],
+      },
+      phonemeToSyllableWeights: {
+        ...englishConfig.phonemeToSyllableWeights,
+        lexicon: {
+          ...englishConfig.phonemeToSyllableWeights.lexicon,
+          3: [[3, 100]],
+        },
+      },
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [prefix],
+        suffixes: [suffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+          lexicon: { bare: 0, suffixed: 0, prefixed: 0, both: 100 },
+        },
+      },
+    });
+
+    const word = generator.generateWord({
+      seed: 1,
+      trace: true,
+      morphology: true,
+      mode: "lexicon",
+      syllableCount: 3,
+    });
+    const events = word.trace!.structural.filter(byEvent("morphologyGuard"));
+
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({
+      originalTemplate: "both",
+      adjustedTemplate: "bare",
+      sampledFinalTarget: 5,
+      rootPhonemesBefore: 1,
+      rootPhonemesAfter: 3,
+    });
+    expect(word.trace!.morphology).toMatchObject({ template: "bare" });
+    expect(word.trace!.targetPhonemeCount).toBe(3);
+    expect(word.trace!.summary.morphologyApplied).toBe(false);
+  });
+
+  it("records morphologyGuard rootPhonemesAfter from the adjusted plan target", () => {
+    const suffix: import("../config/language.js").Affix = {
+      type: "suffix",
+      written: "able",
+      phonemes: ["ə", "b", "ə", "l"],
+      syllables: [
+        { onset: [], nucleus: ["ə"], coda: [] },
+        { onset: ["b"], nucleus: ["ə"], coda: ["l"] },
+      ],
+      syllableCount: 2,
+      stressEffect: "none",
+      frequency: 100,
+      boundaryTransforms: [],
+    };
+    const generator = createGenerator({
+      ...englishConfig,
+      phonemeLengthWeights: {
+        ...englishConfig.phonemeLengthWeights,
+        lexicon: [[4, 100]],
+      },
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [],
+        suffixes: [suffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+        },
+      },
+    });
+
+    const word = generator.generateWord({
+      seed: 1,
+      trace: true,
+      morphology: true,
+      mode: "lexicon",
+      syllableCount: 4,
+    });
+    const event = word.trace!.structural.find(byEvent("morphologyGuard"));
+
+    expect(event).toMatchObject({
+      originalTemplate: "suffixed",
+      adjustedTemplate: "bare",
+      sampledFinalTarget: 6,
+      rootPhonemesBefore: 2,
+      rootPhonemesAfter: 4,
+    });
+    expect(word.trace!.targetPhonemeCount).toBe(4);
+    expect(event?.rootPhonemesAfter).toBe(word.trace!.targetPhonemeCount);
+    expect(word.trace!.summary.morphologyApplied).toBe(false);
   });
 
   // Boundary drops are effectively eliminated by top-down phoneme planning,

@@ -10,6 +10,69 @@ describe("Word Generator", () => {
     expect(word.syllables.length).toBe(3);
   });
 
+  it("keeps forced final syllable counts when shorter suffix allomorphs resolve", () => {
+    const suffix: import("../config/language.js").Affix = {
+      type: "suffix",
+      written: "s",
+      phonemes: ["z"],
+      syllables: [],
+      syllableCount: 0,
+      stressEffect: "none",
+      frequency: 100,
+      allomorphs: [
+        { phonologicalCondition: { position: "preceding", voiced: false }, phonemes: ["s"], syllables: [], syllableCount: 0 },
+        { phonologicalCondition: { position: "preceding", voiced: true }, phonemes: ["z"], syllables: [], syllableCount: 0 },
+        {
+          phonologicalCondition: { position: "preceding", manner: ["sibilant", "affricate"] },
+          phonemes: ["ɪ", "z"],
+          syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }],
+          syllableCount: 1,
+          written: "es",
+        },
+      ],
+    };
+    const generator = createGenerator({
+      ...englishConfig,
+      phonemeLengthWeights: {
+        ...englishConfig.phonemeLengthWeights,
+        lexicon: [[5, 100]],
+      },
+      morphology: {
+        ...englishConfig.morphology!,
+        prefixes: [],
+        suffixes: [suffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 100, prefixed: 0, both: 0 },
+        },
+      },
+    });
+
+    let sawSyllabicAllomorph = false;
+    for (let seed = 1; seed <= 20; seed++) {
+      const word = generator.generateWord({
+        seed,
+        morphology: true,
+        mode: "lexicon",
+        syllableCount: 3,
+        trace: true,
+      });
+
+      expect(word.trace!.morphology).toMatchObject({
+        template: "suffixed",
+        suffix: "s",
+        syllableReduction: 0,
+      });
+      expect(word.trace!.structural.filter((entry) => entry.event === "morphologyGuard")).toHaveLength(0);
+      expect(word.syllables).toHaveLength(3);
+      if (word.pronunciation.endsWith("əz")) {
+        sawSyllabicAllomorph = true;
+      }
+    }
+
+    expect(sawSyllabicAllomorph).toBe(true);
+  });
+
   it("generates a word with a valid written form", () => {
     const word = generateWord();
     expect(word.written.clean).toBeTruthy();
@@ -148,9 +211,9 @@ describe("buildCluster function", () => {
       };
       const cluster = buildCluster(context);
       const clusterString = cluster.map(p => p.sound).join("");
-      
+
       allClusters.add(clusterString);
-      
+
       // Check if the cluster starts with any special cluster and is 3 characters long
       if (exceptionalClusters.some(sc => clusterString.startsWith(sc)) && clusterString.length === 3) {
         foundClusters.add(clusterString.slice(0, 2));
@@ -185,9 +248,9 @@ describe("buildCluster function", () => {
       };
       const cluster = buildCluster(context);
       const clusterString = cluster.map(p => p.sound).join("");
-      
+
       allClusters.add(clusterString);
-      
+
       if (exceptionalClusters.some(exception => clusterString.endsWith(exception))) {
         foundClusters.add(clusterString.slice(0, 2));
       }

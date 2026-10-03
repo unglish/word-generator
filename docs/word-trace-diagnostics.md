@@ -23,16 +23,24 @@ Use these fields to answer specific diagnostic questions:
 - `stages`
   - Question: Where did the structure change in the pipeline?
   - Typical signal: a cluster appears after generation but before write.
+- `targetPhonemeCount`
+  - Question: What root phoneme budget did top-down planning choose?
+  - Typical signal: very small targets explain missing short-word shapes before grapheme selection even starts.
+- `syllablePlans`
+  - Question: How did the planner distribute the root consonant budget across syllables?
+  - Typical signal: an onsetless VC target is visible here before any later repairs.
 - `graphemeSelections`
   - Question: Is the written trigram caused by grapheme weighting/conditioning?
   - Typical signal: low-probability grapheme repeatedly selected for the same phoneme context.
 - `structural`
   - Question: Did structural events inject the pattern?
   - Typical signal: `finalS`, `nasalStopExtension`, `boundaryDrop`,
-    `risingCodaBoundaryDrop`, or `sspBoundaryDrop`.
+    `risingCodaBoundaryDrop`, `sspBoundaryDrop`, or `morphologyGuard`.
   - Schema: typed per-event payloads. Example:
     `vowelHiatusFallback.inserted`, `boundaryDrop.equalSonority`,
-    `aspirationDecision.context/probability/roll`.
+    `morphologyGuard.rootPhonemesBefore/rootPhonemesAfter`,
+    `aspirationDecision.ruleId/probability/roll`,
+    `aspirationDecision.evaluated/applied/targetPhoneme`.
 - `repairs`
   - Question: Did a repair rule create/preserve/remove the pattern?
   - Typical signal: frequent rule + before/after strings touching the target pattern.
@@ -73,6 +81,12 @@ Boundary diagnostics now emit dedicated structured events:
 - `junctionBoundaryDrop`
   - Non-SSP boundary safety drop (articulatory invalid junction).
   - Includes: `dropped`, `preDropCoda`, `remainingCoda`, `onset`.
+- `morphologyGuard`
+  - Affix-plan downgrade because the effective final target would leave too few
+    root phonemes.
+  - Includes: `originalTemplate`, `adjustedTemplate`, `sampledFinalTarget`
+    (the effective final target evaluated by the guard),
+    `minRootPhonemes`, `rootPhonemesBefore`, `rootPhonemesAfter`.
 
 ## Recommended Workflow
 
@@ -105,3 +119,8 @@ Recent lexicon-mode tuning work found repeatable signatures:
   - Signature: low `morphology.suffix === "tion"` incidence rather than a repair failure.
 - `ns` under-representation
   - Signature: scarcity aligns with coda cluster weighting, not grapheme repair.
+
+## Focused common-word probes
+
+For controlled `of`/`off`/`ofe` writer tests and a seeded root-plan-to-spelling
+probe, see [productive `of` spelling diagnostics](of-spelling-diagnostics.md).

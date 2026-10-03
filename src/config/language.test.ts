@@ -348,7 +348,7 @@ describe("validateConfig", () => {
         { name: "duplicate-to", phonemes: ["t", "u"], replacement: "to", targetLayer: "grapheme" as const },
       ],
     };
-    expect(() => validateConfig(bad)).toThrow('gapSpellings has duplicate variant for "duplicate-to"');
+    expect(() => validateConfig(bad)).toThrow("gapSpellings has duplicate variant for \"duplicate-to\"");
   });
 
   it("should reject duplicate gap-spelling variants even when target layers differ", () => {
@@ -359,7 +359,7 @@ describe("validateConfig", () => {
         { name: "duplicate-to-layer", phonemes: ["t", "u"], replacement: "to", targetLayer: "spellingRule" as const },
       ],
     };
-    expect(() => validateConfig(bad)).toThrow('gapSpellings has duplicate variant for "duplicate-to-layer"');
+    expect(() => validateConfig(bad)).toThrow("gapSpellings has duplicate variant for \"duplicate-to-layer\"");
   });
 
   it("should reject duplicate gap-spelling variants even when hyphenation differs", () => {
@@ -377,7 +377,7 @@ describe("validateConfig", () => {
       ],
     };
     expect(() => validateConfig(bad)).toThrow(
-      'gapSpellings has duplicate variant for "duplicate-any-hyphenation"',
+      "gapSpellings has duplicate variant for \"duplicate-any-hyphenation\"",
     );
   });
 
@@ -414,7 +414,7 @@ describe("validateConfig", () => {
       ],
     };
     expect(() => validateConfig(bad)).toThrow(
-      'gapSpellings[16].phonemes[0] contains unknown phoneme "not-a-phoneme"',
+      "gapSpellings[16].phonemes[0] contains unknown phoneme \"not-a-phoneme\"",
     );
   });
 
@@ -491,7 +491,7 @@ describe("validateConfig", () => {
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow('pronunciation.aspiration.targets[0].sounds contains unknown onset phoneme "not-a-phoneme"');
+    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.targets[0].sounds contains unknown onset phoneme \"not-a-phoneme\"");
   });
 
   it("should throw when aspiration target selector uses an unknown nucleus", () => {
@@ -505,7 +505,7 @@ describe("validateConfig", () => {
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow('pronunciation.aspiration.targets[0].sounds contains unknown nucleus phoneme "not-a-phoneme"');
+    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.targets[0].sounds contains unknown nucleus phoneme \"not-a-phoneme\"");
   });
 
   it("should throw when aspiration previousCodaSounds uses an unknown coda", () => {
@@ -524,7 +524,7 @@ describe("validateConfig", () => {
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow('pronunciation.aspiration.rules[0].when.previousCodaSounds contains unknown coda phoneme "not-a-phoneme"');
+    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.rules[0].when.previousCodaSounds contains unknown coda phoneme \"not-a-phoneme\"");
   });
 
   it("should throw when pronunciation config is missing", () => {
