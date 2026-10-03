@@ -83,9 +83,10 @@ Planned and observed presentation-position counts expose attrition imbalance.
 
 These are descriptive summaries of the covered frozen cohort. They do not give
 population confidence intervals. Synthetic checks test allocation/export
-contracts, not wordlikeness gains. Collection transport/UI, registered
-participant/item-aware inference, actual verified recruitment and observations
-remain before Q21 can count as a completed study or output-quality improvement.
+contracts, not wordlikeness gains. The [local collector](written-collection.md)
+provides authenticated, durable submission of the frozen blinded plan. Registered
+inference still requires calibration, verified recruitment and actual observations
+before Q21 can count as a completed study or output-quality improvement.
 
 ## Inference draft
 
