@@ -1,3 +1,4 @@
+import { validateAuditoryInference } from "./inference-protocol.js";
 import { freezeComparison } from "../comparison/comparison-freeze.js";
 import type { ComparisonRegistration, Condition } from "../comparison/comparison-model.js";
 import type { Snapshot } from "../model.js";
@@ -16,6 +17,7 @@ export function validateProduction(contract: ProductionContract): void {
 
 export function freezeAuditory(registration: AuditoryRegistration, conditions: Record<Condition, Snapshot>): AuditoryComparison {
   if (registration.version !== "auditory-comparison-v1" || !validId(registration.study_id)) throw new Error("Invalid auditory study registration.");
+  if (registration.inference !== undefined) validateAuditoryInference(registration.inference);
   validatePronunciationPolicy(registration.pronunciation);
   validateProduction(registration.production);
   if (registration.purpose === "human-study" && registration.production.method === "development-fixture") {

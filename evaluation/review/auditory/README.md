@@ -137,3 +137,47 @@ wordlikeness separate from elicited readings; see
 Participant and item dependence motivate accounting for both sources of variation;
 see [Baayen, Davidson and Bates (2008)](https://pages.stat.wisc.edu/~larget/Stat998/Fall2015/BaayenDavidsonBates-2008.pdf).
 Neither paper validates this rubric, allocation or an uncalibrated bootstrap.
+
+## Prospective listener and pronunciation-target stability
+
+Register optional `inference` before observations, including one primary cohort
+(`all-ratings` or `unfamiliar-only`), `share-4-5`, a deterministic seed, replicate
+count, confidence level, eligibility gates and explicit listener/target/missingness/
+production assumptions. Freezing validates this protocol; changing it changes
+comparison, release and allocation identities. The owner may freeze a distinct
+listener roster with comparison-bound person keys and verification-file hashes.
+Human inference requires that roster, whose independence remains owner-attested.
+
+```sh
+node --import tsx evaluation/review/auditory/cli.ts roster --comparison comparison.json --input listener-records.json --out roster.json
+node --import tsx evaluation/review/auditory/cli.ts infer --input export.json --materials materials.json --roster roster.json --out stability.json
+```
+
+The roster input contains `verification_method` and every registered slot's
+`participant_slot`, distinct `person_key`, and distinct `verification_sha256`.
+Inference reauthenticates every original WAV, production record and verifier file
+before constructing scores, including assets without observed eligible ratings.
+Original source multiplicities weight each target's cohort-specific observed
+ratings. Shared positive exponential listener and pronunciation-target factors
+apply jointly across both arms, both cohorts and all strata. Target factors use
+policy, ordered syllable phones and stress, so spelling aliases share a factor
+and different stress patterns keep distinct factors. Fixed eligible rating counts
+divide draw mass before global aggregation; listener exposure is not normalized
+away separately within each target. Unknown/missing/skip/familiarity outcomes
+stay explicit. Insufficient listener/target/coverage contexts retain every
+replicate and return a withheld numerical stability endpoint.
+
+Output declares `calibration: "not-established"` and `population_intervals: null`.
+The endpoints are uncalibrated numerical stability diagnostics. One overall
+cohort is primary; other cohorts/strata are exploratory without multiplicity
+adjustment. The unfamiliar subset is selected after hearing the item and can
+introduce condition-specific bias. The exported numerical kernel can operate on
+independently reconstructed synthetic inputs; it authenticates no audio or people
+and does not bypass original-material verification in the owner inference API.
+
+A separate auditory simulation must preserve target sharing, pronunciation-aware
+no-repeat allocation, original draw multiplicity, listener/target dependence,
+familiarity and unavailable playback/ratings before claiming population coverage.
+Q21 spelling-rating or Q23 elicited-pronunciation calibration cannot substitute
+for that experiment. Actual speech, truthful blind verification, listener
+attention/identity and human treatment-quality evidence remain outstanding.

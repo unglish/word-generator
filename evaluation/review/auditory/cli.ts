@@ -1,3 +1,6 @@
+import { inferAuditory } from "./inference.js";
+import { freezeAuditoryRoster } from "./inference-protocol.js";
+import type { AuditoryRoster } from "./inference-model.js";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";
@@ -12,7 +15,7 @@ import { loadMaterialFiles } from "./material-files.js";
 
 const [command, ...args] = process.argv.slice(2);
 const { values } = parseArgs({ args, options: Object.fromEntries([
-  "registration", "baseline", "candidate", "comparison", "input", "release", "plan", "session", "out",
+  "registration", "baseline", "candidate", "comparison", "input", "release", "plan", "session", "out", "materials", "roster",
 ].map(key => [key, { type: "string" as const }])) });
 function required(key: string): string {
   const value = values[key]; if (typeof value !== "string" || !value) throw new Error(`--${key} is required.`); return value;
@@ -40,8 +43,18 @@ try {
     await save(auditoryPacket(await load<AuditoryComparison>(required("comparison")), await load<AuditoryRelease>(required("release")),
       await load<ComparisonPlan>(required("plan")), required("session")));
     console.log("Saved audio-only packet: opaque IDs, audio hashes and auditory rubric.");
+  } else if (command === "roster") {
+    const comparison = await load<AuditoryComparison>(required("comparison"));
+    const input = await load<Pick<AuditoryRoster, "verification_method" | "entries">>(required("input"));
+    await save(freezeAuditoryRoster(comparison, input.verification_method, input.entries));
+    console.log("Saved owner-attested listener roster; records do not establish verified people.");
+  } else if (command === "infer") {
+    const data = await load<AuditoryExport>(required("input")), files = await loadMaterialFiles(required("materials"));
+    const roster = typeof values.roster === "string" ? await load<AuditoryRoster>(values.roster) : undefined;
+    await save(inferAuditory(data, files, roster));
+    console.log("Saved uncalibrated auditory stability analysis; population intervals remain unavailable.");
   } else if (command === "report") {
     await save(buildAuditoryReport(await load<AuditoryExport>(required("input"))));
     console.log("Saved descriptive auditory report. No calibrated population inference or human-quality verdict.");
-  } else throw new Error("Use inventory, release, verify, allocate, packet or report.");
+  } else throw new Error("Use inventory, release, verify, allocate, packet, roster, report or infer.");
 } catch (error) { console.error(error instanceof Error ? error.message : "Auditory command failed."); process.exitCode = 1; }

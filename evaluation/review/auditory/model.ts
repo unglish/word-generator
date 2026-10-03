@@ -1,3 +1,4 @@
+import type { AuditoryInferenceProtocol } from "./inference-model.js";
 import type { Snapshot } from "../model.js";
 import type { Condition, ComparisonDraw, ComparisonPlan, WrittenStratum } from "../comparison/comparison-model.js";
 import type { Answer } from "../protocol.js";
@@ -52,6 +53,7 @@ export interface AuditoryRegistration {
   strata: WrittenStratum[];
   pronunciation: PronunciationPolicy;
   production: ProductionContract;
+  inference?: AuditoryInferenceProtocol;
 }
 export interface AuditoryDraw extends ComparisonDraw { assessment: TargetAssessment }
 export interface AuditoryItem {
