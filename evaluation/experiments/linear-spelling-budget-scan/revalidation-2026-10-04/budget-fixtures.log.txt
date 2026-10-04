@@ -1,0 +1,34 @@
+
+ RUN  v3.2.4 /private/tmp/q13-performance-closure-audit-v1/committed
+
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > matches the frozen original over 248,042 preregistered cases 857ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for '' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'strengths' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'twelfths' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'y' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'Y' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'ya' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'yb' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'ayb' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'yay' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'aye' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'bth' with [ 'th', 't' ] 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'bth' with [ 't', 'th' ] 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'YATH' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'YATH' with [ 'Th', 'TH', 'th' ] 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'yab' with [ 'ya' ] 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'abthy' with [ 'ab' ] 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for '😀y' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for '😀y' with [ '😀', '�' ] 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for '😀ya' with [ '😀', '�' ] 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > preserves raw and token context for 'a!Y' with undefined 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > reads reordered, replaced, empty and omitted custom lists between calls 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > keeps limit truthiness and the configured key order 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > retains constraint getter access order 0ms
+ ✓ src/core/spelling-budget.test.ts > spelling budget scan equivalence > returns fresh measurements without sharing mutable result fields 0ms
+
+ Test Files  1 passed (1)
+      Tests  25 passed (25)
+   Start at  16:05:15
+   Duration  1.08s (transform 43ms, setup 0ms, collect 40ms, tests 860ms, environment 0ms, prepare 53ms)
+

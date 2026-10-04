@@ -1,0 +1,59 @@
+{
+  "records": [
+    {
+      "path": "README.md",
+      "bytes": 1601,
+      "sha256": "e151310935f5822b98e8012698591122fe6b9eb9f6eff5a5d4a5f7610300bf9e"
+    },
+    {
+      "path": "budget-fixtures.log.txt",
+      "bytes": 3706,
+      "sha256": "df3238e568cd029f341c75da5ba7e608adc227ea3460a3e5e9712bdf2cf1f67e"
+    },
+    {
+      "path": "omitted-policy-parity-renewed.json",
+      "bytes": 21764,
+      "sha256": "c2189a40f376689e220bde7754f7e18790b5f14390e878afbc599066a5d622a9"
+    },
+    {
+      "path": "omitted-policy-parity-renewed.log.txt",
+      "bytes": 1470,
+      "sha256": "528e4b6642c8577de9ba02e8b6934d9f5072ed7ff69531ad001e1c64d8e702a6"
+    },
+    {
+      "path": "parity-renewed.json",
+      "bytes": 30120,
+      "sha256": "4555e0b8e33ca26d615008195b0f2d7711f1df5a35f9f78e464ed3ae00239620"
+    },
+    {
+      "path": "parity-renewed.json.inputs.json",
+      "bytes": 20450,
+      "sha256": "04da1d2b136c5b204243a3109cae15137263341d19d1e21fdeef0895306b5ddf"
+    },
+    {
+      "path": "parity-renewed.log.txt",
+      "bytes": 2110,
+      "sha256": "e3cd79b7941f43e6386bad9a0d7fa460d9c3651013418e74a2d303dc72ced86b"
+    },
+    {
+      "path": "performance-arithmetic-renewed.json",
+      "bytes": 728,
+      "sha256": "a66c066411e8af082a0c20f3b1920ff233b42d97cb52a6b4b01cb2370c136cce"
+    },
+    {
+      "path": "renew-performance-check.py",
+      "bytes": 3965,
+      "sha256": "df358761c45823caa8a749e8710e9df0c3306c643b2b6547347bc4a86dd769bb"
+    },
+    {
+      "path": "retained-local-index.json",
+      "bytes": 242676,
+      "sha256": "3b1b9735b986d79a234ed4cbe3ea4795b4e9f2cbf940f37a627c644681f17521"
+    },
+    {
+      "path": "verify.py",
+      "bytes": 1948,
+      "sha256": "4b9970388040b860b3aeb365e46034a7df70789aed96feaf2ca0076c47c2316a"
+    }
+  ]
+}
