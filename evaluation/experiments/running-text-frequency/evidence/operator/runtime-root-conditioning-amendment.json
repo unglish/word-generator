@@ -1,0 +1,9 @@
+{
+  "version": "q19-runtime-root-conditioning-amendment-v1",
+  "stage": "Before corpus model fitting or held-out scoring; original registration retained unchanged",
+  "discovery": "A public text-mode parity fixture fails with missing phonemeToSyllableWeights.text.2. Morphology subtracts its planned phoneme delta from sampled final length and then requests the root-length conditional row, which may have no observed training target mass.",
+  "source": "src/core/generate.ts: derivePhonemeTargets then sampleSyllableCountForTarget on root target",
+  "policy": "Keep every observed eligible joint count and all unsupported source mass unchanged. For reachable configured lengths without an eligible observed conditional row, create a separately labeled root-conditioning prior row using the registered common uniform syllable base conditioned on configured positive syllable support and syllableCount <= phonemeCount. Do not invent token counts, change sampled final-length weights, or borrow held-out observations.",
+  "reporting": "Record all root prior rows and their normalized-base weights separately from source count tables and unsupported mass. Reject a required root row with no feasible configured syllable count. These are declared operational priors, not observed citation-root distributions.",
+  "reason": "Final citation length targets are not root lengths after morphology; operational table completeness is required by the public generator."
+}

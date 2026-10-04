@@ -1,0 +1,10 @@
+{
+  "q18-complete-audit": {
+    "path": "/private/tmp/q18-audit-driver-v1/complete.json",
+    "sha256": "3e03aaf5994c85fe62c7a34fd7630a8699f67242587aaeb7265886c0c03f05c9"
+  },
+  "q11b-integrated-preflight": {
+    "path": "/private/tmp/q11b-integrated-preflight-v1/complete.json",
+    "sha256": "40bd2ac55de3299645eb2f7f990025404407d5865f64984e5cfa1409d01e327d"
+  }
+}

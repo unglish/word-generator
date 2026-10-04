@@ -1,0 +1,92 @@
+{
+  "scope": "Authenticated source/coverage audit; no target fitting, generator change or human preference measurement.",
+  "files": {
+    "q19-subtlexus2.zip": {
+      "bytes": 682780,
+      "sha256": "67e595da1b399d2a21e25a1466a8d9f242f21a219c6bbbd3e089c4779ad83856"
+    },
+    "q19-subtlexus5.zip": {
+      "bytes": 1334330,
+      "sha256": "6d5c8c8374cca02be36e227924fc355b84462f5948b0cbf67e0b285bf78616e6"
+    },
+    "q19-subtlexus-pos.xlsx": {
+      "bytes": 10760844,
+      "sha256": "3a8cb93a4e28988c2ce722a63f6b8d394acdc42ebe2ab6e1f0e484ee0d4167a7"
+    },
+    "q19-subtlexus-license.txt": {
+      "bytes": 471,
+      "sha256": "1c96df5fcc840ebf7e2147ea7f13820fcda223ef78eb55cb505972dfed43248b"
+    },
+    "q17-cmudict-74790861.dict": {
+      "bytes": 3618488,
+      "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+    }
+  },
+  "originalFrequencyTable": {
+    "types": 74286,
+    "tokens": 49719560,
+    "joinedTypes": 48825,
+    "orderedJoinedSpellingCountPhoneDigest": "c724f5f4920de24c2f76a78b54f01480fcbb80d01f3b0dbb550e5ca5609805d2",
+    "joinedTokens": 49079866,
+    "missingTypes": 25461,
+    "missingTokens": 639694
+  },
+  "posFrequencyTable": {
+    "types": 74286,
+    "tokens": 49719560,
+    "joinedTypes": 48825,
+    "orderedJoinedSpellingCountPhoneDigest": "a50cee15fd3600240504aca5c6c2c10c23ba17ecc9425e4e1b5d9222cb3e71f9",
+    "joinedTokens": 49079866,
+    "missingTypes": 25461,
+    "missingTokens": 639694
+  },
+  "orderedSelectedCmuDigest": "e94552396a5ac197a336ce987ddd258018acdc0f2590d8d590ff99a2780ae277",
+  "rawLetterStringTokens": 51010983,
+  "textVsPosIntegerMismatches": {},
+  "pos": {
+    "missingOrNonintegerRows": 191,
+    "massGreaterThanWordCountRows": 2310,
+    "massLessThanWordCountRows": 8328,
+    "wordMinusTaggedTokenMass": 2672877,
+    "typesPerTag": {
+      "Adjective": 15166,
+      "Adverb": 2702,
+      "Article": 6,
+      "Conjunction": 61,
+      "Determiner": 47,
+      "Ex": 1,
+      "Interjection": 211,
+      "Letter": 27,
+      "Name": 14937,
+      "Not": 3,
+      "Noun": 45470,
+      "Number": 133,
+      "Preposition": 203,
+      "Pronoun": 82,
+      "To": 5,
+      "Unclassified": 260,
+      "Verb": 23545
+    },
+    "tokensPerTag": {
+      "Adjective": 2298444,
+      "Adverb": 4434383,
+      "Article": 2708719,
+      "Conjunction": 1780108,
+      "Determiner": 2077700,
+      "Ex": 111258,
+      "Interjection": 953994,
+      "Letter": 51181,
+      "Name": 1007097,
+      "Not": 290609,
+      "Noun": 6913254,
+      "Number": 362396,
+      "Preposition": 3173778,
+      "Pronoun": 8794350,
+      "To": 941649,
+      "Unclassified": 48227,
+      "Verb": 10937954
+    }
+  },
+  "license": "The materials on this website is subject to the following CC license:\n\nCC BY-NC-SA 4.0\nCreative Commons Attribution-NonCommercial-ShareAlike 4.0 International\n\nThis license requires that reusers give credit to the creator. It allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, for noncommercial purposes only. If others modify or adapt the material, they must license the modified material under identical terms.\n\n\n\n",
+  "textProjection": "Latin1 byte-preserving projection for old text; selected spelling policy is ASCII letters only."
+}
