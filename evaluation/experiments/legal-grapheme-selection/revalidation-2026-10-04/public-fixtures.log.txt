@@ -1,0 +1,18 @@
+
+ RUN  v3.2.4 /private/tmp/q12a-closure-audit-v1/committed
+
+ ✓ src/core/grapheme-selection.test.ts > legal grapheme selection > rejects impossible hard conditions instead of restoring banned candidates 5ms
+ ✓ src/core/grapheme-selection.test.ts > legal grapheme selection > rejects zero singleton weights without privileging the final array item 3ms
+ ✓ src/core/grapheme-selection.test.ts > legal grapheme selection > rejects invalid numerical weights at construction, even for singleton pools 1ms
+ ✓ src/core/grapheme-selection.test.ts > legal grapheme selection > does not use a fallback whose own hard condition fails 2ms
+ ✓ src/core/grapheme-selection.test.ts > legal grapheme selection > uses a separately declared fallback and records the ordinary empty set 4ms
+ ✓ src/core/grapheme-selection.test.ts > legal grapheme selection > keeps isolated-syllable licensing explicit rather than overriding edge bans 1ms
+ ✓ src/core/grapheme-selection.test.ts > legal grapheme selection > retains the established isolated /ɛ/ pool while keeping the /t/ restriction explicit 977ms
+ ✓ src/core/grapheme-selection.test.ts > legal grapheme selection > is deterministic and trace collection leaves RNG consumption unchanged 41ms
+ ✓ src/core/grapheme-selection.test.ts > legal grapheme selection > keeps positive real weights and correct edge scopes across 10k public outputs 2588ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  15:30:31
+   Duration  4.00s (transform 190ms, setup 0ms, collect 216ms, tests 3.62s, environment 0ms, prepare 52ms)
+
