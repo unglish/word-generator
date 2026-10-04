@@ -1,0 +1,43 @@
+{
+  "schema": "q13c-parent-parity-outcome-review-v1",
+  "passed": true,
+  "scope": "Independent report/stream/source reconciliation; full per-boundary live comparisons were executed by reviewed Node harness, not repeated generation",
+  "files": [
+    {
+      "path": "/private/tmp/q13c-formal-parity-freeze-v1.json",
+      "sha256": "fee661104514e33487c95eaa948b0acb1d41e78b1fc956412e4228f1b49e820e"
+    },
+    {
+      "path": "/private/tmp/q13c-formal-parity-result-v1.json.inputs.json",
+      "sha256": "8259dfa2bce3d4ca1e39a21ed54709e734cbd0c46391330406d94ca17d29bed7"
+    },
+    {
+      "path": "/private/tmp/q13c-formal-parity-result-v1.json",
+      "sha256": "b5888de959eb405edc3c4ce62f25a8c14166d2d0affd20720b6a7ad8288099f6"
+    },
+    {
+      "path": "/private/tmp/q13c-formal-parity-run-v1.log",
+      "sha256": "6d44c616cad8b0b88f168606d2c85a9cef239928c8758987d67bac0359652cb4"
+    },
+    {
+      "path": "/private/tmp/q13c-parent-parity-outcome-review-v1.py",
+      "sha256": "ae4b5e82fc1b25255f7a46a4da350af1c5e53bd7134ae5454779829d3f870c87"
+    }
+  ],
+  "streams": 20,
+  "coordinates": 20000,
+  "scheduledPublicCalls": 120000,
+  "supplementalMutationCalls": 8,
+  "sourceFilesVerified": 140,
+  "historicalPreparationPinsVerified": 10,
+  "controlFilesVerifiedAgainstGit": 55,
+  "omittedPolicyCompatibility": true,
+  "activeTraceOnOffParity": true,
+  "returnedValueIsolation": false,
+  "limitations": [
+    "Not active/control equality",
+    "No arbitrary custom configuration guarantee",
+    "Inherited returned-value aliasing persists",
+    "Not output-quality, structural recount, or performance evidence"
+  ]
+}

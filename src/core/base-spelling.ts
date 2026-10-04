@@ -1,5 +1,7 @@
 import type { Phoneme } from "../types.js";
 import type { SpellingCoverageCertificate } from "./spelling-coverage-types.js";
+import type { NormalizationDecision, NormalizationPlan } from "./spelling-normalization.js";
+import type { LedgerCursor, NormalizationSite, NormalizedCellOrigin, UnitNormalizationCertificate, UnitNormalizationCheck, UnitNormalizationEpisode, UnitNormalizationObservation } from "./spelling-normalization-types.js";
 
 /** Exact base-word edit provenance. Offsets are JavaScript UTF-16 string offsets. */
 export interface SpellingPhone {
@@ -9,7 +11,7 @@ export interface SpellingPhone {
   segment: "onset" | "nucleus" | "coda";
   segmentIndex: number;
   soundAtSpelling: string;
-  /** V2 only: detached actual writer input, independent of certificate claims. */
+  /** V2 and later: detached actual writer input, independent of certificate claims. */
   boundary?: { phoneme: Phoneme; stress?: string };
 }
 
@@ -20,11 +22,18 @@ export interface SpellingUnit {
   selected: string;
   afterDoubling: string;
   sourceCellIds: number[];
-  /** V2: actual inventory choice at selection, before repairs. */
+  /** V2 and later: actual inventory choice at selection, before repairs. */
   inventoryIndex?: number;
+  /** V3: actual quota increment around the existing doubling sampler, even for equal-text outcomes. */
+  doublingIncrement?: number;
+}
+
+export interface SpellingUnitV3 extends SpellingUnit {
+  doublingIncrement: 0 | 1;
 }
 
 export type SpellingCellOrigin =
+  | NormalizedCellOrigin
   | { kind: "selection"; unitId: number; offset: number }
   | { kind: "licensed"; unitId: number; offset: number; editId: number; certificateId: number; sourceUnitIds: number[] }
   | {
@@ -38,7 +47,7 @@ export interface SpellingCell {
   id: number;
   text: string;
   origin: SpellingCellOrigin;
-  /** V1: unavailable. V2: exact write-operation part, or null after a cross-part rewrite. */
+  /** V1: unavailable. V2 and later: exact write-operation part, or null after a cross-part rewrite. */
   partId?: number | null;
 }
 
@@ -51,23 +60,43 @@ export interface SpellingEdit {
   output: SpellingCell[];
   before: string;
   after: string;
-  /** Actual operation part in v2; null when a rewrite crosses part boundaries. */
+  /** Actual operation part in v2 and later; null when a rewrite crosses part boundaries. */
   partId?: number | null;
 }
 
-export interface BaseSpellingTrace {
-  version: 1 | 2;
-  capabilities?: { exactParts: 1; licensedOrigins: 1; writerBoundary: 1 };
-  certificates?: SpellingCoverageCertificate[];
+interface BaseSpellingTraceData {
   scope: "root-before-morphology" | "bare-after-gap-spelling";
   surface: string;
   phones: SpellingPhone[];
   units: SpellingUnit[];
   cells: SpellingCell[];
   edits: SpellingEdit[];
-  /** Inserted/replaced cells have exact edit provenance but unresolved phoneme ownership. */
+  /** Generic rewrite cells retain exact ancestry, not licensed phone ownership. */
   unresolvedCells: number;
 }
+export interface BaseSpellingTraceV1 extends BaseSpellingTraceData {
+  version: 1;
+  capabilities?: never;
+  certificates?: never;
+  normalizationCertificates?: never;
+  normalization?: never;
+}
+export interface BaseSpellingTraceV2 extends BaseSpellingTraceData {
+  version: 2;
+  capabilities: { exactParts: 1; licensedOrigins: 1; writerBoundary: 1 };
+  certificates: SpellingCoverageCertificate[];
+  normalizationCertificates?: never;
+  normalization?: never;
+}
+export interface BaseSpellingTraceV3 extends BaseSpellingTraceData {
+  version: 3;
+  units: SpellingUnitV3[];
+  capabilities: { exactParts: 1; licensedOrigins: 1; writerBoundary: 1; unitNormalization: 1 };
+  certificates: SpellingCoverageCertificate[];
+  normalizationCertificates: UnitNormalizationCertificate[];
+  normalization: UnitNormalizationObservation;
+}
+export type BaseSpellingTrace = BaseSpellingTraceV1 | BaseSpellingTraceV2 | BaseSpellingTraceV3;
 
 export type SpellingEditObserver = (
   start: number,
@@ -88,6 +117,12 @@ export class BaseSpelling {
   private cells: SpellingCell[] = [];
   private units: SpellingUnit[] = [];
   private readonly certificates: SpellingCoverageCertificate[] = [];
+  private readonly normalizationCertificates: UnitNormalizationCertificate[] = [];
+  private readonly normalizationComparisons = { "adjacent-choice": 0, "syllable-join": 0 };
+  private readonly normalizationCollisions = { "adjacent-choice": 0, "syllable-join": 0 };
+  private readonly normalizationChecks?: UnitNormalizationCheck[];
+  private readonly normalizationEpisodes?: UnitNormalizationEpisode[];
+  private nextNormalizationEpisodeId = 0;
   private nextCellId = 0;
   private nextEditId = 0;
   private readonly edits?: SpellingEdit[];
@@ -98,8 +133,13 @@ export class BaseSpelling {
     private readonly phones: SpellingPhone[],
     retainHistory: boolean,
     private readonly licensed = false,
+    private readonly normalizeUnits = false,
   ) {
-    if (retainHistory) this.edits = [];
+    if (normalizeUnits && !licensed) throw new Error("Unit normalization requires licensed spelling provenance");
+    if (retainHistory) {
+      this.edits = [];
+      if (normalizeUnits) { this.normalizationEpisodes = []; this.normalizationChecks = []; }
+    }
   }
 
   appendChoice(
@@ -107,7 +147,11 @@ export class BaseSpelling {
     selected: string,
     afterDoubling: string,
     inventoryIndex?: number,
+    doublingIncrement?: number,
   ): void {
+    if (this.normalizeUnits && doublingIncrement !== 0 && doublingIncrement !== 1) {
+      throw new Error("Missing actual doubling increment");
+    }
     this.phase = "selection";
     const id = this.units.length;
     const cells = afterDoubling.split("").map(
@@ -125,6 +169,7 @@ export class BaseSpelling {
       selected,
       afterDoubling,
       ...(this.licensed ? { inventoryIndex } : {}),
+      ...(this.normalizeUnits ? { doublingIncrement } : {}),
       sourceCellIds: cells.map((cell) => cell.id),
     });
     this.cells.push(...cells);
@@ -215,14 +260,88 @@ export class BaseSpelling {
   }
 
   /** Internal planner view; callers must not mutate the live cells or units. */
-  current(): { cells: readonly SpellingCell[]; units: readonly SpellingUnit[]; phones: readonly SpellingPhone[] } {
-    return { cells: this.cells, units: this.units, phones: this.phones };
+  current(): { cells: readonly SpellingCell[]; units: readonly SpellingUnit[]; phones: readonly SpellingPhone[]; normalizationCount?: number } {
+    return { cells: this.cells, units: this.units, phones: this.phones,
+      ...(this.normalizeUnits ? { normalizationCount: this.normalizationCertificates.length } : {}) };
+  }
+
+  normalizationState(): { cursor: LedgerCursor; certificates: readonly UnitNormalizationCertificate[] } {
+    return { cursor: { lastAppendedUnitId: this.units.length - 1, nextEditId: this.nextEditId }, certificates: this.normalizationCertificates };
+  }
+
+  recordNormalizationCheck(site: NormalizationSite, compared: boolean): void {
+    if (!this.normalizeUnits) throw new Error("Missing normalization capability");
+    this.normalizationChecks?.push({ site, cursor: this.normalizationState().cursor });
+    if (compared) this.normalizationComparisons[site]++;
+  }
+
+  recordNormalization(site: NormalizationSite, rightIndex: number, decision: NormalizationDecision): void {
+    if (!this.normalizeUnits) throw new Error("Missing normalization capability");
+    const first = this.cells[rightIndex];
+    const previous = this.cells[rightIndex - 1];
+    if (!first || !previous || first.text !== previous.text) throw new Error("Invalid normalization collision");
+    const cursor = this.normalizationState().cursor;
+    if (decision.status === "normalized" && (decision.plan.site !== site || decision.plan.inputCellIds[0] !== first.id)) {
+      throw new Error("Mismatched normalization application point");
+    }
+    const outcome = decision.status === "normalized"
+      ? { status: "normalized" as const, certificateId: this.commitNormalization(decision.plan) }
+      : { status: "retained" as const, reason: decision.reason };
+    this.normalizationCollisions[site]++;
+    const id = this.nextNormalizationEpisodeId++;
+    this.normalizationEpisodes?.push({ version: 1, id, site, cursor,
+      predecessorCellId: previous.id, rightCellId: first.id,
+      rightUnitId: first.origin.kind === "rewrite" ? null : first.origin.unitId, outcome });
+  }
+
+  /** Caller authenticates support; this atomic commit separately validates cell/phone structure. */
+  commitNormalization(plan: NormalizationPlan): number {
+    const fail = (): never => { throw new Error("Invalid local normalization certificate"); };
+    const equal = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
+    const unit = this.units[plan.unitId];
+    const cursor = this.normalizationState().cursor;
+    if (!this.normalizeUnits || plan.version !== 1 || plan.kind !== "local-unit-normalization" || !unit ||
+        !equal(plan.cursor, cursor) || plan.editId !== cursor.nextEditId ||
+        !equal(plan.phoneIds, unit.phoneIds) || !equal(unit.phoneIds, [unit.id]) ||
+        plan.originalInventoryIndex !== unit.inventoryIndex || plan.partId !== this.phones[unit.id].syllableIndex ||
+        !plan.after || plan.after !== plan.before.slice(1)) fail();
+    const support = plan.support;
+    if (!(support.effectiveWeight > 0) || !Number.isFinite(support.effectiveWeight) ||
+        !(support.poolTotal > 0) || !Number.isFinite(support.poolTotal) ||
+        !(support.graphemeProbability > 0 && support.graphemeProbability <= 1) || !Number.isFinite(support.graphemeProbability) ||
+        support.graphemeProbability !== support.effectiveWeight / support.poolTotal ||
+        !(support.doublingProbability > 0 && support.doublingProbability <= 1) || !Number.isFinite(support.doublingProbability) ||
+        support.afterDoubling !== plan.after || !Number.isInteger(support.inventoryIndex) || support.inventoryIndex < 0 ||
+        plan.targetReading.kind !== "single-phone") fail();
+    const start = this.cells.findIndex(cell => cell.id === plan.inputCellIds[0]);
+    const input = this.cells.slice(start, start + plan.inputCellIds.length);
+    const owned = this.cells.filter(cell => cell.origin.kind !== "rewrite" && cell.origin.unitId === unit.id);
+    const previous = this.cells[start - 1];
+    const prior = [...this.normalizationCertificates].reverse().find(certificate => certificate.unitId === unit.id);
+    if (start < 1 || !previous || previous.id !== plan.predecessorCellId || previous.text !== input[0]?.text ||
+        plan.before !== (prior?.after ?? unit.afterDoubling) || owned.length !== input.length || !input.length ||
+        input.map(cell => cell.text).join("") !== plan.before ||
+        input.some((cell, offset) => cell.id !== plan.inputCellIds[offset] || cell.origin.kind === "rewrite" ||
+          cell.origin.kind === "licensed" || cell.origin.unitId !== unit.id || cell.origin.offset !== offset || cell.partId !== plan.partId ||
+          (prior ? cell.origin.kind !== "normalized" || cell.origin.certificateId !== prior.id : cell.origin.kind !== "selection"))) fail();
+    const certificateId = this.normalizationCertificates.length;
+    const certificate = structuredClone({ ...plan, id: certificateId });
+    const editId = this.nextEditId++;
+    const output = plan.after.split("").map((text, offset): SpellingCell => ({
+      id: this.nextCellId++, text, partId: plan.partId,
+      origin: { kind: "normalized", unitId: unit.id, offset, editId, certificateId, sourceUnitIds: [unit.id] },
+    }));
+    this.cells.splice(start, input.length, ...output);
+    this.edits?.push({ id: editId, phase: this.phase, rule: `unitNormalization:${plan.site}`, start,
+      input, output, before: plan.before, after: plan.after, partId: plan.partId });
+    this.normalizationCertificates.push(certificate);
+    return certificateId;
   }
 
   /** Structural validation precedes every mutation, including ID advancement. */
   commitLicensedPlan(plan: Omit<SpellingCoverageCertificate, "id">): number {
     const fail = (): never => { throw new Error("Invalid spelling coverage certificate"); };
-    if (!this.licensed || plan.version !== 1 || plan.budgets.exceeded.length > 0) fail();
+    if (!this.licensed || plan.version !== 1 || plan.budgets.exceeded.length > 0 || this.normalizationCertificates.length > 0) fail();
     if (plan.before !== this.cells.map(cell => cell.text).join("") ||
         plan.inputCellIds.length !== this.cells.length ||
         plan.inputCellIds.some((id, i) => id !== this.cells[i].id)) fail();
@@ -293,21 +412,33 @@ export class BaseSpelling {
   }
 
   snapshot(): BaseSpellingTrace {
-    const trace: BaseSpellingTrace = {
-      version: this.licensed ? 2 : 1,
-      ...(this.licensed ? { capabilities: { exactParts: 1 as const, licensedOrigins: 1 as const, writerBoundary: 1 as const }, certificates: this.certificates.slice() } : {}),
+    const data: BaseSpellingTraceData = {
       scope: this.scope,
       surface: this.cells.map((cell) => cell.text).join(""),
       phones: this.phones,
       units: this.units.slice(),
       cells: this.cells.slice(),
       edits: this.edits?.slice() ?? [],
-      unresolvedCells: this.cells.filter(
-        (cell) => cell.origin.kind === "rewrite",
-      ).length,
+      unresolvedCells: this.cells.filter(cell => cell.origin.kind === "rewrite").length,
     };
-    return this.licensed ? structuredClone(trace) : trace;
+    if (!this.licensed) return { version: 1, ...data };
+    const capabilities = { exactParts: 1 as const, licensedOrigins: 1 as const, writerBoundary: 1 as const };
+    if (this.normalizeUnits) {
+      const units: SpellingUnitV3[] = this.units.map(unit => {
+        const doublingIncrement = unit.doublingIncrement;
+        if (doublingIncrement !== 0 && doublingIncrement !== 1) throw new Error("Missing actual doubling increment");
+        return { ...unit, doublingIncrement };
+      });
+      return structuredClone({ version: 3, ...data, units,
+        capabilities: { ...capabilities, unitNormalization: 1 }, certificates: this.certificates,
+        normalizationCertificates: this.normalizationCertificates,
+        normalization: { version: 1, checks: this.normalizationChecks ?? [], comparisons: this.normalizationComparisons, collisions: this.normalizationCollisions,
+          episodes: this.normalizationEpisodes ?? [] },
+      });
+    }
+    return structuredClone({ version: 2, capabilities, certificates: this.certificates, ...data });
   }
+
 }
 
 /** Native replacement-string expansion for an observed deterministic regex match. */

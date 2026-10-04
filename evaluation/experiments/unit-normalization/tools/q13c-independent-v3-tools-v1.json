@@ -1,0 +1,59 @@
+{
+  "kind": "q13c-independent-v3-tools-v1",
+  "files": [
+    {
+      "path": "/private/tmp/q13c-independent-v3-recount-v1.py",
+      "bytes": 39585,
+      "sha256": "9513813748a7f5f19c5c19bdc7a0e52bc12dc4edff55ff701749ac9de4a8766e"
+    },
+    {
+      "path": "/private/tmp/q13c-independent-v3-recount-test-v1.py",
+      "bytes": 18734,
+      "sha256": "2c5064bd7bf833847cbefdfb6a22d2a1df162736a456de9034afa783bb00987b"
+    }
+  ],
+  "observedContracts": [
+    {
+      "path": "evaluation/quality/probes/unit-normalization/observe-current.ts",
+      "sha256": "c0491cb410d2f86bded50e2b7b29197122b224e0ae50ceafb40787ba41a0fde1"
+    },
+    {
+      "path": "evaluation/quality/probes/unit-normalization/protocol.json",
+      "sha256": "a6ceecddecf068d427980176efbcf21a60b31a128f654bc4989153759af19a5c"
+    },
+    {
+      "path": "src/core/base-spelling.ts",
+      "sha256": "a2540877fb6510826df0e1266287f452cbf954ce8b7fd2b0f46c815e0bf5ce4c"
+    },
+    {
+      "path": "src/core/spelling-normalization-checks.ts",
+      "sha256": "0235c93f78692cd47afea7130411508ad9ce9bebfcd761132af81b7ba9f8f11c"
+    },
+    {
+      "path": "src/core/spelling-normalization-types.ts",
+      "sha256": "017397e8825030d65bd097cda27091d988cfe3c45ac8404ce7b759d636c8dc70"
+    },
+    {
+      "path": "src/core/spelling-normalization-evidence.ts",
+      "sha256": "351aea96c65179fe976025176f2d3e91c5c78eab596c7fb94a041f1239aae7a3"
+    },
+    {
+      "path": "src/core/spelling-coverage-types.ts",
+      "sha256": "8c58fda9c865f59975b590567162f0acb58093b2e05e86bdaa9a8a680bd41016"
+    }
+  ],
+  "historicalVerifiers": {
+    "/private/tmp/q13-independent-recount-v2.py": "42bfc4945741bfffd1bdc06f0856e5ee0cba5c95e1bd01e64295aa43630345e1",
+    "/private/tmp/q13c-independent-historical-recount.py": "31930c7bf2d13ee9c01b322a78ce4de0232d3159d047c00066e9eb8c79b12481"
+  },
+  "contract": {
+    "path": "/private/tmp/q13c-independent-v3-recount-contract-v1.md",
+    "sha256": "37884041b551e055ba379341b9bb62462307d9eb4f2ecc1ca44d63f9a38399fa"
+  },
+  "syntheticChecks": {
+    "groups": 19,
+    "log": "/private/tmp/q13c-independent-v3-synthetic-v3.log",
+    "sha256": "63fbdfe25dcceb425a2fee948cb3627fddc239e3ed610615b45b4ee4e7f8cd87"
+  },
+  "formalExecution": false
+}

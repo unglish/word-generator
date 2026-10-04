@@ -1,0 +1,21 @@
+[
+  {
+    "name": "full",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "exitCode": 1,
+    "log": "/private/tmp/q13c-checkpoint-full-suite-v1.log"
+  },
+  {
+    "name": "quality",
+    "command": [
+      "npm",
+      "run",
+      "test:quality"
+    ],
+    "exitCode": 1,
+    "log": "/private/tmp/q13c-checkpoint-quality-suite-v1.log"
+  }
+]
