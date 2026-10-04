@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "all12OriginalLogsVerified": true,
+  "medianPairedThroughputRatio": 0.9577728698040947,
+  "gates": {
+    "A": {
+      "floorGatePassed": 6,
+      "varianceGatePassed": 6
+    },
+    "B": {
+      "floorGatePassed": 2,
+      "varianceGatePassed": 6
+    }
+  },
+  "scope": "Original local timing raw-log/hash/gate/arithmetic reconciliation; no new timing, general speed or quality claim."
+}
