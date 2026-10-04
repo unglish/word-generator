@@ -1,0 +1,54 @@
+{
+  "records": [
+    {
+      "path": "README.md",
+      "bytes": 2128,
+      "sha256": "a132e09078d200b77d276cd538b220e2c67196e3c2eada5427f0172b1a7d8292"
+    },
+    {
+      "path": "candidate-independent-renewed.json",
+      "bytes": 562,
+      "sha256": "d5837e668228096bc6b0487c22f310c35d2273abed11b899fe6d090f42cd767b"
+    },
+    {
+      "path": "completion.json",
+      "bytes": 2452,
+      "sha256": "7836bc3ea887c3b90bc8bcdf9c83a2048a8872de146dc7ab425142ab677dad85"
+    },
+    {
+      "path": "original-independent-renewed.json",
+      "bytes": 562,
+      "sha256": "0f2a8d989935637ffe261f784c1df161fa45514fcfb084dcb48120ab4bc48ef6"
+    },
+    {
+      "path": "public-fixtures.log.txt",
+      "bytes": 1758,
+      "sha256": "7ec11d05424b8da6c7d69d0d68e1420dc687768bd569b49fd84e7738f83e7e47"
+    },
+    {
+      "path": "public-reproduction-complete.json",
+      "bytes": 4581,
+      "sha256": "9468ecdfad3eb16a5c8ddc0f7f3efa5f4b380d8f4c346315dc34e59c0ae259b5"
+    },
+    {
+      "path": "public-reproduction-registration.json",
+      "bytes": 2168,
+      "sha256": "40e634a714b19d176cb190e834f0c17f024f499d7513028070f898cc129e5328"
+    },
+    {
+      "path": "reproduce.mjs",
+      "bytes": 2627,
+      "sha256": "5da1393032f3af97d489ff74ecfdd556791b0859178003edb0840855865d48f0"
+    },
+    {
+      "path": "retained-local-index.json",
+      "bytes": 29333,
+      "sha256": "643300e8479cb43801bc7d5e1887afef9dc36c5de57c6654e880e9d0717c86f7"
+    },
+    {
+      "path": "verify.py",
+      "bytes": 2421,
+      "sha256": "1efa028d0a316dad36a0614ff0472fa93bb54febf80ac5c988c9c7f9b871507b"
+    }
+  ]
+}
