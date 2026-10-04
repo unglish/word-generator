@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "arm": "candidate",
+  "words": 200000,
+  "groups": 790,
+  "witnesses": 181,
+  "comparison": "Entire original report matches except freshly verified authority hash",
+  "scope": "Original production observer on authenticated raw corpus; relocated current authority, not historical host/dependency certification."
+}
