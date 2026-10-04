@@ -1,0 +1,9 @@
+# Independent read-aloud agreement evidence
+
+Original source/accepted-target freezing, first-attempt recording collection, two independent coding records and adjudication, and prospective reader/spelling stability analysis.
+
+The measured implementation is `65c6b76179b9b5067128e69a489ba7debb949230`, with exact control `37e9054591bd9c54ec3b3d144ae11d3122e049c0`. All 20,400 registered datasets and 244,555,200 contrasts completed and were independently reconstructed. The registered synthetic calibration decision **passed**, with 0 failed registered contexts. All 28 original repository/review commands completed: 26 passed and 2 failed, including all 12 native timing observations. The complete report retains every calibration/diagnostic context, missing/withheld result and original command failure.
+
+Start with [completed results](../evaluation/experiments/independent-read-aloud-study/completed-evidence/RESULTS.md) and the [portable packet](../evaluation/experiments/independent-read-aloud-study/completed-evidence/packet-index.json). From the packet directory, run `python3 -B verify_packet.py --root . --entry Q23`. `--full-local` also rehashes the complete original/retained raw, source and runtime evidence on the evidence owner’s machine. Local archives preserve all 40,800 original input/inference files, omitted source/runtime objects, credentials and complete browser profiles; their identities and public exclusion descriptors remain explicit.
+
+No actual readers, listeners, real speech or independent human coding judgments were collected. These results verify infrastructure and bounded synthetic calibration; they establish no human preference gain, generated-quality improvement, universal interval coverage, current-main certification or adoption decision. The generator implementation and original samples, seeds, replicates, thresholds, timeouts and heap settings are unchanged.
