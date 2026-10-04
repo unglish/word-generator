@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "publicCandidateWords": 200000,
+  "originalCompressedShardsMatched": 20,
+  "probeWords": 400000,
+  "entireOriginalProbeEqualExceptPhysicalDirectories": true,
+  "baselineGeneratedDuplicatePairs": 6045,
+  "candidateAllRecordedRootStageDuplicatePairs": 0,
+  "candidatePostPipelineDuplicateWords": 3,
+  "fullReport": {
+    "path": "/private/tmp/q11-closure-audit-v1/probe-renewed.json",
+    "bytes": 3958352,
+    "sha256": "776184aba4df17beb5e2928f21c842ab1b6179bd5dad16cb247c937249253111"
+  },
+  "scope": "Fresh unchanged complete archival probe and exact original report reconciliation. This is not a separately implemented independent oracle or human-quality evidence."
+}

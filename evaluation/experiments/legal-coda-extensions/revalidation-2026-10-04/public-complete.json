@@ -1,0 +1,127 @@
+{
+  "passed": true,
+  "words": 200000,
+  "streams": [
+    {
+      "file": "words/lexicon-default-69212153.jsonl.gz",
+      "bytes": 4819798,
+      "sha256": "578eec40d87b00a799eafef335cf573544ca4dd02c20c38ec827b2b488761097",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/lexicon-default-101601885.jsonl.gz",
+      "bytes": 4840610,
+      "sha256": "4df46f2144818eedcf10933d361aede8c302130dd912ffb78f1f48005b58930d",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/lexicon-default-3921817393.jsonl.gz",
+      "bytes": 4847755,
+      "sha256": "fb2d1323309eb218ae7eb9ce101bc2e27e52025141b66b08ca8c280488d53f92",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/lexicon-default-3948943232.jsonl.gz",
+      "bytes": 4848085,
+      "sha256": "fdf3e66b4c6f7c81c3032ae348e36e35675179b688771724c371361d2e385874",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/lexicon-default-2089697863.jsonl.gz",
+      "bytes": 4827616,
+      "sha256": "010fb9147f3007bcfc695a5d7a5207448b5fc490b42b493fc7728cbe32ff7162",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 5699072,
+      "sha256": "e2dd2de5b77ef736f3523538fbc3906730839672168b074f57f850dd8857091f",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/lexicon-bare-772709128.jsonl.gz",
+      "bytes": 5698970,
+      "sha256": "2a371390f7d08aebb7431c7c219e8c85a5b9ebfd6ef706347a8cc203407924ff",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 5703163,
+      "sha256": "a14370090501628988c2426f85de3aed4edfd930e34d340773551483e93cd13b",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 5702718,
+      "sha256": "faa3d080dcb2955850d7de13d1eb6e5526238debaf0f3e4fee748a5a4a58b1bc",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 5658683,
+      "sha256": "16d57c21cd52dacf6a4718bbb98649ad01f50ebef9dbce6411daf37939fdab8a",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 2924955,
+      "sha256": "63d1724c31013fac53a2c8fffba6f115fa743a4957160cbb6670acbeaf651035",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 2944187,
+      "sha256": "a7e2fdd75d01e2b23c70461f93a47537d242c1e874c45b3bd3639196c50f4f9f",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 2930028,
+      "sha256": "2c064eda3d4bfa0bcbfdce0857223d4d52e533c776be7d3ad7cbb8ea927dc222",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 2941370,
+      "sha256": "e5a4cc6c039889793d5dc0c88a8bc883a3eda30ce30b13d9f70e1bcaeb340c3b",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 2935957,
+      "sha256": "536a0bf5963cb6f8023b99f9e2241d9e12e52eb1e27e44865e4f2446113a9e42",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/text-default-4167471042.jsonl.gz",
+      "bytes": 3636052,
+      "sha256": "a6ea23d5a50aa7e954cdcf3048a4595d8b23cb4b0ebf3f32366c0a0aaf5d5846",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/text-default-2666001996.jsonl.gz",
+      "bytes": 3602748,
+      "sha256": "30bd072ee750a52cbccf599c7d508fe5afd83c05eb312aaa652994831eda66c5",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/text-default-3562318933.jsonl.gz",
+      "bytes": 3634509,
+      "sha256": "5ab591e6d2013cf4d00847fedc6af47ce8c4c3444a0011e211ba87024ca5fa6c",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/text-default-1999736106.jsonl.gz",
+      "bytes": 3630143,
+      "sha256": "d67a6aa445a685f87df4a00d1a6d80f5372aaba7999471ff13d120cff517dd0d",
+      "matchesOriginalCompressedBytes": true
+    },
+    {
+      "file": "words/text-default-1665836705.jsonl.gz",
+      "bytes": 3661162,
+      "sha256": "22754778acdfe1026ab3b54e4de01b6d8da8687faf86d33032fff1495063e486",
+      "matchesOriginalCompressedBytes": true
+    }
+  ],
+  "allOriginalCompressedHashesMatch": true
+}

@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "publicCandidateWords": 200000,
+  "originalCompressedShardsMatched": 20,
+  "probeWords": 400000,
+  "entireOriginalProbeEqualExceptPhysicalDirectories": true,
+  "baselineGeneratedDuplicatePairs": 6045,
+  "candidateAllRecordedRootStageDuplicatePairs": 0,
+  "candidatePostPipelineDuplicateWords": 3,
+  "fullReport": {
+    "path": "/private/tmp/q11-closure-audit-v1/probe-renewed.json",
+    "bytes": 3958352,
+    "sha256": "776184aba4df17beb5e2928f21c842ab1b6179bd5dad16cb247c937249253111"
+  },
+  "scope": "Fresh unchanged complete archival probe and exact original report reconciliation. This is not a separately implemented independent oracle or human-quality evidence.",
+  "deliveryCompletionProven": true,
+  "deliveryClassification": "Delivered measured independent root-extension experiment",
+  "publicFixturesPassed": 21,
+  "observerFixturesPassed": 5,
+  "retention": {
+    "path": ".local-evidence/q11-reproduction-retained-v1",
+    "files": 272,
+    "bytes": 187983905,
+    "indexSha256": "ca92f99855b2c04a799f61cf72612be08d4a4b08377a7159893c9cf41676fe82"
+  },
+  "adoptionReady": false,
+  "limits": [
+    "Original ugh gate failure, stress-clash increase and cluster-frequency shifts retained",
+    "Three later morphology residuals remain separate originalQ11bproblem",
+    "Original recorded root invariant is not universal coda legality or human preference"
+  ],
+  "nextAction": "Publish compact reproduction/probe renewal onoriginalPR313 with runtime unchanged."
+}

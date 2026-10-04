@@ -1,0 +1,30 @@
+
+ RUN  v3.2.4 /private/tmp/q11-closure-audit-v1/committed
+
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > rejects /s/ → /ss/ even with a 100% final-s probability 7ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > rejects /ks/ → /kss/ without deleting any existing coda segment 2ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > builds the attested continuation /ks/ → /kst/ 2ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > preserves separated /s/ repetitions in attested /kst/ → /ksts/ 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > allows the same attested separated repetition during normal coda building 2ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > does not treat a listed prefix as a licensed complete extension 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > enforces length constraints before final-s extension 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > enforces banned-coda constraints before final-s extension 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > enforces word-final constraints before final-s extension 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > enforces nucleus-coda constraints before final-s extension 2ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > does not repair away a voiced root stop to admit final /s/ 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > respects cluster-specific suppression of a legal final-s extension 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > uses configured pattern bans when there is no attested-cluster inventory 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > respects the candidate's positional licensing 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > does not introduce a segment absent from the configured coda inventory 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > checks homorganic nasal-stop features during normal cluster building too 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > adds a licensed voiced homorganic stop and retains both phones 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > does not invent an unlisted nasal-stop coda 2ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > does not exceed coda limits with a homorganic stop 1ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > keeps traced generation deterministic and tracing observational 2ms
+ ✓ src/core/coda-extensions.test.ts > coda extensions preserve configured legality > produces no adjacent duplicate coda phones in a 20,000-word bare stream 3885ms
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  15:24:01
+   Duration  4.33s (transform 193ms, setup 0ms, collect 219ms, tests 3.92s, environment 0ms, prepare 50ms)
+

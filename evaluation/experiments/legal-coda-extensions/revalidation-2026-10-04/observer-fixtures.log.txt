@@ -1,0 +1,13 @@
+✔ verifies a complete archive generated through the public API (14.987292ms)
+✔ rejects unpinned or corrupted archived bytes (8.499375ms)
+✔ rejects truncated and reordered draws even when their new bytes are pinned (7.282791ms)
+✔ rejects mutated manifests and duplicate stream schedules (5.143375ms)
+✔ the CLI refuses to overwrite an existing evidence report (114.478708ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 428.694916
