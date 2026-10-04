@@ -1,0 +1,13 @@
+{
+  "registeredAt": "2026-10-04T20:37:34.270991+00:00",
+  "wordsPerStream": 500,
+  "coordinates": 20000,
+  "publicCalls": 80000,
+  "measurementSha256": "7ee6193f4e5e5c9f79bcef9485bdc50e7df4202f0527e97f9c00459e3adeebf1",
+  "protocolSha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9",
+  "sourceBindingSha256": "7225db50f6bdc11a80996890cbdda0d69e543690c9938e9c7a86a5d8a868ef2d",
+  "runnerSha256": "4d57bf88c93b32f1c63c6de54743212d67015d41acedfe7139ebcd0b979f962d",
+  "sourceFreezeSha256": "0ed7d888606acb12e8cf45ac2d03035e460541b25d3d30b98cf08451137dd7c7",
+  "scope": "Originalfourprofiles/fiveseeds/first500perstream/defaultandactive/pairoftraceoffonacrossbaselineandcandidate. FullWords/fulltraces preserved withoutlegacyprojection;160nextRNGvaluesandcumulativecounts/all80kactualWords retained. No broader200kRNGclaim.",
+  "revision": 2
+}

@@ -1,0 +1,51 @@
+{
+  "registeredAt": "2026-10-04T20:40:03.948948+00:00",
+  "stages": [
+    "q02_trace_history_v2_paired_gates.py",
+    "q02_trace_history_v2_paired_recount.py",
+    "q02_trace_history_v2_broader.py"
+  ],
+  "operatorAndInputPins": [
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_paired_gates.py",
+      "bytes": 4496,
+      "sha256": "e3153490620965f14bb13e08908149b5329e86b5948a7b24280f6702da4e7330"
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_paired_recount.py",
+      "bytes": 3073,
+      "sha256": "79cf45b38938af7a86d8d88873479ef67f3564680405515aaa7a86edd0ed2620"
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_broader.py",
+      "bytes": 4931,
+      "sha256": "bfccf5c694283167262a3c69e0e845a1e798ffbc3f5c11f4fca9e61bd49da774"
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_acceptance.py",
+      "bytes": 2610,
+      "sha256": "91a91f4ca2994129327e04df051977369e521b05d46839b6294d65d76af2067b"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/source-freeze.json",
+      "bytes": 61910,
+      "sha256": "0ed7d888606acb12e8cf45ac2d03035e460541b25d3d30b98cf08451137dd7c7"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/registration.json",
+      "bytes": 65054,
+      "sha256": "a28d9b14d917cd2119bf5d71abfadbc872dea524bc73720d4d1aa7d4cd7d9a7c"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/paired-gate-registration.json",
+      "bytes": 888,
+      "sha256": "8abb738bf2311da989ba08886f7328c89ae1f3b5dec650a7f91c57e9c196f1cd"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/broader-registration.json",
+      "bytes": 3646,
+      "sha256": "054cbe310f21704b15e9969976513cccd324340a2c39d59725688f2bcfb6a97f"
+    }
+  ],
+  "scope": "Serial original12timings, independentall12logrecount, full80kpublictrace/RNG+200kactivearchivalWordbyteparity+independentrecounts andall6originalrepogatecommands. Originalsample/timeouts/heap/floors unchanged; allfailuresretained. Publication requires remaining reviews and acceptance reconciliation."
+}

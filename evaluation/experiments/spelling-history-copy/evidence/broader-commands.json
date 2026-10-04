@@ -1,0 +1,148 @@
+[
+  {
+    "name": "complete80k-public-trace-rng",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_parity.mjs"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2",
+    "startedAt": "2026-10-04T20:51:21.529364+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 0,
+    "completedAt": "2026-10-04T20:56:43.081192+00:00"
+  },
+  {
+    "name": "independent-complete80k-trace-rng-recount",
+    "args": [
+      "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_parity_recount.py"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2",
+    "startedAt": "2026-10-04T20:56:43.122353+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 0,
+    "completedAt": "2026-10-04T20:58:37.034293+00:00"
+  },
+  {
+    "name": "complete200k-active-public-word-archive",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_archive.mjs"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2",
+    "startedAt": "2026-10-04T20:58:37.106016+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 0,
+    "completedAt": "2026-10-04T21:21:03.429341+00:00"
+  },
+  {
+    "name": "independent-complete200k-active-recount",
+    "args": [
+      "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_archive_recount.py"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2",
+    "startedAt": "2026-10-04T21:21:03.469698+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 0,
+    "completedAt": "2026-10-04T21:24:51.625531+00:00"
+  },
+  {
+    "name": "baseline-required-unit",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+      "test"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2/baseline",
+    "startedAt": "2026-10-04T21:24:51.662708+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 1,
+    "completedAt": "2026-10-04T21:27:42.766619+00:00"
+  },
+  {
+    "name": "candidate-required-unit",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+      "test"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2/candidate",
+    "startedAt": "2026-10-04T21:27:42.832592+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 1,
+    "completedAt": "2026-10-04T21:30:27.021580+00:00"
+  },
+  {
+    "name": "baseline-required-quality",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+      "run",
+      "test:quality"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2/baseline",
+    "startedAt": "2026-10-04T21:30:27.087954+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 1,
+    "completedAt": "2026-10-04T21:31:04.669200+00:00"
+  },
+  {
+    "name": "candidate-required-quality",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+      "run",
+      "test:quality"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2/candidate",
+    "startedAt": "2026-10-04T21:31:04.733374+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 1,
+    "completedAt": "2026-10-04T21:31:43.239040+00:00"
+  },
+  {
+    "name": "baseline-required-performance",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2/baseline",
+    "startedAt": "2026-10-04T21:31:43.305471+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 1,
+    "completedAt": "2026-10-04T21:31:48.388420+00:00"
+  },
+  {
+    "name": "candidate-required-performance",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+      "run",
+      "test:perf"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2/candidate",
+    "startedAt": "2026-10-04T21:31:48.428700+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 1,
+    "completedAt": "2026-10-04T21:31:53.361677+00:00"
+  }
+]

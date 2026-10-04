@@ -1,0 +1,135 @@
+{
+  "verifiedAt": "2026-10-04T21:24:51.617750+00:00",
+  "passed": true,
+  "completePairedPublicWords": 200000,
+  "allCompleteWordAndTraceBytesEqual": true,
+  "finalSpellingSurfaceEqualsPublicOutputEveryWord": true,
+  "all20NativeStreamHashesReconstructed": true,
+  "allOriginalAndNewCompressedShardsAuthenticated": true,
+  "allSourceContextPinsStable": true,
+  "strata": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "completeWords": 10000,
+      "rawSha256": "beb3ea7fe04e25a27f2b30fc93e989cea2e94d14a64dbd778304d1baea0f2a5f"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "completeWords": 10000,
+      "rawSha256": "4466547ebe423250a58f8edfa0931b21680332f1537216b64093605cb448f00d"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "completeWords": 10000,
+      "rawSha256": "23893cb0f3f8c124598f240d9d5f5dfe6eb258d84ab95751765000d3b0929175"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "completeWords": 10000,
+      "rawSha256": "88a1667f1553be0c151ca61aa7d62c6e27fdbd093286cde099c16d554ee437e7"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "completeWords": 10000,
+      "rawSha256": "5028a92ff55d744bb1429fdda48cb80944910f3ec879c5af7cd39c44f71426b2"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "completeWords": 10000,
+      "rawSha256": "61dd7ed08690fd2a22129741358263a2931a0f7d45b9140a3ea91bb19ee179dc"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "completeWords": 10000,
+      "rawSha256": "0a3431933ac14a0666cc4fb6e4beb39bce8e8f32b73a2e70ae680e438a83606c"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "completeWords": 10000,
+      "rawSha256": "4e628430e7e3e2f2d84e257d0b2b91b93a291feb4dd8e064df04cbddc79fa095"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "completeWords": 10000,
+      "rawSha256": "be4fa0c53e58476723cc92253869c8f174874ffa30f0a40916cb7650ab48bd64"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "completeWords": 10000,
+      "rawSha256": "580b26c06431ce440ca36765a6162a79799f5c72ce72c4dc0c0dd4e50c1d0948"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "completeWords": 10000,
+      "rawSha256": "9279f6907d3006f8bf715914aea885d57533c12dfa25137f5698353bcc506252"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "completeWords": 10000,
+      "rawSha256": "68c87d543a3d2a445794b76be1974aa599c9605944b21f29014ecf35e677f1b0"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "completeWords": 10000,
+      "rawSha256": "aa5102c6efaa8925a75973e41547abfb06e0912cef562d896ce86a1ba50f08db"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "completeWords": 10000,
+      "rawSha256": "ab098d52cbfd5c502c660a791f49766c377e8545b6d9c14d5a181581d37db75e"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "completeWords": 10000,
+      "rawSha256": "dca2e95ce0a714730dc090ed78d848c55ad817e60a4b7c0cf905245ab10556c9"
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "completeWords": 10000,
+      "rawSha256": "20d6ef4839c80d8c1be58aad357447344159553c3a3ede924a8bda60aa08e1ae"
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "completeWords": 10000,
+      "rawSha256": "ea1370c07be3c137eee64f5da2e560f1ffe625d1412562ee5a191af363a7d7d1"
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "completeWords": 10000,
+      "rawSha256": "4d7ac8e3c0082a2eb45d96a625b6136f58b13f471973f68fd66fcbb5d5271032"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "completeWords": 10000,
+      "rawSha256": "5718158a3c50e2564867a7baa4b2d593fa9e235cdcf8199b3ae6659638d4d19e"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "completeWords": 10000,
+      "rawSha256": "e1b2bb8b10d93f2d61739860d9d411ff354182d3b925f405632b5f850652e05e"
+    }
+  ],
+  "nativeReportSha256": "658d41720a241fe963c43d4f93c20b1ca86b3456cb400da3700e988b6618d457",
+  "sourceFreezeSha256": "0ed7d888606acb12e8cf45ac2d03035e460541b25d3d30b98cf08451137dd7c7",
+  "scope": "Independentfull200000-record activecorpus bytecomparison againstoriginalsealedQ02candidate, includingfullpublicWord/trace andfinalsurface. No partialrecord projection, historicalsource relabeling, universalRNG orqualitygain claim."
+}

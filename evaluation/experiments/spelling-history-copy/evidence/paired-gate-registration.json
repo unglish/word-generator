@@ -1,0 +1,32 @@
+{
+  "registeredAt": "2026-10-04T20:37:34.272668+00:00",
+  "operatorSha256": "e3153490620965f14bb13e08908149b5329e86b5948a7b24280f6702da4e7330",
+  "sourceFreezeSha256": "0ed7d888606acb12e8cf45ac2d03035e460541b25d3d30b98cf08451137dd7c7",
+  "sixOriginalPairs": true,
+  "registeredOrder": [
+    "baseline",
+    "candidate",
+    "candidate",
+    "baseline",
+    "baseline",
+    "candidate",
+    "candidate",
+    "baseline",
+    "baseline",
+    "candidate",
+    "candidate",
+    "baseline"
+  ],
+  "unchangedGate": {
+    "fullWords": 8000,
+    "seedRange": [
+      0,
+      3999
+    ],
+    "timeoutMs": 60000,
+    "CI": null,
+    "NODE_OPTIONS": null
+  },
+  "interpretation": "Retainall12gate outcomes andreported elapsed times; computecomplete6pair descriptive median only. Original60s candidate pass remainscriterion; no newposthoc effect threshold or universalgain claim.",
+  "revision": 2
+}

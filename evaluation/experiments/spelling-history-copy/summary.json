@@ -1,0 +1,46 @@
+{
+  "control": "9b24c530f602685753f3e5b3d26d238552e61267",
+  "measuredSource": "2165c99da629510d6cc26004a99279a1835232f9",
+  "runtimeFilesChanged": [
+    "src/core/base-spelling.ts"
+  ],
+  "identicalObserverFixturesBothArms": 2,
+  "initialPolicyWords": 8000,
+  "publicParityCalls": 80000,
+  "archivalWords": 200000,
+  "candidateIsolatedPolicyPasses": 6,
+  "baselineIsolatedPolicyTimeouts": 6,
+  "medianPairedElapsedFractionChange": -0.2632335986215892,
+  "repositoryGateCommands": 6,
+  "repositoryGateFailures": 6,
+  "fullSuiteTimeoutResolved": false,
+  "adoptionRecommended": false,
+  "privateRetentionIndexes": [
+    {
+      "path": ".local-evidence/q02-trace-history-initial-retained-v2/index.json",
+      "bytes": 75551,
+      "sha256": "3b3b2605f0fefdf5d9139e60cf5366777be799ca12efb22951c490679d09c8b6"
+    },
+    {
+      "path": ".local-evidence/q02-trace-history-pairs-retained-v2/index.json",
+      "bytes": 4217,
+      "sha256": "89fc347358d5f7442fe6a5e0b7858e226b690703e57cca158ffc6ecba1e7e6ad"
+    },
+    {
+      "path": ".local-evidence/q02-trace-history-parity-retained-v2/index.json",
+      "bytes": 2694,
+      "sha256": "90854ed996b402c2daac11d8f63c3986f8908d7da977fffae818743263542c27"
+    },
+    {
+      "path": ".local-evidence/q02-trace-history-archive-retained-v2/index.json",
+      "bytes": 9953,
+      "sha256": "4d7f867bd8da85799f38552bcfac51879da07e4a19c94c602e8ce99a1592b716"
+    },
+    {
+      "path": ".local-evidence/q02-history-cursor-rejection-retained-v1/index.json",
+      "bytes": 6337,
+      "sha256": "e97cb9201ca893195a0fe8bf880185328ac28ebcc65ff03005d067d50eaab4d3"
+    }
+  ],
+  "scope": "Same complete words/traces and RNG at declared original scopes. Isolated policy speed effect only; fullsuite policytimeout/repositoryfailures persist. No linguisticquality/humanbenefit/currentmain claim. Rawwords remain in complete local retention; no vendor of every runtime/dependency byte."
+}

@@ -1,0 +1,20 @@
+{
+  "registeredAt": "2026-10-04T20:37:34.271880+00:00",
+  "archive": "/private/tmp/q02-corpus-acceptance-revalidation-v1/archives/candidate",
+  "manifestSha256": "8dedab2241a1fe1155c0aa2259a3b34487e0031dca2c0f2b8961bc83e4fa8028",
+  "measurementSha256": "7ee6193f4e5e5c9f79bcef9485bdc50e7df4202f0527e97f9c00459e3adeebf1",
+  "protocolSha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9",
+  "sourceFreezeSha256": "0ed7d888606acb12e8cf45ac2d03035e460541b25d3d30b98cf08451137dd7c7",
+  "runnerSha256": "f5fbfebcc2908b13e954b0f161a5b69b75e3ada48a540873697bb088234513bd",
+  "contextPins": [
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/baseline/evaluation/quality/serialization.ts",
+      "bytes": 1359,
+      "sha256": "c43ee5588d6ce61c1f5d9dd8d79b37e47fb835a0199a6bf9b526a6634b0d0713"
+    }
+  ],
+  "completeOriginalWords": 200000,
+  "shards": 20,
+  "scope": "Originalfullysealed activeQ02candidatearchive definesfullWord/config preservation; newcandidatephysicalsource freeze ownsnewoutputs. Canonicalconfigserializationhelper boundunchanged; no historicalsource relabeling or sampling.",
+  "revision": 2
+}
