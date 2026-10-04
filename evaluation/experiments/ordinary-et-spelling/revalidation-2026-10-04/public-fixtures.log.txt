@@ -1,0 +1,20 @@
+
+ RUN  v3.2.4 /private/tmp/q12b-closure-audit-v1/committed
+
+ ✓ src/core/ordinary-et.test.ts > ordinary e before /t/ > retains both spelling families: 'cross-syllable', 'e' (seed 46) 8ms
+ ✓ src/core/ordinary-et.test.ts > ordinary e before /t/ > retains both spelling families: 'same-rime', 'e' (seed 301) 2ms
+ ✓ src/core/ordinary-et.test.ts > ordinary e before /t/ > retains both spelling families: 'same-rime', 'ea' (seed 879) 2ms
+ ✓ src/core/ordinary-et.test.ts > ordinary e before /t/ > retains both spelling families: 'cross-syllable', 'ea' (seed 3035) 6ms
+ ✓ src/core/ordinary-et.test.ts > ordinary e before /t/ > restores availability throughout a continuous public-API sample without eliminating ea 1561ms
+ ✓ src/core/ordinary-et.test.ts > ordinary e before /t/ > exposes consonantal-y magic-e corruption in a named exploratory measure 51ms
+ ✓ src/core/ordinary-et.test.ts > ordinary e before /t/ > distinguishes owned eat from raw output and unavailable final alignment 0ms
+ ✓ src/core/ordinary-et.test.ts > ordinary e before /t/ > separates phonological repairs from subsequent string repairs 0ms
+ ✓ src/core/ordinary-et.test.ts > ordinary-et archive integrity > rejects altered manifests, missing shards and duplicate streams 1ms
+ ✓ src/core/ordinary-et.test.ts > ordinary-et archive integrity > rejects corrupted bytes and misordered draw coordinates 0ms
+ ✓ src/core/ordinary-et.test.ts > ordinary-et archive integrity > rejects complete-checksum archives with incomplete draw schedules and unlisted shards 721ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  15:35:55
+   Duration  2.74s (transform 192ms, setup 0ms, collect 218ms, tests 2.35s, environment 0ms, prepare 52ms)
+

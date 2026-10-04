@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "originalSource": "1c2eece263287b5d033f9f93e02bade013a950de",
+  "publicTestsPassed": 11,
+  "frozenRuntimeFiles": 42,
+  "candidateWordsReproduced": 200000,
+  "originalCompressedShardsMatched": 20,
+  "fullProbeWords": 400000,
+  "fullOriginalReportsEqualAfterRunPathNormalization": true,
+  "scope": "Exact original mechanical experiment reproduction. Original adverse outcomes retained. No independent observer, fresh original gate run, current-main integration, adoption or human benefit claim.",
+  "retained": {
+    "path": ".local-evidence/q12b-reproduction-retained-v1",
+    "files": 272,
+    "bytes": 187788204,
+    "indexSha256": "294f9b98526a5a53a905d3dc82646c8334557a0c811210a001021ab556bec414"
+  }
+}
