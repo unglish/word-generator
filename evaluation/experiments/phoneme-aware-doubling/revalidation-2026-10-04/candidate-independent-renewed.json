@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "words": 200000,
+  "groups": 667,
+  "integerComparisons": 65815,
+  "fullWitnesses": 60,
+  "arm": "candidate",
+  "observerSha256": "89deed1075ed944ea0aea55cf6df26d5ca73b91354afa59753a4f79b7f60c1fb",
+  "reportSha256": "77680edaaff2ff2555ae77de31f4b2a4aacec6c4ce7acda4a16fbf81134fe8fc",
+  "scope": "Fresh exact original Python integer/event/stratum/witness algorithm on fully authenticated recovered archives. Original absolute authority paths are not reused; frozen runtime bytes checked independently before and after. No historical dependency/executable certification or fresh JS observer replay."
+}
