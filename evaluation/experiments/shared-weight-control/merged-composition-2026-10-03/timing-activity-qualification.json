@@ -1,0 +1,5 @@
+{
+  "recordedAt": "2026-10-04T00:32:32.546467+00:00",
+  "observedSupplementCompletedAt": "2026-10-04T00:30:26.731474+00:00",
+  "scope": "The compact legacy core-summary/distribution comparison ran during the native timing sequence, ending shortly after pair3control began. Main replay/recount/gates/legacy-payload jobs had finished; this additional brief Python metadata check overlaps timing. All original runs and outcomes remain retained without restart/reduction. Ambient desktop/simulator activity also remains uncontrolled; no stable performance conclusion."
+}
