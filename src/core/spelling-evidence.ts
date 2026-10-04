@@ -1,3 +1,5 @@
+import { createSharedWriterEvidenceVerifier } from "./spelling-construction-evidence.js";
+import { sourceUnits } from "./spelling-ownership.js";
 import { createNormalizationEvidenceVerifier } from "./spelling-normalization-evidence.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
 import type { LanguageConfig } from "../config/language.js";
@@ -48,7 +50,7 @@ function createHistoricalSpellingEvidenceVerifier(config?: LanguageConfig) {
         if (edit.input.length) require(edit.partId === expectedPart, "edit part disagrees with consumed cells");
         require(edit.output.every(cell => cell.partId === edit.partId), "output part disagrees with edit");
       }
-      const sources = [...new Set(edit.input.flatMap(cell => cell.origin.kind === "rewrite" ? cell.origin.sourceUnitIds : [cell.origin.unitId]))];
+      const sources = [...new Set(edit.input.flatMap(cell => sourceUnits(cell.origin)))];
       for (const [offset, cell] of edit.output.entries()) {
         require(!knownIds.has(cell.id) && cell.text.length === 1, "output cell identity/length"); knownIds.add(cell.id);
         if (cell.origin.kind === "licensed") {
@@ -96,7 +98,13 @@ function createHistoricalSpellingEvidenceVerifier(config?: LanguageConfig) {
 export function createBaseSpellingEvidenceVerifier(config?: LanguageConfig) {
   const historical = createHistoricalSpellingEvidenceVerifier(config);
   let normalization: ReturnType<typeof createNormalizationEvidenceVerifier> | undefined;
+  let shared: ReturnType<typeof createSharedWriterEvidenceVerifier> | undefined;
   return (trace: BaseSpellingTrace) => {
+    if (trace.version === 4) {
+      if (!config) throw new Error("Invalid spelling evidence: v4 requires its shared spelling configuration");
+      shared ??= createSharedWriterEvidenceVerifier(config);
+      return shared(trace);
+    }
     if (trace.version !== 1 && trace.version !== 2 && trace.version !== 3) {
       throw new Error("Invalid spelling evidence: unsupported ledger version");
     }

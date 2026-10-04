@@ -1,0 +1,37 @@
+lexicon-default 69212153 10000
+lexicon-default 101601885 10000
+lexicon-default 3921817393 10000
+lexicon-default 3948943232 10000
+lexicon-default 2089697863 10000
+lexicon-bare 2380207674 10000
+lexicon-bare 772709128 10000
+lexicon-bare 1304238451 10000
+lexicon-bare 1696751198 10000
+lexicon-bare 1498885173 10000
+monosyllables-bare 462530651 10000
+monosyllables-bare 62358955 10000
+monosyllables-bare 3297327738 10000
+monosyllables-bare 2001884366 10000
+monosyllables-bare 2353354178 10000
+text-default 4167471042 10000
+text-default 2666001996 10000
+text-default 3562318933 10000
+text-default 1999736106 10000
+text-default 1665836705 10000
+{
+  "words": 200000,
+  "units": 1010158,
+  "affectedWords": 4003,
+  "adjacent-root-phones:[\"g\", \"z\"]": 220,
+  "events": 4365,
+  "spellingRule:gz-to-x": 44,
+  "complete-initial-selection-events": 3508,
+  "adjacent-root-phones:[\"k\", \"s\"]": 9808,
+  "spellingRule:ks-to-x": 1170,
+  "adjacent-root-phones:[\"k\", \"w\"]": 2646,
+  "spellingRule:cw-to-qu": 2629,
+  "partial-or-previously-edited-events": 857,
+  "spellingRule:cx-to-x": 311,
+  "spellingRule:ckt-to-ct": 211
+}
+categories 12 reportSha256 65ab3a6dcb37df38675ba113ab6cba4d6d461598e262723f70510bfbbe6ff1d5

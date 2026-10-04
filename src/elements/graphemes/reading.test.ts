@@ -115,6 +115,7 @@ describe("English grapheme reading obligations", () => {
     const bare = graphemes.map(withoutReading);
     const config = {
       ...englishConfig,
+      sharedSpellings: undefined,
       writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined },
     };
     const plain = createGenerator({ ...config, graphemes: bare, ...buildGraphemeMaps(bare) });

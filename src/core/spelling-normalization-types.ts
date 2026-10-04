@@ -72,6 +72,8 @@ export interface UnitNormalizationCertificate {
   /** First experiment admits no new open-vowel, marker, or joint obligation. */
   targetReading: { kind: "single-phone" };
   checkedNeighbors: CheckedNormalizationReading[];
+  /** V4 shared-mode evidence; original phones remain jointly owned. */
+  preservedSharedConstructionIds?: number[];
 }
 
 export interface UnitNormalizationEpisode {

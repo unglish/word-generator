@@ -1,0 +1,11 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/spelling-construction-policy.test.ts (36 tests) 23ms
+ ✓ src/core/spelling-construction-ownership.test.ts (27 tests) 6ms
+
+ Test Files  2 passed (2)
+      Tests  63 passed (63)
+   Start at  18:21:24
+   Duration  395ms (transform 283ms, setup 0ms, collect 371ms, tests 29ms, environment 0ms, prepare 84ms)
+

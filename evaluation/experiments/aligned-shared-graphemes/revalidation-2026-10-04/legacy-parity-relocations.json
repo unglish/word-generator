@@ -1,0 +1,13 @@
+{
+  "verifiedControlFiles": 94,
+  "replacements": {
+    "/private/tmp/q13b-control-b2373ca-v1": "/private/tmp/q12c-closure-audit-v1/committed",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator": "/private/tmp/q13b-closure-audit-v1/committed",
+    "/private/tmp/q13b-control-materialization-v1.json": "/private/tmp/q13b-closure-audit-v1/committed/evaluation/experiments/aligned-shared-graphemes/legacy-parity-stage/q13b-control-materialization-v1.json",
+    "/private/tmp/q13b-legacy-parity-v2.json": "/private/tmp/q13b-closure-audit-v1/legacy-parity-renewed.json",
+    "/private/tmp/q13b-legacy-parity-authority-v2.json": "/private/tmp/q13b-closure-audit-v1/legacy-parity-authority-renewed.json",
+    "/private/tmp/q13b-legacy-parity-failure-v1.json": "/private/tmp/q13b-closure-audit-v1/legacy-parity-failure-renewed.json"
+  },
+  "originalRunnerSha256": "bba532fb7a0ee7ae82bba700200da923231fbea7da969081f0b42358c996187e",
+  "relocatedRunnerSha256": "08fc0da0daa0a2ffcc272b2b2a57cba6cd9cd40fd3e791d8e00e3cdd419d955a"
+}

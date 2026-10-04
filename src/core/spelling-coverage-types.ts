@@ -55,6 +55,7 @@ export interface SpellingCoverageCertificate {
     afterDoubling: string;
   }>;
   phoneIds: number[];
+  preservedSharedConstructionIds?: number[];
   logProbability: number;
   budgets: SpellingBudgetMeasurement;
 }

@@ -1,0 +1,44 @@
+{
+  "files": {
+    "evaluation/experiments/aligned-shared-graphemes/observe-shared.mjs": {
+      "bytes": 11638,
+      "sha256": "12aed2fce0d2e27beabd47cb1bdaa110f82e573e623b54a43bb6d7817bef00e5"
+    },
+    "evaluation/experiments/aligned-shared-graphemes/observe-shared.test.mjs": {
+      "bytes": 10335,
+      "sha256": "0c04349908d56637f4bfe6f7fd9d9b82432242a2bfc53e35119ebec35d289a78"
+    },
+    "evaluation/experiments/aligned-shared-graphemes/observe-repairs.ts": {
+      "bytes": 13620,
+      "sha256": "b625445d10f1500079411ae1efcb9f027f1b5523d70818a198a9cf8e9f7d6d66"
+    },
+    "evaluation/experiments/aligned-shared-graphemes/observe-doubling.mjs": {
+      "bytes": 4722,
+      "sha256": "96c04ca4c58ea7f985a8b1b6b4bb404bda6171a725c605d64f846819c6d72ff6"
+    },
+    "evaluation/experiments/aligned-shared-graphemes/aggregate-shared.mjs": {
+      "bytes": 5222,
+      "sha256": "76703998528371c7bf96dc68077ecf476c0b24f7335b173642ad879b1bbc5cd6"
+    },
+    "evaluation/experiments/aligned-shared-graphemes/aggregate-shared.test.mjs": {
+      "bytes": 4500,
+      "sha256": "adae22c8316139dd3b87e3f97dbc2fa52c0155d11913c364cc277d24b7447cdb"
+    },
+    "evaluation/experiments/aligned-shared-graphemes/analyze-shared.mjs": {
+      "bytes": 9784,
+      "sha256": "9dae6083c268ad79f5c75c1e50cd82c49d8063fa4aea71156dc2d8715c0f54fa"
+    },
+    "evaluation/experiments/aligned-shared-graphemes/analyze-shared.test.mjs": {
+      "bytes": 5081,
+      "sha256": "f00de46b8da513781882186102b26afb09ba3b3952ea9ebdd3c473ac898919d6"
+    },
+    "evaluation/experiments/aligned-shared-graphemes/freeze-capture.mjs": {
+      "bytes": 5503,
+      "sha256": "9a524bcc238a8696034c09c16a9dede77444458e10a9bdff0adaf3689d41c3e1"
+    },
+    "evaluation/experiments/aligned-shared-graphemes/freeze-capture.test.mjs": {
+      "bytes": 2291,
+      "sha256": "d54c12361ee4aa8be22275cf7dc21416006e809e1e66cf07ba1d3b5254c4e760"
+    }
+  }
+}

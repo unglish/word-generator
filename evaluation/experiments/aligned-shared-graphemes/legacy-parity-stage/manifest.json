@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "files": {
+    "README.md": {
+      "bytes": 2533,
+      "sha256": "a459ea1385398379d3a3fa9ae2870a9083e4faa6a8a1dd0347ab76d5a4b4cffc"
+    },
+    "q13b-control-materialization-v1.json": {
+      "bytes": 14225,
+      "sha256": "b66078a12a7e04c6246616fd5436f68c477f780a62714f52569561ea1f9b6934"
+    },
+    "q13b-legacy-parity-authority-v1.json": {
+      "bytes": 23520,
+      "sha256": "71ab7b547c62388f6d90e27df158d9e8deff7504ebe5aee83d35959afdaa88aa"
+    },
+    "q13b-legacy-parity-v1.json": {
+      "bytes": 19866,
+      "sha256": "e09fb6024401bc0d8b9253cda2b49601ffbd096c867a8c5007333d6cbb29a4ab"
+    },
+    "q13b-legacy-parity-v1.log": {
+      "bytes": 1153,
+      "sha256": "8d770e3d76968c9dd0c7c2cf7083ed3b4913316977c7128eca5a141e5f2ec9c0"
+    },
+    "q13b-legacy-parity-v1.mjs": {
+      "bytes": 6853,
+      "sha256": "632331720efb856f6e30dbb9221e6197d13a1627a621a3e7d5b7791ff2674763"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "reference": "../batch-stage/q13b-batch-full-suite-v1.log",
+  "candidate": "final-full.log",
+  "exactMatch": true,
+  "assertions": [
+    "AssertionError: Bigram \"ex\" under-represented at 0.0109\u00d7 vs CMU (threshold: 0.0215\u00d7): expected 0.010933806812024306 to be greater than or equal to 0.0215",
+    "AssertionError: expected 10 to be +0 // Object.is equality",
+    "AssertionError: expected 33 to be +0 // Object.is equality",
+    "AssertionError: expected 39 to be +0 // Object.is equality",
+    "AssertionError: expected 6 to be less than or equal to 5"
+  ]
+}

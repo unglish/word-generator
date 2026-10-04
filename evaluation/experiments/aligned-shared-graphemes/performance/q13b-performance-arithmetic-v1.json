@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "scope": "Separate JavaScript verification of all 12 raw log hashes, rate/gate parsing, schedule, paired ratios and median; not an independent timing experiment.",
+  "reportSha256": "5416ae6280d9e4736aa3eb406e6172409ee570a4060678242fb2f4eb93861c03",
+  "ratios": [
+    0.8331210191082803,
+    0.8535254311285746,
+    0.7976744186046512,
+    0.8448637316561844,
+    0.8432318992654775,
+    0.8197723440134908
+  ],
+  "median": 0.8381764591868789,
+  "gates": {
+    "A": {
+      "floor": 6,
+      "variance": 6
+    },
+    "B": {
+      "floor": 0,
+      "variance": 6
+    }
+  }
+}

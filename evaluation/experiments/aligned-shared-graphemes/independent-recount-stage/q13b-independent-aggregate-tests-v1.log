@@ -1,0 +1,18 @@
+✔ independent recount matches every grouped integer and complete first witness on 1000 public words (1370.125958ms)
+✔ independent aggregate comparison rejects repair counter (1360.710375ms)
+✔ independent aggregate comparison rejects doubling counter (1339.046833ms)
+✔ independent aggregate comparison rejects shared counter (1316.11675ms)
+✔ independent aggregate comparison rejects boolean count (1338.362625ms)
+✔ independent aggregate comparison rejects missing group (1321.031875ms)
+✔ independent aggregate comparison rejects extra counter (1328.218167ms)
+✔ independent aggregate comparison rejects missing witness (1340.769208ms)
+✔ independent aggregate comparison rejects altered full witness (1400.459667ms)
+✔ independent aggregate comparison rejects unknown eligibility changed to zero (1334.287958ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15038.743084

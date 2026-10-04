@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "files": {
+    "README.md": {
+      "bytes": 1957,
+      "sha256": "62b09db4bbf93d0efbaec8b49e71f1a48809065433d21c67d662f1864612f735"
+    },
+    "q13b-planner-lint-v1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-planner-lint-v2.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-planner-tests-v1.log": {
+      "bytes": 587,
+      "sha256": "547a67ce7dbe1064441e9542e8ff72100216f8266aefe9d608e448475d9ce073"
+    },
+    "q13b-planner-tests-v2.log": {
+      "bytes": 587,
+      "sha256": "a27f8879c3a436f9856e71d46311329cb45fe960b144c035e68038e2628eb643"
+    },
+    "q13b-planner-typecheck-v1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

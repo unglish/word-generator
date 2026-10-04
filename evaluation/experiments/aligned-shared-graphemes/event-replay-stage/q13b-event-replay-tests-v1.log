@@ -1,0 +1,10 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/spelling-construction-ledger.test.ts (72 tests) 54ms
+
+ Test Files  1 passed (1)
+      Tests  72 passed (72)
+   Start at  19:52:04
+   Duration  571ms (transform 289ms, setup 0ms, collect 337ms, tests 54ms, environment 0ms, prepare 50ms)
+

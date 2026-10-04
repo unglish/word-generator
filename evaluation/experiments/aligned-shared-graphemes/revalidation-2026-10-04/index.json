@@ -1,0 +1,124 @@
+{
+  "records": [
+    {
+      "path": "README.md",
+      "bytes": 1420,
+      "sha256": "39f9e7eda7dcf5d80cc9548a4c183e6ada85ee37595559c82a7423a5a8ca17d4"
+    },
+    {
+      "path": "candidate-complete.json",
+      "bytes": 4601,
+      "sha256": "f68ade1f466d913233bbb2af32a587d212ef8b794b264d1ba0306cc83bff255c"
+    },
+    {
+      "path": "candidate-independent-renewed.json",
+      "bytes": 448,
+      "sha256": "eaba86ebe1eb46b5754f3dff499ff0d6cc3f68e16f3db0277f5ca69bff0332cf"
+    },
+    {
+      "path": "candidate-production-correspondence.json",
+      "bytes": 335,
+      "sha256": "7560953ad919dafb21a11c95282d38f961db942593db3fde7b0795d21179091d"
+    },
+    {
+      "path": "candidate-production-renewed-authority.json.gz",
+      "bytes": 37722,
+      "sha256": "a43cd63bf3e0a388f29c842fe32e9b754f26f0147a4f021786273989900a7952"
+    },
+    {
+      "path": "candidate-production-renewed-report.json.gz",
+      "bytes": 1217363,
+      "sha256": "863ef8b3d8732dd148096f44a6e2fd74faf91ab253d86e80b95672ca04a62faf"
+    },
+    {
+      "path": "candidate-registration.json",
+      "bytes": 2169,
+      "sha256": "4fd44ba8651774d26aa5f81547168b0b76ca0f3b5ae17f9fd3fd7133bd1d85f2"
+    },
+    {
+      "path": "compare-production.py",
+      "bytes": 940,
+      "sha256": "3759aa9664aee61a698299ea205203b7b6e4cf5d1b91d9fdf9a1f9382f6a636c"
+    },
+    {
+      "path": "construction-fixtures.log.txt",
+      "bytes": 35304,
+      "sha256": "58838e3991dd2d7a3504a61da12a9a9715761d81d552ffb667ba34c3c1cd35e4"
+    },
+    {
+      "path": "control-independent-renewed.json",
+      "bytes": 444,
+      "sha256": "d419290a95e22ebb9b1a042fb593b3993017bc5aff6ad1f3bf7625895cbd42b0"
+    },
+    {
+      "path": "control-production-correspondence.json",
+      "bytes": 331,
+      "sha256": "ee482308ccbfb702f129cf2f70cbc0c20411f9921b0f79ee00015cd69251f5bd"
+    },
+    {
+      "path": "control-production-renewed-authority.json.gz",
+      "bytes": 37733,
+      "sha256": "72a46f65117adde27b5b0dc87d9fe2e090a86bd2484b836a573647a636db5e4b"
+    },
+    {
+      "path": "control-production-renewed-report.json.gz",
+      "bytes": 707076,
+      "sha256": "615078bd81193e092cba9a2fb30acd5730f0a27bba2fd9868faea54ca655647e"
+    },
+    {
+      "path": "legacy-parity-authority-renewed.json",
+      "bytes": 23520,
+      "sha256": "1e263fcbba5e2f70a4c1c5590ec9e9638674bf5a2349e7c962c22768c98a4dc3"
+    },
+    {
+      "path": "legacy-parity-correspondence.json",
+      "bytes": 352,
+      "sha256": "5254a90f1afdef727f687ac1edc4de0845ebe0884c780ff2da977c6fe839c0dd"
+    },
+    {
+      "path": "legacy-parity-relocations.json",
+      "bytes": 1044,
+      "sha256": "3942607b83a049db77301ea8ebaa22555df23929a6531dd70460b535500ecc8c"
+    },
+    {
+      "path": "legacy-parity-renewed.json",
+      "bytes": 19866,
+      "sha256": "de86ac3d349ca5c738072381b5bbddd0b9fc3d8622e751f6c7add94ef887ddf2"
+    },
+    {
+      "path": "legacy-parity-renewed.mjs",
+      "bytes": 7025,
+      "sha256": "08fc0da0daa0a2ffcc272b2b2a57cba6cd9cd40fd3e791d8e00e3cdd419d955a"
+    },
+    {
+      "path": "local-retention-index.json",
+      "bytes": 414654,
+      "sha256": "29fe47eb9ebb21a3e462ac44032e759b7aea63d23184722a9dd747c80d369d1b"
+    },
+    {
+      "path": "measurement-fixtures-renewed.log.txt",
+      "bytes": 4737,
+      "sha256": "a8774fd7a795f7776d295c1457b306c655e01cc83852754eaec12164f96eaf2c"
+    },
+    {
+      "path": "performance-arithmetic-renewed.json",
+      "bytes": 596,
+      "sha256": "4cd6a7a33940f42075e39a6574d09964b9d708a533e64479f81b2d02d32f24fc"
+    },
+    {
+      "path": "renew-independent.py",
+      "bytes": 2998,
+      "sha256": "6606624d1b138544dc1d0f32f2521ecaeb773c046878d5dcfe7227167bea1a6a"
+    },
+    {
+      "path": "verify-performance-renewed.mjs",
+      "bytes": 2687,
+      "sha256": "4889fff91023d5dc196b2315ef22d359d3fc90241be02b3a5999f11e76d13618"
+    },
+    {
+      "path": "verify.py",
+      "bytes": 2635,
+      "sha256": "d06b7d8641ed2e941bc1921dbcfd24fc7d11bc505f8328d861920293476292dc"
+    }
+  ]
+}

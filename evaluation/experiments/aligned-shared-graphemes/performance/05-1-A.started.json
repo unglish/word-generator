@@ -1,0 +1,15 @@
+{
+  "pair": 5,
+  "position": 1,
+  "version": "A",
+  "status": "started",
+  "startedAt": "2026-09-27T04:51:20.452576+00:00",
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+    "run",
+    "test:perf"
+  ],
+  "cwd": "/private/tmp/q13b-performance-control-v1",
+  "log": "05-1-A.log"
+}

@@ -1,0 +1,34 @@
+
+/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/src/core/spelling-coverage.test.ts
+   76:1  error  Expected indentation of 6 spaces but found 4  indent
+   77:1  error  Expected indentation of 8 spaces but found 6  indent
+   78:1  error  Expected indentation of 6 spaces but found 4  indent
+   79:1  error  Expected indentation of 6 spaces but found 4  indent
+   80:1  error  Expected indentation of 6 spaces but found 4  indent
+   81:1  error  Expected indentation of 6 spaces but found 4  indent
+   82:1  error  Expected indentation of 6 spaces but found 4  indent
+   83:1  error  Expected indentation of 6 spaces but found 4  indent
+   84:1  error  Expected indentation of 8 spaces but found 6  indent
+   85:1  error  Expected indentation of 6 spaces but found 4  indent
+   86:1  error  Expected indentation of 6 spaces but found 4  indent
+   87:1  error  Expected indentation of 6 spaces but found 4  indent
+   88:1  error  Expected indentation of 6 spaces but found 4  indent
+   89:1  error  Expected indentation of 6 spaces but found 4  indent
+   90:1  error  Expected indentation of 6 spaces but found 4  indent
+   91:1  error  Expected indentation of 6 spaces but found 4  indent
+   92:1  error  Expected indentation of 6 spaces but found 4  indent
+   93:1  error  Expected indentation of 8 spaces but found 6  indent
+   94:1  error  Expected indentation of 8 spaces but found 6  indent
+   95:1  error  Expected indentation of 6 spaces but found 4  indent
+   96:1  error  Expected indentation of 8 spaces but found 6  indent
+   97:1  error  Expected indentation of 8 spaces but found 6  indent
+   98:1  error  Expected indentation of 8 spaces but found 6  indent
+   99:1  error  Expected indentation of 8 spaces but found 6  indent
+  100:1  error  Expected indentation of 8 spaces but found 6  indent
+  101:1  error  Expected indentation of 8 spaces but found 6  indent
+  102:1  error  Expected indentation of 6 spaces but found 4  indent
+  103:1  error  Expected indentation of 4 spaces but found 2  indent
+
+✖ 28 problems (28 errors, 0 warnings)
+  28 errors and 0 warnings potentially fixable with the `--fix` option.
+

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "files": {
+    "README.md": {
+      "bytes": 2452,
+      "sha256": "3e07f01bd36b22f02587acfdec3231c36c46b0440888c9ef9c5026a07ced93a2"
+    },
+    "q13b-edit-guard-lint-v1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-edit-guard-tests-v1.log": {
+      "bytes": 816,
+      "sha256": "23d5371d0ef034b54e8075142a3d1e53b2e2570c63c5b0883022a14cc771e6bb"
+    },
+    "q13b-edit-guard-tests-v2.log": {
+      "bytes": 707,
+      "sha256": "a01a769af7525e8bc210d156f8cad74ed7887d936a82da9c75a69c00c2ce4325"
+    },
+    "q13b-edit-guard-tests-v3.log": {
+      "bytes": 707,
+      "sha256": "3e94740c66a17798433ebd5776ac2aa39de47e92c737a66330a5bea2286b918d"
+    },
+    "q13b-edit-guard-typecheck-v1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "q13b-edit-guard-typecheck-v2.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

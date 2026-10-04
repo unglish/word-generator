@@ -52,7 +52,7 @@ function fixedRoot(options: { prefix?: Affix; suffix?: Affix; onset?: string; co
       vowelReduction: { enabled: false, rules: [], reduceSecondaryStress: false },
     },
     morphology: { ...englishConfig.morphology!, prefixes: prefix ? [prefix] : [], suffixes: suffix ? [suffix] : [], templateWeights: { text: weights, lexicon: weights } },
-    doubling: undefined, silentE: undefined, spellingRules: [], gapSpellings: [],
+    sharedSpellings: undefined, doubling: undefined, silentE: undefined, spellingRules: [], gapSpellings: [],
     writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined, maxConsonantLetters: maxConsonants },
   };
   const generator = createGenerator(config);

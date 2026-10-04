@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "phase": "before runtime edits",
+  "files": {
+    "README.md": {
+      "bytes": 6590,
+      "sha256": "c77b6678c6855c77fb236dc9c3fdc72baaa3a7b4af405b7b39a1b9e43e2fad5e"
+    },
+    "design.md": {
+      "bytes": 6619,
+      "sha256": "9b4ff0ab1faa1bbe350e41c1be97e0fbe4f9f987e758338f8ab53064d4f6f96a"
+    },
+    "exploration/control-manifest.json.gz": {
+      "bytes": 16094,
+      "sha256": "c77bf4b67007704ceb133d1edff6148bdd82927be6b54f7ef22fa08b14e69794"
+    },
+    "exploration/manifest.json": {
+      "bytes": 2486,
+      "sha256": "8d7720f43e68fd22f69616c78eb9ae1e8f8d2a2d87619a3881ed233ce585520a"
+    },
+    "exploration/q13b-control-inventory-v1.json.gz": {
+      "bytes": 12475,
+      "sha256": "07ee4026b8305dbce99ba6909a1a81d5a6d4ee28cfd1f4ae982fa32dafef7849"
+    },
+    "exploration/q13b-control-inventory-v1.log": {
+      "bytes": 1090,
+      "sha256": "95875566a69492c7099f708b34031d93b0fa2c8d42af8039875b1215cc4c33eb"
+    },
+    "exploration/q13b-control-inventory-v1.py": {
+      "bytes": 4429,
+      "sha256": "08c7cc5a52c6c72c9d873a3dee78a63d41021f9d85c74c0e1f06d041b22d0a92"
+    },
+    "exploration/q13b-control-inventory-v2.json.gz": {
+      "bytes": 15695,
+      "sha256": "067df117548173bc857da6398bb9ac411c4c49765f7b475151227a5974ae106a"
+    },
+    "exploration/q13b-control-inventory-v2.log": {
+      "bytes": 1205,
+      "sha256": "b04a63d96cc64ef302a1d502be5bf7f4f586893cb9b064eaaec2994e2ea19b47"
+    },
+    "exploration/q13b-control-inventory-v2.py": {
+      "bytes": 4539,
+      "sha256": "04fc101b8894cc6e6d2f38b5b0ef1ed5dcc3121aca8d0fa37de8495f7b9667b3"
+    },
+    "protocol.json": {
+      "bytes": 2290,
+      "sha256": "425781f541062c9fb581ff330cb45c903b6b29fa5c96f8c38ac90e0d348dd3c0"
+    }
+  }
+}

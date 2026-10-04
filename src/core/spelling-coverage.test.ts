@@ -1,3 +1,7 @@
+import { englishSharedSpellings } from "../elements/graphemes/shared.js";
+import { createSharedConstructionPlanner } from "./spelling-construction.js";
+import { createConstructionNeighborGuard } from "./spelling-construction-neighbors.js";
+import { resolveConstructionSpan } from "./spelling-construction-ownership.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
@@ -31,9 +35,9 @@ function fixture(chosen: Grapheme[], alternatives: Grapheme[] = [], extra: Parti
   const choices: SpellingChoiceState[] = chosen.map((grapheme, index) => ({
     ...contexts[index], grapheme, form: forms[index],
   }));
-  const makeBase = () => {
-    const base = new BaseSpelling(structuredClone(boundary), true, true);
-    chosen.forEach((g, i) => base.appendChoice(i, g.form, forms[i], i));
+  const makeBase = (shared = false) => {
+    const base = new BaseSpelling(structuredClone(boundary), true, true, shared, shared ? englishSharedSpellings : undefined, shared ? config : undefined);
+    chosen.forEach((g, i) => base.appendChoice(i, g.form, forms[i], i, shared ? 0 : undefined));
     return base;
   };
   return { config, choices, base: makeBase(), makeBase, planner: createSpellingCoveragePlanner(config) };
@@ -55,7 +59,7 @@ function fixedRoot(finals: Grapheme[], policy: "preserve-phones" | false = "pres
       onsetLength: { monosyllabic: one, followingNucleus: one, default: one, long: one },
       codaLength: { monosyllabic: { 1: one }, monosyllabicDefault: one, polysyllabicNonzero: one, zeroWeightEndOfWord: 0, zeroWeightMidWord: 0 },
       probability: { ...englishConfig.generationWeights.probability, finalS: 0, nasalStopExtension: 0 } },
-    doubling: undefined, silentE: undefined, spellingRules: [], gapSpellings: [],
+    sharedSpellings: undefined, doubling: undefined, silentE: undefined, spellingRules: [], gapSpellings: [],
     pronunciation: { ...englishConfig.pronunciation, aspiration: { enabled: false, targets: [{ segment: "onset" }], rules: [{ id: "disabled", when: {}, probability: 0 }], fallbackProbability: 0 }, vowelReduction: { enabled: false, rules: [], reduceSecondaryStress: false } },
     writtenFormConstraints: { policy: policy || undefined, maxConsonantLetters: 1 },
   };
@@ -63,6 +67,75 @@ function fixedRoot(finals: Grapheme[], policy: "preserve-phones" | false = "pres
 }
 
 function certificate(base: BaseSpelling): SpellingCoverageCertificate { return base.snapshot().certificates![0]; }
+
+describe("shared readings during coverage planning and commits", () => {
+  it.each([{ after: "e", prefix: "a" }, { after: "h", prefix: "a" }, { after: "e", prefix: "aa" }, { after: "h", prefix: "aa" }])(
+    "checks gz following context through $prefix → a and ee → $after", ({ after, prefix }) => {
+      // h is deliberately declared as a synthetic vowel spelling: ownership alone
+      // must not override the existing shared rule's separate written-letter condition.
+      const f = fixture([glyph("æ", prefix), glyph("g", "g"), glyph("z", "z"), glyph("i:", "ee")],
+        [glyph("i:", after), ...(prefix === "aa" ? [glyph("æ", "a")] : [])], { writtenFormConstraints: { maxConsonantLetters: 10, maxVowelLetters: 1 } });
+      const originalChoices = f.choices.map(choice => ({ ...choice }));
+      expect(f.planner.apply(f.base, f.choices, "base-before-word-rules").status).toBe("respell");
+      const plan = structuredClone(certificate(f.base));
+      const target = f.makeBase(true);
+      target.setPhase("word");
+      const slot = { phase: "word", partId: null } as const;
+      const attempt = createSharedConstructionPlanner(englishSharedSpellings, f.config)
+        .decide(target.constructionState(), slot, "gz-to-x", [1, 2], () => 0);
+      expect(target.recordSharedAttempt(slot, "gz-to-x", [1, 2], attempt)).toBe(0);
+      // Rebind the independent repair's surface to test the commit's structural
+      // contract. This does not claim coverage-search integration or v4 replay.
+      plan.before = prefix + "xee";
+      plan.after = "ax" + after;
+      plan.inputCellIds = target.current().cells.map(cell => cell.id);
+      const before = target.snapshot();
+      if (after === "h") {
+        expect(() => target.commitLicensedPlan(plan)).toThrow(/coverage certificate/);
+        expect(target.snapshot()).toEqual(before);
+      } else {
+        expect(target.commitLicensedPlan(plan)).toBe(0);
+        const trace = target.snapshot();
+        expect(trace.surface).toBe("axe");
+        expect(trace.cells[1]).toEqual(before.cells[prefix.length]);
+        expect(target.constructionState().constructions[0].phoneIds).toEqual([1, 2]);
+        expect(trace.cells[2].origin).toMatchObject({ kind: "licensed", unitId: 3, certificateId: 0 });
+      }
+      const candidate = f.makeBase(true);
+      candidate.setPhase("word");
+      const candidateAttempt = createSharedConstructionPlanner(englishSharedSpellings, f.config)
+        .decide(candidate.constructionState(), slot, "gz-to-x", [1, 2], () => 0);
+      candidate.recordSharedAttempt(slot, "gz-to-x", [1, 2], candidateAttempt);
+      const input = structuredClone(candidate.constructionState());
+      const snapshot = candidate.snapshot();
+      const planner = createSpellingCoveragePlanner(f.config, undefined, undefined, englishSharedSpellings);
+      const outcome = planner.apply(candidate, originalChoices.map(choice => ({ ...choice })), "base-after-word-rules");
+      if (after === "h") {
+        expect(outcome).toMatchObject({ status: "infeasible", reason: "construction-obligation" });
+        expect(candidate.snapshot()).toEqual(snapshot);
+      } else {
+        expect(outcome.status).toBe("respell");
+        expect(candidate.snapshot().surface).toBe("axe");
+        const candidateTrace = candidate.snapshot();
+        if (candidateTrace.version !== 4) throw new Error("Expected shared trace");
+        expect(candidateTrace.shared.timeline[candidateTrace.shared.timeline.length - 1]).toEqual({
+          kind: "coverage", index: 0, cursor: { lastAppendedUnitId: 3, nextEditId: 1 },
+        });
+        const proof = certificate(candidate);
+        expect(proof.preservedSharedConstructionIds).toEqual([0]);
+        expect(proof.replacements.some(entry => entry.unitId === 1 || entry.unitId === 2)).toBe(false);
+        const replay = { current: () => ({ ...input, normalizationCount: 0 }), constructionState: () => input };
+        planner.verify(replay, originalChoices, proof);
+        expect(() => f.planner.verify(replay, originalChoices, proof)).toThrow(/coverage certificate/);
+        const missing = { ...input, constructions: [] };
+        expect(() => planner.verify({ current: () => ({ ...missing, normalizationCount: 0 }), constructionState: () => missing }, originalChoices, proof))
+          .toThrow(/coverage certificate/);
+        const forged = structuredClone(proof);
+        forged.preservedSharedConstructionIds = [];
+        expect(() => planner.verify(replay, originalChoices, forged)).toThrow(/coverage certificate/);
+      }
+    });
+});
 
 describe("whole-unit spelling budgets", () => {
   it.each(["stress", "cluster", "features", "next-features", "doubling-stress", "doubling-cluster", "prev-reduced", "first-coda", "next-consonant", "next-nucleus"])("rejects certificate-only %s context changes against the actual writer boundary", field => {
@@ -302,6 +375,27 @@ describe("whole-unit spelling budgets", () => {
     expect(verifyBaseSpellingEvidence(trace)).toEqual({ version: 1, verifiedCertificates: 0 });
     Object.assign(trace, { version: 99 });
     expect(() => verifyBaseSpellingEvidence(trace)).toThrow(/unsupported ledger version/);
+  });
+
+  it("resolves complete source units after an authenticated coverage repair", () => {
+    const f = fixture([glyph("æ", "a"), glyph("f", "ph")], [glyph("f", "f")], { writtenFormConstraints: { maxConsonantLetters: 1 } });
+    expect(f.planner.apply(f.base, f.choices, "base-before-word-rules").status).toBe("respell");
+    expect(verifyBaseSpellingEvidence(f.base.snapshot(), f.config)).toMatchObject({ verifiedCertificates: 1 });
+    expect(resolveConstructionSpan(f.base.constructionState(), [0, 1])).toMatchObject({ status: "complete", before: "af",
+      phoneIds: [0, 1], sourcePartIds: [0, 0], phonemes: [{ sound: "æ" }, { sound: "f" }] });
+    const forged = structuredClone(f.base.constructionState());
+    forged.certificates[0].replacements[0].phoneIds = [99];
+    expect(resolveConstructionSpan(forged, [0, 1])).toEqual({ status: "refused", reason: "missing-license" });
+  });
+
+  it("checks a neighboring reading from a replayed whole-unit repair certificate", () => {
+    const f = fixture([glyph("æ", "a"), glyph("f", "ph"), glyph("k", "k"), glyph("s", "s")], [glyph("f", "f")],
+      { writtenFormConstraints: { maxConsonantLetters: 3 } });
+    expect(f.planner.apply(f.base, f.choices, "base-before-word-rules").status).toBe("respell");
+    expect(verifyBaseSpellingEvidence(f.base.snapshot(), f.config)).toMatchObject({ verifiedCertificates: 1 });
+    expect(createConstructionNeighborGuard(f.config)(f.base.constructionState(), [2, 3], "x")).toMatchObject({ status: "preserved",
+      checks: [{ unitId: 1, form: "f", reading: { kind: "single-phone" }, before: { nextLetter: "k" }, after: { nextLetter: "x" } }],
+      unchangedContextUnitIds: [0] });
   });
 
   it("keeps identical left-to-right log accumulation in the search and verifier", () => {
