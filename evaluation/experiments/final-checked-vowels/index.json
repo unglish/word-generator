@@ -1,0 +1,17 @@
+{
+  "phase": "exploratory control audit and prospective registration; no candidate result",
+  "files": {
+    "source-audit.json": "0dadb4d41c01a0bf19cb1026edbcb486c996b01d445e973c14d10404a76aa005",
+    "observe_control.py": "0de625ccbd8d4a481de1b6ffabb47ea0a499591fa9e7a7b2168f83ff37eea14e",
+    "observe-control.log": "5aeb96eede47f679025edfc0dd93a85544e3bf1c8060a2cf9fccc38ff78eb01c",
+    "verify_control.py": "72aaffc2163abcdf937b23e6f2f21af5199fcbe9b60ebe84c59095184a03841f",
+    "control-verification.json": "9a341e3bff94ea22ffc01b11005a636cb798f4e28fc382584fcd247b7b725d6e",
+    "verify-control.log": "9a341e3bff94ea22ffc01b11005a636cb798f4e28fc382584fcd247b7b725d6e",
+    "control-witnesses.json.gz": "920f87d71e39c195c87b2f08922718bc9030c0a075c422aaf4f38f0a17ff4577",
+    "DESIGN.md": "ebedffdf4cd183e4b8845ebdf4853496af948de1f83fd90fb5be07c5aa69c59c",
+    "control-observation.json": "d3c055b1643c552cf1d2e9d840d93f37275920b3c54512a165f22ae0aa69e352",
+    "measurement-preimplementation.json": "2a18b4f805d11b197788e31a02913349359394f6082684d12f2ce26b480e7eeb"
+  },
+  "rawArchives": "Q02 raw shards retained separately; not included in Git",
+  "observerWorkingDirectory": "original root checkout; scripts preserve the exact local evidence paths used"
+}

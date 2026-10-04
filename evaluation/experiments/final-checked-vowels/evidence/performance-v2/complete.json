@@ -1,0 +1,418 @@
+{
+  "results": [
+    {
+      "policy": "default",
+      "slot": 1,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-01-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-01-control.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 2,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-02-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-02-candidate.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 3,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-03-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-03-candidate.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 4,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-04-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-04-control.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 5,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-05-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-05-control.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 6,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-06-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-06-candidate.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 7,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-07-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-07-candidate.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 8,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-08-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-08-control.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 9,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-09-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-09-control.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 10,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-10-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-10-candidate.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 11,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-11-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-11-candidate.json"
+      ]
+    },
+    {
+      "policy": "default",
+      "slot": 12,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/default-12-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "default",
+        "/private/tmp/q10b2-performance-v2/default-12-control.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 1,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-01-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-01-control.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 2,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-02-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-02-candidate.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 3,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-03-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-03-candidate.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 4,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-04-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-04-control.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 5,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-05-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-05-control.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 6,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-06-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-06-candidate.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 7,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-07-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-07-candidate.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 8,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-08-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-08-control.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 9,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-09-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-09-control.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 10,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-10-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-10-candidate.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 11,
+      "arm": "candidate",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-11-candidate.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "candidate",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-11-candidate.json"
+      ]
+    },
+    {
+      "policy": "active",
+      "slot": 12,
+      "arm": "control",
+      "exitCode": 0,
+      "output": "/private/tmp/q10b2-performance-v2/active-12-control.json",
+      "command": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/performance-one.mjs",
+        "control",
+        "active",
+        "/private/tmp/q10b2-performance-v2/active-12-control.json"
+      ]
+    }
+  ],
+  "plan": {
+    "status": "registered before timing; corpus sources remain frozen",
+    "policies": [
+      "default",
+      "active"
+    ],
+    "orderPerPolicy": [
+      "control",
+      "candidate",
+      "candidate",
+      "control",
+      "control",
+      "candidate",
+      "candidate",
+      "control",
+      "control",
+      "candidate",
+      "candidate",
+      "control"
+    ],
+    "pairsPerPolicy": 6,
+    "benchmark": "unchanged performance-one-v2.mjs: 10000 batch words, same warmups, seeds, variance trials and thresholds",
+    "concurrency": "no overlap with capture, audits, tests or diagnostics",
+    "allRunsRetained": true
+  },
+  "toolPins": {
+    "performance-one.mjs": "f39e465f6a78238e0cc3c6ba5dfa97c80625b1fceb116d38fa57c804302bd781",
+    "timing-registration.json": "3c5a7556f1fa2d4bcffe9238af3e278d41c5b8bf36a714d55e1fb6915f73d2a5",
+    "run_performance_v2.py": "c6f71db8bfb10901ac3337e02c470528645ff6ec951699008583be517c2a57f3"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "phase": "pre-capture candidate implementation checks",
+  "files": {
+    "measurement.json": "c6fcb89d36b7fd83bdee9dc7b9fb9111e4bcce92976f08a88fd186c93ef43e40",
+    "capture-preflight.mjs": "a777b5b6fe66745d3d751574034c5c6224cc6717876c99f1a48df91884de6f15",
+    "capture-preflight.test.mjs": "a78d99d0939b406df405c318559a33cde5c3c1a317fd348bd1e39130f0a5a3c2",
+    "freeze-capture.mjs": "6b9f40e839244d0dd9b391a677d8275af8e4b1845ade3f62a9f0b4d10d4be8c4",
+    "focused-final.log": "58b19a44cd83c46788a47d345851ea537016150d3b2441cb7f8d064e4b3fdb41",
+    "typecheck-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled-parity.json": "1236330ad8b00d6c4865afd87a6c58dbb81319c2cedbce2ee05cc9b569fe8de8",
+    "disabled-parity.mjs": "cf1e9d0f6928884aaa9e720035349de9f846e9fd3a2979ee543065e87c3573f2",
+    "disabled-parity.log": "912934043e77fe217d85552cbf5d841a7a0bdd8e9efd1545c8518fbdbbe99d4e",
+    "preflight.log": "44448c74d0c8dae9fe9374303c1b5bf7dad7a91a1f347c8f6fdac79661de776a",
+    "IMPLEMENTATION.md": "63b949912a7faf4ab83baa146c2e3a4ad09604c198214976c2f3ca6c3123b420"
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "evidenceStagesComplete": true,
+  "pending": [],
+  "stages": {
+    "fullCorpusAudit": {
+      "complete": true,
+      "path": "/private/tmp/q10b2-audit-v3/complete.json"
+    },
+    "unchangedGates": {
+      "complete": true,
+      "path": "/private/tmp/q10b2-checks-v2/complete.json",
+      "nonzeroOutcomes": [
+        {
+          "stage": "full",
+          "arm": "control",
+          "exitCode": 1,
+          "command": [
+            "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+            "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator/node_modules/vitest/vitest.mjs",
+            "run",
+            "--maxWorkers=1",
+            "--minWorkers=1",
+            "--no-file-parallelism"
+          ],
+          "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator"
+        },
+        {
+          "stage": "full",
+          "arm": "candidate",
+          "exitCode": 1,
+          "command": [
+            "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+            "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator/node_modules/vitest/vitest.mjs",
+            "run",
+            "--maxWorkers=1",
+            "--minWorkers=1",
+            "--no-file-parallelism"
+          ],
+          "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator"
+        },
+        {
+          "stage": "default-quality",
+          "arm": "control",
+          "exitCode": 1,
+          "command": [
+            "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+            "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator/node_modules/vitest/vitest.mjs",
+            "run",
+            "--config",
+            "vitest.quality.config.ts"
+          ],
+          "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator"
+        },
+        {
+          "stage": "default-quality",
+          "arm": "candidate",
+          "exitCode": 1,
+          "command": [
+            "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+            "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator/node_modules/vitest/vitest.mjs",
+            "run",
+            "--config",
+            "vitest.quality.config.ts"
+          ],
+          "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator"
+        },
+        {
+          "stage": "active-quality",
+          "arm": "control",
+          "exitCode": 1,
+          "command": [
+            "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+            "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator/node_modules/vitest/vitest.mjs",
+            "run",
+            "--config",
+            "vitest.config.mjs"
+          ],
+          "cwd": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/active-quality/control"
+        },
+        {
+          "stage": "active-quality",
+          "arm": "candidate",
+          "exitCode": 1,
+          "command": [
+            "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+            "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator/node_modules/vitest/vitest.mjs",
+            "run",
+            "--config",
+            "vitest.config.mjs"
+          ],
+          "cwd": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/active-quality/candidate"
+        },
+        {
+          "stage": "default-perf",
+          "arm": "control",
+          "exitCode": 1,
+          "command": [
+            "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+            "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator/node_modules/vitest/vitest.mjs",
+            "run",
+            "--config",
+            "vitest.perf.config.ts",
+            "--reporter=verbose"
+          ],
+          "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator"
+        },
+        {
+          "stage": "default-perf",
+          "arm": "candidate",
+          "exitCode": 1,
+          "command": [
+            "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+            "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator/node_modules/vitest/vitest.mjs",
+            "run",
+            "--config",
+            "vitest.perf.config.ts",
+            "--reporter=verbose"
+          ],
+          "cwd": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator"
+        }
+      ]
+    },
+    "registeredTiming": {
+      "complete": true,
+      "path": "/private/tmp/q10b2-performance-v2/complete.json"
+    },
+    "originalSizeDiagnostics": {
+      "complete": true,
+      "path": "/private/tmp/q10b2-diagnostics-v2/complete.json",
+      "nonzeroOutcomes": []
+    },
+    "traceParity": {
+      "complete": true,
+      "path": "/private/tmp/q10b2-registered-trace-parity.json"
+    },
+    "witnessVerification": {
+      "complete": true,
+      "path": "/private/tmp/q10b2-witnesses-v1/verification.json"
+    }
+  },
+  "scope": "Completeness of terminal evidence only. Gate failures remain failures; source equivalence, artifact indexing, final report review and PR publication require separate checks."
+}

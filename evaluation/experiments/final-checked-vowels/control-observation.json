@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "sourceCommit": "7e34a17f31d44d1e31420f458bf6e2d99c5fa038",
+  "scope": "Q02 active-policy archived development corpus; exploratory, not candidate acceptance",
+  "checkedSounds": [
+    "\u00e6",
+    "\u025b",
+    "\u026a",
+    "\u028a",
+    "\u028c"
+  ],
+  "counts": {
+    "before_final_nucleus:True": 3621,
+    "final_open_checked": 3621,
+    "root_open_checked:True": 3621,
+    "sound:\u00e6": 694,
+    "sound:\u025b": 1058,
+    "sound:\u026a": 1367,
+    "sound:\u028a": 16,
+    "sound:\u028c": 486,
+    "source:segment:root": 3621,
+    "stage:applyStress": 3256,
+    "stage:assembleMorphology": 3621,
+    "stage:generatePronunciation": 3621,
+    "stage:generateSyllables": 3256,
+    "stage:generateWrittenForm": 3621,
+    "stage:repairClusterShape": 3256,
+    "stage:repairClusters": 3256,
+    "stage:repairFinalCoda": 3256,
+    "stage:repairFinalStressedNuclei": 3621,
+    "stage:repairHAfterBackVowel": 3256,
+    "stage:repairStressedNuclei": 3621,
+    "stress:unstressed": 1445,
+    "stress:\u02c8": 1682,
+    "stress:\u02cc": 494,
+    "template:bare": 1242,
+    "template:no-plan": 1587,
+    "template:prefixed": 792,
+    "words": 200000
+  },
+  "profiles": {
+    "lexicon-bare": {
+      "words": 50000,
+      "final_open_checked": 1347
+    },
+    "lexicon-default": {
+      "words": 50000,
+      "final_open_checked": 882
+    },
+    "monosyllables-bare": {
+      "words": 50000,
+      "final_open_checked": 240
+    },
+    "text-default": {
+      "words": 50000,
+      "final_open_checked": 1152
+    }
+  },
+  "archives": {
+    "lexicon-bare-1304238451.jsonl.gz": "311818a53096e1885279d2ea32a7314e57d45ac1a6d354842cba85ffd2a3f2a4",
+    "lexicon-bare-1498885173.jsonl.gz": "ecf71505411638ce5c9d50b30fd5bcdb1ef24e787d71d7327ca0e861dc1ff1f9",
+    "lexicon-bare-1696751198.jsonl.gz": "4be87c5b68857effdb3504d658ab2a9eea15998ba42c72d816d98ab3ed3eead5",
+    "lexicon-bare-2380207674.jsonl.gz": "de4046a8ca303791acea14095958657dbf18648f5f82901e1dfb5b44a533bc4b",
+    "lexicon-bare-772709128.jsonl.gz": "1c1726003978c1e52992fe210a672c47130edef993105501840248bcea4f021f",
+    "lexicon-default-101601885.jsonl.gz": "4aa0637b572c29dec139a31fe562711cb2458f98c06ffa1ee5a3224ee6ab2588",
+    "lexicon-default-2089697863.jsonl.gz": "94ac5b07c456e545759a18b7c7250a45b0fa347d3977c9869b29c318b9d2812d",
+    "lexicon-default-3921817393.jsonl.gz": "8e5653aa5419a0c71aa6376283b4a34added0d900558b7be04283bc7435d0a33",
+    "lexicon-default-3948943232.jsonl.gz": "9416c592bb2df61b9805883027f5704ffb7e1e9207c714c79d9152b7eb4d3cdd",
+    "lexicon-default-69212153.jsonl.gz": "6b4a4b2ad083f7b17e9c5e5c0e26b00eeb301bfa77c40c1240e59ad0a6aebe7e",
+    "monosyllables-bare-2001884366.jsonl.gz": "bd9b1ef46de695f3dabe69e8159175f235316ed1bb2cd0db53d7ea15f5ae3710",
+    "monosyllables-bare-2353354178.jsonl.gz": "a7c8b733ae1fc54ab5960ba41edd0e2af3910b32bd16d6603382f98667cd1613",
+    "monosyllables-bare-3297327738.jsonl.gz": "2e77198743cdabfbb12aca548c06633115da5f50c2ace3d9668ce054a9efa9af",
+    "monosyllables-bare-462530651.jsonl.gz": "53256c82856723f01e9fdc5bff92c972a05797714fa6d45f679224d7cf48a24b",
+    "monosyllables-bare-62358955.jsonl.gz": "942e9328d3f0ae2b6b5c0891f1baea5c1f31b7cf275f8297be46c461b71c9440",
+    "text-default-1665836705.jsonl.gz": "0e0c0b666468576fe07296e48549144a87edccb74fd1f6f8f01d9628d40a813b",
+    "text-default-1999736106.jsonl.gz": "871429edf7625c7bc7b60877a7222ef9f470fec2e7fa0a3fcd3cffe2040936a6",
+    "text-default-2666001996.jsonl.gz": "e72c305804b035b48644d30c6c65bab2e917422d619bc1a79876bc959c3da32e",
+    "text-default-3562318933.jsonl.gz": "94aa7902379ce2b3c61309a3e672cd58ee8726b10ab6aefd8850fa6ff84f3ba7",
+    "text-default-4167471042.jsonl.gz": "6a16647e5a18fd02ce58ab1185d617b89473f719b13367f4921e41c353634dfe"
+  },
+  "witnessStrata": 39
+}
