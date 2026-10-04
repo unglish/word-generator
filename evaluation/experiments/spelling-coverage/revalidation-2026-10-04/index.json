@@ -1,0 +1,104 @@
+{
+  "records": [
+    {
+      "path": "README.md",
+      "bytes": 1741,
+      "sha256": "0e5c52473d2f4274b2974f5d455f67b69aa046fa0d3f8f08f00479640cf0f5f9"
+    },
+    {
+      "path": "candidate-ancillary-recovery.json",
+      "bytes": 529,
+      "sha256": "fcfcd89240e75f0dda8c125e622c1823bf2820b873dd82797d994f559dc067eb"
+    },
+    {
+      "path": "candidate-complete.json",
+      "bytes": 4581,
+      "sha256": "a49c9366cae155a71ce60a62611905f2a9732cf2ed04828cc5bde1f5baeedcde"
+    },
+    {
+      "path": "candidate-independent-renewed.json",
+      "bytes": 620140,
+      "sha256": "20fb70e7b50220129c5cffa349134e8847e666c754cf5a687a9a62933c750445"
+    },
+    {
+      "path": "candidate-registration.json",
+      "bytes": 2168,
+      "sha256": "cafbb4981ced2d39c65cdaa3af4c395ef4be6232da82da95d31b264462411fb0"
+    },
+    {
+      "path": "control-ancillary-recovery.json",
+      "bytes": 529,
+      "sha256": "b439d6df08edb069ff991072755e4981abe197f4fb382c9673c29467643d77ff"
+    },
+    {
+      "path": "control-complete.json",
+      "bytes": 4581,
+      "sha256": "8d7749fdeccde3ceeddc9e6e5c8fb2823b895e41c64b40ad1a663ab0aa4ffd7f"
+    },
+    {
+      "path": "control-independent-renewed.json",
+      "bytes": 297017,
+      "sha256": "5736d304602083cb6b6f1eb2a80d012e8c012c11f4109162870c2053e8593a12"
+    },
+    {
+      "path": "control-registration.json",
+      "bytes": 2169,
+      "sha256": "53f70bee516e175bddf59558db25d9762ba4beec607f0a40987d82ef617f5d27"
+    },
+    {
+      "path": "control-reproduction.log.txt",
+      "bytes": 918,
+      "sha256": "4b487109e64d0308d60afbcf95f513f3036ac75d6810bf0f11b4789a21be26ad"
+    },
+    {
+      "path": "coverage-fixtures.log.txt",
+      "bytes": 8149,
+      "sha256": "ee3891e4bc8cfaf982411228799934aa91070e39eda7e7b7461b8056cd3cd970"
+    },
+    {
+      "path": "coverage-renewed.json.gz",
+      "bytes": 252837,
+      "sha256": "801acfbe8c78b4a4909a699bd834dad013971831fbfcd1e5e37ecc93b278fdcb"
+    },
+    {
+      "path": "coverage-renewed.log.txt",
+      "bytes": 2996,
+      "sha256": "c49cddf0957eee9855cd3b6ab3da1f79f9e5ebca18b3bf26d88bdc9762126342"
+    },
+    {
+      "path": "q13-reproduction-complete-v1.json",
+      "bytes": 902,
+      "sha256": "f4eb6fb6b05360004597802d7dcc804f3b452a10fd674ac2760d8f3a157f0fdd"
+    },
+    {
+      "path": "recover-ancillary.mjs",
+      "bytes": 2980,
+      "sha256": "05fe287a57a40a5bc40a1857b2249bf609fa7209d6c11e08f39924493e063fa6"
+    },
+    {
+      "path": "reproduce-control.mjs",
+      "bytes": 2692,
+      "sha256": "354f17cb1cadfad23bab06143d9aab68717624964b922e3ac9ea5d0a2c36d91b"
+    },
+    {
+      "path": "reproduce.mjs",
+      "bytes": 2682,
+      "sha256": "41259b6160def6d59956ed9b29fb7d5ec2afab21dde9d9903f6053117dca45b4"
+    },
+    {
+      "path": "reproduction.log.txt",
+      "bytes": 918,
+      "sha256": "4b487109e64d0308d60afbcf95f513f3036ac75d6810bf0f11b4789a21be26ad"
+    },
+    {
+      "path": "retained-local-index.json",
+      "bytes": 140092,
+      "sha256": "f079c280a10810e557165095c706d9142eb52e479c487774e3882df39691bf15"
+    },
+    {
+      "path": "verify.py",
+      "bytes": 2320,
+      "sha256": "db61900489375c4708aa6e5349c10f42ce8166234e4b6a0cec6b33f6537cffe6"
+    }
+  ]
+}
