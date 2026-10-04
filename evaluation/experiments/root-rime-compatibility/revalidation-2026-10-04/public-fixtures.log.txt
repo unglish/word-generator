@@ -1,0 +1,30 @@
+
+ RUN  v3.2.4 /private/tmp/q10b1-closure-audit-v1/committed
+
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > checks any nucleus and any coda segment, including nonfirst segments 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > preserves a retained coda during public stress repair and records excluded candidates 5ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > honors custom exclusions without silently imposing default English pair bans 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > keeps the assertion scoped before custom surface reduction 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > filters a hand-built exposed edge while preserving its retained coda 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > throws only when the first-nucleus stress repair is invoked with no finite positive eligible pool: [] 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > throws only when the first-nucleus stress repair is invoked with no finite positive eligible pool: [ { sound: 'ɚ', …(8) } ] 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > throws only when the first-nucleus stress repair is invoked with no finite positive eligible pool: [ { sound: 'u', …(8) } ] 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > throws only when the first-nucleus stress repair is invoked with no finite positive eligible pool: [ { sound: 'u', …(8) } ] 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > throws only when the first-nucleus stress repair is invoked with no finite positive eligible pool: [ { sound: 'u', …(8) } ] 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > throws only when the first-nucleus stress repair is invoked with no finite positive eligible pool: [ { sound: 'u', …(8) } ] 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > keeps stress repair's nucleus-only relative weights and one selection draw 1ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > rejects overflowing total weight before a stress selection draw 0ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > does not count zero-weight pair exclusions as positive candidates 0ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > does not broaden first-nucleus stress repair to a later banned stress nucleus 0ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > validates each edge replacement against the coda without another nucleus blocking the pool 0ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > throws before an edge selection draw if all positive candidates conflict with the coda 0ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > detaches replacement snapshots from caller-owned arrays and objects 0ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > preserves public outputs and RNG when an added configured pair is inapplicable 15ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > preserves trace/no-trace output and RNG with morphology=false 408ms
+ ✓ src/core/rime-compatibility.test.ts > lexical-root nucleus/coda compatibility > preserves trace/no-trace output and RNG with morphology=true 413ms
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  15:14:46
+   Duration  1.24s (transform 191ms, setup 0ms, collect 219ms, tests 854ms, environment 0ms, prepare 47ms)
+

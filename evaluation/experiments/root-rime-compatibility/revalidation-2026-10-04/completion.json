@@ -1,0 +1,39 @@
+{
+  "id": "Q10b1",
+  "deliveryCompletionProven": true,
+  "deliveryClassification": "Delivered measured independent root-rime legality correction",
+  "publishedSource": "43f21fb28da42dc13f5ab58eb0b4ae4899e2ee93",
+  "freshPublicControlCandidateWords": 400000,
+  "originalCompressedShardsExactlyReproduced": 40,
+  "freshIndependentWords": 600000,
+  "allThreeIndependentReportsExactlyMatchOriginal": true,
+  "freshConditionalParityWords": 20000,
+  "freshConditionalParityExactlyMatchesOriginal": true,
+  "freshContractFixturesPassed": 21,
+  "compactArtifactsAuthenticated": 33,
+  "candidateRuntimeFilesExactFrozenBytes": 45,
+  "primaryCounts": {
+    "control": {
+      "violatingPairs": 22,
+      "crossPairs": 327029
+    },
+    "candidate": {
+      "violatingPairs": 0,
+      "crossPairs": 326957
+    }
+  },
+  "retention": {
+    "path": ".local-evidence/q10b1-reproduction-retained-v1",
+    "files": 234,
+    "bytes": 398513465,
+    "indexSha256": "481860679234a50eb7b2b22eec50125659690f4c6803595e2913f1c9636da928"
+  },
+  "limits": [
+    "Original repository gates passed per authenticated original logs, not freshly rerun",
+    "Edge repair not observed in corpora; applicable path covered by original contract fixtures",
+    "Conditional parity clears configured exclusions identically; it is not unchanged-default-output proof",
+    "Mixed reference-distance/diversity/stress results and no human preference evidence"
+  ],
+  "nextAction": "Publish compact renewal on originalPR324 without runtime changes.",
+  "scope": "Complete original runtime/corpus measurement reproduction and original-check reconciliation, no all-main adoption certification."
+}
