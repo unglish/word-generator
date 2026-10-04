@@ -250,6 +250,7 @@ describe("morphology", () => {
       const { syllableReduction } = planMorphology(config, "text", rand);
       expect(syllableReduction).toBe(1);
     });
+
   });
 
   describe("suffix attachment", () => {

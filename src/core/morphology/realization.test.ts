@@ -24,7 +24,7 @@ function fixedRoot(options: { prefix?: Affix; suffix?: Affix; onset?: string; co
   const one: [number, number][] = [[1, 1]];
   const template = prefix ? suffix ? "both" : "prefixed" : "suffixed";
   const weights = { bare: 0, prefixed: 0, suffixed: 0, both: 0, [template]: 1 };
-  const target = 3 + (prefix?.phonemes.length ?? 0) + (suffix?.phonemes.length ?? 0);
+  const target = 3;
   const config: LanguageConfig = {
     ...englishConfig,
     phonemeMaps: {
@@ -56,14 +56,14 @@ function fixedRoot(options: { prefix?: Affix; suffix?: Affix; onset?: string; co
     writtenFormConstraints: { ...englishConfig.writtenFormConstraints, maxConsonantLetters: maxConsonants },
   };
   const generator = createGenerator(config);
-  const generation = { seed: 13, morphology: true, syllableCount: 1 + (prefix?.syllableCount ?? 0) + (suffix?.syllableCount ?? 0) };
+  const generation = { seed: 13, morphology: true, syllableCount: 1 };
   return { generator, config, generation, word: () => generator.generateWord({ ...generation, trace: true }) };
 }
 
 describe("resolved morphology survives final cleanup", () => {
-  it("retains the default seed-167 im spelling and records planned versus selected forms", () => {
-    const word = generateWord({ seed: 167, trace: true });
-    expect(word.written.clean).toBe("immamsed");
+  it("records the planned default in prefix and its selected im form", () => {
+    const word = fixedRoot({ prefix: prefixIn, onset: "m" }).word();
+    expect(word.written.clean).toBe("immat");
     expect(word.trace!.morphology!.prefix).toBe("in");
     const selection = word.trace!.morphology!.realization!.prefix!;
     expect(selection.planned.written).toBe("in");
@@ -121,6 +121,10 @@ describe("resolved morphology survives final cleanup", () => {
       expect(selected.allomorphIndex).toBe(index);
       expect(selected.resolved.phonemes).toEqual(phones);
       expect(selected.resolved.syllableCount).toBe(syllables);
+      expect(word.trace!.syllableCount).toBe(1);
+      expect(word.trace!.targetPhonemeCount).toBe(3);
+      expect(word.trace!.syllablePlans).toHaveLength(1);
+      expect(word.trace!.stages.at(-1)!.after).toHaveLength(1);
       expect(word.syllables).toHaveLength(1 + syllables);
       const finalPhones = word.syllables.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda]).map(phone => phone.sound);
       expect(finalPhones.slice(-phones.length)).toEqual(phones);

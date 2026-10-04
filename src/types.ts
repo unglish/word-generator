@@ -270,7 +270,7 @@ export interface WordGenerationOptions {
   word?: Word;
   /** Integer seed for deterministic generation. Same seed → same word. */
   seed?: number;
-  /** Force the word to have exactly this many syllables (1–7). */
+  /** Force the root to have exactly this many syllables (1–7). Affixes may add more. */
   syllableCount?: number;
   /**
    * Custom random-number generator. Takes priority over {@link seed} — when
@@ -280,7 +280,7 @@ export interface WordGenerationOptions {
    */
   rand?: RNG;
   /**
-   * Generation mode controlling syllable-count distribution.
+   * Generation mode controlling the root syllable-count distribution.
    * - `"text"` — monosyllable-heavy, mimics running text.
    * - `"lexicon"` (default) — balanced distribution, mimics a dictionary.
    */
@@ -288,7 +288,7 @@ export interface WordGenerationOptions {
   /**
    * Whether to apply morphological affixation (prefixes/suffixes) to the
    * generated root word. Requires `morphology.enabled` in the language config.
-   * Defaults to `false`.
+   * Defaults to `true` when the active config enables morphology.
    */
   morphology?: boolean;
   /**

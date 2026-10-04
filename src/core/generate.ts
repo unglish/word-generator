@@ -10,13 +10,15 @@ import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } f
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { nucleusWordPositionWeight, repairNucleusWordPositions } from "./nucleus-position.js";
-import { planMorphology, applyMorphology } from "./morphology/index.js";
+import {
+  planMorphology,
+  applyMorphology,
+} from "./morphology/index.js";
+import type { PlannedMorphologySelection } from "./morphology/index.js";
 import {
   computePhonemeTargetBounds,
-  derivePhonemeTargets,
-  getPlannedMorphologyPhonemeDelta,
+  resolveRootPhonemeTarget,
   scoreGenerationAttempt,
-  resolveMorphologyPhonemeDelta,
 } from "./length-semantics.js";
 import { TraceCollector } from "./trace.js";
 
@@ -1183,12 +1185,48 @@ function countPhonemes(syllables: Syllable[]): number {
   return total;
 }
 
-/**
- * Generate a single word with letter-length rejection sampling.
- *
- * Builds a fresh context on each attempt. After {@link MAX_LENGTH_RETRIES}
- * failed length checks, the last word is accepted unconditionally.
- */
+/** Attach affixes once, after the root has passed root-only length selection. */
+function finishWord(
+  rt: GeneratorRuntime,
+  context: WordGenerationContext,
+  morphPlan: PlannedMorphologySelection | undefined,
+  attempt: number,
+): Word {
+  const traceCollector = context.trace;
+  const morphApplied = !!morphPlan && morphPlan.plan.template !== "bare";
+  if (morphApplied) {
+    const morphology = applyMorphology(rt, context, morphPlan.plan);
+    // Preserve selected allomorph parts through final consonant-letter repair.
+    const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
+    if (maxCons) {
+      const activeParts = morphology.parts.filter(part => part.text);
+      const cleanParts = activeParts.map(part => part.text);
+      // repairConsonantLetters expects part strings at even indices.
+      const hyphParts: string[] = [];
+      for (let i = 0; i < cleanParts.length; i++) {
+        hyphParts.push(cleanParts[i]);
+        if (i < cleanParts.length - 1) hyphParts.push("");
+      }
+      repairConsonantLetters(cleanParts, hyphParts, maxCons);
+      for (let i = 0; i < activeParts.length; i++) activeParts[i].text = cleanParts[i];
+      context.word.written.clean = cleanParts.join("");
+      context.word.written.hyphenated = hyphParts.join("");
+    }
+    const realization = traceCollector?.morphologyTrace?.realization;
+    if (realization) realization.emittedParts = morphology.parts.map(part => ({ ...part }));
+  }
+  if (traceCollector) {
+    traceCollector.syllableCount = context.syllableCount;
+    traceCollector.targetPhonemeCount = context.targetPhonemeCount;
+    traceCollector.syllablePlans = context.syllablePlans;
+    traceCollector.attempts = attempt;
+    context.word.trace = traceCollector.toTrace(morphApplied);
+  }
+  return context.word;
+}
+
+/** Select a root by phoneme/letter targets, then finish its planned morphology.
+ * After the retry limit, finish the best root seen rather than reject an affix. */
 function generateOneWord(
   rt: GeneratorRuntime,
   rand: RNG,
@@ -1197,58 +1235,26 @@ function generateOneWord(
   applyMorph: boolean = false,
   enableTrace: boolean = false,
 ): Word {
-  // Plan morphology before generating root (to adjust syllable count)
+  // Keep morphology selection first in the RNG stream, but never deduct its
+  // cost from the root or use the completed affixed word to accept a root.
   const morphConfig = rt.config.morphology;
   const morphPlan = morphConfig?.enabled && applyMorph
     ? planMorphology(morphConfig, mode, rand)
     : undefined;
-
-  // Guard: if "both" template would reduce root below 1 syllable, downgrade to single affix
-  if (morphPlan && morphPlan.plan.template === "both" && syllableCount > 0) {
-    const rootAfterReduction = syllableCount - morphPlan.syllableReduction;
-    if (rootAfterReduction < 1) {
-      // Drop prefix, keep suffix (more natural in English)
-      if (morphPlan.plan.prefix) {
-        morphPlan.syllableReduction -= morphPlan.plan.prefix.syllableCount;
-        morphPlan.plan.prefix = undefined;
-        morphPlan.plan.template = "suffixed";
-      }
-    }
-  }
-
+  const forcedRootSyllableCount = syllableCount > 0 ? syllableCount : undefined;
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  const sampledRootTarget = sampleTargetPhonemeCount(rt, mode, rand, forcedRootSyllableCount);
+  const bounds = computePhonemeTargetBounds(forcedRootSyllableCount, maxOnset, maxCoda);
+  const targetPhonemeCountRoot = resolveRootPhonemeTarget(sampledRootTarget, bounds);
+  const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCountRoot, rand, forcedRootSyllableCount);
   const maxAttempts = MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES;
-  let lastContext: WordGenerationContext | undefined;
-  let lastTraceCollector: TraceCollector | undefined;
-  let lastMorphApplied = false;
   let bestContext: WordGenerationContext | undefined;
-  let bestTraceCollector: TraceCollector | undefined;
-  let bestMorphApplied = false;
   let bestAttempt = 0;
   let bestScore = Infinity;
 
-  // Adjust syllable count for affix syllables.
-  let rootSyllableCount = syllableCount;
-  if (morphPlan && morphPlan.syllableReduction > 0 && rootSyllableCount > 0) {
-    rootSyllableCount = Math.max(1, rootSyllableCount - morphPlan.syllableReduction);
-  }
-
-  const forcedFinalSyllableCount = syllableCount > 0 ? syllableCount : undefined;
-  const forcedRootSyllableCount = rootSyllableCount > 0 ? rootSyllableCount : undefined;
-  const plannedMorphologyDelta = getPlannedMorphologyPhonemeDelta(morphPlan?.plan);
-  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
-  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
-  const bounds = computePhonemeTargetBounds(forcedRootSyllableCount, maxOnset, maxCoda);
-  const sampledFinalTarget = sampleTargetPhonemeCount(rt, mode, rand, forcedFinalSyllableCount);
-  const { finalTarget: targetPhonemeCountFinal, rootTarget: targetPhonemeCountRoot } = derivePhonemeTargets(
-    sampledFinalTarget,
-    plannedMorphologyDelta.planned,
-    bounds,
-  );
-  const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCountRoot, rand, forcedRootSyllableCount);
-
   for (let attempt = 0; attempt <= maxAttempts; attempt++) {
     const syllablePlans = distributePhonemes(rt, targetPhonemeCountRoot, sampledSyllableCount, rand);
-
     const traceCollector = enableTrace ? new TraceCollector() : undefined;
     if (traceCollector && morphPlan) {
       traceCollector.morphologyTrace = {
@@ -1272,92 +1278,27 @@ function generateOneWord(
       trace: traceCollector,
     };
     runPipeline(rt, context, mode);
-
-    const rootPhonemeCount = countPhonemes(context.word.syllables);
-
-    // Apply morphology after pipeline produces the bare root
-    const morphApplied = !!morphPlan;
-    if (morphPlan) {
-      const morphology = applyMorphology(rt, context, morphPlan.plan);
-      // Post-morphology consonant letter repair: suffix attachment can create
-      // consonant runs that exceed the limit (e.g. "marks" + "tion" = "markstion").
-      const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
-      if (maxCons) {
-        const activeParts = morphology.parts.filter(part => part.text);
-        const cleanParts = activeParts.map(part => part.text);
-        // repairConsonantLetters expects part strings at even indices, matching write.ts.
-        const hyphParts: string[] = [];
-        for (let i = 0; i < cleanParts.length; i++) {
-          hyphParts.push(cleanParts[i]);
-          if (i < cleanParts.length - 1) hyphParts.push("");
-        }
-        repairConsonantLetters(cleanParts, hyphParts, maxCons);
-        for (let i = 0; i < activeParts.length; i++) activeParts[i].text = cleanParts[i];
-        context.word.written.clean = cleanParts.join("");
-        context.word.written.hyphenated = hyphParts.join("");
-      }
-      const realization = traceCollector?.morphologyTrace?.realization;
-      if (realization) realization.emittedParts = morphology.parts.map(part => ({ ...part }));
-    }
-    // Gap spellings are exact bare-word overrides. Affixed forms should be
-    // handled by morphology or more general rule systems instead.
-    if (!morphPlan || morphPlan.plan.template === "bare") {
-      rt.applyGapSpellings(context);
-    }
-    const finalPhonemeCount = countPhonemes(context.word.syllables);
-    const morphologyDelta = resolveMorphologyPhonemeDelta(rootPhonemeCount, finalPhonemeCount, plannedMorphologyDelta);
-    const targetPhonemeCount = morphApplied ? targetPhonemeCountFinal : targetPhonemeCountRoot;
-    const generatedPhonemeCount = morphApplied ? finalPhonemeCount : rootPhonemeCount;
+    // Exact bare-word overrides retain their existing place in root scoring.
+    if (!morphPlan || morphPlan.plan.template === "bare") rt.applyGapSpellings(context);
     const attemptScore = scoreGenerationAttempt(
-      generatedPhonemeCount,
-      targetPhonemeCount,
+      countPhonemes(context.word.syllables),
+      targetPhonemeCountRoot,
       context.word.written.clean.length,
       context.word.syllables.length,
       rt.config.syllableStructure.letterLengthTargets,
     );
-
-    lastContext = context;
-    lastTraceCollector = traceCollector;
-    lastMorphApplied = morphApplied;
-
     if (attemptScore.total < bestScore) {
       bestScore = attemptScore.total;
       bestContext = context;
-      bestTraceCollector = traceCollector;
-      bestMorphApplied = morphApplied;
       bestAttempt = attempt;
     }
-
     const perfectMatch = attemptScore.phonemeDistance === 0 && attemptScore.letterPenalty === 0;
-    const goodEnoughAfterWarmup =
-      attempt >= MAX_LENGTH_RETRIES &&
-      attemptScore.phonemeDistance === 0 &&
-      attemptScore.letterPenalty <= 0.5 &&
-      morphologyDelta.resolved !== undefined;
-
-    if (perfectMatch || goodEnoughAfterWarmup) {
-      if (traceCollector) {
-        traceCollector.syllableCount = context.syllableCount;
-        traceCollector.attempts = attempt;
-        context.word.trace = traceCollector.toTrace(morphApplied);
-      }
-      return context.word;
-    }
+    const goodEnoughAfterWarmup = attempt >= MAX_LENGTH_RETRIES
+      && attemptScore.phonemeDistance === 0 && attemptScore.letterPenalty <= 0.5;
+    if (perfectMatch || goodEnoughAfterWarmup) return finishWord(rt, context, morphPlan, attempt);
   }
-
-  if (!bestContext && !lastContext) {
-    throw new Error("Failed to generate word");
-  }
-  const fallbackContext = bestContext ?? lastContext!;
-  const fallbackTraceCollector = bestTraceCollector ?? lastTraceCollector;
-  const fallbackMorphApplied = bestContext ? bestMorphApplied : lastMorphApplied;
-  const fallbackAttempts = bestContext ? bestAttempt : maxAttempts;
-  if (fallbackTraceCollector) {
-    fallbackTraceCollector.syllableCount = fallbackContext.syllableCount;
-    fallbackTraceCollector.attempts = fallbackAttempts;
-    fallbackContext.word.trace = fallbackTraceCollector.toTrace(fallbackMorphApplied);
-  }
-  return fallbackContext.word;
+  if (!bestContext) throw new Error("Failed to generate word");
+  return finishWord(rt, bestContext, morphPlan, bestAttempt);
 }
 
 /**

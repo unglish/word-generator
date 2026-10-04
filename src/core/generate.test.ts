@@ -10,6 +10,63 @@ describe("Word Generator", () => {
     expect(word.syllables.length).toBe(3);
   });
 
+  it("treats requested counts as root counts across the default morphology mix", () => {
+    let affixed = 0;
+    for (let syllableCount = 1; syllableCount <= 7; syllableCount++) {
+      for (let seed = 0; seed < 20; seed++) {
+        const word = generateWord({ seed, syllableCount, trace: true });
+        const trace = word.trace!;
+        expect(trace.syllableCount).toBe(syllableCount);
+        expect(trace.syllablePlans).toHaveLength(syllableCount);
+        expect(trace.stages.at(-1)!.after).toHaveLength(syllableCount);
+        const realized = trace.morphology?.realization;
+        const added = (realized?.prefix?.resolved.syllableCount ?? 0)
+          + (realized?.suffix?.resolved.syllableCount ?? 0);
+        expect(word.syllables).toHaveLength(syllableCount + added);
+        if (trace.summary.morphologyApplied) affixed++;
+      }
+    }
+    expect(affixed).toBeGreaterThan(70);
+  });
+
+  it("selects the same root regardless of affix phone, syllable, and letter costs", () => {
+    const short: import("../config/language.js").Affix = {
+      type: "suffix", written: "s", phonemes: ["z"], syllables: [],
+      syllableCount: 0, stressEffect: "none", frequency: 1,
+    };
+    const long: import("../config/language.js").Affix = {
+      ...short, written: "anananananana", phonemes: ["ɑ", "n", "ɑ", "n", "ɑ", "n"],
+      syllables: Array.from({ length: 3 }, () => ({ onset: [], nucleus: ["ɑ"], coda: ["n"] })),
+      syllableCount: 3,
+    };
+    const make = (suffix: import("../config/language.js").Affix) => createGenerator({
+      ...englishConfig,
+      morphology: {
+        ...englishConfig.morphology!, prefixes: [], suffixes: [suffix],
+        templateWeights: {
+          text: { bare: 0, suffixed: 1, prefixed: 0, both: 0 },
+          lexicon: { bare: 0, suffixed: 1, prefixed: 0, both: 0 },
+        },
+      },
+    });
+    const shortGenerator = make(short);
+    const longGenerator = make(long);
+    for (let seed = 0; seed < 64; seed++) {
+      const a = shortGenerator.generateWord({ seed, trace: true });
+      const b = longGenerator.generateWord({ seed, trace: true });
+      expect(b.trace!.stages).toEqual(a.trace!.stages);
+      expect(b.trace!.graphemeSelections).toEqual(a.trace!.graphemeSelections);
+      expect(b.trace!.targetPhonemeCount).toBe(a.trace!.targetPhonemeCount);
+      expect(b.trace!.syllablePlans).toEqual(a.trace!.syllablePlans);
+      expect(b.trace!.attempts).toBe(a.trace!.attempts);
+      expect(b.syllables).toHaveLength(a.syllables.length + 3);
+    }
+    const seven = longGenerator.generateWord({ seed: 13, syllableCount: 7, trace: true });
+    expect(seven.trace!.syllableCount).toBe(7);
+    expect(seven.syllables).toHaveLength(10);
+    expect(() => longGenerator.generateWord({ syllableCount: 8 })).toThrow(RangeError);
+  });
+
   it("generates a word with a valid written form", () => {
     const word = generateWord();
     expect(word.written.clean).toBeTruthy();
@@ -148,9 +205,9 @@ describe("buildCluster function", () => {
       };
       const cluster = buildCluster(context);
       const clusterString = cluster.map(p => p.sound).join("");
-      
+
       allClusters.add(clusterString);
-      
+
       // Check if the cluster starts with any special cluster and is 3 characters long
       if (exceptionalClusters.some(sc => clusterString.startsWith(sc)) && clusterString.length === 3) {
         foundClusters.add(clusterString.slice(0, 2));
@@ -185,9 +242,9 @@ describe("buildCluster function", () => {
       };
       const cluster = buildCluster(context);
       const clusterString = cluster.map(p => p.sound).join("");
-      
+
       allClusters.add(clusterString);
-      
+
       if (exceptionalClusters.some(exception => clusterString.endsWith(exception))) {
         foundClusters.add(clusterString.slice(0, 2));
       }

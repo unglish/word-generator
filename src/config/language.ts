@@ -157,7 +157,7 @@ export interface SyllableStructureRules {
   maxCodaLength: number;
   /** Maximum nucleus length (English: 1 — no complex nuclei). */
   maxNucleusLength: number;
-  /** Letter-length targets per syllable count: [min, peak_min, peak_max, max]. */
+  /** Root letter-length targets per root syllable count: [min, peak_min, peak_max, max]. */
   letterLengthTargets?: Record<number, [number, number, number, number]>;
 }
 
@@ -245,7 +245,7 @@ export function defaultFallbackBridgeOnsets(): [string, number][] {
 }
 
 /**
- * Target phoneme-length distributions by generation mode.
+ * Target root phoneme-length distributions by generation mode (affixes excluded).
  *
  * Each tuple is `[phonemeCount, weight]`. Weights are relative and do not need
  * to sum to 100.
@@ -263,7 +263,7 @@ export interface PhonemeLengthWeights {
 }
 
 /**
- * Mapping from target phoneme length to syllable-count distribution.
+ * Mapping from target root phoneme length to root syllable-count distribution.
  *
  * **Required** on {@link LanguageConfig}. For each phoneme count in
  * {@link PhonemeLengthWeights}, there must be a corresponding entry here
@@ -748,7 +748,7 @@ export interface LanguageConfig {
   hiatusPolicy?: HiatusPolicy;
 
   /**
-   * Required top-down targets for generation.
+   * Required top-down targets for root generation, excluding affixes.
    *
    * Generation first samples a target phoneme count from these distributions,
    * then samples a compatible syllable count via {@link phonemeToSyllableWeights}.
@@ -756,7 +756,7 @@ export interface LanguageConfig {
   phonemeLengthWeights: PhonemeLengthWeights;
 
   /**
-   * Required mode-specific mapping from target phoneme count to syllable-count
+   * Required mode-specific mapping from target root phoneme count to root syllable-count
    * probabilities.
    */
   phonemeToSyllableWeights: PhonemeToSyllableWeights;

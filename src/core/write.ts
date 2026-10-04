@@ -1,9 +1,8 @@
-import { Phoneme, Grapheme, GraphemeCondition, Syllable, WordGenerationContext } from "../types.js";
+import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
 import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
-import getWeightedOption from "../utils/getWeightedOption.js";
 import { isVowelChar, isConsonantLetter, VOWEL_LETTERS } from "../utils/letters.js";
 
 // ---------------------------------------------------------------------------
@@ -1852,7 +1851,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
     // Post-join pass: apply word-scope spelling rules
     let finalClean = applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word");
-    let finalHyphenated = hyphenatedParts.join("");
+    const finalHyphenated = hyphenatedParts.join("");
 
     // Post-join vowel repair for cross-boundary runs
     if (wfc?.maxVowelLetters) {
