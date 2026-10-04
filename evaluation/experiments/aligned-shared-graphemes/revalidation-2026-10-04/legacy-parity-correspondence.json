@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "publicCalls": 83072,
+  "coordinates": 20768,
+  "nextValueProbes": 128,
+  "comparison": "entire original report equal except newly verified authority hash",
+  "scope": "Public configured generateWord; snapshots taken immediately to compare values, not cross-call alias ownership. No candidate active-policy quality conclusion."
+}

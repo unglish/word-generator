@@ -1,0 +1,243 @@
+
+ RUN  v3.2.4 /private/tmp/q13b-closure-audit-v1/committed
+
+ ✓ src/core/spelling-construction-slots.test.ts > shared spelling named slots (pure scheduling fixtures) > retains exact legacy syllable order when absent 1ms
+ ✓ src/core/spelling-construction-slots.test.ts > shared spelling named slots (pure scheduling fixtures) > retains exact legacy word order when absent 0ms
+ ✓ src/core/spelling-construction-slots.test.ts > shared spelling named slots (pure scheduling fixtures) > replaces only the registered syllable slots 0ms
+ ✓ src/core/spelling-construction-slots.test.ts > shared spelling named slots (pure scheduling fixtures) > replaces only the registered word slots 0ms
+ ✓ src/core/spelling-construction-slots.test.ts > shared spelling named slots (pure scheduling fixtures) > disables all migrated regexes for an explicitly empty policy 0ms
+ ✓ src/core/spelling-construction-slots.test.ts > shared spelling named slots (pure scheduling fixtures) > binds a custom rule to its named position and narrows its phase without a regex fallback 0ms
+ ✓ src/core/spelling-construction-slots.test.ts > shared spelling named slots (pure scheduling fixtures) > rejects missing and ambiguous custom slots 1ms
+ ✓ src/core/spelling-construction-slots.test.ts > shared spelling named slots (pure scheduling fixtures) > rejects scope expansion and use of the retired cleanup slot 0ms
+ ✓ src/core/spelling-construction-slots.test.ts > shared spelling named slots (pure scheduling fixtures) > validates policy before scheduling 0ms
+ ✓ src/core/spelling-construction-slots.test.ts > shared spelling named slots (pure scheduling fixtures) > isolates source and returned schedule mutations 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > implements the exact preregistered rules 2ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > has positive support for 'ks-to-x' 1ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > has positive support for 'gz-to-x' 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > has positive support for 'cw-to-qu' 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > refuses gz-to-x on wrong actual sounds g,ʒ without a draw 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > refuses gz-to-x on wrong actual sounds ŋ,z without a draw 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > refuses ks-to-x on wrong actual sounds k,z without a draw 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > refuses ks-to-x on wrong actual sounds z without a draw 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > refuses cw-to-qu on wrong actual sounds s,w without a draw 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > treats initial position relative to the current pass 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > limits word-only rules to their registered phase 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > checks the following phone separately from the written letter 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > does not draw for probability 100 or zero 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > has the exact 25 percent decision boundary and one draw per eligible trial 2ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > has the exact 85 percent decision boundary and one draw per eligible trial 2ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > preserves the two eligible ks trial law when the first attempt fails 18ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > detaches compiled policy and returned support from caller mutation 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid RNG value -1 1ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid RNG value 1 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid RNG value NaN 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid RNG value Infinity 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid rule shape {"probability":-1} 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid rule shape {"probability":101} 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid rule shape {"probability":null} 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid rule shape {"form":""} 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid rule shape {"id":""} 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid rule shape {"phonemes":[]} 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid rule shape {"phonemes":[{"sound":"k"}]} 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid rule shape {"phonemes":[{"sound":""},{"sound":"s"}]} 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid rule shape {"context":{"following":{"phoneClass":"vowel","letters":[]}}} 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects invalid rule shape {"context":{"following":{"phoneClass":"vowel","letters":["ab"]}}} 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects malformed context decoded as null 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects malformed context decoded as [] 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects malformed context decoded as "word" 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > does not mutate phonological context during description or sampling 0ms
+ ✓ src/core/spelling-construction-policy.test.ts > shared spelling policy > rejects duplicate and unknown rule IDs 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > retains a hard-g reading when ck+s becomes x 3ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > refuses an incompatible configured obligation: 'following-letter' 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > refuses an incompatible configured obligation: 'following-letter' 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > refuses an incompatible configured obligation: 'unsupported-construction' 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > refuses an incompatible configured obligation: 'open-vowel-or-split-marker' 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > does not infer an undeclared neighboring reading 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > keeps unchanged context separate from positively checked reading support 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > refuses unresolved neighboring ancestry even when its visible letter looks legal 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > rejects incomplete consumed units before checking neighbors 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > preserves an open-vowel reading before a following-syllable qu construction 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor readings around a proposed shared construction > detaches configured and returned readings 0ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor-checked construction planning and commit > refuses incompatible neighbors before sampling and records the refusal without a spelling edit 2ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor-checked construction planning and commit > binds checked neighboring readings into a successful construction certificate 1ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor-checked construction planning and commit > rejects a permissive planner's attempt at a ledger configured with stricter readings 2ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor-checked construction planning and commit > rejects forged neighboring evidence before committing 1ms
+ ✓ src/core/spelling-construction-neighbors.test.ts > neighbor-checked construction planning and commit > requires a reading configuration for a shared ledger 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > consumes the full k selection for /k/, then /s/ 2ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > consumes the full ck selection for /k/, then /s/ 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > retains ordered /g,z/ parts across a syllable boundary 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > retains ordered /k,w/ parts across a syllable boundary 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > detaches returned phone data and all ownership arrays 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses invalid ordered unit request [] 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses invalid ordered unit request [ +0 ] 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses invalid ordered unit request [ 1, +0 ] 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses invalid ordered unit request [ +0, +0 ] 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses invalid ordered unit request [ +0, 2 ] 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses invalid ordered unit request [ -1, +0 ] 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses invalid ordered unit request [ +0, 1.5 ] 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses a phone claimed by multiple original units 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses absent writer boundary evidence 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses mismatch writer boundary evidence 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses ck when source cell 0 is missing 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses ck when source cell 1 is missing 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses a unit with no surviving cells 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses generic rewrite ancestry even when the text remains identical 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses reordered whole units 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses a spelling cell attributed to the wrong source part 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses a mixture of initial and licensed cells 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses licensed origins without a recorded license 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > refuses normalized origins without a recorded license 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > does not infer following phone context from a rewritten vowel letter 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > does not use a partially surviving following vowel unit as context 0ms
+ ✓ src/core/spelling-construction-ownership.test.ts > shared spelling source ownership > does not treat an unappended next phone as the end of the word 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > plans 'ks-to-x' from complete live units and replays without RNG 3ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > plans 'gz-to-x' from complete live units and replays without RNG 1ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > plans 'cw-to-qu' from complete live units and replays without RNG 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > derives scope-relative initial position from parts rather than root offset 1ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > allows a failed eligible syllable trial to retry at the word slot 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > refuses cross-part consumption in a syllable slot before drawing 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > refuses unresolved source ancestry before drawing 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > does not license gz through an unresolved following vowel letter 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects forged cursor evidence 1ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects forged phone-order evidence 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects forged input-cells evidence 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects forged part evidence 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects forged text evidence 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects forged roll evidence 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects forged probability evidence 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects forged outcome evidence 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects forged context evidence 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects forged version evidence 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > rejects a stale attempt after another edit changes the cursor 1ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > revalidates live ownership rather than using a previous successful plan 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > replays refusals without requesting a random draw 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > records probability-zero refusal and rejects an invented draw at probability 100 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > binds replay to the configured law rather than trusting stored support 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > records cross-part gz phones separately from the display anchor 0ms
+ ✓ src/core/spelling-construction.test.ts > event-time shared construction planning > detaches attempts from live state and the compiled policy 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > reconstructs the full shared, generic, batch and gap history 9ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > reconstructs appends after a syllable formation with exact allocation 2ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > authenticates normalization certificates and the complete check schedule 2ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > authenticates a whole coverage plan after shared formation 5ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > accounts for an empty selected unit without consuming a cell ID 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects altered normalization support 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects altered normalization history 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects altered normalization episode 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects altered normalization extra-certificate 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects append-id chronology corruption 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects missing-check chronology corruption 10ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects missing-event chronology corruption 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects reorder chronology corruption 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects final-live chronology corruption 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > v4 ledger semantic replay > rejects standalone chronology corruption 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > shared source scans and replay > records and replays empty scans without drawing 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > shared source scans and replay > scans source order and revalidates each live state 7ms
+ ✓ src/core/spelling-construction-evidence.test.ts > shared source scans and replay > permits a failed syllable trial to retry at the word pass 3ms
+ ✓ src/core/spelling-construction-evidence.test.ts > shared source scans and replay > restricts syllable scans but allows cross-part word candidates 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > shared source scans and replay > rejects corrupt scan candidate 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > shared source scans and replay > rejects corrupt scan first-attempt 2ms
+ ✓ src/core/spelling-construction-evidence.test.ts > shared source scans and replay > rejects corrupt scan missing-end 17ms
+ ✓ src/core/spelling-construction-evidence.test.ts > shared source scans and replay > rejects corrupt scan missing-start 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > shared source scans and replay > rejects corrupt scan interrupt 1ms
+ ✓ src/core/spelling-construction-evidence.test.ts > shared source scans and replay > rejects premature scan completion, nested scans and wrong candidate order 1ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > derives all slots from configuration and all passes from the original phones 9ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > detects an omitted empty scan even when ledger reconstruction remains self-consistent 9ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > detects removal of the entire empty shared slot with all references compacted 12ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > detects removal of a regex slot that made no edits 5ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > rejects forged rule schedule evidence 1ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > rejects forged part schedule evidence 1ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > rejects forged phase schedule evidence 1ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > rejects forged cursor schedule evidence 1ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > rejects forged duplicate schedule evidence 1ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > rejects forged missing-pass schedule evidence 8ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > rejects a word pass moved ahead of the final syllable join 1ms
+ ✓ src/core/spelling-construction-schedule.test.ts > configured writer schedule evidence > rejects foreign configuration and malformed syllable identity 1ms
+ ✓ src/core/spelling-construction-schedule.test.ts > public v4 evidence capability > requires the matching explicit configuration 3ms
+ ✓ src/core/spelling-construction-schedule.test.ts > public v4 evidence capability > does not let correct scheduling hide an invalid recorded construction decision 2ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > preserves original units while recording exact joint output and all source parts 5ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > keeps both qu cells in a single joint construction 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > preserves both shared readings in successive formations (reverse=false) 2ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > preserves both shared readings in successive formations (reverse=true) 8ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > projects cross-part formation onto its first source part when preserving an existing syllable reading 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > preserves an existing gz reading and its actual following vowel across a later formation 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > permits a cross-part formation before an existing word-scoped x 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > refuses missing live shared records before a further probabilistic draw 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > refuses duplicate live shared records before a further probabilistic draw 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > records failed rolls without advancing cell or edit IDs 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > rejects forged phones before any ledger mutation 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > rejects forged input before any ledger mutation 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > rejects forged cursor before any ledger mutation 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > rejects forged form before any ledger mutation 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > rejects forged roll before any ledger mutation 2ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > does not reuse consumed phones for a second formation 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > detaches committed evidence from caller attempts and returned traces 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > produces equal live ownership with trace history disabled 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > requires shared capability and the actual writer phase 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic shared-spelling ledger commits > requires explicit shared configuration for v4 evidence 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > refuses qu edit +0/1 and retains the live ledger 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > refuses qu edit +0/2 and retains the live ledger 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > refuses qu edit 1/+0 and retains the live ledger 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > refuses a prefix deletion that would expose initial x 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > allows an unrelated same-part prefix rewrite 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > preserves syllable-relative position when rewriting within the original part 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > refuses loss of authenticated gz vowel context: '' 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > refuses loss of authenticated gz vowel context: 'h' 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > refuses loss of authenticated gz vowel context: 'e' 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > allows unrelated edits after the complete gz following vowel 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > treats identical-text edits as no-ops without erasing ownership 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared-spelling preservation during generic edits > returns refusals through both observer interfaces 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > regex writer refusal propagation > keeps offsets correct when an earlier or later match is refused: 'q|c' 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > regex writer refusal propagation > keeps offsets correct when an earlier or later match is refused: 't|q' 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > explicit lexical gap supersession > retires live shared ownership while preserving construction and source history 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > explicit lexical gap supersession > does not let a gap-like rule name bypass ordinary edit preservation 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > explicit lexical gap supersession > replaces ownership even when the explicit lexical spelling has identical text 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > explicit lexical gap supersession > keeps legacy same-text no-op behavior and permissive historical rule names 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > explicit lexical gap supersession > refuses stale full-root replacement before changing any state 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > explicit lexical gap supersession > allows later edits without treating retired constructions as live 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > explicit lexical gap supersession > records repeated lexical replacements without retiring the same construction twice 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > explicit lexical gap supersession > keeps traced and untraced live ownership equal through supersession and subsequent edits 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic writer repair transactions > does not commit an earlier allowed edit when a later batch edit is refused 2ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic writer repair transactions > rejects an invalid later range without committing an earlier valid edit 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic writer repair transactions > commits accepted batches with the same cells and edit IDs as sequential writes 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic writer repair transactions > uses evolving part offsets when earlier parts change length 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic writer repair transactions > keeps the consonant-pileup text unchanged when its second deletion is refused 10ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic writer repair transactions > retains a refused final cluster and stops a later refused single-letter deletion 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic writer repair transactions > keeps the complete following vowel when vowel trimming would invalidate gz 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > atomic writer repair transactions > does not append a silent-e marker after its vowel swap is refused 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > records interleaved attempts, guards, transactions and supersession at their original cursors 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > replays shared decisions against actual evolving state without mutating the input 2ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > replays an atomic applied batch without retaining provisional edits 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > replays an atomic refused batch without retaining provisional edits 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > replays an atomic noop batch without retaining provisional edits 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > uses the supplied rule configuration instead of trusting archived support 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects semantic roll corruption during replay 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects semantic guard corruption during replay 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects semantic batch corruption during replay 4ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects semantic gap corruption during replay 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects semantic allocation corruption during replay 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects missing event ordering corruption 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects duplicate event ordering corruption 7ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects cursor event ordering corruption 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects index event ordering corruption 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects backwards event ordering corruption 4ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects unreferenced event ordering corruption 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects kind event ordering corruption 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects attempt formation binding corruption 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects orphan formation binding corruption 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects duplicate formation binding corruption 1ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects edit formation binding corruption 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects origin formation binding corruption 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects output formation binding corruption 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > rejects failed-link formation binding corruption 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > records empty appends and unguarded rewrites without inventing edit events for no-ops 0ms
+ ✓ src/core/spelling-construction-ledger.test.ts > shared decision event order > detaches returned event cursors 0ms
+ ✓ src/core/spelling-construction-writer.test.ts > shared spelling public writer integration > replays generated ledgers and preserves traced/untraced output and RNG 1170ms
+ ✓ src/core/spelling-construction-writer.test.ts > shared spelling public writer integration > detaches the compiled shared policy from caller mutation 6ms
+ ✓ src/core/spelling-construction-writer.test.ts > shared spelling public writer integration > records v4 with no formations for an explicit empty policy 4ms
+ ✓ src/core/spelling-construction-writer.test.ts > shared spelling public writer integration > rejects shared rules without licensed spelling and ambiguous slots at construction 2ms
+
+ Test Files  9 passed (9)
+      Tests  234 passed (234)
+   Start at  16:24:40
+   Duration  1.81s (transform 679ms, setup 0ms, collect 2.46s, tests 1.47s, environment 1ms, prepare 809ms)
+
