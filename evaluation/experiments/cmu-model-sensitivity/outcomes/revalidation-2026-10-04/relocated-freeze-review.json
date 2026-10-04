@@ -1,0 +1,15 @@
+{
+  "originalFreeze": {
+    "bytes": 64251,
+    "sha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569"
+  },
+  "relocatedFreeze": {
+    "bytes": 64422,
+    "sha256": "a1dee5cf6fc45e8e5666d61aec96a9c7c8f1c2d333fc890453724e6f00109674"
+  },
+  "allNonPathFieldsExact": true,
+  "complete338SourcePinsEqual": true,
+  "complete30InputPinsEqualAfterDeclaredPathMapping": true,
+  "engineIdentityExactlyEqual": true,
+  "reviewedAt": "2026-10-04T12:26:46.933366+00:00"
+}

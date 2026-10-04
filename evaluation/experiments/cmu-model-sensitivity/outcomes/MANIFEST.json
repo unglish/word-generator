@@ -1,0 +1,1128 @@
+{
+  "version": "q15-outcomes-package-v1",
+  "scope": "Original frozen evidence transport plus separately registered full revalidation and published-layout repair; no original measured source or result changed.",
+  "excludedSelf": "MANIFEST.json; externally pinned by staging manifest",
+  "reportRawSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240",
+  "freezeSha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569",
+  "sourceFileCount": 338,
+  "inputFileCount": 30,
+  "canonicalStudyFiles": 22,
+  "copiedRowStreams": 21,
+  "exactReportGzipBytes": 34056994,
+  "allFilesBelowBytes": 100000000,
+  "totalPayloadBytes": 79968405,
+  "files": {
+    "FAILURE-HISTORY.md": {
+      "bytes": 2622,
+      "sha256": "b96b28710e0db7a592d7ab8d3979aa7219fc1f6c64142cccade2df707f94c918",
+      "role": "authored preparation chronology; no failed formal trial omitted"
+    },
+    "README.md": {
+      "bytes": 22186,
+      "sha256": "4a4cebfe2942172fb10ebb9face9f1f39828d2c26eb6b8555e2673929b64dc45",
+      "role": "authored measured interpretation with report-derived tables"
+    },
+    "machine/authority/completion.json": {
+      "bytes": 3447,
+      "sha256": "d0284b1923d4ed4b9e52f88a4916140dd8517ac41690b5f501e9f3a815898738",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-completion-v1.json",
+        "bytes": 3447,
+        "sha256": "d0284b1923d4ed4b9e52f88a4916140dd8517ac41690b5f501e9f3a815898738"
+      }
+    },
+    "machine/authority/freeze-review.json": {
+      "bytes": 2527,
+      "sha256": "15d60d753239097339f5c4446b15248cedc03ff5017fae312a418857d2d94d3a",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-freeze-review-v1.json",
+        "bytes": 2527,
+        "sha256": "15d60d753239097339f5c4446b15248cedc03ff5017fae312a418857d2d94d3a"
+      }
+    },
+    "machine/authority/freeze-verify.log": {
+      "bytes": 791,
+      "sha256": "bce852eb048ef7821915563048424d6f3ad097c38395846d2b9d69b522b5aecb",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-freeze-verify-v1.log",
+        "bytes": 791,
+        "sha256": "bce852eb048ef7821915563048424d6f3ad097c38395846d2b9d69b522b5aecb"
+      }
+    },
+    "machine/authority/freeze.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-freeze-v1.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "machine/authority/parent-source-review.json": {
+      "bytes": 1001,
+      "sha256": "c45ffd54e05c092adddcc2b6f23a9268d461cd6f0a390cfde603886023c39ca1",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-parent-source-review-v2.json",
+        "bytes": 1001,
+        "sha256": "c45ffd54e05c092adddcc2b6f23a9268d461cd6f0a390cfde603886023c39ca1"
+      }
+    },
+    "machine/authority/report-authority.json": {
+      "bytes": 470,
+      "sha256": "eea6b6137d4f3e8eba189098a081785ecb8a8b8e0fa7117d69bc80569653fa10",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-report-authority-v1.json",
+        "bytes": 470,
+        "sha256": "eea6b6137d4f3e8eba189098a081785ecb8a8b8e0fa7117d69bc80569653fa10"
+      }
+    },
+    "machine/authority/source-input-freeze.json": {
+      "bytes": 64251,
+      "sha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-freeze-v1.json",
+        "bytes": 64251,
+        "sha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569"
+      }
+    },
+    "machine/preparation/history-manifest.json": {
+      "bytes": 11269,
+      "sha256": "224a84e4dd10d230305ee5431441dc7032e2ae1dc4877bb9f949195c744adbe2",
+      "role": "exact history archive entry manifest"
+    },
+    "machine/preparation/history.tar.gz": {
+      "bytes": 102553,
+      "sha256": "3e50d0f23784934ea78c2a7ad1fa85f7d7be2226664616b6146732142dee789c",
+      "role": "pre-freeze source snapshots, failures and successful reviews",
+      "members": 41
+    },
+    "machine/study/english.jsonl.gz": {
+      "bytes": 9508285,
+      "sha256": "d11cd0cdf58c60bd25bdcd7ee0f00b242dbf9525729542f6fa9bcbcf1acf5929",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/english.jsonl.gz",
+        "bytes": 9508285,
+        "sha256": "d11cd0cdf58c60bd25bdcd7ee0f00b242dbf9525729542f6fa9bcbcf1acf5929"
+      },
+      "rows": 117485,
+      "rawSha256": "6524ff20a1fbcf71e2f9b4ef6b3191f568c9afd743221ba43c5eb1a36693632e"
+    },
+    "machine/study/lexicon-bare-1304238451.jsonl.gz": {
+      "bytes": 1804357,
+      "sha256": "8abeece371d7b2fe0403449840e2e57cdcbf6bf06cc1bcd28096e13ac3d91675",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-bare-1304238451.jsonl.gz",
+        "bytes": 1804357,
+        "sha256": "8abeece371d7b2fe0403449840e2e57cdcbf6bf06cc1bcd28096e13ac3d91675"
+      },
+      "rows": 10000,
+      "rawSha256": "66b1c35e2ff8e8e74d505e968f727ac20852e617d64ed65cc6b6e5ff5009d30d"
+    },
+    "machine/study/lexicon-bare-1498885173.jsonl.gz": {
+      "bytes": 1796792,
+      "sha256": "e2f9f3aab5ad9db9d743bea153fa4f0db742d13f23b0ed2a953777449bc76c94",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-bare-1498885173.jsonl.gz",
+        "bytes": 1796792,
+        "sha256": "e2f9f3aab5ad9db9d743bea153fa4f0db742d13f23b0ed2a953777449bc76c94"
+      },
+      "rows": 10000,
+      "rawSha256": "8c53993dbaad6b71d2a3a45195f16e63e5220f75206731dbe152a89fbb9e34c1"
+    },
+    "machine/study/lexicon-bare-1696751198.jsonl.gz": {
+      "bytes": 1799742,
+      "sha256": "e72a8289377cc3594fd2da52a0cdb9fd662805a372c8f7b28bc3d69bd0b04f3b",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-bare-1696751198.jsonl.gz",
+        "bytes": 1799742,
+        "sha256": "e72a8289377cc3594fd2da52a0cdb9fd662805a372c8f7b28bc3d69bd0b04f3b"
+      },
+      "rows": 10000,
+      "rawSha256": "f62769d0cefaae40a0d2619532845a74163aa32957025b381bf3f6a190920820"
+    },
+    "machine/study/lexicon-bare-2380207674.jsonl.gz": {
+      "bytes": 1794069,
+      "sha256": "8ec063007b14cddb507acfba05e27f8d186947016dbaab8d571cd74cc94af6c7",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-bare-2380207674.jsonl.gz",
+        "bytes": 1794069,
+        "sha256": "8ec063007b14cddb507acfba05e27f8d186947016dbaab8d571cd74cc94af6c7"
+      },
+      "rows": 10000,
+      "rawSha256": "8ad9e54e33abd548b0a6b06c072f54c672237c399e234c216e6a7ac5825f9b64"
+    },
+    "machine/study/lexicon-bare-772709128.jsonl.gz": {
+      "bytes": 1794953,
+      "sha256": "2cfd7f2ceefb3f2ae33074037cd86d8db782d4f21565ba7352bb1a66f8bacca1",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-bare-772709128.jsonl.gz",
+        "bytes": 1794953,
+        "sha256": "2cfd7f2ceefb3f2ae33074037cd86d8db782d4f21565ba7352bb1a66f8bacca1"
+      },
+      "rows": 10000,
+      "rawSha256": "2e80e27874a84ad3a5ac2f3d69d21de8882a97e0f0136af668aaed05cb9cdee4"
+    },
+    "machine/study/lexicon-default-101601885.jsonl.gz": {
+      "bytes": 1797413,
+      "sha256": "b354f511af6250bc00006e43d941c44b445dd2ad4d8772c443d0d58b358369d5",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-default-101601885.jsonl.gz",
+        "bytes": 1797413,
+        "sha256": "b354f511af6250bc00006e43d941c44b445dd2ad4d8772c443d0d58b358369d5"
+      },
+      "rows": 10000,
+      "rawSha256": "8498ca5dd9aee9d261ffb39a7fcb97f28249414d9dce742cb290bf551050afa6"
+    },
+    "machine/study/lexicon-default-2089697863.jsonl.gz": {
+      "bytes": 1801382,
+      "sha256": "64fdadb29deb903feb11a95eaaaf480423ebc9034c366b3e97983016db2680b0",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-default-2089697863.jsonl.gz",
+        "bytes": 1801382,
+        "sha256": "64fdadb29deb903feb11a95eaaaf480423ebc9034c366b3e97983016db2680b0"
+      },
+      "rows": 10000,
+      "rawSha256": "446acb1e985e695ab146718b39a47fe2f85382dea2ff1507a1b738b7a41b09c1"
+    },
+    "machine/study/lexicon-default-3921817393.jsonl.gz": {
+      "bytes": 1798150,
+      "sha256": "0aa9ce92cac46d56940273c5d8ce86b99d67bf684d820543472f5c22137e2ad5",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-default-3921817393.jsonl.gz",
+        "bytes": 1798150,
+        "sha256": "0aa9ce92cac46d56940273c5d8ce86b99d67bf684d820543472f5c22137e2ad5"
+      },
+      "rows": 10000,
+      "rawSha256": "2bca413dfd052d2f4177fca1a6a7c931d1234bbe2aac1cf5c72cc8a95662bb82"
+    },
+    "machine/study/lexicon-default-3948943232.jsonl.gz": {
+      "bytes": 1800315,
+      "sha256": "b94a660c02b0c81d80f41f4edbc40e96ec82c7b3ff662ba341dcc7c1d4dc11b3",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-default-3948943232.jsonl.gz",
+        "bytes": 1800315,
+        "sha256": "b94a660c02b0c81d80f41f4edbc40e96ec82c7b3ff662ba341dcc7c1d4dc11b3"
+      },
+      "rows": 10000,
+      "rawSha256": "51ec0ddd5a609b3ec965ac933513763e7b241bbad7a95fd3fd0455a0cfc0201d"
+    },
+    "machine/study/lexicon-default-69212153.jsonl.gz": {
+      "bytes": 1798746,
+      "sha256": "d5f07e7cf66f8aba8a67b1c9874e8e473a3ee8f90705a5bff0b7c47ca0754bcd",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-default-69212153.jsonl.gz",
+        "bytes": 1798746,
+        "sha256": "d5f07e7cf66f8aba8a67b1c9874e8e473a3ee8f90705a5bff0b7c47ca0754bcd"
+      },
+      "rows": 10000,
+      "rawSha256": "6cc246d824648082b47115a2ea50a5e48982009afd0008c6b123fd20850ecd9b"
+    },
+    "machine/study/monosyllables-bare-2001884366.jsonl.gz": {
+      "bytes": 1367473,
+      "sha256": "4fa888f4a629081ea7c9c9635304f0b48ee61a79085ba7f75d7ce08b567185a1",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/monosyllables-bare-2001884366.jsonl.gz",
+        "bytes": 1367473,
+        "sha256": "4fa888f4a629081ea7c9c9635304f0b48ee61a79085ba7f75d7ce08b567185a1"
+      },
+      "rows": 10000,
+      "rawSha256": "512daf1e0f003ccdc0b5be38b3eded3a1a21fca769b2a88b78afd378437302d5"
+    },
+    "machine/study/monosyllables-bare-2353354178.jsonl.gz": {
+      "bytes": 1366889,
+      "sha256": "8f2ded1074f224ca664dfb2633cf3b300e51825620734d1265333a18982f7e9f",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/monosyllables-bare-2353354178.jsonl.gz",
+        "bytes": 1366889,
+        "sha256": "8f2ded1074f224ca664dfb2633cf3b300e51825620734d1265333a18982f7e9f"
+      },
+      "rows": 10000,
+      "rawSha256": "48375b1ab4b7980c732506c9bfed94dd3b4220cdf925d41b18ac439e83a62bbd"
+    },
+    "machine/study/monosyllables-bare-3297327738.jsonl.gz": {
+      "bytes": 1370633,
+      "sha256": "7a21aa6beb32172a801793a41c9114f196d3748178d893577ad2e7ba1918d78d",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/monosyllables-bare-3297327738.jsonl.gz",
+        "bytes": 1370633,
+        "sha256": "7a21aa6beb32172a801793a41c9114f196d3748178d893577ad2e7ba1918d78d"
+      },
+      "rows": 10000,
+      "rawSha256": "3d0355295083edbe19efdaa3f6860140d782ae484c92b813c795a276081b1fde"
+    },
+    "machine/study/monosyllables-bare-462530651.jsonl.gz": {
+      "bytes": 1367981,
+      "sha256": "b578706507a39832f4f2cf62579cb521c713bf3cc81ca8052d8b397e7b7a6fb6",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/monosyllables-bare-462530651.jsonl.gz",
+        "bytes": 1367981,
+        "sha256": "b578706507a39832f4f2cf62579cb521c713bf3cc81ca8052d8b397e7b7a6fb6"
+      },
+      "rows": 10000,
+      "rawSha256": "510da60ce9180f73bf78ea0c4b18425df51178be69721fff3117db3750f1770a"
+    },
+    "machine/study/monosyllables-bare-62358955.jsonl.gz": {
+      "bytes": 1370890,
+      "sha256": "fde981345584ce7f5f9fb708155f798fb11e81b578df7294707221c983088d4f",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/monosyllables-bare-62358955.jsonl.gz",
+        "bytes": 1370890,
+        "sha256": "fde981345584ce7f5f9fb708155f798fb11e81b578df7294707221c983088d4f"
+      },
+      "rows": 10000,
+      "rawSha256": "f5cc243f383b6aff3d1249d4f2f3225bf494165e1740e740523d9352afaadaaa"
+    },
+    "machine/study/report.json.gz": {
+      "bytes": 34056994,
+      "sha256": "1522069f824380e4b72804c29d2779055d11ee715c0290583ec5745ce5526681",
+      "role": "exact complete study report, lossless transport",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/report.json",
+        "bytes": 164954928,
+        "sha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240"
+      },
+      "compression": {
+        "format": "gzip",
+        "level": 9,
+        "mtime": 0,
+        "filename": "",
+        "repeatedCompressionIdentical": true
+      }
+    },
+    "machine/study/text-default-1665836705.jsonl.gz": {
+      "bytes": 1525841,
+      "sha256": "f7a12f7e8986a7b8747d829497769c5596d3fb6a1bc7a9ef84cde747023b02f6",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/text-default-1665836705.jsonl.gz",
+        "bytes": 1525841,
+        "sha256": "f7a12f7e8986a7b8747d829497769c5596d3fb6a1bc7a9ef84cde747023b02f6"
+      },
+      "rows": 10000,
+      "rawSha256": "241ad51af49e7805601672fee7c25da8b645e11751ae3f7a7eee965b3775bdbe"
+    },
+    "machine/study/text-default-1999736106.jsonl.gz": {
+      "bytes": 1527857,
+      "sha256": "c536f917be59d12046ed2fabe643bab6157ff4b66367035aa1c7b5f432b1489b",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/text-default-1999736106.jsonl.gz",
+        "bytes": 1527857,
+        "sha256": "c536f917be59d12046ed2fabe643bab6157ff4b66367035aa1c7b5f432b1489b"
+      },
+      "rows": 10000,
+      "rawSha256": "5431d97920222e363b4f3df7b477924912679ac67ec64de643b06bfde586b108"
+    },
+    "machine/study/text-default-2666001996.jsonl.gz": {
+      "bytes": 1523294,
+      "sha256": "8eda11979ee6106eb3e2c1c578dc075f5324aaee08c7ca82eb5de3462dace5a0",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/text-default-2666001996.jsonl.gz",
+        "bytes": 1523294,
+        "sha256": "8eda11979ee6106eb3e2c1c578dc075f5324aaee08c7ca82eb5de3462dace5a0"
+      },
+      "rows": 10000,
+      "rawSha256": "2707a65c4ecbf55af08cf162a241ded3efd57e091515128c468414dc710728b2"
+    },
+    "machine/study/text-default-3562318933.jsonl.gz": {
+      "bytes": 1516832,
+      "sha256": "74c5d8fd25d87eb2159a8c8c7ac2d2b97ef38878b1b0842757e3c33d77ba2b6f",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/text-default-3562318933.jsonl.gz",
+        "bytes": 1516832,
+        "sha256": "74c5d8fd25d87eb2159a8c8c7ac2d2b97ef38878b1b0842757e3c33d77ba2b6f"
+      },
+      "rows": 10000,
+      "rawSha256": "cd901b5cf3f12efb26850b914c3ed2883f6113d699c0883086b663c4dbea616d"
+    },
+    "machine/study/text-default-4167471042.jsonl.gz": {
+      "bytes": 1532905,
+      "sha256": "48f25d99f33456b83217725b91a6b18a0807caccc022f55acbcd5f7752eefdb5",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/text-default-4167471042.jsonl.gz",
+        "bytes": 1532905,
+        "sha256": "48f25d99f33456b83217725b91a6b18a0807caccc022f55acbcd5f7752eefdb5"
+      },
+      "rows": 10000,
+      "rawSha256": "606144e9672243e7f56f76590834084562313a3813a50349a730965ef4fcbe38"
+    },
+    "machine/validation/acceptance.json": {
+      "bytes": 9421,
+      "sha256": "74a23c4346883bf3b8ee64013a386b7a0926344332eeeba4e29bb50e44b73a30",
+      "role": "original formal matrix acceptance",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/acceptance.json",
+        "bytes": 9421,
+        "sha256": "74a23c4346883bf3b8ee64013a386b7a0926344332eeeba4e29bb50e44b73a30"
+      }
+    },
+    "machine/validation/cases/full-other-cwd.json": {
+      "bytes": 452,
+      "sha256": "47364b7f028ddd6078fa78e9a71b503659eaa7f014bc48182bdc2d854b108a3b",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/full-other-cwd.json",
+        "bytes": 452,
+        "sha256": "47364b7f028ddd6078fa78e9a71b503659eaa7f014bc48182bdc2d854b108a3b"
+      }
+    },
+    "machine/validation/cases/full-other-cwd.log": {
+      "bytes": 1298,
+      "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/full-other-cwd.log",
+        "bytes": 1298,
+        "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828"
+      }
+    },
+    "machine/validation/cases/full-root-cwd.json": {
+      "bytes": 470,
+      "sha256": "e08ec02818a94a32ae6480233ca0fd1b1056ae7879305675cb060fd62fd05485",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/full-root-cwd.json",
+        "bytes": 470,
+        "sha256": "e08ec02818a94a32ae6480233ca0fd1b1056ae7879305675cb060fd62fd05485"
+      }
+    },
+    "machine/validation/cases/full-root-cwd.log": {
+      "bytes": 1298,
+      "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/full-root-cwd.log",
+        "bytes": 1298,
+        "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828"
+      }
+    },
+    "machine/validation/cases/help-other-cwd.json": {
+      "bytes": 236,
+      "sha256": "5ce90000b102e4fc738ace0cd0c3d7cfa2b860e983ce7c08d6fef76ab8b5b5af",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/help-other-cwd.json",
+        "bytes": 236,
+        "sha256": "5ce90000b102e4fc738ace0cd0c3d7cfa2b860e983ce7c08d6fef76ab8b5b5af"
+      }
+    },
+    "machine/validation/cases/help-other-cwd.log": {
+      "bytes": 502,
+      "sha256": "4ed5ecc80e915b408150444d30f61bcaabb6e77ff26da24f61922125cc1d3fae",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/help-other-cwd.log",
+        "bytes": 502,
+        "sha256": "4ed5ecc80e915b408150444d30f61bcaabb6e77ff26da24f61922125cc1d3fae"
+      }
+    },
+    "machine/validation/cases/missing-flags.json": {
+      "bytes": 317,
+      "sha256": "53abd81dc469f9e892e9059209a4e3668b90ea35d130dda6e840fb6184feaa1e",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/missing-flags.json",
+        "bytes": 317,
+        "sha256": "53abd81dc469f9e892e9059209a4e3668b90ea35d130dda6e840fb6184feaa1e"
+      }
+    },
+    "machine/validation/cases/missing-flags.log": {
+      "bytes": 553,
+      "sha256": "b185bc7df76dbf6a8967d12a55ce761374d17a0386adff9f8572844c2dc2cb68",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/missing-flags.log",
+        "bytes": 553,
+        "sha256": "b185bc7df76dbf6a8967d12a55ce761374d17a0386adff9f8572844c2dc2cb68"
+      }
+    },
+    "machine/validation/cases/no-args.json": {
+      "bytes": 235,
+      "sha256": "18a8421922001b782f0fb8dff07eec6da4086005f0a5d1d7a5938edfa0f663f5",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/no-args.json",
+        "bytes": 235,
+        "sha256": "18a8421922001b782f0fb8dff07eec6da4086005f0a5d1d7a5938edfa0f663f5"
+      }
+    },
+    "machine/validation/cases/no-args.log": {
+      "bytes": 540,
+      "sha256": "a7fdfa50bc6664652e5aff6406473c87f4a714b79cb000af1e8eb13822c205e4",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/no-args.log",
+        "bytes": 540,
+        "sha256": "a7fdfa50bc6664652e5aff6406473c87f4a714b79cb000af1e8eb13822c205e4"
+      }
+    },
+    "machine/validation/cases/reject-archive-alias.json": {
+      "bytes": 503,
+      "sha256": "0c0388cbb5fc42f822ce14900be09fd5932707477c5dbb526993b885f873cf91",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-archive-alias.json",
+        "bytes": 503,
+        "sha256": "0c0388cbb5fc42f822ce14900be09fd5932707477c5dbb526993b885f873cf91"
+      }
+    },
+    "machine/validation/cases/reject-archive-alias.log": {
+      "bytes": 556,
+      "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-archive-alias.log",
+        "bytes": 556,
+        "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6"
+      }
+    },
+    "machine/validation/cases/reject-dangling.json": {
+      "bytes": 474,
+      "sha256": "65e4e36bb7cd724cab825550ae07c6bad3f9d44a2e938f28445a10884adc3b89",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-dangling.json",
+        "bytes": 474,
+        "sha256": "65e4e36bb7cd724cab825550ae07c6bad3f9d44a2e938f28445a10884adc3b89"
+      }
+    },
+    "machine/validation/cases/reject-dangling.log": {
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-dangling.log",
+        "bytes": 567,
+        "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed"
+      }
+    },
+    "machine/validation/cases/reject-existing.json": {
+      "bytes": 474,
+      "sha256": "ba02c939e9d2c535cd4f9e2a532b9a10a461fa4b7897efb1d51111ef419fe2f6",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-existing.json",
+        "bytes": 474,
+        "sha256": "ba02c939e9d2c535cd4f9e2a532b9a10a461fa4b7897efb1d51111ef419fe2f6"
+      }
+    },
+    "machine/validation/cases/reject-existing.log": {
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-existing.log",
+        "bytes": 567,
+        "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed"
+      }
+    },
+    "machine/validation/cases/reject-frozen-evidence.json": {
+      "bytes": 555,
+      "sha256": "60dbc9e653ff3a924a097ed4d3619b00012968a7fb00835a1dad532edd7f56ed",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-frozen-evidence.json",
+        "bytes": 555,
+        "sha256": "60dbc9e653ff3a924a097ed4d3619b00012968a7fb00835a1dad532edd7f56ed"
+      }
+    },
+    "machine/validation/cases/reject-frozen-evidence.log": {
+      "bytes": 611,
+      "sha256": "22ba420f0edeb0c18390e052c86f39423a6e65caa16a33cc123c905a3b50fe84",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-frozen-evidence.log",
+        "bytes": 611,
+        "sha256": "22ba420f0edeb0c18390e052c86f39423a6e65caa16a33cc123c905a3b50fe84"
+      }
+    },
+    "machine/validation/cases/reject-hardlink.json": {
+      "bytes": 474,
+      "sha256": "7b6d9098e377e0620369378676c81d48654efe695c233aa3c6e0031fece0cf72",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-hardlink.json",
+        "bytes": 474,
+        "sha256": "7b6d9098e377e0620369378676c81d48654efe695c233aa3c6e0031fece0cf72"
+      }
+    },
+    "machine/validation/cases/reject-hardlink.log": {
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-hardlink.log",
+        "bytes": 567,
+        "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed"
+      }
+    },
+    "machine/validation/cases/reject-source-directory.json": {
+      "bytes": 528,
+      "sha256": "323eed381e725a52094a3aca9cdce34b2bf3c57ede2ab7cc88e135fb26b628ff",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-source-directory.json",
+        "bytes": 528,
+        "sha256": "323eed381e725a52094a3aca9cdce34b2bf3c57ede2ab7cc88e135fb26b628ff"
+      }
+    },
+    "machine/validation/cases/reject-source-directory.log": {
+      "bytes": 556,
+      "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-source-directory.log",
+        "bytes": 556,
+        "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6"
+      }
+    },
+    "machine/validation/cases/repeated-flag.json": {
+      "bytes": 558,
+      "sha256": "7c42705db43dc141e0a8dd607de0d7bce17ce950391c3eab6d6c7564f54d87dc",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/repeated-flag.json",
+        "bytes": 558,
+        "sha256": "7c42705db43dc141e0a8dd607de0d7bce17ce950391c3eab6d6c7564f54d87dc"
+      }
+    },
+    "machine/validation/cases/repeated-flag.log": {
+      "bytes": 543,
+      "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/repeated-flag.log",
+        "bytes": 543,
+        "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383"
+      }
+    },
+    "machine/validation/cases/unknown-flag.json": {
+      "bytes": 531,
+      "sha256": "aeceff7333275428f21c7baf50f5b317cafea6ea1564a37a72925dc57ada72f1",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/unknown-flag.json",
+        "bytes": 531,
+        "sha256": "aeceff7333275428f21c7baf50f5b317cafea6ea1564a37a72925dc57ada72f1"
+      }
+    },
+    "machine/validation/cases/unknown-flag.log": {
+      "bytes": 543,
+      "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/unknown-flag.log",
+        "bytes": 543,
+        "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383"
+      }
+    },
+    "machine/validation/cases/wrong-external-authority.json": {
+      "bytes": 505,
+      "sha256": "d5d406be45d00420e8548ffbe78675d697cd5ee1c585d75de4df9d61c8c6bff7",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/wrong-external-authority.json",
+        "bytes": 505,
+        "sha256": "d5d406be45d00420e8548ffbe78675d697cd5ee1c585d75de4df9d61c8c6bff7"
+      }
+    },
+    "machine/validation/cases/wrong-external-authority.log": {
+      "bytes": 593,
+      "sha256": "e6a00514648589cf45a1f8d8f3c54c2e33fbfce2f6b1a1483b65f218a1087a6f",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/wrong-external-authority.log",
+        "bytes": 593,
+        "sha256": "e6a00514648589cf45a1f8d8f3c54c2e33fbfce2f6b1a1483b65f218a1087a6f"
+      }
+    },
+    "machine/validation/cases/wrong-source.json": {
+      "bytes": 691,
+      "sha256": "b2093f150981fa841fd8b659d8b49ac85369afcf3155e35fd653ffb7956e4812",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/wrong-source.json",
+        "bytes": 691,
+        "sha256": "b2093f150981fa841fd8b659d8b49ac85369afcf3155e35fd653ffb7956e4812"
+      }
+    },
+    "machine/validation/cases/wrong-source.log": {
+      "bytes": 545,
+      "sha256": "6a87c88a4d71dffc89304d3acc1304808b2de0899b4f205792edbfbc02fb37d7",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/wrong-source.log",
+        "bytes": 545,
+        "sha256": "6a87c88a4d71dffc89304d3acc1304808b2de0899b4f205792edbfbc02fb37d7"
+      }
+    },
+    "machine/validation/independent-invocation.json": {
+      "bytes": 1064,
+      "sha256": "599f03ecb9cf5b8a1df4f041704f2580254dff8fa5894800c989b51a1c5ba86e",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-independent-invocation-v1.json",
+        "bytes": 1064,
+        "sha256": "599f03ecb9cf5b8a1df4f041704f2580254dff8fa5894800c989b51a1c5ba86e"
+      }
+    },
+    "machine/validation/independent-proof.json": {
+      "bytes": 1309,
+      "sha256": "95abe047fc333a632f2e477b0332a7944e8b03040fb1b6cc3d002548183d4cf4",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-independent-proof-v1.json",
+        "bytes": 1309,
+        "sha256": "95abe047fc333a632f2e477b0332a7944e8b03040fb1b6cc3d002548183d4cf4"
+      }
+    },
+    "machine/validation/independent.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-independent-proof-v1.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "machine/validation/matrix-invocation.json": {
+      "bytes": 868,
+      "sha256": "aaaee77568cd67b41393a9b81229619948f991d1a273e7ee589d40f1d1f3e716",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-invocation-v1.json",
+        "bytes": 868,
+        "sha256": "aaaee77568cd67b41393a9b81229619948f991d1a273e7ee589d40f1d1f3e716"
+      }
+    },
+    "machine/validation/matrix.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "tables/all-group-scores.csv": {
+      "bytes": 808479,
+      "sha256": "832348f23cd8c614ac4a8dfe30ed12e1b3d37113e5a3d62953cc6c1da135eb1c",
+      "role": "derived convenience table; every frozen group and gap",
+      "reportSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240",
+      "rows": 839,
+      "nullRepresentation": "empty CSV cell"
+    },
+    "tables/cohort-identity-loss.json": {
+      "bytes": 87324,
+      "sha256": "311caea696585fd2e90c8c34cf76d6930bbb86937169a9ff261d381e48827c79",
+      "role": "derived exact cohort identity/loss counters",
+      "reportSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240"
+    },
+    "tables/cohort-transitions.csv": {
+      "bytes": 2611179,
+      "sha256": "8d6ea0c507614863897b2460f9fd8afe25b94c62918c679f7362c9ae2705dbc0",
+      "role": "derived complete transition contribution table for all11 cohorts",
+      "reportSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240",
+      "rows": 11973
+    },
+    "tables/witnesses.json.gz": {
+      "bytes": 12512,
+      "sha256": "fbdc9a0dffcd3e1a3d31e9a61144f6f656c79a0c7cb3ac8dc6bb58e99e929496",
+      "role": "derived lossless witness subset; all6 frozen selections including original traces",
+      "reportSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240"
+    },
+    "RESULTS.md": {
+      "bytes": 655,
+      "sha256": "c559a5b7984247d990f4746ab51f2104be2fbab8bfa570a206ef06f2f3f9be78",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/README.md": {
+      "bytes": 2444,
+      "sha256": "af0dd741886f88976bd630bfdb41f2eb415c3792c2b83e13d03baeb1c02d0d1c",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/acceptance.json": {
+      "bytes": 9843,
+      "sha256": "ff550e0db02fcfb6b5562c0b26248e8c69089e710474d78a79fcdb6252d6fafd",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/additional-commands.json": {
+      "bytes": 2985,
+      "sha256": "992ded2f4bffdb99839ba3c68f5da8924d831d8ef57b0d5bd65d3acdef125726",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/additional-complete.json": {
+      "bytes": 108,
+      "sha256": "6f8140da3ccb89d17cfaba05b8afe6a1a43b5bbfab0890bf2b899f9056dd2304",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-full-other-cwd.json": {
+      "bytes": 509,
+      "sha256": "6734224956129459061a216f5592dcb8888cb9c3076250c5d258bddcbf6b5336",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-full-other-cwd.log": {
+      "bytes": 1298,
+      "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-full-root-cwd.json": {
+      "bytes": 499,
+      "sha256": "55527458c03beacf2c21ca3e91a45c1a650137c8c926ca6afccc42418f3a9517",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-full-root-cwd.log": {
+      "bytes": 1298,
+      "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-help-other-cwd.json": {
+      "bytes": 249,
+      "sha256": "d998198f64c53ab1c9c13be80ff69b8e9ebc63a528cde067853bd0204d876464",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-help-other-cwd.log": {
+      "bytes": 502,
+      "sha256": "4ed5ecc80e915b408150444d30f61bcaabb6e77ff26da24f61922125cc1d3fae",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-missing-flags.json": {
+      "bytes": 333,
+      "sha256": "a975711a05ea2c3ed5cf0b0c6961debb3c29feb334df27e83f45ab79d04bb3d2",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-missing-flags.log": {
+      "bytes": 553,
+      "sha256": "b185bc7df76dbf6a8967d12a55ce761374d17a0386adff9f8572844c2dc2cb68",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-no-args.json": {
+      "bytes": 220,
+      "sha256": "950cf217af4f5ae39bd5316027569f80e23059b5849672c5b9e5fe45e6d3e454",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-no-args.log": {
+      "bytes": 540,
+      "sha256": "a7fdfa50bc6664652e5aff6406473c87f4a714b79cb000af1e8eb13822c205e4",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-archive-alias.json": {
+      "bytes": 532,
+      "sha256": "cece2e1acad05a8df7c4257cd37866c56856f0dda07ccc2a02cb79cfada0fb65",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-archive-alias.log": {
+      "bytes": 556,
+      "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-dangling.json": {
+      "bytes": 503,
+      "sha256": "e47a9d3617cc86c3152da92816fedc6f54f86b5ba03c4a5cd0c2788b3091590a",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-dangling.log": {
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-existing.json": {
+      "bytes": 503,
+      "sha256": "8b3eeb49e121be9d3ac400194d12986c4102bcf4ce5435f45bfbd85994efa0ff",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-existing.log": {
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-frozen-evidence.json": {
+      "bytes": 556,
+      "sha256": "9e2882013e58c2f07e75f143da42ef44cde7964672578a4e77eff6ed39241037",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-frozen-evidence.log": {
+      "bytes": 611,
+      "sha256": "22ba420f0edeb0c18390e052c86f39423a6e65caa16a33cc123c905a3b50fe84",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-hardlink.json": {
+      "bytes": 503,
+      "sha256": "ce67e0132b8eb54f113f6b86003a0d4886a2011ca5842866517ef1d7d4453732",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-hardlink.log": {
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-source-directory.json": {
+      "bytes": 529,
+      "sha256": "6775121af00746a7cb333d1c7c2c21df3cc5efef4fef40d5da46ab09af137ac7",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-reject-source-directory.log": {
+      "bytes": 556,
+      "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-repeated-flag.json": {
+      "bytes": 600,
+      "sha256": "cb8c73b5ff0ce12125aace1f41d7c6ca91702bc7ebebebfc21e1ef2334ff14bf",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-repeated-flag.log": {
+      "bytes": 543,
+      "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-unknown-flag.json": {
+      "bytes": 587,
+      "sha256": "b0558cc4d0d2110424650a6927efe5ac9ce6cd0da2799a03a8be03415d53b3b5",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-unknown-flag.log": {
+      "bytes": 543,
+      "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-wrong-external-authority.json": {
+      "bytes": 534,
+      "sha256": "86a4b6fcc7140a7de0bc587561f0f21cf0aae9d3870e79308f55e5ad8ba7fca2",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-wrong-external-authority.log": {
+      "bytes": 624,
+      "sha256": "3dc474219adfa7fd07f122d4ccb7323eb62cca2c5d389e5322b8a78de49dc312",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-wrong-source.json": {
+      "bytes": 768,
+      "sha256": "15d63eaa54507fb20c104b6138ad0e1db235c552273f38c52dfbb6b392755ed0",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/cli-wrong-source.log": {
+      "bytes": 545,
+      "sha256": "6a87c88a4d71dffc89304d3acc1304808b2de0899b4f205792edbfbc02fb37d7",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/corpus-types-command.json": {
+      "bytes": 511,
+      "sha256": "dcc9e0d5d491455206f448a62b367d9773dfda3c9bd4f01f0f580bb1e64d2849",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/corpus-types.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/final-complete.json": {
+      "bytes": 769,
+      "sha256": "98a058aa865b689f560f1dd806ae0f766c90a7ccaf6a773aefa590db4946f2c9",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/fixture-input-registration.json": {
+      "bytes": 731,
+      "sha256": "40972bff9d9c8f15b99abe81b727d876536259742ccf6b30fd90993c8c2a6f16",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/freeze-command.json": {
+      "bytes": 1054,
+      "sha256": "30d97141b4b06f8ddc63c1249276a978a53381212a0d1d052cbf693bf2455cf2",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/freeze.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/fresh-report-authority.json": {
+      "bytes": 201,
+      "sha256": "01d367e7405ebc21f9cadd038e56a168efb88910daf69add468eefc11077cf49",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/independent-proof-original-python.json": {
+      "bytes": 1309,
+      "sha256": "babdaf548907fd0e5fb3a7979d320107250d6039e64ab20249af457826e74cfd",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/independent-proof.json": {
+      "bytes": 1309,
+      "sha256": "babdaf548907fd0e5fb3a7979d320107250d6039e64ab20249af457826e74cfd",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/initial-published-layout-failure/driver-at-first-attempt.py": {
+      "bytes": 8854,
+      "sha256": "f197e5b56e483000bac5bc9d6db594abe02fb6d9d9181cad464f42459ee9cfa8",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/initial-published-layout-failure/freeze-command.json": {
+      "bytes": 1054,
+      "sha256": "487b692657012a11cb69c430f64bfb8af9797cdcdb0c7557880c10e8f190a934",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/initial-published-layout-failure/freeze.log": {
+      "bytes": 585,
+      "sha256": "7bff97e00b705f4324e576c4610a8238ca5290297492b2ae1576c8cd31c31172",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/initial-published-layout-failure/relocation-registration.json": {
+      "bytes": 1851,
+      "sha256": "f0e593989481469db3edaac4dfad5ae19e60e1f652d06e6e33109b3102eaeb1d",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/original-MANIFEST.json": {
+      "bytes": 34073,
+      "sha256": "fee17faedbe1a5aadd021c3c9e735cc29cc4c1dee016b972935be24a338f6b2b",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/original-full-matrix-command.json": {
+      "bytes": 729,
+      "sha256": "582af0a8c020c8354153288667923342fe02b7e33effb4e704e2bf8be0dc1384",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/original-full-matrix.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/original-independent-full-proof-command.json": {
+      "bytes": 888,
+      "sha256": "1faadf6c8ed222c57f65775aef43120c7ce42a89a78199e84267cf1b2844966c",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/original-independent-full-proof.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/original-python-fixtures-command.json": {
+      "bytes": 412,
+      "sha256": "4185aabc0aff0b2fceea5cf289080bf342c2a99cd566c05e370a44cc075b420b",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/original-python-fixtures.log": {
+      "bytes": 1655,
+      "sha256": "2f7a9df076b631bb14ce1d3c9d60a7d54d1e8830f560c515caace6afc17bd583",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/original-python-proof-command.json": {
+      "bytes": 874,
+      "sha256": "564264ebdce2002d04f54336784d438ee12796fda52585df2a66f20b2bfafb14",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/published-equivalence.json": {
+      "bytes": 3604,
+      "sha256": "d6b2b064dee8c8768c08dda37a770d8d32cf913d279a5755a8e5be53645f4050",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/python-fixtures-bound-command.json": {
+      "bytes": 486,
+      "sha256": "a051099df0840ec1d566482efa0c8cb0aa353a7543974514d2717a36ec8956ea",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/python-fixtures-bound.log": {
+      "bytes": 116,
+      "sha256": "69b4a3ab89e5ff007cd83f346030fba3d4ca81dcd683805ae77435eeedfc8c86",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/q15c5_finish_checks.py": {
+      "bytes": 3837,
+      "sha256": "d31d4b4031c2cbd419bf8562f5ef78c74bea1216e7b508b411fb86b4fb165bee",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/q15c5_revalidation_driver.py": {
+      "bytes": 10104,
+      "sha256": "772159b60a1dd6964bd523ffa04d6cceee800b7598d99452960d37bc45522f09",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/relocated-freeze-review.json": {
+      "bytes": 481,
+      "sha256": "a7747e8b1080fd8526469a9550ebad6042343fdcc98df5f95326748688d9febc",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/relocated-source-input-freeze.json": {
+      "bytes": 64422,
+      "sha256": "a1dee5cf6fc45e8e5666d61aec96a9c7c8f1c2d333fc890453724e6f00109674",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/relocation-registration.json": {
+      "bytes": 2392,
+      "sha256": "56319f5aa6f39783a5bc16b8cbab309269d55e2efb320ae0d109dbf82f37e607",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/revalidation-summary.json": {
+      "bytes": 5328,
+      "sha256": "c9757354e2267a7fdaee858c3caf4ccebdaa14d5e9c3fa165b7b3e74a0aa53b3",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/review-tests-bound-command.json": {
+      "bytes": 520,
+      "sha256": "9c82997e998804dbdfe2a2874f34158b71da332192b1168476e3eca593c445d3",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/review-tests-bound.log": {
+      "bytes": 3730,
+      "sha256": "9ce6c87d959fd2b6eeff76780ea802b52c1d64b7f02010b723f4162188f5ecf7",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/review-types-command.json": {
+      "bytes": 511,
+      "sha256": "e9259687112438da087ccdfa0518da889a140e7af1cddac336e87821712f26ea",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/review-types.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/targeted-lint-command.json": {
+      "bytes": 777,
+      "sha256": "aa7eba9ab369714871389c0813a8b4387682551d87d3ee6dc78b6432e69b78ad",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    },
+    "revalidation-2026-10-04/targeted-lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "Supplemental published-layout repair and separately registered complete original-protocol revalidation; prior evidence unchanged."
+    }
+  },
+  "supplementalRevalidation": {
+    "directory": "revalidation-2026-10-04",
+    "originalManifest": {
+      "bytes": 34073,
+      "sha256": "fee17faedbe1a5aadd021c3c9e735cc29cc4c1dee016b972935be24a338f6b2b"
+    },
+    "originalFilesUnchanged": 73,
+    "relocatedFreezeSha256": "a1dee5cf6fc45e8e5666d61aec96a9c7c8f1c2d333fc890453724e6f00109674",
+    "historicalAuthorityUnchanged": true
+  }
+}
