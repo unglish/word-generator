@@ -1,0 +1,41 @@
+
+> @unglish/word-generator@0.6.0 test:perf
+> vitest run --config vitest.perf.config.ts --reporter=verbose
+
+
+ RUN  v3.2.4 /private/tmp/q02-trace-history-performance-v2/baseline
+
+stdout | src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec
+
+⚡ Performance: 3305 words/sec (10000 words in 3026ms)
+   Floor: 4500 words/sec
+
+
+stdout | src/core/generate.perf.test.ts > Word Generation Performance > should not degrade significantly with sequential seeds
+⚡ Batch variance trials: 1.48x, 1.41x, 1.50x (median 1.48x)
+   Median variance threshold: < 3.0x
+
+ × src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec 3089ms
+   → expected 3304.866088232325 to be greater than or equal to 4500
+ ✓ src/core/generate.perf.test.ts > Word Generation Performance > should not degrade significantly with sequential seeds 822ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec
+AssertionError: expected 3304.866088232325 to be greater than or equal to 4500
+ ❯ src/core/generate.perf.test.ts:37:25
+     35|     console.log(`   Floor: ${MIN_WORDS_PER_SEC} words/sec\n`);
+     36| 
+     37|     expect(wordsPerSec).toBeGreaterThanOrEqual(MIN_WORDS_PER_SEC);
+       |                         ^
+     38|   });
+     39| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  14:31:43
+   Duration  4.53s (transform 322ms, setup 0ms, collect 453ms, tests 3.91s, environment 0ms, prepare 49ms)
+

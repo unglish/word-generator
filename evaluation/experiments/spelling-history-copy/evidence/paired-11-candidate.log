@@ -1,0 +1,22 @@
+
+ RUN  v3.2.4 /private/tmp/q02-trace-history-performance-v2/candidate
+
+ ↓ src/core/generate.test.ts > Word Generator > generates word with specified syllable count
+ ↓ src/core/generate.test.ts > Word Generator > generates a word with a valid written form
+ ↓ src/core/generate.test.ts > Word Generator > generates a word with a valid pronunciation
+ ↓ src/core/generate.test.ts > Word Generator > keeps hyphenated output aligned after morphology consonant repair
+ ↓ src/core/generate.test.ts > Word Generator > generates reproducible word with seed
+ ↓ src/core/generate.test.ts > Word Generator > rejects invalid forced syllable counts
+ ↓ src/core/generate.test.ts > Word Generator > rejects invalid batch counts
+ ↓ src/core/generate.test.ts > Word Generator > boundary policy decisions are deterministic for fixed seed
+ ✓ src/core/generate.test.ts > Word Generator > risingCodaDrop policy gates rising-coda drop events 46495ms
+ ↓ src/core/generate.test.ts > buildCluster function > produces s + p/t/k + * onset clusters
+ ↓ src/core/generate.test.ts > buildCluster function > produces *some* SSP violating clusters in codas
+ ↓ src/core/generate.test.ts > isValidCluster > should only generate attested onsets > never generates an unattested multi-consonant onset
+ ↓ src/core/generate.test.ts > isValidCluster > should only generate attested codas > never generates an unattested multi-consonant coda
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 12 skipped (13)
+   Start at  13:49:29
+   Duration  47.05s (transform 313ms, setup 0ms, collect 369ms, tests 46.50s, environment 0ms, prepare 61ms)
+
