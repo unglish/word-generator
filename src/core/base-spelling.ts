@@ -211,6 +211,25 @@ function licensedCells(replacement: SpellingUnitReplacement, editId: number, cer
   }));
 }
 
+function isScalarWriterSlot(slot: SharedSpellingSlot): boolean {
+  if (Reflect.ownKeys(slot).length !== 2) return false;
+  return slot.phase === "word" ? slot.partId === null
+    : slot.phase === "syllable" && typeof slot.partId === "number";
+}
+
+function isScalarLedgerCursor(cursor: LedgerCursor): boolean {
+  return Reflect.ownKeys(cursor).length === 2 && typeof cursor.lastAppendedUnitId === "number"
+    && typeof cursor.nextEditId === "number";
+}
+
+function copyWriterStep(step: SharedWriterStep): SharedWriterStep {
+  return { ...step, slot: { ...step.slot }, cursor: { ...step.cursor } };
+}
+
+function copyTimelineEntry(entry: SpellingTimelineEntry): SpellingTimelineEntry {
+  return { ...entry, cursor: { ...entry.cursor } };
+}
+
 /** Live units/cells exist independently of tracing; only discarded edit history is optional. */
 export class BaseSpelling {
   private cells: SpellingCell[] = [];
@@ -887,10 +906,19 @@ export class BaseSpelling {
           episodes: this.normalizationEpisodes ?? [] },
       };
       if (this.sharedPlanner) {
+        const writerSteps = this.sharedWriterSteps ?? [];
+        const timeline = this.sharedTimeline ?? [];
+        // Each private history record owns its cursor/slot; extended slots need native graph cloning.
+        const copyScalarHistories = writerSteps.every(step => isScalarWriterSlot(step.slot) && isScalarLedgerCursor(step.cursor))
+          && timeline.every(entry => isScalarLedgerCursor(entry.cursor));
         const sharedTrace: BaseSpellingTraceV4 = structuredClone({ ...trace, version: 4,
           capabilities: { ...trace.capabilities, sharedConstructions: 1 },
-          shared: { version: 1, writerSteps: this.sharedWriterSteps ?? [], scans: this.sharedScans, timeline: this.sharedTimeline ?? [], events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
+          shared: { version: 1, writerSteps: copyScalarHistories ? [] : writerSteps, scans: this.sharedScans, timeline: copyScalarHistories ? [] : timeline, events: this.sharedEvents ?? [], attempts: this.sharedAttempts ?? [], constructions: this.sharedConstructions, supersessions: this.sharedSupersessions,
             liveConstructionIds: this.liveConstructions().map(construction => construction.id), editGuards: this.sharedEditGuards ?? [], transactions: this.sharedTransactions ?? [] } });
+        if (copyScalarHistories) {
+          sharedTrace.shared.writerSteps = writerSteps.map(copyWriterStep);
+          sharedTrace.shared.timeline = timeline.map(copyTimelineEntry);
+        }
         if (this.splitRuntime) return structuredClone({ ...sharedTrace, version: 5,
           capabilities: { ...sharedTrace.capabilities, splitVowels: 1 },
           completion: { attempts: this.completionAttempts, certificates: this.completionCertificates },

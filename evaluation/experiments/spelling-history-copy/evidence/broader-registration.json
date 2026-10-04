@@ -1,0 +1,76 @@
+{
+  "registeredAt": "2026-10-04T20:37:34.273107+00:00",
+  "operatorAndInputPins": [
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_parity.mjs",
+      "bytes": 6112,
+      "sha256": "4d57bf88c93b32f1c63c6de54743212d67015d41acedfe7139ebcd0b979f962d"
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_parity_recount.py",
+      "bytes": 6217,
+      "sha256": "138662336d837acc7d74da65f624ea3a0ddf39b479715dfcf385c84432bf66a1"
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_archive.mjs",
+      "bytes": 6066,
+      "sha256": "f5fbfebcc2908b13e954b0f161a5b69b75e3ada48a540873697bb088234513bd"
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_archive_recount.py",
+      "bytes": 4785,
+      "sha256": "c5b3a5d83de889c01b2a8b882c2a0d718052e12b5f4eb8e6d7372319ea785829"
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_broader.py",
+      "bytes": 4931,
+      "sha256": "bfccf5c694283167262a3c69e0e845a1e798ffbc3f5c11f4fca9e61bd49da774"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/measurement.json",
+      "bytes": 18459,
+      "sha256": "7ee6193f4e5e5c9f79bcef9485bdc50e7df4202f0527e97f9c00459e3adeebf1"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/protocol.json",
+      "bytes": 1911,
+      "sha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/source-binding.json",
+      "bytes": 66065,
+      "sha256": "7225db50f6bdc11a80996890cbdda0d69e543690c9938e9c7a86a5d8a868ef2d"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/source-freeze.json",
+      "bytes": 61910,
+      "sha256": "0ed7d888606acb12e8cf45ac2d03035e460541b25d3d30b98cf08451137dd7c7"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/trace-parity-registration.json",
+      "bytes": 864,
+      "sha256": "693aaf66aca091f5d0f36d6b29fb61330c9f2ea026960bf3893d8a14e6c83219"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/archive-registration.json",
+      "bytes": 1146,
+      "sha256": "4460f2865991e39d1f5536ff0d9ce7c6377aba6c9b81987f452e3dc783784329"
+    },
+    {
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_paired_recount.py",
+      "bytes": 3073,
+      "sha256": "79cf45b38938af7a86d8d88873479ef67f3564680405515aaa7a86edd0ed2620"
+    }
+  ],
+  "sourcePinsPerArm": 184,
+  "fullPublicTraceRngCalls": 80000,
+  "fullActivePublicArchiveWords": 200000,
+  "repoCommandsBothArms": [
+    "npm test",
+    "npm run test:quality",
+    "npm run test:perf"
+  ],
+  "historicalActiveQualityContext": "OriginalQ02activequalityfailures remainexplicitadoptionlimit; unchangedconfiguration evidence staysseparate fromthesenewdefaultrepo gates. No removal/relabeling of originalfailures.",
+  "execution": "Serialafteroriginal12timingrun completion; no timeout/heap/seed/sample/source changes.",
+  "revision": 2
+}
