@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "publicCandidateWords": 200000,
+  "originalCompressedShardsMatched": 20,
+  "probeWords": 400000,
+  "entireOriginalProbesEqualExceptPhysicalRunDirectories": true,
+  "totals": {
+    "baseline": {
+      "words": 200000,
+      "decisions": 1009139,
+      "zeroTotalDecisions": 5910,
+      "wordsWithZeroTotal": 5836,
+      "singletonDecisions": 502357,
+      "observedSelectionDecisions": 0,
+      "unknownSelectionDecisions": 1009139,
+      "invalidSelectedWeights": null,
+      "emptyOrdinarySets": null,
+      "declaredFallbacks": null,
+      "observedConstraintRestorations": null,
+      "relaxedDoublingQuotas": null,
+      "scopes": {},
+      "fallbacks": {},
+      "zeroTotalWordRate": 0.02918
+    },
+    "candidate": {
+      "words": 200000,
+      "decisions": 1009637,
+      "zeroTotalDecisions": 0,
+      "wordsWithZeroTotal": 0,
+      "singletonDecisions": 440737,
+      "observedSelectionDecisions": 1009637,
+      "unknownSelectionDecisions": 0,
+      "invalidSelectedWeights": 0,
+      "emptyOrdinarySets": 2127,
+      "declaredFallbacks": 2127,
+      "observedConstraintRestorations": 0,
+      "relaxedDoublingQuotas": 0,
+      "scopes": {
+        "segment/initial/initial": 60051,
+        "segment/medial/initial": 50126,
+        "syllable/medial/initial": 60629,
+        "segment/medial/medial": 67182,
+        "syllable/medial/medial": 53523,
+        "syllable/final/final": 18885,
+        "segment/medial/final": 92723,
+        "syllable/medial/final": 68857,
+        "segment/final/final": 68251,
+        "syllable/initial/initial": 27085,
+        "syllable/initial/isolated": 10728,
+        "segment/final/isolated": 89849,
+        "segment/initial/isolated": 89741,
+        "segment/medial/isolated": 147089,
+        "syllable/medial/isolated": 81903,
+        "syllable/final/isolated": 10620,
+        "syllable/isolated/isolated": 12395
+      },
+      "fallbacks": {
+        "\u025b/ea/no-positional-candidates": 2112,
+        "\u028a/oo/no-positional-candidates": 15
+      },
+      "zeroTotalWordRate": 0
+    }
+  },
+  "scope": "Fresh original complete probe execution and original report reconciliation. No separate independent numerical oracle or human-quality claim. Baseline missing selection metadata remains null, not zero.",
+  "deliveryCompletionProven": true,
+  "deliveryClassification": "Delivered measured independent positive-weight selection experiment",
+  "publicFixturesPassed": 9,
+  "exactRuntimeFiles": 42,
+  "retention": {
+    "path": ".local-evidence/q12a-reproduction-retained-v1",
+    "files": 272,
+    "bytes": 195772264,
+    "indexSha256": "57b2d0ac5a7754efc9421176f83b987274cfca14c3be400e94adfa9fde0f6908"
+  },
+  "adoptionReady": false,
+  "limits": [
+    "Original ex underrepresentation gate failure retained",
+    "Historical singleton selection metadata is unobserved, not proof of clean baseline decisions",
+    "Later repair/reading legality and human preference remain outside selection contract"
+  ],
+  "nextAction": "Publish compact full reproduction/probe renewal onoriginalPR310 with runtime unchanged."
+}

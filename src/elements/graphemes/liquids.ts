@@ -29,7 +29,7 @@ export const liquidGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
-    condition: { wordPosition: ["initial"] },
+    condition: { segmentPosition: ["initial"] },
   },
   {
     phoneme: "r",
