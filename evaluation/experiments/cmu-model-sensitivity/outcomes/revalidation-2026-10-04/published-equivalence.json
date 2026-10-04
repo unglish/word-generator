@@ -1,0 +1,94 @@
+{
+  "all21StreamsByteIdentical": {
+    "english.jsonl.gz": {
+      "bytes": 9508285,
+      "sha256": "d11cd0cdf58c60bd25bdcd7ee0f00b242dbf9525729542f6fa9bcbcf1acf5929"
+    },
+    "lexicon-bare-1304238451.jsonl.gz": {
+      "bytes": 1804357,
+      "sha256": "8abeece371d7b2fe0403449840e2e57cdcbf6bf06cc1bcd28096e13ac3d91675"
+    },
+    "lexicon-bare-1498885173.jsonl.gz": {
+      "bytes": 1796792,
+      "sha256": "e2f9f3aab5ad9db9d743bea153fa4f0db742d13f23b0ed2a953777449bc76c94"
+    },
+    "lexicon-bare-1696751198.jsonl.gz": {
+      "bytes": 1799742,
+      "sha256": "e72a8289377cc3594fd2da52a0cdb9fd662805a372c8f7b28bc3d69bd0b04f3b"
+    },
+    "lexicon-bare-2380207674.jsonl.gz": {
+      "bytes": 1794069,
+      "sha256": "8ec063007b14cddb507acfba05e27f8d186947016dbaab8d571cd74cc94af6c7"
+    },
+    "lexicon-bare-772709128.jsonl.gz": {
+      "bytes": 1794953,
+      "sha256": "2cfd7f2ceefb3f2ae33074037cd86d8db782d4f21565ba7352bb1a66f8bacca1"
+    },
+    "lexicon-default-101601885.jsonl.gz": {
+      "bytes": 1797413,
+      "sha256": "b354f511af6250bc00006e43d941c44b445dd2ad4d8772c443d0d58b358369d5"
+    },
+    "lexicon-default-2089697863.jsonl.gz": {
+      "bytes": 1801382,
+      "sha256": "64fdadb29deb903feb11a95eaaaf480423ebc9034c366b3e97983016db2680b0"
+    },
+    "lexicon-default-3921817393.jsonl.gz": {
+      "bytes": 1798150,
+      "sha256": "0aa9ce92cac46d56940273c5d8ce86b99d67bf684d820543472f5c22137e2ad5"
+    },
+    "lexicon-default-3948943232.jsonl.gz": {
+      "bytes": 1800315,
+      "sha256": "b94a660c02b0c81d80f41f4edbc40e96ec82c7b3ff662ba341dcc7c1d4dc11b3"
+    },
+    "lexicon-default-69212153.jsonl.gz": {
+      "bytes": 1798746,
+      "sha256": "d5f07e7cf66f8aba8a67b1c9874e8e473a3ee8f90705a5bff0b7c47ca0754bcd"
+    },
+    "monosyllables-bare-2001884366.jsonl.gz": {
+      "bytes": 1367473,
+      "sha256": "4fa888f4a629081ea7c9c9635304f0b48ee61a79085ba7f75d7ce08b567185a1"
+    },
+    "monosyllables-bare-2353354178.jsonl.gz": {
+      "bytes": 1366889,
+      "sha256": "8f2ded1074f224ca664dfb2633cf3b300e51825620734d1265333a18982f7e9f"
+    },
+    "monosyllables-bare-3297327738.jsonl.gz": {
+      "bytes": 1370633,
+      "sha256": "7a21aa6beb32172a801793a41c9114f196d3748178d893577ad2e7ba1918d78d"
+    },
+    "monosyllables-bare-462530651.jsonl.gz": {
+      "bytes": 1367981,
+      "sha256": "b578706507a39832f4f2cf62579cb521c713bf3cc81ca8052d8b397e7b7a6fb6"
+    },
+    "monosyllables-bare-62358955.jsonl.gz": {
+      "bytes": 1370890,
+      "sha256": "fde981345584ce7f5f9fb708155f798fb11e81b578df7294707221c983088d4f"
+    },
+    "text-default-1665836705.jsonl.gz": {
+      "bytes": 1525841,
+      "sha256": "f7a12f7e8986a7b8747d829497769c5596d3fb6a1bc7a9ef84cde747023b02f6"
+    },
+    "text-default-1999736106.jsonl.gz": {
+      "bytes": 1527857,
+      "sha256": "c536f917be59d12046ed2fabe643bab6157ff4b66367035aa1c7b5f432b1489b"
+    },
+    "text-default-2666001996.jsonl.gz": {
+      "bytes": 1523294,
+      "sha256": "8eda11979ee6106eb3e2c1c578dc075f5324aaee08c7ca82eb5de3462dace5a0"
+    },
+    "text-default-3562318933.jsonl.gz": {
+      "bytes": 1516832,
+      "sha256": "74c5d8fd25d87eb2159a8c8c7ac2d2b97ef38878b1b0842757e3c33d77ba2b6f"
+    },
+    "text-default-4167471042.jsonl.gz": {
+      "bytes": 1532905,
+      "sha256": "48f25d99f33456b83217725b91a6b18a0807caccc022f55acbcd5f7752eefdb5"
+    }
+  },
+  "entireSemanticReportEqualExceptDeclaredAuthority": true,
+  "excludedFields": [
+    "report.authority",
+    "digest"
+  ],
+  "reason": "New registered paths produce a distinct authority and dependent canonical digest. All measured fields and witnesses are exact."
+}

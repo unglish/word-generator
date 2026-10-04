@@ -1,0 +1,763 @@
+{
+  "version": "q15-outcomes-package-v1",
+  "scope": "transport of frozen measured evidence; generated convenience tables are secondary to exact report",
+  "excludedSelf": "MANIFEST.json; externally pinned by staging manifest",
+  "reportRawSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240",
+  "freezeSha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569",
+  "sourceFileCount": 338,
+  "inputFileCount": 30,
+  "canonicalStudyFiles": 22,
+  "copiedRowStreams": 21,
+  "exactReportGzipBytes": 34056994,
+  "allFilesBelowBytes": 100000000,
+  "totalPayloadBytes": 79781908,
+  "files": {
+    "FAILURE-HISTORY.md": {
+      "bytes": 2622,
+      "sha256": "b96b28710e0db7a592d7ab8d3979aa7219fc1f6c64142cccade2df707f94c918",
+      "role": "authored preparation chronology; no failed formal trial omitted"
+    },
+    "README.md": {
+      "bytes": 22186,
+      "sha256": "4a4cebfe2942172fb10ebb9face9f1f39828d2c26eb6b8555e2673929b64dc45",
+      "role": "authored measured interpretation with report-derived tables"
+    },
+    "machine/authority/completion.json": {
+      "bytes": 3447,
+      "sha256": "d0284b1923d4ed4b9e52f88a4916140dd8517ac41690b5f501e9f3a815898738",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-completion-v1.json",
+        "bytes": 3447,
+        "sha256": "d0284b1923d4ed4b9e52f88a4916140dd8517ac41690b5f501e9f3a815898738"
+      }
+    },
+    "machine/authority/freeze-review.json": {
+      "bytes": 2527,
+      "sha256": "15d60d753239097339f5c4446b15248cedc03ff5017fae312a418857d2d94d3a",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-freeze-review-v1.json",
+        "bytes": 2527,
+        "sha256": "15d60d753239097339f5c4446b15248cedc03ff5017fae312a418857d2d94d3a"
+      }
+    },
+    "machine/authority/freeze-verify.log": {
+      "bytes": 791,
+      "sha256": "bce852eb048ef7821915563048424d6f3ad097c38395846d2b9d69b522b5aecb",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-freeze-verify-v1.log",
+        "bytes": 791,
+        "sha256": "bce852eb048ef7821915563048424d6f3ad097c38395846d2b9d69b522b5aecb"
+      }
+    },
+    "machine/authority/freeze.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-freeze-v1.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "machine/authority/parent-source-review.json": {
+      "bytes": 1001,
+      "sha256": "c45ffd54e05c092adddcc2b6f23a9268d461cd6f0a390cfde603886023c39ca1",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-parent-source-review-v2.json",
+        "bytes": 1001,
+        "sha256": "c45ffd54e05c092adddcc2b6f23a9268d461cd6f0a390cfde603886023c39ca1"
+      }
+    },
+    "machine/authority/report-authority.json": {
+      "bytes": 470,
+      "sha256": "eea6b6137d4f3e8eba189098a081785ecb8a8b8e0fa7117d69bc80569653fa10",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-report-authority-v1.json",
+        "bytes": 470,
+        "sha256": "eea6b6137d4f3e8eba189098a081785ecb8a8b8e0fa7117d69bc80569653fa10"
+      }
+    },
+    "machine/authority/source-input-freeze.json": {
+      "bytes": 64251,
+      "sha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-freeze-v1.json",
+        "bytes": 64251,
+        "sha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569"
+      }
+    },
+    "machine/preparation/history-manifest.json": {
+      "bytes": 11269,
+      "sha256": "224a84e4dd10d230305ee5431441dc7032e2ae1dc4877bb9f949195c744adbe2",
+      "role": "exact history archive entry manifest"
+    },
+    "machine/preparation/history.tar.gz": {
+      "bytes": 102553,
+      "sha256": "3e50d0f23784934ea78c2a7ad1fa85f7d7be2226664616b6146732142dee789c",
+      "role": "pre-freeze source snapshots, failures and successful reviews",
+      "members": 41
+    },
+    "machine/study/english.jsonl.gz": {
+      "bytes": 9508285,
+      "sha256": "d11cd0cdf58c60bd25bdcd7ee0f00b242dbf9525729542f6fa9bcbcf1acf5929",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/english.jsonl.gz",
+        "bytes": 9508285,
+        "sha256": "d11cd0cdf58c60bd25bdcd7ee0f00b242dbf9525729542f6fa9bcbcf1acf5929"
+      },
+      "rows": 117485,
+      "rawSha256": "6524ff20a1fbcf71e2f9b4ef6b3191f568c9afd743221ba43c5eb1a36693632e"
+    },
+    "machine/study/lexicon-bare-1304238451.jsonl.gz": {
+      "bytes": 1804357,
+      "sha256": "8abeece371d7b2fe0403449840e2e57cdcbf6bf06cc1bcd28096e13ac3d91675",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-bare-1304238451.jsonl.gz",
+        "bytes": 1804357,
+        "sha256": "8abeece371d7b2fe0403449840e2e57cdcbf6bf06cc1bcd28096e13ac3d91675"
+      },
+      "rows": 10000,
+      "rawSha256": "66b1c35e2ff8e8e74d505e968f727ac20852e617d64ed65cc6b6e5ff5009d30d"
+    },
+    "machine/study/lexicon-bare-1498885173.jsonl.gz": {
+      "bytes": 1796792,
+      "sha256": "e2f9f3aab5ad9db9d743bea153fa4f0db742d13f23b0ed2a953777449bc76c94",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-bare-1498885173.jsonl.gz",
+        "bytes": 1796792,
+        "sha256": "e2f9f3aab5ad9db9d743bea153fa4f0db742d13f23b0ed2a953777449bc76c94"
+      },
+      "rows": 10000,
+      "rawSha256": "8c53993dbaad6b71d2a3a45195f16e63e5220f75206731dbe152a89fbb9e34c1"
+    },
+    "machine/study/lexicon-bare-1696751198.jsonl.gz": {
+      "bytes": 1799742,
+      "sha256": "e72a8289377cc3594fd2da52a0cdb9fd662805a372c8f7b28bc3d69bd0b04f3b",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-bare-1696751198.jsonl.gz",
+        "bytes": 1799742,
+        "sha256": "e72a8289377cc3594fd2da52a0cdb9fd662805a372c8f7b28bc3d69bd0b04f3b"
+      },
+      "rows": 10000,
+      "rawSha256": "f62769d0cefaae40a0d2619532845a74163aa32957025b381bf3f6a190920820"
+    },
+    "machine/study/lexicon-bare-2380207674.jsonl.gz": {
+      "bytes": 1794069,
+      "sha256": "8ec063007b14cddb507acfba05e27f8d186947016dbaab8d571cd74cc94af6c7",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-bare-2380207674.jsonl.gz",
+        "bytes": 1794069,
+        "sha256": "8ec063007b14cddb507acfba05e27f8d186947016dbaab8d571cd74cc94af6c7"
+      },
+      "rows": 10000,
+      "rawSha256": "8ad9e54e33abd548b0a6b06c072f54c672237c399e234c216e6a7ac5825f9b64"
+    },
+    "machine/study/lexicon-bare-772709128.jsonl.gz": {
+      "bytes": 1794953,
+      "sha256": "2cfd7f2ceefb3f2ae33074037cd86d8db782d4f21565ba7352bb1a66f8bacca1",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-bare-772709128.jsonl.gz",
+        "bytes": 1794953,
+        "sha256": "2cfd7f2ceefb3f2ae33074037cd86d8db782d4f21565ba7352bb1a66f8bacca1"
+      },
+      "rows": 10000,
+      "rawSha256": "2e80e27874a84ad3a5ac2f3d69d21de8882a97e0f0136af668aaed05cb9cdee4"
+    },
+    "machine/study/lexicon-default-101601885.jsonl.gz": {
+      "bytes": 1797413,
+      "sha256": "b354f511af6250bc00006e43d941c44b445dd2ad4d8772c443d0d58b358369d5",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-default-101601885.jsonl.gz",
+        "bytes": 1797413,
+        "sha256": "b354f511af6250bc00006e43d941c44b445dd2ad4d8772c443d0d58b358369d5"
+      },
+      "rows": 10000,
+      "rawSha256": "8498ca5dd9aee9d261ffb39a7fcb97f28249414d9dce742cb290bf551050afa6"
+    },
+    "machine/study/lexicon-default-2089697863.jsonl.gz": {
+      "bytes": 1801382,
+      "sha256": "64fdadb29deb903feb11a95eaaaf480423ebc9034c366b3e97983016db2680b0",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-default-2089697863.jsonl.gz",
+        "bytes": 1801382,
+        "sha256": "64fdadb29deb903feb11a95eaaaf480423ebc9034c366b3e97983016db2680b0"
+      },
+      "rows": 10000,
+      "rawSha256": "446acb1e985e695ab146718b39a47fe2f85382dea2ff1507a1b738b7a41b09c1"
+    },
+    "machine/study/lexicon-default-3921817393.jsonl.gz": {
+      "bytes": 1798150,
+      "sha256": "0aa9ce92cac46d56940273c5d8ce86b99d67bf684d820543472f5c22137e2ad5",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-default-3921817393.jsonl.gz",
+        "bytes": 1798150,
+        "sha256": "0aa9ce92cac46d56940273c5d8ce86b99d67bf684d820543472f5c22137e2ad5"
+      },
+      "rows": 10000,
+      "rawSha256": "2bca413dfd052d2f4177fca1a6a7c931d1234bbe2aac1cf5c72cc8a95662bb82"
+    },
+    "machine/study/lexicon-default-3948943232.jsonl.gz": {
+      "bytes": 1800315,
+      "sha256": "b94a660c02b0c81d80f41f4edbc40e96ec82c7b3ff662ba341dcc7c1d4dc11b3",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-default-3948943232.jsonl.gz",
+        "bytes": 1800315,
+        "sha256": "b94a660c02b0c81d80f41f4edbc40e96ec82c7b3ff662ba341dcc7c1d4dc11b3"
+      },
+      "rows": 10000,
+      "rawSha256": "51ec0ddd5a609b3ec965ac933513763e7b241bbad7a95fd3fd0455a0cfc0201d"
+    },
+    "machine/study/lexicon-default-69212153.jsonl.gz": {
+      "bytes": 1798746,
+      "sha256": "d5f07e7cf66f8aba8a67b1c9874e8e473a3ee8f90705a5bff0b7c47ca0754bcd",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/lexicon-default-69212153.jsonl.gz",
+        "bytes": 1798746,
+        "sha256": "d5f07e7cf66f8aba8a67b1c9874e8e473a3ee8f90705a5bff0b7c47ca0754bcd"
+      },
+      "rows": 10000,
+      "rawSha256": "6cc246d824648082b47115a2ea50a5e48982009afd0008c6b123fd20850ecd9b"
+    },
+    "machine/study/monosyllables-bare-2001884366.jsonl.gz": {
+      "bytes": 1367473,
+      "sha256": "4fa888f4a629081ea7c9c9635304f0b48ee61a79085ba7f75d7ce08b567185a1",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/monosyllables-bare-2001884366.jsonl.gz",
+        "bytes": 1367473,
+        "sha256": "4fa888f4a629081ea7c9c9635304f0b48ee61a79085ba7f75d7ce08b567185a1"
+      },
+      "rows": 10000,
+      "rawSha256": "512daf1e0f003ccdc0b5be38b3eded3a1a21fca769b2a88b78afd378437302d5"
+    },
+    "machine/study/monosyllables-bare-2353354178.jsonl.gz": {
+      "bytes": 1366889,
+      "sha256": "8f2ded1074f224ca664dfb2633cf3b300e51825620734d1265333a18982f7e9f",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/monosyllables-bare-2353354178.jsonl.gz",
+        "bytes": 1366889,
+        "sha256": "8f2ded1074f224ca664dfb2633cf3b300e51825620734d1265333a18982f7e9f"
+      },
+      "rows": 10000,
+      "rawSha256": "48375b1ab4b7980c732506c9bfed94dd3b4220cdf925d41b18ac439e83a62bbd"
+    },
+    "machine/study/monosyllables-bare-3297327738.jsonl.gz": {
+      "bytes": 1370633,
+      "sha256": "7a21aa6beb32172a801793a41c9114f196d3748178d893577ad2e7ba1918d78d",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/monosyllables-bare-3297327738.jsonl.gz",
+        "bytes": 1370633,
+        "sha256": "7a21aa6beb32172a801793a41c9114f196d3748178d893577ad2e7ba1918d78d"
+      },
+      "rows": 10000,
+      "rawSha256": "3d0355295083edbe19efdaa3f6860140d782ae484c92b813c795a276081b1fde"
+    },
+    "machine/study/monosyllables-bare-462530651.jsonl.gz": {
+      "bytes": 1367981,
+      "sha256": "b578706507a39832f4f2cf62579cb521c713bf3cc81ca8052d8b397e7b7a6fb6",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/monosyllables-bare-462530651.jsonl.gz",
+        "bytes": 1367981,
+        "sha256": "b578706507a39832f4f2cf62579cb521c713bf3cc81ca8052d8b397e7b7a6fb6"
+      },
+      "rows": 10000,
+      "rawSha256": "510da60ce9180f73bf78ea0c4b18425df51178be69721fff3117db3750f1770a"
+    },
+    "machine/study/monosyllables-bare-62358955.jsonl.gz": {
+      "bytes": 1370890,
+      "sha256": "fde981345584ce7f5f9fb708155f798fb11e81b578df7294707221c983088d4f",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/monosyllables-bare-62358955.jsonl.gz",
+        "bytes": 1370890,
+        "sha256": "fde981345584ce7f5f9fb708155f798fb11e81b578df7294707221c983088d4f"
+      },
+      "rows": 10000,
+      "rawSha256": "f5cc243f383b6aff3d1249d4f2f3225bf494165e1740e740523d9352afaadaaa"
+    },
+    "machine/study/report.json.gz": {
+      "bytes": 34056994,
+      "sha256": "1522069f824380e4b72804c29d2779055d11ee715c0290583ec5745ce5526681",
+      "role": "exact complete study report, lossless transport",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/report.json",
+        "bytes": 164954928,
+        "sha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240"
+      },
+      "compression": {
+        "format": "gzip",
+        "level": 9,
+        "mtime": 0,
+        "filename": "",
+        "repeatedCompressionIdentical": true
+      }
+    },
+    "machine/study/text-default-1665836705.jsonl.gz": {
+      "bytes": 1525841,
+      "sha256": "f7a12f7e8986a7b8747d829497769c5596d3fb6a1bc7a9ef84cde747023b02f6",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/text-default-1665836705.jsonl.gz",
+        "bytes": 1525841,
+        "sha256": "f7a12f7e8986a7b8747d829497769c5596d3fb6a1bc7a9ef84cde747023b02f6"
+      },
+      "rows": 10000,
+      "rawSha256": "241ad51af49e7805601672fee7c25da8b645e11751ae3f7a7eee965b3775bdbe"
+    },
+    "machine/study/text-default-1999736106.jsonl.gz": {
+      "bytes": 1527857,
+      "sha256": "c536f917be59d12046ed2fabe643bab6157ff4b66367035aa1c7b5f432b1489b",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/text-default-1999736106.jsonl.gz",
+        "bytes": 1527857,
+        "sha256": "c536f917be59d12046ed2fabe643bab6157ff4b66367035aa1c7b5f432b1489b"
+      },
+      "rows": 10000,
+      "rawSha256": "5431d97920222e363b4f3df7b477924912679ac67ec64de643b06bfde586b108"
+    },
+    "machine/study/text-default-2666001996.jsonl.gz": {
+      "bytes": 1523294,
+      "sha256": "8eda11979ee6106eb3e2c1c578dc075f5324aaee08c7ca82eb5de3462dace5a0",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/text-default-2666001996.jsonl.gz",
+        "bytes": 1523294,
+        "sha256": "8eda11979ee6106eb3e2c1c578dc075f5324aaee08c7ca82eb5de3462dace5a0"
+      },
+      "rows": 10000,
+      "rawSha256": "2707a65c4ecbf55af08cf162a241ded3efd57e091515128c468414dc710728b2"
+    },
+    "machine/study/text-default-3562318933.jsonl.gz": {
+      "bytes": 1516832,
+      "sha256": "74c5d8fd25d87eb2159a8c8c7ac2d2b97ef38878b1b0842757e3c33d77ba2b6f",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/text-default-3562318933.jsonl.gz",
+        "bytes": 1516832,
+        "sha256": "74c5d8fd25d87eb2159a8c8c7ac2d2b97ef38878b1b0842757e3c33d77ba2b6f"
+      },
+      "rows": 10000,
+      "rawSha256": "cd901b5cf3f12efb26850b914c3ed2883f6113d699c0883086b663c4dbea616d"
+    },
+    "machine/study/text-default-4167471042.jsonl.gz": {
+      "bytes": 1532905,
+      "sha256": "48f25d99f33456b83217725b91a6b18a0807caccc022f55acbcd5f7752eefdb5",
+      "role": "exact ordered study rows",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/root-run/text-default-4167471042.jsonl.gz",
+        "bytes": 1532905,
+        "sha256": "48f25d99f33456b83217725b91a6b18a0807caccc022f55acbcd5f7752eefdb5"
+      },
+      "rows": 10000,
+      "rawSha256": "606144e9672243e7f56f76590834084562313a3813a50349a730965ef4fcbe38"
+    },
+    "machine/validation/acceptance.json": {
+      "bytes": 9421,
+      "sha256": "74a23c4346883bf3b8ee64013a386b7a0926344332eeeba4e29bb50e44b73a30",
+      "role": "original formal matrix acceptance",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/acceptance.json",
+        "bytes": 9421,
+        "sha256": "74a23c4346883bf3b8ee64013a386b7a0926344332eeeba4e29bb50e44b73a30"
+      }
+    },
+    "machine/validation/cases/full-other-cwd.json": {
+      "bytes": 452,
+      "sha256": "47364b7f028ddd6078fa78e9a71b503659eaa7f014bc48182bdc2d854b108a3b",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/full-other-cwd.json",
+        "bytes": 452,
+        "sha256": "47364b7f028ddd6078fa78e9a71b503659eaa7f014bc48182bdc2d854b108a3b"
+      }
+    },
+    "machine/validation/cases/full-other-cwd.log": {
+      "bytes": 1298,
+      "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/full-other-cwd.log",
+        "bytes": 1298,
+        "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828"
+      }
+    },
+    "machine/validation/cases/full-root-cwd.json": {
+      "bytes": 470,
+      "sha256": "e08ec02818a94a32ae6480233ca0fd1b1056ae7879305675cb060fd62fd05485",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/full-root-cwd.json",
+        "bytes": 470,
+        "sha256": "e08ec02818a94a32ae6480233ca0fd1b1056ae7879305675cb060fd62fd05485"
+      }
+    },
+    "machine/validation/cases/full-root-cwd.log": {
+      "bytes": 1298,
+      "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/full-root-cwd.log",
+        "bytes": 1298,
+        "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828"
+      }
+    },
+    "machine/validation/cases/help-other-cwd.json": {
+      "bytes": 236,
+      "sha256": "5ce90000b102e4fc738ace0cd0c3d7cfa2b860e983ce7c08d6fef76ab8b5b5af",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/help-other-cwd.json",
+        "bytes": 236,
+        "sha256": "5ce90000b102e4fc738ace0cd0c3d7cfa2b860e983ce7c08d6fef76ab8b5b5af"
+      }
+    },
+    "machine/validation/cases/help-other-cwd.log": {
+      "bytes": 502,
+      "sha256": "4ed5ecc80e915b408150444d30f61bcaabb6e77ff26da24f61922125cc1d3fae",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/help-other-cwd.log",
+        "bytes": 502,
+        "sha256": "4ed5ecc80e915b408150444d30f61bcaabb6e77ff26da24f61922125cc1d3fae"
+      }
+    },
+    "machine/validation/cases/missing-flags.json": {
+      "bytes": 317,
+      "sha256": "53abd81dc469f9e892e9059209a4e3668b90ea35d130dda6e840fb6184feaa1e",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/missing-flags.json",
+        "bytes": 317,
+        "sha256": "53abd81dc469f9e892e9059209a4e3668b90ea35d130dda6e840fb6184feaa1e"
+      }
+    },
+    "machine/validation/cases/missing-flags.log": {
+      "bytes": 553,
+      "sha256": "b185bc7df76dbf6a8967d12a55ce761374d17a0386adff9f8572844c2dc2cb68",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/missing-flags.log",
+        "bytes": 553,
+        "sha256": "b185bc7df76dbf6a8967d12a55ce761374d17a0386adff9f8572844c2dc2cb68"
+      }
+    },
+    "machine/validation/cases/no-args.json": {
+      "bytes": 235,
+      "sha256": "18a8421922001b782f0fb8dff07eec6da4086005f0a5d1d7a5938edfa0f663f5",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/no-args.json",
+        "bytes": 235,
+        "sha256": "18a8421922001b782f0fb8dff07eec6da4086005f0a5d1d7a5938edfa0f663f5"
+      }
+    },
+    "machine/validation/cases/no-args.log": {
+      "bytes": 540,
+      "sha256": "a7fdfa50bc6664652e5aff6406473c87f4a714b79cb000af1e8eb13822c205e4",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/no-args.log",
+        "bytes": 540,
+        "sha256": "a7fdfa50bc6664652e5aff6406473c87f4a714b79cb000af1e8eb13822c205e4"
+      }
+    },
+    "machine/validation/cases/reject-archive-alias.json": {
+      "bytes": 503,
+      "sha256": "0c0388cbb5fc42f822ce14900be09fd5932707477c5dbb526993b885f873cf91",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-archive-alias.json",
+        "bytes": 503,
+        "sha256": "0c0388cbb5fc42f822ce14900be09fd5932707477c5dbb526993b885f873cf91"
+      }
+    },
+    "machine/validation/cases/reject-archive-alias.log": {
+      "bytes": 556,
+      "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-archive-alias.log",
+        "bytes": 556,
+        "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6"
+      }
+    },
+    "machine/validation/cases/reject-dangling.json": {
+      "bytes": 474,
+      "sha256": "65e4e36bb7cd724cab825550ae07c6bad3f9d44a2e938f28445a10884adc3b89",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-dangling.json",
+        "bytes": 474,
+        "sha256": "65e4e36bb7cd724cab825550ae07c6bad3f9d44a2e938f28445a10884adc3b89"
+      }
+    },
+    "machine/validation/cases/reject-dangling.log": {
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-dangling.log",
+        "bytes": 567,
+        "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed"
+      }
+    },
+    "machine/validation/cases/reject-existing.json": {
+      "bytes": 474,
+      "sha256": "ba02c939e9d2c535cd4f9e2a532b9a10a461fa4b7897efb1d51111ef419fe2f6",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-existing.json",
+        "bytes": 474,
+        "sha256": "ba02c939e9d2c535cd4f9e2a532b9a10a461fa4b7897efb1d51111ef419fe2f6"
+      }
+    },
+    "machine/validation/cases/reject-existing.log": {
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-existing.log",
+        "bytes": 567,
+        "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed"
+      }
+    },
+    "machine/validation/cases/reject-frozen-evidence.json": {
+      "bytes": 555,
+      "sha256": "60dbc9e653ff3a924a097ed4d3619b00012968a7fb00835a1dad532edd7f56ed",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-frozen-evidence.json",
+        "bytes": 555,
+        "sha256": "60dbc9e653ff3a924a097ed4d3619b00012968a7fb00835a1dad532edd7f56ed"
+      }
+    },
+    "machine/validation/cases/reject-frozen-evidence.log": {
+      "bytes": 611,
+      "sha256": "22ba420f0edeb0c18390e052c86f39423a6e65caa16a33cc123c905a3b50fe84",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-frozen-evidence.log",
+        "bytes": 611,
+        "sha256": "22ba420f0edeb0c18390e052c86f39423a6e65caa16a33cc123c905a3b50fe84"
+      }
+    },
+    "machine/validation/cases/reject-hardlink.json": {
+      "bytes": 474,
+      "sha256": "7b6d9098e377e0620369378676c81d48654efe695c233aa3c6e0031fece0cf72",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-hardlink.json",
+        "bytes": 474,
+        "sha256": "7b6d9098e377e0620369378676c81d48654efe695c233aa3c6e0031fece0cf72"
+      }
+    },
+    "machine/validation/cases/reject-hardlink.log": {
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-hardlink.log",
+        "bytes": 567,
+        "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed"
+      }
+    },
+    "machine/validation/cases/reject-source-directory.json": {
+      "bytes": 528,
+      "sha256": "323eed381e725a52094a3aca9cdce34b2bf3c57ede2ab7cc88e135fb26b628ff",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-source-directory.json",
+        "bytes": 528,
+        "sha256": "323eed381e725a52094a3aca9cdce34b2bf3c57ede2ab7cc88e135fb26b628ff"
+      }
+    },
+    "machine/validation/cases/reject-source-directory.log": {
+      "bytes": 556,
+      "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/reject-source-directory.log",
+        "bytes": 556,
+        "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6"
+      }
+    },
+    "machine/validation/cases/repeated-flag.json": {
+      "bytes": 558,
+      "sha256": "7c42705db43dc141e0a8dd607de0d7bce17ce950391c3eab6d6c7564f54d87dc",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/repeated-flag.json",
+        "bytes": 558,
+        "sha256": "7c42705db43dc141e0a8dd607de0d7bce17ce950391c3eab6d6c7564f54d87dc"
+      }
+    },
+    "machine/validation/cases/repeated-flag.log": {
+      "bytes": 543,
+      "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/repeated-flag.log",
+        "bytes": 543,
+        "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383"
+      }
+    },
+    "machine/validation/cases/unknown-flag.json": {
+      "bytes": 531,
+      "sha256": "aeceff7333275428f21c7baf50f5b317cafea6ea1564a37a72925dc57ada72f1",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/unknown-flag.json",
+        "bytes": 531,
+        "sha256": "aeceff7333275428f21c7baf50f5b317cafea6ea1564a37a72925dc57ada72f1"
+      }
+    },
+    "machine/validation/cases/unknown-flag.log": {
+      "bytes": 543,
+      "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/unknown-flag.log",
+        "bytes": 543,
+        "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383"
+      }
+    },
+    "machine/validation/cases/wrong-external-authority.json": {
+      "bytes": 505,
+      "sha256": "d5d406be45d00420e8548ffbe78675d697cd5ee1c585d75de4df9d61c8c6bff7",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/wrong-external-authority.json",
+        "bytes": 505,
+        "sha256": "d5d406be45d00420e8548ffbe78675d697cd5ee1c585d75de4df9d61c8c6bff7"
+      }
+    },
+    "machine/validation/cases/wrong-external-authority.log": {
+      "bytes": 593,
+      "sha256": "e6a00514648589cf45a1f8d8f3c54c2e33fbfce2f6b1a1483b65f218a1087a6f",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/wrong-external-authority.log",
+        "bytes": 593,
+        "sha256": "e6a00514648589cf45a1f8d8f3c54c2e33fbfce2f6b1a1483b65f218a1087a6f"
+      }
+    },
+    "machine/validation/cases/wrong-source.json": {
+      "bytes": 691,
+      "sha256": "b2093f150981fa841fd8b659d8b49ac85369afcf3155e35fd653ffb7956e4812",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/wrong-source.json",
+        "bytes": 691,
+        "sha256": "b2093f150981fa841fd8b659d8b49ac85369afcf3155e35fd653ffb7956e4812"
+      }
+    },
+    "machine/validation/cases/wrong-source.log": {
+      "bytes": 545,
+      "sha256": "6a87c88a4d71dffc89304d3acc1304808b2de0899b4f205792edbfbc02fb37d7",
+      "role": "retained CLI case evidence",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1/wrong-source.log",
+        "bytes": 545,
+        "sha256": "6a87c88a4d71dffc89304d3acc1304808b2de0899b4f205792edbfbc02fb37d7"
+      }
+    },
+    "machine/validation/independent-invocation.json": {
+      "bytes": 1064,
+      "sha256": "599f03ecb9cf5b8a1df4f041704f2580254dff8fa5894800c989b51a1c5ba86e",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-independent-invocation-v1.json",
+        "bytes": 1064,
+        "sha256": "599f03ecb9cf5b8a1df4f041704f2580254dff8fa5894800c989b51a1c5ba86e"
+      }
+    },
+    "machine/validation/independent-proof.json": {
+      "bytes": 1309,
+      "sha256": "95abe047fc333a632f2e477b0332a7944e8b03040fb1b6cc3d002548183d4cf4",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-independent-proof-v1.json",
+        "bytes": 1309,
+        "sha256": "95abe047fc333a632f2e477b0332a7944e8b03040fb1b6cc3d002548183d4cf4"
+      }
+    },
+    "machine/validation/independent.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-independent-proof-v1.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "machine/validation/matrix-invocation.json": {
+      "bytes": 868,
+      "sha256": "aaaee77568cd67b41393a9b81229619948f991d1a273e7ee589d40f1d1f3e716",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-invocation-v1.json",
+        "bytes": 868,
+        "sha256": "aaaee77568cd67b41393a9b81229619948f991d1a273e7ee589d40f1d1f3e716"
+      }
+    },
+    "machine/validation/matrix.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "unchanged formal authority or verification record",
+      "origin": {
+        "path": "/private/tmp/q15-model-sensitivity-acceptance-v1.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "tables/all-group-scores.csv": {
+      "bytes": 808479,
+      "sha256": "832348f23cd8c614ac4a8dfe30ed12e1b3d37113e5a3d62953cc6c1da135eb1c",
+      "role": "derived convenience table; every frozen group and gap",
+      "reportSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240",
+      "rows": 839,
+      "nullRepresentation": "empty CSV cell"
+    },
+    "tables/cohort-identity-loss.json": {
+      "bytes": 87324,
+      "sha256": "311caea696585fd2e90c8c34cf76d6930bbb86937169a9ff261d381e48827c79",
+      "role": "derived exact cohort identity/loss counters",
+      "reportSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240"
+    },
+    "tables/cohort-transitions.csv": {
+      "bytes": 2611179,
+      "sha256": "8d6ea0c507614863897b2460f9fd8afe25b94c62918c679f7362c9ae2705dbc0",
+      "role": "derived complete transition contribution table for all11 cohorts",
+      "reportSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240",
+      "rows": 11973
+    },
+    "tables/witnesses.json.gz": {
+      "bytes": 12512,
+      "sha256": "fbdc9a0dffcd3e1a3d31e9a61144f6f656c79a0c7cb3ac8dc6bb58e99e929496",
+      "role": "derived lossless witness subset; all6 frozen selections including original traces",
+      "reportSha256": "38d3dcbf8342a58fdc59e7f8b96ec2b9d62fa7d77f50d1775ac8fecbc3e17240"
+    }
+  }
+}
