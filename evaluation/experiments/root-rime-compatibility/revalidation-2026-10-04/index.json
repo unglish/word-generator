@@ -1,0 +1,79 @@
+{
+  "records": [
+    {
+      "path": "README.md",
+      "bytes": 2199,
+      "sha256": "176fbc379b30b893f2120dfd72d0b0c490e72d62ec47d1e06c95469129998a5e"
+    },
+    {
+      "path": "candidate-complete.json",
+      "bytes": 4581,
+      "sha256": "f618ee24ebdfe2221f13bac6a882ae939a9f12461140e9c473a6a2fa66fb8fb3"
+    },
+    {
+      "path": "candidate-independent-renewed.json",
+      "bytes": 8415,
+      "sha256": "127f4e1da1fa7d0094c836e7bdc468c74b43e86bef67d854acd8b2e739f9cd29"
+    },
+    {
+      "path": "candidate-registration.json",
+      "bytes": 304601,
+      "sha256": "9a531f5124777c758a52eae75c7b5e8687369369714130e50cefe13b45f84e3c"
+    },
+    {
+      "path": "completion.json",
+      "bytes": 1652,
+      "sha256": "70f66204600cfbe8a304b54fc475d363c3cd4d50677d1b7af0b5026326c7844f"
+    },
+    {
+      "path": "conditional-parity-renewed.json",
+      "bytes": 5162,
+      "sha256": "98ccf654a2bf30173aa8b45baa98a3b25a1246f165f971ad4ecb22dcbcd7b18e"
+    },
+    {
+      "path": "control-complete.json",
+      "bytes": 4581,
+      "sha256": "f8a9b1372ad8febd60cffceef14ec74c86c321a25843dcf57b62303c7ff4a98e"
+    },
+    {
+      "path": "control-independent-renewed.json",
+      "bytes": 8425,
+      "sha256": "cbe3df18084034e656f41524ae43e2a700a8ac3bbcd4f12e725dfbf578a2f844"
+    },
+    {
+      "path": "control-registration.json",
+      "bytes": 293443,
+      "sha256": "1b0d4ed6bcb1adcc916663a1ff58d569233362210e75da50ecfe3720cdd1fc53"
+    },
+    {
+      "path": "original-independent-renewed.json",
+      "bytes": 8431,
+      "sha256": "538ba4da492acafcf9e37c97db5a9210bf8a18ca759b68fafdfaa6a1a257f3ef"
+    },
+    {
+      "path": "public-fixtures.log.txt",
+      "bytes": 3944,
+      "sha256": "1025eadf9fa6019351362ad303f2f39a210859638e883fad8a8389335af01118"
+    },
+    {
+      "path": "reproduce.mjs",
+      "bytes": 2414,
+      "sha256": "befc5ba10a3e79fe020d793bfacfa7663e2aeb349f967ec9442f25aa7bca8900"
+    },
+    {
+      "path": "retained-local-index.json",
+      "bytes": 71286,
+      "sha256": "481860679234a50eb7b2b22eec50125659690f4c6803595e2913f1c9636da928"
+    },
+    {
+      "path": "verifier-preparation-correction.json",
+      "bytes": 312,
+      "sha256": "acef67fd8158698b3da3485b499ac26e243c7b8099865055bb8b72b3059ffc7f"
+    },
+    {
+      "path": "verify.py",
+      "bytes": 2481,
+      "sha256": "4d5ec0af17daf93ec6a4a9c08486a39a54f630f076e2917bd3610f994af6080d"
+    }
+  ]
+}

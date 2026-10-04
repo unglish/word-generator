@@ -1,0 +1,167 @@
+{
+  "controlCommit": "13c2524dccabd58d37f5a8ec675eeffe1181df95",
+  "scope": "Only configured nucleus/coda exclusions cleared identically in both versions; all other configuration unchanged, trace disabled.",
+  "totalWords": 20000,
+  "streams": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "words": 1000,
+      "rngCalls": 94676,
+      "nextRng": 0.6478889530990273,
+      "wordsDigest": "be8d42a5a2a6f42307b7beda447081301653c5bf15f3b14bcfe58c88c7c251bd"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "words": 1000,
+      "rngCalls": 98404,
+      "nextRng": 0.2523703663609922,
+      "wordsDigest": "1c79b91c0fc6f39c17589390c4bfce4a8548e1fda4eb331e50119a189c4d059b"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "words": 1000,
+      "rngCalls": 87996,
+      "nextRng": 0.14692692970857024,
+      "wordsDigest": "64f6e5b86ce9353175560b3868bf959fa2b311b9fa3cc1a2ad72ed8539ca3c6f"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "words": 1000,
+      "rngCalls": 88325,
+      "nextRng": 0.7257024035789073,
+      "wordsDigest": "e93c3124e923852f550cc47c3adc902cfa0458ba291c90f042d1d4f3fcccf75f"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "words": 1000,
+      "rngCalls": 90599,
+      "nextRng": 0.39189047319814563,
+      "wordsDigest": "cdc4ca4b9adc609cfae731ee56eab7f31af9d10d59f876de1151880376a4f109"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "words": 1000,
+      "rngCalls": 86616,
+      "nextRng": 0.5921499191317707,
+      "wordsDigest": "a52b70a6438f2b9a65b18e84d8b7c43841f919358b60913e448b48e25a54c47e"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "words": 1000,
+      "rngCalls": 86474,
+      "nextRng": 0.8621460201684386,
+      "wordsDigest": "26e216028f292f035ad978ecd63fe41b69dde2d15bdff9e95153030de9cdbb31"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "words": 1000,
+      "rngCalls": 83393,
+      "nextRng": 0.1525285488460213,
+      "wordsDigest": "c4d80646916b39cbd729e87fc5cda2a0d383b7f218e571a04dcf2580a5b23df7"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "words": 1000,
+      "rngCalls": 81409,
+      "nextRng": 0.10457344213500619,
+      "wordsDigest": "c6b6d69a5936aa63400cb0248c45890910cc176535b573fef8c374c6eaf047c4"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "words": 1000,
+      "rngCalls": 86537,
+      "nextRng": 0.900104982079938,
+      "wordsDigest": "f898332c23342aaea6b2db66e1ba14e9cc5ec06eeea7dfee548c0e4b095e692f"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "words": 1000,
+      "rngCalls": 116622,
+      "nextRng": 0.9096678327769041,
+      "wordsDigest": "3dc7da313e1c7a076828654223495124f0c5bcd27b509e171ed01019431d6458"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "words": 1000,
+      "rngCalls": 113759,
+      "nextRng": 0.43344596354290843,
+      "wordsDigest": "ce132a26f9399f916f8c60b1a707a30b8e897d9ffd416884e78f0bbf5c83ca8a"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "words": 1000,
+      "rngCalls": 118926,
+      "nextRng": 0.51450748834759,
+      "wordsDigest": "8f8d8234a8218a377b8229754c7b750ade855444727e5ba5042a9e62faf6aed7"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "words": 1000,
+      "rngCalls": 114209,
+      "nextRng": 0.49504762794822454,
+      "wordsDigest": "d85381fb16c09dea58da27516378162a6419fa9be9071632b071d1975ad52a66"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "words": 1000,
+      "rngCalls": 110462,
+      "nextRng": 0.04492732766084373,
+      "wordsDigest": "95849003fb1064676d5dd20d339f1df2352e4d0d94eb41ed468a599941b3f822"
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "words": 1000,
+      "rngCalls": 64104,
+      "nextRng": 0.7062697885558009,
+      "wordsDigest": "7c157eb46baf3257cb4c93819d55986fa2e1774e7d1547717fa790bffc3e0829"
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "words": 1000,
+      "rngCalls": 64034,
+      "nextRng": 0.15488187945447862,
+      "wordsDigest": "716cb11bb673b5a40935fd1274132df7a705423796e9a45745ca793c33ae2e43"
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "words": 1000,
+      "rngCalls": 62410,
+      "nextRng": 0.10876678442582488,
+      "wordsDigest": "9abf3d3971f3dde6dd815da3f67ef4928b84a28f9f9c7350995381503cf40906"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "words": 1000,
+      "rngCalls": 65538,
+      "nextRng": 0.008851150516420603,
+      "wordsDigest": "774301288d216a20035b32c0fda1554136d7ec6fa1e00dc479d918956019c999"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "words": 1000,
+      "rngCalls": 62579,
+      "nextRng": 0.46544284699484706,
+      "wordsDigest": "11fa452e3bef1adec7f2d5f57258ae82354cce3b11f710105fd75d824ae84ab4"
+    }
+  ]
+}

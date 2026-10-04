@@ -1,0 +1,287 @@
+{
+  "verifiedWords": 200000,
+  "verifiedWitnesses": 8,
+  "archiveId": "baseline-development-v1",
+  "generatorDigest": "3eedb62e232de6ecbb6f4dc9ec1675d7339afd11568ccf30abcc80e904ce08f2",
+  "observerDigest": "a236febc098e021cea0a29209b0fce379cc3dc5091a618007ed1622f1bcb3a21",
+  "reportSha256": "bb4eec3ba0af5fefc7600b200d8443616cfa60036e514ab08ff7e7b54e3d0c0a",
+  "verifierSha256": "e04a701dee1ae2a9e11a2b26c238cb3f883404cfd592b4f10f42fee393a024b8",
+  "profiles": [
+    {
+      "profile": "lexicon-default",
+      "layers": {
+        "generatedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 97665,
+          "nuclearSegments": 97665,
+          "codaSegments": 67661,
+          "crossPairs": 67661,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        },
+        "structuralRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 97665,
+          "nuclearSegments": 97665,
+          "codaSegments": 67363,
+          "crossPairs": 67363,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        },
+        "stressedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 4,
+          "syllables": 97665,
+          "nuclearSegments": 97665,
+          "codaSegments": 67363,
+          "crossPairs": 67363,
+          "violatingPairs": 4,
+          "violatingNuclei": 4,
+          "violatingSyllables": 4
+        },
+        "preparedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 4,
+          "syllables": 97665,
+          "nuclearSegments": 97665,
+          "codaSegments": 67363,
+          "crossPairs": 67363,
+          "violatingPairs": 4,
+          "violatingNuclei": 4,
+          "violatingSyllables": 4
+        },
+        "output": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 4,
+          "syllables": 130100,
+          "nuclearSegments": 130100,
+          "codaSegments": 100443,
+          "crossPairs": 100443,
+          "violatingPairs": 4,
+          "violatingNuclei": 4,
+          "violatingSyllables": 4
+        }
+      },
+      "repairs": {
+        "stressRepair": 6782,
+        "edgeRepair": 0
+      }
+    },
+    {
+      "profile": "lexicon-bare",
+      "layers": {
+        "generatedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 123213,
+          "nuclearSegments": 123213,
+          "codaSegments": 91416,
+          "crossPairs": 91416,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        },
+        "structuralRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 123213,
+          "nuclearSegments": 123213,
+          "codaSegments": 91119,
+          "crossPairs": 91119,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        },
+        "stressedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 12,
+          "syllables": 123213,
+          "nuclearSegments": 123213,
+          "codaSegments": 91119,
+          "crossPairs": 91119,
+          "violatingPairs": 12,
+          "violatingNuclei": 12,
+          "violatingSyllables": 12
+        },
+        "preparedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 12,
+          "syllables": 123213,
+          "nuclearSegments": 123213,
+          "codaSegments": 91119,
+          "crossPairs": 91119,
+          "violatingPairs": 12,
+          "violatingNuclei": 12,
+          "violatingSyllables": 12
+        },
+        "output": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 12,
+          "syllables": 123213,
+          "nuclearSegments": 123213,
+          "codaSegments": 91119,
+          "crossPairs": 91119,
+          "violatingPairs": 12,
+          "violatingNuclei": 12,
+          "violatingSyllables": 12
+        }
+      },
+      "repairs": {
+        "stressRepair": 9826,
+        "edgeRepair": 0
+      }
+    },
+    {
+      "profile": "monosyllables-bare",
+      "layers": {
+        "generatedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 50000,
+          "nuclearSegments": 50000,
+          "codaSegments": 116029,
+          "crossPairs": 116029,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        },
+        "structuralRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 50000,
+          "nuclearSegments": 50000,
+          "codaSegments": 114310,
+          "crossPairs": 114310,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        },
+        "stressedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 50000,
+          "nuclearSegments": 50000,
+          "codaSegments": 114310,
+          "crossPairs": 114310,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        },
+        "preparedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 50000,
+          "nuclearSegments": 50000,
+          "codaSegments": 114310,
+          "crossPairs": 114310,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        },
+        "output": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 50000,
+          "nuclearSegments": 50000,
+          "codaSegments": 114310,
+          "crossPairs": 114310,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        }
+      },
+      "repairs": {
+        "stressRepair": 0,
+        "edgeRepair": 0
+      }
+    },
+    {
+      "profile": "text-default",
+      "layers": {
+        "generatedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 69962,
+          "nuclearSegments": 69962,
+          "codaSegments": 56290,
+          "crossPairs": 56290,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        },
+        "structuralRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 0,
+          "syllables": 69962,
+          "nuclearSegments": 69962,
+          "codaSegments": 56047,
+          "crossPairs": 56047,
+          "violatingPairs": 0,
+          "violatingNuclei": 0,
+          "violatingSyllables": 0
+        },
+        "stressedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 2,
+          "syllables": 69962,
+          "nuclearSegments": 69962,
+          "codaSegments": 56047,
+          "crossPairs": 56047,
+          "violatingPairs": 2,
+          "violatingNuclei": 2,
+          "violatingSyllables": 2
+        },
+        "preparedRoot": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 2,
+          "syllables": 69962,
+          "nuclearSegments": 69962,
+          "codaSegments": 56047,
+          "crossPairs": 56047,
+          "violatingPairs": 2,
+          "violatingNuclei": 2,
+          "violatingSyllables": 2
+        },
+        "output": {
+          "observedWords": 50000,
+          "unavailableWords": 0,
+          "wordsWithViolation": 2,
+          "syllables": 90956,
+          "nuclearSegments": 90956,
+          "codaSegments": 77209,
+          "crossPairs": 77209,
+          "violatingPairs": 2,
+          "violatingNuclei": 2,
+          "violatingSyllables": 2
+        }
+      },
+      "repairs": {
+        "stressRepair": 2742,
+        "edgeRepair": 0
+      }
+    }
+  ]
+}

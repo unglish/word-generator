@@ -1,0 +1,5 @@
+{
+  "issue": "Verifier preparation prematurely created candidate output directory; capture requires a fresh directory.",
+  "resolution": "Moved untouched candidate compact inputs to prepared-candidate-compact before candidate stage; capture operator and measured runtime unchanged.",
+  "rawDataChanged": false
+}

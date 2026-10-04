@@ -1,0 +1,1409 @@
+{
+  "records": [
+    {
+      "path": "original/sources.json.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/sources.json.gz",
+      "bytes": 204582,
+      "sha256": "55ce4b3f32d2ec2a9629e99d4fda466dd0c658572a239edfa15ba55ef6131f68"
+    },
+    {
+      "path": "original/summary.json",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/summary.json",
+      "bytes": 87179,
+      "sha256": "4c1c9bc0b3f92b8b0b22065f2c5aeff7645fc13f2d5597603b20bc029777f62b"
+    },
+    {
+      "path": "original/review-samples.json.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/review-samples.json.gz",
+      "bytes": 344371,
+      "sha256": "e72ea127b6cda7a2ac0fe818c608c9289b25866f606c4862bc995e573ec787c8"
+    },
+    {
+      "path": "original/witnesses.json.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/witnesses.json.gz",
+      "bytes": 23856,
+      "sha256": "96e60b5e8e4895f5bc111ce39a601f03459b2bffeeeea9da3bbe62f6db8b2711"
+    },
+    {
+      "path": "original/distributions.json.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/distributions.json.gz",
+      "bytes": 74189,
+      "sha256": "f37acaa3778afdac4160f21b9b1a5857fe22db29c9097461bf078a0c6aec41ad"
+    },
+    {
+      "path": "original/words/lexicon-default-69212153.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-default-69212153.jsonl.gz",
+      "bytes": 4838369,
+      "sha256": "5cf3654e011cc7e1aa0620f82b37b415ed2506210d24010c9ff3f522fdf04897"
+    },
+    {
+      "path": "original/words/lexicon-default-101601885.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-default-101601885.jsonl.gz",
+      "bytes": 4813040,
+      "sha256": "f6c656002f5ea5c0cafed183afaae8ef3d5e3e2a4d963290a7e4ff84ffa8a3cd"
+    },
+    {
+      "path": "original/words/lexicon-default-3921817393.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-default-3921817393.jsonl.gz",
+      "bytes": 4827838,
+      "sha256": "d846d7c7d8659a4f84e9aa0942efc1d86ebfb6b3bf004e65851a1408078a873f"
+    },
+    {
+      "path": "original/words/lexicon-default-3948943232.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-default-3948943232.jsonl.gz",
+      "bytes": 4840860,
+      "sha256": "adb424b54c098e24bdc6c9d2cdc2ac44e936edba79600abd2f04e6d42098164a"
+    },
+    {
+      "path": "original/words/lexicon-default-2089697863.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-default-2089697863.jsonl.gz",
+      "bytes": 4857056,
+      "sha256": "5354ed6516ae4761e61f5403a664381b7e46b50be7c4f051da71fe1a2883dacd"
+    },
+    {
+      "path": "original/words/lexicon-bare-2380207674.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 5680581,
+      "sha256": "2dd09b98cd49d77cc9c6d0cf7cc57fc4774ac63f1fcd6abed7929df9bbdbfa90"
+    },
+    {
+      "path": "original/words/lexicon-bare-772709128.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-bare-772709128.jsonl.gz",
+      "bytes": 5681041,
+      "sha256": "0af75244dfaef6f2da69276a98bbf55f81a737f054e8bf5838f0eda0d5b44a6f"
+    },
+    {
+      "path": "original/words/lexicon-bare-1304238451.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 5745628,
+      "sha256": "7be2f502cc92c3bffc737ca61fd1749a4738be342ad54e4177090d595d126630"
+    },
+    {
+      "path": "original/words/lexicon-bare-1696751198.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 5698782,
+      "sha256": "6df80b0cdc9d94775ac360952c69ea85742c9210b2077f8d5dfe5f80255f4ed3"
+    },
+    {
+      "path": "original/words/lexicon-bare-1498885173.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 5714303,
+      "sha256": "ac101d20f1141f1d239904ebbf080b18b463caf072011bc46282465fc7d00335"
+    },
+    {
+      "path": "original/words/monosyllables-bare-462530651.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 2992339,
+      "sha256": "8e956a2587ec2f5fefc56c789c66743311ffb7d155ed74a123569641f628c4d9"
+    },
+    {
+      "path": "original/words/monosyllables-bare-62358955.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 2993891,
+      "sha256": "d4bf4bc6061de545224b27f0a7643110d3381dde44e955595bb7a9833786d91b"
+    },
+    {
+      "path": "original/words/monosyllables-bare-3297327738.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 2995877,
+      "sha256": "3b1ab8fffbfe818a809ab964969330d62f1fcd25be6e3160d360b6cb06cffd8a"
+    },
+    {
+      "path": "original/words/monosyllables-bare-2001884366.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 2993651,
+      "sha256": "4bb1e4ab375eae8ccf0b5391131bec56fac5a65dd082f1a31e62643055587c25"
+    },
+    {
+      "path": "original/words/monosyllables-bare-2353354178.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 2989180,
+      "sha256": "4b494946884c1f92d295442f52eca9ae1f6123cbd73935c3a1fda51936f0827b"
+    },
+    {
+      "path": "original/words/text-default-4167471042.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/text-default-4167471042.jsonl.gz",
+      "bytes": 3638923,
+      "sha256": "2219d51fa111c340aa113fb235d53c6c1f9aee65f9934289e5cb704ae32a95d8"
+    },
+    {
+      "path": "original/words/text-default-2666001996.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/text-default-2666001996.jsonl.gz",
+      "bytes": 3631769,
+      "sha256": "4ec356c92baa563148e09697aa22fd11f0aa1343e211dce6e0de6f88179bb6d9"
+    },
+    {
+      "path": "original/words/text-default-3562318933.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/text-default-3562318933.jsonl.gz",
+      "bytes": 3580600,
+      "sha256": "bc533cf7d7b8de750552b897dbd95c5aed6890e92a6feac1375f21cb50ce8bfd"
+    },
+    {
+      "path": "original/words/text-default-1999736106.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/text-default-1999736106.jsonl.gz",
+      "bytes": 3645540,
+      "sha256": "30510acbb104340522b0ff402377bf942fd4640ab26f34b7af26f3a320dc610c"
+    },
+    {
+      "path": "original/words/text-default-1665836705.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/text-default-1665836705.jsonl.gz",
+      "bytes": 3609210,
+      "sha256": "1573ea0461384cb568c911c6fd3b4efdc223aa84626a5ce87aeafd16e731b309"
+    },
+    {
+      "path": "original/provenance.json.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/provenance.json.gz",
+      "bytes": 188525,
+      "sha256": "83d167a02b74747d4960491e2696544624f45bbfd9848564ed79f192f1f3a032"
+    },
+    {
+      "path": "original/manifest.json",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/manifest.json",
+      "bytes": 109507,
+      "sha256": "1e31ad59251eb5fbe8863bae988539062845f081e2597589669343f50e5452e7"
+    },
+    {
+      "path": "execution/original-observation.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/original-observation.json",
+      "bytes": 42319718,
+      "sha256": "bb4eec3ba0af5fefc7600b200d8443616cfa60036e514ab08ff7e7b54e3d0c0a"
+    },
+    {
+      "path": "execution/original-independent-renewed.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/original-independent-renewed.json",
+      "bytes": 8431,
+      "sha256": "538ba4da492acafcf9e37c97db5a9210bf8a18ca759b68fafdfaa6a1a257f3ef"
+    },
+    {
+      "path": "execution/original-independent-renewed.log",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/original-independent-renewed.log",
+      "bytes": 71,
+      "sha256": "5424ee99b68e5a680f50d250888ec19dac29526a9399cb637a51421a6b51f8ce"
+    },
+    {
+      "path": "control/sources.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/sources.json.gz",
+      "bytes": 178187,
+      "sha256": "1b854830517c5cdde5ff58a202a3841b2e1cf7c976ede3d9272c97995132b484"
+    },
+    {
+      "path": "control/summary.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/summary.json",
+      "bytes": 85249,
+      "sha256": "ada307f7385effa3f91d00a7cfad555feca6c295fb32c2904d4c24ee4b22b744"
+    },
+    {
+      "path": "control/review-samples.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/review-samples.json.gz",
+      "bytes": 347475,
+      "sha256": "9fdc065f18912d99e6a3a238f82ddf27a7f45ea64828ea4d83ed4e30e01c02b7"
+    },
+    {
+      "path": "control/witnesses.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/witnesses.json.gz",
+      "bytes": 26562,
+      "sha256": "1dbc8a4c7a54814fafd18927f353a2673dcfc4f3db2015f0192f01bb948a614c"
+    },
+    {
+      "path": "control/distributions.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/distributions.json.gz",
+      "bytes": 74487,
+      "sha256": "f015e42c0df2766c5d3fc940259e7f3cde8c8ec51a5f8b5fb9c91aac306af315"
+    },
+    {
+      "path": "control/words/lexicon-default-69212153.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/lexicon-default-69212153.jsonl.gz",
+      "bytes": 4950052,
+      "sha256": "6de753c90096693df890b7ed8debff019892b0f1e5b9f16f57f7ad50f5ebf32a"
+    },
+    {
+      "path": "control/words/lexicon-default-101601885.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/lexicon-default-101601885.jsonl.gz",
+      "bytes": 4979741,
+      "sha256": "b7dbc480ae0624a900aad4ab21eb4c85d7ea04f7c1933b6a2cd959f405c98641"
+    },
+    {
+      "path": "control/words/lexicon-default-3921817393.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/lexicon-default-3921817393.jsonl.gz",
+      "bytes": 4956953,
+      "sha256": "586963566e2dbdffd67f77a9ea2d929373248f98ec247405a200753b7d08e0ee"
+    },
+    {
+      "path": "control/words/lexicon-default-3948943232.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/lexicon-default-3948943232.jsonl.gz",
+      "bytes": 4926215,
+      "sha256": "872336c3beeb74f9de9e9a65c872142f643abcc37f69e604f5e87e0969a08107"
+    },
+    {
+      "path": "control/words/lexicon-default-2089697863.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/lexicon-default-2089697863.jsonl.gz",
+      "bytes": 4911890,
+      "sha256": "bcca0a3df3b955de4c0fdb2ffb04e1a4f58ef3901a8341f28ae6d29f622631c1"
+    },
+    {
+      "path": "control/words/lexicon-bare-2380207674.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 5818253,
+      "sha256": "1f5328a891b8a9c50bd5498003c03cc5dad24c5758e6d70cf3dc5105d37cee23"
+    },
+    {
+      "path": "control/words/lexicon-bare-772709128.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/lexicon-bare-772709128.jsonl.gz",
+      "bytes": 5813576,
+      "sha256": "38cd8a25d86edd343a4c6e546fb2d1c27a6839809acd8d1b437f530279913e8c"
+    },
+    {
+      "path": "control/words/lexicon-bare-1304238451.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 5845600,
+      "sha256": "6cca16404a197a826ad38a21644b939ecc765dc4a2fe851001897050f85ad72d"
+    },
+    {
+      "path": "control/words/lexicon-bare-1696751198.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 5834428,
+      "sha256": "8a87f1f513ccb9755cf3c722a569ee8b25ddac17c881897020c0a6aef03fd39f"
+    },
+    {
+      "path": "control/words/lexicon-bare-1498885173.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 5841408,
+      "sha256": "61e6f3a860928dc28cedc9c10b16e3688478f1401b2c58591a66883001138fa4"
+    },
+    {
+      "path": "control/words/monosyllables-bare-462530651.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 3012405,
+      "sha256": "b5ac5d175c355ff3077367e9d9e9355eee6fc87f9f39f442790bfc73c92086de"
+    },
+    {
+      "path": "control/words/monosyllables-bare-62358955.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 3027416,
+      "sha256": "4d818c0f3711af89cdcdeb37f5966f108710673cb17e56b9ee57a599c0c731df"
+    },
+    {
+      "path": "control/words/monosyllables-bare-3297327738.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 3020659,
+      "sha256": "8f0daddd83124ef33b3ce2619d97abe2b8ca7f3473cfbabfb66dfcfa94a965da"
+    },
+    {
+      "path": "control/words/monosyllables-bare-2001884366.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 3017513,
+      "sha256": "80ed1e3ab5cce6f86ebc0488ef59a5c95100198c4640ab22ac07725037b909b6"
+    },
+    {
+      "path": "control/words/monosyllables-bare-2353354178.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 3022950,
+      "sha256": "8c0e4c1ae5d79c793c9f29cca52245b31debeccf218af19b36a6f9ccb6c1e109"
+    },
+    {
+      "path": "control/words/text-default-4167471042.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/text-default-4167471042.jsonl.gz",
+      "bytes": 3763800,
+      "sha256": "6e75f11061f2d71353195cac848020a959a6a9aa37520ee3898fc0403888a274"
+    },
+    {
+      "path": "control/words/text-default-2666001996.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/text-default-2666001996.jsonl.gz",
+      "bytes": 3719991,
+      "sha256": "ec5585739100f9d3bcfe2c197cc688bef9b7a183a2f92e2c016e5650ad764375"
+    },
+    {
+      "path": "control/words/text-default-3562318933.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/text-default-3562318933.jsonl.gz",
+      "bytes": 3738683,
+      "sha256": "ddd6954baa342acbe25b71cfe90a8224ddb29c35785a9fe5d7f6b018b6055700"
+    },
+    {
+      "path": "control/words/text-default-1999736106.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/text-default-1999736106.jsonl.gz",
+      "bytes": 3728261,
+      "sha256": "7fdf3e13b2ee40e4f88cb5176fc2eb6ccba0c28b4306ad6062bbbc10c7e70190"
+    },
+    {
+      "path": "control/words/text-default-1665836705.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/words/text-default-1665836705.jsonl.gz",
+      "bytes": 3763078,
+      "sha256": "86c07974904eccf4d3227b213fcb896c4a49d45dbbbd248e17fa911159997683"
+    },
+    {
+      "path": "control/manifest.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/manifest.json",
+      "bytes": 109102,
+      "sha256": "392b89e31da4b684c58de3be5486725f0bb6377ce71ca0d4dc5a3d5faafdbae4"
+    },
+    {
+      "path": "execution/control-observation.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-observation.json",
+      "bytes": 40724200,
+      "sha256": "d353cf8b0afc4ba0a9d6d1965435f25c423d16118f8482af5b96516f40ee4ee9"
+    },
+    {
+      "path": "execution/control-independent-renewed.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-independent-renewed.json",
+      "bytes": 8425,
+      "sha256": "cbe3df18084034e656f41524ae43e2a700a8ac3bbcd4f12e725dfbf578a2f844"
+    },
+    {
+      "path": "execution/control-independent-renewed.log",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-independent-renewed.log",
+      "bytes": 71,
+      "sha256": "5424ee99b68e5a680f50d250888ec19dac29526a9399cb637a51421a6b51f8ce"
+    },
+    {
+      "path": "candidate/sources.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/sources.json.gz",
+      "bytes": 179249,
+      "sha256": "38a372855a590131103d9b9f520712279cf47226a968a061463173b48e6a89a6"
+    },
+    {
+      "path": "candidate/summary.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/summary.json",
+      "bytes": 85281,
+      "sha256": "22639c86d242e5f4cfbcaea85a2b6595d0e67f425e7db8edde4450094a0de71a"
+    },
+    {
+      "path": "candidate/review-samples.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/review-samples.json.gz",
+      "bytes": 353514,
+      "sha256": "f6348fd85bb1be30245d52d7d1270b3591e82ebe0104619d181bd9c1fdc4e4d4"
+    },
+    {
+      "path": "candidate/witnesses.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/witnesses.json.gz",
+      "bytes": 27020,
+      "sha256": "14f1e2f8ff67e3845ee2cd0af28d6447f53194d3d1c01c28144e2de33ff71918"
+    },
+    {
+      "path": "candidate/distributions.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/distributions.json.gz",
+      "bytes": 74451,
+      "sha256": "ec844cbc52157a4314bd1a586d9ed155a5e526154950f22a7fb62b58ab264dd2"
+    },
+    {
+      "path": "candidate/words/lexicon-default-69212153.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/lexicon-default-69212153.jsonl.gz",
+      "bytes": 5049117,
+      "sha256": "133b4fd66a869f42ebdb0fb48b6bad1c1db55b3fa1427969827df715209a1845"
+    },
+    {
+      "path": "candidate/words/lexicon-default-101601885.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/lexicon-default-101601885.jsonl.gz",
+      "bytes": 5069991,
+      "sha256": "79e38f09ca44ea505ece27003237e2289308a9bbaad18546bec66be38a93e467"
+    },
+    {
+      "path": "candidate/words/lexicon-default-3921817393.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/lexicon-default-3921817393.jsonl.gz",
+      "bytes": 5054502,
+      "sha256": "4eab36dcaddf7cf1b9c30fa2d695038552b3850811be0f2290637a4c874872d8"
+    },
+    {
+      "path": "candidate/words/lexicon-default-3948943232.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/lexicon-default-3948943232.jsonl.gz",
+      "bytes": 5021184,
+      "sha256": "fce9e4489e4bb9c4110ace60e9e77001da3d08fcd71bebe308c357a0352ab0db"
+    },
+    {
+      "path": "candidate/words/lexicon-default-2089697863.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/lexicon-default-2089697863.jsonl.gz",
+      "bytes": 5010665,
+      "sha256": "60259999ce76b85d21adb7439a0beaff6edc3b179c6c3acf97c32fbb8e8fc933"
+    },
+    {
+      "path": "candidate/words/lexicon-bare-2380207674.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 5938855,
+      "sha256": "6b91d24d091ba4984474f4abce6149972fae00dafe437a6b2cef6952e7f895f7"
+    },
+    {
+      "path": "candidate/words/lexicon-bare-772709128.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/lexicon-bare-772709128.jsonl.gz",
+      "bytes": 5921423,
+      "sha256": "0ee04a2dfe3d76d059364e428ae9d2d77cae8dd54a303947ae41eda8044fe720"
+    },
+    {
+      "path": "candidate/words/lexicon-bare-1304238451.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 5964140,
+      "sha256": "030e5a71a79cb01f4d21dacdddc19b2f07e661b694dfac96ec597648f3c6dd21"
+    },
+    {
+      "path": "candidate/words/lexicon-bare-1696751198.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 5957714,
+      "sha256": "4c5614d838289e938aa84bcafc7e6170a286829fae93ecd647532f2e05bd4d9e"
+    },
+    {
+      "path": "candidate/words/lexicon-bare-1498885173.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 5966799,
+      "sha256": "49ba8e3d847ce2c4fd28f1fb786196eb9a6bccd0bf5f2f7e32669e0b3ba42704"
+    },
+    {
+      "path": "candidate/words/monosyllables-bare-462530651.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 3012405,
+      "sha256": "b5ac5d175c355ff3077367e9d9e9355eee6fc87f9f39f442790bfc73c92086de"
+    },
+    {
+      "path": "candidate/words/monosyllables-bare-62358955.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 3027416,
+      "sha256": "4d818c0f3711af89cdcdeb37f5966f108710673cb17e56b9ee57a599c0c731df"
+    },
+    {
+      "path": "candidate/words/monosyllables-bare-3297327738.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 3020659,
+      "sha256": "8f0daddd83124ef33b3ce2619d97abe2b8ca7f3473cfbabfb66dfcfa94a965da"
+    },
+    {
+      "path": "candidate/words/monosyllables-bare-2001884366.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 3017513,
+      "sha256": "80ed1e3ab5cce6f86ebc0488ef59a5c95100198c4640ab22ac07725037b909b6"
+    },
+    {
+      "path": "candidate/words/monosyllables-bare-2353354178.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 3022950,
+      "sha256": "8c0e4c1ae5d79c793c9f29cca52245b31debeccf218af19b36a6f9ccb6c1e109"
+    },
+    {
+      "path": "candidate/words/text-default-4167471042.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/text-default-4167471042.jsonl.gz",
+      "bytes": 3813058,
+      "sha256": "729e680aed0a79f673c1d80156c3bd6ea88d508f7bd281d87206dd631bed62ff"
+    },
+    {
+      "path": "candidate/words/text-default-2666001996.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/text-default-2666001996.jsonl.gz",
+      "bytes": 3768681,
+      "sha256": "437a2aa7cdd02f1a1ebc0ea8abf7ebcd6e7a5a95748a38ba7571c19c4eb91575"
+    },
+    {
+      "path": "candidate/words/text-default-3562318933.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/text-default-3562318933.jsonl.gz",
+      "bytes": 3788652,
+      "sha256": "1e8daec244bb4efd82aaa283f594997e20820cf5eb5d3cada7f7494ff373b3f5"
+    },
+    {
+      "path": "candidate/words/text-default-1999736106.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/text-default-1999736106.jsonl.gz",
+      "bytes": 3773436,
+      "sha256": "0e2816d241aee35ad6f4a2a3d7a2100c820d5b2d56607b28c45a336dcfaa3467"
+    },
+    {
+      "path": "candidate/words/text-default-1665836705.jsonl.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/words/text-default-1665836705.jsonl.gz",
+      "bytes": 3814017,
+      "sha256": "1a5c54fe1a5849e260ef0dfe788c5bec1be27c7b8442327fded74a3715609b4d"
+    },
+    {
+      "path": "candidate/manifest.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/manifest.json",
+      "bytes": 120260,
+      "sha256": "427b78edcb5607e406ec2277440f388c3ba22f65acfa6cec8644f568cfd9c9b6"
+    },
+    {
+      "path": "execution/candidate-observation.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-observation.json",
+      "bytes": 40822872,
+      "sha256": "447c6b30e75a4487c4c7c8711ea4d7b1befac4ff55efeff275ba90b028277f00"
+    },
+    {
+      "path": "execution/candidate-independent-renewed.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-independent-renewed.json",
+      "bytes": 8415,
+      "sha256": "127f4e1da1fa7d0094c836e7bdc468c74b43e86bef67d854acd8b2e739f9cd29"
+    },
+    {
+      "path": "execution/candidate-independent-renewed.log",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-independent-renewed.log",
+      "bytes": 71,
+      "sha256": "5424ee99b68e5a680f50d250888ec19dac29526a9399cb637a51421a6b51f8ce"
+    },
+    {
+      "path": "execution/control-registration.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/registration.json",
+      "bytes": 293443,
+      "sha256": "1b0d4ed6bcb1adcc916663a1ff58d569233362210e75da50ecfe3720cdd1fc53"
+    },
+    {
+      "path": "execution/control-complete.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/complete.json",
+      "bytes": 4581,
+      "sha256": "f8a9b1372ad8febd60cffceef14ec74c86c321a25843dcf57b62303c7ff4a98e"
+    },
+    {
+      "path": "execution/control-progress.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-control/progress.json",
+      "bytes": 4500,
+      "sha256": "32640fdfe25902e03cc680dfa8d95407010daa7e4f1b145ff0984dad0b7aeb20"
+    },
+    {
+      "path": "runtime/control/src/types.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/types.ts",
+      "bytes": 13073,
+      "sha256": "d31cc215b799d29745819ba4505333b7acb310595dbb02d2191c0d0c2f424eff"
+    },
+    {
+      "path": "runtime/control/src/index.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/index.ts",
+      "bytes": 2804,
+      "sha256": "6b74e30c9b8d9472d378fafc8e0f11ec975b38b9694f0f932dbfcddc5fc7e982"
+    },
+    {
+      "path": "runtime/control/src/worker-entry.js",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/worker-entry.js",
+      "bytes": 133,
+      "sha256": "2fccd58b877a21ee6d968415390b194490376654be03df6da5b3122e5149bc12"
+    },
+    {
+      "path": "runtime/control/src/core/pronounce.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/pronounce.ts",
+      "bytes": 14194,
+      "sha256": "4c58c68fefdece4cdb4c0077b4cefe9b5b2e7c36fe062c1447c2cc19e83dd645"
+    },
+    {
+      "path": "runtime/control/src/core/coda-shape.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/coda-shape.ts",
+      "bytes": 1374,
+      "sha256": "596af187f4b6fdf2ae9bccad7a73c77ef5531d09a555c147b9dfcd7e3801bdeb"
+    },
+    {
+      "path": "runtime/control/src/core/junction.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/junction.ts",
+      "bytes": 4991,
+      "sha256": "ec181ba1e8085e9b3a808d472231f30dbc20dc5445c72abd786d84405ff199f7"
+    },
+    {
+      "path": "runtime/control/src/core/nucleus-position.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/nucleus-position.ts",
+      "bytes": 3302,
+      "sha256": "2f66586507fb44a034292d90096e0346544bf4b9533e7d0b53a6af82c9a62af2"
+    },
+    {
+      "path": "runtime/control/src/core/vowel-sounds.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/vowel-sounds.ts",
+      "bytes": 413,
+      "sha256": "51d38dae7c5ca265f6dacad6ffcf1476aae941ee4fd113615780d758b9bcb533"
+    },
+    {
+      "path": "runtime/control/src/core/phoneme-quality.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/phoneme-quality.ts",
+      "bytes": 3227,
+      "sha256": "65b881151447dfd699bc13bf93ac65c42543e41f60dce94084c2b90a6ab7471d"
+    },
+    {
+      "path": "runtime/control/src/core/generate.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/generate.ts",
+      "bytes": 63203,
+      "sha256": "5e78882d7936d52fbe25db3b6beda6547bd6b94aa25a90a38d8d5b66a6af466e"
+    },
+    {
+      "path": "runtime/control/src/core/ot-stress.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/ot-stress.ts",
+      "bytes": 6544,
+      "sha256": "07d1433a2d4156c79ed97cc151c0070d81f27c654ad979e1070af8a687d76fe2"
+    },
+    {
+      "path": "runtime/control/src/core/write.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/write.ts",
+      "bytes": 69096,
+      "sha256": "10f587faf5913166651376f892d4f23c766ff5862e8487bba963c87d2a212577"
+    },
+    {
+      "path": "runtime/control/src/core/gap-spelling.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/gap-spelling.ts",
+      "bytes": 4092,
+      "sha256": "5bdbb4b864c8f53c09e531d97ea41991ee04c809dffd1f00afaaa632ba2d1d03"
+    },
+    {
+      "path": "runtime/control/src/core/stress-repair.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/stress-repair.ts",
+      "bytes": 2082,
+      "sha256": "92b4d826268258abd6ee75acc66f26b28f281a236b6e489e3daa9831bf2745c1"
+    },
+    {
+      "path": "runtime/control/src/core/trace.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/trace.ts",
+      "bytes": 8663,
+      "sha256": "6b94e9840d7881a904651d6bb52d25e573e4fc599a3b95822decb08afe7bddac"
+    },
+    {
+      "path": "runtime/control/src/core/length-semantics.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/length-semantics.ts",
+      "bytes": 4187,
+      "sha256": "47f74d41fd2e5b2ae492574b31926d8cf070da15264381e9d96936be35bbde1a"
+    },
+    {
+      "path": "runtime/control/src/core/repair.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/repair.ts",
+      "bytes": 7820,
+      "sha256": "b75162d8a7ebea6ad9c42df1f2290547dc06e41972dbb4aac72db1dbcd38aa8a"
+    },
+    {
+      "path": "runtime/control/src/phonotactic/score.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/phonotactic/score.ts",
+      "bytes": 2572,
+      "sha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f"
+    },
+    {
+      "path": "runtime/control/src/phonotactic/arpabet-bigrams.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/phonotactic/arpabet-bigrams.ts",
+      "bytes": 18585,
+      "sha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7"
+    },
+    {
+      "path": "runtime/control/src/phonotactic/english-baseline.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/phonotactic/english-baseline.json",
+      "bytes": 651,
+      "sha256": "b09571249718792461073319d610dd634705bdac6fc9454aa9a7950a715d760b"
+    },
+    {
+      "path": "runtime/control/src/phonotactic/ipa-to-arpabet.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/phonotactic/ipa-to-arpabet.ts",
+      "bytes": 2787,
+      "sha256": "e225cbe65a4820e727b8e4bf7f009089b6f3d566cfb07ccf3b13c3d127172913"
+    },
+    {
+      "path": "runtime/control/src/config/ngram-thresholds.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/config/ngram-thresholds.json",
+      "bytes": 1706,
+      "sha256": "a8ded5db4d69f7699f22289287f8471d249837c5a67efaef4cc62c7aa23aa739"
+    },
+    {
+      "path": "runtime/control/src/config/weights.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/config/weights.ts",
+      "bytes": 9142,
+      "sha256": "842d16e5df9b15875cccd1ca455ae3b8fb62aecc0da16503411041629e31debc"
+    },
+    {
+      "path": "runtime/control/src/config/language.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/config/language.ts",
+      "bytes": 68502,
+      "sha256": "686468198c837f36c2278fbd0df278c88219bce382eeffa8160b8b2771dfdb9e"
+    },
+    {
+      "path": "runtime/control/src/config/english.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/config/english.ts",
+      "bytes": 27970,
+      "sha256": "8d866eb7e7deeaeaccbdcdf3b6d4e8dac80da468a0393ea48841fa1f37e95c63"
+    },
+    {
+      "path": "runtime/control/src/config/phoneme-thresholds.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/config/phoneme-thresholds.json",
+      "bytes": 476,
+      "sha256": "a77e276e34eff4a028f4edd22f364a60d0f188ff686fa2c2c6e0b5defb952442"
+    },
+    {
+      "path": "runtime/control/src/utils/phonemes.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/utils/phonemes.ts",
+      "bytes": 426,
+      "sha256": "619f5e6ab0d520b21636589acdb2593c65a21f4ee3040b80c220c61c37b198f9"
+    },
+    {
+      "path": "runtime/control/src/utils/random.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/utils/random.ts",
+      "bytes": 1073,
+      "sha256": "4967fc0c37a98835e7fef3d1be5cfda591b49927029352333b77cba7e9c922d7"
+    },
+    {
+      "path": "runtime/control/src/utils/getWeightedOption.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/utils/getWeightedOption.ts",
+      "bytes": 1189,
+      "sha256": "4d16a72fa6edd11da1593a60195fcaab09768514a5727f1b9b1ff0885d12853e"
+    },
+    {
+      "path": "runtime/control/src/utils/letters.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/utils/letters.ts",
+      "bytes": 937,
+      "sha256": "f8287f6025e51fe8b6745a077c2cdaa907dbdefde6761e001ce071c42da690c8"
+    },
+    {
+      "path": "runtime/control/src/elements/phonemes.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/phonemes.ts",
+      "bytes": 12406,
+      "sha256": "bfd4c24af5892d3c7a7ed85d6fa576896f5e2376cab10e8d3319396739ea6bee"
+    },
+    {
+      "path": "runtime/control/src/elements/graphemes/affricates.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/graphemes/affricates.ts",
+      "bytes": 1686,
+      "sha256": "51becb3748b3b6d6ab30978481d548f5411f0f98d88912667f48bc39151034db"
+    },
+    {
+      "path": "runtime/control/src/elements/graphemes/fricatives.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/graphemes/fricatives.ts",
+      "bytes": 6659,
+      "sha256": "a3a5ca2fab076196125082ce961579e4bbc939a9c4b6b904f161cf80c4813cfd"
+    },
+    {
+      "path": "runtime/control/src/elements/graphemes/glides.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/graphemes/glides.ts",
+      "bytes": 1026,
+      "sha256": "7d6b58ca1de51d4ca9c49b0e7b0b8e06dc0898a9cb860e8e1b744ebf98cc5422"
+    },
+    {
+      "path": "runtime/control/src/elements/graphemes/vowels.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/graphemes/vowels.ts",
+      "bytes": 6113,
+      "sha256": "e016966a71db2d79212cc1227a3a48766432cea3b2573236ae1d8a84a7656570"
+    },
+    {
+      "path": "runtime/control/src/elements/graphemes/diphthongs.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/graphemes/diphthongs.ts",
+      "bytes": 3700,
+      "sha256": "629bbe20d77931f9b1e3e969ff5ba240a9f6c9aa3d955f537ea00aead11286ed"
+    },
+    {
+      "path": "runtime/control/src/elements/graphemes/rhotics.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/graphemes/rhotics.ts",
+      "bytes": 1713,
+      "sha256": "0b89ac7adcaab4001024bf8a4390f1bd00977448a27cb8e907474d951c6fb5c5"
+    },
+    {
+      "path": "runtime/control/src/elements/graphemes/liquids.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/graphemes/liquids.ts",
+      "bytes": 751,
+      "sha256": "9ed2dd1eecaa121d349c834c516259d0aebcb278c4554dfc3c23fb777f6ce929"
+    },
+    {
+      "path": "runtime/control/src/elements/graphemes/stops.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/graphemes/stops.ts",
+      "bytes": 4195,
+      "sha256": "e78264332e8d19a92cb14c153c7ddce8ee16ab4c946d335f9b39a4c7de9079a5"
+    },
+    {
+      "path": "runtime/control/src/elements/graphemes/index.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/graphemes/index.ts",
+      "bytes": 3288,
+      "sha256": "365c07631fe9eb0efb978797920026cc4b465eff0f7cf6d36e3d5ea73fcaab86"
+    },
+    {
+      "path": "runtime/control/src/elements/graphemes/nasals.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/elements/graphemes/nasals.ts",
+      "bytes": 2020,
+      "sha256": "32d2163923d078019cc9ff6d160743540b4e90c0e1fc4346afe5eb1db770447c"
+    },
+    {
+      "path": "runtime/control/src/core/morphology/attach.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/morphology/attach.ts",
+      "bytes": 18736,
+      "sha256": "024f75085409389dc8bb7374c37963058f058d93e9cf7b804b9535d64659eb1f"
+    },
+    {
+      "path": "runtime/control/src/core/morphology/index.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/morphology/index.ts",
+      "bytes": 140,
+      "sha256": "da6b9d63ed469b7fd6e48e22792bf8f4a2b2c736e8d67cc3220b46ba303993b0"
+    },
+    {
+      "path": "runtime/control/src/core/morphology/plan.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/control-runtime/src/core/morphology/plan.ts",
+      "bytes": 2298,
+      "sha256": "f23a874cc668b56d5fc9ca4c86875bead4f91c81c87a21a4997b6874dacee65f"
+    },
+    {
+      "path": "execution/candidate-registration.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/registration.json",
+      "bytes": 304601,
+      "sha256": "9a531f5124777c758a52eae75c7b5e8687369369714130e50cefe13b45f84e3c"
+    },
+    {
+      "path": "execution/candidate-complete.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/complete.json",
+      "bytes": 4581,
+      "sha256": "f618ee24ebdfe2221f13bac6a882ae939a9f12461140e9c473a6a2fa66fb8fb3"
+    },
+    {
+      "path": "execution/candidate-progress.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduced-candidate/progress.json",
+      "bytes": 4500,
+      "sha256": "d2df4b6e84b4543cdb5f32df8441841cc7d4b00f283dcf12d783b2a5e4c8b83d"
+    },
+    {
+      "path": "runtime/candidate/src/types.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/types.ts",
+      "bytes": 13073,
+      "sha256": "d31cc215b799d29745819ba4505333b7acb310595dbb02d2191c0d0c2f424eff"
+    },
+    {
+      "path": "runtime/candidate/src/index.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/index.ts",
+      "bytes": 2831,
+      "sha256": "0e8a8e0aa5c99a83e766a91188211daeb8d210e164e443e6c0e7383615782cad"
+    },
+    {
+      "path": "runtime/candidate/src/worker-entry.js",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/worker-entry.js",
+      "bytes": 133,
+      "sha256": "2fccd58b877a21ee6d968415390b194490376654be03df6da5b3122e5149bc12"
+    },
+    {
+      "path": "runtime/candidate/src/core/pronounce.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/pronounce.ts",
+      "bytes": 14194,
+      "sha256": "4c58c68fefdece4cdb4c0077b4cefe9b5b2e7c36fe062c1447c2cc19e83dd645"
+    },
+    {
+      "path": "runtime/candidate/src/core/rime-compatibility.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/rime-compatibility.ts",
+      "bytes": 1318,
+      "sha256": "23a6aad9e0a66a54eaab79cc3bdf3ea20681eaee42e64eb6da550b673714444e"
+    },
+    {
+      "path": "runtime/candidate/src/core/coda-shape.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/coda-shape.ts",
+      "bytes": 1374,
+      "sha256": "596af187f4b6fdf2ae9bccad7a73c77ef5531d09a555c147b9dfcd7e3801bdeb"
+    },
+    {
+      "path": "runtime/candidate/src/core/junction.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/junction.ts",
+      "bytes": 4991,
+      "sha256": "ec181ba1e8085e9b3a808d472231f30dbc20dc5445c72abd786d84405ff199f7"
+    },
+    {
+      "path": "runtime/candidate/src/core/nucleus-position.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/nucleus-position.ts",
+      "bytes": 4157,
+      "sha256": "1162c9838776d519a90bec376b80e7be1b52019da8880183fa8db4c8eb206d41"
+    },
+    {
+      "path": "runtime/candidate/src/core/vowel-sounds.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/vowel-sounds.ts",
+      "bytes": 413,
+      "sha256": "51d38dae7c5ca265f6dacad6ffcf1476aae941ee4fd113615780d758b9bcb533"
+    },
+    {
+      "path": "runtime/candidate/src/core/phoneme-quality.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/phoneme-quality.ts",
+      "bytes": 3227,
+      "sha256": "65b881151447dfd699bc13bf93ac65c42543e41f60dce94084c2b90a6ab7471d"
+    },
+    {
+      "path": "runtime/candidate/src/core/generate.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/generate.ts",
+      "bytes": 63410,
+      "sha256": "363847d8121fa8f3169075874317ddba2e03b94e1f570c6b53e04289192e853d"
+    },
+    {
+      "path": "runtime/candidate/src/core/ot-stress.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/ot-stress.ts",
+      "bytes": 6544,
+      "sha256": "07d1433a2d4156c79ed97cc151c0070d81f27c654ad979e1070af8a687d76fe2"
+    },
+    {
+      "path": "runtime/candidate/src/core/write.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/write.ts",
+      "bytes": 69096,
+      "sha256": "10f587faf5913166651376f892d4f23c766ff5862e8487bba963c87d2a212577"
+    },
+    {
+      "path": "runtime/candidate/src/core/gap-spelling.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/gap-spelling.ts",
+      "bytes": 4092,
+      "sha256": "5bdbb4b864c8f53c09e531d97ea41991ee04c809dffd1f00afaaa632ba2d1d03"
+    },
+    {
+      "path": "runtime/candidate/src/core/stress-repair.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/stress-repair.ts",
+      "bytes": 2906,
+      "sha256": "250ea6b01f38079514474134bcf09042e2356969721394a3f06c0cd6fd2b4e5f"
+    },
+    {
+      "path": "runtime/candidate/src/core/trace.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/trace.ts",
+      "bytes": 9578,
+      "sha256": "e01bb64e1595a94677922f87567a91dc4b62bc305aa3daf00dfe864424670ab7"
+    },
+    {
+      "path": "runtime/candidate/src/core/length-semantics.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/length-semantics.ts",
+      "bytes": 4187,
+      "sha256": "47f74d41fd2e5b2ae492574b31926d8cf070da15264381e9d96936be35bbde1a"
+    },
+    {
+      "path": "runtime/candidate/src/core/repair.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/repair.ts",
+      "bytes": 7820,
+      "sha256": "b75162d8a7ebea6ad9c42df1f2290547dc06e41972dbb4aac72db1dbcd38aa8a"
+    },
+    {
+      "path": "runtime/candidate/src/phonotactic/score.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/phonotactic/score.ts",
+      "bytes": 2572,
+      "sha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f"
+    },
+    {
+      "path": "runtime/candidate/src/phonotactic/arpabet-bigrams.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/phonotactic/arpabet-bigrams.ts",
+      "bytes": 18585,
+      "sha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7"
+    },
+    {
+      "path": "runtime/candidate/src/phonotactic/english-baseline.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/phonotactic/english-baseline.json",
+      "bytes": 651,
+      "sha256": "b09571249718792461073319d610dd634705bdac6fc9454aa9a7950a715d760b"
+    },
+    {
+      "path": "runtime/candidate/src/phonotactic/ipa-to-arpabet.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/phonotactic/ipa-to-arpabet.ts",
+      "bytes": 2787,
+      "sha256": "e225cbe65a4820e727b8e4bf7f009089b6f3d566cfb07ccf3b13c3d127172913"
+    },
+    {
+      "path": "runtime/candidate/src/config/ngram-thresholds.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/config/ngram-thresholds.json",
+      "bytes": 1706,
+      "sha256": "a8ded5db4d69f7699f22289287f8471d249837c5a67efaef4cc62c7aa23aa739"
+    },
+    {
+      "path": "runtime/candidate/src/config/weights.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/config/weights.ts",
+      "bytes": 9142,
+      "sha256": "842d16e5df9b15875cccd1ca455ae3b8fb62aecc0da16503411041629e31debc"
+    },
+    {
+      "path": "runtime/candidate/src/config/language.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/config/language.ts",
+      "bytes": 68502,
+      "sha256": "686468198c837f36c2278fbd0df278c88219bce382eeffa8160b8b2771dfdb9e"
+    },
+    {
+      "path": "runtime/candidate/src/config/english.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/config/english.ts",
+      "bytes": 27970,
+      "sha256": "8d866eb7e7deeaeaccbdcdf3b6d4e8dac80da468a0393ea48841fa1f37e95c63"
+    },
+    {
+      "path": "runtime/candidate/src/config/phoneme-thresholds.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/config/phoneme-thresholds.json",
+      "bytes": 476,
+      "sha256": "a77e276e34eff4a028f4edd22f364a60d0f188ff686fa2c2c6e0b5defb952442"
+    },
+    {
+      "path": "runtime/candidate/src/utils/phonemes.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/utils/phonemes.ts",
+      "bytes": 426,
+      "sha256": "619f5e6ab0d520b21636589acdb2593c65a21f4ee3040b80c220c61c37b198f9"
+    },
+    {
+      "path": "runtime/candidate/src/utils/random.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/utils/random.ts",
+      "bytes": 1073,
+      "sha256": "4967fc0c37a98835e7fef3d1be5cfda591b49927029352333b77cba7e9c922d7"
+    },
+    {
+      "path": "runtime/candidate/src/utils/getWeightedOption.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/utils/getWeightedOption.ts",
+      "bytes": 1189,
+      "sha256": "4d16a72fa6edd11da1593a60195fcaab09768514a5727f1b9b1ff0885d12853e"
+    },
+    {
+      "path": "runtime/candidate/src/utils/letters.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/utils/letters.ts",
+      "bytes": 937,
+      "sha256": "f8287f6025e51fe8b6745a077c2cdaa907dbdefde6761e001ce071c42da690c8"
+    },
+    {
+      "path": "runtime/candidate/src/elements/phonemes.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/phonemes.ts",
+      "bytes": 12406,
+      "sha256": "bfd4c24af5892d3c7a7ed85d6fa576896f5e2376cab10e8d3319396739ea6bee"
+    },
+    {
+      "path": "runtime/candidate/src/elements/graphemes/affricates.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/graphemes/affricates.ts",
+      "bytes": 1686,
+      "sha256": "51becb3748b3b6d6ab30978481d548f5411f0f98d88912667f48bc39151034db"
+    },
+    {
+      "path": "runtime/candidate/src/elements/graphemes/fricatives.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/graphemes/fricatives.ts",
+      "bytes": 6659,
+      "sha256": "a3a5ca2fab076196125082ce961579e4bbc939a9c4b6b904f161cf80c4813cfd"
+    },
+    {
+      "path": "runtime/candidate/src/elements/graphemes/glides.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/graphemes/glides.ts",
+      "bytes": 1026,
+      "sha256": "7d6b58ca1de51d4ca9c49b0e7b0b8e06dc0898a9cb860e8e1b744ebf98cc5422"
+    },
+    {
+      "path": "runtime/candidate/src/elements/graphemes/vowels.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/graphemes/vowels.ts",
+      "bytes": 6113,
+      "sha256": "e016966a71db2d79212cc1227a3a48766432cea3b2573236ae1d8a84a7656570"
+    },
+    {
+      "path": "runtime/candidate/src/elements/graphemes/diphthongs.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/graphemes/diphthongs.ts",
+      "bytes": 3700,
+      "sha256": "629bbe20d77931f9b1e3e969ff5ba240a9f6c9aa3d955f537ea00aead11286ed"
+    },
+    {
+      "path": "runtime/candidate/src/elements/graphemes/rhotics.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/graphemes/rhotics.ts",
+      "bytes": 1713,
+      "sha256": "0b89ac7adcaab4001024bf8a4390f1bd00977448a27cb8e907474d951c6fb5c5"
+    },
+    {
+      "path": "runtime/candidate/src/elements/graphemes/liquids.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/graphemes/liquids.ts",
+      "bytes": 751,
+      "sha256": "9ed2dd1eecaa121d349c834c516259d0aebcb278c4554dfc3c23fb777f6ce929"
+    },
+    {
+      "path": "runtime/candidate/src/elements/graphemes/stops.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/graphemes/stops.ts",
+      "bytes": 4195,
+      "sha256": "e78264332e8d19a92cb14c153c7ddce8ee16ab4c946d335f9b39a4c7de9079a5"
+    },
+    {
+      "path": "runtime/candidate/src/elements/graphemes/index.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/graphemes/index.ts",
+      "bytes": 3288,
+      "sha256": "365c07631fe9eb0efb978797920026cc4b465eff0f7cf6d36e3d5ea73fcaab86"
+    },
+    {
+      "path": "runtime/candidate/src/elements/graphemes/nasals.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/elements/graphemes/nasals.ts",
+      "bytes": 2020,
+      "sha256": "32d2163923d078019cc9ff6d160743540b4e90c0e1fc4346afe5eb1db770447c"
+    },
+    {
+      "path": "runtime/candidate/src/core/morphology/attach.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/morphology/attach.ts",
+      "bytes": 18736,
+      "sha256": "024f75085409389dc8bb7374c37963058f058d93e9cf7b804b9535d64659eb1f"
+    },
+    {
+      "path": "runtime/candidate/src/core/morphology/index.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/morphology/index.ts",
+      "bytes": 140,
+      "sha256": "da6b9d63ed469b7fd6e48e22792bf8f4a2b2c736e8d67cc3220b46ba303993b0"
+    },
+    {
+      "path": "runtime/candidate/src/core/morphology/plan.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/candidate-runtime/src/core/morphology/plan.ts",
+      "bytes": 2298,
+      "sha256": "f23a874cc668b56d5fc9ca4c86875bead4f91c81c87a21a4997b6874dacee65f"
+    },
+    {
+      "path": "execution/reproduce.mjs",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduce.mjs",
+      "bytes": 2414,
+      "sha256": "befc5ba10a3e79fe020d793bfacfa7663e2aeb349f967ec9442f25aa7bca8900"
+    },
+    {
+      "path": "execution/reproduction.log",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/reproduction.log",
+      "bytes": 2196,
+      "sha256": "f3cb0e09fb2ab659281e2f8356bf782fc8f18881c30b3d64ceac4d2f0812dc3a"
+    },
+    {
+      "path": "execution/public-fixtures.log",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/public-fixtures.log",
+      "bytes": 3944,
+      "sha256": "1025eadf9fa6019351362ad303f2f39a210859638e883fad8a8389335af01118"
+    },
+    {
+      "path": "execution/conditional-parity-renewed.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/conditional-parity-renewed.json",
+      "bytes": 5162,
+      "sha256": "98ccf654a2bf30173aa8b45baa98a3b25a1246f165f971ad4ecb22dcbcd7b18e"
+    },
+    {
+      "path": "execution/conditional-parity-renewed.log",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/conditional-parity-renewed.log",
+      "bytes": 118,
+      "sha256": "1bb372f29122c1dcde68111782887caf6b75199be6061dd382af3f4bc9bdaf80"
+    },
+    {
+      "path": "execution/verifier-preparation-correction.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/verifier-preparation-correction.json",
+      "bytes": 312,
+      "sha256": "acef67fd8158698b3da3485b499ac26e243c7b8099865055bb8b72b3059ffc7f"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/source-verification.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/source-verification.json",
+      "bytes": 213,
+      "sha256": "70ad6b01f9cc452f19dc6bd65baa555404df76110a701d06e7ee9cf38a66fc29"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/observer-freeze.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/observer-freeze.json.gz",
+      "bytes": 7725,
+      "sha256": "d8abbc960967b216317d0a844eccd9befcd268e2a418213d9baa106d6edfbe39"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/control-observation.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/control-observation.json.gz",
+      "bytes": 1982750,
+      "sha256": "3add4c23462cd6d13a02ef9884f6d9f3326cccdd9ad9863a18b46d3e602b40a9"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/comparison.md",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/comparison.md",
+      "bytes": 20051,
+      "sha256": "aab257bfc9231aa051e14ea5ba338df9de76515a0baa5938e14e50996a56eb09"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/original-observation.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/original-observation.json.gz",
+      "bytes": 2051725,
+      "sha256": "2acbd22ae9edd85e2f251493591ff6560884fb39c481e5f32a1c74c2fc1f12a2"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/candidate-independent.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/candidate-independent.json",
+      "bytes": 8415,
+      "sha256": "127f4e1da1fa7d0094c836e7bdc468c74b43e86bef67d854acd8b2e739f9cd29"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/control-independent.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/control-independent.json",
+      "bytes": 8425,
+      "sha256": "cbe3df18084034e656f41524ae43e2a700a8ac3bbcd4f12e725dfbf578a2f844"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/original-independent.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/original-independent.json",
+      "bytes": 8431,
+      "sha256": "538ba4da492acafcf9e37c97db5a9210bf8a18ca759b68fafdfaa6a1a257f3ef"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/unit.log.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/unit.log.gz",
+      "bytes": 3360,
+      "sha256": "f5bc9a29aca9d13073c1d528845a2e3b091cbb8072d7c8b980039e4c3b607e9e"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/final-observer-tests.log.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/final-observer-tests.log.gz",
+      "bytes": 267,
+      "sha256": "1dfc05b9124b32b27c1d92e75aa448659d1ae8f82be1f9033a66d7ef698ac1b8"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/quality.log.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/quality.log.gz",
+      "bytes": 723,
+      "sha256": "f0ef65c7364df53637ebc6d3b547dd12f284ffdb1894651fc5908ba7080f5e57"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/runtime-freeze.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/runtime-freeze.json.gz",
+      "bytes": 100182,
+      "sha256": "b917dafb58a05f3e5b278df0e7d63087a175f5e2b22523607f558ffe5fc27b41"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/perf.log.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/perf.log.gz",
+      "bytes": 488,
+      "sha256": "ead98daa969a33e83f2f246a4982c448ed7b16a4ad5c56759ec23f6164f38fc9"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/checks.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/checks.json",
+      "bytes": 624,
+      "sha256": "e8a9bd3ab83b61cfe1cbeacb3651246c858f404653833977b752c6c1bd439884"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/README.md",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/README.md",
+      "bytes": 5006,
+      "sha256": "8d1f3448fda058677b35ebdaa88efa84526dda222b4fa5dd56e55eef741661af"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/candidate-observation.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/candidate-observation.json.gz",
+      "bytes": 2021400,
+      "sha256": "260fa8addc4db458e76004f1b6b4bec7e17cc60b8453cc08cf4572fa60758610"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/control-source-verification.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/control-source-verification.json",
+      "bytes": 153,
+      "sha256": "492d7f92093d2ec5679ef0605f0273942be46776df7114a78f11ff64ae9f7729"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/files.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/files.json",
+      "bytes": 4900,
+      "sha256": "6b4c5265f486b0c2b1e81e5fcdab95cafd905a17e08f5d02608f16f7eb5933ec"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/comparison.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/comparison.json.gz",
+      "bytes": 34390,
+      "sha256": "bc69505b75deda31125d12b242306b0aa841537b9758c7adb2814e99bbc16f0d"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/tooling-files.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/tooling-files.json",
+      "bytes": 1499,
+      "sha256": "262c587414538b6c2577a94bf8e6c14ff647ded60cc94201fb10146acfe50b42"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/witness-verification.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/witness-verification.json",
+      "bytes": 240,
+      "sha256": "4f0a803f51285fd69fbbb6ccb8d415b82986d756c0ca44de3b6f794a7e8e42d0"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/conditional-parity.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/conditional-parity.json",
+      "bytes": 5162,
+      "sha256": "98ccf654a2bf30173aa8b45baa98a3b25a1246f165f971ad4ecb22dcbcd7b18e"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/candidate/summary.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/candidate/summary.json",
+      "bytes": 85281,
+      "sha256": "22639c86d242e5f4cfbcaea85a2b6595d0e67f425e7db8edde4450094a0de71a"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/candidate/distributions.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/candidate/distributions.json.gz",
+      "bytes": 74451,
+      "sha256": "ec844cbc52157a4314bd1a586d9ed155a5e526154950f22a7fb62b58ab264dd2"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/candidate/sources.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/candidate/sources.json.gz",
+      "bytes": 179249,
+      "sha256": "38a372855a590131103d9b9f520712279cf47226a968a061463173b48e6a89a6"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/candidate/witnesses.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/candidate/witnesses.json.gz",
+      "bytes": 27020,
+      "sha256": "14f1e2f8ff67e3845ee2cd0af28d6447f53194d3d1c01c28144e2de33ff71918"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/candidate/manifest.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/candidate/manifest.json",
+      "bytes": 120260,
+      "sha256": "427b78edcb5607e406ec2277440f388c3ba22f65acfa6cec8644f568cfd9c9b6"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/candidate/review-samples.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/candidate/review-samples.json.gz",
+      "bytes": 353514,
+      "sha256": "f6348fd85bb1be30245d52d7d1270b3591e82ebe0104619d181bd9c1fdc4e4d4"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/control/summary.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/control/summary.json",
+      "bytes": 85249,
+      "sha256": "ada307f7385effa3f91d00a7cfad555feca6c295fb32c2904d4c24ee4b22b744"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/control/distributions.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/control/distributions.json.gz",
+      "bytes": 74487,
+      "sha256": "f015e42c0df2766c5d3fc940259e7f3cde8c8ec51a5f8b5fb9c91aac306af315"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/control/sources.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/control/sources.json.gz",
+      "bytes": 178187,
+      "sha256": "1b854830517c5cdde5ff58a202a3841b2e1cf7c976ede3d9272c97995132b484"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/control/witnesses.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/control/witnesses.json.gz",
+      "bytes": 26562,
+      "sha256": "1dbc8a4c7a54814fafd18927f353a2673dcfc4f3db2015f0192f01bb948a614c"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/control/manifest.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/control/manifest.json",
+      "bytes": 109102,
+      "sha256": "392b89e31da4b684c58de3be5486725f0bb6377ce71ca0d4dc5a3d5faafdbae4"
+    },
+    {
+      "path": "committed/evaluation/experiments/root-rime-compatibility/control/review-samples.json.gz",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/experiments/root-rime-compatibility/control/review-samples.json.gz",
+      "bytes": 347475,
+      "sha256": "9fdc065f18912d99e6a3a238f82ddf27a7f45ea64828ea4d83ed4e30e01c02b7"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/root-rime-compatibility/analyze.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/quality/probes/root-rime-compatibility/analyze.ts",
+      "bytes": 9105,
+      "sha256": "68e1a5a61d4db1a8386196aaa87be0d37821189cecbc81e29d7c253cd067554c"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/root-rime-compatibility/observe.test.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/quality/probes/root-rime-compatibility/observe.test.ts",
+      "bytes": 10041,
+      "sha256": "12b2340b1d5bf7c60132eb6ee95e8aef691f639ce88a8ef7a96c97de0bde4cbb"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/root-rime-compatibility/observe.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/quality/probes/root-rime-compatibility/observe.ts",
+      "bytes": 12700,
+      "sha256": "68dea43dfaf3eb47c6b210a3990911795f17f10367f9f651f4dea607026052f8"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/root-rime-compatibility/parity.mjs",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/quality/probes/root-rime-compatibility/parity.mjs",
+      "bytes": 2694,
+      "sha256": "5aae22c1f22200ad71552b4ac11a627ce3c8f0ac9f9e5949dba8a917c4bc600a"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/root-rime-compatibility/protocol.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/quality/probes/root-rime-compatibility/protocol.json",
+      "bytes": 2971,
+      "sha256": "de53aea203a37ea1c1c8f1c19036133b7a71fb44c12e586c85352c716c3bd706"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/root-rime-compatibility/tsconfig.json",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/quality/probes/root-rime-compatibility/tsconfig.json",
+      "bytes": 294,
+      "sha256": "8d6e01bea4385bf5e38f861342fb47d78d28aca44791950fccd66d98c3d1955d"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/root-rime-compatibility/verify.py",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/quality/probes/root-rime-compatibility/verify.py",
+      "bytes": 6852,
+      "sha256": "e04a701dee1ae2a9e11a2b26c238cb3f883404cfd592b4f10f42fee393a024b8"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/root-rime-compatibility/vitest.config.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/evaluation/quality/probes/root-rime-compatibility/vitest.config.ts",
+      "bytes": 239,
+      "sha256": "f401be6b6264c780b415898dbaa2c2ec3a1be1296208f88f8f4d36536f90f88e"
+    },
+    {
+      "path": "committed/src/core/rime-compatibility.test.ts",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/src/core/rime-compatibility.test.ts",
+      "bytes": 13437,
+      "sha256": "5fc1238947b7c90efb09707e7ab9506a4180dad5133ed9d824871c74858302e7"
+    },
+    {
+      "path": "committed/docs/root-rime-compatibility.md",
+      "origin": "/private/tmp/q10b1-closure-audit-v1/committed/docs/root-rime-compatibility.md",
+      "bytes": 10206,
+      "sha256": "70ba51e488b1ac386fbd4d07b74edc432dbacd75891b2b774bbdab9549971ae0"
+    },
+    {
+      "path": "operators/retain_q10b1_reproduction.py",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/retain_q10b1_reproduction.py",
+      "bytes": 3725,
+      "sha256": "993bd050174c1a7e1ba189467512fe2136acaa254e8fb8084f643b909d199637"
+    }
+  ],
+  "scope": "All60rawshards, original compact evidence, source/observer/fixtures and fresh execution. Same-device independent-inode copies, no independent-device backup claim."
+}

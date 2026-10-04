@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "root-rime-compatibility-v1",
+  "registeredBefore": "Q10b1 behavior changes and observation of its dependency-control results",
+  "controlCommit": "13c2524",
+  "dependencies": ["7c37b6c17672f82bbe97570a00b0c4e19ef7c847", "5aa948a171c739037e4372893bd70dc772608247"],
+  "foundationEvaluatorDigest": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007",
+  "schedule": "The unchanged linguistic-quality-v1 development protocol: four profiles, five streams each, 10000 returned draws per stream.",
+  "primary": "Zero configured any-nucleus-segment/any-coda-segment excluded pairs in generateWrittenForm.before, for the candidate's selected lexical roots.",
+  "semantics": "A configured pair forbids the Cartesian product of its nucleus and coda sound sets anywhere within one syllable. Duplicate rules do not multiply observations. Rules are read from each archive's frozen effective configuration.",
+  "mechanism": "Q07 and Q11 already enforce realized segment edges and legal coda extensions. Q10b1 filters both nucleus replacement pools by the retained coda, preserves positive caller-relative weights, and asserts the all-segment lexical-root pair postcondition. No new bans, weights, coda deletions, or pair-repair sampler.",
+  "stressRepair": "Retain the existing primary-stressed first-nucleus trigger and nucleus-only relative weights. An invoked repair with no eligible finite positive weight throws before its selection draw; untouched nuclei do not trigger this exhaustion check.",
+  "edgeRepair": "Retain Q07's all-segment trigger and nucleus-times-realized-position relative weights. Reject coda-incompatible choices before selection.",
+  "secondary": ["stage-specific banned-pair counts and denominators", "pairs introduced/removed during each nucleus repair", "selected replacement details and excluded positive candidates", "source sound and root position conditioning", "final surface and assembled-word observations outside the root contract", "all unchanged frozen metrics, gates and performance"],
+  "scope": "Selected attempts only. Historical absent stages/details are unavailable; current stage snapshots omit stress. Final output is observed separately and is not promised to obey this lexical-root-only contract. No claim of human wordlikeness improvement.",
+  "multiNucleus": "The predicate and postcondition cover every nucleus segment. Public root generation currently hardcodes one segment regardless of maxNucleusLength; multi-segment helper fixtures do not claim public generation coverage.",
+  "comparisons": "Primary candidate versus newly captured Q07+Q11 control. Original baseline remains a contextual comparison. Never attribute the dependency changes to Q10b1.",
+  "policy": "No gate or weight tuning. Archive integrity, source provenance, exact shard set, profile/seed/draw order and denominators must be verified. Preserve all tradeoffs and zero-opportunity cases. No optional stopping."
+}
