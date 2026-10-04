@@ -1,0 +1,21 @@
+{
+  "args": [
+    "/opt/homebrew/opt/python@3.13/bin/python3.13",
+    "-B",
+    "evaluation/corpus/verify-model-sensitivity.py",
+    "--freeze",
+    "/private/tmp/q15c5-acceptance-revalidation-v2/relocated-source-input-freeze.json",
+    "--freeze-sha256",
+    "a1dee5cf6fc45e8e5666d61aec96a9c7c8f1c2d333fc890453724e6f00109674",
+    "--run",
+    "/private/tmp/q15c5-acceptance-revalidation-v2/full-acceptance/root-run",
+    "--report-sha256",
+    "2d1e69fa49309d26d9e2d2345e3ecb42cdb512fe742c4b8b52a08ff454ae5fe1",
+    "--out",
+    "/private/tmp/q15c5-acceptance-revalidation-v2/independent-proof-original-python.json"
+  ],
+  "cwd": "/private/tmp/q15c5-acceptance-revalidation-v2/checkout",
+  "exitCode": 0,
+  "executionEvidence": "Completed exec_command session4043, tool chunk e0783a, exit0; exact result artifact authenticated.",
+  "originalHistoricalInterpreter": true
+}

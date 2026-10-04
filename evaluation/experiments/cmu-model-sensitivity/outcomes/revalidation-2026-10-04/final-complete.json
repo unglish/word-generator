@@ -1,0 +1,21 @@
+{
+  "terminal": true,
+  "scope": "Complete original CLI, full independent proof and original fixture/type/lint scopes; original layout/missing-module failures retained, successful reruns distinct.",
+  "sourcePinsStable": 338,
+  "inputPinsStable": 30,
+  "cliCases": 15,
+  "fullStudies": 2,
+  "rowsPerStudy": 317485,
+  "identicalFilesPerStudy": 22,
+  "publishedRowStreamsExact": 21,
+  "independentNumericChecks": 5325847,
+  "historicalPythonProofExactlyEqualsRegisteredPythonProof": true,
+  "reviewTestsPassed": 285,
+  "pythonGroupsPassed": 17,
+  "corpusTypes": "pass",
+  "reviewTypes": "pass",
+  "targetedLint": "pass",
+  "publicationGuardAfterPackaging": "pass; tool chunk845b30",
+  "oldPackageFilesUnchanged": 73,
+  "completedAt": "2026-10-04T12:37:40.650564+00:00"
+}

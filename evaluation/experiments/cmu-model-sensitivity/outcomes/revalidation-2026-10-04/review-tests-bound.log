@@ -1,0 +1,43 @@
+
+ RUN  v3.2.4 /private/tmp/q15c5-acceptance-revalidation-v2/checkout
+
+ ✓ evaluation/review/cmu-source.test.ts (24 tests) 1077ms
+   ✓ source and implementation provenance at the CLI > rejects wrong or truncated raw input before writing an audit  624ms
+   ✓ source and implementation provenance at the CLI > keeps the historical model tied to its original implementation  445ms
+ ✓ evaluation/review/local.test.ts (6 tests) 35ms
+ ✓ evaluation/review/study.test.ts (9 tests) 890ms
+   ✓ frozen study provenance > captures reproducible full generator output and source  527ms
+   ✓ keeps the original and revised studies independently verifiable with identical draws  317ms
+ ✓ evaluation/review/cmu-model-sensitivity.test.ts (37 tests) 1414ms
+   ✓ archive and publication failures > runs no-argument/help/wrong-freeze CLI cases without publishing  1139ms
+ ✓ evaluation/review/wordlikeness/wordlikeness.test.ts (13 tests) 1225ms
+   ✓ frozen artifacts and private evaluation > scores all frozen draws without regeneration and preserves both rubric snapshots  1119ms
+ ✓ evaluation/review/cmu-joint.test.ts (27 tests) 1821ms
+ ✓ evaluation/review/cmu-phoneme-builder.test.ts (44 tests) 3465ms
+   ✓ explicit command and safe destinations > keeps the direct Node entrypoint usable from another working directory  466ms
+ ✓ evaluation/review/cmu-length-builder.test.ts (49 tests) 3803ms
+   ✓ retained TS command and publication boundaries > keeps the local TS entrypoint usable without source from another working directory  552ms
+ ✓ evaluation/review/cmu-transition-builder.test.ts (39 tests) 4118ms
+   ✓ explicit source, units and fresh publication path > executes a symlinked TS entrypoint instead of silently succeeding  514ms
+   ✓ explicit source, units and fresh publication path > runs help and rejects missing arguments from unrelated cwd through both TS entrypoints  840ms
+ ✓ evaluation/review/cmu-score-reference.test.ts (37 tests) 13702ms
+   ✓ complete externally expected score artifact > validates an explicitly synthetic parent-sized envelope and detaches its source metadata  1145ms
+   ✓ complete externally expected score artifact > rejects a redigested row-score swap even though every summary and denominator is preserved  854ms
+   ✓ complete externally expected score artifact > rejects redigested missing corruption  823ms
+   ✓ complete externally expected score artifact > rejects redigested extra corruption  795ms
+   ✓ complete externally expected score artifact > rejects redigested duplicate corruption  811ms
+   ✓ complete externally expected score artifact > rejects redigested reordered corruption  837ms
+   ✓ complete externally expected score artifact > rejects redigested input corruption  813ms
+   ✓ complete externally expected score artifact > rejects redigested summary corruption  798ms
+   ✓ complete externally expected score artifact > rejects redigested population corruption  804ms
+   ✓ complete externally expected score artifact > rejects redigested model corruption  857ms
+   ✓ complete externally expected score artifact > rejects redigested projection corruption  804ms
+   ✓ complete externally expected score artifact > rejects redigested forged closure corruption  804ms
+   ✓ complete externally expected score artifact > rejects redigested extra field corruption  805ms
+   ✓ explicit score-reference CLI and unchanged input protection > executes aliases and reports help/failure statuses through both TS runners from unrelated cwd  825ms
+
+ Test Files  10 passed (10)
+      Tests  285 passed (285)
+   Start at  05:32:42
+   Duration  14.32s (transform 1.37s, setup 0ms, collect 3.76s, tests 31.55s, environment 1ms, prepare 799ms)
+

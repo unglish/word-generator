@@ -1,0 +1,1 @@
+{"name":"missing-flags","args":["score","--freeze","/private/tmp/q15c5-acceptance-revalidation-v2/relocated-source-input-freeze.json"],"cwd":"/private/tmp/q15c5-acceptance-revalidation-v2/checkout","expectedExit":1,"actualExit":1,"log":"missing-flags.log","sha256":"b185bc7df76dbf6a8967d12a55ce761374d17a0386adff9f8572844c2dc2cb68"}

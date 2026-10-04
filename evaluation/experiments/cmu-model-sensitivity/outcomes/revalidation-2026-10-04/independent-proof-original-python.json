@@ -1,0 +1,32 @@
+{
+  "version": "cmu-model-sensitivity-independent-verification-v1",
+  "passed": true,
+  "counts": {
+    "english": 117485,
+    "generated": 200000
+  },
+  "freezeSha256": "a1dee5cf6fc45e8e5666d61aec96a9c7c8f1c2d333fc890453724e6f00109674",
+  "reportSha256": "2d1e69fa49309d26d9e2d2345e3ecb42cdb512fe742c4b8b52a08ff454ae5fe1",
+  "producerDeclaredDigest": "70bd1306edb27ce83988c0279977f6d5dbd56645eabbb1ea5140a904d9476fed",
+  "floatTolerance": {
+    "absolute": 1e-10,
+    "relative": 1e-12
+  },
+  "numericComparisons": 5325847,
+  "worstAbsolute": {
+    "path": "groups.generated/all.transitions[659].weightedNumerator",
+    "actual": -791.492392134465,
+    "reference": -791.4923921344581,
+    "absolute": 6.934897101018578e-12,
+    "relative": 8.761798811883568e-15
+  },
+  "worstRelative": {
+    "path": "groups.stream/lexicon-bare/1696751198/identity-complete.decomposition.residual",
+    "actual": -3.5771385853422544e-13,
+    "reference": -9.547918011776346e-15,
+    "absolute": 3.481659405224491e-13,
+    "relative": 36.46511627906977
+  },
+  "nearZeroSignDisagreements": [],
+  "scope": "Independent raw English/generated vectors, all table bins, aligned source identities/losses, scores, groups, gaps, transitions and witness selection; producer canonical digest is not a cross-language rendering claim."
+}

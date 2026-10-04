@@ -1,0 +1,11 @@
+{
+  "fixtureEnvironment": {
+    "Q15_IDENTITY_MODULE": "/private/tmp/q15c5-acceptance-revalidation-v2/inputs/identity.ts"
+  },
+  "existingFixtureHook": "Both unchanged original TS and Python fixtures support Q15_IDENTITY_MODULE and check exact pinned observer bytes.",
+  "priorFailure": "original-python-fixtures-command.json; historical /private/tmp/q16-files/identity.ts absent",
+  "historicalPython": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+  "historicalPythonVersion": "Python 3.13.5",
+  "supplementalEarlierProofPython": "registered Python3.12.14; full317485 rows and5325847 numeric comparisons passed; retained separately",
+  "finishDriverSha256": "d31d4b4031c2cbd419bf8562f5ef78c74bea1216e7b508b411fb86b4fb165bee"
+}

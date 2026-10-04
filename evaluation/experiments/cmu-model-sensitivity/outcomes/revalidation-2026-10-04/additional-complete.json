@@ -1,0 +1,7 @@
+{
+  "terminal": true,
+  "commands": 5,
+  "passing": 5,
+  "sourcePinsStable": 338,
+  "inputPinsStable": 30
+}
