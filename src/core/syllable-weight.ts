@@ -1,4 +1,5 @@
 import type { Phoneme, Syllable } from "../types.js";
+import type { PrimaryStressRules } from "../config/language.js";
 
 /** Model-qualified phonological contribution, not a prediction of duration. */
 export interface NuclearQuantity {
@@ -48,7 +49,7 @@ export interface StressWeightTrace {
   domain: "root-before-nucleus-repair";
   policy: SyllableWeightPolicy;
   syllables: SyllableWeightAnalysis[];
-  primary: { strategy: string; selectedIndex: number | null };
+  primary: { strategy: PrimaryStressRules["type"]; selectedIndex: number | null };
   secondary: {
     /** Candidate choice and application before the separate rhythmic pass. */
     candidates: Array<{ syllableIndex: number; weight: number }>;

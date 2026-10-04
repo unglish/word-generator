@@ -65,7 +65,11 @@ The analysis reports two separate results:
   with its basis recorded. Unknown analytical weight either uses the explicitly
   configured legacy fallback or throws with the model and syllable index.
   `unknown: "error"` concerns unknown **weight**, so a closed syllable can pass
-  while its nuclear quantity is unknown.
+  while its nuclear quantity is unknown. Every syllable is analysed whatever
+  the primary strategy or syllable count, so `"error"` also throws for
+  monosyllables and fixed-position strategies when an open syllable has
+  unknown quantity. Declare quantity for every nucleus phoneme under strict
+  handling.
 
 The default `{ type: "legacy-segment-count" }` reports analytical weight as
 unknown and operational weight as the original rule. It does not interpret even
