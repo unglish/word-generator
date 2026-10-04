@@ -84,6 +84,10 @@ The built-in English config ships with this wired through:
 Custom language configs should provide both tables. They are required parts of
 `LanguageConfig`, not optional tuning extras.
 
+Nuclei can opt into explicit base-word segment weights with
+`nucleusWordPosition`. See [nucleus edge semantics and migration](./docs/phoneme-edge-contexts.md)
+for the distinction from legacy syllable-position weights.
+
 After retuning those tables, run:
 
 ```bash
@@ -157,6 +161,14 @@ Additional checks:
 - `npm run analyze:phonemes`
 - `npm run analyze:trigrams`
 - `npm run audit:trace`
+- `npm run calibrate:phonemes` (recalibrates phoneme gate limits from multi-seed spread; see [`TUNING.md`](./TUNING.md#phoneme-guardrail-ratchet))
+
+See [corpus diagnostics](./docs/corpus-diagnostics.md) for reproducible analyzer
+streams, complete distribution metrics, and trace-backed outlier reports.
+
+For frozen baselines and per-step linguistic comparisons, see
+[quality baselines](./docs/quality-baselines.md). The benchmark preserves traced
+outputs, source/configuration provenance, and original/previous-step comparisons.
 
 ## Documentation
 

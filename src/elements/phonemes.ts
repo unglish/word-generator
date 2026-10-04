@@ -67,7 +67,7 @@ export const phonemes: Phoneme[] = [
   { sound: "æ", mannerOfArticulation: "lowVowel", tense: false, nucleus: 121, startWord: 11, midWord: 6, endWord: 1, voiced: true, placeOfArticulation: "front" }, // apple, hat, map
   { sound: "ɑ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 187, startWord: 7, midWord: 3, endWord: 1, voiced: true, placeOfArticulation: "back" }, // father
   { sound: "ɔ", mannerOfArticulation: "lowVowel", tense: true, nucleus: 97, startWord: 6, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "back" }, // ball
-  { sound: "ʊ", mannerOfArticulation: "highVowel", tense: true, nucleus: 57, startWord: 2, midWord: 2, endWord: 0, voiced: true, placeOfArticulation: "back" }, // book
+  { sound: "ʊ", mannerOfArticulation: "highVowel", tense: true, nucleus: 57, startWord: 2, midWord: 2, endWord: 0, nucleusWordPosition: { initial: 2, medial: 2, final: 0 }, voiced: true, placeOfArticulation: "back" }, // book — forbidden only at the literal open base-word edge
   { sound: "u", mannerOfArticulation: "highVowel", tense: true, nucleus: 80, startWord: 4, midWord: 2, endWord: 2, voiced: true, placeOfArticulation: "back" }, // blue
   { sound: "ʌ", mannerOfArticulation: "midVowel", tense: false, nucleus: 150, startWord: 5, midWord: 2, endWord: 1, voiced: true, placeOfArticulation: "central" }, // cup
 

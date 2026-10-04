@@ -1,4 +1,5 @@
 import { RNG } from "./utils/random";
+import type { NuclearQuantity } from "./core/syllable-weight.js";
 import type { WordTrace } from "./core/trace";
 import type { TraceCollector } from "./core/trace";
 
@@ -10,6 +11,13 @@ import type { TraceCollector } from "./core/trace";
  */
 export type GenerationMode = "text" | "lexicon";
 export type MorphologyTemplate = "bare" | "suffixed" | "prefixed" | "both";
+
+/** Literal segment positions within a generated base word, before affix assembly. */
+export interface NucleusWordPositionWeights {
+  initial: number;
+  medial: number;
+  final: number;
+}
 
 /**
  * A single phoneme (minimal sound unit) in the generator's inventory.
@@ -92,18 +100,27 @@ export interface Phoneme {
   onset?: number;
   /** Weighting for appearing in a syllable coda (final consonant cluster). */
   coda?: number;
-  /** Whether the vowel is tense (long) as opposed to lax (short). */
+  /** Legacy tense classification used by existing sonority, reduction and spelling rules; not quantity or duration. */
   tense?: boolean;
+  /** Explicit phonological quantity under a named analysis. Missing means unspecified. */
+  nuclearQuantity?: NuclearQuantity;
 
   /** Whether this vowel was reduced (e.g. schwa substitution in unstressed syllables). */
   reduced?: boolean;
 
-  /** Weighting for appearing at the start of a word. */
+  /** Legacy first-syllable weighting for onset/nucleus selection. */
   startWord: number;
-  /** Weighting for appearing in the middle of a word. */
+  /** Legacy weighting when the applicable first/last-syllable flag is absent. */
   midWord: number;
-  /** Weighting for appearing at the end of a word. */
+  /** Legacy last-syllable weighting for coda/nucleus selection. */
   endWord: number;
+
+  /**
+   * Explicit segment-position weights for this phoneme when used as a nucleus.
+   * Overrides startWord/midWord/endWord for nuclei only; consonant clusters retain
+   * their legacy semantics. An isolated segment must pass both edge restrictions.
+   */
+  nucleusWordPosition?: NucleusWordPositionWeights;
 }
 
 /** Type-safe accessor for a phoneme's positional weight (onset / nucleus / coda). */
@@ -328,10 +345,12 @@ export interface ClusterContext {
   clusterSounds: string[];
   /** Phoneme sounds to exclude from candidate selection (Set for O(1) lookup). */
   ignoreSet: ReadonlySet<string>;
-  /** Whether this cluster begins the word. */
+  /** Legacy first-syllable flag, set for onsets and nuclei. */
   isStartOfWord: boolean;
-  /** Whether this cluster ends the word. */
+  /** Legacy last-syllable flag, set for codas and nuclei. */
   isEndOfWord: boolean;
+  /** Provisional literal base-word edges for the nucleus segment being selected. */
+  nucleusWordEdges?: { initial: boolean; final: boolean };
   /** Maximum phonemes allowed in this cluster. */
   maxLength: number;
   /** Total syllable count of the word being generated. */

@@ -5,7 +5,8 @@ import * as random from "./utils/random.js";
 
 export { createGenerator, generateWord, generateWords } from "./core/generate.js";
 export type { WordGenerator } from "./core/generate.js";
-export type { GenerationMode } from "./types.js";
+export type { AffixForm, AllomorphBoundaryPhoneme, ResolvedAffix, MorphologyWrittenPart, MorphologyRealizationTrace } from "./core/morphology/realization.js";
+export type { GenerationMode, NucleusWordPositionWeights } from "./types.js";
 export {
   resolveStressRules,
   resolveAspirationRules,
@@ -26,6 +27,8 @@ export type {
 export { validateJunction } from "./core/junction.js";
 export type { SspViolation } from "./core/junction.js";
 export type { OTStressConfig, OTConstraint, ConstraintWeight } from "./core/ot-stress.js";
+export type { NuclearQuantity, SyllableWeightPolicy, SyllableWeightAnalysis, NuclearQuantityObservation, StressWeightTrace } from "./core/syllable-weight.js";
+export { analyzeSyllableWeight, analyzeWordWeight } from "./core/syllable-weight.js";
 export { englishConfig } from "./config/english.js";
 export { createSeededRng, createDefaultRng } from "./utils/random.js";
 export type { RNG } from "./utils/random.js";
