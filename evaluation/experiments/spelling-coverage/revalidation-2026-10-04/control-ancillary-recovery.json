@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "words": 200000,
+  "receipts": [
+    {
+      "file": "review-samples.json.gz",
+      "bytes": 521578,
+      "sha256": "3ec316f58bfd9859f99081226c18801705c08a31f628142f1ced491dd88b012d"
+    },
+    {
+      "file": "witnesses.json.gz",
+      "bytes": 32968,
+      "sha256": "faf8778b8571988dd2a25eefb356b67c7f3fe877cf98cf32842d35b979b3cfb6"
+    },
+    {
+      "file": "distributions.json.gz",
+      "bytes": 74448,
+      "sha256": "610a0aa6a542dfe6c7b92f7fcf03bd890c6933d2921da22f4ad71cc7de43954f"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { measureSpellingBudgets } from "./spelling-budget.js";
 import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, SyllableShapePlan, getPhonemePositionWeight, GenerationMode } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
@@ -1273,6 +1274,15 @@ function generateOneWord(
       // Post-morphology consonant letter repair: suffix attachment can create
       // consonant runs that exceed the limit (e.g. "marks" + "tion" = "markstion").
       const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
+      const preservePhones = rt.config.writtenFormConstraints?.policy === "preserve-phones";
+      const finalBudget = preservePhones ? measureSpellingBudgets(context.word.written.clean, rt.config.writtenFormConstraints) : undefined;
+      if (finalBudget) traceCollector?.recordSpellingBudget({
+        version: 1, scope: "final-morphology", before: finalBudget, after: finalBudget,
+        visitedAssignments: 0, legalOptions: 0, unresolvedCells: context.word.written.clean.length,
+        changedUnits: [], ...(finalBudget.exceeded.length
+          ? { status: "infeasible", reason: "unresolved-ownership", refusals: { "unresolved-ownership": 1 } }
+          : { status: "satisfied" }),
+      });
       if (maxCons) {
         const activeParts = morphology.parts.filter(part => part.text);
         const cleanParts = activeParts.map(part => part.text);
@@ -1282,7 +1292,7 @@ function generateOneWord(
           hyphParts.push(cleanParts[i]);
           if (i < cleanParts.length - 1) hyphParts.push("");
         }
-        repairConsonantLetters(cleanParts, hyphParts, maxCons);
+        if (!finalBudget?.exceeded.length) repairConsonantLetters(cleanParts, hyphParts, maxCons);
         for (let i = 0; i < activeParts.length; i++) activeParts[i].text = cleanParts[i];
         context.word.written.clean = cleanParts.join("");
         context.word.written.hyphenated = hyphParts.join("");

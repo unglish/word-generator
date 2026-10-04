@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "originalHead": "973406761e17f9b1795ba519a694cade68a7c2db",
+  "candidateRuntimeFiles": 52,
+  "controlRuntimeFiles": 46,
+  "publicWordsReproduced": 400000,
+  "originalCompressedShardHashesMatched": 40,
+  "recoveredAncillaryHashesMatched": 6,
+  "independentRecountWords": 400000,
+  "fullOriginalIndependentReportsEqual": true,
+  "fullOriginalObserverReportEqualAfterPhysicalPathNormalization": true,
+  "certificatesReplayed": 1517,
+  "freshCoverageFixturesPassed": 50,
+  "retained": {
+    "files": 486,
+    "bytes": 304835617,
+    "indexSha256": "f079c280a10810e557165095c706d9142eb52e479c487774e3882df39691bf15"
+  },
+  "scope": "Exact original mechanical experiment reproduction. Reading licenses checked by original TypeScript observer, structural/count proof by original independent Python. No fresh original gates/timing, adoption, current-main integration or human benefit."
+}

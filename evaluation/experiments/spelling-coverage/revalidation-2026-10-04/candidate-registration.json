@@ -1,0 +1,104 @@
+{
+  "sourceDigest": "f0a9da1fa95cb7f0d8901b82567d94f1b565a36a83c58d404f7c8b0528a79666",
+  "words": 200000,
+  "profiles": [
+    {
+      "id": "lexicon-default",
+      "options": {
+        "mode": "lexicon",
+        "morphology": true
+      },
+      "seeds": {
+        "development": [
+          69212153,
+          101601885,
+          3921817393,
+          3948943232,
+          2089697863
+        ],
+        "validation": [
+          343148695,
+          588155434,
+          3368386746,
+          3898123730,
+          1246218775
+        ]
+      }
+    },
+    {
+      "id": "lexicon-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false
+      },
+      "seeds": {
+        "development": [
+          2380207674,
+          772709128,
+          1304238451,
+          1696751198,
+          1498885173
+        ],
+        "validation": [
+          1009669289,
+          1929784165,
+          663835973,
+          1913126773,
+          2753803302
+        ]
+      }
+    },
+    {
+      "id": "monosyllables-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false,
+        "syllableCount": 1
+      },
+      "seeds": {
+        "development": [
+          462530651,
+          62358955,
+          3297327738,
+          2001884366,
+          2353354178
+        ],
+        "validation": [
+          1195095943,
+          2228551463,
+          3012376298,
+          3657383406,
+          2724299545
+        ]
+      }
+    },
+    {
+      "id": "text-default",
+      "options": {
+        "mode": "text",
+        "morphology": true
+      },
+      "seeds": {
+        "development": [
+          4167471042,
+          2666001996,
+          3562318933,
+          1999736106,
+          1665836705
+        ],
+        "validation": [
+          1233637419,
+          3612082221,
+          2738163729,
+          2933603771,
+          1320168908
+        ]
+      }
+    }
+  ],
+  "wordsPerStream": 10000,
+  "oldCaptureIdentity": "ba83ac2c851673ced5eca237f715ac0283ea25d2",
+  "oldDirty": true,
+  "currentNode": "v24.11.1",
+  "scope": "Fresh public generation from exact archived runtime bytes. Original capture provenance is preserved separately."
+}

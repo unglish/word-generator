@@ -1,5 +1,8 @@
 # Base-spelling provenance (Q02a / Q13 foundation)
 
+This document describes the version-1 foundation. The opt-in version-2 coverage
+contract is documented in [spelling-coverage-policy.md](./spelling-coverage-policy.md).
+
 In the instrumentation-only control at commit `a602888`,
 `generateWord({ seed: 2643, morphology: true, trace: true })` produced `bunhtreern`.
 Its `/θ/` selected `th`, and the raw consonant-letter cap deleted the

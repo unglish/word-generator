@@ -113,3 +113,7 @@ Its direct selection ownership is exact; rewritten-cell ownership remains
 explicitly unresolved. The older `trace.orthography` now labels its alignment
 `inferred`. See [the contract and examples](./base-spelling-provenance.md) before
 using either representation to claim spelling/phone agreement.
+
+Phone-preserving budget decisions and version-2 certified unit replacements are
+explained in [the spelling coverage policy](./spelling-coverage-policy.md). An
+already-satisfied cap is not a whole-word pronunciation certificate.

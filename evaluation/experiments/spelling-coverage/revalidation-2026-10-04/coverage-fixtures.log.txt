@@ -1,0 +1,59 @@
+
+ RUN  v3.2.4 /private/tmp/q13-closure-audit-v1/committed
+
+ ✓ src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > attributes a v1 half-th to its cap without inventing unavailable budget decisions 7ms
+ ✓ src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > counts an intact v2 th as a refusal, not partial loss or a certificate 2ms
+ ✓ src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > retains the lineage of a certified whole ph-to-f replacement 3ms
+ ✓ src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > distinguishes missing reading evidence from missing cell ownership 1ms
+ ✓ src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > counts generic rewrite ancestry as unresolved even when every source unit retains lineage 2ms
+ ✓ src/core/spelling-coverage-observer.test.ts > spelling coverage observations from public generator output > counts unresolved rewrite cells consumed by a legacy cap separately from surviving unknown cells 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects certificate-only stress context changes against the actual writer boundary 5ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects certificate-only cluster context changes against the actual writer boundary 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects certificate-only features context changes against the actual writer boundary 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects certificate-only next-features context changes against the actual writer boundary 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects certificate-only doubling-stress context changes against the actual writer boundary 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects certificate-only doubling-cluster context changes against the actual writer boundary 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects certificate-only prev-reduced context changes against the actual writer boundary 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects certificate-only first-coda context changes against the actual writer boundary 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects certificate-only next-consonant context changes against the actual writer boundary 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects certificate-only next-nucleus context changes against the actual writer boundary 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects extra-phone original ledger corruption 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects missing-phone original ledger corruption 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects selected-form original ledger corruption 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects selected-inventory original ledger corruption 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > detaches nested boundary features from inventory and returned snapshots 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > respells a complete ph unit through the public API without changing its phone 4ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > preserves th and reports infeasibility when no shorter licensed spelling exists 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > keeps omitted-policy custom configurations on the v1 legacy repair contract 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > does not invent a reading certificate for unannotated custom alternatives 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > retains an intact /l f θ s/ cluster even though lfths cannot fit a three-letter final preference 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > uses normalized full-sequence probabilities, invariant to a uniform per-phone weight rescaling 2ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > matches exhaustive unpruned enumeration for fully explored weighted/tied plans (tie=false) 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > matches exhaustive unpruned enumeration for fully explored weighted/tied plans (tie=true) 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > never unlocks fallback-only short forms merely to fit a budget 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > does not undouble a forced 100-percent realization 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rechecks an unchanged soft c when a neighboring vowel spelling changes 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > does not treat a phonologically open vowel as open after a later same-part insertion closes it 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > refuses a vowel respelling beside an unchanged unsupported final-e unit 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > preserves an invalid-junction refusal through both budget passes 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > excludes zero-weight short alternatives rather than turning them into repairs 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > marks cross-part replacements as unknown and rejects mismatched part evidence 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > keeps unresolved rewrite ownership explicit and unchanged 0ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > reports bounded search exhaustion separately and does not commit a provisional plan 35ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects a mismatched phone certificate before any cell or counter mutation 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects a mismatched part certificate before any cell or counter mutation 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects a mismatched probability certificate before any cell or counter mutation 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects a mismatched inventory certificate before any cell or counter mutation 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects a mismatched version certificate before any cell or counter mutation 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects a mismatched surface certificate before any cell or counter mutation 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > rejects unknown evidence versions and preserves v1 as unavailable part identity 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > keeps identical left-to-right log accumulation in the search and verifier 1ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > retains resolved morphology presentation when final ownership is unavailable 2ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > replays the same floating-point accumulation order at the seed-23656 witness 2ms
+ ✓ src/core/spelling-coverage.test.ts > whole-unit spelling budgets > keeps trace on/off output and RNG-call parity with active policy 204ms
+
+ Test Files  2 passed (2)
+      Tests  50 passed (50)
+   Start at  16:00:31
+   Duration  762ms (transform 285ms, setup 0ms, collect 521ms, tests 294ms, environment 0ms, prepare 121ms)
+
