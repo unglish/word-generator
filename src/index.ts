@@ -107,6 +107,11 @@ export {
   PHONEME_IDENTITY_CONTRACT, LEGACY_ENGLISH_IDENTITIES, observeWordIdentity,
   projectLegacyArpabet, projectIdentityStress, observeCmuToken,
 } from "./phonology/identity.js";
+
+export { createIdentityStressScorer, observeSurfaceStressEvidence } from "./phonology/identity-stress-score.js";
+export type {
+  PhoneTransitionTable, IdentityStressReference, StressEvidence, ProjectedScore, IdentityStressScores,
+} from "./phonology/identity-stress-score.js";
 export type {
   IdentityEntry, ObservedPhoneInput, ObservedWordInput, IdentityObservationOptions,
   Recorded, StressObservation, SegmentObservation, WordIdentityObservation,

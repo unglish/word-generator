@@ -1,0 +1,21 @@
+
+ RUN  v3.2.4 /private/tmp/q16b-scoring-v1/checkout
+
+stdout | src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec
+
+⚡ Performance: 7090 words/sec (10000 words in 1411ms)
+   Floor: 4500 words/sec
+
+
+ ✓ src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec 1434ms
+stdout | src/core/generate.perf.test.ts > Word Generation Performance > should not degrade significantly with sequential seeds
+⚡ Batch variance trials: 1.10x, 1.46x, 1.37x (median 1.37x)
+   Median variance threshold: < 3.0x
+
+ ✓ src/core/generate.perf.test.ts > Word Generation Performance > should not degrade significantly with sequential seeds 400ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  08:33:44
+   Duration  2.24s (transform 186ms, setup 0ms, collect 253ms, tests 1.83s, environment 0ms, prepare 44ms)
+

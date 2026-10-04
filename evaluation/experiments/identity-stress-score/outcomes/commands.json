@@ -1,0 +1,277 @@
+[
+  {
+    "name": "full600000-native-observation",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "evaluation/experiments/identity-stress-score/study.ts",
+      "--out",
+      "/private/tmp/q16b-scoring-v1/study"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:36:22.674579+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:38:22.727815+00:00"
+  },
+  {
+    "name": "full600000-independent-proof",
+    "args": [
+      "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/private/tmp/q16b-scoring-v1/checkout/evaluation/experiments/identity-stress-score/verify.py",
+      "/private/tmp/q16b-scoring-v1/study",
+      "/private/tmp/q16b-scoring-v1/independent-proof.json"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:38:22.728779+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:41:43.652331+00:00"
+  },
+  {
+    "name": "public2000-parent-candidate-parity",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "evaluation/experiments/identity-stress-score/public-parity.ts",
+      "--base",
+      "/private/tmp/q16-current-integration-v1/checkout",
+      "--out",
+      "/private/tmp/q16b-scoring-v1/public-parity.json"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:41:43.653251+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:41:46.524401+00:00"
+  },
+  {
+    "name": "parent-full-lint",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+      "run",
+      "lint",
+      "--",
+      "--format",
+      "json",
+      "--output-file",
+      "/private/tmp/q16b-scoring-v1/parent-full-lint.json"
+    ],
+    "cwd": "/private/tmp/q16-current-integration-v1/checkout",
+    "startedAt": "2026-10-04T15:41:46.525268+00:00",
+    "exitCode": 1,
+    "completedAt": "2026-10-04T15:41:48.953311+00:00"
+  },
+  {
+    "name": "parent-identity-fixtures",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "vitest.identity.config.ts"
+    ],
+    "cwd": "/private/tmp/q16-current-integration-v1/checkout",
+    "startedAt": "2026-10-04T15:41:48.954230+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:41:51.673565+00:00"
+  },
+  {
+    "name": "parent-strict-types",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/typescript/bin/tsc",
+      "--noEmit"
+    ],
+    "cwd": "/private/tmp/q16-current-integration-v1/checkout",
+    "startedAt": "2026-10-04T15:41:51.674423+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:41:52.291109+00:00"
+  },
+  {
+    "name": "parent-whole-unit",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/vitest/vitest.mjs",
+      "run"
+    ],
+    "cwd": "/private/tmp/q16-current-integration-v1/checkout",
+    "startedAt": "2026-10-04T15:41:52.292390+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:42:59.632458+00:00"
+  },
+  {
+    "name": "parent-quality",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "vitest.quality.config.ts"
+    ],
+    "cwd": "/private/tmp/q16-current-integration-v1/checkout",
+    "startedAt": "2026-10-04T15:42:59.633580+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:43:18.836851+00:00"
+  },
+  {
+    "name": "parent-performance",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "vitest.perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/private/tmp/q16-current-integration-v1/checkout",
+    "startedAt": "2026-10-04T15:43:18.837802+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:43:21.539923+00:00"
+  },
+  {
+    "name": "candidate-full-lint",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+      "run",
+      "lint",
+      "--",
+      "--format",
+      "json",
+      "--output-file",
+      "/private/tmp/q16b-scoring-v1/candidate-full-lint.json"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:43:21.540824+00:00",
+    "exitCode": 1,
+    "completedAt": "2026-10-04T15:43:23.710667+00:00"
+  },
+  {
+    "name": "candidate-identity-fixtures",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "vitest.identity.config.ts"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:43:23.711575+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:43:26.365293+00:00"
+  },
+  {
+    "name": "candidate-strict-types",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/typescript/bin/tsc",
+      "--noEmit"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:43:26.366160+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:43:27.077992+00:00"
+  },
+  {
+    "name": "candidate-whole-unit",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/vitest/vitest.mjs",
+      "run"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:43:27.078932+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:44:34.814963+00:00"
+  },
+  {
+    "name": "candidate-quality",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "vitest.quality.config.ts"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:44:34.816514+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:44:54.124839+00:00"
+  },
+  {
+    "name": "candidate-performance",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "vitest.perf.config.ts",
+      "--reporter=verbose"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:44:54.125768+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:44:56.740044+00:00"
+  },
+  {
+    "name": "candidate-score-fixtures",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "vitest.identity-stress.config.ts"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:44:56.740924+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:44:57.722874+00:00"
+  },
+  {
+    "name": "candidate-experiment-strict-types",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/typescript/bin/tsc",
+      "-p",
+      "evaluation/experiments/identity-stress-score/tsconfig.json"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:44:57.723844+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:44:58.988288+00:00"
+  },
+  {
+    "name": "candidate-independent-fixtures",
+    "args": [
+      "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "verify_test.py"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout/evaluation/experiments/identity-stress-score",
+    "startedAt": "2026-10-04T15:44:58.989696+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:44:59.197097+00:00"
+  },
+  {
+    "name": "candidate-touched-lint",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/eslint/bin/eslint.js",
+      "src/index.ts",
+      "src/phonology/identity-stress-score.ts",
+      "src/phonology/identity-stress-score.test.ts",
+      "evaluation/experiments/identity-stress-score/archive-schedule.test.ts",
+      "evaluation/experiments/identity-stress-score/public-parity.ts",
+      "evaluation/experiments/identity-stress-score/reference.ts",
+      "evaluation/experiments/identity-stress-score/study.ts"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T15:44:59.198993+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T15:45:00.281072+00:00"
+  }
+]

@@ -1,0 +1,426 @@
+{
+  "words": 600000,
+  "streams": [
+    {
+      "file": "original-lexicon-default-69212153.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "8fa18c1d2e5de247b2f1bf347d8b73e5468ea41ee3987968b52fe3b0a9d3eb3c",
+      "currentScoreStreamSha256": "57e7fd100a090b1c990578dfcb44b9da4aaef670360b1e7d233de58f65f0d9ab",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-lexicon-default-101601885.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "9bb64f55eb688320b3bfc84cf055f511b8c79b477c39c4875af091a9e74c5d07",
+      "currentScoreStreamSha256": "34605ea9e19d65a1bd358039eb16fcda6243f5681c0297f187908e4fb47cbc7a",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-lexicon-default-3921817393.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "05174e0fd26980792216441e30319976babcc451c5fea2d01905b41d1623e93a",
+      "currentScoreStreamSha256": "377cc5066d1bcf74976a2eb566e2e83b58a86b5381c548b3bc0b70e2a5b0413a",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-lexicon-default-3948943232.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "627b3ad088661515932df8a079f16ae022fc524346712abbdcae03fe2e4f4171",
+      "currentScoreStreamSha256": "11334597489cbb5044d0959a86336f8870a078e88c139bf04dd66202ff23208e",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-lexicon-default-2089697863.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "8e8f399e34b447c2d039d357c524900298cb643b97a7eee06a0f072c4f10e6a7",
+      "currentScoreStreamSha256": "d4a89051e530a95c3e624dd16adbbf98f70be7ffd8e2deb28537cd51a37abb90",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-lexicon-bare-2380207674.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "c6906ec07c9a5a4233f3642ca26a83b424ac8e6d197328091d2edc8d483317f1",
+      "currentScoreStreamSha256": "de4d617963ab45029001252230d5c4b65579d280aec2b1e3361cc5e7ed91f476",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-lexicon-bare-772709128.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "96ed9fee38b26046070515bdeda3c0edfe543e480bacadef348eebbce171e89f",
+      "currentScoreStreamSha256": "0fc4b15604ca4838ffb1cc3147fdfa00a03df568e2e193228c434992602618ef",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-lexicon-bare-1304238451.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "97d98758482039731152aab267f9862d4f249d1318c9e0a4f9e544795c0da8f4",
+      "currentScoreStreamSha256": "efe610743e4ae34679bb1aac954c659e0386aa8e21ae1c62699c99d04a784f51",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-lexicon-bare-1696751198.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "cc286be5b5f8ceb2531c852c94fadfc356175e22a195dab6b982abeb2dba7da1",
+      "currentScoreStreamSha256": "010d386fdd80e934568dde0f4d397da8bdffd784d67a8957731254088abd0031",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-lexicon-bare-1498885173.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "04c09889ea54286e261ccd11ad78e608c93b938396b5a716d3b65d1051f9043f",
+      "currentScoreStreamSha256": "46fe50c62ed202bed9dc84940de7c023391a77836a919018a2e1e5228b3265ee",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-monosyllables-bare-462530651.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "45951d4e453017fb6d97d817ed3b6a8aaae5ba49d1e5eb81b9ac1b4b9d2b4115",
+      "currentScoreStreamSha256": "50fded00619491d816b876521840a11f22e0fc01346518cda5b899782432e6a7",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-monosyllables-bare-62358955.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "d8dbd9c01fbbd42bf0840d5e2ef052487ab9cdc155234c57402fa6e5156e5cbd",
+      "currentScoreStreamSha256": "b0200c93ccad998ea70e10b71331a8ecc15bbfe350eadc566adb12370aa16f41",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-monosyllables-bare-3297327738.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "764ccd20600e77d1114cb468a63a9c6844453ba8aa5d8f2a77562a564a98404d",
+      "currentScoreStreamSha256": "5848f533344f36fa5e29d40be0ff64afff79d4767c6962ca38a7272068b17d2e",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-monosyllables-bare-2001884366.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "e4e59bddbef1ae61d473279eb0042e4658de5168db8299c6b2791e42c590c62b",
+      "currentScoreStreamSha256": "3285f06bfa370653b947c3428c786a141ffa33f696aceb1e3ea11090311247fa",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-monosyllables-bare-2353354178.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "c05ed4aff39ef34182d07c05bc520241c2534a64361d07564aaed4d85923c0ff",
+      "currentScoreStreamSha256": "870dc53d41bdadc30489906b2b12db5bf7382d7da739c5172d788bad4707f349",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-text-default-4167471042.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "7c3e45ca7fac34300dca16b8b50d04fff4441dd6289bc1d8d9f6d193c6393449",
+      "currentScoreStreamSha256": "2447d9cbae3726dad8a2c97ed571c5765e36906518adfbb17b3c35254223c465",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-text-default-2666001996.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "56ae0288a94fab82bf3213027af775983decefb67863f20e5990bd434baa2f37",
+      "currentScoreStreamSha256": "ad365b1a8be165bfe55157b47c8d65420f1acd4f66f9693d3647ee58f8091a8d",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-text-default-3562318933.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "e361698fa42d59baee7c4bc9362ed4a0237cf60991f3c9b6c5718f5f95ebd95c",
+      "currentScoreStreamSha256": "fbd68fcb57294a494f6fbbd89b8337a8e2980cb2321c53b3cabebce7c1d29bc9",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-text-default-1999736106.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "bbf1d187967c0dfc3f44ae6e2c7edc10b0d505dcd5f56c6eee5ea2909d7db156",
+      "currentScoreStreamSha256": "827fc2251c4b2fb6002c1fa76b61eef960c8fdae4a6ccb5c4af1a2bed81295ca",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "original-text-default-1665836705.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "061869e56fcfccfd51e1549146676cf42f1cfce289781e7ae04afb2e856eeb3b",
+      "currentScoreStreamSha256": "54a10df0973abb7c71ba3795917d3d95d499d440a3c6d7fc4ee15f30350e402b",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-lexicon-default-69212153.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "798a0d3e8f011b6a26015bb0afb0d782fd296e8a38a3b08a154cdd6e3ea45fac",
+      "currentScoreStreamSha256": "076b80ed95d033257c412ae2da2da15c7745f12ef6955380c9e2a76b245c9e55",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-lexicon-default-101601885.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "8709aadd03f06d609d8af099a703355d60928f8b3f4634298c8266231152e99f",
+      "currentScoreStreamSha256": "2ceb5e0aec626d1aec894428a866ed6a498a06ebb2ac7a8ed09b61409dad4429",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-lexicon-default-3921817393.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "5ed0eefb090437208d62deedb95f6c525178eb49990998a596b45cf39e559bae",
+      "currentScoreStreamSha256": "b140073773f25f687507f57ea7b2dd63e12b25c2ee56801ccdc2bea35ab10fef",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-lexicon-default-3948943232.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "c553d5d64b5c4cacb134081e1c05ebc63ff72671e756e197ed293c9c2d6585ad",
+      "currentScoreStreamSha256": "4eb186eb0199d7c78649b35aeb47475eadf8859ee8a4743994a005c26945e1b8",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-lexicon-default-2089697863.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "24722268061ac92726dd8e6311173bfee9c808e06bc4d4351bdb1e7b446b49a0",
+      "currentScoreStreamSha256": "815c6cd5db2db163905169c8131ca7cede89f25b1e1a9731d0b19065271a816f",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-lexicon-bare-2380207674.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "0c73df8fd2f87a04277b412c9a0154d17d2ca095ab67a0c9373f70b7f91ac1f4",
+      "currentScoreStreamSha256": "ff8831ce7b761887db0119041d573321d4ec0783c9225e124ca2c8a65b59ee4b",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-lexicon-bare-772709128.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "2711b00ea056ca5ede74694bb1a30bc07cfa1fc90db9a4661766be40602e0765",
+      "currentScoreStreamSha256": "cacc15d109e9dee6107c5526cc50462ab15dd536023cecc7610e65dacc75eb37",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-lexicon-bare-1304238451.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "8ec5c77c694153dcd7a0b947c60546626a866bee82df119e824ddd7f47432b3f",
+      "currentScoreStreamSha256": "9abac378172ae91fc71d40143334dfe74f0559ba95bb84da6acf02061fb726c3",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-lexicon-bare-1696751198.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "d7398a15be6364673bb4c6d46d802247472a3296470d505a72d0365bf420ff45",
+      "currentScoreStreamSha256": "61b6e290ebefa7cd312dbea9c1a92d059239909516d848a7c855cc8e884ad6e9",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-lexicon-bare-1498885173.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "496f4bf109dbb59f0fd4752c3590d6c5362aef9296f3b5374845fc090bc7dcd9",
+      "currentScoreStreamSha256": "4ad8d6472878d5671e245b18602473646e583f30dd862a42aa9e8f4cd54783a3",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-monosyllables-bare-462530651.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "131f5e82dc824f746940b826d95a05c4b8c9fde68635bfab675b58ac558a8f0f",
+      "currentScoreStreamSha256": "1390ab670d462a5b12a735a36c17bf7eb1a307db385af544a4fc407e50df9b28",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-monosyllables-bare-62358955.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "56722342254252f7d0c1797d36d774df79e2d34e992d0d46187f30013264e7be",
+      "currentScoreStreamSha256": "8a913243bbeb454391e11f88fb8f400ccc2603a446f06bfdda22d85a71b5d659",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-monosyllables-bare-3297327738.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "51d9ed66917963890ea59a1e0390d0bd84a9abe8572a20e93d31c06672388cc5",
+      "currentScoreStreamSha256": "400ea661a89312bbd8169934db7436dc487eec6f929f72dc1e043ad0a604a283",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-monosyllables-bare-2001884366.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "db18b02eb765efca340f4c22cc0bf9fe0984526ff3a071593c6ea6c2fdb35271",
+      "currentScoreStreamSha256": "447a5d3b6edd5701d4e8ec349f8781da0154cf609d4844e9fefbf29d56fbdba9",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-monosyllables-bare-2353354178.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "d8c08a16915c66aab429096d22aa1a175fd4806c140235c7ff52cb2df79a3d4d",
+      "currentScoreStreamSha256": "4473281ef8bd6a8b3d2cce832cf5d696a9eeb54ad1d5b77f22d1e2aff53c37a5",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-text-default-4167471042.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "a78cf7f9af811ab9dc67004237646f4b22b4a0052fd06992be298e789356230d",
+      "currentScoreStreamSha256": "08cf435450a04436ef58f13bdb031fd1c16a9bb00c7d5d5b9fa196f859c4953b",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-text-default-2666001996.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "0872950c010e0c2c84378890b24f135506990b7fad0ce9ae0c7a362f5a0cfea1",
+      "currentScoreStreamSha256": "a4776df3763786188fd54a36835a3c8e5aaa9841f7baa4966b8f2bbb25448d78",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-text-default-3562318933.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "9d45f7a9e23f02638d0c6d967269e412229538523c74c70077c4658f32d5c92f",
+      "currentScoreStreamSha256": "d2795a28b14a80231a45e23dd07114abdee9c27a90f2aee22857a3aaaf60f2c4",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-text-default-1999736106.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "140222abbd436c859a50a0cfdbe46e0e7b5dcbfe1822e49f607bdaea7a444589",
+      "currentScoreStreamSha256": "30d4537d35ef7c8471d6cf3dc6d16ddf77fa278045da8e2023307070de597142",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "control-text-default-1665836705.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "03055967fcf42df14577bff84760eecbc2b99d48ef018c1153834a63294cd575",
+      "currentScoreStreamSha256": "5fee8d2570b957b9ca2e0961d3cb0d925b035cad3c4aaff0e10ec1079fb42ee1",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-lexicon-default-69212153.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "814c135d887be267e61895606772f1d8c6fb84411d4ac630521237a839eb9f73",
+      "currentScoreStreamSha256": "329d3199b4bd6083f0abb6f51465a40b54f793f922e8057259f1752b1c0d7f11",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-lexicon-default-101601885.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "324aa88e51d5bc0d9072b774e95d740ad16e99c593efcdc4ea9cc5c9862a8c71",
+      "currentScoreStreamSha256": "0d2ebe8747b1774da3aa9260f217bb999e3b2abe0e1692994abec76c53278827",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-lexicon-default-3921817393.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "7709f8ce39baa9749c18061707fbb6644be9e9fcadec38920cbe16c35f331e9e",
+      "currentScoreStreamSha256": "f8ba01ef82269ae725fa67e3f3a87da98b473541d18ac74a0f78d9b892a84125",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-lexicon-default-3948943232.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "a08e334333c84e0714bde2fc5288aecb54cef48e2d654cd492f1defa12a47cf1",
+      "currentScoreStreamSha256": "229637ba09b5e890495e8b4b3173849a3315418b134f6dddf026f01555eafe8b",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-lexicon-default-2089697863.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "e9822d76dbdc8dd8a7c8382789d3bccc57d52442ad84d630df1b8fd8c984cbf5",
+      "currentScoreStreamSha256": "59cd5d198dc44ed247edfef78a5ab79c91c61f0af4f41ca004297bba023f068d",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-lexicon-bare-2380207674.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "b5f4bf345125d69a59d41ac1393f62b4a1ba34e65089959267f696ad9deddfa5",
+      "currentScoreStreamSha256": "e2d53d61bd1723b604eef37ff304d5648c5b73f59700adbfd715e5db9d929707",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-lexicon-bare-772709128.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "1af2ee38958313e4ce3c271210919998f1bb707b394b80159aaaecf105ebdadd",
+      "currentScoreStreamSha256": "544e9b30c12a376cd991f15a88ab0b7ec2ddedf4d2afd0448fb6ec38c34c9ce3",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-lexicon-bare-1304238451.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "49797c5f058bd41e1003045dfc90cd472ccc03dce85d1140e1d7363162fa70e0",
+      "currentScoreStreamSha256": "e9d001a56e6a587659a94b56aa58e4fa3d6770fda592907cc9b77acef1a35953",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-lexicon-bare-1696751198.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "de49e8e3d2668a90b057c7b55938bdcbd5b76d7e09eb10a995c146b56b77dfbb",
+      "currentScoreStreamSha256": "d2661c1d1cfbcbfc704df6bcf48731f6ce5fd966610e2d14656a9d0b4d4c2d93",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-lexicon-bare-1498885173.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "26f39cc897cc157e52f264eb00d276ebe6c727d4b4c54d7153dc3f5ed85d4ad2",
+      "currentScoreStreamSha256": "928c5022403558f6847cbcec8bd846252abc2a2ede218612482ba88037a49f37",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-monosyllables-bare-462530651.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "131f5e82dc824f746940b826d95a05c4b8c9fde68635bfab675b58ac558a8f0f",
+      "currentScoreStreamSha256": "1390ab670d462a5b12a735a36c17bf7eb1a307db385af544a4fc407e50df9b28",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-monosyllables-bare-62358955.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "56722342254252f7d0c1797d36d774df79e2d34e992d0d46187f30013264e7be",
+      "currentScoreStreamSha256": "8a913243bbeb454391e11f88fb8f400ccc2603a446f06bfdda22d85a71b5d659",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-monosyllables-bare-3297327738.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "51d9ed66917963890ea59a1e0390d0bd84a9abe8572a20e93d31c06672388cc5",
+      "currentScoreStreamSha256": "400ea661a89312bbd8169934db7436dc487eec6f929f72dc1e043ad0a604a283",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-monosyllables-bare-2001884366.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "db18b02eb765efca340f4c22cc0bf9fe0984526ff3a071593c6ea6c2fdb35271",
+      "currentScoreStreamSha256": "447a5d3b6edd5701d4e8ec349f8781da0154cf609d4844e9fefbf29d56fbdba9",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-monosyllables-bare-2353354178.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "d8c08a16915c66aab429096d22aa1a175fd4806c140235c7ff52cb2df79a3d4d",
+      "currentScoreStreamSha256": "4473281ef8bd6a8b3d2cce832cf5d696a9eeb54ad1d5b77f22d1e2aff53c37a5",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-text-default-4167471042.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "4173dbb4af395ad9dcb420bf64e524407c03261b521b13cd8917daf1764757a0",
+      "currentScoreStreamSha256": "27f3814067f89f26a634c2842d6ce5db1333e39e2a2b01b33a6ee1ec5bd1c2af",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-text-default-2666001996.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "9a7e41d3fc7cb325a7f4966643fca9800980ed10cb6ff087526ce5f72ce04224",
+      "currentScoreStreamSha256": "cfeab0b860604d431bb50b9079f5675468eefc5a95beb6cba38fd0cc83c89a74",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-text-default-3562318933.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "921f6e6720f55d019a610a810f09ab02a6b408fba3f665c01b56bcd01530f9a4",
+      "currentScoreStreamSha256": "d1df41c34d2d96492df45c45c4da5cfbf255f3d19727ce346d4aede2940642ed",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-text-default-1999736106.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "9fa6b9271b3bcc993774fa53bdd3842ea5a1e6e72feb02b9234196ffa1f51d9b",
+      "currentScoreStreamSha256": "da7bbfc82ea0fb101832be41b012bb2384a746513fbd87d4787c1890a09d57f8",
+      "allPriorRowFieldsExact": true
+    },
+    {
+      "file": "active-text-default-1665836705.jsonl.gz",
+      "words": 10000,
+      "originalScoreStreamSha256": "c8c917bb94ab2116116220f4443ac9a6774c3d785f546b6e9ef7e61b3022103b",
+      "currentScoreStreamSha256": "d343fda9ef9863b985469f70290e2b3facfdbb896302641cd500dbad0cc3ad69",
+      "allPriorRowFieldsExact": true
+    }
+  ],
+  "scope": "Every original per-word projection/evidence/binding/loss/probability/score field remains exactly equal after helper cleanup. Only separately registered writtenCodePoints fields and refined written-length strata were added. All stream/profile/arm counts/score sums/witnesses and original authority/input bindings exact. Current independent proof validates the new written length and every refined stratum separately."
+}

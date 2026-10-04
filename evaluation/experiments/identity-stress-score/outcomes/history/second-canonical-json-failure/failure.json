@@ -1,0 +1,35 @@
+{
+  "type": "AssertionError",
+  "error": "full600000-independent-proof",
+  "commands": [
+    {
+      "name": "full600000-native-observation",
+      "args": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "evaluation/experiments/identity-stress-score/study.ts",
+        "--out",
+        "/private/tmp/q16b-scoring-v1/study"
+      ],
+      "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+      "startedAt": "2026-10-04T14:44:57.126127+00:00",
+      "exitCode": 0,
+      "completedAt": "2026-10-04T14:46:56.356832+00:00"
+    },
+    {
+      "name": "full600000-independent-proof",
+      "args": [
+        "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/private/tmp/q16b-scoring-v1/checkout/evaluation/experiments/identity-stress-score/verify.py",
+        "/private/tmp/q16b-scoring-v1/study",
+        "/private/tmp/q16b-scoring-v1/independent-proof.json"
+      ],
+      "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+      "startedAt": "2026-10-04T14:46:56.357930+00:00",
+      "exitCode": 1,
+      "completedAt": "2026-10-04T14:46:56.690581+00:00"
+    }
+  ]
+}

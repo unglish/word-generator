@@ -1,0 +1,48 @@
+[
+  {
+    "name": "full600000-native-observation",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "evaluation/experiments/identity-stress-score/study.ts",
+      "--out",
+      "/private/tmp/q16b-scoring-v1/study"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T14:49:44.115996+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T14:51:42.145997+00:00"
+  },
+  {
+    "name": "full600000-independent-proof",
+    "args": [
+      "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/private/tmp/q16b-scoring-v1/checkout/evaluation/experiments/identity-stress-score/verify.py",
+      "/private/tmp/q16b-scoring-v1/study",
+      "/private/tmp/q16b-scoring-v1/independent-proof.json"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T14:51:42.147055+00:00",
+    "exitCode": 0,
+    "completedAt": "2026-10-04T14:54:56.876688+00:00"
+  },
+  {
+    "name": "public2000-parent-candidate-parity",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "evaluation/experiments/identity-stress-score/public-parity.ts",
+      "--base",
+      "/private/tmp/q16-current-integration-v1/checkout",
+      "--out",
+      "/private/tmp/q16b-scoring-v1/public-parity.json"
+    ],
+    "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+    "startedAt": "2026-10-04T14:54:56.877480+00:00",
+    "exitCode": 1,
+    "completedAt": "2026-10-04T14:54:57.243345+00:00"
+  }
+]

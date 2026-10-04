@@ -1,0 +1,21 @@
+{
+  "type": "AssertionError",
+  "error": "full600000-native-observation",
+  "commands": [
+    {
+      "name": "full600000-native-observation",
+      "args": [
+        "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+        "--import",
+        "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+        "evaluation/experiments/identity-stress-score/study.ts",
+        "--out",
+        "/private/tmp/q16b-scoring-v1/study"
+      ],
+      "cwd": "/private/tmp/q16b-scoring-v1/checkout",
+      "startedAt": "2026-10-04T14:42:06.286266+00:00",
+      "exitCode": 1,
+      "completedAt": "2026-10-04T14:42:37.381763+00:00"
+    }
+  ]
+}

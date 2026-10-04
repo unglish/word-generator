@@ -1,0 +1,6 @@
+{
+  "registeredAt": "2026-10-04T15:36:20.381251+00:00",
+  "originalProtocolSha256": "423f9e3ab8653e330c8e2a5fbc6a1a5b5ff55f67b89113347d1b250c612d69ba",
+  "scope": "Clarifies preregistered wordlength strata: retain both surface-phone count and written Unicode code-point count, alongside all original profiles/seeds/morphology/syllable counts. Full600000-record source operator registration renewed before measurements. No word/filter/reference/probability/score/alpha/tolerance/sample/gate change.",
+  "sourceChanges": "Add aligned writtenCodePoints field to each complete score row and length stratum; independent Python recount uses raw written.clean codepoints. Prior scores and all prior science remain preserved."
+}

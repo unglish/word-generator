@@ -175,4 +175,5 @@ outputs, source/configuration provenance, and original/previous-step comparisons
 - Contribution workflow: [`CONTRIBUTING.md`](./CONTRIBUTING.md)
 - Agent-specific constraints: [`agents.md`](./agents.md)
 - Diagnostics/design docs index: [`docs/README.md`](./docs/README.md)
+- Separate identity/stress diagnostics: [`docs/identity-stress-score.md`](./docs/identity-stress-score.md)
 - Tuning notes and diagnostics: [`TUNING.md`](./TUNING.md)

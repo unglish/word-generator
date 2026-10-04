@@ -1,0 +1,4 @@
+
+> @unglish/word-generator@0.6.0 lint
+> eslint src/**/*.ts evaluation/review/**/*.ts evaluation/quality/**/*.ts demo/review/**/*.ts --format json --output-file /private/tmp/q16b-scoring-v1/candidate-full-lint.json
+

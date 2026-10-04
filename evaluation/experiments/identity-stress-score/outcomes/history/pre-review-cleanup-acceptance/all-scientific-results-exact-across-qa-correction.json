@@ -1,0 +1,29 @@
+{
+  "entireScientificReportEqualExceptDeclaredFreeze": true,
+  "all60CompleteCompressedScoreStreamPinsExact": true,
+  "beforeFreezeSha256": "85fb2100a9382f65f01282d0e02026509834450b736a2603188784bc1ae84d8e",
+  "afterFreezeSha256": "153474fe7b36814adce0f1d03c95cd09df67be93f7048a6e261956edf6b6aebc",
+  "sourceChanges": {
+    "evaluation/experiments/identity-stress-score/README.md": {
+      "before": null,
+      "after": {
+        "path": "evaluation/experiments/identity-stress-score/README.md",
+        "bytes": 4592,
+        "sha256": "8c319a5c5279b81dae09e13c6b4907b803796db3c860024c44577f864f35b5c2"
+      }
+    },
+    "evaluation/experiments/identity-stress-score/public-parity.ts": {
+      "before": {
+        "path": "evaluation/experiments/identity-stress-score/public-parity.ts",
+        "bytes": 4072,
+        "sha256": "6186dc5cb9e8de4fb57355e1315f8289678c765d88ab4d18a01bd1f895fcbf3d"
+      },
+      "after": {
+        "path": "evaluation/experiments/identity-stress-score/public-parity.ts",
+        "bytes": 4113,
+        "sha256": "88c856a8084c87aaf3e50d7f611d5c04b53571b7c1510e4d1d38b6f221d619e7"
+      }
+    }
+  },
+  "scope": "Only QA trace-own-property comparison and new experiment documentation differ. Every600000-word score/evidence/loss row,all statistics,strata,witnesses and all compressed output bytes unchanged; current independent proof still must reach terminal."
+}
