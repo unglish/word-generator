@@ -1,0 +1,21 @@
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+{"passed": true, "words": 200000, "streams": 20, "integerLeavesCompared": 13835, "allOriginalCountsAndReplaySummariesEqual": true, "scriptSha256": "9513813748a7f5f19c5c19bdc7a0e52bc12dc4edff55ff701749ac9de4a8766e", "scope": "Original independent observe/count/replay algorithm and exact archived data/runtime verification. Historical absolute tool/source-freeze authority is preserved separately and not reexecuted. No independent English reading or conditional-probability proof."}
