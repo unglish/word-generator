@@ -1,0 +1,12 @@
+{
+  "name": "original-python-fixtures",
+  "args": [
+    "/Users/ryanbetts/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "evaluation/corpus/verify-model-sensitivity-test.py"
+  ],
+  "cwd": "/private/tmp/q15c5-acceptance-revalidation-v2/checkout",
+  "startedAt": "2026-10-04T12:31:01.723295+00:00",
+  "finishedAt": "2026-10-04T12:31:02.274894+00:00",
+  "exitCode": 1
+}
