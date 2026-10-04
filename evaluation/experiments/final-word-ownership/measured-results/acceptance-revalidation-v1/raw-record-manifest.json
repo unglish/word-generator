@@ -1,0 +1,29 @@
+{
+  "rawRecordsCommitted": false,
+  "traceParity": {
+    "retainedFile": ".local-evidence/q02-acceptance-retained-v1/execution/trace-parity-full-records.jsonl.gz",
+    "bytes": 118624733,
+    "sha256": "0a91480ebf911bf87bd8b251cebc96ec6a8557892374a6e7975ff142cadc9488",
+    "decodedSha256": "6d6cb0605da4b73b3c92d9fd76973ac92cc5a327ce8b540dee1cffef3784f929",
+    "coordinates": 20000,
+    "publicWords": 80000,
+    "recordContents": "Every coordinate contains all four complete Words and cumulative RNG counts."
+  },
+  "originalCorpus": {
+    "wordsEach": 200000,
+    "rawShards": 40,
+    "scientificArtifacts": 50,
+    "manifestFiles": [
+      "archives/control/manifest.json",
+      "archives/candidate/manifest.json"
+    ],
+    "fullPinsFile": "retained-index.json.gz"
+  },
+  "retainedClosure": {
+    "path": ".local-evidence/q02-acceptance-retained-v1",
+    "files": 1250,
+    "bytes": 1505124567,
+    "indexSha256": "63557bfdc6bbecf88de45b2ae3e9c8a4c77344eaeba0f00745cbc8151aa3334f"
+  },
+  "scope": "Complete retained raw files and source snapshots are required for analytical replay. Published compact reports and hashes alone are insufficient. The retained closure includes failed preparation/location-adapter attempts. Original two Vitest caches are historical local bytes, not originally committed artifacts."
+}

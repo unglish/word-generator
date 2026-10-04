@@ -64,8 +64,15 @@ Registered RNG checks cover the first 500 successive untraced words in each
 registered development stream under default and active policies: 20,000
 comparisons, 40,000 public calls, 1,926,655 draws and forty next-value probes, with
 zero differences. This does not certify RNG use across every captured traced
-record. The retained 4,000-case trace-on/off matrix is a separate source-bound
-check.
+record. The retained 4,000-case trace-on/off checkpoint uses an earlier
+source revision and does not certify the formal candidate. The completed
+acceptance revalidation adds 20,000 registered coordinates and 80,000 full public
+Words covering both sources and trace modes under default and active policies.
+All full Word/legacy trace comparisons, cumulative RNG counts and 160 actual
+next values agree. An independent JSON-only recount reconstructs all 160 Word
+stream hashes and matches 20,000 active traced Words to the original corpus.
+Full records are retained separately; see
+`measured-results/acceptance-revalidation-v1/README.md` for scope and raw pins.
 
 The version-2 independent Python control recount completes all 200,000 words and
 agrees with every production aggregate and replicate counter. Its stricter
@@ -111,22 +118,32 @@ passes both full and isolated executions. The separate 10,000-word lexical and
 morphology timing tests pass at their original 30-second limits. Samples,
 assertions and timeouts were not reduced or relaxed.
 
-The corpus audits and original-size diagnostic attempts are complete. Both
+The original corpus audits and original-size diagnostic attempts are complete. Both
 2,000,000-word trigram runs succeed; configuration, aggregate and all five
 per-seed fields match exactly, excluding run timestamps and output locations.
 The control's 50,000-word trace audit succeeds. The candidate aborts with exit
 −6 and `JavaScript heap out of memory` near its default heap limit; no candidate
 trace report is available. The CLI retains the entire traced word array. This
-observed scalability failure needs a separate bounded-retention diagnostic fix,
-without reducing its count or increasing its heap allowance. The original
-failed log is retained.
+observed scalability failure is resolved separately by draft #349, without
+reducing its count or increasing its heap allowance. The original failed log
+is retained; the successful streaming replay is described below.
 
-`measured-results/index.json` binds 116 committed artifacts and records the
-diagnostic failure. Stored and decompressed bytes were verified against every
-indexed hash. The original 118-entry index is preserved under
+`measured-results/index.json` binds 168 committed artifacts, including
+all 116 original artifacts and the completed acceptance revalidation, and records
+the original diagnostic failure. Stored and decompressed bytes were verified
+against every indexed hash. The original 118-entry index is preserved under
 `measured-results/publication-provenance/index-original-v1.json`. Its two Vitest
 cache entries were verified locally but omitted by Git; the corrected index
 explicitly excludes those transient caches as required by the acceptance plan.
 All scientific records, check and timing outcomes, source bytes, and criteria
 remain unchanged. Raw word archives remain separately required for full replay. No human preference gain,
 complete final spelling/pronunciation licensing, or release readiness is claimed.
+
+The complete original corpus, native/independent/legacy reports and all 1,538
+counter comparisons are freshly reconciled without changing source or criteria.
+The exhaustive witness scan also reproduces every original count and full witness.
+Original gate and timing outputs are authenticated and mathematically reconciled;
+this is not a new suite or timing run. Supporting draft #349 independently fixes
+bulk trace-audit retention: both full 50,000-word audits complete with default
+heap and byte-identical metrics to the original control. The original OOM and
+all adverse gate/timing results above remain part of this experiment.
