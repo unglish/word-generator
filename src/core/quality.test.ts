@@ -252,7 +252,9 @@ describe("Generation Mode Benchmarks", () => {
 
     it("monosyllables dominate (> 35%)",     () => expect(stats.syllablePct[1]).toBeGreaterThan(35));
     it("3-syllable words are rare (< 20%)",  () => expect(stats.syllablePct[3]).toBeLessThan(20));
-    it("average word length is short (< 6.5 letters)", () => expect(stats.avgLetters).toBeLessThan(6.5));
+    // Owner-accepted guardrail for root-only budgets: affixes may lengthen the
+    // finished spelling. This ceiling is not an empirical English mean.
+    it("average finished spelling stays below the accepted 7-character ceiling", () => expect(stats.avgLetters).toBeLessThan(7));
   });
 
   // -- Lexicon mode: should resemble a dictionary word list --

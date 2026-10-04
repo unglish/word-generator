@@ -35,7 +35,8 @@ part boundaries. Do not infer those missing boundaries from string slicing.
 The default inventory contains `im`, not `il` or `ir`; the latter belong only in
 explicit custom-configuration tests.
 
-Public-API fixtures will cover the default seed-167 defect, unchanged base forms,
+Public-API fixtures cover the default `in`→`im` defect (historically seed 167),
+using verified current root contexts, unchanged base forms,
 custom longer/shorter prefix and suffix variants (including both), phonological
 and syllabic variants, original index preservation under specificity ordering,
 actual root boundary transforms, cleanup-induced part changes, trace/no-trace

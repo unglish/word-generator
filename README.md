@@ -36,6 +36,24 @@ the same seeded stream.
 By default generation includes morphology when the active config enables it.
 Pass `{ morphology: false }` for bare root forms.
 
+`syllableCount` requests an exact **root** count from 1–7. Affixes are applied
+independently afterward: a one-syllable root plus `-ing` has two syllables;
+`un-` plus a one-syllable root plus `-ness` has three. There is no final-word
+syllable ceiling. With automatic length, the configured phoneme, syllable, and
+letter targets also describe the root.
+
+This changes the earlier whole-word budget behavior: affixes no longer consume
+the requested count or shorten the planned root. Existing morphology-enabled
+seeded outputs change. Bare generation (`morphology: false`) retains its prior
+budget behavior and seeded outputs. Seeds remain deterministic within the same
+version and configuration.
+
+The text-mode quality benchmark accepts an average finished spelling length
+strictly below 7 characters, including affixes. This owner-accepted guardrail
+accommodates longer finished words under root-only budgets; it is neither a
+per-word limit nor an empirical English mean. Other quality thresholds remain
+unchanged.
+
 ## RNG Control
 
 ```ts
@@ -61,20 +79,30 @@ const word = generateWord({ seed: 42, mode: "lexicon", trace: true });
 
 console.log(word.written.clean);
 console.log(word.trace?.summary);
+console.log(word.trace?.targetPhonemeCount);
+console.log(word.trace?.syllablePlans);
 console.log(word.trace?.stages[0]);
 console.log(word.trace?.graphemeSelections[0]);
 ```
+
+For top-down length diagnostics, inspect:
+
+- `trace.targetPhonemeCount` for the planned root phoneme budget
+- `trace.syllablePlans` for the per-root-syllable onset/coda budget
+- `trace.syllableCount` for the root count; `word.syllables.length` for the
+  completed count including selected affix allomorphs
 
 Detailed trace workflow: [`docs/word-trace-diagnostics.md`](./docs/word-trace-diagnostics.md)
 
 ## Top-Down Phoneme Targeting
 
-Generation now plans words top-down:
+Generation plans roots top-down, then attaches the selected affixes:
 
-1. sample a target phoneme count,
-2. sample a compatible syllable count,
+1. sample a target root phoneme count,
+2. sample a compatible root syllable count,
 3. distribute onset/coda consonant budgets across syllables,
-4. generate phonemes, repairs, pronunciation, and spelling.
+4. generate and select the root using root phoneme and letter targets,
+5. attach affixes, resolve allomorphs, and finish pronunciation and spelling.
 
 The built-in English config ships with this wired through:
 

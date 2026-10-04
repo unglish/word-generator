@@ -1,4 +1,4 @@
-import type { Syllable } from "../types.js";
+import type { Syllable, SyllableShapePlan } from "../types.js";
 import type { MorphologyRealizationTrace } from "./morphology/realization.js";
 import type { StressWeightTrace } from "./syllable-weight.js";
 
@@ -61,6 +61,8 @@ export interface MorphologyTrace {
   prefix?: string;
   /** Planned suffix spelling, before allomorph selection. */
   suffix?: string;
+  /** Legacy baseline affix syllable count; not a deduction from the root.
+   * Selected allomorph counts are in realization, and may differ. */
   syllableReduction: number;
   alternations?: MorphophonemicAlternationTrace[];
   /** Selected forms and written parts; absent in historical traces. */
@@ -241,11 +243,15 @@ export interface OrthographyTrace {
 export interface WordTrace {
   /** Weight input and decisions before root nucleus repair/reduction. Absent in historical traces. */
   stressWeight?: StressWeightTrace;
-  /** Target syllable count chosen for this word. */
+  /** Target syllable count chosen for the root, excluding affixes. */
   syllableCount: number;
-  /** How many letter-length rejection attempts before acceptance (0 = first try). */
+  /** Target phoneme count for the generated root before morphology. */
+  targetPhonemeCount?: number;
+  /** Planned onset/coda counts for each generated root syllable. */
+  syllablePlans?: SyllableShapePlan[];
+  /** Root attempt index selected by phoneme/letter-length scoring (0 = first try). */
   attempts: number;
-  /** Morphology plan details (only when morphology was applied). */
+  /** Morphology plan selected for this generation, independent of root length. */
   morphology?: MorphologyTrace;
   /** Structural decisions during syllable generation (boundary adjustments, extensions). */
   structural: StructuralTrace[];
@@ -299,11 +305,15 @@ export class TraceCollector {
   }
 
   syllableCount: number = 0;
+  targetPhonemeCount?: number;
+  syllablePlans?: SyllableShapePlan[];
   attempts: number = 0;
 
   toTrace(morphApplied: boolean): WordTrace {
     return {
       syllableCount: this.syllableCount,
+      targetPhonemeCount: this.targetPhonemeCount,
+      syllablePlans: this.syllablePlans,
       attempts: this.attempts,
       morphology: this.morphologyTrace,
       structural: this.structural,

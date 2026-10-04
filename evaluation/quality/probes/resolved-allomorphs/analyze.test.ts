@@ -12,8 +12,10 @@ import { createSeededRng, generateWord } from "../../../../src/index.js";
 import { englishConfig } from "../../../../src/config/english.js";
 import { analyzeRun, digest, empty, observe, supportsDefaultIm } from "./analyze.mjs";
 
+// Root-only length selection changes the default stream. Seed 690 is a verified
+// in→im witness before bilabial /b/; the analyzer contracts remain unchanged.
 test("separates missing resolution provenance from narrow historical spelling evidence", () => {
-  const word = generateWord({ seed: 167, trace: true });
+  const word = generateWord({ seed: 690, trace: true });
   delete word.trace!.morphology!.realization;
   word.written.clean = `in${word.written.clean.slice(2)}`;
   const result = empty();
@@ -32,13 +34,13 @@ test("does not extend the default inference to changed or ambiguous configuratio
   prefix.allomorphs![0].phonologicalCondition.sounds = ["m"];
   assert.equal(supportsDefaultIm(config), false);
   const result = empty();
-  observe(result, generateWord({ seed: 167, trace: true }), config);
+  observe(result, generateWord({ seed: 690, trace: true }), config);
   assert.equal(result.counts.unknownDerivedInContextWords, 1);
   assert.equal(result.counts.sourceDerivedImEligibleWords, undefined);
 });
 
 test("reports assembled and emitted changes without redefining the selected form", () => {
-  const word = generateWord({ seed: 167, trace: true });
+  const word = generateWord({ seed: 690, trace: true });
   const realization = word.trace!.morphology!.realization!;
   realization.emittedParts[0].text = "i";
   word.written.clean = realization.emittedParts.map(part => part.text).join("");
