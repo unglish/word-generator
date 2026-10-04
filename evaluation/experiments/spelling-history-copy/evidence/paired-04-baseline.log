@@ -1,0 +1,40 @@
+
+ RUN  v3.2.4 /private/tmp/q02-trace-history-performance-v2/baseline
+
+ ↓ src/core/generate.test.ts > Word Generator > generates word with specified syllable count
+ ↓ src/core/generate.test.ts > Word Generator > generates a word with a valid written form
+ ↓ src/core/generate.test.ts > Word Generator > generates a word with a valid pronunciation
+ ↓ src/core/generate.test.ts > Word Generator > keeps hyphenated output aligned after morphology consonant repair
+ ↓ src/core/generate.test.ts > Word Generator > generates reproducible word with seed
+ ↓ src/core/generate.test.ts > Word Generator > rejects invalid forced syllable counts
+ ↓ src/core/generate.test.ts > Word Generator > rejects invalid batch counts
+ ↓ src/core/generate.test.ts > Word Generator > boundary policy decisions are deterministic for fixed seed
+ × src/core/generate.test.ts > Word Generator > risingCodaDrop policy gates rising-coda drop events 62536ms
+   → Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ↓ src/core/generate.test.ts > buildCluster function > produces s + p/t/k + * onset clusters
+ ↓ src/core/generate.test.ts > buildCluster function > produces *some* SSP violating clusters in codas
+ ↓ src/core/generate.test.ts > isValidCluster > should only generate attested onsets > never generates an unattested multi-consonant onset
+ ↓ src/core/generate.test.ts > isValidCluster > should only generate attested codas > never generates an unattested multi-consonant coda
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/generate.test.ts > Word Generator > risingCodaDrop policy gates rising-coda drop events
+Error: Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/core/generate.test.ts:82:3
+     80|   });
+     81| 
+     82|   it("risingCodaDrop policy gates rising-coda drop events", () => {
+       |   ^
+     83|     const alwaysDrop = createGenerator({
+     84|       ...englishConfig,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  13:42:49
+   Duration  63.09s (transform 316ms, setup 0ms, collect 377ms, tests 62.54s, environment 0ms, prepare 53ms)
+
