@@ -121,7 +121,12 @@ observed scalability failure needs a separate bounded-retention diagnostic fix,
 without reducing its count or increasing its heap allowance. The original
 failed log is retained.
 
-`measured-results/index.json` binds 118 retained artifacts and records the
+`measured-results/index.json` binds 116 committed artifacts and records the
 diagnostic failure. Stored and decompressed bytes were verified against every
-indexed hash. Raw word archives remain separately required for full replay. No human preference gain,
+indexed hash. The original 118-entry index is preserved under
+`measured-results/publication-provenance/index-original-v1.json`. Its two Vitest
+cache entries were verified locally but omitted by Git; the corrected index
+explicitly excludes those transient caches as required by the acceptance plan.
+All scientific records, check and timing outcomes, source bytes, and criteria
+remain unchanged. Raw word archives remain separately required for full replay. No human preference gain,
 complete final spelling/pronunciation licensing, or release readiness is claimed.

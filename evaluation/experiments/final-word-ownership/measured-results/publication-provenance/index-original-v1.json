@@ -1,5 +1,5 @@
 {
-  "version": "q02-measured-results-v2",
+  "version": "q02-measured-results-v1",
   "controlCommit": "905ba3e92d396db358504fec1826c1c83f680ff3",
   "measuredCandidateCommit": "7e34a17f31d44d1e31420f458bf6e2d99c5fa038",
   "implementationCommit": "3dd6cf12c49462352dcc9510043aba723af48fcc",
@@ -847,6 +847,22 @@
       "encoding": "original"
     },
     {
+      "file": "tools/active-quality/control/node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json.gz",
+      "bytes": 105,
+      "sha256": "b53208c2fd06cd7b8f1abc5b68ecc9a4a9b2b19451a828be3a54fde6788e630f",
+      "originalBytes": 93,
+      "originalSha256": "24caf62506a85472de8bf7d43eba6b43b9d5279261af2afeac36a74986090567",
+      "encoding": "gzip"
+    },
+    {
+      "file": "tools/active-quality/candidate/node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json.gz",
+      "bytes": 103,
+      "sha256": "a6c7d21dbb7ff09769046cb27bfaa365f4b34797d20fd505ed7f1e2e5b029b11",
+      "originalBytes": 91,
+      "originalSha256": "e93659e5d85d67dc29743808d84082cb9cecd2d9978b5e7fd711b4a28e20e41e",
+      "encoding": "gzip"
+    },
+    {
       "file": "tools/retain-witnesses.py",
       "bytes": 3572,
       "sha256": "f9e11ec8da8e5488e464537390cce1fce7d8aeef4d6b94338098bf7b55ed8bb8",
@@ -935,32 +951,5 @@
       "encoding": "gzip"
     }
   ],
-  "diagnosticDisposition": "Both 2000000-word trigram runs succeed with equal config/aggregate/per-seed fields. Control 50000-word trace audit succeeds; candidate aborts with heap exhaustion, exit -6. Failed log is retained and no candidate trace report is invented.",
-  "publicationCorrection": {
-    "originalIndexFile": "publication-provenance/index-original-v1.json",
-    "originalIndexSha256": "eaed5ba1094e839b28d0e7f8c5babc7a732e6c0070df299cf9921ddf572ae409",
-    "originalIndexedArtifacts": 118,
-    "originalPublishedArtifacts": 116,
-    "reason": "Two transient Vitest cache artifacts were indexed locally but ignored by Git. The fixed Q02 acceptance instructions exclude transient caches. This corrected index binds all 116 originally published scientific, check, timing and diagnostic artifacts, with unchanged bytes.",
-    "excludedTransientCaches": [
-      {
-        "file": "tools/active-quality/control/node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json.gz",
-        "bytes": 105,
-        "sha256": "b53208c2fd06cd7b8f1abc5b68ecc9a4a9b2b19451a828be3a54fde6788e630f",
-        "originalBytes": 93,
-        "originalSha256": "24caf62506a85472de8bf7d43eba6b43b9d5279261af2afeac36a74986090567",
-        "encoding": "gzip"
-      },
-      {
-        "file": "tools/active-quality/candidate/node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json.gz",
-        "bytes": 103,
-        "sha256": "a6c7d21dbb7ff09769046cb27bfaa365f4b34797d20fd505ed7f1e2e5b029b11",
-        "originalBytes": 91,
-        "originalSha256": "e93659e5d85d67dc29743808d84082cb9cecd2d9978b5e7fd711b4a28e20e41e",
-        "encoding": "gzip"
-      }
-    ],
-    "excludedOriginalBytesRecoveredAndAuthenticatedLocally": true,
-    "sourceOrMeasurementChanges": false
-  }
+  "diagnosticDisposition": "Both 2000000-word trigram runs succeed with equal config/aggregate/per-seed fields. Control 50000-word trace audit succeeds; candidate aborts with heap exhaustion, exit -6. Failed log is retained and no candidate trace report is invented."
 }
