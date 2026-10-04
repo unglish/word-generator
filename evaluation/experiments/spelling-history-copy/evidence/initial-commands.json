@@ -1,0 +1,35 @@
+[
+  {
+    "name": "full8000-original-policy-parity",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_policy_parity.mjs"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2/candidate",
+    "startedAt": "2026-10-04T20:35:34.250453+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 0,
+    "completedAt": "2026-10-04T20:36:37.348358+00:00"
+  },
+  {
+    "name": "unchanged-original-policy-gate",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q02-trace-history-performance-v2/candidate/node_modules/vitest/vitest.mjs",
+      "run",
+      "src/core/generate.test.ts",
+      "-t",
+      "risingCodaDrop policy gates rising-coda drop events",
+      "--reporter=verbose"
+    ],
+    "cwd": "/private/tmp/q02-trace-history-performance-v2/candidate",
+    "startedAt": "2026-10-04T20:36:37.365174+00:00",
+    "CI": null,
+    "NODE_OPTIONS": null,
+    "exitCode": 0,
+    "completedAt": "2026-10-04T20:37:24.545003+00:00"
+  }
+]

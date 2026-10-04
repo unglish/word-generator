@@ -1,0 +1,775 @@
+{
+  "terminal": true,
+  "passed": true,
+  "coordinates": 20000,
+  "publicCalls": 80000,
+  "withinArmTraceComparisons": 40000,
+  "acrossArmComparisons": 40000,
+  "nextRngProbes": 160,
+  "strata": [
+    {
+      "active": false,
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "wordsEach": 500,
+      "drawsEach": 46508,
+      "nextValues": {
+        "controlOff": 0.8949775279033929,
+        "controlOn": 0.8949775279033929,
+        "candidateOff": 0.8949775279033929,
+        "candidateOn": 0.8949775279033929
+      },
+      "completeWordHashes": {
+        "controlOff": "5bcb324439a10269941b76f88681bce04ff5cff1d6b26797f5836b059cc2b77d",
+        "controlOn": "e92eb942a50ce7ee2c5bfbd2f7ce7b96fa5c7b8b4e5062fd929e084e49c00113",
+        "candidateOff": "5bcb324439a10269941b76f88681bce04ff5cff1d6b26797f5836b059cc2b77d",
+        "candidateOn": "e92eb942a50ce7ee2c5bfbd2f7ce7b96fa5c7b8b4e5062fd929e084e49c00113"
+      }
+    },
+    {
+      "active": false,
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "wordsEach": 500,
+      "drawsEach": 43569,
+      "nextValues": {
+        "controlOff": 0.8165551978163421,
+        "controlOn": 0.8165551978163421,
+        "candidateOff": 0.8165551978163421,
+        "candidateOn": 0.8165551978163421
+      },
+      "completeWordHashes": {
+        "controlOff": "94b4df2c9b710ac47c9819ab6a33c02b37ce4e12f6df24f8e457a254a72d31e1",
+        "controlOn": "5011f7c0094d1b12bcb115293329214813b329dbed03401ab31d95d7c3b97405",
+        "candidateOff": "94b4df2c9b710ac47c9819ab6a33c02b37ce4e12f6df24f8e457a254a72d31e1",
+        "candidateOn": "5011f7c0094d1b12bcb115293329214813b329dbed03401ab31d95d7c3b97405"
+      }
+    },
+    {
+      "active": false,
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "wordsEach": 500,
+      "drawsEach": 42233,
+      "nextValues": {
+        "controlOff": 0.39096353203058243,
+        "controlOn": 0.39096353203058243,
+        "candidateOff": 0.39096353203058243,
+        "candidateOn": 0.39096353203058243
+      },
+      "completeWordHashes": {
+        "controlOff": "52db87a915267744995cf43d624a5c1abc8a5bbcd4ba76a91a0f31e7fe1c0ec1",
+        "controlOn": "76fc48ffe41723f4444f0db13eda0da7e624fc1c641693fed58d479215b1d87b",
+        "candidateOff": "52db87a915267744995cf43d624a5c1abc8a5bbcd4ba76a91a0f31e7fe1c0ec1",
+        "candidateOn": "76fc48ffe41723f4444f0db13eda0da7e624fc1c641693fed58d479215b1d87b"
+      }
+    },
+    {
+      "active": false,
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "wordsEach": 500,
+      "drawsEach": 46672,
+      "nextValues": {
+        "controlOff": 0.12987389997579157,
+        "controlOn": 0.12987389997579157,
+        "candidateOff": 0.12987389997579157,
+        "candidateOn": 0.12987389997579157
+      },
+      "completeWordHashes": {
+        "controlOff": "e388c8668468d1f345e69524763c8144e27ae80834fa2603253831c7322dba80",
+        "controlOn": "160bb5d192aee9ccfd94ba9c7f57ac50213f42e0cd4e31729e03befd9c12eed5",
+        "candidateOff": "e388c8668468d1f345e69524763c8144e27ae80834fa2603253831c7322dba80",
+        "candidateOn": "160bb5d192aee9ccfd94ba9c7f57ac50213f42e0cd4e31729e03befd9c12eed5"
+      }
+    },
+    {
+      "active": false,
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "wordsEach": 500,
+      "drawsEach": 49519,
+      "nextValues": {
+        "controlOff": 0.9392855376936495,
+        "controlOn": 0.9392855376936495,
+        "candidateOff": 0.9392855376936495,
+        "candidateOn": 0.9392855376936495
+      },
+      "completeWordHashes": {
+        "controlOff": "9c8783cd6ac7d24dd1b2da17894e68a5621302f72bc0a5bb8421c3857b08a782",
+        "controlOn": "c11dc31adfc788683c3dd781753cc00e371ef4bdd2c60500e526020c500aaaba",
+        "candidateOff": "9c8783cd6ac7d24dd1b2da17894e68a5621302f72bc0a5bb8421c3857b08a782",
+        "candidateOn": "c11dc31adfc788683c3dd781753cc00e371ef4bdd2c60500e526020c500aaaba"
+      }
+    },
+    {
+      "active": false,
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "wordsEach": 500,
+      "drawsEach": 41951,
+      "nextValues": {
+        "controlOff": 0.7049321488011628,
+        "controlOn": 0.7049321488011628,
+        "candidateOff": 0.7049321488011628,
+        "candidateOn": 0.7049321488011628
+      },
+      "completeWordHashes": {
+        "controlOff": "0c6443cfd9aa89a71be4b7fd70cb411217122f798424a21c1d7629306244d17b",
+        "controlOn": "b6a5276d818d273a672492dedc78c19890cb59f7b7786f69117947464db67684",
+        "candidateOff": "0c6443cfd9aa89a71be4b7fd70cb411217122f798424a21c1d7629306244d17b",
+        "candidateOn": "b6a5276d818d273a672492dedc78c19890cb59f7b7786f69117947464db67684"
+      }
+    },
+    {
+      "active": false,
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "wordsEach": 500,
+      "drawsEach": 40757,
+      "nextValues": {
+        "controlOff": 0.05399145185947418,
+        "controlOn": 0.05399145185947418,
+        "candidateOff": 0.05399145185947418,
+        "candidateOn": 0.05399145185947418
+      },
+      "completeWordHashes": {
+        "controlOff": "2c6777091e7275db76a2f417038d9128a68f6ac9b930e0123bc299b7d0cefa4d",
+        "controlOn": "cb26ae86667591124fd77b18547667ef386c8f86a23e2c2ea77433b1dcf57352",
+        "candidateOff": "2c6777091e7275db76a2f417038d9128a68f6ac9b930e0123bc299b7d0cefa4d",
+        "candidateOn": "cb26ae86667591124fd77b18547667ef386c8f86a23e2c2ea77433b1dcf57352"
+      }
+    },
+    {
+      "active": false,
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "wordsEach": 500,
+      "drawsEach": 41362,
+      "nextValues": {
+        "controlOff": 0.5645139110274613,
+        "controlOn": 0.5645139110274613,
+        "candidateOff": 0.5645139110274613,
+        "candidateOn": 0.5645139110274613
+      },
+      "completeWordHashes": {
+        "controlOff": "e3d5a45f13d3858e4f66b4c0e8243a5f781bb8137e719420d093f01666e5ee4c",
+        "controlOn": "42a6701e7e982c96f11b8c793a5479d683f52581a4b3352ae045e6deed899a3a",
+        "candidateOff": "e3d5a45f13d3858e4f66b4c0e8243a5f781bb8137e719420d093f01666e5ee4c",
+        "candidateOn": "42a6701e7e982c96f11b8c793a5479d683f52581a4b3352ae045e6deed899a3a"
+      }
+    },
+    {
+      "active": false,
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "wordsEach": 500,
+      "drawsEach": 45759,
+      "nextValues": {
+        "controlOff": 0.41341515025123954,
+        "controlOn": 0.41341515025123954,
+        "candidateOff": 0.41341515025123954,
+        "candidateOn": 0.41341515025123954
+      },
+      "completeWordHashes": {
+        "controlOff": "2c448b2666ab61fc1f2bc282d94428cb3933dc7d4f4d18476b8f6c146ad17d45",
+        "controlOn": "7f6b824cdb6065d04d9e8344c1591ff64669c31950a96d5347aa91f7d632be71",
+        "candidateOff": "2c448b2666ab61fc1f2bc282d94428cb3933dc7d4f4d18476b8f6c146ad17d45",
+        "candidateOn": "7f6b824cdb6065d04d9e8344c1591ff64669c31950a96d5347aa91f7d632be71"
+      }
+    },
+    {
+      "active": false,
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "wordsEach": 500,
+      "drawsEach": 46985,
+      "nextValues": {
+        "controlOff": 0.8880757929291576,
+        "controlOn": 0.8880757929291576,
+        "candidateOff": 0.8880757929291576,
+        "candidateOn": 0.8880757929291576
+      },
+      "completeWordHashes": {
+        "controlOff": "70bd15f4c3c6080d8773985fca167513c2007c38c4ff30792d09c41cc3073de6",
+        "controlOn": "1481bbd6d29aac386eb40a0309fdf5027dfd65f1fd2ca52346133f59c35188d8",
+        "candidateOff": "70bd15f4c3c6080d8773985fca167513c2007c38c4ff30792d09c41cc3073de6",
+        "candidateOn": "1481bbd6d29aac386eb40a0309fdf5027dfd65f1fd2ca52346133f59c35188d8"
+      }
+    },
+    {
+      "active": false,
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "wordsEach": 500,
+      "drawsEach": 64315,
+      "nextValues": {
+        "controlOff": 0.6938810294959694,
+        "controlOn": 0.6938810294959694,
+        "candidateOff": 0.6938810294959694,
+        "candidateOn": 0.6938810294959694
+      },
+      "completeWordHashes": {
+        "controlOff": "3d514cb3a68c6ee0f0b5c3aac8fb4c60397c17b5f8158b5e723e735a2f8413d2",
+        "controlOn": "ea2223046958b08ec2a07cf8a8264632b4291fc38e9dbd667c1b1786c9554020",
+        "candidateOff": "3d514cb3a68c6ee0f0b5c3aac8fb4c60397c17b5f8158b5e723e735a2f8413d2",
+        "candidateOn": "ea2223046958b08ec2a07cf8a8264632b4291fc38e9dbd667c1b1786c9554020"
+      }
+    },
+    {
+      "active": false,
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "wordsEach": 500,
+      "drawsEach": 61540,
+      "nextValues": {
+        "controlOff": 0.09301384421996772,
+        "controlOn": 0.09301384421996772,
+        "candidateOff": 0.09301384421996772,
+        "candidateOn": 0.09301384421996772
+      },
+      "completeWordHashes": {
+        "controlOff": "4e59aced22db39ac9af5bd11bf4b09be73b94b8d0976aa0ab25bea4e38b3022b",
+        "controlOn": "bca3172ce05c6b31359cd313f8ba63fcf16530c0c22092700660ca97de4a5395",
+        "candidateOff": "4e59aced22db39ac9af5bd11bf4b09be73b94b8d0976aa0ab25bea4e38b3022b",
+        "candidateOn": "bca3172ce05c6b31359cd313f8ba63fcf16530c0c22092700660ca97de4a5395"
+      }
+    },
+    {
+      "active": false,
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "wordsEach": 500,
+      "drawsEach": 65508,
+      "nextValues": {
+        "controlOff": 0.8084913003258407,
+        "controlOn": 0.8084913003258407,
+        "candidateOff": 0.8084913003258407,
+        "candidateOn": 0.8084913003258407
+      },
+      "completeWordHashes": {
+        "controlOff": "f7e679d57f2050d399f607300d36f7db58304392a515d15861a361dafe219cdb",
+        "controlOn": "171dd862651bbe5ef15cd919cdd9015071c3c7642a4633d7de15dd3060247436",
+        "candidateOff": "f7e679d57f2050d399f607300d36f7db58304392a515d15861a361dafe219cdb",
+        "candidateOn": "171dd862651bbe5ef15cd919cdd9015071c3c7642a4633d7de15dd3060247436"
+      }
+    },
+    {
+      "active": false,
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "wordsEach": 500,
+      "drawsEach": 60054,
+      "nextValues": {
+        "controlOff": 0.16647115792147815,
+        "controlOn": 0.16647115792147815,
+        "candidateOff": 0.16647115792147815,
+        "candidateOn": 0.16647115792147815
+      },
+      "completeWordHashes": {
+        "controlOff": "dd972d6ef5584e3ed51faaadb7f27865c95a50502c4fcf98f019e41998fafbcf",
+        "controlOn": "b3af253f44fbd63cd2b2f936bd32ab1a0bdd50129185c078c4d959cf91ac9844",
+        "candidateOff": "dd972d6ef5584e3ed51faaadb7f27865c95a50502c4fcf98f019e41998fafbcf",
+        "candidateOn": "b3af253f44fbd63cd2b2f936bd32ab1a0bdd50129185c078c4d959cf91ac9844"
+      }
+    },
+    {
+      "active": false,
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "wordsEach": 500,
+      "drawsEach": 59689,
+      "nextValues": {
+        "controlOff": 0.5004043509252369,
+        "controlOn": 0.5004043509252369,
+        "candidateOff": 0.5004043509252369,
+        "candidateOn": 0.5004043509252369
+      },
+      "completeWordHashes": {
+        "controlOff": "bc8381c46710e213e82ff54938ba30d1473326c2d90afbd163400d2993fa6401",
+        "controlOn": "fb090a1242c84e895731464586f5ced501d55948428d460f6ee3cff29ae1d164",
+        "candidateOff": "bc8381c46710e213e82ff54938ba30d1473326c2d90afbd163400d2993fa6401",
+        "candidateOn": "fb090a1242c84e895731464586f5ced501d55948428d460f6ee3cff29ae1d164"
+      }
+    },
+    {
+      "active": false,
+      "profile": "text-default",
+      "seed": 4167471042,
+      "wordsEach": 500,
+      "drawsEach": 32895,
+      "nextValues": {
+        "controlOff": 0.38760332111269236,
+        "controlOn": 0.38760332111269236,
+        "candidateOff": 0.38760332111269236,
+        "candidateOn": 0.38760332111269236
+      },
+      "completeWordHashes": {
+        "controlOff": "6c3034e96447bcc5f069a7e2e67bcf1b297856c40f36cbc4abebe81bfa101ec7",
+        "controlOn": "38c652eea4da8228cc594677d96b1ac953006b9bb61c444bf4af480df29bf2ca",
+        "candidateOff": "6c3034e96447bcc5f069a7e2e67bcf1b297856c40f36cbc4abebe81bfa101ec7",
+        "candidateOn": "38c652eea4da8228cc594677d96b1ac953006b9bb61c444bf4af480df29bf2ca"
+      }
+    },
+    {
+      "active": false,
+      "profile": "text-default",
+      "seed": 2666001996,
+      "wordsEach": 500,
+      "drawsEach": 30685,
+      "nextValues": {
+        "controlOff": 0.12173633929342031,
+        "controlOn": 0.12173633929342031,
+        "candidateOff": 0.12173633929342031,
+        "candidateOn": 0.12173633929342031
+      },
+      "completeWordHashes": {
+        "controlOff": "1f7c8e5298fb480b4db63dfa4ee629bc216325242e3951113799bb03489bdcce",
+        "controlOn": "08d255a90f3a0a2546f18af3279fedf137d3587f7fffd39114f78bdf3fee33ae",
+        "candidateOff": "1f7c8e5298fb480b4db63dfa4ee629bc216325242e3951113799bb03489bdcce",
+        "candidateOn": "08d255a90f3a0a2546f18af3279fedf137d3587f7fffd39114f78bdf3fee33ae"
+      }
+    },
+    {
+      "active": false,
+      "profile": "text-default",
+      "seed": 3562318933,
+      "wordsEach": 500,
+      "drawsEach": 31286,
+      "nextValues": {
+        "controlOff": 0.6959140205290169,
+        "controlOn": 0.6959140205290169,
+        "candidateOff": 0.6959140205290169,
+        "candidateOn": 0.6959140205290169
+      },
+      "completeWordHashes": {
+        "controlOff": "83144c318ad9d9c67ab609459927f02ed104008eefce7ba7406dfb16b9ea5ef9",
+        "controlOn": "e3a8a8e04893ea35c7a2fec4866e23ad004a41b7f113cc15230846d3dfd7f2d8",
+        "candidateOff": "83144c318ad9d9c67ab609459927f02ed104008eefce7ba7406dfb16b9ea5ef9",
+        "candidateOn": "e3a8a8e04893ea35c7a2fec4866e23ad004a41b7f113cc15230846d3dfd7f2d8"
+      }
+    },
+    {
+      "active": false,
+      "profile": "text-default",
+      "seed": 1999736106,
+      "wordsEach": 500,
+      "drawsEach": 32301,
+      "nextValues": {
+        "controlOff": 0.6278620432130992,
+        "controlOn": 0.6278620432130992,
+        "candidateOff": 0.6278620432130992,
+        "candidateOn": 0.6278620432130992
+      },
+      "completeWordHashes": {
+        "controlOff": "5914eed17127882e939cd238a86950e44c1859a685a1d686f6f23ced7128313b",
+        "controlOn": "d1dd2e4146de72ea6a3ca0fe4cfbbbe54055737b3353856de260e82c1e10da5e",
+        "candidateOff": "5914eed17127882e939cd238a86950e44c1859a685a1d686f6f23ced7128313b",
+        "candidateOn": "d1dd2e4146de72ea6a3ca0fe4cfbbbe54055737b3353856de260e82c1e10da5e"
+      }
+    },
+    {
+      "active": false,
+      "profile": "text-default",
+      "seed": 1665836705,
+      "wordsEach": 500,
+      "drawsEach": 29122,
+      "nextValues": {
+        "controlOff": 0.6494067725725472,
+        "controlOn": 0.6494067725725472,
+        "candidateOff": 0.6494067725725472,
+        "candidateOn": 0.6494067725725472
+      },
+      "completeWordHashes": {
+        "controlOff": "b53a88a854ec74dadfdfd453f13821033eb25ecdf10ccee72d0ccd23accda0ee",
+        "controlOn": "b4a2af5063cf66c0fad38a8fca5c3e9c509be2d5be85df52c55c721d9fda04c6",
+        "candidateOff": "b53a88a854ec74dadfdfd453f13821033eb25ecdf10ccee72d0ccd23accda0ee",
+        "candidateOn": "b4a2af5063cf66c0fad38a8fca5c3e9c509be2d5be85df52c55c721d9fda04c6"
+      }
+    },
+    {
+      "active": true,
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "wordsEach": 500,
+      "drawsEach": 47352,
+      "nextValues": {
+        "controlOff": 0.14573849947191775,
+        "controlOn": 0.14573849947191775,
+        "candidateOff": 0.14573849947191775,
+        "candidateOn": 0.14573849947191775
+      },
+      "completeWordHashes": {
+        "controlOff": "f57ef307c6b1445214a002b622e7b72f09bb8705f4da2d39fc9b7b43f64fe8de",
+        "controlOn": "3cb81275c7802ca5ff8312b134696f598597455238ce12a7d53f9aafc20c8c2e",
+        "candidateOff": "f57ef307c6b1445214a002b622e7b72f09bb8705f4da2d39fc9b7b43f64fe8de",
+        "candidateOn": "3cb81275c7802ca5ff8312b134696f598597455238ce12a7d53f9aafc20c8c2e"
+      }
+    },
+    {
+      "active": true,
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "wordsEach": 500,
+      "drawsEach": 48844,
+      "nextValues": {
+        "controlOff": 0.10436659958213568,
+        "controlOn": 0.10436659958213568,
+        "candidateOff": 0.10436659958213568,
+        "candidateOn": 0.10436659958213568
+      },
+      "completeWordHashes": {
+        "controlOff": "6aa8a7809d9939a4715b2fe8cfc5fb199caf5ca07272f6faaf40bb8932f33dc9",
+        "controlOn": "4a9667075f292f0449c1dbeaab5f4a1cf74d834ea4cae22b5364beb6b36ac3ab",
+        "candidateOff": "6aa8a7809d9939a4715b2fe8cfc5fb199caf5ca07272f6faaf40bb8932f33dc9",
+        "candidateOn": "4a9667075f292f0449c1dbeaab5f4a1cf74d834ea4cae22b5364beb6b36ac3ab"
+      }
+    },
+    {
+      "active": true,
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "wordsEach": 500,
+      "drawsEach": 51544,
+      "nextValues": {
+        "controlOff": 0.5394048721063882,
+        "controlOn": 0.5394048721063882,
+        "candidateOff": 0.5394048721063882,
+        "candidateOn": 0.5394048721063882
+      },
+      "completeWordHashes": {
+        "controlOff": "8cb9fc1e6a1d9a5b840de4c9bcc9dfc873cc21132d9971c2c736c04157192837",
+        "controlOn": "0b4dc1b7d2a9d62ad390ce5606a952a8bc6fd5cfc4a752e1cdbca001e99b8788",
+        "candidateOff": "8cb9fc1e6a1d9a5b840de4c9bcc9dfc873cc21132d9971c2c736c04157192837",
+        "candidateOn": "0b4dc1b7d2a9d62ad390ce5606a952a8bc6fd5cfc4a752e1cdbca001e99b8788"
+      }
+    },
+    {
+      "active": true,
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "wordsEach": 500,
+      "drawsEach": 48935,
+      "nextValues": {
+        "controlOff": 0.20021020411513746,
+        "controlOn": 0.20021020411513746,
+        "candidateOff": 0.20021020411513746,
+        "candidateOn": 0.20021020411513746
+      },
+      "completeWordHashes": {
+        "controlOff": "aca33578d0a62f01e518fa48e77f51199c146abe8a3cbeae744175c8eda26cc8",
+        "controlOn": "b5d14c6cd55c5d386aec1ce275c1b46acdf0067f44fba59cad0a9c335a6dd9b9",
+        "candidateOff": "aca33578d0a62f01e518fa48e77f51199c146abe8a3cbeae744175c8eda26cc8",
+        "candidateOn": "b5d14c6cd55c5d386aec1ce275c1b46acdf0067f44fba59cad0a9c335a6dd9b9"
+      }
+    },
+    {
+      "active": true,
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "wordsEach": 500,
+      "drawsEach": 48413,
+      "nextValues": {
+        "controlOff": 0.8234377561602741,
+        "controlOn": 0.8234377561602741,
+        "candidateOff": 0.8234377561602741,
+        "candidateOn": 0.8234377561602741
+      },
+      "completeWordHashes": {
+        "controlOff": "84e44e069468f31f302f739ed4a390e80dde4974bd75085daebedaf32a6eac4e",
+        "controlOn": "1c045991d66a241791f887af09e92aff751818bd4fe69201c9d959907e2af6e0",
+        "candidateOff": "84e44e069468f31f302f739ed4a390e80dde4974bd75085daebedaf32a6eac4e",
+        "candidateOn": "1c045991d66a241791f887af09e92aff751818bd4fe69201c9d959907e2af6e0"
+      }
+    },
+    {
+      "active": true,
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "wordsEach": 500,
+      "drawsEach": 41583,
+      "nextValues": {
+        "controlOff": 0.9066955717280507,
+        "controlOn": 0.9066955717280507,
+        "candidateOff": 0.9066955717280507,
+        "candidateOn": 0.9066955717280507
+      },
+      "completeWordHashes": {
+        "controlOff": "609fe85bded5dedb1f3cbd03c0d0e3c26c92e0303599c88a0ed48121732aacac",
+        "controlOn": "92df8373bd481ab5c3cf4dcf19ccc6e048518108cb928ef4a4ea066aac488b50",
+        "candidateOff": "609fe85bded5dedb1f3cbd03c0d0e3c26c92e0303599c88a0ed48121732aacac",
+        "candidateOn": "92df8373bd481ab5c3cf4dcf19ccc6e048518108cb928ef4a4ea066aac488b50"
+      }
+    },
+    {
+      "active": true,
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "wordsEach": 500,
+      "drawsEach": 47672,
+      "nextValues": {
+        "controlOff": 0.8341557485982776,
+        "controlOn": 0.8341557485982776,
+        "candidateOff": 0.8341557485982776,
+        "candidateOn": 0.8341557485982776
+      },
+      "completeWordHashes": {
+        "controlOff": "b4bbf6ecdbd96e9ea7beafaea22cad7f1edfa2e3660a5a90622c5144fce4f36d",
+        "controlOn": "5b8e7f2d460746f9eecd858965c059b1249e0e0e43e7cc69740f6849c3d8fc17",
+        "candidateOff": "b4bbf6ecdbd96e9ea7beafaea22cad7f1edfa2e3660a5a90622c5144fce4f36d",
+        "candidateOn": "5b8e7f2d460746f9eecd858965c059b1249e0e0e43e7cc69740f6849c3d8fc17"
+      }
+    },
+    {
+      "active": true,
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "wordsEach": 500,
+      "drawsEach": 43362,
+      "nextValues": {
+        "controlOff": 0.361185384914279,
+        "controlOn": 0.361185384914279,
+        "candidateOff": 0.361185384914279,
+        "candidateOn": 0.361185384914279
+      },
+      "completeWordHashes": {
+        "controlOff": "3557fa0686b4dbaa54bb9c35b6a27bd3cd3b25df125570c57e4cecf7ce2b8fff",
+        "controlOn": "4a03c31d0697f602135ca2fc0446a4ce4eb051d14c03464765441ad7c4b7455b",
+        "candidateOff": "3557fa0686b4dbaa54bb9c35b6a27bd3cd3b25df125570c57e4cecf7ce2b8fff",
+        "candidateOn": "4a03c31d0697f602135ca2fc0446a4ce4eb051d14c03464765441ad7c4b7455b"
+      }
+    },
+    {
+      "active": true,
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "wordsEach": 500,
+      "drawsEach": 49906,
+      "nextValues": {
+        "controlOff": 0.06506197131238878,
+        "controlOn": 0.06506197131238878,
+        "candidateOff": 0.06506197131238878,
+        "candidateOn": 0.06506197131238878
+      },
+      "completeWordHashes": {
+        "controlOff": "63f1ef13f4318500d336d58973267b3fa90d28a052204bad60ab82c4b4cbca5c",
+        "controlOn": "2fab4260e917dee58c5ce8c17eb3d182507108d8819a168a1e89b8f4e39ce02c",
+        "candidateOff": "63f1ef13f4318500d336d58973267b3fa90d28a052204bad60ab82c4b4cbca5c",
+        "candidateOn": "2fab4260e917dee58c5ce8c17eb3d182507108d8819a168a1e89b8f4e39ce02c"
+      }
+    },
+    {
+      "active": true,
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "wordsEach": 500,
+      "drawsEach": 46989,
+      "nextValues": {
+        "controlOff": 0.4015843116212636,
+        "controlOn": 0.4015843116212636,
+        "candidateOff": 0.4015843116212636,
+        "candidateOn": 0.4015843116212636
+      },
+      "completeWordHashes": {
+        "controlOff": "18f1c72459d3a2722564d2cf6d8d768b72cf37c8e6b99f2566589d9b3287daec",
+        "controlOn": "7ed3603d7fb280adc0c5944280c384ca0a04a80da285a3e0fd436dba599f3e4b",
+        "candidateOff": "18f1c72459d3a2722564d2cf6d8d768b72cf37c8e6b99f2566589d9b3287daec",
+        "candidateOn": "7ed3603d7fb280adc0c5944280c384ca0a04a80da285a3e0fd436dba599f3e4b"
+      }
+    },
+    {
+      "active": true,
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "wordsEach": 500,
+      "drawsEach": 70851,
+      "nextValues": {
+        "controlOff": 0.11853119521401823,
+        "controlOn": 0.11853119521401823,
+        "candidateOff": 0.11853119521401823,
+        "candidateOn": 0.11853119521401823
+      },
+      "completeWordHashes": {
+        "controlOff": "4f64c1bdbaa55a2a13cfec409bda72186fdb389ba966fdf8a7589a24a0d7aad2",
+        "controlOn": "726dd79a8728f505691dcc04b2f4c50ac635784e02a9963620a32e1289e65801",
+        "candidateOff": "4f64c1bdbaa55a2a13cfec409bda72186fdb389ba966fdf8a7589a24a0d7aad2",
+        "candidateOn": "726dd79a8728f505691dcc04b2f4c50ac635784e02a9963620a32e1289e65801"
+      }
+    },
+    {
+      "active": true,
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "wordsEach": 500,
+      "drawsEach": 73519,
+      "nextValues": {
+        "controlOff": 0.43398140254430473,
+        "controlOn": 0.43398140254430473,
+        "candidateOff": 0.43398140254430473,
+        "candidateOn": 0.43398140254430473
+      },
+      "completeWordHashes": {
+        "controlOff": "5e7d266dffb5c7edb18efb8fece017ffec594e94182633b97ddae5ec43751819",
+        "controlOn": "31be089de41976178ddde0d5ff1958fccbb71b2b8b564c074e0f7d911ccdd214",
+        "candidateOff": "5e7d266dffb5c7edb18efb8fece017ffec594e94182633b97ddae5ec43751819",
+        "candidateOn": "31be089de41976178ddde0d5ff1958fccbb71b2b8b564c074e0f7d911ccdd214"
+      }
+    },
+    {
+      "active": true,
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "wordsEach": 500,
+      "drawsEach": 73206,
+      "nextValues": {
+        "controlOff": 0.5024731457233429,
+        "controlOn": 0.5024731457233429,
+        "candidateOff": 0.5024731457233429,
+        "candidateOn": 0.5024731457233429
+      },
+      "completeWordHashes": {
+        "controlOff": "c4a6f764131e678b1ab30565414c11fb0199e6f7de8258af95461b21b6c5c36a",
+        "controlOn": "edc19eea97d7acedab20307552990aa4b0445d2937e948b159e8f1d28d1fd969",
+        "candidateOff": "c4a6f764131e678b1ab30565414c11fb0199e6f7de8258af95461b21b6c5c36a",
+        "candidateOn": "edc19eea97d7acedab20307552990aa4b0445d2937e948b159e8f1d28d1fd969"
+      }
+    },
+    {
+      "active": true,
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "wordsEach": 500,
+      "drawsEach": 71007,
+      "nextValues": {
+        "controlOff": 0.7429138161242008,
+        "controlOn": 0.7429138161242008,
+        "candidateOff": 0.7429138161242008,
+        "candidateOn": 0.7429138161242008
+      },
+      "completeWordHashes": {
+        "controlOff": "734615fe1a70dcca47b9a0ebe7f94a0311dd3088e23d8d700f8b1e512adfbed3",
+        "controlOn": "d14b8fc590879b1344ea7c84d8a65d8e8629ffed6249ca917d2fc107b42cb24b",
+        "candidateOff": "734615fe1a70dcca47b9a0ebe7f94a0311dd3088e23d8d700f8b1e512adfbed3",
+        "candidateOn": "d14b8fc590879b1344ea7c84d8a65d8e8629ffed6249ca917d2fc107b42cb24b"
+      }
+    },
+    {
+      "active": true,
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "wordsEach": 500,
+      "drawsEach": 74718,
+      "nextValues": {
+        "controlOff": 0.46883246093057096,
+        "controlOn": 0.46883246093057096,
+        "candidateOff": 0.46883246093057096,
+        "candidateOn": 0.46883246093057096
+      },
+      "completeWordHashes": {
+        "controlOff": "88c5b53b3c3681c3711d9ce737051f6ea7c7cffe51835be68dbf8c58d560a305",
+        "controlOn": "bbe1e74f279175ba448bbc39d6b3ac02950e787adbd1c36576620766839f3279",
+        "candidateOff": "88c5b53b3c3681c3711d9ce737051f6ea7c7cffe51835be68dbf8c58d560a305",
+        "candidateOn": "bbe1e74f279175ba448bbc39d6b3ac02950e787adbd1c36576620766839f3279"
+      }
+    },
+    {
+      "active": true,
+      "profile": "text-default",
+      "seed": 4167471042,
+      "wordsEach": 500,
+      "drawsEach": 33226,
+      "nextValues": {
+        "controlOff": 0.879510848550126,
+        "controlOn": 0.879510848550126,
+        "candidateOff": 0.879510848550126,
+        "candidateOn": 0.879510848550126
+      },
+      "completeWordHashes": {
+        "controlOff": "471b3f21481bd59115a8e0a54052af79d0d867cffd698e404f3bcf042ab21125",
+        "controlOn": "ea6320226f185e7f822e969154a403fab735902cb822acf6e8537fbe173e4a7f",
+        "candidateOff": "471b3f21481bd59115a8e0a54052af79d0d867cffd698e404f3bcf042ab21125",
+        "candidateOn": "ea6320226f185e7f822e969154a403fab735902cb822acf6e8537fbe173e4a7f"
+      }
+    },
+    {
+      "active": true,
+      "profile": "text-default",
+      "seed": 2666001996,
+      "wordsEach": 500,
+      "drawsEach": 37326,
+      "nextValues": {
+        "controlOff": 0.5910751395858824,
+        "controlOn": 0.5910751395858824,
+        "candidateOff": 0.5910751395858824,
+        "candidateOn": 0.5910751395858824
+      },
+      "completeWordHashes": {
+        "controlOff": "90ac4b61a9878a2d8f8ad94ee542a5979c194c33f674b4b4be17f82cce2852e2",
+        "controlOn": "a189ab30d2d4a01d0e791ab9ad7e57abe6d82212c9fa28093f18c9c35e567c63",
+        "candidateOff": "90ac4b61a9878a2d8f8ad94ee542a5979c194c33f674b4b4be17f82cce2852e2",
+        "candidateOn": "a189ab30d2d4a01d0e791ab9ad7e57abe6d82212c9fa28093f18c9c35e567c63"
+      }
+    },
+    {
+      "active": true,
+      "profile": "text-default",
+      "seed": 3562318933,
+      "wordsEach": 500,
+      "drawsEach": 33857,
+      "nextValues": {
+        "controlOff": 0.7109733023680747,
+        "controlOn": 0.7109733023680747,
+        "candidateOff": 0.7109733023680747,
+        "candidateOn": 0.7109733023680747
+      },
+      "completeWordHashes": {
+        "controlOff": "316ab582d2c66497e79e0d7257e1842b4f57f1b650677d8aef8f5f9d40ad6843",
+        "controlOn": "9110887e5eb026c4454ba22bac292a548e53e08a1b31836b9e0f4a815753ae9c",
+        "candidateOff": "316ab582d2c66497e79e0d7257e1842b4f57f1b650677d8aef8f5f9d40ad6843",
+        "candidateOn": "9110887e5eb026c4454ba22bac292a548e53e08a1b31836b9e0f4a815753ae9c"
+      }
+    },
+    {
+      "active": true,
+      "profile": "text-default",
+      "seed": 1999736106,
+      "wordsEach": 500,
+      "drawsEach": 35179,
+      "nextValues": {
+        "controlOff": 0.25264505855739117,
+        "controlOn": 0.25264505855739117,
+        "candidateOff": 0.25264505855739117,
+        "candidateOn": 0.25264505855739117
+      },
+      "completeWordHashes": {
+        "controlOff": "27633af549a4b552bb592b97d1eca0899abec16cf78db012ded9f7584d7783f7",
+        "controlOn": "b9dec89313abbdad506856af2abc7f26dd163f5c3c8b55806e89a9e8d4262f0f",
+        "candidateOff": "27633af549a4b552bb592b97d1eca0899abec16cf78db012ded9f7584d7783f7",
+        "candidateOn": "b9dec89313abbdad506856af2abc7f26dd163f5c3c8b55806e89a9e8d4262f0f"
+      }
+    },
+    {
+      "active": true,
+      "profile": "text-default",
+      "seed": 1665836705,
+      "wordsEach": 500,
+      "drawsEach": 36456,
+      "nextValues": {
+        "controlOff": 0.0013734896201640368,
+        "controlOn": 0.0013734896201640368,
+        "candidateOff": 0.0013734896201640368,
+        "candidateOn": 0.0013734896201640368
+      },
+      "completeWordHashes": {
+        "controlOff": "a9f25f4337a7fe96e567e45506e6f50465698c1ddc6c94dea62ecee776087a83",
+        "controlOn": "c342da1e953a124357c4735e5bf4208ab0fb6f6a137a040cd0562544c0382a9a",
+        "candidateOff": "a9f25f4337a7fe96e567e45506e6f50465698c1ddc6c94dea62ecee776087a83",
+        "candidateOn": "c342da1e953a124357c4735e5bf4208ab0fb6f6a137a040cd0562544c0382a9a"
+      }
+    }
+  ],
+  "rawRecordSha256": "a39c365c1aad85a1bfe24fec1a071d580c6afa990bda2c32b6e31d2b6cd2d697",
+  "registrationSha256": "693aaf66aca091f5d0f36d6b29fb61330c9f2ea026960bf3893d8a14e6c83219",
+  "runnerSha256": "4d57bf88c93b32f1c63c6de54743212d67015d41acedfe7139ebcd0b979f962d",
+  "scope": "Full original twenty-stream/first500 schedule under default and active policies, extended to both trace modes on both exact formal sources. All four full public Words and cumulative RNG counts retained per coordinate. Across-arm completeWordandtrace equality usesno removedfields; within-arm completeWords differonlybytrace. Bothsources alreadycontainQ02finalWord provenance. Not a full200000-coordinate RNG certificate or naturalness result."
+}

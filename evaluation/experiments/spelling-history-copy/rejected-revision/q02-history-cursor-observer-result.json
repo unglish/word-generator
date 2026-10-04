@@ -1,0 +1,16 @@
+[
+  {
+    "role": "baseline",
+    "version": 4,
+    "surface": "ax",
+    "timelineCursorSymbols": 0,
+    "eventCursorSymbols": 0
+  },
+  {
+    "role": "candidate",
+    "version": 4,
+    "surface": "ax",
+    "timelineCursorSymbols": 1,
+    "eventCursorSymbols": 0
+  }
+]

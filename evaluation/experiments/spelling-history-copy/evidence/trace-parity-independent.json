@@ -1,0 +1,338 @@
+{
+  "passed": true,
+  "coordinates": 20000,
+  "completePublicWords": 80000,
+  "withinArmTraceComparisons": 40000,
+  "acrossArmComparisons": 40000,
+  "perCoordinateRngCountQuartets": 20000,
+  "nextRngValuesChecked": 160,
+  "activeFullArchivedWordsCompared": 20000,
+  "all160NativeFullWordStreamHashesIndependentlyReconstructed": true,
+  "rawRecordSha256": "a39c365c1aad85a1bfe24fec1a071d580c6afa990bda2c32b6e31d2b6cd2d697",
+  "rawCompressedSha256": "7ee057e1aa36f6baa3b4d86222eb70fbadd169d941a3edb40f716979fa7c26f8",
+  "sourceBindingSha256": "7225db50f6bdc11a80996890cbdda0d69e543690c9938e9c7a86a5d8a868ef2d",
+  "nativeReportSha256": "66c1a8a10bfa565ea59b701b1537889092197bd513fa1a86bf620fa26ac8c0ba",
+  "strata": [
+    {
+      "active": false,
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "coordinates": 500,
+      "drawsEach": 46508,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "coordinates": 500,
+      "drawsEach": 43569,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "coordinates": 500,
+      "drawsEach": 42233,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "coordinates": 500,
+      "drawsEach": 46672,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "coordinates": 500,
+      "drawsEach": 49519,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "coordinates": 500,
+      "drawsEach": 41951,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "coordinates": 500,
+      "drawsEach": 40757,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "coordinates": 500,
+      "drawsEach": 41362,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "coordinates": 500,
+      "drawsEach": 45759,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "coordinates": 500,
+      "drawsEach": 46985,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "coordinates": 500,
+      "drawsEach": 64315,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "coordinates": 500,
+      "drawsEach": 61540,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "coordinates": 500,
+      "drawsEach": 65508,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "coordinates": 500,
+      "drawsEach": 60054,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "coordinates": 500,
+      "drawsEach": 59689,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "text-default",
+      "seed": 4167471042,
+      "coordinates": 500,
+      "drawsEach": 32895,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "text-default",
+      "seed": 2666001996,
+      "coordinates": 500,
+      "drawsEach": 30685,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "text-default",
+      "seed": 3562318933,
+      "coordinates": 500,
+      "drawsEach": 31286,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "text-default",
+      "seed": 1999736106,
+      "coordinates": 500,
+      "drawsEach": 32301,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": false,
+      "profile": "text-default",
+      "seed": 1665836705,
+      "coordinates": 500,
+      "drawsEach": 29122,
+      "archiveWordsCompared": 0
+    },
+    {
+      "active": true,
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "coordinates": 500,
+      "drawsEach": 47352,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "coordinates": 500,
+      "drawsEach": 48844,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "coordinates": 500,
+      "drawsEach": 51544,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "coordinates": 500,
+      "drawsEach": 48935,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "coordinates": 500,
+      "drawsEach": 48413,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "coordinates": 500,
+      "drawsEach": 41583,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "coordinates": 500,
+      "drawsEach": 47672,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "coordinates": 500,
+      "drawsEach": 43362,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "coordinates": 500,
+      "drawsEach": 49906,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "coordinates": 500,
+      "drawsEach": 46989,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "coordinates": 500,
+      "drawsEach": 70851,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "coordinates": 500,
+      "drawsEach": 73519,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "coordinates": 500,
+      "drawsEach": 73206,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "coordinates": 500,
+      "drawsEach": 71007,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "coordinates": 500,
+      "drawsEach": 74718,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "text-default",
+      "seed": 4167471042,
+      "coordinates": 500,
+      "drawsEach": 33226,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "text-default",
+      "seed": 2666001996,
+      "coordinates": 500,
+      "drawsEach": 37326,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "text-default",
+      "seed": 3562318933,
+      "coordinates": 500,
+      "drawsEach": 33857,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "text-default",
+      "seed": 1999736106,
+      "coordinates": 500,
+      "drawsEach": 35179,
+      "archiveWordsCompared": 1000
+    },
+    {
+      "active": true,
+      "profile": "text-default",
+      "seed": 1665836705,
+      "coordinates": 500,
+      "drawsEach": 36456,
+      "archiveWordsCompared": 1000
+    }
+  ],
+  "scope": "All20000registeredcoordinates/80000fullpublicWordrecords and exactRNGcounts independentlyrecounted; allactive first500 tracedWordresults match actualoriginalsealedarchive coordinates. Actualnextvalues and allnativewordstream hashes authenticated. No newgenerator call, changedprojection, reducedschedule or all200000-coordinate RNG claim."
+}

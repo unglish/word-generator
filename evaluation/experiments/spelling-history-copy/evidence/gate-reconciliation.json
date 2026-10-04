@@ -1,0 +1,74 @@
+{
+  "terminal": true,
+  "allSixOriginalGateCommandsRetained": true,
+  "allSixCommandsFailed": true,
+  "unitFailureTitles": {
+    "baseline": [
+      "src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies",
+      "src/core/generate.test.ts > Word Generator > risingCodaDrop policy gates rising-coda drop events",
+      "src/core/lexical.test.ts > lexical composition before surface realization > has exactly one primary and no primary reduced vowels in a default affixed sample",
+      "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs",
+      "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs",
+      "src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs",
+      "src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit",
+      "src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves assembly across a continuous 10,000-word public-API stream"
+    ],
+    "candidate": [
+      "src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies",
+      "src/core/generate.test.ts > Word Generator > risingCodaDrop policy gates rising-coda drop events",
+      "src/core/lexical.test.ts > lexical composition before surface realization > has exactly one primary and no primary reduced vowels in a default affixed sample",
+      "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs",
+      "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs",
+      "src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs",
+      "src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit",
+      "src/core/morphology/realization.test.ts > resolved morphology survives final cleanup > preserves assembly across a continuous 10,000-word public-API stream"
+    ]
+  },
+  "sameUnitFailureTitles": true,
+  "unitPolicyMilliseconds": {
+    "baseline": 104816,
+    "candidate": 87852
+  },
+  "isolatedCandidatePolicyPasses": 6,
+  "isolatedBaselineTimeouts": 6,
+  "medianIsolatedPairedElapsedFractionChange": -0.2632335986215892,
+  "defaultPerformanceWordsPerSecond": {
+    "baseline": 3305,
+    "candidate": 3376
+  },
+  "requiredPerformanceFloor": 4500,
+  "logs": [
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/baseline-required-unit.log",
+      "bytes": 33734,
+      "sha256": "1de755564024d808c9e4a84d0550ad5842fe5b46fc3eefd3630d8c003a3d72d9"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/baseline-required-quality.log",
+      "bytes": 3403,
+      "sha256": "d7912a83e01d2485502ab392073a1e58f4e7bdcaa0c2d3b4a0d6306bc11371de"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/baseline-required-performance.log",
+      "bytes": 1700,
+      "sha256": "97bea952037e8760e73d7b365dc28ec3645ba4c3588042dca6833ecebf72d920"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/candidate-required-unit.log",
+      "bytes": 33869,
+      "sha256": "48ef16e9ce3cf75fc2b398d669ca3e71420b07eeb79826dc34e74bbe9e22eaa2"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/candidate-required-quality.log",
+      "bytes": 3405,
+      "sha256": "a346bb1936a94a62d8a69426054e6d190df3f0f4df3ee987e43b4fb675a87b15"
+    },
+    {
+      "path": "/private/tmp/q02-trace-history-performance-v2/candidate-required-performance.log",
+      "bytes": 1703,
+      "sha256": "dd936f4f6a37a56775ee41caf2a66392d357b604abcfcde2363a00b4069d184c"
+    }
+  ],
+  "priorParserFailure": "An initial all-stdout FAIL search counted a diagnostic line in addition to eight actual Vitest failures; assertion rejected it. No source or scientific result changed.",
+  "scope": "Isolated trace-heavy policy gain proven; full-suite timeout and all default gates remain failed. Single default throughput observations do not establish a stable effect. No adoption or full Q02 timeout resolution claim."
+}

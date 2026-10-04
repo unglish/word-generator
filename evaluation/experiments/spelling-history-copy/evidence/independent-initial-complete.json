@@ -1,0 +1,20 @@
+{
+  "verifiedAt": "2026-10-04T20:37:53.084304+00:00",
+  "completePublicWordsPerArm": 8000,
+  "allCompleteWordAndTraceBytesEqual": true,
+  "snapshotVersions": {
+    "4": 8000
+  },
+  "dropCounts": {
+    "always": 5,
+    "never": 0
+  },
+  "completeHistoryEntries": {
+    "writerSteps": 576000,
+    "timeline": 842194
+  },
+  "decodedSha256": "cb0dbba4807daee04d9049dc158f893c56080ae2a5e87dec3450c6e69676a741",
+  "all184SourceContextPinsPerArmStable": true,
+  "originalUnchanged60sGatePassed": true,
+  "scope": "Fulloriginal8000policycoordinates andcompleteWord/trace equality only; requiredfull200karchive/full80kpublictraceRNG/12paired originalpolicy timingrun andrepositorygates remainopen. Singlepassinggateisnotgeneralperformance orqualitygain proof."
+}

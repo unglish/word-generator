@@ -1,0 +1,39 @@
+{
+  "terminal": true,
+  "commands": [
+    {
+      "name": "q02_trace_history_v2_paired_gates.py",
+      "args": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-B",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_paired_gates.py"
+      ],
+      "startedAt": "2026-10-04T20:40:04.004481+00:00",
+      "exitCode": 0,
+      "completedAt": "2026-10-04T20:51:21.368118+00:00"
+    },
+    {
+      "name": "q02_trace_history_v2_paired_recount.py",
+      "args": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-B",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_paired_recount.py"
+      ],
+      "startedAt": "2026-10-04T20:51:21.371745+00:00",
+      "exitCode": 0,
+      "completedAt": "2026-10-04T20:51:21.464182+00:00"
+    },
+    {
+      "name": "q02_trace_history_v2_broader.py",
+      "args": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-B",
+        "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/q02_trace_history_v2_broader.py"
+      ],
+      "startedAt": "2026-10-04T20:51:21.465471+00:00",
+      "exitCode": 0,
+      "completedAt": "2026-10-04T21:31:53.409520+00:00"
+    }
+  ],
+  "scope": "Registered original scopes executed; inspect numerical and repository failures before any acceptance or publication claim."
+}

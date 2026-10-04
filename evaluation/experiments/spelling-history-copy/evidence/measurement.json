@@ -1,0 +1,845 @@
+{
+  "version": "q02-final-word-provenance-measurement-v1",
+  "status": "prospective; implementation review and source freeze required before capture",
+  "controlCommit": "905ba3e",
+  "originalQ02Checkpoint": "01c6a50",
+  "cohort": "development",
+  "protocolPath": "evaluation/quality/protocol.json",
+  "protocolSha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9",
+  "wordsPerArm": 200000,
+  "arms": [
+    "spelling-stress-control",
+    "final-word-provenance"
+  ],
+  "configuration": {
+    "base": "englishConfig from each pinned arm",
+    "splitVowels": {
+      "supports": [
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "b"
+            ],
+            "written": "b"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "d"
+            ],
+            "written": "d"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "f"
+            ],
+            "written": "f"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "k"
+            ],
+            "written": "k"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "l"
+            ],
+            "written": "l"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "m"
+            ],
+            "written": "m"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "n"
+            ],
+            "written": "n"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "p"
+            ],
+            "written": "p"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "s"
+            ],
+            "written": "c"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "t"
+            ],
+            "written": "t"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "v"
+            ],
+            "written": "v"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "z"
+            ],
+            "written": "z"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "ð"
+            ],
+            "written": "th"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "s",
+              "t"
+            ],
+            "written": "st"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "eɪ",
+            "component": "a"
+          },
+          "coda": {
+            "sounds": [
+              "n",
+              "dʒ"
+            ],
+            "written": "ng"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "i:",
+            "component": "e"
+          },
+          "coda": {
+            "sounds": [
+              "d"
+            ],
+            "written": "d"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "i:",
+            "component": "e"
+          },
+          "coda": {
+            "sounds": [
+              "n"
+            ],
+            "written": "n"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "i:",
+            "component": "e"
+          },
+          "coda": {
+            "sounds": [
+              "m"
+            ],
+            "written": "m"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "i:",
+            "component": "e"
+          },
+          "coda": {
+            "sounds": [
+              "z"
+            ],
+            "written": "s"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "i:",
+            "component": "e"
+          },
+          "coda": {
+            "sounds": [
+              "v"
+            ],
+            "written": "v"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "m"
+            ],
+            "written": "m"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "f"
+            ],
+            "written": "f"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "k"
+            ],
+            "written": "k"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "l"
+            ],
+            "written": "l"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "n"
+            ],
+            "written": "n"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "p"
+            ],
+            "written": "p"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "s"
+            ],
+            "written": "c"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "t"
+            ],
+            "written": "t"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "v"
+            ],
+            "written": "v"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "z"
+            ],
+            "written": "z"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "aɪ",
+            "component": "i"
+          },
+          "coda": {
+            "sounds": [
+              "ð"
+            ],
+            "written": "th"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "b"
+            ],
+            "written": "b"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "d"
+            ],
+            "written": "d"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "p"
+            ],
+            "written": "p"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "l"
+            ],
+            "written": "l"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "m"
+            ],
+            "written": "m"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "n"
+            ],
+            "written": "n"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "t"
+            ],
+            "written": "t"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "z"
+            ],
+            "written": "s"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "əʊ",
+            "component": "o"
+          },
+          "coda": {
+            "sounds": [
+              "ð"
+            ],
+            "written": "th"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "d"
+            ],
+            "written": "d"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "b"
+            ],
+            "written": "b"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "k"
+            ],
+            "written": "k"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "l"
+            ],
+            "written": "l"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "n"
+            ],
+            "written": "n"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "s"
+            ],
+            "written": "s"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "t"
+            ],
+            "written": "t"
+          },
+          "marker": "e"
+        },
+        {
+          "vowel": {
+            "sound": "u",
+            "component": "u"
+          },
+          "coda": {
+            "sounds": [
+              "dʒ"
+            ],
+            "written": "g"
+          },
+          "marker": "e"
+        }
+      ],
+      "routes": {
+        "syllable": {
+          "forms": [
+            "ae",
+            "ie",
+            "oe",
+            "ue",
+            "ye"
+          ],
+          "probability": 95
+        },
+        "word": {
+          "swaps": [
+            {
+              "phoneme": "eɪ",
+              "from": "a",
+              "to": "a"
+            },
+            {
+              "phoneme": "eɪ",
+              "from": "ai",
+              "to": "a"
+            },
+            {
+              "phoneme": "eɪ",
+              "from": "ae",
+              "to": "a"
+            },
+            {
+              "phoneme": "eɪ",
+              "from": "ea",
+              "to": "a"
+            },
+            {
+              "phoneme": "i:",
+              "from": "e",
+              "to": "e"
+            },
+            {
+              "phoneme": "i:",
+              "from": "ee",
+              "to": "e"
+            },
+            {
+              "phoneme": "i:",
+              "from": "ea",
+              "to": "e"
+            },
+            {
+              "phoneme": "aɪ",
+              "from": "i",
+              "to": "i"
+            },
+            {
+              "phoneme": "aɪ",
+              "from": "igh",
+              "to": "i"
+            },
+            {
+              "phoneme": "aɪ",
+              "from": "ie",
+              "to": "i"
+            },
+            {
+              "phoneme": "əʊ",
+              "from": "o",
+              "to": "o"
+            },
+            {
+              "phoneme": "əʊ",
+              "from": "ow",
+              "to": "o"
+            },
+            {
+              "phoneme": "əʊ",
+              "from": "oe",
+              "to": "o"
+            },
+            {
+              "phoneme": "u",
+              "from": "u",
+              "to": "u"
+            },
+            {
+              "phoneme": "u",
+              "from": "oo",
+              "to": "u"
+            },
+            {
+              "phoneme": "u",
+              "from": "ue",
+              "to": "u"
+            }
+          ],
+          "probability": 35,
+          "monosyllableMultiplier": 2
+        }
+      }
+    },
+    "followingLetters": {
+      "targets": [
+        {
+          "phoneme": "s",
+          "form": "c"
+        },
+        {
+          "phoneme": "s",
+          "form": "sc"
+        },
+        {
+          "phoneme": "dʒ",
+          "form": "g"
+        }
+      ]
+    }
+  },
+  "configurationRationale": "Identical active spelling policies in both arms expose joint and split constructions; default behavior is covered separately by exact parity and unchanged quality gates.",
+  "successCriteria": {
+    "legacyWordAndTraceDifferences": 0,
+    "rngDrawAndNextProbeDifferences": 0,
+    "missingCandidateFinalRecords": 0,
+    "candidateSurfaceReplayMismatches": 0,
+    "candidatePhoneReplayMismatches": 0,
+    "candidateConfiguredOperationReplayFailures": 0,
+    "candidateSourceBindingFailures": 0,
+    "independentCounterDisagreements": 0
+  },
+  "requiredCounts": {
+    "wordDenominators": [
+      "all",
+      "planned-bare",
+      "no-morphology-plan",
+      "prefixed",
+      "suffixed",
+      "both",
+      "gap-overridden",
+      "final-cleanup-edited",
+      "final-nucleus-repaired"
+    ],
+    "cells": [
+      "initial and final totals by prefix/root/suffix",
+      "final totals by base-cell/affix/unresolved-root/edit",
+      "deleted identities by part",
+      "edit counts and changed character counts by rule and part"
+    ],
+    "phones": [
+      "initial and final totals by root/prefix/suffix/bridge",
+      "sound changes by rule",
+      "pronunciation mutations by rule",
+      "affix phones moved into root segments",
+      "bridge insertions by boundary"
+    ],
+    "availability": [
+      "missing base evidence",
+      "missing final evidence",
+      "missing operation packets",
+      "operational origins without phonemic licenses",
+      "joint/split root readings retained as distinct from final phonemic ownership"
+    ]
+  },
+  "independentRecount": "Separate Python implementation reads archived JSON and reconstructs cell edits, phone identity ordering and all registered integer counts; it must not invoke TypeScript validators. Configured production-rule replay and independent structural/count replay are reported separately.",
+  "comparisons": [
+    "original linguistic baseline under common evaluator (context only; different pipeline/policy)",
+    "immediate control versus candidate (causal provenance/output comparison)",
+    "all four profiles and five replicate streams individually before aggregate"
+  ],
+  "gates": [
+    "full default suite with inherited failures retained",
+    "unchanged default and active-policy quality gates",
+    "six fixed paired throughput runs with both absolute gates and relative changes",
+    "trace-generation timing with the unchanged 10000-word/30000ms gate"
+  ],
+  "performanceOrder": [
+    "control",
+    "candidate",
+    "candidate",
+    "control",
+    "control",
+    "candidate",
+    "candidate",
+    "control",
+    "control",
+    "candidate",
+    "candidate",
+    "control"
+  ],
+  "noClaim": [
+    "complete letter-to-phone alignment",
+    "human preference gain",
+    "newly licensed affix readings",
+    "root generation or morphology plan sampling independently authenticated"
+  ],
+  "freezeRequirements": [
+    "candidate and control commit IDs",
+    "source/evaluator/reference hashes before and after",
+    "runtime and installed dependency closure",
+    "effective configuration and registered protocol hashes",
+    "all raw archived words with manifest hashes",
+    "capture failure evidence retained; no overwrite or silent restart"
+  ]
+}

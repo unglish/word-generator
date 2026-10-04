@@ -1,0 +1,133 @@
+{
+  "terminal": true,
+  "all12OriginalLogsAuthenticated": true,
+  "candidatePasses": 6,
+  "baselineTimeoutFailures": 6,
+  "medianPairedElapsedFractionChange": -0.2632335986215892,
+  "pairs": [
+    {
+      "pair": 1,
+      "baselineMilliseconds": 68179,
+      "candidateMilliseconds": 47091,
+      "elapsedFractionChange": -0.3093034512093167
+    },
+    {
+      "pair": 2,
+      "baselineMilliseconds": 62536,
+      "candidateMilliseconds": 46295,
+      "elapsedFractionChange": -0.25970640910835363
+    },
+    {
+      "pair": 3,
+      "baselineMilliseconds": 63635,
+      "candidateMilliseconds": 47051,
+      "elapsedFractionChange": -0.26061129881354606
+    },
+    {
+      "pair": 4,
+      "baselineMilliseconds": 63453,
+      "candidateMilliseconds": 46455,
+      "elapsedFractionChange": -0.2678833152096828
+    },
+    {
+      "pair": 5,
+      "baselineMilliseconds": 63425,
+      "candidateMilliseconds": 46768,
+      "elapsedFractionChange": -0.2626251478123768
+    },
+    {
+      "pair": 6,
+      "baselineMilliseconds": 63159,
+      "candidateMilliseconds": 46495,
+      "elapsedFractionChange": -0.2638420494308016
+    }
+  ],
+  "observations": [
+    {
+      "slot": 1,
+      "role": "baseline",
+      "milliseconds": 68179,
+      "passed": false,
+      "timeout": true
+    },
+    {
+      "slot": 2,
+      "role": "candidate",
+      "milliseconds": 47091,
+      "passed": true,
+      "timeout": false
+    },
+    {
+      "slot": 3,
+      "role": "candidate",
+      "milliseconds": 46295,
+      "passed": true,
+      "timeout": false
+    },
+    {
+      "slot": 4,
+      "role": "baseline",
+      "milliseconds": 62536,
+      "passed": false,
+      "timeout": true
+    },
+    {
+      "slot": 5,
+      "role": "baseline",
+      "milliseconds": 63635,
+      "passed": false,
+      "timeout": true
+    },
+    {
+      "slot": 6,
+      "role": "candidate",
+      "milliseconds": 47051,
+      "passed": true,
+      "timeout": false
+    },
+    {
+      "slot": 7,
+      "role": "candidate",
+      "milliseconds": 46455,
+      "passed": true,
+      "timeout": false
+    },
+    {
+      "slot": 8,
+      "role": "baseline",
+      "milliseconds": 63453,
+      "passed": false,
+      "timeout": true
+    },
+    {
+      "slot": 9,
+      "role": "baseline",
+      "milliseconds": 63425,
+      "passed": false,
+      "timeout": true
+    },
+    {
+      "slot": 10,
+      "role": "candidate",
+      "milliseconds": 46768,
+      "passed": true,
+      "timeout": false
+    },
+    {
+      "slot": 11,
+      "role": "candidate",
+      "milliseconds": 46495,
+      "passed": true,
+      "timeout": false
+    },
+    {
+      "slot": 12,
+      "role": "baseline",
+      "milliseconds": 63159,
+      "passed": false,
+      "timeout": true
+    }
+  ],
+  "nativeReportSha256": "aa47ba2e77d2507b8191b10faee2c9b0be73ce0d9a6185c1681d0e101dbee540",
+  "allSourceContextPinsStable": true
+}

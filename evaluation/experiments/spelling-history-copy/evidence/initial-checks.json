@@ -1,0 +1,27 @@
+{
+  "revision": 2,
+  "candidateFixtures": {
+    "testsPassed": 10,
+    "exitCode": 0
+  },
+  "baselineFixtures": {
+    "testsPassed": 10,
+    "exitCode": 0
+  },
+  "runtimeTypes": {
+    "session": 12305,
+    "exitCode": 0
+  },
+  "fixtureTypes": {
+    "session": 67136,
+    "exitCode": 0
+  },
+  "touchedLint": {
+    "session": 67908,
+    "exitCode": 0
+  },
+  "earlierWrongCwdFixtureInvocation": {
+    "exitCode": 1,
+    "reason": "No test files in root checkout; corrected owned-clone invocation passes."
+  }
+}
