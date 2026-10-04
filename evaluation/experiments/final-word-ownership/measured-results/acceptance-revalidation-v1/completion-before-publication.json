@@ -1,0 +1,97 @@
+{
+  "observedAt": "2026-10-04T18:32:43.955997+00:00",
+  "PR": 348,
+  "publishedHead": "16ae629beb806b224117dfe63515bf47818fcfe6",
+  "control": "905ba3e92d396db358504fec1826c1c83f680ff3",
+  "measuredCandidate": "7e34a17f31d44d1e31420f458bf6e2d99c5fa038",
+  "generatorSourceUnchangedAtPublication": true,
+  "completeWordsEach": 200000,
+  "rawShards": 40,
+  "originalScientificArtifacts": 50,
+  "pairedLegacyFullWords": 200000,
+  "independentIntegerComparisons": 1538,
+  "freshNativeIndependentLegacyAndCounterReportsByteExact": true,
+  "successfulOriginalCommands": 7,
+  "preservedPreMathWrapperFailures": 1,
+  "traceParity": {
+    "coordinates": 20000,
+    "publicCalls": 80000,
+    "strata": 40,
+    "fullPublicWordsIndependentlyRecounted": 80000,
+    "originalArchivedWordsMatched": 20000,
+    "nextRngValues": 160,
+    "all160WordStreamHashesIndependentlyReconstructed": true,
+    "perCoordinateRngDrawDifferences": 0,
+    "scope": "First500 successive words at every original development stream under both default and active policies, both sources and trace off/on; exact full Word and legacy trace comparison. No all200000-coordinate RNG or caller mutation/object identity guarantee."
+  },
+  "originalRequiredGateCommands": 8,
+  "originalRequiredGateFailuresRetained": 8,
+  "originalTimingSlotsReconciled": 12,
+  "originalSpeedPasses": 0,
+  "originalVariancePasses": 12,
+  "originalMedianPairedThroughputChange": -0.1388046244878165,
+  "freshGateSuiteOrTimingRerunClaimed": false,
+  "fullWitnessSelectionWords": 200000,
+  "fullWitnessProductionReplays": 9,
+  "absentWitnessStrata": [
+    "final-cleanup-edited"
+  ],
+  "originalTrigramReportWordsEach": 2000000,
+  "originalDiagnosticSeedFieldsCompared": 5,
+  "originalBulkCandidateOomPreserved": true,
+  "supportingStreamingFix": {
+    "path": ".local-evidence/q02-stream-acceptance-revalidation-v1.json",
+    "bytes": 1802,
+    "sha256": "c8ffe5ba843b25a2aa52e3ef1168f26ed80e04ffde65908fc3d991ab34b2e536"
+  },
+  "publicationIndexCorrection": {
+    "path": ".local-evidence/q02-index-publication-complete-v1.json",
+    "bytes": 3633,
+    "sha256": "f1a931c6afcb76a73944a10c8e7e6d99e0614e380cc8f26514941d277deb0619"
+  },
+  "proofs": {
+    "complete.json": {
+      "bytes": 994,
+      "sha256": "5e18225e689bc7047d375ae200b401c128d43ddeb2311d66518b4f16cd8c99f0"
+    },
+    "preparation-registration.json": {
+      "bytes": 14545,
+      "sha256": "8d9e6b4a0329e90168ee0d87a432e6596fc6759ec9de1c3d8e42b0dd4b217ac2"
+    },
+    "source-binding.json": {
+      "bytes": 37247,
+      "sha256": "3c6fe6d5240bbecc9ea5bea4a2eb5fc8a8e952769b5a736ee86e1e1908c4e21b"
+    },
+    "trace-parity-registration.json": {
+      "bytes": 1782,
+      "sha256": "f9c7fb15c808388a7be30123e51a649e2b22446ab5d5053d9030565eaac5e75a"
+    },
+    "trace-parity-complete.json": {
+      "bytes": 30786,
+      "sha256": "39fd87fa70d19cdc0dd728d53205013cdfbc6525830a6494423832e855fbdcee"
+    },
+    "trace-parity-independent.json": {
+      "bytes": 8349,
+      "sha256": "4f85a25bf9c5bbbdceda2e93f62048583f5e2c1a8f358010598458203efee147"
+    },
+    "trace-parity-full-records.jsonl.gz": {
+      "bytes": 118624733,
+      "sha256": "0a91480ebf911bf87bd8b251cebc96ec6a8557892374a6e7975ff142cadc9488"
+    },
+    "original-gate-timing-reconciliation.json": {
+      "bytes": 5941,
+      "sha256": "3d781b9888a0ecdd4672f0ecbaf9a845ac6041d10e30cc59f13db3e3684c8c51"
+    },
+    "diagnostic-witness-reconciliation.json": {
+      "bytes": 1890,
+      "sha256": "f5590331eee5f842af582fa7ffbb402552429975987270b8e1f3bc1efa43aa2f"
+    }
+  },
+  "retained": {
+    "path": ".local-evidence/q02-acceptance-retained-v1",
+    "files": 1250,
+    "bytes": 1505124567,
+    "indexSha256": "63557bfdc6bbecf88de45b2ae3e9c8a4c77344eaeba0f00745cbc8151aa3334f"
+  },
+  "limitations": "Mechanical final spelling/phone/affix ownership, exact archived preservation and registered trace/RNG parity are proven in this scope. Final phonemic licensing, reader preference, all custom configurations and current-main integration remain outside it. Original quality/performance failures, candidate60s timeout and noisy adverse timing prevent adoption recommendation. Original tests/source/seeds/sample sizes/heap/thresholds unchanged. Current supplemental evidence is retained locally; public supplement not yet delivered. Full goal remains active."
+}

@@ -131,7 +131,17 @@ const recordAspirationDecision = (
   context.trace.recordStructural(payload);
 };
 
-const applyAspiration = (context: WordGenerationContext, rules: ResolvedAspirationRules): void => {
+export interface PronunciationChange {
+  syllableIndex: number;
+  segment: "onset" | "nucleus" | "coda";
+  index: number;
+  before: Phoneme;
+  after: Phoneme;
+  rule: string;
+}
+export type PronunciationObserver = (change: PronunciationChange) => void;
+
+const applyAspiration = (context: WordGenerationContext, rules: ResolvedAspirationRules, observe?: PronunciationObserver): void => {
   const syllables = context.word.syllables;
 
   // Keep hot path lean when tracing is disabled and aspiration is disabled.
@@ -167,7 +177,10 @@ const applyAspiration = (context: WordGenerationContext, rules: ResolvedAspirati
 
     if (applied) {
       const segment = getSyllableSegment(syllables[i], target.segment);
-      segment[target.index] = applyAspirationMarker(target.phoneme);
+      const after = applyAspirationMarker(target.phoneme);
+      observe?.({ syllableIndex: i, segment: target.segment, index: target.index,
+        before: target.phoneme, after, rule: `aspiration:${decision.ruleId}` });
+      segment[target.index] = after;
     }
 
     recordAspirationDecision(context, {
@@ -374,6 +387,7 @@ const reduceUnstressedVowels = (
   context: WordGenerationContext,
   config: VowelReductionConfig,
   rand: RNG,
+  observe?: PronunciationObserver,
 ): void => {
   const { word } = context;
   const syllables = word.syllables;
@@ -429,7 +443,10 @@ const reduceUnstressedVowels = (
       if (!target) continue;
 
       if (coinFlip(rand, prob)) {
-        syllable.nucleus[i] = { ...target, reduced: true };
+        const after = { ...target, reduced: true };
+        observe?.({ syllableIndex: si, segment: "nucleus", index: i, before: vowel, after,
+          rule: `vowel-reduction:${config.rules.indexOf(rule)}` });
+        syllable.nucleus[i] = after;
       }
     }
   }
@@ -438,16 +455,37 @@ const reduceUnstressedVowels = (
 /** @internal exported for testing */
 export const _reduceUnstressedVowels = reduceUnstressedVowels;
 
+export interface PronunciationPassTrace {
+  version: 1;
+  before: Syllable[];
+  after: Syllable[];
+  rolls: number[];
+  changes: PronunciationChange[];
+  pronunciation: string;
+}
+
 export const generatePronunciation = (
   context: WordGenerationContext,
   pronunciation: PronunciationRuntimeConfig,
+  observe?: PronunciationObserver,
 ): void => {
   if (context.word.lexical) {
     context.word.syllables = cloneSyllables(context.word.lexical.syllables);
   }
-  applyAspiration(context, pronunciation.aspiration);
+  const before = context.trace ? structuredClone(context.word.syllables) : undefined;
+  const rolls: number[] = [];
+  const changes: PronunciationChange[] = [];
+  const active = context.trace ? { ...context, rand: () => {
+    const value = context.rand(); rolls.push(value); return value;
+  } } : context;
+  const record = context.trace ? (change: PronunciationChange) => {
+    changes.push(structuredClone(change)); observe?.(change);
+  } : observe;
+  applyAspiration(active, pronunciation.aspiration, record);
   if (pronunciation.vowelReduction?.enabled) {
-    reduceUnstressedVowels(context, pronunciation.vowelReduction, context.rand);
+    reduceUnstressedVowels(active, pronunciation.vowelReduction, active.rand, record);
   }
-  buildPronunciationGuide(context);
+  buildPronunciationGuide(active);
+  if (context.trace && before) (context.trace.pronunciationPasses ??= []).push({ version: 1, before,
+    after: structuredClone(context.word.syllables), rolls, changes, pronunciation: context.word.pronunciation });
 };
