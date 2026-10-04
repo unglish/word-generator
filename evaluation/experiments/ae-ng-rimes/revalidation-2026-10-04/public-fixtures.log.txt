@@ -1,0 +1,20 @@
+
+ RUN  v3.2.4 /private/tmp/q10a-closure-audit-v1/fixture-checkout
+
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > samples /æŋ/ before later repairs at seed 985 6ms
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > samples /æŋ/ before later repairs at seed 13 4ms
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > samples /æŋ/ before later repairs at seed 5756 2ms
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > retains custom coda filtering for /'æ'/ with result /'ŋ'/ 5ms
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > retains custom coda filtering for /'æ'/ with result /'n'/ 4ms
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > retains custom coda filtering for /'æ'/ with result /'ŋ'/ 4ms
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > retains custom coda filtering for /'ɚ'/ with result /'n'/ 3ms
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > applies every configured nucleus/coda alternative for /æ/ 2ms
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > applies every configured nucleus/coda alternative for /u/ 2ms
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > preserves trace/no-trace output and RNG with morphology=false 359ms
+ ✓ src/core/ae-ng-rimes.test.ts > supported TRAP plus velar-nasal rimes > preserves trace/no-trace output and RNG with morphology=true 336ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  15:05:26
+   Duration  1.11s (transform 190ms, setup 0ms, collect 216ms, tests 728ms, environment 0ms, prepare 50ms)
+
