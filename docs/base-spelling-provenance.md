@@ -36,8 +36,8 @@ generated words or rejected attempts. The chosen attempt carries the trace.
 The default scope, `root-before-morphology`, ends after base-word spelling rules
 and repairs. It excludes affixes, morphophonemic changes, and post-morphology
 cleanup. Consequently `baseSpelling.surface` can differ from `written.clean`.
-For example seed 38 with morphology enabled emits `canes`, while its base surface
-is `cane`. For a selected bare gap override the scope becomes
+For example seed 3700 with morphology enabled emits `maner`, while its base surface
+is `mane`. For a selected bare gap override the scope becomes
 `bare-after-gap-spelling`, and its exact whole-word replacement is recorded.
 Whole-word gap mappings do not automatically provide per-letter phone ownership.
 
@@ -86,6 +86,6 @@ Subsequent independent changes must address sound coverage and licensed spelling
    boundaries by slicing planned affix lengths or infer ownership across root
    transformations.
 
-Known witnesses remain unchanged: seed 38 `canes` /seɪnz/, seed 661 `spam` /speɪm/,
+Known witnesses remain unchanged: seed 1104 `cack` /sæk/, seed 661 `spam` /speɪm/,
 and seed 2643 `bunhtreern` with clipped `/θ/`. All three require
 `{ mode: "lexicon", morphology: true, trace: true }`, with no forced syllable count.

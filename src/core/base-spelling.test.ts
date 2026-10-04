@@ -47,10 +47,10 @@ describe("exact base-spelling provenance", () => {
   });
 
   it("keeps inserted silent-e ownership unresolved instead of assigning it to n", () => {
-    const word = generateWord({ seed: 38, morphology: true, trace: true });
-    expect(word.written.clean).toBe("canes");
+    const word = generateWord({ seed: 3700, morphology: true, trace: true });
+    expect(word.written.clean).toBe("maner");
     const base = word.trace!.baseSpelling!;
-    expect(base.surface).toBe("cane");
+    expect(base.surface).toBe("mane");
     expect(base.scope).toBe("root-before-morphology");
     expect(base.cells[3].origin).toMatchObject({ kind: "rewrite", sourceUnitIds: [], ownership: "unresolved" });
     expect(base.edits[0]).toMatchObject({ rule: "silentE:marker", before: "", after: "e" });
