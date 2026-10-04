@@ -1,0 +1,52 @@
+{
+  "localCommands": 19,
+  "passing": 17,
+  "fullLint": {
+    "parentExitCode": 1,
+    "candidateExitCode": 1,
+    "exactlySameExistingErrors": 10,
+    "newErrors": 0
+  },
+  "unit": {
+    "parentPassed": 609,
+    "candidatePassed": 622,
+    "existingSkippedEach": 1
+  },
+  "qualityPassedEach": 12,
+  "performancePassedEach": 2,
+  "newTypeScriptFixtures": 17,
+  "independentPythonFixtures": 6,
+  "publicCoordinates": 2000,
+  "publicCalls": 8000,
+  "archivedWords": 600000,
+  "scoreStreams": 60,
+  "maximumPerWordScoreAbsoluteDifference": 3.552713678800501e-15,
+  "coverage": [
+    {
+      "role": "original",
+      "words": 200000,
+      "coarse": 200000,
+      "explicitMatched": 17005,
+      "traceMatched": 0,
+      "allMorphologySyllablePhoneAndWrittenLengthStrata": 1340
+    },
+    {
+      "role": "control",
+      "words": 200000,
+      "coarse": 200000,
+      "explicitMatched": 108440,
+      "traceMatched": 195973,
+      "allMorphologySyllablePhoneAndWrittenLengthStrata": 1329
+    },
+    {
+      "role": "active",
+      "words": 200000,
+      "coarse": 200000,
+      "explicitMatched": 108517,
+      "traceMatched": 195931,
+      "allMorphologySyllablePhoneAndWrittenLengthStrata": 1285
+    }
+  ],
+  "wholeGoal": "Original40roadmap publication coverage unchanged. Realhuman observations and remaining original acceptance requirements not complete.",
+  "scope": "Diagnostic coverage and separate likelihoods only; no generator/default/dialect/human-quality gain. Full current score streams and reports published; complete original raw inputs and all failed/successful source snapshots retained in owner workspace and require the registered locations or byte-preserving relocation."
+}

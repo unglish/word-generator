@@ -1,0 +1,1032 @@
+{
+  "files": [
+    {
+      "file": "scores/active-lexicon-bare-1304238451.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 1717155,
+      "sha256": "19faf17ab2b1ef74b650ddb1c2e6c177ee7a4c8b03c8b059c6f6ee2a4ba08a77"
+    },
+    {
+      "file": "scores/active-lexicon-bare-1498885173.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 1713187,
+      "sha256": "680bc2b710328611635b4351395bfcdb686de1ff894aacada32d9a0265e90922"
+    },
+    {
+      "file": "scores/active-lexicon-bare-1696751198.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 1714006,
+      "sha256": "52253a34cc72567342bd22993e406f30af27403b87adb01ce59fb895cd8b30cc"
+    },
+    {
+      "file": "scores/active-lexicon-bare-2380207674.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 1717430,
+      "sha256": "42d2f1d2d50c42166daa42e1c4658d605278a9d9819270aa7d9f509fce2d962f"
+    },
+    {
+      "file": "scores/active-lexicon-bare-772709128.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-lexicon-bare-772709128.jsonl.gz",
+      "bytes": 1716181,
+      "sha256": "95f957139a97c2628158543370abde355c13334d98bcb992004c4fe2f9064084"
+    },
+    {
+      "file": "scores/active-lexicon-default-101601885.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-lexicon-default-101601885.jsonl.gz",
+      "bytes": 1749882,
+      "sha256": "442238fdb8b5339ebd4a965fc94b14131f9fa903368a4b4212fe3160984cfd7d"
+    },
+    {
+      "file": "scores/active-lexicon-default-2089697863.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-lexicon-default-2089697863.jsonl.gz",
+      "bytes": 1752754,
+      "sha256": "467b8689b05ad94a465940641cf9d9a5e95beebd73f1691243a6481ebccd498d"
+    },
+    {
+      "file": "scores/active-lexicon-default-3921817393.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-lexicon-default-3921817393.jsonl.gz",
+      "bytes": 1758360,
+      "sha256": "1c9d32d860b3068ce46df7de4a18394a14653b253fd7eaf659caef98e78315e6"
+    },
+    {
+      "file": "scores/active-lexicon-default-3948943232.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-lexicon-default-3948943232.jsonl.gz",
+      "bytes": 1751854,
+      "sha256": "ddc258009e944fa44c8b139b22f681312909e12818120374628bf4d03cfd47ab"
+    },
+    {
+      "file": "scores/active-lexicon-default-69212153.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-lexicon-default-69212153.jsonl.gz",
+      "bytes": 1755547,
+      "sha256": "89153787dd60cf6b13bc4967f2d5894865ec6e6b636bcb94f3de3dfd79bba3a1"
+    },
+    {
+      "file": "scores/active-monosyllables-bare-2001884366.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 1104922,
+      "sha256": "be76a3dfead5f5c7f1b5cceeb6fc39b8c0e79a251addda497a4d991a7222c71a"
+    },
+    {
+      "file": "scores/active-monosyllables-bare-2353354178.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 1107724,
+      "sha256": "6dfb2e05c8079fc58ffc635911937f54a00d56cb2cc2a0c779b7a8b822667912"
+    },
+    {
+      "file": "scores/active-monosyllables-bare-3297327738.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 1105777,
+      "sha256": "2086df2522829a7bb0fdb96513b7d3ff9ff147dadefa9c4544a029ad28f91581"
+    },
+    {
+      "file": "scores/active-monosyllables-bare-462530651.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 1102972,
+      "sha256": "d9a4ddf2d3b9234d13d13c90a76430d4c5b373bb813079d3f6f6dbd333c75278"
+    },
+    {
+      "file": "scores/active-monosyllables-bare-62358955.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 1102630,
+      "sha256": "80c5768ca3944c7caec4ce7716fd13b2a9cd98ad1f8f60bdd3ac88761f62dd05"
+    },
+    {
+      "file": "scores/active-text-default-1665836705.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-text-default-1665836705.jsonl.gz",
+      "bytes": 1395512,
+      "sha256": "94b23fde613d436578df83f41aa7b5ffa3ad070430fa06c1d2921f2637e6e345"
+    },
+    {
+      "file": "scores/active-text-default-1999736106.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-text-default-1999736106.jsonl.gz",
+      "bytes": 1393176,
+      "sha256": "3b56610031453cc49732ca04f8e19c2b3969dbde3fde088e9c10fb7b7d7bb762"
+    },
+    {
+      "file": "scores/active-text-default-2666001996.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-text-default-2666001996.jsonl.gz",
+      "bytes": 1396260,
+      "sha256": "c699f0290d9f9860dc5dc73e9118aa17c56646705d9936b013aad0b6727b72ed"
+    },
+    {
+      "file": "scores/active-text-default-3562318933.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-text-default-3562318933.jsonl.gz",
+      "bytes": 1382366,
+      "sha256": "3958332d8a5ff2a2a73c1abed37cd7603fd806655802997dd8de99e6cfce2a24"
+    },
+    {
+      "file": "scores/active-text-default-4167471042.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/active-text-default-4167471042.jsonl.gz",
+      "bytes": 1383813,
+      "sha256": "22858551fe27fa324fc622e9e5bab8c70e5bf19f09e1e0226997a396dc8322a7"
+    },
+    {
+      "file": "scores/control-lexicon-bare-1304238451.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 1716803,
+      "sha256": "0d4a3a8265435635068f1fdf2276a193187a91740c59311b4292fdade8fb0258"
+    },
+    {
+      "file": "scores/control-lexicon-bare-1498885173.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 1708543,
+      "sha256": "dd9bcbcd6445acacf462396a188ef967f053c30adadee3537aa89a87d2757cf2"
+    },
+    {
+      "file": "scores/control-lexicon-bare-1696751198.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 1711788,
+      "sha256": "5e47473f301c4302dbfa6b192ee379f160b7eaebb1a6e0da1bc2859b59b540d8"
+    },
+    {
+      "file": "scores/control-lexicon-bare-2380207674.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 1710754,
+      "sha256": "5a4c36ba793b7570bd0318ea09bce6173a104e40e3c6dc6fa415e668da669c52"
+    },
+    {
+      "file": "scores/control-lexicon-bare-772709128.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-lexicon-bare-772709128.jsonl.gz",
+      "bytes": 1713946,
+      "sha256": "96d52b68eaaba82098e97f007b6dd52796dd52912ebd4dca6c546967b49b9b32"
+    },
+    {
+      "file": "scores/control-lexicon-default-101601885.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-lexicon-default-101601885.jsonl.gz",
+      "bytes": 1757776,
+      "sha256": "4c7cf01a2b5b94cd7a6c017067d2aca08e343fe826d43d61a4afa7958989d3bf"
+    },
+    {
+      "file": "scores/control-lexicon-default-2089697863.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-lexicon-default-2089697863.jsonl.gz",
+      "bytes": 1745529,
+      "sha256": "ad02e97529ab26ac70e74e798d137e12ebe43710c2a2bed630807772662aa456"
+    },
+    {
+      "file": "scores/control-lexicon-default-3921817393.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-lexicon-default-3921817393.jsonl.gz",
+      "bytes": 1767590,
+      "sha256": "3c27ffd2f3f3d8e05e7b5e3d5526bf08b264f666ec7dc0f22a54eb730c59068e"
+    },
+    {
+      "file": "scores/control-lexicon-default-3948943232.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-lexicon-default-3948943232.jsonl.gz",
+      "bytes": 1758975,
+      "sha256": "1ef1b8ae5795ac1a35c58e0478d10a9973d0875ed309b530093e770b4c500917"
+    },
+    {
+      "file": "scores/control-lexicon-default-69212153.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-lexicon-default-69212153.jsonl.gz",
+      "bytes": 1752709,
+      "sha256": "793f61598a869d36a6078bddc800bb860c5dfa2ff00e68b908b487281f2596ae"
+    },
+    {
+      "file": "scores/control-monosyllables-bare-2001884366.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 1104922,
+      "sha256": "be76a3dfead5f5c7f1b5cceeb6fc39b8c0e79a251addda497a4d991a7222c71a"
+    },
+    {
+      "file": "scores/control-monosyllables-bare-2353354178.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 1107724,
+      "sha256": "6dfb2e05c8079fc58ffc635911937f54a00d56cb2cc2a0c779b7a8b822667912"
+    },
+    {
+      "file": "scores/control-monosyllables-bare-3297327738.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 1105777,
+      "sha256": "2086df2522829a7bb0fdb96513b7d3ff9ff147dadefa9c4544a029ad28f91581"
+    },
+    {
+      "file": "scores/control-monosyllables-bare-462530651.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 1102972,
+      "sha256": "d9a4ddf2d3b9234d13d13c90a76430d4c5b373bb813079d3f6f6dbd333c75278"
+    },
+    {
+      "file": "scores/control-monosyllables-bare-62358955.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 1102630,
+      "sha256": "80c5768ca3944c7caec4ce7716fd13b2a9cd98ad1f8f60bdd3ac88761f62dd05"
+    },
+    {
+      "file": "scores/control-text-default-1665836705.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-text-default-1665836705.jsonl.gz",
+      "bytes": 1393718,
+      "sha256": "feff5d1bcd27c14f3577505438c547bc9e9127ba9b50d65261c9451541ea06ad"
+    },
+    {
+      "file": "scores/control-text-default-1999736106.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-text-default-1999736106.jsonl.gz",
+      "bytes": 1404320,
+      "sha256": "f9c17e29e5398359b8b1d21a13dcf68dc326399b3c055aeb8343de886f19e204"
+    },
+    {
+      "file": "scores/control-text-default-2666001996.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-text-default-2666001996.jsonl.gz",
+      "bytes": 1380442,
+      "sha256": "eaa720a53b02fb4b694eb23d601101f91d3e8d0f012be4f5d98469e768e9444d"
+    },
+    {
+      "file": "scores/control-text-default-3562318933.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-text-default-3562318933.jsonl.gz",
+      "bytes": 1387349,
+      "sha256": "eb18058e91ecd7284a85e59c398c29fc6ac669d40f04dca965b6a540b5229544"
+    },
+    {
+      "file": "scores/control-text-default-4167471042.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/control-text-default-4167471042.jsonl.gz",
+      "bytes": 1392878,
+      "sha256": "097ee411d1228c41f871ceb87e135c3c6a6034ed7aecbd67eb568b153c9f217a"
+    },
+    {
+      "file": "scores/original-lexicon-bare-1304238451.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 1649013,
+      "sha256": "ec319ec4fa892e75defc5417c61ac0b317c3cf1543212074fbb4484d0a0bd251"
+    },
+    {
+      "file": "scores/original-lexicon-bare-1498885173.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 1640924,
+      "sha256": "c918c6279ffb04461b107019e464c5fd9ed91b3c0deabf8745fb64a4b10169c5"
+    },
+    {
+      "file": "scores/original-lexicon-bare-1696751198.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 1643206,
+      "sha256": "dab5b7225375887e707e4c9d5c005ba468e4b34e10ffa07fdce3056033d9abdd"
+    },
+    {
+      "file": "scores/original-lexicon-bare-2380207674.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 1636537,
+      "sha256": "45dbcffc42302d8bf62107ec11399640b5bfe3aa16a550e84f1c70a172b7a1f7"
+    },
+    {
+      "file": "scores/original-lexicon-bare-772709128.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-lexicon-bare-772709128.jsonl.gz",
+      "bytes": 1635831,
+      "sha256": "69cb7c526d39a258a5ddaa1faccd04c635779bcf5890da74906ade155f3e2252"
+    },
+    {
+      "file": "scores/original-lexicon-default-101601885.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-lexicon-default-101601885.jsonl.gz",
+      "bytes": 1666438,
+      "sha256": "2bc71c0d9b76bdef106e4323ec6a7fad5a6a1a61100ad2178f7ac1dfca45d153"
+    },
+    {
+      "file": "scores/original-lexicon-default-2089697863.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-lexicon-default-2089697863.jsonl.gz",
+      "bytes": 1671948,
+      "sha256": "b7c6482cf351be8e674394381e925d7e5724fc5e6f902c6cbc825e3f32dc072c"
+    },
+    {
+      "file": "scores/original-lexicon-default-3921817393.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-lexicon-default-3921817393.jsonl.gz",
+      "bytes": 1667808,
+      "sha256": "09eae2f3091a09bc0fc0a417cb1f5c8d59583b34c77177c2dab68d08f8a34d2e"
+    },
+    {
+      "file": "scores/original-lexicon-default-3948943232.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-lexicon-default-3948943232.jsonl.gz",
+      "bytes": 1668884,
+      "sha256": "2ad5c84ee12eb5ac8d8a2a8b0bce22a2a765cc101db9184e121637fff6dd1355"
+    },
+    {
+      "file": "scores/original-lexicon-default-69212153.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-lexicon-default-69212153.jsonl.gz",
+      "bytes": 1668698,
+      "sha256": "f8d614a04edfd69a3fd6a8bd8bf7d82c519d2d971a90c84c62434db162761fb1"
+    },
+    {
+      "file": "scores/original-monosyllables-bare-2001884366.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 1017458,
+      "sha256": "112a8905ef5f403b06d2c05673dae411bd65357658ef02081aabe46e0181f1c3"
+    },
+    {
+      "file": "scores/original-monosyllables-bare-2353354178.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 1017820,
+      "sha256": "12686969228d50f17b814b6161d075e4d786097e67758f5bc80ea0987ec73fe9"
+    },
+    {
+      "file": "scores/original-monosyllables-bare-3297327738.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 1020817,
+      "sha256": "22f255c9e7567ad6949b3f778b481ac35e340e4e8601c51f32732d75b03bbec4"
+    },
+    {
+      "file": "scores/original-monosyllables-bare-462530651.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 1018049,
+      "sha256": "a94bace7f8890487c33b2e112d159da05ab4a0cee3e633a7f2463d3f4ec9c00c"
+    },
+    {
+      "file": "scores/original-monosyllables-bare-62358955.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 1017818,
+      "sha256": "471edf8cc5d98048d09799a9fcf2c7fbfc2c082608fb75f3ad02028ce8574efc"
+    },
+    {
+      "file": "scores/original-text-default-1665836705.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-text-default-1665836705.jsonl.gz",
+      "bytes": 1299893,
+      "sha256": "0e1dd77f9d32fdeab65c67b01b70d64ce61ca3d954e9aa69e244eab362c4d510"
+    },
+    {
+      "file": "scores/original-text-default-1999736106.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-text-default-1999736106.jsonl.gz",
+      "bytes": 1303986,
+      "sha256": "f5e9919472ea0171ee25b5c31c39d7a0aa0d8565d5630722ed247dfad8443a6a"
+    },
+    {
+      "file": "scores/original-text-default-2666001996.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-text-default-2666001996.jsonl.gz",
+      "bytes": 1297146,
+      "sha256": "d17578c3b8014d870d809f5bbfa06a154f0c198c7e4e479dca0965a75ffba7f1"
+    },
+    {
+      "file": "scores/original-text-default-3562318933.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-text-default-3562318933.jsonl.gz",
+      "bytes": 1288337,
+      "sha256": "fead5e709fc08abc94c30b54cd6b49b133d5464a3ce4b77e413ed557f44f8276"
+    },
+    {
+      "file": "scores/original-text-default-4167471042.jsonl.gz",
+      "originalFile": "/private/tmp/q16b-scoring-v1/study/original-text-default-4167471042.jsonl.gz",
+      "bytes": 1307707,
+      "sha256": "42375e5ed445860459cfc5a9842f48e5f7fa74621a475af10a39ba1d3dea02f5"
+    },
+    {
+      "file": "report.json.gz",
+      "bytes": 1195617,
+      "sha256": "ea48dee784b4eb8598d6235fe3f7f8abed35e1c50ba2371165cf88952d10f178",
+      "originalUncompressed": {
+        "bytes": 14701683,
+        "sha256": "ba6c75e2a7a58fe93d18f426c05e7bb7a67b5feb01c9e6d5674b186175ea0088"
+      }
+    },
+    {
+      "file": "independent-proof.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/independent-proof.json",
+      "bytes": 13930,
+      "sha256": "80c0f5663b0a9f2b87d31bc316a437cfe12565f4c90164200e5c1574dd0086d7"
+    },
+    {
+      "file": "public-parity.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/public-parity.json",
+      "bytes": 1913,
+      "sha256": "b8be439bcb235e9ea44362e866b9be0ee6b42fc9accd08e9e9ff1aec4f612759"
+    },
+    {
+      "file": "commands.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/commands.json",
+      "bytes": 8971,
+      "sha256": "b70bd80bafb5c9f472705fe5c62aa992bca3f7f581da87eeb5f206e6f8525a08"
+    },
+    {
+      "file": "complete.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/complete.json",
+      "bytes": 509,
+      "sha256": "45fe3fac4dbc95405718c87615c9dbfbe157d5f77e9f9415f0476e99a2590485"
+    },
+    {
+      "file": "full-lint-baseline-comparison.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/full-lint-baseline-comparison.json",
+      "bytes": 5220,
+      "sha256": "93ce76af632215bc98980967e4b0025c8a0a66bbf6e831d14afb0484c85a15c5"
+    },
+    {
+      "file": "all600000-prior-score-fields-exact.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/all600000-prior-score-fields-exact.json",
+      "bytes": 20685,
+      "sha256": "61798ab9e32606f74b59207c15165a6535d85f3825dd984d9d04e0745f136917"
+    },
+    {
+      "file": "parent-full-lint.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/parent-full-lint.json",
+      "bytes": 250986,
+      "sha256": "34a8401c60a2f597977cc964826a77937d118bea9a386bdcf07e01a7574e9fb9"
+    },
+    {
+      "file": "candidate-full-lint.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-full-lint.json",
+      "bytes": 255117,
+      "sha256": "2cfbe355c30ea2d26725868138702b0c0663bc25832d356e1af48f609625af81"
+    },
+    {
+      "file": "logs/candidate-experiment-strict-types.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-experiment-strict-types.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "logs/candidate-full-lint.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-full-lint.log",
+      "bytes": 215,
+      "sha256": "fee6ee295a3140934e677421178e19290f2b2fcd1e47415c0de218edd404c6f3"
+    },
+    {
+      "file": "logs/candidate-identity-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-identity-fixtures.log",
+      "bytes": 469,
+      "sha256": "3beea1c2907e7b5cf49e83fcff151718c84f2b81c918837605bfbc177f7da547"
+    },
+    {
+      "file": "logs/candidate-independent-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-independent-fixtures.log",
+      "bytes": 104,
+      "sha256": "a25b5619af971eae96a8c9d37ebc69133b4c28e990455e210be0507206df182c"
+    },
+    {
+      "file": "logs/candidate-performance.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-performance.log",
+      "bytes": 903,
+      "sha256": "0c48d50bbbb759cca541445e49d6b35fc82ae2693296abce707e14c1cf6fe45f"
+    },
+    {
+      "file": "logs/candidate-quality.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-quality.log",
+      "bytes": 1492,
+      "sha256": "0d100332eeb3afafdfad7484087c643daa2f4626c6fea6674af15009d5d8dc90"
+    },
+    {
+      "file": "logs/candidate-score-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-score-fixtures.log",
+      "bytes": 390,
+      "sha256": "ad50ef8cb495793be5e5f05ebb2060fe5832e34ac380b8b4f850eff73b51688c"
+    },
+    {
+      "file": "logs/candidate-strict-types.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-strict-types.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "logs/candidate-touched-lint.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-touched-lint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "logs/candidate-whole-unit.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/candidate-whole-unit.log",
+      "bytes": 13480,
+      "sha256": "46d996e3302d2df8c2f6fdcf92b0c9c8bd4f69ce80779169b3f0e2787d2cc1c8"
+    },
+    {
+      "file": "logs/full600000-independent-proof.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/full600000-independent-proof.log",
+      "bytes": 2574,
+      "sha256": "7a83d0542ee3dcea8652cc9a37dae9872970621ab6e2b7410ac85fd6781609a6"
+    },
+    {
+      "file": "logs/full600000-native-observation.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/full600000-native-observation.log",
+      "bytes": 2994,
+      "sha256": "f00e5fd5a2ca7ffe90f306b9ab28fef32d70c619cf957483bb1e5bfdf67110d7"
+    },
+    {
+      "file": "logs/parent-full-lint.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/parent-full-lint.log",
+      "bytes": 212,
+      "sha256": "7bc208acf8cd8173fba4d905f55635df2644d3f3d6aae313106e7d8da10361f6"
+    },
+    {
+      "file": "logs/parent-identity-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/parent-identity-fixtures.log",
+      "bytes": 480,
+      "sha256": "c04abbc668031c4fd9b7ae606f5450c3ad3792ff8ce760d6f2487e51151564e8"
+    },
+    {
+      "file": "logs/parent-performance.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/parent-performance.log",
+      "bytes": 914,
+      "sha256": "fc832c606c11da643e689f2cb3fbd6104ac9187b5b60c4ba282feebac209a49f"
+    },
+    {
+      "file": "logs/parent-quality.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/parent-quality.log",
+      "bytes": 1514,
+      "sha256": "260d993283ef67d9269ed8ed31743b3ea8ed6bfaa6682c17091d4ecf367e8ea0"
+    },
+    {
+      "file": "logs/parent-strict-types.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/parent-strict-types.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "logs/parent-whole-unit.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/parent-whole-unit.log",
+      "bytes": 13187,
+      "sha256": "12856c8b5022a5a64293279839d312b81cddfe1dd5564edab595814a3f6a0152"
+    },
+    {
+      "file": "logs/public2000-parent-candidate-parity.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/public2000-parent-candidate-parity.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "history/first-summary-schema-failure/classification.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/first-summary-schema-failure/classification.json",
+      "bytes": 325,
+      "sha256": "a0a62bb7439d51020f3c4071c325c42fdd0edb5266d59ed144a8da0c01e51a6b"
+    },
+    {
+      "file": "history/first-summary-schema-failure/commands.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/first-summary-schema-failure/commands.json",
+      "bytes": 545,
+      "sha256": "1fc17b4beb1047d3602e471f4e61c951932672abf8d847bf29ebc44d9b48711f"
+    },
+    {
+      "file": "history/first-summary-schema-failure/failure.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/first-summary-schema-failure/failure.json",
+      "bytes": 667,
+      "sha256": "93f1f12c368dcde047836c62295da209c9dd7f016389e091d44cc211a2de3437"
+    },
+    {
+      "file": "history/first-summary-schema-failure/freeze-v1.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/first-summary-schema-failure/freeze-v1.json",
+      "bytes": 26640,
+      "sha256": "2a16c6bdeb08336293b4392d0a0572229a64e5497b677bdac7c9f8395910b0b8"
+    },
+    {
+      "file": "history/first-summary-schema-failure/full600000-native-observation.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/first-summary-schema-failure/full600000-native-observation.log",
+      "bytes": 1286,
+      "sha256": "33de7c4b2048787a6703cc418d11e8d3b04d859b7db7ea017914612596c86d39"
+    },
+    {
+      "file": "history/second-canonical-json-failure/classification.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/second-canonical-json-failure/classification.json",
+      "bytes": 415,
+      "sha256": "123bb47ae3e115fd890c05589f07620dc49e7fbaa0290ae7f804d8043226a47f"
+    },
+    {
+      "file": "history/second-canonical-json-failure/commands.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/second-canonical-json-failure/commands.json",
+      "bytes": 1117,
+      "sha256": "7219511c34fb7f258485faccfe6d9e88402d72d53b86f3fb20dbeffbb4c27e04"
+    },
+    {
+      "file": "history/second-canonical-json-failure/failure.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/second-canonical-json-failure/failure.json",
+      "bytes": 1266,
+      "sha256": "ca44d05e8213217ce5daec18a025db3ab40021e36b7be44a8b84f4442ff5f551"
+    },
+    {
+      "file": "history/second-canonical-json-failure/freeze-v1.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/second-canonical-json-failure/freeze-v1.json",
+      "bytes": 26844,
+      "sha256": "ff742eb55df6bd0551e40b4789cc36fed5b2c46b0ebc1271a7eb5d8307962197"
+    },
+    {
+      "file": "history/second-canonical-json-failure/full600000-independent-proof.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/second-canonical-json-failure/full600000-independent-proof.log",
+      "bytes": 509,
+      "sha256": "eb50d41935cd756dac1eebe49d83b2b7ea9f82d90f676b495e0c7328015f1221"
+    },
+    {
+      "file": "history/second-canonical-json-failure/full600000-native-observation.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/second-canonical-json-failure/full600000-native-observation.log",
+      "bytes": 2994,
+      "sha256": "f00e5fd5a2ca7ffe90f306b9ab28fef32d70c619cf957483bb1e5bfdf67110d7"
+    },
+    {
+      "file": "history/second-canonical-json-failure/report.json.gz",
+      "bytes": 785891,
+      "sha256": "6c3bfb7b454d7e1b717f1ef0d082e6abaaf53d57f6803a9823aac89e2ca27d52",
+      "originalUncompressed": {
+        "bytes": 10832367,
+        "sha256": "6d0f479816a445e69949426f08c93a49e681a8e4f1b72fea48777e2e893ded4d"
+      }
+    },
+    {
+      "file": "history/third-public-parity-property-failure/classification.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/third-public-parity-property-failure/classification.json",
+      "bytes": 439,
+      "sha256": "45b7e1dba658cd574f10d891ed19fa0e6cfa812e493b35f6db53c93be912cdb9"
+    },
+    {
+      "file": "history/third-public-parity-property-failure/commands.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/third-public-parity-property-failure/commands.json",
+      "bytes": 1759,
+      "sha256": "a371d136eb02f4761c0e3197cccdb284b3028af911f1758b3f9051cf57c8cd28"
+    },
+    {
+      "file": "history/third-public-parity-property-failure/failure.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/third-public-parity-property-failure/failure.json",
+      "bytes": 1948,
+      "sha256": "ede5a3d417eb8c6985b24da1790ea36bf7e8f0a88643820ea60fe36708481d0c"
+    },
+    {
+      "file": "history/third-public-parity-property-failure/freeze-v1.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/third-public-parity-property-failure/freeze-v1.json",
+      "bytes": 27010,
+      "sha256": "85fb2100a9382f65f01282d0e02026509834450b736a2603188784bc1ae84d8e"
+    },
+    {
+      "file": "history/third-public-parity-property-failure/independent-proof.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/third-public-parity-property-failure/independent-proof.json",
+      "bytes": 13930,
+      "sha256": "0f865acea3930abeefefdb731318a2add807ac97e0ec5f160eeaa192301ffcc8"
+    },
+    {
+      "file": "history/third-public-parity-property-failure/full600000-independent-proof.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/third-public-parity-property-failure/full600000-independent-proof.log",
+      "bytes": 2574,
+      "sha256": "7a83d0542ee3dcea8652cc9a37dae9872970621ab6e2b7410ac85fd6781609a6"
+    },
+    {
+      "file": "history/third-public-parity-property-failure/full600000-native-observation.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/third-public-parity-property-failure/full600000-native-observation.log",
+      "bytes": 2994,
+      "sha256": "f00e5fd5a2ca7ffe90f306b9ab28fef32d70c619cf957483bb1e5bfdf67110d7"
+    },
+    {
+      "file": "history/third-public-parity-property-failure/public2000-parent-candidate-parity.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/third-public-parity-property-failure/public2000-parent-candidate-parity.log",
+      "bytes": 565,
+      "sha256": "d4ace7897d5fd49c4ac2e8ea6fbfacda3f9f8c8344f8747013690f636b4a2372"
+    },
+    {
+      "file": "history/third-public-parity-property-failure/report.json.gz",
+      "bytes": 785890,
+      "sha256": "1eb2ce3b898656d172fc1e51e7bed29d0ea6e3af9ef89b847718b5a1b3b4144d",
+      "originalUncompressed": {
+        "bytes": 10832367,
+        "sha256": "f5c1a171533ec7ee220c37d72f0104f3c837f40a7a00da2bfbd82773245279af"
+      }
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/all-scientific-results-exact-across-qa-correction.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/all-scientific-results-exact-across-qa-correction.json",
+      "bytes": 1395,
+      "sha256": "ff8fb21b31d5ca3c3b5a52658f56b76d43a36676cbbb13414b69b6cc5d92fb37"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/classification.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/classification.json",
+      "bytes": 383,
+      "sha256": "30d03ab53832e00bfc793c020ad01168866af95a80599ff6fcaa94b9fdb60ddd"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/commands.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/commands.json",
+      "bytes": 7862,
+      "sha256": "6a2b8ace7d5817e3dda26eaaa1ff9c4c9e1f7b5a120799aea7e684165798a938"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/complete.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/complete.json",
+      "bytes": 509,
+      "sha256": "33fc3a29c689a841c8784847aa537ddce4a4cf786282001f4c3b21278349a661"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/freeze-v1.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/freeze-v1.json",
+      "bytes": 27199,
+      "sha256": "153474fe7b36814adce0f1d03c95cd09df67be93f7048a6e261956edf6b6aebc"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/independent-proof.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/independent-proof.json",
+      "bytes": 13930,
+      "sha256": "6a3463d763b788a67bb8972e6af436cdef8e210e6d78e7f33c5d5ff5764799ce"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/preflight-public-parity.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/preflight-public-parity.json",
+      "bytes": 1913,
+      "sha256": "b8be439bcb235e9ea44362e866b9be0ee6b42fc9accd08e9e9ff1aec4f612759"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/public-parity.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/public-parity.json",
+      "bytes": 1913,
+      "sha256": "b8be439bcb235e9ea44362e866b9be0ee6b42fc9accd08e9e9ff1aec4f612759"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/registration.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/registration.json",
+      "bytes": 291,
+      "sha256": "a84eefbabd0fed01a4230dbb5c8a91df16eac0c23d7d10dd1c6ed773ceb89c6f"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/run-record.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/run-record.json",
+      "bytes": 2816,
+      "sha256": "9e00d7dac3d929da06a29a4d94a683d7eb66c3467e7603d4a793c17a082e2c71"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/candidate-experiment-strict-types.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/candidate-experiment-strict-types.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/candidate-identity-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/candidate-identity-fixtures.log",
+      "bytes": 469,
+      "sha256": "8b5f77c92f716507d2185308149cff145f63e42d0c15fb9d15ea3aec032c0dde"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/candidate-independent-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/candidate-independent-fixtures.log",
+      "bytes": 104,
+      "sha256": "62cfbeb2911bb226088bfb0918eb4b05008ea70b20bce854ee2ca8a564bd37a5"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/candidate-performance.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/candidate-performance.log",
+      "bytes": 903,
+      "sha256": "c632d9fce74ef74f056811b4f7e5768b6ed7c3fbc9ccefb7569d64e4e0c8ce87"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/candidate-quality.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/candidate-quality.log",
+      "bytes": 1492,
+      "sha256": "9d2c12fa288f40630116c03ae28ac3074a03d204b68e5c4c4722ea4b550ac67d"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/candidate-score-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/candidate-score-fixtures.log",
+      "bytes": 390,
+      "sha256": "56d0396c25c9c84d52be4db597f761e00322b49635600dd385c023c6a50194f4"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/candidate-strict-types.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/candidate-strict-types.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/candidate-touched-lint.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/candidate-touched-lint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/candidate-whole-unit.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/candidate-whole-unit.log",
+      "bytes": 13356,
+      "sha256": "a762278d3d5f7e2bcac3056bcf00a9dc2b8fcd14db272a383817570268834678"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/full600000-independent-proof.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/full600000-independent-proof.log",
+      "bytes": 2574,
+      "sha256": "7a83d0542ee3dcea8652cc9a37dae9872970621ab6e2b7410ac85fd6781609a6"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/full600000-native-observation.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/full600000-native-observation.log",
+      "bytes": 2994,
+      "sha256": "f00e5fd5a2ca7ffe90f306b9ab28fef32d70c619cf957483bb1e5bfdf67110d7"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/parent-identity-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/parent-identity-fixtures.log",
+      "bytes": 480,
+      "sha256": "a98d21ea646a99b610d1ad68d6e7c8778468d9669163c469d772e02f73baa9bb"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/parent-performance.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/parent-performance.log",
+      "bytes": 914,
+      "sha256": "801c4150e7933581a4af96574fef2bb3bcec85dc4838ae5c581c093db2b6fa26"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/parent-quality.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/parent-quality.log",
+      "bytes": 1514,
+      "sha256": "11fc0f9e33ffb2f7da605fd29c72d64e35d6d7e8aa0b119889f57ae2413e5e0a"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/parent-strict-types.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/parent-strict-types.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/parent-whole-unit.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/parent-whole-unit.log",
+      "bytes": 13519,
+      "sha256": "0e8b74537431d3dd6cb1c8117fbf6f8e491ff96de9972062b53413a09c21daf8"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/public2000-parent-candidate-parity.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance/public2000-parent-candidate-parity.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "history/pre-review-cleanup-acceptance/report.json.gz",
+      "bytes": 785894,
+      "sha256": "a5c344548e5002201a284b435354131d447034078f3e00ef2e0606be154450c9",
+      "originalUncompressed": {
+        "bytes": 10832367,
+        "sha256": "733359b0cbbbbf3a327e75ba78cdb88f1dfdcfd77d18033f560ce95ab3cffd42"
+      }
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-full-lint.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-full-lint.json",
+      "bytes": 271781,
+      "sha256": "6640c363156514f5b3a02c1397d09592d4a71458a0ef5fc13ec3633774dc3e9e"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/classification.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/classification.json",
+      "bytes": 424,
+      "sha256": "bcbf2de1e54432a6345a8dc5141d97f7b049f95a3bd0835cd1ea4ba4968dfe84"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/commands.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/commands.json",
+      "bytes": 8971,
+      "sha256": "2be76564a4a659c4ce308b512624b902dd8a52d2c45a6af9c4b65f1882ede749"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/failure.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/failure.json",
+      "bytes": 9606,
+      "sha256": "e15f5417089dd9018cec2e92ddf2336f6131a97295e7b1a070fba8ecace2f04b"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/freeze-v1.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/freeze-v1.json",
+      "bytes": 27350,
+      "sha256": "3935bc9b930ac9e8a707385edcb493c112379bf984153772fe5c5babdb58dd3f"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/independent-proof.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/independent-proof.json",
+      "bytes": 13930,
+      "sha256": "a04badde8ff379cf7767364bf82bade9731c20e47ae83888930394063fbd4c38"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/parent-full-lint.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/parent-full-lint.json",
+      "bytes": 250986,
+      "sha256": "34a8401c60a2f597977cc964826a77937d118bea9a386bdcf07e01a7574e9fb9"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/public-parity.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/public-parity.json",
+      "bytes": 1913,
+      "sha256": "b8be439bcb235e9ea44362e866b9be0ee6b42fc9accd08e9e9ff1aec4f612759"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/run-record.json",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/run-record.json",
+      "bytes": 2816,
+      "sha256": "9e00d7dac3d929da06a29a4d94a683d7eb66c3467e7603d4a793c17a082e2c71"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-experiment-strict-types.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-experiment-strict-types.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-full-lint.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-full-lint.log",
+      "bytes": 215,
+      "sha256": "fee6ee295a3140934e677421178e19290f2b2fcd1e47415c0de218edd404c6f3"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-identity-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-identity-fixtures.log",
+      "bytes": 469,
+      "sha256": "67ff195878e25dbe07543cc4a4e9818c025fc1257df7d04ae98214ea5f7c9059"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-independent-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-independent-fixtures.log",
+      "bytes": 104,
+      "sha256": "c6b9b1f09add0403cc07e90bfdf272129b1ddfa2f8f7675ea8218862f2516371"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-performance.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-performance.log",
+      "bytes": 903,
+      "sha256": "94556d38ce6c1d44acd5c7b5e8730e8cffc93f5a1798f399c71fc4b0e2945b79"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-quality.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-quality.log",
+      "bytes": 1492,
+      "sha256": "b905f68af4b5c5ec10ae1352e0e11e985be6065a7a307342e68c7e079335e51c"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-score-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-score-fixtures.log",
+      "bytes": 390,
+      "sha256": "afaff9b5a0cae630a8030c3780c610a453a245a37e9c3d2603b61697a16c72ab"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-strict-types.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-strict-types.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-touched-lint.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-touched-lint.log",
+      "bytes": 465,
+      "sha256": "74e9977f843066ea41d2e1567ae91f1f6393148e193e0c831ce9cbe554b9f28e"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/candidate-whole-unit.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/candidate-whole-unit.log",
+      "bytes": 13239,
+      "sha256": "e933cf92c7f644883a9558982f18108dfc0440985edc37cee7e17c92d60d752c"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/full600000-independent-proof.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/full600000-independent-proof.log",
+      "bytes": 2574,
+      "sha256": "7a83d0542ee3dcea8652cc9a37dae9872970621ab6e2b7410ac85fd6781609a6"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/full600000-native-observation.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/full600000-native-observation.log",
+      "bytes": 2994,
+      "sha256": "f00e5fd5a2ca7ffe90f306b9ab28fef32d70c619cf957483bb1e5bfdf67110d7"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/parent-full-lint.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/parent-full-lint.log",
+      "bytes": 212,
+      "sha256": "7bc208acf8cd8173fba4d905f55635df2644d3f3d6aae313106e7d8da10361f6"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/parent-identity-fixtures.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/parent-identity-fixtures.log",
+      "bytes": 480,
+      "sha256": "825677791ccdb4fcdeec91adbabdef1702a156bf5922467a33fd1b66c3587e11"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/parent-performance.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/parent-performance.log",
+      "bytes": 914,
+      "sha256": "980c9e2635c984c785a0011db64dc35f6d29069e695aaf87143f6d382a71614a"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/parent-quality.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/parent-quality.log",
+      "bytes": 1514,
+      "sha256": "f839ccea9aec76a52d097d0c41063770a0c0302861d320b1afecc15471e83609"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/parent-strict-types.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/parent-strict-types.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/parent-whole-unit.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/parent-whole-unit.log",
+      "bytes": 13187,
+      "sha256": "4262e7b24d3ba55aa0d602063f7ad991e403b736dfcf269c9dc2e63ffd31d9f2"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/public2000-parent-candidate-parity.log.txt",
+      "originalFile": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure/public2000-parent-candidate-parity.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "history/fourth-review-indent-failure/report.json.gz",
+      "bytes": 785895,
+      "sha256": "b384e4639fd6cf3eafdc2e2b3e9a3c39a6cc18cb00a63e05b64b3ca14867ee2c",
+      "originalUncompressed": {
+        "bytes": 10832367,
+        "sha256": "540d0edc592dc6cd6eac074aaa580547bdc9ca970b72bbc6edef44dea8f93951"
+      }
+    },
+    {
+      "file": "history.json",
+      "bytes": 2849,
+      "sha256": "a1bc8ccf008c30c544ac25749653009b54f6edace4f9e287c71dd3bc8492b9b3"
+    },
+    {
+      "file": "acceptance.json",
+      "bytes": 1692,
+      "sha256": "e5a385b347f039a3484f86f2063a6f49294e75957da1cec195d7728fa9631ffb"
+    }
+  ],
+  "scoreStreamCount": 60,
+  "wordCount": 600000,
+  "freeze": {
+    "bytes": 27562,
+    "sha256": "9f30fb72b563e61746d62b2be8a6c57650fe3222e7c1a98b61b5e6ab191ba2bd"
+  },
+  "scope": "All current60completecompressed score streams, original native report with all counters/strata/witnesses, independent proof,full check logs, complete local lint reports, full-row preservation check and attempt histories. Original raw words and every historical full score/source snapshot remain separately retained; these receipts do not claim those raw inputs are hosted in this PR."
+}

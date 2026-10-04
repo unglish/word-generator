@@ -1,0 +1,377 @@
+{
+  "version": "q16b-independent-score-proof-v1",
+  "words": 600000,
+  "streams": [
+    {
+      "arm": "original",
+      "stream": "words/lexicon-default-69212153.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "57e7fd100a090b1c990578dfcb44b9da4aaef670360b1e7d233de58f65f0d9ab"
+    },
+    {
+      "arm": "original",
+      "stream": "words/lexicon-default-101601885.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "34605ea9e19d65a1bd358039eb16fcda6243f5681c0297f187908e4fb47cbc7a"
+    },
+    {
+      "arm": "original",
+      "stream": "words/lexicon-default-3921817393.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "377cc5066d1bcf74976a2eb566e2e83b58a86b5381c548b3bc0b70e2a5b0413a"
+    },
+    {
+      "arm": "original",
+      "stream": "words/lexicon-default-3948943232.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "11334597489cbb5044d0959a86336f8870a078e88c139bf04dd66202ff23208e"
+    },
+    {
+      "arm": "original",
+      "stream": "words/lexicon-default-2089697863.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "d4a89051e530a95c3e624dd16adbbf98f70be7ffd8e2deb28537cd51a37abb90"
+    },
+    {
+      "arm": "original",
+      "stream": "words/lexicon-bare-2380207674.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "de4d617963ab45029001252230d5c4b65579d280aec2b1e3361cc5e7ed91f476"
+    },
+    {
+      "arm": "original",
+      "stream": "words/lexicon-bare-772709128.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "0fc4b15604ca4838ffb1cc3147fdfa00a03df568e2e193228c434992602618ef"
+    },
+    {
+      "arm": "original",
+      "stream": "words/lexicon-bare-1304238451.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "efe610743e4ae34679bb1aac954c659e0386aa8e21ae1c62699c99d04a784f51"
+    },
+    {
+      "arm": "original",
+      "stream": "words/lexicon-bare-1696751198.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "010d386fdd80e934568dde0f4d397da8bdffd784d67a8957731254088abd0031"
+    },
+    {
+      "arm": "original",
+      "stream": "words/lexicon-bare-1498885173.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "46fe50c62ed202bed9dc84940de7c023391a77836a919018a2e1e5228b3265ee"
+    },
+    {
+      "arm": "original",
+      "stream": "words/monosyllables-bare-462530651.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "50fded00619491d816b876521840a11f22e0fc01346518cda5b899782432e6a7"
+    },
+    {
+      "arm": "original",
+      "stream": "words/monosyllables-bare-62358955.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "b0200c93ccad998ea70e10b71331a8ecc15bbfe350eadc566adb12370aa16f41"
+    },
+    {
+      "arm": "original",
+      "stream": "words/monosyllables-bare-3297327738.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "5848f533344f36fa5e29d40be0ff64afff79d4767c6962ca38a7272068b17d2e"
+    },
+    {
+      "arm": "original",
+      "stream": "words/monosyllables-bare-2001884366.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "3285f06bfa370653b947c3428c786a141ffa33f696aceb1e3ea11090311247fa"
+    },
+    {
+      "arm": "original",
+      "stream": "words/monosyllables-bare-2353354178.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "870dc53d41bdadc30489906b2b12db5bf7382d7da739c5172d788bad4707f349"
+    },
+    {
+      "arm": "original",
+      "stream": "words/text-default-4167471042.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "2447d9cbae3726dad8a2c97ed571c5765e36906518adfbb17b3c35254223c465"
+    },
+    {
+      "arm": "original",
+      "stream": "words/text-default-2666001996.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "ad365b1a8be165bfe55157b47c8d65420f1acd4f66f9693d3647ee58f8091a8d"
+    },
+    {
+      "arm": "original",
+      "stream": "words/text-default-3562318933.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "fbd68fcb57294a494f6fbbd89b8337a8e2980cb2321c53b3cabebce7c1d29bc9"
+    },
+    {
+      "arm": "original",
+      "stream": "words/text-default-1999736106.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "827fc2251c4b2fb6002c1fa76b61eef960c8fdae4a6ccb5c4af1a2bed81295ca"
+    },
+    {
+      "arm": "original",
+      "stream": "words/text-default-1665836705.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "54a10df0973abb7c71ba3795917d3d95d499d440a3c6d7fc4ee15f30350e402b"
+    },
+    {
+      "arm": "control",
+      "stream": "words/lexicon-default-69212153.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "076b80ed95d033257c412ae2da2da15c7745f12ef6955380c9e2a76b245c9e55"
+    },
+    {
+      "arm": "control",
+      "stream": "words/lexicon-default-101601885.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "2ceb5e0aec626d1aec894428a866ed6a498a06ebb2ac7a8ed09b61409dad4429"
+    },
+    {
+      "arm": "control",
+      "stream": "words/lexicon-default-3921817393.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "b140073773f25f687507f57ea7b2dd63e12b25c2ee56801ccdc2bea35ab10fef"
+    },
+    {
+      "arm": "control",
+      "stream": "words/lexicon-default-3948943232.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "4eb186eb0199d7c78649b35aeb47475eadf8859ee8a4743994a005c26945e1b8"
+    },
+    {
+      "arm": "control",
+      "stream": "words/lexicon-default-2089697863.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "815c6cd5db2db163905169c8131ca7cede89f25b1e1a9731d0b19065271a816f"
+    },
+    {
+      "arm": "control",
+      "stream": "words/lexicon-bare-2380207674.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "ff8831ce7b761887db0119041d573321d4ec0783c9225e124ca2c8a65b59ee4b"
+    },
+    {
+      "arm": "control",
+      "stream": "words/lexicon-bare-772709128.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "cacc15d109e9dee6107c5526cc50462ab15dd536023cecc7610e65dacc75eb37"
+    },
+    {
+      "arm": "control",
+      "stream": "words/lexicon-bare-1304238451.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "9abac378172ae91fc71d40143334dfe74f0559ba95bb84da6acf02061fb726c3"
+    },
+    {
+      "arm": "control",
+      "stream": "words/lexicon-bare-1696751198.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "61b6e290ebefa7cd312dbea9c1a92d059239909516d848a7c855cc8e884ad6e9"
+    },
+    {
+      "arm": "control",
+      "stream": "words/lexicon-bare-1498885173.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "4ad8d6472878d5671e245b18602473646e583f30dd862a42aa9e8f4cd54783a3"
+    },
+    {
+      "arm": "control",
+      "stream": "words/monosyllables-bare-462530651.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "1390ab670d462a5b12a735a36c17bf7eb1a307db385af544a4fc407e50df9b28"
+    },
+    {
+      "arm": "control",
+      "stream": "words/monosyllables-bare-62358955.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "8a913243bbeb454391e11f88fb8f400ccc2603a446f06bfdda22d85a71b5d659"
+    },
+    {
+      "arm": "control",
+      "stream": "words/monosyllables-bare-3297327738.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "400ea661a89312bbd8169934db7436dc487eec6f929f72dc1e043ad0a604a283"
+    },
+    {
+      "arm": "control",
+      "stream": "words/monosyllables-bare-2001884366.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "447a5d3b6edd5701d4e8ec349f8781da0154cf609d4844e9fefbf29d56fbdba9"
+    },
+    {
+      "arm": "control",
+      "stream": "words/monosyllables-bare-2353354178.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "4473281ef8bd6a8b3d2cce832cf5d696a9eeb54ad1d5b77f22d1e2aff53c37a5"
+    },
+    {
+      "arm": "control",
+      "stream": "words/text-default-4167471042.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "08cf435450a04436ef58f13bdb031fd1c16a9bb00c7d5d5b9fa196f859c4953b"
+    },
+    {
+      "arm": "control",
+      "stream": "words/text-default-2666001996.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "a4776df3763786188fd54a36835a3c8e5aaa9841f7baa4966b8f2bbb25448d78"
+    },
+    {
+      "arm": "control",
+      "stream": "words/text-default-3562318933.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "d2795a28b14a80231a45e23dd07114abdee9c27a90f2aee22857a3aaaf60f2c4"
+    },
+    {
+      "arm": "control",
+      "stream": "words/text-default-1999736106.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "30d4537d35ef7c8471d6cf3dc6d16ddf77fa278045da8e2023307070de597142"
+    },
+    {
+      "arm": "control",
+      "stream": "words/text-default-1665836705.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "5fee8d2570b957b9ca2e0961d3cb0d925b035cad3c4aaff0e10ec1079fb42ee1"
+    },
+    {
+      "arm": "active",
+      "stream": "words/lexicon-default-69212153.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "329d3199b4bd6083f0abb6f51465a40b54f793f922e8057259f1752b1c0d7f11"
+    },
+    {
+      "arm": "active",
+      "stream": "words/lexicon-default-101601885.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "0d2ebe8747b1774da3aa9260f217bb999e3b2abe0e1692994abec76c53278827"
+    },
+    {
+      "arm": "active",
+      "stream": "words/lexicon-default-3921817393.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "f8ba01ef82269ae725fa67e3f3a87da98b473541d18ac74a0f78d9b892a84125"
+    },
+    {
+      "arm": "active",
+      "stream": "words/lexicon-default-3948943232.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "229637ba09b5e890495e8b4b3173849a3315418b134f6dddf026f01555eafe8b"
+    },
+    {
+      "arm": "active",
+      "stream": "words/lexicon-default-2089697863.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "59cd5d198dc44ed247edfef78a5ab79c91c61f0af4f41ca004297bba023f068d"
+    },
+    {
+      "arm": "active",
+      "stream": "words/lexicon-bare-2380207674.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "e2d53d61bd1723b604eef37ff304d5648c5b73f59700adbfd715e5db9d929707"
+    },
+    {
+      "arm": "active",
+      "stream": "words/lexicon-bare-772709128.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "544e9b30c12a376cd991f15a88ab0b7ec2ddedf4d2afd0448fb6ec38c34c9ce3"
+    },
+    {
+      "arm": "active",
+      "stream": "words/lexicon-bare-1304238451.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "e9d001a56e6a587659a94b56aa58e4fa3d6770fda592907cc9b77acef1a35953"
+    },
+    {
+      "arm": "active",
+      "stream": "words/lexicon-bare-1696751198.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "d2661c1d1cfbcbfc704df6bcf48731f6ce5fd966610e2d14656a9d0b4d4c2d93"
+    },
+    {
+      "arm": "active",
+      "stream": "words/lexicon-bare-1498885173.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "928c5022403558f6847cbcec8bd846252abc2a2ede218612482ba88037a49f37"
+    },
+    {
+      "arm": "active",
+      "stream": "words/monosyllables-bare-462530651.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "1390ab670d462a5b12a735a36c17bf7eb1a307db385af544a4fc407e50df9b28"
+    },
+    {
+      "arm": "active",
+      "stream": "words/monosyllables-bare-62358955.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "8a913243bbeb454391e11f88fb8f400ccc2603a446f06bfdda22d85a71b5d659"
+    },
+    {
+      "arm": "active",
+      "stream": "words/monosyllables-bare-3297327738.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "400ea661a89312bbd8169934db7436dc487eec6f929f72dc1e043ad0a604a283"
+    },
+    {
+      "arm": "active",
+      "stream": "words/monosyllables-bare-2001884366.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "447a5d3b6edd5701d4e8ec349f8781da0154cf609d4844e9fefbf29d56fbdba9"
+    },
+    {
+      "arm": "active",
+      "stream": "words/monosyllables-bare-2353354178.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "4473281ef8bd6a8b3d2cce832cf5d696a9eeb54ad1d5b77f22d1e2aff53c37a5"
+    },
+    {
+      "arm": "active",
+      "stream": "words/text-default-4167471042.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "27f3814067f89f26a634c2842d6ce5db1333e39e2a2b01b33a6ee1ec5bd1c2af"
+    },
+    {
+      "arm": "active",
+      "stream": "words/text-default-2666001996.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "cfeab0b860604d431bb50b9079f5675468eefc5a95beb6cba38fd0cc83c89a74"
+    },
+    {
+      "arm": "active",
+      "stream": "words/text-default-3562318933.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "d1df41c34d2d96492df45c45c4da5cfbf255f3d19727ce346d4aede2940642ed"
+    },
+    {
+      "arm": "active",
+      "stream": "words/text-default-1999736106.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "da7bbfc82ea0fb101832be41b012bb2384a746513fbd87d4787c1890a09d57f8"
+    },
+    {
+      "arm": "active",
+      "stream": "words/text-default-1665836705.jsonl.gz",
+      "words": 10000,
+      "entireScoreStreamSha256": "d343fda9ef9863b985469f70290e2b3facfdbb896302641cd500dbad0cc3ad69"
+    }
+  ],
+  "report": {
+    "bytes": 14701683,
+    "sha256": "ba6c75e2a7a58fe93d18f426c05e7bb7a67b5feb01c9e6d5674b186175ea0088"
+  },
+  "freezeSha256": "9f30fb72b563e61746d62b2be8a6c57650fe3222e7c1a98b61b5e6ab191ba2bd",
+  "maximumPerWordScoreAbsoluteDifference": 3.552713678800501e-15,
+  "tolerance": {
+    "absolute": 1e-12,
+    "relative": 1e-12
+  },
+  "scope": "All 600000 archived words, every aligned projection/evidence/binding/loss/transition/score, all stream/profile/morphology/syllable/segment strata and deterministic witnesses. Entire pinned reference and all integer conservation relations authenticated; all raw/source files rehashed before and after. No generator calls or TypeScript scoring imports."
+}

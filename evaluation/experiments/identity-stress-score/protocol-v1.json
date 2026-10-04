@@ -1,0 +1,60 @@
+{
+  "version": "q16b-identity-stress-score-study-v1",
+  "registeredAt": "2026-10-04T14:14:29.263884+00:00",
+  "basePR": 318,
+  "baseCommit": "d95167be2adae19c41927f1bcf20b1a4cc4983e2",
+  "baseBranch": "codex/phoneme-identity-contract",
+  "declaredDataDependency": {
+    "PR": 332,
+    "head": "bd70cbfef2a9f58442cf9bb066faec23b79ee2ef",
+    "artifactFileSha256": "a1bad741aff421b5f87d014ba9bc0e39c15b696dbe9add3d97bb42ba82b29e59",
+    "artifactDigest": "45da904ae1eb33db2f1bb85c8eb1721cfde6251213a6fd6487e2b6186a95d067",
+    "sourceSha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+    "selectedEntryDigest": "d6a702f18c1bc17f7d7b41206d37498ecab0a7712c862f0398c9a8fde7a13d29",
+    "entries": 117485,
+    "eventsPerView": 859818
+  },
+  "scope": "Pure diagnostic scores and explicit reference crosswalk; no generator behavior, dialect migration, gate, oldscore or reference modification. Named CMU/rhotic reference is provisional with respect to legacy generator; does not infer a GeneralAmerican realization. Native reference preserves vowel stress digits; coarse reference erases them. AH/ER source mergers remain disclosed; ambiguous\u025c is unavailable for strict scoring.",
+  "model": {
+    "alpha": 0.5,
+    "boundaries": "one # start andend per nonemptyword; no crosswordedges",
+    "vocabulary": "exact pinned observed per-view vocabulary including #; out-of-vocabulary unsupported",
+    "score": "mean negative base2 logprobability per transition, including initial/final boundary transitions",
+    "notComparableAsImprovement": "coarse/native have different target alphabets; no native-minus-coarse qualitygain verdict",
+    "referenceValidation": "entire pinned reference bytes/authentication, integerrow/column conservation, native-to-base paircount identity, immutable detached compilation"
+  },
+  "stressEvidence": {
+    "explicit": "only actualprimary/secondary syllablemarks; absentmark is unavailable",
+    "trace": "separatelyversioned adapter requires actualv1/v2 complete surface-after-realization wordsnapshot with exact wordgeometry/sound/marker alignment; explicitunmarked snapshot supplies unstressed, absent/invalid/mismatched trace does not",
+    "sourceLayer": "surface only; no lexical reconstruction from reductionflags"
+  },
+  "archives": [
+    {
+      "role": "original",
+      "path": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone",
+      "words": 200000,
+      "streams": 20
+    },
+    {
+      "role": "control",
+      "path": "/private/tmp/q09-runtime-acceptance-revalidation-v1/control-raw",
+      "words": 200000,
+      "streams": 20
+    },
+    {
+      "role": "active",
+      "path": "/private/tmp/q09-runtime-acceptance-revalidation-v1/active-raw",
+      "words": 200000,
+      "streams": 20
+    }
+  ],
+  "measurement": [
+    "All600000records only, no newwords/regeneration/validationcohort. Rehash everypinnedrawarchive/source beforeandafter.",
+    "Every word gets aligned coarse/native projections with all unsupported identities, slots, missingstress, aliases/mergers/aspiration losses retained.",
+    "Full-coarse diagnostics separately reported; matched coarse/native numbers use exactlysame eligiblewords/denominators within each arm. Traceadapter gainsupport separately from explicit-only; no silent fallback or baseline markingguess.",
+    "All profiles/seedstreams/actualmorphology/wordlength strata, entire scorestreams/digests and deterministic missing/valid witnesses preserved.",
+    "IndependentPython implementation re-enumerates projections/every transition/count/score with fixed1e-12absolute +1e-12relative tolerance; no production scoring/adapter calls.",
+    "Public generator2000coordinate traceon/off/RNG/mutation checks and requiredbaseline/candidate fixture/type/unit/quality/performance checks retained; inheritedfailures notweakened."
+  ],
+  "status": "preregistered-before-score-implementation-or-study"
+}

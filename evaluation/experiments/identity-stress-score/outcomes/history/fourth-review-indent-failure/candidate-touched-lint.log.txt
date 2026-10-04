@@ -1,0 +1,10 @@
+
+/private/tmp/q16b-scoring-v1/checkout/src/phonology/identity-stress-score.ts
+  158:1  error  Expected indentation of 2 spaces but found 4  indent
+  159:1  error  Expected indentation of 2 spaces but found 4  indent
+  160:1  error  Expected indentation of 2 spaces but found 4  indent
+  161:1  error  Expected indentation of 2 spaces but found 4  indent
+
+✖ 4 problems (4 errors, 0 warnings)
+  4 errors and 0 warnings potentially fixable with the `--fix` option.
+

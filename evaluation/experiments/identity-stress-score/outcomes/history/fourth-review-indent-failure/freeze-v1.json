@@ -1,0 +1,794 @@
+{
+  "registeredAt": "2026-10-04T15:25:16.616337+00:00",
+  "base": "d95167be2adae19c41927f1bcf20b1a4cc4983e2",
+  "protocol": {
+    "bytes": 4003,
+    "sha256": "423f9e3ab8653e330c8e2a5fbc6a1a5b5ff55f67b89113347d1b250c612d69ba"
+  },
+  "files": [
+    {
+      "path": "eslint.config.mjs",
+      "bytes": 536,
+      "sha256": "4ddd39813d1b2b19aec5a69a766b1c45a54f8bf377d49d7672316166ae415007"
+    },
+    {
+      "path": "evaluation/experiments/identity-stress-score/README.md",
+      "bytes": 4592,
+      "sha256": "8c319a5c5279b81dae09e13c6b4907b803796db3c860024c44577f864f35b5c2"
+    },
+    {
+      "path": "evaluation/experiments/identity-stress-score/archive-schedule.test.ts",
+      "bytes": 1720,
+      "sha256": "b6b0868eca6078146f12593ee930f3a6b1e1f16ee6470dff899b604b4362cedc"
+    },
+    {
+      "path": "evaluation/experiments/identity-stress-score/protocol-v1.json",
+      "bytes": 4003,
+      "sha256": "423f9e3ab8653e330c8e2a5fbc6a1a5b5ff55f67b89113347d1b250c612d69ba"
+    },
+    {
+      "path": "evaluation/experiments/identity-stress-score/public-parity.ts",
+      "bytes": 4134,
+      "sha256": "cf1ec24d35f9ab5f0cea6b9bb4052151c05fa8843697d311e97ce8e22f5d3417"
+    },
+    {
+      "path": "evaluation/experiments/identity-stress-score/reference.json.gz",
+      "bytes": 58091,
+      "sha256": "a1bad741aff421b5f87d014ba9bc0e39c15b696dbe9add3d97bb42ba82b29e59"
+    },
+    {
+      "path": "evaluation/experiments/identity-stress-score/reference.ts",
+      "bytes": 2263,
+      "sha256": "bb7d348a51b6355e7c2cd4d928f38238ab06d78c1f301336c86d9f05575c07cc"
+    },
+    {
+      "path": "evaluation/experiments/identity-stress-score/study.ts",
+      "bytes": 13219,
+      "sha256": "cc5bbbc7b8792a8e8f81f67edce18eb91d4f66fad0dbc32cb14e2744ea847db1"
+    },
+    {
+      "path": "evaluation/experiments/identity-stress-score/tsconfig.json",
+      "bytes": 306,
+      "sha256": "32c0fca61ffed2dd5f1ce87dacd217702a8cacdcdeaefde5ace787cf09925e75"
+    },
+    {
+      "path": "evaluation/experiments/identity-stress-score/verify.py",
+      "bytes": 22359,
+      "sha256": "095a741212ab2f5bbbf6682f9034de95b7787ab5666b9259dbfe3b3d0cf193fc"
+    },
+    {
+      "path": "evaluation/experiments/identity-stress-score/verify_test.py",
+      "bytes": 4118,
+      "sha256": "6f3e95b89c4b0a6f6aedd08c042f5530ca623a1d9ee22b9037f1196e8c4548f5"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-development-standalone/distributions.json.gz",
+      "bytes": 74189,
+      "sha256": "f37acaa3778afdac4160f21b9b1a5857fe22db29c9097461bf078a0c6aec41ad"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-development-standalone/manifest.json",
+      "bytes": 109507,
+      "sha256": "1e31ad59251eb5fbe8863bae988539062845f081e2597589669343f50e5452e7"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-development-standalone/provenance.json.gz",
+      "bytes": 188525,
+      "sha256": "83d167a02b74747d4960491e2696544624f45bbfd9848564ed79f192f1f3a032"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-development-standalone/review-samples.json.gz",
+      "bytes": 344371,
+      "sha256": "e72ea127b6cda7a2ac0fe818c608c9289b25866f606c4862bc995e573ec787c8"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-development-standalone/sources.json.gz",
+      "bytes": 204582,
+      "sha256": "55ce4b3f32d2ec2a9629e99d4fda466dd0c658572a239edfa15ba55ef6131f68"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-development-standalone/summary.json",
+      "bytes": 87179,
+      "sha256": "4c1c9bc0b3f92b8b0b22065f2c5aeff7645fc13f2d5597603b20bc029777f62b"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-development-standalone/witnesses.json.gz",
+      "bytes": 23856,
+      "sha256": "96e60b5e8e4895f5bc111ce39a601f03459b2bffeeeea9da3bbe62f6db8b2711"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-validation-standalone/distributions.json.gz",
+      "bytes": 74615,
+      "sha256": "77daa3566847c341edd858ce1aed7ff5eb31e420b32cd13ceb23123aeeb8f5df"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-validation-standalone/manifest.json",
+      "bytes": 109508,
+      "sha256": "18f36c70dd9a6ad542b895f5b45a6b09a41872dfab23b21c19ab9680434a0f24"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-validation-standalone/provenance.json.gz",
+      "bytes": 188514,
+      "sha256": "dc0cada282863d3701c67a59220bf1605fe965ebce13f0414a1a3c1e729d7c0e"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-validation-standalone/review-samples.json.gz",
+      "bytes": 347311,
+      "sha256": "0441fc274d8cc9d67b5a39ef22d18cc00a63b89e82dbc8fe189d31fd3190d56f"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-validation-standalone/sources.json.gz",
+      "bytes": 204582,
+      "sha256": "55ce4b3f32d2ec2a9629e99d4fda466dd0c658572a239edfa15ba55ef6131f68"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-validation-standalone/summary.json",
+      "bytes": 87253,
+      "sha256": "60e4e414e9953f25b8e600812a0aed06c6c6022fe14e657a506ce0e8bdd30e4b"
+    },
+    {
+      "path": "evaluation/quality/baselines/2026-09-26-validation-standalone/witnesses.json.gz",
+      "bytes": 23111,
+      "sha256": "2a291c54732cd3bfda18df67d5a274c2b7ad89c68a03343c517bc9b97f50ff77"
+    },
+    {
+      "path": "evaluation/quality/baselines/README.md",
+      "bytes": 3080,
+      "sha256": "d33b4e0207e634f78f0e1404aeee9aa1aa360b348b9ee123d33d2e8e6d043de4"
+    },
+    {
+      "path": "evaluation/quality/capture.test.ts",
+      "bytes": 3618,
+      "sha256": "60a6e7fd44363aecc4589712277cc082b2b05cfcbed3206a609b5e3339b6f9c5"
+    },
+    {
+      "path": "evaluation/quality/capture.ts",
+      "bytes": 20811,
+      "sha256": "3b71b7c25bf2fca32b49dbdd74ed54f0b030ef88afc768c1fe3b82ffb8af669a"
+    },
+    {
+      "path": "evaluation/quality/cli.ts",
+      "bytes": 4079,
+      "sha256": "8227d92d8f5f53466005a1721ba01b9c4137a76d27c3f08ddaf0a4ec3e472bf4"
+    },
+    {
+      "path": "evaluation/quality/compare.test.ts",
+      "bytes": 11540,
+      "sha256": "69c63f5ef64c3b9abace5352c3a0c0470494288a96cda6897c965a9aba5dca6c"
+    },
+    {
+      "path": "evaluation/quality/compare.ts",
+      "bytes": 19820,
+      "sha256": "e4e96174a7339077ed964febb49be291b90923d2500bbfaf6fd3e16187987239"
+    },
+    {
+      "path": "evaluation/quality/distribution.test.ts",
+      "bytes": 3625,
+      "sha256": "f9a7f0d7219b62e4fe9a4a37004aa8f26b583d13d1da4e7bdbad661b37d337a5"
+    },
+    {
+      "path": "evaluation/quality/distribution.ts",
+      "bytes": 2723,
+      "sha256": "562d595e7918db2264ba11a3f59c7f87729c5d18f48e8706ac5c82e738bb097a"
+    },
+    {
+      "path": "evaluation/quality/metrics.test.ts",
+      "bytes": 9105,
+      "sha256": "833bf6ad289eabeb3f468245058298529947a3586d3be96a1a6653a185e4cd06"
+    },
+    {
+      "path": "evaluation/quality/metrics.ts",
+      "bytes": 8743,
+      "sha256": "2825ee22233d2868132e243e1156ef5eec310c318916f38e5a5acccb8b355147"
+    },
+    {
+      "path": "evaluation/quality/model.ts",
+      "bytes": 2925,
+      "sha256": "3246f7144380767bea8d9eb2c268d04809c3aefddbe6913a4939660d932a623e"
+    },
+    {
+      "path": "evaluation/quality/probes/nucleus-edges.ts",
+      "bytes": 9203,
+      "sha256": "78188a36a0c3aad925346a526b4425855d71bfdfa6ebead31093931a52bad143"
+    },
+    {
+      "path": "evaluation/quality/probes/phoneme-identity-protocol.json",
+      "bytes": 1920,
+      "sha256": "bed800ebd2c5400a17232508f3512b916437046f570cdd63f7c7b1d82f8ad2c5"
+    },
+    {
+      "path": "evaluation/quality/probes/phoneme-identity.test.ts",
+      "bytes": 8063,
+      "sha256": "c62b73662c93c17530d50709c3bd4ec73dc1f3fd2054e7c02c30b05da2420f0e"
+    },
+    {
+      "path": "evaluation/quality/probes/phoneme-identity.ts",
+      "bytes": 12123,
+      "sha256": "29e491dee1127312ac9d915d46b4ead3577fb3dbc9dcf0af2b47f001f42bfaf2"
+    },
+    {
+      "path": "evaluation/quality/probes/resolved-allomorphs/README.md",
+      "bytes": 3637,
+      "sha256": "a7a82d2a1cf34bdc77c983953df42325ec6f3307746c09628b20854d531264b9"
+    },
+    {
+      "path": "evaluation/quality/probes/resolved-allomorphs/analyze.d.mts",
+      "bytes": 1163,
+      "sha256": "47dc91251193a9a954e3032017f2d0c1a1b0da5528fba9944f47449cde3ab731"
+    },
+    {
+      "path": "evaluation/quality/probes/resolved-allomorphs/analyze.mjs",
+      "bytes": 10253,
+      "sha256": "df32a00a737ee6fb455d40f662aee2123089d645f678e992757519ed53afa366"
+    },
+    {
+      "path": "evaluation/quality/probes/resolved-allomorphs/analyze.test.ts",
+      "bytes": 7199,
+      "sha256": "d3e3671036d412c6cf519f3b128a0032e4d3def0215434a9eec9a407e39cfff8"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-quantity/README.md",
+      "bytes": 8666,
+      "sha256": "7c91562b9b2f895a05d6b29db23b00818ec628a72ee1654df6507cc31474a2d0"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-quantity/archive.test.ts",
+      "bytes": 6510,
+      "sha256": "d05358028cf543e3d1347d0ad40d72c9de5aaf25d1e6dfcaf2ff1e8dd0dd11a8"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-quantity/archive.ts",
+      "bytes": 5247,
+      "sha256": "c12795a9525ffea4fe5f72c8d28f41daf139110c3ea202d54d81a0bb8041801c"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-quantity/control.ts",
+      "bytes": 8028,
+      "sha256": "73490c904b6ac80ac8729178cb005d8eedaebfd40f8d610607d3aa3e16338f1e"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-quantity/vitest.config.ts",
+      "bytes": 153,
+      "sha256": "06c6dffdf959716d2aa0f8c4720ed258cd7e79e3b83dcfdfb3d63f1f769528f6"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-weight/README.md",
+      "bytes": 3943,
+      "sha256": "c2a367b35d0da8439dfe47198ccfd3529e300f3c60992f3068d63c17403eceb8"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-weight/capture.ts",
+      "bytes": 3944,
+      "sha256": "e58298f76e121964bbb7c8daa7070161fb93526084df03d2fbfc4d088e399865"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-weight/compare.ts",
+      "bytes": 2166,
+      "sha256": "8d2a694df7b74c832477c3b06e3b3ec99b9d89f95103aabb7b5f192d537efe74"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-weight/shared.test.ts",
+      "bytes": 4686,
+      "sha256": "960749df3974e591e6d406dbee2d37afe260169e7774684432d08496e9d14831"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-weight/shared.ts",
+      "bytes": 12317,
+      "sha256": "d59e9a8abc257e299cfb6bfcea2ed6ee4803f3d98fe26afcad5db4379e9b3262"
+    },
+    {
+      "path": "evaluation/quality/probes/syllable-weight/vitest.config.ts",
+      "bytes": 151,
+      "sha256": "c6e55db3e70b24cf0f888382a7dec79247460fc459b3319114109b2ed63be70c"
+    },
+    {
+      "path": "evaluation/quality/protocol.json",
+      "bytes": 1911,
+      "sha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9"
+    },
+    {
+      "path": "evaluation/quality/rescore.test.ts",
+      "bytes": 9680,
+      "sha256": "432b99129d3e21a4dc003493056e7748c74dbe2d74ff545a74d98e98d754a9ab"
+    },
+    {
+      "path": "evaluation/quality/serialization.test.ts",
+      "bytes": 871,
+      "sha256": "0e013dc022130b80056e6bf549a19f6e6900d43f41fb1bb604e103c84a800a74"
+    },
+    {
+      "path": "evaluation/quality/serialization.ts",
+      "bytes": 1359,
+      "sha256": "c43ee5588d6ce61c1f5d9dd8d79b37e47fb835a0199a6bf9b526a6634b0d0713"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 121792,
+      "sha256": "985093dd683275e3c5c5f10ae2210c7395914de9bb669f71c9b1e34350218bc6"
+    },
+    {
+      "path": "package.json",
+      "bytes": 4045,
+      "sha256": "6ddbe48238bf544716fc1a0711aa8081ce91e8c7b4b7a1d112c3058eb160d267"
+    },
+    {
+      "path": "src/config/english.ts",
+      "bytes": 27970,
+      "sha256": "8d866eb7e7deeaeaccbdcdf3b6d4e8dac80da468a0393ea48841fa1f37e95c63"
+    },
+    {
+      "path": "src/config/language.test.ts",
+      "bytes": 26147,
+      "sha256": "e3fb00d6c5db48933ab740f6c4ba12372b622e3957e7db74a7846185fb058fc7"
+    },
+    {
+      "path": "src/config/language.ts",
+      "bytes": 70603,
+      "sha256": "efb309e7f7994d5d68a0c7542f95cb851de7b8f5f36d08a560137ef2abe8b2d6"
+    },
+    {
+      "path": "src/config/ngram-thresholds.json",
+      "bytes": 1706,
+      "sha256": "a8ded5db4d69f7699f22289287f8471d249837c5a67efaef4cc62c7aa23aa739"
+    },
+    {
+      "path": "src/config/phoneme-thresholds.json",
+      "bytes": 850,
+      "sha256": "2c812622ba7092c4c4034e657660f059f4387498c75777beb15bade75dbe44a5"
+    },
+    {
+      "path": "src/config/weights.ts",
+      "bytes": 9142,
+      "sha256": "842d16e5df9b15875cccd1ca455ae3b8fb62aecc0da16503411041629e31debc"
+    },
+    {
+      "path": "src/core/cluster-weights.test.ts",
+      "bytes": 7830,
+      "sha256": "9874b0af777a26aee98cec7eecc88efb2930a27aaf99c23a637cbe3054f3ff7a"
+    },
+    {
+      "path": "src/core/common-word-orthography.test.ts",
+      "bytes": 10843,
+      "sha256": "4985ebfecfd0ac010ead3994c1679cb481f1fa12bcfeecccbbe334139474d8a0"
+    },
+    {
+      "path": "src/core/distribution-quality.test.ts",
+      "bytes": 3374,
+      "sha256": "85c44d96e6b8802033e091f794775cd808eb23d1fb4032af15c4f751f4e0749a"
+    },
+    {
+      "path": "src/core/distribution-quality.ts",
+      "bytes": 2476,
+      "sha256": "21724b78fc1140bca91f2b84aecbc0346b08a58b7bd94291eea8fbe3710685a3"
+    },
+    {
+      "path": "src/core/gap-spelling.ts",
+      "bytes": 4092,
+      "sha256": "5bdbb4b864c8f53c09e531d97ea41991ee04c809dffd1f00afaaa632ba2d1d03"
+    },
+    {
+      "path": "src/core/generate.bench.ts",
+      "bytes": 768,
+      "sha256": "b6a1051ce91d7031b2b03d611ea1cfb422f1ca8108ff6c6c3a067695d57d0d8f"
+    },
+    {
+      "path": "src/core/generate.perf.test.ts",
+      "bytes": 2902,
+      "sha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83"
+    },
+    {
+      "path": "src/core/generate.test.ts",
+      "bytes": 9887,
+      "sha256": "e7dc37e8f86b4b7c9b7dfc42e9571d162d4389ac8dee80306276b130edea0465"
+    },
+    {
+      "path": "src/core/generate.ts",
+      "bytes": 60576,
+      "sha256": "610f4a1df6ed62af4d219f5ea6748e9e62d4e8f89f04636c19c2dab409664305"
+    },
+    {
+      "path": "src/core/generateWords.test.ts",
+      "bytes": 8934,
+      "sha256": "360b7588baa964b4bf535445e1319eedd71f1d61d96053c5a928f80e1847739f"
+    },
+    {
+      "path": "src/core/junction.ts",
+      "bytes": 4991,
+      "sha256": "ec181ba1e8085e9b3a808d472231f30dbc20dc5445c72abd786d84405ff199f7"
+    },
+    {
+      "path": "src/core/length-semantics.ts",
+      "bytes": 4187,
+      "sha256": "47f74d41fd2e5b2ae492574b31926d8cf070da15264381e9d96936be35bbde1a"
+    },
+    {
+      "path": "src/core/morphology/attach.test.ts",
+      "bytes": 26682,
+      "sha256": "3a8565299fdf205eb5a3af222f59f152b2c69d790a6661314a51a2515c5de5fe"
+    },
+    {
+      "path": "src/core/morphology/attach.ts",
+      "bytes": 19379,
+      "sha256": "e96c9ccc6e5695b2b717c40720c79f45c5c20c8e012af2bbecf4d1563a1d9394"
+    },
+    {
+      "path": "src/core/morphology/index.ts",
+      "bytes": 140,
+      "sha256": "da6b9d63ed469b7fd6e48e22792bf8f4a2b2c736e8d67cc3220b46ba303993b0"
+    },
+    {
+      "path": "src/core/morphology/morphology.quality.test.ts",
+      "bytes": 4913,
+      "sha256": "7b105d007ee115a5f977ed75efb8dffa54dedb5f2b5b96ae8eab90570176d492"
+    },
+    {
+      "path": "src/core/morphology/plan.ts",
+      "bytes": 2298,
+      "sha256": "f23a874cc668b56d5fc9ca4c86875bead4f91c81c87a21a4997b6874dacee65f"
+    },
+    {
+      "path": "src/core/morphology/realization.test.ts",
+      "bytes": 12602,
+      "sha256": "2971ea0f7af0e22bcb24322b7ee981824b3bece499a1b0bd3a2a95091123e5d7"
+    },
+    {
+      "path": "src/core/morphology/realization.ts",
+      "bytes": 1562,
+      "sha256": "22958bc36109a604312484c3eb89b9d8a256acf7f1b789795dbe35378325987a"
+    },
+    {
+      "path": "src/core/ngram-quality.test.ts",
+      "bytes": 8508,
+      "sha256": "6039ca89bc644e8c1d1a10ecdc70bd09149890270eea58a90ede1bb2ed115c6b"
+    },
+    {
+      "path": "src/core/nucleus-position.test.ts",
+      "bytes": 7702,
+      "sha256": "70188ac92c40730136f73856384a0fc1fa795f925c8e2d07e95adbf798b5150a"
+    },
+    {
+      "path": "src/core/nucleus-position.ts",
+      "bytes": 3302,
+      "sha256": "2f66586507fb44a034292d90096e0346544bf4b9533e7d0b53a6af82c9a62af2"
+    },
+    {
+      "path": "src/core/ot-stress.test.ts",
+      "bytes": 7407,
+      "sha256": "e23abff2b7d497db626c74773d31f6c9d5f92488400764abacd1ad90fc4aab51"
+    },
+    {
+      "path": "src/core/ot-stress.ts",
+      "bytes": 6773,
+      "sha256": "1b8713edcd67dfe9058a07d10bd9cb03dd407e4351e9a9945f4cd431e2eb8134"
+    },
+    {
+      "path": "src/core/phoneme-normalization.ts",
+      "bytes": 1488,
+      "sha256": "56c473fcffaa16f5c4074808731e1755b62374cc830b6b101c2fd988c8025a64"
+    },
+    {
+      "path": "src/core/phoneme-quality.metrics.test.ts",
+      "bytes": 742,
+      "sha256": "8a73023d775085e6312436b6d64deb1645d561ee3ed1662bfb278eae1986e37d"
+    },
+    {
+      "path": "src/core/phoneme-quality.test.ts",
+      "bytes": 4432,
+      "sha256": "72516d8f5f36641b66341ff991c2c2d2f9d4ab0212877e89f51c109c8b95c51e"
+    },
+    {
+      "path": "src/core/phoneme-quality.ts",
+      "bytes": 3448,
+      "sha256": "47151e90086a8948001197076b7869bc061347e851d34972a2f95ce5b5fd8b85"
+    },
+    {
+      "path": "src/core/pronounce.test.ts",
+      "bytes": 17535,
+      "sha256": "7f1315996972378226bb607ac7f5713320a3d00f519aa669df3a12f2168cd025"
+    },
+    {
+      "path": "src/core/pronounce.ts",
+      "bytes": 15267,
+      "sha256": "2c1d310d995ad0040a880e1baa913b7bd518a2505990246e93d315add88eb6ba"
+    },
+    {
+      "path": "src/core/quality.test.ts",
+      "bytes": 9786,
+      "sha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf"
+    },
+    {
+      "path": "src/core/repair.test.ts",
+      "bytes": 8565,
+      "sha256": "f44fcf49c7a49a653162213a1cab387baf74cac83ecbedfded670446ad3708be"
+    },
+    {
+      "path": "src/core/repair.ts",
+      "bytes": 8508,
+      "sha256": "f2b8ed1a8976009b2193611a867738f112f64bb7211c3d4caa4c1aceabd01d91"
+    },
+    {
+      "path": "src/core/stress-repair.test.ts",
+      "bytes": 1049,
+      "sha256": "f4d913506ffde37cc845a123267348cd9a48f97d09a6d64d417a030e611ccc3a"
+    },
+    {
+      "path": "src/core/stress-repair.ts",
+      "bytes": 2082,
+      "sha256": "92b4d826268258abd6ee75acc66f26b28f281a236b6e489e3daa9831bf2745c1"
+    },
+    {
+      "path": "src/core/syllable-weight.test.ts",
+      "bytes": 14397,
+      "sha256": "31bbc6c027548b18d6c54350ee48d9d0cfe827d73dd7fba3d2328e592d1e143f"
+    },
+    {
+      "path": "src/core/syllable-weight.ts",
+      "bytes": 5021,
+      "sha256": "a9d7c93a82b4eb1a6a60853411a5f7fd9545315fcf748c7530ff3b13f2587793"
+    },
+    {
+      "path": "src/core/trace.test.ts",
+      "bytes": 15263,
+      "sha256": "5a4225f7be33882f6e2e676ea8d272fe6ff3ac3a5d5a5844229ab2cd42158386"
+    },
+    {
+      "path": "src/core/trace.ts",
+      "bytes": 8762,
+      "sha256": "fc7ce907b10cf5768cd260ccd98c7659eaefff6018ffa035619b3864c9c50e74"
+    },
+    {
+      "path": "src/core/vowel-sounds.ts",
+      "bytes": 413,
+      "sha256": "51d38dae7c5ca265f6dacad6ffcf1476aae941ee4fd113615780d758b9bcb533"
+    },
+    {
+      "path": "src/core/write.test.ts",
+      "bytes": 43337,
+      "sha256": "d179cb3dc4df3a1e6f9af81d638c3df9980ade340a82773dd432f002a8a346df"
+    },
+    {
+      "path": "src/core/write.ts",
+      "bytes": 69117,
+      "sha256": "dacbf2fde1768e1e8f29a48eadee4848277d53e8914cc11d0a524118c7cb400f"
+    },
+    {
+      "path": "src/core/y-vowel.test.ts",
+      "bytes": 1471,
+      "sha256": "4d27bc435cab1a61214e25b11fb64a9139b51ab51e0ba79acfec98685057a13f"
+    },
+    {
+      "path": "src/elements/graphemes/affricates.ts",
+      "bytes": 1686,
+      "sha256": "51becb3748b3b6d6ab30978481d548f5411f0f98d88912667f48bc39151034db"
+    },
+    {
+      "path": "src/elements/graphemes/diphthongs.ts",
+      "bytes": 3700,
+      "sha256": "629bbe20d77931f9b1e3e969ff5ba240a9f6c9aa3d955f537ea00aead11286ed"
+    },
+    {
+      "path": "src/elements/graphemes/fricatives.ts",
+      "bytes": 6659,
+      "sha256": "a3a5ca2fab076196125082ce961579e4bbc939a9c4b6b904f161cf80c4813cfd"
+    },
+    {
+      "path": "src/elements/graphemes/glides.ts",
+      "bytes": 1026,
+      "sha256": "7d6b58ca1de51d4ca9c49b0e7b0b8e06dc0898a9cb860e8e1b744ebf98cc5422"
+    },
+    {
+      "path": "src/elements/graphemes/index.ts",
+      "bytes": 3288,
+      "sha256": "365c07631fe9eb0efb978797920026cc4b465eff0f7cf6d36e3d5ea73fcaab86"
+    },
+    {
+      "path": "src/elements/graphemes/liquids.ts",
+      "bytes": 751,
+      "sha256": "9ed2dd1eecaa121d349c834c516259d0aebcb278c4554dfc3c23fb777f6ce929"
+    },
+    {
+      "path": "src/elements/graphemes/nasals.ts",
+      "bytes": 2020,
+      "sha256": "32d2163923d078019cc9ff6d160743540b4e90c0e1fc4346afe5eb1db770447c"
+    },
+    {
+      "path": "src/elements/graphemes/rhotics.ts",
+      "bytes": 1713,
+      "sha256": "0b89ac7adcaab4001024bf8a4390f1bd00977448a27cb8e907474d951c6fb5c5"
+    },
+    {
+      "path": "src/elements/graphemes/stops.ts",
+      "bytes": 4195,
+      "sha256": "e78264332e8d19a92cb14c153c7ddce8ee16ab4c946d335f9b39a4c7de9079a5"
+    },
+    {
+      "path": "src/elements/graphemes/vowels.ts",
+      "bytes": 6113,
+      "sha256": "e016966a71db2d79212cc1227a3a48766432cea3b2573236ae1d8a84a7656570"
+    },
+    {
+      "path": "src/elements/phonemes.ts",
+      "bytes": 12406,
+      "sha256": "bfd4c24af5892d3c7a7ed85d6fa576896f5e2376cab10e8d3319396739ea6bee"
+    },
+    {
+      "path": "src/index.ts",
+      "bytes": 3924,
+      "sha256": "b9b07395e62f745bd6a10d714dd53375691b475a0e331b147712975c3f761ca3"
+    },
+    {
+      "path": "src/phonology/identity-stress-score.test.ts",
+      "bytes": 8094,
+      "sha256": "e913059f59ad77a18e14c502fecf4c4ae5e540706818fcd478a538cb3f2fc565"
+    },
+    {
+      "path": "src/phonology/identity-stress-score.ts",
+      "bytes": 15322,
+      "sha256": "3c8d6314755c9c0ff7ef785a94aab6f7b4c40926940fc799a5d4e63539bc4902"
+    },
+    {
+      "path": "src/phonology/identity.test.ts",
+      "bytes": 8062,
+      "sha256": "92076d6ec9df9c13363b9e0d19e367b72ed56875b11e033cd92d6cd36aaf0898"
+    },
+    {
+      "path": "src/phonology/identity.ts",
+      "bytes": 10335,
+      "sha256": "f3f9077fed9237deaadf5212e908abbd5669a8675609482d51453d1bde7d372c"
+    },
+    {
+      "path": "src/phonotactic/arpabet-bigrams.ts",
+      "bytes": 18585,
+      "sha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7"
+    },
+    {
+      "path": "src/phonotactic/english-baseline.json",
+      "bytes": 651,
+      "sha256": "b09571249718792461073319d610dd634705bdac6fc9454aa9a7950a715d760b"
+    },
+    {
+      "path": "src/phonotactic/ipa-to-arpabet.ts",
+      "bytes": 2787,
+      "sha256": "e225cbe65a4820e727b8e4bf7f009089b6f3d566cfb07ccf3b13c3d127172913"
+    },
+    {
+      "path": "src/phonotactic/phonotactic.test.ts",
+      "bytes": 7036,
+      "sha256": "683f14d99636e59491add7e1e9eded10323d84ed86d2deb32e61e1a5705327d8"
+    },
+    {
+      "path": "src/phonotactic/score.ts",
+      "bytes": 2572,
+      "sha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f"
+    },
+    {
+      "path": "src/tools/common-word-coverage-core.test.ts",
+      "bytes": 8604,
+      "sha256": "a9198380f786eaf890cc5d85f73733543334e78e2effc98b3b0b5c3b6b9b5e45"
+    },
+    {
+      "path": "src/tools/trace-audit-core.test.ts",
+      "bytes": 1749,
+      "sha256": "920d1883fd41c90e481b2ba4f3b5e7eb1f6838a4636375fefa0479c3f101a924"
+    },
+    {
+      "path": "src/types.ts",
+      "bytes": 13317,
+      "sha256": "fd17620620e916c3f59da27e3df19edd1aa4ba08bde0389a5bcb31bddabf79bf"
+    },
+    {
+      "path": "src/utils/getWeightedOption.test.ts",
+      "bytes": 3269,
+      "sha256": "dc6f4e5056dee2b92ec5305dc593dd94efb5aa22ba6c2f338a9cfb363f51aa0f"
+    },
+    {
+      "path": "src/utils/getWeightedOption.ts",
+      "bytes": 1189,
+      "sha256": "4d16a72fa6edd11da1593a60195fcaab09768514a5727f1b9b1ff0885d12853e"
+    },
+    {
+      "path": "src/utils/letters.ts",
+      "bytes": 937,
+      "sha256": "f8287f6025e51fe8b6745a077c2cdaa907dbdefde6761e001ce071c42da690c8"
+    },
+    {
+      "path": "src/utils/phonemes.ts",
+      "bytes": 426,
+      "sha256": "619f5e6ab0d520b21636589acdb2593c65a21f4ee3040b80c220c61c37b198f9"
+    },
+    {
+      "path": "src/utils/random.test.ts",
+      "bytes": 2933,
+      "sha256": "acf83ec28e600e788f9e993c4c99d7d4541bc96d116f61ff89e01c5f262f2e56"
+    },
+    {
+      "path": "src/utils/random.ts",
+      "bytes": 1073,
+      "sha256": "4967fc0c37a98835e7fef3d1be5cfda591b49927029352333b77cba7e9c922d7"
+    },
+    {
+      "path": "src/worker-entry.js",
+      "bytes": 133,
+      "sha256": "2fccd58b877a21ee6d968415390b194490376654be03df6da5b3122e5149bc12"
+    },
+    {
+      "path": "tsconfig.identity.json",
+      "bytes": 274,
+      "sha256": "dcb923bcb4835c8ef7fca45681c99e2bda47cc11a041a596a57317078fcaf43b"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 704,
+      "sha256": "250ce839ecda24468fc9f38856e53ad8aef88b152b9b372cb1e51d29817c0356"
+    },
+    {
+      "path": "tsconfig.quality.json",
+      "bytes": 272,
+      "sha256": "899637cb7310700b90e526ee764cee98436e31ca064d3dc8bba703fa8f19ef1f"
+    },
+    {
+      "path": "tsconfig.review.json",
+      "bytes": 375,
+      "sha256": "d0199407c4899ff118dea980a98d385aa5241adde7a1658d96a9bc0a8ceb7feb"
+    },
+    {
+      "path": "vitest.config.ts",
+      "bytes": 1101,
+      "sha256": "8b4772c817fc39231c8cdba591ad8838645753ae680097f069e301c8500f0a3c"
+    },
+    {
+      "path": "vitest.identity-stress.config.ts",
+      "bytes": 268,
+      "sha256": "e91ddd2fdb3541d7a8523c963e1009888e60f12d28b2dee767e395453c94222b"
+    },
+    {
+      "path": "vitest.identity.config.ts",
+      "bytes": 396,
+      "sha256": "6aa1eca0862145fe93b5b4d044decde46497a629a1c01795899d933121b80c03"
+    },
+    {
+      "path": "vitest.perf.config.ts",
+      "bytes": 206,
+      "sha256": "6556fff991ef112563aa2d342ac550fd3d1db70a9c788bba96e43f8e51fa1455"
+    },
+    {
+      "path": "vitest.quality.config.ts",
+      "bytes": 188,
+      "sha256": "7e65e6e8e355db02d482e5892daf79ba400e97d0dd4c33ec70a07645d6f7f342"
+    },
+    {
+      "path": "vitest.review-db.config.ts",
+      "bytes": 269,
+      "sha256": "2a36140a97f623915e7d5d44aa3dcea93979ae81ad89134df5020083d1dd219c"
+    },
+    {
+      "path": "vitest.review.config.ts",
+      "bytes": 267,
+      "sha256": "452fe63c2ba50147230ea5ff9a5dbce35051670c592e908e333052206bdaf095"
+    }
+  ],
+  "archives": [
+    {
+      "role": "original",
+      "manifestFile": {
+        "bytes": 109507,
+        "sha256": "1e31ad59251eb5fbe8863bae988539062845f081e2597589669343f50e5452e7"
+      }
+    },
+    {
+      "role": "control",
+      "manifestFile": {
+        "bytes": 111815,
+        "sha256": "350251a99d8993fe6b393c8a2d8ec720d36657d2d8261aca762a407a9d5dd337"
+      }
+    },
+    {
+      "role": "active",
+      "manifestFile": {
+        "bytes": 111884,
+        "sha256": "f018d0a6e959c8a587646f9ed1c5b4192f3d5b5275cb6e3fe5844529f1cf662c"
+      }
+    }
+  ],
+  "scope": "All current scientific operators, production source closure, quality archive readers and declared dependencies frozen before any corpus score measurement. Original protocol bytes unchanged."
+}

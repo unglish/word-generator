@@ -1,0 +1,11 @@
+
+ RUN  v3.2.4 /private/tmp/q16b-scoring-v1/checkout
+
+ ✓ src/phonology/identity-stress-score.test.ts (13 tests) 8ms
+ ✓ evaluation/experiments/identity-stress-score/archive-schedule.test.ts (3 tests) 3ms
+
+ Test Files  2 passed (2)
+      Tests  16 passed (16)
+   Start at  08:33:46
+   Duration  644ms (transform 241ms, setup 0ms, collect 333ms, tests 12ms, environment 0ms, prepare 81ms)
+

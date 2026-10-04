@@ -1,0 +1,37 @@
+[
+  {
+    "name": "first-summary-schema-failure",
+    "fullOwnerArchive": "/private/tmp/q16b-scoring-v1/first-summary-schema-failure",
+    "classification": {
+      "scope": "Initial operator accepted standard quality summary only; stopped at unchanged Q09 capture-only summary after all original200000 observations. No raw/input/model/sample/threshold changes. Entire initial sources/freeze/scorestreams/failure/log retained before adding exact alternate archive schedule decoding."
+    }
+  },
+  {
+    "name": "second-canonical-json-failure",
+    "fullOwnerArchive": "/private/tmp/q16b-scoring-v1/second-canonical-json-failure",
+    "classification": {
+      "scope": "All600000 native observations completed. Independent proof stopped at first manifest canonical JSON hash before rawword verification: Python numeric formatting/array-index ordering differs from JS. Original full scores, all source bytes/freeze/logs retained. Correct hash serializer preserves trusted producer number lexemes and JS key order; no model/reference/data/score/threshold/sample change."
+    }
+  },
+  {
+    "name": "third-public-parity-property-failure",
+    "fullOwnerArchive": "/private/tmp/q16b-scoring-v1/third-public-parity-property-failure",
+    "classification": {
+      "scope": "Entire600000 native and independent projection/score/count/witness proofs passed. Public checker stopped on intentionally absent off.trace vs own-property trace:undefined, after exact candidate/parent on/off equality at coordinate. Correction removes only trace field before promised payload comparison; all other fields remain exact. Complete successful scientific evidence/frozen sources and failed public log retained."
+    }
+  },
+  {
+    "name": "pre-review-cleanup-acceptance",
+    "fullOwnerArchive": "/private/tmp/q16b-scoring-v1/pre-review-cleanup-acceptance",
+    "classification": {
+      "scope": "All17 local commands and full600000 independent proof passed and retained before review. Review requires full repository lint in addition to touched lint. Behavior-preserving helper extraction/unused-function removal and QA path conversion will receive a new sourcefreeze and full renewal. No model/reference/words/seeds/samples/operators/tolerances/gate weakening."
+    }
+  },
+  {
+    "name": "fourth-review-indent-failure",
+    "fullOwnerArchive": "/private/tmp/q16b-scoring-v1/fourth-review-indent-failure",
+    "classification": {
+      "scope": "Entire600000 native and independent proof,public8000calls and all unit/quality/performance/type/fixture checks passed. Full lint proves10 inheritederrors plus4 introduced switchindenterrors; touchedlint fails4. Correct4introductions and include written-codepoint length in addition to phone count to satisfy full preregistered wordlength interpretation. No score formula/model/data/sample/tolerance change."
+    }
+  }
+]

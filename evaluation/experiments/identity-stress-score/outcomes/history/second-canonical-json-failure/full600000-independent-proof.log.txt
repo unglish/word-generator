@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/private/tmp/q16b-scoring-v1/checkout/evaluation/experiments/identity-stress-score/verify.py", line 351, in <module>
+    main()
+  File "/private/tmp/q16b-scoring-v1/checkout/evaluation/experiments/identity-stress-score/verify.py", line 272, in main
+    assert sha(encoded(canonical(manifest)).encode()) == envelope['digest'] == arm['manifestDigest']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

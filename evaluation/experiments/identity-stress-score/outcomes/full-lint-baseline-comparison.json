@@ -1,0 +1,204 @@
+{
+  "identical": true,
+  "issues": [
+    {
+      "ruleId": "quotes",
+      "severity": 2,
+      "message": "Strings must use doublequote.",
+      "line": 351,
+      "column": 47,
+      "messageId": "wrongQuotes",
+      "endLine": 351,
+      "endColumn": 102,
+      "fix": {
+        "range": [
+          13119,
+          13174
+        ],
+        "text": "\"gapSpellings has duplicate variant for \\\"duplicate-to\\\"\""
+      },
+      "file": "src/config/language.test.ts"
+    },
+    {
+      "ruleId": "quotes",
+      "severity": 2,
+      "message": "Strings must use doublequote.",
+      "line": 362,
+      "column": 47,
+      "messageId": "wrongQuotes",
+      "endLine": 362,
+      "endColumn": 108,
+      "fix": {
+        "range": [
+          13569,
+          13630
+        ],
+        "text": "\"gapSpellings has duplicate variant for \\\"duplicate-to-layer\\\"\""
+      },
+      "file": "src/config/language.test.ts"
+    },
+    {
+      "ruleId": "quotes",
+      "severity": 2,
+      "message": "Strings must use doublequote.",
+      "line": 380,
+      "column": 7,
+      "messageId": "wrongQuotes",
+      "endLine": 380,
+      "endColumn": 75,
+      "fix": {
+        "range": [
+          14124,
+          14192
+        ],
+        "text": "\"gapSpellings has duplicate variant for \\\"duplicate-any-hyphenation\\\"\""
+      },
+      "file": "src/config/language.test.ts"
+    },
+    {
+      "ruleId": "quotes",
+      "severity": 2,
+      "message": "Strings must use doublequote.",
+      "line": 417,
+      "column": 7,
+      "messageId": "wrongQuotes",
+      "endLine": 417,
+      "endColumn": 78,
+      "fix": {
+        "range": [
+          15486,
+          15557
+        ],
+        "text": "\"gapSpellings[16].phonemes[0] contains unknown phoneme \\\"not-a-phoneme\\\"\""
+      },
+      "file": "src/config/language.test.ts"
+    },
+    {
+      "ruleId": "quotes",
+      "severity": 2,
+      "message": "Strings must use doublequote.",
+      "line": 494,
+      "column": 47,
+      "messageId": "wrongQuotes",
+      "endLine": 494,
+      "endColumn": 138,
+      "fix": {
+        "range": [
+          18013,
+          18104
+        ],
+        "text": "\"pronunciation.aspiration.targets[0].sounds contains unknown onset phoneme \\\"not-a-phoneme\\\"\""
+      },
+      "file": "src/config/language.test.ts"
+    },
+    {
+      "ruleId": "quotes",
+      "severity": 2,
+      "message": "Strings must use doublequote.",
+      "line": 508,
+      "column": 47,
+      "messageId": "wrongQuotes",
+      "endLine": 508,
+      "endColumn": 140,
+      "fix": {
+        "range": [
+          18525,
+          18618
+        ],
+        "text": "\"pronunciation.aspiration.targets[0].sounds contains unknown nucleus phoneme \\\"not-a-phoneme\\\"\""
+      },
+      "file": "src/config/language.test.ts"
+    },
+    {
+      "ruleId": "quotes",
+      "severity": 2,
+      "message": "Strings must use doublequote.",
+      "line": 527,
+      "column": 47,
+      "messageId": "wrongQuotes",
+      "endLine": 527,
+      "endColumn": 152,
+      "fix": {
+        "range": [
+          19158,
+          19263
+        ],
+        "text": "\"pronunciation.aspiration.rules[0].when.previousCodaSounds contains unknown coda phoneme \\\"not-a-phoneme\\\"\""
+      },
+      "file": "src/config/language.test.ts"
+    },
+    {
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 2,
+      "message": "'Syllable' is defined but never used.",
+      "line": 1,
+      "column": 48,
+      "messageId": "unusedVar",
+      "endLine": 1,
+      "endColumn": 56,
+      "suggestions": [
+        {
+          "messageId": "removeUnusedVar",
+          "data": {
+            "varName": "Syllable"
+          },
+          "fix": {
+            "range": [
+              45,
+              55
+            ],
+            "text": ""
+          },
+          "desc": "Remove unused variable \"Syllable\"."
+        }
+      ],
+      "file": "src/core/write.ts"
+    },
+    {
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 2,
+      "message": "'getWeightedOption' is defined but never used.",
+      "line": 6,
+      "column": 8,
+      "messageId": "unusedVar",
+      "endLine": 6,
+      "endColumn": 25,
+      "suggestions": [
+        {
+          "messageId": "removeUnusedImportDeclaration",
+          "data": {
+            "varName": "getWeightedOption"
+          },
+          "fix": {
+            "range": [
+              436,
+              499
+            ],
+            "text": ""
+          },
+          "desc": "Remove unused import declaration."
+        }
+      ],
+      "file": "src/core/write.ts"
+    },
+    {
+      "ruleId": "prefer-const",
+      "severity": 2,
+      "message": "'finalHyphenated' is never reassigned. Use 'const' instead.",
+      "line": 1855,
+      "column": 9,
+      "messageId": "useConst",
+      "endLine": 1855,
+      "endColumn": 24,
+      "fix": {
+        "range": [
+          67347,
+          67394
+        ],
+        "text": "const finalHyphenated = hyphenatedParts.join(\"\");"
+      },
+      "file": "src/core/write.ts"
+    }
+  ],
+  "scope": "Full required npm run lint executed on both exact snapshots; every file/rule/message/location/severity identical. No inherited issue waived as a new success."
+}

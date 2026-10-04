@@ -1,0 +1,52 @@
+{
+  "activeGate": "Gate1 complete; Gate2 review next",
+  "skill": "make-it-so",
+  "requirements": [
+    "Pure typed composable separate coarse/stress scores with explicit reference/source profile and all loss/missingness states.",
+    "Exact native-to-base reference conservation/declared alpha/boundary/vocab semantics; compiled model detached from caller mutation.",
+    "Trace adapter validates full finalsurface snapshot/versions and sound/stress alignment before using unmarked as unstressed.",
+    "Complete registered600000-word archived study and independentPython proof with allstreams/strata/digests/witnesses.",
+    "Newscientificfile/source set frozen beforemeasurements; untouchedgenerator/oldscore/reference and deterministic publicAPI evidence.",
+    "Two distinct reviewpasses then behavior-preserving elevation; publish scoped dependentPR with alladverse outcomes."
+  ],
+  "base": "d95167be2adae19c41927f1bcf20b1a4cc4983e2",
+  "nextAction": "Two substantive review passes on the full dependent PR scope, then distinct simplification/elevation passes; any necessary change renews affected evidence. Publish and verify exact PR head/base/lifecycle/CI after gates pass.",
+  "unfulfilled": "Two clean reviews, final behavior-preserving elevation, task-scoped commit/push/dependent PR and CI; original whole-goal human observations remain missing.",
+  "wholeGoal": "Stillactive, original40rows plus Q16fullscope scoring gaps and realhumanobservations preserved",
+  "implementation": "New separate score API and surface-evidence decoder, authenticated reference loader, complete archive collector, independent Python verifier, typed corruption/geometry/mutation tests and API docs implemented.",
+  "sourceFreeze": {
+    "bytes": 27199,
+    "sha256": "153474fe7b36814adce0f1d03c95cd09df67be93f7048a6e261956edf6b6aebc"
+  },
+  "priorAttempts": [
+    "first-summary-schema-failure",
+    "second-canonical-json-failure",
+    "third-public-parity-property-failure"
+  ],
+  "scienceUnchanged": "Original600000words/60streams; same protocol/reference/counts/alpha/boundaries/tolerances/thresholds. All failed snapshots and outputs retained.",
+  "currentSession": 95096,
+  "independentProof": {
+    "bytes": 13930,
+    "sha256": "6a3463d763b788a67bb8972e6af436cdef8e210e6d78e7f33c5d5ff5764799ce"
+  },
+  "publicParity": {
+    "bytes": 1913,
+    "sha256": "b8be439bcb235e9ea44362e866b9be0ee6b42fc9accd08e9e9ff1aec4f612759"
+  },
+  "terminal": true,
+  "completed": {
+    "registeredWords": 600000,
+    "streams": 60,
+    "commands": 17,
+    "passing": 17,
+    "candidateUnitPasses": 622,
+    "parentUnitPasses": 609,
+    "existingSkip": 1,
+    "qualityEach": 12,
+    "performanceEach": 2,
+    "newTypeScriptFixtures": 16,
+    "independentPythonFixtures": 6,
+    "publicCoordinates": 2000,
+    "publicCalls": 8000
+  }
+}

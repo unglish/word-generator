@@ -1,0 +1,14 @@
+{
+  "terminal": true,
+  "commands": 17,
+  "passing": 17,
+  "independentProof": {
+    "bytes": 13930,
+    "sha256": "6a3463d763b788a67bb8972e6af436cdef8e210e6d78e7f33c5d5ff5764799ce"
+  },
+  "freeze": {
+    "bytes": 27199,
+    "sha256": "153474fe7b36814adce0f1d03c95cd09df67be93f7048a6e261956edf6b6aebc"
+  },
+  "scope": "All registered corpus scores independently verified. Review/elevation/PR publication remain outstanding; baseline/candidate failed-check classifications require exact log reconciliation."
+}

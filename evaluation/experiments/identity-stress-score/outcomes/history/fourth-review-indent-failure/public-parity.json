@@ -1,0 +1,63 @@
+{
+  "coordinates": 2000,
+  "publicCalls": 8000,
+  "checks": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "coordinates": 500,
+      "publicCalls": 2000,
+      "streamSha256": "e32000494e7970c4456e68d112be667ae97175c4fec3d4cd8ef999a8c9ad3bb3",
+      "rngCallsIncludingNextProbe": 48148,
+      "nextDraws": [
+        0.11698638228699565,
+        0.11698638228699565,
+        0.11698638228699565,
+        0.11698638228699565
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "coordinates": 500,
+      "publicCalls": 2000,
+      "streamSha256": "d8ec32e81d2cc30b6baa59177b9f08c28c78469affab82f783f8e4e7fbd7c26f",
+      "rngCallsIncludingNextProbe": 44059,
+      "nextDraws": [
+        0.5666458324994892,
+        0.5666458324994892,
+        0.5666458324994892,
+        0.5666458324994892
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "coordinates": 500,
+      "publicCalls": 2000,
+      "streamSha256": "6d69c750c315b3041bee81a5c773b2f7b9e51791da00c5b47bb3e947dd674a96",
+      "rngCallsIncludingNextProbe": 57448,
+      "nextDraws": [
+        0.7406727711204439,
+        0.7406727711204439,
+        0.7406727711204439,
+        0.7406727711204439
+      ]
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "coordinates": 500,
+      "publicCalls": 2000,
+      "streamSha256": "bbc00d83bcb02d0311405719e63a2692b38ede07a3d76bf8623bc083d5dd64bf",
+      "rngCallsIncludingNextProbe": 31337,
+      "nextDraws": [
+        0.10332890995778143,
+        0.10332890995778143,
+        0.10332890995778143,
+        0.10332890995778143
+      ]
+    }
+  ],
+  "scope": "Exact parent/candidate public trace-on/off words and draw counts/next probes; scoring has no RNG or generator mutation, returned score state detached. These are regression coordinates, separate from the 600000 archived study."
+}

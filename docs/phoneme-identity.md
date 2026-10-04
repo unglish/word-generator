@@ -167,3 +167,10 @@ contains compact evidence, exact fingerprints, test results and reproduction
 commands. All 50,000 forced monosyllables have unmarked stress; their zero
 explicit-stress completeness is unavailable information, not an error rate.
 No generator behavior change or new human preference result is claimed.
+
+The separate [identity/stress scoring diagnostic](identity-stress-score.md) uses
+the same observational contract with authenticated native/base transition tables.
+It reports explicit-only and aligned final-surface-trace coverage separately,
+retains unavailable items, and compares the two alphabets only over matched
+eligible words within each arm. It does not alter this original observer or the
+legacy quality score.

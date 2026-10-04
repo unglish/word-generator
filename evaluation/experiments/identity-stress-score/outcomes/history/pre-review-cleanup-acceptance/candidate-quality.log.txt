@@ -1,0 +1,61 @@
+
+ RUN  v3.2.4 /private/tmp/q16b-scoring-v1/checkout
+
+stdout | src/core/quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: 2-letter monosyllables ≤ 9% of all monosyllables
+2-letter mono: 11/4530 (0.2%)
+
+stdout | src/core/quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: open monosyllables ≤ 20% of all monosyllables
+Open mono: 172/4530 (3.8%)
+
+stdout | src/core/quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Write quality report
+
+=== Quality Metrics ===
+5+ consonant runs: 0
+4-cons clusters: 670 (1.34%)
+dk: 0
+-owngs: 0
+-reng/-teng: 0
+Avg length: 7.5
+Unique rate: 87.3%
+Length distribution: {
+  '1': 0,
+  '2-3': 603,
+  '4-5': 7927,
+  '6-8': 27544,
+  '9-12': 12679,
+  '13+': 1247
+}
+
+Report written to /private/tmp/q16b-scoring-v1/checkout/quality-report.json
+
+stdout | src/core/quality.test.ts > Generation Mode Benchmarks > Text mode
+
+=== Text Mode ===
+  1-syl: 45.3%
+  2-syl: 34.3%
+  3-syl: 14.6%
+  4-syl: 4.7%
+  5-syl: 1.0%
+  6-syl: 0.2%
+  7-syl: 0.0%
+  Avg letters: 5.6
+
+stdout | src/core/quality.test.ts > Generation Mode Benchmarks > Lexicon mode
+
+=== Lexicon Mode ===
+  1-syl: 8.9%
+  2-syl: 41.8%
+  3-syl: 33.2%
+  4-syl: 12.2%
+  5-syl: 3.1%
+  6-syl: 0.7%
+  7-syl: 0.1%
+  Avg letters: 7.5
+
+ ✓ src/core/quality.test.ts (12 tests) 18099ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  08:06:09
+   Duration  18.56s (transform 189ms, setup 0ms, collect 252ms, tests 18.10s, environment 0ms, prepare 50ms)
+
