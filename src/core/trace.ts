@@ -1,6 +1,31 @@
 import type { Syllable, SyllableShapePlan } from "../types.js";
+import type { AcceptanceCriteria, AttemptScore } from "./length-semantics.js";
 import type { MorphologyRealizationTrace } from "./morphology/realization.js";
 import type { StressWeightTrace } from "./syllable-weight.js";
+
+/** Lengths of a scored root attempt, before any planned affixes are attached. */
+export interface AttemptLengths {
+  syllables: number;
+  phonemes: number;
+  letters: number;
+}
+
+export interface SelectionTrace {
+  status: "accepted" | "fallback";
+  /** null means no attempt met an acceptance criterion. */
+  acceptedBy: "exact" | "relaxed" | null;
+  attemptsExecuted: number;
+  /** Zero-based index of the returned attempt, which may precede the final attempt. */
+  selectedAttempt: number;
+  /** Includes the selected attempt when it was returned as a fallback. */
+  rejectedAttempts: number;
+  /** Counts rejected attempts failing each condition; reasons can overlap. */
+  rejectionReasons: { phonemeTarget: number; letterLength: number; warmup: number };
+  criteria: AcceptanceCriteria & { maxAttempts: number };
+  selected: AttemptLengths & { score: AttemptScore };
+  /** Compact root proposal distribution; no rejected spelling or Word payloads are retained. */
+  proposedLengths: Array<AttemptLengths & { count: number }>;
+}
 
 export interface SyllableSnapshot {
   onset: string[];
@@ -249,8 +274,10 @@ export interface WordTrace {
   targetPhonemeCount?: number;
   /** Planned onset/coda counts for each generated root syllable. */
   syllablePlans?: SyllableShapePlan[];
-  /** Root attempt index selected by phoneme/letter-length scoring (0 = first try). */
+  /** Root retries actually executed (0 = first try); use selection for outcome and selected index. */
   attempts: number;
+  /** Absent in historical traces and manually assembled collector snapshots. */
+  selection?: SelectionTrace;
   /** Morphology plan selected for this generation, independent of root length. */
   morphology?: MorphologyTrace;
   /** Structural decisions during syllable generation (boundary adjustments, extensions). */
@@ -308,6 +335,7 @@ export class TraceCollector {
   targetPhonemeCount?: number;
   syllablePlans?: SyllableShapePlan[];
   attempts: number = 0;
+  selection?: SelectionTrace;
 
   toTrace(morphApplied: boolean): WordTrace {
     return {
@@ -315,6 +343,7 @@ export class TraceCollector {
       targetPhonemeCount: this.targetPhonemeCount,
       syllablePlans: this.syllablePlans,
       attempts: this.attempts,
+      selection: this.selection,
       morphology: this.morphologyTrace,
       structural: this.structural,
       stages: this.stages,
