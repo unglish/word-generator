@@ -1235,6 +1235,16 @@ export function expandClusterConstraintBans(
  * Call this during development or at startup to catch config errors early.
  */
 export function validateConfig(config: LanguageConfig): void {
+  for (const phoneme of config.phonemes) {
+    if (!phoneme.nucleusWordPosition) continue;
+    for (const edge of ["initial", "medial", "final"] as const) {
+      const weight = phoneme.nucleusWordPosition[edge];
+      if (!Number.isFinite(weight) || weight < 0) {
+        throw new Error(`phoneme "${phoneme.sound}" nucleusWordPosition.${edge} must be a finite number >= 0`);
+      }
+    }
+  }
+
   // Check phonemes ⊇ phonemeMaps values
   const phonemeSet = new Set(config.phonemes);
   for (const position of ["onset", "nucleus", "coda"] as const) {
