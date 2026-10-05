@@ -1,0 +1,24 @@
+{
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "control": "/private/tmp/q14a-closure-audit-v1/committed",
+  "candidate": "/private/tmp/q14a-completion-support-v2",
+  "intervention": "Original Q14a opt-in versus original Q14a opt-in with preregistered ai.startWord completion weight2; no default-versus-opt-in confound",
+  "benchmark": "Original unchanged benchmark and configuredBatchAPI",
+  "runnerSha256": "38becc25bed2805c6b478275d9b8324d16c2a4ff669f0571ee7541778c0cc9a9",
+  "measuredConfigurationSha256": "8113c6b6daf70eb002a38e3ad32a8efa692a8af25875b9403ba87497e491749a",
+  "countsSeedsThresholdsUnchanged": true,
+  "state": "Prepared before timing; all other known workloads must be terminal before execution"
+}

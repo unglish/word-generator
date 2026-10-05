@@ -1,0 +1,9 @@
+{
+  "exitCode": 1,
+  "errors": 7,
+  "file": "src/config/language.test.ts",
+  "originalBaseBlobSha256": "e3fb00d6c5db48933ab740f6c4ba12372b622e3957e7db74a7846185fb058fc7",
+  "candidateFileSha256": "e3fb00d6c5db48933ab740f6c4ba12372b622e3957e7db74a7846185fb058fc7",
+  "fileExactlyMatchesBase": true,
+  "changedSourceLintPassed": true
+}
