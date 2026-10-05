@@ -1,0 +1,151 @@
+[
+  {
+    "name": "production",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/analyze-candidate.mjs"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791222861.080949,
+    "finishedAt": 1791228150.284162,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "independent",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/run-independent.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791228150.291201,
+    "finishedAt": 1791228247.766428,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "opaque-context",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/audit-opaque-context.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791228247.772426,
+    "finishedAt": 1791228334.7259,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "written-boundary",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/audit-written-boundary.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791228334.732034,
+    "finishedAt": 1791228421.197817,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "raw-causes",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/classify-completion-gaps.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791228421.204052,
+    "finishedAt": 1791228514.3106859,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "structure-comparison",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/compare-structure.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791228514.317127,
+    "finishedAt": 1791228514.8648992,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "distribution-comparison",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/compare-quality.mjs"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791228514.870763,
+    "finishedAt": 1791228516.084181,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "legacy-parity",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/legacy-parity-runner.mjs"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791228516.0903502,
+    "finishedAt": 1791228673.063937,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "original-gates",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/run-original-gates.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791228673.0704808,
+    "finishedAt": 1791229241.058097,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "trace-audit",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/trace-audit/candidate-trace-audit.mjs",
+      "--count",
+      "50000",
+      "--seed",
+      "42",
+      "--mode",
+      "lexicon",
+      "--morphology",
+      "true",
+      "--out",
+      "/private/tmp/q14a-completion-prefix-context-evidence-v1/trace-audit/candidate-report.json",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791229241.0641038,
+    "finishedAt": 1791229396.124108,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "full-lint",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q14a-completion-prefix-context-v1/node_modules/eslint/bin/eslint.js",
+      "src/**/*.ts",
+      "evaluation/review/**/*.ts",
+      "demo/review/**/*.ts"
+    ],
+    "exitCode": 1,
+    "startedAt": 1791229396.130877,
+    "finishedAt": 1791229399.566693,
+    "sourcePinsPreserved": true
+  }
+]

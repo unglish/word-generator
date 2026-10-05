@@ -22,6 +22,22 @@ const alternative = (form: string, frequency = 1, fallbackOnly = false): Graphem
   phoneme: "eɪ", form, frequency, origin: 0, reading: { kind: "single-phone" }, fallbackOnly,
 });
 describe("replayable completion decisions", () => {
+  it("authenticates the opaque written boundary and still refuses changed neighbor readings", () => {
+    const { base, planner } = fixture([alternative("ai"), alternative("ei")]);
+    base.edit(0, 1, "cc", "opaque-prefix", 0);
+    const view = base.constructionState(); const before = structuredClone(view);
+    const rand = vi.fn(() => 0.5);
+    const result = planner.decide(view, 1, [], rand);
+    expect(result).toMatchObject({ status: "evaluated", prefix: {
+      prefix: { previousForm: "c" }, evidence: { writtenBoundaryCellId: 4 } },
+    proposals: [{ refusal: "unresolved-vowel-obligation" }, { form: "ai" }, { refusal: "unresolved-neighbor" }],
+    sample: { status: "selected", inventoryIndex: 3 } });
+    expect(rand).not.toHaveBeenCalled(); expect(view).toEqual(before);
+    planner.verify(view, 1, [], result);
+    if (result.status !== "evaluated" || !("writtenBoundaryCellId" in result.prefix.evidence)) throw new Error("Expected written boundary");
+    const corrupted = structuredClone(result); corrupted.prefix.evidence.writtenBoundaryCellId = 99;
+    expect(() => planner.verify(view, 1, [], corrupted)).toThrow("Invalid completion attempt");
+  });
   it("filters a changed hard-c reading before sampling and preserves live state", () => {
     const { base, planner } = fixture([alternative("e"), alternative("ai")]);
     const view = base.constructionState(); const before = structuredClone(view); const rand = vi.fn(() => 0.5);
