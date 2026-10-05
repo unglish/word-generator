@@ -1,0 +1,24 @@
+{
+  "status": "Implementation follow-up required; no runtime edit in frozen evidence tree",
+  "ownershipRuleWork": "Replace generic rewrite ownership with authenticated complete-unit reading transitions only where source and target support the same recorded phone; preserve refusals for unsupported/context-invalid changes. Validate whole-unit ai to ay and all affected neighboring readings rather than licensing an isolated changed letter.",
+  "completionSupportWork": "Resolve infeasible pools using structured supported alternatives and whole-root reading checks; preserve phones and weighted choice law. No relabeling unsupported or unavailable as satisfied.",
+  "performanceWork": "Investigate duplicate planner/transaction verification and history retention against original profile; preserve stale/forged-attempt rejection, full trace ordering and exact public RNG parity. Profile findings are not speedup evidence.",
+  "verificationRequired": "Original full fixed corpora, trace-grounded per-cause accounting, independent recount, negative fixtures, original quality and isolated paired performance.",
+  "sourceConfirmedMechanisms": {
+    "genericRewrite": "resolveSpan refuses any rewrite ancestry before owned-position inspection; deleting completeUnit refusal alone cannot repair it. Rewrites also make followingConstructionContext unknown.",
+    "completionSupport": "Pool only considers ordinary resolver entries if present; filters open-vowel and unsupported readings before weighted sampling. Existing ordinary-only infeasible test forbids silently promoting fallback alternatives.",
+    "authentication": "Any new whole-unit transition needs producer and archived replay support, complete source/output cell identities, unchanged phone identities, authenticated neighbor context and negative forged/stale fixtures."
+  },
+  "transitionIntegration": {
+    "existingNormalizationNotReusableUnchanged": "applyNormalization only admits plan.after == plan.before.slice(1), identical predecessor character, normalized/selection ancestry and duplicate-letter sites. Arbitrary ai-to-ay rewrites cannot reuse this certificate unchanged.",
+    "newTransitionContract": [
+      "Capture complete owning unit before the generic rule reduces it to a changed substring",
+      "Authenticate source reading and target reading against the same recorded phone and projected whole-unit context",
+      "Record input/output IDs, rule identity, cursor, original inventory identity, prior certificate identity and neighboring reading evidence",
+      "Commit the whole unit atomically; preserve untouched phone sequence and unchanged-mode RNG",
+      "Replay the certificate in timeline order and reject stale, partial-unit, altered-context and forged target support",
+      "Make construction and completion ownership consult the new authenticated origin; do not infer ownership from generic rewrite ancestry"
+    ],
+    "scope": "Implementation specification only; frozen measurement source unchanged"
+  }
+}

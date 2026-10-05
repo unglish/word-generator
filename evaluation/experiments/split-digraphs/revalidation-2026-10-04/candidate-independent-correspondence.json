@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "words": 200000,
+  "integerComparisons": 3800019,
+  "entireOriginalReportMatches": true,
+  "scope": "Unchanged original verifier authenticates all raw and sealed production files; no independent linguistic license or human claim."
+}

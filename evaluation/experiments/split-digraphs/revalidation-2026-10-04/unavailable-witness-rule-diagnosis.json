@@ -1,0 +1,97 @@
+{
+  "scope": "103 archived first witnesses, not population frequency or causal attribution",
+  "witnessRuleCounts": {
+    "unresolved-ownership | spellingRule:no-final-i": 28,
+    "unresolved-ownership | spellingRule:eng-to-ing": 34,
+    "unresolved-ownership | spellingRule:ow-cluster-simplify": 19,
+    "unresolved-ownership | spellingRule:ew-cluster-simplify": 9,
+    "unresolved-ownership | spellingRule:iw-to-w": 5,
+    "unresolved-ownership | spellingRule:uw-to-w": 3,
+    "unknown-written-edge | no-rewrite-output": 1,
+    "unresolved-ownership | spellingRule:iy-to-y": 2,
+    "unresolved-ownership | gapSpelling:what": 2
+  },
+  "firstExamples": {
+    "unresolved-ownership | spellingRule:no-final-i": {
+      "word": "brays",
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 29
+      },
+      "sound": "e\u026a"
+    },
+    "unresolved-ownership | spellingRule:eng-to-ing": {
+      "word": "anteings",
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 104
+      },
+      "sound": "i:"
+    },
+    "unresolved-ownership | spellingRule:ow-cluster-simplify": {
+      "word": "apount",
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 514
+      },
+      "sound": "\u0259\u028a"
+    },
+    "unresolved-ownership | spellingRule:ew-cluster-simplify": {
+      "word": "sunged",
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 713
+      },
+      "sound": "u"
+    },
+    "unresolved-ownership | spellingRule:iw-to-w": {
+      "word": "cagwams",
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 69212153,
+        "drawIndex": 1970
+      },
+      "sound": "a\u026a"
+    },
+    "unresolved-ownership | spellingRule:uw-to-w": {
+      "word": "wweacs",
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 3921817393,
+        "drawIndex": 3812
+      },
+      "sound": "\u028c"
+    },
+    "unknown-written-edge | no-rewrite-output": {
+      "word": "apihwisomsed",
+      "coordinate": {
+        "profile": "lexicon-default",
+        "seed": 2089697863,
+        "drawIndex": 1928
+      },
+      "sound": "e\u026a"
+    },
+    "unresolved-ownership | spellingRule:iy-to-y": {
+      "word": "beaptyino",
+      "coordinate": {
+        "profile": "lexicon-bare",
+        "seed": 2380207674,
+        "drawIndex": 5379
+      },
+      "sound": "\u0259"
+    },
+    "unresolved-ownership | gapSpelling:what": {
+      "word": "what",
+      "coordinate": {
+        "profile": "monosyllables-bare",
+        "seed": 62358955,
+        "drawIndex": 5688
+      },
+      "sound": "\u0251"
+    }
+  }
+}
