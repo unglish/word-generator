@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "words": 200000,
+  "completeOriginalReportMatchesAfterPhysicalArchivePathNormalization": true,
+  "originalObservationShardHashesMatched": 20,
+  "originalWitnessCompressedHashMatched": true,
+  "freshSealSha256": "0fc5f0c5539ab66107f9672d1e7edb77fe99b1f39fb72eee8518780145a89da9",
+  "scope": "Unchanged original production observer; historical authority location/host differs."
+}

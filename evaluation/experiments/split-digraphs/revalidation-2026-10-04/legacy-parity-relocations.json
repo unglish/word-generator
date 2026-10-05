@@ -1,0 +1,11 @@
+{
+  "sourcePinsVerified": 118,
+  "replacements": {
+    "/private/tmp/q14a-control-5f9b3eb-v1": "/private/tmp/q13b-closure-audit-v1/committed",
+    "/Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator": "/private/tmp/q14a-closure-audit-v1/committed",
+    "/private/tmp/q14a-control-materialization-v1.json": "/private/tmp/q14a-closure-audit-v1/control-materialization.json",
+    "/private/tmp/q14a-legacy-parity-v1.json": "/private/tmp/q14a-closure-audit-v1/legacy-parity-renewed.json",
+    "/private/tmp/q14a-legacy-parity-authority-v1.json": "/private/tmp/q14a-closure-audit-v1/legacy-parity-authority-renewed.json",
+    "/private/tmp/q14a-legacy-parity-failure-v1.json": "/private/tmp/q14a-closure-audit-v1/legacy-parity-failure-renewed.json"
+  }
+}
