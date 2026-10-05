@@ -1,0 +1,29 @@
+{
+  "sameFailureNamesAndMessages": true,
+  "failures": [
+    [
+      "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs",
+      "AssertionError: expected 9 to be +0 // Object.is equality"
+    ],
+    [
+      "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs",
+      "AssertionError: expected 28 to be +0 // Object.is equality"
+    ],
+    [
+      "src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs",
+      "AssertionError: expected 43 to be +0 // Object.is equality"
+    ],
+    [
+      "src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit",
+      "AssertionError: expected 6 to be less than or equal to 5"
+    ]
+  ],
+  "controlLogSha256": "76ff19a0522673975d967014c01515997017fe686c8eca3cdcf661c15ad2c1f6",
+  "candidateLogSha256": "870c2437bb50e6416868ef4015e6df5589afc14a0468ab1276d6c672c7e44526",
+  "candidateSummary": {
+    "passed": 1033,
+    "failed": 4,
+    "skipped": 1
+  },
+  "scope": "Exact final failure name/message comparison; default policy only, not opt-in completion acceptance."
+}

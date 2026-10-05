@@ -1,0 +1,12 @@
+{
+  "observedAt": "2026-10-05T16:30:16.944725+00:00",
+  "session": 17122,
+  "sessionConfirmedLive": true,
+  "driverPid": 41731,
+  "productionNodePid": 41740,
+  "workerElapsed": "08:08",
+  "workerCpuPercent": 100.8,
+  "workerResidentKiB": 291264,
+  "completedStreamMessages": 1,
+  "scope": "Read-only process inventory confirms a live CPU-active worker; not proof of completed semantic replay or predictable finish time."
+}

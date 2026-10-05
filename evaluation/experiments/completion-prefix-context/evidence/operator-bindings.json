@@ -1,0 +1,93 @@
+{
+  "controlHead": "d2bcfcee8d653d3a4440de03006487fe2aef1bad",
+  "operators": [
+    {
+      "file": "analyze-candidate.mjs",
+      "originalSha256": "e5510133627b16f471593061169044361ebb0c68302e17df682e410072499cc7",
+      "adapterSha256": "6dcfbbccd4522e73880f3e63560ef61f460ebff8153661062b2794b0bfa2f30f",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "run-independent.py",
+      "originalSha256": "d5f223f97a38d88f13dda9bdeb758ba9fbcf765cf7833762566847de3496a954",
+      "adapterSha256": "a026fe7cc2be77fc74db03762d607349dca632bbd0d2841d91d0c9a92e8cfef7",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "run-original-gates.py",
+      "originalSha256": "8fd49858f5c87e22be2525b6a8baf9a290d817a78a5b996d56a28af1e0417517",
+      "adapterSha256": "eb1ba87978cdb6762b8ac5934acaf69bfa18406dc7f5f5c4e7b3584d835484f2",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "audit-opaque-context.py",
+      "originalSha256": "957fe6220f5f211b2095cb5ed45a04d2a430d951ce030f86f61e2721d0466120",
+      "adapterSha256": "6cc2076468c6863040b3941836c2f523bece4d047ace6d2331f8129e894a66da",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "classify-completion-gaps.py",
+      "originalSha256": "7d58b69ec41db8943f04c83e5e94c0fb23fd24def50bf94ff7f4bf6953455285",
+      "adapterSha256": "5d03626ec312402f5be90b43997e1a55903d093fba8138693854ea7fc850a052",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "compare-structure.py",
+      "originalSha256": "fc64e5a77b09f884b3dfabac2b4f23bf6e586d408c68003b26c200718d195f91",
+      "adapterSha256": "8731e70804b08b6ab255ea85f1e94795d236e980f2de689e4e9f62219dbc9225",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "compare-quality.mjs",
+      "originalSha256": "513db5c92d545b349a002911d02820a7f50b308f6d368f2fd2ae17143efc754a",
+      "adapterSha256": "133340f9455164834d64088272e90d6dd129e0aafface093de5461667df37453",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "legacy-parity-runner.mjs",
+      "originalSha256": "9a025d2bde103d207f9634c3d46619f911bfa5df7a16a5af5f6548232464e6b4",
+      "adapterSha256": "68e47225f060b5e9cae9031bfca5782ee6237e69987dd15574d9555693ac40ed",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "quality/quality.test.ts",
+      "originalSha256": "ce2d528a76a3448ffddd4066b1c464124e63c3f46de3089df2cba0f47cb6c4f3",
+      "adapterSha256": "0e80aa9e51332b8b736f80b63e1a367dcb7c8f1f73f1dcdef3690dd93bc025b3",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "quality/vitest.config.mjs",
+      "originalSha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a",
+      "adapterSha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "quality/candidate-api.ts",
+      "originalSha256": "c1c40539a50ae9ffa977bc75543fa39d5c51a6a6900bdee40beaf1d21d86ae9b",
+      "adapterSha256": "3141d8dcecf74d86b44057add6859706c34787d2cddf7cd2b73b862962e69bdf",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "trace-audit/candidate-trace-audit.mjs",
+      "originalSha256": "0471f001becc4430b337a13092698dbcc1e50a4a13dfc9e2c418b0f175c763ec",
+      "adapterSha256": "80684b3b976a2f75ccccf1c2891697e65deb2101e3eb98c454463307b096c6a9",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    },
+    {
+      "file": "trace-audit/candidate-api.ts",
+      "originalSha256": "c1c40539a50ae9ffa977bc75543fa39d5c51a6a6900bdee40beaf1d21d86ae9b",
+      "adapterSha256": "3141d8dcecf74d86b44057add6859706c34787d2cddf7cd2b73b862962e69bdf",
+      "changes": "Candidate root/evidence rebinding; immediate control now published u-support. No original samples, gates, timeouts or decision logic changed."
+    }
+  ],
+  "additionalOperators": {
+    "run-measurement-chain.py": "6266e6aeb14546e60cb9bf87e635d75774eeb2927ccb64df931cd163b8b28d80",
+    "audit-written-boundary.py": "3601b0fb62c9dddd567ab755522b750931cd9163b51531533716c49110cc53a8",
+    "run-independent.py": "a026fe7cc2be77fc74db03762d607349dca632bbd0d2841d91d0c9a92e8cfef7",
+    "run-original-gates.py": "eb1ba87978cdb6762b8ac5934acaf69bfa18406dc7f5f5c4e7b3584d835484f2",
+    "compare-structure.py": "8731e70804b08b6ab255ea85f1e94795d236e980f2de689e4e9f62219dbc9225",
+    "audit-opaque-context.py": "6cc2076468c6863040b3941836c2f523bece4d047ace6d2331f8129e894a66da",
+    "classify-completion-gaps.py": "5d03626ec312402f5be90b43997e1a55903d093fba8138693854ea7fc850a052"
+  },
+  "reviewScope": "Original arguments and preserved gates inspected; Python syntax checked. Written-boundary audit independently reconstructs full cursor/cells. Execution still pending complete capture."
+}

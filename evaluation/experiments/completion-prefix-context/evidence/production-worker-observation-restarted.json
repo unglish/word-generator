@@ -1,0 +1,12 @@
+{
+  "observedAt": "2026-10-05T17:08:37.591879+00:00",
+  "session": 30692,
+  "sessionConfirmedLive": true,
+  "driverPid": 55920,
+  "productionNodePid": 55929,
+  "workerElapsed": "04:15",
+  "workerCpuPercent": 100.0,
+  "workerResidentKiB": 264304,
+  "completedStreamMessages": 0,
+  "scope": "Read-only process evidence of active computation, not semantic completion or an ETA."
+}

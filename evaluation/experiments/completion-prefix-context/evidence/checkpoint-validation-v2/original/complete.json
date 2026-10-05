@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "words": 24,
+  "manifestSha256": "85075d512c9d4b9441d169b32862d24620ae2e5c73669ec0fab729b463062da8",
+  "artifacts": [
+    {
+      "file": "observations/lexicon-default-69212153.jsonl.gz",
+      "bytes": 352,
+      "sha256": "f95c4a0915e5765481b827b56cdae99e9eb742e5826c6008613aafcb92b55204"
+    },
+    {
+      "file": "observations/lexicon-default-101601885.jsonl.gz",
+      "bytes": 371,
+      "sha256": "83c61ff7b2b752dfa87dd3351a2ef1c74add7f41218b11912d42c8e9a5bb7044"
+    },
+    {
+      "file": "observations/lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 456,
+      "sha256": "2e2f0e29b31b1893871aaba26ce00298cc061d6af27b903a243097206dcb797a"
+    },
+    {
+      "file": "observations/lexicon-bare-772709128.jsonl.gz",
+      "bytes": 387,
+      "sha256": "1cb1e4479b72db3ac6cd1b532ba157faeaae3d61c2b342ca2642128f1b71f60d"
+    },
+    {
+      "file": "observations/monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 316,
+      "sha256": "6eee8aad95fac47bf8ae7c8ee86e6607dd72741f9500c4ef44f1632679f3a2a3"
+    },
+    {
+      "file": "observations/monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 312,
+      "sha256": "d5c1eae9e974b4c2d5acb70eada0fb4b6db5290f4ff316ceaa86286fba892bf1"
+    },
+    {
+      "file": "observations/text-default-4167471042.jsonl.gz",
+      "bytes": 423,
+      "sha256": "7cb5c460b24454291e1802193926fd80370aec36a5c53c0b696a4885b1c6d64a"
+    },
+    {
+      "file": "observations/text-default-2666001996.jsonl.gz",
+      "bytes": 374,
+      "sha256": "b6b0601c81d5ec8d45f2ae86a4e09c54a722418694db266e04d9babb3333f190"
+    },
+    {
+      "file": "report.json",
+      "bytes": 158944,
+      "sha256": "2424b9bca3c4a6879137c83e6cf2ed7231d486da1bcbef998b32701992f02f78"
+    },
+    {
+      "file": "witnesses.json.gz",
+      "bytes": 340077,
+      "sha256": "c308da754a406095bb98af66b99b5c98cbadcab3d850580566483b5d32264178"
+    },
+    {
+      "file": "authority.json.gz",
+      "bytes": 88006,
+      "sha256": "f71b483f6f0bc16cb1db93f8da1f42ef9d6bd78080b66bb0d079bedbe20663a5"
+    }
+  ]
+}

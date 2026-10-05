@@ -1,0 +1,26 @@
+{
+  "control": "/private/tmp/q14a-completion-u-support-v1",
+  "candidate": "/private/tmp/q14a-completion-prefix-context-v1",
+  "controlCommit": "d2bcfcee8d653d3a4440de03006487fe2aef1bad",
+  "candidateCommit": "b5b9d27d877d97922821f256404fdfc3e6e8d8b3",
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "measuredConfigurationSha256": "f672b3b79fdb3f7dc1dca635d0b9d34f34a1f961a592664d24853a176b8b2661",
+  "runnerSha256": "a7c8d667bae91fbd19cb32305fc971585d73b4de592d4330086bbd1424f17e6f",
+  "seriesSha256": "0dedb6128290d05df684437fcb1459627f455a770a1945fe89e8335562f8ec89",
+  "originalBenchmarkSha256": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f",
+  "scope": "Original workload and gates. Same complete configuration in both arms; registered runtime prefix reconstruction is the intervention. Dispatch only after all known competing measurements are terminal.",
+  "controlConfigurationSha256": "f672b3b79fdb3f7dc1dca635d0b9d34f34a1f961a592664d24853a176b8b2661"
+}

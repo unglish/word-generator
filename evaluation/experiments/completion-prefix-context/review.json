@@ -1,0 +1,24 @@
+{
+  "reviewer": "primary agent; no independent-agent review claimed",
+  "measuredHead": "b5b9d27d877d97922821f256404fdfc3e6e8d8b3",
+  "runtimeChangedDuringReview": false,
+  "findings": [
+    "Target extent and nucleus validation precede boundary fallback.",
+    "Original and coverage doubling reconstruction is unchanged.",
+    "Missing/partial/license refusals remain; opaque and split predecessor context uses actual cell only.",
+    "Shared-prefix validation precedes nonadjacent fallback.",
+    "Planner rederives complete attempt including boundary identity before JSON equality check.",
+    "Projection filtering remains mandatory for all eligible proposals.",
+    "Malformed arbitrary ledger objects are not independently certified by this resolver; existing producer/verifier preconditions remain."
+  ],
+  "simplification": "Existing local writtenBoundary helper shares all fallback construction without runtime duplication; no further semantics-preserving edit justified after measurement.",
+  "limitations": [
+    "22 unresolved cases remain",
+    "Original speed/default/quality/whole-lint gates fail",
+    "Human outcomes unmeasured"
+  ],
+  "packetChecks": {
+    "performanceMedianRecomputed": true,
+    "independentFullCountChecked": true
+  }
+}

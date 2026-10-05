@@ -1,0 +1,70 @@
+{
+  "allKnownCompetingWorkloadsTerminal": true,
+  "observedAt": "2026-10-05T19:44:05.739746+00:00",
+  "measurementChain": {
+    "session": 41109,
+    "observedExitCode": 0,
+    "steps": [
+      {
+        "name": "production",
+        "exitCode": 0,
+        "sourcePinsPreserved": true
+      },
+      {
+        "name": "independent",
+        "exitCode": 0,
+        "sourcePinsPreserved": true
+      },
+      {
+        "name": "opaque-context",
+        "exitCode": 0,
+        "sourcePinsPreserved": true
+      },
+      {
+        "name": "written-boundary",
+        "exitCode": 0,
+        "sourcePinsPreserved": true
+      },
+      {
+        "name": "raw-causes",
+        "exitCode": 0,
+        "sourcePinsPreserved": true
+      },
+      {
+        "name": "structure-comparison",
+        "exitCode": 0,
+        "sourcePinsPreserved": true
+      },
+      {
+        "name": "distribution-comparison",
+        "exitCode": 0,
+        "sourcePinsPreserved": true
+      },
+      {
+        "name": "legacy-parity",
+        "exitCode": 0,
+        "sourcePinsPreserved": true
+      },
+      {
+        "name": "original-gates",
+        "exitCode": 0,
+        "sourcePinsPreserved": true
+      },
+      {
+        "name": "trace-audit",
+        "exitCode": 0,
+        "sourcePinsPreserved": true
+      },
+      {
+        "name": "full-lint",
+        "exitCode": 1,
+        "sourcePinsPreserved": true
+      }
+    ]
+  },
+  "residualScan": {
+    "session": 53502,
+    "observedExitCode": 0
+  },
+  "scope": "All known experiment workers terminal; read-only host process metadata inspected. This does not assert the entire machine is idle. No regeneration, smaller workload, changed order, thresholds or configuration."
+}

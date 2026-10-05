@@ -1,0 +1,6 @@
+{
+  "exitCode": 0,
+  "operatorSha256": "5a5cce581ba974cd2134524eb07ff166fd06dbec211c307932e3540a71d0fc69",
+  "logSha256": "1f1c9fab2d736b78fc534630642af199af7f7b7d2c13e6db2e07f22642d7e64c",
+  "scope": "Synthetic custom positive/negative written-left-context fixture, exact determinism/input immutability and planner replay; not corpus quality or human licensing."
+}

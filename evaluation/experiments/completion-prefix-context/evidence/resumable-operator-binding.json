@@ -1,0 +1,17 @@
+{
+  "originalPath": "/private/tmp/q14a-completion-prefix-context-v1/evaluation/experiments/split-digraphs/analyze-split.mjs",
+  "originalSha256": "5cc08f4c193f2d9182f3316b4ac45c639bf48ba5ae26c774848fc625aff5638b",
+  "adapterSha256": "7b0d68b95057e7b95d0beaedc5a91ce34f76b5f7f9b73af90c7da5b612d84b41",
+  "changes": "Original observer/corpus/strata/witness selection retained; durable per-stream count/event/witness checkpoint with archive/source/dependency/config authority and hashes. Existing8-shard incomplete attempts lack complete checkpoint data and are not substituted.",
+  "validationPending": false,
+  "validation": {
+    "passed": true,
+    "scope": "24 public-API generated words; operator equivalence fixture only, not the 200000-word study",
+    "interruption": "SIGTERM",
+    "resumed": true,
+    "identicalArtifacts": 11,
+    "identicalCompleteSeal": true,
+    "corruptPayloadRejected": true,
+    "operatorSha256": "7b0d68b95057e7b95d0beaedc5a91ce34f76b5f7f9b73af90c7da5b612d84b41"
+  }
+}

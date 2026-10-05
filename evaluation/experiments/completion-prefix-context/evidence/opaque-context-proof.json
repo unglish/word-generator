@@ -1,0 +1,149 @@
+{
+  "words": 200000,
+  "completionCertificates": 25701,
+  "opaqueUnitContextsChecked": 201,
+  "witnesses": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 2199,
+      "certificateId": 0,
+      "opaqueUnitId": 6
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 3739,
+      "certificateId": 0,
+      "opaqueUnitId": 3
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 4381,
+      "certificateId": 0,
+      "opaqueUnitId": 3
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 4440,
+      "certificateId": 0,
+      "opaqueUnitId": 0
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 5337,
+      "certificateId": 0,
+      "opaqueUnitId": 5
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 5337,
+      "certificateId": 0,
+      "opaqueUnitId": 6
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 1247,
+      "certificateId": 0,
+      "opaqueUnitId": 3
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 3603,
+      "certificateId": 0,
+      "opaqueUnitId": 4
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 3603,
+      "certificateId": 0,
+      "opaqueUnitId": 5
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 5363,
+      "certificateId": 0,
+      "opaqueUnitId": 3
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "drawIndex": 5363,
+      "certificateId": 0,
+      "opaqueUnitId": 4
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 7214,
+      "certificateId": 0,
+      "opaqueUnitId": 4
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "drawIndex": 7214,
+      "certificateId": 0,
+      "opaqueUnitId": 5
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 7582,
+      "certificateId": 0,
+      "opaqueUnitId": 4
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 9051,
+      "certificateId": 0,
+      "opaqueUnitId": 1
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "drawIndex": 9051,
+      "certificateId": 0,
+      "opaqueUnitId": 2
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 131,
+      "certificateId": 0,
+      "opaqueUnitId": 4
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 131,
+      "certificateId": 0,
+      "opaqueUnitId": 5
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 8281,
+      "certificateId": 0,
+      "opaqueUnitId": 5
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 8281,
+      "certificateId": 0,
+      "opaqueUnitId": 6
+    }
+  ],
+  "manifestSha256": "f0d957770a23d4d2da11db3ce52abd942029e428918c33fb9a3df0f89d4d18a4",
+  "scope": "Independent recorded-cell and following-letter preservation only; unknown readings remain unknown."
+}
