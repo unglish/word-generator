@@ -1,0 +1,13 @@
+{
+  "passed": 10,
+  "failed": 2,
+  "assertionMessages": [
+    "expected 82 to be +0 // Object.is equality",
+    "expected 64 to be less than or equal to 1"
+  ],
+  "qualityLogSha256": "b7df892ed6f4344aa44bcb47ba2017e8fde539bb555f2dcfd2d9ea1322f5f605",
+  "fullReportSha256": "20cb6e866553c0b0642cc036e0a4d835402a08309b8062a26497972cbd2690f7",
+  "sampleAndThresholdsUnchanged": true,
+  "timeoutFailures": 0,
+  "scope": "Original opt-in seed-based quality workload; two gates fail. No adoption or overall gain verdict."
+}

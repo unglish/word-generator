@@ -1,0 +1,20 @@
+{
+  "controlReport": "/private/tmp/q14a-completion-support-evidence-v2/trace-audit/candidate-report.json",
+  "controlReportSha256": "b8cadfcd503ff5a2f3af05175c059abbde8be1bbda610539ef06ceeb5205bb3d",
+  "configurationSha256": "8113c6b6daf70eb002a38e3ad32a8efa692a8af25875b9403ba87497e491749a",
+  "workload": {
+    "count": 50000,
+    "seed": 42,
+    "mode": "lexicon",
+    "morphology": true,
+    "metrics": [
+      "trigrams",
+      "hiatus",
+      "glide",
+      "morphology",
+      "structural"
+    ]
+  },
+  "qualityLimit": "Original operator has no default fail-on thresholds; completed report is not passing acceptance",
+  "scope": "Immediate support predecessor versus context candidate, same configuration; original operator has only three import path changes."
+}

@@ -1,0 +1,39 @@
+{
+  "scope": "Two completed-stream coordinates, exact full audit certificate logic; not full-corpus acceptance",
+  "examples": [
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "drawIndex": 13,
+      "written": {
+        "clean": "oungows",
+        "hyphenated": "oung&shy;ows"
+      },
+      "certificates": 1,
+      "opaqueContextsChecked": 1,
+      "witnesses": [
+        {
+          "profile": "lexicon-bare",
+          "seed": 1304238451,
+          "drawIndex": 13,
+          "certificateId": 0,
+          "opaqueUnitId": 0
+        }
+      ],
+      "streamSha256": "594727ffa60350a00400b192e1ba1077937fe6ec5ac3e0382748c7f07cb1864d"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 9943,
+      "written": {
+        "clean": "preews",
+        "hyphenated": "preews"
+      },
+      "certificates": 0,
+      "opaqueContextsChecked": 0,
+      "witnesses": [],
+      "streamSha256": "ba39404d438576f305c163bc21515fb1dfa1d6c153460ae2eb345fc18f26fc2f"
+    }
+  ]
+}

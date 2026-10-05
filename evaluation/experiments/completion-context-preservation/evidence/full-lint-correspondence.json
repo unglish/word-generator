@@ -1,0 +1,9 @@
+{
+  "controlLogSha256": "59cab6fc4823053a882b94d5d0c7a5e985a6a80f0e6bb0ae0284772b0779508f",
+  "candidateLogSha256": "b3e9e04e00f176e1cd1b43f75a3fa1b457eb29e7f25bd0e2a2127188bb59d864",
+  "exactDiagnosticsAfterCheckoutPathNormalization": true,
+  "unchangedLanguageTestSha256": "e3fb00d6c5db48933ab740f6c4ba12372b622e3957e7db74a7846185fb058fc7",
+  "errors": 7,
+  "newErrors": 0,
+  "exitCode": 1
+}

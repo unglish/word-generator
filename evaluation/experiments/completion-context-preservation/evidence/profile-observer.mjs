@@ -1,0 +1,14 @@
+import { createSplitObserver } from "/private/tmp/q14a-completion-context-v1/evaluation/experiments/split-digraphs/observe-split.ts";
+import { englishConfig } from "/private/tmp/q14a-completion-context-v1/src/index.ts";
+import { readFileSync,writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import assert from "node:assert/strict";
+const base="/private/tmp/q14a-completion-context-evidence-v1";
+const configuration={...englishConfig,splitVowels:JSON.parse(readFileSync(base+"/measured-configuration.json"))};
+const word=JSON.parse(readFileSync(base+"/first-completion-witness.json")).after.word;
+const before=JSON.stringify(word),observe=createSplitObserver(configuration);
+const expected=JSON.stringify(observe(word));
+const started=performance.now();
+for(let i=0;i<200;i++)assert.equal(JSON.stringify(observe(word)),expected);
+assert.equal(JSON.stringify(word),before);
+writeFileSync(base+"/observer-profile-diagnostic.json",JSON.stringify({calls:200,elapsedMs:performance.now()-started,wordUnchanged:true,resultSha256:createHash("sha256").update(expected).digest("hex"),scope:"Repeated one retained trace for bottleneck diagnosis under concurrent production verification. Not isolated timing, corpus evidence or general speed estimate."},null,2)+"\n",{flag:"wx"});

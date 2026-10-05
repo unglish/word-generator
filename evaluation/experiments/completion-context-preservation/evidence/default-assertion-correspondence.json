@@ -1,0 +1,15 @@
+{
+  "sameFourAssertionMessages": [
+    "expected 9 to be +0 // Object.is equality",
+    "expected 28 to be +0 // Object.is equality",
+    "expected 43 to be +0 // Object.is equality",
+    "expected 6 to be less than or equal to 5"
+  ],
+  "controlLogSha256": "fe0eb186ca6301b753fac29d1bffdd3622199c50645395e95e247e990ad7401a",
+  "candidateLogSha256": "107e040f957f3407f4bd07ef08c9161b68b5cb6b4f426b557215b3a2404c94c1",
+  "passed": 1031,
+  "failed": 4,
+  "skipped": 1,
+  "newTimeouts": 0,
+  "scope": "Original default suite, one worker, unchanged per-test timeouts. Failure-message equality does not establish active-policy acceptance or speed."
+}
