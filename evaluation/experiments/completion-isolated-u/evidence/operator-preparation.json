@@ -1,0 +1,57 @@
+{
+  "basePR": 372,
+  "operators": [
+    {
+      "file": "analyze-candidate.mjs",
+      "sha256": "81799089cbfa09caab97af34cbcff46e7f575b5057a9b664de0f0e02f09131f9",
+      "derivedFromSha256": "7f4ff219937107fc5965d00cc406bcdeda004277cb5632a2c1541b8886403d44"
+    },
+    {
+      "file": "analyze-split-resumable.mjs",
+      "sha256": "aa04d63a798bf7b628ed37dfc272b561955fb9e062bbe30696f1fd25ef2586ea",
+      "derivedFromSha256": "7b0d68b95057e7b95d0beaedc5a91ce34f76b5f7f9b73af90c7da5b612d84b41"
+    },
+    {
+      "file": "run-independent.py",
+      "sha256": "ac0675492691252b3f6be6441c119765db3ac1c94bb8bf828b0bf82fa76314cd",
+      "derivedFromSha256": "a026fe7cc2be77fc74db03762d607349dca632bbd0d2841d91d0c9a92e8cfef7"
+    },
+    {
+      "file": "audit-opaque-context.py",
+      "sha256": "43a9f1ada5ca42457c03bf5efcbb087575b4180d5a3485da7936fbda77d1c8b5",
+      "derivedFromSha256": "6cc2076468c6863040b3941836c2f523bece4d047ace6d2331f8129e894a66da"
+    },
+    {
+      "file": "audit-written-boundary.py",
+      "sha256": "ac4a455ec5bb98c7acab3bee733e223d90021c8da338af18113bd4e159706fd5",
+      "derivedFromSha256": "3601b0fb62c9dddd567ab755522b750931cd9163b51531533716c49110cc53a8"
+    },
+    {
+      "file": "classify-completion-gaps.py",
+      "sha256": "a9ffa55a5e36140a4a93cd51382d64af6d976efd94e865b7804b543b8f2c17d4",
+      "derivedFromSha256": "5d03626ec312402f5be90b43997e1a55903d093fba8138693854ea7fc850a052"
+    },
+    {
+      "file": "classify-final-residuals.py",
+      "sha256": "39ebee90da6c70b45afa09dfe67d1d96ec2aa890331b6206d9040a8f1b8110b2",
+      "derivedFromSha256": "c879aa76c8296468335aae35c529671d867b72db34dd1f68c6be0f6a865e25ac"
+    },
+    {
+      "file": "compare-structure.py",
+      "sha256": "7cef04774dcac22072e0a08880c60e03242ca15242e7663947fde576878bb73f",
+      "derivedFromSha256": "8731e70804b08b6ab255ea85f1e94795d236e980f2de689e4e9f62219dbc9225"
+    },
+    {
+      "file": "compare-quality.mjs",
+      "sha256": "f67c8eac89f2a691b3f8c75890990da1117e265c12ea092b6e6ff2ed5541a6ac",
+      "derivedFromSha256": "133340f9455164834d64088272e90d6dd129e0aafface093de5461667df37453"
+    },
+    {
+      "file": "verify-checkpoints.mjs",
+      "sha256": "f77486473cc5df6da69dba621ae64aa28541730854359f489446030d3dac69a9",
+      "derivedFromSha256": "5f156b3412c1e6a17b4fa2c45f9f83f1bd43f76ae8edcfb5fffe610c61c40e16"
+    }
+  ],
+  "sourceCount": 151,
+  "scope": "Path rebinding of existing full-scope operators. Not executed or newly validated yet; capture remains running."
+}

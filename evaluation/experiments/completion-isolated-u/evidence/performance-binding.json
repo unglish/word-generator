@@ -1,0 +1,26 @@
+{
+  "control": "/private/tmp/q14a-completion-prefix-context-v1",
+  "candidate": "/private/tmp/q14a-completion-isolated-u-v1",
+  "controlCommit": "da8cdec39aa6a0cda5aeb0f34772c0dfcdd6c533",
+  "candidateCommit": "42437fc4f1f4765fd580f5caf1702ae92127d1aa",
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "measuredConfigurationSha256": "b20f5da9bd2e97cf4d3fb540b0ea6672821a9b4fcdfce77c2862ad20214d4240",
+  "runnerSha256": "35b94fa86ee8cc153b243164a1febb45ef6fadcc21fa2550e2260b50087ac8f5",
+  "seriesSha256": "796b917c4672240efcbf678a87d17e2f1c60dac2c461e08ca56b05a61ad64724",
+  "originalBenchmarkSha256": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f",
+  "scope": "Original workload and speed/variance gates. Arms use their respective frozen configurations; sole intervention is completion-only isolated oo weight3. Runtime151 files identical. Same-arm full configuration identity checked. Timing dispatch requires all known competing measurements terminal.",
+  "controlConfigurationSha256": "f672b3b79fdb3f7dc1dca635d0b9d34f34a1f961a592664d24853a176b8b2661"
+}

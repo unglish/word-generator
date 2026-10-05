@@ -1,0 +1,13 @@
+{
+  "reason": "Original parity dispatch failed before generation because control-materialization.json was absent",
+  "controlMaterializationSha256": "a107b981e7df89fe6dfec9b042962d8d8f4da58b6a03196da85cca326d3064a7",
+  "controlFilesAuthenticated": 152,
+  "originalChainPreserved": true,
+  "resumeOperatorSha256": "16ce4d74ba2aaa32b77ee9aedf17af6f08aabc7dad3282dd23ecf89926bb9c7d",
+  "resumeStages": [
+    "legacy-parity",
+    "original-gates",
+    "trace-audit",
+    "full-lint"
+  ]
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "file": "src/core/cluster-weights.test.ts",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q14a-completion-isolated-u-v1/node_modules/vitest/vitest.mjs",
+      "run",
+      "src/core/cluster-weights.test.ts",
+      "--maxWorkers",
+      "1",
+      "--no-file-parallelism"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791239316.719056,
+    "finishedAt": 1791239360.911742,
+    "sourcePinsPreserved": true
+  },
+  {
+    "file": "src/core/generate.test.ts",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q14a-completion-isolated-u-v1/node_modules/vitest/vitest.mjs",
+      "run",
+      "src/core/generate.test.ts",
+      "--maxWorkers",
+      "1",
+      "--no-file-parallelism"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791239360.918093,
+    "finishedAt": 1791239404.452995,
+    "sourcePinsPreserved": true
+  },
+  {
+    "file": "src/core/grapheme-selection.test.ts",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q14a-completion-isolated-u-v1/node_modules/vitest/vitest.mjs",
+      "run",
+      "src/core/grapheme-selection.test.ts",
+      "--maxWorkers",
+      "1",
+      "--no-file-parallelism"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791239404.4593248,
+    "finishedAt": 1791239422.51935,
+    "sourcePinsPreserved": true
+  },
+  {
+    "file": "src/core/ngram-quality.test.ts",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q14a-completion-isolated-u-v1/node_modules/vitest/vitest.mjs",
+      "run",
+      "src/core/ngram-quality.test.ts",
+      "--maxWorkers",
+      "1",
+      "--no-file-parallelism"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791239422.525544,
+    "finishedAt": 1791239475.2058291,
+    "sourcePinsPreserved": true
+  },
+  {
+    "file": "src/phonotactic/phonotactic.test.ts",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q14a-completion-isolated-u-v1/node_modules/vitest/vitest.mjs",
+      "run",
+      "src/phonotactic/phonotactic.test.ts",
+      "--maxWorkers",
+      "1",
+      "--no-file-parallelism"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791239475.2118049,
+    "finishedAt": 1791239517.2535858,
+    "sourcePinsPreserved": true
+  }
+]

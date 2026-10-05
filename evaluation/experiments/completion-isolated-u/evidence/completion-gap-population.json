@@ -1,0 +1,255 @@
+{
+  "words": 200000,
+  "infeasibleAttempts": 2,
+  "inputPins": [
+    {
+      "path": "words/lexicon-bare-1304238451.jsonl.gz",
+      "sha256": "7f7dfc30d12fd9cfc47f613b230775cd7520050ea63c0b38c5b879cab9aa7fda"
+    },
+    {
+      "path": "words/lexicon-bare-1498885173.jsonl.gz",
+      "sha256": "0ebacbf4774d668b692c5354a1b3066439e8a1bfa96000cb664f00fcb06c49e0"
+    },
+    {
+      "path": "words/lexicon-bare-1696751198.jsonl.gz",
+      "sha256": "c6053fa6542d00a59fb88cac0650f0c752ce1ab6d861af2ca121a0e3ae826df8"
+    },
+    {
+      "path": "words/lexicon-bare-2380207674.jsonl.gz",
+      "sha256": "04092188d20d78430974c805728ec60130cb62311ee0fb7db70998cfe0bb5658"
+    },
+    {
+      "path": "words/lexicon-bare-772709128.jsonl.gz",
+      "sha256": "eef175a5c036621d30a35daf3aa074f3fa5da11338fb90fbbd1a41ca2ade5f5c"
+    },
+    {
+      "path": "words/lexicon-default-101601885.jsonl.gz",
+      "sha256": "10185db58efd4858e81c6c7954987830c7a290745dd663658d77a798c1c6dea0"
+    },
+    {
+      "path": "words/lexicon-default-2089697863.jsonl.gz",
+      "sha256": "62d801b7749acdaec44b1d7d2a775a2d4a8f23de1a2663585bb637114652ed73"
+    },
+    {
+      "path": "words/lexicon-default-3921817393.jsonl.gz",
+      "sha256": "b482ac903f67db7e58fe1a6cb4298dbc1bff5b0dc15a6a2377313342e1dc3422"
+    },
+    {
+      "path": "words/lexicon-default-3948943232.jsonl.gz",
+      "sha256": "f20aa6a160ed1b2700d18ded6d632e808d8abf8ce6fbf287dd92edb2c29c84c9"
+    },
+    {
+      "path": "words/lexicon-default-69212153.jsonl.gz",
+      "sha256": "8804cd01dc7b3d4f6294210f584f7a5f7301566a8613920287088cf09306a9bf"
+    },
+    {
+      "path": "words/monosyllables-bare-2001884366.jsonl.gz",
+      "sha256": "80c134760eb0748667d9ba1e2597c8322d9f7119209a8abc1f934e89feef2d7f"
+    },
+    {
+      "path": "words/monosyllables-bare-2353354178.jsonl.gz",
+      "sha256": "063138f5adc890b5fe36b896b96c29a0b4dd2e9a09f65b3831a157aeb1578fe2"
+    },
+    {
+      "path": "words/monosyllables-bare-3297327738.jsonl.gz",
+      "sha256": "646f3d1d6ac0ebd895bf9280774eeca441b4fbeb31978dea6cfe6c0517ae419e"
+    },
+    {
+      "path": "words/monosyllables-bare-462530651.jsonl.gz",
+      "sha256": "9281b452854e2074c5b5a8e7ae5c0a61f0c6f5821238e87fa57549183f59def7"
+    },
+    {
+      "path": "words/monosyllables-bare-62358955.jsonl.gz",
+      "sha256": "bc45347c51626fce9c977770869f900f61e48e3cf82e4c4f5b7ccb7e8e7e498e"
+    },
+    {
+      "path": "words/text-default-1665836705.jsonl.gz",
+      "sha256": "dc43b12a18abb6b36bb6a62e4903ff0b78841042bb173eb74874ed3afe0540cb"
+    },
+    {
+      "path": "words/text-default-1999736106.jsonl.gz",
+      "sha256": "af3a1478c31c38be869071a3700fd189ee8e43f8c42ddddb291634c6891f6a69"
+    },
+    {
+      "path": "words/text-default-2666001996.jsonl.gz",
+      "sha256": "5625199e6f7d798eea049189115fe5ea339aec930a21d04c24ba2670b373e9d0"
+    },
+    {
+      "path": "words/text-default-3562318933.jsonl.gz",
+      "sha256": "6b0aeacbe1ae811b4abb8f28593e7bf8dc9146d747dc71a103c37791368c42df"
+    },
+    {
+      "path": "words/text-default-4167471042.jsonl.gz",
+      "sha256": "9647d557bb728b4c1438f37c7021aa7e2919b18186372968f9416131547d8362"
+    }
+  ],
+  "groups": [
+    {
+      "classification": {
+        "category": "projection-refusal",
+        "refusals": [
+          "neighbor-reading",
+          "unresolved-vowel-obligation"
+        ],
+        "sound": "u"
+      },
+      "count": 2,
+      "firstTraceWitness": {
+        "profile": "lexicon-bare",
+        "seed": 1498885173,
+        "drawIndex": 5738,
+        "written": {
+          "clean": "sulkicmarened",
+          "hyphenated": "sulk&shy;ic&shy;ma&shy;rened"
+        },
+        "attempt": {
+          "cursor": {
+            "lastAppendedUnitId": 11,
+            "nextEditId": 0
+          },
+          "nucleusId": 1,
+          "obligation": {
+            "status": "unresolved",
+            "unitId": 1,
+            "inputCellIds": [
+              1
+            ],
+            "form": "u"
+          },
+          "status": "evaluated",
+          "prefix": {
+            "status": "available",
+            "prefix": {
+              "previousForm": "s",
+              "doublingCount": 0
+            },
+            "evidence": {
+              "doublingCount": 0,
+              "quotaSource": "original"
+            }
+          },
+          "pool": {
+            "status": "available",
+            "pool": "ordinary",
+            "quotaRelaxed": false,
+            "proposals": [
+              {
+                "inventoryIndex": 26,
+                "form": "oo",
+                "weight": 90,
+                "reading": {
+                  "kind": "single-phone"
+                }
+              },
+              {
+                "inventoryIndex": 27,
+                "form": "u",
+                "weight": 100,
+                "reading": {
+                  "kind": "open-vowel-or-split-marker"
+                },
+                "refusal": "unresolved-vowel-obligation"
+              },
+              {
+                "inventoryIndex": 29,
+                "form": "ew",
+                "weight": 7,
+                "reading": {
+                  "kind": "single-phone"
+                }
+              }
+            ]
+          },
+          "proposals": [
+            {
+              "inventoryIndex": 26,
+              "form": "oo",
+              "weight": 90,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "neighbor-reading",
+                "unitId": 0
+              },
+              "refusal": "neighbor-reading"
+            },
+            {
+              "inventoryIndex": 27,
+              "form": "u",
+              "weight": 100,
+              "reading": {
+                "kind": "open-vowel-or-split-marker"
+              },
+              "refusal": "unresolved-vowel-obligation"
+            },
+            {
+              "inventoryIndex": 29,
+              "form": "ew",
+              "weight": 7,
+              "reading": {
+                "kind": "single-phone"
+              },
+              "projection": {
+                "status": "refused",
+                "reason": "neighbor-reading",
+                "unitId": 0
+              },
+              "refusal": "neighbor-reading"
+            }
+          ],
+          "sample": {
+            "status": "infeasible",
+            "candidates": [
+              {
+                "inventoryIndex": 26,
+                "form": "oo",
+                "weight": 90,
+                "reading": {
+                  "kind": "single-phone"
+                },
+                "projection": {
+                  "status": "refused",
+                  "reason": "neighbor-reading",
+                  "unitId": 0
+                },
+                "refusal": "neighbor-reading",
+                "retainedWeight": 0,
+                "probability": 0
+              },
+              {
+                "inventoryIndex": 27,
+                "form": "u",
+                "weight": 100,
+                "reading": {
+                  "kind": "open-vowel-or-split-marker"
+                },
+                "refusal": "unresolved-vowel-obligation",
+                "retainedWeight": 0,
+                "probability": 0
+              },
+              {
+                "inventoryIndex": 29,
+                "form": "ew",
+                "weight": 7,
+                "reading": {
+                  "kind": "single-phone"
+                },
+                "projection": {
+                  "status": "refused",
+                  "reason": "neighbor-reading",
+                  "unitId": 0
+                },
+                "refusal": "neighbor-reading",
+                "retainedWeight": 0,
+                "probability": 0
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "scope": "Full corrected candidate trace attempts; cause accounting, not independently validated reading licenses or human-quality evidence."
+}

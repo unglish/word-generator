@@ -1,0 +1,7 @@
+{
+  "candidateLogSha256": "1eaae0f1d08894f8bc61ece03f80616a33c43eb7e10aea78e4a149d43c5ea63d",
+  "controlLogSha256": "0df27f25255d9b191ac0e37b3b81a4f96a5d998fac3e1bca645ca5c17d565314",
+  "normalizedLogsIdentical": true,
+  "errors": 7,
+  "scope": "Exact full-lint diagnostics identical after checkout path normalization; failed gate retained"
+}

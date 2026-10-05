@@ -1,0 +1,33 @@
+[
+  {
+    "name": "default-tests",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q14a-completion-isolated-u-v1/node_modules/vitest/vitest.mjs",
+      "run",
+      "--maxWorkers",
+      "1",
+      "--no-file-parallelism"
+    ],
+    "cwd": "/private/tmp/q14a-completion-isolated-u-v1",
+    "exitCode": 1,
+    "startedAt": 1791236696.108381,
+    "finishedAt": 1791239028.1422012,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "quality-tests",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q14a-completion-isolated-u-v1/node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "vitest.config.mjs"
+    ],
+    "cwd": "/private/tmp/q14a-completion-isolated-u-evidence-v1/quality",
+    "exitCode": 1,
+    "startedAt": 1791239028.149749,
+    "finishedAt": 1791239139.458174,
+    "sourcePinsPreserved": true
+  }
+]
