@@ -1157,13 +1157,6 @@
       "sourceSha256": "3141d8dcecf74d86b44057add6859706c34787d2cddf7cd2b73b862962e69bdf"
     },
     {
-      "path": "quality/node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json",
-      "bytes": 98,
-      "sha256": "0fc77949171ed8c5f055992dac303098808436a6af71ee0bd339ff7959d66053",
-      "sourcePath": "quality/node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json",
-      "sourceSha256": "0fc77949171ed8c5f055992dac303098808436a6af71ee0bd339ff7959d66053"
-    },
-    {
       "path": "quality/quality-report.json",
       "bytes": 479,
       "sha256": "16e7c679f4f01ff23d62f4b948213f6a0507c075493b0349351a9f8de3df2128",
