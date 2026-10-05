@@ -1,0 +1,26 @@
+{
+  "control": "/private/tmp/q14a-completion-context-v1",
+  "candidate": "/private/tmp/q14a-completion-u-support-v1",
+  "controlCommit": "319ece680b81e453272be85fdb2ff54fd051d5d1",
+  "candidateCommit": "71bb7b4",
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "measuredConfigurationSha256": "f672b3b79fdb3f7dc1dca635d0b9d34f34a1f961a592664d24853a176b8b2661",
+  "runnerSha256": "46b2accc0d6af85c5170b489aad5ee354e385c2f21f6b5e3006bf3d7c127eca3",
+  "seriesSha256": "2131b37b31214c2fca2ea6420d3189e35423b5cebac25a5cd97aefee63ff93d7",
+  "originalBenchmarkSha256": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f",
+  "scope": "Same original workload and gates; only registered /u/:oo completion support differs across arms. Compare configuration identity within each arm. Timing starts after all known competing measurements are terminal.",
+  "controlConfigurationSha256": "c4388e129608d27ebd790e3ae0db32dc7e3ec858086348543e405674db0c7f02"
+}

@@ -1,0 +1,13 @@
+{
+  "passed": 10,
+  "failed": 2,
+  "assertionMessages": [
+    "expected 83 to be +0 // Object.is equality",
+    "expected 62 to be less than or equal to 1"
+  ],
+  "qualityLogSha256": "ca2e53d06ff8557a0f06cc94998f1e20911ac1275c080e6a2540c0de1cf26ca1",
+  "fullReportSha256": "6e548c85763cc9d6d8f1867708281d07b1db69b4719cb50de649a6356ff1a448",
+  "sampleAndThresholdsUnchanged": true,
+  "timeoutFailures": 0,
+  "scope": "Original50000wordseed-based active quality gates; two failures retained. No adoption or overall gain claim."
+}

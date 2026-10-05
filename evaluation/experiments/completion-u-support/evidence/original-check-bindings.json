@@ -1,0 +1,37 @@
+{
+  "operators": [
+    {
+      "file": "quality/quality.test.ts",
+      "predecessorSha256": "e062dafe816d15c425f28b0468e6a1d8a8f4735cd3eafe504728c6cd02111c84",
+      "candidateSha256": "ce2d528a76a3448ffddd4066b1c464124e63c3f46de3089df2cba0f47cb6c4f3",
+      "change": "Root/evidence paths only; registered configuration read by existing adapter."
+    },
+    {
+      "file": "quality/vitest.config.mjs",
+      "predecessorSha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a",
+      "candidateSha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a",
+      "change": "Root/evidence paths only; registered configuration read by existing adapter."
+    },
+    {
+      "file": "quality/candidate-api.ts",
+      "predecessorSha256": "040cb111c693b1739d3170f7b93ead23ed641c1c50d892044131dab984092735",
+      "candidateSha256": "c1c40539a50ae9ffa977bc75543fa39d5c51a6a6900bdee40beaf1d21d86ae9b",
+      "change": "Root/evidence paths only; registered configuration read by existing adapter."
+    },
+    {
+      "file": "trace-audit/candidate-trace-audit.mjs",
+      "predecessorSha256": "ff829563d7fac2e2953148986e7670318555b862b951356ee11ba748af53d4f7",
+      "candidateSha256": "0471f001becc4430b337a13092698dbcc1e50a4a13dfc9e2c418b0f175c763ec",
+      "change": "Root/evidence paths only; registered configuration read by existing adapter."
+    },
+    {
+      "file": "trace-audit/candidate-api.ts",
+      "predecessorSha256": "040cb111c693b1739d3170f7b93ead23ed641c1c50d892044131dab984092735",
+      "candidateSha256": "c1c40539a50ae9ffa977bc75543fa39d5c51a6a6900bdee40beaf1d21d86ae9b",
+      "change": "Root/evidence paths only; registered configuration read by existing adapter."
+    }
+  ],
+  "originalDefaultTimeoutsUnchanged": true,
+  "activeQualitySampleAndGatesUnchanged": true,
+  "scope": "Exact adapter source correspondence; terminal outcomes must be read separately."
+}

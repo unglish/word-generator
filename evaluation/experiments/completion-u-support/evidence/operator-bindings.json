@@ -1,0 +1,23 @@
+{
+  "scope": "Same original full measurement operators rebound to registered u-support configuration; deterministic context audit reused unchanged; statistical thresholds/workloads unmodified.",
+  "operators": {
+    "capture.mjs": "d0de7424e971c282a3e6baed351a847c3db243f8ee6624b354f02f5a7e1ce2f6",
+    "legacy-parity-runner.mjs": "9a025d2bde103d207f9634c3d46619f911bfa5df7a16a5af5f6548232464e6b4",
+    "classify-completion-gaps.py": "7d58b69ec41db8943f04c83e5e94c0fb23fd24def50bf94ff7f4bf6953455285",
+    "run-original-gates.py": "8fd49858f5c87e22be2525b6a8baf9a290d817a78a5b996d56a28af1e0417517",
+    "run-independent.py": "d5f223f97a38d88f13dda9bdeb758ba9fbcf765cf7833762566847de3496a954",
+    "analyze-candidate.mjs": "e5510133627b16f471593061169044361ebb0c68302e17df682e410072499cc7",
+    "audit-opaque-context.py": "957fe6220f5f211b2095cb5ed45a04d2a430d951ce030f86f61e2721d0466120",
+    "compare-quality.mjs": "513db5c92d545b349a002911d02820a7f50b308f6d368f2fd2ae17143efc754a",
+    "compare-structure.py": "fc64e5a77b09f884b3dfabac2b4f23bf6e586d408c68003b26c200718d195f91",
+    "trace-audit/candidate-trace-audit.mjs": "0471f001becc4430b337a13092698dbcc1e50a4a13dfc9e2c418b0f175c763ec",
+    "trace-audit/candidate-api.ts": "c1c40539a50ae9ffa977bc75543fa39d5c51a6a6900bdee40beaf1d21d86ae9b",
+    "quality/quality.test.ts": "ce2d528a76a3448ffddd4066b1c464124e63c3f46de3089df2cba0f47cb6c4f3",
+    "quality/vitest.config.mjs": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a",
+    "quality/candidate-api.ts": "c1c40539a50ae9ffa977bc75543fa39d5c51a6a6900bdee40beaf1d21d86ae9b"
+  },
+  "sourceFiles": 151,
+  "controlArchive": "/private/tmp/q14a-completion-context-evidence-v1/candidate-archive",
+  "controlAnalysis": "/private/tmp/q14a-completion-context-evidence-v1/candidate-analysis",
+  "candidateConfigurationSha256": "f672b3b79fdb3f7dc1dca635d0b9d34f34a1f961a592664d24853a176b8b2661"
+}

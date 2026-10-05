@@ -1,0 +1,10 @@
+{
+  "originalOperator": "/private/tmp/q14a-completion-context-evidence-v1/classify-final-residuals.py",
+  "originalSha256": "4c69316d54ee6daacfd8b456d96595af819c54caba5535464c0c808463b7b13b",
+  "adapterSha256": "dc54b2e5bdb86bcd0b4599fc11fb77641cec73c1bc12b59bd8283382c78a450f",
+  "changes": [
+    "Evidence root rebinding",
+    "Population count taken from completed independent recount, pinned to58 instead of control100; original acceptance target remains zero"
+  ],
+  "scope": "All original200000 words and all unresolved coordinates; no sample reduction."
+}

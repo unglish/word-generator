@@ -1,0 +1,725 @@
+{
+  "controlReport": {
+    "schemaVersion": "1.0.0",
+    "config": {
+      "count": 50000,
+      "seed": 42,
+      "mode": "lexicon",
+      "morphology": true,
+      "targets": [
+        "iin",
+        "iow",
+        "aow",
+        "eae",
+        "eai",
+        "eao",
+        "eoe",
+        "oou"
+      ],
+      "metrics": [
+        "trigrams",
+        "hiatus",
+        "glide",
+        "morphology",
+        "structural"
+      ],
+      "failOn": []
+    },
+    "totalTrigrams": 278245,
+    "targets": {
+      "iin": 106,
+      "iow": 0,
+      "aow": 0,
+      "eae": 176,
+      "eai": 282,
+      "eao": 77,
+      "eoe": 15,
+      "oou": 23
+    },
+    "targetSum": 679,
+    "root": {
+      "hiatus": 0,
+      "boundaries": 47637,
+      "hiatusRate": 0
+    },
+    "final": {
+      "hiatus": 686,
+      "boundaries": 80815,
+      "hiatusRate": 0.00848852317020355
+    },
+    "delta": {
+      "extraHiatus": 686,
+      "extraBoundaries": 33178,
+      "extraHiatusRate": 0.020676351799385134
+    },
+    "glide": {
+      "rootVowelToGlideTransitions": 96,
+      "rootTotalVowelTransitions": 82640,
+      "rootVowelToGlideRate": 0.0011616650532429815
+    },
+    "morphology": {
+      "templates": {
+        "suffixed": 24002,
+        "prefixed": 7072,
+        "bare": 14923,
+        "both": 4003
+      },
+      "prefixes": {
+        "re": 2523,
+        "un": 2866,
+        "out": 724,
+        "mis": 1092,
+        "in": 1817,
+        "dis": 645,
+        "over": 713,
+        "pre": 695
+      },
+      "suffixes": {
+        "able": 803,
+        "s": 7243,
+        "ing": 1563,
+        "ment": 859,
+        "est": 588,
+        "tion": 1050,
+        "ary": 802,
+        "er": 2051,
+        "ed": 4498,
+        "ity": 722,
+        "al": 1783,
+        "ery": 330,
+        "ory": 609,
+        "ly": 1201,
+        "ive": 482,
+        "ful": 576,
+        "ness": 242,
+        "sion": 353,
+        "ous": 536,
+        "ian": 332,
+        "ist": 212,
+        "ial": 300,
+        "ize": 302,
+        "less": 442,
+        "ism": 126
+      }
+    },
+    "structural": {
+      "aspirationDecision": 191855,
+      "morphPrefixHiatusFallback": 1176,
+      "morphSuffixHiatusFallback": 3054,
+      "finalS": 655,
+      "nasalStopExtension": 637,
+      "sspBoundaryDrop": 417,
+      "junctionBoundaryDrop": 293,
+      "vowelHiatusFallback": 110,
+      "boundaryDrop": 30,
+      "risingCodaBoundaryDrop": 42
+    },
+    "ssp": {
+      "boundaries": 80815,
+      "drops": 417,
+      "byViolation": {
+        "rule1": 56,
+        "rule2": 121,
+        "rule3": 187,
+        "multi": 53
+      },
+      "totalDropRatePerBoundary": 0.005159933180721401,
+      "rule1DropRatePerBoundary": 0.0006929406669553919,
+      "rule2DropRatePerBoundary": 0.0014972467982429004,
+      "rule3DropRatePerBoundary": 0.0023139268700117554,
+      "multiDropRatePerBoundary": 0.0006558188455113531
+    }
+  },
+  "candidateReport": {
+    "schemaVersion": "1.0.0",
+    "config": {
+      "count": 50000,
+      "seed": 42,
+      "mode": "lexicon",
+      "morphology": true,
+      "targets": [
+        "iin",
+        "iow",
+        "aow",
+        "eae",
+        "eai",
+        "eao",
+        "eoe",
+        "oou"
+      ],
+      "metrics": [
+        "trigrams",
+        "hiatus",
+        "glide",
+        "morphology",
+        "structural"
+      ],
+      "failOn": []
+    },
+    "totalTrigrams": 277514,
+    "targets": {
+      "iin": 116,
+      "iow": 0,
+      "aow": 0,
+      "eae": 199,
+      "eai": 264,
+      "eao": 74,
+      "eoe": 13,
+      "oou": 30
+    },
+    "targetSum": 696,
+    "root": {
+      "hiatus": 0,
+      "boundaries": 47658,
+      "hiatusRate": 0
+    },
+    "final": {
+      "hiatus": 687,
+      "boundaries": 80686,
+      "hiatusRate": 0.008514488263143544
+    },
+    "delta": {
+      "extraHiatus": 687,
+      "extraBoundaries": 33028,
+      "extraHiatusRate": 0.020800532881191717
+    },
+    "glide": {
+      "rootVowelToGlideTransitions": 101,
+      "rootTotalVowelTransitions": 82423,
+      "rootVowelToGlideRate": 0.0012253861179525132
+    },
+    "morphology": {
+      "templates": {
+        "suffixed": 23985,
+        "prefixed": 7037,
+        "bare": 14946,
+        "both": 4032
+      },
+      "prefixes": {
+        "re": 2476,
+        "un": 2849,
+        "out": 726,
+        "mis": 1136,
+        "in": 1826,
+        "dis": 672,
+        "over": 733,
+        "pre": 651
+      },
+      "suffixes": {
+        "able": 831,
+        "s": 7271,
+        "ing": 1560,
+        "ment": 814,
+        "est": 547,
+        "tion": 1129,
+        "ary": 793,
+        "er": 1984,
+        "ed": 4596,
+        "ity": 678,
+        "al": 1715,
+        "ery": 324,
+        "ful": 582,
+        "ive": 489,
+        "ly": 1200,
+        "ous": 552,
+        "ial": 297,
+        "ize": 310,
+        "ness": 243,
+        "ian": 328,
+        "ism": 133,
+        "ory": 615,
+        "sion": 389,
+        "ist": 198,
+        "less": 439
+      }
+    },
+    "structural": {
+      "aspirationDecision": 191615,
+      "morphPrefixHiatusFallback": 1195,
+      "morphSuffixHiatusFallback": 3012,
+      "finalS": 666,
+      "nasalStopExtension": 634,
+      "vowelHiatusFallback": 118,
+      "sspBoundaryDrop": 433,
+      "junctionBoundaryDrop": 272,
+      "boundaryDrop": 26,
+      "risingCodaBoundaryDrop": 30
+    },
+    "ssp": {
+      "boundaries": 80686,
+      "drops": 433,
+      "byViolation": {
+        "rule1": 44,
+        "rule2": 139,
+        "rule3": 198,
+        "multi": 52
+      },
+      "totalDropRatePerBoundary": 0.005366482413305902,
+      "rule1DropRatePerBoundary": 0.0005453238480033711,
+      "rule2DropRatePerBoundary": 0.0017227276107379223,
+      "rule3DropRatePerBoundary": 0.00245395731601517,
+      "multiDropRatePerBoundary": 0.0006444736385494386
+    }
+  },
+  "differences": [
+    {
+      "path": "delta.extraBoundaries",
+      "control": 33178,
+      "candidate": 33028,
+      "change": -150
+    },
+    {
+      "path": "delta.extraHiatus",
+      "control": 686,
+      "candidate": 687,
+      "change": 1
+    },
+    {
+      "path": "delta.extraHiatusRate",
+      "control": 0.020676351799385134,
+      "candidate": 0.020800532881191717,
+      "change": 0.00012418108180658333
+    },
+    {
+      "path": "final.boundaries",
+      "control": 80815,
+      "candidate": 80686,
+      "change": -129
+    },
+    {
+      "path": "final.hiatus",
+      "control": 686,
+      "candidate": 687,
+      "change": 1
+    },
+    {
+      "path": "final.hiatusRate",
+      "control": 0.00848852317020355,
+      "candidate": 0.008514488263143544,
+      "change": 2.5965092939993564e-05
+    },
+    {
+      "path": "glide.rootTotalVowelTransitions",
+      "control": 82640,
+      "candidate": 82423,
+      "change": -217
+    },
+    {
+      "path": "glide.rootVowelToGlideRate",
+      "control": 0.0011616650532429815,
+      "candidate": 0.0012253861179525132,
+      "change": 6.372106470953166e-05
+    },
+    {
+      "path": "glide.rootVowelToGlideTransitions",
+      "control": 96,
+      "candidate": 101,
+      "change": 5
+    },
+    {
+      "path": "morphology.prefixes.dis",
+      "control": 645,
+      "candidate": 672,
+      "change": 27
+    },
+    {
+      "path": "morphology.prefixes.in",
+      "control": 1817,
+      "candidate": 1826,
+      "change": 9
+    },
+    {
+      "path": "morphology.prefixes.mis",
+      "control": 1092,
+      "candidate": 1136,
+      "change": 44
+    },
+    {
+      "path": "morphology.prefixes.out",
+      "control": 724,
+      "candidate": 726,
+      "change": 2
+    },
+    {
+      "path": "morphology.prefixes.over",
+      "control": 713,
+      "candidate": 733,
+      "change": 20
+    },
+    {
+      "path": "morphology.prefixes.pre",
+      "control": 695,
+      "candidate": 651,
+      "change": -44
+    },
+    {
+      "path": "morphology.prefixes.re",
+      "control": 2523,
+      "candidate": 2476,
+      "change": -47
+    },
+    {
+      "path": "morphology.prefixes.un",
+      "control": 2866,
+      "candidate": 2849,
+      "change": -17
+    },
+    {
+      "path": "morphology.suffixes.able",
+      "control": 803,
+      "candidate": 831,
+      "change": 28
+    },
+    {
+      "path": "morphology.suffixes.al",
+      "control": 1783,
+      "candidate": 1715,
+      "change": -68
+    },
+    {
+      "path": "morphology.suffixes.ary",
+      "control": 802,
+      "candidate": 793,
+      "change": -9
+    },
+    {
+      "path": "morphology.suffixes.ed",
+      "control": 4498,
+      "candidate": 4596,
+      "change": 98
+    },
+    {
+      "path": "morphology.suffixes.er",
+      "control": 2051,
+      "candidate": 1984,
+      "change": -67
+    },
+    {
+      "path": "morphology.suffixes.ery",
+      "control": 330,
+      "candidate": 324,
+      "change": -6
+    },
+    {
+      "path": "morphology.suffixes.est",
+      "control": 588,
+      "candidate": 547,
+      "change": -41
+    },
+    {
+      "path": "morphology.suffixes.ful",
+      "control": 576,
+      "candidate": 582,
+      "change": 6
+    },
+    {
+      "path": "morphology.suffixes.ial",
+      "control": 300,
+      "candidate": 297,
+      "change": -3
+    },
+    {
+      "path": "morphology.suffixes.ian",
+      "control": 332,
+      "candidate": 328,
+      "change": -4
+    },
+    {
+      "path": "morphology.suffixes.ing",
+      "control": 1563,
+      "candidate": 1560,
+      "change": -3
+    },
+    {
+      "path": "morphology.suffixes.ism",
+      "control": 126,
+      "candidate": 133,
+      "change": 7
+    },
+    {
+      "path": "morphology.suffixes.ist",
+      "control": 212,
+      "candidate": 198,
+      "change": -14
+    },
+    {
+      "path": "morphology.suffixes.ity",
+      "control": 722,
+      "candidate": 678,
+      "change": -44
+    },
+    {
+      "path": "morphology.suffixes.ive",
+      "control": 482,
+      "candidate": 489,
+      "change": 7
+    },
+    {
+      "path": "morphology.suffixes.ize",
+      "control": 302,
+      "candidate": 310,
+      "change": 8
+    },
+    {
+      "path": "morphology.suffixes.less",
+      "control": 442,
+      "candidate": 439,
+      "change": -3
+    },
+    {
+      "path": "morphology.suffixes.ly",
+      "control": 1201,
+      "candidate": 1200,
+      "change": -1
+    },
+    {
+      "path": "morphology.suffixes.ment",
+      "control": 859,
+      "candidate": 814,
+      "change": -45
+    },
+    {
+      "path": "morphology.suffixes.ness",
+      "control": 242,
+      "candidate": 243,
+      "change": 1
+    },
+    {
+      "path": "morphology.suffixes.ory",
+      "control": 609,
+      "candidate": 615,
+      "change": 6
+    },
+    {
+      "path": "morphology.suffixes.ous",
+      "control": 536,
+      "candidate": 552,
+      "change": 16
+    },
+    {
+      "path": "morphology.suffixes.s",
+      "control": 7243,
+      "candidate": 7271,
+      "change": 28
+    },
+    {
+      "path": "morphology.suffixes.sion",
+      "control": 353,
+      "candidate": 389,
+      "change": 36
+    },
+    {
+      "path": "morphology.suffixes.tion",
+      "control": 1050,
+      "candidate": 1129,
+      "change": 79
+    },
+    {
+      "path": "morphology.templates.bare",
+      "control": 14923,
+      "candidate": 14946,
+      "change": 23
+    },
+    {
+      "path": "morphology.templates.both",
+      "control": 4003,
+      "candidate": 4032,
+      "change": 29
+    },
+    {
+      "path": "morphology.templates.prefixed",
+      "control": 7072,
+      "candidate": 7037,
+      "change": -35
+    },
+    {
+      "path": "morphology.templates.suffixed",
+      "control": 24002,
+      "candidate": 23985,
+      "change": -17
+    },
+    {
+      "path": "root.boundaries",
+      "control": 47637,
+      "candidate": 47658,
+      "change": 21
+    },
+    {
+      "path": "ssp.boundaries",
+      "control": 80815,
+      "candidate": 80686,
+      "change": -129
+    },
+    {
+      "path": "ssp.byViolation.multi",
+      "control": 53,
+      "candidate": 52,
+      "change": -1
+    },
+    {
+      "path": "ssp.byViolation.rule1",
+      "control": 56,
+      "candidate": 44,
+      "change": -12
+    },
+    {
+      "path": "ssp.byViolation.rule2",
+      "control": 121,
+      "candidate": 139,
+      "change": 18
+    },
+    {
+      "path": "ssp.byViolation.rule3",
+      "control": 187,
+      "candidate": 198,
+      "change": 11
+    },
+    {
+      "path": "ssp.drops",
+      "control": 417,
+      "candidate": 433,
+      "change": 16
+    },
+    {
+      "path": "ssp.multiDropRatePerBoundary",
+      "control": 0.0006558188455113531,
+      "candidate": 0.0006444736385494386,
+      "change": -1.1345206961914465e-05
+    },
+    {
+      "path": "ssp.rule1DropRatePerBoundary",
+      "control": 0.0006929406669553919,
+      "candidate": 0.0005453238480033711,
+      "change": -0.00014761681895202083
+    },
+    {
+      "path": "ssp.rule2DropRatePerBoundary",
+      "control": 0.0014972467982429004,
+      "candidate": 0.0017227276107379223,
+      "change": 0.0002254808124950219
+    },
+    {
+      "path": "ssp.rule3DropRatePerBoundary",
+      "control": 0.0023139268700117554,
+      "candidate": 0.00245395731601517,
+      "change": 0.0001400304460034145
+    },
+    {
+      "path": "ssp.totalDropRatePerBoundary",
+      "control": 0.005159933180721401,
+      "candidate": 0.005366482413305902,
+      "change": 0.00020654923258450145
+    },
+    {
+      "path": "structural.aspirationDecision",
+      "control": 191855,
+      "candidate": 191615,
+      "change": -240
+    },
+    {
+      "path": "structural.boundaryDrop",
+      "control": 30,
+      "candidate": 26,
+      "change": -4
+    },
+    {
+      "path": "structural.finalS",
+      "control": 655,
+      "candidate": 666,
+      "change": 11
+    },
+    {
+      "path": "structural.junctionBoundaryDrop",
+      "control": 293,
+      "candidate": 272,
+      "change": -21
+    },
+    {
+      "path": "structural.morphPrefixHiatusFallback",
+      "control": 1176,
+      "candidate": 1195,
+      "change": 19
+    },
+    {
+      "path": "structural.morphSuffixHiatusFallback",
+      "control": 3054,
+      "candidate": 3012,
+      "change": -42
+    },
+    {
+      "path": "structural.nasalStopExtension",
+      "control": 637,
+      "candidate": 634,
+      "change": -3
+    },
+    {
+      "path": "structural.risingCodaBoundaryDrop",
+      "control": 42,
+      "candidate": 30,
+      "change": -12
+    },
+    {
+      "path": "structural.sspBoundaryDrop",
+      "control": 417,
+      "candidate": 433,
+      "change": 16
+    },
+    {
+      "path": "structural.vowelHiatusFallback",
+      "control": 110,
+      "candidate": 118,
+      "change": 8
+    },
+    {
+      "path": "targetSum",
+      "control": 679,
+      "candidate": 696,
+      "change": 17
+    },
+    {
+      "path": "targets.eae",
+      "control": 176,
+      "candidate": 199,
+      "change": 23
+    },
+    {
+      "path": "targets.eai",
+      "control": 282,
+      "candidate": 264,
+      "change": -18
+    },
+    {
+      "path": "targets.eao",
+      "control": 77,
+      "candidate": 74,
+      "change": -3
+    },
+    {
+      "path": "targets.eoe",
+      "control": 15,
+      "candidate": 13,
+      "change": -2
+    },
+    {
+      "path": "targets.iin",
+      "control": 106,
+      "candidate": 116,
+      "change": 10
+    },
+    {
+      "path": "targets.oou",
+      "control": 23,
+      "candidate": 30,
+      "change": 7
+    },
+    {
+      "path": "totalTrigrams",
+      "control": 278245,
+      "candidate": 277514,
+      "change": -731
+    }
+  ],
+  "controlReportSha256": "3b744db534dc569bfbf9230ba81987262a1a26b1de5d002f81b6b483057909fb",
+  "candidateReportSha256": "dbd4e0e279cbe38e57a2c746d10ebd108912dcd3611e82be9e3ed2af57cdf06b",
+  "scope": "Original50000wordseed42all5metric workload, different registered completion-only configuration; no default fail-on thresholds or inferred acceptance."
+}
