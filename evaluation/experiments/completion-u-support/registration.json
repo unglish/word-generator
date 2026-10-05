@@ -1,0 +1,27 @@
+{
+  "version": "completion-u-support-v1",
+  "base": "319ece680b81e453272be85fdb2ff54fd051d5d1",
+  "hypothesis": "Existing /u/:oo completion-only initial support supplies an alternative compatible with recorded hard-c neighbors, without changing initial sampling or bypassing guards.",
+  "baseline": {
+    "words": 200000,
+    "unresolvedTargets": 100,
+    "infeasibleUAttempts": 63,
+    "prefixFailures": 37
+  },
+  "intervention": {
+    "phoneme": "u",
+    "form": "oo",
+    "startWord": 3,
+    "rationale": "Use existing medial and final positional weight3 for completion, retaining existing inventory frequency30 and all contextual conditioning. Initial positional weight remains0."
+  },
+  "requiredEvidence": [
+    "Original200000-word20stream development protocol",
+    "Original full configured production replay and independent count/structure/context evidence",
+    "Original83072-call omitted-option parity",
+    "Original unit, type, lint, quality, trace and full distribution checks with seeds/samples/thresholds/timeouts unchanged",
+    "Original six isolated paired timing runs; same intervention-independent controls",
+    "Full residual cause accounting and original37prefix failures remain explicit",
+    "Evidence packet clean committed export, retention and dependent draft PR"
+  ],
+  "limits": "Potential oo lexical ambiguity remains; configured reading support is not independent human pronunciation evidence. No zero target or adoption claim unless measured. No default inventory changes."
+}
