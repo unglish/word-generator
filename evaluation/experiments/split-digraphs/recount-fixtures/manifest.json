@@ -1,0 +1,14 @@
+{
+  "q14a-independent-completion-fixtures-v1.jsonl.gz": {
+    "sha256": "e07e47b1296d4792a5a45c268252adb4d5ffe74d3b63f691d1dd5f26d328db7c",
+    "uncompressedSha256": "fc8582584017fc44e1ddf771cb46fef092d04645bde6c9a0d2e2d6e1ec48e191"
+  },
+  "q14a-independent-completion-fixtures-v1-result.json.gz": {
+    "sha256": "167f093170699ace111e753c9df12979aa9a8ca0d2fab3516a4405a2bbc5e210",
+    "uncompressedSha256": "360366da348f96944ad9dd687edb9cea162dc20c5e25093651b091cf49e50520"
+  },
+  "configuration.json": {
+    "sha256": "db7c7106fd8622cadc76e022e56aac6991eb487904986e4510c02f616f862fcc",
+    "bytes": 175262
+  }
+}

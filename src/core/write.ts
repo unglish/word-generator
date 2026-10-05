@@ -1,3 +1,4 @@
+import { createCompletionPlanner } from "./spelling-completion-planner.js";
 import { createSpellingRuleSlots } from "./spelling-construction-slots.js";
 import type { SharedSpellingSlot } from "./spelling-construction.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
@@ -13,7 +14,7 @@ import type { HistoricalSelectionState, NormalizationSite } from "./spelling-nor
 import type { DoublingState, DoublingTraceInfo } from "./spelling-doubling.js";
 import { createGraphemeResolver, positionLabel } from "./grapheme-selection.js";
 export { filterByPosition, normalizeGraphemeCondition } from "./grapheme-selection.js";
-import { BaseSpelling, createSharedSpellingRuntime, expandReplacement } from "./base-spelling.js";
+import { BaseSpelling, createSplitSpellingRuntime, createSharedSpellingRuntime, expandReplacement } from "./base-spelling.js";
 import type { PartEditObserver, PartSpellingBatchEdit, SpellingEditObserver } from "./base-spelling.js";
 import { Phoneme, Grapheme, WordGenerationContext } from "../types.js";
 import { LanguageConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
@@ -1080,6 +1081,14 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const preservePhones = config.writtenFormConstraints?.policy === "preserve-phones";
   if (sharedRules !== undefined && !preservePhones) throw new Error("Shared spellings require preserve-phones");
   const sharedRuntime = sharedRules === undefined ? undefined : createSharedSpellingRuntime(sharedRules, config);
+  const splitPolicy = config.splitVowels;
+  if (splitPolicy && !schedule) throw new Error("Split vowels require shared spelling schedule");
+  if (splitPolicy) {
+    const magicSlots = schedule!.slots("syllable").filter(slot => slot.kind === "regex" && slot.rule.name === "magic-e");
+    if (magicSlots.length !== 1) throw new Error("Split vowels require one syllable magic-e slot");
+  }
+  const splitRuntime = splitPolicy ? createSplitSpellingRuntime(config, splitPolicy.supports, splitPolicy.routes, sharedRules!) : undefined;
+  const completionPlanner = splitPolicy ? createCompletionPlanner(config, splitPolicy.supports) : undefined;
   const planCoverage = preservePhones ? createSpellingCoveragePlanner(config, resolveGraphemes, doublingModel, sharedRules) : undefined;
   const normalizer = preservePhones ? createSpellingNormalizer(config, resolveGraphemes, doublingModel, sharedRules) : undefined;
 
@@ -1114,7 +1123,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       id, part: "root", syllableIndex: entry.syllableIndex, segment: entry.position,
       segmentIndex: entry.positionIndex, soundAtSpelling: entry.phoneme.sound,
       ...(preservePhones ? { boundary: { phoneme: structuredClone(entry.phoneme), stress: entry.stress } } : {}),
-    })), tracing, preservePhones, preservePhones, sharedRules, config, sharedRuntime);
+    })), tracing, preservePhones, preservePhones, sharedRules, config, sharedRuntime, splitRuntime, completionPlanner);
     const boundaryContexts = preservePhones ? spellingBoundaryContexts(baseSpelling.current().phones) : undefined;
     const spellingChoices: SpellingChoiceState[] = [];
     const selectionStates: HistoricalSelectionState[] = [];
@@ -1129,6 +1138,13 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       baseSpelling.recordNormalization(site, rightIndex, decision);
       return decision.status === "normalized";
     };
+    const formSplits = (route: "syllable" | "word", partId: number): void => {
+      if (!splitRuntime) return;
+      for (const phone of baseSpelling.current().phones) {
+        if (phone.segment !== "nucleus" || phone.syllableIndex !== partId) continue;
+        baseSpelling.recordSplitAttempt(splitRuntime.planner.decide(baseSpelling.constructionState(), phone.id, route, rand));
+      }
+    };
     const applySharedPass = (slot: SharedSpellingSlot): string => {
       const surface = () => baseSpelling.current().cells.filter(cell => slot.phase === "word" || cell.partId === slot.partId)
         .map(cell => cell.text).join("");
@@ -1140,6 +1156,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         if (entry.kind === "shared") {
           baseSpelling.scanSharedSlot(slot, entry.ruleId, rand);
           context.trace?.recordRepair(`sharedSpelling:${entry.ruleId}`, before, surface(), scope);
+        } else if (splitRuntime && slot.phase === "syllable" && entry.rule.name === "magic-e") {
+          formSplits("syllable", slot.partId);
+          context.trace?.recordRepair("splitVowel:syllable", before, surface(), scope);
         } else {
           const cells = baseSpelling.current().cells;
           const first = slot.phase === "word" ? 0 : cells.findIndex(cell => cell.partId != null && cell.partId >= slot.partId);
@@ -1353,7 +1372,12 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
     baseSpelling.setPhase("word");
     // Silent-e: rewrite final VCe patterns (magic-e for long vowels)
-    if (silentELookup && silentEConfig) {
+    if (splitRuntime) {
+      formSplits("word", syllables.length - 1);
+      const parts = baseSpelling.projectParts(syllables.length);
+      if (!parts) throw new Error("Split formation lost root parts");
+      parts.forEach((part, i) => { cleanParts[i] = part; hyphenatedParts[i * 2] = part; });
+    } else if (silentELookup && silentEConfig) {
       applySilentE(
         cleanParts, hyphenatedParts, syllables, nucleusGraphemes,
         silentELookup, silentEExcluded, silentEConfig.probability, rand, observeParts,
@@ -1507,6 +1531,13 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         context.trace?.recordRepair("postSpellingBackstop", beforePost, finalClean);
       }
 
+    }
+
+    if (completionPlanner) {
+      baseSpelling.completeVowels(rand);
+      finalClean = baseSpelling.current().cells.map(cell => cell.text).join("");
+      const parts = baseSpelling.projectParts(syllables.length);
+      if (parts) finalHyphenated = parts.join("&shy;");
     }
 
     if (tracing && context.trace) {

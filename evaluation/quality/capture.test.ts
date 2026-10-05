@@ -1,3 +1,6 @@
+import { createGenerator, createSeededRng, englishConfig } from "../../src/index.js";
+import { englishSplitVowelSupports } from "../../src/elements/graphemes/split-vowels.js";
+import { canonical } from "./serialization.js";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve, join } from "node:path";
@@ -33,6 +36,29 @@ describe("frozen quality capture", () => {
     const reviews = JSON.parse(gunzipSync(await readFile(join(directory, "first/review-samples.json.gz"))).toString()) as Draw[];
     expect(reviews.map(draw => [draw.seed, draw.drawIndex])).toEqual([[42, 0], [42, 1], [123, 0], [123, 1]]);
     expect(first.profiles[0].strata.reduce((total, stratum) => total + stratum.words, 0)).toBe(16);
+  });
+
+  it("captures explicit configuration and its v5 outputs without changing English defaults", async () => {
+    const configuration = { ...englishConfig, splitVowels: { supports: englishSplitVowelSupports, routes: {
+      syllable: { forms: ["ae", "ie", "oe", "ue", "ye"], probability: 95 },
+      word: { swaps: englishConfig.silentE!.swaps, probability: 35, monosyllableMultiplier: 2 },
+    } } };
+    const expectedConfig = canonical(configuration);
+    const expectedGenerator = createGenerator(structuredClone(configuration));
+    const out = join(directory, "configured");
+    const capturing = captureRun({ root, out, id: "configured", cohort: "development", protocol, configuration });
+    // The caller changing its input after dispatch must not change the frozen run.
+    configuration.splitVowels.routes.word.probability = 0;
+    await capturing;
+    const run = await readRun(out, true);
+    expect(run.manifest.generator.effectiveConfig).toEqual(expectedConfig);
+    const archive = gunzipSync(await readFile(join(out, "words/lexicon-42.jsonl.gz"))).toString().trim().split("\n").map(line => JSON.parse(line) as Draw);
+    const rand = createSeededRng(42);
+    for (const draw of archive) {
+      expect(draw.word).toEqual(expectedGenerator.generateWord({ ...protocol.profiles[0].options, rand, trace: true }));
+      expect(draw.word.trace!.baseSpelling!.version).toBe(5);
+    }
+    expect(englishConfig.splitVowels).toBeUndefined();
   });
 
   it("refuses to replace a completed baseline", async () => {

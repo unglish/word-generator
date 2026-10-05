@@ -1,0 +1,17 @@
+Analyzed bare 129: 8
+Analyzed bare 130: 8
+✔ bounded control archive analysis verifies authority (1731.050417ms)
+Analyzed bare 129: 8
+Analyzed bare 130: 8
+✔ bounded candidate archive analysis verifies authority (1969.906208ms)
+✔ freeze detects changed bytes and added source paths (18.323084ms)
+✔ rejects active loader or binary overrides without exposing their values (0.449ms)
+✔ candidate freeze rejects missing, empty and changed split policy (14.640417ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4076.415959

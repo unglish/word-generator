@@ -1,0 +1,65 @@
+
+ RUN  v3.2.4 /private/tmp/q14a-closure-audit-v1/committed
+
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > matches every independently pinned example without broadening the table 7ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > does not treat onset y or an unsupported vowel as a split vowel 0ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > requires both the coda phone order and written form 0ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > separates route eligibility and monosyllabic probability 0ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > uses strict probability boundaries with exactly one draw 1ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > skips draws for refused, zero and certain trials 1ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > rejects invalid sampled uniform -1 1ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > rejects invalid sampled uniform 1 0ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > rejects invalid sampled uniform NaN 0ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > rejects invalid sampled uniform Infinity 0ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > detaches input configuration and returned evidence 0ms
+ ✓ src/core/spelling-split-policy.test.ts > registered split-vowel reading policy > rejects duplicate support and invalid configuration probabilities 0ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > binds the whole nucleus and multi-letter coda independently 4ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > preserves an ordered two-phone coda 0ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > refuses onset selection and a missing coda 0ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > refuses removal of component cell 1 0ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > refuses removal of component cell 2 0ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > refuses removal of component cell 3 0ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > refuses removal of component cell 4 0ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > does not borrow a matching substring after an opaque edit 1ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > refuses an unowned appended marker instead of absorbing it 0ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > preserves complete shared coda ownership and refuses partial shared output 2ms
+ ✓ src/core/spelling-split-ownership.test.ts > live split-vowel ownership > refuses reordered coda cells 0ms
+ ✓ src/core/spelling-split-transaction.test.ts > atomic split-vowel transaction preparation > allocates both vowel spans and retains every coda cell identity 7ms
+ ✓ src/core/spelling-split-transaction.test.ts > atomic split-vowel transaction preparation > records both roles when the vowel component itself stays unchanged 1ms
+ ✓ src/core/spelling-split-transaction.test.ts > atomic split-vowel transaction preparation > rejects stale decisions without mutating the current ledger 1ms
+ ✓ src/core/spelling-split-transaction.test.ts > atomic split-vowel transaction preparation > cannot commit failed rolls or reuse current cell IDs 1ms
+ ✓ src/core/spelling-split-planner.test.ts > split construction planning before sampling > preserves soft c when the new e supplies its required context 5ms
+ ✓ src/core/spelling-split-planner.test.ts > split construction planning before sampling > refuses hard c before e even when a custom split table permits the letters 1ms
+ ✓ src/core/spelling-split-planner.test.ts > split construction planning before sampling > refuses unlicensed coda readings without sampling 0ms
+ ✓ src/core/spelling-split-planner.test.ts > split construction planning before sampling > refuses unlicensed coda readings without sampling 0ms
+ ✓ src/core/spelling-split-planner.test.ts > split construction planning before sampling > replays the complete decision and rejects forged ownership and probabilities 1ms
+ ✓ src/core/spelling-split-planner.test.ts > split construction planning before sampling > does not sample after opaque nucleus edits or route refusal 1ms
+ ✓ src/core/spelling-split-live.test.ts > live split-vowel invariants > preserves intact paired spans and their exact intervening cells 4ms
+ ✓ src/core/spelling-split-live.test.ts > live split-vowel invariants > rejects deletion at surface index 1 1ms
+ ✓ src/core/spelling-split-live.test.ts > live split-vowel invariants > rejects deletion at surface index 2 1ms
+ ✓ src/core/spelling-split-live.test.ts > live split-vowel invariants > rejects deletion at surface index 3 0ms
+ ✓ src/core/spelling-split-live.test.ts > live split-vowel invariants > rejects changed coda provenance even when letters and IDs are unchanged 1ms
+ ✓ src/core/spelling-split-live.test.ts > live split-vowel invariants > rejects unrecorded construction origins 0ms
+ ✓ src/core/spelling-split-live.test.ts > live split-vowel invariants > does not expose either span as a complete singular spelling unit 1ms
+ ✓ src/core/spelling-split-live.test.ts > live split-vowel invariants > rejects an inserted letter after the marker in the same part 0ms
+ ✓ src/core/spelling-split-replay.test.ts > v5 recorded-operation replay > reconstructs formation followed by none 21ms
+ ✓ src/core/spelling-split-replay.test.ts > v5 recorded-operation replay > reconstructs formation followed by edit 8ms
+ ✓ src/core/spelling-split-replay.test.ts > v5 recorded-operation replay > reconstructs formation followed by batch 5ms
+ ✓ src/core/spelling-split-replay.test.ts > v5 recorded-operation replay > reconstructs formation followed by gap 7ms
+ ✓ src/core/spelling-split-replay.test.ts > v5 recorded-operation replay > rejects altered construction binding and omitted timeline references 6ms
+ ✓ src/core/spelling-split-replay.test.ts > v5 recorded-operation replay > distinguishes a single edit from a one-edit batch 5ms
+ ✓ src/core/spelling-split-ledger.test.ts > split-vowel ledger commit > publishes a detached v5 trace and preserves original phone and unit records 9ms
+ ✓ src/core/spelling-split-ledger.test.ts > split-vowel ledger commit > refuses destructive edits and batches atomically 3ms
+ ✓ src/core/spelling-split-ledger.test.ts > split-vowel ledger commit > records explicit split retirement for lexical whole-root replacement 2ms
+ ✓ src/core/spelling-split-ledger.test.ts > split-vowel ledger commit > marks a live split obligation satisfied and damaged marker evidence unavailable 2ms
+ ✓ src/core/spelling-split-ledger.test.ts > split-vowel ledger commit > rejects stale attempts without committing any cells or trace records 1ms
+ ✓ src/core/spelling-split-writer.test.ts > split vowel public writer integration > replays public outputs with exact trace-on/off RNG parity 13592ms
+ ✓ src/core/spelling-split-writer.test.ts > split vowel public writer integration > rejects missing, duplicated and moved formation trials 10ms
+ ✓ src/core/spelling-split-writer.test.ts > split vowel public writer integration > rejects missing required events through the main evidence API 56ms
+ ✓ src/core/spelling-split-writer.test.ts > split vowel public writer integration > keeps empty support diagnostic with explicit refusals and no legacy formation edits 2306ms
+
+ Test Files  8 passed (8)
+      Tests  56 passed (56)
+   Start at  16:42:19
+   Duration  16.77s (transform 892ms, setup 0ms, collect 2.28s, tests 16.09s, environment 1ms, prepare 716ms)
+

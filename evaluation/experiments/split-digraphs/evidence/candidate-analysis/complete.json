@@ -1,0 +1,122 @@
+{
+  "passed": true,
+  "words": 200000,
+  "manifestSha256": "7593ad8e8e77e7428c3d07c00f6166fe09ff06c8533741eb1e1d6f1259e3735c",
+  "artifacts": [
+    {
+      "file": "observations/lexicon-default-69212153.jsonl.gz",
+      "bytes": 133422,
+      "sha256": "df9304dfdd36c55ec0252361ac1947ab4d4269d37ae1114a1b7eeb4401079106"
+    },
+    {
+      "file": "observations/lexicon-default-101601885.jsonl.gz",
+      "bytes": 134422,
+      "sha256": "e3dc0110ddda168d1c8766d6284015096bee87f93918f20b73e4a3dec2a023c9"
+    },
+    {
+      "file": "observations/lexicon-default-3921817393.jsonl.gz",
+      "bytes": 133795,
+      "sha256": "8e5be2b4123db2c562115b46837f0e1a8801059188cca3e40370624436ab9ba7"
+    },
+    {
+      "file": "observations/lexicon-default-3948943232.jsonl.gz",
+      "bytes": 132907,
+      "sha256": "3d705a3de2403ea3dfd057ce49f2721c6e4edd01a1eeae4f08ee89fdcf91275a"
+    },
+    {
+      "file": "observations/lexicon-default-2089697863.jsonl.gz",
+      "bytes": 134545,
+      "sha256": "88e3cf2347a5ee6883e755aaa470a5dfa8ead36642c1d8f0dbfaee20c073fd5b"
+    },
+    {
+      "file": "observations/lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 146792,
+      "sha256": "73160c11edc2f8db94fecb23198921da71aea8772350902a2a25523c6baef932"
+    },
+    {
+      "file": "observations/lexicon-bare-772709128.jsonl.gz",
+      "bytes": 148577,
+      "sha256": "94d73f08597e6623d0e5b60696569b40df83bea141be6ae21eeaee07601df0f8"
+    },
+    {
+      "file": "observations/lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 146862,
+      "sha256": "46f297a11208e6cc5c990643a60bd8e85dfc4ad2a62c6dfe25372baa559a455d"
+    },
+    {
+      "file": "observations/lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 147108,
+      "sha256": "e54719c92fc447811c7280b2ef8a6799dad127efd16a01bbb86400a57144368d"
+    },
+    {
+      "file": "observations/lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 146952,
+      "sha256": "dab47a3e31135c492ed698b7a1c851a54bb314c1e54c86ac6534bb1bc0aeefdc"
+    },
+    {
+      "file": "observations/monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 71292,
+      "sha256": "9e55fcedc4432cea32960d097c9b4f4f6293426bec842b33f3b58bd909328fee"
+    },
+    {
+      "file": "observations/monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 71173,
+      "sha256": "15dfe6cde6a74b16471471ce9ffd7d77239a6691e69f5ef0b11fc8487b56d229"
+    },
+    {
+      "file": "observations/monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 71771,
+      "sha256": "f85484fd0f7a7bf7e24eb890fb6a529e96d94f726a3987358f3b72362ab54ed8"
+    },
+    {
+      "file": "observations/monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 71673,
+      "sha256": "a94e80b0eaaad70817908f3052e8b276fea23c803eea437e2a386562472101f5"
+    },
+    {
+      "file": "observations/monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 70900,
+      "sha256": "53e37dc6d3d2b5772c3f47a08e3573a0f08a2fe14d64a081175850c1ef317e3b"
+    },
+    {
+      "file": "observations/text-default-4167471042.jsonl.gz",
+      "bytes": 109484,
+      "sha256": "835c3fbd3c5b869b0ac57839f92cc8068d7622f68527c6aa9d737e13487e85db"
+    },
+    {
+      "file": "observations/text-default-2666001996.jsonl.gz",
+      "bytes": 110153,
+      "sha256": "cc7e015ebb7e0ec7f76ab3c8b3b38c766238247692ad159f5a799e877eeec954"
+    },
+    {
+      "file": "observations/text-default-3562318933.jsonl.gz",
+      "bytes": 110521,
+      "sha256": "c07f61c4ae09e6d9e1f77af29fc4ae47671d0195868a68743c0ba0f7195202dc"
+    },
+    {
+      "file": "observations/text-default-1999736106.jsonl.gz",
+      "bytes": 109547,
+      "sha256": "11c3d2d6b4a125421b486130ffee234dc77488a658b6e7fd0ba3e842872d0143"
+    },
+    {
+      "file": "observations/text-default-1665836705.jsonl.gz",
+      "bytes": 110402,
+      "sha256": "d0d5d08e97c0824142df0c0198b894c1e9178c639a7c8720123571328ebb89be"
+    },
+    {
+      "file": "report.json",
+      "bytes": 7628946,
+      "sha256": "f3ef66c68b6824789547620d665d94e4cc0f2b45d476c429f2d28ed3041aded5"
+    },
+    {
+      "file": "witnesses.json.gz",
+      "bytes": 3877314,
+      "sha256": "0bab3265493964ec9994735bad87384a58ac172df23b3d52eacf23c6b2a8c8ea"
+    },
+    {
+      "file": "authority.json.gz",
+      "bytes": 68595,
+      "sha256": "d5f2536baf7f3cf00b3f556e6b0ad700d365c44d64d0a00b2713e48c9199177f"
+    }
+  ]
+}

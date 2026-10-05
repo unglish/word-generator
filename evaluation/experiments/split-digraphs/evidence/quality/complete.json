@@ -1,0 +1,44 @@
+{
+  "exitCode": 1,
+  "tests": {
+    "passed": 10,
+    "failed": 2
+  },
+  "failedGates": {
+    "fiveConsecutiveConsonants": 82,
+    "owngs": 61
+  },
+  "scope": "Opt-in candidate; unchanged existing quality assertions, seeds, sample sizes and timeouts. Generator imports adapted as recorded in binding.json.",
+  "artifacts": [
+    {
+      "file": "binding.json",
+      "sha256": "8017fce97f61db26bf44c151114468303eb21c41606e451cb7b73a17fc708949",
+      "bytes": 1234
+    },
+    {
+      "file": "quality.test.ts",
+      "sha256": "e63cf6129542ad40194c0e1f78b1ba17aee697ed3529e94ff4f7709b728e665c",
+      "bytes": 9861
+    },
+    {
+      "file": "candidate-api.ts",
+      "sha256": "c5b44cef2168fbbd52ef8daf1f6ca443999df2007c07fd4967351862b63f8e34",
+      "bytes": 708
+    },
+    {
+      "file": "vitest.config.mjs",
+      "sha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a",
+      "bytes": 101
+    },
+    {
+      "file": "run.log",
+      "sha256": "cd3f29c23521d1238967213cd9aeadbdf259a916c0f6bcdc0260830915d5a930",
+      "bytes": 3930
+    },
+    {
+      "file": "quality-report.json",
+      "sha256": "6548532c3b923c242c4f2ec3ab1dd79924fa76b525fa1e2da1bfdf9fb23fc179",
+      "bytes": 479
+    }
+  ]
+}

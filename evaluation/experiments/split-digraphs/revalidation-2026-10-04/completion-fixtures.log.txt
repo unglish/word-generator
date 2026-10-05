@@ -1,0 +1,53 @@
+
+ RUN  v3.2.4 /private/tmp/q14a-closure-audit-v1/committed
+
+ ✓ src/core/spelling-completion-sampling.test.ts > registered conditional completion sampling > conditions on supported proposals without changing inventory order 2ms
+ ✓ src/core/spelling-completion-sampling.test.ts > registered conditional completion sampling > skips RNG for empty, refused-only and singleton support 1ms
+ ✓ src/core/spelling-completion-sampling.test.ts > registered conditional completion sampling > matches an independent integer interval reference over all small weight triples 33ms
+ ✓ src/core/spelling-completion-sampling.test.ts > registered conditional completion sampling > keeps distinct entries with equal weights and obeys reordered intervals 0ms
+ ✓ src/core/spelling-completion-sampling.test.ts > registered conditional completion sampling > handles overflowing raw totals by rescaling, without adding a draw 0ms
+ ✓ src/core/spelling-completion-sampling.test.ts > registered conditional completion sampling > rejects invalid uniform value -1 1ms
+ ✓ src/core/spelling-completion-sampling.test.ts > registered conditional completion sampling > rejects invalid uniform value 1 0ms
+ ✓ src/core/spelling-completion-sampling.test.ts > registered conditional completion sampling > rejects invalid uniform value NaN 0ms
+ ✓ src/core/spelling-completion-sampling.test.ts > registered conditional completion sampling > rejects invalid uniform value Infinity 0ms
+ ✓ src/core/spelling-completion-sampling.test.ts > registered conditional completion sampling > rejects invalid weights and reused inventory identities before sampling 0ms
+ ✓ src/core/spelling-completion-pool.test.ts > completion candidate resolver > preserves resolver weights and distinct inventory entries while excluding zero weights 4ms
+ ✓ src/core/spelling-completion-pool.test.ts > completion candidate resolver > does not expose fallback-only entries when ordinary readings need completion 1ms
+ ✓ src/core/spelling-completion-pool.test.ts > completion candidate resolver > retains the existing empty-ordinary-pool fallback rule 1ms
+ ✓ src/core/spelling-completion-pool.test.ts > completion candidate resolver > reports no legal grapheme without inventing a spelling 1ms
+ ✓ src/core/spelling-completion-pool.test.ts > completion candidate resolver > retains unsupported and unknown readings as explicit refusals 1ms
+ ✓ src/core/spelling-completion-projection.test.ts > completion projected reading checks > accepts a supported whole-nucleus alternative without mutating input 4ms
+ ✓ src/core/spelling-completion-projection.test.ts > completion projected reading checks > refuses a replacement that invalidates hard c 1ms
+ ✓ src/core/spelling-completion-projection.test.ts > completion projected reading checks > does not replace one unresolved obligation with another 1ms
+ ✓ src/core/spelling-completion-projection.test.ts > completion projected reading checks > refuses a different phone's spelling and opaque target ownership 1ms
+ ✓ src/core/spelling-completion-obligation.test.ts > current vowel completion obligations > distinguishes a supported open nucleus from a closed bare vowel 2ms
+ ✓ src/core/spelling-completion-obligation.test.ts > current vowel completion obligations > does not certify a generic silent-e insertion 1ms
+ ✓ src/core/spelling-completion-obligation.test.ts > current vowel completion obligations > keeps missing reading and opaque nucleus ownership unavailable 0ms
+ ✓ src/core/spelling-completion-obligation.test.ts > current vowel completion obligations > does not retarget an ordinary reading or a consonant 0ms
+ ✓ src/core/spelling-completion-obligation.test.ts > current vowel completion obligations > does not classify an incomplete root as satisfied 0ms
+ ✓ src/core/spelling-completion-prefix.test.ts > completion prefix evidence > uses the complete current preceding form and recorded doubling count 2ms
+ ✓ src/core/spelling-completion-prefix.test.ts > completion prefix evidence > supports a word-initial nucleus without inventing a preceding form 1ms
+ ✓ src/core/spelling-completion-prefix.test.ts > completion prefix evidence > does not reuse the originally selected form after an opaque rewrite 0ms
+ ✓ src/core/spelling-completion-prefix.test.ts > completion prefix evidence > does not cross an unowned insertion to reach a prior source unit 0ms
+ ✓ src/core/spelling-completion-prefix.test.ts > completion prefix evidence > uses the complete live qu construction rather than the old w selection 2ms
+ ✓ src/core/spelling-completion-prefix.test.ts > completion prefix evidence > uses an authenticated coverage replacement and its choice history 4ms
+ ✓ src/core/spelling-completion-prefix.test.ts > completion prefix evidence > retains explicit missing quota-history failure 0ms
+ ✓ src/core/spelling-completion-planner.test.ts > replayable completion decisions > filters a changed hard-c reading before sampling and preserves live state 10ms
+ ✓ src/core/spelling-completion-planner.test.ts > replayable completion decisions > uses one conditional draw and reconstructs weights and chosen identity during replay 5ms
+ ✓ src/core/spelling-completion-planner.test.ts > replayable completion decisions > retains an infeasible ordinary pool without promoting fallback-only alternatives 5ms
+ ✓ src/core/spelling-completion-planner.test.ts > replayable completion decisions > records non-target and unavailable ownership without drawing 3ms
+ ✓ src/core/spelling-completion-transaction.test.ts > atomic completion transaction preparation > replaces the complete nucleus and preserves the exact coda, with detached provenance 26ms
+ ✓ src/core/spelling-completion-transaction.test.ts > atomic completion transaction preparation > rejects stale evidence before changing any state 17ms
+ ✓ src/core/spelling-completion-transaction.test.ts > atomic completion transaction preparation > rejects reused and overflowing allocations 4ms
+ ✓ src/core/spelling-completion-transaction.test.ts > atomic completion transaction preparation > cannot turn a non-target decision into a replacement 2ms
+ ✓ src/core/spelling-completion-ledger.test.ts > live completion ownership and replay > commits a complete licensed nucleus and replays the full ledger 22ms
+ ✓ src/core/spelling-completion-ledger.test.ts > live completion ownership and replay > runs one final pass and separately verifies its complete source order 9ms
+ ✓ src/core/spelling-completion-ledger.test.ts > live completion ownership and replay > completes multiple nuclei in order using the changing live cursor 17ms
+ ✓ src/core/spelling-completion-ledger.test.ts > live completion ownership and replay > refuses missing ownership certificates and changed output identities 13ms
+ ✓ src/core/spelling-completion-ledger.test.ts > live completion ownership and replay > rejects stale commits without adding attempts, edits or certificates 14ms
+
+ Test Files  8 passed (8)
+      Tests  44 passed (44)
+   Start at  16:43:01
+   Duration  748ms (transform 776ms, setup 0ms, collect 1.92s, tests 225ms, environment 1ms, prepare 900ms)
+
