@@ -1,0 +1,1056 @@
+{
+  "requirement": "Full original 200,000-word cumulative control/candidate legacy payload equality and exact edit-ledger replay, separate from original20,000-coordinate RNG supplement.",
+  "roots": {
+    "control": "/private/tmp/q02a-current-integration-v1/control",
+    "candidate": "/private/tmp/q02a-current-integration-v1/candidate"
+  },
+  "heads": {
+    "control": "cd96f54f72038efb48e37c2003c4f700f9076671",
+    "candidate": "67499a86e302f46dea95d220d412fdd267d6cf0b"
+  },
+  "sourcePins": {
+    "control": {
+      "src/config/english.ts": {
+        "bytes": 27970,
+        "sha256": "8d866eb7e7deeaeaccbdcdf3b6d4e8dac80da468a0393ea48841fa1f37e95c63"
+      },
+      "src/config/language.test.ts": {
+        "bytes": 26147,
+        "sha256": "e3fb00d6c5db48933ab740f6c4ba12372b622e3957e7db74a7846185fb058fc7"
+      },
+      "src/config/language.ts": {
+        "bytes": 70603,
+        "sha256": "efb309e7f7994d5d68a0c7542f95cb851de7b8f5f36d08a560137ef2abe8b2d6"
+      },
+      "src/config/ngram-thresholds.json": {
+        "bytes": 1706,
+        "sha256": "a8ded5db4d69f7699f22289287f8471d249837c5a67efaef4cc62c7aa23aa739"
+      },
+      "src/config/phoneme-thresholds.json": {
+        "bytes": 850,
+        "sha256": "2c812622ba7092c4c4034e657660f059f4387498c75777beb15bade75dbe44a5"
+      },
+      "src/config/weights.ts": {
+        "bytes": 9142,
+        "sha256": "842d16e5df9b15875cccd1ca455ae3b8fb62aecc0da16503411041629e31debc"
+      },
+      "src/core/cluster-weights.test.ts": {
+        "bytes": 7830,
+        "sha256": "9874b0af777a26aee98cec7eecc88efb2930a27aaf99c23a637cbe3054f3ff7a"
+      },
+      "src/core/common-word-orthography.test.ts": {
+        "bytes": 10843,
+        "sha256": "4985ebfecfd0ac010ead3994c1679cb481f1fa12bcfeecccbbe334139474d8a0"
+      },
+      "src/core/distribution-quality.test.ts": {
+        "bytes": 3374,
+        "sha256": "85c44d96e6b8802033e091f794775cd808eb23d1fb4032af15c4f751f4e0749a"
+      },
+      "src/core/distribution-quality.ts": {
+        "bytes": 2476,
+        "sha256": "21724b78fc1140bca91f2b84aecbc0346b08a58b7bd94291eea8fbe3710685a3"
+      },
+      "src/core/gap-spelling.ts": {
+        "bytes": 4092,
+        "sha256": "5bdbb4b864c8f53c09e531d97ea41991ee04c809dffd1f00afaaa632ba2d1d03"
+      },
+      "src/core/generate.bench.ts": {
+        "bytes": 768,
+        "sha256": "b6a1051ce91d7031b2b03d611ea1cfb422f1ca8108ff6c6c3a067695d57d0d8f"
+      },
+      "src/core/generate.perf.test.ts": {
+        "bytes": 2902,
+        "sha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83"
+      },
+      "src/core/generate.test.ts": {
+        "bytes": 9887,
+        "sha256": "e7dc37e8f86b4b7c9b7dfc42e9571d162d4389ac8dee80306276b130edea0465"
+      },
+      "src/core/generate.ts": {
+        "bytes": 60576,
+        "sha256": "610f4a1df6ed62af4d219f5ea6748e9e62d4e8f89f04636c19c2dab409664305"
+      },
+      "src/core/generateWords.test.ts": {
+        "bytes": 8934,
+        "sha256": "360b7588baa964b4bf535445e1319eedd71f1d61d96053c5a928f80e1847739f"
+      },
+      "src/core/junction.ts": {
+        "bytes": 4991,
+        "sha256": "ec181ba1e8085e9b3a808d472231f30dbc20dc5445c72abd786d84405ff199f7"
+      },
+      "src/core/length-semantics.ts": {
+        "bytes": 4187,
+        "sha256": "47f74d41fd2e5b2ae492574b31926d8cf070da15264381e9d96936be35bbde1a"
+      },
+      "src/core/morphology/attach.test.ts": {
+        "bytes": 26682,
+        "sha256": "3a8565299fdf205eb5a3af222f59f152b2c69d790a6661314a51a2515c5de5fe"
+      },
+      "src/core/morphology/attach.ts": {
+        "bytes": 19379,
+        "sha256": "e96c9ccc6e5695b2b717c40720c79f45c5c20c8e012af2bbecf4d1563a1d9394"
+      },
+      "src/core/morphology/index.ts": {
+        "bytes": 140,
+        "sha256": "da6b9d63ed469b7fd6e48e22792bf8f4a2b2c736e8d67cc3220b46ba303993b0"
+      },
+      "src/core/morphology/morphology.quality.test.ts": {
+        "bytes": 4913,
+        "sha256": "7b105d007ee115a5f977ed75efb8dffa54dedb5f2b5b96ae8eab90570176d492"
+      },
+      "src/core/morphology/plan.ts": {
+        "bytes": 2298,
+        "sha256": "f23a874cc668b56d5fc9ca4c86875bead4f91c81c87a21a4997b6874dacee65f"
+      },
+      "src/core/morphology/realization.test.ts": {
+        "bytes": 12602,
+        "sha256": "2971ea0f7af0e22bcb24322b7ee981824b3bece499a1b0bd3a2a95091123e5d7"
+      },
+      "src/core/morphology/realization.ts": {
+        "bytes": 1562,
+        "sha256": "22958bc36109a604312484c3eb89b9d8a256acf7f1b789795dbe35378325987a"
+      },
+      "src/core/ngram-quality.test.ts": {
+        "bytes": 8508,
+        "sha256": "6039ca89bc644e8c1d1a10ecdc70bd09149890270eea58a90ede1bb2ed115c6b"
+      },
+      "src/core/nucleus-position.test.ts": {
+        "bytes": 7702,
+        "sha256": "70188ac92c40730136f73856384a0fc1fa795f925c8e2d07e95adbf798b5150a"
+      },
+      "src/core/nucleus-position.ts": {
+        "bytes": 3302,
+        "sha256": "2f66586507fb44a034292d90096e0346544bf4b9533e7d0b53a6af82c9a62af2"
+      },
+      "src/core/ot-stress.test.ts": {
+        "bytes": 7407,
+        "sha256": "e23abff2b7d497db626c74773d31f6c9d5f92488400764abacd1ad90fc4aab51"
+      },
+      "src/core/ot-stress.ts": {
+        "bytes": 6773,
+        "sha256": "1b8713edcd67dfe9058a07d10bd9cb03dd407e4351e9a9945f4cd431e2eb8134"
+      },
+      "src/core/phoneme-normalization.ts": {
+        "bytes": 1488,
+        "sha256": "56c473fcffaa16f5c4074808731e1755b62374cc830b6b101c2fd988c8025a64"
+      },
+      "src/core/phoneme-quality.metrics.test.ts": {
+        "bytes": 742,
+        "sha256": "8a73023d775085e6312436b6d64deb1645d561ee3ed1662bfb278eae1986e37d"
+      },
+      "src/core/phoneme-quality.test.ts": {
+        "bytes": 4432,
+        "sha256": "72516d8f5f36641b66341ff991c2c2d2f9d4ab0212877e89f51c109c8b95c51e"
+      },
+      "src/core/phoneme-quality.ts": {
+        "bytes": 3448,
+        "sha256": "47151e90086a8948001197076b7869bc061347e851d34972a2f95ce5b5fd8b85"
+      },
+      "src/core/pronounce.test.ts": {
+        "bytes": 17535,
+        "sha256": "7f1315996972378226bb607ac7f5713320a3d00f519aa669df3a12f2168cd025"
+      },
+      "src/core/pronounce.ts": {
+        "bytes": 15267,
+        "sha256": "2c1d310d995ad0040a880e1baa913b7bd518a2505990246e93d315add88eb6ba"
+      },
+      "src/core/quality.test.ts": {
+        "bytes": 9786,
+        "sha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf"
+      },
+      "src/core/repair.test.ts": {
+        "bytes": 8565,
+        "sha256": "f44fcf49c7a49a653162213a1cab387baf74cac83ecbedfded670446ad3708be"
+      },
+      "src/core/repair.ts": {
+        "bytes": 8508,
+        "sha256": "f2b8ed1a8976009b2193611a867738f112f64bb7211c3d4caa4c1aceabd01d91"
+      },
+      "src/core/stress-repair.test.ts": {
+        "bytes": 1049,
+        "sha256": "f4d913506ffde37cc845a123267348cd9a48f97d09a6d64d417a030e611ccc3a"
+      },
+      "src/core/stress-repair.ts": {
+        "bytes": 2082,
+        "sha256": "92b4d826268258abd6ee75acc66f26b28f281a236b6e489e3daa9831bf2745c1"
+      },
+      "src/core/syllable-weight.test.ts": {
+        "bytes": 14397,
+        "sha256": "31bbc6c027548b18d6c54350ee48d9d0cfe827d73dd7fba3d2328e592d1e143f"
+      },
+      "src/core/syllable-weight.ts": {
+        "bytes": 5021,
+        "sha256": "a9d7c93a82b4eb1a6a60853411a5f7fd9545315fcf748c7530ff3b13f2587793"
+      },
+      "src/core/trace.test.ts": {
+        "bytes": 15263,
+        "sha256": "5a4225f7be33882f6e2e676ea8d272fe6ff3ac3a5d5a5844229ab2cd42158386"
+      },
+      "src/core/trace.ts": {
+        "bytes": 8762,
+        "sha256": "fc7ce907b10cf5768cd260ccd98c7659eaefff6018ffa035619b3864c9c50e74"
+      },
+      "src/core/vowel-sounds.ts": {
+        "bytes": 413,
+        "sha256": "51d38dae7c5ca265f6dacad6ffcf1476aae941ee4fd113615780d758b9bcb533"
+      },
+      "src/core/write.test.ts": {
+        "bytes": 43337,
+        "sha256": "d179cb3dc4df3a1e6f9af81d638c3df9980ade340a82773dd432f002a8a346df"
+      },
+      "src/core/write.ts": {
+        "bytes": 69117,
+        "sha256": "dacbf2fde1768e1e8f29a48eadee4848277d53e8914cc11d0a524118c7cb400f"
+      },
+      "src/core/y-vowel.test.ts": {
+        "bytes": 1471,
+        "sha256": "4d27bc435cab1a61214e25b11fb64a9139b51ab51e0ba79acfec98685057a13f"
+      },
+      "src/elements/graphemes/affricates.ts": {
+        "bytes": 1686,
+        "sha256": "51becb3748b3b6d6ab30978481d548f5411f0f98d88912667f48bc39151034db"
+      },
+      "src/elements/graphemes/diphthongs.ts": {
+        "bytes": 3700,
+        "sha256": "629bbe20d77931f9b1e3e969ff5ba240a9f6c9aa3d955f537ea00aead11286ed"
+      },
+      "src/elements/graphemes/fricatives.ts": {
+        "bytes": 6659,
+        "sha256": "a3a5ca2fab076196125082ce961579e4bbc939a9c4b6b904f161cf80c4813cfd"
+      },
+      "src/elements/graphemes/glides.ts": {
+        "bytes": 1026,
+        "sha256": "7d6b58ca1de51d4ca9c49b0e7b0b8e06dc0898a9cb860e8e1b744ebf98cc5422"
+      },
+      "src/elements/graphemes/index.ts": {
+        "bytes": 3288,
+        "sha256": "365c07631fe9eb0efb978797920026cc4b465eff0f7cf6d36e3d5ea73fcaab86"
+      },
+      "src/elements/graphemes/liquids.ts": {
+        "bytes": 751,
+        "sha256": "9ed2dd1eecaa121d349c834c516259d0aebcb278c4554dfc3c23fb777f6ce929"
+      },
+      "src/elements/graphemes/nasals.ts": {
+        "bytes": 2020,
+        "sha256": "32d2163923d078019cc9ff6d160743540b4e90c0e1fc4346afe5eb1db770447c"
+      },
+      "src/elements/graphemes/rhotics.ts": {
+        "bytes": 1713,
+        "sha256": "0b89ac7adcaab4001024bf8a4390f1bd00977448a27cb8e907474d951c6fb5c5"
+      },
+      "src/elements/graphemes/stops.ts": {
+        "bytes": 4195,
+        "sha256": "e78264332e8d19a92cb14c153c7ddce8ee16ab4c946d335f9b39a4c7de9079a5"
+      },
+      "src/elements/graphemes/vowels.ts": {
+        "bytes": 6113,
+        "sha256": "e016966a71db2d79212cc1227a3a48766432cea3b2573236ae1d8a84a7656570"
+      },
+      "src/elements/phonemes.ts": {
+        "bytes": 12406,
+        "sha256": "bfd4c24af5892d3c7a7ed85d6fa576896f5e2376cab10e8d3319396739ea6bee"
+      },
+      "src/index.ts": {
+        "bytes": 3208,
+        "sha256": "878b767ed586047b3758576a678b79a9dd4ecb858d081f3e2b0797d834a75c4d"
+      },
+      "src/phonotactic/arpabet-bigrams.ts": {
+        "bytes": 18585,
+        "sha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7"
+      },
+      "src/phonotactic/english-baseline.json": {
+        "bytes": 651,
+        "sha256": "b09571249718792461073319d610dd634705bdac6fc9454aa9a7950a715d760b"
+      },
+      "src/phonotactic/ipa-to-arpabet.ts": {
+        "bytes": 2787,
+        "sha256": "e225cbe65a4820e727b8e4bf7f009089b6f3d566cfb07ccf3b13c3d127172913"
+      },
+      "src/phonotactic/phonotactic.test.ts": {
+        "bytes": 7036,
+        "sha256": "683f14d99636e59491add7e1e9eded10323d84ed86d2deb32e61e1a5705327d8"
+      },
+      "src/phonotactic/score.ts": {
+        "bytes": 2572,
+        "sha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f"
+      },
+      "src/tools/common-word-coverage-core.test.ts": {
+        "bytes": 8604,
+        "sha256": "a9198380f786eaf890cc5d85f73733543334e78e2effc98b3b0b5c3b6b9b5e45"
+      },
+      "src/tools/trace-audit-core.test.ts": {
+        "bytes": 1749,
+        "sha256": "920d1883fd41c90e481b2ba4f3b5e7eb1f6838a4636375fefa0479c3f101a924"
+      },
+      "src/types.ts": {
+        "bytes": 13317,
+        "sha256": "fd17620620e916c3f59da27e3df19edd1aa4ba08bde0389a5bcb31bddabf79bf"
+      },
+      "src/utils/getWeightedOption.test.ts": {
+        "bytes": 3269,
+        "sha256": "dc6f4e5056dee2b92ec5305dc593dd94efb5aa22ba6c2f338a9cfb363f51aa0f"
+      },
+      "src/utils/getWeightedOption.ts": {
+        "bytes": 1189,
+        "sha256": "4d16a72fa6edd11da1593a60195fcaab09768514a5727f1b9b1ff0885d12853e"
+      },
+      "src/utils/letters.ts": {
+        "bytes": 937,
+        "sha256": "f8287f6025e51fe8b6745a077c2cdaa907dbdefde6761e001ce071c42da690c8"
+      },
+      "src/utils/phonemes.ts": {
+        "bytes": 426,
+        "sha256": "619f5e6ab0d520b21636589acdb2593c65a21f4ee3040b80c220c61c37b198f9"
+      },
+      "src/utils/random.test.ts": {
+        "bytes": 2933,
+        "sha256": "acf83ec28e600e788f9e993c4c99d7d4541bc96d116f61ff89e01c5f262f2e56"
+      },
+      "src/utils/random.ts": {
+        "bytes": 1073,
+        "sha256": "4967fc0c37a98835e7fef3d1be5cfda591b49927029352333b77cba7e9c922d7"
+      },
+      "src/worker-entry.js": {
+        "bytes": 133,
+        "sha256": "2fccd58b877a21ee6d968415390b194490376654be03df6da5b3122e5149bc12"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/distributions.json.gz": {
+        "bytes": 74189,
+        "sha256": "f37acaa3778afdac4160f21b9b1a5857fe22db29c9097461bf078a0c6aec41ad"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/manifest.json": {
+        "bytes": 109507,
+        "sha256": "1e31ad59251eb5fbe8863bae988539062845f081e2597589669343f50e5452e7"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/provenance.json.gz": {
+        "bytes": 188525,
+        "sha256": "83d167a02b74747d4960491e2696544624f45bbfd9848564ed79f192f1f3a032"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/review-samples.json.gz": {
+        "bytes": 344371,
+        "sha256": "e72ea127b6cda7a2ac0fe818c608c9289b25866f606c4862bc995e573ec787c8"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/sources.json.gz": {
+        "bytes": 204582,
+        "sha256": "55ce4b3f32d2ec2a9629e99d4fda466dd0c658572a239edfa15ba55ef6131f68"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/summary.json": {
+        "bytes": 87179,
+        "sha256": "4c1c9bc0b3f92b8b0b22065f2c5aeff7645fc13f2d5597603b20bc029777f62b"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/witnesses.json.gz": {
+        "bytes": 23856,
+        "sha256": "96e60b5e8e4895f5bc111ce39a601f03459b2bffeeeea9da3bbe62f6db8b2711"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/distributions.json.gz": {
+        "bytes": 74615,
+        "sha256": "77daa3566847c341edd858ce1aed7ff5eb31e420b32cd13ceb23123aeeb8f5df"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/manifest.json": {
+        "bytes": 109508,
+        "sha256": "18f36c70dd9a6ad542b895f5b45a6b09a41872dfab23b21c19ab9680434a0f24"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/provenance.json.gz": {
+        "bytes": 188514,
+        "sha256": "dc0cada282863d3701c67a59220bf1605fe965ebce13f0414a1a3c1e729d7c0e"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/review-samples.json.gz": {
+        "bytes": 347311,
+        "sha256": "0441fc274d8cc9d67b5a39ef22d18cc00a63b89e82dbc8fe189d31fd3190d56f"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/sources.json.gz": {
+        "bytes": 204582,
+        "sha256": "55ce4b3f32d2ec2a9629e99d4fda466dd0c658572a239edfa15ba55ef6131f68"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/summary.json": {
+        "bytes": 87253,
+        "sha256": "60e4e414e9953f25b8e600812a0aed06c6c6022fe14e657a506ce0e8bdd30e4b"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/witnesses.json.gz": {
+        "bytes": 23111,
+        "sha256": "2a291c54732cd3bfda18df67d5a274c2b7ad89c68a03343c517bc9b97f50ff77"
+      },
+      "evaluation/quality/baselines/README.md": {
+        "bytes": 3080,
+        "sha256": "d33b4e0207e634f78f0e1404aeee9aa1aa360b348b9ee123d33d2e8e6d043de4"
+      },
+      "evaluation/quality/capture.test.ts": {
+        "bytes": 3618,
+        "sha256": "60a6e7fd44363aecc4589712277cc082b2b05cfcbed3206a609b5e3339b6f9c5"
+      },
+      "evaluation/quality/capture.ts": {
+        "bytes": 20811,
+        "sha256": "3b71b7c25bf2fca32b49dbdd74ed54f0b030ef88afc768c1fe3b82ffb8af669a"
+      },
+      "evaluation/quality/cli.ts": {
+        "bytes": 4079,
+        "sha256": "8227d92d8f5f53466005a1721ba01b9c4137a76d27c3f08ddaf0a4ec3e472bf4"
+      },
+      "evaluation/quality/compare.test.ts": {
+        "bytes": 11540,
+        "sha256": "69c63f5ef64c3b9abace5352c3a0c0470494288a96cda6897c965a9aba5dca6c"
+      },
+      "evaluation/quality/compare.ts": {
+        "bytes": 19820,
+        "sha256": "e4e96174a7339077ed964febb49be291b90923d2500bbfaf6fd3e16187987239"
+      },
+      "evaluation/quality/distribution.test.ts": {
+        "bytes": 3625,
+        "sha256": "f9a7f0d7219b62e4fe9a4a37004aa8f26b583d13d1da4e7bdbad661b37d337a5"
+      },
+      "evaluation/quality/distribution.ts": {
+        "bytes": 2723,
+        "sha256": "562d595e7918db2264ba11a3f59c7f87729c5d18f48e8706ac5c82e738bb097a"
+      },
+      "evaluation/quality/metrics.test.ts": {
+        "bytes": 9105,
+        "sha256": "833bf6ad289eabeb3f468245058298529947a3586d3be96a1a6653a185e4cd06"
+      },
+      "evaluation/quality/metrics.ts": {
+        "bytes": 8743,
+        "sha256": "2825ee22233d2868132e243e1156ef5eec310c318916f38e5a5acccb8b355147"
+      },
+      "evaluation/quality/model.ts": {
+        "bytes": 2925,
+        "sha256": "3246f7144380767bea8d9eb2c268d04809c3aefddbe6913a4939660d932a623e"
+      },
+      "evaluation/quality/probes/nucleus-edges.ts": {
+        "bytes": 9203,
+        "sha256": "78188a36a0c3aad925346a526b4425855d71bfdfa6ebead31093931a52bad143"
+      },
+      "evaluation/quality/probes/resolved-allomorphs/README.md": {
+        "bytes": 3637,
+        "sha256": "a7a82d2a1cf34bdc77c983953df42325ec6f3307746c09628b20854d531264b9"
+      },
+      "evaluation/quality/probes/resolved-allomorphs/analyze.d.mts": {
+        "bytes": 1163,
+        "sha256": "47dc91251193a9a954e3032017f2d0c1a1b0da5528fba9944f47449cde3ab731"
+      },
+      "evaluation/quality/probes/resolved-allomorphs/analyze.mjs": {
+        "bytes": 10253,
+        "sha256": "df32a00a737ee6fb455d40f662aee2123089d645f678e992757519ed53afa366"
+      },
+      "evaluation/quality/probes/resolved-allomorphs/analyze.test.ts": {
+        "bytes": 7199,
+        "sha256": "d3e3671036d412c6cf519f3b128a0032e4d3def0215434a9eec9a407e39cfff8"
+      },
+      "evaluation/quality/probes/syllable-quantity/README.md": {
+        "bytes": 8666,
+        "sha256": "7c91562b9b2f895a05d6b29db23b00818ec628a72ee1654df6507cc31474a2d0"
+      },
+      "evaluation/quality/probes/syllable-quantity/archive.test.ts": {
+        "bytes": 6510,
+        "sha256": "d05358028cf543e3d1347d0ad40d72c9de5aaf25d1e6dfcaf2ff1e8dd0dd11a8"
+      },
+      "evaluation/quality/probes/syllable-quantity/archive.ts": {
+        "bytes": 5247,
+        "sha256": "c12795a9525ffea4fe5f72c8d28f41daf139110c3ea202d54d81a0bb8041801c"
+      },
+      "evaluation/quality/probes/syllable-quantity/control.ts": {
+        "bytes": 8028,
+        "sha256": "73490c904b6ac80ac8729178cb005d8eedaebfd40f8d610607d3aa3e16338f1e"
+      },
+      "evaluation/quality/probes/syllable-quantity/vitest.config.ts": {
+        "bytes": 153,
+        "sha256": "06c6dffdf959716d2aa0f8c4720ed258cd7e79e3b83dcfdfb3d63f1f769528f6"
+      },
+      "evaluation/quality/probes/syllable-weight/README.md": {
+        "bytes": 3943,
+        "sha256": "c2a367b35d0da8439dfe47198ccfd3529e300f3c60992f3068d63c17403eceb8"
+      },
+      "evaluation/quality/probes/syllable-weight/capture.ts": {
+        "bytes": 3944,
+        "sha256": "e58298f76e121964bbb7c8daa7070161fb93526084df03d2fbfc4d088e399865"
+      },
+      "evaluation/quality/probes/syllable-weight/compare.ts": {
+        "bytes": 2166,
+        "sha256": "8d2a694df7b74c832477c3b06e3b3ec99b9d89f95103aabb7b5f192d537efe74"
+      },
+      "evaluation/quality/probes/syllable-weight/shared.test.ts": {
+        "bytes": 4686,
+        "sha256": "960749df3974e591e6d406dbee2d37afe260169e7774684432d08496e9d14831"
+      },
+      "evaluation/quality/probes/syllable-weight/shared.ts": {
+        "bytes": 12317,
+        "sha256": "d59e9a8abc257e299cfb6bfcea2ed6ee4803f3d98fe26afcad5db4379e9b3262"
+      },
+      "evaluation/quality/probes/syllable-weight/vitest.config.ts": {
+        "bytes": 151,
+        "sha256": "c6e55db3e70b24cf0f888382a7dec79247460fc459b3319114109b2ed63be70c"
+      },
+      "evaluation/quality/protocol.json": {
+        "bytes": 1911,
+        "sha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9"
+      },
+      "evaluation/quality/rescore.test.ts": {
+        "bytes": 9680,
+        "sha256": "432b99129d3e21a4dc003493056e7748c74dbe2d74ff545a74d98e98d754a9ab"
+      },
+      "evaluation/quality/serialization.test.ts": {
+        "bytes": 871,
+        "sha256": "0e013dc022130b80056e6bf549a19f6e6900d43f41fb1bb604e103c84a800a74"
+      },
+      "evaluation/quality/serialization.ts": {
+        "bytes": 1359,
+        "sha256": "c43ee5588d6ce61c1f5d9dd8d79b37e47fb835a0199a6bf9b526a6634b0d0713"
+      }
+    },
+    "candidate": {
+      "src/config/english.ts": {
+        "bytes": 27970,
+        "sha256": "8d866eb7e7deeaeaccbdcdf3b6d4e8dac80da468a0393ea48841fa1f37e95c63"
+      },
+      "src/config/language.test.ts": {
+        "bytes": 26147,
+        "sha256": "e3fb00d6c5db48933ab740f6c4ba12372b622e3957e7db74a7846185fb058fc7"
+      },
+      "src/config/language.ts": {
+        "bytes": 70603,
+        "sha256": "efb309e7f7994d5d68a0c7542f95cb851de7b8f5f36d08a560137ef2abe8b2d6"
+      },
+      "src/config/ngram-thresholds.json": {
+        "bytes": 1706,
+        "sha256": "a8ded5db4d69f7699f22289287f8471d249837c5a67efaef4cc62c7aa23aa739"
+      },
+      "src/config/phoneme-thresholds.json": {
+        "bytes": 850,
+        "sha256": "2c812622ba7092c4c4034e657660f059f4387498c75777beb15bade75dbe44a5"
+      },
+      "src/config/weights.ts": {
+        "bytes": 9142,
+        "sha256": "842d16e5df9b15875cccd1ca455ae3b8fb62aecc0da16503411041629e31debc"
+      },
+      "src/core/base-spelling.test.ts": {
+        "bytes": 6850,
+        "sha256": "58b34ea8c2706dad64f6887ef7dce933941574f699fe3dc0f561dc916000dd0b"
+      },
+      "src/core/base-spelling.ts": {
+        "bytes": 6802,
+        "sha256": "ddf419f470bef23c8d78af829770941e3df477f91dd8cf771cebbb07b0454b8b"
+      },
+      "src/core/cluster-weights.test.ts": {
+        "bytes": 7830,
+        "sha256": "9874b0af777a26aee98cec7eecc88efb2930a27aaf99c23a637cbe3054f3ff7a"
+      },
+      "src/core/common-word-orthography.test.ts": {
+        "bytes": 10843,
+        "sha256": "4985ebfecfd0ac010ead3994c1679cb481f1fa12bcfeecccbbe334139474d8a0"
+      },
+      "src/core/distribution-quality.test.ts": {
+        "bytes": 3374,
+        "sha256": "85c44d96e6b8802033e091f794775cd808eb23d1fb4032af15c4f751f4e0749a"
+      },
+      "src/core/distribution-quality.ts": {
+        "bytes": 2476,
+        "sha256": "21724b78fc1140bca91f2b84aecbc0346b08a58b7bd94291eea8fbe3710685a3"
+      },
+      "src/core/gap-spelling.ts": {
+        "bytes": 4418,
+        "sha256": "ebcc507938784205c9d902e4567be0416b59d6782808d4e5f53d0723db19c91f"
+      },
+      "src/core/generate.bench.ts": {
+        "bytes": 768,
+        "sha256": "b6a1051ce91d7031b2b03d611ea1cfb422f1ca8108ff6c6c3a067695d57d0d8f"
+      },
+      "src/core/generate.perf.test.ts": {
+        "bytes": 2902,
+        "sha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83"
+      },
+      "src/core/generate.test.ts": {
+        "bytes": 9887,
+        "sha256": "e7dc37e8f86b4b7c9b7dfc42e9571d162d4389ac8dee80306276b130edea0465"
+      },
+      "src/core/generate.ts": {
+        "bytes": 60576,
+        "sha256": "610f4a1df6ed62af4d219f5ea6748e9e62d4e8f89f04636c19c2dab409664305"
+      },
+      "src/core/generateWords.test.ts": {
+        "bytes": 8934,
+        "sha256": "360b7588baa964b4bf535445e1319eedd71f1d61d96053c5a928f80e1847739f"
+      },
+      "src/core/junction.ts": {
+        "bytes": 4991,
+        "sha256": "ec181ba1e8085e9b3a808d472231f30dbc20dc5445c72abd786d84405ff199f7"
+      },
+      "src/core/length-semantics.ts": {
+        "bytes": 4187,
+        "sha256": "47f74d41fd2e5b2ae492574b31926d8cf070da15264381e9d96936be35bbde1a"
+      },
+      "src/core/morphology/attach.test.ts": {
+        "bytes": 26682,
+        "sha256": "3a8565299fdf205eb5a3af222f59f152b2c69d790a6661314a51a2515c5de5fe"
+      },
+      "src/core/morphology/attach.ts": {
+        "bytes": 19379,
+        "sha256": "e96c9ccc6e5695b2b717c40720c79f45c5c20c8e012af2bbecf4d1563a1d9394"
+      },
+      "src/core/morphology/index.ts": {
+        "bytes": 140,
+        "sha256": "da6b9d63ed469b7fd6e48e22792bf8f4a2b2c736e8d67cc3220b46ba303993b0"
+      },
+      "src/core/morphology/morphology.quality.test.ts": {
+        "bytes": 4913,
+        "sha256": "7b105d007ee115a5f977ed75efb8dffa54dedb5f2b5b96ae8eab90570176d492"
+      },
+      "src/core/morphology/plan.ts": {
+        "bytes": 2298,
+        "sha256": "f23a874cc668b56d5fc9ca4c86875bead4f91c81c87a21a4997b6874dacee65f"
+      },
+      "src/core/morphology/realization.test.ts": {
+        "bytes": 12602,
+        "sha256": "2971ea0f7af0e22bcb24322b7ee981824b3bece499a1b0bd3a2a95091123e5d7"
+      },
+      "src/core/morphology/realization.ts": {
+        "bytes": 1562,
+        "sha256": "22958bc36109a604312484c3eb89b9d8a256acf7f1b789795dbe35378325987a"
+      },
+      "src/core/ngram-quality.test.ts": {
+        "bytes": 8508,
+        "sha256": "6039ca89bc644e8c1d1a10ecdc70bd09149890270eea58a90ede1bb2ed115c6b"
+      },
+      "src/core/nucleus-position.test.ts": {
+        "bytes": 7702,
+        "sha256": "70188ac92c40730136f73856384a0fc1fa795f925c8e2d07e95adbf798b5150a"
+      },
+      "src/core/nucleus-position.ts": {
+        "bytes": 3302,
+        "sha256": "2f66586507fb44a034292d90096e0346544bf4b9533e7d0b53a6af82c9a62af2"
+      },
+      "src/core/ot-stress.test.ts": {
+        "bytes": 7407,
+        "sha256": "e23abff2b7d497db626c74773d31f6c9d5f92488400764abacd1ad90fc4aab51"
+      },
+      "src/core/ot-stress.ts": {
+        "bytes": 6773,
+        "sha256": "1b8713edcd67dfe9058a07d10bd9cb03dd407e4351e9a9945f4cd431e2eb8134"
+      },
+      "src/core/phoneme-normalization.ts": {
+        "bytes": 1488,
+        "sha256": "56c473fcffaa16f5c4074808731e1755b62374cc830b6b101c2fd988c8025a64"
+      },
+      "src/core/phoneme-quality.metrics.test.ts": {
+        "bytes": 742,
+        "sha256": "8a73023d775085e6312436b6d64deb1645d561ee3ed1662bfb278eae1986e37d"
+      },
+      "src/core/phoneme-quality.test.ts": {
+        "bytes": 4432,
+        "sha256": "72516d8f5f36641b66341ff991c2c2d2f9d4ab0212877e89f51c109c8b95c51e"
+      },
+      "src/core/phoneme-quality.ts": {
+        "bytes": 3448,
+        "sha256": "47151e90086a8948001197076b7869bc061347e851d34972a2f95ce5b5fd8b85"
+      },
+      "src/core/pronounce.test.ts": {
+        "bytes": 17535,
+        "sha256": "7f1315996972378226bb607ac7f5713320a3d00f519aa669df3a12f2168cd025"
+      },
+      "src/core/pronounce.ts": {
+        "bytes": 15267,
+        "sha256": "2c1d310d995ad0040a880e1baa913b7bd518a2505990246e93d315add88eb6ba"
+      },
+      "src/core/quality.test.ts": {
+        "bytes": 9786,
+        "sha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf"
+      },
+      "src/core/repair.test.ts": {
+        "bytes": 8565,
+        "sha256": "f44fcf49c7a49a653162213a1cab387baf74cac83ecbedfded670446ad3708be"
+      },
+      "src/core/repair.ts": {
+        "bytes": 8508,
+        "sha256": "f2b8ed1a8976009b2193611a867738f112f64bb7211c3d4caa4c1aceabd01d91"
+      },
+      "src/core/stress-repair.test.ts": {
+        "bytes": 1049,
+        "sha256": "f4d913506ffde37cc845a123267348cd9a48f97d09a6d64d417a030e611ccc3a"
+      },
+      "src/core/stress-repair.ts": {
+        "bytes": 2082,
+        "sha256": "92b4d826268258abd6ee75acc66f26b28f281a236b6e489e3daa9831bf2745c1"
+      },
+      "src/core/syllable-weight.test.ts": {
+        "bytes": 14397,
+        "sha256": "31bbc6c027548b18d6c54350ee48d9d0cfe827d73dd7fba3d2328e592d1e143f"
+      },
+      "src/core/syllable-weight.ts": {
+        "bytes": 5021,
+        "sha256": "a9d7c93a82b4eb1a6a60853411a5f7fd9545315fcf748c7530ff3b13f2587793"
+      },
+      "src/core/trace.test.ts": {
+        "bytes": 15263,
+        "sha256": "5a4225f7be33882f6e2e676ea8d272fe6ff3ac3a5d5a5844229ab2cd42158386"
+      },
+      "src/core/trace.ts": {
+        "bytes": 9120,
+        "sha256": "27eb35bd70cbd7a7a17d4fca94f489e753356ff642b8102d162d47a42f871381"
+      },
+      "src/core/vowel-sounds.ts": {
+        "bytes": 413,
+        "sha256": "51d38dae7c5ca265f6dacad6ffcf1476aae941ee4fd113615780d758b9bcb533"
+      },
+      "src/core/write.test.ts": {
+        "bytes": 43337,
+        "sha256": "d179cb3dc4df3a1e6f9af81d638c3df9980ade340a82773dd432f002a8a346df"
+      },
+      "src/core/write.ts": {
+        "bytes": 72980,
+        "sha256": "2fab7c00afb952f2b4603265b24bb100668a72bafed7ab6a56e0b6c79ef6e78b"
+      },
+      "src/core/y-vowel.test.ts": {
+        "bytes": 1471,
+        "sha256": "4d27bc435cab1a61214e25b11fb64a9139b51ab51e0ba79acfec98685057a13f"
+      },
+      "src/elements/graphemes/affricates.ts": {
+        "bytes": 1686,
+        "sha256": "51becb3748b3b6d6ab30978481d548f5411f0f98d88912667f48bc39151034db"
+      },
+      "src/elements/graphemes/diphthongs.ts": {
+        "bytes": 3700,
+        "sha256": "629bbe20d77931f9b1e3e969ff5ba240a9f6c9aa3d955f537ea00aead11286ed"
+      },
+      "src/elements/graphemes/fricatives.ts": {
+        "bytes": 6659,
+        "sha256": "a3a5ca2fab076196125082ce961579e4bbc939a9c4b6b904f161cf80c4813cfd"
+      },
+      "src/elements/graphemes/glides.ts": {
+        "bytes": 1026,
+        "sha256": "7d6b58ca1de51d4ca9c49b0e7b0b8e06dc0898a9cb860e8e1b744ebf98cc5422"
+      },
+      "src/elements/graphemes/index.ts": {
+        "bytes": 3288,
+        "sha256": "365c07631fe9eb0efb978797920026cc4b465eff0f7cf6d36e3d5ea73fcaab86"
+      },
+      "src/elements/graphemes/liquids.ts": {
+        "bytes": 751,
+        "sha256": "9ed2dd1eecaa121d349c834c516259d0aebcb278c4554dfc3c23fb777f6ce929"
+      },
+      "src/elements/graphemes/nasals.ts": {
+        "bytes": 2020,
+        "sha256": "32d2163923d078019cc9ff6d160743540b4e90c0e1fc4346afe5eb1db770447c"
+      },
+      "src/elements/graphemes/rhotics.ts": {
+        "bytes": 1713,
+        "sha256": "0b89ac7adcaab4001024bf8a4390f1bd00977448a27cb8e907474d951c6fb5c5"
+      },
+      "src/elements/graphemes/stops.ts": {
+        "bytes": 4195,
+        "sha256": "e78264332e8d19a92cb14c153c7ddce8ee16ab4c946d335f9b39a4c7de9079a5"
+      },
+      "src/elements/graphemes/vowels.ts": {
+        "bytes": 6113,
+        "sha256": "e016966a71db2d79212cc1227a3a48766432cea3b2573236ae1d8a84a7656570"
+      },
+      "src/elements/phonemes.ts": {
+        "bytes": 12406,
+        "sha256": "bfd4c24af5892d3c7a7ed85d6fa576896f5e2376cab10e8d3319396739ea6bee"
+      },
+      "src/index.ts": {
+        "bytes": 3352,
+        "sha256": "874fbd197ac2c308166db79bacd506c6353c6407678a029afdc370d049e8bc36"
+      },
+      "src/phonotactic/arpabet-bigrams.ts": {
+        "bytes": 18585,
+        "sha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7"
+      },
+      "src/phonotactic/english-baseline.json": {
+        "bytes": 651,
+        "sha256": "b09571249718792461073319d610dd634705bdac6fc9454aa9a7950a715d760b"
+      },
+      "src/phonotactic/ipa-to-arpabet.ts": {
+        "bytes": 2787,
+        "sha256": "e225cbe65a4820e727b8e4bf7f009089b6f3d566cfb07ccf3b13c3d127172913"
+      },
+      "src/phonotactic/phonotactic.test.ts": {
+        "bytes": 7036,
+        "sha256": "683f14d99636e59491add7e1e9eded10323d84ed86d2deb32e61e1a5705327d8"
+      },
+      "src/phonotactic/score.ts": {
+        "bytes": 2572,
+        "sha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f"
+      },
+      "src/tools/common-word-coverage-core.test.ts": {
+        "bytes": 8604,
+        "sha256": "a9198380f786eaf890cc5d85f73733543334e78e2effc98b3b0b5c3b6b9b5e45"
+      },
+      "src/tools/trace-audit-core.test.ts": {
+        "bytes": 1749,
+        "sha256": "920d1883fd41c90e481b2ba4f3b5e7eb1f6838a4636375fefa0479c3f101a924"
+      },
+      "src/types.ts": {
+        "bytes": 13495,
+        "sha256": "72f56a4e5bb11289d5afd2e280671ac4083d93fc17fb56fc68946f73818f3a42"
+      },
+      "src/utils/getWeightedOption.test.ts": {
+        "bytes": 3269,
+        "sha256": "dc6f4e5056dee2b92ec5305dc593dd94efb5aa22ba6c2f338a9cfb363f51aa0f"
+      },
+      "src/utils/getWeightedOption.ts": {
+        "bytes": 1189,
+        "sha256": "4d16a72fa6edd11da1593a60195fcaab09768514a5727f1b9b1ff0885d12853e"
+      },
+      "src/utils/letters.ts": {
+        "bytes": 937,
+        "sha256": "f8287f6025e51fe8b6745a077c2cdaa907dbdefde6761e001ce071c42da690c8"
+      },
+      "src/utils/phonemes.ts": {
+        "bytes": 426,
+        "sha256": "619f5e6ab0d520b21636589acdb2593c65a21f4ee3040b80c220c61c37b198f9"
+      },
+      "src/utils/random.test.ts": {
+        "bytes": 2933,
+        "sha256": "acf83ec28e600e788f9e993c4c99d7d4541bc96d116f61ff89e01c5f262f2e56"
+      },
+      "src/utils/random.ts": {
+        "bytes": 1073,
+        "sha256": "4967fc0c37a98835e7fef3d1be5cfda591b49927029352333b77cba7e9c922d7"
+      },
+      "src/worker-entry.js": {
+        "bytes": 133,
+        "sha256": "2fccd58b877a21ee6d968415390b194490376654be03df6da5b3122e5149bc12"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/distributions.json.gz": {
+        "bytes": 74189,
+        "sha256": "f37acaa3778afdac4160f21b9b1a5857fe22db29c9097461bf078a0c6aec41ad"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/manifest.json": {
+        "bytes": 109507,
+        "sha256": "1e31ad59251eb5fbe8863bae988539062845f081e2597589669343f50e5452e7"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/provenance.json.gz": {
+        "bytes": 188525,
+        "sha256": "83d167a02b74747d4960491e2696544624f45bbfd9848564ed79f192f1f3a032"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/review-samples.json.gz": {
+        "bytes": 344371,
+        "sha256": "e72ea127b6cda7a2ac0fe818c608c9289b25866f606c4862bc995e573ec787c8"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/sources.json.gz": {
+        "bytes": 204582,
+        "sha256": "55ce4b3f32d2ec2a9629e99d4fda466dd0c658572a239edfa15ba55ef6131f68"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/summary.json": {
+        "bytes": 87179,
+        "sha256": "4c1c9bc0b3f92b8b0b22065f2c5aeff7645fc13f2d5597603b20bc029777f62b"
+      },
+      "evaluation/quality/baselines/2026-09-26-development-standalone/witnesses.json.gz": {
+        "bytes": 23856,
+        "sha256": "96e60b5e8e4895f5bc111ce39a601f03459b2bffeeeea9da3bbe62f6db8b2711"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/distributions.json.gz": {
+        "bytes": 74615,
+        "sha256": "77daa3566847c341edd858ce1aed7ff5eb31e420b32cd13ceb23123aeeb8f5df"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/manifest.json": {
+        "bytes": 109508,
+        "sha256": "18f36c70dd9a6ad542b895f5b45a6b09a41872dfab23b21c19ab9680434a0f24"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/provenance.json.gz": {
+        "bytes": 188514,
+        "sha256": "dc0cada282863d3701c67a59220bf1605fe965ebce13f0414a1a3c1e729d7c0e"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/review-samples.json.gz": {
+        "bytes": 347311,
+        "sha256": "0441fc274d8cc9d67b5a39ef22d18cc00a63b89e82dbc8fe189d31fd3190d56f"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/sources.json.gz": {
+        "bytes": 204582,
+        "sha256": "55ce4b3f32d2ec2a9629e99d4fda466dd0c658572a239edfa15ba55ef6131f68"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/summary.json": {
+        "bytes": 87253,
+        "sha256": "60e4e414e9953f25b8e600812a0aed06c6c6022fe14e657a506ce0e8bdd30e4b"
+      },
+      "evaluation/quality/baselines/2026-09-26-validation-standalone/witnesses.json.gz": {
+        "bytes": 23111,
+        "sha256": "2a291c54732cd3bfda18df67d5a274c2b7ad89c68a03343c517bc9b97f50ff77"
+      },
+      "evaluation/quality/baselines/README.md": {
+        "bytes": 3080,
+        "sha256": "d33b4e0207e634f78f0e1404aeee9aa1aa360b348b9ee123d33d2e8e6d043de4"
+      },
+      "evaluation/quality/capture.test.ts": {
+        "bytes": 3618,
+        "sha256": "60a6e7fd44363aecc4589712277cc082b2b05cfcbed3206a609b5e3339b6f9c5"
+      },
+      "evaluation/quality/capture.ts": {
+        "bytes": 20811,
+        "sha256": "3b71b7c25bf2fca32b49dbdd74ed54f0b030ef88afc768c1fe3b82ffb8af669a"
+      },
+      "evaluation/quality/cli.ts": {
+        "bytes": 4079,
+        "sha256": "8227d92d8f5f53466005a1721ba01b9c4137a76d27c3f08ddaf0a4ec3e472bf4"
+      },
+      "evaluation/quality/compare.test.ts": {
+        "bytes": 11540,
+        "sha256": "69c63f5ef64c3b9abace5352c3a0c0470494288a96cda6897c965a9aba5dca6c"
+      },
+      "evaluation/quality/compare.ts": {
+        "bytes": 19820,
+        "sha256": "e4e96174a7339077ed964febb49be291b90923d2500bbfaf6fd3e16187987239"
+      },
+      "evaluation/quality/distribution.test.ts": {
+        "bytes": 3625,
+        "sha256": "f9a7f0d7219b62e4fe9a4a37004aa8f26b583d13d1da4e7bdbad661b37d337a5"
+      },
+      "evaluation/quality/distribution.ts": {
+        "bytes": 2723,
+        "sha256": "562d595e7918db2264ba11a3f59c7f87729c5d18f48e8706ac5c82e738bb097a"
+      },
+      "evaluation/quality/metrics.test.ts": {
+        "bytes": 9105,
+        "sha256": "833bf6ad289eabeb3f468245058298529947a3586d3be96a1a6653a185e4cd06"
+      },
+      "evaluation/quality/metrics.ts": {
+        "bytes": 8743,
+        "sha256": "2825ee22233d2868132e243e1156ef5eec310c318916f38e5a5acccb8b355147"
+      },
+      "evaluation/quality/model.ts": {
+        "bytes": 2925,
+        "sha256": "3246f7144380767bea8d9eb2c268d04809c3aefddbe6913a4939660d932a623e"
+      },
+      "evaluation/quality/probes/base-spelling/README.md": {
+        "bytes": 3020,
+        "sha256": "2ff8d383541a42f13ba3ca0fe4142ad22ebff0cdb8aa8fac608318691ffdac2a"
+      },
+      "evaluation/quality/probes/base-spelling/capture.ts": {
+        "bytes": 8063,
+        "sha256": "3fc29a298443880240ead59ee646da03b168bb71e948359db3b8a5c5fdb1de28"
+      },
+      "evaluation/quality/probes/base-spelling/compare.ts": {
+        "bytes": 2116,
+        "sha256": "25afd9ce3e894f1a6c9b6fa1aeac118dd8452799d7799e2a4b13fa8918b0de3c"
+      },
+      "evaluation/quality/probes/nucleus-edges.ts": {
+        "bytes": 9203,
+        "sha256": "78188a36a0c3aad925346a526b4425855d71bfdfa6ebead31093931a52bad143"
+      },
+      "evaluation/quality/probes/resolved-allomorphs/README.md": {
+        "bytes": 3637,
+        "sha256": "a7a82d2a1cf34bdc77c983953df42325ec6f3307746c09628b20854d531264b9"
+      },
+      "evaluation/quality/probes/resolved-allomorphs/analyze.d.mts": {
+        "bytes": 1163,
+        "sha256": "47dc91251193a9a954e3032017f2d0c1a1b0da5528fba9944f47449cde3ab731"
+      },
+      "evaluation/quality/probes/resolved-allomorphs/analyze.mjs": {
+        "bytes": 10253,
+        "sha256": "df32a00a737ee6fb455d40f662aee2123089d645f678e992757519ed53afa366"
+      },
+      "evaluation/quality/probes/resolved-allomorphs/analyze.test.ts": {
+        "bytes": 7199,
+        "sha256": "d3e3671036d412c6cf519f3b128a0032e4d3def0215434a9eec9a407e39cfff8"
+      },
+      "evaluation/quality/probes/syllable-quantity/README.md": {
+        "bytes": 8666,
+        "sha256": "7c91562b9b2f895a05d6b29db23b00818ec628a72ee1654df6507cc31474a2d0"
+      },
+      "evaluation/quality/probes/syllable-quantity/archive.test.ts": {
+        "bytes": 6510,
+        "sha256": "d05358028cf543e3d1347d0ad40d72c9de5aaf25d1e6dfcaf2ff1e8dd0dd11a8"
+      },
+      "evaluation/quality/probes/syllable-quantity/archive.ts": {
+        "bytes": 5247,
+        "sha256": "c12795a9525ffea4fe5f72c8d28f41daf139110c3ea202d54d81a0bb8041801c"
+      },
+      "evaluation/quality/probes/syllable-quantity/control.ts": {
+        "bytes": 8028,
+        "sha256": "73490c904b6ac80ac8729178cb005d8eedaebfd40f8d610607d3aa3e16338f1e"
+      },
+      "evaluation/quality/probes/syllable-quantity/vitest.config.ts": {
+        "bytes": 153,
+        "sha256": "06c6dffdf959716d2aa0f8c4720ed258cd7e79e3b83dcfdfb3d63f1f769528f6"
+      },
+      "evaluation/quality/probes/syllable-weight/README.md": {
+        "bytes": 3943,
+        "sha256": "c2a367b35d0da8439dfe47198ccfd3529e300f3c60992f3068d63c17403eceb8"
+      },
+      "evaluation/quality/probes/syllable-weight/capture.ts": {
+        "bytes": 3944,
+        "sha256": "e58298f76e121964bbb7c8daa7070161fb93526084df03d2fbfc4d088e399865"
+      },
+      "evaluation/quality/probes/syllable-weight/compare.ts": {
+        "bytes": 2166,
+        "sha256": "8d2a694df7b74c832477c3b06e3b3ec99b9d89f95103aabb7b5f192d537efe74"
+      },
+      "evaluation/quality/probes/syllable-weight/shared.test.ts": {
+        "bytes": 4686,
+        "sha256": "960749df3974e591e6d406dbee2d37afe260169e7774684432d08496e9d14831"
+      },
+      "evaluation/quality/probes/syllable-weight/shared.ts": {
+        "bytes": 12317,
+        "sha256": "d59e9a8abc257e299cfb6bfcea2ed6ee4803f3d98fe26afcad5db4379e9b3262"
+      },
+      "evaluation/quality/probes/syllable-weight/vitest.config.ts": {
+        "bytes": 151,
+        "sha256": "c6e55db3e70b24cf0f888382a7dec79247460fc459b3319114109b2ed63be70c"
+      },
+      "evaluation/quality/protocol.json": {
+        "bytes": 1911,
+        "sha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9"
+      },
+      "evaluation/quality/rescore.test.ts": {
+        "bytes": 9680,
+        "sha256": "432b99129d3e21a4dc003493056e7748c74dbe2d74ff545a74d98e98d754a9ab"
+      },
+      "evaluation/quality/serialization.test.ts": {
+        "bytes": 871,
+        "sha256": "0e013dc022130b80056e6bf549a19f6e6900d43f41fb1bb604e103c84a800a74"
+      },
+      "evaluation/quality/serialization.ts": {
+        "bytes": 1359,
+        "sha256": "c43ee5588d6ce61c1f5d9dd8d79b37e47fb835a0199a6bf9b526a6634b0d0713"
+      },
+      "evaluation/experiments/base-spelling-control/README.md": {
+        "bytes": 4144,
+        "sha256": "5f93c6fe9520a505181831f2b9250954d64b506264be068fe77f002b855e2390"
+      },
+      "evaluation/experiments/base-spelling-control/artifacts.json": {
+        "bytes": 1746,
+        "sha256": "48f1e9fb6d37a14eaefa8d8aac4dee3c3894b502a417422edb2a35e56c54eb77"
+      },
+      "evaluation/experiments/base-spelling-control/comparison.json.gz": {
+        "bytes": 14561,
+        "sha256": "a9ba53196ecc8b716a507cfca20d526d82f689c6ec850d27b2847d4a548865b0"
+      },
+      "evaluation/experiments/base-spelling-control/comparison.md": {
+        "bytes": 14733,
+        "sha256": "4ffb5d67426f61dab1c762b67f0a2bde5dbbf1f5a07f902d9383e673c6bf3b40"
+      },
+      "evaluation/experiments/base-spelling-control/control-manifest.json.gz": {
+        "bytes": 12313,
+        "sha256": "f7ac8928f8fac3607e1895af853777e18ace734046e03b46662ca100e47e0cb9"
+      },
+      "evaluation/experiments/base-spelling-control/control-sources.json.gz": {
+        "bytes": 178830,
+        "sha256": "a94fd7c87da83c744b61795f6cee28b68076b32d10896f19676ec09509edb603"
+      },
+      "evaluation/experiments/base-spelling-control/control-summary.json.gz": {
+        "bytes": 10361,
+        "sha256": "ee5980d8db25d3217650819b5e8934aac4cc90b3af5d997747e1b56c55de0bb7"
+      },
+      "evaluation/experiments/base-spelling-control/coverage-policy-design.md": {
+        "bytes": 12954,
+        "sha256": "3fdc7662fbefb3e898c26e70435cedbf91a75b680cac7e737a4decfe3ee38d83"
+      },
+      "evaluation/experiments/base-spelling-control/original-manifest.json.gz": {
+        "bytes": 12519,
+        "sha256": "b1a7df8f0ec874aeb9e9fbfb5ec2f2c72bf621fb85dc5b492300611169a5cfa2"
+      },
+      "evaluation/experiments/base-spelling-control/source-check.json": {
+        "bytes": 6229,
+        "sha256": "e4b64a8cbdefd8405a36c86368c44ebc6b61c560422764393a8777cbf6ff066b"
+      },
+      "evaluation/experiments/base-spelling-control/verification.json.gz": {
+        "bytes": 6043,
+        "sha256": "b94d8f3a639d4569239ae00c63ae44e5a57c3af3afd408270f720f46c515bb9d"
+      },
+      "evaluation/experiments/base-spelling-control/verify.ts": {
+        "bytes": 13151,
+        "sha256": "c1bf412a79531d4ea3edc9f2b301a4ede50034331d83cfaebf8f014d820edb8e"
+      }
+    }
+  },
+  "protocol": "Original unchanged development protocol;20 streams \u00d710,000; no reduced samples, seeds or thresholds.",
+  "plannedCandidateId": "base-spelling-control",
+  "verifierBinding": "Original unchanged verifier requires candidate archive ID base-spelling-control and exact original evaluator digest ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007. Preserve both assertions; no weakening if current captures differ."
+}
