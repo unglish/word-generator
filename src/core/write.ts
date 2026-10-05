@@ -30,22 +30,40 @@ function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
 /**
  * Apply a list of compiled spelling rules to a string, handling probabilistic replacements.
  */
-function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string): string {
+type SpellingEdit = (start: number, removed: number, replacement: string) => void;
+
+function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string, onEdit?: SpellingEdit): string {
   let result = str;
   for (const { name, regex, replacement, probability } of rules) {
     regex.lastIndex = 0;
     const before = trace ? result : "";
-    if (probability >= 100) {
+    if (probability >= 100 && !onEdit) {
       result = result.replace(regex, replacement);
     } else {
+      const source = result;
+      let offsetChange = 0;
+      // Native substitution preserves all replacement-string semantics, including
+      // captures and lookarounds, while exposing the exact edit to the caller.
+      const singleMatch = probability >= 100
+        ? new RegExp(regex.source, regex.flags.replace(/g|y/g, "") + "y")
+        : undefined;
       result = result.replace(regex, (match, ...args) => {
-        if (rand() < probability / 100) {
+        if (probability >= 100 || rand() < probability / 100) {
           let rep = replacement;
-          for (let i = 0; i < args.length - 2; i++) {
-            if (args[i] !== undefined) {
-              rep = rep.replace(`$${i + 1}`, args[i]);
+          const offset: number = args[typeof args.at(-1) === "object" ? args.length - 3 : args.length - 2];
+          if (singleMatch) {
+            singleMatch.lastIndex = offset;
+            const rewritten = source.replace(singleMatch, replacement);
+            rep = rewritten.slice(offset, rewritten.length - (source.length - offset - match.length));
+          } else {
+            for (let i = 0; i < args.length - 2; i++) {
+              if (args[i] !== undefined) {
+                rep = rep.replace(`$${i + 1}`, args[i]);
+              }
             }
           }
+          if (rep !== match) onEdit?.(offset + offsetChange, match.length, rep);
+          offsetChange += rep.length - match.length;
           return rep;
         }
         return match;
@@ -56,6 +74,51 @@ function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RN
     }
   }
   return result;
+}
+
+/** Only the final selected vowel is tracked for the terminal-y cap exception. */
+interface TerminalVowelUnit {
+  start: number;
+  end: number;
+  phonemeIndex: number;
+}
+
+function editTerminalVowel(unit: TerminalVowelUnit, start: number, removed: number, replacement: string): void {
+  if (unit.start < 0) return;
+  const end = start + removed;
+  const change = replacement.length - removed;
+  if (end <= unit.start) {
+    unit.start += change;
+    unit.end += change;
+  } else if (start >= unit.end) {
+    // An insertion after the unit does not acquire its vowel ownership.
+  } else if (start >= unit.start && end <= unit.end) {
+    unit.end += change;
+  } else {
+    // A rewrite spanning multiple selections cannot certify one vowel owner.
+    unit.start = -1;
+    unit.end = -1;
+  }
+}
+
+/** Apply an actual spelling edit to syllable parts without aligning characters. */
+function editWrittenParts(parts: string[], start: number, removed: number, replacement: string): void {
+  let first = 0;
+  let firstOffset = 0;
+  while (first < parts.length - 1 && firstOffset + parts[first].length <= start) {
+    firstOffset += parts[first++].length;
+  }
+  let last = first;
+  let lastOffset = firstOffset;
+  const end = start + removed;
+  while (last < parts.length - 1 && lastOffset + parts[last].length < end) {
+    lastOffset += parts[last++].length;
+  }
+  const prefix = parts[first].slice(0, start - firstOffset);
+  const suffix = parts[last].slice(end - lastOffset);
+  parts[first] = prefix + replacement + (first === last ? suffix : "");
+  for (let i = first + 1; i < last; i++) parts[i] = "";
+  if (first !== last) parts[last] = suffix;
 }
 
 interface TraceUnitSeed {
@@ -1319,31 +1382,49 @@ export function repairConsonantLetters(
 /**
  * Repair vowel pileups by counting raw vowel *letters* (a, e, i, o, u, y).
  * Trims excess vowels from the end of any run exceeding `maxLetters`.
+ * The writer may protect its selected terminal vowel unit; other runs still
+ * obey the raw-letter cap. A pending final-i rewrite is resolved after joining.
  * Mutates `cleanParts` and `hyphenatedParts` in place.
  */
 export function repairVowelLetters(
   cleanParts: string[],
   hyphenatedParts: string[],
   maxLetters: number,
-): void {
+  protectedTerminalStart?: number,
+): boolean {
+  let protectedOverflow = false;
   for (let i = 0; i < cleanParts.length; i++) {
     const part = cleanParts[i];
-    let result = "";
-    let vowelRun = 0;
-    for (let j = 0; j < part.length; j++) {
-      if (isVowelChar(part[j], j, part)) {
-        vowelRun++;
-        if (vowelRun <= maxLetters) result += part[j];
-      } else {
-        vowelRun = 0;
-        result += part[j];
-      }
-    }
-    if (result !== part) {
-      cleanParts[i] = result;
-      hyphenatedParts[i * 2] = result;
+    const repaired = capVowelLetters(part, maxLetters, i === cleanParts.length - 1 ? protectedTerminalStart : undefined);
+    protectedOverflow ||= repaired.protectedOverflow;
+    if (repaired.text !== part) {
+      cleanParts[i] = repaired.text;
+      hyphenatedParts[i * 2] = repaired.text;
     }
   }
+  return protectedOverflow;
+}
+
+function capVowelLetters(str: string, maxLetters: number, protectedStart = Infinity, onEdit?: SpellingEdit): { text: string; protectedOverflow: boolean } {
+  let text = "";
+  let vowelRun = 0;
+  let protectedOverflow = false;
+  for (let i = 0; i < str.length; i++) {
+    if (isVowelChar(str[i], i, str)) {
+      vowelRun++;
+      if (vowelRun > maxLetters) {
+        if (i >= protectedStart) protectedOverflow = true;
+        else {
+          onEdit?.(text.length, 1, "");
+          continue;
+        }
+      }
+    } else {
+      vowelRun = 0;
+    }
+    text += str[i];
+  }
+  return { text, protectedOverflow };
 }
 
 // ---------------------------------------------------------------------------
@@ -1554,6 +1635,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const allCompiledRules = compileSpellingRules(config.spellingRules ?? []);
   const syllableRules = allCompiledRules.filter(r => r.scope === "syllable" || r.scope === "both");
   const wordRules = allCompiledRules.filter(r => r.scope === "word" || r.scope === "both");
+  // Defer clipping a selected final-i unit until this probabilistic rule decides
+  // whether it becomes terminal y. If it remains i, the post-join cap still applies.
+  const canWriteFinalIAsY = wordRules.some(r => r.regex.source === "i$" && r.replacement === "y" && r.probability > 0);
   const categories = buildCategorySets(config.phonemes);
   const neverDoubleSet = new Set<string>(doublingConfig?.neverDouble ?? []);
   const doubledFormSet = new Set(Object.values(doublingConfig?.doubledForms ?? {}));
@@ -1598,6 +1682,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     let currentNucleusForm = "";
     let prevNucleusForm = "";
     let prevGraphemeForm: string | undefined;
+    let terminalVowel: TerminalVowelUnit | undefined;
+    let terminalVowelSurface = "";
 
     for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
       const { phoneme, syllableIndex, position, positionIndex, stress } = flattenedPhonemes[phonemeIndex];
@@ -1700,6 +1786,11 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         });
       }
       currentSyllable.push(emitted);
+      if (config.writtenFormConstraints?.maxVowelLetters && isLastPhoneme && position === "nucleus"
+          && categories.get("vowel")!.has(phoneme.sound) && emitted.length > 0) {
+        const end = currentSyllable.join("").length;
+        terminalVowel = { start: end - emitted.length, end, phonemeIndex };
+      }
       if (tracing && emitted.length > 0) {
         for (let ci = 0; ci < emitted.length; ci++) {
           currentSyllableOwners.push(phonemeIndex);
@@ -1720,7 +1811,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
       if (!nextEntry || nextEntry.syllableIndex !== syllableIndex) {
         const rawSyllable = currentSyllable.join("");
-        let syllableStr = applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`);
+        let syllableStr = applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`,
+          terminalVowel ? (start, removed, replacement) => editTerminalVowel(terminalVowel!, start, removed, replacement) : undefined);
         let syllableOwners = tracing
           ? remapOwnersThroughRewrite(rawSyllable, currentSyllableOwners, syllableStr)
           : [];
@@ -1728,10 +1820,14 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         if (cleanParts.length > 0 && syllableStr.length > 0 &&
             cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
           syllableStr = syllableStr.slice(1);
+          if (terminalVowel) editTerminalVowel(terminalVowel, 0, 1, "");
           if (tracing) syllableOwners = syllableOwners.slice(1);
         }
 
         cleanParts.push(syllableStr);
+        if (terminalVowel && terminalVowel.start >= 0 && terminalVowel.end === syllableStr.length) {
+          terminalVowelSurface = syllableStr.slice(terminalVowel.start, terminalVowel.end);
+        }
         hyphenatedParts.push(syllableStr);
         nucleusGraphemes.push(currentNucleusForm);
         if (tracing) {
@@ -1843,31 +1939,46 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     }
 
     // Raw vowel letter backstop
+    let pendingTerminalOverflow = false;
+    const lastPart = cleanParts[cleanParts.length - 1];
+    // Earlier repairs may edit the prefix, but cannot grant a new suffix vowel
+    // ownership. Retain the certificate only while its selected surface survives.
+    if (!terminalVowelSurface || !lastPart.endsWith(terminalVowelSurface)) terminalVowel = undefined;
     if (wfc?.maxVowelLetters) {
       const before = context.trace ? cleanParts.join("") : "";
-      repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters);
+      const protectNow = terminalVowel && (terminalVowelSurface.toLowerCase().endsWith("y")
+        || (canWriteFinalIAsY && terminalVowelSurface.toLowerCase().endsWith("i")));
+      pendingTerminalOverflow = repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters,
+        protectNow ? lastPart.length - terminalVowelSurface.length : undefined);
+      if (!cleanParts[cleanParts.length - 1].endsWith(terminalVowelSurface)) terminalVowel = undefined;
       context.trace?.recordRepair("repairVowelLetters", before, cleanParts.join(""));
     }
 
     // Post-join pass: apply word-scope spelling rules
-    let finalClean = applySpellingRules(cleanParts.join(""), wordRules, rand, context.trace, "word");
-    const finalHyphenated = hyphenatedParts.join("");
+    const joined = cleanParts.join("");
+    if (terminalVowel) {
+      terminalVowel.start = joined.length - terminalVowelSurface.length;
+      terminalVowel.end = joined.length;
+    }
+    const finalParts = terminalVowel ? cleanParts.slice() : undefined;
+    const onWordEdit: SpellingEdit | undefined = terminalVowel ? (start, removed, replacement) => {
+      editTerminalVowel(terminalVowel!, start, removed, replacement);
+      editWrittenParts(finalParts!, start, removed, replacement);
+    } : undefined;
+    let finalClean = applySpellingRules(joined, wordRules, rand, context.trace, "word", onWordEdit);
+    const terminalYStart = terminalVowel && terminalVowel.start >= 0 && terminalVowel.end > terminalVowel.start
+      && terminalVowel.end === finalClean.length && finalClean.toLowerCase().endsWith("y") ? terminalVowel.start : undefined;
+    let terminalYOverflow = terminalYStart !== undefined && pendingTerminalOverflow;
 
     // Post-join vowel repair for cross-boundary runs
     if (wfc?.maxVowelLetters) {
-      let vResult = "";
-      let vowelRun = 0;
-      for (let ci = 0; ci < finalClean.length; ci++) {
-        if (isVowelChar(finalClean[ci], ci, finalClean)) {
-          vowelRun++;
-          if (vowelRun <= wfc.maxVowelLetters) vResult += finalClean[ci];
-        } else {
-          vowelRun = 0;
-          vResult += finalClean[ci];
-        }
-      }
-      finalClean = vResult;
+      const before = finalClean;
+      const repaired = capVowelLetters(finalClean, wfc.maxVowelLetters, terminalYStart, onWordEdit);
+      finalClean = repaired.text;
+      terminalYOverflow ||= repaired.protectedOverflow;
+      context.trace?.recordRepair("repairVowelLetters:postJoin", before, finalClean);
     }
+    const syncFinalParts = pendingTerminalOverflow || terminalYOverflow;
 
     // Re-run consonant backstop after spelling rules (rules like ngx→nks can introduce new runs)
     if (wfc?.maxConsonantGraphemes || wfc?.maxConsonantLetters) {
@@ -1883,16 +1994,31 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       if (wfc.maxFinalConsonantLetters) {
         repairFinalConsonantLetters(postParts, postHyph, wfc.maxFinalConsonantLetters);
       }
-      finalClean = postParts[0];
+      const afterPost = postParts[0];
+      if (syncFinalParts && finalParts && afterPost !== finalClean) {
+        // Keep this exception's hyphenated spelling aligned. This affects only
+        // presentation partitions, never the selected vowel's production owner.
+        let start = 0;
+        while (finalClean[start] === afterPost[start] && start < afterPost.length) start++;
+        let suffix = 0;
+        while (suffix < afterPost.length - start
+          && finalClean[finalClean.length - 1 - suffix] === afterPost[afterPost.length - 1 - suffix]) suffix++;
+        editWrittenParts(finalParts, start, finalClean.length - start - suffix, afterPost.slice(start, afterPost.length - suffix));
+      }
+      finalClean = afterPost;
       context.trace?.recordRepair("postSpellingBackstop", beforePost, finalClean);
     }
 
     if (tracing && context.trace) {
       const finalOwners = remapOwnersThroughRewrite(preRepairSurface, preRepairOwners, finalClean);
+      if (terminalYOverflow && terminalVowel) {
+        const unitLength = terminalVowel.end - terminalVowel.start;
+        finalOwners.fill(terminalVowel.phonemeIndex, finalClean.length - unitLength);
+      }
       context.trace.orthographyTrace = buildOrthographyTrace(finalClean, finalOwners, traceUnits, context.trace);
     }
 
     written.clean = finalClean;
-    written.hyphenated = finalHyphenated;
+    written.hyphenated = syncFinalParts && finalParts ? finalParts.join("&shy;") : hyphenatedParts.join("");
   };
 }
