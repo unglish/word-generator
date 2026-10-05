@@ -1,0 +1,28 @@
+{
+  "id": "ae-ng-restoration-v1",
+  "foundationEvaluatorDigest": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007",
+  "hypothesis": "Removing only the default æ+ŋ exclusion restores the supported rime family during initial root generation. No vowel, coda, cluster, spelling weight or gate threshold is changed.",
+  "cohort": "The original and candidate 200,000-word development archives, four profiles and five replicates each. No validation outputs are read.",
+  "layers": {
+    "generatedBase": "generateSyllables.after from the selected attempt; includes boundary adjustments inside that stage, excludes later stress repair. This is not a log of all rejected proposals.",
+    "preparedBase": "generateWrittenForm.before, after root structure and stress repair but before surface realization and morphology in these two source revisions.",
+    "output": "Final word.syllables after surface realization and morphology; output coordinates are not assumed to be root coordinates."
+  },
+  "primary": "Generation-stage æ+ŋ syllables and paired words, with counts of all syllables, æ nuclei, closed æ syllables and ŋ codas. These are selected-output denominators, not unrecorded planned-coda opportunities or an optimal frequency target.",
+  "categories": "A pair means æ anywhere in the nucleus and ŋ anywhere in the same coda, matching the existing configuration's any-segment exclusion. An exact pair has nucleus [æ] and coda [ŋ]; an extended pair has at least two coda segments. Multi-segment nuclei, if observed, are counted explicitly rather than normalized to one vowel.",
+  "strata": "Profile, replicate, actual morphology template, output syllable count, and layer-relative position only/initial/medial/final. Historical stage snapshots omit stress, so their stress stratum is unavailable. Final surface stress is primary, secondary, unmarked or other; unmarked is not asserted to be unstressed.",
+  "transitions": "Position-aligned generation→prepared and stress-repair before→after pairs are retained, introduced or removed only when both arrays have equal positive length. Missing or incomparable evidence is unavailable. No root→surface lineage is inferred through morphology.",
+  "witnesses": "Retain the first complete selected draw per profile for generated/prepared pairs, their extended codas, and pairs introduced by stress repair. Witnesses are illustrations; complete counters measure all archived draws.",
+  "acceptance": "Public-API deterministic fixtures establish exact/extended/nonfinal default coverage and retained custom/rhotic exclusions at coda selection. Candidate profiles must report initial coverage, while later emergent pairs remain separate. Trace on/off complete outputs and RNG remain identical. Archive checks and an independent Python counter must agree. All frozen-core metrics, n-gram gates and performance changes are disclosed; no human preference gain is inferred.",
+  "reference": {
+    "pr": 304,
+    "commit": "820f80dd72edac7d69ffc7c4e03212f2e2399a2f",
+    "artifact": "evaluation/review/wordlikeness/artifacts/reference-v1.json",
+    "artifactDigest": "98d71552d9419d465977520c1101480a1f1ebfa968fb7e3b89eefea30e031878",
+    "cmuRevision": "74790861f652b15e4ac49015a90074ad62a27690",
+    "cmuSha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+    "aeNgCodaObservations": 852,
+    "exactAeNgObservations": 629,
+    "interpretation": "Pinned word-type observations support availability, not target frequencies or universal bans. Names, loans, inflections and compounds remain in the reference; its syllabifier is not a phonotactic oracle."
+  }
+}

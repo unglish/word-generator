@@ -1,0 +1,551 @@
+{
+  "records": [
+    {
+      "path": "original/sources.json.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/sources.json.gz",
+      "bytes": 204582,
+      "sha256": "55ce4b3f32d2ec2a9629e99d4fda466dd0c658572a239edfa15ba55ef6131f68"
+    },
+    {
+      "path": "original/summary.json",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/summary.json",
+      "bytes": 87179,
+      "sha256": "4c1c9bc0b3f92b8b0b22065f2c5aeff7645fc13f2d5597603b20bc029777f62b"
+    },
+    {
+      "path": "original/review-samples.json.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/review-samples.json.gz",
+      "bytes": 344371,
+      "sha256": "e72ea127b6cda7a2ac0fe818c608c9289b25866f606c4862bc995e573ec787c8"
+    },
+    {
+      "path": "original/witnesses.json.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/witnesses.json.gz",
+      "bytes": 23856,
+      "sha256": "96e60b5e8e4895f5bc111ce39a601f03459b2bffeeeea9da3bbe62f6db8b2711"
+    },
+    {
+      "path": "original/distributions.json.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/distributions.json.gz",
+      "bytes": 74189,
+      "sha256": "f37acaa3778afdac4160f21b9b1a5857fe22db29c9097461bf078a0c6aec41ad"
+    },
+    {
+      "path": "original/words/lexicon-default-69212153.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-default-69212153.jsonl.gz",
+      "bytes": 4838369,
+      "sha256": "5cf3654e011cc7e1aa0620f82b37b415ed2506210d24010c9ff3f522fdf04897"
+    },
+    {
+      "path": "original/words/lexicon-default-101601885.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-default-101601885.jsonl.gz",
+      "bytes": 4813040,
+      "sha256": "f6c656002f5ea5c0cafed183afaae8ef3d5e3e2a4d963290a7e4ff84ffa8a3cd"
+    },
+    {
+      "path": "original/words/lexicon-default-3921817393.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-default-3921817393.jsonl.gz",
+      "bytes": 4827838,
+      "sha256": "d846d7c7d8659a4f84e9aa0942efc1d86ebfb6b3bf004e65851a1408078a873f"
+    },
+    {
+      "path": "original/words/lexicon-default-3948943232.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-default-3948943232.jsonl.gz",
+      "bytes": 4840860,
+      "sha256": "adb424b54c098e24bdc6c9d2cdc2ac44e936edba79600abd2f04e6d42098164a"
+    },
+    {
+      "path": "original/words/lexicon-default-2089697863.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-default-2089697863.jsonl.gz",
+      "bytes": 4857056,
+      "sha256": "5354ed6516ae4761e61f5403a664381b7e46b50be7c4f051da71fe1a2883dacd"
+    },
+    {
+      "path": "original/words/lexicon-bare-2380207674.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 5680581,
+      "sha256": "2dd09b98cd49d77cc9c6d0cf7cc57fc4774ac63f1fcd6abed7929df9bbdbfa90"
+    },
+    {
+      "path": "original/words/lexicon-bare-772709128.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-bare-772709128.jsonl.gz",
+      "bytes": 5681041,
+      "sha256": "0af75244dfaef6f2da69276a98bbf55f81a737f054e8bf5838f0eda0d5b44a6f"
+    },
+    {
+      "path": "original/words/lexicon-bare-1304238451.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 5745628,
+      "sha256": "7be2f502cc92c3bffc737ca61fd1749a4738be342ad54e4177090d595d126630"
+    },
+    {
+      "path": "original/words/lexicon-bare-1696751198.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 5698782,
+      "sha256": "6df80b0cdc9d94775ac360952c69ea85742c9210b2077f8d5dfe5f80255f4ed3"
+    },
+    {
+      "path": "original/words/lexicon-bare-1498885173.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 5714303,
+      "sha256": "ac101d20f1141f1d239904ebbf080b18b463caf072011bc46282465fc7d00335"
+    },
+    {
+      "path": "original/words/monosyllables-bare-462530651.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 2992339,
+      "sha256": "8e956a2587ec2f5fefc56c789c66743311ffb7d155ed74a123569641f628c4d9"
+    },
+    {
+      "path": "original/words/monosyllables-bare-62358955.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 2993891,
+      "sha256": "d4bf4bc6061de545224b27f0a7643110d3381dde44e955595bb7a9833786d91b"
+    },
+    {
+      "path": "original/words/monosyllables-bare-3297327738.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 2995877,
+      "sha256": "3b1ab8fffbfe818a809ab964969330d62f1fcd25be6e3160d360b6cb06cffd8a"
+    },
+    {
+      "path": "original/words/monosyllables-bare-2001884366.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 2993651,
+      "sha256": "4bb1e4ab375eae8ccf0b5391131bec56fac5a65dd082f1a31e62643055587c25"
+    },
+    {
+      "path": "original/words/monosyllables-bare-2353354178.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 2989180,
+      "sha256": "4b494946884c1f92d295442f52eca9ae1f6123cbd73935c3a1fda51936f0827b"
+    },
+    {
+      "path": "original/words/text-default-4167471042.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/text-default-4167471042.jsonl.gz",
+      "bytes": 3638923,
+      "sha256": "2219d51fa111c340aa113fb235d53c6c1f9aee65f9934289e5cb704ae32a95d8"
+    },
+    {
+      "path": "original/words/text-default-2666001996.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/text-default-2666001996.jsonl.gz",
+      "bytes": 3631769,
+      "sha256": "4ec356c92baa563148e09697aa22fd11f0aa1343e211dce6e0de6f88179bb6d9"
+    },
+    {
+      "path": "original/words/text-default-3562318933.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/text-default-3562318933.jsonl.gz",
+      "bytes": 3580600,
+      "sha256": "bc533cf7d7b8de750552b897dbd95c5aed6890e92a6feac1375f21cb50ce8bfd"
+    },
+    {
+      "path": "original/words/text-default-1999736106.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/text-default-1999736106.jsonl.gz",
+      "bytes": 3645540,
+      "sha256": "30510acbb104340522b0ff402377bf942fd4640ab26f34b7af26f3a320dc610c"
+    },
+    {
+      "path": "original/words/text-default-1665836705.jsonl.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/words/text-default-1665836705.jsonl.gz",
+      "bytes": 3609210,
+      "sha256": "1573ea0461384cb568c911c6fd3b4efdc223aa84626a5ce87aeafd16e731b309"
+    },
+    {
+      "path": "original/provenance.json.gz",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/provenance.json.gz",
+      "bytes": 188525,
+      "sha256": "83d167a02b74747d4960491e2696544624f45bbfd9848564ed79f192f1f3a032"
+    },
+    {
+      "path": "original/manifest.json",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone/manifest.json",
+      "bytes": 109507,
+      "sha256": "1e31ad59251eb5fbe8863bae988539062845f081e2597589669343f50e5452e7"
+    },
+    {
+      "path": "candidate/sources.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/sources.json.gz",
+      "bytes": 175749,
+      "sha256": "f081b52e2654834efeb36d4781c5e5d7e2054f28b949b292688724f04238ce20"
+    },
+    {
+      "path": "candidate/summary.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/summary.json",
+      "bytes": 87311,
+      "sha256": "f824128211d7cf081f75cf2a6a18a7c23a9b01ee7b117ae9197432b1140bcaed"
+    },
+    {
+      "path": "candidate/review-samples.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/review-samples.json.gz",
+      "bytes": 347085,
+      "sha256": "e6f9b41bcce4abde4e7529e3aaa642da26461c8b501bf414111d2d32b789a729"
+    },
+    {
+      "path": "candidate/witnesses.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/witnesses.json.gz",
+      "bytes": 25308,
+      "sha256": "55435b357a0c5d58bd7faba2110bd2691f06b89546367e38e5d901e727adb849"
+    },
+    {
+      "path": "candidate/distributions.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/distributions.json.gz",
+      "bytes": 74447,
+      "sha256": "7ef59d907545ed219c7041bce70f6eb42a9f113313ddb86b475cdc75ab4f6f7d"
+    },
+    {
+      "path": "candidate/words/lexicon-default-69212153.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/lexicon-default-69212153.jsonl.gz",
+      "bytes": 4837424,
+      "sha256": "5fcf777b8c74c1f91a1c01cf29ab96806d6caf11a86ad8a31a14c5ccfb470ab6"
+    },
+    {
+      "path": "candidate/words/lexicon-default-101601885.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/lexicon-default-101601885.jsonl.gz",
+      "bytes": 4848778,
+      "sha256": "9c570cf1b2e8e4b19f7dcca7e6726c3961c98b33cfd9653db5a71ddb045420f2"
+    },
+    {
+      "path": "candidate/words/lexicon-default-3921817393.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/lexicon-default-3921817393.jsonl.gz",
+      "bytes": 4835146,
+      "sha256": "76c6090649f40f80e38ffa03a446701165c32fa3f0139e511d2652c9e1d46527"
+    },
+    {
+      "path": "candidate/words/lexicon-default-3948943232.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/lexicon-default-3948943232.jsonl.gz",
+      "bytes": 4832235,
+      "sha256": "bf5d90a342062c2c83d6ab94c314b74ecd4d69c36c23300381ed9fdac7a5512d"
+    },
+    {
+      "path": "candidate/words/lexicon-default-2089697863.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/lexicon-default-2089697863.jsonl.gz",
+      "bytes": 4822462,
+      "sha256": "d3f25550f2ab6093c14fe9500a2090a2c237c0af30038fd6d00988067e6eefbd"
+    },
+    {
+      "path": "candidate/words/lexicon-bare-2380207674.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 5687872,
+      "sha256": "9a22a719101b0dd66086dc790ec00b8c6faacf7a218f44d356d4f06cf0769426"
+    },
+    {
+      "path": "candidate/words/lexicon-bare-772709128.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/lexicon-bare-772709128.jsonl.gz",
+      "bytes": 5698226,
+      "sha256": "761665171bf69419ac4dc0925d1b3c09028f17ee2665a2c8d381c82dae74d8b1"
+    },
+    {
+      "path": "candidate/words/lexicon-bare-1304238451.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 5689927,
+      "sha256": "09e6b09cc950fc19026478b47a932cfb97db9536a56d24af1492c3f81d0b2133"
+    },
+    {
+      "path": "candidate/words/lexicon-bare-1696751198.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 5688918,
+      "sha256": "9615a93efb771c988de93214d7d9ff8251534a0cc2b953b5823551f0459a41d9"
+    },
+    {
+      "path": "candidate/words/lexicon-bare-1498885173.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 5690235,
+      "sha256": "cee659ff98a09e951f7ffc741a442a587db2a901d4face56e0172a362bcd3681"
+    },
+    {
+      "path": "candidate/words/monosyllables-bare-462530651.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 2998915,
+      "sha256": "a7470bad1647f9d2c8d2cf43da1047a60d91cde9dd4db333665d5581686f73c6"
+    },
+    {
+      "path": "candidate/words/monosyllables-bare-62358955.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 3011061,
+      "sha256": "308b06008adcda4ad7cebb65c0f34351c515b5d8fd4b9408473bd1ae98f47876"
+    },
+    {
+      "path": "candidate/words/monosyllables-bare-3297327738.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 3001484,
+      "sha256": "d669c52de77e2d08a0ffc4a9baea28e6b892a7f30dc79e654fa3f19d623e4123"
+    },
+    {
+      "path": "candidate/words/monosyllables-bare-2001884366.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 2998439,
+      "sha256": "b1a49ddd20f88cf22bcf32b44f1ac54b4b2c266c40b8c6f2910cde41c65a129e"
+    },
+    {
+      "path": "candidate/words/monosyllables-bare-2353354178.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 2992265,
+      "sha256": "2248f8f88d6d9b652247ea324eff7b23b1feb80de8e4e67905630c36a490abd3"
+    },
+    {
+      "path": "candidate/words/text-default-4167471042.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/text-default-4167471042.jsonl.gz",
+      "bytes": 3683493,
+      "sha256": "66b06e7cb7798e1c56fb1908bd870223a30366f9accc728b783de1e3817d292e"
+    },
+    {
+      "path": "candidate/words/text-default-2666001996.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/text-default-2666001996.jsonl.gz",
+      "bytes": 3632826,
+      "sha256": "6700641b29f62c0d6b051741671dfcc8597acc9881afe7542ecd12516741f9e5"
+    },
+    {
+      "path": "candidate/words/text-default-3562318933.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/text-default-3562318933.jsonl.gz",
+      "bytes": 3617627,
+      "sha256": "2cacb0bb57c3af7f8db379a39e35656f1f83d45a14245b95520232c82dff11b0"
+    },
+    {
+      "path": "candidate/words/text-default-1999736106.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/text-default-1999736106.jsonl.gz",
+      "bytes": 3637034,
+      "sha256": "ba2199d4758959a6af398e076d03213e9752d17371312a92eb8bb8e9a44bfa99"
+    },
+    {
+      "path": "candidate/words/text-default-1665836705.jsonl.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/words/text-default-1665836705.jsonl.gz",
+      "bytes": 3618547,
+      "sha256": "8b902b9e409e906405929220a1f1ae9ede552d40caa843b5158b5e109d674be7"
+    },
+    {
+      "path": "candidate/manifest.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/manifest.json",
+      "bytes": 109421,
+      "sha256": "ad2f93c2ebf2e702f2dea6bfb43cee5dc59149b3012387e5cf87524ddeac34cc"
+    },
+    {
+      "path": "execution/reproduce.mjs",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduce.mjs",
+      "bytes": 2627,
+      "sha256": "5da1393032f3af97d489ff74ecfdd556791b0859178003edb0840855865d48f0"
+    },
+    {
+      "path": "execution/reproduction.log",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduction.log",
+      "bytes": 918,
+      "sha256": "4b487109e64d0308d60afbcf95f513f3036ac75d6810bf0f11b4789a21be26ad"
+    },
+    {
+      "path": "execution/fixtures.log",
+      "origin": "/private/tmp/q10a-closure-audit-v1/fixtures.log",
+      "bytes": 1758,
+      "sha256": "7ec11d05424b8da6c7d69d0d68e1420dc687768bd569b49fd84e7738f83e7e47"
+    },
+    {
+      "path": "execution/verifier-preparation.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/verifier-preparation.json",
+      "bytes": 449,
+      "sha256": "6b0b8432a58480f9e76a9cec1d529ecf0a24e2a5d7d5b1ffea2eb75e96021867"
+    },
+    {
+      "path": "execution/original-independent-renewed.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/original-independent-renewed.json",
+      "bytes": 562,
+      "sha256": "0f2a8d989935637ffe261f784c1df161fa45514fcfb084dcb48120ab4bc48ef6"
+    },
+    {
+      "path": "execution/candidate-independent-renewed.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/candidate-independent-renewed.json",
+      "bytes": 562,
+      "sha256": "d5837e668228096bc6b0487c22f310c35d2273abed11b899fe6d090f42cd767b"
+    },
+    {
+      "path": "execution/original-independent-renewed.log",
+      "origin": "/private/tmp/q10a-closure-audit-v1/original-independent-renewed.log",
+      "bytes": 520,
+      "sha256": "03bfc19a1405c50c1031877ccd54c12f978e4aed5d9197d07277eb3abe5de07b"
+    },
+    {
+      "path": "execution/candidate-independent-renewed.log",
+      "origin": "/private/tmp/q10a-closure-audit-v1/candidate-independent-renewed.log",
+      "bytes": 520,
+      "sha256": "4756b6f88d5893d1e41224a5ba20129269440488ea2eab71912f6625e063a469"
+    },
+    {
+      "path": "execution/candidate-registration.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/registration.json",
+      "bytes": 2168,
+      "sha256": "40e634a714b19d176cb190e834f0c17f024f499d7513028070f898cc129e5328"
+    },
+    {
+      "path": "execution/candidate-complete.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/complete.json",
+      "bytes": 4581,
+      "sha256": "9468ecdfad3eb16a5c8ddc0f7f3efa5f4b380d8f4c346315dc34e59c0ae259b5"
+    },
+    {
+      "path": "execution/candidate-progress.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/reproduced-candidate/progress.json",
+      "bytes": 4500,
+      "sha256": "e78db5ae7b5b9ddfd694e9cac40b1f18648eb03684390a1e7e3d107b8c923f2c"
+    },
+    {
+      "path": "committed/docs/ae-ng-rimes.md",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/docs/ae-ng-rimes.md",
+      "bytes": 8481,
+      "sha256": "fdf23aa35d45d2a0a30b44df0e98933d085f474988bbb5c9098797c1ddfba71c"
+    },
+    {
+      "path": "committed/src/core/ae-ng-rimes.test.ts",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/src/core/ae-ng-rimes.test.ts",
+      "bytes": 4933,
+      "sha256": "889c27cd9bf8c5515787eec8f9d82f2a4a426f6ae475abc149c4e1c260b1a194"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/reference-evidence.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/reference-evidence.json",
+      "bytes": 1549,
+      "sha256": "812cee89695284f9216530006d8a9789450b3d1038b5b5236f63290612b1cbe6"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/summary.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/summary.json",
+      "bytes": 87311,
+      "sha256": "f824128211d7cf081f75cf2a6a18a7c23a9b01ee7b117ae9197432b1140bcaed"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/comparison.md",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/comparison.md",
+      "bytes": 14994,
+      "sha256": "036367bd5f62ea28f015fe67064184b27cc5218643eba1402cc7705e3f43ee97"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/original-rime-probe.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/original-rime-probe.json.gz",
+      "bytes": 25293,
+      "sha256": "075c706f4de49ba18fe5527ea376c83ef502b113ca09a41d641997c2c35bd676"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/candidate-rime-probe.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/candidate-rime-probe.json.gz",
+      "bytes": 30413,
+      "sha256": "0ded3f607619aea24531d598716a1094c9d901498cbfff590ac111d9ab0430aa"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/candidate-independent.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/candidate-independent.json",
+      "bytes": 562,
+      "sha256": "f7c21eb1b3d542a5db5b81a0187d83bf0896b5b8fa8982c10114fb9af35a4579"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/original-independent.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/original-independent.json",
+      "bytes": 562,
+      "sha256": "260e8ab0a326c719a50f9e08fa3ab95d680fcfae36e5c6322405806e08cae53d"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/distributions.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/distributions.json.gz",
+      "bytes": 74447,
+      "sha256": "7ef59d907545ed219c7041bce70f6eb42a9f113313ddb86b475cdc75ab4f6f7d"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/sources.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/sources.json.gz",
+      "bytes": 175749,
+      "sha256": "f081b52e2654834efeb36d4781c5e5d7e2054f28b949b292688724f04238ce20"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/unit.log.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/unit.log.gz",
+      "bytes": 3546,
+      "sha256": "5bf6fd0a5564538a29c6819f11619c59993f512fdcec1867665e29bc3cfec8b7"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/quality.log.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/quality.log.gz",
+      "bytes": 728,
+      "sha256": "cd8c3865a3aacb2c2f3ace7c7ba0c906327373ec08cda32fec9c5ab0460d9dd7"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/perf.log.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/perf.log.gz",
+      "bytes": 488,
+      "sha256": "edf7cc46df510aa21f5a70bde18a7cbf862af3a6fb33b3f545ea5716d83ec26f"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/README.md",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/README.md",
+      "bytes": 2764,
+      "sha256": "f978c3d9838876156d2e1a47a9d54b5535a641afea0138352dae6161bbe0bf9a"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/witnesses.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/witnesses.json.gz",
+      "bytes": 25308,
+      "sha256": "55435b357a0c5d58bd7faba2110bd2691f06b89546367e38e5d901e727adb849"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/validation.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/validation.json",
+      "bytes": 1834,
+      "sha256": "e9c3dbe1a20b33863c93b929e6555583c44646a9ee4584a71bb43012298cf5ce"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/ang-regression-witnesses.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/ang-regression-witnesses.json.gz",
+      "bytes": 3789,
+      "sha256": "e7c8c169fcf2edfcc7f351fb936f98f3fe96578c1637f48e33834a61e7506714"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/comparison.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/comparison.json.gz",
+      "bytes": 23096,
+      "sha256": "21013da8c0cb6afa77d28ad8fa36de970831adb27ea928f854812987b0b1a768"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/manifest.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/manifest.json",
+      "bytes": 109421,
+      "sha256": "ad2f93c2ebf2e702f2dea6bfb43cee5dc59149b3012387e5cf87524ddeac34cc"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/review-samples.json.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/review-samples.json.gz",
+      "bytes": 347085,
+      "sha256": "e6f9b41bcce4abde4e7529e3aaa642da26461c8b501bf414111d2d32b789a729"
+    },
+    {
+      "path": "committed/evaluation/experiments/ae-ng-rimes/lint.log.gz",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/experiments/ae-ng-rimes/lint.log.gz",
+      "bytes": 474,
+      "sha256": "08e8ceae3535020fee53e99d8c5f485e36e50733babf81c6d60a6f31d676f139"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/ae-ng-rimes.ts",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/quality/probes/ae-ng-rimes.ts",
+      "bytes": 12924,
+      "sha256": "a9e3b0c257368b7e61b95f9e4e8cca24c403325d9293a43d0ec7b50988bb81d6"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/ae-ng-rimes-protocol.json",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/quality/probes/ae-ng-rimes-protocol.json",
+      "bytes": 3651,
+      "sha256": "5d1cb2d7d783651d077cccea89d9064952f4d29352ebe7fb6538a10e798a1706"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/ae-ng-rimes.test.ts",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/quality/probes/ae-ng-rimes.test.ts",
+      "bytes": 10267,
+      "sha256": "80777446b16ddd6a446abf98d9869e3bdffa485f270c43163498ab67d776b06a"
+    },
+    {
+      "path": "committed/evaluation/quality/probes/verify-ae-ng-rimes.py",
+      "origin": "/private/tmp/q10a-closure-audit-v1/committed/evaluation/quality/probes/verify-ae-ng-rimes.py",
+      "bytes": 7476,
+      "sha256": "a21d6030ad16e48be7c69ddaba62823f25656b70b7238d1b609105d951f3b5ce"
+    },
+    {
+      "path": "operators/retain_q10a_reproduction.py",
+      "origin": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/roadmap-completion-audit-v1/retain_q10a_reproduction.py",
+      "bytes": 2493,
+      "sha256": "ede3ee6e9a9e6751f8492c26a405196e397d7dcb20658fd32fd4ab23ed1ac871"
+    }
+  ],
+  "scope": "Complete raw arms and original compact/source/observer evidence plus fresh execution. Independent inode copies on same device; not independent-device backup."
+}
