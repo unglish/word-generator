@@ -108,11 +108,15 @@ export function assessAttempt(
   attemptIndex: number,
   criteria: AcceptanceCriteria,
 ): AttemptAssessment {
+  // Preserve the original positive acceptance checks: NaN must not be accepted
+  // merely because it fails neither a greater-than nor a warmup comparison.
+  const exact = score.phonemeDistance === 0 && score.letterPenalty === 0;
+  const relaxed = attemptIndex >= criteria.warmupAttempts
+    && score.phonemeDistance === 0 && score.letterPenalty <= criteria.relaxedLetterPenalty;
   const failed = {
     phonemeTarget: score.phonemeDistance !== 0,
-    letterLength: score.letterPenalty > criteria.relaxedLetterPenalty,
-    warmup: attemptIndex < criteria.warmupAttempts && score.letterPenalty > 0,
+    letterLength: !(score.letterPenalty <= criteria.relaxedLetterPenalty),
+    warmup: attemptIndex < criteria.warmupAttempts && score.letterPenalty !== 0,
   };
-  const rejected = failed.phonemeTarget || failed.letterLength || failed.warmup;
-  return { acceptedBy: rejected ? null : score.letterPenalty === 0 ? "exact" : "relaxed", failed };
+  return { acceptedBy: exact ? "exact" : relaxed ? "relaxed" : null, failed };
 }
