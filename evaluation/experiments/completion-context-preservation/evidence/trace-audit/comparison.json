@@ -1,0 +1,497 @@
+{
+  "controlSha256": "b8cadfcd503ff5a2f3af05175c059abbde8be1bbda610539ef06ceeb5205bb3d",
+  "candidateSha256": "3b744db534dc569bfbf9230ba81987262a1a26b1de5d002f81b6b483057909fb",
+  "allFields": {
+    "config": {
+      "count": {
+        "control": 50000,
+        "candidate": 50000,
+        "change": 0
+      },
+      "failOn": {
+        "control": [],
+        "candidate": []
+      },
+      "metrics": {
+        "control": [
+          "trigrams",
+          "hiatus",
+          "glide",
+          "morphology",
+          "structural"
+        ],
+        "candidate": [
+          "trigrams",
+          "hiatus",
+          "glide",
+          "morphology",
+          "structural"
+        ]
+      },
+      "mode": {
+        "control": "lexicon",
+        "candidate": "lexicon"
+      },
+      "morphology": {
+        "control": true,
+        "candidate": true
+      },
+      "seed": {
+        "control": 42,
+        "candidate": 42,
+        "change": 0
+      },
+      "targets": {
+        "control": [
+          "iin",
+          "iow",
+          "aow",
+          "eae",
+          "eai",
+          "eao",
+          "eoe",
+          "oou"
+        ],
+        "candidate": [
+          "iin",
+          "iow",
+          "aow",
+          "eae",
+          "eai",
+          "eao",
+          "eoe",
+          "oou"
+        ]
+      }
+    },
+    "delta": {
+      "extraBoundaries": {
+        "control": 33159,
+        "candidate": 33178,
+        "change": 19
+      },
+      "extraHiatus": {
+        "control": 680,
+        "candidate": 686,
+        "change": 6
+      },
+      "extraHiatusRate": {
+        "control": 0.020507252932838747,
+        "candidate": 0.020676351799385134,
+        "change": 0.0001690988665463862
+      }
+    },
+    "final": {
+      "boundaries": {
+        "control": 80857,
+        "candidate": 80815,
+        "change": -42
+      },
+      "hiatus": {
+        "control": 680,
+        "candidate": 686,
+        "change": 6
+      },
+      "hiatusRate": {
+        "control": 0.008409908851429067,
+        "candidate": 0.00848852317020355,
+        "change": 7.861431877448366e-05
+      }
+    },
+    "glide": {
+      "rootTotalVowelTransitions": {
+        "control": 82665,
+        "candidate": 82640,
+        "change": -25
+      },
+      "rootVowelToGlideRate": {
+        "control": 0.0011976047904191617,
+        "candidate": 0.0011616650532429815,
+        "change": -3.593973717618015e-05
+      },
+      "rootVowelToGlideTransitions": {
+        "control": 99,
+        "candidate": 96,
+        "change": -3
+      }
+    },
+    "morphology": {
+      "prefixes": {
+        "dis": {
+          "control": 655,
+          "candidate": 645,
+          "change": -10
+        },
+        "in": {
+          "control": 1841,
+          "candidate": 1817,
+          "change": -24
+        },
+        "mis": {
+          "control": 1098,
+          "candidate": 1092,
+          "change": -6
+        },
+        "out": {
+          "control": 723,
+          "candidate": 724,
+          "change": 1
+        },
+        "over": {
+          "control": 691,
+          "candidate": 713,
+          "change": 22
+        },
+        "pre": {
+          "control": 688,
+          "candidate": 695,
+          "change": 7
+        },
+        "re": {
+          "control": 2543,
+          "candidate": 2523,
+          "change": -20
+        },
+        "un": {
+          "control": 2892,
+          "candidate": 2866,
+          "change": -26
+        }
+      },
+      "suffixes": {
+        "able": {
+          "control": 800,
+          "candidate": 803,
+          "change": 3
+        },
+        "al": {
+          "control": 1798,
+          "candidate": 1783,
+          "change": -15
+        },
+        "ary": {
+          "control": 794,
+          "candidate": 802,
+          "change": 8
+        },
+        "ed": {
+          "control": 4511,
+          "candidate": 4498,
+          "change": -13
+        },
+        "er": {
+          "control": 2061,
+          "candidate": 2051,
+          "change": -10
+        },
+        "ery": {
+          "control": 328,
+          "candidate": 330,
+          "change": 2
+        },
+        "est": {
+          "control": 588,
+          "candidate": 588,
+          "change": 0
+        },
+        "ful": {
+          "control": 570,
+          "candidate": 576,
+          "change": 6
+        },
+        "ial": {
+          "control": 294,
+          "candidate": 300,
+          "change": 6
+        },
+        "ian": {
+          "control": 331,
+          "candidate": 332,
+          "change": 1
+        },
+        "ing": {
+          "control": 1563,
+          "candidate": 1563,
+          "change": 0
+        },
+        "ism": {
+          "control": 126,
+          "candidate": 126,
+          "change": 0
+        },
+        "ist": {
+          "control": 217,
+          "candidate": 212,
+          "change": -5
+        },
+        "ity": {
+          "control": 714,
+          "candidate": 722,
+          "change": 8
+        },
+        "ive": {
+          "control": 470,
+          "candidate": 482,
+          "change": 12
+        },
+        "ize": {
+          "control": 303,
+          "candidate": 302,
+          "change": -1
+        },
+        "less": {
+          "control": 454,
+          "candidate": 442,
+          "change": -12
+        },
+        "ly": {
+          "control": 1217,
+          "candidate": 1201,
+          "change": -16
+        },
+        "ment": {
+          "control": 849,
+          "candidate": 859,
+          "change": 10
+        },
+        "ness": {
+          "control": 252,
+          "candidate": 242,
+          "change": -10
+        },
+        "ory": {
+          "control": 612,
+          "candidate": 609,
+          "change": -3
+        },
+        "ous": {
+          "control": 513,
+          "candidate": 536,
+          "change": 23
+        },
+        "s": {
+          "control": 7219,
+          "candidate": 7243,
+          "change": 24
+        },
+        "sion": {
+          "control": 354,
+          "candidate": 353,
+          "change": -1
+        },
+        "tion": {
+          "control": 1034,
+          "candidate": 1050,
+          "change": 16
+        }
+      },
+      "templates": {
+        "bare": {
+          "control": 14894,
+          "candidate": 14923,
+          "change": 29
+        },
+        "both": {
+          "control": 3997,
+          "candidate": 4003,
+          "change": 6
+        },
+        "prefixed": {
+          "control": 7134,
+          "candidate": 7072,
+          "change": -62
+        },
+        "suffixed": {
+          "control": 23975,
+          "candidate": 24002,
+          "change": 27
+        }
+      }
+    },
+    "root": {
+      "boundaries": {
+        "control": 47698,
+        "candidate": 47637,
+        "change": -61
+      },
+      "hiatus": {
+        "control": 0,
+        "candidate": 0,
+        "change": 0
+      },
+      "hiatusRate": {
+        "control": 0,
+        "candidate": 0,
+        "change": 0
+      }
+    },
+    "schemaVersion": {
+      "control": "1.0.0",
+      "candidate": "1.0.0"
+    },
+    "ssp": {
+      "boundaries": {
+        "control": 80857,
+        "candidate": 80815,
+        "change": -42
+      },
+      "byViolation": {
+        "multi": {
+          "control": 61,
+          "candidate": 53,
+          "change": -8
+        },
+        "rule1": {
+          "control": 56,
+          "candidate": 56,
+          "change": 0
+        },
+        "rule2": {
+          "control": 124,
+          "candidate": 121,
+          "change": -3
+        },
+        "rule3": {
+          "control": 186,
+          "candidate": 187,
+          "change": 1
+        }
+      },
+      "drops": {
+        "control": 427,
+        "candidate": 417,
+        "change": -10
+      },
+      "multiDropRatePerBoundary": {
+        "control": 0.0007544182940252544,
+        "candidate": 0.0006558188455113531,
+        "change": -9.859944851390136e-05
+      },
+      "rule1DropRatePerBoundary": {
+        "control": 0.0006925807289412172,
+        "candidate": 0.0006929406669553919,
+        "change": 3.599380141747037e-07
+      },
+      "rule2DropRatePerBoundary": {
+        "control": 0.001533571614084124,
+        "candidate": 0.0014972467982429004,
+        "change": -3.6324815841223476e-05
+      },
+      "rule3DropRatePerBoundary": {
+        "control": 0.002300357421126186,
+        "candidate": 0.0023139268700117554,
+        "change": 1.3569448885569508e-05
+      },
+      "totalDropRatePerBoundary": {
+        "control": 0.005280928058176781,
+        "candidate": 0.005159933180721401,
+        "change": -0.00012099487745538019
+      }
+    },
+    "structural": {
+      "aspirationDecision": {
+        "control": 191998,
+        "candidate": 191855,
+        "change": -143
+      },
+      "boundaryDrop": {
+        "control": 28,
+        "candidate": 30,
+        "change": 2
+      },
+      "finalS": {
+        "control": 647,
+        "candidate": 655,
+        "change": 8
+      },
+      "junctionBoundaryDrop": {
+        "control": 299,
+        "candidate": 293,
+        "change": -6
+      },
+      "morphPrefixHiatusFallback": {
+        "control": 1178,
+        "candidate": 1176,
+        "change": -2
+      },
+      "morphSuffixHiatusFallback": {
+        "control": 3061,
+        "candidate": 3054,
+        "change": -7
+      },
+      "nasalStopExtension": {
+        "control": 642,
+        "candidate": 637,
+        "change": -5
+      },
+      "risingCodaBoundaryDrop": {
+        "control": 41,
+        "candidate": 42,
+        "change": 1
+      },
+      "sspBoundaryDrop": {
+        "control": 427,
+        "candidate": 417,
+        "change": -10
+      },
+      "vowelHiatusFallback": {
+        "control": 111,
+        "candidate": 110,
+        "change": -1
+      }
+    },
+    "targetSum": {
+      "control": 660,
+      "candidate": 679,
+      "change": 19
+    },
+    "targets": {
+      "aow": {
+        "control": 0,
+        "candidate": 0,
+        "change": 0
+      },
+      "eae": {
+        "control": 176,
+        "candidate": 176,
+        "change": 0
+      },
+      "eai": {
+        "control": 269,
+        "candidate": 282,
+        "change": 13
+      },
+      "eao": {
+        "control": 74,
+        "candidate": 77,
+        "change": 3
+      },
+      "eoe": {
+        "control": 14,
+        "candidate": 15,
+        "change": 1
+      },
+      "iin": {
+        "control": 108,
+        "candidate": 106,
+        "change": -2
+      },
+      "iow": {
+        "control": 0,
+        "candidate": 0,
+        "change": 0
+      },
+      "oou": {
+        "control": 19,
+        "candidate": 23,
+        "change": 4
+      }
+    },
+    "totalTrigrams": {
+      "control": 278319,
+      "candidate": 278245,
+      "change": -74
+    }
+  },
+  "scope": "Original50000wordseed42all5metric operator, identical configuration. No default acceptance thresholds or human inference."
+}

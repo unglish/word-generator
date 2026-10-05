@@ -1,0 +1,61 @@
+{
+  "scope": "Full production all-group counters; source-conditioned distributions, not paired word causality or human benefit",
+  "wordsPerArm": 200000,
+  "counts": {
+    "completion:infeasible": {
+      "control": 239,
+      "candidate": 63,
+      "change": -176
+    },
+    "completionProposalRefusal:unresolved-neighbor": {
+      "control": 337,
+      "candidate": null,
+      "change": null
+    },
+    "finalRoot:not-target": {
+      "control": 308846,
+      "candidate": 309204,
+      "change": 358
+    },
+    "finalRoot:satisfied": {
+      "control": 23115,
+      "candidate": 23072,
+      "change": -43
+    },
+    "finalRoot:satisfied:open": {
+      "control": 15513,
+      "candidate": 15508,
+      "change": -5
+    },
+    "finalRoot:satisfied:split": {
+      "control": 7602,
+      "candidate": 7564,
+      "change": -38
+    },
+    "finalRoot:unavailable": {
+      "control": 8026,
+      "candidate": 8088,
+      "change": 62
+    },
+    "finalRoot:unavailable:unknown-written-edge": {
+      "control": 8,
+      "candidate": 8,
+      "change": 0
+    },
+    "finalRoot:unavailable:unresolved-ownership": {
+      "control": 8018,
+      "candidate": 8080,
+      "change": 62
+    },
+    "finalRoot:unresolved": {
+      "control": 277,
+      "candidate": 100,
+      "change": -177
+    },
+    "formationRefusal:unresolved-neighbor": {
+      "control": 31,
+      "candidate": 30,
+      "change": -1
+    }
+  }
+}

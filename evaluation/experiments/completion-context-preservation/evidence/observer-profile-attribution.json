@@ -1,0 +1,249 @@
+{
+  "scope": "Diagnostic of 200 repeated observations of one retained trace during concurrent full verification; no corpus-wide or isolated performance claim.",
+  "profileSha256": "51c6f05e38fd89fa441b1ac973b923f6d3dd183b7785a648c9314308783085bd",
+  "sampledTotalMs": 5228.5,
+  "topSelf": [
+    {
+      "function": "snapshot",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/base-spelling.ts",
+      "line": 1,
+      "sampledMs": 3982.73599999999
+    },
+    {
+      "function": "structuredClone",
+      "url": "node:internal/worker/js_transferable",
+      "line": 112,
+      "sampledMs": 436.04899999999924
+    },
+    {
+      "function": "",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/spelling-split-replay.ts",
+      "line": 1,
+      "sampledMs": 276.169
+    },
+    {
+      "function": "(idle)",
+      "url": "",
+      "line": 0,
+      "sampledMs": 64.58300000000001
+    },
+    {
+      "function": "readdir",
+      "url": "",
+      "line": 0,
+      "sampledMs": 56.958999999999996
+    },
+    {
+      "function": "(garbage collector)",
+      "url": "",
+      "line": 0,
+      "sampledMs": 49.706
+    },
+    {
+      "function": "makeSyncRequest",
+      "url": "node:internal/modules/esm/hooks",
+      "line": 635,
+      "sampledMs": 47.833000000000006
+    },
+    {
+      "function": "waitForWorker",
+      "url": "node:internal/modules/esm/hooks",
+      "line": 556,
+      "sampledMs": 39.667
+    },
+    {
+      "function": "structuredClone",
+      "url": "",
+      "line": 0,
+      "sampledMs": 22.376
+    },
+    {
+      "function": "compileSourceTextModule",
+      "url": "node:internal/modules/esm/utils",
+      "line": 315,
+      "sampledMs": 19.458
+    },
+    {
+      "function": "",
+      "url": "file:///private/tmp/q14a-completion-context-evidence-v1/profile-observer.mjs",
+      "line": 1,
+      "sampledMs": 16.752
+    },
+    {
+      "function": "(program)",
+      "url": "",
+      "line": 0,
+      "sampledMs": 14.584
+    },
+    {
+      "function": "lineLengths",
+      "url": "node:internal/source_map/source_map_cache",
+      "line": 257,
+      "sampledMs": 14.166
+    },
+    {
+      "function": "",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/spelling-construction-ownership.ts",
+      "line": 1,
+      "sampledMs": 12.083
+    },
+    {
+      "function": "compileForInternalLoader",
+      "url": "node:internal/bootstrap/realm",
+      "line": 383,
+      "sampledMs": 11.876
+    },
+    {
+      "function": "",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/grapheme-selection.ts",
+      "line": 1,
+      "sampledMs": 10.375
+    },
+    {
+      "function": "",
+      "url": "file:///private/tmp/q14a-completion-context-v1/evaluation/experiments/split-digraphs/observe-split.ts",
+      "line": 1,
+      "sampledMs": 10.251
+    },
+    {
+      "function": "internalModuleStat",
+      "url": "",
+      "line": 0,
+      "sampledMs": 6.333
+    },
+    {
+      "function": "constructionState",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/base-spelling.ts",
+      "line": 1,
+      "sampledMs": 6.0
+    },
+    {
+      "function": "decide",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/spelling-split-planner.ts",
+      "line": 1,
+      "sampledMs": 5.75
+    }
+  ],
+  "topInclusive": [
+    {
+      "function": "(root)",
+      "url": "",
+      "line": 0,
+      "sampledMs": 5228.500000000067
+    },
+    {
+      "function": "evaluate",
+      "url": "",
+      "line": 0,
+      "sampledMs": 5019.502000000048
+    },
+    {
+      "function": "run",
+      "url": "node:internal/modules/esm/module_job",
+      "line": 366,
+      "sampledMs": 5015.002000000048
+    },
+    {
+      "function": "",
+      "url": "file:///private/tmp/q14a-completion-context-evidence-v1/profile-observer.mjs",
+      "line": 1,
+      "sampledMs": 4840.751000000037
+    },
+    {
+      "function": "",
+      "url": "file:///private/tmp/q14a-completion-context-v1/evaluation/experiments/split-digraphs/observe-split.ts",
+      "line": 1,
+      "sampledMs": 4822.499000000035
+    },
+    {
+      "function": "",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/spelling-evidence.ts",
+      "line": 1,
+      "sampledMs": 4797.289000000033
+    },
+    {
+      "function": "",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/spelling-split-evidence.ts",
+      "line": 1,
+      "sampledMs": 4787.164000000033
+    },
+    {
+      "function": "",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/spelling-split-replay.ts",
+      "line": 1,
+      "sampledMs": 4775.081000000034
+    },
+    {
+      "function": "snapshot",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/base-spelling.ts",
+      "line": 1,
+      "sampledMs": 4306.113000000004
+    },
+    {
+      "function": "structuredClone",
+      "url": "node:internal/worker/js_transferable",
+      "line": 112,
+      "sampledMs": 439.04899999999924
+    },
+    {
+      "function": "register",
+      "url": "node:internal/modules/esm/loader",
+      "line": 684,
+      "sampledMs": 87.542
+    },
+    {
+      "function": "register",
+      "url": "node:internal/modules/esm/loader",
+      "line": 981,
+      "sampledMs": 87.542
+    },
+    {
+      "function": "",
+      "url": "file:///Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/register-B7jrtLTO.mjs",
+      "line": 1,
+      "sampledMs": 87.542
+    },
+    {
+      "function": "",
+      "url": "file:///Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/esm/index.mjs",
+      "line": 1,
+      "sampledMs": 87.542
+    },
+    {
+      "function": "makeSyncRequest",
+      "url": "node:internal/modules/esm/hooks",
+      "line": 635,
+      "sampledMs": 86.0
+    },
+    {
+      "function": "register",
+      "url": "node:internal/modules/esm/hooks",
+      "line": 841,
+      "sampledMs": 86.0
+    },
+    {
+      "function": "createSharedSpellingRuntime",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/base-spelling.ts",
+      "line": 1,
+      "sampledMs": 82.46300000000002
+    },
+    {
+      "function": "createConstructionNeighborGuard",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/spelling-construction-neighbors.ts",
+      "line": 1,
+      "sampledMs": 80.96300000000002
+    },
+    {
+      "function": "createSharedConstructionPlanner",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/spelling-construction.ts",
+      "line": 1,
+      "sampledMs": 80.96300000000002
+    },
+    {
+      "function": "BaseSpelling",
+      "url": "file:///private/tmp/q14a-completion-context-v1/src/core/base-spelling.ts",
+      "line": 1,
+      "sampledMs": 80.96300000000002
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "files": {
+    "capture.mjs": {
+      "bytes": 2292,
+      "sha256": "62a591912e3a57a1940dc0245f0402217f067c484b7a279e475c01162684b105"
+    },
+    "analyze-candidate.mjs": {
+      "bytes": 756,
+      "sha256": "e25126c86b33d3e7c8f3e5cce7133da354bf276cfeafb6f9d5ed440f41813fea"
+    },
+    "run-independent.py": {
+      "bytes": 1184,
+      "sha256": "38afb6d9805e059c33ece6dd87d2148f92c0335a6de5c1096dbe0ad62765794f"
+    },
+    "audit-opaque-context.py": {
+      "bytes": 5460,
+      "sha256": "dedb78522e64431cacacdecafb8eca0d658565ee00b45c82e4340c6f0540b02c"
+    },
+    "legacy-parity-runner.mjs": {
+      "bytes": 7000,
+      "sha256": "280e1c907bc5084479fcd5e5afec0fa69bd10fc933406feb2ee61fedeb3c6c0d"
+    },
+    "original-check-bindings.json": {
+      "bytes": 2687,
+      "sha256": "45ba1f11fc91767223e2794bbfd78f5afc00f3e4848f20d7ac5321f38b5e9d74"
+    }
+  },
+  "scope": "Complete corpus verification tools frozen before full archive analysis. Opaque-context audit added after the two-coordinate preflight; this is deterministic verification, not prospectively registered human inference.",
+  "samples": "Full original200000developmentwords; no validation opening or sample reduction",
+  "independentLimit": "Python structure/arithmetic recount and opaque surface-context proof do not reconstruct unknown pronunciation licenses; production replay verifies configured licenses separately."
+}

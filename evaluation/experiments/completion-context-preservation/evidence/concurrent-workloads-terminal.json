@@ -1,0 +1,18 @@
+{
+  "allKnownCompetingWorkloadsTerminal": true,
+  "terminalSessions": {
+    "capture47738": 0,
+    "omittedParity99626": 0,
+    "opaqueContext69732": 0,
+    "qualityComparison90194": 0,
+    "causeAccounting47789": 0,
+    "traceAudit10240": 0,
+    "originalGatesDriver39543": 0,
+    "wholeLint98047": 1,
+    "production60522": 0,
+    "profile75564": 0,
+    "independentRecount8719": 0
+  },
+  "processInspection": "Read-only elevated ps filtered for Node/Python/Vitest: only seven Codex cua_node service processes remained; no study measurement worker. Desktop services remain, so no machine-wide idle claim.",
+  "initialDispatch": "Timing driver first stopped before execution because terminal receipt did not exist; original failure log retained. No timing samples were generated."
+}

@@ -1,0 +1,20 @@
+{
+  "source": "743130792d903e4001266d99548371b5cddc0ff9",
+  "reviewFindings": [
+    "Opaque context exception is limited to explicit unresolved-ownership refusal. Invalid identity, partial or missing units retain refusal.",
+    "Every ancestral opaque cell must survive by identity and object reference; every following lower-case letter must remain equal.",
+    "The target still requires complete single-unit ownership and supported configured reading.",
+    "Hard-c reading incompatibility remains refused; no alternative inventory or weight changes.",
+    "Opaque neighboring pronunciation remains unknown; this exception preserves context and does not create an ownership or pronunciation certificate for that neighbor.",
+    "The helper checks every current cell with ancestral unit membership, including rewrite origins via sourceUnits; it refuses an empty surviving footprint.",
+    "Projected cells use a shallow copy, so object-reference equality proves the opaque cell itself was not replaced.",
+    "checkedUnitIds reports reading checks only; opaque units allowed by context preservation are excluded. Independent opaque-context evidence must accompany this field to avoid implying full neighboring reading validation.",
+    "The context contract covers surviving cell metadata and following lower-case letters. Unknown pronunciation and broader lexical readability remain unestablished."
+  ],
+  "remaining": "Full production verification, independent structural/arithmetic recount, isolated timing, final evidence packet verification and publication. Completed full context audit and broad failed gates are retained separately.",
+  "reviewedFilePins": {
+    "src/core/spelling-completion-projection.ts": "bad8c377175b573f9723ca8ee34bc5d7bdbe0082eb4f741a1ca740700c674846",
+    "src/core/spelling-completion-projection.test.ts": "47c26cf60797b591b3e09a80639b2f0d7b577ed04c8a29e0cad5d82d89db6ea9",
+    "src/core/spelling-ownership.ts": "67630b8a666d960f22ec10992499779d16c3f3be1fd478928dbeb9412263226e"
+  }
+}

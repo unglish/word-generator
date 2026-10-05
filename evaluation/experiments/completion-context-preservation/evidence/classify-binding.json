@@ -1,0 +1,6 @@
+{
+  "originalOperatorSha256": "13135c5ad46b9282a986c790f1fad61e5bc9feda69798f55be9b2794d915038a",
+  "candidateOperatorSha256": "196149ee762f05046916c746e2e3a7c4f69271fb3fc311895c13eb02cc11f439",
+  "changes": "Paths and formal capture authority receipt decoder only. Entire original classification and witness logic unchanged.",
+  "scope": "Full200000-record cause accounting from raw traces; production eligibility/licensing and human benefit not inferred."
+}

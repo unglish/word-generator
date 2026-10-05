@@ -1,0 +1,7 @@
+{
+  "calls": 200,
+  "elapsedMs": 4835.2167500000005,
+  "wordUnchanged": true,
+  "resultSha256": "1dec920271b7429d37a0861b76f85345cd234c5bf54ef3e82169d6d06e88b021",
+  "scope": "Repeated one retained trace for bottleneck diagnosis under concurrent production verification. Not isolated timing, corpus evidence or general speed estimate."
+}

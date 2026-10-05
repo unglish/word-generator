@@ -1,0 +1,6357 @@
+{
+  "coordinate": {
+    "profile": "lexicon-bare",
+    "seed": 1304238451,
+    "drawIndex": 13
+  },
+  "originalSourceWitnessSha256": "b2771afb672074640370ea1e2546acff627ca88d134cb4733814983d268e0148",
+  "candidateStreamSha256": "594727ffa60350a00400b192e1ba1077937fe6ec5ac3e0382748c7f07cb1864d",
+  "phoneAndInitialSelectionEquality": true,
+  "before": {
+    "profile": "lexicon-bare",
+    "seed": 1304238451,
+    "drawIndex": 13,
+    "word": {
+      "syllables": [
+        {
+          "onset": [],
+          "nucleus": [
+            {
+              "sound": "\u0259\u028a",
+              "mannerOfArticulation": "midVowel",
+              "tense": true,
+              "nucleus": 90,
+              "startWord": 2,
+              "midWord": 2,
+              "endWord": 8,
+              "voiced": true,
+              "placeOfArticulation": "back"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "\u014b",
+              "mannerOfArticulation": "nasal",
+              "onset": 0,
+              "coda": 48,
+              "startWord": 0,
+              "midWord": 2,
+              "endWord": 36,
+              "voiced": true,
+              "placeOfArticulation": "velar"
+            }
+          ],
+          "stress": "\u02c8"
+        },
+        {
+          "onset": [],
+          "nucleus": [
+            {
+              "sound": "\u0259\u028a",
+              "mannerOfArticulation": "midVowel",
+              "tense": true,
+              "nucleus": 90,
+              "startWord": 2,
+              "midWord": 2,
+              "endWord": 8,
+              "voiced": true,
+              "placeOfArticulation": "back"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "s",
+              "mannerOfArticulation": "sibilant",
+              "onset": 259,
+              "coda": 110,
+              "startWord": 13,
+              "midWord": 2,
+              "endWord": 13,
+              "voiced": false,
+              "placeOfArticulation": "alveolar"
+            }
+          ],
+          "stress": "\u02cc"
+        }
+      ],
+      "pronunciation": "\u02c8\u0259\u028a\u014b\u02cc\u0259\u028as",
+      "written": {
+        "clean": "oungos",
+        "hyphenated": "oung&shy;os"
+      },
+      "trace": {
+        "syllableCount": 2,
+        "attempts": 2,
+        "structural": [
+          {
+            "event": "aspirationDecision",
+            "evaluated": false,
+            "syllableIndex": 0,
+            "ruleId": null,
+            "probability": null,
+            "roll": null,
+            "eligible": false,
+            "applied": false,
+            "targetSegment": null,
+            "targetIndex": null,
+            "targetPhoneme": null
+          },
+          {
+            "event": "aspirationDecision",
+            "evaluated": false,
+            "syllableIndex": 1,
+            "ruleId": null,
+            "probability": null,
+            "roll": null,
+            "eligible": false,
+            "applied": false,
+            "targetSegment": null,
+            "targetIndex": null,
+            "targetPhoneme": null
+          }
+        ],
+        "stages": [
+          {
+            "name": "generateSyllables",
+            "before": [],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "repairClusters",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "repairFinalCoda",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "repairClusterShape",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "repairHAfterBackVowel",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "applyStress",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "repairStressedNuclei",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "generateWrittenForm",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "generatePronunciation",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          }
+        ],
+        "graphemeSelections": [
+          {
+            "index": 0,
+            "phoneme": "\u0259\u028a",
+            "position": "nucleus",
+            "syllableIndex": 0,
+            "candidates": [
+              "ow",
+              "o",
+              "ou",
+              "oe",
+              "ough"
+            ],
+            "afterCondition": [
+              "ow",
+              "o",
+              "ou",
+              "oe",
+              "ough"
+            ],
+            "afterPosition": [
+              "ow",
+              "o",
+              "oe"
+            ],
+            "weights": [
+              [
+                "ow",
+                250
+              ],
+              [
+                "o",
+                500
+              ],
+              [
+                "oe",
+                10
+              ]
+            ],
+            "roll": 34.30263239890337,
+            "selected": "ow",
+            "emitted": "ow",
+            "doubled": false,
+            "selection": {
+              "version": 1,
+              "positionScope": "syllable",
+              "segmentPosition": "initial",
+              "syllablePosition": "initial",
+              "ordinaryCandidates": 5,
+              "afterCondition": 5,
+              "afterPosition": 3,
+              "positiveCandidates": 3
+            },
+            "doubling": {
+              "attempted": false,
+              "reason": "no-prev-phoneme"
+            }
+          },
+          {
+            "index": 1,
+            "phoneme": "\u014b",
+            "position": "coda",
+            "syllableIndex": 0,
+            "candidates": [
+              "ng",
+              "n"
+            ],
+            "afterCondition": [
+              "ng"
+            ],
+            "afterPosition": [
+              "ng"
+            ],
+            "weights": [
+              [
+                "ng",
+                10
+              ]
+            ],
+            "roll": 0,
+            "selected": "ng",
+            "emitted": "ng",
+            "doubled": false,
+            "selection": {
+              "version": 1,
+              "positionScope": "segment",
+              "segmentPosition": "medial",
+              "syllablePosition": "initial",
+              "ordinaryCandidates": 2,
+              "afterCondition": 1,
+              "afterPosition": 1,
+              "positiveCandidates": 1
+            },
+            "doubling": {
+              "attempted": false,
+              "reason": "multi-char-grapheme"
+            }
+          },
+          {
+            "index": 2,
+            "phoneme": "\u0259\u028a",
+            "position": "nucleus",
+            "syllableIndex": 1,
+            "candidates": [
+              "ow",
+              "o",
+              "ou",
+              "oe",
+              "ough"
+            ],
+            "afterCondition": [
+              "ow",
+              "o",
+              "ou",
+              "oe",
+              "ough"
+            ],
+            "afterPosition": [
+              "ow",
+              "o",
+              "oe"
+            ],
+            "weights": [
+              [
+                "ow",
+                18.75
+              ],
+              [
+                "o",
+                2500
+              ],
+              [
+                "oe",
+                0.75
+              ]
+            ],
+            "roll": 2412.8084763876395,
+            "selected": "o",
+            "emitted": "o",
+            "doubled": false,
+            "selection": {
+              "version": 1,
+              "positionScope": "syllable",
+              "segmentPosition": "medial",
+              "syllablePosition": "final",
+              "ordinaryCandidates": 5,
+              "afterCondition": 5,
+              "afterPosition": 3,
+              "positiveCandidates": 3
+            },
+            "doubling": {
+              "attempted": false,
+              "reason": "nucleus-position"
+            }
+          },
+          {
+            "index": 3,
+            "phoneme": "s",
+            "position": "coda",
+            "syllableIndex": 1,
+            "candidates": [
+              "s",
+              "c",
+              "ce",
+              "se"
+            ],
+            "afterCondition": [
+              "s",
+              "ce",
+              "se"
+            ],
+            "afterPosition": [
+              "s",
+              "ce",
+              "se"
+            ],
+            "weights": [
+              [
+                "s",
+                1000
+              ],
+              [
+                "ce",
+                37.5
+              ],
+              [
+                "se",
+                0.75
+              ]
+            ],
+            "roll": 8.744686962047126,
+            "selected": "s",
+            "emitted": "s",
+            "doubled": false,
+            "selection": {
+              "version": 1,
+              "positionScope": "segment",
+              "segmentPosition": "final",
+              "syllablePosition": "final",
+              "ordinaryCandidates": 4,
+              "afterCondition": 3,
+              "afterPosition": 3,
+              "positiveCandidates": 3
+            },
+            "doubling": {
+              "attempted": false,
+              "reason": "trigger:not-after-lax-vowel"
+            }
+          }
+        ],
+        "orthography": {
+          "surface": "oungos",
+          "chars": [
+            {
+              "index": 0,
+              "char": "o",
+              "unitId": 0,
+              "graphemeSelectionIndex": 0
+            },
+            {
+              "index": 1,
+              "char": "u",
+              "unitId": 0,
+              "graphemeSelectionIndex": 0
+            },
+            {
+              "index": 2,
+              "char": "n",
+              "unitId": 1,
+              "graphemeSelectionIndex": 1
+            },
+            {
+              "index": 3,
+              "char": "g",
+              "unitId": 1,
+              "graphemeSelectionIndex": 1
+            },
+            {
+              "index": 4,
+              "char": "o",
+              "unitId": 2,
+              "graphemeSelectionIndex": 2
+            },
+            {
+              "index": 5,
+              "char": "s",
+              "unitId": 3,
+              "graphemeSelectionIndex": 3
+            }
+          ],
+          "graphemeUnits": [
+            {
+              "id": 0,
+              "graphemeSelectionIndex": 0,
+              "phoneme": "\u0259\u028a",
+              "position": "nucleus",
+              "syllableIndex": 0,
+              "selected": "ow",
+              "emitted": "ow",
+              "present": true,
+              "start": 0,
+              "end": 1,
+              "links": [
+                {
+                  "kind": "graphemeSelection",
+                  "index": 0,
+                  "label": "graphemeSelection:0"
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "graphemeSelectionIndex": 1,
+              "phoneme": "\u014b",
+              "position": "coda",
+              "syllableIndex": 0,
+              "selected": "ng",
+              "emitted": "ng",
+              "present": true,
+              "start": 2,
+              "end": 3,
+              "links": [
+                {
+                  "kind": "graphemeSelection",
+                  "index": 1,
+                  "label": "graphemeSelection:1"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "graphemeSelectionIndex": 2,
+              "phoneme": "\u0259\u028a",
+              "position": "nucleus",
+              "syllableIndex": 1,
+              "selected": "o",
+              "emitted": "o",
+              "present": true,
+              "start": 4,
+              "end": 4,
+              "links": [
+                {
+                  "kind": "graphemeSelection",
+                  "index": 2,
+                  "label": "graphemeSelection:2"
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "graphemeSelectionIndex": 3,
+              "phoneme": "s",
+              "position": "coda",
+              "syllableIndex": 1,
+              "selected": "s",
+              "emitted": "s",
+              "present": true,
+              "start": 5,
+              "end": 5,
+              "links": [
+                {
+                  "kind": "graphemeSelection",
+                  "index": 3,
+                  "label": "graphemeSelection:3"
+                }
+              ]
+            }
+          ],
+          "alignment": "inferred"
+        },
+        "repairs": [
+          {
+            "rule": "repairStressedNuclei",
+            "before": "\u0259",
+            "after": "\u0259\u028a",
+            "detail": "replaced banned stressed nucleus /\u0259/"
+          },
+          {
+            "rule": "spellingRule:ow-cluster-simplify",
+            "before": "owng",
+            "after": "oung",
+            "detail": "syllable:0"
+          }
+        ],
+        "baseSpelling": {
+          "version": 5,
+          "scope": "root-before-morphology",
+          "surface": "oungos",
+          "phones": [
+            {
+              "id": 0,
+              "part": "root",
+              "syllableIndex": 0,
+              "segment": "nucleus",
+              "segmentIndex": 0,
+              "soundAtSpelling": "\u0259\u028a",
+              "boundary": {
+                "phoneme": {
+                  "sound": "\u0259\u028a",
+                  "mannerOfArticulation": "midVowel",
+                  "tense": true,
+                  "nucleus": 90,
+                  "startWord": 2,
+                  "midWord": 2,
+                  "endWord": 8,
+                  "voiced": true,
+                  "placeOfArticulation": "back"
+                },
+                "stress": "\u02c8"
+              }
+            },
+            {
+              "id": 1,
+              "part": "root",
+              "syllableIndex": 0,
+              "segment": "coda",
+              "segmentIndex": 0,
+              "soundAtSpelling": "\u014b",
+              "boundary": {
+                "phoneme": {
+                  "sound": "\u014b",
+                  "mannerOfArticulation": "nasal",
+                  "onset": 0,
+                  "coda": 48,
+                  "startWord": 0,
+                  "midWord": 2,
+                  "endWord": 36,
+                  "voiced": true,
+                  "placeOfArticulation": "velar"
+                },
+                "stress": "\u02c8"
+              }
+            },
+            {
+              "id": 2,
+              "part": "root",
+              "syllableIndex": 1,
+              "segment": "nucleus",
+              "segmentIndex": 0,
+              "soundAtSpelling": "\u0259\u028a",
+              "boundary": {
+                "phoneme": {
+                  "sound": "\u0259\u028a",
+                  "mannerOfArticulation": "midVowel",
+                  "tense": true,
+                  "nucleus": 90,
+                  "startWord": 2,
+                  "midWord": 2,
+                  "endWord": 8,
+                  "voiced": true,
+                  "placeOfArticulation": "back"
+                },
+                "stress": "\u02cc"
+              }
+            },
+            {
+              "id": 3,
+              "part": "root",
+              "syllableIndex": 1,
+              "segment": "coda",
+              "segmentIndex": 0,
+              "soundAtSpelling": "s",
+              "boundary": {
+                "phoneme": {
+                  "sound": "s",
+                  "mannerOfArticulation": "sibilant",
+                  "onset": 259,
+                  "coda": 110,
+                  "startWord": 13,
+                  "midWord": 2,
+                  "endWord": 13,
+                  "voiced": false,
+                  "placeOfArticulation": "alveolar"
+                },
+                "stress": "\u02cc"
+              }
+            }
+          ],
+          "units": [
+            {
+              "id": 0,
+              "choiceId": 0,
+              "phoneIds": [
+                0
+              ],
+              "selected": "ow",
+              "afterDoubling": "ow",
+              "inventoryIndex": 58,
+              "doublingIncrement": 0,
+              "sourceCellIds": [
+                0,
+                1
+              ]
+            },
+            {
+              "id": 1,
+              "choiceId": 1,
+              "phoneIds": [
+                1
+              ],
+              "selected": "ng",
+              "afterDoubling": "ng",
+              "inventoryIndex": 90,
+              "doublingIncrement": 0,
+              "sourceCellIds": [
+                2,
+                3
+              ]
+            },
+            {
+              "id": 2,
+              "choiceId": 2,
+              "phoneIds": [
+                2
+              ],
+              "selected": "o",
+              "afterDoubling": "o",
+              "inventoryIndex": 59,
+              "doublingIncrement": 0,
+              "sourceCellIds": [
+                6
+              ]
+            },
+            {
+              "id": 3,
+              "choiceId": 3,
+              "phoneIds": [
+                3
+              ],
+              "selected": "s",
+              "afterDoubling": "s",
+              "inventoryIndex": 101,
+              "doublingIncrement": 0,
+              "sourceCellIds": [
+                7
+              ]
+            }
+          ],
+          "cells": [
+            {
+              "id": 4,
+              "text": "o",
+              "partId": 0,
+              "origin": {
+                "kind": "rewrite",
+                "editId": 0,
+                "sourceUnitIds": [
+                  0
+                ],
+                "ownership": "unresolved"
+              }
+            },
+            {
+              "id": 5,
+              "text": "u",
+              "partId": 0,
+              "origin": {
+                "kind": "rewrite",
+                "editId": 0,
+                "sourceUnitIds": [
+                  0
+                ],
+                "ownership": "unresolved"
+              }
+            },
+            {
+              "id": 2,
+              "text": "n",
+              "origin": {
+                "kind": "selection",
+                "unitId": 1,
+                "offset": 0
+              },
+              "partId": 0
+            },
+            {
+              "id": 3,
+              "text": "g",
+              "origin": {
+                "kind": "selection",
+                "unitId": 1,
+                "offset": 1
+              },
+              "partId": 0
+            },
+            {
+              "id": 6,
+              "text": "o",
+              "origin": {
+                "kind": "selection",
+                "unitId": 2,
+                "offset": 0
+              },
+              "partId": 1
+            },
+            {
+              "id": 7,
+              "text": "s",
+              "origin": {
+                "kind": "selection",
+                "unitId": 3,
+                "offset": 0
+              },
+              "partId": 1
+            }
+          ],
+          "edits": [
+            {
+              "id": 0,
+              "phase": "syllable",
+              "rule": "spellingRule:ow-cluster-simplify",
+              "start": 0,
+              "input": [
+                {
+                  "id": 0,
+                  "text": "o",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 0,
+                    "offset": 0
+                  },
+                  "partId": 0
+                },
+                {
+                  "id": 1,
+                  "text": "w",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 0,
+                    "offset": 1
+                  },
+                  "partId": 0
+                }
+              ],
+              "output": [
+                {
+                  "id": 4,
+                  "text": "o",
+                  "partId": 0,
+                  "origin": {
+                    "kind": "rewrite",
+                    "editId": 0,
+                    "sourceUnitIds": [
+                      0
+                    ],
+                    "ownership": "unresolved"
+                  }
+                },
+                {
+                  "id": 5,
+                  "text": "u",
+                  "partId": 0,
+                  "origin": {
+                    "kind": "rewrite",
+                    "editId": 0,
+                    "sourceUnitIds": [
+                      0
+                    ],
+                    "ownership": "unresolved"
+                  }
+                }
+              ],
+              "before": "ow",
+              "after": "ou",
+              "partId": 0
+            }
+          ],
+          "unresolvedCells": 2,
+          "capabilities": {
+            "exactParts": 1,
+            "licensedOrigins": 1,
+            "writerBoundary": 1,
+            "unitNormalization": 1,
+            "sharedConstructions": 1,
+            "splitVowels": 1
+          },
+          "certificates": [],
+          "normalizationCertificates": [],
+          "normalization": {
+            "version": 1,
+            "checks": [
+              {
+                "site": "adjacent-choice",
+                "cursor": {
+                  "lastAppendedUnitId": 0,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "site": "adjacent-choice",
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "site": "syllable-join",
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "site": "adjacent-choice",
+                "cursor": {
+                  "lastAppendedUnitId": 2,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "site": "adjacent-choice",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "site": "syllable-join",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              }
+            ],
+            "comparisons": {
+              "adjacent-choice": 2,
+              "syllable-join": 1
+            },
+            "collisions": {
+              "adjacent-choice": 0,
+              "syllable-join": 0
+            },
+            "episodes": []
+          },
+          "shared": {
+            "version": 1,
+            "writerSteps": [
+              {
+                "kind": "pass-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "pass-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "pass-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "pass-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "pass-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 6,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 6,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 7,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 7,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 8,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 8,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 9,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 9,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 10,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 10,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 11,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 11,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 12,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 12,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 13,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 13,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 14,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 14,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 15,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 15,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 16,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 16,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 17,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 17,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 18,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 18,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "pass-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              }
+            ],
+            "scans": [
+              {
+                "id": 0,
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "ruleId": "ks-to-x",
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                },
+                "candidates": [],
+                "firstAttemptId": 0
+              },
+              {
+                "id": 1,
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "ruleId": "ks-to-x",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                },
+                "candidates": [],
+                "firstAttemptId": 0
+              },
+              {
+                "id": 2,
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "ruleId": "ks-to-x",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                },
+                "candidates": [],
+                "firstAttemptId": 0
+              },
+              {
+                "id": 3,
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "ruleId": "gz-to-x",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                },
+                "candidates": [],
+                "firstAttemptId": 0
+              },
+              {
+                "id": 4,
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "ruleId": "cw-to-qu",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                },
+                "candidates": [],
+                "firstAttemptId": 0
+              }
+            ],
+            "timeline": [
+              {
+                "kind": "append",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": -1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 0,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "append",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 0,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "split-attempt",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 5,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "rewrite",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 6,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 7,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-start",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-end",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 8,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 9,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "append",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 2,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "append",
+                "index": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 2,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 10,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 11,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "split-attempt",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 12,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 13,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 14,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 15,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 16,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 17,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-start",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-end",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 18,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 19,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 5,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "split-attempt",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 20,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 21,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 22,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 23,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-start",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-end",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 24,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 25,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-start",
+                "index": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-end",
+                "index": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 26,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 27,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 28,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 29,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-start",
+                "index": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-end",
+                "index": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 30,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 31,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 32,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 33,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 34,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 35,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 36,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 37,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 38,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 39,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 40,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 41,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 42,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 43,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 44,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 45,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 46,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 47,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 48,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 49,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 50,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 51,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "completion-attempt",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "completion-attempt",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              }
+            ],
+            "events": [],
+            "attempts": [],
+            "constructions": [],
+            "supersessions": [],
+            "liveConstructionIds": [],
+            "editGuards": [],
+            "transactions": []
+          },
+          "completion": {
+            "attempts": [
+              {
+                "attempt": {
+                  "cursor": {
+                    "lastAppendedUnitId": 3,
+                    "nextEditId": 1
+                  },
+                  "nucleusId": 0,
+                  "obligation": {
+                    "status": "unavailable",
+                    "reason": "unresolved-ownership"
+                  },
+                  "status": "unchanged"
+                },
+                "certificateId": null
+              },
+              {
+                "attempt": {
+                  "cursor": {
+                    "lastAppendedUnitId": 3,
+                    "nextEditId": 1
+                  },
+                  "nucleusId": 2,
+                  "obligation": {
+                    "status": "unresolved",
+                    "unitId": 2,
+                    "inputCellIds": [
+                      6
+                    ],
+                    "form": "o"
+                  },
+                  "status": "evaluated",
+                  "prefix": {
+                    "status": "available",
+                    "prefix": {
+                      "previousForm": "ng",
+                      "doublingCount": 0
+                    },
+                    "evidence": {
+                      "doublingCount": 0,
+                      "quotaSource": "original"
+                    }
+                  },
+                  "pool": {
+                    "status": "available",
+                    "pool": "ordinary",
+                    "quotaRelaxed": false,
+                    "proposals": [
+                      {
+                        "inventoryIndex": 58,
+                        "form": "ow",
+                        "weight": 18.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        }
+                      },
+                      {
+                        "inventoryIndex": 59,
+                        "form": "o",
+                        "weight": 2500,
+                        "reading": {
+                          "kind": "open-vowel-or-split-marker"
+                        },
+                        "refusal": "unresolved-vowel-obligation"
+                      },
+                      {
+                        "inventoryIndex": 61,
+                        "form": "oe",
+                        "weight": 0.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        }
+                      }
+                    ]
+                  },
+                  "proposals": [
+                    {
+                      "inventoryIndex": 58,
+                      "form": "ow",
+                      "weight": 18.75,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "unresolved-neighbor",
+                        "unitId": 0
+                      },
+                      "refusal": "unresolved-neighbor"
+                    },
+                    {
+                      "inventoryIndex": 59,
+                      "form": "o",
+                      "weight": 2500,
+                      "reading": {
+                        "kind": "open-vowel-or-split-marker"
+                      },
+                      "refusal": "unresolved-vowel-obligation"
+                    },
+                    {
+                      "inventoryIndex": 61,
+                      "form": "oe",
+                      "weight": 0.75,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "unresolved-neighbor",
+                        "unitId": 0
+                      },
+                      "refusal": "unresolved-neighbor"
+                    }
+                  ],
+                  "sample": {
+                    "status": "infeasible",
+                    "candidates": [
+                      {
+                        "inventoryIndex": 58,
+                        "form": "ow",
+                        "weight": 18.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "projection": {
+                          "status": "refused",
+                          "reason": "unresolved-neighbor",
+                          "unitId": 0
+                        },
+                        "refusal": "unresolved-neighbor",
+                        "retainedWeight": 0,
+                        "probability": 0
+                      },
+                      {
+                        "inventoryIndex": 59,
+                        "form": "o",
+                        "weight": 2500,
+                        "reading": {
+                          "kind": "open-vowel-or-split-marker"
+                        },
+                        "refusal": "unresolved-vowel-obligation",
+                        "retainedWeight": 0,
+                        "probability": 0
+                      },
+                      {
+                        "inventoryIndex": 61,
+                        "form": "oe",
+                        "weight": 0.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "projection": {
+                          "status": "refused",
+                          "reason": "unresolved-neighbor",
+                          "unitId": 0
+                        },
+                        "refusal": "unresolved-neighbor",
+                        "retainedWeight": 0,
+                        "probability": 0
+                      }
+                    ]
+                  }
+                },
+                "certificateId": null
+              }
+            ],
+            "certificates": []
+          },
+          "split": {
+            "version": 1,
+            "attempts": [
+              {
+                "attempt": {
+                  "status": "policy-refused",
+                  "cursor": {
+                    "lastAppendedUnitId": 1,
+                    "nextEditId": 0
+                  },
+                  "nucleusId": 0,
+                  "route": "syllable",
+                  "span": {
+                    "status": "complete",
+                    "nucleus": {
+                      "status": "complete",
+                      "start": 0,
+                      "end": 2,
+                      "before": "ow",
+                      "sourceUnitIds": [
+                        0
+                      ],
+                      "phoneIds": [
+                        0
+                      ],
+                      "inputCellIds": [
+                        0,
+                        1
+                      ],
+                      "sourcePartIds": [
+                        0
+                      ],
+                      "displayPartId": 0,
+                      "phonemes": [
+                        {
+                          "sound": "\u0259\u028a",
+                          "mannerOfArticulation": "midVowel",
+                          "tense": true,
+                          "nucleus": 90,
+                          "startWord": 2,
+                          "midWord": 2,
+                          "endWord": 8,
+                          "voiced": true,
+                          "placeOfArticulation": "back"
+                        }
+                      ],
+                      "following": {
+                        "known": true,
+                        "phoneme": {
+                          "sound": "\u014b",
+                          "mannerOfArticulation": "nasal",
+                          "onset": 0,
+                          "coda": 48,
+                          "startWord": 0,
+                          "midWord": 2,
+                          "endWord": 36,
+                          "voiced": true,
+                          "placeOfArticulation": "velar"
+                        },
+                        "letter": "n"
+                      }
+                    },
+                    "codaUnitIds": [
+                      1
+                    ],
+                    "codaCellIds": [
+                      2,
+                      3
+                    ],
+                    "sharedCodaIds": [],
+                    "markerOffset": 4,
+                    "context": {
+                      "vowel": {
+                        "sound": "\u0259\u028a",
+                        "form": "ow",
+                        "position": "nucleus"
+                      },
+                      "coda": {
+                        "sounds": [
+                          "\u014b"
+                        ],
+                        "written": "ng"
+                      },
+                      "route": "syllable",
+                      "finalRootSyllable": false,
+                      "syllableCount": 2
+                    }
+                  },
+                  "reason": "unsupported-coda"
+                },
+                "constructionId": null
+              },
+              {
+                "attempt": {
+                  "status": "policy-refused",
+                  "cursor": {
+                    "lastAppendedUnitId": 3,
+                    "nextEditId": 1
+                  },
+                  "nucleusId": 2,
+                  "route": "syllable",
+                  "span": {
+                    "status": "complete",
+                    "nucleus": {
+                      "status": "complete",
+                      "start": 4,
+                      "end": 5,
+                      "before": "o",
+                      "sourceUnitIds": [
+                        2
+                      ],
+                      "phoneIds": [
+                        2
+                      ],
+                      "inputCellIds": [
+                        6
+                      ],
+                      "sourcePartIds": [
+                        1
+                      ],
+                      "displayPartId": 1,
+                      "phonemes": [
+                        {
+                          "sound": "\u0259\u028a",
+                          "mannerOfArticulation": "midVowel",
+                          "tense": true,
+                          "nucleus": 90,
+                          "startWord": 2,
+                          "midWord": 2,
+                          "endWord": 8,
+                          "voiced": true,
+                          "placeOfArticulation": "back"
+                        }
+                      ],
+                      "following": {
+                        "known": true,
+                        "phoneme": {
+                          "sound": "s",
+                          "mannerOfArticulation": "sibilant",
+                          "onset": 259,
+                          "coda": 110,
+                          "startWord": 13,
+                          "midWord": 2,
+                          "endWord": 13,
+                          "voiced": false,
+                          "placeOfArticulation": "alveolar"
+                        },
+                        "letter": "s"
+                      }
+                    },
+                    "codaUnitIds": [
+                      3
+                    ],
+                    "codaCellIds": [
+                      7
+                    ],
+                    "sharedCodaIds": [],
+                    "markerOffset": 6,
+                    "context": {
+                      "vowel": {
+                        "sound": "\u0259\u028a",
+                        "form": "o",
+                        "position": "nucleus"
+                      },
+                      "coda": {
+                        "sounds": [
+                          "s"
+                        ],
+                        "written": "s"
+                      },
+                      "route": "syllable",
+                      "finalRootSyllable": true,
+                      "syllableCount": 2
+                    }
+                  },
+                  "reason": "unsupported-coda"
+                },
+                "constructionId": null
+              },
+              {
+                "attempt": {
+                  "status": "policy-refused",
+                  "cursor": {
+                    "lastAppendedUnitId": 3,
+                    "nextEditId": 1
+                  },
+                  "nucleusId": 2,
+                  "route": "word",
+                  "span": {
+                    "status": "complete",
+                    "nucleus": {
+                      "status": "complete",
+                      "start": 4,
+                      "end": 5,
+                      "before": "o",
+                      "sourceUnitIds": [
+                        2
+                      ],
+                      "phoneIds": [
+                        2
+                      ],
+                      "inputCellIds": [
+                        6
+                      ],
+                      "sourcePartIds": [
+                        1
+                      ],
+                      "displayPartId": 1,
+                      "phonemes": [
+                        {
+                          "sound": "\u0259\u028a",
+                          "mannerOfArticulation": "midVowel",
+                          "tense": true,
+                          "nucleus": 90,
+                          "startWord": 2,
+                          "midWord": 2,
+                          "endWord": 8,
+                          "voiced": true,
+                          "placeOfArticulation": "back"
+                        }
+                      ],
+                      "following": {
+                        "known": true,
+                        "phoneme": {
+                          "sound": "s",
+                          "mannerOfArticulation": "sibilant",
+                          "onset": 259,
+                          "coda": 110,
+                          "startWord": 13,
+                          "midWord": 2,
+                          "endWord": 13,
+                          "voiced": false,
+                          "placeOfArticulation": "alveolar"
+                        },
+                        "letter": "s"
+                      }
+                    },
+                    "codaUnitIds": [
+                      3
+                    ],
+                    "codaCellIds": [
+                      7
+                    ],
+                    "sharedCodaIds": [],
+                    "markerOffset": 6,
+                    "context": {
+                      "vowel": {
+                        "sound": "\u0259\u028a",
+                        "form": "o",
+                        "position": "nucleus"
+                      },
+                      "coda": {
+                        "sounds": [
+                          "s"
+                        ],
+                        "written": "s"
+                      },
+                      "route": "word",
+                      "finalRootSyllable": true,
+                      "syllableCount": 2
+                    }
+                  },
+                  "reason": "unsupported-coda"
+                },
+                "constructionId": null
+              }
+            ],
+            "guards": [],
+            "constructions": [],
+            "supersessions": [],
+            "liveConstructionIds": []
+          }
+        },
+        "spellingBudgets": [
+          {
+            "version": 1,
+            "scope": "base-before-word-rules",
+            "before": {
+              "values": {
+                "consonantGraphemes": 1,
+                "consonantLetters": 2,
+                "finalConsonantLetters": 1,
+                "vowelLetters": 2
+              },
+              "limits": {
+                "consonantGraphemes": 4,
+                "consonantLetters": 4,
+                "finalConsonantLetters": 3,
+                "vowelLetters": 2
+              },
+              "exceeded": []
+            },
+            "after": {
+              "values": {
+                "consonantGraphemes": 1,
+                "consonantLetters": 2,
+                "finalConsonantLetters": 1,
+                "vowelLetters": 2
+              },
+              "limits": {
+                "consonantGraphemes": 4,
+                "consonantLetters": 4,
+                "finalConsonantLetters": 3,
+                "vowelLetters": 2
+              },
+              "exceeded": []
+            },
+            "visitedAssignments": 0,
+            "legalOptions": 0,
+            "unresolvedCells": 2,
+            "changedUnits": [],
+            "status": "satisfied"
+          },
+          {
+            "version": 1,
+            "scope": "base-after-word-rules",
+            "before": {
+              "values": {
+                "consonantGraphemes": 1,
+                "consonantLetters": 2,
+                "finalConsonantLetters": 1,
+                "vowelLetters": 2
+              },
+              "limits": {
+                "consonantGraphemes": 4,
+                "consonantLetters": 4,
+                "finalConsonantLetters": 3,
+                "vowelLetters": 2
+              },
+              "exceeded": []
+            },
+            "after": {
+              "values": {
+                "consonantGraphemes": 1,
+                "consonantLetters": 2,
+                "finalConsonantLetters": 1,
+                "vowelLetters": 2
+              },
+              "limits": {
+                "consonantGraphemes": 4,
+                "consonantLetters": 4,
+                "finalConsonantLetters": 3,
+                "vowelLetters": 2
+              },
+              "exceeded": []
+            },
+            "visitedAssignments": 0,
+            "legalOptions": 0,
+            "unresolvedCells": 2,
+            "changedUnits": [],
+            "status": "satisfied"
+          }
+        ],
+        "summary": {
+          "totalDecisions": 4,
+          "repairCount": 2,
+          "morphologyApplied": false
+        }
+      }
+    }
+  },
+  "after": {
+    "profile": "lexicon-bare",
+    "seed": 1304238451,
+    "drawIndex": 13,
+    "word": {
+      "syllables": [
+        {
+          "onset": [],
+          "nucleus": [
+            {
+              "sound": "\u0259\u028a",
+              "mannerOfArticulation": "midVowel",
+              "tense": true,
+              "nucleus": 90,
+              "startWord": 2,
+              "midWord": 2,
+              "endWord": 8,
+              "voiced": true,
+              "placeOfArticulation": "back"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "\u014b",
+              "mannerOfArticulation": "nasal",
+              "onset": 0,
+              "coda": 48,
+              "startWord": 0,
+              "midWord": 2,
+              "endWord": 36,
+              "voiced": true,
+              "placeOfArticulation": "velar"
+            }
+          ],
+          "stress": "\u02c8"
+        },
+        {
+          "onset": [],
+          "nucleus": [
+            {
+              "sound": "\u0259\u028a",
+              "mannerOfArticulation": "midVowel",
+              "tense": true,
+              "nucleus": 90,
+              "startWord": 2,
+              "midWord": 2,
+              "endWord": 8,
+              "voiced": true,
+              "placeOfArticulation": "back"
+            }
+          ],
+          "coda": [
+            {
+              "sound": "s",
+              "mannerOfArticulation": "sibilant",
+              "onset": 259,
+              "coda": 110,
+              "startWord": 13,
+              "midWord": 2,
+              "endWord": 13,
+              "voiced": false,
+              "placeOfArticulation": "alveolar"
+            }
+          ],
+          "stress": "\u02cc"
+        }
+      ],
+      "pronunciation": "\u02c8\u0259\u028a\u014b\u02cc\u0259\u028as",
+      "written": {
+        "clean": "oungows",
+        "hyphenated": "oung&shy;ows"
+      },
+      "trace": {
+        "syllableCount": 2,
+        "attempts": 2,
+        "structural": [
+          {
+            "event": "aspirationDecision",
+            "evaluated": false,
+            "syllableIndex": 0,
+            "ruleId": null,
+            "probability": null,
+            "roll": null,
+            "eligible": false,
+            "applied": false,
+            "targetSegment": null,
+            "targetIndex": null,
+            "targetPhoneme": null
+          },
+          {
+            "event": "aspirationDecision",
+            "evaluated": false,
+            "syllableIndex": 1,
+            "ruleId": null,
+            "probability": null,
+            "roll": null,
+            "eligible": false,
+            "applied": false,
+            "targetSegment": null,
+            "targetIndex": null,
+            "targetPhoneme": null
+          }
+        ],
+        "stages": [
+          {
+            "name": "generateSyllables",
+            "before": [],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "repairClusters",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "repairFinalCoda",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "repairClusterShape",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "repairHAfterBackVowel",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "applyStress",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "repairStressedNuclei",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "generateWrittenForm",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "generatePronunciation",
+            "before": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ],
+            "after": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "\u014b"
+                ]
+              },
+              {
+                "onset": [],
+                "nucleus": [
+                  "\u0259\u028a"
+                ],
+                "coda": [
+                  "s"
+                ]
+              }
+            ]
+          }
+        ],
+        "graphemeSelections": [
+          {
+            "index": 0,
+            "phoneme": "\u0259\u028a",
+            "position": "nucleus",
+            "syllableIndex": 0,
+            "candidates": [
+              "ow",
+              "o",
+              "ou",
+              "oe",
+              "ough"
+            ],
+            "afterCondition": [
+              "ow",
+              "o",
+              "ou",
+              "oe",
+              "ough"
+            ],
+            "afterPosition": [
+              "ow",
+              "o",
+              "oe"
+            ],
+            "weights": [
+              [
+                "ow",
+                250
+              ],
+              [
+                "o",
+                500
+              ],
+              [
+                "oe",
+                10
+              ]
+            ],
+            "roll": 34.30263239890337,
+            "selected": "ow",
+            "emitted": "ow",
+            "doubled": false,
+            "selection": {
+              "version": 1,
+              "positionScope": "syllable",
+              "segmentPosition": "initial",
+              "syllablePosition": "initial",
+              "ordinaryCandidates": 5,
+              "afterCondition": 5,
+              "afterPosition": 3,
+              "positiveCandidates": 3
+            },
+            "doubling": {
+              "attempted": false,
+              "reason": "no-prev-phoneme"
+            }
+          },
+          {
+            "index": 1,
+            "phoneme": "\u014b",
+            "position": "coda",
+            "syllableIndex": 0,
+            "candidates": [
+              "ng",
+              "n"
+            ],
+            "afterCondition": [
+              "ng"
+            ],
+            "afterPosition": [
+              "ng"
+            ],
+            "weights": [
+              [
+                "ng",
+                10
+              ]
+            ],
+            "roll": 0,
+            "selected": "ng",
+            "emitted": "ng",
+            "doubled": false,
+            "selection": {
+              "version": 1,
+              "positionScope": "segment",
+              "segmentPosition": "medial",
+              "syllablePosition": "initial",
+              "ordinaryCandidates": 2,
+              "afterCondition": 1,
+              "afterPosition": 1,
+              "positiveCandidates": 1
+            },
+            "doubling": {
+              "attempted": false,
+              "reason": "multi-char-grapheme"
+            }
+          },
+          {
+            "index": 2,
+            "phoneme": "\u0259\u028a",
+            "position": "nucleus",
+            "syllableIndex": 1,
+            "candidates": [
+              "ow",
+              "o",
+              "ou",
+              "oe",
+              "ough"
+            ],
+            "afterCondition": [
+              "ow",
+              "o",
+              "ou",
+              "oe",
+              "ough"
+            ],
+            "afterPosition": [
+              "ow",
+              "o",
+              "oe"
+            ],
+            "weights": [
+              [
+                "ow",
+                18.75
+              ],
+              [
+                "o",
+                2500
+              ],
+              [
+                "oe",
+                0.75
+              ]
+            ],
+            "roll": 2412.8084763876395,
+            "selected": "o",
+            "emitted": "o",
+            "doubled": false,
+            "selection": {
+              "version": 1,
+              "positionScope": "syllable",
+              "segmentPosition": "medial",
+              "syllablePosition": "final",
+              "ordinaryCandidates": 5,
+              "afterCondition": 5,
+              "afterPosition": 3,
+              "positiveCandidates": 3
+            },
+            "doubling": {
+              "attempted": false,
+              "reason": "nucleus-position"
+            }
+          },
+          {
+            "index": 3,
+            "phoneme": "s",
+            "position": "coda",
+            "syllableIndex": 1,
+            "candidates": [
+              "s",
+              "c",
+              "ce",
+              "se"
+            ],
+            "afterCondition": [
+              "s",
+              "ce",
+              "se"
+            ],
+            "afterPosition": [
+              "s",
+              "ce",
+              "se"
+            ],
+            "weights": [
+              [
+                "s",
+                1000
+              ],
+              [
+                "ce",
+                37.5
+              ],
+              [
+                "se",
+                0.75
+              ]
+            ],
+            "roll": 8.744686962047126,
+            "selected": "s",
+            "emitted": "s",
+            "doubled": false,
+            "selection": {
+              "version": 1,
+              "positionScope": "segment",
+              "segmentPosition": "final",
+              "syllablePosition": "final",
+              "ordinaryCandidates": 4,
+              "afterCondition": 3,
+              "afterPosition": 3,
+              "positiveCandidates": 3
+            },
+            "doubling": {
+              "attempted": false,
+              "reason": "trigger:not-after-lax-vowel"
+            }
+          }
+        ],
+        "orthography": {
+          "surface": "oungows",
+          "chars": [
+            {
+              "index": 0,
+              "char": "o",
+              "unitId": 0,
+              "graphemeSelectionIndex": 0
+            },
+            {
+              "index": 1,
+              "char": "u",
+              "unitId": 0,
+              "graphemeSelectionIndex": 0
+            },
+            {
+              "index": 2,
+              "char": "n",
+              "unitId": 1,
+              "graphemeSelectionIndex": 1
+            },
+            {
+              "index": 3,
+              "char": "g",
+              "unitId": 1,
+              "graphemeSelectionIndex": 1
+            },
+            {
+              "index": 4,
+              "char": "o",
+              "unitId": 2,
+              "graphemeSelectionIndex": 2
+            },
+            {
+              "index": 5,
+              "char": "w",
+              "unitId": 2,
+              "graphemeSelectionIndex": 2
+            },
+            {
+              "index": 6,
+              "char": "s",
+              "unitId": 3,
+              "graphemeSelectionIndex": 3
+            }
+          ],
+          "graphemeUnits": [
+            {
+              "id": 0,
+              "graphemeSelectionIndex": 0,
+              "phoneme": "\u0259\u028a",
+              "position": "nucleus",
+              "syllableIndex": 0,
+              "selected": "ow",
+              "emitted": "ow",
+              "present": true,
+              "start": 0,
+              "end": 1,
+              "links": [
+                {
+                  "kind": "graphemeSelection",
+                  "index": 0,
+                  "label": "graphemeSelection:0"
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "graphemeSelectionIndex": 1,
+              "phoneme": "\u014b",
+              "position": "coda",
+              "syllableIndex": 0,
+              "selected": "ng",
+              "emitted": "ng",
+              "present": true,
+              "start": 2,
+              "end": 3,
+              "links": [
+                {
+                  "kind": "graphemeSelection",
+                  "index": 1,
+                  "label": "graphemeSelection:1"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "graphemeSelectionIndex": 2,
+              "phoneme": "\u0259\u028a",
+              "position": "nucleus",
+              "syllableIndex": 1,
+              "selected": "o",
+              "emitted": "o",
+              "present": true,
+              "start": 4,
+              "end": 5,
+              "links": [
+                {
+                  "kind": "graphemeSelection",
+                  "index": 2,
+                  "label": "graphemeSelection:2"
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "graphemeSelectionIndex": 3,
+              "phoneme": "s",
+              "position": "coda",
+              "syllableIndex": 1,
+              "selected": "s",
+              "emitted": "s",
+              "present": true,
+              "start": 6,
+              "end": 6,
+              "links": [
+                {
+                  "kind": "graphemeSelection",
+                  "index": 3,
+                  "label": "graphemeSelection:3"
+                }
+              ]
+            }
+          ],
+          "alignment": "inferred"
+        },
+        "repairs": [
+          {
+            "rule": "repairStressedNuclei",
+            "before": "\u0259",
+            "after": "\u0259\u028a",
+            "detail": "replaced banned stressed nucleus /\u0259/"
+          },
+          {
+            "rule": "spellingRule:ow-cluster-simplify",
+            "before": "owng",
+            "after": "oung",
+            "detail": "syllable:0"
+          }
+        ],
+        "baseSpelling": {
+          "version": 5,
+          "scope": "root-before-morphology",
+          "surface": "oungows",
+          "phones": [
+            {
+              "id": 0,
+              "part": "root",
+              "syllableIndex": 0,
+              "segment": "nucleus",
+              "segmentIndex": 0,
+              "soundAtSpelling": "\u0259\u028a",
+              "boundary": {
+                "phoneme": {
+                  "sound": "\u0259\u028a",
+                  "mannerOfArticulation": "midVowel",
+                  "tense": true,
+                  "nucleus": 90,
+                  "startWord": 2,
+                  "midWord": 2,
+                  "endWord": 8,
+                  "voiced": true,
+                  "placeOfArticulation": "back"
+                },
+                "stress": "\u02c8"
+              }
+            },
+            {
+              "id": 1,
+              "part": "root",
+              "syllableIndex": 0,
+              "segment": "coda",
+              "segmentIndex": 0,
+              "soundAtSpelling": "\u014b",
+              "boundary": {
+                "phoneme": {
+                  "sound": "\u014b",
+                  "mannerOfArticulation": "nasal",
+                  "onset": 0,
+                  "coda": 48,
+                  "startWord": 0,
+                  "midWord": 2,
+                  "endWord": 36,
+                  "voiced": true,
+                  "placeOfArticulation": "velar"
+                },
+                "stress": "\u02c8"
+              }
+            },
+            {
+              "id": 2,
+              "part": "root",
+              "syllableIndex": 1,
+              "segment": "nucleus",
+              "segmentIndex": 0,
+              "soundAtSpelling": "\u0259\u028a",
+              "boundary": {
+                "phoneme": {
+                  "sound": "\u0259\u028a",
+                  "mannerOfArticulation": "midVowel",
+                  "tense": true,
+                  "nucleus": 90,
+                  "startWord": 2,
+                  "midWord": 2,
+                  "endWord": 8,
+                  "voiced": true,
+                  "placeOfArticulation": "back"
+                },
+                "stress": "\u02cc"
+              }
+            },
+            {
+              "id": 3,
+              "part": "root",
+              "syllableIndex": 1,
+              "segment": "coda",
+              "segmentIndex": 0,
+              "soundAtSpelling": "s",
+              "boundary": {
+                "phoneme": {
+                  "sound": "s",
+                  "mannerOfArticulation": "sibilant",
+                  "onset": 259,
+                  "coda": 110,
+                  "startWord": 13,
+                  "midWord": 2,
+                  "endWord": 13,
+                  "voiced": false,
+                  "placeOfArticulation": "alveolar"
+                },
+                "stress": "\u02cc"
+              }
+            }
+          ],
+          "units": [
+            {
+              "id": 0,
+              "choiceId": 0,
+              "phoneIds": [
+                0
+              ],
+              "selected": "ow",
+              "afterDoubling": "ow",
+              "inventoryIndex": 58,
+              "doublingIncrement": 0,
+              "sourceCellIds": [
+                0,
+                1
+              ]
+            },
+            {
+              "id": 1,
+              "choiceId": 1,
+              "phoneIds": [
+                1
+              ],
+              "selected": "ng",
+              "afterDoubling": "ng",
+              "inventoryIndex": 90,
+              "doublingIncrement": 0,
+              "sourceCellIds": [
+                2,
+                3
+              ]
+            },
+            {
+              "id": 2,
+              "choiceId": 2,
+              "phoneIds": [
+                2
+              ],
+              "selected": "o",
+              "afterDoubling": "o",
+              "inventoryIndex": 59,
+              "doublingIncrement": 0,
+              "sourceCellIds": [
+                6
+              ]
+            },
+            {
+              "id": 3,
+              "choiceId": 3,
+              "phoneIds": [
+                3
+              ],
+              "selected": "s",
+              "afterDoubling": "s",
+              "inventoryIndex": 101,
+              "doublingIncrement": 0,
+              "sourceCellIds": [
+                7
+              ]
+            }
+          ],
+          "cells": [
+            {
+              "id": 4,
+              "text": "o",
+              "partId": 0,
+              "origin": {
+                "kind": "rewrite",
+                "editId": 0,
+                "sourceUnitIds": [
+                  0
+                ],
+                "ownership": "unresolved"
+              }
+            },
+            {
+              "id": 5,
+              "text": "u",
+              "partId": 0,
+              "origin": {
+                "kind": "rewrite",
+                "editId": 0,
+                "sourceUnitIds": [
+                  0
+                ],
+                "ownership": "unresolved"
+              }
+            },
+            {
+              "id": 2,
+              "text": "n",
+              "origin": {
+                "kind": "selection",
+                "unitId": 1,
+                "offset": 0
+              },
+              "partId": 0
+            },
+            {
+              "id": 3,
+              "text": "g",
+              "origin": {
+                "kind": "selection",
+                "unitId": 1,
+                "offset": 1
+              },
+              "partId": 0
+            },
+            {
+              "id": 8,
+              "text": "o",
+              "partId": 1,
+              "origin": {
+                "kind": "completion",
+                "certificateId": 0,
+                "editId": 1,
+                "unitId": 2,
+                "offset": 0,
+                "sourceUnitIds": [
+                  2
+                ]
+              }
+            },
+            {
+              "id": 9,
+              "text": "w",
+              "partId": 1,
+              "origin": {
+                "kind": "completion",
+                "certificateId": 0,
+                "editId": 1,
+                "unitId": 2,
+                "offset": 1,
+                "sourceUnitIds": [
+                  2
+                ]
+              }
+            },
+            {
+              "id": 7,
+              "text": "s",
+              "origin": {
+                "kind": "selection",
+                "unitId": 3,
+                "offset": 0
+              },
+              "partId": 1
+            }
+          ],
+          "edits": [
+            {
+              "id": 0,
+              "phase": "syllable",
+              "rule": "spellingRule:ow-cluster-simplify",
+              "start": 0,
+              "input": [
+                {
+                  "id": 0,
+                  "text": "o",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 0,
+                    "offset": 0
+                  },
+                  "partId": 0
+                },
+                {
+                  "id": 1,
+                  "text": "w",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 0,
+                    "offset": 1
+                  },
+                  "partId": 0
+                }
+              ],
+              "output": [
+                {
+                  "id": 4,
+                  "text": "o",
+                  "partId": 0,
+                  "origin": {
+                    "kind": "rewrite",
+                    "editId": 0,
+                    "sourceUnitIds": [
+                      0
+                    ],
+                    "ownership": "unresolved"
+                  }
+                },
+                {
+                  "id": 5,
+                  "text": "u",
+                  "partId": 0,
+                  "origin": {
+                    "kind": "rewrite",
+                    "editId": 0,
+                    "sourceUnitIds": [
+                      0
+                    ],
+                    "ownership": "unresolved"
+                  }
+                }
+              ],
+              "before": "ow",
+              "after": "ou",
+              "partId": 0
+            },
+            {
+              "phase": "word",
+              "id": 1,
+              "rule": "vowelCompletion",
+              "start": 4,
+              "input": [
+                {
+                  "id": 6,
+                  "text": "o",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 0
+                  },
+                  "partId": 1
+                }
+              ],
+              "output": [
+                {
+                  "id": 8,
+                  "text": "o",
+                  "partId": 1,
+                  "origin": {
+                    "kind": "completion",
+                    "certificateId": 0,
+                    "editId": 1,
+                    "unitId": 2,
+                    "offset": 0,
+                    "sourceUnitIds": [
+                      2
+                    ]
+                  }
+                },
+                {
+                  "id": 9,
+                  "text": "w",
+                  "partId": 1,
+                  "origin": {
+                    "kind": "completion",
+                    "certificateId": 0,
+                    "editId": 1,
+                    "unitId": 2,
+                    "offset": 1,
+                    "sourceUnitIds": [
+                      2
+                    ]
+                  }
+                }
+              ],
+              "before": "o",
+              "after": "ow",
+              "partId": 1
+            }
+          ],
+          "unresolvedCells": 2,
+          "capabilities": {
+            "exactParts": 1,
+            "licensedOrigins": 1,
+            "writerBoundary": 1,
+            "unitNormalization": 1,
+            "sharedConstructions": 1,
+            "splitVowels": 1
+          },
+          "certificates": [],
+          "normalizationCertificates": [],
+          "normalization": {
+            "version": 1,
+            "checks": [
+              {
+                "site": "adjacent-choice",
+                "cursor": {
+                  "lastAppendedUnitId": 0,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "site": "adjacent-choice",
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "site": "syllable-join",
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "site": "adjacent-choice",
+                "cursor": {
+                  "lastAppendedUnitId": 2,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "site": "adjacent-choice",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "site": "syllable-join",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              }
+            ],
+            "comparisons": {
+              "adjacent-choice": 2,
+              "syllable-join": 1
+            },
+            "collisions": {
+              "adjacent-choice": 0,
+              "syllable-join": 0
+            },
+            "episodes": []
+          },
+          "shared": {
+            "version": 1,
+            "writerSteps": [
+              {
+                "kind": "pass-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "pass-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "pass-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "pass-end",
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "pass-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 6,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 6,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 7,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 7,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 8,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 8,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 9,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 9,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 10,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 10,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 11,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 11,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 12,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 12,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 13,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 13,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 14,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 14,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 15,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 15,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 16,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 16,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 17,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 17,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-start",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 18,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "slot-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": 18,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "pass-end",
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "slotIndex": null,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              }
+            ],
+            "scans": [
+              {
+                "id": 0,
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 0
+                },
+                "ruleId": "ks-to-x",
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                },
+                "candidates": [],
+                "firstAttemptId": 0
+              },
+              {
+                "id": 1,
+                "slot": {
+                  "phase": "syllable",
+                  "partId": 1
+                },
+                "ruleId": "ks-to-x",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                },
+                "candidates": [],
+                "firstAttemptId": 0
+              },
+              {
+                "id": 2,
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "ruleId": "ks-to-x",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                },
+                "candidates": [],
+                "firstAttemptId": 0
+              },
+              {
+                "id": 3,
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "ruleId": "gz-to-x",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                },
+                "candidates": [],
+                "firstAttemptId": 0
+              },
+              {
+                "id": 4,
+                "slot": {
+                  "phase": "word",
+                  "partId": null
+                },
+                "ruleId": "cw-to-qu",
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                },
+                "candidates": [],
+                "firstAttemptId": 0
+              }
+            ],
+            "timeline": [
+              {
+                "kind": "append",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": -1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 0,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "append",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 0,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "split-attempt",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 5,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "rewrite",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 0
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 6,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 7,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-start",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-end",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 8,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 9,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "append",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 1,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 2,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "append",
+                "index": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 2,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 10,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 11,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "split-attempt",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 12,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 13,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 14,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 15,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 16,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 17,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-start",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-end",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 18,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 19,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "normalization-check",
+                "index": 5,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "split-attempt",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 20,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 21,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 22,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 23,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-start",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-end",
+                "index": 2,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 24,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 25,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-start",
+                "index": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-end",
+                "index": 3,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 26,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 27,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 28,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 29,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-start",
+                "index": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "scan-end",
+                "index": 4,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 30,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 31,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 32,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 33,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 34,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 35,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 36,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 37,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 38,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 39,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 40,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 41,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 42,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 43,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 44,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 45,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 46,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 47,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 48,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 49,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 50,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "writer-step",
+                "index": 51,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "completion-attempt",
+                "index": 0,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              },
+              {
+                "kind": "completion-attempt",
+                "index": 1,
+                "cursor": {
+                  "lastAppendedUnitId": 3,
+                  "nextEditId": 1
+                }
+              }
+            ],
+            "events": [],
+            "attempts": [],
+            "constructions": [],
+            "supersessions": [],
+            "liveConstructionIds": [],
+            "editGuards": [],
+            "transactions": []
+          },
+          "completion": {
+            "attempts": [
+              {
+                "attempt": {
+                  "cursor": {
+                    "lastAppendedUnitId": 3,
+                    "nextEditId": 1
+                  },
+                  "nucleusId": 0,
+                  "obligation": {
+                    "status": "unavailable",
+                    "reason": "unresolved-ownership"
+                  },
+                  "status": "unchanged"
+                },
+                "certificateId": null
+              },
+              {
+                "attempt": {
+                  "cursor": {
+                    "lastAppendedUnitId": 3,
+                    "nextEditId": 1
+                  },
+                  "nucleusId": 2,
+                  "obligation": {
+                    "status": "unresolved",
+                    "unitId": 2,
+                    "inputCellIds": [
+                      6
+                    ],
+                    "form": "o"
+                  },
+                  "status": "evaluated",
+                  "prefix": {
+                    "status": "available",
+                    "prefix": {
+                      "previousForm": "ng",
+                      "doublingCount": 0
+                    },
+                    "evidence": {
+                      "doublingCount": 0,
+                      "quotaSource": "original"
+                    }
+                  },
+                  "pool": {
+                    "status": "available",
+                    "pool": "ordinary",
+                    "quotaRelaxed": false,
+                    "proposals": [
+                      {
+                        "inventoryIndex": 58,
+                        "form": "ow",
+                        "weight": 18.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        }
+                      },
+                      {
+                        "inventoryIndex": 59,
+                        "form": "o",
+                        "weight": 2500,
+                        "reading": {
+                          "kind": "open-vowel-or-split-marker"
+                        },
+                        "refusal": "unresolved-vowel-obligation"
+                      },
+                      {
+                        "inventoryIndex": 61,
+                        "form": "oe",
+                        "weight": 0.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        }
+                      }
+                    ]
+                  },
+                  "proposals": [
+                    {
+                      "inventoryIndex": 58,
+                      "form": "ow",
+                      "weight": 18.75,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "preserved",
+                        "form": "ow",
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "checkedUnitIds": [
+                          2
+                        ]
+                      }
+                    },
+                    {
+                      "inventoryIndex": 59,
+                      "form": "o",
+                      "weight": 2500,
+                      "reading": {
+                        "kind": "open-vowel-or-split-marker"
+                      },
+                      "refusal": "unresolved-vowel-obligation"
+                    },
+                    {
+                      "inventoryIndex": 61,
+                      "form": "oe",
+                      "weight": 0.75,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "preserved",
+                        "form": "oe",
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "checkedUnitIds": [
+                          2
+                        ]
+                      }
+                    }
+                  ],
+                  "sample": {
+                    "status": "selected",
+                    "candidates": [
+                      {
+                        "inventoryIndex": 58,
+                        "form": "ow",
+                        "weight": 18.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "projection": {
+                          "status": "preserved",
+                          "form": "ow",
+                          "reading": {
+                            "kind": "single-phone"
+                          },
+                          "checkedUnitIds": [
+                            2
+                          ]
+                        },
+                        "retainedWeight": 18.75,
+                        "probability": 0.9615384615384616
+                      },
+                      {
+                        "inventoryIndex": 59,
+                        "form": "o",
+                        "weight": 2500,
+                        "reading": {
+                          "kind": "open-vowel-or-split-marker"
+                        },
+                        "refusal": "unresolved-vowel-obligation",
+                        "retainedWeight": 0,
+                        "probability": 0
+                      },
+                      {
+                        "inventoryIndex": 61,
+                        "form": "oe",
+                        "weight": 0.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "projection": {
+                          "status": "preserved",
+                          "form": "oe",
+                          "reading": {
+                            "kind": "single-phone"
+                          },
+                          "checkedUnitIds": [
+                            2
+                          ]
+                        },
+                        "retainedWeight": 0.75,
+                        "probability": 0.038461538461538464
+                      }
+                    ],
+                    "inventoryIndex": 58,
+                    "roll": 0.6987917588558048
+                  }
+                },
+                "certificateId": 0
+              }
+            ],
+            "certificates": [
+              {
+                "id": 0,
+                "editId": 1,
+                "unitId": 2,
+                "phoneIds": [
+                  2
+                ],
+                "partId": 1,
+                "inputCellIds": [
+                  6
+                ],
+                "outputCellIds": [
+                  8,
+                  9
+                ],
+                "before": "o",
+                "after": "ow",
+                "inventoryIndex": 58,
+                "reading": {
+                  "kind": "single-phone"
+                },
+                "attempt": {
+                  "cursor": {
+                    "lastAppendedUnitId": 3,
+                    "nextEditId": 1
+                  },
+                  "nucleusId": 2,
+                  "obligation": {
+                    "status": "unresolved",
+                    "unitId": 2,
+                    "inputCellIds": [
+                      6
+                    ],
+                    "form": "o"
+                  },
+                  "status": "evaluated",
+                  "prefix": {
+                    "status": "available",
+                    "prefix": {
+                      "previousForm": "ng",
+                      "doublingCount": 0
+                    },
+                    "evidence": {
+                      "doublingCount": 0,
+                      "quotaSource": "original"
+                    }
+                  },
+                  "pool": {
+                    "status": "available",
+                    "pool": "ordinary",
+                    "quotaRelaxed": false,
+                    "proposals": [
+                      {
+                        "inventoryIndex": 58,
+                        "form": "ow",
+                        "weight": 18.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        }
+                      },
+                      {
+                        "inventoryIndex": 59,
+                        "form": "o",
+                        "weight": 2500,
+                        "reading": {
+                          "kind": "open-vowel-or-split-marker"
+                        },
+                        "refusal": "unresolved-vowel-obligation"
+                      },
+                      {
+                        "inventoryIndex": 61,
+                        "form": "oe",
+                        "weight": 0.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        }
+                      }
+                    ]
+                  },
+                  "proposals": [
+                    {
+                      "inventoryIndex": 58,
+                      "form": "ow",
+                      "weight": 18.75,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "preserved",
+                        "form": "ow",
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "checkedUnitIds": [
+                          2
+                        ]
+                      }
+                    },
+                    {
+                      "inventoryIndex": 59,
+                      "form": "o",
+                      "weight": 2500,
+                      "reading": {
+                        "kind": "open-vowel-or-split-marker"
+                      },
+                      "refusal": "unresolved-vowel-obligation"
+                    },
+                    {
+                      "inventoryIndex": 61,
+                      "form": "oe",
+                      "weight": 0.75,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "preserved",
+                        "form": "oe",
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "checkedUnitIds": [
+                          2
+                        ]
+                      }
+                    }
+                  ],
+                  "sample": {
+                    "status": "selected",
+                    "candidates": [
+                      {
+                        "inventoryIndex": 58,
+                        "form": "ow",
+                        "weight": 18.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "projection": {
+                          "status": "preserved",
+                          "form": "ow",
+                          "reading": {
+                            "kind": "single-phone"
+                          },
+                          "checkedUnitIds": [
+                            2
+                          ]
+                        },
+                        "retainedWeight": 18.75,
+                        "probability": 0.9615384615384616
+                      },
+                      {
+                        "inventoryIndex": 59,
+                        "form": "o",
+                        "weight": 2500,
+                        "reading": {
+                          "kind": "open-vowel-or-split-marker"
+                        },
+                        "refusal": "unresolved-vowel-obligation",
+                        "retainedWeight": 0,
+                        "probability": 0
+                      },
+                      {
+                        "inventoryIndex": 61,
+                        "form": "oe",
+                        "weight": 0.75,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "projection": {
+                          "status": "preserved",
+                          "form": "oe",
+                          "reading": {
+                            "kind": "single-phone"
+                          },
+                          "checkedUnitIds": [
+                            2
+                          ]
+                        },
+                        "retainedWeight": 0.75,
+                        "probability": 0.038461538461538464
+                      }
+                    ],
+                    "inventoryIndex": 58,
+                    "roll": 0.6987917588558048
+                  }
+                }
+              }
+            ]
+          },
+          "split": {
+            "version": 1,
+            "attempts": [
+              {
+                "attempt": {
+                  "status": "policy-refused",
+                  "cursor": {
+                    "lastAppendedUnitId": 1,
+                    "nextEditId": 0
+                  },
+                  "nucleusId": 0,
+                  "route": "syllable",
+                  "span": {
+                    "status": "complete",
+                    "nucleus": {
+                      "status": "complete",
+                      "start": 0,
+                      "end": 2,
+                      "before": "ow",
+                      "sourceUnitIds": [
+                        0
+                      ],
+                      "phoneIds": [
+                        0
+                      ],
+                      "inputCellIds": [
+                        0,
+                        1
+                      ],
+                      "sourcePartIds": [
+                        0
+                      ],
+                      "displayPartId": 0,
+                      "phonemes": [
+                        {
+                          "sound": "\u0259\u028a",
+                          "mannerOfArticulation": "midVowel",
+                          "tense": true,
+                          "nucleus": 90,
+                          "startWord": 2,
+                          "midWord": 2,
+                          "endWord": 8,
+                          "voiced": true,
+                          "placeOfArticulation": "back"
+                        }
+                      ],
+                      "following": {
+                        "known": true,
+                        "phoneme": {
+                          "sound": "\u014b",
+                          "mannerOfArticulation": "nasal",
+                          "onset": 0,
+                          "coda": 48,
+                          "startWord": 0,
+                          "midWord": 2,
+                          "endWord": 36,
+                          "voiced": true,
+                          "placeOfArticulation": "velar"
+                        },
+                        "letter": "n"
+                      }
+                    },
+                    "codaUnitIds": [
+                      1
+                    ],
+                    "codaCellIds": [
+                      2,
+                      3
+                    ],
+                    "sharedCodaIds": [],
+                    "markerOffset": 4,
+                    "context": {
+                      "vowel": {
+                        "sound": "\u0259\u028a",
+                        "form": "ow",
+                        "position": "nucleus"
+                      },
+                      "coda": {
+                        "sounds": [
+                          "\u014b"
+                        ],
+                        "written": "ng"
+                      },
+                      "route": "syllable",
+                      "finalRootSyllable": false,
+                      "syllableCount": 2
+                    }
+                  },
+                  "reason": "unsupported-coda"
+                },
+                "constructionId": null
+              },
+              {
+                "attempt": {
+                  "status": "policy-refused",
+                  "cursor": {
+                    "lastAppendedUnitId": 3,
+                    "nextEditId": 1
+                  },
+                  "nucleusId": 2,
+                  "route": "syllable",
+                  "span": {
+                    "status": "complete",
+                    "nucleus": {
+                      "status": "complete",
+                      "start": 4,
+                      "end": 5,
+                      "before": "o",
+                      "sourceUnitIds": [
+                        2
+                      ],
+                      "phoneIds": [
+                        2
+                      ],
+                      "inputCellIds": [
+                        6
+                      ],
+                      "sourcePartIds": [
+                        1
+                      ],
+                      "displayPartId": 1,
+                      "phonemes": [
+                        {
+                          "sound": "\u0259\u028a",
+                          "mannerOfArticulation": "midVowel",
+                          "tense": true,
+                          "nucleus": 90,
+                          "startWord": 2,
+                          "midWord": 2,
+                          "endWord": 8,
+                          "voiced": true,
+                          "placeOfArticulation": "back"
+                        }
+                      ],
+                      "following": {
+                        "known": true,
+                        "phoneme": {
+                          "sound": "s",
+                          "mannerOfArticulation": "sibilant",
+                          "onset": 259,
+                          "coda": 110,
+                          "startWord": 13,
+                          "midWord": 2,
+                          "endWord": 13,
+                          "voiced": false,
+                          "placeOfArticulation": "alveolar"
+                        },
+                        "letter": "s"
+                      }
+                    },
+                    "codaUnitIds": [
+                      3
+                    ],
+                    "codaCellIds": [
+                      7
+                    ],
+                    "sharedCodaIds": [],
+                    "markerOffset": 6,
+                    "context": {
+                      "vowel": {
+                        "sound": "\u0259\u028a",
+                        "form": "o",
+                        "position": "nucleus"
+                      },
+                      "coda": {
+                        "sounds": [
+                          "s"
+                        ],
+                        "written": "s"
+                      },
+                      "route": "syllable",
+                      "finalRootSyllable": true,
+                      "syllableCount": 2
+                    }
+                  },
+                  "reason": "unsupported-coda"
+                },
+                "constructionId": null
+              },
+              {
+                "attempt": {
+                  "status": "policy-refused",
+                  "cursor": {
+                    "lastAppendedUnitId": 3,
+                    "nextEditId": 1
+                  },
+                  "nucleusId": 2,
+                  "route": "word",
+                  "span": {
+                    "status": "complete",
+                    "nucleus": {
+                      "status": "complete",
+                      "start": 4,
+                      "end": 5,
+                      "before": "o",
+                      "sourceUnitIds": [
+                        2
+                      ],
+                      "phoneIds": [
+                        2
+                      ],
+                      "inputCellIds": [
+                        6
+                      ],
+                      "sourcePartIds": [
+                        1
+                      ],
+                      "displayPartId": 1,
+                      "phonemes": [
+                        {
+                          "sound": "\u0259\u028a",
+                          "mannerOfArticulation": "midVowel",
+                          "tense": true,
+                          "nucleus": 90,
+                          "startWord": 2,
+                          "midWord": 2,
+                          "endWord": 8,
+                          "voiced": true,
+                          "placeOfArticulation": "back"
+                        }
+                      ],
+                      "following": {
+                        "known": true,
+                        "phoneme": {
+                          "sound": "s",
+                          "mannerOfArticulation": "sibilant",
+                          "onset": 259,
+                          "coda": 110,
+                          "startWord": 13,
+                          "midWord": 2,
+                          "endWord": 13,
+                          "voiced": false,
+                          "placeOfArticulation": "alveolar"
+                        },
+                        "letter": "s"
+                      }
+                    },
+                    "codaUnitIds": [
+                      3
+                    ],
+                    "codaCellIds": [
+                      7
+                    ],
+                    "sharedCodaIds": [],
+                    "markerOffset": 6,
+                    "context": {
+                      "vowel": {
+                        "sound": "\u0259\u028a",
+                        "form": "o",
+                        "position": "nucleus"
+                      },
+                      "coda": {
+                        "sounds": [
+                          "s"
+                        ],
+                        "written": "s"
+                      },
+                      "route": "word",
+                      "finalRootSyllable": true,
+                      "syllableCount": 2
+                    }
+                  },
+                  "reason": "unsupported-coda"
+                },
+                "constructionId": null
+              }
+            ],
+            "guards": [],
+            "constructions": [],
+            "supersessions": [],
+            "liveConstructionIds": []
+          }
+        },
+        "spellingBudgets": [
+          {
+            "version": 1,
+            "scope": "base-before-word-rules",
+            "before": {
+              "values": {
+                "consonantGraphemes": 1,
+                "consonantLetters": 2,
+                "finalConsonantLetters": 1,
+                "vowelLetters": 2
+              },
+              "limits": {
+                "consonantGraphemes": 4,
+                "consonantLetters": 4,
+                "finalConsonantLetters": 3,
+                "vowelLetters": 2
+              },
+              "exceeded": []
+            },
+            "after": {
+              "values": {
+                "consonantGraphemes": 1,
+                "consonantLetters": 2,
+                "finalConsonantLetters": 1,
+                "vowelLetters": 2
+              },
+              "limits": {
+                "consonantGraphemes": 4,
+                "consonantLetters": 4,
+                "finalConsonantLetters": 3,
+                "vowelLetters": 2
+              },
+              "exceeded": []
+            },
+            "visitedAssignments": 0,
+            "legalOptions": 0,
+            "unresolvedCells": 2,
+            "changedUnits": [],
+            "status": "satisfied"
+          },
+          {
+            "version": 1,
+            "scope": "base-after-word-rules",
+            "before": {
+              "values": {
+                "consonantGraphemes": 1,
+                "consonantLetters": 2,
+                "finalConsonantLetters": 1,
+                "vowelLetters": 2
+              },
+              "limits": {
+                "consonantGraphemes": 4,
+                "consonantLetters": 4,
+                "finalConsonantLetters": 3,
+                "vowelLetters": 2
+              },
+              "exceeded": []
+            },
+            "after": {
+              "values": {
+                "consonantGraphemes": 1,
+                "consonantLetters": 2,
+                "finalConsonantLetters": 1,
+                "vowelLetters": 2
+              },
+              "limits": {
+                "consonantGraphemes": 4,
+                "consonantLetters": 4,
+                "finalConsonantLetters": 3,
+                "vowelLetters": 2
+              },
+              "exceeded": []
+            },
+            "visitedAssignments": 0,
+            "legalOptions": 0,
+            "unresolvedCells": 2,
+            "changedUnits": [],
+            "status": "satisfied"
+          }
+        ],
+        "summary": {
+          "totalDecisions": 4,
+          "repairCount": 2,
+          "morphologyApplied": false
+        }
+      }
+    }
+  },
+  "scope": "Complete deterministic first mechanism witness; prior source and candidate draw have equal phone geometry and initial selections. Not full RNG-stream equality, human readability or distribution acceptance."
+}

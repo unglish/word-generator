@@ -1,0 +1,47 @@
+{
+  "files": [
+    {
+      "file": "quality/candidate-api.ts",
+      "originalSha256": "70b4b51fd6429c10abbed453a1584b501e9563d6c722f2177aed8578b5decc68",
+      "adaptedSha256": "040cb111c693b1739d3170f7b93ead23ed641c1c50d892044131dab984092735",
+      "changes": "Exact checkout/evidence locations only; options, public adapter, workloads and assertions unchanged"
+    },
+    {
+      "file": "quality/package.json",
+      "originalSha256": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+      "adaptedSha256": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+      "changes": "Exact checkout/evidence locations only; options, public adapter, workloads and assertions unchanged"
+    },
+    {
+      "file": "quality/quality.test.ts",
+      "originalSha256": "19404abd18203da11dd3db387a104ffd936ec1b727a56c46c7d54e2e2b87d558",
+      "adaptedSha256": "e062dafe816d15c425f28b0468e6a1d8a8f4735cd3eafe504728c6cd02111c84",
+      "changes": "Exact checkout/evidence locations only; options, public adapter, workloads and assertions unchanged"
+    },
+    {
+      "file": "quality/vitest.config.mjs",
+      "originalSha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a",
+      "adaptedSha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a",
+      "changes": "Exact checkout/evidence locations only; options, public adapter, workloads and assertions unchanged"
+    },
+    {
+      "file": "trace-audit/candidate-api.ts",
+      "originalSha256": "70b4b51fd6429c10abbed453a1584b501e9563d6c722f2177aed8578b5decc68",
+      "adaptedSha256": "040cb111c693b1739d3170f7b93ead23ed641c1c50d892044131dab984092735",
+      "changes": "Exact checkout/evidence locations only; options, public adapter, workloads and assertions unchanged"
+    },
+    {
+      "file": "trace-audit/package.json",
+      "originalSha256": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+      "adaptedSha256": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+      "changes": "Exact checkout/evidence locations only; options, public adapter, workloads and assertions unchanged"
+    },
+    {
+      "file": "trace-audit/candidate-trace-audit.mjs",
+      "originalSha256": "0b21df353681277a49cce234f4979b42ec3e17a477648a4a7de509c5a807a0d5",
+      "adaptedSha256": "ff829563d7fac2e2953148986e7670318555b862b951356ee11ba748af53d4f7",
+      "changes": "Exact checkout/evidence locations only; options, public adapter, workloads and assertions unchanged"
+    }
+  ],
+  "workloads": "Original unchanged quality and50000-word seed42 trace audit; unchanged thresholds/sample sizes/timeouts. Execution pending full capture."
+}
