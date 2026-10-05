@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "runs": 12,
+  "pairs": 6,
+  "medianPairedPercentChange": -63.437220929874776,
+  "gates": {
+    "A": {
+      "speedPass": 0,
+      "variancePass": 6
+    },
+    "B": {
+      "speedPass": 0,
+      "variancePass": 6
+    }
+  },
+  "rawLogReceipts": [
+    {
+      "file": "01-A.log",
+      "sha256": "69a5abcd9ab64b1e9cca272d500243d2f3622270b863f787c878405d99eb93cf"
+    },
+    {
+      "file": "02-B.log",
+      "sha256": "4c0f2e91b7e4c2514a4d3e8ee00e7f44081fd03cf782f80aa0a1ddbab07582dc"
+    },
+    {
+      "file": "03-B.log",
+      "sha256": "516515ac6771cef007efd9330e9e8080b487866d8db6c600027c2bf2638f448c"
+    },
+    {
+      "file": "04-A.log",
+      "sha256": "ef6448fc424287fcbfe6f5f9a5057e118abf46bade5faadc679d38a355cb0f9d"
+    },
+    {
+      "file": "05-A.log",
+      "sha256": "e2ac9f0072d530ee22f57b887507624bff71ec8cc99bec39e27968520c2d5594"
+    },
+    {
+      "file": "06-B.log",
+      "sha256": "920a89bc56ade7efa0bf75207311f86cbd731a120be51c762962ac7a93023806"
+    },
+    {
+      "file": "07-B.log",
+      "sha256": "5b9125d3b8430b0ba6bd642d7c88642626e5a90df14c99542e38e0683ffec15d"
+    },
+    {
+      "file": "08-A.log",
+      "sha256": "61069d2b86fab45f9f8e9e4f5eff811f8c487eb1368b7842662c405cb0e7933e"
+    },
+    {
+      "file": "09-A.log",
+      "sha256": "6bf885ae50e05c8e4aff3fd19bf4f147576b531b4820f08490dcc247d8cdba34"
+    },
+    {
+      "file": "10-B.log",
+      "sha256": "9ff86dbab144d94093f90710bd64e3ed6a85f02f37c72aa7ec48742226e4ce71"
+    },
+    {
+      "file": "11-B.log",
+      "sha256": "1edfb0fb33e7639cb214ec82c18498e17c0bdcbd60fb541fc0fd84cc0c3e77ff"
+    },
+    {
+      "file": "12-A.log",
+      "sha256": "06b2a3b1234f287969648d468d21b007b208ef59adf8e30492b2822b287cdd21"
+    }
+  ],
+  "scope": "Reconciles original timing/gate arithmetic and indexed raw logs; no new timing series."
+}

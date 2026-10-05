@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "words": 200000,
+  "receipts": [
+    {
+      "file": "sources.json.gz",
+      "sha256": "69926063995f9a0d3cd1f53ca30ab0865cba05d63ace0997a435b649393df82b",
+      "bytes": 245597
+    },
+    {
+      "file": "summary.json",
+      "sha256": "d7bfb0afd4e385e8f98b35ae3e4a364fe53a4576ae5cd17179cb0e5da6d3ef70",
+      "bytes": 86256
+    },
+    {
+      "file": "review-samples.json.gz",
+      "sha256": "b54852115f846c0ea01d2cea5a68c27948a20e56e17751d547045357b2b31457",
+      "bytes": 1626723
+    },
+    {
+      "file": "witnesses.json.gz",
+      "sha256": "16c47021c7db978a75bfcb591bdf8919f3798fb6f53a0756557071234536c184",
+      "bytes": 92691
+    },
+    {
+      "file": "distributions.json.gz",
+      "sha256": "a794eecac0f8d64a7183783ff29a746df74b10517e4cb6457ae7a227a0848bdd",
+      "bytes": 76198
+    }
+  ]
+}

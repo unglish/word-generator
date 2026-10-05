@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "publicCalls": 83072,
+  "coordinates": 20768,
+  "nextValueProbes": 128,
+  "entireOriginalReportMatchesExceptVerifiedAuthorityHash": true,
+  "scope": "Omitted split-policy compatibility; not active-policy quality."
+}

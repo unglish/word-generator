@@ -1,0 +1,6 @@
+{
+  "originalSha256": "746564fff252bd4d467ee76b9fb1e579b814502e0112ced259f01fe97debc916",
+  "extension": "export { evaluateCorpus };",
+  "algorithmChanged": false,
+  "scope": "Owned copy exposes the original evaluator accumulator for replay; original published source unchanged."
+}
