@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "controlPR": 373,
+  "controlCommit": "0d8811ee2b3ee5860abb7097e3d4b140c81d8f49",
+  "baselineResidualSha256": "a7fed51dabb872978ed057574ebdf7b8767ed4e0ebf8ef8975ef9c5c75944c11",
+  "baselineWords": 200000,
+  "baselineUnresolved": 2,
+  "intervention": "Completion-only joint authenticated respelling of an unsupported neighboring consonant with an unresolved vowel. Reuse eligible inventory readings; preserve phone identities, ownership and constraints.",
+  "prediction": "Joint y+/u/ and sh+/u/ proposals may resolve both remaining cases. Zero corpus residuals is a hypothesis, not a fixture guarantee.",
+  "configuration": "Reuse completion-isolated-u/configuration.json unchanged; omitted splitVowels behavior must remain exactly compatible.",
+  "acceptance": [
+    "Red then green fixtures for both authentic trace cases through public APIs",
+    "Unchanged initial inventory and phone sequence; no lexical reading guard waiver",
+    "Atomic joint projection and transaction with independently replayable neighbor inventory, cell provenance and ordered schedule",
+    "Tampering tests reject forged readings, inventory, source units and partial allocation without mutation or RNG consumption",
+    "Full original20-stream200000-word production replay and independent recount",
+    "Full raw residual population retained even if nonzero",
+    "Original83072-call parity and128nextRNG probes",
+    "Types, lint, default and quality gates; retain failed outcomes and any follow-up",
+    "Full structure and distribution comparisons against control",
+    "Six original isolated performance pairs with original gates",
+    "Reviewed evidence packet, clean export verification and separate draft PR"
+  ],
+  "scopeLimits": [
+    "No human evaluation claim",
+    "No change to original thresholds or denominator",
+    "No success redefinition when residuals persist"
+  ]
+}
