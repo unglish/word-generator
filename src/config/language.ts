@@ -658,6 +658,8 @@ export interface WrittenFormConstraints {
   /**
    * Max consecutive vowel *letters* (a, e, i, o, u, y) allowed.
    * Applied after consonant repairs. Default: no limit.
+   * The writer preserves a selected terminal-y vowel spelling as a complete
+   * unit, including final i → y spelling. Other runs retain this raw-letter cap.
    */
   maxVowelLetters?: number;
 

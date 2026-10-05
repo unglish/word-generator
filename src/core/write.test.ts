@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairVowelLetters, tokenizeGraphemes, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary, applySilentE, appendSilentE, normalizeGraphemeCondition } from "./write";
+import { repairConsonantPileups, repairJunctions, repairConsonantLetters, repairFinalConsonantLetters, repairVowelLetters, tokenizeGraphemes, mannerGroup, placeGroup, isCoronal, filterByPosition, SyllableBoundary, applySilentE, appendSilentE, normalizeGraphemeCondition } from "./write";
 import { validateJunction } from "./junction";
 import { generateWord, createGenerator } from "./generate";
 import { englishConfig } from "../config/english";
@@ -40,6 +40,14 @@ describe("tokenizeGraphemes", () => {
 // ---------------------------------------------------------------------------
 
 describe("repairConsonantPileups", () => {
+  it("preserves four consonant graphemes before terminal y", () => {
+    const clean = ["atchstr", "y"];
+    const hyph = ["atchstr", "&shy;", "y"];
+    repairConsonantPileups(clean, hyph, 4);
+    expect(clean).toEqual(["atchstr", "y"]);
+    expect(hyph).toEqual(["atchstr", "&shy;", "y"]);
+  });
+
   it("does nothing when no run exceeds max", () => {
     const clean = ["stri", "ble"];
     const hyph = ["stri", "&shy;", "ble"];
@@ -262,6 +270,22 @@ describe("repairJunctions (feature-based)", () => {
 // ---------------------------------------------------------------------------
 
 describe("repairConsonantLetters", () => {
+  it("preserves t in wacts + ly at the four-letter cap", () => {
+    const clean = ["wacts", "ly"];
+    const hyph = ["wacts", "", "ly"];
+    repairConsonantLetters(clean, hyph, 4);
+    expect(clean).toEqual(["wacts", "ly"]);
+    expect(hyph).toEqual(["wacts", "", "ly"]);
+  });
+
+  it.each([["fly", 2], ["quickly", 3]] as const)("preserves %s at its consonant-letter cap", (word, cap) => {
+    const clean = [word];
+    const hyph = [word];
+    repairConsonantLetters(clean, hyph, cap);
+    expect(clean).toEqual([word]);
+    expect(hyph).toEqual([word]);
+  });
+
   it("does nothing when under limit", () => {
     const clean = ["str", "ong"];
     const hyph = ["str", "&shy;", "ong"];
@@ -279,11 +303,45 @@ describe("repairConsonantLetters", () => {
   });
 });
 
+describe("repairFinalConsonantLetters", () => {
+  it("does not trim fly when terminal y ends the consonant run", () => {
+    const clean = ["fly"];
+    const hyph = ["fly"];
+    repairFinalConsonantLetters(clean, hyph, 2);
+    expect(clean).toEqual(["fly"]);
+    expect(hyph).toEqual(["fly"]);
+  });
+});
+
 // ---------------------------------------------------------------------------
 // repairVowelLetters
 // ---------------------------------------------------------------------------
 
 describe("repairVowelLetters", () => {
+  it("retains a protected terminal unit while capping the preceding run", () => {
+    const clean = ["eauay"];
+    const hyph = ["eauay"];
+    expect(repairVowelLetters(clean, hyph, 2, 3)).toBe(true);
+    expect(clean).toEqual(["eaay"]);
+    expect(hyph).toEqual(["eaay"]);
+  });
+
+  it("does not exempt terminal y without selected-vowel ownership", () => {
+    const clean = ["guey"];
+    const hyph = ["guey"];
+    repairVowelLetters(clean, hyph, 2);
+    expect(clean).toEqual(["gue"]);
+    expect(hyph).toEqual(["gue"]);
+  });
+
+  it("counts terminal y toward the vowel-letter cap", () => {
+    const clean = ["eay"];
+    const hyph = ["eay"];
+    repairVowelLetters(clean, hyph, 2);
+    expect(clean).toEqual(["ea"]);
+    expect(hyph).toEqual(["ea"]);
+  });
+
   it("trims 3 consecutive vowels to 2", () => {
     const clean = ["drogeoom"];
     const hyph = ["drogeoom"];

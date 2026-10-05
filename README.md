@@ -54,6 +54,13 @@ accommodates longer finished words under root-only budgets; it is neither a
 per-word limit nor an empirical English mean. Other quality thresholds remain
 unchanged.
 
+The English writer caps ordinary vowel-letter runs at two. It preserves a
+generator-selected vowel spelling ending in terminal `y`, such as `ey` or
+`oi` rewritten to `oy`, even when adjacent letters make the run longer.
+This exception follows the selected vowel unit; arbitrary final `y` does not
+qualify. Terminal `y` is vocalic for consonant repairs, while `y` before a
+vowel remains consonantal (`yet`, `yawn`), and `w` remains consonantal.
+
 ## RNG Control
 
 ```ts
