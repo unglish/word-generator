@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {readFile,writeFile,mkdir,cp} from 'node:fs/promises';
+import {spawn} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {captureRun} from '/private/tmp/q14a-completion-isolated-u-v1/evaluation/quality/capture.ts';
+import {englishConfig} from '/private/tmp/q14a-completion-isolated-u-v1/src/index.ts';
+const root='/private/tmp/q14a-completion-isolated-u-v1',base='/private/tmp/q14a-completion-isolated-u-evidence-v1';
+const fixture=base+'/checkpoint-validation-v2';await mkdir(fixture);
+const configuration=structuredClone({...englishConfig,splitVowels:JSON.parse(await readFile(base+'/measured-configuration.json'))});
+const protocol=JSON.parse(await readFile(root+'/evaluation/quality/protocol.json'));
+protocol.wordsPerReplicate=3;protocol.reviewDrawsPerReplicate=3;
+for(const profile of protocol.profiles)profile.seeds.development=profile.seeds.development.slice(0,2);
+await captureRun({root,out:fixture+'/archive',id:'checkpoint-operator-fixture-v1',cohort:'development',protocol,configuration});
+const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+const manifestSha256=sha(await readFile(fixture+'/archive/manifest.json'));
+async function run(module,out,interrupt=false){
+ const entry=fixture+'/'+out+'-runner.mjs';
+ await writeFile(entry,`import {analyzeSplit} from ${JSON.stringify(module)};import {englishConfig} from '/private/tmp/q14a-completion-isolated-u-v1/src/index.ts';import {readFileSync} from 'node:fs';const configuration=structuredClone({...englishConfig,splitVowels:JSON.parse(readFileSync(${JSON.stringify(base+'/measured-configuration.json')}))});await analyzeSplit({...${JSON.stringify({root,archive:fixture+'/archive',out:fixture+'/'+out,manifestSha256})},configuration});`);
+ return await new Promise((resolve,reject)=>{const child=spawn(process.execPath,['--import','/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs',entry],{stdio:['ignore','pipe','pipe']});let log='',killed=false;
+ child.stdout.on('data',data=>{log+=data;if(interrupt&&!killed&&log.includes('Analyzed ')){killed=true;child.kill('SIGTERM');}});child.stderr.on('data',data=>log+=data);
+ child.on('error',reject);child.on('exit',async(code,signal)=>{await writeFile(entry+'.log',log);resolve({code,signal,killed,log});});});}
+const original=await run(root+'/evaluation/experiments/split-digraphs/analyze-split.mjs','original');assert.equal(original.code,0);
+const stopped=await run(base+'/analyze-split-resumable.mjs','resumed',true);assert(stopped.killed);assert.equal(stopped.signal,'SIGTERM');
+const resumed=await run(base+'/analyze-split-resumable.mjs','resumed');assert.equal(resumed.code,0);assert(resumed.log.includes('Resumed '));
+const seal=JSON.parse(await readFile(fixture+'/original/complete.json'));
+for(const artifact of seal.artifacts)assert.deepEqual(await readFile(fixture+'/original/'+artifact.file),await readFile(fixture+'/resumed/'+artifact.file),artifact.file);
+assert.deepEqual(await readFile(fixture+'/original/complete.json'),await readFile(fixture+'/resumed/complete.json'));
+await cp(fixture+'/resumed',fixture+'/corrupt',{recursive:true});await cp(fixture+'/resumed-checkpoints',fixture+'/corrupt-checkpoints',{recursive:true});
+const checkpoint=fixture+'/corrupt-checkpoints/'+protocol.profiles[0].id+'-'+protocol.profiles[0].seeds.development[0]+'.json';
+const damaged=JSON.parse(await readFile(checkpoint));damaged.payload.groups[0].counts.words=(damaged.payload.groups[0].counts.words??0)+1;await writeFile(checkpoint,JSON.stringify(damaged));
+const rejected=await run(base+'/analyze-split-resumable.mjs','corrupt');assert.notEqual(rejected.code,0);
+await writeFile(fixture+'/result.json',JSON.stringify({passed:true,scope:'24 public-API generated words; operator equivalence fixture only, not the 200000-word study',interruption:stopped.signal,resumed:true,identicalArtifacts:seal.artifacts.length,identicalCompleteSeal:true,corruptPayloadRejected:true,operatorSha256:sha(await readFile(base+'/analyze-split-resumable.mjs'))},null,2));
+console.log('Checkpoint interruption/resume equivalence and corruption rejection passed');

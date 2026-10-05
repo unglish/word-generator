@@ -1,0 +1,8 @@
+{
+  "controlExitCode": 1,
+  "candidateExitCode": 0,
+  "controlFailure": "Isolated oo must be eligible",
+  "controlLogSha256": "f38734101db540c8576a3ca44cd459abe1d3e49a196c584ee13fe0b2058c7020",
+  "candidateLogSha256": "c17c515dab8abc1ccc1ea7c651187287f5b9f2dffa27a41d802ee37ea249c9ac",
+  "scope": "Same corrected fixture and runtime sources; control configuration lacks isolated oo weight, candidate has3. Hard-c uses ordinary following-letter inventory entry; exceptional Mc entry is excluded from fixture selection."
+}

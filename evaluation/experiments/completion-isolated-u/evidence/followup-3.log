@@ -1,0 +1,23 @@
+
+ RUN  v3.2.4 /private/tmp/q14a-completion-isolated-u-v1
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no bigram exceeds threshold over-representation
+Worst over-rep bigram: "ry" at 3.323× (threshold: 4.25)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no trigram exceeds threshold over-representation
+Worst over-rep trigram: "abl" at 2.799× (threshold: 3.21)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented
+Worst under-rep bigram: "aw" at 0.0488× (threshold: 0.0215)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented
+Worst under-rep trigram: "ugh" at 0.0074× (threshold: 0.0062)
+
+ ✓ src/core/ngram-quality.test.ts (5 tests) 51726ms
+   ✓ N-gram quality gates > generate sample  51698ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  15:30:22
+   Duration  52.21s (transform 287ms, setup 0ms, collect 340ms, tests 51.73s, environment 0ms, prepare 49ms)
+

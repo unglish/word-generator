@@ -1,0 +1,19 @@
+{
+  "reviewer": "primary agent",
+  "independentAgentReview": false,
+  "scope": [
+    "configuration-only intervention isolation",
+    "full replay and independent recount",
+    "residual witnesses",
+    "failed gates and unchanged-timeout followups",
+    "original six performance pairs",
+    "mixed distribution side effects",
+    "packet contents and ignored-file coverage"
+  ],
+  "conclusion": "Evidence supports measured unresolved reduction22to2; zero target and human quality unproven; speed gates fail. Ready for clean export verification.",
+  "limitations": [
+    "Byte verifier is not independent semantic verifier",
+    "Original full suite remains failed",
+    "No statistical significance claim for descriptive corpus metrics"
+  ]
+}

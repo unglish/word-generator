@@ -1,0 +1,23 @@
+
+ RUN  v3.2.4 /private/tmp/q14a-completion-isolated-u-v1
+
+stdout | src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies
+
+200k sample results:
+  Total "ts": 3617 (1.81%)
+    Final: 3112 (1.56%)
+    Non-final: 505 (0.25%)
+  Total "ns": 2429 (1.21%)
+    Final: 1466 (0.73%)
+    Non-final: 963 (0.48%)
+
+ ✓ src/core/cluster-weights.test.ts (4 tests) 43246ms
+   ✓ Position-based cluster weighting > applies position-based weights correctly  1982ms
+   ✓ Position-based cluster weighting > reduces ts/ns frequency compared to no weights  3253ms
+   ✓ Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies  37833ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  15:28:37
+   Duration  43.73s (transform 287ms, setup 0ms, collect 336ms, tests 43.25s, environment 0ms, prepare 48ms)
+

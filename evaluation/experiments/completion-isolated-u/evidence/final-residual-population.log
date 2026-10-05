@@ -1,0 +1,15 @@
+{
+  "wordsScanned": 200000,
+  "finalUnresolvedNuclei": 2,
+  "affectedWords": 2,
+  "groups": [
+    {
+      "reason": "infeasible:neighbor-reading,unresolved-vowel-obligation",
+      "sound": "u",
+      "count": 2
+    }
+  ],
+  "analysisSealSha256": "931c454252a03153f337f33a399bc9aef431fba614193df27f03b745dbc34871",
+  "manifestSha256": "c78db32fe26a8e34e4229f954e4cc0390807312d1b5ced14d31f071a5fee9985",
+  "scope": "Full authenticated per-word final-counter/raw-attempt join, exact count agreement for every affected word. Recorded refusal attribution, not independent phonemic licensing, causal improvement or human evidence."
+}

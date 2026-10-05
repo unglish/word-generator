@@ -1,0 +1,13 @@
+{
+  "runtimeSourceFilesCompared": 151,
+  "runtimeSourcesByteIdentical": true,
+  "configurationOnlyDifference": {
+    "phoneme": "u",
+    "form": "oo",
+    "isolatedSyllableWeight": {
+      "control": null,
+      "candidate": 3
+    }
+  },
+  "scope": "No other configuration difference; this is intervention isolation, not omitted-option behavior parity or output-quality proof."
+}

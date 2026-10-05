@@ -1,0 +1,14 @@
+{
+  "validationPending": false,
+  "validation": {
+    "passed": true,
+    "scope": "24 public-API generated words; operator equivalence fixture only, not the 200000-word study",
+    "interruption": "SIGTERM",
+    "resumed": true,
+    "identicalArtifacts": 11,
+    "identicalCompleteSeal": true,
+    "corruptPayloadRejected": true,
+    "operatorSha256": "aa04d63a798bf7b628ed37dfc272b561955fb9e062bbe30696f1fd25ef2586ea"
+  },
+  "originalOperatorSha256": "5cc08f4c193f2d9182f3316b4ac45c639bf48ba5ae26c774848fc625aff5638b"
+}

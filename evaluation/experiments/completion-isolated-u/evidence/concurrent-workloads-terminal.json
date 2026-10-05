@@ -1,0 +1,27 @@
+{
+  "allKnownCompetingWorkloadsTerminal": true,
+  "sessions": [
+    {
+      "id": 11819,
+      "state": "observed terminal exit0 capture"
+    },
+    {
+      "id": 26501,
+      "state": "observed terminal exit1 original chain missing manifest"
+    },
+    {
+      "id": 71148,
+      "state": "observed terminal exit0 residual join"
+    },
+    {
+      "id": 36046,
+      "state": "observed terminal exit0 resumed chain; individual failures retained"
+    },
+    {
+      "id": 55662,
+      "state": "observed terminal exit0 five sequential follow-up files"
+    }
+  ],
+  "scope": "Known task measurement processes are terminal; does not claim whole host idle",
+  "createdAt": "2026-10-05T22:32:32.476913+00:00"
+}
