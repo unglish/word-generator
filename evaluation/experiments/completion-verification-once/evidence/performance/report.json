@@ -1,0 +1,38 @@
+{
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "pairedPercentChanges": [
+    -1.3012456248691628,
+    3.231479656184444,
+    2.1067969041036694,
+    4.07331303359264,
+    4.250946504554709,
+    4.653427904989349
+  ],
+  "medianPairedPercentChange": 3.652396344888542,
+  "gates": {
+    "A": {
+      "speedPass": 0,
+      "variancePass": 6
+    },
+    "B": {
+      "speedPass": 0,
+      "variancePass": 6
+    }
+  },
+  "runnerSha256": "9ee3f44b9bbab148b3781a6924bc1bb0f83a8fbdf274fbffe6d07da19db11fdb",
+  "originalBenchmarkSha256": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f",
+  "scope": "Same original opt-in configuration in both arms, same workload and gates; no inferred output-quality improvement."
+}

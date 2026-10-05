@@ -1,0 +1,23 @@
+{
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "control": "/private/tmp/q14a-closure-audit-v1/committed",
+  "candidate": "/private/tmp/q14a-completion-verification-perf-v1",
+  "bothArms": "Original opt-in splitVowels configuration; isolate duplicate-verification removal rather than comparing opt-in with default",
+  "benchmark": "Original benchmark and configuredBatchAPI imported unchanged",
+  "runnerSha256": "9ee3f44b9bbab148b3781a6924bc1bb0f83a8fbdf274fbffe6d07da19db11fdb",
+  "state": "Prepared before measurements; await all concurrent workloads terminal",
+  "countsSeedsThresholdsUnchanged": true
+}

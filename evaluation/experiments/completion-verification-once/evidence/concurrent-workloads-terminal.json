@@ -1,0 +1,15 @@
+{
+  "observedAt": "2026-10-05T02:14:42.692260+00:00",
+  "allKnownCompetingWorkloadsTerminal": true,
+  "sessions": {
+    "89787": 0,
+    "13539": 0,
+    "1583": 0,
+    "20061": 0,
+    "13905": 1,
+    "29155": 1,
+    "2641": 1,
+    "10138": 1
+  },
+  "scope": "All known measurement and test workloads dispatched by this task confirmed terminal; no claim of whole-system inactivity."
+}

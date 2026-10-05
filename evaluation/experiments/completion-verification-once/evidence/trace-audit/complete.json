@@ -1,0 +1,13 @@
+{
+  "control": {
+    "exitCode": 0,
+    "reportSha256": "0ad9bf52e7c07b72b481a1bd38452dfc2f8f655504a3df8dcba37a0cd6e8e96e"
+  },
+  "candidate": {
+    "exitCode": 0,
+    "reportSha256": "0ad9bf52e7c07b72b481a1bd38452dfc2f8f655504a3df8dcba37a0cd6e8e96e"
+  },
+  "fullReportsEqual": true,
+  "scope": "Original 50,000-word seeded trace audit; all metrics; original defines no default quality thresholds.",
+  "sourceUnchangedSinceLiveObservation": true
+}
