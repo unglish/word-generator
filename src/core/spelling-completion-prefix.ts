@@ -44,6 +44,12 @@ export function createCompletionPrefixResolver(configuration: LanguageConfig) {
     }
     const evidence = { doublingCount: count, quotaSource: certificate ? "coverage" as const : "original" as const,
       ...(certificate ? { certificateId: certificate.id } : {}) };
+    const writtenBoundary = () => {
+      const cell = view.cells[target.start - 1];
+      if (!cell || cell.text.length !== 1) return unavailable("missing-written-boundary");
+      return { status: "available" as const, prefix: { previousForm: cell.text, doublingCount: count },
+        evidence: { ...evidence, writtenBoundaryCellId: cell.id } };
+    };
     if (nucleusId === 0) return target.start === 0
       ? { status: "available" as const, prefix: { doublingCount: count }, evidence }
       : unavailable("unowned-prefix");
@@ -52,14 +58,15 @@ export function createCompletionPrefixResolver(configuration: LanguageConfig) {
     if (shared.length) {
       if (shared.length !== 1 || sharedGuard(view, view, shared).status !== "allowed") return unavailable("invalid-shared-prefix");
       const construction = shared[0];
-      if (construction.phoneIds[construction.phoneIds.length - 1] !== previousId ||
-          view.cells[target.start - 1]?.id !== construction.outputCellIds[construction.outputCellIds.length - 1]) return unavailable("nonadjacent-prefix");
+      if (construction.phoneIds[construction.phoneIds.length - 1] !== previousId) return unavailable("nonadjacent-prefix");
+      if (view.cells[target.start - 1]?.id !== construction.outputCellIds[construction.outputCellIds.length - 1]) return writtenBoundary();
       return { status: "available" as const, prefix: { previousForm: construction.after, doublingCount: count },
         evidence: { ...evidence, sharedConstructionId: construction.id } };
     }
     const previous = resolveSingleSpellingUnit(view, previousId);
-    if (previous.status !== "complete") return unavailable(previous.reason);
-    if (previous.end !== target.start) return unavailable("nonadjacent-prefix");
+    if (previous.status !== "complete") return previous.reason === "unresolved-ownership" || previous.reason === "already-split"
+      ? writtenBoundary() : unavailable(previous.reason);
+    if (previous.end !== target.start) return writtenBoundary();
     return { status: "available" as const, prefix: { previousForm: previous.before, doublingCount: count }, evidence };
   };
 }

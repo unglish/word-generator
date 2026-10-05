@@ -25,13 +25,23 @@ describe("completion prefix evidence", () => {
   it("supports a word-initial nucleus without inventing a preceding form", () => {
     expect(resolve(fixture(false).constructionState(), 0)).toMatchObject({ status: "available", prefix: { doublingCount: 0 } });
   });
-  it("does not reuse the originally selected form after an opaque rewrite", () => {
+  it("uses the recorded written boundary after an opaque rewrite without inventing ownership", () => {
     const base = fixture(); base.edit(0, 2, "t", "opaque", 0);
-    expect(resolve(base.constructionState(), 1)).toEqual({ status: "unavailable", reason: "unresolved-ownership" });
+    const view = base.constructionState(); const before = structuredClone(view);
+    expect(resolve(view, 1)).toMatchObject({ status: "available", prefix: { previousForm: "t", doublingCount: 1 },
+      evidence: { quotaSource: "original", writtenBoundaryCellId: 3 } });
+    expect(view).toEqual(before);
   });
-  it("does not cross an unowned insertion to reach a prior source unit", () => {
+  it("uses the actual inserted boundary letter rather than crossing it to the source unit", () => {
     const base = fixture(); base.edit(2, 0, "e", "marker", 0);
-    expect(resolve(base.constructionState(), 1)).toEqual({ status: "unavailable", reason: "nonadjacent-prefix" });
+    expect(resolve(base.constructionState(), 1)).toMatchObject({ status: "available", prefix: { previousForm: "e", doublingCount: 1 },
+      evidence: { writtenBoundaryCellId: 3 } });
+  });
+  it("retains missing and partial preceding-unit refusals", () => {
+    const missing = fixture(); missing.edit(0, 2, "", "deleted", 0);
+    expect(resolve(missing.constructionState(), 1)).toEqual({ status: "unavailable", reason: "missing-unit" });
+    const partial = structuredClone(fixture().constructionState()); partial.units[0].sourceCellIds.pop();
+    expect(resolve(partial, 1)).toEqual({ status: "unavailable", reason: "partial-unit" });
   });
   it("uses the complete live qu construction rather than the old w selection", () => {
     const entries = [{ sound: "k", form: "c", segment: "onset" as const, segmentIndex: 0 },
@@ -52,6 +62,9 @@ describe("completion prefix evidence", () => {
       evidence: { sharedConstructionId: 0 } });
     const broken = structuredClone(base.constructionState()); broken.cells = broken.cells.slice(1);
     expect(resolve(broken, 2)).toEqual({ status: "unavailable", reason: "invalid-shared-prefix" });
+    base.edit(2, 0, "u", "recorded-marker", 0);
+    expect(resolve(base.constructionState(), 2)).toMatchObject({ status: "available",
+      prefix: { previousForm: "u", doublingCount: 0 }, evidence: { writtenBoundaryCellId: 5 } });
   });
   it("uses an authenticated coverage replacement and its choice history", () => {
     const graphemes = [{ phoneme: "n", form: "nn" }, { phoneme: "eɪ", form: "a" }, { phoneme: "n", form: "n" }]
