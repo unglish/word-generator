@@ -105,6 +105,8 @@ describe("Word Generator", () => {
       { role: "root", text: "wacts" }, { role: "suffix", text: "ly" },
     ]);
     expect(trace!.morphology!.realization!.emittedParts).toEqual(trace!.morphology!.realization!.assembledParts);
+    expect(trace!.selection!.selected).toMatchObject({ syllables: 1, phonemes: 6, letters: 5 });
+    expect(trace!.attempts).toBe(trace!.selection!.attemptsExecuted - 1);
     expect(traced).toEqual(plain);
     expect(generator.generateWord(options)).toEqual(plain);
   });
@@ -126,6 +128,9 @@ describe("Word Generator", () => {
     expect(plain.written.clean).toBe(spelling);
     expect(plain.written.hyphenated.replace(/&shy;/g, "")).toBe(spelling);
     expect(plain.pronunciation).toBe(pronunciation);
+    expect(trace!.morphology!.template).toBe("bare");
+    expect(trace!.selection!.selected.letters).toBe(spelling.length);
+    expect(trace!.attempts).toBe(trace!.selection!.attemptsExecuted - 1);
     const lastOwner = trace!.orthography!.chars.at(-1)!.unitId;
     const vowelUnit = trace!.orthography!.graphemeUnits.find(unit => unit.id === lastOwner)!;
     expect(vowelUnit.position).toBe("nucleus");
