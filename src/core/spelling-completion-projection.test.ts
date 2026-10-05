@@ -21,6 +21,24 @@ function fixture() {
   return { base, guard };
 }
 describe("completion projected reading checks", () => {
+  it("preserves an opaque neighboring unit when every surviving letter context is unchanged", () => {
+    const { base, guard } = fixture();
+    base.edit(2, 1, "tt", "opaque-coda", 0);
+    const view = base.constructionState();
+    const before = structuredClone(view);
+    expect(guard(view, 1, 3, [])).toMatchObject({ status: "preserved", form: "ai" });
+    expect(view).toEqual(before);
+  });
+  it("refuses an opaque predecessor when its following letter changes", () => {
+    const { base, guard } = fixture();
+    base.edit(0, 1, "cc", "opaque-onset", 0);
+    expect(guard(base.constructionState(), 1, 4, [])).toEqual({ status: "refused", reason: "unresolved-neighbor", unitId: 0 });
+  });
+  it("does not infer context preservation for a missing unit", () => {
+    const { base, guard } = fixture();
+    base.edit(2, 1, "", "deleted-coda", 0);
+    expect(guard(base.constructionState(), 1, 3, [])).toEqual({ status: "refused", reason: "unresolved-neighbor", unitId: 2 });
+  });
   it("accepts a supported whole-nucleus alternative without mutating input", () => {
     const { base, guard } = fixture(); const view = base.constructionState(); const before = structuredClone(view);
     expect(guard(view, 1, 3, [])).toMatchObject({ status: "preserved", form: "ai", checkedUnitIds: [1] });

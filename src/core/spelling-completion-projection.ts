@@ -2,6 +2,7 @@ import type { LanguageConfig } from "../config/language.js";
 import type { GraphemeReading } from "../types.js";
 import type { SpellingCell } from "./base-spelling.js";
 import type { ConstructionLedgerView } from "./spelling-construction-ownership.js";
+import { sourceUnits } from "./spelling-ownership.js";
 import { resolveSingleSpellingUnit } from "./spelling-construction-ownership.js";
 import { createSharedSurfaceGuard } from "./spelling-construction-edit.js";
 import { createSplitLiveGuard } from "./spelling-split-live.js";
@@ -18,6 +19,17 @@ function readingAllowed(reading: GraphemeReading | undefined, next: string, open
   if (reading.kind === "open-vowel-or-split-marker") return open;
   if (reading.kind === "following-letter") return (!reading.require || reading.require.includes(next)) && !reading.forbid?.includes(next);
   return true;
+}
+
+function preservesOpaqueContext(before: readonly SpellingCell[], after: readonly SpellingCell[], unitId: number): boolean {
+  const positions = before.flatMap((cell, index) => sourceUnits(cell.origin).includes(unitId) ? [index] : []);
+  if (!positions.length) return false;
+  return positions.every(index => {
+    const cell = before[index];
+    const projectedIndex = after.findIndex(candidate => candidate.id === cell.id);
+    return projectedIndex >= 0 && after[projectedIndex] === cell &&
+      (before[index + 1]?.text.toLowerCase() ?? "") === (after[projectedIndex + 1]?.text.toLowerCase() ?? "");
+  });
 }
 
 /** Validate the proposed surface without changing any live state or consuming RNG. */
@@ -52,7 +64,10 @@ export function createCompletionProjectionGuard(configuration: LanguageConfig, s
     for (const unit of view.units) {
       if (covered.has(unit.id) || !affected.has(view.phones[unit.id].syllableIndex)) continue;
       const span = unit.id === nucleusId ? own : resolveSingleSpellingUnit(view, unit.id);
-      if (span.status !== "complete") return refuse("unresolved-neighbor", unit.id);
+      if (span.status !== "complete") {
+        if (span.reason === "unresolved-ownership" && preservesOpaqueContext(view.cells, cells, unit.id)) continue;
+        return refuse("unresolved-neighbor", unit.id);
+      }
       const oldEnd = span.end - 1;
       const end = unit.id === nucleusId ? own.start + output.length - 1 : cells.findIndex(cell => cell.id === span.inputCellIds[span.inputCellIds.length - 1]);
       const next = cells[end + 1]?.text.toLowerCase() ?? "";
