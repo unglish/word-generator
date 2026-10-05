@@ -9,6 +9,7 @@ import { createGapSpellingApplicator } from "./gap-spelling.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
+import { RejectionTraceCollector } from "./rejection-trace.js";
 import { nucleusWordPositionWeight, repairNucleusWordPositions } from "./nucleus-position.js";
 import {
   planMorphology,
@@ -19,8 +20,10 @@ import {
   computePhonemeTargetBounds,
   resolveRootPhonemeTarget,
   scoreGenerationAttempt,
+  assessAttempt,
+  type AcceptanceCriteria,
 } from "./length-semantics.js";
-import { TraceCollector } from "./trace.js";
+import { TraceCollector, type SelectionTrace } from "./trace.js";
 
 // ---------------------------------------------------------------------------
 // Runtime: pre-computed data derived from a LanguageConfig
@@ -1176,6 +1179,10 @@ function resolveRng(options: WordGenerationOptions): RNG {
 const MAX_LENGTH_RETRIES = 3;
 /** Maximum retries for top-down phoneme target matching. */
 const MAX_TOPDOWN_RETRIES = 16;
+const ACCEPTANCE_CRITERIA: AcceptanceCriteria = {
+  warmupAttempts: MAX_LENGTH_RETRIES,
+  relaxedLetterPenalty: 0.5,
+};
 
 function countPhonemes(syllables: Syllable[]): number {
   let total = 0;
@@ -1190,7 +1197,7 @@ function finishWord(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   morphPlan: PlannedMorphologySelection | undefined,
-  attempt: number,
+  selection: SelectionTrace | undefined,
 ): Word {
   const traceCollector = context.trace;
   const morphApplied = !!morphPlan && morphPlan.plan.template !== "bare";
@@ -1219,7 +1226,8 @@ function finishWord(
     traceCollector.syllableCount = context.syllableCount;
     traceCollector.targetPhonemeCount = context.targetPhonemeCount;
     traceCollector.syllablePlans = context.syllablePlans;
-    traceCollector.attempts = attempt;
+    traceCollector.attempts = selection!.attemptsExecuted - 1;
+    traceCollector.selection = selection;
     context.word.trace = traceCollector.toTrace(morphApplied);
   }
   return context.word;
@@ -1253,6 +1261,10 @@ function generateOneWord(
   let bestAttempt = 0;
   let bestScore = Infinity;
 
+  const rejectionTrace = enableTrace
+    ? new RejectionTraceCollector({ maxAttempts: maxAttempts + 1, ...ACCEPTANCE_CRITERIA })
+    : undefined;
+
   for (let attempt = 0; attempt <= maxAttempts; attempt++) {
     const syllablePlans = distributePhonemes(rt, targetPhonemeCountRoot, sampledSyllableCount, rand);
     const traceCollector = enableTrace ? new TraceCollector() : undefined;
@@ -1280,8 +1292,9 @@ function generateOneWord(
     runPipeline(rt, context, mode);
     // Exact bare-word overrides retain their existing place in root scoring.
     if (!morphPlan || morphPlan.plan.template === "bare") rt.applyGapSpellings(context);
+    const rootPhonemeCount = countPhonemes(context.word.syllables);
     const attemptScore = scoreGenerationAttempt(
-      countPhonemes(context.word.syllables),
+      rootPhonemeCount,
       targetPhonemeCountRoot,
       context.word.written.clean.length,
       context.word.syllables.length,
@@ -1292,13 +1305,18 @@ function generateOneWord(
       bestContext = context;
       bestAttempt = attempt;
     }
-    const perfectMatch = attemptScore.phonemeDistance === 0 && attemptScore.letterPenalty === 0;
-    const goodEnoughAfterWarmup = attempt >= MAX_LENGTH_RETRIES
-      && attemptScore.phonemeDistance === 0 && attemptScore.letterPenalty <= 0.5;
-    if (perfectMatch || goodEnoughAfterWarmup) return finishWord(rt, context, morphPlan, attempt);
+    const assessment = assessAttempt(attemptScore, attempt, ACCEPTANCE_CRITERIA);
+    rejectionTrace?.record({
+      syllables: context.word.syllables.length,
+      phonemes: rootPhonemeCount,
+      letters: context.word.written.clean.length,
+    }, attemptScore, assessment);
+    if (assessment.acceptedBy) {
+      return finishWord(rt, context, morphPlan, rejectionTrace?.finish(attempt, assessment.acceptedBy));
+    }
   }
   if (!bestContext) throw new Error("Failed to generate word");
-  return finishWord(rt, bestContext, morphPlan, bestAttempt);
+  return finishWord(rt, bestContext, morphPlan, rejectionTrace?.finish(bestAttempt, null));
 }
 
 /**
