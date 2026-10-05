@@ -1,0 +1,12 @@
+{
+  "base": "8c2f08c868a8ac569de4e11b5efdc47f8802a357",
+  "hypothesis": "Unresolved non-target ownership can preserve its recorded surface context exactly, allowing a separately owned vowel completion without inventing a reading license. Changed opaque contexts remain refused.",
+  "requirements": [
+    "Red-green immutable fixture with unchanged opaque coda",
+    "Refuse changed opaque predecessor context",
+    "Preserve missing-unit refusal",
+    "Full original200000-word capture, trace-first independent cause/outcome analysis",
+    "Original RNG omission parity and unchanged quality/performance workloads; disclose all adverse results"
+  ],
+  "zeroUnresolvedTargetRemains": true
+}
