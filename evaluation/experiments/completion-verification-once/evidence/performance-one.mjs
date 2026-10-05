@@ -1,0 +1,17 @@
+import { benchmark, configuredBatchAPI } from '/private/tmp/q14a-completion-verification-perf-v1/evaluation/experiments/split-digraphs/performance-one-v2.mjs';
+import { treePins,executionEnvironment } from '/private/tmp/q14a-completion-verification-perf-v1/evaluation/experiments/split-digraphs/freeze-capture.mjs';
+import { canonical } from '/private/tmp/q14a-completion-verification-perf-v1/evaluation/quality/serialization.ts';
+import { readFile,writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
+import assert from 'node:assert/strict';
+const [root,variant,out]=process.argv.slice(2);assert(['A','B'].includes(variant));
+const source=await treePins(root+'/src');const environment=executionEnvironment();
+const api=await import(pathToFileURL(root+'/src/index.ts').href);
+const measurement=JSON.parse(await readFile('/private/tmp/q14a-completion-verification-perf-v1/evaluation/experiments/split-digraphs/measurement.json'));
+const configuration=structuredClone({...api.englishConfig,splitVowels:measurement.splitVowels});
+const generator=api.createGenerator(configuration);
+const result=benchmark(configuredBatchAPI(api,generator),undefined,process.env.CI==='true');
+assert.deepEqual(await treePins(root+'/src'),source,'Performance source changed');
+await writeFile(out,JSON.stringify({variant,root,node:process.version,executableSha256:createHash('sha256').update(await readFile(process.execPath)).digest('hex'),environment,configuration:canonical(configuration),source,...result},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({variant,wordsPerSec:result.wordsPerSec,speedPass:result.speedPass,variancePass:result.variancePass}));

@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "sameFourOriginalAssertions": [
+    "expected 9 to be +0 // Object.is equality",
+    "expected 28 to be +0 // Object.is equality",
+    "expected 43 to be +0 // Object.is equality",
+    "expected 6 to be less than or equal to 5"
+  ],
+  "originalCompressedLogSha256": "ba7da66f55627740bbe1b9e7db74996cd718026b6aa45e1ab08e6f968f56c461",
+  "candidateLogSha256": "8c6387e93da74b9e41f5ffab7f5a49f5c626ac9b6b29d93801f9510e3e0cf45b",
+  "fullSuite": {
+    "passed": 1022,
+    "failed": 4,
+    "skipped": 1,
+    "timeouts": 0
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "originalOperatorSha256": "a085c2851f5f5cbf09e8e6bc1b8fb3cd92cae15dbaf5ee7bc6f0b2e27fc358f6",
+  "changes": "Only three module import paths; generation adapter binds original opt-in configuration through public createGenerator API and shared seeded RNG. All metric functions and command defaults unchanged.",
+  "defaults": {
+    "count": 50000,
+    "seed": 42,
+    "mode": "lexicon",
+    "morphology": true,
+    "metrics": [
+      "trigrams",
+      "hiatus",
+      "glide",
+      "morphology",
+      "structural"
+    ]
+  },
+  "failOn": [],
+  "limitation": "Original audit defines no default failure thresholds; exit zero alone does not prove output quality.",
+  "files": {
+    "control-trace-audit.mjs": "ca3f55d82b4204b9e4e8e8ea534858a3d1ec8059eb3ff54e3356689a3740ae13",
+    "control-api.ts": "61e5ae7f8151c3e0498ec427e194bedaf2b2a6aacddb79d41b7e8c449ea049fe",
+    "candidate-trace-audit.mjs": "55995dbb6cf56d9a8319550705af5c907c863b7768e8d8b42beab2327752a37d",
+    "candidate-api.ts": "3d475eeda64625f8aae7123c7cfd3a520a13dc1c2680fb96bb5ab133c35d7094",
+    "package.json": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae"
+  },
+  "preparationFailure": "Evidence directory initially lacked type:module for TS adapter; failed before generation. Original failure log retained. Module declaration added."
+}

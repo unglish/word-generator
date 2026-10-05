@@ -672,7 +672,6 @@ export class BaseSpelling {
     if (!this.completionPlanner || this.phase !== "word") throw new Error("Missing completion capability or phase");
     const view = this.constructionState();
     const splits = this.liveSplitConstructions();
-    this.completionPlanner.verify(view, attempt.nucleusId, splits, attempt);
     let certificateId: number | null = null;
     if (attempt.status === "evaluated" && attempt.sample.status === "selected") {
       const plan = prepareCompletionTransaction(view, this.completionPlanner, splits, attempt, this.completionCertificates.length, this.nextCellId);
@@ -682,6 +681,8 @@ export class BaseSpelling {
       this.edits?.push({ phase: this.phase, id: plan.certificate.editId, rule: "vowelCompletion",
         start: plan.start, input: plan.input, output: plan.output, before: plan.certificate.before,
         after: plan.certificate.after, partId: plan.certificate.partId });
+    } else {
+      this.completionPlanner.verify(view, attempt.nucleusId, splits, attempt);
     }
     this.completionAttempts.push({ attempt: structuredClone(attempt), certificateId });
     this.recordTimeline("completion-attempt", this.completionAttempts.length - 1, attempt.cursor);

@@ -27,9 +27,19 @@ function fixture(syllableCount = 1) {
   entries.forEach((entry, id) => base.appendChoice(id, entry.form, entry.form, id % 2, 0));
   base.setPhase("word");
   const decide = () => planner.decide(base.constructionState(), 0, [], () => { throw new Error("Unexpected draw"); });
-  return { base, decide, inspect: createCompletionObligationInspector(config, []), replay: createSplitLedgerReplayer(config, [], routes) };
+  return { base, planner, decide, inspect: createCompletionObligationInspector(config, []), replay: createSplitLedgerReplayer(config, [], routes) };
 }
 describe("live completion ownership and replay", () => {
+  it("rejects forged nonselected evidence before recording any ledger change", () => {
+    const { base, planner } = fixture(); const view = base.constructionState();
+    const attempt = planner.decide(view, 1, [], () => { throw new Error("Unexpected draw"); });
+    const forged = structuredClone(attempt); forged.cursor.nextEditId++;
+    const before = base.snapshot();
+    expect(() => base.recordCompletionAttempt(forged)).toThrow("Invalid completion attempt");
+    expect(base.snapshot()).toEqual(before);
+    expect(base.recordCompletionAttempt(attempt)).toBeNull();
+  });
+
   it("commits a complete licensed nucleus and replays the full ledger", () => {
     const { base, decide, inspect, replay } = fixture();
     expect(base.recordCompletionAttempt(decide())).toBe(0);

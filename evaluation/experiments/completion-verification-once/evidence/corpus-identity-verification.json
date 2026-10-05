@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "words": 200000,
+  "streams": 20,
+  "allOriginalCompressedHashesMatch": true,
+  "scope": "Full original opt-in captured Word/WordTrace record identity; runtime performance remains unmeasured."
+}

@@ -1,0 +1,27 @@
+{
+  "status": "No further source changes recommended after second validation and simplification inspection; measurement/publication acceptance still pending",
+  "sourcePins": {
+    "src/core/base-spelling.ts": "827465703674369a7096e47c53b9e55edda9a23559644e88a295c4e08c78d11a",
+    "src/core/spelling-completion-transaction.ts": "5a95dec96ce2a02ad8827fb6876d2e43217503d9757c913a3b99c2d470526c8e",
+    "src/core/spelling-completion-planner.ts": "fb351f02a856d48e86bf9d7ceecf6018ceb66da41c5a2167923db0bc401327ff",
+    "src/core/spelling-completion-ledger.test.ts": "a7e53b9a86cc4f7bcd75024c1e5e954589168bcaeb204080f46950b783f68f57"
+  },
+  "findings": [
+    "Selected path authenticates through unchanged transaction preparation before proposal lookup, cell allocation, ID changes or ledger mutation.",
+    "All nonselected statuses authenticate before attempts or timeline append.",
+    "Branch dispatch introduces no RNG draws; removed call is deterministic verification, and all 20 original full-corpus compressed traces match.",
+    "No cache, trusted flag or bypass is introduced; retaining existing transaction verifier avoids duplicate validation."
+  ],
+  "evidence": {
+    "fullCaptureWords": 200000,
+    "originalShardHashesMatched": 20,
+    "omittedOptionCalls": 83072,
+    "qualityWholeReportByteIdentical": true
+  },
+  "remaining": [
+    "Full paired trace reports",
+    "Isolated twelve-slot performance schedule",
+    "Final source and evidence publication verification"
+  ],
+  "simplification": "The production diff is one verification call moved to the nonselected branch. Further restructuring would add scope without improving clarity."
+}
