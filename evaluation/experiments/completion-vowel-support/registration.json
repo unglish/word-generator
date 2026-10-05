@@ -1,0 +1,35 @@
+{
+  "version": "completion-vowel-support-v1",
+  "base": "f284fb8c3321606f2a1cc3d61a5aad029c7f018f",
+  "hypothesis": "Explicit opt-in completion positional support removes the empty supported e\u026a candidate pools while preserving recorded phones and authentic neighboring readings.",
+  "baseline": {
+    "words": 200000,
+    "infeasibleAttempts": 2855,
+    "supportOnlyEayAttempts": 2624,
+    "projectionRefusalAttempts": 231,
+    "unresolvedRootObligations": 2887,
+    "unavailableRootStatuses": 8051
+  },
+  "intervention": {
+    "scope": "Completion only; original initial spelling selection stays unchanged",
+    "support": [
+      {
+        "phoneme": "e\u026a",
+        "form": "ai",
+        "startWord": 2
+      }
+    ],
+    "weightRationale": "Use existing medial positional weight 2 for initial completion; retain inventory frequency 10 and all other resolver conditioning. No shortest-spelling tie break.",
+    "unsupportedReadings": "Remain refused; no fallback-only promotion"
+  },
+  "acceptance": [
+    "Full original 200,000-word development coordinates; record all per-profile and per-cause counts",
+    "Zero support-only infeasible e\u026a pools where projected context supports ai; disclose any remaining context refusals",
+    "Unchanged phones at each authenticated completion transaction",
+    "Deterministic public API trace/RNG parity when option absent",
+    "Corruption and stale attempt fixtures",
+    "Original unit, quality, trace, trigram and isolated paired performance workloads with thresholds unchanged",
+    "Independent full-corpus recount and trace witnesses; no human gain claim"
+  ],
+  "remainingOriginalScope": "This intervention does not satisfy whole Q14a zero-unresolved requirement until ownership and other context failures also resolved."
+}
