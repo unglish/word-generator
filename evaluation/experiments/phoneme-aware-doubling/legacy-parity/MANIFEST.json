@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "files": {
+    "README.md": {
+      "bytes": 3224,
+      "sha256": "39cf58d8eda17e48558df156725650f8ea6ca72f09a163933c1d195249b91f06"
+    },
+    "q12c-control-materialization-v1.json": {
+      "bytes": 13971,
+      "sha256": "f10409574b1bf0a2cab74ca3d145d8468522cd4ef6ca9cd03d349cddccc42b4c"
+    },
+    "q12c-legacy-parity-authority-v1.json": {
+      "bytes": 20436,
+      "sha256": "ed8d70570594ea05fcd3f4b71e38ec50516ac8bca6cf9d7fa2e9d8cda929dc54"
+    },
+    "q12c-legacy-parity-authority-v2.json": {
+      "bytes": 20436,
+      "sha256": "1b75d22bf965013acf074c13019b50c8228a1549c617fa0fb0bdbe9b187e46bc"
+    },
+    "q12c-legacy-parity-failure-v1.json": {
+      "bytes": 287,
+      "sha256": "328225332812d582e665085384245a6f342f5b0678f9f5da96e3a061d08bb4c8"
+    },
+    "q12c-legacy-parity-v1.log": {
+      "bytes": 524,
+      "sha256": "b59cf38f4de5be2e31d4a84c9afd0b7f6507e063070ecea49028dad49ae2b322"
+    },
+    "q12c-legacy-parity-v1.mjs": {
+      "bytes": 6349,
+      "sha256": "9eef4500f6f06af4b3e1c8b9528f06e136cf027328b6eae7773a19595762a64a"
+    },
+    "q12c-legacy-parity-v2.json": {
+      "bytes": 19806,
+      "sha256": "b12ecc71218eb4eff4e1d34c9ca5e46f9d778cbde18070858953c27cf0833508"
+    },
+    "q12c-legacy-parity-v2.log": {
+      "bytes": 1069,
+      "sha256": "d066f00f248a49d240bfb8b444465f934a5b7d2f06619516caafb2fbccd88e3d"
+    },
+    "q12c-legacy-parity-v2.mjs": {
+      "bytes": 6573,
+      "sha256": "4f5f109471b1a4c5a46994838e3550d58d305c28930004b70a67f115f823dfdb"
+    },
+    "q12c-prepare-control-v1.py": {
+      "bytes": 1146,
+      "sha256": "05b2f0a5be92afb3dc09ea9a3ddee985694e5e528ee971e52808c3394a3d737f"
+    }
+  }
+}

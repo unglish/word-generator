@@ -1,0 +1,45 @@
+✔ aggregates every event with explicit word denominators and retains the first full witness (2.54775ms)
+✔ splits profile and stream populations without multiplying the global denominator (1.234459ms)
+✔ uses resolved allomorph identity rather than the plan (0.435791ms)
+✔ does not silently classify missing morphology resolution as bare (1.014625ms)
+✔ rejects noninteger production counts instead of silently rounding (0.427291ms)
+✔ rejects omitted applied morphology rather than counting a bare word (0.531583ms)
+✔ bare-template exemption rejects contradictory affix evidence (0.338417ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ runs a complete bounded archive through stream validation, aggregation and production replay (524.096333ms)
+✔ rejects a wrong external manifest authority before creating an output (13.015708ms)
+✔ rejects archive-byte tampering before creating an output (206.843708ms)
+✔ retains an explicit failure and no completion report for duplicate draws (217.352541ms)
+✔ requires every scheduled stream (13.824709ms)
+✔ rejects malformed and aliased artifact paths (7.819125ms)
+✔ does not allow an output parent symlink to redirect into the archive (5.880917ms)
+✔ rejects overlapping seeds before any corpus processing (0.406917ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent Python reconstructs every bounded group/event and complete witness (705.858458ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent Python rejects forged count even with a newly supplied report hash (600.432667ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent Python rejects forged group even with a newly supplied report hash (592.176959ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent Python rejects forged witness even with a newly supplied report hash (603.255708ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent Python rejects forged boolean-denominator even with a newly supplied report hash (593.185792ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ complete archived bare-template row passes both analyzers without fabricated affix resolution (724.91975ms)
+✔ freeze detects changed bytes and added source paths (9.021792ms)
+✔ rejects active loader or binary overrides without exposing their values (0.430666ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5107.355209

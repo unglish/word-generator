@@ -1,0 +1,38 @@
+
+ RUN  v3.2.4 /private/tmp/q12c-closure-audit-v1/committed
+
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'b' / 'b' → 'bb' without a pure-planner draw 2ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'd' / 'd' → 'dd' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'f' / 'f' → 'ff' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'g' / 'g' → 'gg' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'l' / 'l' → 'll' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'm' / 'm' → 'mm' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'n' / 'n' → 'nn' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'p' / 'p' → 'pp' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'r' / 'r' → 'rr' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 's' / 's' → 'ss' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 't' / 't' → 'tt' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'z' / 'z' → 'zz' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'k' / 'c' → 'ck' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > supports 'k' / 'k' → 'ck' without a pure-planner draw 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > does not expand unsupported s / c 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > does not expand unsupported z / s 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > does not expand unsupported ʃ / s 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > counts direct ck only for its configured sound: k 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > counts direct ck only for its configured sound: s 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > retains the direct-selection guard order 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > permits only declared first-coda cluster expansions 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > retains quota and failed-roll accounting 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > retains legacy form overrides and equal-text success when policy is omitted 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > treats an empty structured policy as no expansion, without legacy fallback 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > uses the resulting reading rather than the selected hard-c obligation 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > detaches configured output obligations from caller mutation 0ms
+ ✓ src/core/spelling-doubling.test.ts > sound-specific doubling support > rejects ambiguous duplicate relations and nonsensical expansion shapes 1ms
+ ✓ src/core/spelling-doubling.test.ts > applies sound-specific direct-form quota preferences in the shared resolver 1ms
+ ✓ src/core/spelling-doubling.test.ts > rejects malformed output-reading contracts from JavaScript callers 0ms
+
+ Test Files  1 passed (1)
+      Tests  29 passed (29)
+   Start at  15:49:17
+   Duration  354ms (transform 136ms, setup 0ms, collect 150ms, tests 7ms, environment 0ms, prepare 54ms)
+

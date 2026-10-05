@@ -1,0 +1,16 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/spelling-doubling.test.ts (28 tests) 8ms
+ ✓ src/core/spelling-normalization.test.ts (89 tests) 165ms
+ ✓ src/core/spelling-coverage.test.ts (44 tests) 387ms
+   ✓ whole-unit spelling budgets > keeps trace on/off output and RNG-call parity with active policy  307ms
+ ✓ src/core/grapheme-selection.test.ts (9 tests) 7228ms
+   ✓ legal grapheme selection > retains the established isolated /ɛ/ pool while keeping the /t/ restriction explicit  2264ms
+   ✓ legal grapheme selection > keeps positive real weights and correct edge scopes across 10k public outputs  4879ms
+
+ Test Files  4 passed (4)
+      Tests  170 passed (170)
+   Start at  16:53:49
+   Duration  7.65s (transform 497ms, setup 0ms, collect 959ms, tests 7.79s, environment 0ms, prepare 195ms)
+

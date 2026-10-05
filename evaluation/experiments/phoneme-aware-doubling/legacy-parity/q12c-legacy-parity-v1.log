@@ -1,0 +1,10 @@
+/private/tmp/q12c-legacy-parity-v1.mjs:46
+  if (!isDeepStrictEqual(actual, expected)) throw new Error(`Parity mismatch: ${label} at ${JSON.stringify(cursor)}`);
+                                                  ^
+
+Error: Parity mismatch: control trace-on/off at {"id":"lexicon-default","seed":69212153,"drawIndex":0}
+    at equal (/private/tmp/q12c-legacy-parity-v1.mjs:46:51)
+    at runStream (/private/tmp/q12c-legacy-parity-v1.mjs:71:5)
+    at <anonymous> (/private/tmp/q12c-legacy-parity-v1.mjs:84:51)
+
+Node.js v24.11.1

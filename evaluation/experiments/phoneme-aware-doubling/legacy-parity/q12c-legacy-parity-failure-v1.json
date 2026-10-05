@@ -1,0 +1,11 @@
+{
+  "cursor": {
+    "id": "lexicon-default",
+    "seed": 69212153,
+    "drawIndex": 0
+  },
+  "generationCalls": 4,
+  "coordinates": 0,
+  "completedStreams": [],
+  "error": "Error: Parity mismatch: control trace-on/off at {\"id\":\"lexicon-default\",\"seed\":69212153,\"drawIndex\":0}"
+}

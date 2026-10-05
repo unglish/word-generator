@@ -1,0 +1,77 @@
+✔ aggregates every event with explicit word denominators and retains the first full witness (3.068167ms)
+✔ splits profile and stream populations without multiplying the global denominator (0.795ms)
+✔ uses resolved allomorph identity rather than the plan (0.320375ms)
+✔ does not silently classify missing morphology resolution as bare (0.87725ms)
+✔ rejects noninteger production counts instead of silently rounding (0.390708ms)
+✔ rejects omitted applied morphology rather than counting a bare word (0.493542ms)
+✔ bare-template exemption rejects contradictory affix evidence (0.31525ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ runs a complete bounded archive through stream validation, aggregation and production replay (434.977416ms)
+✔ rejects a wrong external manifest authority before creating an output (12.16325ms)
+✔ rejects archive-byte tampering before creating an output (185.146375ms)
+✔ retains an explicit failure and no completion report for duplicate draws (193.909584ms)
+✔ requires every scheduled stream (16.142625ms)
+✔ rejects malformed and aliased artifact paths (7.203333ms)
+✔ does not allow an output parent symlink to redirect into the archive (6.227542ms)
+✔ rejects overlapping seeds before any corpus processing (0.405583ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent Python reconstructs every bounded group/event and complete witness (646.469958ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent Python rejects forged count even with a newly supplied report hash (537.66825ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent Python rejects forged group even with a newly supplied report hash (535.909125ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent Python rejects forged witness even with a newly supplied report hash (546.346334ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ independent Python rejects forged boolean-denominator even with a newly supplied report hash (541.006083ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ complete archived bare-template row passes both analyzers without fabricated affix resolution (632.425792ms)
+✔ pins recursive dependencies, installed optional bytes and missing optional resolutions (31.64625ms)
+✔ missing required dependency fails (4.635667ms)
+✔ malformed installed optional package is not treated as absent (3.956833ms)
+✔ observes archived relation ["b","b","bb","sampled-success",null] (1.367958ms)
+✔ observes archived relation ["d","d","dd","sampled-success",null] (0.194708ms)
+✔ observes archived relation ["f","f","ff","sampled-success",null] (0.089916ms)
+✔ observes archived relation ["g","g","gg","sampled-success",null] (0.122708ms)
+✔ observes archived relation ["k","c","ck","sampled-success",null] (0.093458ms)
+✔ observes archived relation ["k","ck","ck","direct-counted","multi-char-grapheme"] (0.065375ms)
+✔ observes archived relation ["k","k","ck","sampled-success",null] (0.057458ms)
+✔ observes archived relation ["l","l","ll","sampled-success",null] (0.127667ms)
+✔ observes archived relation ["m","m","mm","sampled-success",null] (0.112375ms)
+✔ observes archived relation ["n","n","nn","sampled-success",null] (0.175958ms)
+✔ observes archived relation ["p","p","pp","sampled-success",null] (0.08775ms)
+✔ observes archived relation ["r","r","rr","sampled-success",null] (0.055709ms)
+✔ observes archived relation ["s","c","ck","sampled-success",null] (0.069667ms)
+✔ observes archived relation ["s","s","ss","sampled-success",null] (0.04275ms)
+✔ observes archived relation ["t","t","tt","sampled-success",null] (0.044167ms)
+✔ observes archived relation ["z","s","ss","sampled-success",null] (0.05325ms)
+✔ observes archived relation ["z","z","zz","sampled-success",null] (0.05775ms)
+✔ observes archived relation ["ʃ","s","ss","sampled-success",null] (0.045917ms)
+✔ separates the concrete s→ck mismatch from ordinary-policy exclusions (0.143ms)
+✔ rejects missing trace rather than assigning a clean count (1.129583ms)
+✔ rejects wrong version rather than assigning a clean count (0.336042ms)
+✔ rejects missing unit rather than assigning a clean count (0.333042ms)
+✔ rejects missing phone rather than assigning a clean count (0.285916ms)
+✔ rejects wrong ownership rather than assigning a clean count (0.611833ms)
+✔ rejects wrong selected spelling rather than assigning a clean count (0.455458ms)
+✔ rejects wrong source sound rather than assigning a clean count (0.355583ms)
+✔ rejects missing increment rather than assigning a clean count (0.342666ms)
+✔ rejects missing success rather than assigning a clean count (0.416625ms)
+✔ rejects missing attempt rather than assigning a clean count (0.497792ms)
+✔ rejects wrong result rather than assigning a clean count (0.385542ms)
+✔ rejects invalid probability rather than assigning a clean count (0.324167ms)
+ℹ tests 55
+ℹ suites 0
+ℹ pass 55
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4535.57475
