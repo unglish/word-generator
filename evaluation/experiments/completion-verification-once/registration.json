@@ -1,0 +1,13 @@
+{
+  "version": "completion-verification-once-v1",
+  "base": "f284fb8c3321606f2a1cc3d61a5aad029c7f018f",
+  "change": "Selected completion attempts authenticate once through prepareCompletionTransaction; all other attempts authenticate once through planner.verify. No trusted-attempt bypass.",
+  "acceptance": [
+    "All original full 200,000-word compressed capture hashes match",
+    "Complete public trace and RNG compatibility workload",
+    "Stale, corrupted selected and nonselected attempts rejected before any mutation",
+    "Original full default, quality and trace workloads with unchanged thresholds/timeouts",
+    "Original isolated twelve-slot six-pair performance schedule, workloads and gates retained"
+  ],
+  "limits": "Removes duplicate verification only; no inferred resolution of Q14a output obligations or performance target."
+}
