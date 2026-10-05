@@ -1,0 +1,30 @@
+{
+  "selection": {
+    "entries": 117485,
+    "digest": "d6a702f18c1bc17f7d7b41206d37498ecab0a7712c862f0398c9a8fde7a13d29",
+    "excluded": {
+      "non_ascii_spelling": 8559,
+      "alternate_pronunciation": 9114,
+      "no_vowel": 8
+    }
+  },
+  "splits": {
+    "training": {
+      "entries": 94058,
+      "digest": "aa2ec570216995f625614828e2199d0f03fa974fc8b85670dd75af8a8e6096a9"
+    },
+    "development": {
+      "entries": 11766,
+      "digest": "026da569d12a39d4994d882eca5a3d086b90ef5c71e93b1e8c0936d701eb63be"
+    },
+    "heldOut": {
+      "entries": 11661,
+      "digest": "6e8f5b10a40100595bbcbd7d1d685fdde30560c4fc9c809e5805d3abea32c4d4"
+    }
+  },
+  "modelRows": {
+    "stress": 18,
+    "full": 64,
+    "class": 6
+  }
+}
