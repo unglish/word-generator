@@ -1,0 +1,35 @@
+✔ conditional paths match independent exhaustive multiplication (1.054625ms)
+✔ merged states retain duplicate outcome identities and draw boundaries (0.21375ms)
+✔ log masses preserve viable sequences whose total probability underflows (1.859125ms)
+✔ impossible and zero-mass paths remain explicit (0.808375ms)
+✔ guard rejects the retained context-breaking rewrite but accepts a compatible neighbor (2.500209ms)
+✔ ledger-aware guard rejects context damage and unavailable target ownership (1.845291ms)
+✔ ledger guard follows a retained licensed replacement and refuses a missing license (4.098791ms)
+✔ an unappended next phone remains pending rather than becoming a false root edge (0.87075ms)
+✔ completion projection rejects a configured vowel alternative that breaks soft c (2.558542ms)
+✔ shared construction projection checks the preceding soft-c reading before formation (2.166125ms)
+✔ split construction projection preserves the preceding soft-c obligation (1.668917ms)
+✔ actual resolver alternatives have unit total mass without conditioning (1.95725ms)
+✔ actual soft-c alternatives are conditioned on written letters (0.869625ms)
+✔ a resolver dead end has zero continuation mass without discarding valid siblings (1.011083ms)
+✔ adapter recovers sampled choices across public-generator spelling histories (285.77175ms)
+✔ conditioned selection evidence replays and rejects altered identity, mass and population (1.220458ms)
+✔ opt-in public writer produces replayable legal initial sequences with trace parity (797.94925ms)
+✔ written contexts distinguish letters, closed edges and unknown edges (0.732125ms)
+✔ retained soft-c failure survives final-root analysis despite later reduction (48.409833ms)
+✔ damaged cells and inventory identities fail authentication before counting (37.105208ms)
+✔ public generated traces conserve both boundary populations and reading denominators (3997.913959ms)
+✔ linguistic interpretation does not equate custom rule mismatch with an English pattern departure (0.160625ms)
+✔ historical root ownership stays outside scope without dropping selection cohorts (4.014334ms)
+✔ cross-syllable written context is not mistaken for a root edge (105.554125ms)
+✔ empty historical ledger has zero denominators and no fabricated events (2.211791ms)
+✔ observer authenticates enabled selection law and binds it to base units (124.537334ms)
+✔ generic rewrite guard preserves soft c and replay rejects a falsified guard decision (50.704375ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4969.592708

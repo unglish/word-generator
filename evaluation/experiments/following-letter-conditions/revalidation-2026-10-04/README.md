@@ -1,0 +1,7 @@
+# Q14b evidence renewal
+
+Original full independent recount freshly reconciles 200,000 words, 2,018,528 events, 41,278,786 integer comparisons and 791 groups. Complete report equals the original exactly. All 64 original package artifacts, 50 original control/candidate raw artifacts and 23 sealed candidate analysis artifacts authenticate. Original 153 source pins verify; published source differs only by the documented header comment. Exact archived source is used for the original omitted-policy compatibility replay, reproducing its entire report: 4,000 public calls, 2,000 comparisons and next-RNG probes. All 27 native focused tests and ten independent corruption fixtures pass.
+
+Original twelve timing results and full arithmetic reconcile: median throughput change -50.7502077058534%; all speed floors fail and all variance gates pass. This is not a new timing series. Original quality failures and acceptance-failed disposition remain. Joint ownership and final morphology are outside certified single-owned reading scope.
+
+Full raw/source/observation/execution evidence retained in 3,063 separate same-device copies, 1,123,597,225 bytes. This is not independent backup. The compact verifier checks reports and receipts; it does not recount raw data. No fresh full active public capture or production sampling-law replay, historical host certification, independent reading-license proof, human gain or adoption claim. Generator source unchanged.

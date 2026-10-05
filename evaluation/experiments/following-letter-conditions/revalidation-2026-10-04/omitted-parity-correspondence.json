@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "entireOriginalReportMatches": true,
+  "comparisons": 2000,
+  "publicCalls": 4000,
+  "nextRngProbes": 2000,
+  "scope": "Omitted followingLetters policy; default/split configurations, trace on/off, seeds 1\u2013500, alternating lexicon/text. Deep equality covers complete returned words and traces."
+}

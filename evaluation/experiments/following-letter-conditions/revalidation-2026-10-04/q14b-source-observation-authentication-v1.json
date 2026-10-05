@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "frozenSourceFiles": 153,
+  "sealedAnalysisArtifacts": 23,
+  "analysisSealSha256": "4e1454cc5d7d79c301c14a278a881dc20456c909f7131ff07c07efdb1fa30473",
+  "scope": "Original captured runtime including pre-comment-change file and published original analysis seal authenticated; no fresh semantic replay."
+}

@@ -1,0 +1,94 @@
+{
+  "records": [
+    {
+      "path": "README.md",
+      "bytes": 1454,
+      "sha256": "8f01c66a5b83ef0ba9eb89a36a1287c4067843768fee959e69ba4dd9c7586bac"
+    },
+    {
+      "path": "focused-native-fixtures.log.txt",
+      "bytes": 2633,
+      "sha256": "578bd7627ddc8949a335b047ed5968ea32ceda22ece052c889cef88567a72055"
+    },
+    {
+      "path": "independent-correspondence.json",
+      "bytes": 749,
+      "sha256": "e4318b6623b2f6a59bb6a6bb390dd0a5e9dd9bdd4bf39fd2c9c14bbcff7e50cd"
+    },
+    {
+      "path": "independent-fixtures-renewed.log.txt",
+      "bytes": 109,
+      "sha256": "4ec7cf1f4a2123a64d57b1370dbb54555f4fefa64fe40e3e1d729428a354d664"
+    },
+    {
+      "path": "independent-renewed.json",
+      "bytes": 479,
+      "sha256": "3f0ce74f83a0e1283249cfd476d2239be74a624824bf75d9c3cddd09ea1d0328"
+    },
+    {
+      "path": "local-retention-index.json",
+      "bytes": 1078414,
+      "sha256": "95f9e5787900f9fd0ab8de53c45de1ae83d4d9d08f4863cef60ceebceaaf8f80"
+    },
+    {
+      "path": "omitted-parity-correspondence.json",
+      "bytes": 323,
+      "sha256": "af0d0a332ad36351a864a040c295d57710b57737dd1f5f25d188d0a0d954126d"
+    },
+    {
+      "path": "omitted-parity-relocations.json",
+      "bytes": 475,
+      "sha256": "efb8505db819791be0ce4fcd7353a7caca65841014435634aedea227de89d43a"
+    },
+    {
+      "path": "omitted-parity-renewed.json",
+      "bytes": 23462,
+      "sha256": "20dd91ee69d7ea3ef3855c94530c494266b0ca86364a5b26371536045c8956a2"
+    },
+    {
+      "path": "omitted-parity-renewed.mjs",
+      "bytes": 2339,
+      "sha256": "5b9c3ee432bd97e4117244e5bec500e5e9ff0ee533a6d96b9c020151d9507caa"
+    },
+    {
+      "path": "q14b-raw-authentication-v1.json",
+      "bytes": 530,
+      "sha256": "bbb229e8c6b4e93a37bc6132ea6abb50f7977d70b480d4b9e5a095473cba99a2"
+    },
+    {
+      "path": "q14b-source-deviation-v1.json",
+      "bytes": 289,
+      "sha256": "8c9e62a0ef98532dea3cef5a97cf25735bd89ca0e295e909675fa7cad682ebf9"
+    },
+    {
+      "path": "q14b-source-observation-authentication-v1.json",
+      "bytes": 326,
+      "sha256": "f3e24aa0e28de21748c48ccfb5d74441c3c21bf187378f9166f9dad6b5caf8a9"
+    },
+    {
+      "path": "reconcile-timing.py",
+      "bytes": 1825,
+      "sha256": "4da7cb4152771ce510d4d7f41cfc961e43756269990499f034feb3b339c564bb"
+    },
+    {
+      "path": "recount-source-renewal-pins.json",
+      "bytes": 1579,
+      "sha256": "f9bea9f9d550be4b5d9b93cd1af89ed16248495a9f702a4b3c2b75de9946795d"
+    },
+    {
+      "path": "smoke-fixtures.log.txt",
+      "bytes": 383,
+      "sha256": "3143b14e6a43c5c88fd9168dc4cb8945cfbc6bea4fbcb0324cb15880675a501d"
+    },
+    {
+      "path": "timing-reconciliation.json",
+      "bytes": 1871,
+      "sha256": "ef3d2a076691ca36abdf159d974f23f078f9efc412a22c31712a11dc51e131cb"
+    },
+    {
+      "path": "verify.py",
+      "bytes": 1847,
+      "sha256": "66ff3bdc341b9f59e1a6772663311fd102de952e091f1b67841e5072e7bed728"
+    }
+  ]
+}

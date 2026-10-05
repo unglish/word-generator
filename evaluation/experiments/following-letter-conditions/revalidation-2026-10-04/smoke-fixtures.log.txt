@@ -1,0 +1,9 @@
+Analyzed lexicon-default 69212153: 3
+Analyzed lexicon-default 101601885: 3
+Analyzed lexicon-bare 2380207674: 3
+Analyzed lexicon-bare 772709128: 3
+Analyzed monosyllables-bare 462530651: 3
+Analyzed monosyllables-bare 62358955: 3
+Analyzed text-default 4167471042: 3
+Analyzed text-default 2666001996: 3
+{"passed":true,"destination":"/private/tmp/q14b-corpus-smoke-v20261004","words":24}

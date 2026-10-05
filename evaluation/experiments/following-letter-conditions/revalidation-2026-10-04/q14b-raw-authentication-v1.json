@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "archives": [
+    {
+      "archive": "candidate",
+      "artifacts": 25,
+      "wordShards": 20,
+      "manifestSha256": "87a58f8b36b1fafaf5882fbc7b2e7ea89b91746d85ca45051d7a962ff7903317"
+    },
+    {
+      "archive": "recovered-control",
+      "artifacts": 25,
+      "wordShards": 20,
+      "manifestSha256": "7593ad8e8e77e7428c3d07c00f6166fe09ff06c8533741eb1e1d6f1259e3735c"
+    }
+  ],
+  "scope": "Full retained artifact byte/hash authentication; no fresh public generation or observation replay claim."
+}
