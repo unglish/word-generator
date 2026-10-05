@@ -1,0 +1,22 @@
+{
+  "observedAt": "2026-10-05T15:58:07.172993+00:00",
+  "allKnownCompetingWorkloadsTerminal": true,
+  "independentRecount": {
+    "session": 81804,
+    "observedExitCode": 0
+  },
+  "prefixValidation": "Focused tests, strict types and changed-source lint terminal; no full capture started",
+  "processInventory": {
+    "command": "ps -axo pid=,comm= filtered for Node/Python/Vitest",
+    "observedStudyWorkers": [],
+    "observedNodeServicePids": [
+      27804,
+      27806,
+      27809,
+      85327,
+      85330,
+      85331
+    ]
+  },
+  "scope": "No known competing study workers observed; this does not establish whole-machine inactivity."
+}

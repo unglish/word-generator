@@ -1,0 +1,8 @@
+{
+  "words": 200000,
+  "streams": 20,
+  "authenticatedArtifacts": 23,
+  "completeSha256": "8d586ef9cd286643e04d3a5883303621a3c9b455b371f199338fb424ce4251e5",
+  "processStatus": "Original handle93022missing; full authenticated passed completion seal present. Process exit code not observed after session reset.",
+  "scope": "Complete original production report authenticated; no acceptance or human claim."
+}
