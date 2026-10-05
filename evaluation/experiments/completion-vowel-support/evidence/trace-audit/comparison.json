@@ -1,0 +1,455 @@
+{
+  "exitCode": 0,
+  "sourcePinsBeforeAndAfterMatchRegisteredCapture": true,
+  "configurationIdentical": true,
+  "wordsPerArm": 50000,
+  "changes": [
+    {
+      "metric": "delta.extraBoundaries",
+      "control": 33055,
+      "candidate": 33159,
+      "delta": 104
+    },
+    {
+      "metric": "delta.extraHiatus",
+      "control": 678,
+      "candidate": 680,
+      "delta": 2
+    },
+    {
+      "metric": "delta.extraHiatusRate",
+      "control": 0.020511269096959613,
+      "candidate": 0.020507252932838747,
+      "delta": -4.016164120865251e-06
+    },
+    {
+      "metric": "final.boundaries",
+      "control": 80519,
+      "candidate": 80857,
+      "delta": 338
+    },
+    {
+      "metric": "final.hiatus",
+      "control": 678,
+      "candidate": 680,
+      "delta": 2
+    },
+    {
+      "metric": "final.hiatusRate",
+      "control": 0.008420372831257218,
+      "candidate": 0.008409908851429067,
+      "delta": -1.0463979828151393e-05
+    },
+    {
+      "metric": "glide.rootTotalVowelTransitions",
+      "control": 82623,
+      "candidate": 82665,
+      "delta": 42
+    },
+    {
+      "metric": "glide.rootVowelToGlideRate",
+      "control": 0.0011376977354973796,
+      "candidate": 0.0011976047904191617,
+      "delta": 5.990705492178207e-05
+    },
+    {
+      "metric": "glide.rootVowelToGlideTransitions",
+      "control": 94,
+      "candidate": 99,
+      "delta": 5
+    },
+    {
+      "metric": "morphology.prefixes.dis",
+      "control": 633,
+      "candidate": 655,
+      "delta": 22
+    },
+    {
+      "metric": "morphology.prefixes.in",
+      "control": 1820,
+      "candidate": 1841,
+      "delta": 21
+    },
+    {
+      "metric": "morphology.prefixes.mis",
+      "control": 1087,
+      "candidate": 1098,
+      "delta": 11
+    },
+    {
+      "metric": "morphology.prefixes.out",
+      "control": 738,
+      "candidate": 723,
+      "delta": -15
+    },
+    {
+      "metric": "morphology.prefixes.over",
+      "control": 700,
+      "candidate": 691,
+      "delta": -9
+    },
+    {
+      "metric": "morphology.prefixes.pre",
+      "control": 693,
+      "candidate": 688,
+      "delta": -5
+    },
+    {
+      "metric": "morphology.prefixes.re",
+      "control": 2515,
+      "candidate": 2543,
+      "delta": 28
+    },
+    {
+      "metric": "morphology.prefixes.un",
+      "control": 2849,
+      "candidate": 2892,
+      "delta": 43
+    },
+    {
+      "metric": "morphology.suffixes.able",
+      "control": 801,
+      "candidate": 800,
+      "delta": -1
+    },
+    {
+      "metric": "morphology.suffixes.al",
+      "control": 1797,
+      "candidate": 1798,
+      "delta": 1
+    },
+    {
+      "metric": "morphology.suffixes.ary",
+      "control": 814,
+      "candidate": 794,
+      "delta": -20
+    },
+    {
+      "metric": "morphology.suffixes.ed",
+      "control": 4501,
+      "candidate": 4511,
+      "delta": 10
+    },
+    {
+      "metric": "morphology.suffixes.er",
+      "control": 2044,
+      "candidate": 2061,
+      "delta": 17
+    },
+    {
+      "metric": "morphology.suffixes.ery",
+      "control": 322,
+      "candidate": 328,
+      "delta": 6
+    },
+    {
+      "metric": "morphology.suffixes.est",
+      "control": 583,
+      "candidate": 588,
+      "delta": 5
+    },
+    {
+      "metric": "morphology.suffixes.ful",
+      "control": 566,
+      "candidate": 570,
+      "delta": 4
+    },
+    {
+      "metric": "morphology.suffixes.ial",
+      "control": 301,
+      "candidate": 294,
+      "delta": -7
+    },
+    {
+      "metric": "morphology.suffixes.ian",
+      "control": 326,
+      "candidate": 331,
+      "delta": 5
+    },
+    {
+      "metric": "morphology.suffixes.ing",
+      "control": 1572,
+      "candidate": 1563,
+      "delta": -9
+    },
+    {
+      "metric": "morphology.suffixes.ism",
+      "control": 127,
+      "candidate": 126,
+      "delta": -1
+    },
+    {
+      "metric": "morphology.suffixes.ist",
+      "control": 204,
+      "candidate": 217,
+      "delta": 13
+    },
+    {
+      "metric": "morphology.suffixes.ity",
+      "control": 703,
+      "candidate": 714,
+      "delta": 11
+    },
+    {
+      "metric": "morphology.suffixes.ive",
+      "control": 469,
+      "candidate": 470,
+      "delta": 1
+    },
+    {
+      "metric": "morphology.suffixes.ize",
+      "control": 313,
+      "candidate": 303,
+      "delta": -10
+    },
+    {
+      "metric": "morphology.suffixes.less",
+      "control": 460,
+      "candidate": 454,
+      "delta": -6
+    },
+    {
+      "metric": "morphology.suffixes.ly",
+      "control": 1225,
+      "candidate": 1217,
+      "delta": -8
+    },
+    {
+      "metric": "morphology.suffixes.ment",
+      "control": 875,
+      "candidate": 849,
+      "delta": -26
+    },
+    {
+      "metric": "morphology.suffixes.ness",
+      "control": 250,
+      "candidate": 252,
+      "delta": 2
+    },
+    {
+      "metric": "morphology.suffixes.ory",
+      "control": 600,
+      "candidate": 612,
+      "delta": 12
+    },
+    {
+      "metric": "morphology.suffixes.ous",
+      "control": 528,
+      "candidate": 513,
+      "delta": -15
+    },
+    {
+      "metric": "morphology.suffixes.s",
+      "control": 7258,
+      "candidate": 7219,
+      "delta": -39
+    },
+    {
+      "metric": "morphology.suffixes.tion",
+      "control": 1008,
+      "candidate": 1034,
+      "delta": 26
+    },
+    {
+      "metric": "morphology.templates.bare",
+      "control": 14941,
+      "candidate": 14894,
+      "delta": -47
+    },
+    {
+      "metric": "morphology.templates.both",
+      "control": 3977,
+      "candidate": 3997,
+      "delta": 20
+    },
+    {
+      "metric": "morphology.templates.prefixed",
+      "control": 7058,
+      "candidate": 7134,
+      "delta": 76
+    },
+    {
+      "metric": "morphology.templates.suffixed",
+      "control": 24024,
+      "candidate": 23975,
+      "delta": -49
+    },
+    {
+      "metric": "root.boundaries",
+      "control": 47464,
+      "candidate": 47698,
+      "delta": 234
+    },
+    {
+      "metric": "ssp.boundaries",
+      "control": 80519,
+      "candidate": 80857,
+      "delta": 338
+    },
+    {
+      "metric": "ssp.byViolation.multi",
+      "control": 70,
+      "candidate": 61,
+      "delta": -9
+    },
+    {
+      "metric": "ssp.byViolation.rule2",
+      "control": 119,
+      "candidate": 124,
+      "delta": 5
+    },
+    {
+      "metric": "ssp.byViolation.rule3",
+      "control": 180,
+      "candidate": 186,
+      "delta": 6
+    },
+    {
+      "metric": "ssp.drops",
+      "control": 425,
+      "candidate": 427,
+      "delta": 2
+    },
+    {
+      "metric": "ssp.multiDropRatePerBoundary",
+      "control": 0.0008693600268259666,
+      "candidate": 0.0007544182940252544,
+      "delta": -0.00011494173280071217
+    },
+    {
+      "metric": "ssp.rule1DropRatePerBoundary",
+      "control": 0.0006954880214607732,
+      "candidate": 0.0006925807289412172,
+      "delta": -2.9072925195560134e-06
+    },
+    {
+      "metric": "ssp.rule2DropRatePerBoundary",
+      "control": 0.0014779120456041431,
+      "candidate": 0.001533571614084124,
+      "delta": 5.565956847998076e-05
+    },
+    {
+      "metric": "ssp.rule3DropRatePerBoundary",
+      "control": 0.0022354972118381997,
+      "candidate": 0.002300357421126186,
+      "delta": 6.486020928798616e-05
+    },
+    {
+      "metric": "ssp.totalDropRatePerBoundary",
+      "control": 0.005278257305729082,
+      "candidate": 0.005280928058176781,
+      "delta": 2.6707524476985225e-06
+    },
+    {
+      "metric": "structural.aspirationDecision",
+      "control": 191362,
+      "candidate": 191998,
+      "delta": 636
+    },
+    {
+      "metric": "structural.boundaryDrop",
+      "control": 29,
+      "candidate": 28,
+      "delta": -1
+    },
+    {
+      "metric": "structural.finalS",
+      "control": 656,
+      "candidate": 647,
+      "delta": -9
+    },
+    {
+      "metric": "structural.junctionBoundaryDrop",
+      "control": 280,
+      "candidate": 299,
+      "delta": 19
+    },
+    {
+      "metric": "structural.morphPrefixHiatusFallback",
+      "control": 1166,
+      "candidate": 1178,
+      "delta": 12
+    },
+    {
+      "metric": "structural.morphSuffixHiatusFallback",
+      "control": 3035,
+      "candidate": 3061,
+      "delta": 26
+    },
+    {
+      "metric": "structural.nasalStopExtension",
+      "control": 653,
+      "candidate": 642,
+      "delta": -11
+    },
+    {
+      "metric": "structural.risingCodaBoundaryDrop",
+      "control": 34,
+      "candidate": 41,
+      "delta": 7
+    },
+    {
+      "metric": "structural.sspBoundaryDrop",
+      "control": 425,
+      "candidate": 427,
+      "delta": 2
+    },
+    {
+      "metric": "structural.vowelHiatusFallback",
+      "control": 100,
+      "candidate": 111,
+      "delta": 11
+    },
+    {
+      "metric": "targetSum",
+      "control": 663,
+      "candidate": 660,
+      "delta": -3
+    },
+    {
+      "metric": "targets.eae",
+      "control": 187,
+      "candidate": 176,
+      "delta": -11
+    },
+    {
+      "metric": "targets.eai",
+      "control": 260,
+      "candidate": 269,
+      "delta": 9
+    },
+    {
+      "metric": "targets.eao",
+      "control": 68,
+      "candidate": 74,
+      "delta": 6
+    },
+    {
+      "metric": "targets.eoe",
+      "control": 12,
+      "candidate": 14,
+      "delta": 2
+    },
+    {
+      "metric": "targets.iin",
+      "control": 118,
+      "candidate": 108,
+      "delta": -10
+    },
+    {
+      "metric": "targets.oou",
+      "control": 18,
+      "candidate": 19,
+      "delta": 1
+    },
+    {
+      "metric": "totalTrigrams",
+      "control": 276731,
+      "candidate": 278319,
+      "delta": 1588
+    }
+  ],
+  "controlReportSha256": "0ad9bf52e7c07b72b481a1bd38452dfc2f8f655504a3df8dcba37a0cd6e8e96e",
+  "candidateReportSha256": "b8cadfcd503ff5a2f3af05175c059abbde8be1bbda610539ef06ceeb5205bb3d",
+  "scope": "All original trace metrics compared; seed42 continuous streams may diverge after completion draws. No same-item causal or human quality claim."
+}

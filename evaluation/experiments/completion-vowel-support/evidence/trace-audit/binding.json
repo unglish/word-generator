@@ -1,0 +1,13 @@
+{
+  "originalOperatorSha256": "a085c2851f5f5cbf09e8e6bc1b8fb3cd92cae15dbaf5ee7bc6f0b2e27fc358f6",
+  "configurationSha256": "8113c6b6daf70eb002a38e3ad32a8efa692a8af25875b9403ba87497e491749a",
+  "scope": "Original unchanged 50,000-word seed42 lexicon/morphology trace workload and all five metrics. Three module import paths rebound; candidate API reads measured completion configuration.",
+  "controlReport": "/private/tmp/q14a-completion-verification-perf-evidence-v1/trace-audit/control-report.json",
+  "controlStatus": "Still running; comparison cannot be claimed yet. Same original Q14a base and split configuration.",
+  "qualityLimit": "Original audit has no default fail-on thresholds; report changes are measurements, not an acceptance pass.",
+  "files": {
+    "candidate-trace-audit.mjs": "0b21df353681277a49cce234f4979b42ec3e17a477648a4a7de509c5a807a0d5",
+    "package.json": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+    "candidate-api.ts": "70b4b51fd6429c10abbed453a1584b501e9563d6c722f2177aed8578b5decc68"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "words": 200000,
+  "streams": 20,
+  "allCorrectedAndEarlierRevisionCompressedHashesEqual": true,
+  "scope": "Full English experiment record identity between two revisions; corrected custom-map semantics validated separately."
+}

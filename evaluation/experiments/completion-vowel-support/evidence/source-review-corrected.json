@@ -1,0 +1,20 @@
+{
+  "status": "Corrected source reviewed without further runtime edits; full semantic and independent acceptance pending",
+  "sourceSnapshotSha256": "91e09c5d5aee1fc03c88e402b4df4c045e101511c75533c0c4b6798768c2ae1f",
+  "sourceSnapshotStillMatches": true,
+  "registeredSupportEqualsMeasuredConfiguration": true,
+  "findings": [
+    "The helper clones the existing configuration as a single object graph, retaining map membership and references to cloned inventory entries. It does not rebuild maps.",
+    "Only four optional positional weight properties change on uniquely matched inventory identities. Frequencies, readings, contextual rules and cumulative frequency metadata remain unchanged.",
+    "Unknown, ambiguous and duplicate override identities and negative or nonfinite weights are rejected.",
+    "Overrides enter the completion candidate pool only; initial grapheme selection continues using the original configuration.",
+    "The original resolver and projected-neighbor verification remain responsible for support and semantic licenses. Positive positional support does not bypass a refusal."
+  ],
+  "knownLimitations": [
+    "Corrected custom-map exclusion test and full English captures do not prove all conceivable custom configurations.",
+    "Whole-corpus quality is mixed and two original quality gates remain failed; owngs increases 61 to63.",
+    "Support-only infeasibility reaches zero, but 239 projection refusals remain; complete Q14a target is not achieved.",
+    "Experiment README still needs its stale rebuilds-maps wording corrected after the live source/evaluation freeze ends."
+  ],
+  "simplification": "The small helper centralizes validation and cloning. Further rewriting would invalidate measured source without a demonstrated improvement."
+}
