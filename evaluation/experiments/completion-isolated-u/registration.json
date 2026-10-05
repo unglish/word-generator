@@ -1,0 +1,37 @@
+{
+  "status": "Prospective registration before configuration changes",
+  "base": "da8cdec39aa6a0cda5aeb0f34772c0dfcdd6c533",
+  "controlPR": 372,
+  "scope": "Completion-only isolated-syllable oo support for /u/; preserve all runtime reading and ownership guards.",
+  "residualContextsSha256": "e519454fec8751704c6f47779e22b7939616442e945ca4e57907ecc5689a4ad0",
+  "baseline": {
+    "fullWords": 200000,
+    "unresolved": 22,
+    "monosyllableCases": 20,
+    "hardCMonosyllableCases": 19,
+    "unsupportedJMonosyllableCases": 1,
+    "otherUnsupportedNeighborCases": 2
+  },
+  "intervention": {
+    "completionWeights": {
+      "phoneme": "u",
+      "form": "oo",
+      "isolatedSyllableWeight": 3
+    },
+    "rationale": "Match existing oo medial/final and completion-initial support weight; independently declare isolated position instead of inferring it from an initial override."
+  },
+  "preserved": [
+    "Initial writer weights and output with omitted completion option",
+    "All projection, shared, split and replay guards",
+    "Unsupported j /j/ and s /sh/ readings remain unsupported"
+  ],
+  "acceptance": [
+    "Full original200000-word20stream capture and production replay",
+    "Independent full recount and all unresolved/unavailable outcomes",
+    "Original83072-call legacy parity and next-value probes",
+    "Original default/type/lint/quality/trace/distribution checks retaining failures",
+    "Six original isolated performance pairs using identical workload/gates",
+    "Deterministic monosyllabic pool and hard-c projection fixtures; unsupported neighboring readings remain refused"
+  ],
+  "limits": "Hypothesis predicts eligibility for19 cases, not full-population reduction or zero unresolved. RNG stream divergence requires full corpus measurement."
+}

@@ -1,0 +1,2002 @@
+[
+  {
+    "word": "scunss",
+    "profile": "monosyllables-bare",
+    "seed": 3297327738,
+    "drawIndex": 3814,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "scums",
+    "profile": "monosyllables-bare",
+    "seed": 3297327738,
+    "drawIndex": 5800,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "cums",
+    "profile": "monosyllables-bare",
+    "seed": 3297327738,
+    "drawIndex": 6052,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "sulkicmarened",
+    "profile": "lexicon-bare",
+    "seed": 1498885173,
+    "drawIndex": 5734,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 4
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "s",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 26,
+        "form": "oo",
+        "weight": 90,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      },
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 7,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "oo",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "s",
+          "afterDoubling": "s",
+          "inventoryIndex": 117,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "ʃ",
+          "boundary": {
+            "phoneme": {
+              "sound": "ʃ",
+              "mannerOfArticulation": "sibilant",
+              "onset": 50,
+              "coda": 97,
+              "startWord": 5,
+              "midWord": 2,
+              "endWord": 7,
+              "voiced": false,
+              "placeOfArticulation": "postalveolar"
+            },
+            "stress": "ˈ"
+          }
+        }
+      },
+      {
+        "form": "ew",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "s",
+          "afterDoubling": "s",
+          "inventoryIndex": 117,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "ʃ",
+          "boundary": {
+            "phoneme": {
+              "sound": "ʃ",
+              "mannerOfArticulation": "sibilant",
+              "onset": 50,
+              "coda": 97,
+              "startWord": 5,
+              "midWord": 2,
+              "endWord": 7,
+              "voiced": false,
+              "placeOfArticulation": "postalveolar"
+            },
+            "stress": "ˈ"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "cun",
+    "profile": "monosyllables-bare",
+    "seed": 62358955,
+    "drawIndex": 829,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "scud",
+    "profile": "monosyllables-bare",
+    "seed": 62358955,
+    "drawIndex": 6330,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "scungeed",
+    "profile": "monosyllables-bare",
+    "seed": 462530651,
+    "drawIndex": 1250,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "cud",
+    "profile": "monosyllables-bare",
+    "seed": 462530651,
+    "drawIndex": 6632,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "sculd",
+    "profile": "lexicon-default",
+    "seed": 69212153,
+    "drawIndex": 6844,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "scucst",
+    "profile": "monosyllables-bare",
+    "seed": 2353354178,
+    "drawIndex": 3478,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "scurn",
+    "profile": "text-default",
+    "seed": 2666001996,
+    "drawIndex": 4247,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "unscus",
+    "profile": "text-default",
+    "seed": 2666001996,
+    "drawIndex": 6997,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "curn",
+    "profile": "text-default",
+    "seed": 3562318933,
+    "drawIndex": 929,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "scucst",
+    "profile": "monosyllables-bare",
+    "seed": 2001884366,
+    "drawIndex": 76,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "scumps",
+    "profile": "monosyllables-bare",
+    "seed": 2001884366,
+    "drawIndex": 265,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "cung",
+    "profile": "monosyllables-bare",
+    "seed": 2001884366,
+    "drawIndex": 1073,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "scucst",
+    "profile": "monosyllables-bare",
+    "seed": 2001884366,
+    "drawIndex": 7701,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "scums",
+    "profile": "monosyllables-bare",
+    "seed": 2001884366,
+    "drawIndex": 8046,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "scus",
+    "profile": "lexicon-default",
+    "seed": 3948943232,
+    "drawIndex": 4297,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 1
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 1,
+          "choiceId": 1,
+          "phoneIds": [
+            1
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            1
+          ]
+        },
+        "phone": {
+          "id": 1,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 1,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "julicky",
+    "profile": "lexicon-bare",
+    "seed": 772709128,
+    "drawIndex": 2470,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 3
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "j",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 26,
+        "form": "oo",
+        "weight": 4.5,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      },
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 0.35,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "oo",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "j",
+          "afterDoubling": "j",
+          "inventoryIndex": 74,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "j",
+          "boundary": {
+            "phoneme": {
+              "sound": "j",
+              "mannerOfArticulation": "glide",
+              "onset": 62,
+              "coda": 0,
+              "startWord": 14,
+              "midWord": 4,
+              "endWord": 1,
+              "voiced": true,
+              "placeOfArticulation": "palatal"
+            },
+            "stress": "ˌ"
+          }
+        }
+      },
+      {
+        "form": "ew",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "j",
+          "afterDoubling": "j",
+          "inventoryIndex": 74,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "j",
+          "boundary": {
+            "phoneme": {
+              "sound": "j",
+              "mannerOfArticulation": "glide",
+              "onset": 62,
+              "coda": 0,
+              "startWord": 14,
+              "midWord": 4,
+              "endWord": 1,
+              "voiced": true,
+              "placeOfArticulation": "palatal"
+            },
+            "stress": "ˌ"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "cusp",
+    "profile": "text-default",
+    "seed": 1665836705,
+    "drawIndex": 2969,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "c",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "c",
+          "afterDoubling": "c",
+          "inventoryIndex": 152,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "k",
+          "boundary": {
+            "phoneme": {
+              "sound": "k",
+              "voiced": false,
+              "placeOfArticulation": "velar",
+              "mannerOfArticulation": "stop",
+              "onset": 152,
+              "coda": 95,
+              "startWord": 4,
+              "midWord": 10,
+              "endWord": 10
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "word": "jungth",
+    "profile": "text-default",
+    "seed": 1665836705,
+    "drawIndex": 7903,
+    "slot": {
+      "syllableIndex": 0,
+      "syllableCount": 1
+    },
+    "prefix": {
+      "status": "available",
+      "prefix": {
+        "previousForm": "j",
+        "doublingCount": 0
+      },
+      "evidence": {
+        "doublingCount": 0,
+        "quotaSource": "original"
+      }
+    },
+    "proposals": [
+      {
+        "inventoryIndex": 27,
+        "form": "u",
+        "weight": 100,
+        "reading": {
+          "kind": "open-vowel-or-split-marker"
+        },
+        "refusal": "unresolved-vowel-obligation"
+      },
+      {
+        "inventoryIndex": 29,
+        "form": "ew",
+        "weight": 140,
+        "reading": {
+          "kind": "single-phone"
+        },
+        "projection": {
+          "status": "refused",
+          "reason": "neighbor-reading",
+          "unitId": 0
+        },
+        "refusal": "neighbor-reading"
+      }
+    ],
+    "refusedNeighborUnits": [
+      {
+        "form": "ew",
+        "unit": {
+          "id": 0,
+          "choiceId": 0,
+          "phoneIds": [
+            0
+          ],
+          "selected": "j",
+          "afterDoubling": "j",
+          "inventoryIndex": 74,
+          "doublingIncrement": 0,
+          "sourceCellIds": [
+            0
+          ]
+        },
+        "phone": {
+          "id": 0,
+          "part": "root",
+          "syllableIndex": 0,
+          "segment": "onset",
+          "segmentIndex": 0,
+          "soundAtSpelling": "j",
+          "boundary": {
+            "phoneme": {
+              "sound": "j",
+              "mannerOfArticulation": "glide",
+              "onset": 62,
+              "coda": 0,
+              "startWord": 14,
+              "midWord": 4,
+              "endWord": 1,
+              "voiced": true,
+              "placeOfArticulation": "palatal"
+            }
+          }
+        }
+      }
+    ]
+  }
+]
