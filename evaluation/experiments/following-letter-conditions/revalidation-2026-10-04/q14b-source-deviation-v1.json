@@ -1,0 +1,8 @@
+{
+  "publishedSourceDifference": [
+    "src/core/spelling-sequence-probability.ts"
+  ],
+  "declaredCommentOnlyDeviationVerifiedByDiff": true,
+  "frozenGeneratorFiles": 94,
+  "scope": "Original capture source, not published comment-corrected source, is authority for any runtime replay."
+}

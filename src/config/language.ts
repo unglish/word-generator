@@ -805,6 +805,8 @@ export interface LanguageConfig {
   sharedSpellings?: SharedSpellingRule[];
   /** Opt-in owned split-vowel formation and final obligation completion. Absent preserves legacy behavior. */
   splitVowels?: { supports: SplitVowelSupport[]; routes: SplitVowelRoutes };
+  /** Experimental initial-sequence conditioning; final-root preservation is measured separately. */
+  followingLetters?: { targets: { phoneme: string; form: string }[] };
 
   /** Cross-syllable consonant cluster repair constraints. */
   clusterConstraint?: ClusterConstraint;

@@ -1,3 +1,4 @@
+import type { createFollowingViewGuard } from "./spelling-following-guard.js";
 import type { createCompletionPlanner } from "./spelling-completion-planner.js";
 import { prepareCompletionTransaction } from "./spelling-completion-transaction.js";
 import type { CompletionAttempt, CompletionCertificate, CompletionCellOrigin } from "./spelling-completion-transaction.js";
@@ -103,6 +104,9 @@ export interface SpellingEdit {
 }
 
 interface BaseSpellingTraceData {
+  /** Experimental diagnostics; full timeline authentication is required before candidate acceptance. */
+  followingGuards?: Array<{ operation: "edit" | "batch"; phase: SpellingEdit["phase"]; cursor: LedgerCursor;
+    edits: SpellingBatchEdit[]; decision: ReturnType<ReturnType<typeof createFollowingViewGuard>> }>;
   scope: "root-before-morphology" | "bare-after-gap-spelling";
   surface: string;
   phones: SpellingPhone[];
@@ -242,6 +246,7 @@ export class BaseSpelling {
   private readonly completionCertificates: CompletionCertificate[] = [];
   private readonly completionAttempts: BaseSpellingTraceV5["completion"]["attempts"] = [];
   private completionPassStarted = false;
+  private readonly followingGuards?: NonNullable<BaseSpellingTraceData["followingGuards"]>;
   private nextCellId = 0;
   private nextEditId = 0;
   private readonly edits?: SpellingEdit[];
@@ -258,7 +263,9 @@ export class BaseSpelling {
     sharedRuntime?: ReturnType<typeof createSharedSpellingRuntime>,
     private readonly splitRuntime?: ReturnType<typeof createSplitSpellingRuntime>,
     private readonly completionPlanner?: ReturnType<typeof createCompletionPlanner>,
+    private readonly followingGuard?: ReturnType<typeof createFollowingViewGuard>,
   ) {
+    if (followingGuard && retainHistory) this.followingGuards = [];
     if (completionPlanner && !splitRuntime) throw new Error("Completion requires split ledger capability");
     if (splitRuntime && sharedRules === undefined) throw new Error("Split vowels require shared ledger capability");
     if (sharedRules !== undefined) {
@@ -336,6 +343,11 @@ export class BaseSpelling {
     const input = this.cells.slice(start, start + deleteCount);
     const before = input.map((cell) => cell.text).join("");
     if (before === insert) return true;
+    if (this.followingGuard) {
+      const projected = this.cells.slice();
+      projected.splice(start, deleteCount, ...rewriteCells(input, insert, this.nextEditId, this.nextCellId, editPart(input, partId), this.licensed));
+      if (!this.checkFollowingGuard(projected, [{ start, deleteCount, insert, rule, partId }], "edit")) return false;
+    }
     if (this.splitRuntime && this.splitConstructions.length) {
       const projected = this.cells.slice();
       projected.splice(start, deleteCount, ...rewriteCells(input, insert, this.nextEditId, this.nextCellId, editPart(input, partId), this.licensed));
@@ -385,11 +397,21 @@ export class BaseSpelling {
       nextCellId += output.length;
       cells.splice(start, deleteCount, ...output);
     }
+    if (!this.checkFollowingGuard(cells, edits, "batch")) return false;
     if (this.splitRuntime && !this.recordSplitGuard(cells, edits, "batch")) return false;
     for (const { edit, input, before } of prepared) this.commitRewrite(edit.start, input, before, edit.insert, edit.rule, edit.partId);
     this.sharedTransactions?.push(structuredClone({ cursor, phase: this.phase, edits: [...edits], checks, status: "applied" }));
     this.recordSharedEvent("transaction", (this.sharedTransactions?.length ?? 1) - 1, cursor);
     return true;
+  }
+
+  private checkFollowingGuard(projected: readonly SpellingCell[], edits: readonly SpellingBatchEdit[], operation: "edit" | "batch"): boolean {
+    if (!this.followingGuard) return true;
+    const before = this.constructionState();
+    const decision = this.followingGuard(before, { ...before, cells: projected });
+    this.followingGuards?.push(structuredClone({ operation, phase: this.phase, cursor: before.cursor, edits: [...edits], decision }));
+    this.recordTimeline("following-guard", (this.followingGuards?.length ?? 1) - 1, before.cursor);
+    return decision.status === "preserved";
   }
 
   private recordSplitGuard(projected: readonly SpellingCell[], edits: readonly SpellingBatchEdit[], operation: "edit" | "batch"): boolean {
@@ -841,6 +863,7 @@ export class BaseSpelling {
 
   snapshot(): BaseSpellingTrace {
     const data: BaseSpellingTraceData = {
+      ...(this.followingGuards ? { followingGuards: this.followingGuards } : {}),
       scope: this.scope,
       surface: this.cells.map((cell) => cell.text).join(""),
       phones: this.phones,

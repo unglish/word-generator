@@ -1,0 +1,42 @@
+{
+  "source": "/private/tmp/q14a-candidate-analysis-v1/witnesses.json.gz",
+  "sha256": "0bab3265493964ec9994735bad87384a58ac172df23b3d52eacf23c6b2a8c8ea",
+  "selection": "first witness per ownership/context origin in existing stratified archive; not a population estimate",
+  "coordinates": [
+    {
+      "purpose": "context-before-selection",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 16,
+      "word": "socyrelmsing"
+    },
+    {
+      "purpose": "context-before-rewrite",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 31,
+      "word": "brodcytion"
+    },
+    {
+      "purpose": "context-before-completion",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 212,
+      "word": "geadnas"
+    },
+    {
+      "purpose": "licensed",
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "drawIndex": 1514,
+      "word": "uhean"
+    },
+    {
+      "purpose": "context-before-split-vowel",
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "drawIndex": 314,
+      "word": "vicone"
+    }
+  ]
+}

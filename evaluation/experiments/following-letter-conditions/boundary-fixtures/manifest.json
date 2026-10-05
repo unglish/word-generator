@@ -1,0 +1,32 @@
+{
+  "status": "synthetic public-API ownership boundary fixtures; not linguistic population evidence",
+  "words": 3,
+  "events": 18,
+  "integerComparisons": 621,
+  "files": [
+    {
+      "path": "boundary-fixtures/shared-context.jsonl.gz",
+      "sha256": "71a27c2a6d44d384ddb151fd794cb2f86ce6c96f7c60e57a30958a998ef3c6c8"
+    },
+    {
+      "path": "check-shared-context.ts",
+      "sha256": "6fccd7ab8b6d4b5155859506ed15dcfe7ee8d51e69ac8a5b8ad59bccfec47e9d"
+    },
+    {
+      "path": "observe-following.test.ts",
+      "sha256": "88b2d478a45382ea75b6dbb388ce9e86b11f20f256a4ceb133f9b1e6faab2c99"
+    },
+    {
+      "path": "test_recount_following.py",
+      "sha256": "181a13146ee7a3c0d3c5a6b7b0e142f079daeb9d7a98089ac03ab96bdaedd531"
+    },
+    {
+      "path": "observe-following.ts",
+      "sha256": "00e885dda89ea5af69b3014a7f7763ca9504e3922861665df8ec2e01c42e7762"
+    },
+    {
+      "path": "recount_following.py",
+      "sha256": "baa7959eda0c9ec4e7c86c48c1bbc626388b0731aff07b2e3b8b1abae30cd788"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "version": "q14b-immediate-control-observation-v1",
+  "status": "Prospective descriptive baseline binding; no Q14b generation policy or candidate registered",
+  "archive": "/private/tmp/q14a-split-vowels-candidate-v2",
+  "manifestSha256": "7593ad8e8e77e7428c3d07c00f6166fe09ff06c8533741eb1e1d6f1259e3735c",
+  "words": 200000,
+  "streams": 20,
+  "cohort": "development",
+  "configuration": "Exact archived effective configuration; English configuration plus the registered Q14a split policy, checked by canonical equality",
+  "observer": "observe-following.ts",
+  "recount": "recount_following.py and recount_corpus.py",
+  "protocol": "Unchanged evaluation/quality/protocol.json; validation remains sealed",
+  "acceptance": [
+    "Every archived artifact hash verifies before and after analysis",
+    "Every trace passes full production evidence authentication",
+    "Exactly ordered complete streams and per-word ownership, selection-cohort, reading and transition accounting",
+    "Unchanged source, dependencies, runtime and execution environment across analysis",
+    "Independent recount agrees on events except producer refusal text, all per-word counts and all report count groups"
+  ],
+  "interpretationLimits": [
+    "Q14a remains a failed-acceptance opt-in experiment; selecting it as the branch's immediate control does not endorse it",
+    "Root evidence cannot certify final assembled morphology",
+    "Configured-reading compliance and linguistic interpretation are separate axes",
+    "No independent human reading or quality gain is established",
+    "Diagnostic eventCounts and refusal text are producer diagnostics, not independently certified",
+    "Original-baseline observation remains a separate required comparison before a candidate improvement claim"
+  ]
+}

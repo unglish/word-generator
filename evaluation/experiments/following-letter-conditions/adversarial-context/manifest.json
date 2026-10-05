@@ -1,0 +1,13 @@
+{
+  "status": "Pre-guard failure witness; synthetic word-rule e-to-a after c, public seed 464, root ceff becomes caff and morphology yields uncaff. Not a population estimate.",
+  "artifacts": [
+    {
+      "file": "capture.ts",
+      "sha256": "7ea03e11a96bb4a0114f07dbc5ca9b994660932952db206d331e0322ae3a70ce"
+    },
+    {
+      "file": "failing-word.jsonl.gz",
+      "sha256": "7d20323d0188e9b1fce6830ca8a2cb10979d26d3ee534a009a96f34fdeeb22b4"
+    }
+  ]
+}

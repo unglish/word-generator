@@ -1,0 +1,127 @@
+{
+  "reportSha256": "ff44ceda88f8f3db528e6934c77cb065ca696f034506a1d96ad65c5aa65159fe",
+  "scope": "Verified production count summary; independent recount agrees on all count groups. Units are phone-linked grapheme events, not words. Final assembled morphology is not certified.",
+  "rows": [
+    {
+      "dimensions": [
+        "all"
+      ],
+      "initialSoftUnits": 6736,
+      "initialIncompatible": 2065,
+      "finalSingleOwnedSoftUnits": 6725,
+      "finalIncompatible": 2029,
+      "finalJointOwnedSoftCohort": 11,
+      "incompatibleToCompatible": 34,
+      "compatibleToIncompatible": 0,
+      "transitions": {
+        "transition:soft-c:c:contextual-compatible:contextual-compatible": 3926,
+        "transition:soft-c:c:contextual-incompatible:contextual-incompatible": 1740,
+        "transition:soft-c:sc:contextual-compatible:contextual-compatible": 176,
+        "transition:soft-g:g:contextual-compatible:contextual-compatible": 560,
+        "transition:soft-g:g:contextual-incompatible:contextual-incompatible": 181,
+        "transition:soft-c:sc:contextual-incompatible:contextual-incompatible": 108,
+        "transition:soft-c:c:contextual-incompatible:contextual-compatible": 27,
+        "transition:soft-g:g:contextual-incompatible:contextual-compatible": 4,
+        "transition:soft-c:c:contextual-compatible:joint-owned": 9,
+        "transition:soft-c:c:contextual-incompatible:joint-owned": 2,
+        "transition:soft-c:sc:contextual-incompatible:contextual-compatible": 3
+      }
+    },
+    {
+      "dimensions": [
+        "profile",
+        "lexicon-bare"
+      ],
+      "initialSoftUnits": 2844,
+      "initialIncompatible": 828,
+      "finalSingleOwnedSoftUnits": 2838,
+      "finalIncompatible": 823,
+      "finalJointOwnedSoftCohort": 6,
+      "incompatibleToCompatible": 3,
+      "compatibleToIncompatible": 0,
+      "transitions": {
+        "transition:soft-c:c:contextual-compatible:contextual-compatible": 1717,
+        "transition:soft-c:c:contextual-incompatible:contextual-incompatible": 744,
+        "transition:soft-g:g:contextual-compatible:contextual-compatible": 241,
+        "transition:soft-g:g:contextual-incompatible:contextual-incompatible": 53,
+        "transition:soft-c:sc:contextual-incompatible:contextual-incompatible": 26,
+        "transition:soft-c:sc:contextual-compatible:contextual-compatible": 54,
+        "transition:soft-g:g:contextual-incompatible:contextual-compatible": 1,
+        "transition:soft-c:c:contextual-compatible:joint-owned": 4,
+        "transition:soft-c:c:contextual-incompatible:contextual-compatible": 2,
+        "transition:soft-c:c:contextual-incompatible:joint-owned": 2
+      }
+    },
+    {
+      "dimensions": [
+        "profile",
+        "lexicon-default"
+      ],
+      "initialSoftUnits": 2129,
+      "initialIncompatible": 646,
+      "finalSingleOwnedSoftUnits": 2125,
+      "finalIncompatible": 636,
+      "finalJointOwnedSoftCohort": 4,
+      "incompatibleToCompatible": 10,
+      "compatibleToIncompatible": 0,
+      "transitions": {
+        "transition:soft-c:c:contextual-compatible:contextual-compatible": 1247,
+        "transition:soft-c:c:contextual-incompatible:contextual-incompatible": 532,
+        "transition:soft-c:sc:contextual-compatible:contextual-compatible": 50,
+        "transition:soft-g:g:contextual-compatible:contextual-compatible": 182,
+        "transition:soft-g:g:contextual-incompatible:contextual-incompatible": 70,
+        "transition:soft-c:sc:contextual-incompatible:contextual-incompatible": 34,
+        "transition:soft-c:c:contextual-incompatible:contextual-compatible": 9,
+        "transition:soft-g:g:contextual-incompatible:contextual-compatible": 1,
+        "transition:soft-c:c:contextual-compatible:joint-owned": 4
+      }
+    },
+    {
+      "dimensions": [
+        "profile",
+        "monosyllables-bare"
+      ],
+      "initialSoftUnits": 317,
+      "initialIncompatible": 109,
+      "finalSingleOwnedSoftUnits": 317,
+      "finalIncompatible": 106,
+      "finalJointOwnedSoftCohort": 0,
+      "incompatibleToCompatible": 3,
+      "compatibleToIncompatible": 0,
+      "transitions": {
+        "transition:soft-c:c:contextual-incompatible:contextual-incompatible": 75,
+        "transition:soft-c:c:contextual-compatible:contextual-compatible": 164,
+        "transition:soft-c:sc:contextual-compatible:contextual-compatible": 17,
+        "transition:soft-g:g:contextual-incompatible:contextual-incompatible": 20,
+        "transition:soft-g:g:contextual-compatible:contextual-compatible": 27,
+        "transition:soft-g:g:contextual-incompatible:contextual-compatible": 2,
+        "transition:soft-c:sc:contextual-incompatible:contextual-incompatible": 11,
+        "transition:soft-c:c:contextual-incompatible:contextual-compatible": 1
+      }
+    },
+    {
+      "dimensions": [
+        "profile",
+        "text-default"
+      ],
+      "initialSoftUnits": 1446,
+      "initialIncompatible": 482,
+      "finalSingleOwnedSoftUnits": 1445,
+      "finalIncompatible": 464,
+      "finalJointOwnedSoftCohort": 1,
+      "incompatibleToCompatible": 18,
+      "compatibleToIncompatible": 0,
+      "transitions": {
+        "transition:soft-c:c:contextual-compatible:contextual-compatible": 798,
+        "transition:soft-c:c:contextual-incompatible:contextual-incompatible": 389,
+        "transition:soft-c:sc:contextual-compatible:contextual-compatible": 55,
+        "transition:soft-g:g:contextual-compatible:contextual-compatible": 110,
+        "transition:soft-c:sc:contextual-incompatible:contextual-incompatible": 37,
+        "transition:soft-c:c:contextual-incompatible:contextual-compatible": 15,
+        "transition:soft-g:g:contextual-incompatible:contextual-incompatible": 38,
+        "transition:soft-c:sc:contextual-incompatible:contextual-compatible": 3,
+        "transition:soft-c:c:contextual-compatible:joint-owned": 1
+      }
+    }
+  ]
+}

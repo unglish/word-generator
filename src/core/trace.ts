@@ -1,3 +1,4 @@
+import type { SequenceSelectionEvidence } from "./spelling-sequence-evidence.js";
 import type { SpellingBudgetOutcome } from "./spelling-coverage-types.js";
 import type { BaseSpellingTrace } from "./base-spelling.js";
 import type { Syllable } from "../types.js";
@@ -27,6 +28,8 @@ export interface DoublingTrace {
 }
 
 export interface GraphemeTrace {
+  /** Replaces legacy weight/roll and doubling sampling evidence when present. */
+  conditionedSelection?: SequenceSelectionEvidence;
   /** Stable grapheme-decision index in flattened phoneme order. */
   index: number;
   phoneme: string;

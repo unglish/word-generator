@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "words": 2000,
+  "events": 19450,
+  "integerComparisons": 412990,
+  "archiveSha256": "8a98f94179f9d5a806e70549c113e6ef29ae7bcfba102bb06cc8a37a56e626f7",
+  "summarySha256": "523680cfeeb582eb56d1ead8645a080a59cd610406a351956454fa96323c9c4e",
+  "scope": "Exploratory pilot: independent events/counts except producer refusal text; selection-law replay remains production-assisted; no formal candidate claim"
+}
