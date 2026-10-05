@@ -1,0 +1,647 @@
+{
+  "schemaVersion": 1,
+  "probe": "base-spelling-parity-v1",
+  "createdAt": "2026-10-05T02:42:45.627Z",
+  "mode": "candidate",
+  "node": "v24.11.1",
+  "checkout": "/private/tmp/q02a-root-budget-integration-v1/candidate",
+  "gitHead": "02f8b10652edaeb1ff957e32f482ca341969fca1",
+  "sourceDigest": "d177d91858f442e00604c38708728c62d0a4c053016c2631163979d24b7fb0b7",
+  "sourceFiles": {
+    "src/config/english.ts": "8d866eb7e7deeaeaccbdcdf3b6d4e8dac80da468a0393ea48841fa1f37e95c63",
+    "src/config/language.ts": "1f8ff5e3dcabb686a06915cbd4ffcd51ef33d200f778c2480548cf63f1a86962",
+    "src/config/ngram-thresholds.json": "a8ded5db4d69f7699f22289287f8471d249837c5a67efaef4cc62c7aa23aa739",
+    "src/config/phoneme-thresholds.json": "2c812622ba7092c4c4034e657660f059f4387498c75777beb15bade75dbe44a5",
+    "src/config/weights.ts": "842d16e5df9b15875cccd1ca455ae3b8fb62aecc0da16503411041629e31debc",
+    "src/core/base-spelling.ts": "ddf419f470bef23c8d78af829770941e3df477f91dd8cf771cebbb07b0454b8b",
+    "src/core/distribution-quality.ts": "21724b78fc1140bca91f2b84aecbc0346b08a58b7bd94291eea8fbe3710685a3",
+    "src/core/gap-spelling.ts": "ebcc507938784205c9d902e4567be0416b59d6782808d4e5f53d0723db19c91f",
+    "src/core/generate.ts": "7fd4e566acb9c5896b3e880f7e7de73883eed5a1b2b553a1c28e770a874028e3",
+    "src/core/junction.ts": "ec181ba1e8085e9b3a808d472231f30dbc20dc5445c72abd786d84405ff199f7",
+    "src/core/length-semantics.ts": "7a7e9067b6269f2e53b372ede96e87df88716a33dd4388e29c95850cf7d543e7",
+    "src/core/morphology/attach.ts": "e96c9ccc6e5695b2b717c40720c79f45c5c20c8e012af2bbecf4d1563a1d9394",
+    "src/core/morphology/index.ts": "1bd83c8f3f1fb2ac4fc7ad63e0a1c4a7674e64007dcb321690e95b664b45e160",
+    "src/core/morphology/plan.ts": "ff84497ac9d43c197e8438bc5b6ed8ef6f80448db5013ff347ad132583818d0a",
+    "src/core/morphology/realization.ts": "22958bc36109a604312484c3eb89b9d8a256acf7f1b789795dbe35378325987a",
+    "src/core/nucleus-position.ts": "2f66586507fb44a034292d90096e0346544bf4b9533e7d0b53a6af82c9a62af2",
+    "src/core/ot-stress.ts": "1b8713edcd67dfe9058a07d10bd9cb03dd407e4351e9a9945f4cd431e2eb8134",
+    "src/core/phoneme-normalization.ts": "56c473fcffaa16f5c4074808731e1755b62374cc830b6b101c2fd988c8025a64",
+    "src/core/phoneme-quality.ts": "47151e90086a8948001197076b7869bc061347e851d34972a2f95ce5b5fd8b85",
+    "src/core/pronounce.ts": "2c1d310d995ad0040a880e1baa913b7bd518a2505990246e93d315add88eb6ba",
+    "src/core/repair.ts": "f2b8ed1a8976009b2193611a867738f112f64bb7211c3d4caa4c1aceabd01d91",
+    "src/core/stress-repair.ts": "92b4d826268258abd6ee75acc66f26b28f281a236b6e489e3daa9831bf2745c1",
+    "src/core/syllable-weight.ts": "09b4886b33f9c5787fe576cdda4d831eb154017353ce614249162310cfa8072d",
+    "src/core/trace.ts": "93537afc8f5107b7767ffcc794f6c13a2d7836167fd34af40750cbd493a25bb6",
+    "src/core/vowel-sounds.ts": "51d38dae7c5ca265f6dacad6ffcf1476aae941ee4fd113615780d758b9bcb533",
+    "src/core/write.ts": "2fab7c00afb952f2b4603265b24bb100668a72bafed7ab6a56e0b6c79ef6e78b",
+    "src/elements/graphemes/affricates.ts": "51becb3748b3b6d6ab30978481d548f5411f0f98d88912667f48bc39151034db",
+    "src/elements/graphemes/diphthongs.ts": "629bbe20d77931f9b1e3e969ff5ba240a9f6c9aa3d955f537ea00aead11286ed",
+    "src/elements/graphemes/fricatives.ts": "a3a5ca2fab076196125082ce961579e4bbc939a9c4b6b904f161cf80c4813cfd",
+    "src/elements/graphemes/glides.ts": "7d6b58ca1de51d4ca9c49b0e7b0b8e06dc0898a9cb860e8e1b744ebf98cc5422",
+    "src/elements/graphemes/index.ts": "365c07631fe9eb0efb978797920026cc4b465eff0f7cf6d36e3d5ea73fcaab86",
+    "src/elements/graphemes/liquids.ts": "9ed2dd1eecaa121d349c834c516259d0aebcb278c4554dfc3c23fb777f6ce929",
+    "src/elements/graphemes/nasals.ts": "32d2163923d078019cc9ff6d160743540b4e90c0e1fc4346afe5eb1db770447c",
+    "src/elements/graphemes/rhotics.ts": "0b89ac7adcaab4001024bf8a4390f1bd00977448a27cb8e907474d951c6fb5c5",
+    "src/elements/graphemes/stops.ts": "e78264332e8d19a92cb14c153c7ddce8ee16ab4c946d335f9b39a4c7de9079a5",
+    "src/elements/graphemes/vowels.ts": "e016966a71db2d79212cc1227a3a48766432cea3b2573236ae1d8a84a7656570",
+    "src/elements/phonemes.ts": "bfd4c24af5892d3c7a7ed85d6fa576896f5e2376cab10e8d3319396739ea6bee",
+    "src/index.ts": "874fbd197ac2c308166db79bacd506c6353c6407678a029afdc370d049e8bc36",
+    "src/phonotactic/arpabet-bigrams.ts": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7",
+    "src/phonotactic/english-baseline.json": "b09571249718792461073319d610dd634705bdac6fc9454aa9a7950a715d760b",
+    "src/phonotactic/ipa-to-arpabet.ts": "e225cbe65a4820e727b8e4bf7f009089b6f3d566cfb07ccf3b13c3d127172913",
+    "src/phonotactic/score.ts": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f",
+    "src/types.ts": "e706bfc57d5751cd7369e4af74924ca53a27b31c5efeba72fe7dbd8137d33853",
+    "src/utils/getWeightedOption.ts": "4d16a72fa6edd11da1593a60195fcaab09768514a5727f1b9b1ff0885d12853e",
+    "src/utils/letters.ts": "f8287f6025e51fe8b6745a077c2cdaa907dbdefde6761e001ce071c42da690c8",
+    "src/utils/phonemes.ts": "619f5e6ab0d520b21636589acdb2593c65a21f4ee3040b80c220c61c37b198f9",
+    "src/utils/random.ts": "4967fc0c37a98835e7fef3d1be5cfda591b49927029352333b77cba7e9c922d7",
+    "src/worker-entry.js": "2fccd58b877a21ee6d968415390b194490376654be03df6da5b3122e5149bc12",
+    "package.json": "2678c08a6b1b6a9077edc980ccdf7e9cf041533de7f7d2c31161139816ca32f6",
+    "package-lock.json": "985093dd683275e3c5c5f10ae2210c7395914de9bb669f71c9b1e34350218bc6",
+    "tsconfig.json": "250ce839ecda24468fc9f38856e53ad8aef88b152b9b372cb1e51d29817c0356"
+  },
+  "evaluatorSha256": "3fc29a298443880240ead59ee646da03b168bb71e948359db3b8a5c5fdb1de28",
+  "scheduleSha256": "fbaa8e8ba1344a8eeeda0695fa42d57398e043e2fe86a32521e5ad83df01cb97",
+  "generatedWords": 40000,
+  "verifiedLedgers": 20000,
+  "editCounts": {
+    "silentE:marker": 1898,
+    "spellingRule:magic-e": 617,
+    "spellingRule:ckt-to-ct": 13,
+    "deduplicateAdjacentLetters": 749,
+    "silentE:swap": 774,
+    "spellingRule:no-final-i": 273,
+    "deduplicateSyllableJoin": 121,
+    "repairConsonantPileups": 4,
+    "spellingRule:eng-to-ing": 234,
+    "spellingRule:nc-to-nk": 273,
+    "orthographicRepair:hard-g-silent-u": 89,
+    "spellingRule:ow-cluster-simplify": 85,
+    "spellingRule:cw-to-qu": 281,
+    "spellingRule:ew-cluster-simplify": 104,
+    "repairFinalConsonantLetters": 277,
+    "silentE:append": 52,
+    "postJoinVowelCap": 50,
+    "repairVowelLetters": 59,
+    "repairConsonantLetters": 34,
+    "spellingRule:ks-to-x": 65,
+    "spellingRule:sibilant-s-epenthesis": 31,
+    "spellingRule:gz-to-x": 20,
+    "spellingRule:no-final-v": 1,
+    "spellingRule:cx-to-x": 7,
+    "spellingRule:iy-to-y": 1,
+    "gapSpelling:who": 2,
+    "spellingRule:iw-to-w": 3,
+    "spellingRule:uw-to-w": 1,
+    "gapSpelling:when": 1,
+    "gapSpelling:you": 2,
+    "gapSpelling:what": 1
+  },
+  "streams": [
+    {
+      "profile": "lexicon-default",
+      "options": {
+        "mode": "lexicon",
+        "morphology": true
+      },
+      "seed": 69212153,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "a60e0b922b03397e11092c24fbc0b80693b92a71a3b2e12673f52b3faaeedae2",
+          "rngBoundaryHash": "d0703dc51810a5bb1ea5642b87e231fc48bbaac832adcc36dbfca87b6fe8d8bc",
+          "rngCalls": 86550,
+          "nextRng": 0.7974031486082822,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "a60e0b922b03397e11092c24fbc0b80693b92a71a3b2e12673f52b3faaeedae2",
+          "rngBoundaryHash": "d0703dc51810a5bb1ea5642b87e231fc48bbaac832adcc36dbfca87b6fe8d8bc",
+          "rngCalls": 86550,
+          "nextRng": 0.7974031486082822,
+          "legacyTraceHash": "4d810128e40e4b2eb9642821c6473976c266713c9d4a9346d397aed8df94fcbb"
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "options": {
+        "mode": "lexicon",
+        "morphology": true
+      },
+      "seed": 101601885,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "97ef26910e36811cd2a9dda797aeb20e7f78af197b6633dc143fae2bb20ab870",
+          "rngBoundaryHash": "8b8bd1a7cd24629123c49dd0dfedadf041f6481b7072287fb240d147c0088b8c",
+          "rngCalls": 84113,
+          "nextRng": 0.9060986663680524,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "97ef26910e36811cd2a9dda797aeb20e7f78af197b6633dc143fae2bb20ab870",
+          "rngBoundaryHash": "8b8bd1a7cd24629123c49dd0dfedadf041f6481b7072287fb240d147c0088b8c",
+          "rngCalls": 84113,
+          "nextRng": 0.9060986663680524,
+          "legacyTraceHash": "4b3a2066e3ac00dacb18e213b160de090cb63b8c79164531247a769a486ace5e"
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "options": {
+        "mode": "lexicon",
+        "morphology": true
+      },
+      "seed": 3921817393,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "37152fba32da77dc8597b8721b92981c080ab2d0c3526d4819f4aaeada963e55",
+          "rngBoundaryHash": "c9b68afa1cabf61ca6b6a7a48b5b2e843bfa2437ec81392377b1f8ddd9f103db",
+          "rngCalls": 83067,
+          "nextRng": 0.1709976987913251,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "37152fba32da77dc8597b8721b92981c080ab2d0c3526d4819f4aaeada963e55",
+          "rngBoundaryHash": "c9b68afa1cabf61ca6b6a7a48b5b2e843bfa2437ec81392377b1f8ddd9f103db",
+          "rngCalls": 83067,
+          "nextRng": 0.1709976987913251,
+          "legacyTraceHash": "a5fc44168384422b2a58476ed6f701f4a407acbc83693c88243b58eab27c5771"
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "options": {
+        "mode": "lexicon",
+        "morphology": true
+      },
+      "seed": 3948943232,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "ff0e00d967462872ea8091d16d85f0c9a7f636fe96ffa4f69051beb1581b02a7",
+          "rngBoundaryHash": "67a377e6448f301dddb223ae7c8884fafa4e620a162e4b893028b1037a0f4d08",
+          "rngCalls": 85423,
+          "nextRng": 0.3214609900023788,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "ff0e00d967462872ea8091d16d85f0c9a7f636fe96ffa4f69051beb1581b02a7",
+          "rngBoundaryHash": "67a377e6448f301dddb223ae7c8884fafa4e620a162e4b893028b1037a0f4d08",
+          "rngCalls": 85423,
+          "nextRng": 0.3214609900023788,
+          "legacyTraceHash": "eb688393c4d1371744640c07b1a3f240f60ea99ab7fd23e48469cb17ebd44936"
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-default",
+      "options": {
+        "mode": "lexicon",
+        "morphology": true
+      },
+      "seed": 2089697863,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "e19f7a6e592f72a1c397ba922d43bf977cbc492e2e88500c2ae3a46fddcb0c2f",
+          "rngBoundaryHash": "5e1edbaf5bea97dbeed7e77ae5b62822b8422c67a4cd36273a0eedef217eb305",
+          "rngCalls": 85043,
+          "nextRng": 0.35873232898302376,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "e19f7a6e592f72a1c397ba922d43bf977cbc492e2e88500c2ae3a46fddcb0c2f",
+          "rngBoundaryHash": "5e1edbaf5bea97dbeed7e77ae5b62822b8422c67a4cd36273a0eedef217eb305",
+          "rngCalls": 85043,
+          "nextRng": 0.35873232898302376,
+          "legacyTraceHash": "be14d40865117151be88e3dbefd3da6f399a557f8e7d96d19959045918f8e1e4"
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false
+      },
+      "seed": 2380207674,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "dc4671d9cfe80ef56b91d37ae95c089c1d6018d317a6c7ae0db9c4833aa8e63d",
+          "rngBoundaryHash": "6c340156a562cf30167b8833554f14875ec3bd30531e69c29a303b1c3089e436",
+          "rngCalls": 85001,
+          "nextRng": 0.26774692395702004,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "dc4671d9cfe80ef56b91d37ae95c089c1d6018d317a6c7ae0db9c4833aa8e63d",
+          "rngBoundaryHash": "6c340156a562cf30167b8833554f14875ec3bd30531e69c29a303b1c3089e436",
+          "rngCalls": 85001,
+          "nextRng": 0.26774692395702004,
+          "legacyTraceHash": "d216ea399094d7907d13fdf2889fb77a728f734319e7353c0f203b35d8012d88"
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false
+      },
+      "seed": 772709128,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "ceca17f386d0c89bb71d408c1628907ecbf866ebf4753a3f9aa1ef37612ab5db",
+          "rngBoundaryHash": "f6ba0b447d42e56e484196da1a927e0e8923cc5b71c603091d5620956f786caf",
+          "rngCalls": 89885,
+          "nextRng": 0.2822905546054244,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "ceca17f386d0c89bb71d408c1628907ecbf866ebf4753a3f9aa1ef37612ab5db",
+          "rngBoundaryHash": "f6ba0b447d42e56e484196da1a927e0e8923cc5b71c603091d5620956f786caf",
+          "rngCalls": 89885,
+          "nextRng": 0.2822905546054244,
+          "legacyTraceHash": "7919e5b3586eb04d13174ad3a8c0b840a4a8737ba1daec27854d969855d34eb4"
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false
+      },
+      "seed": 1304238451,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "f1b8ade3651389e29baa8e50487fb325479081bdccf9541f813ba711a9ba8845",
+          "rngBoundaryHash": "b3c56ceefd85a8123bc4c9b102aae000b672a7b1c9fa78e4f6cdf0f44654a57e",
+          "rngCalls": 88621,
+          "nextRng": 0.9344138281885535,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "f1b8ade3651389e29baa8e50487fb325479081bdccf9541f813ba711a9ba8845",
+          "rngBoundaryHash": "b3c56ceefd85a8123bc4c9b102aae000b672a7b1c9fa78e4f6cdf0f44654a57e",
+          "rngCalls": 88621,
+          "nextRng": 0.9344138281885535,
+          "legacyTraceHash": "ce6f8c71dfcc58535e13f9b81013701c6e0d6e2ecaae7395c9f18c490cc36f48"
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false
+      },
+      "seed": 1696751198,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "0dd09b671b412bb1adbdb57f8bea38686ca454a6390d320f61bd087579f1ab43",
+          "rngBoundaryHash": "a1c539a93349bb8f3d33e784cfa152cde3832ff8f5f13522806956d6e7d21e5c",
+          "rngCalls": 80324,
+          "nextRng": 0.8715948655735701,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "0dd09b671b412bb1adbdb57f8bea38686ca454a6390d320f61bd087579f1ab43",
+          "rngBoundaryHash": "a1c539a93349bb8f3d33e784cfa152cde3832ff8f5f13522806956d6e7d21e5c",
+          "rngCalls": 80324,
+          "nextRng": 0.8715948655735701,
+          "legacyTraceHash": "64284e10339bae981a3b948846df9d246fcffdb4ea74d21c1629ae6a58ed2913"
+        }
+      ]
+    },
+    {
+      "profile": "lexicon-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false
+      },
+      "seed": 1498885173,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "23826d197afd4069a3194a5c9b32a497d0b325811d6fb65ac876aa16e2e28a05",
+          "rngBoundaryHash": "a721f1ae2495ee8deef3a7f4a7dbdcee3486c25750e5653493b4cd493c2db086",
+          "rngCalls": 96965,
+          "nextRng": 0.7391962187830359,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "23826d197afd4069a3194a5c9b32a497d0b325811d6fb65ac876aa16e2e28a05",
+          "rngBoundaryHash": "a721f1ae2495ee8deef3a7f4a7dbdcee3486c25750e5653493b4cd493c2db086",
+          "rngCalls": 96965,
+          "nextRng": 0.7391962187830359,
+          "legacyTraceHash": "84eedced026a4c2d34ce308843c79fe204b12ab0782ba5f7d6fad4aec3788202"
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false,
+        "syllableCount": 1
+      },
+      "seed": 462530651,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "47662d725f45f838096a44976a311165a59c7fcec170cd21b1fe296b558d1bd1",
+          "rngBoundaryHash": "abac9d43432dda7ee9d971cb5df0680a41469329edf2faab0af81c32dfec44b0",
+          "rngCalls": 119034,
+          "nextRng": 0.03556921030394733,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "47662d725f45f838096a44976a311165a59c7fcec170cd21b1fe296b558d1bd1",
+          "rngBoundaryHash": "abac9d43432dda7ee9d971cb5df0680a41469329edf2faab0af81c32dfec44b0",
+          "rngCalls": 119034,
+          "nextRng": 0.03556921030394733,
+          "legacyTraceHash": "576f69c5c1b62978b8c8605e46a9876b468a645734b7614d99f6ad4da65452db"
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false,
+        "syllableCount": 1
+      },
+      "seed": 62358955,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "c7222bcb0dace4e5b9dc53a76d556fd16ddc57b7cea72f8458b89cfd3e75849f",
+          "rngBoundaryHash": "5c3cb1fbd8b95e93519a7e8d94e3e3a4d06562743db62edc1102771f8453a06a",
+          "rngCalls": 111773,
+          "nextRng": 0.03892297646962106,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "c7222bcb0dace4e5b9dc53a76d556fd16ddc57b7cea72f8458b89cfd3e75849f",
+          "rngBoundaryHash": "5c3cb1fbd8b95e93519a7e8d94e3e3a4d06562743db62edc1102771f8453a06a",
+          "rngCalls": 111773,
+          "nextRng": 0.03892297646962106,
+          "legacyTraceHash": "cb8f1dc8ed7741a9c747926504fac00b6455f83c57ac175eff443a2a7e69d16b"
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false,
+        "syllableCount": 1
+      },
+      "seed": 3297327738,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "9b1a871917a0aca1f92c9d4324194aae2be8a6c1c704d58086398fcb1d89b2b9",
+          "rngBoundaryHash": "af751eeaba4a32cecb0e3c6be55b28be8f410044a987aebc91f4923363e2d886",
+          "rngCalls": 116045,
+          "nextRng": 0.8982060917187482,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "9b1a871917a0aca1f92c9d4324194aae2be8a6c1c704d58086398fcb1d89b2b9",
+          "rngBoundaryHash": "af751eeaba4a32cecb0e3c6be55b28be8f410044a987aebc91f4923363e2d886",
+          "rngCalls": 116045,
+          "nextRng": 0.8982060917187482,
+          "legacyTraceHash": "2be398f4500191059fb5c9cff5da18f0ddec095a6effd26984f6df506d2e8228"
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false,
+        "syllableCount": 1
+      },
+      "seed": 2001884366,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "080daa66461fefd9de6641a86c278aa9f14c3220e1c5233653fa3da4c005bdf6",
+          "rngBoundaryHash": "5579ab7eb07019d230b234eead252039097d8601ccc11fdc4d2137319589ebcf",
+          "rngCalls": 112193,
+          "nextRng": 0.3730525365099311,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "080daa66461fefd9de6641a86c278aa9f14c3220e1c5233653fa3da4c005bdf6",
+          "rngBoundaryHash": "5579ab7eb07019d230b234eead252039097d8601ccc11fdc4d2137319589ebcf",
+          "rngCalls": 112193,
+          "nextRng": 0.3730525365099311,
+          "legacyTraceHash": "a5194edfc841105241ad0dcc1f303c2a34d2f64c7181735deadd35a0207895d7"
+        }
+      ]
+    },
+    {
+      "profile": "monosyllables-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false,
+        "syllableCount": 1
+      },
+      "seed": 2353354178,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "9bb1f13927a5285cc857187b1660a9e9b03de1a84e209f03cd2c01eb2c3acfb7",
+          "rngBoundaryHash": "43a076365a2aaf64a74e11ea98b2d7e849d86893d012ac23ac8dbd6c0e8e9afb",
+          "rngCalls": 115052,
+          "nextRng": 0.10655143461190164,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "9bb1f13927a5285cc857187b1660a9e9b03de1a84e209f03cd2c01eb2c3acfb7",
+          "rngBoundaryHash": "43a076365a2aaf64a74e11ea98b2d7e849d86893d012ac23ac8dbd6c0e8e9afb",
+          "rngCalls": 115052,
+          "nextRng": 0.10655143461190164,
+          "legacyTraceHash": "32d28f405fa3ea6c469b8bfaf839a41b8c1bc2b46e02a2d775f8bdef37649d34"
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "options": {
+        "mode": "text",
+        "morphology": true
+      },
+      "seed": 4167471042,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "3dbf8a0be3a71818448954ca62912bd1a0cce761a3f17c68a1e18c7706fdd074",
+          "rngBoundaryHash": "f5a14b916acfa7742a6fa207646c79460d026333fd9fd5ffb20574f4b2ee592d",
+          "rngCalls": 46877,
+          "nextRng": 0.7846045026089996,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "3dbf8a0be3a71818448954ca62912bd1a0cce761a3f17c68a1e18c7706fdd074",
+          "rngBoundaryHash": "f5a14b916acfa7742a6fa207646c79460d026333fd9fd5ffb20574f4b2ee592d",
+          "rngCalls": 46877,
+          "nextRng": 0.7846045026089996,
+          "legacyTraceHash": "3e6044a0fe1156c21c26c4d4e05405b1181e041c1c2587bcac8848348fc4359b"
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "options": {
+        "mode": "text",
+        "morphology": true
+      },
+      "seed": 2666001996,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "afc23995b5b908d09d754911c6f1160036b1791d5dc76efe29b7d1b673980a27",
+          "rngBoundaryHash": "2d646feed4f6108afbd8a1ea9bc7ef1f4eaa2dab74f5068998af613856cb0529",
+          "rngCalls": 50423,
+          "nextRng": 0.8711203166749328,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "afc23995b5b908d09d754911c6f1160036b1791d5dc76efe29b7d1b673980a27",
+          "rngBoundaryHash": "2d646feed4f6108afbd8a1ea9bc7ef1f4eaa2dab74f5068998af613856cb0529",
+          "rngCalls": 50423,
+          "nextRng": 0.8711203166749328,
+          "legacyTraceHash": "aed7b8188435a04ebd07a300158c1e0311938a97e0f948d7b53899d5c79920d8"
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "options": {
+        "mode": "text",
+        "morphology": true
+      },
+      "seed": 3562318933,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "be19b2a04607b4dcd691439ef662ab16590b3be166217dd7232a635c7df93627",
+          "rngBoundaryHash": "fc52debff0dd73ad5d06625fb16a2728def5ae5c1287925f03411b3d7d725c45",
+          "rngCalls": 47975,
+          "nextRng": 0.7006392239127308,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "be19b2a04607b4dcd691439ef662ab16590b3be166217dd7232a635c7df93627",
+          "rngBoundaryHash": "fc52debff0dd73ad5d06625fb16a2728def5ae5c1287925f03411b3d7d725c45",
+          "rngCalls": 47975,
+          "nextRng": 0.7006392239127308,
+          "legacyTraceHash": "72cd06273de34524c5aeb81b72eace18d73fcd20ae83388818adb92bcb10fa7e"
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "options": {
+        "mode": "text",
+        "morphology": true
+      },
+      "seed": 1999736106,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "95d94c450100fe5e832feb7ac352d95cdeb0082cdec2cae48ca892a0ff794330",
+          "rngBoundaryHash": "d5402a1a6bdc1e0a49c994f11ffc95b2b0c5ec8217bfa48a55582de2d77d0969",
+          "rngCalls": 46562,
+          "nextRng": 0.34901069663465023,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "95d94c450100fe5e832feb7ac352d95cdeb0082cdec2cae48ca892a0ff794330",
+          "rngBoundaryHash": "d5402a1a6bdc1e0a49c994f11ffc95b2b0c5ec8217bfa48a55582de2d77d0969",
+          "rngCalls": 46562,
+          "nextRng": 0.34901069663465023,
+          "legacyTraceHash": "1be01eb6857f677f2e30226ebe137ab274783b8a01331f02cfa9755853d55022"
+        }
+      ]
+    },
+    {
+      "profile": "text-default",
+      "options": {
+        "mode": "text",
+        "morphology": true
+      },
+      "seed": 1665836705,
+      "draws": 1000,
+      "variants": [
+        {
+          "tracing": false,
+          "wordHash": "305cf96505a0f8453f5c0261d0aa9d25bc58348713deae790a4d5787554d1002",
+          "rngBoundaryHash": "c264e6073cba05506f540529e06072d5b317d1cf8fabf8bc90b354f29ee1a067",
+          "rngCalls": 44513,
+          "nextRng": 0.6058000647462904,
+          "legacyTraceHash": null
+        },
+        {
+          "tracing": true,
+          "wordHash": "305cf96505a0f8453f5c0261d0aa9d25bc58348713deae790a4d5787554d1002",
+          "rngBoundaryHash": "c264e6073cba05506f540529e06072d5b317d1cf8fabf8bc90b354f29ee1a067",
+          "rngCalls": 44513,
+          "nextRng": 0.6058000647462904,
+          "legacyTraceHash": "a08c17efba667a74989a4747d5440e61b3f619d0ec3a20cb9c1299e77c0bbfdf"
+        }
+      ]
+    }
+  ]
+}
