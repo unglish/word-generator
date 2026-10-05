@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "1.0.0",
+  "config": {
+    "count": 50000,
+    "seed": 42,
+    "mode": "lexicon",
+    "morphology": true,
+    "targets": [
+      "iin",
+      "iow",
+      "aow",
+      "eae",
+      "eai",
+      "eao",
+      "eoe",
+      "oou"
+    ],
+    "metrics": [
+      "trigrams",
+      "hiatus",
+      "glide",
+      "morphology",
+      "structural"
+    ],
+    "failOn": []
+  },
+  "totalTrigrams": 277514,
+  "targets": {
+    "iin": 116,
+    "iow": 0,
+    "aow": 0,
+    "eae": 199,
+    "eai": 264,
+    "eao": 74,
+    "eoe": 13,
+    "oou": 30
+  },
+  "targetSum": 696,
+  "root": {
+    "hiatus": 0,
+    "boundaries": 47658,
+    "hiatusRate": 0
+  },
+  "final": {
+    "hiatus": 687,
+    "boundaries": 80686,
+    "hiatusRate": 0.008514488263143544
+  },
+  "delta": {
+    "extraHiatus": 687,
+    "extraBoundaries": 33028,
+    "extraHiatusRate": 0.020800532881191717
+  },
+  "glide": {
+    "rootVowelToGlideTransitions": 101,
+    "rootTotalVowelTransitions": 82423,
+    "rootVowelToGlideRate": 0.0012253861179525132
+  },
+  "morphology": {
+    "templates": {
+      "suffixed": 23985,
+      "prefixed": 7037,
+      "bare": 14946,
+      "both": 4032
+    },
+    "prefixes": {
+      "re": 2476,
+      "un": 2849,
+      "out": 726,
+      "mis": 1136,
+      "in": 1826,
+      "dis": 672,
+      "over": 733,
+      "pre": 651
+    },
+    "suffixes": {
+      "able": 831,
+      "s": 7271,
+      "ing": 1560,
+      "ment": 814,
+      "est": 547,
+      "tion": 1129,
+      "ary": 793,
+      "er": 1984,
+      "ed": 4596,
+      "ity": 678,
+      "al": 1715,
+      "ery": 324,
+      "ful": 582,
+      "ive": 489,
+      "ly": 1200,
+      "ous": 552,
+      "ial": 297,
+      "ize": 310,
+      "ness": 243,
+      "ian": 328,
+      "ism": 133,
+      "ory": 615,
+      "sion": 389,
+      "ist": 198,
+      "less": 439
+    }
+  },
+  "structural": {
+    "aspirationDecision": 191615,
+    "morphPrefixHiatusFallback": 1195,
+    "morphSuffixHiatusFallback": 3012,
+    "finalS": 666,
+    "nasalStopExtension": 634,
+    "vowelHiatusFallback": 118,
+    "sspBoundaryDrop": 433,
+    "junctionBoundaryDrop": 272,
+    "boundaryDrop": 26,
+    "risingCodaBoundaryDrop": 30
+  },
+  "ssp": {
+    "boundaries": 80686,
+    "drops": 433,
+    "byViolation": {
+      "rule1": 44,
+      "rule2": 139,
+      "rule3": 198,
+      "multi": 52
+    },
+    "totalDropRatePerBoundary": 0.005366482413305902,
+    "rule1DropRatePerBoundary": 0.0005453238480033711,
+    "rule2DropRatePerBoundary": 0.0017227276107379223,
+    "rule3DropRatePerBoundary": 0.00245395731601517,
+    "multiDropRatePerBoundary": 0.0006444736385494386
+  }
+}

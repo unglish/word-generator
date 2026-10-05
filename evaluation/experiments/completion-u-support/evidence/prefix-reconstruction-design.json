@@ -1,0 +1,28 @@
+{
+  "status": "Design only; no intervention or measured result",
+  "baselineScope": "Full PR370 residual audit, all37prefix-refusal words retained; u-support experiment still measuring.",
+  "finding": "Grapheme resolver reads only the last letter of previousForm for written left-context conditions. Completion prefix currently requires adjacent complete previous-unit ownership even though doubling quota is reconstructed separately from original/coverage history.",
+  "candidateContract": [
+    "Resolve target with complete authenticated single-unit ownership.",
+    "Preserve exact existing original/coverage doubling quota reconstruction and its invalid-history refusals.",
+    "Provide recorded preceding written boundary context from actual live cells, including inserted repair letters; never invent original-unit ownership.",
+    "Keep all shared/split/target/projection guards and opaque changed-context refusal intact.",
+    "Replay must derive the identical boundary context from each recorded cursor; missing target/cell/identity remains refused.",
+    "Validate custom written-context conditions, inserted silent-u, opaque predecessor unchanged and changed contexts, shared constructions, deletion and quota; full original corpus and side-effect measurements required."
+  ],
+  "repairRulesInAll37AffectedWords": {
+    "orthographicRepair:hard-g-silent-u": 17,
+    "splitVowel:syllable": 15,
+    "spellingRule:iy-to-y": 2,
+    "silentE:append": 1,
+    "spellingRule:sibilant-s-epenthesis": 2,
+    "spellingBudget:respell": 1,
+    "spellingRule:iw-to-w": 4
+  },
+  "reviewedSources": {
+    "src/core/grapheme-selection.ts": "78c16c5099bc7cde2069fd225d67b928f46cb69591d666189d75a37d17981891",
+    "src/core/spelling-completion-prefix.ts": "88f79970b7828feb14dd60d0b4a91b0a0ccee0bd7f590173438522f96d120d14",
+    "src/core/spelling-completion-projection.ts": "bad8c377175b573f9723ca8ee34bc5d7bdbe0082eb4f741a1ca740700c674846"
+  },
+  "limits": "Recorded written-context sufficiency is scoped to current configured resolver. Unknown neighbor pronunciation and lexical readability remain unproved; do not skip projection checks."
+}

@@ -1,0 +1,7 @@
+{
+  "controlLogSha256": "b3e9e04e00f176e1cd1b43f75a3fa1b457eb29e7f25bd0e2a2127188bb59d864",
+  "candidateLogSha256": "a3b3406b1367b71c345b945e3acafc5ef9a3d4ad773ea522aef89bfddc0f1d14",
+  "sameDiagnosticsAfterPathNormalization": true,
+  "errors": 7,
+  "scope": "Whole lint terminal1; seven unchanged predecessor errors. No green lint claim."
+}

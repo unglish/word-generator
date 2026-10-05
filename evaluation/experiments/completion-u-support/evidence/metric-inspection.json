@@ -1,0 +1,145 @@
+{
+  "rows": [
+    {
+      "profile": "lexicon-default",
+      "uniqueSpellings": {
+        "baseline": 43827,
+        "candidate": 43905,
+        "change": 78
+      },
+      "trigramJsBits": {
+        "baseline": 0.17214508007545573,
+        "candidate": 0.1693868170848145,
+        "change": -0.0027582629906412193
+      },
+      "phoneJsBits": {
+        "baseline": 0.0076485619251540765,
+        "candidate": 0.007580153423362149,
+        "change": -6.840850179192729e-05
+      },
+      "finalOpenCheckedVowel": {
+        "eligible": {
+          "baseline": 50000,
+          "candidate": 50000,
+          "change": 0
+        },
+        "hits": {
+          "baseline": 759,
+          "candidate": 789,
+          "change": 30
+        },
+        "rate": {
+          "baseline": 0.01518,
+          "candidate": 0.01578,
+          "change": 0.0005999999999999981
+        }
+      }
+    },
+    {
+      "profile": "lexicon-bare",
+      "uniqueSpellings": {
+        "baseline": 47270,
+        "candidate": 47272,
+        "change": 2
+      },
+      "trigramJsBits": {
+        "baseline": 0.1986125242099301,
+        "candidate": 0.1966524637450229,
+        "change": -0.0019600604649072095
+      },
+      "phoneJsBits": {
+        "baseline": 0.0002036836302403963,
+        "candidate": 0.0002354485264585758,
+        "change": 3.176489621817949e-05
+      },
+      "finalOpenCheckedVowel": {
+        "eligible": {
+          "baseline": 50000,
+          "candidate": 50000,
+          "change": 0
+        },
+        "hits": {
+          "baseline": 1270,
+          "candidate": 1287,
+          "change": 17
+        },
+        "rate": {
+          "baseline": 0.0254,
+          "candidate": 0.02574,
+          "change": 0.00034
+        }
+      }
+    },
+    {
+      "profile": "monosyllables-bare",
+      "uniqueSpellings": {
+        "baseline": 17401,
+        "candidate": 17401,
+        "change": 0
+      },
+      "trigramJsBits": {
+        "baseline": 0.536117036262934,
+        "candidate": 0.536117036262934,
+        "change": 0
+      },
+      "phoneJsBits": {
+        "baseline": 0.09500385497644341,
+        "candidate": 0.09500385497644341,
+        "change": 0
+      },
+      "finalOpenCheckedVowel": {
+        "eligible": {
+          "baseline": 50000,
+          "candidate": 50000,
+          "change": 0
+        },
+        "hits": {
+          "baseline": 267,
+          "candidate": 267,
+          "change": 0
+        },
+        "rate": {
+          "baseline": 0.00534,
+          "candidate": 0.00534,
+          "change": 0
+        }
+      }
+    },
+    {
+      "profile": "text-default",
+      "uniqueSpellings": {
+        "baseline": 28992,
+        "candidate": 29002,
+        "change": 10
+      },
+      "trigramJsBits": {
+        "baseline": 0.19773993515576568,
+        "candidate": 0.19696257165121409,
+        "change": -0.0007773635045515981
+      },
+      "phoneJsBits": {
+        "baseline": 0.010957534619784067,
+        "candidate": 0.011084229713874688,
+        "change": 0.0001266950940906203
+      },
+      "finalOpenCheckedVowel": {
+        "eligible": {
+          "baseline": 50000,
+          "candidate": 50000,
+          "change": 0
+        },
+        "hits": {
+          "baseline": 1034,
+          "candidate": 1024,
+          "change": -10
+        },
+        "rate": {
+          "baseline": 0.02068,
+          "candidate": 0.02048,
+          "change": -0.0001999999999999988
+        }
+      }
+    }
+  ],
+  "scope": "Convenience summary only; all frozen metrics, denominators and distributions retained in full comparison. No overall or human gain claim."
+}
