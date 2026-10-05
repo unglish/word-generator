@@ -1,0 +1,38 @@
+{
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "pairedPercentChanges": [
+    1.4699289384640934,
+    -0.40786263094612085,
+    3.495287247725143,
+    -0.5281332041570219,
+    -10.968772768389911,
+    -2.7394798559007616
+  ],
+  "medianPairedPercentChange": -0.4679979175515714,
+  "gates": {
+    "A": {
+      "speedPass": 0,
+      "variancePass": 6
+    },
+    "B": {
+      "speedPass": 0,
+      "variancePass": 6
+    }
+  },
+  "runnerSha256": "a7c8d667bae91fbd19cb32305fc971585d73b4de592d4330086bbd1424f17e6f",
+  "originalBenchmarkSha256": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f",
+  "scope": "Preregistered recorded written-prefix context intervention, original workload and gates; no inferred human-quality improvement."
+}

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "scope": "24 public-API generated words; operator equivalence fixture only, not the 200000-word study",
+  "interruption": "SIGTERM",
+  "resumed": true,
+  "identicalArtifacts": 11,
+  "identicalCompleteSeal": true,
+  "corruptPayloadRejected": true,
+  "operatorSha256": "7b0d68b95057e7b95d0beaedc5a91ce34f76b5f7f9b73af90c7da5b612d84b41"
+}

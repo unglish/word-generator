@@ -1,0 +1,20 @@
+{
+  "sameFailureNamesAndMessages": true,
+  "failures": [
+    [
+      "quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: no 5+ consecutive consonant letters",
+      "AssertionError: expected 83 to be +0 // Object.is equality"
+    ],
+    [
+      "quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: owngs <= 1",
+      "AssertionError: expected 62 to be less than or equal to 1"
+    ]
+  ],
+  "controlLogSha256": "ca2e53d06ff8557a0f06cc94998f1e20911ac1275c080e6a2540c0de1cf26ca1",
+  "candidateLogSha256": "da77016fe67fce2645c813954a27dbb7e3e64b737c316cbf0abe0ed29974f3d1",
+  "candidateSummary": {
+    "passed": 10,
+    "failed": 2
+  },
+  "scope": "Original deterministic50000-word quality sample failures retained; chain runner exit0 is completion, not passing tests."
+}
