@@ -1,0 +1,38 @@
+{
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "pairedPercentChanges": [
+    -5.39108640196031,
+    -6.244781286144152,
+    -4.42200838850445,
+    -4.572463884234379,
+    -4.070766676681248,
+    -6.414595481531382
+  ],
+  "medianPairedPercentChange": -4.9817751430973445,
+  "gates": {
+    "A": {
+      "speedPass": 0,
+      "variancePass": 6
+    },
+    "B": {
+      "speedPass": 0,
+      "variancePass": 6
+    }
+  },
+  "runnerSha256": "38becc25bed2805c6b478275d9b8324d16c2a4ff669f0571ee7541778c0cc9a9",
+  "originalBenchmarkSha256": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f",
+  "scope": "Preregistered completion positional support intervention, original workload and gates; no inferred human-quality improvement."
+}

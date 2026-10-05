@@ -804,7 +804,19 @@ export interface LanguageConfig {
    * an empty list disables migrated ks/gz/cw formations and cx cleanup. Requires preserve-phones. */
   sharedSpellings?: SharedSpellingRule[];
   /** Opt-in owned split-vowel formation and final obligation completion. Absent preserves legacy behavior. */
-  splitVowels?: { supports: SplitVowelSupport[]; routes: SplitVowelRoutes };
+  splitVowels?: {
+    supports: SplitVowelSupport[];
+    routes: SplitVowelRoutes;
+    /** Positional support used only when completing an unresolved vowel reading. */
+    completionWeights?: {
+      phoneme: string;
+      form: string;
+      startWord?: number;
+      midWord?: number;
+      endWord?: number;
+      isolatedSyllableWeight?: number;
+    }[];
+  };
 
   /** Cross-syllable consonant cluster repair constraints. */
   clusterConstraint?: ClusterConstraint;

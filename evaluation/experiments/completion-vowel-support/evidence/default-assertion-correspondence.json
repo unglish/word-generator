@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "originalLogCompressedSha256": "ba7da66f55627740bbe1b9e7db74996cd718026b6aa45e1ab08e6f968f56c461",
+  "candidateLogSha256": "fe0eb186ca6301b753fac29d1bffdd3622199c50645395e95e247e990ad7401a",
+  "sameFourAssertionMessages": [
+    "expected 9 to be +0 // Object.is equality",
+    "expected 28 to be +0 // Object.is equality",
+    "expected 43 to be +0 // Object.is equality",
+    "expected 6 to be less than or equal to 5"
+  ],
+  "fullSuite": {
+    "passed": 1028,
+    "failed": 4,
+    "skipped": 1,
+    "timeouts": 0
+  },
+  "scope": "Full unchanged default suite with corrected source, one worker; four original output assertions remain failed."
+}

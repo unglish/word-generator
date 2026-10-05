@@ -1,3 +1,4 @@
+import { completionConfiguration } from "./spelling-completion-config.js";
 import type { LanguageConfig } from "../config/language.js";
 import type { GraphemeReading } from "../types.js";
 import { createGraphemeResolver, NoLegalGraphemeError } from "./grapheme-selection.js";
@@ -20,7 +21,7 @@ function readingRefusal(reading: GraphemeReading | undefined): CompletionProposa
 
 /** Caller supplies authenticated current prefix; eligible readings still require projected-neighbor checks. */
 export function createCompletionCandidatePool(configuration: LanguageConfig) {
-  const config = structuredClone(configuration);
+  const config = completionConfiguration(configuration);
   const resolve = createGraphemeResolver(config);
   const inventory = new Map(config.graphemes.map((grapheme, index) => [grapheme, index]));
   return (slot: GraphemeSlot, prefix: GraphemePrefixState) => {
