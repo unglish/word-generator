@@ -1,0 +1,2861 @@
+{
+  "records": [
+    {
+      "path": "committed/PRODUCT.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/PRODUCT.md",
+      "bytes": 1497,
+      "sha256": "2daf30c862ffb3456cc64864aa3a19e1e56f8fdc205ae3be2393c14e31a8858d"
+    },
+    {
+      "path": "committed/TUNING.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/TUNING.md",
+      "bytes": 18918,
+      "sha256": "b90129dd050bc21db14969931c4b0c987c106295c71debed83f54542b0032158"
+    },
+    {
+      "path": "committed/playwright.review.config.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/playwright.review.config.ts",
+      "bytes": 798,
+      "sha256": "0030b0de65d2f4e2d21b0e9d7d7f7399e8ec989888f62ce779f37fd745514790"
+    },
+    {
+      "path": "committed/LICENSE",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/LICENSE",
+      "bytes": 1064,
+      "sha256": "ae21a6bcbb3cfb9194e3a7cd7662ff9e7f7669692ed4ba525cf6620085cc5f4b"
+    },
+    {
+      "path": "committed/CHANGELOG.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/CHANGELOG.md",
+      "bytes": 723,
+      "sha256": "bb03dfddb067762c3e0a4528580141b426ae1b00316e7bc8b7842dc39509e170"
+    },
+    {
+      "path": "committed/tsconfig.review.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/tsconfig.review.json",
+      "bytes": 375,
+      "sha256": "d0199407c4899ff118dea980a98d385aa5241adde7a1658d96a9bc0a8ceb7feb"
+    },
+    {
+      "path": "committed/vitest.review-db.config.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/vitest.review-db.config.ts",
+      "bytes": 269,
+      "sha256": "2a36140a97f623915e7d5d44aa3dcea93979ae81ad89134df5020083d1dd219c"
+    },
+    {
+      "path": "committed/vite.config.js",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/vite.config.js",
+      "bytes": 1301,
+      "sha256": "996bd8d0dc90fa21f7350ea2dcebbb1004ee4cdce6cc154307eca0259d89ea6c"
+    },
+    {
+      "path": "committed/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/README.md",
+      "bytes": 4227,
+      "sha256": "8aac044eec3acec4ff7ea6a8528b31eed051448c6a2303d9fa112d2844233c93"
+    },
+    {
+      "path": "committed/.gitignore",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/.gitignore",
+      "bytes": 3061,
+      "sha256": "88b6f6c2d3b97472a8ebe099f6a95020ba783f8498ebe2996f449ff9cb57e15d"
+    },
+    {
+      "path": "committed/package-lock.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/package-lock.json",
+      "bytes": 121792,
+      "sha256": "985093dd683275e3c5c5f10ae2210c7395914de9bb669f71c9b1e34350218bc6"
+    },
+    {
+      "path": "committed/package.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/package.json",
+      "bytes": 3565,
+      "sha256": "058bafc161c52baad2d90762211084971e5ee94798d466f016a22268ee5df8bd"
+    },
+    {
+      "path": "committed/CONTRIBUTING.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/CONTRIBUTING.md",
+      "bytes": 1774,
+      "sha256": "20cffa824c9bf1669024a6a2b739af2e269f466a2e17dac176aa60ec93085ced"
+    },
+    {
+      "path": "committed/tsconfig.corpus.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/tsconfig.corpus.json",
+      "bytes": 125,
+      "sha256": "5b943fe85ad27d92ffbec83e497267ccb871453c4f9d80266862dbe789826cc2"
+    },
+    {
+      "path": "committed/.prettierrc",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/.prettierrc",
+      "bytes": 106,
+      "sha256": "dfca0626519511080d85e5fc86c1021c7bc8900e2cb525cc7cbbe039a0d5198f"
+    },
+    {
+      "path": "committed/tsconfig.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/tsconfig.json",
+      "bytes": 704,
+      "sha256": "250ce839ecda24468fc9f38856e53ad8aef88b152b9b372cb1e51d29817c0356"
+    },
+    {
+      "path": "committed/vitest.perf.config.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/vitest.perf.config.ts",
+      "bytes": 206,
+      "sha256": "6556fff991ef112563aa2d342ac550fd3d1db70a9c788bba96e43f8e51fa1455"
+    },
+    {
+      "path": "committed/DESIGN.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/DESIGN.md",
+      "bytes": 849,
+      "sha256": "f588a8331295ed8e046b6e59534afebf4156fad2b95305f16e7c824950ca691d"
+    },
+    {
+      "path": "committed/.env.example",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/.env.example",
+      "bytes": 279,
+      "sha256": "a2a4dce42a26d6d96e4edde9ed20fd5a23bf250642bf367a2cee474764d917e1"
+    },
+    {
+      "path": "committed/agents.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/agents.md",
+      "bytes": 2286,
+      "sha256": "2bc122c93c2e834046fa07341ce6ffa5a7a2a2404473090b4018aaec6130352e"
+    },
+    {
+      "path": "committed/vitest.quality.config.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/vitest.quality.config.ts",
+      "bytes": 188,
+      "sha256": "7e65e6e8e355db02d482e5892daf79ba400e97d0dd4c33ec70a07645d6f7f342"
+    },
+    {
+      "path": "committed/vitest.config.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/vitest.config.ts",
+      "bytes": 1023,
+      "sha256": "be75bb074a2f98e8ac5080a6f381f2bec8f5b20e3b8d3bb79ae2c0e3fad05e4f"
+    },
+    {
+      "path": "committed/vitest.review.config.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/vitest.review.config.ts",
+      "bytes": 267,
+      "sha256": "452fe63c2ba50147230ea5ff9a5dbce35051670c592e908e333052206bdaf095"
+    },
+    {
+      "path": "committed/eslint.config.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/eslint.config.mjs",
+      "bytes": 536,
+      "sha256": "4ddd39813d1b2b19aec5a69a766b1c45a54f8bf377d49d7672316166ae415007"
+    },
+    {
+      "path": "committed/tea.yaml",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/tea.yaml",
+      "bytes": 126,
+      "sha256": "a1c20adbe4b971918f42141423ebfd1b1519573c04b3da337e0b87e292fa2f84"
+    },
+    {
+      "path": "committed/PR-SUMMARY.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/PR-SUMMARY.md",
+      "bytes": 5364,
+      "sha256": "6b6073345aaa704d827fa3db7ce2ddf8c4afff693fac6a7823b409b7a130e79b"
+    },
+    {
+      "path": "committed/demo/duplicateWorker.js",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/duplicateWorker.js",
+      "bytes": 1682,
+      "sha256": "ff98e00b8ee5535381a94eefc48074b7066b69412ececca94db650e2032dc1e6"
+    },
+    {
+      "path": "committed/demo/index.html",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/index.html",
+      "bytes": 81684,
+      "sha256": "4e4bc73cd7a59a1dd458edb80ef5cb82cf8f3a623e0938d015ae74b921a32487"
+    },
+    {
+      "path": "committed/demo/review.html",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/review.html",
+      "bytes": 3135,
+      "sha256": "30a129323b13e62ac8e760bc87ff06cc0aa22d92b5222cd62641e9860ee48efb"
+    },
+    {
+      "path": "committed/demo/matchWorker.js",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/matchWorker.js",
+      "bytes": 2933,
+      "sha256": "39c91abe1ccf4b77d6f5af839b08dc585778734df1006e9db4eef29ac06f9c3a"
+    },
+    {
+      "path": "committed/demo/index.js",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/index.js",
+      "bytes": 1991,
+      "sha256": "093dacfb62c2892f9a9f454ad10c1d48c581e27afbd5e7ec56264309442aa0b7"
+    },
+    {
+      "path": "committed/demo/realwords.js",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/realwords.js",
+      "bytes": 12462,
+      "sha256": "f4e1468367ec8b61ca433104b4d2bc509d9a980dfee1d9bcbf0d23c44f796f07"
+    },
+    {
+      "path": "committed/demo/commonWordsWorker.js",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/commonWordsWorker.js",
+      "bytes": 2585,
+      "sha256": "59f7a4c5b67db59b031dc626101dd0567cd2f359a5fc6bc09d3421f90b730739"
+    },
+    {
+      "path": "committed/demo/statsWorker.js",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/statsWorker.js",
+      "bytes": 2865,
+      "sha256": "dd30b77e7143191215bf6d90a5864b02652487037e15447f85ce51e96ac46b0f"
+    },
+    {
+      "path": "committed/demo/cmuBaselines.js",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/cmuBaselines.js",
+      "bytes": 123663,
+      "sha256": "2ca4daeb1a239e74ce8a0bddfdc5e99b828ec35e7e335707b18cb40552dde7ca"
+    },
+    {
+      "path": "committed/.githooks/post-merge",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/.githooks/post-merge",
+      "bytes": 81,
+      "sha256": "da56acd66ffe28f9fc0f82aa29372039087da030ec761738214f4d0af553d98f"
+    },
+    {
+      "path": "committed/tasks/todo.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/tasks/todo.md",
+      "bytes": 4978,
+      "sha256": "df27b459ef2620879eb5748c1618bb02cb5e956df11ea74dcad28c275d94ac83"
+    },
+    {
+      "path": "committed/tasks/lessons.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/tasks/lessons.md",
+      "bytes": 152,
+      "sha256": "7ebba5c67520d23d26bc10c553511b87b95f3bc36855abe61ad464b42ecf241b"
+    },
+    {
+      "path": "committed/docs/design-rng-and-quality-dx.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/design-rng-and-quality-dx.md",
+      "bytes": 10107,
+      "sha256": "e94ac56ebd54ee665abc6ed66f405f6fa08f53ddabc4415b02935177e9e15db4"
+    },
+    {
+      "path": "committed/docs/cmu-transition-builder.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/cmu-transition-builder.md",
+      "bytes": 5221,
+      "sha256": "08e5d96ac20e0450be349c5b574ef1bbb9ff0ac920ef0db34f7ce23e59eb4888"
+    },
+    {
+      "path": "committed/docs/phonotactic-scoring.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/phonotactic-scoring.md",
+      "bytes": 4513,
+      "sha256": "9743870f64fc4261d0493e543ee0cbab34c69e057c6edd33f6734f3ceceaeaf4"
+    },
+    {
+      "path": "committed/docs/cmu-corpus-contract.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/cmu-corpus-contract.md",
+      "bytes": 3693,
+      "sha256": "825323bce7d94193c2d7d2164343af091434990b9d2429ed8d16de9461857d8f"
+    },
+    {
+      "path": "committed/docs/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/README.md",
+      "bytes": 939,
+      "sha256": "9a875eeda4dcd54067454c68d6bccddcb2735afbf1dc98b4083dcc702da0e20d"
+    },
+    {
+      "path": "committed/docs/cmu-phoneme-builder.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/cmu-phoneme-builder.md",
+      "bytes": 4332,
+      "sha256": "a08a9fd9b6988b43f4a1350b550d484a7611abfea3a215aa474e851ef400045e"
+    },
+    {
+      "path": "committed/docs/cmu-matched-reference.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/cmu-matched-reference.md",
+      "bytes": 7790,
+      "sha256": "17fb0caee9aa131ffa62300031ced47fa9fadb00cdb97d730accc799935a49e0"
+    },
+    {
+      "path": "committed/docs/design-grapheme-conditioning.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/design-grapheme-conditioning.md",
+      "bytes": 11032,
+      "sha256": "305fb752a96d1278ef6c956326ecf94c19174fada75bbef25e19d320039ea08d"
+    },
+    {
+      "path": "committed/docs/cmu-score-reference.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/cmu-score-reference.md",
+      "bytes": 6948,
+      "sha256": "eef6d5a628cd7fc00349946d81e10a4f8c4e2f8106c42545edcca0fc474f96a0"
+    },
+    {
+      "path": "committed/docs/attested-codas.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/attested-codas.md",
+      "bytes": 2327,
+      "sha256": "b0261047f8d760db2b58aa19dcb32afc1050079c1d896d1cef745e88c1eb77e0"
+    },
+    {
+      "path": "committed/docs/wordlikeness-evaluation.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/wordlikeness-evaluation.md",
+      "bytes": 13613,
+      "sha256": "3184782d92ea693f03abc85c50198d03fd106225adecf716a4f24e0c680b6bd5"
+    },
+    {
+      "path": "committed/docs/pronunciation-config-migration.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/pronunciation-config-migration.md",
+      "bytes": 2156,
+      "sha256": "cf2261e8241c891b4596cfe96327d2741a872f0e1b3bb8214d98c9abec574d98"
+    },
+    {
+      "path": "committed/docs/word-trace-diagnostics.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/word-trace-diagnostics.md",
+      "bytes": 3821,
+      "sha256": "3db50757c156cf0e62848d4b1b90448b7e878c1ed86dcf6bcaadff22657a3136"
+    },
+    {
+      "path": "committed/docs/cmu-length-builder.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/cmu-length-builder.md",
+      "bytes": 4834,
+      "sha256": "64792a6772b6d5413c31b9bb08525eee44862811138abb6a838be26c3eec0da1"
+    },
+    {
+      "path": "committed/docs/human-review.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/docs/human-review.md",
+      "bytes": 11771,
+      "sha256": "0b96af25d2843753f0221b2d21a191b4e8ded1cec0da72b1605f78cbbe6e970e"
+    },
+    {
+      "path": "committed/supabase/config.toml",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/supabase/config.toml",
+      "bytes": 483,
+      "sha256": "7d49e0f8e4eec0bca2bd5be9ade04a7339e3d314d95fb73ef95e86adfc97e9d9"
+    },
+    {
+      "path": "committed/scripts/generate-bigram-table.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/generate-bigram-table.ts",
+      "bytes": 2399,
+      "sha256": "130e15918e8e0e63c239e39d9b1a8b00d47b97e1f8ff2e1823d085e4c76d07f4"
+    },
+    {
+      "path": "committed/scripts/gap-spelling-audit.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/gap-spelling-audit.ts",
+      "bytes": 2386,
+      "sha256": "e7ebf033890afa9c964c662c5e3fd4519ab68b7e7c314eeeb145ee293cac04e9"
+    },
+    {
+      "path": "committed/scripts/nd-diagnostic.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/nd-diagnostic.mjs",
+      "bytes": 2145,
+      "sha256": "3b318504599db399fdf516de2efdef61ae010b49dadbd44df562f1583a0bf3ed"
+    },
+    {
+      "path": "committed/scripts/gap-analysis-step2.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/gap-analysis-step2.mjs",
+      "bytes": 8535,
+      "sha256": "6dc9ab69e33b130fa4fa0b6d348bf1934f56a1fed9bd6eb66392f57131e6c794"
+    },
+    {
+      "path": "committed/scripts/gap-analysis-step3.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/gap-analysis-step3.mjs",
+      "bytes": 14966,
+      "sha256": "0589568f4060eead8389b8b447f1d9c08715c97bb070cc465e1968e034ad6036"
+    },
+    {
+      "path": "committed/scripts/et-diagnostic.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/et-diagnostic.mjs",
+      "bytes": 832,
+      "sha256": "2c14bef48f9e5b6916b9ad32cc4376c8dee3554e860b606b1f4894ce9b50f444"
+    },
+    {
+      "path": "committed/scripts/check-demo-worker-sync.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/check-demo-worker-sync.mjs",
+      "bytes": 1545,
+      "sha256": "26a1fe7b1aa19bb6a998e6795d9b75a400e7fe491881b6ade2f088fc43b223ab"
+    },
+    {
+      "path": "committed/scripts/analyze-cmu-phonemes.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/analyze-cmu-phonemes.mjs",
+      "bytes": 11015,
+      "sha256": "ea787cf1f91a80acee49a6a20ba6f6ce893bbd0405f82b40a645e4fcf3e9ee1f"
+    },
+    {
+      "path": "committed/scripts/build-cmu-phoneme-baseline.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/build-cmu-phoneme-baseline.mjs",
+      "bytes": 612,
+      "sha256": "c4e2d36e49c749a545113e1df2210b1fb05003f942f4f03ea0b6695b8ec19ab6"
+    },
+    {
+      "path": "committed/scripts/compare-ngrams.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/compare-ngrams.ts",
+      "bytes": 9010,
+      "sha256": "251ab13b69992efd194c7505b39ef890a3b5b93dd899369dbf7fd4bafd9c6b4b"
+    },
+    {
+      "path": "committed/scripts/nd-diagnostic2.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/nd-diagnostic2.mjs",
+      "bytes": 1023,
+      "sha256": "1bd7d7214197aab83c1bfac7251efc3de2a2f9f07587d6e18ad2e09dbbab12b6"
+    },
+    {
+      "path": "committed/scripts/diagnose.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/diagnose.ts",
+      "bytes": 16653,
+      "sha256": "52ce17a6a46d511fea460e25ce89a9f57535c5b9137d56384eabba20b8d8cdf1"
+    },
+    {
+      "path": "committed/scripts/phoneme-length-dist.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/phoneme-length-dist.ts",
+      "bytes": 3889,
+      "sha256": "e7152be10493d87bb0f112307180c7efc5e22c444a739aacec4a8a37da439216"
+    },
+    {
+      "path": "committed/scripts/generate-baseline.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/generate-baseline.ts",
+      "bytes": 2550,
+      "sha256": "d1a8ccf698bd1d1adee27a9055cb2ef9a846ae3679ac79f7f54edf192d92c394"
+    },
+    {
+      "path": "committed/scripts/inject-build-info.js",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/inject-build-info.js",
+      "bytes": 961,
+      "sha256": "8eb6b9a863b5e81492cadb60e63f299c1b0947e4fca2d4cbd3d120d141199543"
+    },
+    {
+      "path": "committed/scripts/sync-demo-cmu-baselines.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/sync-demo-cmu-baselines.mjs",
+      "bytes": 3504,
+      "sha256": "ff3f15b186ee8dbb400e1408e34cc6ce095400889adc2c4cf22b448d4cb80202"
+    },
+    {
+      "path": "committed/scripts/length-semantics-check.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/length-semantics-check.ts",
+      "bytes": 2421,
+      "sha256": "f7555a6ed9625318d42d6bc201c101187ab8d11df370cd2168d6aab3079fccf1"
+    },
+    {
+      "path": "committed/scripts/common-word-coverage.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/common-word-coverage.ts",
+      "bytes": 4319,
+      "sha256": "08fa93fba418d119ac418331d49601a56ef0dc2f162f45b80c29b19c6bfb387e"
+    },
+    {
+      "path": "committed/scripts/analyze-letter-length.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/analyze-letter-length.ts",
+      "bytes": 4237,
+      "sha256": "356c335842cb40448bb8f8f2dbbeab21887c4c0883c8b036b0b8261620cf6f87"
+    },
+    {
+      "path": "committed/scripts/deploy-local.sh",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/deploy-local.sh",
+      "bytes": 292,
+      "sha256": "1998b8499ee01a46abf3f226f9323c588d9327bea0f0073bf3420031ef8be90b"
+    },
+    {
+      "path": "committed/scripts/stress-dist.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/stress-dist.ts",
+      "bytes": 1328,
+      "sha256": "2533e033f06ec1187dc986a9c2c10a9b5d3e82715ac7089d30b252303b3e449e"
+    },
+    {
+      "path": "committed/scripts/analyze-syllable-distribution.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/analyze-syllable-distribution.ts",
+      "bytes": 3671,
+      "sha256": "fd8b9f7b3727c64b953692b87975d98ae8fe837b5dfac1bf22c03b6c88dba8a3"
+    },
+    {
+      "path": "committed/scripts/coverage-check.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/coverage-check.ts",
+      "bytes": 4337,
+      "sha256": "e11904efceba1f2919cfffd5b0304665a182bba74a9129b9fc718294469b775e"
+    },
+    {
+      "path": "committed/scripts/gap-analysis.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/gap-analysis.mjs",
+      "bytes": 13227,
+      "sha256": "03a73a6c6b0f6609db93a7dac041dc2b2a73d8a52e93b4825696d805deedbc02"
+    },
+    {
+      "path": "committed/scripts/et-categorize.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/et-categorize.mjs",
+      "bytes": 2507,
+      "sha256": "48af0a852c022755374eab293db9e970776c4e14242c0ac5f7a41864ebb052c4"
+    },
+    {
+      "path": "committed/scripts/analyze-common-bigrams.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/analyze-common-bigrams.mjs",
+      "bytes": 2145,
+      "sha256": "827c63229765bdb2392d7a9713a9ab894bc3c686d9c57a9456803b34fee31d95"
+    },
+    {
+      "path": "committed/scripts/et-trace.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/et-trace.mjs",
+      "bytes": 941,
+      "sha256": "0f1919f4c4bd5f6974a4859b61415e63422026e5c0c80a08d5cf93041fe9f0d8"
+    },
+    {
+      "path": "committed/scripts/build-cmu-baseline.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/build-cmu-baseline.ts",
+      "bytes": 2194,
+      "sha256": "dc33293b69f42a4a2adda832d5fc43a0d55584b4f99f846e0fadc8825dbafa11"
+    },
+    {
+      "path": "committed/scripts/test-rhotic-ng.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/test-rhotic-ng.mjs",
+      "bytes": 1764,
+      "sha256": "319ae90c2016f450f7858c2c432f63513f29e40542050b364c1c36d531f9417f"
+    },
+    {
+      "path": "committed/scripts/underrep-baseline.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/underrep-baseline.ts",
+      "bytes": 7588,
+      "sha256": "62351f37d633ce18caabed103c4df5c64fb2a36a640fae1df88fdfb9e18dfa2e"
+    },
+    {
+      "path": "committed/scripts/c-analysis.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/c-analysis.mjs",
+      "bytes": 6720,
+      "sha256": "106d814dcaebf6d98105c40e08ecd520b868cdad3ab50160ac0a3ddfba196492"
+    },
+    {
+      "path": "committed/scripts/trace-bigram-sources.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/trace-bigram-sources.mjs",
+      "bytes": 2324,
+      "sha256": "2f30eb2b8054e9ac9220468f7d9a7e0bef2a1dd500f288a773b184a2ef8d4798"
+    },
+    {
+      "path": "committed/scripts/validate-repairs.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/validate-repairs.ts",
+      "bytes": 6734,
+      "sha256": "03cc86273b888a631ffc6189b74b7c0e7ac308b121c97e2e8a4bdfa4eec7fb57"
+    },
+    {
+      "path": "committed/scripts/norvig-query.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/norvig-query.ts",
+      "bytes": 4832,
+      "sha256": "c5a711f3b9830fddc87b6a2b1a5ef846ec5b08a5ac49303e4bf6f337a447b59c"
+    },
+    {
+      "path": "committed/scripts/analyze-cmu-trigrams.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/analyze-cmu-trigrams.mjs",
+      "bytes": 9642,
+      "sha256": "a34255fefc73b261a237b579c97c70c702d3e341d744e48b1ed5b1df7fe8fe46"
+    },
+    {
+      "path": "committed/scripts/trace-audit.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/trace-audit.mjs",
+      "bytes": 11208,
+      "sha256": "a085c2851f5f5cbf09e8e6bc1b8fb3cd92cae15dbaf5ee7bc6f0b2e27fc358f6"
+    },
+    {
+      "path": "committed/src/types.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/types.ts",
+      "bytes": 12344,
+      "sha256": "9e3db1ecefc8e97b520704d2279a48e4efcbc37349aee4663797e2fc49e519a6"
+    },
+    {
+      "path": "committed/src/index.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/index.ts",
+      "bytes": 2776,
+      "sha256": "e7e7e8a6df6bcfdc6c24b5d81d579c29f414c931bea74ae4096227de68bcfd1d"
+    },
+    {
+      "path": "committed/src/worker-entry.js",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/worker-entry.js",
+      "bytes": 133,
+      "sha256": "2fccd58b877a21ee6d968415390b194490376654be03df6da5b3122e5149bc12"
+    },
+    {
+      "path": "committed/src/tools/common-word-coverage-core.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/tools/common-word-coverage-core.test.ts",
+      "bytes": 8604,
+      "sha256": "a9198380f786eaf890cc5d85f73733543334e78e2effc98b3b0b5c3b6b9b5e45"
+    },
+    {
+      "path": "committed/src/tools/trace-audit-core.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/tools/trace-audit-core.test.ts",
+      "bytes": 1749,
+      "sha256": "920d1883fd41c90e481b2ba4f3b5e7eb1f6838a4636375fefa0479c3f101a924"
+    },
+    {
+      "path": "committed/src/core/write.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/write.test.ts",
+      "bytes": 43337,
+      "sha256": "d179cb3dc4df3a1e6f9af81d638c3df9980ade340a82773dd432f002a8a346df"
+    },
+    {
+      "path": "committed/src/core/pronounce.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/pronounce.test.ts",
+      "bytes": 17535,
+      "sha256": "7f1315996972378226bb607ac7f5713320a3d00f519aa669df3a12f2168cd025"
+    },
+    {
+      "path": "committed/src/core/common-word-orthography.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/common-word-orthography.test.ts",
+      "bytes": 10843,
+      "sha256": "4985ebfecfd0ac010ead3994c1679cb481f1fa12bcfeecccbbe334139474d8a0"
+    },
+    {
+      "path": "committed/src/core/generateWords.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/generateWords.test.ts",
+      "bytes": 8934,
+      "sha256": "360b7588baa964b4bf535445e1319eedd71f1d61d96053c5a928f80e1847739f"
+    },
+    {
+      "path": "committed/src/core/generate.perf.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/generate.perf.test.ts",
+      "bytes": 2902,
+      "sha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83"
+    },
+    {
+      "path": "committed/src/core/trace.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/trace.test.ts",
+      "bytes": 15263,
+      "sha256": "5a4225f7be33882f6e2e676ea8d272fe6ff3ac3a5d5a5844229ab2cd42158386"
+    },
+    {
+      "path": "committed/src/core/pronounce.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/pronounce.ts",
+      "bytes": 14194,
+      "sha256": "4c58c68fefdece4cdb4c0077b4cefe9b5b2e7c36fe062c1447c2cc19e83dd645"
+    },
+    {
+      "path": "committed/src/core/generate.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/generate.test.ts",
+      "bytes": 9887,
+      "sha256": "e7dc37e8f86b4b7c9b7dfc42e9571d162d4389ac8dee80306276b130edea0465"
+    },
+    {
+      "path": "committed/src/core/cluster-weights.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/cluster-weights.test.ts",
+      "bytes": 7830,
+      "sha256": "9874b0af777a26aee98cec7eecc88efb2930a27aaf99c23a637cbe3054f3ff7a"
+    },
+    {
+      "path": "committed/src/core/quality.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/quality.test.ts",
+      "bytes": 9786,
+      "sha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf"
+    },
+    {
+      "path": "committed/src/core/phoneme-quality.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/phoneme-quality.test.ts",
+      "bytes": 4791,
+      "sha256": "ed39596831b6a1d8dda473961d86dccc87edda9b965a458dcaff2ec74b88fd6e"
+    },
+    {
+      "path": "committed/src/core/phoneme-quality.metrics.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/phoneme-quality.metrics.test.ts",
+      "bytes": 742,
+      "sha256": "8a73023d775085e6312436b6d64deb1645d561ee3ed1662bfb278eae1986e37d"
+    },
+    {
+      "path": "committed/src/core/junction.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/junction.ts",
+      "bytes": 4991,
+      "sha256": "ec181ba1e8085e9b3a808d472231f30dbc20dc5445c72abd786d84405ff199f7"
+    },
+    {
+      "path": "committed/src/core/repair.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/repair.test.ts",
+      "bytes": 8565,
+      "sha256": "f44fcf49c7a49a653162213a1cab387baf74cac83ecbedfded670446ad3708be"
+    },
+    {
+      "path": "committed/src/core/stress-repair.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/stress-repair.test.ts",
+      "bytes": 1049,
+      "sha256": "f4d913506ffde37cc845a123267348cd9a48f97d09a6d64d417a030e611ccc3a"
+    },
+    {
+      "path": "committed/src/core/ngram-quality.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/ngram-quality.test.ts",
+      "bytes": 8017,
+      "sha256": "c9f8b5dbc4362ca569bc5a4cb17dc8a506c1913937c7919589672c64be4a3c53"
+    },
+    {
+      "path": "committed/src/core/vowel-sounds.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/vowel-sounds.ts",
+      "bytes": 413,
+      "sha256": "51d38dae7c5ca265f6dacad6ffcf1476aae941ee4fd113615780d758b9bcb533"
+    },
+    {
+      "path": "committed/src/core/phoneme-quality.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/phoneme-quality.ts",
+      "bytes": 3227,
+      "sha256": "65b881151447dfd699bc13bf93ac65c42543e41f60dce94084c2b90a6ab7471d"
+    },
+    {
+      "path": "committed/src/core/generate.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/generate.ts",
+      "bytes": 59719,
+      "sha256": "7d3ceac941381f4a8bb93392421484c856814cf420dea2ca8ea00b7dff1323e6"
+    },
+    {
+      "path": "committed/src/core/ot-stress.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/ot-stress.ts",
+      "bytes": 6544,
+      "sha256": "07d1433a2d4156c79ed97cc151c0070d81f27c654ad979e1070af8a687d76fe2"
+    },
+    {
+      "path": "committed/src/core/write.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/write.ts",
+      "bytes": 69117,
+      "sha256": "dacbf2fde1768e1e8f29a48eadee4848277d53e8914cc11d0a524118c7cb400f"
+    },
+    {
+      "path": "committed/src/core/generate.bench.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/generate.bench.ts",
+      "bytes": 768,
+      "sha256": "b6a1051ce91d7031b2b03d611ea1cfb422f1ca8108ff6c6c3a067695d57d0d8f"
+    },
+    {
+      "path": "committed/src/core/gap-spelling.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/gap-spelling.ts",
+      "bytes": 4092,
+      "sha256": "5bdbb4b864c8f53c09e531d97ea41991ee04c809dffd1f00afaaa632ba2d1d03"
+    },
+    {
+      "path": "committed/src/core/ot-stress.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/ot-stress.test.ts",
+      "bytes": 7407,
+      "sha256": "e23abff2b7d497db626c74773d31f6c9d5f92488400764abacd1ad90fc4aab51"
+    },
+    {
+      "path": "committed/src/core/stress-repair.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/stress-repair.ts",
+      "bytes": 1648,
+      "sha256": "b09e840a814d5c8368381abefc3c8211c62226ea91f7ddccd7acf20e4ca9fa59"
+    },
+    {
+      "path": "committed/src/core/y-vowel.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/y-vowel.test.ts",
+      "bytes": 1471,
+      "sha256": "4d27bc435cab1a61214e25b11fb64a9139b51ab51e0ba79acfec98685057a13f"
+    },
+    {
+      "path": "committed/src/core/trace.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/trace.ts",
+      "bytes": 8166,
+      "sha256": "5babd40864081f5395244b59d79620ff002f9679ce9918ada20a12343876532b"
+    },
+    {
+      "path": "committed/src/core/length-semantics.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/length-semantics.ts",
+      "bytes": 4187,
+      "sha256": "47f74d41fd2e5b2ae492574b31926d8cf070da15264381e9d96936be35bbde1a"
+    },
+    {
+      "path": "committed/src/core/repair.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/repair.ts",
+      "bytes": 8508,
+      "sha256": "f2b8ed1a8976009b2193611a867738f112f64bb7211c3d4caa4c1aceabd01d91"
+    },
+    {
+      "path": "committed/src/phonotactic/score.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/phonotactic/score.ts",
+      "bytes": 2572,
+      "sha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f"
+    },
+    {
+      "path": "committed/src/phonotactic/arpabet-bigrams.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/phonotactic/arpabet-bigrams.ts",
+      "bytes": 18585,
+      "sha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7"
+    },
+    {
+      "path": "committed/src/phonotactic/phonotactic.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/phonotactic/phonotactic.test.ts",
+      "bytes": 7036,
+      "sha256": "683f14d99636e59491add7e1e9eded10323d84ed86d2deb32e61e1a5705327d8"
+    },
+    {
+      "path": "committed/src/phonotactic/english-baseline.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/phonotactic/english-baseline.json",
+      "bytes": 651,
+      "sha256": "b09571249718792461073319d610dd634705bdac6fc9454aa9a7950a715d760b"
+    },
+    {
+      "path": "committed/src/phonotactic/ipa-to-arpabet.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/phonotactic/ipa-to-arpabet.ts",
+      "bytes": 2787,
+      "sha256": "e225cbe65a4820e727b8e4bf7f009089b6f3d566cfb07ccf3b13c3d127172913"
+    },
+    {
+      "path": "committed/src/config/ngram-thresholds.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/config/ngram-thresholds.json",
+      "bytes": 1706,
+      "sha256": "a8ded5db4d69f7699f22289287f8471d249837c5a67efaef4cc62c7aa23aa739"
+    },
+    {
+      "path": "committed/src/config/weights.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/config/weights.ts",
+      "bytes": 9142,
+      "sha256": "842d16e5df9b15875cccd1ca455ae3b8fb62aecc0da16503411041629e31debc"
+    },
+    {
+      "path": "committed/src/config/language.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/config/language.ts",
+      "bytes": 68106,
+      "sha256": "7719d7e5e0d9be6c9a42453fd6e5c8cdf1057e7111f5956f7b3df5fa2f10e553"
+    },
+    {
+      "path": "committed/src/config/english.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/config/english.ts",
+      "bytes": 27970,
+      "sha256": "8d866eb7e7deeaeaccbdcdf3b6d4e8dac80da468a0393ea48841fa1f37e95c63"
+    },
+    {
+      "path": "committed/src/config/phoneme-thresholds.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/config/phoneme-thresholds.json",
+      "bytes": 476,
+      "sha256": "a77e276e34eff4a028f4edd22f364a60d0f188ff686fa2c2c6e0b5defb952442"
+    },
+    {
+      "path": "committed/src/config/language.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/config/language.test.ts",
+      "bytes": 26147,
+      "sha256": "e3fb00d6c5db48933ab740f6c4ba12372b622e3957e7db74a7846185fb058fc7"
+    },
+    {
+      "path": "committed/src/utils/random.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/utils/random.test.ts",
+      "bytes": 2933,
+      "sha256": "acf83ec28e600e788f9e993c4c99d7d4541bc96d116f61ff89e01c5f262f2e56"
+    },
+    {
+      "path": "committed/src/utils/phonemes.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/utils/phonemes.ts",
+      "bytes": 426,
+      "sha256": "619f5e6ab0d520b21636589acdb2593c65a21f4ee3040b80c220c61c37b198f9"
+    },
+    {
+      "path": "committed/src/utils/getWeightedOption.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/utils/getWeightedOption.test.ts",
+      "bytes": 3269,
+      "sha256": "dc6f4e5056dee2b92ec5305dc593dd94efb5aa22ba6c2f338a9cfb363f51aa0f"
+    },
+    {
+      "path": "committed/src/utils/random.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/utils/random.ts",
+      "bytes": 1073,
+      "sha256": "4967fc0c37a98835e7fef3d1be5cfda591b49927029352333b77cba7e9c922d7"
+    },
+    {
+      "path": "committed/src/utils/getWeightedOption.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/utils/getWeightedOption.ts",
+      "bytes": 1189,
+      "sha256": "4d16a72fa6edd11da1593a60195fcaab09768514a5727f1b9b1ff0885d12853e"
+    },
+    {
+      "path": "committed/src/utils/letters.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/utils/letters.ts",
+      "bytes": 937,
+      "sha256": "f8287f6025e51fe8b6745a077c2cdaa907dbdefde6761e001ce071c42da690c8"
+    },
+    {
+      "path": "committed/src/elements/phonemes.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/phonemes.ts",
+      "bytes": 12294,
+      "sha256": "ae82c5d0de9ec9830bdc3b673aac734d1d823d54c5f1313fccbf46f01a33b22e"
+    },
+    {
+      "path": "committed/src/elements/graphemes/affricates.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/graphemes/affricates.ts",
+      "bytes": 1686,
+      "sha256": "51becb3748b3b6d6ab30978481d548f5411f0f98d88912667f48bc39151034db"
+    },
+    {
+      "path": "committed/src/elements/graphemes/fricatives.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/graphemes/fricatives.ts",
+      "bytes": 6659,
+      "sha256": "a3a5ca2fab076196125082ce961579e4bbc939a9c4b6b904f161cf80c4813cfd"
+    },
+    {
+      "path": "committed/src/elements/graphemes/glides.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/graphemes/glides.ts",
+      "bytes": 1026,
+      "sha256": "7d6b58ca1de51d4ca9c49b0e7b0b8e06dc0898a9cb860e8e1b744ebf98cc5422"
+    },
+    {
+      "path": "committed/src/elements/graphemes/vowels.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/graphemes/vowels.ts",
+      "bytes": 6113,
+      "sha256": "e016966a71db2d79212cc1227a3a48766432cea3b2573236ae1d8a84a7656570"
+    },
+    {
+      "path": "committed/src/elements/graphemes/diphthongs.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/graphemes/diphthongs.ts",
+      "bytes": 3700,
+      "sha256": "629bbe20d77931f9b1e3e969ff5ba240a9f6c9aa3d955f537ea00aead11286ed"
+    },
+    {
+      "path": "committed/src/elements/graphemes/rhotics.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/graphemes/rhotics.ts",
+      "bytes": 1713,
+      "sha256": "0b89ac7adcaab4001024bf8a4390f1bd00977448a27cb8e907474d951c6fb5c5"
+    },
+    {
+      "path": "committed/src/elements/graphemes/liquids.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/graphemes/liquids.ts",
+      "bytes": 751,
+      "sha256": "9ed2dd1eecaa121d349c834c516259d0aebcb278c4554dfc3c23fb777f6ce929"
+    },
+    {
+      "path": "committed/src/elements/graphemes/stops.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/graphemes/stops.ts",
+      "bytes": 4195,
+      "sha256": "e78264332e8d19a92cb14c153c7ddce8ee16ab4c946d335f9b39a4c7de9079a5"
+    },
+    {
+      "path": "committed/src/elements/graphemes/index.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/graphemes/index.ts",
+      "bytes": 3288,
+      "sha256": "365c07631fe9eb0efb978797920026cc4b465eff0f7cf6d36e3d5ea73fcaab86"
+    },
+    {
+      "path": "committed/src/elements/graphemes/nasals.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/elements/graphemes/nasals.ts",
+      "bytes": 2020,
+      "sha256": "32d2163923d078019cc9ff6d160743540b4e90c0e1fc4346afe5eb1db770447c"
+    },
+    {
+      "path": "committed/src/core/morphology/morphology.quality.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/morphology/morphology.quality.test.ts",
+      "bytes": 4913,
+      "sha256": "7b105d007ee115a5f977ed75efb8dffa54dedb5f2b5b96ae8eab90570176d492"
+    },
+    {
+      "path": "committed/src/core/morphology/attach.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/morphology/attach.ts",
+      "bytes": 18736,
+      "sha256": "024f75085409389dc8bb7374c37963058f058d93e9cf7b804b9535d64659eb1f"
+    },
+    {
+      "path": "committed/src/core/morphology/index.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/morphology/index.ts",
+      "bytes": 140,
+      "sha256": "da6b9d63ed469b7fd6e48e22792bf8f4a2b2c736e8d67cc3220b46ba303993b0"
+    },
+    {
+      "path": "committed/src/core/morphology/attach.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/morphology/attach.test.ts",
+      "bytes": 26682,
+      "sha256": "3a8565299fdf205eb5a3af222f59f152b2c69d790a6661314a51a2515c5de5fe"
+    },
+    {
+      "path": "committed/src/core/morphology/plan.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/src/core/morphology/plan.ts",
+      "bytes": 2298,
+      "sha256": "f23a874cc668b56d5fc9ca4c86875bead4f91c81c87a21a4997b6874dacee65f"
+    },
+    {
+      "path": "committed/data/cmu/cmu-lexicon-phonemes.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/cmu/cmu-lexicon-phonemes.json",
+      "bytes": 650,
+      "sha256": "3d7cb879c6ff7edc7599c8d0b57cba72df6ee1d86bf20f723d88b83ff6863aa9"
+    },
+    {
+      "path": "committed/data/cmu/cmu-lexicon-trigrams.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/cmu/cmu-lexicon-trigrams.json",
+      "bytes": 104600,
+      "sha256": "acb458d762a95753bed516202812e79201ee6604adb4d94aab2ac256b5553d7b"
+    },
+    {
+      "path": "committed/data/cmu/cmu-length-baseline.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/cmu/cmu-length-baseline.json",
+      "bytes": 4272,
+      "sha256": "f7bd916da8bb33102c28e70cc5a2e34bf58d17c165204d607bc73f60e8754a2e"
+    },
+    {
+      "path": "committed/data/cmu/phoneme-normalization.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/cmu/phoneme-normalization.json",
+      "bytes": 932,
+      "sha256": "60ffe6783768e66abeaaca798f8da0c1c0d291505bd5798c0641f938e0d495ba"
+    },
+    {
+      "path": "committed/data/cmu/cmu-lexicon-baseline.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/cmu/cmu-lexicon-baseline.md",
+      "bytes": 4371,
+      "sha256": "df17cc47f5a88368f19a8b209bd167b3cd7e1393ed64711bed9bf09bad9ca518"
+    },
+    {
+      "path": "committed/data/cmu/cmu-lexicon-bigrams.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/cmu/cmu-lexicon-bigrams.json",
+      "bytes": 8179,
+      "sha256": "c4696557ddb50390298030e8295fb0dba70b03e85c15c525ffab311a8d8f3167"
+    },
+    {
+      "path": "committed/data/cmu/cmu-lexicon-letters.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/cmu/cmu-lexicon-letters.json",
+      "bytes": 360,
+      "sha256": "70a5c793cebab577585a5e4414389b38342bf3f07c146d625870f4286469240c"
+    },
+    {
+      "path": "committed/data/norvig/ngrams1.tsv",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/norvig/ngrams1.tsv",
+      "bytes": 20659,
+      "sha256": "8dbc47d41fdca23ee3f7144bec73328148b32be715bd7260bf020fe3499ce77f"
+    },
+    {
+      "path": "committed/data/norvig/ngrams3.tsv",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/norvig/ngrams3.tsv",
+      "bytes": 2010535,
+      "sha256": "97eef40368202ad9a9a0d4637ffbc795710d9ce1b3b8a322d63e268eaa56e754"
+    },
+    {
+      "path": "committed/data/norvig/ngrams2.tsv",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/norvig/ngrams2.tsv",
+      "bytes": 278782,
+      "sha256": "ba64684d8d0f58e7749fdaab0a772f85614d055c65720ff973ce34d460c193ff"
+    },
+    {
+      "path": "committed/data/norvig/google-books-common-words.txt",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/data/norvig/google-books-common-words.txt",
+      "bytes": 1557493,
+      "sha256": "61753219b405c097178934e6bfc8ee7e5abca03122f1bd1438d83b7e36f4c69b"
+    },
+    {
+      "path": "committed/evaluation/corpus/phone-transitions.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/phone-transitions.ts",
+      "bytes": 2852,
+      "sha256": "2d220f77643c1b3a3f6c7835a573e17ffe2de8817335c119170d47c045aad88e"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-score-reference.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-score-reference.py",
+      "bytes": 16680,
+      "sha256": "9da4fdf64886d14b189e79d4eb0413fb4561db8cadbf32944bd01a0cfd7d944b"
+    },
+    {
+      "path": "committed/evaluation/corpus/phoneme-cli.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/phoneme-cli.ts",
+      "bytes": 2192,
+      "sha256": "6cf24f698fb38c6b7b2dd7c730aa66e953a7cb834e9cf1e9ca32cf9dbe8eef87"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-model-sensitivity-test.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-model-sensitivity-test.py",
+      "bytes": 17357,
+      "sha256": "24fb59c68f6b31ff6683c3d117c574f8a11776f6e3f05c1c21430622d777d881"
+    },
+    {
+      "path": "committed/evaluation/corpus/identity.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/identity.ts",
+      "bytes": 860,
+      "sha256": "306901b931ebfb25654668f507702809e50714cf6b70b5c8412fec9e6a1b8d44"
+    },
+    {
+      "path": "committed/evaluation/corpus/model-sensitivity-cli.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/model-sensitivity-cli.ts",
+      "bytes": 2815,
+      "sha256": "7849d378f5f31f1703c3fab75188600cadf4969a242f2d369b5ee0373f61113d"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-parser-test.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-parser-test.py",
+      "bytes": 2143,
+      "sha256": "ff582afc02a64902a1b31c73c02e9f574c7ef972f197aa36dac27fee78bdb3b7"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-sensitivity.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-sensitivity.py",
+      "bytes": 20653,
+      "sha256": "0b43b8824afefb87f77bf0946bd14f5d6eec157b379736ceae752cca19b7c64f"
+    },
+    {
+      "path": "committed/evaluation/corpus/joint.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/joint.ts",
+      "bytes": 10902,
+      "sha256": "c57e4a1e452462e346dd44efee46510480399b22b6df901be2d1042fec54d253"
+    },
+    {
+      "path": "committed/evaluation/corpus/archive.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/archive.ts",
+      "bytes": 7157,
+      "sha256": "10f248ac76922f578f8efb21d928aa8d295da6decfd4f7731558434e7b617a1b"
+    },
+    {
+      "path": "committed/evaluation/corpus/joint-artifact.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/joint-artifact.ts",
+      "bytes": 12354,
+      "sha256": "fe2641f9be7865c0ac29263eef2d0c49c827b8760b77c39bd55fbb979036c3d9"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-parser.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-parser.py",
+      "bytes": 8439,
+      "sha256": "a59cfa124b1462f4147416236fe6b2ad267a788cb9e5a0c72acf0e9b2ec08c50"
+    },
+    {
+      "path": "committed/evaluation/corpus/model-sensitivity-integrity.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/model-sensitivity-integrity.ts",
+      "bytes": 10987,
+      "sha256": "71fa7fea175b32482de034ad75aaf824309e5d658c8116b462c323ce017df8d1"
+    },
+    {
+      "path": "committed/evaluation/corpus/conditional-builder.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/conditional-builder.ts",
+      "bytes": 8658,
+      "sha256": "6c84299a2ac4619de29f52821530e08e69c5bf8ff27bb97caf8b66b8dba62003"
+    },
+    {
+      "path": "committed/evaluation/corpus/conditional-onset-rime.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/conditional-onset-rime.ts",
+      "bytes": 9514,
+      "sha256": "ddeb9de66965b41ae78a15c12b6cec9e9d31f0a56d18f4234d27aa6ea5cec0f6"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-sensitivity-test.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-sensitivity-test.py",
+      "bytes": 11623,
+      "sha256": "64fdfb399e7432ec37f0fdefc1baa8c917e9198302ceee5c505608acefbaae58"
+    },
+    {
+      "path": "committed/evaluation/corpus/length-builder.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/length-builder.ts",
+      "bytes": 8025,
+      "sha256": "d625ba0711afeb28b68b335c6e580ee3e825bd9a6f59ecf5fc54d473102b6366"
+    },
+    {
+      "path": "committed/evaluation/corpus/conditional-cli.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/conditional-cli.ts",
+      "bytes": 1881,
+      "sha256": "c76ecd183cf7449920b5f79e45c5f321806245195754cf741f1ee6ede520da1a"
+    },
+    {
+      "path": "committed/evaluation/corpus/cmu.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/cmu.ts",
+      "bytes": 5632,
+      "sha256": "1cfc3c2584a7da80623e5357e6a9f3004226dad3d6685f106e41f85e5232d0e4"
+    },
+    {
+      "path": "committed/evaluation/corpus/sensitivity.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/sensitivity.ts",
+      "bytes": 9942,
+      "sha256": "3206614acfcef1ac351beaa8ec2cf045d26fde8cfbf9136e7058b0155a4face0"
+    },
+    {
+      "path": "committed/evaluation/corpus/model-sensitivity-runner.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/model-sensitivity-runner.ts",
+      "bytes": 14611,
+      "sha256": "ebb9298b319ecbf086043ece088482470718f34458076c19ab2b9c6ca9623314"
+    },
+    {
+      "path": "committed/evaluation/corpus/model-sensitivity.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/model-sensitivity.ts",
+      "bytes": 18787,
+      "sha256": "cb97a276945c8c18883ad38d5eb744038035c07f474731e353c501e1864b0f42"
+    },
+    {
+      "path": "committed/evaluation/corpus/score-reference-builder.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/score-reference-builder.ts",
+      "bytes": 7875,
+      "sha256": "525a9023c107f78186e70faad3ec623661c1277af1aa7207bee716e95ec5c8ce"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-joint-test.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-joint-test.py",
+      "bytes": 10958,
+      "sha256": "f3d639fd22087919e1aebfe5bf4ca08ddd106a702af8c9483b7520bd16264b88"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-transitions-test.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-transitions-test.py",
+      "bytes": 4710,
+      "sha256": "7866b5e940735cd8af5f17bfc0ebbd68e8779a2e4f5534c4762ed41376b4265d"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-transitions.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-transitions.py",
+      "bytes": 10845,
+      "sha256": "a241fab741c8539df496b0235342957b818088a86cfb6cf3ace3e11cb21294eb"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-joint.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-joint.py",
+      "bytes": 19306,
+      "sha256": "a4a80097c1e57076eef30136ca5008a80a9a9803dc108ab1121c1bbaeff5699b"
+    },
+    {
+      "path": "committed/evaluation/corpus/joint-cli.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/joint-cli.ts",
+      "bytes": 861,
+      "sha256": "01fc2fe0741160e6d6cccd435703123a43289cc269c354866631a73d318a58f8"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-score-reference-test.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-score-reference-test.py",
+      "bytes": 9606,
+      "sha256": "305ff26dfb4184c1c19866db7e32f249bfb5a77db092045ecc2141f19615fd35"
+    },
+    {
+      "path": "committed/evaluation/corpus/score-reference.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/score-reference.ts",
+      "bytes": 4664,
+      "sha256": "af8c9e7a12132faa65398bcc4dc103165382651fd4bc52532c45d8b3380136ee"
+    },
+    {
+      "path": "committed/evaluation/corpus/verify-model-sensitivity.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/verify-model-sensitivity.py",
+      "bytes": 39055,
+      "sha256": "71760580d122820fb1edacecd1a1e062c128372b0e7f6c7c97f5eeb2b8a27272"
+    },
+    {
+      "path": "committed/evaluation/corpus/transition-builder.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/transition-builder.ts",
+      "bytes": 10929,
+      "sha256": "a106294a6dc1cdf58c67f7f64566b53f155e33e2f09de7690625841914bf52cc"
+    },
+    {
+      "path": "committed/evaluation/corpus/sensitivity-cli.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/sensitivity-cli.ts",
+      "bytes": 769,
+      "sha256": "dddf1aa71d4fd896d47ea79ca97609f3b9352aa9bcca8df5d357668c4ece3750"
+    },
+    {
+      "path": "committed/evaluation/corpus/audit.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/audit.ts",
+      "bytes": 2992,
+      "sha256": "a0e545093932e902df582d4022adbed9454876bbdb97bbbcf8baeef790231eaa"
+    },
+    {
+      "path": "committed/evaluation/corpus/model-sensitivity-acceptance.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/model-sensitivity-acceptance.ts",
+      "bytes": 6029,
+      "sha256": "6d5648d2cacdddc702b7d48a9d513e0c03be2cb90096dffa143746c003afb6fc"
+    },
+    {
+      "path": "committed/evaluation/corpus/phoneme-builder.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/phoneme-builder.ts",
+      "bytes": 8741,
+      "sha256": "b9f7087d5910cf2fbc1753446a26f0571c4043558de23d106b308c2ddd29a75e"
+    },
+    {
+      "path": "committed/evaluation/corpus/conditional-experiment.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/corpus/conditional-experiment.ts",
+      "bytes": 7465,
+      "sha256": "a1a97bdabcf73521815082c56435453ab4950c8e32d64ebaf4ac968263517d2f"
+    },
+    {
+      "path": "committed/evaluation/review/access.db.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/access.db.test.ts",
+      "bytes": 9874,
+      "sha256": "8bce351c4051aa505ad4071d6f587b1cf3a684b419e59042cfd83e3f3fc63ba6"
+    },
+    {
+      "path": "committed/evaluation/review/smoke.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/smoke.ts",
+      "bytes": 4527,
+      "sha256": "b308253e8153ec852e319af6a4784acd38dcd346980a0dd2e32b45b802503cc7"
+    },
+    {
+      "path": "committed/evaluation/review/snapshot.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/snapshot.ts",
+      "bytes": 4915,
+      "sha256": "d1edca7307f2a6a17b52364e62df297f296498e1ae7ab9e01a1038df1c7c57e1"
+    },
+    {
+      "path": "committed/evaluation/review/study.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/study.test.ts",
+      "bytes": 5145,
+      "sha256": "eb685e888551737f0a8695683506acfd77c16ea51d938e5de88974ae76f9cad3"
+    },
+    {
+      "path": "committed/evaluation/review/fixtures.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/fixtures.ts",
+      "bytes": 2590,
+      "sha256": "17e077fea306b19f2f5ba06bdb5a474664717fcd82d8899daad5bad1f744ab57"
+    },
+    {
+      "path": "committed/evaluation/review/report.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/report.ts",
+      "bytes": 11094,
+      "sha256": "bacd058a87fb363c1ee33e8ab31182d267f476bd7d405cd9c67de037441901d4"
+    },
+    {
+      "path": "committed/evaluation/review/local.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/local.test.ts",
+      "bytes": 4528,
+      "sha256": "52fa995136f8230abd6a71ffd9660bc9d1a371e9c39c09e4bdb15f52a71ceda2"
+    },
+    {
+      "path": "committed/evaluation/review/run-db-tests.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/run-db-tests.ts",
+      "bytes": 572,
+      "sha256": "d4f2a268dcef3448da3643a1b73210d0af6258f213d57118302df7dcb0eb1d8b"
+    },
+    {
+      "path": "committed/evaluation/review/cmu-joint.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/cmu-joint.test.ts",
+      "bytes": 8011,
+      "sha256": "baf6e5d6bf99de8462d1224c015c94f0a4a800c650fcbcd2a356d67c04dc6e01"
+    },
+    {
+      "path": "committed/evaluation/review/cmu-transition-builder.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/cmu-transition-builder.test.ts",
+      "bytes": 17098,
+      "sha256": "6ce720788a72e9cb191c1d0e8c3207b915fe765b02f9953a288ac59fa877eb39"
+    },
+    {
+      "path": "committed/evaluation/review/cli.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/cli.ts",
+      "bytes": 2968,
+      "sha256": "70712686ba29951cfc19974f481cf576357d0bac404512c431413404ad7c0d4a"
+    },
+    {
+      "path": "committed/evaluation/review/model.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/model.ts",
+      "bytes": 1434,
+      "sha256": "a4a0e61f0d0c951d967f1dcd855144e0acfd43060d9821b7379d691eee393c41"
+    },
+    {
+      "path": "committed/evaluation/review/cmu-phoneme-builder.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/cmu-phoneme-builder.test.ts",
+      "bytes": 10828,
+      "sha256": "5c39657abcc36a361f45a4501ce311221fd4fd7e8f7baa93d0a9bdfd841c5924"
+    },
+    {
+      "path": "committed/evaluation/review/cmu-model-sensitivity.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/cmu-model-sensitivity.test.ts",
+      "bytes": 17038,
+      "sha256": "54bb51816b556dfcfb8b271c29cb7682aeb2e31b7d3f588933e505cb8a5cc5f1"
+    },
+    {
+      "path": "committed/evaluation/review/cmu-score-reference.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/cmu-score-reference.test.ts",
+      "bytes": 18785,
+      "sha256": "de174e8c98a10031cf438088561ea8e8febdda54deea2f02093df1ffe47170d2"
+    },
+    {
+      "path": "committed/evaluation/review/protocol.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/protocol.ts",
+      "bytes": 2980,
+      "sha256": "cfca679be71cac9db7caf542499a3804d8540135e247b1028c95fef3a5bf56e8"
+    },
+    {
+      "path": "committed/evaluation/review/owner-api.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/owner-api.ts",
+      "bytes": 4847,
+      "sha256": "a44e7403d4f076555cf812f9d29c81546852c2767deebb65ef891333ff0c2b3f"
+    },
+    {
+      "path": "committed/evaluation/review/cmu-source.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/cmu-source.test.ts",
+      "bytes": 6365,
+      "sha256": "c7da074592198694f1002ae96c7664f85a512a7f227d04dff7887f3efa5db031"
+    },
+    {
+      "path": "committed/evaluation/review/cmu-length-builder.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/cmu-length-builder.test.ts",
+      "bytes": 13041,
+      "sha256": "92b68aa12681d433f2970b91df2f58cdcf46953f6749f9eb1e532a1e0b1d3852"
+    },
+    {
+      "path": "committed/evaluation/review/local-environment.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/local-environment.ts",
+      "bytes": 976,
+      "sha256": "2907861b48a689b898714887395612a1cafa3057b2019e60306f6db4a0859f03"
+    },
+    {
+      "path": "committed/evaluation/review/studies/written-v1-baseline.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/studies/written-v1-baseline.json",
+      "bytes": 2133759,
+      "sha256": "74225d5bc47842b142131f2b2a4a3d0bde53cde747b2397f1700b795c7235208"
+    },
+    {
+      "path": "committed/evaluation/review/studies/written-v2-baseline.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/studies/written-v2-baseline.json",
+      "bytes": 2133777,
+      "sha256": "f69468edb78e047c5e027d554b8d902975f37c73b5cb33ac469fbf1c6304a787"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/conditional-onset-rime.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/conditional-onset-rime.test.ts",
+      "bytes": 8332,
+      "sha256": "5e79d1c7929f62bc1267f7cba685e02cfacc470771eaadef4573c428f2bf1d3a"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/score.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/score.ts",
+      "bytes": 6373,
+      "sha256": "9c81a4150e6a6a6e065489491197802540c7a87b1e1471d294360a166c8ddf83"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/evaluate.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/evaluate.ts",
+      "bytes": 15019,
+      "sha256": "ad757a59e38c15ea2687e8edb21a55f39df258651c2945e9ccde1e28834e463b"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/cli.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/cli.ts",
+      "bytes": 5050,
+      "sha256": "ccd6f6a36dd0951a37a031865380935289802221f9355e3096a7947383fdb38d"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/conditional-builder.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/conditional-builder.test.ts",
+      "bytes": 3236,
+      "sha256": "d69a65641e4252bf539402ac70ae7c574f07be387a88e6b1179151973128bf4c"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/model.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/model.ts",
+      "bytes": 4969,
+      "sha256": "c1e90a044397ff1427c254c4b6db8e74c57ce4fe8779a3a7cbaddb8e013d749f"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/wordlikeness.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/wordlikeness.test.ts",
+      "bytes": 12439,
+      "sha256": "12b79ea8f5d42bb54c85df64f50e7ece4895a1de216ba842fafa4d9c03704775"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/artifact.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/artifact.ts",
+      "bytes": 2171,
+      "sha256": "69764fac5a033bf164bb4613975eadff92378b0e1928325ed8a29ce52bb97e31"
+    },
+    {
+      "path": "committed/evaluation/review/browser/review.spec.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/browser/review.spec.ts",
+      "bytes": 15171,
+      "sha256": "acbde4b824bd7a7a0cf2c9b448618760a7f3277f5029fa96a8653f4dfa36ba5e"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/artifacts/reference-v1.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/artifacts/reference-v1.json",
+      "bytes": 118137,
+      "sha256": "3006f65d7039820a428ba3419b63fd486de17fb3ccbb1f9d24c1cda354ffe3de"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/artifacts/CMUDICT-LICENSE.txt",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/artifacts/CMUDICT-LICENSE.txt",
+      "bytes": 1754,
+      "sha256": "bd4ce8e44170a5f9f481310ca85c51de3c4f851a65e679b40e603b143bd3542a"
+    },
+    {
+      "path": "committed/evaluation/review/wordlikeness/artifacts/frozen-scores-v1.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/review/wordlikeness/artifacts/frozen-scores-v1.json",
+      "bytes": 1377348,
+      "sha256": "a39b126fc0d45f351c8831986324b5bf0a5553eaa9f78fa2409e1084bf65eddc"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-shared-parser/sources.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-shared-parser/sources.json.gz",
+      "bytes": 13623,
+      "sha256": "bce4d0124a622d0951f87c0a900c969b1e349b5b3d172b3886eee5d0e71a2cfb"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-shared-parser/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-shared-parser/README.md",
+      "bytes": 4065,
+      "sha256": "b7277617e82f218a1af28b4f2aaec557980fd3bd55a1e1ec4ce12d00ea01a4b4"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-shared-parser/frozen-scores-parser-v1.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-shared-parser/frozen-scores-parser-v1.json.gz",
+      "bytes": 241244,
+      "sha256": "3c73d75de28e474171c0db7c3f4977b2a5099bee261a15386c83377ee23199ff"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-shared-parser/reference-parser-v1.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-shared-parser/reference-parser-v1.json.gz",
+      "bytes": 37315,
+      "sha256": "86d26067c2fa54d5ef2c838af64c1ddb40a7cf50d22ff950ec63659a9bbc22eb"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-shared-parser/verification.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-shared-parser/verification.json",
+      "bytes": 1370,
+      "sha256": "ac7a9e0214c0382e405e5abed161941af2359e1dfad3dff61e59b70bc8512ab7"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-shared-parser/source-audit.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-shared-parser/source-audit.json.gz",
+      "bytes": 132354,
+      "sha256": "5fbfae83e3a1a3c018fe00333ef6e22d4d32078781c2334de6472b7158b5c5e4"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-shared-parser/artifacts.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-shared-parser/artifacts.json",
+      "bytes": 997,
+      "sha256": "df405dd85c1fc29a79f0354490805fb5cfe8f41c935c18a5f113d91c56101174"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/tests.log.gz",
+      "bytes": 506,
+      "sha256": "1fa79734be45223439f3b8406d09f701c4251512358684ac17587a6381651888"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/verification.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/verification.json.gz",
+      "bytes": 13383,
+      "sha256": "5167983e4727c09379ea1be39f4a1ad03f1451757ceb0cc2feae61120c458f7d"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/artifact.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/artifact.json.gz",
+      "bytes": 43949,
+      "sha256": "43529367151ff0b0d60874ba987d187b1bd36c9ef88bdfef1db65c163c218dc2"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/README.md",
+      "bytes": 3533,
+      "sha256": "4132b4df3ffb0bbfcdf23d90e8cf57cac48b75a18c0f6fe331c0c642e929b9e5"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/verify_test.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/verify_test.py",
+      "bytes": 6286,
+      "sha256": "95aac4a9d9b7f02f7180fce9210c41090d06f078befa26c3fe3f559c048b2c3e"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/development-runs.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/development-runs.json.gz",
+      "bytes": 2374,
+      "sha256": "8c7d194f3051e980e5de622ae0e0a21f794e428bc676d9767d3851bd719ec0d5"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/RESULTS.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/RESULTS.md",
+      "bytes": 4739,
+      "sha256": "9ed6e3adfa009b8b32105f9d7c73115a57c7207299d7f7dec6d8b749b8c17d38"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/manifest.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/manifest.json",
+      "bytes": 2978,
+      "sha256": "a92cd65364bbf1c577a6bfd06b0a371db72ad0b7da7695760dd0d6e380357a29"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/command-results.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/command-results.json.gz",
+      "bytes": 1235,
+      "sha256": "af3c4700bc2c9951331c66a9260328835d33e12ab955bb00d390f8c2765fa0bb"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/parent-verification.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/parent-verification.json.gz",
+      "bytes": 268,
+      "sha256": "0e804800ec671c43b1b10058290df07107fc5ea786c6a62766eeb5dde697815c"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/verify.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/verify.py",
+      "bytes": 10346,
+      "sha256": "4c603940c0067a65fbab7b05e36de484810f7eba71a607503583f34410710097"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-length-builder/python-tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-length-builder/python-tests.log.gz",
+      "bytes": 333,
+      "sha256": "6e95baf2d0741b9926773fc8c212a20d48e06dbd402885ec119fcd0b92c94fe7"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/reference.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/reference.json.gz",
+      "bytes": 4163408,
+      "sha256": "82ff2305a36d2807a2a8423a9b43842cd04a6d890aed1a190cd72db068d5be78"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/acceptance.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/acceptance.log.gz",
+      "bytes": 1772,
+      "sha256": "8b6aa01c1359bd18b8015b908158bb14c388b865163b186d73051cc8f91669ab"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/packaging-amendment-01.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/packaging-amendment-01.json",
+      "bytes": 929,
+      "sha256": "9a85d66ac20900a3491c3882da2e7bf5f528660cea09a7480b6ed56d3f7cd0bd"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/environment-after-acceptance.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/environment-after-acceptance.json",
+      "bytes": 371,
+      "sha256": "ed25931d1cde42c39fa796d1b5ddb2760610755c035e4b64f1ae7d125430d518"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/api-reproduction.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/api-reproduction.json",
+      "bytes": 722,
+      "sha256": "74956f8a8c92d44a348a757345087a523114a56bcb6a35d431c4a305c01f728e"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/acceptance.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/acceptance.json",
+      "bytes": 6027,
+      "sha256": "7e75d91bcc125df570776d46879b7d7391eaeef5fe012e7c0086ab98231153ec"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/source-review-files.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/source-review-files.json.gz",
+      "bytes": 116843,
+      "sha256": "8bde368d640212417c7e01f27bd10a5ac91bbd3623ff5d44cc3d3996c5be1f05"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/parent-files.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/parent-files.json",
+      "bytes": 31918,
+      "sha256": "3cca2c06252fbd7155c880aed0e4a91bb8d9dd94042273df20e463b45f2a5814"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/source-review-freeze-v1.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/source-review-freeze-v1.json",
+      "bytes": 9653,
+      "sha256": "cb0e284b1b694b51308df3e13223b018f9dc4a7201e9f1df9b0e5f95e0ee92d1"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/checks.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/checks.json",
+      "bytes": 1167,
+      "sha256": "7e652834bb57349922e9107b5266fe6362d0b9b881093b16450c0432b4f92f8e"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/README.md",
+      "bytes": 8156,
+      "sha256": "2f18b32f3bdc1020a70f5fe615f24dcc9632b134ae9bc9f6fc053401a5f9438a"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/execution-plan.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/execution-plan.json",
+      "bytes": 27536,
+      "sha256": "f5dc259d04e9c183ce2c9875d04069b3104962d2e851e4085afe2382d6d861e9"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/fixtures-plan.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/fixtures-plan.json",
+      "bytes": 1257,
+      "sha256": "0b96b35911476e3d2934f65ba7ab8177558ecf77ce9a787f317514d1189531ef"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/legacy-scorer-tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/legacy-scorer-tests.log.gz",
+      "bytes": 259,
+      "sha256": "ee83cea5b321ffbcb2545c7ecd7d5b925ad62709de8c669c82bc3bf575f9f2d9"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/legacy-builder.ts.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/legacy-builder.ts.gz",
+      "bytes": 2553,
+      "sha256": "8eed69c8a71c1c3c70cae651c655a65a61826d1003bf54329a2a0a6d88264d99"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/manifest.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/manifest.json",
+      "bytes": 5543,
+      "sha256": "82daceb9aef3bcd4263e8a7da26c30493efc0111702eebf6399308a4fe03c192"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/parent-acceptance-review.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/parent-acceptance-review.json",
+      "bytes": 785,
+      "sha256": "2ce40ba64e6155bbd8e8715d3a28ef75f82fd0c2ffd167cb9edf146ec1bda628"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/protocol.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/protocol.json",
+      "bytes": 2887,
+      "sha256": "be46836df65c94d2e61f4e713de004e8581db75c81abdd4ebcf8aa74a43b1f78"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/acceptance-runner.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/acceptance-runner.py",
+      "bytes": 11526,
+      "sha256": "7a2db7cdfd1cb1e080e65bdd49cebbda36c28e756a6f954b801223b5c03591ca"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/command-records.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/command-records.json.gz",
+      "bytes": 3883,
+      "sha256": "bf34d0b12387affa9cc2080319de22f0b992978c0126cd3ce29fe47776f3325e"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/packaging-amendment-02.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/packaging-amendment-02.json",
+      "bytes": 3031,
+      "sha256": "a6843cf23f61764c0657d7f70c055866df39ab8a975e081429c4f47e1ab48af3"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/verification.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/verification.json",
+      "bytes": 5983,
+      "sha256": "3e4a1beb731949de9b3cbd153880763c8922b6030ecf0fd386913f5aaee66ea5"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/review-tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/review-tests.log.gz",
+      "bytes": 1108,
+      "sha256": "5a4baedadc5eb5898ffae988411c35e083b668ee24bb44140c76eae7cfdbde55"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/design.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/design.md",
+      "bytes": 19480,
+      "sha256": "f98067c080e93f06263d9bf6f0cdef228bef5c57be47a7d634cde3bc2c1ca337"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/parent-source-review.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/parent-source-review.json",
+      "bytes": 833,
+      "sha256": "f792ed0863de483a442aa3a7c2ce633cbbc92df712544b4ff591ed21c11e4ef6"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/manifest-before-transport.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/manifest-before-transport.json.gz",
+      "bytes": 1918,
+      "sha256": "cff500e72eabbe07f83f28cd5fb2595f35ecfe935c9afc1f90715e8e4c2a1cba"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-score-reference/python-tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-score-reference/python-tests.log.gz",
+      "bytes": 54,
+      "sha256": "209c7aa06afb5b68a5615cfacc90ca569b3e94392d35eb42da6bd65858c88063"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/formal-run.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/formal-run.log.gz",
+      "bytes": 1217,
+      "sha256": "8bcdafb29b91d4a797e5094139888c74774293df6990b2256912d73462dc6976"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/failed-v1-help.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/failed-v1-help.json.gz",
+      "bytes": 629,
+      "sha256": "713f28cd7239a3b2c0b522f082bd2d6934915642d514dd6e01e679dbaeb05735"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/contract-at-source-review.md.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/contract-at-source-review.md.gz",
+      "bytes": 2509,
+      "sha256": "da188e30d9691951962b093d74de5d4727ab32e49f3abafe9a908b9fb785712e"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/failed-v1-execution-plan.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/failed-v1-execution-plan.json.gz",
+      "bytes": 621,
+      "sha256": "7b27f594f85f5f7e7c9ff70c3dfc76b212771b69b37d17384856e6db84608103"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/parent-files.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/parent-files.json",
+      "bytes": 28158,
+      "sha256": "e32703fcc159681bbcfe5ef6d0160f434d247bbc19fe1a430ce9b844c9085afa"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/formal-runner.py.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/formal-runner.py.gz",
+      "bytes": 2493,
+      "sha256": "f591493459bc0317d2eb42e44ff6831b2c586f6838ef9e10186587397e871afc"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/source-review-freeze-v1.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/source-review-freeze-v1.json",
+      "bytes": 5770,
+      "sha256": "d1bb87e5c957ad9337dd3cb11d62b4d2c0b3b445a673cc4f0b448860835a57f2"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/execution-plan.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/execution-plan.json.gz",
+      "bytes": 621,
+      "sha256": "99edfdf8ee64141b826f3862fb5e4b67f2c9ba563c6e8c36f21a1a0c26145e11"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/verification.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/verification.json.gz",
+      "bytes": 1958,
+      "sha256": "c00effd4ebf8de013982b4980f38f5851ffc877a13515e87c2c80033e2758019"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/artifact.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/artifact.json.gz",
+      "bytes": 58091,
+      "sha256": "a1bad741aff421b5f87d014ba9bc0e39c15b696dbe9add3d97bb42ba82b29e59"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/README.md",
+      "bytes": 6286,
+      "sha256": "5528a7b80c41062391190c83bb7c443c94c52e323901fd463570805505730b4b"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/acceptance.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/acceptance.json.gz",
+      "bytes": 1217,
+      "sha256": "8bcdafb29b91d4a797e5094139888c74774293df6990b2256912d73462dc6976"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/failed-v1-runner.py.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/failed-v1-runner.py.gz",
+      "bytes": 2491,
+      "sha256": "cfec84070ecc019f20e91ada6ac36766cef1a20fc06f5c62cb6476188325acd6"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/manifest.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/manifest.json",
+      "bytes": 5463,
+      "sha256": "8cca0df65f2b024ed5708d310d245bc51928bc3814326572698ad9dae71f3716"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/protocol.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/protocol.json",
+      "bytes": 3150,
+      "sha256": "3dd173301978c980d1ab1f2afee19da43487ad6db433aad679bb14d6b2b86131"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/command-results.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/command-results.json.gz",
+      "bytes": 1596,
+      "sha256": "4b63a2c082613ba9231a92c60baad74ee31dd96edd0b034d0627c70f8b25cbc5"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/packaging-amendment-02.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/packaging-amendment-02.json",
+      "bytes": 591,
+      "sha256": "146d2207030b8bf5abd13b2b675965d2cc4ef4a333e671805916cbdc325d8970"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/review-tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/review-tests.log.gz",
+      "bytes": 823,
+      "sha256": "19ea8c2109415a777adea152048027e90907723336d45809420bc8b6a7c40f3f"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/design.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/design.md",
+      "bytes": 19121,
+      "sha256": "4b797bb3e6822729714ad7bccba7e7916ccaa60bd0e656a6f22dcd2d9a540daa"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/failed-v1.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/failed-v1.log.gz",
+      "bytes": 770,
+      "sha256": "878538bf57c65989a12972815cd13357ce3ff993c423696d2e3051cd6dc2979a"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/protocol-amendment-01.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/protocol-amendment-01.json",
+      "bytes": 573,
+      "sha256": "95593fde227dcadb0dda0e1875fe80ae7f88632d44a8e9d5d8ae90fe1a7907aa"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-transition-builder/python-tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-transition-builder/python-tests.log.gz",
+      "bytes": 54,
+      "sha256": "6023e49a796451572c508be7a84553945b768b7f1ea8a32aca81dc4f8491302a"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/parent-files.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/parent-files.json",
+      "bytes": 36316,
+      "sha256": "9d4ed4d864042c19158e38906d2537b01a154eed8d00008340ea3c088ba58d20"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/README.md",
+      "bytes": 7282,
+      "sha256": "f534559cbb41443a2de87ec2fff02a6aadf3ccd58c2731eb21f40bfa645f7deb"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/RESULTS.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/RESULTS.md",
+      "bytes": 664,
+      "sha256": "251008f0f7508c00373fb5408abd8cf27d66559a5beccb0d510c8839f574b704"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/fixtures-plan.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/fixtures-plan.md",
+      "bytes": 1670,
+      "sha256": "8fc04d224b2f6b4ebe5b31436d310f91991a8114533dc620fc9a21f64feae842"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/protocol.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/protocol.json",
+      "bytes": 2383,
+      "sha256": "1932ff66670bc0315636c648d06240f3ad517a857943d169f30f460e01ea1411"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/design.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/design.md",
+      "bytes": 26428,
+      "sha256": "6cd973cc86e50a55f1efb53f75c67f80938237e91ec445ed0f3993c926aaca1b"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/verify-validation.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/verify-validation.py",
+      "bytes": 1521,
+      "sha256": "8638780b109f6a8f0dfad7e08229c4efb5b000649ee6ea9281b379eb2c9efc6a"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/validation-index.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/validation-index.json",
+      "bytes": 36298,
+      "sha256": "17a8c7a96b6bdce91ddb63a5451a59876fae5653d3170453d417d458fe67882e"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/measurement-preimplementation.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/measurement-preimplementation.json",
+      "bytes": 3707,
+      "sha256": "c39d8b61a76442ec717a081d3d483122b0246c745d49ecae898f1e1f57965f06"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/README.md",
+      "bytes": 3686,
+      "sha256": "fbb06d6363597fef211e25817a5d2c1ec4ddcc71ccaebad2408d985e1f5e97b9"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/RESULTS.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/RESULTS.md",
+      "bytes": 4310,
+      "sha256": "579ed528432397f3cd553ff298060c2184eaa8410228ded0b8109885ebcd9bfb"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/source-reuse.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/source-reuse.json",
+      "bytes": 2716,
+      "sha256": "e8f7d0a4aa97b47b60da1ab7d3dbbd243a4cefe47aefb51a60142d878c3d8252"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-phoneme-builder/tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-phoneme-builder/tests.log.gz",
+      "bytes": 442,
+      "sha256": "1f50d46d234d9c9e86520d57a8be25f596c2638704fd89306af07f7b29a838ce"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-phoneme-builder/verification.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-phoneme-builder/verification.json.gz",
+      "bytes": 12452,
+      "sha256": "baef2a7bfd64371affd63fdb470c677b814e357072d9a07dd8c88139f4c10668"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-phoneme-builder/artifact.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-phoneme-builder/artifact.json.gz",
+      "bytes": 44715,
+      "sha256": "5d69d90e837985969cf270384085feb5c0a452fec66b8d16e77bf06fd0e77f32"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-phoneme-builder/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-phoneme-builder/README.md",
+      "bytes": 3201,
+      "sha256": "c2cdfe8412c90e7cf6ef84d3e0865e6410d58c917611c8f2ce62bc6c4532aa6b"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-phoneme-builder/development-runs.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-phoneme-builder/development-runs.json.gz",
+      "bytes": 15555,
+      "sha256": "c1c6c6561f93a31df0a3d65429210e4168a6ea51c2643de7d2eb985baa096afe"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-phoneme-builder/RESULTS.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-phoneme-builder/RESULTS.md",
+      "bytes": 3641,
+      "sha256": "b30431e14bd3bfb1c84cf1debe7801463c83c4deb25807f705b650cf62d8feb6"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-phoneme-builder/manifest.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-phoneme-builder/manifest.json",
+      "bytes": 2259,
+      "sha256": "af6a891c772bce470c1afba67237757ff58ed5e6019cd480b2afe4ec0d70d6d7"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-phoneme-builder/command-results.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-phoneme-builder/command-results.json.gz",
+      "bytes": 1095,
+      "sha256": "f426071244a57f40f372c71cbce18a04e57ca5da70d895a529f2958ed658135d"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-phoneme-builder/verify.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-phoneme-builder/verify.py",
+      "bytes": 9728,
+      "sha256": "c450286790d9b3a26eaa67f07a8236e9b0f0e71ebc70097d5e33f245be6c9694"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-matched-reference/sensitivity.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-matched-reference/sensitivity.json.gz",
+      "bytes": 486743,
+      "sha256": "5a317c887bff00c13babf81efce6696b1c5cc919a5c7583f306affc019d576fb"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-matched-reference/reference.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-matched-reference/reference.json.gz",
+      "bytes": 154927,
+      "sha256": "d7b32d1c6f49edf8211f96db14139086172288f138328d37b41ae144b685a118"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-matched-reference/reference-verification.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-matched-reference/reference-verification.json.gz",
+      "bytes": 1602,
+      "sha256": "11a4a1ed9c8beb47801e15344d1edaa9394ab2e63c865927fc9d42647fbda8c4"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-matched-reference/reference-python-tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-matched-reference/reference-python-tests.log.gz",
+      "bytes": 508,
+      "sha256": "f2b3aa738f4c27e096d0ea791bc9cd39d9b96ea7c70d8511a82a60f024d57656"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-matched-reference/sensitivity-verification.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-matched-reference/sensitivity-verification.json.gz",
+      "bytes": 1928,
+      "sha256": "44078c9128d94f71a7927660a119ae1d09958c3bdf567d79c96e9af25bda6451"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-matched-reference/baseline-manifest.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-matched-reference/baseline-manifest.json.gz",
+      "bytes": 12519,
+      "sha256": "b1a7df8f0ec874aeb9e9fbfb5ec2f2c72bf621fb85dc5b492300611169a5cfa2"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-matched-reference/checks.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-matched-reference/checks.json",
+      "bytes": 843,
+      "sha256": "6ca264a79fecfb2a719090c111c72de45cf41d80d5a9b4076fead5a18f3337bc"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-matched-reference/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-matched-reference/README.md",
+      "bytes": 3273,
+      "sha256": "a7ecf5807798fef18a4bb98959a045fda7022d5555f9aa17fd477f4ec7d4339d"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-matched-reference/files.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-matched-reference/files.json",
+      "bytes": 1333,
+      "sha256": "267ff9ee8d58b842146dbf3309b6fcaa72b73ce479c3487e73a4bb548349785c"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-matched-reference/sensitivity-python-tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-matched-reference/sensitivity-python-tests.log.gz",
+      "bytes": 643,
+      "sha256": "fdce537104c8f19e9a3f838e3d2adc6c9e8f5af72eea12cde8cf4daaeb736809"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/fit/complete.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/fit/complete.json.gz",
+      "bytes": 28442,
+      "sha256": "9e4d56cf8762f7e964b6c6cebc045405c6a8ff23a97fab8a3d22d028852d6cff"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/fit/artifact.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/fit/artifact.json.gz",
+      "bytes": 519219,
+      "sha256": "31112ff117c303f3e4f5c9415db026eb909547d48a2ca07af06311e89f705171"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/fit/before.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/fit/before.json.gz",
+      "bytes": 28239,
+      "sha256": "22e90460f2fe1ceaf98e67f04fc3b82d48cf28dedd9391fe18851731bef1c525"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/execution-tools/dependency-closure.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/execution-tools/dependency-closure.mjs",
+      "bytes": 3458,
+      "sha256": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/execution-tools/sealed-fit.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/execution-tools/sealed-fit.mjs",
+      "bytes": 2803,
+      "sha256": "6949e270b6565bfd7311c959b4072eda6f10825b1e0c4eb7d6ca64c661577c9e"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/checks/tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/checks/tests.log.gz",
+      "bytes": 285,
+      "sha256": "b350f672c9b5a6c43217836bd2a7517ce2cc4c218a670bd5b359e41d36a13086"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/checks/complete.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/checks/complete.json",
+      "bytes": 259,
+      "sha256": "22815fd8a1a9041287648a01059dcd8f8c743218e11d36b77c4da35cab02bbd0"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/checks/unchanged-generator-scorer.diff",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/checks/unchanged-generator-scorer.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/checks/changed-files.txt",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/checks/changed-files.txt",
+      "bytes": 506,
+      "sha256": "d7bcc98ef7b90b21957a286cff457da26fa0cf20c8c411ffd644bd85e85b57c1"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/checks/typescript.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/checks/typescript.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/checks/lint.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/checks/lint.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/fit-driver/fit.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/fit-driver/fit.log.gz",
+      "bytes": 147,
+      "sha256": "8e6119cd09058a3e5ca5907a869836bb17c8e37323d191d32c936854f3a9b809"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/fit-driver/complete.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/fit-driver/complete.json",
+      "bytes": 617,
+      "sha256": "ef820adec6a1032a4041a849f2469fc8f4a5e7b81b7597ce6099ccc902e01ad5"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/fit-driver/tools-before.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/fit-driver/tools-before.json",
+      "bytes": 187,
+      "sha256": "eaad5892c58f6904fd05dcbd8f3ee580d3677a69c0fd14ae46410a3931c509dd"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/independent/verify_likelihoods.py.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/independent/verify_likelihoods.py.log.gz",
+      "bytes": 232,
+      "sha256": "825b4fad12b7a50d8a2a2bb9c1168bee79d715103f58038951ae5aef9d759a7f"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/independent/independent_reconstruction.py.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/independent/independent_reconstruction.py.log.gz",
+      "bytes": 449,
+      "sha256": "2531bc5cff1e70b71f46f606200768112e1c1224558e9dbbb8fc1df0dbe5ba9b"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/independent/complete.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/independent/complete.json",
+      "bytes": 1251,
+      "sha256": "6651eb3c989a45bb479d8a3d9a7f45131e9f4922db6286104f6ea954412a2a91"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/independent/tools-before.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/independent/tools-before.json",
+      "bytes": 399,
+      "sha256": "928ece5f565db569035a0c4462d37162eea6345af738c58de4dd39c141d937ec"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/independent_reconstruction.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/independent_reconstruction.py",
+      "bytes": 6322,
+      "sha256": "f53ce43f9af52f88a17ca93a52bac4eb36e72fb9c0b3bb13db6758010da16d05"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-onset-rime.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-onset-rime.test.ts",
+      "bytes": 8332,
+      "sha256": "5e79d1c7929f62bc1267f7cba685e02cfacc470771eaadef4573c428f2bf1d3a"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/run_verification.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/run_verification.py",
+      "bytes": 2338,
+      "sha256": "5a36f5551b3abd23fcd066bec03f8c5bdc4926e3fb8b01bef8401ef15576d4dc"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/workspace.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/workspace.json",
+      "bytes": 546,
+      "sha256": "02f9acd760e4ff70b6b9cd2c35f094e64869c0425ad6915680d319cc40925011"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/review-typecheck.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/review-typecheck.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/experiment-checks.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/experiment-checks.json",
+      "bytes": 619,
+      "sha256": "41c473a08bd0b49af042da64462e8b81a9f4f2ebafc7303b99ac47fb17a91e9a"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/independent-preflight.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/independent-preflight.json",
+      "bytes": 734,
+      "sha256": "4a1b087db0e6e921c2cea23bc9d2595128ba05d2cc709f0035da2f0f647da794"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/implementation-checks.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/implementation-checks.json",
+      "bytes": 867,
+      "sha256": "9d3dd5281a1474a1c4ae85beb67ca52cd3e379fa1f0bb7ce9aa12ace33bdf772"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/run_registered_fit.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/run_registered_fit.py",
+      "bytes": 1834,
+      "sha256": "69f68b472946c5491a2485d592de57c46b321163dd8f41991cfcd4bda65bbf58"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/experiment-tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/experiment-tests.log.gz",
+      "bytes": 263,
+      "sha256": "6ae0f3d8be224dae03bdbb4eea06f30fb3292bac827e067cbe466ab612c61d4f"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/experiment-lint.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/experiment-lint.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/experiment-review-typecheck.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/experiment-review-typecheck.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/measurement-preimplementation.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/measurement-preimplementation.json",
+      "bytes": 3707,
+      "sha256": "c39d8b61a76442ec717a081d3d483122b0246c745d49ecae898f1e1f57965f06"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/verify_likelihoods.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/verify_likelihoods.py",
+      "bytes": 7181,
+      "sha256": "a98362ee9acb10c407fc78aa81682a6463cecae6b2161c66bf0edd5e53577845"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/core-lint.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/core-lint.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-builder.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-builder.ts",
+      "bytes": 8658,
+      "sha256": "6c84299a2ac4619de29f52821530e08e69c5bf8ff27bb97caf8b66b8dba62003"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-builder.test.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-builder.test.ts",
+      "bytes": 3236,
+      "sha256": "d69a65641e4252bf539402ac70ae7c574f07be387a88e6b1179151973128bf4c"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-onset-rime.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-onset-rime.ts",
+      "bytes": 9514,
+      "sha256": "ddeb9de66965b41ae78a15c12b6cec9e9d31f0a56d18f4234d27aa6ea5cec0f6"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/model-core-typecheck-v2.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/model-core-typecheck-v2.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-cli.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-cli.ts",
+      "bytes": 1881,
+      "sha256": "c76ecd183cf7449920b5f79e45c5f321806245195754cf741f1ee6ede520da1a"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/README.md",
+      "bytes": 3471,
+      "sha256": "978cebaa52ceb01a9194a965990e57cf11b0aaf3757551d2e27c99b388eea68a"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/source-reuse.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/source-reuse.json",
+      "bytes": 2716,
+      "sha256": "e8f7d0a4aa97b47b60da1ab7d3dbbd243a4cefe47aefb51a60142d878c3d8252"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/model-core-typecheck-v1.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/model-core-typecheck-v1.log.gz",
+      "bytes": 345,
+      "sha256": "ce679ae4da84c69c7252787a967dbc39f188c5f39094c5c7ea89e2ba7e9221ab"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/fit-job.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/fit-job.json",
+      "bytes": 771,
+      "sha256": "b7d13ddeeb0fb0045cbeb80954fe017bc9a3b457b08d586b543dab87ebdce929"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-experiment.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/conditional-experiment.ts",
+      "bytes": 7465,
+      "sha256": "a1a97bdabcf73521815082c56435453ab4950c8e32d64ebaf4ac968263517d2f"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/test_independent_likelihoods.py",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/test_independent_likelihoods.py",
+      "bytes": 2109,
+      "sha256": "5faccae37b43d76c8dacf0cfcbd051efec26621b2fbccd5f1ca6b4c6070c49ce"
+    },
+    {
+      "path": "committed/evaluation/experiments/conditional-onset-rime/evidence/operator/model-core-tests.log.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/conditional-onset-rime/evidence/operator/model-core-tests.log.gz",
+      "bytes": 263,
+      "sha256": "2aa7ffdb569d53cb35f0183818307fae82ae82726958d1c0e828aa819f9b98b2"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/FAILURE-HISTORY.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/FAILURE-HISTORY.md",
+      "bytes": 2622,
+      "sha256": "b96b28710e0db7a592d7ab8d3979aa7219fc1f6c64142cccade2df707f94c918"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/README.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/README.md",
+      "bytes": 22186,
+      "sha256": "4a4cebfe2942172fb10ebb9face9f1f39828d2c26eb6b8555e2673929b64dc45"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/MANIFEST.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/MANIFEST.json",
+      "bytes": 34073,
+      "sha256": "fee17faedbe1a5aadd021c3c9e735cc29cc4c1dee016b972935be24a338f6b2b"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/tables/cohort-identity-loss.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/tables/cohort-identity-loss.json",
+      "bytes": 87324,
+      "sha256": "311caea696585fd2e90c8c34cf76d6930bbb86937169a9ff261d381e48827c79"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/tables/all-group-scores.csv",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/tables/all-group-scores.csv",
+      "bytes": 808479,
+      "sha256": "832348f23cd8c614ac4a8dfe30ed12e1b3d37113e5a3d62953cc6c1da135eb1c"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/tables/witnesses.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/tables/witnesses.json.gz",
+      "bytes": 12512,
+      "sha256": "fbdc9a0dffcd3e1a3d31e9a61144f6f656c79a0c7cb3ac8dc6bb58e99e929496"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/tables/cohort-transitions.csv",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/tables/cohort-transitions.csv",
+      "bytes": 2611179,
+      "sha256": "8d6ea0c507614863897b2460f9fd8afe25b94c62918c679f7362c9ae2705dbc0"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-bare-1304238451.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-bare-1304238451.jsonl.gz",
+      "bytes": 1804357,
+      "sha256": "8abeece371d7b2fe0403449840e2e57cdcbf6bf06cc1bcd28096e13ac3d91675"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-default-2089697863.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-default-2089697863.jsonl.gz",
+      "bytes": 1801382,
+      "sha256": "64fdadb29deb903feb11a95eaaaf480423ebc9034c366b3e97983016db2680b0"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/monosyllables-bare-3297327738.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/monosyllables-bare-3297327738.jsonl.gz",
+      "bytes": 1370633,
+      "sha256": "7a21aa6beb32172a801793a41c9114f196d3748178d893577ad2e7ba1918d78d"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/english.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/english.jsonl.gz",
+      "bytes": 9508285,
+      "sha256": "d11cd0cdf58c60bd25bdcd7ee0f00b242dbf9525729542f6fa9bcbcf1acf5929"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-default-101601885.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-default-101601885.jsonl.gz",
+      "bytes": 1797413,
+      "sha256": "b354f511af6250bc00006e43d941c44b445dd2ad4d8772c443d0d58b358369d5"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-bare-1498885173.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-bare-1498885173.jsonl.gz",
+      "bytes": 1796792,
+      "sha256": "e2f9f3aab5ad9db9d743bea153fa4f0db742d13f23b0ed2a953777449bc76c94"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/monosyllables-bare-62358955.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/monosyllables-bare-62358955.jsonl.gz",
+      "bytes": 1370890,
+      "sha256": "fde981345584ce7f5f9fb708155f798fb11e81b578df7294707221c983088d4f"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/text-default-4167471042.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/text-default-4167471042.jsonl.gz",
+      "bytes": 1532905,
+      "sha256": "48f25d99f33456b83217725b91a6b18a0807caccc022f55acbcd5f7752eefdb5"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-bare-1696751198.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-bare-1696751198.jsonl.gz",
+      "bytes": 1799742,
+      "sha256": "e72a8289377cc3594fd2da52a0cdb9fd662805a372c8f7b28bc3d69bd0b04f3b"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/monosyllables-bare-462530651.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/monosyllables-bare-462530651.jsonl.gz",
+      "bytes": 1367981,
+      "sha256": "b578706507a39832f4f2cf62579cb521c713bf3cc81ca8052d8b397e7b7a6fb6"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/text-default-1999736106.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/text-default-1999736106.jsonl.gz",
+      "bytes": 1527857,
+      "sha256": "c536f917be59d12046ed2fabe643bab6157ff4b66367035aa1c7b5f432b1489b"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-bare-2380207674.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-bare-2380207674.jsonl.gz",
+      "bytes": 1794069,
+      "sha256": "8ec063007b14cddb507acfba05e27f8d186947016dbaab8d571cd74cc94af6c7"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-default-69212153.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-default-69212153.jsonl.gz",
+      "bytes": 1798746,
+      "sha256": "d5f07e7cf66f8aba8a67b1c9874e8e473a3ee8f90705a5bff0b7c47ca0754bcd"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/monosyllables-bare-2353354178.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/monosyllables-bare-2353354178.jsonl.gz",
+      "bytes": 1366889,
+      "sha256": "8f2ded1074f224ca664dfb2633cf3b300e51825620734d1265333a18982f7e9f"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/text-default-2666001996.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/text-default-2666001996.jsonl.gz",
+      "bytes": 1523294,
+      "sha256": "8eda11979ee6106eb3e2c1c578dc075f5324aaee08c7ca82eb5de3462dace5a0"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/text-default-3562318933.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/text-default-3562318933.jsonl.gz",
+      "bytes": 1516832,
+      "sha256": "74c5d8fd25d87eb2159a8c8c7ac2d2b97ef38878b1b0842757e3c33d77ba2b6f"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/report.json.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/report.json.gz",
+      "bytes": 34056994,
+      "sha256": "1522069f824380e4b72804c29d2779055d11ee715c0290583ec5745ce5526681"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/monosyllables-bare-2001884366.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/monosyllables-bare-2001884366.jsonl.gz",
+      "bytes": 1367473,
+      "sha256": "4fa888f4a629081ea7c9c9635304f0b48ee61a79085ba7f75d7ce08b567185a1"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-default-3948943232.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-default-3948943232.jsonl.gz",
+      "bytes": 1800315,
+      "sha256": "b94a660c02b0c81d80f41f4edbc40e96ec82c7b3ff662ba341dcc7c1d4dc11b3"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-bare-772709128.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-bare-772709128.jsonl.gz",
+      "bytes": 1794953,
+      "sha256": "2cfd7f2ceefb3f2ae33074037cd86d8db782d4f21565ba7352bb1a66f8bacca1"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-default-3921817393.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/lexicon-default-3921817393.jsonl.gz",
+      "bytes": 1798150,
+      "sha256": "0aa9ce92cac46d56940273c5d8ce86b99d67bf684d820543472f5c22137e2ad5"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/text-default-1665836705.jsonl.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/study/text-default-1665836705.jsonl.gz",
+      "bytes": 1525841,
+      "sha256": "f7a12f7e8986a7b8747d829497769c5596d3fb6a1bc7a9ef84cde747023b02f6"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/source-input-freeze.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/source-input-freeze.json",
+      "bytes": 64251,
+      "sha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/freeze.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/freeze.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/report-authority.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/report-authority.json",
+      "bytes": 470,
+      "sha256": "eea6b6137d4f3e8eba189098a081785ecb8a8b8e0fa7117d69bc80569653fa10"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/freeze-review.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/freeze-review.json",
+      "bytes": 2527,
+      "sha256": "15d60d753239097339f5c4446b15248cedc03ff5017fae312a418857d2d94d3a"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/parent-source-review.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/parent-source-review.json",
+      "bytes": 1001,
+      "sha256": "c45ffd54e05c092adddcc2b6f23a9268d461cd6f0a390cfde603886023c39ca1"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/freeze-verify.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/freeze-verify.log",
+      "bytes": 791,
+      "sha256": "bce852eb048ef7821915563048424d6f3ad097c38395846d2b9d69b522b5aecb"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/completion.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/authority/completion.json",
+      "bytes": 3447,
+      "sha256": "d0284b1923d4ed4b9e52f88a4916140dd8517ac41690b5f501e9f3a815898738"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/preparation/history.tar.gz",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/preparation/history.tar.gz",
+      "bytes": 102553,
+      "sha256": "3e50d0f23784934ea78c2a7ad1fa85f7d7be2226664616b6146732142dee789c"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/preparation/history-manifest.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/preparation/history-manifest.json",
+      "bytes": 11269,
+      "sha256": "224a84e4dd10d230305ee5431441dc7032e2ae1dc4877bb9f949195c744adbe2"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/independent-proof.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/independent-proof.json",
+      "bytes": 1309,
+      "sha256": "95abe047fc333a632f2e477b0332a7944e8b03040fb1b6cc3d002548183d4cf4"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/acceptance.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/acceptance.json",
+      "bytes": 9421,
+      "sha256": "74a23c4346883bf3b8ee64013a386b7a0926344332eeeba4e29bb50e44b73a30"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/matrix-invocation.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/matrix-invocation.json",
+      "bytes": 868,
+      "sha256": "aaaee77568cd67b41393a9b81229619948f991d1a273e7ee589d40f1d1f3e716"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/independent-invocation.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/independent-invocation.json",
+      "bytes": 1064,
+      "sha256": "599f03ecb9cf5b8a1df4f041704f2580254dff8fa5894800c989b51a1c5ba86e"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/matrix.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/matrix.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/independent.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/independent.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/full-other-cwd.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/full-other-cwd.log",
+      "bytes": 1298,
+      "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-existing.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-existing.json",
+      "bytes": 474,
+      "sha256": "ba02c939e9d2c535cd4f9e2a532b9a10a461fa4b7897efb1d51111ef419fe2f6"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-source-directory.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-source-directory.log",
+      "bytes": 556,
+      "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-source-directory.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-source-directory.json",
+      "bytes": 528,
+      "sha256": "323eed381e725a52094a3aca9cdce34b2bf3c57ede2ab7cc88e135fb26b628ff"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-dangling.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-dangling.log",
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-frozen-evidence.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-frozen-evidence.log",
+      "bytes": 611,
+      "sha256": "22ba420f0edeb0c18390e052c86f39423a6e65caa16a33cc123c905a3b50fe84"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-frozen-evidence.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-frozen-evidence.json",
+      "bytes": 555,
+      "sha256": "60dbc9e653ff3a924a097ed4d3619b00012968a7fb00835a1dad532edd7f56ed"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-archive-alias.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-archive-alias.json",
+      "bytes": 503,
+      "sha256": "0c0388cbb5fc42f822ce14900be09fd5932707477c5dbb526993b885f873cf91"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/unknown-flag.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/unknown-flag.log",
+      "bytes": 543,
+      "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-dangling.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-dangling.json",
+      "bytes": 474,
+      "sha256": "65e4e36bb7cd724cab825550ae07c6bad3f9d44a2e938f28445a10884adc3b89"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-hardlink.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-hardlink.json",
+      "bytes": 474,
+      "sha256": "7b6d9098e377e0620369378676c81d48654efe695c233aa3c6e0031fece0cf72"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/full-root-cwd.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/full-root-cwd.log",
+      "bytes": 1298,
+      "sha256": "39dda0ab41450c371c6abc96a53fb57541e4d2cdfa3f2476fee4efdb48cbf828"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/repeated-flag.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/repeated-flag.json",
+      "bytes": 558,
+      "sha256": "7c42705db43dc141e0a8dd607de0d7bce17ce950391c3eab6d6c7564f54d87dc"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-hardlink.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-hardlink.log",
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/help-other-cwd.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/help-other-cwd.json",
+      "bytes": 236,
+      "sha256": "5ce90000b102e4fc738ace0cd0c3d7cfa2b860e983ce7c08d6fef76ab8b5b5af"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/full-root-cwd.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/full-root-cwd.json",
+      "bytes": 470,
+      "sha256": "e08ec02818a94a32ae6480233ca0fd1b1056ae7879305675cb060fd62fd05485"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-existing.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-existing.log",
+      "bytes": 567,
+      "sha256": "19bd00065156cc2ad0ba760b1d8f47194ed6441964f51d061468f784a84f84ed"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/wrong-source.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/wrong-source.log",
+      "bytes": 545,
+      "sha256": "6a87c88a4d71dffc89304d3acc1304808b2de0899b4f205792edbfbc02fb37d7"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/missing-flags.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/missing-flags.json",
+      "bytes": 317,
+      "sha256": "53abd81dc469f9e892e9059209a4e3668b90ea35d130dda6e840fb6184feaa1e"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/wrong-source.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/wrong-source.json",
+      "bytes": 691,
+      "sha256": "b2093f150981fa841fd8b659d8b49ac85369afcf3155e35fd653ffb7956e4812"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-archive-alias.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/reject-archive-alias.log",
+      "bytes": 556,
+      "sha256": "19afc652260455afb6c24a526c9dbdf02fdb060098296188255f4b55958f78e6"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/missing-flags.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/missing-flags.log",
+      "bytes": 553,
+      "sha256": "b185bc7df76dbf6a8967d12a55ce761374d17a0386adff9f8572844c2dc2cb68"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/help-other-cwd.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/help-other-cwd.log",
+      "bytes": 502,
+      "sha256": "4ed5ecc80e915b408150444d30f61bcaabb6e77ff26da24f61922125cc1d3fae"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/no-args.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/no-args.json",
+      "bytes": 235,
+      "sha256": "18a8421922001b782f0fb8dff07eec6da4086005f0a5d1d7a5938edfa0f663f5"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/wrong-external-authority.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/wrong-external-authority.json",
+      "bytes": 505,
+      "sha256": "d5d406be45d00420e8548ffbe78675d697cd5ee1c585d75de4df9d61c8c6bff7"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/full-other-cwd.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/full-other-cwd.json",
+      "bytes": 452,
+      "sha256": "47364b7f028ddd6078fa78e9a71b503659eaa7f014bc48182bdc2d854b108a3b"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/repeated-flag.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/repeated-flag.log",
+      "bytes": 543,
+      "sha256": "8ace50190a01e5fab4e59a767102e4ed3dee09d9e1f0c6f6c96ab551e5c7c383"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/wrong-external-authority.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/wrong-external-authority.log",
+      "bytes": 593,
+      "sha256": "e6a00514648589cf45a1f8d8f3c54c2e33fbfce2f6b1a1483b65f218a1087a6f"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/no-args.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/no-args.log",
+      "bytes": 540,
+      "sha256": "a7fdfa50bc6664652e5aff6406473c87f4a714b79cb000af1e8eb13822c205e4"
+    },
+    {
+      "path": "committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/unknown-flag.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/evaluation/experiments/cmu-model-sensitivity/outcomes/machine/validation/cases/unknown-flag.json",
+      "bytes": 531,
+      "sha256": "aeceff7333275428f21c7baf50f5b317cafea6ea1564a37a72925dc57ada72f1"
+    },
+    {
+      "path": "committed/.github/workflows/deploy-pages.yml",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/.github/workflows/deploy-pages.yml",
+      "bytes": 955,
+      "sha256": "571a6a7ea1580b6992688ef2c05340320aa7cffaa21187f83b4a11f44e14664f"
+    },
+    {
+      "path": "committed/.github/workflows/ci.yml",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/.github/workflows/ci.yml",
+      "bytes": 6045,
+      "sha256": "61b1e0afedd7b8a7ac18e49ca3cf35f5f2d091e180dd41ede839b0e394045028"
+    },
+    {
+      "path": "committed/scripts/lib/phoneme-normalization.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/lib/phoneme-normalization.mjs",
+      "bytes": 2127,
+      "sha256": "e4feff964a73b83cb20856a4069761b38bee5e950c2e1220e202ebd3bd1fdd25"
+    },
+    {
+      "path": "committed/scripts/lib/trace-audit-core.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/lib/trace-audit-core.mjs",
+      "bytes": 2529,
+      "sha256": "71d2656f75a396a2f8da60a810d530bbe2779eb6829c5f23a2c4a54672286995"
+    },
+    {
+      "path": "committed/scripts/lib/common-word-coverage-core.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/lib/common-word-coverage-core.mjs",
+      "bytes": 21169,
+      "sha256": "38baaa163e3458ef4556baabe0aa23ea64f6c2c47d5eda3bc76b785f94274242"
+    },
+    {
+      "path": "committed/scripts/lib/phoneme-normalization-defaults.mjs",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/scripts/lib/phoneme-normalization-defaults.mjs",
+      "bytes": 872,
+      "sha256": "70268114defab23e5c4ede47a141f583f35a1d3fafed22ca0a620c81f670c998"
+    },
+    {
+      "path": "committed/supabase/migrations/20260904000000_review.sql",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/supabase/migrations/20260904000000_review.sql",
+      "bytes": 10417,
+      "sha256": "822188687075368ed193d9878c2886b44414c9c2bd872ebb594318862d6cc378"
+    },
+    {
+      "path": "committed/supabase/migrations/20260905000000_review_v2.sql",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/supabase/migrations/20260905000000_review_v2.sql",
+      "bytes": 4412,
+      "sha256": "64de975d1822dcab79c1cbe26ea638097e97234944105795f71deb33cd3055ad"
+    },
+    {
+      "path": "committed/demo/review/main.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/review/main.ts",
+      "bytes": 10186,
+      "sha256": "b7bbb6464fa56710fab239495912ff2caa28b20317faa4a7da5b975447a05e49"
+    },
+    {
+      "path": "committed/demo/review/api.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/review/api.ts",
+      "bytes": 2144,
+      "sha256": "3f258be58be81e4d11b2bf87e2e28a324e23cdd1fbd401eeb12500dcba3250c1"
+    },
+    {
+      "path": "committed/demo/review/style.css",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/review/style.css",
+      "bytes": 3466,
+      "sha256": "45f9f795952a06d4049f05acd0feb52595931200cb816bc651a82bc9c1e3e498"
+    },
+    {
+      "path": "committed/demo/review/local.ts",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/review/local.ts",
+      "bytes": 4785,
+      "sha256": "cc9ac1f172855459d95b74053b03d29d46cb6e1f0225cbd16f672fb99930fe63"
+    },
+    {
+      "path": "committed/demo/review/BRIEF.md",
+      "origin": "/private/tmp/q17-closure-audit-v1/committed/demo/review/BRIEF.md",
+      "bytes": 1640,
+      "sha256": "65cb969f6bbbcfdc9b5a1b2b4a07f1bb5374258075a348aafb9ba5a1fd1e7758"
+    },
+    {
+      "path": "execution/likelihood-renewed.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/likelihood-renewed.log",
+      "bytes": 315,
+      "sha256": "b671b8b72e7f674479ba0c2490fd337656c50154e565793bec73672dc992c1a4"
+    },
+    {
+      "path": "execution/reconstruction-renewed.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/reconstruction-renewed.log",
+      "bytes": 807,
+      "sha256": "101c9e1f3e9db89e726068fe9cc8289256ccd6dba479fd67bb4a76ad46211a8f"
+    },
+    {
+      "path": "execution/independent-fixtures.log",
+      "origin": "/private/tmp/q17-closure-audit-v1/independent-fixtures.log",
+      "bytes": 103,
+      "sha256": "6273232de4d3ef7acd4ecafa5c86beeeb974f56586b21089a2990b3f72facbe6"
+    },
+    {
+      "path": "execution/independent-correspondence.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/independent-correspondence.json",
+      "bytes": 1561,
+      "sha256": "ffe30df727a5d54d34f93c49fefd0d65dae6e8b6cd37405cfcbcec3d6966ae26"
+    },
+    {
+      "path": "execution/artifact.json",
+      "origin": "/private/tmp/q17-closure-audit-v1/artifact.json",
+      "bytes": 1824501,
+      "sha256": "485b011ef85afeeb628c06655a84898a2c32fb57f55a27828a78baaaf7602618"
+    },
+    {
+      "path": "input/cmudict.dict",
+      "origin": "/private/tmp/q17-cmudict-74790861.dict",
+      "bytes": 3618488,
+      "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+    }
+  ],
+  "scope": "Complete original published source/evidence, dictionary input and renewed reconstruction/numerical reports; separate same-device copies, not independent backup."
+}

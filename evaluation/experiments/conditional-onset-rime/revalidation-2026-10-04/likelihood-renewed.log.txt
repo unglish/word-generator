@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "developmentTrials": 16,
+  "heldOutWords": 11661,
+  "heldOutEvents": 57382,
+  "bins": 83,
+  "supportContexts": 64,
+  "scope": "Independent integer model, all smoothing trials and choices, held-out summaries, every per-word likelihood and stratum, and direct-complement support diagnostics."
+}
