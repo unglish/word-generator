@@ -1,0 +1,18 @@
+{
+  "main": "cd96f54f72038efb48e37c2003c4f700f9076671",
+  "prHead": "c15565aca3e613a5f321e3128e22098cf6c9aff5",
+  "merge": "d2c083aa04a6b3c744017e3b09626b29b6bdc9e3",
+  "mergedAt": "2026-10-03T23:33:31Z",
+  "mergeMeasuredSourceChangedPaths": [],
+  "laterSourceChangedPaths": [
+    "src/config/language.ts",
+    "src/core/generate.ts",
+    "src/core/nucleus-position.test.ts",
+    "src/core/nucleus-position.ts",
+    "src/core/stress-repair.ts",
+    "src/elements/phonemes.ts",
+    "src/index.ts",
+    "src/types.ts"
+  ],
+  "scope": "Byte-level source/config/package correspondence only; no rerun at the merge commit or future main."
+}
