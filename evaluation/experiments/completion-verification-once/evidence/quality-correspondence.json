@@ -1,0 +1,16 @@
+{
+  "observedAt": "2026-10-05T01:25:00.838184+00:00",
+  "session": 13905,
+  "terminalExit": 1,
+  "tests": {
+    "passed": 10,
+    "failed": 2
+  },
+  "originalFullQualityReportByteIdentical": true,
+  "reportSha256": "6548532c3b923c242c4f2ec3ab1dd79924fa76b525fa1e2da1bfdf9fb23fc179",
+  "originalReceiptSha256": "ed6229489ecb65becfebdde0c53d66045b0d880260538ebe275bc6cf6c480005",
+  "logSha256": "c5cdf657064de3d58463d12bc6f1ceb67b4a9a213ad5dd5769abe6bba42673c3",
+  "fiveConsecutiveConsonants": 82,
+  "owngs": 61,
+  "scope": "Original registered opt-in quality workload; existing two failed gates preserved. No passing-quality or speedup claim."
+}
