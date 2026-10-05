@@ -1,0 +1,13 @@
+
+ RUN  v3.2.4 /private/tmp/q02a-root-budget-integration-v1/candidate
+
+ ✓ src/core/base-spelling.test.ts (13 tests) 1636ms
+   ✓ exact base-spelling provenance > exposes the untraced join, boundary insertion and post-join vowel cap  747ms
+   ✓ exact base-spelling provenance > keeps public-API output and RNG parity with custom regex probability 100  492ms
+   ✓ exact base-spelling provenance > keeps public-API output and RNG parity with custom regex probability 53  316ms
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  19:42:31
+   Duration  2.55s (transform 469ms, setup 0ms, collect 565ms, tests 1.64s, environment 0ms, prepare 75ms)
+
