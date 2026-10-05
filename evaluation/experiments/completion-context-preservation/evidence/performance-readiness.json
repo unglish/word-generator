@@ -1,0 +1,11 @@
+{
+  "scope": "Pre-execution configuration/operator readiness only; no timing or terminal-state claim",
+  "runnerHashVerified": true,
+  "configurationHashVerified": true,
+  "sixTwoArmPairsVerified": true,
+  "originalBenchmarkIdenticalAcrossArms": {
+    "A": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f",
+    "B": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f"
+  },
+  "pendingPrerequisite": "Full production and independent recount terminal receipts; no competing workload may be live when isolated timing begins."
+}

@@ -1,0 +1,82 @@
+{
+  "fullComparisonSha256": "4343d55a3b55e1b6942a6efe361e39015ade690f3a37bb5fe2ca9b5dd9d216c4",
+  "profiles": [
+    {
+      "profile": "lexicon-default",
+      "wordsPerArm": 50000,
+      "uniqueSpellings": {
+        "baseline": 43764,
+        "candidate": 43827,
+        "change": 63
+      },
+      "phonemeJensenShannonBits": {
+        "baseline": 0.007767741949765199,
+        "candidate": 0.0076485619251540765,
+        "change": -0.00011918002461112215
+      },
+      "trigramJensenShannonBits": {
+        "baseline": 0.1720637708867445,
+        "candidate": 0.17214508007545573,
+        "change": 8.130918871124271e-05
+      }
+    },
+    {
+      "profile": "lexicon-bare",
+      "wordsPerArm": 50000,
+      "uniqueSpellings": {
+        "baseline": 47288,
+        "candidate": 47270,
+        "change": -18
+      },
+      "phonemeJensenShannonBits": {
+        "baseline": 0.0002196685625964239,
+        "candidate": 0.0002036836302403963,
+        "change": -1.5984932356027617e-05
+      },
+      "trigramJensenShannonBits": {
+        "baseline": 0.19857076671223586,
+        "candidate": 0.1986125242099301,
+        "change": 4.17574976942503e-05
+      }
+    },
+    {
+      "profile": "monosyllables-bare",
+      "wordsPerArm": 50000,
+      "uniqueSpellings": {
+        "baseline": 17379,
+        "candidate": 17401,
+        "change": 22
+      },
+      "phonemeJensenShannonBits": {
+        "baseline": 0.09485939230345508,
+        "candidate": 0.09500385497644341,
+        "change": 0.0001444626729883297
+      },
+      "trigramJensenShannonBits": {
+        "baseline": 0.5356438613253862,
+        "candidate": 0.536117036262934,
+        "change": 0.0004731749375478378
+      }
+    },
+    {
+      "profile": "text-default",
+      "wordsPerArm": 50000,
+      "uniqueSpellings": {
+        "baseline": 29009,
+        "candidate": 28992,
+        "change": -17
+      },
+      "phonemeJensenShannonBits": {
+        "baseline": 0.010981487064490257,
+        "candidate": 0.010957534619784067,
+        "change": -2.3952444706189235e-05
+      },
+      "trigramJensenShannonBits": {
+        "baseline": 0.1978589913984107,
+        "candidate": 0.19773993515576568,
+        "change": -0.00011905624264502146
+      }
+    }
+  ],
+  "interpretation": "Mixed diagnostic outcomes; continuous RNG changes imply distribution comparisons, not item-level causality. No overall linguistic-quality or human-preference gain. Unknown neighboring phonemic readings stay unknown; opaque audit checks only recorded cells and following-letter context."
+}
