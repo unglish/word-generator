@@ -5,3 +5,5 @@ The unchanged original verifier compares all 200,000 development words (20 strea
 This packet retains the complete report, both manifests and summaries, source archives, registration, execution logs, and receipts for every raw artifact. The raw archives remain in the local retained evidence directory; this compact packet alone cannot rerun word-level verification. Run verify.py to authenticate the packet and its scope. The original verify.ts in the parent directory can rerun the full comparison when both raw archives are available.
 
 This does not establish fresh whole-suite, timing, human-preference, or general RNG results. The earlier 20,000-coordinate RNG supplement is separate. Same-device retained evidence is not an independent backup.
+
+Publication scope: PR #317 advanced to 44575f0 after capture, including root-budget generator changes. These results apply to captured candidate 67499a8 and control cd96f54; they do not verify the newer PR runtime. No current-head acceptance claim is made.

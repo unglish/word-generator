@@ -2,8 +2,8 @@
   "artifacts": [
     {
       "file": "README.md",
-      "bytes": 1009,
-      "sha256": "b1838eb3d3eca1fb2d9fb2aaa4b157e77743cf23ece44ce398e944e9e2cc7b53"
+      "bytes": 1267,
+      "sha256": "f15628984f2e0baf100b24db20905e959902aa6268eecc3587580142e1b87fbd"
     },
     {
       "file": "archive-receipts.json",
