@@ -69,6 +69,10 @@ RNG stream.
 
 ## Trace-First Diagnostics
 
+Traces include complete rejection/fallback accounting, distinct executed and
+selected attempts, and compact proposal-length distributions. See the
+[accounting and parity verification guide](./docs/rejection-accounting.md).
+
 For n-gram or orthography outliers, use `trace: true` and inspect `word.trace`
 instead of only checking surface strings.
 

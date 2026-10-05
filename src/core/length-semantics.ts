@@ -9,6 +9,20 @@ export interface AttemptScore {
   total: number;
 }
 
+export interface AcceptanceCriteria {
+  /** Attempts before near-target letter lengths can be accepted. */
+  warmupAttempts: number;
+  /** Largest letter penalty accepted after the warmup. */
+  relaxedLetterPenalty: number;
+}
+
+export interface AttemptAssessment {
+  /** null means the attempt was rejected. */
+  acceptedBy: "exact" | "relaxed" | null;
+  /** Conditions that rejected the attempt; several can fail at once. */
+  failed: { phonemeTarget: boolean; letterLength: boolean; warmup: boolean };
+}
+
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(value, max));
 }
@@ -83,4 +97,26 @@ export function scoreGenerationAttempt(
     letterPenalty,
     total: phonemeDistance * 2 + letterPenalty,
   };
+}
+
+/**
+ * Decide whether an attempt is accepted. An exact match is always accepted;
+ * after the warmup, a matching phoneme count with a small letter penalty is too.
+ */
+export function assessAttempt(
+  score: AttemptScore,
+  attemptIndex: number,
+  criteria: AcceptanceCriteria,
+): AttemptAssessment {
+  // Preserve the original positive acceptance checks: NaN must not be accepted
+  // merely because it fails neither a greater-than nor a warmup comparison.
+  const exact = score.phonemeDistance === 0 && score.letterPenalty === 0;
+  const relaxed = attemptIndex >= criteria.warmupAttempts
+    && score.phonemeDistance === 0 && score.letterPenalty <= criteria.relaxedLetterPenalty;
+  const failed = {
+    phonemeTarget: score.phonemeDistance !== 0,
+    letterLength: !(score.letterPenalty <= criteria.relaxedLetterPenalty),
+    warmup: attemptIndex < criteria.warmupAttempts && score.letterPenalty !== 0,
+  };
+  return { acceptedBy: exact ? "exact" : relaxed ? "relaxed" : null, failed };
 }
