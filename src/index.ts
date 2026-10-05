@@ -42,6 +42,7 @@ export type {
   DoublingTrace,
   RepairTrace,
   MorphologyTrace,
+  MorphHiatusDecisionTrace,
   StructuralTrace,
   TraceLink,
   OrthographyCharOwner,
