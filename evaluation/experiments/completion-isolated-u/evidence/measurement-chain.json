@@ -1,0 +1,164 @@
+[
+  {
+    "name": "production",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/analyze-candidate.mjs"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791231049.484253,
+    "finishedAt": 1791236202.015153,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "independent",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/run-independent.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791236202.0316942,
+    "finishedAt": 1791236296.2280161,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "opaque-context",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/audit-opaque-context.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791236296.244118,
+    "finishedAt": 1791236380.298403,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "written-boundary",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/audit-written-boundary.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791236380.315356,
+    "finishedAt": 1791236464.1690109,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "raw-causes",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/classify-completion-gaps.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791236464.186927,
+    "finishedAt": 1791236547.674623,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "structure-comparison",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/compare-structure.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791236547.691807,
+    "finishedAt": 1791236548.183445,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "distribution-comparison",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/compare-quality.mjs"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791236548.199787,
+    "finishedAt": 1791236549.3114629,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "legacy-parity",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/legacy-parity-runner.mjs"
+    ],
+    "exitCode": 1,
+    "startedAt": 1791236549.32778,
+    "finishedAt": 1791236549.530827,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "legacy-parity",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/legacy-parity-runner.mjs"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791236577.016333,
+    "finishedAt": 1791236696.021282,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "original-gates",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/run-original-gates.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791236696.038612,
+    "finishedAt": 1791239139.498088,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "trace-audit",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/trace-audit/candidate-trace-audit.mjs",
+      "--count",
+      "50000",
+      "--seed",
+      "42",
+      "--mode",
+      "lexicon",
+      "--morphology",
+      "true",
+      "--out",
+      "/private/tmp/q14a-completion-isolated-u-evidence-v1/trace-audit/candidate-report.json",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791239139.515339,
+    "finishedAt": 1791239291.959197,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "full-lint",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q14a-completion-isolated-u-v1/node_modules/eslint/bin/eslint.js",
+      "src/**/*.ts",
+      "evaluation/review/**/*.ts",
+      "demo/review/**/*.ts"
+    ],
+    "exitCode": 1,
+    "startedAt": 1791239291.976025,
+    "finishedAt": 1791239295.313781,
+    "sourcePinsPreserved": true
+  }
+]

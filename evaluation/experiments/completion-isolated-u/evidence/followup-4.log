@@ -1,0 +1,24 @@
+
+ RUN  v3.2.4 /private/tmp/q14a-completion-isolated-u-v1
+
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > per-bigram mean is within gate of English
+
+📊 Generated: per-bigram mean=-4.26 median=-4.21 min=-8.31 n=135000
+   English:   per-bigram mean=-3.89
+   Gap: 0.37 (gate: < 2)
+
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > per-bigram gap has not regressed from recorded baseline
+
+🔒 Regression check: current gap=0.37, baseline gap=0.85, tolerance=0.5
+
+stdout | src/phonotactic/phonotactic.test.ts > phonotactic quality gates > no generated word has catastrophically low per-bigram score
+
+📊 Min per-bigram: -8.31 (English min: -7.92, floor: -12)
+
+ ✓ src/phonotactic/phonotactic.test.ts (14 tests) 40818ms
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  15:31:15
+   Duration  41.54s (transform 489ms, setup 0ms, collect 556ms, tests 40.82s, environment 0ms, prepare 61ms)
+

@@ -1,0 +1,11 @@
+
+ RUN  v3.2.4 /private/tmp/q14a-completion-isolated-u-v1
+
+ ✓ src/core/generate.test.ts (13 tests) 42573ms
+   ✓ Word Generator > risingCodaDrop policy gates rising-coda drop events  42055ms
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  15:29:21
+   Duration  43.07s (transform 293ms, setup 0ms, collect 346ms, tests 42.57s, environment 0ms, prepare 52ms)
+

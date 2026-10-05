@@ -1,0 +1,30 @@
+{
+  "candidateLogSha256": "57100a41a560fadb04d3cbaa245930319816366fa2cea36dbfff74a650c02293",
+  "controlLogSha256": "870c2437bb50e6416868ef4015e6df5589afc14a0468ab1276d6c672c7e44526",
+  "candidateTotals": "10 failed | 1024 passed | 4 skipped",
+  "controlTotals": "4 failed | 1033 passed | 1 skipped",
+  "sharedFailureNames": [
+    "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs",
+    "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs",
+    "src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs",
+    "src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit"
+  ],
+  "additionalFailureNames": [
+    "src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies",
+    "src/core/generate.test.ts > Word Generator > risingCodaDrop policy gates rising-coda drop events",
+    "src/core/grapheme-selection.test.ts > legal grapheme selection > keeps positive real weights and correct edge scopes across 10k public outputs",
+    "src/core/grapheme-selection.test.ts > legal grapheme selection > retains the established isolated /\u025b/ pool while keeping the /t/ restriction explicit",
+    "src/core/ngram-quality.test.ts > N-gram quality gates > generate sample",
+    "src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented",
+    "src/phonotactic/phonotactic.test.ts > phonotactic quality gates"
+  ],
+  "followupFiles": [
+    "src/core/cluster-weights.test.ts",
+    "src/core/generate.test.ts",
+    "src/core/grapheme-selection.test.ts",
+    "src/core/ngram-quality.test.ts",
+    "src/phonotactic/phonotactic.test.ts"
+  ],
+  "scope": "Failure-name comparison and observed timeout records; does not prove behavior equivalence or dismiss failures",
+  "followup": "Run affected files sequentially after current chain terminal, preserve original timeouts and thresholds and every failure"
+}

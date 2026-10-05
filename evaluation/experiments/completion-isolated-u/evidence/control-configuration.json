@@ -1,0 +1,740 @@
+{
+  "supports": [
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "b"
+        ],
+        "written": "b"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "d"
+        ],
+        "written": "d"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "f"
+        ],
+        "written": "f"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "k"
+        ],
+        "written": "k"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "l"
+        ],
+        "written": "l"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "m"
+        ],
+        "written": "m"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "n"
+        ],
+        "written": "n"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "p"
+        ],
+        "written": "p"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "s"
+        ],
+        "written": "c"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "t"
+        ],
+        "written": "t"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "v"
+        ],
+        "written": "v"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "z"
+        ],
+        "written": "z"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "\u00f0"
+        ],
+        "written": "th"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "s",
+          "t"
+        ],
+        "written": "st"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "e\u026a",
+        "component": "a"
+      },
+      "coda": {
+        "sounds": [
+          "n",
+          "d\u0292"
+        ],
+        "written": "ng"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "i:",
+        "component": "e"
+      },
+      "coda": {
+        "sounds": [
+          "d"
+        ],
+        "written": "d"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "i:",
+        "component": "e"
+      },
+      "coda": {
+        "sounds": [
+          "n"
+        ],
+        "written": "n"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "i:",
+        "component": "e"
+      },
+      "coda": {
+        "sounds": [
+          "m"
+        ],
+        "written": "m"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "i:",
+        "component": "e"
+      },
+      "coda": {
+        "sounds": [
+          "z"
+        ],
+        "written": "s"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "i:",
+        "component": "e"
+      },
+      "coda": {
+        "sounds": [
+          "v"
+        ],
+        "written": "v"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "m"
+        ],
+        "written": "m"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "f"
+        ],
+        "written": "f"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "k"
+        ],
+        "written": "k"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "l"
+        ],
+        "written": "l"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "n"
+        ],
+        "written": "n"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "p"
+        ],
+        "written": "p"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "s"
+        ],
+        "written": "c"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "t"
+        ],
+        "written": "t"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "v"
+        ],
+        "written": "v"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "z"
+        ],
+        "written": "z"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "a\u026a",
+        "component": "i"
+      },
+      "coda": {
+        "sounds": [
+          "\u00f0"
+        ],
+        "written": "th"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "\u0259\u028a",
+        "component": "o"
+      },
+      "coda": {
+        "sounds": [
+          "b"
+        ],
+        "written": "b"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "\u0259\u028a",
+        "component": "o"
+      },
+      "coda": {
+        "sounds": [
+          "d"
+        ],
+        "written": "d"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "\u0259\u028a",
+        "component": "o"
+      },
+      "coda": {
+        "sounds": [
+          "p"
+        ],
+        "written": "p"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "\u0259\u028a",
+        "component": "o"
+      },
+      "coda": {
+        "sounds": [
+          "l"
+        ],
+        "written": "l"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "\u0259\u028a",
+        "component": "o"
+      },
+      "coda": {
+        "sounds": [
+          "m"
+        ],
+        "written": "m"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "\u0259\u028a",
+        "component": "o"
+      },
+      "coda": {
+        "sounds": [
+          "n"
+        ],
+        "written": "n"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "\u0259\u028a",
+        "component": "o"
+      },
+      "coda": {
+        "sounds": [
+          "t"
+        ],
+        "written": "t"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "\u0259\u028a",
+        "component": "o"
+      },
+      "coda": {
+        "sounds": [
+          "z"
+        ],
+        "written": "s"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "\u0259\u028a",
+        "component": "o"
+      },
+      "coda": {
+        "sounds": [
+          "\u00f0"
+        ],
+        "written": "th"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "coda": {
+        "sounds": [
+          "d"
+        ],
+        "written": "d"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "coda": {
+        "sounds": [
+          "b"
+        ],
+        "written": "b"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "coda": {
+        "sounds": [
+          "k"
+        ],
+        "written": "k"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "coda": {
+        "sounds": [
+          "l"
+        ],
+        "written": "l"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "coda": {
+        "sounds": [
+          "n"
+        ],
+        "written": "n"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "coda": {
+        "sounds": [
+          "s"
+        ],
+        "written": "s"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "coda": {
+        "sounds": [
+          "t"
+        ],
+        "written": "t"
+      },
+      "marker": "e"
+    },
+    {
+      "vowel": {
+        "sound": "u",
+        "component": "u"
+      },
+      "coda": {
+        "sounds": [
+          "d\u0292"
+        ],
+        "written": "g"
+      },
+      "marker": "e"
+    }
+  ],
+  "routes": {
+    "syllable": {
+      "forms": [
+        "ae",
+        "ie",
+        "oe",
+        "ue",
+        "ye"
+      ],
+      "probability": 95
+    },
+    "word": {
+      "swaps": [
+        {
+          "phoneme": "e\u026a",
+          "from": "a",
+          "to": "a"
+        },
+        {
+          "phoneme": "e\u026a",
+          "from": "ai",
+          "to": "a"
+        },
+        {
+          "phoneme": "e\u026a",
+          "from": "ae",
+          "to": "a"
+        },
+        {
+          "phoneme": "e\u026a",
+          "from": "ea",
+          "to": "a"
+        },
+        {
+          "phoneme": "i:",
+          "from": "e",
+          "to": "e"
+        },
+        {
+          "phoneme": "i:",
+          "from": "ee",
+          "to": "e"
+        },
+        {
+          "phoneme": "i:",
+          "from": "ea",
+          "to": "e"
+        },
+        {
+          "phoneme": "a\u026a",
+          "from": "i",
+          "to": "i"
+        },
+        {
+          "phoneme": "a\u026a",
+          "from": "igh",
+          "to": "i"
+        },
+        {
+          "phoneme": "a\u026a",
+          "from": "ie",
+          "to": "i"
+        },
+        {
+          "phoneme": "\u0259\u028a",
+          "from": "o",
+          "to": "o"
+        },
+        {
+          "phoneme": "\u0259\u028a",
+          "from": "ow",
+          "to": "o"
+        },
+        {
+          "phoneme": "\u0259\u028a",
+          "from": "oe",
+          "to": "o"
+        },
+        {
+          "phoneme": "u",
+          "from": "u",
+          "to": "u"
+        },
+        {
+          "phoneme": "u",
+          "from": "oo",
+          "to": "u"
+        },
+        {
+          "phoneme": "u",
+          "from": "ue",
+          "to": "u"
+        }
+      ],
+      "probability": 35,
+      "monosyllableMultiplier": 2
+    }
+  },
+  "completionWeights": [
+    {
+      "phoneme": "e\u026a",
+      "form": "ai",
+      "startWord": 2
+    },
+    {
+      "phoneme": "u",
+      "form": "oo",
+      "startWord": 3
+    }
+  ]
+}

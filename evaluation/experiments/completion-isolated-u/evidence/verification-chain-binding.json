@@ -1,0 +1,92 @@
+{
+  "candidateCommit": "42437fc4f1f4765fd580f5caf1702ae92127d1aa",
+  "controlPR": 372,
+  "operators": [
+    {
+      "file": "run-measurement-chain.py",
+      "bytes": 3149,
+      "sha256": "87f2084cc1d9f1a18eefecbdc9c22262b31be59940033625387a1836c5f1691a"
+    },
+    {
+      "file": "analyze-candidate.mjs",
+      "bytes": 749,
+      "sha256": "81799089cbfa09caab97af34cbcff46e7f575b5057a9b664de0f0e02f09131f9"
+    },
+    {
+      "file": "analyze-split-resumable.mjs",
+      "bytes": 10616,
+      "sha256": "aa04d63a798bf7b628ed37dfc272b561955fb9e062bbe30696f1fd25ef2586ea"
+    },
+    {
+      "file": "run-independent.py",
+      "bytes": 1190,
+      "sha256": "ac0675492691252b3f6be6441c119765db3ac1c94bb8bf828b0bf82fa76314cd"
+    },
+    {
+      "file": "audit-opaque-context.py",
+      "bytes": 5466,
+      "sha256": "43a9f1ada5ca42457c03bf5efcbb087575b4180d5a3485da7936fbda77d1c8b5"
+    },
+    {
+      "file": "audit-written-boundary.py",
+      "bytes": 2334,
+      "sha256": "ac4a455ec5bb98c7acab3bee733e223d90021c8da338af18113bd4e159706fd5"
+    },
+    {
+      "file": "classify-completion-gaps.py",
+      "bytes": 2499,
+      "sha256": "a9ffa55a5e36140a4a93cd51382d64af6d976efd94e865b7804b543b8f2c17d4"
+    },
+    {
+      "file": "compare-structure.py",
+      "bytes": 2067,
+      "sha256": "7cef04774dcac22072e0a08880c60e03242ca15242e7663947fde576878bb73f"
+    },
+    {
+      "file": "compare-quality.mjs",
+      "bytes": 2081,
+      "sha256": "f67c8eac89f2a691b3f8c75890990da1117e265c12ea092b6e6ff2ed5541a6ac"
+    },
+    {
+      "file": "legacy-parity-runner.mjs",
+      "bytes": 7018,
+      "sha256": "21322ad2150a1514a76f222b29e9556f0fc1810bc3e82db2badafb4deb167082"
+    },
+    {
+      "file": "run-original-gates.py",
+      "bytes": 1256,
+      "sha256": "1e7543756f0578118a3fb235be543bed39de00334c34d502ddb303776b0df893"
+    },
+    {
+      "file": "trace-audit/candidate-trace-audit.mjs",
+      "bytes": 11290,
+      "sha256": "43919c8fce9451eeb5ebafa953a4d043f469448cdc40bed27f420d9824275959"
+    },
+    {
+      "file": "trace-audit/candidate-api.ts",
+      "bytes": 626,
+      "sha256": "887100b5fcabe7d85b7127962f8db4cc732176216ebecff634a0b2b095906ff4"
+    },
+    {
+      "file": "quality/quality.test.ts",
+      "bytes": 9835,
+      "sha256": "a7c51f30d6386ea044bed8c39eb0230bf6ccef761a02460714daf8abc787f2ce"
+    },
+    {
+      "file": "quality/candidate-api.ts",
+      "bytes": 626,
+      "sha256": "887100b5fcabe7d85b7127962f8db4cc732176216ebecff634a0b2b095906ff4"
+    },
+    {
+      "file": "quality/vitest.config.mjs",
+      "bytes": 101,
+      "sha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a"
+    }
+  ],
+  "prerequisites": [
+    "capture-complete.json passed true words200000",
+    "capture original source closure unchanged",
+    "recovery fixture passed and matches rebound operator hash"
+  ],
+  "scope": "Dispatch binding only; operators not yet run on full candidate study."
+}

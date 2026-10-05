@@ -1,0 +1,38 @@
+{
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "pairedPercentChanges": [
+    -1.4906885401156367,
+    -10.365855944713221,
+    -0.508253561906935,
+    -0.0429350464450029,
+    -0.7024992672376995,
+    15.68807312383691
+  ],
+  "medianPairedPercentChange": -0.6053764145723173,
+  "gates": {
+    "A": {
+      "speedPass": 0,
+      "variancePass": 6
+    },
+    "B": {
+      "speedPass": 0,
+      "variancePass": 6
+    }
+  },
+  "runnerSha256": "35b94fa86ee8cc153b243164a1febb45ef6fadcc21fa2550e2260b50087ac8f5",
+  "originalBenchmarkSha256": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f",
+  "scope": "Preregistered completion-only isolated oo positional weight intervention, original workload and gates; no inferred human-quality improvement."
+}
