@@ -28,11 +28,11 @@ describe("exact base-spelling provenance", () => {
   });
 
   it("exposes the untraced join, boundary insertion and post-join vowel cap", () => {
-    const draws = archivedDraws([24, 216, 1622]);
+    const draws = archivedDraws([24, 216, 413]);
     expect(draws.get(216)!.written.clean).toBe("fizeagsa");
     expect(draws.get(216)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "deduplicateSyllableJoin", before: "e", after: "" }));
-    expect(draws.get(1622)!.written.clean).toBe("uhobowguen");
-    expect(draws.get(1622)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "postJoinVowelCap", before: "a", after: "" }));
+    expect(draws.get(413)!.written.clean).toBe("iguems");
+    expect(draws.get(413)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "postJoinVowelCap", before: "a", after: "" }));
     expect(draws.get(24)!.written.clean).toBe("jagguepeem");
     expect(draws.get(24)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "orthographicRepair:hard-g-silent-u", before: "", after: "u" }));
   });
