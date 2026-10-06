@@ -144,5 +144,7 @@ Actual browser verification covers the labelled tone, audio worklet, IndexedDB,
 exclusive tab, reload, profile restart, exact retries, explicit skip/loss and the
 getUserMedia pipeline with a fake device. It supplies no human speech. Independent
 reconstruction of retained receipts and PCM is separate from browser assertions.
-Prospective outcome calibration, independent human coding and the actual study
-remain required before Q23 publication or a quality claim.
+Registered synthetic outcome calibration is published in the
+[Q23 results](../../../experiments/independent-read-aloud-study/completed-evidence/RESULTS.md).
+Authentic first-attempt reader speech, independent blind coding and adjudication,
+and the actual human study remain required before a human-quality claim.

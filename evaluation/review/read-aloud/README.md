@@ -5,9 +5,12 @@ draws, assigns spellings without within-reader repetition, binds first-attempt
 recording receipts, preserves independent transcription files, and distinguishes
 agreement with the principal intended pronunciation from agreement with a
 prospectively accepted alternative. The owner CLI additionally verifies the original audio/annotation/rationale
-files and writes descriptive coverage-aware reports. It does not yet implement
-a recording UI, population inference, a completed human experiment, or a
-quality verdict.
+files and writes descriptive coverage-aware reports. The [local recording
+collector](collection/README.md) supplies a browser, durable first-presentation
+receipts and exact-byte upload recovery. Crossed reader/spelling stability
+analysis and [registered categorical calibration](../../experiments/independent-read-aloud-study/completed-evidence/RESULTS.md)
+are implemented. No authentic human experiment, population interval guarantee
+or quality verdict is established.
 
 ## Source and dialect registration
 
@@ -231,13 +234,18 @@ node --import tsx evaluation/review/read-aloud/cli.ts infer \
   --input export.json --materials materials.json --out NEW_STABILITY_RESULT
 ```
 
-This is an **uncalibrated engineering estimator**. The output explicitly records
-`calibration: "not-established"` and `population_intervals: null`. Numerical
-stability endpoints are not a population confidence guarantee or human-quality
-result. The crossed-factor motivation in [Owen and Eckles (2012)](https://arxiv.org/abs/1106.2125)
+The authenticated inference output conservatively records
+`calibration: "not-established"` and `population_intervals: null`.
+The separate registered categorical calibration completed all 20,400 synthetic
+datasets and 244,555,200 contrasts, with all 60 registered gates passing across
+204 reported contexts. Its informative-nonresponse and selection diagnostics
+remain explicit in the linked results. Those results validate the registered
+simulation contexts; they do not establish universal population coverage or
+supply human observations. Numerical stability endpoints remain outside a
+population confidence guarantee or human-quality result. The crossed-factor motivation in [Owen and Eckles (2012)](https://arxiv.org/abs/1106.2125)
 concerns mean-variance estimation; it does not establish coverage for this weighted
 ratio, percentile construction or categorical pronunciation study. Written-rating
-calibration does not validate it. New categorical calibration must preserve
+calibration does not validate it. Any new categorical calibration must preserve
 shared/conflicting targets, accepted sets, phones/boundaries/stress, coding
 availability and both conditional and full-population missingness truths.
 
