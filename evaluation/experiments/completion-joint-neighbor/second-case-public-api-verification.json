@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "--import",
+    "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+    "/private/tmp/q14a-completion-joint-neighbor-v2/evaluation/experiments/completion-joint-neighbor/verify-second-case-public-api.mjs",
+    "/private/tmp/q14a-completion-isolated-u-v1",
+    "/private/tmp/q14a-completion-joint-neighbor-v2"
+  ],
+  "exitCode": 0,
+  "controlCommit": "0d8811ee2b3ee5860abb7097e3d4b140c81d8f49",
+  "candidateMeasuredCommit": "dbe3374b75f964fdd17a125a535b0a92ba45ffc3",
+  "artifacts": {
+    "q14a-second-case-rng-capture.json.gz": "37a38d74fe4274cdb5937d0d0dfb0ed40608d7023d4b748a1e915b2846412a50",
+    "q14a-second-case-public-replay.json.gz": "30466982d57ca77fd2f9f70f1c241e6d48ef7c4d189d6c30036e4a4052ba7028",
+    "second-case-rng-capture.mjs": "5b7725b29d2daf4355c9604c73598170e934a54699dcf6ab4f16932be95314e3",
+    "second-case-public-replay.mjs": "108cb120df28f66fdeffd7faf253fbf1310504f98cf3b71fe4e538540d86ccaa",
+    "verify-second-case-public-api.mjs": "5e067ed86942d23298e994babc74e70030bb2bc505d40c053faf3eaac9f3c04c",
+    "second-case-public-api-verification.log": "77db423ab15ea14807ffdade72d919a5ea61f4c4ee08bb40ba14d6b0a6e31174"
+  },
+  "construction": "Exact seed1498885173/draw5738 control RNG captured; target preamble plus selected attempt19 repeated. Candidate inserts explicit joint-selection roll0. Resulting separate tapes are then frozen and verified with no stack instrumentation.",
+  "initialVerifierFailure": "Native Word object compared to JSON fixture failed because JSON omits undefined properties. Corrected verifier compares complete serialized Word/trace, matching archive representation; runtime unchanged.",
+  "scope": "Authentic retained phone-state red/green public-API fixture; not same RNG stream comparison or independent human pronunciation evidence."
+}

@@ -1,0 +1,1 @@
+{"passed":true,"publicCalls":4,"phoneSequencePreserved":true,"scope":"Complete serialized Word/trace equality with separately frozen RNG tapes; no stack instrumentation during verification, no identical-seed-stream claim"}
