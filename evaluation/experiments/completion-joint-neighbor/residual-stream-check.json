@@ -1,0 +1,1568 @@
+{
+  "scope": "Candidate continuous streams through former residual coordinates; changed RNG consumption can move later coordinates. Diagnostic only, not full acceptance.",
+  "streams": [
+    {
+      "seed": 772709128,
+      "draws": 2460,
+      "baseline": "julicky",
+      "last": {
+        "written": "yoolicky",
+        "phones": [
+          "j",
+          "u",
+          "l",
+          "ɪ",
+          "k",
+          "i:"
+        ]
+      },
+      "jointAttempts": [
+        {
+          "drawIndex": 2459,
+          "written": "yoolicky",
+          "attempt": {
+            "cursor": {
+              "lastAppendedUnitId": 5,
+              "nextEditId": 0
+            },
+            "nucleusId": 1,
+            "obligation": {
+              "status": "unresolved",
+              "unitId": 1,
+              "inputCellIds": [
+                1
+              ],
+              "form": "u"
+            },
+            "status": "evaluated",
+            "prefix": {
+              "status": "available",
+              "prefix": {
+                "previousForm": "j",
+                "doublingCount": 0
+              },
+              "evidence": {
+                "doublingCount": 0,
+                "quotaSource": "original"
+              }
+            },
+            "pool": {
+              "status": "available",
+              "pool": "ordinary",
+              "quotaRelaxed": false,
+              "proposals": [
+                {
+                  "inventoryIndex": 26,
+                  "form": "oo",
+                  "weight": 4.5,
+                  "reading": {
+                    "kind": "single-phone"
+                  }
+                },
+                {
+                  "inventoryIndex": 27,
+                  "form": "u",
+                  "weight": 100,
+                  "reading": {
+                    "kind": "open-vowel-or-split-marker"
+                  },
+                  "refusal": "unresolved-vowel-obligation"
+                },
+                {
+                  "inventoryIndex": 29,
+                  "form": "ew",
+                  "weight": 0.35,
+                  "reading": {
+                    "kind": "single-phone"
+                  }
+                }
+              ]
+            },
+            "proposals": [
+              {
+                "inventoryIndex": 26,
+                "form": "oo",
+                "weight": 4.5,
+                "reading": {
+                  "kind": "single-phone"
+                },
+                "projection": {
+                  "status": "refused",
+                  "reason": "neighbor-reading",
+                  "unitId": 0
+                },
+                "refusal": "neighbor-reading"
+              },
+              {
+                "inventoryIndex": 27,
+                "form": "u",
+                "weight": 100,
+                "reading": {
+                  "kind": "open-vowel-or-split-marker"
+                },
+                "refusal": "unresolved-vowel-obligation"
+              },
+              {
+                "inventoryIndex": 29,
+                "form": "ew",
+                "weight": 0.35,
+                "reading": {
+                  "kind": "single-phone"
+                },
+                "projection": {
+                  "status": "refused",
+                  "reason": "neighbor-reading",
+                  "unitId": 0
+                },
+                "refusal": "neighbor-reading"
+              }
+            ],
+            "sample": {
+              "status": "infeasible",
+              "candidates": [
+                {
+                  "inventoryIndex": 26,
+                  "form": "oo",
+                  "weight": 4.5,
+                  "reading": {
+                    "kind": "single-phone"
+                  },
+                  "projection": {
+                    "status": "refused",
+                    "reason": "neighbor-reading",
+                    "unitId": 0
+                  },
+                  "refusal": "neighbor-reading",
+                  "retainedWeight": 0,
+                  "probability": 0
+                },
+                {
+                  "inventoryIndex": 27,
+                  "form": "u",
+                  "weight": 100,
+                  "reading": {
+                    "kind": "open-vowel-or-split-marker"
+                  },
+                  "refusal": "unresolved-vowel-obligation",
+                  "retainedWeight": 0,
+                  "probability": 0
+                },
+                {
+                  "inventoryIndex": 29,
+                  "form": "ew",
+                  "weight": 0.35,
+                  "reading": {
+                    "kind": "single-phone"
+                  },
+                  "projection": {
+                    "status": "refused",
+                    "reason": "neighbor-reading",
+                    "unitId": 0
+                  },
+                  "refusal": "neighbor-reading",
+                  "retainedWeight": 0,
+                  "probability": 0
+                }
+              ]
+            },
+            "joint": {
+              "proposals": [
+                {
+                  "nucleus": {
+                    "inventoryIndex": 26,
+                    "form": "oo",
+                    "weight": 4.5,
+                    "reading": {
+                      "kind": "single-phone"
+                    },
+                    "projection": {
+                      "status": "refused",
+                      "reason": "neighbor-reading",
+                      "unitId": 0
+                    },
+                    "refusal": "neighbor-reading"
+                  },
+                  "neighbor": {
+                    "inventoryIndex": 73,
+                    "form": "y",
+                    "weight": 30,
+                    "reading": {
+                      "kind": "single-phone"
+                    },
+                    "unitId": 0
+                  },
+                  "neighborPrefix": {
+                    "status": "available",
+                    "prefix": {
+                      "doublingCount": 0
+                    },
+                    "evidence": {
+                      "doublingCount": 0,
+                      "quotaSource": "original"
+                    }
+                  },
+                  "neighborPool": {
+                    "status": "available",
+                    "pool": "ordinary",
+                    "quotaRelaxed": false,
+                    "proposals": [
+                      {
+                        "inventoryIndex": 73,
+                        "form": "y",
+                        "weight": 30,
+                        "reading": {
+                          "kind": "single-phone"
+                        }
+                      },
+                      {
+                        "inventoryIndex": 74,
+                        "form": "j",
+                        "weight": 1,
+                        "reading": {
+                          "kind": "unsupported-construction",
+                          "reason": "Requires lexical identity not represented by the spelling unit."
+                        },
+                        "refusal": "unsupported-reading"
+                      }
+                    ]
+                  },
+                  "projection": {
+                    "status": "preserved",
+                    "form": "oo",
+                    "reading": {
+                      "kind": "single-phone"
+                    },
+                    "checkedUnitIds": [
+                      0,
+                      1
+                    ]
+                  },
+                  "weight": 135,
+                  "inventoryIndex": 0
+                },
+                {
+                  "nucleus": {
+                    "inventoryIndex": 26,
+                    "form": "oo",
+                    "weight": 4.5,
+                    "reading": {
+                      "kind": "single-phone"
+                    },
+                    "projection": {
+                      "status": "refused",
+                      "reason": "neighbor-reading",
+                      "unitId": 0
+                    },
+                    "refusal": "neighbor-reading"
+                  },
+                  "neighbor": {
+                    "inventoryIndex": 74,
+                    "form": "j",
+                    "weight": 1,
+                    "reading": {
+                      "kind": "unsupported-construction",
+                      "reason": "Requires lexical identity not represented by the spelling unit."
+                    },
+                    "refusal": "unsupported-reading",
+                    "unitId": 0
+                  },
+                  "neighborPrefix": {
+                    "status": "available",
+                    "prefix": {
+                      "doublingCount": 0
+                    },
+                    "evidence": {
+                      "doublingCount": 0,
+                      "quotaSource": "original"
+                    }
+                  },
+                  "neighborPool": {
+                    "status": "available",
+                    "pool": "ordinary",
+                    "quotaRelaxed": false,
+                    "proposals": [
+                      {
+                        "inventoryIndex": 73,
+                        "form": "y",
+                        "weight": 30,
+                        "reading": {
+                          "kind": "single-phone"
+                        }
+                      },
+                      {
+                        "inventoryIndex": 74,
+                        "form": "j",
+                        "weight": 1,
+                        "reading": {
+                          "kind": "unsupported-construction",
+                          "reason": "Requires lexical identity not represented by the spelling unit."
+                        },
+                        "refusal": "unsupported-reading"
+                      }
+                    ]
+                  },
+                  "projection": {
+                    "status": "refused",
+                    "reason": "invalid-neighbor-candidate",
+                    "unitId": 0
+                  },
+                  "weight": 4.5,
+                  "refusal": "unsupported-reading",
+                  "inventoryIndex": 1
+                },
+                {
+                  "nucleus": {
+                    "inventoryIndex": 29,
+                    "form": "ew",
+                    "weight": 0.35,
+                    "reading": {
+                      "kind": "single-phone"
+                    },
+                    "projection": {
+                      "status": "refused",
+                      "reason": "neighbor-reading",
+                      "unitId": 0
+                    },
+                    "refusal": "neighbor-reading"
+                  },
+                  "neighbor": {
+                    "inventoryIndex": 73,
+                    "form": "y",
+                    "weight": 30,
+                    "reading": {
+                      "kind": "single-phone"
+                    },
+                    "unitId": 0
+                  },
+                  "neighborPrefix": {
+                    "status": "available",
+                    "prefix": {
+                      "doublingCount": 0
+                    },
+                    "evidence": {
+                      "doublingCount": 0,
+                      "quotaSource": "original"
+                    }
+                  },
+                  "neighborPool": {
+                    "status": "available",
+                    "pool": "ordinary",
+                    "quotaRelaxed": false,
+                    "proposals": [
+                      {
+                        "inventoryIndex": 73,
+                        "form": "y",
+                        "weight": 30,
+                        "reading": {
+                          "kind": "single-phone"
+                        }
+                      },
+                      {
+                        "inventoryIndex": 74,
+                        "form": "j",
+                        "weight": 1,
+                        "reading": {
+                          "kind": "unsupported-construction",
+                          "reason": "Requires lexical identity not represented by the spelling unit."
+                        },
+                        "refusal": "unsupported-reading"
+                      }
+                    ]
+                  },
+                  "projection": {
+                    "status": "preserved",
+                    "form": "ew",
+                    "reading": {
+                      "kind": "single-phone"
+                    },
+                    "checkedUnitIds": [
+                      0,
+                      1
+                    ]
+                  },
+                  "weight": 10.5,
+                  "inventoryIndex": 2
+                },
+                {
+                  "nucleus": {
+                    "inventoryIndex": 29,
+                    "form": "ew",
+                    "weight": 0.35,
+                    "reading": {
+                      "kind": "single-phone"
+                    },
+                    "projection": {
+                      "status": "refused",
+                      "reason": "neighbor-reading",
+                      "unitId": 0
+                    },
+                    "refusal": "neighbor-reading"
+                  },
+                  "neighbor": {
+                    "inventoryIndex": 74,
+                    "form": "j",
+                    "weight": 1,
+                    "reading": {
+                      "kind": "unsupported-construction",
+                      "reason": "Requires lexical identity not represented by the spelling unit."
+                    },
+                    "refusal": "unsupported-reading",
+                    "unitId": 0
+                  },
+                  "neighborPrefix": {
+                    "status": "available",
+                    "prefix": {
+                      "doublingCount": 0
+                    },
+                    "evidence": {
+                      "doublingCount": 0,
+                      "quotaSource": "original"
+                    }
+                  },
+                  "neighborPool": {
+                    "status": "available",
+                    "pool": "ordinary",
+                    "quotaRelaxed": false,
+                    "proposals": [
+                      {
+                        "inventoryIndex": 73,
+                        "form": "y",
+                        "weight": 30,
+                        "reading": {
+                          "kind": "single-phone"
+                        }
+                      },
+                      {
+                        "inventoryIndex": 74,
+                        "form": "j",
+                        "weight": 1,
+                        "reading": {
+                          "kind": "unsupported-construction",
+                          "reason": "Requires lexical identity not represented by the spelling unit."
+                        },
+                        "refusal": "unsupported-reading"
+                      }
+                    ]
+                  },
+                  "projection": {
+                    "status": "refused",
+                    "reason": "invalid-neighbor-candidate",
+                    "unitId": 0
+                  },
+                  "weight": 0.35,
+                  "refusal": "unsupported-reading",
+                  "inventoryIndex": 3
+                }
+              ],
+              "sample": {
+                "status": "selected",
+                "candidates": [
+                  {
+                    "nucleus": {
+                      "inventoryIndex": 26,
+                      "form": "oo",
+                      "weight": 4.5,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "neighbor-reading",
+                        "unitId": 0
+                      },
+                      "refusal": "neighbor-reading"
+                    },
+                    "neighbor": {
+                      "inventoryIndex": 73,
+                      "form": "y",
+                      "weight": 30,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "unitId": 0
+                    },
+                    "neighborPrefix": {
+                      "status": "available",
+                      "prefix": {
+                        "doublingCount": 0
+                      },
+                      "evidence": {
+                        "doublingCount": 0,
+                        "quotaSource": "original"
+                      }
+                    },
+                    "neighborPool": {
+                      "status": "available",
+                      "pool": "ordinary",
+                      "quotaRelaxed": false,
+                      "proposals": [
+                        {
+                          "inventoryIndex": 73,
+                          "form": "y",
+                          "weight": 30,
+                          "reading": {
+                            "kind": "single-phone"
+                          }
+                        },
+                        {
+                          "inventoryIndex": 74,
+                          "form": "j",
+                          "weight": 1,
+                          "reading": {
+                            "kind": "unsupported-construction",
+                            "reason": "Requires lexical identity not represented by the spelling unit."
+                          },
+                          "refusal": "unsupported-reading"
+                        }
+                      ]
+                    },
+                    "projection": {
+                      "status": "preserved",
+                      "form": "oo",
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "checkedUnitIds": [
+                        0,
+                        1
+                      ]
+                    },
+                    "weight": 135,
+                    "inventoryIndex": 0,
+                    "retainedWeight": 135,
+                    "probability": 0.9278350515463918
+                  },
+                  {
+                    "nucleus": {
+                      "inventoryIndex": 26,
+                      "form": "oo",
+                      "weight": 4.5,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "neighbor-reading",
+                        "unitId": 0
+                      },
+                      "refusal": "neighbor-reading"
+                    },
+                    "neighbor": {
+                      "inventoryIndex": 74,
+                      "form": "j",
+                      "weight": 1,
+                      "reading": {
+                        "kind": "unsupported-construction",
+                        "reason": "Requires lexical identity not represented by the spelling unit."
+                      },
+                      "refusal": "unsupported-reading",
+                      "unitId": 0
+                    },
+                    "neighborPrefix": {
+                      "status": "available",
+                      "prefix": {
+                        "doublingCount": 0
+                      },
+                      "evidence": {
+                        "doublingCount": 0,
+                        "quotaSource": "original"
+                      }
+                    },
+                    "neighborPool": {
+                      "status": "available",
+                      "pool": "ordinary",
+                      "quotaRelaxed": false,
+                      "proposals": [
+                        {
+                          "inventoryIndex": 73,
+                          "form": "y",
+                          "weight": 30,
+                          "reading": {
+                            "kind": "single-phone"
+                          }
+                        },
+                        {
+                          "inventoryIndex": 74,
+                          "form": "j",
+                          "weight": 1,
+                          "reading": {
+                            "kind": "unsupported-construction",
+                            "reason": "Requires lexical identity not represented by the spelling unit."
+                          },
+                          "refusal": "unsupported-reading"
+                        }
+                      ]
+                    },
+                    "projection": {
+                      "status": "refused",
+                      "reason": "invalid-neighbor-candidate",
+                      "unitId": 0
+                    },
+                    "weight": 4.5,
+                    "refusal": "unsupported-reading",
+                    "inventoryIndex": 1,
+                    "retainedWeight": 0,
+                    "probability": 0
+                  },
+                  {
+                    "nucleus": {
+                      "inventoryIndex": 29,
+                      "form": "ew",
+                      "weight": 0.35,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "neighbor-reading",
+                        "unitId": 0
+                      },
+                      "refusal": "neighbor-reading"
+                    },
+                    "neighbor": {
+                      "inventoryIndex": 73,
+                      "form": "y",
+                      "weight": 30,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "unitId": 0
+                    },
+                    "neighborPrefix": {
+                      "status": "available",
+                      "prefix": {
+                        "doublingCount": 0
+                      },
+                      "evidence": {
+                        "doublingCount": 0,
+                        "quotaSource": "original"
+                      }
+                    },
+                    "neighborPool": {
+                      "status": "available",
+                      "pool": "ordinary",
+                      "quotaRelaxed": false,
+                      "proposals": [
+                        {
+                          "inventoryIndex": 73,
+                          "form": "y",
+                          "weight": 30,
+                          "reading": {
+                            "kind": "single-phone"
+                          }
+                        },
+                        {
+                          "inventoryIndex": 74,
+                          "form": "j",
+                          "weight": 1,
+                          "reading": {
+                            "kind": "unsupported-construction",
+                            "reason": "Requires lexical identity not represented by the spelling unit."
+                          },
+                          "refusal": "unsupported-reading"
+                        }
+                      ]
+                    },
+                    "projection": {
+                      "status": "preserved",
+                      "form": "ew",
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "checkedUnitIds": [
+                        0,
+                        1
+                      ]
+                    },
+                    "weight": 10.5,
+                    "inventoryIndex": 2,
+                    "retainedWeight": 10.5,
+                    "probability": 0.07216494845360824
+                  },
+                  {
+                    "nucleus": {
+                      "inventoryIndex": 29,
+                      "form": "ew",
+                      "weight": 0.35,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "neighbor-reading",
+                        "unitId": 0
+                      },
+                      "refusal": "neighbor-reading"
+                    },
+                    "neighbor": {
+                      "inventoryIndex": 74,
+                      "form": "j",
+                      "weight": 1,
+                      "reading": {
+                        "kind": "unsupported-construction",
+                        "reason": "Requires lexical identity not represented by the spelling unit."
+                      },
+                      "refusal": "unsupported-reading",
+                      "unitId": 0
+                    },
+                    "neighborPrefix": {
+                      "status": "available",
+                      "prefix": {
+                        "doublingCount": 0
+                      },
+                      "evidence": {
+                        "doublingCount": 0,
+                        "quotaSource": "original"
+                      }
+                    },
+                    "neighborPool": {
+                      "status": "available",
+                      "pool": "ordinary",
+                      "quotaRelaxed": false,
+                      "proposals": [
+                        {
+                          "inventoryIndex": 73,
+                          "form": "y",
+                          "weight": 30,
+                          "reading": {
+                            "kind": "single-phone"
+                          }
+                        },
+                        {
+                          "inventoryIndex": 74,
+                          "form": "j",
+                          "weight": 1,
+                          "reading": {
+                            "kind": "unsupported-construction",
+                            "reason": "Requires lexical identity not represented by the spelling unit."
+                          },
+                          "refusal": "unsupported-reading"
+                        }
+                      ]
+                    },
+                    "projection": {
+                      "status": "refused",
+                      "reason": "invalid-neighbor-candidate",
+                      "unitId": 0
+                    },
+                    "weight": 0.35,
+                    "refusal": "unsupported-reading",
+                    "inventoryIndex": 3,
+                    "retainedWeight": 0,
+                    "probability": 0
+                  }
+                ],
+                "inventoryIndex": 0,
+                "roll": 0.05540932039730251
+              }
+            }
+          },
+          "certificateId": 0,
+          "certificate": {
+            "id": 0,
+            "editId": 0,
+            "unitId": 1,
+            "phoneIds": [
+              1
+            ],
+            "partId": 0,
+            "inputCellIds": [
+              1
+            ],
+            "outputCellIds": [
+              8,
+              9
+            ],
+            "before": "u",
+            "after": "oo",
+            "inventoryIndex": 26,
+            "reading": {
+              "kind": "single-phone"
+            },
+            "attempt": {
+              "cursor": {
+                "lastAppendedUnitId": 5,
+                "nextEditId": 0
+              },
+              "nucleusId": 1,
+              "obligation": {
+                "status": "unresolved",
+                "unitId": 1,
+                "inputCellIds": [
+                  1
+                ],
+                "form": "u"
+              },
+              "status": "evaluated",
+              "prefix": {
+                "status": "available",
+                "prefix": {
+                  "previousForm": "j",
+                  "doublingCount": 0
+                },
+                "evidence": {
+                  "doublingCount": 0,
+                  "quotaSource": "original"
+                }
+              },
+              "pool": {
+                "status": "available",
+                "pool": "ordinary",
+                "quotaRelaxed": false,
+                "proposals": [
+                  {
+                    "inventoryIndex": 26,
+                    "form": "oo",
+                    "weight": 4.5,
+                    "reading": {
+                      "kind": "single-phone"
+                    }
+                  },
+                  {
+                    "inventoryIndex": 27,
+                    "form": "u",
+                    "weight": 100,
+                    "reading": {
+                      "kind": "open-vowel-or-split-marker"
+                    },
+                    "refusal": "unresolved-vowel-obligation"
+                  },
+                  {
+                    "inventoryIndex": 29,
+                    "form": "ew",
+                    "weight": 0.35,
+                    "reading": {
+                      "kind": "single-phone"
+                    }
+                  }
+                ]
+              },
+              "proposals": [
+                {
+                  "inventoryIndex": 26,
+                  "form": "oo",
+                  "weight": 4.5,
+                  "reading": {
+                    "kind": "single-phone"
+                  },
+                  "projection": {
+                    "status": "refused",
+                    "reason": "neighbor-reading",
+                    "unitId": 0
+                  },
+                  "refusal": "neighbor-reading"
+                },
+                {
+                  "inventoryIndex": 27,
+                  "form": "u",
+                  "weight": 100,
+                  "reading": {
+                    "kind": "open-vowel-or-split-marker"
+                  },
+                  "refusal": "unresolved-vowel-obligation"
+                },
+                {
+                  "inventoryIndex": 29,
+                  "form": "ew",
+                  "weight": 0.35,
+                  "reading": {
+                    "kind": "single-phone"
+                  },
+                  "projection": {
+                    "status": "refused",
+                    "reason": "neighbor-reading",
+                    "unitId": 0
+                  },
+                  "refusal": "neighbor-reading"
+                }
+              ],
+              "sample": {
+                "status": "infeasible",
+                "candidates": [
+                  {
+                    "inventoryIndex": 26,
+                    "form": "oo",
+                    "weight": 4.5,
+                    "reading": {
+                      "kind": "single-phone"
+                    },
+                    "projection": {
+                      "status": "refused",
+                      "reason": "neighbor-reading",
+                      "unitId": 0
+                    },
+                    "refusal": "neighbor-reading",
+                    "retainedWeight": 0,
+                    "probability": 0
+                  },
+                  {
+                    "inventoryIndex": 27,
+                    "form": "u",
+                    "weight": 100,
+                    "reading": {
+                      "kind": "open-vowel-or-split-marker"
+                    },
+                    "refusal": "unresolved-vowel-obligation",
+                    "retainedWeight": 0,
+                    "probability": 0
+                  },
+                  {
+                    "inventoryIndex": 29,
+                    "form": "ew",
+                    "weight": 0.35,
+                    "reading": {
+                      "kind": "single-phone"
+                    },
+                    "projection": {
+                      "status": "refused",
+                      "reason": "neighbor-reading",
+                      "unitId": 0
+                    },
+                    "refusal": "neighbor-reading",
+                    "retainedWeight": 0,
+                    "probability": 0
+                  }
+                ]
+              },
+              "joint": {
+                "proposals": [
+                  {
+                    "nucleus": {
+                      "inventoryIndex": 26,
+                      "form": "oo",
+                      "weight": 4.5,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "neighbor-reading",
+                        "unitId": 0
+                      },
+                      "refusal": "neighbor-reading"
+                    },
+                    "neighbor": {
+                      "inventoryIndex": 73,
+                      "form": "y",
+                      "weight": 30,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "unitId": 0
+                    },
+                    "neighborPrefix": {
+                      "status": "available",
+                      "prefix": {
+                        "doublingCount": 0
+                      },
+                      "evidence": {
+                        "doublingCount": 0,
+                        "quotaSource": "original"
+                      }
+                    },
+                    "neighborPool": {
+                      "status": "available",
+                      "pool": "ordinary",
+                      "quotaRelaxed": false,
+                      "proposals": [
+                        {
+                          "inventoryIndex": 73,
+                          "form": "y",
+                          "weight": 30,
+                          "reading": {
+                            "kind": "single-phone"
+                          }
+                        },
+                        {
+                          "inventoryIndex": 74,
+                          "form": "j",
+                          "weight": 1,
+                          "reading": {
+                            "kind": "unsupported-construction",
+                            "reason": "Requires lexical identity not represented by the spelling unit."
+                          },
+                          "refusal": "unsupported-reading"
+                        }
+                      ]
+                    },
+                    "projection": {
+                      "status": "preserved",
+                      "form": "oo",
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "checkedUnitIds": [
+                        0,
+                        1
+                      ]
+                    },
+                    "weight": 135,
+                    "inventoryIndex": 0
+                  },
+                  {
+                    "nucleus": {
+                      "inventoryIndex": 26,
+                      "form": "oo",
+                      "weight": 4.5,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "neighbor-reading",
+                        "unitId": 0
+                      },
+                      "refusal": "neighbor-reading"
+                    },
+                    "neighbor": {
+                      "inventoryIndex": 74,
+                      "form": "j",
+                      "weight": 1,
+                      "reading": {
+                        "kind": "unsupported-construction",
+                        "reason": "Requires lexical identity not represented by the spelling unit."
+                      },
+                      "refusal": "unsupported-reading",
+                      "unitId": 0
+                    },
+                    "neighborPrefix": {
+                      "status": "available",
+                      "prefix": {
+                        "doublingCount": 0
+                      },
+                      "evidence": {
+                        "doublingCount": 0,
+                        "quotaSource": "original"
+                      }
+                    },
+                    "neighborPool": {
+                      "status": "available",
+                      "pool": "ordinary",
+                      "quotaRelaxed": false,
+                      "proposals": [
+                        {
+                          "inventoryIndex": 73,
+                          "form": "y",
+                          "weight": 30,
+                          "reading": {
+                            "kind": "single-phone"
+                          }
+                        },
+                        {
+                          "inventoryIndex": 74,
+                          "form": "j",
+                          "weight": 1,
+                          "reading": {
+                            "kind": "unsupported-construction",
+                            "reason": "Requires lexical identity not represented by the spelling unit."
+                          },
+                          "refusal": "unsupported-reading"
+                        }
+                      ]
+                    },
+                    "projection": {
+                      "status": "refused",
+                      "reason": "invalid-neighbor-candidate",
+                      "unitId": 0
+                    },
+                    "weight": 4.5,
+                    "refusal": "unsupported-reading",
+                    "inventoryIndex": 1
+                  },
+                  {
+                    "nucleus": {
+                      "inventoryIndex": 29,
+                      "form": "ew",
+                      "weight": 0.35,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "neighbor-reading",
+                        "unitId": 0
+                      },
+                      "refusal": "neighbor-reading"
+                    },
+                    "neighbor": {
+                      "inventoryIndex": 73,
+                      "form": "y",
+                      "weight": 30,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "unitId": 0
+                    },
+                    "neighborPrefix": {
+                      "status": "available",
+                      "prefix": {
+                        "doublingCount": 0
+                      },
+                      "evidence": {
+                        "doublingCount": 0,
+                        "quotaSource": "original"
+                      }
+                    },
+                    "neighborPool": {
+                      "status": "available",
+                      "pool": "ordinary",
+                      "quotaRelaxed": false,
+                      "proposals": [
+                        {
+                          "inventoryIndex": 73,
+                          "form": "y",
+                          "weight": 30,
+                          "reading": {
+                            "kind": "single-phone"
+                          }
+                        },
+                        {
+                          "inventoryIndex": 74,
+                          "form": "j",
+                          "weight": 1,
+                          "reading": {
+                            "kind": "unsupported-construction",
+                            "reason": "Requires lexical identity not represented by the spelling unit."
+                          },
+                          "refusal": "unsupported-reading"
+                        }
+                      ]
+                    },
+                    "projection": {
+                      "status": "preserved",
+                      "form": "ew",
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "checkedUnitIds": [
+                        0,
+                        1
+                      ]
+                    },
+                    "weight": 10.5,
+                    "inventoryIndex": 2
+                  },
+                  {
+                    "nucleus": {
+                      "inventoryIndex": 29,
+                      "form": "ew",
+                      "weight": 0.35,
+                      "reading": {
+                        "kind": "single-phone"
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "neighbor-reading",
+                        "unitId": 0
+                      },
+                      "refusal": "neighbor-reading"
+                    },
+                    "neighbor": {
+                      "inventoryIndex": 74,
+                      "form": "j",
+                      "weight": 1,
+                      "reading": {
+                        "kind": "unsupported-construction",
+                        "reason": "Requires lexical identity not represented by the spelling unit."
+                      },
+                      "refusal": "unsupported-reading",
+                      "unitId": 0
+                    },
+                    "neighborPrefix": {
+                      "status": "available",
+                      "prefix": {
+                        "doublingCount": 0
+                      },
+                      "evidence": {
+                        "doublingCount": 0,
+                        "quotaSource": "original"
+                      }
+                    },
+                    "neighborPool": {
+                      "status": "available",
+                      "pool": "ordinary",
+                      "quotaRelaxed": false,
+                      "proposals": [
+                        {
+                          "inventoryIndex": 73,
+                          "form": "y",
+                          "weight": 30,
+                          "reading": {
+                            "kind": "single-phone"
+                          }
+                        },
+                        {
+                          "inventoryIndex": 74,
+                          "form": "j",
+                          "weight": 1,
+                          "reading": {
+                            "kind": "unsupported-construction",
+                            "reason": "Requires lexical identity not represented by the spelling unit."
+                          },
+                          "refusal": "unsupported-reading"
+                        }
+                      ]
+                    },
+                    "projection": {
+                      "status": "refused",
+                      "reason": "invalid-neighbor-candidate",
+                      "unitId": 0
+                    },
+                    "weight": 0.35,
+                    "refusal": "unsupported-reading",
+                    "inventoryIndex": 3
+                  }
+                ],
+                "sample": {
+                  "status": "selected",
+                  "candidates": [
+                    {
+                      "nucleus": {
+                        "inventoryIndex": 26,
+                        "form": "oo",
+                        "weight": 4.5,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "projection": {
+                          "status": "refused",
+                          "reason": "neighbor-reading",
+                          "unitId": 0
+                        },
+                        "refusal": "neighbor-reading"
+                      },
+                      "neighbor": {
+                        "inventoryIndex": 73,
+                        "form": "y",
+                        "weight": 30,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "unitId": 0
+                      },
+                      "neighborPrefix": {
+                        "status": "available",
+                        "prefix": {
+                          "doublingCount": 0
+                        },
+                        "evidence": {
+                          "doublingCount": 0,
+                          "quotaSource": "original"
+                        }
+                      },
+                      "neighborPool": {
+                        "status": "available",
+                        "pool": "ordinary",
+                        "quotaRelaxed": false,
+                        "proposals": [
+                          {
+                            "inventoryIndex": 73,
+                            "form": "y",
+                            "weight": 30,
+                            "reading": {
+                              "kind": "single-phone"
+                            }
+                          },
+                          {
+                            "inventoryIndex": 74,
+                            "form": "j",
+                            "weight": 1,
+                            "reading": {
+                              "kind": "unsupported-construction",
+                              "reason": "Requires lexical identity not represented by the spelling unit."
+                            },
+                            "refusal": "unsupported-reading"
+                          }
+                        ]
+                      },
+                      "projection": {
+                        "status": "preserved",
+                        "form": "oo",
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "checkedUnitIds": [
+                          0,
+                          1
+                        ]
+                      },
+                      "weight": 135,
+                      "inventoryIndex": 0,
+                      "retainedWeight": 135,
+                      "probability": 0.9278350515463918
+                    },
+                    {
+                      "nucleus": {
+                        "inventoryIndex": 26,
+                        "form": "oo",
+                        "weight": 4.5,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "projection": {
+                          "status": "refused",
+                          "reason": "neighbor-reading",
+                          "unitId": 0
+                        },
+                        "refusal": "neighbor-reading"
+                      },
+                      "neighbor": {
+                        "inventoryIndex": 74,
+                        "form": "j",
+                        "weight": 1,
+                        "reading": {
+                          "kind": "unsupported-construction",
+                          "reason": "Requires lexical identity not represented by the spelling unit."
+                        },
+                        "refusal": "unsupported-reading",
+                        "unitId": 0
+                      },
+                      "neighborPrefix": {
+                        "status": "available",
+                        "prefix": {
+                          "doublingCount": 0
+                        },
+                        "evidence": {
+                          "doublingCount": 0,
+                          "quotaSource": "original"
+                        }
+                      },
+                      "neighborPool": {
+                        "status": "available",
+                        "pool": "ordinary",
+                        "quotaRelaxed": false,
+                        "proposals": [
+                          {
+                            "inventoryIndex": 73,
+                            "form": "y",
+                            "weight": 30,
+                            "reading": {
+                              "kind": "single-phone"
+                            }
+                          },
+                          {
+                            "inventoryIndex": 74,
+                            "form": "j",
+                            "weight": 1,
+                            "reading": {
+                              "kind": "unsupported-construction",
+                              "reason": "Requires lexical identity not represented by the spelling unit."
+                            },
+                            "refusal": "unsupported-reading"
+                          }
+                        ]
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "invalid-neighbor-candidate",
+                        "unitId": 0
+                      },
+                      "weight": 4.5,
+                      "refusal": "unsupported-reading",
+                      "inventoryIndex": 1,
+                      "retainedWeight": 0,
+                      "probability": 0
+                    },
+                    {
+                      "nucleus": {
+                        "inventoryIndex": 29,
+                        "form": "ew",
+                        "weight": 0.35,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "projection": {
+                          "status": "refused",
+                          "reason": "neighbor-reading",
+                          "unitId": 0
+                        },
+                        "refusal": "neighbor-reading"
+                      },
+                      "neighbor": {
+                        "inventoryIndex": 73,
+                        "form": "y",
+                        "weight": 30,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "unitId": 0
+                      },
+                      "neighborPrefix": {
+                        "status": "available",
+                        "prefix": {
+                          "doublingCount": 0
+                        },
+                        "evidence": {
+                          "doublingCount": 0,
+                          "quotaSource": "original"
+                        }
+                      },
+                      "neighborPool": {
+                        "status": "available",
+                        "pool": "ordinary",
+                        "quotaRelaxed": false,
+                        "proposals": [
+                          {
+                            "inventoryIndex": 73,
+                            "form": "y",
+                            "weight": 30,
+                            "reading": {
+                              "kind": "single-phone"
+                            }
+                          },
+                          {
+                            "inventoryIndex": 74,
+                            "form": "j",
+                            "weight": 1,
+                            "reading": {
+                              "kind": "unsupported-construction",
+                              "reason": "Requires lexical identity not represented by the spelling unit."
+                            },
+                            "refusal": "unsupported-reading"
+                          }
+                        ]
+                      },
+                      "projection": {
+                        "status": "preserved",
+                        "form": "ew",
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "checkedUnitIds": [
+                          0,
+                          1
+                        ]
+                      },
+                      "weight": 10.5,
+                      "inventoryIndex": 2,
+                      "retainedWeight": 10.5,
+                      "probability": 0.07216494845360824
+                    },
+                    {
+                      "nucleus": {
+                        "inventoryIndex": 29,
+                        "form": "ew",
+                        "weight": 0.35,
+                        "reading": {
+                          "kind": "single-phone"
+                        },
+                        "projection": {
+                          "status": "refused",
+                          "reason": "neighbor-reading",
+                          "unitId": 0
+                        },
+                        "refusal": "neighbor-reading"
+                      },
+                      "neighbor": {
+                        "inventoryIndex": 74,
+                        "form": "j",
+                        "weight": 1,
+                        "reading": {
+                          "kind": "unsupported-construction",
+                          "reason": "Requires lexical identity not represented by the spelling unit."
+                        },
+                        "refusal": "unsupported-reading",
+                        "unitId": 0
+                      },
+                      "neighborPrefix": {
+                        "status": "available",
+                        "prefix": {
+                          "doublingCount": 0
+                        },
+                        "evidence": {
+                          "doublingCount": 0,
+                          "quotaSource": "original"
+                        }
+                      },
+                      "neighborPool": {
+                        "status": "available",
+                        "pool": "ordinary",
+                        "quotaRelaxed": false,
+                        "proposals": [
+                          {
+                            "inventoryIndex": 73,
+                            "form": "y",
+                            "weight": 30,
+                            "reading": {
+                              "kind": "single-phone"
+                            }
+                          },
+                          {
+                            "inventoryIndex": 74,
+                            "form": "j",
+                            "weight": 1,
+                            "reading": {
+                              "kind": "unsupported-construction",
+                              "reason": "Requires lexical identity not represented by the spelling unit."
+                            },
+                            "refusal": "unsupported-reading"
+                          }
+                        ]
+                      },
+                      "projection": {
+                        "status": "refused",
+                        "reason": "invalid-neighbor-candidate",
+                        "unitId": 0
+                      },
+                      "weight": 0.35,
+                      "refusal": "unsupported-reading",
+                      "inventoryIndex": 3,
+                      "retainedWeight": 0,
+                      "probability": 0
+                    }
+                  ],
+                  "inventoryIndex": 0,
+                  "roll": 0.05540932039730251
+                }
+              }
+            },
+            "neighborReplacements": [
+              {
+                "unitId": 0,
+                "phoneIds": [
+                  0
+                ],
+                "partId": 0,
+                "inputCellIds": [
+                  0
+                ],
+                "outputCellIds": [
+                  7
+                ],
+                "before": "j",
+                "after": "y",
+                "inventoryIndex": 73,
+                "reading": {
+                  "kind": "single-phone"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "seed": 1498885173,
+      "draws": 5739,
+      "baseline": "sulkicmarened",
+      "last": {
+        "written": "techkitwibdin",
+        "phones": [
+          "t",
+          "ɛ",
+          "tʃ",
+          "k",
+          "ɪ",
+          "t",
+          "w",
+          "ɪ",
+          "b",
+          "d",
+          "ɪ",
+          "n"
+        ]
+      },
+      "jointAttempts": []
+    }
+  ]
+}

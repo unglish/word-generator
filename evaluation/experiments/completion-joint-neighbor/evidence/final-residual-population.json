@@ -1,0 +1,10 @@
+{
+  "wordsScanned": 200000,
+  "finalUnresolvedNuclei": 0,
+  "affectedWords": 0,
+  "groups": [],
+  "allAffectedTraceWitnesses": [],
+  "analysisSealSha256": "0cf7b5c61a99d5a3422643a44737882eb7a2ba88296d95c095c90736495e669a",
+  "manifestSha256": "61021625229f1c577bb08e815cfb5b52ccc67355f4386d49e0c04a7e87a1761a",
+  "scope": "Full authenticated per-word final-counter/raw-attempt join, exact count agreement for every affected word. Recorded refusal attribution, not independent phonemic licensing, causal improvement or human evidence."
+}

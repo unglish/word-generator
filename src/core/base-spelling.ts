@@ -674,14 +674,14 @@ export class BaseSpelling {
     const splits = this.liveSplitConstructions();
     this.completionPlanner.verify(view, attempt.nucleusId, splits, attempt);
     let certificateId: number | null = null;
-    if (attempt.status === "evaluated" && attempt.sample.status === "selected") {
+    if (attempt.status === "evaluated" && (attempt.sample.status === "selected" || ("joint" in attempt && attempt.joint.sample.status === "selected"))) {
       const plan = prepareCompletionTransaction(view, this.completionPlanner, splits, attempt, this.completionCertificates.length, this.nextCellId);
       this.cells.splice(0, this.cells.length, ...plan.cells);
       this.nextCellId = plan.nextCellId; this.nextEditId = plan.nextEditId;
       this.completionCertificates.push(plan.certificate); certificateId = plan.certificate.id;
       this.edits?.push({ phase: this.phase, id: plan.certificate.editId, rule: "vowelCompletion",
-        start: plan.start, input: plan.input, output: plan.output, before: plan.certificate.before,
-        after: plan.certificate.after, partId: plan.certificate.partId });
+        start: plan.start, input: plan.input, output: plan.output, before: plan.input.map(cell => cell.text).join(""),
+        after: plan.output.map(cell => cell.text).join(""), partId: plan.certificate.partId });
     }
     this.completionAttempts.push({ attempt: structuredClone(attempt), certificateId });
     this.recordTimeline("completion-attempt", this.completionAttempts.length - 1, attempt.cursor);

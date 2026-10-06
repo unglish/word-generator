@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "rejected": [
+    "neighbor-phone",
+    "neighbor-unit",
+    "neighbor-inventory",
+    "neighbor-reading",
+    "neighbor-output-id",
+    "partial-neighbor-output",
+    "duplicate-neighbor"
+  ],
+  "originalUnchanged": true,
+  "scope": "Producer-assisted replay corruption tests on exact retained publicAPI joint trace; no independent eligibility or whole-corpus acceptance claim"
+}

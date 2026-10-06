@@ -6,7 +6,7 @@ import { createDoublingModel } from "./spelling-doubling.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
 
 /** Prior certificates must already be authenticated; spelling repairs do not invent new doubling draws. */
-export function createCompletionPrefixResolver(configuration: LanguageConfig) {
+function createSpellingPrefixResolver(configuration: LanguageConfig, position: "nucleus" | "consonant") {
   const config = structuredClone(configuration);
   const doubling = createDoublingModel(config.doubling);
   const sharedGuard = createSharedSurfaceGuard(config.sharedSpellings ?? []);
@@ -15,7 +15,10 @@ export function createCompletionPrefixResolver(configuration: LanguageConfig) {
     const target = resolveSingleSpellingUnit(view, nucleusId);
     if (target.status !== "complete") return unavailable(target.reason);
     const contexts = spellingBoundaryContexts(view.phones);
-    if (contexts[nucleusId]?.slot.position !== "nucleus") return unavailable("not-nucleus");
+    const targetPosition = contexts[nucleusId]?.slot.position;
+    if (position === "nucleus" ? targetPosition !== "nucleus" : targetPosition !== "onset" && targetPosition !== "coda") {
+      return unavailable(position === "nucleus" ? "not-nucleus" : "not-consonant");
+    }
     if (view.units.length !== view.phones.length) return unavailable("incomplete-root");
     const certificate = view.certificates[view.certificates.length - 1];
     let count = 0;
@@ -69,4 +72,12 @@ export function createCompletionPrefixResolver(configuration: LanguageConfig) {
     if (previous.end !== target.start) return writtenBoundary();
     return { status: "available" as const, prefix: { previousForm: previous.before, doublingCount: count }, evidence };
   };
+}
+
+export function createCompletionPrefixResolver(configuration: LanguageConfig) {
+  return createSpellingPrefixResolver(configuration, "nucleus");
+}
+
+export function createCompletionNeighborPrefixResolver(configuration: LanguageConfig) {
+  return createSpellingPrefixResolver(configuration, "consonant");
 }

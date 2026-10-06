@@ -1,0 +1,13 @@
+{
+  "allKnownCompetingWorkloadsTerminal": true,
+  "sessions": {
+    "capture": 59240,
+    "originalGates": 22699,
+    "legacyParity": 85563,
+    "rawScan": 16716,
+    "verificationChain": 56019,
+    "finalPopulationJoin": 61178,
+    "traceAudit": 54887
+  },
+  "scope": "All known task measurement sessions confirmed terminal; does not assert whole-host idle"
+}

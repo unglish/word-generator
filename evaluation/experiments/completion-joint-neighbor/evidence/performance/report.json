@@ -1,0 +1,38 @@
+{
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "pairedPercentChanges": [
+    1.4551554612726614,
+    -0.772439835730454,
+    -1.9162654721958994,
+    -1.155872548797865,
+    -0.5438765536622925,
+    0.8125988344962254
+  ],
+  "medianPairedPercentChange": -0.6581581946963733,
+  "gates": {
+    "A": {
+      "speedPass": 0,
+      "variancePass": 6
+    },
+    "B": {
+      "speedPass": 0,
+      "variancePass": 6
+    }
+  },
+  "runnerSha256": "2953e193f6bf3768006aac9a53b298d356fc0452ce53bd6d7ebda57cc4abf26c",
+  "originalBenchmarkSha256": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f",
+  "scope": "Registered completion-only joint neighboring respelling intervention, original workload and gates; no inferred human-quality improvement."
+}

@@ -1,7 +1,7 @@
 import copy
 import math
 import unittest
-from recount_completion import check_completion_sample
+from recount_completion import check_completion_sample, recount_completion
 
 
 def candidate(identity, weight, probability, refusal=None):
@@ -40,3 +40,19 @@ class CompletionArithmetic(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class JointCompletionTests(unittest.TestCase):
+    def test_retained_joint_binding_and_tampering(self):
+        import copy
+        import json
+        from pathlib import Path
+        fixture = Path(__file__).resolve().parents[1] / "completion-joint-neighbor" / "retained-case-check.json"
+        result = json.loads(fixture.read_text())
+        trace = {"completion": {"attempts": [{"attempt": result["attempt"], "certificateId": 0}], "certificates": [result["certificate"]]}}
+        self.assertEqual(recount_completion(trace)["selected"], 1)
+        for field, value in [("phoneIds", [1]), ("inventoryIndex", 0), ("reading", {"kind": "unsupported-construction", "reason": "forged"})]:
+            damaged = copy.deepcopy(trace)
+            damaged["completion"]["certificates"][0]["neighborReplacements"][0][field] = value
+            with self.assertRaises(ValueError):
+                recount_completion(damaged)

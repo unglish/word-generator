@@ -1,3 +1,4 @@
+import { completionReadingForUnit } from "./spelling-completion-reading.js";
 import { describe, expect, it } from "vitest";
 import { englishConfig } from "../config/english.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
@@ -22,6 +23,20 @@ function fixture() {
   return { base, view, planner, attempt };
 }
 describe("atomic completion transaction preparation", () => {
+  it("does not lend a nucleus certificate reading to another source unit", () => {
+    const { view, planner, attempt } = fixture();
+    const { certificate } = prepareCompletionTransaction(view, planner, [], attempt, 0, 2);
+    expect(completionReadingForUnit(certificate, 0)).toEqual({ kind: "single-phone" });
+    expect(completionReadingForUnit(certificate, 1)).toBeUndefined();
+    expect(completionReadingForUnit(undefined, 0)).toBeUndefined();
+    certificate.neighborReplacements = [{ ...structuredClone(certificate), unitId: 1,
+      reading: { kind: "following-letter", forbid: ["e"] } }];
+    expect(completionReadingForUnit(certificate, 1)).toEqual({ kind: "following-letter", forbid: ["e"] });
+    certificate.neighborReplacements.push(structuredClone(certificate.neighborReplacements[0]));
+    expect(completionReadingForUnit(certificate, 1)).toBeUndefined();
+    certificate.neighborReplacements.push({ ...structuredClone(certificate), unitId: 0 });
+    expect(completionReadingForUnit(certificate, 0)).toBeUndefined();
+  });
   it("replaces the complete nucleus and preserves the exact coda, with detached provenance", () => {
     const { view, planner, attempt } = fixture(); const before = structuredClone(view);
     const plan = prepareCompletionTransaction(view, planner, [], attempt, 0, 2);
