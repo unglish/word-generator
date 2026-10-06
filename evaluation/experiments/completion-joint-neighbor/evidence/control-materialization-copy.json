@@ -1,0 +1,6 @@
+{
+  "source": "/private/tmp/q14a-completion-isolated-u-evidence-v1/control-materialization.json",
+  "bytes": 20314,
+  "sha256": "a107b981e7df89fe6dfec9b042962d8d8f4da58b6a03196da85cca326d3064a7",
+  "scope": "Retained original legacy control materialization; runner rechecks actual sources before generation"
+}

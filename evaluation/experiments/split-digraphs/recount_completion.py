@@ -70,14 +70,39 @@ def recount_completion(trace):
         totals["evaluated"] += 1
         sample = attempt["sample"]
         result = check_completion_sample(sample)
+        selected_proposal = None
+        if "joint" in attempt:
+            require(sample["status"] == "infeasible", "joint after ordinary selection")
+            joint = attempt["joint"]
+            joint_result = check_completion_sample(joint["sample"])
+            proposals = joint["proposals"]
+            require(len(proposals) == len(joint["sample"]["candidates"]), "joint candidate cardinality")
+            for proposal, candidate in zip(proposals, joint["sample"]["candidates"]):
+                require(proposal == {key: value for key, value in candidate.items() if key not in ("retainedWeight", "probability")}, "joint candidate binding")
+                require(proposal["weight"] == proposal["nucleus"]["weight"] * proposal["neighbor"]["weight"], "joint product weight")
+            result["candidates"] += joint_result["candidates"]
+            result["draws"] += joint_result["draws"]
+            result["selected"] = joint_result["selected"]
+            result["infeasible"] = joint_result["infeasible"]
+            if joint["sample"]["status"] == "selected":
+                selected_proposal = next(entry for entry in proposals if entry["inventoryIndex"] == joint["sample"]["inventoryIndex"])
         for key, value in result.items():
             totals[key] += value
-        if sample["status"] == "selected":
+        if result["selected"]:
             identity = record["certificateId"]
             require(type(identity) is int and 0 <= identity < len(trace["completion"]["certificates"]), "missing completion certificate")
             certificate = trace["completion"]["certificates"][identity]
             require(certificate["id"] == identity and certificate["unitId"] == attempt["nucleusId"] and
-                    certificate["inventoryIndex"] == sample["inventoryIndex"] and certificate["attempt"] == attempt, "completion certificate binding")
+                    certificate["inventoryIndex"] == (selected_proposal["nucleus"]["inventoryIndex"] if selected_proposal else sample["inventoryIndex"]) and certificate["attempt"] == attempt, "completion certificate binding")
+            if selected_proposal:
+                replacements = certificate.get("neighborReplacements", [])
+                require(len(replacements) == 1, "joint neighbor cardinality")
+                replacement = replacements[0]
+                neighbor = selected_proposal["neighbor"]
+                require(replacement["unitId"] == neighbor["unitId"] and replacement["phoneIds"] == [neighbor["unitId"]] and
+                        replacement["inventoryIndex"] == neighbor["inventoryIndex"] and replacement["reading"] == neighbor["reading"] and
+                        replacement["after"] == neighbor["form"], "joint neighbor binding")
+                require(set(replacement["outputCellIds"]).isdisjoint(certificate["outputCellIds"]), "overlapping joint outputs")
         else:
             require(record["certificateId"] is None, "certificate on infeasible attempt")
     require(totals["selected"] == len(trace["completion"]["certificates"]), "unaccounted completion certificate")

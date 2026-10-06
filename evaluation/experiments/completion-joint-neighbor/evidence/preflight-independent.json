@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "words": 10000,
+  "joint": 1,
+  "totals": {
+    "attempts": 24519,
+    "evaluated": 1999,
+    "candidates": 6297,
+    "draws": 1583,
+    "selected": 1999,
+    "infeasible": 0
+  },
+  "archiveSha256": "2861ba3e22c62131df7ce70da140ce59058ab41df2093798662936eac2466a62",
+  "scope": "Independent completion arithmetic and certificate binding for one complete10000-word stream; no eligibility authentication or full corpus acceptance"
+}

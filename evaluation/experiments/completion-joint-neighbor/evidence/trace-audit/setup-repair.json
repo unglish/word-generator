@@ -1,0 +1,7 @@
+{
+  "reason": "Missing API adapter prevented audit startup",
+  "originalLog": "chain-trace-audit.log",
+  "adapterSha256": "c38f5b7ac568ecd4015685989d8791d0eda37d03d010df7a3879f63cca22f281",
+  "controlAdapterSha256": "887100b5fcabe7d85b7127962f8db4cc732176216ebecff634a0b2b095906ff4",
+  "scope": "Same adapter with candidate checkout and measured configuration paths changed; original count and options retained"
+}

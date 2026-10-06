@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "words": 10000,
+  "checkpointSha256": "3100d9c29ff49b7e35980b4f19a8db8e90f047ff6f6c8b9f04a489de63dd8d23",
+  "archiveSha256": "8804cd01dc7b3d4f6294210f584f7a5f7301566a8613920287088cf09306a9bf",
+  "observationSha256": "3bb61868007528dad773b6bb34920aff14af3b54f862b4f9800c19a2014af496",
+  "scope": "First complete full-run stream checkpoint archive and observation hashes authenticated. Payload and source authority checked by production resume/full closure; entire corpus not complete."
+}

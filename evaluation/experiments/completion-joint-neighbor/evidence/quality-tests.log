@@ -1,0 +1,109 @@
+
+ RUN  v3.2.4 /private/tmp/q14a-completion-joint-neighbor-evidence-v2/quality
+
+stdout | quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: 2-letter monosyllables ≤ 9% of all monosyllables
+2-letter mono: 11/4517 (0.2%)
+
+stdout | quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: open monosyllables ≤ 20% of all monosyllables
+Open mono: 181/4517 (4.0%)
+
+stdout | quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Write quality report
+
+=== Quality Metrics ===
+5+ consonant runs: 83
+4-cons clusters: 1072 (2.14%)
+dk: 0
+-owngs: 62
+-reng/-teng: 2
+Avg length: 7.6
+Unique rate: 87.7%
+Length distribution: {
+  '1': 0,
+  '2-3': 595,
+  '4-5': 7621,
+  '6-8': 26907,
+  '9-12': 13483,
+  '13+': 1394
+}
+
+Report written to /private/tmp/q14a-completion-joint-neighbor-evidence-v2/quality/quality-report.json
+
+stdout | quality.test.ts > Generation Mode Benchmarks > Text mode
+
+=== Text Mode ===
+  1-syl: 45.5%
+  2-syl: 34.2%
+  3-syl: 14.6%
+  4-syl: 4.6%
+  5-syl: 1.0%
+  6-syl: 0.1%
+  7-syl: 0.0%
+  Avg letters: 5.7
+
+stdout | quality.test.ts > Generation Mode Benchmarks > Lexicon mode
+
+=== Lexicon Mode ===
+  1-syl: 9.3%
+  2-syl: 41.8%
+  3-syl: 33.1%
+  4-syl: 12.1%
+  5-syl: 3.0%
+  6-syl: 0.7%
+  7-syl: 0.1%
+  Avg letters: 7.5
+
+ ❯ quality.test.ts (12 tests | 2 failed) 102125ms
+   × Quality Benchmark > Quality Gates & Metrics > Gate: no 5+ consecutive consonant letters 8ms
+     → expected 83 to be +0 // Object.is equality
+   × Quality Benchmark > Quality Gates & Metrics > Gate: owngs <= 1 0ms
+     → expected 62 to be less than or equal to 1
+   ✓ Quality Benchmark > Quality Gates & Metrics > Gate: rengTeng < 30 0ms
+   ✓ Quality Benchmark > Quality Gates & Metrics > Gate: 2-letter monosyllables ≤ 9% of all monosyllables 1ms
+   ✓ Quality Benchmark > Quality Gates & Metrics > Gate: open monosyllables ≤ 20% of all monosyllables 0ms
+   ✓ Quality Benchmark > Quality Gates & Metrics > Write quality report 3ms
+   ✓ Generation Mode Benchmarks > Text mode > monosyllables dominate (> 35%) 1ms
+   ✓ Generation Mode Benchmarks > Text mode > 3-syllable words are rare (< 20%) 0ms
+   ✓ Generation Mode Benchmarks > Text mode > average word length is short (< 6.5 letters) 0ms
+   ✓ Generation Mode Benchmarks > Lexicon mode > 2-syllable words are most common (> 25%) 0ms
+   ✓ Generation Mode Benchmarks > Lexicon mode > monosyllables are present (> 5%) 0ms
+   ✓ Generation Mode Benchmarks > Lexicon mode > average word length is moderate (> 6.0 letters) 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: no 5+ consecutive consonant letters
+AssertionError: expected 83 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 83
+
+ ❯ quality.test.ts:148:29
+    146|     // Hard gates
+    147|     it("Gate: no 5+ consecutive consonant letters", () => {
+    148|       expect(fiveConsCount).toBe(0);
+       |                             ^
+    149|     });
+    150| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  quality.test.ts > Quality Benchmark > Quality Gates & Metrics > Gate: owngs <= 1
+AssertionError: expected 62 to be less than or equal to 1
+ ❯ quality.test.ts:154:26
+    152|       // Keep this as a hard anti-pattern signal, but allow a single o…
+    153|       // in large stochastic samples to avoid flaky CI failures.
+    154|       expect(owngsCount).toBeLessThanOrEqual(1);
+       |                          ^
+    155|     });
+    156| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 10 passed (12)
+   Start at  16:27:13
+   Duration  102.81s (transform 306ms, setup 0ms, collect 432ms, tests 102.13s, environment 0ms, prepare 43ms)
+

@@ -20,12 +20,13 @@ function readingRefusal(reading: GraphemeReading | undefined): CompletionProposa
 }
 
 /** Caller supplies authenticated current prefix; eligible readings still require projected-neighbor checks. */
-export function createCompletionCandidatePool(configuration: LanguageConfig) {
-  const config = completionConfiguration(configuration);
+function createCandidatePool(configuration: LanguageConfig, position: "nucleus" | "consonant") {
+  const config = position === "nucleus" ? completionConfiguration(configuration) : structuredClone(configuration);
   const resolve = createGraphemeResolver(config);
   const inventory = new Map(config.graphemes.map((grapheme, index) => [grapheme, index]));
   return (slot: GraphemeSlot, prefix: GraphemePrefixState) => {
-    if (slot.position !== "nucleus" || !Number.isSafeInteger(prefix.doublingCount) || prefix.doublingCount < 0) {
+    const wrongPosition = position === "nucleus" ? slot.position !== "nucleus" : slot.position !== "onset" && slot.position !== "coda";
+    if (wrongPosition || !Number.isSafeInteger(prefix.doublingCount) || prefix.doublingCount < 0) {
       throw new Error("Invalid completion resolver context");
     }
     try {
@@ -44,4 +45,12 @@ export function createCompletionCandidatePool(configuration: LanguageConfig) {
       throw error;
     }
   };
+}
+
+export function createCompletionCandidatePool(configuration: LanguageConfig) {
+  return createCandidatePool(configuration, "nucleus");
+}
+
+export function createCompletionNeighborCandidatePool(configuration: LanguageConfig) {
+  return createCandidatePool(configuration, "consonant");
 }

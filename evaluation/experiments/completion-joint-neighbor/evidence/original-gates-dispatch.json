@@ -1,0 +1,5 @@
+{
+  "state": "dispatched",
+  "scope": "Original default and quality gates running separately while capture continues; chain excludes duplicate invocation. Final closure must inspect original-gates.json and both logs, including failures.",
+  "timing": "Performance remains deferred until capture, replay, parity, gates and other known workloads terminal"
+}

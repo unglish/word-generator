@@ -1,0 +1,12 @@
+{
+  "passed": 10,
+  "failed": 2,
+  "failedCounts": {
+    "fiveConsonants": 83,
+    "owng": 62
+  },
+  "countsMatchControl": true,
+  "controlLogSha256": "e2e864896444050dd79619dbbc92428f9c02112f008d94f7388692abf1f1731f",
+  "candidateLogSha256": "79b694c758c3cc043c04a79b873fda70e6c5de00b3a501a9304ad8d00605b2e5",
+  "scope": "Original quality thresholds and sample sizes retained; matched adverse counts do not establish overall quality acceptance."
+}

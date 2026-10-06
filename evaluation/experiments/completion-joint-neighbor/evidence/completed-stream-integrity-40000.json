@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "words": 40000,
+  "streams": [
+    {
+      "file": "candidate-archive/words/lexicon-default-69212153.jsonl.gz",
+      "words": 10000,
+      "sha256": "8804cd01dc7b3d4f6294210f584f7a5f7301566a8613920287088cf09306a9bf",
+      "bytes": 24305117
+    },
+    {
+      "file": "candidate-archive/words/lexicon-default-101601885.jsonl.gz",
+      "words": 10000,
+      "sha256": "10185db58efd4858e81c6c7954987830c7a290745dd663658d77a798c1c6dea0",
+      "bytes": 23860275
+    },
+    {
+      "file": "candidate-archive/words/lexicon-default-3921817393.jsonl.gz",
+      "words": 10000,
+      "sha256": "b482ac903f67db7e58fe1a6cb4298dbc1bff5b0dc15a6a2377313342e1dc3422",
+      "bytes": 24043973
+    },
+    {
+      "file": "candidate-archive/words/lexicon-default-3948943232.jsonl.gz",
+      "words": 10000,
+      "sha256": "bebb2645ff6bbbfb133887f8a7ee514a9c6fd3e8204a90712a1f29712a1018b0",
+      "bytes": 23737408
+    }
+  ],
+  "scope": "Complete gzip decoding and original coordinate sequence for four finished streams; not semantic replay, quality acceptance, or full200000-word integrity"
+}

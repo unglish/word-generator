@@ -1,0 +1,7 @@
+{
+  "test": "silent-e integration > ck counts toward maxPerWord doubling limit",
+  "controlLog": "/private/tmp/q14a-completion-isolated-u-evidence-v1/default-tests.log",
+  "candidateLog": "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/default-tests.log",
+  "assertion": "expected6to be less than or equal to5",
+  "scope": "One observed failure matches original control; complete suite and failure comparison still pending"
+}

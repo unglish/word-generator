@@ -1,0 +1,41 @@
+{
+  "exitCode": 0,
+  "logSha256": "0fedfbd123cadfb2a273ad524267f76e1d8d68f87e0870946eb7385e4d34fcef",
+  "cases": [
+    {
+      "seed": 772709128,
+      "drawIndex": 2459,
+      "written": "julicky",
+      "infeasible": 1,
+      "phones": [
+        "j",
+        "u",
+        "l",
+        "\u026a",
+        "k",
+        "i:"
+      ]
+    },
+    {
+      "seed": 1498885173,
+      "drawIndex": 5738,
+      "written": "sulkicmarened",
+      "infeasible": 1,
+      "phones": [
+        "\u0283",
+        "u",
+        "l",
+        "k",
+        "\u026a",
+        "k",
+        "m",
+        "\u0251",
+        "r",
+        "\u025b",
+        "n",
+        "d"
+      ]
+    }
+  ],
+  "scope": "PublicAPI exact original seeded-stream reproduction before runtime intervention"
+}
