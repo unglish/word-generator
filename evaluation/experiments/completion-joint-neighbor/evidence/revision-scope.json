@@ -1,0 +1,10 @@
+{
+  "revision": "v2",
+  "controlPR": 373,
+  "registrationCommit": "c775948",
+  "correction": "Reauthenticate nucleus and neighbor pool with proposed joint prefixes; original v1 diagnostic capture retained separately.",
+  "fullScopeWords": 200000,
+  "sourcePreservation": "Capture verifies all source and dependency pins before and after execution",
+  "focusedTests": 91,
+  "typecheckExitCode": 0
+}

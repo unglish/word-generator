@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { englishConfig } from "../config/english.js";
 import { createSharedConstructionPlanner } from "./spelling-construction.js";
 import { BaseSpelling } from "./base-spelling.js";
-import { createCompletionPrefixResolver } from "./spelling-completion-prefix.js";
+import { createCompletionPrefixResolver, createCompletionNeighborPrefixResolver } from "./spelling-completion-prefix.js";
 
 function fixture(onset = true) {
   const entries = [...(onset ? [{ sound: "t", form: "tt", segment: "onset" as const, increment: 1 }] : []),
@@ -86,4 +86,14 @@ describe("completion prefix evidence", () => {
     const state = structuredClone(fixture().constructionState()); delete state.units[0].doublingIncrement;
     expect(resolve(state, 1)).toEqual({ status: "unavailable", reason: "missing-doubling-history" });
   });
+});
+
+
+it("authenticates a consonant prefix while retaining the nucleus-only resolver contract", () => {
+  const state = fixture().constructionState();
+  expect(createCompletionNeighborPrefixResolver(englishConfig)(state, 0)).toMatchObject({
+    status: "available", prefix: { doublingCount: 0 }, evidence: { quotaSource: "original" },
+  });
+  expect(resolve(state, 0)).toEqual({ status: "unavailable", reason: "not-nucleus" });
+  expect(createCompletionNeighborPrefixResolver(englishConfig)(state, 1)).toEqual({ status: "unavailable", reason: "not-consonant" });
 });

@@ -1,0 +1,18 @@
+{
+  "candidateFailures": [
+    "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs",
+    "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs",
+    "src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs",
+    "src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit"
+  ],
+  "candidateFailureCount": 4,
+  "allCandidateFailureNamesPresentInControl": true,
+  "controlLogSha256": "57100a41a560fadb04d3cbaa245930319816366fa2cea36dbfff74a650c02293",
+  "candidateLogSha256": "d9e55d8072d2c8d31fd44ad77ea650fe17e6a363a342ce001fd5933f020cdf99",
+  "candidateCounts": {
+    "passed": 1041,
+    "failed": 4,
+    "skipped": 1
+  },
+  "scope": "Full default suite retained. Failure-name match only; not all-green acceptance or proof every failure has identical cause."
+}

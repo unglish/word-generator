@@ -1,0 +1,91 @@
+{
+  "controlPR": 373,
+  "operators": [
+    {
+      "file": "analyze-split-resumable.mjs",
+      "bytes": 10644,
+      "sha256": "b43f2e1db8cb319cfc07dcc1c29ed06fa8c4f51919a5fc0039ebd31c42ad372a"
+    },
+    {
+      "file": "analyze-candidate.mjs",
+      "bytes": 765,
+      "sha256": "e232cf7218411e28050d8a8392561e30d2e443ac6e05999952a2587e86decdf5"
+    },
+    {
+      "file": "run-independent.py",
+      "bytes": 1198,
+      "sha256": "8c91187a538ebb08ea3acb2995791429909e287e5b507be55a71167795abe6ca"
+    },
+    {
+      "file": "compare-structure.py",
+      "bytes": 2071,
+      "sha256": "d6b6c76f8c3093457849863a2ede716c699ceb810ca9aa2c3f22f83f8bd3d2d1"
+    },
+    {
+      "file": "compare-quality.mjs",
+      "bytes": 2089,
+      "sha256": "7f023213cabcb5b9a0f8469fa76af39227b4ddd9219f5ae991287e985d8b116b"
+    },
+    {
+      "file": "legacy-parity-runner.mjs",
+      "bytes": 7042,
+      "sha256": "39a583b331d1c601b1dc9b14524d574adbc3b8c2650e4f67b876c34abea517e7"
+    },
+    {
+      "file": "run-original-gates.py",
+      "bytes": 1264,
+      "sha256": "babac720572c52be28f87cc77d1c86af34e595cb36ceec9efb4aae5251271d8c"
+    },
+    {
+      "file": "quality/vitest.config.mjs",
+      "bytes": 101,
+      "sha256": "8d60dc46db2b8a76b15a9baa0bc613cabef8671352acdefc3ea73f49a9d8621a"
+    },
+    {
+      "file": "quality/quality.test.ts",
+      "bytes": 9839,
+      "sha256": "ef2026ea0da2c522cf30f424e25ecb1c276ce7f4eff411bcbd1f0bbbff9f1920"
+    },
+    {
+      "file": "quality/candidate-api.ts",
+      "bytes": 634,
+      "sha256": "c38f5b7ac568ecd4015685989d8791d0eda37d03d010df7a3879f63cca22f281"
+    },
+    {
+      "file": "audit-opaque-context.py",
+      "bytes": 5474,
+      "sha256": "6051696d419557d949f64aff1c3d116cabe2ac3e5c3ddd24c69d78252caa4480"
+    },
+    {
+      "file": "audit-written-boundary.py",
+      "bytes": 2338,
+      "sha256": "156d0e7648ab957babc0fa8226b8b3b589a77c047f894b5b40026bfb3f0ea086"
+    },
+    {
+      "file": "classify-completion-gaps.py",
+      "bytes": 2503,
+      "sha256": "4ee3ae37308276218038759248c984d447ed16267f5aa43983f66937675a2a53"
+    },
+    {
+      "file": "classify-final-residuals.py",
+      "bytes": 3587,
+      "sha256": "a04658d417080c035cbbd2991dab5bff42fea1d9fe1a2c0cc8c89cdfd3700c53"
+    },
+    {
+      "file": "performance-one.mjs",
+      "bytes": 1868,
+      "sha256": "2953e193f6bf3768006aac9a53b298d356fc0452ce53bd6d7ebda57cc4abf26c"
+    },
+    {
+      "file": "performance-series.py",
+      "bytes": 3532,
+      "sha256": "d057ea9f7c193916c905f644f97b6b57cdf74fca28d9ee0639a1095301b329ee"
+    },
+    {
+      "file": "validate-checkpoint.mjs",
+      "bytes": 4189,
+      "sha256": "8f9fb6f747bb7e4aa60aefaeda1629e3fd6bb1393acd25fb1ea30267a41083c2"
+    }
+  ],
+  "scope": "Prepared exact v2 operators; full execution pending"
+}

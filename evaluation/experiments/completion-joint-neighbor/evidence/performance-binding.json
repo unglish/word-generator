@@ -1,0 +1,26 @@
+{
+  "control": "/private/tmp/q14a-completion-isolated-u-v1",
+  "candidate": "/private/tmp/q14a-completion-joint-neighbor-v2",
+  "controlCommit": "0d8811ee2b3ee5860abb7097e3d4b140c81d8f49",
+  "candidateSourcePinsSha256": "c546ef15f2bb6930d9041598215d2d1a0b86e090e07a187430807413c90df457",
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B",
+    "B",
+    "A"
+  ],
+  "measuredConfigurationSha256": "b20f5da9bd2e97cf4d3fb540b0ea6672821a9b4fcdfce77c2862ad20214d4240",
+  "controlConfigurationSha256": "b20f5da9bd2e97cf4d3fb540b0ea6672821a9b4fcdfce77c2862ad20214d4240",
+  "runnerSha256": "2953e193f6bf3768006aac9a53b298d356fc0452ce53bd6d7ebda57cc4abf26c",
+  "seriesSha256": "d057ea9f7c193916c905f644f97b6b57cdf74fca28d9ee0639a1095301b329ee",
+  "originalBenchmarkSha256": "58e315d638c094c1f70a5463ce48012a3b97c7f367146dd58e3d6416a123307f",
+  "scope": "Original six pairs, workload and gates; timing pending known competing workloads becoming terminal. Same completion configuration for both arms; runtime intervention."
+}

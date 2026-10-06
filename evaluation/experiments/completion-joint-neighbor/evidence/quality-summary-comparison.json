@@ -1,0 +1,1095 @@
+{
+  "baselineManifestSha256": "c78db32fe26a8e34e4229f954e4cc0390807312d1b5ced14d31f071a5fee9985",
+  "candidateManifestSha256": "61021625229f1c577bb08e815cfb5b52ccc67355f4386d49e0c04a7e87a1761a",
+  "allArchiveArtifactsVerified": true,
+  "profiles": [
+    {
+      "id": "lexicon-default",
+      "words": 50000,
+      "metrics": {
+        "adjacent_duplicate_coda": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 137,
+            "candidate": 137,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0.00274,
+            "candidate": 0.00274,
+            "change": 0
+          }
+        },
+        "disyllable_stress_clash": {
+          "eligible": {
+            "baseline": 20626,
+            "candidate": 20627,
+            "change": 1
+          },
+          "hits": {
+            "baseline": 4461,
+            "candidate": 4463,
+            "change": 2
+          },
+          "rate": {
+            "baseline": 0.21628042276738096,
+            "candidate": 0.2163668977553692,
+            "change": 0.00008647498798822206
+          }
+        },
+        "final_open_checked_vowel": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 791,
+            "candidate": 791,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0.01582,
+            "candidate": 0.01582,
+            "change": 0
+          }
+        },
+        "monosyllable_foot_vowel": {
+          "eligible": {
+            "baseline": 4489,
+            "candidate": 4492,
+            "change": 3
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "monosyllable_schwa": {
+          "eligible": {
+            "baseline": 4489,
+            "candidate": 4492,
+            "change": 3
+          },
+          "hits": {
+            "baseline": 893,
+            "candidate": 895,
+            "change": 2
+          },
+          "rate": {
+            "baseline": 0.19893071953664512,
+            "candidate": 0.19924309884238647,
+            "change": 0.0003123793057413504
+          }
+        },
+        "morphology_hiatus_bridge": {
+          "eligible": {
+            "baseline": 34836,
+            "candidate": 34832,
+            "change": -4
+          },
+          "hits": {
+            "baseline": 3881,
+            "candidate": 3880,
+            "change": -1
+          },
+          "rate": {
+            "baseline": 0.11140773912045011,
+            "candidate": 0.11139182361047313,
+            "change": -0.000015915509976982545
+          }
+        },
+        "orthography_surface_mismatch": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 34836,
+            "candidate": 34832,
+            "change": -4
+          },
+          "rate": {
+            "baseline": 0.69672,
+            "candidate": 0.69664,
+            "change": -0.00007999999999996898
+          }
+        },
+        "orthography_trace_missing": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "polysyllable_missing_primary": {
+          "eligible": {
+            "baseline": 45511,
+            "candidate": 45508,
+            "change": -3
+          },
+          "hits": {
+            "baseline": 9262,
+            "candidate": 9260,
+            "change": -2
+          },
+          "rate": {
+            "baseline": 0.20351123904111093,
+            "candidate": 0.2034807066889338,
+            "change": -0.00003053235217712058
+          }
+        },
+        "polysyllable_multiple_primary": {
+          "eligible": {
+            "baseline": 45511,
+            "candidate": 45508,
+            "change": -3
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "primary_reduced_vowel": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 144,
+            "candidate": 144,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0.00288,
+            "candidate": 0.00288,
+            "change": 0
+          }
+        },
+        "primary_schwa": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 1024,
+            "candidate": 1025,
+            "change": 1
+          },
+          "rate": {
+            "baseline": 0.02048,
+            "candidate": 0.0205,
+            "change": 0.000019999999999999185
+          }
+        },
+        "zero_weight_grapheme_choice": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        }
+      },
+      "distributions": {
+        "phonemes": {
+          "jensenShannonBits": {
+            "baseline": 0.007544429985420452,
+            "candidate": 0.00754393789304552,
+            "change": -4.920923749318629e-7
+          },
+          "missingReferenceMass": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "unseenGeneratedMass": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "trigrams": {
+          "jensenShannonBits": {
+            "baseline": 0.169259336004848,
+            "candidate": 0.16926078414192627,
+            "change": 0.0000014481370782803982
+          },
+          "missingReferenceMass": {
+            "baseline": 0.03616055747460762,
+            "candidate": 0.03616055747460762,
+            "change": 0
+          },
+          "unseenGeneratedMass": {
+            "baseline": 0.012514674047667432,
+            "candidate": 0.012507853309160311,
+            "change": -0.000006820738507121171
+          }
+        }
+      },
+      "uniqueSpellings": {
+        "baseline": 43835,
+        "candidate": 43832,
+        "change": -3
+      },
+      "meanLetters": {
+        "baseline": 7.57106,
+        "candidate": 7.5709,
+        "change": -0.00016000000000016001
+      }
+    },
+    {
+      "id": "lexicon-bare",
+      "words": 50000,
+      "metrics": {
+        "adjacent_duplicate_coda": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 240,
+            "candidate": 239,
+            "change": -1
+          },
+          "rate": {
+            "baseline": 0.0048,
+            "candidate": 0.00478,
+            "change": -0.000019999999999999185
+          }
+        },
+        "disyllable_stress_clash": {
+          "eligible": {
+            "baseline": 23040,
+            "candidate": 23052,
+            "change": 12
+          },
+          "hits": {
+            "baseline": 9374,
+            "candidate": 9386,
+            "change": 12
+          },
+          "rate": {
+            "baseline": 0.4068576388888889,
+            "candidate": 0.40716640638556306,
+            "change": 0.00030876749667418935
+          }
+        },
+        "final_open_checked_vowel": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 1293,
+            "candidate": 1292,
+            "change": -1
+          },
+          "rate": {
+            "baseline": 0.02586,
+            "candidate": 0.02584,
+            "change": -0.000020000000000002655
+          }
+        },
+        "monosyllable_foot_vowel": {
+          "eligible": {
+            "baseline": 6491,
+            "candidate": 6490,
+            "change": -1
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "monosyllable_schwa": {
+          "eligible": {
+            "baseline": 6491,
+            "candidate": 6490,
+            "change": -1
+          },
+          "hits": {
+            "baseline": 1270,
+            "candidate": 1274,
+            "change": 4
+          },
+          "rate": {
+            "baseline": 0.19565552303189032,
+            "candidate": 0.1963020030816641,
+            "change": 0.0006464800497737733
+          }
+        },
+        "morphology_hiatus_bridge": {
+          "eligible": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": null,
+            "candidate": null
+          }
+        },
+        "orthography_surface_mismatch": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "orthography_trace_missing": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "polysyllable_missing_primary": {
+          "eligible": {
+            "baseline": 43509,
+            "candidate": 43510,
+            "change": 1
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "polysyllable_multiple_primary": {
+          "eligible": {
+            "baseline": 43509,
+            "candidate": 43510,
+            "change": 1
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "primary_reduced_vowel": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "primary_schwa": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "zero_weight_grapheme_choice": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        }
+      },
+      "distributions": {
+        "phonemes": {
+          "jensenShannonBits": {
+            "baseline": 0.00023680844313145793,
+            "candidate": 0.00023355228787847918,
+            "change": -0.000003256155252978751
+          },
+          "missingReferenceMass": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "unseenGeneratedMass": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "trigrams": {
+          "jensenShannonBits": {
+            "baseline": 0.19740117354418305,
+            "candidate": 0.19737764857345852,
+            "change": -0.00002352497072452553
+          },
+          "missingReferenceMass": {
+            "baseline": 0.04471200873259655,
+            "candidate": 0.04481281788354723,
+            "change": 0.00010080915095068282
+          },
+          "unseenGeneratedMass": {
+            "baseline": 0.01475326560232202,
+            "candidate": 0.014778289375815502,
+            "change": 0.000025023773493481824
+          }
+        }
+      },
+      "uniqueSpellings": {
+        "baseline": 47225,
+        "candidate": 47222,
+        "change": -3
+      },
+      "meanLetters": {
+        "baseline": 7.51196,
+        "candidate": 7.5121,
+        "change": 0.000140000000000029
+      }
+    },
+    {
+      "id": "monosyllables-bare",
+      "words": 50000,
+      "metrics": {
+        "adjacent_duplicate_coda": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 5001,
+            "candidate": 4998,
+            "change": -3
+          },
+          "rate": {
+            "baseline": 0.10002,
+            "candidate": 0.09996,
+            "change": -0.000060000000000004494
+          }
+        },
+        "disyllable_stress_clash": {
+          "eligible": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": null,
+            "candidate": null
+          }
+        },
+        "final_open_checked_vowel": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 263,
+            "candidate": 263,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0.00526,
+            "candidate": 0.00526,
+            "change": 0
+          }
+        },
+        "monosyllable_foot_vowel": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "monosyllable_schwa": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 11063,
+            "candidate": 11067,
+            "change": 4
+          },
+          "rate": {
+            "baseline": 0.22126,
+            "candidate": 0.22134,
+            "change": 0.00007999999999999674
+          }
+        },
+        "morphology_hiatus_bridge": {
+          "eligible": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": null,
+            "candidate": null
+          }
+        },
+        "orthography_surface_mismatch": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "orthography_trace_missing": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "polysyllable_missing_primary": {
+          "eligible": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": null,
+            "candidate": null
+          }
+        },
+        "polysyllable_multiple_primary": {
+          "eligible": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": null,
+            "candidate": null
+          }
+        },
+        "primary_reduced_vowel": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "primary_schwa": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "zero_weight_grapheme_choice": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        }
+      },
+      "distributions": {
+        "phonemes": {
+          "jensenShannonBits": {
+            "baseline": 0.09453655575351153,
+            "candidate": 0.09454603851995674,
+            "change": 0.00000948276644521795
+          },
+          "missingReferenceMass": {
+            "baseline": 0.0033902010170603057,
+            "candidate": 0.0033902010170603057,
+            "change": 0
+          },
+          "unseenGeneratedMass": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "trigrams": {
+          "jensenShannonBits": {
+            "baseline": 0.532510799081564,
+            "candidate": 0.5325348303014106,
+            "change": 0.00002403121984662082
+          },
+          "missingReferenceMass": {
+            "baseline": 0.3732222542501114,
+            "candidate": 0.3732254045360786,
+            "change": 0.0000031502859672016825
+          },
+          "unseenGeneratedMass": {
+            "baseline": 0.021287033799862017,
+            "candidate": 0.021292552681587733,
+            "change": 0.00000551888172571624
+          }
+        }
+      },
+      "uniqueSpellings": {
+        "baseline": 17446,
+        "candidate": 17450,
+        "change": 4
+      },
+      "meanLetters": {
+        "baseline": 5.54664,
+        "candidate": 5.54666,
+        "change": 0.000020000000000131024
+      }
+    },
+    {
+      "id": "text-default",
+      "words": 50000,
+      "metrics": {
+        "adjacent_duplicate_coda": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 174,
+            "candidate": 174,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0.00348,
+            "candidate": 0.00348,
+            "change": 0
+          }
+        },
+        "disyllable_stress_clash": {
+          "eligible": {
+            "baseline": 17204,
+            "candidate": 17198,
+            "change": -6
+          },
+          "hits": {
+            "baseline": 2484,
+            "candidate": 2485,
+            "change": 1
+          },
+          "rate": {
+            "baseline": 0.1443850267379679,
+            "candidate": 0.14449354576113502,
+            "change": 0.00010851902316710849
+          }
+        },
+        "final_open_checked_vowel": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 1041,
+            "candidate": 1037,
+            "change": -4
+          },
+          "rate": {
+            "baseline": 0.02082,
+            "candidate": 0.02074,
+            "change": -0.00008000000000000021
+          }
+        },
+        "monosyllable_foot_vowel": {
+          "eligible": {
+            "baseline": 22739,
+            "candidate": 22734,
+            "change": -5
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "monosyllable_schwa": {
+          "eligible": {
+            "baseline": 22739,
+            "candidate": 22734,
+            "change": -5
+          },
+          "hits": {
+            "baseline": 4462,
+            "candidate": 4458,
+            "change": -4
+          },
+          "rate": {
+            "baseline": 0.19622674699854875,
+            "candidate": 0.19609395618896808,
+            "change": -0.00013279080958067402
+          }
+        },
+        "morphology_hiatus_bridge": {
+          "eligible": {
+            "baseline": 22493,
+            "candidate": 22494,
+            "change": 1
+          },
+          "hits": {
+            "baseline": 4460,
+            "candidate": 4456,
+            "change": -4
+          },
+          "rate": {
+            "baseline": 0.19828391054994887,
+            "candidate": 0.19809727038321331,
+            "change": -0.00018664016673555772
+          }
+        },
+        "orthography_surface_mismatch": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 22493,
+            "candidate": 22494,
+            "change": 1
+          },
+          "rate": {
+            "baseline": 0.44986,
+            "candidate": 0.44988,
+            "change": 0.000020000000000020002
+          }
+        },
+        "orthography_trace_missing": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "polysyllable_missing_primary": {
+          "eligible": {
+            "baseline": 27261,
+            "candidate": 27266,
+            "change": 5
+          },
+          "hits": {
+            "baseline": 10065,
+            "candidate": 10059,
+            "change": -6
+          },
+          "rate": {
+            "baseline": 0.3692087597666997,
+            "candidate": 0.36892100051346,
+            "change": -0.0002877592532397055
+          }
+        },
+        "polysyllable_multiple_primary": {
+          "eligible": {
+            "baseline": 27261,
+            "candidate": 27266,
+            "change": 5
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "primary_reduced_vowel": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 20,
+            "candidate": 21,
+            "change": 1
+          },
+          "rate": {
+            "baseline": 0.0004,
+            "candidate": 0.00042,
+            "change": 0.000019999999999999998
+          }
+        },
+        "primary_schwa": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 558,
+            "candidate": 559,
+            "change": 1
+          },
+          "rate": {
+            "baseline": 0.01116,
+            "candidate": 0.01118,
+            "change": 0.00002000000000000092
+          }
+        },
+        "zero_weight_grapheme_choice": {
+          "eligible": {
+            "baseline": 50000,
+            "candidate": 50000,
+            "change": 0
+          },
+          "hits": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "rate": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        }
+      },
+      "distributions": {
+        "phonemes": {
+          "jensenShannonBits": {
+            "baseline": 0.010891320276094065,
+            "candidate": 0.010879908811369805,
+            "change": -0.000011411464724260176
+          },
+          "missingReferenceMass": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          },
+          "unseenGeneratedMass": {
+            "baseline": 0,
+            "candidate": 0,
+            "change": 0
+          }
+        },
+        "trigrams": {
+          "jensenShannonBits": {
+            "baseline": 0.19626104461562469,
+            "candidate": 0.19612738617274214,
+            "change": -0.00013365844288254491
+          },
+          "missingReferenceMass": {
+            "baseline": 0.048503377894132955,
+            "candidate": 0.048525429895903416,
+            "change": 0.00002205200177046035
+          },
+          "unseenGeneratedMass": {
+            "baseline": 0.011819942870275336,
+            "candidate": 0.01180949463677293,
+            "change": -0.000010448233502406354
+          }
+        }
+      },
+      "uniqueSpellings": {
+        "baseline": 28984,
+        "candidate": 28987,
+        "change": 3
+      },
+      "meanLetters": {
+        "baseline": 5.6548,
+        "candidate": 5.65634,
+        "change": 0.001540000000000319
+      }
+    }
+  ],
+  "scope": "Complete frozen metric summary comparison for corrected candidate revision; no human-quality acceptance or whole-Q14a completion claim."
+}

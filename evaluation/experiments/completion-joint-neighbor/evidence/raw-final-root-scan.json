@@ -1,0 +1,123 @@
+{
+  "words": 200000,
+  "counts": {
+    "finalRoot:not-target": 309559,
+    "finalRoot:satisfied:open": 15872,
+    "finalRoot:satisfied": 23380,
+    "finalRoot:unavailable": 7888,
+    "finalRoot:satisfied:split": 7508
+  },
+  "completion": {
+    "attempts": 340827,
+    "evaluated": 25508,
+    "candidates": 84465,
+    "draws": 19465,
+    "selected": 25508,
+    "infeasible": 0
+  },
+  "streams": [
+    {
+      "file": "words/lexicon-default-69212153.jsonl.gz",
+      "words": 10000,
+      "sha256": "8804cd01dc7b3d4f6294210f584f7a5f7301566a8613920287088cf09306a9bf"
+    },
+    {
+      "file": "words/lexicon-default-101601885.jsonl.gz",
+      "words": 10000,
+      "sha256": "10185db58efd4858e81c6c7954987830c7a290745dd663658d77a798c1c6dea0"
+    },
+    {
+      "file": "words/lexicon-default-3921817393.jsonl.gz",
+      "words": 10000,
+      "sha256": "b482ac903f67db7e58fe1a6cb4298dbc1bff5b0dc15a6a2377313342e1dc3422"
+    },
+    {
+      "file": "words/lexicon-default-3948943232.jsonl.gz",
+      "words": 10000,
+      "sha256": "bebb2645ff6bbbfb133887f8a7ee514a9c6fd3e8204a90712a1f29712a1018b0"
+    },
+    {
+      "file": "words/lexicon-default-2089697863.jsonl.gz",
+      "words": 10000,
+      "sha256": "62d801b7749acdaec44b1d7d2a775a2d4a8f23de1a2663585bb637114652ed73"
+    },
+    {
+      "file": "words/lexicon-bare-2380207674.jsonl.gz",
+      "words": 10000,
+      "sha256": "04092188d20d78430974c805728ec60130cb62311ee0fb7db70998cfe0bb5658"
+    },
+    {
+      "file": "words/lexicon-bare-772709128.jsonl.gz",
+      "words": 10000,
+      "sha256": "2861ba3e22c62131df7ce70da140ce59058ab41df2093798662936eac2466a62"
+    },
+    {
+      "file": "words/lexicon-bare-1304238451.jsonl.gz",
+      "words": 10000,
+      "sha256": "7f7dfc30d12fd9cfc47f613b230775cd7520050ea63c0b38c5b879cab9aa7fda"
+    },
+    {
+      "file": "words/lexicon-bare-1696751198.jsonl.gz",
+      "words": 10000,
+      "sha256": "c6053fa6542d00a59fb88cac0650f0c752ce1ab6d861af2ca121a0e3ae826df8"
+    },
+    {
+      "file": "words/lexicon-bare-1498885173.jsonl.gz",
+      "words": 10000,
+      "sha256": "e5713dc85db05e077a514b18911b4827cc72474a9c5d20e10b5e8a28eda578f6"
+    },
+    {
+      "file": "words/monosyllables-bare-462530651.jsonl.gz",
+      "words": 10000,
+      "sha256": "9281b452854e2074c5b5a8e7ae5c0a61f0c6f5821238e87fa57549183f59def7"
+    },
+    {
+      "file": "words/monosyllables-bare-62358955.jsonl.gz",
+      "words": 10000,
+      "sha256": "bc45347c51626fce9c977770869f900f61e48e3cf82e4c4f5b7ccb7e8e7e498e"
+    },
+    {
+      "file": "words/monosyllables-bare-3297327738.jsonl.gz",
+      "words": 10000,
+      "sha256": "3492fe9a4535f692346dac80e88591f975fa38c2f11b17301abaf749917c0748"
+    },
+    {
+      "file": "words/monosyllables-bare-2001884366.jsonl.gz",
+      "words": 10000,
+      "sha256": "bd08174286b6796d996d2a91373791f04da2b0c2083d6b40dcb34f934e2347e9"
+    },
+    {
+      "file": "words/monosyllables-bare-2353354178.jsonl.gz",
+      "words": 10000,
+      "sha256": "063138f5adc890b5fe36b896b96c29a0b4dd2e9a09f65b3831a157aeb1578fe2"
+    },
+    {
+      "file": "words/text-default-4167471042.jsonl.gz",
+      "words": 10000,
+      "sha256": "9647d557bb728b4c1438f37c7021aa7e2919b18186372968f9416131547d8362"
+    },
+    {
+      "file": "words/text-default-2666001996.jsonl.gz",
+      "words": 10000,
+      "sha256": "709627c724e847be073314142bbc0d621d395762746ebb305e176633fe33b89a"
+    },
+    {
+      "file": "words/text-default-3562318933.jsonl.gz",
+      "words": 10000,
+      "sha256": "6b0aeacbe1ae811b4abb8f28593e7bf8dc9146d747dc71a103c37791368c42df"
+    },
+    {
+      "file": "words/text-default-1999736106.jsonl.gz",
+      "words": 10000,
+      "sha256": "af3a1478c31c38be869071a3700fd189ee8e43f8c42ddddb291634c6891f6a69"
+    },
+    {
+      "file": "words/text-default-1665836705.jsonl.gz",
+      "words": 10000,
+      "sha256": "4166fb232c7c01ef36156908cfdd1c2159cdfbc15d422978ac9188dbdf2c6a4d"
+    }
+  ],
+  "allUnresolvedWordWitnesses": [],
+  "manifestSha256": "61021625229f1c577bb08e815cfb5b52ccc67355f4386d49e0c04a7e87a1761a",
+  "scope": "Complete raw integer obligation and completion accounting; producer semantic replay still pending. Certificate reading eligibility is not independently proved by this scan. Registered replay/recount and exact final-population join remain required."
+}

@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "words": 10000,
+  "joint": 1,
+  "comparisons": {
+    "attempts": {
+      "independent": 24519,
+      "production": 24519
+    },
+    "candidates": {
+      "independent": 6297,
+      "production": 6297
+    },
+    "draws": {
+      "independent": 1583,
+      "production": 1583
+    },
+    "selected": {
+      "independent": 1999,
+      "production": 1999
+    },
+    "infeasible": {
+      "independent": 0,
+      "production": 0
+    }
+  },
+  "reportHashes": {
+    "preflight-stream.json": "0107bfe9c80a059fa22b4d94e406472a56851a84e28c09cb7e60541b51352d86",
+    "preflight-independent.json": "abe4a738dcf19450bf5ea4be0ceb8972f2b5d86f9d57fa5b758195236c3e09cf"
+  },
+  "scope": "Five completion counters on one full stream; full200000-word replay and recount remain required"
+}

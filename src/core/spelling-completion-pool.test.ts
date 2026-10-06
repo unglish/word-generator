@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { englishConfig } from "../config/english.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import { spellingBoundaryContexts } from "./spelling-context.js";
-import { createCompletionCandidatePool } from "./spelling-completion-pool.js";
+import { createCompletionCandidatePool, createCompletionNeighborCandidatePool } from "./spelling-completion-pool.js";
 import type { Grapheme } from "../types.js";
 
 const slot = spellingBoundaryContexts(["eɪ", "t"].map((sound, id) => ({ id, part: "root", syllableIndex: 0,
@@ -36,5 +36,23 @@ describe("completion candidate resolver", () => {
   it("retains unsupported and unknown readings as explicit refusals", () => {
     const resolve = pool([glyph("ae", 1, { reading: undefined }), glyph("ea", 1, { reading: { kind: "unsupported-construction", reason: "lexical" } })]);
     expect(resolve(slot, { doublingCount: 0 })).toMatchObject({ proposals: [{ refusal: "unknown-reading" }, { refusal: "unsupported-reading" }] });
+  });
+});
+
+
+describe("completion neighbor candidate resolver", () => {
+  it("uses configured consonant inventory weights and refuses unsupported readings", () => {
+    const consonantSlot = spellingBoundaryContexts(["j", "u"].map((sound, id) => ({ id, part: "root", syllableIndex: 0,
+      segment: id === 0 ? "onset" : "nucleus", segmentIndex: 0, soundAtSpelling: sound,
+      boundary: { phoneme: englishConfig.phonemes.find(phone => phone.sound === sound)! } })))[0].slot;
+    const graphemes: Grapheme[] = [
+      { form: "y", phoneme: "j", frequency: 3, origin: 0, reading: { kind: "single-phone" } },
+      { form: "j", phoneme: "j", frequency: 1, origin: 0, reading: { kind: "unsupported-construction", reason: "lexical" } },
+      { form: "i", phoneme: "j", frequency: 0, origin: 0, reading: { kind: "single-phone" } },
+    ];
+    const resolve = createCompletionNeighborCandidatePool({ ...englishConfig, doubling: undefined, graphemes, ...buildGraphemeMaps(graphemes) });
+    expect(resolve(consonantSlot, { doublingCount: 0 })).toMatchObject({ status: "available",
+      proposals: [{ inventoryIndex: 0, form: "y", weight: 3 }, { inventoryIndex: 1, form: "j", refusal: "unsupported-reading" }] });
+    expect(() => resolve(slot, { doublingCount: 0 })).toThrow("Invalid completion resolver context");
   });
 });

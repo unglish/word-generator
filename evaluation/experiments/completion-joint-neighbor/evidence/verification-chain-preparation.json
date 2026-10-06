@@ -1,0 +1,12 @@
+{
+  "operator": "run-verification-chain.py",
+  "sha256": "8b7dea764a8b7788db939d932d63a0cf481651953ac6b0be1ef739e798a17976",
+  "syntaxValid": true,
+  "captureReceiptRequired": true,
+  "checkpointRecoveryValidated": true,
+  "steps": 9,
+  "originalControlPR": 373,
+  "scope": "Prepared only; full chain not started",
+  "originalGates": "Dispatched separately; completion evidence remains required",
+  "legacyParity": "Dispatched separately; complete83072-call receipt and128nextRNG probes remain required"
+}

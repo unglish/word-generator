@@ -42,6 +42,36 @@ Use these fields to answer specific diagnostic questions:
 - `summary`
   - Question: Quick sanity check for trace volume and repair density.
 
+## Joint vowel completion
+
+With `splitVowels` configured, the final vowel-completion pass first evaluates
+whole-nucleus inventory alternatives. If that pool is infeasible because a
+neighboring consonant would lose its licensed reading, it can evaluate an
+adjacent consonant and nucleus together. Both candidates must remain eligible
+under the proposed written prefixes, preserve their phonemes, and pass the
+shared, split-vowel, reading-context, and written-form budget checks.
+
+For a version 5 `baseSpelling` trace, inspect
+`completion.attempts[index].attempt.joint` when present. Its proposals retain
+both inventory identities, prefix and pool evidence, projection results, and
+conditional sampling evidence. The ordinary `attempt.sample` remains infeasible
+in this case; the final outcome comes from `attempt.joint.sample`. Count the
+selected joint proposal as one completed nucleus.
+
+A joint completion has one `vowelCompletion` edit covering the contiguous input.
+The completion certificate describes the nucleus, while `neighborReplacements`
+contains the consonant's separate phoneme IDs, input/output cell IDs, spelling,
+inventory identity, and reading. Each output cell's completion origin identifies
+its own unit and local offset. A nucleus certificate reading does not license
+another unit. Replay must authenticate the attempt and all replacement records;
+final surface strings alone cannot establish that the sounds were preserved.
+
+Changing a spelling can also change the generator's length score and which
+attempt it returns. Compare retained trace states to diagnose a specific repair,
+and use the full registered continuous streams to measure its distributional
+effect. A word disappearing from its former seed coordinate is not evidence of
+repair.
+
 ## Root-Cause Buckets
 
 When writing diagnostics, categorize each traced instance into one bucket:

@@ -73,3 +73,36 @@ describe("replayable completion decisions", () => {
     expect(rand).not.toHaveBeenCalled();
   });
 });
+
+
+it("replays joint weights and rejects altered neighbor identity", () => {
+  const { base, planner } = fixture([alternative("e"),
+    { phoneme: "k", form: "k", frequency: 3, origin: 0, reading: { kind: "single-phone" } },
+    { phoneme: "k", form: "ck", frequency: 7, origin: 0, reading: { kind: "single-phone" } },
+  ]);
+  const view = base.constructionState(); const before = structuredClone(view);
+  const rand = vi.fn(() => 0.5);
+  const attempt = planner.decide(view, 1, [], rand);
+  expect(attempt).toMatchObject({ status: "evaluated", sample: { status: "infeasible" },
+    joint: { sample: { status: "selected", roll: 0.5 }, proposals: [
+      { refusal: "neighbor-reading" }, { weight: 3, neighbor: { form: "k", unitId: 0 } },
+      { weight: 7, neighbor: { form: "ck", unitId: 0 } },
+    ] },
+  });
+  expect(rand).toHaveBeenCalledTimes(1); expect(view).toEqual(before);
+  planner.verify(view, 1, [], attempt);
+  if (attempt.status !== "evaluated" || !("joint" in attempt)) throw new Error("Expected joint attempt");
+  const corrupted = structuredClone(attempt); corrupted.joint.proposals[1].neighbor.unitId = 2;
+  expect(() => planner.verify(view, 1, [], corrupted)).toThrow("Invalid completion attempt");
+});
+
+
+it("rejects a joint nucleus whose original prefix no longer licenses it", () => {
+  const vowel = alternative("e"); vowel.condition = { leftGraphemeContext: ["c"] };
+  const { base, planner } = fixture([vowel, { phoneme: "k", form: "k", frequency: 1, origin: 0, reading: { kind: "single-phone" } }]);
+  const rand = vi.fn(() => 0.5);
+  const attempt = planner.decide(base.constructionState(), 1, [], rand);
+  expect(attempt).toMatchObject({ status: "evaluated", joint: { sample: { status: "infeasible" },
+    proposals: [{ refusal: "neighbor-reading" }, { refusal: "joint-nucleus-ineligible" }] } });
+  expect(rand).not.toHaveBeenCalled(); planner.verify(base.constructionState(), 1, [], attempt);
+});

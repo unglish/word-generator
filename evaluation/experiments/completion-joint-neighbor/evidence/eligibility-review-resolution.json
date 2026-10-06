@@ -1,0 +1,14 @@
+{
+  "finding": "Joint eligibility inherited original prefix",
+  "correctedRevision": "v2",
+  "regression": "context-eligibility-regression.json",
+  "regressionPassed": true,
+  "retainedCase": {
+    "before": "sulkicmarened",
+    "after": "shoolkicmarened",
+    "bytes": 142722,
+    "sha256": "17f31e4f7984391b2219cdb8f115feb36100914a12dd046fa8f28dced6266c5d"
+  },
+  "independentBindingTestsPassed": 4,
+  "scope": "Correction demonstrated in configured-context regression and detached retained case; full corpus acceptance pending"
+}

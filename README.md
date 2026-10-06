@@ -65,6 +65,10 @@ console.log(word.trace?.stages[0]);
 console.log(word.trace?.graphemeSelections[0]);
 ```
 
+Joint vowel completions retain separate nucleus and consonant provenance inside
+one atomic spelling edit. The diagnostics guide explains how to read their
+conditional outcomes and verify preserved phonemes.
+
 Detailed trace workflow: [`docs/word-trace-diagnostics.md`](./docs/word-trace-diagnostics.md)
 
 ## Top-Down Phoneme Targeting

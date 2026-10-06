@@ -1,0 +1,126 @@
+[
+  {
+    "name": "production",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/analyze-candidate.mjs"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791242707.3909702,
+    "finishedAt": 1791247473.8448782,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "independent",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/run-independent.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791247473.856398,
+    "finishedAt": 1791247567.662603,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "opaque-context",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/audit-opaque-context.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791247567.67394,
+    "finishedAt": 1791247652.869118,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "written-boundary",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/audit-written-boundary.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791247652.880506,
+    "finishedAt": 1791247737.0893939,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "raw-causes",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/classify-completion-gaps.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791247737.100915,
+    "finishedAt": 1791247822.028558,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "structure",
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/compare-structure.py"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791247822.040066,
+    "finishedAt": 1791247822.498676,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "distribution",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/compare-quality.mjs"
+    ],
+    "exitCode": 0,
+    "startedAt": 1791247822.510529,
+    "finishedAt": 1791247823.6360939,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "trace-audit",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/trace-audit/candidate-trace-audit.mjs",
+      "--count",
+      "50000",
+      "--seed",
+      "42",
+      "--mode",
+      "lexicon",
+      "--morphology",
+      "true",
+      "--out",
+      "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/trace-audit/candidate-report.json",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "startedAt": 1791247823.646519,
+    "finishedAt": 1791247823.832869,
+    "sourcePinsPreserved": true
+  },
+  {
+    "name": "full-lint",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "/private/tmp/q14a-completion-joint-neighbor-v2/node_modules/eslint/bin/eslint.js",
+      "src/**/*.ts",
+      "evaluation/review/**/*.ts",
+      "demo/review/**/*.ts"
+    ],
+    "exitCode": 1,
+    "startedAt": 1791247823.843331,
+    "finishedAt": 1791247827.2300742,
+    "sourcePinsPreserved": true
+  }
+]

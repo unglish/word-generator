@@ -74,14 +74,16 @@ export function createSplitObserver(config: LanguageConfig) {
     add("completionAttempts", base.completion.attempts.length);
     add("completionReplacements", base.completion.certificates.length);
     for (const { attempt } of base.completion.attempts) {
-      const outcome = attempt.status === "evaluated" ? attempt.sample.status : attempt.status;
+      const outcome = attempt.status === "evaluated" ? ("joint" in attempt ? attempt.joint.sample.status : attempt.sample.status) : attempt.status;
       const category = `completion:${outcome}`;
       add(category); event(category, attempt.nucleusId, attempt);
       if (attempt.status !== "evaluated") continue;
       add(`completionPool:${attempt.pool.pool}`);
       if (attempt.pool.quotaRelaxed) add("completionQuotaRelaxations");
       if (attempt.sample.status === "selected" && attempt.sample.roll !== undefined) add("completionDraws");
-      for (const candidate of attempt.sample.candidates) {
+      if ("joint" in attempt && attempt.joint.sample.status === "selected" && attempt.joint.sample.roll !== undefined) add("completionDraws");
+      const candidates = [...attempt.sample.candidates, ...("joint" in attempt ? attempt.joint.sample.candidates : [])];
+      for (const candidate of candidates) {
         add("completionProposals");
         add(candidate.refusal ? `completionProposalRefusal:${candidate.refusal}` : "completionRetainedProposals");
       }

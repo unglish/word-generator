@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/opt/homebrew/opt/python@3.13/bin/python3.13",
+    "-B",
+    "/private/tmp/q14a-completion-joint-neighbor-v2/evaluation/experiments/split-digraphs/recount_archive.py",
+    "--archive",
+    "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/candidate-archive",
+    "--analysis",
+    "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/candidate-analysis",
+    "--manifest-sha256",
+    "61021625229f1c577bb08e815cfb5b52ccc67355f4386d49e0c04a7e87a1761a",
+    "--analysis-sha256",
+    "0cf7b5c61a99d5a3422643a44737882eb7a2ba88296d95c095c90736495e669a",
+    "--out",
+    "/private/tmp/q14a-completion-joint-neighbor-evidence-v2/independent-recount.json"
+  ],
+  "exitCode": 0,
+  "toolPinsBeforeAndAfter": {
+    "recount_structure.py": "59f8378ec6f2d2c590306484d6e5b487ad780c4c732933a3ac78fb62fce132f3",
+    "recount_completion.py": "d4d092adb11785fdf95400f1b239b25014978252bddb63a7cb74df59f04d635d",
+    "recount_archive.py": "d0fac5894d68932ba6afff25f94ee508828d0f0c69093af6653657c343b27356",
+    "recount_root.py": "a6819f885b5c5f8415de2b660701ebb938e6317fec5e75bdbeff7a1d34932afd"
+  },
+  "scope": "Original independent full-corpus count and structure reconstruction. Production verifier authenticates reading licenses; no human-quality inference."
+}

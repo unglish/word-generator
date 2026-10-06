@@ -83,3 +83,42 @@ describe("live completion ownership and replay", () => {
     expect(base.snapshot()).toEqual(before);
   });
 });
+
+
+it("atomically commits and authenticates both units of a joint replacement", () => {
+  const graphemes: Grapheme[] = [
+    { phoneme: "k", form: "c", frequency: 1, origin: 0, reading: { kind: "following-letter", forbid: ["e", "i", "y"] } },
+    { phoneme: "eɪ", form: "a", frequency: 1, origin: 0, reading: { kind: "open-vowel-or-split-marker" } },
+    { phoneme: "t", form: "t", frequency: 1, origin: 0, reading: { kind: "single-phone" } },
+    { phoneme: "eɪ", form: "ei", frequency: 1, origin: 0, reading: { kind: "single-phone" } },
+    { phoneme: "k", form: "k", frequency: 1, origin: 0, reading: { kind: "single-phone" } },
+  ];
+  const config = { ...englishConfig, graphemes, ...buildGraphemeMaps(graphemes), doubling: undefined, sharedSpellings: [] };
+  const routes = { syllable: { forms: [], probability: 0 }, word: { swaps: [], probability: 0, monosyllableMultiplier: 1 } };
+  const planner = createCompletionPlanner(config, []);
+  const phones = graphemes.slice(0, 3).map((entry, id) => ({ id, part: "root" as const, syllableIndex: 0,
+    segment: id === 0 ? "onset" as const : id === 1 ? "nucleus" as const : "coda" as const,
+    segmentIndex: 0, soundAtSpelling: entry.phoneme,
+    boundary: { phoneme: structuredClone(englishConfig.phonemes.find(phone => phone.sound === entry.phoneme)!) } }));
+  const base = new BaseSpelling(phones, true, true, true, [], config, undefined,
+    createSplitSpellingRuntime(config, [], routes, []), planner);
+  graphemes.slice(0, 3).forEach((entry, id) => base.appendChoice(id, entry.form, entry.form, id, 0));
+  base.setPhase("word");
+  const attempt = planner.decide(base.constructionState(), 1, [], () => { throw new Error("Unexpected draw"); });
+  if (attempt.status !== "evaluated" || !("joint" in attempt)) throw new Error("Expected joint decision");
+  const before = base.snapshot();
+  const altered = structuredClone(attempt); altered.joint.proposals[1].neighbor.inventoryIndex = 0;
+  expect(() => base.recordCompletionAttempt(altered)).toThrow(); expect(base.snapshot()).toEqual(before);
+  expect(base.recordCompletionAttempt(attempt)).toBe(0);
+  const view = base.constructionState();
+  expect(resolveSingleSpellingUnit(view, 0)).toMatchObject({ status: "complete", before: "k", phoneIds: [0] });
+  expect(resolveSingleSpellingUnit(view, 1)).toMatchObject({ status: "complete", before: "ei", phoneIds: [1] });
+  expect(resolveSingleSpellingUnit(view, 2)).toMatchObject({ status: "complete", before: "t", inputCellIds: [2] });
+  const trace = base.snapshot(); if (trace.version !== 5) throw new Error("Expected v5");
+  expect(trace.surface).toBe("keit");
+  const replay = createSplitLedgerReplayer(config, [], routes);
+  expect(() => replay(trace)).not.toThrow();
+  const corrupted = structuredClone(trace);
+  corrupted.completion.certificates[0].neighborReplacements![0].phoneIds = [1];
+  expect(() => replay(corrupted)).toThrow();
+});
