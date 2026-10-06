@@ -1,0 +1,59 @@
+{
+  "version": "complete-study-review-packet-v1",
+  "entry": "Q23",
+  "bindings": {
+    "entry": "Q23",
+    "registration": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/read-aloud-study/categorical-calibration-v1/registration-v1.json",
+    "native": "/private/tmp/q23-categorical-calibration-v1",
+    "oracle": "/private/tmp/q23-categorical-independent-v1",
+    "decisions": "/private/tmp/q23-categorical-decisions-v1",
+    "archiveIndex": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/read-aloud-study/full-calibration-retained-local-v1/index.json",
+    "retention": "/private/tmp/q23-full-retention-driver-v1",
+    "recount": "/private/tmp/q23-summary-publication-driver-v2",
+    "portableGates": "/private/tmp/q23-portable-gates-driver-v1",
+    "gateRegistration": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/study-publication-gates-v3/q23-registration-v3.json",
+    "gateVerifier": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/study-publication-gates-v3/verify-gates.py",
+    "controlPublication": "/private/tmp/study-control-branch-publication-v1/complete.json"
+  },
+  "bundleIndex": {
+    "bytes": 3524078,
+    "sha256": "f1b0af483c1990faad8b8a13cc9c62892d5ad0a78ab8a6f375670becd1c6ba89"
+  },
+  "rootFiles": {
+    "RESULTS.md": {
+      "bytes": 31791,
+      "sha256": "12a8778d7a61582088d6e5c26f6c8506de0c0021d7038e32f1555891879138b5"
+    },
+    "bundle.py": {
+      "bytes": 7427,
+      "sha256": "8df7b8dcef94b603f241eb963946682fa5681147b2349083e198dbf720842694"
+    },
+    "domain.py": {
+      "bytes": 8969,
+      "sha256": "e2ba9837fb49678e452d814c1a4d535a63fe4ab8fb982278af964982e7d0c198"
+    },
+    "gates.py": {
+      "bytes": 6644,
+      "sha256": "e0fb40380f019ff55b66f915e5d04e08da753d41eb69c8620020ad0ccb669ca8"
+    },
+    "recount.py": {
+      "bytes": 10208,
+      "sha256": "0cae2146b646e5c7b9511135d02a156808509b39899b04e89bb02dc47c9ede35"
+    },
+    "specs.py": {
+      "bytes": 2630,
+      "sha256": "111a7101702ddce8b4093fc98aa60335ef748b08355e8b9e5d5626016b196bd3"
+    },
+    "verified-results.json": {
+      "bytes": 549838,
+      "sha256": "9dd450dd86643b1ddacc7ed2722644aab58b4d3e886ba4daf3e03624b53c0128"
+    },
+    "verify_packet.py": {
+      "bytes": 4492,
+      "sha256": "9cf905f0709dfa0e710fe99cc9686b53e63f330b3c459eb5ad2678491832f19c"
+    }
+  },
+  "sourceCommit": "65c6b76179b9b5067128e69a489ba7debb949230",
+  "controlCommit": "37e9054591bd9c54ec3b3d144ae11d3122e049c0",
+  "scope": "Complete original native dataset journal,raw artifact hash bindings,independent completion,registered decisions and gate/log/compiler/timing recounts. Full raw/source/runtime contents require full local verification. Synthetic evidence only; failed calibration/gates stay failed. No human-quality claim or current-main certification."
+}
