@@ -1,0 +1,12 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createGenerator,createSeededRng,englishConfig} from '/private/tmp/q14a-completion-isolated-u-v1/src/index.ts';
+const splitVowels=JSON.parse(readFileSync('/private/tmp/q14a-completion-joint-neighbor-evidence-v2/measured-configuration.json','utf8'));
+const generator=createGenerator({...englishConfig,splitVowels});
+const seeded=createSeededRng(1498885173);let calls=0;
+const rand=()=>{calls++;return seeded();};
+for(let i=0;i<5738;i++)generator.generateWord({mode:'lexicon',morphology:false,trace:false,rand});
+const start=calls;const tape=[];const boundaries=[];let previous=false;
+const recorded=()=>{const stack=new Error().stack;const inPlan=stack.includes('distributePhonemes');if(inPlan&&!previous)boundaries.push(tape.length);previous=inPlan;const value=rand();tape.push({value,inPlan,stack});return value;};
+const word=generator.generateWord({mode:'lexicon',morphology:false,trace:true,rand:recorded});
+writeFileSync('/private/tmp/q14a-second-case-rng-capture.json',JSON.stringify({seed:1498885173,drawIndex:5738,start,calls,boundaries,tape,word},null,2)+'\n');
+console.log(JSON.stringify({start,calls,boundaries,selectedAttempt:word.trace.attempts,written:word.written.clean}));
