@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "incremental": false,
+    "noEmit": true
+  },
+  "include": [
+    "src/phonology/*.ts",
+    "evaluation/quality/probes/phoneme-identity*.ts"
+  ],
+  "exclude": ["node_modules", "dist", "demo"]
+}
