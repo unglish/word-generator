@@ -1,0 +1,13 @@
+{
+  "compared": 200000,
+  "replayedLedgers": 200000,
+  "coreProfilesExactlyEqual": true,
+  "streams": 20,
+  "sourcePinsPreserved": true,
+  "verificationSha256": "59b845a583084cf9609cef1acb27a194a7b447971652efe0349766a7fa98fa38",
+  "heads": {
+    "control": "bb1069bf657da3d7e210010084ab5231b2843b8a",
+    "candidate": "02f8b10652edaeb1ff957e32f482ca341969fca1"
+  },
+  "scope": "Full updated root-budget runtime corpus and separately original20kcoordinate RNG/traceoff/on supplement; no new performance or human gain."
+}

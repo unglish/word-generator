@@ -1,3 +1,4 @@
+import type { BaseSpellingTrace } from "./base-spelling.js";
 import type { Syllable, SyllableShapePlan } from "../types.js";
 import type { AcceptanceCriteria, AttemptScore } from "./length-semantics.js";
 import type { MorphologyRealizationTrace } from "./morphology/realization.js";
@@ -255,6 +256,8 @@ export interface OrthographyUnitTrace {
 }
 
 export interface OrthographyTrace {
+  /** Legacy edit-distance ownership, not certified sound-to-letter alignment. */
+  alignment?: "inferred";
   /** Final written form after all orthographic repair stages. */
   surface: string;
   /** Per-character ownership in the final written form. */
@@ -266,6 +269,8 @@ export interface OrthographyTrace {
 }
 
 export interface WordTrace {
+  /** Exact base edit provenance, separate from legacy inferred ownership. */
+  baseSpelling?: BaseSpellingTrace;
   /** Weight input and decisions before root nucleus repair/reduction. Absent in historical traces. */
   stressWeight?: StressWeightTrace;
   /** Target syllable count chosen for the root, excluding affixes. */
@@ -298,6 +303,7 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 }
 
 export class TraceCollector {
+  baseSpelling?: BaseSpellingTrace;
   stressWeight?: StressWeightTrace;
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
@@ -350,6 +356,7 @@ export class TraceCollector {
       graphemeSelections: this.graphemeSelections,
       orthography: this.orthographyTrace,
       repairs: this.repairs,
+      baseSpelling: this.baseSpelling,
       stressWeight: this.stressWeight,
       summary: {
         totalDecisions: this.graphemeSelections.length,

@@ -1,0 +1,14 @@
+{
+  "original-sources.json.gz": {
+    "sha256": "d1f3a0c78f2f158f297f2903c11dc1b13a0a7dd7a94278732a4fb4b64400f925",
+    "uncompressedSha256": "e5d88db97e1d3fde1f13c64fb1c41959f304ede282cf8ce8d639ffe478ded64f",
+    "sourceDigest": "9167a8ca0387526c9c546c255f601f15aa28867d51d1b4c012afa803e50b3412",
+    "files": 45
+  },
+  "candidate-sources.json.gz": {
+    "sha256": "eaa950ca2bab288a494acc6c616dd8ee542faa89de423831c8fcf72a77f553eb",
+    "uncompressedSha256": "8be6581c1aaf74901d6fc0b9e8465b28980ee9dd5f8697b3b698526c4b48a7a4",
+    "sourceDigest": "cb34edaa3e93a50d8af56cdf047ef20ef7d96eda54a639b8e00d0069936fc275",
+    "files": 46
+  }
+}

@@ -105,6 +105,8 @@ export default {
   graphemes,
 };
 
+export type { BaseSpellingTrace, SpellingPhone, SpellingUnit, SpellingCell, SpellingCellOrigin, SpellingEdit } from "./core/base-spelling.js";
+
 export {
   PHONEME_IDENTITY_CONTRACT, LEGACY_ENGLISH_IDENTITIES, observeWordIdentity,
   projectLegacyArpabet, projectIdentityStress, observeCmuToken,
