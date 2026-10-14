@@ -1,0 +1,2795 @@
+{
+  "schemaVersion": 1,
+  "id": "base-spelling-control-verification",
+  "result": "pass",
+  "createdAt": "2026-10-05T02:30:06.868Z",
+  "description": "Regenerated ledger control from the parity-checked implementation; historical original archives remain unmodified.",
+  "original": {
+    "directory": "/private/tmp/q02a-current-full-integration-v1/control",
+    "id": "q02a-current-cumulative-control",
+    "manifestSha256": "d80d6461638f7aa29802b94bb259d090c84bed61091a4f290c19d4e46997155f"
+  },
+  "control": {
+    "directory": "/private/tmp/q02a-current-full-integration-v1/candidate",
+    "id": "base-spelling-control",
+    "commit": "67499a86e302f46dea95d220d412fdd267d6cf0b",
+    "sourceDigest": "9262818a646cccfb7fd29410895ccc15b1285eee8c7029885c1fa2274645d8a1",
+    "manifestSha256": "8aba75f911ebe715d7bc77fd5e5ac1019b0b806275c3ed3ee2ab276ed69d3627"
+  },
+  "scriptSha256": "c1bf412a79531d4ea3edc9f2b301a4ede50034331d83cfaebf8f014d820edb8e",
+  "node": "v24.11.1",
+  "compared": 200000,
+  "replayedLedgers": 200000,
+  "coreProfilesExactlyEqual": true,
+  "strippedFields": [
+    "word.trace.baseSpelling",
+    "word.trace.orthography.alignment"
+  ],
+  "streams": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "words": 10000,
+      "commonLegacyDrawHash": "5cfbca50d292344d4ac733f4bc9d8629aa581ee026233ef21ef20e3c86d64493"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "words": 10000,
+      "commonLegacyDrawHash": "3154da18990a7aa52186012a482fc8f48e2ffbd5a092464f3f25e5c3b85993fd"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "words": 10000,
+      "commonLegacyDrawHash": "22c21bc659c888aa4b0bae6f0ef3c3b833a7d8067d2f0d2e12ed9757e496bcce"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "words": 10000,
+      "commonLegacyDrawHash": "7876a5eaef8a748167f1e38c3e7fcb47340474aec32a1bf7613b19d55e6cafea"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "words": 10000,
+      "commonLegacyDrawHash": "addadafeefe0d0ab03abd9880b60f01b7e771453c953af38e1a2eaff3f90cec9"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "words": 10000,
+      "commonLegacyDrawHash": "81f3509f744e5f5d04ea091a74a4c97aff873bb8e1476f2f6d3424020e7615b2"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "words": 10000,
+      "commonLegacyDrawHash": "3352956a843b2e3252a72864bb8896a5e0f55010f210c6cfed81c258d82b1854"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "words": 10000,
+      "commonLegacyDrawHash": "a32d5622480433d5c471f07ddb245315b5d732cc2b29989be596b900d32d9272"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "words": 10000,
+      "commonLegacyDrawHash": "3ff096b6dafdbe5f69abd9412d82a79e07ad6af8516334a8a307f0796c11bc1e"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "words": 10000,
+      "commonLegacyDrawHash": "287a5769516cd80e3f07129994d5cff80707cbb2fb7a5d54f3956fbfcbf51495"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "words": 10000,
+      "commonLegacyDrawHash": "ff7898692c9d024ddc4018b908d3adefadbe1910197f20f4d5c9c260deb7bce6"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "words": 10000,
+      "commonLegacyDrawHash": "dc225fef0e3e0d1490021943687a624936dbc1426ddc5a0e74dbaf3c2e8d0260"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "words": 10000,
+      "commonLegacyDrawHash": "dd1478e5c2f97875769f705107d3101a2915c7ee252c755dddb4873d89931969"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "words": 10000,
+      "commonLegacyDrawHash": "3a0414d0786f2c36453d427d947f99b9a52f0e91bddc0804477001d6c234b003"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "words": 10000,
+      "commonLegacyDrawHash": "edad0e1b3ab1b529d5d251904051c515a528f1616a43beb0c9a036efc798edc3"
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "words": 10000,
+      "commonLegacyDrawHash": "4254b343b254e9a2e8cb8e6eb1f5a58daf70432ff2837c30c81808fe7fafbc7d"
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "words": 10000,
+      "commonLegacyDrawHash": "beaf63f85c9683e390d39ed354404054d12cbd098a237c39a1711c4998bb5f78"
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "words": 10000,
+      "commonLegacyDrawHash": "41c679ec3fd66d0805b1307a4fa55ffbeae5574ca1d41dedbbf3f80cc0487563"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "words": 10000,
+      "commonLegacyDrawHash": "143153c42b934bb08fe7337b1fa0ed7f6d8cea16f60dc2da871fc0ae601dd242"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "words": 10000,
+      "commonLegacyDrawHash": "82357d8584c340d784d56c9e77167577ea7b0bdcec66baa85fbbb782133030ec"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "lexicon-default",
+      "statistics": {
+        "words": 50000,
+        "phones": 241529,
+        "units": 241529,
+        "unitsWithoutSourceCells": 0,
+        "partialDirectUnits": 1460,
+        "noSurvivingLineageUnits": 803,
+        "partialThUnits": 28,
+        "partialThSourceEditRules": {
+          "repairFinalConsonantLetters": 7,
+          "repairConsonantLetters": 11,
+          "deduplicateSyllableJoin": 10
+        },
+        "noLineageLastConsumptionRules": {
+          "deduplicateSyllableJoin": 159,
+          "deduplicateAdjacentLetters": 543,
+          "repairConsonantPileups": 5,
+          "repairFinalConsonantLetters": 90,
+          "repairConsonantLetters": 3,
+          "postJoinVowelCap": 3
+        },
+        "selectedThUnits": 832,
+        "directCells": 266877,
+        "unresolvedCells": 16150,
+        "wordsWithUnresolvedCells": 9050,
+        "capWords": 587,
+        "capEvents": 602,
+        "capInputCells": 602,
+        "capUnknownInputCells": 7,
+        "observedNonpositiveChoices": 1964,
+        "unavailableSelectedWeights": 0,
+        "editRules": {
+          "spellingRule:eng-to-ing": 527,
+          "spellingRule:magic-e": 1668,
+          "deduplicateSyllableJoin": 364,
+          "silentE:swap": 1934,
+          "silentE:marker": 4375,
+          "spellingRule:no-final-i": 1474,
+          "spellingRule:ew-cluster-simplify": 123,
+          "deduplicateAdjacentLetters": 552,
+          "spellingRule:ow-cluster-simplify": 193,
+          "postJoinVowelCap": 107,
+          "repairConsonantPileups": 6,
+          "repairFinalConsonantLetters": 223,
+          "silentE:append": 138,
+          "orthographicRepair:hard-g-silent-u": 241,
+          "spellingRule:cw-to-qu": 202,
+          "spellingRule:nc-to-nk": 93,
+          "spellingRule:ckt-to-ct": 28,
+          "repairVowelLetters": 244,
+          "repairConsonantLetters": 22,
+          "spellingRule:ks-to-x": 36,
+          "spellingRule:gz-to-x": 59,
+          "spellingRule:cx-to-x": 23,
+          "spellingRule:sibilant-s-epenthesis": 31,
+          "spellingRule:iw-to-w": 13,
+          "spellingRule:iy-to-y": 9,
+          "gapSpelling:what": 1,
+          "gapSpelling:when": 1,
+          "spellingRule:no-final-v": 7
+        },
+        "capRules": {
+          "postJoinVowelCap": 107,
+          "repairConsonantPileups": 6,
+          "repairFinalConsonantLetters": 223,
+          "repairVowelLetters": 244,
+          "repairConsonantLetters": 22
+        }
+      },
+      "witnesses": {
+        "noSurvivingLineage": [
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 22,
+            "word": "alleroshal",
+            "base": "allerosh",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "r",
+                "afterDoubling": "r",
+                "sourceCellIds": [
+                  5
+                ]
+              },
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 2,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "r"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 103,
+            "word": "azeqealy",
+            "base": "azeqealy",
+            "detail": {
+              "unit": {
+                "id": 2,
+                "choiceId": 2,
+                "phoneIds": [
+                  2
+                ],
+                "selected": "e",
+                "afterDoubling": "e",
+                "sourceCellIds": [
+                  3
+                ]
+              },
+              "phone": {
+                "id": 2,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "nucleus",
+                "segmentIndex": 0,
+                "soundAtSpelling": "ɛ"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 116,
+            "word": "cuchur",
+            "base": "cuchur",
+            "detail": {
+              "unit": {
+                "id": 4,
+                "choiceId": 4,
+                "phoneIds": [
+                  4
+                ],
+                "selected": "r",
+                "afterDoubling": "r",
+                "sourceCellIds": [
+                  6
+                ]
+              },
+              "phone": {
+                "id": 4,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "r"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 185,
+            "word": "hazeter",
+            "base": "hazeter",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "r",
+                "afterDoubling": "r",
+                "sourceCellIds": [
+                  7
+                ]
+              },
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "r"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 202,
+            "word": "etorned",
+            "base": "etorn",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "r",
+                "afterDoubling": "r",
+                "sourceCellIds": [
+                  4
+                ]
+              },
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "r"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 246,
+            "word": "shrulty",
+            "base": "shrulty",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "r",
+                "afterDoubling": "r",
+                "sourceCellIds": [
+                  7
+                ]
+              },
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "onset",
+                "segmentIndex": 1,
+                "soundAtSpelling": "r"
+              }
+            }
+          }
+        ],
+        "capEdit": [
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 177,
+            "word": "ozeors",
+            "base": "ozeors",
+            "detail": {
+              "id": 1,
+              "phase": "word",
+              "rule": "postJoinVowelCap",
+              "start": 4,
+              "input": [
+                {
+                  "id": 8,
+                  "text": "u",
+                  "origin": {
+                    "kind": "rewrite",
+                    "editId": 0,
+                    "sourceUnitIds": [
+                      2
+                    ],
+                    "ownership": "unresolved"
+                  }
+                }
+              ],
+              "output": [],
+              "before": "u",
+              "after": ""
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 246,
+            "word": "shrulty",
+            "base": "shrulty",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairConsonantPileups",
+              "start": 7,
+              "input": [
+                {
+                  "id": 7,
+                  "text": "r",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 5,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "r",
+              "after": ""
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 246,
+            "word": "shrulty",
+            "base": "shrulty",
+            "detail": {
+              "id": 1,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 4,
+              "input": [
+                {
+                  "id": 4,
+                  "text": "r",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 1
+                  }
+                }
+              ],
+              "output": [],
+              "before": "r",
+              "after": ""
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 309,
+            "word": "atsyed",
+            "base": "atsy",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 1,
+              "input": [
+                {
+                  "id": 1,
+                  "text": "c",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 1,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "c",
+              "after": ""
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 459,
+            "word": "wojocttion",
+            "base": "wojoct",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 4,
+              "input": [
+                {
+                  "id": 4,
+                  "text": "r",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "output": [],
+              "before": "r",
+              "after": ""
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 532,
+            "word": "cotwyed",
+            "base": "cotwy",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 2,
+              "input": [
+                {
+                  "id": 2,
+                  "text": "r",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "r",
+              "after": ""
+            }
+          }
+        ],
+        "partialTh": [
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 1091,
+            "word": "outohcy",
+            "base": "ohcy",
+            "detail": {
+              "unit": {
+                "id": 1,
+                "choiceId": 1,
+                "phoneIds": [
+                  1
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  1,
+                  2
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 2,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 1,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 1,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "ð"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 1198,
+            "word": "yeffihlys",
+            "base": "yeffihly",
+            "detail": {
+              "unit": {
+                "id": 4,
+                "choiceId": 4,
+                "phoneIds": [
+                  4
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  5,
+                  6
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 6,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 4,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 4,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 2914,
+            "word": "cemhcrigory",
+            "base": "cemhcrige",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  3,
+                  4
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 4,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 1,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 6007,
+            "word": "gechohry",
+            "base": "gechohry",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  6,
+                  7
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 7,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 5,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 2,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 6560,
+            "word": "eathong",
+            "base": "eathong",
+            "detail": {
+              "unit": {
+                "id": 2,
+                "choiceId": 2,
+                "phoneIds": [
+                  2
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  3,
+                  4
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 4,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 2,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "ð"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-default",
+            "seed": 69212153,
+            "drawIndex": 8500,
+            "word": "canhcrert",
+            "base": "canhcrert",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  3,
+                  4
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 4,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 1,
+                "soundAtSpelling": "θ"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lexicon-bare",
+      "statistics": {
+        "words": 50000,
+        "phones": 317565,
+        "units": 317565,
+        "unitsWithoutSourceCells": 0,
+        "partialDirectUnits": 1477,
+        "noSurvivingLineageUnits": 1174,
+        "partialThUnits": 34,
+        "partialThSourceEditRules": {
+          "repairConsonantLetters": 10,
+          "deduplicateSyllableJoin": 14,
+          "repairFinalConsonantLetters": 10
+        },
+        "noLineageLastConsumptionRules": {
+          "deduplicateAdjacentLetters": 792,
+          "deduplicateSyllableJoin": 262,
+          "repairFinalConsonantLetters": 104,
+          "repairConsonantPileups": 14,
+          "postJoinVowelCap": 2
+        },
+        "selectedThUnits": 1325,
+        "directCells": 350229,
+        "unresolvedCells": 20190,
+        "wordsWithUnresolvedCells": 10358,
+        "capWords": 611,
+        "capEvents": 635,
+        "capInputCells": 635,
+        "capUnknownInputCells": 14,
+        "observedNonpositiveChoices": 3173,
+        "unavailableSelectedWeights": 0,
+        "editRules": {
+          "spellingRule:eng-to-ing": 665,
+          "silentE:marker": 5024,
+          "repairFinalConsonantLetters": 329,
+          "spellingRule:no-final-i": 813,
+          "spellingRule:magic-e": 2454,
+          "deduplicateAdjacentLetters": 797,
+          "silentE:swap": 2417,
+          "orthographicRepair:hard-g-silent-u": 404,
+          "spellingRule:cw-to-qu": 295,
+          "spellingRule:ow-cluster-simplify": 329,
+          "deduplicateSyllableJoin": 523,
+          "spellingRule:sibilant-s-epenthesis": 50,
+          "silentE:append": 154,
+          "repairVowelLetters": 83,
+          "spellingRule:nc-to-nk": 98,
+          "postJoinVowelCap": 170,
+          "spellingRule:gz-to-x": 72,
+          "repairConsonantLetters": 37,
+          "spellingRule:ks-to-x": 69,
+          "spellingRule:cx-to-x": 46,
+          "spellingRule:iw-to-w": 12,
+          "spellingRule:ew-cluster-simplify": 121,
+          "spellingRule:ckt-to-ct": 30,
+          "spellingRule:no-final-v": 6,
+          "repairConsonantPileups": 16,
+          "gapSpelling:when": 5,
+          "spellingRule:iy-to-y": 8,
+          "gapSpelling:who": 4,
+          "spellingRule:uw-to-w": 3,
+          "gapSpelling:what": 2
+        },
+        "capRules": {
+          "repairFinalConsonantLetters": 329,
+          "repairVowelLetters": 83,
+          "postJoinVowelCap": 170,
+          "repairConsonantLetters": 37,
+          "repairConsonantPileups": 16
+        }
+      },
+      "witnesses": {
+        "capEdit": [
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 12,
+            "word": "tocihts",
+            "base": "tocihts",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 4,
+              "input": [
+                {
+                  "id": 4,
+                  "text": "g",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "output": [],
+              "before": "g",
+              "after": ""
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 266,
+            "word": "ycenoths",
+            "base": "ycenoths",
+            "detail": {
+              "id": 1,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 5,
+              "input": [
+                {
+                  "id": 8,
+                  "text": "f",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 5,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "f",
+              "after": ""
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 355,
+            "word": "mau",
+            "base": "mau",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairVowelLetters",
+              "start": 3,
+              "input": [
+                {
+                  "id": 3,
+                  "text": "e",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 1,
+                    "offset": 2
+                  }
+                }
+              ],
+              "output": [],
+              "before": "e",
+              "after": ""
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 385,
+            "word": "razeices",
+            "base": "razeices",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "postJoinVowelCap",
+              "start": 5,
+              "input": [
+                {
+                  "id": 5,
+                  "text": "e",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "output": [],
+              "before": "e",
+              "after": ""
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 398,
+            "word": "biceind",
+            "base": "biceind",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "postJoinVowelCap",
+              "start": 5,
+              "input": [
+                {
+                  "id": 5,
+                  "text": "e",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "output": [],
+              "before": "e",
+              "after": ""
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 600,
+            "word": "eckasky",
+            "base": "eckasky",
+            "detail": {
+              "id": 1,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 4,
+              "input": [
+                {
+                  "id": 4,
+                  "text": "n",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "n",
+              "after": ""
+            }
+          }
+        ],
+        "noSurvivingLineage": [
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 20,
+            "word": "sangs",
+            "base": "sangs",
+            "detail": {
+              "unit": {
+                "id": 4,
+                "choiceId": 4,
+                "phoneIds": [
+                  4
+                ],
+                "selected": "s",
+                "afterDoubling": "s",
+                "sourceCellIds": [
+                  5
+                ]
+              },
+              "phone": {
+                "id": 4,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 2,
+                "soundAtSpelling": "s"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 86,
+            "word": "icagamanibicese",
+            "base": "icagamanibicese",
+            "detail": {
+              "unit": {
+                "id": 12,
+                "choiceId": 12,
+                "phoneIds": [
+                  12
+                ],
+                "selected": "c",
+                "afterDoubling": "c",
+                "sourceCellIds": [
+                  12
+                ]
+              },
+              "phone": {
+                "id": 12,
+                "part": "root",
+                "syllableIndex": 6,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "s"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 110,
+            "word": "vitemats",
+            "base": "vitemats",
+            "detail": {
+              "unit": {
+                "id": 7,
+                "choiceId": 7,
+                "phoneIds": [
+                  7
+                ],
+                "selected": "s",
+                "afterDoubling": "s",
+                "sourceCellIds": [
+                  11
+                ]
+              },
+              "phone": {
+                "id": 7,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "coda",
+                "segmentIndex": 2,
+                "soundAtSpelling": "s"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 159,
+            "word": "ankipwazor",
+            "base": "ankipwazor",
+            "detail": {
+              "unit": {
+                "id": 9,
+                "choiceId": 9,
+                "phoneIds": [
+                  9
+                ],
+                "selected": "r",
+                "afterDoubling": "r",
+                "sourceCellIds": [
+                  10
+                ]
+              },
+              "phone": {
+                "id": 9,
+                "part": "root",
+                "syllableIndex": 3,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "r"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 266,
+            "word": "ycenoths",
+            "base": "ycenoths",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "f",
+                "afterDoubling": "f",
+                "sourceCellIds": [
+                  8
+                ]
+              },
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "f"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 300,
+            "word": "rhorcher",
+            "base": "rhorcher",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "r",
+                "afterDoubling": "r",
+                "sourceCellIds": [
+                  8
+                ]
+              },
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "r"
+              }
+            }
+          }
+        ],
+        "partialTh": [
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 678,
+            "word": "fonhtremb",
+            "base": "fonhtremb",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  3,
+                  4
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 4,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 1,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 5887,
+            "word": "dadenkannithy",
+            "base": "dadenkannithy",
+            "detail": {
+              "unit": {
+                "id": 10,
+                "choiceId": 10,
+                "phoneIds": [
+                  10
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  11,
+                  12
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 12,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 10,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 10,
+                "part": "root",
+                "syllableIndex": 4,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "ð"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 7308,
+            "word": "dumhtrintrur",
+            "base": "dumhtrintrur",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  3,
+                  4
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 4,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 1,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 8458,
+            "word": "spanhcreac",
+            "base": "spanhcreac",
+            "detail": {
+              "unit": {
+                "id": 4,
+                "choiceId": 4,
+                "phoneIds": [
+                  4
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  4,
+                  5
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 5,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 4,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 4,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 1,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 2380207674,
+            "drawIndex": 9612,
+            "word": "coithene",
+            "base": "coithene",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  4,
+                  5
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 5,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "lexicon-bare",
+            "seed": 772709128,
+            "drawIndex": 461,
+            "word": "athiror",
+            "base": "athiror",
+            "detail": {
+              "unit": {
+                "id": 2,
+                "choiceId": 2,
+                "phoneIds": [
+                  2
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  2,
+                  3
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 3,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 2,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "ð"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "monosyllables-bare",
+      "statistics": {
+        "words": 50000,
+        "phones": 263913,
+        "units": 263913,
+        "unitsWithoutSourceCells": 0,
+        "partialDirectUnits": 885,
+        "noSurvivingLineageUnits": 6939,
+        "partialThUnits": 78,
+        "partialThSourceEditRules": {
+          "repairConsonantLetters": 78
+        },
+        "noLineageLastConsumptionRules": {
+          "deduplicateAdjacentLetters": 5479,
+          "repairFinalConsonantLetters": 1451,
+          "repairConsonantPileups": 4,
+          "repairConsonantLetters": 5
+        },
+        "selectedThUnits": 1040,
+        "directCells": 255339,
+        "unresolvedCells": 15351,
+        "wordsWithUnresolvedCells": 8498,
+        "capWords": 2029,
+        "capEvents": 2174,
+        "capInputCells": 2174,
+        "capUnknownInputCells": 5,
+        "observedNonpositiveChoices": 0,
+        "unavailableSelectedWeights": 0,
+        "editRules": {
+          "deduplicateAdjacentLetters": 5498,
+          "spellingRule:ew-cluster-simplify": 721,
+          "silentE:marker": 2784,
+          "repairFinalConsonantLetters": 1735,
+          "spellingRule:cw-to-qu": 1918,
+          "silentE:swap": 841,
+          "spellingRule:nc-to-nk": 2427,
+          "repairConsonantLetters": 122,
+          "spellingRule:sibilant-s-epenthesis": 126,
+          "spellingRule:ow-cluster-simplify": 100,
+          "spellingRule:no-final-i": 182,
+          "spellingRule:eng-to-ing": 359,
+          "silentE:append": 77,
+          "spellingRule:ks-to-x": 516,
+          "spellingRule:magic-e": 81,
+          "repairVowelLetters": 223,
+          "postJoinVowelCap": 90,
+          "gapSpelling:who": 2,
+          "spellingRule:no-final-v": 4,
+          "gapSpelling:when": 5,
+          "repairConsonantPileups": 4,
+          "gapSpelling:you": 1
+        },
+        "capRules": {
+          "repairFinalConsonantLetters": 1735,
+          "repairConsonantLetters": 122,
+          "repairVowelLetters": 223,
+          "postJoinVowelCap": 90,
+          "repairConsonantPileups": 4
+        }
+      },
+      "witnesses": {
+        "noSurvivingLineage": [
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 2,
+            "word": "snants",
+            "base": "snants",
+            "detail": {
+              "unit": {
+                "id": 6,
+                "choiceId": 6,
+                "phoneIds": [
+                  6
+                ],
+                "selected": "s",
+                "afterDoubling": "s",
+                "sourceCellIds": [
+                  6
+                ]
+              },
+              "phone": {
+                "id": 6,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 3,
+                "soundAtSpelling": "s"
+              }
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 5,
+            "word": "swals",
+            "base": "swals",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "s",
+                "afterDoubling": "s",
+                "sourceCellIds": [
+                  5
+                ]
+              },
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 2,
+                "soundAtSpelling": "s"
+              }
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 6,
+            "word": "rants",
+            "base": "rants",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "s",
+                "afterDoubling": "s",
+                "sourceCellIds": [
+                  5
+                ]
+              },
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 3,
+                "soundAtSpelling": "s"
+              }
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 7,
+            "word": "hints",
+            "base": "hints",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "s",
+                "afterDoubling": "s",
+                "sourceCellIds": [
+                  5
+                ]
+              },
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 3,
+                "soundAtSpelling": "s"
+              }
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 19,
+            "word": "striths",
+            "base": "striths",
+            "detail": {
+              "unit": {
+                "id": 4,
+                "choiceId": 4,
+                "phoneIds": [
+                  4
+                ],
+                "selected": "m",
+                "afterDoubling": "m",
+                "sourceCellIds": [
+                  4
+                ]
+              },
+              "phone": {
+                "id": 4,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "m"
+              }
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 26,
+            "word": "bleacts",
+            "base": "bleacts",
+            "detail": {
+              "unit": {
+                "id": 6,
+                "choiceId": 6,
+                "phoneIds": [
+                  6
+                ],
+                "selected": "s",
+                "afterDoubling": "s",
+                "sourceCellIds": [
+                  7
+                ]
+              },
+              "phone": {
+                "id": 6,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 3,
+                "soundAtSpelling": "s"
+              }
+            }
+          }
+        ],
+        "capEdit": [
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 19,
+            "word": "striths",
+            "base": "striths",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 4,
+              "input": [
+                {
+                  "id": 4,
+                  "text": "m",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 4,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "m",
+              "after": ""
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 60,
+            "word": "triches",
+            "base": "triches",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairConsonantLetters",
+              "start": 5,
+              "input": [
+                {
+                  "id": 5,
+                  "text": "t",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 5,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "t",
+              "after": ""
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 60,
+            "word": "triches",
+            "base": "triches",
+            "detail": {
+              "id": 1,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 3,
+              "input": [
+                {
+                  "id": 3,
+                  "text": "n",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "n",
+              "after": ""
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 76,
+            "word": "swacht",
+            "base": "swacht",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 3,
+              "input": [
+                {
+                  "id": 3,
+                  "text": "n",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "n",
+              "after": ""
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 172,
+            "word": "snicht",
+            "base": "snicht",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 3,
+              "input": [
+                {
+                  "id": 3,
+                  "text": "n",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "n",
+              "after": ""
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 271,
+            "word": "swicht",
+            "base": "swicht",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 3,
+              "input": [
+                {
+                  "id": 3,
+                  "text": "n",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "n",
+              "after": ""
+            }
+          }
+        ],
+        "partialTh": [
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 660,
+            "word": "cighs",
+            "base": "cighs",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  4,
+                  5
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 5,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 1,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 762,
+            "word": "frufhs",
+            "base": "frufhs",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  6,
+                  7
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 7,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 5,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 2,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 1245,
+            "word": "stroghs",
+            "base": "stroghs",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  6,
+                  7
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 7,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 5,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 1,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 1418,
+            "word": "trofhs",
+            "base": "trofhs",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  5,
+                  6
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 6,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 5,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 2,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 3092,
+            "word": "frofhs",
+            "base": "frofhs",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  5,
+                  6
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 6,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 5,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 2,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "monosyllables-bare",
+            "seed": 462530651,
+            "drawIndex": 3355,
+            "word": "sproghs",
+            "base": "sproghs",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  6,
+                  7
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 7,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 5,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 1,
+                "soundAtSpelling": "θ"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "text-default",
+      "statistics": {
+        "words": 50000,
+        "phones": 187254,
+        "units": 187254,
+        "unitsWithoutSourceCells": 0,
+        "partialDirectUnits": 1619,
+        "noSurvivingLineageUnits": 507,
+        "partialThUnits": 6,
+        "partialThSourceEditRules": {
+          "repairConsonantLetters": 1,
+          "deduplicateSyllableJoin": 4,
+          "repairFinalConsonantLetters": 1
+        },
+        "noLineageLastConsumptionRules": {
+          "deduplicateAdjacentLetters": 340,
+          "repairFinalConsonantLetters": 88,
+          "deduplicateSyllableJoin": 74,
+          "repairConsonantPileups": 5
+        },
+        "selectedThUnits": 740,
+        "directCells": 209394,
+        "unresolvedCells": 13867,
+        "wordsWithUnresolvedCells": 8496,
+        "capWords": 734,
+        "capEvents": 743,
+        "capInputCells": 743,
+        "capUnknownInputCells": 7,
+        "observedNonpositiveChoices": 855,
+        "unavailableSelectedWeights": 0,
+        "editRules": {
+          "spellingRule:eng-to-ing": 485,
+          "silentE:append": 152,
+          "silentE:swap": 1683,
+          "silentE:marker": 4459,
+          "spellingRule:ew-cluster-simplify": 200,
+          "spellingRule:no-final-i": 1574,
+          "spellingRule:magic-e": 921,
+          "deduplicateAdjacentLetters": 341,
+          "spellingRule:cw-to-qu": 271,
+          "repairFinalConsonantLetters": 185,
+          "spellingRule:sibilant-s-epenthesis": 42,
+          "orthographicRepair:hard-g-silent-u": 76,
+          "postJoinVowelCap": 49,
+          "deduplicateSyllableJoin": 153,
+          "repairVowelLetters": 496,
+          "repairConsonantLetters": 8,
+          "spellingRule:nc-to-nk": 213,
+          "spellingRule:ow-cluster-simplify": 123,
+          "spellingRule:gz-to-x": 20,
+          "gapSpelling:who": 4,
+          "spellingRule:no-final-v": 10,
+          "spellingRule:iy-to-y": 2,
+          "repairConsonantPileups": 5,
+          "gapSpelling:when": 7,
+          "spellingRule:iw-to-w": 6,
+          "spellingRule:ckt-to-ct": 9,
+          "gapSpelling:you": 1,
+          "spellingRule:ks-to-x": 16,
+          "spellingRule:cx-to-x": 5,
+          "gapSpelling:what": 2,
+          "gapSpelling:would": 1
+        },
+        "capRules": {
+          "repairFinalConsonantLetters": 185,
+          "postJoinVowelCap": 49,
+          "repairVowelLetters": 496,
+          "repairConsonantLetters": 8,
+          "repairConsonantPileups": 5
+        }
+      },
+      "witnesses": {
+        "noSurvivingLineage": [
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 93,
+            "word": "urtion",
+            "base": "ur",
+            "detail": {
+              "unit": {
+                "id": 1,
+                "choiceId": 1,
+                "phoneIds": [
+                  1
+                ],
+                "selected": "r",
+                "afterDoubling": "r",
+                "sourceCellIds": [
+                  2
+                ]
+              },
+              "phone": {
+                "id": 1,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "r"
+              }
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 153,
+            "word": "unslings",
+            "base": "slings",
+            "detail": {
+              "unit": {
+                "id": 5,
+                "choiceId": 5,
+                "phoneIds": [
+                  5
+                ],
+                "selected": "s",
+                "afterDoubling": "s",
+                "sourceCellIds": [
+                  6
+                ]
+              },
+              "phone": {
+                "id": 5,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 2,
+                "soundAtSpelling": "s"
+              }
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 175,
+            "word": "hos",
+            "base": "hos",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "s",
+                "afterDoubling": "s",
+                "sourceCellIds": [
+                  3
+                ]
+              },
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 1,
+                "soundAtSpelling": "s"
+              }
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 193,
+            "word": "fannigar",
+            "base": "fannigar",
+            "detail": {
+              "unit": {
+                "id": 6,
+                "choiceId": 6,
+                "phoneIds": [
+                  6
+                ],
+                "selected": "r",
+                "afterDoubling": "r",
+                "sourceCellIds": [
+                  8
+                ]
+              },
+              "phone": {
+                "id": 6,
+                "part": "root",
+                "syllableIndex": 2,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "r"
+              }
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 194,
+            "word": "riches",
+            "base": "riches",
+            "detail": {
+              "unit": {
+                "id": 2,
+                "choiceId": 2,
+                "phoneIds": [
+                  2
+                ],
+                "selected": "n",
+                "afterDoubling": "n",
+                "sourceCellIds": [
+                  2
+                ]
+              },
+              "phone": {
+                "id": 2,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "n"
+              }
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 236,
+            "word": "jams",
+            "base": "jams",
+            "detail": {
+              "unit": {
+                "id": 4,
+                "choiceId": 4,
+                "phoneIds": [
+                  4
+                ],
+                "selected": "s",
+                "afterDoubling": "s",
+                "sourceCellIds": [
+                  4
+                ]
+              },
+              "phone": {
+                "id": 4,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 2,
+                "soundAtSpelling": "s"
+              }
+            }
+          }
+        ],
+        "capEdit": [
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 194,
+            "word": "riches",
+            "base": "riches",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 2,
+              "input": [
+                {
+                  "id": 2,
+                  "text": "n",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "n",
+              "after": ""
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 233,
+            "word": "aguents",
+            "base": "aguent",
+            "detail": {
+              "id": 1,
+              "phase": "word",
+              "rule": "postJoinVowelCap",
+              "start": 4,
+              "input": [
+                {
+                  "id": 3,
+                  "text": "a",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 1
+                  }
+                }
+              ],
+              "output": [],
+              "before": "a",
+              "after": ""
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 288,
+            "word": "overaus",
+            "base": "au",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairVowelLetters",
+              "start": 2,
+              "input": [
+                {
+                  "id": 2,
+                  "text": "e",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 0,
+                    "offset": 2
+                  }
+                }
+              ],
+              "output": [],
+              "before": "e",
+              "after": ""
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 329,
+            "word": "resarhclibmepers",
+            "base": "resarhclibmeper",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairConsonantLetters",
+              "start": 5,
+              "input": [
+                {
+                  "id": 5,
+                  "text": "c",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 5,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "c",
+              "after": ""
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 349,
+            "word": "eghs",
+            "base": "eghs",
+            "detail": {
+              "id": 0,
+              "phase": "word",
+              "rule": "repairConsonantLetters",
+              "start": 3,
+              "input": [
+                {
+                  "id": 3,
+                  "text": "t",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "t",
+              "after": ""
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 349,
+            "word": "eghs",
+            "base": "eghs",
+            "detail": {
+              "id": 1,
+              "phase": "word",
+              "rule": "repairFinalConsonantLetters",
+              "start": 1,
+              "input": [
+                {
+                  "id": 1,
+                  "text": "n",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 1,
+                    "offset": 0
+                  }
+                }
+              ],
+              "output": [],
+              "before": "n",
+              "after": ""
+            }
+          }
+        ],
+        "partialTh": [
+          {
+            "profile": "text-default",
+            "seed": 4167471042,
+            "drawIndex": 349,
+            "word": "eghs",
+            "base": "eghs",
+            "detail": {
+              "unit": {
+                "id": 2,
+                "choiceId": 2,
+                "phoneIds": [
+                  2
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  3,
+                  4
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 4,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 2,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 1,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 2666001996,
+            "drawIndex": 1883,
+            "word": "otuthallorpmab",
+            "base": "otuthallorpmab",
+            "detail": {
+              "unit": {
+                "id": 4,
+                "choiceId": 4,
+                "phoneIds": [
+                  4
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  4,
+                  5
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 5,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 4,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 4,
+                "part": "root",
+                "syllableIndex": 2,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 2666001996,
+            "drawIndex": 3068,
+            "word": "utheal",
+            "base": "utheal",
+            "detail": {
+              "unit": {
+                "id": 2,
+                "choiceId": 2,
+                "phoneIds": [
+                  2
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  2,
+                  3
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 3,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 2,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "ð"
+              }
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 3562318933,
+            "drawIndex": 294,
+            "word": "rathoond",
+            "base": "rathoond",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  3,
+                  4
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 4,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "θ"
+              }
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 3562318933,
+            "drawIndex": 4564,
+            "word": "nathyery",
+            "base": "nathy",
+            "detail": {
+              "unit": {
+                "id": 3,
+                "choiceId": 3,
+                "phoneIds": [
+                  3
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  3,
+                  4
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 4,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 3,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 3,
+                "part": "root",
+                "syllableIndex": 1,
+                "segment": "onset",
+                "segmentIndex": 0,
+                "soundAtSpelling": "ð"
+              }
+            }
+          },
+          {
+            "profile": "text-default",
+            "seed": 1999736106,
+            "drawIndex": 4393,
+            "word": "jehnys",
+            "base": "jehny",
+            "detail": {
+              "unit": {
+                "id": 2,
+                "choiceId": 2,
+                "phoneIds": [
+                  2
+                ],
+                "selected": "th",
+                "afterDoubling": "th",
+                "sourceCellIds": [
+                  2,
+                  3
+                ]
+              },
+              "remaining": [
+                {
+                  "id": 3,
+                  "text": "h",
+                  "origin": {
+                    "kind": "selection",
+                    "unitId": 2,
+                    "offset": 1
+                  }
+                }
+              ],
+              "phone": {
+                "id": 2,
+                "part": "root",
+                "syllableIndex": 0,
+                "segment": "coda",
+                "segmentIndex": 0,
+                "soundAtSpelling": "θ"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

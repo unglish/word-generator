@@ -72,6 +72,12 @@ export function createGapSpellingApplicator(
     if (!selected) return;
 
     const before = context.word.written.clean;
+    if (context.baseSpelling) {
+      context.baseSpelling.assertSurface(before);
+      context.baseSpelling.markGapSpelling();
+      context.baseSpelling.edit(0, before.length, selected.replacement, `gapSpelling:${selected.name}`);
+      if (context.trace) context.trace.baseSpelling = context.baseSpelling.snapshot();
+    }
     context.word.written.clean = selected.replacement;
     context.word.written.hyphenated = selected.hyphenated;
     context.trace?.recordRepair(

@@ -1,0 +1,13 @@
+{
+  "compared": 200000,
+  "replayedLedgers": 200000,
+  "coreProfilesExactlyEqual": true,
+  "streams": 20,
+  "sourcePinsPreserved": true,
+  "verificationSha256": "0b632c81ccf1573d2a3cc6c20767091428803c4c022f0f5c9e7a031cfc607213",
+  "heads": {
+    "control": "cd96f54f72038efb48e37c2003c4f700f9076671",
+    "candidate": "67499a86e302f46dea95d220d412fdd267d6cf0b"
+  },
+  "scope": "Full current cumulative200000-word legacy archive equality and exact ledger replay. Original supplementary RNG proof remains separately scoped; no new whole-suite/performance/human claim."
+}

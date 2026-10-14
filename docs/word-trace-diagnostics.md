@@ -124,3 +124,11 @@ Recent lexicon-mode tuning work found repeatable signatures:
 
 For controlled `of`/`off`/`ofe` writer tests and a seeded root-plan-to-spelling
 probe, see [productive `of` spelling diagnostics](of-spelling-diagnostics.md).
+
+## Exact base-word edit provenance
+
+`trace.baseSpelling` records source grapheme cells and each actual base-word edit.
+Its direct selection ownership is exact; rewritten-cell ownership remains
+explicitly unresolved. The older `trace.orthography` now labels its alignment
+`inferred`. See [the contract and examples](./base-spelling-provenance.md) before
+using either representation to claim spelling/phone agreement.
