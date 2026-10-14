@@ -16,7 +16,15 @@ const { values } = parseArgs({ args, options: {
   out: { type: "string" }, run: { type: "string" },
 } });
 const required = (value: string | undefined, name: string) => { if (!value) throw new Error(`--${name} is required.`); return value; };
-const load = async <T>(path: string): Promise<T> => JSON.parse(await readFile(resolve(path), "utf8"));
+async function load<T>(path: string): Promise<T> {
+  const text = await readFile(resolve(path), "utf8");
+  try {
+    return JSON.parse(text) as T;
+  } catch (error) {
+    if (error instanceof SyntaxError) throw new Error("Input file is not valid JSON. Check its syntax and try again.");
+    throw error;
+  }
+}
 async function save(path: string, value: unknown): Promise<void> {
   await mkdir(dirname(path), { recursive: true });
   await writeFile(path, `${JSON.stringify(value)}\n`, { flag: "wx", mode: 0o600 });
