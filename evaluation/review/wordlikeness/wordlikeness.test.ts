@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 import { fixtureExport, fixtureSnapshot } from "../fixtures.js";
-import type { Snapshot } from "../model.js";
+import type { ReviewExport, Snapshot } from "../model.js";
 import { digest } from "../snapshot.js";
 import { LEGACY_RUBRIC } from "../protocol.js";
 import { buildReference, contextKey, contexts, syllabify, type SoundSyllable } from "./model.js";
@@ -97,6 +97,53 @@ describe("pure scores", () => {
 });
 
 describe("frozen artifacts and private evaluation", () => {
+  it("compares both length baselines on the candidate's identical rated subset", () => {
+    const snapshot = fixtureSnapshot("test-matched-baselines", ["a", "bim", "sproke", "longword", "unrated"], 5);
+    const timestamp = "2026-09-04T12:00:00.000Z";
+    const data: ReviewExport = {
+      schema_version: 1, exported_at: timestamp,
+      study: { id: snapshot.manifest.study_id, manifest: snapshot.manifest, digest: snapshot.digest, session_length: 5, enrollment_open: false },
+      samples: snapshot.samples,
+      sessions: [{ id: "synthetic-session", study_id: snapshot.manifest.study_id, assignments: snapshot.samples.map(sample => sample.id), created_at: timestamp, completed_at: timestamp }],
+      responses: snapshot.samples.map((sample, position) => ({
+        id: `synthetic-response-${position}`, session_id: "synthetic-session", sample_id: sample.id, position,
+        status: position === 4 ? "skipped" : "rated", rating: [1, 3, 2, 5, null][position],
+        familiar: position === 4 ? null : false, received_at: timestamp,
+      })),
+    };
+    const artifact = scoreSnapshots([snapshot], model, "test", "test");
+    // Controlled synthetic machine values isolate ranking and eligibility from scoring.
+    artifact.studies[0].rows.forEach((row, index) => {
+      row.scores.metrics.paper = [1, 3, 2, null, 100][index];
+      row.scores.metrics.syllable_count = [1, 3, 2, 4, 5][index];
+    });
+    const { digest: previousDigest, ...content } = artifact;
+    expect(previousDigest).toBeTruthy();
+    artifact.digest = digest(content);
+    const result = evaluate([data], artifact).views[0].comparisons.find(row => row.metric === "paper")!;
+    expect(result).toMatchObject({ n: 3, rated_spellings: 4, rho: 1, missing_spellings: ["longword"] });
+    expect(result.length_baselines_on_same_words.written_length).toEqual({
+      n: 3, candidate_rho: 1, shorter_is_better_rho: -0.5, delta_rho: 1.5,
+    });
+    expect(result.length_baselines_on_same_words.syllable_count).toEqual({
+      n: 3, candidate_rho: 1, shorter_is_better_rho: -1, delta_rho: 2,
+    });
+  });
+  it("propagates a missing duplicate-draw score before pairing either length baseline", () => {
+    const data = fixtureExport();
+    const artifact = scoreSnapshots([{ manifest: data.study.manifest, digest: data.study.digest, samples: data.samples }], model, "test", "test");
+    artifact.studies[0].rows.forEach((row, index) => { row.scores.metrics.paper = index === 1 ? null : 1; });
+    const { digest: previousDigest, ...content } = artifact;
+    expect(previousDigest).toBeTruthy();
+    artifact.digest = digest(content);
+    const report = evaluate([data], artifact);
+    expect(report.items.find(item => item.spelling === "blim")!.metrics.paper).toBeNull();
+    const result = report.views[0].comparisons.find(row => row.metric === "paper")!;
+    expect(result).toMatchObject({ n: 1, rated_spellings: 2, rho: null, missing_spellings: ["blim"] });
+    for (const baseline of Object.values(result.length_baselines_on_same_words)) {
+      expect(baseline).toEqual({ n: 1, candidate_rho: null, shorter_is_better_rho: null, delta_rho: null });
+    }
+  });
   it("pools both rubrics, retains their sensitivity views, and leaves comments qualitative", () => {
     const first = fixtureExport();
     const second = structuredClone(first);

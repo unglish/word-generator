@@ -13,6 +13,12 @@ export interface MorphologyPlan {
   suffix?: Affix;
 }
 
+export interface PlannedMorphologySelection {
+  plan: MorphologyPlan;
+  /** Legacy field: baseline affix syllables, never deducted from the root. */
+  syllableReduction: number;
+}
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -38,13 +44,13 @@ function pickTemplate(config: MorphologyConfig, mode: GenerationMode, rand: RNG)
 
 /**
  * Plan morphology BEFORE root generation — picks template and affixes,
- * returns the plan and the syllable count adjustment.
+ * returns the plan and baseline affix syllable metadata. Root budgets are independent.
  */
 export function planMorphology(
   config: MorphologyConfig,
   mode: GenerationMode,
   rand: RNG,
-): { plan: MorphologyPlan; syllableReduction: number } {
+): PlannedMorphologySelection {
   const template = pickTemplate(config, mode, rand);
 
   if (template === "bare") {

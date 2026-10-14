@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "generatorBase": "8e9ceb2",
+  "generatorBehaviorChanged": false,
+  "sampling": "continuous-seeded-stream-v1",
+  "reports": [
+    {
+      "file": "phonemes.json.gz",
+      "sha256": "ec305b57d3626799d41fe3a79d1557a044a985b70860ede26ad0643371770db6",
+      "bytes": 43948,
+      "config": {
+        "sampling": "continuous-seeded-stream-v1",
+        "seeds": [
+          42,
+          123,
+          456,
+          789,
+          1337
+        ],
+        "countPerSeed": 20000,
+        "totalWords": 100000,
+        "mode": "lexicon",
+        "morphology": false,
+        "minCommonBaselinePct": 0.5,
+        "generatedOnlyEscalationThresholdPct": 1.5
+      },
+      "metrics": {
+        "unionKeyCount": 39,
+        "unionPearsonR": 0.9986475108790569,
+        "jensenShannonBits": 0.00017816869995158414,
+        "missingReferenceMassPct": 0,
+        "nonReferenceMassPct": 0,
+        "sharedKeyCount": 39,
+        "generatedOnlyKeyCount": 0,
+        "cmuOnlyKeyCount": 0,
+        "sharedPearsonR": 0.9986475108790565,
+        "nonCmuMassPct": 0,
+        "coverageAdjustedR": 0.9986475108790565
+      },
+      "witnessCount": 33,
+      "normalizationLosses": {}
+    },
+    {
+      "file": "trigrams.json.gz",
+      "sha256": "0ac59ab99ba6997909a0312d7e1052bb7737b5663c0c98dd8f420f129dfbc4ef",
+      "bytes": 109811,
+      "config": {
+        "sampling": "continuous-seeded-stream-v1",
+        "seeds": [
+          42,
+          123,
+          456,
+          789,
+          1337
+        ],
+        "countPerSeed": 20000,
+        "totalWords": 100000,
+        "mode": "lexicon",
+        "morphology": false,
+        "minOverrepBaselineFreq": 0.001,
+        "minUnderrepBaselineFreq": 0.0005,
+        "outputBasename": "linguistic-diagnostics-trigrams"
+      },
+      "metrics": {
+        "unionKeyCount": 9237,
+        "unionPearsonR": 0.6675640711890919,
+        "jensenShannonBits": 0.18271548797148834,
+        "missingReferenceMassPct": 4.248633169675967,
+        "nonReferenceMassPct": 1.2491389547049032,
+        "sharedKeyCount": 5910,
+        "pearsonR": 0.6444364550745244
+      },
+      "witnessCount": 66
+    }
+  ],
+  "originalOutputReplay": {
+    "baselineManifestDigest": "a23414ae34d3611c4367d07ad677afb99e7d89a4be7886e6ed95018c2ff3f3da",
+    "unfilteredReviewDraws": 800,
+    "serializedWordAndTraceMatches": 800
+  }
+}

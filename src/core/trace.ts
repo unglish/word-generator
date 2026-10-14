@@ -1,4 +1,32 @@
-import type { Syllable } from "../types.js";
+import type { BaseSpellingTrace } from "./base-spelling.js";
+import type { Syllable, SyllableShapePlan } from "../types.js";
+import type { AcceptanceCriteria, AttemptScore } from "./length-semantics.js";
+import type { MorphologyRealizationTrace } from "./morphology/realization.js";
+import type { StressWeightTrace } from "./syllable-weight.js";
+
+/** Lengths of a scored root attempt, before any planned affixes are attached. */
+export interface AttemptLengths {
+  syllables: number;
+  phonemes: number;
+  letters: number;
+}
+
+export interface SelectionTrace {
+  status: "accepted" | "fallback";
+  /** null means no attempt met an acceptance criterion. */
+  acceptedBy: "exact" | "relaxed" | null;
+  attemptsExecuted: number;
+  /** Zero-based index of the returned attempt, which may precede the final attempt. */
+  selectedAttempt: number;
+  /** Includes the selected attempt when it was returned as a fallback. */
+  rejectedAttempts: number;
+  /** Counts rejected attempts failing each condition; reasons can overlap. */
+  rejectionReasons: { phonemeTarget: number; letterLength: number; warmup: number };
+  criteria: AcceptanceCriteria & { maxAttempts: number };
+  selected: AttemptLengths & { score: AttemptScore };
+  /** Compact root proposal distribution; no rejected spelling or Word payloads are retained. */
+  proposedLengths: Array<AttemptLengths & { count: number }>;
+}
 
 export interface SyllableSnapshot {
   onset: string[];
@@ -55,10 +83,16 @@ export interface RepairTrace {
 
 export interface MorphologyTrace {
   template: string;
+  /** Planned prefix spelling, before allomorph selection. */
   prefix?: string;
+  /** Planned suffix spelling, before allomorph selection. */
   suffix?: string;
+  /** Legacy baseline affix syllable count; not a deduction from the root.
+   * Selected allomorph counts are in realization, and may differ. */
   syllableReduction: number;
   alternations?: MorphophonemicAlternationTrace[];
+  /** Selected forms and written parts; absent in historical traces. */
+  realization?: MorphologyRealizationTrace;
 }
 
 export interface MorphophonemicAlternationTrace {
@@ -222,6 +256,8 @@ export interface OrthographyUnitTrace {
 }
 
 export interface OrthographyTrace {
+  /** Legacy edit-distance ownership, not certified sound-to-letter alignment. */
+  alignment?: "inferred";
   /** Final written form after all orthographic repair stages. */
   surface: string;
   /** Per-character ownership in the final written form. */
@@ -233,11 +269,21 @@ export interface OrthographyTrace {
 }
 
 export interface WordTrace {
-  /** Target syllable count chosen for this word. */
+  /** Exact base edit provenance, separate from legacy inferred ownership. */
+  baseSpelling?: BaseSpellingTrace;
+  /** Weight input and decisions before root nucleus repair/reduction. Absent in historical traces. */
+  stressWeight?: StressWeightTrace;
+  /** Target syllable count chosen for the root, excluding affixes. */
   syllableCount: number;
-  /** How many letter-length rejection attempts before acceptance (0 = first try). */
+  /** Target phoneme count for the generated root before morphology. */
+  targetPhonemeCount?: number;
+  /** Planned onset/coda counts for each generated root syllable. */
+  syllablePlans?: SyllableShapePlan[];
+  /** Root retries actually executed (0 = first try); use selection for outcome and selected index. */
   attempts: number;
-  /** Morphology plan details (only when morphology was applied). */
+  /** Absent in historical traces and manually assembled collector snapshots. */
+  selection?: SelectionTrace;
+  /** Morphology plan selected for this generation, independent of root length. */
   morphology?: MorphologyTrace;
   /** Structural decisions during syllable generation (boundary adjustments, extensions). */
   structural: StructuralTrace[];
@@ -257,6 +303,8 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 }
 
 export class TraceCollector {
+  baseSpelling?: BaseSpellingTrace;
+  stressWeight?: StressWeightTrace;
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
   orthographyTrace?: OrthographyTrace;
@@ -290,18 +338,26 @@ export class TraceCollector {
   }
 
   syllableCount: number = 0;
+  targetPhonemeCount?: number;
+  syllablePlans?: SyllableShapePlan[];
   attempts: number = 0;
+  selection?: SelectionTrace;
 
   toTrace(morphApplied: boolean): WordTrace {
     return {
       syllableCount: this.syllableCount,
+      targetPhonemeCount: this.targetPhonemeCount,
+      syllablePlans: this.syllablePlans,
       attempts: this.attempts,
+      selection: this.selection,
       morphology: this.morphologyTrace,
       structural: this.structural,
       stages: this.stages,
       graphemeSelections: this.graphemeSelections,
       orthography: this.orthographyTrace,
       repairs: this.repairs,
+      baseSpelling: this.baseSpelling,
+      stressWeight: this.stressWeight,
       summary: {
         totalDecisions: this.graphemeSelections.length,
         repairCount: this.repairs.length,

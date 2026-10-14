@@ -16,7 +16,16 @@ export interface Manifest {
 export interface Sample { id: string; study_id: string; draw_index: number; spelling: string; word: Word }
 export interface Snapshot { manifest: Manifest; digest: string; samples: Sample[] }
 export interface StudyRow { id: string; manifest: Manifest; digest: string; session_length: number; enrollment_open: boolean; created_at?: string }
-export interface SessionRow { id: string; study_id: string; assignments: string[]; created_at: string; completed_at: string | null }
+export interface SessionRow {
+  id: string;
+  study_id: string;
+  assignments: string[];
+  created_at: string;
+  completed_at: string | null;
+  // Absent in exports created before review chains were introduced.
+  chain_id?: string;
+  previous_session_id?: string | null;
+}
 export interface ResponseRow extends Omit<Submission, "submission_token" | "response_id"> {
   id: string;
   sample_id: string;

@@ -1,6 +1,7 @@
 import { Phoneme, WordGenerationContext } from "../types.js";
 import { StressRules } from "../config/language.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
+import { isNucleusWordPositionAllowed, nucleusWordEdges } from "./nucleus-position.js";
 
 /**
  * After stress assignment, re-pick any nucleus whose sound is banned under
@@ -25,7 +26,7 @@ export function repairStressedNuclei(
 
   const weightedAllowed: [Phoneme, number][] = allowed.map(p => [p, p.nucleus ?? 1]);
 
-  for (const syllable of context.word.syllables) {
+  for (const [syllableIndex, syllable] of context.word.syllables.entries()) {
     if (syllable.stress !== "ˈ") continue;
 
     const nucleus = syllable.nucleus[0];
@@ -33,7 +34,10 @@ export function repairStressedNuclei(
 
     const before = nucleus.sound;
     // Re-pick from filtered pool
-    syllable.nucleus[0] = getWeightedOption(weightedAllowed, context.rand);
+    const edges = nucleusWordEdges(syllable, syllableIndex, context.word.syllables.length, 0);
+    const eligible = weightedAllowed.filter(([phoneme]) => isNucleusWordPositionAllowed(phoneme, edges));
+    if (eligible.length === 0) throw new Error("No eligible stressed nucleus for the realized base-word segment position.");
+    syllable.nucleus[0] = getWeightedOption(eligible, context.rand);
     context.trace?.recordRepair("repairStressedNuclei", before, syllable.nucleus[0].sound, `replaced banned stressed nucleus /${before}/`);
   }
 

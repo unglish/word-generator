@@ -13,6 +13,12 @@ describe("frozen study provenance", () => {
     expect(first.samples.every(sample => sample.word.trace && sample.word.pronunciation && sample.word.syllables.length)).toBe(true);
     validateSnapshot(first);
   });
+  it("supports a partial first batch without changing the configured batch limit", async () => {
+    const small = await freezeStudy(process.cwd(), "test-small-pool", 42, 3);
+    expect(small.manifest.session_length).toBe(20);
+    expect(small.samples).toHaveLength(3);
+    validateSnapshot(small);
+  });
   it("preserves Maps, regexes, and deterministic object order", () => {
     expect(canonical({ map: new Map([["x", /ab/i]]) })).toEqual({ map: { $type: "Map", entries: [["x", { $type: "RegExp", source: "ab", flags: "i" }]] } });
     expect(digest({ b: 2, a: 1 })).toBe(digest({ a: 1, b: 2 }));
@@ -89,4 +95,26 @@ it("exports comments as text and retains the original in JSON data", () => {
   data.responses[0].comment = "=SUM(1,2)";
   expect(responseCsv(data)).toContain("'=SUM(1,2)");
   expect(data.responses[0].comment).toBe("=SUM(1,2)");
+});
+
+it("reports partial linked batches and preserves old exports without inventing chains", () => {
+  const legacy = fixtureExport();
+  expect(responseCsv(legacy)).toContain("\"session_id\",\"chain_id\",\"previous_session_id\"");
+  expect(legacy.sessions.every(session => session.chain_id === undefined)).toBe(true);
+  const data = fixtureExport();
+  data.sessions = data.sessions.slice(0, 2);
+  data.sessions[0].assignments = data.sessions[0].assignments.slice(0, 2);
+  data.sessions[1].assignments = [data.samples[3].id];
+  data.sessions[0].chain_id = "chain-a";
+  data.sessions[0].previous_session_id = null;
+  data.sessions[1].chain_id = "chain-a";
+  data.sessions[1].previous_session_id = data.sessions[0].id;
+  data.responses = [data.responses[0], data.responses[2], { ...data.responses[5], session_id: data.sessions[1].id, position: 0 }];
+  expect(buildReport(data).coverage.sessions_completed).toBe(2);
+  expect(responseCsv(data)).toContain("\"s2\",\"chain-a\",\"s1\"");
+  data.sessions[1].chain_id = "another-chain";
+  expect(() => buildReport(data)).toThrow("chain relationship");
+  data.sessions[1].chain_id = "chain-a";
+  data.sessions[1].assignments = [data.samples[1].id];
+  expect(() => buildReport(data)).toThrow("Repeated spelling");
 });

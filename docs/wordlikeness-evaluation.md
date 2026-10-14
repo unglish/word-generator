@@ -129,6 +129,27 @@ are no timestamps or local paths in machine artifacts. Change scoring versions
 for future methodological changes; do not silently reuse a prior version's
 artifact after changing its implementation.
 
+### Current-main reproduction check (2026-10-14)
+
+The integration with main `6af84be` preserves the original scoring implementation,
+legacy IPA mapping, comparator, both study snapshots, and committed artifacts.
+The pinned CMU input was retrieved and its checksum verified. Rebuilding
+`reference-v1.json` reproduces its exact bytes (SHA-256
+`3006f65d7039820a428ba3419b63fd486de17fb3ccbb1f9d24c1cda354ffe3de`).
+
+On Linux x64, Node `24.19.0` / V8 `13.6.233.17-node.51`, rescoring differs from
+the committed score file in 24 floating-point fields across the 400 rows, plus
+the resulting artifact digest. The largest absolute numeric difference is
+`3.552713678800501e-15`; all eight metric orderings, ties, coverage, identifiers,
+counts, probabilities and diagnostics agree. Node `22.16.0` and `22.23.3` also
+fail the exact score-file comparison in this environment. Rebuilding and
+rescoring the original PR commit `820f80d` with the same Node 24 runtime gives
+byte-identical outputs to the integrated checkout, so the merge introduces no
+reproduction difference. The original execution runtime/platform was not
+archived in these artifacts; exact historical score bytes have not been
+reproduced here. The committed file remains unchanged (SHA-256
+`a39b126fc0d45f351c8831986324b5bf0a5553eaa9f78fa2409e1084bf65eddc`).
+
 The committed score artifact has 200 rows per rubric snapshot, representing the
 same 200 spellings. Both rubric copies have identical scores. Spelling, bigram,
 and length baselines cover all 200; onset–rime and typicality cover 151, with
@@ -208,3 +229,23 @@ Tests cover hand-calculated probabilities, prosodic categories, syllabification,
 empty boundaries, zero/unsupported inputs, normalization, corpus filtering,
 frozen-sample determinism and immutability, artifact tampering, pooled rubric
 joins, skips/familiarity/comments, tied ranks, and deterministic split leakage.
+Controlled fixtures also check numerical comparisons against both length
+baselines on the candidate's exact eligible subset and propagation of a missing
+duplicate-draw score before either comparison.
+
+The 2026-10-14 integration checkout contains no private owner exports or owner
+configuration. An end-to-end CLI check with empty export envelopes for the two
+frozen snapshots produces all nine views with zero ratings and null
+correlations. Owner-only output permissions, Git exclusion, duplicate-export
+rejection, unsafe run-name rejection, and overwrite refusal were verified. This
+checks the workflow without supplying human judgments. The private descriptive
+comparison, rubric/familiarity sensitivity and trace-grounded machine–human
+disagreements remain pending actual owner exports; no advantage over written
+length or syllable count has been established.
+
+The original 200,000-word development archive used by #317/#318 is also absent:
+all 20 `words/` shards listed in
+`evaluation/quality/baselines/2026-09-26-development-standalone/manifest.json`
+are external, Git-ignored inputs. Their full historical archive analyses were
+not rerun. The observer's integrity fixtures and 2,000-word public-API parity
+test pass; the runtime and observer source tree matches current main exactly.

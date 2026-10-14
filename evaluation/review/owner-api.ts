@@ -65,7 +65,7 @@ export class OwnerApi {
     const samples = await this.rows<Sample>("review_samples", { study_id: `eq.${id}` });
     samples.sort((a, b) => a.draw_index - b.draw_index);
     validateSnapshot({ manifest: studies[0].manifest, digest: studies[0].digest, samples });
-    const sessions = await this.rows<SessionRow>("review_sessions", { study_id: `eq.${id}`, created_at: `lte.${exportedAt}` }, "id,study_id,assignments,created_at,completed_at");
+    const sessions = await this.rows<SessionRow>("review_sessions", { study_id: `eq.${id}`, created_at: `lte.${exportedAt}` }, "id,study_id,assignments,created_at,completed_at,chain_id,previous_session_id");
     const responses: ResponseRow[] = [];
     // Select by session in bounded groups, so unrelated studies never enter an export.
     for (let i = 0; i < sessions.length; i += 50) {

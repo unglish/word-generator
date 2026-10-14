@@ -32,6 +32,24 @@ export interface Assignment {
   items: { position: number; sample_id: string; spelling: string }[];
 }
 
+export type Continuation = { exhausted: true } | {
+  exhausted: false;
+  session_id: string;
+  submission_token: string;
+  assignment: Assignment;
+};
+
+export function parseContinuation(value: unknown): Continuation {
+  const result = value as Continuation | null;
+  if (result?.exhausted === true) return { exhausted: true };
+  if (result?.exhausted !== false ||
+      typeof result.session_id !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(result.session_id) ||
+      typeof result.submission_token !== "string" || !/^[0-9a-f]{64}$/.test(result.submission_token)) {
+    throw new Error("The server returned an invalid continuation. Please retry.");
+  }
+  return { ...result, assignment: parseAssignment(result.assignment) };
+}
+
 export interface Submission {
   session_id: string;
   submission_token: string;

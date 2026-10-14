@@ -36,6 +36,31 @@ the same seeded stream.
 By default generation includes morphology when the active config enables it.
 Pass `{ morphology: false }` for bare root forms.
 
+`syllableCount` requests an exact **root** count from 1–7. Affixes are applied
+independently afterward: a one-syllable root plus `-ing` has two syllables;
+`un-` plus a one-syllable root plus `-ness` has three. There is no final-word
+syllable ceiling. With automatic length, the configured phoneme, syllable, and
+letter targets also describe the root.
+
+This changes the earlier whole-word budget behavior: affixes no longer consume
+the requested count or shorten the planned root. Existing morphology-enabled
+seeded outputs change. Bare generation (`morphology: false`) retains its prior
+budget behavior and seeded outputs. Seeds remain deterministic within the same
+version and configuration.
+
+The text-mode quality benchmark accepts an average finished spelling length
+strictly below 7 characters, including affixes. This owner-accepted guardrail
+accommodates longer finished words under root-only budgets; it is neither a
+per-word limit nor an empirical English mean. Other quality thresholds remain
+unchanged.
+
+The English writer caps ordinary vowel-letter runs at two. It preserves a
+generator-selected vowel spelling ending in terminal `y`, such as `ey` or
+`oi` rewritten to `oy`, even when adjacent letters make the run longer.
+This exception follows the selected vowel unit; arbitrary final `y` does not
+qualify. Terminal `y` is vocalic for consonant repairs, while `y` before a
+vowel remains consonantal (`yet`, `yawn`), and `w` remains consonantal.
+
 ## RNG Control
 
 ```ts
@@ -51,6 +76,10 @@ RNG stream.
 
 ## Trace-First Diagnostics
 
+Traces include complete rejection/fallback accounting, distinct executed and
+selected attempts, and compact proposal-length distributions. See the
+[accounting and parity verification guide](./docs/rejection-accounting.md).
+
 For n-gram or orthography outliers, use `trace: true` and inspect `word.trace`
 instead of only checking surface strings.
 
@@ -61,20 +90,30 @@ const word = generateWord({ seed: 42, mode: "lexicon", trace: true });
 
 console.log(word.written.clean);
 console.log(word.trace?.summary);
+console.log(word.trace?.targetPhonemeCount);
+console.log(word.trace?.syllablePlans);
 console.log(word.trace?.stages[0]);
 console.log(word.trace?.graphemeSelections[0]);
 ```
+
+For top-down length diagnostics, inspect:
+
+- `trace.targetPhonemeCount` for the planned root phoneme budget
+- `trace.syllablePlans` for the per-root-syllable onset/coda budget
+- `trace.syllableCount` for the root count; `word.syllables.length` for the
+  completed count including selected affix allomorphs
 
 Detailed trace workflow: [`docs/word-trace-diagnostics.md`](./docs/word-trace-diagnostics.md)
 
 ## Top-Down Phoneme Targeting
 
-Generation now plans words top-down:
+Generation plans roots top-down, then attaches the selected affixes:
 
-1. sample a target phoneme count,
-2. sample a compatible syllable count,
+1. sample a target root phoneme count,
+2. sample a compatible root syllable count,
 3. distribute onset/coda consonant budgets across syllables,
-4. generate phonemes, repairs, pronunciation, and spelling.
+4. generate and select the root using root phoneme and letter targets,
+5. attach affixes, resolve allomorphs, and finish pronunciation and spelling.
 
 The built-in English config ships with this wired through:
 
@@ -83,6 +122,10 @@ The built-in English config ships with this wired through:
 
 Custom language configs should provide both tables. They are required parts of
 `LanguageConfig`, not optional tuning extras.
+
+Nuclei can opt into explicit base-word segment weights with
+`nucleusWordPosition`. See [nucleus edge semantics and migration](./docs/phoneme-edge-contexts.md)
+for the distinction from legacy syllable-position weights.
 
 After retuning those tables, run:
 
@@ -157,6 +200,14 @@ Additional checks:
 - `npm run analyze:phonemes`
 - `npm run analyze:trigrams`
 - `npm run audit:trace`
+- `npm run calibrate:phonemes` (recalibrates phoneme gate limits from multi-seed spread; see [`TUNING.md`](./TUNING.md#phoneme-guardrail-ratchet))
+
+See [corpus diagnostics](./docs/corpus-diagnostics.md) for reproducible analyzer
+streams, complete distribution metrics, and trace-backed outlier reports.
+
+For frozen baselines and per-step linguistic comparisons, see
+[quality baselines](./docs/quality-baselines.md). The benchmark preserves traced
+outputs, source/configuration provenance, and original/previous-step comparisons.
 
 ## Documentation
 

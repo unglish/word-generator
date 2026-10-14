@@ -1,4 +1,6 @@
 import { Phoneme, Grapheme, GraphemeCondition } from "../types.js";
+import { LEGACY_SYLLABLE_WEIGHT } from "../core/syllable-weight.js";
+import type { SyllableWeightPolicy } from "../core/syllable-weight.js";
 // ---------------------------------------------------------------------------
 // Repair constraint types
 // ---------------------------------------------------------------------------
@@ -155,7 +157,7 @@ export interface SyllableStructureRules {
   maxCodaLength: number;
   /** Maximum nucleus length (English: 1 — no complex nuclei). */
   maxNucleusLength: number;
-  /** Letter-length targets per syllable count: [min, peak_min, peak_max, max]. */
+  /** Root letter-length targets per root syllable count: [min, peak_min, peak_max, max]. */
   letterLengthTargets?: Record<number, [number, number, number, number]>;
 }
 
@@ -243,7 +245,7 @@ export function defaultFallbackBridgeOnsets(): [string, number][] {
 }
 
 /**
- * Target phoneme-length distributions by generation mode.
+ * Target root phoneme-length distributions by generation mode (affixes excluded).
  *
  * Each tuple is `[phonemeCount, weight]`. Weights are relative and do not need
  * to sum to 100.
@@ -261,7 +263,7 @@ export interface PhonemeLengthWeights {
 }
 
 /**
- * Mapping from target phoneme length to syllable-count distribution.
+ * Mapping from target root phoneme length to root syllable-count distribution.
  *
  * **Required** on {@link LanguageConfig}. For each phoneme count in
  * {@link PhonemeLengthWeights}, there must be a corresponding entry here
@@ -348,6 +350,8 @@ export interface StressNucleusRules {
  * Declarative stress assignment rules for pronunciation generation.
  */
 export interface StressRules {
+  /** Shared quantity/weight analysis; omission preserves legacy decisions. */
+  syllableWeight?: SyllableWeightPolicy;
   primary: PrimaryStressRules;
   secondary: SecondaryStressRules;
   rhythmic: RhythmicStressRules;
@@ -412,6 +416,7 @@ export interface ResolvedAspirationRules {
 }
 
 export interface ResolvedStressRules {
+  syllableWeight: SyllableWeightPolicy;
   primary: PrimaryStressRules;
   secondary: SecondaryStressRules;
   rhythmic: RhythmicStressRules;
@@ -653,6 +658,8 @@ export interface WrittenFormConstraints {
   /**
    * Max consecutive vowel *letters* (a, e, i, o, u, y) allowed.
    * Applied after consonant repairs. Default: no limit.
+   * The writer preserves a selected terminal-y vowel spelling as a complete
+   * unit, including final i → y spelling. Other runs retain this raw-letter cap.
    */
   maxVowelLetters?: number;
 
@@ -743,7 +750,7 @@ export interface LanguageConfig {
   hiatusPolicy?: HiatusPolicy;
 
   /**
-   * Required top-down targets for generation.
+   * Required top-down targets for root generation, excluding affixes.
    *
    * Generation first samples a target phoneme count from these distributions,
    * then samples a compatible syllable count via {@link phonemeToSyllableWeights}.
@@ -751,7 +758,7 @@ export interface LanguageConfig {
   phonemeLengthWeights: PhonemeLengthWeights;
 
   /**
-   * Required mode-specific mapping from target phoneme count to syllable-count
+   * Required mode-specific mapping from target root phoneme count to root syllable-count
    * probabilities.
    */
   phonemeToSyllableWeights: PhonemeToSyllableWeights;
@@ -970,6 +977,7 @@ export function isWholeWordAnchoredSpellingRule(rule: SpellingRule): boolean {
 // ---------------------------------------------------------------------------
 
 const DEFAULT_STRESS_RULES: ResolvedStressRules = {
+  syllableWeight: LEGACY_SYLLABLE_WEIGHT,
   primary: {
     type: "weight-sensitive",
     disyllabicWeights: [70, 30],
@@ -1017,6 +1025,7 @@ const DEFAULT_ASPIRATION_RULES: ResolvedAspirationRules = {
 
 export function resolveStressRules(rules: StressRules): ResolvedStressRules {
   return {
+    syllableWeight: { ...(rules.syllableWeight ?? LEGACY_SYLLABLE_WEIGHT) },
     primary: rules.primary,
     secondary: {
       enabled: rules.secondary.enabled ?? DEFAULT_STRESS_RULES.secondary.enabled,
@@ -1228,6 +1237,16 @@ export function expandClusterConstraintBans(
  * Call this during development or at startup to catch config errors early.
  */
 export function validateConfig(config: LanguageConfig): void {
+  for (const phoneme of config.phonemes) {
+    if (!phoneme.nucleusWordPosition) continue;
+    for (const edge of ["initial", "medial", "final"] as const) {
+      const weight = phoneme.nucleusWordPosition[edge];
+      if (!Number.isFinite(weight) || weight < 0) {
+        throw new Error(`phoneme "${phoneme.sound}" nucleusWordPosition.${edge} must be a finite number >= 0`);
+      }
+    }
+  }
+
   // Check phonemes ⊇ phonemeMaps values
   const phonemeSet = new Set(config.phonemes);
   for (const position of ["onset", "nucleus", "coda"] as const) {
@@ -1299,6 +1318,27 @@ export function validateConfig(config: LanguageConfig): void {
   };
 
   const stress = config.pronunciation.stress;
+  const weightPolicy = stress.syllableWeight;
+  if (weightPolicy !== undefined) {
+    if (!weightPolicy || typeof weightPolicy !== "object") throw new Error("syllableWeight must be a policy object");
+    if (weightPolicy.type === "legacy-segment-count") {
+      assertAllowedKeys(weightPolicy, ["type"], "pronunciation.stress.syllableWeight");
+    } else if (weightPolicy.type === "moraic") {
+      assertAllowedKeys(weightPolicy, ["type", "analysis", "coda", "unknown"], "pronunciation.stress.syllableWeight");
+      if (typeof weightPolicy.analysis !== "string" || !weightPolicy.analysis.trim()) throw new Error("syllableWeight.analysis must be a non-empty string");
+      if (weightPolicy.coda !== "weight-by-position" && weightPolicy.coda !== "nonmoraic") throw new Error("syllableWeight.coda must select a coda weight policy");
+      if (weightPolicy.unknown !== "legacy-segment-count" && weightPolicy.unknown !== "error") throw new Error("syllableWeight.unknown must select an unknown weight policy");
+    } else throw new Error("Invalid syllableWeight.type");
+  }
+  for (const phone of config.phonemes) {
+    const quantity = phone.nuclearQuantity;
+    if (quantity === undefined) continue;
+    if (!quantity || typeof quantity !== "object") throw new Error(`phoneme ${phone.sound}.nuclearQuantity must be a quantity object`);
+    assertAllowedKeys(quantity, ["analysis", "moras"], `phoneme ${phone.sound}.nuclearQuantity`);
+    if (typeof quantity.analysis !== "string" || !quantity.analysis.trim() || (quantity.moras !== 1 && quantity.moras !== 2)) {
+      throw new Error(`phoneme ${phone.sound}.nuclearQuantity must specify an analysis and one or two moras`);
+    }
+  }
   const primary = stress.primary;
   const primaryType = primary.type;
   if (

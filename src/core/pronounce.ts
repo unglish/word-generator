@@ -11,6 +11,8 @@ import {
 import { phonemes } from "../elements/phonemes.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { otEvaluate } from "./ot-stress.js";
+import { analyzeWordWeight } from "./syllable-weight.js";
+import type { SyllableWeightAnalysis, StressWeightTrace } from "./syllable-weight.js";
 import type { AspirationDecisionTrace, AspirationTargetSegment } from "./trace.js";
 
 /** Fast boolean probability check (avoids tuple array allocation). */
@@ -190,11 +192,24 @@ export const _applyAspiration = applyAspiration;
 
 export const applyStress = (context: WordGenerationContext, stress: ResolvedStressRules): void => {
   const { rand } = context;
+  const analysis = analyzeWordWeight(context.word.syllables, stress.syllableWeight);
   // Rule 1: Primary stress
-  applyPrimaryStress(context, rand, stress);
+  const primaryIndex = applyPrimaryStress(context, rand, stress, analysis);
 
   // Rule 2: Secondary stress
-  applySecondaryStress(context, rand, stress);
+  const secondary = applySecondaryStress(context, rand, stress, analysis);
+
+  if (context.trace) {
+    context.trace.stressWeight = {
+      version: 1,
+      stage: "applyStress",
+      domain: "root-before-nucleus-repair",
+      policy: { ...stress.syllableWeight },
+      syllables: analysis,
+      primary: { strategy: stress.primary.type, selectedIndex: primaryIndex },
+      secondary,
+    };
+  }
 
   // Rule 3: Rhythmic stress
   applyRhythmicStress(context, rand, stress);
@@ -211,6 +226,7 @@ const chooseWeightSensitivePrimaryStress = (
     antepenultLight: number;
     initial: number;
   },
+  analysis: readonly SyllableWeightAnalysis[],
 ): number => {
   if (syllables.length === 2) {
     return getWeightedOption([[0, disyllabicWeights[0]], [1, disyllabicWeights[1]]], rand);
@@ -218,7 +234,7 @@ const chooseWeightSensitivePrimaryStress = (
 
   const penultimateIndex = syllables.length - 2;
   const antepenultIndex = Math.max(0, syllables.length - 3);
-  const penultimateHeavy = isHeavySyllable(syllables[penultimateIndex]);
+  const penultimateHeavy = analysis[penultimateIndex].operational.weight === "heavy";
 
   const penultWeight = penultimateHeavy
     ? polysyllabicWeights.heavyPenult
@@ -234,13 +250,13 @@ const chooseWeightSensitivePrimaryStress = (
   ], rand);
 };
 
-const applyPrimaryStress = (context: WordGenerationContext, rand: RNG, stress: ResolvedStressRules): void => {
+const applyPrimaryStress = (context: WordGenerationContext, rand: RNG, stress: ResolvedStressRules, analysis: readonly SyllableWeightAnalysis[]): number | null => {
   const syllables = context.word.syllables;
   const syllableCount = syllables.length;
 
   if (syllableCount <= 1) {
     // Monosyllabic words don't need stress marking
-    return;
+    return null;
   }
 
   let primaryStressIndex = 0;
@@ -264,26 +280,29 @@ const applyPrimaryStress = (context: WordGenerationContext, rand: RNG, stress: R
       rand,
       stress.primary.disyllabicWeights,
       stress.primary.polysyllabicWeights,
+      analysis,
     );
     break;
   }
   case "ot": {
-    primaryStressIndex = otEvaluate(syllables, stress.primary.otConfig, rand);
+    primaryStressIndex = otEvaluate(syllables, stress.primary.otConfig, rand, analysis);
     break;
   }
   }
 
   syllables[primaryStressIndex].stress = "ˈ";
+  return primaryStressIndex;
 };
 
-const applySecondaryStress = (context: WordGenerationContext, rand: RNG, stress: ResolvedStressRules): void => {
+const applySecondaryStress = (context: WordGenerationContext, rand: RNG, stress: ResolvedStressRules, analysis: readonly SyllableWeightAnalysis[]): StressWeightTrace["secondary"] => {
   const syllables = context.word.syllables;
   const syllableCount = syllables.length;
+  const skipped: StressWeightTrace["secondary"] = { candidates: [], selectedIndex: null, applied: false };
 
-  if (syllableCount <= 1 || !stress.secondary.enabled) return;
+  if (syllableCount <= 1 || !stress.secondary.enabled) return skipped;
 
   const primaryStressIndex = syllables.findIndex((s) => s.stress === "ˈ");
-  if (primaryStressIndex < 0) return;
+  if (primaryStressIndex < 0) return skipped;
 
   const potentialIndices = (
     stress.secondary.candidateWindow === "all-nonprimary"
@@ -291,21 +310,23 @@ const applySecondaryStress = (context: WordGenerationContext, rand: RNG, stress:
       : [0, 1, 2].filter((i) => i < syllableCount)
   ).filter((i) => i !== primaryStressIndex);
 
-  if (potentialIndices.length === 0) return;
+  if (potentialIndices.length === 0) return skipped;
+
+  const candidates = potentialIndices.map((i) => ({
+    syllableIndex: i,
+    weight: analysis[i].operational.weight === "heavy" ? stress.secondary.heavyWeight : stress.secondary.lightWeight,
+  }));
 
   const secondaryStressIndex = getWeightedOption(
-    potentialIndices.map((i) => [
-      i,
-      isHeavySyllable(syllables[i])
-        ? stress.secondary.heavyWeight
-        : stress.secondary.lightWeight,
-    ]),
+    candidates.map(candidate => [candidate.syllableIndex, candidate.weight]),
     rand,
   );
 
-  if (coinFlip(rand, stress.secondary.probability)) {
+  const applied = coinFlip(rand, stress.secondary.probability);
+  if (applied) {
     syllables[secondaryStressIndex].stress = "ˌ";
   }
+  return { candidates, selectedIndex: secondaryStressIndex, applied };
 };
 
 const applyRhythmicStress = (context: WordGenerationContext, rand: RNG, stress: ResolvedStressRules): void => {
@@ -324,10 +345,6 @@ const applyRhythmicStress = (context: WordGenerationContext, rand: RNG, stress: 
       syllables[i].stress = "ˌ";
     }
   }
-};
-
-const isHeavySyllable = (syllable: Syllable): boolean => {
-  return syllable.nucleus.length > 1 || syllable.coda.length > 0;
 };
 
 const buildPronunciationGuide = (context: WordGenerationContext): void => {

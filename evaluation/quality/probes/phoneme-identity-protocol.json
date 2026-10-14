@@ -1,0 +1,15 @@
+{
+  "id": "phoneme-identity-observation-v1",
+  "hypothesis": "An additive observer accounts for every archived segment while exposing identity mergers, unsupported mappings and unavailable stress or lineage; generated quality is not expected to change.",
+  "sourceProfile": "english-legacy-v1",
+  "reference": "rhotic-general-american-reference-v1 (provisional only)",
+  "layer": "Final word.syllables surface observations. Prepared-base traces are counted for availability only and are not interpreted as complete lexical provenance.",
+  "cohort": "Development only; retain the frozen validation cohort for later behavior-changing hypotheses.",
+  "accounting": "segments = resolved + ambiguous + unknown; coarse tokens + aligned nulls = segments; source identities are never merged.",
+  "stress": "Primary, secondary and unmarked are distinct observations. An absent marker is not silently converted to CMU stress zero. Counts are per nucleus segment, not per syllable.",
+  "collisions": "coarsePreimages stores raw emitted sounds for each projected token; distributions can reveal actual many-to-one mergers. Potential loss flags also cover mappings whose alternate preimage is absent from a sample.",
+  "lineage": "Recorded reduction is counted separately from unknown underlying identity; no recovered lexical identity is inferred from a reduced flag.",
+  "strata": "Each profile and seed, plus actual morphology template x final syllable count. Raw symbols and observed stress remain separate dimensions.",
+  "acceptance": "Complete accounting, aligned missingness, exact parity with the legacy mapping where defined, immutable input archives, repeatable observer reports and output/RNG parity in public-API fixtures. Coverage is diagnostic, not a wordlikeness score. No acceptance gate is tuned on these counts.",
+  "foundationEvaluatorDigest": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007"
+}

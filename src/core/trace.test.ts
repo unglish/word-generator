@@ -50,6 +50,12 @@ describe("trace pipeline", () => {
     expect(typeof t.summary.repairCount).toBe("number");
     expect(typeof t.summary.morphologyApplied).toBe("boolean");
     expect(t.summary.totalDecisions).toBe(t.graphemeSelections.length);
+    expect(typeof t.targetPhonemeCount).toBe("number");
+    expect(Array.isArray(t.syllablePlans)).toBe(true);
+    expect(t.syllablePlans).toHaveLength(t.syllableCount);
+    expect(
+      t.syllablePlans!.reduce((total, plan) => total + 1 + plan.onsetLength + plan.codaLength, 0),
+    ).toBe(t.targetPhonemeCount);
   });
 
   it("does not attach a trace when trace option is not set", () => {
@@ -66,6 +72,14 @@ describe("trace pipeline", () => {
         expect(typeof sound).toBe("string");
       }
     }
+  });
+
+  it("keeps top-down plan data deterministic for a fixed seed", () => {
+    const first = generateWord({ seed: 85, trace: true, morphology: true, mode: "lexicon" });
+    const second = generateWord({ seed: 85, trace: true, morphology: true, mode: "lexicon" });
+
+    expect(first.trace?.targetPhonemeCount).toBe(second.trace?.targetPhonemeCount);
+    expect(first.trace?.syllablePlans).toEqual(second.trace?.syllablePlans);
   });
 
   it("captures repair traces with rule, before, and after", () => {

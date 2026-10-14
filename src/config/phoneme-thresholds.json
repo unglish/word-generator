@@ -2,11 +2,12 @@
   "sampleSize": 200000,
   "seed": 42,
   "minCommonBaselinePct": 0.5,
-  "maxOverRepresentation": 2.75,
-  "minRepresentation": 0.08,
-  "maxAbsoluteGapPct": 4.5,
-  "minSharedPearsonR": 0.82,
-  "maxGeneratedOnlyMassPct": 6.7,
+  "maxOverRepresentation": 1.066,
+  "minRepresentation": 0.918,
+  "maxAbsoluteGapPct": 0.39,
+  "minSharedPearsonR": 0.9983,
+  "maxGeneratedOnlyMassPct": 0,
+  "maxCmuOnlyKeyCount": 0,
   "generatedOnlyEscalationThresholdPct": 1.5,
-  "_comment": "Phoneme quality ratchet: after each successful phoneme tuning fix, run 5× analysis and tighten thresholds with a safety margin while keeping canonical defaults (lexicon, morphology off)."
+  "_comment": "Distribution limits use the worst observed value ± 3 sample SDs, rounded outward, from `npm run calibrate:phonemes` (30 non-overlapping RNG streams, sampleSize words, lexicon, morphology off). This is an engineering margin, not a false-failure probability guarantee. Inventory coverage is fixed at 0: calibration fails on any generated-only mass, missing CMU phonemes, or rejected tokens. Recalibration measures a change; justify any loosened limit with its linguistic benefit and leave unaffected limits unchanged. See TUNING.md."
 }

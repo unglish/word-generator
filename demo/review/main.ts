@@ -69,6 +69,25 @@ function acceptSession(next: LocalSession | undefined): void {
   }
 }
 
+function completionMessage(current: LocalSession): { title: string; copy: string } {
+  if (current.outbox.length) return {
+    title: "All words reviewed. Still sending…",
+    copy: "Your responses are saved on this device. Keep this page open while they send, or return on this device when the connection is back.",
+  };
+  if (current.exhausted) return {
+    title: "Thank you. You’ve reviewed every spelling in this study.",
+    copy: "There are no unseen words left in this review chain. All your responses have been received. You can close this page.",
+  };
+  if (current.continuing) return {
+    title: "Preparing your next words…",
+    copy: "Your previous batch is submitted. If the connection is interrupted, retry or return on this device to resume the same next batch.",
+  };
+  return {
+    title: "Thank you. Your review is submitted.",
+    copy: "Your judgments will help us understand which spellings look like English words. You can stop here or review another batch of up to 20 unseen words.",
+  };
+}
+
 function render(): void {
   const assignment = session?.assignment;
   const active = !!assignment && session!.next < assignment.items.length;
@@ -87,14 +106,12 @@ function render(): void {
   }
   const pending = session?.outbox.length ?? 0;
   if (finished) {
-    const title = pending ? "All words reviewed. Still sending…" : "Thank you. Your review is submitted.";
+    const { title, copy } = completionMessage(session!);
     const heading = element("finished-title");
     if (heading.textContent !== title) { heading.textContent = title; heading.focus(); }
-    element("finished-copy").textContent = pending
-      ? "Your responses are saved on this device. Keep this page open while they send, or return on this device when the connection is back."
-      : "Your judgments will help us understand which spellings look like English words. You can stop here or review another batch.";
+    element("finished-copy").textContent = copy;
   }
-  more.hidden = !finished || !!pending || session?.assignment?.rubric.version !== RUBRIC.version;
+  more.hidden = !finished || !!pending || !!session?.continuing || !!session?.exhausted || session?.assignment?.rubric.version !== RUBRIC.version;
   more.disabled = starting || storageFailed || permanentFailure;
   element("next-study").hidden = !finished || !!pending || session?.assignment?.rubric.version === RUBRIC.version;
   if (!storageFailed) status.textContent = pending
@@ -121,9 +138,16 @@ async function startSession(): Promise<void> {
   try { acceptSession(await store.ensure(key)); }
   catch { storageError(); starting = false; return; }
   try {
-    const assignment = session!.assignment ?? await api.start(session!);
-    try { acceptSession(await store.assign(key, assignment)); }
-    catch { storageError(); return; }
+    const requested = session!;
+    if (requested.continuing) {
+      const result = await api.continue(requested);
+      try { acceptSession(await store.continued(key, requested.id, result)); }
+      catch { storageError(); return; }
+    } else {
+      const assignment = requested.assignment ?? await api.start(requested);
+      try { acceptSession(await store.assign(key, assignment, requested.id)); }
+      catch { storageError(); return; }
+    }
   } catch (failure) {
     showError(failure instanceof Error ? failure.message : "Unable to start this review.");
     permanentFailure = !(failure instanceof ApiError && failure.retryable);
@@ -196,16 +220,23 @@ form.addEventListener("submit", event => {
   if (selected) void save({ status: "rated", rating: Number(selected.value), familiar: element<HTMLInputElement>("familiar").checked });
 });
 skip.addEventListener("click", () => void save({ status: "skipped", rating: null, familiar: null }));
-function reconnect(): void {
-  if (!ready || !session) return;
-  retryCount = 0;
-  if (!session?.assignment) void startSession();
+function resumeSession(): void {
+  if (!session) return;
+  if (!session.assignment || session.continuing) void startSession();
   else void flush();
 }
-retry.addEventListener("click", reconnect);
-window.addEventListener("online", reconnect);
+
+async function reconnect(): Promise<void> {
+  if (!ready || !session || storageFailed || permanentFailure) return;
+  try { acceptSession(await store.get(key)); }
+  catch { storageError(); return; }
+  retryCount = 0;
+  resumeSession();
+}
+retry.addEventListener("click", () => void reconnect());
+window.addEventListener("online", () => void reconnect());
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible" && session?.assignment) void flush();
+  if (document.visibilityState === "visible") void reconnect();
 });
 
 async function initialize(): Promise<void> {
@@ -230,7 +261,7 @@ async function initialize(): Promise<void> {
     }
     renderRubric();
     render();
-    if (session?.assignment) void flush();
+    resumeSession();
   } catch { storageError(); }
 }
 void initialize();

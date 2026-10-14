@@ -13,7 +13,9 @@
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import unglish from "../dist/index.js";
+import { pathToFileURL } from "node:url";
+import { compareDistributions, pearson } from "../dist/core/distribution-quality.js";
+import { SAMPLING_METHOD, parseSeeds, sampleWords, traceWitnesses, validateSampleCount } from "./lib/analyzer-sampling.mjs";
 
 const DEFAULT_SEEDS = [42, 123, 456, 789, 1337];
 const DEFAULT_COUNT_PER_SEED = 400_000;
@@ -26,17 +28,6 @@ function getArg(name, fallback) {
   const idx = process.argv.indexOf(`--${name}`);
   if (idx === -1 || idx + 1 >= process.argv.length) return fallback;
   return process.argv[idx + 1];
-}
-
-function parseSeeds(input) {
-  return input
-    .split(",")
-    .map(s => Number(s.trim()))
-    .filter(n => Number.isFinite(n));
-}
-
-function toSortedEntries(obj) {
-  return Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
 }
 
 function loadCmuFrequencies() {
@@ -53,43 +44,26 @@ function isAlphaTrigram(s) {
   return /^[a-z]{3}$/.test(s);
 }
 
-function pearson(xs, ys) {
-  if (xs.length !== ys.length || xs.length < 2) return 0;
-  const n = xs.length;
-  const mx = xs.reduce((a, b) => a + b, 0) / n;
-  const my = ys.reduce((a, b) => a + b, 0) / n;
-  let num = 0;
-  let dx2 = 0;
-  let dy2 = 0;
-  for (let i = 0; i < n; i++) {
-    const dx = xs[i] - mx;
-    const dy = ys[i] - my;
-    num += dx * dy;
-    dx2 += dx * dx;
-    dy2 += dy * dy;
-  }
-  if (dx2 === 0 || dy2 === 0) return 0;
-  return num / Math.sqrt(dx2 * dy2);
-}
-
 function countSampleTrigrams({ seed, count, mode, morphology }) {
   const trigramCounts = {};
+  const firstOccurrences = {};
   let totalTrigrams = 0;
 
-  for (let i = 0; i < count; i++) {
-    const word = unglish.generateWord({ mode, morphology, seed: seed + i }).written.clean.toLowerCase();
+  for (const { word: generated, ...location } of sampleWords({ seed, count, mode, morphology })) {
+    const word = generated.written.clean.toLowerCase();
     for (let j = 0; j < word.length - 2; j++) {
       const tri = word.slice(j, j + 3);
       if (!isAlphaTrigram(tri)) continue;
+      firstOccurrences[tri] ??= location;
       trigramCounts[tri] = (trigramCounts[tri] || 0) + 1;
       totalTrigrams++;
     }
   }
 
-  return { trigramCounts, totalTrigrams };
+  return { trigramCounts, totalTrigrams, firstOccurrences };
 }
 
-function deriveMetrics({ trigramCounts, totalTrigrams, cmuFreq, minOverrepFreq, minUnderrepFreq }) {
+export function deriveMetrics({ trigramCounts, totalTrigrams, cmuFreq, minOverrepFreq, minUnderrepFreq }) {
   const generatedFreq = {};
   for (const [tri, count] of Object.entries(trigramCounts)) {
     generatedFreq[tri] = count / totalTrigrams;
@@ -125,18 +99,20 @@ function deriveMetrics({ trigramCounts, totalTrigrams, cmuFreq, minOverrepFreq, 
     })
     .sort((a, b) => a.ratio - b.ratio);
 
-  const absGap = sharedKeys
+  const unionKeys = [...new Set([...Object.keys(generatedFreq), ...Object.keys(cmuFreq)])];
+  const absGap = unionKeys
     .map(k => ({
       trigram: k,
-      generatedFreq: generatedFreq[k],
-      baselineFreq: cmuFreq[k],
-      ratio: generatedFreq[k] / cmuFreq[k],
-      gap: generatedFreq[k] - cmuFreq[k],
-      absGap: Math.abs(generatedFreq[k] - cmuFreq[k]),
+      generatedFreq: generatedFreq[k] || 0,
+      baselineFreq: cmuFreq[k] || 0,
+      ratio: cmuFreq[k] ? (generatedFreq[k] || 0) / cmuFreq[k] : null,
+      gap: (generatedFreq[k] || 0) - (cmuFreq[k] || 0),
+      absGap: Math.abs((generatedFreq[k] || 0) - (cmuFreq[k] || 0)),
     }))
     .sort((a, b) => b.absGap - a.absGap);
 
   return {
+    ...compareDistributions(trigramCounts, cmuFreq),
     sharedKeyCount: sharedKeys.length,
     pearsonR: r,
     topOverRepresented: overRep.slice(0, 25),
@@ -150,17 +126,18 @@ function formatPct(x) {
 }
 
 function formatRatio(x) {
-  return `${x.toFixed(3)}x`;
+  return x === null ? "no baseline" : `${x.toFixed(3)}x`;
 }
 
 function toMarkdown(report) {
   const lines = [];
-  lines.push(`# Trigram 2M Analysis`);
+  lines.push(`# Trigram Analysis — ${report.config.totalWords.toLocaleString()} words`);
   lines.push(``);
   lines.push(`Generated: ${report.generatedAt}`);
   lines.push(``);
   lines.push(`## Configuration`);
   lines.push(`- Seeds: ${report.config.seeds.join(", ")}`);
+  lines.push(`- Sampling: ${report.config.sampling}`);
   lines.push(`- Words per seed: ${report.config.countPerSeed.toLocaleString()}`);
   lines.push(`- Total generated words: ${report.config.totalWords.toLocaleString()}`);
   lines.push(`- Mode: ${report.config.mode}`);
@@ -170,7 +147,12 @@ function toMarkdown(report) {
   lines.push(``);
   lines.push(`## Aggregate Metrics`);
   lines.push(`- Shared trigram keys: ${report.aggregate.sharedKeyCount}`);
-  lines.push(`- Pearson r: ${report.aggregate.pearsonR.toFixed(4)}`);
+  lines.push(`- Shared-key Pearson r (historical): ${report.aggregate.pearsonR.toFixed(4)}`);
+  lines.push(`- Union-key Pearson r: ${report.aggregate.unionPearsonR.toFixed(4)}`);
+  lines.push(`- Missing reference mass: ${report.aggregate.missingReferenceMassPct.toFixed(4)}%`);
+  lines.push(`- Generated-only mass: ${report.aggregate.nonReferenceMassPct.toFixed(4)}%`);
+  lines.push(`- Jensen–Shannon divergence (bits): ${report.aggregate.jensenShannonBits?.toFixed(6) ?? 'unavailable'}`);
+  lines.push('Traced witnesses for present outlier categories are included in the JSON report.');
   lines.push(``);
 
   const sections = [
@@ -195,8 +177,10 @@ function toMarkdown(report) {
   lines.push(`| Seed | Over-Rep | Ratio | Under-Rep | Ratio |`);
   lines.push(`|---:|---|---:|---|---:|`);
   for (const seedEntry of report.bySeed) {
+    const over = seedEntry.metrics.topOverRepresented[0] ?? { trigram: "n/a", ratio: null };
+    const under = seedEntry.metrics.topUnderRepresented[0] ?? { trigram: "n/a", ratio: null };
     lines.push(
-      `| ${seedEntry.seed} | ${seedEntry.metrics.topOverRepresented[0].trigram} | ${formatRatio(seedEntry.metrics.topOverRepresented[0].ratio)} | ${seedEntry.metrics.topUnderRepresented[0].trigram} | ${formatRatio(seedEntry.metrics.topUnderRepresented[0].ratio)} |`
+      `| ${seedEntry.seed} | ${over.trigram} | ${formatRatio(over.ratio)} | ${under.trigram} | ${formatRatio(under.ratio)} |`
     );
   }
 
@@ -212,17 +196,13 @@ function main() {
   const minUnderrepBaselineFreq = Number(getArg("min-underrep-freq", String(DEFAULT_MIN_UNDERREP_BASELINE_FREQ)));
   const reportBasename = getArg("output", "trigram-2m-analysis");
 
-  if (seeds.length === 0) {
-    throw new Error("At least one seed is required.");
-  }
-  if (!Number.isFinite(countPerSeed) || countPerSeed <= 0) {
-    throw new Error("count-per-seed must be a positive number.");
-  }
+  validateSampleCount(countPerSeed);
 
   const cmuFreq = loadCmuFrequencies();
 
   const bySeed = [];
   const aggregateCounts = {};
+  const firstOccurrences = {};
   let aggregateTotal = 0;
 
   for (const seed of seeds) {
@@ -232,6 +212,7 @@ function main() {
       aggregateCounts[tri] = (aggregateCounts[tri] || 0) + count;
     }
     aggregateTotal += sample.totalTrigrams;
+    for (const [trigram, location] of Object.entries(sample.firstOccurrences)) firstOccurrences[trigram] ??= location;
 
     const metrics = deriveMetrics({
       trigramCounts: sample.trigramCounts,
@@ -260,6 +241,7 @@ function main() {
   const report = {
     generatedAt: new Date().toISOString(),
     config: {
+      sampling: SAMPLING_METHOD,
       seeds,
       countPerSeed,
       totalWords: countPerSeed * seeds.length,
@@ -271,6 +253,10 @@ function main() {
     },
     aggregate,
     bySeed,
+    traceWitnesses: traceWitnesses(Object.fromEntries(
+      [...aggregate.topOverRepresented, ...aggregate.topUnderRepresented, ...aggregate.topAbsoluteGap]
+        .map(row => [row.trigram, firstOccurrences[row.trigram]])
+    ), { mode, morphology }),
     artifacts: {
       storage: "memory",
       json: `memory/${reportBasename}.json`,
@@ -289,8 +275,8 @@ function main() {
   console.log(`Saved JSON report: ${jsonPath}`);
   console.log(`Saved Markdown report: ${mdPath}`);
   console.log(`Aggregate Pearson r: ${aggregate.pearsonR.toFixed(4)}`);
-  console.log(`Worst over-represented: ${aggregate.topOverRepresented[0].trigram} (${formatRatio(aggregate.topOverRepresented[0].ratio)})`);
-  console.log(`Worst under-represented: ${aggregate.topUnderRepresented[0].trigram} (${formatRatio(aggregate.topUnderRepresented[0].ratio)})`);
+  if (aggregate.topOverRepresented[0]) console.log(`Worst over-represented: ${aggregate.topOverRepresented[0].trigram} (${formatRatio(aggregate.topOverRepresented[0].ratio)})`);
+  if (aggregate.topUnderRepresented[0]) console.log(`Worst under-represented: ${aggregate.topUnderRepresented[0].trigram} (${formatRatio(aggregate.topUnderRepresented[0].ratio)})`);
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

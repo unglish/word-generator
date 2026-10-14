@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "artifacts": [
+    {
+      "file": "README.md",
+      "bytes": 4144,
+      "sha256": "5f93c6fe9520a505181831f2b9250954d64b506264be068fe77f002b855e2390"
+    },
+    {
+      "file": "comparison.json.gz",
+      "bytes": 14561,
+      "sha256": "a9ba53196ecc8b716a507cfca20d526d82f689c6ec850d27b2847d4a548865b0"
+    },
+    {
+      "file": "comparison.md",
+      "bytes": 14733,
+      "sha256": "4ffb5d67426f61dab1c762b67f0a2bde5dbbf1f5a07f902d9383e673c6bf3b40"
+    },
+    {
+      "file": "control-manifest.json.gz",
+      "bytes": 12313,
+      "sha256": "f7ac8928f8fac3607e1895af853777e18ace734046e03b46662ca100e47e0cb9"
+    },
+    {
+      "file": "control-sources.json.gz",
+      "bytes": 178830,
+      "sha256": "a94fd7c87da83c744b61795f6cee28b68076b32d10896f19676ec09509edb603"
+    },
+    {
+      "file": "control-summary.json.gz",
+      "bytes": 10361,
+      "sha256": "ee5980d8db25d3217650819b5e8934aac4cc90b3af5d997747e1b56c55de0bb7"
+    },
+    {
+      "file": "coverage-policy-design.md",
+      "bytes": 12954,
+      "sha256": "3fdc7662fbefb3e898c26e70435cedbf91a75b680cac7e737a4decfe3ee38d83"
+    },
+    {
+      "file": "original-manifest.json.gz",
+      "bytes": 12519,
+      "sha256": "b1a7df8f0ec874aeb9e9fbfb5ec2f2c72bf621fb85dc5b492300611169a5cfa2"
+    },
+    {
+      "file": "source-check.json",
+      "bytes": 6229,
+      "sha256": "e4b64a8cbdefd8405a36c86368c44ebc6b61c560422764393a8777cbf6ff066b"
+    },
+    {
+      "file": "verification.json.gz",
+      "bytes": 6043,
+      "sha256": "b94d8f3a639d4569239ae00c63ae44e5a57c3af3afd408270f720f46c515bb9d"
+    },
+    {
+      "file": "verify.ts",
+      "bytes": 13151,
+      "sha256": "c1bf412a79531d4ea3edc9f2b301a4ede50034331d83cfaebf8f014d820edb8e"
+    }
+  ]
+}

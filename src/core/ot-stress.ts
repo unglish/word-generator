@@ -12,6 +12,8 @@
 
 import type { Syllable } from "../types.js";
 import type { RNG } from "../utils/random.js";
+import { analyzeWordWeight } from "./syllable-weight.js";
+import type { SyllableWeightAnalysis } from "./syllable-weight.js";
 
 // ---------------------------------------------------------------------------
 // Public types
@@ -25,7 +27,7 @@ export interface OTConstraint {
    * Count violations for placing primary stress on `stressIndex`.
    * Higher = worse.
    */
-  evaluate(syllables: Syllable[], stressIndex: number): number;
+  evaluate(syllables: Syllable[], stressIndex: number, analysis?: readonly SyllableWeightAnalysis[]): number;
 }
 
 /** Per-constraint weight in a Harmonic OT grammar. */
@@ -55,18 +57,14 @@ export interface OTStressConfig {
  * WEIGHT-TO-STRESS (WSP): penalizes stressing a light syllable when a heavy
  * syllable exists elsewhere in the word.
  *
- * A syllable is "heavy" if it has a coda or a long/diphthong nucleus.
+ * Uses the shared operational classification. The default retains legacy weight.
  */
-const isHeavy = (syl: Syllable): boolean =>
-  syl.coda.length > 0 || syl.nucleus.length > 1;
-
 const WSP: OTConstraint = {
   name: "WSP",
-  evaluate(syllables, stressIndex) {
-    const stressed = syllables[stressIndex];
-    if (isHeavy(stressed)) return 0;
+  evaluate(syllables, stressIndex, analysis = analyzeWordWeight(syllables)) {
+    if (analysis[stressIndex].operational.weight === "heavy") return 0;
     // One violation per unstressed heavy syllable
-    return syllables.filter((s, i) => i !== stressIndex && isHeavy(s)).length;
+    return analysis.filter((s, i) => i !== stressIndex && s.operational.weight === "heavy").length;
   },
 };
 
@@ -164,6 +162,7 @@ export function otEvaluate(
   syllables: Syllable[],
   config: OTStressConfig,
   rand: RNG,
+  analysis: readonly SyllableWeightAnalysis[] = analyzeWordWeight(syllables),
 ): number {
   const n = syllables.length;
   if (n <= 1) return 0;
@@ -185,7 +184,7 @@ export function otEvaluate(
   for (let i = 0; i < n; i++) {
     let score = 0;
     for (const { constraint, perturbedWeight } of resolved) {
-      score += perturbedWeight * constraint.evaluate(syllables, i);
+      score += perturbedWeight * constraint.evaluate(syllables, i, analysis);
     }
     if (score < bestScore) {
       bestScore = score;

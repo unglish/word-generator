@@ -13,14 +13,11 @@
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import unglish from '../dist/index.js';
-import {
-  loadPhonemeNormalization,
-  normalizeGeneratedPhoneme,
-  toPercentMap,
-  sortByValueDesc,
-  pearson,
-} from './lib/phoneme-normalization.mjs';
+import { pathToFileURL } from 'node:url';
+import { computePhonemeQualityMetrics, partitionPhonemeKeys } from '../dist/core/phoneme-quality.js';
+import { normalizeGeneratedPhoneme } from '../dist/core/phoneme-normalization.js';
+import { SAMPLING_METHOD, parseSeeds, sampleWords, traceWitnesses, validateSampleCount } from './lib/analyzer-sampling.mjs';
+import { loadPhonemeNormalization, sortByValueDesc, toPercentMap } from './lib/phoneme-normalization.mjs';
 
 const DEFAULT_SEEDS = [42, 123, 456, 789, 1337];
 const DEFAULT_COUNT_PER_SEED = 400_000;
@@ -35,106 +32,48 @@ function getArg(name, fallback) {
   return process.argv[idx + 1];
 }
 
-function parseSeeds(input) {
-  return input
-    .split(',')
-    .map(s => Number(s.trim()))
-    .filter(n => Number.isFinite(n));
-}
-
 function loadCmuPhonemeCounts() {
   return JSON.parse(readFileSync(join(process.cwd(), 'data', 'cmu', 'cmu-lexicon-phonemes.json'), 'utf8'));
 }
 
-function countSamplePhonemes({ seed, count, mode, morphology }) {
+function countSamplePhonemes({ seed, count, mode, morphology, normalization }) {
   const phonemeCounts = {};
+  const normalizationLosses = {};
+  const firstOccurrences = {};
   let totalPhonemes = 0;
 
-  for (let i = 0; i < count; i++) {
-    const word = unglish.generateWord({ mode, morphology, seed: seed + i });
+  for (const { word, ...location } of sampleWords({ seed, count, mode, morphology })) {
     for (const syllable of word.syllables) {
       for (const p of [...syllable.onset, ...syllable.nucleus, ...syllable.coda]) {
-        const normalized = normalizeGeneratedPhoneme(p.sound);
-        if (!normalized) continue;
+        const normalized = normalizeGeneratedPhoneme(p.sound, normalization);
+        if (!normalized) {
+          normalizationLosses[p.sound] = (normalizationLosses[p.sound] || 0) + 1;
+          continue;
+        }
+        firstOccurrences[normalized] ??= location;
         phonemeCounts[normalized] = (phonemeCounts[normalized] || 0) + 1;
         totalPhonemes++;
       }
     }
   }
 
-  return { phonemeCounts, totalPhonemes };
+  return { phonemeCounts, totalPhonemes, normalizationLosses, firstOccurrences };
 }
 
-function deriveMetrics({ phonemeCounts, totalPhonemes, cmuFreqPct, minCommonBaselinePct }) {
+export function deriveMetrics({ phonemeCounts, cmuFreqPct, minCommonBaselinePct }) {
   const generatedFreqPct = toPercentMap(phonemeCounts);
-
-  const generatedKeys = new Set(Object.keys(generatedFreqPct));
-  const cmuKeys = new Set(Object.keys(cmuFreqPct));
-
-  const sharedKeys = [...generatedKeys].filter(k => cmuKeys.has(k));
-  const generatedOnlyKeys = [...generatedKeys].filter(k => !cmuKeys.has(k));
-  const cmuOnlyKeys = [...cmuKeys].filter(k => !generatedKeys.has(k));
-
-  const sharedR = sharedKeys.length > 1
-    ? pearson(sharedKeys.map(k => generatedFreqPct[k]), sharedKeys.map(k => cmuFreqPct[k]))
-    : 0;
-
-  const nonCmuMassPct = generatedOnlyKeys.reduce((sum, k) => sum + (generatedFreqPct[k] || 0), 0);
-  const coverageAdjustedR = sharedR * (1 - nonCmuMassPct / 100);
-
-  const commonShared = sharedKeys.filter(k => (cmuFreqPct[k] || 0) >= minCommonBaselinePct);
-
-  const overRep = commonShared
-    .map(k => ({
-      phoneme: k,
-      generatedPct: generatedFreqPct[k],
-      baselinePct: cmuFreqPct[k],
-      ratio: generatedFreqPct[k] / cmuFreqPct[k],
-      gapPct: generatedFreqPct[k] - cmuFreqPct[k],
-    }))
-    .sort((a, b) => b.ratio - a.ratio);
-
-  const underRep = commonShared
-    .map(k => ({
-      phoneme: k,
-      generatedPct: generatedFreqPct[k],
-      baselinePct: cmuFreqPct[k],
-      ratio: generatedFreqPct[k] / cmuFreqPct[k],
-      gapPct: generatedFreqPct[k] - cmuFreqPct[k],
-    }))
-    .sort((a, b) => a.ratio - b.ratio);
-
-  const absoluteGap = commonShared
-    .map(k => ({
-      phoneme: k,
-      generatedPct: generatedFreqPct[k],
-      baselinePct: cmuFreqPct[k],
-      ratio: generatedFreqPct[k] / cmuFreqPct[k],
-      gapPct: generatedFreqPct[k] - cmuFreqPct[k],
-      absGapPct: Math.abs(generatedFreqPct[k] - cmuFreqPct[k]),
-    }))
-    .sort((a, b) => b.absGapPct - a.absGapPct);
-
-  const generatedOnlyPhonemes = generatedOnlyKeys
-    .map(k => ({ phoneme: k, generatedPct: generatedFreqPct[k] }))
-    .sort((a, b) => b.generatedPct - a.generatedPct);
-
+  const { shared: sharedKeys, generatedOnly: generatedOnlyKeys, baselineOnly: cmuOnlyKeys } = partitionPhonemeKeys(generatedFreqPct, cmuFreqPct);
+  const metrics = computePhonemeQualityMetrics(phonemeCounts, cmuFreqPct, minCommonBaselinePct);
   return {
-    sharedKeyCount: sharedKeys.length,
-    generatedOnlyKeyCount: generatedOnlyKeys.length,
-    cmuOnlyKeyCount: cmuOnlyKeys.length,
-    sharedPearsonR: sharedR,
-    nonCmuMassPct,
-    coverageAdjustedR,
+    ...metrics,
     buckets: {
       shared: sortByValueDesc(Object.fromEntries(sharedKeys.map(k => [k, generatedFreqPct[k]]))),
       generatedOnly: sortByValueDesc(Object.fromEntries(generatedOnlyKeys.map(k => [k, generatedFreqPct[k]]))),
       cmuOnly: sortByValueDesc(Object.fromEntries(cmuOnlyKeys.map(k => [k, cmuFreqPct[k]]))),
     },
-    generatedOnlyPhonemes,
-    topOverRepresented: overRep.slice(0, 25),
-    topUnderRepresented: underRep.slice(0, 25),
-    topAbsoluteGap: absoluteGap.slice(0, 25),
+    topOverRepresented: metrics.topOverRepresented.slice(0, 25),
+    topUnderRepresented: metrics.topUnderRepresented.slice(0, 25),
+    topAbsoluteGap: metrics.topAbsoluteGap.slice(0, 25),
   };
 }
 
@@ -148,12 +87,13 @@ function formatRatio(x) {
 
 function toMarkdown(report) {
   const lines = [];
-  lines.push('# Phoneme 2M Analysis');
+  lines.push(`# Phoneme Analysis — ${report.config.totalWords.toLocaleString()} words`);
   lines.push('');
   lines.push(`Generated: ${report.generatedAt}`);
   lines.push('');
   lines.push('## Configuration');
   lines.push(`- Seeds: ${report.config.seeds.join(', ')}`);
+  lines.push(`- Sampling: ${report.config.sampling}`);
   lines.push(`- Words per seed: ${report.config.countPerSeed.toLocaleString()}`);
   lines.push(`- Total generated words: ${report.config.totalWords.toLocaleString()}`);
   lines.push(`- Mode: ${report.config.mode}`);
@@ -168,6 +108,12 @@ function toMarkdown(report) {
   lines.push(`- Shared-key Pearson r: ${report.aggregate.sharedPearsonR.toFixed(4)}`);
   lines.push(`- Non-CMU generated mass: ${report.aggregate.nonCmuMassPct.toFixed(4)}%`);
   lines.push(`- Coverage-adjusted r: ${report.aggregate.coverageAdjustedR.toFixed(4)}`);
+  lines.push(`- Union-key Pearson r: ${report.aggregate.unionPearsonR.toFixed(4)}`);
+  lines.push(`- Missing reference mass: ${report.aggregate.missingReferenceMassPct.toFixed(4)}%`);
+  lines.push(`- Jensen–Shannon divergence (bits): ${report.aggregate.jensenShannonBits?.toFixed(6) ?? 'unavailable'}`);
+  lines.push(`- Phonemes rejected by normalization: ${Object.values(report.normalizationLosses).reduce((a, b) => a + b, 0)}`);
+  lines.push('Shared-key and coverage-adjusted correlations are retained for historical comparison; neither measures missing reference mass.');
+  lines.push('Traced witnesses for present outlier categories are included in the JSON report.');
   lines.push('');
 
   lines.push('## Generated-Only Phonemes');
@@ -217,27 +163,27 @@ function main() {
   const minCommonBaselinePct = Number(getArg('min-common-baseline-pct', String(DEFAULT_MIN_COMMON_BASELINE_PCT)));
   const reportBasename = getArg('output', DEFAULT_OUTPUT);
 
-  if (seeds.length === 0) throw new Error('At least one seed is required.');
-  if (!Number.isFinite(countPerSeed) || countPerSeed <= 0) throw new Error('count-per-seed must be a positive number.');
+  validateSampleCount(countPerSeed);
 
   const cmuCounts = loadCmuPhonemeCounts();
   const cmuFreqPct = toPercentMap(cmuCounts);
 
   const bySeed = [];
   const aggregateCounts = {};
-  let aggregateTotal = 0;
+  const normalizationLosses = {};
+  const firstOccurrences = {};
 
   for (const seed of seeds) {
     console.log(`Analyzing seed ${seed} (${countPerSeed.toLocaleString()} words)...`);
-    const sample = countSamplePhonemes({ seed, count: countPerSeed, mode, morphology });
+    const sample = countSamplePhonemes({ seed, count: countPerSeed, mode, morphology, normalization });
     for (const [phoneme, count] of Object.entries(sample.phonemeCounts)) {
       aggregateCounts[phoneme] = (aggregateCounts[phoneme] || 0) + count;
     }
-    aggregateTotal += sample.totalPhonemes;
+    for (const [sound, count] of Object.entries(sample.normalizationLosses)) normalizationLosses[sound] = (normalizationLosses[sound] || 0) + count;
+    for (const [sound, location] of Object.entries(sample.firstOccurrences)) firstOccurrences[sound] ??= location;
 
     const metrics = deriveMetrics({
       phonemeCounts: sample.phonemeCounts,
-      totalPhonemes: sample.totalPhonemes,
       cmuFreqPct,
       minCommonBaselinePct,
     });
@@ -245,13 +191,13 @@ function main() {
     bySeed.push({
       seed,
       phonemeTotal: sample.totalPhonemes,
+      normalizationLosses: sample.normalizationLosses,
       metrics,
     });
   }
 
   const aggregate = deriveMetrics({
     phonemeCounts: aggregateCounts,
-    totalPhonemes: aggregateTotal,
     cmuFreqPct,
     minCommonBaselinePct,
   });
@@ -259,6 +205,7 @@ function main() {
   const report = {
     generatedAt: new Date().toISOString(),
     config: {
+      sampling: SAMPLING_METHOD,
       seeds,
       countPerSeed,
       totalWords: seeds.length * countPerSeed,
@@ -269,6 +216,11 @@ function main() {
     },
     aggregate,
     bySeed,
+    normalizationLosses,
+    traceWitnesses: traceWitnesses(Object.fromEntries(
+      [...aggregate.topOverRepresented, ...aggregate.topUnderRepresented, ...aggregate.topAbsoluteGap, ...aggregate.generatedOnlyPhonemes]
+        .map(row => [row.phoneme, firstOccurrences[row.phoneme]])
+    ), { mode, morphology }),
     artifacts: {
       cmuBaseline: 'data/cmu/cmu-lexicon-phonemes.json',
       normalization: 'data/cmu/phoneme-normalization.json',
@@ -296,4 +248,4 @@ function main() {
   }
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

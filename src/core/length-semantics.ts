@@ -1,26 +1,26 @@
-import type { MorphologyPlan } from "./morphology/index.js";
-
-export interface MorphologyPhonemeDelta {
-  planned: number;
-  resolved?: number;
-  drift?: number;
-}
-
 export interface PhonemeTargetBounds {
   minRoot: number;
   maxRoot: number;
-}
-
-export interface DerivedPhonemeTargets {
-  finalTarget: number;
-  rootTarget: number;
-  bounds: PhonemeTargetBounds;
 }
 
 export interface AttemptScore {
   phonemeDistance: number;
   letterPenalty: number;
   total: number;
+}
+
+export interface AcceptanceCriteria {
+  /** Attempts before near-target letter lengths can be accepted. */
+  warmupAttempts: number;
+  /** Largest letter penalty accepted after the warmup. */
+  relaxedLetterPenalty: number;
+}
+
+export interface AttemptAssessment {
+  /** null means the attempt was rejected. */
+  acceptedBy: "exact" | "relaxed" | null;
+  /** Conditions that rejected the attempt; several can fail at once. */
+  failed: { phonemeTarget: boolean; letterLength: boolean; warmup: boolean };
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -39,36 +39,9 @@ export function computePhonemeTargetBounds(
   return { minRoot, maxRoot };
 }
 
-export function derivePhonemeTargets(
-  sampledFinalTarget: number,
-  plannedMorphologyDelta: number,
-  bounds: PhonemeTargetBounds,
-): DerivedPhonemeTargets {
-  const minFinal = bounds.minRoot + plannedMorphologyDelta;
-  const maxFinal = Number.isFinite(bounds.maxRoot) ? bounds.maxRoot + plannedMorphologyDelta : Infinity;
-  const finalTarget = clamp(sampledFinalTarget, minFinal, maxFinal);
-  const rootTarget = clamp(finalTarget - plannedMorphologyDelta, bounds.minRoot, bounds.maxRoot);
-  return { finalTarget, rootTarget, bounds };
-}
-
-export function getPlannedMorphologyPhonemeDelta(plan?: MorphologyPlan): MorphologyPhonemeDelta {
-  if (!plan) return { planned: 0 };
-  const planned = (plan.prefix?.phonemes.length ?? 0) + (plan.suffix?.phonemes.length ?? 0);
-  return { planned };
-}
-
-export function resolveMorphologyPhonemeDelta(
-  rootPhonemeCount: number,
-  finalPhonemeCount: number,
-  planned?: MorphologyPhonemeDelta,
-): MorphologyPhonemeDelta {
-  const plannedDelta = planned?.planned ?? 0;
-  const resolved = finalPhonemeCount - rootPhonemeCount;
-  return {
-    planned: plannedDelta,
-    resolved,
-    drift: resolved - plannedDelta,
-  };
+/** The sampled target belongs to the root; affix costs do not enter it. */
+export function resolveRootPhonemeTarget(sampledRootTarget: number, bounds: PhonemeTargetBounds): number {
+  return clamp(sampledRootTarget, bounds.minRoot, bounds.maxRoot);
 }
 
 export function resolveLetterLengthBounds(
@@ -124,4 +97,26 @@ export function scoreGenerationAttempt(
     letterPenalty,
     total: phonemeDistance * 2 + letterPenalty,
   };
+}
+
+/**
+ * Decide whether an attempt is accepted. An exact match is always accepted;
+ * after the warmup, a matching phoneme count with a small letter penalty is too.
+ */
+export function assessAttempt(
+  score: AttemptScore,
+  attemptIndex: number,
+  criteria: AcceptanceCriteria,
+): AttemptAssessment {
+  // Preserve the original positive acceptance checks: NaN must not be accepted
+  // merely because it fails neither a greater-than nor a warmup comparison.
+  const exact = score.phonemeDistance === 0 && score.letterPenalty === 0;
+  const relaxed = attemptIndex >= criteria.warmupAttempts
+    && score.phonemeDistance === 0 && score.letterPenalty <= criteria.relaxedLetterPenalty;
+  const failed = {
+    phonemeTarget: score.phonemeDistance !== 0,
+    letterLength: !(score.letterPenalty <= criteria.relaxedLetterPenalty),
+    warmup: attemptIndex < criteria.warmupAttempts && score.letterPenalty !== 0,
+  };
+  return { acceptedBy: exact ? "exact" : relaxed ? "relaxed" : null, failed };
 }
