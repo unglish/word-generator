@@ -1,0 +1,55 @@
+{
+  "id": "Q10a",
+  "deliveryClassification": "Delivered measured independent availability experiment; adverse distribution outcomes retained",
+  "deliveryCompletionProven": true,
+  "adoptionReady": false,
+  "freshPublicCandidateWords": 200000,
+  "originalRawCompressedHashesMatched": 20,
+  "fullIndependentWords": 400000,
+  "independentReports": {
+    "original": {
+      "reportSha256": "075c706f4de49ba18fe5527ea376c83ef502b113ca09a41d641997c2c35bd676",
+      "manifestFileSha256": "1e31ad59251eb5fbe8863bae988539062845f081e2597589669343f50e5452e7",
+      "verifierSha256": "a21d6030ad16e48be7c69ddaba62823f25656b70b7238d1b609105d951f3b5ce",
+      "words": 200000,
+      "exactAgreement": true,
+      "checks": [
+        "all pinned artifact bytes/hashes",
+        "generator source digest",
+        "exact shard set",
+        "every draw identity/order",
+        "every profile/replicate/morphology/stress-position count",
+        "stage-specific pair transitions"
+      ]
+    },
+    "candidate": {
+      "reportSha256": "0ded3f607619aea24531d598716a1094c9d901498cbfff590ac111d9ab0430aa",
+      "manifestFileSha256": "ad2f93c2ebf2e702f2dea6bfb43cee5dc59149b3012387e5cf87524ddeac34cc",
+      "verifierSha256": "a21d6030ad16e48be7c69ddaba62823f25656b70b7238d1b609105d951f3b5ce",
+      "words": 200000,
+      "exactAgreement": true,
+      "checks": [
+        "all pinned artifact bytes/hashes",
+        "generator source digest",
+        "exact shard set",
+        "every draw identity/order",
+        "every profile/replicate/morphology/stress-position count",
+        "stage-specific pair transitions"
+      ]
+    }
+  },
+  "publicFixturesPassed": 11,
+  "exactRuntimeFilesVerified": 42,
+  "retention": {
+    "path": ".local-evidence/q10a-reproduction-retained-v1",
+    "files": 91,
+    "bytes": 174441725,
+    "indexSha256": "643300e8479cb43801bc7d5e1887afef9dc36c5de57c6654e880e9d0717c86f7"
+  },
+  "originalCaptureIdentityPreserved": true,
+  "remainingAdoptionLimits": [
+    "Original ang ratio3.3229955624 exceeds unchanged3.21gate",
+    "Increased reference divergence and other adverse outcomes; no general quality/human preference claim"
+  ],
+  "scope": "Full original candidate corpus reproduced through public API, all20compressedarchives byte-identical; fresh unchanged independent full200k-per-arm recount and original11publicfixtures. Original gate logs authenticated, not rerun. Supporting publication of renewed evidence remains next."
+}
