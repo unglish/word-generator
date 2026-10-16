@@ -1,12 +1,25 @@
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { gunzipSync } from "node:zlib";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from "vitest";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
+let scoresDirectory: string;
+let scoresPath: string;
+
+beforeAll(async () => {
+  scoresDirectory = await mkdtemp(join(tmpdir(), "unglish-cli-scores-"));
+  scoresPath = join(scoresDirectory, "scores.json");
+  const compressed = await readFile(join(root, "evaluation/experiments/cmu-shared-parser/frozen-scores-parser-v1.json.gz"));
+  await writeFile(scoresPath, gunzipSync(compressed));
+});
+afterAll(async () => {
+  await rm(scoresDirectory, { recursive: true, force: true });
+});
 
 describe.each(["review", "wordlikeness"] as const)("%s CLI JSON input", cli => {
   let directory: string;
@@ -24,7 +37,7 @@ describe.each(["review", "wordlikeness"] as const)("%s CLI JSON input", cli => {
   function run(input: string) {
     const script = cli === "review" ? "evaluation/review/cli.ts" : "evaluation/review/wordlikeness/cli.ts";
     const args = cli === "review" ? ["report", "--input", input, "--out", output] :
-      ["evaluate", "--input", input, "--scores", "evaluation/review/wordlikeness/artifacts/frozen-scores-v1.json", "--run", basename(output)];
+      ["evaluate", "--input", input, "--scores", scoresPath, "--run", basename(output)];
     return spawnSync(process.execPath, ["--import", "tsx", script, ...args], { cwd: root, encoding: "utf8", timeout: 10000 });
   }
 
