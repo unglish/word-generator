@@ -1,10 +1,10 @@
 import { createHash } from "node:crypto";
+import { parseCmuRecords, selectCompatibleCmu, validCmuToken } from "../../corpus/cmu.js";
+export { VOWELS, CONSONANTS, normalizeSpelling } from "../../corpus/cmu.js";
 
 export const SCORING_VERSION = "wordlikeness-v1";
 export const CMU_REVISION = "74790861f652b15e4ac49015a90074ad62a27690";
 export const CMU_SHA256 = "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22";
-export const VOWELS = new Set("AA AE AH AO AW AY EH ER EY IH IY OW OY UH UW".split(" "));
-export const CONSONANTS = new Set("B CH D DH F G HH JH K L M N NG P R S SH T TH V W Y Z ZH".split(" "));
 export interface SoundSyllable { onset: string[]; nucleus: string[]; coda: string[]; stressed: boolean }
 export interface Context { constituent: "onset" | "rime"; position: "initial" | "medial" | "final"; stressed: boolean }
 export interface Counts { total: number; counts: Record<string, number> }
@@ -33,14 +33,10 @@ export function contexts(index: number, count: number, stressed: boolean): Conte
     { constituent: "rime", position: index === count - 1 ? "final" : "medial", stressed },
   ];
 }
-export const normalizeSpelling = (spelling: string): string | null => /^[a-z]+$/i.test(spelling) ? spelling.toLowerCase() : null;
 function increment(table: Record<string, Counts>, context: string, token: string): void {
   const bucket = table[context] ??= { total: 0, counts: {} };
   bucket.total++;
   bucket.counts[token] = (bucket.counts[token] ?? 0) + 1;
-}
-function validCmuToken(token: string): boolean {
-  return CONSONANTS.has(token) || (/^[A-Z]+[012]$/.test(token) && VOWELS.has(token.slice(0, -1)));
 }
 export function syllabify(tokens: string[], initialOnsets: ReadonlySet<string>): SoundSyllable[] {
   if (!tokens.length || tokens.some(token => !validCmuToken(token))) throw new Error("Unsupported CMU pronunciation.");
@@ -66,21 +62,8 @@ export function syllabify(tokens: string[], initialOnsets: ReadonlySet<string>):
 
 /** Corpus-only construction: never uses generator weights or pilot judgments. */
 export function buildReference(text: string, revision: string): ReferenceModel {
-  const entries = new Map<string, string[]>();
-  const excluded: Record<string, number> = {};
-  const exclude = (reason: string) => { excluded[reason] = (excluded[reason] ?? 0) + 1; };
-  for (const line of text.split(/\r?\n/)) {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith(";;;")) continue;
-    const [label, ...tokens] = trimmed.split(/\s+#/)[0].split(/\s+/);
-    if (/\(\d+\)$/.test(label)) { exclude("alternate_pronunciation"); continue; }
-    const spelling = normalizeSpelling(label);
-    if (!spelling) { exclude("non_ascii_spelling"); continue; }
-    if (!tokens.length || tokens.some(token => !validCmuToken(token))) { exclude("unsupported_pronunciation"); continue; }
-    if (!tokens.some(token => /[012]$/.test(token))) { exclude("no_vowel"); continue; }
-    if (entries.has(spelling)) { exclude("duplicate_spelling"); continue; }
-    entries.set(spelling, tokens);
-  }
+  const { entries: selected, excluded } = selectCompatibleCmu(parseCmuRecords(text));
+  const entries = new Map(selected.map(entry => [entry.spelling, entry.tokens]));
   if (!entries.size) throw new Error("Reference lexicon has no supported entries.");
   const initialOnsets = new Set([""]);
   for (const tokens of entries.values()) initialOnsets.add(keyOf(tokens.slice(0, tokens.findIndex(token => /[012]$/.test(token)))));
