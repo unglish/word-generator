@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "--import",
+    "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/conditional-onset-rime/execution-tools/sealed-fit.mjs",
+    "cbf479a1039a7db37333fed8b432d0f51ef686ca"
+  ],
+  "exitCode": 0,
+  "tools": {
+    "dependency-closure.mjs": "3fc6a2f976a1131f608b0870627be14520e46fff4542eafd1cd0e475bca9fc91",
+    "sealed-fit.mjs": "6949e270b6565bfd7311c959b4072eda6f10825b1e0c4eb7d6ca64c661577c9e"
+  }
+}
