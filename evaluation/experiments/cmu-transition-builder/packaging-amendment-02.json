@@ -1,0 +1,10 @@
+{
+  "version": "cmu-transition-packaging-amendment-v1",
+  "timing": "after successful formal acceptance; before publication",
+  "change": "Update only the new contract documentation from pending review to completed evidence; retain exact reviewed bytes separately.",
+  "path": "docs/cmu-transition-builder.md",
+  "beforeSha256": "788de4a668031a094798728b08d82ed64952508b8c6b0a3f4b472c7533dd5c8e",
+  "afterSha256": "08e5d96ac20e0450be349c5b574ef1bbb9ff0ac920ef0db34f7ce23e59eb4888",
+  "preservedBefore": "contract-at-source-review.md.gz",
+  "productionVerifierTestsProtocolsChanged": false
+}
