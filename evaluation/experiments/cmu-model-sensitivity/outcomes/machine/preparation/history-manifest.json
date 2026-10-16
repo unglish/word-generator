@@ -1,0 +1,251 @@
+{
+  "version": "q15-preparation-history-v1",
+  "files": [
+    {
+      "path": "q15-before-manifest-serialization-fix-v1/README.md",
+      "origin": "/private/tmp/q15-before-manifest-serialization-fix-v1/README.md",
+      "bytes": 5405,
+      "sha256": "b001a96e37e00d0a0f218fa6a7e67b8db0a9ce88f097277723d684f1d22b32bd"
+    },
+    {
+      "path": "q15-before-manifest-serialization-fix-v1/manifest.json",
+      "origin": "/private/tmp/q15-before-manifest-serialization-fix-v1/manifest.json",
+      "bytes": 766,
+      "sha256": "d6665075a4ebd5b942138e5637fda5f884a09b7d2c2ccda4ecf744781e224674"
+    },
+    {
+      "path": "q15-before-manifest-serialization-fix-v1/verify-model-sensitivity-test.py",
+      "origin": "/private/tmp/q15-before-manifest-serialization-fix-v1/verify-model-sensitivity-test.py",
+      "bytes": 13755,
+      "sha256": "cdde246db3be6cee306609958d249fe940122277779b06ef17145df37e1ea457"
+    },
+    {
+      "path": "q15-before-manifest-serialization-fix-v1/verify-model-sensitivity.py",
+      "origin": "/private/tmp/q15-before-manifest-serialization-fix-v1/verify-model-sensitivity.py",
+      "bytes": 37055,
+      "sha256": "ee3fef74fdd8e2f3fec842a5974e8d6852eb6088992b11984b1586b9092addc9"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/corpus/model-sensitivity-acceptance.ts",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/corpus/model-sensitivity-acceptance.ts",
+      "bytes": 6029,
+      "sha256": "6d5648d2cacdddc702b7d48a9d513e0c03be2cb90096dffa143746c003afb6fc"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/corpus/model-sensitivity-cli.ts",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/corpus/model-sensitivity-cli.ts",
+      "bytes": 2815,
+      "sha256": "7849d378f5f31f1703c3fab75188600cadf4969a242f2d369b5ee0373f61113d"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/corpus/model-sensitivity-integrity.ts",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/corpus/model-sensitivity-integrity.ts",
+      "bytes": 10987,
+      "sha256": "71fa7fea175b32482de034ad75aaf824309e5d658c8116b462c323ce017df8d1"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/corpus/model-sensitivity-runner.ts",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/corpus/model-sensitivity-runner.ts",
+      "bytes": 14544,
+      "sha256": "fb465bb4b376bae9266290ea6bcadb5554980592a65539bee7d826e7ea1acebe"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/corpus/model-sensitivity.ts",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/corpus/model-sensitivity.ts",
+      "bytes": 16759,
+      "sha256": "5a7e77baeb2cd1d7dc6b58371d05eba996093a35b4bfc164fa148714acdc337b"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/corpus/verify-model-sensitivity-test.py",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/corpus/verify-model-sensitivity-test.py",
+      "bytes": 14348,
+      "sha256": "d6786385136b28fd699c164cddce78a20fd953e24eb6a9a61976fe9f73dbd2bc"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/corpus/verify-model-sensitivity.py",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/corpus/verify-model-sensitivity.py",
+      "bytes": 38267,
+      "sha256": "af3cbe9e134f8e8eaa015e4c7c8184abd94060ca48710938f34efdee07727599"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/experiments/cmu-model-sensitivity/README.md",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/experiments/cmu-model-sensitivity/README.md",
+      "bytes": 5974,
+      "sha256": "9f37f6a40dc2b79c966a97b66ead553e316f09b9f60f47f7469da18d3a720c34"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/experiments/cmu-model-sensitivity/design.md",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/experiments/cmu-model-sensitivity/design.md",
+      "bytes": 26428,
+      "sha256": "6cd973cc86e50a55f1efb53f75c67f80938237e91ec445ed0f3993c926aaca1b"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/experiments/cmu-model-sensitivity/fixtures-plan.md",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/experiments/cmu-model-sensitivity/fixtures-plan.md",
+      "bytes": 1670,
+      "sha256": "8fc04d224b2f6b4ebe5b31436d310f91991a8114533dc620fc9a21f64feae842"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/experiments/cmu-model-sensitivity/parent-files.json",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/experiments/cmu-model-sensitivity/parent-files.json",
+      "bytes": 36316,
+      "sha256": "9d4ed4d864042c19158e38906d2537b01a154eed8d00008340ea3c088ba58d20"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/experiments/cmu-model-sensitivity/protocol.json",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/experiments/cmu-model-sensitivity/protocol.json",
+      "bytes": 2383,
+      "sha256": "1932ff66670bc0315636c648d06240f3ad517a857943d169f30f460e01ea1411"
+    },
+    {
+      "path": "q15-decomposition-before-v2/evaluation/review/cmu-model-sensitivity.test.ts",
+      "origin": "/private/tmp/q15-decomposition-before-v2/evaluation/review/cmu-model-sensitivity.test.ts",
+      "bytes": 14827,
+      "sha256": "71948780abd5fad50fc0cd40eff3d68ce5f34a34096eaf3edc58ffee9b4f4a9c"
+    },
+    {
+      "path": "q15-decomposition-before-v2/snapshot.json",
+      "origin": "/private/tmp/q15-decomposition-before-v2/snapshot.json",
+      "bytes": 2471,
+      "sha256": "0a9b9f0b88fd412d61e71e94c5f77bc00993aec7c60faa65b9ec54f7b1aeba85"
+    },
+    {
+      "path": "q15-decomposition-diff-v2.patch",
+      "origin": "/private/tmp/q15-decomposition-diff-v2.patch",
+      "bytes": 21987,
+      "sha256": "6c2cb4b9b89fce915fdf2780fbd65a069048cf1f7581410671ab6af8ac160121"
+    },
+    {
+      "path": "q15-decomposition-first-patch-core-v2.ts",
+      "origin": "/private/tmp/q15-decomposition-first-patch-core-v2.ts",
+      "bytes": 18763,
+      "sha256": "bd455d3d9b1f53466b7d4416ec6a4fdd696e3028fe7454b282cfe990a188b72b"
+    },
+    {
+      "path": "q15-decomposition-lint-v3.log",
+      "origin": "/private/tmp/q15-decomposition-lint-v3.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "q15-decomposition-python-tests-v3.log",
+      "origin": "/private/tmp/q15-decomposition-python-tests-v3.log",
+      "bytes": 116,
+      "sha256": "6ea593ed4955fe60869c9ab470364a987be40eb19e6d1d4b4c25353f7239b554"
+    },
+    {
+      "path": "q15-decomposition-review-typecheck-v2.log",
+      "origin": "/private/tmp/q15-decomposition-review-typecheck-v2.log",
+      "bytes": 221,
+      "sha256": "46baa9a6176df196a8f301213d2601da622b50928ed94342c23470a85b8f71f1"
+    },
+    {
+      "path": "q15-decomposition-review-typecheck-v3.log",
+      "origin": "/private/tmp/q15-decomposition-review-typecheck-v3.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "q15-decomposition-source-review-v2.json",
+      "origin": "/private/tmp/q15-decomposition-source-review-v2.json",
+      "bytes": 6232,
+      "sha256": "966feeab71ba7260bf2f6be8a385ad3a043e1d0f36483a5c94ce2cd4e7cf8e19"
+    },
+    {
+      "path": "q15-decomposition-ts-tests-v3.log",
+      "origin": "/private/tmp/q15-decomposition-ts-tests-v3.log",
+      "bytes": 453,
+      "sha256": "d8e4ea910fb1b772088a07d6c0670dfc4af65c86bd5f713837a9471a82edb228"
+    },
+    {
+      "path": "q15-decomposition-typecheck-v2.log",
+      "origin": "/private/tmp/q15-decomposition-typecheck-v2.log",
+      "bytes": 221,
+      "sha256": "46baa9a6176df196a8f301213d2601da622b50928ed94342c23470a85b8f71f1"
+    },
+    {
+      "path": "q15-decomposition-typecheck-v3.log",
+      "origin": "/private/tmp/q15-decomposition-typecheck-v3.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "q15-model-sensitivity-lint-v5.log",
+      "origin": "/private/tmp/q15-model-sensitivity-lint-v5.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "q15-model-sensitivity-python-tests-v1.log",
+      "origin": "/private/tmp/q15-model-sensitivity-python-tests-v1.log",
+      "bytes": 1121,
+      "sha256": "583c9829ded38afd84e04e67a0af772d06a75a5c2f17e7a44be12f63adb1a299"
+    },
+    {
+      "path": "q15-model-sensitivity-python-tests-v3.log",
+      "origin": "/private/tmp/q15-model-sensitivity-python-tests-v3.log",
+      "bytes": 2944,
+      "sha256": "a2daa4fb60b322049bf039b7df1b1ce1762c7356fd4a0d111e00941db8dc389c"
+    },
+    {
+      "path": "q15-model-sensitivity-python-tests-v6.log",
+      "origin": "/private/tmp/q15-model-sensitivity-python-tests-v6.log",
+      "bytes": 112,
+      "sha256": "007ac681dbe9d1fdfea0161f2a83c009ef629b4e728d96cbe245f620bb28837d"
+    },
+    {
+      "path": "q15-model-sensitivity-review-typecheck-v1.log",
+      "origin": "/private/tmp/q15-model-sensitivity-review-typecheck-v1.log",
+      "bytes": 1593,
+      "sha256": "c68eb1fb6f8e724c655a92874bc351a9e5d0d45a834a2be67c0af63707ea0482"
+    },
+    {
+      "path": "q15-model-sensitivity-review-typecheck-v5.log",
+      "origin": "/private/tmp/q15-model-sensitivity-review-typecheck-v5.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "q15-model-sensitivity-source-review-v1.json",
+      "origin": "/private/tmp/q15-model-sensitivity-source-review-v1.json",
+      "bytes": 7231,
+      "sha256": "dc796a7196e23e2d3aca2b7137790d70f0648aa37720c476bfbc8f0d2f430ad7"
+    },
+    {
+      "path": "q15-model-sensitivity-ts-tests-v6.log",
+      "origin": "/private/tmp/q15-model-sensitivity-ts-tests-v6.log",
+      "bytes": 453,
+      "sha256": "75770e9e1c0eddcce112660d8ba542863d7ae146a80bff8fb0cf4cc61bcf5ffa"
+    },
+    {
+      "path": "q15-model-sensitivity-typecheck-v6.log",
+      "origin": "/private/tmp/q15-model-sensitivity-typecheck-v6.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "q15-parent-manifest-serialization-proof-v1.json",
+      "origin": "/private/tmp/q15-parent-manifest-serialization-proof-v1.json",
+      "bytes": 438,
+      "sha256": "c5a21b4cc56db45a64a0fd4eb30566e1466c1a15d017aa643841fe7133628876"
+    },
+    {
+      "path": "q15-parent-python-fixtures-v2.log",
+      "origin": "/private/tmp/q15-parent-python-fixtures-v2.log",
+      "bytes": 116,
+      "sha256": "246479ec7b3d2c5d6bcaae73db16eba70a630e1c629407f1565677554f253755"
+    },
+    {
+      "path": "q15-parent-source-review-v2.json",
+      "origin": "/private/tmp/q15-parent-source-review-v2.json",
+      "bytes": 1001,
+      "sha256": "c45ffd54e05c092adddcc2b6f23a9268d461cd6f0a390cfde603886023c39ca1"
+    },
+    {
+      "path": "q15-parent-ts-fixtures-v2.log",
+      "origin": "/private/tmp/q15-parent-ts-fixtures-v2.log",
+      "bytes": 453,
+      "sha256": "24421eaa2d9954a4f79f1bc1959fb04e2bb950bf1da960414ddb080cec7dfe6a"
+    }
+  ]
+}

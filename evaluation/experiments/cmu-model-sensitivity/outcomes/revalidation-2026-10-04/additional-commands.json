@@ -1,0 +1,88 @@
+[
+  {
+    "name": "python-fixtures-bound",
+    "args": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "evaluation/corpus/verify-model-sensitivity-test.py"
+    ],
+    "cwd": "/private/tmp/q15c5-acceptance-revalidation-v2/checkout",
+    "startedAt": "2026-10-04T12:32:42.043033+00:00",
+    "finishedAt": "2026-10-04T12:32:42.623126+00:00",
+    "exitCode": 0,
+    "fixtureEnvironment": {
+      "Q15_IDENTITY_MODULE": "/private/tmp/q15c5-acceptance-revalidation-v2/inputs/identity.ts"
+    }
+  },
+  {
+    "name": "review-tests-bound",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "--config",
+      "vitest.review.config.ts"
+    ],
+    "cwd": "/private/tmp/q15c5-acceptance-revalidation-v2/checkout",
+    "startedAt": "2026-10-04T12:32:42.623620+00:00",
+    "finishedAt": "2026-10-04T12:32:57.422756+00:00",
+    "exitCode": 0,
+    "fixtureEnvironment": {
+      "Q15_IDENTITY_MODULE": "/private/tmp/q15c5-acceptance-revalidation-v2/inputs/identity.ts"
+    }
+  },
+  {
+    "name": "corpus-types",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/typescript/bin/tsc",
+      "-p",
+      "tsconfig.corpus.json",
+      "--noEmit"
+    ],
+    "cwd": "/private/tmp/q15c5-acceptance-revalidation-v2/checkout",
+    "startedAt": "2026-10-04T12:32:57.423304+00:00",
+    "finishedAt": "2026-10-04T12:32:58.870522+00:00",
+    "exitCode": 0,
+    "fixtureEnvironment": {
+      "Q15_IDENTITY_MODULE": "/private/tmp/q15c5-acceptance-revalidation-v2/inputs/identity.ts"
+    }
+  },
+  {
+    "name": "review-types",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/typescript/bin/tsc",
+      "-p",
+      "tsconfig.review.json",
+      "--noEmit"
+    ],
+    "cwd": "/private/tmp/q15c5-acceptance-revalidation-v2/checkout",
+    "startedAt": "2026-10-04T12:32:58.871072+00:00",
+    "finishedAt": "2026-10-04T12:33:00.926639+00:00",
+    "exitCode": 0,
+    "fixtureEnvironment": {
+      "Q15_IDENTITY_MODULE": "/private/tmp/q15c5-acceptance-revalidation-v2/inputs/identity.ts"
+    }
+  },
+  {
+    "name": "targeted-lint",
+    "args": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "node_modules/eslint/bin/eslint.js",
+      "evaluation/corpus/model-sensitivity.ts",
+      "evaluation/corpus/model-sensitivity-integrity.ts",
+      "evaluation/corpus/model-sensitivity-acceptance.ts",
+      "evaluation/corpus/model-sensitivity-runner.ts",
+      "evaluation/corpus/model-sensitivity-cli.ts",
+      "evaluation/review/cmu-model-sensitivity.test.ts"
+    ],
+    "cwd": "/private/tmp/q15c5-acceptance-revalidation-v2/checkout",
+    "startedAt": "2026-10-04T12:33:00.927332+00:00",
+    "finishedAt": "2026-10-04T12:33:02.032010+00:00",
+    "exitCode": 0,
+    "fixtureEnvironment": {
+      "Q15_IDENTITY_MODULE": "/private/tmp/q15c5-acceptance-revalidation-v2/inputs/identity.ts"
+    }
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "registeredAt": "2026-10-04T12:26:46.425580+00:00",
+  "publishedHead": "71f5a6f6af2291e14d0b012f1ab5911a3d7ecca0",
+  "originalFreeze": {
+    "bytes": 64251,
+    "sha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569"
+  },
+  "originalRoot": "/Users/ryanbetts/.codex/worktrees/linguistic-rejection/word-generator",
+  "relocatedRoot": "/private/tmp/q15c5-acceptance-revalidation-v2/checkout",
+  "originalInputs": {
+    "source": "/private/tmp/q15-cmudict-74790861.dict",
+    "archive": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone",
+    "identity": "/private/tmp/q16-files/identity.ts",
+    "identityReport": "/private/tmp/q16-identity-original.json"
+  },
+  "relocatedInputs": {
+    "source": "/private/tmp/q15c5-acceptance-revalidation-v2/inputs/cmudict.dict",
+    "identity": "/private/tmp/q15c5-acceptance-revalidation-v2/inputs/identity.ts",
+    "identityReport": "/private/tmp/q15c5-acceptance-revalidation-v2/inputs/identity-original.json",
+    "archive": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone"
+  },
+  "sourcePinsExact": 338,
+  "inputPinsExact": 30,
+  "driverSha256": "772159b60a1dd6964bd523ffa04d6cceee800b7598d99452960d37bc45522f09",
+  "publicationLayoutRepair": {
+    "from": "evaluation/experiments/cmu-model-sensitivity/RESULTS.md",
+    "to": "evaluation/experiments/cmu-model-sensitivity/outcomes/RESULTS.md",
+    "bytes": 664,
+    "sha256": "251008f0f7508c00373fb5408abd8cf27d66559a5beccb0d510c8839f574b704",
+    "reason": "Post-measurement summary is not in original338 source closure; frozen guards allow outcome documents only under outcomes. Exact summary bytes preserved."
+  },
+  "priorAttempt": "/private/tmp/q15c5-acceptance-revalidation-v1/freeze-command.json",
+  "scope": "Separately registered complete reproduction. Only root and three unavailable external input locations change. All338 source bytes,30 input bytes, engine identity,317485 rows,15 CLI cases,original operators,tolerances and default heap remain unchanged. New freeze/report authority is never relabeled as historical authority. Compare all21 row streams byte-for-byte and every report field except declared authority and authority-dependent canonical digest."
+}

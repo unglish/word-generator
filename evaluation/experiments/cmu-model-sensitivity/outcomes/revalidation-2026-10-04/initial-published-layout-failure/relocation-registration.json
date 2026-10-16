@@ -1,0 +1,26 @@
+{
+  "registeredAt": "2026-10-04T12:25:07.618231+00:00",
+  "publishedHead": "71f5a6f6af2291e14d0b012f1ab5911a3d7ecca0",
+  "originalFreeze": {
+    "bytes": 64251,
+    "sha256": "0676ac8c6669afa1b05519e68dee995359d5be7bab9ec72014f015f29f44c569"
+  },
+  "originalRoot": "/Users/ryanbetts/.codex/worktrees/linguistic-rejection/word-generator",
+  "relocatedRoot": "/private/tmp/q15c5-acceptance-revalidation-v1/checkout",
+  "originalInputs": {
+    "source": "/private/tmp/q15-cmudict-74790861.dict",
+    "archive": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone",
+    "identity": "/private/tmp/q16-files/identity.ts",
+    "identityReport": "/private/tmp/q16-identity-original.json"
+  },
+  "relocatedInputs": {
+    "source": "/private/tmp/q15c5-acceptance-revalidation-v1/inputs/cmudict.dict",
+    "identity": "/private/tmp/q15c5-acceptance-revalidation-v1/inputs/identity.ts",
+    "identityReport": "/private/tmp/q15c5-acceptance-revalidation-v1/inputs/identity-original.json",
+    "archive": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone"
+  },
+  "sourcePinsExact": 338,
+  "inputPinsExact": 30,
+  "driverSha256": "f197e5b56e483000bac5bc9d6db594abe02fb6d9d9181cad464f42459ee9cfa8",
+  "scope": "Separately registered complete reproduction. Only root and three unavailable external input locations change. All338 source bytes,30 input bytes, engine identity,317485 rows,15 CLI cases,original operators,tolerances and default heap remain unchanged. New freeze/report authority is never relabeled as historical authority. Compare all21 row streams byte-for-byte and every report field except declared authority and authority-dependent canonical digest."
+}
