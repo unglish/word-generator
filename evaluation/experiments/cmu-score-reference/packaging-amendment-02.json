@@ -1,0 +1,26 @@
+{
+  "version": "cmu-score-reference-packaging-amendment-v2",
+  "scope": "Transport only; preserve original historical builder bytes while avoiding legacy whitespace warnings in an added text artifact. No production, verifier, protocol, source-review record, numerical result or original source content changes.",
+  "beforeTransportPath": "legacy-builder.ts",
+  "afterTransportPath": "legacy-builder.ts.gz",
+  "uncompressedBytes": 7730,
+  "uncompressedSha256": "1d6bdb282c44f51a8b55ff929d34654977d3161df61bfc2f7ce285741b46fbab",
+  "compressedBytes": 2553,
+  "compressedSha256": "8eed69c8a71c1c3c70cae651c655a65a61826d1003bf54329a2a0a6d88264d99",
+  "previousApprovedManifestSha256": "c3371b066b6f898194d8ca8d33367eff04c6e717b4a52bb6a0cad279ba779118",
+  "previousApprovedManifestArchive": "manifest-before-transport.json.gz",
+  "sourceSnapshot": "source-review-files.json.gz retains the exact original at the old path",
+  "stagedCheckBeforeTransport": {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--check"
+    ],
+    "exitCode": 2,
+    "stdout": "evaluation/experiments/cmu-score-reference/legacy-builder.ts:73: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:76: trailing whitespace.\n+    \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:81: trailing whitespace.\n+    \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:87: trailing whitespace.\n+    \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:89: trailing whitespace.\n+    \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:94: trailing whitespace.\n+    \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:100: trailing whitespace.\n+    \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:108: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:125: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:130: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:140: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:145: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:154: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:158: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:163: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:168: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:171: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:201: trailing whitespace.\n+  \nevaluation/experiments/cmu-score-reference/legacy-builder.ts:205: trailing whitespace.\n+  \n",
+    "stderr": "",
+    "inheritedWhitespaceLines": 19
+  },
+  "afterTransportRequirement": "Exact staged paths and blobs reverified; git diff --cached --check must pass before commit."
+}
