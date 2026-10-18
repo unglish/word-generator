@@ -1,0 +1,31 @@
+{
+  "id": "linear-budget-suite-equivalence",
+  "result": "same-quality-and-failure-values",
+  "candidateSourceDigest": "3dfffb12c5f595507276983f0eae78fedf010726c928ed69cd182db987c3da5b",
+  "runtimeFrozen": true,
+  "fullSuite": {
+    "passed": 558,
+    "skipped": 1,
+    "failed": 5,
+    "failureAssertionsIdentical": true,
+    "failures": {
+      "src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented": "AssertionError: Bigram \"ex\" under-represented at 0.0161\u00d7 vs CMU (threshold: 0.0215\u00d7): expected 0.016088431920679963 to be greater than or equal to 0.0215",
+      "src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented": "AssertionError: Trigram \"ugh\" under-represented at 0.0049\u00d7 vs CMU (threshold: 0.0062\u00d7): expected 0.004918725049806447 to be greater than or equal to 0.0062",
+      "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs": "AssertionError: expected 9 to be +0 // Object.is equality",
+      "src/core/write.test.ts > consonant pileup integration > generates 100k words with no 5+ consonant letter runs": "AssertionError: expected 31 to be +0 // Object.is equality",
+      "src/core/write.test.ts > consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs": "AssertionError: expected 36 to be +0 // Object.is equality"
+    },
+    "baselineLogSha256": "188a42f791eea2d5df498b898319ce89d22fc059e6b7b33fc12bbbc4a7034965",
+    "candidateLogSha256": "96a461cd8b4778a5531cad97fd529488b7179e67ea7dedd2ba0deb7a2a287d68",
+    "passingCountNote": "25 new measurement fixtures plus six existing observer fixtures absent from the older full-run capture explain 31 more passes than its 527."
+  },
+  "qualitySuite": {
+    "passed": 11,
+    "failed": 1,
+    "entireReportEqual": true,
+    "reportByteEquality": true,
+    "baselineReportSha256": "6f82d867a06a9c2a68a22a2c797eb6d184cbfde86bf5d8bd88a0e50dfab83622",
+    "candidateReportSha256": "6f82d867a06a9c2a68a22a2c797eb6d184cbfde86bf5d8bd88a0e50dfab83622",
+    "permissionAttemptRetained": "/private/tmp/q13-budget-quality-tests.log (same 62 quality violations plus report-write EPERM); authorized rerun in /private/tmp/q13-budget-quality-tests-authorized.log has only the baseline quality failure."
+  }
+}

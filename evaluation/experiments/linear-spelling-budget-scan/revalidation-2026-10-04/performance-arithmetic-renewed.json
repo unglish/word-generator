@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "allTwelveRawLogsVerified": true,
+  "predeclaredOrderPreserved": true,
+  "reportSha256": "9fc6790c2110e0fec3d87a77a2609e11bb2249a61f5306cb638b9d6a2294033c",
+  "medianPairedThroughputGainPercent": 6.38896966006548,
+  "pairedRatios": [
+    1.0703805593764328,
+    1.061460258780037,
+    1.0599088838268793,
+    1.0723638869745002,
+    1.0626865671641792,
+    1.0650928260371304
+  ],
+  "floorPasses": {
+    "A": 0,
+    "B": 6
+  },
+  "variancePasses": {
+    "A": 6,
+    "B": 6
+  },
+  "scope": "Independent raw-log extraction and arithmetic; rounded throughput, one local series, no general speed or naturalness claim",
+  "scriptSha256": "df358761c45823caa8a749e8710e9df0c3306c643b2b6547347bc4a86dd769bb"
+}
