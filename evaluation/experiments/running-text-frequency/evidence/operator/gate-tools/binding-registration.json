@@ -1,0 +1,26 @@
+{
+  "version": "q19-opt-in-gate-bindings-v1",
+  "timing": "After frozen fit/corpus recount; before any original gates or timings. No model tuning follows outcomes.",
+  "arms": [
+    "exact unchanged English config",
+    "frozen train-only opt-in text adapter"
+  ],
+  "quality": "Original test body, counts, seeds, assertions, timeout, file/workers preserved; only source/API binding paths relocated. Standard repository commands also run separately on default APIs.",
+  "performance": "Six adjacent control/candidate pairs on the original benchmark bindings. A separately labeled text-only companion changes mode to text while preserving every original count, seed, warmup, trial, speed/variance assertion and timeout. No timing while captures/replays are live.",
+  "records": [
+    {
+      "original": "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/src/core/quality.test.ts",
+      "originalSha256": "c63b34e1bbcfd72bac544662e975ac9bc30fef5627105b00fe6a9de3fe90bddf",
+      "wrapper": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/gate-tools/quality.test.ts",
+      "wrapperSha256": "d02f493f56c255340959b001178e6303823a33aacc59cca9e9dca5b9a8c19be6",
+      "bodyUnchangedAfterImportRelocation": true
+    },
+    {
+      "original": "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/src/core/generate.perf.test.ts",
+      "originalSha256": "ccd4aa9fcbcbeda1122be5ffc256fafc392c840c768d7b5010084db41a1deb83",
+      "wrapper": "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/gate-tools/generate.perf.test.ts",
+      "wrapperSha256": "e2afbdc7725a297c0f913e8225fa04b646f4272257eaa4214636222e7b8f8f8e",
+      "bodyUnchangedAfterImportRelocation": true
+    }
+  ]
+}

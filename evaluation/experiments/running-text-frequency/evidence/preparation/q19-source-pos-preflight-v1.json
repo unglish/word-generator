@@ -1,0 +1,144 @@
+{
+  "passed": true,
+  "scope": "Complete source selection and token coverage; no fit or generator-output quality measurement.",
+  "commit": "c9628f01518320269def82845a9b464d439ea0c4",
+  "before": {
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/evaluation/corpus/frequency-source.ts": {
+      "bytes": 7955,
+      "sha256": "8bfa05e8e6fc778b48a6cf753651588df7d04690be3a39328efb7604766db85c"
+    },
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/evaluation/corpus/cmu.ts": {
+      "bytes": 5632,
+      "sha256": "1cfc3c2584a7da80623e5357e6a9f3004226dad3d6685f106e41f85e5232d0e4"
+    },
+    "/private/tmp/q19-subtlexus-wordforms.tsv": {
+      "bytes": 3298971,
+      "sha256": "c5f86f065fc5d057fbf366433b8c5ca550aa7c24e128362dea4394f2b29c86e4"
+    },
+    "/private/tmp/q17-cmudict-74790861.dict": {
+      "bytes": 3618488,
+      "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+    },
+    "/private/tmp/q19-pos-literal-export-v1.json": {
+      "bytes": 9633914,
+      "sha256": "0b86e1524752b0e44245ad269e4ea369d2cd750966595355e8fa9a0a378a5f1a"
+    },
+    "/private/tmp/q19-subtlexus-pos.xlsx": {
+      "bytes": 10760844,
+      "sha256": "3a8cb93a4e28988c2ce722a63f6b8d394acdc42ebe2ab6e1f0e484ee0d4167a7"
+    },
+    "/private/tmp/q19-subtlexus-license.txt": {
+      "bytes": 471,
+      "sha256": "1c96df5fcc840ebf7e2147ea7f13820fcda223ef78eb55cb505972dfed43248b"
+    },
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/evaluation/corpus/export-subtlex-pos.py": {
+      "bytes": 3546,
+      "sha256": "4650617fdd26d20da32ec1a9760831bc19983abb6c951cb5a859cd0e3da52f45"
+    },
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node": {
+      "bytes": 117591472,
+      "sha256": "4255a388254ca4319e2f95f1da375d5deaddf25baf9c7c85070b67f9543b15d0"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/source-accounting.json": {
+      "bytes": 3270,
+      "sha256": "3d137237a3ff65eb85a3ff7eb5f902a308b1adedfe22ba4e79eea99ee801a4d0"
+    }
+  },
+  "after": {
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/evaluation/corpus/frequency-source.ts": {
+      "bytes": 7955,
+      "sha256": "8bfa05e8e6fc778b48a6cf753651588df7d04690be3a39328efb7604766db85c"
+    },
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/evaluation/corpus/cmu.ts": {
+      "bytes": 5632,
+      "sha256": "1cfc3c2584a7da80623e5357e6a9f3004226dad3d6685f106e41f85e5232d0e4"
+    },
+    "/private/tmp/q19-subtlexus-wordforms.tsv": {
+      "bytes": 3298971,
+      "sha256": "c5f86f065fc5d057fbf366433b8c5ca550aa7c24e128362dea4394f2b29c86e4"
+    },
+    "/private/tmp/q17-cmudict-74790861.dict": {
+      "bytes": 3618488,
+      "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+    },
+    "/private/tmp/q19-pos-literal-export-v1.json": {
+      "bytes": 9633914,
+      "sha256": "0b86e1524752b0e44245ad269e4ea369d2cd750966595355e8fa9a0a378a5f1a"
+    },
+    "/private/tmp/q19-subtlexus-pos.xlsx": {
+      "bytes": 10760844,
+      "sha256": "3a8cb93a4e28988c2ce722a63f6b8d394acdc42ebe2ab6e1f0e484ee0d4167a7"
+    },
+    "/private/tmp/q19-subtlexus-license.txt": {
+      "bytes": 471,
+      "sha256": "1c96df5fcc840ebf7e2147ea7f13820fcda223ef78eb55cb505972dfed43248b"
+    },
+    "/Users/ryanbetts/.codex/worktrees/linguistic-q19-frequency/word-generator/evaluation/corpus/export-subtlex-pos.py": {
+      "bytes": 3546,
+      "sha256": "4650617fdd26d20da32ec1a9760831bc19983abb6c951cb5a859cd0e3da52f45"
+    },
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node": {
+      "bytes": 117591472,
+      "sha256": "4255a388254ca4319e2f95f1da375d5deaddf25baf9c7c85070b67f9543b15d0"
+    },
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/running-text-frequency/source-accounting.json": {
+      "bytes": 3270,
+      "sha256": "3d137237a3ff65eb85a3ff7eb5f902a308b1adedfe22ba4e79eea99ee801a4d0"
+    }
+  },
+  "coverage": {
+    "types": 74286,
+    "tokens": 49719560,
+    "joinedTypes": 48825,
+    "joinedTokens": 49079866,
+    "missingTypes": 25461,
+    "missingTokens": 639694
+  },
+  "pos": {
+    "missingOrNonintegerRows": 191,
+    "massGreaterThanWordCountRows": 2310,
+    "massLessThanWordCountRows": 8328,
+    "wordMinusTaggedTokenMass": 2672877,
+    "typesPerTag": {
+      "Article": 6,
+      "Adverb": 2702,
+      "Letter": 27,
+      "To": 5,
+      "Noun": 45470,
+      "Preposition": 203,
+      "Adjective": 15166,
+      "Name": 14937,
+      "Interjection": 211,
+      "Verb": 23545,
+      "Unclassified": 260,
+      "Conjunction": 61,
+      "Determiner": 47,
+      "Pronoun": 82,
+      "Number": 133,
+      "Not": 3,
+      "Ex": 1
+    },
+    "tokensPerTag": {
+      "Article": 2708719,
+      "Adverb": 4434383,
+      "Letter": 51181,
+      "To": 941649,
+      "Noun": 6913254,
+      "Preposition": 3173778,
+      "Adjective": 2298444,
+      "Name": 1007097,
+      "Interjection": 953994,
+      "Verb": 10937954,
+      "Unclassified": 48227,
+      "Conjunction": 1780108,
+      "Determiner": 2077700,
+      "Pronoun": 8794350,
+      "Number": 362396,
+      "Not": 290609,
+      "Ex": 111258
+    }
+  },
+  "posRows": 74286,
+  "selectedDigest": "e94552396a5ac197a336ce987ddd258018acdc0f2590d8d590ff99a2780ae277",
+  "joinedDigest": "c724f5f4920de24c2f76a78b54f01480fcbb80d01f3b0dbb550e5ca5609805d2"
+}

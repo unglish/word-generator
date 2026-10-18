@@ -1,0 +1,131 @@
+{
+  "passed": true,
+  "words": 200000,
+  "streams": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "words": 10000,
+      "nextRngProbe": 0.8869794642087072
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "words": 10000,
+      "nextRngProbe": 0.6508949906565249
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "words": 10000,
+      "nextRngProbe": 0.7991663450375199
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "words": 10000,
+      "nextRngProbe": 0.5745327991899103
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "words": 10000,
+      "nextRngProbe": 0.729228810640052
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "words": 10000,
+      "nextRngProbe": 0.4398602971341461
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "words": 10000,
+      "nextRngProbe": 0.6630691478494555
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "words": 10000,
+      "nextRngProbe": 0.7838665619492531
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "words": 10000,
+      "nextRngProbe": 0.7225132996682078
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "words": 10000,
+      "nextRngProbe": 0.08850060566328466
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "words": 10000,
+      "nextRngProbe": 0.7362062667962164
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "words": 10000,
+      "nextRngProbe": 0.0415701346937567
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "words": 10000,
+      "nextRngProbe": 0.8745436596218497
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "words": 10000,
+      "nextRngProbe": 0.7158125017303973
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "words": 10000,
+      "nextRngProbe": 0.7389329639263451
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "words": 10000,
+      "nextRngProbe": 0.09799377853050828
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "words": 10000,
+      "nextRngProbe": 0.8371417366433889
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "words": 10000,
+      "nextRngProbe": 0.10353978211060166
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "words": 10000,
+      "nextRngProbe": 0.6962665563914925
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "words": 10000,
+      "nextRngProbe": 0.28190581360831857
+    }
+  ],
+  "manifest": {
+    "bytes": 8551,
+    "sha256": "e4370b4270d346b95c5ef8a332a4c0cd904bed306dcff4ba83d12faa035f2c73"
+  },
+  "scope": "All public words and traces, 20 next-state probes, effective configuration/fit, complete source and installed loader pins authenticated; independent distribution recount remains separate."
+}
