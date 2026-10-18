@@ -1,3 +1,4 @@
+import { createDoublingModel } from "./spelling-doubling.js";
 import type { Grapheme, GraphemeCondition, Phoneme } from "../types.js";
 import type { LanguageConfig } from "../config/language.js";
 
@@ -393,7 +394,7 @@ export function createGraphemeResolver(config: LanguageConfig) {
     }
   }
   const expanded = preExpandConditions(config.graphemes, buildCategorySets(config.phonemes), config.graphemeConditionAliases);
-  const doubledForms = new Set(Object.values(doubling?.doubledForms ?? {}));
+  const doublingModel = createDoublingModel(doubling);
   return (slot: GraphemeSlot, prefix: GraphemePrefixState) => {
     const firstSyllable = slot.syllableIndex === 0;
     const lastSyllable = slot.syllableIndex === slot.syllableCount - 1;
@@ -427,8 +428,8 @@ export function createGraphemeResolver(config: LanguageConfig) {
           `(${slot.position}, syllable ${slot.syllableIndex}; ${fallback})`);
       }
     }
-    const quotaFull = doubledForms.size > 0 && prefix.doublingCount >= (doubling?.maxPerWord ?? Infinity);
-    const quotaWeights = quotaFull ? weights.filter(([g]) => !doubledForms.has(g.form)) : weights;
+    const quotaFull = doublingModel.hasDirectForms && prefix.doublingCount >= (doubling?.maxPerWord ?? Infinity);
+    const quotaWeights = quotaFull ? weights.filter(([g]) => !doublingModel.isDirectForm(g.phoneme, g.form)) : weights;
     const preferenceRelaxed = quotaWeights.length === 0 ? "doubling-quota" as const : undefined;
     return {
       candidates, ordinary, conditioned, positional, positiveCount, fallback, preferenceRelaxed,

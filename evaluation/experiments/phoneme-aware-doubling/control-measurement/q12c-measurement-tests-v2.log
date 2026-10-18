@@ -1,0 +1,72 @@
+✔ aggregates every event with explicit word denominators and retains the first full witness (3.039416ms)
+✔ splits profile and stream populations without multiplying the global denominator (0.795791ms)
+✔ uses resolved allomorph identity rather than the plan (0.320833ms)
+✔ does not silently classify missing morphology resolution as bare (0.936417ms)
+✔ rejects noninteger production counts instead of silently rounding (0.428167ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✔ runs a complete bounded archive through stream validation, aggregation and production replay (311.787875ms)
+✔ rejects a wrong external manifest authority before creating an output (12.868583ms)
+✔ rejects archive-byte tampering before creating an output (132.942875ms)
+✔ retains an explicit failure and no completion report for duplicate draws (138.885042ms)
+✔ requires every scheduled stream (14.762792ms)
+✔ rejects malformed and aliased artifact paths (6.929ms)
+words/fixture-1.jsonl.gz 1
+words/fixture-2.jsonl.gz 1
+✖ does not allow an output parent symlink to redirect into the archive (256.482958ms)
+✔ rejects overlapping seeds before any corpus processing (1.078708ms)
+✔ observes archived relation ["b","b","bb","sampled-success",null] (1.358167ms)
+✔ observes archived relation ["d","d","dd","sampled-success",null] (0.163875ms)
+✔ observes archived relation ["f","f","ff","sampled-success",null] (0.087666ms)
+✔ observes archived relation ["g","g","gg","sampled-success",null] (0.078542ms)
+✔ observes archived relation ["k","c","ck","sampled-success",null] (0.074ms)
+✔ observes archived relation ["k","ck","ck","direct-counted","multi-char-grapheme"] (0.056125ms)
+✔ observes archived relation ["k","k","ck","sampled-success",null] (0.053333ms)
+✔ observes archived relation ["l","l","ll","sampled-success",null] (0.127042ms)
+✔ observes archived relation ["m","m","mm","sampled-success",null] (0.159542ms)
+✔ observes archived relation ["n","n","nn","sampled-success",null] (0.139708ms)
+✔ observes archived relation ["p","p","pp","sampled-success",null] (0.084083ms)
+✔ observes archived relation ["r","r","rr","sampled-success",null] (0.051916ms)
+✔ observes archived relation ["s","c","ck","sampled-success",null] (0.057792ms)
+✔ observes archived relation ["s","s","ss","sampled-success",null] (0.0395ms)
+✔ observes archived relation ["t","t","tt","sampled-success",null] (0.062167ms)
+✔ observes archived relation ["z","s","ss","sampled-success",null] (0.057959ms)
+✔ observes archived relation ["z","z","zz","sampled-success",null] (0.045209ms)
+✔ observes archived relation ["ʃ","s","ss","sampled-success",null] (0.042625ms)
+✔ separates the concrete s→ck mismatch from ordinary-policy exclusions (0.157333ms)
+✔ rejects missing trace rather than assigning a clean count (1.119583ms)
+✔ rejects wrong version rather than assigning a clean count (0.342583ms)
+✔ rejects missing unit rather than assigning a clean count (0.336584ms)
+✔ rejects missing phone rather than assigning a clean count (0.290458ms)
+✔ rejects wrong ownership rather than assigning a clean count (0.540542ms)
+✔ rejects wrong selected spelling rather than assigning a clean count (0.359792ms)
+✔ rejects wrong source sound rather than assigning a clean count (0.304166ms)
+✔ rejects missing increment rather than assigning a clean count (0.321041ms)
+✔ rejects missing success rather than assigning a clean count (0.309916ms)
+✔ rejects missing attempt rather than assigning a clean count (0.332291ms)
+✔ rejects wrong result rather than assigning a clean count (0.316ms)
+✔ rejects invalid probability rather than assigning a clean count (0.28975ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 43
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1116.798167
+
+✖ failing tests:
+
+test at evaluation/experiments/phoneme-aware-doubling/analyze-doubling.test.mjs:70:1
+✖ does not allow an output parent symlink to redirect into the archive (256.482958ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator/evaluation/experiments/phoneme-aware-doubling/analyze-doubling.test.mjs:72:48)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /outside input/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

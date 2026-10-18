@@ -1,4 +1,4 @@
-import { Phoneme, Grapheme, GraphemeCondition } from "../types.js";
+import { Phoneme, Grapheme, GraphemeCondition, GraphemeReading } from "../types.js";
 // ---------------------------------------------------------------------------
 // Repair constraint types
 // ---------------------------------------------------------------------------
@@ -477,6 +477,14 @@ export interface PronunciationConfig {
  * Language-level consonant doubling strategy.
  * Controls how a language signals vowel length/quality through consonant spelling.
  */
+export interface DoublingRealization {
+  phoneme: string;
+  from: string;
+  to: string;
+  reading: GraphemeReading;
+  allowInCodaCluster?: boolean;
+}
+
 export interface DoublingConfig {
   /** Master switch. */
   enabled: boolean;
@@ -496,7 +504,11 @@ export interface DoublingConfig {
   suppressBeforeTense: boolean;
   /** Probability modifier for unstressed syllable context (0.0-1.0). */
   unstressedModifier?: number;
-  /** Map of phoneme sounds to their doubled form (overrides simple repetition). e.g. { k: 'ck' } */
+  /** Sound-specific support. An empty list permits no expansions; omission uses legacy behavior.
+   * When spreading English config to use legacy overrides, set realizations: undefined.
+   */
+  realizations?: readonly DoublingRealization[];
+  /** Legacy map from selected grapheme forms to results; ignored when realizations is present. */
   doubledForms?: Record<string, string>;
   /** Sounds that should never double word-finally. */
   neverDoubleFinal?: string[];

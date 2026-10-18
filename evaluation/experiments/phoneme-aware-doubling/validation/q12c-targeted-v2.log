@@ -1,0 +1,124 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.codex/worktrees/linguistic-spelling/word-generator
+
+ ✓ src/core/spelling-doubling.test.ts (27 tests) 7ms
+ ❯ src/core/spelling-normalization.test.ts (89 tests | 1 failed) 148ms
+   ✓ local whole-unit normalization > preserves the registered public t|th syllable join for 'θ' at seed 13 10ms
+   ✓ local whole-unit normalization > preserves the registered public t|th syllable join for 'ð' at seed 13 2ms
+   ✓ local whole-unit normalization > preserves the registered public t|th syllable join for 'θ' at seed 137 1ms
+   ✓ local whole-unit normalization > preserves the registered public t|th syllable join for 'ð' at seed 137 1ms
+   ✓ local whole-unit normalization > preserves the registered public t|th syllable join for 'θ' at seed 4099 1ms
+   ✓ local whole-unit normalization > preserves the registered public t|th syllable join for 'ð' at seed 4099 2ms
+   ✓ local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 13 3ms
+   ✓ local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 137 3ms
+   ✓ local whole-unit normalization > preserves separate final /s/ phone IDs through the public API at seed 4099 3ms
+   ✓ local whole-unit normalization > licenses ed-to-d from actual pre-unit support without requiring ed itself to be a new reading certificate 2ms
+   ✓ local whole-unit normalization > licenses complete k remainder lk-to-k 1ms
+   ✓ local whole-unit normalization > licenses complete m remainder lm-to-m 1ms
+   ✓ local whole-unit normalization > checks the conditioned lk-to-k remainder with eligibility=true 1ms
+   ✓ local whole-unit normalization > checks the conditioned lk-to-k remainder with eligibility=false 0ms
+   ✓ local whole-unit normalization > does not borrow a fallback-only remainder from outside the active ordinary pool 0ms
+   ✓ local whole-unit normalization > refuses a supported remainder with missing reading evidence 0ms
+   ✓ local whole-unit normalization > refuses a supported remainder with open-vowel reading evidence 0ms
+   ✓ local whole-unit normalization > retains t|th for /t,θ/ with both phones intact 0ms
+   ✓ local whole-unit normalization > retains t|th for /t,ð/ with both phones intact 0ms
+   ✓ local whole-unit normalization > retains /k/ c followed by /tʃ/ ch with reason no-legal-remainder 0ms
+   ✓ local whole-unit normalization > retains /s/ s followed by /ʃ/ sh with reason no-legal-remainder 0ms
+   ✓ local whole-unit normalization > retains /tʃ/ ch followed by /h/ h with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /f/ ph followed by /h/ h with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /k/ c followed by /s/ c with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /s/ c followed by /k/ c with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /j/ y followed by /i:/ y with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /ɚ/ ur followed by /r/ r with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /s/ s followed by /s/ s with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > retains /ʌ/ o followed by /ʌ/ o with reason would-erase-phone 0ms
+   ✓ local whole-unit normalization > preserves the complete single-phone /f/ form ff without an internal deduplication episode 0ms
+   ✓ local whole-unit normalization > preserves the complete single-phone /s/ form ss without an internal deduplication episode 0ms
+   ✓ local whole-unit normalization > preserves the complete single-phone /i:/ form ee without an internal deduplication episode 0ms
+   ✓ local whole-unit normalization > preserves the complete single-phone /k/ form ck without an internal deduplication episode 0ms
+   ✓ local whole-unit normalization > rechecks hard-c when the first following letter changes from c to e 0ms
+   ✓ local whole-unit normalization > can license a standalone target before future units without borrowing their letters 0ms
+   ✓ local whole-unit normalization > refuses when a same-part neighbor needs a following letter that has not been written 0ms
+   ✓ local whole-unit normalization > keeps a rewritten right unit unresolved even when it spells the same suffix 1ms
+   ✓ local whole-unit normalization > rejects forged probability 0 before advancing IDs 1ms
+   ✓ local whole-unit normalization > rejects forged probability NaN before advancing IDs 0ms
+   ✓ local whole-unit normalization > rejects forged probability Infinity before advancing IDs 0ms
+   ✓ local whole-unit normalization > rejects finite weights whose total overflows instead of certifying zero support 0ms
+   ✓ local whole-unit normalization > rejects an underflowed alternative probability 0ms
+   ✓ local whole-unit normalization > retains normalization history for cap refusal after every normalized cell is rewritten 0ms
+   ✓ local whole-unit normalization > public API emits a replayable positive certificate with identical trace-on/off output for registered seed 13 1ms
+   ✓ local whole-unit normalization > public API emits a replayable positive certificate with identical trace-on/off output for registered seed 137 1ms
+   ✓ local whole-unit normalization > public API emits a replayable positive certificate with identical trace-on/off output for registered seed 4099 1ms
+   ✓ local whole-unit normalization > respects configured doubling support at probability 0 0ms
+   ✓ local whole-unit normalization > respects configured doubling support at probability 100 0ms
+   ✓ local whole-unit normalization > respects configured doubling support at probability NaN 0ms
+   ✓ local whole-unit normalization > reconstructs equal-text probabilistic quota increment 0 before later selection 1ms
+   ✓ local whole-unit normalization > reconstructs equal-text probabilistic quota increment 1 before later selection 0ms
+   ✓ local whole-unit normalization > requires the actual increment for a forced equal-text doubling outcome 1ms
+   ✓ local whole-unit normalization > captures equal-text sampler increments identically with and without tracing 6ms
+   ✓ local whole-unit normalization > retains a marker-bearing predecessor's unresolved construction obligation 0ms
+   ✓ local whole-unit normalization > refuses a collision whose left cell has unresolved rewrite ownership 0ms
+   ✓ local whole-unit normalization > certifies the existing soft-quota relaxation when every legal spelling exceeds the preference 0ms
+   ✓ local whole-unit normalization > rejects a changed writer-boundary vowel feature that changes target doubling support 1ms
+   ✓ local whole-unit normalization > preserves case-sensitive noncollisions through the public writer 0ms
+   ✓ local whole-unit normalization > uses UTF-16 cell offsets after a supplementary character 1ms
+   ✓ local whole-unit normalization > preserves historical choices and separate phones across two consecutive normalizations 1ms
+   ✓ local whole-unit normalization > rejects a sole zero-weight public choice instead of issuing unsupported normalization evidence 0ms
+   ✓ local whole-unit normalization > rejects replay when a caller changes the supporting custom condition 1ms
+   ✓ local whole-unit normalization > detaches all nested certificate and boundary snapshot data 0ms
+   ✓ local whole-unit normalization > rejects a forged cursor claim 0ms
+   ✓ local whole-unit normalization > rejects a forged pre-unit quota claim 0ms
+   ✓ local whole-unit normalization > rejects a forged input cell claim 1ms
+   ✓ local whole-unit normalization > rejects a forged phone identity claim 0ms
+   ✓ local whole-unit normalization > rejects a forged part claim 0ms
+   ✓ local whole-unit normalization > rejects a forged support claim 0ms
+   ✓ local whole-unit normalization > rejects a forged neighbor claim 0ms
+   ✓ local whole-unit normalization > rejects a forged license reading claim 0ms
+   ✓ local whole-unit normalization > rejects a forged certificate version claim 0ms
+   ✓ local whole-unit normalization > rejects a forged origin claim 0ms
+   ✓ local whole-unit normalization > keeps all 64 frozen v2 witnesses readable and unchanged 51ms
+   ✓ local whole-unit normalization > retains the exact t|th mechanism in each of the 31 archived partial-th anchors 18ms
+   ✓ local whole-unit normalization > distinguishes zero/not-applicable replay from a positive authenticated outcome 2ms
+   ✓ local whole-unit normalization > does not accept normalized origins disguised as a historical version 0ms
+   ✓ local whole-unit normalization > does not add v3 doubling or observation fields to direct v2 ledgers 0ms
+   ✓ local whole-unit normalization > replays a local certificate before later units exist and rejects a future cursor 1ms
+   ✓ local whole-unit normalization > licenses a complete unit at the existing post-syllable-rule join site 0ms
+   ✓ local whole-unit normalization > rejects an altered comparison denominator even inside the old structural bounds 1ms
+   ✓ local whole-unit normalization > rejects dropping a noncollision checkpoint even with a matching lowered counter 0ms
+   ✓ local whole-unit normalization > records empty spelling guards without comparing across the empty previous unit 0ms
+   ✓ local whole-unit normalization > rejects omission of a retained collision and its matching counter 0ms
+   ✓ local whole-unit normalization > recounts skipped joins after a syllable rule removes the complete written part 1ms
+   ✓ local whole-unit normalization > rejects a delay-adjacent checkpoint across its syllable rewrite 1ms
+   ✓ local whole-unit normalization > rejects a advance-join checkpoint across its syllable rewrite 1ms
+   ✓ realized doubling readings in repair planners > checks the expanded ck neighbor rather than the original hard c before e 1ms
+   × realized doubling readings in repair planners > records and verifies ck's resulting reading in a coverage replacement 9ms
+     → expected [Function] to not throw an error but 'Error: Invalid spelling evidence: nor…' was thrown
+ ✓ src/core/spelling-coverage.test.ts (44 tests) 374ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/spelling-normalization.test.ts > realized doubling readings in repair planners > records and verifies ck's resulting reading in a coverage replacement
+AssertionError: expected [Function] to not throw an error but 'Error: Invalid spelling evidence: nor…' was thrown
+
+- Expected: 
+undefined
+
++ Received: 
+"Error: Invalid spelling evidence: normalization checks selection edit phase"
+
+ ❯ src/core/spelling-normalization.test.ts:669:79
+    667|     expect(f.base.snapshot().surface).toBe("acked");
+    668|     expect(f.base.snapshot().certificates![0].replacements[0]).toMatch…
+    669|     expect(() => verifyBaseSpellingEvidence(f.base.snapshot(), f.confi…
+       |                                                                               ^
+    670|     const forged = structuredClone(f.base.snapshot());
+    671|     forged.certificates![0].replacements[0].reading = hardC().reading;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 159 passed (160)
+   Start at  16:52:07
+   Duration  779ms (transform 413ms, setup 0ms, collect 669ms, tests 529ms, environment 0ms, prepare 133ms)
+

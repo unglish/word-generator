@@ -1,3 +1,4 @@
+import { englishDoublingRealizations } from "../elements/graphemes/doubling.js";
 import { Affix, BoundaryClusterConstraintRule, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets } from "./language.js";
 
 // ---------------------------------------------------------------------------
@@ -237,6 +238,7 @@ export const englishConfig: LanguageConfig = {
     suppressBeforeTense: true,
     unstressedModifier: 0,
     doubledForms: { k: "ck", c: "ck" },
+    realizations: englishDoublingRealizations,
     neverDoubleFinal: ["b", "d", "g"],
   },
 

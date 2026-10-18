@@ -1,0 +1,62 @@
+{
+  "control": {
+    "words": 200000,
+    "groups": 654,
+    "witnesses": 59,
+    "counts": {
+      "words": 200000,
+      "units": 1010404,
+      "sampledAttempts": 20770,
+      "sampledSuccesses": 17362,
+      "sampledFailures": 3408,
+      "directlyCounted": 2878,
+      "skipped": 986756,
+      "quotaIncrements": 20240,
+      "unsupportedOrdinaryExpansions": 1682,
+      "sToCkExpansions": 220,
+      "wordsWithSampledSuccess": 17362,
+      "wordsWithUnsupportedOrdinaryExpansion": 1682,
+      "wordsWithSToCkExpansion": 220
+    },
+    "productionReplay": {
+      "unresolvedCells": 63911,
+      "dedupAttributedNoLineageUnits": 0,
+      "dedupAttributedPartialThUnits": 0,
+      "wordsWithNormalizedOutcome": 25,
+      "normalizationPhoneMultiplicityViolations": 0,
+      "verifiedNormalizationCertificates": 25,
+      "rawFiveConsonantWords": 252,
+      "wordsWithSearchBudgetRefusal": 1
+    }
+  },
+  "candidate": {
+    "words": 200000,
+    "groups": 667,
+    "witnesses": 60,
+    "counts": {
+      "words": 200000,
+      "units": 1010158,
+      "sampledAttempts": 19108,
+      "sampledSuccesses": 15969,
+      "sampledFailures": 3139,
+      "directlyCounted": 2936,
+      "skipped": 988114,
+      "quotaIncrements": 18905,
+      "unsupportedOrdinaryExpansions": 0,
+      "sToCkExpansions": 0,
+      "wordsWithSampledSuccess": 15969,
+      "wordsWithUnsupportedOrdinaryExpansion": 0,
+      "wordsWithSToCkExpansion": 0
+    },
+    "productionReplay": {
+      "unresolvedCells": 63938,
+      "dedupAttributedNoLineageUnits": 0,
+      "dedupAttributedPartialThUnits": 0,
+      "wordsWithNormalizedOutcome": 23,
+      "normalizationPhoneMultiplicityViolations": 0,
+      "verifiedNormalizationCertificates": 23,
+      "rawFiveConsonantWords": 247,
+      "wordsWithSearchBudgetRefusal": 2
+    }
+  }
+}

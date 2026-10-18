@@ -1,0 +1,84 @@
+{
+  "records": [
+    {
+      "path": "README.md",
+      "bytes": 1776,
+      "sha256": "141babbbc6dc3f15a5d99316eac328e489535dfcf7c45b97f1303f5399e48f5d"
+    },
+    {
+      "path": "candidate-complete.json",
+      "bytes": 4581,
+      "sha256": "1a266ab5ef53925c67a91de6ebee5a4a4fa545ccd68b1819fcdd7fc7e0a5450e"
+    },
+    {
+      "path": "candidate-independent-renewed.json",
+      "bytes": 622,
+      "sha256": "d474ac06f667ffc5aa883b519bed6abb86da3504575e5bf55ee7cae80628bd4f"
+    },
+    {
+      "path": "candidate-registration.json",
+      "bytes": 2169,
+      "sha256": "c155c627303d6ae185fb90006e8ccfbde31796f6ccbfe4398d68187378604efe"
+    },
+    {
+      "path": "control-complete.json",
+      "bytes": 4581,
+      "sha256": "3f9967ec8e6b29652cc6ab766835ce863696ad0c07c5a158ed7303d6a3d251ef"
+    },
+    {
+      "path": "control-independent-renewed.json",
+      "bytes": 620,
+      "sha256": "ee9da102ef15c02350623cd618a81f3402bd8849bcb2bf9ef5e87255edfc271f"
+    },
+    {
+      "path": "control-registration.json",
+      "bytes": 2168,
+      "sha256": "d062e26b444d0c8232af8f349dc9af107613758953f4b28ef17107b3ba0591f9"
+    },
+    {
+      "path": "control-reproduction.log.txt",
+      "bytes": 918,
+      "sha256": "4b487109e64d0308d60afbcf95f513f3036ac75d6810bf0f11b4789a21be26ad"
+    },
+    {
+      "path": "observer-fixtures.log.txt",
+      "bytes": 2513,
+      "sha256": "3ad2a9639aac3d27bdc6fde94de8177a9068d3718097d49002054d72d1a0a1ab"
+    },
+    {
+      "path": "renew-independent.py",
+      "bytes": 2409,
+      "sha256": "41efbf842bd95ba51dad68e7d3ecbaf77fa71720280bf9dc7d623410aaf5ed5c"
+    },
+    {
+      "path": "reproduce-control.mjs",
+      "bytes": 2688,
+      "sha256": "663d7aaad2dc31f1cc0371da7bec687d90304b390385d4d08dffcfaa63873bdb"
+    },
+    {
+      "path": "reproduce.mjs",
+      "bytes": 2706,
+      "sha256": "630ed91b14f22d1befc67715f3e51f4eb1afb4219a475a15151ce8aadd4304d4"
+    },
+    {
+      "path": "reproduction.log.txt",
+      "bytes": 918,
+      "sha256": "4b487109e64d0308d60afbcf95f513f3036ac75d6810bf0f11b4789a21be26ad"
+    },
+    {
+      "path": "retained-local-index.json",
+      "bytes": 258813,
+      "sha256": "09c11c653eb4a4d6b0613039aa99ad2f72975e57aad88a832c423b257fbd5c04"
+    },
+    {
+      "path": "runtime-doubling-fixtures.log.txt",
+      "bytes": 4111,
+      "sha256": "4cdac33dd454f582d2cd4d6e1dd78df6e216bec1a7dcbc2bb44af4b4da5c6cbb"
+    },
+    {
+      "path": "verify.py",
+      "bytes": 2026,
+      "sha256": "d39260aeadc93f344bdd0304e18ae80c641164a584b197b5712956af604fa0e7"
+    }
+  ]
+}

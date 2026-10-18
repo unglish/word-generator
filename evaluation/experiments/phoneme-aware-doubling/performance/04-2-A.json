@@ -1,0 +1,26 @@
+{
+  "pair": 4,
+  "position": 2,
+  "version": "A",
+  "status": "completed",
+  "startedAt": "2026-09-27T00:48:39.973379+00:00",
+  "command": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/lib/node_modules/npm/bin/npm-cli.js",
+    "run",
+    "test:perf"
+  ],
+  "cwd": "/private/tmp/q12c-performance-control-v1",
+  "log": "04-2-A.log",
+  "endedAt": "2026-09-27T00:48:43.924209+00:00",
+  "exitCode": 1,
+  "logSha256": "fe3ebf92d7b5d6b4a1ec5b280c25e29b7b40171d6b35b34f5553b90b6efc7b3e",
+  "error": null,
+  "measurementError": null,
+  "reportedWordsPerSecond": 4367,
+  "reportedBatchMilliseconds": 2290,
+  "reportedVarianceTrials": "1.65x, 1.49x, 1.51x",
+  "reportedMedianVariance": 1.51,
+  "floorGatePassed": false,
+  "varianceGatePassed": true
+}

@@ -301,7 +301,7 @@ describe("local whole-unit normalization", () => {
     const f = fixture([{ sound: "b", form: "b", position: "onset" }, { sound: "ɛ", form: "e", position: "nucleus" },
       { sound: "d", form: "ed", position: "coda" }], [glyph("d", "d")], {
       doubling: { ...englishConfig.doubling!, enabled: true, probability, maxPerWord: 1,
-        neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [], doubledForms: { d: "dd" } },
+        neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [], realizations: undefined, doubledForms: { d: "dd" } },
     });
     expect(f.apply(2).status).toBe(probability === 0 ? "normalized" : "retained");
   });
@@ -311,7 +311,7 @@ describe("local whole-unit normalization", () => {
       { sound: "d", form: "d", position: "coda", increment }, { sound: "ɛ", form: "e", position: "nucleus", part: 1 },
       { sound: "d", form: "ed", position: "coda", part: 1 }], [glyph("d", "d")], {
       doubling: { ...englishConfig.doubling!, enabled: true, probability: 50, maxPerWord: 1,
-        neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [], doubledForms: { d: "d" } },
+        neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [], realizations: undefined, doubledForms: { d: "d" } },
     });
     const input = f.input(4);
     expect(input.states[4].doublingCount).toBe(increment);
@@ -326,7 +326,7 @@ describe("local whole-unit normalization", () => {
     const f = fixture([{ sound: "b", form: "b", position: "onset" }, { sound: "ɛ", form: "e", position: "nucleus" },
       { sound: "d", form: "d", position: "coda", increment: 1 }], [], {
       doubling: { ...englishConfig.doubling!, enabled: true, probability: 100, maxPerWord: 1,
-        neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [], doubledForms: { d: "d" } },
+        neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [], realizations: undefined, doubledForms: { d: "d" } },
     });
     expect(verifyBaseSpellingEvidence(f.base.snapshot(), f.config)).toMatchObject({ version: 3 });
     const forged = f.base.snapshot(); forged.units[2].doublingIncrement = 0;
@@ -338,7 +338,7 @@ describe("local whole-unit normalization", () => {
   it("captures equal-text sampler increments identically with and without tracing", () => {
     const config = publicConfig([glyph("d", "d")]);
     config.doubling = { ...englishConfig.doubling!, enabled: true, probability: 50, maxPerWord: 1,
-      neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [], doubledForms: { d: "d" } };
+      neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [], realizations: undefined, doubledForms: { d: "d" } };
     const api = createGenerator(config); const increments = new Set<number>();
     for (let seed = 1; seed <= 20; seed++) {
       const traced = api.generateWord({ seed, syllableCount: 1, morphology: false, trace: true });
@@ -370,7 +370,7 @@ describe("local whole-unit normalization", () => {
   it("certifies the existing soft-quota relaxation when every legal spelling exceeds the preference", () => {
     const f = fixture([{ sound: "ɛ", form: "e", position: "nucleus" }, { sound: "d", form: "ed", position: "coda", increment: 1 }], [glyph("d", "d")], {
       doubling: { ...englishConfig.doubling!, enabled: true, probability: 100, maxPerWord: 0,
-        doubledForms: { q: "ed", x: "d" }, neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [] },
+        realizations: undefined, doubledForms: { q: "ed", x: "d" }, neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [] },
     });
     expect(f.apply(1).status).toBe("normalized");
     const trace = f.base.snapshot();
@@ -383,7 +383,7 @@ describe("local whole-unit normalization", () => {
     const f = fixture([{ sound: "b", form: "b", position: "onset" }, { sound: "ɛ", form: "e", position: "nucleus" },
       { sound: "d", form: "ed", position: "coda" }], [glyph("d", "d")], {
       doubling: { ...englishConfig.doubling!, enabled: true, probability: 50, maxPerWord: 1,
-        trigger: "lax-vowel", doubledForms: { d: "dd" }, neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [] },
+        trigger: "lax-vowel", realizations: undefined, doubledForms: { d: "dd" }, neverDouble: [], neverDoubleFinal: [], finalDoublingOnly: [] },
     });
     expect(f.apply(2).status).toBe("normalized");
     const trace = f.base.snapshot();
@@ -628,4 +628,50 @@ describe("local whole-unit normalization", () => {
     expect(() => verifyBaseSpellingEvidence(trace, config)).toThrow(/phase\/part cursor/);
   });
 
+});
+
+
+describe("realized doubling readings in repair planners", () => {
+  const hardC = () => ({ ...glyph("k", "c"), reading: { kind: "following-letter" as const, forbid: ["e", "i", "y"] } });
+  const doubling = { ...englishConfig.doubling!, probability: 100, suppressBeforeTense: false };
+
+  it("checks the expanded ck neighbor rather than the original hard c before e", () => {
+    const f = fixture([
+      { sound: "æ", form: "a", position: "nucleus" },
+      { sound: "k", form: "c", after: "ck", increment: 1, position: "onset", part: 1 },
+      { sound: "ɛ", form: "e", position: "nucleus", part: 1 },
+      { sound: "d", form: "ed", position: "coda", part: 1 },
+    ], [glyph("d", "d")], { doubling });
+    f.graphemes[1].reading = hardC().reading;
+    const result = f.apply(4);
+    expect(result.status).toBe("normalized");
+    expect(f.base.snapshot().surface).toBe("acked");
+    const certificate = f.base.snapshot().normalizationCertificates![0];
+    expect(certificate.checkedNeighbors.find(entry => entry.unitId === 1)?.reading).toEqual({ kind: "single-phone" });
+    expect(() => verifyBaseSpellingEvidence(f.base.snapshot(), f.config)).not.toThrow();
+    const forged = structuredClone(f.base.snapshot());
+    forged.normalizationCertificates![0].checkedNeighbors.find(entry => entry.unitId === 1)!.reading = hardC().reading;
+    expect(() => verifyBaseSpellingEvidence(forged, f.config)).toThrow();
+  });
+
+  it("records and verifies ck's resulting reading in a coverage replacement", () => {
+    const f = fixture([
+      { sound: "æ", form: "a", position: "nucleus" },
+      { sound: "k", form: "chhh", position: "onset", part: 1 },
+      { sound: "ɛ", form: "e", position: "nucleus", part: 1 },
+      { sound: "d", form: "d", position: "coda", part: 1 },
+    ], [hardC()], { doubling, writtenFormConstraints: { policy: "preserve-phones", maxConsonantLetters: 2 } });
+    const choices = f.contexts.map((context, id) => ({ ...context, grapheme: f.graphemes[id], form: f.graphemes[id].form }));
+    // Coverage v2 has no normalization checkpoint schedule; this fixture tests its own certificate.
+    const base = new BaseSpelling(f.base.snapshot().phones, true, true);
+    choices.forEach((choice, id) => base.appendChoice(id, choice.grapheme.form, choice.form, id));
+    const planner = createSpellingCoveragePlanner(f.config);
+    expect(planner.apply(base, choices, "base-before-word-rules").status).toBe("respell");
+    expect(base.snapshot().surface).toBe("acked");
+    expect(base.snapshot().certificates![0].replacements[0]).toMatchObject({ after: "ck", reading: { kind: "single-phone" } });
+    expect(() => verifyBaseSpellingEvidence(base.snapshot(), f.config)).not.toThrow();
+    const forged = structuredClone(base.snapshot());
+    forged.certificates![0].replacements[0].reading = hardC().reading;
+    expect(() => verifyBaseSpellingEvidence(forged, f.config)).toThrow();
+  });
 });

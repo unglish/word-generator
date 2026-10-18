@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "phase": "pre-runtime-implementation",
+  "files": {
+    "README.md": {
+      "bytes": 888,
+      "sha256": "e3a06fdebc56dc8109469c8d0ae164fef63dd763693263c1bea5d04f7584018c"
+    },
+    "design.md": {
+      "bytes": 5033,
+      "sha256": "594b5f2a2b9698eb6418ec4694d1cd7da5a63095603e022df52a963c3b6fa51b"
+    },
+    "exploration/README.md": {
+      "bytes": 1888,
+      "sha256": "70845be05991b60bed5054971f3eb1004efe064ce9f5f655e62ee064cf73f340"
+    },
+    "exploration/control-manifest.json": {
+      "bytes": 205345,
+      "sha256": "dd931b501b6c26bbd17f953683eabee0d3b6d45aa0f3ead593d8902678d8dff3"
+    },
+    "exploration/inventory.json.gz": {
+      "bytes": 60282,
+      "sha256": "acdbdd9430861dfd8501f27f5406a9a8f487146a083384222b6e0c21e017b859"
+    },
+    "exploration/q12c-doubling-inventory-v1.log": {
+      "bytes": 1238,
+      "sha256": "9ab248e9d8ad35003eae4726310216ca2b09cfe368bb736caf02d68a2807a902"
+    },
+    "exploration/q12c-doubling-inventory-v1.py": {
+      "bytes": 3913,
+      "sha256": "987cca5936cb630cdf67de7ad203288054ba9be8b2ba6ee9df093a0449cbac5b"
+    },
+    "protocol.json": {
+      "bytes": 3848,
+      "sha256": "e7a7c713a0d58d7e6df7c1254c298dd9696d5e0c9638ba68372b5bb8b0b15ec1"
+    }
+  }
+}

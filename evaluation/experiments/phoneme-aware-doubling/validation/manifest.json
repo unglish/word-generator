@@ -1,0 +1,94 @@
+{
+  "files": [
+    {
+      "file": "q12c-implementation-checkpoint-v1.json",
+      "bytes": 4137,
+      "sha256": "b80646d1f62260552f47e5c2f63242eee21eaf45e08342176e1b43b523df3030"
+    },
+    {
+      "file": "q12c-targeted-v1.log",
+      "bytes": 555,
+      "sha256": "43f0004a990cd4e541c8af018b1760f3c0f8cb2e515664a516fd8be63b9d0eb5"
+    },
+    {
+      "file": "q12c-targeted-v2.log",
+      "bytes": 11591,
+      "sha256": "db2077630cd740bcfc2fd988016a30df6625fea5d6b1aca4f94b92a6f9e80f04"
+    },
+    {
+      "file": "q12c-targeted-v3.log",
+      "bytes": 446,
+      "sha256": "5f0177a3c4322967d9976a90c35a405ecba46e35b170be4a7fbb57ca96b644d0"
+    },
+    {
+      "file": "q12c-targeted-v4.log",
+      "bytes": 861,
+      "sha256": "ee97ccbf03ce48449f9f28b32a1a837300f436660073f25cf7bbe99fc4249423"
+    },
+    {
+      "file": "q12c-targeted-v5.log",
+      "bytes": 861,
+      "sha256": "ced03d4819155c1a79ac1b454e71b8adaea1301ab718cce26a429a0c2ace2d30"
+    },
+    {
+      "file": "q12c-targeted-v6.log",
+      "bytes": 914,
+      "sha256": "3e239d487fd32e39e1bbfba96fc23996ed7add7d8f19db8ba489056e6b5c7d43"
+    },
+    {
+      "file": "q12c-full-suite-v1.log",
+      "bytes": 24207,
+      "sha256": "1af3323eea486333994263188d7be1c9a5c7f9f420bc6e8675521f0dfcf1a1fa"
+    },
+    {
+      "file": "q12c-full-suite-v2.log",
+      "bytes": 21350,
+      "sha256": "4aad370395b87454b5f4e2b7dec6603532c7ddfe8164686ca0e0f5ff6df2a998"
+    },
+    {
+      "file": "q12c-quality-v1.log",
+      "bytes": 4132,
+      "sha256": "97b6f2739dde23d3c88abd6f16ceb8af87e4b0fc618e82c2c77d1db6c8ddf0ff"
+    },
+    {
+      "file": "q12c-quality-v2.log",
+      "bytes": 3644,
+      "sha256": "c8cbea5114ebc87cdbe27e2e27052fc884f48000ab20f5656fc8249d9a5d7008"
+    },
+    {
+      "file": "q12c-quality-report-v2.json",
+      "bytes": 477,
+      "sha256": "1eba4d67e49985a3aa6d2b52f0318c92ef18af142418a14b9321ed3c27cadacd"
+    },
+    {
+      "file": "q12c-lint-v2.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "q12c-lint-v3.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "q12c-full-lint-v1.log",
+      "bytes": 693,
+      "sha256": "15db2ef1231a9744aa69947d266553914f874da66adef77f9a35ffd5a7ddf12b"
+    },
+    {
+      "file": "q12c-typecheck-final-v1.log",
+      "bytes": 258,
+      "sha256": "0b4c506c4d77527fa73c728edab6c26084af5395d53ab75ac3c5e55e36b0145b"
+    },
+    {
+      "file": "q12c-targeted-lint-final-v1.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "q12c-typecheck-final-v2.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
