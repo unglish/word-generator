@@ -25,18 +25,49 @@ npm test
 ## Required Checks
 
 ```bash
-npm test
-npm run lint
+npm run check
 ```
+
+This runs lint, typecheck, the test suite, and the review app's unit tests: the
+core of what CI runs on every pull request. CI additionally runs
+`npm run build` and `npm run test:diagnostics` (the analyzer-sampling checks
+under `scripts/lib/`); run those locally if you touch `scripts/` or the build.
+Expect one to two minutes; nearly all of it is `npm test`. While iterating, use
+`npm run test:watch` or `npx vitest run <file>`, and run the full `check`
+before pushing.
 
 Recommended for tuning and diagnostics:
 
 ```bash
-npm run test:quality
 npm run test:perf
 npm run analyze:trigrams
 npm run audit:trace
 ```
+
+For distribution or quality claims, capture and compare against the frozen
+baselines ([`docs/quality-baselines.md`](./docs/quality-baselines.md)) and
+include the comparison in the PR.
+
+## Continuous Integration
+
+- **Pull requests** (`.github/workflows/ci.yml`): build; lint + typecheck +
+  `npm test` + `test:diagnostics` (the `test` job, which is the required merge
+  check); and the review app's unit tests. Kept fast and deterministic.
+- **Review end-to-end** (`.github/workflows/review-e2e.yml`): Playwright,
+  Supabase, database, and smoke tests for the review app. Runs on PRs only when
+  review code or dependencies change, and on every push to `main`. To run it
+  locally (Docker required), follow the Verification section of
+  [`docs/human-review.md`](./docs/human-review.md).
+- **Main** (`.github/workflows/main.yml`): re-runs the PR checks, the review
+  end-to-end suite, and the performance regression gate, then deploys the demo
+  to GitHub Pages only if all pass. Runs are serialised, so back-to-back merges
+  may show an intermediate run as cancelled; the newest commit still deploys.
+  If a gate flakes, use *Re-run failed jobs* on the newest `main` run only.
+  Dispatch the workflow manually on `main` to redeploy without a new commit; a
+  dispatch from any other branch skips `deploy`.
+
+Heavier diagnostics (`npm run quality:capture`, `npx vitest bench --run`) are
+run locally, on demand.
 
 ## Coding Guidelines
 

@@ -33,10 +33,13 @@ Operational guidance for human contributors and coding agents working in
 
 - For generator tuning, include deterministic seed-based checks and a
   distribution-oriented test where practical.
+- Run `npm run check` (lint, typecheck, `npm test`, review unit tests) before
+  pushing; PR CI runs the same checks plus `npm run build` and
+  `npm run test:diagnostics`.
 - Use existing scripts for diagnostics:
-  - `npm test`
-  - `npm run test:quality`
   - `npm run test:perf`
+  - `npm run quality:capture` / `npm run quality:compare`
+    (see `docs/quality-baselines.md`)
   - `npm run analyze:trigrams`
   - `npm run audit:trace`
 

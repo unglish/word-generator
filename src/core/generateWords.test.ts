@@ -214,3 +214,48 @@ describe("top-down phoneme targeting", () => {
     expect(sixPct).toBeLessThan(22.0);
   }, 15_000);
 });
+
+// Coarse mode-shape bounds on a fixed-seed 10k sample: text mode should skew
+// short, lexicon mode longer. Deterministic, so these only move when generation does.
+describe("generation mode shape", () => {
+  const SAMPLE_SIZE = 10_000;
+  const SAMPLE_SEED = 1;
+
+  interface ModeShape {
+    syllablePct: Record<number, number>;
+    avgLetters: number;
+  }
+
+  function measureMode(mode: "text" | "lexicon"): ModeShape {
+    const words = generateWords(SAMPLE_SIZE, { seed: SAMPLE_SEED, mode });
+    const counts: Record<number, number> = {};
+    let totalLetters = 0;
+    for (const w of words) {
+      counts[w.syllables.length] = (counts[w.syllables.length] ?? 0) + 1;
+      totalLetters += w.written.clean.length;
+    }
+    const syllablePct: Record<number, number> = {};
+    for (const [count, n] of Object.entries(counts)) syllablePct[+count] = (n / SAMPLE_SIZE) * 100;
+    return { syllablePct, avgLetters: totalLetters / words.length };
+  }
+
+  describe("text mode resembles running prose", () => {
+    let shape: ModeShape;
+    beforeAll(() => { shape = measureMode("text"); }, 15_000);
+
+    it("monosyllables dominate (> 35%)", () => expect(shape.syllablePct[1]).toBeGreaterThan(35));
+    it("3-syllable words are rare (< 20%)", () => expect(shape.syllablePct[3] ?? 0).toBeLessThan(20));
+    // Owner-accepted guardrail for root-only budgets: affixes may lengthen the
+    // finished spelling. This ceiling is not an empirical English mean.
+    it("average finished spelling stays below the accepted 7-character ceiling", () => expect(shape.avgLetters).toBeLessThan(7));
+  });
+
+  describe("lexicon mode resembles a dictionary word list", () => {
+    let shape: ModeShape;
+    beforeAll(() => { shape = measureMode("lexicon"); }, 15_000);
+
+    it("2-syllable words are common (> 25%)", () => expect(shape.syllablePct[2]).toBeGreaterThan(25));
+    it("monosyllables are present (> 5%)", () => expect(shape.syllablePct[1]).toBeGreaterThan(5));
+    it("average word length is moderate (> 6.0 letters)", () => expect(shape.avgLetters).toBeGreaterThan(6.0));
+  });
+});

@@ -48,11 +48,10 @@ seeded outputs change. Bare generation (`morphology: false`) retains its prior
 budget behavior and seeded outputs. Seeds remain deterministic within the same
 version and configuration.
 
-The text-mode quality benchmark accepts an average finished spelling length
-strictly below 7 characters, including affixes. This owner-accepted guardrail
-accommodates longer finished words under root-only budgets; it is neither a
-per-word limit nor an empirical English mean. Other quality thresholds remain
-unchanged.
+The text-mode shape test in `src/core/generateWords.test.ts` accepts an average
+finished spelling length strictly below 7 characters, including affixes. This
+owner-accepted guardrail accommodates longer finished words under root-only
+budgets; it is neither a per-word limit nor an empirical English mean.
 
 The English writer caps ordinary vowel-letter runs at two. It preserves a
 generator-selected vowel spelling ending in terminal `y`, such as `ey` or
@@ -131,8 +130,11 @@ After retuning those tables, run:
 
 ```bash
 npm run analyze:phoneme-length
-npm run test:quality
+npm test
 ```
+
+For distribution claims, capture and compare against the frozen baselines
+described in [quality baselines](./docs/quality-baselines.md).
 
 ## Boundary Policy Config (0.6.0)
 
@@ -187,14 +189,13 @@ const generator = createGenerator({
 ## Development
 
 ```bash
-npm test
-npm run lint
+npm run check   # lint + typecheck + tests: the core of what CI runs on PRs
 npm run dev
 ```
 
 Additional checks:
 
-- `npm run test:quality`
+- `npm run quality:capture` / `npm run quality:compare` (see [quality baselines](./docs/quality-baselines.md))
 - `npm run analyze:phoneme-length`
 - `npm run test:perf`
 - `npm run analyze:phonemes`

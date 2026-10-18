@@ -1,0 +1,49 @@
+name: Review E2E
+
+# Browser, database, and smoke checks for the human-review app. These need
+# Playwright and a local Supabase stack, so pull requests only run them when
+# review code, its config, or package dependencies change. Generator changes
+# under src/ are covered by the review unit tests on every PR and by this
+# suite on every push to main, before the demo deploys.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'evaluation/review/**'
+      - 'demo/review/**'
+      - 'demo/review.html'
+      - 'supabase/**'
+      - 'playwright.review.config.ts'
+      - 'vitest.review-db.config.ts'
+      - 'tsconfig.review.json'
+      - 'vite.config.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/review-e2e.yml'
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: review-e2e-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  review-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:review:e2e
+      - run: npx supabase start
+      - run: npm run test:review:db
+      - run: npm run test:review:smoke
+      - if: always()
+        run: npx supabase stop

@@ -4,7 +4,8 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
 
 - [`human-review.md`](./human-review.md): anonymous written-plausibility studies,
   private Supabase setup, owner exports, and pilot interpretation.
-
+- [`quality-baselines.md`](./quality-baselines.md): frozen linguistic quality
+  baselines, and how to capture and compare a change against them.
 - [`word-trace-diagnostics.md`](./word-trace-diagnostics.md): how to diagnose
   generation behavior with `trace: true`.
 - [`phonotactic-scoring.md`](./phonotactic-scoring.md): scoring heuristics used

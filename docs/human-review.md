@@ -105,7 +105,7 @@ npm run build
 npm run demo:check-worker-sync
 ```
 
-Docker is required for local Supabase tests. The DB runner reads local CLI credentials without printing them and refuses a hosted test target. Tests create synthetic `test-*` studies and clean them up. Browser tests mock network failures, exercise desktop and mobile flows, and save light/dark captures under the ignored `.impeccable/review/` directory. CI runs both browser and actual database API checks without production credentials.
+Docker is required for local Supabase tests. The DB runner reads local CLI credentials without printing them and refuses a hosted test target. Tests create synthetic `test-*` studies and clean them up. Browser tests mock network failures, exercise desktop and mobile flows, and save light/dark captures under the ignored `.impeccable/review/` directory. CI runs both browser and actual database API checks without production credentials on every push to `main`, and on pull requests that touch review code (`.github/workflows/review-e2e.yml`).
 
 The local stack enables Supabase's Auth service to issue its API keys, with both normal and anonymous signups disabled. The reviewer never calls Auth or creates a user.
 

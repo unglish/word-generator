@@ -180,10 +180,7 @@ a series of improving aggregate scores alone does not isolate causality.
 Run the normal suites alongside the benchmark:
 
 ```sh
-npm test
-npm run test:quality
-npm run quality:typecheck
-npm run lint
+npm run check
 npm run test:perf
 ```
 

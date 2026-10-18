@@ -1,0 +1,78 @@
+name: Main
+
+# Runs on every push to main. The demo deploys to GitHub Pages only after the
+# same checks that PRs run, the full review end-to-end suite, and the
+# performance regression gate all pass on that commit. Dispatch it manually to
+# redeploy without a new commit (for example after changing a repository
+# variable).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One run at a time per ref, in push order, so a newer push cannot be overtaken
+# by an older queued run. A third push while one is queued replaces the queued
+# run; the newest commit still deploys. A manual re-run of an *older* failed
+# run is not protected: only re-run the newest.
+concurrency:
+  group: main-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    uses: ./.github/workflows/ci.yml
+
+  review-e2e:
+    uses: ./.github/workflows/review-e2e.yml
+
+  perf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - name: Perf regression gate
+        run: npm run test:perf
+
+  deploy:
+    needs: [checks, review-e2e, perf]
+    # `success()` keeps the implicit "all needs passed" condition; the ref check
+    # turns a dispatch from another branch into a skip rather than an
+    # environment-protection failure.
+    if: success() && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+        env:
+          VITE_REVIEW_SUPABASE_URL: ${{ vars.VITE_REVIEW_SUPABASE_URL }}
+          VITE_REVIEW_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_REVIEW_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_REVIEW_STUDY_ID: ${{ vars.VITE_REVIEW_STUDY_ID }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist-demo/
+      - id: deployment
+        uses: actions/deploy-pages@v4
