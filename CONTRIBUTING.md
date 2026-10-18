@@ -74,3 +74,11 @@ Include:
 - Why it changed.
 - How it was validated (tests, diagnostics, sample size/seed when relevant).
 - Any expected distribution shifts or compatibility impact.
+
+## Experimental Rust repair changes
+
+Core, adapter or binding changes also require native tests, Kani proofs, Wasm
+parity in Node/browser/worker, generated ABI type checks and packed-consumer checks.
+See [the pinned toolchain and commands](./docs/rust-repair-pilot.md). Default
+TypeScript development does not require a Rust installation; npm publishing and
+the experimental Pages pilot build include the generated Wasm assets.

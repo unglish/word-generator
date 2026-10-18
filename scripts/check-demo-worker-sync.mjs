@@ -36,7 +36,7 @@ function buildFreshWorker(rootDir) {
   }
 }
 
-function main() {
+async function main() {
   const rootDir = process.cwd();
   const demoWorker = path.join(rootDir, "demo", "unglish-worker.js");
   const builtWorker = buildFreshWorker(rootDir);
@@ -51,7 +51,10 @@ function main() {
     builtWorker.cleanup();
   }
 
+  if (fs.existsSync(path.join(rootDir, "dist", "wasm", "manifest.json"))) {
+    await import("./check-repair-wasm.mjs");
+  }
   console.log("demo worker is in sync");
 }
 
-main();
+await main();

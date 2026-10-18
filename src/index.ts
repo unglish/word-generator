@@ -4,7 +4,7 @@ import * as graphemes from "./elements/graphemes/index.js";
 import * as random from "./utils/random.js";
 
 export { createGenerator, generateWord, generateWords } from "./core/generate.js";
-export type { WordGenerator } from "./core/generate.js";
+export type { WordGenerator, GeneratorOptions } from "./core/generate.js";
 export type { AffixForm, AllomorphBoundaryPhoneme, ResolvedAffix, MorphologyWrittenPart, MorphologyRealizationTrace } from "./core/morphology/realization.js";
 export type { GenerationMode, NucleusWordPositionWeights } from "./types.js";
 export {
@@ -116,3 +116,6 @@ export type {
   Recorded, StressObservation, SegmentObservation, WordIdentityObservation,
   CoarseProjectionItem, CmuTokenObservation,
 } from "./phonology/identity.js";
+
+export { initializeRustRepair } from "./experimental/rust-repair.js";
+export type { ClusterRepairBackend, RustRepairInitialization } from "./experimental/rust-repair.js";

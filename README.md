@@ -61,6 +61,12 @@ This exception follows the selected vowel unit; arbitrary final `y` does not
 qualify. Terminal `y` is vocalic for consonant repairs, while `y` before a
 vowel remains consonantal (`yet`, `yawn`), and `w` remains consonantal.
 
+## Experimental Rust repair
+
+An opt-in Rust/Wasm backend evaluates verified cross-syllable repair while the
+TypeScript backend remains the default. See the [contract, build and usage guide](./docs/rust-repair-pilot.md)
+and [evaluation evidence on PR #343](https://github.com/unglish/word-generator/pull/343).
+
 ## RNG Control
 
 ```ts

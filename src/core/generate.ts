@@ -24,12 +24,14 @@ import {
   type AcceptanceCriteria,
 } from "./length-semantics.js";
 import { TraceCollector, type SelectionTrace } from "./trace.js";
+import type { ClusterRepairBackend } from "../experimental/rust-repair.js";
 
 // ---------------------------------------------------------------------------
 // Runtime: pre-computed data derived from a LanguageConfig
 // ---------------------------------------------------------------------------
 
 interface GeneratorRuntime {
+  experimentalRepair?: ClusterRepairBackend;
   config: LanguageConfig;
   resolvedStress: ResolvedStressRules;
   resolvedPronunciation: PronunciationRuntimeConfig;
@@ -1159,6 +1161,14 @@ function repairVowelHiatus(rt: GeneratorRuntime, syllables: Syllable[], rand: RN
 export interface WordGenerator {
   /** Generate a single random word. */
   generateWord: (options?: WordGenerationOptions) => Word;
+  /** Batch generation preserves one shared sequential RNG stream. */
+  generateWords: (count: number, options?: WordGenerationOptions) => Word[];
+  readonly repairBackend: "typescript" | "rust-wasm-v1";
+}
+
+export interface GeneratorOptions {
+  /** Initialized opt-in backend; must belong to this exact configuration. */
+  experimentalRepair?: ClusterRepairBackend;
 }
 
 // ---------------------------------------------------------------------------
@@ -1268,6 +1278,7 @@ function generateOneWord(
   for (let attempt = 0; attempt <= maxAttempts; attempt++) {
     const syllablePlans = distributePhonemes(rt, targetPhonemeCountRoot, sampledSyllableCount, rand);
     const traceCollector = enableTrace ? new TraceCollector() : undefined;
+    if (traceCollector && rt.experimentalRepair) traceCollector.repairBackend = rt.experimentalRepair.name;
     if (traceCollector && morphPlan) {
       traceCollector.morphologyTrace = {
         template: morphPlan.plan.template,
@@ -1330,7 +1341,8 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.afterStage("generateSyllables", context.word.syllables);
 
   t?.beforeStage("repairClusters", context.word.syllables);
-  if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!, t);
+  if (rt.experimentalRepair) rt.experimentalRepair.repair(context.word.syllables, t);
+  else if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!, t);
   t?.afterStage("repairClusters", context.word.syllables);
 
   t?.beforeStage("repairFinalCoda", context.word.syllables);
@@ -1423,10 +1435,26 @@ function resolveBatchCount(count: number): number {
  * console.log(word.written.clean);
  * ```
  */
-export function createGenerator(config: LanguageConfig): WordGenerator {
+export function createGenerator(config: LanguageConfig, settings: GeneratorOptions = {}): WordGenerator {
+  if (settings.experimentalRepair && settings.experimentalRepair.config !== config) {
+    throw new TypeError("Experimental repair backend belongs to a different configuration");
+  }
   const rt = buildRuntime(config);
+  rt.experimentalRepair = settings.experimentalRepair;
 
   return {
+    repairBackend: rt.experimentalRepair?.name ?? "typescript",
+    generateWords: (count: number, options: WordGenerationOptions = {}): Word[] => {
+      const total = resolveBatchCount(count);
+      const rand = resolveRng(options);
+      const mode = options.mode ?? "lexicon";
+      const syllableCount = resolveForcedSyllableCount(options);
+      const results: Word[] = [];
+      for (let i = 0; i < total; i++) {
+        results.push(generateOneWord(rt, rand, mode, syllableCount, options.morphology ?? true, options.trace ?? false));
+      }
+      return results;
+    },
     generateWord: (options: WordGenerationOptions = {}): Word => {
       return generateOneWord(rt, resolveRng(options), options.mode ?? "lexicon", resolveForcedSyllableCount(options), options.morphology ?? true, options.trace ?? false);
     },

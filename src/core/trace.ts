@@ -273,6 +273,8 @@ export interface WordTrace {
   baseSpelling?: BaseSpellingTrace;
   /** Weight input and decisions before root nucleus repair/reduction. Absent in historical traces. */
   stressWeight?: StressWeightTrace;
+  /** Present only for the explicitly selected experimental repair backend. */
+  repairBackend?: "rust-wasm-v1";
   /** Target syllable count chosen for the root, excluding affixes. */
   syllableCount: number;
   /** Target phoneme count for the generated root before morphology. */
@@ -305,6 +307,7 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 export class TraceCollector {
   baseSpelling?: BaseSpellingTrace;
   stressWeight?: StressWeightTrace;
+  repairBackend?: "rust-wasm-v1";
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
   orthographyTrace?: OrthographyTrace;
@@ -345,6 +348,7 @@ export class TraceCollector {
 
   toTrace(morphApplied: boolean): WordTrace {
     return {
+      ...(this.repairBackend ? { repairBackend: this.repairBackend } : {}),
       syllableCount: this.syllableCount,
       targetPhonemeCount: this.targetPhonemeCount,
       syllablePlans: this.syllablePlans,
