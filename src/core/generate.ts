@@ -1,3 +1,4 @@
+import { resolveFinalVowels } from "./final-vowel.js";
 import { repairFinalNuclei } from "./final-nucleus.js";
 import { FinalSpelling } from "./final-spelling.js";
 import { FinalPhones } from "./final-phones.js";
@@ -113,6 +114,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
   const resolvedPronunciation: PronunciationRuntimeConfig = {
     aspiration: resolveAspirationRules(config.pronunciation.aspiration),
     vowelReduction: config.pronunciation.vowelReduction,
+    finalVowels: resolveFinalVowels(config.finalNucleus),
   };
 
   const positionPhonemes = {
@@ -1285,7 +1287,7 @@ function generateOneWord(
     // the lexical choice before spelling, while retaining genuine alternations
     // (such as -ity shortening) as separate base and derived segments.
     traceCollector?.beforeStage("repairFinalStressedNuclei", context.word.syllables);
-    repairFinalNuclei(context, lexicalRoot, rootSyllableStart, rt.positionPhonemes.nucleus, rt.resolvedStress);
+    repairFinalNuclei(context, lexicalRoot, rootSyllableStart, rt.positionPhonemes.nucleus, rt.resolvedStress, rt.resolvedPronunciation.finalVowels);
     traceCollector?.afterStage("repairFinalStressedNuclei", context.word.syllables);
     context.word.lexical = {
       root: lexicalRoot,

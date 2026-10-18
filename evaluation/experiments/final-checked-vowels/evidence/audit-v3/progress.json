@@ -1,0 +1,106 @@
+[
+  {
+    "arm": "fixed-control",
+    "policy": "default",
+    "stage": "production",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/audit/analyze-archive.mjs",
+      "/private/tmp/q10b2-fixed-control-default-v1",
+      "/private/tmp/q10b2-audit-v3/fixed-control-default-production.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "arm": "fixed-control",
+    "policy": "default",
+    "stage": "independent",
+    "command": [
+      "python3",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/audit/recount_archive.py",
+      "/private/tmp/q10b2-fixed-control-default-v1",
+      "/private/tmp/q10b2-audit-v3/fixed-control-default-independent.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "arm": "fixed-control",
+    "policy": "active",
+    "stage": "production",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/audit/analyze-archive.mjs",
+      "/private/tmp/q10b2-fixed-control-active-v1",
+      "/private/tmp/q10b2-audit-v3/fixed-control-active-production.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "arm": "fixed-control",
+    "policy": "active",
+    "stage": "independent",
+    "command": [
+      "python3",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/audit/recount_archive.py",
+      "/private/tmp/q10b2-fixed-control-active-v1",
+      "/private/tmp/q10b2-audit-v3/fixed-control-active-independent.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "arm": "configured-final-vowel-contract",
+    "policy": "default",
+    "stage": "production",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/audit/analyze-archive.mjs",
+      "/private/tmp/q10b2-configured-final-vowel-contract-default-v1",
+      "/private/tmp/q10b2-audit-v3/configured-final-vowel-contract-default-production.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "arm": "configured-final-vowel-contract",
+    "policy": "default",
+    "stage": "independent",
+    "command": [
+      "python3",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/audit/recount_archive.py",
+      "/private/tmp/q10b2-configured-final-vowel-contract-default-v1",
+      "/private/tmp/q10b2-audit-v3/configured-final-vowel-contract-default-independent.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "arm": "configured-final-vowel-contract",
+    "policy": "active",
+    "stage": "production",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/audit/analyze-archive.mjs",
+      "/private/tmp/q10b2-configured-final-vowel-contract-active-v1",
+      "/private/tmp/q10b2-audit-v3/configured-final-vowel-contract-active-production.json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "arm": "configured-final-vowel-contract",
+    "policy": "active",
+    "stage": "independent",
+    "command": [
+      "python3",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/audit/recount_archive.py",
+      "/private/tmp/q10b2-configured-final-vowel-contract-active-v1",
+      "/private/tmp/q10b2-audit-v3/configured-final-vowel-contract-active-independent.json"
+    ],
+    "exitCode": 0
+  }
+]

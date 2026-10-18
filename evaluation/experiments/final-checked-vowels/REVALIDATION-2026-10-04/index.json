@@ -1,0 +1,38 @@
+{
+  "records": [
+    {
+      "path": "q10b2-fixed-control-default-v1-fresh-independent.json.gz",
+      "bytes": 9790,
+      "sha256": "a9e4be3137999a5eaaa21d76c9651477ed288b2c5adeffbed7f8d21ca39484dc",
+      "decodedBytes": 109773,
+      "decodedSha256": "958279d7899077fb4291b9803657c3437f9a0665cf1700af5bccab66949a6112"
+    },
+    {
+      "path": "q10b2-fixed-control-active-v1-fresh-independent.json.gz",
+      "bytes": 9751,
+      "sha256": "bb553ffb569d99395abae6190e973f4a462db6bc9697ec3c49d954555bf723dc",
+      "decodedBytes": 109245,
+      "decodedSha256": "33053e5f7d0143e65bf782eb35c3d68de90cb276eb14bb96798c1bc12ba3bb04"
+    },
+    {
+      "path": "q10b2-configured-final-vowel-contract-default-v1-fresh-independent.json.gz",
+      "bytes": 9850,
+      "sha256": "fc26ba638b0db1d436e0fc858c972e641bd67b3fc5bc228a5bb4ccf4c045e195",
+      "decodedBytes": 112028,
+      "decodedSha256": "683d08297f9d403238b820e0da6a698ba089547290e1ec36258c3e847639ffa9"
+    },
+    {
+      "path": "q10b2-configured-final-vowel-contract-active-v1-fresh-independent.json.gz",
+      "bytes": 10079,
+      "sha256": "a92dc1acb353012d9078d6c3e089159a7e951fe4f53584ec24e5cf32e2bbcd6c",
+      "decodedBytes": 111622,
+      "decodedSha256": "2a0b0d309b17b0b959a15f0f24f8cfebd8eb32c4b057f072db9686729fb1c250"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 1642,
+      "sha256": "d881f68684e019ed6606224758c7a591112bbbe4d248e061faa882ddae3eb956"
+    }
+  ],
+  "scope": "Supplemental fresh full original archived-JSON recount; original208-record validation index and all measured sources/results remain exact."
+}

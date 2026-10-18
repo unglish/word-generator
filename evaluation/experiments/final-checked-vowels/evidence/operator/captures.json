@@ -1,0 +1,43 @@
+{
+  "jobs": [
+    {
+      "arm": "fixed-control",
+      "policy": "default",
+      "expectedCommit": "4a5defa56c7649145bfa9c953e698dc57a2d0acd",
+      "root": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator",
+      "sessionId": 33520,
+      "out": "/private/tmp/q10b2-fixed-control-default-v1",
+      "state": "terminal exit 0; complete seal and all 25 artifact hashes/lengths verified"
+    },
+    {
+      "arm": "fixed-control",
+      "policy": "active",
+      "expectedCommit": "4a5defa56c7649145bfa9c953e698dc57a2d0acd",
+      "root": "/Users/ryanbetts/.codex/worktrees/linguistic-q10b2-control/word-generator",
+      "sessionId": 90847,
+      "out": "/private/tmp/q10b2-fixed-control-active-v1",
+      "state": "terminal exit 0; complete seal and all 25 artifact hashes/lengths verified"
+    },
+    {
+      "arm": "configured-final-vowel-contract",
+      "policy": "default",
+      "expectedCommit": "8499e925cb69728e38573cceb477f2bb60f90007",
+      "root": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator",
+      "sessionId": 49211,
+      "out": "/private/tmp/q10b2-configured-final-vowel-contract-default-v1",
+      "state": "terminal exit 0; complete seal and all 25 artifact hashes/lengths verified"
+    },
+    {
+      "arm": "configured-final-vowel-contract",
+      "policy": "active",
+      "expectedCommit": "8499e925cb69728e38573cceb477f2bb60f90007",
+      "root": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator",
+      "sessionId": 70890,
+      "out": "/private/tmp/q10b2-configured-final-vowel-contract-active-v1",
+      "state": "terminal exit 0; complete seal and all 25 artifact hashes/lengths verified"
+    }
+  ],
+  "runner": "/Users/ryanbetts/.codex/worktrees/linguistic-q02-publication/word-generator/evaluation/experiments/final-checked-vowels/freeze-capture.mjs",
+  "wordsPerCapture": 200000,
+  "totalRegisteredWords": 800000
+}

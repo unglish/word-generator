@@ -1,0 +1,7 @@
+{
+  "reason": "assert.equal compared canonical object identity; equal serialized configuration needs assert.deepEqual",
+  "recordsProcessed": 0,
+  "generatorChanged": false,
+  "capturesRepeated": false,
+  "nextAudit": "/private/tmp/q10b2-audit-v3"
+}

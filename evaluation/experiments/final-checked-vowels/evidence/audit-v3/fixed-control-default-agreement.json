@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "arm": "fixed-control",
+  "policy": "default",
+  "words": 200000,
+  "integerComparisons": 2328,
+  "disagreements": 0
+}

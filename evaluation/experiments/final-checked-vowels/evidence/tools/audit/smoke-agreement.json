@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "records": 13,
+  "integerComparisons": 41,
+  "disagreements": 0,
+  "fixtureSha256": "92868d4d637e7e7cb3fbcdfa7b08986af3733f53bb528db955645ef3d49df5f6"
+}

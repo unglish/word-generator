@@ -1,0 +1,5 @@
+{
+  "reason": "Tool snapshot included changing own output log; stopped before any corpus audit started",
+  "captureProcessesInterrupted": false,
+  "auditOutputsStarted": false
+}

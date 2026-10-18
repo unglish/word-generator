@@ -155,3 +155,7 @@ time and storage; inspect the measured results for the tested configuration.
 ## Audit retention
 
 The trace CLI consumes one word at a time using a shared seeded RNG. It retains aggregate metrics rather than the full batch of trace records, so its default 50,000-word audit can complete without accumulating all final-word provenance packets. The report schema, seeded stream and metric thresholds are unchanged. See `evaluation/experiments/stream-trace-audit/RESULTS.md` for the measured comparison.
+
+## Final checked-vowel evidence
+
+`finalNucleus` retains the assembled input, lexical-root input, repaired output, root offset, draw tape, repair events and phone ledgers. Its existing `repairFinalStressedNuclei` stage now includes the separately named `repairFinalCheckedVowel` repair. Phone histories record those phases separately, including an intermediate vowel if both fire. `replayFinalNuclei` binds the choice to configured restrictions and weights, morphology preparation, writer input and emitted lexical views. `blockFinalCheckedReduction` records an ineligible final reduction target; it consumes no probability draw. The surface assertion checks the contract again after pronunciation. Affix and derived-root failures are explicit configuration errors; final checked-vowel repair does not manufacture an allomorph.

@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "arm": "configured-final-vowel-contract",
+  "policy": "active",
+  "words": 200000,
+  "integerComparisons": 2416,
+  "disagreements": 0
+}

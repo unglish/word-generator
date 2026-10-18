@@ -1,0 +1,11 @@
+✔ registered corpus has all twenty full replicate streams (2.282375ms)
+✔ reject altered protocol, per-policy count, total count, profiles and arm (2.451ms)
+✔ reject capture module rooted outside measured checkout (2.646958ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 69.677833

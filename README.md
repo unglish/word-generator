@@ -174,3 +174,7 @@ See [grapheme selection](docs/grapheme-selection.md) for hard constraints, posit
 See [sound-specific consonant doubling](docs/phoneme-aware-doubling.md) for the English realization policy, custom rules, and the explicit legacy opt-out.
 
 See [experimental shared spellings](docs/shared-spellings.md) for the opt-in multi-phone spelling policy and its current verification limits.
+
+### Final vowel policy
+
+The default English configuration requires a coda after word-final /ɪ ɛ æ ʌ ʊ/. An exposed unalternated root vowel is replaced before spelling using legal positive nucleus × word-final weights. Morphology may place the same root vowel internally without replacement. Surface reduction cannot introduce a forbidden ending. Custom generators can set `finalNucleus.checkedVowels` explicitly or omit `finalNucleus` to disable this contract. An affix or derived alternation with an invalid final vowel raises an error rather than silently changing its declared realization. This is an explicit model policy, independent of `Phoneme.tense`; the [completed experiment](evaluation/experiments/final-checked-vowels/RESULTS.md) records zero configured violations, mixed broader quality effects, and failing repository gates.

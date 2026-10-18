@@ -1,0 +1,49 @@
+{
+  "terminal": true,
+  "words": 800000,
+  "archives": 4,
+  "integerComparisons": 9493,
+  "outcomes": [
+    {
+      "archive": "q10b2-fixed-control-default-v1",
+      "words": 200000,
+      "candidate": false,
+      "lexicalViolations": 4076,
+      "surfaceViolations": 3651
+    },
+    {
+      "archive": "q10b2-fixed-control-active-v1",
+      "words": 200000,
+      "candidate": false,
+      "lexicalViolations": 4065,
+      "surfaceViolations": 3621
+    },
+    {
+      "archive": "q10b2-configured-final-vowel-contract-default-v1",
+      "words": 200000,
+      "candidate": true,
+      "lexicalViolations": 0,
+      "surfaceViolations": 0
+    },
+    {
+      "archive": "q10b2-configured-final-vowel-contract-active-v1",
+      "words": 200000,
+      "candidate": true,
+      "lexicalViolations": 0,
+      "surfaceViolations": 0
+    }
+  ],
+  "unchangedFullOriginalIndependentReports": true,
+  "all80RawWordShardHashesAndCoordinatesVerified": true,
+  "originalCandidateSource": "8499e92",
+  "adoptionRecommended": false,
+  "retained": {
+    "path": ".local-evidence/q10b2-recount-reconciliation-retained-v1",
+    "files": 38,
+    "bytes": 5035194,
+    "indexSha256": "0dfa9a1354ec359bd181d3ee181efc9b4fd29a7a8eea2466d07f212bf30c60ca"
+  },
+  "limitations": "Renewed independent archivedJSON structural/endpoints proof only. Original configured publicAPI replay, failed gates and24timings remain historical exact-source execution; not freshly rerun. No humanquality gain or currentmain/adoption certification.",
+  "completedAt": "2026-10-04T21:20:12.066115+00:00",
+  "publishedHeadBeforeSupplement": "105bc73be81dddd51067803bccb9eb8e3a8ec488"
+}

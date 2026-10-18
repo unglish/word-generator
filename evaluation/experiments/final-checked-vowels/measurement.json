@@ -1,0 +1,158 @@
+{
+  "version": "q10b2-final-checked-vowels-v1",
+  "status": "prospective; before candidate implementation and capture",
+  "controlCommit": "4a5defa56c7649145bfa9c953e698dc57a2d0acd",
+  "generatorEquivalentMeasuredCommit": "7e34a17f31d44d1e31420f458bf6e2d99c5fa038",
+  "exploratoryArchive": "Q02 active-policy candidate development archive; not a Q10b2 candidate",
+  "exploratoryObservationSha256": "d3c055b1643c552cf1d2e9d840d93f37275920b3c54512a165f22ae0aa69e352",
+  "protocolSha256": "70d661acae4605ae064d7a194f76a405b452c0124c9e2651e96c666e86b03df9",
+  "cohort": "development",
+  "wordsPerReplicate": 10000,
+  "wordsPerArm": 400000,
+  "profiles": [
+    {
+      "id": "lexicon-default",
+      "options": {
+        "mode": "lexicon",
+        "morphology": true
+      },
+      "seeds": {
+        "development": [
+          69212153,
+          101601885,
+          3921817393,
+          3948943232,
+          2089697863
+        ],
+        "validation": [
+          343148695,
+          588155434,
+          3368386746,
+          3898123730,
+          1246218775
+        ]
+      }
+    },
+    {
+      "id": "lexicon-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false
+      },
+      "seeds": {
+        "development": [
+          2380207674,
+          772709128,
+          1304238451,
+          1696751198,
+          1498885173
+        ],
+        "validation": [
+          1009669289,
+          1929784165,
+          663835973,
+          1913126773,
+          2753803302
+        ]
+      }
+    },
+    {
+      "id": "monosyllables-bare",
+      "options": {
+        "mode": "lexicon",
+        "morphology": false,
+        "syllableCount": 1
+      },
+      "seeds": {
+        "development": [
+          462530651,
+          62358955,
+          3297327738,
+          2001884366,
+          2353354178
+        ],
+        "validation": [
+          1195095943,
+          2228551463,
+          3012376298,
+          3657383406,
+          2724299545
+        ]
+      }
+    },
+    {
+      "id": "text-default",
+      "options": {
+        "mode": "text",
+        "morphology": true
+      },
+      "seeds": {
+        "development": [
+          4167471042,
+          2666001996,
+          3562318933,
+          1999736106,
+          1665836705
+        ],
+        "validation": [
+          1233637419,
+          3612082221,
+          2738163729,
+          2933603771,
+          1320168908
+        ]
+      }
+    }
+  ],
+  "arms": [
+    "fixed-control",
+    "configured-final-vowel-contract"
+  ],
+  "policies": [
+    "default",
+    "Q14b split-vowel and following-letter policy matching exploratory archive"
+  ],
+  "primaryEndpoint": {
+    "id": "final_open_checked_vowel",
+    "targetHits": 0,
+    "denominator": "all 200000 emitted words per policy",
+    "sounds": [
+      "ɪ",
+      "ɛ",
+      "æ",
+      "ʌ",
+      "ʊ"
+    ],
+    "stress": "all, separately report primary/secondary/unstressed",
+    "definition": "one nucleus in the final syllable, checked sound, and empty final coda"
+  },
+  "requiredStructuralEndpoints": [
+    "no final configured vowel restriction violation in lexical or surface views",
+    "root-origin lexical changes synchronized to writer input when no derivational alternation licenses a distinct root",
+    "affix and derived-root provenance retains configured realization; impossible custom contracts fail explicitly",
+    "pronunciation reduction cannot introduce a forbidden final ending",
+    "replayable repair choice, draw tape, source identity and final phone change"
+  ],
+  "requiredEvidence": [
+    "independent JSON-only corpus recount with per-profile and per-replicate agreement",
+    "full witness source binding and configured operation replay",
+    "public API trace on/off and RNG stream parity",
+    "conditional parity for legal unaffected contexts",
+    "closed checked-vowel coverage and free-vowel ending distributions",
+    "unchanged common spelling, phonotactic, stress, morphology, diversity and corpus-distance metrics",
+    "fixed-count unit, quality, performance, trigram and trace diagnostics with failures retained",
+    "paired timing runs without thresholds or heap changes"
+  ],
+  "limitations": [
+    "phonological endpoint success is not a human wordlikeness gain",
+    "Q10b1 root nucleus-coda pair contract is separate and not claimed by this experiment",
+    "development seeds are exploratory; do not claim held-out validation",
+    "no general dialect-independent classification from Phoneme.tense"
+  ],
+  "wordsPerPolicyPerArm": 200000,
+  "protocolPath": "evaluation/quality/protocol.json",
+  "activePolicyRegistration": {
+    "path": "evaluation/experiments/final-word-ownership/measurement.json",
+    "sha256": "7ee6193f4e5e5c9f79bcef9485bdc50e7df4202f0527e97f9c00459e3adeebf1"
+  }
+}

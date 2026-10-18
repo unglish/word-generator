@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "policy": "default",
+  "words": 200000,
+  "integerComparisons": 58,
+  "disagreements": 0,
+  "lexicalViolations": 0,
+  "surfaceViolations": 0,
+  "scope": "Complete candidate production replay endpoint counts agree with separate independent endpoint/source-coordinate scan; full independent cell/phone lineage replay remains pending."
+}

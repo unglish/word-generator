@@ -1,0 +1,16 @@
+[
+  {
+    "arm": "fixed-control",
+    "policy": "default",
+    "stage": "production",
+    "command": [
+      "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+      "--import",
+      "/Users/ryanbetts/Code/unglish/word-generator/node_modules/tsx/dist/loader.mjs",
+      "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/.local-evidence/final-checked-vowels/audit/analyze-archive.mjs",
+      "/private/tmp/q10b2-fixed-control-default-v1",
+      "/private/tmp/q10b2-audit-v2/fixed-control-default-production.json"
+    ],
+    "exitCode": 1
+  }
+]

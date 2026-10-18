@@ -1,0 +1,64 @@
+[
+  {
+    "capture": "q10b2-fixed-control-default-v1",
+    "passed": true,
+    "sourceCommit": "4a5defa56c7649145bfa9c953e698dc57a2d0acd",
+    "words": 200000,
+    "artifactsVerified": 25,
+    "manifestSha256": "e04393aa8302619ce4cab15faa9ef2a411dac10deb99194933fff3112f1050be",
+    "summaryReportedTarget": {
+      "lexicon-default": {
+        "hits": 890,
+        "eligible": 50000,
+        "rate": 0.0178
+      },
+      "lexicon-bare": {
+        "hits": 1340,
+        "eligible": 50000,
+        "rate": 0.0268
+      },
+      "monosyllables-bare": {
+        "hits": 300,
+        "eligible": 50000,
+        "rate": 0.006
+      },
+      "text-default": {
+        "hits": 1121,
+        "eligible": 50000,
+        "rate": 0.02242
+      }
+    },
+    "scope": "Capture integrity and evaluator summary only; full independent recount and configured replay pending"
+  },
+  {
+    "capture": "q10b2-configured-final-vowel-contract-default-v1",
+    "passed": true,
+    "sourceCommit": "8499e925cb69728e38573cceb477f2bb60f90007",
+    "words": 200000,
+    "artifactsVerified": 25,
+    "manifestSha256": "a5b6e0a8115dac487355b1e6512a0d9b5f36dab161cb9051e82c06482ef61fd0",
+    "summaryReportedTarget": {
+      "lexicon-default": {
+        "hits": 0,
+        "eligible": 50000,
+        "rate": 0
+      },
+      "lexicon-bare": {
+        "hits": 0,
+        "eligible": 50000,
+        "rate": 0
+      },
+      "monosyllables-bare": {
+        "hits": 0,
+        "eligible": 50000,
+        "rate": 0
+      },
+      "text-default": {
+        "hits": 0,
+        "eligible": 50000,
+        "rate": 0
+      }
+    },
+    "scope": "Capture integrity and evaluator summary only; full independent recount and configured replay pending"
+  }
+]
