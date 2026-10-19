@@ -1,5 +1,13 @@
 # Quality comparison: final-lexical-stress-v2
 
+> **STALE.** This evidence was captured on #309's original respell-on-repair
+> generator (`f204bd73`), before the look-ahead design: affix stress and final
+> nucleus repair now resolve before each root attempt is spelled, affix-side
+> draws use a per-attempt stream, and repaired root syllables are spelled with
+> final stress. Every artifact in this directory describes the old output and
+> will be regenerated once the remaining output changes land. Do not cite these
+> numbers for the current branch.
+
 Original baseline: baseline-development-v1. Cohort: development.
 
 These are sample observations, not paired words or human-quality proof. Changes in RNG consumption can change every later word in a stream. Replicate ranges describe variation across seed streams; they are not confidence intervals. Zero observed invariant violations does not prove the invariant for every possible output. No automatic pass/fail judgment is made.
