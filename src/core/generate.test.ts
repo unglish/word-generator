@@ -4,6 +4,11 @@ import { ClusterContext } from "../types";
 import { englishConfig } from "../config/english";
 import { createDefaultRng } from "../utils/random";
 import { buildGraphemeMaps } from "../elements/graphemes/index";
+import type { WordTrace } from "./trace";
+
+/** Stages that see the affixed word; every other stage describes the root alone. */
+const WORD_STAGES = new Set(["assembleMorphology", "repairFinalStressedNuclei", "generatePronunciation"]);
+const rootStages = (trace: WordTrace) => trace.stages.filter(stage => !WORD_STAGES.has(stage.name));
 
 describe("Word Generator", () => {
   it("generates word with specified syllable count", () => {
@@ -19,7 +24,8 @@ describe("Word Generator", () => {
         const trace = word.trace!;
         expect(trace.syllableCount).toBe(syllableCount);
         expect(trace.syllablePlans).toHaveLength(syllableCount);
-        expect(trace.stages.at(-1)!.after).toHaveLength(syllableCount);
+        expect(word.lexical!.root).toHaveLength(syllableCount);
+        for (const stage of rootStages(trace)) expect(stage.after).toHaveLength(syllableCount);
         const realized = trace.morphology?.realization;
         const added = (realized?.prefix?.resolved.syllableCount ?? 0)
           + (realized?.suffix?.resolved.syllableCount ?? 0);
@@ -55,7 +61,8 @@ describe("Word Generator", () => {
     for (let seed = 0; seed < 64; seed++) {
       const a = shortGenerator.generateWord({ seed, trace: true });
       const b = longGenerator.generateWord({ seed, trace: true });
-      expect(b.trace!.stages).toEqual(a.trace!.stages);
+      expect(rootStages(b.trace!)).toEqual(rootStages(a.trace!));
+      expect(b.lexical!.root).toEqual(a.lexical!.root);
       expect(b.trace!.graphemeSelections).toEqual(a.trace!.graphemeSelections);
       expect(b.trace!.targetPhonemeCount).toBe(a.trace!.targetPhonemeCount);
       expect(b.trace!.syllablePlans).toEqual(a.trace!.syllablePlans);
