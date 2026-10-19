@@ -1248,12 +1248,17 @@ function resolveLexicalWord(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   morphPlan: PlannedMorphologySelection,
+  lookaheadRand: RNG,
 ): PreparedMorphology {
   const traceCollector = context.trace;
   const lexicalRoot = cloneSyllables(context.word.syllables);
+  // Affix-side random choices (hiatus bridges, stressed-nucleus re-picks) draw
+  // from a per-attempt stream, so the root's own RNG stream, and hence root
+  // selection, does not depend on the affix's phones or syllables.
+  const lexicalContext: WordGenerationContext = { ...context, rand: lookaheadRand };
 
   traceCollector?.beforeStage("assembleMorphology", context.word.syllables);
-  const prepared = prepareMorphology(rt, context, morphPlan.plan)!;
+  const prepared = prepareMorphology(rt, lexicalContext, morphPlan.plan)!;
   traceCollector?.afterStage("assembleMorphology", context.word.syllables);
   const rootSyllableStart = prepared.rootSyllableStart;
 
@@ -1262,7 +1267,7 @@ function resolveLexicalWord(
   // (such as -ity shortening) as separate base and derived segments.
   const nucleiBeforeRepair = context.word.syllables.map(syllable => [...syllable.nucleus]);
   traceCollector?.beforeStage("repairFinalStressedNuclei", context.word.syllables);
-  repairStressedNuclei(context, rt.positionPhonemes.nucleus, rt.resolvedStress);
+  repairStressedNuclei(lexicalContext, rt.positionPhonemes.nucleus, rt.resolvedStress);
   carryRootNucleusRepairs(lexicalRoot, context.word.syllables, nucleiBeforeRepair, rootSyllableStart);
   traceCollector?.afterStage("repairFinalStressedNuclei", context.word.syllables);
   context.word.lexical = {
@@ -1351,6 +1356,8 @@ function generateOneWord(
   const bounds = computePhonemeTargetBounds(forcedRootSyllableCount, maxOnset, maxCoda);
   const targetPhonemeCountRoot = resolveRootPhonemeTarget(sampledRootTarget, bounds);
   const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCountRoot, rand, forcedRootSyllableCount);
+  // One draw per affixed word seeds the per-attempt look-ahead streams.
+  const lookaheadSeed = affixPlan ? Math.floor(rand() * 4294967296) : 0;
   const maxAttempts = MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES;
   let bestContext: WordGenerationContext | undefined;
   let bestPrepared: PreparedMorphology | undefined;
@@ -1388,7 +1395,7 @@ function generateOneWord(
     runPipeline(rt, context, mode);
     let prepared: PreparedMorphology | undefined;
     if (affixPlan) {
-      prepared = resolveLexicalWord(rt, context, affixPlan);
+      prepared = resolveLexicalWord(rt, context, affixPlan, createSeededRng(lookaheadSeed ^ Math.imul(attempt + 1, 0x9e3779b9)));
       spellLexicalRoot(rt, context, context.word.lexical!.root, prepared.rootSyllableStart);
     } else {
       const syllables = context.word.syllables;
