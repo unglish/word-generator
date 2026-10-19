@@ -269,11 +269,13 @@ function* generatedDraws(generator: GeneratorModule, profile: Protocol["profiles
 
 const drawKey = (draw: Pick<Draw, "profile" | "seed" | "drawIndex">): string => `${draw.profile} seed ${draw.seed} draw ${draw.drawIndex}`;
 
+interface CommittedRun { path: string; manifest: Manifest; reviewSamples: Draw[] }
+
 /** Committed runs of the same protocol, cohort, and clean generator revision. */
-async function matchingCommittedRuns(directory: string, cohort: Cohort, protocol: Protocol, generator: Manifest["generator"]) {
+async function matchingCommittedRuns(directory: string, cohort: Cohort, protocol: Protocol, generator: Manifest["generator"]): Promise<CommittedRun[]> {
   if (generator.dirty) return [];
   const entries = await readdir(directory, { withFileTypes: true });
-  const runs: Array<{ path: string; manifest: Manifest; reviewSamples: Draw[] }> = [];
+  const runs: CommittedRun[] = [];
   for (const entry of entries.filter(item => item.isDirectory()).sort((a, b) => a.name.localeCompare(b.name, "en"))) {
     const path = join(directory, entry.name);
     const { manifest } = await readRun(path);
@@ -287,16 +289,17 @@ async function matchingCommittedRuns(directory: string, cohort: Cohort, protocol
  * Regenerate every stream's fixed review draws and require them to serialize exactly as
  * a committed run of the same revision recorded them. Refuses at the first divergence.
  */
-function probeFidelity(generator: GeneratorModule, protocol: Protocol, cohort: Cohort, run: { path: string; manifest: Manifest; reviewSamples: Draw[] }): FidelityProbe {
+function probeFidelity(generator: GeneratorModule, protocol: Protocol, cohort: Cohort, run: CommittedRun): FidelityProbe {
   const committed = new Map(run.reviewSamples.map(draw => [drawKey(draw), JSON.stringify(draw)]));
   const failure = `Fidelity probe failed against committed run ${run.manifest.id} (${basename(run.path)})`;
   for (const profile of protocol.profiles) {
     for (const seed of profile.seeds[cohort]) {
       for (const draw of generatedDraws(generator, profile, seed, protocol.reviewDrawsPerReplicate)) {
-        const expected = committed.get(drawKey(draw));
-        if (expected === undefined) throw new Error(`${failure}: ${drawKey(draw)} is missing from its review samples.`);
-        if (expected !== JSON.stringify(draw)) throw new Error(`${failure}: regenerated ${drawKey(draw)} differs from its committed review sample.`);
-        committed.delete(drawKey(draw));
+        const key = drawKey(draw);
+        const expected = committed.get(key);
+        if (expected === undefined) throw new Error(`${failure}: ${key} is missing from its review samples.`);
+        if (expected !== JSON.stringify(draw)) throw new Error(`${failure}: regenerated ${key} differs from its committed review sample.`);
+        committed.delete(key);
       }
     }
   }
