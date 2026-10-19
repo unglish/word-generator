@@ -17,17 +17,18 @@ describe("stress-aware nucleus re-pick", () => {
     expect(stressedSchwaCount).toBe(0);
   });
 
-  it("monosyllables can still have schwa nucleus (no stress marker)", { timeout: 20_000 }, () => {
+  it("standalone monosyllables retain lexical stress without an IPA stress mark", { timeout: 20_000 }, () => {
     const words = generateWords(10_000, { seed: 456, syllableCount: 1, morphology: false });
     let schwaCount = 0;
 
     for (const word of words) {
+      expect(word.syllables[0].stress).toBe("ˈ");
+      expect(word.pronunciation).not.toContain("ˈ");
       if (word.syllables[0]?.nucleus[0]?.sound === "ə") {
         schwaCount++;
       }
     }
 
-    // Monosyllables have no stress marker, so schwa should still appear
-    expect(schwaCount).toBeGreaterThan(0);
+    expect(schwaCount).toBe(0);
   });
 });
