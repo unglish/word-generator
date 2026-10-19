@@ -5,15 +5,15 @@ import { copyFile, mkdir, readFile, readdir, stat, writeFile } from "node:fs/pro
 import { basename, dirname, join } from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
+import { pathToFileURL } from "node:url";
 import { createGunzip, createGzip, gunzipSync, gzipSync } from "node:zlib";
-import { createSeededRng, englishConfig, generateWord } from "../../src/index.js";
-import type { Word } from "../../src/types.js";
+import type * as GeneratorApi from "../../src/index.js";
 import { canonical, digest } from "./serialization.js";
 import type { SourceFile } from "./serialization.js";
 import { classifyWord, METRIC_DEFINITIONS, wordStrata } from "./metrics.js";
 import type { WordObservations, WordStrata } from "./metrics.js";
 import { distributionDistance } from "./distribution.js";
-import type { ArchivedProvenance, Artifact, Cohort, Draw, Manifest, MetricCounts, ProfileSummary, Protocol, RunEnvironment, RunSummary, SourceArchive, StratumSummary } from "./model.js";
+import type { ArchivedProvenance, Artifact, Cohort, Draw, FidelityProbe, Manifest, MetricCounts, ProfileSummary, Protocol, RunEnvironment, RunSummary, SourceArchive, StratumSummary } from "./model.js";
 
 async function collectFiles(root: string, directory: string, recursive = true): Promise<SourceFile[]> {
   const files: SourceFile[] = [];
@@ -28,10 +28,11 @@ async function collectFiles(root: string, directory: string, recursive = true): 
   return files;
 }
 
-async function captureSources(root: string): Promise<SourceArchive> {
+/** The evaluator, references, and dependencies always come from the harness checkout. */
+async function captureSources(root: string, generatorRoot = root): Promise<SourceArchive> {
   const files = async (paths: string[]) => Promise.all(paths.map(async path => ({ path, content: await readFile(join(root, path), "utf8") })));
   return {
-    generator: await collectFiles(root, "src"),
+    generator: await collectFiles(generatorRoot, "src"),
     evaluator: await collectFiles(root, "evaluation/quality", false),
     references: await collectFiles(root, "data/cmu"),
     packageFiles: await files(["package.json", "package-lock.json"]),
@@ -106,7 +107,12 @@ function sourceJson<T>(sources: SourceArchive, path: string): T {
 }
 
 export interface CaptureOptions {
+  /** Harness checkout supplying the evaluator, references, and committed runs. */
   root: string;
+  /** Checkout whose `src` generates the words; defaults to `root`. */
+  generatorRoot?: string;
+  /** Directory of committed runs used by the fidelity probe; defaults to the harness baselines. */
+  committedRuns?: string;
   out: string;
   id: string;
   cohort: Cohort;
@@ -247,32 +253,83 @@ async function evaluateCorpus(
   return { summary, files };
 }
 
+type GeneratorModule = Pick<typeof GeneratorApi, "createSeededRng" | "englishConfig" | "generateWord">;
+
+/** Load the public API of the checkout being measured, which may be another revision. */
+async function loadGenerator(generatorRoot: string): Promise<GeneratorModule> {
+  return await import(pathToFileURL(join(generatorRoot, "src/index.ts")).href) as GeneratorModule;
+}
+
+function* generatedDraws(generator: GeneratorModule, profile: Protocol["profiles"][number], seed: number, count: number): Generator<Draw> {
+  const rand = generator.createSeededRng(seed);
+  for (let drawIndex = 0; drawIndex < count; drawIndex++) {
+    yield { profile: profile.id, seed, drawIndex, word: generator.generateWord({ ...profile.options, rand, trace: true }) };
+  }
+}
+
+const drawKey = (draw: Pick<Draw, "profile" | "seed" | "drawIndex">): string => `${draw.profile} seed ${draw.seed} draw ${draw.drawIndex}`;
+
+/** Committed runs of the same protocol, cohort, and clean generator revision. */
+async function matchingCommittedRuns(directory: string, cohort: Cohort, protocol: Protocol, generator: Manifest["generator"]) {
+  if (generator.dirty) return [];
+  const entries = await readdir(directory, { withFileTypes: true });
+  const runs: Array<{ path: string; manifest: Manifest; reviewSamples: Draw[] }> = [];
+  for (const entry of entries.filter(item => item.isDirectory()).sort((a, b) => a.name.localeCompare(b.name, "en"))) {
+    const path = join(directory, entry.name);
+    const { manifest } = await readRun(path);
+    if (manifest.cohort !== cohort || manifest.protocolDigest !== digest(protocol) || manifest.generator.commit !== generator.commit || manifest.generator.dirty) continue;
+    runs.push({ path, manifest, reviewSamples: await readPinnedJson<Draw[]>(path, manifest, "review-samples.json.gz") });
+  }
+  return runs;
+}
+
+/**
+ * Regenerate every stream's fixed review draws and require them to serialize exactly as
+ * a committed run of the same revision recorded them. Refuses at the first divergence.
+ */
+function probeFidelity(generator: GeneratorModule, protocol: Protocol, cohort: Cohort, run: { path: string; manifest: Manifest; reviewSamples: Draw[] }): FidelityProbe {
+  const committed = new Map(run.reviewSamples.map(draw => [drawKey(draw), JSON.stringify(draw)]));
+  const failure = `Fidelity probe failed against committed run ${run.manifest.id} (${basename(run.path)})`;
+  for (const profile of protocol.profiles) {
+    for (const seed of profile.seeds[cohort]) {
+      for (const draw of generatedDraws(generator, profile, seed, protocol.reviewDrawsPerReplicate)) {
+        const expected = committed.get(drawKey(draw));
+        if (expected === undefined) throw new Error(`${failure}: ${drawKey(draw)} is missing from its review samples.`);
+        if (expected !== JSON.stringify(draw)) throw new Error(`${failure}: regenerated ${drawKey(draw)} differs from its committed review sample.`);
+        committed.delete(drawKey(draw));
+      }
+    }
+  }
+  if (committed.size) throw new Error(`${failure}: its review samples contain draws outside the protocol schedule.`);
+  return { runId: run.manifest.id, manifestDigest: digest(run.manifest), reviewDraws: run.reviewSamples.length };
+}
+
 export async function captureRun(options: CaptureOptions): Promise<RunSummary> {
-  const { root, out, id, cohort, protocol } = options;
+  const { root, generatorRoot = root, out, id, cohort, protocol } = options;
   validateRunId(id);
   validateProtocol(protocol);
-  const sources = await captureSources(root);
-  const git = (...args: string[]) => execFileSync("git", args, { cwd: root, encoding: "utf8", maxBuffer: 20 * 1024 * 1024 }).trim();
+  const sources = await captureSources(root, generatorRoot);
+  const generatorApi = await loadGenerator(generatorRoot);
+  const git = (...args: string[]) => execFileSync("git", args, { cwd: generatorRoot, encoding: "utf8", maxBuffer: 20 * 1024 * 1024 }).trim();
   const generator: Manifest["generator"] = {
     commit: git("rev-parse", "HEAD"),
     dirty: git("status", "--porcelain", "--", "src").length > 0,
     sourceDigest: digest(sources.generator),
-    effectiveConfig: canonical(englishConfig),
+    effectiveConfig: canonical(generatorApi.englishConfig),
     patch: git("diff", "HEAD", "--", "src"),
   };
+  const committedRuns = await matchingCommittedRuns(options.committedRuns ?? join(root, "evaluation/quality/baselines"), cohort, protocol, generator);
+  const fidelityProbes = committedRuns.map(run => probeFidelity(generatorApi, protocol, cohort, run));
   const source: DrawSource = async function* (profile, seed) {
-    const rand = createSeededRng(seed);
-    for (let drawIndex = 0; drawIndex < protocol.wordsPerReplicate; drawIndex++) {
-      const word: Word = generateWord({ ...profile.options, rand, trace: true });
-      yield { profile: profile.id, seed, drawIndex, word };
-    }
+    yield* generatedDraws(generatorApi, profile, seed, protocol.wordsPerReplicate);
   };
   const { summary, files } = await evaluateCorpus(options, sources, source, true);
-  if (digest(sources) !== digest(await captureSources(root))) throw new Error("Source, evaluator, dependencies, or references changed during capture. This run is incomplete.");
+  if (digest(sources) !== digest(await captureSources(root, generatorRoot))) throw new Error("Source, evaluator, dependencies, or references changed during capture. This run is incomplete.");
   const manifest: Manifest = {
     schemaVersion: 1, id, createdAt: new Date().toISOString(), cohort, protocol,
     protocolDigest: summary.protocolDigest, evaluatorDigest: summary.evaluatorDigest, referenceDigest: summary.referenceDigest,
     generator, environment: currentEnvironment(sources.packageFiles),
+    ...(fidelityProbes.length ? { fidelityProbes } : {}),
     artifacts: await Promise.all(files.map(file => artifact(out, file))),
   };
   await saveJson(out, "manifest.json", { manifest, digest: digest(manifest) });
