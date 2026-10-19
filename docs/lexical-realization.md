@@ -97,10 +97,13 @@ spelling-to-pronunciation agreement.
 
 The phoneme gate (`src/core/phoneme-quality.test.ts`, morphology off) fails on
 the current generator, and its thresholds are unchanged. Standalone
-monosyllables now carry primary stress, so schwa cannot be their nucleus: at
-the gate's seed, /ə/ falls from 8.076% of phones to 7.664% (CMU: 8.399%).
-Restoring main's /ə/ count alone returns Pearson r from 0.99740 to 0.99845, so
-schwa explains the drop. The same shift also breaks the under-representation
+monosyllables now carry primary stress, so schwa cannot be their nucleus. Over
+five non-overlapping seeds, /ə/ falls by 0.39 pp of phones on average (main
+8.07%, CMU 8.40%), 13.7 times main's seed-to-seed SD. The other vowels gain the
+re-picked nuclei. Across ten seeds, Pearson r falls from 0.99827-0.99855 on
+main to 0.99735-0.99770. Restoring main's /ə/ count alone returns each of the
+five seeds to main's range, so schwa explains the drop rather than stream
+noise. Main itself sits close to the 0.9983 floor (0.99827 on one seed). The same shift also breaks the under-representation
 floor (/ə/ at 0.913× against 0.918×, on 8 of 10 calibration seeds) and the
 absolute-gap ceiling (0.734 pp against 0.39 pp, on all 10). Recalibrating would loosen three
 limits, which needs a separate decision. One option is a configured weak
