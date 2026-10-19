@@ -68,6 +68,33 @@ therefore excludes standalone primary-stressed schwa while preserving schwa in
 unstressed root syllables and affixes. Weak function-word forms would require
 their own configured lexical category.
 
+### Schwa weight
+
+The lexical schwa nucleus weight in `src/elements/phonemes.ts` is 560 (it was
+457). The old weight was calibrated while standalone schwa monosyllables were
+still generated, about 5,200 per 200,000 words at the phoneme gate's seed. CMU's
+phoneme counts are over 117,493 word types, so weak function-word forms
+contribute almost nothing there, and its 8.40% /ə/ (normalized AH, including
+/ʌ/) is almost entirely unstressed syllables in polysyllables. The fake
+monosyllables were masking an under-production of polysyllabic unstressed
+schwa. Without them, /ə/ fell to 7.66% and the gate failed its Pearson,
+under-representation and absolute-gap limits.
+
+Every primary-stressed lexical schwa is re-picked, so raising the lexical
+weight adds schwa only to unstressed syllables of polysyllables. It never
+creates a stressed or standalone schwa. The value maximizes the gate's Pearson r
+on its own seed (sweep: 510 -> 0.99820, 540 -> 0.99842, 560 -> 0.99847,
+580 -> 0.99831, 620 -> 0.99827, 700 -> 0.99720). Vowel-reduction rules are
+unchanged. They cannot supply the deficit without pushing /ɪ/ or /æ/ under
+their own limits. The /ɑ/ and /ɔ/ reduction rules never fire, because those
+vowels are marked tense, and reduction skips tense vowels.
+
+Gate thresholds are unchanged. Over the ten-seed `npm run calibrate:phonemes`
+run, the retuned branch matches unchanged main, both at Pearson r
+0.99827-0.99855 with mean 0.99842. Like main, one seed (758202846) sits just
+under the 0.9983 floor. Worst representation is 0.943-0.953 (main
+0.936-0.954), and the worst absolute gap is 0.284-0.351 pp (main 0.306-0.377).
+
 With tracing enabled, `applyStress` exposes root stress, `assembleMorphology`
 exposes affix stress changes, and `repairFinalStressedNuclei` exposes any final
 lexical nucleus correction. The single `generatePronunciation` stage records
@@ -94,20 +121,6 @@ spelling-to-pronunciation agreement.
 > **Stale:** the evidence below was measured on the earlier respell-on-repair
 > generator, before the look-ahead and spelling-stress changes above. It will
 > be regenerated; treat its numbers as describing the old output.
-
-The phoneme gate (`src/core/phoneme-quality.test.ts`, morphology off) fails on
-the current generator, and its thresholds are unchanged. Standalone
-monosyllables now carry primary stress, so schwa cannot be their nucleus. Over
-five non-overlapping seeds, /ə/ falls by 0.39 pp of phones on average (main
-8.07%, CMU 8.40%), 13.7 times main's seed-to-seed SD. The other vowels gain the
-re-picked nuclei. Across ten seeds, Pearson r falls from 0.99827-0.99855 on
-main to 0.99735-0.99770. Restoring main's /ə/ count alone returns each of the
-five seeds to main's range, so schwa explains the drop rather than stream
-noise. Main itself sits close to the 0.9983 floor (0.99827 on one seed). The same shift also breaks the under-representation
-floor (/ə/ at 0.913× against 0.918×, on 8 of 10 calibration seeds) and the
-absolute-gap ceiling (0.734 pp against 0.39 pp, on all 10). Recalibrating would loosen three
-limits, which needs a separate decision. One option is a configured weak
-function-word category.
 
 The [full development comparison](../evaluation/experiments/final-lexical-stress/comparison.md)
 contains 200,000 traced outputs under the frozen protocol from

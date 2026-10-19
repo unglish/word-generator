@@ -59,7 +59,10 @@ export const phonemes: Phoneme[] = [
 
   // Mid Vowels
   { sound: "ɛ", mannerOfArticulation: "midVowel", tense: false, nucleus: 331, startWord: 4, midWord: 3, endWord: 1, voiced: true, placeOfArticulation: "front" }, // let
-  { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 457, startWord: 5, midWord: 11, endWord: 1, voiced: true, placeOfArticulation: "central" }, // the
+  // Weight 560 (was 457): primary-stressed schwa, including every standalone
+  // monosyllable, is re-picked, so lexical schwa survives only in unstressed
+  // syllables of polysyllables. See docs/lexical-realization.md, "Schwa weight".
+  { sound: "ə", mannerOfArticulation: "midVowel", tense: false, nucleus: 560, startWord: 5, midWord: 11, endWord: 1, voiced: true, placeOfArticulation: "central" }, // sofa
   { sound: "ɜ", mannerOfArticulation: "midVowel", tense: false, nucleus: 41, startWord: 4, midWord: 1, endWord: 1, voiced: true, placeOfArticulation: "central" }, // bed, said, execute
   { sound: "ɚ", mannerOfArticulation: "midVowel", tense: false, nucleus: 131, startWord: 1, midWord: 2, endWord: 6, voiced: true, placeOfArticulation: "central" }, // her, letter
 
