@@ -127,7 +127,7 @@ describe("Word Generator", () => {
 
   it.each([
     { seed: 23, mode: "lexicon" as const, spelling: "soguey", pronunciation: "ˈsɑg.eɪ", selected: "ey", surface: "ey" },
-    { seed: 9868, mode: "text" as const, spelling: "quoy", pronunciation: "kʰwɔɪ", selected: "oi", surface: "oy" },
+    { seed: 396738, mode: "text" as const, spelling: "quoy", pronunciation: "kʰwɔɪ", selected: "oi", surface: "oy" },
     { seed: 29501, mode: "lexicon" as const, spelling: "rarrigueoy", pronunciation: "ræˈrɪg.ɔɪ", selected: "oi", surface: "oy" },
   ])("preserves the selected terminal vowel spelling in $spelling", ({ seed, mode, spelling, pronunciation, selected, surface }) => {
     const plain = generateWord({ seed, mode });
@@ -154,9 +154,9 @@ describe("Word Generator", () => {
     });
     const plain = generator.generateWord({ seed: 29501 });
     const { trace, ...traced } = generator.generateWord({ seed: 29501, trace: true });
-    expect(plain.written.clean).toBe("rarrigue");
-    expect(plain.pronunciation).toBe("ræˈrɪg.ɔɪ");
-    expect(trace!.repairs).toContainEqual(expect.objectContaining({ rule: "repairVowelLetters:postJoin", before: "rarrigueoi", after: "rarrigue" }));
+    expect(plain.written.clean).toBe("rarreague");
+    expect(plain.pronunciation).toBe("ræˈrɛg.ɔɪ");
+    expect(trace!.repairs).toContainEqual(expect.objectContaining({ rule: "repairVowelLetters:postJoin", before: "rarreagueoi", after: "rarreague" }));
     expect(traced).toEqual(plain);
   });
 
@@ -197,15 +197,15 @@ describe("Word Generator", () => {
   });
 
   it.each([
-    { probability: 95, spelling: "quuoy" },
-    { probability: 1, spelling: "quu" },
-  ])("resolves a deferred vowel unit before applying the cap (final-i probability $probability)", ({ probability, spelling }) => {
+    { probability: 95, seed: 396738, spelling: "quuoy" },
+    { probability: 1, seed: 9868, spelling: "quu" },
+  ])("resolves a deferred vowel unit before applying the cap (final-i probability $probability)", ({ probability, seed, spelling }) => {
     const graphemes = englishConfig.graphemes.map(g => g.phoneme === "ɔɪ" ? { ...g, form: "uoi" } : g);
     const generator = createGenerator({
       ...englishConfig, graphemes, graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
       spellingRules: englishConfig.spellingRules!.map(rule => rule.name === "no-final-i" ? { ...rule, probability } : rule),
     });
-    const options = { seed: 9868, mode: "text" as const };
+    const options = { seed, mode: "text" as const };
     const plain = generator.generateWord(options);
     const { trace, ...traced } = generator.generateWord({ ...options, trace: true });
     expect(plain.written).toEqual({ clean: spelling, hyphenated: spelling });

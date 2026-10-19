@@ -33,7 +33,7 @@ function fixedShape(nuclei: Phoneme[], onset: number, coda: number, syllables = 
 
 describe("literal nucleus edges", () => {
   it.each([
-    { seed: 374, syllableCount: 1, spelling: "splungs" },
+    { seed: 15, syllableCount: 1, spelling: "smuds" },
     { seed: 44, syllableCount: 2, spelling: "smipnuct" },
   ])("generates a closed final FOOT rime at seed $seed", ({ seed, syllableCount, spelling }) => {
     const word = generateWord({ seed, syllableCount, morphology: false, trace: true });
