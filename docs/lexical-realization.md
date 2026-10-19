@@ -28,6 +28,11 @@ The generation order is:
 4. Spell the base root, then apply the written halves of the resolved
    morphophonemic rules and boundary transforms. A sound alternation such as
    `-ity` shortening does not erase the base vowel used for spelling.
+
+Steps 1-3 and the root spelling in step 4 run inside every root-selection
+attempt (the affixes are planned before the attempt loop), so the root length
+budget scores the root spelling that ships. Only the written half of step 4 and
+step 5 run once, on the selected attempt.
 5. Clone the assembled lexical form and apply aspiration and vowel reduction
    once in the final word context. Exact bare-word spelling overrides retain
    their existing surface-phone matching behavior.

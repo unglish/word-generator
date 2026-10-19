@@ -16,7 +16,7 @@ import {
   prepareMorphology,
   writeMorphology,
 } from "./morphology/index.js";
-import type { PlannedMorphologySelection } from "./morphology/index.js";
+import type { PlannedMorphologySelection, PreparedMorphology } from "./morphology/index.js";
 import { cloneSyllables } from "./lexical.js";
 import {
   computePhonemeTargetBounds,
@@ -1194,32 +1194,21 @@ function countPhonemes(syllables: Syllable[]): number {
   return total;
 }
 
-/** Trace positions recorded before root spelling, so a repaired root can be respelled cleanly. */
-interface SpellingTraceMark {
-  graphemeSelections: number;
-  repairs: number;
-}
-
-function markSpellingTrace(trace: TraceCollector | undefined): SpellingTraceMark | undefined {
-  return trace ? { graphemeSelections: trace.graphemeSelections.length, repairs: trace.repairs.length } : undefined;
-}
-
 /** Spell base-root syllables; their indices stay root-relative in the orthography trace. */
 function spellLexicalRoot(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   root: Syllable[],
   wordSyllableStart: number,
-  stage: string,
 ): void {
   const rootContext: WordGenerationContext = {
     ...context,
     word: { syllables: root, written: { clean: "", hyphenated: "" }, pronunciation: "" },
     orthographySource: { kind: "lexical-root", wordSyllableStart },
   };
-  context.trace?.beforeStage(stage, root);
+  context.trace?.beforeStage("generateWrittenForm", root);
   rt.generateWrittenForm(rootContext);
-  context.trace?.afterStage(stage, root);
+  context.trace?.afterStage("generateWrittenForm", root);
   context.word.written = rootContext.word.written;
   context.baseSpelling = rootContext.baseSpelling;
 }
@@ -1230,17 +1219,36 @@ function realizeSurface(rt: GeneratorRuntime, context: WordGenerationContext): v
   context.trace?.afterStage("generatePronunciation", context.word.syllables);
 }
 
+/** Copy nucleus changes made by final stress repair back into the base root. */
+function carryRootNucleusRepairs(
+  lexicalRoot: Syllable[],
+  assembled: Syllable[],
+  nucleiBeforeRepair: Phoneme[][],
+  rootSyllableStart: number,
+): void {
+  for (let rootIndex = 0; rootIndex < lexicalRoot.length; rootIndex++) {
+    const finalIndex = rootSyllableStart + rootIndex;
+    const finalNucleus = assembled[finalIndex].nucleus;
+    for (let index = 0; index < finalNucleus.length; index++) {
+      if (finalNucleus[index] !== nucleiBeforeRepair[finalIndex][index]) {
+        lexicalRoot[rootIndex].nucleus[index] = { ...finalNucleus[index] };
+      }
+    }
+  }
+}
+
 /**
- * Assemble planned affixes onto the selected root, resolve final stress, and
- * realize the surface once. The root was spelled during selection; it is
- * respelled only when final stress repair changes one of its lexical nuclei.
+ * Look-ahead: assemble the planned affixes' sounds onto a freshly built root,
+ * resolve final stress, and repair forbidden stressed nuclei, all before the
+ * root is spelled. Leaves the base root to spell (with any repaired nuclei) in
+ * `word.lexical.root` and returns the prepared attachment, whose written half
+ * is applied once the attempt is selected.
  */
-function finishAffixedWord(
+function resolveLexicalWord(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   morphPlan: PlannedMorphologySelection,
-  spellingMark: SpellingTraceMark | undefined,
-): void {
+): PreparedMorphology {
   const traceCollector = context.trace;
   const lexicalRoot = cloneSyllables(context.word.syllables);
 
@@ -1255,36 +1263,25 @@ function finishAffixedWord(
   const nucleiBeforeRepair = context.word.syllables.map(syllable => [...syllable.nucleus]);
   traceCollector?.beforeStage("repairFinalStressedNuclei", context.word.syllables);
   repairStressedNuclei(context, rt.positionPhonemes.nucleus, rt.resolvedStress);
-  let rootRepaired = false;
-  for (let rootIndex = 0; rootIndex < lexicalRoot.length; rootIndex++) {
-    const finalIndex = rootSyllableStart + rootIndex;
-    const finalNucleus = context.word.syllables[finalIndex].nucleus;
-    for (let index = 0; index < finalNucleus.length; index++) {
-      if (finalNucleus[index] !== nucleiBeforeRepair[finalIndex][index]) {
-        lexicalRoot[rootIndex].nucleus[index] = { ...finalNucleus[index] };
-        rootRepaired = true;
-      }
-    }
-  }
+  carryRootNucleusRepairs(lexicalRoot, context.word.syllables, nucleiBeforeRepair, rootSyllableStart);
   traceCollector?.afterStage("repairFinalStressedNuclei", context.word.syllables);
   context.word.lexical = {
     root: lexicalRoot,
-    syllables: cloneSyllables(context.word.syllables),
+    // Shared with the attempt's working word; detached once the attempt is selected.
+    syllables: context.word.syllables,
     rootSyllableStart,
   };
+  return prepared;
+}
 
-  if (rootRepaired) {
-    // Replace the selection-time spelling evidence with the repaired root's.
-    if (traceCollector && spellingMark) {
-      traceCollector.graphemeSelections.length = spellingMark.graphemeSelections;
-      traceCollector.repairs.length = spellingMark.repairs;
-    }
-    spellLexicalRoot(rt, context, lexicalRoot, rootSyllableStart, "respellLexicalRoot");
-  } else if (traceCollector?.orthographyTrace?.source) {
-    traceCollector.orthographyTrace.source.wordSyllableStart = rootSyllableStart;
-  }
-
-  // Realize spelling from the same resolved attachment used for the phones.
+/** Apply the written half of the prepared morphology to the selected root, then realize the surface. */
+function finishAffixedWord(
+  rt: GeneratorRuntime,
+  context: WordGenerationContext,
+  prepared: PreparedMorphology,
+): void {
+  const traceCollector = context.trace;
+  context.word.lexical!.syllables = cloneSyllables(context.word.syllables);
   const morphology = writeMorphology(context, prepared);
   // Preserve selected allomorph parts through final consonant-letter repair.
   const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
@@ -1307,17 +1304,16 @@ function finishAffixedWord(
   realizeSurface(rt, context);
 }
 
-/** Attach affixes once, after the root has passed root-only length selection. */
+/** Finish the selected attempt: written morphology (if any) and the trace. */
 function finishWord(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
-  morphPlan: PlannedMorphologySelection | undefined,
+  prepared: PreparedMorphology | undefined,
   selection: SelectionTrace | undefined,
-  spellingMark: SpellingTraceMark | undefined,
 ): Word {
   const traceCollector = context.trace;
-  const morphApplied = !!morphPlan && morphPlan.plan.template !== "bare";
-  if (morphApplied) finishAffixedWord(rt, context, morphPlan, spellingMark);
+  const morphApplied = !!prepared;
+  if (prepared) finishAffixedWord(rt, context, prepared);
   if (traceCollector) {
     traceCollector.syllableCount = context.syllableCount;
     traceCollector.targetPhonemeCount = context.targetPhonemeCount;
@@ -1330,6 +1326,8 @@ function finishWord(
 }
 
 /** Select a root by phoneme/letter targets, then finish its planned morphology.
+ * Each attempt resolves the planned affixes' sound effects before spelling the
+ * root, so the scored root spelling is the one that ships.
  * After the retry limit, finish the best root seen rather than reject an affix. */
 function generateOneWord(
   rt: GeneratorRuntime,
@@ -1345,6 +1343,7 @@ function generateOneWord(
   const morphPlan = morphConfig?.enabled && applyMorph
     ? planMorphology(morphConfig, mode, rand)
     : undefined;
+  const affixPlan = morphPlan && morphPlan.plan.template !== "bare" ? morphPlan : undefined;
   const forcedRootSyllableCount = syllableCount > 0 ? syllableCount : undefined;
   const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
   const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
@@ -1354,9 +1353,9 @@ function generateOneWord(
   const sampledSyllableCount = sampleSyllableCountForTarget(rt, mode, targetPhonemeCountRoot, rand, forcedRootSyllableCount);
   const maxAttempts = MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES;
   let bestContext: WordGenerationContext | undefined;
+  let bestPrepared: PreparedMorphology | undefined;
   let bestAttempt = 0;
   let bestScore = Infinity;
-  let bestSpellingMark: SpellingTraceMark | undefined;
 
   const rejectionTrace = enableTrace
     ? new RejectionTraceCollector({ maxAttempts: maxAttempts + 1, ...ACCEPTANCE_CRITERIA })
@@ -1387,41 +1386,45 @@ function generateOneWord(
       trace: traceCollector,
     };
     runPipeline(rt, context, mode);
-    const spellingMark = markSpellingTrace(traceCollector);
-    spellLexicalRoot(rt, context, context.word.syllables, 0, "generateWrittenForm");
-    if (!morphPlan || morphPlan.plan.template === "bare") {
+    let prepared: PreparedMorphology | undefined;
+    if (affixPlan) {
+      prepared = resolveLexicalWord(rt, context, affixPlan);
+      spellLexicalRoot(rt, context, context.word.lexical!.root, prepared.rootSyllableStart);
+    } else {
       const syllables = context.word.syllables;
+      spellLexicalRoot(rt, context, syllables, 0);
       context.word.lexical = { root: cloneSyllables(syllables), syllables: cloneSyllables(syllables), rootSyllableStart: 0 };
       realizeSurface(rt, context);
       // Exact bare-word overrides retain their existing place in root scoring.
       rt.applyGapSpellings(context);
     }
-    const rootPhonemeCount = countPhonemes(context.word.syllables);
+    const root = context.word.lexical!.root;
+    const rootPhonemeCount = countPhonemes(root);
     const attemptScore = scoreGenerationAttempt(
       rootPhonemeCount,
       targetPhonemeCountRoot,
       context.word.written.clean.length,
-      context.word.syllables.length,
+      root.length,
       rt.config.syllableStructure.letterLengthTargets,
     );
     if (attemptScore.total < bestScore) {
       bestScore = attemptScore.total;
       bestContext = context;
+      bestPrepared = prepared;
       bestAttempt = attempt;
-      bestSpellingMark = spellingMark;
     }
     const assessment = assessAttempt(attemptScore, attempt, ACCEPTANCE_CRITERIA);
     rejectionTrace?.record({
-      syllables: context.word.syllables.length,
+      syllables: root.length,
       phonemes: rootPhonemeCount,
       letters: context.word.written.clean.length,
     }, attemptScore, assessment);
     if (assessment.acceptedBy) {
-      return finishWord(rt, context, morphPlan, rejectionTrace?.finish(attempt, assessment.acceptedBy), spellingMark);
+      return finishWord(rt, context, prepared, rejectionTrace?.finish(attempt, assessment.acceptedBy));
     }
   }
   if (!bestContext) throw new Error("Failed to generate word");
-  return finishWord(rt, bestContext, morphPlan, rejectionTrace?.finish(bestAttempt, null), bestSpellingMark);
+  return finishWord(rt, bestContext, bestPrepared, rejectionTrace?.finish(bestAttempt, null));
 }
 
 /**
