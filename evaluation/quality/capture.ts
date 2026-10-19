@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { constants, createReadStream, createWriteStream } from "node:fs";
-import { copyFile, mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, realpath, stat, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
@@ -308,9 +308,13 @@ export async function captureRun(options: CaptureOptions): Promise<RunSummary> {
   const { root, generatorRoot = root, out, id, cohort, protocol } = options;
   validateRunId(id);
   validateProtocol(protocol);
+  const git = (...args: string[]) => execFileSync("git", args, { cwd: generatorRoot, encoding: "utf8", maxBuffer: 20 * 1024 * 1024 }).trim();
+  // Provenance below describes the enclosing repository, so it must be the generator's own checkout.
+  if (await realpath(git("rev-parse", "--show-toplevel")) !== await realpath(generatorRoot)) {
+    throw new Error(`The generator root must be the top level of a Git checkout: ${generatorRoot}`);
+  }
   const sources = await captureSources(root, generatorRoot);
   const generatorApi = await loadGenerator(generatorRoot);
-  const git = (...args: string[]) => execFileSync("git", args, { cwd: generatorRoot, encoding: "utf8", maxBuffer: 20 * 1024 * 1024 }).trim();
   const generator: Manifest["generator"] = {
     commit: git("rev-parse", "HEAD"),
     dirty: git("status", "--porcelain", "--", "src").length > 0,

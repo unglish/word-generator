@@ -85,6 +85,10 @@ describe("regenerated quality baselines", () => {
     expect(sources.generator.find(file => file.path === "src/index.ts")?.content).toContain("Generator checkout fixture");
     await captureRun({ root, out: join(directory, "harness"), id: "harness", cohort: "development", protocol });
     expect((await readRun(join(directory, "harness"))).manifest.generator.sourceDigest).not.toBe(manifest.generator.sourceDigest);
+    const nested = join(directory, "nested-root");
+    await expect(captureRun({ root, generatorRoot: join(checkout, "evaluation"), out: nested, id: "nested", cohort: "development", protocol }))
+      .rejects.toThrow("The generator root must be the top level of a Git checkout");
+    await expect(stat(nested)).rejects.toThrow();
   }, timeout);
 
   it("passes the fidelity probe when regenerating a committed revision", async () => {
