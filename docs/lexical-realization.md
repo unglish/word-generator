@@ -28,14 +28,38 @@ The generation order is:
 4. Spell the base root, then apply the written halves of the resolved
    morphophonemic rules and boundary transforms. A sound alternation such as
    `-ity` shortening does not erase the base vowel used for spelling.
+5. Clone the assembled lexical form and apply aspiration and vowel reduction
+   once in the final word context. Exact bare-word spelling overrides retain
+   their existing surface-phone matching behavior.
 
 Steps 1-3 and the root spelling in step 4 run inside every root-selection
 attempt (the affixes are planned before the attempt loop), so the root length
 budget scores the root spelling that ships. Only the written half of step 4 and
-step 5 run once, on the selected attempt.
-5. Clone the assembled lexical form and apply aspiration and vowel reduction
-   once in the final word context. Exact bare-word spelling overrides retain
-   their existing surface-phone matching behavior.
+step 5 run once, on the selected attempt. Affix-side random choices in step 2
+and step 3 (hiatus bridges, stressed-nucleus re-picks) draw from a per-attempt
+stream seeded by one draw per affixed word, so root selection does not depend
+on the affix's phones, syllables or letters.
+
+### Spelling stress
+
+The root is spelled with its own lexical stress, so a base keeps its spelling
+across derivations: the first syllable of a root stressed `ˈCV.CV` is spelled
+as primary-stressed even when `-tion` demotes it to secondary. The exception is
+a root syllable whose vowel step 3 replaced. Final stress forced that vowel, so
+the syllable is spelled with its final-word stress. This applies to everything
+stress-conditioned in spelling: vowel grapheme weights (multi-letter vowel
+spellings are penalized in unstressed syllables), consonant doubling (disabled
+in unstressed syllables by `unstressedModifier: 0`), and any later
+stress-conditioned rule. `word.lexical.root` records the stress used for
+spelling, so a repaired syllable shows its final stress there.
+
+A sample of 20,000 default words (seed 309, morphology on) has 213 words with a
+repaired root syllable. Against root-stress spelling of the same RNG states, 33
+change only their spelling of the same root: vowel spellings such as `e` →
+`ea` and `u` → `oo`, and doubling such as `l` → `ll`. Another 10 select a
+different root, because the scored letter count changed. A further 20 words
+with no repair in the selected attempt also differ, since an earlier rejected
+attempt was repaired.
 
 Every standalone lexical monosyllable has internal primary stress. Its IPA
 omits the redundant stress mark; affixation preserves the lexical prominence
@@ -66,6 +90,21 @@ remain separate work; lexical-to-surface consistency is not proof of complete
 spelling-to-pronunciation agreement.
 
 ## Measured candidate and remaining gates
+
+> **Stale:** the evidence below was measured on the earlier respell-on-repair
+> generator, before the look-ahead and spelling-stress changes above. It will
+> be regenerated; treat its numbers as describing the old output.
+
+The phoneme gate (`src/core/phoneme-quality.test.ts`, morphology off) fails on
+the current generator, and its thresholds are unchanged. Standalone
+monosyllables now carry primary stress, so schwa cannot be their nucleus: at
+the gate's seed, /ə/ falls from 8.076% of phones to 7.664% (CMU: 8.399%).
+Restoring main's /ə/ count alone returns Pearson r from 0.99740 to 0.99845, so
+schwa explains the drop. The same shift also breaks the under-representation
+floor (/ə/ at 0.913× against 0.918×, on 8 of 10 calibration seeds) and the
+absolute-gap ceiling (0.734 pp against 0.39 pp, on all 10). Recalibrating would loosen three
+limits, which needs a separate decision. One option is a configured weak
+function-word category.
 
 The [full development comparison](../evaluation/experiments/final-lexical-stress/comparison.md)
 contains 200,000 traced outputs under the frozen protocol from
