@@ -14,6 +14,7 @@ import { otEvaluate } from "./ot-stress.js";
 import { analyzeWordWeight } from "./syllable-weight.js";
 import type { SyllableWeightAnalysis, StressWeightTrace } from "./syllable-weight.js";
 import type { AspirationDecisionTrace, AspirationTargetSegment } from "./trace.js";
+import { cloneSyllables } from "./lexical.js";
 
 /** Fast boolean probability check (avoids tuple array allocation). */
 export function coinFlip(rand: RNG, probability: number): boolean {
@@ -255,7 +256,8 @@ const applyPrimaryStress = (context: WordGenerationContext, rand: RNG, stress: R
   const syllableCount = syllables.length;
 
   if (syllableCount <= 1) {
-    // Monosyllabic words don't need stress marking
+    // Lexical prominence survives affixation; IPA can omit the display mark.
+    if (syllableCount === 1) syllables[0].stress = "ˈ";
     return null;
   }
 
@@ -359,7 +361,7 @@ const buildPronunciationGuide = (context: WordGenerationContext): void => {
     const syllable = syllables[index];
 
     // Add stress/separator prefix
-    if (syllable.stress === "ˈ") guide += "ˈ";
+    if (syllable.stress === "ˈ" && syllables.length > 1) guide += "ˈ";
     else if (syllable.stress === "ˌ") guide += "ˌ";
     else if (index > 0) guide += ".";
 
@@ -457,6 +459,9 @@ export const generatePronunciation = (
   context: WordGenerationContext,
   pronunciation: PronunciationRuntimeConfig,
 ): void => {
+  if (context.word.lexical) {
+    context.word.syllables = cloneSyllables(context.word.lexical.syllables);
+  }
   applyAspiration(context, pronunciation.aspiration);
   if (pronunciation.vowelReduction?.enabled) {
     reduceUnstressedVowels(context, pronunciation.vowelReduction, context.rand);
