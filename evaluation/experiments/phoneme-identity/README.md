@@ -77,12 +77,14 @@ requires pinned source contents, their generator digest, exact expected/pinned/
 filesystem shard sets, and matching summary/measured profile and seed schedules.
 It never regenerates words or overwrites an existing result.
 
-Verification: 25 observer tests; 19 archive-integrity fixtures; full unit suite
-422 passed/1 skipped; quality suite 12 passed; strict runtime and observer/probe
-typechecks passed; touched-file lint passed. Full repository lint retains 11
-pre-existing errors in unchanged `language.test.ts`, `generate.ts` and `write.ts`.
-The 2,000-word public-API fixture verifies unchanged words, trace-on/off parity,
-RNG-call equality and the next RNG value, including when observations are mutated.
+Verification of the original run: 25 observer tests; 19 archive-integrity
+fixtures; full unit suite 422 passed/1 skipped; quality suite 12 passed; strict
+runtime and observer/probe typechecks passed; touched-file lint passed. Full
+repository lint retains 11 pre-existing errors in unchanged `language.test.ts`,
+`generate.ts` and `write.ts`. The 2,000-word public-API fixture verifies unchanged
+words, trace-on/off parity, RNG-call equality and the next RNG value, including
+when observations are mutated. After the #352 revision, 25 observer tests and 23
+archive-integrity fixtures pass.
 
 Observer fingerprint (original run):
 `476aeca7b45c1b7c9fc8bdd6481354c1c05543fd3b1f72c6726123cbbe3408f6`.

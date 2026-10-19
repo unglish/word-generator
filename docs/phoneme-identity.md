@@ -149,8 +149,9 @@ The committed `phoneme-identity-protocol.json` preregisters the measures. The
 probe requires words identical to the original's, verifies all pinned
 artifacts before and after processing, validates draw identity/order/count,
 checks observer source stability, and refuses to overwrite an existing report.
-It never regenerates a word. It records original generator, archive, protocol,
-reference and evaluator hashes alongside its separate observer fingerprint.
+It never regenerates a word. It records the input run's generator, archive,
+protocol, reference and evaluator hashes, the pinned original run (in
+`definitions`), and its separate observer fingerprint.
 
 Reports cover every development profile/seed and actual morphology × final
 syllable-count stratum. They include resolved/ambiguous/unknown mass, coarse
