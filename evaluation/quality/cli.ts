@@ -9,13 +9,29 @@ import { compareWithMergeBase, writeComparison } from "./regenerate.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const [command, ...args] = process.argv.slice(2);
-const { values } = parseArgs({ args, options: {
+const { values, tokens } = parseArgs({ args, tokens: true, options: {
   id: { type: "string" }, out: { type: "string" }, run: { type: "string" },
   baseline: { type: "string" }, candidate: { type: "string" }, previous: { type: "string" },
   cohort: { type: "string", default: "development" }, protocol: { type: "string" },
   "generator-root": { type: "string" }, base: { type: "string", default: "origin/main" },
   probe: { type: "string", multiple: true }, "strict-environment": { type: "boolean", default: false },
 } });
+
+const COMMAND_OPTIONS: Record<string, readonly string[]> = {
+  capture: ["id", "out", "cohort", "protocol", "generator-root"],
+  rescore: ["run", "id", "out"],
+  verify: ["run"],
+  compare: ["baseline", "candidate", "previous", "out", "probe", "strict-environment"],
+  pr: ["base", "out", "cohort", "protocol"],
+};
+
+/** Refuse options a command would otherwise silently ignore, such as `pr --generator-root`. */
+function rejectUnusedOptions(): void {
+  const allowed = COMMAND_OPTIONS[command ?? ""];
+  if (!allowed) return;
+  const unused = tokens.find(token => token.kind === "option" && !allowed.includes(token.name));
+  if (unused?.kind === "option") throw new Error(`--${unused.name} does not apply to ${command}.`);
+}
 
 function required(key: "id" | "out" | "run" | "baseline" | "candidate"): string {
   const value = values[key];
@@ -37,6 +53,7 @@ const words = (summary: { profiles: Array<{ words: number }> }): string =>
   summary.profiles.reduce((total, profile) => total + profile.words, 0).toLocaleString();
 
 try {
+  rejectUnusedOptions();
   if (command === "capture") {
     const out = resolve(required("out"));
     const generatorRoot = values["generator-root"] ? resolve(values["generator-root"]) : undefined;
