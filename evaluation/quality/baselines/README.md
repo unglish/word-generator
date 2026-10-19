@@ -47,5 +47,11 @@ the [capture and comparison guide](../../../docs/quality-baselines.md) for all
 metrics, denominators, strata, interpretation, and commands.
 
 The large `words/` archives are Git-ignored and are not part of this repository.
-Full verification and rescoring need them; comparisons do not. Compact source
-bundles, manifests, summaries, and evidence are committed alongside this README.
+They do not need to be: generation is deterministic and the seeds are in the
+protocol, so these words can be regenerated from `3fd474d` with
+`quality:capture --generator-root` (see the guide). That capture must pass a
+fidelity probe against each directory's committed `review-samples.json.gz`, which
+is strong evidence, not proof, that every word regenerates identically.
+Comparisons need only the committed summaries; full verification and rescoring
+need archives, which a regeneration provides locally. Compact source bundles,
+manifests, summaries, and evidence are committed alongside this README.

@@ -207,8 +207,11 @@ See [corpus diagnostics](./docs/corpus-diagnostics.md) for reproducible analyzer
 streams, complete distribution metrics, and trace-backed outlier reports.
 
 For frozen baselines and per-step linguistic comparisons, see
-[quality baselines](./docs/quality-baselines.md). The benchmark preserves traced
-outputs, source/configuration provenance, and original/previous-step comparisons.
+[quality baselines](./docs/quality-baselines.md). `npm run quality:pr` regenerates
+the merge base and the current checkout with one harness and compares them; pull
+requests post the same comparison to their CI job summary. The benchmark preserves
+traced outputs, source/configuration provenance, and original/previous-step
+comparisons.
 
 ## Documentation
 

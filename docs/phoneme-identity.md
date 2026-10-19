@@ -118,23 +118,33 @@ acknowledges remaining errors, omissions and inconsistent entries.
 
 ## Reproducible archive observation
 
-The nested probe requires the frozen standalone evaluator from
-[PR #307](https://github.com/unglish/word-generator/pull/307), commit
-`5a4ff2e72b3cb81e563f174f52f115eec9057ca6`. Its top-level quality source and
-protocol fingerprint must be
-`ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007`.
-This is an explicit tooling prerequisite, not a standalone script. The probe
-compares those source bytes with the pinned archived evaluator before and after
-processing. It does not include another copy of the corpus or validator.
+The nested probe pins the words it observes, not the evaluator that scored them.
+`phoneme-identity-protocol.json` names the committed original development
+manifest (`evaluation/quality/baselines/2026-09-26-development-standalone`,
+digest `a23414ae34d3611c4367d07ad677afb99e7d89a4be7886e6ed95018c2ff3f3da`). The
+probe accepts a run only if its 20 raw word archives (file, SHA-256, bytes),
+protocol, generator commit and generator source digest equal that manifest's. The
+input can be the original archive or a regeneration of revision `3fd474d` under a
+later quality harness (see [quality baselines](quality-baselines.md)); the
+archives are byte-identical. The original observation was made with the
+[PR #307](https://github.com/unglish/word-generator/pull/307) evaluator
+(`ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007`). Earlier
+versions of the probe also required the current tree's quality harness to equal
+that evaluator, which any harness change broke. Pinning the words makes that
+requirement unnecessary, because the observer reads words and none of the
+evaluator's metrics.
 
 ```sh
+git worktree add --detach /tmp/unglish-3fd474d 3fd474d
+npm run quality:capture -- --generator-root /tmp/unglish-3fd474d \
+  --id regen-original --cohort development --out /path/to/regen-original
 node --import tsx evaluation/quality/probes/phoneme-identity.ts \
-  --run /path/to/2026-09-26-development-standalone \
+  --run /path/to/regen-original \
   --out /new/path/identity-original.json
 ```
 
 The committed `phoneme-identity-protocol.json` preregisters the measures. The
-probe requires the original compressed word archives, verifies all pinned
+probe requires word archives identical to the original's, verifies all pinned
 artifacts before and after processing, validates draw identity/order/count,
 checks observer source stability, and refuses to overwrite an existing report.
 It never regenerates a word. It records original generator, archive, protocol,

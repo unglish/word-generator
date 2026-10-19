@@ -1,9 +1,15 @@
 # Frozen quality baselines
 
-The linguistic benchmark captures the current generator and compares later steps
-against both the original baseline and the preceding step. It measures structural
-correctness, distribution changes, and output composition. Human wordlikeness
-remains a separate outcome.
+The linguistic benchmark captures the generator and compares a change against the
+revision it builds on. It measures structural correctness, distribution changes,
+and output composition. Human wordlikeness remains a separate outcome.
+
+Generation is deterministic and the seeds are fixed in the committed protocol, so
+a baseline does not need to be stored to be compared: it can be **regenerated**.
+The default workflow captures the baseline from a pull request's merge base and the
+candidate from its head, with one harness in one environment, and compares the two.
+Raw word archives are an optional local cache. The committed `summary.json` and
+`review-samples.json.gz` files remain the durable historical record.
 
 ## Fixed protocol
 
@@ -21,12 +27,65 @@ The validation cohort is reserved for milestone confirmation. Do not repeatedly
 tune against its results. Once used for tuning, it is development data; a new
 confirmation cohort requires an explicitly versioned protocol.
 
-## Capture and verify
+## Compare a change against its merge base
 
 ```sh
-npm run quality:capture -- --id step-01 --cohort development --out memory/quality-runs/step-01
-npm run quality:verify -- --run memory/quality-runs/step-01
+npm run quality:pr
+npm run quality:pr -- --base origin/main --out memory/quality-pr/my-change
 ```
+
+This works from a clean clone with no archives. It finds the merge base of `HEAD`
+and `--base` (default `origin/main`), checks that revision out into a temporary Git
+worktree, captures it as `baseline/`, captures the current checkout (including
+uncommitted generator edits, recorded as a dirty patch) as `candidate/`, and writes
+`comparison.json` and `comparison.md` beside them. The default output is a new
+timestamped directory under `memory/quality-pr/`. A full development cohort takes a
+few minutes and writes about 80 MB of archives per side, which can be deleted
+afterwards. The temporary worktree is always removed.
+
+Both sides share the harness at `HEAD`, so evaluator edits never make the two
+incompatible. A branch with no generator changes reports zero for every numeric
+delta.
+
+Pull requests run the same command in CI (the `quality-comparison` job), which
+writes `comparison.md` to the job summary and uploads both reports as an artifact.
+
+## Capture another revision
+
+```sh
+git worktree add --detach /tmp/unglish-3fd474d 3fd474d
+npm run quality:capture -- --generator-root /tmp/unglish-3fd474d \
+  --id regen-original --cohort development --out memory/quality-runs/regen-original
+npm run quality:verify -- --run memory/quality-runs/regen-original
+git worktree remove /tmp/unglish-3fd474d
+```
+
+`--generator-root` captures words from the generator in another checkout through
+its public API, while the evaluator, CMU reference tables, and dependency lock come
+from the harness checkout. The manifest's generator commit, dirty flag, patch,
+source digest, and effective configuration describe that checkout. Omit it to
+capture the harness checkout itself.
+
+### Fidelity probe
+
+When the captured revision has a committed run in `evaluation/quality/baselines/`
+with the same protocol, cohort, and clean generator commit, capture first
+regenerates the fixed review draws (the first 40 of every seed stream) and requires
+each to serialize byte for byte as it does in that run's `review-samples.json.gz`.
+Otherwise it refuses before writing anything and names the first diverging draw,
+for example `regenerated lexicon-default seed 69212153 draw 3 differs from its
+committed review sample`. A passing probe is recorded in the manifest's
+`fidelityProbes`. The original baseline revision `3fd474d` passes this probe against
+both committed cohorts, and its regenerated development summary equals the
+committed one metric for metric.
+
+The probe is strong evidence, **not proof**, that every archived word regenerates
+identically: it checks 800 draws per cohort, not all 200,000. A dirty generator,
+or a revision with no matching committed run, is not probed.
+
+Regeneration cannot add evidence a revision never recorded. A metric that needs a
+trace field added after a revision cannot be measured on that revision; it must
+report missing evidence rather than a successful result.
 
 The committed baselines are stored in:
 
@@ -64,19 +123,23 @@ A completed run has a `manifest.json` containing a digest of its manifest.
 Interrupted captures have no completion manifest. Existing directories are never
 overwritten, including interrupted runs; choose a new ID/path when retrying.
 
-The manifests, summaries, source bundles, and compact evidence can be versioned in
-Git. The much larger `words/` archives under baseline directories are deliberately
-ignored. **Keep a backed-up copy of each entire run directory before deleting a
-worktree.** Comparisons verify the pinned summaries and work without raw archives;
-full verification and future re-scoring require the archives. A content hash detects
-alterations relative to its manifest; versioning or retaining the original manifest
-is what prevents silently replacing both a file and its expected hash.
+The manifests, summaries, source bundles, and compact evidence are versioned in
+Git. The much larger `words/` archives are deliberately ignored: they are a local
+cache of output any machine can regenerate, and need not be backed up. Comparisons
+verify the pinned summaries and work without raw archives; full verification
+(`quality:verify`) and re-scoring read the archives of the run they are given. A
+content hash detects alterations relative to its manifest; versioning or retaining
+the original manifest is what prevents silently replacing both a file and its
+expected hash.
 
-## Compare each step
+## Compare captured runs
+
+`quality:pr` covers the usual case. To compare runs captured separately, for
+example a regenerated original baseline, a previous step, and a candidate:
 
 ```sh
 npm run quality:compare -- \
-  --baseline evaluation/quality/baselines/2026-09-26-development-standalone \
+  --baseline memory/quality-runs/regen-original \
   --previous memory/quality-runs/step-01 \
   --candidate memory/quality-runs/step-02 \
   --out memory/quality-comparisons/step-02
@@ -89,12 +152,29 @@ strata and distribution bins so improvements caused by a changed output mixture
 remain visible. The report makes no automatic universal pass/fail claim.
 
 Comparison refuses mismatched cohorts, protocols, evaluators, metric definitions,
-reference data, profile/seed schedules, draw counts, Node versions, or dependency
-locks. If the evaluator changes, re-score **both** archived corpora with the same
-new evaluator under a new benchmark version; do not edit hashes to force a
-comparison.
+reference data, profile/seed schedules, or draw counts. Regenerating both sides
+with the current harness is the way to compare across an evaluator change; do not
+edit hashes to force a comparison.
+
+### Runs from different environments
+
+Runs captured together share a Node version and dependency lock and compare
+without further checks. A reference (baseline or previous step) whose generation or
+evaluation runtime or dependency lock differs from the candidate's is accepted only
+when a run captured in the candidate's environment passed the fidelity probe
+against that exact reference manifest. That run may be the candidate itself, the
+other reference, or one passed with `--probe <run>`. The comparison then lists each
+difference in `comparison.json` (`environmentDifferences`) and in a section of
+`comparison.md`. Without such a probe it refuses. `--strict-environment` refuses
+every environment difference, as earlier versions did.
 
 ## Re-score existing words with a new evaluator
+
+Re-scoring is the fallback for when an old revision can no longer be run, for
+example because its generator needs a runtime that is no longer available. It needs
+the run's `words/` archives. Start from the most recent rescore of the cohort so the
+provenance chain stays complete; for the committed baselines that is the
+`-standalone` directory:
 
 ```sh
 npm run quality:rescore -- \
@@ -126,9 +206,9 @@ silently treating it as a successful result. Reference changes require a separat
 versioned migration; this command deliberately uses the input's frozen tables.
 
 Compare the rescored baseline with a candidate captured or rescored using that
-same evaluator and evaluation environment. Generation-runtime/dependency checks
-remain in force: rescoring does not erase an environmental difference in how the
-words were produced. Existing output directories are rejected, and interrupted
+same evaluator. The environment rules above still apply to the generation
+environment: rescoring does not erase a difference in how the words were
+produced. Existing output directories are rejected, and interrupted
 rescoring has no completion manifest, just like interrupted capture.
 
 Using the same RNG schedules controls the experiment, but a change can consume
@@ -187,8 +267,9 @@ npm run test:perf
 Performance is measured by the existing dedicated performance suite. Capture time
 includes compression and trace serialization and is not a generator speed score.
 
-Harness tests cover deterministic captures, fixed review selection, refusal to
-overwrite, artifact corruption, correct affix denominators, missing-category
+Harness tests cover deterministic captures, capture from another checkout, the
+fidelity probe and its refusal, the environment gate, a zero-delta merge-base
+comparison, fixed review selection, refusal to overwrite, artifact corruption, correct affix denominators, missing-category
 penalties, incompatible comparisons, cumulative/previous regressions, and missing
 eligible strata. Rescoring tests also verify that generation is never invoked,
 raw archives remain byte-identical, historical provenance is retained, malformed

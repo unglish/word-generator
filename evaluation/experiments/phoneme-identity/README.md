@@ -39,20 +39,32 @@ missing representational evidence, not 50,000 stress errors. Likewise, the
 200,000 supported syllable structures establish slot compatibility only, not
 legal rimes, plausible words or an implemented General American dialect.
 
-Reproduction requires the original raw archives and the pinned #307 evaluator
-documented in `docs/phoneme-identity.md`; the committed compressed report is not
-a replacement for the archives. The observer protocol was fixed before this run.
+Reproduction requires word archives byte-identical to the original's, as
+documented in `docs/phoneme-identity.md`. The committed compressed report is not
+a replacement for the archives. Any machine can regenerate them from `3fd474d`.
+The observer protocol was fixed before this run.
 
 ```sh
 npx vitest run --config vitest.identity.config.ts
 npx tsc -p tsconfig.identity.json
+git worktree add --detach /tmp/unglish-3fd474d 3fd474d
+npm run quality:capture -- --generator-root /tmp/unglish-3fd474d \
+  --id regen-original --cohort development --out /path/to/regen-original
 node --import tsx evaluation/quality/probes/phoneme-identity.ts \
-  --run /path/to/2026-09-26-development-standalone \
+  --run /path/to/regen-original \
   --out /new/path/identity-original.json
 python3 evaluation/experiments/phoneme-identity/verify_identity_counts.py \
-  /path/to/2026-09-26-development-standalone \
+  /path/to/regen-original \
   /new/path/identity-original.json /new/path/independent-check.json
 ```
+
+The input contract was revised in #352: the probe now pins the original words by
+their archive hashes instead of requiring the frozen #307 quality harness. A
+regeneration under the revised harness had all 20 archive hashes equal to the
+original pins. Re-running the revised probe on it gave profiles and witnesses
+identical to `identity-original.json.gz`, and the independent Python check agreed
+on every count. Only the run ID, manifest digest, evaluator digest and observer
+fingerprint differ; the fingerprint covers the revised protocol file.
 
 The observer checks full archive integrity before and after processing; it
 requires pinned source contents, their generator digest, exact expected/pinned/
@@ -66,7 +78,7 @@ pre-existing errors in unchanged `language.test.ts`, `generate.ts` and `write.ts
 The 2,000-word public-API fixture verifies unchanged words, trace-on/off parity,
 RNG-call equality and the next RNG value, including when observations are mutated.
 
-Observer fingerprint:
+Observer fingerprint (original run):
 `476aeca7b45c1b7c9fc8bdd6481354c1c05543fd3b1f72c6726123cbbe3408f6`.
 Original manifest digest:
 `a23414ae34d3611c4367d07ad677afb99e7d89a4be7886e6ed95018c2ff3f3da`.
