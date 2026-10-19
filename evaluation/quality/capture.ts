@@ -312,8 +312,9 @@ export async function captureRun(options: CaptureOptions): Promise<RunSummary> {
   validateRunId(id);
   validateProtocol(protocol);
   const git = (...args: string[]) => execFileSync("git", args, { cwd: generatorRoot, encoding: "utf8", maxBuffer: 20 * 1024 * 1024 }).trim();
+  const checkout = await realpath(generatorRoot).catch(() => { throw new Error(`The generator root does not exist: ${generatorRoot}`); });
   // Provenance below describes the enclosing repository, so it must be the generator's own checkout.
-  if (await realpath(git("rev-parse", "--show-toplevel")) !== await realpath(generatorRoot)) {
+  if (await realpath(git("rev-parse", "--show-toplevel")) !== checkout) {
     throw new Error(`The generator root must be the top level of a Git checkout: ${generatorRoot}`);
   }
   const sources = await captureSources(root, generatorRoot);

@@ -343,7 +343,7 @@ const runtime = (environment: RunEnvironment): string =>
 function environmentLines(differences: readonly EnvironmentDifference[]): string[] {
   return [
     "", "## Environment differences", "",
-    "These references were produced in a different runtime or dependency lock than the candidate. Each was accepted because a run captured in the candidate's environment regenerated that reference's fixed review draws byte for byte (the fidelity probe). That is strong evidence, not proof, that every archived word would regenerate identically. Pass --strict-environment to refuse such comparisons.", "",
+    "These references were produced in a different runtime or dependency lock than the candidate. Each was accepted because a run captured in the candidate's environment regenerated that reference's fixed review draws byte for byte (the fidelity probe). That is strong evidence, not proof, that every archived word would regenerate identically. The probe tests generation only: a difference in the evaluation runtime is disclosed here but not tested. Pass --strict-environment to refuse such comparisons.", "",
     "| Reference | Run | Generation: reference → candidate | Evaluation: reference → candidate | Fidelity probe run |",
     "|---|---|---|---|---|",
     ...differences.map(item => `| ${item.role} | ${cell(item.runId)} | ${runtime(item.generation.reference)} → ${runtime(item.generation.candidate)} | ${runtime(item.evaluation.reference)} → ${runtime(item.evaluation.candidate)} | ${cell(item.fidelityProbeRunId)} |`),

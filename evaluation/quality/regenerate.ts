@@ -51,7 +51,7 @@ export async function compareWithMergeBase(options: MergeBaseComparisonOptions):
   } catch (error) {
     failures.push(error);
   }
-  await rm(scratch, { recursive: true, force: true });
+  await rm(scratch, { recursive: true, force: true }).catch((error: unknown) => { failures.push(error); });
   if (failures.length) throw failures[0];
   progress?.(`Capturing candidate ${head} from ${root}`);
   await captureRun({ root, out: join(out, "candidate"), id: `candidate-${head.slice(0, 12)}`, cohort, protocol, progress });

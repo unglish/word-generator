@@ -89,6 +89,8 @@ describe("regenerated quality baselines", () => {
     await expect(captureRun({ root, generatorRoot: join(checkout, "evaluation"), out: nested, id: "nested", cohort: "development", protocol }))
       .rejects.toThrow("The generator root must be the top level of a Git checkout");
     await expect(stat(nested)).rejects.toThrow();
+    await expect(captureRun({ root, generatorRoot: join(directory, "missing"), out: nested, id: "nested", cohort: "development", protocol }))
+      .rejects.toThrow(`The generator root does not exist: ${join(directory, "missing")}`);
   }, timeout);
 
   it("passes the fidelity probe when regenerating a committed revision", async () => {
@@ -165,6 +167,8 @@ describe("regenerated quality baselines", () => {
     commitAll(checkout, "docs: branch fixture outside the generator");
     const head = git(checkout, "rev-parse", "HEAD");
     const out = join(directory, "pull-request");
+    const scratchWorktrees = () => git(root, "worktree", "list", "--porcelain").split("\n").filter(line => line.includes("unglish-quality-merge-base-"));
+    const before = scratchWorktrees();
     const report = await compareWithMergeBase({ root: checkout, base, out, cohort: "development", protocol });
     const baseline = await readRun(join(out, "baseline"), true);
     const candidate = await readRun(join(out, "candidate"), true);
@@ -177,7 +181,8 @@ describe("regenerated quality baselines", () => {
     expect(report).not.toHaveProperty("environmentDifferences");
     expect(JSON.parse(await readFile(join(out, "comparison.json"), "utf8"))).toEqual(report);
     expect(await readFile(join(out, "comparison.md"), "utf8")).toBe(comparisonMarkdown(report));
-    expect(git(root, "worktree", "list")).not.toContain("unglish-quality-merge-base-");
+    // Other checkouts of this repository may be running their own comparisons concurrently.
+    expect(scratchWorktrees().filter(line => !before.includes(line))).toEqual([]);
     await expect(compareWithMergeBase({ root: checkout, base, out, cohort: "development", protocol })).rejects.toThrow();
   }, timeout);
 });
