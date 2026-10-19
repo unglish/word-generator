@@ -244,7 +244,11 @@ export interface Word {
 }
 
 export interface LexicalForm {
-  /** Base-root syllables used for spelling, including the root's lexical stress. */
+  /**
+   * Base-root syllables used for spelling, with the root's lexical stress. A
+   * syllable whose vowel final stress repair replaced carries its final-word
+   * stress instead, because that stress forced the repaired vowel.
+   */
   root: Syllable[];
   /** Full derived word after morphology and final stress resolution. */
   syllables: Syllable[];
