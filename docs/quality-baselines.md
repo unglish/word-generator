@@ -178,7 +178,8 @@ when a run captured in the candidate's environment passed the fidelity probe
 against that exact reference manifest. That run may be the candidate itself, the
 other reference, or one passed with `--probe <run>`. The comparison then lists each
 difference in `comparison.json` (`environmentDifferences`) and in a section of
-`comparison.md`. Without such a probe it refuses. `--strict-environment` refuses
+`comparison.md`. The probe tests generation only; an evaluation-runtime difference
+is disclosed but not tested by it. Without such a probe it refuses. `--strict-environment` refuses
 every environment difference, as earlier versions did.
 
 ## Re-score existing words with a new evaluator

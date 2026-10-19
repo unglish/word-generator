@@ -67,8 +67,10 @@ pins. Re-running the revised probe on it gave profiles and witnesses identical t
 `identity-original.json.gz`, and the independent Python check agreed on every
 count. A regeneration on linux/x64 (Node v24.22.0) matched none of the compressed
 hashes but every decompressed pin, and the probe again reproduced the committed
-profiles and witnesses. Only the run ID, manifest digest, evaluator digest and observer
-fingerprint differ; the fingerprint covers the revised protocol file.
+profiles and witnesses. Apart from those, the reports differ only in run provenance
+(ID, manifest digest, evaluator digest, and for Linux the environment and
+compressed archive hashes) and the observer's own sources (the revised protocol
+file in `definitions` and the observer fingerprint).
 
 The observer checks full archive integrity before and after processing; it
 requires pinned source contents, their generator digest, exact expected/pinned/
