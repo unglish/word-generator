@@ -50,10 +50,9 @@ Both sides share the harness at `HEAD`, so evaluator edits never make the two
 incompatible. A branch with no generator changes reports zero for every numeric
 delta.
 
-Pull requests run the same command in CI (the `quality-comparison` job), which
-writes `comparison.md` to the job summary and uploads both reports as an artifact.
-CI checks out the pull request merged into its base, so there the baseline is the
-current base tip and the candidate is the merged result.
+Run it locally when a change could move generated output, and cite
+`comparison.md` for any distribution claim. CI deliberately does not run it: pull
+request checks stay fast and deterministic (see `CONTRIBUTING.md`).
 
 ## Capture another revision
 

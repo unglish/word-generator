@@ -195,7 +195,7 @@ npm run dev
 
 Additional checks:
 
-- `npm run quality:capture` / `npm run quality:compare` (see [quality baselines](./docs/quality-baselines.md))
+- `npm run quality:pr` (compare against the merge base) and `npm run quality:capture` / `npm run quality:compare` (see [quality baselines](./docs/quality-baselines.md))
 - `npm run analyze:phoneme-length`
 - `npm run test:perf`
 - `npm run analyze:phonemes`
@@ -208,10 +208,9 @@ streams, complete distribution metrics, and trace-backed outlier reports.
 
 For frozen baselines and per-step linguistic comparisons, see
 [quality baselines](./docs/quality-baselines.md). `npm run quality:pr` regenerates
-the merge base and the current checkout with one harness and compares them; pull
-requests post the same comparison to their CI job summary. The benchmark preserves
-traced outputs, source/configuration provenance, and original/previous-step
-comparisons.
+the merge base and the current checkout with one harness and compares them. The
+benchmark preserves traced outputs, source/configuration provenance, and
+original/previous-step comparisons.
 
 ## Documentation
 
