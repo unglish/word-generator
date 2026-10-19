@@ -35,13 +35,13 @@ npm run quality:pr -- --base origin/main --out memory/quality-pr/my-change
 ```
 
 This works from a clean clone with no archives. It finds the merge base of `HEAD`
-and `--base` (default `origin/main`), checks that revision out into a temporary Git
-worktree, captures it as `baseline/`, captures the current checkout (including
-uncommitted generator edits, recorded as a dirty patch) as `candidate/`, and writes
-`comparison.json` and `comparison.md` beside them. The default output is a new
-timestamped directory under `memory/quality-pr/`. The base is your local
-`origin/main`, so run `git fetch` first. A full development cohort takes about three
-minutes and writes about 80 MB of archives per side, which can be deleted
+and `--base` (default `origin/main`), checks that revision out into a temporary
+Git worktree, captures it as `baseline/`, captures the current checkout (including
+uncommitted generator edits, recorded as a dirty patch) as `candidate/`, and
+writes `comparison.json` and `comparison.md` beside them. The default output is a
+new timestamped directory under `memory/quality-pr/`. The base is your local
+`origin/main`, so run `git fetch` first. A full development cohort takes about
+three minutes and writes about 80 MB of archives per side, which can be deleted
 afterwards. The temporary worktree is deleted afterwards, including when capture
 fails; if the command is interrupted, `git worktree prune` removes a leftover
 registration.
@@ -57,6 +57,14 @@ current base tip and the candidate is the merged result.
 
 ## Capture another revision
 
+To capture the current checkout as a single step, omit `--generator-root`:
+
+```sh
+npm run quality:capture -- --id step-01 --cohort development --out memory/quality-runs/step-01
+```
+
+To capture another revision, point `--generator-root` at a checkout of it:
+
 ```sh
 git worktree add --detach /tmp/unglish-3fd474d 3fd474d
 npm run quality:capture -- --generator-root /tmp/unglish-3fd474d \
@@ -66,26 +74,27 @@ git worktree remove /tmp/unglish-3fd474d
 ```
 
 `--generator-root` captures words from the generator in another checkout through
-its public API, while the evaluator, CMU reference tables, and dependency lock come
-from the harness checkout. The manifest's generator commit, dirty flag, patch,
-source digest, and effective configuration describe that checkout. Omit it to
-capture the harness checkout itself. The other checkout's `src/index.ts` is imported
-without installing its dependencies, which works because the generator has no npm
-runtime imports; a revision that adds one would need its own `node_modules`.
+its public API, while the evaluator, CMU reference tables, and dependency lock
+come from the harness checkout. The manifest's generator commit, dirty flag,
+patch, source digest, and effective configuration describe that checkout. Omit it
+to capture the harness checkout itself. The other checkout's `src/index.ts` is
+imported without installing its dependencies, which works because the generator
+has no npm runtime imports; a revision that adds one would need its own
+`node_modules`.
 
 ### Fidelity probe
 
 When the captured revision has a committed run in `evaluation/quality/baselines/`
 with the same protocol, cohort, and clean generator commit, capture first
-regenerates the fixed review draws (the first 40 of every seed stream) and requires
-each to serialize byte for byte as it does in that run's `review-samples.json.gz`.
-Otherwise it refuses before writing anything and names the first diverging draw,
-for example `regenerated lexicon-default seed 69212153 draw 3 differs from its
-committed review sample`. A passing probe is recorded in the manifest's
-`fidelityProbes`. The original baseline revision `3fd474d` passes this probe against
-both committed cohorts, and its regenerated summaries equal the committed ones
-metric for metric. A development regeneration on linux/x64 with a newer Node patch
-release also passed and matched.
+regenerates the fixed review draws (the first 40 of every seed stream) and
+requires each to serialize byte for byte as it does in that run's
+`review-samples.json.gz`. Otherwise it refuses before writing anything and names
+the first diverging draw, for example `regenerated lexicon-default seed 69212153
+draw 3 differs from its committed review sample`. A passing probe is recorded in
+the manifest's `fidelityProbes`. The original baseline revision `3fd474d` passes
+this probe against both committed cohorts, and its regenerated summaries equal the
+committed ones metric for metric. A development regeneration on linux/x64 with a
+newer Node patch release also passed and matched.
 
 Compressed `words/` bytes are not portable: on that Linux machine none of the 20
 regenerated archives had the committed SHA-256, although every word was identical.
@@ -172,23 +181,24 @@ edit hashes to force a comparison.
 ### Runs from different environments
 
 Runs captured together share a Node version and dependency lock and compare
-without further checks. A reference (baseline or previous step) whose generation or
-evaluation runtime or dependency lock differs from the candidate's is accepted only
-when a run captured in the candidate's environment passed the fidelity probe
+without further checks. A reference (baseline or previous step) whose generation
+or evaluation runtime or dependency lock differs from the candidate's is accepted
+only when a run captured in the candidate's environment passed the fidelity probe
 against that exact reference manifest. That run may be the candidate itself, the
-other reference, or one passed with `--probe <run>`. The comparison then lists each
-difference in `comparison.json` (`environmentDifferences`) and in a section of
-`comparison.md`. The probe tests generation only; an evaluation-runtime difference
-is disclosed but not tested by it. Without such a probe it refuses. `--strict-environment` refuses
-every environment difference, as earlier versions did.
+other reference, or one passed with `--probe <run>`. The comparison then lists
+each difference in `comparison.json` (`environmentDifferences`) and in a section
+of `comparison.md`. The probe tests generation only; an evaluation-runtime
+difference is disclosed but not tested by it. Without such a probe it refuses.
+`--strict-environment` refuses every environment difference, as earlier versions
+did.
 
 ## Re-score existing words with a new evaluator
 
 Re-scoring is the fallback for when an old revision can no longer be run, for
-example because its generator needs a runtime that is no longer available. It needs
-the run's `words/` archives. Start from the most recent rescore of the cohort so the
-provenance chain stays complete; for the committed baselines that is the
-`-standalone` directory:
+example because its generator needs a runtime that is no longer available. It
+needs the run's `words/` archives. Start from the most recent rescore of the
+cohort so the provenance chain stays complete; for the committed baselines that is
+the `-standalone` directory:
 
 ```sh
 npm run quality:rescore -- \
@@ -283,9 +293,10 @@ includes compression and trace serialization and is not a generator speed score.
 
 Harness tests cover deterministic captures, capture from another checkout, the
 fidelity probe and its refusal, the environment gate, a zero-delta merge-base
-comparison, fixed review selection, refusal to overwrite, artifact corruption, correct affix denominators, missing-category
-penalties, incompatible comparisons, cumulative/previous regressions, and missing
-eligible strata. Rescoring tests also verify that generation is never invoked,
-raw archives remain byte-identical, historical provenance is retained, malformed
-draw schedules fail, and unchanged recaptures produce compatible summaries. The
-harness tests are also included in `npm test`.
+comparison, fixed review selection, refusal to overwrite, artifact corruption,
+correct affix denominators, missing-category penalties, incompatible comparisons,
+cumulative/previous regressions, and missing eligible strata. Rescoring tests also
+verify that generation is never invoked, raw archives remain byte-identical,
+historical provenance is retained, malformed draw schedules fail, and unchanged
+recaptures produce compatible summaries. The harness tests are also included in
+`npm test`.

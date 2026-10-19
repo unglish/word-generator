@@ -116,7 +116,8 @@ describe("identity archive observer integrity", () => {
   });
 
   it("pins the committed original development run by default and verifies that pin", async () => {
-    await expect(analyzeIdentityRun(template)).rejects.toThrow(/differs? from the pinned original run/);
+    // The fixture's protocol differs from the committed original's, so the default pin refuses it at the first check.
+    await expect(analyzeIdentityRun(template)).rejects.toThrow("The archive's protocol or generator differs from the pinned original run.");
     await expect(analyzeIdentityRun(template, { manifest: join(template, "manifest.json"), manifestDigest: "altered", wordContent: {} }))
       .rejects.toThrow(/pinned original manifest is altered/);
   });

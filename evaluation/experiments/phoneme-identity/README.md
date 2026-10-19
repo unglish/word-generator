@@ -39,10 +39,10 @@ missing representational evidence, not 50,000 stress errors. Likewise, the
 200,000 supported syllable structures establish slot compatibility only, not
 legal rimes, plausible words or an implemented General American dialect.
 
-Reproduction requires word archives whose decompressed content is identical to
-the original's, as documented in `docs/phoneme-identity.md`. The committed compressed report is not
-a replacement for the archives. Any machine can regenerate them from `3fd474d`.
-The observer protocol was fixed before this run.
+Reproduction requires word archives whose decompressed content is identical to the
+original's, as documented in `docs/phoneme-identity.md`. The committed compressed
+report is not a replacement for the archives. Any machine can regenerate them from
+`3fd474d`. The observer protocol was fixed before this run.
 
 ```sh
 npx vitest run --config vitest.identity.config.ts
