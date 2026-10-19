@@ -11,5 +11,8 @@
   "lineage": "Recorded reduction is counted separately from unknown underlying identity; no recovered lexical identity is inferred from a reduced flag.",
   "strata": "Each profile and seed, plus actual morphology template x final syllable count. Raw symbols and observed stress remain separate dimensions.",
   "acceptance": "Complete accounting, aligned missingness, exact parity with the legacy mapping where defined, immutable input archives, repeatable observer reports and output/RNG parity in public-API fixtures. Coverage is diagnostic, not a wordlikeness score. No acceptance gate is tuned on these counts.",
-  "foundationEvaluatorDigest": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007"
+  "originalRun": {
+    "manifest": "evaluation/quality/baselines/2026-09-26-development-standalone/manifest.json",
+    "manifestDigest": "a23414ae34d3611c4367d07ad677afb99e7d89a4be7886e6ed95018c2ff3f3da"
+  }
 }

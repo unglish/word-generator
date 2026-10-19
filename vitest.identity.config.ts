@@ -1,6 +1,6 @@
 import { defineConfig } from "vitest/config";
 
-// Archive fixtures require the pinned standalone evaluator documented in docs/phoneme-identity.md.
+// Archive fixtures pin their own words as the original; see docs/phoneme-identity.md.
 export default defineConfig({
   test: {
     include: ["src/phonology/identity.test.ts", "evaluation/quality/probes/phoneme-identity.test.ts"],
