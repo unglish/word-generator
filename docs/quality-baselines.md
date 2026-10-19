@@ -39,9 +39,11 @@ and `--base` (default `origin/main`), checks that revision out into a temporary 
 worktree, captures it as `baseline/`, captures the current checkout (including
 uncommitted generator edits, recorded as a dirty patch) as `candidate/`, and writes
 `comparison.json` and `comparison.md` beside them. The default output is a new
-timestamped directory under `memory/quality-pr/`. A full development cohort takes a
-few minutes and writes about 80 MB of archives per side, which can be deleted
-afterwards. The temporary worktree is always removed.
+timestamped directory under `memory/quality-pr/`. The base is your local
+`origin/main`, so run `git fetch` first. A full development cohort takes about three
+minutes and writes about 80 MB of archives per side, which can be deleted
+afterwards. The temporary worktree is deleted afterwards, including when capture
+fails.
 
 Both sides share the harness at `HEAD`, so evaluator edits never make the two
 incompatible. A branch with no generator changes reports zero for every numeric
@@ -64,7 +66,9 @@ git worktree remove /tmp/unglish-3fd474d
 its public API, while the evaluator, CMU reference tables, and dependency lock come
 from the harness checkout. The manifest's generator commit, dirty flag, patch,
 source digest, and effective configuration describe that checkout. Omit it to
-capture the harness checkout itself.
+capture the harness checkout itself. The other checkout's `src/index.ts` is imported
+without installing its dependencies, which works because the generator has no npm
+runtime imports; a revision that adds one would need its own `node_modules`.
 
 ### Fidelity probe
 
