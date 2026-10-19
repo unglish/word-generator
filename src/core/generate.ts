@@ -1219,8 +1219,12 @@ function realizeSurface(rt: GeneratorRuntime, context: WordGenerationContext): v
   context.trace?.afterStage("generatePronunciation", context.word.syllables);
 }
 
-/** Copy nucleus changes made by final stress repair back into the base root. */
-function carryRootNucleusRepairs(
+/**
+ * Copy final stress repairs back into the base root. A repaired root syllable
+ * takes the repaired vowel and its final-word stress, so its spelling follows
+ * the stress that forced the repair; other root syllables keep root stress.
+ */
+function carryRootStressRepairs(
   lexicalRoot: Syllable[],
   assembled: Syllable[],
   nucleiBeforeRepair: Phoneme[][],
@@ -1228,12 +1232,14 @@ function carryRootNucleusRepairs(
 ): void {
   for (let rootIndex = 0; rootIndex < lexicalRoot.length; rootIndex++) {
     const finalIndex = rootSyllableStart + rootIndex;
-    const finalNucleus = assembled[finalIndex].nucleus;
-    for (let index = 0; index < finalNucleus.length; index++) {
-      if (finalNucleus[index] !== nucleiBeforeRepair[finalIndex][index]) {
-        lexicalRoot[rootIndex].nucleus[index] = { ...finalNucleus[index] };
-      }
+    const finalSyllable = assembled[finalIndex];
+    let repaired = false;
+    for (let index = 0; index < finalSyllable.nucleus.length; index++) {
+      if (finalSyllable.nucleus[index] === nucleiBeforeRepair[finalIndex][index]) continue;
+      lexicalRoot[rootIndex].nucleus[index] = { ...finalSyllable.nucleus[index] };
+      repaired = true;
     }
+    if (repaired) lexicalRoot[rootIndex].stress = finalSyllable.stress;
   }
 }
 
@@ -1268,7 +1274,7 @@ function resolveLexicalWord(
   const nucleiBeforeRepair = context.word.syllables.map(syllable => [...syllable.nucleus]);
   traceCollector?.beforeStage("repairFinalStressedNuclei", context.word.syllables);
   repairStressedNuclei(lexicalContext, rt.positionPhonemes.nucleus, rt.resolvedStress);
-  carryRootNucleusRepairs(lexicalRoot, context.word.syllables, nucleiBeforeRepair, rootSyllableStart);
+  carryRootStressRepairs(lexicalRoot, context.word.syllables, nucleiBeforeRepair, rootSyllableStart);
   traceCollector?.afterStage("repairFinalStressedNuclei", context.word.syllables);
   context.word.lexical = {
     root: lexicalRoot,
