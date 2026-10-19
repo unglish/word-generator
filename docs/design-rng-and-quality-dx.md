@@ -4,6 +4,19 @@
 
 **Goal:** Make word generation fully deterministic per-call, speed up the dev feedback loop, and keep CI gates reliable.
 
+> **Status (October 2026):** Parts 2 and 3 are superseded. `npm run check` was
+> ultimately implemented as lint + typecheck + tests, not the pattern dashboard
+> proposed below, and the CI quality suite (`quality.test.ts`,
+> `vitest.quality.config.ts`, the PR quality comment) was retired once the
+> frozen baselines in [quality-baselines.md](./quality-baselines.md) replaced
+> it. Its mode-shape bounds moved to `src/core/generateWords.test.ts`; its
+> consonant-run gate is covered by the 100k bare-generation runs in
+> `src/core/write.test.ts`; its remaining
+> string-pattern gates were retired deliberately after measuring far inside
+> their thresholds on the old 50k lexicon sample (`owngs` 0 vs ≤ 1,
+> `-reng/-teng` 0 vs < 30, 2-letter monosyllables 0.2% vs ≤ 9%, open
+> monosyllables ≈ 6% vs ≤ 20%). The notes are kept as design history.
+
 ---
 
 ## Part 1: Per-Generator RNG (#33, #36)

@@ -3,13 +3,13 @@ import { generateWord } from "./generate.js";
 
 /**
  * Performance benchmarks for word generation.
- * 
- * These act as a regression gate — if generation speed drops
- * significantly, the benchmark assertions will fail in CI.
- * 
- * Current baseline (2026-02-08): ~11,000 words/sec on dev, ~5,000+ expected on CI runners.
- * Threshold is set conservatively to catch real regressions,
- * not CI noise.
+ *
+ * Run locally with `npx vitest bench --run` to inspect throughput; these make
+ * no assertions. The CI regression gate is `npm run test:perf`
+ * (src/core/generate.perf.test.ts), run on every push to main before deploy.
+ *
+ * Baseline (2026-02-08): ~11,000 words/sec on a dev machine. The CI floor is
+ * MIN_WORDS_PER_SEC in generate.perf.test.ts.
  */
 
 describe("Word Generation Performance", () => {

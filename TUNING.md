@@ -113,7 +113,7 @@ Each canonical phoneme report should include:
 - Per-seed worst over/under entries
 
 ### Improvement opportunities
-- **Automate as CI job**: Run lexicon comparison on every PR and post a comment with top outliers and deltas from main
+- **Compare against main per change**: Run the lexicon comparison for a change and record top outliers and deltas in the PR description. (A per-PR CI comment was considered and rejected: PR CI is kept to fast deterministic checks; see "Continuous Integration" in CONTRIBUTING.md.)
 - **Track trend over time**: Maintain a `memory/outlier-history.json` showing how top outliers change across PRs
 - **Combined score**: Instead of just ratio, weight by absolute frequency × ratio to prioritize high-impact outliers
 - **Under-representation analysis**: We've mostly focused on over-representation. Under-represented patterns (missing k-clusters, "ngs", "rry") deserve equal attention
@@ -210,7 +210,6 @@ Normal verification:
 
 - `npm run analyze:phoneme-length`
 - `npm test`
-- `npm run test:quality`
 - `npm run audit:trace`
 - `npm run analyze:trigrams`
 
@@ -242,7 +241,7 @@ Acceptance thresholds for `scripts/phoneme-length-dist.ts`:
 **Output:** Saved to `memory/phoneme-2m-analysis.{json,md}` + scout diffs
 
 ### Improvement opportunities
-- **Quality benchmark expansion**: The existing `vitest.quality.config.ts` could include n-gram gates (e.g., "no trigram >500× over-represented")
+- **Quality benchmark expansion**: The frozen quality harness (`docs/quality-baselines.md`) could include n-gram gates (e.g., "no trigram >500× over-represented")
 - **Snapshot testing**: Store n-gram frequency snapshots and diff against them in CI
 - **Regression budget**: Allow small regressions (<10%) in non-target patterns if the target improvement is >50%
 

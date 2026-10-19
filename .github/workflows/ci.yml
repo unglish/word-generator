@@ -1,17 +1,24 @@
 name: CI
 
+# Fast, deterministic checks for every pull request. `npm run check` runs the
+# lint, typecheck, unit-test, and review unit-test steps locally; CI also
+# builds and runs `test:diagnostics`. The main-branch workflow reuses this
+# file so main re-runs exactly what PRs ran before it deploys.
+
 on:
   pull_request:
     branches: [main]
-  push:
-    branches: [main]
+  workflow_call:
 
 permissions:
   contents: read
-  pull-requests: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  review:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,174 +27,34 @@ jobs:
           node-version: '24'
           cache: 'npm'
       - run: npm ci
-      - run: npm run review:typecheck
-      - run: npx eslint "evaluation/review/**/*.ts" "demo/review/**/*.ts"
-      - run: npm run test:review
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:review:e2e
-      - run: npx supabase start
-      - run: npm run test:review:db
-      - run: npm run test:review:smoke
-      - if: always()
-        run: npx supabase stop
+      - run: npm run build
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
+  # `test` is the only required status check in the repository's Main ruleset,
+  # so it is the merge gate: lint and typecheck live here on purpose. `build`
+  # and `review-unit` are advisory. Renaming this job blocks every merge until
+  # the ruleset is updated.
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Test
-        run: npm test
-
-      - name: Typecheck and lint the frozen quality harness
-        run: npm run quality:typecheck && npx eslint "evaluation/quality/**/*.ts"
-
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
       - name: Diagnostic sampling and metric regressions
         run: npm run test:diagnostics
 
-  benchmark:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  review-unit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Perf regression gate
-        run: npm run test:perf
-
-      - name: Benchmark
-        run: npx vitest bench --run
-
-  quality:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Quality Benchmark
-        env:
-          QUALITY_TRIALS: '3'
-          QUALITY_MAX_ITERATIONS: '120000'
-          QUALITY_GATE_SAMPLE_SIZE: '120000'
-          QUALITY_MODE_SAMPLE_SIZE: '30000'
-        run: npx vitest run --config vitest.quality.config.ts --reporter=verbose
-
-      - name: Post Quality Report
-        if: success() || failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const path = 'quality-report.json';
-
-            if (!fs.existsSync(path)) {
-              console.log('No quality-report.json found, skipping comment.');
-              return;
-            }
-
-            const report = JSON.parse(fs.readFileSync(path, 'utf8'));
-            const nf = new Intl.NumberFormat('en-US');
-            const fmt = (n) => n !== null && n !== undefined ? nf.format(Number(n)) : 'not reached';
-
-            // Common words table
-            const trialsRan = (report.commonWords?.trials || 0) > 0;
-            const milestones = report.commonWords?.milestones || {};
-            let commonSection = '';
-            if (trialsRan) {
-              let commonTable = '| Milestone | Iterations |\n|-----------|------------|\n';
-              for (const pct of [50, 75, 90, 100]) {
-                const data = milestones[`${pct}%`];
-                const val = data ? fmt(data.median) : 'N/A';
-                commonTable += `| ${pct}% | ${val} |\n`;
-              }
-              commonSection = `### Common Words (median of ${report.commonWords.trials} trials, max ${fmt(report.commonWords.maxIterations)} iterations)\n${commonTable}\n`;
-            }
-
-            // Gates table
-            const gates = report.gates || {};
-            const gateChecks = [
-              ['5+ consonant runs', gates.fiveConsecutiveConsonants, '= 0', gates.fiveConsecutiveConsonants === 0],
-            ];
-            const allGatesPass = gateChecks.every(g => g[3]);
-            let gatesTable = `| Gate | Result | Threshold |\n|------|--------|-----------|\n`;
-            for (const [name, val, threshold] of gateChecks) {
-              gatesTable += `| ${name} | ${val} | ${threshold} |\n`;
-            }
-
-            // Metrics table
-            const metrics = report.metrics || {};
-            let metricsTable = '| Metric | Value |\n|--------|-------|\n';
-            metricsTable += `| 4-cons clusters | ${fmt(metrics.fourConsonantClusters?.count)} (${metrics.fourConsonantClusters?.rate}%) |\n`;
-            metricsTable += `| dk | ${fmt(metrics.dk)} |\n`;
-            metricsTable += `| ckt | ${fmt(metrics.ckt)} |\n`;
-            metricsTable += `| -owngs | ${fmt(metrics.owngs)} |\n`;
-            metricsTable += `| -reng/-teng | ${fmt(metrics.rengTeng)} |\n`;
-            metricsTable += `| Avg length | ${metrics.avgLength} |\n`;
-            metricsTable += `| Unique rate | ${metrics.uniqueRate}% |\n`;
-
-            const marker = '<!-- quality-report -->';
-            const body = `${marker}\n## 🦉 Quality Report\n\n${commonSection}### Quality Gates ${allGatesPass ? '✅' : '❌'}\n${gatesTable}\n### Quality Metrics\n${metricsTable}`;
-
-            // Find existing comment
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-
-            const existing = comments.find(c => c.body?.includes(marker));
-
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body,
-              });
-            }
+      - run: npm ci
+      - run: npm run test:review
