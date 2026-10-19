@@ -60,11 +60,14 @@ python3 evaluation/experiments/phoneme-identity/verify_identity_counts.py \
 
 The input contract was revised in #352. The probe now pins the original words by
 the SHA-256 of their decompressed archives instead of requiring the frozen #307
-quality harness. A regeneration under the revised harness, on the original
-machine type (Node v24.11.1, darwin/arm64), had all 20 compressed archive hashes
-equal to the original pins. Re-running the revised probe on it gave profiles and witnesses
-identical to `identity-original.json.gz`, and the independent Python check agreed
-on every count. Only the run ID, manifest digest, evaluator digest and observer
+quality harness. A regeneration under the revised harness on the original machine
+type (Node v24.11.1, darwin/arm64) had all 20 compressed archives byte-identical to
+the committed manifest's pins, so their decompressed content equals the probe's
+pins. Re-running the revised probe on it gave profiles and witnesses identical to
+`identity-original.json.gz`, and the independent Python check agreed on every
+count. A regeneration on linux/x64 (Node v24.22.0) matched none of the compressed
+hashes but every decompressed pin, and the probe again reproduced the committed
+profiles and witnesses. Only the run ID, manifest digest, evaluator digest and observer
 fingerprint differ; the fingerprint covers the revised protocol file.
 
 The observer checks full archive integrity before and after processing; it

@@ -43,7 +43,8 @@ timestamped directory under `memory/quality-pr/`. The base is your local
 `origin/main`, so run `git fetch` first. A full development cohort takes about three
 minutes and writes about 80 MB of archives per side, which can be deleted
 afterwards. The temporary worktree is deleted afterwards, including when capture
-fails.
+fails; if the command is interrupted, `git worktree prune` removes a leftover
+registration.
 
 Both sides share the harness at `HEAD`, so evaluator edits never make the two
 incompatible. A branch with no generator changes reports zero for every numeric
@@ -51,6 +52,8 @@ delta.
 
 Pull requests run the same command in CI (the `quality-comparison` job), which
 writes `comparison.md` to the job summary and uploads both reports as an artifact.
+CI checks out the pull request merged into its base, so there the baseline is the
+current base tip and the candidate is the merged result.
 
 ## Capture another revision
 
@@ -80,8 +83,14 @@ Otherwise it refuses before writing anything and names the first diverging draw,
 for example `regenerated lexicon-default seed 69212153 draw 3 differs from its
 committed review sample`. A passing probe is recorded in the manifest's
 `fidelityProbes`. The original baseline revision `3fd474d` passes this probe against
-both committed cohorts, and its regenerated development summary equals the
-committed one metric for metric.
+both committed cohorts, and its regenerated summaries equal the committed ones
+metric for metric. A development regeneration on linux/x64 with a newer Node patch
+release also passed and matched.
+
+Compressed `words/` bytes are not portable: on that Linux machine none of the 20
+regenerated archives had the committed SHA-256, although every word was identical.
+Compare runs by their summaries, review samples, or decompressed content, not by
+archive hashes from another environment.
 
 The probe is strong evidence, **not proof**, that every archived word regenerates
 identically: it checks 800 draws per cohort, not all 200,000. A dirty generator,

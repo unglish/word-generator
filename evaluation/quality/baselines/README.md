@@ -52,6 +52,8 @@ protocol, so these words can be regenerated from `3fd474d` with
 `quality:capture --generator-root` (see the guide). That capture must pass a
 fidelity probe against each directory's committed `review-samples.json.gz`, which
 is strong evidence, not proof, that every word regenerates identically.
-Comparisons need only the committed summaries; full verification and rescoring
-need archives, which a regeneration provides locally. Compact source bundles,
+Comparisons need only the committed summaries. A regeneration is a complete run
+of its own that `quality:verify` and `quality:rescore` accept; it does not fill in
+these directories' `words/`, whose compressed bytes can differ under another zlib
+build even when every word is identical. Compact source bundles,
 manifests, summaries, and evidence are committed alongside this README.
