@@ -8,14 +8,24 @@ import type { Cohort, Protocol } from "./model.js";
 import { compareWithMergeBase, writeComparison } from "./regenerate.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+
+/** Report malformed arguments as one line, like every other refusal, rather than a stack trace. */
+function parseOptions<T>(parse: () => T): T {
+  try {
+    return parse();
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : "Invalid arguments.");
+    process.exit(1);
+  }
+}
 const [command, ...args] = process.argv.slice(2);
-const { values, tokens } = parseArgs({ args, tokens: true, options: {
+const { values, tokens } = parseOptions(() => parseArgs({ args, tokens: true, options: {
   id: { type: "string" }, out: { type: "string" }, run: { type: "string" },
   baseline: { type: "string" }, candidate: { type: "string" }, previous: { type: "string" },
   cohort: { type: "string", default: "development" }, protocol: { type: "string" },
   "generator-root": { type: "string" }, base: { type: "string", default: "origin/main" },
   probe: { type: "string", multiple: true }, "strict-environment": { type: "boolean", default: false },
-} });
+} }));
 
 const COMMAND_OPTIONS: Record<string, readonly string[]> = {
   capture: ["id", "out", "cohort", "protocol", "generator-root"],
