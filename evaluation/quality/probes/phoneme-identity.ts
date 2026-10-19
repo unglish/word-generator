@@ -1,7 +1,9 @@
+import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { createInterface } from "node:readline";
+import { pipeline } from "node:stream/promises";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { createGunzip, gunzipSync } from "node:zlib";
@@ -90,8 +92,11 @@ async function localSources(root: string): Promise<SourceFile[]> {
   ].map(async path => ({ path, content: await readFile(join(root, path), "utf8") })));
 }
 
-/** The committed manifest that pins the observed words, and that manifest's digest. */
-export interface OriginalRun { manifest: string; manifestDigest: string }
+/**
+ * The committed manifest recording the observed words' provenance, plus the SHA-256 of each
+ * word archive's decompressed content. Compressed bytes depend on the zlib build; content does not.
+ */
+export interface OriginalRun { manifest: string; manifestDigest: string; wordContent: Record<string, string> }
 
 async function readOriginal(root: string, original: OriginalRun): Promise<Manifest> {
   const envelope = JSON.parse(await readFile(resolve(root, original.manifest), "utf8")) as { manifest: Manifest; digest: string };
@@ -101,13 +106,25 @@ async function readOriginal(root: string, original: OriginalRun): Promise<Manife
   return envelope.manifest;
 }
 
-const wordArchives = (manifest: Manifest) => manifest.artifacts.filter(artifact => artifact.file.startsWith("words/"))
-  .map(({ file, sha256, bytes }) => ({ file, sha256, bytes })).sort((a, b) => a.file < b.file ? -1 : a.file > b.file ? 1 : 0);
+async function decompressedDigest(path: string): Promise<string> {
+  const hash = createHash("sha256");
+  await pipeline(createReadStream(path), createGunzip(), hash);
+  return hash.digest("hex");
+}
+
+/** Require the run's word archives to decompress to exactly the pinned original content. */
+async function requireOriginalWords(directory: string, manifest: Manifest, wordContent: Record<string, string>): Promise<void> {
+  const files = manifest.artifacts.filter(artifact => artifact.file.startsWith("words/")).map(artifact => artifact.file).sort();
+  if (digest(files) !== digest(Object.keys(wordContent).sort())) throw new Error("The archived word streams differ from the pinned original run.");
+  for (const file of files) {
+    if (await decompressedDigest(join(directory, file)) !== wordContent[file]) throw new Error(`The archived words differ from the pinned original run: ${file}`);
+  }
+}
 
 /**
  * The probe pins the words it observes, not the evaluator that scored them: any run whose
- * raw archives and generator provenance match the original (the original cache or a
- * regeneration under a later harness) is the same input. `original` defaults to the protocol's pin.
+ * decompressed archives and generator provenance match the original (the original cache or
+ * a regeneration under a later harness) is the same input. `original` defaults to the protocol's pin.
  */
 export async function analyzeIdentityRun(directory: string, original?: OriginalRun) {
   const root = fileURLToPath(new URL("../../../", import.meta.url));
@@ -116,11 +133,13 @@ export async function analyzeIdentityRun(directory: string, original?: OriginalR
   const { manifest, summary } = await readRun(directory, true);
   validateProtocol(manifest.protocol);
   if (manifest.cohort !== "development") throw new Error("This preregistered probe uses development archives only.");
-  const pinned = await readOriginal(root, original ?? definitions.originalRun);
-  if (digest(wordArchives(manifest)) !== digest(wordArchives(pinned)) || manifest.protocolDigest !== pinned.protocolDigest ||
-      manifest.generator.commit !== pinned.generator.commit || manifest.generator.sourceDigest !== pinned.generator.sourceDigest) {
-    throw new Error("The archived words or their generator differ from the pinned original run.");
+  const originalRun = original ?? definitions.originalRun;
+  const pinned = await readOriginal(root, originalRun);
+  if (manifest.protocolDigest !== pinned.protocolDigest || manifest.generator.commit !== pinned.generator.commit ||
+      manifest.generator.sourceDigest !== pinned.generator.sourceDigest) {
+    throw new Error("The archive's protocol or generator differs from the pinned original run.");
   }
+  await requireOriginalWords(directory, manifest, originalRun.wordContent);
   if (!manifest.artifacts.some(artifact => artifact.file === "sources.json.gz")) throw new Error("The source archive must be pinned.");
   const sourceArchive = JSON.parse(gunzipSync(await readFile(join(directory, "sources.json.gz"))).toString("utf8")) as SourceArchive;
   if (digest(sourceArchive.generator) !== manifest.generator.sourceDigest) throw new Error("Archived generator source mismatch.");

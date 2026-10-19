@@ -39,8 +39,8 @@ missing representational evidence, not 50,000 stress errors. Likewise, the
 200,000 supported syllable structures establish slot compatibility only, not
 legal rimes, plausible words or an implemented General American dialect.
 
-Reproduction requires word archives byte-identical to the original's, as
-documented in `docs/phoneme-identity.md`. The committed compressed report is not
+Reproduction requires word archives whose decompressed content is identical to
+the original's, as documented in `docs/phoneme-identity.md`. The committed compressed report is not
 a replacement for the archives. Any machine can regenerate them from `3fd474d`.
 The observer protocol was fixed before this run.
 
@@ -58,10 +58,11 @@ python3 evaluation/experiments/phoneme-identity/verify_identity_counts.py \
   /new/path/identity-original.json /new/path/independent-check.json
 ```
 
-The input contract was revised in #352: the probe now pins the original words by
-their archive hashes instead of requiring the frozen #307 quality harness. A
-regeneration under the revised harness had all 20 archive hashes equal to the
-original pins. Re-running the revised probe on it gave profiles and witnesses
+The input contract was revised in #352. The probe now pins the original words by
+the SHA-256 of their decompressed archives instead of requiring the frozen #307
+quality harness. A regeneration under the revised harness, on the original
+machine type (Node v24.11.1, darwin/arm64), had all 20 compressed archive hashes
+equal to the original pins. Re-running the revised probe on it gave profiles and witnesses
 identical to `identity-original.json.gz`, and the independent Python check agreed
 on every count. Only the run ID, manifest digest, evaluator digest and observer
 fingerprint differ; the fingerprint covers the revised protocol file.

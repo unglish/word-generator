@@ -121,12 +121,13 @@ acknowledges remaining errors, omissions and inconsistent entries.
 The nested probe pins the words it observes, not the evaluator that scored them.
 `phoneme-identity-protocol.json` names the committed original development
 manifest (`evaluation/quality/baselines/2026-09-26-development-standalone`,
-digest `a23414ae34d3611c4367d07ad677afb99e7d89a4be7886e6ed95018c2ff3f3da`). The
-probe accepts a run only if its 20 raw word archives (file, SHA-256, bytes),
-protocol, generator commit and generator source digest equal that manifest's. The
+digest `a23414ae34d3611c4367d07ad677afb99e7d89a4be7886e6ed95018c2ff3f3da`) and the
+SHA-256 of each of its 20 decompressed word archives. The probe accepts a run only
+if its protocol, generator commit and generator source digest equal that
+manifest's and every archive decompresses to the pinned content. Pinning content
+rather than compressed bytes keeps the pin independent of the zlib build. The
 input can be the original archive or a regeneration of revision `3fd474d` under a
-later quality harness (see [quality baselines](quality-baselines.md)); the
-archives are byte-identical. The original observation was made with the
+later quality harness (see [quality baselines](quality-baselines.md)). The original observation was made with the
 [PR #307](https://github.com/unglish/word-generator/pull/307) evaluator
 (`ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007`). Earlier
 versions of the probe also required the current tree's quality harness to equal
@@ -144,7 +145,7 @@ node --import tsx evaluation/quality/probes/phoneme-identity.ts \
 ```
 
 The committed `phoneme-identity-protocol.json` preregisters the measures. The
-probe requires word archives identical to the original's, verifies all pinned
+probe requires words identical to the original's, verifies all pinned
 artifacts before and after processing, validates draw identity/order/count,
 checks observer source stability, and refuses to overwrite an existing report.
 It never regenerates a word. It records original generator, archive, protocol,

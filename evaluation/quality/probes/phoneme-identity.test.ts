@@ -45,11 +45,14 @@ async function replaceArtifact(directory: string, file: string, bytes: Buffer): 
     artifact.bytes = bytes.length; artifact.sha256 = sha(bytes);
   });
 }
-/** Observe `directory`, pinning the words of `original` (by default the run's own current manifest). */
+/** Observe `directory`, pinning the words of `original` (by default the run's own current contents). */
 async function analyze(directory: string, original = directory) {
   const path = join(original, "manifest.json");
   const { manifest } = JSON.parse(await readFile(path, "utf8")) as { manifest: Manifest };
-  return analyzeIdentityRun(directory, { manifest: path, manifestDigest: digest(manifest) });
+  const words = manifest.artifacts.filter(artifact => artifact.file.startsWith("words/"));
+  const wordContent = Object.fromEntries(await Promise.all(words.map(async ({ file }) =>
+    [file, sha(gunzipSync(await readFile(join(original, file))))] as const)));
+  return analyzeIdentityRun(directory, { manifest: path, manifestDigest: digest(manifest), wordContent });
 }
 async function editDraws(directory: string, change: (draws: Draw[]) => Draw[]): Promise<void> {
   const draws = gunzipSync(await readFile(join(directory, shard))).toString("utf8").trim().split("\n").map(line => JSON.parse(line) as Draw);
@@ -93,21 +96,28 @@ describe("identity archive observer integrity", () => {
     expect(report.profiles).toEqual((await analyze(template)).profiles);
   });
 
+  it("accepts the same words compressed differently", async () => {
+    const directory = await fixture();
+    await replaceArtifact(directory, shard, gzipSync(gunzipSync(await readFile(join(template, shard))), { level: 1 }));
+    expect(await readFile(join(directory, shard))).not.toEqual(await readFile(join(template, shard)));
+    expect((await analyze(directory, template)).profiles).toEqual((await analyze(template)).profiles);
+  });
+
   it("refuses words that differ from the pinned original even with updated artifact checksums", async () => {
     const directory = await fixture();
     await editDraws(directory, draws => {
       draws[0].word.written.clean += "x";
       return draws;
     });
-    await expect(analyze(directory, template)).rejects.toThrow(/differ from the pinned original run/);
+    await expect(analyze(directory, template)).rejects.toThrow("The archived words differ from the pinned original run: words/fixture-1.jsonl.gz");
     const otherRevision = await fixture();
     await editManifest(otherRevision, manifest => { manifest.generator.commit = "another-revision"; });
-    await expect(analyze(otherRevision, template)).rejects.toThrow(/differ from the pinned original run/);
+    await expect(analyze(otherRevision, template)).rejects.toThrow("protocol or generator differs from the pinned original run");
   });
 
   it("pins the committed original development run by default and verifies that pin", async () => {
-    await expect(analyzeIdentityRun(template)).rejects.toThrow(/differ from the pinned original run/);
-    await expect(analyzeIdentityRun(template, { manifest: join(template, "manifest.json"), manifestDigest: "altered" }))
+    await expect(analyzeIdentityRun(template)).rejects.toThrow(/differs? from the pinned original run/);
+    await expect(analyzeIdentityRun(template, { manifest: join(template, "manifest.json"), manifestDigest: "altered", wordContent: {} }))
       .rejects.toThrow(/pinned original manifest is altered/);
   });
 
