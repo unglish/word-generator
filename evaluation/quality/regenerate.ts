@@ -1,9 +1,9 @@
-import { execFileSync } from "node:child_process";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { captureRun, readRun } from "./capture.js";
 import { compareRuns, comparisonMarkdown } from "./compare.js";
+import { git as runGit } from "./git.js";
 import type { ComparisonReport } from "./compare.js";
 import type { Cohort, Protocol } from "./model.js";
 
@@ -30,7 +30,7 @@ export interface MergeBaseComparisonOptions {
  */
 export async function compareWithMergeBase(options: MergeBaseComparisonOptions): Promise<ComparisonReport> {
   const { root, base, out, cohort, protocol, progress } = options;
-  const git = (...args: string[]) => execFileSync("git", args, { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
+  const git = (...args: string[]) => runGit(root, ...args);
   const mergeBase = git("merge-base", "HEAD", base);
   const head = git("rev-parse", "HEAD");
   await mkdir(dirname(out), { recursive: true });

@@ -1,5 +1,4 @@
 import { createHash } from "node:crypto";
-import { execFileSync } from "node:child_process";
 import { constants, createReadStream, createWriteStream } from "node:fs";
 import { copyFile, mkdir, readFile, readdir, realpath, stat, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
@@ -8,6 +7,7 @@ import { pipeline } from "node:stream/promises";
 import { pathToFileURL } from "node:url";
 import { createGunzip, createGzip, gunzipSync, gzipSync } from "node:zlib";
 import type * as GeneratorApi from "../../src/index.js";
+import { git as runGit } from "./git.js";
 import { canonical, digest } from "./serialization.js";
 import type { SourceFile } from "./serialization.js";
 import { classifyWord, METRIC_DEFINITIONS, wordStrata } from "./metrics.js";
@@ -311,7 +311,7 @@ export async function captureRun(options: CaptureOptions): Promise<RunSummary> {
   const { root, generatorRoot = root, out, id, cohort, protocol } = options;
   validateRunId(id);
   validateProtocol(protocol);
-  const git = (...args: string[]) => execFileSync("git", args, { cwd: generatorRoot, encoding: "utf8", maxBuffer: 20 * 1024 * 1024 }).trim();
+  const git = (...args: string[]) => runGit(generatorRoot, ...args);
   const checkout = await realpath(generatorRoot).catch(() => { throw new Error(`The generator root does not exist: ${generatorRoot}`); });
   // Provenance below describes the enclosing repository, so it must be the generator's own checkout.
   if (await realpath(git("rev-parse", "--show-toplevel")) !== checkout) {

@@ -1,4 +1,3 @@
-import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { cp, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -8,6 +7,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { captureRun, readRun } from "./capture.js";
 import { compareRuns, comparisonMarkdown } from "./compare.js";
 import type { Draw, Manifest, Protocol, SourceArchive } from "./model.js";
+import { git } from "./git.js";
 import { compareWithMergeBase } from "./regenerate.js";
 import { digest } from "./serialization.js";
 
@@ -18,9 +18,6 @@ const protocol: Protocol = {
 };
 const timeout = 120_000;
 
-function git(cwd: string, ...args: string[]): string {
-  return execFileSync("git", args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
-}
 
 async function saveManifest(directory: string, manifest: Manifest): Promise<void> {
   await writeFile(join(directory, "manifest.json"), JSON.stringify({ manifest, digest: digest(manifest) }));
@@ -91,6 +88,27 @@ describe("regenerated quality baselines", () => {
     await expect(stat(nested)).rejects.toThrow();
     await expect(captureRun({ root, generatorRoot: join(directory, "missing"), out: nested, id: "nested", cohort: "development", protocol }))
       .rejects.toThrow(`The generator root does not exist: ${join(directory, "missing")}`);
+  }, timeout);
+
+  it("ignores repository variables exported by a calling git hook", async () => {
+    // A hook running `npm test` exports variables for its own repository; they must not redirect provenance or writes.
+    const decoy = join(directory, "decoy");
+    await mkdir(decoy);
+    git(decoy, "init", "-q");
+    const saved = { dir: process.env.GIT_DIR, index: process.env.GIT_INDEX_FILE };
+    Object.assign(process.env, { GIT_DIR: join(decoy, ".git"), GIT_INDEX_FILE: join(decoy, ".git/index") });
+    try {
+      const out = join(directory, "under-hook");
+      await captureRun({ root, generatorRoot: checkout, out, id: "under-hook", cohort: "development", protocol });
+      const { manifest } = await readRun(out);
+      expect(manifest.generator).toMatchObject({ commit: (await readRun(join(committed, "fixture-run"))).manifest.generator.commit, dirty: false, patch: "" });
+    } finally {
+      for (const [name, value] of [["GIT_DIR", saved.dir], ["GIT_INDEX_FILE", saved.index]] as const) {
+        if (value === undefined) delete process.env[name];
+        else process.env[name] = value;
+      }
+    }
+    await expect(stat(join(decoy, ".git/index"))).rejects.toThrow();
   }, timeout);
 
   it("passes the fidelity probe when regenerating a committed revision", async () => {
