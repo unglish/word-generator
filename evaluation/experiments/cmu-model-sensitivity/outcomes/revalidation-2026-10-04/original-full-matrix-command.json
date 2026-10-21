@@ -1,0 +1,16 @@
+{
+  "name": "original-full-matrix",
+  "args": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "--import",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/loader.mjs",
+    "evaluation/corpus/model-sensitivity-acceptance.ts",
+    "/private/tmp/q15c5-acceptance-revalidation-v2/relocated-source-input-freeze.json",
+    "a1dee5cf6fc45e8e5666d61aec96a9c7c8f1c2d333fc890453724e6f00109674",
+    "/private/tmp/q15c5-acceptance-revalidation-v2/full-acceptance"
+  ],
+  "cwd": "/private/tmp/q15c5-acceptance-revalidation-v2/checkout",
+  "startedAt": "2026-10-04T12:26:46.933727+00:00",
+  "finishedAt": "2026-10-04T12:28:48.403300+00:00",
+  "exitCode": 0
+}

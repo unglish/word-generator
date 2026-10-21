@@ -1,0 +1,20 @@
+{
+  "name": "targeted-lint",
+  "args": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "node_modules/eslint/bin/eslint.js",
+    "evaluation/corpus/model-sensitivity.ts",
+    "evaluation/corpus/model-sensitivity-integrity.ts",
+    "evaluation/corpus/model-sensitivity-acceptance.ts",
+    "evaluation/corpus/model-sensitivity-runner.ts",
+    "evaluation/corpus/model-sensitivity-cli.ts",
+    "evaluation/review/cmu-model-sensitivity.test.ts"
+  ],
+  "cwd": "/private/tmp/q15c5-acceptance-revalidation-v2/checkout",
+  "startedAt": "2026-10-04T12:33:00.927332+00:00",
+  "finishedAt": "2026-10-04T12:33:02.032010+00:00",
+  "exitCode": 0,
+  "fixtureEnvironment": {
+    "Q15_IDENTITY_MODULE": "/private/tmp/q15c5-acceptance-revalidation-v2/inputs/identity.ts"
+  }
+}

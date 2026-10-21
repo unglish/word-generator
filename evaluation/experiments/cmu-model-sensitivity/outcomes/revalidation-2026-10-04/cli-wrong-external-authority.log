@@ -1,0 +1,4 @@
+Model sensitivity pinned bytes /private/tmp/q15c5-acceptance-revalidation-v2/relocated-source-input-freeze.json mismatch.
+Usage: node --import tsx evaluation/corpus/model-sensitivity-cli.ts freeze --source PINNED_CMU --archive ORIGINAL_DEVELOPMENT --identity PINNED_IDENTITY_TS --identity-report PINNED_REPORT_JSON --out NEW_FREEZE.json
+  or: node --import tsx evaluation/corpus/model-sensitivity-cli.ts score --freeze REVIEWED_FREEZE.json --freeze-sha256 EXTERNAL_SHA --out FRESH_DIRECTORY
+No download, generator call, sealed validation or adoption. Full score mode requires prior source review. --help must be used alone.
