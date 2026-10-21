@@ -1,0 +1,64 @@
+{
+  "version": "cmu-legacy-score-reference-construction-protocol-v1",
+  "status": "frozen-before-implementation-and-successful-full-corpus-scoring",
+  "parentCommit": "bd70cbfef2a9f58442cf9bb066faec23b79ee2ef",
+  "designSha256": "f98067c080e93f06263d9bf6f0cdef228bef5c57be47a7d634cde3bc2c1ca337",
+  "parentFilesSha256": "3cca2c06252fbd7155c880aed0e4a91bb8d9dd94042273df20e463b45f2a5814",
+  "fixturesPlanSha256": "0b96b35911476e3d2934f65ba7ab8177558ecf77ce9a787f317514d1189531ef",
+  "allowedParentEdits": [
+    "scripts/generate-baseline.ts",
+    "docs/phonotactic-scoring.md",
+    "TUNING.md"
+  ],
+  "source": {
+    "revision": "74790861f652b15e4ac49015a90074ad62a27690",
+    "sha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
+  },
+  "policy": "cmu-ascii-first-v1",
+  "projection": "cmu-arpabet-base-v1",
+  "scorer": {
+    "id": "legacy-arpabet-add-one-log2-v1",
+    "sourceSha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f",
+    "tableSha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7",
+    "alpha": 1,
+    "logBase": 2,
+    "boundaries": "one # start and one # end per selected entry",
+    "perWordDenominator": "phoneCount+1",
+    "aggregate": "equal selected-entry weights; sorted sequential binary64 sum; upper-middle median",
+    "supplementalMax": "maximum over all finite rows; not a legacy ScoreStats property"
+  },
+  "strictAccounting": "every selected entry produces exactly one finite ordered row; missing/invalid outputs reject, never filter; empty selection rejects",
+  "summaryFields": [
+    "total",
+    "perTransition"
+  ],
+  "excludedFields": [
+    "generatedBaseline",
+    "gap",
+    "seeds",
+    "dates",
+    "thresholds"
+  ],
+  "independentNumericComparison": {
+    "absoluteTolerance": 1e-10,
+    "relativeTolerance": 1e-12,
+    "formula": "abs(actual-reference) <= absoluteTolerance + relativeTolerance*abs(reference)",
+    "metadataOrderAndCounts": "exact",
+    "typescriptExpectedEnvelope": "exact"
+  },
+  "independentProof": "frozen independent parser and joint reconstruction; restricted nonexecuting historical table parser; per-entry math.log2 pair traversal preserving operation order; every row and summary checked",
+  "preReviewChecks": [
+    "synthetic TS and Python fixtures only",
+    "restricted parser whole historical table audit (no corpus scoring)",
+    "strict corpus/review types",
+    "explicit changed TS lint",
+    "all parent-file preservation"
+  ],
+  "formalAfterParentReview": [
+    "two fresh byte-identical full selected-corpus builds",
+    "independent full-row verification",
+    "real success/failure CLI matrix",
+    "full preservation checks before/after"
+  ],
+  "preservation": "historical scorer/table/mapper/gates/English baseline/#304 outputs/#332 artifact and all prior evidence byte-identical; no table/consumer/gate adoption or generator capture"
+}
