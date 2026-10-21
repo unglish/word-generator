@@ -113,9 +113,6 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 5,
-    condition: {
-      notRightContext: ["t"],
-    },
   },
   // threat
   {
