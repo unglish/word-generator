@@ -1,0 +1,63 @@
+{
+  "runtimeChange": "Remove only the default \u00e6+\u014b coda exclusion.",
+  "frozenRuntimeDigest": "35218689ea4c1f5174b27cedd1dc83d5fcde13bcda99bd895fa7360b31623875",
+  "frozenObserverDigest": "03c00ca25a4c78ac3564210d8b716b7306c36d0ff689da5dfad9a86a380d566a",
+  "originalAndCandidateGeneratorComparison": {
+    "sameSourceFileSet": true,
+    "runtimeFiles": 42,
+    "changedFiles": [
+      "src/config/english.ts"
+    ]
+  },
+  "checks": {
+    "publicApiFixtures": {
+      "passed": 11
+    },
+    "observerAndArchiveFixtures": {
+      "passed": 24
+    },
+    "unitSuite": {
+      "passed": 407,
+      "skipped": 1,
+      "failed": 1,
+      "failure": {
+        "gate": "maxTrigramOverRepresentation",
+        "ngram": "ang",
+        "ratio": 3.3229955623997367,
+        "threshold": 3.21
+      }
+    },
+    "qualitySuite": {
+      "passed": 12
+    },
+    "strictTypescript": "passed",
+    "touchedLint": "passed",
+    "repositoryLint": {
+      "errors": 11,
+      "preexistingUntouchedFiles": [
+        "src/config/language.test.ts",
+        "src/core/generate.ts",
+        "src/core/write.ts"
+      ]
+    },
+    "independentArchiveCounts": {
+      "originalWords": 200000,
+      "candidateWords": 200000,
+      "exactAgreement": true
+    },
+    "performance": {
+      "passed": 2,
+      "isolated": true,
+      "wordsPerSecond": 7624,
+      "floorWordsPerSecond": 4500,
+      "medianBatchVariance": 1.29,
+      "maximumMedianBatchVariance": 3.0
+    }
+  },
+  "logSha256": {
+    "unit.log.gz": "5bf6fd0a5564538a29c6819f11619c59993f512fdcec1867665e29bc3cfec8b7",
+    "quality.log.gz": "cd8c3865a3aacb2c2f3ace7c7ba0c906327373ec08cda32fec9c5ab0460d9dd7",
+    "lint.log.gz": "08e8ceae3535020fee53e99d8c5f485e36e50733babf81c6d60a6f31d676f139",
+    "perf.log.gz": "edf7cc46df510aa21f5a70bde18a7cbf862af3a6fb33b3f545ea5716d83ec26f"
+  }
+}
