@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
 import type { LanguageConfig } from "../config/language.js";
-import type { Phoneme, Syllable } from "../types.js";
+import type { Phoneme, Syllable, Word } from "../types.js";
 import { isNucleusWordPositionAllowed, nucleusWordEdges } from "./nucleus-position.js";
+import { findExample } from "../test-support/find-example.js";
 
 const foot = englishConfig.phonemes.find(p => p.sound === "ʊ")!;
 const goose = englishConfig.phonemes.find(p => p.sound === "u")!;
@@ -33,15 +34,17 @@ function fixedShape(nuclei: Phoneme[], onset: number, coda: number, syllables = 
 
 describe("literal nucleus edges", () => {
   it.each([
-    { seed: 374, syllableCount: 1, spelling: "splungs" },
-    { seed: 44, syllableCount: 2, spelling: "smipnuct" },
-  ])("generates a closed final FOOT rime at seed $seed", ({ seed, syllableCount, spelling }) => {
-    const word = generateWord({ seed, syllableCount, morphology: false, trace: true });
-    expect(word.written.clean).toBe(spelling);
+    { syllableCount: 1, limit: 3000 },
+    { syllableCount: 2, limit: 1000 },
+  ])("generates a closed final FOOT rime in $syllableCount-syllable words", ({ syllableCount, limit }) => {
+    const generatedFinal = (word: Word) => word.trace!.stages.find(stage => stage.name === "generateSyllables")!.after.at(-1)!;
+    const { word } = findExample(word => generatedFinal(word).nucleus.join() === "ʊ" && generatedFinal(word).coda.length > 0, {
+      property: `a generated closed final FOOT rime in a ${syllableCount}-syllable word`, limit, options: { syllableCount, morphology: false },
+    });
+    // A closed final FOOT is legal, so the position repair leaves it in place.
     expect(word.syllables.at(-1)!.nucleus[0].sound).toBe("ʊ");
     expect(word.syllables.at(-1)!.coda.length).toBeGreaterThan(0);
-    const generated = word.trace!.stages.find(stage => stage.name === "generateSyllables")!;
-    expect(generated.after.at(-1)!.nucleus).toEqual(["ʊ"]);
+    expect(word.trace!.repairs).not.toContainEqual(expect.objectContaining({ rule: "repairNucleusWordPositions", before: "ʊ" }));
   });
 
   it("retains legacy custom endWord restrictions when the override is absent", () => {

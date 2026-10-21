@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:perf": "vitest run --config vitest.perf.config.ts --reporter=verbose",
     "test:watch": "vitest",
+    "golden:update": "node --import tsx scripts/update-golden-output.ts",
     "test:probes": "vitest run --config evaluation/quality/probes/syllable-weight/vitest.config.ts && vitest run --config evaluation/quality/probes/syllable-quantity/vitest.config.ts",
     "analyze:common-words": "node --import tsx scripts/common-word-coverage.ts",
     "audit:gap-spellings": "node --import tsx scripts/gap-spelling-audit.ts",
