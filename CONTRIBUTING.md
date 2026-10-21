@@ -66,8 +66,8 @@ include the comparison in the PR.
   Dispatch the workflow manually on `main` to redeploy without a new commit; a
   dispatch from any other branch skips `deploy`.
 
-Heavier diagnostics (`npm run quality:capture`, `npx vitest bench --run`) are
-run locally, on demand.
+Heavier diagnostics (`npm run quality:pr`, `npm run quality:capture`,
+`npx vitest bench --run`) are run locally, on demand.
 
 ## Coding Guidelines
 

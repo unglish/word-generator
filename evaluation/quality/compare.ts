@@ -1,7 +1,9 @@
 import { digest } from "./serialization.js";
+import { environmentDifferences } from "./environment.js";
+import type { EnvironmentDifference, ReferenceRole } from "./environment.js";
 import type { DistributionScore } from "./distribution.js";
 import type { MetricDefinition } from "./metrics.js";
-import type { MetricCount, MetricCounts, ProfileSummary, RunSummary, StratumSummary } from "./model.js";
+import type { Manifest, MetricCount, MetricCounts, ProfileSummary, RunEnvironment, RunSummary, StratumSummary } from "./model.js";
 
 interface ValueComparison {
   baseline: number;
@@ -60,6 +62,13 @@ export interface ComparisonReport {
   evaluatorDigest: string;
   referenceDigest: string;
   definitions: readonly MetricDefinition[];
+  /** Present only when a reference came from another environment; see environment.ts. */
+  environmentDifferences?: EnvironmentDifference[];
+  /** Available when comparing runs with manifests, rather than summaries alone. */
+  generatorProvenance?: Array<Pick<Manifest["generator"], "commit" | "dirty" | "sourceDigest"> & {
+    role: ReferenceRole | "candidate";
+    runId: string;
+  }>;
   profiles: Array<{
     id: string;
     words: number;
@@ -163,7 +172,12 @@ function requireCompatible(baseline: RunSummary, candidate: RunSummary): void {
   validateSummary(candidate);
   const fields = ["schemaVersion", "cohort", "protocolDigest", "evaluatorDigest", "referenceDigest"] as const;
   for (const field of fields) {
-    if (baseline[field] !== candidate[field]) throw new Error(`Incompatible quality summaries: ${field} differs.`);
+    if (baseline[field] !== candidate[field]) {
+      const advice = field === "evaluatorDigest"
+        ? " Run quality:pr or regenerate both revisions with the same harness and environment, then compare those runs. A fidelity probe cannot bridge an evaluator change."
+        : "";
+      throw new Error(`Incompatible quality summaries: ${field} differs.${advice}`);
+    }
   }
   if (digest(baseline.definitions) !== digest(candidate.definitions)) {
     throw new Error("Incompatible quality summaries: metric definitions differ.");
@@ -305,21 +319,69 @@ export function compareSummaries(baseline: RunSummary, candidate: RunSummary, pr
   };
 }
 
+export interface ComparedRun { manifest: Manifest; summary: RunSummary }
+
+export interface CompareRunsOptions {
+  /** Additional runs whose fidelity probes may vouch for a reference from another environment. */
+  probes?: readonly Manifest[];
+  strictEnvironment?: boolean;
+}
+
+/** Check summary compatibility before offering environment-probe guidance. */
+export function compareRuns(
+  runs: { baseline: ComparedRun; candidate: ComparedRun; previous?: ComparedRun },
+  options: CompareRunsOptions = {},
+): ComparisonReport {
+  const { baseline, candidate, previous } = runs;
+  const report = compareSummaries(baseline.summary, candidate.summary, previous?.summary);
+  const references: Array<{ role: ReferenceRole; manifest: Manifest }> = [{ role: "baseline", manifest: baseline.manifest }];
+  if (previous) references.push({ role: "previous", manifest: previous.manifest });
+  const evidence = [candidate.manifest, ...references.map(reference => reference.manifest), ...(options.probes ?? [])];
+  const differences = environmentDifferences(references, candidate.manifest, evidence, options.strictEnvironment ?? false);
+  return {
+    ...report,
+    ...(differences.length ? { environmentDifferences: differences } : {}),
+    generatorProvenance: [...references, { role: "candidate" as const, manifest: candidate.manifest }].map(({ role, manifest }) => ({
+      role, runId: manifest.id, commit: manifest.generator.commit,
+      dirty: manifest.generator.dirty, sourceDigest: manifest.generator.sourceDigest,
+    })),
+  };
+}
+
 const cell = (value: string): string => value.replace(/\|/g, "\\|").replace(/[\r\n]/g, " ");
 const signed = (value: number): string => `${value > 0 ? "+" : ""}${value.toFixed(3)}`;
 const delta = (value: number | null): string => value === null ? "n/a" : signed(value);
 const observation = (metric: MetricCount): string => `${metric.hits}/${metric.eligible} (${metric.rate === null ? "n/a" : `${(metric.rate * 100).toFixed(3)}%`})`;
 const range = (replicates: ReplicateDeltas): string => `${delta(replicates.minimumPercentagePoints)} to ${delta(replicates.maximumPercentagePoints)}`;
 const formatNumber = (value: number | null): string => value === null ? "n/a" : value.toFixed(6);
+const runtime = (environment: RunEnvironment): string =>
+  `Node ${cell(environment.node)} ${cell(environment.platform)}/${cell(environment.arch)}, lock ${environment.packageLockDigest.slice(0, 12)}`;
+
+function environmentLines(differences: readonly EnvironmentDifference[]): string[] {
+  return [
+    "", "## Environment differences", "",
+    "These references were produced in a different runtime or dependency lock than the candidate. Each was accepted because a run captured in the candidate's environment regenerated that reference's fixed review draws byte for byte (the fidelity probe). That is strong evidence, not proof, that every archived word would regenerate identically. The probe tests generation only: a difference in the evaluation runtime is disclosed here but not tested. Pass --strict-environment to refuse such comparisons.", "",
+    "| Reference | Run | Generation: reference → candidate | Evaluation: reference → candidate | Fidelity probe run |",
+    "|---|---|---|---|---|",
+    ...differences.map(item => `| ${item.role} | ${cell(item.runId)} | ${runtime(item.generation.reference)} → ${runtime(item.generation.candidate)} | ${runtime(item.evaluation.reference)} → ${runtime(item.evaluation.candidate)} | ${cell(item.fidelityProbeRunId)} |`),
+  ];
+}
 
 export function comparisonMarkdown(report: ComparisonReport): string {
   const hasPrevious = report.previousId !== undefined;
   const lines = [
     `# Quality comparison: ${cell(report.candidateId)}`, "",
     `Original baseline: ${cell(report.baselineId)}. Cohort: ${report.cohort}.${hasPrevious ? ` Previous step: ${cell(report.previousId!)}.` : ""}`, "",
+    ...(report.generatorProvenance ? [
+      "| Role | Run | Generator commit | Generator state | Source digest |",
+      "|---|---|---|---|---|",
+      ...report.generatorProvenance.map(item => `| ${item.role} | ${cell(item.runId)} | ${cell(item.commit)} | ${item.dirty ? "dirty (uncommitted generator changes)" : "clean"} | ${cell(item.sourceDigest)} |`),
+      "",
+    ] : []),
     "These are sample observations, not paired words or human-quality proof. Changes in RNG consumption can change every later word in a stream. Replicate ranges describe variation across seed streams; they are not confidence intervals. Zero observed invariant violations does not prove the invariant for every possible output. No automatic pass/fail judgment is made.", "",
     "Rates show hits/eligible words; n/a means no eligible words. Deltas are percentage points (candidate minus reference). Changing eligibility and output composition can change aggregate rates; inspect the strata and count distributions in the JSON report. Directions describe individual diagnostics, not an overall quality score.", "",
     `Protocol: ${report.protocolDigest}. Evaluator: ${report.evaluatorDigest}. Reference: ${report.referenceDigest}.`,
+    ...(report.environmentDifferences ? environmentLines(report.environmentDifferences) : []),
   ];
   for (const profile of report.profiles) {
     lines.push("", `## ${cell(profile.id)}`, "", `${profile.words} draws per run.`, "",

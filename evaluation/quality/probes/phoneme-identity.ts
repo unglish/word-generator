@@ -1,14 +1,16 @@
+import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { createInterface } from "node:readline";
+import { pipeline } from "node:stream/promises";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { createGunzip, gunzipSync } from "node:zlib";
 import { readRun, validateProtocol } from "../capture.js";
 import { digest } from "../serialization.js";
 import type { SourceFile } from "../serialization.js";
-import type { Draw, SourceArchive } from "../model.js";
+import type { Draw, Manifest, SourceArchive } from "../model.js";
 import { observeWordIdentity, projectIdentityStress, projectLegacyArpabet } from "../../../src/phonology/identity.js";
 import type { WordIdentityObservation } from "../../../src/phonology/identity.js";
 
@@ -90,28 +92,57 @@ async function localSources(root: string): Promise<SourceFile[]> {
   ].map(async path => ({ path, content: await readFile(join(root, path), "utf8") })));
 }
 
-async function verifyTooling(root: string, expected: SourceFile[]): Promise<void> {
-  for (const file of expected) {
-    if (!/^evaluation\/quality\/[^/]+\.(ts|json)$/.test(file.path)) throw new Error("Unexpected foundation source path.");
-    if (await readFile(join(root, file.path), "utf8") !== file.content) throw new Error(`Frozen foundation source differs: ${file.path}`);
+/**
+ * The committed manifest recording the observed words' provenance, plus the SHA-256 of each
+ * word archive's decompressed content. Compressed bytes depend on the zlib build; content does not.
+ */
+export interface OriginalRun { manifest: string; manifestDigest: string; wordContent: Record<string, string> }
+
+async function readOriginal(root: string, original: OriginalRun): Promise<Manifest> {
+  const envelope = JSON.parse(await readFile(resolve(root, original.manifest), "utf8")) as { manifest: Manifest; digest: string };
+  if (digest(envelope.manifest) !== original.manifestDigest || envelope.digest !== original.manifestDigest) {
+    throw new Error("The pinned original manifest is altered.");
+  }
+  return envelope.manifest;
+}
+
+async function decompressedDigest(path: string): Promise<string> {
+  const hash = createHash("sha256");
+  await pipeline(createReadStream(path), createGunzip(), hash);
+  return hash.digest("hex");
+}
+
+/** Require the run's word archives to decompress to exactly the pinned original content. */
+async function requireOriginalWords(directory: string, manifest: Manifest, wordContent: Record<string, string>): Promise<void> {
+  const files = manifest.artifacts.filter(artifact => artifact.file.startsWith("words/")).map(artifact => artifact.file).sort();
+  if (digest(files) !== digest(Object.keys(wordContent).sort())) throw new Error("The archived word streams differ from the pinned original run.");
+  for (const file of files) {
+    if (await decompressedDigest(join(directory, file)) !== wordContent[file]) throw new Error(`The archived words differ from the pinned original run: ${file}`);
   }
 }
 
-export async function analyzeIdentityRun(directory: string) {
+/**
+ * The probe pins the words it observes, not the evaluator that scored them: any run whose
+ * decompressed archives and generator provenance match the original (the original cache or
+ * a regeneration under a later harness) is the same input. `original` defaults to the protocol's pin.
+ */
+export async function analyzeIdentityRun(directory: string, original?: OriginalRun) {
   const root = fileURLToPath(new URL("../../../", import.meta.url));
   const sources = await localSources(root);
-  const definitions = JSON.parse(sources[2].content) as { foundationEvaluatorDigest: string };
+  const definitions = JSON.parse(sources[2].content) as { originalRun: OriginalRun };
   const { manifest, summary } = await readRun(directory, true);
   validateProtocol(manifest.protocol);
   if (manifest.cohort !== "development") throw new Error("This preregistered probe uses development archives only.");
+  const originalRun = original ?? definitions.originalRun;
+  const pinned = await readOriginal(root, originalRun);
+  if (manifest.protocolDigest !== pinned.protocolDigest || manifest.generator.commit !== pinned.generator.commit ||
+      manifest.generator.sourceDigest !== pinned.generator.sourceDigest) {
+    throw new Error("The archive's protocol or generator differs from the pinned original run.");
+  }
+  await requireOriginalWords(directory, manifest, originalRun.wordContent);
   if (!manifest.artifacts.some(artifact => artifact.file === "sources.json.gz")) throw new Error("The source archive must be pinned.");
   const sourceArchive = JSON.parse(gunzipSync(await readFile(join(directory, "sources.json.gz"))).toString("utf8")) as SourceArchive;
   if (digest(sourceArchive.generator) !== manifest.generator.sourceDigest) throw new Error("Archived generator source mismatch.");
-  if (manifest.evaluatorDigest !== definitions.foundationEvaluatorDigest ||
-      digest({ files: sourceArchive.evaluator, definitions: summary.definitions }) !== definitions.foundationEvaluatorDigest) {
-    throw new Error("The pinned standalone foundation evaluator is required.");
-  }
-  await verifyTooling(root, sourceArchive.evaluator);
   const expectedSchedule = manifest.protocol.profiles.map(profile => ({
     id: profile.id, words: profile.seeds.development.length * manifest.protocol.wordsPerReplicate,
     replicates: profile.seeds.development.map(seed => ({ seed, words: manifest.protocol.wordsPerReplicate })),
@@ -169,7 +200,6 @@ export async function analyzeIdentityRun(directory: string) {
   const after = await readRun(directory, true);
   if (digest(after.manifest) !== digest(manifest)) throw new Error("Archive provenance changed during observation.");
   if (digest(await localSources(root)) !== digest(sources)) throw new Error("Observer sources changed during observation.");
-  await verifyTooling(root, sourceArchive.evaluator);
   return { schemaVersion: 1, definitions, observer: { digest: digest(sources), sources },
     run: { id: manifest.id, manifestDigest: digest(manifest), generatorCommit: manifest.generator.commit, generatorSourceDigest: manifest.generator.sourceDigest,
       generatorDirty: manifest.generator.dirty, protocolDigest: manifest.protocolDigest, referenceDigest: manifest.referenceDigest,

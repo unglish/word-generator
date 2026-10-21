@@ -11,5 +11,30 @@
   "lineage": "Recorded reduction is counted separately from unknown underlying identity; no recovered lexical identity is inferred from a reduced flag.",
   "strata": "Each profile and seed, plus actual morphology template x final syllable count. Raw symbols and observed stress remain separate dimensions.",
   "acceptance": "Complete accounting, aligned missingness, exact parity with the legacy mapping where defined, immutable input archives, repeatable observer reports and output/RNG parity in public-API fixtures. Coverage is diagnostic, not a wordlikeness score. No acceptance gate is tuned on these counts.",
-  "foundationEvaluatorDigest": "ad7bf7980d18a9e4ed8084c5b3ea0b6f43ae24722db44b99f38a5da15c404007"
+  "originalRun": {
+    "manifest": "evaluation/quality/baselines/2026-09-26-development-standalone/manifest.json",
+    "manifestDigest": "a23414ae34d3611c4367d07ad677afb99e7d89a4be7886e6ed95018c2ff3f3da",
+    "wordContent": {
+      "words/lexicon-bare-1304238451.jsonl.gz": "e64445294d11e24ad9142291d0ba1247e1002228e92bc24dc7ae0d56eb8cfc2d",
+      "words/lexicon-bare-1498885173.jsonl.gz": "cf870f735f6855697b50e409b3c8679a44b5ad959ea229a8c5188819fe6d91d5",
+      "words/lexicon-bare-1696751198.jsonl.gz": "d6ed5597ac8287672ea78abf23d97f9b0baf37412ce13bebb2fed6b6a67141f4",
+      "words/lexicon-bare-2380207674.jsonl.gz": "4461db130ebab00d0e4acdcc4c3613eb487182730f412f785cea38d20e39216a",
+      "words/lexicon-bare-772709128.jsonl.gz": "a7d7869a10ab1318b619273eb962cf9d3e1f592d3b4d8827c73d34e6cb1df435",
+      "words/lexicon-default-101601885.jsonl.gz": "de0e2392d0eeaf3a40c9d9ee491bce4d1991be6d3ce34cfe95acee24ae93af91",
+      "words/lexicon-default-2089697863.jsonl.gz": "7ad928d90dceaa95c3f8fc882e4f6555e5e3a5ad1b0c5726ca3d625a0899687b",
+      "words/lexicon-default-3921817393.jsonl.gz": "e34f37e6c9f1b4588ef0b64eb6f9fadef704aa4de6b5da07ac1c5a2e935570f3",
+      "words/lexicon-default-3948943232.jsonl.gz": "b79636a12554a142a37b73df1df94262bbb4698d306f12057367a40715eb4c94",
+      "words/lexicon-default-69212153.jsonl.gz": "89c8592d8323a0d98c1aca69a1afdaa6f182d405a1f8cc2bb99e857cf5cdfaa0",
+      "words/monosyllables-bare-2001884366.jsonl.gz": "726c543ec34a1fb0f46881ba0b1e27cf1e02b21a9cb9dbeea3d0ebae9ead85fd",
+      "words/monosyllables-bare-2353354178.jsonl.gz": "9ca1011ce1876edf779975d4b66deb0a628b7727afb0fe71922d4c9232d61636",
+      "words/monosyllables-bare-3297327738.jsonl.gz": "74e12ec4a6926e67f646f584460b93cbd54092f57ae44714d78298b5437bdacc",
+      "words/monosyllables-bare-462530651.jsonl.gz": "c1014ab00bdbbe153fe84fca0936000acd8d69421387558cddeefe4e6a836984",
+      "words/monosyllables-bare-62358955.jsonl.gz": "ada5e5e64dba0b6a029580fee83e396dfe9be7bae0b54259edcbb71f6d89f045",
+      "words/text-default-1665836705.jsonl.gz": "258db9970bc52c4f3b3309d62511542a4667bb40563b040a9c659ed53a868a40",
+      "words/text-default-1999736106.jsonl.gz": "7743b29ae0a0333da8481f1d8cf5889020f2abfd51a8397738e183ba6110ff02",
+      "words/text-default-2666001996.jsonl.gz": "bbe9128684be700675c0419bd186957d5487be6b154b94581bafc7cb54cce4f2",
+      "words/text-default-3562318933.jsonl.gz": "84bb5d4d6ff2a2eb5c705370bedada7f234d10775d54e1dbae0195339a35d181",
+      "words/text-default-4167471042.jsonl.gz": "58ed96cfa5e8c4f7511badea46c57cadb926de1230ffd8880535cc7ef354e3e8"
+    }
+  }
 }

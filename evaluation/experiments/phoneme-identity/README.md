@@ -39,34 +39,54 @@ missing representational evidence, not 50,000 stress errors. Likewise, the
 200,000 supported syllable structures establish slot compatibility only, not
 legal rimes, plausible words or an implemented General American dialect.
 
-Reproduction requires the original raw archives and the pinned #307 evaluator
-documented in `docs/phoneme-identity.md`; the committed compressed report is not
-a replacement for the archives. The observer protocol was fixed before this run.
+Reproduction requires word archives whose decompressed content is identical to the
+original's, as documented in `docs/phoneme-identity.md`. The committed compressed
+report is not a replacement for the archives. Any machine can regenerate them from
+`3fd474d`. The observer protocol was fixed before this run.
 
 ```sh
 npx vitest run --config vitest.identity.config.ts
 npx tsc -p tsconfig.identity.json
+git worktree add --detach /tmp/unglish-3fd474d 3fd474d
+npm run quality:capture -- --generator-root /tmp/unglish-3fd474d \
+  --id regen-original --cohort development --out /path/to/regen-original
 node --import tsx evaluation/quality/probes/phoneme-identity.ts \
-  --run /path/to/2026-09-26-development-standalone \
+  --run /path/to/regen-original \
   --out /new/path/identity-original.json
 python3 evaluation/experiments/phoneme-identity/verify_identity_counts.py \
-  /path/to/2026-09-26-development-standalone \
+  /path/to/regen-original \
   /new/path/identity-original.json /new/path/independent-check.json
 ```
+
+The input contract was revised in #352. The probe now pins the original words by
+the SHA-256 of their decompressed archives instead of requiring the frozen #307
+quality harness. A regeneration under the revised harness on the original machine
+type (Node v24.11.1, darwin/arm64) had all 20 compressed archives byte-identical to
+the committed manifest's pins, so their decompressed content equals the probe's
+pins. Re-running the revised probe on it gave profiles and witnesses identical to
+`identity-original.json.gz`, and the independent Python check agreed on every
+count. A regeneration on linux/x64 (Node v24.22.0) matched none of the compressed
+hashes but every decompressed pin, and the probe again reproduced the committed
+profiles and witnesses. Apart from those, the reports differ only in run provenance
+(ID, manifest digest, evaluator digest, and for Linux the environment and
+compressed archive hashes) and the observer's own sources (the revised protocol
+file in `definitions` and the observer fingerprint).
 
 The observer checks full archive integrity before and after processing; it
 requires pinned source contents, their generator digest, exact expected/pinned/
 filesystem shard sets, and matching summary/measured profile and seed schedules.
 It never regenerates words or overwrites an existing result.
 
-Verification: 25 observer tests; 19 archive-integrity fixtures; full unit suite
-422 passed/1 skipped; quality suite 12 passed; strict runtime and observer/probe
-typechecks passed; touched-file lint passed. Full repository lint retains 11
-pre-existing errors in unchanged `language.test.ts`, `generate.ts` and `write.ts`.
-The 2,000-word public-API fixture verifies unchanged words, trace-on/off parity,
-RNG-call equality and the next RNG value, including when observations are mutated.
+Verification of the original run: 25 observer tests; 19 archive-integrity
+fixtures; full unit suite 422 passed/1 skipped; quality suite 12 passed; strict
+runtime and observer/probe typechecks passed; touched-file lint passed. Full
+repository lint retains 11 pre-existing errors in unchanged `language.test.ts`,
+`generate.ts` and `write.ts`. The 2,000-word public-API fixture verifies unchanged
+words, trace-on/off parity, RNG-call equality and the next RNG value, including
+when observations are mutated. After the #352 revision, 25 observer tests and 23
+archive-integrity fixtures pass.
 
-Observer fingerprint:
+Observer fingerprint (original run):
 `476aeca7b45c1b7c9fc8bdd6481354c1c05543fd3b1f72c6726123cbbe3408f6`.
 Original manifest digest:
 `a23414ae34d3611c4367d07ad677afb99e7d89a4be7886e6ed95018c2ff3f3da`.
