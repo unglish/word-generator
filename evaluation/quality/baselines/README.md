@@ -58,3 +58,7 @@ run of its own that `quality:verify` and `quality:rescore` accept; it does not
 fill in these directories' `words/`, whose compressed bytes can differ under
 another zlib build even when every word is identical. Compact source bundles,
 manifests, summaries, and evidence are committed alongside this README.
+
+Retain the original `words/` archives if you may need to rescore these runs after
+their generator can no longer execute. The rescore fallback requires those archives;
+it cannot recreate missing words from the compact evidence.

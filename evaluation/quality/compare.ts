@@ -64,6 +64,11 @@ export interface ComparisonReport {
   definitions: readonly MetricDefinition[];
   /** Present only when a reference came from another environment; see environment.ts. */
   environmentDifferences?: EnvironmentDifference[];
+  /** Available when comparing runs with manifests, rather than summaries alone. */
+  generatorProvenance?: Array<Pick<Manifest["generator"], "commit" | "dirty" | "sourceDigest"> & {
+    role: ReferenceRole | "candidate";
+    runId: string;
+  }>;
   profiles: Array<{
     id: string;
     words: number;
@@ -167,7 +172,12 @@ function requireCompatible(baseline: RunSummary, candidate: RunSummary): void {
   validateSummary(candidate);
   const fields = ["schemaVersion", "cohort", "protocolDigest", "evaluatorDigest", "referenceDigest"] as const;
   for (const field of fields) {
-    if (baseline[field] !== candidate[field]) throw new Error(`Incompatible quality summaries: ${field} differs.`);
+    if (baseline[field] !== candidate[field]) {
+      const advice = field === "evaluatorDigest"
+        ? " Run quality:pr or regenerate both revisions with the same harness and environment, then compare those runs. A fidelity probe cannot bridge an evaluator change."
+        : "";
+      throw new Error(`Incompatible quality summaries: ${field} differs.${advice}`);
+    }
   }
   if (digest(baseline.definitions) !== digest(candidate.definitions)) {
     throw new Error("Incompatible quality summaries: metric definitions differ.");
@@ -317,18 +327,25 @@ export interface CompareRunsOptions {
   strictEnvironment?: boolean;
 }
 
-/** Apply the environment gate to verified runs, then compare their summaries. */
+/** Check summary compatibility before offering environment-probe guidance. */
 export function compareRuns(
   runs: { baseline: ComparedRun; candidate: ComparedRun; previous?: ComparedRun },
   options: CompareRunsOptions = {},
 ): ComparisonReport {
   const { baseline, candidate, previous } = runs;
+  const report = compareSummaries(baseline.summary, candidate.summary, previous?.summary);
   const references: Array<{ role: ReferenceRole; manifest: Manifest }> = [{ role: "baseline", manifest: baseline.manifest }];
   if (previous) references.push({ role: "previous", manifest: previous.manifest });
   const evidence = [candidate.manifest, ...references.map(reference => reference.manifest), ...(options.probes ?? [])];
   const differences = environmentDifferences(references, candidate.manifest, evidence, options.strictEnvironment ?? false);
-  const report = compareSummaries(baseline.summary, candidate.summary, previous?.summary);
-  return differences.length ? { ...report, environmentDifferences: differences } : report;
+  return {
+    ...report,
+    ...(differences.length ? { environmentDifferences: differences } : {}),
+    generatorProvenance: [...references, { role: "candidate" as const, manifest: candidate.manifest }].map(({ role, manifest }) => ({
+      role, runId: manifest.id, commit: manifest.generator.commit,
+      dirty: manifest.generator.dirty, sourceDigest: manifest.generator.sourceDigest,
+    })),
+  };
 }
 
 const cell = (value: string): string => value.replace(/\|/g, "\\|").replace(/[\r\n]/g, " ");
@@ -355,6 +372,12 @@ export function comparisonMarkdown(report: ComparisonReport): string {
   const lines = [
     `# Quality comparison: ${cell(report.candidateId)}`, "",
     `Original baseline: ${cell(report.baselineId)}. Cohort: ${report.cohort}.${hasPrevious ? ` Previous step: ${cell(report.previousId!)}.` : ""}`, "",
+    ...(report.generatorProvenance ? [
+      "| Role | Run | Generator commit | Generator state | Source digest |",
+      "|---|---|---|---|---|",
+      ...report.generatorProvenance.map(item => `| ${item.role} | ${cell(item.runId)} | ${cell(item.commit)} | ${item.dirty ? "dirty (uncommitted generator changes)" : "clean"} | ${cell(item.sourceDigest)} |`),
+      "",
+    ] : []),
     "These are sample observations, not paired words or human-quality proof. Changes in RNG consumption can change every later word in a stream. Replicate ranges describe variation across seed streams; they are not confidence intervals. Zero observed invariant violations does not prove the invariant for every possible output. No automatic pass/fail judgment is made.", "",
     "Rates show hits/eligible words; n/a means no eligible words. Deltas are percentage points (candidate minus reference). Changing eligibility and output composition can change aggregate rates; inspect the strata and count distributions in the JSON report. Directions describe individual diagnostics, not an overall quality score.", "",
     `Protocol: ${report.protocolDigest}. Evaluator: ${report.evaluatorDigest}. Reference: ${report.referenceDigest}.`,

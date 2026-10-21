@@ -38,13 +38,18 @@ This works from a clean clone with no archives. It finds the merge base of `HEAD
 and `--base` (default `origin/main`), checks that revision out into a temporary
 Git worktree, captures it as `baseline/`, captures the current checkout (including
 uncommitted generator edits, recorded as a dirty patch) as `candidate/`, and
-writes `comparison.json` and `comparison.md` beside them. The default output is a
-new timestamped directory under `memory/quality-pr/`. The base is your local
+writes `comparison.json` and `comparison.md` beside them. Both reports identify
+each generator's commit, clean or dirty state, and source digest, so an uncommitted
+candidate is distinguishable from its commit. The default output is a new
+timestamped directory under `memory/quality-pr/`. The base is your local
 `origin/main`, so run `git fetch` first. A full development cohort takes about
 three minutes and writes about 80 MB of archives per side, which can be deleted
 afterwards. The temporary worktree is deleted afterwards, including when capture
-fails; if the command is interrupted, `git worktree prune` removes a leftover
-registration.
+fails. If the command is interrupted, use `git worktree list` to identify its
+leftover `unglish-quality-merge-base-*` checkout, confirm that its capture is no
+longer running, and remove it with `git worktree remove --force <checkout-path>`.
+`git worktree prune` only removes stale registrations after their directories are
+gone; it does not delete an existing checkout.
 
 Both sides share the harness at `HEAD`, so evaluator edits never make the two
 incompatible. A branch with no generator changes reports zero for every numeric
@@ -90,8 +95,11 @@ requires each to serialize byte for byte as it does in that run's
 `review-samples.json.gz`. Otherwise it refuses before writing anything and names
 the first diverging draw, for example `regenerated lexicon-default seed 69212153
 draw 3 differs from its committed review sample`. A passing probe is recorded in
-the manifest's `fidelityProbes`. The original baseline revision `3fd474d` passes
-this probe against both committed cohorts, and its regenerated summaries equal the
+the manifest's `fidelityProbes`. Incomplete local directories without a manifest
+are skipped. A missing Git-tracked manifest, an invalid completed run, or damaged
+matching review samples still stops capture and names the run directory.
+The original baseline revision `3fd474d` passes this probe against both committed
+cohorts, and its regenerated summaries equal the
 committed ones metric for metric. A development regeneration on linux/x64 with a
 newer Node patch release also passed and matched.
 
@@ -105,8 +113,11 @@ identically: it checks 800 draws per cohort, not all 200,000. A dirty generator,
 or a revision with no matching committed run, is not probed.
 
 Regeneration cannot add evidence a revision never recorded. A metric that needs a
-trace field added after a revision cannot be measured on that revision; it must
-report missing evidence rather than a successful result.
+trace field added after a revision cannot be measured on that revision. The
+harness does not automatically detect every missing field. When adding a metric,
+check that the merge-base generator supplies its evidence and explicitly handle
+missing evidence before interpreting a comparison; an absent field must not be
+counted as a successful result.
 
 The committed baselines are stored in:
 
@@ -146,8 +157,10 @@ overwritten, including interrupted runs; choose a new ID/path when retrying.
 
 The manifests, summaries, source bundles, and compact evidence are versioned in
 Git. The much larger `words/` archives are deliberately ignored: they are a local
-cache of output any machine can regenerate, and need not be backed up. Comparisons
-verify the pinned summaries and work without raw archives; full verification
+cache while the generator can still be run. Retain the original archives if you
+may need the rescore fallback after a revision becomes impossible to run; that
+fallback cannot reconstruct missing archives. Routine regeneration needs no archive
+backup. Comparisons verify the pinned summaries and work without raw archives; full verification
 (`quality:verify`) and re-scoring read the archives of the run they are given. A
 content hash detects alterations relative to its manifest; versioning or retaining
 the original manifest is what prevents silently replacing both a file and its
@@ -174,8 +187,10 @@ remain visible. The report makes no automatic universal pass/fail claim.
 
 Comparison refuses mismatched cohorts, protocols, evaluators, metric definitions,
 reference data, profile/seed schedules, or draw counts. Regenerating both sides
-with the current harness is the way to compare across an evaluator change; do not
-edit hashes to force a comparison.
+with the current harness and environment is the way to compare across an evaluator
+change. Compatibility is checked before environment-probe guidance; `--probe`
+cannot make different evaluators comparable. Use `quality:pr` or compare the newly
+regenerated runs, and do not edit hashes to force a comparison.
 
 ### Runs from different environments
 
@@ -224,9 +239,10 @@ evaluation environment used their recorded generation environment for both.
 The new evaluator recomputes metrics, summaries, distribution scores, fixed review
 samples, and defect witnesses. Original metrics remain in the original archive.
 New evaluator definitions cannot recover observations omitted from historical
-traces: such metrics must explicitly represent missing evidence rather than
-silently treating it as a successful result. Reference changes require a separate
-versioned migration; this command deliberately uses the input's frozen tables.
+traces. Missing-field detection is not automatic: metric authors must check that
+the saved traces contain the evidence they need and explicitly handle its absence,
+rather than silently counting it as a successful result. Reference changes require
+a separate versioned migration; this command deliberately uses the input's frozen tables.
 
 Compare the rescored baseline with a candidate captured or rescored using that
 same evaluator. The environment rules above still apply to the generation

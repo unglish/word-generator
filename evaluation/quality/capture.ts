@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { constants, createReadStream, createWriteStream } from "node:fs";
-import { copyFile, mkdir, readFile, readdir, realpath, stat, writeFile } from "node:fs/promises";
-import { basename, dirname, join } from "node:path";
+import { copyFile, lstat, mkdir, readFile, readdir, realpath, stat, writeFile } from "node:fs/promises";
+import { basename, dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import { pathToFileURL } from "node:url";
@@ -253,11 +253,19 @@ async function evaluateCorpus(
   return { summary, files };
 }
 
-type GeneratorModule = Pick<typeof GeneratorApi, "createSeededRng" | "englishConfig" | "generateWord">;
+type GeneratorModule = Pick<typeof GeneratorApi, "createSeededRng" | "generateWord"> & { englishConfig: object };
 
 /** Load the public API of the checkout being measured, which may be another revision. */
 async function loadGenerator(generatorRoot: string): Promise<GeneratorModule> {
-  return await import(pathToFileURL(join(generatorRoot, "src/index.ts")).href) as GeneratorModule;
+  const api: unknown = await import(pathToFileURL(join(generatorRoot, "src/index.ts")).href);
+  const invalid = (name: string) => new Error(`Generator checkout ${generatorRoot} must export ${name} from src/index.ts.`);
+  if (typeof api !== "object" || api === null) throw invalid("a generator API");
+  if (!("createSeededRng" in api) || typeof api.createSeededRng !== "function") throw invalid("a createSeededRng function");
+  if (!("generateWord" in api) || typeof api.generateWord !== "function") throw invalid("a generateWord function");
+  if (!("englishConfig" in api) || typeof api.englishConfig !== "object" || api.englishConfig === null || Array.isArray(api.englishConfig)) {
+    throw invalid("an englishConfig object");
+  }
+  return api as GeneratorModule;
 }
 
 function* generatedDraws(generator: GeneratorModule, profile: Protocol["profiles"][number], seed: number, count: number): Generator<Draw> {
@@ -271,16 +279,38 @@ const drawKey = (draw: Pick<Draw, "profile" | "seed" | "drawIndex">): string => 
 
 interface CommittedRun { path: string; manifest: Manifest; reviewSamples: Draw[] }
 
+function trackedRunDirectories(root: string, directory: string): Set<string> {
+  const path = relative(resolve(root), resolve(directory));
+  if (isAbsolute(path) || path === ".." || path.startsWith("../")) return new Set();
+  const files = runGit(root, "ls-files", "--cached", "--full-name", "-z", "--", resolve(directory)).split("\0");
+  return new Set(files.filter(Boolean)
+    .map(file => relative(resolve(directory), resolve(root, file)))
+    .filter(file => /^[^/]+\/manifest\.json$/.test(file))
+    .map(file => dirname(file)));
+}
+
 /** Committed runs of the same protocol, cohort, and clean generator revision. */
-async function matchingCommittedRuns(directory: string, cohort: Cohort, protocol: Protocol, generator: Manifest["generator"]): Promise<CommittedRun[]> {
+async function matchingCommittedRuns(root: string, directory: string, cohort: Cohort, protocol: Protocol, generator: Manifest["generator"]): Promise<CommittedRun[]> {
   if (generator.dirty) return [];
   const entries = await readdir(directory, { withFileTypes: true });
+  const tracked = trackedRunDirectories(root, directory);
+  const names = new Set([...entries.filter(item => item.isDirectory()).map(item => item.name), ...tracked]);
   const runs: CommittedRun[] = [];
-  for (const entry of entries.filter(item => item.isDirectory()).sort((a, b) => a.name.localeCompare(b.name, "en"))) {
-    const path = join(directory, entry.name);
-    const { manifest } = await readRun(path);
-    if (manifest.cohort !== cohort || manifest.protocolDigest !== digest(protocol) || manifest.generator.commit !== generator.commit || manifest.generator.dirty) continue;
-    runs.push({ path, manifest, reviewSamples: await readPinnedJson<Draw[]>(path, manifest, "review-samples.json.gz") });
+  for (const name of [...names].sort((a, b) => a.localeCompare(b, "en"))) {
+    const path = join(directory, name);
+    try {
+      await lstat(join(path, "manifest.json"));
+    } catch (error) {
+      if (!tracked.has(name) && error instanceof Error && "code" in error && error.code === "ENOENT") continue;
+      throw new Error(`Cannot read committed-run manifest at ${path}.`, { cause: error });
+    }
+    try {
+      const { manifest } = await readRun(path);
+      if (manifest.cohort !== cohort || manifest.protocolDigest !== digest(protocol) || manifest.generator.commit !== generator.commit || manifest.generator.dirty) continue;
+      runs.push({ path, manifest, reviewSamples: await readPinnedJson<Draw[]>(path, manifest, "review-samples.json.gz") });
+    } catch (error) {
+      throw new Error(`Invalid committed run at ${path}: ${error instanceof Error ? error.message : String(error)}`, { cause: error });
+    }
   }
   return runs;
 }
@@ -326,7 +356,7 @@ export async function captureRun(options: CaptureOptions): Promise<RunSummary> {
     effectiveConfig: canonical(generatorApi.englishConfig),
     patch: git("diff", "HEAD", "--", "src"),
   };
-  const committedRuns = await matchingCommittedRuns(options.committedRuns ?? join(root, "evaluation/quality/baselines"), cohort, protocol, generator);
+  const committedRuns = await matchingCommittedRuns(root, options.committedRuns ?? join(root, "evaluation/quality/baselines"), cohort, protocol, generator);
   const fidelityProbes = committedRuns.map(run => probeFidelity(generatorApi, protocol, cohort, run));
   const source: DrawSource = async function* (profile, seed) {
     yield* generatedDraws(generatorApi, profile, seed, protocol.wordsPerReplicate);

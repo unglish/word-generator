@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { cp, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { gunzipSync, gzipSync } from "node:zlib";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { captureRun, readRun } from "./capture.js";
@@ -122,6 +122,64 @@ describe("regenerated quality baselines", () => {
     expect((await readRun(unrelated)).manifest.fidelityProbes).toBeUndefined();
   }, timeout);
 
+  it("skips incomplete local runs without skipping a completed run's probe", async () => {
+    const inputs = join(directory, "incomplete-inputs");
+    await cp(committed, inputs, { recursive: true });
+    await mkdir(join(inputs, "interrupted"));
+    const out = join(directory, "past-incomplete");
+    await captureRun({ root, generatorRoot: checkout, committedRuns: inputs, out, id: "past-incomplete", cohort: "development", protocol });
+    expect((await readRun(out)).manifest.fidelityProbes).toEqual([
+      { runId: "fixture-run", manifestDigest: digest((await readRun(join(committed, "fixture-run"))).manifest), reviewDraws: 4 },
+    ]);
+  }, timeout);
+
+  it.each([false, true])("refuses a missing tracked manifest even when its entire directory is removed: %s", async removeDirectory => {
+    const path = "evaluation/quality/baselines/missing-tracked";
+    const run = join(checkout, path);
+    await mkdir(run);
+    await cp(join(committed, "fixture-run/manifest.json"), join(run, "manifest.json"));
+    git(checkout, "add", "--", `${path}/manifest.json`);
+    try {
+      await rm(removeDirectory ? run : join(run, "manifest.json"), { recursive: true });
+      const out = join(directory, `missing-tracked-${removeDirectory}`);
+      await expect(captureRun({ root: checkout, out, id: "refused", cohort: "development", protocol }))
+        .rejects.toThrow(`Cannot read committed-run manifest at ${run}.`);
+      await expect(stat(out)).rejects.toMatchObject({ code: "ENOENT" });
+    } finally {
+      git(checkout, "reset", "--", path);
+      await rm(run, { recursive: true, force: true });
+    }
+  }, timeout);
+
+  it.each(["manifest.json", "summary.json", "review-samples.json.gz"])("refuses damaged historical evidence: %s", async file => {
+    const inputs = join(directory, `damaged-${file}`);
+    const run = join(inputs, "fixture-run");
+    await cp(join(committed, "fixture-run"), run, { recursive: true });
+    await writeFile(join(run, file), "damaged evidence");
+    const out = join(directory, `refused-${file}`);
+    await expect(captureRun({ root, generatorRoot: checkout, committedRuns: inputs, out, id: "refused", cohort: "development", protocol }))
+      .rejects.toThrow(`Invalid committed run at ${run}:`);
+    await expect(stat(out)).rejects.toMatchObject({ code: "ENOENT" });
+  }, timeout);
+
+  it.each([
+    ["createSeededRng", "undefined", "a createSeededRng function"],
+    ["generateWord", "42", "a generateWord function"],
+    ["englishConfig", "undefined", "an englishConfig object"],
+    ["englishConfig", "null", "an englishConfig object"],
+    ["englishConfig", "[]", "an englishConfig object"],
+  ])("names the checkout and invalid export %s = %s", async (name, value, description) => {
+    const generatorRoot = await mkdtemp(join(directory, "invalid-api-"));
+    await mkdir(join(generatorRoot, "src"));
+    const exports = { createSeededRng: "() => () => 0", generateWord: "() => null", englishConfig: "{}", [name]: value };
+    await writeFile(join(generatorRoot, "src/index.ts"), Object.entries(exports).map(([key, expression]) => `export const ${key} = ${expression};`).join("\n"));
+    git(generatorRoot, "init", "-q");
+    const out = join(generatorRoot, "result");
+    await expect(captureRun({ root, generatorRoot, out, id: "invalid-api", cohort: "development", protocol }))
+      .rejects.toThrow(`Generator checkout ${generatorRoot} must export ${description} from src/index.ts.`);
+    await expect(stat(out)).rejects.toMatchObject({ code: "ENOENT" });
+  }, timeout);
+
   it.each([
     ["an altered", (samples: Draw[]) => { samples.find(draw => draw.seed === 123 && draw.drawIndex === 1)!.word.written.clean += "x"; },
       "regenerated lexicon seed 123 draw 1 differs from its committed review sample."],
@@ -176,6 +234,40 @@ describe("regenerated quality baselines", () => {
     expect(() => compareRuns({ baseline: plain, previous, candidate: plain }, { strictEnvironment: true }))
       .toThrow("Evaluation runtime or dependency lock differs.");
     expect(() => compareRuns({ baseline: plain, previous, candidate: plain })).toThrow("The previous run fixture-run comes from a different runtime");
+    const evaluationProbe = join(directory, "evaluation-probe");
+    const evaluationInputs = join(directory, "evaluation-inputs");
+    await cp(evaluated, join(evaluationInputs, "fixture-run"), { recursive: true });
+    await captureRun({ root, generatorRoot: checkout, committedRuns: evaluationInputs, out: evaluationProbe, id: "evaluation-probe", cohort: "development", protocol });
+    const probes = [(await readRun(evaluationProbe)).manifest];
+    expect(compareRuns({ baseline: plain, previous, candidate: plain }, { probes }).environmentDifferences)
+      .toEqual([expect.objectContaining({ role: "previous", fidelityProbeRunId: "evaluation-probe" })]);
+    expect(() => compareRuns({ baseline: plain, previous, candidate: plain }, { probes, strictEnvironment: true }))
+      .toThrow("Evaluation runtime or dependency lock differs.");
+  }, timeout);
+
+  it.each(["baseline", "previous"] as const)("reports an incompatible %s evaluator before suggesting a fidelity probe", async role => {
+    const candidate = await readRun(join(committed, "fixture-run"));
+    const reference = structuredClone(candidate);
+    reference.manifest.environment.node = "v0.0.0-elsewhere";
+    reference.manifest.evaluatorDigest = reference.summary.evaluatorDigest = "different-evaluator";
+    const runs = role === "baseline" ? { baseline: reference, candidate } : { baseline: candidate, previous: reference, candidate };
+    expect(() => compareRuns(runs)).toThrow("evaluatorDigest differs. Run quality:pr or regenerate both revisions with the same harness and environment");
+  }, timeout);
+
+  it("removes the temporary worktree after baseline capture fails and preserves the error", async () => {
+    const base = git(checkout, "rev-parse", "HEAD");
+    let temporaryCheckout = "";
+    const progress = () => {
+      const block = git(root, "worktree", "list", "--porcelain").split("\n\n")
+        .find(block => block.includes("unglish-quality-merge-base-") && block.includes(`\nHEAD ${base}\n`));
+      expect(block).toBeDefined();
+      temporaryCheckout = block!.split("\n")[0].slice("worktree ".length);
+    };
+    await expect(compareWithMergeBase({ root: checkout, base, out: join(directory, "failed-baseline"), cohort: "development", protocol: { ...protocol, wordsPerReplicate: 0 }, progress }))
+      .rejects.toThrow("Invalid quality protocol version, ID, or sample size.");
+    expect(temporaryCheckout).not.toBe("");
+    expect(git(root, "worktree", "list", "--porcelain")).not.toContain(temporaryCheckout);
+    await expect(stat(dirname(temporaryCheckout))).rejects.toMatchObject({ code: "ENOENT" });
   }, timeout);
 
   it("compares a branch with its merge base in one command and reports zero deltas without generator changes", async () => {
@@ -202,5 +294,29 @@ describe("regenerated quality baselines", () => {
     // Other checkouts of this repository may be running their own comparisons concurrently.
     expect(scratchWorktrees().filter(line => !before.includes(line))).toEqual([]);
     await expect(compareWithMergeBase({ root: checkout, base, out, cohort: "development", protocol })).rejects.toThrow();
+  }, timeout);
+
+  it("records uncommitted generator changes in both report formats", async () => {
+    const entry = join(checkout, "src/index.ts");
+    const original = await readFile(entry, "utf8");
+    const out = join(directory, "dirty-comparison");
+    try {
+      await writeFile(entry, `${original}\n// Uncommitted generator fixture\n`);
+      const report = await compareWithMergeBase({ root: checkout, base: "HEAD", out, cohort: "development", protocol });
+      const baseline = await readRun(join(out, "baseline"));
+      const candidate = await readRun(join(out, "candidate"));
+      expect(report.generatorProvenance).toEqual([
+        { role: "baseline", runId: baseline.manifest.id, commit: baseline.manifest.generator.commit, dirty: false, sourceDigest: baseline.manifest.generator.sourceDigest },
+        { role: "candidate", runId: candidate.manifest.id, commit: candidate.manifest.generator.commit, dirty: true, sourceDigest: candidate.manifest.generator.sourceDigest },
+      ]);
+      expect(candidate.manifest.generator.sourceDigest).not.toBe(baseline.manifest.generator.sourceDigest);
+      expect(JSON.parse(await readFile(join(out, "comparison.json"), "utf8")).generatorProvenance).toEqual(report.generatorProvenance);
+      const markdown = await readFile(join(out, "comparison.md"), "utf8");
+      expect(markdown).toContain(`| candidate | ${candidate.manifest.id} | ${candidate.manifest.generator.commit} | dirty (uncommitted generator changes) | ${candidate.manifest.generator.sourceDigest} |`);
+      const withPrevious = compareRuns({ baseline, candidate, previous: baseline });
+      expect(withPrevious.generatorProvenance).toContainEqual(expect.objectContaining({ role: "previous", runId: baseline.manifest.id, dirty: false }));
+    } finally {
+      await writeFile(entry, original);
+    }
   }, timeout);
 });
