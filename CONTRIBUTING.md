@@ -90,6 +90,31 @@ Boundary-drop tuning now lives under:
 `generationWeights.probability.boundaryDrop` is removed and should not be used
 in new or updated configs.
 
+## Writing Tests Against Generated Words
+
+Any change to how many random draws the generator makes moves every later word,
+so tests must not pin a seed or draw index to a particular word.
+
+- **Find your example.** A behavior test describes the word it needs and
+  searches for it with `findExample(predicate, { property, limit, ... })` from
+  `src/test-support/find-example.ts`. It scans consecutive seeds through the
+  public API and returns the first traced word that matches. Then assert the
+  behavior on that word, not its spelling. Select examples from recorded inputs,
+  such as selected graphemes. Keep the expected output out of the predicate so
+  partial regressions cannot disappear from the search. Cover relevant spelling
+  variants separately. When no word matches within `limit`, the test fails with
+  `No example of <property> within N words`. Treat that as
+  a sign the behavior became unreachable or much rarer, not as a seed to
+  re-pick. Keep `limit` a few times the expected gap. If the property is rare
+  under English weights, build a narrower config with `createGenerator`.
+- **Prefer relative invariants to counts.** For RNG consumption, compare traced
+  and untraced runs on identical streams instead of asserting a draw count.
+- **Exact output lives in one place.** `src/core/golden-output.test.ts` checks
+  the first 40 words (spelling, hyphenation, pronunciation and RNG draws) of a
+  few seed/mode/morphology cases against `src/core/golden-output.json`. When a
+  change is meant to alter output, run `npm run golden:update` and review the
+  fixture diff in the PR.
+
 ## Diagnostics Rule (Important)
 
 For n-gram anomalies and output outliers, use `trace: true` and ground claims in

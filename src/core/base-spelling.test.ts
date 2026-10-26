@@ -1,16 +1,28 @@
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
 import { BaseSpelling, expandReplacement, parseReplaceCallbackArgs } from "./base-spelling.js";
-import type { BaseSpellingTrace, SpellingCell } from "./base-spelling.js";
+import type { BaseSpellingTrace, SpellingCell, SpellingEdit } from "./base-spelling.js";
+import type { Word } from "../types.js";
+import { findExample, searchSeeds } from "../test-support/find-example.js";
 
-function archivedDraws(indices: number[]) {
-  const rand = createSeededRng(1304238451);
-  const selected = new Map<number, ReturnType<typeof generateWord>>();
-  for (let i = 0; i <= Math.max(...indices); i++) {
-    const word = generateWord({ rand, morphology: false, trace: indices.includes(i) });
-    if (indices.includes(i)) selected.set(i, word);
-  }
-  return selected;
+function editsFor(word: Word, rule: string): SpellingEdit[] {
+  return word.trace!.baseSpelling!.edits.filter(edit => edit.rule === rule);
+}
+
+/** A selection-cell origin, or undefined for rewritten cells. */
+function selectionOrigin(cell: SpellingCell | undefined) {
+  return cell?.origin.kind === "selection" ? cell.origin : undefined;
+}
+
+/** An edit that deletes part, but not all, of one multi-letter selected spelling. */
+function partialCut(word: Word, rule: string): SpellingEdit | undefined {
+  const base = word.trace!.baseSpelling!;
+  return editsFor(word, rule).find(edit => {
+    const unitId = selectionOrigin(edit.input[0])?.unitId;
+    return edit.after === "" && unitId !== undefined
+      && edit.input.every(cell => selectionOrigin(cell)?.unitId === unitId)
+      && base.units[unitId].selected.length > edit.before.length;
+  });
 }
 
 function expectLedgerReplay(base: BaseSpellingTrace): void {
@@ -58,58 +70,86 @@ function expectLedgerReplay(base: BaseSpellingTrace): void {
 }
 
 describe("exact base-spelling provenance", () => {
-  it("records a cut within th at its actual source cell without claiming it is repaired", () => {
-    const word = generateWord({ seed: 2643, morphology: true, trace: true });
-    expect(word.written.clean).toBe("bunhtreern");
+  it("records a cut within a multi-letter spelling at its actual source cell without claiming it is repaired", () => {
+    // A tighter consonant cap makes such cuts common enough to find quickly.
+    const generator = createGenerator({
+      ...englishConfig,
+      writtenFormConstraints: { ...englishConfig.writtenFormConstraints!, maxConsonantGraphemes: 3, maxConsonantLetters: 3 },
+    });
+    const { word } = findExample(word => partialCut(word, "repairConsonantLetters") !== undefined, {
+      property: "a consonant repair cutting part of one selected spelling", limit: 2000, generator, options: { morphology: true },
+    });
     const base = word.trace!.baseSpelling!;
-    const edit = base.edits.find(entry => entry.rule === "repairConsonantLetters")!;
-    expect(edit.before).toBe("t");
-    expect(edit.after).toBe("");
-    expect(edit.input[0].origin).toEqual({ kind: "selection", unitId: 3, offset: 0 });
-    expect(base.units[3].selected).toBe("th");
-    expect(base.phones[3].soundAtSpelling).toBe("θ");
-    expect(base.cells.filter(cell => cell.origin.kind === "selection" && cell.origin.unitId === 3).map(cell => cell.text).join("")).toBe("h");
+    const edit = partialCut(word, "repairConsonantLetters")!;
+    const { unitId } = selectionOrigin(edit.input[0])!;
+    const unit = base.units[unitId];
+    const cutOffsets = new Set(edit.input.map(cell => selectionOrigin(cell)!.offset));
+    const kept = [...unit.afterDoubling].filter((_, offset) => !cutOffsets.has(offset)).join("");
+    expect(kept.length).toBeGreaterThan(0);
+    expect(base.cells.filter(cell => selectionOrigin(cell)?.unitId === unitId).map(cell => cell.text).join("")).toBe(kept);
+    for (const phoneId of unit.phoneIds) expect(base.phones[phoneId].soundAtSpelling).toBeTruthy();
     expect(word.trace!.orthography!.alignment).toBe("inferred");
+    expectLedgerReplay(base);
   });
 
-  it("exposes the untraced join, boundary insertion and post-join vowel cap", () => {
-    const draws = archivedDraws([24, 216, 413]);
-    expect(draws.get(216)!.written.clean).toBe("fizeagsa");
-    expect(draws.get(216)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "deduplicateSyllableJoin", before: "e", after: "" }));
-    expect(draws.get(413)!.written.clean).toBe("iguems");
-    expect(draws.get(413)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "postJoinVowelCap", before: "a", after: "" }));
-    expect(draws.get(24)!.written.clean).toBe("jagguepeem");
-    expect(draws.get(24)!.trace!.baseSpelling!.edits).toContainEqual(expect.objectContaining({ rule: "orthographicRepair:hard-g-silent-u", before: "", after: "u" }));
+  it.each([
+    { rule: "deduplicateSyllableJoin", shape: (edit: SpellingEdit) => edit.before.length === 1 && edit.after === "" },
+    { rule: "postJoinVowelCap", shape: (edit: SpellingEdit) => /^[aeiouy]$/.test(edit.before) && edit.after === "" },
+    { rule: "orthographicRepair:hard-g-silent-u", shape: (edit: SpellingEdit) => edit.before === "" && edit.after === "u" },
+  ])("exposes the $rule edit without changing untraced output", ({ rule, shape }) => {
+    const { word, options } = findExample(word => editsFor(word, rule).some(shape), {
+      property: `a ${rule} edit`, limit: 2500, options: { morphology: false },
+    });
+    const base = word.trace!.baseSpelling!;
+    expectLedgerReplay(base);
+    expect(base.surface).toBe(word.written.clean);
+    const { trace, ...traced } = word;
+    expect(trace).toBeDefined();
+    expect(traced).toEqual(generateWord({ ...options, trace: false }));
   });
 
   it("records empty emission separately from phoneme deletion", () => {
-    const word = generateWord({ seed: 38, syllableCount: 1, morphology: false, trace: true });
+    const removesSelectedLetters = (edit: SpellingEdit) => edit.after === "" && edit.input.length > 0 && edit.input.every(cell => selectionOrigin(cell));
+    const { word } = findExample(word => editsFor(word, "deduplicateAdjacentLetters").some(removesSelectedLetters), {
+      property: "an adjacent-letter deduplication of selected letters", limit: 1500, options: { morphology: false },
+    });
     const base = word.trace!.baseSpelling!;
-    expect(word.written.clean).toBe("quants");
-    expect(base.units[6].afterDoubling).toBe("s");
-    expect(base.phones[6].soundAtSpelling).toBe("s");
-    expect(base.edits).toContainEqual(expect.objectContaining({ rule: "deduplicateAdjacentLetters", before: "s", after: "" }));
+    const edit = editsFor(word, "deduplicateAdjacentLetters").find(removesSelectedLetters)!;
+    const unit = base.units[selectionOrigin(edit.input[0])!.unitId];
+    // The unit emitted letters that were then removed; its phone was not deleted.
+    expect(unit.afterDoubling.length).toBeGreaterThan(0);
+    expect(unit.afterDoubling.includes(edit.before)).toBe(true);
+    const sounds = word.syllables.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda].map(phone => phone.sound));
+    for (const phoneId of unit.phoneIds) expect(sounds).toContain(base.phones[phoneId].soundAtSpelling);
+    expectLedgerReplay(base);
   });
 
-  it("keeps inserted silent-e ownership unresolved instead of assigning it to n", () => {
-    const word = generateWord({ seed: 3700, morphology: true, trace: true });
-    expect(word.written.clean).toBe("maner");
+  it("keeps inserted silent-e ownership unresolved instead of assigning it to a neighbour", () => {
+    const { word } = findExample(word => word.trace!.morphology!.template !== "bare" && editsFor(word, "silentE:marker").length > 0, {
+      property: "a silent-e insertion in an affixed root", limit: 300, options: { morphology: true },
+    });
     const base = word.trace!.baseSpelling!;
-    expect(base.surface).toBe("mane");
     expect(base.scope).toBe("root-before-morphology");
-    expect(base.cells[3].origin).toMatchObject({ kind: "rewrite", sourceUnitIds: [], ownership: "unresolved" });
-    expect(base.edits[0]).toMatchObject({ rule: "silentE:marker", before: "", after: "e" });
+    const edit = editsFor(word, "silentE:marker")[0];
+    expect(edit).toMatchObject({ before: "", after: "e" });
+    expect(edit.output).toHaveLength(1);
+    expect(edit.output[0].origin).toMatchObject({ kind: "rewrite", sourceUnitIds: [], ownership: "unresolved" });
+    expectLedgerReplay(base);
   });
 
   it("records a bare gap override as an exact edit with unresolved internal ownership", () => {
-    const options = { seed: 19, morphology: false, trace: true };
-    const source = generateWord(options);
-    const phonemes = source.syllables.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda].map(phone => phone.sound));
-    const generator = createGenerator({
-      ...englishConfig,
-      gapSpellings: [{ name: "probe", phonemes, replacement: "other", targetLayer: "unknown" }],
+    const options = { morphology: false, trace: true };
+    // The override changes the root's letter length, so it can change which attempt is accepted.
+    const { source, word } = searchSeeds({ property: "a bare gap override that survives root selection", limit: 50 }, seed => {
+      const source = generateWord({ ...options, seed });
+      const phonemes = source.syllables.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda].map(phone => phone.sound));
+      const generator = createGenerator({
+        ...englishConfig,
+        gapSpellings: [{ name: "probe", phonemes, replacement: "other", targetLayer: "unknown" }],
+      });
+      const word = generator.generateWord({ ...options, seed });
+      return word.trace!.baseSpelling!.scope === "bare-after-gap-spelling" ? { source, word } : undefined;
     });
-    const word = generator.generateWord(options);
     const base = word.trace!.baseSpelling!;
     expect(word.written.clean).toBe("other");
     expect(base.scope).toBe("bare-after-gap-spelling");
@@ -156,43 +196,31 @@ describe("exact base-spelling provenance", () => {
   });
 });
 
-// First outputs and 30-draw RNG controls were captured through the public API
-// on main 3b1d2661731ebd28cae99a1accf294c051b0e062, with tracing on and off.
+// Each case draws 30 words from a stream with tracing on and an identical stream
+// with it off, and requires identical words and draw counts. The stream starts at
+// the first seed whose word uses the rule. Exact output is pinned only by the
+// golden fixture (`npm run golden:update`).
 const replacementCases = [
-  {
-    name: "ck contraction", pattern: "ck", replacement: "k", flags: "g", scope: "both",
-    seed: 11, expectedWritten: { clean: "watrork", hyphenated: "wa&shy;trork" },
-    rngCalls: [2456, 2097], nextRng: [0.15194092551246285, 0.36783944605849683],
-  },
-  {
-    name: "vowel pair", pattern: "([aeiou])", replacement: "$1e", flags: "g", scope: "syllable",
-    seed: 0, expectedWritten: { clean: "baents", hyphenated: "baents" },
-    rngCalls: [5894, 3749], nextRng: [0.8373291860334575, 0.6905383476987481],
-  },
-  {
-    name: "silent-e marker", pattern: "([aeiou])([bcdfg])", replacement: "$1$2e", flags: "g", scope: "word",
-    seed: 5, expectedWritten: { clean: "beceatien", hyphenated: "bec&shy;a&shy;tien" },
-    rngCalls: [2055, 1724], nextRng: [0.5643121493048966, 0.6954051142092794],
-  },
-  {
-    // A generous replacement-size check, not a generated-word length target or limit.
-    name: "100-character replacement", pattern: "([aeiou])", replacement: "a".repeat(100), flags: "", scope: "word",
-    seed: 0, expectedWritten: { clean: "baants", hyphenated: "bants" },
-    rngCalls: [1994, 2292], nextRng: [0.5141555208247155, 0.6597050784621388],
-  },
+  { name: "ck contraction", pattern: "ck", replacement: "k", flags: "g", scope: "both" },
+  { name: "vowel pair", pattern: "([aeiou])", replacement: "$1e", flags: "g", scope: "syllable" },
+  { name: "silent-e marker", pattern: "([aeiou])([bcdfg])", replacement: "$1$2e", flags: "g", scope: "word" },
+  // A generous replacement-size check, not a generated-word length target or limit.
+  { name: "100-character replacement", pattern: "([aeiou])", replacement: "a".repeat(100), flags: "", scope: "word" },
 ] as const;
 
 describe.each([100, 53])("spelling replacements with probability %s", probability => {
-  it.each(replacementCases)("preserves output, RNG and cell provenance for $name", ({ name, pattern, replacement, flags, scope, seed, expectedWritten, rngCalls, nextRng }) => {
+  it.each(replacementCases)("preserves output, RNG and cell provenance for $name", ({ name, pattern, replacement, flags, scope }) => {
     const generator = createGenerator({
       ...englishConfig,
       spellingRules: [{ name, pattern, replacement, flags, scope, probability }],
+    });
+    const { seed } = findExample(word => editsFor(word, `spellingRule:${name}`).length > 0, {
+      property: `a ${name} replacement`, limit: 500, generator, options: { morphology: false },
     });
     const onRng = createSeededRng(seed);
     const offRng = createSeededRng(seed);
     let onCalls = 0;
     let offCalls = 0;
-    let observedReplacements = 0;
     for (let draw = 0; draw < 30; draw++) {
       const on = generator.generateWord({ morphology: false, trace: true, rand: () => { onCalls++; return onRng(); } });
       const off = generator.generateWord({ morphology: false, trace: false, rand: () => { offCalls++; return offRng(); } });
@@ -200,27 +228,22 @@ describe.each([100, 53])("spelling replacements with probability %s", probabilit
       expectLedgerReplay(base);
       expect(base.surface).toBe(on.written.clean);
       const edits = base.edits.filter(edit => edit.rule === `spellingRule:${name}`);
-      observedReplacements += edits.length;
+      for (const edit of edits) {
+        expect(edit.after).toBe(edit.before.replace(new RegExp(pattern, flags), replacement));
+      }
+      if (draw === 0) expect(edits.length).toBeGreaterThan(0);
       if (replacement.length === 100 && edits.length > 0) {
         expect(edits).toHaveLength(1);
         expect(edits[0].output).toHaveLength(100);
         expect(edits[0].after).toBe(replacement);
         expect(base.edits).toContainEqual(expect.objectContaining({ rule: "postJoinVowelCap", after: "" }));
       }
-      if (draw === 0) {
-        expect(on.written).toEqual(expectedWritten);
-        expect(edits.length).toBeGreaterThan(0);
-      }
       delete on.trace;
       expect(on).toEqual(off);
       expect(onCalls).toBe(offCalls);
     }
-    expect(observedReplacements).toBeGreaterThan(0);
-    const controlIndex = probability === 100 ? 0 : 1;
-    expect(onCalls).toBe(rngCalls[controlIndex]);
-    const nextOn = onRng();
-    expect(nextOn).toBe(offRng());
-    expect(nextOn).toBe(nextRng[controlIndex]);
+    // Both streams end in the same state: tracing consumed no extra draws.
+    expect(onRng()).toBe(offRng());
   });
 });
 

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord, generateWords } from "../index.js";
 import type { Word } from "../types.js";
 import { scoreGenerationAttempt } from "./length-semantics.js";
+import { findExample } from "../test-support/find-example.js";
 
 function phones(word: Word): number {
   return word.syllables.reduce((count, syllable) => count + syllable.onset.length + syllable.nucleus.length + syllable.coda.length, 0);
@@ -11,12 +12,16 @@ describe("complete rejection accounting", () => {
   it("distinguishes executed attempts from an early selected fallback", () => {
     const targets: Record<number, [number, number, number, number]> = { 1: [1000, 1000, 1000, 1000] };
     const generator = createGenerator({ ...englishConfig, syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets: targets } });
-    const word = generator.generateWord({ seed: 0, syllableCount: 1, morphology: false, trace: true });
+    // Every attempt is rejected; "early" means the best-scoring one was not the last.
+    const { word } = findExample(word => word.trace!.selection!.selectedAttempt < word.trace!.selection!.attemptsExecuted - 1, {
+      property: "a fallback selecting an attempt before the last", limit: 50, generator, options: { syllableCount: 1, morphology: false },
+    });
     const selection = word.trace!.selection!;
-    expect(selection).toMatchObject({ status: "fallback", acceptedBy: null, attemptsExecuted: 20, selectedAttempt: 1, rejectedAttempts: 20 });
-    expect(word.trace!.attempts).toBe(19);
-    expect(selection.rejectionReasons.letterLength).toBe(20);
-    expect(selection.proposedLengths.reduce((sum, bin) => sum + bin.count, 0)).toBe(20);
+    const maxAttempts = selection.criteria.maxAttempts;
+    expect(selection).toMatchObject({ status: "fallback", acceptedBy: null, attemptsExecuted: maxAttempts, rejectedAttempts: maxAttempts });
+    expect(word.trace!.attempts).toBe(maxAttempts - 1);
+    expect(selection.rejectionReasons.letterLength).toBe(maxAttempts);
+    expect(selection.proposedLengths.reduce((sum, bin) => sum + bin.count, 0)).toBe(maxAttempts);
     const minimumScore = Math.min(...selection.proposedLengths.map(bin => scoreGenerationAttempt(
       bin.phonemes, word.trace!.targetPhonemeCount!, bin.letters, bin.syllables, targets,
     ).total));
@@ -25,16 +30,23 @@ describe("complete rejection accounting", () => {
   });
 
   it("identifies relaxed acceptance after warmup", () => {
-    const word = generateWord({ seed: 1, morphology: false, trace: true });
+    const { word } = findExample(word => word.trace!.selection!.acceptedBy === "relaxed", {
+      property: "a relaxed acceptance", limit: 200, options: { morphology: false },
+    });
     const selection = word.trace!.selection!;
-    expect(selection).toMatchObject({ status: "accepted", acceptedBy: "relaxed", attemptsExecuted: 5, selectedAttempt: 4, rejectedAttempts: 4 });
-    expect(selection.selected.score).toMatchObject({ phonemeDistance: 0, letterPenalty: 0.5 });
+    const lastAttempt = selection.attemptsExecuted - 1;
+    expect(selection).toMatchObject({ status: "accepted", acceptedBy: "relaxed", selectedAttempt: lastAttempt, rejectedAttempts: lastAttempt });
+    expect(selection.selected.score.phonemeDistance).toBe(0);
+    expect(selection.selected.score.letterPenalty).toBeGreaterThan(0);
+    expect(selection.selected.score.letterPenalty).toBeLessThanOrEqual(selection.criteria.relaxedLetterPenalty);
     expect(selection.selectedAttempt).toBeGreaterThanOrEqual(selection.criteria.warmupAttempts);
   });
 
   it("reports the first exact acceptance without inventing rejections", () => {
     const generator = createGenerator({ ...englishConfig, syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets: undefined } });
-    const word = generator.generateWord({ seed: 2, morphology: false, trace: true });
+    const { word } = findExample(word => word.trace!.selection!.selectedAttempt === 0, {
+      property: "a root accepted on its first attempt", limit: 50, generator, options: { morphology: false },
+    });
     const selection = word.trace!.selection!;
     expect(selection.status).toBe("accepted");
     expect(selection.acceptedBy).toBe("exact");
