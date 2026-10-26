@@ -228,6 +228,9 @@ describe.each([100, 53])("spelling replacements with probability %s", probabilit
       expectLedgerReplay(base);
       expect(base.surface).toBe(on.written.clean);
       const edits = base.edits.filter(edit => edit.rule === `spellingRule:${name}`);
+      for (const edit of edits) {
+        expect(edit.after).toBe(edit.before.replace(new RegExp(pattern, flags), replacement));
+      }
       if (draw === 0) expect(edits.length).toBeGreaterThan(0);
       if (replacement.length === 100 && edits.length > 0) {
         expect(edits).toHaveLength(1);

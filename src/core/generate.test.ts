@@ -26,6 +26,16 @@ function lastSelection(word: Word) {
   return word.trace!.graphemeSelections.at(-1)!;
 }
 
+function hasTerminalVowelAfterVowelLetter(word: Word, selected: string, sameSyllable: boolean): boolean {
+  const vowel = lastSelection(word);
+  const preceding = word.trace!.graphemeSelections.at(-2);
+  return vowel.position === "nucleus"
+    && vowel.selected === selected && vowel.emitted === selected
+    && preceding !== undefined && preceding.position !== "nucleus"
+    && (preceding.syllableIndex === vowel.syllableIndex) === sameSyllable
+    && /[aeiou]$/.test(preceding.emitted);
+}
+
 /** The orthography unit that owns the word's final letter. */
 function finalLetterOwner(word: Word) {
   const orthography = word.trace!.orthography!;
@@ -201,28 +211,45 @@ describe("Word Generator", () => {
   });
 
   it.each([
-    { mode: "lexicon" as const, selectedEnding: "y", surfaceOf: (selected: string) => selected },
-    { mode: "text" as const, selectedEnding: "y", surfaceOf: (selected: string) => selected },
-    { mode: "text" as const, selectedEnding: "i", surfaceOf: (selected: string) => `${selected.slice(0, -1)}y` },
-  ])("preserves an over-cap terminal vowel spelling selected as ...$selectedEnding ($mode)", ({ mode, selectedEnding, surfaceOf }) => {
-    const generator = createGenerator(terminalVowelConfig());
-    const { word, options } = findExample(word => {
-      const owner = finalLetterOwner(word);
-      return word.trace!.morphology!.template === "bare" && owner.position === "nucleus"
-        && owner.selected.endsWith(selectedEnding) && finalVowelRun(word.written.clean) > TERMINAL_VOWEL_CAP;
-    }, {
-      property: `a bare word ending in an over-cap vowel run owned by a nucleus selected as ...${selectedEnding}`,
-      limit: selectedEnding === "y" ? 500 : 3000, generator, options: { mode },
+    { mode: "lexicon", phoneme: "eɪ", selected: "ey", surface: "ey", sameSyllable: true },
+    { mode: "text", phoneme: "eɪ", selected: "ey", surface: "ey", sameSyllable: true },
+    { mode: "lexicon", phoneme: "ɔɪ", selected: "oy", surface: "oy", sameSyllable: true },
+    { mode: "text", phoneme: "ɔɪ", selected: "oy", surface: "oy", sameSyllable: true },
+    { mode: "lexicon", phoneme: "ɔɪ", selected: "oi", surface: "oy", sameSyllable: true },
+    { mode: "text", phoneme: "ɔɪ", selected: "oi", surface: "oy", sameSyllable: true },
+    { mode: "lexicon", phoneme: "eɪ", selected: "ey", surface: "ey", sameSyllable: false },
+    { mode: "lexicon", phoneme: "ɔɪ", selected: "oi", surface: "oy", sameSyllable: false },
+    { mode: "text", phoneme: "ɔɪ", selected: "oi", surface: "oy", sameSyllable: false },
+  ] as const)("preserves selected $selected after a vowel letter ($mode, same syllable: $sameSyllable)", ({ mode, phoneme, selected, surface, sameSyllable }) => {
+    // Concentrate the search on the selected vowel and its preceding vowel letter.
+    const graphemes = englishConfig.graphemes.map(g => {
+      if (g.phoneme === phoneme) return { ...g, form: selected };
+      if (g.phoneme === "g") return { ...g, form: "gu" };
+      if (g.phoneme === "k") return { ...g, form: "qu" };
+      return g;
+    });
+    const generator = createGenerator(withFinalIProbability(terminalVowelConfig({
+      graphemes, graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
+      // Otherwise magic-e can legitimately turn ...uey into ...uye before the cap.
+      spellingRules: englishConfig.spellingRules!.filter(rule => rule.name !== "magic-e"),
+    }), 100));
+    const { word, options } = findExample(word => hasTerminalVowelAfterVowelLetter(word, selected, sameSyllable), {
+      property: `a bare final ${selected} selection after a vowel letter ${sameSyllable ? "in the same syllable" : "across a syllable boundary"}`,
+      limit: 5000, generator, options: { mode, morphology: false, syllableCount: sameSyllable ? undefined : 2 },
     });
     const plain = generator.generateWord({ ...options, trace: false });
     const { trace, ...traced } = word;
     const spelling = plain.written.clean;
+    const preceding = trace!.graphemeSelections.at(-2)!;
+    expect(spelling.endsWith(`${preceding.emitted}${surface}`)).toBe(true);
+    expect(finalVowelRun(spelling)).toBeGreaterThan(TERMINAL_VOWEL_CAP);
     expect(plain.written.hyphenated.replace(/&shy;/g, "")).toBe(spelling);
     expect(trace!.selection!.selected.letters).toBe(spelling.length);
     expect(trace!.attempts).toBe(trace!.selection!.attemptsExecuted - 1);
     const vowelUnit = finalLetterOwner(word);
     expect(vowelUnit.start).toBeDefined();
-    expect(spelling.slice(vowelUnit.start!, vowelUnit.end! + 1)).toBe(surfaceOf(vowelUnit.selected));
+    expect(vowelUnit.selected).toBe(selected);
+    expect(spelling.slice(vowelUnit.start!, vowelUnit.end! + 1)).toBe(surface);
     expect(traced).toEqual(plain);
     expect(generator.generateWord({ ...options, trace: false })).toEqual(plain);
   });
