@@ -1,0 +1,39 @@
+{
+  "records": [
+    {
+      "path": "README.md",
+      "bytes": 1039,
+      "sha256": "96a09f473457d3005bf88b0ade0dc5f3dc2076c55745f522817176d7bf1dce2f"
+    },
+    {
+      "path": "independent-correspondence.json",
+      "bytes": 1561,
+      "sha256": "ffe30df727a5d54d34f93c49fefd0d65dae6e8b6cd37405cfcbcec3d6966ae26"
+    },
+    {
+      "path": "independent-fixtures.log.txt",
+      "bytes": 103,
+      "sha256": "6273232de4d3ef7acd4ecafa5c86beeeb974f56586b21089a2990b3f72facbe6"
+    },
+    {
+      "path": "likelihood-renewed.log.txt",
+      "bytes": 315,
+      "sha256": "b671b8b72e7f674479ba0c2490fd337656c50154e565793bec73672dc992c1a4"
+    },
+    {
+      "path": "local-retention-index.json",
+      "bytes": 148997,
+      "sha256": "21d6255ad56bc48ec685992ebe95def307a6fbd78d396fd1edaa2ce5e7fff763"
+    },
+    {
+      "path": "reconstruction-renewed.log.txt",
+      "bytes": 807,
+      "sha256": "101c9e1f3e9db89e726068fe9cc8289256ccd6dba479fd67bb4a76ad46211a8f"
+    },
+    {
+      "path": "verify.py",
+      "bytes": 1386,
+      "sha256": "02a64f76b7a6adde11c9633ec7555ffa415302d375046fc0900ab14f8380ba2c"
+    }
+  ]
+}

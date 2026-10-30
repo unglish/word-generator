@@ -1,0 +1,5 @@
+# Q17 offline measurement renewal
+
+Original committed verifier authenticates all 47 package artifacts and measured source identity. Both original independent Python checks reproduce their complete reports exactly: source selection/splits/count tables, all 16 development trials, 11,661 held-out words and 57,382 events, every word likelihood, 83 strata and 64 support contexts. Original four operator hashes match. Five independent numerical fixtures freshly pass. Original 23 focused tests, TypeScript and lint results are authenticated, not rerun in this renewal.
+
+Held-out mean dictionary-word loss improves 9.12%; five strata worsen, including the rare tail. Both smoothing choices remain at the preregistered upper grid boundary. These results concern the frozen offline dictionary model; no generator output, diversity, human-quality or new throughput claim follows. Generator and model source unchanged. Full dictionary/source/evidence retained as 476 separately copied same-device files, 103,614,679 bytes; not independent backup.

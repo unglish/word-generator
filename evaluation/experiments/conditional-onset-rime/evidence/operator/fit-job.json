@@ -1,0 +1,13 @@
+{
+  "sessionId": 32300,
+  "commit": "cbf479a1039a7db37333fed8b432d0f51ef686ca",
+  "driver": "/private/tmp/q17-fit-driver-v1",
+  "artifact": "/private/tmp/q17-registered-fit-v1/artifact.json",
+  "sequence": "Q10b2 diagnostics complete -> Q11b baseline captures complete -> sealed Q17 registered fit",
+  "scope": "Queued; no fitting started. Independent numerical verification remains required.",
+  "independentVerification": {
+    "sessionId": 90400,
+    "out": "/private/tmp/q17-independent-verification-v1",
+    "scope": "Selection and split identities, all integer count tables, 16 development grid trials and both choices, held-out summaries, every word and overlapping stratum, direct-complement support diagnostics; queued until authenticated fit completion."
+  }
+}
