@@ -1,0 +1,26 @@
+{
+  "purpose": "Actual API reproduction of generate-baseline.ts:165 only; no builder invocation, corpus scoring, file overwrite or generated words",
+  "node": "v24.11.1",
+  "scorerSha256": "c4d5ff5bd77a4a77e63a7ab3ef610f2bb31c1981e4c4666c803e210672ac551f",
+  "builderSha256": "1d6bdb282c44f51a8b55ff929d34654977d3161df61bfc2f7ce285741b46fbab",
+  "tableSha256": "741eee7a1d331432a50c136a4801251bc8c7e3a8a3567265011fd865f203b1a7",
+  "input": [
+    "K AE T"
+  ],
+  "batchKeys": [
+    "words",
+    "total",
+    "perBigram"
+  ],
+  "statsKeys": [
+    "mean",
+    "min",
+    "median"
+  ],
+  "rows": 1,
+  "allScoresFinite": true,
+  "failure": {
+    "name": "TypeError",
+    "message": "scoredWords.filter is not a function"
+  }
+}

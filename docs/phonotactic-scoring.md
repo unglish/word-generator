@@ -6,7 +6,7 @@ Measures how "English-like" generated words sound based on their phoneme sequenc
 
 1. **Generate words** using the word generator engine
 2. **Convert IPA → ARPABET**: The generator uses IPA internally (`æ`, `tʃ`, `eɪ`); the scorer uses ARPABET (`AE`, `CH`, `EY`). The bridge module (`src/phonotactic/ipa-to-arpabet.ts`) handles conversion via direct lookup.
-3. **Score via bigram model**: Words are scored against ARPABET bigram frequencies derived from the full CMU Pronouncing Dictionary (123,892 words, 976,831 bigrams) using conditional log₂-probabilities with Laplace smoothing.
+3. **Score via bigram model**: Words are scored against the historical ARPABET table (976,831 transitions) using conditional log₂-probabilities with Laplace smoothing. Its source population remains unresolved; the separate historical score baseline declares 123,892 words.
 4. **Assert thresholds**: Tests verify quality gates, regression tolerance, and per-bigram floor.
 
 ## Scoring Algorithm
@@ -18,11 +18,11 @@ Measures how "English-like" generated words sound based on their phoneme sequenc
 - Sum log₂ probabilities across all bigrams
 - **Per-bigram normalization**: total score ÷ bigram count
 
-More negative = less probable. Per-bigram normalization removes word-length bias, making 3-phoneme and 12-phoneme words comparable.
+More negative = less probable. Per-bigram normalization divides by each word's transition count; it does not establish complete independence from word length.
 
 ## Calibration
 
-English baseline (full CMU dictionary, 123,892 words):
+Historical English baseline (declares 123,892 words; original population not reconstructed):
 
 | Metric | Value |
 |--------|-------|
@@ -85,8 +85,22 @@ It creates a separately versioned native/base transition reference and leaves
 [the construction contract](cmu-transition-builder.md). Adopting its population
 in a scorer requires a separate same-output comparison and calibration review.
 
-`scripts/generate-baseline.ts` remains a separate legacy manual workflow. Its
-local/mutable-download source path, scorer-return-type mismatch and output-schema
-mismatch have not been migrated. Do not use it as the next step for adopting the
-new transition artifact. Normal verification uses the committed historical
-scorer table and baseline; neither regeneration command is required.
+The separate score-reference builder also requires explicit inputs:
+
+```sh
+node --import tsx scripts/generate-baseline.ts \
+  --source /absolute/path/to/pinned-cmudict.dict \
+  --policy cmu-ascii-first-v1 \
+  --projection cmu-arpabet-base-v1 \
+  --scorer legacy-arpabet-add-one-log2-v1 \
+  --out /absolute/path/to/new-english-score-reference.json
+```
+
+It scores the shared selected population using the unchanged historical scorer
+and table, retains every finite ordered row, and writes a new versioned artifact.
+It does not read the new transition table, replace `english-baseline.json`, or
+invent a generated gap. See [the score-reference contract](cmu-score-reference.md)
+for population, exact aggregate semantics, provenance and validation. Normal
+verification still uses the historical inputs; neither construction command is
+required. Any consumer, model or gate adoption needs a separate frozen sensitivity
+study.
