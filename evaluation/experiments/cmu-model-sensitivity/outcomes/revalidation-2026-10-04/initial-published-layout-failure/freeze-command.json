@@ -1,0 +1,24 @@
+{
+  "name": "freeze",
+  "args": [
+    "/Users/ryanbetts/.nvm/versions/node/v24.11.1/bin/node",
+    "--import",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/node_modules/tsx/dist/loader.mjs",
+    "evaluation/corpus/model-sensitivity-cli.ts",
+    "freeze",
+    "--source",
+    "/private/tmp/q15c5-acceptance-revalidation-v1/inputs/cmudict.dict",
+    "--archive",
+    "/Users/ryanbetts/.codex/worktrees/d9c28566-8f5b-432e-a246-5e4070782624/word-generator/evaluation/quality/baselines/2026-09-26-development-standalone",
+    "--identity",
+    "/private/tmp/q15c5-acceptance-revalidation-v1/inputs/identity.ts",
+    "--identity-report",
+    "/private/tmp/q15c5-acceptance-revalidation-v1/inputs/identity-original.json",
+    "--out",
+    "/private/tmp/q15c5-acceptance-revalidation-v1/relocated-source-input-freeze.json"
+  ],
+  "cwd": "/private/tmp/q15c5-acceptance-revalidation-v1/checkout",
+  "startedAt": "2026-10-04T12:25:07.618992+00:00",
+  "finishedAt": "2026-10-04T12:25:07.996437+00:00",
+  "exitCode": 1
+}

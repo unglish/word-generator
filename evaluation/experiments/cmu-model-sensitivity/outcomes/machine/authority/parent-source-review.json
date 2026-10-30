@@ -1,0 +1,21 @@
+{
+  "scope": "parent full source review followed by numerical diff review; no full scores yet",
+  "approvedForFreeze": true,
+  "files": {
+    "/private/tmp/q15-decomposition-source-review-v2.json": "966feeab71ba7260bf2f6be8a385ad3a043e1d0f36483a5c94ce2cd4e7cf8e19",
+    "/private/tmp/q15-decomposition-diff-v2.patch": "6c2cb4b9b89fce915fdf2780fbd65a069048cf1f7581410671ab6af8ac160121",
+    "/private/tmp/q15-parent-python-fixtures-v2.log": "246479ec7b3d2c5d6bcaae73db16eba70a630e1c629407f1565677554f253755",
+    "/private/tmp/q15-parent-ts-fixtures-v2.log": "24421eaa2d9954a4f79f1bc1959fb04e2bb950bf1da960414ddb080cec7dfe6a",
+    "/private/tmp/q15-parent-manifest-serialization-proof-v1.json": "c5a21b4cc56db45a64a0fd4eb30566e1466c1a15d017aa643841fe7133628876"
+  },
+  "tests": {
+    "typescript": 37,
+    "python": 17
+  },
+  "retainedLimits": [
+    "fixed tolerance unchanged",
+    "full317485row proof pending",
+    "no quality/adoption inference",
+    "same word vectors; B English in-sample"
+  ]
+}

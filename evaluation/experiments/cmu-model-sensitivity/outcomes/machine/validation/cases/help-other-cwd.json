@@ -1,0 +1,1 @@
+{"name":"help-other-cwd","args":["--help"],"cwd":"/private/tmp/q15-model-sensitivity-acceptance-v1","expectedExit":0,"actualExit":0,"log":"help-other-cwd.log","sha256":"4ed5ecc80e915b408150444d30f61bcaabb6e77ff26da24f61922125cc1d3fae"}
