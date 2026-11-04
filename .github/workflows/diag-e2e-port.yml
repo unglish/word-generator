@@ -1,0 +1,100 @@
+name: Diag E2E port flake
+
+# Throwaway diagnostic for the review-e2e "failed to bind host port 0.0.0.0:54322"
+# flake. Lives only on the diag/e2e-port-flake branch.
+
+on:
+  push:
+    branches: [diag/e2e-port-flake]
+
+permissions:
+  contents: read
+
+jobs:
+  mechanism:
+    strategy:
+      fail-fast: false
+      matrix:
+        condition: [control, established, timewait, listen, reserved]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - name: Environment
+        run: |
+          echo "image $ImageOS $ImageVersion"
+          sysctl net.ipv4.ip_local_port_range net.ipv4.ip_local_reserved_ports
+          docker version --format 'docker server {{.Server.Version}}'
+          sudo ss -tanpH '( sport >= :54320 and sport <= :54329 )' || true
+      - name: Warm up (pull images, then stop)
+        run: npx supabase start && npx supabase stop
+      - name: Create condition
+        run: |
+          orig="$(sysctl -n net.ipv4.ip_local_port_range)"
+          case "${{ matrix.condition }}" in
+            established|timewait)
+              sudo sysctl -w net.ipv4.ip_local_port_range="54322 54322" ;;
+            reserved)
+              sudo sysctl -w net.ipv4.ip_local_reserved_ports=54320-54329
+              sudo sysctl -w net.ipv4.ip_local_port_range="54318 54329" ;;
+          esac
+          if [ "${{ matrix.condition }}" != control ]; then
+            nohup python3 -I .github/diag/hold.py "${{ matrix.condition }}" > /tmp/hold.log 2>&1 &
+            for i in $(seq 1 50); do [ -f /tmp/hold.ready ] && break; sleep 0.2; done
+            cat /tmp/hold.log
+            test -f /tmp/hold.ready
+          fi
+          sudo sysctl -w net.ipv4.ip_local_port_range="$orig"
+          echo "--- sockets on 54320-54329 before start"
+          sudo ss -tanpH '( sport >= :54320 and sport <= :54329 )' || true
+      - name: supabase start under condition
+        id: start
+        continue-on-error: true
+        run: npx supabase start 2>&1 | tee /tmp/start.log; exit "${PIPESTATUS[0]}"
+      - name: Report
+        if: always()
+        run: |
+          echo "condition=${{ matrix.condition }} start=${{ steps.start.outcome }}"
+          grep -E 'failed to bind|address already in use' /tmp/start.log || echo "no bind error"
+          sudo ss -tanpH '( sport >= :54320 and sport <= :54329 )' || true
+      - if: always()
+        run: npx supabase stop || true
+
+  natural:
+    strategy:
+      fail-fast: false
+      matrix:
+        replica: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start port monitor (every 50 ms, ports 54320-54329, all states)
+        run: |
+          echo "image $ImageOS $ImageVersion"
+          nohup setsid bash -c 'while true; do t=$(date +%T.%N); sudo ss -tanpH "( sport >= :54320 and sport <= :54329 )" | sed "s/^/$t /"; sleep 0.05; done' > /tmp/ports.log 2>&1 &
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+        continue-on-error: true
+      - run: npm run test:review:e2e
+        continue-on-error: true
+      - name: supabase start
+        id: start
+        continue-on-error: true
+        run: npx supabase start 2>&1 | tee /tmp/start.log; exit "${PIPESTATUS[0]}"
+      - name: Report
+        if: always()
+        run: |
+          echo "replica=${{ matrix.replica }} start=${{ steps.start.outcome }}"
+          grep -E 'Starting database|failed to bind' /tmp/start.log || true
+          echo "--- distinct sockets seen on 54320-54329 during the job"
+          awk '{ $1=""; print }' /tmp/ports.log | sort -u | head -50
+      - if: always()
+        run: npx supabase stop || true
