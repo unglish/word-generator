@@ -86,8 +86,11 @@ export function observe(group, word, config) {
   if (morph.prefix === "in") {
     add(counts, "plannedInWords");
     const rootStage = word.trace.stages.at(-1);
-    const rootPhone = rootStage?.name === "generatePronunciation"
-      ? rootStage.after.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda])[0] : undefined;
+    const lexicalRoot = word.lexical?.root;
+    const rootPhone = lexicalRoot
+      ? lexicalRoot.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda])[0]?.sound
+      : rootStage?.name === "generatePronunciation"
+        ? rootStage.after.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda])[0] : undefined;
     const phones = config.phonemes.filter(phone => phone.sound === rootPhone);
     if (!supportsDefaultIm(config) || phones.length !== 1) add(counts, "unknownDerivedInContextWords");
     else {

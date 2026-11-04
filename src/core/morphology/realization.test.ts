@@ -124,7 +124,8 @@ describe("resolved morphology survives final cleanup", () => {
       expect(word.trace!.syllableCount).toBe(1);
       expect(word.trace!.targetPhonemeCount).toBe(3);
       expect(word.trace!.syllablePlans).toHaveLength(1);
-      expect(word.trace!.stages.at(-1)!.after).toHaveLength(1);
+      expect(word.lexical!.root).toHaveLength(1);
+      expect(word.trace!.stages.find(stage => stage.name === "generateWrittenForm")!.after).toHaveLength(1);
       expect(word.syllables).toHaveLength(1 + syllables);
       const finalPhones = word.syllables.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda]).map(phone => phone.sound);
       expect(finalPhones.slice(-phones.length)).toEqual(phones);
