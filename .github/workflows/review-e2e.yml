@@ -34,6 +34,11 @@ jobs:
   review-e2e:
     runs-on: ubuntu-latest
     steps:
+      # Supabase's fixed ports 54320-54329 lie in Linux's ephemeral range. If an
+      # earlier outbound connection was given one, it holds the port (TIME_WAIT
+      # lasts 60 s) and `supabase start` fails with "address already in use".
+      - name: Keep Supabase ports out of the ephemeral range
+        run: sudo sysctl -w net.ipv4.ip_local_reserved_ports=54320-54329
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
