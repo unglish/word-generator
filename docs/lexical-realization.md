@@ -89,10 +89,14 @@ unchanged. They cannot supply the deficit without pushing /ɪ/ or /æ/ under
 their own limits. The /ɑ/ and /ɔ/ reduction rules never fire, because those
 vowels are marked tense, and reduction skips tense vowels.
 
+The October 19 measurements below are historical; see
+[the rebased review evidence](../evaluation/quality/experiments/final-lexical-stress-rebased/README.md)
+for the current-main comparison, full-precision floor exceptions, and trace witnesses.
+
 Gate thresholds are unchanged. Over the ten-seed `npm run calibrate:phonemes`
 run, the retuned branch matches unchanged main, both at Pearson r
-0.99827-0.99855 with mean 0.99842. Like main, one seed (758202846) sits just
-under the 0.9983 floor. Worst representation is 0.943-0.953 (main
+0.99827-0.99855 with mean 0.99842. The branch has one seed (758202846) just under the 0.9983 floor;
+main also exhibits below-floor variation (see the full-precision current table). Worst representation is 0.943-0.953 (main
 0.936-0.954), and the worst absolute gap is 0.284-0.351 pp (main 0.306-0.377).
 
 With tracing enabled, `applyStress` exposes root stress, `assembleMorphology`

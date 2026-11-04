@@ -6,6 +6,7 @@ import { englishConfig } from "../config/english";
 import { createDefaultRng } from "../utils/random";
 import { buildGraphemeMaps } from "../elements/graphemes/index";
 import { findExample } from "../test-support/find-example";
+import type { WordTrace } from "./trace";
 
 const maxVowelLetters = englishConfig.writtenFormConstraints!.maxVowelLetters!;
 const maxFinalConsonantLetters = englishConfig.writtenFormConstraints!.maxFinalConsonantLetters!;
@@ -74,7 +75,6 @@ function terminalVowelConfig(overrides: Partial<LanguageConfig> = {}): LanguageC
 function withFinalIProbability(config: LanguageConfig, probability: number): LanguageConfig {
   return { ...config, spellingRules: config.spellingRules!.map(rule => rule.name === "no-final-i" ? { ...rule, probability } : rule) };
 }
-import type { WordTrace } from "./trace";
 
 /** Stages that see the affixed word; every other stage describes the root alone. */
 const WORD_STAGES = new Set(["assembleMorphology", "repairFinalStressedNuclei", "generatePronunciation"]);

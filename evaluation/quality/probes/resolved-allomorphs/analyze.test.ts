@@ -26,8 +26,16 @@ function inToImWitness(): Word {
   return generateWord(imWitnessOptions);
 }
 
-test("separates missing resolution provenance from narrow historical spelling evidence", () => {
+test.each([false, true])("separates missing resolution provenance from spelling evidence (historical=%s)", historical => {
   const word = inToImWitness();
+  if (historical) {
+    // Historical pronunciation snapshots describe the root alone.
+    const start = word.lexical!.rootSyllableStart;
+    const length = word.lexical!.root.length;
+    const stage = word.trace!.stages.at(-1)!;
+    stage.after = stage.after.slice(start, start + length);
+    delete word.lexical;
+  }
   delete word.trace!.morphology!.realization;
   word.written.clean = `in${word.written.clean.slice(2)}`;
   const result = empty();
