@@ -45,7 +45,11 @@ jobs:
           node-version: '24'
           cache: 'npm'
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      # No --with-deps: the runner image already has every library Chromium
+      # needs, so it would only apt-install nine optional font packages. That
+      # makes the job depend on the image's apt sources, which one ubuntu26
+      # build shipped without (exit 100: "Unable to locate package").
+      - run: npx playwright install chromium
       - run: npm run test:review:e2e
       - run: npx supabase start
       - run: npm run test:review:db
