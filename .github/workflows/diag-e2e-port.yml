@@ -11,11 +11,15 @@ permissions:
   contents: read
 
 jobs:
-  mechanism:
+  loopback:
     strategy:
       fail-fast: false
       matrix:
-        condition: [control, established, timewait, listen, reserved]
+        include:
+          - { mode: estab, wait: 0 }
+          - { mode: timewait, wait: 0 }
+          - { mode: timewait, wait: 37 }
+          - { mode: timewait, wait: 65 }
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,32 +28,17 @@ jobs:
           node-version: '24'
           cache: 'npm'
       - run: npm ci
-      - name: Environment
-        run: |
-          echo "image $ImageOS $ImageVersion"
-          sysctl net.ipv4.ip_local_port_range net.ipv4.ip_local_reserved_ports
-          docker version --format 'docker server {{.Server.Version}}'
-          sudo ss -tanpH '( sport >= :54320 and sport <= :54329 )' || true
       - name: Warm up (pull images, then stop)
         run: npx supabase start && npx supabase stop
-      - name: Create condition
+      - name: Create loopback condition
         run: |
-          orig="$(sysctl -n net.ipv4.ip_local_port_range)"
-          case "${{ matrix.condition }}" in
-            established|timewait)
-              sudo sysctl -w net.ipv4.ip_local_port_range="54322 54322" ;;
-            reserved)
-              sudo sysctl -w net.ipv4.ip_local_reserved_ports=54320-54329
-              sudo sysctl -w net.ipv4.ip_local_port_range="54318 54329" ;;
-          esac
-          if [ "${{ matrix.condition }}" != control ]; then
-            nohup python3 -I .github/diag/hold.py "${{ matrix.condition }}" > /tmp/hold.log 2>&1 &
-            for i in $(seq 1 50); do [ -f /tmp/hold.ready ] && break; sleep 0.2; done
-            cat /tmp/hold.log
-            test -f /tmp/hold.ready
-          fi
-          sudo sysctl -w net.ipv4.ip_local_port_range="$orig"
-          echo "--- sockets on 54320-54329 before start"
+          nohup python3 -I .github/diag/loopback.py "${{ matrix.mode }}" > /tmp/hold.log 2>&1 &
+          for i in $(seq 1 50); do [ -f /tmp/hold.ready ] && break; sleep 0.2; done
+          cat /tmp/hold.log; test -f /tmp/hold.ready
+          echo "--- sockets on 54320-54329 right after creation"
+          sudo ss -tanpH '( sport >= :54320 and sport <= :54329 )' || true
+          sleep ${{ matrix.wait }}
+          echo "--- sockets on 54320-54329 after waiting ${{ matrix.wait }}s"
           sudo ss -tanpH '( sport >= :54320 and sport <= :54329 )' || true
       - name: supabase start under condition
         id: start
@@ -58,9 +47,8 @@ jobs:
       - name: Report
         if: always()
         run: |
-          echo "condition=${{ matrix.condition }} start=${{ steps.start.outcome }}"
-          grep -E 'failed to bind|address already in use' /tmp/start.log || echo "no bind error"
-          sudo ss -tanpH '( sport >= :54320 and sport <= :54329 )' || true
+          echo "mode=${{ matrix.mode }} wait=${{ matrix.wait }} start=${{ steps.start.outcome }}"
+          grep -E 'failed to bind' /tmp/start.log || echo "no bind error"
       - if: always()
         run: npx supabase stop || true
 
@@ -95,6 +83,6 @@ jobs:
           echo "replica=${{ matrix.replica }} start=${{ steps.start.outcome }}"
           grep -E 'Starting database|failed to bind' /tmp/start.log || true
           echo "--- distinct sockets seen on 54320-54329 during the job"
-          awk '{ $1=""; print }' /tmp/ports.log | sort -u | head -50
+          awk '{ k=$0; sub(/^[^ ]+ /,"",k); if (!(k in seen)) { seen[k]=$1; print } }' /tmp/ports.log | grep -v docker-proxy | head -80
       - if: always()
         run: npx supabase stop || true
