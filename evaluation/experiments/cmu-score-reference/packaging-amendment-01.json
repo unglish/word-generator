@@ -1,0 +1,13 @@
+{
+  "version": "cmu-score-reference-packaging-amendment-v1",
+  "scope": "Completion-only guide update after verified formal acceptance; no production, verifier, fixture, protocol or numeric change.",
+  "path": "docs/cmu-score-reference.md",
+  "beforeSha256": "01478358b6791d55a51625b881a44e72738abc4af318ea1df1b5077fdf84f599",
+  "afterSha256": "eef6d5a628cd7fc00349946d81e10a4f8c4e2f8106c42545edcca0fc474f96a0",
+  "replacement": {
+    "before": "Full-corpus construction remains pending independent source/test review.",
+    "after": "Two fresh full-corpus builds and the independent row verification passed; see\n[the formal evidence](../evaluation/experiments/cmu-score-reference/README.md)."
+  },
+  "preservedOriginal": "source-review-files.json.gz contains exact reviewed guide bytes alongside every other reviewed file",
+  "parentAcceptanceReviewSha256": "2ce40ba64e6155bbd8e8715d3a28ef75f82fd0c2ffd167cb9edf146ec1bda628"
+}

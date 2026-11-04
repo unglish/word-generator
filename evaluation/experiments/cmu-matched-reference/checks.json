@@ -1,0 +1,23 @@
+{
+  "version": "cmu-matched-reference-checks-v1",
+  "generatorAndHistoricalArtifacts": {
+    "baseCommit": "41b2455",
+    "gitDiffExitCode": 0
+  },
+  "reviewTests": {
+    "command": "npx vitest run --config vitest.review.config.ts",
+    "passed": 79,
+    "newIntegrityFixtures": 27
+  },
+  "typeChecks": [
+    "npx tsc -p tsconfig.corpus.json",
+    "npx tsc -p tsconfig.review.json"
+  ],
+  "touchedEslint": "passed",
+  "pythonReferenceTests": 9,
+  "pythonSensitivityTests": 9,
+  "pythonCompilation": "passed",
+  "referenceExclusiveOutput": "existing valid artifact overwrite rejected with EEXIST; bytes unchanged",
+  "sourceCountProof": "Every implementation/verifier source byte matches its archived identity",
+  "scope": "evaluation only; no generator performance claim; raw200k archived development draws reused; validation not inspected"
+}

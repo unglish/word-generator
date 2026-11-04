@@ -1,0 +1,22 @@
+{
+  "version": "cmu-legacy-score-reference-fixtures-plan-v1",
+  "syntheticOnlyBeforeReview": true,
+  "groups": [
+    "BatchScoreResult words/total/perBigram API and no max property",
+    "empty selected corpus/nonfinite/missing rows fail without filtering",
+    "even upper-middle median and sorted accumulation",
+    "equal-word mean differs from event-weighted mean",
+    "n+1 boundary count/single phone/repeated phones",
+    "native stress 0/1/2 direct base projection; no IPA mapper",
+    "whole-entry invalid/source-order/duplicate/comment selection semantics",
+    "detached rows, metadata, source snapshots and later calls",
+    "missing/duplicate/extra/reordered rows and wrong input identity",
+    "redigested score swap preserving all aggregate statistics",
+    "altered projection/model/table/source/parent and malformed schema",
+    "CLI explicit missing/duplicate/unknown/valueless args; nonzero failures",
+    "alias entrypoint/unrelated cwd/spaced paths",
+    "fresh output protection for runtime/source/evidence/input aliases/hardlinks/dangling symlinks",
+    "independent restricted nonexecuting historical table parser, every bin/row/vocabulary",
+    "independent synthetic math with frozen numeric tolerance and forgery rejection"
+  ]
+}

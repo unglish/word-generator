@@ -1,0 +1,59 @@
+{
+  "version": "cmu-phoneme-builder-evidence-v1",
+  "baseCommit": "7ce4bd370bf3f260d477887e7ed7f1095c0b788a",
+  "artifactDigest": "6012a2e8c3e257f9108557295aadb25f2a87a716f022b0f555f89c539c61bcc1",
+  "implementationDigest": "b1926bd4fb7451f404f271e49d303a37544c9df086673035c41cc757c506101c",
+  "preregistrationSha256": "c2cdfe8412c90e7cf6ef84d3e0865e6410d58c917611c8f2ce62bc6c4532aa6b",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 3201,
+      "sha256": "c2cdfe8412c90e7cf6ef84d3e0865e6410d58c917611c8f2ce62bc6c4532aa6b"
+    },
+    {
+      "file": "RESULTS.md",
+      "bytes": 3641,
+      "sha256": "b30431e14bd3bfb1c84cf1debe7801463c83c4deb25807f705b650cf62d8feb6"
+    },
+    {
+      "file": "artifact.json.gz",
+      "bytes": 44715,
+      "sha256": "5d69d90e837985969cf270384085feb5c0a452fec66b8d16e77bf06fd0e77f32",
+      "uncompressedBytes": 191109,
+      "uncompressedSha256": "dd71b8a4ad896372a0d464d1206870e7a3bf5a28ce562018b4ed2261e52a4ad8"
+    },
+    {
+      "file": "command-results.json.gz",
+      "bytes": 1095,
+      "sha256": "f426071244a57f40f372c71cbce18a04e57ca5da70d895a529f2958ed658135d",
+      "uncompressedBytes": 10544,
+      "uncompressedSha256": "679c5aea614e5d9968dfe8b8f197d82f53829d3cbddcfe5281567ad507b86847"
+    },
+    {
+      "file": "development-runs.json.gz",
+      "bytes": 15555,
+      "sha256": "c1c6c6561f93a31df0a3d65429210e4168a6ea51c2643de7d2eb985baa096afe",
+      "uncompressedBytes": 41847,
+      "uncompressedSha256": "7cb00990d2a5ff8cef9ecf6509fa1c275c487a5cca6dab8677d89b731bb78c22"
+    },
+    {
+      "file": "tests.log.gz",
+      "bytes": 442,
+      "sha256": "1f50d46d234d9c9e86520d57a8be25f596c2638704fd89306af07f7b29a838ce",
+      "uncompressedBytes": 709,
+      "uncompressedSha256": "a58e70c0644a154edf5610f8299e7a96c6fd11cf84b4370fdc882258156e804b"
+    },
+    {
+      "file": "verification.json.gz",
+      "bytes": 12452,
+      "sha256": "baef2a7bfd64371affd63fdb470c677b814e357072d9a07dd8c88139f4c10668",
+      "uncompressedBytes": 27069,
+      "uncompressedSha256": "2d31c293aa6e7e5cbee8a6952b2fc143b0413b24488a9a26a197615308e6a46e"
+    },
+    {
+      "file": "verify.py",
+      "bytes": 9728,
+      "sha256": "c450286790d9b3a26eaa67f07a8236e9b0f0e71ebc70097d5e33f245be6c9694"
+    }
+  ]
+}

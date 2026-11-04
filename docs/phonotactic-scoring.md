@@ -6,7 +6,7 @@ Measures how "English-like" generated words sound based on their phoneme sequenc
 
 1. **Generate words** using the word generator engine
 2. **Convert IPA → ARPABET**: The generator uses IPA internally (`æ`, `tʃ`, `eɪ`); the scorer uses ARPABET (`AE`, `CH`, `EY`). The bridge module (`src/phonotactic/ipa-to-arpabet.ts`) handles conversion via direct lookup.
-3. **Score via bigram model**: Words are scored against ARPABET bigram frequencies derived from the full CMU Pronouncing Dictionary (123,892 words, 976,831 bigrams) using conditional log₂-probabilities with Laplace smoothing.
+3. **Score via bigram model**: Words are scored against the historical ARPABET table (976,831 transitions) using conditional log₂-probabilities with Laplace smoothing. Its source population remains unresolved; the separate historical score baseline declares 123,892 words.
 4. **Assert thresholds**: Tests verify quality gates, regression tolerance, and per-bigram floor.
 
 ## Scoring Algorithm
@@ -18,11 +18,11 @@ Measures how "English-like" generated words sound based on their phoneme sequenc
 - Sum log₂ probabilities across all bigrams
 - **Per-bigram normalization**: total score ÷ bigram count
 
-More negative = less probable. Per-bigram normalization removes word-length bias, making 3-phoneme and 12-phoneme words comparable.
+More negative = less probable. Per-bigram normalization divides by each word's transition count; it does not establish complete independence from word length.
 
 ## Calibration
 
-English baseline (full CMU dictionary, 123,892 words):
+Historical English baseline (declares 123,892 words; original population not reconstructed):
 
 | Metric | Value |
 |--------|-------|
@@ -67,18 +67,40 @@ npm ci        # install (no Python required)
 npm test      # run all tests including phonotactic gates
 ```
 
-## Regenerating Data
+## Constructing reference data
 
-The bigram table and baseline can be regenerated from source:
+The manual phone-transition builder requires an explicit pinned source, selection
+policy, units and fresh output path:
 
 ```bash
-npx tsx scripts/generate-bigram-table.ts   # → src/phonotactic/arpabet-bigrams.ts
-npx tsx scripts/generate-baseline.ts       # → src/phonotactic/english-baseline.json
+node --import tsx scripts/generate-bigram-table.ts \
+  --source /absolute/path/to/cmudict.dict \
+  --policy cmu-ascii-first-v1 \
+  --units integer-phone-transition-occurrences \
+  --out /absolute/path/to/new-transition-reference.json
 ```
 
-These are **manual source-regeneration utilities**, not part of normal
-verification for day-to-day tuning or `#223` acceptance.
+It creates a separately versioned native/base transition reference and leaves
+`src/phonotactic/arpabet-bigrams.ts`, this scorer, and its gates unchanged. See
+[the construction contract](cmu-transition-builder.md). Adopting its population
+in a scorer requires a separate same-output comparison and calibration review.
 
-They prefer a local ignored CMU source file at `data/cmudict-0.7b.txt`; if that
-file is absent they may download the current upstream CMU dictionary and process
-it locally.
+The separate score-reference builder also requires explicit inputs:
+
+```sh
+node --import tsx scripts/generate-baseline.ts \
+  --source /absolute/path/to/pinned-cmudict.dict \
+  --policy cmu-ascii-first-v1 \
+  --projection cmu-arpabet-base-v1 \
+  --scorer legacy-arpabet-add-one-log2-v1 \
+  --out /absolute/path/to/new-english-score-reference.json
+```
+
+It scores the shared selected population using the unchanged historical scorer
+and table, retains every finite ordered row, and writes a new versioned artifact.
+It does not read the new transition table, replace `english-baseline.json`, or
+invent a generated gap. See [the score-reference contract](cmu-score-reference.md)
+for population, exact aggregate semantics, provenance and validation. Normal
+verification still uses the historical inputs; neither construction command is
+required. Any consumer, model or gate adoption needs a separate frozen sensitivity
+study.
