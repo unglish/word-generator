@@ -1,7 +1,7 @@
 name: Diag E2E port flake
 
-# Throwaway diagnostic for the review-e2e "failed to bind host port 0.0.0.0:54322"
-# flake. Lives only on the diag/e2e-port-flake branch.
+# Throwaway diagnostic. Round 3: validate both proposed review-e2e fixes on
+# real runners (Playwright without apt, Supabase ports reserved).
 
 on:
   push:
@@ -11,78 +11,33 @@ permissions:
   contents: read
 
 jobs:
-  loopback:
+  candidate:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - { mode: estab, wait: 0 }
-          - { mode: timewait, wait: 0 }
-          - { mode: timewait, wait: 37 }
-          - { mode: timewait, wait: 65 }
+        replica: [1, 2, 3, 4, 5, 6]
     runs-on: ubuntu-latest
     steps:
+      - name: Keep Supabase ports out of the ephemeral range
+        run: sudo sysctl -w net.ipv4.ip_local_reserved_ports=54320-54329
+      - run: echo "image $ImageOS $ImageVersion"
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'npm'
       - run: npm ci
-      - name: Warm up (pull images, then stop)
-        run: npx supabase start && npx supabase stop
-      - name: Create loopback condition
+      - run: npx playwright install chromium
+      - name: Shared libraries Chromium needs that are missing
         run: |
-          nohup python3 -I .github/diag/loopback.py "${{ matrix.mode }}" > /tmp/hold.log 2>&1 &
-          for i in $(seq 1 50); do [ -f /tmp/hold.ready ] && break; sleep 0.2; done
-          cat /tmp/hold.log; test -f /tmp/hold.ready
-          echo "--- sockets on 54320-54329 right after creation"
-          sudo ss -tanpH '( sport >= :54320 and sport <= :54329 )' || true
-          sleep ${{ matrix.wait }}
-          echo "--- sockets on 54320-54329 after waiting ${{ matrix.wait }}s"
-          sudo ss -tanpH '( sport >= :54320 and sport <= :54329 )' || true
-      - name: supabase start under condition
-        id: start
-        continue-on-error: true
-        run: npx supabase start 2>&1 | tee /tmp/start.log; exit "${PIPESTATUS[0]}"
-      - name: Report
-        if: always()
-        run: |
-          echo "mode=${{ matrix.mode }} wait=${{ matrix.wait }} start=${{ steps.start.outcome }}"
-          grep -E 'failed to bind' /tmp/start.log || echo "no bind error"
-      - if: always()
-        run: npx supabase stop || true
-
-  natural:
-    strategy:
-      fail-fast: false
-      matrix:
-        replica: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Start port monitor (every 50 ms, ports 54320-54329, all states)
-        run: |
-          echo "image $ImageOS $ImageVersion"
-          nohup setsid bash -c 'while true; do t=$(date +%T.%N); sudo ss -tanpH "( sport >= :54320 and sport <= :54329 )" | sed "s/^/$t /"; sleep 0.05; done' > /tmp/ports.log 2>&1 &
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium
-        continue-on-error: true
+          missing=$(find ~/.cache/ms-playwright -type f \( -name chrome -o -name chrome-headless-shell \) -exec ldd {} \; | grep 'not found' | sort -u)
+          echo "${missing:-none}"
+          test -z "$missing"
+      - name: What --with-deps would have installed (informational)
+        run: npx playwright install-deps --dry-run chromium || true
       - run: npm run test:review:e2e
-        continue-on-error: true
-      - name: supabase start
-        id: start
-        continue-on-error: true
-        run: npx supabase start 2>&1 | tee /tmp/start.log; exit "${PIPESTATUS[0]}"
-      - name: Report
-        if: always()
-        run: |
-          echo "replica=${{ matrix.replica }} start=${{ steps.start.outcome }}"
-          grep -E 'Starting database|failed to bind' /tmp/start.log || true
-          echo "--- distinct sockets seen on 54320-54329 during the job"
-          awk '{ k=$0; sub(/^[^ ]+ /,"",k); if (!(k in seen)) { seen[k]=$1; print } }' /tmp/ports.log | grep -v docker-proxy | head -80
+      - run: npx supabase start
+      - run: npm run test:review:db
+      - run: npm run test:review:smoke
       - if: always()
-        run: npx supabase stop || true
+        run: npx supabase stop
