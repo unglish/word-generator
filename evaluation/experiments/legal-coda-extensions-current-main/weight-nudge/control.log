@@ -1,0 +1,160 @@
+control 42 [{"phoneme":"z","metric":"overRepresentation","value":1.0739840424034486,"limit":1.066},{"phoneme":"n","metric":"absoluteGapPct","value":0.3905670564636017,"limit":0.39}]
+control 2315973202 [{"phoneme":"z","metric":"overRepresentation","value":1.0683635408672922,"limit":1.066}]
+control 336979066 [{"phoneme":"z","metric":"overRepresentation","value":1.0690010997198862,"limit":1.066}]
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  {
+    lexical: {
+      root: [
+        {
+          coda: [
+...
+            {
++             coda: undefined,
+              endWord: 1,
+              mannerOfArticulation: 'lowVowel',
+              midWord: 3,
+              nucleus: 187,
+              placeOfArticulation: 'back',
+...
+            {
++             coda: undefined,
+              endWord: 1,
+              mannerOfArticulation: 'lowVowel',
+              midWord: 3,
+              nucleus: 187,
+              placeOfArticulation: 'back',
+...
+          {
++           coda: undefined,
+            endWord: 1,
+            mannerOfArticulation: 'lowVowel',
+            midWord: 3,
+            nucleus: 187,
+            placeOfArticulation: 'back',
+
+    at <anonymous> (/private/tmp/pr313-weight-nudge/probe.mjs:25:223) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: {
+    syllables: [
+      {
+        onset: [],
+        nucleus: [
+          {
+            sound: 'ɑ',
+            mannerOfArticulation: 'lowVowel',
+            tense: true,
+            nucleus: 187,
+            startWord: 7,
+            midWord: 3,
+            endWord: 1,
+            voiced: true,
+            placeOfArticulation: 'back',
+            coda: undefined
+          }
+        ],
+        coda: [
+          {
+            sound: 'l',
+            mannerOfArticulation: 'liquid',
+            onset: 200,
+            coda: 200,
+            startWord: 5,
+            midWord: 5,
+            endWord: 8,
+            voiced: true,
+            placeOfArticulation: 'alveolar'
+          }
+        ],
+        stress: 'ˈ'
+      }
+    ],
+    pronunciation: 'ɑl',
+    written: { clean: 'aule', hyphenated: 'aule' },
+    lexical: {
+      root: [
+        {
+          onset: [],
+          nucleus: [ [Object] ],
+          coda: [ [Object] ],
+          stress: 'ˈ'
+        }
+      ],
+      syllables: [
+        {
+          onset: [],
+          nucleus: [ [Object] ],
+          coda: [ [Object] ],
+          stress: 'ˈ'
+        }
+      ],
+      rootSyllableStart: 0
+    }
+  },
+  expected: {
+    syllables: [
+      {
+        onset: [],
+        nucleus: [
+          {
+            sound: 'ɑ',
+            mannerOfArticulation: 'lowVowel',
+            tense: true,
+            nucleus: 187,
+            startWord: 7,
+            midWord: 3,
+            endWord: 1,
+            voiced: true,
+            placeOfArticulation: 'back'
+          }
+        ],
+        coda: [
+          {
+            sound: 'l',
+            mannerOfArticulation: 'liquid',
+            onset: 200,
+            coda: 200,
+            startWord: 5,
+            midWord: 5,
+            endWord: 8,
+            voiced: true,
+            placeOfArticulation: 'alveolar'
+          }
+        ],
+        stress: 'ˈ'
+      }
+    ],
+    pronunciation: 'ɑl',
+    written: { clean: 'aule', hyphenated: 'aule' },
+    lexical: {
+      root: [
+        {
+          onset: [],
+          nucleus: [ [Object] ],
+          coda: [ [Object] ],
+          stress: 'ˈ'
+        }
+      ],
+      syllables: [
+        {
+          onset: [],
+          nucleus: [ [Object] ],
+          coda: [ [Object] ],
+          stress: 'ˈ'
+        }
+      ],
+      rootSyllableStart: 0
+    }
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.1

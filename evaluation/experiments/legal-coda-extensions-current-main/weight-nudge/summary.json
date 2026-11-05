@@ -1,0 +1,662 @@
+[
+  {
+    "name": "control",
+    "weights": {
+      "z": 92,
+      "n": 450
+    },
+    "seeds": [
+      {
+        "seed": 42,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.7903832167259095,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.0739840424034486,
+          "gapPct": 0.19222243727767507,
+          "absGapPct": 0.19222243727767507
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.683855065863035,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9447916664131498,
+          "gapPct": -0.3905670564636017,
+          "absGapPct": 0.3905670564636017
+        },
+        "totalVariationPct": 1.5988328738620154,
+        "violations": [
+          {
+            "phoneme": "z",
+            "metric": "overRepresentation",
+            "value": 1.0739840424034486,
+            "limit": 1.066
+          },
+          {
+            "phoneme": "n",
+            "metric": "absoluteGapPct",
+            "value": 0.3905670564636017,
+            "limit": 0.39
+          }
+        ],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63632,
+          "z/coda": 1352,
+          "n/onset": 1225,
+          "n/coda": 2981,
+          "z/onset": 438
+        },
+        "traceFinal": {
+          "phones": 63617,
+          "z/coda": 1352,
+          "n/onset": 1225,
+          "n/coda": 2981,
+          "z/onset": 438
+        },
+        "rootDuplicates": 0
+      },
+      {
+        "seed": 2315973202,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.7757802500738396,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.0683635408672922,
+          "gapPct": 0.17761947062560512,
+          "absGapPct": 0.17761947062560512
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.708595057595744,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.948288770671974,
+          "gapPct": -0.365827064730893,
+          "absGapPct": 0.365827064730893
+        },
+        "totalVariationPct": 1.5944948140066122,
+        "violations": [
+          {
+            "phoneme": "z",
+            "metric": "overRepresentation",
+            "value": 1.0683635408672922,
+            "limit": 1.066
+          }
+        ],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63462,
+          "n/coda": 3062,
+          "z/coda": 1358,
+          "n/onset": 1274,
+          "z/onset": 429
+        },
+        "traceFinal": {
+          "phones": 63451,
+          "n/coda": 3062,
+          "z/coda": 1358,
+          "n/onset": 1274,
+          "z/onset": 429
+        },
+        "rootDuplicates": 0
+      },
+      {
+        "seed": 336979066,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.7774367304792396,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.0690010997198862,
+          "gapPct": 0.17927595103100513,
+          "absGapPct": 0.17927595103100513
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.732903298924285,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9517248451538494,
+          "gapPct": -0.3415188234023523,
+          "absGapPct": 0.3415188234023523
+        },
+        "totalVariationPct": 1.5753218613857567,
+        "violations": [
+          {
+            "phoneme": "z",
+            "metric": "overRepresentation",
+            "value": 1.0690010997198862,
+            "limit": 1.066
+          }
+        ],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63502,
+          "n/coda": 3024,
+          "z/onset": 464,
+          "z/coda": 1293,
+          "n/onset": 1198
+        },
+        "traceFinal": {
+          "phones": 63484,
+          "n/coda": 3024,
+          "z/onset": 464,
+          "z/coda": 1293,
+          "n/onset": 1198
+        },
+        "rootDuplicates": 0
+      }
+    ],
+    "defaultText": {
+      "unique": 39389,
+      "trigramComparison": {
+        "unionKeyCount": 8819,
+        "unionPearsonR": 0.7455162667749208,
+        "jensenShannonBits": 0.1568786185444145,
+        "missingReferenceMassPct": 3.88493265476176,
+        "nonReferenceMassPct": 0.7598212083580507
+      },
+      "rootDuplicates": 0,
+      "ksts": 14,
+      "root": {
+        "phones": 232395,
+        "n/coda": 12582,
+        "z/coda": 4593,
+        "n/onset": 3863,
+        "z/onset": 1037
+      },
+      "final": {
+        "phones": 283745,
+        "n/coda": 17204,
+        "z/coda": 8750,
+        "n/onset": 4011,
+        "z/onset": 1037
+      }
+    },
+    "determinismChecks": 100
+  },
+  {
+    "name": "z-only",
+    "weights": {
+      "z": 89,
+      "n": 450
+    },
+    "seeds": [
+      {
+        "seed": 42,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.7489661316964913,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.0580431178244032,
+          "gapPct": 0.15080535224825686,
+          "absGapPct": 0.15080535224825686
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.7194146472232426,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9498181662099293,
+          "gapPct": -0.3550074751033945,
+          "absGapPct": 0.3550074751033945
+        },
+        "totalVariationPct": 1.5371917815206988,
+        "violations": [],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63206,
+          "z/coda": 1307,
+          "n/onset": 1246,
+          "n/coda": 3008,
+          "z/onset": 462
+        },
+        "traceFinal": {
+          "phones": 63195,
+          "z/coda": 1307,
+          "n/onset": 1246,
+          "n/coda": 3008,
+          "z/onset": 462
+        },
+        "rootDuplicates": 0
+      },
+      {
+        "seed": 2315973202,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.758579444900413,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.061743163364296,
+          "gapPct": 0.16041866545217864,
+          "absGapPct": 0.16041866545217864
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.708456648140265,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9482692059000272,
+          "gapPct": -0.36596547418637204,
+          "absGapPct": 0.36596547418637204
+        },
+        "totalVariationPct": 1.5347134104635585,
+        "violations": [],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63557,
+          "n/coda": 3089,
+          "z/coda": 1273,
+          "n/onset": 1230,
+          "z/onset": 447
+        },
+        "traceFinal": {
+          "phones": 63540,
+          "n/coda": 3089,
+          "z/coda": 1273,
+          "n/onset": 1230,
+          "z/onset": 447
+        },
+        "rootDuplicates": 0
+      },
+      {
+        "seed": 336979066,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.7529860983617915,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.0595903533523576,
+          "gapPct": 0.1548253189135571,
+          "absGapPct": 0.1548253189135571
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.736262844418738,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9521997313617065,
+          "gapPct": -0.33815927790789946,
+          "absGapPct": 0.33815927790789946
+        },
+        "totalVariationPct": 1.5415666423521337,
+        "violations": [],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63440,
+          "n/coda": 3089,
+          "z/onset": 451,
+          "z/coda": 1309,
+          "n/onset": 1206
+        },
+        "traceFinal": {
+          "phones": 63429,
+          "n/coda": 3089,
+          "z/onset": 451,
+          "z/coda": 1309,
+          "n/onset": 1206
+        },
+        "rootDuplicates": 0
+      }
+    ],
+    "defaultText": {
+      "unique": 39427,
+      "trigramComparison": {
+        "unionKeyCount": 8794,
+        "unionPearsonR": 0.7456094597317373,
+        "jensenShannonBits": 0.15692804825408327,
+        "missingReferenceMassPct": 3.9789686908829394,
+        "nonReferenceMassPct": 0.7458191226116221
+      },
+      "rootDuplicates": 0,
+      "ksts": 9,
+      "root": {
+        "phones": 231997,
+        "n/coda": 12468,
+        "z/coda": 4493,
+        "n/onset": 3883,
+        "z/onset": 1012
+      },
+      "final": {
+        "phones": 283455,
+        "n/coda": 17053,
+        "z/coda": 8607,
+        "n/onset": 4039,
+        "z/onset": 1012
+      }
+    },
+    "determinismChecks": 100
+  },
+  {
+    "name": "n-only",
+    "weights": {
+      "z": 92,
+      "n": 455
+    },
+    "seeds": [
+      {
+        "seed": 42,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.792442191934433,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.0747765165354617,
+          "gapPct": 0.19428141248619868,
+          "absGapPct": 0.19428141248619868
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.752700229625827,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9545232264716765,
+          "gapPct": -0.3217218927008103,
+          "absGapPct": 0.3217218927008103
+        },
+        "totalVariationPct": 1.521698678421388,
+        "violations": [
+          {
+            "phoneme": "z",
+            "metric": "overRepresentation",
+            "value": 1.0747765165354617,
+            "limit": 1.066
+          }
+        ],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63400,
+          "z/coda": 1322,
+          "n/onset": 1228,
+          "n/coda": 3036,
+          "z/onset": 444
+        },
+        "traceFinal": {
+          "phones": 63387,
+          "z/coda": 1322,
+          "n/onset": 1228,
+          "n/coda": 3036,
+          "z/onset": 444
+        },
+        "rootDuplicates": 0
+      },
+      {
+        "seed": 2315973202,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.8080638843990586,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.0807891130568912,
+          "gapPct": 0.2099031049508242,
+          "absGapPct": 0.2099031049508242
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.770261569511639,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9570055974105536,
+          "gapPct": -0.30416055281499776,
+          "absGapPct": 0.30416055281499776
+        },
+        "totalVariationPct": 1.5268334407352675,
+        "violations": [
+          {
+            "phoneme": "z",
+            "metric": "overRepresentation",
+            "value": 1.0807891130568912,
+            "limit": 1.066
+          }
+        ],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63371,
+          "n/coda": 3184,
+          "z/coda": 1383,
+          "n/onset": 1158,
+          "z/onset": 482
+        },
+        "traceFinal": {
+          "phones": 63357,
+          "n/coda": 3184,
+          "z/coda": 1383,
+          "n/onset": 1158,
+          "z/onset": 482
+        },
+        "rootDuplicates": 0
+      },
+      {
+        "seed": 336979066,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.7736755097221124,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.067553452296802,
+          "gapPct": 0.17551473027387798,
+          "absGapPct": 0.17551473027387798
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.78005195623081,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9583895106899538,
+          "gapPct": -0.29437016609582667,
+          "absGapPct": 0.29437016609582667
+        },
+        "totalVariationPct": 1.505344311045944,
+        "violations": [
+          {
+            "phoneme": "z",
+            "metric": "overRepresentation",
+            "value": 1.067553452296802,
+            "limit": 1.066
+          }
+        ],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63397,
+          "n/coda": 3075,
+          "z/onset": 432,
+          "z/coda": 1302,
+          "n/onset": 1202
+        },
+        "traceFinal": {
+          "phones": 63383,
+          "n/coda": 3075,
+          "z/onset": 432,
+          "z/coda": 1302,
+          "n/onset": 1202
+        },
+        "rootDuplicates": 0
+      }
+    ],
+    "defaultText": {
+      "unique": 39465,
+      "trigramComparison": {
+        "unionKeyCount": 8810,
+        "unionPearsonR": 0.7475306748061964,
+        "jensenShannonBits": 0.1562397986998079,
+        "missingReferenceMassPct": 3.8090107629520316,
+        "nonReferenceMassPct": 0.7556348024788998
+      },
+      "rootDuplicates": 0,
+      "ksts": 11,
+      "root": {
+        "phones": 232556,
+        "n/coda": 12731,
+        "z/coda": 4609,
+        "n/onset": 3875,
+        "z/onset": 1033
+      },
+      "final": {
+        "phones": 283721,
+        "n/coda": 17265,
+        "z/coda": 8826,
+        "n/onset": 4027,
+        "z/onset": 1033
+      }
+    },
+    "determinismChecks": 100
+  },
+  {
+    "name": "combined",
+    "weights": {
+      "z": 89,
+      "n": 455
+    },
+    "seeds": [
+      {
+        "seed": 42,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.7631649367371547,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.0635080625472153,
+          "gapPct": 0.16500415728892026,
+          "absGapPct": 0.16500415728892026
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.738697216686658,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9525438403540492,
+          "gapPct": -0.3357249056399789,
+          "absGapPct": 0.3357249056399789
+        },
+        "totalVariationPct": 1.5327478339755176,
+        "violations": [],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63458,
+          "z/coda": 1296,
+          "n/onset": 1235,
+          "n/coda": 3085,
+          "z/onset": 454
+        },
+        "traceFinal": {
+          "phones": 63448,
+          "z/coda": 1296,
+          "n/onset": 1235,
+          "n/coda": 3085,
+          "z/onset": 454
+        },
+        "rootDuplicates": 0
+      },
+      {
+        "seed": 2315973202,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.7605066115389945,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.0624849060054078,
+          "gapPct": 0.16234583209076003,
+          "absGapPct": 0.16234583209076003
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.785178555671805,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9591141775747323,
+          "gapPct": -0.2892435666548323,
+          "absGapPct": 0.2892435666548323
+        },
+        "totalVariationPct": 1.4402080662391616,
+        "violations": [],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63570,
+          "n/coda": 3139,
+          "z/coda": 1352,
+          "n/onset": 1239,
+          "z/onset": 479
+        },
+        "traceFinal": {
+          "phones": 63556,
+          "n/coda": 3139,
+          "z/coda": 1352,
+          "n/onset": 1239,
+          "z/onset": 479
+        },
+        "rootDuplicates": 0
+      },
+      {
+        "seed": 336979066,
+        "z": {
+          "phoneme": "z",
+          "generatedPct": 2.7585875540229625,
+          "baselinePct": 2.5981607794482344,
+          "ratio": 1.0617462844654277,
+          "gapPct": 0.1604267745747281,
+          "absGapPct": 0.1604267745747281
+        },
+        "n": {
+          "phoneme": "n",
+          "generatedPct": 6.7522895024334435,
+          "baselinePct": 7.074422122326637,
+          "ratio": 0.9544651684161518,
+          "gapPct": -0.32213261989319353,
+          "absGapPct": 0.32213261989319353
+        },
+        "totalVariationPct": 1.5373734575912108,
+        "violations": [],
+        "nonCmu": 0,
+        "missing": 0,
+        "losses": {},
+        "traceRoot": {
+          "phones": 63350,
+          "n/coda": 3093,
+          "z/onset": 454,
+          "z/coda": 1273,
+          "n/onset": 1227
+        },
+        "traceFinal": {
+          "phones": 63335,
+          "n/coda": 3093,
+          "z/onset": 454,
+          "z/coda": 1273,
+          "n/onset": 1227
+        },
+        "rootDuplicates": 0
+      }
+    ],
+    "defaultText": {
+      "unique": 39442,
+      "trigramComparison": {
+        "unionKeyCount": 8825,
+        "unionPearsonR": 0.7458151517906758,
+        "jensenShannonBits": 0.1569175696043574,
+        "missingReferenceMassPct": 3.9747158048272047,
+        "nonReferenceMassPct": 0.7714979195562518
+      },
+      "rootDuplicates": 0,
+      "ksts": 16,
+      "root": {
+        "phones": 232131,
+        "n/coda": 12637,
+        "z/coda": 4537,
+        "n/onset": 3933,
+        "z/onset": 1021
+      },
+      "final": {
+        "phones": 283291,
+        "n/coda": 17219,
+        "z/coda": 8660,
+        "n/onset": 4086,
+        "z/onset": 1021
+      }
+    },
+    "determinismChecks": 100
+  }
+]

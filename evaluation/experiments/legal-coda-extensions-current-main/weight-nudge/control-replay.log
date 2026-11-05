@@ -1,0 +1,3 @@
+control 42 [{"phoneme":"z","metric":"overRepresentation","value":1.0739840424034486,"limit":1.066},{"phoneme":"n","metric":"absoluteGapPct","value":0.3905670564636017,"limit":0.39}]
+control 2315973202 [{"phoneme":"z","metric":"overRepresentation","value":1.0683635408672922,"limit":1.066}]
+control 336979066 [{"phoneme":"z","metric":"overRepresentation","value":1.0690010997198862,"limit":1.066}]
