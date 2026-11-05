@@ -1,0 +1,50 @@
+
+> @unglish/word-generator@0.6.0 test:review
+> vitest run --config vitest.review.config.ts
+
+
+ RUN  v3.2.4 /Users/ryanbetts/.t3/worktrees/word-generator/codex-pr-313-current-main
+
+ ✓ evaluation/review/cmu-source.test.ts (24 tests) 715ms
+   ✓ source and implementation provenance at the CLI > rejects wrong or truncated raw input before writing an audit  331ms
+   ✓ source and implementation provenance at the CLI > keeps the historical model tied to its original implementation  378ms
+ ✓ evaluation/review/local.test.ts (8 tests) 34ms
+ ✓ evaluation/review/study.test.ts (11 tests) 965ms
+   ✓ frozen study provenance > captures reproducible full generator output and source  446ms
+ ✓ evaluation/review/wordlikeness/wordlikeness.test.ts (15 tests) 1176ms
+   ✓ frozen artifacts and private evaluation > scores all frozen draws without regeneration and preserves both rubric snapshots  917ms
+ ✓ evaluation/review/cli.test.ts (6 tests) 2042ms
+   ✓ review CLI JSON input > preserves useful file-read errors  312ms
+   ✓ wordlikeness CLI JSON input > rejects malformed exports without printing private comment text or creating output  413ms
+   ✓ wordlikeness CLI JSON input > preserves useful file-read errors  451ms
+   ✓ wordlikeness CLI JSON input > preserves safe validation errors for valid JSON  324ms
+ ✓ evaluation/review/cmu-joint.test.ts (27 tests) 1765ms
+ ✓ evaluation/review/cmu-phoneme-builder.test.ts (44 tests) 3135ms
+   ✓ explicit command and safe destinations > keeps the direct Node entrypoint usable from another working directory  405ms
+ ✓ evaluation/review/cmu-length-builder.test.ts (49 tests) 3448ms
+   ✓ retained TS command and publication boundaries > keeps the local TS entrypoint usable without source from another working directory  465ms
+ ✓ evaluation/review/cmu-transition-builder.test.ts (39 tests) 3713ms
+   ✓ explicit source, units and fresh publication path > rejects corrupt, truncated and invalid UTF-8 source without creating output  304ms
+   ✓ explicit source, units and fresh publication path > executes a symlinked TS entrypoint instead of silently succeeding  520ms
+   ✓ explicit source, units and fresh publication path > runs help and rejects missing arguments from unrelated cwd through both TS entrypoints  750ms
+ ✓ evaluation/review/cmu-score-reference.test.ts (37 tests) 12997ms
+   ✓ complete externally expected score artifact > validates an explicitly synthetic parent-sized envelope and detaches its source metadata  1268ms
+   ✓ complete externally expected score artifact > rejects a redigested row-score swap even though every summary and denominator is preserved  894ms
+   ✓ complete externally expected score artifact > rejects redigested missing corruption  836ms
+   ✓ complete externally expected score artifact > rejects redigested extra corruption  790ms
+   ✓ complete externally expected score artifact > rejects redigested duplicate corruption  772ms
+   ✓ complete externally expected score artifact > rejects redigested reordered corruption  778ms
+   ✓ complete externally expected score artifact > rejects redigested input corruption  779ms
+   ✓ complete externally expected score artifact > rejects redigested summary corruption  815ms
+   ✓ complete externally expected score artifact > rejects redigested population corruption  784ms
+   ✓ complete externally expected score artifact > rejects redigested model corruption  772ms
+   ✓ complete externally expected score artifact > rejects redigested projection corruption  771ms
+   ✓ complete externally expected score artifact > rejects redigested forged closure corruption  774ms
+   ✓ complete externally expected score artifact > rejects redigested extra field corruption  817ms
+   ✓ explicit score-reference CLI and unchanged input protection > executes aliases and reports help/failure statuses through both TS runners from unrelated cwd  730ms
+
+ Test Files  10 passed (10)
+      Tests  260 passed (260)
+   Start at  10:24:36
+   Duration  13.43s (transform 800ms, setup 0ms, collect 2.40s, tests 29.99s, environment 1ms, prepare 583ms)
+

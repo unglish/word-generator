@@ -1,0 +1,35 @@
+
+> @unglish/word-generator@0.6.0 build
+> npm run review:typecheck && tsc && vite build && node scripts/inject-build-info.js && npm run copy-worker && npm run copy-demo-assets
+
+
+> @unglish/word-generator@0.6.0 review:typecheck
+> tsc -p tsconfig.review.json
+
+vite v7.3.1 building client environment for production...
+transforming...
+<script src="cmuBaselines.js"> in "/index.html" can't be bundled without type="module" attribute
+✓ 94 modules transformed.
+
+(!) outDir /Users/ryanbetts/.t3/worktrees/word-generator/codex-pr-313-current-main/dist-demo is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+
+rendering chunks...
+computing gzip size...
+../dist-demo/review.html                                  3.42 kB │ gzip:  1.42 kB
+../dist-demo/index.html                                  22.79 kB │ gzip:  4.36 kB
+../dist-demo/assets/review-D4IilR79.css                   2.99 kB │ gzip:  1.10 kB
+../dist-demo/assets/modulepreload-polyfill-B5Qt9EMX.js    0.71 kB │ gzip:  0.40 kB
+../dist-demo/review.js                                    1.12 kB │ gzip:  0.56 kB
+../dist-demo/unglish-worker.js                          144.76 kB │ gzip: 40.11 kB
+../dist-demo/main.js                                    183.04 kB │ gzip: 54.40 kB
+✓ built in 520ms
+✓ Injected build info: build 43ef38ae • 2026-11-05 17:24:03 UTC
+
+> @unglish/word-generator@0.6.0 copy-worker
+> cp dist-demo/unglish-worker.js demo/
+
+
+> @unglish/word-generator@0.6.0 copy-demo-assets
+> cp demo/commonWordsWorker.js demo/statsWorker.js demo/matchWorker.js demo/duplicateWorker.js demo/realwords.js demo/index.js demo/cmuBaselines.js dist-demo/ 2>/dev/null || true
+

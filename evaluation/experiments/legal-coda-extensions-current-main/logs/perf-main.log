@@ -1,0 +1,21 @@
+
+ RUN  v3.2.4 /tmp/pr313-main
+
+stdout | src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec
+
+⚡ Performance: 6424 words/sec (10000 words in 1557ms)
+   Floor: 4500 words/sec
+
+
+ ✓ src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec 1597ms
+stdout | src/core/generate.perf.test.ts > Word Generation Performance > should not degrade significantly with sequential seeds
+⚡ Batch variance trials: 1.11x, 1.24x, 1.34x (median 1.24x)
+   Median variance threshold: < 3.0x
+
+ ✓ src/core/generate.perf.test.ts > Word Generation Performance > should not degrade significantly with sequential seeds 427ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  10:25:23
+   Duration  2.45s (transform 197ms, setup 0ms, collect 262ms, tests 2.03s, environment 0ms, prepare 43ms)
+

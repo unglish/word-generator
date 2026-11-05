@@ -1,0 +1,25 @@
+
+> @unglish/word-generator@0.6.0 test:perf
+> vitest run --config vitest.perf.config.ts --reporter=verbose
+
+
+ RUN  v3.2.4 /Users/ryanbetts/.t3/worktrees/word-generator/codex-pr-313-current-main
+
+stdout | src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec
+
+⚡ Performance: 5888 words/sec (10000 words in 1698ms)
+   Floor: 4500 words/sec
+
+
+ ✓ src/core/generate.perf.test.ts > Word Generation Performance > should generate at least 4500 words/sec 1733ms
+stdout | src/core/generate.perf.test.ts > Word Generation Performance > should not degrade significantly with sequential seeds
+⚡ Batch variance trials: 1.08x, 1.20x, 1.25x (median 1.20x)
+   Median variance threshold: < 3.0x
+
+ ✓ src/core/generate.perf.test.ts > Word Generation Performance > should not degrade significantly with sequential seeds 486ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  10:25:26
+   Duration  2.64s (transform 196ms, setup 0ms, collect 262ms, tests 2.22s, environment 0ms, prepare 43ms)
+

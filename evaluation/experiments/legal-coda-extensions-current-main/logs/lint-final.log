@@ -1,0 +1,4 @@
+
+> @unglish/word-generator@0.6.0 lint
+> eslint "src/**/*.ts" "evaluation/review/**/*.ts" "evaluation/quality/**/*.ts" "demo/review/**/*.ts"
+

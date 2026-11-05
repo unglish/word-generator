@@ -1,0 +1,18 @@
+
+> @unglish/word-generator@0.6.0 test:diagnostics
+> tsc && node --test scripts/lib/analyzer-sampling.test.mjs
+
+✔ each replicate consumes a continuous public-API RNG stream, reproducibly (42.200833ms)
+✔ replayed outliers retain their exact stream locations and full trace (6.482166ms)
+✔ reject duplicate, aliased or invalid seed schedules and fractional sample sizes (0.335167ms)
+✔ CLI phoneme scores use the same union-aware implementation as the core gate (0.682458ms)
+✔ trigram gap rankings and distances include missing and generated-only categories (0.373417ms)
+✔ both CLIs persist truthful sample sizes and category-matching full witnesses (314.358959ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 449.10525

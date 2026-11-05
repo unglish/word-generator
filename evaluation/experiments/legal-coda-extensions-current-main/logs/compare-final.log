@@ -1,0 +1,5 @@
+
+> @unglish/word-generator@0.6.0 quality:compare
+> node --import tsx evaluation/quality/cli.ts compare --baseline /tmp/pr313-evidence/quality/baseline --candidate /tmp/pr313-evidence/final-candidate --out /tmp/pr313-evidence/final-comparison
+
+Compared verified summaries: /tmp/pr313-evidence/final-comparison

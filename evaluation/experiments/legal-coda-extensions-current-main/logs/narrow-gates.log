@@ -1,0 +1,49 @@
+
+ RUN  v3.2.4 /tmp/pr313-narrow
+
+ ✓ src/core/grapheme-selection.test.ts (10 tests) 11008ms
+   ✓ legal grapheme selection > uses a separately declared fallback and records the ordinary empty set  908ms
+   ✓ legal grapheme selection > spells isolated /ɛ/ with ordinary e, including before /t/, without a fallback  1327ms
+   ✓ legal grapheme selection > writes medial coda /z/ after /g/ as z, so gz before a vowel can become x  5479ms
+   ✓ legal grapheme selection > keeps positive real weights and correct edge scopes across 10k public outputs  3240ms
+stdout | src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails
+Total variation from CMU: 1.599% (threshold: 1.78%)
+Shared phoneme Pearson r: 0.99825 (report-only)
+Non-CMU generated mass: 0.0000% (threshold: 0%)
+Worst over-rep: z at 1.074x (threshold: 1.066x)
+Worst under-rep: n at 0.945x (threshold: 0.918x)
+Worst absolute gap: n at 0.391% (threshold: 0.39%)
+CMU phonemes never generated: 0 (threshold: 0)
+
+ ❯ src/core/phoneme-quality.test.ts (1 test | 1 failed) 29960ms
+   × Phoneme quality gates > meets phoneme distribution guardrails 29959ms
+     → expected 1.0739840424034486 to be less than or equal to 1.066
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no bigram exceeds threshold over-representation
+Worst over-rep bigram: "ds" at 3.007× (threshold: 4.25)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no trigram exceeds threshold over-representation
+Worst over-rep trigram: "abl" at 2.190× (threshold: 3.21)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented
+Worst under-rep bigram: "ex" at 0.0430× (threshold: 0.0215)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented
+Worst under-rep trigram: "ugh" at 0.0149× (threshold: 0.0062)
+
+ ✓ src/core/ngram-quality.test.ts (5 tests) 40903ms
+   ✓ N-gram quality gates > generate sample  40878ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails
+AssertionError: expected 1.0739840424034486 to be less than or equal to 1.066
+ ❯ src/core/phoneme-quality.test.ts:84:44
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 15 passed (16)
+   Start at  10:20:16
+   Duration  41.34s (transform 289ms, setup 0ms, collect 763ms, tests 81.87s, environment 0ms, prepare 144ms)
+
