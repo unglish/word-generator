@@ -1,3 +1,6 @@
+import type { PhonemeComparisonRow } from "../../src/core/phoneme-quality.js";
+import type { PhonemeGateViolation } from "../../src/core/phoneme-quality-gates.js";
+
 export interface SeedResult {
   seed: number;
   draws: number;
@@ -13,6 +16,9 @@ export interface SeedResult {
   maxAbsoluteGapPct: number;
   maxGapPhoneme: string;
   cmuOnlyKeyCount: number;
+  /** Absent in historical calibration packets that retained only extrema. */
+  phonemes?: PhonemeComparisonRow[];
+  phonemeGateViolations?: PhonemeGateViolation[];
 }
 
 /** Gate limits, their direction, and the precision they are rounded outward to. */

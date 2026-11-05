@@ -9,5 +9,13 @@
   "maxGeneratedOnlyMassPct": 0,
   "maxCmuOnlyKeyCount": 0,
   "generatedOnlyEscalationThresholdPct": 1.5,
-  "_comment": "Distribution limits use the worst observed value ± 3 sample SDs, rounded outward, from `npm run calibrate:phonemes` (30 non-overlapping RNG streams, sampleSize words, lexicon, morphology off). This is an engineering margin, not a false-failure probability guarantee. Inventory coverage is fixed at 0: calibration fails on any generated-only mass, missing CMU phonemes, or rejected tokens. Recalibration measures a change; justify any loosened limit with its linguistic benefit and leave unaffected limits unchanged. Shared Pearson r is reported but not gated (2026-11 recalibration). See TUNING.md."
+  "_comment": "Global limits retain their existing calibration. Per-phoneme overrides use worst observed + 3 sample SDs, rounded outward, from 30 non-overlapping 200,000-word bare-lexicon streams. The /z/ ratio and /n/ gap overrides accept the reviewed distribution tradeoff from preserving legal root codas before optional extensions. All other per-phone bounds, total variation and fixed-zero inventory requirements remain unchanged. This engineering margin is not a false-failure probability guarantee. See TUNING.md and archive/pr-313-recalibration for development and confirmation evidence.",
+  "phonemeOverrides": {
+    "z": {
+      "maxOverRepresentation": 1.105
+    },
+    "n": {
+      "maxAbsoluteGapPct": 0.471
+    }
+  }
 }

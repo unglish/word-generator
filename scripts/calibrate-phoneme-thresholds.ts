@@ -21,6 +21,7 @@ import { parseArgs } from "node:util";
 import { generateWord } from "../src/core/generate.js";
 import { countNormalizedPhonemes, type PhonemeNormalization } from "../src/core/phoneme-normalization.js";
 import { computePhonemeQualityMetrics } from "../src/core/phoneme-quality.js";
+import { phonemeGateViolations, type PhonemeGateLimits } from "../src/core/phoneme-quality-gates.js";
 import { createSeededRng } from "../src/utils/random.js";
 import { proposeLimits, type SeedResult } from "./lib/phoneme-calibration.js";
 
@@ -31,11 +32,11 @@ const MULBERRY_INCREMENT = 0x6d2b79f5n;
 /** Lexicon words have used ~86 draws each; the margin lets the pre-run overlap check be conservative. */
 const ESTIMATED_DRAWS_PER_WORD = 100;
 
-interface Thresholds {
+interface Thresholds extends PhonemeGateLimits {
   sampleSize: number;
   seed: number;
   minCommonBaselinePct: number;
-  [limit: string]: number | string;
+  [limit: string]: number | string | PhonemeGateLimits["phonemeOverrides"];
 }
 
 function loadJson<T>(path: string): T {
@@ -75,6 +76,8 @@ function measureSeed(seed: number, thresholds: Thresholds): SeedResult {
     maxAbsoluteGapPct: gap.absGapPct,
     maxGapPhoneme: gap.phoneme,
     cmuOnlyKeyCount: metrics.cmuOnlyKeyCount,
+    phonemes: metrics.topOverRepresented,
+    phonemeGateViolations: phonemeGateViolations(metrics.topOverRepresented, thresholds),
   };
 }
 
@@ -159,6 +162,9 @@ function printReport(results: SeedResult[], thresholds: Thresholds, k: number) {
         `${fmt(r.nonCmuMassPct)} | ${r.cmuOnlyKeyCount} |`,
     );
   }
+  const violations = results.flatMap(result => (result.phonemeGateViolations ?? []).map(violation => ({ seed: result.seed, ...violation })));
+  console.log(`\nPer-phoneme gate violations against configured defaults and overrides: ${JSON.stringify(violations)}`);
+
   console.log(`\nSpread and proposed limits (k = ${k}; upper = max + k·SD, lower = min − k·SD, rounded outward; inventory coverage fixed at 0)\n`);
   console.log("| Limit | Min | Max | Mean | SD | Current | Proposed |");
   console.log("|---|---:|---:|---:|---:|---:|---:|");
