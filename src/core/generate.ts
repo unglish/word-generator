@@ -10,6 +10,7 @@ import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } f
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
 import { RejectionTraceCollector } from "./rejection-trace.js";
+import { assertRootRimeCompatibility, isNucleusCodaPairAllowed } from "./rime-compatibility.js";
 import { nucleusWordPositionWeight, repairNucleusWordPositions } from "./nucleus-position.js";
 import {
   planMorphology,
@@ -343,8 +344,7 @@ function clusterCandidateRejection(p: Phoneme, rt: GeneratorRuntime, context: Cl
   // Reject coda phonemes banned after the current nucleus
   if (context.position === "coda" && context.nucleus && rt.bannedNucleusCodaMap) {
     for (const nuc of context.nucleus) {
-      const bannedCodas = rt.bannedNucleusCodaMap.get(nuc.sound);
-      if (bannedCodas?.has(sound)) {
+      if (!isNucleusCodaPairAllowed(nuc.sound, sound, rt.bannedNucleusCodaMap)) {
         return "nucleus-coda";
       }
     }
@@ -1262,6 +1262,7 @@ function spellLexicalRoot(
     orthographySource: { kind: "lexical-root", wordSyllableStart },
     orthographyFollowing: following,
   };
+  assertRootRimeCompatibility(root, rt.bannedNucleusCodaMap);
   context.trace?.beforeStage("generateWrittenForm", root);
   rt.generateWrittenForm(rootContext);
   context.trace?.afterStage("generateWrittenForm", root);
@@ -1329,7 +1330,8 @@ function resolveLexicalWord(
   // (such as -ity shortening) as separate base and derived segments.
   const nucleiBeforeRepair = context.word.syllables.map(syllable => [...syllable.nucleus]);
   traceCollector?.beforeStage("repairFinalStressedNuclei", context.word.syllables);
-  repairStressedNuclei(lexicalContext, rt.positionPhonemes.nucleus, rt.resolvedStress);
+  repairStressedNuclei(lexicalContext, rt.positionPhonemes.nucleus, rt.resolvedStress, rt.bannedNucleusCodaMap,
+    { syllables: lexicalRoot, start: rootSyllableStart });
   carryRootStressRepairs(lexicalRoot, context.word.syllables, nucleiBeforeRepair, rootSyllableStart);
   traceCollector?.afterStage("repairFinalStressedNuclei", context.word.syllables);
   context.word.lexical = {
@@ -1538,11 +1540,11 @@ function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode:
   t?.afterStage("applyStress", context.word.syllables);
 
   t?.beforeStage("repairStressedNuclei", context.word.syllables);
-  repairStressedNuclei(context, rt.positionPhonemes.nucleus, stressRules);
+  repairStressedNuclei(context, rt.positionPhonemes.nucleus, stressRules, rt.bannedNucleusCodaMap);
   t?.afterStage("repairStressedNuclei", context.word.syllables);
 
   t?.beforeStage("repairNucleusWordPositions", context.word.syllables);
-  repairNucleusWordPositions(context, rt.positionPhonemes.nucleus, stressRules);
+  repairNucleusWordPositions(context, rt.positionPhonemes.nucleus, stressRules, rt.bannedNucleusCodaMap);
   t?.afterStage("repairNucleusWordPositions", context.word.syllables);
 }
 
