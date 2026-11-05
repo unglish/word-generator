@@ -46,7 +46,9 @@ npm run audit:trace
 
 For distribution or quality claims, capture and compare against the frozen
 baselines ([`docs/quality-baselines.md`](./docs/quality-baselines.md)) and
-include the comparison in the PR.
+include the comparison in the PR description. Measurement output is not
+committed to `main`: keep full evidence packets in an `archive/pr-<number>` tag
+([`docs/experiments.md`](./docs/experiments.md#where-evidence-lives)).
 
 ## Continuous Integration
 
@@ -130,3 +132,5 @@ Include:
 - Why it changed.
 - How it was validated (tests, diagnostics, sample size/seed when relevant).
 - Any expected distribution shifts or compatibility impact.
+- Evidence for distribution or quality claims in the description, with any
+  full packet in an `archive/pr-<number>` tag rather than in the diff.
