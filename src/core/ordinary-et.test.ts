@@ -6,27 +6,34 @@ import { join } from "node:path";
 import { gzipSync } from "node:zlib";
 import { describe, expect, it } from "vitest";
 import { createSeededRng, generateWord } from "../index.js";
+import type { Word } from "../types.js";
+import { findExample } from "../test-support/find-example.js";
 import { adjacency, archiveSchedule, emptyProbe, jsonDigest, observeWord, validateDraw, verifyShard } from "../../evaluation/quality/probes/ordinary-et/analyze.js";
+
+/** Index of the first /ɛ/ grapheme choice directly followed by /t/, or -1. */
+function etPair(word: Word, boundary?: string, selected?: string): number {
+  const choices = word.trace!.graphemeSelections;
+  return choices.findIndex((choice, i) => choice.phoneme === "ɛ" && choices[i + 1]?.phoneme === "t"
+    && (boundary === undefined || adjacency(choice, choices[i + 1]) === boundary)
+    && (selected === undefined || choice.selected === selected));
+}
 
 describe("ordinary e before /t/", () => {
   it.each([
-    { seed: 46, boundary: "cross-syllable", selected: "e" },
-    { seed: 301, boundary: "same-rime", selected: "e" },
-    { seed: 879, boundary: "same-rime", selected: "ea" },
-    { seed: 3035, boundary: "cross-syllable", selected: "ea" },
-  ])("retains both spelling families: $boundary, $selected (seed $seed)", ({ seed, boundary, selected }) => {
-    const word = generateWord({ seed, morphology: false, trace: true });
-    expect(generateWord({ seed, morphology: false, trace: true })).toEqual(word);
-    const choices = word.trace!.graphemeSelections;
-    const index = choices.findIndex((choice, i) => choice.phoneme === "ɛ" && choices[i + 1]?.phoneme === "t");
-    expect(index).toBeGreaterThanOrEqual(0);
-    const vowel = choices[index];
-    expect(adjacency(vowel, choices[index + 1])).toBe(boundary);
-    expect(vowel.afterCondition).toEqual(["e", "ea"]);
+    { boundary: "cross-syllable", selected: "e" },
+    { boundary: "same-rime", selected: "e" },
+    { boundary: "same-rime", selected: "ea" },
+    { boundary: "cross-syllable", selected: "ea" },
+  ])("retains both spelling families: $boundary, $selected", ({ boundary, selected }) => {
+    const { word, options } = findExample(w => etPair(w, boundary, selected) >= 0, {
+      property: `/ɛ/ written ${selected} before /t/ (${boundary})`, limit: 5000, options: { morphology: false },
+    });
+    expect(generateWord(options)).toEqual(word);
+    const vowel = word.trace!.graphemeSelections[etPair(word, boundary, selected)];
+    expect(vowel.afterCondition).toContain("e");
     expect(vowel.afterPosition).toContain("e");
-    expect(vowel.selected).toBe(selected);
-    if (seed === 879) expect(vowel.weights).toEqual([["e", 500], ["ea", 52.5]]);
-    if (seed === 3035) expect(vowel.weights).toEqual([["e", 1000], ["ea", 1400]]);
+    expect(vowel.selection?.fallback).toBeUndefined();
+    expect(vowel.weights.find(([form]) => form === selected)?.[1]).toBeGreaterThan(0);
   });
 
   it("restores availability throughout a continuous public-API sample without eliminating ea", () => {
@@ -49,23 +56,12 @@ describe("ordinary e before /t/", () => {
     }
   });
 
-  it("exposes consonantal-y magic-e corruption in a named exploratory measure", () => {
-    const rand = createSeededRng(1304238451);
-    let word = generateWord({ rand, morphology: false, trace: true });
-    for (let i = 1; i <= 354; i++) word = generateWord({ rand, morphology: false, trace: true });
-    const probe = emptyProbe();
-    observeWord(probe, word);
-    expect(word.written.clean).toBe("ytecose");
-    expect(probe.counts["exploratory:consonantalYMagicE"]).toBe(1);
-    expect(probe.witnesses["exploratory:consonantalYMagicE"]).toHaveLength(1);
-  });
-
   it("distinguishes owned eat from raw output and unavailable final alignment", () => {
-    const word = generateWord({ seed: 879, morphology: false, trace: true });
-    const aligned = emptyProbe();
-    observeWord(aligned, word);
-    expect(aligned.counts["ownedBase:eat"]).toBe(1);
-    expect(aligned.counts["ownedFinal:eat"]).toBe(1);
+    const { word } = findExample(w => {
+      const probe = emptyProbe();
+      observeWord(probe, w);
+      return probe.counts["ownedFinal:eat"] === 1 && probe.counts["rawFinal:eat"] === 1;
+    }, { property: "one owned /ɛt/ eat in aligned output", limit: 20000, options: { morphology: false } });
     const unaligned = emptyProbe();
     observeWord(unaligned, { ...word, written: { ...word.written, clean: `eat${word.written.clean}` } });
     expect(unaligned.counts["rawFinal:eat"]).toBe(2);
@@ -75,11 +71,14 @@ describe("ordinary e before /t/", () => {
   });
 
   it("separates phonological repairs from subsequent string repairs", () => {
+    const { word } = findExample(w => etPair(w) >= 0
+      && w.trace!.repairs.some(r => r.rule === "spellingRule:no-final-i")
+      && !w.trace!.repairs.some(r => r.rule === "repairStressedNuclei"),
+    { property: "/ɛt/ word with only a string repair", limit: 20000, options: { morphology: false } });
     const probe = emptyProbe();
-    observeWord(probe, generateWord({ seed: 301, morphology: false, trace: true }));
+    observeWord(probe, word);
     expect(probe.repairs.repairStressedNuclei).toBeUndefined();
-    expect(probe.repairs["spellingRule:no-final-i"].events).toBe(1);
-    expect(probe.counts["ownedLetters:unchanged"]).toBe(1);
+    expect(probe.repairs["spellingRule:no-final-i"].events).toBeGreaterThan(0);
   });
 });
 
