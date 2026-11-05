@@ -34,16 +34,47 @@ configurations. English `kn`, `wr`, `wh`, final `mb`, final `k`, final vowel `y`
 and final rhotic `eir` now state literal segment restrictions explicitly.
 
 Fallback-only graphemes have their own full conditions and weights and can be
-selected only when no ordinary candidate survives. English declares three narrow
-fallbacks: initial or isolated /ɛ/ before /t/ can use `ea`, initial or isolated /ʊ/
-after /g/ can use `oo`, and a one-syllable base ending in /i:/ before a
-vowel-initial suffix can use `ee` (`ea` is the only ordinary isolated /i:/
-spelling, and it may not precede a vowel letter; see below). These preserve the
-existing contextual bans; the separate ordinary `e`-before-/t/ improvement
-remains outside this change.
+selected only when no ordinary candidate survives. English declares two narrow
+fallbacks: initial or isolated /ʊ/ after /g/ can use `oo`, and a one-syllable
+base ending in /i:/ before a vowel-initial suffix can use `ee` (`ea` is the only
+ordinary isolated /i:/ spelling, and it may not precede a vowel letter; see
+below). These preserve the existing contextual bans. A third fallback, initial
+or isolated /ɛ/ before /t/ as `ea`, was retired once ordinary `e` became legal
+before /t/ (see [below](#ordinary-e-before-t-312)): every /ɛ/
+then has a positive ordinary spelling, so it could no longer fire.
 The inventory also permits `n`/`ng` in legal /ŋ/ clusters (think, length) and
 final /dʒ/→`ge` after tense vowels (age), removing contradictory exclusions that
 previously depended on implicit restoration.
+
+## Ordinary `e` before /t/ (#312)
+
+/ɛ/ → `e` is legal before /t/, within a syllable (*pet*) and across a syllable
+boundary (*letter*). It used to be banned there, so every such /ɛ/ was written `ea`.
+`ea` stays available with unchanged weights: English has both *wet* and *sweat*,
+and no corpus ratio between them is claimed.
+
+The `magic-e` spelling rule turns a split vowel digraph into vowel + consonant + e
+(*tiem* → *time*). It checks which phonemes own the letters it matches, through the
+rule's `letterRoles` (see [Spelling rule letter roles](#spelling-rule-letter-roles)),
+so a consonantal `y` is not read as a vowel (*yet* stays *yet*, not *yte*).
+
+Evidence (measurements against main, quality comparison, calibration, the
+original probe) is kept at tag `archive/pr-312`:
+
+```sh
+git fetch origin tag archive/pr-312
+git show archive/pr-312:evaluation/quality/experiments/ordinary-et-rebased/README.md
+```
+
+## Spelling rule letter roles
+
+A spelling rule with `scope: "syllable"` may declare `letterRoles`: for each listed
+capture group, the syllable segment (`onset`, `nucleus` or `coda`) whose phonemes
+must own every letter of that group. Ownership comes from the base-spelling
+alignment (`BaseSpelling.segmentAt`). The capture groups must spell the whole match.
+A match whose letters have the wrong roles is left unchanged and draws no
+probability roll. English `magic-e` matches `([aiouy])(e)(C)$` and requires nucleus,
+nucleus, coda.
 
 ## `ea` context (#381)
 
