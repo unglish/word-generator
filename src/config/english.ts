@@ -306,11 +306,19 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
+      // A split vowel digraph (tiem → time, tyep → type). The vowel letters must
+      // spell the nucleus and the consonant a coda: not /j/ + e (yet), coda "ed"
+      // (slaed /slæd/), or a nucleus "er" (yer /jɚ/).
       name: "magic-e",
-      pattern: "([aiouy])e([bcdfghjklmnpqrstvwxyz])$",
-      replacement: "$1$2e",
+      pattern: "([aiouy])(e)([bcdfghjklmnpqrstvwxyz])$",
+      replacement: "$1$3e",
       probability: 95,
       scope: "syllable",
+      letterRoles: [
+        { group: 1, segment: "nucleus" },
+        { group: 2, segment: "nucleus" },
+        { group: 3, segment: "coda" },
+      ],
     },
     {
       name: "ew-cluster-simplify",

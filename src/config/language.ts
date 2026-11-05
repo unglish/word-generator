@@ -588,6 +588,26 @@ export interface SpellingRule {
   probability?: number;
   /** When to apply: "syllable" (per-syllable), "word" (full word), or "both" (default). */
   scope?: "syllable" | "word" | "both";
+  /**
+   * Phoneme roles the matched letters must spell. Each entry names a capture
+   * group and the syllable segment whose phonemes must own every letter in it,
+   * as recorded by the grapheme/phoneme alignment. A match that fails any entry
+   * is left unchanged and draws no probability roll. Only valid with
+   * `scope: "syllable"`, where every letter belongs to the root's alignment,
+   * and the pattern's capture groups must spell the whole match in order.
+   *
+   * Letters alone cannot tell consonantal `y` in "yet" from vowel `y` in "type",
+   * so a rule about vowel letters should require them to spell the nucleus.
+   */
+  letterRoles?: SpellingRuleLetterRole[];
+}
+
+/** A capture group of a {@link SpellingRule} and the segment that must own its letters. */
+export interface SpellingRuleLetterRole {
+  /** 1-based capture group index in `pattern`. */
+  group: number;
+  /** Syllable segment of the phonemes the group's letters must spell. */
+  segment: "onset" | "nucleus" | "coda";
 }
 
 export type GapSpellingTargetLayer =
