@@ -1,0 +1,587 @@
+{
+  "main": {
+    "False": {
+      "root": {
+        "phones": 635566,
+        "z": 17520,
+        "z/coda": 13144,
+        "z/coda/nonfinal-syllable": 7769,
+        "z/coda-shape/l|z": 433,
+        "z/coda/final-syllable": 5375,
+        "z/coda-shape/z": 7887,
+        "z/onset": 4376,
+        "z/onset/final-syllable": 2473,
+        "z/coda-shape/d|z": 1786,
+        "z/onset/nonfinal-syllable": 1903,
+        "z/coda-shape/m|z": 993,
+        "z/coda-shape/v|z": 157,
+        "z/coda-shape/b|z": 232,
+        "z/coda-shape/n|z": 684,
+        "z/coda-shape/r|z": 175,
+        "z/coda-shape/\u014b|z": 310,
+        "z/coda-shape/g|z": 155,
+        "z/coda-shape/\u014b|z|s": 31,
+        "z/coda-shape/z|s": 203,
+        "z/coda-shape/m|z|s": 52,
+        "z/coda-shape/n|z|s": 23,
+        "z/coda-shape/l|z|s": 11,
+        "z/coda-shape/l|v|z": 4,
+        "z/coda-shape/r|v|z": 3,
+        "z/coda-shape/r|z|s": 4,
+        "z/coda-shape/v|z|s": 1
+      },
+      "final": {
+        "phones": 634895,
+        "z": 17195,
+        "z/coda": 12819,
+        "z/coda/nonfinal-syllable": 7769,
+        "z/coda-shape/l|z": 433,
+        "z/coda/final-syllable": 5050,
+        "z/coda-shape/z": 7887,
+        "z/onset": 4376,
+        "z/onset/final-syllable": 2473,
+        "z/coda-shape/d|z": 1786,
+        "z/onset/nonfinal-syllable": 1903,
+        "z/coda-shape/m|z": 993,
+        "z/coda-shape/v|z": 157,
+        "z/coda-shape/b|z": 232,
+        "z/coda-shape/n|z": 684,
+        "z/coda-shape/r|z": 175,
+        "z/coda-shape/\u014b|z": 310,
+        "z/coda-shape/g|z": 155,
+        "z/coda-shape/l|v|z": 4,
+        "z/coda-shape/r|v|z": 3
+      },
+      "events": {
+        "nasalStopExtension": 1924,
+        "finalS": 2100
+      },
+      "stages": {
+        "generateSyllables": {
+          "words": 100000,
+          "zBefore": 0,
+          "zAfter": 17520,
+          "zGained": 17520,
+          "zLost": 0
+        },
+        "repairClusters": {
+          "words": 100000,
+          "zBefore": 17520,
+          "zAfter": 17520,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairFinalCoda": {
+          "words": 100000,
+          "zBefore": 17520,
+          "zAfter": 17520,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairClusterShape": {
+          "words": 100000,
+          "zBefore": 17520,
+          "zAfter": 17195,
+          "zGained": 0,
+          "zLost": 325
+        },
+        "repairHAfterBackVowel": {
+          "words": 100000,
+          "zBefore": 17195,
+          "zAfter": 17195,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "applyStress": {
+          "words": 100000,
+          "zBefore": 17195,
+          "zAfter": 17195,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairStressedNuclei": {
+          "words": 100000,
+          "zBefore": 17195,
+          "zAfter": 17195,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairNucleusWordPositions": {
+          "words": 100000,
+          "zBefore": 17195,
+          "zAfter": 17195,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "generateWrittenForm": {
+          "words": 100000,
+          "zBefore": 17195,
+          "zAfter": 17195,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "generatePronunciation": {
+          "words": 100000,
+          "zBefore": 17195,
+          "zAfter": 17195,
+          "zGained": 0,
+          "zLost": 0
+        }
+      }
+    },
+    "True": {
+      "root": {
+        "phones": 635223,
+        "z": 17686,
+        "z/coda": 13234,
+        "z/coda/nonfinal-syllable": 7805,
+        "z/coda-shape/z": 7907,
+        "z/onset": 4452,
+        "z/onset/nonfinal-syllable": 1954,
+        "z/coda/final-syllable": 5429,
+        "z/coda-shape/d|z": 1774,
+        "z/coda-shape/\u014b|z": 369,
+        "z/coda-shape/m|z": 1029,
+        "z/coda-shape/b|z": 201,
+        "z/onset/final-syllable": 2498,
+        "z/coda-shape/n|z": 646,
+        "z/coda-shape/v|z": 160,
+        "z/coda-shape/z|s": 193,
+        "z/coda-shape/l|z": 458,
+        "z/coda-shape/r|z": 187,
+        "z/coda-shape/\u014b|z|s": 26,
+        "z/coda-shape/g|z": 195,
+        "z/coda-shape/m|z|s": 48,
+        "z/coda-shape/l|z|s": 16,
+        "z/coda-shape/r|z|s": 10,
+        "z/coda-shape/n|z|s": 8,
+        "z/coda-shape/r|v|z": 2,
+        "z/coda-shape/v|z|s": 1,
+        "z/coda-shape/l|v|z": 3,
+        "z/coda-shape/d|z|s": 1
+      },
+      "final": {
+        "phones": 793524,
+        "z": 30797,
+        "z/coda": 26345,
+        "z/coda/nonfinal-syllable": 10438,
+        "z/coda-shape/z": 14331,
+        "z/coda/final-syllable": 15907,
+        "z/coda-shape/l|z": 1245,
+        "z/onset": 4452,
+        "z/onset/nonfinal-syllable": 2850,
+        "z/coda-shape/d|z|d": 133,
+        "z/coda-shape/g|z": 338,
+        "z/coda-shape/\u014b|z": 979,
+        "z/coda-shape/m|z": 1630,
+        "z/coda-shape/b|z": 364,
+        "z/coda-shape/d|z": 2242,
+        "z/onset/final-syllable": 1602,
+        "z/coda-shape/n|z": 2528,
+        "z/coda-shape/z|d": 199,
+        "z/coda-shape/r|z": 898,
+        "z/coda-shape/v|z": 203,
+        "z/coda-shape/\u014b|g|z": 49,
+        "z/coda-shape/n|d|z": 614,
+        "z/coda-shape/r|l|z": 34,
+        "z/coda-shape/r|d|z": 26,
+        "z/coda-shape/m|b|z": 113,
+        "z/coda-shape/r|n|z": 119,
+        "z/coda-shape/n|z|d": 15,
+        "z/coda-shape/l|d|z": 36,
+        "z/coda-shape/m|z|d": 50,
+        "z/coda-shape/l|m|z": 60,
+        "z/coda-shape/l|z|d": 18,
+        "z/coda-shape/r|g|z": 13,
+        "z/coda-shape/v|z|d": 13,
+        "z/coda-shape/r|b|z": 7,
+        "z/coda-shape/r|m|z": 27,
+        "z/coda-shape/\u014b|z|d": 28,
+        "z/coda-shape/r|z|d": 12,
+        "z/coda-shape/l|b|z": 6,
+        "z/coda-shape/n|d\u0292|d|z": 6,
+        "z/coda-shape/l|v|z": 7,
+        "z/coda-shape/r|v|z": 2
+      },
+      "events": {
+        "finalS": 2077,
+        "nasalStopExtension": 1887
+      },
+      "stages": {
+        "generateSyllables": {
+          "words": 100000,
+          "zBefore": 0,
+          "zAfter": 17686,
+          "zGained": 17686,
+          "zLost": 0
+        },
+        "repairClusters": {
+          "words": 100000,
+          "zBefore": 17686,
+          "zAfter": 17686,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairFinalCoda": {
+          "words": 100000,
+          "zBefore": 17686,
+          "zAfter": 17686,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairClusterShape": {
+          "words": 100000,
+          "zBefore": 17686,
+          "zAfter": 17383,
+          "zGained": 0,
+          "zLost": 303
+        },
+        "repairHAfterBackVowel": {
+          "words": 100000,
+          "zBefore": 17383,
+          "zAfter": 17383,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "applyStress": {
+          "words": 100000,
+          "zBefore": 17383,
+          "zAfter": 17383,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairStressedNuclei": {
+          "words": 100000,
+          "zBefore": 17383,
+          "zAfter": 17383,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairNucleusWordPositions": {
+          "words": 100000,
+          "zBefore": 17383,
+          "zAfter": 17383,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "assembleMorphology": {
+          "words": 69942,
+          "zBefore": 12152,
+          "zAfter": 25566,
+          "zGained": 13414,
+          "zLost": 0
+        },
+        "repairFinalStressedNuclei": {
+          "words": 69942,
+          "zBefore": 25566,
+          "zAfter": 25566,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "generateWrittenForm": {
+          "words": 100000,
+          "zBefore": 17383,
+          "zAfter": 17383,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "generatePronunciation": {
+          "words": 100000,
+          "zBefore": 30797,
+          "zAfter": 30797,
+          "zGained": 0,
+          "zLost": 0
+        }
+      }
+    }
+  },
+  "candidate": {
+    "False": {
+      "root": {
+        "phones": 635162,
+        "z": 17803,
+        "z/coda": 13424,
+        "z/coda/nonfinal-syllable": 7881,
+        "z/coda-shape/l|z": 457,
+        "z/coda/final-syllable": 5543,
+        "z/coda-shape/z": 8173,
+        "z/onset": 4379,
+        "z/onset/final-syllable": 2427,
+        "z/coda-shape/v|z": 178,
+        "z/coda-shape/m|z": 1036,
+        "z/onset/nonfinal-syllable": 1952,
+        "z/coda-shape/b|z": 198,
+        "z/coda-shape/d|z": 1934,
+        "z/coda-shape/n|z": 712,
+        "z/coda-shape/r|z": 176,
+        "z/coda-shape/\u014b|z": 406,
+        "z/coda-shape/g|z": 146,
+        "z/coda-shape/r|v|z": 3,
+        "z/coda-shape/l|v|z": 5
+      },
+      "final": {
+        "phones": 635009,
+        "z": 17803,
+        "z/coda": 13424,
+        "z/coda/nonfinal-syllable": 7881,
+        "z/coda-shape/l|z": 457,
+        "z/coda/final-syllable": 5543,
+        "z/coda-shape/z": 8173,
+        "z/onset": 4379,
+        "z/onset/final-syllable": 2427,
+        "z/coda-shape/v|z": 178,
+        "z/coda-shape/m|z": 1036,
+        "z/onset/nonfinal-syllable": 1952,
+        "z/coda-shape/b|z": 198,
+        "z/coda-shape/d|z": 1934,
+        "z/coda-shape/n|z": 712,
+        "z/coda-shape/r|z": 176,
+        "z/coda-shape/\u014b|z": 406,
+        "z/coda-shape/g|z": 146,
+        "z/coda-shape/r|v|z": 3,
+        "z/coda-shape/l|v|z": 5
+      },
+      "events": {
+        "finalS/repetition": 881,
+        "nasalStopExtension": 1492,
+        "finalS/voicing": 566,
+        "finalS/voicing/contains-z": 436,
+        "nasalStopExtension/attestation": 958,
+        "finalS/attestation": 399,
+        "finalS": 959
+      },
+      "stages": {
+        "generateSyllables": {
+          "words": 100000,
+          "zBefore": 0,
+          "zAfter": 17803,
+          "zGained": 17803,
+          "zLost": 0
+        },
+        "repairClusters": {
+          "words": 100000,
+          "zBefore": 17803,
+          "zAfter": 17803,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairFinalCoda": {
+          "words": 100000,
+          "zBefore": 17803,
+          "zAfter": 17803,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairClusterShape": {
+          "words": 100000,
+          "zBefore": 17803,
+          "zAfter": 17803,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairHAfterBackVowel": {
+          "words": 100000,
+          "zBefore": 17803,
+          "zAfter": 17803,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "applyStress": {
+          "words": 100000,
+          "zBefore": 17803,
+          "zAfter": 17803,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairStressedNuclei": {
+          "words": 100000,
+          "zBefore": 17803,
+          "zAfter": 17803,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairNucleusWordPositions": {
+          "words": 100000,
+          "zBefore": 17803,
+          "zAfter": 17803,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "generateWrittenForm": {
+          "words": 100000,
+          "zBefore": 17803,
+          "zAfter": 17803,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "generatePronunciation": {
+          "words": 100000,
+          "zBefore": 17803,
+          "zAfter": 17803,
+          "zGained": 0,
+          "zLost": 0
+        }
+      }
+    },
+    "True": {
+      "root": {
+        "phones": 635894,
+        "z": 17879,
+        "z/coda": 13436,
+        "z/coda/final-syllable": 5576,
+        "z/coda-shape/z": 8161,
+        "z/coda-shape/\u014b|z": 402,
+        "z/coda-shape/d|z": 1929,
+        "z/coda/nonfinal-syllable": 7860,
+        "z/onset": 4443,
+        "z/onset/nonfinal-syllable": 2001,
+        "z/onset/final-syllable": 2442,
+        "z/coda-shape/m|z": 1116,
+        "z/coda-shape/r|z": 231,
+        "z/coda-shape/n|z": 619,
+        "z/coda-shape/v|z": 143,
+        "z/coda-shape/l|z": 455,
+        "z/coda-shape/b|z": 189,
+        "z/coda-shape/g|z": 186,
+        "z/coda-shape/l|v|z": 5
+      },
+      "final": {
+        "phones": 794990,
+        "z": 31279,
+        "z/coda": 26836,
+        "z/coda/final-syllable": 16121,
+        "z/coda-shape/\u014b|z": 1178,
+        "z/coda-shape/z": 14601,
+        "z/coda-shape/n|d|z": 612,
+        "z/coda/nonfinal-syllable": 10715,
+        "z/coda-shape/m|z": 1733,
+        "z/coda-shape/d|z|d": 146,
+        "z/onset": 4443,
+        "z/onset/nonfinal-syllable": 2880,
+        "z/onset/final-syllable": 1563,
+        "z/coda-shape/d|z": 2347,
+        "z/coda-shape/n|z": 2410,
+        "z/coda-shape/z|d": 208,
+        "z/coda-shape/r|z": 935,
+        "z/coda-shape/l|z": 1237,
+        "z/coda-shape/v|z": 208,
+        "z/coda-shape/m|b|z": 89,
+        "z/coda-shape/b|z": 352,
+        "z/coda-shape/l|m|z": 65,
+        "z/coda-shape/g|z": 320,
+        "z/coda-shape/n|d\u0292|d|z": 7,
+        "z/coda-shape/m|z|d": 56,
+        "z/coda-shape/n|z|d": 21,
+        "z/coda-shape/l|d|z": 34,
+        "z/coda-shape/r|b|z": 7,
+        "z/coda-shape/l|v|z": 6,
+        "z/coda-shape/r|n|z": 82,
+        "z/coda-shape/l|z|d": 19,
+        "z/coda-shape/r|g|z": 5,
+        "z/coda-shape/r|l|z": 30,
+        "z/coda-shape/r|m|z": 41,
+        "z/coda-shape/l|b|z": 13,
+        "z/coda-shape/r|d|z": 30,
+        "z/coda-shape/v|z|d": 7,
+        "z/coda-shape/\u014b|z|d": 27,
+        "z/coda-shape/r|z|d": 9,
+        "z/coda-shape/r|v|z": 1
+      },
+      "events": {
+        "finalS": 947,
+        "nasalStopExtension": 1512,
+        "nasalStopExtension/attestation": 987,
+        "finalS/repetition": 899,
+        "finalS/attestation": 409,
+        "finalS/voicing": 636,
+        "finalS/voicing/contains-z": 487
+      },
+      "stages": {
+        "generateSyllables": {
+          "words": 100000,
+          "zBefore": 0,
+          "zAfter": 17879,
+          "zGained": 17879,
+          "zLost": 0
+        },
+        "repairClusters": {
+          "words": 100000,
+          "zBefore": 17879,
+          "zAfter": 17879,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairFinalCoda": {
+          "words": 100000,
+          "zBefore": 17879,
+          "zAfter": 17879,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairClusterShape": {
+          "words": 100000,
+          "zBefore": 17879,
+          "zAfter": 17879,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairHAfterBackVowel": {
+          "words": 100000,
+          "zBefore": 17879,
+          "zAfter": 17879,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "applyStress": {
+          "words": 100000,
+          "zBefore": 17879,
+          "zAfter": 17879,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairStressedNuclei": {
+          "words": 100000,
+          "zBefore": 17879,
+          "zAfter": 17879,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "repairNucleusWordPositions": {
+          "words": 100000,
+          "zBefore": 17879,
+          "zAfter": 17879,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "assembleMorphology": {
+          "words": 70122,
+          "zBefore": 12505,
+          "zAfter": 25905,
+          "zGained": 13400,
+          "zLost": 0
+        },
+        "repairFinalStressedNuclei": {
+          "words": 70122,
+          "zBefore": 25905,
+          "zAfter": 25905,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "generateWrittenForm": {
+          "words": 100000,
+          "zBefore": 17879,
+          "zAfter": 17879,
+          "zGained": 0,
+          "zLost": 0
+        },
+        "generatePronunciation": {
+          "words": 100000,
+          "zBefore": 31279,
+          "zAfter": 31279,
+          "zGained": 0,
+          "zLost": 0
+        }
+      }
+    }
+  }
+}

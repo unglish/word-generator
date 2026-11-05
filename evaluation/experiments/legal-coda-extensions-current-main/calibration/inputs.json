@@ -1,0 +1,11 @@
+{
+  "candidate": "075df460a93416a40edc1e0ae90d2ae4020b239a",
+  "files": {
+    "scripts/calibrate-phoneme-thresholds.ts": "fbae28602d19c5bc2642f238f33bfbb2ca6054393d5dcaad51fcd7b73c516c4e",
+    "scripts/lib/phoneme-calibration.ts": "e6d61d7b33de84107dddc086237879a99fe4c29b6c98200cb9ef3872cbea8916",
+    "src/config/phoneme-thresholds.json": "b1c59017a13401465ff368406bee1cbed46a66cc517afa7171f98325202c89bd",
+    "data/cmu/cmu-lexicon-phonemes.json": "3d7cb879c6ff7edc7599c8d0b57cba72df6ee1d86bf20f723d88b83ff6863aa9",
+    "data/cmu/phoneme-normalization.json": "60ffe6783768e66abeaaca798f8da0c1c0d291505bd5798c0641f938e0d495ba",
+    "package-lock.json": "985093dd683275e3c5c5f10ae2210c7395914de9bb669f71c9b1e34350218bc6"
+  }
+}

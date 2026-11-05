@@ -1,0 +1,41 @@
+
+> @unglish/word-generator@0.6.0 calibrate:phonemes
+> node --import tsx scripts/calibrate-phoneme-thresholds.ts --count 10 --jobs 3 --output /tmp/pr313-calibration/candidate-gates.json
+
+Measuring 10 seeds × 200000 words with 3 jobs
+  seed 379101444 done (1/10)
+  seed 189550743 done (2/10)
+  seed 42 done (3/10)
+  seed 568652145 done (4/10)
+  seed 758202846 done (5/10)
+  seed 947753547 done (6/10)
+  seed 1137304248 done (7/10)
+  seed 1326854949 done (8/10)
+  seed 1516405650 done (9/10)
+  seed 1705956351 done (10/10)
+
+Per-seed metrics (200000 words, lexicon, morphology off)
+
+| Seed | Draws | Total variation % | Pearson r (report-only) | Worst over | Worst under | Worst abs gap % | Non-CMU % | CMU-only |
+|---:|---:|---:|---:|---|---|---|---:|---:|
+| 42 | 16982696 | 1.5988 | 0.99825 | /z/ 1.0740 | /n/ 0.9448 | /n/ 0.3906 | 0.0000 | 0 |
+| 189550743 | 17038932 | 1.4855 | 0.99842 | /z/ 1.0798 | /n/ 0.9458 | /n/ 0.3832 | 0.0000 | 0 |
+| 379101444 | 16927563 | 1.5191 | 0.99847 | /z/ 1.0825 | /ɔ/ 0.9501 | /n/ 0.3386 | 0.0000 | 0 |
+| 568652145 | 16944234 | 1.5636 | 0.99830 | /z/ 1.0877 | /n/ 0.9480 | /n/ 0.3677 | 0.0000 | 0 |
+| 758202846 | 17002628 | 1.5291 | 0.99845 | /z/ 1.0822 | /n/ 0.9492 | /n/ 0.3594 | 0.0000 | 0 |
+| 947753547 | 17040487 | 1.6057 | 0.99827 | /z/ 1.0839 | /ɔ/ 0.9473 | /n/ 0.3716 | 0.0000 | 0 |
+| 1137304248 | 16926269 | 1.5475 | 0.99850 | /z/ 1.0846 | /ɔ/ 0.9490 | /n/ 0.3055 | 0.0000 | 0 |
+| 1326854949 | 16895709 | 1.5620 | 0.99838 | /z/ 1.0818 | /n/ 0.9502 | /n/ 0.3527 | 0.0000 | 0 |
+| 1516405650 | 16961734 | 1.4890 | 0.99842 | /z/ 1.0809 | /ɔ/ 0.9385 | /n/ 0.3675 | 0.0000 | 0 |
+| 1705956351 | 17039249 | 1.4826 | 0.99849 | /z/ 1.0736 | /n/ 0.9504 | /n/ 0.3511 | 0.0000 | 0 |
+
+Spread and proposed limits (k = 3; upper = max + k·SD, lower = min − k·SD, rounded outward; inventory coverage fixed at 0)
+
+| Limit | Min | Max | Mean | SD | Current | Proposed |
+|---|---:|---:|---:|---:|---:|---:|
+| maxTotalVariationPct | 1.48260 | 1.60570 | 1.53830 | 0.04504 | 1.78 | 1.75 |
+| maxOverRepresentation | 1.07357 | 1.08767 | 1.08109 | 0.00442 | 1.066 | 1.101 |
+| minRepresentation | 0.93849 | 0.95037 | 0.94733 | 0.00363 | 0.918 | 0.927 |
+| maxAbsoluteGapPct | 0.30554 | 0.39057 | 0.35879 | 0.02419 | 0.39 | 0.464 |
+| maxGeneratedOnlyMassPct | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0 | 0 |
+| maxCmuOnlyKeyCount | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0 | 0 |

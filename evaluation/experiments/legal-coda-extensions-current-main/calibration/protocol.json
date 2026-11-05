@@ -1,0 +1,53 @@
+{
+  "baseline": "43ef38ae029f4359f323d1c19955b3d44a10a6f7",
+  "candidate": "075df460a93416a40edc1e0ae90d2ae4020b239a",
+  "gateWordsPerStream": 200000,
+  "developmentSeeds": [
+    42,
+    189550743,
+    379101444,
+    568652145,
+    758202846,
+    947753547,
+    1137304248,
+    1326854949,
+    1516405650,
+    1705956351
+  ],
+  "confirmationSeeds": [
+    1326476134,
+    1516026835,
+    1705577536,
+    1895128237,
+    2084678938,
+    2274229639,
+    2463780340,
+    2653331041,
+    2842881742,
+    3032432443
+  ],
+  "traceWordsPerStream": 10000,
+  "traceProfiles": [
+    {
+      "mode": "lexicon",
+      "morphology": false
+    },
+    {
+      "mode": "lexicon",
+      "morphology": true
+    }
+  ],
+  "unchanged": [
+    "gate thresholds",
+    "normalization",
+    "reference data",
+    "spelling weights"
+  ],
+  "decisions": [
+    "Measure both revisions with existing calibrate:phonemes --count 10; proposals are diagnostic only, not applied.",
+    "Attribute z changes through generateSyllables, repairClusterShape, morphology assembly and final output. Count onsets and codas by root word edge, plus rejection and repair events. Keep bounded full WordTrace witnesses.",
+    "Use CMU positional reference only if an identifiable raw source is already available; do not infer positional excess from aggregate CMU shares.",
+    "A weight correction requires consistent multi-stream excess in a demonstrated source context, not merely a red gate; no search over weights to hit the ceiling.",
+    "If a specific correction is justified, freeze it before using reserved confirmation streams; run full calibration/check/build/diagnostics/performance/frozen quality comparison. Otherwise retain blocker and report the evidence."
+  ]
+}

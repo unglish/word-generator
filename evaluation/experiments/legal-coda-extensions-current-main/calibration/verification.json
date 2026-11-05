@@ -1,0 +1,18 @@
+{
+  "main": {
+    "words": 2000000,
+    "traceWords": 200000,
+    "worstOverMean": 1.0560207731436608,
+    "gateStreamOverlap": false,
+    "confirmationStartsOutsideConsumedDevelopmentStreams": true,
+    "traceStageAccountingReconciled": true
+  },
+  "candidate": {
+    "words": 2000000,
+    "traceWords": 200000,
+    "worstOverMean": 1.0810865616942567,
+    "gateStreamOverlap": false,
+    "confirmationStartsOutsideConsumedDevelopmentStreams": true,
+    "traceStageAccountingReconciled": true
+  }
+}
