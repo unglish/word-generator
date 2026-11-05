@@ -100,7 +100,9 @@ describe("ea spelling context (#381)", () => {
     }
     // On this sample ea is 18.85% of /ɛ/ and 24.18% of /i:/ nucleus choices
     // before the ban, 18.27% and 22.30% after: only the banned contexts move.
-    expect(counts["ɛ"].ea / counts["ɛ"].all).toBeGreaterThan(0.17);
+    // Since ordinary e may precede /t/, ea is no longer forced there, and its
+    // /ɛ/ share falls to 9.39% (9.56% away from /t/, against 9.14% before).
+    expect(counts["ɛ"].ea / counts["ɛ"].all).toBeGreaterThan(0.07);
     expect(counts["i:"].ea / counts["i:"].all).toBeGreaterThan(0.2);
   });
 

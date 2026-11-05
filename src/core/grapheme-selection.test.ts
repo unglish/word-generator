@@ -4,6 +4,8 @@ import { englishConfig } from "../config/english.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import type { Grapheme } from "../types.js";
 import { filterByPosition } from "./write.js";
+import type { GraphemeTrace } from "./trace.js";
+import { findExample } from "../test-support/find-example.js";
 
 function withGraphemes(graphemes: Grapheme[]) {
   return createGenerator({ ...englishConfig, graphemes, ...buildGraphemeMaps(graphemes) });
@@ -43,12 +45,15 @@ describe("legal grapheme selection", () => {
   });
 
   it("uses a separately declared fallback and records the ordinary empty set", () => {
-    const word = generateWord({ seed: 99, morphology: false, trace: true });
-    const choice = word.trace!.graphemeSelections.find(g => g.selection?.fallback);
-    expect(choice).toMatchObject({
-      phoneme: "ɛ", selected: "ea", weights: [["ea", 140]],
-      selection: { afterCondition: 1, afterPosition: 0, positiveCandidates: 0, fallback: "no-positional-candidates" },
+    const isFallback = (g: GraphemeTrace) => g.selection?.fallback !== undefined;
+    const { word } = findExample(w => w.trace!.graphemeSelections.some(isFallback), {
+      property: "a declared fallback spelling", limit: 20000,
     });
+    const choice = word.trace!.graphemeSelections.find(isFallback)!;
+    const declared = englishConfig.graphemes.find(g => g.fallbackOnly && g.phoneme === choice.phoneme && g.form === choice.selected);
+    expect(declared).toBeDefined();
+    expect(choice.weights).toEqual([[choice.selected, expect.any(Number)]]);
+    expect(choice.selection).toMatchObject({ afterPosition: 0, positiveCandidates: 0, fallback: "no-positional-candidates" });
   });
 
   it("keeps isolated-syllable licensing explicit rather than overriding edge bans", () => {
@@ -61,29 +66,25 @@ describe("legal grapheme selection", () => {
     expect(filterByPosition([{ ...grapheme, isolatedSyllableWeight: 0 }], false, true, true)).toEqual([]);
   });
 
-  it("retains the established isolated /ɛ/ pool while keeping the /t/ restriction explicit", () => {
+  it("spells isolated /ɛ/ with ordinary e, including before /t/, without a fallback", () => {
     const rand = createSeededRng(217);
-    let ordinary = 0;
-    let fallback = 0;
+    let beforeT = 0;
+    let elsewhere = 0;
     for (let draw = 0; draw < 2000; draw++) {
       const word = generateWord({ rand, syllableCount: 1, morphology: false, trace: true });
       const choices = word.trace!.graphemeSelections;
       for (let index = 0; index < choices.length; index++) {
         const choice = choices[index];
         if (choice.phoneme !== "ɛ") continue;
-        if (choices[index + 1]?.phoneme === "t") {
-          fallback++;
-          expect(choice.selected).toBe("ea");
-          expect(choice.selection?.fallback).toBe("no-positional-candidates");
-        } else {
-          ordinary++;
-          expect(choice.selected).toBe("e");
-          expect(choice.selection?.fallback).toBeUndefined();
-        }
+        if (choices[index + 1]?.phoneme === "t") beforeT++;
+        else elsewhere++;
+        // ea has no isolated-syllable weight, so e is the only ordinary isolated spelling.
+        expect(choice.selected).toBe("e");
+        expect(choice.selection?.fallback).toBeUndefined();
       }
     }
-    expect(ordinary).toBeGreaterThan(0);
-    expect(fallback).toBeGreaterThan(0);
+    expect(beforeT).toBeGreaterThan(0);
+    expect(elsewhere).toBeGreaterThan(0);
   });
 
   it("writes medial coda /z/ after /g/ as z, so gz before a vowel can become x", () => {
@@ -136,7 +137,7 @@ describe("legal grapheme selection", () => {
         if (selection.fallback) {
           fallbackChoices++;
           expect(selection.positiveCandidates).toBe(0);
-          expect([["ɛ", "ea"], ["ʊ", "oo"]]).toContainEqual([choice.phoneme, choice.selected]);
+          expect([["ʊ", "oo"]]).toContainEqual([choice.phoneme, choice.selected]);
         }
         if (choice.syllableIndex === 0 && choice.position === "coda" && word.syllables.length > 1) {
           firstSyllableCodas++;

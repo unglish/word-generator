@@ -53,12 +53,6 @@ export const graphemes: Grapheme[] = [
   // These alternatives preserve hard contextual bans when the legacy vowel
   // preferences leave a syllable unspellable. They are not eligible
   // until every ordinary candidate has been excluded.
-  {
-    phoneme: "ɛ", form: "ea", origin: 0, frequency: 140,
-    onset: 0, coda: 0, positionScope: "syllable", fallbackOnly: true,
-    startWord: 1, midWord: 0, endWord: 0, isolatedSyllableWeight: 10,
-    condition: { rightContext: ["t"] },
-  },
   // A one-syllable root ending in /i:/ before a vowel-initial suffix: "ea" is
   // the only isolated /i:/ spelling, and it may not precede a vowel letter.
   {
