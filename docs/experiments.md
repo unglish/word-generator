@@ -1,4 +1,44 @@
-# Archived experiments
+# Experiments and evidence
+
+## Where evidence lives
+
+`main` holds the generator and what it needs to stay correct. Per-PR evidence does
+not go there.
+
+**Commit to `main`:**
+
+- generator code and config;
+- tests, including `src/core/golden-output.json`;
+- docs that describe current behaviour;
+- reusable tooling and its fixed inputs, such as the quality harness, its
+  protocol and the frozen baselines in `evaluation/quality/baselines/`.
+
+**Keep out of `main`:** anything that records one PR's measurements. That covers
+comparison reports, calibration and quality-run output, trace counts, review
+samples, and one-off probes or measurement scripts written for that PR.
+
+Instead:
+
+1. Put the findings a reviewer needs in the PR description: what was measured,
+   on how many words, the numbers against `main`, side effects, and gate results.
+2. Commit the full packet on the PR branch if it is useful for review, then
+   before merge tag that head as an annotated `archive/pr-<number>` tag, push the
+   tag, and drop the packet from the branch. Link the tag from the PR
+   description.
+3. Docs describe behaviour, not the measurement history. When a doc needs to
+   point at evidence, it names the tag.
+
+```sh
+git tag -a archive/pr-312 <head> -m "Evidence for PR #312"
+git push origin archive/pr-312
+git show archive/pr-312:evaluation/quality/experiments/ordinary-et-rebased/README.md
+```
+
+A tag is permanent and fetchable, keeps `main` and its history small, and records
+that the evidence describes the generator at that commit, not the current one.
+Packets committed before this policy are being moved out of `main` in [#387](https://github.com/unglish/word-generator/issues/387).
+
+## Closed experiments
 
 These experiments from the [linguistic improvement plan](./linguistic-improvement-plan.md)
 were closed without merging on 2026-10-19. In each case the experiment's own

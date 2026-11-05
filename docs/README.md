@@ -17,8 +17,9 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
 - [`design-rng-and-quality-dx.md`](./design-rng-and-quality-dx.md): RNG and
   quality tooling design decisions.
 - [`attested-codas.md`](./attested-codas.md): attested coda cluster references.
-- [`experiments.md`](./experiments.md): experiments closed without merging,
-  their measured outcomes, and the tags that archive their code and evidence.
+- [`experiments.md`](./experiments.md): where PR evidence lives (PR descriptions
+  and `archive/pr-<number>` tags, not `main`), and experiments closed without
+  merging with their measured outcomes.
 - [`resolved-allomorphs.md`](./resolved-allomorphs.md): selected affix forms,
   explicit morphology parts, and planned/resolved trace provenance.
 - [`pronunciation-config-migration.md`](./pronunciation-config-migration.md):

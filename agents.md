@@ -59,6 +59,9 @@ Operational guidance for human contributors and coding agents working in
 
 - Behavior change explained in plain language.
 - Tests added/updated and passing locally.
-- Trace evidence included for any distribution/outlier claim.
+- Trace evidence included for any distribution/outlier claim, in the PR
+  description. Do not commit measurement packets, reports or one-off probe
+  scripts; keep them in an `archive/pr-<number>` tag
+  (`docs/experiments.md#where-evidence-lives`).
 - Docs updated when public behavior or workflows change (`README.md`,
   `CONTRIBUTING.md`, relevant files in `docs/`).
