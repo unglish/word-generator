@@ -57,7 +57,7 @@ node --import tsx evaluation/quality/probes/grapheme-selection/analyze.ts RUN_DI
 This enforces selection legality. Later string repairs and spelling/pronunciation
 alignment remain separate quality questions.
 
-## Frozen development measurement
+## Original frozen development measurement (before #309)
 
 The [complete comparison](../evaluation/experiments/legal-grapheme-selection/comparison.md)
 uses the 200,000-word protocol from [PR #307](https://github.com/unglish/word-generator/pull/307).
@@ -73,21 +73,26 @@ The compact capture, original/candidate supplements, and all distribution and
 diversity deltas are retained beside the comparison. Raw archives remain local;
 their manifest hashes and source snapshots are included for reproducibility.
 
-## Measured regression and merge readiness
+## Rebased measurement and the /gz/ route
 
-The frozen candidate fails the existing common-bigram underrepresentation gate:
-`ex` is 0.0155307585× its CMU reference frequency in the existing seed-42,
-200,000-word default test, below the unchanged 0.0215× minimum. The remaining
-n-gram gates pass. This is a draft dependency, not a reason to lower the gate.
+[Rebased evidence](../evaluation/quality/experiments/legal-grapheme-selection-rebased/README.md)
+measures this change against main after #309. Zero-total-weight choices fall
+from 2.6–6.4% of words to zero in every profile, and trigram distance to CMU
+falls in all four.
 
-Original development archive witnesses explain two routes. At
-`lexicon-default-2089697863.jsonl.gz`, draw 4288, `mexeocowt` uses first-syllable
-coda /z/→`ze` with zero candidate mass; `megzeocowt` is then rewritten through
-`gz-to-x`. By contrast, `itipacrex` at `lexicon-default-101601885.jsonl.gz`, draw
-2882, uses legal final-rime /k/→`ck` and the existing `ks-to-x`/`cx-to-x` rules.
-This change preserves the latter final-rime preference. The former illegal
-selection route stays removed. A separate aligned cluster-spelling change must
-represent /gz/→`x` with actual segment ownership and boundary conditions.
+The original candidate failed the common-bigram gate: `ex` fell under the
+unchanged 0.0215× minimum. On main, /gz/ before a vowel reached the `gz-to-x`
+rule only through an illegal zero-weight `ze` (`mexeocowt`, with a stray `e`).
+Legal selection writes that medial /z/ as `s`, which the rule does not match.
+Medial coda /z/ after /g/ is therefore written `z` (`fricatives.ts`), so
+`gz-to-x` writes `x` as in *exact* and *exist*. Widening the rule to `gs` was
+rejected because letters cannot separate /gz/ from /gs/. A cluster-level
+/gz/→`x` spelling with segment ownership remains possible future work.
+
+Final-rime /k/→`ck` keeps its syllable-scoped preference (`itipacrex`). But /k/
+before a word-final /s/ is now a medial segment, so `c` competes at its mid-word
+weight and fewer `k`/`ck` spellings reach `ks-to-x`: word-final /ks/ written `x`
+roughly halves (see the rebased evidence). That side effect is not yet tuned.
 
 The common-word rewrite fixtures now start from legal ordinary spellings.
 They previously forced an `mc`-conditioned `c` into *could*, excluded first-syllable
