@@ -1,0 +1,43 @@
+
+> @unglish/word-generator@0.6.0 calibrate:phonemes
+> node --import tsx scripts/calibrate-phoneme-thresholds.ts --seeds 1326476134,1516026835,1705577536,1895128237,2084678938,2274229639,2463780340,2653331041,2842881742,3032432443 --jobs 3 --output /tmp/pr313-recalibration/confirmation.json
+
+Measuring 10 seeds × 200000 words with 3 jobs
+  seed 1326476134 done (1/10)
+  seed 1705577536 done (2/10)
+  seed 1516026835 done (3/10)
+  seed 1895128237 done (4/10)
+  seed 2084678938 done (5/10)
+  seed 2274229639 done (6/10)
+  seed 2463780340 done (7/10)
+  seed 2653331041 done (8/10)
+  seed 2842881742 done (9/10)
+  seed 3032432443 done (10/10)
+
+Per-seed metrics (200000 words, lexicon, morphology off)
+
+| Seed | Draws | Total variation % | Pearson r (report-only) | Worst over | Worst under | Worst abs gap % | Non-CMU % | CMU-only |
+|---:|---:|---:|---:|---|---|---|---:|---:|
+| 1326476134 | 16975091 | 1.5127 | 0.99845 | /z/ 1.0771 | /ɪ/ 0.9473 | /n/ 0.3387 | 0.0000 | 0 |
+| 1516026835 | 16975759 | 1.4957 | 0.99853 | /z/ 1.0814 | /n/ 0.9511 | /n/ 0.3458 | 0.0000 | 0 |
+| 1705577536 | 16922477 | 1.5767 | 0.99827 | /z/ 1.0759 | /n/ 0.9436 | /n/ 0.3991 | 0.0000 | 0 |
+| 1895128237 | 16912118 | 1.5138 | 0.99843 | /z/ 1.0887 | /n/ 0.9458 | /n/ 0.3835 | 0.0000 | 0 |
+| 2084678938 | 16948949 | 1.5527 | 0.99837 | /z/ 1.0816 | /ɔ/ 0.9407 | /n/ 0.3663 | 0.0000 | 0 |
+| 2274229639 | 16933414 | 1.5585 | 0.99838 | /z/ 1.0854 | /ɑ/ 0.9480 | /n/ 0.3487 | 0.0000 | 0 |
+| 2463780340 | 16895853 | 1.5970 | 0.99834 | /z/ 1.0846 | /ɔ/ 0.9378 | /n/ 0.3641 | 0.0000 | 0 |
+| 2653331041 | 16984185 | 1.5455 | 0.99832 | /z/ 1.0749 | /l/ 0.9501 | /k/ 0.3323 | 0.0000 | 0 |
+| 2842881742 | 16995446 | 1.5575 | 0.99833 | /z/ 1.0743 | /ɔ/ 0.9468 | /n/ 0.3754 | 0.0000 | 0 |
+| 3032432443 | 17015654 | 1.5555 | 0.99831 | /z/ 1.0811 | /ɔ/ 0.9321 | /n/ 0.3607 | 0.0000 | 0 |
+
+Per-phoneme gate violations against configured defaults and overrides: []
+
+Spread and proposed limits (k = 3; upper = max + k·SD, lower = min − k·SD, rounded outward; inventory coverage fixed at 0)
+
+| Limit | Min | Max | Mean | SD | Current | Proposed |
+|---|---:|---:|---:|---:|---:|---:|
+| maxTotalVariationPct | 1.49567 | 1.59701 | 1.54657 | 0.03099 | 1.78 | 1.69 |
+| maxOverRepresentation | 1.07430 | 1.08869 | 1.08051 | 0.00486 | 1.066 | 1.104 |
+| minRepresentation | 0.93211 | 0.95111 | 0.94434 | 0.00593 | 0.918 | 0.914 |
+| maxAbsoluteGapPct | 0.33234 | 0.39915 | 0.36148 | 0.02084 | 0.39 | 0.462 |
+| maxGeneratedOnlyMassPct | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0 | 0 |
+| maxCmuOnlyKeyCount | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0 | 0 |

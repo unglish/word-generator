@@ -1,0 +1,12 @@
+
+> @unglish/word-generator@0.6.0 typecheck
+> tsc --noEmit && npm run review:typecheck && npm run quality:typecheck
+
+
+> @unglish/word-generator@0.6.0 review:typecheck
+> tsc -p tsconfig.review.json
+
+
+> @unglish/word-generator@0.6.0 quality:typecheck
+> tsc -p tsconfig.quality.json
+

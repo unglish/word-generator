@@ -1,0 +1,10 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.t3/worktrees/word-generator/codex-pr-313-current-main
+
+ ✓ src/core/phoneme-quality-gates.test.ts (5 tests) 3ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  12:08:26
+   Duration  226ms (transform 30ms, setup 0ms, collect 23ms, tests 3ms, environment 0ms, prepare 60ms)
+

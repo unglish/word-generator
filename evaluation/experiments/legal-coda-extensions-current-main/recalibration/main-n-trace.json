@@ -1,0 +1,1469 @@
+{
+  "root": "/tmp/pr313-main",
+  "runs": [
+    {
+      "seed": 42,
+      "words": 10000,
+      "root": {
+        "phones": 63271,
+        "n": 4298,
+        "n/onset": 1256,
+        "n/onset/final": 618,
+        "n/coda": 3042,
+        "n/coda/final": 2126,
+        "n/coda/nonfinal": 916,
+        "n/onset/nonfinal": 638
+      },
+      "final": {
+        "phones": 63198,
+        "n": 4298,
+        "n/onset": 1256,
+        "n/onset/final": 618,
+        "n/coda": 3042,
+        "n/coda/final": 2126,
+        "n/coda/nonfinal": 916,
+        "n/onset/nonfinal": 638
+      },
+      "stages": {
+        "generateSyllables": {
+          "gained": 4298,
+          "lost": 0
+        },
+        "repairClusters": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairFinalCoda": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairClusterShape": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairHAfterBackVowel": {
+          "gained": 0,
+          "lost": 0
+        },
+        "applyStress": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairStressedNuclei": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairNucleusWordPositions": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generateWrittenForm": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generatePronunciation": {
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "lengths": {
+        "1": {
+          "words": 2,
+          "n": 0
+        },
+        "2": {
+          "words": 61,
+          "n": 6
+        },
+        "3": {
+          "words": 533,
+          "n": 102
+        },
+        "4": {
+          "words": 1286,
+          "n": 329
+        },
+        "5": {
+          "words": 1988,
+          "n": 714
+        },
+        "6": {
+          "words": 2055,
+          "n": 879
+        },
+        "7": {
+          "words": 1542,
+          "n": 748
+        },
+        "8": {
+          "words": 1063,
+          "n": 570
+        },
+        "9": {
+          "words": 689,
+          "n": 420
+        },
+        "10": {
+          "words": 367,
+          "n": 240
+        },
+        "11": {
+          "words": 214,
+          "n": 134
+        },
+        "12": {
+          "words": 109,
+          "n": 85
+        },
+        "13": {
+          "words": 55,
+          "n": 44
+        },
+        "14": {
+          "words": 26,
+          "n": 19
+        },
+        "15": {
+          "words": 9,
+          "n": 8
+        },
+        "16": {
+          "words": 1,
+          "n": 0
+        }
+      },
+      "selection": {
+        "attempts": 26401,
+        "accepted": 9848,
+        "selectedRootPhonemes": 63198,
+        "fallback": 152
+      },
+      "events": {},
+      "witnesses": {}
+    },
+    {
+      "seed": 189550743,
+      "words": 10000,
+      "root": {
+        "phones": 63367,
+        "n": 4217,
+        "n/coda": 3022,
+        "n/coda/nonfinal": 945,
+        "n/coda/final": 2077,
+        "n/onset": 1195,
+        "n/onset/nonfinal": 664,
+        "n/onset/final": 531
+      },
+      "final": {
+        "phones": 63300,
+        "n": 4217,
+        "n/coda": 3022,
+        "n/coda/nonfinal": 945,
+        "n/coda/final": 2077,
+        "n/onset": 1195,
+        "n/onset/nonfinal": 664,
+        "n/onset/final": 531
+      },
+      "stages": {
+        "generateSyllables": {
+          "gained": 4217,
+          "lost": 0
+        },
+        "repairClusters": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairFinalCoda": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairClusterShape": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairHAfterBackVowel": {
+          "gained": 0,
+          "lost": 0
+        },
+        "applyStress": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairStressedNuclei": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairNucleusWordPositions": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generateWrittenForm": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generatePronunciation": {
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "lengths": {
+        "1": {
+          "words": 3,
+          "n": 0
+        },
+        "2": {
+          "words": 82,
+          "n": 5
+        },
+        "3": {
+          "words": 532,
+          "n": 86
+        },
+        "4": {
+          "words": 1221,
+          "n": 371
+        },
+        "5": {
+          "words": 2043,
+          "n": 660
+        },
+        "6": {
+          "words": 2026,
+          "n": 818
+        },
+        "7": {
+          "words": 1549,
+          "n": 753
+        },
+        "8": {
+          "words": 1089,
+          "n": 526
+        },
+        "9": {
+          "words": 663,
+          "n": 412
+        },
+        "10": {
+          "words": 355,
+          "n": 245
+        },
+        "11": {
+          "words": 220,
+          "n": 158
+        },
+        "12": {
+          "words": 105,
+          "n": 86
+        },
+        "13": {
+          "words": 67,
+          "n": 61
+        },
+        "14": {
+          "words": 29,
+          "n": 23
+        },
+        "15": {
+          "words": 9,
+          "n": 8
+        },
+        "16": {
+          "words": 4,
+          "n": 4
+        },
+        "17": {
+          "words": 1,
+          "n": 0
+        },
+        "18": {
+          "words": 1,
+          "n": 0
+        },
+        "19": {
+          "words": 1,
+          "n": 1
+        }
+      },
+      "selection": {
+        "attempts": 26954,
+        "accepted": 9826,
+        "selectedRootPhonemes": 63300,
+        "fallback": 174
+      },
+      "events": {},
+      "witnesses": {}
+    },
+    {
+      "seed": 379101444,
+      "words": 10000,
+      "root": {
+        "phones": 63216,
+        "n": 4343,
+        "n/coda": 3076,
+        "n/coda/nonfinal": 953,
+        "n/onset": 1267,
+        "n/onset/final": 578,
+        "n/onset/nonfinal": 689,
+        "n/coda/final": 2123
+      },
+      "final": {
+        "phones": 63151,
+        "n": 4343,
+        "n/coda": 3076,
+        "n/coda/nonfinal": 953,
+        "n/onset": 1267,
+        "n/onset/final": 578,
+        "n/onset/nonfinal": 689,
+        "n/coda/final": 2123
+      },
+      "stages": {
+        "generateSyllables": {
+          "gained": 4343,
+          "lost": 0
+        },
+        "repairClusters": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairFinalCoda": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairClusterShape": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairHAfterBackVowel": {
+          "gained": 0,
+          "lost": 0
+        },
+        "applyStress": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairStressedNuclei": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairNucleusWordPositions": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generateWrittenForm": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generatePronunciation": {
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "lengths": {
+        "1": {
+          "words": 3,
+          "n": 0
+        },
+        "2": {
+          "words": 75,
+          "n": 7
+        },
+        "3": {
+          "words": 553,
+          "n": 102
+        },
+        "4": {
+          "words": 1250,
+          "n": 333
+        },
+        "5": {
+          "words": 1962,
+          "n": 668
+        },
+        "6": {
+          "words": 2047,
+          "n": 890
+        },
+        "7": {
+          "words": 1561,
+          "n": 765
+        },
+        "8": {
+          "words": 1122,
+          "n": 601
+        },
+        "9": {
+          "words": 673,
+          "n": 402
+        },
+        "10": {
+          "words": 360,
+          "n": 254
+        },
+        "11": {
+          "words": 192,
+          "n": 147
+        },
+        "12": {
+          "words": 107,
+          "n": 97
+        },
+        "13": {
+          "words": 58,
+          "n": 44
+        },
+        "14": {
+          "words": 25,
+          "n": 23
+        },
+        "15": {
+          "words": 6,
+          "n": 3
+        },
+        "16": {
+          "words": 5,
+          "n": 5
+        },
+        "17": {
+          "words": 1,
+          "n": 2
+        }
+      },
+      "selection": {
+        "attempts": 26460,
+        "accepted": 9858,
+        "selectedRootPhonemes": 63151,
+        "fallback": 142
+      },
+      "events": {},
+      "witnesses": {}
+    },
+    {
+      "seed": 568652145,
+      "words": 10000,
+      "root": {
+        "phones": 63756,
+        "n": 4350,
+        "n/onset": 1260,
+        "n/onset/final": 544,
+        "n/coda": 3090,
+        "n/coda/nonfinal": 964,
+        "n/coda/final": 2126,
+        "n/onset/nonfinal": 716
+      },
+      "final": {
+        "phones": 63691,
+        "n": 4350,
+        "n/onset": 1260,
+        "n/onset/final": 544,
+        "n/coda": 3090,
+        "n/coda/nonfinal": 964,
+        "n/coda/final": 2126,
+        "n/onset/nonfinal": 716
+      },
+      "stages": {
+        "generateSyllables": {
+          "gained": 4350,
+          "lost": 0
+        },
+        "repairClusters": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairFinalCoda": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairClusterShape": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairHAfterBackVowel": {
+          "gained": 0,
+          "lost": 0
+        },
+        "applyStress": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairStressedNuclei": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairNucleusWordPositions": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generateWrittenForm": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generatePronunciation": {
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "lengths": {
+        "1": {
+          "words": 1,
+          "n": 0
+        },
+        "2": {
+          "words": 75,
+          "n": 4
+        },
+        "3": {
+          "words": 528,
+          "n": 96
+        },
+        "4": {
+          "words": 1195,
+          "n": 366
+        },
+        "5": {
+          "words": 1998,
+          "n": 688
+        },
+        "6": {
+          "words": 2038,
+          "n": 866
+        },
+        "7": {
+          "words": 1546,
+          "n": 766
+        },
+        "8": {
+          "words": 1122,
+          "n": 613
+        },
+        "9": {
+          "words": 659,
+          "n": 385
+        },
+        "10": {
+          "words": 398,
+          "n": 265
+        },
+        "11": {
+          "words": 212,
+          "n": 126
+        },
+        "12": {
+          "words": 125,
+          "n": 81
+        },
+        "13": {
+          "words": 55,
+          "n": 44
+        },
+        "14": {
+          "words": 30,
+          "n": 29
+        },
+        "15": {
+          "words": 9,
+          "n": 11
+        },
+        "16": {
+          "words": 6,
+          "n": 8
+        },
+        "17": {
+          "words": 3,
+          "n": 2
+        }
+      },
+      "selection": {
+        "attempts": 26946,
+        "accepted": 9831,
+        "selectedRootPhonemes": 63691,
+        "fallback": 169
+      },
+      "events": {},
+      "witnesses": {}
+    },
+    {
+      "seed": 758202846,
+      "words": 10000,
+      "root": {
+        "phones": 63920,
+        "n": 4218,
+        "n/coda": 3034,
+        "n/coda/final": 2073,
+        "n/onset": 1184,
+        "n/onset/final": 527,
+        "n/coda/nonfinal": 961,
+        "n/onset/nonfinal": 657
+      },
+      "final": {
+        "phones": 63844,
+        "n": 4218,
+        "n/coda": 3034,
+        "n/coda/final": 2073,
+        "n/onset": 1184,
+        "n/onset/final": 527,
+        "n/coda/nonfinal": 961,
+        "n/onset/nonfinal": 657
+      },
+      "stages": {
+        "generateSyllables": {
+          "gained": 4218,
+          "lost": 0
+        },
+        "repairClusters": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairFinalCoda": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairClusterShape": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairHAfterBackVowel": {
+          "gained": 0,
+          "lost": 0
+        },
+        "applyStress": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairStressedNuclei": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairNucleusWordPositions": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generateWrittenForm": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generatePronunciation": {
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "lengths": {
+        "1": {
+          "words": 1,
+          "n": 0
+        },
+        "2": {
+          "words": 70,
+          "n": 6
+        },
+        "3": {
+          "words": 490,
+          "n": 92
+        },
+        "4": {
+          "words": 1220,
+          "n": 338
+        },
+        "5": {
+          "words": 1984,
+          "n": 657
+        },
+        "6": {
+          "words": 2017,
+          "n": 868
+        },
+        "7": {
+          "words": 1601,
+          "n": 739
+        },
+        "8": {
+          "words": 1091,
+          "n": 552
+        },
+        "9": {
+          "words": 720,
+          "n": 402
+        },
+        "10": {
+          "words": 384,
+          "n": 246
+        },
+        "11": {
+          "words": 197,
+          "n": 140
+        },
+        "12": {
+          "words": 104,
+          "n": 83
+        },
+        "13": {
+          "words": 73,
+          "n": 66
+        },
+        "14": {
+          "words": 23,
+          "n": 11
+        },
+        "15": {
+          "words": 16,
+          "n": 13
+        },
+        "16": {
+          "words": 6,
+          "n": 4
+        },
+        "17": {
+          "words": 1,
+          "n": 0
+        },
+        "18": {
+          "words": 1,
+          "n": 1
+        },
+        "19": {
+          "words": 1,
+          "n": 0
+        }
+      },
+      "selection": {
+        "attempts": 26485,
+        "accepted": 9837,
+        "selectedRootPhonemes": 63844,
+        "fallback": 163
+      },
+      "events": {},
+      "witnesses": {}
+    },
+    {
+      "seed": 947753547,
+      "words": 10000,
+      "root": {
+        "phones": 63377,
+        "n": 4210,
+        "n/onset": 1182,
+        "n/onset/nonfinal": 662,
+        "n/coda": 3028,
+        "n/coda/final": 2098,
+        "n/onset/final": 520,
+        "n/coda/nonfinal": 930
+      },
+      "final": {
+        "phones": 63304,
+        "n": 4210,
+        "n/onset": 1182,
+        "n/onset/nonfinal": 662,
+        "n/coda": 3028,
+        "n/coda/final": 2098,
+        "n/onset/final": 520,
+        "n/coda/nonfinal": 930
+      },
+      "stages": {
+        "generateSyllables": {
+          "gained": 4210,
+          "lost": 0
+        },
+        "repairClusters": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairFinalCoda": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairClusterShape": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairHAfterBackVowel": {
+          "gained": 0,
+          "lost": 0
+        },
+        "applyStress": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairStressedNuclei": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairNucleusWordPositions": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generateWrittenForm": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generatePronunciation": {
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "lengths": {
+        "1": {
+          "words": 5,
+          "n": 0
+        },
+        "2": {
+          "words": 69,
+          "n": 3
+        },
+        "3": {
+          "words": 556,
+          "n": 93
+        },
+        "4": {
+          "words": 1210,
+          "n": 338
+        },
+        "5": {
+          "words": 1969,
+          "n": 619
+        },
+        "6": {
+          "words": 2049,
+          "n": 850
+        },
+        "7": {
+          "words": 1619,
+          "n": 795
+        },
+        "8": {
+          "words": 1069,
+          "n": 581
+        },
+        "9": {
+          "words": 682,
+          "n": 394
+        },
+        "10": {
+          "words": 353,
+          "n": 214
+        },
+        "11": {
+          "words": 217,
+          "n": 141
+        },
+        "12": {
+          "words": 106,
+          "n": 93
+        },
+        "13": {
+          "words": 56,
+          "n": 55
+        },
+        "14": {
+          "words": 32,
+          "n": 29
+        },
+        "15": {
+          "words": 4,
+          "n": 1
+        },
+        "16": {
+          "words": 2,
+          "n": 1
+        },
+        "17": {
+          "words": 2,
+          "n": 3
+        }
+      },
+      "selection": {
+        "attempts": 26777,
+        "accepted": 9841,
+        "selectedRootPhonemes": 63304,
+        "fallback": 159
+      },
+      "events": {},
+      "witnesses": {}
+    },
+    {
+      "seed": 1137304248,
+      "words": 10000,
+      "root": {
+        "phones": 63872,
+        "n": 4283,
+        "n/onset": 1244,
+        "n/onset/final": 547,
+        "n/coda": 3039,
+        "n/coda/final": 2099,
+        "n/coda/nonfinal": 940,
+        "n/onset/nonfinal": 697
+      },
+      "final": {
+        "phones": 63806,
+        "n": 4283,
+        "n/onset": 1244,
+        "n/onset/final": 547,
+        "n/coda": 3039,
+        "n/coda/final": 2099,
+        "n/coda/nonfinal": 940,
+        "n/onset/nonfinal": 697
+      },
+      "stages": {
+        "generateSyllables": {
+          "gained": 4283,
+          "lost": 0
+        },
+        "repairClusters": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairFinalCoda": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairClusterShape": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairHAfterBackVowel": {
+          "gained": 0,
+          "lost": 0
+        },
+        "applyStress": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairStressedNuclei": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairNucleusWordPositions": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generateWrittenForm": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generatePronunciation": {
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "lengths": {
+        "1": {
+          "words": 3,
+          "n": 0
+        },
+        "2": {
+          "words": 69,
+          "n": 2
+        },
+        "3": {
+          "words": 523,
+          "n": 98
+        },
+        "4": {
+          "words": 1192,
+          "n": 347
+        },
+        "5": {
+          "words": 1991,
+          "n": 661
+        },
+        "6": {
+          "words": 2053,
+          "n": 866
+        },
+        "7": {
+          "words": 1529,
+          "n": 776
+        },
+        "8": {
+          "words": 1093,
+          "n": 593
+        },
+        "9": {
+          "words": 707,
+          "n": 379
+        },
+        "10": {
+          "words": 389,
+          "n": 261
+        },
+        "11": {
+          "words": 231,
+          "n": 149
+        },
+        "12": {
+          "words": 123,
+          "n": 71
+        },
+        "13": {
+          "words": 61,
+          "n": 46
+        },
+        "14": {
+          "words": 15,
+          "n": 14
+        },
+        "15": {
+          "words": 11,
+          "n": 8
+        },
+        "16": {
+          "words": 5,
+          "n": 7
+        },
+        "17": {
+          "words": 2,
+          "n": 3
+        },
+        "18": {
+          "words": 2,
+          "n": 1
+        },
+        "20": {
+          "words": 1,
+          "n": 1
+        }
+      },
+      "selection": {
+        "attempts": 25776,
+        "accepted": 9870,
+        "selectedRootPhonemes": 63806,
+        "fallback": 130
+      },
+      "events": {},
+      "witnesses": {}
+    },
+    {
+      "seed": 1326854949,
+      "words": 10000,
+      "root": {
+        "phones": 63381,
+        "n": 4219,
+        "n/onset": 1249,
+        "n/onset/nonfinal": 695,
+        "n/coda": 2970,
+        "n/coda/final": 2067,
+        "n/coda/nonfinal": 903,
+        "n/onset/final": 554
+      },
+      "final": {
+        "phones": 63315,
+        "n": 4219,
+        "n/onset": 1249,
+        "n/onset/nonfinal": 695,
+        "n/coda": 2970,
+        "n/coda/final": 2067,
+        "n/coda/nonfinal": 903,
+        "n/onset/final": 554
+      },
+      "stages": {
+        "generateSyllables": {
+          "gained": 4219,
+          "lost": 0
+        },
+        "repairClusters": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairFinalCoda": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairClusterShape": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairHAfterBackVowel": {
+          "gained": 0,
+          "lost": 0
+        },
+        "applyStress": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairStressedNuclei": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairNucleusWordPositions": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generateWrittenForm": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generatePronunciation": {
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "lengths": {
+        "1": {
+          "words": 7,
+          "n": 0
+        },
+        "2": {
+          "words": 56,
+          "n": 4
+        },
+        "3": {
+          "words": 524,
+          "n": 90
+        },
+        "4": {
+          "words": 1260,
+          "n": 362
+        },
+        "5": {
+          "words": 1949,
+          "n": 633
+        },
+        "6": {
+          "words": 2057,
+          "n": 822
+        },
+        "7": {
+          "words": 1577,
+          "n": 764
+        },
+        "8": {
+          "words": 1099,
+          "n": 559
+        },
+        "9": {
+          "words": 728,
+          "n": 458
+        },
+        "10": {
+          "words": 362,
+          "n": 241
+        },
+        "11": {
+          "words": 206,
+          "n": 155
+        },
+        "12": {
+          "words": 90,
+          "n": 61
+        },
+        "13": {
+          "words": 58,
+          "n": 52
+        },
+        "14": {
+          "words": 19,
+          "n": 10
+        },
+        "15": {
+          "words": 3,
+          "n": 2
+        },
+        "16": {
+          "words": 3,
+          "n": 3
+        },
+        "17": {
+          "words": 1,
+          "n": 2
+        },
+        "18": {
+          "words": 1,
+          "n": 1
+        }
+      },
+      "selection": {
+        "attempts": 26989,
+        "accepted": 9827,
+        "selectedRootPhonemes": 63315,
+        "fallback": 173
+      },
+      "events": {},
+      "witnesses": {}
+    },
+    {
+      "seed": 1516405650,
+      "words": 10000,
+      "root": {
+        "phones": 63908,
+        "n": 4416,
+        "n/coda": 3195,
+        "n/coda/final": 2206,
+        "n/coda/nonfinal": 989,
+        "n/onset": 1221,
+        "n/onset/nonfinal": 678,
+        "n/onset/final": 543
+      },
+      "final": {
+        "phones": 63841,
+        "n": 4416,
+        "n/coda": 3195,
+        "n/coda/final": 2206,
+        "n/coda/nonfinal": 989,
+        "n/onset": 1221,
+        "n/onset/nonfinal": 678,
+        "n/onset/final": 543
+      },
+      "stages": {
+        "generateSyllables": {
+          "gained": 4416,
+          "lost": 0
+        },
+        "repairClusters": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairFinalCoda": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairClusterShape": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairHAfterBackVowel": {
+          "gained": 0,
+          "lost": 0
+        },
+        "applyStress": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairStressedNuclei": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairNucleusWordPositions": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generateWrittenForm": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generatePronunciation": {
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "lengths": {
+        "1": {
+          "words": 2,
+          "n": 0
+        },
+        "2": {
+          "words": 73,
+          "n": 5
+        },
+        "3": {
+          "words": 538,
+          "n": 83
+        },
+        "4": {
+          "words": 1209,
+          "n": 363
+        },
+        "5": {
+          "words": 1975,
+          "n": 713
+        },
+        "6": {
+          "words": 1964,
+          "n": 888
+        },
+        "7": {
+          "words": 1562,
+          "n": 748
+        },
+        "8": {
+          "words": 1150,
+          "n": 631
+        },
+        "9": {
+          "words": 675,
+          "n": 387
+        },
+        "10": {
+          "words": 384,
+          "n": 240
+        },
+        "11": {
+          "words": 243,
+          "n": 174
+        },
+        "12": {
+          "words": 117,
+          "n": 95
+        },
+        "13": {
+          "words": 71,
+          "n": 58
+        },
+        "14": {
+          "words": 25,
+          "n": 21
+        },
+        "15": {
+          "words": 7,
+          "n": 5
+        },
+        "16": {
+          "words": 5,
+          "n": 5
+        }
+      },
+      "selection": {
+        "attempts": 26623,
+        "accepted": 9840,
+        "selectedRootPhonemes": 63841,
+        "fallback": 160
+      },
+      "events": {},
+      "witnesses": {}
+    },
+    {
+      "seed": 1705956351,
+      "words": 10000,
+      "root": {
+        "phones": 63498,
+        "n": 4254,
+        "n/coda": 3113,
+        "n/coda/final": 2137,
+        "n/onset": 1141,
+        "n/onset/final": 495,
+        "n/coda/nonfinal": 976,
+        "n/onset/nonfinal": 646
+      },
+      "final": {
+        "phones": 63445,
+        "n": 4254,
+        "n/coda": 3113,
+        "n/coda/final": 2137,
+        "n/onset": 1141,
+        "n/onset/final": 495,
+        "n/coda/nonfinal": 976,
+        "n/onset/nonfinal": 646
+      },
+      "stages": {
+        "generateSyllables": {
+          "gained": 4254,
+          "lost": 0
+        },
+        "repairClusters": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairFinalCoda": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairClusterShape": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairHAfterBackVowel": {
+          "gained": 0,
+          "lost": 0
+        },
+        "applyStress": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairStressedNuclei": {
+          "gained": 0,
+          "lost": 0
+        },
+        "repairNucleusWordPositions": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generateWrittenForm": {
+          "gained": 0,
+          "lost": 0
+        },
+        "generatePronunciation": {
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "lengths": {
+        "1": {
+          "words": 5,
+          "n": 0
+        },
+        "2": {
+          "words": 62,
+          "n": 6
+        },
+        "3": {
+          "words": 535,
+          "n": 107
+        },
+        "4": {
+          "words": 1243,
+          "n": 332
+        },
+        "5": {
+          "words": 2042,
+          "n": 708
+        },
+        "6": {
+          "words": 1927,
+          "n": 811
+        },
+        "7": {
+          "words": 1586,
+          "n": 774
+        },
+        "8": {
+          "words": 1139,
+          "n": 594
+        },
+        "9": {
+          "words": 679,
+          "n": 391
+        },
+        "10": {
+          "words": 360,
+          "n": 227
+        },
+        "11": {
+          "words": 212,
+          "n": 136
+        },
+        "12": {
+          "words": 100,
+          "n": 75
+        },
+        "13": {
+          "words": 63,
+          "n": 44
+        },
+        "14": {
+          "words": 26,
+          "n": 23
+        },
+        "15": {
+          "words": 12,
+          "n": 13
+        },
+        "16": {
+          "words": 7,
+          "n": 11
+        },
+        "17": {
+          "words": 1,
+          "n": 0
+        },
+        "18": {
+          "words": 1,
+          "n": 2
+        }
+      },
+      "selection": {
+        "attempts": 26498,
+        "accepted": 9846,
+        "selectedRootPhonemes": 63445,
+        "fallback": 154
+      },
+      "events": {},
+      "witnesses": {}
+    }
+  ]
+}

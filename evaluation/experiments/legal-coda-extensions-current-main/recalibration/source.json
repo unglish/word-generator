@@ -1,0 +1,14 @@
+{
+  "implementation": "f65dcf09291c4c8cabe6ee05ea1d2d086f6ae76b",
+  "generatorImplementation": "075df460a93416a40edc1e0ae90d2ae4020b239a",
+  "baseline": "43ef38ae029f4359f323d1c19955b3d44a10a6f7",
+  "files": {
+    "TUNING.md": "f30d9a0eef9c7bd25d94b56548ec968b89bf9b41772936d1a9946b3df3d79a52",
+    "scripts/calibrate-phoneme-thresholds.ts": "4a131eb0c43028bf76ce0305b3b2b98ac189a6c6deb5cb38bfd5456df06fe975",
+    "scripts/lib/phoneme-calibration.ts": "69fe9f8e93ebd9befa385c0f579504610307dd128894f3c84d8a09721380880f",
+    "src/config/phoneme-thresholds.json": "ce457608dc96ad37ab3711733b1722f6acd6ced3cbf5a475849472f29034f80b",
+    "src/core/phoneme-quality-gates.test.ts": "af026dfea010380a9be1d9a28e3f16140d48c232587376d72fc1272648a4127c",
+    "src/core/phoneme-quality-gates.ts": "4ce563597e884f24b8283a75311d9a9be81dbd4ef62757fb258f46c622a45d24",
+    "src/core/phoneme-quality.test.ts": "24ca0e54c884f4a12cbab977c1950b04e09e44301d3e7b7b7373896f5c754c8d"
+  }
+}

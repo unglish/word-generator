@@ -1,0 +1,21 @@
+{
+  "sampleSize": 200000,
+  "seed": 42,
+  "minCommonBaselinePct": 0.5,
+  "maxOverRepresentation": 1.066,
+  "minRepresentation": 0.918,
+  "maxAbsoluteGapPct": 0.39,
+  "maxTotalVariationPct": 1.78,
+  "maxGeneratedOnlyMassPct": 0,
+  "maxCmuOnlyKeyCount": 0,
+  "generatedOnlyEscalationThresholdPct": 1.5,
+  "_comment": "Global limits retain their existing calibration. Per-phoneme overrides use worst observed + 3 sample SDs, rounded outward, from 30 non-overlapping 200,000-word bare-lexicon streams. The /z/ ratio and /n/ gap overrides accept the reviewed distribution tradeoff from preserving legal root codas before optional extensions. All other per-phone bounds, total variation and fixed-zero inventory requirements remain unchanged. This engineering margin is not a false-failure probability guarantee. See TUNING.md and archive/pr-313-recalibration for development and confirmation evidence.",
+  "phonemeOverrides": {
+    "z": {
+      "maxOverRepresentation": 1.105
+    },
+    "n": {
+      "maxAbsoluteGapPct": 0.471
+    }
+  }
+}

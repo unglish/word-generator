@@ -1,0 +1,49 @@
+{
+  "generatorCommit": "075df460a93416a40edc1e0ae90d2ae4020b239a",
+  "overrides": {
+    "z": {
+      "maxOverRepresentation": 1.105
+    },
+    "n": {
+      "maxAbsoluteGapPct": 0.471
+    }
+  },
+  "derivedFrom": {
+    "z": {
+      "limit": "maxOverRepresentation",
+      "metric": "maxOverRepresentation",
+      "bound": "upper",
+      "min": 1.0662688225594705,
+      "max": 1.088470214856175,
+      "mean": 1.0797584119695567,
+      "sd": 0.005474205191613811,
+      "proposed": 1.105
+    },
+    "n": {
+      "limit": "maxAbsoluteGapPct",
+      "metric": "maxAbsoluteGapPct",
+      "bound": "upper",
+      "min": 0.30600847272132103,
+      "max": 0.4067203103757535,
+      "mean": 0.36512734200482616,
+      "sd": 0.021361892796702753,
+      "proposed": 0.471
+    }
+  },
+  "globalLimitsUnchanged": true,
+  "reasonZ": "All 30 development extrema are z; root-coda preservation fixes erroneous deletion. No invalid z pattern identified. Accept measured phonemic distribution cost rather than reduce valid generation to emulate deletion.",
+  "reasonN": "Reviewed independently: all 30 gap extrema are n, four exceed old limit. Trace samples have identical n counts before/after root repairs in both arms; difference occurs in selected root composition, not new n deletion. Accept this measured secondary composition cost of the same correctness fix, constrained by unchanged total variation and minimum representation.",
+  "confirmationSeeds": [
+    1326476134,
+    1516026835,
+    1705577536,
+    1895128237,
+    2084678938,
+    2274229639,
+    2463780340,
+    2653331041,
+    2842881742,
+    3032432443
+  ],
+  "policy": "Freeze both overrides before confirmation. Check every common phoneme and all global limits. Do not fit bounds to confirmation results."
+}

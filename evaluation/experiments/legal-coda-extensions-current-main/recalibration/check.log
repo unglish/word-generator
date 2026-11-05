@@ -1,0 +1,318 @@
+
+> @unglish/word-generator@0.6.0 check
+> npm run lint && npm run typecheck && npm test && npm run test:review
+
+
+> @unglish/word-generator@0.6.0 lint
+> eslint "src/**/*.ts" "evaluation/review/**/*.ts" "evaluation/quality/**/*.ts" "demo/review/**/*.ts"
+
+
+> @unglish/word-generator@0.6.0 typecheck
+> tsc --noEmit && npm run review:typecheck && npm run quality:typecheck
+
+
+> @unglish/word-generator@0.6.0 review:typecheck
+> tsc -p tsconfig.review.json
+
+
+> @unglish/word-generator@0.6.0 quality:typecheck
+> tsc -p tsconfig.quality.json
+
+
+> @unglish/word-generator@0.6.0 test
+> vitest run
+
+
+ RUN  v3.2.4 /Users/ryanbetts/.t3/worktrees/word-generator/codex-pr-313-current-main
+
+ ✓ evaluation/quality/regenerate.test.ts (23 tests) 14662ms
+   ✓ regenerated quality baselines > records the generator checkout's revision and sources, not the harness tree's  745ms
+   ✓ regenerated quality baselines > ignores repository variables exported by a calling git hook  460ms
+   ✓ regenerated quality baselines > passes the fidelity probe when regenerating a committed revision  807ms
+   ✓ regenerated quality baselines > skips incomplete local runs without skipping a completed run's probe  433ms
+   ✓ regenerated quality baselines > refuses a missing tracked manifest even when its entire directory is removed: false  487ms
+   ✓ regenerated quality baselines > refuses a missing tracked manifest even when its entire directory is removed: true  428ms
+   ✓ regenerated quality baselines > discloses a reference from another environment only when a fidelity probe vouches for it  878ms
+   ✓ regenerated quality baselines > removes the temporary worktree after baseline capture fails and preserves the error  805ms
+   ✓ regenerated quality baselines > compares a branch with its merge base in one command and reports zero deltas without generator changes  2969ms
+   ✓ regenerated quality baselines > records uncommitted generator changes in both report formats  2486ms
+ ✓ src/core/generate.test.ts (33 tests) 31969ms
+   ✓ Word Generator > treats requested counts as root counts across the default morphology mix  1469ms
+   ✓ Word Generator > selects the same root regardless of affix phone, syllable, and letter costs  308ms
+   ✓ Word Generator > risingCodaDrop policy gates rising-coda drop events  27099ms
+   ✓ isValidCluster > should only generate attested onsets > never generates an unattested multi-consonant onset  419ms
+   ✓ isValidCluster > should only generate attested codas > never generates an unattested multi-consonant coda  646ms
+ ✓ src/core/morphology/morphology.quality.test.ts (11 tests) 31220ms
+   ✓ Morphology quality benchmarks > new nominal suffix -ian appears in larger deterministic samples  3496ms
+   ✓ Morphology quality benchmarks > new nominal suffix -ial appears in larger deterministic samples  3182ms
+   ✓ Morphology quality benchmarks > new orthographic suffix -sion appears in larger deterministic samples  2266ms
+   ✓ Morphology quality benchmarks > keeps ia and ian representation above regression floors vs CMU  13106ms
+   ✓ Morphology quality benchmarks > enb trigram is reachable in traced lexicon samples  9101ms
+ ✓ src/core/coda-extensions.test.ts (25 tests) 24296ms
+   ✓ coda extensions preserve configured legality > keeps root-stage codas duplicate-free with default morphology and root-only budgets  13218ms
+   ✓ coda extensions preserve configured legality > produces no adjacent duplicate coda phones in a 20,000-word bare stream  10634ms
+ ✓ src/core/generateWords.test.ts (23 tests) 9101ms
+ ✓ src/core/stress-repair.test.ts (2 tests) 17567ms
+   ✓ stress-aware nucleus re-pick > no primary-stressed schwa in 10,000 words  4570ms
+   ✓ stress-aware nucleus re-pick > standalone monosyllables retain lexical stress without an IPA stress mark  12992ms
+ ✓ src/core/lexical.test.ts (12 tests) 9720ms
+   ✓ lexical composition before surface realization > spells only a repaired root syllable with its final-word stress  370ms
+   ✓ lexical composition before surface realization > does not attribute an unrelated root grapheme to a morphology bridge  1198ms
+   ✓ lexical composition before surface realization > has exactly one primary and no primary reduced vowels in a default affixed sample  7375ms
+ ❯ src/phonotactic/phonotactic.test.ts (14 tests | 3 skipped) 62633ms
+   ✓ IPA to ARPABET conversion > converts simple consonants 2ms
+   ✓ IPA to ARPABET conversion > converts vowels 0ms
+   ✓ IPA to ARPABET conversion > converts diphthongs 0ms
+   ✓ IPA to ARPABET conversion > converts affricates 0ms
+   ✓ IPA to ARPABET conversion > strips aspiration diacritics 0ms
+   ✓ IPA to ARPABET conversion > maps aspirated phoneme flags to the same ARPABET tokens 0ms
+   ✓ IPA to ARPABET conversion > returns null for removed triphthongs 0ms
+   ✓ IPA to ARPABET conversion > converts a full generated word to valid ARPABET tokens 21ms
+   ✓ ARPABET scorer > scores common English words higher than implausible sequences 0ms
+   ✓ ARPABET scorer > returns finite scores for valid ARPABET input 1ms
+   ✓ ARPABET scorer > handles empty input gracefully 0ms
+   ↓ phonotactic quality gates > per-bigram mean is within gate of English
+   ↓ phonotactic quality gates > per-bigram gap has not regressed from recorded baseline
+   ↓ phonotactic quality gates > no generated word has catastrophically low per-bigram score
+ ✓ src/core/grapheme-selection.test.ts (10 tests) 31455ms
+   ✓ legal grapheme selection > uses a separately declared fallback and records the ordinary empty set  2629ms
+   ✓ legal grapheme selection > spells isolated /ɛ/ with ordinary e, including before /t/, without a fallback  3498ms
+   ✓ legal grapheme selection > writes medial coda /z/ after /g/ as z, so gz before a vowel can become x  14902ms
+   ✓ legal grapheme selection > keeps positive real weights and correct edge scopes across 10k public outputs  10192ms
+ ✓ src/core/magic-e-roles.test.ts (4 tests) 17782ms
+   ✓ magic-e letter roles > rewrites only nucleus vowel letters before a coda consonant, and still fires  17577ms
+ ✓ src/core/ea-spelling.test.ts (7 tests) 68982ms
+   ✓ ea spelling context (#381) > never doubles a consonant, or chooses a doubled spelling, directly after ea  17916ms
+   ✓ ea spelling context (#381) > does not end a root in ea before a vowel-initial suffix  14728ms
+   ✓ ea spelling context (#381) > spells a one-syllable root ending in /i:/ before a vowel suffix with the declared ee fallback  13864ms
+   ✓ ea spelling context (#381) > keeps ea in use for /ɛ/ and /i:/ where it is allowed  15919ms
+   ✓ ea spelling context (#381) > is configured, not hard-coded: an empty neverDoubleAfter restores doubling after ea  5462ms
+   ✓ ea spelling context (#381) > is deterministic for a fixed seed  895ms
+stdout | src/core/y-vowel.test.ts > Y-as-vowel improvements (#63) > Y appears word-finally at a reasonable rate > at least 2% of generated words end in Y
+  Y-final rate: 9.4% (937/10000)
+
+stdout | src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails
+Total variation from CMU: 1.599% (threshold: 1.78%)
+Shared phoneme Pearson r: 0.99825 (report-only)
+Non-CMU generated mass: 0.0000% (threshold: 0%)
+Worst over-rep: z at 1.074x (threshold: 1.105x)
+Worst under-rep: n at 0.945x (threshold: 0.918x)
+Worst absolute gap: n at 0.391% (threshold: 0.471%)
+CMU phonemes never generated: 0 (threshold: 0)
+
+ ✓ src/core/phoneme-quality.test.ts (1 test) 74049ms
+   ✓ Phoneme quality gates > meets phoneme distribution guardrails  74047ms
+ ✓ src/core/ordinary-et.test.ts (5 tests) 15313ms
+   ✓ ordinary e before /t/ > retains both spelling families: 'cross-syllable', 'ea'  4115ms
+   ✓ ordinary e before /t/ > keeps e available in every /ɛ/+/t/ choice without eliminating ea  10806ms
+ ✓ evaluation/quality/probes/phoneme-identity.test.ts (23 tests) 3544ms
+   ✓ identity archive observer integrity > accepts any archive whose words match the pinned original, including a regeneration  648ms
+stdout | src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies
+
+200k sample results:
+  Total "ts": 3807 (1.90%)
+    Final: 3250 (1.63%)
+    Non-final: 557 (0.28%)
+  Total "ns": 2321 (1.16%)
+    Final: 1254 (0.63%)
+    Non-final: 1067 (0.53%)
+
+ ❯ src/core/cluster-weights.test.ts (4 tests | 1 failed) 78444ms
+   ✓ Position-based cluster weighting > applies position-based weights correctly  4931ms
+   ✓ Position-based cluster weighting > backwards compatible with uniform weights  594ms
+   ✓ Position-based cluster weighting > reduces ts/ns frequency compared to no weights  6146ms
+   × Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies 66752ms
+     → Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ✓ src/core/pronounce.test.ts (28 tests) 8504ms
+   ✓ applyAspiration > keeps canonical phoneme sounds free of aspiration diacritics across deterministic sweep  5864ms
+   ✓ applyAspiration > default English generation only aspirates first-onset /p t k/  2618ms
+ ✓ evaluation/quality/rescore.test.ts (9 tests) 4360ms
+   ✓ offline quality rescoring > never generates, preserves exact archived bytes, and matches an unchanged recapture  1024ms
+   ✓ offline quality rescoring > upgrades a historical evaluator while retaining original sources, references, and generation environment  539ms
+   ✓ offline quality rescoring > retains the complete provenance chain when rescoring an already rescored corpus  1121ms
+ ✓ src/core/morphology/realization.test.ts (26 tests) 14800ms
+   ✓ resolved morphology survives final cleanup > preserves assembly across a continuous 10,000-word public-API stream  14646ms
+stdout | src/core/y-vowel.test.ts > Y-as-vowel improvements (#63) > Y appears in generated words overall > at least 5% of words contain Y
+  Y-containing rate: 17.5% (1753/10000)
+
+ ✓ src/core/y-vowel.test.ts (2 tests) 16520ms
+   ✓ Y-as-vowel improvements (#63) > Y appears word-finally at a reasonable rate > at least 2% of generated words end in Y  9086ms
+   ✓ Y-as-vowel improvements (#63) > Y appears in generated words overall > at least 5% of words contain Y  7419ms
+ ✓ evaluation/quality/capture.test.ts (5 tests) 1700ms
+   ✓ frozen quality capture > replays deterministically with complete traces and predefined review selection  596ms
+ ✓ src/core/trace.test.ts (20 tests | 1 skipped) 13782ms
+   ✓ trace pipeline > captures structured SSP and rising-coda boundary payloads  3811ms
+   ✓ trace pipeline > vowel-hiatus fallback trace entries use typed payload  2981ms
+   ✓ trace pipeline > post-vowel glide policy controls root glide transitions deterministically  4355ms
+   ✓ trace pipeline > keeps root-stage hiatus low in traced samples  2380ms
+ ✓ evaluation/quality/probes/resolved-allomorphs/analyze.test.ts (8 tests) 977ms
+   ✓ separates missing resolution provenance from spelling evidence (historical=false)  644ms
+ ✓ src/core/rejection-trace.test.ts (6 tests) 4446ms
+   ✓ complete rejection accounting > tracing preserves outputs and RNG consumption with morphology=false  1200ms
+   ✓ complete rejection accounting > tracing preserves outputs and RNG consumption with morphology=true  921ms
+   ✓ complete rejection accounting > keeps totals and root proposal multiplicities coherent across morphological strata  2201ms
+ ✓ src/core/syllable-weight.test.ts (23 tests) 1018ms
+   ✓ shared analytical and operational syllable weight > selects heavy secondary candidates at the configured rate in a controlled model  594ms
+ ✓ src/tools/common-word-coverage-core.test.ts (8 tests) 803ms
+   ✓ common-word-coverage-core > is deterministic with a shared seeded RNG and preserves first-hit generations  797ms
+ ✓ src/phonology/identity.test.ts (25 tests) 5629ms
+   ✓ phoneme identity contract > preserves source objects and RNG over 2,000 public API draws  5593ms
+ ✓ src/core/base-spelling.test.ts (23 tests) 4718ms
+   ✓ exact base-spelling provenance > exposes the 'deduplicateSyllableJoin' edit without changing untraced output  348ms
+   ✓ exact base-spelling provenance > records empty emission separately from phoneme deletion  347ms
+   ✓ exact base-spelling provenance > keeps public-API output and RNG parity with custom regex probability 100  780ms
+   ✓ exact base-spelling provenance > keeps public-API output and RNG parity with custom regex probability 53  776ms
+   ✓ spelling replacements with probability 100 > preserves output, RNG and cell provenance for 'vowel pair'  390ms
+   ✓ spelling replacements with probability 100 > preserves output, RNG and cell provenance for '100-character replacement'  734ms
+   ✓ spelling replacements with probability 53 > preserves output, RNG and cell provenance for '100-character replacement'  471ms
+ ✓ evaluation/quality/probes/syllable-weight/shared.test.ts (6 tests) 71ms
+ ✓ evaluation/quality/probes/syllable-quantity/archive.test.ts (9 tests) 370ms
+ ✓ src/core/ot-stress.test.ts (19 tests) 108ms
+ ✓ src/utils/getWeightedOption.test.ts (8 tests) 184ms
+ ✓ evaluation/quality/compare.test.ts (27 tests) 218ms
+ ✓ src/utils/random.test.ts (8 tests) 709ms
+   ✓ createSeededRng (Mulberry32) > returns values in [0, 1)  608ms
+ ✓ src/core/distribution-quality.test.ts (7 tests) 7ms
+ ✓ src/config/language.test.ts (61 tests) 166ms
+ ✓ evaluation/quality/distribution.test.ts (16 tests) 5ms
+ ✓ src/core/common-word-orthography.test.ts (9 tests) 19ms
+ ✓ src/core/nucleus-position.test.ts (14 tests) 5907ms
+   ✓ literal nucleus edges > generates a closed final FOOT rime in 1-syllable words  646ms
+   ✓ literal nucleus edges > preserves trace/no-trace outputs and RNG with morphology=false  2406ms
+   ✓ literal nucleus edges > preserves trace/no-trace outputs and RNG with morphology=true  2557ms
+ ✓ evaluation/quality/serialization.test.ts (2 tests) 9ms
+ ✓ evaluation/quality/metrics.test.ts (13 tests) 8ms
+ ✓ src/core/repair.test.ts (22 tests) 8ms
+ ✓ src/core/morphology/attach.test.ts (45 tests) 11ms
+ ✓ src/core/morphology/hiatus.test.ts (14 tests) 6521ms
+   ✓ morphological vowel adjacency > inserts an unspelled bridge only under the legacy insertion policy  1694ms
+   ✓ morphological vowel adjacency > keeps tracing observational across a continuous public-API stream  4804ms
+ ✓ src/tools/trace-audit-core.test.ts (6 tests) 6ms
+ ✓ src/utils/letters.test.ts (20 tests) 3ms
+ ✓ src/core/phoneme-quality.metrics.test.ts (1 test) 3ms
+ ✓ scripts/lib/phoneme-calibration.test.ts (5 tests) 5ms
+ ✓ src/core/phoneme-quality-gates.test.ts (5 tests) 6ms
+ ✓ src/core/golden-output.test.ts (5 tests) 9ms
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no bigram exceeds threshold over-representation
+Worst over-rep bigram: "ds" at 3.007× (threshold: 4.25)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no trigram exceeds threshold over-representation
+Worst over-rep trigram: "abl" at 2.190× (threshold: 3.21)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented
+Worst under-rep bigram: "ex" at 0.0430× (threshold: 0.0215)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented
+Worst under-rep trigram: "ugh" at 0.0149× (threshold: 0.0062)
+
+ ✓ src/core/ngram-quality.test.ts (5 tests) 93175ms
+   ✓ N-gram quality gates > generate sample  93146ms
+stdout | src/core/write.test.ts > syllable-based position filtering > "igh" only appears in the final syllable (10k words)
+  igh in non-final syllable: 3/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "wh" only appears in the first syllable (10k words)
+  wh in non-first syllable: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > does not produce impossible onset clusters with "wh" (twh/swh/cwh/quh)
+  impossible wh onset clusters: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "ight" or "ought" mid-word rate < 0.1% in 10k words
+  ight/ought mid-word: 2/10000 (0.02%)
+
+stdout | src/core/write.test.ts > syllable-based position filtering > startWord: 0 graphemes do not appear in the first syllable (10k words)
+  words starting with ck: 0/10000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "eye" appears only as a bare syllable nucleus (50k words)
+  eye syllables: 42/50000
+  eye bare-syllable violations: 0/50000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > "eye" does not appear in medial syllables (50k words)
+  eye syllables (medial test): 42/50000
+  eye medial-syllable violations: 0/50000
+
+stdout | src/core/write.test.ts > syllable-based position filtering > other /aɪ/ spellings still appear alongside "eye" (50k words)
+  eye words: 59/50000
+  non-eye /aɪ/ words: 3894/50000
+
+stdout | src/core/write.test.ts > silent-e integration > produces some silent-e words in 10k generated words
+  Silent-e words: 1188/10000 (11.9%)
+
+stdout | src/core/write.test.ts > silent-e integration > produces "ck" (not "kk") when k doubles after lax vowel
+  ck occurrences: 394/10000, kk occurrences: 0/10000
+
+stdout | src/core/write.test.ts > silent-e integration > never doubles b, d, g word-finally via doubling system
+  Word-final bb: 0, dd: 0, gg: 0
+
+stdout | src/core/write.test.ts > silent-e integration > ck counts toward maxPerWord doubling limit
+  Words with both ck and another double: 0/10000
+
+stdout | src/core/write.test.ts > silent-e integration > very few words end in bare "v" in 10k generated words
+  Bare 'v' endings: 0/10000, total v/ve endings: 40/10000
+
+stdout | src/core/write.test.ts > nucleus-ends-consonant-letter doubling suppression > does not produce doubled consonants after rhotic vowel graphemes (er/or/ur + ss/ll/ff)
+  Sonorant+doubled: 0/10000 (0.00%)
+
+stdout | src/core/write.test.ts > nucleus-ends-consonant-letter doubling suppression > still produces doubled consonants after regular vowel graphemes (a/e/i/o/u)
+  Vowel+doubled: 1138/10000 (11.4%)
+
+ ✓ src/core/write.test.ts (103 tests) 157874ms
+   ✓ consonant pileup integration > generates 100k words with no 5+ consonant grapheme runs  43864ms
+   ✓ consonant pileup integration > generates 100k words with no 5+ consonant letter runs  47174ms
+   ✓ consonant pileup integration > with max=3, generates 10k words with no 4+ consonant grapheme runs  2054ms
+   ✓ monosyllable position weight selection > monosyllabic /dz/ words should prefer "ds" over "dse"  2035ms
+   ✓ monosyllable position weight selection > monosyllable fix should not affect multi-syllable /dz/ words  2410ms
+   ✓ monosyllable position weight selection > uses literal segment positions for consonants in monosyllables  2814ms
+   ✓ syllable-based position filtering > "igh" only appears in the final syllable (10k words)  2083ms
+   ✓ syllable-based position filtering > "wh" only appears in the first syllable (10k words)  2217ms
+   ✓ syllable-based position filtering > does not produce impossible onset clusters with "wh" (twh/swh/cwh/quh)  2115ms
+   ✓ syllable-based position filtering > "ight" or "ought" mid-word rate < 0.1% in 10k words  2074ms
+   ✓ syllable-based position filtering > startWord: 0 graphemes do not appear in the first syllable (10k words)  2072ms
+   ✓ syllable-based position filtering > "eye" appears only as a bare syllable nucleus (50k words)  10644ms
+   ✓ syllable-based position filtering > "eye" does not appear in medial syllables (50k words)  10930ms
+   ✓ syllable-based position filtering > other /aɪ/ spellings still appear alongside "eye" (50k words)  10881ms
+   ✓ silent-e integration > produces some silent-e words in 10k generated words  2089ms
+   ✓ silent-e integration > produces "ck" (not "kk") when k doubles after lax vowel  2052ms
+   ✓ silent-e integration > never doubles b, d, g word-finally via doubling system  2051ms
+   ✓ silent-e integration > ck counts toward maxPerWord doubling limit  2055ms
+   ✓ silent-e integration > very few words end in bare "v" in 10k generated words  2104ms
+   ✓ nucleus-ends-consonant-letter doubling suppression > does not produce doubled consonants after rhotic vowel graphemes (er/or/ur + ss/ll/ff)  2081ms
+   ✓ nucleus-ends-consonant-letter doubling suppression > still produces doubled consonants after regular vowel graphemes (a/e/i/o/u)  2059ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/phonotactic/phonotactic.test.ts > phonotactic quality gates
+Error: Hook timed out in 60000ms.
+If this is a long-running hook, pass a timeout value as the last argument or configure it globally with "hookTimeout".
+ ❯ src/phonotactic/phonotactic.test.ts:152:3
+    150|   let generated: BatchScoreResult;
+    151| 
+    152|   beforeAll(() => {
+       |   ^
+    153|     generated = generateAndScore(135000, 42);
+    154|   }, 60000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/cluster-weights.test.ts > Large-scale position-based cluster analysis > generates 200k sample with target ts/ns frequencies
+Error: Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/core/cluster-weights.test.ts:133:3
+    131| 
+    132| describe("Large-scale position-based cluster analysis", () => {
+    133|   it("generates 200k sample with target ts/ns frequencies", { timeout:…
+       |   ^
+    134|     // This is the main validation test matching the requirement
+    135|     const words = generateWords(200000, { seed: 2026, mode: "text", mo…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 49 passed (51)
+      Tests  1 failed | 805 passed | 4 skipped (810)
+   Start at  12:11:46
+   Duration  158.55s (transform 2.57s, setup 0ms, collect 8.19s, tests 833.39s, environment 8ms, prepare 5.15s)
+
