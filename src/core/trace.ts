@@ -203,7 +203,7 @@ export interface MorphSuffixHiatusFallbackTrace {
 export interface MorphHiatusDecisionTrace {
   event: "morphHiatusDecision";
   boundary: "prefix-root" | "root-suffix";
-  /** Assembled-word coordinates before morphology's pronunciation pass; the root may already be reduced. */
+  /** Assembled-word coordinates, recorded before final stress repair and pronunciation; later vowel reduction or stress repair may change these nuclei. */
   leftSyllableIndex: number;
   rightSyllableIndex: number;
   leftNucleus: string[];

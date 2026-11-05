@@ -97,7 +97,7 @@
         {"clean":"achidedal","hyphenated":"achidedal","pronunciation":"ˌæ.kɪˈdi:d.əl"},
         {"clean":"hagocetion","hyphenated":"hagocetion","pronunciation":"ˌheɪˈgəʊk.ʃən"},
         {"clean":"banreds","hyphenated":"ba&shy;nreds","pronunciation":"ˈbæ.nɚdz"},
-        {"clean":"reasparl","hyphenated":"reasparl","pronunciation":"ˌrɪˈhæs.pɚl"},
+        {"clean":"reasparl","hyphenated":"reasparl","pronunciation":"ˌrɪˈæs.pɚl"},
         {"clean":"smellous","hyphenated":"smellous","pronunciation":"ˈsmɛl.əs"},
         {"clean":"tovonely","hyphenated":"tovonely","pronunciation":"ˈtʰɔv.əʊn.li:"},
         {"clean":"nalhon","hyphenated":"nal&shy;hon","pronunciation":"ˈnɑlˌhəʊn"},
@@ -123,7 +123,7 @@
         {"clean":"voporns","hyphenated":"voporns","pronunciation":"ˌvɔˈpʰɚnz"},
         {"clean":"avertitter","hyphenated":"avertitter","pronunciation":"æˈvɚtˌaɪt.ɚ"},
         {"clean":"rerenobadsing","hyphenated":"rerenobadsing","pronunciation":"ˌrəˈrɛ.nə.bədz.əŋ"},
-        {"clean":"reupenetion","hyphenated":"reupenetion","pronunciation":"ˌrɪˌhəˈpʰi:n.ʃən"},
+        {"clean":"reupenetion","hyphenated":"reupenetion","pronunciation":"ˌrɪˌəˈpʰi:n.ʃən"},
         {"clean":"misnedultolps","hyphenated":"misnedultolps","pronunciation":"ˌmɪsˈni:ˌdul.tɑlps"},
         {"clean":"shoshous","hyphenated":"shoshous","pronunciation":"ˈʃɔʃ.əs"},
         {"clean":"wenstyment","hyphenated":"wenstyment","pronunciation":"ˈwɜnz.ti:.mənt"},
@@ -131,7 +131,7 @@
         {"clean":"estastion","hyphenated":"estastion","pronunciation":"ˌɛˈstæs.ʃən"},
         {"clean":"crall","hyphenated":"crall","pronunciation":"kʰræl"},
         {"clean":"motielfans","hyphenated":"motielfans","pronunciation":"məˈtʰaɪlfˌənz"},
-        {"clean":"reecockalenal","hyphenated":"reecockalenal","pronunciation":"ˌrɪˌhi:.kʰəˌkʰəlˈɛn.əl"}
+        {"clean":"reecockalenal","hyphenated":"reecockalenal","pronunciation":"ˌrɪˌi:.kʰəˌkʰəlˈɛn.əl"}
       ]
     },
     {"name":"lexicon, bare","seed":4,"mode":"lexicon","morphology":false,"rngDraws":5266,

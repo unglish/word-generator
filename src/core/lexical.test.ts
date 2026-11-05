@@ -220,6 +220,8 @@ describe("lexical composition before surface realization", () => {
       ...englishConfig,
       morphology: {
         ...englishConfig.morphology!,
+        // English preserves boundary vowels; opt into the custom bridge policy.
+        boundaryPolicy: { ...englishConfig.morphology!.boundaryPolicy, enablePrefixRootFallback: true },
         prefixes: [prefix],
         templateWeights: { text: templateWeights, lexicon: templateWeights },
       },

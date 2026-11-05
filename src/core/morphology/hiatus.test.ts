@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, createSeededRng, englishConfig, generateWord } from "../../index.js";
+import { createGenerator, createSeededRng, englishConfig, generateWord, generateWords } from "../../index.js";
 import type { MorphHiatusDecisionTrace } from "../../index.js";
 import type { Affix, LanguageConfig, MorphologyConfig } from "../../config/language.js";
 import type { Grapheme, Word } from "../../types.js";
@@ -12,7 +12,8 @@ function fixedBoundary(options: {
   const prefix = englishConfig.morphology!.prefixes.find(affix => affix.written === options.prefix);
   const suffix = englishConfig.morphology!.suffixes.find(affix => affix.written === options.suffix);
   const shape = { onset: onset ? [onset] : [], nucleus: ["i:"], coda: coda ? [coda] : [] };
-  const target = Object.values(shape).flat().length + (prefix?.phonemes.length ?? 0) + (suffix?.phonemes.length ?? 0);
+  // Root phoneme target only: affixes no longer count against the root.
+  const target = Object.values(shape).flat().length;
   const phonemeMaps = { onset: new Map(), nucleus: new Map(), coda: new Map() } as LanguageConfig["phonemeMaps"];
   const graphemeMaps = { onset: new Map(), nucleus: new Map(), coda: new Map() } as LanguageConfig["graphemeMaps"];
   const graphemes: Grapheme[] = [];
@@ -50,20 +51,33 @@ function fixedBoundary(options: {
     doubling: undefined, silentE: undefined, spellingRules: [], gapSpellings: [],
   };
   const generator = createGenerator(config);
-  return generator.generateWord({ seed: 13, trace: true, morphology: true, syllableCount: 1 + (prefix?.syllableCount ?? 0) + (suffix?.syllableCount ?? 0) });
+  return generator.generateWord({ seed: 13, trace: true, morphology: true, syllableCount: 1 });
 }
 
 const decisions = (word: Word) => word.trace!.structural.filter((event): event is MorphHiatusDecisionTrace => event.event === "morphHiatusDecision");
 
 describe("morphological vowel adjacency", () => {
-  it("reproduces the seed-3 defect only under the legacy insertion policy", () => {
-    const legacy = createGenerator({ ...englishConfig, morphology: { ...englishConfig.morphology!, boundaryPolicy: { enablePrefixRootFallback: true, enableRootSuffixFallback: true, fallbackBridgeOnsets: [["h", 100]] } } }).generateWord({ seed: 3, trace: true });
-    expect(legacy.written.clean).toBe("broing");
-    expect(legacy.syllables[1].onset[0].sound).toBe("h");
-    expect(decisions(legacy)).toMatchObject([{ boundary: "root-suffix", outcome: "inserted", inserted: "h" }]);
-    const word = generateWord({ seed: 3, trace: true });
-    // Removing a phone changes length-based rejection; this seed returns a different root.
-    expect(word.trace!.structural.some(event => event.event === "morphPrefixHiatusFallback" || event.event === "morphSuffixHiatusFallback")).toBe(false);
+  it("inserts an unspelled bridge only under the legacy insertion policy", () => {
+    const legacyPolicy = { enablePrefixRootFallback: true, enableRootSuffixFallback: true, fallbackBridgeOnsets: [["h", 100]] as [string, number][] };
+    const legacyGenerator = createGenerator({ ...englishConfig, morphology: { ...englishConfig.morphology!, boundaryPolicy: legacyPolicy } });
+    const rand = createSeededRng(3);
+    const legacy = Array.from({ length: 400 }, () => legacyGenerator.generateWord({ rand, trace: true, morphology: true }));
+    const inserted = legacy.flatMap(word => decisions(word).filter(event => event.outcome === "inserted").map(event => ({ word, event })));
+    expect(inserted.length).toBeGreaterThan(0);
+    for (const { word, event } of inserted) {
+      expect(event.inserted).toBe("h");
+      expect(word.syllables[event.rightSyllableIndex].onset[0].sound).toBe("h");
+    }
+    // The affix supplies the written form, so at least one inserted /h/ has no written h.
+    expect(inserted.some(({ word }) => !word.written.clean.includes("h"))).toBe(true);
+
+    const english = generateWords(400, { seed: 3, trace: true, morphology: true });
+    const fallbackEvents = english.flatMap(word => word.trace!.structural)
+      .filter(event => event.event === "morphPrefixHiatusFallback" || event.event === "morphSuffixHiatusFallback");
+    expect(fallbackEvents).toEqual([]);
+    const preserved = english.flatMap(decisions);
+    expect(preserved.length).toBeGreaterThan(0);
+    expect(preserved.every(event => event.outcome === "preserved" && !event.fallbackEnabled)).toBe(true);
   });
 
   it.each([
