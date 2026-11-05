@@ -912,6 +912,7 @@ function createDoublingFn(
       const lastNucleusChar = nucleusForm[nucleusForm.length - 1].toLowerCase();
       if (!VOWEL_LETTERS.has(lastNucleusChar)) return skip("nucleus-ends-consonant-letter");
     }
+    if (neverDoubleAfterSet.has(nucleusForm)) return skip("never-double-after");
 
     // neverDoubleFinal — suppress word-final doubling for specific sounds
     if (isEndOfWord && isLastPhoneme && config.neverDoubleFinal?.includes(phoneme.sound)) return skip("never-double-final");
@@ -943,14 +944,7 @@ function createDoublingFn(
     prob = Math.min(100, Math.max(0, Math.round(prob)));
     if (prob <= 0) return skip("zero-probability:unstressed");
 
-    const roll = rand() * 100;
-    // A spelling veto, not a phonological one: the roll is still drawn, so the
-    // veto changes only this consonant and leaves the RNG stream unchanged.
-    if (neverDoubleAfterSet.has(nucleusForm)) {
-      if (trace) { trace.attempted = true; trace.probability = prob; trace.reason = "never-double-after"; }
-      return form;
-    }
-    const shouldDouble = roll < prob;
+    const shouldDouble = rand() * 100 < prob;
     if (shouldDouble) {
       state.doublingCount++;
       const doubled = doubledFormLookup[form] ?? (form + form);

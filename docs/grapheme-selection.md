@@ -55,8 +55,8 @@ before another vowel letter. Two configured rules enforce this:
   is chosen: at the end of a base, the first letter of its planned suffix. Every
   ordinary `ea` uses the English alias `notBeforeVowelLetter` (`a e i o u`).
 - `doubling.neverDoubleAfter: ["ea"]` vetoes doubling of a consonant written
-  directly after an `ea` nucleus (trace reason `never-double-after`; the roll is
-  still drawn). It also drops directly chosen doubled spellings (`ck`, `ssi`)
+  directly after an `ea` nucleus (trace reason `never-double-after`; like the
+  other doubling skips, no roll is drawn). It also drops directly chosen doubled spellings (`ck`, `ssi`)
   there while another candidate remains; the trace records
   `preferenceRelaxed: "never-double-after"` if none does.
 

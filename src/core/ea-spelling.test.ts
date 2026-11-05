@@ -99,7 +99,7 @@ describe("ea spelling context (#381)", () => {
       }
     }
     // On this sample ea is 18.85% of /ɛ/ and 24.18% of /i:/ nucleus choices
-    // before the ban, 18.46% and 23.19% after: only the banned contexts move.
+    // before the ban, 18.27% and 22.30% after: only the banned contexts move.
     expect(counts["ɛ"].ea / counts["ɛ"].all).toBeGreaterThan(0.17);
     expect(counts["i:"].ea / counts["i:"].all).toBeGreaterThan(0.2);
   });
