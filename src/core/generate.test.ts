@@ -111,8 +111,11 @@ describe("Word Generator", () => {
       type: "suffix", written: "s", phonemes: ["z"], syllables: [],
       syllableCount: 0, stressEffect: "none", frequency: 1,
     };
+    // Both suffixes start with a consonant letter: the root's last grapheme
+    // may see the suffix's first letter (no "ea" before a vowel letter, #381).
+    // That is spelling context at the edge, not an affix cost.
     const long: import("../config/language.js").Affix = {
-      ...short, written: "anananananana", phonemes: ["ɑ", "n", "ɑ", "n", "ɑ", "n"],
+      ...short, written: "nanananananana", phonemes: ["ɑ", "n", "ɑ", "n", "ɑ", "n"],
       syllables: Array.from({ length: 3 }, () => ({ onset: [], nucleus: ["ɑ"], coda: ["n"] })),
       syllableCount: 3,
     };

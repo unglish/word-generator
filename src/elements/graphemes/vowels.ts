@@ -20,6 +20,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 20,
     midWord: 3,
     endWord: 1,
+    condition: { alias: "notBeforeVowelLetter" },
   },
   {
     phoneme: "i:",
@@ -127,6 +128,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 10,
     endWord: 5,
+    condition: { alias: "notBeforeVowelLetter" },
   },
   // æ: cat
   { 

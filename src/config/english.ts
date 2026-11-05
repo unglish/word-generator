@@ -82,6 +82,10 @@ export const englishConfig: LanguageConfig = {
         coda: "empty",
       },
     },
+    // "ea" is not followed by another vowel letter (no "eaed", "eaable").
+    notBeforeVowelLetter: {
+      notRightGraphemeContext: ["a", "e", "i", "o", "u"],
+    },
   },
 
   invalidClusters: {
@@ -238,6 +242,8 @@ export const englishConfig: LanguageConfig = {
     unstressedModifier: 0,
     doubledForms: { k: "ck", c: "ck" },
     neverDoubleFinal: ["b", "d", "g"],
+    // English does not double after "ea": head, heavy, feather (not "headd").
+    neverDoubleAfter: ["ea"],
   },
 
   silentE: {

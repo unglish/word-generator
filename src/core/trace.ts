@@ -82,7 +82,7 @@ export interface GraphemeTrace {
     afterPosition: number;
     positiveCandidates: number;
     fallback?: "no-conditioned-candidates" | "no-positional-candidates" | "no-positive-weights";
-    preferenceRelaxed?: "doubling-quota";
+    preferenceRelaxed?: "doubling-quota" | "never-double-after";
   };
   /** Detailed doubling decision (only present when tracing). */
   doubling?: DoublingTrace;

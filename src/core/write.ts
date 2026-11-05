@@ -481,6 +481,7 @@ interface PreExpandedCondition {
   notRightContext?: Set<string>;
   leftGraphemeContext?: Set<string>;
   notLeftGraphemeContext?: Set<string>;
+  notRightGraphemeContext?: Set<string>;
   wordPosition?: ("initial" | "medial" | "final")[];
   segmentPosition?: ("initial" | "medial" | "final")[];
   syllableShape?: GraphemeCondition["syllableShape"];
@@ -543,6 +544,7 @@ function preExpandConditions(
     if (normalized.notRightContext) expanded.notRightContext = expandContext(normalized.notRightContext, categories);
     if (normalized.leftGraphemeContext) expanded.leftGraphemeContext = new Set(normalized.leftGraphemeContext);
     if (normalized.notLeftGraphemeContext) expanded.notLeftGraphemeContext = new Set(normalized.notLeftGraphemeContext);
+    if (normalized.notRightGraphemeContext) expanded.notRightGraphemeContext = new Set(normalized.notRightGraphemeContext);
     if (normalized.wordPosition) expanded.wordPosition = normalized.wordPosition;
     if (normalized.segmentPosition) expanded.segmentPosition = normalized.segmentPosition;
     if (normalized.syllableShape) expanded.syllableShape = normalized.syllableShape;
@@ -596,6 +598,7 @@ function meetsPreExpandedCondition(
   onsetLength?: number,
   nucleusLength?: number,
   codaLength?: number,
+  nextWritten?: string,
 ): boolean {
   if (!condition) return true;
 
@@ -654,6 +657,11 @@ function meetsPreExpandedCondition(
     }
   }
 
+  // Unknown (empty) following text cannot violate a right-letter ban.
+  if (condition.notRightGraphemeContext && nextWritten) {
+    if (condition.notRightGraphemeContext.has(nextWritten[0])) return false;
+  }
+
   if (condition.syllableShape) {
     if (!checkClusterShapeRequirement(onsetLength ?? 0, condition.syllableShape.onset)) return false;
     if (!checkClusterShapeRequirement(codaLength ?? 0, condition.syllableShape.coda)) return false;
@@ -676,6 +684,7 @@ function filterByCondition(
   onsetLength?: number,
   nucleusLength?: number,
   codaLength?: number,
+  nextWritten?: string,
 ): Grapheme[] {
   const filtered = candidates.filter(g =>
     meetsPreExpandedCondition(
@@ -690,6 +699,7 @@ function filterByCondition(
       onsetLength,
       nucleusLength,
       codaLength,
+      nextWritten,
     )
   );
   return filtered;
@@ -835,6 +845,7 @@ function createDoublingFn(
   config: DoublingConfig | undefined,
   neverDoubleSet: Set<string>,
   doubledFormSet: Set<string>,
+  neverDoubleAfterSet: Set<string>,
 ): DoublingFn {
   if (!config?.enabled) {
     return (slot, _state, _rand, trace) => {
@@ -901,6 +912,7 @@ function createDoublingFn(
       const lastNucleusChar = nucleusForm[nucleusForm.length - 1].toLowerCase();
       if (!VOWEL_LETTERS.has(lastNucleusChar)) return skip("nucleus-ends-consonant-letter");
     }
+    if (neverDoubleAfterSet.has(nucleusForm)) return skip("never-double-after");
 
     // neverDoubleFinal — suppress word-final doubling for specific sounds
     if (isEndOfWord && isLastPhoneme && config.neverDoubleFinal?.includes(phoneme.sound)) return skip("never-double-final");
@@ -942,6 +954,21 @@ function createDoublingFn(
     if (trace) { trace.attempted = true; trace.probability = prob; trace.reason = "roll-failed"; }
     return form;
   };
+}
+
+/** A spelling that reads as a doubled consonant: a configured doubled form (ck) or a repeated consonant letter (ssi). */
+function isDoubledSpelling(form: string, doubledFormSet: Set<string>): boolean {
+  return doubledFormSet.has(form) ||
+    (form.length >= 2 && form[0] === form[1] && !VOWEL_LETTERS.has(form[0].toLowerCase()));
+}
+
+/** Drop candidates that `exclude` rejects, unless that would leave none. */
+function preferCandidates(
+  weights: [Grapheme, number][],
+  exclude: (grapheme: Grapheme) => boolean,
+): [Grapheme, number][] | undefined {
+  const kept = weights.filter(([grapheme]) => !exclude(grapheme));
+  return kept.length > 0 ? kept : undefined;
 }
 
 // ---------------------------------------------------------------------------
@@ -1668,7 +1695,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const categories = buildCategorySets(config.phonemes);
   const neverDoubleSet = new Set<string>(doublingConfig?.neverDouble ?? []);
   const doubledFormSet = new Set(Object.values(doublingConfig?.doubledForms ?? {}));
-  const tryDoubling = createDoublingFn(doublingConfig, neverDoubleSet, doubledFormSet);
+  const neverDoubleAfterSet = new Set<string>(doublingConfig?.enabled ? doublingConfig.neverDoubleAfter ?? [] : []);
+  const tryDoubling = createDoublingFn(doublingConfig, neverDoubleSet, doubledFormSet, neverDoubleAfterSet);
 
   // Pre-expand conditions for all graphemes
   const expandedConditions = preExpandConditions(allGraphemes, categories, config.graphemeConditionAliases);
@@ -1753,6 +1781,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         pool, expandedConditions, prevPhoneme, nextEntry?.phoneme,
         phonemeIndex, flattenedPhonemes.length, isStartOfWord, isEndOfWord,
         prevGraphemeForm, onsetLength, nucleusLength, codaLength,
+        isLastPhoneme ? context.orthographyFollowing : undefined,
       );
       const positionCandidates = (pool: Grapheme[]): Grapheme[] =>
         filterByPosition(pool, isCluster, isStartOfWord, isEndOfWord, segment);
@@ -1778,9 +1807,20 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
       const quotaFull = doubledFormSet.size > 0 &&
         doublingCtx.doublingCount >= (doublingConfig?.maxPerWord ?? Infinity);
-      const quotaWeights = quotaFull ? weights.filter(([g]) => !doubledFormSet.has(g.form)) : weights;
-      const preferenceRelaxed = quotaWeights.length === 0 ? "doubling-quota" as const : undefined;
-      const selected = selectByFrequency(quotaWeights.length > 0 ? quotaWeights : weights, rand, tracing);
+      // A consonant written directly after a never-double-after nucleus (ea).
+      const afterUndoubledNucleus = position !== "nucleus" && prevEntry?.position === "nucleus" &&
+        prevGraphemeForm !== undefined && neverDoubleAfterSet.has(prevGraphemeForm);
+      let preferred = weights;
+      let preferenceRelaxed: "doubling-quota" | "never-double-after" | undefined;
+      if (quotaFull) {
+        const kept = preferCandidates(preferred, g => doubledFormSet.has(g.form));
+        if (kept) preferred = kept; else preferenceRelaxed = "doubling-quota";
+      }
+      if (afterUndoubledNucleus) {
+        const kept = preferCandidates(preferred, g => isDoubledSpelling(g.form, doubledFormSet));
+        if (kept) preferred = kept; else preferenceRelaxed ??= "never-double-after";
+      }
+      const selected = selectByFrequency(preferred, rand, tracing);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
       // For doubling, use the nucleus grapheme that the reader sees before the

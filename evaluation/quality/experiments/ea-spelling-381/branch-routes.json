@@ -1,0 +1,185 @@
+{
+  "count": 100000,
+  "seed": 7,
+  "doubled": {
+    "total": 136,
+    "rate": "0.136%",
+    "routes": {
+      "prefix-e+root-a": {
+        "n": 94,
+        "examples": [
+          "readdanguitys ˌrɪˈhædˌəŋ.ɪ.taɪz",
+          "realleasos ˌrɪ.həˈlɛz.əʊz",
+          "reaggurnsly ˌrɪˈhægˌɚns.li:",
+          "reall ˌrɪˈhæl"
+        ],
+        "topDetails": [
+          [
+            "both re|s root=addanguity",
+            1
+          ],
+          [
+            "both re|s root=alleaso",
+            1
+          ],
+          [
+            "both re|ly root=aggurns",
+            1
+          ],
+          [
+            "prefixed re| root=all",
+            1
+          ],
+          [
+            "prefixed re| root=annetiky",
+            1
+          ],
+          [
+            "prefixed re| root=attilkey",
+            1
+          ]
+        ]
+      },
+      "root+suffix (no root-final ea grapheme)": {
+        "n": 41,
+        "examples": [
+          "zottitweattion zəˌtʰɪˈtʰwi:t.ʃən",
+          "sleattion ˈsleɪt.ʃən",
+          "cupeanness kʰəˈpʰi:n.nəs",
+          "ocileattion ˌɑ.səˈlɛt.ʃən"
+        ],
+        "topDetails": [
+          [
+            "suffixed |tion root=sleat",
+            2
+          ],
+          [
+            "suffixed |tion root=beat",
+            2
+          ],
+          [
+            "suffixed |tion root=sweat",
+            2
+          ],
+          [
+            "suffixed |tion root=zottitweat",
+            1
+          ],
+          [
+            "suffixed |ness root=cupean",
+            1
+          ],
+          [
+            "suffixed |tion root=ocileat",
+            1
+          ]
+        ]
+      },
+      "letters-from-separate-graphemes": {
+        "n": 1,
+        "examples": [
+          "inineass ɪˈni:nˌəs"
+        ],
+        "topDetails": [
+          [
+            "?",
+            1
+          ]
+        ]
+      }
+    }
+  },
+  "vowel": {
+    "total": 21,
+    "rate": "0.021%",
+    "routes": {
+      "prefix-e+root-a": {
+        "n": 11,
+        "examples": [
+          "preaubairerrang ˌpʰri:ˈhɑb.eɪˌrər.əŋ",
+          "reaerors ˌrɪˈheɪˌrɚz",
+          "preau ˌpʰri:ˈhɑ",
+          "reainoshe ˌrɪˈhɜ.nəʊʃ"
+        ],
+        "topDetails": [
+          [
+            "prefixed pre| root=aubairerrang",
+            1
+          ],
+          [
+            "both re|s root=aeror",
+            1
+          ],
+          [
+            "prefixed pre| root=au",
+            1
+          ],
+          [
+            "prefixed re| root=ainoshe",
+            1
+          ],
+          [
+            "both re|ous root=auriguiky",
+            1
+          ],
+          [
+            "both pre|less root=aucsimer",
+            1
+          ]
+        ]
+      },
+      "root+suffix (no root-final ea grapheme)": {
+        "n": 10,
+        "examples": [
+          "finattirgeaed ˈfɪ.nəˌtʰɪrdʒ.əd",
+          "chadgeaed ˈtʃædʒˌəd",
+          "pauceaive ˌpʰɑkˈæ.hɪv",
+          "maraupeaed ˌməˈrɑp.ɑd"
+        ],
+        "topDetails": [
+          [
+            "suffixed |ed root=finattirgea",
+            1
+          ],
+          [
+            "suffixed |ed root=chadgea",
+            1
+          ],
+          [
+            "suffixed |ive root=paucea",
+            1
+          ],
+          [
+            "suffixed |ed root=maraupea",
+            1
+          ],
+          [
+            "suffixed |ed root=ecadgea",
+            1
+          ],
+          [
+            "suffixed |al root=adgea",
+            1
+          ]
+        ]
+      }
+    }
+  },
+  "sideEffects": {
+    "fallbackEe": 82,
+    "relaxed": 0,
+    "eaThenCk": 21,
+    "rootFinalEaVowelSuffix": 0,
+    "rootFinalEDropped": 448,
+    "droppedExamples": [
+      "thabeaze+al -> disthabeazal /ɛ/e ˌdəs.θɑˌbɛˈzɛ.həl",
+      "umminte+ity -> ummintity /ɛ/e ˌʌm.ənˈtʰɛ.hə.tʰi:",
+      "mesille+ive -> mesillive /ɛ/e ˌmi:.səˈlɛ.hɪv",
+      "toloshicke+ary -> toloshickary /ɛ/e tʰɑ.lɑˌʃɪˈkʰɛ.hɪr.i:",
+      "adillepue+ing -> adillepuing /u/ue ˈæˌdɪl.ɛ.pʰu.həŋ",
+      "wanidibe+able -> wanidibable /ɛ/e weɪn.aɪˈdɪ.bɪ.hə.bəl",
+      "bre+ory -> brory /ɛ/e ˈbrɛ.hɔr.i:",
+      "snee+ary -> sneary /i:/ee ˈsni:.hɛr.i:"
+    ]
+  }
+}

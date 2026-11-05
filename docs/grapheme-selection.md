@@ -2,7 +2,9 @@
 
 The current pipeline writes the generated base before affix attachment.
 Word-edge positions here therefore describe that base; final affixed-word
-alignment is handled by a separate follow-up.
+alignment is handled by a separate follow-up. The one exception is the base's
+last grapheme, which sees the planned suffix's spelling as its right letter
+context (`notRightGraphemeContext`, below).
 
 The writer filters by hard context, constituent, cluster, and positional
 constraints before sampling positive finite weights. An empty set is no longer
@@ -32,13 +34,34 @@ configurations. English `kn`, `wr`, `wh`, final `mb`, final `k`, final vowel `y`
 and final rhotic `eir` now state literal segment restrictions explicitly.
 
 Fallback-only graphemes have their own full conditions and weights and can be
-selected only when no ordinary candidate survives. English declares two narrow
-fallbacks: initial or isolated /ɛ/ before /t/ can use `ea`, and initial or isolated /ʊ/
-after /g/ can use `oo`. These preserve the existing contextual bans; the separate
-ordinary `e`-before-/t/ improvement remains outside this change.
+selected only when no ordinary candidate survives. English declares three narrow
+fallbacks: initial or isolated /ɛ/ before /t/ can use `ea`, initial or isolated /ʊ/
+after /g/ can use `oo`, and a one-syllable base ending in /i:/ before a
+vowel-initial suffix can use `ee` (`ea` is the only ordinary isolated /i:/
+spelling, and it may not precede a vowel letter; see below). These preserve the
+existing contextual bans; the separate ordinary `e`-before-/t/ improvement
+remains outside this change.
 The inventory also permits `n`/`ng` in legal /ŋ/ clusters (think, length) and
 final /dʒ/→`ge` after tense vowels (age), removing contradictory exclusions that
 previously depended on implicit restoration.
+
+## `ea` context (#381)
+
+English does not write `ea` before a doubled consonant (*head*, not *headd*) or
+before another vowel letter. Two configured rules enforce this:
+
+- `GraphemeCondition.notRightGraphemeContext` bans listed letters directly after
+  the grapheme. It is checked only where that letter is fixed when the grapheme
+  is chosen: at the end of a base, the first letter of its planned suffix. Every
+  ordinary `ea` uses the English alias `notBeforeVowelLetter` (`a e i o u`).
+- `doubling.neverDoubleAfter: ["ea"]` vetoes doubling of a consonant written
+  directly after an `ea` nucleus (trace reason `never-double-after`; like the
+  other doubling skips, no roll is drawn). It also drops directly chosen doubled spellings (`ck`, `ssi`)
+  there while another candidate remains; the trace records
+  `preferenceRelaxed: "never-double-after"` if none does.
+
+Measurements and side effects are in
+[`evaluation/quality/experiments/ea-spelling-381`](../evaluation/quality/experiments/ea-spelling-381/README.md).
 
 Trace `selection` records actual segment and syllable positions, stage counts,
 the fallback reason, and any relaxation of the soft consonant-doubling quota.
