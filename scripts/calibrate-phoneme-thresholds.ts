@@ -66,6 +66,7 @@ function measureSeed(seed: number, thresholds: Thresholds): SeedResult {
     draws,
     normalizationLosses: Object.values(losses).reduce((a, b) => a + b, 0),
     sharedPearsonR: metrics.sharedPearsonR,
+    totalVariationPct: metrics.totalVariationPct,
     nonCmuMassPct: metrics.nonCmuMassPct,
     maxOverRepresentation: over.ratio,
     maxOverPhoneme: over.phoneme,
@@ -149,11 +150,11 @@ function fmt(value: number, decimals = 4): string {
 function printReport(results: SeedResult[], thresholds: Thresholds, k: number) {
   const proposals = proposeLimits(results, k);
   console.log(`\nPer-seed metrics (${thresholds.sampleSize} words, lexicon, morphology off)\n`);
-  console.log("| Seed | Draws | Pearson r | Worst over | Worst under | Worst abs gap % | Non-CMU % | CMU-only |");
-  console.log("|---:|---:|---:|---|---|---|---:|---:|");
+  console.log("| Seed | Draws | Total variation % | Pearson r (report-only) | Worst over | Worst under | Worst abs gap % | Non-CMU % | CMU-only |");
+  console.log("|---:|---:|---:|---:|---|---|---|---:|---:|");
   for (const r of results) {
     console.log(
-      `| ${r.seed} | ${r.draws} | ${fmt(r.sharedPearsonR, 5)} | /${r.maxOverPhoneme}/ ${fmt(r.maxOverRepresentation)} | ` +
+      `| ${r.seed} | ${r.draws} | ${fmt(r.totalVariationPct)} | ${fmt(r.sharedPearsonR, 5)} | /${r.maxOverPhoneme}/ ${fmt(r.maxOverRepresentation)} | ` +
         `/${r.minRepPhoneme}/ ${fmt(r.minRepresentation)} | /${r.maxGapPhoneme}/ ${fmt(r.maxAbsoluteGapPct)} | ` +
         `${fmt(r.nonCmuMassPct)} | ${r.cmuOnlyKeyCount} |`,
     );

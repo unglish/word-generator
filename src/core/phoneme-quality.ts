@@ -1,4 +1,4 @@
-import { compareDistributions, pearson, toPercentMap } from "./distribution-quality.js";
+import { compareDistributions, pearson, toPercentMap, totalVariationPct } from "./distribution-quality.js";
 import type { DistributionQuality } from "./distribution-quality.js";
 
 export interface PhonemeComparisonRow {
@@ -14,7 +14,10 @@ export interface PhonemeQualityMetrics extends DistributionQuality {
   sharedKeyCount: number;
   generatedOnlyKeyCount: number;
   cmuOnlyKeyCount: number;
+  /** Report-only: dominated by common phonemes and blind to scale. */
   sharedPearsonR: number;
+  /** Share of phoneme mass (percentage points) misplaced relative to CMU, over all phonemes. */
+  totalVariationPct: number;
   nonCmuMassPct: number;
   coverageAdjustedR: number;
   generatedOnlyPhonemes: Array<{ phoneme: string; generatedPct: number }>;
@@ -85,6 +88,7 @@ export function computePhonemeQualityMetrics(
     generatedOnlyKeyCount: generatedOnlyKeys.length,
     cmuOnlyKeyCount: baselineOnlyKeys.length,
     sharedPearsonR,
+    totalVariationPct: totalVariationPct(generatedPct, baselinePct),
     nonCmuMassPct,
     coverageAdjustedR,
     generatedOnlyPhonemes,

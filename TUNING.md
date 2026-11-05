@@ -230,7 +230,7 @@ Acceptance thresholds for `scripts/phoneme-length-dist.ts`:
 
 1. Run phoneme quality tests (`src/core/phoneme-quality.test.ts`)
 2. Validate thresholds in `src/config/phoneme-thresholds.json`:
-   - minimum shared Pearson r
+   - maximum total variation from CMU (shared Pearson r is report-only)
    - maximum non-CMU generated mass
    - maximum over-representation ratio among common phonemes
    - minimum under-representation ratio among common phonemes
@@ -311,7 +311,7 @@ The test suite includes phoneme quality gates (`src/core/phoneme-quality.test.ts
 that compare generated phoneme frequencies against the CMU lexicon phoneme baseline.
 Gates cover both representation shape and coverage:
 
-- shared-key Pearson floor
+- total-variation ceiling: the share of all phoneme mass misplaced relative to CMU
 - non-CMU generated mass ceiling
 - over-/under-representation ratio bounds for common phonemes
 - absolute-gap ceiling for common phonemes
@@ -354,6 +354,17 @@ supports headroom beyond the observed extremes; it does not establish that three
 SD is uniquely warranted or that false failures are rare. A stronger reliability
 claim would require a defined acceptable failure rate and substantially more
 independent validation. Metric-specific spread replaces the old flat ×1.10 margin.
+
+The [2026-11 recalibration](evaluation/diagnostics/phoneme-threshold-calibration-2026-11/)
+replaced the shared Pearson floor with the total-variation ceiling. Pearson r is
+dominated by common phonemes, ignores scale, and sits so close to 1 that seed
+noise rivals real changes. Inside the per-phoneme limits it can only fall to about
+0.991, so it adds nothing as a backstop; and after #309 and #310 the 0.9983 floor
+failed unchanged main on 5 of 30 seeds. Total variation catches what the
+per-phoneme limits miss: small shifts spread over many phonemes, which those
+limits allow to misplace up to about 4.7% of phoneme mass. Pearson r is still
+printed for comparison with earlier records. The other limits were remeasured
+and left unchanged.
 
 When to re-run:
 

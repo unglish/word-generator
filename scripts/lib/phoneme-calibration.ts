@@ -2,7 +2,9 @@ export interface SeedResult {
   seed: number;
   draws: number;
   normalizationLosses: number;
+  /** Report-only; no longer gated. */
   sharedPearsonR: number;
+  totalVariationPct: number;
   nonCmuMassPct: number;
   maxOverRepresentation: number;
   maxOverPhoneme: string;
@@ -15,7 +17,7 @@ export interface SeedResult {
 
 /** Gate limits, their direction, and the precision they are rounded outward to. */
 const LIMITS = [
-  { limit: "minSharedPearsonR", metric: "sharedPearsonR", bound: "lower", decimals: 4 },
+  { limit: "maxTotalVariationPct", metric: "totalVariationPct", bound: "upper", decimals: 2 },
   { limit: "maxOverRepresentation", metric: "maxOverRepresentation", bound: "upper", decimals: 3 },
   { limit: "minRepresentation", metric: "minRepresentation", bound: "lower", decimals: 3 },
   { limit: "maxAbsoluteGapPct", metric: "maxAbsoluteGapPct", bound: "upper", decimals: 3 },
