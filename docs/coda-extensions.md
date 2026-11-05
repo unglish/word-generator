@@ -16,7 +16,9 @@ inventory, the configured sonority and pattern filters apply.
 Coda appendants grant an extra length slot; they do not bypass other constraints.
 Nasal-stop extensions choose eligible voiced stops with the nasal's configured
 place of articulation. Shape checks reject extensions that would otherwise
-trigger a repair of the original coda. Normal construction and safety-net repair behavior are unchanged.
+trigger a repair of the original coda. Normal construction and safety-net repair
+rules are unchanged. Default /n/ and /z/ coda selection weights are calibrated
+for this preservation behavior; their onset weights are unchanged.
 
 These rules apply to the root before morphology attaches, with root-only length
 budgeting. Morphological alternations can subsequently change coda phones; they

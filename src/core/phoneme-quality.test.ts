@@ -3,13 +3,15 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { generateWords } from "./generate.js";
 import { computePhonemeQualityMetrics } from "./phoneme-quality.js";
-import { phonemeGateViolations, phonemeLimits, type PhonemeGateLimits } from "./phoneme-quality-gates.js";
 import { countNormalizedPhonemes, PhonemeNormalization } from "./phoneme-normalization.js";
 
-interface PhonemeThresholds extends PhonemeGateLimits {
+interface PhonemeThresholds {
   sampleSize: number;
   seed: number;
   minCommonBaselinePct: number;
+  maxOverRepresentation: number;
+  minRepresentation: number;
+  maxAbsoluteGapPct: number;
   maxTotalVariationPct: number;
   maxGeneratedOnlyMassPct: number;
   maxCmuOnlyKeyCount: number;
@@ -72,14 +74,16 @@ describe("Phoneme quality gates", () => {
     console.log(`Total variation from CMU: ${metrics.totalVariationPct.toFixed(3)}% (threshold: ${thresholds.maxTotalVariationPct}%)`);
     console.log(`Shared phoneme Pearson r: ${metrics.sharedPearsonR.toFixed(5)} (report-only)`);
     console.log(`Non-CMU generated mass: ${metrics.nonCmuMassPct.toFixed(4)}% (threshold: ${thresholds.maxGeneratedOnlyMassPct}%)`);
-    if (worstOver) console.log(`Worst over-rep: ${worstOver.phoneme} at ${worstOver.ratio.toFixed(3)}x (threshold: ${phonemeLimits(worstOver.phoneme, thresholds).maxOverRepresentation}x)`);
+    if (worstOver) console.log(`Worst over-rep: ${worstOver.phoneme} at ${worstOver.ratio.toFixed(3)}x (threshold: ${thresholds.maxOverRepresentation}x)`);
     if (worstUnder) console.log(`Worst under-rep: ${worstUnder.phoneme} at ${worstUnder.ratio.toFixed(3)}x (threshold: ${thresholds.minRepresentation}x)`);
-    if (worstGap) console.log(`Worst absolute gap: ${worstGap.phoneme} at ${worstGap.absGapPct.toFixed(3)}% (threshold: ${phonemeLimits(worstGap.phoneme, thresholds).maxAbsoluteGapPct}%)`);
+    if (worstGap) console.log(`Worst absolute gap: ${worstGap.phoneme} at ${worstGap.absGapPct.toFixed(3)}% (threshold: ${thresholds.maxAbsoluteGapPct}%)`);
     console.log(`CMU phonemes never generated: ${metrics.cmuOnlyKeyCount} (threshold: ${thresholds.maxCmuOnlyKeyCount})`);
 
     expect(metrics.totalVariationPct).toBeLessThanOrEqual(thresholds.maxTotalVariationPct);
     expect(metrics.nonCmuMassPct).toBeLessThanOrEqual(thresholds.maxGeneratedOnlyMassPct);
-    expect(phonemeGateViolations(metrics.topOverRepresented, thresholds)).toEqual([]);
+    if (worstOver) expect(worstOver.ratio).toBeLessThanOrEqual(thresholds.maxOverRepresentation);
+    if (worstUnder) expect(worstUnder.ratio).toBeGreaterThanOrEqual(thresholds.minRepresentation);
+    if (worstGap) expect(worstGap.absGapPct).toBeLessThanOrEqual(thresholds.maxAbsoluteGapPct);
     // Rankings skip phones below minCommonBaselinePct, so absence is gated separately.
     expect(metrics.cmuOnlyKeyCount).toBeLessThanOrEqual(thresholds.maxCmuOnlyKeyCount);
   }, 120_000);

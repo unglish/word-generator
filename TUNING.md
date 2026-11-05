@@ -380,33 +380,6 @@ When to re-run:
 3. Keep `seed`, `sampleSize` and `minCommonBaselinePct` fixed. Changing them
    invalidates the calibration.
 
-### Reviewed per-phoneme limits
-
-`src/config/phoneme-thresholds.json` retains global defaults and supports
-`phonemeOverrides` for individually reviewed upper-ratio and absolute-gap limits.
-An override changes only its named metric for its named phoneme. The minimum
-representation ratio, all other phones, total variation, and fixed-zero inventory
-requirements continue to use their existing bounds.
-
-The gate checks every common phoneme against its applicable bounds. Checking only
-the largest raw ratio or gap is insufficient when phones have different limits:
-a permitted maximum could otherwise hide a smaller value that exceeds another
-phone's unchanged limit. The calibration tool retains all common-phone comparison
-rows and per-phone violations in new output packets; older packets contain only
-extrema. Its global proposed bounds remain diagnostics, not automatic changes to
-the configured defaults or overrides.
-
-The `/z/` upper-ratio and `/n/` absolute-gap exceptions accept the reviewed
-phoneme-distribution tradeoff of validating optional coda extensions before
-mutation. Valid root phones are retained instead of being deleted by a repair;
-changed root eligibility also changes the selected-root distribution. This is an
-explicit engineering tradeoff, not evidence of ideal English frequencies. The
-proposal uses the established 30-stream worst-plus-three-SD method and is frozen
-before checking separate confirmation streams. Other bounds remain unchanged.
-Development measurements, the separate `/n/` trace review, the frozen proposal,
-and confirmation results live in `archive/pr-313-recalibration`, following
-[the evidence policy](docs/experiments.md#where-evidence-lives).
-
 ## Reference Data
 
 | File | Contents |
