@@ -96,7 +96,7 @@ describe("common-word orthography coverage", () => {
       const result = writeWord(
         [
           cloneGrapheme(onset, onset),
-          cloneGrapheme("i:", "ee"),
+          cloneGrapheme("i:", "ea"),
         ],
         [makeSyllable([onset], ["i:"], [])],
       );
@@ -110,15 +110,15 @@ describe("common-word orthography coverage", () => {
     const would = writeWord(
       [
         cloneGrapheme("w", "w"),
-        cloneGrapheme("ʊ", "ou"),
+        cloneGrapheme("ʊ", "u"),
         cloneGrapheme("d", "d"),
       ],
       [makeSyllable(["w"], ["ʊ"], ["d"])],
     );
     const could = writeWord(
       [
-        cloneGrapheme("k", "c"),
-        cloneGrapheme("ʊ", "ou"),
+        cloneGrapheme("k", "c", entry => !entry.condition?.leftGraphemeContext),
+        cloneGrapheme("ʊ", "u"),
         cloneGrapheme("d", "d"),
       ],
       [makeSyllable(["k"], ["ʊ"], ["d"])],
@@ -266,7 +266,7 @@ describe("common-word orthography coverage", () => {
       [
         cloneGrapheme("ɛ", "e"),
         cloneGrapheme("n", "n"),
-        cloneGrapheme("i:", "ee"),
+        cloneGrapheme("i:", "ea"),
       ],
       [
         makeSyllable([], ["ɛ"], []),
@@ -276,8 +276,8 @@ describe("common-word orthography coverage", () => {
     const people = writeWord(
       [
         cloneGrapheme("p", "p"),
-        cloneGrapheme("i:", "ee"),
-        cloneGrapheme("ə", "u"),
+        cloneGrapheme("i:", "e"),
+        cloneGrapheme("ə", "a"),
         cloneGrapheme("l", "l"),
       ],
       [
