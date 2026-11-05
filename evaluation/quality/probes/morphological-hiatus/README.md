@@ -1,5 +1,10 @@
 # Morphological hiatus: preregistered comparison
 
+> Historical. This probe measured #316 before #309 and #310 merged. Its
+> `node:test` fixtures pinned seeds to words and were removed when the PR was
+> rebased. Current evidence:
+> [`morphological-hiatus-rebased`](../../experiments/morphological-hiatus-rebased/README.md).
+
 Registered 2026-09-26 before modifying runtime behavior. The hypothesis is that
 default English morphology should preserve adjacent vowels at affix boundaries
 instead of introducing an unspelled /h/. This is a phonemic representation

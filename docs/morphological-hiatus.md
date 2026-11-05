@@ -1,11 +1,10 @@
 # Preserve vowel adjacency at affix boundaries
 
-The default English morphology policy now keeps the two nuclei when an affix
-meets a vowel-initial or vowel-final root. Previously it inserted /h/ into the
-phoneme sequence after assembling the spelling, creating an unspelled consonant.
-Under the legacy policy, seed 3 produces `broing` with /h/ before `-ing`.
-Removing that phone affects length-based rejection, so the same seed can return
-a different root; it is not a matched before/after lexical example.
+The default English morphology policy keeps both vowels when an affix meets a
+vowel-initial or vowel-final root. Previously it inserted /h/ into the phoneme
+sequence. Affix letters are fixed and the root writer sees only the root's
+phonemes, so that /h/ was pronounced but never spelled: `showing` came out as
+/ˈʃəʊ.həŋ/. It is now /ˈʃəʊ.əŋ/, with the same spelling.
 
 This change concerns phonemic representation at prefix/root and root/suffix
 boundaries. The within-root hiatus policy is unchanged. Davidson & Erker's
@@ -31,65 +30,42 @@ fallback flag, and outcome: `preserved`, `inserted`, or `no-bridge-candidate`.
 Existing `morphPrefixHiatusFallback` and `morphSuffixHiatusFallback` events retain
 their insertion-only meaning. Tracing consumes no random numbers.
 
-The base pipeline currently applies pronunciation before morphology. Recorded
-nuclei may already be reduced; these are observations before the final morphology
-pronunciation pass, not recovered lexical vowels. The lexical-stress PR #309
-changes that lifecycle separately. Final structure checks allow vowel reduction
-while requiring preserved boundaries to retain both nuclei and empty intervening
-onset/coda. Historical traces without decision emission have unknown opportunity
-counts, even when their existing events establish that insertion occurred.
+Decisions are recorded when the planned affixes are assembled onto each root
+attempt, before final stress repair and pronunciation (see
+[`lexical-realization.md`](./lexical-realization.md)). Recorded nuclei can still
+change later through stressed-nucleus repair or vowel reduction. A preserved
+boundary keeps an empty left coda and right onset, with both nuclei present.
+Historical traces without decision events have unknown opportunity counts, even
+when their existing events show that insertion occurred.
+
+When a custom policy enables insertion, the bridge draw comes from the
+per-attempt look-ahead stream, so it never shifts root selection directly.
+Disabling it removes that draw, which reshuffles later look-ahead choices. This
+is why seeded affixed outputs eventually diverge from earlier releases, not
+only at the boundary.
 
 ## Measured comparison
 
-The [preregistered probe](../evaluation/quality/probes/morphological-hiatus/README.md)
-uses the immutable original development archive and the matching 200,000-word
-candidate. All morphology-disabled raw shards are byte-identical: 100,000 words
-across the bare-lexicon and forced-monosyllable profiles. Source checks confirm
-the complete captured generator matches the reviewed implementation.
+Current evidence, measured against post-#309/#310 main:
+[`evaluation/quality/experiments/morphological-hiatus-rebased`](../evaluation/quality/experiments/morphological-hiatus-rebased/README.md).
 
-| Frozen diagnostic | Original | Candidate |
+| Development cohort, 50,000 words per profile | Main | This policy |
 | --- | ---: | ---: |
-| Lexicon affixed words with a morphology bridge | 3,862/34,952 | 0/34,883 |
-| Text affixed words with a morphology bridge | 4,481/22,557 | 0/22,373 |
-| Unique lexicon spellings | 43,501 | 43,850 |
-| Unique text spellings | 28,443 | 28,693 |
+| Lexicon affixed words with a morphology bridge | 3,022/35,092 | 0/35,098 |
+| Text affixed words with a morphology bridge | 1,369/22,287 | 0/22,266 |
 
-The original traces contain 8,959 morphology bridge events in 8,343 words:
-2,643 prefix/root events and 6,316 root/suffix events, all inserting /h/.
-Historical full opportunity counts remain unknown. Candidate traces record
-12,563 preserved vowel boundaries: 3,786 prefix/root and 8,777 root/suffix.
-Every recorded boundary retains both nuclei with empty intervening onset/coda
-in the final syllable representation, with zero structure or insertion-event
-correspondence mismatches. Both affixed profiles show preserved boundaries in
-all five streams. These totals differ because phone counts and rejection
-sampling change; they are not paired boundary counts.
+A control build that kept the bridge's RNG draw but discarded the result matched
+main exactly in every spelling across 20,000 lexicon words. The only
+difference was the deleted /h/ onset in exactly the 1,198 words that had one. The
+remaining small movements in other diagnostics come from look-ahead resampling.
+Phoneme gates and the 10-seed calibration are unchanged; n-gram gates move
+slightly and all pass.
 
-The target defect disappears in the sample, but broader diagnostics are mixed.
-Lexicon phoneme divergence decreases from 0.007407 to 0.005993 bits, while trigram
-divergence increases from 0.158592 to 0.160919 bits. Text phoneme divergence
-decreases from 0.011102 to 0.007783 bits, while trigram divergence increases from
-0.184480 to 0.186554 bits. Lexicon disyllabic stress clashes increase from
-4,467/21,065 to 4,648/20,875. Composition and rejection sampling change when the
-inserted phone is removed; these are distribution comparisons, not paired words.
-The full report retains every metric and stratum.
-
-The existing unit suite passes 410 tests and skips one, but the rare `ugh` gate
-fails at 0.0061432337 times its reference frequency, below the unchanged 0.0062
-floor. The separate 12-test quality suite passes. Fourteen public-API fixtures
-cover preserved and consonant-separated boundaries, both affixes, custom h/j/w
-insertion, absent candidates, legacy config defaults and output/RNG parity.
-Strict TypeScript and newly introduced-code lint pass; three pre-existing lint
-errors remain in the touched writer file. This candidate remains a draft.
-Fourteen supplementary fixtures verify interpretation, one-to-one event pairing,
-source capability, complete schedules, source/shard hashes, summary counts,
-and rejection of corrupt, duplicate, truncated or extra archive data. The same
-probe digest, `55e3bb92df1bc21dc65d5afff6b8dabac8fbd166e67074b21ed67a0e15971368`,
-was applied to both full archives. The isolated performance suite passes at
-8,336 words/second (4,500 floor), with median batch variance 1.40× (3× ceiling).
-
-The [full comparison](../evaluation/experiments/morphological-hiatus/comparison.md)
-and compressed original/candidate boundary reports retain counts, all seed
-replicates, actual morphology/length strata, and complete bounded trace witnesses.
+The original pre-#309 measurement (preregistered
+[probe](../evaluation/quality/probes/morphological-hiatus/README.md) and
+[comparison](../evaluation/experiments/morphological-hiatus/comparison.md)) is
+kept for history. Its numbers and its `ugh` gate failure predate the current
+pipeline.
 
 Improved human wordlikeness and reading agreement require separate blinded
 evidence. Neither zero observed bridge insertions nor a lower corpus distance
