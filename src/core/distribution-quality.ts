@@ -23,6 +23,18 @@ export function pearson(xs: number[], ys: number[]): number {
   return varianceX && varianceY ? covariance / Math.sqrt(varianceX * varianceY) : 0;
 }
 
+/**
+ * Total variation distance between two percent maps, in percentage points
+ * (0–100): the share of mass that would have to move to turn one into the other.
+ * Keys missing from either side count as zero.
+ */
+export function totalVariationPct(p: Record<string, number>, q: Record<string, number>): number {
+  const keys = new Set([...Object.keys(p), ...Object.keys(q)]);
+  let distance = 0;
+  for (const key of keys) distance += Math.abs((p[key] ?? 0) - (q[key] ?? 0));
+  return distance / 2;
+}
+
 export function toPercentMap(counts: Record<string, number>): Record<string, number> {
   const values = Object.values(counts);
   if (values.some(value => !Number.isFinite(value) || value < 0)) throw new Error("Distribution counts must be finite and nonnegative.");

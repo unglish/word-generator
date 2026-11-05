@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { compareDistributions, toPercentMap } from "./distribution-quality.js";
+import { compareDistributions, toPercentMap, totalVariationPct } from "./distribution-quality.js";
 import { computePhonemeQualityMetrics } from "./phoneme-quality.js";
 import { countNormalizedPhonemes, normalizeGeneratedPhoneme } from "./phoneme-normalization.js";
 import type { Word } from "../types.js";
@@ -56,5 +56,14 @@ describe("complete distribution diagnostics", () => {
   it("rejects invalid counts and normalizes large finite counts without overflow", () => {
     expect(toPercentMap({ a: Number.MAX_VALUE, b: Number.MAX_VALUE })).toEqual({ a: 50, b: 50 });
     for (const value of [-1, NaN, Infinity]) expect(() => compareDistributions({ a: value }, { a: 1 })).toThrow();
+  });
+  it("measures total variation over the union of keys, in percentage points", () => {
+    expect(totalVariationPct({ a: 60, b: 40 }, { a: 60, b: 40 })).toBe(0);
+    expect(totalVariationPct({ a: 70, b: 30 }, { a: 60, b: 40 })).toBeCloseTo(10);
+    // A key missing on one side counts as zero there.
+    expect(totalVariationPct({ a: 99 }, { a: 98, c: 2 })).toBeCloseTo(1.5);
+    expect(totalVariationPct({ a: 100 }, { b: 100 })).toBe(100);
+    const result = computePhonemeQualityMetrics({ a: 60, b: 39 }, { a: 60, b: 39, c: 1 }, 0.5);
+    expect(result.totalVariationPct).toBeCloseTo(1, 6);
   });
 });

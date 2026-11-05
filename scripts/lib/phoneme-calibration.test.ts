@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { proposeLimits, type SeedResult } from "./phoneme-calibration.js";
 
 const calibration = JSON.parse(readFileSync(
-  new URL("../../evaluation/diagnostics/phoneme-threshold-calibration/calibration.json", import.meta.url), "utf8",
+  new URL("../../evaluation/diagnostics/phoneme-threshold-calibration-2026-11/calibration.json", import.meta.url), "utf8",
 )) as { results: SeedResult[]; proposals: unknown[] };
 
 describe("phoneme calibration coverage policy", () => {
