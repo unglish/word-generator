@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, generateWord, createSeededRng } from "../index.js";
+import { createGenerator, generateWord, generateWords, createSeededRng } from "../index.js";
 import { englishConfig } from "../config/english.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import type { Grapheme } from "../types.js";
@@ -84,6 +84,29 @@ describe("legal grapheme selection", () => {
     }
     expect(ordinary).toBeGreaterThan(0);
     expect(fallback).toBeGreaterThan(0);
+  });
+
+  it("writes medial coda /z/ after /g/ as z, so gz before a vowel can become x", () => {
+    const words = generateWords(20000, { seed: 310, trace: true });
+    const afterG: string[] = [];
+    const elsewhere: string[] = [];
+    let writtenX = 0;
+    for (const word of words) {
+      const selections = word.trace!.graphemeSelections;
+      selections.forEach((selection, i) => {
+        if (selection.phoneme !== "z" || selection.position !== "coda") return;
+        if (selection.selection?.segmentPosition !== "medial") return;
+        (selections[i - 1]?.phoneme === "g" ? afterG : elsewhere).push(selection.selected);
+        const next = selections[i + 1];
+        if (selections[i - 1]?.phoneme === "g" && next?.position === "nucleus" && /x/.test(word.written.clean)) writtenX++;
+      });
+    }
+    expect(afterG.length).toBeGreaterThan(0);
+    expect(new Set(afterG)).toEqual(new Set(["z"]));
+    expect(elsewhere.length).toBeGreaterThan(0);
+    expect(elsewhere).not.toContain("z");
+    // gz-to-x applies 85% of the time, so most of these words are written with x.
+    expect(writtenX).toBeGreaterThan(afterG.length / 2);
   });
 
   it("is deterministic and trace collection leaves RNG consumption unchanged", () => {

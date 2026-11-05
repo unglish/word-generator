@@ -168,8 +168,32 @@ export const fricativeGraphemes: Grapheme[] = [
     frequency: 800,
     onset: 0,
     startWord: 0,
-    midWord: 100,
+    midWord: 0,
     endWord: 1,
+  },
+  // Medial /z/ is usually s (busy, raisin), but not after /g/: there English
+  // writes x (exact, exist), which the gz-to-x spelling rule produces from gz.
+  {
+    phoneme: "z",
+    form: "s",
+    origin: 3,
+    frequency: 800,
+    onset: 0,
+    startWord: 0,
+    midWord: 100,
+    endWord: 0,
+    condition: { notLeftContext: ["g"] },
+  },
+  {
+    phoneme: "z",
+    form: "z",
+    origin: 3,
+    frequency: 100,
+    onset: 0,
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+    condition: { leftContext: ["g"] },
   },
   {
     phoneme: "z",
