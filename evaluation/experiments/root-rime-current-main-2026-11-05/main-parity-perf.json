@@ -1,0 +1,210 @@
+{
+  "parity": [
+    {
+      "profile": "lexicon-default",
+      "seed": 69212153,
+      "words": 1000,
+      "calls": 88128,
+      "next": 0.7813531721476465,
+      "sha256": "239b1ab8407a2803c3ab94bb6d1d4e93d121032111e1f61d33d6db6daca6e94e"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 101601885,
+      "words": 1000,
+      "calls": 84842,
+      "next": 0.7090182139072567,
+      "sha256": "db8a044a61ba143a2e21fb34704d67ef6335430c8b4fb473dc6ba2811db008c2"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3921817393,
+      "words": 1000,
+      "calls": 87202,
+      "next": 0.2715877937152982,
+      "sha256": "5928bc0564a507a123d32786394c62a212073eb8893984e447d96a534fe7536a"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 3948943232,
+      "words": 1000,
+      "calls": 91861,
+      "next": 0.010289756581187248,
+      "sha256": "72cfb679e51ecc976acea6ef6e7f1f9afa799d3b266b64d9dcde7b5d5c061677"
+    },
+    {
+      "profile": "lexicon-default",
+      "seed": 2089697863,
+      "words": 1000,
+      "calls": 96792,
+      "next": 0.3159718888346106,
+      "sha256": "84241709f8775e99f204aa3ac1f49e444ad216ed3fd8b7dc41753c3d29b2e0e8"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 2380207674,
+      "words": 1000,
+      "calls": 79777,
+      "next": 0.07812615321017802,
+      "sha256": "5aadc0c2bd040638c21f3767b986e8bdf5ca10d813abb6010aa3b1bc93f4c590"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 772709128,
+      "words": 1000,
+      "calls": 89765,
+      "next": 0.41883961064741015,
+      "sha256": "b1befe1a70e825427ae24112510994e435c42e1b2465b3034dcf010e692210cf"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1304238451,
+      "words": 1000,
+      "calls": 87888,
+      "next": 0.5988825294189155,
+      "sha256": "a315f84dd412200b435698c70b7f65d64f04a75a35f81239ccb9ea1bef726a88"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1696751198,
+      "words": 1000,
+      "calls": 80331,
+      "next": 0.39190248236991465,
+      "sha256": "23a02112ced3a934519553ed924a2968fe4eecc2d5be32a93d6d7c6dcfcc7deb"
+    },
+    {
+      "profile": "lexicon-bare",
+      "seed": 1498885173,
+      "words": 1000,
+      "calls": 90573,
+      "next": 0.694282011827454,
+      "sha256": "b429e33c142d66752bc652e9845211230b992661973d391b7e9a6a19d1515524"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 462530651,
+      "words": 1000,
+      "calls": 126872,
+      "next": 0.14687639055773616,
+      "sha256": "76335b81338c85aa5ac19b0f6968b8406c9a5b71dc493bc2a3dbf116766bf006"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 62358955,
+      "words": 1000,
+      "calls": 132081,
+      "next": 0.7421595987398177,
+      "sha256": "d4b15bb9279295f4e755092aab2296b9da08b6c744ece594be58e273eef4d712"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 3297327738,
+      "words": 1000,
+      "calls": 131707,
+      "next": 0.007421502377837896,
+      "sha256": "5e4af58112bed83feb256f462d5ffa8711edf4905657b3264944c54c8af04af0"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2001884366,
+      "words": 1000,
+      "calls": 128556,
+      "next": 0.9603211227804422,
+      "sha256": "a24a18163e9fb32c04e38d323fc797f2058f5d945b8bd0dfb9c5b3b45480564d"
+    },
+    {
+      "profile": "monosyllables-bare",
+      "seed": 2353354178,
+      "words": 1000,
+      "calls": 130185,
+      "next": 0.6460757225286216,
+      "sha256": "19f82db7177b8212ae41381fb9c229ed3602cc8fe50501627b088c3c83b9fc57"
+    },
+    {
+      "profile": "text-default",
+      "seed": 4167471042,
+      "words": 1000,
+      "calls": 50387,
+      "next": 0.9395385112147778,
+      "sha256": "7dd2ec773519206d33d8d4fc339fa7d5d70ff9698b209789dd09fb0b1f5a9ea8"
+    },
+    {
+      "profile": "text-default",
+      "seed": 2666001996,
+      "words": 1000,
+      "calls": 49468,
+      "next": 0.5800600678194314,
+      "sha256": "891a96af570ccc95b4e122190d58618c2c5e5273e0299a6db314d0296902836c"
+    },
+    {
+      "profile": "text-default",
+      "seed": 3562318933,
+      "words": 1000,
+      "calls": 49793,
+      "next": 0.24817881314083934,
+      "sha256": "51341ecb163646de3a6eec05c71eaf44be9e65aea140ebd999141b4f80208148"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1999736106,
+      "words": 1000,
+      "calls": 48918,
+      "next": 0.8700739981140941,
+      "sha256": "dedc8ab9c5a14897ab54203a0c570aa9bc2f9e7b5ce68c49a708d758bc226e29"
+    },
+    {
+      "profile": "text-default",
+      "seed": 1665836705,
+      "words": 1000,
+      "calls": 48014,
+      "next": 0.019262422109022737,
+      "sha256": "571e1582ce2bd5d07709a60a70e59887bae39ba4d33443537878a31df04308a9"
+    }
+  ],
+  "traceParityWords": 4000,
+  "performanceTrials": [
+    {
+      "seed": 10000,
+      "words": 20000,
+      "elapsedMs": 3457.541332999999,
+      "wordsPerSecond": 5784.457241078484
+    },
+    {
+      "seed": 10001,
+      "words": 20000,
+      "elapsedMs": 3426.0793749999993,
+      "wordsPerSecond": 5837.576369636796
+    },
+    {
+      "seed": 10002,
+      "words": 20000,
+      "elapsedMs": 3419.073291999999,
+      "wordsPerSecond": 5849.538249676107
+    },
+    {
+      "seed": 10003,
+      "words": 20000,
+      "elapsedMs": 3687.6859159999985,
+      "wordsPerSecond": 5423.455374337798
+    },
+    {
+      "seed": 10004,
+      "words": 20000,
+      "elapsedMs": 3521.5057500000003,
+      "wordsPerSecond": 5679.388710354938
+    },
+    {
+      "seed": 10005,
+      "words": 20000,
+      "elapsedMs": 3600.255000000001,
+      "wordsPerSecond": 5555.162064909289
+    },
+    {
+      "seed": 10006,
+      "words": 20000,
+      "elapsedMs": 3494.3697090000023,
+      "wordsPerSecond": 5723.492837202815
+    }
+  ],
+  "node": "v24.22.1"
+}

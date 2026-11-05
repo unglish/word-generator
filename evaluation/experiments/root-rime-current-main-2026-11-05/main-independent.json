@@ -1,0 +1,122 @@
+{
+  "lexicon-default": {
+    "words": 50000,
+    "layers": {
+      "sampled": {
+        "pairs": 91423,
+        "violations": 0,
+        "words": 0
+      },
+      "structural": {
+        "pairs": 91376,
+        "violations": 0,
+        "words": 0
+      },
+      "rootStress": {
+        "pairs": 91376,
+        "violations": 41,
+        "words": 41
+      },
+      "rootEdge": {
+        "pairs": 91376,
+        "violations": 41,
+        "words": 41
+      },
+      "preparedRoot": {
+        "pairs": 91376,
+        "violations": 43,
+        "words": 43
+      }
+    }
+  },
+  "lexicon-bare": {
+    "words": 50000,
+    "layers": {
+      "sampled": {
+        "pairs": 91611,
+        "violations": 0,
+        "words": 0
+      },
+      "structural": {
+        "pairs": 91569,
+        "violations": 0,
+        "words": 0
+      },
+      "rootStress": {
+        "pairs": 91569,
+        "violations": 40,
+        "words": 40
+      },
+      "rootEdge": {
+        "pairs": 91569,
+        "violations": 40,
+        "words": 40
+      },
+      "preparedRoot": {
+        "pairs": 91569,
+        "violations": 40,
+        "words": 40
+      }
+    }
+  },
+  "monosyllables-bare": {
+    "words": 50000,
+    "layers": {
+      "sampled": {
+        "pairs": 110176,
+        "violations": 0,
+        "words": 0
+      },
+      "structural": {
+        "pairs": 109264,
+        "violations": 0,
+        "words": 0
+      },
+      "rootStress": {
+        "pairs": 109264,
+        "violations": 202,
+        "words": 202
+      },
+      "rootEdge": {
+        "pairs": 109264,
+        "violations": 202,
+        "words": 202
+      },
+      "preparedRoot": {
+        "pairs": 109264,
+        "violations": 202,
+        "words": 202
+      }
+    }
+  },
+  "text-default": {
+    "words": 50000,
+    "layers": {
+      "sampled": {
+        "pairs": 73842,
+        "violations": 0,
+        "words": 0
+      },
+      "structural": {
+        "pairs": 73829,
+        "violations": 0,
+        "words": 0
+      },
+      "rootStress": {
+        "pairs": 73829,
+        "violations": 114,
+        "words": 114
+      },
+      "rootEdge": {
+        "pairs": 73829,
+        "violations": 114,
+        "words": 114
+      },
+      "preparedRoot": {
+        "pairs": 73829,
+        "violations": 117,
+        "words": 117
+      }
+    }
+  }
+}

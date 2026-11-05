@@ -1,0 +1,239 @@
+{
+  "tag": "archive/pr-324-before-main-2026-11-05",
+  "tagObject": "c625b93f60ebc4f4a0225f5fc9012bfeac285910",
+  "target": "a5885c28b798b809078dbef04d490ca079829a91",
+  "retainedFiles": [
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/README.md",
+      "blob": "e1c0958314f59abb267afd4234521935bd218058"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/candidate-independent.json",
+      "blob": "00b3df175934406cf0145b128caf390a56f20668"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/candidate-observation.json.gz",
+      "blob": "fbbe75a712edfd67d1cf82d84c42d4bd35f0ddd9"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/candidate/distributions.json.gz",
+      "blob": "79f1de033750b7ee13cea830dc2883d7f1a0ea10"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/candidate/manifest.json",
+      "blob": "85cdb15770c519c0ba812935bae8279644d3bdba"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/candidate/review-samples.json.gz",
+      "blob": "9d6100d5902cf70678d598c8938954f0b29925a8"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/candidate/sources.json.gz",
+      "blob": "cadcd6c1377a26e8c7d31b3f5870dfe489272ee9"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/candidate/summary.json",
+      "blob": "0e4258d3b80b6031442d8e27ab151922b79cba7d"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/candidate/witnesses.json.gz",
+      "blob": "c7d2990a5e7cc8447d0d02d3d88c2117e84ffdf3"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/checks.json",
+      "blob": "741074aa18d513123c73a2f3ba6909443d7a483a"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/comparison.json.gz",
+      "blob": "e4338b7f235daeddee0a66d2894363651b9c1826"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/comparison.md",
+      "blob": "093cc834efb6a80776b25bbc4900cea2e0c67429"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/conditional-parity.json",
+      "blob": "e741dbf42f3c85770c6d2cdf1c526719792c64e9"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/control-independent.json",
+      "blob": "39a7ac5b8c9c400eea826cfabffd46d8fd8fa89c"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/control-observation.json.gz",
+      "blob": "77a5491fd79abcc17ff0b416b2b3889ca4464405"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/control-source-verification.json",
+      "blob": "4c6b992871b53e8493d6b1e30259e9bdd33bac64"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/control/distributions.json.gz",
+      "blob": "5206753b83c05861744ff8c762b1978f9c93344c"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/control/manifest.json",
+      "blob": "157fe3e0c6b2634e2d064e2cb02c5e16021bbe94"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/control/review-samples.json.gz",
+      "blob": "cd6a472949216c994fec8b599ccdcd88079199ec"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/control/sources.json.gz",
+      "blob": "f35269ca56d575f8389fd05e36614b2ff13d5198"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/control/summary.json",
+      "blob": "37695b10603aa7e2f87bd07901731f23a55c6c4c"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/control/witnesses.json.gz",
+      "blob": "dc7b23dd7d6be4819baef54b37b4bd0e6bcdae13"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/files.json",
+      "blob": "985fe03606b0478336a79fad07484fb9bcb397f0"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/final-observer-tests.log.gz",
+      "blob": "cf0a7211597d7501e3c19a042268eff1f42c5604"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/observer-freeze.json.gz",
+      "blob": "8f42cac8ddf31629a8b584ab78da19032d062522"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/original-independent.json",
+      "blob": "044b2d7103ec29b33a4e80d1ad519c5c5da53111"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/original-observation.json.gz",
+      "blob": "7c23f1c9e0cb034cc0a59b346e37758e2d4cf4a8"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/perf.log.gz",
+      "blob": "0981c0e97ef2cf8787067161bfe266685cc6aa90"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/quality.log.gz",
+      "blob": "c037d1dc63d2aff772c1aa7885a8fe7962b56156"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/README.md",
+      "blob": "763b883548f055c0866f17cf8e88cbbb4c71e0dd"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/candidate-complete.json",
+      "blob": "0ee8fdcabe8c6a205c5e0e83c67fcb10ab61974c"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/candidate-independent-renewed.json",
+      "blob": "00b3df175934406cf0145b128caf390a56f20668"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/candidate-registration.json",
+      "blob": "91c8b480fab7173e9210926bd3cdaf790d3c0c57"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/completion.json",
+      "blob": "cae12ae048f1780f8a857a9f4cd591ca2e2f834d"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/conditional-parity-renewed.json",
+      "blob": "e741dbf42f3c85770c6d2cdf1c526719792c64e9"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/control-complete.json",
+      "blob": "8e49ba14d2c17c0503e0056032ba8ffdfb3e6cfb"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/control-independent-renewed.json",
+      "blob": "39a7ac5b8c9c400eea826cfabffd46d8fd8fa89c"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/control-registration.json",
+      "blob": "3776348321da40016886179712ad42d823bef28e"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/index.json",
+      "blob": "ba969fbc8969586741ee7e3141647123d07df51e"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/original-independent-renewed.json",
+      "blob": "044b2d7103ec29b33a4e80d1ad519c5c5da53111"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/public-fixtures.log.txt",
+      "blob": "a423655974b309e73db83e454cdb25c3dd09b73c"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/reproduce.mjs",
+      "blob": "cc70cb3b66e6e18736003d8c6df208bd4256fd21"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/retained-local-index.json",
+      "blob": "67a22434facabf39721f225072cab48625b818fe"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/verifier-preparation-correction.json",
+      "blob": "82dda80a5ad229820a4d2e3b64c2509a60994053"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/revalidation-2026-10-04/verify.py",
+      "blob": "33919c8471c01a89a6405fe092ee68cc9dd284fe"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/runtime-freeze.json.gz",
+      "blob": "c49b865de22117b132e6134c5b82db37c9db1bd7"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/source-verification.json",
+      "blob": "d0a5124a1f56600718f215a90fa5ba7af6456b4a"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/tooling-files.json",
+      "blob": "22caf7cca2e66a730a3e8d56aa65a8abb444dabf"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/unit.log.gz",
+      "blob": "60a4a7ac9a5ba2a6b913fb3a5d50151c4e757691"
+    },
+    {
+      "path": "evaluation/experiments/root-rime-compatibility/witness-verification.json",
+      "blob": "94376278a988f60a4ef8c2a4db10f38b38ce248c"
+    },
+    {
+      "path": "evaluation/quality/probes/root-rime-compatibility/analyze.ts",
+      "blob": "0433436f8820a2b6245c57abfc9ca501895834a2"
+    },
+    {
+      "path": "evaluation/quality/probes/root-rime-compatibility/observe.test.ts",
+      "blob": "62c4ec27c56f9f9a51067d8b0e7539e6c64d3f4d"
+    },
+    {
+      "path": "evaluation/quality/probes/root-rime-compatibility/observe.ts",
+      "blob": "830d013b874892d3c13f1d4efa9774fbf94de4a2"
+    },
+    {
+      "path": "evaluation/quality/probes/root-rime-compatibility/parity.mjs",
+      "blob": "3e407ba8137aa5dc3a18cc16c2b38332d82cd476"
+    },
+    {
+      "path": "evaluation/quality/probes/root-rime-compatibility/protocol.json",
+      "blob": "e6c186482c7c1e60d0cdca08d914d3937ef83658"
+    },
+    {
+      "path": "evaluation/quality/probes/root-rime-compatibility/tsconfig.json",
+      "blob": "f49de5f86c1efa69d999ffbc949a5803793dba09"
+    },
+    {
+      "path": "evaluation/quality/probes/root-rime-compatibility/verify.py",
+      "blob": "7bc1a6470ca1fdd33da9841a238bb073aeaab877"
+    },
+    {
+      "path": "evaluation/quality/probes/root-rime-compatibility/vitest.config.ts",
+      "blob": "c9bf8caef6bc49742007655091ae27cef56ef354"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "seed": 10000,
+    "words": 20000,
+    "elapsedMs": 3556.1311669999996,
+    "wordsPerSecond": 5624.089512106571
+  },
+  {
+    "seed": 10001,
+    "words": 20000,
+    "elapsedMs": 3362.3777499999997,
+    "wordsPerSecond": 5948.171647281452
+  },
+  {
+    "seed": 10002,
+    "words": 20000,
+    "elapsedMs": 3389.324166999999,
+    "wordsPerSecond": 5900.881418994705
+  },
+  {
+    "seed": 10003,
+    "words": 20000,
+    "elapsedMs": 3388.9630829999987,
+    "wordsPerSecond": 5901.510140469125
+  },
+  {
+    "seed": 10004,
+    "words": 20000,
+    "elapsedMs": 3382.382625,
+    "wordsPerSecond": 5912.991585332543
+  },
+  {
+    "seed": 10005,
+    "words": 20000,
+    "elapsedMs": 3385.0812079999996,
+    "wordsPerSecond": 5908.277754971958
+  },
+  {
+    "seed": 10006,
+    "words": 20000,
+    "elapsedMs": 3346.4558750000033,
+    "wordsPerSecond": 5976.472048955368
+  }
+]

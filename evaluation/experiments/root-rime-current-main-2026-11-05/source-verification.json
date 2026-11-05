@@ -1,0 +1,24 @@
+{
+  "main": {
+    "commit": "3853180d9724c8d59c432c22a32605f9363f6bd2",
+    "dirty": false,
+    "sourceDigest": "d51d3eaa5f9ef7283ba75494bd4dac2d37b59b5ff1daf349b14b5e20f2e82405",
+    "verifiedFileCounts": {
+      "generator": 55,
+      "evaluator": 11,
+      "references": 6,
+      "packageFiles": 2
+    }
+  },
+  "candidate": {
+    "commit": "a9a6be2e047ba92b21c5c442fb02b74cf0e31d20",
+    "dirty": false,
+    "sourceDigest": "0b4bd0fa165d4cfd5605edc8225b6f5ac75f0b1a03f27ff95a2ef785b6081d0f",
+    "verifiedFileCounts": {
+      "generator": 56,
+      "evaluator": 11,
+      "references": 6,
+      "packageFiles": 2
+    }
+  }
+}
