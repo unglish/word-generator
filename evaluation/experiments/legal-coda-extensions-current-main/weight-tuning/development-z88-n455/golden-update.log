@@ -1,0 +1,5 @@
+
+> @unglish/word-generator@0.6.0 golden:update
+> node --import tsx scripts/update-golden-output.ts
+
+Wrote /Users/ryanbetts/.t3/worktrees/word-generator/codex-pr-313-current-main/src/core/golden-output.json

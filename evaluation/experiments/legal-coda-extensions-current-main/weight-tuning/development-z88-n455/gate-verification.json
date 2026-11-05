@@ -1,0 +1,17 @@
+{
+  "development": {
+    "words": 6000000,
+    "violations": [
+      {
+        "seed": 3706769306,
+        "phoneme": "\u0283",
+        "metric": "maxOverRepresentation",
+        "value": 1.0662974898374806,
+        "limit": 1.066
+      }
+    ],
+    "maximumRatio": 1.0662974898374806,
+    "maximumGap": 0.3611994711425419,
+    "maximumTV": 1.5596833037118885
+  }
+}

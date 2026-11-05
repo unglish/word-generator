@@ -1,0 +1,714 @@
+{
+  "premise": "Small n/z coda weight changes can recover original marginal bounds without systematically shifting excess mass to another common phone.",
+  "results": {
+    "unweighted": {
+      "totalVariationMean": 1.5422539617084274,
+      "phones": {
+        "z": {
+          "meanRatio": 1.0797584119695571,
+          "maxRatio": 1.088470214856175,
+          "meanSignedGap": 0.2072251778103778,
+          "overFailures": 30,
+          "gapFailures": 0
+        },
+        "k": {
+          "meanRatio": 1.0551896042147724,
+          "maxRatio": 1.061981516694417,
+          "meanSignedGap": 0.28220163978793006,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0283": {
+          "meanRatio": 1.0428705386612527,
+          "maxRatio": 1.0587454569113726,
+          "meanSignedGap": 0.0444593341618389,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u014b": {
+          "meanRatio": 1.0414122800885746,
+          "maxRatio": 1.0563719019548676,
+          "meanSignedGap": 0.04928352695006802,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "r": {
+          "meanRatio": 1.0358457886250931,
+          "maxRatio": 1.041828676947464,
+          "meanSignedGap": 0.19375801629839348,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "p": {
+          "meanRatio": 1.0256609885597272,
+          "maxRatio": 1.040919123079654,
+          "meanSignedGap": 0.060306933745837434,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "e\u026a": {
+          "meanRatio": 1.0272769027736828,
+          "maxRatio": 1.0446076331164995,
+          "meanSignedGap": 0.04301814350079047,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "s": {
+          "meanRatio": 1.0196511479934651,
+          "maxRatio": 1.0305021335264262,
+          "meanSignedGap": 0.11343333815007925,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "i:": {
+          "meanRatio": 1.0189158123102264,
+          "maxRatio": 1.026922844082247,
+          "meanSignedGap": 0.07672709754336232,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "h": {
+          "meanRatio": 1.0216677586686573,
+          "maxRatio": 1.0424661074356125,
+          "meanSignedGap": 0.02327247985740201,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u025c": {
+          "meanRatio": 1.0100398270154145,
+          "maxRatio": 1.016406682336476,
+          "meanSignedGap": 0.03445880501821749,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "t\u0283": {
+          "meanRatio": 1.0069447333079475,
+          "maxRatio": 1.0361126338257072,
+          "meanSignedGap": 0.004021210133663888,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "m": {
+          "meanRatio": 1.0155482194304024,
+          "maxRatio": 1.0291482022060772,
+          "meanSignedGap": 0.054608628148242,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "u": {
+          "meanRatio": 1.015364181339704,
+          "maxRatio": 1.0327884688485247,
+          "meanSignedGap": 0.01768525352026916,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "w": {
+          "meanRatio": 1.0058496786456546,
+          "maxRatio": 1.0273096030207987,
+          "meanSignedGap": 0.005955325628592697,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "t": {
+          "meanRatio": 1.000759867337689,
+          "maxRatio": 1.00951952065887,
+          "meanSignedGap": 0.004348220565617152,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "d\u0292": {
+          "meanRatio": 1.010243437228181,
+          "maxRatio": 1.029341181243635,
+          "meanSignedGap": 0.007385930194786664,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "b": {
+          "meanRatio": 0.9968984032579644,
+          "maxRatio": 1.0095235461389753,
+          "meanSignedGap": -0.007906437706891279,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u025b": {
+          "meanRatio": 1.0020031833050074,
+          "maxRatio": 1.011483776293584,
+          "meanSignedGap": 0.006410569104022245,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "g": {
+          "meanRatio": 0.9852942419320901,
+          "maxRatio": 1.0024759120517175,
+          "meanSignedGap": -0.024089509517895947,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "d": {
+          "meanRatio": 0.9890022852094186,
+          "maxRatio": 0.9983342266171318,
+          "meanSignedGap": -0.041903835397667615,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "f": {
+          "meanRatio": 0.9776711210394183,
+          "maxRatio": 0.9961670958556749,
+          "meanSignedGap": -0.03655461871275394,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u00e6": {
+          "meanRatio": 0.9811620994207778,
+          "maxRatio": 0.9910312432475548,
+          "meanSignedGap": -0.048548110042175484,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0259\u028a": {
+          "meanRatio": 0.9936097299638968,
+          "maxRatio": 1.0048208648922359,
+          "meanSignedGap": -0.014685739586492079,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0259": {
+          "meanRatio": 0.979974684415609,
+          "maxRatio": 0.9838761133711846,
+          "meanSignedGap": -0.16818266339030732,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "a\u026a": {
+          "meanRatio": 0.9775815482210664,
+          "maxRatio": 0.9900337245740227,
+          "meanSignedGap": -0.02961657716108684,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "j": {
+          "meanRatio": 0.9718931486927769,
+          "maxRatio": 0.9975717608238183,
+          "meanSignedGap": -0.01633092871431444,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "v": {
+          "meanRatio": 0.9729162620181336,
+          "maxRatio": 0.9843065815372748,
+          "meanSignedGap": -0.03396518431785423,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "l": {
+          "meanRatio": 0.9560899334610091,
+          "maxRatio": 0.9638179583806531,
+          "meanSignedGap": -0.259831749284688,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0254": {
+          "meanRatio": 0.9522230113861512,
+          "maxRatio": 0.9637077241694597,
+          "meanSignedGap": -0.06464610714745879,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0251": {
+          "meanRatio": 0.9561647321147184,
+          "maxRatio": 0.9667096442879016,
+          "meanSignedGap": -0.1308562042426463,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u026a": {
+          "meanRatio": 0.9517332150093918,
+          "maxRatio": 0.9593961167172991,
+          "meanSignedGap": -0.2792885951169846,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "n": {
+          "meanRatio": 0.9483876794893965,
+          "maxRatio": 0.9567443859823449,
+          "meanSignedGap": -0.3651273420048261,
+          "overFailures": 0,
+          "gapFailures": 4
+        }
+      }
+    },
+    "z89n455": {
+      "totalVariationMean": 1.4969148941842492,
+      "phones": {
+        "z": {
+          "meanRatio": 1.0599002082241158,
+          "maxRatio": 1.0714027066597769,
+          "meanSignedGap": 0.15563037168868007,
+          "overFailures": 3,
+          "gapFailures": 0
+        },
+        "k": {
+          "meanRatio": 1.0553217562306247,
+          "maxRatio": 1.0624103614800193,
+          "meanSignedGap": 0.2828773742148281,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0283": {
+          "meanRatio": 1.0422389479026701,
+          "maxRatio": 1.0578681086909643,
+          "meanSignedGap": 0.04380433645324408,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u014b": {
+          "meanRatio": 1.041350209051617,
+          "maxRatio": 1.0528931960421377,
+          "meanSignedGap": 0.0492096580489552,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "p": {
+          "meanRatio": 1.0262474242574422,
+          "maxRatio": 1.0366155615027444,
+          "meanSignedGap": 0.0616851401499273,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "r": {
+          "meanRatio": 1.0343968859475448,
+          "maxRatio": 1.0406146070883404,
+          "meanSignedGap": 0.1859262313278523,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "s": {
+          "meanRatio": 1.0210667913808267,
+          "maxRatio": 1.0271955657119194,
+          "meanSignedGap": 0.12160492970859377,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "i:": {
+          "meanRatio": 1.0198749034082075,
+          "maxRatio": 1.0272664757882608,
+          "meanSignedGap": 0.0806174023857283,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "h": {
+          "meanRatio": 1.0184719776140323,
+          "maxRatio": 1.036467270154633,
+          "meanSignedGap": 0.019840018228132958,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "u": {
+          "meanRatio": 1.0199273190383948,
+          "maxRatio": 1.0314507011304708,
+          "meanSignedGap": 0.022937746006848978,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "e\u026a": {
+          "meanRatio": 1.0289736046785525,
+          "maxRatio": 1.0399106280529782,
+          "meanSignedGap": 0.04569399591069702,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "m": {
+          "meanRatio": 1.014583886205548,
+          "maxRatio": 1.0224987342948935,
+          "meanSignedGap": 0.05122168633649348,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u025c": {
+          "meanRatio": 1.0097766303107643,
+          "maxRatio": 1.019265741513599,
+          "meanSignedGap": 0.033555458385545654,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "t": {
+          "meanRatio": 1.0012075933469156,
+          "maxRatio": 1.0085427756873016,
+          "meanSignedGap": 0.006910261785867297,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u025b": {
+          "meanRatio": 1.000435761598989,
+          "maxRatio": 1.006608024542936,
+          "meanSignedGap": 0.0013945203298246038,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "b": {
+          "meanRatio": 0.9972015978565415,
+          "maxRatio": 1.0051288421010323,
+          "meanSignedGap": -0.007133548964061864,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "d": {
+          "meanRatio": 0.9899826768590332,
+          "maxRatio": 0.9997677302450046,
+          "meanSignedGap": -0.038168316601901016,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "t\u0283": {
+          "meanRatio": 1.0078613273511565,
+          "maxRatio": 1.0362067182015406,
+          "meanSignedGap": 0.004551945741723895,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0259\u028a": {
+          "meanRatio": 0.9945339204824204,
+          "maxRatio": 1.0081180602413802,
+          "meanSignedGap": -0.01256181975107625,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "g": {
+          "meanRatio": 0.9862047867141448,
+          "maxRatio": 0.9978672912648048,
+          "meanSignedGap": -0.022597945662943028,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "d\u0292": {
+          "meanRatio": 1.0070309313273624,
+          "maxRatio": 1.026949019450405,
+          "meanSignedGap": 0.005069584245156711,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "a\u026a": {
+          "meanRatio": 0.9787518805962853,
+          "maxRatio": 0.9955399789184636,
+          "meanSignedGap": -0.02807047400300168,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "w": {
+          "meanRatio": 1.0036535941546214,
+          "maxRatio": 1.0162672562479689,
+          "meanSignedGap": 0.0037195791809274976,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0259": {
+          "meanRatio": 0.9802084982116333,
+          "maxRatio": 0.9854277351849543,
+          "meanSignedGap": -0.16621897763529153,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u00e6": {
+          "meanRatio": 0.9808905933856619,
+          "maxRatio": 0.9903239133630286,
+          "meanSignedGap": -0.04924782203048806,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "v": {
+          "meanRatio": 0.9714081671637284,
+          "maxRatio": 0.9886584236588162,
+          "meanSignedGap": -0.035856456480248454,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "j": {
+          "meanRatio": 0.9707625985006969,
+          "maxRatio": 0.9896732004156592,
+          "meanSignedGap": -0.01698781248948385,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "f": {
+          "meanRatio": 0.9766964754161803,
+          "maxRatio": 0.9876783779972775,
+          "meanSignedGap": -0.03815021154123469,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0251": {
+          "meanRatio": 0.9564315222439198,
+          "maxRatio": 0.9640544517402587,
+          "meanSignedGap": -0.13005978744583183,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "n": {
+          "meanRatio": 0.9551922367971117,
+          "maxRatio": 0.9629619375807477,
+          "meanSignedGap": -0.316989031254486,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "l": {
+          "meanRatio": 0.9557588038922937,
+          "maxRatio": 0.9643952971939066,
+          "meanSignedGap": -0.26179116273724595,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u026a": {
+          "meanRatio": 0.9508266083684477,
+          "maxRatio": 0.958686957687289,
+          "meanSignedGap": -0.2845345400275949,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0254": {
+          "meanRatio": 0.9523134589094921,
+          "maxRatio": 0.9657892935144781,
+          "meanSignedGap": -0.06452372437586172,
+          "overFailures": 0,
+          "gapFailures": 0
+        }
+      }
+    },
+    "z88n455": {
+      "totalVariationMean": 1.4936994187396258,
+      "phones": {
+        "k": {
+          "meanRatio": 1.0553591793569552,
+          "maxRatio": 1.0616052676998649,
+          "meanSignedGap": 0.2830687303183318,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "z": {
+          "meanRatio": 1.05406482650254,
+          "maxRatio": 1.0617243274893517,
+          "meanSignedGap": 0.14046911176657279,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0283": {
+          "meanRatio": 1.0421742461980807,
+          "maxRatio": 1.0662974898374806,
+          "meanSignedGap": 0.04373723688335263,
+          "overFailures": 1,
+          "gapFailures": 0
+        },
+        "\u014b": {
+          "meanRatio": 1.0403072486556872,
+          "maxRatio": 1.0569020162751697,
+          "meanSignedGap": 0.047968461798212146,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "p": {
+          "meanRatio": 1.0266821717156747,
+          "maxRatio": 1.0370171571648754,
+          "meanSignedGap": 0.06270685784793315,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "r": {
+          "meanRatio": 1.0350724683779575,
+          "maxRatio": 1.0400623281330323,
+          "meanSignedGap": 0.1895779716461328,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "i:": {
+          "meanRatio": 1.019998197556743,
+          "maxRatio": 1.026735238166211,
+          "meanSignedGap": 0.0811175131928171,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "u": {
+          "meanRatio": 1.0224057073464698,
+          "maxRatio": 1.037228248752524,
+          "meanSignedGap": 0.02579054529246456,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "s": {
+          "meanRatio": 1.021432533379908,
+          "maxRatio": 1.0270828138477184,
+          "meanSignedGap": 0.12371612117034836,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "m": {
+          "meanRatio": 1.0150860184683468,
+          "maxRatio": 1.0236334370846927,
+          "meanSignedGap": 0.05298528082029666,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "e\u026a": {
+          "meanRatio": 1.0294087526269635,
+          "maxRatio": 1.0467180822125395,
+          "meanSignedGap": 0.04638026359453685,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "h": {
+          "meanRatio": 1.020450362670061,
+          "maxRatio": 1.0404344223074573,
+          "meanSignedGap": 0.021964923118882488,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u025b": {
+          "meanRatio": 0.9985475618873106,
+          "maxRatio": 1.007166479673581,
+          "meanSignedGap": -0.004648079318271018,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "b": {
+          "meanRatio": 0.9983443450998266,
+          "maxRatio": 1.0069884011956052,
+          "meanSignedGap": -0.004220513954931037,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u025c": {
+          "meanRatio": 1.0106494333555736,
+          "maxRatio": 1.0179566349914886,
+          "meanSignedGap": 0.036551102622663686,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "t": {
+          "meanRatio": 1.0011125588976968,
+          "maxRatio": 1.007877114377293,
+          "meanSignedGap": 0.006366442192579136,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "d\u0292": {
+          "meanRatio": 1.0084939442232526,
+          "maxRatio": 1.0236656515517153,
+          "meanSignedGap": 0.006124475380076666,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "t\u0283": {
+          "meanRatio": 1.0076385487518253,
+          "maxRatio": 1.0334519354951868,
+          "meanSignedGap": 0.004422950210654549,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "g": {
+          "meanRatio": 0.9848615162632784,
+          "maxRatio": 0.9980026870598216,
+          "meanSignedGap": -0.024798357648630958,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "d": {
+          "meanRatio": 0.9901128592981471,
+          "maxRatio": 0.9990164501678757,
+          "meanSignedGap": -0.03767229141810849,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0259\u028a": {
+          "meanRatio": 0.9936289507968604,
+          "maxRatio": 1.0093603983959656,
+          "meanSignedGap": -0.014641567408173387,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "a\u026a": {
+          "meanRatio": 0.9790562506786212,
+          "maxRatio": 0.9949470003574797,
+          "meanSignedGap": -0.027668376654000036,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "w": {
+          "meanRatio": 1.0019801136809203,
+          "maxRatio": 1.0148777308191277,
+          "meanSignedGap": 0.0020158751387603,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0259": {
+          "meanRatio": 0.979099907035442,
+          "maxRatio": 0.9853774973949886,
+          "meanSignedGap": -0.1755294834216849,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "v": {
+          "meanRatio": 0.9714737328402232,
+          "maxRatio": 0.9892313628467096,
+          "meanSignedGap": -0.0357742318520025,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u00e6": {
+          "meanRatio": 0.9817750702032695,
+          "maxRatio": 0.997025943613848,
+          "meanSignedGap": -0.046968391916161645,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "j": {
+          "meanRatio": 0.9706734873405466,
+          "maxRatio": 0.9991049401908361,
+          "meanSignedGap": -0.017039588762398857,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "f": {
+          "meanRatio": 0.975534380543462,
+          "maxRatio": 0.9892824483433924,
+          "meanSignedGap": -0.04005267762810167,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0254": {
+          "meanRatio": 0.953921910014212,
+          "maxRatio": 0.9657206518047086,
+          "meanSignedGap": -0.06234736070217825,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "l": {
+          "meanRatio": 0.9567071373291378,
+          "maxRatio": 0.9647471826758205,
+          "meanSignedGap": -0.25617953070791216,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u0251": {
+          "meanRatio": 0.9573555579376486,
+          "maxRatio": 0.9646397217850627,
+          "meanSignedGap": -0.12730137374610245,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "n": {
+          "meanRatio": 0.9562629743642113,
+          "maxRatio": 0.96323906781369,
+          "meanSignedGap": -0.30941418172259066,
+          "overFailures": 0,
+          "gapFailures": 0
+        },
+        "\u026a": {
+          "meanRatio": 0.9506219175272468,
+          "maxRatio": 0.9572919388063482,
+          "meanSignedGap": -0.28571895323190133,
+          "overFailures": 0,
+          "gapFailures": 0
+        }
+      }
+    }
+  },
+  "interpretation": "z ratio excess is consistently removed; n deficit remains and TV improves. sh mean is not consistently rising as z falls; its isolated exceedance does not establish a systematic compensating excess. A further n increase is independently motivated by its remaining deficit and the n-only ablation. One final development candidate will be evaluated without fitting confirmation or changing unrelated phones/limits."
+}

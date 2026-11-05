@@ -1,0 +1,190 @@
+[
+  {
+    "case": "text, morphology",
+    "changed": 40,
+    "rngDrawsBefore": 1910,
+    "rngDrawsAfter": 1978,
+    "examples": [
+      {
+        "index": 0,
+        "before": {
+          "clean": "errassing",
+          "hyphenated": "errassing",
+          "pronunciation": "\u02c8\u025br.\u00e6z.\u026a\u014b"
+        },
+        "after": {
+          "clean": "ameading",
+          "hyphenated": "ameading",
+          "pronunciation": "\u02c8\u00e6m.i:d.\u026a\u014b"
+        }
+      },
+      {
+        "index": 1,
+        "before": {
+          "clean": "afs",
+          "hyphenated": "afs",
+          "pronunciation": "\u00e6fs"
+        },
+        "after": {
+          "clean": "sobish",
+          "hyphenated": "so&shy;bish",
+          "pronunciation": "s\u0254\u02c8b\u026a\u0283"
+        }
+      },
+      {
+        "index": 2,
+        "before": {
+          "clean": "fradge",
+          "hyphenated": "fradge",
+          "pronunciation": "fr\u00e6d\u0292"
+        },
+        "after": {
+          "clean": "frowbed",
+          "hyphenated": "frowbed",
+          "pronunciation": "fra\u028abd"
+        }
+      }
+    ]
+  },
+  {
+    "case": "text, bare",
+    "changed": 26,
+    "rngDrawsBefore": 2425,
+    "rngDrawsAfter": 2554,
+    "examples": [
+      {
+        "index": 14,
+        "before": {
+          "clean": "pletse",
+          "hyphenated": "pletse",
+          "pronunciation": "p\u02b0li:ts"
+        },
+        "after": {
+          "clean": "crend",
+          "hyphenated": "crend",
+          "pronunciation": "k\u02b0r\u025bnd"
+        }
+      },
+      {
+        "index": 15,
+        "before": {
+          "clean": "soleen",
+          "hyphenated": "sol&shy;een",
+          "pronunciation": "\u02c8s\u0251l\u02cci:n"
+        },
+        "after": {
+          "clean": "cram",
+          "hyphenated": "cram",
+          "pronunciation": "k\u02b0r\u00e6m"
+        }
+      },
+      {
+        "index": 16,
+        "before": {
+          "clean": "kencotile",
+          "hyphenated": "ken&shy;co&shy;tile",
+          "pronunciation": "\u02c8k\u02b0\u025bn.k\u02b0\u0259.t\u02b0i:l"
+        },
+        "after": {
+          "clean": "mant",
+          "hyphenated": "mant",
+          "pronunciation": "m\u0251nt"
+        }
+      }
+    ]
+  },
+  {
+    "case": "lexicon, morphology",
+    "changed": 21,
+    "rngDrawsBefore": 2976,
+    "rngDrawsAfter": 3342,
+    "examples": [
+      {
+        "index": 19,
+        "before": {
+          "clean": "apuinged",
+          "hyphenated": "apuinged",
+          "pronunciation": "\u02c8e\u026a.p\u02b0u\u014bd"
+        },
+        "after": {
+          "clean": "inninged",
+          "hyphenated": "inninged",
+          "pronunciation": "\u02c8\u026an\u02cc\u026a\u014bd"
+        }
+      },
+      {
+        "index": 20,
+        "before": {
+          "clean": "rebednilstinity",
+          "hyphenated": "rebednilstinity",
+          "pronunciation": "\u02ccr\u026a\u02ccb\u025bd.n\u0259ls\u02c8t\u026an.\u026a.t\u02b0i:"
+        },
+        "after": {
+          "clean": "rabriroungs",
+          "hyphenated": "rabriroungs",
+          "pronunciation": "\u02c8r\u00e6.br\u026a.ra\u028a\u014bz"
+        }
+      },
+      {
+        "index": 21,
+        "before": {
+          "clean": "lolichrerdity",
+          "hyphenated": "lolichrerdity",
+          "pronunciation": "l\u0259\u02ccla\u026a\u0283\u02c8r\u025ad.\u026a.ti:"
+        },
+        "after": {
+          "clean": "outeckicange",
+          "hyphenated": "outeckicange",
+          "pronunciation": "\u02c8a\u028at.\u026a\u02cck\u02b0\u026ak.\u0259nd\u0292"
+        }
+      }
+    ]
+  },
+  {
+    "case": "lexicon, bare",
+    "changed": 37,
+    "rngDrawsBefore": 4474,
+    "rngDrawsAfter": 3499,
+    "examples": [
+      {
+        "index": 3,
+        "before": {
+          "clean": "kihinpopotrams",
+          "hyphenated": "ki&shy;hin&shy;po&shy;pot&shy;rams",
+          "pronunciation": "k\u02b0a\u026a\u02cch\u0259n.p\u02b0\u0259\u02c8p\u02b0\u0254t.r\u0259ms"
+        },
+        "after": {
+          "clean": "sesrudzigitrir",
+          "hyphenated": "ses&shy;rud&shy;zi&shy;gi&shy;trir",
+          "pronunciation": "\u02c8s\u025bz.r\u0259d.z\u0259.ga\u026a.tr\u026ar"
+        }
+      },
+      {
+        "index": 4,
+        "before": {
+          "clean": "bisole",
+          "hyphenated": "bis&shy;ole",
+          "pronunciation": "\u02c8b\u026as\u02cc\u0259\u028al"
+        },
+        "after": {
+          "clean": "ovatheems",
+          "hyphenated": "o&shy;va&shy;theems",
+          "pronunciation": "\u02c8\u0254.v\u0259\u02cc\u03b8i:mz"
+        }
+      },
+      {
+        "index": 5,
+        "before": {
+          "clean": "catool",
+          "hyphenated": "ca&shy;tool",
+          "pronunciation": "se\u026a\u02c8t\u02b0\u028al"
+        },
+        "after": {
+          "clean": "eckacter",
+          "hyphenated": "eck&shy;act&shy;er",
+          "pronunciation": "\u02c8\u025bk.\u0259kt.\u025a"
+        }
+      }
+    ]
+  }
+]

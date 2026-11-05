@@ -1,0 +1,13 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.t3/worktrees/word-generator/codex-pr-313-current-main
+
+ ✓ src/core/golden-output.test.ts (5 tests) 3ms
+ ✓ src/core/coda-extensions.test.ts (25 tests) 11184ms
+   ✓ coda extensions preserve configured legality > keeps root-stage codas duplicate-free with default morphology and root-only budgets  6136ms
+   ✓ coda extensions preserve configured legality > produces no adjacent duplicate coda phones in a 20,000-word bare stream  4851ms
+
+ Test Files  2 passed (2)
+      Tests  30 passed (30)
+   Start at  13:10:15
+   Duration  11.75s (transform 259ms, setup 0ms, collect 625ms, tests 11.19s, environment 0ms, prepare 134ms)
+

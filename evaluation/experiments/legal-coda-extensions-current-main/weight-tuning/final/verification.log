@@ -1,0 +1,16 @@
+{
+  "development": {
+    "words": 6000000,
+    "violations": [],
+    "maximumRatio": 1.062469165135099,
+    "maximumGap": 0.31542307949743,
+    "maximumTV": 1.5262821109354818
+  },
+  "confirmation": {
+    "words": 2000000,
+    "violations": [],
+    "maximumRatio": 1.0627796668057257,
+    "maximumGap": 0.31119843586762563,
+    "maximumTV": 1.499627533578016
+  }
+}

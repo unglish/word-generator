@@ -1,0 +1,31 @@
+{
+  "development": {
+    "words": 6000000,
+    "violations": [
+      {
+        "seed": 1347916138,
+        "phoneme": "z",
+        "metric": "maxOverRepresentation",
+        "value": 1.0714027066597769,
+        "limit": 1.066
+      },
+      {
+        "seed": 42880050,
+        "phoneme": "z",
+        "metric": "maxOverRepresentation",
+        "value": 1.066725371755888,
+        "limit": 1.066
+      },
+      {
+        "seed": 1390796146,
+        "phoneme": "z",
+        "metric": "maxOverRepresentation",
+        "value": 1.0667461115702008,
+        "limit": 1.066
+      }
+    ],
+    "maximumRatio": 1.0714027066597769,
+    "maximumGap": 0.35183962717928985,
+    "maximumTV": 1.5680337268965134
+  }
+}

@@ -1,0 +1,5 @@
+
+> @unglish/word-generator@0.6.0 quality:compare
+> node --import tsx evaluation/quality/cli.ts compare --baseline /tmp/pr313-weight-validation/quality/baseline --previous /tmp/pr313-evidence/final-candidate --candidate /tmp/pr313-weight-final/candidate --out /tmp/pr313-weight-final/comparison
+
+Compared verified summaries: /tmp/pr313-weight-final/comparison

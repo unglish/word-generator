@@ -1,0 +1,304 @@
+diff --git a/TUNING.md b/TUNING.md
+index 3895803a..42df6d79 100644
+--- a/TUNING.md
++++ b/TUNING.md
+@@ -380,33 +380,6 @@ When to re-run:
+ 3. Keep `seed`, `sampleSize` and `minCommonBaselinePct` fixed. Changing them
+    invalidates the calibration.
+ 
+-### Reviewed per-phoneme limits
+-
+-`src/config/phoneme-thresholds.json` retains global defaults and supports
+-`phonemeOverrides` for individually reviewed upper-ratio and absolute-gap limits.
+-An override changes only its named metric for its named phoneme. The minimum
+-representation ratio, all other phones, total variation, and fixed-zero inventory
+-requirements continue to use their existing bounds.
+-
+-The gate checks every common phoneme against its applicable bounds. Checking only
+-the largest raw ratio or gap is insufficient when phones have different limits:
+-a permitted maximum could otherwise hide a smaller value that exceeds another
+-phone's unchanged limit. The calibration tool retains all common-phone comparison
+-rows and per-phone violations in new output packets; older packets contain only
+-extrema. Its global proposed bounds remain diagnostics, not automatic changes to
+-the configured defaults or overrides.
+-
+-The `/z/` upper-ratio and `/n/` absolute-gap exceptions accept the reviewed
+-phoneme-distribution tradeoff of validating optional coda extensions before
+-mutation. Valid root phones are retained instead of being deleted by a repair;
+-changed root eligibility also changes the selected-root distribution. This is an
+-explicit engineering tradeoff, not evidence of ideal English frequencies. The
+-proposal uses the established 30-stream worst-plus-three-SD method and is frozen
+-before checking separate confirmation streams. Other bounds remain unchanged.
+-Development measurements, the separate `/n/` trace review, the frozen proposal,
+-and confirmation results live in `archive/pr-313-recalibration`, following
+-[the evidence policy](docs/experiments.md#where-evidence-lives).
+-
+ ## Reference Data
+ 
+ | File | Contents |
+diff --git a/scripts/calibrate-phoneme-thresholds.ts b/scripts/calibrate-phoneme-thresholds.ts
+index a2d3ca8a..c4bc0b8e 100644
+--- a/scripts/calibrate-phoneme-thresholds.ts
++++ b/scripts/calibrate-phoneme-thresholds.ts
+@@ -21,7 +21,6 @@ import { parseArgs } from "node:util";
+ import { generateWord } from "../src/core/generate.js";
+ import { countNormalizedPhonemes, type PhonemeNormalization } from "../src/core/phoneme-normalization.js";
+ import { computePhonemeQualityMetrics } from "../src/core/phoneme-quality.js";
+-import { phonemeGateViolations, type PhonemeGateLimits } from "../src/core/phoneme-quality-gates.js";
+ import { createSeededRng } from "../src/utils/random.js";
+ import { proposeLimits, type SeedResult } from "./lib/phoneme-calibration.js";
+ 
+@@ -32,11 +31,11 @@ const MULBERRY_INCREMENT = 0x6d2b79f5n;
+ /** Lexicon words have used ~86 draws each; the margin lets the pre-run overlap check be conservative. */
+ const ESTIMATED_DRAWS_PER_WORD = 100;
+ 
+-interface Thresholds extends PhonemeGateLimits {
++interface Thresholds {
+   sampleSize: number;
+   seed: number;
+   minCommonBaselinePct: number;
+-  [limit: string]: number | string | PhonemeGateLimits["phonemeOverrides"];
++  [limit: string]: number | string;
+ }
+ 
+ function loadJson<T>(path: string): T {
+@@ -77,7 +76,6 @@ function measureSeed(seed: number, thresholds: Thresholds): SeedResult {
+     maxGapPhoneme: gap.phoneme,
+     cmuOnlyKeyCount: metrics.cmuOnlyKeyCount,
+     phonemes: metrics.topOverRepresented,
+-    phonemeGateViolations: phonemeGateViolations(metrics.topOverRepresented, thresholds),
+   };
+ }
+ 
+@@ -162,9 +160,6 @@ function printReport(results: SeedResult[], thresholds: Thresholds, k: number) {
+         `${fmt(r.nonCmuMassPct)} | ${r.cmuOnlyKeyCount} |`,
+     );
+   }
+-  const violations = results.flatMap(result => (result.phonemeGateViolations ?? []).map(violation => ({ seed: result.seed, ...violation })));
+-  console.log(`\nPer-phoneme gate violations against configured defaults and overrides: ${JSON.stringify(violations)}`);
+-
+   console.log(`\nSpread and proposed limits (k = ${k}; upper = max + k·SD, lower = min − k·SD, rounded outward; inventory coverage fixed at 0)\n`);
+   console.log("| Limit | Min | Max | Mean | SD | Current | Proposed |");
+   console.log("|---|---:|---:|---:|---:|---:|---:|");
+diff --git a/scripts/lib/phoneme-calibration.ts b/scripts/lib/phoneme-calibration.ts
+index a4a55b13..db384e25 100644
+--- a/scripts/lib/phoneme-calibration.ts
++++ b/scripts/lib/phoneme-calibration.ts
+@@ -1,5 +1,4 @@
+ import type { PhonemeComparisonRow } from "../../src/core/phoneme-quality.js";
+-import type { PhonemeGateViolation } from "../../src/core/phoneme-quality-gates.js";
+ 
+ export interface SeedResult {
+   seed: number;
+@@ -16,9 +15,8 @@ export interface SeedResult {
+   maxAbsoluteGapPct: number;
+   maxGapPhoneme: string;
+   cmuOnlyKeyCount: number;
+-  /** Absent in historical calibration packets that retained only extrema. */
++  /** Absent in historical reports that retained only extrema. */
+   phonemes?: PhonemeComparisonRow[];
+-  phonemeGateViolations?: PhonemeGateViolation[];
+ }
+ 
+ /** Gate limits, their direction, and the precision they are rounded outward to. */
+diff --git a/src/config/phoneme-thresholds.json b/src/config/phoneme-thresholds.json
+index 891e6a8a..45fc6d76 100644
+--- a/src/config/phoneme-thresholds.json
++++ b/src/config/phoneme-thresholds.json
+@@ -9,13 +9,5 @@
+   "maxGeneratedOnlyMassPct": 0,
+   "maxCmuOnlyKeyCount": 0,
+   "generatedOnlyEscalationThresholdPct": 1.5,
+-  "_comment": "Global limits retain their existing calibration. Per-phoneme overrides use worst observed + 3 sample SDs, rounded outward, from 30 non-overlapping 200,000-word bare-lexicon streams. The /z/ ratio and /n/ gap overrides accept the reviewed distribution tradeoff from preserving legal root codas before optional extensions. All other per-phone bounds, total variation and fixed-zero inventory requirements remain unchanged. This engineering margin is not a false-failure probability guarantee. See TUNING.md and archive/pr-313-recalibration for development and confirmation evidence.",
+-  "phonemeOverrides": {
+-    "z": {
+-      "maxOverRepresentation": 1.105
+-    },
+-    "n": {
+-      "maxAbsoluteGapPct": 0.471
+-    }
+-  }
++  "_comment": "Distribution limits use the worst observed value ± 3 sample SDs, rounded outward, from `npm run calibrate:phonemes` (30 non-overlapping RNG streams, sampleSize words, lexicon, morphology off). This is an engineering margin, not a false-failure probability guarantee. Inventory coverage is fixed at 0: calibration fails on any generated-only mass, missing CMU phonemes, or rejected tokens. Recalibration measures a change; justify any loosened limit with its linguistic benefit and leave unaffected limits unchanged. Shared Pearson r is reported but not gated (2026-11 recalibration). See TUNING.md."
+ }
+diff --git a/src/core/phoneme-quality-gates.test.ts b/src/core/phoneme-quality-gates.test.ts
+deleted file mode 100644
+index 5f1c8026..00000000
+--- a/src/core/phoneme-quality-gates.test.ts
++++ /dev/null
+@@ -1,57 +0,0 @@
+-import { describe, expect, it } from "vitest";
+-import { phonemeGateViolations, type PhonemeGateLimits } from "./phoneme-quality-gates.js";
+-import type { PhonemeComparisonRow } from "./phoneme-quality.js";
+-
+-function row(phoneme: string, generatedPct: number, baselinePct: number): PhonemeComparisonRow {
+-  const gapPct = generatedPct - baselinePct;
+-  return { phoneme, generatedPct, baselinePct, ratio: generatedPct / baselinePct, gapPct, absGapPct: Math.abs(gapPct) };
+-}
+-
+-const limits: PhonemeGateLimits = {
+-  maxOverRepresentation: 1.066,
+-  minRepresentation: 0.918,
+-  maxAbsoluteGapPct: 0.39,
+-  phonemeOverrides: {
+-    z: { maxOverRepresentation: 1.1 },
+-    n: { maxAbsoluteGapPct: 0.45 },
+-  },
+-};
+-
+-describe("per-phoneme quality gates", () => {
+-  it("does not let a permitted worst raw ratio hide another phone's failure", () => {
+-    const rows = [row("z", 2.85, 2.6), row("k", 5.35, 5)];
+-    const violations = phonemeGateViolations(rows, limits);
+-    expect(violations).toEqual([
+-      { phoneme: "k", metric: "overRepresentation", value: 5.35 / 5, limit: 1.066 },
+-    ]);
+-    expect(phonemeGateViolations([...rows].reverse(), limits)).toEqual(violations);
+-  });
+-
+-  it("keeps every other phone's absolute-gap bound when n has an exception", () => {
+-    const violations = phonemeGateViolations([row("n", 6.65, 7.07), row("r", 6.65, 7.07)], limits);
+-    expect(violations).toEqual([
+-      { phoneme: "r", metric: "absoluteGapPct", value: Math.abs(6.65 - 7.07), limit: 0.39 },
+-    ]);
+-  });
+-
+-  it("retains z's gap limit and n's ratio limits", () => {
+-    expect(phonemeGateViolations([row("z", 9.5, 10), row("n", 1.08, 1)], limits)).toEqual([
+-      { phoneme: "z", metric: "absoluteGapPct", value: 0.5, limit: 0.39 },
+-      { phoneme: "n", metric: "overRepresentation", value: 1.08, limit: 1.066 },
+-    ]);
+-    expect(phonemeGateViolations([row("n", 0.9, 1)], limits)).toEqual([
+-      { phoneme: "n", metric: "underRepresentation", value: 0.9, limit: 0.918 },
+-    ]);
+-  });
+-
+-  it("still fails a reviewed phone when it exceeds its own limit", () => {
+-    expect(phonemeGateViolations([row("z", 1.11, 1)], limits)).toEqual([
+-      { phoneme: "z", metric: "overRepresentation", value: 1.11, limit: 1.1 },
+-    ]);
+-  });
+-
+-  it("uses global bounds when no overrides are configured, with inclusive boundaries", () => {
+-    const defaults = { maxOverRepresentation: 1.1, minRepresentation: 0.9, maxAbsoluteGapPct: 0.5 };
+-    expect(phonemeGateViolations([row("z", 1.1, 1), row("n", 0.9, 1), row("r", 9.5, 10)], defaults)).toEqual([]);
+-  });
+-});
+diff --git a/src/core/phoneme-quality-gates.ts b/src/core/phoneme-quality-gates.ts
+deleted file mode 100644
+index ce1cda15..00000000
+--- a/src/core/phoneme-quality-gates.ts
++++ /dev/null
+@@ -1,49 +0,0 @@
+-import type { PhonemeComparisonRow } from "./phoneme-quality.js";
+-
+-export interface PhonemeGateLimits {
+-  maxOverRepresentation: number;
+-  minRepresentation: number;
+-  maxAbsoluteGapPct: number;
+-  /** Reviewed exceptions for individual phones; all unspecified bounds stay global. */
+-  phonemeOverrides?: Record<string, {
+-    maxOverRepresentation?: number;
+-    maxAbsoluteGapPct?: number;
+-  }>;
+-}
+-
+-export interface PhonemeGateViolation {
+-  phoneme: string;
+-  metric: "overRepresentation" | "underRepresentation" | "absoluteGapPct";
+-  value: number;
+-  limit: number;
+-}
+-
+-export function phonemeLimits(phoneme: string, limits: PhonemeGateLimits) {
+-  const override = limits.phonemeOverrides?.[phoneme];
+-  return {
+-    maxOverRepresentation: override?.maxOverRepresentation ?? limits.maxOverRepresentation,
+-    minRepresentation: limits.minRepresentation,
+-    maxAbsoluteGapPct: override?.maxAbsoluteGapPct ?? limits.maxAbsoluteGapPct,
+-  };
+-}
+-
+-/** Check every common phone: the largest raw metric may have a different limit. */
+-export function phonemeGateViolations(
+-  rows: readonly PhonemeComparisonRow[],
+-  limits: PhonemeGateLimits,
+-): PhonemeGateViolation[] {
+-  const violations: PhonemeGateViolation[] = [];
+-  for (const row of rows) {
+-    const bound = phonemeLimits(row.phoneme, limits);
+-    if (row.ratio > bound.maxOverRepresentation) {
+-      violations.push({ phoneme: row.phoneme, metric: "overRepresentation", value: row.ratio, limit: bound.maxOverRepresentation });
+-    }
+-    if (row.ratio < bound.minRepresentation) {
+-      violations.push({ phoneme: row.phoneme, metric: "underRepresentation", value: row.ratio, limit: bound.minRepresentation });
+-    }
+-    if (row.absGapPct > bound.maxAbsoluteGapPct) {
+-      violations.push({ phoneme: row.phoneme, metric: "absoluteGapPct", value: row.absGapPct, limit: bound.maxAbsoluteGapPct });
+-    }
+-  }
+-  return violations;
+-}
+diff --git a/src/core/phoneme-quality.test.ts b/src/core/phoneme-quality.test.ts
+index 1610f16e..ab0e43d0 100644
+--- a/src/core/phoneme-quality.test.ts
++++ b/src/core/phoneme-quality.test.ts
+@@ -3,13 +3,15 @@ import { existsSync, readFileSync } from "node:fs";
+ import { join } from "node:path";
+ import { generateWords } from "./generate.js";
+ import { computePhonemeQualityMetrics } from "./phoneme-quality.js";
+-import { phonemeGateViolations, phonemeLimits, type PhonemeGateLimits } from "./phoneme-quality-gates.js";
+ import { countNormalizedPhonemes, PhonemeNormalization } from "./phoneme-normalization.js";
+ 
+-interface PhonemeThresholds extends PhonemeGateLimits {
++interface PhonemeThresholds {
+   sampleSize: number;
+   seed: number;
+   minCommonBaselinePct: number;
++  maxOverRepresentation: number;
++  minRepresentation: number;
++  maxAbsoluteGapPct: number;
+   maxTotalVariationPct: number;
+   maxGeneratedOnlyMassPct: number;
+   maxCmuOnlyKeyCount: number;
+@@ -72,14 +74,16 @@ describe("Phoneme quality gates", () => {
+     console.log(`Total variation from CMU: ${metrics.totalVariationPct.toFixed(3)}% (threshold: ${thresholds.maxTotalVariationPct}%)`);
+     console.log(`Shared phoneme Pearson r: ${metrics.sharedPearsonR.toFixed(5)} (report-only)`);
+     console.log(`Non-CMU generated mass: ${metrics.nonCmuMassPct.toFixed(4)}% (threshold: ${thresholds.maxGeneratedOnlyMassPct}%)`);
+-    if (worstOver) console.log(`Worst over-rep: ${worstOver.phoneme} at ${worstOver.ratio.toFixed(3)}x (threshold: ${phonemeLimits(worstOver.phoneme, thresholds).maxOverRepresentation}x)`);
++    if (worstOver) console.log(`Worst over-rep: ${worstOver.phoneme} at ${worstOver.ratio.toFixed(3)}x (threshold: ${thresholds.maxOverRepresentation}x)`);
+     if (worstUnder) console.log(`Worst under-rep: ${worstUnder.phoneme} at ${worstUnder.ratio.toFixed(3)}x (threshold: ${thresholds.minRepresentation}x)`);
+-    if (worstGap) console.log(`Worst absolute gap: ${worstGap.phoneme} at ${worstGap.absGapPct.toFixed(3)}% (threshold: ${phonemeLimits(worstGap.phoneme, thresholds).maxAbsoluteGapPct}%)`);
++    if (worstGap) console.log(`Worst absolute gap: ${worstGap.phoneme} at ${worstGap.absGapPct.toFixed(3)}% (threshold: ${thresholds.maxAbsoluteGapPct}%)`);
+     console.log(`CMU phonemes never generated: ${metrics.cmuOnlyKeyCount} (threshold: ${thresholds.maxCmuOnlyKeyCount})`);
+ 
+     expect(metrics.totalVariationPct).toBeLessThanOrEqual(thresholds.maxTotalVariationPct);
+     expect(metrics.nonCmuMassPct).toBeLessThanOrEqual(thresholds.maxGeneratedOnlyMassPct);
+-    expect(phonemeGateViolations(metrics.topOverRepresented, thresholds)).toEqual([]);
++    if (worstOver) expect(worstOver.ratio).toBeLessThanOrEqual(thresholds.maxOverRepresentation);
++    if (worstUnder) expect(worstUnder.ratio).toBeGreaterThanOrEqual(thresholds.minRepresentation);
++    if (worstGap) expect(worstGap.absGapPct).toBeLessThanOrEqual(thresholds.maxAbsoluteGapPct);
+     // Rankings skip phones below minCommonBaselinePct, so absence is gated separately.
+     expect(metrics.cmuOnlyKeyCount).toBeLessThanOrEqual(thresholds.maxCmuOnlyKeyCount);
+   }, 120_000);
+diff --git a/src/elements/phonemes.ts b/src/elements/phonemes.ts
+index 313aa744..15823d42 100644
+--- a/src/elements/phonemes.ts
++++ b/src/elements/phonemes.ts
+@@ -95,7 +95,7 @@ export const phonemes: Phoneme[] = [
+ 
+   // Nasals
+   { sound: "m", mannerOfArticulation: "nasal", onset: 109, coda: 193, startWord: 14, midWord: 3, endWord: 9, voiced: true, placeOfArticulation: "bilabial" }, // mouse
+-  { sound: "n", mannerOfArticulation: "nasal", onset: 400, coda: 450, startWord: 3, midWord: 2, endWord: 10, voiced: true, placeOfArticulation: "alveolar" }, // notice
++  { sound: "n", mannerOfArticulation: "nasal", onset: 400, coda: 455, startWord: 3, midWord: 2, endWord: 10, voiced: true, placeOfArticulation: "alveolar" }, // notice
+   { sound: "ŋ", mannerOfArticulation: "nasal", onset: 0, coda: 48, startWord: 0, midWord: 2, endWord: 36, voiced: true, placeOfArticulation: "velar" }, // bring
+ 
+   // Voiceless Fricatives
+@@ -110,7 +110,7 @@ export const phonemes: Phoneme[] = [
+   { sound: "ð", mannerOfArticulation: "fricative", onset: 25, coda: 10, startWord: 1, midWord: 1, endWord: 1, voiced: true, placeOfArticulation: "dental" }, // this
+ 
+   // Sibilants
+-  { sound: "z", mannerOfArticulation: "sibilant", onset: 55, coda: 92, startWord: 3, midWord: 7, endWord: 7, voiced: true, placeOfArticulation: "alveolar" }, // zebra
++  { sound: "z", mannerOfArticulation: "sibilant", onset: 55, coda: 89, startWord: 3, midWord: 7, endWord: 7, voiced: true, placeOfArticulation: "alveolar" }, // zebra
+   { sound: "ʒ", mannerOfArticulation: "sibilant", onset: 5, coda: 3, startWord: 0, midWord: 6, endWord: 0, voiced: true, placeOfArticulation: "postalveolar" }, // measure
+   { sound: "s", mannerOfArticulation: "sibilant", onset: 259, coda: 110, startWord: 13, midWord: 2, endWord: 13, voiced: false, placeOfArticulation: "alveolar" }, // see
+   { sound: "ʃ", mannerOfArticulation: "sibilant", onset: 50, coda: 97, startWord: 5, midWord: 2, endWord: 7, voiced: false, placeOfArticulation: "postalveolar" }, // she
