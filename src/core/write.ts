@@ -1,7 +1,7 @@
 import { BaseSpelling, expandReplacement, parseReplaceCallbackArgs } from "./base-spelling.js";
 import type { PartEditObserver, SpellingEditObserver } from "./base-spelling.js";
 import { Phoneme, Grapheme, GraphemeCondition, WordGenerationContext } from "../types.js";
-import { LanguageConfig, DoublingConfig, SpellingRule, SilentEConfig, SilentEAppendRule } from "../config/language.js";
+import { LanguageConfig, DoublingConfig, SpellingRule, SpellingRuleLetterRole, SilentEConfig, SilentEAppendRule } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographySource, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
@@ -17,7 +17,11 @@ interface CompiledSpellingRule {
   replacement: string;
   probability: number;
   scope: "syllable" | "word" | "both";
+  letterRoles?: SpellingRuleLetterRole[];
 }
+
+/** Syllable segment of the phonemes that own the current string's letter at `index`. */
+type LetterSegment = (index: number) => SpellingRuleLetterRole["segment"] | undefined;
 
 function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
   return rules.map(rule => ({
@@ -26,22 +30,75 @@ function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
     replacement: rule.replacement,
     probability: rule.probability ?? 100,
     scope: rule.scope ?? "both",
+    letterRoles: compileLetterRoles(rule),
   }));
+}
+
+function compileLetterRoles(rule: SpellingRule): SpellingRuleLetterRole[] | undefined {
+  if (!rule.letterRoles?.length) return undefined;
+  if (rule.scope !== "syllable") {
+    throw new Error(`Spelling rule "${rule.name}" uses letterRoles, which require scope "syllable".`);
+  }
+  const groupCount = new RegExp(`${rule.pattern}|`).exec("")!.length - 1;
+  for (const { group } of rule.letterRoles) {
+    if (!Number.isInteger(group) || group < 1 || group > groupCount) {
+      throw new Error(`Spelling rule "${rule.name}" assigns a letter role to missing capture group ${group}.`);
+    }
+  }
+  return rule.letterRoles;
+}
+
+/**
+ * Whether each constrained capture spells its required segment. The captures
+ * tile the match in order, so a group starts where the previous one ends;
+ * `start` is the match's index in the current letters.
+ */
+function hasLetterRoles(
+  rule: string, roles: SpellingRuleLetterRole[], match: string, captures: Array<string | undefined>,
+  start: number, segmentAt: LetterSegment,
+): boolean {
+  if (captures.join("") !== match) {
+    throw new Error(`Spelling rule "${rule}" uses letterRoles, so its capture groups must spell the whole match in order.`);
+  }
+  let groupStart = start;
+  const starts = captures.map(capture => {
+    const at = groupStart;
+    groupStart += capture?.length ?? 0;
+    return at;
+  });
+  return roles.every(({ group, segment }) => {
+    const at = starts[group - 1];
+    const length = captures[group - 1]?.length ?? 0;
+    if (length === 0) return false;
+    for (let i = at; i < at + length; i++) {
+      if (segmentAt(i) !== segment) return false;
+    }
+    return true;
+  });
 }
 
 type SpellingEdit = (start: number, removed: number, replacement: string) => void;
 
 /**
  * Apply a list of compiled spelling rules to a string, handling probabilistic replacements.
+ * Rules with letter roles need `segmentAt`, aligned with the string as rules rewrite it.
  */
-function applySpellingRules(str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string, observe?: SpellingEditObserver): string {
+function applySpellingRules(
+  str: string, rules: CompiledSpellingRule[], rand: RNG, trace?: TraceCollector, scope?: string,
+  observe?: SpellingEditObserver, segmentAt?: LetterSegment,
+): string {
   let result = str;
-  for (const { name, regex, replacement, probability } of rules) {
+  for (const { name, regex, replacement, probability, letterRoles } of rules) {
     regex.lastIndex = 0;
     const source = result;
     let delta = 0;
     result = result.replace(regex, (match: string, ...args: unknown[]) => {
       const { captures, offset, groups } = parseReplaceCallbackArgs(args);
+      if (letterRoles) {
+        if (!segmentAt) throw new Error(`Spelling rule "${name}" needs letter roles, which are unavailable here.`);
+        // Earlier replacements by this rule already moved later letters by `delta`.
+        if (!hasLetterRoles(name, letterRoles, match, captures, offset + delta, segmentAt)) return match;
+      }
       let rep: string;
       if (probability >= 100) {
         rep = expandReplacement(replacement, match, captures, offset, source, groups);
@@ -1923,7 +1980,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           (start, removed, replacement, rule) => {
             observeSyllable(start, removed, replacement, rule);
             if (terminalVowel) editTerminalVowel(terminalVowel, start, removed, replacement);
-          });
+          },
+          index => baseSpelling.segmentAt(syllableStart + index));
         let syllableOwners = tracing
           ? remapOwnersThroughRewrite(rawSyllable, currentSyllableOwners, syllableStr)
           : [];
