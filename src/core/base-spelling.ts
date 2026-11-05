@@ -176,6 +176,19 @@ export class BaseSpelling {
     };
   }
 
+  /**
+   * Syllable segment of the phonemes that own the live cell at `index`, or
+   * undefined when it has none or rewritten sources span several segments.
+   */
+  segmentAt(index: number): SpellingPhone["segment"] | undefined {
+    const origin = this.cells[index]?.origin;
+    if (!origin) return undefined;
+    const unitIds = origin.kind === "selection" ? [origin.unitId] : origin.sourceUnitIds;
+    const segments = new Set(unitIds.flatMap((unitId) =>
+      this.units[unitId].phoneIds.map((phoneId) => this.phones[phoneId].segment)));
+    return segments.size === 1 ? [...segments][0] : undefined;
+  }
+
   setPhase(phase: SpellingEdit["phase"]): void {
     this.phase = phase;
   }
