@@ -7,7 +7,7 @@ Measured on November 5, 2026 against main `ac2e5c48a48afcf169e2d821a8e2e8056669e
 run over the 200,000 development words of `evaluation/quality/protocol.json`
 (four profiles × five streams × 10,000 traced draws). Raw counts and examples for
 main, for rebased #312 without the magic-e fix, and for the candidate are in
-[`trace-measurements.json`](trace-measurements.json).
+[`trace-measurements.json.gz`](trace-measurements.json.gz).
 
 ## What changed in the rebase
 
@@ -22,6 +22,10 @@ changes (`notBeforeVowelLetter`, `neverDoubleAfter`) sit beside the deleted
    2,699 on main). Tests that encoded the old ban were updated; the golden fixture
    was regenerated.
 3. The magic-e fix (below), in its own commit.
+
+The original branch's `revalidation-2026-10-04/` packet (an old-base reproduction
+of the original probe, about 3.7 MB) is not carried forward: this evidence
+supersedes it, and the original commits are kept at tag `archive/pr-312-original`.
 
 ## /ɛ/ before /t/
 
