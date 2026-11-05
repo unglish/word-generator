@@ -1194,17 +1194,23 @@ function countPhonemes(syllables: Syllable[]): number {
   return total;
 }
 
-/** Spell base-root syllables; their indices stay root-relative in the orthography trace. */
+/**
+ * Spell base-root syllables; their indices stay root-relative in the orthography trace.
+ * `following` is the planned suffix's spelling, so the root's last grapheme can
+ * respect letter conditions across the root edge.
+ */
 function spellLexicalRoot(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   root: Syllable[],
   wordSyllableStart: number,
+  following?: string,
 ): void {
   const rootContext: WordGenerationContext = {
     ...context,
     word: { syllables: root, written: { clean: "", hyphenated: "" }, pronunciation: "" },
     orthographySource: { kind: "lexical-root", wordSyllableStart },
+    orthographyFollowing: following,
   };
   context.trace?.beforeStage("generateWrittenForm", root);
   rt.generateWrittenForm(rootContext);
@@ -1402,7 +1408,7 @@ function generateOneWord(
     let prepared: PreparedMorphology | undefined;
     if (affixPlan) {
       prepared = resolveLexicalWord(rt, context, affixPlan, createSeededRng(lookaheadSeed ^ Math.imul(attempt + 1, 0x9e3779b9)));
-      spellLexicalRoot(rt, context, context.word.lexical!.root, prepared.rootSyllableStart);
+      spellLexicalRoot(rt, context, context.word.lexical!.root, prepared.rootSyllableStart, prepared.suffixWritten);
     } else {
       const syllables = context.word.syllables;
       spellLexicalRoot(rt, context, syllables, 0);

@@ -505,6 +505,12 @@ export interface DoublingConfig {
   doubledForms?: Record<string, string>;
   /** Sounds that should never double word-finally. */
   neverDoubleFinal?: string[];
+  /**
+   * Nucleus spellings after which a following consonant is never doubled and a
+   * doubled spelling (a `doubledForms` value or a repeated consonant letter such
+   * as `ssi`) is not chosen while another candidate remains, e.g. `["ea"]`.
+   */
+  neverDoubleAfter?: string[];
 }
 
 /**

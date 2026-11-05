@@ -155,6 +155,12 @@ export interface GraphemeCondition {
   leftGraphemeContext?: string[];
   /** Previous grapheme's last letter must NOT be one of these. */
   notLeftGraphemeContext?: string[];
+  /**
+   * The written letter that directly follows this grapheme must NOT be one of
+   * these. Only checked where that letter is already fixed when the grapheme is
+   * chosen: at the end of a root, the first letter of its planned suffix.
+   */
+  notRightGraphemeContext?: string[];
   /** Literal segment positions; unlike wordPosition, these do not describe the containing syllable. */
   segmentPosition?: ("initial" | "medial" | "final")[];
   /** Legacy syllable-position restriction. Prefer segmentPosition for literal word edges. */
@@ -346,6 +352,8 @@ export interface WordGenerationContext {
   trace?: TraceCollector;
   /** Source domain of syllables passed to the orthographic writer. */
   orthographySource?: OrthographySource;
+  /** Written text that will directly follow the spelled syllables (a planned suffix). */
+  orthographyFollowing?: string;
 }
 
 /**

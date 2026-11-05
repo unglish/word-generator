@@ -179,6 +179,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    condition: { alias: "notBeforeVowelLetter" },
   },
   {
     phoneme: "eɪ",
