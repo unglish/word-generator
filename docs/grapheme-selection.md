@@ -34,13 +34,14 @@ configurations. English `kn`, `wr`, `wh`, final `mb`, final `k`, final vowel `y`
 and final rhotic `eir` now state literal segment restrictions explicitly.
 
 Fallback-only graphemes have their own full conditions and weights and can be
-selected only when no ordinary candidate survives. English declares three narrow
-fallbacks: initial or isolated /ɛ/ before /t/ can use `ea`, initial or isolated /ʊ/
-after /g/ can use `oo`, and a one-syllable base ending in /i:/ before a
-vowel-initial suffix can use `ee` (`ea` is the only ordinary isolated /i:/
-spelling, and it may not precede a vowel letter; see below). These preserve the
-existing contextual bans; the separate ordinary `e`-before-/t/ improvement
-remains outside this change.
+selected only when no ordinary candidate survives. English declares two narrow
+fallbacks: initial or isolated /ʊ/ after /g/ can use `oo`, and a one-syllable
+base ending in /i:/ before a vowel-initial suffix can use `ee` (`ea` is the only
+ordinary isolated /i:/ spelling, and it may not precede a vowel letter; see
+below). These preserve the existing contextual bans. A third fallback, initial
+or isolated /ɛ/ before /t/ as `ea`, was retired once ordinary `e` became legal
+before /t/ ([ordinary-et-spelling.md](./ordinary-et-spelling.md)): every /ɛ/
+then has a positive ordinary spelling, so it could no longer fire.
 The inventory also permits `n`/`ng` in legal /ŋ/ clusters (think, length) and
 final /dʒ/→`ge` after tense vowels (age), removing contradictory exclusions that
 previously depended on implicit restoration.

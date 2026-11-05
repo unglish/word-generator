@@ -13,6 +13,29 @@ These examples establish that a categorical ban on e is wrong. They do not estab
 a corpus ratio for e versus ea. The existing weights remain provisional, and no
 trigram target or quality threshold is changed.
 
+## Current behaviour (rebased on post-#316 main)
+
+Rebased onto main after #309, #310, #381/#385, #386 and #316. Rebased evidence:
+[evaluation/quality/experiments/ordinary-et-rebased/](../evaluation/quality/experiments/ordinary-et-rebased/README.md).
+The measurements further down are from the original base and are kept as history.
+
+- Ordinary `e` is legal before /t/ within and across syllables; `ea` stays available
+  with unchanged weights.
+- The declared fallback "initial or isolated /ɛ/ before /t/ → `ea`" (#310) is retired:
+  `e` is always an ordinary candidate there, so the fallback could not fire.
+- The `magic-e` spelling rule (`([aiouy])(e)(C)$` → vowel + C + e) now checks the
+  phoneme role of the letters it matches. `SpellingRule.letterRoles` names, per
+  capture group, the syllable segment whose phonemes must own those letters,
+  read from the live grapheme/phoneme alignment (`BaseSpelling.segmentAt`).
+  `magic-e` requires nucleus + nucleus + coda, so consonantal `y` (/j/) no longer
+  counts as a vowel (`yet` stays `yet`, not `yte`), and neither does the `e` of a
+  coda `ed` (`slaed` /slæd/ ↛ `slade`) or the `r` of a nucleus `er` (`yer` /jɚ/ ↛ `yre`).
+  A failing match is left unchanged and draws no probability roll.
+
+Tests find their examples by property through the public API
+(`src/core/ordinary-et.test.ts`, `src/core/magic-e-roles.test.ts`); exact words live
+only in `src/core/golden-output.json`.
+
 ## Scope and interpretation
 
 The condition reads the next phoneme in the flattened spelling input. It therefore
@@ -52,16 +75,13 @@ records changes to the pair's owned letters and retains full traces with archive
 draw coordinates, without inventing the missing event provenance. Shorter spellings can change length rejection
 and RNG consumption, so equal stream indices are not matched lexical candidates.
 
-## Reproducible public-API checks
+## Public-API checks
 
-Use `generateWord({ seed, morphology: false, trace: true })`:
-
-| Seed | Choice | Adjacency | Evidence |
-|---|---|---|---|
-| 46 | e | Across syllables | e survives condition and position filters |
-| 301 | e | Within a rime | e survives; a later no-final-i repair changes another unit |
-| 879 | ea | Within a rime | Unchanged weights: e 500, ea 52.5 |
-| 3035 | ea | Across syllables | Unchanged weights: e 1000, ea 1400 |
+Each spelling family (e or ea, within a rime or across syllables) is located as
+the first public-API word with that property, then checked for e surviving the
+condition and position filters with a positive weight and no fallback. The
+original seed table (46, 301, 879, 3035) described the old base and no longer
+reproduces after later RNG changes.
 
 The continuous 10,000-word bare seed-42 fixture checks all eligible decisions for
 e availability, verifies both adjacency types select e and ea, and checks a broad
@@ -105,7 +125,11 @@ Mean letter length decreases by 0.00334–0.02368. All other frozen diagnostics 
 morphology/length strata remain visible in the comparison artifacts; these changes
 do not establish a general quality gain.
 
-## Exploratory blocker for leaving draft
+## Exploratory blocker for leaving draft (original base; resolved)
+
+Resolved by the letter-role check above. On rebased main the same rule misfired
+in 360 of its 6,535 firings over the 200,000 development words; with the check it
+misfires in none (see the rebased evidence README).
 
 The primary spelling correction exposes an existing downstream defect. The
 character-only magic-e rule in `src/config/english.ts` matches
