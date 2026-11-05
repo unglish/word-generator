@@ -36,7 +36,8 @@ Steps 1-3 and the root spelling in step 4 run inside every root-selection
 attempt (the affixes are planned before the attempt loop), so the root length
 budget scores the root spelling that ships. Only the written half of step 4 and
 step 5 run once, on the selected attempt. Affix-side random choices in step 2
-and step 3 (hiatus bridges, stressed-nucleus re-picks) draw from a per-attempt
+and step 3 (hiatus bridges, when a custom config enables them, and stressed-nucleus
+re-picks) draw from a per-attempt
 stream seeded by one draw per affixed word, so root selection does not depend
 on the affix's phones, syllables or letters.
 

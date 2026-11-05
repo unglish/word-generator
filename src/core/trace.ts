@@ -200,6 +200,19 @@ export interface MorphSuffixHiatusFallbackTrace {
   syllableIndex: number;
 }
 
+export interface MorphHiatusDecisionTrace {
+  event: "morphHiatusDecision";
+  boundary: "prefix-root" | "root-suffix";
+  /** Assembled-word coordinates, recorded before final stress repair and pronunciation; later vowel reduction or stress repair may change these nuclei. */
+  leftSyllableIndex: number;
+  rightSyllableIndex: number;
+  leftNucleus: string[];
+  rightNucleus: string[];
+  fallbackEnabled: boolean;
+  outcome: "preserved" | "inserted" | "no-bridge-candidate";
+  inserted?: string;
+}
+
 export type AspirationTargetSegment = "onset" | "nucleus" | "coda";
 
 export interface AspirationDecisionEvaluatedTrace {
@@ -244,6 +257,7 @@ export type StructuralTrace =
   | VowelHiatusFallbackTrace
   | MorphPrefixHiatusFallbackTrace
   | MorphSuffixHiatusFallbackTrace
+  | MorphHiatusDecisionTrace
   | AspirationDecisionTrace;
 
 export interface TraceLink {
