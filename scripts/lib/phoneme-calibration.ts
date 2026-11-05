@@ -1,3 +1,5 @@
+import type { PhonemeComparisonRow } from "../../src/core/phoneme-quality.js";
+
 export interface SeedResult {
   seed: number;
   draws: number;
@@ -13,6 +15,8 @@ export interface SeedResult {
   maxAbsoluteGapPct: number;
   maxGapPhoneme: string;
   cmuOnlyKeyCount: number;
+  /** Absent in historical reports that retained only extrema. */
+  phonemes?: PhonemeComparisonRow[];
 }
 
 /** Gate limits, their direction, and the precision they are rounded outward to. */

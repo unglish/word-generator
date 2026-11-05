@@ -75,6 +75,7 @@ function measureSeed(seed: number, thresholds: Thresholds): SeedResult {
     maxAbsoluteGapPct: gap.absGapPct,
     maxGapPhoneme: gap.phoneme,
     cmuOnlyKeyCount: metrics.cmuOnlyKeyCount,
+    phonemes: metrics.topOverRepresented,
   };
 }
 

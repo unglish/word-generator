@@ -95,7 +95,7 @@ export const phonemes: Phoneme[] = [
 
   // Nasals
   { sound: "m", mannerOfArticulation: "nasal", onset: 109, coda: 193, startWord: 14, midWord: 3, endWord: 9, voiced: true, placeOfArticulation: "bilabial" }, // mouse
-  { sound: "n", mannerOfArticulation: "nasal", onset: 400, coda: 450, startWord: 3, midWord: 2, endWord: 10, voiced: true, placeOfArticulation: "alveolar" }, // notice
+  { sound: "n", mannerOfArticulation: "nasal", onset: 400, coda: 460, startWord: 3, midWord: 2, endWord: 10, voiced: true, placeOfArticulation: "alveolar" }, // notice
   { sound: "ŋ", mannerOfArticulation: "nasal", onset: 0, coda: 48, startWord: 0, midWord: 2, endWord: 36, voiced: true, placeOfArticulation: "velar" }, // bring
 
   // Voiceless Fricatives
@@ -110,7 +110,7 @@ export const phonemes: Phoneme[] = [
   { sound: "ð", mannerOfArticulation: "fricative", onset: 25, coda: 10, startWord: 1, midWord: 1, endWord: 1, voiced: true, placeOfArticulation: "dental" }, // this
 
   // Sibilants
-  { sound: "z", mannerOfArticulation: "sibilant", onset: 55, coda: 92, startWord: 3, midWord: 7, endWord: 7, voiced: true, placeOfArticulation: "alveolar" }, // zebra
+  { sound: "z", mannerOfArticulation: "sibilant", onset: 55, coda: 88, startWord: 3, midWord: 7, endWord: 7, voiced: true, placeOfArticulation: "alveolar" }, // zebra
   { sound: "ʒ", mannerOfArticulation: "sibilant", onset: 5, coda: 3, startWord: 0, midWord: 6, endWord: 0, voiced: true, placeOfArticulation: "postalveolar" }, // measure
   { sound: "s", mannerOfArticulation: "sibilant", onset: 259, coda: 110, startWord: 13, midWord: 2, endWord: 13, voiced: false, placeOfArticulation: "alveolar" }, // see
   { sound: "ʃ", mannerOfArticulation: "sibilant", onset: 50, coda: 97, startWord: 5, midWord: 2, endWord: 7, voiced: false, placeOfArticulation: "postalveolar" }, // she
