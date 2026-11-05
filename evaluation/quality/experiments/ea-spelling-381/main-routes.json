@@ -1,0 +1,301 @@
+{
+  "count": 100000,
+  "seed": 7,
+  "doubled": {
+    "total": 535,
+    "rate": "0.535%",
+    "routes": {
+      "ea-then-doubling(coda)": {
+        "n": 267,
+        "examples": [
+          "eattons ˈɛt.ənz",
+          "iereall ˌaɪˈrɛl",
+          "eattarised ˈɛt.ərˌi:st",
+          "eattalm ˈɛt.əlm"
+        ],
+        "topDetails": [
+          [
+            "/ɛ/ea[fallbackOnly] + /t/ coda t->tt",
+            117
+          ],
+          [
+            "/ɛ/ea + /l/ coda l->ll",
+            42
+          ],
+          [
+            "/ɛ/ea + /s/ coda s->ss",
+            29
+          ],
+          [
+            "/ɛ/ea + /z/ coda s->ss",
+            23
+          ],
+          [
+            "/ɛ/ea + /n/ coda n->nn",
+            13
+          ],
+          [
+            "/ɛ/ea + /f/ coda f->ff",
+            11
+          ]
+        ]
+      },
+      "ea-then-doubling(onset)": {
+        "n": 147,
+        "examples": [
+          "ineatteanorg ˌɪn.ɪˈtʰɛ.nɚg",
+          "eattisinimerary ɪˌtʰɪz.ə.nəmˈi:r.ɛr.i:",
+          "seattodibuely sɪˈtʰʌd.ə.bu.li:",
+          "tazeattocownist ˈtʰæ.zɛˌtʰə.kʰaʊn.əst"
+        ],
+        "topDetails": [
+          [
+            "/ɛ/ea[fallbackOnly] + /t/ onset t->tt",
+            124
+          ],
+          [
+            "/ɛ/ea + /t/ onset t->tt",
+            14
+          ],
+          [
+            "/ɛ/ea + /f/ onset f->ff",
+            3
+          ],
+          [
+            "/ɛ/ea + /l/ onset l->ll",
+            2
+          ],
+          [
+            "/ɛ/ea + /r/ onset r->rr",
+            1
+          ],
+          [
+            "/ɛ/ea + /g/ onset g->gg",
+            1
+          ]
+        ]
+      },
+      "prefix-e+root-a": {
+        "n": 85,
+        "examples": [
+          "readdanguitys ˌrɪˈhædˌəŋ.ɪ.taɪz",
+          "realleasos ˌrɪ.həˈlɛz.əʊz",
+          "reallubinone ˌrɪˈhælˌə.bɪn.əʊn",
+          "reazzipayt ˌrə.həˈzɪˌpʰeɪt"
+        ],
+        "topDetails": [
+          [
+            "both re|s root=addanguity",
+            1
+          ],
+          [
+            "both re|s root=alleaso",
+            1
+          ],
+          [
+            "prefixed re| root=allubinone",
+            1
+          ],
+          [
+            "prefixed re| root=azzipayt",
+            1
+          ],
+          [
+            "prefixed re| root=annetiky",
+            1
+          ],
+          [
+            "prefixed re| root=affinfazin",
+            1
+          ]
+        ]
+      },
+      "root+suffix (no root-final ea grapheme)": {
+        "n": 27,
+        "examples": [
+          "cupeanness kʰəˈpʰi:n.nəs",
+          "shaclireamment ˈʃæ.kʰlər.i:m.mənt",
+          "harkeamment ˈhær.ki:m.mənt",
+          "oilkeanness ɔɪkˈi:n.nəs"
+        ],
+        "topDetails": [
+          [
+            "suffixed |ness root=cupean",
+            1
+          ],
+          [
+            "suffixed |ment root=shacliream",
+            1
+          ],
+          [
+            "suffixed |ment root=harkeam",
+            1
+          ],
+          [
+            "suffixed |ness root=oilkean",
+            1
+          ],
+          [
+            "suffixed |ness root=lupimean",
+            1
+          ],
+          [
+            "suffixed |less root=eal",
+            1
+          ]
+        ]
+      },
+      "letters-from-separate-graphemes": {
+        "n": 8,
+        "examples": [
+          "asaegeannas əzˈeɪdʒˌən.əz",
+          "uniseatteto ˌʌnˈaɪz.əˌtʰə.tɑ",
+          "rugeallekis ˈrʊdʒ.əˌlɛk.ɪz",
+          "ileattikise ˈaɪl.əˌtʰɪk.i:s"
+        ],
+        "topDetails": [
+          [
+            "?",
+            8
+          ]
+        ]
+      },
+      "ea-then-doubled-grapheme(coda)": {
+        "n": 1,
+        "examples": [
+          "oreassis ˈʌ.rɛʃs"
+        ],
+        "topDetails": [
+          [
+            "/ɛ/ea + /ʃ/ coda ssi",
+            1
+          ]
+        ]
+      }
+    }
+  },
+  "vowel": {
+    "total": 209,
+    "rate": "0.209%",
+    "routes": {
+      "root+suffix (root-final ea grapheme)": {
+        "n": 196,
+        "examples": [
+          "feaable ˈfi:.hə.bəl",
+          "toloshickeaary tʰɑ.lɑˌʃɪˈkʰɛ.hɪr.i:",
+          "bleaed bli:d",
+          "sabeaary ˌsɑˈbɛ.hɪr.i:"
+        ],
+        "topDetails": [
+          [
+            "suffixed |ed root=rea",
+            3
+          ],
+          [
+            "suffixed |ed root=blea",
+            2
+          ],
+          [
+            "suffixed |ed root=swea",
+            2
+          ],
+          [
+            "suffixed |al root=ea",
+            2
+          ],
+          [
+            "suffixed |er root=frea",
+            2
+          ],
+          [
+            "suffixed |ed root=slea",
+            2
+          ]
+        ]
+      },
+      "prefix-e+root-a": {
+        "n": 8,
+        "examples": [
+          "reaelc ˌrəˈheɪlk",
+          "preaubairerrang ˌpʰri:ˈhɑb.eɪˌrər.əŋ",
+          "reaerors ˌrɪˈheɪˌrɚz",
+          "preau ˌpʰri:ˈhɑ"
+        ],
+        "topDetails": [
+          [
+            "prefixed re| root=aelc",
+            1
+          ],
+          [
+            "prefixed pre| root=aubairerrang",
+            1
+          ],
+          [
+            "both re|s root=aeror",
+            1
+          ],
+          [
+            "prefixed pre| root=au",
+            1
+          ],
+          [
+            "both re|ly root=ause",
+            1
+          ],
+          [
+            "both re|ary root=abea",
+            1
+          ]
+        ]
+      },
+      "root+suffix (no root-final ea grapheme)": {
+        "n": 5,
+        "examples": [
+          "utidgeaed ˈu.tədʒ.æd",
+          "pauceaive ˌpʰɑkˈæ.hɪv",
+          "ecadgeaed ˈɛ.kʰədʒ.əd",
+          "opilgeaer əˈpʰɪldʒˌə.hɚ"
+        ],
+        "topDetails": [
+          [
+            "suffixed |ed root=utidgea",
+            1
+          ],
+          [
+            "suffixed |ive root=paucea",
+            1
+          ],
+          [
+            "suffixed |ed root=ecadgea",
+            1
+          ],
+          [
+            "suffixed |er root=opilgea",
+            1
+          ],
+          [
+            "suffixed |al root=adgea",
+            1
+          ]
+        ]
+      }
+    }
+  },
+  "sideEffects": {
+    "fallbackEe": 0,
+    "relaxed": 0,
+    "eaThenCk": 64,
+    "rootFinalEaVowelSuffix": 197,
+    "rootFinalEDropped": 383,
+    "droppedExamples": [
+      "thabeaze+al -> disthabeazal /ɛ/e ˌdɪs.θɑˌbɛˈzɛ.həl",
+      "strepiselate+ing -> strepiselating /ɛ/e strɛˈpʰi:z.lə.tɪ.hɪŋ",
+      "oshre+al -> oshral /ɚ/re ˌɑˈʃɚ.həl",
+      "epikure+al -> epikural /ɚ/ure ˌɛp.əˈkʰɚ.həl",
+      "owteche+ary -> overowtechary /ɛ/e ˌəʊ.vɚˌhəʊˌtʰəˈtʃɛ.hɪr.i:",
+      "adillepue+ing -> adillepuing /u/ue ˈæˌdɪl.ɛ.pʰu.həŋ",
+      "wanidibe+able -> wanidibable /ɛ/e weɪn.aɪˈdɪ.bɪ.hə.bəl",
+      "cobunue+ary -> cobunuary /u/ue ˌkʰɔˌbuˈnu.hɪr.i:"
+    ]
+  }
+}

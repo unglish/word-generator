@@ -1,0 +1,180 @@
+{
+  "count": 100000,
+  "seed": 7,
+  "doubled": {
+    "total": 139,
+    "rate": "0.139%",
+    "routes": {
+      "prefix-e+root-a": {
+        "n": 98,
+        "examples": [
+          "readdanguitys ˌrɪˈhædˌəŋ.ɪ.taɪz",
+          "reassigolid ˌrəˌhæz.əˈgɔl.ɪd",
+          "reannetiky ˌrɪ.həˈnɜtˌɪ.ki:",
+          "reattilkey ˌrɪ.həˈtʰɪk.eɪ"
+        ],
+        "topDetails": [
+          [
+            "both re|s root=addanguity",
+            1
+          ],
+          [
+            "prefixed re| root=assigolid",
+            1
+          ],
+          [
+            "prefixed re| root=annetiky",
+            1
+          ],
+          [
+            "prefixed re| root=attilkey",
+            1
+          ],
+          [
+            "prefixed re| root=addiskorn",
+            1
+          ],
+          [
+            "prefixed re| root=affinfazin",
+            1
+          ]
+        ]
+      },
+      "root+suffix (no root-final ea grapheme)": {
+        "n": 35,
+        "examples": [
+          "meattion ˈmɛt.ʃən",
+          "egeamment ɛˈgi:m.mənt",
+          "rebsabneattion ri:bˌsɑbˈni:t.ʃən",
+          "cuneanness ˈkʰʊnˌi:n.nəs"
+        ],
+        "topDetails": [
+          [
+            "suffixed |tion root=meat",
+            1
+          ],
+          [
+            "suffixed |ment root=egeam",
+            1
+          ],
+          [
+            "suffixed |tion root=rebsabneat",
+            1
+          ],
+          [
+            "suffixed |ness root=cunean",
+            1
+          ],
+          [
+            "suffixed |ness root=cupean",
+            1
+          ],
+          [
+            "suffixed |tion root=ocileat",
+            1
+          ]
+        ]
+      },
+      "letters-from-separate-graphemes": {
+        "n": 6,
+        "examples": [
+          "uniseatteto ˌʌnˈaɪz.əˌtʰə.tɑ",
+          "igeattadisro ˈaɪg.æˌtʰə.dəz.rəʊ",
+          "iceazzosy ˈaɪk.əˌzəz.aɪ",
+          "vegeass ˈvi:dʒˌəs"
+        ],
+        "topDetails": [
+          [
+            "?",
+            6
+          ]
+        ]
+      }
+    }
+  },
+  "vowel": {
+    "total": 11,
+    "rate": "0.011%",
+    "routes": {
+      "prefix-e+root-a": {
+        "n": 7,
+        "examples": [
+          "preaubairerrang ˌpʰri:ˈhɑb.eɪˌrər.əŋ",
+          "reaerors ˌrɪˈheɪˌrɚz",
+          "preau ˌpʰri:ˈhɑ",
+          "reainoshe ˌrɪˈhɜ.nəʊʃ"
+        ],
+        "topDetails": [
+          [
+            "prefixed pre| root=aubairerrang",
+            1
+          ],
+          [
+            "both re|s root=aeror",
+            1
+          ],
+          [
+            "prefixed pre| root=au",
+            1
+          ],
+          [
+            "prefixed re| root=ainoshe",
+            1
+          ],
+          [
+            "both re|ly root=aineyb",
+            1
+          ],
+          [
+            "prefixed re| root=aunis",
+            1
+          ]
+        ]
+      },
+      "root+suffix (no root-final ea grapheme)": {
+        "n": 4,
+        "examples": [
+          "urdgeaed ˈɚdʒ.ɑd",
+          "pauceaive ˌpʰɑkˈæ.hɪv",
+          "ecadgeaed ˈɛ.kʰədʒ.əd",
+          "idgeaable ˈɪdʒ.ɑ.hə.bəl"
+        ],
+        "topDetails": [
+          [
+            "suffixed |ed root=urdgea",
+            1
+          ],
+          [
+            "suffixed |ive root=paucea",
+            1
+          ],
+          [
+            "suffixed |ed root=ecadgea",
+            1
+          ],
+          [
+            "suffixed |able root=idgea",
+            1
+          ]
+        ]
+      }
+    }
+  },
+  "sideEffects": {
+    "fallbackEe": 82,
+    "relaxed": 0,
+    "eaThenCk": 22,
+    "rootFinalEaVowelSuffix": 0,
+    "rootFinalEDropped": 455,
+    "droppedExamples": [
+      "thabeaze+al -> disthabeazal /ɛ/e ˌdəs.θɑˌbɛˈzɛ.həl",
+      "umminte+ity -> ummintity /ɛ/e ˌʌm.ənˈtʰɛ.hə.tʰi:",
+      "maugalbe+ing -> maugalbing /ə/e ˈmɑˌgəl.bə.həŋ",
+      "udizzeate+ory -> udizzeatory /ɛ/e ʌ.dəˌzɛtˈɛ.hɔr.i:",
+      "epikure+al -> epikural /ɚ/ure ˌɛp.əˈkʰɚ.həl",
+      "toloshicke+ary -> toloshickary /ɛ/e tʰɑ.lɑˌʃɪˈkʰɛ.hɪr.i:",
+      "adillepue+ing -> adillepuing /u/ue ˈæˌdɪl.ɛ.pʰu.həŋ",
+      "wanidibe+able -> wanidibable /ɛ/e weɪn.aɪˈdɪ.bɪ.hə.bəl"
+    ]
+  }
+}
