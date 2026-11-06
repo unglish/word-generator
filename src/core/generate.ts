@@ -1271,9 +1271,12 @@ function spellLexicalRoot(
 }
 
 function realizeSurface(rt: GeneratorRuntime, context: WordGenerationContext): void {
+  const stressPattern = context.trace?.stressPatternObserver;
+  stressPattern?.snapshot("final-lexical-before-realization", context.word.syllables);
   context.trace?.beforeStage("generatePronunciation", context.word.syllables);
   generatePronunciation(context, rt.resolvedPronunciation);
   context.trace?.afterStage("generatePronunciation", context.word.syllables);
+  stressPattern?.snapshot("surface-after-realization", context.word.syllables);
 }
 
 /**
@@ -1323,6 +1326,7 @@ function resolveLexicalWord(
   traceCollector?.beforeStage("assembleMorphology", context.word.syllables);
   const prepared = prepareMorphology(rt, lexicalContext, morphPlan.plan)!;
   traceCollector?.afterStage("assembleMorphology", context.word.syllables);
+  traceCollector?.stressPatternObserver?.snapshot("assembled-after-morphology", context.word.syllables);
   const rootSyllableStart = prepared.rootSyllableStart;
 
   // Final primary stress may fall on a formerly unstressed root vowel. Repair
@@ -1465,6 +1469,9 @@ function generateOneWord(
       const syllables = context.word.syllables;
       spellLexicalRoot(rt, context, syllables, 0);
       context.word.lexical = { root: cloneSyllables(syllables), syllables: cloneSyllables(syllables), rootSyllableStart: 0 };
+      const stressPattern = traceCollector?.stressPatternObserver;
+      stressPattern?.assemble(syllables, 0);
+      stressPattern?.snapshot("assembled-after-morphology", syllables);
       realizeSurface(rt, context);
       // Exact bare-word overrides retain their existing place in root scoring.
       rt.applyGapSpellings(context);

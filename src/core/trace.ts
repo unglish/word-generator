@@ -1,6 +1,9 @@
 import type { BaseSpellingTrace } from "./base-spelling.js";
 import type { Syllable, SyllableShapePlan } from "../types.js";
 import type { AcceptanceCriteria, AttemptScore } from "./length-semantics.js";
+import type { ResolvedStressRules } from "../config/language.js";
+import { StressPatternObserver } from "./stress-pattern.js";
+import type { StressPatternTrace } from "./stress-pattern.js";
 import type { MorphologyRealizationTrace } from "./morphology/realization.js";
 import type { StressWeightTrace } from "./syllable-weight.js";
 
@@ -342,6 +345,8 @@ export interface OrthographyTrace {
 export interface WordTrace {
   /** Exact base edit provenance, separate from legacy inferred ownership. */
   baseSpelling?: BaseSpellingTrace;
+  /** Complete stage labels and executed stress origins; absent in historical traces. */
+  stressPattern?: StressPatternTrace;
   /** Weight input and decisions before root nucleus repair/reduction. Absent in historical traces. */
   stressWeight?: StressWeightTrace;
   /** Target syllable count chosen for the root, excluding affixes. */
@@ -383,6 +388,12 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 
 export class TraceCollector {
   baseSpelling?: BaseSpellingTrace;
+  stressPatternObserver?: StressPatternObserver;
+
+  beginStressPattern(syllables: Syllable[], rules: ResolvedStressRules): StressPatternObserver {
+    this.stressPatternObserver = new StressPatternObserver(syllables, rules);
+    return this.stressPatternObserver;
+  }
   stressWeight?: StressWeightTrace;
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
@@ -443,6 +454,7 @@ export class TraceCollector {
       repairs: this.repairs,
       baseSpelling: this.baseSpelling,
       stressWeight: this.stressWeight,
+      stressPattern: this.stressPatternObserver?.trace,
       summary: {
         totalDecisions: this.graphemeSelections.length,
         repairCount: this.repairs.length,
