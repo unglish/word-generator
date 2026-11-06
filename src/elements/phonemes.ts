@@ -99,7 +99,8 @@ export const phonemes: Phoneme[] = [
   // Nasals
   { sound: "m", mannerOfArticulation: "nasal", onset: 109, coda: 193, startWord: 14, midWord: 3, endWord: 9, voiced: true, placeOfArticulation: "bilabial" }, // mouse
   { sound: "n", mannerOfArticulation: "nasal", onset: 400, coda: 460, startWord: 3, midWord: 2, endWord: 10, voiced: true, placeOfArticulation: "alveolar" }, // notice
-  { sound: "ŋ", mannerOfArticulation: "nasal", onset: 0, coda: 48, startWord: 0, midWord: 2, endWord: 36, voiced: true, placeOfArticulation: "velar" }, // bring
+  // Coda weight keeps total /ŋ/ near its CMU share now that /æŋ/ is permitted.
+  { sound: "ŋ", mannerOfArticulation: "nasal", onset: 0, coda: 44, startWord: 0, midWord: 2, endWord: 36, voiced: true, placeOfArticulation: "velar" }, // bring
 
   // Voiceless Fricatives
   { sound: "f", mannerOfArticulation: "fricative", onset: 92, coda: 92, startWord: 13, midWord: 2, endWord: 3, voiced: false, placeOfArticulation: "labiodental" }, // fish
