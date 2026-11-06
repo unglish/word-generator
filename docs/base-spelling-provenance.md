@@ -66,12 +66,17 @@ rendered strings: repeated letters can conceal wrong ownership.
 
 ## Measurement and next boundaries
 
-The supplementary [parity probe](../evaluation/quality/probes/base-spelling/README.md)
-compares 20,000 scheduled draws across four profiles against unchanged
-`origin/main` source, each with tracing on and off. It checks complete word
-outputs, RNG calls at every draw, next RNG values, legacy traces, and exact cell
-replay. The historical 200,000-word archives have no exact ledger; their absence
-is unavailable evidence, not zero damage.
+Recording provenance does not change output: words, RNG use and legacy traces
+are identical with and without the ledger. The historical 200,000-word archives
+have no exact ledger; their absence is unavailable evidence, not zero damage.
+The parity probe and its measurements are kept at tag
+`archive/evidence-pre-cleanup`:
+
+```sh
+git fetch origin tag archive/evidence-pre-cleanup
+git show archive/evidence-pre-cleanup:evaluation/quality/probes/base-spelling/README.md
+git show archive/evidence-pre-cleanup:evaluation/experiments/base-spelling-provenance/README.md
+```
 
 Subsequent independent changes must address sound coverage and licensed spelling:
 

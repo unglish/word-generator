@@ -109,6 +109,16 @@ activation. Final-vowel effects, a different WSP objective, rhythm and dialect
 migration remain separate changes. The reference dialect has not been
 established by user preference.
 
-The [frozen comparison](../evaluation/experiments/syllable-weight/README.md)
-passed all 20,000 scheduled draws with exact legacy output, trace and RNG parity.
-It includes source content bundles, stream-level counts and complete witnesses.
+The frozen comparison passed all 20,000 scheduled draws with exact legacy output,
+trace and RNG parity. Its report, stream-level counts and complete witnesses are
+kept at tag `archive/evidence-pre-cleanup`:
+
+```sh
+git fetch origin tag archive/evidence-pre-cleanup
+git show archive/evidence-pre-cleanup:evaluation/experiments/syllable-weight/README.md
+```
+
+Its two source content bundles (`original-source.json.gz` and
+`candidate-source.json.gz`) stay in `evaluation/experiments/syllable-weight/`:
+the [partial-quantity control](../evaluation/quality/probes/syllable-quantity/README.md)
+checks them by hash.

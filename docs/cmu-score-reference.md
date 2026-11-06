@@ -103,11 +103,21 @@ metadata and order comparisons are exact. The preregistered numeric allowance is
 values are reported, not rounded away. The first coordinate wins an exact tie.
 A relative error at a zero reference is undefined; that witness records null. The TypeScript expected-artifact comparison is exact.
 
-The protocol, original builder/API failure and parent-file snapshot are in
-`evaluation/experiments/cmu-score-reference/`. Synthetic envelope fixtures use
-explicitly artificial parent-sized rows; they are not dictionary score results.
-Two fresh full-corpus builds and the independent row verification passed; see
-[the formal evidence](../evaluation/experiments/cmu-score-reference/README.md).
+Synthetic envelope fixtures use explicitly artificial parent-sized rows; they
+are not dictionary score results. The frozen protocol stays in
+`evaluation/experiments/cmu-score-reference/protocol.json`, because the checker
+verifies its hash on every run. The parent-file snapshot and acceptance evidence
+(two fresh full-corpus builds and the independent row verification) are kept at
+`archive/evidence-pre-cleanup:evaluation/experiments/cmu-score-reference/`:
+
+```sh
+git fetch origin tag archive/evidence-pre-cleanup
+git show archive/evidence-pre-cleanup:evaluation/experiments/cmu-score-reference/README.md
+```
+
+The checker's full (non-`--audit-model`) mode also reads the archived design,
+fixtures plan and parent-file snapshot, and requires every pinned parent file to
+be unchanged, so run it from a checkout of the tag, not from current `main`.
 
 The result is a descriptive dictionary reference. Corpus/model overlap is unresolved;
 this is not held-out validation or evidence of human naturalness. Any change to the

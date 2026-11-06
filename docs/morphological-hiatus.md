@@ -44,28 +44,22 @@ Disabling it removes that draw, which reshuffles later look-ahead choices. This
 is why seeded affixed outputs eventually diverge from earlier releases, not
 only at the boundary.
 
-## Measured comparison
+## Evidence
 
-Current evidence, measured against post-#309/#310 main:
-[`evaluation/quality/experiments/morphological-hiatus-rebased`](../evaluation/quality/experiments/morphological-hiatus-rebased/README.md).
+With the default policy, affixed words carry no morphology bridge. The only
+structural change from inserting bridges is the deleted /h/ onset; other output
+movement comes from look-ahead resampling after the bridge draw is removed.
 
-| Development cohort, 50,000 words per profile | Main | This policy |
-| --- | ---: | ---: |
-| Lexicon affixed words with a morphology bridge | 3,022/35,092 | 0/35,098 |
-| Text affixed words with a morphology bridge | 1,369/22,287 | 0/22,266 |
+The comparison against post-#309/#310 main (including the draw-parity control),
+the original pre-#309 comparison, and its preregistered probe are kept at tag
+`archive/evidence-pre-cleanup`:
 
-A control build that kept the bridge's RNG draw but discarded the result matched
-main exactly in every spelling across 20,000 lexicon words. The only
-difference was the deleted /h/ onset in exactly the 1,198 words that had one. The
-remaining small movements in other diagnostics come from look-ahead resampling.
-Phoneme gates and the 10-seed calibration are unchanged; n-gram gates move
-slightly and all pass.
-
-The original pre-#309 measurement (preregistered
-[probe](../evaluation/quality/probes/morphological-hiatus/README.md) and
-[comparison](../evaluation/experiments/morphological-hiatus/comparison.md)) is
-kept for history. Its numbers and its `ugh` gate failure predate the current
-pipeline.
+```sh
+git fetch origin tag archive/evidence-pre-cleanup
+git show archive/evidence-pre-cleanup:evaluation/quality/experiments/morphological-hiatus-rebased/README.md
+git show archive/evidence-pre-cleanup:evaluation/experiments/morphological-hiatus/comparison.md
+git show archive/evidence-pre-cleanup:evaluation/quality/probes/morphological-hiatus/README.md
+```
 
 Improved human wordlikeness and reading agreement require separate blinded
 evidence. Neither zero observed bridge insertions nor a lower corpus distance
