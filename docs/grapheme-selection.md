@@ -142,6 +142,23 @@ before a word-final /s/ is a medial segment, so `c` competes at its mid-word
 weight and fewer `k`/`ck` spellings reach `ks-to-x`: word-final /ks/ is written
 `x` less often than before legal selection. That side effect is not yet tuned.
 
+The `c` spelling also left /kst/ as `cst` (`twecst`, `hucstanitilid`), which
+neither `ks-to-x` nor `cx-to-x` matches. English almost never writes `cst` (5 of
+635k CMU trigrams) and writes /kst/ as `xt` (*next*, *text*). `cst-to-xt`
+rewrites `cs` before `t` as `x` in every bare word. Word rules run on the root
+before a suffix is attached, so a root ending in `cs` before a `t`-initial
+suffix (`snocs` + `tion`) is not rewritten.
+
+## /ɑ/ `au` in final syllables
+
+Plain `au` for /ɑ/ had `endWord: 0`, so a final syllable could only choose the
+split spelling `aue` (*cause*, *sauce*). Before a coda cluster, `aue`
+exceeds the vowel-letter cap and the repair deletes its `e`. That deletion was
+the only way `au` reached a final syllable (`snaunt`, `straurf`), although
+English writes it there often (*haunt*, *vault*, *launch*). `au` is now legal in
+final syllables (weight 10, as mid-word) with `wordFinal: false`, so it never
+ends a word (*tau*).
+
 The common-word rewrite fixtures now start from legal ordinary spellings.
 They previously forced an `mc`-conditioned `c` into *could*, excluded first-syllable
 `ee` into *people*, and excluded isolated `ee`/`ou` spellings into other examples;

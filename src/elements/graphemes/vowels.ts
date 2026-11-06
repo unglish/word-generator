@@ -182,7 +182,8 @@ export const vowelGraphemes: Grapheme[] = [
     frequency: 40,
     startWord: 1,
     midWord: 10,
-    endWord: 0,
+    endWord: 10,
+    condition: { wordFinal: false },
   },
   {
     phoneme: "ɑ",
