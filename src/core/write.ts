@@ -6,6 +6,8 @@ import type { DoublingSlot } from "./spelling-doubling.js";
 import { DEFAULT_CONSONANT_GRAPHEMES, tokenizeGraphemes, isConsonantToken } from "./spelling-budget.js";
 export { tokenizeGraphemes } from "./spelling-budget.js";
 import { createDoublingModel } from "./spelling-doubling.js";
+import { createSpellingNormalizer } from "./spelling-normalization.js";
+import type { HistoricalSelectionState, NormalizationSite } from "./spelling-normalization-types.js";
 import type { DoublingState, DoublingTraceInfo } from "./spelling-doubling.js";
 import { buildCategorySets, createGraphemeResolver, positionLabel } from "./grapheme-selection.js";
 export { filterByPosition, normalizeGraphemeCondition } from "./grapheme-selection.js";
@@ -1187,6 +1189,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const tryDoubling = doublingModel.sample;
   const preservePhones = config.writtenFormConstraints?.policy === "preserve-phones";
   const planCoverage = preservePhones ? createSpellingCoveragePlanner(config, resolveGraphemes, doublingModel) : undefined;
+  const normalizer = preservePhones ? createSpellingNormalizer(config, resolveGraphemes, doublingModel) : undefined;
 
   // Silent-e pre-compilation
   const silentEConfig = config.silentE;
@@ -1220,9 +1223,18 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       segmentIndex: entry.positionIndex, soundAtSpelling: entry.phoneme.sound,
       ...(preservePhones ? { boundary: { phoneme: clonePhoneme(entry.phoneme), stress: entry.stress,
         ...(id === flattenedPhonemes.length - 1 && context.orthographyFollowing ? { nextWritten: context.orthographyFollowing } : {}) } } : {}),
-    })), tracing, preservePhones);
+    })), tracing, preservePhones, preservePhones);
     const boundaryContexts = preservePhones ? spellingBoundaryContexts(baseSpelling.current().phones) : undefined;
     const spellingChoices: SpellingChoiceState[] = [];
+    const selectionStates: HistoricalSelectionState[] = [];
+    const normalizeCollision = (site: NormalizationSite, rightIndex: number): boolean => {
+      const input = { ...baseSpelling.current(), ...baseSpelling.normalizationState(), contexts: boundaryContexts!,
+        states: selectionStates, site, rightIndex };
+      const decision = normalizer!.decide(input);
+      if (decision.status === "normalized") normalizer!.verify(input, decision.plan);
+      baseSpelling.recordNormalization(site, rightIndex, decision);
+      return decision.status === "normalized";
+    };
     context.baseSpelling = baseSpelling;
     const cleanParts: string[] = [];
     const hyphenatedParts: string[] = [];
@@ -1273,6 +1285,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         isCluster, stress, previousPosition: prevEntry?.position,
         nextWritten: isLastPhoneme ? context.orthographyFollowing : undefined,
       };
+      if (normalizer) selectionStates.push({ previousForm: prevGraphemeForm ?? null, doublingCount: doublingCtx.doublingCount,
+        nucleusForm: currentNucleusForm, previousNucleusForm: prevNucleusForm });
       const { candidates, ordinary, conditioned, positional, weights, positiveCount, fallback, preferenceRelaxed } = resolveGraphemes(
         graphemeSlot, { previousForm: prevGraphemeForm, doublingCount: doublingCtx.doublingCount });
       const selected = selectByFrequency(weights, rand, tracing);
@@ -1307,12 +1321,18 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       prevGraphemeForm = form;
 
       const choiceStart = baseSpelling.length;
-      baseSpelling.appendChoice(phonemeIndex, selected.form, form, preservePhones ? config.graphemes.indexOf(selected._source) : undefined);
+      baseSpelling.appendChoice(phonemeIndex, selected.form, form, preservePhones ? config.graphemes.indexOf(selected._source) : undefined,
+        preservePhones ? doublingCtx.doublingCount - selectionStates[phonemeIndex].doublingCount : undefined);
       let emitted = form;
-      if (currentSyllable.length > 0 && form.length > 0 &&
-          currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]) {
-        baseSpelling.edit(choiceStart, 1, "", "deduplicateAdjacentLetters");
-        emitted = form.slice(1);
+      const adjacentLeft = currentSyllable[currentSyllable.length - 1]?.slice(-1);
+      if (normalizer) baseSpelling.recordNormalizationCheck("adjacent-choice", !!adjacentLeft && form.length > 0);
+      if (currentSyllable.length > 0 && form.length > 0 && adjacentLeft === form[0]) {
+        if (normalizer) {
+          if (normalizeCollision("adjacent-choice", choiceStart)) emitted = form.slice(1);
+        } else {
+          baseSpelling.edit(choiceStart, 1, "", "deduplicateAdjacentLetters");
+          emitted = form.slice(1);
+        }
       }
 
       if (context.trace) {
@@ -1388,12 +1408,17 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           ? remapOwnersThroughRewrite(rawSyllable, currentSyllableOwners, syllableStr)
           : [];
 
-        if (cleanParts.length > 0 && syllableStr.length > 0 &&
-            cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
-          baseSpelling.edit(syllableStart, 1, "", "deduplicateSyllableJoin");
-          syllableStr = syllableStr.slice(1);
-          if (terminalVowel) editTerminalVowel(terminalVowel, 0, 1, "");
-          if (tracing) syllableOwners = syllableOwners.slice(1);
+        const joinLeft = cleanParts[cleanParts.length - 1]?.slice(-1);
+        if (normalizer) baseSpelling.recordNormalizationCheck("syllable-join", !!joinLeft && syllableStr.length > 0);
+        if (cleanParts.length > 0 && syllableStr.length > 0 && joinLeft === syllableStr[0]) {
+          let shortened = true;
+          if (normalizer) shortened = normalizeCollision("syllable-join", syllableStart);
+          else baseSpelling.edit(syllableStart, 1, "", "deduplicateSyllableJoin");
+          if (shortened) {
+            syllableStr = syllableStr.slice(1);
+            if (terminalVowel) editTerminalVowel(terminalVowel, 0, 1, "");
+            if (tracing) syllableOwners = syllableOwners.slice(1);
+          }
         }
 
         cleanParts.push(syllableStr);
