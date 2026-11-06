@@ -935,8 +935,22 @@ function sampleTargetPhonemeCount(
   const filtered = allWeights.filter(([phonemeCount]) =>
     phonemeCount >= forcedSyllableCount && phonemeCount <= maxPhonemes,
   );
-  const pool = filtered.length > 0 ? filtered : allWeights;
+  // P(phonemes | syllables) ∝ P(phonemes) · P(syllables | phonemes). Without the
+  // second factor a forced monosyllable draws a whole-lexicon length (mode 6) and
+  // the consonant plan packs the surplus into clusters.
+  const syllableTable = rt.config.phonemeToSyllableWeights[mode];
+  const conditioned = filtered
+    .map(([phonemeCount, weight]): [number, number] => [phonemeCount, weight * syllableShare(syllableTable?.[phonemeCount], forcedSyllableCount)])
+    .filter(([, weight]) => weight > 0);
+  const pool = conditioned.length > 0 ? conditioned : filtered.length > 0 ? filtered : allWeights;
   return getWeightedOption(pool, rand);
+}
+
+/** Share of a phoneme count's syllable-count weights that falls on `syllableCount`. */
+function syllableShare(row: [number, number][] | undefined, syllableCount: number): number {
+  if (!row?.length) return 0;
+  const total = row.reduce((sum, [, weight]) => sum + weight, 0);
+  return total > 0 ? (row.find(([count]) => count === syllableCount)?.[1] ?? 0) / total : 0;
 }
 
 function sampleSyllableCountForTarget(

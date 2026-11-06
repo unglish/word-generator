@@ -40,7 +40,10 @@ Pass `{ morphology: false }` for bare root forms.
 independently afterward: a one-syllable root plus `-ing` has two syllables;
 `un-` plus a one-syllable root plus `-ness` has three. There is no final-word
 syllable ceiling. With automatic length, the configured phoneme, syllable, and
-letter targets also describe the root.
+letter targets also describe the root. A requested count draws the root's target
+phoneme count from the configured lengths conditioned on that count
+(`phonemeLengthWeights` × `phonemeToSyllableWeights`), so a requested
+monosyllable is as long as an automatic one.
 
 This changes the earlier whole-word budget behavior: affixes no longer consume
 the requested count or shorten the planned root. Existing morphology-enabled
