@@ -1,0 +1,18 @@
+diff --git a/src/config/english.ts b/src/config/english.ts
+index 4b5aad3c..96cdc198 100644
+--- a/src/config/english.ts
++++ b/src/config/english.ts
+@@ -354,6 +354,13 @@ export const englishConfig: LanguageConfig = {
+       probability: 100,
+       scope: "word",
+     },
++    {
++      name: "cst-to-xt",
++      pattern: "cs(?=t)",
++      replacement: "x",
++      probability: 100,
++      scope: "word",
++    },
+     {
+       name: "gz-to-x",
+       pattern: "gz(?=[aeiouy])",

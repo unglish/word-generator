@@ -1,0 +1,32 @@
+diff --git a/src/config/english.ts b/src/config/english.ts
+index 4b5aad3c..96cdc198 100644
+--- a/src/config/english.ts
++++ b/src/config/english.ts
+@@ -354,6 +354,13 @@ export const englishConfig: LanguageConfig = {
+       probability: 100,
+       scope: "word",
+     },
++    {
++      name: "cst-to-xt",
++      pattern: "cs(?=t)",
++      replacement: "x",
++      probability: 100,
++      scope: "word",
++    },
+     {
+       name: "gz-to-x",
+       pattern: "gz(?=[aeiouy])",
+diff --git a/src/elements/graphemes/vowels.ts b/src/elements/graphemes/vowels.ts
+index ee44519c..1f68e589 100644
+--- a/src/elements/graphemes/vowels.ts
++++ b/src/elements/graphemes/vowels.ts
+@@ -182,7 +182,8 @@ export const vowelGraphemes: Grapheme[] = [
+     frequency: 40,
+     startWord: 1,
+     midWord: 10,
+-    endWord: 0,
++    endWord: 10,
++    condition: { wordFinal: false },
+   },
+   {
+     phoneme: "ɑ",

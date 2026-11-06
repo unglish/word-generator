@@ -1,0 +1,57 @@
+diff --git a/src/config/english.ts b/src/config/english.ts
+index 4a0e0ccb..6889673d 100644
+--- a/src/config/english.ts
++++ b/src/config/english.ts
+@@ -354,6 +354,13 @@ export const englishConfig: LanguageConfig = {
+       probability: 100,
+       scope: "word",
+     },
++    {
++      name: "cst-to-xt",
++      pattern: "cs(?=t)",
++      replacement: "x",
++      probability: 100,
++      scope: "word",
++    },
+     {
+       name: "gz-to-x",
+       pattern: "gz(?=[aeiouy])",
+diff --git a/src/core/spelling-coverage.ts b/src/core/spelling-coverage.ts
+index 8cc51151..c6ed85cc 100644
+--- a/src/core/spelling-coverage.ts
++++ b/src/core/spelling-coverage.ts
+@@ -214,7 +214,7 @@ export function createSpellingCoveragePlanner(
+     const note = (reason: SpellingBudgetRefusal): void => { refusals[reason] = (refusals[reason] ?? 0) + 1; };
+     const selected: Option[] = [];
+     const changed = new Set<number>();
+-    let best: { plan: Omit<SpellingCoverageCertificate, "id">; options: Option[] } | undefined;
++    let best: { plan: Omit<SpellingCoverageCertificate, "id">; options: Option[]; trims: number } | undefined;
+     let exhausted = false;
+ 
+     function evaluate(score: number): void {
+@@ -235,7 +235,10 @@ export function createSpellingCoveragePlanner(
+         choices: selected.map(option => ({ ...option.license })), contexts: structuredClone(contextsFor(choices)), phoneIds: replacements.flatMap(replacement => replacement.phoneIds),
+         logProbability: score, budgets,
+       };
+-      if (!best || score > best.plan.logProbability + 1e-12) best = { plan, options: selected.slice() };
++      // Prefer plans that only trim the selected spelling (aue -> au) over wholesale
++      // substitutions (aue -> o); probability breaks ties within each class.
++      const trims = replacements.filter(entry => entry.before.includes(entry.after)).length;
++      if (!best || trims > best.trims || (trims === best.trims && score > best.plan.logProbability + 1e-12)) best = { plan, options: selected.slice(), trims };
+     }
+ 
+     function search(index: number, remaining: number, previousForm: string | undefined, count: number, nucleus: string, previousNucleus: string, score: number): void {
+diff --git a/src/elements/graphemes/vowels.ts b/src/elements/graphemes/vowels.ts
+index ee44519c..1f68e589 100644
+--- a/src/elements/graphemes/vowels.ts
++++ b/src/elements/graphemes/vowels.ts
+@@ -182,7 +182,8 @@ export const vowelGraphemes: Grapheme[] = [
+     frequency: 40,
+     startWord: 1,
+     midWord: 10,
+-    endWord: 0,
++    endWord: 10,
++    condition: { wordFinal: false },
+   },
+   {
+     phoneme: "ɑ",
