@@ -26,5 +26,7 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
   current stress/aspiration pronunciation schema reference.
 - [`conditional-root-stress-law.md`](./conditional-root-stress-law.md): the
   analytical law over root secondary-stress patterns and its backward sampler.
+- [`conditional-root-stress-runtime.md`](./conditional-root-stress-runtime.md):
+  the opt-in `rootPattern` policy that applies that law in the generator.
 
 - [`coda-extensions.md`](./coda-extensions.md): optional root coda validation.
