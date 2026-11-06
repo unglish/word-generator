@@ -37,8 +37,10 @@ changed units, then maximize the joint normalized grapheme/doubling probability
 across that same full sequence. Scores within `1e-12` tie in stable inventory/outcome
 order. Multiplying one phone's candidate weights by a positive constant cannot
 favor it merely by changing scale. All applicable budgets are checked on the full
-resulting surface. Search is limited to 8,192 visited partial assignments; when
-exhausted, it retains the input even if a provisional plan was found.
+resulting surface. Search is limited to 2,048 visited partial assignments
+(`SPELLING_COVERAGE_SEARCH_LIMIT`); when exhausted, it retains the input even if a
+provisional plan was found. Successful respells visit 28 on average and at most 924
+in 200k words, so the limit mainly bounds searches that end infeasible.
 
 ## Reading and ownership boundaries
 
