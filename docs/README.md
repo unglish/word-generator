@@ -24,5 +24,7 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
   explicit morphology parts, and planned/resolved trace provenance.
 - [`pronunciation-config-migration.md`](./pronunciation-config-migration.md):
   current stress/aspiration pronunciation schema reference.
+- [`conditional-root-stress-law.md`](./conditional-root-stress-law.md): the
+  analytical law over root secondary-stress patterns and its backward sampler.
 
 - [`coda-extensions.md`](./coda-extensions.md): optional root coda validation.
