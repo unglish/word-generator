@@ -32,7 +32,7 @@ lack a required field must be marked unavailable, never counted as clean.
 | Q09 prerequisite | Detach structured metadata across lexical views | Caller-mutation isolation; complete word/trace/RNG parity | [PR #326](https://github.com/unglish/word-generator/pull/326), against the exact Q04 + Q08b + Q06 composition; five mutation fixtures fail before and pass after; all 200,000 word/trace records are byte-identical and 20,000 scheduled draws preserve RNG use; inherited failures retained |
 | Q09a | Complete stress patterns and assignment provenance | Seven explicit domains; ordered assignments, prior origins and actual draw/skip evidence; output/RNG parity | [PR #330](https://github.com/unglish/word-generator/pull/330), against #326; all 200,000 complete words and old traces preserved, all 281,110 assignments independently replayed, every descriptive counter independently recounted; local perf gates pass; inherited failures retained |
 | Q09 | Whole-pattern secondary stress and rhythm | Clash/lapse and secondary-schwa rates by length and morphology; explicit exceptions | [PR #334](https://github.com/unglish/word-generator/pull/334), against #330, adds the pure conditional law: 229,587 independent rational-reference cases and all 1,440 frequency checks over 600,000 draws pass, with full transcript/tape verification. [Draft PR #337](https://github.com/unglish/word-generator/pull/337) adds measured opt-in runtime activation: adjacent marked pairs decrease, bare-word lapses increase, and median throughput falls 17.1% untraced / 48.1% traced; default behavior stays legacy. The root-placement hypothesis preserves proposal secondary count, so disyllabic clashes and final assembled grammar require separate hypotheses |
-| Q10a | Restore ordinary /æŋ/ availability | Generation-stage versus later /æŋ/ coverage; existing custom exclusions retained | [Draft PR #320](https://github.com/unglish/word-generator/pull/320); initial /æŋ/ syllables 0→1,664 across all 20 streams; independent archive counters agree; `ang` gate failure, increased trigram divergence and other regressions retained |
+| Q10a | Restore ordinary /æŋ/ availability | Generation-stage versus later /æŋ/ coverage; existing custom exclusions retained | [PR #320](https://github.com/unglish/word-generator/pull/320), rebased on current main; generation-stage /æŋ/ syllables go from 0 to 212–691 per 50,000 words across four profiles; /ŋ/ coda weight 48→44 offsets the added /ŋ/, keeping it at 0.99–1.02× its CMU share; original evidence in tag `archive/pr-320` |
 | Q10b1 | Preserve configured rime legality during root nucleus replacement | Existing pair exclusions after stress/edge replacement; retain the selected coda | [PR #324](https://github.com/unglish/word-generator/pull/324), against the exact Q07 + Q11 dependency control; prepared-root violations 22/327,029→0/326,957 pair slots in 200,000 words; 600,000 original/control/candidate draws independently checked; all local gates pass; broader metrics remain mixed |
 | Q10b2 | Preserve final checked-vowel legality through realization and assembly | Separately scoped final lexical/surface contract and morphology ownership | Q04 and final ownership remain necessary; Q10b1's root assertion does not establish final-word legality |
 | Q11 | Legal cluster extensions | No adjacent duplicate coda segments introduced by extension; legal final-/s/ continuation; separated repeats and cluster coverage retained | [Draft PR #313](https://github.com/unglish/word-generator/pull/313); 6,045 root-stage duplicates removed in 200,000 words; three morphology residuals, cluster-frequency shifts, stress-clash increase and `ugh` gate failure disclosed |
@@ -178,12 +178,12 @@ character counts as spelling constructions. The CI test remains deterministic;
 these results do not establish a linguistic false-positive rate, waive candidate
 failures, or justify fitting a new threshold to a preferred change.
 
-Q10a removes one unsupported default exclusion without changing weights. Initial
-/æŋ/ becomes available in all twenty streams, with 1,664 observed syllables.
-Later stress repair and final realization are separately counted. The unchanged
-`ang` gate fails, trigram divergence rises in all four profiles, and some structural
-diagnostics worsen. The draft preserves those results rather than claiming that
-phonotactic availability alone establishes better overall output.
+Q10a removes one unsupported default exclusion. On its own that raises /ŋ/ to
+1.081–1.107× its CMU share, above the 1.066× phoneme limit. Lowering the /ŋ/ coda
+weight from 48 to 44 brings it back to 0.99–1.02×. The weight cut applies
+evenly across vowels, so the existing excess of /ŋ/ after long vowels and
+diphthongs (about 20% after /i:/, against about 0.2% in CMU) remains separate
+work.
 
 Q10b1 preserves the coda's configured compatibility when the nucleus is replaced.
 The dependency control's 22 prepared-root violations become zero; all 19,300

@@ -11,6 +11,10 @@ A `bannedNucleusCodaCombinations` entry excludes the Cartesian product of its
 nucleus and coda sounds anywhere within a syllable. It is not an adjacency rule
 or an exact-rime template. Custom configurations supply the entire rule set.
 
+The default English configuration excludes only /ɚ/ and /ɝ/ before /ŋ/. /æ/
+before /ŋ/ is permitted, so rimes such as *bang*, *hangs* and *thank* are
+available, including extended codas such as /æŋz/ and /æŋk/.
+
 Stress repair keeps its existing trigger: the first nucleus of a primary-marked
 syllable whose sound belongs to `stressedNucleusBan`. This includes lexical
 monosyllables. Alternatives retain nucleus-only relative weights (`nucleus ?? 1`)
