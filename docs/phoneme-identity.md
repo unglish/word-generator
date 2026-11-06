@@ -169,14 +169,17 @@ remain separate outcomes.
 
 ## Evidence
 
-The source-frozen observer accounts for all **1,146,606 segments in 200,000
-original development words**: 1,143,150 resolved, 3,456 explicitly ambiguous
-`ɜ`, and zero unknown. AH merges 79,995 `ə` with 18,834 `ʌ`; ER merges 25,842
-`ɚ` with 3,456 `ɜ`. An independent Python implementation verified every raw-symbol,
-nucleus-stress and coarse-preimage count in all 20 shards.
+On the original 200,000 development words, the observer resolves every segment
+except the explicitly ambiguous `ɜ`, with no unknown symbols. Forced monosyllables
+carry no explicit stress mark, so their stress completeness is unavailable, not
+an error rate. No generator behavior change or new human preference result is
+claimed.
 
-The [experiment record](../evaluation/experiments/phoneme-identity/README.md)
-contains compact evidence, exact fingerprints, test results and reproduction
-commands. All 50,000 forced monosyllables have unmarked stress; their zero
-explicit-stress completeness is unavailable information, not an error rate.
-No generator behavior change or new human preference result is claimed.
+The experiment record (the compact report, the independent Python recount of
+every shard, fingerprints, test results and reproduction commands) is kept at tag
+`archive/evidence-pre-cleanup`:
+
+```sh
+git fetch origin tag archive/evidence-pre-cleanup
+git show archive/evidence-pre-cleanup:evaluation/experiments/phoneme-identity/README.md
+```

@@ -43,45 +43,22 @@ specificity ordering, pronunciation order, and hyphenated-output formatting.
 Public-API tests cover default/base selection, different-length prefix/suffix/both
 variants, `-ed` and `-s` phones and syllables, genuine boundary transforms, paired
 root alternations, snapshot independence, trace determinism, and a continuous
-10,000-word sample. The [preregistered archive probe](../evaluation/quality/probes/resolved-allomorphs/README.md)
-keeps explicit candidate resolution separate from narrowly source-derived
-historical `in`→`im` opportunities.
+10,000-word sample.
 
-The frozen development comparison contains 200,000 words per version: four
-profiles, each with five independent 10,000-word streams. The probe verifies
-manifest, source, configuration, shard hashes, and draw coordinates before
-examining either archive.
+Every default `in`→`im` opportunity now keeps `im` in its final spelling, and
+every affixed word records which form was selected and how its emitted parts make
+up the final spelling. Consonant-letter cleanup can still delete root letters
+(assembled `brilongs` + `ly` becomes `brilonsly`); the trace records the loss, and
+that cleanup problem is separate.
 
-| Preregistered observation | Original baseline | Candidate |
-| --- | ---: | ---: |
-| Source-identifiable `in`→`im` opportunities | 248 | 248 |
-| Eligible words retaining `im` in final spelling | 0/248 | 248/248 |
-| Eligible words with the resolved /m/ prefix coda | 248/248 | 248/248 |
-| Affixed words with explicit resolution provenance | 0/57,509 (unknown) | 57,509/57,509 |
-| Selected affixes matching archived configuration and assembled spelling | Unknown | 64,031/64,031 |
-| Affixed words whose emitted parts concatenate to final spelling | Unknown | 57,509/57,509 |
+The frozen 200,000-word development comparison, the preregistered archive probe
+and its supplementary report are kept at tag `archive/evidence-pre-cleanup`:
 
-The `im` opportunities comprise 182 lexicon-profile words and 66 text-profile
-words. Every opportunity is repaired in each of the ten relevant seed streams;
-the actual root boundary phones are /b/ (134), /m/ (79), and /p/ (35). For example,
-lexicon seed 69212153, draw 50 changes `inmatos` to `immatos` while keeping
-`ˌɪmˈmeɪ.tɔs`. Historical recovery uses the archived root-stage phone and the exact
-default bilabial rule, independently confirmed by the prefix coda; it does not
-invent missing selected-form metadata.
-
-All core diagnostic hit counts, eligible counts, and actual morphology/syllable
-strata are unchanged in all four profiles. Trigram divergence decreases by
-0.000516 bits in lexicon-default and 0.000273 bits in text-default; unique lexicon
-spellings decrease by two. These distribution changes are descriptive and do not
-establish general quality improvement. The improvement demonstrated here is
-preserving the selected allomorph and exposing its provenance.
-
-The candidate also records 50 cleanup operations (40 lexicon, 10 text),
-all affecting root text. A retained limitation is lexicon seed 69212153, draw
-1737: assembled `brilongs` + `ly` becomes `brilonsly`. The trace records the root
-letter loss; this PR does not solve that separate cleanup problem. The archived
-[supplementary report](../evaluation/experiments/resolved-allomorphs/allomorph-probe.json.gz)
-contains bounded complete trace witnesses and per-profile/replicate counts.
+```sh
+git fetch origin tag archive/evidence-pre-cleanup
+git show archive/evidence-pre-cleanup:evaluation/experiments/resolved-allomorphs/comparison.md
+git show archive/evidence-pre-cleanup:evaluation/quality/probes/resolved-allomorphs/README.md
+```
 
 Final `es` letters alone cannot recover historical `s`→`es` segmentation: the old
 reconstruction could leave `e` inside its guessed root without changing the final

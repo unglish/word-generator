@@ -94,20 +94,25 @@ dangling symlinks. The reused output guard's full transitive source closure is
 included; that I/O dependency does not adopt its transition data. Artifact snapshots
 are detached from input objects.
 
-`evaluation/corpus/verify-score-reference.py` independently uses the frozen Python
-source parser/joint proof, a restricted nonexecuting parser of the historical table,
-and separate per-entry `math.log2` traversal. Every table bin, row total, vocabulary
-label, selected entry, denominator, row score and summary is checked. Identity,
-metadata and order comparisons are exact. The preregistered numeric allowance is
-`abs(actual-reference) <= 1e-10 + 1e-12*abs(reference)`; observed errors and the worst absolute/relative coordinates with actual/reference
-values are reported, not rounded away. The first coordinate wins an exact tie.
-A relative error at a zero reference is undefined; that witness records null. The TypeScript expected-artifact comparison is exact.
-
-The protocol, original builder/API failure and parent-file snapshot are in
-`evaluation/experiments/cmu-score-reference/`. Synthetic envelope fixtures use
+`evaluation/corpus/verify-score-reference.py` independently parses the historical
+table with a restricted nonexecuting parser and checks the pinned table and scorer
+bytes. `npm run test:review` compares every table bin, row total and vocabulary
+label it reads with the TypeScript exports. Synthetic envelope fixtures use
 explicitly artificial parent-sized rows; they are not dictionary score results.
-Two fresh full-corpus builds and the independent row verification passed; see
-[the formal evidence](../evaluation/experiments/cmu-score-reference/README.md).
+
+The one-off acceptance verifier (independent per-entry `math.log2` traversal of
+every selected entry, with the preregistered numeric allowance
+`abs(actual-reference) <= 1e-10 + 1e-12*abs(reference)`), its protocol and the
+acceptance evidence (two fresh full-corpus builds and the independent row
+verification) are kept at tag `archive/evidence-pre-cleanup`. That verifier
+requires every pinned parent file to be unchanged, so run it from a checkout of
+the tag:
+
+```sh
+git fetch origin tag archive/evidence-pre-cleanup
+git show archive/evidence-pre-cleanup:evaluation/experiments/cmu-score-reference/README.md
+git show archive/evidence-pre-cleanup:evaluation/corpus/verify-score-reference.py
+```
 
 The result is a descriptive dictionary reference. Corpus/model overlap is unresolved;
 this is not held-out validation or evidence of human naturalness. Any change to the

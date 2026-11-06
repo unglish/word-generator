@@ -90,15 +90,9 @@ unchanged. They cannot supply the deficit without pushing /ɪ/ or /æ/ under
 their own limits. The /ɑ/ and /ɔ/ reduction rules never fire, because those
 vowels are marked tense, and reduction skips tense vowels.
 
-The October 19 measurements below are historical; see
-[the rebased review evidence](../evaluation/quality/experiments/final-lexical-stress-rebased/README.md)
-for the current-main comparison, full-precision floor exceptions, and trace witnesses.
-
-Gate thresholds are unchanged. Over the ten-seed `npm run calibrate:phonemes`
-run, the retuned branch matches unchanged main, both at Pearson r
-0.99827-0.99855 with mean 0.99842. The branch has one seed (758202846) just under the 0.9983 floor;
-main also exhibits below-floor variation (see the full-precision current table). Worst representation is 0.943-0.953 (main
-0.936-0.954), and the worst absolute gap is 0.284-0.351 pp (main 0.306-0.377).
+Gate thresholds are unchanged. The ten-seed calibration of this weight, with
+full-precision floor exceptions, is kept with the rest of the evidence (see
+[Evidence](#evidence)).
 
 With tracing enabled, `applyStress` exposes root stress, `assembleMorphology`
 exposes affix stress changes, and `repairFinalStressedNuclei` exposes any final
@@ -121,33 +115,22 @@ existing post-morphology reconstruction and orthographic ownership limitations
 remain separate work; lexical-to-surface consistency is not proof of complete
 spelling-to-pronunciation agreement.
 
-## Measured candidate and remaining gates
+## Evidence
 
-> **Stale:** the evidence below was measured on the earlier respell-on-repair
-> generator, before the look-ahead and spelling-stress changes above. It will
-> be regenerated; treat its numbers as describing the old output.
+The development comparison (200,000 traced outputs under the frozen protocol
+from [PR #307](https://github.com/unglish/word-generator/pull/307)), the
+`ugh`-floor trace audit, and the rebased comparison against main with its
+calibration and trace witnesses are kept at tag `archive/evidence-pre-cleanup`.
+The development comparison was measured on the earlier respell-on-repair
+generator, before the look-ahead and spelling-stress changes above, so its
+numbers describe that older output.
 
-The [full development comparison](../evaluation/experiments/final-lexical-stress/comparison.md)
-contains 200,000 traced outputs under the frozen protocol from
-[PR #307](https://github.com/unglish/word-generator/pull/307). Compact manifests,
-source snapshots, summaries, unfiltered review samples and defect witnesses sit
-alongside it. Full raw archives remain in the local capture directory identified
-by the run ID; the manifests retain their hashes.
+```sh
+git fetch origin tag archive/evidence-pre-cleanup
+git show archive/evidence-pre-cleanup:evaluation/experiments/final-lexical-stress/comparison.md
+git show archive/evidence-pre-cleanup:evaluation/experiments/final-lexical-stress/ugh-audit.json
+git show archive/evidence-pre-cleanup:evaluation/quality/experiments/final-lexical-stress-rebased/README.md
+```
 
-For default lexicon outputs, missing primary stress falls from 20.545% of
-polysyllables to zero; primary-stressed schwa falls from 2.016% of words to zero.
-The four profiles all show zero observed primary-stressed reduced vowels and
-standalone schwa. This is a consistency result, not a reader-preference claim.
-
-The candidate remains a draft. Default-lexicon disyllabic stress clashes increase
-from 21.206% to 41.906% as restored primary stress coexists with unchanged
-secondary-stress rules. Final open checked vowels increase from 1.492% to 1.838%;
-the current stressed-nucleus replacement does not validate the resulting rime.
-These require the separate rhythm and rime improvements.
-
-The existing single-stream n-gram test also fails its `ugh` floor: 0.006123× CMU
-against 0.0062×. The [traced diagnostic](../evaluation/experiments/final-lexical-stress/ugh-audit.json)
-finds one `ugh` in each 50,000-word default-lexicon cohort, both from separate
-`u` + `g` + `h` units, while the bare cohort changes from zero to one genuine
-`ough` selection. Thresholds remain unchanged; sparse-count gate calibration is
-unresolved rather than bypassed.
+Stress clashes from restored primary stress and the rime validity of replaced
+stressed nuclei remain for the separate rhythm and rime work.
