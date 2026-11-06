@@ -45,7 +45,7 @@ export function createSpellingNormalizer(
       doublingCount: state.doublingCount,
     });
     const total = pool.weights.reduce((sum, [, weight]) => sum + weight, 0);
-    const result: Array<{ grapheme: Grapheme; support: NormalizationSupport; countIncrement: number }> = [];
+    const result: Array<{ grapheme: Grapheme; reading: Grapheme["reading"]; support: NormalizationSupport; countIncrement: number }> = [];
     if (!(total > 0) || !Number.isFinite(total)) return result;
     for (const [grapheme, weight] of pool.weights) {
       let nucleusForm = state.nucleusForm;
@@ -62,7 +62,7 @@ export function createSpellingNormalizer(
       for (const outcome of outcomes) {
         if (!(graphemeProbability > 0 && graphemeProbability <= 1) || !Number.isFinite(graphemeProbability) ||
             !(outcome.probability > 0 && outcome.probability <= 1) || !Number.isFinite(outcome.probability)) continue;
-        result.push({ grapheme, countIncrement: outcome.countIncrement,
+        result.push({ grapheme, reading: doubling.readingFor(grapheme, outcome.form), countIncrement: outcome.countIncrement,
           support: { inventoryIndex: inventory.get(grapheme) ?? -1, selected: grapheme.form, afterDoubling: outcome.form,
             effectiveWeight: weight, poolTotal: total, graphemeProbability,
             doublingProbability: outcome.probability, pool: pool.fallback ? "fallback" : "ordinary", quotaRelaxed: !!pool.preferenceRelaxed } });
@@ -142,7 +142,7 @@ export function createSpellingNormalizer(
       if (id === unitId || !parts.has(input.phones[id].syllableIndex)) continue;
       const own = intact(input, id);
       if (!own) return "unresolved-ownership";
-      const reading = own.grapheme.reading;
+      const reading = doubling.readingFor(own.grapheme, own.form);
       if (!reading) return "unknown-reading";
       if (reading.kind === "unsupported-construction") return "construction-obligation";
       const context = readingContext(input, proposed, id);
@@ -177,8 +177,8 @@ export function createSpellingNormalizer(
     try { options = supported(input.contexts[unitId], state).filter(option => option.support.afterDoubling === after); }
     catch (error) { if (error instanceof NoLegalGraphemeError) return refuse("no-legal-remainder"); throw error; }
     if (!options.length) return refuse("no-legal-remainder");
-    const option = options.find(candidate => candidate.grapheme.reading?.kind === "single-phone");
-    if (!option) return refuse(options.some(candidate => !candidate.grapheme.reading) ? "unknown-reading" : "construction-obligation");
+    const option = options.find(candidate => candidate.reading?.kind === "single-phone");
+    if (!option) return refuse(options.some(candidate => !candidate.reading) ? "unknown-reading" : "construction-obligation");
     const checkedNeighbors = checkNeighbors(input, unitId, after);
     if (typeof checkedNeighbors === "string") return refuse(checkedNeighbors);
     return { status: "normalized", plan: {

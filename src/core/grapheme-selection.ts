@@ -1,3 +1,4 @@
+import { createDoublingModel } from "./spelling-doubling.js";
 import type { Grapheme, GraphemeCondition, Phoneme } from "../types.js";
 import type { LanguageConfig } from "../config/language.js";
 import { VOWEL_LETTERS } from "../utils/letters.js";
@@ -401,9 +402,13 @@ function fallbackReason(conditionedCount: number, positionalCount: number): Grap
   return "no-positive-weights";
 }
 
-/** A spelling that reads as a doubled consonant: a configured doubled form (ck) or a repeated consonant letter (ssi). */
-export function isDoubledSpelling(form: string, doubledFormSet: Set<string>): boolean {
-  return doubledFormSet.has(form) ||
+/** A spelling that reads as a doubled consonant: a configured doubled form of its sound (ck) or a repeated consonant letter (ssi). */
+export function isDoubledSpelling(
+  grapheme: Pick<Grapheme, "phoneme" | "form">,
+  isDirectForm: (sound: string, form: string) => boolean,
+): boolean {
+  const { phoneme, form } = grapheme;
+  return isDirectForm(phoneme, form) ||
     (form.length >= 2 && form[0] === form[1] && !VOWEL_LETTERS.has(form[0].toLowerCase()));
 }
 
@@ -430,7 +435,7 @@ export function createGraphemeResolver(config: LanguageConfig) {
     }
   }
   const expanded = preExpandConditions(config.graphemes, buildCategorySets(config.phonemes), config.graphemeConditionAliases);
-  const doubledForms = new Set(Object.values(doubling?.doubledForms ?? {}));
+  const doublingModel = createDoublingModel(doubling);
   const neverDoubleAfter = new Set<string>(doubling?.enabled ? doubling.neverDoubleAfter ?? [] : []);
   return (slot: GraphemeSlot, prefix: GraphemePrefixState) => {
     const firstSyllable = slot.syllableIndex === 0;
@@ -465,18 +470,18 @@ export function createGraphemeResolver(config: LanguageConfig) {
           `(${slot.position}, syllable ${slot.syllableIndex}; ${fallback})`);
       }
     }
-    const quotaFull = doubledForms.size > 0 && prefix.doublingCount >= (doubling?.maxPerWord ?? Infinity);
+    const quotaFull = doublingModel.hasDirectForms && prefix.doublingCount >= (doubling?.maxPerWord ?? Infinity);
     // A consonant written directly after a never-double-after nucleus (ea).
     const afterUndoubledNucleus = slot.position !== "nucleus" && slot.previousPosition === "nucleus" &&
       prefix.previousForm !== undefined && neverDoubleAfter.has(prefix.previousForm);
     let preferred = weights;
     let preferenceRelaxed: "doubling-quota" | "never-double-after" | undefined;
     if (quotaFull) {
-      const kept = preferCandidates(preferred, g => doubledForms.has(g.form));
+      const kept = preferCandidates(preferred, g => doublingModel.isDirectForm(g.phoneme, g.form));
       if (kept) preferred = kept; else preferenceRelaxed = "doubling-quota";
     }
     if (afterUndoubledNucleus) {
-      const kept = preferCandidates(preferred, g => isDoubledSpelling(g.form, doubledForms));
+      const kept = preferCandidates(preferred, g => isDoubledSpelling(g, doublingModel.isDirectForm));
       if (kept) preferred = kept; else preferenceRelaxed ??= "never-double-after";
     }
     return {
