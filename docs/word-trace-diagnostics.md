@@ -53,6 +53,19 @@ Use these fields to answer specific diagnostic questions:
     it is no longer subtracted from the root. Actual selected allomorph counts
     are in `realization`. Root phoneme and letter scoring happens before
     affix attachment, independently of these costs.
+- `stressPattern`
+  - Question: Which rule put each stress mark where it ended up?
+  - Records the returned attempt only. `snapshots` holds the marks and phones at
+    seven points: the root before primary stress, after primary, after
+    explicit secondary and after rhythmic stress, then the assembled word after
+    morphology, the final lexical word before realization, and the surface.
+  - `events` lists every executed assignment in order, with its cause
+    (`root-primary`, `explicit-secondary`, `rhythmic`, or a `morphology` effect)
+    and the origin it overwrote. `primary.draws`, `explicitSecondary` and
+    `rhythmic.iterations` hold the RNG values those rules actually consumed.
+  - `analyzeStressPattern` summarises a mark sequence: primary and secondary
+    positions, adjacent stresses, unstressed runs and secondary-to-primary
+    distances.
 - `summary`
   - Question: Quick sanity check for trace volume and repair density.
 
