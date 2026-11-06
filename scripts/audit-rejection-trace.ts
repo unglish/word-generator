@@ -96,7 +96,7 @@ function collectStream(api: GeneratorApi, profile: typeof profiles[number], seed
     if (selection.status === "fallback") stratum.fallbacks++;
     add(attemptsExecuted, String(selection.attemptsExecuted));
     for (const [reason, count] of Object.entries(selection.rejectionReasons)) add(rejectionReasons, reason, count);
-    for (const bin of selection.proposedLengths) add(stratum.proposedLengths, `${bin.syllables}/${bin.phonemes}/${bin.letters}`, bin.count);
+    for (const bin of selection.proposedLengths) add(stratum.proposedLengths, `${bin.syllables}/${bin.phonemes}/${bin.letters}/${bin.scoredLetters}`, bin.count);
     witnesses[outcome] ??= { drawIndex, word };
   }
   const callsForWords = rngCalls;

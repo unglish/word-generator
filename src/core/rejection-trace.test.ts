@@ -23,7 +23,7 @@ describe("complete rejection accounting", () => {
     expect(selection.rejectionReasons.letterLength).toBe(maxAttempts);
     expect(selection.proposedLengths.reduce((sum, bin) => sum + bin.count, 0)).toBe(maxAttempts);
     const minimumScore = Math.min(...selection.proposedLengths.map(bin => scoreGenerationAttempt(
-      bin.phonemes, word.trace!.targetPhonemeCount!, bin.letters, bin.syllables, targets,
+      bin.phonemes, word.trace!.targetPhonemeCount!, bin.scoredLetters, bin.syllables, targets,
     ).total));
     expect(selection.selected.score.total).toBe(minimumScore);
     expect(selection.selected).toMatchObject({ syllables: word.syllables.length, phonemes: phones(word), letters: word.written.clean.length });
@@ -90,7 +90,7 @@ describe("complete rejection accounting", () => {
       expect(selection.rejectedAttempts).toBe(selection.attemptsExecuted - (selection.status === "accepted" ? 1 : 0));
       expect(Object.values(selection.rejectionReasons).reduce((sum, value) => sum + value, 0)).toBeGreaterThanOrEqual(selection.rejectedAttempts);
       const { selected } = selection;
-      expect(selected.score).toEqual(scoreGenerationAttempt(selected.phonemes, trace.targetPhonemeCount!, selected.letters, selected.syllables, englishConfig.syllableStructure.letterLengthTargets));
+      expect(selected.score).toEqual(scoreGenerationAttempt(selected.phonemes, trace.targetPhonemeCount!, selected.scoredLetters, selected.syllables, englishConfig.syllableStructure.letterLengthTargets));
       // Selection scores the root; only words without attached affixes share its lengths.
       if (!trace.morphology || trace.morphology.template === "bare") {
         expect(selected).toMatchObject({ syllables: word.syllables.length, phonemes: phones(word), letters: word.written.clean.length });

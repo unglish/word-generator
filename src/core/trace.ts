@@ -8,7 +8,10 @@ import type { StressWeightTrace } from "./syllable-weight.js";
 export interface AttemptLengths {
   syllables: number;
   phonemes: number;
+  /** Written root length. */
   letters: number;
+  /** Letters the letter-length penalty scores: `letters` minus those added by consonant doubling. */
+  scoredLetters: number;
 }
 
 export interface SelectionTrace {

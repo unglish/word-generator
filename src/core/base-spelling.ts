@@ -115,6 +115,24 @@ export class BaseSpelling {
     return this.cells.length;
   }
 
+  /**
+   * Live letters that consonant doubling added beyond the selected graphemes
+   * (`s` → `ss`, `k` → `ck`). Letters later rewritten or deleted no longer
+   * count, so a gap-spelling replacement reports zero.
+   */
+  lettersAddedByDoubling(): number {
+    const live = new Map<number, number>();
+    for (const cell of this.cells) {
+      if (cell.origin.kind === "selection") live.set(cell.origin.unitId, (live.get(cell.origin.unitId) ?? 0) + 1);
+    }
+    let added = 0;
+    for (const unit of this.units) {
+      if (unit.afterDoubling === unit.selected) continue;
+      added += Math.max(0, (live.get(unit.id) ?? 0) - unit.selected.length);
+    }
+    return added;
+  }
+
   edit(start: number, deleteCount: number, insert: string, rule: string): void {
     if (
       !Number.isInteger(start) ||

@@ -1236,6 +1236,15 @@ const ACCEPTANCE_CRITERIA: AcceptanceCriteria = {
   relaxedLetterPenalty: 0.5,
 };
 
+/**
+ * Root letters scored against the letter-length target. Doubling depends on
+ * stress, so its added letters are left out: otherwise the length check would
+ * prefer attempts whose secondary stress licensed a doubled consonant (#393).
+ */
+function stressIndependentLetterCount(context: WordGenerationContext): number {
+  return context.word.written.clean.length - (context.baseSpelling?.lettersAddedByDoubling() ?? 0);
+}
+
 function countPhonemes(syllables: Syllable[]): number {
   let total = 0;
   for (const syl of syllables) {
@@ -1471,10 +1480,12 @@ function generateOneWord(
     }
     const root = context.word.lexical!.root;
     const rootPhonemeCount = countPhonemes(root);
+    const letters = context.word.written.clean.length;
+    const scoredLetters = stressIndependentLetterCount(context);
     const attemptScore = scoreGenerationAttempt(
       rootPhonemeCount,
       targetPhonemeCountRoot,
-      context.word.written.clean.length,
+      scoredLetters,
       root.length,
       rt.config.syllableStructure.letterLengthTargets,
     );
@@ -1488,7 +1499,8 @@ function generateOneWord(
     rejectionTrace?.record({
       syllables: root.length,
       phonemes: rootPhonemeCount,
-      letters: context.word.written.clean.length,
+      letters,
+      scoredLetters,
     }, attemptScore, assessment);
     if (assessment.acceptedBy) {
       return finishWord(rt, context, prepared, rejectionTrace?.finish(attempt, assessment.acceptedBy));

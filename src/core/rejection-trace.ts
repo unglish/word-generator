@@ -16,7 +16,7 @@ export class RejectionTraceCollector {
 
   record(lengths: AttemptLengths, score: AttemptScore, assessment: AttemptAssessment): void {
     this.attempts.push({ ...lengths, score: { ...score } });
-    const key = `${lengths.syllables}/${lengths.phonemes}/${lengths.letters}`;
+    const key = `${lengths.syllables}/${lengths.phonemes}/${lengths.letters}/${lengths.scoredLetters}`;
     const bin = this.proposals.get(key) ?? { ...lengths, count: 0 };
     bin.count++;
     this.proposals.set(key, bin);
