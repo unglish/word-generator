@@ -161,6 +161,12 @@ export interface GraphemeCondition {
    * chosen: at the end of a root, the first letter of its planned suffix.
    */
   notRightGraphemeContext?: string[];
+  /**
+   * `true`: the grapheme must end the written word, i.e. spell the base's last
+   * segment with no planned suffix after it. `false`: it must not. Prefixes are
+   * irrelevant.
+   */
+  wordFinal?: boolean;
   /** Literal segment positions; unlike wordPosition, these do not describe the containing syllable. */
   segmentPosition?: ("initial" | "medial" | "final")[];
   /** Legacy syllable-position restriction. Prefer segmentPosition for literal word edges. */

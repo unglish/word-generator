@@ -544,6 +544,7 @@ interface PreExpandedCondition {
   leftGraphemeContext?: Set<string>;
   notLeftGraphemeContext?: Set<string>;
   notRightGraphemeContext?: Set<string>;
+  wordFinal?: boolean;
   wordPosition?: ("initial" | "medial" | "final")[];
   segmentPosition?: ("initial" | "medial" | "final")[];
   syllableShape?: GraphemeCondition["syllableShape"];
@@ -607,6 +608,7 @@ function preExpandConditions(
     if (normalized.leftGraphemeContext) expanded.leftGraphemeContext = new Set(normalized.leftGraphemeContext);
     if (normalized.notLeftGraphemeContext) expanded.notLeftGraphemeContext = new Set(normalized.notLeftGraphemeContext);
     if (normalized.notRightGraphemeContext) expanded.notRightGraphemeContext = new Set(normalized.notRightGraphemeContext);
+    if (normalized.wordFinal !== undefined) expanded.wordFinal = normalized.wordFinal;
     if (normalized.wordPosition) expanded.wordPosition = normalized.wordPosition;
     if (normalized.segmentPosition) expanded.segmentPosition = normalized.segmentPosition;
     if (normalized.syllableShape) expanded.syllableShape = normalized.syllableShape;
@@ -722,6 +724,11 @@ function meetsPreExpandedCondition(
   // Unknown (empty) following text cannot violate a right-letter ban.
   if (condition.notRightGraphemeContext && nextWritten) {
     if (condition.notRightGraphemeContext.has(nextWritten[0])) return false;
+  }
+
+  if (condition.wordFinal !== undefined) {
+    const endsWord = phonemeIndex === totalPhonemes - 1 && !nextWritten;
+    if (endsWord !== condition.wordFinal) return false;
   }
 
   if (condition.syllableShape) {
@@ -1674,8 +1681,10 @@ export function applySilentE(
 
   // Ensure the swap target is in the vowel portion (before the final consonant letters)
   observe?.(lastPartIdx, fromIdx, swap.from.length, swap.to, "silentE:swap");
-  observe?.(lastPartIdx, part.length - swap.from.length + swap.to.length, 0, "e", "silentE:marker");
-  const newPart = part.slice(0, fromIdx) + swap.to + part.slice(fromIdx + swap.from.length) + "e";
+  // A coda spelling that already ends in e (ce, se, ge) supplies the marker: pace, not pacee.
+  const marker = part.endsWith("e") ? "" : "e";
+  if (marker) observe?.(lastPartIdx, part.length - swap.from.length + swap.to.length, 0, marker, "silentE:marker");
+  const newPart = part.slice(0, fromIdx) + swap.to + part.slice(fromIdx + swap.from.length) + marker;
   cleanParts[lastPartIdx] = newPart;
   hyphenatedParts[lastPartIdx * 2] = newPart;
 }

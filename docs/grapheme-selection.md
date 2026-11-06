@@ -94,6 +94,30 @@ before another vowel letter. Two configured rules enforce this:
 Measurements and side effects are kept at tag `archive/evidence-pre-cleanup`
 (see [Evidence](#evidence)).
 
+## Word-final /s/ after r, n, l (#389)
+
+A word ending in a bare `s` after `r`, `n` or `l` reads as an inflection
+(*cars*, *pens*, *bells*). English writes a final /s/ there with an `e`:
+*dance*, *sense*, *false*, *horse*, *force*, *nurse*. In `fricatives.ts`:
+
+- `GraphemeCondition.wordFinal` is `true` when the grapheme spells the base's
+  last segment and no suffix follows, and `false` otherwise.
+- Bare `s` has three entries split by the letter before it. After `r`, `n` or
+  `l`, a word-final `s` has weight 10; everywhere else it keeps 1000.
+- Word-final /s/ after /n l r ɚ/, written with `r`, `n` or `l`, can be `ce` or
+  `se`, conditioned on the phoneme: `n` → `ce` 300, `se` 100; `l` → `se` 400;
+  `r`/`ɚ` → `se` 300, `ce` 100. Unlike the general `ce`, these are legal in a
+  coda cluster (/ns/, /ls/, /rs/).
+
+A root-final /s/ followed by a suffix keeps the ordinary weights, and the
+suffix's own `s` is unaffected. Roots ending in `e` do not yet join every suffix
+cleanly (plural `-es` keeps the `e`: *spece* + *es* → *specees*), so the
+preference is limited to unsuffixed roots.
+
+Magic-e does not add its `e` marker when the coda spelling already ends in `e`
+(`ce`, `se`, `ge`): *pace*, not *pacee*. It still swaps the vowel spelling
+(`igh` + `ce` → `ice`).
+
 Trace `selection` records actual segment and syllable positions, stage counts,
 the fallback reason, and any relaxation of the soft consonant-doubling quota.
 All traced weights, including singleton pools, are actual configured weights.

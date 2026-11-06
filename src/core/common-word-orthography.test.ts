@@ -33,6 +33,13 @@ function cloneGrapheme(
   };
 }
 
+/** Every entry for a spelling that the inventory splits by context (bare s). */
+function cloneGraphemes(phoneme: string, form: string): Grapheme[] {
+  return englishConfig.graphemes
+    .filter((entry) => entry.phoneme === phoneme && entry.form === form)
+    .map((entry) => cloneGrapheme(phoneme, form, (candidate) => candidate === entry));
+}
+
 function makeSyllable(onset: string[], nucleus: string[], coda: string[]): Syllable {
   return {
     onset: onset.map(clonePhoneme),
@@ -193,7 +200,7 @@ describe("common-word orthography coverage", () => {
         cloneGrapheme("f", "f"),
         cloneGrapheme("ɚ", "ir"),
         cloneGrapheme("ɚ", "er"),
-        cloneGrapheme("s", "s"),
+        ...cloneGraphemes("s", "s"),
         cloneGrapheme("t", "t"),
       ],
       [makeSyllable(["f"], ["ɚ"], ["s", "t"])],
@@ -220,7 +227,7 @@ describe("common-word orthography coverage", () => {
         cloneGrapheme("ð", "th"),
         cloneGrapheme("ɚ", "eir"),
         cloneGrapheme("ɚ", "er"),
-        cloneGrapheme("s", "s"),
+        ...cloneGraphemes("s", "s"),
         cloneGrapheme("t", "t"),
       ],
       [makeSyllable(["ð"], ["ɚ"], ["s", "t"])],
@@ -307,7 +314,7 @@ describe("common-word orthography coverage", () => {
   it("does not leak gap spellings into broader phoneme classes", () => {
     const send = writeWord(
       [
-        cloneGrapheme("s", "s"),
+        ...cloneGraphemes("s", "s"),
         cloneGrapheme("ɛ", "e"),
         cloneGrapheme("n", "n"),
         cloneGrapheme("d", "d"),
@@ -316,7 +323,7 @@ describe("common-word orthography coverage", () => {
     );
     const stu = writeWord(
       [
-        cloneGrapheme("s", "s"),
+        ...cloneGraphemes("s", "s"),
         cloneGrapheme("t", "t"),
         cloneGrapheme("u", "u"),
       ],

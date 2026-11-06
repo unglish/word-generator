@@ -1,6 +1,28 @@
 /** Fricative graphemes: /f/, /v/, /θ/, /ð/, /s/, /z/, /ʃ/, /ʒ/, /h/. */
 import { Grapheme } from "../../types.js";
 
+/** Letters after which a word-final bare s reads as an inflection: cars, pens, bells. */
+const PLURAL_LOOKING_LEFT_LETTERS = ["r", "n", "l"];
+
+/** Word-final /s/ spelled ce or se after `leftSound`, weighted by spelling. */
+function rootFinalSWithE(leftSound: string, weights: { ce?: number; se?: number }): Grapheme[] {
+  return Object.entries(weights).map(([form, frequency]) => ({
+    phoneme: "s",
+    form,
+    origin: 3,
+    frequency,
+    onset: 0,
+    startWord: 0,
+    midWord: 0,
+    endWord: 1,
+    condition: {
+      leftContext: [leftSound],
+      leftGraphemeContext: PLURAL_LOOKING_LEFT_LETTERS,
+      wordFinal: true,
+    },
+  }));
+}
+
 export const fricativeGraphemes: Grapheme[] = [
   // fish
   { phoneme: "f", 
@@ -75,14 +97,40 @@ export const fricativeGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1, },
 
-  // sun
+  // sun. Bare s is split by its left letter: a word-final s after r, n or l
+  // reads as a plural (cars, pens, bells), so it gets its own low weight below.
   { phoneme: "s", 
     form: "s", 
     origin: 3, 
     frequency: 1000, 
     startWord: 1,
     midWord: 1,
-    endWord: 1, },
+    endWord: 1,
+    condition: { notLeftGraphemeContext: PLURAL_LOOKING_LEFT_LETTERS }, },
+  { phoneme: "s",
+    form: "s",
+    origin: 3,
+    frequency: 1000,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+    condition: { leftGraphemeContext: PLURAL_LOOKING_LEFT_LETTERS, wordFinal: false }, },
+  { phoneme: "s",
+    form: "s",
+    origin: 3,
+    frequency: 10,
+    startWord: 0,
+    midWord: 0,
+    endWord: 1,
+    condition: { leftGraphemeContext: PLURAL_LOOKING_LEFT_LETTERS, wordFinal: true }, },
+  // Word-final /s/ after /n l r ɚ/ is written with a final e: dance, sense,
+  // false, horse, force, nurse. -nce outnumbers -nse; -lce is not English; -rse
+  // outnumbers -rce. Unlike the ce/se entries below, these are legal in a coda
+  // cluster (/ns/, /ls/, /rs/).
+  ...rootFinalSWithE("n", { ce: 300, se: 100 }),
+  ...rootFinalSWithE("l", { se: 400 }),
+  ...rootFinalSWithE("r", { se: 300, ce: 100 }),
+  ...rootFinalSWithE("ɚ", { se: 300, ce: 100 }),
   { phoneme: "s", 
     form: "c", 
     origin: 3, 
