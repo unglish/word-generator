@@ -39,9 +39,8 @@ that the evidence describes the generator at that commit, not the current one.
 Packets committed before this policy were moved out of `main` in
 [#387](https://github.com/unglish/word-generator/issues/387) and are kept at tag
 `archive/evidence-pre-cleanup`. The only files left in `evaluation/experiments/`
-are fixed inputs that tooling or tests still read: the CMU matched reference and
-shared-parser packages, the pinned CMU score and transition protocols, and the
-two Q08a source bundles that the `syllable-quantity` probe checks by hash.
+are fixed inputs that tooling or tests still read: the published CMU matched
+reference with its baseline manifest, and the frozen shared-parser score artifact.
 
 ```sh
 git fetch origin tag archive/evidence-pre-cleanup

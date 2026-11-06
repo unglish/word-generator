@@ -47,9 +47,11 @@ reordered score rows and a forged score digest.
 Run the audit and reproduction commands in
 [wordlikeness evaluation](wordlikeness-evaluation.md). Shared parser fixtures
 run with `npm run test:review`; strict checking uses `npm run review:typecheck`.
-The compact source/audit/model/score proof is in
-`evaluation/experiments/cmu-shared-parser/`. The dictionary itself is retrieved
-from the pinned upstream URL and checked before use.
+The frozen score artifact the tests read stays in
+`evaluation/experiments/cmu-shared-parser/`; the compact source/audit/model proof
+is kept at
+`archive/evidence-pre-cleanup:evaluation/experiments/cmu-shared-parser/`. The
+dictionary itself is retrieved from the pinned upstream URL and checked before use.
 
 Record parsing, population selection, phonemic projection and numeric units are
 separate contracts. The extraction does not adopt a new reference for any legacy

@@ -212,7 +212,7 @@ describe("explicit score-reference CLI and unchanged input protection", () => {
     }
   });
   it("independently parses every historical table bin/total/vocabulary without executing it", () => {
-    const proof = spawnSync("python3", [join(root, "evaluation/corpus/verify-score-reference.py"), "--root", root, "--audit-model"], { encoding: "utf8" });
+    const proof = spawnSync("python3", [join(root, "evaluation/corpus/verify-score-reference.py"), "--root", root], { encoding: "utf8" });
     expect(proof.status, proof.stderr).toBe(0);
     expect(JSON.parse(proof.stdout)).toEqual({ counts: ARPABET_BIGRAM_COUNTS, totals: ARPABET_TOTAL_COUNTS, vocabulary: [...ALL_ARPABET_PHONEMES] });
   });

@@ -97,28 +97,24 @@ evidence, not zero unknown quantities.
 
 ## Evidence and scope
 
-The [preregistered parity protocol](../evaluation/quality/probes/syllable-weight/README.md)
-compares 20,000 scheduled draws in four profiles and five streams, with trace on
-and off. It checks complete words, every pre-existing trace field, RNG call counts
-at every word boundary and the next RNG value. Controlled custom-model fixtures
-exercise all primary strategies, secondary selection rates, unknown policies,
-multi-element nuclei and immutable observations. No gate or weight is tuned.
+Adding the shared analysis left legacy output, every pre-existing trace field and
+RNG use unchanged. Controlled custom-model fixtures in the unit suite exercise all
+primary strategies, secondary selection rates, unknown policies, multi-element
+nuclei and immutable observations. No gate or weight is tuned.
 
 The shared analytical foundation was verified separately from English quantity
 activation. Final-vowel effects, a different WSP objective, rhythm and dialect
 migration remain separate changes. The reference dialect has not been
 established by user preference.
 
-The frozen comparison passed all 20,000 scheduled draws with exact legacy output,
-trace and RNG parity. Its report, stream-level counts and complete witnesses are
-kept at tag `archive/evidence-pre-cleanup`:
+The preregistered parity protocol and probe (20,000 scheduled draws in four
+profiles and five streams, with trace on and off), the frozen comparison with
+its source bundles and witnesses, and the partial-quantity control probe used
+by #322 are kept at tag `archive/evidence-pre-cleanup`:
 
 ```sh
 git fetch origin tag archive/evidence-pre-cleanup
+git show archive/evidence-pre-cleanup:evaluation/quality/probes/syllable-weight/README.md
 git show archive/evidence-pre-cleanup:evaluation/experiments/syllable-weight/README.md
+git show archive/evidence-pre-cleanup:evaluation/quality/probes/syllable-quantity/README.md
 ```
-
-Its two source content bundles (`original-source.json.gz` and
-`candidate-source.json.gz`) stay in `evaluation/experiments/syllable-weight/`:
-the [partial-quantity control](../evaluation/quality/probes/syllable-quantity/README.md)
-checks them by hash.

@@ -77,20 +77,16 @@ contract could overwrite the active scorer inputs. This command deliberately
 replaces that manual workflow. Scorer/reference adoption needs a separate
 same-output study. `generate-baseline.ts` remains an unmigrated legacy workflow.
 
-The frozen protocol and its first amendment stay in
-`evaluation/experiments/cmu-transition-builder/`, because the checkers verify
-their hashes on every run. The pre-implementation design and the construction
-results (two byte-identical builds and an independent full-bin recount after
-source review) are kept at tag `archive/evidence-pre-cleanup`:
+The frozen protocol, the pre-implementation design and the construction results
+(two byte-identical builds and an independent full-bin recount after source
+review) are kept at tag `archive/evidence-pre-cleanup`. So is the independent
+Python checker that made the recount: it reused the frozen Python source parser
+and joint-parent verifier, traversed phone pairs separately, and never executed
+the TypeScript counter. It requires every pinned parent file to be unchanged, so
+run it from a checkout of the tag:
 
 ```sh
 git fetch origin tag archive/evidence-pre-cleanup
 git show archive/evidence-pre-cleanup:evaluation/experiments/cmu-transition-builder/README.md
+git show archive/evidence-pre-cleanup:evaluation/corpus/verify-transitions.py
 ```
-
-The independent Python checker reuses the frozen Python source parser and joint-parent verifier,
-then traverses phone pairs separately; it never executes the TypeScript counter.
-Its CLI takes `--root`, `--source`, `--artifact`, and a fresh `--out` report path.
-Use canonical regular-file input paths for that checker; symlinks are rejected.
-It also reads the archived design and parent-file snapshot and requires every
-pinned parent file to be unchanged, so run it from a checkout of `archive/evidence-pre-cleanup`, not from current `main`.

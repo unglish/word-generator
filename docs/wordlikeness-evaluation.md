@@ -118,8 +118,9 @@ while giving the implementation a new fingerprint. Historical
 commit `820f80dd72edac7d69ffc7c4e03212f2e2399a2f`. Reproduce their original bytes at
 that commit. Current code requires a newly built reference; it deliberately
 rejects the historical implementation fingerprint. The fresh equivalent
-artifacts and complete comparison proof are packaged under
-`evaluation/experiments/cmu-shared-parser/`. See the
+score artifact stays in `evaluation/experiments/cmu-shared-parser/`; the other
+artifacts and the complete comparison proof are kept at
+`archive/evidence-pre-cleanup:evaluation/experiments/cmu-shared-parser/`. See the
 [shared source contract](cmu-corpus-contract.md) for policy and provenance.
 
 ```bash

@@ -120,8 +120,10 @@ npx tsc -p tsconfig.corpus.json
 npm run test:review
 ```
 
-Compact reference, sensitivity and verification evidence is retained in
-`evaluation/experiments/cmu-matched-reference/`. Raw dictionary and 200,000-word
+The published reference and its baseline manifest stay in
+`evaluation/experiments/cmu-matched-reference/`, because the builders and tests
+read them. The sensitivity study and verification evidence are kept at
+`archive/evidence-pre-cleanup:evaluation/experiments/cmu-matched-reference/`. Raw dictionary and 200,000-word
 archives are not duplicated in the PR. New measurements do not overwrite the old
 baseline or relabel old scores as if they used the new population. Adopting these
 references in runtime sampling, a dashboard or a gate is a separate change with
