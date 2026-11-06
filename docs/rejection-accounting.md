@@ -36,6 +36,41 @@ proposal and output distributions without retaining rejected words or their larg
 traces. The morphology template is available in `trace.morphology`; a `bare` plan
 is not an actually affixed word even when `summary.morphologyApplied` is true.
 
+## Letter-length selection and stress
+
+The letter penalty scores the written root, and spelling depends on stress. So
+the length check also chooses between stress patterns. The returned words'
+stress distribution is therefore not the distribution the stress rules produce
+in a single attempt
+([#393](https://github.com/unglish/word-generator/issues/393)).
+
+The coupling runs through consonant doubling. In English,
+`doubling.unstressedModifier` is 0, so doubling is possible only in syllables
+with primary or secondary stress. An extra secondary stress therefore makes a
+doubled consonant more likely, and the extra letter often lifts a short root
+into the target's peak range. The length check makes its choice during the
+warmup, when only a zero penalty is accepted. Returned three- to five-syllable
+roots have more secondary stresses than the stress rules produce, and fewer
+roots with none. The multi-letter grapheme penalty in `write.ts` treats
+secondary and unstressed syllables alike, so it doesn't add to this. Vowel
+reduction happens after spelling, so it doesn't either.
+
+The coupling is kept on purpose:
+
+- It doesn't measurably change agreement with CMU stress patterns.
+- Scoring the length without doubling's added letters breaks the phoneme
+  distribution. Total variation from CMU rose from about 1.4% to about 1.8% on
+  three seeds, past the phoneme gate's limit, and /ʃ/ became over-represented.
+  The phoneme weights were tuned with doubling counted in the length.
+
+The measurements are in the #393 discussion, and that option's code is at tag
+`archive/issue-393`.
+
+To measure the stress rules themselves, generate with
+`syllableStructure.letterLengthTargets: undefined`. Returned stress patterns then
+follow the stress rules, because phoneme-count matching doesn't read stress.
+Stress changes measured on default output also include this selection effect.
+
 ## Preregistered verification
 
 The primary requirement is **zero output and RNG changes**. Run the public-API
