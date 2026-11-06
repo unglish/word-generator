@@ -778,44 +778,33 @@ describe("syllable-based position filtering", () => {
     expect(violations).toBe(0);
   });
 
-  it("\"eye\" appears only as a bare syllable nucleus (50k words)", () => {
-    const words = generateWords(50000, { seed: 175, morphology: false });
-    let totalEyeSyllables = 0;
-    let violations = 0;
+  // Judge "eye" by the traced grapheme choice, not by letters: "ey" + "ed" (as in
+  // "obeyed") also spells e-y-e without selecting the "eye" grapheme.
+  function eyeSelections(seed: number) {
+    const words = generateWords(50000, { seed, morphology: false, trace: true });
+    return words.flatMap(word => {
+      const selections = word.trace!.graphemeSelections;
+      return selections
+        .filter(choice => choice.selected === "eye")
+        .map(choice => ({
+          syllableIndex: choice.syllableIndex,
+          syllableCount: word.syllables.length,
+          hasMargin: selections.some(other => other.syllableIndex === choice.syllableIndex
+            && (other.position === "onset" || other.position === "coda") && other.emitted !== ""),
+        }));
+    });
+  }
 
-    for (const w of words) {
-      const syllableParts = w.written.hyphenated.toLowerCase().split("&shy;");
-      for (const part of syllableParts) {
-        if (!part.includes("eye")) continue;
-        totalEyeSyllables++;
-        if (part !== "eye") violations++;
-      }
-    }
-
-    console.log(`  eye syllables: ${totalEyeSyllables}/50000`);
-    console.log(`  eye bare-syllable violations: ${violations}/50000`);
-    expect(totalEyeSyllables).toBeGreaterThan(0);
-    expect(violations).toBe(0);
+  it("\"eye\" is selected only for a bare syllable nucleus (50k words)", () => {
+    const eyes = eyeSelections(175);
+    expect(eyes.length).toBeGreaterThan(0);
+    expect(eyes.filter(eye => eye.hasMargin)).toEqual([]);
   });
 
-  it("\"eye\" does not appear in medial syllables (50k words)", () => {
-    const words = generateWords(50000, { seed: 27175, morphology: false });
-    let totalEyeSyllables = 0;
-    let medialViolations = 0;
-
-    for (const w of words) {
-      const syllableParts = w.written.hyphenated.toLowerCase().split("&shy;");
-      for (let i = 0; i < syllableParts.length; i++) {
-        if (!syllableParts[i].includes("eye")) continue;
-        totalEyeSyllables++;
-        if (i > 0 && i < syllableParts.length - 1) medialViolations++;
-      }
-    }
-
-    console.log(`  eye syllables (medial test): ${totalEyeSyllables}/50000`);
-    console.log(`  eye medial-syllable violations: ${medialViolations}/50000`);
-    expect(totalEyeSyllables).toBeGreaterThan(0);
-    expect(medialViolations).toBe(0);
+  it("\"eye\" is not selected in medial syllables (50k words)", () => {
+    const eyes = eyeSelections(27175);
+    expect(eyes.length).toBeGreaterThan(0);
+    expect(eyes.filter(eye => eye.syllableIndex > 0 && eye.syllableIndex < eye.syllableCount - 1)).toEqual([]);
   });
 
   it("other /aɪ/ spellings still appear alongside \"eye\" (50k words)", () => {
