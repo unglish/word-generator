@@ -57,7 +57,11 @@ describe("literal nucleus edges", () => {
 
   it("overrides both legacy filtering and weighting for closed nuclei", () => {
     const explicit = { ...foot, startWord: 0, midWord: 0, endWord: 0 };
-    const generator = createGenerator(fixedShape([explicit], 1, 1));
+    const config = fixedShape([explicit], 1, 1);
+    // Keep every sampled coda: repairFinalCoda would otherwise drop a final /ð/ and leave
+    // this FOOT-only pool with an open syllable it cannot repair.
+    config.codaConstraints = { ...config.codaConstraints, allowedFinal: [...config.phonemeMaps.coda.keys()] };
+    const generator = createGenerator(config);
     for (let seed = 0; seed < 50; seed++) {
       const word = generator.generateWord({ seed, morphology: false });
       expect(word.syllables[0].nucleus[0].sound).toBe("ʊ");
