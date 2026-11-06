@@ -60,6 +60,10 @@ This exception follows the selected vowel unit; arbitrary final `y` does not
 qualify. Terminal `y` is vocalic for consonant repairs, while `y` before a
 vowel remains consonantal (`yet`, `yawn`), and `w` remains consonantal.
 
+English stress uses a [partial vowel quantity model](./docs/english-partial-quantity.md)
+that recognizes open diphthongs as heavy. Unspecified quantities retain an
+explicit legacy fallback; the guide also documents the legacy stress opt-out.
+
 ## RNG Control
 
 ```ts

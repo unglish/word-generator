@@ -1,9 +1,28 @@
 import { describe, expect, it } from "vitest";
-import { generateWord } from "../../../../src/index.js";
+import { createGenerator, englishConfig } from "../../../../src/index.js";
+import type { LanguageConfig } from "../../../../src/index.js";
 import { draws, emptyObservation, filesDigest, observe, profiles, scheduleSha256, validateReport } from "./shared.js";
 import type { ParityReport } from "./shared.js";
 
-const example = () => generateWord({ seed: 404, trace: true, morphology: false });
+// The archived Q08a evidence predates English quantity activation, so fixtures
+// rebuild that configuration: legacy weight policy and no quantity metadata.
+function preActivationConfig(): LanguageConfig {
+  const stripped = new Map(englishConfig.phonemes.map(phone => {
+    const copy = { ...phone };
+    delete copy.nuclearQuantity;
+    return [phone, copy];
+  }));
+  const maps = englishConfig.phonemeMaps;
+  const remap = (map: typeof maps.onset): typeof maps.onset => new Map([...map].map(([key, phones]) => [key, phones.map(phone => stripped.get(phone)!)]));
+  return {
+    ...englishConfig,
+    phonemes: [...stripped.values()],
+    phonemeMaps: { onset: remap(maps.onset), nucleus: remap(maps.nucleus), coda: remap(maps.coda) },
+    pronunciation: { ...englishConfig.pronunciation, stress: { ...englishConfig.pronunciation.stress, syllableWeight: { type: "legacy-segment-count" } } },
+  };
+}
+const legacy = createGenerator(preActivationConfig());
+const example = () => legacy.generateWord({ seed: 404, trace: true, morphology: false });
 
 function fixtureReport(): ParityReport {
   const word = example();
