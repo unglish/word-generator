@@ -31,7 +31,7 @@ const readings: Record<string, Record<string, GraphemeReading>> = {
   "ɪ": { i: single, y: single, ui: lexical },
   "ɛ": { e: single, ea: single },
   "æ": { a: single },
-  "ɑ": { a: lexical, o: single, ah: single, aa: lexical, au: lexical, aue: lexical },
+  "ɑ": { a: lexical, o: single, ah: single, aa: lexical, au: single, aue: lexical },
   "ɔ": { o: lexical, aw: single, ough: lexical },
   "ʊ": { oo: single, u: single, ou: lexical },
   "u": { ou: lexical, oo: single, u: open, ue: single, ew: single },
