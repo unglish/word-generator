@@ -1217,7 +1217,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const baseSpelling = new BaseSpelling(flattenedPhonemes.map((entry, id) => ({
       id, part: "root", syllableIndex: entry.syllableIndex, segment: entry.position,
       segmentIndex: entry.positionIndex, soundAtSpelling: entry.phoneme.sound,
-      ...(preservePhones ? { boundary: { phoneme: structuredClone(entry.phoneme), stress: entry.stress } } : {}),
+      ...(preservePhones ? { boundary: { phoneme: structuredClone(entry.phoneme), stress: entry.stress,
+        ...(id === flattenedPhonemes.length - 1 && context.orthographyFollowing ? { nextWritten: context.orthographyFollowing } : {}) } } : {}),
     })), tracing, preservePhones);
     const boundaryContexts = preservePhones ? spellingBoundaryContexts(baseSpelling.current().phones) : undefined;
     const spellingChoices: SpellingChoiceState[] = [];
@@ -1268,10 +1269,11 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         phoneme, prevPhoneme, nextPhoneme: nextEntry?.phoneme,
         index: phonemeIndex, total: flattenedPhonemes.length, position,
         syllableIndex, syllableCount: syllables.length, onsetLength, nucleusLength, codaLength,
-        isCluster, stress, nextWritten: isLastPhoneme ? context.orthographyFollowing : undefined,
+        isCluster, stress, previousPosition: prevEntry?.position,
+        nextWritten: isLastPhoneme ? context.orthographyFollowing : undefined,
       };
       const { candidates, ordinary, conditioned, positional, weights, positiveCount, fallback, preferenceRelaxed } = resolveGraphemes(
-        graphemeSlot, { previousForm: prevGraphemeForm, previousPosition: prevEntry?.position, doublingCount: doublingCtx.doublingCount });
+        graphemeSlot, { previousForm: prevGraphemeForm, doublingCount: doublingCtx.doublingCount });
       const selected = selectByFrequency(weights, rand, tracing);
       if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;

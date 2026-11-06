@@ -17,6 +17,8 @@ export interface GraphemeSlot {
   codaLength: number;
   isCluster: boolean;
   stress?: string;
+  /** Syllable position of the previous phone, if any. */
+  previousPosition?: "onset" | "nucleus" | "coda";
   /** Written text known to follow this slot (the next part's spelling), if any. */
   nextWritten?: string;
 }
@@ -24,8 +26,6 @@ export interface GraphemeSlot {
 /** Choice state precedes duplicate cleanup and generic spelling rewrites. */
 export interface GraphemePrefixState {
   previousForm?: string;
-  /** Syllable position of the previous selected unit. */
-  previousPosition?: "onset" | "nucleus" | "coda";
   doublingCount: number;
 }
 
@@ -467,7 +467,7 @@ export function createGraphemeResolver(config: LanguageConfig) {
     }
     const quotaFull = doubledForms.size > 0 && prefix.doublingCount >= (doubling?.maxPerWord ?? Infinity);
     // A consonant written directly after a never-double-after nucleus (ea).
-    const afterUndoubledNucleus = slot.position !== "nucleus" && prefix.previousPosition === "nucleus" &&
+    const afterUndoubledNucleus = slot.position !== "nucleus" && slot.previousPosition === "nucleus" &&
       prefix.previousForm !== undefined && neverDoubleAfter.has(prefix.previousForm);
     let preferred = weights;
     let preferenceRelaxed: "doubling-quota" | "never-double-after" | undefined;

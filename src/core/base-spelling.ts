@@ -10,7 +10,12 @@ export interface SpellingPhone {
   segmentIndex: number;
   soundAtSpelling: string;
   /** V2 only: detached actual writer input, independent of certificate claims. */
-  boundary?: { phoneme: Phoneme; stress?: string };
+  boundary?: {
+    phoneme: Phoneme;
+    stress?: string;
+    /** Written text that follows the last phone (a planned suffix's spelling); absent otherwise. */
+    nextWritten?: string;
+  };
 }
 
 export interface SpellingUnit {

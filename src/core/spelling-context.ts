@@ -32,7 +32,9 @@ export function spellingBoundaryContexts(phones: readonly SpellingPhone[]): Spel
     return {
       slot: { phoneme, prevPhoneme, nextPhoneme: next?.boundary!.phoneme,
         index, total: phones.length, position, syllableIndex, syllableCount,
-        onsetLength: shape.onset, nucleusLength: shape.nucleus, codaLength: shape.coda, isCluster, stress },
+        onsetLength: shape.onset, nucleusLength: shape.nucleus, codaLength: shape.coda, isCluster, stress,
+        ...(previous ? { previousPosition: previous.segment } : {}),
+        ...(entry.boundary!.nextWritten ? { nextWritten: entry.boundary!.nextWritten } : {}) },
       doubling: { phoneme, position, prevPhoneme,
         nextNucleus: phones.slice(index + 1).find(phone => phone.segment === "nucleus")?.boundary!.phoneme,
         stress, prevReduced: prevPhoneme?.reduced ?? false, isCluster,

@@ -338,6 +338,21 @@ describe("whole-unit spelling budgets", () => {
     expect(respelled).toBe(20);
   });
 
+  it("derives suffix-aware selection inputs from the writer boundary", () => {
+    // Selection conditions read the planned suffix's first letter and the previous
+    // phone's position, so replayed pools must see the same inputs.
+    const { word } = findExample(word => word.trace!.baseSpelling!.phones.at(-1)!.boundary?.nextWritten !== undefined, {
+      property: "a root spelled before a planned suffix", limit: 200, options: { morphology: true },
+    });
+    const phones = word.trace!.baseSpelling!.phones;
+    const contexts = spellingBoundaryContexts(phones);
+    expect(contexts.at(-1)!.slot.nextWritten).toBe(phones.at(-1)!.boundary!.nextWritten);
+    expect(contexts.slice(0, -1).every(context => context.slot.nextWritten === undefined)).toBe(true);
+    expect(contexts[0].slot.previousPosition).toBeUndefined();
+    expect(contexts.slice(1).map(context => context.slot.previousPosition)).toEqual(phones.slice(0, -1).map(phone => phone.segment));
+    expect(() => verifyBaseSpellingEvidence(word.trace!.baseSpelling!, englishConfig)).not.toThrow();
+  });
+
   it("keeps trace on/off output and RNG-call parity with active policy", () => {
     const on = createSeededRng(129); const off = createSeededRng(129); let a = 0; let b = 0;
     for (let draw = 0; draw < 200; draw++) {
