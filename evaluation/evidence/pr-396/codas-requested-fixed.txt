@@ -1,0 +1,81 @@
+generator monosyllables: 100000; CMU single-vowel words: 15106; coda JS bits: 0.1813
+distinct codas: generator 109, CMU 263
+
+coda length   generator   CMU
+  0             9.12%     6.32%
+  1            49.42%    50.30%
+  2            37.86%    36.37%
+  3             3.58%     6.88%
+  4             0.01%     0.13%
+
+Top 25 overproduced codas (by excess share):
+  n d        gen   6.70%  cmu   1.29%  x5.2  js 0.0145  gen: land,pland,yand,sind  cmu: and,band,banned,bend
+  ŋ          gen   6.19%  cmu   1.25%  x4.9  js 0.0129  gen: loing,cing,dring,tring  cmu: ainge,ang,aung,bang
+  n          gen   9.34%  cmu   5.65%  x1.7  js 0.0033  gen: snan,snin,sleyn,phlan  cmu: ahn,aine,an,ane
+  (open)     gen   9.12%  cmu   6.32%  x1.4  js 0.0018  gen: frer,frea,swer,swo  cmu: a,ae,ah,ahh
+  m s        gen   2.19%  cmu   0.00%  x∞  js 0.0109  gen: lems,lams,drams,blims  cmu: 
+  ŋ s        gen   2.16%  cmu   0.00%  x∞  js 0.0108  gen: mings,twings,nangs,gings  cmu: 
+  s          gen   5.09%  cmu   3.32%  x1.5  js 0.0014  gen: bloss,voss,oss,loss  cmu: aase,ace,ass,base
+  d z        gen   2.47%  cmu   0.99%  x2.5  js 0.0023  gen: odse,mids,nads,hods  cmu: adds,ades,ads,adz
+  n t        gen   2.53%  cmu   1.05%  x2.4  js 0.0023  gen: plant,zonte,dont,ount  cmu: ant,aunt,bandt,bendt
+  ʃ          gen   2.83%  cmu   1.52%  x1.9  js 0.0014  gen: blishe,scash,nushe,frash  cmu: asch,asche,ash,ashe
+  m b        gen   1.17%  cmu   0.01%  x177.2  js 0.0056  gen: lemb,somb,bamb,hemb  cmu: coombe
+  s k        gen   1.46%  cmu   0.50%  x2.9  js 0.0018  gen: hisc,casce,bresce,deasc  cmu: ask,bask,basque,beske
+  l s        gen   1.00%  cmu   0.07%  x15.0  js 0.0035  gen: ilse,welse,milse,gelse  cmu: dulce,else,false,folse
+  r          gen   3.56%  cmu   2.87%  x1.2  js 0.0003  gen: jore,snar,crar,naure  cmu: aer,ahr,air,ar
+  r n        gen   1.00%  cmu   0.36%  x2.8  js 0.0012  gen: irne,drirne,rern,scorn  cmu: arn,arne,arnn,barn
+  l m        gen   0.71%  cmu   0.10%  x7.2  js 0.0019  gen: grulm,talm,glalm,yelme  cmu: alm,bellm,colm,elm
+  ŋ z        gen   0.77%  cmu   0.23%  x3.3  js 0.0011  gen: nings,ceyngs,brangs,angs  cmu: bangs,brings,clings,dings
+  n s        gen   1.00%  cmu   0.47%  x2.1  js 0.0007  gen: anse,frernce,rance,ence  cmu: anse,bence,bons,bounce
+  r s        gen   0.67%  cmu   0.20%  x3.4  js 0.0010  gen: nerse,farce,brorce,snarce  cmu: arce,arse,bierce,borse
+  k s t      gen   0.54%  cmu   0.17%  x3.2  js 0.0007  gen: nacst,secst,trekst,icst  cmu: akst,axed,axt,bakst
+  m          gen   3.37%  cmu   3.03%  x1.1  js 0.0001  gen: smom,nilm,drom,yeme  cmu: aim,aime,am,ame
+  n θ        gen   0.33%  cmu   0.05%  x7.2  js 0.0009  gen: banth,blenth,enth,wonth  cmu: cynth,drenth,month,ninth
+  r l        gen   0.36%  cmu   0.08%  x4.6  js 0.0007  gen: smarl,arl,trarl,aurl  cmu: carl,carll,charle,corl
+  r m        gen   0.37%  cmu   0.10%  x3.7  js 0.0006  gen: virme,frerm,brerm,hirme  cmu: arm,charm,corm,dorm
+  l ʃ        gen   0.29%  cmu   0.05%  x6.4  js 0.0007  gen: elsh,snalshe,twelsh,frilsh  cmu: belshe,kelsch,koelsch,thielsch
+
+Top 15 underproduced codas:
+  t          gen   1.48%  cmu   4.01%  x0.4  js 0.0044  gen: bleat,rat,snat,grit  cmu: at,ate,aught,aydt
+  n z        gen   0.30%  cmu   2.46%  x0.1  js 0.0069  gen: ans,onze,slens,swons  cmu: aynes,baines,bains,banes
+  p          gen   0.46%  cmu   2.50%  x0.2  js 0.0055  gen: strape,cup,quop,strep  cmu: ape,app,beep,bip
+  l z        gen   0.24%  cmu   2.16%  x0.1  js 0.0064  gen: uls,pils,balse,ols  cmu: ailes,ails,aisles,ales
+  t s        gen   1.30%  cmu   3.17%  x0.4  js 0.0029  gen: grots,vurts,trats,sots  cmu: ates,atz,aytes,baatz
+  z          gen   2.18%  cmu   3.83%  x0.6  js 0.0017  gen: bras,bass,brese,bros  cmu: ahs,ais,as,aus
+  k          gen   3.14%  cmu   4.77%  x0.7  js 0.0012  gen: kerck,cice,sick,moc  cmu: ache,ack,akc,ake
+  tʃ         gen   0.48%  cmu   1.60%  x0.3  js 0.0023  gen: mach,ach,buch,yach  cmu: auch,bache,batch,bauch
+  r z        gen   0.13%  cmu   1.13%  x0.1  js 0.0033  gen: trors,frers,thars,brerse  cmu: airs,ares,ayres,baars
+  g          gen   0.67%  cmu   1.61%  x0.4  js 0.0014  gen: beg,brig,cig,clog  cmu: ag,bag,bagg,bagge
+  p s        gen   0.32%  cmu   1.17%  x0.3  js 0.0019  gen: hips,tripse,veps,cleps  cmu: apes,apps,beeps,blips
+  b          gen   0.73%  cmu   1.59%  x0.5  js 0.0012  gen: sleb,blewb,steb,fleb  cmu: ab,abe,aube,baab
+  θ          gen   0.23%  cmu   1.02%  x0.2  js 0.0019  gen: floth,squath,hith,blith  cmu: auth,bath,berth,beth
+  k s        gen   1.48%  cmu   2.24%  x0.7  js 0.0006  gen: icks,ucse,aics,wecse  cmu: aches,aix,ax,axe
+  b z        gen   0.00%  cmu   0.71%  x0.0  js 0.0036  gen:   cmu: abbs,babbs,babes,babs
+
+Codas the generator makes that CMU monosyllables never have (top 20 by share):
+  m s        gen   2.19%  cmu   0.00%  x∞  js 0.0109  gen: lems,lams,drams,blims  cmu: 
+  ŋ s        gen   2.16%  cmu   0.00%  x∞  js 0.0108  gen: mings,twings,nangs,gings  cmu: 
+  m θ        gen   0.10%  cmu   0.00%  x∞  js 0.0005  gen: vemth,cemthe,emth,samth  cmu: 
+  ŋ θ        gen   0.08%  cmu   0.00%  x∞  js 0.0004  gen: trigth,quogth,tagth,agth  cmu: 
+  l f θ s    gen   0.00%  cmu   0.00%  x∞  js 0.0000  gen: nafhs,vufhs  cmu: 
+  total generator share in codas absent from CMU monosyllables: 4.52%
+
+Watched codas:
+  n tʃ t     gen   0.17%  cmu   0.13%  x1.3  js 0.0000  gen: swicht,rucht,ocht,blacht  cmu: branched,bunched,cinched,clenched
+  ŋ θ        gen   0.08%  cmu   0.00%  x∞  js 0.0004  gen: trigth,quogth,tagth,agth  cmu: 
+  n t s      gen   1.05%  cmu   0.85%  x1.2  js 0.0001  gen: onts,chants,hants,brints  cmu: ants,aunts,bantz,bentz
+  k s t      gen   0.54%  cmu   0.17%  x3.2  js 0.0007  gen: nacst,secst,trekst,icst  cmu: akst,axed,axt,bakst
+  k t s      gen   0.25%  cmu   0.05%  x4.7  js 0.0005  gen: swacts,octs,thicts,bacts  cmu: acts,ducts,facts,pacts
+  k s t s    gen   0.00%  cmu   0.01%  x0.5  js 0.0000  gen: rests,nists,sposts  cmu: texts
+  ŋ k θ      gen   0.02%  cmu   0.01%  x1.5  js 0.0000  gen: blocth,bekth,nacth,okth  cmu: length,strength
+  l f θ      gen   0.04%  cmu   0.01%  x6.2  js 0.0001  gen: wufth,afth,sagth,culth  cmu: twelfth
+  m p s      gen   0.14%  cmu   0.21%  x0.7  js 0.0000  gen: femps,wemps,emps,domps  cmu: blimps,bumps,camps,champs
+  n tʃ       gen   0.54%  cmu   0.35%  x1.5  js 0.0001  gen: tinch,sprench,anch,sinch  cmu: bench,blanch,blanche,branch
+
+/ɜ/ (ɚ) + coda:
+  ɜ | n t s    gen 0.04%  cmu 0.01%
+  ɜ | n tʃ     gen 0.02%  cmu 0.00%
+  ɜ | m p s    gen 0.00%  cmu 0.00%
+  ɜ | n t      gen 0.14%  cmu 0.03%
+  ɜ | r        gen 0.15%  cmu 0.00%
+  ɜ |          gen 1.07%  cmu 0.41%
