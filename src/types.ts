@@ -188,6 +188,13 @@ export interface GraphemeCondition {
  * Each grapheme maps a phoneme sound to one of its possible written forms,
  * weighted by frequency and syllable position.
  */
+/** Reading obligations are independent of selection eligibility and frequency. */
+export type GraphemeReading =
+  | { kind: "single-phone" }
+  | { kind: "open-vowel-or-split-marker" }
+  | { kind: "following-letter"; require?: string[]; forbid?: string[] }
+  | { kind: "unsupported-construction"; reason: string };
+
 export interface Grapheme {
   /** The IPA/ASCII phoneme sound this grapheme represents. */
   phoneme: string;
@@ -227,6 +234,8 @@ export interface Grapheme {
 
   /** Context condition restricting when this grapheme is valid. */
   condition?: GraphemeCondition;
+  /** Omission leaves reading certification unavailable to phone-preserving repair. */
+  reading?: GraphemeReading;
 }
 
 /**

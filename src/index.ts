@@ -120,3 +120,5 @@ export type {
   Recorded, StressObservation, SegmentObservation, WordIdentityObservation,
   CoarseProjectionItem, CmuTokenObservation,
 } from "./phonology/identity.js";
+export type { GraphemeReading } from "./types.js";
+export type { SpellingBudgetOutcome, SpellingBudgetMeasurement, SpellingBudgetValues, SpellingBudgetRefusal, SpellingCoverageCertificate, SpellingChoiceLicense, SpellingUnitReplacement } from "./core/spelling-coverage-types.js";

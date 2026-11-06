@@ -416,6 +416,8 @@ function preferCandidates(
   return kept.length > 0 ? kept : undefined;
 }
 
+export class NoLegalGraphemeError extends Error {}
+
 /** One hard-legality and soft-quota policy, shared by selection and respelling. */
 export function createGraphemeResolver(config: LanguageConfig) {
   const graphemeMaps = config.graphemeMaps;
@@ -459,7 +461,7 @@ export function createGraphemeResolver(config: LanguageConfig) {
         candidates.filter(grapheme => grapheme.fallbackOnly),
       )));
       if (weights.length === 0) {
-        throw new Error(`No legal grapheme for /${slot.phoneme.sound}/ at segment ${slot.index} ` +
+        throw new NoLegalGraphemeError(`No legal grapheme for /${slot.phoneme.sound}/ at segment ${slot.index} ` +
           `(${slot.position}, syllable ${slot.syllableIndex}; ${fallback})`);
       }
     }

@@ -1,9 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
+import { createGenerator, createSeededRng, englishConfig } from "../index.js";
 import { BaseSpelling, expandReplacement, parseReplaceCallbackArgs } from "./base-spelling.js";
 import type { BaseSpellingTrace, SpellingCell, SpellingEdit } from "./base-spelling.js";
 import type { Word } from "../types.js";
 import { findExample, searchSeeds } from "../test-support/find-example.js";
+
+// These tests pin the legacy (version-1) repair ledger; the phone-preserving
+// policy has its own coverage in spelling-coverage.test.ts.
+const legacyConfig = { ...englishConfig, writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined } };
+const legacy = createGenerator(legacyConfig);
+const generateWord = legacy.generateWord;
 
 function editsFor(word: Word, rule: string): SpellingEdit[] {
   return word.trace!.baseSpelling!.edits.filter(edit => edit.rule === rule);
@@ -73,8 +79,8 @@ describe("exact base-spelling provenance", () => {
   it("records a cut within a multi-letter spelling at its actual source cell without claiming it is repaired", () => {
     // A tighter consonant cap makes such cuts common enough to find quickly.
     const generator = createGenerator({
-      ...englishConfig,
-      writtenFormConstraints: { ...englishConfig.writtenFormConstraints!, maxConsonantGraphemes: 3, maxConsonantLetters: 3 },
+      ...legacyConfig,
+      writtenFormConstraints: { ...legacyConfig.writtenFormConstraints, maxConsonantGraphemes: 3, maxConsonantLetters: 3 },
     });
     const { word } = findExample(word => partialCut(word, "repairConsonantLetters") !== undefined, {
       property: "a consonant repair cutting part of one selected spelling", limit: 2000, generator, options: { morphology: true },
@@ -98,7 +104,7 @@ describe("exact base-spelling provenance", () => {
     { rule: "orthographicRepair:hard-g-silent-u", shape: (edit: SpellingEdit) => edit.before === "" && edit.after === "u" },
   ])("exposes the $rule edit without changing untraced output", ({ rule, shape }) => {
     const { word, options } = findExample(word => editsFor(word, rule).some(shape), {
-      property: `a ${rule} edit`, limit: 2500, options: { morphology: false },
+      generator: legacy, property: `a ${rule} edit`, limit: 2500, options: { morphology: false },
     });
     const base = word.trace!.baseSpelling!;
     expectLedgerReplay(base);
@@ -111,7 +117,7 @@ describe("exact base-spelling provenance", () => {
   it("records empty emission separately from phoneme deletion", () => {
     const removesSelectedLetters = (edit: SpellingEdit) => edit.after === "" && edit.input.length > 0 && edit.input.every(cell => selectionOrigin(cell));
     const { word } = findExample(word => editsFor(word, "deduplicateAdjacentLetters").some(removesSelectedLetters), {
-      property: "an adjacent-letter deduplication of selected letters", limit: 1500, options: { morphology: false },
+      generator: legacy, property: "an adjacent-letter deduplication of selected letters", limit: 1500, options: { morphology: false },
     });
     const base = word.trace!.baseSpelling!;
     const edit = editsFor(word, "deduplicateAdjacentLetters").find(removesSelectedLetters)!;
@@ -126,7 +132,7 @@ describe("exact base-spelling provenance", () => {
 
   it("keeps inserted silent-e ownership unresolved instead of assigning it to a neighbour", () => {
     const { word } = findExample(word => word.trace!.morphology!.template !== "bare" && editsFor(word, "silentE:marker").length > 0, {
-      property: "a silent-e insertion in an affixed root", limit: 300, options: { morphology: true },
+      generator: legacy, property: "a silent-e insertion in an affixed root", limit: 300, options: { morphology: true },
     });
     const base = word.trace!.baseSpelling!;
     expect(base.scope).toBe("root-before-morphology");
@@ -144,7 +150,7 @@ describe("exact base-spelling provenance", () => {
       const source = generateWord({ ...options, seed });
       const phonemes = source.syllables.flatMap(syllable => [...syllable.onset, ...syllable.nucleus, ...syllable.coda].map(phone => phone.sound));
       const generator = createGenerator({
-        ...englishConfig,
+        ...legacyConfig,
         gapSpellings: [{ name: "probe", phonemes, replacement: "other", targetLayer: "unknown" }],
       });
       const word = generator.generateWord({ ...options, seed });
@@ -162,7 +168,7 @@ describe("exact base-spelling provenance", () => {
 
   it.each([100, 53])("keeps public-API output and RNG parity with custom regex probability %s", probability => {
     const generator = createGenerator({
-      ...englishConfig,
+      ...legacyConfig,
       spellingRules: [{ name: "probe", pattern: "([aeiou])", replacement: "$1$1", probability, scope: "both" }],
     });
     const onRng = createSeededRng(281);
@@ -211,7 +217,7 @@ const replacementCases = [
 describe.each([100, 53])("spelling replacements with probability %s", probability => {
   it.each(replacementCases)("preserves output, RNG and cell provenance for $name", ({ name, pattern, replacement, flags, scope }) => {
     const generator = createGenerator({
-      ...englishConfig,
+      ...legacyConfig,
       spellingRules: [{ name, pattern, replacement, flags, scope, probability }],
     });
     const { seed } = findExample(word => editsFor(word, `spellingRule:${name}`).length > 0, {
