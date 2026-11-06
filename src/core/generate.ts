@@ -18,7 +18,7 @@ import {
   writeMorphology,
 } from "./morphology/index.js";
 import type { PlannedMorphologySelection, PreparedMorphology } from "./morphology/index.js";
-import { cloneSyllables } from "./lexical.js";
+import { clonePhoneme, cloneSyllables } from "./lexical.js";
 import {
   computePhonemeTargetBounds,
   resolveRootPhonemeTarget,
@@ -1293,7 +1293,7 @@ function carryRootStressRepairs(
     let repaired = false;
     for (let index = 0; index < finalSyllable.nucleus.length; index++) {
       if (finalSyllable.nucleus[index] === nucleiBeforeRepair[finalIndex][index]) continue;
-      lexicalRoot[rootIndex].nucleus[index] = { ...finalSyllable.nucleus[index] };
+      lexicalRoot[rootIndex].nucleus[index] = clonePhoneme(finalSyllable.nucleus[index]);
       repaired = true;
     }
     if (repaired) lexicalRoot[rootIndex].stress = finalSyllable.stress;
