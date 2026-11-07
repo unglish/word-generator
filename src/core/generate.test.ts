@@ -76,6 +76,11 @@ function withFinalIProbability(config: LanguageConfig, probability: number): Lan
   return { ...config, spellingRules: config.spellingRules!.map(rule => rule.name === "no-final-i" ? { ...rule, probability } : rule) };
 }
 
+/** The legacy deletion repairs these cap tests exercise; preserve-phones retains over-budget spellings instead. */
+function withLegacyRepairs(config: LanguageConfig): LanguageConfig {
+  return { ...config, writtenFormConstraints: { ...config.writtenFormConstraints, policy: undefined } };
+}
+
 /** Stages that see the affixed word; every other stage describes the root alone. */
 const WORD_STAGES = new Set(["assembleMorphology", "repairFinalStressedNuclei", "generatePronunciation"]);
 const rootStages = (trace: WordTrace) => trace.stages.filter(stage => !WORD_STAGES.has(stage.name));
@@ -161,10 +166,10 @@ describe("Word Generator", () => {
 
   it("keeps hyphenated output aligned after morphology consonant repair", () => {
     // A tighter consonant cap makes junction repairs common enough to find quickly.
-    const generator = createGenerator({
+    const generator = createGenerator(withLegacyRepairs({
       ...englishConfig,
       writtenFormConstraints: { ...englishConfig.writtenFormConstraints!, maxConsonantGraphemes: 3, maxConsonantLetters: 3 },
-    });
+    }));
     const { word, options } = findExample(word => {
       const realization = word.trace!.morphology?.realization;
       return !!realization && realization.emittedParts.some((part, index) => part.text !== realization.assembledParts[index].text);
@@ -265,7 +270,7 @@ describe("Word Generator", () => {
   });
 
   it("caps the same final vowel run when the final-i rule does not produce y", () => {
-    const generator = createGenerator(withFinalIProbability(terminalVowelConfig(), 1));
+    const generator = createGenerator(withLegacyRepairs(withFinalIProbability(terminalVowelConfig(), 1)));
     const { word, options } = findExample(word => {
       const selection = lastSelection(word);
       return selection.position === "nucleus" && selection.selected.length > TERMINAL_VOWEL_CAP && selection.selected.endsWith("i")
@@ -284,10 +289,10 @@ describe("Word Generator", () => {
   });
 
   it("does not assign an inserted final y to its neighboring selected vowel", () => {
-    const generator = createGenerator({
+    const generator = createGenerator(withLegacyRepairs({
       ...englishConfig,
       spellingRules: [...englishConfig.spellingRules!, { name: "unowned-final-y", pattern: "$", replacement: "y", scope: "word" }],
-    });
+    }));
     // A selected ...Vy spelling plus the inserted y exceeds the vowel-letter cap.
     const { word, options } = findExample(word => lastSelection(word).position === "nucleus" && /[aeiou]y$/.test(lastSelection(word).emitted)
       && repairsFor(word, "spellingRule:unowned-final-y").length > 0, {
@@ -303,7 +308,7 @@ describe("Word Generator", () => {
 
   it("does not protect terminal y belonging to a selected consonant spelling", () => {
     const graphemes = englishConfig.graphemes.map(g => g.phoneme === "s" ? { ...g, form: "aeay" } : g);
-    const generator = createGenerator({ ...englishConfig, graphemes, graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps });
+    const generator = createGenerator(withLegacyRepairs({ ...englishConfig, graphemes, graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps }));
     const { word, options } = findExample(word => lastSelection(word).phoneme === "s" && lastSelection(word).selected === "aeay", {
       property: "a word-final /s/ spelled aeay", limit: 300, generator, options: { syllableCount: 1, morphology: false },
     });
@@ -344,9 +349,9 @@ describe("Word Generator", () => {
     { probability: 1, fired: false },
   ])("resolves a deferred vowel unit before applying the cap (final-i probability $probability)", ({ probability, fired }) => {
     const graphemes = englishConfig.graphemes.map(g => g.phoneme === "ɔɪ" ? { ...g, form: "uoi" } : g);
-    const generator = createGenerator(withFinalIProbability({
+    const generator = createGenerator(withLegacyRepairs(withFinalIProbability({
       ...withBoostedNuclei(englishConfig, ["ɔɪ"], 100), graphemes, graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
-    }, probability));
+    }, probability)));
     const { word, options } = findExample(word => lastSelection(word).selected === "uoi" && lastSelection(word).position === "nucleus"
       && (repairsFor(word, "spellingRule:no-final-i").length > 0) === fired, {
       property: `a final /ɔɪ/ spelled uoi where the final-i rule ${fired ? "fired" : "did not fire"}`,

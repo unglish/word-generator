@@ -1,3 +1,4 @@
+import type { SpellingBudgetOutcome } from "./spelling-coverage-types.js";
 import type { BaseSpellingTrace } from "./base-spelling.js";
 import type { Syllable, SyllableShapePlan } from "../types.js";
 import type { AcceptanceCriteria, AttemptScore } from "./length-semantics.js";
@@ -344,6 +345,7 @@ export interface WordTrace {
   baseSpelling?: BaseSpellingTrace;
   /** Weight input and decisions before root nucleus repair/reduction. Absent in historical traces. */
   stressWeight?: StressWeightTrace;
+  spellingBudgets?: SpellingBudgetOutcome[];
   /** Target syllable count chosen for the root, excluding affixes. */
   syllableCount: number;
   /** Target phoneme count for the generated root before morphology. */
@@ -384,6 +386,7 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
 export class TraceCollector {
   baseSpelling?: BaseSpellingTrace;
   stressWeight?: StressWeightTrace;
+  spellingBudgets?: SpellingBudgetOutcome[];
   stages: StageSnapshot[] = [];
   graphemeSelections: GraphemeTrace[] = [];
   orthographyTrace?: OrthographyTrace;
@@ -400,6 +403,10 @@ export class TraceCollector {
     const before = this.currentBefore.get(name) ?? [];
     this.currentBefore.delete(name);
     this.stages.push({ name, before, after: snapshotSyllables(syllables) });
+  }
+
+  recordSpellingBudget(outcome: SpellingBudgetOutcome): void {
+    (this.spellingBudgets ??= []).push(outcome);
   }
 
   recordGraphemeSelection(entry: GraphemeTrace): void {
@@ -443,6 +450,7 @@ export class TraceCollector {
       repairs: this.repairs,
       baseSpelling: this.baseSpelling,
       stressWeight: this.stressWeight,
+      ...(this.spellingBudgets ? { spellingBudgets: this.spellingBudgets } : {}),
       summary: {
         totalDecisions: this.graphemeSelections.length,
         repairCount: this.repairs.length,

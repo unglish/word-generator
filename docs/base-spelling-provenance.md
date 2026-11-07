@@ -6,6 +6,11 @@
 an additive diagnostic and representation change: it does not repair the clipped
 spelling or change the generated words, probabilities, or RNG calls.
 
+This document describes the version-1 ledger written by the legacy repairs
+(`writtenFormConstraints.policy` omitted). English now uses `preserve-phones`,
+whose version-2 contract is documented in [spelling-coverage-policy.md](./spelling-coverage-policy.md),
+so the example above reproduces only with the policy unset.
+
 ## Contract and boundary
 
 `WordTrace.baseSpelling` is optional and versioned. Its `phones`, `units`, and

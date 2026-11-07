@@ -20,6 +20,8 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
 - [`experiments.md`](./experiments.md): where PR evidence lives (PR descriptions
   and `archive/pr-<number>` tags, not `main`), and experiments closed without
   merging with their measured outcomes.
+- [`spelling-coverage-policy.md`](./spelling-coverage-policy.md): phone-preserving
+  spelling budgets, licensed respellings and `trace.spellingBudgets`.
 - [`resolved-allomorphs.md`](./resolved-allomorphs.md): selected affix forms,
   explicit morphology parts, and planned/resolved trace provenance.
 - [`pronunciation-config-migration.md`](./pronunciation-config-migration.md):

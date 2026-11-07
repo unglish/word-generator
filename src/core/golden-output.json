@@ -90,7 +90,7 @@
         {"clean":"frongs","hyphenated":"frongs","pronunciation":"frɑŋz"}
       ]
     },
-    {"name":"lexicon, morphology","seed":3,"mode":"lexicon","morphology":true,"rngDraws":3183,
+    {"name":"lexicon, morphology","seed":3,"mode":"lexicon","morphology":true,"rngDraws":3335,
       "words": [
         {"clean":"ritzaycing","hyphenated":"ritzaycing","pronunciation":"ˈrɪt.zeɪk.əŋ"},
         {"clean":"beachito","hyphenated":"bea&shy;chi&shy;to","pronunciation":"ˈbi:.tʃə.tʰə"},
@@ -125,13 +125,13 @@
         {"clean":"ious","hyphenated":"ious","pronunciation":"ˈaɪ.əs"},
         {"clean":"atoust","hyphenated":"a&shy;toust","pronunciation":"ˈeɪˌtʰaʊst"},
         {"clean":"lagent","hyphenated":"la&shy;gent","pronunciation":"ˈlæˌgɛnt"},
-        {"clean":"shelenched","hyphenated":"shelenched","pronunciation":"ˈʃɛ.lɚntʃt"},
-        {"clean":"refrolormb","hyphenated":"refrolormb","pronunciation":"ˌrɪ.frɑˈlɚmb"},
-        {"clean":"etriltese","hyphenated":"e&shy;tril&shy;tese","pronunciation":"ɪˈtʰrɪl.ti:s"},
-        {"clean":"urpeanity","hyphenated":"urpeanity","pronunciation":"ˌɚˈpʰi:n.ɪ.ti:"},
-        {"clean":"motielfans","hyphenated":"motielfans","pronunciation":"məˈtʰaɪlfˌənz"},
-        {"clean":"reecockalenal","hyphenated":"reecockalenal","pronunciation":"ˌrɪˌi:.kʰəˌkʰəlˈɛn.əl"},
-        {"clean":"onoosh","hyphenated":"o&shy;noosh","pronunciation":"ɑˈnʊʃ"}
+        {"clean":"dreldaed","hyphenated":"dreldaed","pronunciation":"ˈdrɛlˌdəd"},
+        {"clean":"voldorful","hyphenated":"voldorful","pronunciation":"ˈvɔl.dɚ.fəl"},
+        {"clean":"mivireingal","hyphenated":"mivireingal","pronunciation":"ˌmɪv.əˈri:ŋ.əl"},
+        {"clean":"ongsist","hyphenated":"ongsist","pronunciation":"ˈɔŋs.əst"},
+        {"clean":"swakeash","hyphenated":"swa&shy;keash","pronunciation":"ˌswəˈkʰi:ʃ"},
+        {"clean":"achorn","hyphenated":"a&shy;chorn","pronunciation":"ˈeɪˌtʃɚn"},
+        {"clean":"sacatonktion","hyphenated":"sacatonktion","pronunciation":"səˌkʰæˈtʰɑŋk.ʃən"}
       ]
     },
     {"name":"lexicon, bare","seed":4,"mode":"lexicon","morphology":false,"rngDraws":5324,

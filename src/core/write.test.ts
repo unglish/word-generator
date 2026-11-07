@@ -377,10 +377,15 @@ describe("repairVowelLetters", () => {
 // ---------------------------------------------------------------------------
 
 describe("consonant pileup integration", () => {
-  it("generates 100k words with no 5+ consonant grapheme runs", { timeout: 120_000 }, () => {
+  const legacyGenerator = createGenerator({
+    ...englishConfig,
+    writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined },
+  });
+
+  it("generates 100k words with no 5+ consonant grapheme runs under legacy repairs", { timeout: 120_000 }, () => {
     let violations = 0;
     for (let i = 0; i < 100_000; i++) {
-      const word = generateWord({ seed: i, morphology: false });
+      const word = legacyGenerator.generateWord({ seed: i, morphology: false });
       if (getMaxConsonantGraphemeRun(word.written.clean) > 4) {
         violations++;
       }
@@ -388,10 +393,25 @@ describe("consonant pileup integration", () => {
     expect(violations).toBe(0);
   });
 
-  it("generates 100k words with no 5+ consonant letter runs", { timeout: 120_000 }, () => {
+  it("reports every retained 5+ consonant grapheme run as an infeasible budget under preserve-phones", { timeout: 120_000 }, () => {
     let violations = 0;
     for (let i = 0; i < 100_000; i++) {
       const word = generateWord({ seed: i, morphology: false });
+      if (getMaxConsonantGraphemeRun(word.written.clean) <= 4) continue;
+      violations++;
+      const traced = generateWord({ seed: i, morphology: false, trace: true });
+      expect(traced.written.clean).toBe(word.written.clean);
+      expect(traced.trace!.spellingBudgets!.some(outcome =>
+        outcome.status === "infeasible" && outcome.after.exceeded.includes("consonantGraphemes"))).toBe(true);
+    }
+    // Retention is the exception: almost every word still fits the cap.
+    expect(violations).toBeLessThan(100);
+  });
+
+  it("generates 100k words with no 5+ consonant letter runs under legacy repairs", { timeout: 120_000 }, () => {
+    let violations = 0;
+    for (let i = 0; i < 100_000; i++) {
+      const word = legacyGenerator.generateWord({ seed: i, morphology: false });
       if (getMaxConsonantLetterRun(word.written.clean) > 4) {
         violations++;
       }
@@ -399,11 +419,27 @@ describe("consonant pileup integration", () => {
     expect(violations).toBe(0);
   });
 
+  it("reports every retained 5+ consonant letter run as an infeasible budget under preserve-phones", { timeout: 120_000 }, () => {
+    let violations = 0;
+    for (let i = 0; i < 100_000; i++) {
+      const word = generateWord({ seed: i, morphology: false });
+      if (getMaxConsonantLetterRun(word.written.clean) <= 4) continue;
+      violations++;
+      const traced = generateWord({ seed: i, morphology: false, trace: true });
+      expect(traced.written.clean).toBe(word.written.clean);
+      expect(traced.trace!.spellingBudgets!.some(outcome =>
+        outcome.status === "infeasible" && outcome.after.exceeded.includes("consonantLetters"))).toBe(true);
+    }
+    // Retention is the exception: almost every word still fits the cap.
+    expect(violations).toBeLessThan(100);
+  });
+
   it("with max=3, generates 10k words with no 4+ consonant grapheme runs", () => {
     const customConfig = {
       ...englishConfig,
       writtenFormConstraints: {
         ...englishConfig.writtenFormConstraints,
+        policy: undefined,
         maxConsonantGraphemes: 3,
       },
     };
