@@ -7,7 +7,7 @@ import { findExample, searchSeeds } from "../test-support/find-example.js";
 
 // These tests pin the legacy (version-1) repair ledger; the phone-preserving
 // policy has its own coverage in spelling-coverage.test.ts.
-const legacyConfig = { ...englishConfig, writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined } };
+const legacyConfig = { ...englishConfig, doubling: { ...englishConfig.doubling!, realizations: undefined }, writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined } };
 const legacy = createGenerator(legacyConfig);
 const generateWord = legacy.generateWord;
 

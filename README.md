@@ -230,3 +230,5 @@ original/previous-step comparisons.
 - Tuning notes and diagnostics: [`TUNING.md`](./TUNING.md)
 
 See [grapheme selection](docs/grapheme-selection.md) for hard constraints, positional scopes, and explicit fallbacks.
+
+See [sound-specific consonant doubling](docs/phoneme-aware-doubling.md) for the English realization policy, custom rules, and the explicit legacy opt-out.
