@@ -18,7 +18,8 @@ function sample(): Word[] {
 }
 
 function segmentOf(spelling: BaseSpellingTrace, cell: SpellingCell): string {
-  if (cell.origin.kind !== "selection") return "rewrite";
+  // Licensed and normalized cells keep their unit's ownership; only rewrites lose it.
+  if (cell.origin.kind === "rewrite") return "rewrite";
   return spelling.phones[spelling.units[cell.origin.unitId].phoneIds[0]].segment;
 }
 

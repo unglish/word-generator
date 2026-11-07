@@ -109,7 +109,7 @@ export default {
   graphemes,
 };
 
-export type { BaseSpellingTrace, SpellingPhone, SpellingUnit, SpellingCell, SpellingCellOrigin, SpellingEdit } from "./core/base-spelling.js";
+export type { BaseSpellingTrace, BaseSpellingTraceV1, BaseSpellingTraceV2, BaseSpellingTraceV3, SpellingPhone, SpellingUnit, SpellingUnitV3, SpellingCell, SpellingCellOrigin, SpellingEdit } from "./core/base-spelling.js";
 
 export {
   PHONEME_IDENTITY_CONTRACT, LEGACY_ENGLISH_IDENTITIES, observeWordIdentity,
@@ -122,3 +122,5 @@ export type {
 } from "./phonology/identity.js";
 export type { GraphemeReading } from "./types.js";
 export type { SpellingBudgetOutcome, SpellingBudgetMeasurement, SpellingBudgetValues, SpellingBudgetRefusal, SpellingCoverageCertificate, SpellingChoiceLicense, SpellingUnitReplacement } from "./core/spelling-coverage-types.js";
+
+export type { UnitNormalizationCertificate, UnitNormalizationCheck, UnitNormalizationEpisode, UnitNormalizationObservation, NormalizationSite, NormalizationRefusal, NormalizationSupport, NormalizedCellOrigin, LedgerCursor } from "./core/spelling-normalization-types.js";
