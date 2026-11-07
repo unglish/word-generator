@@ -17,6 +17,7 @@ import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographySource, OrthographyTrace, OrthographyUnitTrace, TraceLink, StructuralTrace } from "./trace.js";
 import { validateJunction } from "./junction.js";
 import { isVowelChar, isConsonantLetter } from "../utils/letters.js";
+import { clonePhoneme } from "./lexical.js";
 
 // ---------------------------------------------------------------------------
 // Spelling rules (config-driven post-processing)
@@ -1217,7 +1218,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const baseSpelling = new BaseSpelling(flattenedPhonemes.map((entry, id) => ({
       id, part: "root", syllableIndex: entry.syllableIndex, segment: entry.position,
       segmentIndex: entry.positionIndex, soundAtSpelling: entry.phoneme.sound,
-      ...(preservePhones ? { boundary: { phoneme: structuredClone(entry.phoneme), stress: entry.stress,
+      ...(preservePhones ? { boundary: { phoneme: clonePhoneme(entry.phoneme), stress: entry.stress,
         ...(id === flattenedPhonemes.length - 1 && context.orthographyFollowing ? { nextWritten: context.orthographyFollowing } : {}) } } : {}),
     })), tracing, preservePhones);
     const boundaryContexts = preservePhones ? spellingBoundaryContexts(baseSpelling.current().phones) : undefined;

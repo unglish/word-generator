@@ -116,6 +116,13 @@ function hasInvalidJunction(choices: SpellingChoiceState[], config: LanguageConf
 }
 
 /** Deterministic constrained search. Selection RNG is never called here. */
+/**
+ * Visited partial assignments before a plan search gives up. Successful respells
+ * visit 28 on average (at most 924 in 200k words); failed searches would
+ * otherwise run to the limit, so it bounds the cost of words that cannot be fixed.
+ */
+export const SPELLING_COVERAGE_SEARCH_LIMIT = 2048;
+
 export function createSpellingCoveragePlanner(
   config: LanguageConfig,
   resolve = createGraphemeResolver(config),
@@ -240,7 +247,7 @@ export function createSpellingCoveragePlanner(
 
     function search(index: number, remaining: number, previousForm: string | undefined, count: number, nucleus: string, previousNucleus: string, score: number): void {
       if (exhausted) return;
-      if (common.visitedAssignments >= 8192) { exhausted = true; return; }
+      if (common.visitedAssignments >= SPELLING_COVERAGE_SEARCH_LIMIT) { exhausted = true; return; }
       common.visitedAssignments++;
       // Count the assigned state before rejecting a fixed impossibility. Remaining
       // choices cannot supply a missing reading or an owned marker to this unit.
