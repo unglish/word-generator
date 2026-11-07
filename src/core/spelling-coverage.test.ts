@@ -7,7 +7,7 @@ import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import { verifyBaseSpellingEvidence } from "./spelling-evidence.js";
 import { findExample } from "../test-support/find-example.js";
 import { BaseSpelling } from "./base-spelling.js";
-import { createSpellingCoveragePlanner } from "./spelling-coverage.js";
+import { createSpellingCoveragePlanner, SPELLING_COVERAGE_SEARCH_LIMIT } from "./spelling-coverage.js";
 import type { SpellingChoiceState } from "./spelling-coverage.js";
 import type { SpellingCoverageCertificate } from "./spelling-coverage-types.js";
 
@@ -181,7 +181,7 @@ describe("whole-unit spelling budgets", () => {
     }
     const outcome = f.planner.apply(f.base, f.choices, "base-before-word-rules");
     expect(outcome.status).toBe("respell");
-    expect(outcome.visitedAssignments).toBeLessThan(8192);
+    expect(outcome.visitedAssignments).toBeLessThan(SPELLING_COVERAGE_SEARCH_LIMIT);
     const actual = certificate(f.base);
     expect(actual.choices.map(choice => choice.inventoryIndex)).toEqual(best!.indices);
     expect(actual.logProbability).toBe(best!.score);
@@ -274,7 +274,7 @@ describe("whole-unit spelling budgets", () => {
   it("reports bounded search exhaustion separately and does not commit a provisional plan", () => {
     const f = fixture([glyph("æ", "a"), glyph("f", "ph")], Array.from({ length: 9000 }, () => glyph("f", "ph")), { writtenFormConstraints: { maxConsonantLetters: 1 } });
     const before = f.base.snapshot();
-    expect(f.planner.apply(f.base, f.choices, "base-before-word-rules")).toMatchObject({ status: "infeasible", reason: "search-budget", visitedAssignments: 8192 });
+    expect(f.planner.apply(f.base, f.choices, "base-before-word-rules")).toMatchObject({ status: "infeasible", reason: "search-budget", visitedAssignments: SPELLING_COVERAGE_SEARCH_LIMIT });
     expect(f.base.snapshot()).toEqual(before);
   });
 
