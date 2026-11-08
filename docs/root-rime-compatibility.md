@@ -11,9 +11,25 @@ A `bannedNucleusCodaCombinations` entry excludes the Cartesian product of its
 nucleus and coda sounds anywhere within a syllable. It is not an adjacency rule
 or an exact-rime template. Custom configurations supply the entire rule set.
 
-The default English configuration excludes only /ɚ/ and /ɝ/ before /ŋ/. /æ/
+The default English configuration excludes /ɚ/ and /ɝ/ before /ŋ/ and /r/. /æ/
 before /ŋ/ is permitted, so rimes such as *bang*, *hangs* and *thank* are
 available, including extended codas such as /æŋz/ and /æŋk/.
+
+### Following onset
+
+An entry with `followingOnset: true` also bans its consonants as the first onset
+phoneme of the next root syllable when the nucleus's syllable is open, so the
+nucleus is never directly followed by them inside a root. English uses it for
+/ɚ ɝ/ + /r/ (#410). The rhotic vowel already carries the r-colouring: CMU has
+ER + R only across affix and compound joins (*overrule*, *interracial*), and
+root-internally the /r/ merges into the vowel (*stirring* /ɚ ɪ ŋ/, *furry*
+/ɚ i/, *erring* /ɛ r ɪ ŋ/).
+
+The rule applies where the following onset or the nucleus is chosen: onset
+selection after an open syllable (rejection reason `nucleus-onset`), stress and
+edge repair (counted in `positivePairExclusions`), and the root check before
+spelling. Only a following root syllable counts. Prefix and suffix joins are
+exempt, so *over-* + an /r/-initial root keeps its /ɚ r/.
 
 Stress repair keeps its existing trigger: the first nucleus of a primary-marked
 syllable whose sound belongs to `stressedNucleusBan`. This includes lexical

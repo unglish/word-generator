@@ -116,8 +116,10 @@ describe("exact base-spelling provenance", () => {
 
   it("records empty emission separately from phoneme deletion", () => {
     const removesSelectedLetters = (edit: SpellingEdit) => edit.after === "" && edit.input.length > 0 && edit.input.every(cell => selectionOrigin(cell));
+    // About 1 bare word in 1,500 has one. Before #410 most were /ɚ/ + /r/
+    // (`ar` + `r`), which the generator no longer produces.
     const { word } = findExample(word => editsFor(word, "deduplicateAdjacentLetters").some(removesSelectedLetters), {
-      generator: legacy, property: "an adjacent-letter deduplication of selected letters", limit: 1500, options: { morphology: false },
+      generator: legacy, property: "an adjacent-letter deduplication of selected letters", limit: 8000, options: { morphology: false },
     });
     const base = word.trace!.baseSpelling!;
     const edit = editsFor(word, "deduplicateAdjacentLetters").find(removesSelectedLetters)!;

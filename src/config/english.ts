@@ -474,6 +474,14 @@ export const englishConfig: LanguageConfig = {
         nucleus: ["ɚ", "ɝ"],
         coda: ["ŋ"],
       },
+      // The rhotic vowels already carry the r-colouring. CMU has ER + R only
+      // across affix and compound joins (overrule, interracial); inside a root
+      // the /r/ merges into the vowel (stirring /ɚ ɪ ŋ/, furry /ɚ i/).
+      {
+        nucleus: ["ɚ", "ɝ"],
+        coda: ["r"],
+        followingOnset: true,
+      },
     ],
   },
 

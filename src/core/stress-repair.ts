@@ -2,7 +2,7 @@ import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import { StressRules } from "../config/language.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { isNucleusWordPositionAllowed, nucleusWordEdges } from "./nucleus-position.js";
-import { isNucleusCompatibleWithCoda } from "./rime-compatibility.js";
+import { isNucleusCompatibleWithCoda, isNucleusCompatibleWithFollowingOnset } from "./rime-compatibility.js";
 import type { BannedNucleusCodaPairs } from "./rime-compatibility.js";
 
 /**
@@ -18,6 +18,7 @@ export function repairStressedNuclei(
   stress: StressRules,
   bannedPairs?: BannedNucleusCodaPairs,
   retainedRoot?: { syllables: readonly Syllable[]; start: number },
+  followingOnsetPairs?: BannedNucleusCodaPairs,
 ): void {
   const ban = stress.nucleus.stressedNucleusBan;
   if (!ban || ban.length === 0) return;
@@ -41,6 +42,9 @@ export function repairStressedNuclei(
     const rootSyllable = retainedRoot ? retainedRoot.syllables[rootIndex] : syllable;
     const coda = rootSyllable?.coda ?? syllable.coda;
     const pairRules = rootSyllable ? bannedPairs : undefined;
+    // Only a following root syllable counts; affix joins are exempt.
+    const nextOnset = retainedRoot ? retainedRoot.syllables[rootIndex + 1]?.onset : context.word.syllables[syllableIndex + 1]?.onset;
+    const onsetRules = rootSyllable ? followingOnsetPairs : undefined;
     const before = nucleus.sound;
     const edges = nucleusWordEdges(syllable, syllableIndex, context.word.syllables.length, 0);
     const eligible: [Phoneme, number][] = [];
@@ -48,7 +52,8 @@ export function repairStressedNuclei(
     let totalWeight = 0;
     for (const [phoneme, weight] of weightedAllowed) {
       if (!Number.isFinite(weight) || weight <= 0 || !isNucleusWordPositionAllowed(phoneme, edges)) continue;
-      if (!isNucleusCompatibleWithCoda(phoneme.sound, coda, pairRules)) {
+      if (!isNucleusCompatibleWithCoda(phoneme.sound, coda, pairRules)
+        || !isNucleusCompatibleWithFollowingOnset(phoneme.sound, coda, nextOnset, onsetRules)) {
         positivePairExclusions++;
         continue;
       }

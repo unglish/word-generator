@@ -74,6 +74,14 @@ export interface CodaConstraints {
     nucleus: string[];
     /** Coda phoneme sounds that cannot follow these nuclei (e.g., ["ŋ"]). */
     coda: string[];
+    /**
+     * Also ban these consonants as the first onset phoneme of the next root
+     * syllable when the nucleus's syllable is open, so the nucleus is never
+     * directly followed by them inside a root (e.g. /ɚ/ + /r/, coda or onset).
+     * Affix joins are exempt: English allows /ɚ r/ only across them
+     * (overrule, interracial).
+     */
+    followingOnset?: boolean;
   }>;
 }
 

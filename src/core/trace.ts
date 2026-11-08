@@ -99,7 +99,7 @@ export interface NucleusReplacementTrace {
   edges: { initial: boolean; final: boolean };
   weighting: "nucleus-only" | "nucleus-times-word-position";
   eligibleCandidateEntries: number;
-  /** Finite positive candidates removed only by configured nucleus/coda pairs. */
+  /** Finite positive candidates removed only by configured nucleus/coda pairs (including following-onset rules). */
   positivePairExclusions: number;
   totalWeight: number;
 }
@@ -199,7 +199,7 @@ export interface NasalStopExtensionTrace {
 }
 
 export type CodaExtensionRejectionReason =
-  | "excluded" | "repetition" | "position" | "banned-coda" | "nucleus-coda"
+  | "excluded" | "repetition" | "position" | "banned-coda" | "nucleus-coda" | "nucleus-onset"
   | "cluster-weight" | "attestation" | "sonority" | "pattern"
   | "length" | "voicing" | "place" | "word-final";
 
