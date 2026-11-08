@@ -1,0 +1,4 @@
+Vendored speak-path sources + wasm from https://github.com/jamesondh/chimera-vocal-synth
+commit: e939cf733f7bbaed9e5698a242b1161dc9580679
+date: 2026-11-08T19:52:33Z
+files: wasm/, worklet/, audio/, ui/{speech,words,creatureVisuals}.ts
