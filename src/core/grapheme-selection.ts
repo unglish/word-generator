@@ -23,10 +23,56 @@ export interface GraphemeSlot {
   nextWritten?: string;
 }
 
-/** Choice state precedes duplicate cleanup and generic spelling rewrites. */
+/**
+ * Per-phoneme spelling state carried left to right through a word. It precedes
+ * duplicate cleanup and generic spelling rewrites. The writer and the coverage
+ * planner both move it with {@link advanceGraphemePrefix} and
+ * {@link rollGraphemePrefixSyllable}, so they always see the same state.
+ */
 export interface GraphemePrefixState {
-  previousForm?: string;
-  doublingCount: number;
+  /** Previous phoneme's written form, after doubling. */
+  readonly previousForm?: string;
+  /** Doublings applied so far in the word. */
+  readonly doublingCount: number;
+  /** Nucleus grapheme selected in the current syllable ("" before the nucleus). */
+  readonly nucleusForm: string;
+  /** Nucleus grapheme of the previous syllable ("" in the first syllable). */
+  readonly previousNucleusForm: string;
+}
+
+export const INITIAL_GRAPHEME_PREFIX: GraphemePrefixState = {
+  previousForm: undefined, doublingCount: 0, nucleusForm: "", previousNucleusForm: "",
+};
+
+/**
+ * The nucleus form doubling reads for a phoneme whose selected grapheme is
+ * `selectedForm`: an onset closes the previous syllable's vowel, a nucleus sees
+ * itself, and a coda sees its own syllable's nucleus.
+ */
+export function doublingNucleusForm(state: GraphemePrefixState, position: GraphemeSlot["position"], selectedForm: string): string {
+  if (position === "onset") return state.previousNucleusForm;
+  return position === "nucleus" ? selectedForm : state.nucleusForm;
+}
+
+/** State after a phoneme selects `selectedForm` and is written as `form`. */
+export function advanceGraphemePrefix(
+  state: GraphemePrefixState,
+  position: GraphemeSlot["position"],
+  selectedForm: string,
+  form: string,
+  countIncrement: number,
+): GraphemePrefixState {
+  return {
+    previousForm: form,
+    doublingCount: state.doublingCount + countIncrement,
+    nucleusForm: position === "nucleus" ? selectedForm : state.nucleusForm,
+    previousNucleusForm: state.previousNucleusForm,
+  };
+}
+
+/** State at the start of the next syllable: the current nucleus becomes the previous one. */
+export function rollGraphemePrefixSyllable(state: GraphemePrefixState): GraphemePrefixState {
+  return { ...state, previousNucleusForm: state.nucleusForm, nucleusForm: "" };
 }
 
 // ---------------------------------------------------------------------------

@@ -7,7 +7,10 @@ import { DEFAULT_CONSONANT_GRAPHEMES, tokenizeGraphemes, isConsonantToken } from
 export { tokenizeGraphemes } from "./spelling-budget.js";
 import { createDoublingModel } from "./spelling-doubling.js";
 import type { DoublingState, DoublingTraceInfo } from "./spelling-doubling.js";
-import { buildCategorySets, createGraphemeResolver, positionLabel } from "./grapheme-selection.js";
+import {
+  advanceGraphemePrefix, buildCategorySets, createGraphemeResolver, doublingNucleusForm, INITIAL_GRAPHEME_PREFIX, positionLabel,
+  rollGraphemePrefixSyllable,
+} from "./grapheme-selection.js";
 export { filterByPosition, normalizeGraphemeCondition } from "./grapheme-selection.js";
 import { BaseSpelling, expandReplacement, parseReplaceCallbackArgs } from "./base-spelling.js";
 import type { PartEditObserver, SpellingEditObserver } from "./base-spelling.js";
@@ -1229,11 +1232,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const observeParts = baseSpelling.observeParts(cleanParts);
     let currentSyllable: string[] = [];
     let currentSyllableOwners: number[] = [];
-    const doublingCtx: DoublingState = { doublingCount: 0 };
     const nucleusGraphemes: string[] = []; // Track nucleus grapheme form per syllable
-    let currentNucleusForm = "";
-    let prevNucleusForm = "";
-    let prevGraphemeForm: string | undefined;
+    let prefix = INITIAL_GRAPHEME_PREFIX;
     let terminalVowel: TerminalVowelUnit | undefined;
     let terminalVowelSurface = "";
 
@@ -1274,20 +1274,16 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         nextWritten: isLastPhoneme ? context.orthographyFollowing : undefined,
       };
       const { candidates, ordinary, conditioned, positional, weights, positiveCount, fallback, preferenceRelaxed } = resolveGraphemes(
-        graphemeSlot, { previousForm: prevGraphemeForm, doublingCount: doublingCtx.doublingCount });
+        graphemeSlot, prefix);
       const selected = selectByFrequency(weights, rand, tracing);
-      if (position === "nucleus") currentNucleusForm = selected.form;
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace ? { attempted: false } : undefined;
-      // For doubling, use the nucleus grapheme that the reader sees before the
-      // doubled consonant: for coda, that's the current syllable's nucleus; for
-      // onset, it's the previous syllable's (the vowel the doubling "closes").
       const doublingSlot: DoublingSlot = {
         form: selected.form,
         phoneme,
         position,
         prevPhoneme,
         nextNucleus,
-        nucleusForm: position === "onset" ? prevNucleusForm : currentNucleusForm,
+        nucleusForm: doublingNucleusForm(prefix, position, selected.form),
         stress,
         prevReduced,
         isCluster,
@@ -1297,14 +1293,15 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         isMonosyllabic: syllables.length === 1,
         nextIsConsonant: nextEntry?.position === "onset" || (nextEntry?.syllableIndex === syllableIndex && nextEntry?.position === "coda"),
       };
+      const doublingCtx: DoublingState = { doublingCount: prefix.doublingCount };
       const form = tryDoubling(doublingSlot, doublingCtx, rand, doublingTraceInfo);
+      prefix = advanceGraphemePrefix(prefix, position, selected.form, form, doublingCtx.doublingCount - prefix.doublingCount);
       if (preservePhones) {
         spellingChoices.push({
           ...boundaryContexts![phonemeIndex],
           grapheme: selected._source, form,
         });
       }
-      prevGraphemeForm = form;
 
       const choiceStart = baseSpelling.length;
       baseSpelling.appendChoice(phonemeIndex, selected.form, form, preservePhones ? config.graphemes.indexOf(selected._source) : undefined);
@@ -1401,7 +1398,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
           terminalVowelSurface = syllableStr.slice(terminalVowel.start, terminalVowel.end);
         }
         hyphenatedParts.push(syllableStr);
-        nucleusGraphemes.push(currentNucleusForm);
+        nucleusGraphemes.push(prefix.nucleusForm);
         if (tracing) {
           preRepairSurface += syllableStr;
           preRepairOwners.push(...syllableOwners);
@@ -1412,9 +1409,8 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         }
 
         currentSyllable = [];
-        prevNucleusForm = currentNucleusForm;
+        prefix = rollGraphemePrefixSyllable(prefix);
         currentSyllableOwners = [];
-        currentNucleusForm = "";
       }
     }
 
