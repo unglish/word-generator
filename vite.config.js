@@ -17,6 +17,8 @@ export default defineConfig(({ mode }) => {
   base: './',
   root: 'demo',
   envDir: resolve(__dirname),
+  // Chimera's AudioWorklet is an ES module (see demo/vocal/chimera).
+  worker: { format: 'es' },
   server: {
     allowedHosts: ['unglish.exe.xyz'],
   },
@@ -26,6 +28,7 @@ export default defineConfig(({ mode }) => {
       input: {
         main: resolve(__dirname, 'demo/index.html'),
         review: resolve(__dirname, 'demo/review.html'),
+        vocal: resolve(__dirname, 'demo/vocal.html'),
         worker: resolve(__dirname, 'src/worker-entry.js')
       },
       output: {
