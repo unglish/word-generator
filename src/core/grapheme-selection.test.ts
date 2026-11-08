@@ -5,6 +5,9 @@ import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import type { Grapheme } from "../types.js";
 import { filterByPosition } from "./write.js";
 import type { GraphemeTrace } from "./trace.js";
+import {
+  advanceGraphemePrefix, doublingNucleusForm, INITIAL_GRAPHEME_PREFIX, rollGraphemePrefixSyllable,
+} from "./grapheme-selection.js";
 import { findExample } from "../test-support/find-example.js";
 
 function withGraphemes(graphemes: Grapheme[]) {
@@ -155,5 +158,28 @@ describe("legal grapheme selection", () => {
     expect(finalSyllableOnsets).toBeGreaterThan(1000);
     expect(singletonWeightsOtherThanOne).toBeGreaterThan(1000);
     expect(fallbackChoices).toBeGreaterThan(0);
+  });
+});
+
+describe("grapheme prefix state", () => {
+  it("advances previous form, doubling count and nucleus, then rolls the nucleus over at a syllable boundary", () => {
+    // "bat-ter": b | a | t→tt (doubled) || t | er
+    let state = advanceGraphemePrefix(INITIAL_GRAPHEME_PREFIX, "onset", "b", "b", 0);
+    state = advanceGraphemePrefix(state, "nucleus", "a", "a", 0);
+    expect(doublingNucleusForm(state, "coda", "t")).toBe("a");
+    state = advanceGraphemePrefix(state, "coda", "t", "tt", 1);
+    expect(state).toEqual({ previousForm: "tt", doublingCount: 1, nucleusForm: "a", previousNucleusForm: "" });
+
+    state = rollGraphemePrefixSyllable(state);
+    expect(state).toEqual({ previousForm: "tt", doublingCount: 1, nucleusForm: "", previousNucleusForm: "a" });
+    expect(doublingNucleusForm(state, "onset", "t")).toBe("a");
+    expect(doublingNucleusForm(state, "nucleus", "er")).toBe("er");
+  });
+
+  it("does not mutate the state it advances", () => {
+    const start = { ...INITIAL_GRAPHEME_PREFIX };
+    advanceGraphemePrefix(start, "nucleus", "ee", "ee", 0);
+    rollGraphemePrefixSyllable(start);
+    expect(start).toEqual(INITIAL_GRAPHEME_PREFIX);
   });
 });

@@ -3,8 +3,11 @@ import type { LanguageConfig } from "../config/language.js";
 import { validateJunction } from "./junction.js";
 import { BaseSpelling } from "./base-spelling.js";
 import type { SpellingCell } from "./base-spelling.js";
-import { createGraphemeResolver, NoLegalGraphemeError } from "./grapheme-selection.js";
-import type { GraphemeSlot } from "./grapheme-selection.js";
+import {
+  advanceGraphemePrefix, createGraphemeResolver, doublingNucleusForm, INITIAL_GRAPHEME_PREFIX, NoLegalGraphemeError,
+  rollGraphemePrefixSyllable,
+} from "./grapheme-selection.js";
+import type { GraphemePrefixState, GraphemeSlot } from "./grapheme-selection.js";
 import { createDoublingModel } from "./spelling-doubling.js";
 import type { DoublingSlot } from "./spelling-doubling.js";
 import { measureSpellingBudgets } from "./spelling-budget.js";
@@ -105,6 +108,13 @@ function checkReadings(original: SurfaceCell[], proposed: SurfaceCell[], choices
   return undefined;
 }
 
+/** Prefix state after `choices[index]` takes `option`, rolled over when its syllable ends. */
+function nextPrefix(state: GraphemePrefixState, choices: SpellingChoiceState[], index: number, option: Option): GraphemePrefixState {
+  const choice = choices[index];
+  const advanced = advanceGraphemePrefix(state, choice.slot.position, option.grapheme.form, option.form, option.countIncrement);
+  return choices[index + 1]?.slot.syllableIndex === choice.slot.syllableIndex ? advanced : rollGraphemePrefixSyllable(advanced);
+}
+
 function hasInvalidJunction(choices: SpellingChoiceState[], config: LanguageConfig): boolean {
   const syllableCount = choices[0]?.slot.syllableCount ?? 0;
   for (let i = 0; i < syllableCount - 1; i++) {
@@ -131,13 +141,13 @@ export function createSpellingCoveragePlanner(
   const inventory = new Map(config.graphemes.map((grapheme, i) => [grapheme, i]));
   const constraints = config.writtenFormConstraints;
 
-  function optionsFor(choice: SpellingChoiceState, unitId: number, previousForm: string | undefined, count: number, nucleus: string, previousNucleus: string): Option[] {
-    const pool = resolve(choice.slot, { previousForm, doublingCount: count });
+  function optionsFor(choice: SpellingChoiceState, unitId: number, prefix: GraphemePrefixState): Option[] {
+    const pool = resolve(choice.slot, prefix);
     const total = pool.weights.reduce((sum, [, weight]) => sum + weight, 0);
     const options: Option[] = [];
     for (const [grapheme, weight] of pool.weights) {
       const decision = doubling.describe({ ...choice.doubling, form: grapheme.form,
-        nucleusForm: choice.slot.position === "onset" ? previousNucleus : choice.slot.position === "nucleus" ? grapheme.form : nucleus }, count);
+        nucleusForm: doublingNucleusForm(prefix, choice.slot.position, grapheme.form) }, prefix.doublingCount);
       const outcomes = decision.kind === "fixed"
         ? [{ form: decision.form, probability: 1, countIncrement: decision.countIncrement }]
         : [
@@ -168,13 +178,10 @@ export function createSpellingCoveragePlanner(
     const spans = unitSpans(state.cells, choices);
     const options: Option[] = [];
     const changed = new Set<number>();
-    let previousForm: string | undefined;
-    let count = 0;
-    let nucleus = "";
-    let previousNucleus = "";
+    let prefix = INITIAL_GRAPHEME_PREFIX;
     let score = 0;
     for (const [i, choice] of choices.entries()) {
-      const option = optionsFor(choice, i, previousForm, count, nucleus, previousNucleus)
+      const option = optionsFor(choice, i, prefix)
         .find(candidate => equal(candidate.license, plan.choices[i]));
       if (!option) fail();
       const selected = option!;
@@ -183,10 +190,7 @@ export function createSpellingCoveragePlanner(
         changed.add(i);
       }
       options.push(selected);
-      previousForm = selected.form;
-      count += selected.countIncrement;
-      if (choice.slot.position === "nucleus") nucleus = selected.grapheme.form;
-      if (choices[i + 1]?.slot.syllableIndex !== choice.slot.syllableIndex) { previousNucleus = nucleus; nucleus = ""; }
+      prefix = nextPrefix(prefix, choices, i, selected);
       score = score + Math.log(selected.license.graphemeProbability) + Math.log(selected.license.doublingProbability);
     }
     const original = project(state.cells, spans, new Map());
@@ -245,7 +249,7 @@ export function createSpellingCoveragePlanner(
       if (!best || score > best.plan.logProbability + 1e-12) best = { plan, options: selected.slice() };
     }
 
-    function search(index: number, remaining: number, previousForm: string | undefined, count: number, nucleus: string, previousNucleus: string, score: number): void {
+    function search(index: number, remaining: number, prefix: GraphemePrefixState, score: number): void {
       if (exhausted) return;
       if (common.visitedAssignments >= SPELLING_COVERAGE_SEARCH_LIMIT) { exhausted = true; return; }
       common.visitedAssignments++;
@@ -264,7 +268,7 @@ export function createSpellingCoveragePlanner(
       if (index === choices.length) { if (remaining === 0) evaluate(score); return; }
       if (remaining > choices.length - index) return;
       let options: Option[];
-      try { options = optionsFor(choices[index], index, previousForm, count, nucleus, previousNucleus); }
+      try { options = optionsFor(choices[index], index, prefix); }
       catch (error) { if (error instanceof NoLegalGraphemeError) { note("no-licensed-plan"); return; } throw error; }
       common.legalOptions += options.length;
       for (const option of options) {
@@ -275,20 +279,15 @@ export function createSpellingCoveragePlanner(
         if (option.license.inventoryIndex < 0) { note("unknown-reading"); continue; }
         selected[index] = option;
         if (isChanged) changed.add(index);
-        let nextNucleus = choice.slot.position === "nucleus" ? option.grapheme.form : nucleus;
-        let nextPreviousNucleus = previousNucleus;
-        if (choices[index + 1]?.slot.syllableIndex !== choice.slot.syllableIndex) {
-          nextPreviousNucleus = nextNucleus; nextNucleus = "";
-        }
-        search(index + 1, remaining - Number(isChanged), option.form, count + option.countIncrement,
-          nextNucleus, nextPreviousNucleus, score + Math.log(option.license.graphemeProbability) + Math.log(option.license.doublingProbability));
+        search(index + 1, remaining - Number(isChanged), nextPrefix(prefix, choices, index, option),
+          score + Math.log(option.license.graphemeProbability) + Math.log(option.license.doublingProbability));
         if (isChanged) changed.delete(index);
         if (exhausted) return;
       }
     }
 
     for (let changes = 1; changes <= spans.size; changes++) {
-      search(0, changes, undefined, 0, "", "", 0);
+      search(0, changes, INITIAL_GRAPHEME_PREFIX, 0);
       if (exhausted) return refuse("search-budget", { ...refusals, "search-budget": 1 });
       if (best) {
         verify(base, choices, best.plan);
