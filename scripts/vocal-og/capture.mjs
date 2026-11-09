@@ -101,6 +101,10 @@ async function capturePoster(browser) {
   const page = await context.newPage();
   await page.goto(posterUrl, { waitUntil: "domcontentloaded", timeout: 120_000 });
   await waitCaptureReady(page);
+  // Wait for Libre Baskerville (or fallback) so poster type isn't a FOIT flash.
+  await page.evaluate(async () => {
+    if (document.fonts?.ready) await document.fonts.ready;
+  });
 
   // Let articulators settle into a readable mid-phrase pose.
   await page.waitForTimeout(2_400);
