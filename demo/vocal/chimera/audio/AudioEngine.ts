@@ -8,6 +8,14 @@ import type { ToWorklet, FromWorklet, TelemetryMessage, PlannedMessage, Creature
 import type { BodyMix } from "../wasm/types.ts";
 import type { HumanArtic } from "../wasm/types.ts";
 import type { VoiceSource } from "../wasm/types.ts";
+import { unlockIosPlaybackSession } from "../../iosAudio.ts";
+
+type AudioContextCtor = typeof AudioContext;
+
+function audioContextCtor(): AudioContextCtor {
+  const w = window as Window & { webkitAudioContext?: AudioContextCtor };
+  return window.AudioContext || w.webkitAudioContext!;
+}
 
 type Listener = (t: TelemetryMessage) => void;
 
@@ -55,25 +63,39 @@ export class AudioEngine {
     return !!this.ctx && this.ctx.state === "running";
   }
 
+  /** True once the AudioWorklet graph is connected (prime alone is not enough). */
+  get graphReady(): boolean {
+    return !!this.node;
+  }
+
   /**
    * Open AudioContext and unlock the destination synchronously during a user gesture.
    * WebKit (esp. iOS Safari) can report state "running" with a muted destination if the
    * first resume/BufferSource happen after an await (e.g. audioWorklet.addModule).
+   * Also claims navigator.audioSession "playback" so the Ring/Silent switch does not mute
+   * Web Audio (Safari 17+); see demo/vocal/iosAudio.ts.
    * Safe to call repeatedly from pointer/key handlers.
    */
   prime(): void {
+    // Must run inside the gesture turn, before any await.
+    unlockIosPlaybackSession();
     if (!this.ctx) {
-      const ctx = new AudioContext({ latencyHint: "interactive" });
+      const ctx = new (audioContextCtor())({ latencyHint: "interactive" });
       this.ctx = ctx;
       this.sampleRate = ctx.sampleRate;
     }
     this.unlockOutput(this.ctx, this.master ?? this.ctx.destination);
+    this.ensureKeepAlive(this.ctx);
   }
 
-  /** Best-effort speaker unlock: silent buffer through `dest` + resume (no await). */
+  /** Best-effort speaker unlock: short near-silent buffer through `dest` + resume (no await). */
   private unlockOutput(ctx: AudioContext, dest: AudioNode): void {
     try {
-      const buf = ctx.createBuffer(1, 1, ctx.sampleRate);
+      // Non-zero samples: some WebKit builds ignore an all-zero buffer as "not playing".
+      const n = Math.max(1, Math.floor(ctx.sampleRate * 0.02));
+      const buf = ctx.createBuffer(1, n, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < n; i++) data[i] = Math.sin((2 * Math.PI * 880 * i) / ctx.sampleRate) * 0.0008;
       const src = ctx.createBufferSource();
       src.buffer = buf;
       src.connect(dest);
@@ -82,6 +104,27 @@ export class AudioEngine {
       // unlock is best-effort; resume below still matters
     }
     void ctx.resume();
+  }
+
+  /** Keep a near-silent oscillator running so iOS does not tear down the media session. */
+  private keepAlive: OscillatorNode | null = null;
+  private keepAliveGain: GainNode | null = null;
+
+  private ensureKeepAlive(ctx: AudioContext): void {
+    if (this.keepAlive) return;
+    try {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      gain.gain.value = 0.00001;
+      osc.frequency.value = 20;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      this.keepAlive = osc;
+      this.keepAliveGain = gain;
+    } catch {
+      // optional
+    }
   }
 
   async start(): Promise<void> {

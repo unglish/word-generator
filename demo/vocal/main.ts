@@ -8,6 +8,7 @@
 import { generateWord } from "../../dist/index.js";
 import { initChimera } from "./chimera/wasm/chimera.ts";
 import type { BodyMix } from "./chimera/wasm/types.ts";
+import { isLikelyIosSafari, unlockIosPlaybackSession } from "./iosAudio.ts";
 
 const BODIES: Record<string, { body: BodyMix; f0: number }> = {
   male: { body: { female: 0, child: 0 }, f0: 110 },
@@ -42,6 +43,7 @@ type EngineApi = {
     setVolume(v: number): void;
     readonly analyser: AnalyserNode | null;
     readonly running: boolean;
+    readonly graphReady: boolean;
     readonly ctx: AudioContext | null;
   };
   speakText: (
@@ -81,14 +83,17 @@ function generate(): void {
 
 async function ensureAudio(): Promise<void> {
   if (!api) throw new Error("voice not ready");
-  // Sync unlock must run in the click turn before any await (WebKit mute-after-await).
+  // Sync unlock must run in the click turn before any await (WebKit mute-after-await /
+  // iOS Ring/Silent ambient session).
+  unlockIosPlaybackSession();
   api.engine.prime();
   await api.engine.start();
+  unlockIosPlaybackSession();
   if (api.engine.ctx?.state !== "running") {
     await api.engine.ctx?.resume();
   }
   if (api.engine.ctx?.state !== "running") {
-    throw new Error(`AudioContext is ${api.engine.ctx?.state ?? "missing"} — click Speak again to unlock sound`);
+    throw new Error(`AudioContext is ${api.engine.ctx?.state ?? "missing"} — tap Speak again to unlock sound`);
   }
   const pick = BODIES[bodySel.value] ?? BODIES.female;
   api.engine.setBody(pick.body);
@@ -133,12 +138,15 @@ function stop(): void {
 
 /** Keep destination unlocked on any early gesture (Generate, Voice change, etc.). */
 function primeAudioFromGesture(): void {
+  unlockIosPlaybackSession();
   api?.engine.prime();
 }
 
 generateBtn.addEventListener("click", () => {
   primeAudioFromGesture();
   generate();
+  // Warm the worklet on Generate so Speak's gesture is not spent on addModule.
+  if (ready && api && !api.engine.graphReady) void api.engine.start().catch(() => {});
 });
 speakBtn.addEventListener("click", () => {
   primeAudioFromGesture();
@@ -158,6 +166,7 @@ bodySel.addEventListener("change", () => {
   api.engine.setSource({ f0: pick.f0 });
 });
 document.addEventListener("pointerdown", primeAudioFromGesture, { capture: true });
+document.addEventListener("touchstart", primeAudioFromGesture, { capture: true, passive: true });
 document.addEventListener("keydown", primeAudioFromGesture, { capture: true });
 
 generate();
@@ -185,7 +194,11 @@ void (async () => {
     requestAnimationFrame(tickMeter);
     ready = true;
     speakBtn.disabled = !current?.ipa;
-    setStatus("Voice ready — generate a word, then Speak.");
+    setStatus(
+      isLikelyIosSafari()
+        ? "Voice ready — tap Generate or Speak (unlocks audio; ignores Ring/Silent on iOS 17+)."
+        : "Voice ready — generate a word, then Speak.",
+    );
   } catch (err) {
     setStatus(`Voice engine failed: ${err instanceof Error ? err.message : String(err)}`, true);
   }
