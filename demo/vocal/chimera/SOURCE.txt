@@ -2,3 +2,8 @@ Vendored speak-path sources + wasm from https://github.com/jamesondh/chimera-voc
 commit: e939cf733f7bbaed9e5698a242b1161dc9580679
 date: 2026-11-08T19:52:33Z
 files: wasm/, worklet/, audio/, ui/{speech,words,creatureVisuals}.ts
+
+Local patches (do not drop when re-vendoring):
+- ui/speech.ts `ipaToPhrases`: do not split IPA on `.` (syllable boundary). Unglish
+  pronunciations use `.` between syllables; treating those as phrase breaks inserted
+  ~300ms pauses and made multi-syllable words sound stop-start.
