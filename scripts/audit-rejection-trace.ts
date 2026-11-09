@@ -43,7 +43,8 @@ function validateSelection(word: Word, selection: SelectionTrace): void {
       accepted !== (selection.acceptedBy !== null) ||
       (accepted && selection.selectedAttempt !== count - 1) ||
       word.trace!.attempts !== count - 1 ||
-      selection.proposedLengths.reduce((sum, bin) => sum + bin.count, 0) !== count ||
+      selection.proposedLengths.reduce((sum, bin) => sum + bin.count, 0) +
+        (selection.prunedLengths ?? []).reduce((sum, bin) => sum + bin.count, 0) !== count ||
       // Selection scores the root; only words without attached affixes share its lengths.
       (!isAffixed(word) && (selection.selected.syllables !== word.syllables.length || selection.selected.phonemes !== phones ||
         selection.selected.letters !== word.written.clean.length)) ||

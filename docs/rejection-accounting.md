@@ -33,7 +33,16 @@ syllables, phonemes, letters, and multiplicity. For an affixed word, the selecte
 root lengths differ from the returned word's lengths.
 These bins include both rejected and selected candidates. They allow comparison of
 proposal and output distributions without retaining rejected words or their large
-traces. The morphology template is available in `trace.morphology`; a `bare` plan
+traces.
+
+An attempt whose root misses the phoneme target, and whose phoneme penalty alone
+already matches or exceeds the best score so far, can be neither accepted nor
+selected as the fallback. It is rejected before spelling, which saves the spelling
+work and its RNG draws. Such attempts appear in `prunedLengths` (syllables,
+phonemes, multiplicity) instead of `proposedLengths`, and count toward
+`attemptsExecuted`, `rejectedAttempts`, and the `phonemeTarget` reason only:
+their letter length was never measured. `proposedLengths` and `prunedLengths`
+together account for every executed attempt. The morphology template is available in `trace.morphology`; a `bare` plan
 is not an actually affixed word even when `summary.morphologyApplied` is true.
 
 ## Letter-length selection and stress

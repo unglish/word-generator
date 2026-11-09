@@ -83,6 +83,11 @@ export function scoreLetterLength(
   return 1 + outsideDistance;
 }
 
+/** The phoneme part of an attempt's score; letter penalties only add to it. */
+function phonemeScore(phonemeDistance: number): number {
+  return phonemeDistance * 2;
+}
+
 export function scoreGenerationAttempt(
   generatedPhonemes: number,
   targetPhonemes: number,
@@ -95,8 +100,18 @@ export function scoreGenerationAttempt(
   return {
     phonemeDistance,
     letterPenalty,
-    total: phonemeDistance * 2 + letterPenalty,
+    total: phonemeScore(phonemeDistance) + letterPenalty,
   };
+}
+
+/**
+ * True when an attempt's outcome is already decided by its phoneme count: it
+ * misses the target, so no acceptance criterion can pass, and its total score
+ * cannot fall below the best attempt so far, so it cannot become the fallback.
+ * Such an attempt need not be spelled.
+ */
+export function isDecidedRejection(phonemeDistance: number, bestScore: number): boolean {
+  return phonemeDistance > 0 && phonemeScore(phonemeDistance) >= bestScore;
 }
 
 /**

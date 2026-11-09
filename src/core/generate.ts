@@ -25,6 +25,7 @@ import {
   resolveRootPhonemeTarget,
   scoreGenerationAttempt,
   assessAttempt,
+  isDecidedRejection,
   type AcceptanceCriteria,
 } from "./length-semantics.js";
 import { TraceCollector, type SelectionTrace, type CodaExtensionRejectionReason } from "./trace.js";
@@ -1481,9 +1482,18 @@ function generateOneWord(
       trace: traceCollector,
     };
     runPipeline(rt, context, mode);
-    let prepared: PreparedMorphology | undefined;
-    if (affixPlan) {
-      prepared = resolveLexicalWord(rt, context, affixPlan, createSeededRng(lookaheadSeed ^ Math.imul(attempt + 1, 0x9e3779b9)));
+    const prepared = affixPlan
+      ? resolveLexicalWord(rt, context, affixPlan, createSeededRng(lookaheadSeed ^ Math.imul(attempt + 1, 0x9e3779b9)))
+      : undefined;
+    // Spelling cannot change the root's phonemes, so an attempt whose phoneme
+    // count already rules it out is rejected without spelling it.
+    const unspelledRoot = prepared ? context.word.lexical!.root : context.word.syllables;
+    const unspelledPhonemeCount = countPhonemes(unspelledRoot);
+    if (isDecidedRejection(Math.abs(unspelledPhonemeCount - targetPhonemeCountRoot), bestScore)) {
+      rejectionTrace?.recordPruned({ syllables: unspelledRoot.length, phonemes: unspelledPhonemeCount });
+      continue;
+    }
+    if (prepared) {
       spellLexicalRoot(rt, context, context.word.lexical!.root, prepared.rootSyllableStart, prepared.suffixWritten);
     } else {
       const syllables = context.word.syllables;
