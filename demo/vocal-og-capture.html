@@ -17,6 +17,8 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+    }
+    body {
       background: var(--bg);
       color: var(--fg);
       font-family: ui-serif, Georgia, "Times New Roman", serif;
@@ -55,6 +57,9 @@
       font-style: italic;
       letter-spacing: 0.04em;
     }
+    .copy {
+      display: none;
+    }
     #ready {
       position: absolute;
       inset: 0;
@@ -66,6 +71,52 @@
       z-index: 3;
     }
     #ready[hidden] { display: none; }
+
+    /* Landscape OG poster (1200×630): head left, conversion copy right. */
+    body.poster #stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+    }
+    body.poster #head {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      height: 100%;
+    }
+    body.poster .mark { display: none; }
+    body.poster .copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.85rem;
+      padding: 2.25rem 2.6rem 2.25rem 1.4rem;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(243, 243, 243, 0) 0%, var(--bg) 18%, var(--bg) 100%);
+    }
+    body.poster .copy .brand {
+      font-size: 1.55rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      line-height: 1;
+    }
+    body.poster .copy .headline {
+      font-size: 2.35rem;
+      font-weight: 400;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+      max-width: 11ch;
+    }
+    body.poster .copy .cta {
+      margin-top: 0.35rem;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+      line-height: 1.3;
+    }
   </style>
 </head>
 <body>
@@ -75,8 +126,18 @@
       <span class="brand">Unglish</span>
       <span class="tag">vocal demo</span>
     </div>
+    <div class="copy" aria-hidden="true">
+      <span class="brand">Unglish</span>
+      <span class="headline">Nonce words, spoken aloud</span>
+      <span class="cta">Try the Chimera vocal demo →</span>
+    </div>
     <div id="ready">Loading head…</div>
   </div>
+  <script>
+    if (new URLSearchParams(location.search).get("mode") === "poster") {
+      document.body.classList.add("poster");
+    }
+  </script>
   <script type="module" src="./vocal/og-capture.ts"></script>
 </body>
 </html>
