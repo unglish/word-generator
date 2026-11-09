@@ -39,6 +39,7 @@ export type {
   WordTrace,
   SelectionTrace,
   AttemptLengths,
+  PrunedAttemptLengths,
   StageSnapshot,
   SyllableSnapshot,
   GraphemeTrace,
