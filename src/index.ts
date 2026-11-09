@@ -15,6 +15,8 @@ export {
 } from "./config/language.js";
 export type {
   LanguageConfig,
+  DoublingConfig,
+  DoublingRealization,
   BySyllablePosition,
   SonorityHierarchy,
   SyllableStructureRules,

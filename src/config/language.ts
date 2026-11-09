@@ -1,4 +1,4 @@
-import { Phoneme, Grapheme, GraphemeCondition } from "../types.js";
+import { Phoneme, Grapheme, GraphemeCondition, GraphemeReading } from "../types.js";
 import { LEGACY_SYLLABLE_WEIGHT } from "../core/syllable-weight.js";
 import type { SyllableWeightPolicy } from "../core/syllable-weight.js";
 // ---------------------------------------------------------------------------
@@ -486,6 +486,15 @@ export interface PronunciationConfig {
 // Doubling & Spelling Rules
 // ---------------------------------------------------------------------------
 
+/** A sound-specific doubling: /phoneme/ spelled `from` may be written `to`, read as `reading`. */
+export interface DoublingRealization {
+  phoneme: string;
+  from: string;
+  to: string;
+  reading: GraphemeReading;
+  allowInCodaCluster?: boolean;
+}
+
 /**
  * Language-level consonant doubling strategy.
  * Controls how a language signals vowel length/quality through consonant spelling.
@@ -509,13 +518,17 @@ export interface DoublingConfig {
   suppressBeforeTense: boolean;
   /** Probability modifier for unstressed syllable context (0.0-1.0). */
   unstressedModifier?: number;
-  /** Map of phoneme sounds to their doubled form (overrides simple repetition). e.g. { k: 'ck' } */
+  /** Sound-specific support. An empty list permits no expansions; omission uses legacy behavior.
+   * When spreading English config to use legacy overrides, set realizations: undefined.
+   */
+  realizations?: readonly DoublingRealization[];
+  /** Legacy map from selected grapheme forms to results; ignored when realizations is present. */
   doubledForms?: Record<string, string>;
   /** Sounds that should never double word-finally. */
   neverDoubleFinal?: string[];
   /**
    * Nucleus spellings after which a following consonant is never doubled and a
-   * doubled spelling (a `doubledForms` value or a repeated consonant letter such
+   * doubled spelling (a realized doubled form of its sound, such as ck, or a repeated consonant letter such
    * as `ssi`) is not chosen while another candidate remains, e.g. `["ea"]`.
    */
   neverDoubleAfter?: string[];

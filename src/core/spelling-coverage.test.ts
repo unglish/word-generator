@@ -365,3 +365,35 @@ describe("whole-unit spelling budgets", () => {
     expect(on()).toBe(off());
   });
 });
+
+describe("realized doubling readings", () => {
+  it("records and verifies ck's resulting reading in a coverage replacement", () => {
+    const hardC = () => ({ ...glyph("k", "c"), reading: { kind: "following-letter" as const, forbid: ["e", "i", "y"] } });
+    const units = [
+      { sound: "æ", form: "a", position: "nucleus" as const, part: 0 },
+      { sound: "k", form: "chhh", position: "onset" as const, part: 1 },
+      { sound: "ɛ", form: "e", position: "nucleus" as const, part: 1 },
+      { sound: "d", form: "d", position: "coda" as const, part: 1 },
+    ];
+    const chosen = units.map(unit => glyph(unit.sound, unit.form));
+    const graphemes = [...chosen, hardC()];
+    const config: LanguageConfig = { ...englishConfig, graphemes, ...buildGraphemeMaps(graphemes),
+      doubling: { ...englishConfig.doubling!, probability: 100, suppressBeforeTense: false },
+      writtenFormConstraints: { policy: "preserve-phones", maxConsonantLetters: 2 } };
+    const phones = units.map((unit, id) => ({ id, part: "root" as const, syllableIndex: unit.part, segment: unit.position,
+      segmentIndex: 0, soundAtSpelling: unit.sound, boundary: { phoneme: structuredClone(phone(unit.sound)), stress: "ˈ" as const } }));
+    const contexts = spellingBoundaryContexts(phones);
+    const choices = contexts.map((context, id) => ({ ...context, grapheme: chosen[id], form: chosen[id].form }));
+    const base = new BaseSpelling(phones, true, true);
+    choices.forEach((choice, id) => base.appendChoice(id, choice.grapheme.form, choice.form, id));
+
+    expect(createSpellingCoveragePlanner(config).apply(base, choices, "base-before-word-rules").status).toBe("respell");
+    // c before e would read /s/; the realized ck reads /k/ regardless of the next letter.
+    expect(base.snapshot().surface).toBe("acked");
+    expect(certificate(base).replacements[0]).toMatchObject({ after: "ck", reading: { kind: "single-phone" } });
+    expect(() => verifyBaseSpellingEvidence(base.snapshot(), config)).not.toThrow();
+    const forged = structuredClone(base.snapshot());
+    forged.certificates![0].replacements[0].reading = hardC().reading;
+    expect(() => verifyBaseSpellingEvidence(forged, config)).toThrow();
+  });
+});
