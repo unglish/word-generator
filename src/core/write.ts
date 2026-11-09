@@ -1285,6 +1285,43 @@ export function appendSilentE(
 // Factory
 // ---------------------------------------------------------------------------
 
+type SpellingCoveragePlanner = ReturnType<typeof createSpellingCoveragePlanner>;
+type SpellingCoverageScope = Parameters<SpellingCoveragePlanner["apply"]>[2];
+
+/** One word's base spelling, handed from the shared build to a repair path. */
+interface WordSpelling {
+  context: WordGenerationContext;
+  baseSpelling: BaseSpelling;
+  cleanParts: string[];
+  hyphenatedParts: string[];
+  observeParts: PartEditObserver;
+  finalVowel: FinalVowelState;
+}
+
+/** The joined word after word-scope spelling rules. */
+interface WordRuleSpelling {
+  clean: string;
+  /** Moves the final vowel's offsets with later word edits, when it is tracked. */
+  onWordEdit?: SpellingEdit;
+  /** Where a protected terminal y starts, if one ends the word. */
+  terminalYStart?: number;
+}
+
+/** What a repair path hands back to the shared finish. */
+interface RepairedSpelling {
+  clean: string;
+  /** The planner's respelling, which replaces the hyphenated parts. */
+  respelledHyphenated?: string;
+  overflow: FinalVowelOverflow;
+}
+
+/** Whether any coda-onset junction fails validation, which the coverage planner must repair. */
+function hasInvalidSyllableJunction(syllables: WordGenerationContext["word"]["syllables"], config: LanguageConfig): boolean {
+  return syllables.some((syllable, i) => i + 1 < syllables.length &&
+    syllable.coda.length > 0 && syllables[i + 1].onset.length > 0 &&
+    !validateJunction(syllable.coda, syllables[i + 1].onset, config));
+}
+
 /**
  * Creates a `generateWrittenForm` function bound to the given language config's
  * grapheme maps. Conditions are compiled and numeric weights checked at creation.
@@ -1310,6 +1347,177 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   const appendAfterLookup = silentEConfig?.enabled && silentEConfig.appendAfter?.length
     ? buildAppendAfterLookup(silentEConfig.appendAfter)
     : undefined;
+  const wfc = config.writtenFormConstraints;
+
+  /** Join the parts and apply word-scope rules, moving the final vowel's offsets with every edit. */
+  function applyWordRules(word: WordSpelling, partsOverflow: boolean): WordRuleSpelling {
+    const { context, baseSpelling, cleanParts } = word;
+    word.finalVowel = keepSurvivingFinalVowel(word.finalVowel, cleanParts);
+    const joined = cleanParts.join("");
+    word.finalVowel = anchorFinalVowel(word.finalVowel, cleanParts, partsOverflow);
+    const onWordEdit = wordFinalVowelEditor(word.finalVowel);
+    const observeWord = baseSpelling.observe();
+    const clean = applySpellingRules(joined, wordRules, context.rand, context.trace, "word", (start, removed, replacement, rule) => {
+      observeWord(start, removed, replacement, rule);
+      onWordEdit?.(start, removed, replacement);
+    });
+    return { clean, onWordEdit, terminalYStart: protectTerminalY(word.finalVowel, clean) };
+  }
+
+  /** Run the coverage planner at `scope`; a respelling replaces the base spelling. */
+  function planCoverageAt(
+    word: WordSpelling, planner: SpellingCoveragePlanner, choices: SpellingChoiceState[],
+    scope: SpellingCoverageScope, invalidJunction: boolean,
+  ): string[] | undefined {
+    const outcome = planner.apply(word.baseSpelling, choices, scope, invalidJunction);
+    word.context.trace?.recordSpellingBudget(outcome);
+    return outcome.status === "respell" ? word.baseSpelling.projectParts(word.context.word.syllables.length)! : undefined;
+  }
+
+  /**
+   * Certificate (`preserve-phones`) path: the planner respells within budget
+   * before and after word rules, instead of deleting letters.
+   */
+  function writeCoverageSpelling(
+    word: WordSpelling, planner: SpellingCoveragePlanner, choices: SpellingChoiceState[],
+  ): RepairedSpelling {
+    const invalidJunction = hasInvalidSyllableJunction(word.context.word.syllables, config);
+    const respelledParts = planCoverageAt(word, planner, choices, "base-before-word-rules", invalidJunction);
+    respelledParts?.forEach((part, i) => { word.cleanParts[i] = part; word.hyphenatedParts[i * 2] = part; });
+
+    const rules = applyWordRules(word, false);
+    const respelled = planCoverageAt(word, planner, choices, "base-after-word-rules", invalidJunction);
+    if (respelled) {
+      return { clean: respelled.join(""), respelledHyphenated: respelled.join("&shy;"), overflow: finalVowelOverflow(word.finalVowel) };
+    }
+    if (wfc?.maxVowelLetters && rules.terminalYStart !== undefined) {
+      // Nothing was deleted; a retained terminal y over the cap is the same protected overflow.
+      recordTerminalYCapOverflow(word.finalVowel, capVowelLetters(rules.clean, wfc.maxVowelLetters, rules.terminalYStart).protectedOverflow);
+    }
+    return { clean: rules.clean, overflow: finalVowelOverflow(word.finalVowel) };
+  }
+
+  /** Older path: delete letters to meet the consonant and vowel caps, around word rules. */
+  function writeLegacySpelling(word: WordSpelling): RepairedSpelling {
+    repairPartConsonants(word);
+    const partsOverflow = repairPartVowels(word);
+    const rules = applyWordRules(word, partsOverflow);
+    const clean = capJoinedVowels(word, rules);
+    const overflow = finalVowelOverflow(word.finalVowel);
+    return { clean: repairConsonantsAfterWordRules(word, clean, overflow), overflow };
+  }
+
+  /** Per-part consonant pileup, junction and letter-run repairs. */
+  function repairPartConsonants({ context, cleanParts, hyphenatedParts, observeParts }: WordSpelling): void {
+    const { syllables } = context.word;
+    // Consonant pileup repair (grapheme-aware)
+    const maxGraphemes = wfc?.maxConsonantGraphemes;
+    if (maxGraphemes) {
+      const before = context.trace ? cleanParts.join("") : "";
+      repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes, observeParts);
+      context.trace?.recordRepair("repairConsonantPileups", before, cleanParts.join(""));
+    }
+
+    // Feature-based junction validation (@backstop — Phase E of #250)
+    // Since Phase A moved SSP validation upstream into adjustBoundary,
+    // this write-phase repair should never fire. Retained as a safety net.
+    if (syllables.length > 1) {
+      const boundaries: SyllableBoundary[] = [];
+      for (let si = 0; si < syllables.length - 1; si++) {
+        const coda = syllables[si].coda;
+        const nextOnset = syllables[si + 1].onset;
+        boundaries.push({
+          codaCluster: [...coda],
+          onsetCluster: nextOnset,
+        });
+      }
+      const beforeJunction = context.trace ? cleanParts.join("") : "";
+      repairJunctions(cleanParts, hyphenatedParts, boundaries, config, wfc?.consonantGraphemes, observeParts);
+      if (context.trace) {
+        const afterJunction = cleanParts.join("");
+        if (afterJunction !== beforeJunction) {
+          context.trace.recordRepair("repairJunctions:backstop", beforeJunction, afterJunction);
+        }
+      }
+      // Re-run pileup repair in case junction repair changed things
+      if (maxGraphemes) {
+        const beforePileup = context.trace ? cleanParts.join("") : "";
+        repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes, observeParts);
+        context.trace?.recordRepair("repairConsonantPileups:postJunction", beforePileup, cleanParts.join(""));
+      }
+    }
+
+    // Raw consonant letter backstop
+    if (wfc?.maxConsonantLetters) {
+      const before = context.trace ? cleanParts.join("") : "";
+      repairConsonantLetters(cleanParts, hyphenatedParts, wfc.maxConsonantLetters, observeParts);
+      context.trace?.recordRepair("repairConsonantLetters", before, cleanParts.join(""));
+    }
+
+    // Word-final consonant letter limit
+    if (wfc?.maxFinalConsonantLetters) {
+      const before = context.trace ? cleanParts.join("") : "";
+      repairFinalConsonantLetters(cleanParts, hyphenatedParts, wfc.maxFinalConsonantLetters, observeParts);
+      context.trace?.recordRepair("repairFinalConsonantLetters", before, cleanParts.join(""));
+    }
+  }
+
+  /** Raw vowel letter backstop per part. Returns whether protected letters stayed over the cap. */
+  function repairPartVowels(word: WordSpelling): boolean {
+    if (!wfc?.maxVowelLetters) return false;
+    const { context, cleanParts, hyphenatedParts, observeParts } = word;
+    word.finalVowel = keepSurvivingFinalVowel(word.finalVowel, cleanParts);
+    const before = context.trace ? cleanParts.join("") : "";
+    const protectedStart = protectedFinalVowelStart(word.finalVowel, cleanParts[cleanParts.length - 1], canWriteFinalIAsY);
+    const partsOverflow = repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters, protectedStart, observeParts);
+    context.trace?.recordRepair("repairVowelLetters", before, cleanParts.join(""));
+    return partsOverflow;
+  }
+
+  /** Post-join vowel repair for cross-boundary runs. */
+  function capJoinedVowels({ context, baseSpelling, finalVowel }: WordSpelling, rules: WordRuleSpelling): string {
+    if (!wfc?.maxVowelLetters) return rules.clean;
+    const repaired = capVowelLetters(rules.clean, wfc.maxVowelLetters, rules.terminalYStart, (start, removed, replacement) => {
+      baseSpelling.edit(start, removed, replacement, "postJoinVowelCap");
+      rules.onWordEdit?.(start, removed, replacement);
+    });
+    recordTerminalYCapOverflow(finalVowel, repaired.protectedOverflow);
+    context.trace?.recordRepair("repairVowelLetters:postJoin", rules.clean, repaired.text);
+    return repaired.text;
+  }
+
+  /** Re-run the consonant backstop after word rules (rules like ngx→nks can introduce new runs). */
+  function repairConsonantsAfterWordRules(
+    { context, baseSpelling }: WordSpelling, clean: string, overflow: FinalVowelOverflow,
+  ): string {
+    if (!wfc?.maxConsonantGraphemes && !wfc?.maxConsonantLetters) return clean;
+    const postParts = [clean];
+    const postHyph = [clean];
+    const beforePost = context.trace ? clean : "";
+    const observePost = baseSpelling.observeParts(postParts);
+    if (wfc.maxConsonantGraphemes) {
+      repairConsonantPileups(postParts, postHyph, wfc.maxConsonantGraphemes, wfc.consonantGraphemes, observePost);
+    }
+    if (wfc.maxConsonantLetters) {
+      repairConsonantLetters(postParts, postHyph, wfc.maxConsonantLetters, observePost);
+    }
+    if (wfc.maxFinalConsonantLetters) {
+      repairFinalConsonantLetters(postParts, postHyph, wfc.maxFinalConsonantLetters, observePost);
+    }
+    const afterPost = postParts[0];
+    if (overflow.syncParts && afterPost !== clean) {
+      // Keep this exception's hyphenated spelling aligned. This affects only
+      // presentation partitions, never the selected vowel's production owner.
+      let start = 0;
+      while (clean[start] === afterPost[start] && start < afterPost.length) start++;
+      let suffix = 0;
+      while (suffix < afterPost.length - start
+        && clean[clean.length - 1 - suffix] === afterPost[afterPost.length - 1 - suffix]) suffix++;
+      editWrittenParts(overflow.syncParts, start, clean.length - start - suffix, afterPost.slice(start, afterPost.length - suffix));
+    }
+    context.trace?.recordRepair("postSpellingBackstop", beforePost, afterPost);
+    return afterPost;
+  }
 
   return (context: WordGenerationContext) => {
     const rand = context.rand;
@@ -1565,146 +1773,11 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
     }
 
-    const wfc = config.writtenFormConstraints;
-    const invalidJunction = !!planCoverage && syllables.some((syllable, i) => i + 1 < syllables.length &&
-        syllable.coda.length > 0 && syllables[i + 1].onset.length > 0 &&
-        !validateJunction(syllable.coda, syllables[i + 1].onset, config));
-    if (planCoverage) {
-      const outcome = planCoverage.apply(baseSpelling, spellingChoices, "base-before-word-rules", invalidJunction);
-      context.trace?.recordSpellingBudget(outcome);
-      if (outcome.status === "respell") {
-        const parts = baseSpelling.projectParts(syllables.length)!;
-        parts.forEach((part, i) => { cleanParts[i] = part; hyphenatedParts[i * 2] = part; });
-      }
-    } else {
-      // Consonant pileup repair (grapheme-aware)
-      const maxGraphemes = wfc?.maxConsonantGraphemes;
-      if (maxGraphemes) {
-        const before = context.trace ? cleanParts.join("") : "";
-        repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes, observeParts);
-        context.trace?.recordRepair("repairConsonantPileups", before, cleanParts.join(""));
-      }
-
-      // Feature-based junction validation (@backstop — Phase E of #250)
-      // Since Phase A moved SSP validation upstream into adjustBoundary,
-      // this write-phase repair should never fire. Retained as a safety net.
-      if (syllables.length > 1) {
-        const boundaries: SyllableBoundary[] = [];
-        for (let si = 0; si < syllables.length - 1; si++) {
-          const coda = syllables[si].coda;
-          const nextOnset = syllables[si + 1].onset;
-          boundaries.push({
-            codaCluster: [...coda],
-            onsetCluster: nextOnset,
-          });
-        }
-        const beforeJunction = context.trace ? cleanParts.join("") : "";
-        repairJunctions(cleanParts, hyphenatedParts, boundaries, config, wfc?.consonantGraphemes, observeParts);
-        if (context.trace) {
-          const afterJunction = cleanParts.join("");
-          if (afterJunction !== beforeJunction) {
-            context.trace.recordRepair("repairJunctions:backstop", beforeJunction, afterJunction);
-          }
-        }
-        // Re-run pileup repair in case junction repair changed things
-        if (maxGraphemes) {
-          const beforePileup = context.trace ? cleanParts.join("") : "";
-          repairConsonantPileups(cleanParts, hyphenatedParts, maxGraphemes, wfc?.consonantGraphemes, observeParts);
-          context.trace?.recordRepair("repairConsonantPileups:postJunction", beforePileup, cleanParts.join(""));
-        }
-      }
-
-      // Raw consonant letter backstop
-      if (wfc?.maxConsonantLetters) {
-        const before = context.trace ? cleanParts.join("") : "";
-        repairConsonantLetters(cleanParts, hyphenatedParts, wfc.maxConsonantLetters, observeParts);
-        context.trace?.recordRepair("repairConsonantLetters", before, cleanParts.join(""));
-      }
-
-      // Word-final consonant letter limit
-      if (wfc?.maxFinalConsonantLetters) {
-        const before = context.trace ? cleanParts.join("") : "";
-        repairFinalConsonantLetters(cleanParts, hyphenatedParts, wfc.maxFinalConsonantLetters, observeParts);
-        context.trace?.recordRepair("repairFinalConsonantLetters", before, cleanParts.join(""));
-      }
-    }
-
-    // Raw vowel letter backstop
-    let partsOverflow = false;
-    finalVowel = keepSurvivingFinalVowel(finalVowel, cleanParts);
-    if (!planCoverage && wfc?.maxVowelLetters) {
-      const before = context.trace ? cleanParts.join("") : "";
-      const protectedStart = protectedFinalVowelStart(finalVowel, cleanParts[cleanParts.length - 1], canWriteFinalIAsY);
-      partsOverflow = repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters, protectedStart, observeParts);
-      finalVowel = keepSurvivingFinalVowel(finalVowel, cleanParts);
-      context.trace?.recordRepair("repairVowelLetters", before, cleanParts.join(""));
-    }
-
-    // Post-join pass: apply word-scope spelling rules
-    const joined = cleanParts.join("");
-    finalVowel = anchorFinalVowel(finalVowel, cleanParts, partsOverflow);
-    const onWordEdit = wordFinalVowelEditor(finalVowel);
-    const observeWord = baseSpelling.observe();
-    let finalClean = applySpellingRules(joined, wordRules, rand, context.trace, "word", (start, removed, replacement, rule) => {
-      observeWord(start, removed, replacement, rule);
-      onWordEdit?.(start, removed, replacement);
-    });
-    const terminalYStart = protectTerminalY(finalVowel, finalClean);
-    let respelledHyphenated: string | undefined;
-
-    if (planCoverage) {
-      const outcome = planCoverage.apply(baseSpelling, spellingChoices, "base-after-word-rules", invalidJunction);
-      context.trace?.recordSpellingBudget(outcome);
-      if (outcome.status === "respell") {
-        const parts = baseSpelling.projectParts(syllables.length)!;
-        finalClean = parts.join("");
-        respelledHyphenated = parts.join("&shy;");
-      } else if (wfc?.maxVowelLetters && terminalYStart !== undefined) {
-        // Nothing was deleted; a retained terminal y over the cap is the same protected overflow.
-        recordTerminalYCapOverflow(finalVowel, capVowelLetters(finalClean, wfc.maxVowelLetters, terminalYStart).protectedOverflow);
-      }
-    } else if (wfc?.maxVowelLetters) {
-      // Post-join vowel repair for cross-boundary runs
-      const before = finalClean;
-      const repaired = capVowelLetters(finalClean, wfc.maxVowelLetters, terminalYStart, (start, removed, replacement) => {
-        baseSpelling.edit(start, removed, replacement, "postJoinVowelCap");
-        onWordEdit?.(start, removed, replacement);
-      });
-      finalClean = repaired.text;
-      recordTerminalYCapOverflow(finalVowel, repaired.protectedOverflow);
-      context.trace?.recordRepair("repairVowelLetters:postJoin", before, finalClean);
-    }
-    const overflow = finalVowelOverflow(finalVowel);
-
-    // Re-run consonant backstop after spelling rules (rules like ngx→nks can introduce new runs)
-    if (!planCoverage && (wfc?.maxConsonantGraphemes || wfc?.maxConsonantLetters)) {
-      const postParts = [finalClean];
-      const postHyph = [finalClean];
-      const beforePost = context.trace ? finalClean : "";
-      const observePost = baseSpelling.observeParts(postParts);
-      if (wfc.maxConsonantGraphemes) {
-        repairConsonantPileups(postParts, postHyph, wfc.maxConsonantGraphemes, wfc.consonantGraphemes, observePost);
-      }
-      if (wfc.maxConsonantLetters) {
-        repairConsonantLetters(postParts, postHyph, wfc.maxConsonantLetters, observePost);
-      }
-      if (wfc.maxFinalConsonantLetters) {
-        repairFinalConsonantLetters(postParts, postHyph, wfc.maxFinalConsonantLetters, observePost);
-      }
-      const afterPost = postParts[0];
-      if (overflow.syncParts && afterPost !== finalClean) {
-        // Keep this exception's hyphenated spelling aligned. This affects only
-        // presentation partitions, never the selected vowel's production owner.
-        let start = 0;
-        while (finalClean[start] === afterPost[start] && start < afterPost.length) start++;
-        let suffix = 0;
-        while (suffix < afterPost.length - start
-          && finalClean[finalClean.length - 1 - suffix] === afterPost[afterPost.length - 1 - suffix]) suffix++;
-        editWrittenParts(overflow.syncParts, start, finalClean.length - start - suffix, afterPost.slice(start, afterPost.length - suffix));
-      }
-      finalClean = afterPost;
-      context.trace?.recordRepair("postSpellingBackstop", beforePost, finalClean);
-    }
+    const word: WordSpelling = { context, baseSpelling, cleanParts, hyphenatedParts, observeParts, finalVowel };
+    const repaired = planCoverage
+      ? writeCoverageSpelling(word, planCoverage, spellingChoices)
+      : writeLegacySpelling(word);
+    const { clean: finalClean, overflow } = repaired;
 
     if (tracing && context.trace) {
       const finalOwners = remapOwnersThroughRewrite(preRepairSurface, preRepairOwners, finalClean);
@@ -1718,7 +1791,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     baseSpelling.assertSurface(finalClean);
     if (context.trace) context.trace.baseSpelling = baseSpelling.snapshot();
     written.clean = finalClean;
-    written.hyphenated = respelledHyphenated
+    written.hyphenated = repaired.respelledHyphenated
       ?? (overflow.syncParts ? overflow.syncParts.join("&shy;") : hyphenatedParts.join(""));
   };
 }
