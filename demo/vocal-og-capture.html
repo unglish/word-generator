@@ -5,21 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Vocal OG capture · Unglish</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet"
+  />
   <style>
     :root {
       color-scheme: light;
-      --bg: #f3f3f3;
-      --fg: #191919;
-      --muted: #626262;
+      /* Match Anatomy3D WebGL clear as captured (SwiftShader → #e5e5e5). */
+      --bg: #e5e5e5;
+      --fg: #161616;
+      --muted: #5c5c5c;
+      --rule: #bdbdbd;
+      --serif: "Libre Baskerville", "Liberation Serif", "Noto Serif", Georgia, "Times New Roman", serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       width: 100%;
       height: 100%;
       overflow: hidden;
+    }
+    body {
       background: var(--bg);
       color: var(--fg);
-      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      font-family: var(--serif);
     }
     #stage {
       position: relative;
@@ -55,6 +66,9 @@
       font-style: italic;
       letter-spacing: 0.04em;
     }
+    .copy {
+      display: none;
+    }
     #ready {
       position: absolute;
       inset: 0;
@@ -66,6 +80,70 @@
       z-index: 3;
     }
     #ready[hidden] { display: none; }
+
+    /*
+      Landscape OG poster (1200×630): one composition on solid grey.
+      Head left; copy right with brand → headline → CTA hierarchy.
+    */
+    body.poster #stage {
+      background: var(--bg);
+    }
+    body.poster #head {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 68%;
+      background: var(--bg);
+    }
+    body.poster .mark { display: none; }
+    body.poster .copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 44%;
+      z-index: 2;
+      pointer-events: none;
+      padding: 4rem 3.25rem 4rem 1.35rem;
+      background: var(--bg);
+    }
+    body.poster .copy .brand {
+      font-size: 1.35rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--fg);
+      line-height: 1;
+    }
+    body.poster .copy .rule {
+      display: block;
+      width: 3.25rem;
+      height: 1px;
+      margin: 1.35rem 0 1.55rem;
+      background: var(--rule);
+      border: 0;
+    }
+    body.poster .copy .headline {
+      font-size: 2.95rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+      text-wrap: balance;
+      max-width: 9.2ch;
+    }
+    body.poster .copy .cta {
+      margin-top: 1.65rem;
+      font-size: 0.95rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--muted);
+      letter-spacing: 0.015em;
+      line-height: 1.4;
+      max-width: 17ch;
+    }
   </style>
 </head>
 <body>
@@ -75,8 +153,19 @@
       <span class="brand">Unglish</span>
       <span class="tag">vocal demo</span>
     </div>
+    <div class="copy" aria-hidden="true">
+      <span class="brand">Unglish</span>
+      <hr class="rule" />
+      <span class="headline">Nonce words, spoken aloud</span>
+      <span class="cta">Try the Chimera vocal demo →</span>
+    </div>
     <div id="ready">Loading head…</div>
   </div>
+  <script>
+    if (new URLSearchParams(location.search).get("mode") === "poster") {
+      document.body.classList.add("poster");
+    }
+  </script>
   <script type="module" src="./vocal/og-capture.ts"></script>
 </body>
 </html>

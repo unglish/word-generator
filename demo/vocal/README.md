@@ -15,10 +15,14 @@ Voice presets (adult male / female / child) are `BodyMix` + default f0 in `main.
 `../vocal-og-loop.mp4` + `../vocal-og-poster.png` are the link-preview assets referenced from `vocal.html`. Regenerate with:
 
 ```sh
+# video (1080²) + poster (1200×630 with headline/CTA)
 node scripts/vocal-og/capture.mjs --serve
+
+# poster only
+node scripts/vocal-og/capture.mjs --serve --poster-only
 ```
 
-That boots a noindex capture page (`vocal-og-capture.html`) which mounts the same Anatomy3D head, loops nonsense IPA, and burns in the Unglish wordmark.
+That boots a noindex capture page (`vocal-og-capture.html`) which mounts the same Anatomy3D head, loops nonsense IPA, and burns in the Unglish wordmark. Poster mode (`?mode=poster`) lays out conversion copy for the 1.91:1 card crop.
 
 Rebuild the wasm from upstream when bumping Chimera:
 
