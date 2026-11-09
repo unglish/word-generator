@@ -1,9 +1,21 @@
-Vendored speak-path sources + wasm from https://github.com/jamesondh/chimera-vocal-synth
-commit: e939cf733f7bbaed9e5698a242b1161dc9580679
+Vendored speak-path + 3D head sources + wasm from https://github.com/jamesondh/chimera-vocal-synth
+speak-path commit: e939cf733f7bbaed9e5698a242b1161dc9580679
 date: 2026-11-08T19:52:33Z
-files: wasm/, worklet/, audio/, ui/{speech,words,creatureVisuals}.ts
+3D head commit: 092b16ce12b927d473c884ca2dfae53ce1b995df
+date: 2026-11-09 (anatomy3d vendor)
+
+files:
+- wasm/, worklet/, audio/
+- ui/{speech,words,creatureVisuals,analysis,body,colors,headView}.ts
+- ui/render/{anatomy3d,expression,geom,beams3d,profile,anatomy,vector}.ts
 
 Local patches (do not drop when re-vendoring):
 - ui/speech.ts `ipaToPhrases`: do not split IPA on `.` (syllable boundary). Unglish
   pronunciations use `.` between syllables; treating those as phrase breaks inserted
   ~300ms pauses and made multi-syllable words sound stop-start.
+- ui/colors.ts: Unglish grayscale light/dark palette (not Chimera phosphor); syncTheme().
+- ui/render/beams3d.ts: NormalBlending (MaxEquation only works on black clear).
+- ui/render/anatomy.ts: thin faceHandles + ViewFlags only (no 2D AnatomyRenderer).
+- ui/render/vector.ts: chaikin helper only (no Glow/phosphor beams).
+- ui/render/anatomy3d.ts: theme clearHex fog; particle/spark colors from colors.ts.
+- ui/headView.ts: vanilla (non-React) mount driven by AudioEngine.latest.

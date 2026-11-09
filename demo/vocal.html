@@ -75,6 +75,32 @@
       background: var(--card-bg);
     }
 
+    .head {
+      position: relative;
+      width: 100%;
+      height: min(52vh, 28rem);
+      min-height: 16rem;
+      margin: 0 0 1em;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--soft);
+    }
+    .head.head-failed {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 1em;
+      text-align: center;
+    }
+    .head-hint {
+      margin: 0.35em 0 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
     .word {
       font-size: clamp(2.2rem, 8vw, 3.6rem);
       font-weight: 700;
@@ -206,12 +232,14 @@
       a physical-model voice (airway + folds), not a sample bank.
     </p>
     <p class="nav">
-      <a href="./index.html">Word generator</a><span class="sep">·</span>
+      <a href="./index.html">Unglish home</a><span class="sep">·</span>
       <a href="./review.html">Human review</a>
     </p>
   </header>
 
   <section class="stage" aria-live="polite">
+    <div class="head" id="head" aria-hidden="false"></div>
+    <p class="head-hint">Drag to turn the head · scroll to zoom · double-click to reset</p>
     <div class="word" id="word">—</div>
     <div class="ipa" id="ipa">/ /</div>
 
@@ -249,11 +277,19 @@
   </section>
 
   <footer>
-    Engine vendored from
-    <a href="https://github.com/jamesondh/chimera-vocal-synth">jamesondh/chimera-vocal-synth</a>
-    (MIT). Words from <code>@unglish/word-generator</code>. Tap Generate or Speak once to unlock
-    audio. On iPhone/iPad Safari the Ring/Silent switch used to mute Web Audio — this page claims
-    the media playback session so speech still plays. The meter tracks the speaker path.
+    <p>
+      Credits:
+      <a href="https://github.com/jamesondh/chimera-vocal-synth">Chimera</a>
+      (physical-model voice + 3D anatomy head, MIT) ·
+      <a href="https://unglish.github.io/word-generator/">Unglish</a>
+      (<a href="https://github.com/unglish/word-generator">word-generator</a>).
+    </p>
+    <p>
+      <a href="./index.html">Back to Unglish home</a>.
+      Tap Generate or Speak once to unlock audio. On iPhone/iPad Safari the Ring/Silent switch used
+      to mute Web Audio — this page claims the media playback session so speech still plays. The
+      meter tracks the speaker path; the head follows live Chimera articulator telemetry.
+    </p>
   </footer>
   <script type="module" src="./vocal/main.ts"></script>
 </body>
