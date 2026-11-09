@@ -9,7 +9,13 @@ import { generateWord } from "../../dist/index.js";
 import { initChimera } from "./chimera/wasm/chimera.ts";
 import type { BodyMix } from "./chimera/wasm/types.ts";
 import { isLikelyIosSafari, unlockIosPlaybackSession } from "./iosAudio.ts";
+import type { HeadHandle } from "./chimera/ui/headView.ts";
 
+/**
+ * Voice presets: BodyMix weights (male = both axes 0) plus default f0 (Hz).
+ * Retune f0 here, or blend BodyMix continuously (e.g. female: 0.5) for in-between bodies.
+ * Chimera's engine also exposes `defaultF0` blending in ui/body.ts.
+ */
 const BODIES: Record<string, { body: BodyMix; f0: number }> = {
   male: { body: { female: 0, child: 0 }, f0: 110 },
   female: { body: { female: 1, child: 0 }, f0: 205 },
@@ -33,6 +39,7 @@ const morphChk = $<HTMLInputElement>("morph");
 let current: { written: string; ipa: string } | null = null;
 let ready = false;
 let speaking = false;
+let head: HeadHandle | null = null;
 
 type EngineApi = {
   engine: {
@@ -99,6 +106,7 @@ async function ensureAudio(): Promise<void> {
   api.engine.setBody(pick.body);
   api.engine.setSource({ f0: pick.f0 });
   api.engine.setVolume(1);
+  head?.setBody(pick.body, api.engine.sampleRate);
 }
 
 async function speak(): Promise<void> {
@@ -160,10 +168,14 @@ bothBtn.addEventListener("click", () => {
 });
 bodySel.addEventListener("change", () => {
   primeAudioFromGesture();
-  if (!api?.engine.running) return;
   const pick = BODIES[bodySel.value] ?? BODIES.female;
-  api.engine.setBody(pick.body);
-  api.engine.setSource({ f0: pick.f0 });
+  if (api) {
+    head?.setBody(pick.body, api.engine.sampleRate);
+    if (api.engine.running) {
+      api.engine.setBody(pick.body);
+      api.engine.setSource({ f0: pick.f0 });
+    }
+  }
 });
 document.addEventListener("pointerdown", primeAudioFromGesture, { capture: true });
 document.addEventListener("touchstart", primeAudioFromGesture, { capture: true, passive: true });
@@ -176,7 +188,11 @@ void (async () => {
     await initChimera();
     const speech = await import("./chimera/ui/speech.ts");
     const { engine } = await import("./chimera/audio/AudioEngine.ts");
+    const { mountHead } = await import("./chimera/ui/headView.ts");
     api = { engine, speakText: speech.speakText, stopSpeaking: speech.stopSpeaking };
+    const pick = BODIES[bodySel.value] ?? BODIES.female;
+    const headEl = document.getElementById("head");
+    if (headEl) head = mountHead(headEl, engine, pick.body);
     // Meter from the destination-bound analyser (speaker path), not lung telemetry alone —
     // telemetry can move while WebKit has the destination muted.
     let timeBuf = new Uint8Array(0);
