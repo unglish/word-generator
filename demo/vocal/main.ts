@@ -47,7 +47,7 @@ type EngineApi = {
   speakText: (
     text: string,
     o: { ipa: boolean; body: BodyMix; rate: number; f0: number },
-  ) => Promise<unknown>;
+  ) => Promise<{ plan: { end: number } } | null>;
   stopSpeaking: () => void;
 };
 
@@ -101,12 +101,20 @@ async function speak(): Promise<void> {
   speaking = true;
   speakBtn.disabled = true;
   stopBtn.disabled = false;
-  setStatus(`Speaking “${current.written}”…`);
+  const spoken = current.written;
+  setStatus(`Speaking “${spoken}”…`);
   try {
     await ensureAudio();
     const pick = BODIES[bodySel.value] ?? BODIES.female;
     const rate = Number(rateSel.value) || 1;
-    await api.speakText(current.ipa, { ipa: true, body: pick.body, rate, f0: pick.f0 });
+    const plan = await api.speakText(current.ipa, { ipa: true, body: pick.body, rate, f0: pick.f0 });
+    // speakText resolves when the gesture plan is queued, not when audio ends.
+    const endSec = plan?.plan.end ?? 0;
+    window.setTimeout(() => {
+      if (!speaking && statusEl.textContent?.startsWith(`Speaking “${spoken}”`)) {
+        setStatus("Ready.");
+      }
+    }, Math.max(400, endSec * 1000 + 150));
   } catch (err) {
     setStatus(err instanceof Error ? err.message : String(err), true);
   } finally {
