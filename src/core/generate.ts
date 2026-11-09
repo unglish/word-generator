@@ -96,6 +96,14 @@ function coinFlip(rand: RNG, probability: number): boolean {
 /** Shared empty set for ClusterContext.ignoreSet when no phonemes should be ignored. */
 const _emptySet: ReadonlySet<string> = Object.freeze(new Set<string>());
 
+/**
+ * Last element, or undefined for an empty array. Avoids `arr[arr.length - 1]`
+ * on empty arrays, which V8 resolves as a slow named-property lookup of "-1".
+ */
+function lastItem<T>(items: readonly T[]): T | undefined {
+  return items.length > 0 ? items[items.length - 1] : undefined;
+}
+
 function getPlanGuardProbability(rt: GeneratorRuntime): number {
   return rt.config.hiatusPolicy?.planGuardProbability ?? DEFAULT_PLAN_GUARD_PROBABILITY;
 }
@@ -320,7 +328,7 @@ function clusterCandidateRejection(p: Phoneme, rt: GeneratorRuntime, context: Cl
   const { clusterSounds } = context;
 
   if (context.ignoreSet.has(sound)) return "excluded";
-  if (clusterSounds[clusterSounds.length - 1] === sound) return "repetition";
+  if (lastItem(clusterSounds) === sound) return "repetition";
   // Optional extensions may repeat a separated segment when attested (e.g. /ksts/).
   if (clusterSounds.includes(sound) && !(extension && context.position === "coda" && rt.attestedCodaSet)) return "repetition";
   if (!isValidPosition(p, context)) return "position";
@@ -410,7 +418,7 @@ function isValidCluster(rt: GeneratorRuntime, cluster: Phoneme[], position: "ons
 // ---------------------------------------------------------------------------
 
 function checkSonority(p: Phoneme, rt: GeneratorRuntime, { cluster, position }: ClusterContext): boolean {
-  const prevPhoneme = cluster[cluster.length - 1];
+  const prevPhoneme = lastItem(cluster);
 
   switch (position) {
   case "onset":
