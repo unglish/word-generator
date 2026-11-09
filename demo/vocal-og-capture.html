@@ -14,8 +14,8 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #ececec;
-      --panel: #f7f7f7;
+      /* Match Anatomy3D WebGL clear as captured (SwiftShader → #e5e5e5). */
+      --bg: #e5e5e5;
       --fg: #161616;
       --muted: #5c5c5c;
       --rule: #bdbdbd;
@@ -82,9 +82,8 @@
     #ready[hidden] { display: none; }
 
     /*
-      Landscape OG poster (1200×630): one composition.
-      Head dominates left/center; copy sits in a soft right wash
-      with clear brand → headline → CTA hierarchy for FB/LI crops.
+      Landscape OG poster (1200×630): one composition on solid grey.
+      Head left; copy right with brand → headline → CTA hierarchy.
     */
     body.poster #stage {
       background: var(--bg);
@@ -109,15 +108,7 @@
       z-index: 2;
       pointer-events: none;
       padding: 4rem 3.25rem 4rem 1.35rem;
-      background:
-        linear-gradient(
-          90deg,
-          rgba(247, 247, 247, 0) 0%,
-          rgba(247, 247, 247, 0.55) 12%,
-          rgba(247, 247, 247, 0.94) 28%,
-          var(--panel) 42%,
-          var(--panel) 100%
-        );
+      background: var(--bg);
     }
     body.poster .copy .brand {
       font-size: 1.35rem;
