@@ -182,3 +182,4 @@ cmudict*
 /lexicon_comparison.py
 /phoneme-dist-check.ts
 /sct-*.json
+tmp/

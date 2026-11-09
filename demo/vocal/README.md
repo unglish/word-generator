@@ -10,6 +10,16 @@ Playable page at `vocal.html`: generates an Unglish nonce word and speaks its IP
 
 Voice presets (adult male / female / child) are `BodyMix` + default f0 in `main.ts` (`BODIES`). Retune f0 Hz there; blend `female`/`child` weights for in-between bodies.
 
+## Open Graph loop
+
+`../vocal-og-loop.mp4` + `../vocal-og-poster.png` are the link-preview assets referenced from `vocal.html`. Regenerate with:
+
+```sh
+node scripts/vocal-og/capture.mjs --serve
+```
+
+That boots a noindex capture page (`vocal-og-capture.html`) which mounts the same Anatomy3D head, loops nonsense IPA, and burns in the Unglish wordmark.
+
 Rebuild the wasm from upstream when bumping Chimera:
 
 ```sh

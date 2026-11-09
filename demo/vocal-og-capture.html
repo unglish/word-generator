@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Vocal OG capture · Unglish</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f3f3;
+      --fg: #191919;
+      --muted: #626262;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+    }
+    #stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+    }
+    #head {
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+    }
+    .mark {
+      position: absolute;
+      left: 4.5%;
+      bottom: 4.5%;
+      z-index: 2;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15em;
+      line-height: 1;
+    }
+    .mark .brand {
+      font-size: clamp(1.35rem, 4.2vw, 2.35rem);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--fg);
+    }
+    .mark .tag {
+      font-size: clamp(0.55rem, 1.5vw, 0.85rem);
+      color: var(--muted);
+      font-style: italic;
+      letter-spacing: 0.04em;
+    }
+    #ready {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 1rem;
+      z-index: 3;
+    }
+    #ready[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <div id="stage">
+    <div id="head" aria-hidden="true"></div>
+    <div class="mark" aria-hidden="true">
+      <span class="brand">Unglish</span>
+      <span class="tag">vocal demo</span>
+    </div>
+    <div id="ready">Loading head…</div>
+  </div>
+  <script type="module" src="./vocal/og-capture.ts"></script>
+</body>
+</html>
