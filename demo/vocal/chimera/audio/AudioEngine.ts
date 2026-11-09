@@ -42,6 +42,8 @@ export class AudioEngine {
   lastPlan: PlannedMessage | null = null;
   private speakId = 0;
   error: string | null = null;
+  /** In-flight graph build so concurrent start() calls share one worklet load. */
+  private startPromise: Promise<void> | null = null;
 
   /** The human voice's clock now (s), extrapolated from the latest telemetry; null if none. */
   voiceClock(): number | null {
@@ -53,20 +55,62 @@ export class AudioEngine {
     return !!this.ctx && this.ctx.state === "running";
   }
 
+  /**
+   * Open AudioContext and unlock the destination synchronously during a user gesture.
+   * WebKit (esp. iOS Safari) can report state "running" with a muted destination if the
+   * first resume/BufferSource happen after an await (e.g. audioWorklet.addModule).
+   * Safe to call repeatedly from pointer/key handlers.
+   */
+  prime(): void {
+    if (!this.ctx) {
+      const ctx = new AudioContext({ latencyHint: "interactive" });
+      this.ctx = ctx;
+      this.sampleRate = ctx.sampleRate;
+    }
+    this.unlockOutput(this.ctx, this.master ?? this.ctx.destination);
+  }
+
+  /** Best-effort speaker unlock: silent buffer through `dest` + resume (no await). */
+  private unlockOutput(ctx: AudioContext, dest: AudioNode): void {
+    try {
+      const buf = ctx.createBuffer(1, 1, ctx.sampleRate);
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(dest);
+      src.start(0);
+    } catch {
+      // unlock is best-effort; resume below still matters
+    }
+    void ctx.resume();
+  }
+
   async start(): Promise<void> {
-    if (this.ctx) {
-      await this.ctx.resume();
+    // Always prime first so a Speak click unlocks before any await yields the gesture.
+    this.prime();
+    const ctx = this.ctx!;
+    if (this.node) {
+      this.unlockOutput(ctx, this.master ?? ctx.destination);
+      await ctx.resume();
       return;
     }
-    const ctx = new AudioContext({ latencyHint: "interactive" });
-    this.ctx = ctx;
-    this.sampleRate = ctx.sampleRate;
+    if (this.startPromise) return this.startPromise;
+    this.startPromise = this.buildGraph(ctx);
+    try {
+      await this.startPromise;
+    } catch (err) {
+      this.startPromise = null;
+      throw err;
+    }
+  }
+
+  private async buildGraph(ctx: AudioContext): Promise<void> {
     await ctx.audioWorklet.addModule(workletUrl);
     // the worklet instantiates the engine from the module compiled at startup (main.tsx)
     const node = new AudioWorkletNode(ctx, "chimera", { numberOfInputs: 0, numberOfOutputs: 1, outputChannelCount: [2], processorOptions: { module: chimeraModule() } });
     this.node = node;
     const master = ctx.createGain();
-    master.gain.value = 0.8;
+    // Demo default: a bit hotter than Chimera's 0.8 so short nonce words are obvious on laptop speakers.
+    master.gain.value = 1;
     this.master = master;
     const analyser = ctx.createAnalyser();
     analyser.fftSize = 4096;
@@ -99,11 +143,7 @@ export class AudioEngine {
     makeup.gain.value = 2.2;
     shelf.connect(presence).connect(comp).connect(makeup).connect(master);
     this.micIn = shelf;
-    node.connect(this.micOn ? shelf : master);
-    master.connect(ctx.destination);
-    master.connect(analyser);
-    master.connect(fast);
-    master.connect(scope);
+    // Attach the port handler immediately so the constructor's queued `ready` is not dropped.
     node.port.onmessage = (e: MessageEvent<FromWorklet>) => {
       const m = e.data;
       if (m.type === "telemetry") {
@@ -126,6 +166,13 @@ export class AudioEngine {
         console.error("worklet:", m.message);
       }
     };
+    node.connect(this.micOn ? shelf : master);
+    master.connect(ctx.destination);
+    master.connect(analyser);
+    master.connect(fast);
+    master.connect(scope);
+    // Re-unlock through the real output chain after the gesture turn may have ended.
+    this.unlockOutput(ctx, master);
     await ctx.resume();
   }
 
