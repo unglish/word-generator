@@ -142,6 +142,118 @@ interface TerminalVowelUnit {
   phonemeIndex: number;
 }
 
+/**
+ * Protection of the final selected vowel from the vowel-letter cap, in the
+ * order the writer moves through it. Each kind fixes what its offsets measure:
+ * - `none`: nothing is protected, or the vowel's surface did not survive.
+ * - `syllable`: offsets count from the final syllable's start.
+ * - `suffix`: the syllable closed on the vowel; only its surface is kept, and
+ *   it stays protected while the last part still ends with it.
+ * - `word`: offsets count from the joined word's start.
+ */
+type FinalVowelState =
+  | { kind: "none" }
+  | { kind: "syllable"; unit: TerminalVowelUnit }
+  | { kind: "suffix"; surface: string; phonemeIndex: number }
+  | WordFinalVowel;
+
+interface WordFinalVowel {
+  kind: "word";
+  unit: TerminalVowelUnit;
+  /** Syllable parts kept in step with word edits, for hyphenation after an overflow. */
+  parts: string[];
+  /** The per-part vowel repair left protected letters over the cap. */
+  partsOverflow: boolean;
+  /** Where a protected terminal y starts, set once word rules have run. */
+  terminalYStart?: number;
+  /** The post-join vowel cap left the protected terminal y over the cap. */
+  capOverflow: boolean;
+}
+
+const NO_FINAL_VOWEL: FinalVowelState = { kind: "none" };
+
+function editSyllableFinalVowel(state: FinalVowelState, start: number, removed: number, replacement: string): void {
+  if (state.kind === "syllable") editTerminalVowel(state.unit, start, removed, replacement);
+}
+
+/** Close the final syllable: keep the vowel only if it still ends the syllable. */
+function captureFinalVowel(state: FinalVowelState, syllable: string): FinalVowelState {
+  if (state.kind !== "syllable") return state;
+  const { start, end, phonemeIndex } = state.unit;
+  const surface = start >= 0 && end === syllable.length ? syllable.slice(start, end) : "";
+  return surface ? { kind: "suffix", surface, phonemeIndex } : NO_FINAL_VOWEL;
+}
+
+/**
+ * Part repairs may edit the prefix, but cannot grant a new suffix vowel
+ * ownership. Keep the protection only while its selected surface survives.
+ */
+function keepSurvivingFinalVowel(state: FinalVowelState, parts: readonly string[]): FinalVowelState {
+  if (state.kind !== "suffix") return state;
+  return parts[parts.length - 1].endsWith(state.surface) ? state : NO_FINAL_VOWEL;
+}
+
+/** Start of the letters the per-part vowel repair must keep, if any. */
+function protectedFinalVowelStart(state: FinalVowelState, lastPart: string, canWriteFinalIAsY: boolean): number | undefined {
+  if (state.kind !== "suffix") return undefined;
+  const surface = state.surface.toLowerCase();
+  const protect = surface.endsWith("y") || (canWriteFinalIAsY && surface.endsWith("i"));
+  return protect ? lastPart.length - state.surface.length : undefined;
+}
+
+/** Join the parts: from here the vowel's offsets count from the word's start. */
+function anchorFinalVowel(state: FinalVowelState, parts: readonly string[], partsOverflow: boolean): FinalVowelState {
+  if (state.kind !== "suffix") return state;
+  const length = parts.reduce((total, part) => total + part.length, 0);
+  return {
+    kind: "word",
+    unit: { start: length - state.surface.length, end: length, phonemeIndex: state.phonemeIndex },
+    parts: parts.slice(),
+    partsOverflow,
+    capOverflow: false,
+  };
+}
+
+/** Word-scope edits move the vowel's offsets and its hyphenation parts together. */
+function wordFinalVowelEditor(state: FinalVowelState): SpellingEdit | undefined {
+  if (state.kind !== "word") return undefined;
+  return (start, removed, replacement) => {
+    editTerminalVowel(state.unit, start, removed, replacement);
+    editWrittenParts(state.parts, start, removed, replacement);
+  };
+}
+
+/** After word rules, record where a still-final protected y starts. */
+function protectTerminalY(state: FinalVowelState, written: string): number | undefined {
+  if (state.kind !== "word") return undefined;
+  const { start, end } = state.unit;
+  state.terminalYStart = start >= 0 && end > start && end === written.length && written.toLowerCase().endsWith("y")
+    ? start
+    : undefined;
+  return state.terminalYStart;
+}
+
+function recordTerminalYCapOverflow(state: FinalVowelState, overflow: boolean): void {
+  if (state.kind === "word") state.capOverflow ||= overflow;
+}
+
+/** What a protected final vowel left over the cap requires of the output. */
+interface FinalVowelOverflow {
+  /** Hyphenation parts to keep aligned and output, when protection kept letters over the cap. */
+  syncParts?: string[];
+  /** The vowel's unit, when its protected terminal y is over the cap. */
+  terminalY?: TerminalVowelUnit;
+}
+
+function finalVowelOverflow(state: FinalVowelState): FinalVowelOverflow {
+  if (state.kind !== "word") return {};
+  const terminalY = state.terminalYStart !== undefined && (state.partsOverflow || state.capOverflow);
+  return {
+    syncParts: state.partsOverflow || terminalY ? state.parts : undefined,
+    terminalY: terminalY ? state.unit : undefined,
+  };
+}
+
 function editTerminalVowel(unit: TerminalVowelUnit, start: number, removed: number, replacement: string): void {
   if (unit.start < 0) return;
   const end = start + removed;
@@ -1234,8 +1346,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     let currentSyllableOwners: number[] = [];
     const nucleusGraphemes: string[] = []; // Track nucleus grapheme form per syllable
     let prefix = INITIAL_GRAPHEME_PREFIX;
-    let terminalVowel: TerminalVowelUnit | undefined;
-    let terminalVowelSurface = "";
+    let finalVowel = NO_FINAL_VOWEL;
 
     for (let phonemeIndex = 0; phonemeIndex < flattenedPhonemes.length; phonemeIndex++) {
       const { phoneme, syllableIndex, position, positionIndex, stress } = flattenedPhonemes[phonemeIndex];
@@ -1350,7 +1461,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       if (config.writtenFormConstraints?.maxVowelLetters && isLastPhoneme && position === "nucleus"
           && vowelSounds.has(phoneme.sound) && emitted.length > 0) {
         const end = currentSyllable.join("").length;
-        terminalVowel = { start: end - emitted.length, end, phonemeIndex };
+        finalVowel = { kind: "syllable", unit: { start: end - emitted.length, end, phonemeIndex } };
       }
       if (tracing && emitted.length > 0) {
         for (let ci = 0; ci < emitted.length; ci++) {
@@ -1378,7 +1489,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         let syllableStr = applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`,
           (start, removed, replacement, rule) => {
             observeSyllable(start, removed, replacement, rule);
-            if (terminalVowel) editTerminalVowel(terminalVowel, start, removed, replacement);
+            editSyllableFinalVowel(finalVowel, start, removed, replacement);
           },
           index => baseSpelling.segmentAt(syllableStart + index));
         let syllableOwners = tracing
@@ -1389,14 +1500,12 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
             cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
           baseSpelling.edit(syllableStart, 1, "", "deduplicateSyllableJoin");
           syllableStr = syllableStr.slice(1);
-          if (terminalVowel) editTerminalVowel(terminalVowel, 0, 1, "");
+          editSyllableFinalVowel(finalVowel, 0, 1, "");
           if (tracing) syllableOwners = syllableOwners.slice(1);
         }
 
         cleanParts.push(syllableStr);
-        if (terminalVowel && terminalVowel.start >= 0 && terminalVowel.end === syllableStr.length) {
-          terminalVowelSurface = syllableStr.slice(terminalVowel.start, terminalVowel.end);
-        }
+        finalVowel = captureFinalVowel(finalVowel, syllableStr);
         hyphenatedParts.push(syllableStr);
         nucleusGraphemes.push(prefix.nucleusForm);
         if (tracing) {
@@ -1521,40 +1630,26 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     }
 
     // Raw vowel letter backstop
-    let pendingTerminalOverflow = false;
-    const lastPart = cleanParts[cleanParts.length - 1];
-    // Earlier repairs may edit the prefix, but cannot grant a new suffix vowel
-    // ownership. Retain the certificate only while its selected surface survives.
-    if (!terminalVowelSurface || !lastPart.endsWith(terminalVowelSurface)) terminalVowel = undefined;
+    let partsOverflow = false;
+    finalVowel = keepSurvivingFinalVowel(finalVowel, cleanParts);
     if (!planCoverage && wfc?.maxVowelLetters) {
       const before = context.trace ? cleanParts.join("") : "";
-      const protectNow = terminalVowel && (terminalVowelSurface.toLowerCase().endsWith("y")
-        || (canWriteFinalIAsY && terminalVowelSurface.toLowerCase().endsWith("i")));
-      pendingTerminalOverflow = repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters,
-        protectNow ? lastPart.length - terminalVowelSurface.length : undefined, observeParts);
-      if (!cleanParts[cleanParts.length - 1].endsWith(terminalVowelSurface)) terminalVowel = undefined;
+      const protectedStart = protectedFinalVowelStart(finalVowel, cleanParts[cleanParts.length - 1], canWriteFinalIAsY);
+      partsOverflow = repairVowelLetters(cleanParts, hyphenatedParts, wfc.maxVowelLetters, protectedStart, observeParts);
+      finalVowel = keepSurvivingFinalVowel(finalVowel, cleanParts);
       context.trace?.recordRepair("repairVowelLetters", before, cleanParts.join(""));
     }
 
     // Post-join pass: apply word-scope spelling rules
     const joined = cleanParts.join("");
-    if (terminalVowel) {
-      terminalVowel.start = joined.length - terminalVowelSurface.length;
-      terminalVowel.end = joined.length;
-    }
-    const finalParts = terminalVowel ? cleanParts.slice() : undefined;
-    const onWordEdit: SpellingEdit | undefined = terminalVowel ? (start, removed, replacement) => {
-      editTerminalVowel(terminalVowel!, start, removed, replacement);
-      editWrittenParts(finalParts!, start, removed, replacement);
-    } : undefined;
+    finalVowel = anchorFinalVowel(finalVowel, cleanParts, partsOverflow);
+    const onWordEdit = wordFinalVowelEditor(finalVowel);
     const observeWord = baseSpelling.observe();
     let finalClean = applySpellingRules(joined, wordRules, rand, context.trace, "word", (start, removed, replacement, rule) => {
       observeWord(start, removed, replacement, rule);
       onWordEdit?.(start, removed, replacement);
     });
-    const terminalYStart = terminalVowel && terminalVowel.start >= 0 && terminalVowel.end > terminalVowel.start
-      && terminalVowel.end === finalClean.length && finalClean.toLowerCase().endsWith("y") ? terminalVowel.start : undefined;
-    let terminalYOverflow = terminalYStart !== undefined && pendingTerminalOverflow;
+    const terminalYStart = protectTerminalY(finalVowel, finalClean);
     let respelledHyphenated: string | undefined;
 
     if (planCoverage) {
@@ -1566,7 +1661,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         respelledHyphenated = parts.join("&shy;");
       } else if (wfc?.maxVowelLetters && terminalYStart !== undefined) {
         // Nothing was deleted; a retained terminal y over the cap is the same protected overflow.
-        terminalYOverflow = capVowelLetters(finalClean, wfc.maxVowelLetters, terminalYStart).protectedOverflow;
+        recordTerminalYCapOverflow(finalVowel, capVowelLetters(finalClean, wfc.maxVowelLetters, terminalYStart).protectedOverflow);
       }
     } else if (wfc?.maxVowelLetters) {
       // Post-join vowel repair for cross-boundary runs
@@ -1576,10 +1671,10 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         onWordEdit?.(start, removed, replacement);
       });
       finalClean = repaired.text;
-      terminalYOverflow ||= repaired.protectedOverflow;
+      recordTerminalYCapOverflow(finalVowel, repaired.protectedOverflow);
       context.trace?.recordRepair("repairVowelLetters:postJoin", before, finalClean);
     }
-    const syncFinalParts = pendingTerminalOverflow || terminalYOverflow;
+    const overflow = finalVowelOverflow(finalVowel);
 
     // Re-run consonant backstop after spelling rules (rules like ngx→nks can introduce new runs)
     if (!planCoverage && (wfc?.maxConsonantGraphemes || wfc?.maxConsonantLetters)) {
@@ -1597,7 +1692,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         repairFinalConsonantLetters(postParts, postHyph, wfc.maxFinalConsonantLetters, observePost);
       }
       const afterPost = postParts[0];
-      if (syncFinalParts && finalParts && afterPost !== finalClean) {
+      if (overflow.syncParts && afterPost !== finalClean) {
         // Keep this exception's hyphenated spelling aligned. This affects only
         // presentation partitions, never the selected vowel's production owner.
         let start = 0;
@@ -1605,7 +1700,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         let suffix = 0;
         while (suffix < afterPost.length - start
           && finalClean[finalClean.length - 1 - suffix] === afterPost[afterPost.length - 1 - suffix]) suffix++;
-        editWrittenParts(finalParts, start, finalClean.length - start - suffix, afterPost.slice(start, afterPost.length - suffix));
+        editWrittenParts(overflow.syncParts, start, finalClean.length - start - suffix, afterPost.slice(start, afterPost.length - suffix));
       }
       finalClean = afterPost;
       context.trace?.recordRepair("postSpellingBackstop", beforePost, finalClean);
@@ -1613,9 +1708,9 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
     if (tracing && context.trace) {
       const finalOwners = remapOwnersThroughRewrite(preRepairSurface, preRepairOwners, finalClean);
-      if (terminalYOverflow && terminalVowel) {
-        const unitLength = terminalVowel.end - terminalVowel.start;
-        finalOwners.fill(terminalVowel.phonemeIndex, finalClean.length - unitLength);
+      if (overflow.terminalY) {
+        const unitLength = overflow.terminalY.end - overflow.terminalY.start;
+        finalOwners.fill(overflow.terminalY.phonemeIndex, finalClean.length - unitLength);
       }
       context.trace.orthographyTrace = buildOrthographyTrace(finalClean, finalOwners, traceUnits, context.trace, context.orthographySource);
     }
@@ -1624,6 +1719,6 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     if (context.trace) context.trace.baseSpelling = baseSpelling.snapshot();
     written.clean = finalClean;
     written.hyphenated = respelledHyphenated
-      ?? (syncFinalParts && finalParts ? finalParts.join("&shy;") : hyphenatedParts.join(""));
+      ?? (overflow.syncParts ? overflow.syncParts.join("&shy;") : hyphenatedParts.join(""));
   };
 }
