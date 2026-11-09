@@ -35,12 +35,14 @@ let speaking = false;
 
 type EngineApi = {
   engine: {
+    prime(): void;
     start(): Promise<void>;
     setBody(b: BodyMix): void;
     setSource(v: { f0: number }): void;
     setVolume(v: number): void;
-    onTelemetry(l: (t: { t: { pLung: number; voicing: number } }) => void): () => void;
+    readonly analyser: AnalyserNode | null;
     readonly running: boolean;
+    readonly ctx: AudioContext | null;
   };
   speakText: (
     text: string,
@@ -79,11 +81,19 @@ function generate(): void {
 
 async function ensureAudio(): Promise<void> {
   if (!api) throw new Error("voice not ready");
+  // Sync unlock must run in the click turn before any await (WebKit mute-after-await).
+  api.engine.prime();
   await api.engine.start();
+  if (api.engine.ctx?.state !== "running") {
+    await api.engine.ctx?.resume();
+  }
+  if (api.engine.ctx?.state !== "running") {
+    throw new Error(`AudioContext is ${api.engine.ctx?.state ?? "missing"} — click Speak again to unlock sound`);
+  }
   const pick = BODIES[bodySel.value] ?? BODIES.female;
   api.engine.setBody(pick.body);
   api.engine.setSource({ f0: pick.f0 });
-  api.engine.setVolume(0.85);
+  api.engine.setVolume(1);
 }
 
 async function speak(): Promise<void> {
@@ -113,19 +123,34 @@ function stop(): void {
   setStatus("Stopped.");
 }
 
-generateBtn.addEventListener("click", () => generate());
-speakBtn.addEventListener("click", () => void speak());
+/** Keep destination unlocked on any early gesture (Generate, Voice change, etc.). */
+function primeAudioFromGesture(): void {
+  api?.engine.prime();
+}
+
+generateBtn.addEventListener("click", () => {
+  primeAudioFromGesture();
+  generate();
+});
+speakBtn.addEventListener("click", () => {
+  primeAudioFromGesture();
+  void speak();
+});
 stopBtn.addEventListener("click", () => stop());
 bothBtn.addEventListener("click", () => {
+  primeAudioFromGesture();
   generate();
   void speak();
 });
 bodySel.addEventListener("change", () => {
+  primeAudioFromGesture();
   if (!api?.engine.running) return;
   const pick = BODIES[bodySel.value] ?? BODIES.female;
   api.engine.setBody(pick.body);
   api.engine.setSource({ f0: pick.f0 });
 });
+document.addEventListener("pointerdown", primeAudioFromGesture, { capture: true });
+document.addEventListener("keydown", primeAudioFromGesture, { capture: true });
 
 generate();
 
@@ -135,10 +160,21 @@ void (async () => {
     const speech = await import("./chimera/ui/speech.ts");
     const { engine } = await import("./chimera/audio/AudioEngine.ts");
     api = { engine, speakText: speech.speakText, stopSpeaking: speech.stopSpeaking };
-    engine.onTelemetry((t) => {
-      const amp = Math.min(1, Math.abs(t.t.pLung) / 12 + t.t.voicing * 0.35);
-      levelEl.style.width = `${Math.round(amp * 100)}%`;
-    });
+    // Meter from the destination-bound analyser (speaker path), not lung telemetry alone —
+    // telemetry can move while WebKit has the destination muted.
+    let timeBuf = new Uint8Array(0);
+    const tickMeter = () => {
+      const a = engine.analyser;
+      if (a) {
+        if (timeBuf.length !== a.fftSize) timeBuf = new Uint8Array(a.fftSize);
+        a.getByteTimeDomainData(timeBuf);
+        let peak = 0;
+        for (let i = 0; i < timeBuf.length; i++) peak = Math.max(peak, Math.abs(timeBuf[i] - 128));
+        levelEl.style.width = `${Math.min(100, Math.round((peak / 128) * 160))}%`;
+      }
+      requestAnimationFrame(tickMeter);
+    };
+    requestAnimationFrame(tickMeter);
     ready = true;
     speakBtn.disabled = !current?.ipa;
     setStatus("Voice ready — generate a word, then Speak.");
