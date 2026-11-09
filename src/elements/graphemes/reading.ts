@@ -89,7 +89,11 @@ function readingFor(grapheme: Grapheme): GraphemeReading | undefined {
   if (!Object.hasOwn(readings, grapheme.phoneme)) return undefined;
   const forms = readings[grapheme.phoneme];
   if (!Object.hasOwn(forms, grapheme.form)) return undefined;
-  const reading = forms[grapheme.form];
+  return copyGraphemeReading(forms[grapheme.form]);
+}
+
+/** A copy that shares no mutable letter lists with `reading`. */
+export function copyGraphemeReading(reading: GraphemeReading): GraphemeReading {
   if (reading.kind !== "following-letter") return { ...reading };
   return {
     ...reading,
