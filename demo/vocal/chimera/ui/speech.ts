@@ -39,12 +39,21 @@ export function currentPlan(): SpokenPlan | null {
   return current;
 }
 
+/**
+ * IPA → phrases for speaking.
+ *
+ * Unglish (and IPA generally) uses `.` as a *syllable* boundary, not a sentence
+ * break. Splitting on `.` used to turn each syllable into its own phrase with a
+ * 300ms inter-phrase pause — audible as stop-start speech on multi-syllable words.
+ * Only `|?!` start a new phrase; trailing phrase pause stays 0 so a single word
+ * is one continuous utterance.
+ */
 export function ipaToPhrases(text: string): Phrase[] {
   return text
-    .split(/[|.?!]+/)
+    .split(/[|?!]+/)
     .map((p) => p.trim())
     .filter(Boolean)
-    .map((p) => ({ segments: tokenizeIpa(p), intonation: "statement" as const, pause: 0.3, words: [] }));
+    .map((p) => ({ segments: tokenizeIpa(p), intonation: "statement" as const, pause: 0, words: [] }));
 }
 
 export function transcribe(phrases: { segments: Segment[]; intonation?: string }[]): string {
