@@ -409,6 +409,8 @@ export interface ClusterContext {
   syllableCount: number;
   /** True when this onset follows a syllable with no coda. */
   followingOpenNucleus?: boolean;
+  /** Sounds that may not open this onset, given the preceding open syllable's nucleus. */
+  bannedFirstOnset?: ReadonlySet<string>;
   /**
    * Nucleus phonemes of the syllable being built (for nucleus-aware coda filtering).
    * Only populated when position === "coda".
