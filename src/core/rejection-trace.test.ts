@@ -78,6 +78,7 @@ describe("complete rejection accounting", () => {
     const words = generateWords(2_000, { seed: 192837, morphology: true, trace: true });
     const outcomes = new Set<string>();
     const morphologies = new Set<string>();
+    let sawPruned = false;
     for (const word of words) {
       const trace = word.trace!;
       const selection = trace.selection!;
@@ -86,7 +87,16 @@ describe("complete rejection accounting", () => {
       expect(trace.attempts).toBe(selection.attemptsExecuted - 1);
       expect(selection.selectedAttempt).toBeLessThan(selection.attemptsExecuted);
       expect(selection.attemptsExecuted).toBeLessThanOrEqual(selection.criteria.maxAttempts);
-      expect(selection.proposedLengths.reduce((sum, bin) => sum + bin.count, 0)).toBe(selection.attemptsExecuted);
+      const proposed = selection.proposedLengths.reduce((sum, bin) => sum + bin.count, 0);
+      const pruned = selection.prunedLengths.reduce((sum, bin) => sum + bin.count, 0);
+      expect(proposed + pruned).toBe(selection.attemptsExecuted);
+      if (pruned > 0) sawPruned = true;
+      // A pruned attempt misses its phoneme target and could not beat the selected score.
+      for (const bin of selection.prunedLengths) {
+        const distance = Math.abs(bin.phonemes - trace.targetPhonemeCount!);
+        expect(distance).toBeGreaterThan(0);
+        expect(distance * 2).toBeGreaterThanOrEqual(selection.selected.score.total);
+      }
       expect(selection.rejectedAttempts).toBe(selection.attemptsExecuted - (selection.status === "accepted" ? 1 : 0));
       expect(Object.values(selection.rejectionReasons).reduce((sum, value) => sum + value, 0)).toBeGreaterThanOrEqual(selection.rejectedAttempts);
       const { selected } = selection;
@@ -98,5 +108,6 @@ describe("complete rejection accounting", () => {
     }
     expect(outcomes).toEqual(new Set(["exact", "relaxed", "fallback"]));
     expect(morphologies).toEqual(new Set(["bare", "prefixed", "suffixed", "both"]));
+    expect(sawPruned).toBe(true);
   });
 });

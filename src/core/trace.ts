@@ -12,6 +12,9 @@ export interface AttemptLengths {
   letters: number;
 }
 
+/** Lengths of a root attempt rejected on its phoneme count before it was spelled. */
+export type PrunedAttemptLengths = Omit<AttemptLengths, "letters">;
+
 export interface SelectionTrace {
   status: "accepted" | "fallback";
   /** null means no attempt met an acceptance criterion. */
@@ -25,8 +28,17 @@ export interface SelectionTrace {
   rejectionReasons: { phonemeTarget: number; letterLength: number; warmup: number };
   criteria: AcceptanceCriteria & { maxAttempts: number };
   selected: AttemptLengths & { score: AttemptScore };
-  /** Compact root proposal distribution; no rejected spelling or Word payloads are retained. */
+  /**
+   * Compact distribution of spelled root proposals; no rejected spelling or Word
+   * payloads are retained. Together with `prunedLengths` it covers every attempt.
+   */
   proposedLengths: Array<AttemptLengths & { count: number }>;
+  /**
+   * Root attempts rejected on their phoneme count without being spelled: they
+   * missed the phoneme target and could not beat the best attempt so far. They
+   * count toward `rejectedAttempts` and `rejectionReasons.phonemeTarget` only.
+   */
+  prunedLengths: Array<PrunedAttemptLengths & { count: number }>;
 }
 
 export interface SyllableSnapshot {
