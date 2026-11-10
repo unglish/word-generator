@@ -395,6 +395,16 @@ function snapshotSyllables(syllables: Syllable[]): SyllableSnapshot[] {
   });
 }
 
+/** The word whose syllables a stage snapshot records. */
+export interface StageSubject {
+  syllables: Syllable[];
+}
+
+/** Run `run` as a trace stage when a collector is present; otherwise just run it. */
+export function traceStage<T>(trace: TraceCollector | undefined, name: string, word: StageSubject, run: () => T): T {
+  return trace ? trace.stage(name, word, run) : run();
+}
+
 export class TraceCollector {
   baseSpelling?: BaseSpellingTrace;
   stressWeight?: StressWeightTrace;
@@ -405,16 +415,17 @@ export class TraceCollector {
   repairs: RepairTrace[] = [];
   structural: StructuralTrace[] = [];
   morphologyTrace?: MorphologyTrace;
-  private currentBefore: Map<string, SyllableSnapshot[]> = new Map();
 
-  beforeStage(name: string, syllables: Syllable[]): void {
-    this.currentBefore.set(name, snapshotSyllables(syllables));
-  }
-
-  afterStage(name: string, syllables: Syllable[]): void {
-    const before = this.currentBefore.get(name) ?? [];
-    this.currentBefore.delete(name);
-    this.stages.push({ name, before, after: snapshotSyllables(syllables) });
+  /**
+   * Run `run` as the stage `name`, snapshotting `word.syllables` before and
+   * after it. The after snapshot re-reads `word.syllables`, so a stage that
+   * replaces the array is recorded with its result.
+   */
+  stage<T>(name: string, word: StageSubject, run: () => T): T {
+    const before = snapshotSyllables(word.syllables);
+    const result = run();
+    this.stages.push({ name, before, after: snapshotSyllables(word.syllables) });
+    return result;
   }
 
   recordSpellingBudget(outcome: SpellingBudgetOutcome): void {

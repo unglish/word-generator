@@ -28,7 +28,7 @@ import {
   isDecidedRejection,
   type AcceptanceCriteria,
 } from "./length-semantics.js";
-import { TraceCollector, type SelectionTrace, type CodaExtensionRejectionReason } from "./trace.js";
+import { TraceCollector, traceStage, type SelectionTrace, type CodaExtensionRejectionReason } from "./trace.js";
 import { codaShapeRejection } from "./coda-shape.js";
 import { isStop } from "../utils/phonemes.js";
 
@@ -1287,17 +1287,14 @@ function spellLexicalRoot(
     orthographyFollowing: following,
   };
   assertRootRimeCompatibility(root, rt.bannedNucleusCodaMap, rt.bannedNucleusOnsetMap);
-  context.trace?.beforeStage("generateWrittenForm", root);
-  rt.generateWrittenForm(rootContext);
-  context.trace?.afterStage("generateWrittenForm", root);
+  traceStage(context.trace, "generateWrittenForm", rootContext.word, () => rt.generateWrittenForm(rootContext));
   context.word.written = rootContext.word.written;
   context.baseSpelling = rootContext.baseSpelling;
 }
 
 function realizeSurface(rt: GeneratorRuntime, context: WordGenerationContext): void {
-  context.trace?.beforeStage("generatePronunciation", context.word.syllables);
-  generatePronunciation(context, rt.resolvedPronunciation);
-  context.trace?.afterStage("generatePronunciation", context.word.syllables);
+  traceStage(context.trace, "generatePronunciation", context.word,
+    () => generatePronunciation(context, rt.resolvedPronunciation));
 }
 
 /**
@@ -1344,20 +1341,19 @@ function resolveLexicalWord(
   // selection, does not depend on the affix's phones or syllables.
   const lexicalContext: WordGenerationContext = { ...context, rand: lookaheadRand };
 
-  traceCollector?.beforeStage("assembleMorphology", context.word.syllables);
-  const prepared = prepareMorphology(rt, lexicalContext, morphPlan.plan)!;
-  traceCollector?.afterStage("assembleMorphology", context.word.syllables);
+  const prepared = traceStage(traceCollector, "assembleMorphology", context.word,
+    () => prepareMorphology(rt, lexicalContext, morphPlan.plan)!);
   const rootSyllableStart = prepared.rootSyllableStart;
 
   // Final primary stress may fall on a formerly unstressed root vowel. Repair
   // the lexical choice before spelling, while retaining genuine alternations
   // (such as -ity shortening) as separate base and derived segments.
   const nucleiBeforeRepair = context.word.syllables.map(syllable => [...syllable.nucleus]);
-  traceCollector?.beforeStage("repairFinalStressedNuclei", context.word.syllables);
-  repairStressedNuclei(lexicalContext, rt.positionPhonemes.nucleus, rt.resolvedStress, rt.bannedNucleusCodaMap,
-    { syllables: lexicalRoot, start: rootSyllableStart }, rt.bannedNucleusOnsetMap);
-  carryRootStressRepairs(lexicalRoot, context.word.syllables, nucleiBeforeRepair, rootSyllableStart);
-  traceCollector?.afterStage("repairFinalStressedNuclei", context.word.syllables);
+  traceStage(traceCollector, "repairFinalStressedNuclei", context.word, () => {
+    repairStressedNuclei(lexicalContext, rt.positionPhonemes.nucleus, rt.resolvedStress, rt.bannedNucleusCodaMap,
+      { syllables: lexicalRoot, start: rootSyllableStart }, rt.bannedNucleusOnsetMap);
+    carryRootStressRepairs(lexicalRoot, context.word.syllables, nucleiBeforeRepair, rootSyllableStart);
+  });
   context.word.lexical = {
     root: lexicalRoot,
     // Shared with the attempt's working word; detached once the attempt is selected.
@@ -1545,49 +1541,34 @@ function generateOneWord(
  */
 function runPipeline(rt: GeneratorRuntime, context: WordGenerationContext, mode: GenerationMode = "lexicon"): void {
   const t = context.trace;
-
-  t?.beforeStage("generateSyllables", context.word.syllables);
-  generateSyllables(rt, context, mode);
-  t?.afterStage("generateSyllables", context.word.syllables);
-
-  t?.beforeStage("repairClusters", context.word.syllables);
-  if (rt.bannedSet) repairClusters(context.word.syllables, rt.bannedSet, rt.clusterRepair!, t);
-  t?.afterStage("repairClusters", context.word.syllables);
-
-  t?.beforeStage("repairFinalCoda", context.word.syllables);
-  if (rt.allowedFinalSet) repairFinalCoda(context.word.syllables, rt.allowedFinalSet, t);
-  t?.afterStage("repairFinalCoda", context.word.syllables);
-
-  t?.beforeStage("repairClusterShape", context.word.syllables);
-  if (rt.clusterLimits || rt.config.codaConstraints?.voicingAgreement || rt.config.codaConstraints?.homorganicNasalStop) {
-    repairClusterShape(context.word.syllables, {
-      clusterLimits: rt.clusterLimits,
-      sonorityConstraints: rt.sonorityConstraints,
-      codaConstraints: rt.config.codaConstraints,
-      sonorityBySound: rt.sonorityBySound,
-      codaAppendantSet: rt.codaAppendantSet,
-      sonorityExemptSet: rt.sonorityExemptSet,
-    }, t);
-  }
-  t?.afterStage("repairClusterShape", context.word.syllables);
-
-  t?.beforeStage("repairHAfterBackVowel", context.word.syllables);
-  repairHAfterBackVowel(context.word.syllables, t);
-  t?.afterStage("repairHAfterBackVowel", context.word.syllables);
-
+  const word = context.word;
   const stressRules = rt.resolvedStress;
 
-  t?.beforeStage("applyStress", context.word.syllables);
-  applyStress(context, stressRules);
-  t?.afterStage("applyStress", context.word.syllables);
-
-  t?.beforeStage("repairStressedNuclei", context.word.syllables);
-  repairStressedNuclei(context, rt.positionPhonemes.nucleus, stressRules, rt.bannedNucleusCodaMap, undefined, rt.bannedNucleusOnsetMap);
-  t?.afterStage("repairStressedNuclei", context.word.syllables);
-
-  t?.beforeStage("repairNucleusWordPositions", context.word.syllables);
-  repairNucleusWordPositions(context, rt.positionPhonemes.nucleus, stressRules, rt.bannedNucleusCodaMap, rt.bannedNucleusOnsetMap);
-  t?.afterStage("repairNucleusWordPositions", context.word.syllables);
+  traceStage(t, "generateSyllables", word, () => generateSyllables(rt, context, mode));
+  traceStage(t, "repairClusters", word, () => {
+    if (rt.bannedSet) repairClusters(word.syllables, rt.bannedSet, rt.clusterRepair!, t);
+  });
+  traceStage(t, "repairFinalCoda", word, () => {
+    if (rt.allowedFinalSet) repairFinalCoda(word.syllables, rt.allowedFinalSet, t);
+  });
+  traceStage(t, "repairClusterShape", word, () => {
+    if (rt.clusterLimits || rt.config.codaConstraints?.voicingAgreement || rt.config.codaConstraints?.homorganicNasalStop) {
+      repairClusterShape(word.syllables, {
+        clusterLimits: rt.clusterLimits,
+        sonorityConstraints: rt.sonorityConstraints,
+        codaConstraints: rt.config.codaConstraints,
+        sonorityBySound: rt.sonorityBySound,
+        codaAppendantSet: rt.codaAppendantSet,
+        sonorityExemptSet: rt.sonorityExemptSet,
+      }, t);
+    }
+  });
+  traceStage(t, "repairHAfterBackVowel", word, () => repairHAfterBackVowel(word.syllables, t));
+  traceStage(t, "applyStress", word, () => applyStress(context, stressRules));
+  traceStage(t, "repairStressedNuclei", word, () => repairStressedNuclei(
+    context, rt.positionPhonemes.nucleus, stressRules, rt.bannedNucleusCodaMap, undefined, rt.bannedNucleusOnsetMap));
+  traceStage(t, "repairNucleusWordPositions", word, () => repairNucleusWordPositions(
+    context, rt.positionPhonemes.nucleus, stressRules, rt.bannedNucleusCodaMap, rt.bannedNucleusOnsetMap));
 }
 
 const MAX_FORCED_SYLLABLE_COUNT = 7;
