@@ -1,0 +1,43 @@
+name: Tests
+
+# The full suite: unit tests, analyzer diagnostics and the review app's unit
+# tests. It runs after merge, as part of the Main workflow, and gates the Pages
+# deploy there. It is not run on pull requests (ci.yml is the PR gate).
+# Dispatch it manually to run the suite on a branch before merging.
+#
+# `test` repeats lint and typecheck on purpose: PRs need not be up to date with
+# main to merge, so two PRs that each pass can still break when combined.
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: Diagnostic sampling and metric regressions
+        run: npm run test:diagnostics
+
+  review-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test:review

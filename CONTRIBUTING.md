@@ -28,13 +28,14 @@ npm test
 npm run check
 ```
 
-This runs lint, typecheck, the test suite, and the review app's unit tests: the
-core of what CI runs on every pull request. CI additionally runs
-`npm run build` and `npm run test:diagnostics` (the analyzer-sampling checks
-under `scripts/lib/`); run those locally if you touch `scripts/` or the build.
-Expect one to two minutes; nearly all of it is `npm test`. While iterating, use
-`npm run test:watch` or `npx vitest run <file>`, and run the full `check`
-before pushing.
+This runs lint, typecheck, the test suite, and the review app's unit tests.
+**It is the pre-merge test gate:** CI does not run tests on pull requests, only
+lint, typecheck and build. Tests run after merge, on `main`, before the demo
+deploys. A PR that skips `check` can turn `main` red for everyone. Also run
+`npm run test:diagnostics` (the analyzer-sampling checks under `scripts/lib/`)
+if you touch `scripts/`. Expect one to two minutes; nearly all of it is
+`npm test`. While iterating, use `npm run test:watch` or
+`npx vitest run <file>`, and run the full `check` before pushing.
 
 Recommended for tuning and diagnostics:
 
@@ -52,17 +53,23 @@ committed to `main`: keep full evidence packets in an `archive/pr-<number>` tag
 
 ## Continuous Integration
 
-- **Pull requests** (`.github/workflows/ci.yml`): build; lint + typecheck +
-  `npm test` + `test:diagnostics` (the `test` job, which is the required merge
-  check); and the review app's unit tests. Kept fast and deterministic.
+- **Pull requests** (`.github/workflows/ci.yml`): one `verify` job (lint,
+  typecheck, build), which is the required merge check. About a minute. PRs
+  need not be up to date with `main` to merge.
+- **Tests** (`.github/workflows/tests.yml`): `npm test`, `test:diagnostics`
+  and the review app's unit tests, plus lint and typecheck again (two PRs that
+  each pass can still break when combined). Runs on every push to `main`. To
+  run it on a branch before merging, dispatch the *Tests* workflow on that
+  branch (`gh workflow run tests.yml --ref <branch>`).
 - **Review end-to-end** (`.github/workflows/review-e2e.yml`): Playwright,
-  Supabase, database, and smoke tests for the review app. Runs on PRs only when
-  review code or dependencies change, and on every push to `main`. To run it
-  locally (Docker required), follow the Verification section of
+  Supabase, database, and smoke tests for the review app. Runs on every push
+  to `main`, and on a branch by manual dispatch. To run it locally (Docker
+  required), follow the Verification section of
   [`docs/human-review.md`](./docs/human-review.md).
-- **Main** (`.github/workflows/main.yml`): re-runs the PR checks, the review
-  end-to-end suite, and the performance regression gate, then deploys the demo
-  to GitHub Pages only if all pass. Runs are serialised, so back-to-back merges
+- **Main** (`.github/workflows/main.yml`): the pre-release gate. Runs the
+  Tests and review end-to-end workflows and the performance regression gate,
+  then deploys the demo to GitHub Pages once Tests and review end-to-end pass.
+  If `main` goes red, fix or revert before merging more. Runs are serialised, so back-to-back merges
   may show an intermediate run as cancelled; the newest commit still deploys.
   If a gate flakes, use *Re-run failed jobs* on the newest `main` run only.
   Dispatch the workflow manually on `main` to redeploy without a new commit; a
