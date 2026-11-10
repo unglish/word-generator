@@ -207,7 +207,7 @@ Additional checks:
 
 - `npm run quality:pr` (compare against the merge base) and `npm run quality:capture` / `npm run quality:compare` (see [quality baselines](./docs/quality-baselines.md))
 - `npm run analyze:phoneme-length`
-- `npm run test:perf`
+- `npm run test:perf` (local words/sec floor) and `npm run perf:compare -- --base <other-checkout>` (paired slowdown check, what CI runs on `main`)
 - `npm run analyze:phonemes`
 - `npm run analyze:trigrams`
 - `npm run audit:trace`

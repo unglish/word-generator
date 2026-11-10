@@ -40,7 +40,8 @@ if you touch `scripts/`. Expect one to two minutes; nearly all of it is
 Recommended for tuning and diagnostics:
 
 ```bash
-npm run test:perf
+npm run test:perf                              # local words/sec floor
+npm run perf:compare -- --base <other-checkout>  # paired slowdown check
 npm run analyze:trigrams
 npm run audit:trace
 ```
@@ -67,9 +68,14 @@ committed to `main`: keep full evidence packets in an `archive/pr-<number>` tag
   required), follow the Verification section of
   [`docs/human-review.md`](./docs/human-review.md).
 - **Main** (`.github/workflows/main.yml`): the pre-release gate. Runs the
-  Tests and review end-to-end workflows and the performance regression gate,
-  then deploys the demo to GitHub Pages once Tests and review end-to-end pass.
-  If `main` goes red, fix or revert before merging more. Runs are serialised, so back-to-back merges
+  Tests and review end-to-end workflows, then deploys the demo to GitHub Pages
+  once both pass. If `main` goes red, fix or revert before merging more. It
+  also runs the paired performance gate (`npm run perf:compare`), which times
+  the previous `main` commit and the new one back to back on the same runner
+  and fails on a median slowdown above 5%. It is advisory: a red result does
+  not block the deploy. The fixed words/sec floor (`npm run test:perf`) is
+  local-only, because absolute speed varies about 3x between CI runners.
+  Runs are serialised, so back-to-back merges
   may show an intermediate run as cancelled; the newest commit still deploys.
   If a gate flakes, use *Re-run failed jobs* on the newest `main` run only.
   Dispatch the workflow manually on `main` to redeploy without a new commit; a

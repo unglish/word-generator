@@ -50,7 +50,8 @@
     "quality:rescore": "node --import tsx evaluation/quality/cli.ts rescore",
     "quality:pr": "node --import tsx evaluation/quality/cli.ts pr",
     "quality:typecheck": "tsc -p tsconfig.quality.json",
-    "review:compare": "node --import tsx evaluation/review/comparison/comparison-cli.ts"
+    "review:compare": "node --import tsx evaluation/review/comparison/comparison-cli.ts",
+    "perf:compare": "node scripts/perf-compare.mjs"
   },
   "repository": {
     "type": "git",
