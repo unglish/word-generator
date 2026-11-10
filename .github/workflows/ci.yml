@@ -1,39 +1,26 @@
 name: CI
 
-# Fast, deterministic checks for every pull request. `npm run check` runs the
-# lint, typecheck, unit-test, and review unit-test steps locally; CI also
-# builds and runs `test:diagnostics`. The main-branch workflow reuses this
-# file so main re-runs exactly what PRs ran before it deploys.
+# The pull-request gate: lint, typecheck and build, about a minute. Tests do
+# not run on PRs. Run `npm run check` locally before pushing; the full suite
+# (tests.yml) runs on every push to main and gates the Pages deploy. To run
+# it on a branch before merging, dispatch the Tests workflow on that branch.
 
 on:
   pull_request:
     branches: [main]
-  workflow_call:
 
 permissions:
   contents: read
 
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build
-
-  # `test` is the only required status check in the repository's Main ruleset,
-  # so it is the merge gate: lint and typecheck live here on purpose. `build`
-  # and `review-unit` are advisory. Renaming this job blocks every merge until
-  # the ruleset is updated.
-  test:
+  # `verify` is the only required status check in the repository's Main
+  # ruleset, so it is the merge gate. Renaming this job blocks every merge
+  # until the ruleset is updated.
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,17 +31,4 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
-      - run: npm test
-      - name: Diagnostic sampling and metric regressions
-        run: npm run test:diagnostics
-
-  review-unit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run test:review
+      - run: npm run build

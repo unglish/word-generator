@@ -34,8 +34,9 @@ Operational guidance for human contributors and coding agents working in
 - For generator tuning, include deterministic seed-based checks and a
   distribution-oriented test where practical.
 - Run `npm run check` (lint, typecheck, `npm test`, review unit tests) before
-  pushing; PR CI runs the same checks plus `npm run build` and
-  `npm run test:diagnostics`.
+  pushing. It is the only pre-merge test gate: PR CI runs just lint, typecheck
+  and build. The full suite, `npm run test:diagnostics` and the review
+  end-to-end tests run on `main` after merge and gate the deploy.
 - Use existing scripts for diagnostics:
   - `npm run test:perf`
   - `npm run quality:capture` / `npm run quality:compare`

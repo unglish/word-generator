@@ -1,7 +1,9 @@
 name: Main
 
-# Runs on every push to main. The demo deploys to GitHub Pages after the same
-# checks that PRs run and the full review end-to-end suite pass on that commit.
+# Runs on every push to main: the pre-release gate. Pull requests only lint,
+# typecheck and build (ci.yml); the full test suite (tests.yml) and the review
+# end-to-end suite run here, and the demo deploys to GitHub Pages only after
+# both pass on that commit.
 # The performance regression gate still runs on main for visibility, but does
 # not block Pages (so a flaky/stale floor cannot leave the demo site stuck on
 # an older publish). Dispatch it manually to redeploy without a new commit
@@ -25,7 +27,7 @@ concurrency:
 
 jobs:
   checks:
-    uses: ./.github/workflows/ci.yml
+    uses: ./.github/workflows/tests.yml
 
   review-e2e:
     uses: ./.github/workflows/review-e2e.yml
