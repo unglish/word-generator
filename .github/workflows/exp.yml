@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '24', cache: 'npm' }
       - run: npm ci
-      - run: { nproc; lscpu | grep -E 'Model name|^CPU\(s\)'; } || true
+      - run: nproc; lscpu | grep -E 'Model name' || true
       - name: Absolute test (old gate)
         run: npm run test:perf || true
       - name: Prepare base (same commit) and head (optionally slowed)
@@ -43,7 +43,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '24', cache: 'npm' }
       - run: npm ci
-      - run: { nproc; lscpu | grep -E 'Model name'; } || true
+      - run: nproc; lscpu | grep -E 'Model name' || true
       - name: npm test
         env:
           VITEST_CI_PARALLEL: ${{ startsWith(matrix.mode, 'parallel') && '1' || '' }}

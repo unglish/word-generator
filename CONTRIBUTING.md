@@ -39,7 +39,8 @@ before pushing.
 Recommended for tuning and diagnostics:
 
 ```bash
-npm run test:perf
+npm run test:perf                              # local words/sec floor
+npm run perf:compare -- --base <other-checkout>  # paired slowdown check
 npm run analyze:trigrams
 npm run audit:trace
 ```
@@ -60,9 +61,14 @@ committed to `main`: keep full evidence packets in an `archive/pr-<number>` tag
   review code or dependencies change, and on every push to `main`. To run it
   locally (Docker required), follow the Verification section of
   [`docs/human-review.md`](./docs/human-review.md).
-- **Main** (`.github/workflows/main.yml`): re-runs the PR checks, the review
-  end-to-end suite, and the performance regression gate, then deploys the demo
-  to GitHub Pages only if all pass. Runs are serialised, so back-to-back merges
+- **Main** (`.github/workflows/main.yml`): re-runs the PR checks and the review
+  end-to-end suite, then deploys the demo to GitHub Pages only if they pass.
+  It also runs the paired performance gate (`npm run perf:compare`), which
+  times the previous `main` commit and the new one back to back on the same
+  runner and fails on a median slowdown above 10%. It is advisory: a red
+  result does not block the deploy. The fixed words/sec floor
+  (`npm run test:perf`) is local-only, because absolute speed varies about 3x
+  between CI runners. Runs are serialised, so back-to-back merges
   may show an intermediate run as cancelled; the newest commit still deploys.
   If a gate flakes, use *Re-run failed jobs* on the newest `main` run only.
   Dispatch the workflow manually on `main` to redeploy without a new commit; a
