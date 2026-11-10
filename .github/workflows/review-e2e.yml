@@ -22,11 +22,7 @@ jobs:
       - name: Keep Supabase ports out of the ephemeral range
         run: sudo sysctl -w net.ipv4.ip_local_reserved_ports=54320-54329
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-      - run: npm ci
+      - uses: ./.github/actions/setup-deps
       # No --with-deps: the runner image already has every library Chromium
       # needs, so it would only apt-install nine optional font packages. That
       # makes the job depend on the image's apt sources, which one ubuntu26
