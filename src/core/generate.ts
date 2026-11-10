@@ -1,12 +1,13 @@
 import { measureSpellingBudgets } from "./spelling-budget.js";
-import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, Syllable, SyllableShapePlan, getPhonemePositionWeight, GenerationMode } from "../types.js";
+import { ClusterContext, Phoneme, WordGenerationContext, WordGenerationOptions, Word, LexicalForm, Syllable, SyllableShapePlan, getPhonemePositionWeight, GenerationMode } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { LanguageConfig, computeSonorityLevels, defaultFallbackBridgeOnsets, validateConfig, ClusterLimits, SonorityConstraints, expandClusterConstraintBans, ResolvedStressRules, resolveStressRules, resolveAspirationRules } from "../config/language.js";
 import { englishConfig } from "../config/english.js";
 import { applyStress, generatePronunciation, PronunciationRuntimeConfig } from "./pronounce.js";
-import { createWrittenFormGenerator, repairConsonantLetters } from "./write.js";
-import { createGapSpellingApplicator } from "./gap-spelling.js";
+import { createWrittenFormGenerator, repairConsonantLetters, type WrittenFormGenerator } from "./write.js";
+import { createGapSpellingApplicator, type GapSpellingApplicator } from "./gap-spelling.js";
+import type { BaseSpelling } from "./base-spelling.js";
 import { classifySspViolation, hasRisingCodaTowardBoundary, validateJunction } from "./junction.js";
 import { repairClusters, repairFinalCoda, repairClusterShape, repairHAfterBackVowel } from "./repair.js";
 import { repairStressedNuclei } from "./stress-repair.js";
@@ -28,7 +29,7 @@ import {
   isDecidedRejection,
   type AcceptanceCriteria,
 } from "./length-semantics.js";
-import { TraceCollector, traceStage, type SelectionTrace, type CodaExtensionRejectionReason } from "./trace.js";
+import { TraceCollector, traceStage, type SelectionTrace, type CodaExtensionRejectionReason, type OrthographySource } from "./trace.js";
 import { codaShapeRejection } from "./coda-shape.js";
 import { isStop } from "../utils/phonemes.js";
 
@@ -53,8 +54,8 @@ interface GeneratorRuntime {
      *  ClusterContext.position uses "nucleus" as the catch-all third position. */
     nucleus: RegExp | null;
   };
-  generateWrittenForm: (context: WordGenerationContext) => void;
-  applyGapSpellings: (context: WordGenerationContext) => void;
+  generateWrittenForm: WrittenFormGenerator;
+  applyGapSpellings: GapSpellingApplicator;
   bannedSet?: Set<string>;
   clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
@@ -1269,7 +1270,8 @@ function countPhonemes(syllables: Syllable[]): number {
 }
 
 /**
- * Spell base-root syllables; their indices stay root-relative in the orthography trace.
+ * Spell base-root syllables into `context.word.written` and return their base
+ * spelling; their indices stay root-relative in the orthography trace.
  * `following` is the planned suffix's spelling, so the root's last grapheme can
  * respect letter conditions across the root edge.
  */
@@ -1279,17 +1281,17 @@ function spellLexicalRoot(
   root: Syllable[],
   wordSyllableStart: number,
   following?: string,
-): void {
+): BaseSpelling {
   const rootContext: WordGenerationContext = {
     ...context,
     word: { syllables: root, written: { clean: "", hyphenated: "" }, pronunciation: "" },
-    orthographySource: { kind: "lexical-root", wordSyllableStart },
-    orthographyFollowing: following,
   };
+  const source: OrthographySource = { kind: "lexical-root", wordSyllableStart };
   assertRootRimeCompatibility(root, rt.bannedNucleusCodaMap, rt.bannedNucleusOnsetMap);
-  traceStage(context.trace, "generateWrittenForm", rootContext.word, () => rt.generateWrittenForm(rootContext));
+  const baseSpelling = traceStage(context.trace, "generateWrittenForm", rootContext.word,
+    () => rt.generateWrittenForm(rootContext, source, following));
   context.word.written = rootContext.word.written;
-  context.baseSpelling = rootContext.baseSpelling;
+  return baseSpelling;
 }
 
 function realizeSurface(rt: GeneratorRuntime, context: WordGenerationContext): void {
@@ -1322,18 +1324,45 @@ function carryRootStressRepairs(
 }
 
 /**
+ * An affixed attempt after look-ahead. `root` is the base root to spell, a copy
+ * independent of the attempt's working syllables (the assembled word). The
+ * word's full {@link LexicalForm} is built only by {@link selectAttempt}.
+ */
+interface AffixedRoot {
+  root: Syllable[];
+  /** Prepared attachment, whose written half is applied once the attempt is selected. */
+  morphology: PreparedMorphology;
+}
+
+/**
+ * What a spelled attempt carries to scoring and selection; both kinds expose the
+ * spelled `root`. A bare word's lexical form is complete once it is spelled and
+ * realized; an affixed word's waits for {@link selectAttempt}.
+ */
+type SpelledRoot = LexicalForm | AffixedRoot;
+
+function isAffixedRoot(spelled: SpelledRoot): spelled is AffixedRoot {
+  return "morphology" in spelled;
+}
+
+/** The attempt chosen for output. Only {@link selectAttempt} produces one. */
+interface SelectedAttempt {
+  context: WordGenerationContext;
+  morphology?: PreparedMorphology;
+}
+
+/**
  * Look-ahead: assemble the planned affixes' sounds onto a freshly built root,
  * resolve final stress, and repair forbidden stressed nuclei, all before the
- * root is spelled. Leaves the base root to spell (with any repaired nuclei) in
- * `word.lexical.root` and returns the prepared attachment, whose written half
- * is applied once the attempt is selected.
+ * root is spelled. Returns the base root to spell (with any repaired nuclei)
+ * and the prepared attachment.
  */
-function resolveLexicalWord(
+function resolveAffixedRoot(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   morphPlan: PlannedMorphologySelection,
   lookaheadRand: RNG,
-): PreparedMorphology {
+): AffixedRoot {
   const traceCollector = context.trace;
   const lexicalRoot = cloneSyllables(context.word.syllables);
   // Affix-side random choices (hiatus bridges, stressed-nucleus re-picks) draw
@@ -1354,13 +1383,43 @@ function resolveLexicalWord(
       { syllables: lexicalRoot, start: rootSyllableStart }, rt.bannedNucleusOnsetMap);
     carryRootStressRepairs(lexicalRoot, context.word.syllables, nucleiBeforeRepair, rootSyllableStart);
   });
+  return { root: lexicalRoot, morphology: prepared };
+}
+
+/** Spell a bare root and realize its surface; its lexical form is complete here. */
+function spellBareWord(rt: GeneratorRuntime, context: WordGenerationContext): LexicalForm {
+  const syllables = context.word.syllables;
+  const baseSpelling = spellLexicalRoot(rt, context, syllables, 0);
+  const lexical: LexicalForm = { root: cloneSyllables(syllables), syllables: cloneSyllables(syllables), rootSyllableStart: 0 };
+  context.word.lexical = lexical;
+  realizeSurface(rt, context);
+  // Exact bare-word overrides retain their existing place in root scoring.
+  rt.applyGapSpellings(context, baseSpelling);
+  return lexical;
+}
+
+/** Spell an attempt's root. Affixed words defer their written morphology and surface to selection. */
+function spellAttempt(rt: GeneratorRuntime, context: WordGenerationContext, affixed: AffixedRoot | undefined): SpelledRoot {
+  if (!affixed) return spellBareWord(rt, context);
+  const { morphology } = affixed;
+  spellLexicalRoot(rt, context, affixed.root, morphology.rootSyllableStart, morphology.suffixWritten);
+  return affixed;
+}
+
+/**
+ * Choose an attempt for output. An affixed word's lexical form is built here,
+ * with its own copy of the assembled syllables, so surface realization cannot
+ * alter it; a bare word's was completed when it was spelled.
+ */
+function selectAttempt(context: WordGenerationContext, spelled: SpelledRoot): SelectedAttempt {
+  if (!isAffixedRoot(spelled)) return { context };
+  const { root, morphology } = spelled;
   context.word.lexical = {
-    root: lexicalRoot,
-    // Shared with the attempt's working word; detached once the attempt is selected.
-    syllables: context.word.syllables,
-    rootSyllableStart,
+    root,
+    syllables: cloneSyllables(context.word.syllables),
+    rootSyllableStart: morphology.rootSyllableStart,
   };
-  return prepared;
+  return { context, morphology };
 }
 
 /** Apply the written half of the prepared morphology to the selected root, then realize the surface. */
@@ -1370,7 +1429,6 @@ function finishAffixedWord(
   prepared: PreparedMorphology,
 ): void {
   const traceCollector = context.trace;
-  context.word.lexical!.syllables = cloneSyllables(context.word.syllables);
   const morphology = writeMorphology(context, prepared);
   // Preserve selected allomorph parts through final consonant-letter repair.
   const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
@@ -1405,18 +1463,18 @@ function finishAffixedWord(
 /** Finish the selected attempt: written morphology (if any) and the trace. */
 function finishWord(
   rt: GeneratorRuntime,
-  context: WordGenerationContext,
-  prepared: PreparedMorphology | undefined,
+  { context, morphology }: SelectedAttempt,
   selection: SelectionTrace | undefined,
 ): Word {
   const traceCollector = context.trace;
-  const morphApplied = !!prepared;
-  if (prepared) finishAffixedWord(rt, context, prepared);
-  if (traceCollector) {
+  const morphApplied = !!morphology;
+  if (morphology) finishAffixedWord(rt, context, morphology);
+  // The rejection trace (and so `selection`) exists exactly when tracing is on.
+  if (traceCollector && selection) {
     traceCollector.syllableCount = context.syllableCount;
     traceCollector.targetPhonemeCount = context.targetPhonemeCount;
     traceCollector.syllablePlans = context.syllablePlans;
-    traceCollector.attempts = selection!.attemptsExecuted - 1;
+    traceCollector.attempts = selection.attemptsExecuted - 1;
     traceCollector.selection = selection;
     context.word.trace = traceCollector.toTrace(morphApplied);
   }
@@ -1453,7 +1511,7 @@ function generateOneWord(
   const lookaheadSeed = affixPlan ? Math.floor(rand() * 4294967296) : 0;
   const maxAttempts = MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES;
   let bestContext: WordGenerationContext | undefined;
-  let bestPrepared: PreparedMorphology | undefined;
+  let bestSpelled: SpelledRoot | undefined;
   let bestAttempt = 0;
   let bestScore = Infinity;
 
@@ -1486,28 +1544,19 @@ function generateOneWord(
       trace: traceCollector,
     };
     runPipeline(rt, context, mode);
-    const prepared = affixPlan
-      ? resolveLexicalWord(rt, context, affixPlan, createSeededRng(lookaheadSeed ^ Math.imul(attempt + 1, 0x9e3779b9)))
+    const affixed = affixPlan
+      ? resolveAffixedRoot(rt, context, affixPlan, createSeededRng(lookaheadSeed ^ Math.imul(attempt + 1, 0x9e3779b9)))
       : undefined;
     // Spelling cannot change the root's phonemes, so an attempt whose phoneme
     // count already rules it out is rejected without spelling it.
-    const unspelledRoot = prepared ? context.word.lexical!.root : context.word.syllables;
+    const unspelledRoot = affixed ? affixed.root : context.word.syllables;
     const unspelledPhonemeCount = countPhonemes(unspelledRoot);
     if (isDecidedRejection(Math.abs(unspelledPhonemeCount - targetPhonemeCountRoot), bestScore)) {
       rejectionTrace?.recordPruned({ syllables: unspelledRoot.length, phonemes: unspelledPhonemeCount });
       continue;
     }
-    if (prepared) {
-      spellLexicalRoot(rt, context, context.word.lexical!.root, prepared.rootSyllableStart, prepared.suffixWritten);
-    } else {
-      const syllables = context.word.syllables;
-      spellLexicalRoot(rt, context, syllables, 0);
-      context.word.lexical = { root: cloneSyllables(syllables), syllables: cloneSyllables(syllables), rootSyllableStart: 0 };
-      realizeSurface(rt, context);
-      // Exact bare-word overrides retain their existing place in root scoring.
-      rt.applyGapSpellings(context);
-    }
-    const root = context.word.lexical!.root;
+    const spelled = spellAttempt(rt, context, affixed);
+    const root = spelled.root;
     const rootPhonemeCount = countPhonemes(root);
     const attemptScore = scoreGenerationAttempt(
       rootPhonemeCount,
@@ -1519,7 +1568,7 @@ function generateOneWord(
     if (attemptScore.total < bestScore) {
       bestScore = attemptScore.total;
       bestContext = context;
-      bestPrepared = prepared;
+      bestSpelled = spelled;
       bestAttempt = attempt;
     }
     const assessment = assessAttempt(attemptScore, attempt, ACCEPTANCE_CRITERIA);
@@ -1529,11 +1578,11 @@ function generateOneWord(
       letters: context.word.written.clean.length,
     }, attemptScore, assessment);
     if (assessment.acceptedBy) {
-      return finishWord(rt, context, prepared, rejectionTrace?.finish(attempt, assessment.acceptedBy));
+      return finishWord(rt, selectAttempt(context, spelled), rejectionTrace?.finish(attempt, assessment.acceptedBy));
     }
   }
-  if (!bestContext) throw new Error("Failed to generate word");
-  return finishWord(rt, bestContext, bestPrepared, rejectionTrace?.finish(bestAttempt, null));
+  if (!bestContext || !bestSpelled) throw new Error("Failed to generate word");
+  return finishWord(rt, selectAttempt(bestContext, bestSpelled), rejectionTrace?.finish(bestAttempt, null));
 }
 
 /**

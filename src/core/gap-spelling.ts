@@ -1,5 +1,6 @@
 import { GapSpelling, GapSpellingTargetLayer, LanguageConfig } from "../config/language.js";
 import { Syllable, WordGenerationContext } from "../types.js";
+import type { BaseSpelling } from "./base-spelling.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import { rewriteOrthographyTraceSurface } from "./write.js";
 
@@ -57,12 +58,15 @@ function selectGapSpelling(
   return getWeightedOption(variants.map((variant) => [variant, variant.weight]), context.rand);
 }
 
+/** Rewrites an exact bare-word match, recording the edit on the word's base spelling when given. */
+export type GapSpellingApplicator = (context: WordGenerationContext, baseSpelling?: BaseSpelling) => void;
+
 export function createGapSpellingApplicator(
   config: Pick<LanguageConfig, "gapSpellings">,
-): (context: WordGenerationContext) => void {
+): GapSpellingApplicator {
   const gapSpellingMap = compileGapSpellings(config.gapSpellings ?? []);
 
-  return (context: WordGenerationContext) => {
+  return (context: WordGenerationContext, baseSpelling?: BaseSpelling) => {
     if (context.word.syllables.length === 0 || gapSpellingMap.size === 0) return;
 
     const selected = selectGapSpelling(
@@ -72,11 +76,11 @@ export function createGapSpellingApplicator(
     if (!selected) return;
 
     const before = context.word.written.clean;
-    if (context.baseSpelling) {
-      context.baseSpelling.assertSurface(before);
-      context.baseSpelling.markGapSpelling();
-      context.baseSpelling.edit("gap", 0, before.length, selected.replacement, `gapSpelling:${selected.name}`);
-      if (context.trace) context.trace.baseSpelling = context.baseSpelling.snapshot();
+    if (baseSpelling) {
+      baseSpelling.assertSurface(before);
+      baseSpelling.markGapSpelling();
+      baseSpelling.edit("gap", 0, before.length, selected.replacement, `gapSpelling:${selected.name}`);
+      if (context.trace) context.trace.baseSpelling = baseSpelling.snapshot();
     }
     context.word.written.clean = selected.replacement;
     context.word.written.hyphenated = selected.hyphenated;

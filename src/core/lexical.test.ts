@@ -97,6 +97,23 @@ describe("lexical composition before surface realization", () => {
     }
   });
 
+  it("detaches an affixed word's lexical form from its surface syllables and phonemes", () => {
+    const generator = lexicalGenerator({ suffix: "tion" });
+    for (const seed of SEEDS) {
+      const word = generator.generateWord({ seed, syllableCount: 2, morphology: true });
+      const lexical = word.lexical!;
+      expect(lexical.syllables).not.toBe(word.syllables);
+      const surfaceObjects = new Set<object>(word.syllables.flatMap(syllable =>
+        [syllable, ...syllable.onset, ...syllable.nucleus, ...syllable.coda]));
+      for (const syllable of [...lexical.syllables, ...lexical.root]) {
+        expect(surfaceObjects.has(syllable)).toBe(false);
+        for (const phoneme of [...syllable.onset, ...syllable.nucleus, ...syllable.coda]) {
+          expect(surfaceObjects.has(phoneme)).toBe(false);
+        }
+      }
+    }
+  });
+
   it("retains primary root stress after a secondary-stressed prefix", () => {
     const generator = lexicalGenerator({ prefix: "un" });
     for (const seed of SEEDS) {
