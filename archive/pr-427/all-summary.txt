@@ -1,0 +1,29 @@
+perf (0)|AMD EPYC 7763 64-Core Processor|nproc=|abs=3516|test=s|Duration  4.33s|Tests  1 failed | 1 passed (2)|errors=0|success
+perf (0)|AMD EPYC 7763 64-Core Processor|nproc=|abs=3538|test=s|Duration  4.35s|Tests  1 failed | 1 passed (2)|errors=0|success
+perf (0)|AMD EPYC 7763 64-Core Processor|nproc=|abs=3654|test=s|Duration  4.21s|Tests  1 failed | 1 passed (2)|errors=0|success
+perf (0)|AMD EPYC 7763 64-Core Processor|nproc=|abs=3666|test=s|Duration  4.22s|Tests  1 failed | 1 passed (2)|errors=0|success
+perf (0)|AMD EPYC 7763 64-Core Processor|nproc=|abs=3703|test=s|Duration  4.13s|Tests  1 failed | 1 passed (2)|errors=0|success
+perf (0)|AMD EPYC 9V45 96-Core Processor|nproc=|abs=7013|test=s|Duration  2.34s|Tests  2 passed (2)|errors=0|success
+perf (0)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=4087|test=s|Duration  3.83s|Tests  1 failed | 1 passed (2)|errors=0|success
+perf (0)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=4986|test=s|Duration  3.14s|Tests  2 passed (2)|errors=0|success
+perf (0)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=5104|test=s|Duration  3.12s|Tests  2 passed (2)|errors=0|success
+perf (0)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=5171|test=s|Duration  3.02s|Tests  2 passed (2)|errors=0|success
+perf (0.05)|AMD EPYC 7763 64-Core Processor|nproc=|abs=3618|test=s|Duration  4.28s|Tests  1 failed | 1 passed (2)|errors=0|success
+perf (0.05)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=3803|test=s|Duration  4.06s|Tests  1 failed | 1 passed (2)|errors=0|success
+perf (0.10)|AMD EPYC 7763 64-Core Processor|nproc=|abs=3606|test=s|Duration  4.35s|Tests  1 failed | 1 passed (2)|errors=0|success
+perf (0.10)|AMD EPYC 9V45 96-Core Processor|nproc=|abs=7125|test=s|Duration  2.25s|Tests  2 passed (2)|errors=0|success
+perf (0.20)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=5168|test=s|Duration  3.01s|Tests  2 passed (2)|errors=0|success
+perf (0.20)|INTEL(R) XEON(R) PLATINUM 8573C|nproc=|abs=4125|test=s|Duration  3.82s|Tests  1 failed | 1 passed (2)|errors=0|success
+vitest (parallel)|AMD EPYC 7763 64-Core Processor|nproc=|abs=|test=318s|Duration  316.88s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (parallel)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=|test=218s|Duration  217.57s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (parallel)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=|test=222s|Duration  220.81s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (parallel)|Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz|nproc=|abs=|test=298s|Duration  296.87s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (parallel)|Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz|nproc=|abs=|test=301s|Duration  300.24s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (parallel-strict)|AMD EPYC 7763 64-Core Processor|nproc=|abs=|test=312s|Duration  310.42s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (parallel-strict)|AMD EPYC 9V45 96-Core Processor|nproc=|abs=|test=165s|Duration  164.26s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (parallel-strict)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=|test=221s|Duration  220.59s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (parallel-strict)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=|test=223s|Duration  222.34s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (parallel-strict)|AMD EPYC 9V74 80-Core Processor|nproc=|abs=|test=285s|Duration  284.21s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (serial)|AMD EPYC 9V45 96-Core Processor|nproc=|abs=|test=289s|Duration  288.92s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (serial)|INTEL(R) XEON(R) PLATINUM 8573C|nproc=|abs=|test=483s|Duration  482.96s|Tests  1002 passed | 1 skipped (1003)|errors=0|success
+vitest (serial)|INTEL(R) XEON(R) PLATINUM 8573C|nproc=|abs=|test=505s|Duration  504.46s|Tests  1002 passed | 1 skipped (1003)|errors=0|success

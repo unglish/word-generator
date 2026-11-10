@@ -1,0 +1,16 @@
+perf (0)|nproc; lscpu | grep -E 'Model name' || true|abs=3516|time 0.994 range 0.975-1.026 pass |93s
+perf (0)|nproc; lscpu | grep -E 'Model name' || true|abs=3538|time 0.986 range 0.971-1.036 pass |94s
+perf (0)|nproc; lscpu | grep -E 'Model name' || true|abs=3654|time 0.999 range 0.956-1.012 pass |93s
+perf (0)|nproc; lscpu | grep -E 'Model name' || true|abs=3666|time 0.997 range 0.963-1.024 pass |93s
+perf (0)|nproc; lscpu | grep -E 'Model name' || true|abs=3703|time 0.997 range 0.979-1.030 pass |94s
+perf (0)|nproc; lscpu | grep -E 'Model name' || true|abs=4087|time 1.015 range 0.986-1.025 pass |84s
+perf (0)|nproc; lscpu | grep -E 'Model name' || true|abs=4986|time 1.002 range 0.978-1.019 pass |66s
+perf (0)|nproc; lscpu | grep -E 'Model name' || true|abs=5104|time 0.999 range 0.982-1.039 pass |66s
+perf (0)|nproc; lscpu | grep -E 'Model name' || true|abs=5171|time 0.997 range 0.977-1.014 pass |65s
+perf (0)|nproc; lscpu | grep -E 'Model name' || true|abs=7013|time 1.015 range 0.963-1.056 pass |48s
+perf (0.05)|nproc; lscpu | grep -E 'Model name' || true|abs=3618|time 1.031 range 0.992-1.063 pass |98s
+perf (0.05)|nproc; lscpu | grep -E 'Model name' || true|abs=3803|time 1.044 range 0.999-1.067 pass |86s
+perf (0.10)|nproc; lscpu | grep -E 'Model name' || true|abs=3606|time 1.093 range 1.074-1.131 pass |100s
+perf (0.10)|nproc; lscpu | grep -E 'Model name' || true|abs=7125|time 1.091 range 1.027-1.146 pass |49s
+perf (0.20)|nproc; lscpu | grep -E 'Model name' || true|abs=4125|time 1.165 range 1.113-1.194 FAIL |88s
+perf (0.20)|nproc; lscpu | grep -E 'Model name' || true|abs=5168|time 1.163 range 1.128-1.197 FAIL |71s
