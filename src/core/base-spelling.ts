@@ -47,8 +47,11 @@ export interface SpellingCell {
   partId?: number | null;
 }
 
+/** Writer stage that made an edit; every edit is labelled by its call site. */
+export type SpellingPhase = "selection" | "syllable" | "word" | "gap";
+
 export interface SpellingEdit {
-  phase: "selection" | "syllable" | "word" | "gap";
+  phase: SpellingPhase;
   id: number;
   rule: string;
   start: number;
@@ -96,7 +99,6 @@ export class BaseSpelling {
   private nextCellId = 0;
   private nextEditId = 0;
   private readonly edits?: SpellingEdit[];
-  private phase: SpellingEdit["phase"] = "selection";
   private scope: BaseSpellingTrace["scope"] = "root-before-morphology";
 
   constructor(
@@ -113,7 +115,6 @@ export class BaseSpelling {
     afterDoubling: string,
     inventoryIndex?: number,
   ): void {
-    this.phase = "selection";
     const id = this.units.length;
     const cells = afterDoubling.split("").map(
       (text, offset): SpellingCell => ({
@@ -139,7 +140,14 @@ export class BaseSpelling {
     return this.cells.length;
   }
 
-  edit(start: number, deleteCount: number, insert: string, rule: string, partId?: number): void {
+  edit(
+    phase: SpellingPhase,
+    start: number,
+    deleteCount: number,
+    insert: string,
+    rule: string,
+    partId?: number,
+  ): void {
     if (
       !Number.isInteger(start) ||
       !Number.isInteger(deleteCount) ||
@@ -181,7 +189,7 @@ export class BaseSpelling {
     this.cells.splice(start, deleteCount, ...output);
     this.edits?.push({
       id,
-      phase: this.phase,
+      phase,
       rule,
       start,
       input,
@@ -192,16 +200,16 @@ export class BaseSpelling {
     });
   }
 
-  observe(offset = 0, partId?: number): SpellingEditObserver {
+  observe(phase: SpellingPhase, offset = 0, partId?: number): SpellingEditObserver {
     return (start, deleteCount, insert, rule) =>
-      this.edit(offset + start, deleteCount, insert, rule, partId);
+      this.edit(phase, offset + start, deleteCount, insert, rule, partId);
   }
 
-  observeParts(parts: string[]): PartEditObserver {
+  observeParts(phase: SpellingPhase, parts: string[]): PartEditObserver {
     return (part, start, deleteCount, insert, rule) => {
       let offset = start;
       for (let i = 0; i < part; i++) offset += parts[i].length;
-      this.edit(offset, deleteCount, insert, rule, part);
+      this.edit(phase, offset, deleteCount, insert, rule, part);
     };
   }
 
@@ -218,13 +226,8 @@ export class BaseSpelling {
     return segments.size === 1 ? [...segments][0] : undefined;
   }
 
-  setPhase(phase: SpellingEdit["phase"]): void {
-    this.phase = phase;
-  }
-
   markGapSpelling(): void {
     this.scope = "bare-after-gap-spelling";
-    this.phase = "gap";
   }
 
   assertSurface(surface: string): void {
@@ -237,7 +240,10 @@ export class BaseSpelling {
     return { cells: this.cells, units: this.units, phones: this.phones };
   }
 
-  /** Structural validation precedes every mutation, including ID advancement. */
+  /**
+   * Structural validation precedes every mutation, including ID advancement.
+   * Coverage respelling is a word-level repair, so its edits are labelled `word`.
+   */
   commitLicensedPlan(plan: Omit<SpellingCoverageCertificate, "id">): number {
     const fail = (): never => { throw new Error("Invalid spelling coverage certificate"); };
     if (!this.licensed || plan.version !== 1 || plan.budgets.exceeded.length > 0) fail();
@@ -291,7 +297,7 @@ export class BaseSpelling {
         origin: { kind: "licensed", unitId: replacement.unitId, offset, editId, certificateId, sourceUnitIds: [replacement.unitId] },
       }));
       this.cells.splice(start, count, ...output);
-      this.edits?.push({ id: editId, phase: this.phase, rule: "spellingBudget:respell", start,
+      this.edits?.push({ id: editId, phase: "word", rule: "spellingBudget:respell", start,
         input, output, before: replacement.before, after: replacement.after, partId: replacement.partId });
     }
     this.certificates.push(structuredClone({ ...plan, id: certificateId }));

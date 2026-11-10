@@ -75,7 +75,7 @@ export function createGapSpellingApplicator(
     if (context.baseSpelling) {
       context.baseSpelling.assertSurface(before);
       context.baseSpelling.markGapSpelling();
-      context.baseSpelling.edit(0, before.length, selected.replacement, `gapSpelling:${selected.name}`);
+      context.baseSpelling.edit("gap", 0, before.length, selected.replacement, `gapSpelling:${selected.name}`);
       if (context.trace) context.trace.baseSpelling = context.baseSpelling.snapshot();
     }
     context.word.written.clean = selected.replacement;

@@ -192,8 +192,8 @@ describe("exact base-spelling provenance", () => {
     const states = [new BaseSpelling(phones, false), new BaseSpelling(phones, true)];
     for (const state of states) {
       state.appendChoice(0, "th", "th");
-      state.edit(0, 1, "", "cut");
-      state.edit(1, 0, "e", "insert");
+      state.edit("word", 0, 1, "", "cut");
+      state.edit("word", 1, 0, "e", "insert");
       state.assertSurface("he");
     }
     const [off, on] = states.map(state => state.snapshot());
@@ -201,6 +201,24 @@ describe("exact base-spelling provenance", () => {
     expect(off.units).toEqual(on.units);
     expect(off.edits).toEqual([]);
     expect(on.edits).toHaveLength(2);
+  });
+
+  it("labels each edit with the phase its call site passes, in any order", () => {
+    const phones = [0, 1].map(id => ({ id, part: "root" as const, syllableIndex: id, segment: "nucleus" as const, segmentIndex: 0, soundAtSpelling: "a" }));
+    const state = new BaseSpelling(phones, true);
+    state.appendChoice(0, "a", "a");
+    state.observe("word")(0, 0, "w", "word-before-syllable");
+    state.appendChoice(1, "o", "o");
+    state.observeParts("syllable", ["wa", "o"])(1, 0, 0, "s", "syllable-after-word");
+    state.edit("gap", 0, 0, "g", "gap-before-selection");
+    state.edit("selection", 5, 0, "x", "selection-after-gap");
+    state.assertSurface("gwasox");
+    expect(state.snapshot().edits.map(edit => [edit.rule, edit.phase])).toEqual([
+      ["word-before-syllable", "word"],
+      ["syllable-after-word", "syllable"],
+      ["gap-before-selection", "gap"],
+      ["selection-after-gap", "selection"],
+    ]);
   });
 });
 

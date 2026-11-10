@@ -215,7 +215,7 @@ describe("whole-unit spelling budgets", () => {
     const short = { ...glyph("i:", "e"), reading: { kind: "open-vowel-or-split-marker" as const } };
     const f = fixture([glyph("i:", "ee")], [short], { writtenFormConstraints: { maxVowelLetters: 1 } });
     f.choices[0].slot.codaLength = 0;
-    f.base.edit(2, 0, "t", "test-insertion", 0);
+    f.base.edit("word", 2, 0, "t", "test-insertion", 0);
     expect(f.planner.apply(f.base, f.choices, "base-before-word-rules")).toMatchObject({ status: "infeasible", reason: "unresolved-ownership" });
     expect(f.base.snapshot().surface).toBe("eet");
   });
@@ -252,7 +252,7 @@ describe("whole-unit spelling budgets", () => {
     const phones = [0, 1].map(i => ({ id: i, part: "root" as const, syllableIndex: i, segment: "coda" as const, segmentIndex: 0, soundAtSpelling: "f", boundary: { phoneme: structuredClone(phone("f")) } }));
     const base = new BaseSpelling(phones, true, true);
     base.appendChoice(0, "ph", "ph", 0); base.appendChoice(1, "f", "f", 1);
-    base.edit(1, 2, "ff", "cross-part");
+    base.edit("word", 1, 2, "ff", "cross-part");
     const trace = base.snapshot();
     expect(trace.edits[0].partId).toBeNull();
     expect(trace.edits[0].output.every(cell => cell.partId === null)).toBe(true);
@@ -264,8 +264,8 @@ describe("whole-unit spelling budgets", () => {
 
   it("keeps unresolved rewrite ownership explicit and unchanged", () => {
     const f = fixture([glyph("æ", "a"), glyph("f", "ph")], [glyph("f", "f")], { writtenFormConstraints: { maxConsonantLetters: 1 } });
-    f.base.edit(0, 3, "aph", "no-op");
-    f.base.edit(0, 3, "phph", "opaque");
+    f.base.edit("word", 0, 3, "aph", "no-op");
+    f.base.edit("word", 0, 3, "phph", "opaque");
     const before = f.base.snapshot();
     expect(f.planner.apply(f.base, f.choices, "base-before-word-rules").status).toBe("infeasible");
     expect(f.base.snapshot()).toEqual(before);
