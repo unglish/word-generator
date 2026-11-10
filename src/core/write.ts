@@ -1356,7 +1356,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const joined = cleanParts.join("");
     word.finalVowel = anchorFinalVowel(word.finalVowel, cleanParts, partsOverflow);
     const onWordEdit = wordFinalVowelEditor(word.finalVowel);
-    const observeWord = baseSpelling.observe();
+    const observeWord = baseSpelling.observe("word");
     const clean = applySpellingRules(joined, wordRules, context.rand, context.trace, "word", (start, removed, replacement, rule) => {
       observeWord(start, removed, replacement, rule);
       onWordEdit?.(start, removed, replacement);
@@ -1478,7 +1478,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
   function capJoinedVowels({ context, baseSpelling, finalVowel }: WordSpelling, rules: WordRuleSpelling): string {
     if (!wfc?.maxVowelLetters) return rules.clean;
     const repaired = capVowelLetters(rules.clean, wfc.maxVowelLetters, rules.terminalYStart, (start, removed, replacement) => {
-      baseSpelling.edit(start, removed, replacement, "postJoinVowelCap");
+      baseSpelling.edit("word", start, removed, replacement, "postJoinVowelCap");
       rules.onWordEdit?.(start, removed, replacement);
     });
     recordTerminalYCapOverflow(finalVowel, repaired.protectedOverflow);
@@ -1494,7 +1494,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     const postParts = [clean];
     const postHyph = [clean];
     const beforePost = context.trace ? clean : "";
-    const observePost = baseSpelling.observeParts(postParts);
+    const observePost = baseSpelling.observeParts("word", postParts);
     if (wfc.maxConsonantGraphemes) {
       repairConsonantPileups(postParts, postHyph, wfc.maxConsonantGraphemes, wfc.consonantGraphemes, observePost);
     }
@@ -1549,7 +1549,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     context.baseSpelling = baseSpelling;
     const cleanParts: string[] = [];
     const hyphenatedParts: string[] = [];
-    const observeParts = baseSpelling.observeParts(cleanParts);
+    const observeParts = baseSpelling.observeParts("word", cleanParts);
     let currentSyllable: string[] = [];
     let currentSyllableOwners: number[] = [];
     const nucleusGraphemes: string[] = []; // Track nucleus grapheme form per syllable
@@ -1627,7 +1627,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       let emitted = form;
       if (currentSyllable.length > 0 && form.length > 0 &&
           currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]) {
-        baseSpelling.edit(choiceStart, 1, "", "deduplicateAdjacentLetters");
+        baseSpelling.edit("selection", choiceStart, 1, "", "deduplicateAdjacentLetters");
         emitted = form.slice(1);
       }
 
@@ -1692,8 +1692,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       if (!nextEntry || nextEntry.syllableIndex !== syllableIndex) {
         const rawSyllable = currentSyllable.join("");
         const syllableStart = cleanParts.reduce((length, part) => length + part.length, 0);
-        baseSpelling.setPhase("syllable");
-        const observeSyllable = baseSpelling.observe(syllableStart, syllableIndex);
+        const observeSyllable = baseSpelling.observe("syllable", syllableStart, syllableIndex);
         let syllableStr = applySpellingRules(rawSyllable, syllableRules, rand, context.trace, `syllable:${syllableIndex}`,
           (start, removed, replacement, rule) => {
             observeSyllable(start, removed, replacement, rule);
@@ -1706,7 +1705,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
 
         if (cleanParts.length > 0 && syllableStr.length > 0 &&
             cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]) {
-          baseSpelling.edit(syllableStart, 1, "", "deduplicateSyllableJoin");
+          baseSpelling.edit("syllable", syllableStart, 1, "", "deduplicateSyllableJoin");
           syllableStr = syllableStr.slice(1);
           editSyllableFinalVowel(finalVowel, 0, 1, "");
           if (tracing) syllableOwners = syllableOwners.slice(1);
@@ -1739,7 +1738,6 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       }
     }
 
-    baseSpelling.setPhase("word");
     // Silent-e: rewrite final VCe patterns (magic-e for long vowels)
     if (silentELookup && silentEConfig) {
       applySilentE(
