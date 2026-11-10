@@ -2,7 +2,8 @@ import { describe, it, expect } from "vitest";
 import { createGenerator, generateWord } from "./generate.js";
 import { englishConfig } from "../config/english.js";
 import { ENGLISH_VOWEL_SOUND_SET } from "./vowel-sounds.js";
-import type { StructuralTrace } from "./trace.js";
+import { TraceCollector, traceStage, type StructuralTrace } from "./trace.js";
+import type { Phoneme, Syllable } from "../types.js";
 
 const byEvent = <E extends StructuralTrace["event"]>(event: E) =>
   (entry: StructuralTrace): entry is Extract<StructuralTrace, { event: E }> => entry.event === event;
@@ -408,5 +409,56 @@ describe("trace pipeline", () => {
   it("structural array is always present (may be empty)", () => {
     const word = generateWord({ seed: 42, trace: true, morphology: false });
     expect(Array.isArray(word.trace!.structural)).toBe(true);
+  });
+});
+
+describe("trace stages", () => {
+  const syllable = (...sounds: string[]): Syllable => ({
+    onset: [], nucleus: sounds.map(sound => ({ sound } as Phoneme)), coda: [],
+  });
+
+  it("runs the stage and returns its result without a collector", () => {
+    const word = { syllables: [syllable("a")] };
+    expect(traceStage(undefined, "noop", word, () => 7)).toBe(7);
+  });
+
+  it("snapshots the syllables before the stage and re-reads them after", () => {
+    const trace = new TraceCollector();
+    const word = { syllables: [syllable("a")] };
+    const result = traceStage(trace, "replace", word, () => {
+      word.syllables = [syllable("e"), syllable("i")];
+      return "done";
+    });
+    expect(result).toBe("done");
+    expect(trace.stages).toEqual([{
+      name: "replace",
+      before: [{ onset: [], nucleus: ["a"], coda: [], stress: undefined }],
+      after: [
+        { onset: [], nucleus: ["e"], coda: [], stress: undefined },
+        { onset: [], nucleus: ["i"], coda: [], stress: undefined },
+      ],
+    }]);
+  });
+
+  it("records no stage when the stage throws", () => {
+    const trace = new TraceCollector();
+    expect(() => trace.stage("fail", { syllables: [] }, () => { throw new Error("boom"); })).toThrow("boom");
+    expect(trace.stages).toEqual([]);
+  });
+
+  it("records the pipeline stages in order", () => {
+    const rootStages = [
+      "generateSyllables", "repairClusters", "repairFinalCoda", "repairClusterShape",
+      "repairHAfterBackVowel", "applyStress", "repairStressedNuclei", "repairNucleusWordPositions",
+    ];
+    const plain = generateWord({ seed: 42, trace: true, morphology: false });
+    expect(plain.trace!.stages.map(stage => stage.name))
+      .toEqual([...rootStages, "generateWrittenForm", "generatePronunciation"]);
+
+    const derived = generateWord({ seed: 1, trace: true });
+    expect(derived.trace!.summary.morphologyApplied).toBe(true);
+    expect(derived.trace!.stages.map(stage => stage.name)).toEqual([
+      ...rootStages, "assembleMorphology", "repairFinalStressedNuclei", "generateWrittenForm", "generatePronunciation",
+    ]);
   });
 });
