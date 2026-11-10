@@ -76,9 +76,9 @@ function writeWord(
       written: { clean: "", hyphenated: "" },
     },
   };
-  createWrittenFormGenerator(config)(context);
+  const baseSpelling = createWrittenFormGenerator(config)(context);
   if (plannedMorphologyTemplate === "bare") {
-    applyGapSpellings(context);
+    applyGapSpellings(context, baseSpelling);
   }
   return {
     word: context.word,

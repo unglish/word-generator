@@ -1323,10 +1323,22 @@ function hasInvalidSyllableJunction(syllables: WordGenerationContext["word"]["sy
 }
 
 /**
+ * Spells `context.word.syllables` into `context.word.written` and returns the
+ * base-spelling state it built. `source` places those syllables in the
+ * assembled word for the orthography trace; `following` is written text that
+ * will directly follow them (a planned suffix).
+ */
+export type WrittenFormGenerator = (
+  context: WordGenerationContext,
+  source?: OrthographySource,
+  following?: string,
+) => BaseSpelling;
+
+/**
  * Creates a `generateWrittenForm` function bound to the given language config's
  * grapheme maps. Conditions are compiled and numeric weights checked at creation.
  */
-export function createWrittenFormGenerator(config: LanguageConfig): (context: WordGenerationContext) => void {
+export function createWrittenFormGenerator(config: LanguageConfig): WrittenFormGenerator {
   const resolveGraphemes = createGraphemeResolver(config);
   const allCompiledRules = compileSpellingRules(config.spellingRules ?? []);
   const syllableRules = allCompiledRules.filter(r => r.scope === "syllable" || r.scope === "both");
@@ -1519,7 +1531,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     return afterPost;
   }
 
-  return (context: WordGenerationContext) => {
+  return (context: WordGenerationContext, source?: OrthographySource, following?: string): BaseSpelling => {
     const rand = context.rand;
     const { syllables, written } = context.word;
     const tracing = !!context.trace;
@@ -1542,11 +1554,10 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
       id, part: "root", syllableIndex: entry.syllableIndex, segment: entry.position,
       segmentIndex: entry.positionIndex, soundAtSpelling: entry.phoneme.sound,
       ...(preservePhones ? { boundary: { phoneme: clonePhoneme(entry.phoneme), stress: entry.stress,
-        ...(id === flattenedPhonemes.length - 1 && context.orthographyFollowing ? { nextWritten: context.orthographyFollowing } : {}) } } : {}),
+        ...(id === flattenedPhonemes.length - 1 && following ? { nextWritten: following } : {}) } } : {}),
     })), tracing, preservePhones);
     const boundaryContexts = preservePhones ? spellingBoundaryContexts(baseSpelling.current().phones) : undefined;
     const spellingChoices: SpellingChoiceState[] = [];
-    context.baseSpelling = baseSpelling;
     const cleanParts: string[] = [];
     const hyphenatedParts: string[] = [];
     const observeParts = baseSpelling.observeParts("word", cleanParts);
@@ -1590,7 +1601,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         index: phonemeIndex, total: flattenedPhonemes.length, position,
         syllableIndex, syllableCount: syllables.length, onsetLength, nucleusLength, codaLength,
         isCluster, stress, previousPosition: prevEntry?.position,
-        nextWritten: isLastPhoneme ? context.orthographyFollowing : undefined,
+        nextWritten: isLastPhoneme ? following : undefined,
       };
       const { candidates, ordinary, conditioned, positional, weights, positiveCount, fallback, preferenceRelaxed } = resolveGraphemes(
         graphemeSlot, prefix);
@@ -1783,7 +1794,7 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
         const unitLength = overflow.terminalY.end - overflow.terminalY.start;
         finalOwners.fill(overflow.terminalY.phonemeIndex, finalClean.length - unitLength);
       }
-      context.trace.orthographyTrace = buildOrthographyTrace(finalClean, finalOwners, traceUnits, context.trace, context.orthographySource);
+      context.trace.orthographyTrace = buildOrthographyTrace(finalClean, finalOwners, traceUnits, context.trace, source);
     }
 
     baseSpelling.assertSurface(finalClean);
@@ -1791,5 +1802,6 @@ export function createWrittenFormGenerator(config: LanguageConfig): (context: Wo
     written.clean = finalClean;
     written.hyphenated = repaired.respelledHyphenated
       ?? (overflow.syncParts ? overflow.syncParts.join("&shy;") : hyphenatedParts.join(""));
+    return baseSpelling;
   };
 }
