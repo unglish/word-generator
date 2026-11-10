@@ -1,0 +1,54 @@
+name: Experiment
+on:
+  push:
+    branches: ['exp/**']
+permissions:
+  contents: read
+jobs:
+  perf:
+    strategy:
+      fail-fast: false
+      matrix:
+        slowdown: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0.05', '0.05', '0.10', '0.10', '0.20', '0.20']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '24', cache: 'npm' }
+      - run: npm ci
+      - run: { nproc; lscpu | grep -E 'Model name|^CPU\(s\)'; } || true
+      - name: Absolute test (old gate)
+        run: npm run test:perf || true
+      - name: Prepare base (same commit) and head (optionally slowed)
+        run: |
+          git worktree add --detach ../perf-base HEAD
+          ln -s "$PWD/node_modules" ../perf-base/node_modules
+          git worktree add --detach ../perf-head HEAD
+          ln -s "$PWD/node_modules" ../perf-head/node_modules
+          if [ "${{ matrix.slowdown }}" != "0" ]; then exp/inject-slowdown.sh ../perf-head "${{ matrix.slowdown }}"; fi
+      - name: Paired gate
+        run: |
+          start=$(date +%s)
+          node scripts/perf-compare.mjs --base ../perf-base --head ../perf-head || echo "GATE_FAILED"
+          echo "gate seconds: $(( $(date +%s) - start ))"
+  vitest:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [parallel, parallel, parallel, parallel, parallel, parallel-strict, parallel-strict, parallel-strict, parallel-strict, parallel-strict, serial, serial, serial]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '24', cache: 'npm' }
+      - run: npm ci
+      - run: { nproc; lscpu | grep -E 'Model name'; } || true
+      - name: npm test
+        env:
+          VITEST_CI_PARALLEL: ${{ startsWith(matrix.mode, 'parallel') && '1' || '' }}
+          STRICT_UNHANDLED_ERRORS: ${{ matrix.mode == 'parallel-strict' && '1' || '' }}
+        run: |
+          start=$(date +%s)
+          npm test
+          echo "npm test seconds: $(( $(date +%s) - start ))"

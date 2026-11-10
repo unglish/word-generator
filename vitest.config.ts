@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config'
 
-const isCI = process.env.CI === 'true'
+const isCI = process.env.CI === 'true' && process.env.VITEST_CI_PARALLEL !== '1'
 const strictUnhandled = process.env.STRICT_UNHANDLED_ERRORS === '1'
 
 export default defineConfig({
