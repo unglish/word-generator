@@ -1,3 +1,4 @@
+import type { NonBareMorphologyPlan } from "./morphology/plan.js";
 import { measureSpellingBudgets } from "./spelling-budget.js";
 import {
   ClusterContext,
@@ -68,10 +69,7 @@ import {
   prepareMorphology,
   writeMorphology,
 } from "./morphology/index.js";
-import type {
-  PlannedMorphologySelection,
-  PreparedMorphology,
-} from "./morphology/index.js";
+import type { PreparedMorphology } from "./morphology/index.js";
 import { clonePhoneme, cloneSyllables } from "./lexical.js";
 import {
   computePhonemeTargetBounds,
@@ -1851,7 +1849,7 @@ interface SelectedAttempt {
 function resolveAffixedRoot(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
-  morphPlan: PlannedMorphologySelection,
+  morphPlan: NonBareMorphologyPlan,
   lookaheadRand: RNG,
 ): AffixedRoot {
   const traceCollector = context.trace;
@@ -1868,7 +1866,7 @@ function resolveAffixedRoot(
     traceCollector,
     "assembleMorphology",
     context.word,
-    () => prepareMorphology(rt, lexicalContext, morphPlan.plan)!,
+    () => prepareMorphology(rt, lexicalContext, morphPlan),
   );
   const rootSyllableStart = prepared.rootSyllableStart;
 
@@ -2050,7 +2048,9 @@ function generateOneWord(
       ? planMorphology(morphConfig, mode, rand)
       : undefined;
   const affixPlan =
-    morphPlan && morphPlan.plan.template !== "bare" ? morphPlan : undefined;
+    morphPlan && morphPlan.plan.template !== "bare"
+      ? morphPlan.plan
+      : undefined;
   const forcedRootSyllableCount = syllableCount > 0 ? syllableCount : undefined;
   const maxOnset =
     rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;

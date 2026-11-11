@@ -10,7 +10,7 @@ import {
   defaultFallbackBridgeOnsets,
 } from "../../config/language.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
-import type { MorphologyPlan } from "./plan.js";
+import type { MorphologyPlan, NonBareMorphologyPlan } from "./plan.js";
 import { snapshotAffixForm, snapshotWrittenParts } from "./realization.js";
 import type {
   MorphologyResult,
@@ -416,6 +416,16 @@ function prepareMorphophonemicRules(
 // Main API
 // ---------------------------------------------------------------------------
 
+export function prepareMorphology(
+  rt: GeneratorRuntime,
+  context: WordGenerationContext,
+  plan: NonBareMorphologyPlan,
+): PreparedMorphology;
+export function prepareMorphology(
+  rt: GeneratorRuntime,
+  context: WordGenerationContext,
+  plan: MorphologyPlan,
+): PreparedMorphology | undefined;
 export function prepareMorphology(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
