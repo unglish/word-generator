@@ -1,7 +1,8 @@
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { readdir, readFile, realpath } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { englishConfig, generateWords } from "../../src/index.js";
 import { RUBRIC, supportedRubric } from "./protocol.js";
 import type { Json, Manifest, Snapshot, SourceFile } from "./model.js";
@@ -41,6 +42,9 @@ async function sourceFiles(root: string, directory = "src"): Promise<SourceFile[
 }
 
 export async function freezeStudy(root: string, studyId: string, seed = 20260904, count = 200, sessionLength = 20): Promise<Snapshot> {
+  root = await realpath(root);
+  const moduleRoot = await realpath(resolve(dirname(fileURLToPath(import.meta.url)), "../.."));
+  if (root !== moduleRoot) throw new Error("Freeze the study with the generator module from its measured checkout.");
   if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(studyId)) throw new Error("Study ID must contain lowercase letters, digits, or hyphens (max 80).");
   if (!Number.isSafeInteger(seed) || !Number.isInteger(count) || count < 1 || count > 10000) throw new Error("Invalid seed or sample count.");
   if (!Number.isInteger(sessionLength) || sessionLength < 1 || sessionLength > 20) throw new Error("Session length must be 1–20.");
@@ -57,6 +61,9 @@ export async function freezeStudy(root: string, studyId: string, seed = 20260904
     },
   };
   const words = generateWords(count, manifest.options);
+  if (digest(await sourceFiles(root)) !== manifest.generator.source_digest || git("rev-parse", "HEAD").trim() !== manifest.generator.commit) {
+    throw new Error("Generator source changed during study capture.");
+  }
   const snapshotDigest = digest({ manifest, words });
   return {
     manifest, digest: snapshotDigest,
