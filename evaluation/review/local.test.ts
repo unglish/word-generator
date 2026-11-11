@@ -265,3 +265,33 @@ it("rejects non-object answers at the payload boundary", () => {
     expect(validAnswer(value)).toBe(false);
   }
 });
+
+it("preserves missing-session errors for each operation", async () => {
+  const key = crypto.randomUUID();
+  expect(await store.get(key)).toBeUndefined();
+  await expect(
+    store.enqueue(key, 0, { status: "skipped", rating: null, familiar: null }),
+  ).rejects.toThrow("The assignment is missing.");
+  for (const mutation of [
+    () => store.assign(key, assignment),
+    () => store.nextBatch(key, "missing"),
+    () => store.continued(key, "missing", { exhausted: true }),
+    () => store.acknowledge(key, "missing"),
+  ]) {
+    await expect(mutation()).rejects.toThrow("Local session is missing.");
+  }
+  expect(await store.get(key)).toBeUndefined();
+});
+
+it("does not revise sessions when an update returns the stored session unchanged", async () => {
+  const key = crypto.randomUUID();
+  const initial = await store.ensure(key);
+  expect(initial.revision).toBe(1);
+  expect(await store.ensure(key)).toEqual(initial);
+  expect(await store.assign(key, assignment, "stale-session")).toEqual(initial);
+  expect(await store.nextBatch(key, "stale-session")).toEqual(initial);
+  expect(await store.continued(key, initial.id, { exhausted: true })).toEqual(
+    initial,
+  );
+  expect(await store.get(key)).toEqual(initial);
+});

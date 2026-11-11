@@ -1,4 +1,9 @@
-import type { Answer, Assignment, Continuation, Submission } from "../../evaluation/review/protocol.js";
+import type {
+  Answer,
+  Assignment,
+  Continuation,
+  Submission,
+} from "../../evaluation/review/protocol.js";
 import { validAnswer } from "../../evaluation/review/protocol.js";
 
 export interface LocalSession {
@@ -13,7 +18,11 @@ export interface LocalSession {
 }
 
 export class StalePositionError extends Error {
-  constructor() { super("This word was already submitted in another tab. Your current position has been restored."); }
+  constructor() {
+    super(
+      "This word was already submitted in another tab. Your current position has been restored.",
+    );
+  }
 }
 
 export class ReviewStore {
@@ -22,9 +31,15 @@ export class ReviewStore {
   static open(): Promise<ReviewStore> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open("unglish-review-v1", 1);
-      request.onupgradeneeded = () => request.result.createObjectStore("sessions");
+      request.onupgradeneeded = () =>
+        request.result.createObjectStore("sessions");
       request.onerror = () => reject(request.error);
-      request.onblocked = () => reject(new Error("Close other review tabs and reload to update local storage."));
+      request.onblocked = () =>
+        reject(
+          new Error(
+            "Close other review tabs and reload to update local storage.",
+          ),
+        );
       request.onsuccess = () => {
         request.result.onversionchange = () => request.result.close();
         resolve(new ReviewStore(request.result));
@@ -32,11 +47,24 @@ export class ReviewStore {
     });
   }
 
-  close(): void { this.database.close(); }
+  close(): void {
+    this.database.close();
+  }
 
-  private transaction(key: string, update?: (session: LocalSession | undefined) => LocalSession): Promise<LocalSession | undefined> {
+  private transaction(key: string): Promise<LocalSession | undefined>;
+  private transaction(
+    key: string,
+    update: (session: LocalSession | undefined) => LocalSession,
+  ): Promise<LocalSession>;
+  private transaction(
+    key: string,
+    update?: (session: LocalSession | undefined) => LocalSession,
+  ): Promise<LocalSession | undefined> {
     return new Promise((resolve, reject) => {
-      const tx = this.database.transaction("sessions", update ? "readwrite" : "readonly");
+      const tx = this.database.transaction(
+        "sessions",
+        update ? "readwrite" : "readonly",
+      );
       const store = tx.objectStore("sessions");
       const request = store.get(key);
       let result: LocalSession | undefined;
@@ -51,76 +79,161 @@ export class ReviewStore {
               store.put(result, key);
             }
           }
-        } catch (error) { failure = error; tx.abort(); }
+        } catch (error) {
+          failure = error;
+          tx.abort();
+        }
       };
       tx.oncomplete = () => resolve(result);
-      tx.onabort = () => reject(failure ?? tx.error ?? new Error("Local storage transaction failed."));
-      tx.onerror = () => { failure ??= tx.error; };
+      tx.onabort = () =>
+        reject(
+          failure ?? tx.error ?? new Error("Local storage transaction failed."),
+        );
+      tx.onerror = () => {
+        failure ??= tx.error;
+      };
     });
   }
 
-  get(key: string): Promise<LocalSession | undefined> { return this.transaction(key); }
+  private updateExisting(
+    key: string,
+    update: (session: LocalSession) => LocalSession,
+    missingMessage = "Local session is missing.",
+  ): Promise<LocalSession> {
+    return this.transaction(key, (session) => {
+      if (!session) throw new Error(missingMessage);
+      return update(session);
+    });
+  }
+
+  get(key: string): Promise<LocalSession | undefined> {
+    return this.transaction(key);
+  }
 
   private newSession(): LocalSession {
     return {
-      id: crypto.randomUUID(), token: [...crypto.getRandomValues(new Uint8Array(32))].map(byte => byte.toString(16).padStart(2, "0")).join(""),
-      revision: 0, assignment: null, next: 0, outbox: [],
+      id: crypto.randomUUID(),
+      token: [...crypto.getRandomValues(new Uint8Array(32))]
+        .map((byte) => byte.toString(16).padStart(2, "0"))
+        .join(""),
+      revision: 0,
+      assignment: null,
+      next: 0,
+      outbox: [],
     };
   }
 
   async ensure(key: string): Promise<LocalSession> {
-    return (await this.transaction(key, existing => existing ?? this.newSession()))!;
+    return this.transaction(key, (existing) => existing ?? this.newSession());
   }
 
   async nextBatch(key: string, completedId: string): Promise<LocalSession> {
-    return (await this.transaction(key, existing => {
-      if (!existing) throw new Error("Local session is missing.");
-      if (existing.id !== completedId || existing.continuing || existing.exhausted) return existing;
-      if (!existing.assignment || existing.next !== existing.assignment.items.length || existing.outbox.length) {
-        throw new Error("Wait until all responses are received before continuing.");
+    return this.updateExisting(key, (existing) => {
+      if (
+        existing.id !== completedId ||
+        existing.continuing ||
+        existing.exhausted
+      )
+        return existing;
+      if (
+        !existing.assignment ||
+        existing.next !== existing.assignment.items.length ||
+        existing.outbox.length
+      ) {
+        throw new Error(
+          "Wait until all responses are received before continuing.",
+        );
       }
       return { ...existing, continuing: true };
-    }))!;
+    });
   }
 
-  async assign(key: string, assignment: Assignment, sessionId?: string): Promise<LocalSession> {
-    return (await this.transaction(key, session => {
-      if (!session) throw new Error("Local session is missing.");
+  async assign(
+    key: string,
+    assignment: Assignment,
+    sessionId?: string,
+  ): Promise<LocalSession> {
+    return this.updateExisting(key, (session) => {
       if (sessionId !== undefined && session.id !== sessionId) return session;
-      if (session.assignment && JSON.stringify(session.assignment.items) !== JSON.stringify(assignment.items)) throw new Error("The saved assignment has changed. Please contact the study owner.");
+      if (
+        session.assignment &&
+        JSON.stringify(session.assignment.items) !==
+          JSON.stringify(assignment.items)
+      )
+        throw new Error(
+          "The saved assignment has changed. Please contact the study owner.",
+        );
       return { ...session, assignment };
-    }))!;
+    });
   }
 
-  async continued(key: string, previousId: string, result: Continuation): Promise<LocalSession> {
-    return (await this.transaction(key, session => {
-      if (!session) throw new Error("Local session is missing.");
+  async continued(
+    key: string,
+    previousId: string,
+    result: Continuation,
+  ): Promise<LocalSession> {
+    return this.updateExisting(key, (session) => {
       // A delayed response may arrive after another tab has already advanced.
       if (session.id !== previousId || !session.continuing) return session;
-      if (result.exhausted) return { ...session, continuing: false, exhausted: true };
+      if (result.exhausted)
+        return { ...session, continuing: false, exhausted: true };
       return {
-        revision: session.revision, id: result.session_id, token: result.submission_token,
-        assignment: result.assignment, next: 0, outbox: [],
+        revision: session.revision,
+        id: result.session_id,
+        token: result.submission_token,
+        assignment: result.assignment,
+        next: 0,
+        outbox: [],
       };
-    }))!;
+    });
   }
 
-  async enqueue(key: string, position: number, answer: Answer, sessionId?: string): Promise<LocalSession> {
-    if (!validAnswer(answer)) throw new Error("Choose a rating or skip this word.");
-    return (await this.transaction(key, session => {
-      if (!session?.assignment) throw new Error("The assignment is missing.");
-      if ((sessionId !== undefined && session.id !== sessionId) || session.next !== position) throw new StalePositionError();
-      if (position >= session.assignment.items.length) throw new Error("This review is already complete.");
-      return { ...session, next: position + 1, outbox: [...session.outbox, {
-        session_id: session.id, submission_token: session.token, response_id: crypto.randomUUID(), position, ...answer,
-      }] };
-    }))!;
+  async enqueue(
+    key: string,
+    position: number,
+    answer: Answer,
+    sessionId?: string,
+  ): Promise<LocalSession> {
+    if (!validAnswer(answer))
+      throw new Error("Choose a rating or skip this word.");
+    return this.updateExisting(
+      key,
+      (session) => {
+        if (!session.assignment) throw new Error("The assignment is missing.");
+        if (
+          (sessionId !== undefined && session.id !== sessionId) ||
+          session.next !== position
+        )
+          throw new StalePositionError();
+        if (position >= session.assignment.items.length)
+          throw new Error("This review is already complete.");
+        return {
+          ...session,
+          next: position + 1,
+          outbox: [
+            ...session.outbox,
+            {
+              session_id: session.id,
+              submission_token: session.token,
+              response_id: crypto.randomUUID(),
+              position,
+              ...answer,
+            },
+          ],
+        };
+      },
+      "The assignment is missing.",
+    );
   }
 
   async acknowledge(key: string, responseId: string): Promise<LocalSession> {
-    return (await this.transaction(key, session => {
-      if (!session) throw new Error("Local session is missing.");
-      return { ...session, outbox: session.outbox.filter(response => response.response_id !== responseId) };
-    }))!;
+    return this.updateExisting(key, (session) => {
+      return {
+        ...session,
+        outbox: session.outbox.filter(
+          (response) => response.response_id !== responseId,
+        ),
+      };
+    });
   }
 }
