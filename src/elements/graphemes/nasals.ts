@@ -5,7 +5,6 @@ export const nasalGraphemes: Grapheme[] = [
   // milk
   { phoneme: "m", 
     form: "m", 
-    origin: 3, 
     frequency: 1000, 
     startWord: 1,
     midWord: 1,
@@ -13,7 +12,6 @@ export const nasalGraphemes: Grapheme[] = [
   {
     phoneme: "m",
     form: "mb",
-    origin: 5,
     frequency: 2,
     onset: 0,
     cluster: 0,
@@ -25,7 +23,6 @@ export const nasalGraphemes: Grapheme[] = [
   {
     phoneme: "m",
     form: "mn",
-    origin: 2,
     frequency: 1,
     onset: 0,
     cluster: 0,
@@ -36,7 +33,6 @@ export const nasalGraphemes: Grapheme[] = [
   {
     phoneme: "m",
     form: "lm",
-    origin: 3,
     frequency: 2,
     onset: 0,
     startWord: 0,
@@ -47,7 +43,6 @@ export const nasalGraphemes: Grapheme[] = [
   // no
   { phoneme: "n", 
     form: "n", 
-    origin: 3, 
     frequency: 1000,
     startWord: 1,
     midWord: 1,
@@ -55,7 +50,6 @@ export const nasalGraphemes: Grapheme[] = [
   {
     phoneme: "n",
     form: "mn",
-    origin: 2,
     frequency: 1,
     coda: 0,
     cluster: 0,
@@ -66,7 +60,6 @@ export const nasalGraphemes: Grapheme[] = [
   {
     phoneme: "n",
     form: "kn",
-    origin: 0,
     frequency: 10,
     coda: 0,
     cluster: 0,
@@ -78,7 +71,6 @@ export const nasalGraphemes: Grapheme[] = [
   {
     phoneme: "n",
     form: "gn",
-    origin: 0,
     frequency: 5,
     cluster: 0,
     startWord: 0,
@@ -88,7 +80,6 @@ export const nasalGraphemes: Grapheme[] = [
   {
     phoneme: "n",
     form: "pn",
-    origin: 2,
     frequency: 1,
     coda: 0,
     startWord: 1,
@@ -100,7 +91,6 @@ export const nasalGraphemes: Grapheme[] = [
   {
     phoneme: "ŋ",
     form: "ng",
-    origin: 0,
     frequency: 10,
     onset: 0,
     startWord: 0,
@@ -112,7 +102,6 @@ export const nasalGraphemes: Grapheme[] = [
     // /ŋ/ before velar stops writes as "n" (think, bank, anger)
     phoneme: "ŋ",
     form: "n",
-    origin: 0,
     frequency: 100,
     onset: 0,
     startWord: 0,

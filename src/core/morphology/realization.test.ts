@@ -17,7 +17,7 @@ function customAffix(type: "prefix" | "suffix", planned: string, resolved: strin
 
 function fixedRoot(options: { prefix?: Affix; suffix?: Affix; onset?: string; coda?: string; maxConsonants?: number } = {}) {
   const { prefix, suffix, onset = "b", coda = "t", maxConsonants = 3 } = options;
-  const glyph = (phoneme: string, form: string): Grapheme => ({ phoneme, form, frequency: 1, origin: 0, startWord: 1, midWord: 1, endWord: 1 });
+  const glyph = (phoneme: string, form: string): Grapheme => ({ phoneme, form, frequency: 1, startWord: 1, midWord: 1, endWord: 1 });
   const onsetGlyph = glyph(onset, onset);
   const nucleusGlyph = glyph("ɑ", "a");
   const codaGlyph = glyph(coda, coda);

@@ -5,7 +5,6 @@ export const liquidGraphemes: Grapheme[] = [
   // love
   { phoneme: "l",
     form: "l", 
-    origin: 3, 
     frequency: 10, 
     startWord: 1,
     midWord: 1,
@@ -14,7 +13,6 @@ export const liquidGraphemes: Grapheme[] = [
   // run
   { phoneme: "r", 
     form: "r", 
-    origin: 3, 
     frequency: 1000, 
     startWord: 1,
     midWord: 1,
@@ -22,7 +20,6 @@ export const liquidGraphemes: Grapheme[] = [
   {
     phoneme: "r",
     form: "wr",
-    origin: 0,
     frequency: 1,
     coda: 0,
     cluster: 0,
@@ -34,7 +31,6 @@ export const liquidGraphemes: Grapheme[] = [
   {
     phoneme: "r",
     form: "rh",
-    origin: 2,
     frequency: 1,
     coda: 0,
     cluster: 0,

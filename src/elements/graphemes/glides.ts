@@ -3,7 +3,7 @@ import { Grapheme } from "../../types.js";
 
 export const glideGraphemes: Grapheme[] = [
   // yes
-  { phoneme: "j", form: "y", origin: 0, frequency: 30,
+  { phoneme: "j", form: "y", frequency: 30,
     startWord: 1,
     midWord: 1,
     endWord: 0,
@@ -14,7 +14,6 @@ export const glideGraphemes: Grapheme[] = [
   {
     phoneme: "j",
     form: "j",
-    origin: 3,
     frequency: 1,
     coda: 0,
     startWord: 1,
@@ -25,7 +24,6 @@ export const glideGraphemes: Grapheme[] = [
   // we
   { phoneme: "w", 
     form: "w", 
-    origin: 0, 
     frequency: 100,
     startWord: 1,
     midWord: 1,
@@ -33,7 +31,6 @@ export const glideGraphemes: Grapheme[] = [
   },
   { phoneme: "w", 
     form: "wh", 
-    origin: 0, 
     coda: 0,
     frequency: 5,
     startWord: 1,

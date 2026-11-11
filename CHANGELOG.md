@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Breaking Changes
+
+- Removed `Grapheme.origin` and the `ORIGINS` export. The codes were unsourced,
+  nothing in the generator read them, and a spelling's origin does not
+  determine a word's etymology. Generated output is unchanged.
+
 ## 0.6.0 - 2026-03-03
 
 ### Breaking Changes

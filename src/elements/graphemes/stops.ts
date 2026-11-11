@@ -5,7 +5,6 @@ export const stopGraphemes: Grapheme[] = [
   // pig
   { phoneme: "p", 
     form: "p", 
-    origin: 3, 
     frequency: 50, 
     startWord: 1,
     midWord: 1,
@@ -15,7 +14,6 @@ export const stopGraphemes: Grapheme[] = [
   // b boy
   { phoneme: "b", 
     form: "b", 
-    origin: 3, 
     frequency: 100,
     startWord: 1,
     midWord: 1,
@@ -23,7 +21,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "b",
     form: "pb",
-    origin: 3,
     frequency: 1,
     onset: 0,
     cluster: 0,
@@ -33,13 +30,12 @@ export const stopGraphemes: Grapheme[] = [
   },
 
   // t top
-  { phoneme: "t", form: "t", origin: 3, frequency: 2500, startWord: 1,
+  { phoneme: "t", form: "t", frequency: 2500, startWord: 1,
     midWord: 1,
     endWord: 1, },
   
   { phoneme: "t", 
     form: "th", 
-    origin: 2, 
     frequency: 1, 
     coda: 0,
     cluster: 0,
@@ -49,7 +45,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "t",
     form: "bt",
-    origin: 3,
     frequency: 1,
     onset: 0,
     cluster: 0,
@@ -60,7 +55,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "t",
     form: "ed",
-    origin: 3,
     frequency: 2,
     onset: 0,
     startWord: 0,
@@ -71,7 +65,6 @@ export const stopGraphemes: Grapheme[] = [
   // d dog
   { phoneme: "d", 
     form: "d", 
-    origin: 3, 
     frequency: 300,
     startWord: 1,
     midWord: 1,
@@ -79,7 +72,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "d",
     form: "ed",
-    origin: 3,
     frequency: 6,
     onset: 0,
     cluster: 300,
@@ -91,7 +83,6 @@ export const stopGraphemes: Grapheme[] = [
   // k: before front vowels (keep, kind)
   { phoneme: "k", 
     form: "k", 
-    origin: 3, 
     frequency: 5,
     startWord: 1,
     midWord: 1,
@@ -102,7 +93,6 @@ export const stopGraphemes: Grapheme[] = [
   // This prevents severe under-representation of "mc" bigrams without broad changes.
   { phoneme: "k",
     form: "c",
-    origin: 3,
     frequency: 120,
     startWord: 0,
     midWord: 150,
@@ -112,7 +102,6 @@ export const stopGraphemes: Grapheme[] = [
   // k: after "n" — /ŋk/ writes as "nk" (bank, think, drink)
   { phoneme: "k",
     form: "k",
-    origin: 3,
     frequency: 500,
     startWord: 0,
     midWord: 80,
@@ -122,7 +111,6 @@ export const stopGraphemes: Grapheme[] = [
   // k: word-final (speak, back)
   { phoneme: "k", 
     form: "k", 
-    origin: 3, 
     frequency: 2,
     startWord: 0,
     midWord: 0,
@@ -133,7 +121,6 @@ export const stopGraphemes: Grapheme[] = [
   // endWord kept low: bare word-final c is rare in English (music, panic)
   { phoneme: "k", 
     form: "c", 
-    origin: 3, 
     frequency: 300,
     cluster: 100,
     startWord: 100,
@@ -144,7 +131,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "k",
     form: "ck",
-    origin: 3,
     frequency: 80,
     onset: 0,
     // This preference belongs to the final rime, including /ks/ and /kt/.
@@ -158,7 +144,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "k",
     form: "ch",
-    origin: 3,
     frequency: 1,
     startWord: 1,
     midWord: 1,
@@ -170,7 +155,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "k",
     form: "lk",
-    origin: 3,
     frequency: 4,
     onset: 0,
     startWord: 0,
@@ -180,7 +164,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "k",
     form: "q",
-    origin: 3,
     frequency: 1,
     onset: 0,
     startWord: 1,
@@ -191,7 +174,6 @@ export const stopGraphemes: Grapheme[] = [
   // g: go
   { phoneme: "g", 
     form: "g", 
-    origin: 3, 
     frequency: 100,
     startWord: 1,
     midWord: 1,
@@ -200,7 +182,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "g",
     form: "gh",
-    origin: 3,
     frequency: 2,
     coda: 0,
     cluster: 0,
@@ -211,7 +192,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "g",
     form: "gu",
-    origin: 3,
     frequency: 2,
     coda: 0,
     startWord: 1,
@@ -222,7 +202,6 @@ export const stopGraphemes: Grapheme[] = [
   {
     phoneme: "g",
     form: "gue",
-    origin: 3,
     frequency: 1,
     onset: 0,
     startWord: 0,

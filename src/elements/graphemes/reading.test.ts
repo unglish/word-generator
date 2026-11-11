@@ -5,7 +5,7 @@ import { buildGraphemeMaps, graphemes } from "./index.js";
 import { withEnglishReadings } from "./reading.js";
 
 function entry(phoneme: string, form: string): Grapheme {
-  return { phoneme, form, origin: 0, frequency: 1, startWord: 1, midWord: 1, endWord: 1 };
+  return { phoneme, form, frequency: 1, startWord: 1, midWord: 1, endWord: 1 };
 }
 
 function reading(phoneme: string, form: string) {

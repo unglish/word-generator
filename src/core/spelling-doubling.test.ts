@@ -14,7 +14,7 @@ function slot(sound: string, form: string, extra: Partial<DoublingSlot> = {}): D
     isLastPhoneme: true, isEndOfWord: true, isMonosyllabic: true, nextIsConsonant: false, ...extra };
 }
 function glyph(sound: string, form: string): Grapheme {
-  return { phoneme: sound, form, frequency: 1, origin: 0, reading: { kind: "following-letter", forbid: ["e", "i", "y"] } };
+  return { phoneme: sound, form, frequency: 1, reading: { kind: "following-letter", forbid: ["e", "i", "y"] } };
 }
 
 describe("sound-specific doubling support", () => {

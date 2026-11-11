@@ -6,7 +6,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "i:",
     form: "ee",
-    origin: 0,
     frequency: 3,
     startWord: 0,
     midWord: 4,
@@ -15,7 +14,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "i:",
     form: "ea",
-    origin: 0,
     frequency: 2,
     startWord: 20,
     midWord: 3,
@@ -25,7 +23,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "i:",
     form: "e",
-    origin: 0,
     frequency: 5,
     startWord: 100,
     midWord: 1,
@@ -34,7 +31,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "i:",
     form: "y",
-    origin: 1,
     frequency: 3,
     startWord: 0,
     midWord: 0,
@@ -47,7 +43,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "i:",
     form: "ie",
-    origin: 0,
     frequency: 1,
     startWord: 0,
     midWord: 5,
@@ -56,7 +51,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "i:",
     form: "ei",
-    origin: 0,
     frequency: 2,
     startWord: 10,
     midWord: 1,
@@ -66,7 +60,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "i:",
     form: "eo",
-    origin: 1,  
     frequency: 1, 
     startWord: 0,
     midWord: 1,
@@ -77,7 +70,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ɪ", 
     form: "i", 
-    origin: 0, 
     frequency: 1000,
     startWord: 5,
     midWord: 10,
@@ -88,7 +80,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɪ",
     form: "y",
-    origin: 1,
     frequency: 2,
     startWord: 0,
     midWord: 1,
@@ -98,7 +89,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɪ",
     form: "ui",
-    origin: 1,
     frequency: 1,
     startWord: 0,
     midWord: 1,
@@ -109,7 +99,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ɛ", 
     form: "e", 
-    origin: 0, 
     frequency: 100,
     startWord: 10,
     midWord: 10,
@@ -119,7 +108,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɛ",
     form: "ea",
-    origin: 0,
     frequency: 140,
     onset: 0,
     startWord: 0,
@@ -131,7 +119,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "æ", 
     form: "a", 
-    origin: 0, 
     frequency: 10,
     startWord: 10,
     midWord: 10,
@@ -142,7 +129,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ɑ", 
     form: "a", 
-    origin: 0, 
     frequency: 600,
     startWord: 10,
     midWord: 10,
@@ -151,7 +137,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɑ",
     form: "o",
-    origin: 0,
     frequency: 300,
     startWord: 10,
     midWord: 10,
@@ -160,7 +145,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɑ",
     form: "ah",
-    origin: 4,
     frequency: 10,
     startWord: 0,
     midWord: 5,
@@ -169,7 +153,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɑ",
     form: "aa",
-    origin: 4,
     frequency: 1,
     startWord: 1,
     midWord: 1,
@@ -178,7 +161,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɑ",
     form: "au",
-    origin: 0,
     frequency: 40,
     startWord: 1,
     midWord: 10,
@@ -188,7 +170,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɑ",
     form: "aue",
-    origin: 0,
     frequency: 40,
     startWord: 1,
     midWord: 10,
@@ -199,7 +180,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɔ",
     form: "o",
-    origin: 0,
     frequency: 10,
     startWord: 10,
     midWord: 10,
@@ -208,7 +188,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɔ",
     form: "aw",
-    origin: 0,
     frequency: 1,
     onset: 0,
     startWord: 0,
@@ -218,7 +197,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ɔ",
     form: "ough",
-    origin: 0,
     frequency: 4,
     onset: 0,
     coda: 0,
@@ -232,7 +210,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ʊ",
     form: "oo",
-    origin: 0,
     frequency: 80,
     onset: 0,
     startWord: 0,
@@ -242,7 +219,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ʊ", 
     form: "u", 
-    origin: 0, 
     frequency: 30,
     startWord: 1,
     midWord: 1,
@@ -253,7 +229,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ʊ",
     form: "ou",
-    origin: 1,
     frequency: 8,
     startWord: 0,
     midWord: 5,
@@ -264,7 +239,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "u",
     form: "ou",
-    origin: 1,
     frequency: 2,
     startWord: 0,
     midWord: 10,
@@ -273,7 +247,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "u",
     form: "oo",
-    origin: 0,
     frequency: 30,
     startWord: 0,
     midWord: 3,
@@ -282,7 +255,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "u",
     form: "u",
-    origin: 0,
     frequency: 10,
     startWord: 10,
     midWord: 10,
@@ -292,7 +264,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "u",
     form: "ue",
-    origin: 0,
     frequency: 10,
     startWord: 0,
     midWord: 5,
@@ -301,7 +272,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "u",
     form: "ew",
-    origin: 0,
     frequency: 7,
     startWord: 1,
     midWord: 4,
@@ -312,7 +282,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ʌ", 
     form: "u", 
-    origin: 0, 
     frequency: 1000,
     startWord: 1,
     midWord: 1,
@@ -322,7 +291,6 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "ʌ",
     form: "o",
-    origin: 0,
     frequency: 300,
     startWord: 3,
     midWord: 8,
@@ -331,7 +299,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ʌ", 
     form: "uh", 
-    origin: 0, 
     frequency: 3,
     startWord: 1,
     midWord: 4,
@@ -342,7 +309,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ə", 
     form: "e", 
-    origin: 0, 
     frequency: 150,
     startWord: 5,
     midWord: 10,
@@ -354,7 +320,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ə", 
     form: "a", 
-    origin: 0, 
     frequency: 300,
     startWord: 1000, 
     midWord: 5, 
@@ -363,7 +328,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ə", 
     form: "o", 
-    origin: 0, 
     frequency: 200,
     startWord: 1, 
     midWord: 5, 
@@ -372,7 +336,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ə", 
     form: "ou", 
-    origin: 0, 
     frequency: 1,
     startWord: 1, 
     midWord: 1, 
@@ -381,7 +344,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ə", 
     form: "u", 
-    origin: 0, 
     frequency: 50,
     startWord: 5, 
     midWord: 10, 
@@ -390,7 +352,6 @@ export const vowelGraphemes: Grapheme[] = [
   { 
     phoneme: "ə", 
     form: "i", 
-    origin: 0, 
     frequency: 220,
     startWord: 1, 
     midWord: 10, 
