@@ -1431,7 +1431,7 @@ describe("silent-e integration", () => {
     expect(ckCount).toBeGreaterThan(0);
   });
 
-  it("never doubles consonants in unstressed syllables (modifier = 0)", () => {
+  it("configures zero unstressed doubling probability", () => {
     expect(englishConfig.doubling?.unstressedModifier).toBe(0);
   });
 
@@ -1497,7 +1497,6 @@ describe("silent-e integration", () => {
     console.log(
       `  Bare 'v' endings: ${bareV}/${total}, total v/ve endings: ${totalEndingV}/${total}`,
     );
-    // With 95% probability, bare v should be very rare (< 2% of v-ending words)
     expect(totalEndingV).toBeGreaterThan(0);
     expect(bareV / totalEndingV).toBeLessThan(0.1);
   });
