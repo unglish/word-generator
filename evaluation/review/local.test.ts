@@ -240,3 +240,28 @@ it("validates continuation acknowledgements and partial assignments", () => {
     expect(() => parseContinuation({ ...result, ...changed })).toThrow();
   }
 });
+
+it("preserves parsed assignment identity, extra fields and serialization for saved sessions", async () => {
+  const payload = {
+    extra: "kept",
+    items: [{ spelling: "blim", sample_id: "a", position: 0, extra: true }],
+    rubric: { ...RUBRIC, extra: true },
+  };
+  const serialized = JSON.stringify(payload);
+  expect(parseAssignment(payload)).toBe(payload);
+  expect(JSON.stringify(parseAssignment(payload))).toBe(serialized);
+  const key = crypto.randomUUID();
+  await store.ensure(key);
+  await store.assign(key, payload);
+  store.close();
+  store = await ReviewStore.open();
+  await expect(
+    store.assign(key, parseAssignment(JSON.parse(serialized))),
+  ).resolves.toMatchObject({ assignment: payload });
+});
+
+it("rejects non-object answers at the payload boundary", () => {
+  for (const value of [null, undefined, false, 3, "rated", [], {}]) {
+    expect(validAnswer(value)).toBe(false);
+  }
+});

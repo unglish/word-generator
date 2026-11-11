@@ -166,15 +166,18 @@ export function nextAssignment(state: CollectorState, participant: string) {
   }
   return { exhausted: true as const };
 }
-export function parseSubmission(value: unknown): CollectorSubmission {
+function assertSubmission(
+  value: unknown,
+): asserts value is CollectorSubmission {
   if (!value || typeof value !== "object")
     throw new CollectorError("Invalid answer submission.", 400);
-  const submission = value as CollectorSubmission;
+  const submission = value as Record<string, unknown>;
   const keys = Object.keys(value).sort();
   if (
     JSON.stringify(keys) !==
       JSON.stringify(["answer", "position", "session_id"]) ||
     typeof submission.session_id !== "string" ||
+    typeof submission.position !== "number" ||
     !Number.isSafeInteger(submission.position) ||
     submission.position < 0 ||
     !submission.answer ||
@@ -186,7 +189,10 @@ export function parseSubmission(value: unknown): CollectorSubmission {
   ) {
     throw new CollectorError("Invalid answer submission.", 400);
   }
-  return structuredClone(submission);
+}
+export function parseSubmission(value: unknown): CollectorSubmission {
+  assertSubmission(value);
+  return structuredClone(value);
 }
 export function responseForSubmission(
   state: CollectorState,
