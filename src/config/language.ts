@@ -1,3 +1,4 @@
+import { matchesPhoneme } from "../utils/phonemes.js";
 import {
   Phoneme,
   Grapheme,
@@ -1167,23 +1168,6 @@ function splitBoundaryPairKey(key: string): [string, string] {
   return [coda, onset];
 }
 
-function matchesBoundarySelector(
-  phoneme: Phoneme,
-  selector: BoundaryPhonemeSelector,
-): boolean {
-  if (selector.sounds && !selector.sounds.includes(phoneme.sound)) return false;
-  if (
-    selector.manner &&
-    !selector.manner.includes(phoneme.mannerOfArticulation)
-  )
-    return false;
-  if (selector.place && !selector.place.includes(phoneme.placeOfArticulation))
-    return false;
-  if (selector.voiced !== undefined && selector.voiced !== phoneme.voiced)
-    return false;
-  return true;
-}
-
 function matchesBoundaryRelation(
   coda: Phoneme,
   onset: Phoneme,
@@ -1238,10 +1222,10 @@ function expandBoundaryRule(
   onsetInventory: Phoneme[],
 ): Set<string> {
   const matchedCodas = codaInventory.filter((p) =>
-    matchesBoundarySelector(p, rule.coda),
+    matchesPhoneme(p, rule.coda),
   );
   const matchedOnsets = onsetInventory.filter((p) =>
-    matchesBoundarySelector(p, rule.onset),
+    matchesPhoneme(p, rule.onset),
   );
   const expanded = new Set<string>();
 
