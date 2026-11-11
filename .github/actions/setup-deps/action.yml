@@ -1,0 +1,26 @@
+name: Set up Node and dependencies
+description: >-
+  Node 24 plus node_modules. node_modules is restored from the Actions cache
+  when package.json and package-lock.json are unchanged; otherwise `npm ci`
+  runs and the fresh tree is saved straight away, before any build or test can
+  write into it.
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+    - id: restore
+      uses: actions/cache/restore@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ runner.os }}-${{ runner.arch }}-node24-${{ hashFiles('package.json', 'package-lock.json') }}
+    - if: steps.restore.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm ci
+    - if: steps.restore.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: node_modules
+        key: ${{ steps.restore.outputs.cache-primary-key }}
