@@ -23,6 +23,7 @@ import type {
 // ---------------------------------------------------------------------------
 
 interface GeneratorRuntime {
+  phonemeBySound?: ReadonlyMap<string, Phoneme>;
   config: {
     morphology?: import("../../config/language.js").MorphologyConfig;
     phonemes: Phoneme[];
@@ -104,28 +105,6 @@ function realizeBoundaryHiatus(
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-function getLastPhoneme(context: WordGenerationContext): Phoneme | undefined {
-  const syllables = context.word.syllables;
-  for (let i = syllables.length - 1; i >= 0; i--) {
-    const syl = syllables[i];
-    if (syl.coda.length > 0) return syl.coda[syl.coda.length - 1];
-    if (syl.nucleus.length > 0) return syl.nucleus[syl.nucleus.length - 1];
-    if (syl.onset.length > 0) return syl.onset[syl.onset.length - 1];
-  }
-  return undefined;
-}
-
-function getFirstPhoneme(context: WordGenerationContext): Phoneme | undefined {
-  const syllables = context.word.syllables;
-  for (let i = 0; i < syllables.length; i++) {
-    const syl = syllables[i];
-    if (syl.onset.length > 0) return syl.onset[0];
-    if (syl.nucleus.length > 0) return syl.nucleus[0];
-    if (syl.coda.length > 0) return syl.coda[0];
-  }
-  return undefined;
-}
 
 type BoundarySegment = "onset" | "nucleus" | "coda";
 
@@ -311,42 +290,10 @@ function resolveAllomorph(
 // AffixSyllable -> Syllable conversion
 // ---------------------------------------------------------------------------
 
-/** Cached phoneme-by-sound map, keyed by inventory identity (reference). */
-let _cachedInventory: Phoneme[] | undefined;
-let _cachedPhonemeMap: Map<string, Phoneme> | undefined;
-
-function getPhonemeMap(inventory: Phoneme[]): Map<string, Phoneme> {
-  if (_cachedInventory === inventory && _cachedPhonemeMap)
-    return _cachedPhonemeMap;
-  const map = new Map<string, Phoneme>();
-  for (const p of inventory) map.set(p.sound, p);
-  _cachedInventory = inventory;
-  _cachedPhonemeMap = map;
-  return map;
-}
-
 function affixSyllablesToSyllables(
   templates: AffixSyllable[],
-  inventory: Phoneme[],
+  resolve: (sound: string) => Phoneme,
 ): Syllable[] {
-  const phonemeMap = getPhonemeMap(inventory);
-
-  function resolve(sound: string): Phoneme {
-    const p = phonemeMap.get(sound);
-    if (!p) {
-      return {
-        sound,
-        voiced: true,
-        mannerOfArticulation: "midVowel" as const,
-        placeOfArticulation: "central" as const,
-        startWord: 1,
-        midWord: 1,
-        endWord: 1,
-      };
-    }
-    return p;
-  }
-
   return templates.map((t) => ({
     onset: t.onset.map(resolve),
     nucleus: t.nucleus.map(resolve),
@@ -476,26 +423,26 @@ export function prepareMorphology(
 ): PreparedMorphology | undefined {
   if (plan.template === "bare") return undefined;
 
-  const config = rt.config;
   const syllables = context.word.syllables;
 
   let prefix: ResolvedAffix | undefined;
   let suffix: ResolvedAffix | undefined;
 
   if (plan.prefix) {
-    const firstPhoneme = getFirstPhoneme(context);
+    const firstPhoneme = getBoundarySegmentRef(syllables, true)?.phoneme;
     prefix = resolveAllomorph(plan.prefix, firstPhoneme, true);
   }
 
   if (plan.suffix) {
-    const lastPhoneme = getLastPhoneme(context);
+    const lastPhoneme = getBoundarySegmentRef(syllables, false)?.phoneme;
     suffix = resolveAllomorph(plan.suffix, lastPhoneme, false);
   }
   const prefixVariant = prefix?.resolved;
   const suffixVariant = suffix?.resolved;
 
-  const inventory = config.phonemes;
-  const phonemeMap = getPhonemeMap(inventory);
+  const phonemeMap =
+    rt.phonemeBySound ??
+    new Map(rt.config.phonemes.map((phoneme) => [phoneme.sound, phoneme]));
 
   function resolvePhoneme(sound: string): Phoneme {
     return (
@@ -539,13 +486,13 @@ export function prepareMorphology(
   const prefixSyllables = prefixVariant
     ? prefixVariant.syllables !== undefined &&
       prefixVariant.syllables.length > 0
-      ? affixSyllablesToSyllables(prefixVariant.syllables, inventory)
+      ? affixSyllablesToSyllables(prefixVariant.syllables, resolvePhoneme)
       : []
     : [];
   const suffixSyllables = suffixVariant
     ? suffixVariant.syllables !== undefined &&
       suffixVariant.syllables.length > 0
-      ? affixSyllablesToSyllables(suffixVariant.syllables, inventory)
+      ? affixSyllablesToSyllables(suffixVariant.syllables, resolvePhoneme)
       : []
     : [];
 
