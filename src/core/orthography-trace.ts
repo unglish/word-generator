@@ -107,14 +107,12 @@ export function remapOwnersThroughRewrite(
       srcIdx++;
       continue;
     }
-    // Inserted character: attach to the closest known neighbor owner.
     const leftOwner = tgtIdx > 0 ? targetOwners[tgtIdx - 1] : -1;
     const rightOwner = sourceOwners[srcIdx] ?? -1;
     targetOwners[tgtIdx] = leftOwner !== -1 ? leftOwner : rightOwner;
     tgtIdx++;
   }
 
-  // Fill any unresolved owners by nearest assigned neighbor.
   for (let k = 0; k < targetOwners.length; k++) {
     if (targetOwners[k] !== -1) continue;
     let resolved = -1;

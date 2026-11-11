@@ -22,9 +22,9 @@ export const sonorityToMannerOfArticulation = {
 
 export const sonorityToPlaceOfArticulation = {
   // Vowel places of articulation
-  front: 0.25, // Vowel: Front
-  central: 0, // Vowel: Central
-  back: -0.25, // Vowel: Back
+  front: 0.25,
+  central: 0,
+  back: -0.25,
 
   // Consonants:
   bilabial: -0.5, // Lower sonority: Complete closure, less airflow
@@ -574,7 +574,6 @@ for (const position of ["onset", "nucleus", "coda"] as const) {
   }
 }
 
-// Pre-compute sonority levels
 export const sonorityLevels = inventorySonorityLevels(phonemes, {
   mannerOfArticulation: sonorityToMannerOfArticulation,
   placeOfArticulation: sonorityToPlaceOfArticulation,

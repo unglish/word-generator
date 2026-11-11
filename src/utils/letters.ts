@@ -8,15 +8,17 @@ export const VOWEL_LETTERS = new Set(["a", "e", "i", "o", "u", "y"]);
 export function isVowelChar(ch: string, idx: number, str: string): boolean {
   const lower = ch.toLowerCase();
   if (lower === "y") {
-    // Y followed by a vowel letter (a,e,i,o,u) is consonantal (e.g. "yet", "yoga", "beyond")
-    // Y in all other positions is a vowel (e.g. "gym", "fly", "myth")
     const next = idx + 1 < str.length ? str[idx + 1].toLowerCase() : "";
     return next === "" || !"aeiou".includes(next);
   }
   return VOWEL_LETTERS.has(lower);
 }
 
-export function isConsonantLetter(ch: string, idx?: number, str?: string): boolean {
+export function isConsonantLetter(
+  ch: string,
+  idx?: number,
+  str?: string,
+): boolean {
   if (idx !== undefined && str !== undefined) {
     return !isVowelChar(ch, idx, str);
   }

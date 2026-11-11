@@ -232,7 +232,6 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
   const cl = config.clusterLimits;
   const sc = config.sonorityConstraints;
 
-  // Build cluster weight maps from config
   const clusterWeights = config.clusterWeights
     ? {
       onset: config.clusterWeights.onset
@@ -260,13 +259,11 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     }
     : undefined;
 
-  // Build banned nucleus+coda map for efficient lookup during coda selection
   const nucleusCodaRules =
     config.codaConstraints?.bannedNucleusCodaCombinations;
   const bannedNucleusCodaMap = buildBannedNucleusPairs(nucleusCodaRules);
   const bannedNucleusOnsetMap = buildBannedNucleusPairs(nucleusCodaRules, true);
 
-  // Pre-resolve bridge phoneme options for vowel hiatus repair
   const bridgePairs =
     config.hiatusPolicy?.fallbackBridgeOnsets ?? defaultFallbackBridgeOnsets();
   const bridgePhonemeOptions: [Phoneme, number][] = [];
@@ -448,12 +445,10 @@ function clusterCandidateRejection(
     if (shapeReason) return shapeReason;
   }
 
-  // Reject phonemes banned from coda position entirely
   if (context.position === "coda" && rt.bannedCodaSet?.has(sound)) {
     return "banned-coda";
   }
 
-  // Reject a first onset phoneme banned after the preceding open syllable's nucleus
   if (
     context.position === "onset" &&
     clusterSounds.length === 0 &&
@@ -462,7 +457,6 @@ function clusterCandidateRejection(
     return "nucleus-onset";
   }
 
-  // Reject coda phonemes banned after the current nucleus
   if (
     context.position === "coda" &&
     context.nucleus &&
@@ -477,7 +471,6 @@ function clusterCandidateRejection(
     }
   }
 
-  // Check cluster weight threshold: reject if weight multiplier is below 0.01 (1%)
   if (clusterSounds.length > 0 && rt.clusterWeights) {
     const weightsForPosition =
       context.position === "onset"
@@ -499,7 +492,6 @@ function clusterCandidateRejection(
     }
   }
 
-  // When attested onset whitelist exists, use it as the primary gate for onsets
   if (
     context.position === "onset" &&
     rt.attestedOnsetSet &&
@@ -511,7 +503,6 @@ function clusterCandidateRejection(
       : "attestation";
   }
 
-  // When attested coda whitelist exists, use it as the primary gate for codas
   if (
     context.position === "coda" &&
     rt.attestedCodaSet &&
@@ -523,12 +514,10 @@ function clusterCandidateRejection(
       : "attestation";
   }
 
-  // Fallback: standard sonority and regex checks
   if (!checkSonority(p, rt, context)) return "sonority";
 
   const regex = rt.invalidClusterRegexes[context.position];
   if (regex) {
-    // Build potential cluster string without allocating array
     let potentialCluster = "";
     for (let i = 0; i < clusterSounds.length; i++)
       potentialCluster += clusterSounds[i];
@@ -663,7 +652,6 @@ function selectPhoneme(
 ): Phoneme | null {
   const { position, isStartOfWord, isEndOfWord, rand, clusterSounds } = context;
 
-  // Pre-compute cluster weight map once for all candidates
   let weightMap: Map<string, number> | undefined;
   if (
     rt &&
@@ -733,7 +721,6 @@ function shouldStopClusterGrowth(
 ): boolean {
   const { position, cluster } = context;
 
-  // Check cluster length limits
   if (rt.clusterLimits) {
     const cl = rt.clusterLimits;
     if (position === "onset" && cluster.length >= cl.maxOnset) return true;
@@ -748,8 +735,6 @@ function shouldStopClusterGrowth(
     }
   }
 
-  // For onsets with attested whitelist: stop if current cluster is an exact match
-  // and no longer attested onset extends it
   if (position === "onset" && rt.attestedOnsetSet && cluster.length >= 2) {
     const key = context.clusterSounds.join("|");
     if (rt.attestedOnsetSet.has(key)) {
@@ -758,8 +743,6 @@ function shouldStopClusterGrowth(
     }
   }
 
-  // For codas with attested whitelist: stop if current cluster is an exact match
-  // and no longer attested coda extends it
   if (position === "coda" && rt.attestedCodaSet && cluster.length >= 2) {
     const key = context.clusterSounds.join("|");
     if (rt.attestedCodaSet.has(key)) {
@@ -990,12 +973,10 @@ function pickCoda(
     }
   }
 
-  // Add 's' to the end of the last syllable occasionally
   if (allowMutations && isEndOfWord) {
     let finalSProbability = probability.finalS;
     let shouldSkipFinalS = false;
 
-    // Apply cluster-specific weight if appending /s/ would create a weighted cluster
     if (coda.length > 0 && rt.clusterWeights?.coda) {
       const weightMap = getClusterWeightMap(
         rt.clusterWeights.coda,
@@ -1070,7 +1051,6 @@ function adjustBoundary(
   if (!lastCodaPhoneme || !firstOnsetPhoneme)
     return [prevSyllable, currentSyllable];
 
-  // Check 1: equal-sonority probabilistic drop (fine-grained levels)
   const lastCodaSonority = getSonority(rt, lastCodaPhoneme);
   const firstOnsetSonority = getSonority(rt, firstOnsetPhoneme);
   const { equalSonorityDrop, risingCodaDrop } =
@@ -1091,7 +1071,6 @@ function adjustBoundary(
     prevSyllable.coda.pop();
   }
 
-  // Check 2: rising-coda probabilistic drop (coarse manner-class levels)
   if (
     prevSyllable.coda.length > 0 &&
     currentSyllable.onset.length > 0 &&
@@ -1112,8 +1091,6 @@ function adjustBoundary(
     });
   }
 
-  // Check 3: full junction validation safety loop.
-  // Drop coda-final phonemes until boundary junction is valid or coda is empty.
   const maxDrops = prevSyllable.coda.length;
   for (let d = 0; d < maxDrops; d++) {
     if (prevSyllable.coda.length === 0) break;
@@ -1496,16 +1473,12 @@ function distributePhonemes(
     rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
   const maxConsonants = syllableCount * (maxOnset + maxCoda);
 
-  // Clamp target consonants to feasible range instead of throwing.
   const rawTargetConsonants = targetPhonemes - syllableCount;
   const targetConsonants = Math.max(
     0,
     Math.min(rawTargetConsonants, maxConsonants),
   );
 
-  // Sample one natural plan, then tweak to match the budget.
-  // The old approach tried 200 random samples hoping for an exact match —
-  // this is O(syllableCount) instead of O(200 × syllableCount).
   const plan = sampleConsonantPlan(rt, syllableCount, rand);
   const consonants = plan.reduce(
     (sum, s) => sum + s.onsetLength + s.codaLength,
@@ -1632,8 +1605,6 @@ function generateSyllables(
 
   const syllables = context.word.syllables;
 
-  // Repair vowel hiatus: insert glide onset when two nuclei meet with no
-  // intervening consonant (no coda on prev + no onset on current).
   repairVowelHiatus(rt, syllables, context.rand, context.trace);
 
   context.word.syllables = syllables;

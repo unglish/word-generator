@@ -123,8 +123,7 @@ function getPositionWeight(
 
 /**
  * Build position-keyed grapheme maps and cumulative frequency tables
- * from a flat array of graphemes. Extracted from the former top-level
- * imperative loop so it can be tested and reused independently.
+ * from a flat array of graphemes.
  */
 export function buildGraphemeMaps(allGraphemes: Grapheme[]): {
   graphemeMaps: GraphemeMaps;

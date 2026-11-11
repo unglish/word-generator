@@ -1303,7 +1303,6 @@ export function validateConfig(config: LanguageConfig): void {
     }
   }
 
-  // Check phonemes ⊇ phonemeMaps values
   const phonemeSet = new Set(config.phonemes);
   for (const position of ["onset", "nucleus", "coda"] as const) {
     for (const [sound, list] of config.phonemeMaps[position]) {
@@ -1317,7 +1316,6 @@ export function validateConfig(config: LanguageConfig): void {
     }
   }
 
-  // Check graphemes ⊇ graphemeMaps values
   const graphemeSet = new Set(config.graphemes);
   for (const position of ["onset", "nucleus", "coda"] as const) {
     for (const [sound, list] of config.graphemeMaps[position]) {
@@ -1331,7 +1329,6 @@ export function validateConfig(config: LanguageConfig): void {
     }
   }
 
-  // Check probability values in range
   const { probability } = config.generationWeights;
   for (const [key, value] of Object.entries(probability)) {
     if (value < 0 || value > 100) {
@@ -2074,7 +2071,6 @@ export function validateConfig(config: LanguageConfig): void {
     });
   }
 
-  // Top-down phoneme length weights are required for both modes.
   if (!config.phonemeLengthWeights?.text?.length) {
     throw new Error(
       "phonemeLengthWeights.text is required and must be non-empty",

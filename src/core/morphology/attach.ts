@@ -249,7 +249,6 @@ function resolveAllomorph(
   phoneme: Phoneme | undefined,
   isPrefix: boolean,
 ): ResolvedAffix {
-  // Sort by specificity: conditions with manner/place constraints before voiced-only
   const selected = phoneme
     ? affix.allomorphs
       ?.map((variant, index) => ({ variant, index }))
@@ -506,7 +505,6 @@ export function prepareMorphology(
       : []
     : [];
 
-  // Handle zero-syllable affixes: append phonemes directly to root coda/onset
   if (
     suffixVariant &&
     suffixVariant.syllableCount === 0 &&

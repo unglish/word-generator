@@ -151,7 +151,6 @@ const applyAspiration = (
 ): void => {
   const syllables = context.word.syllables;
 
-  // Keep hot path lean when tracing is disabled and aspiration is disabled.
   if (!context.trace && !rules.enabled) return;
 
   for (let i = 0; i < syllables.length; i++) {
@@ -215,10 +214,8 @@ export const applyStress = (
     context.word.syllables,
     stress.syllableWeight,
   );
-  // Rule 1: Primary stress
   const primaryIndex = applyPrimaryStress(context, rand, stress, analysis);
 
-  // Rule 2: Secondary stress
   const secondary = applySecondaryStress(context, rand, stress, analysis);
 
   if (context.trace) {
@@ -233,7 +230,6 @@ export const applyStress = (
     };
   }
 
-  // Rule 3: Rhythmic stress
   applyRhythmicStress(context, rand, stress);
 };
 
@@ -436,24 +432,19 @@ const reduceUnstressedVowels = (
   const { word } = context;
   const syllables = word.syllables;
 
-  // Monosyllabic words don't reduce
   if (syllables.length <= 1) return;
 
-  // Build a lookup map for rules by source sound
   const ruleMap = new Map(config.rules.map((r) => [r.source, r]));
 
   for (let si = 0; si < syllables.length; si++) {
     const syllable = syllables[si];
 
-    // Primary-stressed syllables never reduce
     if (syllable.stress === "ˈ") continue;
 
-    // Secondary-stressed syllables: only reduce if config allows
     if (syllable.stress === "ˌ") {
       if (!config.reduceSecondaryStress) continue;
     }
 
-    // Determine positional modifier
     let positionalMod = 1.0;
     if (config.positionalModifiers) {
       if (si === 0) {
@@ -471,11 +462,9 @@ const reduceUnstressedVowels = (
       // Skip tense vowels — they resist reduction
       if (vowel.tense) continue;
 
-      // Look up rule; if not found, vowel is immune
       const rule = ruleMap.get(vowel.sound);
       if (!rule) continue;
 
-      // Compute effective probability
       let prob = rule.probability * positionalMod;
       if (
         syllable.stress === "ˌ" &&
@@ -485,7 +474,6 @@ const reduceUnstressedVowels = (
       }
       prob = Math.min(100, Math.max(0, Math.round(prob)));
 
-      // Find target phoneme from inventory
       const target = phonemes.find((p) => p.sound === rule.target);
       if (!target) continue;
 

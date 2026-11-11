@@ -6,9 +6,6 @@ export type RNG = () => number;
 /**
  * Create a deterministic RNG seeded with a 32-bit integer (Mulberry32).
  *
- * Excellent distribution, 4-line core, 32-bit state. Replaces the old
- * `Math.sin()` hack used in `createSeededRandom`.
- *
  * @param seed - Integer seed value.
  * @returns A deterministic {@link RNG}.
  */
@@ -30,7 +27,3 @@ export function createSeededRng(seed: number): RNG {
 export function createDefaultRng(): RNG {
   return () => Math.random();
 }
-
-// ---------------------------------------------------------------------------
-// Internal RNG implementations
-// ---------------------------------------------------------------------------

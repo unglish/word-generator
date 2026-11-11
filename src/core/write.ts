@@ -462,14 +462,6 @@ function selectByFrequency(
   throw new Error("Grapheme selection failed despite positive weights");
 }
 
-// ---------------------------------------------------------------------------
-// Pipeline Step 5: Doubling (factory pattern)
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// Consonant pileup repair (grapheme-aware)
-// ---------------------------------------------------------------------------
-
 /**
  * Repair consonant pileups by capping consecutive consonant grapheme units at `max`.
  * Mutates `cleanParts` and `hyphenatedParts` in place.
@@ -492,7 +484,6 @@ export function repairConsonantPileups(
     const word = cleanParts.join("");
     const tokens = tokenizeGraphemes(word, gList);
 
-    // Find first consonant run exceeding max (in tokens)
     let runStart = -1;
     let runLen = 0;
     let found = false;
@@ -517,7 +508,6 @@ export function repairConsonantPileups(
 
     if (!found) return;
 
-    // Convert token indices to character positions
     const tokenCharStarts: number[] = [];
     let charPos = 0;
     for (const t of tokens) {
@@ -531,7 +521,6 @@ export function repairConsonantPileups(
         ? tokenCharStarts[foundRunStart + foundRunLen]
         : word.length;
 
-    // Map character positions to parts
     const cumLengths: number[] = [];
     let cum = 0;
     for (const part of cleanParts) {
@@ -551,14 +540,12 @@ export function repairConsonantPileups(
     const excess = foundRunLen - maxConsonantGraphemes;
 
     if (startPart === endPart) {
-      // Run within a single syllable — drop interior tokens
       const partCharStart = startPart > 0 ? cumLengths[startPart - 1] : 0;
       const runTokens = tokens.slice(
         foundRunStart,
         foundRunStart + foundRunLen,
       );
 
-      // Remove interior tokens (not first/last), middle-outward
       const interior = runTokens.slice(1, -1);
       const midIdx = Math.floor(interior.length / 2);
       const removeOrder: number[] = [];
@@ -603,9 +590,7 @@ export function repairConsonantPileups(
       continue;
     }
 
-    // Run spans boundary — count coda vs onset tokens
     const boundaryCharIdx = cumLengths[startPart];
-    // Count tokens belonging to coda (chars < boundaryCharIdx)
     let codaTokenCount = 0;
     for (let ti = foundRunStart; ti < foundRunStart + foundRunLen; ti++) {
       if (tokenCharStarts[ti] < boundaryCharIdx) codaTokenCount++;
@@ -613,18 +598,14 @@ export function repairConsonantPileups(
     }
     const onsetTokenCount = foundRunLen - codaTokenCount;
 
-    // Drop from heavier side; tie → coda
     const dropFromCoda = codaTokenCount >= onsetTokenCount;
     const targetPartIdx = dropFromCoda ? startPart : endPart;
     const part = cleanParts[targetPartIdx];
 
-    // Tokenize just this part
     const partTokens = tokenizeGraphemes(part, gList);
 
-    // Find the consonant tokens at the relevant edge
     const edgeTokens: { tokenIdx: number; token: string }[] = [];
     if (dropFromCoda) {
-      // Consonant tokens at end of part
       for (
         let i = partTokens.length - 1;
         i >= 0 && isConsonantToken(partTokens[i]);
@@ -633,7 +614,6 @@ export function repairConsonantPileups(
         edgeTokens.unshift({ tokenIdx: i, token: partTokens[i] });
       }
     } else {
-      // Consonant tokens at start of part
       for (
         let i = 0;
         i < partTokens.length && isConsonantToken(partTokens[i]);
@@ -643,7 +623,6 @@ export function repairConsonantPileups(
       }
     }
 
-    // Remove interior tokens first, then edges
     const toRemoveIndices = new Set<number>();
     if (edgeTokens.length > 2) {
       const interior = edgeTokens.slice(1, -1);
@@ -658,7 +637,6 @@ export function repairConsonantPileups(
         toRemoveIndices.add(e.tokenIdx);
       }
     }
-    // If still need more, remove from edges
     if (toRemoveIndices.size < excess) {
       const candidates = dropFromCoda ? edgeTokens : [...edgeTokens].reverse();
       for (const e of candidates) {
@@ -776,7 +754,6 @@ export function repairJunctions(
         }
         if (lastCodaConsonantIdx < 0) continue;
 
-        // Save the dropped token, then splice it out
         const droppedToken = codaTokens[lastCodaConsonantIdx];
         const droppedStart = codaTokens
           .slice(0, lastCodaConsonantIdx)
@@ -790,7 +767,6 @@ export function repairJunctions(
         );
         codaTokens.splice(lastCodaConsonantIdx, 1);
 
-        // If the new last consonant is identical (doubled), drop it too
         const newLastIdx =
           codaTokens.length > 0
             ? codaTokens.reduce(
@@ -813,7 +789,6 @@ export function repairJunctions(
         cleanParts[i] = codaTokens.join("");
         hyphenatedParts[i * 2] = cleanParts[i];
 
-        // Update coda phonemes for next pass (cascading repair)
         if (boundaries[i].codaCluster.length > 0) {
           boundaries[i].codaCluster.pop();
         }
@@ -841,7 +816,6 @@ export function repairConsonantLetters(
   for (let pass = 0; pass < 10; pass++) {
     const word = cleanParts.join("");
 
-    // Find first run of consonant letters exceeding max
     let runStart = -1;
     let runLen = 0;
     let found = false;
@@ -866,7 +840,6 @@ export function repairConsonantLetters(
 
     if (!found) return;
 
-    // Map char positions to parts
     const cumLengths: number[] = [];
     let cum = 0;
     for (const part of cleanParts) {
@@ -884,7 +857,6 @@ export function repairConsonantLetters(
     const startPart = partIndexOf(foundStart);
     const endPart = partIndexOf(foundStart + foundLen - 1);
 
-    // Drop from the heavier side at the boundary
     const boundaryCharIdx = startPart < endPart ? cumLengths[startPart] : -1;
 
     let dropPartIdx: number;
@@ -899,7 +871,6 @@ export function repairConsonantLetters(
     const part = cleanParts[dropPartIdx];
     const partStart = dropPartIdx > 0 ? cumLengths[dropPartIdx - 1] : 0;
 
-    // Find consonant letters in this part that are within the run
     const consonantIndices: number[] = [];
     for (let ci = 0; ci < part.length; ci++) {
       const globalIdx = partStart + ci;
@@ -914,7 +885,6 @@ export function repairConsonantLetters(
 
     if (consonantIndices.length <= 1) return; // can't drop
 
-    // Drop interior consonant (middle-outward)
     const interior = consonantIndices.slice(1, -1);
     const dropIdx =
       interior.length > 0
@@ -1005,7 +975,6 @@ export function repairFinalConsonantLetters(
   if (cleanParts.length === 0) return;
 
   const word = cleanParts.join("");
-  // Find trailing consonant run
   let runLen = 0;
   for (let i = word.length - 1; i >= 0; i--) {
     if (isConsonantLetter(word[i], i, word)) runLen++;
@@ -1014,11 +983,9 @@ export function repairFinalConsonantLetters(
 
   if (runLen <= maxLetters) return;
 
-  // Work on the last part
   const lastIdx = cleanParts.length - 1;
   let part = cleanParts[lastIdx];
 
-  // Find trailing consonant letters in this part
   let partRunLen = 0;
   for (let i = part.length - 1; i >= 0; i--) {
     if (isConsonantLetter(part[i], i, part)) partRunLen++;
@@ -1026,19 +993,14 @@ export function repairFinalConsonantLetters(
   }
 
   if (partRunLen <= maxLetters) {
-    // The run spans parts — just trim from the last part
-    // This is rare; keep what we have
     return;
   }
 
-  // Drop interior consonants from the trailing cluster to fit maxLetters
   const clusterStart = part.length - partRunLen;
   const cluster = part.slice(clusterStart);
 
-  // Keep first and last letters, drop from interior
   if (cluster.length <= maxLetters) return;
 
-  // Keep the last `maxLetters` letters (preserves word-final sounds)
   observe?.(
     lastIdx,
     clusterStart,
@@ -1070,7 +1032,6 @@ function buildSilentELookup(config: SilentEConfig): SilentELookup {
     }
     list.push({ from: swap.from, to: swap.to });
   }
-  // Sort each list longest-from-first for greedy matching
   for (const list of map.values()) {
     list.sort((a, b) => b.from.length - a.from.length);
   }
@@ -1107,42 +1068,32 @@ export function applySilentE(
   // Must have 1-2 coda consonants (silent-e works with clusters like "nce", "nge", "rse")
   if (lastSyl.coda.length < 1 || lastSyl.coda.length > 2) return;
 
-  // Must have a nucleus
   if (lastSyl.nucleus.length !== 1) return;
 
-  // Check excluded coda sounds (check last coda consonant — the one before "e")
   const codaSound = lastSyl.coda[lastSyl.coda.length - 1].sound;
   if (excludedCodas.has(codaSound)) return;
 
-  // Check if nucleus phoneme has eligible swaps
   const nucleusSound = lastSyl.nucleus[0].sound;
   const swaps = lookup.get(nucleusSound);
   if (!swaps) return;
 
-  // Get the nucleus grapheme that was selected for this syllable
   const nucleusForm = nucleusGraphemes[lastSylIdx];
   if (!nucleusForm) return;
 
-  // Find a matching swap
   const swap = swaps.find((s) => s.from === nucleusForm);
   if (!swap) return;
 
-  // Probability check — monosyllables get a higher rate (English monosyllables
-  // have ~16.6% silent-e vs ~8-10% for polysyllabic words)
+  // English monosyllables have ~16.6% silent-e vs ~8-10% for polysyllabic words.
   const effectiveProb =
     syllables.length === 1 ? Math.min(100, probability * 2.0) : probability;
   if (rand() >= effectiveProb / 100) return;
 
-  // Apply the swap: replace the vowel grapheme in the last clean part and append 'e'
   const lastPartIdx = cleanParts.length - 1;
   const part = cleanParts[lastPartIdx];
 
-  // Find the vowel grapheme in the written part.
-  // The nucleus grapheme should appear before the final consonant grapheme(s).
   const fromIdx = part.lastIndexOf(swap.from);
   if (fromIdx < 0) return;
 
-  // Ensure the swap target is in the vowel portion (before the final consonant letters)
   observe?.(lastPartIdx, fromIdx, swap.from.length, swap.to, "silentE:swap");
   // A coda spelling that already ends in e (ce, se, ge) supplies the marker: pace, not pacee.
   const marker = part.endsWith("e") ? "" : "e";
@@ -1194,17 +1145,14 @@ export function appendSilentE(
   const lastSyl = syllables[syllables.length - 1];
   if (lastSyl.coda.length === 0) return;
 
-  // Check the final coda sound
   const finalCodaSound = lastSyl.coda[lastSyl.coda.length - 1].sound;
   const probability = appendLookup.get(finalCodaSound);
   if (probability === undefined) return;
 
-  // Don't append if word already ends in 'e' (magic-e already applied)
   const lastPartIdx = cleanParts.length - 1;
   const part = cleanParts[lastPartIdx];
   if (part.length === 0 || part[part.length - 1] === "e") return;
 
-  // Probability check
   if (rand() >= probability / 100) return;
 
   observe?.(lastPartIdx, part.length, 0, "e", "silentE:append");
@@ -1302,7 +1250,6 @@ export function createWrittenFormGenerator(
     ? createSpellingCoveragePlanner(config, resolveGraphemes, doublingModel)
     : undefined;
 
-  // Silent-e pre-compilation
   const silentEConfig = config.silentE;
   const silentELookup = silentEConfig?.enabled
     ? buildSilentELookup(silentEConfig)
@@ -1442,7 +1389,6 @@ export function createWrittenFormGenerator(
     observeParts,
   }: WordSpelling): void {
     const { syllables } = context.word;
-    // Consonant pileup repair (grapheme-aware)
     const maxGraphemes = wfc?.maxConsonantGraphemes;
     if (maxGraphemes) {
       const before = context.trace ? cleanParts.join("") : "";
@@ -1492,7 +1438,6 @@ export function createWrittenFormGenerator(
           );
         }
       }
-      // Re-run pileup repair in case junction repair changed things
       if (maxGraphemes) {
         const beforePileup = context.trace ? cleanParts.join("") : "";
         repairConsonantPileups(
@@ -1510,7 +1455,6 @@ export function createWrittenFormGenerator(
       }
     }
 
-    // Raw consonant letter backstop
     if (wfc?.maxConsonantLetters) {
       const before = context.trace ? cleanParts.join("") : "";
       repairConsonantLetters(
@@ -1526,7 +1470,6 @@ export function createWrittenFormGenerator(
       );
     }
 
-    // Word-final consonant letter limit
     if (wfc?.maxFinalConsonantLetters) {
       const before = context.trace ? cleanParts.join("") : "";
       repairFinalConsonantLetters(
@@ -1720,7 +1663,7 @@ export function createWrittenFormGenerator(
     const observeParts = baseSpelling.observeParts("word", cleanParts);
     let currentSyllable: string[] = [];
     let currentSyllableOwners: number[] = [];
-    const nucleusGraphemes: string[] = []; // Track nucleus grapheme form per syllable
+    const nucleusGraphemes: string[] = [];
     let prefix = INITIAL_GRAPHEME_PREFIX;
     let finalVowel = NO_FINAL_VOWEL;
 

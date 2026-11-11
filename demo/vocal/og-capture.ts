@@ -50,7 +50,9 @@ async function loopSpeak(
       f0: F0,
     });
     const endSec = plan?.plan.end ?? 2.5;
-    await new Promise((r) => window.setTimeout(r, Math.max(900, endSec * 1000 + 80)));
+    await new Promise((r) =>
+      window.setTimeout(r, Math.max(900, endSec * 1000 + 80)),
+    );
     document.documentElement.dataset.ogSpeaking = "0";
     await new Promise((r) => window.setTimeout(r, 180));
   }
@@ -84,13 +86,14 @@ void (async () => {
       await new Promise((r) => setTimeout(r, 50));
     }
     if (!engine.latest) {
-      console.warn("no telemetry yet; continuing — mouth may stay neutral until speech");
+      console.warn(
+        "no telemetry yet; continuing — mouth may stay neutral until speech",
+      );
     }
 
     await new Promise((r) => setTimeout(r, 1700));
     markReady();
 
-    // Track articulator motion for the capture harness.
     let lastJaw = 0;
     let motionHits = 0;
     engine.onTelemetry((m) => {

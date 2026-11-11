@@ -191,7 +191,6 @@ export function toNarrowPronunciation(
   );
 }
 
-/** Inventory multi-char sounds + profile keys + already-narrow targets, longest first. */
 function buildLexicon(profile: NarrowIpaProfile): readonly string[] {
   const glyphs = new Set<string>();
   for (const phone of phonemes) glyphs.add(phone.sound);
@@ -224,8 +223,6 @@ function tokenizeIpaString(
       continue;
     }
     if (/\s/u.test(ch)) {
-      // Preserve interstitial whitespace for orphan/doc strings; all-whitespace
-      // inputs are rejected earlier by toNarrowIpa.
       tokens.push({ kind: "mark", value: ch });
       i += 1;
       continue;
@@ -240,7 +237,6 @@ function tokenizeIpaString(
     }
 
     if (matched === null) {
-      // Unknown single code point — leave unchanged (never delete).
       matched = String.fromCodePoint(ipa.codePointAt(i)!);
     }
 
