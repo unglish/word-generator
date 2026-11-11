@@ -3,11 +3,9 @@ name: Main
 # Runs on every push to main: the pre-release gate. Pull requests only lint,
 # typecheck and build (ci.yml); the full test suite (tests.yml) and the review
 # end-to-end suite run here, and the demo deploys to GitHub Pages only after
-# both pass on that commit.
-# The performance regression gate still runs on main for visibility, but does
-# not block Pages (so a flaky/stale floor cannot leave the demo site stuck on
-# an older publish). Dispatch it manually to redeploy without a new commit
-# (for example after changing a repository variable).
+# both pass on that commit. The paired performance gate also runs here for
+# visibility, but does not block Pages. Dispatch it manually to redeploy
+# without a new commit (for example after changing a repository variable).
 
 on:
   push:
@@ -32,15 +30,33 @@ jobs:
   review-e2e:
     uses: ./.github/workflows/review-e2e.yml
 
-  # Advisory on main: still runs and fails the overall workflow when the floor
-  # regresses, but deploy does not wait on it.
+  # Paired perf gate, advisory on main: deploy does not wait on it. It times
+  # the previous main commit and this one back to back on the same runner and
+  # fails on a relative slowdown, because absolute words/sec varies about 3x
+  # between runner hosts. The fixed floor (`npm run test:perf`) stays a local
+  # check. See scripts/perf-compare.mjs.
   perf:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup-deps
-      - name: Perf regression gate
-        run: npm run test:perf
+      # `before` is the previous tip of main for a push; a dispatch or a
+      # force-push without that commit falls back to the parent.
+      - name: Check out the previous main commit
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          base="$BEFORE"
+          if [ -z "$base" ] || ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            base=$(git rev-parse HEAD^)
+          fi
+          echo "Comparing $(git rev-parse --short HEAD) against $(git rev-parse --short "$base")"
+          git worktree add --detach ../perf-base "$base"
+          ln -s "$PWD/node_modules" ../perf-base/node_modules
+      - name: Paired perf gate (fails on a >5% median slowdown)
+        run: npm run perf:compare -- --base ../perf-base
 
   deploy:
     needs: [checks, review-e2e]

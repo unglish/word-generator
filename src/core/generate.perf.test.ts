@@ -2,23 +2,24 @@ import { describe, it, expect } from "vitest";
 import { generateWord, generateWords } from "./generate.js";
 
 /**
- * Performance regression gate for word generation.
- * 
- * Measures wall-clock throughput and asserts a minimum words/sec floor.
- * Threshold is set conservatively to avoid CI flakiness while still
- * catching meaningful regressions.
- * 
+ * Local performance floor for word generation.
+ *
+ * Measures wall-clock throughput and asserts a minimum words/sec floor. This
+ * is a local check only: shared CI runners vary about 3x in absolute speed, so
+ * CI instead runs the paired base-vs-head gate in `scripts/perf-compare.mjs`
+ * (`npm run perf:compare`). A busy machine also skews this floor locally;
+ * re-run on an idle one before trusting a failure.
+ *
  * Update MIN_WORDS_PER_SEC if you intentionally accept a speed tradeoff.
  */
 
-// CI runners are noisier than local machines, so use a slightly lower floor.
-const MIN_WORDS_PER_SEC = process.env.CI === "true" ? 4300 : 4500;
+const MIN_WORDS_PER_SEC = 4500;
 const SAMPLE_SIZE = 10000;
 const WARMUP_COUNT = 50;
 const VARIANCE_TRIALS = 3;
 const VARIANCE_BATCHES = 5;
 const VARIANCE_BATCH_SIZE = 200;
-const MAX_MEDIAN_VARIANCE = process.env.CI === "true" ? 4.0 : 3.0;
+const MAX_MEDIAN_VARIANCE = 3.0;
 
 describe("Word Generation Performance", () => {
   it(`should generate at least ${MIN_WORDS_PER_SEC} words/sec`, { timeout: 20_000 }, () => {
