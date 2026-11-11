@@ -1,6 +1,13 @@
 import { describe, it, expect } from "vitest";
 import { englishConfig } from "./english.js";
-import { LanguageConfig, computeSonorityLevels, expandClusterConstraintBans, isWholeWordAnchoredSpellingRule, resolveAspirationRules, validateConfig } from "./language.js";
+import {
+  LanguageConfig,
+  computeSonorityLevels,
+  expandClusterConstraintBans,
+  isWholeWordAnchoredSpellingRule,
+  resolveAspirationRules,
+  validateConfig,
+} from "./language.js";
 import { VOICED_BONUS, TENSE_BONUS } from "./weights.js";
 import { sonorityLevels } from "../elements/phonemes.js";
 import { Phoneme } from "../types.js";
@@ -52,23 +59,56 @@ describe("LanguageConfig", () => {
     it("should expand English boundary cluster rules to the expected banned pairs", () => {
       const expected = new Set([
         // /ŋ/ before anything except /k/, /g/
-        "ŋ|p", "ŋ|b", "ŋ|t", "ŋ|d",
-        "ŋ|f", "ŋ|v", "ŋ|θ", "ŋ|ð",
-        "ŋ|s", "ŋ|z", "ŋ|ʃ", "ŋ|ʒ",
-        "ŋ|tʃ", "ŋ|dʒ", "ŋ|m", "ŋ|n",
-        "ŋ|l", "ŋ|r", "ŋ|j", "ŋ|w",
+        "ŋ|p",
+        "ŋ|b",
+        "ŋ|t",
+        "ŋ|d",
+        "ŋ|f",
+        "ŋ|v",
+        "ŋ|θ",
+        "ŋ|ð",
+        "ŋ|s",
+        "ŋ|z",
+        "ŋ|ʃ",
+        "ŋ|ʒ",
+        "ŋ|tʃ",
+        "ŋ|dʒ",
+        "ŋ|m",
+        "ŋ|n",
+        "ŋ|l",
+        "ŋ|r",
+        "ŋ|j",
+        "ŋ|w",
         "ŋ|h",
         // /ʒ/ before stops
-        "ʒ|p", "ʒ|b", "ʒ|t", "ʒ|d", "ʒ|k", "ʒ|g",
+        "ʒ|p",
+        "ʒ|b",
+        "ʒ|t",
+        "ʒ|d",
+        "ʒ|k",
+        "ʒ|g",
         // /ð/ before stops
-        "ð|p", "ð|b", "ð|t", "ð|d", "ð|k", "ð|g",
+        "ð|p",
+        "ð|b",
+        "ð|t",
+        "ð|d",
+        "ð|k",
+        "ð|g",
         // Same-place stop sequences with opposite voicing
-        "p|b", "b|p", "t|d", "d|t", "k|g", "g|k",
+        "p|b",
+        "b|p",
+        "t|d",
+        "d|t",
+        "k|g",
+        "g|k",
         // Bilabial nasal + velar stop
-        "m|k", "m|g",
+        "m|k",
+        "m|g",
       ]);
       const actual = new Set(
-        expandClusterConstraintBans(englishConfig).map(([coda, onset]) => `${coda}|${onset}`),
+        expandClusterConstraintBans(englishConfig).map(
+          ([coda, onset]) => `${coda}|${onset}`,
+        ),
       );
       expect(actual).toEqual(expected);
     });
@@ -110,7 +150,9 @@ describe("LanguageConfig", () => {
       };
 
       const expanded = new Set(
-        expandClusterConstraintBans(configWithExtraOnsets).map(([coda, onset]) => `${coda}|${onset}`),
+        expandClusterConstraintBans(configWithExtraOnsets).map(
+          ([coda, onset]) => `${coda}|${onset}`,
+        ),
       );
       expect(expanded.has("ŋ|c")).toBe(true);
       expect(expanded.has("ŋ|q")).toBe(false);
@@ -181,12 +223,18 @@ describe("LanguageConfig", () => {
   describe("top-down phoneme targeting", () => {
     it("should define phoneme length weights for text and lexicon modes", () => {
       expect(englishConfig.phonemeLengthWeights.text.length).toBeGreaterThan(0);
-      expect(englishConfig.phonemeLengthWeights.lexicon.length).toBeGreaterThan(0);
+      expect(englishConfig.phonemeLengthWeights.lexicon.length).toBeGreaterThan(
+        0,
+      );
     });
 
     it("should define phoneme-to-syllable maps for text and lexicon modes", () => {
-      expect(Object.keys(englishConfig.phonemeToSyllableWeights.text).length).toBeGreaterThan(0);
-      expect(Object.keys(englishConfig.phonemeToSyllableWeights.lexicon).length).toBeGreaterThan(0);
+      expect(
+        Object.keys(englishConfig.phonemeToSyllableWeights.text).length,
+      ).toBeGreaterThan(0);
+      expect(
+        Object.keys(englishConfig.phonemeToSyllableWeights.lexicon).length,
+      ).toBeGreaterThan(0);
     });
   });
 
@@ -194,15 +242,21 @@ describe("LanguageConfig", () => {
     it("should use ot strategy", () => {
       expect(englishConfig.pronunciation.stress.primary.type).toBe("ot");
       expect(englishConfig.pronunciation.stress.primary.otConfig).toBeDefined();
-      expect(englishConfig.pronunciation.stress.primary.otConfig!.constraints.length).toBeGreaterThan(0);
+      expect(
+        englishConfig.pronunciation.stress.primary.otConfig!.constraints.length,
+      ).toBeGreaterThan(0);
     });
   });
 
   describe("aspiration", () => {
     it("should define English aspiration rules", () => {
       expect(englishConfig.pronunciation.aspiration).toBeDefined();
-      expect(englishConfig.pronunciation.aspiration!.targets.length).toBeGreaterThan(0);
-      expect(englishConfig.pronunciation.aspiration!.rules.length).toBeGreaterThan(0);
+      expect(
+        englishConfig.pronunciation.aspiration!.targets.length,
+      ).toBeGreaterThan(0);
+      expect(
+        englishConfig.pronunciation.aspiration!.rules.length,
+      ).toBeGreaterThan(0);
     });
 
     it("should resolve default aspiration selectors and rules", () => {
@@ -237,18 +291,28 @@ describe("morphology config", () => {
   it("should have template weights summing to 100 for both modes", () => {
     const { text, lexicon } = englishConfig.morphology!.templateWeights;
     expect(text.bare + text.suffixed + text.prefixed + text.both).toBe(100);
-    expect(lexicon.bare + lexicon.suffixed + lexicon.prefixed + lexicon.both).toBe(100);
+    expect(
+      lexicon.bare + lexicon.suffixed + lexicon.prefixed + lexicon.both,
+    ).toBe(100);
   });
 
   it("all affixes should have syllables defined", () => {
-    for (const affix of [...englishConfig.morphology!.prefixes, ...englishConfig.morphology!.suffixes]) {
-      expect(affix.syllables, `${affix.written} missing syllables`).toBeDefined();
+    for (const affix of [
+      ...englishConfig.morphology!.prefixes,
+      ...englishConfig.morphology!.suffixes,
+    ]) {
+      expect(
+        affix.syllables,
+        `${affix.written} missing syllables`,
+      ).toBeDefined();
     }
   });
 
   it("should have allomorphs on -ed and -s", () => {
-    const ed = englishConfig.morphology!.suffixes.find(s => s.written === "ed");
-    const s = englishConfig.morphology!.suffixes.find(s => s.written === "s");
+    const ed = englishConfig.morphology!.suffixes.find(
+      (s) => s.written === "ed",
+    );
+    const s = englishConfig.morphology!.suffixes.find((s) => s.written === "s");
     expect(ed?.allomorphs).toBeDefined();
     expect(ed!.allomorphs!.length).toBeGreaterThan(0);
     expect(s?.allomorphs).toBeDefined();
@@ -274,8 +338,14 @@ describe("validateConfig", () => {
         },
       ],
     };
-    expect(isWholeWordAnchoredSpellingRule(bad.spellingRules[bad.spellingRules.length - 1])).toBe(true);
-    expect(() => validateConfig(bad)).toThrow("must not use whole-word anchored patterns");
+    expect(
+      isWholeWordAnchoredSpellingRule(
+        bad.spellingRules[bad.spellingRules.length - 1],
+      ),
+    ).toBe(true);
+    expect(() => validateConfig(bad)).toThrow(
+      "must not use whole-word anchored patterns",
+    );
   });
 
   it("should reject whole-word anchored spelling rules that delete the word", () => {
@@ -291,8 +361,14 @@ describe("validateConfig", () => {
         },
       ],
     };
-    expect(isWholeWordAnchoredSpellingRule(bad.spellingRules[bad.spellingRules.length - 1])).toBe(true);
-    expect(() => validateConfig(bad)).toThrow("must not use whole-word anchored patterns");
+    expect(
+      isWholeWordAnchoredSpellingRule(
+        bad.spellingRules[bad.spellingRules.length - 1],
+      ),
+    ).toBe(true);
+    expect(() => validateConfig(bad)).toThrow(
+      "must not use whole-word anchored patterns",
+    );
   });
 
   it("should allow productive anchored spelling rules with captures", () => {
@@ -308,7 +384,11 @@ describe("validateConfig", () => {
         },
       ],
     };
-    expect(isWholeWordAnchoredSpellingRule(ok.spellingRules[ok.spellingRules.length - 1])).toBe(false);
+    expect(
+      isWholeWordAnchoredSpellingRule(
+        ok.spellingRules[ok.spellingRules.length - 1],
+      ),
+    ).toBe(false);
     expect(() => validateConfig(ok)).not.toThrow();
   });
 
@@ -325,7 +405,11 @@ describe("validateConfig", () => {
         },
       ],
     };
-    expect(isWholeWordAnchoredSpellingRule(ok.spellingRules[ok.spellingRules.length - 1])).toBe(false);
+    expect(
+      isWholeWordAnchoredSpellingRule(
+        ok.spellingRules[ok.spellingRules.length - 1],
+      ),
+    ).toBe(false);
     expect(() => validateConfig(ok)).not.toThrow();
   });
 
@@ -334,7 +418,13 @@ describe("validateConfig", () => {
       ...englishConfig,
       gapSpellings: [
         ...(englishConfig.gapSpellings ?? []),
-        { name: "toe", phonemes: ["t", "u"], replacement: "toe", weight: 5, targetLayer: "grapheme" as const },
+        {
+          name: "toe",
+          phonemes: ["t", "u"],
+          replacement: "toe",
+          weight: 5,
+          targetLayer: "grapheme" as const,
+        },
       ],
     };
     expect(() => validateConfig(ok)).not.toThrow();
@@ -345,10 +435,17 @@ describe("validateConfig", () => {
       ...englishConfig,
       gapSpellings: [
         ...(englishConfig.gapSpellings ?? []),
-        { name: "duplicate-to", phonemes: ["t", "u"], replacement: "to", targetLayer: "grapheme" as const },
+        {
+          name: "duplicate-to",
+          phonemes: ["t", "u"],
+          replacement: "to",
+          targetLayer: "grapheme" as const,
+        },
       ],
     };
-    expect(() => validateConfig(bad)).toThrow("gapSpellings has duplicate variant for \"duplicate-to\"");
+    expect(() => validateConfig(bad)).toThrow(
+      "gapSpellings has duplicate variant for \"duplicate-to\"",
+    );
   });
 
   it("should reject duplicate gap-spelling variants even when target layers differ", () => {
@@ -356,10 +453,17 @@ describe("validateConfig", () => {
       ...englishConfig,
       gapSpellings: [
         ...(englishConfig.gapSpellings ?? []),
-        { name: "duplicate-to-layer", phonemes: ["t", "u"], replacement: "to", targetLayer: "spellingRule" as const },
+        {
+          name: "duplicate-to-layer",
+          phonemes: ["t", "u"],
+          replacement: "to",
+          targetLayer: "spellingRule" as const,
+        },
       ],
     };
-    expect(() => validateConfig(bad)).toThrow("gapSpellings has duplicate variant for \"duplicate-to-layer\"");
+    expect(() => validateConfig(bad)).toThrow(
+      "gapSpellings has duplicate variant for \"duplicate-to-layer\"",
+    );
   });
 
   it("should reject duplicate gap-spelling variants even when hyphenation differs", () => {
@@ -386,10 +490,18 @@ describe("validateConfig", () => {
       ...englishConfig,
       gapSpellings: [
         ...(englishConfig.gapSpellings ?? []),
-        { name: "bad-weight", phonemes: ["t", "u"], replacement: "tow", weight: 0, targetLayer: "grapheme" as const },
+        {
+          name: "bad-weight",
+          phonemes: ["t", "u"],
+          replacement: "tow",
+          weight: 0,
+          targetLayer: "grapheme" as const,
+        },
       ],
     };
-    expect(() => validateConfig(bad)).toThrow("gapSpellings[16].weight must be a finite number > 0");
+    expect(() => validateConfig(bad)).toThrow(
+      "gapSpellings[16].weight must be a finite number > 0",
+    );
   });
 
   it("should reject gap spellings without a target layer", () => {
@@ -397,7 +509,11 @@ describe("validateConfig", () => {
       ...englishConfig,
       gapSpellings: [
         ...(englishConfig.gapSpellings ?? []),
-        { name: "layerless", phonemes: ["t", "u"], replacement: "teau" } as unknown as NonNullable<typeof englishConfig.gapSpellings>[number],
+        {
+          name: "layerless",
+          phonemes: ["t", "u"],
+          replacement: "teau",
+        } as unknown as NonNullable<typeof englishConfig.gapSpellings>[number],
       ],
     };
     expect(() => validateConfig(bad)).toThrow(
@@ -410,7 +526,12 @@ describe("validateConfig", () => {
       ...englishConfig,
       gapSpellings: [
         ...(englishConfig.gapSpellings ?? []),
-        { name: "bad-phoneme", phonemes: ["not-a-phoneme"], replacement: "x", targetLayer: "unknown" as const },
+        {
+          name: "bad-phoneme",
+          phonemes: ["not-a-phoneme"],
+          replacement: "x",
+          targetLayer: "unknown" as const,
+        },
       ],
     };
     expect(() => validateConfig(bad)).toThrow(
@@ -459,11 +580,18 @@ describe("validateConfig", () => {
         ...englishConfig.pronunciation,
         aspiration: {
           ...englishConfig.pronunciation.aspiration!,
-          rules: [{ ...englishConfig.pronunciation.aspiration!.rules[0], probability: 101 }],
+          rules: [
+            {
+              ...englishConfig.pronunciation.aspiration!.rules[0],
+              probability: 101,
+            },
+          ],
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.rules[0].probability is 101, must be in [0, 100]");
+    expect(() => validateConfig(bad)).toThrow(
+      "pronunciation.aspiration.rules[0].probability is 101, must be in [0, 100]",
+    );
   });
 
   it("should throw when aspiration target selector sounds is empty", () => {
@@ -477,7 +605,9 @@ describe("validateConfig", () => {
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.targets[0].sounds must not be empty");
+    expect(() => validateConfig(bad)).toThrow(
+      "pronunciation.aspiration.targets[0].sounds must not be empty",
+    );
   });
 
   it("should throw when aspiration target selector uses an unknown onset", () => {
@@ -491,7 +621,9 @@ describe("validateConfig", () => {
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.targets[0].sounds contains unknown onset phoneme \"not-a-phoneme\"");
+    expect(() => validateConfig(bad)).toThrow(
+      "pronunciation.aspiration.targets[0].sounds contains unknown onset phoneme \"not-a-phoneme\"",
+    );
   });
 
   it("should throw when aspiration target selector uses an unknown nucleus", () => {
@@ -505,7 +637,9 @@ describe("validateConfig", () => {
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.targets[0].sounds contains unknown nucleus phoneme \"not-a-phoneme\"");
+    expect(() => validateConfig(bad)).toThrow(
+      "pronunciation.aspiration.targets[0].sounds contains unknown nucleus phoneme \"not-a-phoneme\"",
+    );
   });
 
   it("should throw when aspiration previousCodaSounds uses an unknown coda", () => {
@@ -524,7 +658,9 @@ describe("validateConfig", () => {
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow("pronunciation.aspiration.rules[0].when.previousCodaSounds contains unknown coda phoneme \"not-a-phoneme\"");
+    expect(() => validateConfig(bad)).toThrow(
+      "pronunciation.aspiration.rules[0].when.previousCodaSounds contains unknown coda phoneme \"not-a-phoneme\"",
+    );
   });
 
   it("should throw when pronunciation config is missing", () => {
@@ -532,7 +668,9 @@ describe("validateConfig", () => {
       ...englishConfig,
       pronunciation: undefined as unknown as typeof englishConfig.pronunciation,
     };
-    expect(() => validateConfig(bad)).toThrow("pronunciation config is required");
+    expect(() => validateConfig(bad)).toThrow(
+      "pronunciation config is required",
+    );
   });
 
   it("should throw when a boundary policy value is out of range", () => {
@@ -546,7 +684,9 @@ describe("validateConfig", () => {
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow("generationWeights.boundaryPolicy.risingCodaDrop is 101, must be in [0, 100]");
+    expect(() => validateConfig(bad)).toThrow(
+      "generationWeights.boundaryPolicy.risingCodaDrop is 101, must be in [0, 100]",
+    );
   });
 
   it("should throw when hiatusPolicy bridge uses unknown phoneme", () => {
@@ -557,7 +697,9 @@ describe("validateConfig", () => {
         fallbackBridgeOnsets: [["not-a-phoneme", 100] as [string, number]],
       },
     };
-    expect(() => validateConfig(bad)).toThrow("hiatusPolicy.fallbackBridgeOnsets contains unknown phoneme \"not-a-phoneme\"");
+    expect(() => validateConfig(bad)).toThrow(
+      "hiatusPolicy.fallbackBridgeOnsets contains unknown phoneme \"not-a-phoneme\"",
+    );
   });
 
   it("should throw when morphology boundary bridge weight is invalid", () => {
@@ -571,7 +713,9 @@ describe("validateConfig", () => {
         },
       },
     };
-    expect(() => validateConfig(bad)).toThrow("morphology.boundaryPolicy.fallbackBridgeOnsets has invalid weight 0 for \"h\" (must be > 0)");
+    expect(() => validateConfig(bad)).toThrow(
+      "morphology.boundaryPolicy.fallbackBridgeOnsets has invalid weight 0 for \"h\" (must be > 0)",
+    );
   });
 
   it("should throw when a morphophonemic rule uses an unknown replacement phoneme", () => {
@@ -586,7 +730,10 @@ describe("validateConfig", () => {
               morphophonemicRules: [
                 {
                   name: "bad-replacement",
-                  phonologicalCondition: { position: "preceding", place: ["velar"] },
+                  phonologicalCondition: {
+                    position: "preceding",
+                    place: ["velar"],
+                  },
                   replaceSound: "not-a-phoneme",
                 },
               ],
@@ -595,7 +742,9 @@ describe("validateConfig", () => {
         ),
       },
     };
-    expect(() => validateConfig(bad)).toThrow(/morphology\.suffixes\[\d+\]\.morphophonemicRules\[0\]\.replaceSound contains unknown phoneme "not-a-phoneme"/);
+    expect(() => validateConfig(bad)).toThrow(
+      /morphology\.suffixes\[\d+\]\.morphophonemicRules\[0\]\.replaceSound contains unknown phoneme "not-a-phoneme"/,
+    );
   });
 
   it("should throw when a suffix morphophonemic rule uses following-position conditions", () => {
@@ -610,7 +759,10 @@ describe("validateConfig", () => {
               morphophonemicRules: [
                 {
                   name: "bad-position",
-                  phonologicalCondition: { position: "following", place: ["velar"] },
+                  phonologicalCondition: {
+                    position: "following",
+                    place: ["velar"],
+                  },
                   replaceSound: "s",
                 },
               ],
@@ -619,7 +771,9 @@ describe("validateConfig", () => {
         ),
       },
     };
-    expect(() => validateConfig(bad)).toThrow(/morphology\.suffixes\[\d+\]\.morphophonemicRules\[0\]\.phonologicalCondition\.position must be "preceding" for suffix rules/);
+    expect(() => validateConfig(bad)).toThrow(
+      /morphology\.suffixes\[\d+\]\.morphophonemicRules\[0\]\.phonologicalCondition\.position must be "preceding" for suffix rules/,
+    );
   });
 
   it("should throw when suffixed template weight is enabled without suffixes", () => {
@@ -694,7 +848,12 @@ describe("validateConfig", () => {
       morphology: {
         ...englishConfig.morphology!,
         templateWeights: {
-          text: { bare: 100, suffixed: 0, prefixed: Number.POSITIVE_INFINITY, both: 0 },
+          text: {
+            bare: 100,
+            suffixed: 0,
+            prefixed: Number.POSITIVE_INFINITY,
+            both: 0,
+          },
           lexicon: { ...englishConfig.morphology!.templateWeights.lexicon },
         },
       },
@@ -712,7 +871,9 @@ describe("validateConfig", () => {
         text: [],
       },
     };
-    expect(() => validateConfig(bad)).toThrow("phonemeLengthWeights.text is required");
+    expect(() => validateConfig(bad)).toThrow(
+      "phonemeLengthWeights.text is required",
+    );
   });
 
   it("should throw when phonemeToSyllableWeights entry is missing for a configured phoneme length", () => {
@@ -720,9 +881,46 @@ describe("validateConfig", () => {
       ...englishConfig,
       phonemeToSyllableWeights: {
         ...englishConfig.phonemeToSyllableWeights,
-        lexicon: { ...englishConfig.phonemeToSyllableWeights.lexicon, 6: undefined as number[] | undefined },
+        lexicon: {
+          ...englishConfig.phonemeToSyllableWeights.lexicon,
+          6: undefined as number[] | undefined,
+        },
       },
     };
-    expect(() => validateConfig(bad)).toThrow("phonemeToSyllableWeights.lexicon.6 must be a non-empty array");
+    expect(() => validateConfig(bad)).toThrow(
+      "phonemeToSyllableWeights.lexicon.6 must be a non-empty array",
+    );
+  });
+});
+
+describe("aspiration resolution ownership", () => {
+  it("treats empty rule lists as defaults while preserving false and zero", () => {
+    const defaults = resolveAspirationRules();
+    expect(
+      resolveAspirationRules({
+        enabled: false,
+        targets: [],
+        rules: [],
+        fallbackProbability: 0,
+      }),
+    ).toEqual({ ...defaults, enabled: false, fallbackProbability: 0 });
+  });
+  it("does not share nested selector or condition arrays with its inputs", () => {
+    const input = {
+      enabled: true,
+      targets: [{ segment: "onset" as const, sounds: ["p"] }],
+      rules: [
+        { id: "test", probability: 10, when: { previousCodaSounds: ["s"] } },
+      ],
+      fallbackProbability: 0,
+    };
+    const resolved = resolveAspirationRules(input);
+    resolved.targets[0].sounds!.push("t");
+    resolved.rules[0].when.previousCodaSounds!.push("z");
+    expect(input.targets[0].sounds).toEqual(["p"]);
+    expect(input.rules[0].when.previousCodaSounds).toEqual(["s"]);
+    const defaults = resolveAspirationRules();
+    defaults.targets.length = 0;
+    expect(resolveAspirationRules().targets.length).toBeGreaterThan(0);
   });
 });
