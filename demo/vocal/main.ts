@@ -5,11 +5,13 @@
  * Boot order matches Chimera: await initChimera() before importing any module that
  * calls into the engine at load time (speech → engine catalog).
  */
-import { generateWord } from "../../dist/index.js";
+import { generateWord, toNarrowPronunciation } from "../../dist/index.js";
 import { initChimera } from "./chimera/wasm/chimera.ts";
 import type { BodyMix } from "./chimera/wasm/types.ts";
 import { isLikelyIosSafari, unlockIosPlaybackSession } from "./iosAudio.ts";
 import type { HeadHandle } from "./chimera/ui/headView.ts";
+
+type GeneratedWord = ReturnType<typeof generateWord>;
 
 /**
  * Voice presets: BodyMix weights (male = both axes 0) plus default f0 (Hz).
@@ -36,7 +38,7 @@ const bodySel = $<HTMLSelectElement>("body");
 const rateSel = $<HTMLSelectElement>("rate");
 const morphChk = $<HTMLInputElement>("morph");
 
-let current: { written: string; ipa: string } | null = null;
+let current: { written: string; ipa: string; word: GeneratedWord } | null = null;
 let ready = false;
 let speaking = false;
 let head: HeadHandle | null = null;
@@ -74,17 +76,18 @@ function flashWord(): void {
   window.setTimeout(() => wordEl.classList.remove("flash"), 260);
 }
 
-function showWord(written: string, ipa: string): void {
-  current = { written, ipa };
-  wordEl.textContent = written;
-  ipaEl.textContent = ipa ? `/${ipa}/` : "/ /";
-  speakBtn.disabled = !ready || !ipa;
+function showWord(word: GeneratedWord): void {
+  // UI keeps broad legacy IPA; Speak projects separately (docs/narrow-ipa.md).
+  current = { written: word.written.clean, ipa: word.pronunciation, word };
+  wordEl.textContent = current.written;
+  ipaEl.textContent = current.ipa ? `/${current.ipa}/` : "/ /";
+  speakBtn.disabled = !ready || !current.ipa;
   flashWord();
 }
 
 function generate(): void {
   const word = generateWord({ mode: "text", morphology: morphChk.checked });
-  showWord(word.written.clean, word.pronunciation);
+  showWord(word);
   setStatus(ready ? "Ready." : "Voice still loading…");
 }
 
@@ -120,7 +123,9 @@ async function speak(): Promise<void> {
     await ensureAudio();
     const pick = BODIES[bodySel.value] ?? BODIES.female;
     const rate = Number(rateSel.value) || 1;
-    const plan = await api.speakText(current.ipa, { ipa: true, body: pick.body, rate, f0: pick.f0 });
+    // Prefer syllable-backed phones → chimera-english-v1 glyphs; display stays broad.
+    const speakIpa = toNarrowPronunciation(current.word);
+    const plan = await api.speakText(speakIpa, { ipa: true, body: pick.body, rate, f0: pick.f0 });
     // speakText resolves when the gesture plan is queued, not when audio ends.
     const endSec = plan?.plan.end ?? 0;
     window.setTimeout(() => {
