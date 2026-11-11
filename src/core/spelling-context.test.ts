@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import type { Phoneme } from "../types.js";
 import type { SpellingPhone } from "./base-spelling.js";
-import { spellingBoundaryContexts } from "./spelling-context.js";
+import {
+  deriveSpellingBoundaryContext,
+  spellingBoundaryContexts,
+} from "./spelling-context.js";
 
 const vowel: Phoneme = {
   sound: "æ",
@@ -115,4 +118,25 @@ describe("detached spelling boundary contract", () => {
         "Invalid spelling evidence: writer boundary",
       );
   });
+});
+
+it("keeps live object identity, trailing empty syllables and empty suffix context", () => {
+  const entry = {
+    phoneme: vowel,
+    position: "nucleus" as const,
+    syllableIndex: 0,
+  };
+  const context = deriveSpellingBoundaryContext(
+    [entry],
+    0,
+    2,
+    { onset: 0, nucleus: 1, coda: 0 },
+    "",
+  );
+  expect(context.slot.phoneme).toBe(vowel);
+  expect(context.slot.syllableCount).toBe(2);
+  expect(context.slot.nextWritten).toBe("");
+  expect(context.doubling.isEndOfWord).toBe(false);
+  expect(context.doubling.isMonosyllabic).toBe(false);
+  expect(spellingBoundaryContexts([phones[0]])[0].slot.syllableCount).toBe(1);
 });

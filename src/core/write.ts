@@ -1,7 +1,9 @@
-import { spellingBoundaryContexts } from "./spelling-context.js";
+import {
+  deriveSpellingBoundaryContext,
+  spellingBoundaryContexts,
+} from "./spelling-context.js";
 import { createSpellingCoveragePlanner } from "./spelling-coverage.js";
 import type { SpellingChoiceState } from "./spelling-coverage.js";
-import type { GraphemeSlot } from "./grapheme-selection.js";
 import type { DoublingSlot } from "./spelling-doubling.js";
 import {
   DEFAULT_CONSONANT_GRAPHEMES,
@@ -1681,6 +1683,11 @@ export function createWrittenFormGenerator(
       ),
     );
 
+    const syllableShapes = syllables.map((syllable) => ({
+      onset: syllable.onset.length,
+      nucleus: syllable.nucleus.length,
+      coda: syllable.coda.length,
+    }));
     const baseSpelling = new BaseSpelling(
       flattenedPhonemes.map((entry, id) => ({
         id,
@@ -1722,54 +1729,20 @@ export function createWrittenFormGenerator(
       phonemeIndex < flattenedPhonemes.length;
       phonemeIndex++
     ) {
-      const { phoneme, syllableIndex, position, positionIndex, stress } =
+      const { phoneme, syllableIndex, position, positionIndex } =
         flattenedPhonemes[phonemeIndex];
-      const prevEntry = flattenedPhonemes[phonemeIndex - 1];
       const nextEntry = flattenedPhonemes[phonemeIndex + 1];
-
-      const isCluster =
-        (prevEntry?.syllableIndex === syllableIndex &&
-          prevEntry?.position === position) ||
-        (nextEntry?.syllableIndex === syllableIndex &&
-          nextEntry?.position === position);
-
-      const prevPhoneme = prevEntry?.phoneme;
-      const prevReduced = prevPhoneme?.reduced ?? false;
-
-      let nextNucleus: Phoneme | undefined;
-      for (let j = phonemeIndex + 1; j < flattenedPhonemes.length; j++) {
-        if (flattenedPhonemes[j].position === "nucleus") {
-          nextNucleus = flattenedPhonemes[j].phoneme;
-          break;
-        }
-      }
-
       const isStartOfWord = syllableIndex === 0;
       const isEndOfWord = syllableIndex === syllables.length - 1;
-      const onsetLength = syllables[syllableIndex].onset.length;
-      const nucleusLength = syllables[syllableIndex].nucleus.length;
-      const codaLength = syllables[syllableIndex].coda.length;
-
-      // Pipeline
       const isLastPhoneme = phonemeIndex === flattenedPhonemes.length - 1;
       const segment = { initial: phonemeIndex === 0, final: isLastPhoneme };
-      const graphemeSlot: GraphemeSlot = {
-        phoneme,
-        prevPhoneme,
-        nextPhoneme: nextEntry?.phoneme,
-        index: phonemeIndex,
-        total: flattenedPhonemes.length,
-        position,
-        syllableIndex,
-        syllableCount: syllables.length,
-        onsetLength,
-        nucleusLength,
-        codaLength,
-        isCluster,
-        stress,
-        previousPosition: prevEntry?.position,
-        nextWritten: isLastPhoneme ? following : undefined,
-      };
+      const boundaryContext = deriveSpellingBoundaryContext(
+        flattenedPhonemes,
+        phonemeIndex,
+        syllables.length,
+        syllableShapes[syllableIndex],
+        isLastPhoneme ? following : undefined,
+      );
       const {
         candidates,
         ordinary,
@@ -1779,29 +1752,15 @@ export function createWrittenFormGenerator(
         positiveCount,
         fallback,
         preferenceRelaxed,
-      } = resolveGraphemes(graphemeSlot, prefix);
+      } = resolveGraphemes(boundaryContext.slot, prefix);
       const selected = selectByFrequency(weights, rand, tracing);
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace
         ? { attempted: false }
         : undefined;
       const doublingSlot: DoublingSlot = {
+        ...boundaryContext.doubling,
         form: selected.form,
-        phoneme,
-        position,
-        prevPhoneme,
-        nextNucleus,
         nucleusForm: doublingNucleusForm(prefix, position, selected.form),
-        stress,
-        prevReduced,
-        isCluster,
-        isFirstInCoda: position === "coda" && prevEntry?.position !== "coda",
-        isLastPhoneme,
-        isEndOfWord,
-        isMonosyllabic: syllables.length === 1,
-        nextIsConsonant:
-          nextEntry?.position === "onset" ||
-          (nextEntry?.syllableIndex === syllableIndex &&
-            nextEntry?.position === "coda"),
       };
       const doublingCtx: DoublingState = {
         doublingCount: prefix.doublingCount,
