@@ -6,7 +6,6 @@ export const rhoticGraphemes: Grapheme[] = [
   {
     phoneme: "ɜ",
     form: "e",
-    origin: 0,
     frequency: 100,
     onset: 0,
     startWord: 1,
@@ -16,7 +15,6 @@ export const rhoticGraphemes: Grapheme[] = [
   {
     phoneme: "ɜ",
     form: "ai",
-    origin: 0,
     frequency: 5,
     onset: 0,
     startWord: 1,
@@ -28,7 +26,6 @@ export const rhoticGraphemes: Grapheme[] = [
   {
     phoneme: "ɚ",
     form: "er",
-    origin: 0,
     frequency: 190,
     startWord: 1,
     midWord: 50,
@@ -37,7 +34,6 @@ export const rhoticGraphemes: Grapheme[] = [
   {
     phoneme: "ɚ",
     form: "ir",
-    origin: 0,
     frequency: 35,
     startWord: 1,
     midWord: 35,
@@ -46,7 +42,6 @@ export const rhoticGraphemes: Grapheme[] = [
   {
     phoneme: "ɚ",
     form: "ur",
-    origin: 0,
     frequency: 100,
     startWord: 10,
     midWord: 30,
@@ -55,7 +50,6 @@ export const rhoticGraphemes: Grapheme[] = [
   {
     phoneme: "ɚ",
     form: "or",
-    origin: 3,
     frequency: 220,
     startWord: 0,
     midWord: 30,
@@ -64,7 +58,6 @@ export const rhoticGraphemes: Grapheme[] = [
   {
     phoneme: "ɚ",
     form: "ar",
-    origin: 3,
     frequency: 80,
     startWord: 1,
     midWord: 10,
@@ -73,7 +66,6 @@ export const rhoticGraphemes: Grapheme[] = [
   {
     phoneme: "ɚ",
     form: "eir",
-    origin: 0,
     frequency: 25,
     startWord: 1,
     midWord: 0,
@@ -89,7 +81,6 @@ export const rhoticGraphemes: Grapheme[] = [
   {
     phoneme: "ɚ",
     form: "re",
-    origin: 1,
     frequency: 50,
     startWord: 0,
     midWord: 5,
@@ -99,7 +90,6 @@ export const rhoticGraphemes: Grapheme[] = [
   {
     phoneme: "ɚ",
     form: "ure",
-    origin: 3,
     frequency: 30,
     startWord: 0,
     midWord: 10,

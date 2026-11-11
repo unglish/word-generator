@@ -14,8 +14,6 @@ import { affricateGraphemes } from "./affricates.js";
 import { stopGraphemes } from "./stops.js";
 import { withEnglishReadings } from "./reading.js";
 
-export const ORIGINS = ["Germanic", "French", "Greek", "Latin", "Other"] as const;
-
 /** Vowel weights were tuned by syllable, including an explicit isolated-syllable case.
  * Consonant weights describe actual segment edges (e.g. coda /z/ in the first
  * syllable is medial, not word-initial). Keep these dimensions separate.
@@ -57,13 +55,13 @@ export const graphemes: Grapheme[] = withEnglishReadings([
   // A one-syllable root ending in /i:/ before a vowel-initial suffix: "ea" is
   // the only isolated /i:/ spelling, and it may not precede a vowel letter.
   {
-    phoneme: "i:", form: "ee", origin: 0, frequency: 3,
+    phoneme: "i:", form: "ee", frequency: 3,
     onset: 0, coda: 0, positionScope: "syllable", fallbackOnly: true,
     startWord: 0, midWord: 0, endWord: 0, isolatedSyllableWeight: 1,
     condition: { segmentPosition: ["final"] },
   },
   {
-    phoneme: "ʊ", form: "oo", origin: 0, frequency: 80,
+    phoneme: "ʊ", form: "oo", frequency: 80,
     onset: 0, coda: 0, positionScope: "syllable", fallbackOnly: true,
     startWord: 1, midWord: 0, endWord: 0, isolatedSyllableWeight: 5,
     condition: { leftContext: ["g"] },

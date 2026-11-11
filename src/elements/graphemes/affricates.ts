@@ -6,7 +6,6 @@ export const affricateGraphemes: Grapheme[] = [
   {
     phoneme: "tʃ",
     form: "ch",
-    origin: 3,
     frequency: 140,
     startWord: 1,
     midWord: 1,
@@ -15,7 +14,6 @@ export const affricateGraphemes: Grapheme[] = [
   {
     phoneme: "tʃ",
     form: "tch",
-    origin: 0,
     frequency: 30,
     onset: 0,
     startWord: 1,
@@ -26,7 +24,6 @@ export const affricateGraphemes: Grapheme[] = [
   {
     phoneme: "tʃ",
     form: "tu",
-    origin: 3,
     frequency: 1,
     coda: 0,
     startWord: 1,
@@ -37,7 +34,6 @@ export const affricateGraphemes: Grapheme[] = [
   {
     phoneme: "tʃ",
     form: "te",
-    origin: 3,
     frequency: 1,
     coda: 0,
     startWord: 1,
@@ -49,7 +45,6 @@ export const affricateGraphemes: Grapheme[] = [
   {
     phoneme: "dʒ",
     form: "g",
-    origin: 3,
     frequency: 15,
     coda: 0,
     startWord: 1,
@@ -60,7 +55,6 @@ export const affricateGraphemes: Grapheme[] = [
   {
     phoneme: "dʒ",
     form: "j",
-    origin: 3,
     frequency: 20,
     coda: 0,
     cluster: 0,
@@ -71,7 +65,6 @@ export const affricateGraphemes: Grapheme[] = [
   {
     phoneme: "dʒ",
     form: "ge",
-    origin: 3,
     frequency: 6,
     onset: 0,
     startWord: 1,
@@ -81,7 +74,6 @@ export const affricateGraphemes: Grapheme[] = [
   {
     phoneme: "dʒ",
     form: "dge",
-    origin: 3,
     frequency: 10,
     onset: 0,
     startWord: 0,
@@ -92,7 +84,6 @@ export const affricateGraphemes: Grapheme[] = [
   {
     phoneme: "dʒ",
     form: "di",
-    origin: 3,
     frequency: 1,
     onset: 0,
     startWord: 0,

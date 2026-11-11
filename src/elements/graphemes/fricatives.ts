@@ -9,7 +9,6 @@ function rootFinalSWithE(leftSound: string, weights: { ce?: number; se?: number 
   return Object.entries(weights).map(([form, frequency]) => ({
     phoneme: "s",
     form,
-    origin: 3,
     frequency,
     onset: 0,
     startWord: 0,
@@ -27,7 +26,6 @@ export const fricativeGraphemes: Grapheme[] = [
   // fish
   { phoneme: "f", 
     form: "f", 
-    origin: 3, 
     frequency: 100, 
     startWord: 1,
     midWord: 1,
@@ -35,7 +33,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "f",
     form: "ph",
-    origin: 2,
     frequency: 8,
     coda: 0,
     startWord: 1,
@@ -45,7 +42,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "f",
     form: "gh",
-    origin: 0,
     frequency: 1,
     onset: 0,
     startWord: 0,
@@ -56,21 +52,18 @@ export const fricativeGraphemes: Grapheme[] = [
   // van
   { phoneme: "v", 
     form: "v", 
-    origin: 3, 
     frequency: 100,
     startWord: 1,
     midWord: 1,
     endWord: 1, },
   { phoneme: "v", 
     form: "f", 
-    origin: 3, 
     frequency: 1, 
     startWord: 0,
     midWord: 0,
     endWord: 25, },
   { phoneme: "v", 
     form: "ve", 
-    origin: 3, 
     onset: 0,
     frequency: 1,
     startWord: 0,
@@ -79,7 +72,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "v",
     form: "ph",
-    origin: 2,
     frequency: 1,
     coda: 0,
     startWord: 1,
@@ -88,12 +80,12 @@ export const fricativeGraphemes: Grapheme[] = [
   },
 
   // thin
-  { phoneme: "θ", form: "th", origin: 2, frequency: 10, startWord: 1,
+  { phoneme: "θ", form: "th", frequency: 10, startWord: 1,
     midWord: 1,
     endWord: 1, },
 
   // this
-  { phoneme: "ð", form: "th", origin: 2, frequency: 10, startWord: 1,
+  { phoneme: "ð", form: "th", frequency: 10, startWord: 1,
     midWord: 1,
     endWord: 1, },
 
@@ -101,7 +93,6 @@ export const fricativeGraphemes: Grapheme[] = [
   // reads as a plural (cars, pens, bells), so it gets its own low weight below.
   { phoneme: "s", 
     form: "s", 
-    origin: 3, 
     frequency: 1000, 
     startWord: 1,
     midWord: 1,
@@ -109,7 +100,6 @@ export const fricativeGraphemes: Grapheme[] = [
     condition: { notLeftGraphemeContext: PLURAL_LOOKING_LEFT_LETTERS }, },
   { phoneme: "s",
     form: "s",
-    origin: 3,
     frequency: 1000,
     startWord: 1,
     midWord: 1,
@@ -117,7 +107,6 @@ export const fricativeGraphemes: Grapheme[] = [
     condition: { leftGraphemeContext: PLURAL_LOOKING_LEFT_LETTERS, wordFinal: false }, },
   { phoneme: "s",
     form: "s",
-    origin: 3,
     frequency: 10,
     startWord: 0,
     midWord: 0,
@@ -133,7 +122,6 @@ export const fricativeGraphemes: Grapheme[] = [
   ...rootFinalSWithE("ɚ", { se: 300, ce: 100 }),
   { phoneme: "s", 
     form: "c", 
-    origin: 3, 
     frequency: 140, 
     cluster: 0,
     startWord: 8,
@@ -144,7 +132,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "s",
     form: "sc",
-    origin: 3,
     frequency: 10,
     coda: 0,
     cluster: 0,
@@ -156,7 +143,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "s",
     form: "ps",
-    origin: 2,
     frequency: 1,
     coda: 0,
     cluster: 0,
@@ -167,7 +153,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "s",
     form: "st",
-    origin: 0,
     frequency: 2,
     coda: 0,
     cluster: 0,
@@ -178,7 +163,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "s",
     form: "ce",
-    origin: 3,
     frequency: 15,
     onset: 0,
     cluster: 0,
@@ -190,7 +174,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "s",
     form: "se",
-    origin: 3,
     frequency: 3,
     onset: 0,
     startWord: 1,
@@ -202,7 +185,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "z",
     form: "z",
-    origin: 3,
     frequency: 100,
     coda: 0,
     startWord: 1,
@@ -212,7 +194,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "z",
     form: "s",
-    origin: 3,
     frequency: 800,
     onset: 0,
     startWord: 0,
@@ -224,7 +205,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "z",
     form: "s",
-    origin: 3,
     frequency: 800,
     onset: 0,
     startWord: 0,
@@ -235,7 +215,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "z",
     form: "z",
-    origin: 3,
     frequency: 100,
     onset: 0,
     startWord: 0,
@@ -246,7 +225,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "z",
     form: "x",
-    origin: 3,
     frequency: 1,
     coda: 0,
     startWord: 1,
@@ -256,7 +234,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "z",
     form: "ze",
-    origin: 3,
     frequency: 4,
     onset: 0,
     startWord: 0,
@@ -265,11 +242,11 @@ export const fricativeGraphemes: Grapheme[] = [
   },
 
   // she
-  { phoneme: "ʃ", form: "sh", origin: 0, frequency: 750, startWord: 1,
+  { phoneme: "ʃ", form: "sh", frequency: 750, startWord: 1,
     midWord: 1,
     endWord: 1,
     coda: 0, },
-  { phoneme: "ʃ", form: "sh", origin: 0, frequency: 750, startWord: 0,
+  { phoneme: "ʃ", form: "sh", frequency: 750, startWord: 0,
     midWord: 1,
     endWord: 1,
     onset: 0,
@@ -277,7 +254,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʃ",
     form: "ti",
-    origin: 3,
     frequency: 80,
     coda: 0,
     startWord: 1,
@@ -288,7 +264,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʃ",
     form: "ci",
-    origin: 3,
     frequency: 50,
     coda: 0,
     startWord: 1,
@@ -299,7 +274,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʃ",
     form: "ch",
-    origin: 3,
     frequency: 30,
     onset: 0,
     startWord: 1,
@@ -309,7 +283,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʃ",
     form: "s",
-    origin: 3,
     frequency: 20,
     coda: 0,
     startWord: 1,
@@ -319,7 +292,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʃ",
     form: "si",
-    origin: 3,
     frequency: 20,
     coda: 0,
     startWord: 1,
@@ -330,7 +302,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʃ",
     form: "ce",
-    origin: 3,
     frequency: 8,
     onset: 0,
     startWord: 1,
@@ -340,7 +311,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʃ",
     form: "ssi",
-    origin: 3,
     frequency: 7,
     onset: 0,
     startWord: 1,
@@ -351,7 +321,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʃ",
     form: "sc",
-    origin: 3,
     frequency: 10,
     coda: 0,
     startWord: 1,
@@ -365,7 +334,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʃ",
     form: "sch",
-    origin: 3,
     frequency: 15,
     coda: 0,
     startWord: 1,
@@ -376,7 +344,6 @@ export const fricativeGraphemes: Grapheme[] = [
   // measure
   { phoneme: "ʒ", 
     form: "s", 
-    origin: 3, 
     frequency: 10,
     cluster: 0,
     startWord: 0,
@@ -385,7 +352,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʒ",
     form: "si",
-    origin: 3,
     frequency: 10,
     onset: 0,
     cluster: 0,
@@ -394,13 +360,12 @@ export const fricativeGraphemes: Grapheme[] = [
     endWord: 0,
     condition: { notRightContext: ["front-vowel", "back-vowel"] },
   },
-  { phoneme: "ʒ", form: "z", origin: 3, frequency: 10,startWord: 1,
+  { phoneme: "ʒ", form: "z", frequency: 10,startWord: 1,
     midWord: 1,
     endWord: 0, },
   {
     phoneme: "ʒ",
     form: "g",
-    origin: 3,
     frequency: 10,
     coda: 0,
     startWord: 1,
@@ -410,7 +375,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "ʒ",
     form: "ge",
-    origin: 3,
     frequency: 10,
     onset: 0,
     startWord: 1,
@@ -421,7 +385,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "h",
     form: "h",
-    origin: 0,
     frequency: 50,
     coda: 0,
     startWord: 1,
@@ -433,7 +396,6 @@ export const fricativeGraphemes: Grapheme[] = [
   {
     phoneme: "h",
     form: "wh",
-    origin: 0,
     frequency: 0.1,  // Extremely rare to avoid "whu" patterns
     coda: 0,
     startWord: 1,

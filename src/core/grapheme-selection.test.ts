@@ -61,7 +61,7 @@ describe("legal grapheme selection", () => {
 
   it("keeps isolated-syllable licensing explicit rather than overriding edge bans", () => {
     const grapheme: Grapheme = {
-      phoneme: "test", form: "x", frequency: 1, origin: 0,
+      phoneme: "test", form: "x", frequency: 1,
       startWord: 0, midWord: 10, endWord: 10, positionScope: "syllable",
     };
     expect(filterByPosition([grapheme], false, true, true)).toEqual([]);

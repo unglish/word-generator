@@ -11,7 +11,7 @@ import { createSpellingCoveragePlanner, SPELLING_COVERAGE_SEARCH_LIMIT } from ".
 import type { SpellingChoiceState } from "./spelling-coverage.js";
 import type { SpellingCoverageCertificate } from "./spelling-coverage-types.js";
 
-const glyph = (phoneme: string, form: string, frequency = 1): Grapheme => ({ phoneme, form, frequency, origin: 0,
+const glyph = (phoneme: string, form: string, frequency = 1): Grapheme => ({ phoneme, form, frequency,
   startWord: 1, midWord: 1, endWord: 1, reading: { kind: "single-phone" } });
 const phone = (sound: string): Phoneme => englishConfig.phonemes.find(entry => entry.sound === sound)!;
 

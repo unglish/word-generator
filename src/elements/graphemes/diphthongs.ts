@@ -6,7 +6,6 @@ export const diphthongGraphemes: Grapheme[] = [
   { 
     phoneme: "aɪ", 
     form: "i", 
-    origin: 3, 
     frequency: 10,
     startWord: 1,
     midWord: 10,
@@ -15,7 +14,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "aɪ",
     form: "igh",
-    origin: 0,
     frequency: 12,
     onset: 0,
     coda: 0,
@@ -27,7 +25,6 @@ export const diphthongGraphemes: Grapheme[] = [
   { 
     phoneme: "aɪ", 
     form: "y", 
-    origin: 0, 
     frequency: 3,
     startWord: 0,
     midWord: 2,
@@ -39,7 +36,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "aɪ",
     form: "ie",
-    origin: 1,
     frequency: 1,
     startWord: 10,
     midWord: 10,
@@ -48,7 +44,6 @@ export const diphthongGraphemes: Grapheme[] = [
   { 
     phoneme: "aɪ", 
     form: "ai", 
-    origin: 3, 
     frequency: 1,
     startWord: 0,
     midWord: 1,
@@ -57,7 +52,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "aɪ",
     form: "is",
-    origin: 0,
     frequency: 1,
     startWord: 1,
     midWord: 0,
@@ -66,7 +60,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "aɪ",
     form: "ye",
-    origin: 0,
     frequency: 10,
     onset: 0,
     startWord: 0,
@@ -76,7 +69,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "aɪ",
     form: "eye",
-    origin: 3,
     frequency: 1,
     onset: 0,
     coda: 0,
@@ -90,7 +82,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "aʊ",
     form: "ow",
-    origin: 0,
     frequency: 45,
     startWord: 1,
     midWord: 5,
@@ -99,7 +90,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "aʊ",
     form: "ou",
-    origin: 1,
     frequency: 55,
     coda: 0,
     startWord: 1,
@@ -111,7 +101,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "ɔɪ",
     form: "oi",
-    origin: 3,
     frequency: 10,
     coda: 0,
     startWord: 5,
@@ -121,7 +110,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "ɔɪ",
     form: "oy",
-    origin: 0,
     frequency: 2,
     onset: 0,
     startWord: 0,
@@ -133,7 +121,6 @@ export const diphthongGraphemes: Grapheme[] = [
   { 
     phoneme: "eɪ", 
     form: "a", 
-    origin: 0, 
     frequency: 25,
     startWord: 10,
     midWord: 0,
@@ -142,7 +129,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "eɪ",
     form: "ai",
-    origin: 3,
     frequency: 10,
     coda: 0,
     startWord: 0,
@@ -152,7 +138,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "eɪ",
     form: "ay",
-    origin: 0,
     frequency: 7,
     onset: 0,
     startWord: 0,
@@ -162,7 +147,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "eɪ",
     form: "eigh",
-    origin: 1,
     frequency: 1,
     onset: 0,
     startWord: 0,
@@ -174,7 +158,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "eɪ",
     form: "ea",
-    origin: 0,
     frequency: 2,
     startWord: 0,
     midWord: 1,
@@ -184,7 +167,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "eɪ",
     form: "ey",
-    origin: 0,
     frequency: 5,
     startWord: 0,
     midWord: 0,
@@ -193,7 +175,6 @@ export const diphthongGraphemes: Grapheme[] = [
   { 
     phoneme: "eɪ", 
     form: "ae", 
-    origin: 3, 
     frequency: 2,
     startWord: 1,
     midWord: 1,
@@ -204,7 +185,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "əʊ",
     form: "ow",
-    origin: 0,
     frequency: 250,
     startWord: 1,
     midWord: 1,
@@ -213,7 +193,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "əʊ",
     form: "o",
-    origin: 0,
     frequency: 500,
     startWord: 1,
     midWord: 0,
@@ -222,7 +201,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "əʊ",
     form: "ou",
-    origin: 1,
     frequency: 10,
     startWord: 0,
     midWord: 1,
@@ -231,7 +209,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "əʊ",
     form: "oe",
-    origin: 1,
     frequency: 10,
     startWord: 1,
     midWord: 1,
@@ -240,7 +217,6 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "əʊ",
     form: "ough",
-    origin: 4,
     frequency: 1,
     onset: 0,
     startWord: 0,

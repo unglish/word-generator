@@ -501,7 +501,7 @@ function getMaxConsonantLetterRun(word: string): number {
 
 describe("filterByPosition", () => {
   const makeGrapheme = (overrides: Partial<import("../types").Grapheme> = {}): import("../types").Grapheme => ({
-    phoneme: "test", form: "x", origin: 0, frequency: 10,
+    phoneme: "test", form: "x", frequency: 10,
     startWord: 5, midWord: 5, endWord: 5,
     ...overrides,
   });

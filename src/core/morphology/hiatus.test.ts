@@ -20,7 +20,7 @@ function fixedBoundary(options: {
   for (const position of ["onset", "nucleus", "coda"] as const) {
     for (const sound of shape[position]) {
       phonemeMaps[position].set(sound, [englishConfig.phonemes.find(phone => phone.sound === sound)!]);
-      const glyph: Grapheme = { phoneme: sound, form: sound === "i:" ? "ee" : sound, frequency: 1, origin: 0, startWord: 1, midWord: 1, endWord: 1 };
+      const glyph: Grapheme = { phoneme: sound, form: sound === "i:" ? "ee" : sound, frequency: 1, startWord: 1, midWord: 1, endWord: 1 };
       graphemeMaps[position].set(sound, [glyph]);
       graphemes.push(glyph);
     }

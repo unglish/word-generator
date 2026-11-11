@@ -199,12 +199,6 @@ export interface Grapheme {
   phoneme: string;
   /** The written letter(s) (e.g. `"sh"` for /ʃ/, `"ough"` for /oʊ/). */
   form: string;
-  /**
-   * Index into the ORIGINS array indicating the grapheme's etymological source.
-   * 0 = Germanic, 1 = French, 2 = Greek, 3 = Latin, 4 = Other.
-   * @see ORIGINS in `elements/graphemes`
-   */
-  origin: number;
   /** Baseline frequency weight (higher → more likely to be chosen). */
   frequency: number;
 
