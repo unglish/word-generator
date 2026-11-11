@@ -1,3 +1,4 @@
+import { renderPronunciation } from "../utils/pronunciation.js";
 import { matchesPhoneme } from "../utils/phonemes.js";
 import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import type { RNG } from "../utils/random.js";
@@ -410,30 +411,7 @@ const applyRhythmicStress = (
 };
 
 const buildPronunciationGuide = (context: WordGenerationContext): void => {
-  const { syllables } = context.word;
-  let guide = "";
-  const render = (phoneme: Phoneme): string =>
-    phoneme.aspirated && !phoneme.sound.endsWith("ʰ")
-      ? `${phoneme.sound}ʰ`
-      : phoneme.sound;
-
-  for (let index = 0; index < syllables.length; index++) {
-    const syllable = syllables[index];
-
-    // Add stress/separator prefix
-    if (syllable.stress === "ˈ" && syllables.length > 1) guide += "ˈ";
-    else if (syllable.stress === "ˌ") guide += "ˌ";
-    else if (index > 0) guide += ".";
-
-    for (let i = 0; i < syllable.onset.length; i++)
-      guide += render(syllable.onset[i]);
-    for (let i = 0; i < syllable.nucleus.length; i++)
-      guide += render(syllable.nucleus[i]);
-    for (let i = 0; i < syllable.coda.length; i++)
-      guide += render(syllable.coda[i]);
-  }
-
-  context.word.pronunciation = guide;
+  context.word.pronunciation = renderPronunciation(context.word.syllables);
 };
 
 /**

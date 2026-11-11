@@ -1,3 +1,4 @@
+import { renderPhone, renderPronunciation } from "../utils/pronunciation.js";
 /**
  * Narrow IPA export lens for Chimera / IPA-chart consumers.
  *
@@ -59,9 +60,18 @@ const CHIMERA_ENGLISH_V1: NarrowIpaProfile = Object.freeze({
 });
 
 type SyllableLike = {
-  readonly onset: readonly { readonly sound: string; readonly aspirated?: boolean }[];
-  readonly nucleus: readonly { readonly sound: string; readonly aspirated?: boolean }[];
-  readonly coda: readonly { readonly sound: string; readonly aspirated?: boolean }[];
+  readonly onset: readonly {
+    readonly sound: string;
+    readonly aspirated?: boolean;
+  }[];
+  readonly nucleus: readonly {
+    readonly sound: string;
+    readonly aspirated?: boolean;
+  }[];
+  readonly coda: readonly {
+    readonly sound: string;
+    readonly aspirated?: boolean;
+  }[];
   readonly stress?: string;
 };
 
@@ -69,7 +79,9 @@ type WordLike = {
   readonly syllables: readonly SyllableLike[];
 };
 
-function resolveProfile(id: NarrowIpaProfileId = "chimera-english-v1"): NarrowIpaProfile {
+function resolveProfile(
+  id: NarrowIpaProfileId = "chimera-english-v1",
+): NarrowIpaProfile {
   switch (id) {
   case "chimera-english-v1":
     return CHIMERA_ENGLISH_V1;
@@ -81,7 +93,9 @@ function resolveProfile(id: NarrowIpaProfileId = "chimera-english-v1"): NarrowIp
 }
 
 /** Inspectable remap table for the profile (tests + docs). */
-export function narrowIpaProfile(id: NarrowIpaProfileId = "chimera-english-v1"): NarrowIpaProfile {
+export function narrowIpaProfile(
+  id: NarrowIpaProfileId = "chimera-english-v1",
+): NarrowIpaProfile {
   return resolveProfile(id);
 }
 
@@ -94,7 +108,8 @@ function resolveOptions(options?: NarrowIpaOptions): {
   return {
     profile,
     darkL: options?.darkL ?? profile.defaults.darkL,
-    stripFleeceLength: options?.stripFleeceLength ?? profile.defaults.stripFleeceLength,
+    stripFleeceLength:
+      options?.stripFleeceLength ?? profile.defaults.stripFleeceLength,
   };
 }
 
@@ -124,7 +139,10 @@ function remapSound(
 export function phonesFromWord(word: WordLike): NarrowPhoneIn[] {
   const phones: NarrowPhoneIn[] = [];
   word.syllables.forEach((syllable, syllableIndex) => {
-    const ordered: { phone: { sound: string; aspirated?: boolean }; slot: NarrowPhoneIn["slot"] }[] = [];
+    const ordered: {
+      phone: { sound: string; aspirated?: boolean };
+      slot: NarrowPhoneIn["slot"];
+    }[] = [];
     for (const slot of ["onset", "nucleus", "coda"] as const) {
       for (const phone of syllable[slot]) ordered.push({ phone, slot });
     }
@@ -147,40 +165,30 @@ export function toNarrowPhones(
   options?: NarrowIpaOptions,
 ): NarrowPhoneOut[] {
   const { profile, darkL, stripFleeceLength } = resolveOptions(options);
-  return phones.map(phone => ({
-    sound: remapSound(phone.sound, profile, stripFleeceLength, darkL, phone.slot),
+  return phones.map((phone) => ({
+    sound: remapSound(
+      phone.sound,
+      profile,
+      stripFleeceLength,
+      darkL,
+      phone.slot,
+    ),
     aspirated: phone.aspirated,
   }));
-}
-
-function renderPhone(sound: string, aspirated: boolean | undefined): string {
-  return aspirated && !sound.endsWith("ʰ") ? `${sound}ʰ` : sound;
 }
 
 /**
  * Preferred Speak path: map syllable phones via {@link toNarrowPhones} and
  * rejoin with the same stress / `.` / `ʰ` rules as `buildPronunciationGuide`.
  */
-export function toNarrowPronunciation(word: WordLike, options?: NarrowIpaOptions): string {
-  const narrow = toNarrowPhones(phonesFromWord(word), options);
-  const { syllables } = word;
-  let guide = "";
-  let cursor = 0;
-
-  for (let index = 0; index < syllables.length; index++) {
-    const syllable = syllables[index];
-    if (syllable.stress === "ˈ" && syllables.length > 1) guide += "ˈ";
-    else if (syllable.stress === "ˌ") guide += "ˌ";
-    else if (index > 0) guide += ".";
-
-    const count = syllable.onset.length + syllable.nucleus.length + syllable.coda.length;
-    for (let i = 0; i < count; i++) {
-      const phone = narrow[cursor++];
-      guide += renderPhone(phone.sound, phone.aspirated);
-    }
-  }
-
-  return guide;
+export function toNarrowPronunciation(
+  word: WordLike,
+  options?: NarrowIpaOptions,
+): string {
+  const { profile, darkL, stripFleeceLength } = resolveOptions(options);
+  return renderPronunciation(word.syllables, (phone, slot) =>
+    remapSound(phone.sound, profile, stripFleeceLength, darkL, slot),
+  );
 }
 
 /** Inventory multi-char sounds + profile keys + already-narrow targets, longest first. */
@@ -202,7 +210,10 @@ type StringToken =
   | { kind: "phone"; sound: string; aspirated: boolean }
   | { kind: "mark"; value: string };
 
-function tokenizeIpaString(ipa: string, lexicon: readonly string[]): StringToken[] {
+function tokenizeIpaString(
+  ipa: string,
+  lexicon: readonly string[],
+): StringToken[] {
   const tokens: StringToken[] = [];
   let i = 0;
   while (i < ipa.length) {
@@ -262,7 +273,13 @@ export function toNarrowIpa(ipa: string, options?: NarrowIpaOptions): string {
       out += token.value;
       continue;
     }
-    const sound = remapSound(token.sound, profile, stripFleeceLength, false, undefined);
+    const sound = remapSound(
+      token.sound,
+      profile,
+      stripFleeceLength,
+      false,
+      undefined,
+    );
     out += renderPhone(sound, token.aspirated);
   }
   return out;
