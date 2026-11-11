@@ -5,8 +5,10 @@ import { ENGLISH_VOWEL_SOUND_SET } from "./vowel-sounds.js";
 import { TraceCollector, traceStage, type StructuralTrace } from "./trace.js";
 import type { Phoneme, Syllable } from "../types.js";
 
-const byEvent = <E extends StructuralTrace["event"]>(event: E) =>
-  (entry: StructuralTrace): entry is Extract<StructuralTrace, { event: E }> => entry.event === event;
+const byEvent =
+  <E extends StructuralTrace["event"]>(event: E) =>
+    (entry: StructuralTrace): entry is Extract<StructuralTrace, { event: E }> =>
+      entry.event === event;
 
 describe("trace pipeline", () => {
   it("attaches a trace when trace: true is passed", () => {
@@ -41,9 +43,11 @@ describe("trace pipeline", () => {
       expect(typeof g.emitted).toBe("string");
       expect(typeof g.doubled).toBe("boolean");
     }
-    const weightedSelections = t.graphemeSelections.filter(g => g.weights.length > 1);
+    const weightedSelections = t.graphemeSelections.filter(
+      (g) => g.weights.length > 1,
+    );
     expect(weightedSelections.length).toBeGreaterThan(0);
-    expect(weightedSelections.some(g => g.roll > 0)).toBe(true);
+    expect(weightedSelections.some((g) => g.roll > 0)).toBe(true);
 
     // summary
     expect(t.summary).toBeDefined();
@@ -55,7 +59,10 @@ describe("trace pipeline", () => {
     expect(Array.isArray(t.syllablePlans)).toBe(true);
     expect(t.syllablePlans).toHaveLength(t.syllableCount);
     expect(
-      t.syllablePlans!.reduce((total, plan) => total + 1 + plan.onsetLength + plan.codaLength, 0),
+      t.syllablePlans!.reduce(
+        (total, plan) => total + 1 + plan.onsetLength + plan.codaLength,
+        0,
+      ),
     ).toBe(t.targetPhonemeCount);
   });
 
@@ -65,8 +72,15 @@ describe("trace pipeline", () => {
   });
 
   it("stage snapshots use string arrays, not Phoneme objects", () => {
-    const word = generateWord({ seed: 42, trace: true, syllableCount: 2, morphology: false });
-    const afterGen = word.trace!.stages.find(s => s.name === "generateSyllables")!;
+    const word = generateWord({
+      seed: 42,
+      trace: true,
+      syllableCount: 2,
+      morphology: false,
+    });
+    const afterGen = word.trace!.stages.find(
+      (s) => s.name === "generateSyllables",
+    )!;
     expect(afterGen.after.length).toBeGreaterThan(0);
     for (const snap of afterGen.after) {
       for (const sound of [...snap.onset, ...snap.nucleus, ...snap.coda]) {
@@ -76,10 +90,22 @@ describe("trace pipeline", () => {
   });
 
   it("keeps top-down plan data deterministic for a fixed seed", () => {
-    const first = generateWord({ seed: 85, trace: true, morphology: true, mode: "lexicon" });
-    const second = generateWord({ seed: 85, trace: true, morphology: true, mode: "lexicon" });
+    const first = generateWord({
+      seed: 85,
+      trace: true,
+      morphology: true,
+      mode: "lexicon",
+    });
+    const second = generateWord({
+      seed: 85,
+      trace: true,
+      morphology: true,
+      mode: "lexicon",
+    });
 
-    expect(first.trace?.targetPhonemeCount).toBe(second.trace?.targetPhonemeCount);
+    expect(first.trace?.targetPhonemeCount).toBe(
+      second.trace?.targetPhonemeCount,
+    );
     expect(first.trace?.syllablePlans).toEqual(second.trace?.syllablePlans);
   });
 
@@ -124,7 +150,7 @@ describe("trace pipeline", () => {
       expect(typeof o.chars[i].char).toBe("string");
     }
 
-    const presentUnits = o.graphemeUnits.filter(u => u.present);
+    const presentUnits = o.graphemeUnits.filter((u) => u.present);
     expect(presentUnits.length).toBeGreaterThan(0);
     for (const unit of presentUnits) {
       expect(unit.start).not.toBeNull();
@@ -157,24 +183,42 @@ describe("trace pipeline", () => {
     expect(word.trace!.morphology).toBeUndefined();
   });
 
-  // Boundary drops are effectively eliminated by top-down phoneme planning,
-  // which pre-assigns onset/coda lengths and avoids equal-sonority boundaries.
-  // Verified: 0 occurrences in 20k lexicon-mode + 20k forced-4-syl samples.
-  // Keeping adjustBoundary code as a safety net; re-enable test if the
-  // pipeline changes make drops possible again.
-  it.skip("captures boundary adjustment drops when they occur", () => {
+  it("captures boundary adjustment drops with their affected syllables", () => {
+    const generator = createGenerator({
+      ...englishConfig,
+      sonorityHierarchy: {
+        ...englishConfig.sonorityHierarchy,
+        placeOfArticulation: {},
+        voicedBonus: 0,
+        tenseBonus: 0,
+      },
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        boundaryPolicy: {
+          ...englishConfig.generationWeights.boundaryPolicy,
+          equalSonorityDrop: 100,
+        },
+      },
+    });
     let found = false;
-    for (let s = 0; s < 750; s++) {
-      const w = generateWord({ seed: s, syllableCount: 4, trace: true, morphology: false });
-      const drops = w.trace!.structural.filter(byEvent("boundaryDrop"));
-      if (drops.length > 0) {
-        expect(typeof drops[0].dropped).toBe("string");
-        expect(typeof drops[0].beforeOnset).toBe("string");
-        expect(typeof drops[0].equalSonority).toBe("number");
-        expect(typeof drops[0].probability).toBe("number");
-        found = true;
-        break;
-      }
+    for (let seed = 0; seed < 500; seed++) {
+      const word = generator.generateWord({
+        seed,
+        syllableCount: 4,
+        trace: true,
+        morphology: false,
+      });
+      const drop = word.trace!.structural.find(byEvent("boundaryDrop"));
+      if (!drop) continue;
+      expect(drop.probability).toBe(100);
+      expect(drop.dropped.length).toBeGreaterThan(0);
+      expect(drop.beforeOnset.length).toBeGreaterThan(0);
+      expect(drop.rightSyllableIndex).toBe(drop.leftSyllableIndex + 1);
+      expect(drop.leftSyllableIndex).toBeGreaterThanOrEqual(0);
+      expect(drop.rightSyllableIndex).toBeLessThan(4);
+      expect(Number.isFinite(drop.equalSonority)).toBe(true);
+      found = true;
+      break;
     }
     expect(found).toBe(true);
   });
@@ -195,14 +239,22 @@ describe("trace pipeline", () => {
     let sawSsp = false;
     let sawRising = false;
     for (let s = 0; s < 4000; s++) {
-      const w = generator.generateWord({ seed: s, trace: true, morphology: false, mode: "lexicon", syllableCount: 4 });
+      const w = generator.generateWord({
+        seed: s,
+        trace: true,
+        morphology: false,
+        mode: "lexicon",
+        syllableCount: 4,
+      });
       for (const event of w.trace!.structural) {
         if (event.event === "sspBoundaryDrop") {
           expect(typeof event.dropped).toBe("string");
           expect(Array.isArray(event.preDropCoda)).toBe(true);
           expect(Array.isArray(event.remainingCoda)).toBe(true);
           expect(Array.isArray(event.onset)).toBe(true);
-          expect(["rule1", "rule2", "rule3", "multi"]).toContain(event.violation);
+          expect(["rule1", "rule2", "rule3", "multi"]).toContain(
+            event.violation,
+          );
           sawSsp = true;
         }
         if (event.event === "risingCodaBoundaryDrop") {
@@ -285,8 +337,13 @@ describe("trace pipeline", () => {
       expect(payload.ruleId).toBeNull();
       expect(payload.probability).toBeNull();
       expect(payload.roll).toBeNull();
-      expect(payload.targetSegment === null || typeof payload.targetSegment === "string").toBe(true);
-      expect(payload.targetIndex === null || typeof payload.targetIndex === "number").toBe(true);
+      expect(
+        payload.targetSegment === null ||
+          typeof payload.targetSegment === "string",
+      ).toBe(true);
+      expect(
+        payload.targetIndex === null || typeof payload.targetIndex === "number",
+      ).toBe(true);
     }
   });
 
@@ -298,13 +355,19 @@ describe("trace pipeline", () => {
         aspiration: {
           enabled: true,
           targets: [{ segment: "nucleus", index: 0 }],
-          rules: [{ id: "always", when: { wordInitial: true }, probability: 100 }],
+          rules: [
+            { id: "always", when: { wordInitial: true }, probability: 100 },
+          ],
           fallbackProbability: 100,
         },
       },
     });
 
-    const w = generator.generateWord({ seed: 42, trace: true, morphology: false });
+    const w = generator.generateWord({
+      seed: 42,
+      trace: true,
+      morphology: false,
+    });
     const events = w.trace!.structural.filter(byEvent("aspirationDecision"));
     expect(events.length).toBeGreaterThan(0);
     const payload = events[0];
@@ -329,13 +392,21 @@ describe("trace pipeline", () => {
       },
     });
 
-    const countGlideTransitions = (generate: (seed: number) => ReturnType<typeof generateWord>): number => {
+    const countGlideTransitions = (
+      generate: (seed: number) => ReturnType<typeof generateWord>,
+    ): number => {
       let transitions = 0;
       for (let s = 0; s < 2000; s++) {
         const w = generate(s);
-        const stage = w.trace!.stages.find(st => st.name === "generateSyllables");
+        const stage = w.trace!.stages.find(
+          (st) => st.name === "generateSyllables",
+        );
         if (!stage) continue;
-        const seq = stage.after.flatMap(syl => [...syl.onset, ...syl.nucleus, ...syl.coda]);
+        const seq = stage.after.flatMap((syl) => [
+          ...syl.onset,
+          ...syl.nucleus,
+          ...syl.coda,
+        ]);
         for (let i = 0; i < seq.length - 1; i++) {
           if (!ENGLISH_VOWEL_SOUND_SET.has(seq[i])) continue;
           if (seq[i + 1] === "w" || seq[i + 1] === "j") {
@@ -346,11 +417,21 @@ describe("trace pipeline", () => {
       return transitions;
     };
 
-    const zeroTransitions = countGlideTransitions(seed =>
-      zeroGlideGenerator.generateWord({ seed, trace: true, morphology: false, mode: "lexicon" })
+    const zeroTransitions = countGlideTransitions((seed) =>
+      zeroGlideGenerator.generateWord({
+        seed,
+        trace: true,
+        morphology: false,
+        mode: "lexicon",
+      }),
     );
-    const baselineTransitions = countGlideTransitions(seed =>
-      baselineGenerator.generateWord({ seed, trace: true, morphology: false, mode: "lexicon" })
+    const baselineTransitions = countGlideTransitions((seed) =>
+      baselineGenerator.generateWord({
+        seed,
+        trace: true,
+        morphology: false,
+        mode: "lexicon",
+      }),
     );
 
     expect(zeroTransitions).toBe(0);
@@ -393,16 +474,25 @@ describe("trace pipeline", () => {
     let hiatus = 0;
     let boundaries = 0;
     for (let s = 0; s < 2000; s++) {
-      const w = generateWord({ seed: s, trace: true, morphology: true, mode: "lexicon" });
-      const stage = w.trace!.stages.find(st => st.name === "generateSyllables");
-      if (!stage) continue;
-      const syls = stage.after;
+      const w = generateWord({
+        seed: s,
+        trace: true,
+        morphology: true,
+        mode: "lexicon",
+      });
+      const stage = w.trace!.stages.find(
+        (st) => st.name === "generateSyllables",
+      );
+      expect(stage).toBeDefined();
+      const syls = stage!.after;
       for (let i = 1; i < syls.length; i++) {
         boundaries++;
-        if (syls[i - 1].coda.length === 0 && syls[i].onset.length === 0) hiatus++;
+        if (syls[i - 1].coda.length === 0 && syls[i].onset.length === 0)
+          hiatus++;
       }
     }
-    const rate = boundaries > 0 ? hiatus / boundaries : 0;
+    expect(boundaries).toBeGreaterThan(0);
+    const rate = hiatus / boundaries;
     expect(rate).toBeLessThan(0.02);
   });
 
@@ -414,7 +504,9 @@ describe("trace pipeline", () => {
 
 describe("trace stages", () => {
   const syllable = (...sounds: string[]): Syllable => ({
-    onset: [], nucleus: sounds.map(sound => ({ sound } as Phoneme)), coda: [],
+    onset: [],
+    nucleus: sounds.map((sound) => ({ sound } as Phoneme)),
+    coda: [],
   });
 
   it("runs the stage and returns its result without a collector", () => {
@@ -430,35 +522,54 @@ describe("trace stages", () => {
       return "done";
     });
     expect(result).toBe("done");
-    expect(trace.stages).toEqual([{
-      name: "replace",
-      before: [{ onset: [], nucleus: ["a"], coda: [], stress: undefined }],
-      after: [
-        { onset: [], nucleus: ["e"], coda: [], stress: undefined },
-        { onset: [], nucleus: ["i"], coda: [], stress: undefined },
-      ],
-    }]);
+    expect(trace.stages).toEqual([
+      {
+        name: "replace",
+        before: [{ onset: [], nucleus: ["a"], coda: [], stress: undefined }],
+        after: [
+          { onset: [], nucleus: ["e"], coda: [], stress: undefined },
+          { onset: [], nucleus: ["i"], coda: [], stress: undefined },
+        ],
+      },
+    ]);
   });
 
   it("records no stage when the stage throws", () => {
     const trace = new TraceCollector();
-    expect(() => trace.stage("fail", { syllables: [] }, () => { throw new Error("boom"); })).toThrow("boom");
+    expect(() =>
+      trace.stage("fail", { syllables: [] }, () => {
+        throw new Error("boom");
+      }),
+    ).toThrow("boom");
     expect(trace.stages).toEqual([]);
   });
 
   it("records the pipeline stages in order", () => {
     const rootStages = [
-      "generateSyllables", "repairClusters", "repairFinalCoda", "repairClusterShape",
-      "repairHAfterBackVowel", "applyStress", "repairStressedNuclei", "repairNucleusWordPositions",
+      "generateSyllables",
+      "repairClusters",
+      "repairFinalCoda",
+      "repairClusterShape",
+      "repairHAfterBackVowel",
+      "applyStress",
+      "repairStressedNuclei",
+      "repairNucleusWordPositions",
     ];
     const plain = generateWord({ seed: 42, trace: true, morphology: false });
-    expect(plain.trace!.stages.map(stage => stage.name))
-      .toEqual([...rootStages, "generateWrittenForm", "generatePronunciation"]);
+    expect(plain.trace!.stages.map((stage) => stage.name)).toEqual([
+      ...rootStages,
+      "generateWrittenForm",
+      "generatePronunciation",
+    ]);
 
     const derived = generateWord({ seed: 1, trace: true });
     expect(derived.trace!.summary.morphologyApplied).toBe(true);
-    expect(derived.trace!.stages.map(stage => stage.name)).toEqual([
-      ...rootStages, "assembleMorphology", "repairFinalStressedNuclei", "generateWrittenForm", "generatePronunciation",
+    expect(derived.trace!.stages.map((stage) => stage.name)).toEqual([
+      ...rootStages,
+      "assembleMorphology",
+      "repairFinalStressedNuclei",
+      "generateWrittenForm",
+      "generatePronunciation",
     ]);
   });
 });
