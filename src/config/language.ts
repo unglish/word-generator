@@ -1,3 +1,7 @@
+import {
+  inventorySonorityLevels,
+  type SonorityHierarchy,
+} from "../utils/sonority.js";
 import { matchesPhoneme } from "../utils/phonemes.js";
 import {
   Phoneme,
@@ -138,28 +142,7 @@ export type PlaceOfArticulation = Phoneme["placeOfArticulation"];
 // Sub-interfaces
 // ---------------------------------------------------------------------------
 
-/**
- * Sonority hierarchy mapping: manner/place of articulation to sonority value.
- * Higher values = more sonorous (vowels highest, stops lowest).
- *
- * Keys are type-checked against the Phoneme articulation unions, so typos
- * like `"fircative"` are caught at compile time. `Partial` because not
- * every language uses every articulation category.
- */
-export interface SonorityHierarchy {
-  mannerOfArticulation: Partial<Record<MannerOfArticulation, number>>;
-  /**
-   * Sonority adjustment by place of articulation.
-   *
-   * Note: this combines vowel position (front / central / back) and
-   * consonant place of articulation (bilabial, alveolar, …) into a
-   * single map. Linguistically these are different dimensions, but for
-   * sonority scoring a unified numeric adjustment works well enough.
-   */
-  placeOfArticulation: Partial<Record<PlaceOfArticulation, number>>;
-  voicedBonus: number;
-  tenseBonus: number;
-}
+export type { SonorityHierarchy } from "../utils/sonority.js";
 
 /**
  * Syllable structure rules controlling how syllables are built.
@@ -2196,18 +2179,7 @@ export function validateConfig(config: LanguageConfig): void {
 export function computeSonorityLevels(
   config: LanguageConfig,
 ): Map<Phoneme, number> {
-  const { mannerOfArticulation, placeOfArticulation, voicedBonus, tenseBonus } =
-    config.sonorityHierarchy;
-
-  return new Map(
-    config.phonemes.map((p) => [
-      p,
-      (mannerOfArticulation[p.mannerOfArticulation] ?? 0) +
-        (placeOfArticulation[p.placeOfArticulation] ?? 0) +
-        (p.voiced ? voicedBonus : 0) +
-        (p.tense ? tenseBonus : 0),
-    ]),
-  );
+  return inventorySonorityLevels(config.phonemes, config.sonorityHierarchy);
 }
 
 /**

@@ -1,3 +1,4 @@
+import { inventorySonorityLevels } from "../utils/sonority.js";
 import { Phoneme } from "../types.js";
 import { VOICED_BONUS, TENSE_BONUS } from "../config/weights.js";
 
@@ -574,15 +575,12 @@ for (const position of ["onset", "nucleus", "coda"] as const) {
 }
 
 // Pre-compute sonority levels
-export const sonorityLevels = new Map(
-  phonemes.map((p) => [
-    p,
-    sonorityToMannerOfArticulation[p.mannerOfArticulation] +
-      (sonorityToPlaceOfArticulation[p.placeOfArticulation] ?? 0) +
-      (p.voiced ? VOICED_BONUS : 0) +
-      (p.tense ? TENSE_BONUS : 0),
-  ]),
-);
+export const sonorityLevels = inventorySonorityLevels(phonemes, {
+  mannerOfArticulation: sonorityToMannerOfArticulation,
+  placeOfArticulation: sonorityToPlaceOfArticulation,
+  voicedBonus: VOICED_BONUS,
+  tenseBonus: TENSE_BONUS,
+});
 
 export const invalidBoundaryClusters: RegExp[] = [/rɜ/, /ɜr/, /ʃh/, /sʃ/, /ʒs/];
 

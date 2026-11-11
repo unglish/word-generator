@@ -170,11 +170,51 @@ describe("LanguageConfig", () => {
       expect(levels.size).toBe(englishConfig.phonemes.length);
     });
 
-    it("should match the pre-computed sonority levels from phonemes.ts", () => {
-      const computed = computeSonorityLevels(englishConfig);
-      for (const [phoneme, level] of sonorityLevels) {
-        expect(computed.get(phoneme)).toBeCloseTo(level, 10);
+    it("retains independently specified English sonority values", () => {
+      for (const [sound, expected] of [
+        ["p", 0.5],
+        ["b", 1],
+        ["i:", 10],
+      ] as const) {
+        const phoneme = englishConfig.phonemes.find((p) => p.sound === sound)!;
+        expect(sonorityLevels.get(phoneme)).toBe(expected);
+        expect(computeSonorityLevels(englishConfig).get(phoneme)).toBe(
+          expected,
+        );
       }
+    });
+    it("combines custom weights and bonuses with zero for missing categories", () => {
+      const phoneme: Phoneme = {
+        sound: "x",
+        mannerOfArticulation: "stop",
+        placeOfArticulation: "alveolar",
+        voiced: true,
+        tense: true,
+      };
+      const hierarchy = {
+        mannerOfArticulation: { stop: 7 },
+        placeOfArticulation: { alveolar: 3 },
+        voicedBonus: 2,
+        tenseBonus: 5,
+      };
+      expect(
+        computeSonorityLevels({
+          ...englishConfig,
+          phonemes: [phoneme],
+          sonorityHierarchy: hierarchy,
+        }).get(phoneme),
+      ).toBe(17);
+      expect(
+        computeSonorityLevels({
+          ...englishConfig,
+          phonemes: [phoneme],
+          sonorityHierarchy: {
+            ...hierarchy,
+            mannerOfArticulation: {},
+            placeOfArticulation: {},
+          },
+        }).get(phoneme),
+      ).toBe(7);
     });
   });
 
