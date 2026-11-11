@@ -48,6 +48,11 @@ or a custom trill cannot be inferred from a string alone. The IPA chart separate
 defines trill/approximant, aspiration, rhoticity, stress and length notation.
 [Official IPA chart](https://www.internationalphoneticassociation.org/IPAcharts/IPA_charts_TI/IPA_charts_TI.html)
 
+Vocal Speak may apply a separate **narrow IPA export** (`toNarrowIpa` /
+`toNarrowPronunciation`, profile `chimera-english-v1`) before Chimera
+`tokenizeIpa`. That projection is interop-only and must not be folded into this
+observer — see [`narrow-ipa.md`](./narrow-ipa.md).
+
 ## Unresolved identity and unavailable history
 
 | Observation | Contract |

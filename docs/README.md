@@ -26,5 +26,9 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
   explicit morphology parts, and planned/resolved trace provenance.
 - [`pronunciation-config-migration.md`](./pronunciation-config-migration.md):
   current stress/aspiration pronunciation schema reference.
+- [`narrow-ipa.md`](./narrow-ipa.md): Chimera Speak export lens (`r→ɹ`,
+  `əʊ→oʊ`, `ɜ→ɝ`); projection ≠ identity resolution.
+- [`phoneme-identity.md`](./phoneme-identity.md): observational identities and
+  scoring projections for the legacy inventory.
 
 - [`coda-extensions.md`](./coda-extensions.md): optional root coda validation.

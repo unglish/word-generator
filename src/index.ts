@@ -123,5 +123,12 @@ export type {
   Recorded, StressObservation, SegmentObservation, WordIdentityObservation,
   CoarseProjectionItem, CmuTokenObservation,
 } from "./phonology/identity.js";
+export {
+  narrowIpaProfile, phonesFromWord, toNarrowIpa, toNarrowPhones, toNarrowPronunciation,
+} from "./phonology/narrow-ipa.js";
+export type {
+  NarrowIpaProfileId, NarrowIpaOptions, NarrowPhoneIn, NarrowPhoneOut,
+  NarrowIpaRemap, NarrowIpaProfile,
+} from "./phonology/narrow-ipa.js";
 export type { GraphemeReading } from "./types.js";
 export type { SpellingBudgetOutcome, SpellingBudgetMeasurement, SpellingBudgetValues, SpellingBudgetRefusal, SpellingCoverageCertificate, SpellingChoiceLicense, SpellingUnitReplacement } from "./core/spelling-coverage-types.js";
