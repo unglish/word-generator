@@ -71,6 +71,10 @@ export function validatePlan(comparison: WrittenComparison, plan: ComparisonPlan
 }
 export function reviewerPacket(comparison: WrittenComparison, plan: ComparisonPlan, sessionId: string): ReviewerPacket {
   validatePlan(comparison, plan);
+  return packetFor(comparison, plan, sessionId);
+}
+/** Builds a session packet from a plan the caller has already validated with `validatePlan`. */
+export function packetFor(comparison: WrittenComparison, plan: ComparisonPlan, sessionId: string): ReviewerPacket {
   const session = plan.sessions.find(value => value.id === sessionId);
   if (!session) throw new Error("Unknown comparison session.");
   const items = new Map(comparison.items.map(item => [item.id, item]));

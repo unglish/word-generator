@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { validAnswer } from "../../protocol.js";
 import { digest } from "../../snapshot.js";
-import { reviewerPacket, validatePlan } from "../comparison-allocation.js";
+import { packetFor, validatePlan } from "../comparison-allocation.js";
 import { validateEnrollment } from "../inference-protocol.js";
 import type { ComparisonPlan, WrittenComparison } from "../comparison-model.js";
 import type { EnrollmentRoster } from "../inference-model.js";
@@ -58,11 +58,13 @@ function assignedSessions(state: CollectorState, participant: string) {
   if (!state.manifest.comparison.registration.participant_slots.includes(participant)) throw new CollectorError("Unknown participant slot.", 403);
   return state.manifest.plan.sessions.filter(session => session.participant_slot === participant).sort((a, b) => a.ordinal - b.ordinal);
 }
+// The manifest's plan was validated when the collector state was created or
+// restored, so per-request packets skip re-allocating and re-hashing it.
 export function nextAssignment(state: CollectorState, participant: string) {
   const responses = new Map(state.data.responses.map(response => [`${response.session_id}:${response.position}`, response]));
   for (const session of assignedSessions(state, participant)) {
     const position = session.item_ids.findIndex((_, index) => !responses.has(`${session.id}:${index}`));
-    if (position >= 0) return { exhausted: false as const, packet: reviewerPacket(state.manifest.comparison, state.manifest.plan, session.id), position };
+    if (position >= 0) return { exhausted: false as const, packet: packetFor(state.manifest.comparison, state.manifest.plan, session.id), position };
   }
   return { exhausted: true as const };
 }

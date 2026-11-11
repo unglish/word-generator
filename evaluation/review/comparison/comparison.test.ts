@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { fixtureSnapshot } from "../fixtures.js";
 import { RUBRIC } from "../protocol.js";
 import { digest } from "../snapshot.js";
-import { allocateComparison, reviewerPacket, validatePlan } from "./comparison-allocation.js";
+import { allocateComparison, packetFor, reviewerPacket, validatePlan } from "./comparison-allocation.js";
 import { freezeComparison, validateComparison } from "./comparison-freeze.js";
 import { buildComparisonReport, validateComparisonExport } from "./comparison-report.js";
 import type { ComparisonExport, ComparisonRegistration, Condition } from "./comparison-model.js";
@@ -106,6 +106,7 @@ describe("balanced participant plans", () => {
   it("exports only the unchanged rubric, opaque item IDs and spellings", () => {
     const frozen = comparison(), plan = allocateComparison(frozen);
     const packet = reviewerPacket(frozen, plan, plan.sessions[0].id);
+    expect(packetFor(frozen, plan, plan.sessions[0].id)).toEqual(packet);
     expect(Object.keys(packet)).toEqual(["session_id", "assignment"]);
     expect(Object.keys(packet.assignment)).toEqual(["rubric", "items"]);
     expect(packet.assignment.rubric).toEqual(RUBRIC);
