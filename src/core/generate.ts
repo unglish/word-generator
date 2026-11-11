@@ -518,6 +518,7 @@ function clusterCandidateRejection(
 
   const regex = rt.invalidClusterRegexes[context.position];
   if (regex) {
+    // Avoid allocating a temporary array for each candidate in this hot path.
     let potentialCluster = "";
     for (let i = 0; i < clusterSounds.length; i++)
       potentialCluster += clusterSounds[i];

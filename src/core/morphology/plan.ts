@@ -77,6 +77,8 @@ export function planMorphology(
     return { plan: { template }, syllableReduction: 0 };
   }
 
+  // Keep the former zero-initialized accumulator arithmetic, including coercion
+  // for untyped custom affix counts, rather than changing deep-import behavior.
   if (template === "prefixed") {
     const prefix = pickWeighted(config.prefixes, (a) => a.frequency, rand);
     return {

@@ -178,8 +178,8 @@ export function toNarrowPhones(
 }
 
 /**
- * Preferred Speak path: map syllable phones via {@link toNarrowPhones} and
- * rejoin with the same stress / `.` / `ʰ` rules as `buildPronunciationGuide`.
+ * Preferred Speak path: apply {@link remapSound} with the shared
+ * {@link renderPronunciation} stress, separator and aspiration rules.
  */
 export function toNarrowPronunciation(
   word: WordLike,

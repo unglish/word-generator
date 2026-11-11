@@ -151,6 +151,7 @@ const applyAspiration = (
 ): void => {
   const syllables = context.word.syllables;
 
+  // Avoid per-syllable work on the untraced, aspiration-disabled hot path.
   if (!context.trace && !rules.enabled) return;
 
   for (let i = 0; i < syllables.length; i++) {
