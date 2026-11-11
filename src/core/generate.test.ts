@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { createGenerator, generateWord, generateWords, _buildCluster as buildCluster } from "./generate";
+import {
+  createGenerator,
+  generateWord,
+  generateWords,
+  _buildCluster as buildCluster,
+} from "./generate";
 import { ClusterContext, Phoneme, Word } from "../types";
 import type { LanguageConfig } from "../config/language";
 import { englishConfig } from "../config/english";
@@ -9,10 +14,11 @@ import { findExample } from "../test-support/find-example";
 import type { WordTrace } from "./trace";
 
 const maxVowelLetters = englishConfig.writtenFormConstraints!.maxVowelLetters!;
-const maxFinalConsonantLetters = englishConfig.writtenFormConstraints!.maxFinalConsonantLetters!;
+const maxFinalConsonantLetters =
+  englishConfig.writtenFormConstraints!.maxFinalConsonantLetters!;
 
 function repairsFor(word: Word, rule: string) {
-  return word.trace!.repairs.filter(repair => repair.rule === rule);
+  return word.trace!.repairs.filter((repair) => repair.rule === rule);
 }
 
 function finalVowelRun(spelling: string): number {
@@ -27,34 +33,56 @@ function lastSelection(word: Word) {
   return word.trace!.graphemeSelections.at(-1)!;
 }
 
-function hasTerminalVowelAfterVowelLetter(word: Word, selected: string, sameSyllable: boolean): boolean {
+function hasTerminalVowelAfterVowelLetter(
+  word: Word,
+  selected: string,
+  sameSyllable: boolean,
+): boolean {
   const vowel = lastSelection(word);
   const preceding = word.trace!.graphemeSelections.at(-2);
-  return vowel.position === "nucleus"
-    && vowel.selected === selected && vowel.emitted === selected
-    && preceding !== undefined && preceding.position !== "nucleus"
-    && (preceding.syllableIndex === vowel.syllableIndex) === sameSyllable
-    && /[aeiou]$/.test(preceding.emitted);
+  return (
+    vowel.position === "nucleus" &&
+    vowel.selected === selected &&
+    vowel.emitted === selected &&
+    preceding !== undefined &&
+    preceding.position !== "nucleus" &&
+    (preceding.syllableIndex === vowel.syllableIndex) === sameSyllable &&
+    /[aeiou]$/.test(preceding.emitted)
+  );
 }
 
 /** The orthography unit that owns the word's final letter. */
 function finalLetterOwner(word: Word) {
   const orthography = word.trace!.orthography!;
   const owner = orthography.chars.at(-1)!.unitId;
-  return orthography.graphemeUnits.find(unit => unit.id === owner)!;
+  return orthography.graphemeUnits.find((unit) => unit.id === owner)!;
 }
 
 /** Multiplies the nucleus weight of `sounds`, keeping phonemeMaps pointing at the same objects. */
-function withBoostedNuclei(config: LanguageConfig, sounds: string[], factor: number): LanguageConfig {
+function withBoostedNuclei(
+  config: LanguageConfig,
+  sounds: string[],
+  factor: number,
+): LanguageConfig {
   const boosted = new Map<Phoneme, Phoneme>();
-  const phonemes = config.phonemes.map(phoneme => {
-    if (!sounds.includes(phoneme.sound) || phoneme.nucleus === undefined) return phoneme;
+  const phonemes = config.phonemes.map((phoneme) => {
+    if (!sounds.includes(phoneme.sound) || phoneme.nucleus === undefined)
+      return phoneme;
     const next = { ...phoneme, nucleus: phoneme.nucleus * factor };
     boosted.set(phoneme, next);
     return next;
   });
-  const nucleus = new Map([...config.phonemeMaps.nucleus].map(([sound, entries]) => [sound, entries.map(entry => boosted.get(entry) ?? entry)]));
-  return { ...config, phonemes, phonemeMaps: { ...config.phonemeMaps, nucleus } };
+  const nucleus = new Map(
+    [...config.phonemeMaps.nucleus].map(([sound, entries]) => [
+      sound,
+      entries.map((entry) => boosted.get(entry) ?? entry),
+    ]),
+  );
+  return {
+    ...config,
+    phonemes,
+    phonemeMaps: { ...config.phonemeMaps, nucleus },
+  };
 }
 
 /**
@@ -63,27 +91,51 @@ function withBoostedNuclei(config: LanguageConfig, sounds: string[], factor: num
  * every final selected vowel spelling of two or more letters then exercises it.
  */
 const TERMINAL_VOWEL_CAP = 1;
-function terminalVowelConfig(overrides: Partial<LanguageConfig> = {}): LanguageConfig {
+function terminalVowelConfig(
+  overrides: Partial<LanguageConfig> = {},
+): LanguageConfig {
   const boosted = withBoostedNuclei(englishConfig, ["eɪ", "ɔɪ"], 100);
   return {
     ...boosted,
-    writtenFormConstraints: { ...boosted.writtenFormConstraints!, maxVowelLetters: TERMINAL_VOWEL_CAP },
+    writtenFormConstraints: {
+      ...boosted.writtenFormConstraints!,
+      maxVowelLetters: TERMINAL_VOWEL_CAP,
+    },
     ...overrides,
   };
 }
 
-function withFinalIProbability(config: LanguageConfig, probability: number): LanguageConfig {
-  return { ...config, spellingRules: config.spellingRules!.map(rule => rule.name === "no-final-i" ? { ...rule, probability } : rule) };
+function withFinalIProbability(
+  config: LanguageConfig,
+  probability: number,
+): LanguageConfig {
+  return {
+    ...config,
+    spellingRules: config.spellingRules!.map((rule) =>
+      rule.name === "no-final-i" ? { ...rule, probability } : rule,
+    ),
+  };
 }
 
 /** The legacy deletion repairs these cap tests exercise; preserve-phones retains over-budget spellings instead. */
 function withLegacyRepairs(config: LanguageConfig): LanguageConfig {
-  return { ...config, writtenFormConstraints: { ...config.writtenFormConstraints, policy: undefined } };
+  return {
+    ...config,
+    writtenFormConstraints: {
+      ...config.writtenFormConstraints,
+      policy: undefined,
+    },
+  };
 }
 
 /** Stages that see the affixed word; every other stage describes the root alone. */
-const WORD_STAGES = new Set(["assembleMorphology", "repairFinalStressedNuclei", "generatePronunciation"]);
-const rootStages = (trace: WordTrace) => trace.stages.filter(stage => !WORD_STAGES.has(stage.name));
+const WORD_STAGES = new Set([
+  "assembleMorphology",
+  "repairFinalStressedNuclei",
+  "generatePronunciation",
+]);
+const rootStages = (trace: WordTrace) =>
+  trace.stages.filter((stage) => !WORD_STAGES.has(stage.name));
 
 describe("Word Generator", () => {
   it("generates word with specified syllable count", () => {
@@ -100,10 +152,12 @@ describe("Word Generator", () => {
         expect(trace.syllableCount).toBe(syllableCount);
         expect(trace.syllablePlans).toHaveLength(syllableCount);
         expect(word.lexical!.root).toHaveLength(syllableCount);
-        for (const stage of rootStages(trace)) expect(stage.after).toHaveLength(syllableCount);
+        for (const stage of rootStages(trace))
+          expect(stage.after).toHaveLength(syllableCount);
         const realized = trace.morphology?.realization;
-        const added = (realized?.prefix?.resolved.syllableCount ?? 0)
-          + (realized?.suffix?.resolved.syllableCount ?? 0);
+        const added =
+          (realized?.prefix?.resolved.syllableCount ?? 0) +
+          (realized?.suffix?.resolved.syllableCount ?? 0);
         expect(word.syllables).toHaveLength(syllableCount + added);
         if (trace.summary.morphologyApplied) affixed++;
       }
@@ -113,27 +167,41 @@ describe("Word Generator", () => {
 
   it("selects the same root regardless of affix phone, syllable, and letter costs", () => {
     const short: import("../config/language.js").Affix = {
-      type: "suffix", written: "s", phonemes: ["z"], syllables: [],
-      syllableCount: 0, stressEffect: "none", frequency: 1,
+      type: "suffix",
+      written: "s",
+      phonemes: ["z"],
+      syllables: [],
+      syllableCount: 0,
+      stressEffect: "none",
+      frequency: 1,
     };
     // Both suffixes start with a consonant letter: the root's last grapheme
     // may see the suffix's first letter (no "ea" before a vowel letter, #381).
     // That is spelling context at the edge, not an affix cost.
     const long: import("../config/language.js").Affix = {
-      ...short, written: "nanananananana", phonemes: ["ɑ", "n", "ɑ", "n", "ɑ", "n"],
-      syllables: Array.from({ length: 3 }, () => ({ onset: [], nucleus: ["ɑ"], coda: ["n"] })),
+      ...short,
+      written: "nanananananana",
+      phonemes: ["ɑ", "n", "ɑ", "n", "ɑ", "n"],
+      syllables: Array.from({ length: 3 }, () => ({
+        onset: [],
+        nucleus: ["ɑ"],
+        coda: ["n"],
+      })),
       syllableCount: 3,
     };
-    const make = (suffix: import("../config/language.js").Affix) => createGenerator({
-      ...englishConfig,
-      morphology: {
-        ...englishConfig.morphology!, prefixes: [], suffixes: [suffix],
-        templateWeights: {
-          text: { bare: 0, suffixed: 1, prefixed: 0, both: 0 },
-          lexicon: { bare: 0, suffixed: 1, prefixed: 0, both: 0 },
+    const make = (suffix: import("../config/language.js").Affix) =>
+      createGenerator({
+        ...englishConfig,
+        morphology: {
+          ...englishConfig.morphology!,
+          prefixes: [],
+          suffixes: [suffix],
+          templateWeights: {
+            text: { bare: 0, suffixed: 1, prefixed: 0, both: 0 },
+            lexicon: { bare: 0, suffixed: 1, prefixed: 0, both: 0 },
+          },
         },
-      },
-    });
+      });
     const shortGenerator = make(short);
     const longGenerator = make(long);
     for (let seed = 0; seed < 64; seed++) {
@@ -147,10 +215,16 @@ describe("Word Generator", () => {
       expect(b.trace!.attempts).toBe(a.trace!.attempts);
       expect(b.syllables).toHaveLength(a.syllables.length + 3);
     }
-    const seven = longGenerator.generateWord({ seed: 13, syllableCount: 7, trace: true });
+    const seven = longGenerator.generateWord({
+      seed: 13,
+      syllableCount: 7,
+      trace: true,
+    });
     expect(seven.trace!.syllableCount).toBe(7);
     expect(seven.syllables).toHaveLength(10);
-    expect(() => longGenerator.generateWord({ syllableCount: 8 })).toThrow(RangeError);
+    expect(() => longGenerator.generateWord({ syllableCount: 8 })).toThrow(
+      RangeError,
+    );
   });
 
   it("generates a word with a valid written form", () => {
@@ -166,48 +240,94 @@ describe("Word Generator", () => {
 
   it("keeps hyphenated output aligned after morphology consonant repair", () => {
     // A tighter consonant cap makes junction repairs common enough to find quickly.
-    const generator = createGenerator(withLegacyRepairs({
-      ...englishConfig,
-      writtenFormConstraints: { ...englishConfig.writtenFormConstraints!, maxConsonantGraphemes: 3, maxConsonantLetters: 3 },
-    }));
-    const { word, options } = findExample(word => {
-      const realization = word.trace!.morphology?.realization;
-      return !!realization && realization.emittedParts.some((part, index) => part.text !== realization.assembledParts[index].text);
-    }, { property: "an affixed word changed by the post-morphology consonant repair", limit: 3000, generator, options: { morphology: true } });
+    const generator = createGenerator(
+      withLegacyRepairs({
+        ...englishConfig,
+        writtenFormConstraints: {
+          ...englishConfig.writtenFormConstraints!,
+          maxConsonantGraphemes: 3,
+          maxConsonantLetters: 3,
+        },
+      }),
+    );
+    const { word, options } = findExample(
+      (word) => {
+        const realization = word.trace!.morphology?.realization;
+        return (
+          !!realization &&
+          realization.emittedParts.some(
+            (part, index) =>
+              part.text !== realization.assembledParts[index].text,
+          )
+        );
+      },
+      {
+        property:
+          "an affixed word changed by the post-morphology consonant repair",
+        limit: 3000,
+        generator,
+        options: { morphology: true },
+      },
+    );
     expect(word.written.hyphenated).toBe(word.written.clean);
-    expect(generator.generateWord({ ...options, trace: false }).written).toEqual(word.written);
+    expect(
+      generator.generateWord({ ...options, trace: false }).written,
+    ).toEqual(word.written);
   });
 
   it("preserves a root-final consonant cluster before -ly with terminal-y-aware repair", () => {
-    const ly = englishConfig.morphology!.suffixes.find(suffix => suffix.written === "ly")!;
+    const ly = englishConfig.morphology!.suffixes.find(
+      (suffix) => suffix.written === "ly",
+    )!;
     const generator = createGenerator({
       ...englishConfig,
       morphology: {
-        ...englishConfig.morphology!, prefixes: [], suffixes: [ly],
+        ...englishConfig.morphology!,
+        prefixes: [],
+        suffixes: [ly],
         templateWeights: {
           text: { bare: 0, suffixed: 1, prefixed: 0, both: 0 },
           lexicon: { bare: 0, suffixed: 1, prefixed: 0, both: 0 },
         },
       },
     });
-    const rootText = (word: Word) => word.trace!.morphology!.realization!.assembledParts.find(part => part.role === "root")!.text;
+    const rootText = (word: Word) =>
+      word.trace!.morphology!.realization!.assembledParts.find(
+        (part) => part.role === "root",
+      )!.text;
     // Counting the terminal y as a consonant would push this run past the final-consonant cap.
-    const { word, options } = findExample(word => endsInConsonantLetters(rootText(word), maxFinalConsonantLetters), {
-      property: `a one-syllable root ending in ${maxFinalConsonantLetters} consonant letters before -ly`,
-      limit: 300, generator, options: { mode: "text", syllableCount: 1 },
-    });
+    const { word, options } = findExample(
+      (word) =>
+        endsInConsonantLetters(rootText(word), maxFinalConsonantLetters),
+      {
+        property: `a one-syllable root ending in ${maxFinalConsonantLetters} consonant letters before -ly`,
+        limit: 300,
+        generator,
+        options: { mode: "text", syllableCount: 1 },
+      },
+    );
     const root = rootText(word);
     const plain = generator.generateWord({ ...options, trace: false });
     const { trace, ...traced } = word;
     expect(plain.written.clean).toBe(`${root}ly`);
     expect(plain.written.hyphenated.replace(/&shy;/g, "")).toBe(`${root}ly`);
     expect(trace!.morphology!.realization!.assembledParts).toEqual([
-      { role: "root", text: root }, { role: "suffix", text: "ly" },
+      { role: "root", text: root },
+      { role: "suffix", text: "ly" },
     ]);
-    expect(trace!.morphology!.realization!.emittedParts).toEqual(trace!.morphology!.realization!.assembledParts);
+    expect(trace!.morphology!.realization!.emittedParts).toEqual(
+      trace!.morphology!.realization!.assembledParts,
+    );
     const rootSyllable = plain.syllables[0];
-    const rootPhonemes = rootSyllable.onset.length + rootSyllable.nucleus.length + rootSyllable.coda.length;
-    expect(trace!.selection!.selected).toMatchObject({ syllables: 1, phonemes: rootPhonemes, letters: root.length });
+    const rootPhonemes =
+      rootSyllable.onset.length +
+      rootSyllable.nucleus.length +
+      rootSyllable.coda.length;
+    expect(trace!.selection!.selected).toMatchObject({
+      syllables: 1,
+      phonemes: rootPhonemes,
+      letters: root.length,
+    });
     expect(trace!.attempts).toBe(trace!.selection!.attemptsExecuted - 1);
     expect(traced).toEqual(plain);
     expect(generator.generateWord({ ...options, trace: false })).toEqual(plain);
@@ -215,123 +335,293 @@ describe("Word Generator", () => {
 
   it("preserves a maximal final consonant run before terminal y in the post-spelling backstop", () => {
     // The final-i rule turns ...CCCi into ...CCCy; y is a vowel there, so the run stays legal.
-    const finalIRewrite = (word: Word) => repairsFor(word, "spellingRule:no-final-i")
-      .find(repair => endsInConsonantLetters(repair.before.slice(0, -1), maxFinalConsonantLetters));
-    const { word } = findExample(word => finalIRewrite(word) !== undefined, {
+    const finalIRewrite = (word: Word) =>
+      repairsFor(word, "spellingRule:no-final-i").find((repair) =>
+        endsInConsonantLetters(
+          repair.before.slice(0, -1),
+          maxFinalConsonantLetters,
+        ),
+      );
+    const { word } = findExample((word) => finalIRewrite(word) !== undefined, {
       property: `a final-i rewrite after ${maxFinalConsonantLetters} consonant letters`,
-      limit: 3000, options: { mode: "text", morphology: false },
+      limit: 3000,
+      options: { mode: "text", morphology: false },
     });
-    expect(word.trace!.repairs).not.toContainEqual(expect.objectContaining({ rule: "postSpellingBackstop" }));
+    expect(word.trace!.repairs).not.toContainEqual(
+      expect.objectContaining({ rule: "postSpellingBackstop" }),
+    );
     expect(word.written.clean).toBe(finalIRewrite(word)!.after);
   });
 
   it.each([
-    { mode: "lexicon", phoneme: "eɪ", selected: "ey", surface: "ey", sameSyllable: true },
-    { mode: "text", phoneme: "eɪ", selected: "ey", surface: "ey", sameSyllable: true },
-    { mode: "lexicon", phoneme: "ɔɪ", selected: "oy", surface: "oy", sameSyllable: true },
-    { mode: "text", phoneme: "ɔɪ", selected: "oy", surface: "oy", sameSyllable: true },
-    { mode: "lexicon", phoneme: "ɔɪ", selected: "oi", surface: "oy", sameSyllable: true },
-    { mode: "text", phoneme: "ɔɪ", selected: "oi", surface: "oy", sameSyllable: true },
-    { mode: "lexicon", phoneme: "eɪ", selected: "ey", surface: "ey", sameSyllable: false },
-    { mode: "lexicon", phoneme: "ɔɪ", selected: "oi", surface: "oy", sameSyllable: false },
-    { mode: "text", phoneme: "ɔɪ", selected: "oi", surface: "oy", sameSyllable: false },
-  ] as const)("preserves selected $selected after a vowel letter ($mode, same syllable: $sameSyllable)", ({ mode, phoneme, selected, surface, sameSyllable }) => {
-    // Concentrate the search on the selected vowel and its preceding vowel letter.
-    const graphemes = englishConfig.graphemes.map(g => {
-      if (g.phoneme === phoneme) return { ...g, form: selected };
-      if (g.phoneme === "g") return { ...g, form: "gu" };
-      if (g.phoneme === "k") return { ...g, form: "qu" };
-      return g;
-    });
-    const generator = createGenerator(withFinalIProbability(terminalVowelConfig({
-      graphemes, graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
-      // Otherwise magic-e can legitimately turn ...uey into ...uye before the cap.
-      spellingRules: englishConfig.spellingRules!.filter(rule => rule.name !== "magic-e"),
-    }), 100));
-    const { word, options } = findExample(word => hasTerminalVowelAfterVowelLetter(word, selected, sameSyllable), {
-      property: `a bare final ${selected} selection after a vowel letter ${sameSyllable ? "in the same syllable" : "across a syllable boundary"}`,
-      limit: 5000, generator, options: { mode, morphology: false, syllableCount: sameSyllable ? undefined : 2 },
-    });
-    const plain = generator.generateWord({ ...options, trace: false });
-    const { trace, ...traced } = word;
-    const spelling = plain.written.clean;
-    const preceding = trace!.graphemeSelections.at(-2)!;
-    expect(spelling.endsWith(`${preceding.emitted}${surface}`)).toBe(true);
-    expect(finalVowelRun(spelling)).toBeGreaterThan(TERMINAL_VOWEL_CAP);
-    expect(plain.written.hyphenated.replace(/&shy;/g, "")).toBe(spelling);
-    expect(trace!.selection!.selected.letters).toBe(spelling.length);
-    expect(trace!.attempts).toBe(trace!.selection!.attemptsExecuted - 1);
-    const vowelUnit = finalLetterOwner(word);
-    expect(vowelUnit.start).toBeDefined();
-    expect(vowelUnit.selected).toBe(selected);
-    expect(spelling.slice(vowelUnit.start!, vowelUnit.end! + 1)).toBe(surface);
-    expect(traced).toEqual(plain);
-    expect(generator.generateWord({ ...options, trace: false })).toEqual(plain);
-  });
+    {
+      mode: "lexicon",
+      phoneme: "eɪ",
+      selected: "ey",
+      surface: "ey",
+      sameSyllable: true,
+    },
+    {
+      mode: "text",
+      phoneme: "eɪ",
+      selected: "ey",
+      surface: "ey",
+      sameSyllable: true,
+    },
+    {
+      mode: "lexicon",
+      phoneme: "ɔɪ",
+      selected: "oy",
+      surface: "oy",
+      sameSyllable: true,
+    },
+    {
+      mode: "text",
+      phoneme: "ɔɪ",
+      selected: "oy",
+      surface: "oy",
+      sameSyllable: true,
+    },
+    {
+      mode: "lexicon",
+      phoneme: "ɔɪ",
+      selected: "oi",
+      surface: "oy",
+      sameSyllable: true,
+    },
+    {
+      mode: "text",
+      phoneme: "ɔɪ",
+      selected: "oi",
+      surface: "oy",
+      sameSyllable: true,
+    },
+    {
+      mode: "lexicon",
+      phoneme: "eɪ",
+      selected: "ey",
+      surface: "ey",
+      sameSyllable: false,
+    },
+    {
+      mode: "lexicon",
+      phoneme: "ɔɪ",
+      selected: "oi",
+      surface: "oy",
+      sameSyllable: false,
+    },
+    {
+      mode: "text",
+      phoneme: "ɔɪ",
+      selected: "oi",
+      surface: "oy",
+      sameSyllable: false,
+    },
+  ] as const)(
+    "preserves selected $selected after a vowel letter ($mode, same syllable: $sameSyllable)",
+    ({ mode, phoneme, selected, surface, sameSyllable }) => {
+      // Concentrate the search on the selected vowel and its preceding vowel letter.
+      const graphemes = englishConfig.graphemes.map((g) => {
+        if (g.phoneme === phoneme) return { ...g, form: selected };
+        if (g.phoneme === "g") return { ...g, form: "gu" };
+        if (g.phoneme === "k") return { ...g, form: "qu" };
+        return g;
+      });
+      const generator = createGenerator(
+        withFinalIProbability(
+          terminalVowelConfig({
+            graphemes,
+            graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
+            // Otherwise magic-e can legitimately turn ...uey into ...uye before the cap.
+            spellingRules: englishConfig.spellingRules!.filter(
+              (rule) => rule.name !== "magic-e",
+            ),
+          }),
+          100,
+        ),
+      );
+      const { word, options } = findExample(
+        (word) =>
+          hasTerminalVowelAfterVowelLetter(word, selected, sameSyllable),
+        {
+          property: `a bare final ${selected} selection after a vowel letter ${
+            sameSyllable ? "in the same syllable" : "across a syllable boundary"
+          }`,
+          limit: 5000,
+          generator,
+          options: {
+            mode,
+            morphology: false,
+            syllableCount: sameSyllable ? undefined : 2,
+          },
+        },
+      );
+      const plain = generator.generateWord({ ...options, trace: false });
+      const { trace, ...traced } = word;
+      const spelling = plain.written.clean;
+      const preceding = trace!.graphemeSelections.at(-2)!;
+      expect(spelling.endsWith(`${preceding.emitted}${surface}`)).toBe(true);
+      expect(finalVowelRun(spelling)).toBeGreaterThan(TERMINAL_VOWEL_CAP);
+      expect(plain.written.hyphenated.replace(/&shy;/g, "")).toBe(spelling);
+      expect(trace!.selection!.selected.letters).toBe(spelling.length);
+      expect(trace!.attempts).toBe(trace!.selection!.attemptsExecuted - 1);
+      const vowelUnit = finalLetterOwner(word);
+      expect(vowelUnit.start).toBeDefined();
+      expect(vowelUnit.selected).toBe(selected);
+      expect(spelling.slice(vowelUnit.start!, vowelUnit.end! + 1)).toBe(
+        surface,
+      );
+      expect(traced).toEqual(plain);
+      expect(generator.generateWord({ ...options, trace: false })).toEqual(
+        plain,
+      );
+    },
+  );
 
   it("caps the same final vowel run when the final-i rule does not produce y", () => {
-    const generator = createGenerator(withLegacyRepairs(withFinalIProbability(terminalVowelConfig(), 1)));
-    const { word, options } = findExample(word => {
-      const selection = lastSelection(word);
-      return selection.position === "nucleus" && selection.selected.length > TERMINAL_VOWEL_CAP && selection.selected.endsWith("i")
-        && repairsFor(word, "spellingRule:no-final-i").length === 0;
-    }, {
-      property: "a final multi-letter ...i vowel spelling left as i by the final-i rule",
-      limit: 4000, generator, options: { morphology: false },
-    });
+    const generator = createGenerator(
+      withLegacyRepairs(withFinalIProbability(terminalVowelConfig(), 1)),
+    );
+    const { word, options } = findExample(
+      (word) => {
+        const selection = lastSelection(word);
+        return (
+          selection.position === "nucleus" &&
+          selection.selected.length > TERMINAL_VOWEL_CAP &&
+          selection.selected.endsWith("i") &&
+          repairsFor(word, "spellingRule:no-final-i").length === 0
+        );
+      },
+      {
+        property:
+          "a final multi-letter ...i vowel spelling left as i by the final-i rule",
+        limit: 4000,
+        generator,
+        options: { morphology: false },
+      },
+    );
     const selected = lastSelection(word).selected;
-    const cap = repairsFor(word, "repairVowelLetters:postJoin").find(repair => repair.before.endsWith(selected));
-    expect(cap, "post-join vowel cap of the selected final spelling").toBeDefined();
+    const cap = repairsFor(word, "repairVowelLetters:postJoin").find((repair) =>
+      repair.before.endsWith(selected),
+    );
+    expect(
+      cap,
+      "post-join vowel cap of the selected final spelling",
+    ).toBeDefined();
     expect(cap!.before.startsWith(cap!.after)).toBe(true);
     expect(finalVowelRun(cap!.after)).toBeLessThanOrEqual(TERMINAL_VOWEL_CAP);
     expect(word.written.clean).toBe(cap!.after);
-    expect({ ...word, trace: undefined }).toEqual(generator.generateWord({ ...options, trace: false }));
+    expect({ ...word, trace: undefined }).toEqual(
+      generator.generateWord({ ...options, trace: false }),
+    );
   });
 
   it("does not assign an inserted final y to its neighboring selected vowel", () => {
-    const generator = createGenerator(withLegacyRepairs({
-      ...englishConfig,
-      spellingRules: [...englishConfig.spellingRules!, { name: "unowned-final-y", pattern: "$", replacement: "y", scope: "word" }],
-    }));
+    const generator = createGenerator(
+      withLegacyRepairs({
+        ...englishConfig,
+        spellingRules: [
+          ...englishConfig.spellingRules!,
+          {
+            name: "unowned-final-y",
+            pattern: "$",
+            replacement: "y",
+            scope: "word",
+          },
+        ],
+      }),
+    );
     // A selected ...Vy spelling plus the inserted y exceeds the vowel-letter cap.
-    const { word, options } = findExample(word => lastSelection(word).position === "nucleus" && /[aeiou]y$/.test(lastSelection(word).emitted)
-      && repairsFor(word, "spellingRule:unowned-final-y").length > 0, {
-      property: "an inserted y after a final selected ...Vy vowel spelling",
-      limit: 2000, generator, options: { morphology: false },
-    });
+    const { word, options } = findExample(
+      (word) =>
+        lastSelection(word).position === "nucleus" &&
+        /[aeiou]y$/.test(lastSelection(word).emitted) &&
+        repairsFor(word, "spellingRule:unowned-final-y").length > 0,
+      {
+        property: "an inserted y after a final selected ...Vy vowel spelling",
+        limit: 2000,
+        generator,
+        options: { morphology: false },
+      },
+    );
     const { trace, ...traced } = word;
     const insertion = repairsFor(word, "spellingRule:unowned-final-y")[0];
-    expect(trace!.repairs).toContainEqual(expect.objectContaining({ rule: "repairVowelLetters:postJoin", before: insertion.after, after: insertion.before }));
+    expect(trace!.repairs).toContainEqual(
+      expect.objectContaining({
+        rule: "repairVowelLetters:postJoin",
+        before: insertion.after,
+        after: insertion.before,
+      }),
+    );
     expect(word.written.clean.endsWith(lastSelection(word).emitted)).toBe(true);
-    expect(traced).toEqual(generator.generateWord({ ...options, trace: false }));
+    expect(traced).toEqual(
+      generator.generateWord({ ...options, trace: false }),
+    );
   });
 
   it("does not protect terminal y belonging to a selected consonant spelling", () => {
-    const graphemes = englishConfig.graphemes.map(g => g.phoneme === "s" ? { ...g, form: "aeay" } : g);
-    const generator = createGenerator(withLegacyRepairs({ ...englishConfig, graphemes, graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps }));
-    const { word, options } = findExample(word => lastSelection(word).phoneme === "s" && lastSelection(word).selected === "aeay", {
-      property: "a word-final /s/ spelled aeay", limit: 300, generator, options: { syllableCount: 1, morphology: false },
+    const graphemes = englishConfig.graphemes.map((g) =>
+      g.phoneme === "s" ? { ...g, form: "aeay" } : g,
+    );
+    const generator = createGenerator(
+      withLegacyRepairs({
+        ...englishConfig,
+        graphemes,
+        graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
+      }),
+    );
+    const { word, options } = findExample(
+      (word) =>
+        lastSelection(word).phoneme === "s" &&
+        lastSelection(word).selected === "aeay",
+      {
+        property: "a word-final /s/ spelled aeay",
+        limit: 300,
+        generator,
+        options: { syllableCount: 1, morphology: false },
+      },
+    );
+    expect(lastSelection(word)).toMatchObject({
+      phoneme: "s",
+      position: "coda",
+      selected: "aeay",
     });
-    expect(lastSelection(word)).toMatchObject({ phoneme: "s", position: "coda", selected: "aeay" });
-    const cap = repairsFor(word, "repairVowelLetters").find(repair => repair.before.endsWith("aeay"));
+    const cap = repairsFor(word, "repairVowelLetters").find((repair) =>
+      repair.before.endsWith("aeay"),
+    );
     expect(cap, "vowel cap of the consonant spelling").toBeDefined();
     expect(cap!.after.endsWith("y")).toBe(false);
     expect(finalVowelRun(cap!.after)).toBeLessThanOrEqual(maxVowelLetters);
     expect(word.written.clean).toBe(cap!.after);
-    expect({ ...word, trace: undefined }).toEqual(generator.generateWord({ ...options, trace: false }));
+    expect({ ...word, trace: undefined }).toEqual(
+      generator.generateWord({ ...options, trace: false }),
+    );
   });
 
-  const aoyGraphemes = englishConfig.graphemes.map(g => g.phoneme === "eɪ" ? { ...g, form: "aoy" } : g);
-  const aoyConfig = { ...englishConfig, graphemes: aoyGraphemes, graphemeMaps: buildGraphemeMaps(aoyGraphemes).graphemeMaps };
+  const aoyGraphemes = englishConfig.graphemes.map((g) =>
+    g.phoneme === "eɪ" ? { ...g, form: "aoy" } : g,
+  );
+  const aoyConfig = {
+    ...englishConfig,
+    graphemes: aoyGraphemes,
+    graphemeMaps: buildGraphemeMaps(aoyGraphemes).graphemeMaps,
+  };
   const endsInAoyAfterConsonant = (word: Word) => {
     const selections = word.trace!.graphemeSelections;
-    return selections.at(-1)!.selected === "aoy" && selections.at(-1)!.position === "nucleus" && selections.at(-2)?.position !== "nucleus";
+    return (
+      selections.at(-1)!.selected === "aoy" &&
+      selections.at(-1)!.position === "nucleus" &&
+      selections.at(-2)?.position !== "nucleus"
+    );
   };
 
   it("preserves a generator-selected spelling outside the built-in vowel inventory", () => {
     const generator = createGenerator(aoyConfig);
     const { word, options } = findExample(endsInAoyAfterConsonant, {
-      property: "a final /eɪ/ spelled aoy after a consonant", limit: 1000, generator, options: { morphology: false },
+      property: "a final /eɪ/ spelled aoy after a consonant",
+      limit: 1000,
+      generator,
+      options: { morphology: false },
     });
     const plain = generator.generateWord({ ...options, trace: false });
     const { trace, ...traced } = word;
@@ -339,48 +629,96 @@ describe("Word Generator", () => {
     expect(clean.endsWith("aoy")).toBe(true);
     expect(hyphenated.endsWith("aoy")).toBe(true);
     expect(hyphenated.replace(/&shy;/g, "")).toBe(clean);
-    expect(lastSelection(word)).toMatchObject({ phoneme: "eɪ", position: "nucleus", selected: "aoy" });
-    expect(trace!.orthography!.graphemeUnits.at(-1)).toMatchObject({ selected: "aoy", present: true, start: clean.length - 3, end: clean.length - 1 });
+    expect(lastSelection(word)).toMatchObject({
+      phoneme: "eɪ",
+      position: "nucleus",
+      selected: "aoy",
+    });
+    expect(trace!.orthography!.graphemeUnits.at(-1)).toMatchObject({
+      selected: "aoy",
+      present: true,
+      start: clean.length - 3,
+      end: clean.length - 1,
+    });
     expect(traced).toEqual(plain);
   });
 
   it.each([
     { probability: 95, fired: true },
     { probability: 1, fired: false },
-  ])("resolves a deferred vowel unit before applying the cap (final-i probability $probability)", ({ probability, fired }) => {
-    const graphemes = englishConfig.graphemes.map(g => g.phoneme === "ɔɪ" ? { ...g, form: "uoi" } : g);
-    const generator = createGenerator(withLegacyRepairs(withFinalIProbability({
-      ...withBoostedNuclei(englishConfig, ["ɔɪ"], 100), graphemes, graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
-    }, probability)));
-    const { word, options } = findExample(word => lastSelection(word).selected === "uoi" && lastSelection(word).position === "nucleus"
-      && (repairsFor(word, "spellingRule:no-final-i").length > 0) === fired, {
-      property: `a final /ɔɪ/ spelled uoi where the final-i rule ${fired ? "fired" : "did not fire"}`,
-      limit: 1000, generator, options: { mode: "text", morphology: false },
-    });
-    const plain = generator.generateWord({ ...options, trace: false });
-    const { trace, ...traced } = word;
-    const { clean, hyphenated } = plain.written;
-    expect(hyphenated.replace(/&shy;/g, "")).toBe(clean);
-    expect(plain.pronunciation.endsWith("ɔɪ")).toBe(true);
-    if (fired) {
-      // Deferred until the rule turned it into y, the whole selected unit is protected.
-      expect(clean.endsWith("uoy")).toBe(true);
-    } else {
-      expect(clean.endsWith("i")).toBe(false);
-      expect(finalVowelRun(clean)).toBeLessThanOrEqual(maxVowelLetters);
-    }
-    expect(trace!.graphemeSelections.at(-1)).toMatchObject({ phoneme: "ɔɪ", selected: "uoi" });
-    expect(traced).toEqual(plain);
-    expect(generator.generateWord({ ...options, trace: false })).toEqual(plain);
-  });
+  ])(
+    "resolves a deferred vowel unit before applying the cap (final-i probability $probability)",
+    ({ probability, fired }) => {
+      const graphemes = englishConfig.graphemes.map((g) =>
+        g.phoneme === "ɔɪ" ? { ...g, form: "uoi" } : g,
+      );
+      const generator = createGenerator(
+        withLegacyRepairs(
+          withFinalIProbability(
+            {
+              ...withBoostedNuclei(englishConfig, ["ɔɪ"], 100),
+              graphemes,
+              graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
+            },
+            probability,
+          ),
+        ),
+      );
+      const { word, options } = findExample(
+        (word) =>
+          lastSelection(word).selected === "uoi" &&
+          lastSelection(word).position === "nucleus" &&
+          repairsFor(word, "spellingRule:no-final-i").length > 0 === fired,
+        {
+          property: `a final /ɔɪ/ spelled uoi where the final-i rule ${
+            fired ? "fired" : "did not fire"
+          }`,
+          limit: 1000,
+          generator,
+          options: { mode: "text", morphology: false },
+        },
+      );
+      const plain = generator.generateWord({ ...options, trace: false });
+      const { trace, ...traced } = word;
+      const { clean, hyphenated } = plain.written;
+      expect(hyphenated.replace(/&shy;/g, "")).toBe(clean);
+      expect(plain.pronunciation.endsWith("ɔɪ")).toBe(true);
+      if (fired) {
+        // Deferred until the rule turned it into y, the whole selected unit is protected.
+        expect(clean.endsWith("uoy")).toBe(true);
+      } else {
+        expect(clean.endsWith("i")).toBe(false);
+        expect(finalVowelRun(clean)).toBeLessThanOrEqual(maxVowelLetters);
+      }
+      expect(trace!.graphemeSelections.at(-1)).toMatchObject({
+        phoneme: "ɔɪ",
+        selected: "uoi",
+      });
+      expect(traced).toEqual(plain);
+      expect(generator.generateWord({ ...options, trace: false })).toEqual(
+        plain,
+      );
+    },
+  );
 
   it("carries vowel ownership through a length-changing captured spelling rewrite", () => {
     const generator = createGenerator({
       ...aoyConfig,
-      spellingRules: [...englishConfig.spellingRules!, { name: "owned-capture", pattern: "a(oy)$", replacement: "aa$1", scope: "word" }],
+      spellingRules: [
+        ...englishConfig.spellingRules!,
+        {
+          name: "owned-capture",
+          pattern: "a(oy)$",
+          replacement: "aa$1",
+          scope: "word",
+        },
+      ],
     });
     const { word, options } = findExample(endsInAoyAfterConsonant, {
-      property: "a final /eɪ/ spelled aoy after a consonant", limit: 1000, generator, options: { morphology: false },
+      property: "a final /eɪ/ spelled aoy after a consonant",
+      limit: 1000,
+      generator,
+      options: { morphology: false },
     });
     const plain = generator.generateWord({ ...options, trace: false });
     const { trace, ...traced } = word;
@@ -388,7 +726,12 @@ describe("Word Generator", () => {
     expect(clean.endsWith("aaoy")).toBe(true);
     expect(hyphenated.endsWith("aaoy")).toBe(true);
     expect(hyphenated.replace(/&shy;/g, "")).toBe(clean);
-    expect(trace!.orthography!.graphemeUnits.at(-1)).toMatchObject({ selected: "aoy", present: true, start: clean.length - 4, end: clean.length - 1 });
+    expect(trace!.orthography!.graphemeUnits.at(-1)).toMatchObject({
+      selected: "aoy",
+      present: true,
+      start: clean.length - 4,
+      end: clean.length - 1,
+    });
     expect(traced).toEqual(plain);
   });
 
@@ -400,16 +743,33 @@ describe("Word Generator", () => {
   });
 
   it("rejects invalid forced syllable counts", () => {
-    expect(() => generateWord({ syllableCount: 2.5, morphology: false })).toThrow(RangeError);
-    expect(() => generateWord({ syllableCount: Number.POSITIVE_INFINITY, morphology: false })).toThrow(RangeError);
-    expect(() => generateWord({ syllableCount: -1, morphology: false })).toThrow(RangeError);
+    expect(() =>
+      generateWord({ syllableCount: 2.5, morphology: false }),
+    ).toThrow(RangeError);
+    expect(() =>
+      generateWord({
+        syllableCount: Number.POSITIVE_INFINITY,
+        morphology: false,
+      }),
+    ).toThrow(RangeError);
+    expect(() =>
+      generateWord({ syllableCount: -1, morphology: false }),
+    ).toThrow(RangeError);
   });
 
   it("rejects invalid batch counts", () => {
-    expect(() => generateWords(Number.POSITIVE_INFINITY, { seed: 1, morphology: false })).toThrow(RangeError);
-    expect(() => generateWords(3.2, { seed: 1, morphology: false })).toThrow(RangeError);
-    expect(() => generateWords(-1, { seed: 1, morphology: false })).toThrow(RangeError);
-    expect(() => generateWords(1_000_001, { seed: 1, morphology: false })).toThrow(RangeError);
+    expect(() =>
+      generateWords(Number.POSITIVE_INFINITY, { seed: 1, morphology: false }),
+    ).toThrow(RangeError);
+    expect(() => generateWords(3.2, { seed: 1, morphology: false })).toThrow(
+      RangeError,
+    );
+    expect(() => generateWords(-1, { seed: 1, morphology: false })).toThrow(
+      RangeError,
+    );
+    expect(() =>
+      generateWords(1_000_001, { seed: 1, morphology: false }),
+    ).toThrow(RangeError);
   });
 
   it("boundary policy decisions are deterministic for fixed seed", () => {
@@ -484,8 +844,12 @@ describe("Word Generator", () => {
         trace: true,
         syllableCount: 4,
       });
-      alwaysCount += onWord.trace!.structural.filter(e => e.event === "risingCodaBoundaryDrop").length;
-      neverCount += offWord.trace!.structural.filter(e => e.event === "risingCodaBoundaryDrop").length;
+      alwaysCount += onWord.trace!.structural.filter(
+        (e) => e.event === "risingCodaBoundaryDrop",
+      ).length;
+      neverCount += offWord.trace!.structural.filter(
+        (e) => e.event === "risingCodaBoundaryDrop",
+      ).length;
     }
 
     expect(alwaysCount).toBeGreaterThan(0);
@@ -513,12 +877,15 @@ describe("buildCluster function", () => {
         syllableCount: 1,
       };
       const cluster = buildCluster(context);
-      const clusterString = cluster.map(p => p.sound).join("");
+      const clusterString = cluster.map((p) => p.sound).join("");
 
       allClusters.add(clusterString);
 
       // Check if the cluster starts with any special cluster and is 3 characters long
-      if (exceptionalClusters.some(sc => clusterString.startsWith(sc)) && clusterString.length === 3) {
+      if (
+        exceptionalClusters.some((sc) => clusterString.startsWith(sc)) &&
+        clusterString.length === 3
+      ) {
         foundClusters.add(clusterString.slice(0, 2));
       }
 
@@ -526,7 +893,7 @@ describe("buildCluster function", () => {
     }
 
     expect(foundClusters.size).toBe(exceptionalClusters.length);
-    exceptionalClusters.forEach(cluster => {
+    exceptionalClusters.forEach((cluster) => {
       expect(foundClusters.has(cluster)).toBe(true);
     });
   });
@@ -550,11 +917,15 @@ describe("buildCluster function", () => {
         syllableCount: 1,
       };
       const cluster = buildCluster(context);
-      const clusterString = cluster.map(p => p.sound).join("");
+      const clusterString = cluster.map((p) => p.sound).join("");
 
       allClusters.add(clusterString);
 
-      if (exceptionalClusters.some(exception => clusterString.endsWith(exception))) {
+      if (
+        exceptionalClusters.some((exception) =>
+          clusterString.endsWith(exception),
+        )
+      ) {
         foundClusters.add(clusterString.slice(0, 2));
       }
 
@@ -573,7 +944,9 @@ describe("isValidCluster", () => {
     // onsets only produce attested clusters.
     it("never generates an unattested multi-consonant onset", () => {
       const attestedSet = new Set(
-        englishConfig.clusterLimits!.attestedOnsets!.map((a: string[]) => a.join("|"))
+        englishConfig.clusterLimits!.attestedOnsets!.map((a: string[]) =>
+          a.join("|"),
+        ),
       );
       for (let i = 0; i < 10000; i++) {
         const context: ClusterContext = {
@@ -589,7 +962,7 @@ describe("isValidCluster", () => {
         };
         const cluster = buildCluster(context);
         if (cluster.length >= 2) {
-          const key = cluster.map(p => p.sound).join("|");
+          const key = cluster.map((p) => p.sound).join("|");
           expect(attestedSet.has(key)).toBe(true);
         }
       }
@@ -599,9 +972,13 @@ describe("isValidCluster", () => {
   describe("should only generate attested codas", () => {
     it("never generates an unattested multi-consonant coda", () => {
       const attestedSet = new Set(
-        englishConfig.clusterLimits!.attestedCodas!.map((a: string[]) => a.join("|"))
+        englishConfig.clusterLimits!.attestedCodas!.map((a: string[]) =>
+          a.join("|"),
+        ),
       );
-      const appendants = new Set(englishConfig.clusterLimits!.codaAppendants ?? []);
+      const appendants = new Set(
+        englishConfig.clusterLimits!.codaAppendants ?? [],
+      );
       for (let i = 0; i < 10000; i++) {
         const context: ClusterContext = {
           rand: createDefaultRng(),
@@ -616,32 +993,20 @@ describe("isValidCluster", () => {
         };
         const cluster = buildCluster(context);
         if (cluster.length >= 2) {
-          let sounds = cluster.map(p => p.sound);
+          let sounds = cluster.map((p) => p.sound);
           // Strip trailing appendant for check
           if (appendants.has(sounds[sounds.length - 1]) && sounds.length > 2) {
             sounds = sounds.slice(0, -1);
           }
           if (sounds.length >= 2) {
             const key = sounds.join("|");
-            expect(attestedSet.has(key), `unattested coda: ${sounds.join("+")}`).toBe(true);
+            expect(
+              attestedSet.has(key),
+              `unattested coda: ${sounds.join("+")}`,
+            ).toBe(true);
           }
         }
       }
     });
   });
-
-  // it('should return false "dm" in an onset', () => {
-  //   const validOnsetCluster = [getPhonemeBySound('d')];
-  //   expect(isValidCluster(getPhonemeBySound('n'), { cluster: validOnsetCluster, position: 'onset' } as ClusterContext)).toBe(false);
-  // });
-
-  // it('should return false "fn" in an onset', () => {
-  //   const validOnsetCluster = [getPhonemeBySound('f')];
-  //   expect(isValidCluster(getPhonemeBySound('n'), { cluster: validOnsetCluster, position: 'onset' } as ClusterContext)).toBe(false);
-  // });
-
-  // it('should return false "dm" in an coda', () => {
-  //   const validOnsetCluster = [getPhonemeBySound('d')];
-  //   expect(isValidCluster(getPhonemeBySound('m'), { cluster: validOnsetCluster, position: 'coda' } as ClusterContext)).toBe(false);
-  // });
 });

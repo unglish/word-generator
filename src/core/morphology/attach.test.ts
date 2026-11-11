@@ -1,8 +1,16 @@
 import { describe, it, expect } from "vitest";
 import { planMorphology, applyMorphology } from "./index.js";
-import { applyBoundaryTransforms, matchesPhonologicalCondition } from "./attach.js";
+import {
+  applyBoundaryTransforms,
+  matchesPhonologicalCondition,
+} from "./attach.js";
 import { createSeededRng } from "../../utils/random.js";
-import { MorphologyConfig, Affix, BoundaryTransform, PhonologicalCondition } from "../../config/language.js";
+import {
+  MorphologyConfig,
+  Affix,
+  BoundaryTransform,
+  PhonologicalCondition,
+} from "../../config/language.js";
 import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
 import { phonemes as allPhonemes } from "../../elements/phonemes.js";
 import { TraceCollector } from "../trace.js";
@@ -12,12 +20,17 @@ import { TraceCollector } from "../trace.js";
 // ---------------------------------------------------------------------------
 
 function findPhoneme(sound: string): Phoneme {
-  const p = allPhonemes.find(ph => ph.sound === sound);
+  const p = allPhonemes.find((ph) => ph.sound === sound);
   if (!p) throw new Error(`Phoneme "${sound}" not found`);
   return p;
 }
 
-function makeSyllable(onset: string[], nucleus: string[], coda: string[], stress?: "ˈ" | "ˌ"): Syllable {
+function makeSyllable(
+  onset: string[],
+  nucleus: string[],
+  coda: string[],
+  stress?: "ˈ" | "ˌ",
+): Syllable {
   return {
     onset: onset.map(findPhoneme),
     nucleus: nucleus.map(findPhoneme),
@@ -48,6 +61,9 @@ function makeRuntime(
   morphology?: MorphologyConfig,
 ) {
   return {
+    phonemeBySound: new Map(
+      phonemeInventory.map((phoneme) => [phoneme.sound, phoneme]),
+    ),
     config: {
       phonemes: phonemeInventory,
       pronunciation: {
@@ -88,9 +104,22 @@ function makeRuntime(
 // Shared boundary transforms (mirroring english.ts)
 // ---------------------------------------------------------------------------
 
-const Y_TO_I: BoundaryTransform = { name: "y-to-i", match: /([^aeiou])y$/i, replace: "$1i" };
-const DROP_SILENT_E: BoundaryTransform = { name: "drop-silent-e", match: /e$/i, replace: "" };
-const DOUBLE_CONSONANT: BoundaryTransform = { name: "double-consonant", match: /([^aeiou])([aeiou])([bcdfghlmnprst])$/i, replace: "$1$2$3$3", blockedBy: ["drop-silent-e"] };
+const Y_TO_I: BoundaryTransform = {
+  name: "y-to-i",
+  match: /([^aeiou])y$/i,
+  replace: "$1i",
+};
+const DROP_SILENT_E: BoundaryTransform = {
+  name: "drop-silent-e",
+  match: /e$/i,
+  replace: "",
+};
+const DOUBLE_CONSONANT: BoundaryTransform = {
+  name: "double-consonant",
+  match: /([^aeiou])([aeiou])([bcdfghlmnprst])$/i,
+  replace: "$1$2$3$3",
+  blockedBy: ["drop-silent-e"],
+};
 
 const BT_E_DOUBLE: BoundaryTransform[] = [DROP_SILENT_E, DOUBLE_CONSONANT];
 const BT_Y: BoundaryTransform[] = [Y_TO_I];
@@ -131,9 +160,29 @@ const edSuffix: Affix = {
   frequency: 70,
   boundaryTransforms: BT_E_DOUBLE,
   allomorphs: [
-    { phonologicalCondition: { position: "preceding", voiced: false }, phonemes: ["t"], syllables: [], syllableCount: 0 },
-    { phonologicalCondition: { position: "preceding", voiced: true }, phonemes: ["d"], syllables: [], syllableCount: 0 },
-    { phonologicalCondition: { position: "preceding", manner: ["stop"], place: ["alveolar"] }, phonemes: ["ɪ", "d"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["d"] }], syllableCount: 1, written: "ed" },
+    {
+      phonologicalCondition: { position: "preceding", voiced: false },
+      phonemes: ["t"],
+      syllables: [],
+      syllableCount: 0,
+    },
+    {
+      phonologicalCondition: { position: "preceding", voiced: true },
+      phonemes: ["d"],
+      syllables: [],
+      syllableCount: 0,
+    },
+    {
+      phonologicalCondition: {
+        position: "preceding",
+        manner: ["stop"],
+        place: ["alveolar"],
+      },
+      phonemes: ["ɪ", "d"],
+      syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["d"] }],
+      syllableCount: 1,
+      written: "ed",
+    },
   ],
 };
 
@@ -146,9 +195,28 @@ const sSuffix: Affix = {
   stressEffect: "none",
   frequency: 100,
   allomorphs: [
-    { phonologicalCondition: { position: "preceding", voiced: false }, phonemes: ["s"], syllables: [], syllableCount: 0 },
-    { phonologicalCondition: { position: "preceding", voiced: true }, phonemes: ["z"], syllables: [], syllableCount: 0 },
-    { phonologicalCondition: { position: "preceding", manner: ["sibilant", "affricate"] }, phonemes: ["ɪ", "z"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }], syllableCount: 1, written: "es" },
+    {
+      phonologicalCondition: { position: "preceding", voiced: false },
+      phonemes: ["s"],
+      syllables: [],
+      syllableCount: 0,
+    },
+    {
+      phonologicalCondition: { position: "preceding", voiced: true },
+      phonemes: ["z"],
+      syllables: [],
+      syllableCount: 0,
+    },
+    {
+      phonologicalCondition: {
+        position: "preceding",
+        manner: ["sibilant", "affricate"],
+      },
+      phonemes: ["ɪ", "z"],
+      syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }],
+      syllableCount: 1,
+      written: "es",
+    },
   ],
 };
 
@@ -160,7 +228,15 @@ const inPrefix: Affix = {
   syllableCount: 1,
   stressEffect: "secondary",
   frequency: 50,
-  allomorphs: [{ phonologicalCondition: { position: "following", place: ["bilabial"] }, phonemes: ["ɪ", "m"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["m"] }], syllableCount: 1, written: "im" }],
+  allomorphs: [
+    {
+      phonologicalCondition: { position: "following", place: ["bilabial"] },
+      phonemes: ["ɪ", "m"],
+      syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["m"] }],
+      syllableCount: 1,
+      written: "im",
+    },
+  ],
 };
 
 const tionSuffix: Affix = {
@@ -177,14 +253,22 @@ const itySuffix: Affix = {
   type: "suffix",
   written: "ity",
   phonemes: ["ɪ", "t", "i:"],
-  syllables: [{ onset: [], nucleus: ["ɪ"], coda: [] }, { onset: ["t"], nucleus: ["i:"], coda: [] }],
+  syllables: [
+    { onset: [], nucleus: ["ɪ"], coda: [] },
+    { onset: ["t"], nucleus: ["i:"], coda: [] },
+  ],
   syllableCount: 2,
   stressEffect: "attract-preceding",
   frequency: 18,
   morphophonemicRules: [
     {
       name: "ity-velar-softening",
-      phonologicalCondition: { position: "preceding", voiced: false, manner: ["stop"], place: ["velar"] },
+      phonologicalCondition: {
+        position: "preceding",
+        voiced: false,
+        manner: ["stop"],
+        place: ["velar"],
+      },
       replaceSound: "s",
       writtenMatch: /(c|k|ck)$/i,
       writtenReplace: "s",
@@ -200,7 +284,9 @@ const itySuffix: Affix = {
   ],
 };
 
-function makeConfig(overrides: Partial<MorphologyConfig> = {}): MorphologyConfig {
+function makeConfig(
+  overrides: Partial<MorphologyConfig> = {},
+): MorphologyConfig {
   return {
     enabled: true,
     prefixes: [simplePrefix],
@@ -250,7 +336,6 @@ describe("morphology", () => {
       const { syllableReduction } = planMorphology(config, "text", rand);
       expect(syllableReduction).toBe(1);
     });
-
   });
 
   describe("suffix attachment", () => {
@@ -286,7 +371,11 @@ describe("morphology", () => {
         [makeSyllable(["b", "l"], ["ɔ"], ["r", "k"])],
         "blork",
       );
-      const plan = { template: "both" as const, prefix: simplePrefix, suffix: simpleSuffix };
+      const plan = {
+        template: "both" as const,
+        prefix: simplePrefix,
+        suffix: simpleSuffix,
+      };
       applyMorphology(rt, ctx, plan);
       expect(ctx.word.written.clean).toBe("unblorking");
     });
@@ -295,10 +384,7 @@ describe("morphology", () => {
   describe("allomorph selection", () => {
     it("-ed after voiceless → /t/", () => {
       const rt = makeRuntime();
-      const ctx = makeContext(
-        [makeSyllable(["b"], ["ɔ"], ["k"])],
-        "bock",
-      );
+      const ctx = makeContext([makeSyllable(["b"], ["ɔ"], ["k"])], "bock");
       const plan = { template: "suffixed" as const, suffix: edSuffix };
       applyMorphology(rt, ctx, plan);
       const lastSyl = ctx.word.syllables[ctx.word.syllables.length - 1];
@@ -309,10 +395,7 @@ describe("morphology", () => {
 
     it("-ed after voiced → /d/", () => {
       const rt = makeRuntime();
-      const ctx = makeContext(
-        [makeSyllable(["t"], ["æ"], ["b"])],
-        "tab",
-      );
+      const ctx = makeContext([makeSyllable(["t"], ["æ"], ["b"])], "tab");
       const plan = { template: "suffixed" as const, suffix: edSuffix };
       applyMorphology(rt, ctx, plan);
       const lastSyl = ctx.word.syllables[ctx.word.syllables.length - 1];
@@ -322,10 +405,7 @@ describe("morphology", () => {
 
     it("-ed after alveolar stop → /ɪd/", () => {
       const rt = makeRuntime();
-      const ctx = makeContext(
-        [makeSyllable(["b"], ["æ"], ["t"])],
-        "bat",
-      );
+      const ctx = makeContext([makeSyllable(["b"], ["æ"], ["t"])], "bat");
       const plan = { template: "suffixed" as const, suffix: edSuffix };
       applyMorphology(rt, ctx, plan);
       expect(ctx.word.written.clean).toBe("batted");
@@ -336,7 +416,14 @@ describe("morphology", () => {
       const rt = makeRuntime();
       const sPhoneme = findPhoneme("s");
       const ctx = makeContext(
-        [{ onset: [findPhoneme("b")], nucleus: [findPhoneme("ʌ")], coda: [sPhoneme], stress: undefined }],
+        [
+          {
+            onset: [findPhoneme("b")],
+            nucleus: [findPhoneme("ʌ")],
+            coda: [sPhoneme],
+            stress: undefined,
+          },
+        ],
         "bus",
       );
       const plan = { template: "suffixed" as const, suffix: sSuffix };
@@ -346,10 +433,7 @@ describe("morphology", () => {
 
     it("in- before bilabial → 'im'", () => {
       const rt = makeRuntime();
-      const ctx = makeContext(
-        [makeSyllable(["b"], ["ɔ"], ["l"])],
-        "bol",
-      );
+      const ctx = makeContext([makeSyllable(["b"], ["ɔ"], ["l"])], "bol");
       const plan = { template: "prefixed" as const, prefix: inPrefix };
       applyMorphology(rt, ctx, plan);
       expect(ctx.word.written.clean).toBe("imbol");
@@ -359,10 +443,7 @@ describe("morphology", () => {
   describe("boundary rules", () => {
     it("dropSilentE", () => {
       const rt = makeRuntime();
-      const ctx = makeContext(
-        [makeSyllable(["b"], ["eɪ"], ["k"])],
-        "bake",
-      );
+      const ctx = makeContext([makeSyllable(["b"], ["eɪ"], ["k"])], "bake");
       const plan = { template: "suffixed" as const, suffix: simpleSuffix };
       applyMorphology(rt, ctx, plan);
       expect(ctx.word.written.clean).toBe("baking");
@@ -370,10 +451,7 @@ describe("morphology", () => {
 
     it("doubleConsonant", () => {
       const rt = makeRuntime();
-      const ctx = makeContext(
-        [makeSyllable(["s", "t"], ["ɑ"], ["p"])],
-        "stop",
-      );
+      const ctx = makeContext([makeSyllable(["s", "t"], ["ɑ"], ["p"])], "stop");
       const plan = { template: "suffixed" as const, suffix: simpleSuffix };
       applyMorphology(rt, ctx, plan);
       expect(ctx.word.written.clean).toBe("stopping");
@@ -382,9 +460,13 @@ describe("morphology", () => {
     it("yToI", () => {
       const rt = makeRuntime();
       const nessSuffix: Affix = {
-        type: "suffix", written: "ness", phonemes: ["n", "ə", "s"],
+        type: "suffix",
+        written: "ness",
+        phonemes: ["n", "ə", "s"],
         syllables: [{ onset: ["n"], nucleus: ["ə"], coda: ["s"] }],
-        syllableCount: 1, stressEffect: "none", frequency: 60,
+        syllableCount: 1,
+        stressEffect: "none",
+        frequency: 60,
         boundaryTransforms: BT_Y,
       };
       const ctx = makeContext(
@@ -406,12 +488,11 @@ describe("morphology", () => {
         syllableCount: 1,
         stressEffect: "secondary",
         frequency: 30,
-        boundaryTransforms: [{ name: "drop-initial-a", match: /^a/i, replace: "" }],
+        boundaryTransforms: [
+          { name: "drop-initial-a", match: /^a/i, replace: "" },
+        ],
       };
-      const ctx = makeContext(
-        [makeSyllable([], ["æ"], ["k"])],
-        "ack",
-      );
+      const ctx = makeContext([makeSyllable([], ["æ"], ["k"])], "ack");
       const plan = { template: "prefixed" as const, prefix: prePrefix };
       applyMorphology(rt, ctx, plan);
       expect(ctx.word.written.clean).toBe("preck");
@@ -460,21 +541,40 @@ describe("morphology", () => {
     };
 
     it("inserts /h/ at prefix→root boundary when both sides are vowel-adjacent", () => {
-      const { ctx, trace } = makeTracedContext([makeSyllable([], ["æ"], ["t"])], "at");
-      applyMorphology(makeRuntime(), ctx, { template: "prefixed" as const, prefix: rePrefix });
+      const { ctx, trace } = makeTracedContext(
+        [makeSyllable([], ["æ"], ["t"])],
+        "at",
+      );
+      applyMorphology(makeRuntime(), ctx, {
+        template: "prefixed" as const,
+        prefix: rePrefix,
+      });
       expect(ctx.word.syllables[1].onset[0]?.sound).toBe("h");
-      expect(trace.structural.some(s => s.event === "morphPrefixHiatusFallback")).toBe(true);
+      expect(
+        trace.structural.some((s) => s.event === "morphPrefixHiatusFallback"),
+      ).toBe(true);
     });
 
     it("inserts /h/ at root→suffix boundary when both sides are vowel-adjacent", () => {
-      const { ctx, trace } = makeTracedContext([makeSyllable(["b"], ["eɪ"], [])], "bae");
-      applyMorphology(makeRuntime(), ctx, { template: "suffixed" as const, suffix: erSuffix });
+      const { ctx, trace } = makeTracedContext(
+        [makeSyllable(["b"], ["eɪ"], [])],
+        "bae",
+      );
+      applyMorphology(makeRuntime(), ctx, {
+        template: "suffixed" as const,
+        suffix: erSuffix,
+      });
       expect(ctx.word.syllables[1].onset[0]?.sound).toBe("h");
-      expect(trace.structural.some(s => s.event === "morphSuffixHiatusFallback")).toBe(true);
+      expect(
+        trace.structural.some((s) => s.event === "morphSuffixHiatusFallback"),
+      ).toBe(true);
     });
 
     it("does not insert bridge when prefix→root fallback is disabled", () => {
-      const { ctx, trace } = makeTracedContext([makeSyllable([], ["æ"], ["t"])], "at");
+      const { ctx, trace } = makeTracedContext(
+        [makeSyllable([], ["æ"], ["t"])],
+        "at",
+      );
       const rt = makeRuntime(allPhonemes, {
         ...defaultBoundaryPolicy,
         boundaryPolicy: {
@@ -483,10 +583,15 @@ describe("morphology", () => {
         },
       });
 
-      applyMorphology(rt, ctx, { template: "prefixed" as const, prefix: rePrefix });
+      applyMorphology(rt, ctx, {
+        template: "prefixed" as const,
+        prefix: rePrefix,
+      });
 
       expect(ctx.word.syllables[1].onset.length).toBe(0);
-      expect(trace.structural.some(s => s.event === "morphPrefixHiatusFallback")).toBe(false);
+      expect(
+        trace.structural.some((s) => s.event === "morphPrefixHiatusFallback"),
+      ).toBe(false);
     });
   });
 
@@ -507,10 +612,7 @@ describe("morphology", () => {
   describe("bare template", () => {
     it("returns word unchanged", () => {
       const rt = makeRuntime();
-      const ctx = makeContext(
-        [makeSyllable(["b"], ["ɔ"], ["k"])],
-        "bock",
-      );
+      const ctx = makeContext([makeSyllable(["b"], ["ɔ"], ["k"])], "bock");
       const originalWritten = ctx.word.written.clean;
       const plan = { template: "bare" as const };
       applyMorphology(rt, ctx, plan);
@@ -546,10 +648,7 @@ describe("morphology", () => {
   describe("affricate sibilant allomorph", () => {
     it("-s after affricate /tʃ/ → 'es' (sibilant allomorph)", () => {
       const rt = makeRuntime();
-      const ctx = makeContext(
-        [makeSyllable(["b"], ["ɔ"], ["tʃ"])],
-        "botch",
-      );
+      const ctx = makeContext([makeSyllable(["b"], ["ɔ"], ["tʃ"])], "botch");
       const plan = { template: "suffixed" as const, suffix: sSuffix };
       applyMorphology(rt, ctx, plan);
       expect(ctx.word.written.clean).toBe("botches");
@@ -559,10 +658,7 @@ describe("morphology", () => {
   describe("dropSilentE prevents doubleConsonant", () => {
     it("dropSilentE prevents doubleConsonant", () => {
       const rt = makeRuntime();
-      const ctx = makeContext(
-        [makeSyllable(["d"], ["aɪ"], ["n"])],
-        "dine",
-      );
+      const ctx = makeContext([makeSyllable(["d"], ["aɪ"], ["n"])], "dine");
       const plan = { template: "suffixed" as const, suffix: simpleSuffix };
       applyMorphology(rt, ctx, plan);
       expect(ctx.word.written.clean).toBe("dining");
@@ -573,7 +669,10 @@ describe("morphology", () => {
     it("applies velar softening before -ity", () => {
       const rt = makeRuntime();
       const ctx = makeContext([makeSyllable(["b"], ["æ"], ["k"])], "bak");
-      applyMorphology(rt, ctx, { template: "suffixed" as const, suffix: itySuffix });
+      applyMorphology(rt, ctx, {
+        template: "suffixed" as const,
+        suffix: itySuffix,
+      });
       expect(ctx.word.written.clean).toBe("basity");
       expect(ctx.word.syllables[0].coda[0]?.sound).toBe("s");
     });
@@ -581,7 +680,10 @@ describe("morphology", () => {
     it("does not apply velar softening to voiced /g/ before -ity", () => {
       const rt = makeRuntime();
       const ctx = makeContext([makeSyllable(["b"], ["æ"], ["g"])], "bag");
-      applyMorphology(rt, ctx, { template: "suffixed" as const, suffix: itySuffix });
+      applyMorphology(rt, ctx, {
+        template: "suffixed" as const,
+        suffix: itySuffix,
+      });
       expect(ctx.word.written.clean).toBe("bagity");
       expect(ctx.word.syllables[0].coda[0]?.sound).toBe("g");
     });
@@ -596,13 +698,21 @@ describe("morphology", () => {
       };
       const ctx = makeContext([makeSyllable(["d"], ["aɪ"], ["n"])], "dine");
       ctx.trace = trace;
-      applyMorphology(rt, ctx, { template: "suffixed" as const, suffix: itySuffix });
+      applyMorphology(rt, ctx, {
+        template: "suffixed" as const,
+        suffix: itySuffix,
+      });
 
       expect(ctx.word.written.clean).toBe("dinity");
       expect(ctx.word.syllables[0].nucleus[0]?.sound).toBe("ɪ");
-      expect(trace.morphologyTrace.alternations?.some(
-        a => a.rule === "ity-diphthong-flattening" && a.soundBefore === "aɪ" && a.soundAfter === "ɪ",
-      )).toBe(true);
+      expect(
+        trace.morphologyTrace.alternations?.some(
+          (a) =>
+            a.rule === "ity-diphthong-flattening" &&
+            a.soundBefore === "aɪ" &&
+            a.soundAfter === "ɪ",
+        ),
+      ).toBe(true);
     });
   });
 
@@ -610,15 +720,19 @@ describe("morphology", () => {
     it("-able syllables use maximal onset (/ə.bəl/ not /əb.əl/)", () => {
       const rt = makeRuntime();
       const ableSuffix: Affix = {
-        type: "suffix", written: "able", phonemes: ["ə", "b", "ə", "l"],
-        syllables: [{ onset: [], nucleus: ["ə"], coda: [] }, { onset: ["b"], nucleus: ["ə"], coda: ["l"] }],
-        syllableCount: 2, stressEffect: "none", frequency: 40,
+        type: "suffix",
+        written: "able",
+        phonemes: ["ə", "b", "ə", "l"],
+        syllables: [
+          { onset: [], nucleus: ["ə"], coda: [] },
+          { onset: ["b"], nucleus: ["ə"], coda: ["l"] },
+        ],
+        syllableCount: 2,
+        stressEffect: "none",
+        frequency: 40,
         boundaryTransforms: BT_ALL,
       };
-      const ctx = makeContext(
-        [makeSyllable(["t"], ["ɛ"], ["s", "t"])],
-        "test",
-      );
+      const ctx = makeContext([makeSyllable(["t"], ["ɛ"], ["s", "t"])], "test");
       const plan = { template: "suffixed" as const, suffix: ableSuffix };
       applyMorphology(rt, ctx, plan);
       const affixSyls = ctx.word.syllables.slice(1);
@@ -658,7 +772,10 @@ describe("applyBoundaryTransforms", () => {
   });
 
   it("blockedBy prevents double-consonant when drop-silent-e fired", () => {
-    const result = applyBoundaryTransforms("dine", [DROP_SILENT_E, DOUBLE_CONSONANT]);
+    const result = applyBoundaryTransforms("dine", [
+      DROP_SILENT_E,
+      DOUBLE_CONSONANT,
+    ]);
     expect(result).toBe("din");
   });
 
@@ -685,49 +802,112 @@ describe("matchesPhonologicalCondition", () => {
   const alveolarStop = findPhoneme("t");
 
   it("preceding + voiced=false matches voiceless phoneme (suffix context)", () => {
-    const cond: PhonologicalCondition = { position: "preceding", voiced: false };
+    const cond: PhonologicalCondition = {
+      position: "preceding",
+      voiced: false,
+    };
     expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(true);
     expect(matchesPhonologicalCondition(cond, voicedStop, false)).toBe(false);
   });
 
   it("preceding condition returns false in prefix context", () => {
-    const cond: PhonologicalCondition = { position: "preceding", voiced: false };
+    const cond: PhonologicalCondition = {
+      position: "preceding",
+      voiced: false,
+    };
     expect(matchesPhonologicalCondition(cond, voicelessStop, true)).toBe(false);
   });
 
   it("preceding + voiced=true matches voiced phoneme", () => {
     const cond: PhonologicalCondition = { position: "preceding", voiced: true };
     expect(matchesPhonologicalCondition(cond, voicedStop, false)).toBe(true);
-    expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(false);
+    expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(
+      false,
+    );
   });
 
   it("manner constraint matches sibilant and affricate", () => {
-    const cond: PhonologicalCondition = { position: "preceding", manner: ["sibilant", "affricate"] };
+    const cond: PhonologicalCondition = {
+      position: "preceding",
+      manner: ["sibilant", "affricate"],
+    };
     expect(matchesPhonologicalCondition(cond, sibilant, false)).toBe(true);
     expect(matchesPhonologicalCondition(cond, affricate, false)).toBe(true);
-    expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(false);
+    expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(
+      false,
+    );
   });
 
   it("manner + place constraint matches alveolar stop", () => {
-    const cond: PhonologicalCondition = { position: "preceding", manner: ["stop"], place: ["alveolar"] };
+    const cond: PhonologicalCondition = {
+      position: "preceding",
+      manner: ["stop"],
+      place: ["alveolar"],
+    };
     expect(matchesPhonologicalCondition(cond, alveolarStop, false)).toBe(true);
-    expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(false);
+    expect(matchesPhonologicalCondition(cond, voicelessStop, false)).toBe(
+      false,
+    );
   });
 
   it("following + place constraint matches bilabial in prefix context", () => {
-    const cond: PhonologicalCondition = { position: "following", place: ["bilabial"] };
+    const cond: PhonologicalCondition = {
+      position: "following",
+      place: ["bilabial"],
+    };
     expect(matchesPhonologicalCondition(cond, voicedStop, true)).toBe(true);
     expect(matchesPhonologicalCondition(cond, alveolarStop, true)).toBe(false);
   });
 
   it("following condition returns false in suffix context", () => {
-    const cond: PhonologicalCondition = { position: "following", place: ["bilabial"] };
+    const cond: PhonologicalCondition = {
+      position: "following",
+      place: ["bilabial"],
+    };
     expect(matchesPhonologicalCondition(cond, voicedStop, false)).toBe(false);
   });
 
   it("sounds constraint matches exact sounds only", () => {
-    const cond: PhonologicalCondition = { position: "preceding", sounds: ["aɪ"] };
-    expect(matchesPhonologicalCondition(cond, findPhoneme("aɪ"), false)).toBe(true);
-    expect(matchesPhonologicalCondition(cond, findPhoneme("ɪ"), false)).toBe(false);
+    const cond: PhonologicalCondition = {
+      position: "preceding",
+      sounds: ["aɪ"],
+    };
+    expect(matchesPhonologicalCondition(cond, findPhoneme("aɪ"), false)).toBe(
+      true,
+    );
+    expect(matchesPhonologicalCondition(cond, findPhoneme("ɪ"), false)).toBe(
+      false,
+    );
   });
+});
+
+describe("affix phoneme lookup ownership", () => {
+  it.each([false, true])(
+    "creates fresh unknown phones for each occurrence (template=%s)",
+    (templates) => {
+      const rt = makeRuntime();
+      const ctx = makeContext([makeSyllable(["b"], ["æ"], ["t"])], "bat");
+      const suffix: Affix = {
+        ...simpleSuffix,
+        phonemes: ["unknown", "unknown"],
+        syllableCount: templates ? 1 : 0,
+        syllables: templates
+          ? [{ onset: [], nucleus: ["unknown"], coda: ["unknown"] }]
+          : undefined,
+        stressEffect: "none",
+      };
+      applyMorphology(rt, ctx, { template: "suffixed", suffix });
+      const unknowns = ctx.word.syllables
+        .flatMap((s) => [...s.onset, ...s.nucleus, ...s.coda])
+        .filter((p) => p.sound === "unknown");
+      expect(unknowns).toHaveLength(2);
+      expect(unknowns[0]).toEqual(unknowns[1]);
+      expect(unknowns[0]).not.toBe(unknowns[1]);
+      expect(unknowns[0]).toMatchObject({
+        voiced: true,
+        mannerOfArticulation: "midVowel",
+        placeOfArticulation: "central",
+      });
+    },
+  );
 });

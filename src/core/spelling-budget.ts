@@ -1,9 +1,23 @@
 import type { WrittenFormConstraints } from "../config/language.js";
-import type { SpellingBudgetKey, SpellingBudgetMeasurement, SpellingBudgetValues } from "./spelling-coverage-types.js";
+import type {
+  SpellingBudgetKey,
+  SpellingBudgetMeasurement,
+  SpellingBudgetValues,
+} from "./spelling-coverage-types.js";
 import { isVowelChar } from "../utils/letters.js";
 
 /** Default English consonant graphemes (longest first for greedy matching). */
-export const DEFAULT_CONSONANT_GRAPHEMES = ["tch", "dge", "ch", "sh", "th", "ng", "ph", "wh", "ck"];
+export const DEFAULT_CONSONANT_GRAPHEMES = [
+  "tch",
+  "dge",
+  "ch",
+  "sh",
+  "th",
+  "ng",
+  "ph",
+  "wh",
+  "ck",
+];
 
 /**
  * Tokenize a string into grapheme units using longest-match-first.
@@ -13,12 +27,14 @@ export const DEFAULT_CONSONANT_GRAPHEMES = ["tch", "dge", "ch", "sh", "th", "ng"
  * @example tokenizeGraphemes("tchwng") → ["tch", "w", "ng"]
  * @example tokenizeGraphemes("strengths") → ["s", "t", "r", "e", "ng", "th", "s"]
  */
-export function tokenizeGraphemes(str: string, graphemeList: string[] = DEFAULT_CONSONANT_GRAPHEMES): string[] {
+export function tokenizeGraphemes(
+  str: string,
+  graphemeList: string[] = DEFAULT_CONSONANT_GRAPHEMES,
+): string[] {
   const tokens: string[] = [];
   let i = 0;
   while (i < str.length) {
     let matched = false;
-    // Try longest graphemes first (list is pre-sorted longest first)
     for (const g of graphemeList) {
       if (str.startsWith(g, i)) {
         tokens.push(g);
@@ -36,9 +52,12 @@ export function tokenizeGraphemes(str: string, graphemeList: string[] = DEFAULT_
 }
 
 /** Check if a grapheme token is a consonant (contains no vowel letters). */
-export function isConsonantToken(token: string, tokenIdx?: number, allTokens?: string[]): boolean {
+export function isConsonantToken(
+  token: string,
+  tokenIdx?: number,
+  allTokens?: string[],
+): boolean {
   const fullStr = allTokens ? allTokens.join("") : token;
-  // Compute char offset of this token within the full string
   let charOffset = 0;
   if (allTokens && tokenIdx !== undefined) {
     for (let t = 0; t < tokenIdx; t++) charOffset += allTokens[t].length;
@@ -50,8 +69,16 @@ export function isConsonantToken(token: string, tokenIdx?: number, allTokens?: s
 }
 
 /** Measure every configured preference on the complete proposed surface. */
-export function measureSpellingBudgets(surface: string, constraints: WrittenFormConstraints | undefined): SpellingBudgetMeasurement {
-  const values: SpellingBudgetValues = { consonantGraphemes: 0, consonantLetters: 0, finalConsonantLetters: 0, vowelLetters: 0 };
+export function measureSpellingBudgets(
+  surface: string,
+  constraints: WrittenFormConstraints | undefined,
+): SpellingBudgetMeasurement {
+  const values: SpellingBudgetValues = {
+    consonantGraphemes: 0,
+    consonantLetters: 0,
+    finalConsonantLetters: 0,
+    vowelLetters: 0,
+  };
   let consonants = 0;
   let vowels = 0;
   for (let i = 0; i < surface.length; i++) {
@@ -86,5 +113,11 @@ export function measureSpellingBudgets(surface: string, constraints: WrittenForm
     ["vowelLetters", constraints?.maxVowelLetters],
   ];
   for (const [key, value] of configured) if (value) limits[key] = value;
-  return { values, limits, exceeded: configured.filter(([key, limit]) => !!limit && values[key] > limit).map(([key]) => key) };
+  return {
+    values,
+    limits,
+    exceeded: configured
+      .filter(([key, limit]) => !!limit && values[key] > limit)
+      .map(([key]) => key),
+  };
 }

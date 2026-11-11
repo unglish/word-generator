@@ -1,4 +1,14 @@
-import { Phoneme, Grapheme, GraphemeCondition, GraphemeReading } from "../types.js";
+import {
+  inventorySonorityLevels,
+  type SonorityHierarchy,
+} from "../utils/sonority.js";
+import { matchesPhoneme } from "../utils/phonemes.js";
+import {
+  Phoneme,
+  Grapheme,
+  GraphemeCondition,
+  GraphemeReading,
+} from "../types.js";
 import { LEGACY_SYLLABLE_WEIGHT } from "../core/syllable-weight.js";
 import type { SyllableWeightPolicy } from "../core/syllable-weight.js";
 // ---------------------------------------------------------------------------
@@ -132,28 +142,7 @@ export type PlaceOfArticulation = Phoneme["placeOfArticulation"];
 // Sub-interfaces
 // ---------------------------------------------------------------------------
 
-/**
- * Sonority hierarchy mapping: manner/place of articulation to sonority value.
- * Higher values = more sonorous (vowels highest, stops lowest).
- *
- * Keys are type-checked against the Phoneme articulation unions, so typos
- * like `"fircative"` are caught at compile time. `Partial` because not
- * every language uses every articulation category.
- */
-export interface SonorityHierarchy {
-  mannerOfArticulation: Partial<Record<MannerOfArticulation, number>>;
-  /**
-   * Sonority adjustment by place of articulation.
-   *
-   * Note: this combines vowel position (front / central / back) and
-   * consonant place of articulation (bilabial, alveolar, …) into a
-   * single map. Linguistically these are different dimensions, but for
-   * sonority scoring a unified numeric adjustment works well enough.
-   */
-  placeOfArticulation: Partial<Record<PlaceOfArticulation, number>>;
-  voicedBonus: number;
-  tenseBonus: number;
-}
+export type { SonorityHierarchy } from "../utils/sonority.js";
 
 /**
  * Syllable structure rules controlling how syllables are built.
@@ -902,9 +891,9 @@ export interface LanguageConfig {
 
 /** Explicit syllable template for an affix phoneme sequence. */
 export interface AffixSyllable {
-  onset: string[];   // phoneme sounds
+  onset: string[]; // phoneme sounds
   nucleus: string[]; // phoneme sounds
-  coda: string[];    // phoneme sounds
+  coda: string[]; // phoneme sounds
 }
 
 /** Orthographic transform applied at affix\u2194root junctions. */
@@ -1013,12 +1002,17 @@ const REGEX_LITERAL_META = /[\\.*+?()[\]{}|]/;
 export function isWholeWordAnchoredSpellingRule(rule: SpellingRule): boolean {
   const scope = rule.scope ?? "both";
   const isLiteralPattern = (() => {
-    if (!rule.pattern.startsWith("^") || !rule.pattern.endsWith("$")) return false;
+    if (!rule.pattern.startsWith("^") || !rule.pattern.endsWith("$"))
+      return false;
     const inner = rule.pattern.slice(1, -1);
     return inner.length > 0 && !REGEX_LITERAL_META.test(inner);
   })();
   const isLiteralReplacement = !rule.replacement.includes("$");
-  return (scope === "word" || scope === "both") && isLiteralPattern && isLiteralReplacement;
+  return (
+    (scope === "word" || scope === "both") &&
+    isLiteralPattern &&
+    isLiteralReplacement
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -1077,18 +1071,28 @@ export function resolveStressRules(rules: StressRules): ResolvedStressRules {
     syllableWeight: { ...(rules.syllableWeight ?? LEGACY_SYLLABLE_WEIGHT) },
     primary: rules.primary,
     secondary: {
-      enabled: rules.secondary.enabled ?? DEFAULT_STRESS_RULES.secondary.enabled,
-      probability: rules.secondary.probability ?? DEFAULT_STRESS_RULES.secondary.probability,
-      heavyWeight: rules.secondary.heavyWeight ?? DEFAULT_STRESS_RULES.secondary.heavyWeight,
-      lightWeight: rules.secondary.lightWeight ?? DEFAULT_STRESS_RULES.secondary.lightWeight,
-      candidateWindow: rules.secondary.candidateWindow ?? DEFAULT_STRESS_RULES.secondary.candidateWindow,
+      enabled:
+        rules.secondary.enabled ?? DEFAULT_STRESS_RULES.secondary.enabled,
+      probability:
+        rules.secondary.probability ??
+        DEFAULT_STRESS_RULES.secondary.probability,
+      heavyWeight:
+        rules.secondary.heavyWeight ??
+        DEFAULT_STRESS_RULES.secondary.heavyWeight,
+      lightWeight:
+        rules.secondary.lightWeight ??
+        DEFAULT_STRESS_RULES.secondary.lightWeight,
+      candidateWindow:
+        rules.secondary.candidateWindow ??
+        DEFAULT_STRESS_RULES.secondary.candidateWindow,
     },
     rhythmic: {
       enabled: rules.rhythmic.enabled ?? DEFAULT_STRESS_RULES.rhythmic.enabled,
-      probability: rules.rhythmic.probability ?? DEFAULT_STRESS_RULES.rhythmic.probability,
+      probability:
+        rules.rhythmic.probability ?? DEFAULT_STRESS_RULES.rhythmic.probability,
       requireUnstressedNeighbors:
-        rules.rhythmic.requireUnstressedNeighbors
-        ?? DEFAULT_STRESS_RULES.rhythmic.requireUnstressedNeighbors,
+        rules.rhythmic.requireUnstressedNeighbors ??
+        DEFAULT_STRESS_RULES.rhythmic.requireUnstressedNeighbors,
     },
     nucleus: {
       stressedNucleusBan: rules.nucleus.stressedNucleusBan
@@ -1104,42 +1108,37 @@ export function resolveStressRules(rules: StressRules): ResolvedStressRules {
 /**
  * Resolve aspiration config into fully-populated deterministic rules.
  */
-export function resolveAspirationRules(rules?: AspirationRules): ResolvedAspirationRules {
-  if (!rules) {
-    return {
-      enabled: DEFAULT_ASPIRATION_RULES.enabled,
-      targets: DEFAULT_ASPIRATION_RULES.targets.map((t) => ({ ...t, sounds: t.sounds ? [...t.sounds] : undefined, manner: t.manner ? [...t.manner] : undefined, place: t.place ? [...t.place] : undefined })),
-      rules: DEFAULT_ASPIRATION_RULES.rules.map((r) => ({
-        id: r.id,
-        probability: r.probability,
-        when: {
-          ...r.when,
-          previousCodaSounds: r.when.previousCodaSounds ? [...r.when.previousCodaSounds] : undefined,
-        },
-      })),
-      fallbackProbability: DEFAULT_ASPIRATION_RULES.fallbackProbability,
-    };
-  }
+export function resolveAspirationRules(
+  rules?: AspirationRules,
+): ResolvedAspirationRules {
+  rules ??= DEFAULT_ASPIRATION_RULES;
 
   return {
     enabled: rules.enabled ?? DEFAULT_ASPIRATION_RULES.enabled,
-    targets: (rules.targets && rules.targets.length > 0 ? rules.targets : DEFAULT_ASPIRATION_RULES.targets)
-      .map((target) => ({
-        ...target,
-        sounds: target.sounds ? [...target.sounds] : undefined,
-        manner: target.manner ? [...target.manner] : undefined,
-        place: target.place ? [...target.place] : undefined,
-      })),
-    rules: (rules.rules && rules.rules.length > 0 ? rules.rules : DEFAULT_ASPIRATION_RULES.rules)
-      .map((rule) => ({
-        id: rule.id,
-        probability: rule.probability,
-        when: {
-          ...rule.when,
-          previousCodaSounds: rule.when.previousCodaSounds ? [...rule.when.previousCodaSounds] : undefined,
-        },
-      })),
-    fallbackProbability: rules.fallbackProbability ?? DEFAULT_ASPIRATION_RULES.fallbackProbability,
+    targets: (rules.targets && rules.targets.length > 0
+      ? rules.targets
+      : DEFAULT_ASPIRATION_RULES.targets
+    ).map((target) => ({
+      ...target,
+      sounds: target.sounds ? [...target.sounds] : undefined,
+      manner: target.manner ? [...target.manner] : undefined,
+      place: target.place ? [...target.place] : undefined,
+    })),
+    rules: (rules.rules && rules.rules.length > 0
+      ? rules.rules
+      : DEFAULT_ASPIRATION_RULES.rules
+    ).map((rule) => ({
+      id: rule.id,
+      probability: rule.probability,
+      when: {
+        ...rule.when,
+        previousCodaSounds: rule.when.previousCodaSounds
+          ? [...rule.when.previousCodaSounds]
+          : undefined,
+      },
+    })),
+    fallbackProbability:
+      rules.fallbackProbability ?? DEFAULT_ASPIRATION_RULES.fallbackProbability,
   };
 }
 
@@ -1152,14 +1151,6 @@ function splitBoundaryPairKey(key: string): [string, string] {
   return [coda, onset];
 }
 
-function matchesBoundarySelector(phoneme: Phoneme, selector: BoundaryPhonemeSelector): boolean {
-  if (selector.sounds && !selector.sounds.includes(phoneme.sound)) return false;
-  if (selector.manner && !selector.manner.includes(phoneme.mannerOfArticulation)) return false;
-  if (selector.place && !selector.place.includes(phoneme.placeOfArticulation)) return false;
-  if (selector.voiced !== undefined && selector.voiced !== phoneme.voiced) return false;
-  return true;
-}
-
 function matchesBoundaryRelation(
   coda: Phoneme,
   onset: Phoneme,
@@ -1169,14 +1160,20 @@ function matchesBoundaryRelation(
 
   if (relation.place) {
     const isSamePlace = coda.placeOfArticulation === onset.placeOfArticulation;
-    if ((relation.place === "same" && !isSamePlace) || (relation.place === "different" && isSamePlace)) {
+    if (
+      (relation.place === "same" && !isSamePlace) ||
+      (relation.place === "different" && isSamePlace)
+    ) {
       return false;
     }
   }
 
   if (relation.voiced) {
     const isSameVoicing = coda.voiced === onset.voiced;
-    if ((relation.voiced === "same" && !isSameVoicing) || (relation.voiced === "different" && isSameVoicing)) {
+    if (
+      (relation.voiced === "same" && !isSameVoicing) ||
+      (relation.voiced === "different" && isSameVoicing)
+    ) {
       return false;
     }
   }
@@ -1184,17 +1181,21 @@ function matchesBoundaryRelation(
   return true;
 }
 
-function uniquePositionPhonemes(positionMap: Map<string, Phoneme[]>): Phoneme[] {
+function uniquePositionPhonemes(
+  positionMap: Map<string, Phoneme[]>,
+): Phoneme[] {
   return Array.from(positionMap.values())
     .flat()
-    .filter((phoneme, idx, phonemes) =>
-      idx === phonemes.findIndex(
-        p =>
-          p.sound === phoneme.sound &&
-          p.mannerOfArticulation === phoneme.mannerOfArticulation &&
-          p.placeOfArticulation === phoneme.placeOfArticulation &&
-          p.voiced === phoneme.voiced,
-      ),
+    .filter(
+      (phoneme, idx, phonemes) =>
+        idx ===
+        phonemes.findIndex(
+          (p) =>
+            p.sound === phoneme.sound &&
+            p.mannerOfArticulation === phoneme.mannerOfArticulation &&
+            p.placeOfArticulation === phoneme.placeOfArticulation &&
+            p.voiced === phoneme.voiced,
+        ),
     );
 }
 
@@ -1203,8 +1204,12 @@ function expandBoundaryRule(
   codaInventory: Phoneme[],
   onsetInventory: Phoneme[],
 ): Set<string> {
-  const matchedCodas = codaInventory.filter(p => matchesBoundarySelector(p, rule.coda));
-  const matchedOnsets = onsetInventory.filter(p => matchesBoundarySelector(p, rule.onset));
+  const matchedCodas = codaInventory.filter((p) =>
+    matchesPhoneme(p, rule.coda),
+  );
+  const matchedOnsets = onsetInventory.filter((p) =>
+    matchesPhoneme(p, rule.onset),
+  );
   const expanded = new Set<string>();
 
   if (rule.mode === "ban") {
@@ -1291,52 +1296,53 @@ export function validateConfig(config: LanguageConfig): void {
     for (const edge of ["initial", "medial", "final"] as const) {
       const weight = phoneme.nucleusWordPosition[edge];
       if (!Number.isFinite(weight) || weight < 0) {
-        throw new Error(`phoneme "${phoneme.sound}" nucleusWordPosition.${edge} must be a finite number >= 0`);
+        throw new Error(
+          `phoneme "${phoneme.sound}" nucleusWordPosition.${edge} must be a finite number >= 0`,
+        );
       }
     }
   }
 
-  // Check phonemes ⊇ phonemeMaps values
   const phonemeSet = new Set(config.phonemes);
   for (const position of ["onset", "nucleus", "coda"] as const) {
     for (const [sound, list] of config.phonemeMaps[position]) {
       for (const p of list) {
         if (!phonemeSet.has(p)) {
           throw new Error(
-            `phonemeMaps.${position} contains phoneme "${p.sound}" (key "${sound}") not found in phonemes[]`
+            `phonemeMaps.${position} contains phoneme "${p.sound}" (key "${sound}") not found in phonemes[]`,
           );
         }
       }
     }
   }
 
-  // Check graphemes ⊇ graphemeMaps values
   const graphemeSet = new Set(config.graphemes);
   for (const position of ["onset", "nucleus", "coda"] as const) {
     for (const [sound, list] of config.graphemeMaps[position]) {
       for (const g of list) {
         if (!graphemeSet.has(g)) {
           throw new Error(
-            `graphemeMaps.${position} contains grapheme "${g.form}" (key "${sound}") not found in graphemes[]`
+            `graphemeMaps.${position} contains grapheme "${g.form}" (key "${sound}") not found in graphemes[]`,
           );
         }
       }
     }
   }
 
-  // Check probability values in range
   const { probability } = config.generationWeights;
   for (const [key, value] of Object.entries(probability)) {
     if (value < 0 || value > 100) {
       throw new Error(
-        `generationWeights.probability.${key} is ${value}, must be in [0, 100]`
+        `generationWeights.probability.${key} is ${value}, must be in [0, 100]`,
       );
     }
   }
-  for (const [key, value] of Object.entries(config.generationWeights.boundaryPolicy)) {
+  for (const [key, value] of Object.entries(
+    config.generationWeights.boundaryPolicy,
+  )) {
     if (value < 0 || value > 100) {
       throw new Error(
-        `generationWeights.boundaryPolicy.${key} is ${value}, must be in [0, 100]`
+        `generationWeights.boundaryPolicy.${key} is ${value}, must be in [0, 100]`,
       );
     }
   }
@@ -1369,42 +1375,88 @@ export function validateConfig(config: LanguageConfig): void {
   const stress = config.pronunciation.stress;
   const weightPolicy = stress.syllableWeight;
   if (weightPolicy !== undefined) {
-    if (!weightPolicy || typeof weightPolicy !== "object") throw new Error("syllableWeight must be a policy object");
+    if (!weightPolicy || typeof weightPolicy !== "object")
+      throw new Error("syllableWeight must be a policy object");
     if (weightPolicy.type === "legacy-segment-count") {
-      assertAllowedKeys(weightPolicy, ["type"], "pronunciation.stress.syllableWeight");
+      assertAllowedKeys(
+        weightPolicy,
+        ["type"],
+        "pronunciation.stress.syllableWeight",
+      );
     } else if (weightPolicy.type === "moraic") {
-      assertAllowedKeys(weightPolicy, ["type", "analysis", "coda", "unknown"], "pronunciation.stress.syllableWeight");
-      if (typeof weightPolicy.analysis !== "string" || !weightPolicy.analysis.trim()) throw new Error("syllableWeight.analysis must be a non-empty string");
-      if (weightPolicy.coda !== "weight-by-position" && weightPolicy.coda !== "nonmoraic") throw new Error("syllableWeight.coda must select a coda weight policy");
-      if (weightPolicy.unknown !== "legacy-segment-count" && weightPolicy.unknown !== "error") throw new Error("syllableWeight.unknown must select an unknown weight policy");
+      assertAllowedKeys(
+        weightPolicy,
+        ["type", "analysis", "coda", "unknown"],
+        "pronunciation.stress.syllableWeight",
+      );
+      if (
+        typeof weightPolicy.analysis !== "string" ||
+        !weightPolicy.analysis.trim()
+      )
+        throw new Error("syllableWeight.analysis must be a non-empty string");
+      if (
+        weightPolicy.coda !== "weight-by-position" &&
+        weightPolicy.coda !== "nonmoraic"
+      )
+        throw new Error("syllableWeight.coda must select a coda weight policy");
+      if (
+        weightPolicy.unknown !== "legacy-segment-count" &&
+        weightPolicy.unknown !== "error"
+      )
+        throw new Error(
+          "syllableWeight.unknown must select an unknown weight policy",
+        );
     } else throw new Error("Invalid syllableWeight.type");
   }
   for (const phone of config.phonemes) {
     const quantity = phone.nuclearQuantity;
     if (quantity === undefined) continue;
-    if (!quantity || typeof quantity !== "object") throw new Error(`phoneme ${phone.sound}.nuclearQuantity must be a quantity object`);
-    assertAllowedKeys(quantity, ["analysis", "moras"], `phoneme ${phone.sound}.nuclearQuantity`);
-    if (typeof quantity.analysis !== "string" || !quantity.analysis.trim() || (quantity.moras !== 1 && quantity.moras !== 2)) {
-      throw new Error(`phoneme ${phone.sound}.nuclearQuantity must specify an analysis and one or two moras`);
+    if (!quantity || typeof quantity !== "object")
+      throw new Error(
+        `phoneme ${phone.sound}.nuclearQuantity must be a quantity object`,
+      );
+    assertAllowedKeys(
+      quantity,
+      ["analysis", "moras"],
+      `phoneme ${phone.sound}.nuclearQuantity`,
+    );
+    if (
+      typeof quantity.analysis !== "string" ||
+      !quantity.analysis.trim() ||
+      (quantity.moras !== 1 && quantity.moras !== 2)
+    ) {
+      throw new Error(
+        `phoneme ${phone.sound}.nuclearQuantity must specify an analysis and one or two moras`,
+      );
     }
   }
   const primary = stress.primary;
   const primaryType = primary.type;
   if (
-    primaryType !== "fixed"
-    && primaryType !== "initial"
-    && primaryType !== "penultimate"
-    && primaryType !== "weight-sensitive"
-    && primaryType !== "ot"
+    primaryType !== "fixed" &&
+    primaryType !== "initial" &&
+    primaryType !== "penultimate" &&
+    primaryType !== "weight-sensitive" &&
+    primaryType !== "ot"
   ) {
-    throw new Error(`pronunciation.stress.primary.type has invalid value "${String(primaryType)}"`);
+    throw new Error(
+      `pronunciation.stress.primary.type has invalid value "${String(
+        primaryType,
+      )}"`,
+    );
   }
 
   if (primaryType === "fixed") {
-    assertAllowedKeys(primary, ["type", "fixedPosition"], "pronunciation.stress.primary");
+    assertAllowedKeys(
+      primary,
+      ["type", "fixedPosition"],
+      "pronunciation.stress.primary",
+    );
     const fixedPosition = primary.fixedPosition;
     if (!Number.isInteger(fixedPosition) || (fixedPosition as number) < 0) {
-      throw new Error("pronunciation.stress.primary.fixedPosition must be an integer >= 0");
+      throw new Error(
+        "pronunciation.stress.primary.fixedPosition must be an integer >= 0",
+      );
     }
   } else if (primaryType === "initial" || primaryType === "penultimate") {
     assertAllowedKeys(primary, ["type"], "pronunciation.stress.primary");
@@ -1416,33 +1468,59 @@ export function validateConfig(config: LanguageConfig): void {
     );
     const disyllabic = primary.disyllabicWeights as unknown;
     if (!Array.isArray(disyllabic) || disyllabic.length !== 2) {
-      throw new Error("pronunciation.stress.primary.disyllabicWeights must be a [number, number] tuple");
+      throw new Error(
+        "pronunciation.stress.primary.disyllabicWeights must be a [number, number] tuple",
+      );
     }
     for (let i = 0; i < disyllabic.length; i++) {
       const weight = disyllabic[i];
       if (typeof weight !== "number") {
-        throw new Error(`pronunciation.stress.primary.disyllabicWeights[${i}] must be a number`);
+        throw new Error(
+          `pronunciation.stress.primary.disyllabicWeights[${i}] must be a number`,
+        );
       }
     }
     const poly = primary.polysyllabicWeights;
     if (!poly) {
-      throw new Error("pronunciation.stress.primary.polysyllabicWeights is required for weight-sensitive");
+      throw new Error(
+        "pronunciation.stress.primary.polysyllabicWeights is required for weight-sensitive",
+      );
     }
     assertAllowedKeys(
       poly,
-      ["heavyPenult", "lightPenult", "antepenultHeavy", "antepenultLight", "initial"],
+      [
+        "heavyPenult",
+        "lightPenult",
+        "antepenultHeavy",
+        "antepenultLight",
+        "initial",
+      ],
       "pronunciation.stress.primary.polysyllabicWeights",
     );
-    for (const key of ["heavyPenult", "lightPenult", "antepenultHeavy", "antepenultLight", "initial"] as const) {
+    for (const key of [
+      "heavyPenult",
+      "lightPenult",
+      "antepenultHeavy",
+      "antepenultLight",
+      "initial",
+    ] as const) {
       const weight = poly[key];
       if (typeof weight !== "number") {
-        throw new Error(`pronunciation.stress.primary.polysyllabicWeights.${key} must be a number`);
+        throw new Error(
+          `pronunciation.stress.primary.polysyllabicWeights.${key} must be a number`,
+        );
       }
     }
   } else if (primaryType === "ot") {
-    assertAllowedKeys(primary, ["type", "otConfig"], "pronunciation.stress.primary");
+    assertAllowedKeys(
+      primary,
+      ["type", "otConfig"],
+      "pronunciation.stress.primary",
+    );
     if (!primary.otConfig || typeof primary.otConfig !== "object") {
-      throw new Error("pronunciation.stress.primary.otConfig is required for ot strategy");
+      throw new Error(
+        "pronunciation.stress.primary.otConfig is required for ot strategy",
+      );
     }
   }
 
@@ -1472,32 +1550,48 @@ export function validateConfig(config: LanguageConfig): void {
     "pronunciation.stress.nucleus",
   );
 
-  assertProbability(stress.secondary.probability, "pronunciation.stress.secondary.probability");
-  assertProbability(stress.rhythmic.probability, "pronunciation.stress.rhythmic.probability");
+  assertProbability(
+    stress.secondary.probability,
+    "pronunciation.stress.secondary.probability",
+  );
+  assertProbability(
+    stress.rhythmic.probability,
+    "pronunciation.stress.rhythmic.probability",
+  );
 
   if (
-    stress.secondary.candidateWindow !== "first-three"
-    && stress.secondary.candidateWindow !== "all-nonprimary"
+    stress.secondary.candidateWindow !== "first-three" &&
+    stress.secondary.candidateWindow !== "all-nonprimary"
   ) {
     throw new Error(
-      `pronunciation.stress.secondary.candidateWindow has invalid value "${String(stress.secondary.candidateWindow)}"`,
+      `pronunciation.stress.secondary.candidateWindow has invalid value "${String(
+        stress.secondary.candidateWindow,
+      )}"`,
     );
   }
 
   if (stress.nucleus.stressedNucleusBan) {
     for (const [idx, sound] of stress.nucleus.stressedNucleusBan.entries()) {
       if (!sound) {
-        throw new Error(`pronunciation.stress.nucleus.stressedNucleusBan[${idx}] must be non-empty`);
+        throw new Error(
+          `pronunciation.stress.nucleus.stressedNucleusBan[${idx}] must be non-empty`,
+        );
       }
     }
   }
   if (stress.nucleus.unstressedNucleusBoost) {
-    for (const [sound, boost] of Object.entries(stress.nucleus.unstressedNucleusBoost)) {
+    for (const [sound, boost] of Object.entries(
+      stress.nucleus.unstressedNucleusBoost,
+    )) {
       if (!sound) {
-        throw new Error("pronunciation.stress.nucleus.unstressedNucleusBoost has an empty sound key");
+        throw new Error(
+          "pronunciation.stress.nucleus.unstressedNucleusBoost has an empty sound key",
+        );
       }
       if (!Number.isFinite(boost) || boost < 0) {
-        throw new Error(`pronunciation.stress.nucleus.unstressedNucleusBoost.${sound} must be >= 0`);
+        throw new Error(
+          `pronunciation.stress.nucleus.unstressedNucleusBoost.${sound} must be >= 0`,
+        );
       }
     }
   }
@@ -1509,10 +1603,15 @@ export function validateConfig(config: LanguageConfig): void {
       ["enabled", "targets", "rules", "fallbackProbability"],
       "pronunciation.aspiration",
     );
-    assertProbability(aspiration.fallbackProbability, "pronunciation.aspiration.fallbackProbability");
+    assertProbability(
+      aspiration.fallbackProbability,
+      "pronunciation.aspiration.fallbackProbability",
+    );
 
     if (!Array.isArray(aspiration.targets) || aspiration.targets.length === 0) {
-      throw new Error("pronunciation.aspiration.targets must contain at least one selector");
+      throw new Error(
+        "pronunciation.aspiration.targets must contain at least one selector",
+      );
     }
     aspiration.targets.forEach((target, targetIndex) => {
       assertAllowedKeys(
@@ -1521,18 +1620,31 @@ export function validateConfig(config: LanguageConfig): void {
         `pronunciation.aspiration.targets[${targetIndex}]`,
       );
       if (!["onset", "nucleus", "coda"].includes(target.segment)) {
-        throw new Error(`pronunciation.aspiration.targets[${targetIndex}].segment has invalid value "${String(target.segment)}"`);
+        throw new Error(
+          `pronunciation.aspiration.targets[${targetIndex}].segment has invalid value "${String(
+            target.segment,
+          )}"`,
+        );
       }
-      if (target.index != null && (!Number.isInteger(target.index) || target.index < 0)) {
-        throw new Error(`pronunciation.aspiration.targets[${targetIndex}].index must be an integer >= 0`);
+      if (
+        target.index != null &&
+        (!Number.isInteger(target.index) || target.index < 0)
+      ) {
+        throw new Error(
+          `pronunciation.aspiration.targets[${targetIndex}].index must be an integer >= 0`,
+        );
       }
       if (target.sounds && target.sounds.some((sound) => !sound)) {
-        throw new Error(`pronunciation.aspiration.targets[${targetIndex}].sounds must not contain empty values`);
+        throw new Error(
+          `pronunciation.aspiration.targets[${targetIndex}].sounds must not contain empty values`,
+        );
       }
     });
 
     if (!Array.isArray(aspiration.rules) || aspiration.rules.length === 0) {
-      throw new Error("pronunciation.aspiration.rules must contain at least one rule");
+      throw new Error(
+        "pronunciation.aspiration.rules must contain at least one rule",
+      );
     }
     const seenRuleIds = new Set<string>();
     aspiration.rules.forEach((rule, ruleIndex) => {
@@ -1542,26 +1654,41 @@ export function validateConfig(config: LanguageConfig): void {
         `pronunciation.aspiration.rules[${ruleIndex}]`,
       );
       if (!rule.id || typeof rule.id !== "string") {
-        throw new Error(`pronunciation.aspiration.rules[${ruleIndex}].id must be a non-empty string`);
+        throw new Error(
+          `pronunciation.aspiration.rules[${ruleIndex}].id must be a non-empty string`,
+        );
       }
       if (seenRuleIds.has(rule.id)) {
-        throw new Error(`pronunciation.aspiration.rules has duplicate id "${rule.id}"`);
+        throw new Error(
+          `pronunciation.aspiration.rules has duplicate id "${rule.id}"`,
+        );
       }
       seenRuleIds.add(rule.id);
-      assertProbability(rule.probability, `pronunciation.aspiration.rules[${ruleIndex}].probability`);
+      assertProbability(
+        rule.probability,
+        `pronunciation.aspiration.rules[${ruleIndex}].probability`,
+      );
 
       assertAllowedKeys(
         rule.when,
-        ["wordInitial", "stressed", "postStressed", "syllableIndexClass", "previousCodaSounds"],
+        [
+          "wordInitial",
+          "stressed",
+          "postStressed",
+          "syllableIndexClass",
+          "previousCodaSounds",
+        ],
         `pronunciation.aspiration.rules[${ruleIndex}].when`,
       );
 
       if (
-        rule.when.syllableIndexClass != null
-        && !["initial", "medial", "final"].includes(rule.when.syllableIndexClass)
+        rule.when.syllableIndexClass != null &&
+        !["initial", "medial", "final"].includes(rule.when.syllableIndexClass)
       ) {
         throw new Error(
-          `pronunciation.aspiration.rules[${ruleIndex}].when.syllableIndexClass has invalid value "${String(rule.when.syllableIndexClass)}"`,
+          `pronunciation.aspiration.rules[${ruleIndex}].when.syllableIndexClass has invalid value "${String(
+            rule.when.syllableIndexClass,
+          )}"`,
         );
       }
       if (rule.when.previousCodaSounds) {
@@ -1579,7 +1706,7 @@ export function validateConfig(config: LanguageConfig): void {
     });
   }
 
-  const phonemeSounds = new Set(config.phonemes.map(p => p.sound));
+  const phonemeSounds = new Set(config.phonemes.map((p) => p.sound));
   const onsetSounds = new Set(config.phonemeMaps.onset.keys());
   const nucleusSounds = new Set(config.phonemeMaps.nucleus.keys());
   const codaSounds = new Set(config.phonemeMaps.coda.keys());
@@ -1590,7 +1717,10 @@ export function validateConfig(config: LanguageConfig): void {
     if (!gapSpelling.name || typeof gapSpelling.name !== "string") {
       throw new Error(`gapSpellings[${i}].name must be a non-empty string`);
     }
-    if (!Array.isArray(gapSpelling.phonemes) || gapSpelling.phonemes.length === 0) {
+    if (
+      !Array.isArray(gapSpelling.phonemes) ||
+      gapSpelling.phonemes.length === 0
+    ) {
       throw new Error(`gapSpellings[${i}].phonemes must be a non-empty array`);
     }
     for (let j = 0; j < gapSpelling.phonemes.length; j++) {
@@ -1599,31 +1729,42 @@ export function validateConfig(config: LanguageConfig): void {
         throw new Error(`gapSpellings[${i}].phonemes[${j}] must be non-empty`);
       }
       if (!phonemeSounds.has(sound)) {
-        throw new Error(`gapSpellings[${i}].phonemes[${j}] contains unknown phoneme "${sound}"`);
+        throw new Error(
+          `gapSpellings[${i}].phonemes[${j}] contains unknown phoneme "${sound}"`,
+        );
       }
     }
-    if (!gapSpelling.replacement || typeof gapSpelling.replacement !== "string") {
-      throw new Error(`gapSpellings[${i}].replacement must be a non-empty string`);
+    if (
+      !gapSpelling.replacement ||
+      typeof gapSpelling.replacement !== "string"
+    ) {
+      throw new Error(
+        `gapSpellings[${i}].replacement must be a non-empty string`,
+      );
     }
-    if (gapSpelling.weight !== undefined && (!Number.isFinite(gapSpelling.weight) || gapSpelling.weight <= 0)) {
+    if (
+      gapSpelling.weight !== undefined &&
+      (!Number.isFinite(gapSpelling.weight) || gapSpelling.weight <= 0)
+    ) {
       throw new Error(`gapSpellings[${i}].weight must be a finite number > 0`);
     }
     if (
-      gapSpelling.targetLayer !== "grapheme"
-      && gapSpelling.targetLayer !== "spellingRule"
-      && gapSpelling.targetLayer !== "phonotactics"
-      && gapSpelling.targetLayer !== "morphology"
-      && gapSpelling.targetLayer !== "unknown"
+      gapSpelling.targetLayer !== "grapheme" &&
+      gapSpelling.targetLayer !== "spellingRule" &&
+      gapSpelling.targetLayer !== "phonotactics" &&
+      gapSpelling.targetLayer !== "morphology" &&
+      gapSpelling.targetLayer !== "unknown"
     ) {
-      throw new Error(`gapSpellings[${i}].targetLayer must be one of grapheme|spellingRule|phonotactics|morphology|unknown`);
+      throw new Error(
+        `gapSpellings[${i}].targetLayer must be one of grapheme|spellingRule|phonotactics|morphology|unknown`,
+      );
     }
     const gapKey = gapSpelling.phonemes.join("\u0001");
-    const variantKey = [
-      gapKey,
-      gapSpelling.replacement,
-    ].join("\u0001");
+    const variantKey = [gapKey, gapSpelling.replacement].join("\u0001");
     if (gapSpellingVariantKeys.has(variantKey)) {
-      throw new Error(`gapSpellings has duplicate variant for "${gapSpelling.name}"`);
+      throw new Error(
+        `gapSpellings has duplicate variant for "${gapSpelling.name}"`,
+      );
     }
     gapSpellingVariantKeys.add(variantKey);
   }
@@ -1642,13 +1783,16 @@ export function validateConfig(config: LanguageConfig): void {
     position: "onset" | "nucleus" | "coda",
     label: string,
   ): void => {
-    const lookup = position === "onset"
-      ? onsetSounds
-      : position === "nucleus"
-        ? nucleusSounds
-        : codaSounds;
+    const lookup =
+      position === "onset"
+        ? onsetSounds
+        : position === "nucleus"
+          ? nucleusSounds
+          : codaSounds;
     if (!lookup.has(sound)) {
-      throw new Error(`${label} contains unknown ${position} phoneme "${sound}"`);
+      throw new Error(
+        `${label} contains unknown ${position} phoneme "${sound}"`,
+      );
     }
   };
 
@@ -1656,7 +1800,9 @@ export function validateConfig(config: LanguageConfig): void {
     aspiration.targets.forEach((target, targetIndex) => {
       if (!target.sounds) return;
       if (target.sounds.length === 0) {
-        throw new Error(`pronunciation.aspiration.targets[${targetIndex}].sounds must not be empty`);
+        throw new Error(
+          `pronunciation.aspiration.targets[${targetIndex}].sounds must not be empty`,
+        );
       }
       for (const sound of target.sounds) {
         assertKnownPositionSound(
@@ -1677,7 +1823,10 @@ export function validateConfig(config: LanguageConfig): void {
       }
     });
   }
-  const validateBridgeOnsets = (pairs: [string, number][], label: string): void => {
+  const validateBridgeOnsets = (
+    pairs: [string, number][],
+    label: string,
+  ): void => {
     for (const [sound, weight] of pairs) {
       if (!sound) {
         throw new Error(`${label} contains an empty sound`);
@@ -1687,7 +1836,9 @@ export function validateConfig(config: LanguageConfig): void {
       }
       if (!Number.isFinite(weight) || weight <= 0) {
         throw new Error(
-          `${label} has invalid weight ${String(weight)} for "${sound}" (must be > 0)`
+          `${label} has invalid weight ${String(
+            weight,
+          )} for "${sound}" (must be > 0)`,
         );
       }
     }
@@ -1697,16 +1848,21 @@ export function validateConfig(config: LanguageConfig): void {
     const guard = config.hiatusPolicy.planGuardProbability;
     if (guard < 0 || guard > 100) {
       throw new Error(
-        `hiatusPolicy.planGuardProbability is ${guard}, must be in [0, 100]`
+        `hiatusPolicy.planGuardProbability is ${guard}, must be in [0, 100]`,
       );
     }
     const glideMultiplier = config.hiatusPolicy.postVowelGlideMultiplier;
     if (!Number.isFinite(glideMultiplier) || glideMultiplier < 0) {
       throw new Error(
-        `hiatusPolicy.postVowelGlideMultiplier is ${String(glideMultiplier)}, must be a finite number >= 0`
+        `hiatusPolicy.postVowelGlideMultiplier is ${String(
+          glideMultiplier,
+        )}, must be a finite number >= 0`,
       );
     }
-    validateBridgeOnsets(config.hiatusPolicy.fallbackBridgeOnsets, "hiatusPolicy.fallbackBridgeOnsets");
+    validateBridgeOnsets(
+      config.hiatusPolicy.fallbackBridgeOnsets,
+      "hiatusPolicy.fallbackBridgeOnsets",
+    );
   }
 
   if (config.morphology?.boundaryPolicy?.fallbackBridgeOnsets) {
@@ -1720,8 +1876,13 @@ export function validateConfig(config: LanguageConfig): void {
     condition: PhonologicalCondition,
     label: string,
   ): void => {
-    if (condition.position !== "preceding" && condition.position !== "following") {
-      throw new Error(`${label}.position has invalid value "${String(condition.position)}"`);
+    if (
+      condition.position !== "preceding" &&
+      condition.position !== "following"
+    ) {
+      throw new Error(
+        `${label}.position has invalid value "${String(condition.position)}"`,
+      );
     }
     if (condition.sounds) {
       if (condition.sounds.length === 0) {
@@ -1732,7 +1893,9 @@ export function validateConfig(config: LanguageConfig): void {
           throw new Error(`${label}.sounds must not contain empty values`);
         }
         if (!phonemeSounds.has(sound)) {
-          throw new Error(`${label}.sounds contains unknown phoneme "${sound}"`);
+          throw new Error(
+            `${label}.sounds contains unknown phoneme "${sound}"`,
+          );
         }
       }
     }
@@ -1752,26 +1915,45 @@ export function validateConfig(config: LanguageConfig): void {
     if (!rule.name || typeof rule.name !== "string") {
       throw new Error(`${label}.name must be a non-empty string`);
     }
-    if (rule.priority != null && (!Number.isFinite(rule.priority) || rule.priority < 0)) {
+    if (
+      rule.priority != null &&
+      (!Number.isFinite(rule.priority) || rule.priority < 0)
+    ) {
       throw new Error(`${label}.priority must be a finite number >= 0`);
     }
-    if (rule.target != null && rule.target !== "edge" && rule.target !== "nucleus") {
-      throw new Error(`${label}.target has invalid value "${String(rule.target)}"`);
+    if (
+      rule.target != null &&
+      rule.target !== "edge" &&
+      rule.target !== "nucleus"
+    ) {
+      throw new Error(
+        `${label}.target has invalid value "${String(rule.target)}"`,
+      );
     }
     if (rule.replaceSound && !phonemeSounds.has(rule.replaceSound)) {
-      throw new Error(`${label}.replaceSound contains unknown phoneme "${rule.replaceSound}"`);
+      throw new Error(
+        `${label}.replaceSound contains unknown phoneme "${rule.replaceSound}"`,
+      );
     }
     const hasWrittenMatch = rule.writtenMatch instanceof RegExp;
     const hasWrittenReplace = typeof rule.writtenReplace === "string";
     if (hasWrittenMatch !== hasWrittenReplace) {
-      throw new Error(`${label} must provide both writtenMatch and writtenReplace together`);
+      throw new Error(
+        `${label} must provide both writtenMatch and writtenReplace together`,
+      );
     }
     if (!rule.replaceSound && !hasWrittenMatch) {
-      throw new Error(`${label} must define at least one action (replaceSound or written rewrite)`);
+      throw new Error(
+        `${label} must define at least one action (replaceSound or written rewrite)`,
+      );
     }
     if (rule.phonologicalCondition) {
-      validatePhonologicalCondition(rule.phonologicalCondition, `${label}.phonologicalCondition`);
-      const expectedPosition = affix.type === "suffix" ? "preceding" : "following";
+      validatePhonologicalCondition(
+        rule.phonologicalCondition,
+        `${label}.phonologicalCondition`,
+      );
+      const expectedPosition =
+        affix.type === "suffix" ? "preceding" : "following";
       if (rule.phonologicalCondition.position !== expectedPosition) {
         throw new Error(
           `${label}.phonologicalCondition.position must be "${expectedPosition}" for ${affix.type} rules`,
@@ -1793,12 +1975,16 @@ export function validateConfig(config: LanguageConfig): void {
         let totalWeight = 0;
         for (const [template, weight] of entries) {
           if (!Number.isFinite(weight) || weight < 0) {
-            throw new Error(`morphology.templateWeights.${mode}.${template} must be a finite number >= 0`);
+            throw new Error(
+              `morphology.templateWeights.${mode}.${template} must be a finite number >= 0`,
+            );
           }
           totalWeight += weight;
         }
         if (!Number.isFinite(totalWeight) || totalWeight <= 0) {
-          throw new Error(`morphology.templateWeights.${mode} must have positive total weight`);
+          throw new Error(
+            `morphology.templateWeights.${mode} must have positive total weight`,
+          );
         }
         if (weights.prefixed > 0 && config.morphology.prefixes.length === 0) {
           throw new Error(
@@ -1857,30 +2043,59 @@ export function validateConfig(config: LanguageConfig): void {
   if (config.clusterConstraint?.rules) {
     config.clusterConstraint.rules.forEach((rule, index) => {
       for (const sound of rule.coda.sounds ?? []) {
-        assertKnownPositionSound(sound, "coda", `clusterConstraint.rules[${index}].coda.sounds`);
+        assertKnownPositionSound(
+          sound,
+          "coda",
+          `clusterConstraint.rules[${index}].coda.sounds`,
+        );
       }
       for (const sound of rule.onset.sounds ?? []) {
-        assertKnownPositionSound(sound, "onset", `clusterConstraint.rules[${index}].onset.sounds`);
+        assertKnownPositionSound(
+          sound,
+          "onset",
+          `clusterConstraint.rules[${index}].onset.sounds`,
+        );
       }
       for (const [codaSound, onsetSound] of rule.except ?? []) {
-        assertKnownPositionSound(codaSound, "coda", `clusterConstraint.rules[${index}].except`);
-        assertKnownPositionSound(onsetSound, "onset", `clusterConstraint.rules[${index}].except`);
+        assertKnownPositionSound(
+          codaSound,
+          "coda",
+          `clusterConstraint.rules[${index}].except`,
+        );
+        assertKnownPositionSound(
+          onsetSound,
+          "onset",
+          `clusterConstraint.rules[${index}].except`,
+        );
       }
     });
   }
 
-  // Top-down phoneme length weights are required for both modes.
   if (!config.phonemeLengthWeights?.text?.length) {
-    throw new Error("phonemeLengthWeights.text is required and must be non-empty");
+    throw new Error(
+      "phonemeLengthWeights.text is required and must be non-empty",
+    );
   }
   if (!config.phonemeLengthWeights?.lexicon?.length) {
-    throw new Error("phonemeLengthWeights.lexicon is required and must be non-empty");
+    throw new Error(
+      "phonemeLengthWeights.lexicon is required and must be non-empty",
+    );
   }
-  if (!config.phonemeToSyllableWeights?.text || Object.keys(config.phonemeToSyllableWeights.text).length === 0) {
-    throw new Error("phonemeToSyllableWeights.text is required and must be non-empty");
+  if (
+    !config.phonemeToSyllableWeights?.text ||
+    Object.keys(config.phonemeToSyllableWeights.text).length === 0
+  ) {
+    throw new Error(
+      "phonemeToSyllableWeights.text is required and must be non-empty",
+    );
   }
-  if (!config.phonemeToSyllableWeights?.lexicon || Object.keys(config.phonemeToSyllableWeights.lexicon).length === 0) {
-    throw new Error("phonemeToSyllableWeights.lexicon is required and must be non-empty");
+  if (
+    !config.phonemeToSyllableWeights?.lexicon ||
+    Object.keys(config.phonemeToSyllableWeights.lexicon).length === 0
+  ) {
+    throw new Error(
+      "phonemeToSyllableWeights.lexicon is required and must be non-empty",
+    );
   }
 
   const validateWeightedPairs = (
@@ -1891,10 +2106,14 @@ export function validateConfig(config: LanguageConfig): void {
     let total = 0;
     for (const [value, weight] of pairs) {
       if (!Number.isFinite(value) || !Number.isInteger(value) || value < 1) {
-        throw new Error(`${label} has invalid ${keyType} key "${value}" (must be integer >= 1)`);
+        throw new Error(
+          `${label} has invalid ${keyType} key "${value}" (must be integer >= 1)`,
+        );
       }
       if (!Number.isFinite(weight) || weight <= 0) {
-        throw new Error(`${label} has invalid weight "${weight}" for ${value} (must be > 0)`);
+        throw new Error(
+          `${label} has invalid weight "${weight}" for ${value} (must be > 0)`,
+        );
       }
       total += weight;
     }
@@ -1903,23 +2122,39 @@ export function validateConfig(config: LanguageConfig): void {
     }
   };
 
-  validateWeightedPairs(config.phonemeLengthWeights.text, "phonemeLengthWeights.text");
-  validateWeightedPairs(config.phonemeLengthWeights.lexicon, "phonemeLengthWeights.lexicon");
+  validateWeightedPairs(
+    config.phonemeLengthWeights.text,
+    "phonemeLengthWeights.text",
+  );
+  validateWeightedPairs(
+    config.phonemeLengthWeights.lexicon,
+    "phonemeLengthWeights.lexicon",
+  );
 
   for (const mode of ["text", "lexicon"] as const) {
     const phonemeLengthSet = new Set(
       config.phonemeLengthWeights[mode].map(([phonemeCount]) => phonemeCount),
     );
 
-    for (const [phonemeCountStr, weights] of Object.entries(config.phonemeToSyllableWeights[mode])) {
+    for (const [phonemeCountStr, weights] of Object.entries(
+      config.phonemeToSyllableWeights[mode],
+    )) {
       const phonemeCount = Number(phonemeCountStr);
       if (!Number.isInteger(phonemeCount) || phonemeCount < 1) {
-        throw new Error(`phonemeToSyllableWeights.${mode} has invalid phoneme length key "${phonemeCountStr}"`);
+        throw new Error(
+          `phonemeToSyllableWeights.${mode} has invalid phoneme length key "${phonemeCountStr}"`,
+        );
       }
       if (!Array.isArray(weights) || weights.length === 0) {
-        throw new Error(`phonemeToSyllableWeights.${mode}.${phonemeCount} must be a non-empty array`);
+        throw new Error(
+          `phonemeToSyllableWeights.${mode}.${phonemeCount} must be a non-empty array`,
+        );
       }
-      validateWeightedPairs(weights, `phonemeToSyllableWeights.${mode}.${phonemeCount}`, "syllable");
+      validateWeightedPairs(
+        weights,
+        `phonemeToSyllableWeights.${mode}.${phonemeCount}`,
+        "syllable",
+      );
     }
 
     for (const phonemeCount of phonemeLengthSet) {
@@ -1937,19 +2172,10 @@ export function validateConfig(config: LanguageConfig): void {
  * sonority hierarchy. This guarantees levels stay consistent with the
  * hierarchy — no stale cache possible.
  */
-export function computeSonorityLevels(config: LanguageConfig): Map<Phoneme, number> {
-  const { mannerOfArticulation, placeOfArticulation, voicedBonus, tenseBonus } =
-    config.sonorityHierarchy;
-
-  return new Map(
-    config.phonemes.map((p) => [
-      p,
-      (mannerOfArticulation[p.mannerOfArticulation] ?? 0) +
-        (placeOfArticulation[p.placeOfArticulation] ?? 0) +
-        (p.voiced ? voicedBonus : 0) +
-        (p.tense ? tenseBonus : 0),
-    ]),
-  );
+export function computeSonorityLevels(
+  config: LanguageConfig,
+): Map<Phoneme, number> {
+  return inventorySonorityLevels(config.phonemes, config.sonorityHierarchy);
 }
 
 /**
@@ -1964,5 +2190,7 @@ export function computeSonorityLevels(config: LanguageConfig): Map<Phoneme, numb
  * three-stop cluster like /kt.p/, regardless of which places are involved.)
  */
 export function sonorityClass(p: Phoneme, config: LanguageConfig): number {
-  return config.sonorityHierarchy.mannerOfArticulation[p.mannerOfArticulation] ?? 0;
+  return (
+    config.sonorityHierarchy.mannerOfArticulation[p.mannerOfArticulation] ?? 0
+  );
 }

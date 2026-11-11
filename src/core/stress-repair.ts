@@ -1,8 +1,14 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import { StressRules } from "../config/language.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { isNucleusWordPositionAllowed, nucleusWordEdges } from "./nucleus-position.js";
-import { isNucleusCompatibleWithCoda, isNucleusCompatibleWithFollowingOnset } from "./rime-compatibility.js";
+import {
+  isNucleusWordPositionAllowed,
+  nucleusWordEdges,
+} from "./nucleus-position.js";
+import {
+  isNucleusCompatibleWithCoda,
+  isNucleusCompatibleWithFollowingOnset,
+} from "./rime-compatibility.js";
 import type { BannedNucleusCodaPairs } from "./rime-compatibility.js";
 
 /**
@@ -25,10 +31,12 @@ export function repairStressedNuclei(
 
   const banSet = new Set(ban);
 
-  // Pre-filter the pool once — remove banned sounds
-  const allowed = nucleusPhonemes.filter(p => !banSet.has(p.sound));
+  const allowed = nucleusPhonemes.filter((p) => !banSet.has(p.sound));
 
-  const weightedAllowed: [Phoneme, number][] = allowed.map(p => [p, p.nucleus ?? 1]);
+  const weightedAllowed: [Phoneme, number][] = allowed.map((p) => [
+    p,
+    p.nucleus ?? 1,
+  ]);
 
   for (const [syllableIndex, syllable] of context.word.syllables.entries()) {
     if (syllable.stress !== "ˈ") continue;
@@ -39,21 +47,42 @@ export function repairStressedNuclei(
     // Final stress operates on the assembled word, but only root replacements
     // are copied back before root spelling. Keep affix legality out of this rule.
     const rootIndex = syllableIndex - (retainedRoot?.start ?? 0);
-    const rootSyllable = retainedRoot ? retainedRoot.syllables[rootIndex] : syllable;
+    const rootSyllable = retainedRoot
+      ? retainedRoot.syllables[rootIndex]
+      : syllable;
     const coda = rootSyllable?.coda ?? syllable.coda;
     const pairRules = rootSyllable ? bannedPairs : undefined;
     // Only a following root syllable counts; affix joins are exempt.
-    const nextOnset = retainedRoot ? retainedRoot.syllables[rootIndex + 1]?.onset : context.word.syllables[syllableIndex + 1]?.onset;
+    const nextOnset = retainedRoot
+      ? retainedRoot.syllables[rootIndex + 1]?.onset
+      : context.word.syllables[syllableIndex + 1]?.onset;
     const onsetRules = rootSyllable ? followingOnsetPairs : undefined;
     const before = nucleus.sound;
-    const edges = nucleusWordEdges(syllable, syllableIndex, context.word.syllables.length, 0);
+    const edges = nucleusWordEdges(
+      syllable,
+      syllableIndex,
+      context.word.syllables.length,
+      0,
+    );
     const eligible: [Phoneme, number][] = [];
     let positivePairExclusions = 0;
     let totalWeight = 0;
     for (const [phoneme, weight] of weightedAllowed) {
-      if (!Number.isFinite(weight) || weight <= 0 || !isNucleusWordPositionAllowed(phoneme, edges)) continue;
-      if (!isNucleusCompatibleWithCoda(phoneme.sound, coda, pairRules)
-        || !isNucleusCompatibleWithFollowingOnset(phoneme.sound, coda, nextOnset, onsetRules)) {
+      if (
+        !Number.isFinite(weight) ||
+        weight <= 0 ||
+        !isNucleusWordPositionAllowed(phoneme, edges)
+      )
+        continue;
+      if (
+        !isNucleusCompatibleWithCoda(phoneme.sound, coda, pairRules) ||
+        !isNucleusCompatibleWithFollowingOnset(
+          phoneme.sound,
+          coda,
+          nextOnset,
+          onsetRules,
+        )
+      ) {
         positivePairExclusions++;
         continue;
       }
@@ -61,17 +90,29 @@ export function repairStressedNuclei(
       totalWeight += weight;
     }
     if (eligible.length === 0 || !Number.isFinite(totalWeight)) {
-      throw new Error("No eligible stressed nucleus with finite positive weight for the realized lexical-root position and retained coda.");
+      throw new Error(
+        "No eligible stressed nucleus with finite positive weight for the realized lexical-root position and retained coda.",
+      );
     }
     syllable.nucleus[0] = getWeightedOption(eligible, context.rand);
-    context.trace?.recordRepair(retainedRoot ? "repairFinalStressedNuclei" : "repairStressedNuclei", before, syllable.nucleus[0].sound,
-      `replaced banned stressed nucleus /${before}/`, rootSyllable ? {
-        domain: "lexical-root", syllableIndex: rootIndex, nucleusIndex: 0,
-        coda: coda.map(phoneme => phoneme.sound), edges, weighting: "nucleus-only",
-        eligibleCandidateEntries: eligible.length, positivePairExclusions, totalWeight,
-      } : undefined);
+    context.trace?.recordRepair(
+      retainedRoot ? "repairFinalStressedNuclei" : "repairStressedNuclei",
+      before,
+      syllable.nucleus[0].sound,
+      `replaced banned stressed nucleus /${before}/`,
+      rootSyllable
+        ? {
+          domain: "lexical-root",
+          syllableIndex: rootIndex,
+          nucleusIndex: 0,
+          coda: coda.map((phoneme) => phoneme.sound),
+          edges,
+          weighting: "nucleus-only",
+          eligibleCandidateEntries: eligible.length,
+          positivePairExclusions,
+          totalWeight,
+        }
+        : undefined,
+    );
   }
-
-  // Future: unstressedNucleusBoost — config is read but no behaviour change yet
-  // const _boost = stress.nucleus.unstressedNucleusBoost;
 }

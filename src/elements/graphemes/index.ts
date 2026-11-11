@@ -18,23 +18,33 @@ import { withEnglishReadings } from "./reading.js";
  * Consonant weights describe actual segment edges (e.g. coda /z/ in the first
  * syllable is medial, not word-initial). Keep these dimensions separate.
  */
-function withPositions(items: Grapheme[], scope: "segment" | "syllable"): Grapheme[] {
-  return items.map(grapheme => {
+function withPositions(
+  items: Grapheme[],
+  scope: "segment" | "syllable",
+): Grapheme[] {
+  return items.map((grapheme) => {
     const positionScope = grapheme.positionScope ?? scope;
     // Preserve the old positive intersection where it existed. /eɪ/ had no
     // such intersection at all, so its isolated spellings need their own
     // explicit licensing rather than the former implicit restoration.
-    const hasBothEdges = items.some(candidate =>
-      candidate.phoneme === grapheme.phoneme && candidate.startWord > 0 && candidate.endWord > 0
+    const hasBothEdges = items.some(
+      (candidate) =>
+        candidate.phoneme === grapheme.phoneme &&
+        candidate.startWord > 0 &&
+        candidate.endWord > 0,
     );
-    const isolatedAllowed = !hasBothEdges || (grapheme.startWord > 0 && grapheme.endWord > 0);
+    const isolatedAllowed =
+      !hasBothEdges || (grapheme.startWord > 0 && grapheme.endWord > 0);
     return {
       ...grapheme,
       positionScope,
-      ...(positionScope === "syllable" ? {
-        isolatedSyllableWeight: isolatedAllowed
-          ? Math.max(grapheme.startWord, grapheme.midWord, grapheme.endWord) : 0,
-      } : {}),
+      ...(positionScope === "syllable"
+        ? {
+          isolatedSyllableWeight: isolatedAllowed
+            ? Math.max(grapheme.startWord, grapheme.midWord, grapheme.endWord)
+            : 0,
+        }
+        : {}),
     };
   });
 }
@@ -55,15 +65,31 @@ export const graphemes: Grapheme[] = withEnglishReadings([
   // A one-syllable root ending in /i:/ before a vowel-initial suffix: "ea" is
   // the only isolated /i:/ spelling, and it may not precede a vowel letter.
   {
-    phoneme: "i:", form: "ee", frequency: 3,
-    onset: 0, coda: 0, positionScope: "syllable", fallbackOnly: true,
-    startWord: 0, midWord: 0, endWord: 0, isolatedSyllableWeight: 1,
+    phoneme: "i:",
+    form: "ee",
+    frequency: 3,
+    onset: 0,
+    coda: 0,
+    positionScope: "syllable",
+    fallbackOnly: true,
+    startWord: 0,
+    midWord: 0,
+    endWord: 0,
+    isolatedSyllableWeight: 1,
     condition: { segmentPosition: ["final"] },
   },
   {
-    phoneme: "ʊ", form: "oo", frequency: 80,
-    onset: 0, coda: 0, positionScope: "syllable", fallbackOnly: true,
-    startWord: 1, midWord: 0, endWord: 0, isolatedSyllableWeight: 5,
+    phoneme: "ʊ",
+    form: "oo",
+    frequency: 80,
+    onset: 0,
+    coda: 0,
+    positionScope: "syllable",
+    fallbackOnly: true,
+    startWord: 1,
+    midWord: 0,
+    endWord: 0,
+    isolatedSyllableWeight: 5,
     condition: { leftContext: ["g"] },
   },
 ]);
@@ -81,18 +107,23 @@ export type CumulativeFrequencies = {
 };
 
 /** Type-safe accessor for a grapheme's positional weight. */
-function getPositionWeight(grapheme: Grapheme, position: "onset" | "nucleus" | "coda"): number | undefined {
+function getPositionWeight(
+  grapheme: Grapheme,
+  position: "onset" | "nucleus" | "coda",
+): number | undefined {
   switch (position) {
-  case "onset": return grapheme.onset;
-  case "nucleus": return grapheme.nucleus;
-  case "coda": return grapheme.coda;
+  case "onset":
+    return grapheme.onset;
+  case "nucleus":
+    return grapheme.nucleus;
+  case "coda":
+    return grapheme.coda;
   }
 }
 
 /**
  * Build position-keyed grapheme maps and cumulative frequency tables
- * from a flat array of graphemes. Extracted from the former top-level
- * imperative loop so it can be tested and reused independently.
+ * from a flat array of graphemes.
  */
 export function buildGraphemeMaps(allGraphemes: Grapheme[]): {
   graphemeMaps: GraphemeMaps;
@@ -101,28 +132,32 @@ export function buildGraphemeMaps(allGraphemes: Grapheme[]): {
   const graphemeMaps: GraphemeMaps = {
     onset: new Map<string, Grapheme[]>(),
     nucleus: new Map<string, Grapheme[]>(),
-    coda: new Map<string, Grapheme[]>()
+    coda: new Map<string, Grapheme[]>(),
   };
 
   const cumulativeFrequencies: CumulativeFrequencies = {
     onset: new Map<string, number[]>(),
     nucleus: new Map<string, number[]>(),
-    coda: new Map<string, number[]>()
+    coda: new Map<string, number[]>(),
   };
 
   for (const position of ["onset", "nucleus", "coda"] as const) {
     for (const grapheme of allGraphemes) {
       const weight = getPositionWeight(grapheme, position);
       if (weight === undefined || weight > 0) {
-        if (!graphemeMaps[position].has(grapheme.phoneme)) {
-          graphemeMaps[position].set(grapheme.phoneme, []);
-          cumulativeFrequencies[position].set(grapheme.phoneme, []);
+        const graphemeList = graphemeMaps[position].get(grapheme.phoneme) ?? [];
+        const frequencyList =
+          cumulativeFrequencies[position].get(grapheme.phoneme) ?? [];
+        if (graphemeList.length === 0) {
+          graphemeMaps[position].set(grapheme.phoneme, graphemeList);
+          cumulativeFrequencies[position].set(grapheme.phoneme, frequencyList);
         }
-        const graphemeList = graphemeMaps[position].get(grapheme.phoneme)!;
-        const frequencyList = cumulativeFrequencies[position].get(grapheme.phoneme)!;
 
         graphemeList.push(grapheme);
-        const lastFreq = frequencyList.length > 0 ? frequencyList[frequencyList.length - 1] : 0;
+        const lastFreq =
+          frequencyList.length > 0
+            ? frequencyList[frequencyList.length - 1]
+            : 0;
         frequencyList.push(lastFreq + grapheme.frequency);
       }
     }
@@ -131,6 +166,7 @@ export function buildGraphemeMaps(allGraphemes: Grapheme[]): {
   return { graphemeMaps, cumulativeFrequencies };
 }
 
-const { graphemeMaps: _maps, cumulativeFrequencies: _freqs } = buildGraphemeMaps(graphemes);
+const { graphemeMaps: _maps, cumulativeFrequencies: _freqs } =
+  buildGraphemeMaps(graphemes);
 export const graphemeMaps = _maps;
 export const cumulativeFrequencies = _freqs;

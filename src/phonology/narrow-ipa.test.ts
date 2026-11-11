@@ -15,7 +15,7 @@ describe("narrowIpaProfile chimera-english-v1", () => {
   it("exposes the documented defaults and remaps", () => {
     expect(profile.id).toBe("chimera-english-v1");
     expect(profile.defaults).toEqual({ stripFleeceLength: true, darkL: false });
-    expect(profile.remaps.map(r => [r.from, r.to, r.when ?? null])).toEqual([
+    expect(profile.remaps.map((r) => [r.from, r.to, r.when ?? null])).toEqual([
       ["r", "ɹ", null],
       ["əʊ", "oʊ", null],
       ["ɜ", "ɝ", null],
@@ -52,7 +52,9 @@ describe("toNarrowIpa", () => {
   it("is idempotent on already-narrow input", () => {
     const narrow = "ˈbɹɝl.ʃən oʊ ɝ ɫ ɹ";
     expect(toNarrowIpa(narrow)).toBe(narrow);
-    expect(toNarrowIpa(toNarrowIpa("rɜnd əʊ brɪ"))).toBe(toNarrowIpa("rɜnd əʊ brɪ"));
+    expect(toNarrowIpa(toNarrowIpa("rɜnd əʊ brɪ"))).toBe(
+      toNarrowIpa("rɜnd əʊ brɪ"),
+    );
   });
 
   it("preserves stress, syllable dots, and aspiration marks", () => {
@@ -109,7 +111,9 @@ describe("toNarrowPhones + phonesFromWord", () => {
       { sound: "ɪ", aspirated: undefined },
       { sound: "l", aspirated: undefined },
     ]);
-    expect(toNarrowPhones(phones, { darkL: true }).map(p => p.sound)).toEqual(["l", "ɪ", "ɫ"]);
+    expect(toNarrowPhones(phones, { darkL: true }).map((p) => p.sound)).toEqual(
+      ["l", "ɪ", "ɫ"],
+    );
   });
 
   it("phonesFromWord tags slots for darkL", () => {
@@ -124,7 +128,7 @@ describe("toNarrowPhones + phonesFromWord", () => {
       ],
     };
     const phones = phonesFromWord(word);
-    expect(phones.map(p => [p.sound, p.slot, p.syllableFinal])).toEqual([
+    expect(phones.map((p) => [p.sound, p.slot, p.syllableFinal])).toEqual([
       ["f", "onset", false],
       ["ɪ", "nucleus", false],
       ["l", "coda", true],
@@ -150,23 +154,29 @@ describe("toNarrowPhones + phonesFromWord", () => {
       ],
     };
     expect(toNarrowPronunciation(word)).toBe("ˈbɹəl.ʃən");
-    expect(toNarrowPronunciation({
-      syllables: [{
-        onset: [{ sound: "p", aspirated: true }, { sound: "r" }],
-        nucleus: [{ sound: "æ" }],
-        coda: [{ sound: "r" }],
-      }],
-    })).toBe("pʰɹæɹ");
+    expect(
+      toNarrowPronunciation({
+        syllables: [
+          {
+            onset: [{ sound: "p", aspirated: true }, { sound: "r" }],
+            nucleus: [{ sound: "æ" }],
+            coda: [{ sound: "r" }],
+          },
+        ],
+      }),
+    ).toBe("pʰɹæɹ");
   });
 });
 
 describe("generateWord round-trip (known keys only)", () => {
   it("only changes documented remap keys across a fixed seed sample", () => {
     const unconditional = new Map(
-      profile.remaps.filter(r => !r.when).map(r => [r.from, r.to]),
+      profile.remaps.filter((r) => !r.when).map((r) => [r.from, r.to]),
     );
     const lengthKeys = new Set(
-      profile.remaps.filter(r => r.when === "stripFleeceLength").map(r => r.from),
+      profile.remaps
+        .filter((r) => r.when === "stripFleeceLength")
+        .map((r) => r.from),
     );
 
     for (let seed = 1; seed <= 80; seed++) {
@@ -175,14 +185,15 @@ describe("generateWord round-trip (known keys only)", () => {
       const narrow = toNarrowPronunciation(word);
       expect(toNarrowIpa(broad)).toBe(narrow);
 
-      // Every change must be explained by the profile table (or darkL off).
       const fromPhones = phonesFromWord(word);
       const mapped = toNarrowPhones(fromPhones);
       fromPhones.forEach((phone, i) => {
         if (phone.sound === mapped[i].sound) return;
         if (unconditional.get(phone.sound) === mapped[i].sound) return;
         if (lengthKeys.has(phone.sound) && mapped[i].sound === "i") return;
-        throw new Error(`unexpected remap ${phone.sound}→${mapped[i].sound} seed=${seed}`);
+        throw new Error(
+          `unexpected remap ${phone.sound}→${mapped[i].sound} seed=${seed}`,
+        );
       });
     }
   });

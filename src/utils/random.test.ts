@@ -33,17 +33,13 @@ describe("createSeededRng (Mulberry32)", () => {
     const a = createSeededRng(42);
     const reference = createSeededRng(42);
 
-    // Advance 'a' by 5 steps
     for (let i = 0; i < 5; i++) a();
 
-    // Create a new instance with different seed, use it
     const b = createSeededRng(999);
     for (let i = 0; i < 100; i++) b();
 
-    // Advance reference by 5 steps
     for (let i = 0; i < 5; i++) reference();
 
-    // 'a' and 'reference' should still be in sync
     expect(a()).toBe(reference());
   });
 
@@ -56,7 +52,6 @@ describe("createSeededRng (Mulberry32)", () => {
     }
     const expected = N / 10;
     for (const count of bins) {
-      // Each bin should be within 5% of expected
       expect(Math.abs(count - expected) / expected).toBeLessThan(0.05);
     }
   });
@@ -64,7 +59,6 @@ describe("createSeededRng (Mulberry32)", () => {
   it("seed 0 works (not degenerate)", () => {
     const rng = createSeededRng(0);
     const vals = new Set(Array.from({ length: 100 }, () => rng()));
-    // Should produce many distinct values, not stuck
     expect(vals.size).toBeGreaterThan(90);
   });
 });

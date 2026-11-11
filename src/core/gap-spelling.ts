@@ -1,8 +1,12 @@
-import { GapSpelling, GapSpellingTargetLayer, LanguageConfig } from "../config/language.js";
+import {
+  GapSpelling,
+  GapSpellingTargetLayer,
+  LanguageConfig,
+} from "../config/language.js";
 import { Syllable, WordGenerationContext } from "../types.js";
 import type { BaseSpelling } from "./base-spelling.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { rewriteOrthographyTraceSurface } from "./write.js";
+import { rewriteOrthographyTraceSurface } from "./orthography-trace.js";
 
 interface CompiledGapSpelling {
   name: string;
@@ -32,7 +36,9 @@ export function buildWordPhonemeKey(syllables: Syllable[]): string {
   );
 }
 
-function compileGapSpellings(gapSpellings: GapSpelling[]): Map<string, CompiledGapSpelling[]> {
+function compileGapSpellings(
+  gapSpellings: GapSpelling[],
+): Map<string, CompiledGapSpelling[]> {
   const compiled = new Map<string, CompiledGapSpelling[]>();
   for (const gapSpelling of gapSpellings) {
     const key = serializePhonemeSequence(gapSpelling.phonemes);
@@ -55,11 +61,17 @@ function selectGapSpelling(
 ): CompiledGapSpelling | undefined {
   if (!variants || variants.length === 0) return undefined;
   if (variants.length === 1) return variants[0];
-  return getWeightedOption(variants.map((variant) => [variant, variant.weight]), context.rand);
+  return getWeightedOption(
+    variants.map((variant) => [variant, variant.weight]),
+    context.rand,
+  );
 }
 
 /** Rewrites an exact bare-word match, recording the edit on the word's base spelling when given. */
-export type GapSpellingApplicator = (context: WordGenerationContext, baseSpelling?: BaseSpelling) => void;
+export type GapSpellingApplicator = (
+  context: WordGenerationContext,
+  baseSpelling?: BaseSpelling,
+) => void;
 
 export function createGapSpellingApplicator(
   config: Pick<LanguageConfig, "gapSpellings">,
@@ -67,7 +79,8 @@ export function createGapSpellingApplicator(
   const gapSpellingMap = compileGapSpellings(config.gapSpellings ?? []);
 
   return (context: WordGenerationContext, baseSpelling?: BaseSpelling) => {
-    if (context.word.syllables.length === 0 || gapSpellingMap.size === 0) return;
+    if (context.word.syllables.length === 0 || gapSpellingMap.size === 0)
+      return;
 
     const selected = selectGapSpelling(
       gapSpellingMap.get(buildWordPhonemeKey(context.word.syllables)),
@@ -79,7 +92,13 @@ export function createGapSpellingApplicator(
     if (baseSpelling) {
       baseSpelling.assertSurface(before);
       baseSpelling.markGapSpelling();
-      baseSpelling.edit("gap", 0, before.length, selected.replacement, `gapSpelling:${selected.name}`);
+      baseSpelling.edit(
+        "gap",
+        0,
+        before.length,
+        selected.replacement,
+        `gapSpelling:${selected.name}`,
+      );
       if (context.trace) context.trace.baseSpelling = baseSpelling.snapshot();
     }
     context.word.written.clean = selected.replacement;
@@ -104,7 +123,8 @@ export function buildGapSpellingWordIndex(
     const key = gapSpelling.replacement.toLowerCase();
     const existing = byWord.get(key);
     if (existing) {
-      if (!existing.names.includes(gapSpelling.name)) existing.names.push(gapSpelling.name);
+      if (!existing.names.includes(gapSpelling.name))
+        existing.names.push(gapSpelling.name);
       if (!existing.targetLayers.includes(gapSpelling.targetLayer)) {
         existing.targetLayers.push(gapSpelling.targetLayer);
       }
