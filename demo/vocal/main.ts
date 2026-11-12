@@ -1,11 +1,18 @@
 /**
- * Unglish × Chimera vocal demo: generate a nonce word (or short poem), speak IPA via Chimera.
+ * Unglish × Chimera vocal demo: generate a nonce word (or free-verse poem), speak IPA via Chimera.
  * Chimera sources under ./chimera are vendored from jamesondh/chimera-vocal-synth (MIT).
  *
  * Boot order matches Chimera: await initChimera() before importing any module that
  * calls into the engine at load time (speech → engine catalog).
  */
-import { generateWord, generateWords, toNarrowPronunciation } from "../../dist/index.js";
+import {
+  generateWord,
+  toNarrowPronunciation,
+  buildLexicon,
+  composeFreeVerse,
+  type LexiconEntry,
+  type FreeVersePoem,
+} from "../../dist/index.js";
 import { initChimera } from "./chimera/wasm/chimera.ts";
 import type { BodyMix } from "./chimera/wasm/types.ts";
 import { isLikelyIosSafari, unlockIosPlaybackSession } from "./iosAudio.ts";
@@ -19,6 +26,8 @@ type PoemLine = {
   ipa: string;
   /** narrow IPA for Chimera (words joined by space) */
   speakIpa: string;
+  /** Chimera pause after this line (seconds). */
+  pauseSec: number;
   words: GeneratedWord[];
 };
 
@@ -34,15 +43,14 @@ type CurrentPoem = {
   written: string;
   ipa: string;
   lines: PoemLine[];
+  lexiconSize: number;
 };
 
 type Current = CurrentWord | CurrentPoem;
 
-/** Short stanza: four lines × two nonce words, spoken with inter-line pauses. */
-const POEM_LINES = 4;
-const POEM_WORDS_PER_LINE = 2;
-/** Chimera planPhrases pause after each line except the last (seconds). */
-const POEM_LINE_PAUSE_SEC = 0.55;
+/** Interactive lexicon size (path to 1k–10k; grow in background toward TARGET). */
+const LEXICON_BOOT_SIZE = 1200;
+const LEXICON_TARGET_SIZE = 5000;
 
 /**
  * Voice presets: BodyMix weights (male = both axes 0) plus default f0 (Hz).
@@ -74,6 +82,9 @@ let current: Current | null = null;
 let ready = false;
 let speaking = false;
 let head: HeadHandle | null = null;
+let lexicon: LexiconEntry[] | null = null;
+let lexiconMorphology: boolean | null = null;
+let lexiconGrowing = false;
 
 type EngineApi = {
   engine: {
@@ -94,7 +105,7 @@ type EngineApi = {
   ) => Promise<{ plan: { end: number } } | null>;
   speakIpaLines: (
     lines: string[],
-    o: { body: BodyMix; rate: number; f0: number; linePause?: number },
+    o: { body: BodyMix; rate: number; f0: number; linePause?: number | number[] },
   ) => { plan: { end: number } } | null;
   stopSpeaking: () => void;
 };
@@ -144,42 +155,86 @@ function showWord(word: GeneratedWord): void {
   });
 }
 
-function buildPoemLine(words: GeneratedWord[]): PoemLine {
-  const written = words.map((w) => w.written.clean).join(" ");
-  const ipa = words
-    .map((w) => w.pronunciation)
-    .filter(Boolean)
-    .join(" ");
-  const speakIpa = words
-    .map((w) => toNarrowPronunciation(w))
-    .filter(Boolean)
-    .join(" ");
-  return { written, ipa, speakIpa, words };
+function poemFromFreeVerse(poem: FreeVersePoem): PoemLine[] {
+  return poem.lines.map((line) => {
+    const written = line.words.map((w) => w.written.clean).join(" ");
+    const speakIpa = line.words
+      .map((w) => toNarrowPronunciation(w))
+      .filter(Boolean)
+      .join(" ");
+    return {
+      written,
+      ipa: line.ipa,
+      speakIpa,
+      pauseSec: line.pauseSec,
+      words: line.words,
+    };
+  });
 }
 
-function showPoem(lines: PoemLine[]): void {
+function showPoem(lines: PoemLine[], lexiconSize: number): void {
   const written = lines.map((l) => l.written).join("\n");
   const ipa = lines.map((l) => (l.ipa ? `/${l.ipa}/` : "/ /")).join("\n");
-  showCurrent({ kind: "poem", written, ipa, lines });
+  showCurrent({ kind: "poem", written, ipa, lines, lexiconSize });
+}
+
+function ensureLexicon(morphology: boolean): LexiconEntry[] {
+  if (lexicon && lexiconMorphology === morphology && lexicon.length >= LEXICON_BOOT_SIZE) {
+    return lexicon;
+  }
+  setStatus(`Gathering an Unglish lexicon (${LEXICON_BOOT_SIZE})…`);
+  lexicon = buildLexicon({
+    size: LEXICON_BOOT_SIZE,
+    morphology,
+    mode: "lexicon",
+  });
+  lexiconMorphology = morphology;
+  queueLexiconGrow(morphology);
+  return lexicon;
+}
+
+function queueLexiconGrow(morphology: boolean): void {
+  if (lexiconGrowing || !lexicon || lexicon.length >= LEXICON_TARGET_SIZE) return;
+  lexiconGrowing = true;
+  const grow = () => {
+    try {
+      if (lexiconMorphology !== morphology) {
+        lexiconGrowing = false;
+        return;
+      }
+      const next = buildLexicon({
+        size: LEXICON_TARGET_SIZE,
+        morphology,
+        mode: "lexicon",
+        seed: Date.now() % 1_000_000,
+      });
+      if (lexiconMorphology === morphology) lexicon = next;
+    } finally {
+      lexiconGrowing = false;
+    }
+  };
+  const ric = (window as Window & { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number })
+    .requestIdleCallback;
+  if (typeof ric === "function") ric(grow, { timeout: 2500 });
+  else window.setTimeout(grow, 50);
 }
 
 function generate(): void {
   const morphology = morphChk.checked;
   if (isPoemMode()) {
-    const bag = generateWords(POEM_LINES * POEM_WORDS_PER_LINE, {
-      mode: "text",
-      morphology,
-    });
-    const lines: PoemLine[] = [];
-    for (let i = 0; i < POEM_LINES; i++) {
-      const slice = bag.slice(i * POEM_WORDS_PER_LINE, (i + 1) * POEM_WORDS_PER_LINE);
-      lines.push(buildPoemLine(slice));
-    }
-    showPoem(lines);
+    const pool = ensureLexicon(morphology);
+    const poem = composeFreeVerse(pool, { minLines: 4, maxLines: 6 });
+    const lines = poemFromFreeVerse(poem);
+    showPoem(lines, poem.lexiconSize);
+    setStatus(
+      ready
+        ? `Free verse from ${poem.lexiconSize.toLocaleString()} Unglish words.`
+        : "Voice still loading…",
+    );
   } else {
     showWord(generateWord({ mode: "text", morphology }));
+    setStatus(ready ? "Ready." : "Voice still loading…");
   }
-  setStatus(ready ? "Ready." : "Voice still loading…");
 }
 
 async function ensureAudio(): Promise<void> {
@@ -218,7 +273,12 @@ async function speak(): Promise<void> {
     if (current.kind === "poem") {
       const plan = api.speakIpaLines(
         current.lines.map((l) => l.speakIpa),
-        { body: pick.body, rate, f0: pick.f0, linePause: POEM_LINE_PAUSE_SEC },
+        {
+          body: pick.body,
+          rate,
+          f0: pick.f0,
+          linePause: current.lines.map((l) => l.pauseSec),
+        },
       );
       endSec = plan?.plan.end ?? 0;
     } else {
@@ -281,6 +341,10 @@ bothBtn.addEventListener("click", () => {
 modeSel.addEventListener("change", () => {
   primeAudioFromGesture();
   generate();
+});
+morphChk.addEventListener("change", () => {
+  lexicon = null;
+  lexiconMorphology = null;
 });
 bodySel.addEventListener("change", () => {
   primeAudioFromGesture();
