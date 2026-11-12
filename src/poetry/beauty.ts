@@ -9,31 +9,31 @@ function phonesOf(syllable: Syllable): Phoneme[] {
 
 function mannerScore(manner: Phoneme["mannerOfArticulation"]): number {
   switch (manner) {
-    case "liquid":
-    case "lateralApproximant":
-      return 1.15;
-    case "nasal":
-      return 0.85;
-    case "glide":
-      return 0.75;
-    case "lowVowel":
-      return 0.7;
-    case "midVowel":
-      return 0.55;
-    case "highVowel":
-      return 0.4;
-    case "fricative":
-      return 0.15;
-    case "sibilant":
-      return -0.05;
-    case "affricate":
-      return -0.2;
-    case "stop":
-      return -0.1;
-    default: {
-      const _exhaustive: never = manner;
-      return _exhaustive;
-    }
+  case "liquid":
+  case "lateralApproximant":
+    return 1.15;
+  case "nasal":
+    return 0.85;
+  case "glide":
+    return 0.75;
+  case "lowVowel":
+    return 0.7;
+  case "midVowel":
+    return 0.55;
+  case "highVowel":
+    return 0.4;
+  case "fricative":
+    return 0.15;
+  case "sibilant":
+    return -0.05;
+  case "affricate":
+    return -0.2;
+  case "stop":
+    return -0.1;
+  default: {
+    const _exhaustive: never = manner;
+    return _exhaustive;
+  }
   }
 }
 

@@ -25,7 +25,7 @@ export function buildLexicon(options: LexiconOptions = {}): LexiconEntry[] {
 
   const seen = new Set<string>();
   const entries: LexiconEntry[] = [];
-  let seed = options.seed;
+  const seed = options.seed;
   let guard = 0;
 
   while (entries.length < target && guard < 8) {
