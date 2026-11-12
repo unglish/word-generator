@@ -133,6 +133,13 @@
       overflow-wrap: anywhere;
       transition: opacity 0.2s ease;
     }
+    .word.poem {
+      font-size: clamp(1.35rem, 4.8vw, 2.05rem);
+      font-weight: 600;
+      line-height: 1.45;
+      white-space: pre-line;
+      min-height: 5.8em;
+    }
     .word.flash { opacity: 0.45; }
 
     .ipa {
@@ -142,6 +149,12 @@
       min-height: 1.4em;
       margin-bottom: 1.1em;
       word-break: break-word;
+    }
+    .ipa.poem {
+      white-space: pre-line;
+      line-height: 1.45;
+      min-height: 5.6em;
+      font-size: 0.95rem;
     }
 
     .row {
@@ -250,7 +263,7 @@
   <header>
     <h1>Unglish Vocal Demo</h1>
     <p class="lede">
-      Generate an English-like nonce word, then hear it spoken by
+      Generate an English-like nonce word — or a short poem of them — then hear it spoken by
       <a href="https://github.com/jamesondh/chimera-vocal-synth">Chimera</a> —
       a physical-model voice (airway + folds), not a sample bank.
     </p>
@@ -274,6 +287,12 @@
     </div>
 
     <div class="row">
+      <label class="field">Mode
+        <select id="mode" aria-label="Generation mode">
+          <option value="word" selected>Word</option>
+          <option value="poem">Poem</option>
+        </select>
+      </label>
       <label class="field">Voice
         <select id="body" aria-label="Voice body">
           <option value="female" selected>Adult female</option>
