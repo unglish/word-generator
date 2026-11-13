@@ -390,6 +390,8 @@ export interface ClusterContext {
   isEndOfWord: boolean;
   /** Provisional literal base-word edges for the nucleus segment being selected. */
   nucleusWordEdges?: { initial: boolean; final: boolean };
+  /** When set with an open final edge, checked vowels are ineligible. */
+  forbidOpenCheckedFinal?: boolean;
   /** Maximum phonemes allowed in this cluster. */
   maxLength: number;
   /** Total syllable count of the word being generated. */

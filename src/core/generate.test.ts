@@ -573,10 +573,13 @@ describe("Word Generator", () => {
     const { word, options } = findExample(
       (word) =>
         lastSelection(word).phoneme === "s" &&
-        lastSelection(word).selected === "aeay",
+        lastSelection(word).selected === "aeay" &&
+        repairsFor(word, "repairVowelLetters").some((repair) =>
+          repair.before.endsWith("aeay"),
+        ),
       {
-        property: "a word-final /s/ spelled aeay",
-        limit: 300,
+        property: "a word-final /s/ spelled aeay that the vowel-letter cap shortens",
+        limit: 2000,
         generator,
         options: { syllableCount: 1, morphology: false },
       },

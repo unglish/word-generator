@@ -2,6 +2,7 @@ import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import { StressRules } from "../config/language.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import {
+  isCheckedOpenFinalAllowed,
   isNucleusWordPositionAllowed,
   nucleusWordEdges,
 } from "./nucleus-position.js";
@@ -25,6 +26,7 @@ export function repairStressedNuclei(
   bannedPairs?: BannedNucleusCodaPairs,
   retainedRoot?: { syllables: readonly Syllable[]; start: number },
   followingOnsetPairs?: BannedNucleusCodaPairs,
+  forbidOpenCheckedFinal = false,
 ): void {
   const ban = stress.nucleus.stressedNucleusBan;
   if (!ban || ban.length === 0) return;
@@ -71,7 +73,8 @@ export function repairStressedNuclei(
       if (
         !Number.isFinite(weight) ||
         weight <= 0 ||
-        !isNucleusWordPositionAllowed(phoneme, edges)
+        !isNucleusWordPositionAllowed(phoneme, edges) ||
+        (forbidOpenCheckedFinal && !isCheckedOpenFinalAllowed(phoneme, edges))
       )
         continue;
       if (

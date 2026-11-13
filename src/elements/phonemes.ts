@@ -80,7 +80,7 @@ export const phonemes: Phoneme[] = [
     endWord: 1,
     voiced: true,
     placeOfArticulation: "front",
-  }, // sit
+  }, // sit — open final edge banned via checked-vowel contract
 
   // Mid Vowels
   {
@@ -94,7 +94,7 @@ export const phonemes: Phoneme[] = [
     endWord: 1,
     voiced: true,
     placeOfArticulation: "front",
-  }, // let
+  }, // let — open final edge banned via checked-vowel contract
   // Weight 560 (was 457): primary-stressed schwa, including every standalone
   // monosyllable, is re-picked, so lexical schwa survives only in unstressed
   // syllables of polysyllables. See docs/lexical-realization.md, "Schwa weight".
@@ -145,7 +145,7 @@ export const phonemes: Phoneme[] = [
     endWord: 1,
     voiced: true,
     placeOfArticulation: "front",
-  }, // apple, hat, map
+  }, // apple, hat, map — open final edge banned via checked-vowel contract
   {
     sound: "ɑ",
     mannerOfArticulation: "lowVowel",
@@ -203,7 +203,7 @@ export const phonemes: Phoneme[] = [
     endWord: 1,
     voiced: true,
     placeOfArticulation: "central",
-  }, // cup
+  }, // cup — open final edge banned via checked-vowel contract
 
   // Diphthongs (typically treated as mid or low vowels)
   {
