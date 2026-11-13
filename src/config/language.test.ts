@@ -104,6 +104,10 @@ describe("LanguageConfig", () => {
         // Bilabial nasal + velar stop
         "m|k",
         "m|g",
+        // Illegal syllable-join clusters (#418)
+        "z|ʃ",
+        "ʃ|h",
+        "k|tʃ",
       ]);
       const actual = new Set(
         expandClusterConstraintBans(englishConfig).map(
