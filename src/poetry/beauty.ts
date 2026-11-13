@@ -51,32 +51,35 @@ function syllableBeauty(syllable: Syllable): number {
 
 /**
  * Phonetic “beauty” for an Unglish nonce — liquids/nasals/open vowels,
- * clear primary stress, modest length. Stand-in until a neural ranker
- * selects from the same lexicon.
+ * clear primary stress, and length-neutral scoring so short words stay
+ * competitive. Stand-in until a neural ranker selects from the same lexicon.
  */
 export function scorePhoneticBeauty(word: Word): number {
   const syllables = word.syllables;
   if (!syllables.length) return -10;
 
-  let score = 0;
-  for (const syllable of syllables) score += syllableBeauty(syllable);
+  // Mean per syllable — do not let long words win by accumulating phone scores.
+  let phoneScore = 0;
+  for (const syllable of syllables) phoneScore += syllableBeauty(syllable);
+  let score = phoneScore / syllables.length;
 
   const n = syllables.length;
-  // Prefer 2–3 syllable words; allow monosyllables; soft-penalize very long.
-  if (n === 2 || n === 3) score += 1.2;
-  else if (n === 1) score += 0.35;
-  else if (n === 4) score += 0.2;
-  else score -= 0.4 * (n - 4);
+  // Keep 1–3 competitive; only punish true bricks (5+).
+  if (n === 1) score += 0.55;
+  else if (n === 2) score += 0.65;
+  else if (n === 3) score += 0.45;
+  else if (n === 4) score -= 0.15;
+  else score -= 0.7 * (n - 3);
 
   const primaries = syllables.filter((s) => s.stress === "ˈ").length;
   if (primaries === 1) score += 0.5;
   else if (primaries === 0) score -= 0.35;
   else score -= 0.25 * (primaries - 1);
 
-  // Light written-form preference: not too stubby, not a brick.
   const letters = word.written.clean.length;
-  if (letters >= 4 && letters <= 9) score += 0.35;
-  else if (letters > 12) score -= 0.4;
+  if (letters >= 3 && letters <= 7) score += 0.25;
+  else if (letters > 11) score -= 0.5;
+  else if (letters > 9) score -= 0.2;
 
   return score;
 }
@@ -111,6 +114,18 @@ function lineContextBonus(line: Word[], priorLines: Word[][]): number {
     const key = word.written.clean.toLowerCase();
     if (seen.has(key)) bonus -= 1.5;
     seen.add(key);
+  }
+
+  // Reward short/long mix inside the line (poetry cadence).
+  if (line.length >= 2) {
+    const lengths = line.map((w) => w.syllables.length);
+    const hasShort = lengths.some((n) => n === 1);
+    const hasLonger = lengths.some((n) => n >= 2);
+    if (hasShort && hasLonger) bonus += 0.9;
+    if (lengths.every((n) => n === 1)) bonus -= 0.35;
+    if (lengths.every((n) => n >= 3)) bonus -= 0.6;
+  } else if (line[0]!.syllables.length === 1) {
+    bonus += 0.2; // one-beat lines are welcome
   }
 
   // Soft nucleus echo with the previous line-ending (slant, not rhyme scheme).

@@ -12,15 +12,21 @@ describe("poetry lexicon + free verse", () => {
     expect(clampLexiconSize(999_999)).toBe(100_000);
   });
 
-  it("builds a deduped scored lexicon", () => {
-    const lexicon = buildLexicon({ size: 120, seed: 77, morphology: false, mode: "lexicon" });
-    expect(lexicon.length).toBe(120);
+  it("builds a deduped lexicon rich in short words", () => {
+    const lexicon = buildLexicon({ size: 200, seed: 77, morphology: true, mode: "text" });
+    expect(lexicon.length).toBe(200);
     const written = new Set(lexicon.map((e) => e.word.written.clean.toLowerCase()));
-    expect(written.size).toBe(120);
+    expect(written.size).toBe(200);
+    const mono = lexicon.filter((e) => e.word.syllables.length === 1).length;
+    const bi = lexicon.filter((e) => e.word.syllables.length === 2).length;
+    expect(mono).toBeGreaterThanOrEqual(60);
+    expect(bi).toBeGreaterThanOrEqual(50);
     for (let i = 1; i < lexicon.length; i++) {
       expect(lexicon[i]!.score).toBeLessThanOrEqual(lexicon[i - 1]!.score);
     }
-    expect(elitePool(lexicon, 0.25).length).toBeGreaterThanOrEqual(24);
+    const pool = elitePool(lexicon, 0.45);
+    expect(pool.length).toBeGreaterThanOrEqual(32);
+    expect(pool.some((e) => e.word.syllables.length === 1)).toBe(true);
   });
 
   it("scores phonetic beauty with a primary-stress preference", () => {
@@ -36,11 +42,11 @@ describe("poetry lexicon + free verse", () => {
     const shape = chooseSilhouette(rand, 4, 6);
     expect(shape.length).toBeGreaterThanOrEqual(4);
     expect(shape.length).toBeLessThanOrEqual(6);
-    expect(shape.every((n) => n >= 1 && n <= 7)).toBe(true);
+    expect(shape.every((n) => n >= 1 && n <= 6)).toBe(true);
   });
 
-  it("composes free verse with variable lines and terminal pause 0", () => {
-    const lexicon = buildLexicon({ size: 400, seed: 2026, morphology: false });
+  it("composes free verse with short-word variety and terminal pause 0", () => {
+    const lexicon = buildLexicon({ size: 400, seed: 2026, morphology: true });
     const poem = composeFreeVerse(lexicon, {
       minLines: 4,
       maxLines: 6,
@@ -52,13 +58,15 @@ describe("poetry lexicon + free verse", () => {
     for (let i = 0; i < poem.lines.length - 1; i++) {
       expect(poem.lines[i]!.pauseSec).toBeGreaterThan(0);
     }
-    const lengths = poem.lines.map((l) => l.words.length);
-    // Not a rigid 4×2 grid: at least one line differs in word count, or syllable mix varies.
-    const syl = poem.lines.map((l) => l.words.reduce((n, w) => n + w.syllables.length, 0));
-    const uniformWords = lengths.every((n) => n === lengths[0]);
-    const uniformSyl = syl.every((n) => n === syl[0]);
-    expect(uniformWords && uniformSyl).toBe(false);
-    const forms = poem.lines.flatMap((l) => l.words.map((w) => w.written.clean.toLowerCase()));
+    const allWords = poem.lines.flatMap((l) => l.words);
+    const mono = allWords.filter((w) => w.syllables.length === 1).length;
+    const longer = allWords.filter((w) => w.syllables.length >= 2).length;
+    const multiWordLines = poem.lines.filter((l) => l.words.length >= 2).length;
+    expect(mono).toBeGreaterThanOrEqual(1);
+    expect(longer).toBeGreaterThanOrEqual(1);
+    expect(multiWordLines).toBeGreaterThanOrEqual(1);
+    expect(allWords.every((w) => w.syllables.length <= 4)).toBe(true);
+    const forms = allWords.map((w) => w.written.clean.toLowerCase());
     expect(new Set(forms).size).toBe(forms.length);
   });
 });

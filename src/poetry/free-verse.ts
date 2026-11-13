@@ -24,13 +24,13 @@ export function chooseSilhouette(rand: () => number, minLines: number, maxLines:
   const targets: number[] = [];
   let prev = 0;
   for (let i = 0; i < lines; i++) {
-    // Prefer 1–7 syllables; occasionally a one-beat line.
-    let next = pickInt(rand, 1, 7);
+    // Prefer 2–6 syllables so lines often need more than one short word.
+    let next = pickInt(rand, 2, 6);
+    if (rand() < 0.18) next = 1; // occasional one-beat line
     if (i > 0 && Math.abs(next - prev) < 2 && rand() < 0.7) {
-      next = prev <= 3 ? pickInt(rand, prev + 2, 7) : pickInt(rand, 1, Math.max(1, prev - 2));
+      next = prev <= 3 ? pickInt(rand, prev + 2, 6) : pickInt(rand, 1, Math.max(1, prev - 2));
     }
-    // Last line: slight preference for a soft landing (shorter).
-    if (i === lines - 1 && next > 4 && rand() < 0.55) next = pickInt(rand, 1, 4);
+    if (i === lines - 1 && next > 4 && rand() < 0.55) next = pickInt(rand, 1, 3);
     targets.push(next);
     prev = next;
   }
@@ -39,7 +39,6 @@ export function chooseSilhouette(rand: () => number, minLines: number, maxLines:
 
 function pauseForLine(syllables: number, isLast: boolean): number {
   if (isLast) return 0;
-  // Breath follows density — short beat lines get a quicker pickup.
   const base = syllables <= 2 ? 0.38 : syllables <= 4 ? 0.55 : 0.78;
   return Math.min(1.05, Math.max(0.28, base));
 }
@@ -51,7 +50,6 @@ function takeWord(
 ): LexiconEntry | null {
   const open = pool.filter((e) => !used.has(e.word.written.clean.toLowerCase()));
   if (!open.length) return null;
-  // Softmax-ish: weight by rank position (pool is score-sorted).
   const weights = open.map((_, i) => 1 / (1 + i * 0.08));
   const sum = weights.reduce((a, b) => a + b, 0);
   let r = rand() * sum;
@@ -60,6 +58,24 @@ function takeWord(
     if (r <= 0) return open[i]!;
   }
   return open[open.length - 1]!;
+}
+
+/**
+ * Prefer a short/long mix: chip with 1–2 syllable words, but still allow
+ * a 3-syllable color word instead of one long brick for the whole line.
+ */
+function preferredMaxSyllables(remaining: number, rand: () => number, lineSoFar: number): number {
+  if (remaining <= 1) return 1;
+  if (remaining === 2) return rand() < 0.45 ? 1 : 2;
+  if (remaining === 3) {
+    if (lineSoFar === 0 && rand() < 0.4) return 3; // open with a longer word sometimes
+    return rand() < 0.4 ? 1 : 2;
+  }
+  // remaining ≥ 4
+  if (lineSoFar === 0 && rand() < 0.35) return 3;
+  if (rand() < 0.35) return 1;
+  if (rand() < 0.75) return 2;
+  return Math.min(3, remaining);
 }
 
 function fillLine(
@@ -71,36 +87,45 @@ function fillLine(
   priorLines: Word[][],
 ): Word[] {
   const attempts: Word[][] = [];
-  for (let trial = 0; trial < 10; trial++) {
+  for (let trial = 0; trial < 12; trial++) {
     const localUsed = new Set(used);
     const line: Word[] = [];
     let syl = 0;
     let guard = 0;
-    while (syl < targetSyllables && guard < 24) {
+    while (syl < targetSyllables && guard < 28) {
       guard += 1;
       const remaining = targetSyllables - syl;
+      const maxPrefer = preferredMaxSyllables(remaining, rand, line.length);
       const candidates = pool.filter((e) => {
         const key = e.word.written.clean.toLowerCase();
         if (localUsed.has(key)) return false;
         const n = e.word.syllables.length;
-        return n > 0 && n <= remaining;
+        return n > 0 && n <= remaining && n <= maxPrefer;
       });
       let pick: LexiconEntry | null = null;
       if (candidates.length) {
-        // Prefer exact fit near the end of the line.
         const exact = candidates.filter((e) => e.word.syllables.length === remaining);
-        const from = exact.length && (remaining <= 3 || rand() < 0.65) ? exact : candidates;
+        // Only glue the remainder with one word when it's short (≤2).
+        const from =
+          exact.length && remaining <= 2 && rand() < 0.75
+            ? exact
+            : candidates;
         pick = takeWord(from, localUsed, rand);
       } else {
-        pick = takeWord(pool, localUsed, rand);
+        // Fallback: any word that still fits the remaining budget.
+        const fit = pool.filter((e) => {
+          const key = e.word.written.clean.toLowerCase();
+          if (localUsed.has(key)) return false;
+          const n = e.word.syllables.length;
+          return n > 0 && n <= remaining;
+        });
+        pick = fit.length ? takeWord(fit, localUsed, rand) : takeWord(pool, localUsed, rand);
       }
       if (!pick) break;
       line.push(pick.word);
       localUsed.add(pick.word.written.clean.toLowerCase());
       syl += pick.word.syllables.length;
       if (syl >= targetSyllables) break;
-      // Allow a one-word shortfall / overshoot only if we cannot fit more.
-      if (syl > targetSyllables) break;
     }
     if (line.length) attempts.push(line);
   }
@@ -111,7 +136,9 @@ function fillLine(
   }
 
   const scoreLine = (line: Word[]) =>
-    ranker.scoreLine ? ranker.scoreLine(line, priorLines) : line.reduce((n, w) => n + ranker.scoreWord(w), 0);
+    ranker.scoreLine
+      ? ranker.scoreLine(line, priorLines)
+      : line.reduce((n, w) => n + ranker.scoreWord(w), 0);
 
   attempts.sort((a, b) => scoreLine(b) - scoreLine(a));
   return attempts[0]!;
@@ -119,7 +146,7 @@ function fillLine(
 
 /**
  * Arrange a free-verse stanza by selecting from a scored Unglish lexicon.
- * No closed form (haiku/sonnet); jagged lines + breath pauses.
+ * No closed form (haiku/sonnet); jagged lines + breath pauses + short/long mix.
  */
 export function composeFreeVerse(
   lexicon: LexiconEntry[],
@@ -129,7 +156,7 @@ export function composeFreeVerse(
   const rand = options.rand ?? defaultRand;
   const minLines = options.minLines ?? 4;
   const maxLines = options.maxLines ?? 6;
-  const pool = elitePool(lexicon, 0.4);
+  const pool = elitePool(lexicon, 0.5);
   if (!pool.length) {
     return { lines: [], lexiconSize: lexicon.length, rankerId: PHONETIC_BEAUTY_RANKER_ID };
   }
@@ -156,7 +183,6 @@ export function composeFreeVerse(
     });
   }
 
-  // Ensure the final pause is zero even if silhouette shrank.
   if (lines.length) lines[lines.length - 1]!.pauseSec = 0;
 
   return {
