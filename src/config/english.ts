@@ -565,6 +565,9 @@ export const englishConfig: LanguageConfig = {
       enableRootSuffixFallback: false,
       fallbackBridgeOnsets: defaultFallbackBridgeOnsets(),
     },
+    morphophonemicPolicy: {
+      preserveClusterLegality: true,
+    },
     prefixes: [
       { type: "prefix", written: "un", phonemes: ["ʌ", "n"], syllables: [{ onset: [], nucleus: ["ʌ"], coda: ["n"] }], syllableCount: 1, stressEffect: "secondary", frequency: 80 },
       { type: "prefix", written: "re", phonemes: ["r", "ɪ"], syllables: [{ onset: ["r"], nucleus: ["ɪ"], coda: [] }], syllableCount: 1, stressEffect: "secondary", frequency: 70 },

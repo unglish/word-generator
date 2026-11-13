@@ -991,6 +991,14 @@ export interface MorphologyConfig {
     /** Optional phonemic insertion; does not add a corresponding written grapheme. */
     fallbackBridgeOnsets?: [string, number][];
   };
+  /**
+   * Optional morphophonemic policy. Omission or `preserveClusterLegality: false`
+   * keeps legacy execution; `true` rejects replacements that would create
+   * illegal clusters under the configured production rules.
+   */
+  morphophonemicPolicy?: {
+    preserveClusterLegality?: boolean;
+  };
   templateWeights: {
     text: { bare: number; suffixed: number; prefixed: number; both: number };
     lexicon: { bare: number; suffixed: number; prefixed: number; both: number };
@@ -2006,6 +2014,27 @@ export function validateConfig(config: LanguageConfig): void {
             `morphology.templateWeights.${mode}.both requires at least one morphology.suffixes entry`,
           );
         }
+      }
+    }
+
+    const morphophonemicPolicy = config.morphology.morphophonemicPolicy;
+    if (morphophonemicPolicy !== undefined) {
+      if (
+        morphophonemicPolicy === null ||
+        typeof morphophonemicPolicy !== "object" ||
+        Array.isArray(morphophonemicPolicy)
+      ) {
+        throw new Error(
+          "morphology.morphophonemicPolicy must be an object when provided",
+        );
+      }
+      if (
+        morphophonemicPolicy.preserveClusterLegality !== undefined &&
+        typeof morphophonemicPolicy.preserveClusterLegality !== "boolean"
+      ) {
+        throw new Error(
+          "morphology.morphophonemicPolicy.preserveClusterLegality must be boolean",
+        );
       }
     }
 

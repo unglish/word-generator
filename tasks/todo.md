@@ -104,3 +104,21 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 
 - Status: Completed.
 - Notes: Fixed critical morphology planning crash by validating template-weight/affix-inventory consistency; added regression tests and verified via `npm test -- src/config/language.test.ts` and `npm test -- src/core/generate.test.ts`.
+
+---
+
+# Issue #432 — Morphophonemic cluster legality (Completed)
+
+## Plan
+
+- [x] Inventory morphology alternation path; reuse archive/pr-355 guard semantics.
+- [x] Add morphology-local projection + cluster-legality guard (no generate.ts rewrite).
+- [x] Wire atomic reject/skip into prepareMorphophonemicRules + written halves.
+- [x] Enable `morphophonemicPolicy.preserveClusterLegality` for English.
+- [x] Port focused unit + integration tests.
+- [x] Run full suite + lint; open PR.
+
+## Review
+
+- Status: Completed.
+- Notes: `/sk/→/ss/` before `-ity` is rejected atomically; later ordered rules still run; generate.ts untouched. Full `npm test` (1061) and lint pass.
