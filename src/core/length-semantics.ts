@@ -83,6 +83,37 @@ export function scoreLetterLength(
   return 1 + outsideDistance;
 }
 
+/**
+ * Typical written letters per root phoneme on English peak hits (~1.19 measured).
+ * Used only to bias proposal weights toward letter-compatible (syllables, phonemes)
+ * pairs before spelling; acceptance still scores the real written length.
+ */
+export const EXPECTED_LETTERS_PER_PHONEME = 1.15;
+
+/** Extra weight for (phonemes, syllables) pairs whose expected letters land in the peak. */
+export const LETTER_PEAK_WEIGHT_BOOST = 2;
+
+/**
+ * Multiplier for sampling weights that prefer phoneme/syllable pairs likely to
+ * hit {@link scoreLetterLength}'s peak under a fixed letters-per-phoneme prior.
+ * Returns 1 when letter targets are absent (no bias).
+ */
+export function letterPeakSamplingWeight(
+  phonemes: number,
+  syllables: number,
+  targets: Record<number, [number, number, number, number]> | undefined,
+  lettersPerPhoneme: number = EXPECTED_LETTERS_PER_PHONEME,
+  inPeakBoost: number = LETTER_PEAK_WEIGHT_BOOST,
+): number {
+  const bounds = resolveLetterLengthBounds(targets, syllables);
+  if (!bounds) return 1;
+  const [, peakMin, peakMax] = bounds;
+  const expected = phonemes * lettersPerPhoneme;
+  if (expected >= peakMin && expected <= peakMax) return inPeakBoost;
+  const distance = expected < peakMin ? peakMin - expected : expected - peakMax;
+  return 1 / (1 + distance);
+}
+
 /** The phoneme part of an attempt's score; letter penalties only add to it. */
 function phonemeScore(phonemeDistance: number): number {
   return phonemeDistance * 2;

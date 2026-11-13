@@ -78,6 +78,7 @@ import {
   scoreGenerationAttempt,
   assessAttempt,
   isDecidedRejection,
+  letterPeakSamplingWeight,
   type AcceptanceCriteria,
 } from "./length-semantics.js";
 import {
@@ -1242,11 +1243,17 @@ function sampleTargetPhonemeCount(
   // second factor a forced monosyllable draws a whole-lexicon length (mode 6) and
   // the consonant plan packs the surplus into clusters.
   const syllableTable = rt.config.phonemeToSyllableWeights[mode];
+  const letterTargets = rt.config.syllableStructure.letterLengthTargets;
   const conditioned = filtered
     .map(([phonemeCount, weight]): [number, number] => [
       phonemeCount,
       weight *
-        syllableShare(syllableTable?.[phonemeCount], forcedSyllableCount),
+        syllableShare(syllableTable?.[phonemeCount], forcedSyllableCount) *
+        letterPeakSamplingWeight(
+          phonemeCount,
+          forcedSyllableCount,
+          letterTargets,
+        ),
     ])
     .filter(([, weight]) => weight > 0);
   const pool =
@@ -1290,7 +1297,14 @@ function sampleSyllableCountForTarget(
     return targetPhonemes <= maxPhonemes;
   };
 
-  const weights = getTopDownSyllableWeights(rt, mode, targetPhonemes);
+  const letterTargets = rt.config.syllableStructure.letterLengthTargets;
+  const weights = getTopDownSyllableWeights(rt, mode, targetPhonemes).map(
+    ([syllableCount, weight]): [number, number] => [
+      syllableCount,
+      weight *
+        letterPeakSamplingWeight(targetPhonemes, syllableCount, letterTargets),
+    ],
+  );
   const feasible = weights.filter(([syllableCount]) =>
     canSatisfy(syllableCount),
   );
