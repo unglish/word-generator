@@ -8,15 +8,24 @@ import {
   MorphophonemicRule,
   PhonologicalCondition,
   defaultFallbackBridgeOnsets,
+  type LanguageConfig,
 } from "../../config/language.js";
 import getWeightedOption from "../../utils/getWeightedOption.js";
 import type { MorphologyPlan, NonBareMorphologyPlan } from "./plan.js";
 import { snapshotAffixForm, snapshotWrittenParts } from "./realization.js";
 import type {
+  AffixForm,
   MorphologyResult,
   MorphologyWrittenPart,
   ResolvedAffix,
 } from "./realization.js";
+import {
+  bindMorphophonemicGuard,
+  buildMorphophonemicGuardRuntime,
+  isMorphophonemicGuardRuntime,
+  type MorphophonemicEvaluation,
+  type MorphophonemicGuard,
+} from "./morphophonemic-guard.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -24,10 +33,20 @@ import type {
 
 interface GeneratorRuntime {
   phonemeBySound?: ReadonlyMap<string, Phoneme>;
+  /** Optional bound guard (tests); otherwise built from cluster fields on this runtime. */
+  evaluateMorphophonemicReplacement?: MorphophonemicGuard;
   config: {
     morphology?: import("../../config/language.js").MorphologyConfig;
     phonemes: Phoneme[];
     pronunciation?: import("../../config/language.js").PronunciationConfig;
+    codaConstraints?: LanguageConfig["codaConstraints"];
+    syllableStructure?: LanguageConfig["syllableStructure"];
+    invalidClusters?: LanguageConfig["invalidClusters"];
+    phonemeMaps?: LanguageConfig["phonemeMaps"];
+    clusterLimits?: LanguageConfig["clusterLimits"];
+    clusterWeights?: LanguageConfig["clusterWeights"];
+    clusterConstraint?: LanguageConfig["clusterConstraint"];
+    sonorityConstraints?: LanguageConfig["sonorityConstraints"];
   };
 }
 
@@ -355,6 +374,16 @@ export interface PreparedMorphology {
   suffixWritten: string;
   rootSyllableStart: number;
   rules: PreparedMorphophonemicRule[];
+  /** Present when morphophonemic cluster-legality policy is enabled. */
+  evaluations?: MorphophonemicEvaluation[];
+}
+
+interface MorphophonemicPolicyContext {
+  evaluate: MorphophonemicGuard;
+  prefix?: AffixForm;
+  suffix?: AffixForm;
+  affixIndex: number;
+  evaluations: MorphophonemicEvaluation[];
 }
 
 function prepareMorphophonemicRules(
@@ -362,6 +391,7 @@ function prepareMorphophonemicRules(
   affix: Affix,
   isPrefix: boolean,
   resolvePhoneme: (sound: string) => Phoneme,
+  policy?: MorphophonemicPolicyContext,
 ): PreparedMorphophonemicRule[] {
   if (!affix.morphophonemicRules || affix.morphophonemicRules.length === 0) {
     return [];
@@ -378,6 +408,28 @@ function prepareMorphophonemicRules(
       isPrefix,
       rule.target ?? "edge",
     );
+    const evaluation: MorphophonemicEvaluation | undefined = policy
+      ? {
+        ruleIndex: affix.morphophonemicRules.indexOf(rule),
+        affixIndex: policy.affixIndex,
+        boundary: isPrefix ? "prefix-root" : "root-suffix",
+        rule: rule.name,
+        outcome: "target-unavailable",
+        ...(boundaryRef
+          ? {
+            target: {
+              syllableIndex: boundaryRef.syllableIndex,
+              segment: boundaryRef.segment,
+              index: boundaryRef.index,
+            },
+            soundBefore: boundaryRef.phoneme.sound,
+            soundProposed:
+                rule.replaceSound ?? boundaryRef.phoneme.sound,
+          }
+          : {}),
+      }
+      : undefined;
+    if (evaluation) policy!.evaluations.push(evaluation);
     if (!boundaryRef) continue;
     if (
       rule.phonologicalCondition &&
@@ -387,7 +439,12 @@ function prepareMorphophonemicRules(
         isPrefix,
       )
     ) {
+      if (evaluation) evaluation.outcome = "condition-not-matched";
       continue;
+    }
+
+    if (evaluation) {
+      evaluation.outcome = rule.replaceSound ? "identity" : "written-only";
     }
 
     const event: FiredMorphophonemicRule = {
@@ -398,6 +455,20 @@ function prepareMorphophonemicRules(
 
     if (rule.replaceSound && rule.replaceSound !== boundaryRef.phoneme.sound) {
       const next = resolvePhoneme(rule.replaceSound);
+      if (policy && evaluation) {
+        evaluation.guard = policy.evaluate(
+          rootSyllables,
+          evaluation.target!,
+          next,
+          policy.prefix,
+          policy.suffix,
+          resolvePhoneme,
+        );
+        evaluation.outcome = evaluation.guard.accepted
+          ? "accepted"
+          : "rejected";
+        if (!evaluation.guard.accepted) continue;
+      }
       rootSyllables[boundaryRef.syllableIndex][boundaryRef.segment][
         boundaryRef.index
       ] = next;
@@ -409,6 +480,37 @@ function prepareMorphophonemicRules(
   }
 
   return prepared;
+}
+
+function isFullLanguageConfig(
+  config: GeneratorRuntime["config"],
+): config is LanguageConfig {
+  return (
+    !!config.syllableStructure &&
+    !!config.invalidClusters &&
+    "phonemeMaps" in config &&
+    !!(config as LanguageConfig).phonemeMaps
+  );
+}
+
+function resolveMorphophonemicGuard(
+  rt: GeneratorRuntime,
+): MorphophonemicGuard | undefined {
+  const preserve =
+    rt.config.morphology?.morphophonemicPolicy?.preserveClusterLegality;
+  if (!preserve) return undefined;
+  if (rt.evaluateMorphophonemicReplacement) {
+    return rt.evaluateMorphophonemicReplacement;
+  }
+  if (isMorphophonemicGuardRuntime(rt)) {
+    return bindMorphophonemicGuard(rt);
+  }
+  if (isFullLanguageConfig(rt.config)) {
+    return bindMorphophonemicGuard(buildMorphophonemicGuardRuntime(rt.config));
+  }
+  throw new Error(
+    "Configured morphophonemic legality requires the production guard runtime.",
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -468,6 +570,20 @@ export function prepareMorphology(
   }
 
   const rules: PreparedMorphophonemicRule[] = [];
+  const guard = resolveMorphophonemicGuard(rt);
+  const evaluations: MorphophonemicEvaluation[] | undefined = guard
+    ? []
+    : undefined;
+  const policyFor = (affixIndex: number): MorphophonemicPolicyContext | undefined =>
+    guard && evaluations
+      ? {
+        evaluate: guard,
+        prefix: prefixVariant,
+        suffix: suffixVariant,
+        affixIndex,
+        evaluations,
+      }
+      : undefined;
   if (plan.prefix && prefixVariant) {
     rules.push(
       ...prepareMorphophonemicRules(
@@ -475,6 +591,9 @@ export function prepareMorphology(
         plan.prefix,
         true,
         resolvePhoneme,
+        policyFor(
+          rt.config.morphology?.prefixes.indexOf(plan.prefix) ?? -1,
+        ),
       ),
     );
   }
@@ -485,6 +604,9 @@ export function prepareMorphology(
         plan.suffix,
         false,
         resolvePhoneme,
+        policyFor(
+          rt.config.morphology?.suffixes.indexOf(plan.suffix) ?? -1,
+        ),
       ),
     );
   }
@@ -613,6 +735,7 @@ export function prepareMorphology(
     suffixWritten,
     rootSyllableStart: prefixSyllables.length,
     rules,
+    ...(evaluations ? { evaluations } : {}),
   };
 }
 

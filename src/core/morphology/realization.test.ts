@@ -51,7 +51,15 @@ function fixedRoot(options: { prefix?: Affix; suffix?: Affix; onset?: string; co
       aspiration: { enabled: false, targets: [{ segment: "onset" }], rules: [{ id: "disabled", when: {}, probability: 0 }], fallbackProbability: 0 },
       vowelReduction: { enabled: false, rules: [], reduceSecondaryStress: false },
     },
-    morphology: { ...englishConfig.morphology!, prefixes: prefix ? [prefix] : [], suffixes: suffix ? [suffix] : [], templateWeights: { text: weights, lexicon: weights } },
+    morphology: {
+      ...englishConfig.morphology!,
+      // Constrained fixture inventories omit alternation destinations; keep legacy
+      // morphophonemic application here. Cluster legality is covered separately.
+      morphophonemicPolicy: { preserveClusterLegality: false },
+      prefixes: prefix ? [prefix] : [],
+      suffixes: suffix ? [suffix] : [],
+      templateWeights: { text: weights, lexicon: weights },
+    },
     doubling: undefined, silentE: undefined, spellingRules: [], gapSpellings: [],
     writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined, maxConsonantLetters: maxConsonants },
   };

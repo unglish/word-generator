@@ -48,6 +48,9 @@ function lexicalGenerator(options: { prefix?: string; suffix?: string; vowels?: 
     },
     morphology: {
       ...englishConfig.morphology!,
+      // Restricted nucleus inventories omit alternation destinations; cluster
+      // legality for morphophonemics is covered by dedicated morphology tests.
+      morphophonemicPolicy: { preserveClusterLegality: false },
       prefixes: prefix ? [affix(prefix, "prefix")] : englishConfig.morphology!.prefixes,
       suffixes: suffix ? [affix(suffix, "suffix")] : englishConfig.morphology!.suffixes,
       templateWeights: { text: templateWeights, lexicon: templateWeights },
