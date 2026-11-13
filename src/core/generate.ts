@@ -2110,6 +2110,23 @@ function generateOneWord(
       trace: traceCollector,
     };
     runPipeline(rt, context, mode);
+    // Affixed look-ahead (prepareMorphology + stressed-nucleus repair) does not
+    // change the scored root's phoneme count — only spelling needs the repaired
+    // root. Reject phoneme-decided misses before that work (and before spelling).
+    const pipelineRoot = context.word.syllables;
+    const pipelinePhonemeCount = countPhonemes(pipelineRoot);
+    if (
+      isDecidedRejection(
+        Math.abs(pipelinePhonemeCount - targetPhonemeCountRoot),
+        bestScore,
+      )
+    ) {
+      rejectionTrace?.recordPruned({
+        syllables: pipelineRoot.length,
+        phonemes: pipelinePhonemeCount,
+      });
+      continue;
+    }
     const affixed = affixPlan
       ? resolveAffixedRoot(
         rt,
@@ -2118,22 +2135,6 @@ function generateOneWord(
         createSeededRng(lookaheadSeed ^ Math.imul(attempt + 1, 0x9e3779b9)),
       )
       : undefined;
-    // Spelling cannot change the root's phonemes, so an attempt whose phoneme
-    // count already rules it out is rejected without spelling it.
-    const unspelledRoot = affixed ? affixed.root : context.word.syllables;
-    const unspelledPhonemeCount = countPhonemes(unspelledRoot);
-    if (
-      isDecidedRejection(
-        Math.abs(unspelledPhonemeCount - targetPhonemeCountRoot),
-        bestScore,
-      )
-    ) {
-      rejectionTrace?.recordPruned({
-        syllables: unspelledRoot.length,
-        phonemes: unspelledPhonemeCount,
-      });
-      continue;
-    }
     const spelled = spellAttempt(rt, context, affixed);
     const root = spelled.root;
     const rootPhonemeCount = countPhonemes(root);
