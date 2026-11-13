@@ -59,8 +59,10 @@ describe("ea spelling context (#381)", () => {
       expect(last.selected).not.toBe("ea");
       finals.set(last.phoneme, (finals.get(last.phoneme) ?? 0) + 1);
     }
+    // Open final /ɛ/ is banned as a checked vowel, so the productive case is /i:/.
+    // Residual open /ɛ/ (if any) must still refuse ea.
     expect(finals.get("i:")).toBeGreaterThan(50);
-    expect(finals.get("ɛ")).toBeGreaterThan(50);
+    expect(finals.get("ɛ") ?? 0).toBeLessThan(finals.get("i:")!);
   });
 
   it("spells a one-syllable root ending in /i:/ before a vowel suffix with the declared ee fallback", () => {

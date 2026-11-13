@@ -19,6 +19,10 @@ export function nucleusWordEdges(
   };
 }
 
+/** Checked (lax) vowels that need a coda at a stressed open word-final edge. */
+export const CHECKED_VOWELS = ["ɪ", "ɛ", "æ", "ʌ", "ʊ"] as const;
+const CHECKED_VOWEL_SET = new Set<string>(CHECKED_VOWELS);
+
 /** A zero at either applicable edge wins over the other edge's positive weight. */
 export function nucleusWordPositionWeight(phoneme: Phoneme, edges: WordEdges): number | undefined {
   const weights = phoneme.nucleusWordPosition;
@@ -34,6 +38,11 @@ export function isNucleusWordPositionAllowed(phoneme: Phoneme, edges: WordEdges)
   return weight === undefined || weight > 0;
 }
 
+/** English checked vowels may not occupy an open final base-word edge. */
+export function isCheckedOpenFinalAllowed(phoneme: Phoneme, edges: WordEdges): boolean {
+  return !(edges.final && CHECKED_VOWEL_SET.has(phoneme.sound));
+}
+
 /** Revalidate realized base-word edges after coda repairs and stress replacement. */
 export function repairNucleusWordPositions(
   context: WordGenerationContext,
@@ -41,15 +50,17 @@ export function repairNucleusWordPositions(
   stress: StressRules,
   bannedPairs?: BannedNucleusCodaPairs,
   followingOnsetPairs?: BannedNucleusCodaPairs,
+  forbidOpenCheckedFinal = false,
 ): void {
   const syllables = context.word.syllables;
   for (let si = 0; si < syllables.length; si++) {
     const syllable = syllables[si];
     for (let ni = 0; ni < syllable.nucleus.length; ni++) {
       const original = syllable.nucleus[ni];
-      if (!original.nucleusWordPosition) continue;
       const edges = nucleusWordEdges(syllable, si, syllables.length, ni);
-      if (isNucleusWordPositionAllowed(original, edges)) continue;
+      const edgeIllegal = (forbidOpenCheckedFinal && !isCheckedOpenFinalAllowed(original, edges))
+        || (original.nucleusWordPosition !== undefined && !isNucleusWordPositionAllowed(original, edges));
+      if (!edgeIllegal) continue;
 
       const initialSyllable = si === 0;
       const finalSyllable = si === syllables.length - 1;
@@ -59,6 +70,7 @@ export function repairNucleusWordPositions(
       let totalWeight = 0;
       for (const candidate of nucleusPhonemes) {
         if (syllable.stress === "ˈ" && stress.nucleus.stressedNucleusBan?.includes(candidate.sound)) continue;
+        if (forbidOpenCheckedFinal && !isCheckedOpenFinalAllowed(candidate, edges)) continue;
         let positionWeight = nucleusWordPositionWeight(candidate, edges);
         if (positionWeight === undefined) {
           if ((initialSyllable && candidate.startWord <= 0) || (finalSyllable && candidate.endWord <= 0)) continue;

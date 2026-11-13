@@ -102,14 +102,38 @@ describe("literal nucleus edges", () => {
     expect(word.syllables.at(-1)!.nucleus[0].sound).toBe("u");
   });
 
-  it("does not silently extend the FOOT edge restriction to other legacy checked vowels", () => {
-    const trap = englishConfig.phonemes.find(p => p.sound === "æ")!;
-    const config = fixedShape([{ ...foot, nucleus: 1_000_000 }, trap], 1, 1);
-    config.codaConstraints = { ...config.codaConstraints, allowedFinal: [] };
-    const word = createGenerator(config).generateWord({ seed: 12, morphology: false, trace: true });
-    expect(word.syllables[0].coda).toEqual([]);
-    expect(word.syllables[0].nucleus[0].sound).toBe("æ");
-    expect(word.trace!.repairs).toContainEqual(expect.objectContaining({ rule: "repairNucleusWordPositions", before: "ʊ", after: "æ" }));
+  it("repairs every checked vowel after a coda drop leaves an open final edge", () => {
+    const checked = (["ɪ", "ɛ", "æ", "ʌ", "ʊ"] as const).map(sound => englishConfig.phonemes.find(p => p.sound === sound)!);
+    for (const vowel of checked) {
+      const config = fixedShape([{ ...vowel, nucleus: 1_000_000 }, goose], 1, 1);
+      config.codaConstraints = { ...config.codaConstraints, allowedFinal: [] };
+      const word = createGenerator(config).generateWord({ seed: 12, morphology: false, trace: true });
+      expect(word.syllables[0].coda).toEqual([]);
+      expect(word.syllables[0].nucleus[0].sound).toBe("u");
+      expect(word.trace!.repairs).toContainEqual(expect.objectContaining({
+        rule: "repairNucleusWordPositions", before: vowel.sound, after: "u",
+      }));
+    }
+  });
+
+  it.each(["ɪ", "ɛ", "æ", "ʌ", "ʊ"] as const)(
+    "rejects an impossible open-final pool when only checked /%s/ is available",
+    sound => {
+      const vowel = englishConfig.phonemes.find(p => p.sound === sound)!;
+      const impossible = createGenerator(fixedShape([vowel], 0, 0));
+      expect(() => impossible.generateWord({ seed: 1, morphology: false })).toThrow(/No eligible nucleus/);
+    },
+  );
+
+  it("keeps default monosyllables from ending in an open checked vowel", () => {
+    const checked = new Set(["ɪ", "ɛ", "æ", "ʌ", "ʊ"]);
+    for (let seed = 0; seed < 2_000; seed++) {
+      const word = generateWord({ seed, syllableCount: 1, morphology: false });
+      const syllable = word.syllables[0];
+      if (syllable.coda.length === 0 && syllable.nucleus.length === 1) {
+        expect(checked.has(syllable.nucleus[0].sound)).toBe(false);
+      }
+    }
   });
 
   it("checks individual edges in a multi-segment nucleus", () => {

@@ -460,6 +460,7 @@ export const englishConfig: LanguageConfig = {
     rules: ENGLISH_BOUNDARY_CLUSTER_RULES,
     repair: "drop-coda",
   },
+  forbidOpenCheckedFinal: true,
   codaConstraints: {
     bannedCodas: ["h"],
     allowedFinal: [

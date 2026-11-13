@@ -17,8 +17,11 @@ function lexicalGenerator(options: { prefix?: string; suffix?: string; vowels?: 
     suffixed: suffix && !prefix ? 1 : 0,
     both: prefix && suffix ? 1 : 0,
   };
+  // Tiny checked-only nucleus pools need open finals; disable the English
+  // open-checked ban so morphology fixtures stay focused on stress/affix behavior.
   return createGenerator({
     ...englishConfig,
+    forbidOpenCheckedFinal: false,
     phonemeMaps: {
       ...englishConfig.phonemeMaps,
       nucleus: new Map(vowels.map(sound => [sound, englishConfig.phonemeMaps.nucleus.get(sound)!])),

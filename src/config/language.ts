@@ -822,6 +822,13 @@ export interface LanguageConfig {
   /** Word-final coda repair constraints. */
   codaConstraints?: CodaConstraints;
 
+  /**
+   * When true, checked vowels /ɪ ɛ æ ʌ ʊ/ are banned at an open final base-word
+   * edge (English stressed open checked finals). Independent of nucleusWordPosition
+   * so closed-final legacy weights stay intact.
+   */
+  forbidOpenCheckedFinal?: boolean;
+
   /** Feature-based cluster length and shape constraints. */
   clusterLimits?: ClusterLimits;
 

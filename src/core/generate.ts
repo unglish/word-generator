@@ -62,6 +62,7 @@ import {
 } from "./rime-compatibility.js";
 import {
   nucleusWordPositionWeight,
+  isCheckedOpenFinalAllowed,
   repairNucleusWordPositions,
 } from "./nucleus-position.js";
 import {
@@ -140,6 +141,8 @@ interface GeneratorRuntime {
   };
   /** Pre-resolved bridge phoneme options for vowel hiatus repair. */
   bridgePhonemeOptions: [Phoneme, number][];
+  /** Ban checked vowels at open final base-word edges (English default). */
+  forbidOpenCheckedFinal: boolean;
 }
 
 const DEFAULT_PLAN_GUARD_PROBABILITY = 98;
@@ -316,6 +319,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
       : undefined,
     clusterWeights,
     bridgePhonemeOptions,
+    forbidOpenCheckedFinal: config.forbidOpenCheckedFinal === true,
   };
 }
 
@@ -531,14 +535,23 @@ function clusterCandidateRejection(
 
 function isValidPosition(
   p: Phoneme,
-  { position, isStartOfWord, isEndOfWord, nucleusWordEdges }: ClusterContext,
+  context: ClusterContext,
 ): boolean {
+  const { position, isStartOfWord, isEndOfWord, nucleusWordEdges } = context;
   const positionWeight = getPhonemePositionWeight(p, position);
-  if (position === "nucleus" && nucleusWordEdges && p.nucleusWordPosition) {
-    return (
-      (positionWeight === undefined || positionWeight > 0) &&
-      nucleusWordPositionWeight(p, nucleusWordEdges)! > 0
-    );
+  if (position === "nucleus" && nucleusWordEdges) {
+    if (
+      context.forbidOpenCheckedFinal &&
+      !isCheckedOpenFinalAllowed(p, nucleusWordEdges)
+    ) {
+      return false;
+    }
+    if (p.nucleusWordPosition) {
+      return (
+        (positionWeight === undefined || positionWeight > 0) &&
+        nucleusWordPositionWeight(p, nucleusWordEdges)! > 0
+      );
+    }
   }
   return (
     (positionWeight === undefined || positionWeight > 0) &&
@@ -830,6 +843,7 @@ function pickNucleus(
       initial: isStartOfWord && onsetLength === 0,
       final: isEndOfWord && plannedCodaLength === 0,
     },
+    forbidOpenCheckedFinal: rt.forbidOpenCheckedFinal,
     maxLength: 1,
     syllableCount: context.syllableCount,
   });
@@ -1856,6 +1870,7 @@ function resolveAffixedRoot(
       rt.bannedNucleusCodaMap,
       { syllables: lexicalRoot, start: rootSyllableStart },
       rt.bannedNucleusOnsetMap,
+      rt.forbidOpenCheckedFinal,
     );
     carryRootStressRepairs(
       lexicalRoot,
@@ -2220,6 +2235,7 @@ function runPipeline(
       rt.bannedNucleusCodaMap,
       undefined,
       rt.bannedNucleusOnsetMap,
+      rt.forbidOpenCheckedFinal,
     ),
   );
   traceStage(t, "repairNucleusWordPositions", word, () =>
@@ -2229,6 +2245,7 @@ function runPipeline(
       stressRules,
       rt.bannedNucleusCodaMap,
       rt.bannedNucleusOnsetMap,
+      rt.forbidOpenCheckedFinal,
     ),
   );
 }
