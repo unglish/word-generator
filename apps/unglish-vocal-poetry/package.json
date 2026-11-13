@@ -1,0 +1,9 @@
+{
+  "name": "unglish-vocal-poetry",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Unglish × Chimera vocal free-verse demo (static publish pack)",
+  "scripts": {
+    "start": "python3 -m http.server 4177 --bind 127.0.0.1"
+  }
+}
