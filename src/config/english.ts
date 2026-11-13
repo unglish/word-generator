@@ -62,6 +62,13 @@ const ENGLISH_BOUNDARY_CLUSTER_RULES: BoundaryClusterConstraintRule[] = [
 
   // Bilabial nasal + velar stop boundaries are disallowed.
   { mode: "ban", coda: { sounds: ["m"] }, onset: { manner: ["stop"], place: ["velar"] } },
+
+  // Rare/impossible across a syllable join in English; spelling dedup then
+  // hides them by erasing a letter that belonged to a different sound (#418):
+  // /z.ʃ/ (`s`+`sh`→`sh`), /ʃ.h/ (`sh`+`h`→`sh`), /k.tʃ/ (`k`+`ch`→`ch`).
+  { mode: "ban", coda: { sounds: ["z"] }, onset: { sounds: ["ʃ"] } },
+  { mode: "ban", coda: { sounds: ["ʃ"] }, onset: { sounds: ["h"] } },
+  { mode: "ban", coda: { sounds: ["k"] }, onset: { sounds: ["tʃ"] } },
 ];
 
 /**
