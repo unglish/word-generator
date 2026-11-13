@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unglish Word Generator Demo</title>
+    <style>
+        :root {
+            --bg: white;
+            --fg: black;
+            --muted: gray;
+            --card-border: silver;
+            --card-bg: whitesmoke;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: black;
+                --fg: white;
+                --muted: darkgray;
+                --card-border: dimgray;
+                --card-bg: #111;
+            }
+        }
+
+        body {
+            font-family: ui-serif, Georgia, serif;
+            background: var(--bg);
+            color: var(--fg);
+            max-width: 42em;
+            margin: 0 auto;
+            padding: 2em 1em;
+        }
+
+        header { text-align: center; }
+        header p { color: var(--muted); font-style: italic; }
+
+        /* Tabs — plain unstyled buttons */
+        .tab-bar { display: flex; gap: 0.5em; margin-bottom: 1em; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Cards */
+        .card {
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 1em 1.25em;
+            margin: 1em 0;
+            background: var(--card-bg);
+            position: relative;
+        }
+        .card h2 {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+        }
+
+        /* Refresh buttons — using U+21BB clockwise open circle arrow */
+        .refresh {
+            position: absolute;
+            top: 0.75em;
+            right: 0.75em;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            color: var(--muted);
+            line-height: 1;
+        }
+        .refresh:hover { color: var(--fg); }
+        .page-btn { padding: 0.2em 0.6em; border: 1px solid var(--muted); background: var(--bg); color: var(--fg); cursor: pointer; font-size: 0.85em; }
+        .page-btn:hover:not(:disabled) { background: var(--muted); color: var(--bg); }
+        .page-btn:disabled { opacity: 0.4; cursor: default; }
+
+        /* Single word */
+        .single-written { font-size: 2em; font-weight: 700; }
+        .pronunciation { font-family: monospace; color: var(--muted); }
+
+        /* Haiku */
+        .haiku-written { font-size: 1.2em; }
+        .haiku-ipa { font-family: monospace; color: var(--muted); font-size: 0.85em; }
+
+        /* Slogan */
+        .slogan-text { font-size: 1.3em; font-weight: 600; text-transform: capitalize; }
+
+        /* Stat line */
+        .stat-line { font-style: italic; color: var(--muted); font-size: 0.85em; }
+
+        /* Lexicon placeholder */
+        .placeholder { color: var(--muted); font-style: italic; padding: 3em 0; text-align: center; }
+
+        /* Word wall */
+        .word-wall { line-height: 2.2; }
+        .word-pill {
+            display: inline-block;
+            padding: 0.15em 0.5em;
+            margin: 0.1em 0.15em;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .syl-1 { background: gainsboro; color: black; }
+        .syl-2 { background: darkgray; color: black; }
+        .syl-3 { background: gray; color: white; }
+        .syl-4 { background: dimgray; color: white; }
+        .legend { font-size: 0.8em; color: var(--muted); margin-top: 0.5em; }
+        .legend span { margin-right: 1em; }
+
+        /* Horizontal bar charts */
+        .bar-chart { margin: 0.5em 0; }
+        .bar-row { display: flex; align-items: center; margin: 0.2em 0; font-size: 0.85em; }
+        .bar-label { width: 3.5em; text-align: right; padding-right: 0.5em; flex-shrink: 0; }
+        .bar-track { flex: 1; background: var(--card-bg); height: 1.2em; position: relative; border: 1px solid var(--card-border); }
+        .bar-fill { height: 100%; display: inline-block; vertical-align: top; }
+        .bar-value { font-size: 0.8em; color: var(--muted); padding-left: 0.4em; white-space: nowrap; flex-shrink: 0; }
+
+        /* Frequency comparison */
+        .freq-row { display: flex; align-items: center; margin: 0.15em 0; font-size: 0.8em; }
+        .freq-letter { width: 1.5em; text-align: right; padding-right: 0.4em; font-weight: bold; flex-shrink: 0; }
+        .freq-bars { flex: 1; }
+        .freq-bar { height: 0.6em; display: block; margin: 1px 0; }
+        .freq-unglish { background: dimgray; }
+        .freq-english { background: silver; }
+        .freq-val { font-size: 0.75em; color: var(--muted); padding-left: 0.3em; flex-shrink: 0; width: 7em; }
+        .freq-val .dev-over { color: #c44; }
+        .freq-val .dev-under { color: #48a; }
+
+
+        /* Common words race */
+        .cw-pill {
+            display: inline-block;
+            padding: 0.15em 0.5em;
+            margin: 0.1em;
+            border-radius: 3px;
+            font-size: 0.85em;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--muted);
+            transition: all 0.3s;
+        }
+        .cw-pill.found { background: dimgray; color: white; border-color: dimgray; }
+        .cw-status { font-size: 0.85em; color: var(--muted); margin-top: 0.5em; }
+
+        /* Pick the Real Word game */
+        .real-btn {
+            display: inline-block;
+            width: 48%;
+            text-align: center;
+            font: inherit;
+            font-size: 1.1em;
+            padding: 0.6em 0.75em;
+            margin: 0.3em 1%;
+            cursor: pointer;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--fg);
+            border-radius: 3px;
+        }
+        .real-btn:hover { border-color: var(--fg); }
+        .real-btn.correct { background: darkgray; color: white; border-color: darkgray; }
+        .real-btn.wrong { background: var(--card-bg); border-color: var(--fg); text-decoration: line-through; }
+        .real-btn.revealed { cursor: default; }
+        .real-btn.correct.revealed { opacity: 1; }
+        .real-btn.wrong.revealed { opacity: 0.5; }
+        .game-score { font-weight: bold; margin-bottom: 0.5em; }
+        .game-actions { margin-top: 0.75em; }
+        .game-actions button {
+            font: inherit;
+            padding: 0.4em 1em;
+            cursor: pointer;
+            background: dimgray;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            margin-right: 0.5em;
+        }
+        .game-actions button:hover { background: gray; }
+        .start-btn {
+            font: inherit;
+            padding: 0.4em 1em;
+            cursor: pointer;
+            background: dimgray;
+            color: white;
+            border: none;
+            border-radius: 3px;
+        }
+        .start-btn:hover { background: gray; }
+        .ref-line { font-size: 0.8em; color: var(--muted); font-style: italic; margin-top: 0.3em; }
+
+        .sort-btn { padding: 0.2em 0.7em; border: 1px solid var(--muted); background: var(--bg); color: var(--fg); cursor: pointer; font-size: 0.9em; border-radius: 3px; }
+        .sort-btn:hover:not(.active) { background: var(--muted); color: var(--bg); }
+        .sort-btn.active { background: var(--fg); color: var(--bg); }
+
+        /* Debug workbench */
+        .debug-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6em;
+            align-items: center;
+            margin: 0 0 1em 0;
+            font-size: 0.85em;
+            color: var(--muted);
+        }
+        .debug-controls input, .debug-controls select, .debug-controls button {
+            font: inherit;
+        }
+        .debug-controls button {
+            border: 1px solid var(--muted);
+            background: var(--bg);
+            color: var(--fg);
+            padding: 0.25em 0.65em;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .debug-controls button:hover:not(:disabled) {
+            background: var(--muted);
+            color: var(--bg);
+        }
+        .debug-word {
+            font-size: 2.4em;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            line-height: 1.2;
+            margin-bottom: 0.2em;
+            user-select: none;
+        }
+        .debug-char {
+            display: inline-block;
+            padding: 0 0.03em;
+            border-radius: 0.15em;
+            cursor: pointer;
+        }
+        .debug-char.active {
+            background: #222;
+            color: #fff;
+        }
+        .debug-char.selected {
+            outline: 2px solid var(--fg);
+            outline-offset: 1px;
+        }
+        .debug-layer { margin: 0.65em 0; }
+        .debug-layer-title {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 0.35em;
+        }
+        .debug-token {
+            display: inline-block;
+            margin: 0.12em 0.2em 0.12em 0;
+            padding: 0.18em 0.44em;
+            border: 1px solid var(--card-border);
+            border-radius: 3px;
+            font-size: 0.88em;
+            cursor: pointer;
+            user-select: none;
+        }
+        .debug-token:hover { border-color: var(--fg); }
+        .debug-token.active {
+            background: #222;
+            color: #fff;
+            border-color: #222;
+        }
+        .debug-token.selected {
+            outline: 1px dashed var(--fg);
+            outline-offset: 1px;
+        }
+        .debug-grid {
+            display: grid;
+            gap: 0.8em;
+        }
+        .debug-trace-list {
+            border: 1px solid var(--card-border);
+            border-radius: 3px;
+            max-height: 14em;
+            overflow: auto;
+            background: var(--bg);
+        }
+        .debug-trace-row {
+            padding: 0.35em 0.45em;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.82em;
+            font-family: ui-monospace, Menlo, monospace;
+            line-height: 1.35;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .debug-trace-row:last-child { border-bottom: 0; }
+        .debug-trace-row.active {
+            background: #222;
+            color: #fff;
+        }
+        .debug-trace-row.selected {
+            outline: 2px solid var(--fg);
+            outline-offset: -2px;
+        }
+        .debug-selected {
+            font-size: 0.82em;
+            color: var(--muted);
+            margin-top: 0.45em;
+            white-space: pre-wrap;
+        }
+        .debug-comment {
+            width: 100%;
+            min-height: 5em;
+            font: inherit;
+            font-size: 0.88em;
+            border: 1px solid var(--card-border);
+            border-radius: 3px;
+            background: var(--bg);
+            color: var(--fg);
+            padding: 0.5em;
+            box-sizing: border-box;
+        }
+        .debug-copy-actions {
+            display: flex;
+            gap: 0.5em;
+            margin-top: 0.55em;
+        }
+        .debug-status {
+            font-size: 0.8em;
+            color: var(--muted);
+            margin-top: 0.35em;
+            min-height: 1.2em;
+        }
+        .debug-hint {
+            font-size: 0.8em;
+            color: var(--muted);
+            margin: 0.35em 0 0.6em 0;
+        }
+    </style>
+    <script src="cmuBaselines.js"></script>
+  <script type="module" crossorigin src="./main.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="./assets/identity-p-nrC7ZP.js">
+</head>
+<body>
+    <header>
+        <h1>Unglish Word Generator</h1>
+        <p>English-sounding nonsense, generated by rule</p>
+        <p style="font-size: 0.75em; color: var(--muted);" id="build-info">Loading...</p>
+        <p style="font-size: 0.85em; margin-top: 0.4em;"><a href="./vocal.html">Vocal demo (Chimera)</a> · <a href="./review.html">Human review</a></p>
+    </header>
+
+    <div class="tabs">
+        <div class="tab-bar">
+            <button disabled data-tab="content-text">Text</button>
+            <button data-tab="content-lexicon">Lexicon</button>
+            <button data-tab="content-stats">Stats</button>
+            <button data-tab="content-debug">Debug</button>
+            <label style="margin-left:auto;display:flex;align-items:center;gap:0.3em;font-size:0.9em;cursor:pointer">
+                <input type="checkbox" id="morph-toggle" checked> Include affixes
+            </label>
+        </div>
+
+        <div id="content-text" class="tab-content active">
+            <div class="card">
+                <h2>Single Word</h2>
+                <button class="refresh" id="refresh-single" title="Regenerate">&#x21bb;</button>
+                <div class="single-written" id="single-written"></div>
+                <div class="pronunciation" id="single-ipa"></div>
+                <button class="refresh" id="speak-single" title="Pronounce it" style="right:3em">&#x25B6;</button>
+            </div>
+
+            <div class="card">
+                <h2>Haiku</h2>
+                <button class="refresh" id="refresh-haiku" title="Regenerate">&#x21bb;</button>
+                <div class="haiku-written" id="haiku-written"></div>
+                <div class="haiku-ipa" id="haiku-ipa"></div>
+            </div>
+
+            <div class="card">
+                <h2>Slogan</h2>
+                <button class="refresh" id="refresh-slogan" title="Regenerate">&#x21bb;</button>
+                <div class="slogan-text" id="slogan-text"></div>
+            </div>
+
+            <div class="card">
+                <h2>Sentence</h2>
+                <button class="refresh" id="refresh-sentence" title="Regenerate">&#x21bb;</button>
+                <div class="sentence-text" id="sentence-text"></div>
+            </div>
+
+            <div class="card">
+                <h2>Paragraph</h2>
+                <button class="refresh" id="refresh-paragraph" title="Regenerate">&#x21bb;</button>
+                <div class="paragraph-text" id="paragraph-text"></div>
+                <div class="stat-line" id="paragraph-stats"></div>
+            </div>
+        </div>
+
+        <div id="content-lexicon" class="tab-content">
+            <!-- Word Wall -->
+            <div class="card">
+                <h2>Word Wall</h2>
+                <button class="refresh" id="refresh-wall" title="Regenerate">&#x21bb;</button>
+                <div class="word-wall" id="word-wall"></div>
+                <div class="legend" id="wall-legend"></div>
+            </div>
+
+            <!-- Common Words Race -->
+            <div class="card">
+                <h2>Common Words Race</h2>
+                <p style="font-size:0.85em;color:var(--muted)">How many random words until all 100 most common English words appear?</p>
+                <button class="start-btn" id="cw-start">Start Race</button>
+                <div id="cw-pills" style="margin-top:0.5em"></div>
+                <div class="cw-status" id="cw-status"></div>
+            </div>
+
+            <!-- Pick the Real Word -->
+            <div class="card">
+                <h2>Pick the Real Word</h2>
+                <p style="font-size:0.85em;color:var(--muted)">One is real English, one is Unglish. 10 rounds.</p>
+                <div class="game-score" id="game-score"></div>
+                <div id="game-words"></div>
+                <div class="game-actions" id="game-actions"></div>
+            </div>
+        </div>
+        <div id="content-stats" class="tab-content">
+            <div style="display:flex;align-items:center;gap:0.5em;margin:0 0 1em 0;font-size:0.9em">
+                <span style="color:var(--muted)">Sort:</span>
+                <button class="sort-btn active" data-sort="divergence">Deviation</button>
+                <button class="sort-btn" data-sort="english">English freq</button>
+                <button class="sort-btn" data-sort="unglish">Unglish freq</button>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.7em;margin:0 0 1em 0;font-size:0.85em;color:var(--muted)">
+                <label>Sample
+                    <input id="stats-sample-size" type="number" min="1000" step="1000" value="200000" style="width:7em;margin-left:0.3em">
+                </label>
+                <label>Seed start
+                    <input id="stats-seed-start" type="number" value="42" style="width:5em;margin-left:0.3em">
+                </label>
+                <label style="display:flex;align-items:center;gap:0.3em">
+                    <input type="checkbox" id="stats-enable-diagnostics"> Diagnostics
+                </label>
+                <label>Trace sample %
+                    <input id="stats-trace-sample" type="number" min="0" max="100" step="1" value="10" style="width:4.5em;margin-left:0.3em">
+                </label>
+            </div>
+            <div class="card">
+                <h2>Letter Frequency — Generated vs CMU Dictionary</h2>
+                <button class="refresh" id="refresh-stats" title="Regenerate">&#x21bb;</button>
+                <div id="stats-status" class="stat-line">Click Regenerate or switch to this tab to generate 200,000 words.</div>
+                <div id="stats-diagnostics" class="stat-line"></div>
+                <div id="stats-letter-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
+                <div class="legend" id="stats-letter-legend"></div>
+                <div id="stats-letter-chart"></div>
+                <div id="stats-letter-pager"></div>
+            </div>
+
+            <div class="card">
+                <h2>Bigram Frequency — Generated vs CMU Dictionary</h2>
+                <div id="stats-bigram-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
+                <div class="legend" id="stats-bigram-legend"></div>
+                <div id="stats-bigram-chart"></div>
+                <div id="stats-bigram-pager"></div>
+            </div>
+
+            <div class="card">
+                <h2>Trigram Frequency — Generated vs CMU Dictionary</h2>
+                <div id="stats-trigram-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
+                <div class="legend" id="stats-trigram-legend"></div>
+                <div id="stats-trigram-chart"></div>
+                <div id="stats-trigram-pager"></div>
+            </div>
+
+            <div class="card">
+                <h2>Phoneme Frequency — Generated vs CMU Dictionary</h2>
+                <div id="stats-phoneme-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
+                <div class="legend" id="stats-phoneme-legend"></div>
+                <div id="stats-phoneme-chart"></div>
+                <div id="stats-phoneme-pager"></div>
+            </div>
+
+            <div class="card">
+                <h2>Word Length Distribution — Generated vs CMU Dictionary</h2>
+                <div id="stats-length-chart"></div>
+                <div class="legend" id="stats-length-legend"></div>
+            </div>
+
+            <div class="card">
+                <h2>Word Length — Phonemes</h2>
+                <div class="legend" id="stats-phoneme-length-legend"></div>
+                <div id="stats-phoneme-length-chart"></div>
+            </div>
+        </div>
+
+        <div id="content-debug" class="tab-content">
+            <div class="debug-controls">
+                <button id="debug-seed-prev" title="Previous seed">Seed -1</button>
+                <label>Seed
+                    <input id="debug-seed" type="number" value="42" style="width:6em;margin-left:0.3em">
+                </label>
+                <button id="debug-seed-next" title="Next seed">Seed +1</button>
+                <label>Mode
+                    <select id="debug-mode" style="margin-left:0.3em">
+                        <option value="lexicon" selected>Lexicon</option>
+                        <option value="text">Text</option>
+                    </select>
+                </label>
+                <label>Syllables
+                    <input id="debug-syllable-count" type="number" min="1" max="7" placeholder="auto" style="width:4.5em;margin-left:0.3em">
+                </label>
+                <button id="debug-generate">Generate</button>
+            </div>
+
+            <div class="card">
+                <h2>Word Inspector</h2>
+                <div class="debug-word" id="debug-word"></div>
+                <div class="pronunciation" id="debug-ipa"></div>
+                <div class="debug-hint">Hover to inspect. Click letters, grapheme/phoneme chips, or grapheme trace rows to select.</div>
+
+                <div class="debug-layer">
+                    <div class="debug-layer-title">Graphemes</div>
+                    <div id="debug-grapheme-layer"></div>
+                </div>
+
+                <div class="debug-layer">
+                    <div class="debug-layer-title">Phonemes</div>
+                    <div id="debug-phoneme-layer"></div>
+                </div>
+
+                <div class="debug-layer">
+                    <div class="debug-layer-title">Selected Units</div>
+                    <div class="debug-selected" id="debug-selection"></div>
+                </div>
+
+                <div class="debug-layer">
+                    <div class="debug-layer-title">Comment</div>
+                    <textarea id="debug-comment" class="debug-comment" placeholder="What looks wrong? Include what you expected to happen."></textarea>
+                    <div class="debug-copy-actions">
+                        <button id="debug-copy-report">Copy Report (Markdown + JSON)</button>
+                        <button id="debug-copy-repro">Copy Repro Args</button>
+                    </div>
+                    <div class="debug-status" id="debug-status"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Trace View</h2>
+                <div class="debug-grid">
+                    <div>
+                        <div class="debug-layer-title">Grapheme Selections</div>
+                        <div id="debug-trace-graphemes" class="debug-trace-list"></div>
+                    </div>
+                    <div>
+                        <div class="debug-layer-title">Repairs</div>
+                        <div id="debug-trace-repairs" class="debug-trace-list"></div>
+                    </div>
+                    <div>
+                        <div class="debug-layer-title">Structural</div>
+                        <div id="debug-trace-structural" class="debug-trace-list"></div>
+                    </div>
+                    <div>
+                        <div class="debug-layer-title">Stages</div>
+                        <div id="debug-trace-stages" class="debug-trace-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
