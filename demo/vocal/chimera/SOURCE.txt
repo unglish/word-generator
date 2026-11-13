@@ -15,6 +15,7 @@ Local patches (do not drop when re-vendoring):
   ~300ms pauses and made multi-syllable words sound stop-start.
 - ui/speech.ts `speakIpaLines`: Unglish poetry mode — one Chimera phrase per line with
   explicit inter-line pause (planPhrases), without splitting on syllable `.`.
+  `linePause` may be a number or per-line number[] for free-verse breath contour.
 - ui/colors.ts: Unglish grayscale light/dark palette (not Chimera phosphor); syncTheme().
 - ui/render/beams3d.ts: NormalBlending (MaxEquation only works on black clear).
 - ui/render/anatomy.ts: thin faceHandles + ViewFlags only (no 2D AnatomyRenderer).

@@ -1,6 +1,6 @@
 # Unglish × Chimera vocal demo
 
-Playable page at `vocal.html`: generates an Unglish nonce word (or a short poem of them) and speaks its IPA with a vendored slice of [Chimera](https://github.com/jamesondh/chimera-vocal-synth) (physical-modeling voice, MIT).
+Playable page at `vocal.html`: generates an Unglish nonce word, or free-verse poetry composed from a scored Unglish lexicon (1.2k→5k words; phonetic beauty ranker, neural-ranker-ready), and speaks IPA with a vendored slice of [Chimera](https://github.com/jamesondh/chimera-vocal-synth) (physical-modeling voice, MIT).
 
 **Mode → Poem** builds a four-line stanza (two nonce words per line) and speaks each line as its own Chimera phrase with ~0.55s inter-line pauses (`speakIpaLines` in `chimera/ui/speech.ts`). Syllable dots (`.`) still do not create pauses.
 

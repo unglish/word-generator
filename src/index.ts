@@ -130,5 +130,23 @@ export type {
   NarrowIpaProfileId, NarrowIpaOptions, NarrowPhoneIn, NarrowPhoneOut,
   NarrowIpaRemap, NarrowIpaProfile,
 } from "./phonology/narrow-ipa.js";
+export {
+  PHONETIC_BEAUTY_RANKER_ID,
+  createPhoneticBeautyRanker,
+  scorePhoneticBeauty,
+  buildLexicon,
+  clampLexiconSize,
+  elitePool,
+  chooseSilhouette,
+  composeFreeVerse,
+} from "./poetry/index.js";
+export type {
+  ComposeOptions,
+  FreeVerseLine,
+  FreeVersePoem,
+  LexiconEntry,
+  LexiconOptions,
+  PoemRanker,
+} from "./poetry/index.js";
 export type { GraphemeReading } from "./types.js";
 export type { SpellingBudgetOutcome, SpellingBudgetMeasurement, SpellingBudgetValues, SpellingBudgetRefusal, SpellingCoverageCertificate, SpellingChoiceLicense, SpellingUnitReplacement } from "./core/spelling-coverage-types.js";
