@@ -135,9 +135,10 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 - [x] Provenance field + coverage diagnostics (closedClass vs gap-fired vs productive)
 - [x] Unit tests for injection + provenance; keep gap tests green
 - [x] Calibrate probability (0.0005); run seed-85 coverage checks
-- [ ] Commit, push, open PR linking #85
+- [x] Commit, push, open PR linking #85
 
 ## Review
 
-- Status: In progress
-- Notes: 2M seed-85 → 59/100 with all 11 closed-class entries first-seen via `closedClass`. Full 10M run in progress.
+- Status: Completed
+- Notes: Seed-85 10M → **72/100** (baseline 61/100). All 11 closed-class entries first-seen via `closedClass`. PR https://github.com/unglish/word-generator/pull/444
+- No CMU inventory tweaks.
