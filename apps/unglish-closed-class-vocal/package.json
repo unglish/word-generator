@@ -1,0 +1,9 @@
+{
+  "name": "unglish-closed-class-vocal",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Unglish × Chimera closed-class function-word vocal demo (static publish pack)",
+  "scripts": {
+    "start": "python3 -m http.server 4185 --bind 127.0.0.1"
+  }
+}

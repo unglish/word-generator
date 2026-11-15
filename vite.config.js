@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
         main: resolve(__dirname, 'demo/index.html'),
         review: resolve(__dirname, 'demo/review.html'),
         vocal: resolve(__dirname, 'demo/vocal.html'),
+        'vocal-closed-class': resolve(__dirname, 'demo/vocal-closed-class.html'),
         worker: resolve(__dirname, 'src/worker-entry.js')
       },
       output: {

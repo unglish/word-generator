@@ -2,9 +2,12 @@
 
 Playable page at `vocal.html`: generates an Unglish nonce word and speaks its IPA with a vendored slice of [Chimera](https://github.com/jamesondh/chimera-vocal-synth) (physical-modeling voice, MIT).
 
+Closed-class showcase at `vocal-closed-class.html`: speaks the #85 / #444 function-word channel (`be`, `to`, `of`, `in`, …) with IPA + rough phonetic brackets, chip picker, and the same 3D head / Speak flow.
+
 ## Layout
 
 - `main.ts` — UI glue (generate + speak + head mount)
+- `closed-class-main.ts` + `closed-class-catalog.ts` — closed-class channel demo
 - `chimera/` — speak-path + 3D head sources + `chimera.wasm` from Chimera (see `chimera/LICENSE`, `chimera/SOURCE.txt`)
 - `chimera/ui/headView.ts` — vanilla WebGL mount for `Anatomy3D`, restyled grayscale
 

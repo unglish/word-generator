@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hear Unglish closed-class function words (be, to, of, in…) spoken by Chimera’s 3D vocal tract." />
+  <title>Closed-class function words · Unglish × Chimera</title>
+  <link rel="canonical" href="https://unglish.github.io/word-generator/vocal-closed-class.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Unglish" />
+  <meta property="og:title" content="Closed-class function words · Unglish Vocal" />
+  <meta property="og:description" content="Speak the closed-class channel from #85 / #444 — be, to, he, we, me, of, in, it, my, any — with Chimera’s 3D head." />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #fff;
+      --fg: #191919;
+      --muted: #626262;
+      --line: #c5c5c5;
+      --soft: #f3f3f3;
+      --focus: #444;
+      --card-border: silver;
+      --card-bg: whitesmoke;
+      --warn: #8a3b12;
+      --chip-active-bg: #191919;
+      --chip-active-fg: #fff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111;
+        --fg: #eee;
+        --muted: #b3b3b3;
+        --line: #666;
+        --soft: #242424;
+        --focus: #ddd;
+        --card-border: dimgray;
+        --card-bg: #1a1a1a;
+        --warn: #e08a5a;
+        --chip-active-bg: #eee;
+        --chip-active-fg: #111;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: ui-serif, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+      background:
+        radial-gradient(ellipse 120% 80% at 50% -10%, var(--soft), transparent 55%),
+        var(--bg);
+      color: var(--fg);
+      max-width: 42em;
+      margin: 0 auto;
+      padding: 2em 1em 3em;
+      accent-color: var(--fg);
+    }
+
+    header { text-align: center; margin-bottom: 1.35em; }
+    .brand {
+      font-size: clamp(1.85rem, 6vw, 2.45rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.2em;
+      line-height: 1.1;
+    }
+    header h1 {
+      font-size: 1.05rem;
+      font-weight: 400;
+      margin: 0 0 0.45em;
+      color: var(--muted);
+      text-wrap: balance;
+    }
+    header .lede {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 1.02rem;
+      line-height: 1.45;
+      margin: 0 auto 0.75em;
+      max-width: 36em;
+    }
+    .nav {
+      font-size: 0.85em;
+      margin-top: 0.4em;
+    }
+    .nav a { color: inherit; text-underline-offset: 0.2em; }
+    .nav .sep { color: var(--muted); margin: 0 0.35em; }
+
+    .stage {
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      padding: 1.15em 1.25em 1.35em;
+      margin: 1em 0;
+      background: var(--card-bg);
+    }
+
+    .head {
+      position: relative;
+      width: 100%;
+      height: min(52vh, 28rem);
+      min-height: 16rem;
+      margin: 0 0 1em;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--soft);
+    }
+    .head-hint {
+      margin: 0.35em 0 0.85em;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 0.2em 0.55em;
+      margin-bottom: 0.55em;
+    }
+
+    .word {
+      font-size: clamp(2.2rem, 8vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin: 0.1em 0 0.25em;
+      min-height: 1.15em;
+      overflow-wrap: anywhere;
+      transition: opacity 0.2s ease;
+    }
+    .word.flash { opacity: 0.45; }
+
+    .ipa {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--muted);
+      font-size: 1.05rem;
+      min-height: 1.4em;
+      margin-bottom: 1em;
+      word-break: break-word;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45em;
+      margin: 0 0 1em;
+    }
+    .chip {
+      font: inherit;
+      font-size: 0.92rem;
+      min-height: 2.2rem;
+      padding: 0.35rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--bg);
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .chip:hover { color: var(--fg); border-color: var(--fg); }
+    .chip.active {
+      background: var(--chip-active-bg);
+      color: var(--chip-active-fg);
+      border-color: var(--chip-active-bg);
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55em;
+      align-items: center;
+      margin-bottom: 0.85em;
+    }
+
+    button, select { font: inherit; }
+    button {
+      min-height: 2.6rem;
+      padding: 0.55rem 1.1rem;
+      border: 1px solid var(--fg);
+      border-radius: 4px;
+      background: var(--fg);
+      color: var(--bg);
+      cursor: pointer;
+    }
+    button:hover:not(:disabled) { opacity: 0.8; }
+    button:disabled { opacity: 0.45; cursor: default; }
+    button.secondary {
+      background: var(--bg);
+      color: var(--fg);
+      border-color: var(--line);
+    }
+    select {
+      min-height: 2.4rem;
+      padding: 0.35rem 0.6rem;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    label.field {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .status {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      color: var(--muted);
+      min-height: 1.3em;
+    }
+    .status.error { color: var(--warn); }
+
+    .meter {
+      margin-top: 1rem;
+      height: 6px;
+      border-radius: 2px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .meter > i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--fg);
+      transition: width 80ms linear;
+    }
+
+    .note {
+      margin: 0.85em 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    footer {
+      margin-top: 1.5em;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      border-top: 1px solid var(--line);
+      padding-top: 1em;
+    }
+    footer a { color: inherit; text-underline-offset: 0.2em; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    @media (max-width: 420px) {
+      body { padding: 1.5rem 1rem 2.5rem; }
+      .row.actions { flex-direction: column; align-items: stretch; }
+      .row.actions button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="brand">Unglish</p>
+    <h1>Closed-class channel · function words</h1>
+    <p class="lede">
+      These short function words — <em>be, to, of, in…</em> — now come from an
+      explicit closed-class injection channel (#85 / #444). Tap one, then hear it
+      spoken by
+      <a href="https://github.com/jamesondh/chimera-vocal-synth">Chimera</a>’s
+      physical-model voice and 3D head.
+    </p>
+    <p class="nav">
+      <a href="./index.html">Unglish home</a><span class="sep">·</span>
+      <a href="./vocal.html">Vocal demo</a><span class="sep">·</span>
+      <a href="https://github.com/unglish/word-generator/pull/444">PR #444</a>
+    </p>
+  </header>
+
+  <section class="stage" aria-live="polite">
+    <div class="head" id="head" aria-hidden="false"></div>
+    <p class="head-hint">Drag to turn the head · scroll to zoom · double-click to reset</p>
+
+    <div class="badge" id="badge">closed-class · function word</div>
+    <div class="word" id="word">—</div>
+    <div class="ipa" id="ipa">/ /</div>
+
+    <div class="chips" id="chips" role="group" aria-label="Closed-class function words"></div>
+
+    <div class="row actions">
+      <button id="speak" type="button" disabled>Speak</button>
+      <button class="secondary" id="next" type="button">Next word</button>
+      <button class="secondary" id="sample" type="button">Sample channel</button>
+      <button class="secondary" id="speak-all" type="button">Speak all</button>
+      <button class="secondary" id="stop" type="button" disabled>Stop</button>
+    </div>
+
+    <div class="row">
+      <label class="field">Voice
+        <select id="body" aria-label="Voice body">
+          <option value="female" selected>Adult female</option>
+          <option value="male">Adult male</option>
+          <option value="child">Child</option>
+        </select>
+      </label>
+      <label class="field">Rate
+        <select id="rate" aria-label="Speaking rate">
+          <option value="0.85">0.85×</option>
+          <option value="1" selected>1.0×</option>
+          <option value="1.25">1.25×</option>
+          <option value="1.5">1.5×</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="status" id="status">Loading voice engine…</div>
+    <div class="meter" aria-hidden="true"><i id="level"></i></div>
+    <p class="note">
+      IPA shows the channel phones with a rough English cue in brackets
+      (e.g. <code>/əv/ [uhv]</code>). Speak uses real generator output from the
+      closed-class channel when available.
+    </p>
+  </section>
+
+  <footer>
+    <p>
+      Credits:
+      <a href="https://github.com/jamesondh/chimera-vocal-synth">Chimera</a>
+      (physical-model voice + 3D anatomy head, MIT) ·
+      <a href="https://unglish.github.io/word-generator/">Unglish</a>
+      (<a href="https://github.com/unglish/word-generator">word-generator</a>).
+    </p>
+    <p>
+      <a href="./index.html">Back to Unglish home</a>.
+      Demo UI patterned on the Unglish Chimera vocal page (Speak / IPA / 3D head)
+      with example-chip selection inspired by
+      <a href="https://github.com/n4ze3m/tiny-voca">tiny-voca</a>.
+    </p>
+  </footer>
+  <script type="module" src="./vocal/closed-class-main.ts"></script>
+</body>
+</html>
