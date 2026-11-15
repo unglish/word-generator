@@ -313,6 +313,29 @@ export const englishConfig: LanguageConfig = {
     { name: "what", phonemes: ["w", "ɑ", "t"], replacement: "what", targetLayer: "grapheme" },
   ],
 
+  // Closed-class injection recovers ultra-rare short function words that
+  // gapSpellings alone cannot surface under CMU length/coda priors. Keep
+  // probability tiny so phoneme/trigram gates stay intact (issue #85).
+  closedClass: {
+    probability: 0.0005,
+    entries: [
+      // Gap-catalog shorts whose exact phone keys are almost never sampled.
+      { name: "be", phonemes: ["b", "i:"], spelling: "be" },
+      { name: "to", phonemes: ["t", "u"], spelling: "to" },
+      { name: "he", phonemes: ["h", "i:"], spelling: "he" },
+      { name: "we", phonemes: ["w", "i:"], spelling: "we" },
+      { name: "me", phonemes: ["m", "i:"], spelling: "me" },
+      { name: "do", phonemes: ["d", "u"], spelling: "do" },
+      { name: "any", phonemes: ["ɛ", "n", "i:"], spelling: "any", hyphenated: "a&shy;ny" },
+      // Productive-path shorts with honest phone+spelling pairs.
+      // of /ə v/ [uhv], in /ɪ n/ [in], it /ɪ t/ [it], my /m aɪ/ [my]
+      { name: "of", phonemes: ["ə", "v"], spelling: "of" },
+      { name: "in", phonemes: ["ɪ", "n"], spelling: "in" },
+      { name: "it", phonemes: ["ɪ", "t"], spelling: "it" },
+      { name: "my", phonemes: ["m", "aɪ"], spelling: "my" },
+    ],
+  },
+
   spellingRules: [
     {
       name: "nc-to-nk",

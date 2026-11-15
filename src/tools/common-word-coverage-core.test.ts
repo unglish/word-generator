@@ -3,6 +3,7 @@ import { englishConfig } from "../config/english.js";
 import { generateWord } from "../core/generate.js";
 import { createSeededRng } from "../utils/random.js";
 import {
+  buildClosedClassCatalog,
   buildGapSpellingCatalog,
   buildCoverageReport,
   createCoverageTracker,
@@ -13,6 +14,9 @@ import {
 } from "../../scripts/lib/common-word-coverage-core.mjs";
 
 const GAP_SPELLING_CATALOG = buildGapSpellingCatalog(englishConfig.gapSpellings ?? []);
+const CLOSED_CLASS_CATALOG = buildClosedClassCatalog(
+  englishConfig.closedClass?.entries ?? [],
+);
 
 describe("common-word-coverage-core", () => {
   it("parses deterministic coverage defaults and trace-miss flags", () => {
@@ -58,6 +62,7 @@ describe("common-word-coverage-core", () => {
       uniqueGeneratedCount: null,
       stopReason: "max-count-reached",
       gapSpellingCatalog: GAP_SPELLING_CATALOG,
+      closedClassCatalog: CLOSED_CLASS_CATALOG,
       config: {
         seed: 1,
         minCount: 10,
@@ -72,7 +77,8 @@ describe("common-word-coverage-core", () => {
     expect(report.summary).toMatchObject({
       trackedUniqueCount: false,
       uniqueGeneratedCount: null,
-      gapManagedTargetCount: 2,
+      closedClassTargetCount: 2,
+      gapManagedTargetCount: 0,
       productiveTargetCount: 0,
     });
     expect(report.words).toEqual([
@@ -80,20 +86,68 @@ describe("common-word-coverage-core", () => {
         word: "be",
         hits: 2,
         firstSeenGeneration: 4,
+        firstSeenOrigin: null,
+        firstSeenOriginName: null,
         found: true,
-        spellingPath: "gap-spelling",
+        spellingPath: "closed-class",
         gapSpellingNames: ["be"],
         gapTargetLayers: ["grapheme"],
+        closedClassNames: ["be"],
       },
       {
         word: "to",
         hits: 1,
         firstSeenGeneration: 2,
+        firstSeenOrigin: null,
+        firstSeenOriginName: null,
         found: true,
-        spellingPath: "gap-spelling",
+        spellingPath: "closed-class",
         gapSpellingNames: ["to"],
         gapTargetLayers: ["grapheme"],
+        closedClassNames: ["to"],
       },
+    ]);
+  });
+
+  it("distinguishes closed-class catalog targets from gap-only and productive", () => {
+    const tracker = createCoverageTracker(["be", "who", "the"]);
+    tracker.consume("be", 1, { originPath: "closedClass", originName: "be" });
+    tracker.consume("who", 2, { originPath: "gap-fired", originName: "who" });
+    tracker.consume("the", 3, { originPath: "productive" });
+
+    const report = buildCoverageReport({
+      tracker,
+      totalIterations: 3,
+      trackedUniqueCount: false,
+      uniqueGeneratedCount: null,
+      stopReason: "all-targets-found",
+      gapSpellingCatalog: GAP_SPELLING_CATALOG,
+      closedClassCatalog: CLOSED_CLASS_CATALOG,
+      config: {
+        seed: 1,
+        minCount: 1,
+        maxCount: 3,
+        mode: "lexicon",
+        morphology: true,
+        trackUnique: false,
+      },
+      targetSource: "demo/commonWordsWorker.js",
+    });
+
+    expect(report.summary).toMatchObject({
+      closedClassTargetCount: 1,
+      gapManagedTargetCount: 1,
+      productiveTargetCount: 1,
+      firstSeenOriginCounts: {
+        closedClass: 1,
+        gapFired: 1,
+        productive: 1,
+      },
+    });
+    expect(report.words.map((row) => [row.word, row.spellingPath, row.firstSeenOrigin])).toEqual([
+      ["be", "closed-class", "closedClass"],
+      ["who", "gap-spelling", "gap-fired"],
+      ["the", "productive", "productive"],
     ]);
   });
 

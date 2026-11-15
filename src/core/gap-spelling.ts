@@ -103,6 +103,10 @@ export function createGapSpellingApplicator(
     }
     context.word.written.clean = selected.replacement;
     context.word.written.hyphenated = selected.hyphenated;
+    context.word.provenance = {
+      kind: "gapSpelling",
+      name: selected.name,
+    };
     context.trace?.recordRepair(
       `gapSpelling:${selected.name}`,
       before,

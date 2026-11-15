@@ -658,6 +658,40 @@ export interface GapSpelling {
   hyphenated?: string;
 }
 
+/**
+ * A closed-class / function-word lexicon entry injected on bare templates,
+ * bypassing productive phonotactics and length targeting.
+ *
+ * Distinct from {@link GapSpelling}: gap spellings respell a phone key when it
+ * occurs naturally; closed-class entries force both the phones and the spelling.
+ */
+export interface ClosedClassEntry {
+  /** Human-readable name for trace output (`closedClass:<name>`). */
+  name: string;
+  /** Full flattened phoneme sequence for the word. */
+  phonemes: string[];
+  /** Exact written form to emit. */
+  spelling: string;
+  /** Relative selection weight among closed-class entries. */
+  weight?: number;
+  /**
+   * Optional hyphenated written form. Defaults to {@link spelling} when
+   * omitted.
+   */
+  hyphenated?: string;
+}
+
+/** Probability-gated closed-class injection channel for bare morphology draws. */
+export interface ClosedClassConfig {
+  /**
+   * Probability of sampling a closed-class entry on a bare morphology template.
+   * Must be a finite number in `[0, 1]`.
+   */
+  probability: number;
+  /** Weighted inventory of injectible function-word forms. */
+  entries: ClosedClassEntry[];
+}
+
 // ---------------------------------------------------------------------------
 // Written-form constraints
 // ---------------------------------------------------------------------------
@@ -812,6 +846,14 @@ export interface LanguageConfig {
 
   /** Bare-word spelling overrides keyed by exact phoneme sequence. */
   gapSpellings?: GapSpelling[];
+
+  /**
+   * Closed-class / function-word injection channel.
+   *
+   * On bare morphology templates, with probability {@link ClosedClassConfig.probability},
+   * generation samples an entry and emits its phones + spelling directly.
+   */
+  closedClass?: ClosedClassConfig;
 
   /** Post-selection spelling adjustments. */
   spellingRules?: SpellingRule[];
@@ -1782,6 +1824,73 @@ export function validateConfig(config: LanguageConfig): void {
       );
     }
     gapSpellingVariantKeys.add(variantKey);
+  }
+
+  if (config.closedClass !== undefined) {
+    const closedClass = config.closedClass;
+    if (
+      !Number.isFinite(closedClass.probability) ||
+      closedClass.probability < 0 ||
+      closedClass.probability > 1
+    ) {
+      throw new Error(
+        "closedClass.probability must be a finite number in [0, 1]",
+      );
+    }
+    if (!Array.isArray(closedClass.entries) || closedClass.entries.length === 0) {
+      throw new Error("closedClass.entries must be a non-empty array");
+    }
+    const closedClassNames = new Set<string>();
+    for (let i = 0; i < closedClass.entries.length; i++) {
+      const entry = closedClass.entries[i];
+      if (!entry.name || typeof entry.name !== "string") {
+        throw new Error(`closedClass.entries[${i}].name must be a non-empty string`);
+      }
+      if (closedClassNames.has(entry.name)) {
+        throw new Error(
+          `closedClass.entries has duplicate name "${entry.name}"`,
+        );
+      }
+      closedClassNames.add(entry.name);
+      if (!Array.isArray(entry.phonemes) || entry.phonemes.length === 0) {
+        throw new Error(
+          `closedClass.entries[${i}].phonemes must be a non-empty array`,
+        );
+      }
+      let hasNucleus = false;
+      for (let j = 0; j < entry.phonemes.length; j++) {
+        const sound = entry.phonemes[j];
+        if (!sound) {
+          throw new Error(
+            `closedClass.entries[${i}].phonemes[${j}] must be non-empty`,
+          );
+        }
+        if (!phonemeSounds.has(sound)) {
+          throw new Error(
+            `closedClass.entries[${i}].phonemes[${j}] contains unknown phoneme "${sound}"`,
+          );
+        }
+        if (nucleusSounds.has(sound)) hasNucleus = true;
+      }
+      if (!hasNucleus) {
+        throw new Error(
+          `closedClass.entries[${i}] (${entry.name}) must include at least one nucleus phoneme`,
+        );
+      }
+      if (!entry.spelling || typeof entry.spelling !== "string") {
+        throw new Error(
+          `closedClass.entries[${i}].spelling must be a non-empty string`,
+        );
+      }
+      if (
+        entry.weight !== undefined &&
+        (!Number.isFinite(entry.weight) || entry.weight <= 0)
+      ) {
+        throw new Error(
+          `closedClass.entries[${i}].weight must be a finite number > 0`,
+        );
+      }
+    }
   }
 
   for (let i = 0; i < (config.spellingRules?.length ?? 0); i++) {

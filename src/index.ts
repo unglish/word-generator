@@ -26,6 +26,10 @@ export type {
   GenerationWeights,
   PhonemeLengthWeights,
   PhonemeToSyllableWeights,
+  GapSpelling,
+  GapSpellingTargetLayer,
+  ClosedClassConfig,
+  ClosedClassEntry,
 } from "./config/language.js";
 export { validateJunction } from "./core/junction.js";
 export type { SspViolation } from "./core/junction.js";

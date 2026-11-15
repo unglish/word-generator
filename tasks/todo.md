@@ -122,3 +122,22 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 
 - Status: Completed.
 - Notes: `/sk/→/ss/` before `-ity` is rejected atomically; later ordered rules still run; generate.ts untouched. Full `npm test` (1061) and lint pass.
+
+---
+
+# UW-36 / Issue #85 — Closed-class function-word channel
+
+## Plan
+
+- [x] Add `ClosedClassConfig` types + validation in `language.ts`
+- [x] Add English `closedClass` entries (gap shorts + of/in/it/my)
+- [x] Runtime injection in `generateOneWord` after bare morph plan
+- [x] Provenance field + coverage diagnostics (closedClass vs gap-fired vs productive)
+- [x] Unit tests for injection + provenance; keep gap tests green
+- [x] Calibrate probability (0.0005); run seed-85 coverage checks
+- [ ] Commit, push, open PR linking #85
+
+## Review
+
+- Status: In progress
+- Notes: 2M seed-85 → 59/100 with all 11 closed-class entries first-seen via `closedClass`. Full 10M run in progress.

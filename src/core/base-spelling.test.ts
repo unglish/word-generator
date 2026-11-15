@@ -12,7 +12,8 @@ const legacy = createGenerator(legacyConfig);
 const generateWord = legacy.generateWord;
 
 function editsFor(word: Word, rule: string): SpellingEdit[] {
-  return word.trace!.baseSpelling!.edits.filter(edit => edit.rule === rule);
+  // Closed-class injections skip the writer and have no baseSpelling ledger.
+  return word.trace?.baseSpelling?.edits.filter(edit => edit.rule === rule) ?? [];
 }
 
 /** A selection-cell origin, or undefined for rewritten cells. */
@@ -22,7 +23,8 @@ function selectionOrigin(cell: SpellingCell | undefined) {
 
 /** An edit that deletes part, but not all, of one multi-letter selected spelling. */
 function partialCut(word: Word, rule: string): SpellingEdit | undefined {
-  const base = word.trace!.baseSpelling!;
+  const base = word.trace?.baseSpelling;
+  if (!base) return undefined;
   return editsFor(word, rule).find(edit => {
     const unitId = selectionOrigin(edit.input[0])?.unitId;
     return edit.after === "" && unitId !== undefined
