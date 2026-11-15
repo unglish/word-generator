@@ -589,7 +589,7 @@ describe("validateConfig", () => {
 
   it("should validate English closed-class config", () => {
     expect(englishConfig.closedClass?.probability).toBe(0.0005);
-    expect(englishConfig.closedClass?.entries).toHaveLength(11);
+    expect(englishConfig.closedClass?.entries).toHaveLength(25);
     expect(() => validateConfig(englishConfig)).not.toThrow();
   });
 

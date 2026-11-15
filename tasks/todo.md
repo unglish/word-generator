@@ -140,5 +140,5 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 ## Review
 
 - Status: Completed
-- Notes: Seed-85 10M → **72/100** (baseline 61/100). All 11 closed-class entries first-seen via `closedClass`. PR https://github.com/unglish/word-generator/pull/444
+- Notes: Seed-85 10M → **72/100** (baseline 61/100). Catalog expanded to 25 entries after leftover-28 experiments (2M expand → 73/100, +14 shorts). PR https://github.com/unglish/word-generator/pull/444
 - No CMU inventory tweaks.

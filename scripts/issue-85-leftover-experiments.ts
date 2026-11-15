@@ -30,7 +30,11 @@ const MISSING_28 = [
   "work", "first", "even", "because", "these", "us",
 ] as const;
 
-/** High-value shorts with honest phone+spelling pairs for catalog expansion. */
+/**
+ * Extra shorts used by expand-* experiments when measuring a *larger* catalog
+ * than englishConfig. After the catalog follow-up ships these in englishConfig,
+ * expand-* still re-adds them only if missing (idempotent).
+ */
 const EXPANDED_SHORTS: ClosedClassEntry[] = [
   { name: "i", phonemes: ["aɪ"], spelling: "i" },
   { name: "as", phonemes: ["æ", "z"], spelling: "as" },
@@ -72,14 +76,14 @@ function parseArgs(argv: string[]) {
 function withExpandedClosedClass(
   probability = englishConfig.closedClass!.probability,
 ): LanguageConfig {
+  const existing = englishConfig.closedClass?.entries ?? [];
+  const existingNames = new Set(existing.map((entry) => entry.name));
+  const extras = EXPANDED_SHORTS.filter((entry) => !existingNames.has(entry.name));
   return {
     ...englishConfig,
     closedClass: {
       probability,
-      entries: [
-        ...(englishConfig.closedClass?.entries ?? []),
-        ...EXPANDED_SHORTS,
-      ],
+      entries: [...existing, ...extras],
     },
   };
 }
