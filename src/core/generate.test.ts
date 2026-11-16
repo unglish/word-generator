@@ -38,7 +38,9 @@ function hasTerminalVowelAfterVowelLetter(
   selected: string,
   sameSyllable: boolean,
 ): boolean {
-  const vowel = lastSelection(word);
+  // Closed-class injections have no grapheme selections; treat as non-match.
+  const vowel = word.trace?.graphemeSelections.at(-1);
+  if (!vowel) return false;
   const preceding = word.trace!.graphemeSelections.at(-2);
   return (
     vowel.position === "nucleus" &&

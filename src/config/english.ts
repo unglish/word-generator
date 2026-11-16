@@ -313,6 +313,48 @@ export const englishConfig: LanguageConfig = {
     { name: "what", phonemes: ["w", "ɑ", "t"], replacement: "what", targetLayer: "grapheme" },
   ],
 
+  // Closed-class injection recovers ultra-rare short function words that
+  // gapSpellings alone cannot surface under CMU length/coda priors. Keep
+  // probability tiny so phoneme/trigram gates stay intact (issue #85).
+  closedClass: {
+    probability: 0.0005,
+    entries: [
+      // Gap-catalog shorts whose exact phone keys are almost never sampled.
+      { name: "be", phonemes: ["b", "i:"], spelling: "be" },
+      { name: "to", phonemes: ["t", "u"], spelling: "to" },
+      { name: "he", phonemes: ["h", "i:"], spelling: "he" },
+      { name: "we", phonemes: ["w", "i:"], spelling: "we" },
+      { name: "me", phonemes: ["m", "i:"], spelling: "me" },
+      { name: "do", phonemes: ["d", "u"], spelling: "do" },
+      { name: "any", phonemes: ["ɛ", "n", "i:"], spelling: "any", hyphenated: "a&shy;ny" },
+      // Productive-path shorts with honest phone+spelling pairs.
+      // of /ə v/ [uhv], in /ɪ n/ [in], it /ɪ t/ [it], my /m aɪ/ [my]
+      { name: "of", phonemes: ["ə", "v"], spelling: "of" },
+      { name: "in", phonemes: ["ɪ", "n"], spelling: "in" },
+      { name: "it", phonemes: ["ɪ", "t"], spelling: "it" },
+      { name: "my", phonemes: ["m", "aɪ"], spelling: "my" },
+      // Leftover-28 shorts validated at seed-85 2M (expand-catalog experiment).
+      // i /aɪ/ [eye], as /æ z/ [az], at /æ t/ [at], but /b ʌ t/ [but],
+      // by /b aɪ/ [by], or /ɔ r/ [or], an /æ n/ [an], up /ʌ p/ [up],
+      // if /ɪ f/ [if], go /g əʊ/ [go], no /n əʊ/ [no], us /ʌ s/ [us],
+      // their /ð ɚ/ [ther], your /j ɔ r/ [yor]
+      { name: "i", phonemes: ["aɪ"], spelling: "i" },
+      { name: "as", phonemes: ["æ", "z"], spelling: "as" },
+      { name: "at", phonemes: ["æ", "t"], spelling: "at" },
+      { name: "but", phonemes: ["b", "ʌ", "t"], spelling: "but" },
+      { name: "by", phonemes: ["b", "aɪ"], spelling: "by" },
+      { name: "or", phonemes: ["ɔ", "r"], spelling: "or" },
+      { name: "an", phonemes: ["æ", "n"], spelling: "an" },
+      { name: "up", phonemes: ["ʌ", "p"], spelling: "up" },
+      { name: "if", phonemes: ["ɪ", "f"], spelling: "if" },
+      { name: "go", phonemes: ["g", "əʊ"], spelling: "go" },
+      { name: "no", phonemes: ["n", "əʊ"], spelling: "no" },
+      { name: "us", phonemes: ["ʌ", "s"], spelling: "us" },
+      { name: "their", phonemes: ["ð", "ɚ"], spelling: "their" },
+      { name: "your", phonemes: ["j", "ɔ", "r"], spelling: "your" },
+    ],
+  },
+
   spellingRules: [
     {
       name: "nc-to-nk",

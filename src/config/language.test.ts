@@ -587,6 +587,54 @@ describe("validateConfig", () => {
     expect(englishConfig.gapSpellings).toHaveLength(16);
   });
 
+  it("should validate English closed-class config", () => {
+    expect(englishConfig.closedClass?.probability).toBe(0.0005);
+    expect(englishConfig.closedClass?.entries).toHaveLength(25);
+    expect(() => validateConfig(englishConfig)).not.toThrow();
+  });
+
+  it("should reject closed-class probability outside [0, 1]", () => {
+    const bad = {
+      ...englishConfig,
+      closedClass: {
+        probability: 1.5,
+        entries: [{ name: "of", phonemes: ["ə", "v"], spelling: "of" }],
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "closedClass.probability must be a finite number in [0, 1]",
+    );
+  });
+
+  it("should reject closed-class entries without a nucleus", () => {
+    const bad = {
+      ...englishConfig,
+      closedClass: {
+        probability: 0.001,
+        entries: [{ name: "bad", phonemes: ["b", "t"], spelling: "bt" }],
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "closedClass.entries[0] (bad) must include at least one nucleus phoneme",
+    );
+  });
+
+  it("should reject duplicate closed-class names", () => {
+    const bad = {
+      ...englishConfig,
+      closedClass: {
+        probability: 0.001,
+        entries: [
+          { name: "of", phonemes: ["ə", "v"], spelling: "of" },
+          { name: "of", phonemes: ["ʌ", "v"], spelling: "of" },
+        ],
+      },
+    };
+    expect(() => validateConfig(bad)).toThrow(
+      "closedClass.entries has duplicate name \"of\"",
+    );
+  });
+
   it("should throw when a phonemeMap references a phoneme not in phonemes[]", () => {
     const bad = {
       ...englishConfig,

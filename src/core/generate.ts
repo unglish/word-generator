@@ -41,6 +41,12 @@ import {
   createGapSpellingApplicator,
   type GapSpellingApplicator,
 } from "./gap-spelling.js";
+import {
+  compileClosedClass,
+  emitClosedClassWord,
+  sampleClosedClassEntry,
+  type CompiledClosedClass,
+} from "./closed-class.js";
 import type { BaseSpelling } from "./base-spelling.js";
 import {
   classifySspViolation,
@@ -114,6 +120,8 @@ interface GeneratorRuntime {
   };
   generateWrittenForm: WrittenFormGenerator;
   applyGapSpellings: GapSpellingApplicator;
+  closedClass?: CompiledClosedClass;
+  nucleusSounds: Set<string>;
   bannedSet?: Set<string>;
   clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
@@ -219,6 +227,8 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
 
   const generateWrittenForm = createWrittenFormGenerator(config);
   const applyGapSpellings = createGapSpellingApplicator(config);
+  const closedClass = compileClosedClass(config);
+  const nucleusSounds = new Set(config.phonemeMaps.nucleus.keys());
 
   const bannedPairs = expandClusterConstraintBans(config);
   const bannedSet =
@@ -287,6 +297,8 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     invalidClusterRegexes,
     generateWrittenForm,
     applyGapSpellings,
+    closedClass,
+    nucleusSounds,
     bannedSet,
     clusterRepair: config.clusterConstraint?.repair,
     allowedFinalSet: config.codaConstraints?.allowedFinal
@@ -1912,6 +1924,9 @@ function spellBareWord(
   realizeSurface(rt, context);
   // Exact bare-word overrides retain their existing place in root scoring.
   rt.applyGapSpellings(context, baseSpelling);
+  if (!context.word.provenance) {
+    context.word.provenance = { kind: "productive" };
+  }
   return lexical;
 }
 
@@ -2019,6 +2034,9 @@ function finishWord(
   const traceCollector = context.trace;
   const morphApplied = !!morphology;
   if (morphology) finishAffixedWord(rt, context, morphology);
+  if (!context.word.provenance) {
+    context.word.provenance = { kind: "productive" };
+  }
   // The rejection trace (and so `selection`) exists exactly when tracing is on.
   if (traceCollector && selection) {
     traceCollector.syllableCount = context.syllableCount;
@@ -2029,6 +2047,34 @@ function finishWord(
     context.word.trace = traceCollector.toTrace(morphApplied);
   }
   return context.word;
+}
+
+function tryEmitClosedClassWord(
+  rt: GeneratorRuntime,
+  rand: RNG,
+  enableTrace: boolean,
+  morphPlanTemplate: "bare" | undefined,
+): Word | undefined {
+  const closedClass = rt.closedClass;
+  if (!closedClass || closedClass.probability <= 0) return undefined;
+  if (rand() >= closedClass.probability) return undefined;
+
+  const entry = sampleClosedClassEntry(closedClass, rand);
+  const trace = enableTrace ? new TraceCollector() : undefined;
+  return emitClosedClassWord(
+    {
+      phonemeBySound: rt.phonemeBySound,
+      nucleusSounds: rt.nucleusSounds,
+      applyStress: (context) => applyStress(context, rt.resolvedStress),
+      realizeSurface: (context) => realizeSurface(rt, context),
+    },
+    entry,
+    {
+      rand,
+      trace,
+      morphologyTemplate: morphPlanTemplate,
+    },
+  );
 }
 
 /** Select a root by phoneme/letter targets, then finish its planned morphology.
@@ -2052,6 +2098,18 @@ function generateOneWord(
     morphPlan && morphPlan.plan.template !== "bare"
       ? morphPlan.plan
       : undefined;
+  // Closed-class injection: bare templates only, before length targeting.
+  // Skip when the caller forced a root syllable count — that API contract
+  // outranks the function-word channel.
+  if (!affixPlan && !(syllableCount > 0)) {
+    const closedClassWord = tryEmitClosedClassWord(
+      rt,
+      rand,
+      enableTrace,
+      morphPlan?.plan.template === "bare" ? "bare" : undefined,
+    );
+    if (closedClassWord) return closedClassWord;
+  }
   const forcedRootSyllableCount = syllableCount > 0 ? syllableCount : undefined;
   const maxOnset =
     rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
