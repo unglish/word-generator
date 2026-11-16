@@ -90,13 +90,31 @@ describe("Position-based cluster weighting", () => {
   });
 
   it("reduces ts/ns frequency compared to no weights", () => {
-    // Test with position-based weights (current config)
-    const wordsWithWeights = generateWords(10000, { seed: 99, mode: "text", morphology: false });
-    
+    // Hold letter-length targets fixed/off so this comparison isolates coda
+    // cluster weights from letter-acceptance stream shifts.
+    const neutralLetterTargets = undefined;
+    const withWeights = createGenerator({
+      ...englishConfig,
+      syllableStructure: {
+        ...englishConfig.syllableStructure,
+        letterLengthTargets: neutralLetterTargets,
+      },
+    });
+    const wordsWithWeights: { written: { clean: string } }[] = [];
+    for (let i = 0; i < 10000; i++) {
+      wordsWithWeights.push(
+        withWeights.generateWord({ seed: 99 + i, mode: "text", morphology: false }),
+      );
+    }
+
     // Test with no weights
     const noWeightsConfig = {
       ...englishConfig,
       clusterWeights: undefined,
+      syllableStructure: {
+        ...englishConfig.syllableStructure,
+        letterLengthTargets: neutralLetterTargets,
+      },
     };
     const genNoWeights = createGenerator(noWeightsConfig);
     const wordsNoWeights: { written: { clean: string } }[] = [];

@@ -1,0 +1,162 @@
+{
+  "a": {
+    "d": 1,
+    "word": "at",
+    "template": "bare",
+    "acceptedBy": "relaxed",
+    "phones": "ɑt",
+    "scope": "root-before-morphology"
+  },
+  "i": {
+    "d": 1,
+    "word": "id",
+    "template": "bare",
+    "acceptedBy": "relaxed",
+    "phones": "ɪd",
+    "scope": "root-before-morphology"
+  },
+  "there": {
+    "d": 1,
+    "word": "here",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "hi:r",
+    "scope": "root-before-morphology"
+  },
+  "their": {
+    "d": 2,
+    "word": "hir",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "hɪr",
+    "scope": "root-before-morphology"
+  },
+  "out": {
+    "d": 1,
+    "word": "ont",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "ɑnt",
+    "scope": "root-before-morphology"
+  },
+  "about": {
+    "d": 2,
+    "word": "boct",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "bʌkt",
+    "scope": "root-before-morphology"
+  },
+  "like": {
+    "d": 1,
+    "word": "lise",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "laɪz",
+    "scope": "root-before-morphology"
+  },
+  "know": {
+    "d": 1,
+    "word": "enow",
+    "template": "bare",
+    "acceptedBy": null,
+    "phones": "ɛn.əʊ",
+    "scope": "root-before-morphology"
+  },
+  "take": {
+    "d": 1,
+    "word": "tase",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "teɪz",
+    "scope": "root-before-morphology"
+  },
+  "your": {
+    "d": 1,
+    "word": "you",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "ju",
+    "scope": "bare-after-gap-spelling"
+  },
+  "see": {
+    "d": 1,
+    "word": "ser",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "sɚ",
+    "scope": "root-before-morphology"
+  },
+  "look": {
+    "d": 1,
+    "word": "lonk",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "lɔŋk",
+    "scope": "root-before-morphology"
+  },
+  "think": {
+    "d": 1,
+    "word": "thing",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "ðɛŋ",
+    "scope": "root-before-morphology"
+  },
+  "also": {
+    "d": 1,
+    "word": "alse",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "ɑls",
+    "scope": "root-before-morphology"
+  },
+  "our": {
+    "d": 1,
+    "word": "cur",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "sɚ",
+    "scope": "root-before-morphology"
+  },
+  "work": {
+    "d": 1,
+    "word": "wor",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "wɑr",
+    "scope": "root-before-morphology"
+  },
+  "first": {
+    "d": 1,
+    "word": "firs",
+    "template": "suffixed",
+    "acceptedBy": "exact",
+    "phones": "fɪrz",
+    "scope": "root-before-morphology"
+  },
+  "even": {
+    "d": 1,
+    "word": "ven",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "vɛn",
+    "scope": "root-before-morphology"
+  },
+  "because": {
+    "d": 2,
+    "word": "cecaume",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "sɛ.kɑm",
+    "scope": "root-before-morphology"
+  },
+  "any": {
+    "d": 1,
+    "word": "sny",
+    "template": "bare",
+    "acceptedBy": "exact",
+    "phones": "snaɪ",
+    "scope": "root-before-morphology"
+  }
+}

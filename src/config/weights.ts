@@ -256,9 +256,14 @@ export const PHONEME_TO_SYLLABLE_WEIGHTS_LEXICON: Record<number, [number, number
 /**
  * Target letter-length ranges per syllable count: [min, peak_min, peak_max, max].
  * Used for rejection sampling to shape word-length distribution.
+ *
+ * Monosyllable row calibrated toward CMU mono letter lengths
+ * (`data/cmu/cmu-length-baseline.json`, CMU Pronouncing Dictionary 0.7b):
+ * peakMin 3 unlocks relaxed acceptance of 2-letter surfaces; peakMax 7
+ * reduces under-representation of length-7 monos relative to CMU.
  */
 export const LETTER_LENGTH_TARGETS: Record<number, [number, number, number, number]> = {
-  1: [2, 4, 6, 8],
+  1: [2, 3, 7, 8],
   2: [4, 6, 8, 10],
   3: [5, 7, 10, 13],
   4: [7, 8, 12, 15],
