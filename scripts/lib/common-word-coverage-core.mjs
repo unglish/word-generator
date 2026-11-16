@@ -52,77 +52,19 @@ export function buildGapSpellingCatalog(gapSpellings = []) {
   return byWord;
 }
 
-export function buildClosedClassCatalog(closedClassEntries = []) {
-  const byWord = new Map();
-  for (const entry of closedClassEntries) {
-    const word = String(entry.spelling ?? "").trim().toLowerCase();
-    if (!word) continue;
-    const existing = byWord.get(word) ?? { names: [] };
-    if (entry.name && !existing.names.includes(entry.name)) {
-      existing.names.push(entry.name);
-    }
-    byWord.set(word, existing);
-  }
-  return byWord;
-}
-
-function classifyTargetWord(word, gapSpellingCatalog, closedClassCatalog = new Map()) {
-  const closedMeta = closedClassCatalog.get(word);
-  const gapMeta = gapSpellingCatalog.get(word);
-  if (closedMeta) {
-    return {
-      spellingPath: "closed-class",
-      gapSpellingNames: gapMeta?.names ?? [],
-      gapTargetLayers: gapMeta?.targetLayers ?? [],
-      closedClassNames: closedMeta.names,
-    };
-  }
-  if (!gapMeta) {
+function classifyTargetWord(word, gapSpellingCatalog) {
+  const metadata = gapSpellingCatalog.get(word);
+  if (!metadata) {
     return {
       spellingPath: "productive",
       gapSpellingNames: [],
       gapTargetLayers: [],
-      closedClassNames: [],
     };
   }
   return {
     spellingPath: "gap-spelling",
-    gapSpellingNames: gapMeta.names,
-    gapTargetLayers: gapMeta.targetLayers,
-    closedClassNames: [],
-  };
-}
-
-function classifyHitOrigin(provenance, repairs = []) {
-  if (provenance?.kind === "closedClass") {
-    return {
-      originPath: "closedClass",
-      originName: provenance.name,
-    };
-  }
-  if (provenance?.kind === "gapSpelling") {
-    return {
-      originPath: "gap-fired",
-      originName: provenance.name,
-    };
-  }
-  const gapRepair = repairs.find((entry) => entry.rule?.startsWith("gapSpelling:"));
-  if (gapRepair) {
-    return {
-      originPath: "gap-fired",
-      originName: gapRepair.rule.slice("gapSpelling:".length),
-    };
-  }
-  const closedRepair = repairs.find((entry) => entry.rule?.startsWith("closedClass:"));
-  if (closedRepair) {
-    return {
-      originPath: "closedClass",
-      originName: closedRepair.rule.slice("closedClass:".length),
-    };
-  }
-  return {
-    originPath: "productive",
-    originName: undefined,
+    gapSpellingNames: metadata.names,
+    gapTargetLayers: metadata.targetLayers,
   };
 }
 
@@ -232,27 +174,19 @@ export function createCoverageTracker(targetWords) {
     const word = String(rawWord).trim().toLowerCase();
     if (!word || seen.has(word)) continue;
     seen.add(word);
-    const row = {
-      word,
-      hits: 0,
-      firstSeenGeneration: null,
-      firstSeenOrigin: null,
-      firstSeenOriginName: null,
-    };
+    const row = { word, hits: 0, firstSeenGeneration: null };
     orderedWords.push(row);
     byWord.set(word, row);
   }
 
   let foundCount = 0;
   return {
-    consume(cleanWord, generation, origin = undefined) {
+    consume(cleanWord, generation) {
       const row = byWord.get(cleanWord);
       if (!row) return false;
       row.hits += 1;
       if (row.firstSeenGeneration === null) {
         row.firstSeenGeneration = generation;
-        row.firstSeenOrigin = origin?.originPath ?? null;
-        row.firstSeenOriginName = origin?.originName ?? null;
         foundCount += 1;
         return true;
       }
@@ -272,12 +206,7 @@ export function createCoverageTracker(targetWords) {
 
 function normalizeWordRecord(record) {
   if (typeof record === "string") {
-    return {
-      clean: record.toLowerCase(),
-      pronunciation: undefined,
-      trace: undefined,
-      provenance: undefined,
-    };
+    return { clean: record.toLowerCase(), pronunciation: undefined, trace: undefined };
   }
   const clean = record?.written?.clean ?? record?.clean;
   if (!clean || typeof clean !== "string") {
@@ -287,7 +216,6 @@ function normalizeWordRecord(record) {
     clean: clean.toLowerCase(),
     pronunciation: record.pronunciation,
     trace: record.trace,
-    provenance: record.provenance,
   };
 }
 
@@ -307,11 +235,7 @@ export function runCoverage({
     totalIterations += 1;
     const normalized = normalizeWordRecord(nextWord({ trace: false }));
     uniqueGenerated?.add(normalized.clean);
-    tracker.consume(
-      normalized.clean,
-      totalIterations,
-      classifyHitOrigin(normalized.provenance, normalized.trace?.repairs ?? []),
-    );
+    tracker.consume(normalized.clean, totalIterations);
 
     if (totalIterations >= minCount && tracker.isComplete()) {
       stopReason = "all-targets-found";
@@ -437,12 +361,10 @@ function classifyNearMiss(target, candidate, gapSpellingCatalog = new Map()) {
     };
   }
 
-  if (/^(be|he|me|we)$/.test(target) && gapSpellingCatalog.get(target)) {
-    // Gap entries already provide bare final-e spellings; remaining misses are
-    // phone-key rarity (or closed-class injection rate), not a missing e path.
+  if (/^(be|he|me|we)$/.test(target)) {
     return {
-      bucket: TRACE_BUCKETS.grapheme,
-      note: `Observed "${clean}" near gap-managed "${target}". Exact /C i:/ [C-ee] keys are rare under length/coda priors; closed-class injection covers the function-word channel.`,
+      bucket: TRACE_BUCKETS.structural,
+      note: `Observed "${clean}" instead of bare final-e "${target}", which points to the missing final /i:/ -> e path.`,
     };
   }
 
@@ -529,7 +451,6 @@ export function traceMissingWords({
   maxCandidatesPerWord,
   nextWord,
   gapSpellingCatalog = new Map(),
-  closedClassCatalog = new Map(),
 }) {
   if (missingWords.length === 0 || maxCandidatesPerWord <= 0 || maxIterations <= 0) {
     return { analyses: [], sampledIterations: 0 };
@@ -561,11 +482,7 @@ export function traceMissingWords({
   const analyses = orderedTargets.map((target) => {
     const candidates = candidatesByTarget.get(target) ?? [];
     const classification = classifyNearMiss(target, candidates[0], gapSpellingCatalog);
-    const targetClassification = classifyTargetWord(
-      target,
-      gapSpellingCatalog,
-      closedClassCatalog,
-    );
+    const targetClassification = classifyTargetWord(target, gapSpellingCatalog);
     return {
       target,
       bucket: classification.bucket,
@@ -573,7 +490,6 @@ export function traceMissingWords({
       spellingPath: targetClassification.spellingPath,
       gapSpellingNames: targetClassification.gapSpellingNames,
       gapTargetLayers: targetClassification.gapTargetLayers,
-      closedClassNames: targetClassification.closedClassNames,
       candidates: candidates.map(({ score, ...rest }) => rest),
     };
   });
@@ -615,7 +531,6 @@ export function buildCoverageReport({
   config,
   targetSource,
   gapSpellingCatalog = new Map(),
-  closedClassCatalog = new Map(),
   nearMisses = [],
   nearMissBuckets = [],
   traceMissDiagnostics,
@@ -623,18 +538,11 @@ export function buildCoverageReport({
   const words = tracker.rows.map((row) => ({
     ...row,
     found: row.firstSeenGeneration !== null,
-    ...classifyTargetWord(row.word, gapSpellingCatalog, closedClassCatalog),
+    ...classifyTargetWord(row.word, gapSpellingCatalog),
   }));
   const foundCount = words.filter((row) => row.found).length;
   const missingWords = words.filter((row) => !row.found).map((row) => row.word);
-  const closedClassTargetCount = words.filter((row) => row.spellingPath === "closed-class").length;
   const gapManagedTargetCount = words.filter((row) => row.spellingPath === "gap-spelling").length;
-  const productiveTargetCount = words.filter((row) => row.spellingPath === "productive").length;
-  const originCounts = {
-    closedClass: words.filter((row) => row.firstSeenOrigin === "closedClass").length,
-    gapFired: words.filter((row) => row.firstSeenOrigin === "gap-fired").length,
-    productive: words.filter((row) => row.firstSeenOrigin === "productive").length,
-  };
   return {
     config,
     targetSource,
@@ -645,10 +553,8 @@ export function buildCoverageReport({
       targetCount: words.length,
       foundCount,
       missingCount: missingWords.length,
-      closedClassTargetCount,
       gapManagedTargetCount,
-      productiveTargetCount,
-      firstSeenOriginCounts: originCounts,
+      productiveTargetCount: words.length - gapManagedTargetCount,
       stopReason,
     },
     words,
@@ -661,7 +567,7 @@ export function buildCoverageReport({
 
 export function renderCoverageCsv(report) {
   const lines = [
-    "word,hits,firstSeenGeneration,found,spellingPath,firstSeenOrigin,gapTargetLayers,bucket,nearMiss",
+    "word,hits,firstSeenGeneration,found,spellingPath,gapTargetLayers,bucket,nearMiss",
   ];
 
   const byWord = new Map(report.nearMisses.map((analysis) => [analysis.target, analysis]));
@@ -674,7 +580,6 @@ export function renderCoverageCsv(report) {
       row.firstSeenGeneration ?? "",
       row.found ? "true" : "false",
       row.spellingPath,
-      row.firstSeenOrigin ?? "",
       row.gapTargetLayers.join("|"),
       analysis?.bucket ?? "",
       nearMiss,
@@ -704,10 +609,8 @@ export function renderCoverageMarkdown(report) {
     `- Unique generated words: \`${report.summary.trackedUniqueCount ? report.summary.uniqueGeneratedCount.toLocaleString() : "not tracked (bounded-memory mode)"}\``,
     `- Found: \`${report.summary.foundCount} / ${report.summary.targetCount}\``,
     `- Missing: \`${report.summary.missingCount}\``,
-    `- Closed-class targets: \`${report.summary.closedClassTargetCount ?? 0}\``,
     `- Gap-spelling targets: \`${report.summary.gapManagedTargetCount}\``,
     `- Productive targets: \`${report.summary.productiveTargetCount}\``,
-    `- First-seen origins: closedClass=\`${report.summary.firstSeenOriginCounts?.closedClass ?? 0}\`, gap-fired=\`${report.summary.firstSeenOriginCounts?.gapFired ?? 0}\`, productive=\`${report.summary.firstSeenOriginCounts?.productive ?? 0}\``,
   ];
 
   if (report.missingWords.length > 0) {
@@ -718,9 +621,9 @@ export function renderCoverageMarkdown(report) {
     "",
     "## Per-Word Counts",
     "",
-    "| Word | Hits | First seen | Path | Origin | Target layers |",
-    "|------|------|------------|------|--------|---------------|",
-    ...report.words.map((row) => `| ${row.word} | ${row.hits} | ${row.firstSeenGeneration ?? "-"} | ${row.spellingPath} | ${row.firstSeenOrigin ?? "-"} | ${row.gapTargetLayers.join(", ") || "-"} |`),
+    "| Word | Hits | First seen | Path | Target layers |",
+    "|------|------|------------|------|---------------|",
+    ...report.words.map((row) => `| ${row.word} | ${row.hits} | ${row.firstSeenGeneration ?? "-"} | ${row.spellingPath} | ${row.gapTargetLayers.join(", ") || "-"} |`),
   );
 
   if (report.traceMissDiagnostics && report.nearMisses.length > 0) {

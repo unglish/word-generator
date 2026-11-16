@@ -253,15 +253,6 @@ export interface WrittenForm {
  * console.log(word.syllables.length); // 2
  * ```
  */
-/** How the written form was produced (lightweight provenance, always set). */
-export type WordProvenanceKind = "closedClass" | "gapSpelling" | "productive";
-
-export interface WordProvenance {
-  kind: WordProvenanceKind;
-  /** Entry or gap-spelling name when kind is not productive. */
-  name?: string;
-}
-
 export interface Word {
   /** Lexical segments and stress before surface aspiration and vowel reduction. */
   lexical?: LexicalForm;
@@ -271,11 +262,6 @@ export interface Word {
   pronunciation: string;
   /** Written (spelled) forms of the word. */
   written: WrittenForm;
-  /**
-   * Compact origin of the emitted written form.
-   * Always set for words from the public generator API.
-   */
-  provenance?: WordProvenance;
   /** Generation trace (only present when `trace: true` was passed). */
   trace?: WordTrace;
 }

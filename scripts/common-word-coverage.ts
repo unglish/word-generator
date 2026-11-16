@@ -6,7 +6,6 @@ import { englishConfig } from "../src/config/english.js";
 import { generateWord } from "../src/core/generate.js";
 import { createSeededRng } from "../src/utils/random.js";
 import {
-  buildClosedClassCatalog,
   buildGapSpellingCatalog,
   buildCoverageReport,
   loadCommonWordsFromDemoWorker,
@@ -26,9 +25,6 @@ function main() {
   const workerSource = fs.readFileSync(workerPath, "utf8");
   const targetWords = loadCommonWordsFromDemoWorker(workerSource);
   const gapSpellingCatalog = buildGapSpellingCatalog(englishConfig.gapSpellings ?? []);
-  const closedClassCatalog = buildClosedClassCatalog(
-    englishConfig.closedClass?.entries ?? [],
-  );
 
   const coverageRand = createSeededRng(options.seed);
   const coverageRun = runCoverage({
@@ -54,7 +50,6 @@ function main() {
       maxIterations: Math.min(options.maxCount, TRACE_SAMPLE_LIMIT),
       maxCandidatesPerWord: options.traceMisses,
       gapSpellingCatalog,
-      closedClassCatalog,
       nextWord: () =>
         generateWord({
           rand: traceRand,
@@ -88,7 +83,6 @@ function main() {
     },
     targetSource: "demo/commonWordsWorker.js",
     gapSpellingCatalog,
-    closedClassCatalog,
     nearMisses,
     nearMissBuckets,
     traceMissDiagnostics,
@@ -111,12 +105,8 @@ function main() {
   console.log(`- Unique generated words: ${report.summary.trackedUniqueCount ? report.summary.uniqueGeneratedCount.toLocaleString() : "not tracked (bounded-memory mode)"}`);
   console.log(`- Found: ${report.summary.foundCount}/${report.summary.targetCount}`);
   console.log(`- Missing: ${report.summary.missingCount}`);
-  console.log(`- Closed-class targets: ${report.summary.closedClassTargetCount}`);
   console.log(`- Gap-spelling targets: ${report.summary.gapManagedTargetCount}`);
   console.log(`- Productive targets: ${report.summary.productiveTargetCount}`);
-  console.log(
-    `- First-seen origins: closedClass=${report.summary.firstSeenOriginCounts.closedClass}, gap-fired=${report.summary.firstSeenOriginCounts.gapFired}, productive=${report.summary.firstSeenOriginCounts.productive}`,
-  );
   console.log(`- JSON: ${jsonPath}`);
   console.log(`- CSV: ${csvPath}`);
   console.log(`- Markdown: ${markdownPath}`);
