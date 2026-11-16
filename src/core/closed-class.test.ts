@@ -70,6 +70,91 @@ describe("closed-class channel", () => {
     expect(word.syllables[0].nucleus[0].sound).toBe("i:");
   });
 
+  it("force-emits every English closed-class entry with matching provenance", () => {
+    const compiled = compileClosedClass(englishConfig);
+    expect(compiled).toBeDefined();
+    expect(compiled!.entries).toHaveLength(39);
+
+    const leftover14 = [
+      "about",
+      "make",
+      "like",
+      "take",
+      "into",
+      "see",
+      "look",
+      "only",
+      "also",
+      "work",
+      "first",
+      "even",
+      "because",
+      "these",
+    ] as const;
+    for (const name of leftover14) {
+      expect(compiled!.entries.some((entry) => entry.name === name)).toBe(true);
+    }
+
+    for (const entry of compiled!.entries) {
+      const trace = new TraceCollector();
+      const word = emitClosedClassWord(
+        {
+          phonemeBySound,
+          nucleusSounds,
+          applyStress: () => {},
+          realizeSurface: (context) => {
+            context.word.pronunciation = entry.phonemes.join("");
+          },
+        },
+        entry,
+        { rand: () => 0, trace, morphologyTemplate: "bare" },
+      );
+
+      expect(word.written.clean).toBe(entry.spelling);
+      expect(word.written.hyphenated).toBe(entry.hyphenated);
+      expect(word.provenance).toEqual({ kind: "closedClass", name: entry.name });
+      expect(
+        word.trace?.repairs.some((r) => r.rule === `closedClass:${entry.name}`),
+      ).toBe(true);
+      expect(word.syllables.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("syllabifies leftover multi-syllable closed-class shapes", () => {
+    const about = syllablesFromPhonemeSounds(
+      ["ə", "b", "aʊ", "t"],
+      phonemeBySound,
+      nucleusSounds,
+    );
+    expect(about).toHaveLength(2);
+    expect(about[0].nucleus.map((p) => p.sound)).toEqual(["ə"]);
+    expect(about[1].onset.map((p) => p.sound)).toEqual(["b"]);
+    expect(about[1].nucleus.map((p) => p.sound)).toEqual(["aʊ"]);
+    expect(about[1].coda.map((p) => p.sound)).toEqual(["t"]);
+
+    const because = syllablesFromPhonemeSounds(
+      ["b", "ɪ", "k", "ɔ", "z"],
+      phonemeBySound,
+      nucleusSounds,
+    );
+    expect(because).toHaveLength(2);
+    expect(because[0].onset.map((p) => p.sound)).toEqual(["b"]);
+    expect(because[0].nucleus.map((p) => p.sound)).toEqual(["ɪ"]);
+    expect(because[1].onset.map((p) => p.sound)).toEqual(["k"]);
+    expect(because[1].nucleus.map((p) => p.sound)).toEqual(["ɔ"]);
+    expect(because[1].coda.map((p) => p.sound)).toEqual(["z"]);
+
+    const into = syllablesFromPhonemeSounds(
+      ["ɪ", "n", "t", "u"],
+      phonemeBySound,
+      nucleusSounds,
+    );
+    expect(into).toHaveLength(2);
+    expect(into[0].nucleus.map((p) => p.sound)).toEqual(["ɪ"]);
+    expect(into[1].onset.map((p) => p.sound)).toEqual(["n", "t"]);
+    expect(into[1].nucleus.map((p) => p.sound)).toEqual(["u"]);
+  });
+
   it("injects closed-class words on bare draws at high probability", () => {
     const gen = createGenerator({
       ...englishConfig,

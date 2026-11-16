@@ -352,6 +352,27 @@ export const englishConfig: LanguageConfig = {
       { name: "us", phonemes: ["ʌ", "s"], spelling: "us" },
       { name: "their", phonemes: ["ð", "ɚ"], spelling: "their" },
       { name: "your", phonemes: ["j", "ɔ", "r"], spelling: "your" },
+      // Remaining #85 leftovers after the +14 shorts expand (content /
+      // multi-syllable OK). Keep p=0.0005 — catalog presence was the win.
+      // about /ə b aʊ t/ [uh-bout], make /m eɪ k/ [make], like /l aɪ k/ [like],
+      // take /t eɪ k/ [take], into /ɪ n t u/ [in-too], see /s i:/ [see],
+      // look /l ʊ k/ [look], only /əʊ n l i:/ [ohn-lee], also /ɔ l s əʊ/ [awl-soh],
+      // work /w ɚ k/ [werk], first /f ɚ s t/ [furst], even /i: v ə n/ [ee-vuhn],
+      // because /b ɪ k ɔ z/ [bih-kawz], these /ð i: z/ [theez]
+      { name: "about", phonemes: ["ə", "b", "aʊ", "t"], spelling: "about", hyphenated: "a&shy;bout" },
+      { name: "make", phonemes: ["m", "eɪ", "k"], spelling: "make" },
+      { name: "like", phonemes: ["l", "aɪ", "k"], spelling: "like" },
+      { name: "take", phonemes: ["t", "eɪ", "k"], spelling: "take" },
+      { name: "into", phonemes: ["ɪ", "n", "t", "u"], spelling: "into", hyphenated: "in&shy;to" },
+      { name: "see", phonemes: ["s", "i:"], spelling: "see" },
+      { name: "look", phonemes: ["l", "ʊ", "k"], spelling: "look" },
+      { name: "only", phonemes: ["əʊ", "n", "l", "i:"], spelling: "only", hyphenated: "o&shy;nly" },
+      { name: "also", phonemes: ["ɔ", "l", "s", "əʊ"], spelling: "also", hyphenated: "al&shy;so" },
+      { name: "work", phonemes: ["w", "ɚ", "k"], spelling: "work" },
+      { name: "first", phonemes: ["f", "ɚ", "s", "t"], spelling: "first" },
+      { name: "even", phonemes: ["i:", "v", "ə", "n"], spelling: "even", hyphenated: "e&shy;ven" },
+      { name: "because", phonemes: ["b", "ɪ", "k", "ɔ", "z"], spelling: "because", hyphenated: "be&shy;cause" },
+      { name: "these", phonemes: ["ð", "i:", "z"], spelling: "these" },
     ],
   },
 
