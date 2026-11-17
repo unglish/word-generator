@@ -79,6 +79,7 @@ import {
   assessAttempt,
   isDecidedRejection,
   letterPeakSamplingWeight,
+  resolveLetterLengthAcceptance,
   type AcceptanceCriteria,
 } from "./length-semantics.js";
 import {
@@ -2152,10 +2153,11 @@ function generateOneWord(
     const spelled = spellAttempt(rt, context, affixed);
     const root = spelled.root;
     const rootPhonemeCount = countPhonemes(root);
+    const letterLength = context.word.written.clean.length;
     const attemptScore = scoreGenerationAttempt(
       rootPhonemeCount,
       targetPhonemeCountRoot,
-      context.word.written.clean.length,
+      letterLength,
       root.length,
       rt.config.syllableStructure.letterLengthTargets,
     );
@@ -2168,7 +2170,14 @@ function generateOneWord(
     const assessment = assessAttempt(
       attemptScore,
       attempt,
-      ACCEPTANCE_CRITERIA,
+      resolveLetterLengthAcceptance(
+        ACCEPTANCE_CRITERIA,
+        root.length,
+        letterLength,
+        attemptScore.letterPenalty,
+        rt.config.syllableStructure.letterLengthRelaxedAfter,
+        rt.config.syllableStructure.letterLengthTargets,
+      ),
     );
     rejectionTrace?.record(
       {
