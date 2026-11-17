@@ -115,6 +115,9 @@ export const englishConfig: LanguageConfig = {
     maxCodaLength: 4,
     maxNucleusLength: 1,
     letterLengthTargets: LETTER_LENGTH_TARGETS,
+    // Allow 2-letter monosyllables through relaxed acceptance from attempt 5
+    // without changing band penalties or proposal weights (#449 / #85).
+    letterLengthRelaxedAfter: { 1: { 2: 5 } },
   },
 
   generationWeights: {

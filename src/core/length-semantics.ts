@@ -127,11 +127,46 @@ export function scoreGenerationAttempt(
   letterTargets: Record<number, [number, number, number, number]> | undefined,
 ): AttemptScore {
   const phonemeDistance = Math.abs(generatedPhonemes - targetPhonemes);
-  const letterPenalty = scoreLetterLength(generatedLetters, generatedSyllables, letterTargets);
+  const letterPenalty = scoreLetterLength(
+    generatedLetters,
+    generatedSyllables,
+    letterTargets,
+  );
   return {
     phonemeDistance,
     letterPenalty,
     total: phonemeScore(phonemeDistance) + letterPenalty,
+  };
+}
+
+/**
+ * Resolve acceptance criteria for a concrete `(syllables, letters)` shape.
+ *
+ * When {@link letterLengthRelaxedAfter} lists that shape and the length sits
+ * inside the outer `[min, max]` letter band for its syllable count, relaxed
+ * acceptance is allowed from attempt N even if the band-derived letter
+ * penalty exceeds the global relaxed cap. Lengths outside the outer band are
+ * unchanged (the map cannot reopen completely out-of-range spellings). The
+ * band score itself is left untouched so fallback ranking matches an
+ * absent-config generator. Absent map entries keep the global criteria.
+ */
+export function resolveLetterLengthAcceptance(
+  globalCriteria: AcceptanceCriteria,
+  syllableCount: number,
+  letterLength: number,
+  letterPenalty: number,
+  relaxedAfter?: Record<number, Record<number, number>>,
+  letterTargets?: Record<number, [number, number, number, number]>,
+): AcceptanceCriteria {
+  const override = relaxedAfter?.[syllableCount]?.[letterLength];
+  if (override === undefined) return globalCriteria;
+  const bounds = resolveLetterLengthBounds(letterTargets, syllableCount);
+  if (!bounds) return globalCriteria;
+  const [min, , , max] = bounds;
+  if (letterLength < min || letterLength > max) return globalCriteria;
+  return {
+    warmupAttempts: override,
+    relaxedLetterPenalty: Math.max(globalCriteria.relaxedLetterPenalty, letterPenalty),
   };
 }
 
