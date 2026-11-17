@@ -1,0 +1,84 @@
+{
+  "mode": "gated",
+  "perSeed": [
+    {
+      "seed": 42,
+      "multi": 0.12860592197229637,
+      "byPos": {
+        "onset": {
+          "mean": 1.035,
+          "multiShare": 0.034666666666666665
+        },
+        "nucleus": {
+          "mean": 1.2025,
+          "multiShare": 0.1955
+        },
+        "coda": {
+          "mean": 1.1808992680376438,
+          "multiShare": 0.18020216103171838
+        }
+      }
+    },
+    {
+      "seed": 43,
+      "multi": 0.12708944749266302,
+      "byPos": {
+        "onset": {
+          "mean": 1.0313659359190557,
+          "multiShare": 0.03102866779089376
+        },
+        "nucleus": {
+          "mean": 1.207,
+          "multiShare": 0.2015
+        },
+        "coda": {
+          "mean": 1.1758356545961002,
+          "multiShare": 0.17444289693593315
+        }
+      }
+    },
+    {
+      "seed": 44,
+      "multi": 0.12979727145225042,
+      "byPos": {
+        "onset": {
+          "mean": 1.0363575717144764,
+          "multiShare": 0.03602401601067378
+        },
+        "nucleus": {
+          "mean": 1.218,
+          "multiShare": 0.215
+        },
+        "coda": {
+          "mean": 1.1694200351493849,
+          "multiShare": 0.1687170474516696
+        }
+      }
+    }
+  ],
+  "pooled": {
+    "n": 6000,
+    "phonesObserved": 23549,
+    "multiLetterShare": 0.1284980253938596,
+    "graphemeLenPct": {
+      "1": 87.15019746061404,
+      "2": 12.675697481846363,
+      "3": 0.16985859272155931,
+      "4": 0.004246464818038982
+    },
+    "meanLettersPerPhoneByPosition": {
+      "onset": {
+        "mean": 1.034251924578824,
+        "multiShare": 0.03391721521811893
+      },
+      "nucleus": {
+        "mean": 1.2091666666666667,
+        "multiShare": 0.204
+      },
+      "coda": {
+        "mean": 1.1754018169112508,
+        "multiShare": 0.17447006755182856
+      }
+    }
+  }
+}

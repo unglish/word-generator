@@ -1,0 +1,32 @@
+{
+  "condition": "bare-gated-mono",
+  "seed": 42,
+  "n": 5000,
+  "phonesObserved": 19646,
+  "multiLetterShare": 0.13040822559299603,
+  "singleLetterShare": 0.869591774407004,
+  "graphemeLenPct": {
+    "1": 86.9591774407004,
+    "2": 12.821948488241881,
+    "3": 0.2137839763819607,
+    "4": 0.005090094675760969
+  },
+  "byPosition": {
+    "onset": {
+      "phones": 7476,
+      "letters": 7736,
+      "multi": 258
+    },
+    "nucleus": {
+      "phones": 5000,
+      "letters": 6070,
+      "multi": 1037
+    },
+    "coda": {
+      "phones": 7170,
+      "letters": 8446,
+      "multi": 1267
+    }
+  },
+  "note": "Uses trace.graphemeSelections; positions filled when segment metadata present."
+}

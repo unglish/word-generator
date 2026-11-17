@@ -1,0 +1,43 @@
+{
+  "ungated": true,
+  "seed": 43,
+  "n": 2000,
+  "phonesObserved": 7530,
+  "multiLetterShare": 0.10597609561752988,
+  "graphemeLenPct": {
+    "1": 89.40239043824701,
+    "2": 10.43824701195219,
+    "3": 0.1593625498007968
+  },
+  "byPosition": {
+    "onset": {
+      "phones": 2874,
+      "letters": 2939,
+      "multi": 65
+    },
+    "nucleus": {
+      "phones": 2000,
+      "letters": 2321,
+      "multi": 309
+    },
+    "coda": {
+      "phones": 2656,
+      "letters": 3080,
+      "multi": 424
+    }
+  },
+  "meanLettersPerPhoneByPosition": {
+    "onset": {
+      "mean": 1.022616562282533,
+      "multiShare": 0.022616562282533056
+    },
+    "nucleus": {
+      "mean": 1.1605,
+      "multiShare": 0.1545
+    },
+    "coda": {
+      "mean": 1.1596385542168675,
+      "multiShare": 0.15963855421686746
+    }
+  }
+}
