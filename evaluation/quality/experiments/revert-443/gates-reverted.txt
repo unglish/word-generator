@@ -1,0 +1,53 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+ RUN  v3.2.4 /Users/ryanbetts/.t3/worktrees/word-generator/t3-0c79b157-848cd85233684899
+
+stdout | src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails
+Total variation from CMU: 1.714% (threshold: 1.78%)
+Shared phoneme Pearson r: 0.99800 (report-only)
+Non-CMU generated mass: 0.0000% (threshold: 0%)
+Worst over-rep: u at 1.068x (threshold: 1.066x)
+Worst under-rep: ɪ at 0.908x (threshold: 0.896x)
+Worst absolute gap: ɪ at 0.530% (threshold: 0.6%)
+CMU phonemes never generated: 0 (threshold: 0)
+
+ × src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails 39416ms
+   → expected 1.0679308252898425 to be less than or equal to 1.066
+ ✓ src/core/ngram-quality.test.ts > N-gram quality gates > generate sample 41343ms
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no bigram exceeds threshold over-representation
+Worst over-rep bigram: "ds" at 2.977× (threshold: 4.25)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no trigram exceeds threshold over-representation
+Worst over-rep trigram: "abl" at 2.184× (threshold: 3.21)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented
+Worst under-rep bigram: "ex" at 0.0520× (threshold: 0.0215)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented
+Worst under-rep trigram: "ugh" at 0.0047× (threshold: 0.0062)
+
+ ✓ src/core/ngram-quality.test.ts > N-gram quality gates > no bigram exceeds threshold over-representation 3ms
+ ✓ src/core/ngram-quality.test.ts > N-gram quality gates > no trigram exceeds threshold over-representation 23ms
+ ✓ src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented 1ms
+ ✓ src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails
+AssertionError: expected 1.0679308252898425 to be less than or equal to 1.066
+ ❯ src/core/phoneme-quality.test.ts:84:44
+     82|     expect(metrics.totalVariationPct).toBeLessThanOrEqual(thresholds.m…
+     83|     expect(metrics.nonCmuMassPct).toBeLessThanOrEqual(thresholds.maxGe…
+     84|     if (worstOver) expect(worstOver.ratio).toBeLessThanOrEqual(thresho…
+       |                                            ^
+     85|     if (worstUnder) expect(worstUnder.ratio).toBeGreaterThanOrEqual(th…
+     86|     if (worstGap) expect(worstGap.absGapPct).toBeLessThanOrEqual(thres…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 5 passed (6)
+   Start at  10:13:24
+   Duration  42.70s (transform 913ms, setup 0ms, collect 1.97s, tests 80.80s, environment 0ms, prepare 250ms)
+

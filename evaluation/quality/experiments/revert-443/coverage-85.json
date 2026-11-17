@@ -1,0 +1,1034 @@
+{
+  "config": {
+    "seed": 85,
+    "minCount": 2000000,
+    "maxCount": 10000000,
+    "mode": "lexicon",
+    "morphology": true,
+    "trackUnique": false
+  },
+  "targetSource": "demo/commonWordsWorker.js",
+  "summary": {
+    "totalIterations": 10000000,
+    "trackedUniqueCount": false,
+    "uniqueGeneratedCount": null,
+    "targetCount": 100,
+    "foundCount": 58,
+    "missingCount": 42,
+    "gapManagedTargetCount": 16,
+    "productiveTargetCount": 84,
+    "stopReason": "max-count-reached"
+  },
+  "words": [
+    {
+      "word": "the",
+      "hits": 8,
+      "firstSeenGeneration": 869839,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "be",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "be"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "to",
+      "hits": 1,
+      "firstSeenGeneration": 8837083,
+      "found": true,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "to"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "of",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "and",
+      "hits": 294,
+      "firstSeenGeneration": 27617,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "a",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "in",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "that",
+      "hits": 4,
+      "firstSeenGeneration": 358317,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "have",
+      "hits": 19,
+      "firstSeenGeneration": 296408,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "i",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "it",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "for",
+      "hits": 28,
+      "firstSeenGeneration": 69763,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "not",
+      "hits": 7,
+      "firstSeenGeneration": 1773851,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "on",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "with",
+      "hits": 5,
+      "firstSeenGeneration": 1252152,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "he",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "he"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "as",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "you",
+      "hits": 112,
+      "firstSeenGeneration": 82503,
+      "found": true,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "you"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "do",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "do"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "at",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "this",
+      "hits": 4,
+      "firstSeenGeneration": 2850,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "but",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "his",
+      "hits": 15,
+      "firstSeenGeneration": 188196,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "by",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "from",
+      "hits": 103,
+      "firstSeenGeneration": 95980,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "they",
+      "hits": 3,
+      "firstSeenGeneration": 2340147,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "we",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "we"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "say",
+      "hits": 60,
+      "firstSeenGeneration": 239292,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "her",
+      "hits": 119,
+      "firstSeenGeneration": 84723,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "she",
+      "hits": 11,
+      "firstSeenGeneration": 1272216,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "or",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "an",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "will",
+      "hits": 69,
+      "firstSeenGeneration": 39770,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "my",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "one",
+      "hits": 106,
+      "firstSeenGeneration": 185415,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "all",
+      "hits": 192,
+      "firstSeenGeneration": 65656,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "would",
+      "hits": 9,
+      "firstSeenGeneration": 592438,
+      "found": true,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "would"
+      ],
+      "gapTargetLayers": [
+        "spellingRule"
+      ]
+    },
+    {
+      "word": "there",
+      "hits": 1,
+      "firstSeenGeneration": 9822689,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "their",
+      "hits": 1,
+      "firstSeenGeneration": 8898676,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "what",
+      "hits": 40,
+      "firstSeenGeneration": 299562,
+      "found": true,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "what"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "so",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "up",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "out",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "if",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "about",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "who",
+      "hits": 214,
+      "firstSeenGeneration": 59236,
+      "found": true,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "who"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "get",
+      "hits": 5,
+      "firstSeenGeneration": 703509,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "which",
+      "hits": 4,
+      "firstSeenGeneration": 718705,
+      "found": true,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "which"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "go",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "me",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "me"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "when",
+      "hits": 289,
+      "firstSeenGeneration": 31079,
+      "found": true,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "when"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "make",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "can",
+      "hits": 123,
+      "firstSeenGeneration": 201319,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "like",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "time",
+      "hits": 10,
+      "firstSeenGeneration": 186667,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "no",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "just",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "him",
+      "hits": 18,
+      "firstSeenGeneration": 1042420,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "know",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "take",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "people",
+      "hits": 1,
+      "firstSeenGeneration": 2198944,
+      "found": true,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "people"
+      ],
+      "gapTargetLayers": [
+        "spellingRule"
+      ]
+    },
+    {
+      "word": "into",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "year",
+      "hits": 5,
+      "firstSeenGeneration": 1063840,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "your",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "good",
+      "hits": 4,
+      "firstSeenGeneration": 1594781,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "some",
+      "hits": 30,
+      "firstSeenGeneration": 543451,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "could",
+      "hits": 9,
+      "firstSeenGeneration": 502378,
+      "found": true,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "could"
+      ],
+      "gapTargetLayers": [
+        "spellingRule"
+      ]
+    },
+    {
+      "word": "them",
+      "hits": 5,
+      "firstSeenGeneration": 819515,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "see",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "other",
+      "hits": 19,
+      "firstSeenGeneration": 295600,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "than",
+      "hits": 29,
+      "firstSeenGeneration": 219513,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "then",
+      "hits": 21,
+      "firstSeenGeneration": 247438,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "now",
+      "hits": 25,
+      "firstSeenGeneration": 246177,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "look",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "only",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "come",
+      "hits": 6,
+      "firstSeenGeneration": 599307,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "its",
+      "hits": 45,
+      "firstSeenGeneration": 1809,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "over",
+      "hits": 4,
+      "firstSeenGeneration": 1708672,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "think",
+      "hits": 2,
+      "firstSeenGeneration": 3836581,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "also",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "back",
+      "hits": 86,
+      "firstSeenGeneration": 113313,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "after",
+      "hits": 3,
+      "firstSeenGeneration": 554632,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "use",
+      "hits": 27,
+      "firstSeenGeneration": 104583,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "two",
+      "hits": 147,
+      "firstSeenGeneration": 12215,
+      "found": true,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "two"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "how",
+      "hits": 42,
+      "firstSeenGeneration": 338899,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "our",
+      "hits": 2,
+      "firstSeenGeneration": 2935939,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "work",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "first",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "well",
+      "hits": 78,
+      "firstSeenGeneration": 128213,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "way",
+      "hits": 50,
+      "firstSeenGeneration": 116672,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "even",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "new",
+      "hits": 84,
+      "firstSeenGeneration": 130400,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "want",
+      "hits": 59,
+      "firstSeenGeneration": 145694,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "because",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "any",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "gap-spelling",
+      "gapSpellingNames": [
+        "any"
+      ],
+      "gapTargetLayers": [
+        "grapheme"
+      ]
+    },
+    {
+      "word": "these",
+      "hits": 1,
+      "firstSeenGeneration": 3864317,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "give",
+      "hits": 8,
+      "firstSeenGeneration": 2145802,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "day",
+      "hits": 45,
+      "firstSeenGeneration": 630036,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "most",
+      "hits": 26,
+      "firstSeenGeneration": 116216,
+      "found": true,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    },
+    {
+      "word": "us",
+      "hits": 0,
+      "firstSeenGeneration": null,
+      "found": false,
+      "spellingPath": "productive",
+      "gapSpellingNames": [],
+      "gapTargetLayers": []
+    }
+  ],
+  "missingWords": [
+    "be",
+    "of",
+    "a",
+    "in",
+    "i",
+    "it",
+    "on",
+    "he",
+    "as",
+    "do",
+    "at",
+    "but",
+    "by",
+    "we",
+    "or",
+    "an",
+    "my",
+    "so",
+    "up",
+    "out",
+    "if",
+    "about",
+    "go",
+    "me",
+    "make",
+    "like",
+    "no",
+    "just",
+    "know",
+    "take",
+    "into",
+    "your",
+    "see",
+    "look",
+    "only",
+    "also",
+    "work",
+    "first",
+    "even",
+    "because",
+    "any",
+    "us"
+  ],
+  "nearMisses": [],
+  "nearMissBuckets": []
+}

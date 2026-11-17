@@ -1,0 +1,8 @@
+=== reverted-200k N=200000 per seed ===
+{"seed":42,"n":200000,"mono":25747,"two":91942,"monoShare":12.873,"twoSylShare":45.971,"monoPhones3":34.874,"monoPhones4":40.847,"monoPhones5":16.65,"twoSylPhones6":30.167}
+{"seed":43,"n":200000,"mono":25967,"two":91877,"monoShare":12.983,"twoSylShare":45.938,"monoPhones3":34.706,"monoPhones4":40.829,"monoPhones5":16.61,"twoSylPhones6":30.066}
+{"seed":44,"n":200000,"mono":25689,"two":92338,"monoShare":12.845,"twoSylShare":46.169,"monoPhones3":34.622,"monoPhones4":40.71,"monoPhones5":16.976,"twoSylPhones6":30.052}
+{"seed":"pooled","n":600000,"mono":77403,"two":276157,"monoShare":12.9,"twoSylShare":46.026,"monoPhones3":34.734,"monoPhones4":40.796,"monoPhones5":16.745,"twoSylPhones6":30.095}
+{"forcedSyllables":1,"meanPhones":3.7311,"shares":{"1":0.26,"2":5.62,"3":34.91,"4":40.98,"5":16.5,"6":1.74,"7":0.01}}
+{"forcedSyllables":2,"meanPhones":5.5384,"shares":{"2":0.01,"3":1.63,"4":15.26,"5":34.16,"6":30.77,"7":13.56,"8":4.04,"9":0.55,"10":0.04}}
+perf [{"wordsPerSec":2833,"attemptsPerWord":2.6377,"ms":17651},{"wordsPerSec":2985,"attemptsPerWord":2.6476,"ms":16750},{"wordsPerSec":2738,"attemptsPerWord":2.646,"ms":18263}]

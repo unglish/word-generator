@@ -1,0 +1,36 @@
+
+ RUN  v3.2.4 /private/tmp/wg-main-443
+
+stdout | src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails
+Total variation from CMU: 1.681% (threshold: 1.78%)
+Shared phoneme Pearson r: 0.99816 (report-only)
+Non-CMU generated mass: 0.0000% (threshold: 0%)
+Worst over-rep: s at 1.051x (threshold: 1.066x)
+Worst under-rep: ɜ at 0.928x (threshold: 0.896x)
+Worst absolute gap: ɪ at 0.363% (threshold: 0.6%)
+CMU phonemes never generated: 0 (threshold: 0)
+
+ ✓ src/core/phoneme-quality.test.ts > Phoneme quality gates > meets phoneme distribution guardrails 38295ms
+ ✓ src/core/ngram-quality.test.ts > N-gram quality gates > generate sample 40298ms
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no bigram exceeds threshold over-representation
+Worst over-rep bigram: "ds" at 3.158× (threshold: 4.25)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no trigram exceeds threshold over-representation
+Worst over-rep trigram: "abl" at 2.214× (threshold: 3.21)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented
+Worst under-rep bigram: "mc" at 0.0598× (threshold: 0.0215)
+
+stdout | src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented
+Worst under-rep trigram: "ugh" at 0.0122× (threshold: 0.0062)
+
+ ✓ src/core/ngram-quality.test.ts > N-gram quality gates > no bigram exceeds threshold over-representation 11ms
+ ✓ src/core/ngram-quality.test.ts > N-gram quality gates > no trigram exceeds threshold over-representation 13ms
+ ✓ src/core/ngram-quality.test.ts > N-gram quality gates > no common bigram is severely under-represented 2ms
+ ✓ src/core/ngram-quality.test.ts > N-gram quality gates > no common trigram is severely under-represented 19ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  10:39:00
+   Duration  41.36s (transform 647ms, setup 0ms, collect 1.36s, tests 78.64s, environment 0ms, prepare 253ms)
+
