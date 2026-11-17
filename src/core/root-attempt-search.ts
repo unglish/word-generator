@@ -12,6 +12,7 @@ interface ScoredAttempt<T> {
   lengths: AttemptLengths;
   score: AttemptScore;
   value: T;
+  acceptance?: AcceptanceCriteria;
 }
 
 export interface RootSelection<T> {
@@ -42,7 +43,7 @@ export function chooseRootAttempt<P extends RootProposal, T>(
       continue;
     }
     const candidate = score(proposal, attempt);
-    const assessment = assessAttempt(candidate.score, attempt, criteria);
+    const assessment = assessAttempt(candidate.score, attempt, candidate.acceptance ?? criteria);
     observer?.record(candidate.lengths, assessment);
     if (assessment.acceptedBy) {
       return { selected: candidate, selectedAttempt: attempt, attemptsExecuted: attempt + 1, acceptedBy: assessment.acceptedBy };

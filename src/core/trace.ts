@@ -24,8 +24,9 @@ export interface SelectionTrace {
   selectedAttempt: number;
   /** Includes the selected attempt when it was returned as a fallback. */
   rejectedAttempts: number;
-  /** Counts rejected attempts failing each condition; reasons can overlap. */
+  /** Counts failures against each rejected attempt's criteria; reasons can overlap. */
   rejectionReasons: { phonemeTarget: number; letterLength: number; warmup: number };
+  /** Retry limit and acceptance thresholds for the selected attempt. */
   criteria: AcceptanceCriteria & { maxAttempts: number };
   selected: AttemptLengths & { score: AttemptScore };
   /**

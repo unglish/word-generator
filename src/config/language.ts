@@ -173,6 +173,17 @@ export interface SyllableStructureRules {
   maxNucleusLength: number;
   /** Root letter-length targets per root syllable count: [min, peak_min, peak_max, max]. */
   letterLengthTargets?: Record<number, [number, number, number, number]>;
+  /**
+   * Optional per-syllable-count, per-letter-length schedule for relaxed
+   * letter-length acceptance. When `(syllables, letters)` is listed with
+   * attempt index N (0-based) and that length lies inside the outer
+   * `[min, max]` band from {@link letterLengthTargets}, a phoneme-matching
+   * attempt may be relaxed-accepted from attempt N even if the band-derived
+   * letter penalty exceeds the global relaxed cap. Band scoring (and
+   * therefore fallback ranking) is unchanged. Absent config preserves legacy
+   * acceptance exactly and does not affect proposal bias.
+   */
+  letterLengthRelaxedAfter?: Record<number, Record<number, number>>;
 }
 
 /**
@@ -2669,6 +2680,44 @@ export function validateConfig(config: LanguageConfig): void {
       if (!config.phonemeToSyllableWeights[mode][phonemeCount]) {
         throw new Error(
           `phonemeToSyllableWeights.${mode}.${phonemeCount} is required because phonemeLengthWeights.${mode} includes ${phonemeCount}`,
+        );
+      }
+    }
+  }
+
+  validateLetterLengthRelaxedAfter(config.syllableStructure.letterLengthRelaxedAfter);
+}
+
+function validateLetterLengthRelaxedAfter(
+  map: Record<number, Record<number, number>> | undefined,
+): void {
+  if (map === undefined) return;
+  const label = "syllableStructure.letterLengthRelaxedAfter";
+  if (!map || typeof map !== "object" || Array.isArray(map)) {
+    throw new Error(`${label} must be an object when provided`);
+  }
+  for (const [syllableKey, lengths] of Object.entries(map)) {
+    const syllableCount = Number(syllableKey);
+    if (!Number.isInteger(syllableCount) || syllableCount < 1) {
+      throw new Error(
+        `${label} has invalid syllable-count key "${syllableKey}"`,
+      );
+    }
+    if (!lengths || typeof lengths !== "object" || Array.isArray(lengths)) {
+      throw new Error(
+        `${label}.${syllableCount} must be an object of letter-length values`,
+      );
+    }
+    for (const [letterKey, value] of Object.entries(lengths)) {
+      const letterLength = Number(letterKey);
+      if (!Number.isInteger(letterLength) || letterLength < 1) {
+        throw new Error(
+          `${label}.${syllableCount} has invalid letter-length key "${letterKey}"`,
+        );
+      }
+      if (!Number.isInteger(value) || value < 0) {
+        throw new Error(
+          `${label}.${syllableCount}.${letterLength} attempt index must be a non-negative integer`,
         );
       }
     }

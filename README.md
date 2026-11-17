@@ -164,6 +164,14 @@ npm test
 For distribution claims, capture and compare against the frozen baselines
 described in [quality baselines](./docs/quality-baselines.md).
 
+### Root letter-length acceptance
+
+`syllableStructure.letterLengthRelaxedAfter` optionally maps a root syllable
+count and spelling length to the zero-based attempt index that opens relaxed
+acceptance. English uses `{ 1: { 2: 5 } }` for two-letter monosyllables. The
+root must match the phoneme target and be inside its outer letter-length band.
+The schedule changes acceptance timing and leaves the fallback score intact.
+
 ### Root repetition
 
 In lexicon mode, English lowers the chance of three consecutive identical vowel nuclei in

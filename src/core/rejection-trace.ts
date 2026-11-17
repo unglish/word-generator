@@ -39,7 +39,7 @@ export class RejectionTraceCollector {
       selectedAttempt,
       rejectedAttempts: attemptsExecuted - Number(acceptedBy !== null),
       rejectionReasons: { ...this.reasons },
-      criteria: { ...this.criteria },
+      criteria: { ...this.criteria, ...selected.acceptance },
       selected: { ...selected.lengths, score: { ...selected.score } },
       proposedLengths: [...this.proposals.values()],
       prunedLengths: [...this.pruned.values()],

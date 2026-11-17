@@ -82,7 +82,7 @@ import {
 } from "./morphology/index.js";
 import type { PreparedMorphology } from "./morphology/index.js";
 import { clonePhoneme, cloneSyllables } from "./lexical.js";
-import { scoreGenerationAttempt } from "./length-semantics.js";
+import { resolveLetterLengthAcceptance, scoreGenerationAttempt } from "./length-semantics.js";
 import { sampleRootLengths, type RootLengthPolicy } from "./syllable-sampling.js";
 import {
   TraceCollector,
@@ -2156,6 +2156,7 @@ function generateOneWord(
       rt, mode, targetPhonemeCountRoot, sampledSyllableCount, finalCodaLength, constraintsRand,
     ),
   };
+  const { letterLengthTargets, letterLengthRelaxedAfter } = rt.config.syllableStructure;
   const rejectionTrace = enableTrace ? new RejectionTraceCollector(ATTEMPT_CRITERIA) : undefined;
 
   const selection = chooseRootAttempt(ATTEMPT_CRITERIA, targetPhonemeCountRoot, (attempt) => {
@@ -2202,17 +2203,22 @@ function generateOneWord(
     const spelled = spellAttempt(rt, context, affixed);
     const root = spelled.root;
     const rootPhonemeCount = countPhonemes(root);
+    const letterLength = context.word.written.clean.length;
     const attemptScore = scoreGenerationAttempt(
       rootPhonemeCount,
       targetPhonemeCountRoot,
-      context.word.written.clean.length,
+      letterLength,
       root.length,
-      rt.config.syllableStructure.letterLengthTargets,
+      letterLengthTargets,
     );
     return {
       value: { context, spelled },
       score: attemptScore,
-      lengths: { syllables: root.length, phonemes: rootPhonemeCount, letters: context.word.written.clean.length },
+      lengths: { syllables: root.length, phonemes: rootPhonemeCount, letters: letterLength },
+      acceptance: resolveLetterLengthAcceptance(
+        ATTEMPT_CRITERIA, root.length, letterLength, attemptScore.letterPenalty,
+        letterLengthRelaxedAfter, letterLengthTargets,
+      ),
     };
   }, rejectionTrace);
   const { context, spelled } = selection.selected.value;

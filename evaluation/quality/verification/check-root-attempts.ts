@@ -12,13 +12,14 @@ const candidates = [0, 1, 2].flatMap(phonemeDistance =>
   [0, 0.5, 1].map(letterPenalty => ({ phonemeDistance, letterPenalty })),
 );
 const criteria = { maxAttempts: 4, warmupAttempts: 2, relaxedLetterPenalty: 0.5 };
+const scheduled = { warmupAttempts: 3, relaxedLetterPenalty: 1 };
 const target = 5;
 
 function total(candidate: Candidate): number {
   return candidate.phonemeDistance * 2 + candidate.letterPenalty;
 }
 
-function check(sequence: readonly Candidate[]): void {
+function check(sequence: readonly Candidate[], useSchedule: boolean): void {
   const observer = new RejectionTraceCollector(criteria);
   let generated = 0;
   const result = chooseRootAttempt(criteria, target, index => {
@@ -29,10 +30,14 @@ function check(sequence: readonly Candidate[]): void {
     lengths: { ...lengths, letters: 10 - candidate.letterPenalty * 2 },
     value: index,
     score: { ...candidate, total: total(candidate) },
+    acceptance: useSchedule && candidate.letterPenalty === 1 ? scheduled : undefined,
   }), observer);
 
   const accepted = sequence.findIndex(({ phonemeDistance, letterPenalty }, index) =>
-    phonemeDistance === 0 && (letterPenalty === 0 || (index >= 2 && letterPenalty <= 0.5)),
+    phonemeDistance === 0 && (
+      letterPenalty === 0 || (index >= 2 && letterPenalty === 0.5)
+        || (useSchedule && index === 3 && letterPenalty === 1)
+    ),
   );
   const consumed = accepted === -1 ? sequence : sequence.slice(0, accepted + 1);
   const best = accepted === -1
@@ -55,6 +60,10 @@ function check(sequence: readonly Candidate[]): void {
   assert.equal(selection.rejectedAttempts, consumed.length - Number(accepted !== -1));
   assert.equal(result.selected.value, best);
   assert.equal(selection.selected.score.total, total(sequence[best]));
+  assert.deepEqual(selection.criteria, {
+    ...criteria,
+    ...(useSchedule && sequence[best].letterPenalty === 1 ? scheduled : undefined),
+  });
   assert.equal(selection.prunedLengths.reduce((count, proposal) => count + proposal.count, 0), expectedPruned);
   assert.equal(selection.proposedLengths.reduce((count, proposal) => count + proposal.count, 0), consumed.length - expectedPruned);
 }
@@ -66,7 +75,8 @@ function visit(sequence: readonly Candidate[]): void {
     return;
   }
   try {
-    check(sequence);
+    check(sequence, false);
+    check(sequence, true);
   } catch (error) {
     throw new Error(`Root attempt counterexample with scores ${JSON.stringify(sequence)}`, { cause: error });
   }
@@ -74,4 +84,4 @@ function visit(sequence: readonly Candidate[]): void {
 }
 
 visit([]);
-console.log(`Root attempt search verified across ${checked} proposal sequences.`);
+console.log(`Root attempt search verified across ${checked} proposal sequences with and without scheduled acceptance.`);
