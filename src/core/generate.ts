@@ -1212,13 +1212,7 @@ function getTopDownSyllableWeights(
       `Missing phonemeToSyllableWeights.${mode} in language config`,
     );
   }
-  try {
-    return syllableCountSamplingWeights(table, phonemeCount);
-  } catch {
-    throw new Error(
-      `Missing phonemeToSyllableWeights.${mode}.${phonemeCount} in language config`,
-    );
-  }
+  return syllableCountSamplingWeights(table, phonemeCount);
 }
 
 function sampleTargetPhonemeCount(
@@ -1242,10 +1236,14 @@ function sampleTargetPhonemeCount(
   // second factor a forced monosyllable draws a whole-lexicon length (mode 6) and
   // the consonant plan packs the surplus into clusters.
   const syllableTable = rt.config.phonemeToSyllableWeights[mode];
+  // Pre-extract behaviour: a missing mode table falls back to length-feasible
+  // (then all) phoneme weights rather than throwing.
   if (!syllableTable) {
-    throw new Error(
-      `Missing phonemeToSyllableWeights.${mode} in language config`,
+    const filtered = allWeights.filter(
+      ([phonemeCount]) =>
+        phonemeCount >= forcedSyllableCount && phonemeCount <= maxPhonemes,
     );
+    return getWeightedOption(filtered.length > 0 ? filtered : allWeights, rand);
   }
   const pool = phonemeLengthWeightsForForcedSyllables(
     allWeights,

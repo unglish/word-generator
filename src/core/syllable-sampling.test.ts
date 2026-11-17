@@ -1,51 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { englishConfig } from "../config/english.js";
 import {
-  normalizeWeightPairs,
   phonemeLengthWeightsForForcedSyllables,
   syllableCountSamplingWeights,
   syllableShare,
 } from "./syllable-sampling.js";
 
-function assertMatchesNormalisedTable(
-  mode: "text" | "lexicon",
-  phonemeCount: number,
-): void {
-  const table = englishConfig.phonemeToSyllableWeights[mode];
-  const raw = table[phonemeCount];
-  expect(raw?.length).toBeGreaterThan(0);
-
-  const sampling = syllableCountSamplingWeights(table, phonemeCount);
-  expect(sampling).toEqual(raw);
-
-  const expected = normalizeWeightPairs(raw);
-  const actual = normalizeWeightPairs(sampling);
-  expect([...actual.entries()]).toEqual([...expected.entries()]);
-
-  // No letter-peak-style reweighting: relative ratios among positive entries
-  // match the config table exactly.
-  for (let i = 0; i < raw.length; i++) {
-    expect(sampling[i][0]).toBe(raw[i][0]);
-    expect(sampling[i][1]).toBe(raw[i][1]);
-  }
-}
-
 describe("syllableCountSamplingWeights", () => {
-  it("matches normalised phonemeToSyllableWeights for English lexicon mode", () => {
-    for (const phonemeCount of Object.keys(
-      englishConfig.phonemeToSyllableWeights.lexicon,
-    ).map(Number)) {
-      assertMatchesNormalisedTable("lexicon", phonemeCount);
-    }
-  });
-
-  it("matches normalised phonemeToSyllableWeights for English text mode", () => {
-    for (const phonemeCount of Object.keys(
-      englishConfig.phonemeToSyllableWeights.text,
-    ).map(Number)) {
-      assertMatchesNormalisedTable("text", phonemeCount);
-    }
-  });
+  // Deliberately does not assert "returns the config row unchanged" as a pin
+  // against letter-peak reweighting: that would still pass if reweighting were
+  // applied after this helper at the sample site. The live distribution pin is
+  // `syllable-phone-distribution.test.ts`.
 
   it("throws when the phoneme count is absent", () => {
     expect(() =>
