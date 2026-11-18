@@ -1,0 +1,36 @@
+{
+  "n": 100,
+  "seed": 450003,
+  "coverageGate": {
+    "mono": 0.8855,
+    "di": 0.8013,
+    "monoPass": true,
+    "diPass": false,
+    "note": "Mono ≥85%. Di ~80% — below gate; do not lean on di CMU positional alignment for mechanism claims."
+  },
+  "errors": [
+    {
+      "spelling": "peers",
+      "reason": "Nucleus split as e + silent-e before r; should be ee/ea + r"
+    },
+    {
+      "spelling": "wuertz",
+      "reason": "Spurious silent-e-before-coda before r"
+    },
+    {
+      "spelling": "sram",
+      "reason": "Onset s aligned to /ʃ/; should be /s/ or fail"
+    },
+    {
+      "spelling": "schell",
+      "reason": "sch→s+ch/k is a stretch for English; acceptable as German loan but flagged soft"
+    }
+  ],
+  "errorCount": 4,
+  "errorRate": 0.04,
+  "softFlagsNotCounted": ["schell"],
+  "hardErrorCount": 3,
+  "hardErrorRate": 0.03,
+  "pass": true,
+  "note": "Hard error rate 3% (≤5% gate). schell counted soft only."
+}

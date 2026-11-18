@@ -1,0 +1,198 @@
+{
+  "cmuAll": {
+    "words": 13376,
+    "letterMean": 4.807341507177034,
+    "silentFinalE": 0.19916267942583732,
+    "silentOther": 0.015400717703349283,
+    "doubling": 0.24947667464114834,
+    "vowel": 0.2745962918660287,
+    "cons": 0.1326255980861244,
+    "other": 0.19841507177033493,
+    "byPos": {
+      "onset": {
+        "mean": 1.0897300469483568,
+        "multi": 0.07464788732394366
+      },
+      "nucleus": {
+        "mean": 1.3407595693779903,
+        "multi": 0.333133971291866
+      },
+      "coda": {
+        "mean": 1.2730476530977066,
+        "multi": 0.2644670310026048
+      }
+    },
+    "examples": {
+      "silentFinalE": [
+        "abe",
+        "ache",
+        "aches",
+        "ade",
+        "ades"
+      ],
+      "doubling": [
+        "aargh",
+        "aase",
+        "abbs",
+        "ack",
+        "add"
+      ],
+      "vowelPoly": [
+        "ae",
+        "ah",
+        "ahh",
+        "ahl",
+        "ahlf"
+      ],
+      "consDigraph": [
+        "ache",
+        "ached",
+        "aches",
+        "ainge",
+        "aithne"
+      ],
+      "otherMulti": [
+        "aargh",
+        "aase",
+        "ace",
+        "aced",
+        "ached"
+      ]
+    }
+  },
+  "cmuNeither": {
+    "words": 9591,
+    "letterMean": 4.543009071004066,
+    "silentFinalE": 0.21269940569283705,
+    "silentOther": 0.019184652278177457,
+    "doubling": 0.24783651339797727,
+    "vowel": 0.2785945156917944,
+    "cons": 0.1416953393806694,
+    "other": 0.14774267542487748,
+    "byPos": {
+      "onset": {
+        "mean": 1.1002705583340167,
+        "multi": 0.07985570222185784
+      },
+      "nucleus": {
+        "mean": 1.341570222083203,
+        "multi": 0.33385465540610987
+      },
+      "coda": {
+        "mean": 1.2830847890924584,
+        "multi": 0.2725181082232637
+      }
+    },
+    "examples": {
+      "silentFinalE": [
+        "abe",
+        "ache",
+        "ade",
+        "aer",
+        "aerts"
+      ],
+      "doubling": [
+        "aargh",
+        "aase",
+        "abbs",
+        "ack",
+        "add"
+      ],
+      "vowelPoly": [
+        "ae",
+        "ah",
+        "ahh",
+        "ahl",
+        "ahlf"
+      ],
+      "consDigraph": [
+        "ache",
+        "ainge",
+        "aithne",
+        "ang",
+        "arch"
+      ],
+      "otherMulti": [
+        "aargh",
+        "aase",
+        "ace",
+        "age",
+        "ambs"
+      ]
+    }
+  },
+  "gen": {
+    "silentFinalE": 0.11413333333333334,
+    "silentOther": 0.001,
+    "doubling": 0.05343333333333333,
+    "vowel": 0.16633333333333333,
+    "cons": 0.1396,
+    "other": 0.04753333333333333,
+    "letterMean": 4.1872,
+    "examples": {
+      "silentFinalE": [
+        "linke",
+        "palse",
+        "cengse",
+        "blunde",
+        "scrile",
+        "blelme",
+        "bacse",
+        "sole"
+      ],
+      "doubling": [
+        "ock",
+        "well",
+        "bill",
+        "liff",
+        "soss",
+        "jix",
+        "blill",
+        "track"
+      ],
+      "vowelPoly": [
+        "glarts",
+        "cengse",
+        "scrile",
+        "craym",
+        "scrercs",
+        "blelme",
+        "erl",
+        "bie"
+      ],
+      "consDigraph": [
+        "brongs",
+        "song",
+        "arsh",
+        "beng",
+        "ong",
+        "cengse",
+        "sprong",
+        "dung"
+      ],
+      "otherMulti": [
+        "ince",
+        "phece",
+        "slerse",
+        "swoce",
+        "quace",
+        "renge",
+        "grerse",
+        "lence"
+      ]
+    }
+  },
+  "contributionsVsNeitherCmu": {
+    "silent_e_family": 0.09856607235950371,
+    "silent_other": 0.018184652278177456,
+    "doubling_ck_tch_dge": 0.19440318006464394,
+    "vowel_polygraph": 0.11226118235846105,
+    "consonant_digraph": 0.0020953393806693865,
+    "other_multiletter": 0.10020934209154415
+  },
+  "sum": 0.5257197685329997,
+  "gapNeither": 0.394830979411525,
+  "residual": -0.13088878912147472,
+  "gapAll": 0.6363651874203269,
+  "residualVsAll": 0.11064541888732715
+}

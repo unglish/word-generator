@@ -1,0 +1,329 @@
+{
+  "meta": {
+    "arm": "ungated",
+    "traceKeptPerSeedTarget": 10000,
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "cmuAlignedN": 13376,
+    "note": "Mechanism extras are letters beyond one-per-phone (or silent units). Contribution = CMU_per_word − gen_per_word."
+  },
+  "positional": {
+    "cmuMono": {
+      "onset": {
+        "meanLPerPhone": 1.0897300469483568,
+        "multiShare": 0.07464788732394366,
+        "phones": 17040
+      },
+      "nucleus": {
+        "meanLPerPhone": 1.3407595693779903,
+        "multiShare": 0.333133971291866,
+        "phones": 13376
+      },
+      "coda": {
+        "meanLPerPhone": 1.2730476530977066,
+        "multiShare": 0.2644670310026048,
+        "phones": 19579
+      }
+    },
+    "genMono": {
+      "onset": {
+        "meanLPerPhone": 1.0268759356287425,
+        "multiShare": 0.02657185628742515,
+        "phones": 42752
+      },
+      "nucleus": {
+        "meanLPerPhone": 1.1665333333333334,
+        "multiShare": 0.1607,
+        "phones": 30000
+      },
+      "coda": {
+        "meanLPerPhone": 1.1544301217710298,
+        "multiShare": 0.1534111173383604,
+        "phones": 39254
+      }
+    },
+    "genDi": {
+      "onset": {
+        "meanLPerPhone": 1.04135027303315,
+        "multiShare": 0.04123995660887312,
+        "phones": 54389
+      },
+      "nucleus": {
+        "meanLPerPhone": 1.2745166666666667,
+        "multiShare": 0.26926666666666665,
+        "phones": 60000
+      },
+      "coda": {
+        "meanLPerPhone": 1.1335513030099047,
+        "multiShare": 0.1295701509760554,
+        "phones": 51995
+      }
+    }
+  },
+  "ratesPerWord": {
+    "cmuMono": {
+      "words": 13376,
+      "letterMean": 4.807341507177034,
+      "phoneMean": 3.7376644736842106,
+      "silentFinalE": 0.19916267942583732,
+      "silentOther": 0.015400717703349283,
+      "doublingExtra": 0.24947667464114834,
+      "vowelPolyExtra": 0.2745962918660287,
+      "consDigraphExtra": 0.1326255980861244,
+      "otherMultiExtra": 0.19841507177033493,
+      "byPos": {
+        "onset": {
+          "meanLPerPhone": 1.0897300469483568,
+          "multiShare": 0.07464788732394366,
+          "phones": 17040
+        },
+        "nucleus": {
+          "meanLPerPhone": 1.3407595693779903,
+          "multiShare": 0.333133971291866,
+          "phones": 13376
+        },
+        "coda": {
+          "meanLPerPhone": 1.2730476530977066,
+          "multiShare": 0.2644670310026048,
+          "phones": 19579
+        }
+      },
+      "examples": {
+        "silentFinalE": [
+          "abe",
+          "ache",
+          "aches",
+          "ade",
+          "ades",
+          "aer",
+          "aerts",
+          "aide"
+        ],
+        "doubling": [
+          "aargh",
+          "aase",
+          "abbs",
+          "ack",
+          "add",
+          "adds",
+          "adss",
+          "all"
+        ],
+        "vowelPoly": [
+          "ae",
+          "ah",
+          "ahh",
+          "ahl",
+          "ahlf",
+          "ahr",
+          "ahs",
+          "ai"
+        ],
+        "consDigraph": [
+          "ache",
+          "ached",
+          "aches",
+          "ainge",
+          "aithne",
+          "ang",
+          "arch",
+          "arched"
+        ],
+        "otherMulti": [
+          "aargh",
+          "aase",
+          "ace",
+          "aced",
+          "ached",
+          "age",
+          "aged",
+          "aimed"
+        ]
+      }
+    },
+    "genMono": {
+      "words": 30000,
+      "letterMean": 4.1872,
+      "phoneMean": 3.7335333333333334,
+      "silentFinalE": 0.11413333333333334,
+      "silentOther": 0.001,
+      "doublingExtra": 0.05343333333333333,
+      "vowelPolyExtra": 0.16633333333333333,
+      "consDigraphExtra": 0.1396,
+      "otherMultiExtra": 0.04753333333333333,
+      "byPos": {
+        "onset": {
+          "meanLPerPhone": 1.0268759356287425,
+          "multiShare": 0.02657185628742515,
+          "phones": 42752
+        },
+        "nucleus": {
+          "meanLPerPhone": 1.1665333333333334,
+          "multiShare": 0.1607,
+          "phones": 30000
+        },
+        "coda": {
+          "meanLPerPhone": 1.1544301217710298,
+          "multiShare": 0.1534111173383604,
+          "phones": 39254
+        }
+      },
+      "examples": {
+        "silentFinalE": [
+          "linke",
+          "palse",
+          "cengse",
+          "blunde",
+          "scrile",
+          "blelme",
+          "bacse",
+          "sole"
+        ],
+        "doubling": [
+          "ock",
+          "well",
+          "bill",
+          "liff",
+          "soss",
+          "jix",
+          "blill",
+          "track"
+        ],
+        "vowelPoly": [
+          "glarts",
+          "cengse",
+          "scrile",
+          "craym",
+          "scrercs",
+          "blelme",
+          "erl",
+          "bie"
+        ],
+        "consDigraph": [
+          "brongs",
+          "song",
+          "arsh",
+          "beng",
+          "ong",
+          "cengse",
+          "sprong",
+          "dung"
+        ],
+        "otherMulti": [
+          "ince",
+          "phece",
+          "slerse",
+          "swoce",
+          "quace",
+          "renge",
+          "grerse",
+          "lence"
+        ]
+      }
+    },
+    "genDi": {
+      "words": 30000,
+      "letterMean": 6.443333333333333,
+      "phoneMean": 5.546133333333334,
+      "silentFinalE": 0.14226666666666668,
+      "silentOther": 0.0029,
+      "doublingExtra": 0.16496666666666668,
+      "vowelPolyExtra": 0.447,
+      "consDigraphExtra": 0.19136666666666666,
+      "otherMultiExtra": 0.05213333333333333,
+      "byPos": {
+        "onset": {
+          "meanLPerPhone": 1.04135027303315,
+          "multiShare": 0.04123995660887312,
+          "phones": 54389
+        },
+        "nucleus": {
+          "meanLPerPhone": 1.2745166666666667,
+          "multiShare": 0.26926666666666665,
+          "phones": 60000
+        },
+        "coda": {
+          "meanLPerPhone": 1.1335513030099047,
+          "multiShare": 0.1295701509760554,
+          "phones": 51995
+        }
+      },
+      "examples": {
+        "silentFinalE": [
+          "bislile",
+          "dusyole",
+          "adene",
+          "utote",
+          "hatode",
+          "hasrile",
+          "surctespe",
+          "nazore"
+        ],
+        "doubling": [
+          "stiesheen",
+          "adene",
+          "mumtoos",
+          "echell",
+          "saneem",
+          "smeckort",
+          "huckads",
+          "surctespe"
+        ],
+        "vowelPoly": [
+          "gabler",
+          "malsgorg",
+          "urlban",
+          "stiesheen",
+          "atzarn",
+          "ugerd",
+          "selur",
+          "mekurms"
+        ],
+        "consDigraph": [
+          "ifang",
+          "gasfang",
+          "stiesheen",
+          "echell",
+          "tucham",
+          "muczosh",
+          "wichi",
+          "sarchclunch"
+        ],
+        "otherMulti": [
+          "yakrence",
+          "rotrece",
+          "mindalse",
+          "gondidsayds",
+          "scefpas",
+          "retoge",
+          "bassitrilse",
+          "jeger"
+        ]
+      }
+    }
+  },
+  "contributionsLettersPerWord": {
+    "silent_e_family": 0.08502934609250398,
+    "silent_other": 0.014400717703349282,
+    "doubling_ck_tch_dge": 0.196043341307815,
+    "vowel_polygraph": 0.10826295853269535,
+    "consonant_digraph": -0.006974401913875605,
+    "other_multiletter": 0.1508817384370016
+  },
+  "contributionSum": 0.5476437001594896,
+  "targetGapNeither": 0.394830979411525,
+  "targetGapAllCmu": 0.6363651874203269,
+  "residualVsNeither": -0.1528127207479646,
+  "residualVsAll": 0.08872148726083728,
+  "governingCode": {
+    "silentFinalE": "src/config/english.ts silentE; src/core/write.ts applySilentE (2× rate for monosyllables)",
+    "magicE": "src/config/english.ts spellingRules name magic-e",
+    "doubling": "src/config/english.ts doubling; src/core/spelling-doubling.ts tryDoubling; src/elements/graphemes/doubling.ts",
+    "ck_tch_dge": "src/elements/graphemes/stops.ts (ck); affricates.ts (tch, dge)",
+    "vowelPolygraphs": "src/elements/graphemes/vowels.ts, diphthongs.ts; selection src/core/grapheme-selection.ts",
+    "consonantDigraphs": "src/elements/graphemes/fricatives.ts, nasals.ts, glides.ts, affricates.ts"
+  }
+}
