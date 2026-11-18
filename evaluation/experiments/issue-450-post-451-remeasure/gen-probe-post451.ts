@@ -1,0 +1,244 @@
+/**
+ * Issue #450 post-#451 re-measure — generation probes (local; not for main).
+ * Public API only: createGenerator / generateWord via shared RNG stream.
+ */
+import { writeFileSync, mkdirSync } from "node:fs";
+import { createGenerator, englishConfig, createSeededRng } from "/agent/repos/word-generator/src/index.ts";
+import type { LanguageConfig, Word } from "/agent/repos/word-generator/src/types.ts";
+import { execSync } from "node:child_process";
+
+const OUT_DIR = process.env.OUT_DIR ?? "/tmp/issue-450-post451/packets";
+mkdirSync(OUT_DIR, { recursive: true });
+
+const SEEDS = [42, 43, 44] as const;
+const COUNT_PER_SEED = Number(process.env.COUNT_PER_SEED ?? 200_000);
+const TRACE_SAMPLE = Number(process.env.TRACE_SAMPLE ?? 2_000);
+
+const mainHead = execSync("git -C /agent/repos/word-generator rev-parse HEAD", { encoding: "utf8" }).trim();
+
+type Hist = Record<string, number>;
+const add = (h: Hist, k: string | number, n = 1) => {
+  const key = String(k);
+  h[key] = (h[key] ?? 0) + n;
+};
+
+function phoneCount(word: Word): number {
+  let n = 0;
+  for (const s of word.syllables) n += s.onset.length + s.nucleus.length + s.coda.length;
+  return n;
+}
+
+function letterCount(word: Word): number {
+  return word.written.clean.length;
+}
+
+function pct(h: Hist, n: number): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const [k, v] of Object.entries(h)) out[k] = n ? (100 * v) / n : 0;
+  return out;
+}
+
+function mean(h: Hist): number {
+  let sum = 0;
+  let n = 0;
+  for (const [k, v] of Object.entries(h)) {
+    sum += Number(k) * v;
+    n += v;
+  }
+  return n ? sum / n : NaN;
+}
+
+function meanLettersGivenPhones(lgp: Record<string, Hist>): Record<string, { n: number; mean: number }> {
+  const out: Record<string, { n: number; mean: number }> = {};
+  for (const [p, h] of Object.entries(lgp)) {
+    const n = Object.values(h).reduce((a, b) => a + b, 0);
+    out[p] = { n, mean: mean(h) };
+  }
+  return out;
+}
+
+function emptyAgg() {
+  return {
+    drawn: 0,
+    kept: 0,
+    letters: {} as Hist,
+    phones: {} as Hist,
+    joint: {} as Hist,
+    lettersGivenPhones: {} as Record<string, Hist>,
+    onsetLen: {} as Hist,
+    nucleusLen: {} as Hist,
+    codaLen: {} as Hist,
+    shapes: {} as Hist,
+  };
+}
+
+type Agg = ReturnType<typeof emptyAgg>;
+
+function observeStructure(agg: Agg, word: Word) {
+  for (const s of word.syllables) {
+    add(agg.onsetLen, s.onset.length);
+    add(agg.nucleusLen, s.nucleus.length);
+    add(agg.codaLen, s.coda.length);
+    add(agg.shapes, `${s.onset.length}-${s.nucleus.length}-${s.coda.length}`);
+  }
+}
+
+function observe(agg: Agg, word: Word) {
+  agg.kept++;
+  const L = letterCount(word);
+  const P = phoneCount(word);
+  add(agg.letters, L);
+  add(agg.phones, P);
+  add(agg.joint, `${P}|${L}`);
+  agg.lettersGivenPhones[P] ??= {};
+  add(agg.lettersGivenPhones[P], L);
+  observeStructure(agg, word);
+}
+
+function summarize(agg: Agg, seed: number) {
+  const lettersGivenPhones = Object.fromEntries(
+    Object.entries(agg.lettersGivenPhones).map(([p, h]) => {
+      const n = Object.values(h).reduce((a, b) => a + b, 0);
+      return [p, { n, counts: h, pct: pct(h, n), mean: mean(h) }];
+    }),
+  );
+  const onsetN = Object.values(agg.onsetLen).reduce((a, b) => a + b, 0);
+  const codaN = Object.values(agg.codaLen).reduce((a, b) => a + b, 0);
+  return {
+    seed,
+    drawn: agg.drawn,
+    kept: agg.kept,
+    letterPct: pct(agg.letters, agg.kept),
+    phonePct: pct(agg.phones, agg.kept),
+    letterMean: mean(agg.letters),
+    phoneMean: mean(agg.phones),
+    letters: agg.letters,
+    phones: agg.phones,
+    joint: agg.joint,
+    lettersGivenPhones,
+    meanLettersGivenPhones: meanLettersGivenPhones(agg.lettersGivenPhones),
+    onsetLenPct: pct(agg.onsetLen, onsetN),
+    codaLenPct: pct(agg.codaLen, codaN),
+    shapes: agg.shapes,
+  };
+}
+
+function poolSummaries(perSeed: ReturnType<typeof summarize>[]) {
+  const pooled = emptyAgg();
+  for (const s of perSeed) {
+    pooled.drawn += s.drawn;
+    pooled.kept += s.kept;
+    for (const [k, v] of Object.entries(s.letters)) add(pooled.letters, k, v);
+    for (const [k, v] of Object.entries(s.phones)) add(pooled.phones, k, v);
+    for (const [k, v] of Object.entries(s.joint)) add(pooled.joint, k, v);
+    for (const [p, info] of Object.entries(s.lettersGivenPhones)) {
+      pooled.lettersGivenPhones[p] ??= {};
+      for (const [L, c] of Object.entries(info.counts)) add(pooled.lettersGivenPhones[p], L, c);
+    }
+    // structure: re-sum from per-seed shapes isn't available as counts of onset — rebuild from nothing
+  }
+  // structure pooling: we need raw onset/coda from per-seed — store wasn't kept. Recompute from shapes? Skip; pool structure separately below.
+  return { perSeed, pooled: summarize(pooled, -1) };
+}
+
+function poolWithStructure(perSeed: ReturnType<typeof summarize>[], rawPerSeed: Agg[]) {
+  const pooled = emptyAgg();
+  for (let i = 0; i < perSeed.length; i++) {
+    const s = perSeed[i];
+    const raw = rawPerSeed[i];
+    pooled.drawn += s.drawn;
+    pooled.kept += s.kept;
+    for (const [k, v] of Object.entries(s.letters)) add(pooled.letters, k, v);
+    for (const [k, v] of Object.entries(s.phones)) add(pooled.phones, k, v);
+    for (const [k, v] of Object.entries(s.joint)) add(pooled.joint, k, v);
+    for (const [p, info] of Object.entries(s.lettersGivenPhones)) {
+      pooled.lettersGivenPhones[p] ??= {};
+      for (const [L, c] of Object.entries(info.counts)) add(pooled.lettersGivenPhones[p], L, c);
+    }
+    for (const [k, v] of Object.entries(raw.onsetLen)) add(pooled.onsetLen, k, v);
+    for (const [k, v] of Object.entries(raw.codaLen)) add(pooled.codaLen, k, v);
+    for (const [k, v] of Object.entries(raw.shapes)) add(pooled.shapes, k, v);
+  }
+  return { perSeed, pooled: summarize(pooled, -1) };
+}
+
+function ungatedConfig(): LanguageConfig {
+  return {
+    ...englishConfig,
+    syllableStructure: {
+      ...englishConfig.syllableStructure,
+      letterLengthTargets: undefined,
+    },
+  };
+}
+
+type Condition = {
+  id: string;
+  generator: ReturnType<typeof createGenerator>;
+  morphology: boolean;
+  keepSyllables: number;
+};
+
+function runCondition(cond: Condition) {
+  const perSeed = [];
+  const rawPerSeed: Agg[] = [];
+  for (const seed of SEEDS) {
+    const agg = emptyAgg();
+    const rand = createSeededRng(seed);
+    for (let i = 0; i < COUNT_PER_SEED; i++) {
+      const word = cond.generator.generateWord({
+        rand,
+        mode: "lexicon",
+        morphology: cond.morphology,
+      });
+      agg.drawn++;
+      if (word.syllables.length === cond.keepSyllables) observe(agg, word);
+    }
+    rawPerSeed.push(agg);
+    perSeed.push(summarize(agg, seed));
+    console.error(
+      `[${cond.id}] seed=${seed} kept=${agg.kept}/${agg.drawn} letterMean=${mean(agg.letters).toFixed(3)} phoneMean=${mean(agg.phones).toFixed(3)}`,
+    );
+  }
+  return {
+    id: cond.id,
+    morphology: cond.morphology,
+    keepSyllables: cond.keepSyllables,
+    countPerSeed: COUNT_PER_SEED,
+    ...poolWithStructure(perSeed, rawPerSeed),
+  };
+}
+
+const gated = createGenerator(englishConfig);
+const ungated = createGenerator(ungatedConfig());
+
+const conditions: Condition[] = [
+  { id: "bare-gated-mono", generator: gated, morphology: false, keepSyllables: 1 },
+  { id: "bare-ungated-mono", generator: ungated, morphology: false, keepSyllables: 1 },
+  { id: "bare-gated-di", generator: gated, morphology: false, keepSyllables: 2 },
+  { id: "bare-ungated-di", generator: ungated, morphology: false, keepSyllables: 2 },
+];
+
+const only = process.env.ONLY?.split(",").filter(Boolean);
+const selected = only ? conditions.filter((c) => only.includes(c.id)) : conditions;
+
+const results: Record<string, unknown> = {
+  meta: {
+    seeds: [...SEEDS],
+    countPerSeed: COUNT_PER_SEED,
+    mainHead,
+    api: "createGenerator + generateWord({rand, mode:'lexicon', morphology})",
+    purpose: "post-#451+#452 re-measure",
+    cmu_sha_expected: "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+  },
+  conditions: {} as Record<string, unknown>,
+};
+
+for (const cond of selected) {
+  const t0 = Date.now();
+  results.conditions[cond.id] = runCondition(cond);
+  console.error(`finished ${cond.id} in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
+}
+
+writeFileSync(`${OUT_DIR}/gen-probe.json`, JSON.stringify(results, null, 2));
+console.log(JSON.stringify({ wrote: `${OUT_DIR}/gen-probe.json`, conditions: Object.keys(results.conditions as object), mainHead }, null, 2));
