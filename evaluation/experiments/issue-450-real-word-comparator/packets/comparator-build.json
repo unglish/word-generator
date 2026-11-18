@@ -1,0 +1,1411 @@
+{
+  "cmuSha": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+  "wordlistSha": "a9b5c77aa5d9096046964e2927e94f82bd0f32088945f6265dc9aa62155fea6b",
+  "monoN": 15106,
+  "keptN": 6846,
+  "droppedN": 8260,
+  "uninflectedN": 3734,
+  "inflectedN": 3112,
+  "keptInProperNames": 846,
+  "keptStats": {
+    "n": 6846,
+    "letterMean": 4.899795501022495,
+    "phoneMean": 3.905930470347648,
+    "letterPct": {
+      "1": 0.3651767455448437,
+      "2": 0.8910312591294186,
+      "3": 8.428279287174993,
+      "4": 28.001752848378615,
+      "5": 33.01197779725387,
+      "6": 20.902716914986854,
+      "7": 7.2451066316096995,
+      "8": 1.037101957347356,
+      "9": 0.11685655857434998
+    },
+    "phonePct": {
+      "1": 0.23371311714869997,
+      "2": 4.542798714577856,
+      "3": 28.13321647677476,
+      "4": 42.40432369266725,
+      "5": 21.04878761320479,
+      "6": 3.461875547765118,
+      "7": 0.16067776803973122,
+      "8": 0.014607069821793748
+    },
+    "lettersGivenPhones": {
+      "1": {
+        "n": 16,
+        "mean": 2.0625,
+        "counts": {
+          "1": 4,
+          "2": 7,
+          "3": 5
+        }
+      },
+      "2": {
+        "n": 311,
+        "mean": 3.0032154340836015,
+        "counts": {
+          "1": 19,
+          "2": 50,
+          "3": 168,
+          "4": 60,
+          "5": 13,
+          "6": 1
+        }
+      },
+      "3": {
+        "n": 1926,
+        "mean": 4.058151609553478,
+        "counts": {
+          "1": 2,
+          "2": 4,
+          "3": 384,
+          "4": 1099,
+          "5": 369,
+          "6": 63,
+          "7": 5
+        }
+      },
+      "4": {
+        "n": 2903,
+        "mean": 5.024112986565622,
+        "counts": {
+          "3": 20,
+          "4": 750,
+          "5": 1385,
+          "6": 641,
+          "7": 102,
+          "8": 5
+        }
+      },
+      "5": {
+        "n": 1441,
+        "mean": 5.892435808466343,
+        "counts": {
+          "4": 8,
+          "5": 492,
+          "6": 617,
+          "7": 295,
+          "8": 29
+        }
+      },
+      "6": {
+        "n": 237,
+        "mean": 6.713080168776371,
+        "counts": {
+          "5": 1,
+          "6": 109,
+          "7": 88,
+          "8": 35,
+          "9": 4
+        }
+      },
+      "7": {
+        "n": 11,
+        "mean": 7.7272727272727275,
+        "counts": {
+          "7": 6,
+          "8": 2,
+          "9": 3
+        }
+      },
+      "8": {
+        "n": 1,
+        "mean": 9,
+        "counts": {
+          "9": 1
+        }
+      }
+    }
+  },
+  "uninflectedStats": {
+    "n": 3734,
+    "letterMean": 4.321103374397429,
+    "phoneMean": 3.4584895554365294,
+    "letterPct": {
+      "1": 0.6695232994108195,
+      "2": 1.6336368505623995,
+      "3": 15.158007498660954,
+      "4": 41.403320835565076,
+      "5": 31.173004820567755,
+      "6": 8.703802892340654,
+      "7": 1.0712372790573113,
+      "8": 0.18746652383502946
+    },
+    "phonePct": {
+      "1": 0.42849491162292447,
+      "2": 8.114622388859132,
+      "3": 45.902517407605785,
+      "4": 36.87734333154794,
+      "5": 8.114622388859132,
+      "6": 0.5356186395286556,
+      "7": 0.02678093197643278
+    },
+    "lettersGivenPhones": {
+      "1": {
+        "n": 16,
+        "mean": 2.0625,
+        "counts": {
+          "1": 4,
+          "2": 7,
+          "3": 5
+        }
+      },
+      "2": {
+        "n": 303,
+        "mean": 2.98019801980198,
+        "counts": {
+          "1": 19,
+          "2": 50,
+          "3": 167,
+          "4": 53,
+          "5": 13,
+          "6": 1
+        }
+      },
+      "3": {
+        "n": 1714,
+        "mean": 4.017502917152859,
+        "counts": {
+          "1": 2,
+          "2": 4,
+          "3": 374,
+          "4": 972,
+          "5": 310,
+          "6": 48,
+          "7": 4
+        }
+      },
+      "4": {
+        "n": 1377,
+        "mean": 4.728395061728395,
+        "counts": {
+          "3": 20,
+          "4": 513,
+          "5": 679,
+          "6": 152,
+          "7": 12,
+          "8": 1
+        }
+      },
+      "5": {
+        "n": 303,
+        "mean": 5.485148514851486,
+        "counts": {
+          "4": 8,
+          "5": 162,
+          "6": 113,
+          "7": 18,
+          "8": 2
+        }
+      },
+      "6": {
+        "n": 20,
+        "mean": 6.6,
+        "counts": {
+          "6": 11,
+          "7": 6,
+          "8": 3
+        }
+      },
+      "7": {
+        "n": 1,
+        "mean": 8,
+        "counts": {
+          "8": 1
+        }
+      }
+    }
+  },
+  "inflectedStats": {
+    "n": 3112,
+    "letterMean": 5.594151670951157,
+    "phoneMean": 4.44280205655527,
+    "letterPct": {
+      "3": 0.35347043701799485,
+      "4": 11.92159383033419,
+      "5": 35.2185089974293,
+      "6": 35.53984575835476,
+      "7": 14.652956298200515,
+      "8": 2.056555269922879,
+      "9": 0.2570694087403599
+    },
+    "phonePct": {
+      "2": 0.2570694087403599,
+      "3": 6.812339331619537,
+      "4": 49.03598971722365,
+      "5": 36.56812339331619,
+      "6": 6.973007712082262,
+      "7": 0.3213367609254499,
+      "8": 0.032133676092544985
+    },
+    "lettersGivenPhones": {
+      "2": {
+        "n": 8,
+        "mean": 3.875,
+        "counts": {
+          "3": 1,
+          "4": 7
+        }
+      },
+      "3": {
+        "n": 212,
+        "mean": 4.386792452830188,
+        "counts": {
+          "3": 10,
+          "4": 127,
+          "5": 59,
+          "6": 15,
+          "7": 1
+        }
+      },
+      "4": {
+        "n": 1526,
+        "mean": 5.290956749672346,
+        "counts": {
+          "4": 237,
+          "5": 706,
+          "6": 489,
+          "7": 90,
+          "8": 4
+        }
+      },
+      "5": {
+        "n": 1138,
+        "mean": 6.000878734622144,
+        "counts": {
+          "5": 330,
+          "6": 504,
+          "7": 277,
+          "8": 27
+        }
+      },
+      "6": {
+        "n": 217,
+        "mean": 6.723502304147465,
+        "counts": {
+          "5": 1,
+          "6": 98,
+          "7": 82,
+          "8": 32,
+          "9": 4
+        }
+      },
+      "7": {
+        "n": 10,
+        "mean": 7.7,
+        "counts": {
+          "7": 6,
+          "8": 1,
+          "9": 3
+        }
+      },
+      "8": {
+        "n": 1,
+        "mean": 9,
+        "counts": {
+          "9": 1
+        }
+      }
+    }
+  },
+  "handCheckKept": {
+    "seed": 450101,
+    "n": 100,
+    "nameOrJunkCount": 7,
+    "nameOrJunkRate": 0.07,
+    "badExamples": [
+      {
+        "spelling": "quint",
+        "bad": true,
+        "reason": "in_scowl_proper_names",
+        "phones": 5,
+        "letters": 5
+      },
+      {
+        "spelling": "wake",
+        "bad": true,
+        "reason": "in_scowl_proper_names",
+        "phones": 3,
+        "letters": 4
+      },
+      {
+        "spelling": "lake",
+        "bad": true,
+        "reason": "in_scowl_proper_names",
+        "phones": 3,
+        "letters": 4
+      },
+      {
+        "spelling": "midge",
+        "bad": true,
+        "reason": "in_scowl_proper_names",
+        "phones": 3,
+        "letters": 5
+      },
+      {
+        "spelling": "chuck",
+        "bad": true,
+        "reason": "in_scowl_proper_names",
+        "phones": 3,
+        "letters": 5
+      },
+      {
+        "spelling": "cruise",
+        "bad": true,
+        "reason": "in_scowl_proper_names",
+        "phones": 4,
+        "letters": 6
+      },
+      {
+        "spelling": "char",
+        "bad": true,
+        "reason": "in_scowl_proper_names",
+        "phones": 3,
+        "letters": 4
+      }
+    ],
+    "sample": [
+      "froze",
+      "wheeze",
+      "sling",
+      "prick",
+      "shrewd",
+      "jabbed",
+      "kinks",
+      "knights",
+      "quint",
+      "cadge",
+      "breached",
+      "booths",
+      "bey",
+      "lump",
+      "wags",
+      "brawl",
+      "slime",
+      "juice",
+      "pumps",
+      "hafts",
+      "nerves",
+      "gild",
+      "begged",
+      "wile",
+      "spell",
+      "fluffs",
+      "shrunk",
+      "boxed",
+      "mans",
+      "prints",
+      "salve",
+      "faith",
+      "chives",
+      "cocked",
+      "scrawled",
+      "parse",
+      "sines",
+      "peeved",
+      "tried",
+      "stare",
+      "wines",
+      "slice",
+      "bade",
+      "sting",
+      "some",
+      "donned",
+      "capped",
+      "din",
+      "trunk",
+      "wake",
+      "fest",
+      "soared",
+      "cobs",
+      "glares",
+      "crates",
+      "clenched",
+      "scribes",
+      "oozed",
+      "pars",
+      "whipped",
+      "prune",
+      "roped",
+      "gains",
+      "slicks",
+      "shears",
+      "egged",
+      "lake",
+      "crowned",
+      "tort",
+      "months",
+      "nips",
+      "gawk",
+      "midge",
+      "watch",
+      "cake",
+      "thugs",
+      "sleeps",
+      "balked",
+      "cube",
+      "forts",
+      "dubbed",
+      "click",
+      "chuck",
+      "haw",
+      "hooch",
+      "goals",
+      "cruise",
+      "plunge",
+      "pea",
+      "teed",
+      "sobbed",
+      "tarps",
+      "char",
+      "crypt",
+      "tomb",
+      "schlock",
+      "splurged",
+      "glob",
+      "hive",
+      "tole"
+    ]
+  },
+  "handCheckDropped": {
+    "seed": 450102,
+    "n": 100,
+    "ordinaryCount": 0,
+    "ordinaryRate": 0,
+    "properNameCount": 25,
+    "ordinaryExamples": [],
+    "sample": [
+      {
+        "spelling": "brause",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "franz",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "eng",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "volk",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "perc",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "schrom",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "sperle",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "shorn",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "stitt",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "cott",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "teer",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "khost",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "cheque",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "lile",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "starck",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "eir",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "schanz",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "wess",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "jewkes",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "kuehne",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "tunde",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "reave",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "vitt",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "stieg",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "renn",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "sheard",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "herve",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "roths",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "mest",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "droke",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "genske",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "foy",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "biev",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "weaks",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "winn",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "auge",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "blau",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "zbig",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "dietsch",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "kreutz",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "bartz",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "kirts",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "nist",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "crean",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "lal",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "burk",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "drang",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "bem",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "proske",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "brank",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "thrun",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "buth",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "braasch",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "damm",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "ayres",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "coole",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "recht",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "schmit",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "verne",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "tadd",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "koth",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "bom",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "hanke",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "yount",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "wein",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "splitt",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "moppes",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "plante",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "neice",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "blas",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "karpf",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "schleis",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "spey",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "senft",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "pla",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "haff",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "ben",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "yves",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "gyn",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "roese",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "kyd",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "kuan",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "pfeiff",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "kise",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "gach",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "viens",
+        "ordinary": false,
+        "reason": "proper_name",
+        "inProperNames": true
+      },
+      {
+        "spelling": "boase",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "hlad",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "kropp",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "graef",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "gersh",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "lyng",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "deis",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "bobe",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "bugh",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "schill",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "nehls",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "edes",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "frosch",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      },
+      {
+        "spelling": "blum",
+        "ordinary": false,
+        "reason": "not_ordinary_or_name",
+        "inProperNames": false
+      }
+    ]
+  },
+  "inflectionHand": {
+    "plural_s": {
+      "poolN": 2007,
+      "sampleN": 100,
+      "errors": 0,
+      "errorRate": 0,
+      "errorExamples": [],
+      "sample": [
+        "knits",
+        "hafts",
+        "twats",
+        "chores",
+        "lids",
+        "chiefs",
+        "counts",
+        "guards",
+        "whiles",
+        "firms",
+        "sows",
+        "shays",
+        "tweets",
+        "dens",
+        "dirks",
+        "coots",
+        "snubs",
+        "toasts",
+        "dons",
+        "tombs",
+        "doves",
+        "flies",
+        "crams",
+        "fights",
+        "macs",
+        "plagues",
+        "ducks",
+        "babes",
+        "squats",
+        "reigns",
+        "totes",
+        "flakes",
+        "joules",
+        "flaps",
+        "gyms",
+        "fouls",
+        "claws",
+        "bolls",
+        "slams",
+        "pods",
+        "fads",
+        "stamps",
+        "champs",
+        "gores",
+        "charts",
+        "nodes",
+        "bins",
+        "snoops",
+        "smooths",
+        "pees",
+        "studs",
+        "pries",
+        "cloths",
+        "nerds",
+        "tears",
+        "talks",
+        "chunks",
+        "traps",
+        "raids",
+        "gourds",
+        "scones",
+        "schnooks",
+        "moles",
+        "spades",
+        "trolls",
+        "boles",
+        "bras",
+        "staves",
+        "dimes",
+        "flocks",
+        "turns",
+        "peels",
+        "wields",
+        "moots",
+        "sums",
+        "dares",
+        "cuts",
+        "foes",
+        "lips",
+        "heaps",
+        "grips",
+        "tools",
+        "camps",
+        "balls",
+        "zaps",
+        "spurns",
+        "pits",
+        "wounds",
+        "drams",
+        "tours",
+        "pips",
+        "hopes",
+        "oaths",
+        "tacks",
+        "gluts",
+        "gains",
+        "skews",
+        "cribs",
+        "jibes",
+        "smells"
+      ]
+    },
+    "past_ed": {
+      "poolN": 1105,
+      "sampleN": 100,
+      "errors": 0,
+      "errorRate": 0,
+      "errorExamples": [],
+      "sample": [
+        "taxed",
+        "freed",
+        "dodged",
+        "showed",
+        "feed",
+        "clinched",
+        "switched",
+        "squared",
+        "erred",
+        "glowed",
+        "backed",
+        "howled",
+        "feared",
+        "cloaked",
+        "slapped",
+        "crowed",
+        "spruced",
+        "squashed",
+        "beached",
+        "stalled",
+        "hacked",
+        "streamed",
+        "pressed",
+        "fleshed",
+        "browsed",
+        "fenced",
+        "harmed",
+        "coped",
+        "clutched",
+        "hooked",
+        "lapsed",
+        "stroked",
+        "flashed",
+        "stomped",
+        "cooled",
+        "aced",
+        "moped",
+        "shucked",
+        "claimed",
+        "gnarled",
+        "pronged",
+        "piped",
+        "nudged",
+        "pinged",
+        "purged",
+        "vowed",
+        "nagged",
+        "crabbed",
+        "clamped",
+        "torched",
+        "roared",
+        "longed",
+        "clashed",
+        "revved",
+        "saved",
+        "breezed",
+        "bared",
+        "fleeced",
+        "numbed",
+        "mired",
+        "lobed",
+        "jabbed",
+        "charged",
+        "gasped",
+        "stained",
+        "briefed",
+        "pumped",
+        "grossed",
+        "psyched",
+        "scorned",
+        "hatched",
+        "slashed",
+        "cashed",
+        "wailed",
+        "gloved",
+        "pied",
+        "billed",
+        "trained",
+        "chimed",
+        "boiled",
+        "beefed",
+        "hinged",
+        "spayed",
+        "chained",
+        "dimmed",
+        "rammed",
+        "bossed",
+        "twigged",
+        "sealed",
+        "cleared",
+        "glossed",
+        "scrounged",
+        "phrased",
+        "sniffed",
+        "heaped",
+        "gleaned",
+        "frisked",
+        "milked",
+        "chewed",
+        "gushed"
+      ]
+    },
+    "none": {
+      "poolN": 3734,
+      "sampleN": 100,
+      "errors": 0,
+      "errorRate": 0,
+      "errorExamples": [],
+      "sample": [
+        "drove",
+        "where",
+        "shine",
+        "bye",
+        "quake",
+        "waist",
+        "ram",
+        "bun",
+        "frizz",
+        "pad",
+        "cure",
+        "rill",
+        "self",
+        "trace",
+        "blur",
+        "craft",
+        "cock",
+        "pah",
+        "pane",
+        "luck",
+        "steed",
+        "clap",
+        "west",
+        "jell",
+        "blouse",
+        "red",
+        "thin",
+        "lief",
+        "tone",
+        "hint",
+        "ply",
+        "brake",
+        "dance",
+        "give",
+        "lode",
+        "l",
+        "dram",
+        "stet",
+        "knee",
+        "earn",
+        "south",
+        "grass",
+        "scalp",
+        "ho",
+        "stake",
+        "swat",
+        "fey",
+        "mick",
+        "reign",
+        "stern",
+        "spite",
+        "mad",
+        "lank",
+        "pea",
+        "moue",
+        "sim",
+        "grub",
+        "merge",
+        "prank",
+        "trout",
+        "clause",
+        "flay",
+        "jags",
+        "yule",
+        "surge",
+        "shrank",
+        "slim",
+        "swath",
+        "sill",
+        "cone",
+        "roof",
+        "shook",
+        "oh",
+        "find",
+        "plus",
+        "huge",
+        "cease",
+        "vet",
+        "pile",
+        "oles",
+        "champ",
+        "spoil",
+        "til",
+        "nude",
+        "from",
+        "guile",
+        "guff",
+        "rah",
+        "lace",
+        "pole",
+        "rich",
+        "morgue",
+        "flirt",
+        "techs",
+        "hey",
+        "tail",
+        "snipe",
+        "tweed",
+        "slog",
+        "murk"
+      ]
+    }
+  }
+}

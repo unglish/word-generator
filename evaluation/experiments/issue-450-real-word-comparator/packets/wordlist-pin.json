@@ -1,0 +1,18 @@
+{
+  "source": "SCOWL",
+  "version": "2020.12.07",
+  "tarball_url": "https://downloads.sourceforge.net/project/wordlist/SCOWL/2020.12.07/scowl-2020.12.07.tar.gz",
+  "tarball_sha256": "5587667caa20c4891390c2d42dbb4d5c4c3f41bee77af1457ece3ba23fb859cc",
+  "homepage": "http://wordlist.aspell.net/",
+  "copyright_file": "Copyright in the tarball",
+  "licence_summary": "Collective work Copyright 2000-2018 Kevin Atkinson; permission to use/copy/modify/distribute/sell without fee with copyright+permission notice in supporting documentation (see tarball Copyright). Components include public-domain MWords, 12Dicts, ENABLE contributions, and WordNet-derived inflection data under Princeton terms.",
+  "selection": {
+    "include": ["final/english-words.{10,20,35,40,50,55,60}", "final/american-words.{10,20,35,40,50,55,60}"],
+    "exclude_categories": ["proper-names", "upper", "abbreviations", "contractions"],
+    "normalize": "lowercase ascii-letter-only lines; drop apostrophes/possessives"
+  },
+  "derived_list_path_local": "/tmp/scowl-pin/scowl-english-american-words-le60.txt",
+  "derived_list_sha256": "a9b5c77aa5d9096046964e2927e94f82bd0f32088945f6265dc9aa62155fea6b",
+  "derived_list_n": 77103,
+  "fetch": "curl -fsSL -L -o scowl-2020.12.07.tar.gz 'https://downloads.sourceforge.net/project/wordlist/SCOWL/2020.12.07/scowl-2020.12.07.tar.gz' && echo '5587667caa20c4891390c2d42dbb4d5c4c3f41bee77af1457ece3ba23fb859cc  scowl-2020.12.07.tar.gz' | sha256sum -c && tar -xzf scowl-2020.12.07.tar.gz && cat scowl-2020.12.07/final/{english,american}-words.{10,20,35,40,50,55,60} | tr A-Z a-z | grep -E '^[a-z]+$' | sort -u"
+}

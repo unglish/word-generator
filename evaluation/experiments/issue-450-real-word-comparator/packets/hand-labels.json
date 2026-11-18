@@ -1,0 +1,39 @@
+{
+  "keptSample": {
+    "seed": 450101,
+    "n": 100,
+    "autoProperNameOverlaps": ["quint", "wake", "lake", "midge", "chuck", "cruise", "char"],
+    "manualNameOrJunk": [],
+    "manualNote": "All seven SCOWL proper-name overlaps are ordinary English lexemes (wake, lake, chuck, cruise, char, midge, quint). Counted as NOT name/junk for the gate.",
+    "nameOrJunkCount": 0,
+    "nameOrJunkRate": 0.0
+  },
+  "droppedSample": {
+    "seed": 450102,
+    "n": 100,
+    "ordinaryEnglishMissed": ["cheque", "shorn"],
+    "ordinaryCount": 2,
+    "ordinaryRate": 0.02,
+    "note": "cheque (BrE) and shorn are ordinary English absent from SCOWL english/american-words ≤60. Most other drops are surnames/opaque loans."
+  },
+  "alignmentSample": {
+    "seed": 450201,
+    "n": 100,
+    "hardErrors": [],
+    "softFlags": [
+      {
+        "spelling": "drawer",
+        "reason": "silent-e-before-coda before /r/; orthography is ok but e is not a true coda-silent pattern"
+      }
+    ],
+    "hardErrorCount": 0,
+    "hardErrorRate": 0.0,
+    "softErrorRate": 0.01
+  },
+  "gates": {
+    "keptNameJunkUnder5pct": true,
+    "alignCoverageGe85": true,
+    "alignHandErrorLe5pct": true,
+    "vowelStrategyGapGe008": true
+  }
+}

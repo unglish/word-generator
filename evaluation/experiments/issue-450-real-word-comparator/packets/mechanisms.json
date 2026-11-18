@@ -1,0 +1,3320 @@
+{
+  "meta": {
+    "comparator": "uninflected SCOWL≤60 ∩ ascii-first CMU monos",
+    "cmuSha": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+    "uninflectedN": 3734,
+    "alignedN": 3466,
+    "coverage": 0.9282271023031602,
+    "handSeed": 450201,
+    "genSeeds": [
+      42,
+      43,
+      44
+    ],
+    "genKeptPerSeed": 8000
+  },
+  "alignment": {
+    "coverage": 0.9282271023031602,
+    "topFails": [
+      {
+        "pattern": "fail:aisle",
+        "n": 1
+      },
+      {
+        "pattern": "fail:angst",
+        "n": 1
+      },
+      {
+        "pattern": "fail:aunt",
+        "n": 1
+      },
+      {
+        "pattern": "fail:awe",
+        "n": 1
+      },
+      {
+        "pattern": "fail:ax",
+        "n": 1
+      },
+      {
+        "pattern": "fail:aye",
+        "n": 1
+      },
+      {
+        "pattern": "fail:b",
+        "n": 1
+      },
+      {
+        "pattern": "fail:basque",
+        "n": 1
+      },
+      {
+        "pattern": "fail:beard",
+        "n": 1
+      },
+      {
+        "pattern": "fail:beau",
+        "n": 1
+      },
+      {
+        "pattern": "fail:bisque",
+        "n": 1
+      },
+      {
+        "pattern": "fail:blood",
+        "n": 1
+      },
+      {
+        "pattern": "fail:borsch",
+        "n": 1
+      },
+      {
+        "pattern": "fail:bought",
+        "n": 1
+      },
+      {
+        "pattern": "fail:box",
+        "n": 1
+      },
+      {
+        "pattern": "fail:bruise",
+        "n": 1
+      },
+      {
+        "pattern": "fail:brusqu",
+        "n": 1
+      },
+      {
+        "pattern": "fail:burr",
+        "n": 1
+      },
+      {
+        "pattern": "fail:butte",
+        "n": 1
+      },
+      {
+        "pattern": "fail:c",
+        "n": 1
+      },
+      {
+        "pattern": "fail:chaise",
+        "n": 1
+      },
+      {
+        "pattern": "fail:chef",
+        "n": 1
+      },
+      {
+        "pattern": "fail:chic",
+        "n": 1
+      },
+      {
+        "pattern": "fail:chute",
+        "n": 1
+      },
+      {
+        "pattern": "fail:ciao",
+        "n": 1
+      },
+      {
+        "pattern": "fail:cirque",
+        "n": 1
+      },
+      {
+        "pattern": "fail:clear",
+        "n": 1
+      },
+      {
+        "pattern": "fail:clique",
+        "n": 1
+      },
+      {
+        "pattern": "fail:coax",
+        "n": 1
+      },
+      {
+        "pattern": "fail:coif",
+        "n": 1
+      }
+    ],
+    "handSample": [
+      {
+        "spelling": "pass",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "ortho-extra",
+            "form": "ss",
+            "phoneme": "s",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "pound",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ou",
+            "phoneme": "aʊ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "moose",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "m",
+            "phoneme": "m",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "oo",
+            "phoneme": "u",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "se",
+            "phoneme": "s",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "trite",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "aɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          },
+          {
+            "kind": "silent-final-e",
+            "form": "e",
+            "phoneme": null,
+            "position": "word"
+          }
+        ]
+      },
+      {
+        "spelling": "block",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "ɑ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ck",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "trend",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "e",
+            "phoneme": "ɛ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "day",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ay",
+            "phoneme": "eɪ",
+            "position": "nucleus"
+          }
+        ]
+      },
+      {
+        "spelling": "skid",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "k",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "ɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "rob",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "ɑ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "port",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "ɔ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "hem",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "h",
+            "phoneme": "h",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "e",
+            "phoneme": "ɛ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "m",
+            "phoneme": "m",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "peep",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ee",
+            "phoneme": "i:",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "clinch",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "ɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ch",
+            "phoneme": "tʃ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "dad",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "drawer",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "aw",
+            "phoneme": "ɔ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "silent-e-before-coda",
+            "form": "e",
+            "phoneme": null,
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "swath",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "w",
+            "phoneme": "w",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "ɑ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "th",
+            "phoneme": "θ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "mad",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "m",
+            "phoneme": "m",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "told",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "əʊ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "right",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "igh",
+            "phoneme": "aɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "nil",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "ɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "tress",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "e",
+            "phoneme": "ɛ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "ortho-extra",
+            "form": "ss",
+            "phoneme": "s",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "blouse",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ou",
+            "phoneme": "aʊ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "se",
+            "phoneme": "s",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "sob",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "ɑ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "nerve",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "er",
+            "phoneme": "ɜ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ve",
+            "phoneme": "v",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "slush",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "u",
+            "phoneme": "ə",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "sh",
+            "phoneme": "ʃ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "male",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "m",
+            "phoneme": "m",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "eɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "coda"
+          },
+          {
+            "kind": "silent-final-e",
+            "form": "e",
+            "phoneme": null,
+            "position": "word"
+          }
+        ]
+      },
+      {
+        "spelling": "cot",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "ɑ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "the",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "th",
+            "phoneme": "ð",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "e",
+            "phoneme": "ə",
+            "position": "nucleus"
+          }
+        ]
+      },
+      {
+        "spelling": "there",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "th",
+            "phoneme": "ð",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "e",
+            "phoneme": "ɛ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "coda"
+          },
+          {
+            "kind": "silent-final-e",
+            "form": "e",
+            "phoneme": null,
+            "position": "word"
+          }
+        ]
+      },
+      {
+        "spelling": "toy",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "oy",
+            "phoneme": "ɔɪ",
+            "position": "nucleus"
+          }
+        ]
+      },
+      {
+        "spelling": "jab",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "j",
+            "phoneme": "dʒ",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "change",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "ch",
+            "phoneme": "tʃ",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "eɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ge",
+            "phoneme": "dʒ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "girt",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "g",
+            "phoneme": "g",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ir",
+            "phoneme": "ɜ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "pack",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ck",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "strewn",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ew",
+            "phoneme": "u",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "bash",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "sh",
+            "phoneme": "ʃ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "cone",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "əʊ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          },
+          {
+            "kind": "silent-final-e",
+            "form": "e",
+            "phoneme": null,
+            "position": "word"
+          }
+        ]
+      },
+      {
+        "spelling": "psych",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "ps",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "y",
+            "phoneme": "aɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ch",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "fan",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "f",
+            "phoneme": "f",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "blush",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "u",
+            "phoneme": "ə",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "sh",
+            "phoneme": "ʃ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "neck",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "e",
+            "phoneme": "ɛ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ck",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "rank",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "ŋ",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "k",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "back",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ck",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "sedge",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "e",
+            "phoneme": "ɛ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "dge",
+            "phoneme": "dʒ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "suds",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "u",
+            "phoneme": "ə",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "z",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "sub",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "u",
+            "phoneme": "ə",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "jest",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "j",
+            "phoneme": "dʒ",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "e",
+            "phoneme": "ɛ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "stile",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "aɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "coda"
+          },
+          {
+            "kind": "silent-final-e",
+            "form": "e",
+            "phoneme": null,
+            "position": "word"
+          }
+        ]
+      },
+      {
+        "spelling": "tell",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "e",
+            "phoneme": "ɛ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "ortho-extra",
+            "form": "ll",
+            "phoneme": "l",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "shoppe",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "sh",
+            "phoneme": "ʃ",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "ɑ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "ortho-extra",
+            "form": "pp",
+            "phoneme": "p",
+            "position": "coda"
+          },
+          {
+            "kind": "silent-final-e",
+            "form": "e",
+            "phoneme": null,
+            "position": "word"
+          }
+        ]
+      },
+      {
+        "spelling": "lap",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "dean",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ea",
+            "phoneme": "i:",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "pic",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "ɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "pulse",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "u",
+            "phoneme": "ə",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "se",
+            "phoneme": "s",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "sheet",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "sh",
+            "phoneme": "ʃ",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ee",
+            "phoneme": "i:",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "zounds",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "z",
+            "phoneme": "z",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ou",
+            "phoneme": "aʊ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "z",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "cunt",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "u",
+            "phoneme": "ə",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "stroll",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "əʊ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "ortho-extra",
+            "form": "ll",
+            "phoneme": "l",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "poo",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "oo",
+            "phoneme": "u",
+            "position": "nucleus"
+          }
+        ]
+      },
+      {
+        "spelling": "cave",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "eɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ve",
+            "phoneme": "v",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "boon",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "oo",
+            "phoneme": "u",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "foil",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "f",
+            "phoneme": "f",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "oi",
+            "phoneme": "ɔɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "word",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "w",
+            "phoneme": "w",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "or",
+            "phoneme": "ɜ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "hatch",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "h",
+            "phoneme": "h",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "tch",
+            "phoneme": "tʃ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "grand",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "g",
+            "phoneme": "g",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "scoff",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "ɔ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "ortho-extra",
+            "form": "ff",
+            "phoneme": "f",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "grail",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "g",
+            "phoneme": "g",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ai",
+            "phoneme": "eɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "cleave",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ea",
+            "phoneme": "i:",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ve",
+            "phoneme": "v",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "sic",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "ɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "clutch",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "u",
+            "phoneme": "ə",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "tch",
+            "phoneme": "tʃ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "speed",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ee",
+            "phoneme": "i:",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "guise",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "gu",
+            "phoneme": "g",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "aɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "z",
+            "position": "coda"
+          },
+          {
+            "kind": "silent-final-e",
+            "form": "e",
+            "phoneme": null,
+            "position": "word"
+          }
+        ]
+      },
+      {
+        "spelling": "traipse",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ai",
+            "phoneme": "eɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "se",
+            "phoneme": "s",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "harsh",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "h",
+            "phoneme": "h",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "ɑ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "sh",
+            "phoneme": "ʃ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "clack",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ck",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "knee",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "kn",
+            "phoneme": "n",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ee",
+            "phoneme": "i:",
+            "position": "nucleus"
+          }
+        ]
+      },
+      {
+        "spelling": "stood",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "oo",
+            "phoneme": "ʊ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "weight",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "w",
+            "phoneme": "w",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "eigh",
+            "phoneme": "eɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "lean",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ea",
+            "phoneme": "i:",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "stage",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "eɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ge",
+            "phoneme": "dʒ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "mu",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "m",
+            "phoneme": "m",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "u",
+            "phoneme": "u",
+            "position": "nucleus"
+          }
+        ]
+      },
+      {
+        "spelling": "crept",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "c",
+            "phoneme": "k",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "e",
+            "phoneme": "ɛ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "turn",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ur",
+            "phoneme": "ɜ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "brim",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "ɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "m",
+            "phoneme": "m",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "tine",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "aɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "coda"
+          },
+          {
+            "kind": "silent-final-e",
+            "form": "e",
+            "phoneme": null,
+            "position": "word"
+          }
+        ]
+      },
+      {
+        "spelling": "bard",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "b",
+            "phoneme": "b",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "ɑ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "stick",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "i",
+            "phoneme": "ɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ck",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "stag",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "g",
+            "phoneme": "g",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "dash",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "sh",
+            "phoneme": "ʃ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "place",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "eɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ce",
+            "phoneme": "s",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "judge",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "j",
+            "phoneme": "dʒ",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "u",
+            "phoneme": "ə",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "dge",
+            "phoneme": "dʒ",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "glaze",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "g",
+            "phoneme": "g",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "eɪ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ze",
+            "phoneme": "z",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "snack",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "n",
+            "phoneme": "n",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "a",
+            "phoneme": "æ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ck",
+            "phoneme": "k",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "whirl",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "wh",
+            "phoneme": "w",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ir",
+            "phoneme": "ɜ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "sty",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "y",
+            "phoneme": "aɪ",
+            "position": "nucleus"
+          }
+        ]
+      },
+      {
+        "spelling": "gold",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "g",
+            "phoneme": "g",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "o",
+            "phoneme": "əʊ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "roost",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "r",
+            "phoneme": "r",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "oo",
+            "phoneme": "u",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "s",
+            "phoneme": "s",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "t",
+            "phoneme": "t",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "world",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "w",
+            "phoneme": "w",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "or",
+            "phoneme": "ɜ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "l",
+            "phoneme": "l",
+            "position": "coda"
+          },
+          {
+            "kind": "grapheme",
+            "form": "d",
+            "phoneme": "d",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "purse",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "p",
+            "phoneme": "p",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ur",
+            "phoneme": "ɜ",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "se",
+            "phoneme": "s",
+            "position": "coda"
+          }
+        ]
+      },
+      {
+        "spelling": "wheeze",
+        "units": [
+          {
+            "kind": "grapheme",
+            "form": "wh",
+            "phoneme": "w",
+            "position": "onset"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ee",
+            "phoneme": "i:",
+            "position": "nucleus"
+          },
+          {
+            "kind": "grapheme",
+            "form": "ze",
+            "phoneme": "z",
+            "position": "coda"
+          }
+        ]
+      }
+    ]
+  },
+  "ratesPerWord": {
+    "cmu": {
+      "words": 3466,
+      "letterMean": 4.321407963069821,
+      "phoneMean": 3.450952106174264,
+      "vowel_digraph_trigraph": 0.32487016733987306,
+      "vowel_split_digraph": 0.1809001731102135,
+      "vowel_other": 0,
+      "final_e_no_vowel": 0.016156953260242354,
+      "doubling_permitted": 0.10098095787651472,
+      "doubling_not_permitted": 0.01644547028274668,
+      "consonant_digraphs": 0.15954991344489325,
+      "silent_other": 0.010098095787651471,
+      "other": 0.06693594922100404,
+      "examples": {
+        "vowelDigraph": [
+          "ah",
+          "aid",
+          "aide",
+          "ail",
+          "aim",
+          "air",
+          "aught",
+          "bah"
+        ],
+        "vowelSplit": [
+          "ace",
+          "ache",
+          "age",
+          "ale",
+          "ape",
+          "are",
+          "ate",
+          "babe"
+        ],
+        "finalENoVowel": [
+          "aide",
+          "been",
+          "beer",
+          "braille",
+          "braise",
+          "breathe",
+          "browse",
+          "cause"
+        ],
+        "doublingPermitted": [
+          "all",
+          "apps",
+          "ass",
+          "back",
+          "ball",
+          "bass",
+          "batch",
+          "beck"
+        ],
+        "doublingNotPermitted": [
+          "add",
+          "badge",
+          "bridge",
+          "budge",
+          "cadge",
+          "dodge",
+          "dredge",
+          "drudge"
+        ],
+        "consDigraph": [
+          "ache",
+          "arch",
+          "ash",
+          "bang",
+          "bash",
+          "bath",
+          "bathe",
+          "beach"
+        ],
+        "silentOther": [
+          "ankh",
+          "aught",
+          "bough",
+          "calf",
+          "calves",
+          "caught",
+          "could",
+          "drought"
+        ],
+        "other": [
+          "baize",
+          "balk",
+          "balm",
+          "beige",
+          "blouse",
+          "bomb",
+          "booze",
+          "bounce"
+        ]
+      }
+    },
+    "gen": {
+      "words": 24000,
+      "letterMean": 4.1905833333333335,
+      "phoneMean": 3.7346666666666666,
+      "vowel_digraph_trigraph": 0.16929166666666667,
+      "vowel_split_digraph": 0.112,
+      "vowel_other": 0,
+      "final_e_no_vowel": 0.00016666666666666666,
+      "doubling_permitted": 0.081875,
+      "doubling_not_permitted": 0.00625,
+      "consonant_digraphs": 0.13895833333333332,
+      "silent_other": 0,
+      "other": 0.013083333333333334,
+      "examples": {
+        "vowelDigraph": [
+          "glarts",
+          "cengse",
+          "scrile",
+          "craym",
+          "scrercs",
+          "blelme",
+          "erl",
+          "bie"
+        ],
+        "vowelSplit": [
+          "linke",
+          "palse",
+          "blunde",
+          "bacse",
+          "ince",
+          "phece",
+          "swoce",
+          "ante"
+        ],
+        "finalENoVowel": [
+          "nerve",
+          "spraurve",
+          "berve",
+          "rurve"
+        ],
+        "doublingPermitted": [
+          "ock",
+          "well",
+          "bill",
+          "liff",
+          "soss",
+          "jix",
+          "blill",
+          "track"
+        ],
+        "doublingNotPermitted": [
+          "plick",
+          "quock",
+          "cock",
+          "sedge",
+          "medge",
+          "glock",
+          "gredge",
+          "swack"
+        ],
+        "consDigraph": [
+          "brongs",
+          "song",
+          "arsh",
+          "beng",
+          "ong",
+          "cengse",
+          "sprong",
+          "dung"
+        ],
+        "silentOther": [],
+        "other": [
+          "slerse",
+          "grerse",
+          "freace",
+          "scids",
+          "trulmse",
+          "proed",
+          "ilm",
+          "weze"
+        ]
+      }
+    }
+  },
+  "contributions": {
+    "vowel_digraph_trigraph": 0.1555785006732064,
+    "vowel_split_digraph": 0.0689001731102135,
+    "vowel_other": 0,
+    "final_e_no_vowel": 0.015990286593575688,
+    "doubling_permitted": 0.019105957876514715,
+    "doubling_not_permitted": 0.01019547028274668,
+    "consonant_digraphs": 0.020591580111559926,
+    "silent_other": 0.010098095787651471,
+    "other": 0.05385261588767071
+  },
+  "contributionSum": 0.3543126803231391,
+  "vowelStrategyGap": 0.2244786737834199,
+  "massWeightedLgpGap": -0.34459089781717356,
+  "letterMeanGap": -0.13052004106409587,
+  "residualVsMassGap": -0.00972178250596556,
+  "perPhoneLgp": {
+    "1": {
+      "genMean": 1.263157894736842,
+      "cmuMean": 2.0625,
+      "delta": -0.799342105263158,
+      "weight": 0.0031666666666666666,
+      "n": 76
+    },
+    "2": {
+      "genMean": 2.410906298003072,
+      "cmuMean": 2.98019801980198,
+      "delta": -0.569291721798908,
+      "weight": 0.05425,
+      "n": 1302
+    },
+    "3": {
+      "genMean": 3.465094000718477,
+      "cmuMean": 4.017502917152859,
+      "delta": -0.552408916434382,
+      "weight": 0.3479583333333333,
+      "n": 8351
+    },
+    "4": {
+      "genMean": 4.49002849002849,
+      "cmuMean": 4.728395061728395,
+      "delta": -0.23836657169990438,
+      "weight": 0.4095,
+      "n": 9828
+    },
+    "5": {
+      "genMean": 5.393374233128834,
+      "cmuMean": 5.485148514851486,
+      "delta": -0.09177428172265145,
+      "weight": 0.16979166666666667,
+      "n": 4075
+    },
+    "6": {
+      "genMean": 6.230769230769231,
+      "cmuMean": 6.6,
+      "delta": -0.3692307692307688,
+      "weight": 0.015166666666666667,
+      "n": 364
+    },
+    "7": {
+      "genMean": 7,
+      "cmuMean": 8,
+      "delta": -1,
+      "weight": 0.00016666666666666666,
+      "n": 4
+    }
+  },
+  "vowelStrategyShares": {
+    "cmu": {
+      "ə": {
+        "n": 319,
+        "shares": {
+          "single": 0.9278996865203761,
+          "digraph_trigraph": 0.025078369905956112,
+          "split_digraph": 0.047021943573667714,
+          "other": 0
+        }
+      },
+      "eɪ": {
+        "n": 299,
+        "shares": {
+          "single": 0.010033444816053512,
+          "digraph_trigraph": 0.43478260869565216,
+          "split_digraph": 0.5551839464882943,
+          "other": 0
+        }
+      },
+      "æ": {
+        "n": 365,
+        "shares": {
+          "single": 0.9506849315068493,
+          "digraph_trigraph": 0,
+          "split_digraph": 0.049315068493150684,
+          "other": 0
+        }
+      },
+      "ɑ": {
+        "n": 301,
+        "shares": {
+          "single": 0.8970099667774086,
+          "digraph_trigraph": 0.036544850498338874,
+          "split_digraph": 0.0664451827242525,
+          "other": 0
+        }
+      },
+      "ɛ": {
+        "n": 311,
+        "shares": {
+          "single": 0.7427652733118971,
+          "digraph_trigraph": 0.13504823151125403,
+          "split_digraph": 0.12218649517684887,
+          "other": 0
+        }
+      },
+      "ɔ": {
+        "n": 232,
+        "shares": {
+          "single": 0.5431034482758621,
+          "digraph_trigraph": 0.3275862068965517,
+          "split_digraph": 0.12931034482758622,
+          "other": 0
+        }
+      },
+      "i:": {
+        "n": 272,
+        "shares": {
+          "single": 0.03676470588235294,
+          "digraph_trigraph": 0.9117647058823529,
+          "split_digraph": 0.051470588235294115,
+          "other": 0
+        }
+      },
+      "ɪ": {
+        "n": 403,
+        "shares": {
+          "single": 0.9057071960297767,
+          "digraph_trigraph": 0.004962779156327543,
+          "split_digraph": 0.08933002481389578,
+          "other": 0
+        }
+      },
+      "ɜ": {
+        "n": 114,
+        "shares": {
+          "single": 0,
+          "digraph_trigraph": 1,
+          "split_digraph": 0,
+          "other": 0
+        }
+      },
+      "aɪ": {
+        "n": 232,
+        "shares": {
+          "single": 0.1853448275862069,
+          "digraph_trigraph": 0.1853448275862069,
+          "split_digraph": 0.6293103448275862,
+          "other": 0
+        }
+      },
+      "u": {
+        "n": 202,
+        "shares": {
+          "single": 0.0594059405940594,
+          "digraph_trigraph": 0.7623762376237624,
+          "split_digraph": 0.1782178217821782,
+          "other": 0
+        }
+      },
+      "əʊ": {
+        "n": 239,
+        "shares": {
+          "single": 0.2175732217573222,
+          "digraph_trigraph": 0.35564853556485354,
+          "split_digraph": 0.42677824267782427,
+          "other": 0
+        }
+      },
+      "aʊ": {
+        "n": 103,
+        "shares": {
+          "single": 0,
+          "digraph_trigraph": 1,
+          "split_digraph": 0,
+          "other": 0
+        }
+      },
+      "ɔɪ": {
+        "n": 33,
+        "shares": {
+          "single": 0,
+          "digraph_trigraph": 1,
+          "split_digraph": 0,
+          "other": 0
+        }
+      },
+      "ʊ": {
+        "n": 41,
+        "shares": {
+          "single": 0.2682926829268293,
+          "digraph_trigraph": 0.6585365853658537,
+          "split_digraph": 0.07317073170731707,
+          "other": 0
+        }
+      }
+    },
+    "gen": {
+      "ɑ": {
+        "n": 3743,
+        "shares": {
+          "single": 0.8952711728559979,
+          "digraph_trigraph": 0.07213465134918515,
+          "split_digraph": 0.03259417579481699,
+          "other": 0
+        }
+      },
+      "aɪ": {
+        "n": 1385,
+        "shares": {
+          "single": 0.4252707581227437,
+          "digraph_trigraph": 0.09025270758122744,
+          "split_digraph": 0.4844765342960289,
+          "other": 0
+        }
+      },
+      "ɔ": {
+        "n": 1748,
+        "shares": {
+          "single": 0.9548054919908466,
+          "digraph_trigraph": 0,
+          "split_digraph": 0.04519450800915332,
+          "other": 0
+        }
+      },
+      "ʌ": {
+        "n": 1727,
+        "shares": {
+          "single": 0.9502026635784597,
+          "digraph_trigraph": 0.006948465547191662,
+          "split_digraph": 0.042848870874348584,
+          "other": 0
+        }
+      },
+      "ɚ": {
+        "n": 749,
+        "shares": {
+          "single": 0,
+          "digraph_trigraph": 1,
+          "split_digraph": 0,
+          "other": 0
+        }
+      },
+      "æ": {
+        "n": 2718,
+        "shares": {
+          "single": 0.9506990434142752,
+          "digraph_trigraph": 0,
+          "split_digraph": 0.049300956585724795,
+          "other": 0
+        }
+      },
+      "eɪ": {
+        "n": 1813,
+        "shares": {
+          "single": 0.33645890788747934,
+          "digraph_trigraph": 0.24765581908439052,
+          "split_digraph": 0.41588527302813016,
+          "other": 0
+        }
+      },
+      "ʊ": {
+        "n": 342,
+        "shares": {
+          "single": 0.9473684210526315,
+          "digraph_trigraph": 0.014619883040935672,
+          "split_digraph": 0.038011695906432746,
+          "other": 0
+        }
+      },
+      "ɛ": {
+        "n": 3246,
+        "shares": {
+          "single": 0.9540973505853358,
+          "digraph_trigraph": 0,
+          "split_digraph": 0.0459026494146642,
+          "other": 0
+        }
+      },
+      "i:": {
+        "n": 1430,
+        "shares": {
+          "single": 0,
+          "digraph_trigraph": 1,
+          "split_digraph": 0,
+          "other": 0
+        }
+      },
+      "u": {
+        "n": 982,
+        "shares": {
+          "single": 0.20366598778004075,
+          "digraph_trigraph": 0.5885947046843177,
+          "split_digraph": 0.20773930753564154,
+          "other": 0
+        }
+      },
+      "ɪ": {
+        "n": 2628,
+        "shares": {
+          "single": 0.9497716894977168,
+          "digraph_trigraph": 0,
+          "split_digraph": 0.0502283105022831,
+          "other": 0
+        }
+      },
+      "ɜ": {
+        "n": 545,
+        "shares": {
+          "single": 0.9009174311926605,
+          "digraph_trigraph": 0.05321100917431193,
+          "split_digraph": 0.045871559633027525,
+          "other": 0
+        }
+      },
+      "əʊ": {
+        "n": 737,
+        "shares": {
+          "single": 0.46675712347354137,
+          "digraph_trigraph": 0.08412483039348712,
+          "split_digraph": 0.4491180461329715,
+          "other": 0
+        }
+      },
+      "aʊ": {
+        "n": 112,
+        "shares": {
+          "single": 0,
+          "digraph_trigraph": 1,
+          "split_digraph": 0,
+          "other": 0
+        }
+      },
+      "ɔɪ": {
+        "n": 95,
+        "shares": {
+          "single": 0,
+          "digraph_trigraph": 1,
+          "split_digraph": 0,
+          "other": 0
+        }
+      }
+    }
+  },
+  "genLetterMean": 4.1905833333333335,
+  "genPhoneMean": 3.7346666666666666
+}
