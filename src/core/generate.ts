@@ -78,9 +78,12 @@ import {
   scoreGenerationAttempt,
   assessAttempt,
   isDecidedRejection,
-  letterPeakSamplingWeight,
   type AcceptanceCriteria,
 } from "./length-semantics.js";
+import {
+  phonemeLengthWeightsForForcedSyllables,
+  syllableCountSamplingWeights,
+} from "./syllable-sampling.js";
 import {
   TraceCollector,
   traceStage,
@@ -1209,13 +1212,7 @@ function getTopDownSyllableWeights(
       `Missing phonemeToSyllableWeights.${mode} in language config`,
     );
   }
-  const weights = table[phonemeCount];
-  if (!weights?.length) {
-    throw new Error(
-      `Missing phonemeToSyllableWeights.${mode}.${phonemeCount} in language config`,
-    );
-  }
-  return weights;
+  return syllableCountSamplingWeights(table, phonemeCount);
 }
 
 function sampleTargetPhonemeCount(
@@ -1235,46 +1232,26 @@ function sampleTargetPhonemeCount(
   const maxPhonemes =
     forcedSyllableCount + forcedSyllableCount * (maxOnset + maxCoda) + 1;
 
-  const filtered = allWeights.filter(
-    ([phonemeCount]) =>
-      phonemeCount >= forcedSyllableCount && phonemeCount <= maxPhonemes,
-  );
   // P(phonemes | syllables) ∝ P(phonemes) · P(syllables | phonemes). Without the
   // second factor a forced monosyllable draws a whole-lexicon length (mode 6) and
   // the consonant plan packs the surplus into clusters.
   const syllableTable = rt.config.phonemeToSyllableWeights[mode];
-  const letterTargets = rt.config.syllableStructure.letterLengthTargets;
-  const conditioned = filtered
-    .map(([phonemeCount, weight]): [number, number] => [
-      phonemeCount,
-      weight *
-        syllableShare(syllableTable?.[phonemeCount], forcedSyllableCount) *
-        letterPeakSamplingWeight(
-          phonemeCount,
-          forcedSyllableCount,
-          letterTargets,
-        ),
-    ])
-    .filter(([, weight]) => weight > 0);
-  const pool =
-    conditioned.length > 0
-      ? conditioned
-      : filtered.length > 0
-        ? filtered
-        : allWeights;
+  // Pre-extract behaviour: a missing mode table falls back to length-feasible
+  // (then all) phoneme weights rather than throwing.
+  if (!syllableTable) {
+    const filtered = allWeights.filter(
+      ([phonemeCount]) =>
+        phonemeCount >= forcedSyllableCount && phonemeCount <= maxPhonemes,
+    );
+    return getWeightedOption(filtered.length > 0 ? filtered : allWeights, rand);
+  }
+  const pool = phonemeLengthWeightsForForcedSyllables(
+    allWeights,
+    syllableTable,
+    forcedSyllableCount,
+    maxPhonemes,
+  );
   return getWeightedOption(pool, rand);
-}
-
-/** Share of a phoneme count's syllable-count weights that falls on `syllableCount`. */
-function syllableShare(
-  row: [number, number][] | undefined,
-  syllableCount: number,
-): number {
-  if (!row?.length) return 0;
-  const total = row.reduce((sum, [, weight]) => sum + weight, 0);
-  return total > 0
-    ? (row.find(([count]) => count === syllableCount)?.[1] ?? 0) / total
-    : 0;
 }
 
 function sampleSyllableCountForTarget(
@@ -1297,14 +1274,7 @@ function sampleSyllableCountForTarget(
     return targetPhonemes <= maxPhonemes;
   };
 
-  const letterTargets = rt.config.syllableStructure.letterLengthTargets;
-  const weights = getTopDownSyllableWeights(rt, mode, targetPhonemes).map(
-    ([syllableCount, weight]): [number, number] => [
-      syllableCount,
-      weight *
-        letterPeakSamplingWeight(targetPhonemes, syllableCount, letterTargets),
-    ],
-  );
+  const weights = getTopDownSyllableWeights(rt, mode, targetPhonemes);
   const feasible = weights.filter(([syllableCount]) =>
     canSatisfy(syllableCount),
   );
