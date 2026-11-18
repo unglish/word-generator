@@ -10,6 +10,8 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 10,
     endWord: 10,
+    // Comparator ~19% single / ~19% digraph / ~63% split — prefer silentE from "i".
+    isolatedSyllableWeight: 6,
   },
   {
     phoneme: "aɪ",
@@ -20,6 +22,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 10,
+    isolatedSyllableWeight: 1,
     condition: { rightContext: ["t"] },
   },
   { 
@@ -29,6 +32,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 2,
     endWord: 5,
+    isolatedSyllableWeight: 1,
     condition: {
       notRightContext: ["consonant"],
     },
@@ -36,18 +40,20 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "aɪ",
     form: "ie",
-    frequency: 1,
+    frequency: 4,
     startWord: 10,
     midWord: 10,
     endWord: 1,
+    isolatedSyllableWeight: 1,
   },
   { 
     phoneme: "aɪ", 
     form: "ai", 
-    frequency: 1,
+    frequency: 4,
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 1,
   },
   {
     phoneme: "aɪ",
@@ -65,6 +71,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 2,
+    isolatedSyllableWeight: 1,
   },
   {
     phoneme: "aɪ",
@@ -125,24 +132,28 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 0,
     endWord: 0,
+    // CMU ~1% bare / ~43% digraph / ~56% split — favour silentE from "a"/swaps.
+    isolatedSyllableWeight: 5,
   },
   {
     phoneme: "eɪ",
     form: "ai",
-    frequency: 10,
+    frequency: 18,
     coda: 0,
     startWord: 0,
     midWord: 2,
     endWord: 0,
+    isolatedSyllableWeight: 3,
   },
   {
     phoneme: "eɪ",
     form: "ay",
-    frequency: 7,
+    frequency: 12,
     onset: 0,
     startWord: 0,
     midWord: 1,
     endWord: 5,
+    isolatedSyllableWeight: 2,
   },
   {
     phoneme: "eɪ",
@@ -152,16 +163,18 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 4,
     endWord: 10,
+    isolatedSyllableWeight: 1,
     condition: { rightContext: ["t"] },
   },
   // great
   {
     phoneme: "eɪ",
     form: "ea",
-    frequency: 2,
+    frequency: 4,
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 2,
     condition: { alias: "notBeforeVowelLetter" },
   },
   {
@@ -171,6 +184,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 4,
+    isolatedSyllableWeight: 1,
   },
   { 
     phoneme: "eɪ", 
@@ -179,6 +193,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 1,
   },
 
   // blow
@@ -189,6 +204,8 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    // Comparator ~36% digraph / ~43% split — keep digraph up without starving silentE.
+    isolatedSyllableWeight: 5,
   },
   {
     phoneme: "əʊ",
@@ -197,6 +214,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 0,
     endWord: 5,
+    isolatedSyllableWeight: 6,
   },
   {
     phoneme: "əʊ",
@@ -205,6 +223,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 2,
   },
   {
     phoneme: "əʊ",
@@ -213,6 +232,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    isolatedSyllableWeight: 2,
   },
   {
     phoneme: "əʊ",

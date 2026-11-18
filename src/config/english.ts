@@ -271,6 +271,9 @@ export const englishConfig: LanguageConfig = {
       { phoneme: "eɪ", from: "ai", to: "a" },
       { phoneme: "eɪ", from: "ae", to: "a" },
       { phoneme: "eɪ", from: "ea", to: "a" },
+      // Part 2: ay/ey were mono-heavy digraphs with no silent-e path → split shortfall.
+      { phoneme: "eɪ", from: "ay", to: "a" },
+      { phoneme: "eɪ", from: "ey", to: "a" },
       // /iː/ — "e" + e (these, Pete); also digraph swaps
       { phoneme: "i:", from: "e", to: "e" },
       { phoneme: "i:", from: "ee", to: "e" },
@@ -279,6 +282,9 @@ export const englishConfig: LanguageConfig = {
       { phoneme: "aɪ", from: "i", to: "i" },
       { phoneme: "aɪ", from: "igh", to: "i" },
       { phoneme: "aɪ", from: "ie", to: "i" },
+      // Part 2: ye/ai digraphs had no silent-e conversion on monos.
+      { phoneme: "aɪ", from: "ye", to: "i" },
+      { phoneme: "aɪ", from: "ai", to: "i" },
       // /əʊ/ — "o" + e (home, bone); also digraph swaps
       { phoneme: "əʊ", from: "o", to: "o" },
       { phoneme: "əʊ", from: "ow", to: "o" },
@@ -287,6 +293,7 @@ export const englishConfig: LanguageConfig = {
       { phoneme: "u", from: "u", to: "u" },
       { phoneme: "u", from: "oo", to: "u" },
       { phoneme: "u", from: "ue", to: "u" },
+      { phoneme: "u", from: "ew", to: "u" },
     ],
     excludedCodas: ["w", "j", "h"],
     appendAfter: [

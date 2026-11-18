@@ -41,7 +41,8 @@ describe("word-final /s/ after r, n, l (#389)", () => {
     const seed = Array.from({ length: 5000 }, (_, i) => i).find(candidate => {
       const word = generateWord({ seed: candidate, morphology: false, trace: true });
       const found = finalSAfterSonorant(word);
-      return found && found.s.selected !== "s";
+      // Selected ce/se can still lose the final e under later spelling rules; require the surface form.
+      return found && ["ce", "se"].includes(found.s.selected) && /[rnl][cs]e$/.test(word.written.clean);
     });
     expect(seed).toBeDefined();
 

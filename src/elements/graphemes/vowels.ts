@@ -103,6 +103,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 5,
+    // Real-word mono comparator: ~74% single / ~14% digraph — keep single dominant on monos.
+    isolatedSyllableWeight: 10,
   },
   // threat
   {
@@ -113,6 +115,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 10,
     endWord: 5,
+    // Was unreachable on monos; target ~14% CMU digraph share (not 40%).
+    isolatedSyllableWeight: 2,
     condition: { alias: "notBeforeVowelLetter" },
   },
   // æ: cat
@@ -184,15 +188,19 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 5,
+    // Comparator ~54% single / ~33% digraph on real-word monos.
+    isolatedSyllableWeight: 6,
   },
   {
     phoneme: "ɔ",
     form: "aw",
-    frequency: 1,
+    frequency: 8,
     onset: 0,
     startWord: 0,
     midWord: 1,
     endWord: 2,
+    // Was unreachable on monos (min(start,end)=0); restore digraph share.
+    isolatedSyllableWeight: 5,
   },
   {
     phoneme: "ɔ",
@@ -203,6 +211,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 5,
+    isolatedSyllableWeight: 1,
     condition: { rightContext: ["t"] },
   },
 
@@ -215,6 +224,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 4,
+    // Comparator ~66% digraph; "oo" was weight-0 on monos.
+    isolatedSyllableWeight: 7,
   },
   { 
     phoneme: "ʊ", 
@@ -223,6 +234,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    isolatedSyllableWeight: 4,
     condition: { notLeftContext: ["g"] },
   },
   // could, would, should, courier
@@ -233,6 +245,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 0,
+    isolatedSyllableWeight: 2,
   },
 
   // blue
@@ -243,14 +256,17 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 10,
     endWord: 0,
+    isolatedSyllableWeight: 2,
   },
   {
     phoneme: "u",
     form: "oo",
-    frequency: 30,
+    frequency: 40,
     startWord: 0,
     midWord: 3,
     endWord: 3,
+    // Comparator ~76% digraph / ~18% split — leave room for silentE from bare "u".
+    isolatedSyllableWeight: 6,
   },
   {
     phoneme: "u",
@@ -259,6 +275,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 2,
+    isolatedSyllableWeight: 3,
     condition: { notLeftContext: ["g"] },
   },
   {
@@ -268,6 +285,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 50,
+    isolatedSyllableWeight: 4,
   },
   {
     phoneme: "u",
@@ -276,6 +294,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 4,
     endWord: 20,
+    isolatedSyllableWeight: 4,
   },
 
   // cup

@@ -35,16 +35,19 @@ function withPositions(
     );
     const isolatedAllowed =
       !hasBothEdges || (grapheme.startWord > 0 && grapheme.endWord > 0);
+    // Explicit isolatedSyllableWeight from inventory wins — otherwise the
+    // hasBothEdges heuristic zeroes digraphs that only license one edge
+    // (e.g. /ʊ/ "oo", /ɔ/ "aw"), making monosyllable digraph tuning a no-op.
+    const isolatedSyllableWeight =
+      grapheme.isolatedSyllableWeight !== undefined
+        ? grapheme.isolatedSyllableWeight
+        : isolatedAllowed
+          ? Math.max(grapheme.startWord, grapheme.midWord, grapheme.endWord)
+          : 0;
     return {
       ...grapheme,
       positionScope,
-      ...(positionScope === "syllable"
-        ? {
-          isolatedSyllableWeight: isolatedAllowed
-            ? Math.max(grapheme.startWord, grapheme.midWord, grapheme.endWord)
-            : 0,
-        }
-        : {}),
+      ...(positionScope === "syllable" ? { isolatedSyllableWeight } : {}),
     };
   });
 }

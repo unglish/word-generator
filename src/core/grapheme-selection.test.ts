@@ -69,10 +69,12 @@ describe("legal grapheme selection", () => {
     expect(filterByPosition([{ ...grapheme, isolatedSyllableWeight: 0 }], false, true, true)).toEqual([]);
   });
 
-  it("spells isolated /ɛ/ with ordinary e, including before /t/, without a fallback", () => {
+  it("spells isolated /ɛ/ with ordinary e or ea, including before /t/, without a fallback", () => {
     const rand = createSeededRng(217);
     let beforeT = 0;
     let elsewhere = 0;
+    let asE = 0;
+    let asEa = 0;
     for (let draw = 0; draw < 2000; draw++) {
       const word = generateWord({ rand, syllableCount: 1, morphology: false, trace: true });
       const choices = word.trace!.graphemeSelections;
@@ -81,13 +83,17 @@ describe("legal grapheme selection", () => {
         if (choice.phoneme !== "ɛ") continue;
         if (choices[index + 1]?.phoneme === "t") beforeT++;
         else elsewhere++;
-        // ea has no isolated-syllable weight, so e is the only ordinary isolated spelling.
-        expect(choice.selected).toBe("e");
+        // Real-word mono comparator licenses ~14% "ea"; both remain ordinary (non-fallback).
+        expect(["e", "ea"]).toContain(choice.selected);
         expect(choice.selection?.fallback).toBeUndefined();
+        if (choice.selected === "e") asE++;
+        else asEa++;
       }
     }
     expect(beforeT).toBeGreaterThan(0);
     expect(elsewhere).toBeGreaterThan(0);
+    expect(asE).toBeGreaterThan(asEa);
+    expect(asEa).toBeGreaterThan(0);
   });
 
   it("writes medial coda /z/ after /g/ as z, so gz before a vowel can become x", () => {
