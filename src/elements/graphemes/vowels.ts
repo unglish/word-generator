@@ -2,7 +2,9 @@
 import { Grapheme } from "../../types.js";
 
 export const vowelGraphemes: Grapheme[] = [
-  // i: sheep
+  // i: sheep — comparator monos ≈ ee 40% / ea 40% / ie 10% / e 8%.
+  // Without explicit iso weights, withPositions zeroes "ee" (startWord 0) so
+  // monos were 100% "ea". Fit per-form shares; context split is coarse.
   {
     phoneme: "i:",
     form: "ee",
@@ -10,6 +12,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 4,
     endWord: 1,
+    isolatedSyllableWeight: 45,
   },
   {
     phoneme: "i:",
@@ -18,6 +21,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 20,
     midWord: 3,
     endWord: 1,
+    isolatedSyllableWeight: 45,
     condition: { alias: "notBeforeVowelLetter" },
   },
   {
@@ -27,6 +31,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 100,
     midWord: 1,
     endWord: 0,
+    // Bare "e" is mostly open/function words in comparator; keep mono share modest.
+    isolatedSyllableWeight: 4,
   },
   {
     phoneme: "i:",
@@ -35,6 +41,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 5,
+    // Comparator open monos use "e"/"ee"/"ea", not final "y" (poly-final).
+    isolatedSyllableWeight: 0,
     condition: {
       segmentPosition: ["final"],
       notRightContext: ["consonant"],
@@ -47,6 +55,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 2,
+    isolatedSyllableWeight: 10,
   },
   {
     phoneme: "i:",
@@ -55,6 +64,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 1,
   },
   // people
   {
@@ -64,6 +74,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 0,
   },
 
   // ɪ: sit
@@ -203,9 +214,9 @@ export const vowelGraphemes: Grapheme[] = [
     isolatedSyllableWeight: 50,
     condition: { syllableShape: { coda: "empty" } },
   },
-  // Closed monos: comparator aw only before lone n/l/k (never clusters).
-  // Cannot express "exactly one coda phone" — rightContext still allows nd/nk…;
-  // those cluster leaks are a documented known gap.
+  // Closed monos: comparator aw only before lone n/l/k (~0% clusters).
+  // rightContext still allows nd/nk… — keep weight low so aw-before-cluster
+  // stays under 1% of /ɔ/ monos (accepts single-coda aw shortfall).
   {
     phoneme: "ɔ",
     form: "aw",
@@ -214,7 +225,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 2,
-    isolatedSyllableWeight: 20,
+    isolatedSyllableWeight: 1,
     condition: {
       rightContext: ["n", "l", "k"],
       syllableShape: { coda: "nonEmpty" },

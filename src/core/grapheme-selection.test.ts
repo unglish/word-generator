@@ -146,7 +146,8 @@ describe("legal grapheme selection", () => {
         if (selection.fallback) {
           fallbackChoices++;
           expect(selection.positiveCandidates).toBe(0);
-          expect([["ʊ", "oo"]]).toContainEqual([choice.phoneme, choice.selected]);
+          // Declared fallbacks: /ʊ/ "oo" after g; /i:/ "ee" when ordinary forms are empty.
+          expect([["ʊ", "oo"], ["i:", "ee"]]).toContainEqual([choice.phoneme, choice.selected]);
         }
         if (choice.syllableIndex === 0 && choice.position === "coda" && word.syllables.length > 1) {
           firstSyllableCodas++;
@@ -163,6 +164,21 @@ describe("legal grapheme selection", () => {
     expect(firstSyllableCodas).toBeGreaterThan(1000);
     expect(finalSyllableOnsets).toBeGreaterThan(1000);
     expect(singletonWeightsOtherThanOne).toBeGreaterThan(1000);
+    // Fallback hits are rare and RNG-coupled to earlier spelling draws; search a
+    // fresh stream so licensing /i:/ "ee" on monos does not starve this check.
+    if (fallbackChoices === 0) {
+      const hunt = createSeededRng(20260927);
+      for (let draw = 0; draw < 100_000 && fallbackChoices === 0; draw++) {
+        const word = generateWord({ rand: hunt, morphology: false, trace: true });
+        for (const choice of word.trace!.graphemeSelections) {
+          if (choice.selection?.fallback) {
+            fallbackChoices++;
+            expect(choice.selection.positiveCandidates).toBe(0);
+            expect([["ʊ", "oo"], ["i:", "ee"]]).toContainEqual([choice.phoneme, choice.selected]);
+          }
+        }
+      }
+    }
     expect(fallbackChoices).toBeGreaterThan(0);
   });
 });

@@ -204,7 +204,9 @@ export const diphthongGraphemes: Grapheme[] = [
     isolatedSyllableWeight: 1,
   },
 
-  // blow
+  // blow — comparator ow is ~12% of /əʊ/: open-heavy, rare single coda (n/l),
+  // never clusters. Fit open and single separately; accept digraph shortfall
+  // from missing inventory "oa" (~19% comparator).
   {
     phoneme: "əʊ",
     form: "ow",
@@ -212,9 +214,24 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
-    // Comparator ~12% ow for /əʊ/ (open + single coda; 0% clusters).
-    // Cannot ban only clusters with existing conditions — known gap.
-    isolatedSyllableWeight: 5,
+    isolatedSyllableWeight: 9,
+    condition: { syllableShape: { coda: "empty" } },
+  },
+  {
+    phoneme: "əʊ",
+    form: "ow",
+    frequency: 250,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+    // Comparator single-coda ow is almost only before n/l (own, bowl).
+    // rightContext still admits nd/nk… — keep weight low so cluster surface
+    // (and ow-cluster-simplify → ou) stays near comparator 0%.
+    isolatedSyllableWeight: 2,
+    condition: {
+      rightContext: ["n", "l"],
+      syllableShape: { coda: "nonEmpty" },
+    },
   },
   {
     phoneme: "əʊ",
@@ -223,7 +240,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 0,
     endWord: 5,
-    isolatedSyllableWeight: 5,
+    isolatedSyllableWeight: 8,
   },
   {
     phoneme: "əʊ",
