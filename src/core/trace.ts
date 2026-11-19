@@ -451,8 +451,11 @@ export class TraceCollector {
 
   /** Mark the selection at decision `index` as replaced by a certificate. A later respelling replaces an earlier one. */
   recordRespelling(index: number, respelled: GraphemeRespelling): void {
-    const selection = this.graphemeSelections.findLast(entry => entry.index === index);
-    if (selection) selection.respelled = respelled;
+    for (let i = this.graphemeSelections.length - 1; i >= 0; i--) {
+      if (this.graphemeSelections[i].index !== index) continue;
+      this.graphemeSelections[i].respelled = respelled;
+      return;
+    }
   }
 
   recordStructural(entry: StructuralTrace): void {
