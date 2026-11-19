@@ -43,6 +43,7 @@ export type {
   StageSnapshot,
   SyllableSnapshot,
   GraphemeTrace,
+  GraphemeRespelling,
   DoublingTrace,
   RepairTrace,
   NucleusReplacementTrace,
