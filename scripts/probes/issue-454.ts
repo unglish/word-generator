@@ -52,6 +52,8 @@ interface Tally {
   v3: number;
   ah: Counts;
   joinErr: number;
+  untraced: number;
+  marked: number;
 }
 
 function newTally(): Tally {
@@ -59,7 +61,7 @@ function newTally(): Tally {
     words: 0, aueSel: 0, aueSurf: 0, aueRespelled: 0, aueAfter: {},
     respellWords: { aue: 0, other: 0 }, divergent: { aue: 0, other: 0 },
     coll: {}, otherPairs: {}, finalS: { eligible: 0, divergent: 0, seeds: [] },
-    budget: {}, vowelInfeasible: 0, v3: 0, ah: {}, joinErr: 0,
+    budget: {}, vowelInfeasible: 0, v3: 0, ah: {}, joinErr: 0, untraced: 0, marked: 0,
   };
 }
 
@@ -93,6 +95,13 @@ function observe(t: Tally, word: Word, seed?: number): void {
   const aueWord = aueIndexes.size > 0;
   if ((base?.certificates?.length ?? 0) > 0) t.respellWords[aueWord ? "aue" : "other"]++;
 
+  // `respelled` (added by the trace fix) must match the certificate exactly; absent on main.
+  for (const selection of selections) {
+    const respelled = (selection as { respelled?: { form: string } }).respelled;
+    if (respelled) t.marked++;
+    if (respelled?.form !== replacedBy.get(selection.index)) t.untraced++;
+  }
+
   for (const [index, after] of replacedBy) {
     const selection = [...selections].reverse().find(s => s.index === index)!;
     t.divergent[aueWord ? "aue" : "other"]++;
@@ -124,7 +133,7 @@ function compact(t: Tally) {
     words: t.words, aueSel: t.aueSel, aueSurf: t.aueSurf, aueRespelled: t.aueRespelled,
     aueAfter: top(t.aueAfter, 3), respellWords: t.respellWords, divergent: t.divergent,
     coll: top(t.coll, 5), other: top(t.otherPairs, 4), finalS: t.finalS,
-    budget: top(t.budget, 6), vInf: t.vowelInfeasible, v3: t.v3, ah, joinErr: t.joinErr,
+    budget: top(t.budget, 6), vInf: t.vowelInfeasible, v3: t.v3, ah, joinErr: t.joinErr, untraced: t.untraced, marked: t.marked,
   };
 }
 
