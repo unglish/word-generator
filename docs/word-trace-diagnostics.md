@@ -35,6 +35,11 @@ Use these fields to answer specific diagnostic questions:
 - `graphemeSelections`
   - Question: Is the written trigram caused by grapheme weighting/conditioning?
   - Typical signal: low-probability grapheme repeatedly selected for the same phoneme context.
+  - `selected` and `emitted` are the original choice. When a spelling-budget
+    certificate later replaced the whole unit, `respelled.form` gives the
+    replacement and `respelled.certificateId` indexes
+    `baseSpelling.certificates` (for example `aue·n·ce` written `ons`). Word
+    rules such as `magic-e` are recorded in `repairs` instead.
 - `structural`
   - Question: Did structural events inject the pattern?
   - Typical signal: `finalS`, `nasalStopExtension`, `boundaryDrop`,

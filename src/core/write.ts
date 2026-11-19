@@ -1294,6 +1294,24 @@ export function createWrittenFormGenerator(
     };
   }
 
+  /** Link each unit a certificate replaced back to its grapheme selection in the trace. */
+  function recordRespellings(
+    word: WordSpelling,
+    choices: SpellingChoiceState[],
+    changedUnits: number[],
+    certificateId: number,
+  ): void {
+    const trace = word.context.trace;
+    if (!trace) return;
+    const { units } = word.baseSpelling.current();
+    for (const unitId of changedUnits) {
+      trace.recordRespelling(units[unitId].choiceId, {
+        form: choices[unitId].form,
+        certificateId,
+      });
+    }
+  }
+
   /** Run the coverage planner at `scope`; a respelling replaces the base spelling. */
   function planCoverageAt(
     word: WordSpelling,
@@ -1309,6 +1327,8 @@ export function createWrittenFormGenerator(
       invalidJunction,
     );
     word.context.trace?.recordSpellingBudget(outcome);
+    if (outcome.status === "respell")
+      recordRespellings(word, choices, outcome.changedUnits, outcome.certificateId);
     return outcome.status === "respell"
       ? word.baseSpelling.projectParts(word.context.word.syllables.length)!
       : undefined;
