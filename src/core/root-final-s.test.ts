@@ -41,7 +41,10 @@ describe("word-final /s/ after r, n, l (#389)", () => {
     const seed = Array.from({ length: 5000 }, (_, i) => i).find(candidate => {
       const word = generateWord({ seed: candidate, morphology: false, trace: true });
       const found = finalSAfterSonorant(word);
-      // Selected ce/se can still lose the final e under later spelling rules; require the surface form.
+      // Workaround for https://github.com/unglish/word-generator/issues/454:
+      // selected ce/se (and nucleus forms like aue) can be rewritten by the
+      // base-spelling reading certificate so surface ≠ emitted; require the
+      // surface form here. Remove this surface check when #454 is fixed.
       return found && ["ce", "se"].includes(found.s.selected) && /[rnl][cs]e$/.test(word.written.clean);
     });
     expect(seed).toBeDefined();

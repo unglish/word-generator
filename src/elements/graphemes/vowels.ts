@@ -103,8 +103,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 5,
-    // Real-word mono comparator: ~74% single / ~14% digraph — keep single dominant on monos.
-    isolatedSyllableWeight: 10,
+    // Mono comparator ~74–81% single; keep "e" dominant on isolated syllables.
+    isolatedSyllableWeight: 9,
   },
   // threat
   {
@@ -115,8 +115,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 10,
     endWord: 5,
-    // Was unreachable on monos; target ~14% CMU digraph share (not 40%).
-    isolatedSyllableWeight: 2,
+    // Was unreachable on monos (hasBothEdges zeroed it). Target ~10–14% digraph.
+    isolatedSyllableWeight: 1,
     condition: { alias: "notBeforeVowelLetter" },
   },
   // æ: cat
@@ -188,19 +188,37 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 5,
-    // Comparator ~54% single / ~33% digraph on real-word monos.
-    isolatedSyllableWeight: 6,
+    // Comparator ~52% "o". Digraph ceiling without inventory "au"/"oa" is aw+ough.
+    isolatedSyllableWeight: 3,
   },
+  // Open monos (law, saw): comparator open /ɔ/ is essentially all "aw".
   {
     phoneme: "ɔ",
     form: "aw",
-    frequency: 8,
+    frequency: 1,
     onset: 0,
     startWord: 0,
     midWord: 1,
     endWord: 2,
-    // Was unreachable on monos (min(start,end)=0); restore digraph share.
-    isolatedSyllableWeight: 5,
+    isolatedSyllableWeight: 50,
+    condition: { syllableShape: { coda: "empty" } },
+  },
+  // Closed monos: comparator aw only before lone n/l/k (never clusters).
+  // Cannot express "exactly one coda phone" — rightContext still allows nd/nk…;
+  // those cluster leaks are a documented known gap.
+  {
+    phoneme: "ɔ",
+    form: "aw",
+    frequency: 1,
+    onset: 0,
+    startWord: 0,
+    midWord: 1,
+    endWord: 2,
+    isolatedSyllableWeight: 20,
+    condition: {
+      rightContext: ["n", "l", "k"],
+      syllableShape: { coda: "nonEmpty" },
+    },
   },
   {
     phoneme: "ɔ",
@@ -224,8 +242,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 4,
-    // Comparator ~66% digraph; "oo" was weight-0 on monos.
-    isolatedSyllableWeight: 7,
+    // Comparator ~66% digraph; restore mono licensing without overshooting ~80%+.
+    isolatedSyllableWeight: 3,
   },
   { 
     phoneme: "ʊ", 
@@ -245,7 +263,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 0,
-    isolatedSyllableWeight: 2,
+    isolatedSyllableWeight: 1,
   },
 
   // blue
@@ -261,12 +279,12 @@ export const vowelGraphemes: Grapheme[] = [
   {
     phoneme: "u",
     form: "oo",
-    frequency: 40,
+    frequency: 30,
     startWord: 0,
     midWord: 3,
     endWord: 3,
-    // Comparator ~76% digraph / ~18% split — leave room for silentE from bare "u".
-    isolatedSyllableWeight: 6,
+    // Comparator ~50% "oo" / ~76% digraph overall.
+    isolatedSyllableWeight: 4,
   },
   {
     phoneme: "u",
@@ -278,6 +296,7 @@ export const vowelGraphemes: Grapheme[] = [
     isolatedSyllableWeight: 3,
     condition: { notLeftContext: ["g"] },
   },
+  // Open syllables (incl. open monos): comparator "ue" is open-only.
   {
     phoneme: "u",
     form: "ue",
@@ -285,7 +304,19 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 50,
-    isolatedSyllableWeight: 4,
+    isolatedSyllableWeight: 3,
+    condition: { syllableShape: { coda: "empty" } },
+  },
+  // Closed polysyllable positions — not licensed on monos (iso 0).
+  {
+    phoneme: "u",
+    form: "ue",
+    frequency: 10,
+    startWord: 0,
+    midWord: 5,
+    endWord: 50,
+    isolatedSyllableWeight: 0,
+    condition: { syllableShape: { coda: "nonEmpty" } },
   },
   {
     phoneme: "u",
@@ -294,7 +325,19 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 4,
     endWord: 20,
-    isolatedSyllableWeight: 4,
+    isolatedSyllableWeight: 3,
+    condition: { syllableShape: { coda: "empty" } },
+  },
+  // After /g/, closed first syllables of polysyllables need "ew" ( "u" is banned ).
+  {
+    phoneme: "u",
+    form: "ew",
+    frequency: 7,
+    startWord: 1,
+    midWord: 4,
+    endWord: 20,
+    isolatedSyllableWeight: 0,
+    condition: { syllableShape: { coda: "nonEmpty" } },
   },
 
   // cup

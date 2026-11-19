@@ -10,8 +10,8 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 10,
     endWord: 10,
-    // Comparator ~19% single / ~19% digraph / ~63% split — prefer silentE from "i".
-    isolatedSyllableWeight: 6,
+    // Comparator ~19–20% bare / ~63% split — prefer silentE from "i".
+    isolatedSyllableWeight: 5,
   },
   {
     phoneme: "aɪ",
@@ -22,7 +22,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 10,
-    isolatedSyllableWeight: 1,
+    isolatedSyllableWeight: 3,
     condition: { rightContext: ["t"] },
   },
   { 
@@ -32,7 +32,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 2,
     endWord: 5,
-    isolatedSyllableWeight: 1,
+    isolatedSyllableWeight: 3,
     condition: {
       notRightContext: ["consonant"],
     },
@@ -40,20 +40,21 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "aɪ",
     form: "ie",
-    frequency: 4,
+    frequency: 1,
     startWord: 10,
     midWord: 10,
     endWord: 1,
-    isolatedSyllableWeight: 1,
+    isolatedSyllableWeight: 2,
   },
   { 
     phoneme: "aɪ", 
     form: "ai", 
-    frequency: 4,
+    frequency: 1,
     startWord: 0,
     midWord: 1,
     endWord: 0,
-    isolatedSyllableWeight: 1,
+    // Review: no mono /aɪ/ "ai" licensing (comparator has 0).
+    isolatedSyllableWeight: 0,
   },
   {
     phoneme: "aɪ",
@@ -71,7 +72,9 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 2,
+    // Comparator ye is open-only (~1.7% of /aɪ/).
     isolatedSyllableWeight: 1,
+    condition: { syllableShape: { coda: "empty" } },
   },
   {
     phoneme: "aɪ",
@@ -132,28 +135,32 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 0,
     endWord: 0,
-    // CMU ~1% bare / ~43% digraph / ~56% split — favour silentE from "a"/swaps.
-    isolatedSyllableWeight: 5,
-  },
-  {
-    phoneme: "eɪ",
-    form: "ai",
-    frequency: 18,
-    coda: 0,
-    startWord: 0,
-    midWord: 2,
-    endWord: 0,
+    // Comparator ~56% "a" (mostly split via silentE); keep mono path for magic-e.
     isolatedSyllableWeight: 3,
   },
   {
     phoneme: "eɪ",
+    form: "ai",
+    frequency: 10,
+    coda: 0,
+    startWord: 0,
+    midWord: 2,
+    endWord: 0,
+    // Comparator ~24% "ai", closed-only (coda:0 already).
+    isolatedSyllableWeight: 5,
+  },
+  {
+    phoneme: "eɪ",
     form: "ay",
-    frequency: 12,
+    frequency: 7,
     onset: 0,
     startWord: 0,
     midWord: 1,
     endWord: 5,
-    isolatedSyllableWeight: 2,
+    // Comparator ay is open-only on monos, but syllableShape coda:empty also
+    // removes the only endWord>0 spellings for closed final syllables of
+    // polysyllables. Ban on monos; keep poly endWord. Known mono open-ay gap.
+    isolatedSyllableWeight: 0,
   },
   {
     phoneme: "eɪ",
@@ -170,11 +177,11 @@ export const diphthongGraphemes: Grapheme[] = [
   {
     phoneme: "eɪ",
     form: "ea",
-    frequency: 4,
+    frequency: 2,
     startWord: 0,
     midWord: 1,
     endWord: 0,
-    isolatedSyllableWeight: 2,
+    isolatedSyllableWeight: 1,
     condition: { alias: "notBeforeVowelLetter" },
   },
   {
@@ -184,7 +191,8 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 4,
-    isolatedSyllableWeight: 1,
+    // Same poly-final dependency as "ay" — ban on monos (known open-ey gap).
+    isolatedSyllableWeight: 0,
   },
   { 
     phoneme: "eɪ", 
@@ -204,7 +212,8 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
-    // Comparator ~36% digraph / ~43% split — keep digraph up without starving silentE.
+    // Comparator ~12% ow for /əʊ/ (open + single coda; 0% clusters).
+    // Cannot ban only clusters with existing conditions — known gap.
     isolatedSyllableWeight: 5,
   },
   {
@@ -214,7 +223,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 0,
     endWord: 5,
-    isolatedSyllableWeight: 6,
+    isolatedSyllableWeight: 5,
   },
   {
     phoneme: "əʊ",
@@ -223,7 +232,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 0,
-    isolatedSyllableWeight: 2,
+    isolatedSyllableWeight: 1,
   },
   {
     phoneme: "əʊ",
@@ -232,7 +241,9 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
-    isolatedSyllableWeight: 2,
+    // Comparator oe mostly open; ban closed leak.
+    isolatedSyllableWeight: 1,
+    condition: { syllableShape: { coda: "empty" } },
   },
   {
     phoneme: "əʊ",
