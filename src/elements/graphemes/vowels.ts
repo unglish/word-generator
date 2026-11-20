@@ -2,7 +2,9 @@
 import { Grapheme } from "../../types.js";
 
 export const vowelGraphemes: Grapheme[] = [
-  // i: sheep
+  // i: sheep — comparator monos ≈ ee 40% / ea 40% / ie 10% / e 8%.
+  // Without explicit iso weights, withPositions zeroes "ee" (startWord 0) so
+  // monos were 100% "ea". Fit per-form shares; context split is coarse.
   {
     phoneme: "i:",
     form: "ee",
@@ -10,6 +12,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 4,
     endWord: 1,
+    isolatedSyllableWeight: 45,
   },
   {
     phoneme: "i:",
@@ -18,6 +21,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 20,
     midWord: 3,
     endWord: 1,
+    isolatedSyllableWeight: 45,
     condition: { alias: "notBeforeVowelLetter" },
   },
   {
@@ -27,6 +31,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 100,
     midWord: 1,
     endWord: 0,
+    // Bare "e" is mostly open/function words in comparator; keep mono share modest.
+    isolatedSyllableWeight: 4,
   },
   {
     phoneme: "i:",
@@ -35,6 +41,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 5,
+    // Comparator open monos use "e"/"ee"/"ea", not final "y" (poly-final).
+    isolatedSyllableWeight: 0,
     condition: {
       segmentPosition: ["final"],
       notRightContext: ["consonant"],
@@ -47,6 +55,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 2,
+    isolatedSyllableWeight: 10,
   },
   {
     phoneme: "i:",
@@ -55,6 +64,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 1,
   },
   // people
   {
@@ -64,6 +74,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 0,
   },
 
   // ɪ: sit
@@ -103,6 +114,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 5,
+    // Mono comparator ~74–81% single; keep "e" dominant on isolated syllables.
+    isolatedSyllableWeight: 9,
   },
   // threat
   {
@@ -113,6 +126,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 10,
     endWord: 5,
+    // Was unreachable on monos (hasBothEdges zeroed it). Target ~10–14% digraph.
+    isolatedSyllableWeight: 1,
     condition: { alias: "notBeforeVowelLetter" },
   },
   // æ: cat
@@ -184,7 +199,10 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 5,
+    // Comparator ~52% "o". Digraph ceiling without inventory "au"/"oa" is aw+ough.
+    isolatedSyllableWeight: 3,
   },
+  // Open monos (law, saw): comparator open /ɔ/ is essentially all "aw".
   {
     phoneme: "ɔ",
     form: "aw",
@@ -193,6 +211,25 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 2,
+    isolatedSyllableWeight: 50,
+    condition: { syllableShape: { coda: "empty" } },
+  },
+  // Closed monos: comparator aw only before lone n/l/k (~0% clusters).
+  // rightContext still allows nd/nk… — keep weight low so aw-before-cluster
+  // stays under 1% of /ɔ/ monos (accepts single-coda aw shortfall).
+  {
+    phoneme: "ɔ",
+    form: "aw",
+    frequency: 1,
+    onset: 0,
+    startWord: 0,
+    midWord: 1,
+    endWord: 2,
+    isolatedSyllableWeight: 1,
+    condition: {
+      rightContext: ["n", "l", "k"],
+      syllableShape: { coda: "nonEmpty" },
+    },
   },
   {
     phoneme: "ɔ",
@@ -203,6 +240,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 5,
+    isolatedSyllableWeight: 1,
     condition: { rightContext: ["t"] },
   },
 
@@ -215,6 +253,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 4,
+    // Comparator ~66% digraph; restore mono licensing without overshooting ~80%+.
+    isolatedSyllableWeight: 3,
   },
   { 
     phoneme: "ʊ", 
@@ -223,6 +263,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    isolatedSyllableWeight: 4,
     condition: { notLeftContext: ["g"] },
   },
   // could, would, should, courier
@@ -233,6 +274,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 0,
+    isolatedSyllableWeight: 1,
   },
 
   // blue
@@ -243,6 +285,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 10,
     endWord: 0,
+    isolatedSyllableWeight: 2,
   },
   {
     phoneme: "u",
@@ -251,6 +294,8 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 3,
     endWord: 3,
+    // Comparator ~50% "oo" / ~76% digraph overall.
+    isolatedSyllableWeight: 4,
   },
   {
     phoneme: "u",
@@ -259,8 +304,10 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 2,
+    isolatedSyllableWeight: 3,
     condition: { notLeftContext: ["g"] },
   },
+  // Open syllables (incl. open monos): comparator "ue" is open-only.
   {
     phoneme: "u",
     form: "ue",
@@ -268,6 +315,19 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 50,
+    isolatedSyllableWeight: 3,
+    condition: { syllableShape: { coda: "empty" } },
+  },
+  // Closed polysyllable positions — not licensed on monos (iso 0).
+  {
+    phoneme: "u",
+    form: "ue",
+    frequency: 10,
+    startWord: 0,
+    midWord: 5,
+    endWord: 50,
+    isolatedSyllableWeight: 0,
+    condition: { syllableShape: { coda: "nonEmpty" } },
   },
   {
     phoneme: "u",
@@ -276,6 +336,19 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 4,
     endWord: 20,
+    isolatedSyllableWeight: 3,
+    condition: { syllableShape: { coda: "empty" } },
+  },
+  // After /g/, closed first syllables of polysyllables need "ew" ( "u" is banned ).
+  {
+    phoneme: "u",
+    form: "ew",
+    frequency: 7,
+    startWord: 1,
+    midWord: 4,
+    endWord: 20,
+    isolatedSyllableWeight: 0,
+    condition: { syllableShape: { coda: "nonEmpty" } },
   },
 
   // cup

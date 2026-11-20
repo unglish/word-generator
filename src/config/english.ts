@@ -279,6 +279,8 @@ export const englishConfig: LanguageConfig = {
       { phoneme: "aɪ", from: "i", to: "i" },
       { phoneme: "aɪ", from: "igh", to: "i" },
       { phoneme: "aɪ", from: "ie", to: "i" },
+      // Open-only mono "ye" still needs a silent-e path for split share.
+      { phoneme: "aɪ", from: "ye", to: "i" },
       // /əʊ/ — "o" + e (home, bone); also digraph swaps
       { phoneme: "əʊ", from: "o", to: "o" },
       { phoneme: "əʊ", from: "ow", to: "o" },
@@ -287,6 +289,8 @@ export const englishConfig: LanguageConfig = {
       { phoneme: "u", from: "u", to: "u" },
       { phoneme: "u", from: "oo", to: "u" },
       { phoneme: "u", from: "ue", to: "u" },
+      // Open-only mono "ew" → silent-e when split share is short.
+      { phoneme: "u", from: "ew", to: "u" },
     ],
     excludedCodas: ["w", "j", "h"],
     appendAfter: [

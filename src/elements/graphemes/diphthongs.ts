@@ -10,6 +10,8 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 10,
     endWord: 10,
+    // Comparator ~19–20% bare / ~63% split — prefer silentE from "i".
+    isolatedSyllableWeight: 5,
   },
   {
     phoneme: "aɪ",
@@ -20,6 +22,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 10,
+    isolatedSyllableWeight: 3,
     condition: { rightContext: ["t"] },
   },
   { 
@@ -29,6 +32,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 2,
     endWord: 5,
+    isolatedSyllableWeight: 3,
     condition: {
       notRightContext: ["consonant"],
     },
@@ -40,6 +44,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 1,
+    isolatedSyllableWeight: 2,
   },
   { 
     phoneme: "aɪ", 
@@ -48,6 +53,8 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    // Review: no mono /aɪ/ "ai" licensing (comparator has 0).
+    isolatedSyllableWeight: 0,
   },
   {
     phoneme: "aɪ",
@@ -65,6 +72,9 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 2,
+    // Comparator ye is open-only (~1.7% of /aɪ/).
+    isolatedSyllableWeight: 1,
+    condition: { syllableShape: { coda: "empty" } },
   },
   {
     phoneme: "aɪ",
@@ -125,6 +135,8 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 0,
     endWord: 0,
+    // Comparator ~56% "a" (mostly split via silentE); keep mono path for magic-e.
+    isolatedSyllableWeight: 3,
   },
   {
     phoneme: "eɪ",
@@ -134,6 +146,8 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 2,
     endWord: 0,
+    // Comparator ~24% "ai", closed-only (coda:0 already).
+    isolatedSyllableWeight: 5,
   },
   {
     phoneme: "eɪ",
@@ -143,6 +157,10 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 5,
+    // Comparator ay is open-only on monos, but syllableShape coda:empty also
+    // removes the only endWord>0 spellings for closed final syllables of
+    // polysyllables. Ban on monos; keep poly endWord. Known mono open-ay gap.
+    isolatedSyllableWeight: 0,
   },
   {
     phoneme: "eɪ",
@@ -152,6 +170,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 4,
     endWord: 10,
+    isolatedSyllableWeight: 1,
     condition: { rightContext: ["t"] },
   },
   // great
@@ -162,6 +181,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 1,
     condition: { alias: "notBeforeVowelLetter" },
   },
   {
@@ -171,6 +191,8 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 4,
+    // Same poly-final dependency as "ay" — ban on monos (known open-ey gap).
+    isolatedSyllableWeight: 0,
   },
   { 
     phoneme: "eɪ", 
@@ -179,9 +201,12 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 1,
   },
 
-  // blow
+  // blow — comparator ow is ~12% of /əʊ/: open-heavy, rare single coda (n/l),
+  // never clusters. Fit open and single separately; accept digraph shortfall
+  // from missing inventory "oa" (~19% comparator).
   {
     phoneme: "əʊ",
     form: "ow",
@@ -189,6 +214,24 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    isolatedSyllableWeight: 9,
+    condition: { syllableShape: { coda: "empty" } },
+  },
+  {
+    phoneme: "əʊ",
+    form: "ow",
+    frequency: 250,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+    // Comparator single-coda ow is almost only before n/l (own, bowl).
+    // rightContext still admits nd/nk… — keep weight low so cluster surface
+    // (and ow-cluster-simplify → ou) stays near comparator 0%.
+    isolatedSyllableWeight: 2,
+    condition: {
+      rightContext: ["n", "l"],
+      syllableShape: { coda: "nonEmpty" },
+    },
   },
   {
     phoneme: "əʊ",
@@ -197,6 +240,20 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 0,
     endWord: 5,
+    isolatedSyllableWeight: 8,
+  },
+  // Medial closed /əʊ/ (non-n/l): without a midWord "o", the pool is only
+  // "ou" once "ow" is restricted — "out"-like spellings. Closed-only so open
+  // medial "ow" (and mono isolated "o") stay as before.
+  {
+    phoneme: "əʊ",
+    form: "o",
+    frequency: 500,
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+    isolatedSyllableWeight: 0,
+    condition: { syllableShape: { coda: "nonEmpty" } },
   },
   {
     phoneme: "əʊ",
@@ -205,6 +262,7 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    isolatedSyllableWeight: 1,
   },
   {
     phoneme: "əʊ",
@@ -213,6 +271,9 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1,
+    // Comparator oe mostly open; ban closed leak.
+    isolatedSyllableWeight: 1,
+    condition: { syllableShape: { coda: "empty" } },
   },
   {
     phoneme: "əʊ",

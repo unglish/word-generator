@@ -69,10 +69,12 @@ describe("legal grapheme selection", () => {
     expect(filterByPosition([{ ...grapheme, isolatedSyllableWeight: 0 }], false, true, true)).toEqual([]);
   });
 
-  it("spells isolated /ɛ/ with ordinary e, including before /t/, without a fallback", () => {
+  it("spells isolated /ɛ/ with ordinary e or ea, including before /t/, without a fallback", () => {
     const rand = createSeededRng(217);
     let beforeT = 0;
     let elsewhere = 0;
+    let asE = 0;
+    let asEa = 0;
     for (let draw = 0; draw < 2000; draw++) {
       const word = generateWord({ rand, syllableCount: 1, morphology: false, trace: true });
       const choices = word.trace!.graphemeSelections;
@@ -81,13 +83,17 @@ describe("legal grapheme selection", () => {
         if (choice.phoneme !== "ɛ") continue;
         if (choices[index + 1]?.phoneme === "t") beforeT++;
         else elsewhere++;
-        // ea has no isolated-syllable weight, so e is the only ordinary isolated spelling.
-        expect(choice.selected).toBe("e");
+        // Real-word mono comparator licenses ~14% "ea"; both remain ordinary (non-fallback).
+        expect(["e", "ea"]).toContain(choice.selected);
         expect(choice.selection?.fallback).toBeUndefined();
+        if (choice.selected === "e") asE++;
+        else asEa++;
       }
     }
     expect(beforeT).toBeGreaterThan(0);
     expect(elsewhere).toBeGreaterThan(0);
+    expect(asE).toBeGreaterThan(asEa);
+    expect(asEa).toBeGreaterThan(0);
   });
 
   it("writes medial coda /z/ after /g/ as z, so gz before a vowel can become x", () => {
@@ -128,7 +134,6 @@ describe("legal grapheme selection", () => {
     let firstSyllableCodas = 0;
     let finalSyllableOnsets = 0;
     let singletonWeightsOtherThanOne = 0;
-    let fallbackChoices = 0;
     for (let draw = 0; draw < 10000; draw++) {
       const word = generateWord({ rand, morphology: false, trace: true });
       const choices = word.trace!.graphemeSelections;
@@ -137,11 +142,6 @@ describe("legal grapheme selection", () => {
         expect(choice.weights.every(([, weight]) => weight > 0 && Number.isFinite(weight))).toBe(true);
         const selection = choice.selection!;
         if (choice.weights.length === 1 && choice.weights[0][1] !== 1) singletonWeightsOtherThanOne++;
-        if (selection.fallback) {
-          fallbackChoices++;
-          expect(selection.positiveCandidates).toBe(0);
-          expect([["ʊ", "oo"]]).toContainEqual([choice.phoneme, choice.selected]);
-        }
         if (choice.syllableIndex === 0 && choice.position === "coda" && word.syllables.length > 1) {
           firstSyllableCodas++;
           expect(selection.segmentPosition).toBe("medial");
@@ -157,6 +157,20 @@ describe("legal grapheme selection", () => {
     expect(firstSyllableCodas).toBeGreaterThan(1000);
     expect(finalSyllableOnsets).toBeGreaterThan(1000);
     expect(singletonWeightsOtherThanOne).toBeGreaterThan(1000);
+
+    // Declared fallbacks still fire in shipping config: seed 20260930 hits
+    // /ʊ/ "oo" after g (5× in 10k). /i:/ "ee" fallbackOnly is unused (#457).
+    const fallbackRand = createSeededRng(20260930);
+    let fallbackChoices = 0;
+    for (let draw = 0; draw < 10000; draw++) {
+      const word = generateWord({ rand: fallbackRand, morphology: false, trace: true });
+      for (const choice of word.trace!.graphemeSelections) {
+        if (!choice.selection?.fallback) continue;
+        fallbackChoices++;
+        expect(choice.selection.positiveCandidates).toBe(0);
+        expect([["ʊ", "oo"], ["i:", "ee"]]).toContainEqual([choice.phoneme, choice.selected]);
+      }
+    }
     expect(fallbackChoices).toBeGreaterThan(0);
   });
 });

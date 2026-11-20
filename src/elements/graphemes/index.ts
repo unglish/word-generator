@@ -35,16 +35,19 @@ function withPositions(
     );
     const isolatedAllowed =
       !hasBothEdges || (grapheme.startWord > 0 && grapheme.endWord > 0);
+    // Explicit isolatedSyllableWeight from inventory wins — otherwise the
+    // hasBothEdges heuristic zeroes digraphs that only license one edge
+    // (e.g. /ʊ/ "oo", /ɔ/ "aw"), making monosyllable digraph tuning a no-op.
+    const isolatedSyllableWeight =
+      grapheme.isolatedSyllableWeight !== undefined
+        ? grapheme.isolatedSyllableWeight
+        : isolatedAllowed
+          ? Math.max(grapheme.startWord, grapheme.midWord, grapheme.endWord)
+          : 0;
     return {
       ...grapheme,
       positionScope,
-      ...(positionScope === "syllable"
-        ? {
-          isolatedSyllableWeight: isolatedAllowed
-            ? Math.max(grapheme.startWord, grapheme.midWord, grapheme.endWord)
-            : 0,
-        }
-        : {}),
+      ...(positionScope === "syllable" ? { isolatedSyllableWeight } : {}),
     };
   });
 }
@@ -62,8 +65,9 @@ export const graphemes: Grapheme[] = withEnglishReadings([
   // These alternatives preserve hard contextual bans when the legacy vowel
   // preferences leave a syllable unspellable. They are not eligible
   // until every ordinary candidate has been excluded.
-  // A one-syllable root ending in /i:/ before a vowel-initial suffix: "ea" is
-  // the only isolated /i:/ spelling, and it may not precede a vowel letter.
+  // /i:/ "ee" fallbackOnly: kept as a safety net when ordinary /i:/ forms are
+  // stripped. Shipping config licenses ordinary isolated "ee" (#450), so this
+  // entry is unused there (0 hits in 150k×2 morph on/off); see #457.
   {
     phoneme: "i:",
     form: "ee",

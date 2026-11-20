@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, generateWords } from "../index.js";
 import { englishConfig } from "../config/english.js";
-import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import type { Word } from "../types.js";
 import type { GraphemeTrace } from "./trace.js";
 
@@ -65,29 +64,21 @@ describe("ea spelling context (#381)", () => {
     expect(finals.get("ɛ") ?? 0).toBeLessThan(finals.get("i:")!);
   });
 
-  it("spells a one-syllable root ending in /i:/ before a vowel suffix with the declared ee fallback", () => {
-    let fallbacks = 0;
+  it("spells a one-syllable root ending in /i:/ before a vowel suffix with ee (not ea)", () => {
+    // #450 licenses ordinary isolated /i:/ "ee"; "ea" remains banned before a
+    // vowel letter. The dedicated fallbackOnly "ee" is now rarely needed.
+    let finals = 0;
+    let ee = 0;
     for (const word of sample(38100)) {
       const last = rootFinalVowelBeforeVowelSuffix(word);
       if (!last || last.phoneme !== "i:" || last.syllableIndex !== 0) continue;
-      // "ea" is the only ordinary isolated /i:/ spelling; without the fallback this throws.
-      fallbacks++;
+      finals++;
+      expect(last.selected).not.toBe("ea");
       expect(last.afterCondition).not.toContain("ea");
-      expect(last).toMatchObject({
-        selected: "ee",
-        afterPosition: [],
-        selection: { positiveCandidates: 0, fallback: "no-positional-candidates" },
-      });
+      if (last.selected === "ee") ee++;
     }
-    expect(fallbacks).toBeGreaterThan(5);
-  });
-
-  it("would leave that root unspellable without the fallback, and generation throws", () => {
-    const graphemes = englishConfig.graphemes.filter(g => !(g.fallbackOnly && g.phoneme === "i:"));
-    const generator = createGenerator({ ...englishConfig, graphemes, ...buildGraphemeMaps(graphemes) });
-    const rand = createSeededRng(38100);
-    expect(() => { for (let draw = 0; draw < SAMPLE; draw++) generator.generateWord({ rand, morphology: true }); })
-      .toThrow(/No legal grapheme for \/i:\/.*no-positional-candidates/);
+    expect(finals).toBeGreaterThan(5);
+    expect(ee / finals).toBeGreaterThan(0.5);
   });
 
   it("keeps ea in use for /ɛ/ and /i:/ where it is allowed", () => {
@@ -100,12 +91,11 @@ describe("ea spelling context (#381)", () => {
         if (selection.selected === "ea") count.ea++;
       }
     }
-    // On this sample ea is 18.85% of /ɛ/ and 24.18% of /i:/ nucleus choices
-    // before the ban, 18.27% and 22.30% after: only the banned contexts move.
-    // Since ordinary e may precede /t/, ea is no longer forced there, and its
-    // /ɛ/ share falls to 9.39% (9.56% away from /t/, against 9.14% before).
+    // Head shipping share for /i:/ "ea" ≈19.9% (seeds 42/43/44 × sample);
+    // floor sits a little under that so ordinary isolated "ee" (#450) does not
+    // starve "ea". The unused /i:/ "ee" fallbackOnly entry is tracked in #457.
     expect(counts["ɛ"].ea / counts["ɛ"].all).toBeGreaterThan(0.07);
-    expect(counts["i:"].ea / counts["i:"].all).toBeGreaterThan(0.2);
+    expect(counts["i:"].ea / counts["i:"].all).toBeGreaterThan(0.18);
   });
 
   it("is configured, not hard-coded: an empty neverDoubleAfter restores doubling after ea", () => {
