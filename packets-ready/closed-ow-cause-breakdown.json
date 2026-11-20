@@ -1,0 +1,860 @@
+{
+  "totalClosedSelectedOw": 427,
+  "singleNL": 265,
+  "clusterNL": 57,
+  "stemFinalOpenPlusSuffix": 17,
+  "otherNotNL": 88,
+  "examples": {
+    "clusterNL": [
+      {
+        "word": "voulsbotsing",
+        "coda": [
+          "l",
+          "z"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "initial",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 2,
+          "positiveCandidates": 2
+        }
+      },
+      {
+        "word": "jountacas",
+        "coda": [
+          "n",
+          "t"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "initial",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 2,
+          "positiveCandidates": 2
+        }
+      },
+      {
+        "word": "sodowls",
+        "coda": [
+          "l",
+          "z"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "final",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 2,
+          "positiveCandidates": 2
+        }
+      },
+      {
+        "word": "natryesowned",
+        "coda": [
+          "n",
+          "d"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "final",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 2,
+          "positiveCandidates": 2
+        }
+      },
+      {
+        "word": "oulcastums",
+        "coda": [
+          "l",
+          "k"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "initial",
+          "syllablePosition": "initial",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 2,
+          "positiveCandidates": 2
+        }
+      },
+      {
+        "word": "ounstirrimerred",
+        "coda": [
+          "n",
+          "z"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "initial",
+          "syllablePosition": "initial",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 2,
+          "positiveCandidates": 2
+        }
+      },
+      {
+        "word": "isounses",
+        "coda": [
+          "n",
+          "z"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "final",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 2,
+          "positiveCandidates": 2
+        }
+      },
+      {
+        "word": "hevounds",
+        "coda": [
+          "n",
+          "d",
+          "z"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "final",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 2,
+          "positiveCandidates": 2
+        }
+      },
+      {
+        "word": "reendowpeerl",
+        "coda": [
+          "n",
+          "d"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "medial",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 3,
+          "positiveCandidates": 3
+        }
+      },
+      {
+        "word": "bondoulstin",
+        "coda": [
+          "l",
+          "s"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "medial",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 3,
+          "positiveCandidates": 3
+        }
+      },
+      {
+        "word": "amounty",
+        "coda": [
+          "n",
+          "t"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "medial",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 3,
+          "positiveCandidates": 3
+        }
+      },
+      {
+        "word": "ifoulser",
+        "coda": [
+          "l",
+          "z"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "final",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 2,
+          "positiveCandidates": 2
+        }
+      },
+      {
+        "word": "soulcly",
+        "coda": [
+          "l",
+          "k"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "isolated",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 3,
+          "positiveCandidates": 3
+        }
+      },
+      {
+        "word": "reagilcowto",
+        "coda": [
+          "l",
+          "k"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "medial",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 3,
+          "positiveCandidates": 3
+        }
+      },
+      {
+        "word": "touldobed",
+        "coda": [
+          "l",
+          "d"
+        ],
+        "right": {
+          "version": 1,
+          "positionScope": "syllable",
+          "segmentPosition": "medial",
+          "syllablePosition": "initial",
+          "ordinaryCandidates": 7,
+          "afterCondition": 5,
+          "afterPosition": 2,
+          "positiveCandidates": 2
+        }
+      }
+    ],
+    "suffix": [
+      {
+        "word": "fetcowed",
+        "coda": [
+          "d"
+        ],
+        "suffix": "ed",
+        "nextSound": null,
+        "pron": "fɪtˈkəʊd"
+      },
+      {
+        "word": "agows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "ˌəˈgəʊz"
+      },
+      {
+        "word": "uchowed",
+        "coda": [
+          "d"
+        ],
+        "suffix": "ed",
+        "nextSound": null,
+        "pron": "ˌʊˈtʃəʊd"
+      },
+      {
+        "word": "ebnectidows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "ˈɛb.nəkt.ə.dəʊz"
+      },
+      {
+        "word": "salcrows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "sɑlˈkʰrəʊz"
+      },
+      {
+        "word": "suncowed",
+        "coda": [
+          "d"
+        ],
+        "suffix": "ed",
+        "nextSound": null,
+        "pron": "ˌsʌŋˈkʰəʊd"
+      },
+      {
+        "word": "morows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "mɑˈrəʊz"
+      },
+      {
+        "word": "emmilows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "ˈɛm.ɪlˌəʊz"
+      },
+      {
+        "word": "trompowed",
+        "coda": [
+          "d"
+        ],
+        "suffix": "ed",
+        "nextSound": null,
+        "pron": "tʰrɑmˈpəʊd"
+      },
+      {
+        "word": "binows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "ˈbɪnˌəʊz"
+      },
+      {
+        "word": "atows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "ˈɑˌtʰəʊz"
+      },
+      {
+        "word": "trepilows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "ˌtʰrɪ.pɪˈləʊz"
+      },
+      {
+        "word": "chelnowed",
+        "coda": [
+          "d"
+        ],
+        "suffix": "ed",
+        "nextSound": null,
+        "pron": "tʃɪlˈnəʊd"
+      },
+      {
+        "word": "shorsows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "ʃɑrsˈəʊz"
+      },
+      {
+        "word": "fasprowed",
+        "coda": [
+          "d"
+        ],
+        "suffix": "ed",
+        "nextSound": null,
+        "pron": "fəsˈprəʊd"
+      },
+      {
+        "word": "shudimhows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "ˈʃu.dəm.həʊz"
+      },
+      {
+        "word": "eltows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s",
+        "nextSound": null,
+        "pron": "ˈɛltˌəʊz"
+      }
+    ],
+    "other": [
+      {
+        "word": "unersowsa",
+        "coda": [
+          "z"
+        ],
+        "nextSound": "s",
+        "syl": 1,
+        "nSyl": 4,
+        "pron": "ˌʌn.ɚzˈəʊ.sə",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "missowtrupe",
+        "coda": [
+          "s"
+        ],
+        "nextSound": "t",
+        "syl": 0,
+        "nSyl": 3,
+        "pron": "ˌmɪsˈsəʊ.tʰrup",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "misspowkyed",
+        "coda": [
+          "s"
+        ],
+        "suffix": "ed",
+        "nextSound": "k",
+        "syl": 0,
+        "nSyl": 3,
+        "pron": "ˌməsˈspəʊ.kʰi:d",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "unbidgow",
+        "coda": [
+          "d"
+        ],
+        "nextSound": null,
+        "syl": 1,
+        "nSyl": 3,
+        "pron": "ˌən.bɪdˈgəʊ",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "reanochowmams",
+        "coda": [
+          "tʃ"
+        ],
+        "suffix": "s",
+        "nextSound": "m",
+        "syl": 2,
+        "nSyl": 5,
+        "pron": "ˌrɪ.ɑˈnɔtʃ.əʊ.mɑmz",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "dislodjowpiveacs",
+        "coda": [
+          "d"
+        ],
+        "suffix": "s",
+        "nextSound": "p",
+        "syl": 1,
+        "nSyl": 5,
+        "pron": "ˌdɪs.ləʊdˈdʒəʊ.pɪ.vi:ks",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "missowkirl",
+        "coda": [
+          "s"
+        ],
+        "nextSound": "k",
+        "syl": 0,
+        "nSyl": 3,
+        "pron": "ˌməsˈsəʊ.kʰɚl",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "misowgaidoment",
+        "coda": [
+          "s"
+        ],
+        "suffix": "ment",
+        "nextSound": "g",
+        "syl": 0,
+        "nSyl": 5,
+        "pron": "ˌmɪsˈəʊˌgeɪ.dəʊ.mənt",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "miswowcindment",
+        "coda": [
+          "s"
+        ],
+        "suffix": "ment",
+        "nextSound": "s",
+        "syl": 0,
+        "nSyl": 4,
+        "pron": "ˌmɪsˈwəʊˌsənd.mənt",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "immacown",
+        "coda": [
+          "k"
+        ],
+        "nextSound": "n",
+        "syl": 1,
+        "nSyl": 3,
+        "pron": "ˌɪm.mɑkˈəʊn",
+        "afterCondition": [
+          "ow",
+          "o",
+          "o",
+          "ou",
+          "ough"
+        ]
+      },
+      {
+        "word": "unalinuptownan",
+        "coda": [
+          "p",
+          "t"
+        ],
+        "nextSound": "n",
+        "syl": 3,
+        "nSyl": 6,
+        "pron": "ˌʌn.ə.ləˈnupt.əʊ.nɑn",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "mispowzere",
+        "coda": [
+          "s"
+        ],
+        "nextSound": "z",
+        "syl": 0,
+        "nSyl": 3,
+        "pron": "ˌmɪsˈpəʊˌzi:r",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "insurshownid",
+        "coda": [
+          "ʃ"
+        ],
+        "nextSound": "n",
+        "syl": 1,
+        "nSyl": 4,
+        "pron": "ˌən.sɚʃˈəʊˌnɪd",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "unompowzizarl",
+        "coda": [
+          "m"
+        ],
+        "nextSound": "z",
+        "syl": 1,
+        "nSyl": 5,
+        "pron": "ˌʌnˈɔm.pəʊ.zə.zɚl",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "outgowyenyepend",
+        "coda": [
+          "t"
+        ],
+        "nextSound": "j",
+        "syl": 0,
+        "nSyl": 5,
+        "pron": "ˈaʊtˌgəʊ.jən.jə.pənd",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "outoubowbelar",
+        "coda": [
+          "b"
+        ],
+        "nextSound": "b",
+        "syl": 1,
+        "nSyl": 5,
+        "pron": "ˈaʊtˌaʊb.əʊˌbə.lær",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "unjodlircowtonk",
+        "coda": [
+          "r",
+          "k"
+        ],
+        "nextSound": "t",
+        "syl": 2,
+        "nSyl": 5,
+        "pron": "ˌʌnˈdʒɔd.lɪrk.əʊ.tɔŋk",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "outsowcho",
+        "coda": [
+          "t"
+        ],
+        "nextSound": "tʃ",
+        "syl": 0,
+        "nSyl": 3,
+        "pron": "ˈaʊtˌsəʊ.tʃəʊ",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "unscidowkironnable",
+        "coda": [
+          "d"
+        ],
+        "suffix": "able",
+        "nextSound": "k",
+        "syl": 1,
+        "nSyl": 7,
+        "pron": "ˌʌnˈsɪd.əʊ.kʰɪr.ən.ə.bəl",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "inacownolsous",
+        "coda": [
+          "k"
+        ],
+        "suffix": "ous",
+        "nextSound": "n",
+        "syl": 1,
+        "nSyl": 5,
+        "pron": "ˌɪn.eɪkˌəʊˈnʌlz.əs",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "reecosowzo",
+        "coda": [
+          "s"
+        ],
+        "nextSound": "z",
+        "syl": 2,
+        "nSyl": 5,
+        "pron": "ˌrɪˈɛ.kʰəs.əʊ.zəʊ",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "mismicsow",
+        "coda": [
+          "k"
+        ],
+        "nextSound": null,
+        "syl": 1,
+        "nSyl": 3,
+        "pron": "ˌmɪs.mɪkˈsəʊ",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "missownos",
+        "coda": [
+          "s"
+        ],
+        "nextSound": "n",
+        "syl": 0,
+        "nSyl": 3,
+        "pron": "ˌmɪsˈsəʊ.nəʊz",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "disataimowcurcs",
+        "coda": [
+          "m"
+        ],
+        "suffix": "s",
+        "nextSound": "s",
+        "syl": 2,
+        "nSyl": 5,
+        "pron": "ˌdɪsˈæt.eɪm.əʊ.sɚks",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      },
+      {
+        "word": "misbowkyize",
+        "coda": [
+          "s"
+        ],
+        "suffix": "ize",
+        "nextSound": "k",
+        "syl": 0,
+        "nSyl": 4,
+        "pron": "ˌmɪsˈbəʊ.kʰi:.aɪz",
+        "afterCondition": [
+          "ow",
+          "o",
+          "ou",
+          "oe",
+          "ough"
+        ]
+      }
+    ]
+  }
+}

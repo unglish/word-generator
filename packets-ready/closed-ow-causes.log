@@ -1,0 +1,25 @@
+seed 42 kept 50000
+seed 43 kept 50000
+seed 44 kept 50000
+{
+  "ouPhone": 25130,
+  "surfaceOw": 1769,
+  "open": 1547,
+  "closed": 222,
+  "closedBeforeNL": 222,
+  "closedNotNL": 0,
+  "causes": {
+    "rightContextAllows": 0,
+    "coda0IsNL": 0,
+    "selectedOwOpenThenCoda": 0,
+    "selectedViaOpenEntry": 0,
+    "probeRightIsNL": 0,
+    "probeRightNotNL": 0,
+    "multiCodaStartsNL": 0,
+    "other": 0
+  },
+  "topCoda0": [],
+  "topCoda": [],
+  "topRight": [],
+  "sampleNotNL": []
+}

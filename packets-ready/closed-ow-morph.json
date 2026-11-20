@@ -1,0 +1,713 @@
+{
+  "out": {
+    "morphOff": {
+      "ou": 25130,
+      "owSelected": 1851,
+      "owSelectedClosed": 304,
+      "closedNL": 250,
+      "closedClusterNL": 54,
+      "closedNotNL": 0,
+      "codaHist": {
+        "n": 135,
+        "l": 115,
+        "nd": 16,
+        "lz": 3,
+        "nt": 6,
+        "lm": 5,
+        "ns": 2,
+        "lt": 5,
+        "ndʒ": 1,
+        "nz": 6,
+        "lks": 1,
+        "ld": 2,
+        "lʃ": 2,
+        "lk": 2,
+        "lts": 1,
+        "ntʃ": 1,
+        "ls": 1
+      },
+      "examples": [
+        {
+          "word": "amound",
+          "coda": [
+            "n",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "æˈməʊnd"
+        },
+        {
+          "word": "foulshinel",
+          "coda": [
+            "l",
+            "z"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈfəʊlzˌhə.nɛl"
+        },
+        {
+          "word": "gractount",
+          "coda": [
+            "n",
+            "t"
+          ],
+          "kind": "clusterNL",
+          "pron": "grəkˈtʰəʊnt"
+        },
+        {
+          "word": "salgoulmpy",
+          "coda": [
+            "l",
+            "m"
+          ],
+          "kind": "clusterNL",
+          "pron": "səlˈgəʊlm.pi:"
+        },
+        {
+          "word": "darounce",
+          "coda": [
+            "n",
+            "s"
+          ],
+          "kind": "clusterNL",
+          "pron": "dɑˈrəʊns"
+        },
+        {
+          "word": "belmfound",
+          "coda": [
+            "n",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˌbɪlmˈfəʊnd"
+        },
+        {
+          "word": "ahound",
+          "coda": [
+            "n",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "æˈhəʊnd"
+        },
+        {
+          "word": "halgroult",
+          "coda": [
+            "l",
+            "t"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˌhəlˈgrəʊlt"
+        },
+        {
+          "word": "cedoult",
+          "coda": [
+            "l",
+            "t"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈsɛd.əʊlt"
+        },
+        {
+          "word": "atcoungean",
+          "coda": [
+            "n",
+            "dʒ"
+          ],
+          "kind": "clusterNL",
+          "pron": "eɪtˈkʰəʊndʒˌi:n"
+        },
+        {
+          "word": "hounstact",
+          "coda": [
+            "n",
+            "z"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈhəʊnz.tʰəkt"
+        },
+        {
+          "word": "telzoulcs",
+          "coda": [
+            "l",
+            "k",
+            "s"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈtʰɛl.zəʊlks"
+        },
+        {
+          "word": "naplouns",
+          "coda": [
+            "n",
+            "z"
+          ],
+          "kind": "clusterNL",
+          "pron": "nəˈpʰləʊnz"
+        },
+        {
+          "word": "swounstubo",
+          "coda": [
+            "n",
+            "z"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈswəʊnz.təˌbə"
+        },
+        {
+          "word": "hijoult",
+          "coda": [
+            "l",
+            "t"
+          ],
+          "kind": "clusterNL",
+          "pron": "hɪˈdʒəʊlt"
+        },
+        {
+          "word": "moptound",
+          "coda": [
+            "n",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "məʊpˈtʰəʊnd"
+        },
+        {
+          "word": "ecound",
+          "coda": [
+            "n",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈɜk.əʊnd"
+        },
+        {
+          "word": "lurtucould",
+          "coda": [
+            "l",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈlɚ.tə.kəʊld"
+        },
+        {
+          "word": "inound",
+          "coda": [
+            "n",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "ɪˈnəʊnd"
+        },
+        {
+          "word": "ouldong",
+          "coda": [
+            "l",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈəʊldˌəʊŋ"
+        }
+      ]
+    },
+    "morphOn": {
+      "ou": 23641,
+      "owSelected": 1725,
+      "owSelectedClosed": 448,
+      "closedNL": 275,
+      "closedClusterNL": 63,
+      "closedNotNL": 110,
+      "codaHist": {
+        "l": 95,
+        "n": 180,
+        "z": 17,
+        "r": 5,
+        "nz": 7,
+        "ls": 3,
+        "d": 4,
+        "s": 38,
+        "t": 12,
+        "lk": 2,
+        "ft": 1,
+        "lz": 6,
+        "pt": 2,
+        "g": 2,
+        "dʒ": 1,
+        "nd": 19,
+        "ld": 3,
+        "tʃ": 2,
+        "b": 3,
+        "nt": 7,
+        "k": 2,
+        "m": 4,
+        "ms": 1,
+        "ntʃ": 2,
+        "ldz": 1,
+        "rm": 1,
+        "nts": 3,
+        "ʒ": 1,
+        "p": 6,
+        "f": 2,
+        "gz": 1,
+        "lp": 1,
+        "lm": 3,
+        "ndz": 1,
+        "ndʒ": 2,
+        "ʃ": 2,
+        "lt": 1,
+        "θ": 1,
+        "ns": 1,
+        "v": 1,
+        "mp": 1,
+        "lf": 1
+      },
+      "examples": [
+        {
+          "word": "anidows",
+          "coda": [
+            "z"
+          ],
+          "morph": true,
+          "pron": "æ.nəˈdəʊz"
+        },
+        {
+          "word": "misrorlows",
+          "coda": [
+            "r"
+          ],
+          "morph": true,
+          "pron": "ˌmɪs.rɑrˈləʊz"
+        },
+        {
+          "word": "telowns",
+          "coda": [
+            "n",
+            "z"
+          ],
+          "kind": "clusterNL",
+          "pron": "tɪˈləʊnz"
+        },
+        {
+          "word": "oulsory",
+          "coda": [
+            "l",
+            "s"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈəʊls.ɔr.i:"
+        },
+        {
+          "word": "addirowed",
+          "coda": [
+            "d"
+          ],
+          "morph": true,
+          "pron": "ˈæd.ə.rəʊd"
+        },
+        {
+          "word": "dissowpher",
+          "coda": [
+            "s"
+          ],
+          "morph": false,
+          "pron": "ˌdɪsˈsəʊˌfɚ"
+        },
+        {
+          "word": "outmowgersed",
+          "coda": [
+            "t"
+          ],
+          "morph": true,
+          "pron": "ˈaʊtˌməʊ.gɚzd"
+        },
+        {
+          "word": "disnestowplers",
+          "coda": [
+            "z"
+          ],
+          "morph": true,
+          "pron": "ˌdɪs.nɪzˈtʰəʊ.pʰlɚz"
+        },
+        {
+          "word": "disowbuzos",
+          "coda": [
+            "s"
+          ],
+          "morph": false,
+          "pron": "ˌdɪsˈəʊˌbə.zəʊs"
+        },
+        {
+          "word": "outtowfoon",
+          "coda": [
+            "t"
+          ],
+          "morph": false,
+          "pron": "ˈaʊtˌtʰəʊˌfʊn"
+        },
+        {
+          "word": "miscamesrowmaynly",
+          "coda": [
+            "s"
+          ],
+          "morph": true,
+          "pron": "ˌmɪs.kæmˌəsˈrəʊ.meɪn.li:"
+        },
+        {
+          "word": "misowcugelilpa",
+          "coda": [
+            "s"
+          ],
+          "morph": false,
+          "pron": "ˌməsˈəʊ.kuˌgəl.ɪl.pə"
+        },
+        {
+          "word": "roulcsornism",
+          "coda": [
+            "l",
+            "k"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈrəʊlkˌsɑrn.ɪz.əm"
+        },
+        {
+          "word": "reeftowro",
+          "coda": [
+            "f",
+            "t"
+          ],
+          "morph": false,
+          "pron": "ˌrɪ.ɪftˈəʊ.rɔ"
+        },
+        {
+          "word": "domowls",
+          "coda": [
+            "l",
+            "z"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈdɔmˌəʊlz"
+        },
+        {
+          "word": "rebeptowed",
+          "coda": [
+            "p",
+            "t"
+          ],
+          "morph": true,
+          "pron": "ˌrɪˌbɛptˈəʊd"
+        },
+        {
+          "word": "camoles",
+          "coda": [
+            "l",
+            "z"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˌsæˈməʊlz"
+        },
+        {
+          "word": "misprow",
+          "coda": [
+            "s"
+          ],
+          "morph": false,
+          "pron": "ˌməsˈpʰrəʊ"
+        },
+        {
+          "word": "unisigowshure",
+          "coda": [
+            "g"
+          ],
+          "morph": false,
+          "pron": "ˌʌnˌɪzˈɪg.əʊ.ʃɚ"
+        },
+        {
+          "word": "disegeowpur",
+          "coda": [
+            "dʒ"
+          ],
+          "morph": false,
+          "pron": "ˌdɪsˈɛdʒ.əʊ.pɚ"
+        },
+        {
+          "word": "mischitlowgue",
+          "coda": [
+            "t"
+          ],
+          "morph": false,
+          "pron": "ˌməsˈtʃɪt.ləʊ.gu"
+        },
+        {
+          "word": "numowned",
+          "coda": [
+            "n",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "ˈnum.əʊnd"
+        },
+        {
+          "word": "unvucosowpiept",
+          "coda": [
+            "z"
+          ],
+          "morph": false,
+          "pron": "ˌʌnˈvu.kəz.əʊ.pi:pt"
+        },
+        {
+          "word": "sovowned",
+          "coda": [
+            "n",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "sɔˈvəʊnd"
+        },
+        {
+          "word": "missosrowest",
+          "coda": [
+            "s"
+          ],
+          "morph": true,
+          "pron": "ˌmɪsˈsʌs.rəʊ.ɪst"
+        },
+        {
+          "word": "undascowlty",
+          "coda": [
+            "z"
+          ],
+          "morph": false,
+          "pron": "ˌʌn.dəzˈkʰəʊl.tʰi:"
+        },
+        {
+          "word": "logatowled",
+          "coda": [
+            "l",
+            "d"
+          ],
+          "kind": "clusterNL",
+          "pron": "lɔg.əˈtʰəʊld"
+        },
+        {
+          "word": "shascows",
+          "coda": [
+            "z"
+          ],
+          "morph": true,
+          "pron": "ˈʃæˌskəʊz"
+        },
+        {
+          "word": "adgemowed",
+          "coda": [
+            "d"
+          ],
+          "morph": true,
+          "pron": "ədʒˈməʊd"
+        },
+        {
+          "word": "misowpeel",
+          "coda": [
+            "s"
+          ],
+          "morph": false,
+          "pron": "ˌmɪsˈəʊˌpʰi:l"
+        }
+      ]
+    }
+  },
+  "surf": {
+    "closedNotNL": 101,
+    "closedNL": 245,
+    "closedClusterNL": 14,
+    "examples": [
+      {
+        "word": "unersowsa",
+        "coda": [
+          "z"
+        ]
+      },
+      {
+        "word": "missowtrupe",
+        "coda": [
+          "s"
+        ]
+      },
+      {
+        "word": "misspowkyed",
+        "coda": [
+          "s"
+        ],
+        "suffix": "ed"
+      },
+      {
+        "word": "unbidgow",
+        "coda": [
+          "d"
+        ]
+      },
+      {
+        "word": "reanochowmams",
+        "coda": [
+          "tʃ"
+        ],
+        "suffix": "s"
+      },
+      {
+        "word": "dislodjowpiveacs",
+        "coda": [
+          "d"
+        ],
+        "suffix": "s"
+      },
+      {
+        "word": "missowkirl",
+        "coda": [
+          "s"
+        ]
+      },
+      {
+        "word": "misowgaidoment",
+        "coda": [
+          "s"
+        ],
+        "suffix": "ment"
+      },
+      {
+        "word": "fetcowed",
+        "coda": [
+          "d"
+        ],
+        "suffix": "ed"
+      },
+      {
+        "word": "miswowcindment",
+        "coda": [
+          "s"
+        ],
+        "suffix": "ment"
+      },
+      {
+        "word": "immacown",
+        "coda": [
+          "k"
+        ]
+      },
+      {
+        "word": "unalinuptownan",
+        "coda": [
+          "p",
+          "t"
+        ]
+      },
+      {
+        "word": "mispowzere",
+        "coda": [
+          "s"
+        ]
+      },
+      {
+        "word": "insurshownid",
+        "coda": [
+          "ʃ"
+        ]
+      },
+      {
+        "word": "unompowzizarl",
+        "coda": [
+          "m"
+        ]
+      },
+      {
+        "word": "outgowyenyepend",
+        "coda": [
+          "t"
+        ]
+      },
+      {
+        "word": "agows",
+        "coda": [
+          "z"
+        ],
+        "suffix": "s"
+      },
+      {
+        "word": "outoubowbelar",
+        "coda": [
+          "b"
+        ]
+      },
+      {
+        "word": "unjodlircowtonk",
+        "coda": [
+          "r",
+          "k"
+        ]
+      },
+      {
+        "word": "outsowcho",
+        "coda": [
+          "t"
+        ]
+      },
+      {
+        "word": "unscidowkironnable",
+        "coda": [
+          "d"
+        ],
+        "suffix": "able"
+      },
+      {
+        "word": "uchowed",
+        "coda": [
+          "d"
+        ],
+        "suffix": "ed"
+      },
+      {
+        "word": "inacownolsous",
+        "coda": [
+          "k"
+        ],
+        "suffix": "ous"
+      },
+      {
+        "word": "reecosowzo",
+        "coda": [
+          "s"
+        ]
+      },
+      {
+        "word": "mismicsow",
+        "coda": [
+          "k"
+        ]
+      }
+    ],
+    "codaHist": {
+      "n": 151,
+      "z": 15,
+      "s": 28,
+      "d": 15,
+      "lz": 1,
+      "l": 94,
+      "tʃ": 1,
+      "nd": 7,
+      "k": 10,
+      "pt": 1,
+      "ʃ": 1,
+      "m": 10,
+      "t": 9,
+      "b": 3,
+      "rk": 1,
+      "lk": 1,
+      "p": 3,
+      "lm": 1,
+      "ld": 2,
+      "f": 1,
+      "ls": 1,
+      "nz": 1,
+      "r": 2,
+      "dʒ": 1
+    }
+  }
+}

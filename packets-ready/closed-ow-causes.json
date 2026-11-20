@@ -1,0 +1,132 @@
+{
+  "ouPhone": 25130,
+  "surfaceOw": 1769,
+  "surfaceOwOpen": 1547,
+  "surfaceOwClosed": 222,
+  "closedBeforeNL": 222,
+  "closedNotNL": 0,
+  "causes": {
+    "rightContextAllows": 0,
+    "coda0IsNL": 0,
+    "selectedOwOpenThenCoda": 0,
+    "selectedViaOpenEntry": 0,
+    "probeRightIsNL": 0,
+    "probeRightNotNL": 0,
+    "multiCodaStartsNL": 0,
+    "other": 0
+  },
+  "coda0Hist": {},
+  "codaHist": {},
+  "rightPhoneHist": {},
+  "examples": {
+    "closedNotNL": [],
+    "closedNL": [
+      {
+        "word": "amown",
+        "coda": [
+          "n"
+        ],
+        "syl": 1
+      },
+      {
+        "word": "santowlkir",
+        "coda": [
+          "l"
+        ],
+        "syl": 1
+      },
+      {
+        "word": "flatowl",
+        "coda": [
+          "l"
+        ],
+        "syl": 1
+      },
+      {
+        "word": "powlvats",
+        "coda": [
+          "l"
+        ],
+        "syl": 0
+      },
+      {
+        "word": "howlue",
+        "coda": [
+          "l"
+        ],
+        "syl": 0
+      },
+      {
+        "word": "jorowlmurs",
+        "coda": [
+          "l"
+        ],
+        "syl": 1
+      },
+      {
+        "word": "upown",
+        "coda": [
+          "n"
+        ],
+        "syl": 1
+      },
+      {
+        "word": "bowlyabitry",
+        "coda": [
+          "l"
+        ],
+        "syl": 0
+      },
+      {
+        "word": "annepowl",
+        "coda": [
+          "l"
+        ],
+        "syl": 2
+      },
+      {
+        "word": "sornowlred",
+        "coda": [
+          "l"
+        ],
+        "syl": 1
+      },
+      {
+        "word": "jowndan",
+        "coda": [
+          "n"
+        ],
+        "syl": 0
+      },
+      {
+        "word": "vowly",
+        "coda": [
+          "l"
+        ],
+        "syl": 0
+      },
+      {
+        "word": "howlmoflor",
+        "coda": [
+          "l"
+        ],
+        "syl": 0
+      },
+      {
+        "word": "sownten",
+        "coda": [
+          "n"
+        ],
+        "syl": 0
+      },
+      {
+        "word": "vedown",
+        "coda": [
+          "n"
+        ],
+        "syl": 1
+      }
+    ],
+    "rightAllowsCluster": []
+  }
+}

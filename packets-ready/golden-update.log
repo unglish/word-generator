@@ -1,0 +1,5 @@
+
+> @unglish/word-generator@0.6.0 golden:update
+> node --import tsx scripts/update-golden-output.ts
+
+Wrote /agent/repos/word-generator/src/core/golden-output.json
