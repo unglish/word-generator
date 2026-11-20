@@ -99,6 +99,19 @@ export interface GraphemeTrace {
   };
   /** Detailed doubling decision (only present when tracing). */
   doubling?: DoublingTrace;
+  /**
+   * Set when a spelling-budget certificate replaced this unit; `selected` and
+   * `emitted` keep the original choice. Absent when the unit was not respelled.
+   */
+  respelled?: GraphemeRespelling;
+}
+
+/** The whole-unit replacement a spelling-coverage certificate made for one selection. */
+export interface GraphemeRespelling {
+  /** Replacement written form, after doubling. Later word rules may still edit it. */
+  form: string;
+  /** Index into `trace.baseSpelling.certificates`. */
+  certificateId: number;
 }
 
 /** A changed nucleus selected during lexical-root stress or edge repair. */
@@ -434,6 +447,15 @@ export class TraceCollector {
 
   recordGraphemeSelection(entry: GraphemeTrace): void {
     this.graphemeSelections.push(entry);
+  }
+
+  /** Mark the selection at decision `index` as replaced by a certificate. A later respelling replaces an earlier one. */
+  recordRespelling(index: number, respelled: GraphemeRespelling): void {
+    for (let i = this.graphemeSelections.length - 1; i >= 0; i--) {
+      if (this.graphemeSelections[i].index !== index) continue;
+      this.graphemeSelections[i].respelled = respelled;
+      return;
+    }
   }
 
   recordStructural(entry: StructuralTrace): void {

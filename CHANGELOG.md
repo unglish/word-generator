@@ -8,6 +8,14 @@
   nothing in the generator read them, and a spelling's origin does not
   determine a word's etymology. Generated output is unchanged.
 
+### Added
+
+- `GraphemeTrace.respelled` (type `GraphemeRespelling`): set on a grapheme
+  selection when a spelling-budget certificate replaced its whole unit, with the
+  replacement form and certificate index. Previously only
+  `trace.baseSpelling.certificates` showed the rewrite (#454). Generated output
+  is unchanged.
+
 ## 0.6.0 - 2026-03-03
 
 ### Breaking Changes
