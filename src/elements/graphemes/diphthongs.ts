@@ -242,6 +242,19 @@ export const diphthongGraphemes: Grapheme[] = [
     endWord: 5,
     isolatedSyllableWeight: 8,
   },
+  // Medial closed /əʊ/ (non-n/l): without a midWord "o", the pool is only
+  // "ou" once "ow" is restricted — "out"-like spellings. Closed-only so open
+  // medial "ow" (and mono isolated "o") stay as before.
+  {
+    phoneme: "əʊ",
+    form: "o",
+    frequency: 500,
+    startWord: 0,
+    midWord: 1,
+    endWord: 0,
+    isolatedSyllableWeight: 0,
+    condition: { syllableShape: { coda: "nonEmpty" } },
+  },
   {
     phoneme: "əʊ",
     form: "ou",
