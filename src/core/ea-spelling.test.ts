@@ -81,22 +81,6 @@ describe("ea spelling context (#381)", () => {
     expect(ee / finals).toBeGreaterThan(0.5);
   });
 
-  it("keeps the declared /i:/ ee fallbackOnly entry for empty ordinary pools", () => {
-    // #450 licenses ordinary isolated "ee", so the vowel-suffix case no longer
-    // depends on fallbackOnly in shipping config. The entry must remain for
-    // configs that strip ordinary /i:/ spellings (see graphemes/index.ts).
-    const fallback = englishConfig.graphemes.find(
-      (g) => g.fallbackOnly && g.phoneme === "i:" && g.form === "ee",
-    );
-    expect(fallback).toMatchObject({
-      phoneme: "i:",
-      form: "ee",
-      fallbackOnly: true,
-      isolatedSyllableWeight: 1,
-      condition: { segmentPosition: ["final"] },
-    });
-  });
-
   it("keeps ea in use for /ɛ/ and /i:/ where it is allowed", () => {
     const counts = { "ɛ": { ea: 0, all: 0 }, "i:": { ea: 0, all: 0 } };
     for (const word of sample(7)) {
@@ -107,10 +91,11 @@ describe("ea spelling context (#381)", () => {
         if (selection.selected === "ea") count.ea++;
       }
     }
-    // /i:/ now also licenses isolated "ee" (#450), so "ea" share is lower than
-    // the pre-#450 ~22% band but must remain productive where allowed.
+    // Head shipping share for /i:/ "ea" ≈19.9% (seeds 42/43/44 × sample);
+    // floor sits a little under that so ordinary isolated "ee" (#450) does not
+    // starve "ea". The unused /i:/ "ee" fallbackOnly entry is tracked in #457.
     expect(counts["ɛ"].ea / counts["ɛ"].all).toBeGreaterThan(0.07);
-    expect(counts["i:"].ea / counts["i:"].all).toBeGreaterThan(0.10);
+    expect(counts["i:"].ea / counts["i:"].all).toBeGreaterThan(0.18);
   });
 
   it("is configured, not hard-coded: an empty neverDoubleAfter restores doubling after ea", () => {
