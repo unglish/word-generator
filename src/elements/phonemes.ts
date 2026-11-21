@@ -342,12 +342,13 @@ export const phonemes: Phoneme[] = [
     voiced: true,
     placeOfArticulation: "alveolar",
   }, // notice
-  // Coda weight keeps total /ŋ/ near its CMU share now that /æŋ/ is permitted.
+  // Coda weight keeps total /ŋ/ near its CMU share once tense/diphthong+/ŋ/
+  // rimes are banned (#463) and /æŋ/ remains permitted (44 → 88).
   {
     sound: "ŋ",
     mannerOfArticulation: "nasal",
     onset: 0,
-    coda: 44,
+    coda: 88,
     startWord: 0,
     midWord: 2,
     endWord: 36,

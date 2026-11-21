@@ -488,6 +488,15 @@ export const englishConfig: LanguageConfig = {
         nucleus: ["ɚ", "ɝ"],
         coda: ["ŋ"],
       },
+      // English /ŋ/ follows only short/lax nuclei in roots (sing, bang, sung,
+      // song). CMU ARPABET bigrams put tense vowels and diphthongs before NG
+      // near zero (IY/UW/EY/AY/AW/OW/OY/ER each ≤0.4% of NG; UH NG = 4 /
+      // 0.04%), so /i: u eɪ aɪ aʊ əʊ ɔɪ ɜ ʊ/ + /ŋ/ are excluded. Lax /æ ɑ ɔ ʌ
+      // ɪ ɛ/ + /ŋ/ remain allowed (#463).
+      {
+        nucleus: ["i:", "u", "eɪ", "aɪ", "aʊ", "əʊ", "ɔɪ", "ɜ", "ʊ"],
+        coda: ["ŋ"],
+      },
       // The rhotic vowels already carry the r-colouring. CMU has ER + R only
       // across affix and compound joins (overrule, interracial); inside a root
       // the /r/ merges into the vowel (stirring /ɚ ɪ ŋ/, furry /ɚ i/).

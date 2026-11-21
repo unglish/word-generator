@@ -11,9 +11,12 @@ A `bannedNucleusCodaCombinations` entry excludes the Cartesian product of its
 nucleus and coda sounds anywhere within a syllable. It is not an adjacency rule
 or an exact-rime template. Custom configurations supply the entire rule set.
 
-The default English configuration excludes /ɚ/ and /ɝ/ before /ŋ/ and /r/. /æ/
-before /ŋ/ is permitted, so rimes such as *bang*, *hangs* and *thank* are
-available, including extended codas such as /æŋz/ and /æŋk/.
+The default English configuration excludes /ɚ/ and /ɝ/ before /ŋ/ and /r/, and
+also excludes the tense vowels and diphthongs /i: u eɪ aɪ aʊ əʊ ɔɪ ɜ ʊ/ before
+/ŋ/ (#463). In CMU roots those nuclei are near-absent before NG (each ≤0.4% of
+NG bigrams; UH NG is 4 / 0.04%), while short/lax /æ ɑ ɔ ʌ ɪ ɛ/ + /ŋ/ are ordinary
+(*bang*, *sing*, *sung*, *song*, *length*, *thank*), including extended codas
+such as /æŋz/ and /æŋk/.
 
 ### Following onset
 
