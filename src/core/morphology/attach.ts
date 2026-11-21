@@ -385,6 +385,8 @@ interface FiredMorphophonemicRule {
 interface PreparedMorphophonemicRule {
   rule: MorphophonemicRule;
   event: FiredMorphophonemicRule;
+  /** Root segment whose sound the rule replaced, in root syllable coordinates. */
+  resounded?: { syllableIndex: number; segment: BoundarySegment; index: number };
 }
 
 /** Resolved attachment retained between lexical assembly and spelling. */
@@ -496,6 +498,9 @@ function prepareMorphophonemicRules(
       ] = next;
       event.soundBefore = boundaryRef.phoneme.sound;
       event.soundAfter = next.sound;
+      const { syllableIndex, segment, index } = boundaryRef;
+      prepared.push({ rule, event, resounded: { syllableIndex, segment, index } });
+      continue;
     }
 
     prepared.push({ rule, event });
@@ -772,27 +777,36 @@ function withAffixWritten(
   };
 }
 
-/** Apply the written halves of the already-resolved morphological rules once. */
-export function writeMorphology(
-  context: WordGenerationContext,
+/** The root's spelling as the planned affixes attach to it. */
+export interface AttachedRootWritten {
+  written: string;
+  /** Affix spellings a boundary transform set (`-es` after consonant + y). */
+  prefixOverride?: string;
+  suffixOverride?: string;
+  /** Morphophonemic rules that changed the root's sound or spelling. */
+  fired: FiredMorphophonemicRule[];
+}
+
+/**
+ * Rewrite a written root as the prepared affixes attach to it, in the order
+ * `writeMorphology` uses: morphophonemic respellings (`-ity` velar
+ * softening), then prefix, then suffix boundary transforms (drop-silent-e).
+ */
+export function attachRootWritten(
   prepared: PreparedMorphology,
-): MorphologyResult {
-  const { plan, prefix, suffix } = prepared;
-  let prefixWritten = prepared.prefixWritten;
-  let suffixWritten = prepared.suffixWritten;
-  let rootWritten = context.word.written.clean;
+  rootWritten: string,
+): AttachedRootWritten {
+  const { plan } = prepared;
+  let written = rootWritten;
   const fired: FiredMorphophonemicRule[] = [];
   for (const { rule, event } of prepared.rules) {
     const writtenEvent = { ...event };
     if (rule.writtenMatch && rule.writtenReplace !== undefined) {
-      const rewritten = rootWritten.replace(
-        rule.writtenMatch,
-        rule.writtenReplace,
-      );
-      if (rewritten !== rootWritten) {
-        writtenEvent.writtenBefore = rootWritten;
+      const rewritten = written.replace(rule.writtenMatch, rule.writtenReplace);
+      if (rewritten !== written) {
+        writtenEvent.writtenBefore = written;
         writtenEvent.writtenAfter = rewritten;
-        rootWritten = rewritten;
+        written = rewritten;
       }
     }
     if (
@@ -804,21 +818,55 @@ export function writeMorphology(
   let prefixOverride: string | undefined;
   let suffixOverride: string | undefined;
   if (plan.prefix?.boundaryTransforms) {
-    const applied = applyBoundaryTransformsDetailed(
-      rootWritten,
-      plan.prefix.boundaryTransforms,
-    );
-    rootWritten = applied.written;
+    const applied = applyBoundaryTransformsDetailed(written, plan.prefix.boundaryTransforms);
+    written = applied.written;
     prefixOverride = applied.affixWritten;
   }
   if (plan.suffix?.boundaryTransforms) {
-    const applied = applyBoundaryTransformsDetailed(
-      rootWritten,
-      plan.suffix.boundaryTransforms,
-    );
-    rootWritten = applied.written;
+    const applied = applyBoundaryTransformsDetailed(written, plan.suffix.boundaryTransforms);
+    written = applied.written;
     suffixOverride = applied.affixWritten;
   }
+  return { written, prefixOverride, suffixOverride, fired };
+}
+
+/**
+ * Flattened onset-nucleus-coda indices of the root phones whose sound a
+ * prepared morphophonemic rule replaced (the /k/ that `-ity` makes /s/).
+ * `root` is the lexical root the writer spells, with the same shape.
+ */
+export function resoundedRootPhones(
+  prepared: PreparedMorphology,
+  root: readonly Syllable[],
+): Set<number> {
+  const indices = new Set<number>();
+  for (const { resounded } of prepared.rules) {
+    if (!resounded) continue;
+    let index = 0;
+    for (let i = 0; i < resounded.syllableIndex; i++)
+      index += root[i].onset.length + root[i].nucleus.length + root[i].coda.length;
+    const syllable = root[resounded.syllableIndex];
+    if (resounded.segment !== "onset") index += syllable.onset.length;
+    if (resounded.segment === "coda") index += syllable.nucleus.length;
+    indices.add(index + resounded.index);
+  }
+  return indices;
+}
+
+/** Apply the written halves of the already-resolved morphological rules once. */
+export function writeMorphology(
+  context: WordGenerationContext,
+  prepared: PreparedMorphology,
+): MorphologyResult {
+  const { prefix, suffix } = prepared;
+  let prefixWritten = prepared.prefixWritten;
+  let suffixWritten = prepared.suffixWritten;
+  const {
+    written: rootWritten,
+    prefixOverride,
+    suffixOverride,
+    fired,
+  } = attachRootWritten(prepared, context.word.written.clean);
   if (prefixOverride !== undefined) prefixWritten = prefixOverride;
   if (suffixOverride !== undefined) suffixWritten = suffixOverride;
   const resolvedPrefix = withAffixWritten(prefix, prefixOverride);

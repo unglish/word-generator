@@ -376,11 +376,29 @@ export const englishConfig: LanguageConfig = {
       ],
     },
     {
+      // A closed "ae" whose coda is one consonant spelled with a final e ("ge",
+      // "ce", "gue"), or "nge": that e marks the vowel, so "ae" drops its own e
+      // (ataege → atage, snaenge → snange, as in page, pace, vague, range).
+      // Other clusters (faelse) would not read /eɪ/ (false), so they fall
+      // through to ae-unsplit-to-ai.
+      name: "ae-before-e-coda",
+      pattern: "(a)(e)([bcdfghjklmnpqrstvwxz]u?e|nge)$",
+      replacement: "$1$3",
+      probability: 100,
+      scope: "syllable",
+      letterRoles: [
+        { group: 1, segment: "nucleus" },
+        { group: 2, segment: "nucleus" },
+        { group: 3, segment: "coda" },
+      ],
+    },
+    {
       // A closed "ae" that magic-e left unsplit (#459 follow-up): a coda it
-      // cannot cross, such as "ch" (fubaech), or its 5% miss (bepaen). English
-      // writes closed /eɪ/ as "ai" there (faith, pain).
+      // cannot cross, such as "ch" (fubaech) or "ssi", or its 5% miss (bepaen).
+      // English writes closed /eɪ/ as "ai" there (faith, pain). The role check
+      // keeps the third group to coda letters, so it may end in a vowel letter.
       name: "ae-unsplit-to-ai",
-      pattern: "(a)(e)([bcdfghjklmnpqrstvwxz]+)$",
+      pattern: "(a)(e)([a-z]+)$",
       replacement: "$1i$3",
       probability: 100,
       scope: "syllable",
@@ -405,8 +423,11 @@ export const englishConfig: LanguageConfig = {
       scope: "syllable",
     },
     {
+      // After a vowel (box, flex), a vowel + ck (necks → nex) or n (jinx)
+      // only: English keeps ks after other consonants (desks, milks, works),
+      // not sx, lx, rx.
       name: "ks-to-x",
-      pattern: "(?<!^)ks",
+      pattern: "(?<=[aeiouy]c|[aeiouyn])ks",
       replacement: "x",
       probability: 25,
     },
@@ -609,6 +630,29 @@ export const englishConfig: LanguageConfig = {
         name: "hard-g-silent-u",
         boundaryMatch: /g([eiy])/i,
         insert: "u",
+      },
+    ],
+    hardLetters: [
+      {
+        // c reads /s/ before e, i or y (#460). Selection only sees the next
+        // phoneme, so /k/ → c before a schwa written e or i, /j/ → y, magic-e's
+        // e, or an e/i-initial suffix read soft (farcew, winwocive, brice).
+        name: "hard-c",
+        phoneme: "k",
+        letter: "c",
+        softBefore: ["e", "i", "y"],
+        afterShortVowel: "ck",
+        otherwise: "k",
+        shortVowels: ["ɪ", "ɛ", "æ", "ʌ", "ɑ", "ɔ", "ʊ", "ə"],
+        // Root-final /k/ (#469): English ends a word in c almost only in -ic
+        // and -ac (panic, maniac). After a consonant or a long vowel it writes
+        // k (desk, milk, seek; magic-e gives ke), after another short vowel
+        // ck (neck, rock); a final /ks/ the same way (desks, necks; ks-to-x
+        // may then write x). A bare final c stays before -tion or an a/o/u
+        // suffix (action, medical, fiscal, raucous); a final cs does not.
+        rootFinal: { tails: ["s", "se"], keepAfter: ["i", "a"], keepBefore: ["t", "a", "o", "u"] },
+        // ck only follows a short single vowel letter: not urck, eack.
+        onlyAfterShortVowel: true,
       },
     ],
   },

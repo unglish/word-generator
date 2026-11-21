@@ -26,6 +26,7 @@ export type {
   GenerationWeights,
   PhonemeLengthWeights,
   PhonemeToSyllableWeights,
+  HardLetterRespelling,
 } from "./config/language.js";
 export { validateJunction } from "./core/junction.js";
 export type { SspViolation } from "./core/junction.js";
@@ -44,6 +45,7 @@ export type {
   SyllableSnapshot,
   GraphemeTrace,
   GraphemeRespelling,
+  GraphemeLetterRespelling,
   DoublingTrace,
   RepairTrace,
   NucleusReplacementTrace,

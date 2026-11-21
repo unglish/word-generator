@@ -703,6 +703,56 @@ export interface WrittenFormConstraints {
 
   /** Orthographic repair rules applied after grapheme generation. */
   orthographicRepairs?: OrthographicRepair[];
+
+  /**
+   * Respellings of a hard consonant letter that its written neighbours would
+   * misread (English `c` for /k/ before e/i/y). Applied to the root after
+   * syllable rules and silent-e, before word rules.
+   */
+  hardLetters?: HardLetterRespelling[];
+}
+
+/**
+ * A single-letter spelling of a hard consonant that reads soft before some
+ * letters, as English `c` for /k/ does before e, i and y. Grapheme selection
+ * sees only the next phoneme, so the next letter is checked once the root is
+ * written, and a misread letter is respelled. Only letters that the alignment
+ * traces to a unit of `phoneme` are checked, so a soft `c` for /s/ is untouched.
+ */
+export interface HardLetterRespelling {
+  /** Rule name, recorded in the trace. */
+  name: string;
+  /** Phoneme whose spelling is checked (k). */
+  phoneme: string;
+  /** The single letter that reads soft (c). */
+  letter: string;
+  /** Letters before which `letter` reads soft (e, i, y). A planned suffix's first letter counts. */
+  softBefore: string[];
+  /** Replacement directly after a single vowel letter spelling one of `shortVowels` (ck: panicking, jacket). */
+  afterShortVowel: string;
+  /** Replacement everywhere else (k: skin, turkey, seeking). */
+  otherwise: string;
+  /** Vowel phonemes that count as short for `afterShortVowel`. */
+  shortVowels: string[];
+  /**
+   * Also respell a unit already written `afterShortVowel` that does not follow
+   * a short single vowel letter, as `otherwise` (urck → urk, eack → eak).
+   */
+  onlyAfterShortVowel?: boolean;
+  /**
+   * Also respell `letter` at the end of the root, where English writes it only
+   * after a short i or a (panic, maniac): `ck` after another short vowel
+   * letter (spec → speck), `k` after a consonant or long vowel (desk, seek).
+   * Absent: only `softBefore` applies.
+   */
+  rootFinal?: {
+    /** Root letters that may follow `letter` and still leave it final (s, se: desks). */
+    tails: string[];
+    /** Short single vowel letters after which a final `letter` is kept (i, a). */
+    keepAfter: string[];
+    /** First letters of a following suffix before which a final `letter` is kept (t: action; a: medical). */
+    keepBefore: string[];
+  };
 }
 
 /** A post-write orthographic repair rule. */
@@ -1816,6 +1866,32 @@ export function validateConfig(config: LanguageConfig): void {
       );
     }
   };
+
+  config.writtenFormConstraints?.hardLetters?.forEach((rule, i) => {
+    const label = `writtenFormConstraints.hardLetters[${i}] (${rule.name})`;
+    if (!phonemeSounds.has(rule.phoneme))
+      throw new Error(`${label}.phoneme contains unknown phoneme "${rule.phoneme}"`);
+    // The inventory, not the nucleus map: a reduced map may omit a short vowel
+    // that the rule then never meets.
+    const unknownVowel = rule.shortVowels.find((sound) => !phonemeSounds.has(sound));
+    if (unknownVowel !== undefined)
+      throw new Error(`${label}.shortVowels contains unknown phoneme "${unknownVowel}"`);
+    const assertLetters = (letters: string[], field: string): void => {
+      if (letters.some((letter) => letter.length !== 1))
+        throw new Error(`${label}.${field} must list single letters`);
+    };
+    assertLetters([rule.letter], "letter");
+    assertLetters(rule.softBefore, "softBefore");
+    if (rule.rootFinal) {
+      assertLetters(rule.rootFinal.keepAfter, "rootFinal.keepAfter");
+      assertLetters(rule.rootFinal.keepBefore, "rootFinal.keepBefore");
+    }
+    if (!rule.afterShortVowel || !rule.otherwise)
+      throw new Error(`${label} replacements must not be empty`);
+    // A unit already written this way is recognised by its first letter.
+    if (!rule.afterShortVowel.startsWith(rule.letter))
+      throw new Error(`${label}.afterShortVowel must start with "${rule.letter}"`);
+  });
 
   if (aspiration) {
     aspiration.targets.forEach((target, targetIndex) => {

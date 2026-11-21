@@ -163,3 +163,72 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 
 - Status: Completed.
 - Notes: True C+y before non-i suffixes on the issue window went 245+115 → 0 (surface Cy leftovers are `/aɪ/` `ye` + drop-e). Golden fixture unchanged. `npm run check` and `npm run build` pass.
+
+---
+
+# Gate noise — phoneme total variation and mono `aw` cluster bound (Completed)
+
+## Plan
+
+- [x] `npm run calibrate:phonemes -- --jobs 3` on main 81df038c (30 streams)
+- [x] `maxTotalVariationPct` 1.78 → 1.88 (worst 1.7714 + 3 × SD 0.0342, rounded outward); other limits unchanged
+- [x] Mono `aw`-before-cluster bound: 30 seed triples on main → mean 0.58%, SD 0.22%, worst 0.94%; bound 1% → 1.6%
+- [x] `npm run check`
+
+## Review
+
+- Status: Completed.
+- Notes: Both limits sat about 0.3 SD above main's worst case, so spelling-only branches that only reshuffle RNG draws failed them (TV 1.7825 on seed 42; `aw` 1.07%). No generator change.
+
+---
+
+# #459 follow-up — closed `ae` before an e-final or vowel-final coda spelling (Completed)
+
+## Plan
+
+- [x] Find closed `ae` syllables no syllable rule rewrites (100k seeds from 5000000): 17, all codas spelled `ge`, `ce` or `nge`, plus `ssi` seen in a shifted sample
+- [x] `ae-before-e-coda`: drop the digraph's `e` before a one-consonant coda spelled with a final `e` (`ge`, `ce`, `gue`) or `nge` (`ataege` → `atage`, `snaenge` → `snange`); other clusters take `ai` (`faelse` → `failse`, not *false*)
+- [x] `ae-unsplit-to-ai`: let the role-checked coda group end in a vowel letter (`ezaessier` → `ezaissier`)
+- [x] Search-based test; `npm run golden:update` (unchanged); `npm run check`
+
+## Review
+
+- Status: Completed.
+- Notes: Closed `ae` that no syllable rule rewrote, 100k seeds from 5000000: 17 → 0 (9 of the 17 still showed `ae` on the surface; silent-e or suffix e-drop had fixed the rest). 100k seeds from 6000000: 17 words change, 13 spelling-only (all better on the trigram scorer) and 4 different words from length-rejection resampling.
+
+---
+
+# Issue #460 — hard c before e/i/y letters (Completed)
+
+## Plan
+
+- [x] Count /k/ `c` before e/i/y letters on seeds 2000000–2019999 (exact base-spelling ownership)
+- [x] Add `writtenFormConstraints.hardLetters` and the English `hard-c` rule: respell /k/ `c` before an e/i/y letter or suffix as `ck` (short single vowel letter) or `k`
+- [x] Record the respell in `repairs`, `baseSpelling.edits` and `GraphemeTrace.letterRespelled`
+- [x] Seeded search tests, sample count test, traced = untraced; golden:update
+- [x] Recalibrate the `cc` bigram floor (real shift: the removed `cc` were misread doublings)
+
+## Review
+
+- Status: Completed.
+- /k/ `c` before e/i/y on 2000000–2019999: 443 words → 0 (root-internal 341, root-final + suffix 68, transform 35; these sum to 444 because `sicidiesced` falls in two). Soft `c` for /s/ before e/i/y (including `-ity`'s /s/): 809 → 807.
+- `minBigramRepresentation` 0.0215 → 0.0089 (with #469): `cc` 0.131–0.161× (5 seeds) → 5-seed worst 0.0099×; 25 of 26 sampled `cc` were /k/ doubled before an e/i suffix (broccest).
+
+---
+
+# Issue #469 — root-final /k/ written c after consonants and long vowels (Completed)
+
+## Plan
+
+- [x] Count final /k/ `c`/`cs` outside -ic/-ac on seeds 2000000–2019999, by #469's sub-cases
+- [x] Add `rootFinal` (tails s/se, keep after i/a, keep before t/a/o/u suffixes) and `onlyAfterShortVowel` to the `hard-c` rule
+- [x] Restrict `ks-to-x` to after a vowel letter, a vowel + c, or n, so the new `ks` does not give `rx`/`sx`
+- [x] Seeded search tests per sub-case, -ic/-ac kept, sample count test; golden:update
+- [x] Re-measure the `cc` floor after the RNG shift
+
+## Review
+
+- Status: Completed.
+- Final /k/ `c` or `cs` outside -ic/-ac (probe with phone ownership): 456 → 1 word (`unsprocses`, a root-internal /k.s/); after s 123 → 0, l/r 116 → 0, vowel digraph (including `ow` for /aʊ/) or long vowel 101 → 0, c+s+e 45 → 1, single e/o/u 116 → 1. -ic/-ac kept: 27 → 26 bare.
+- Review fixes: a silent e dropped before an a/o/u suffix no longer triggers the respell (12 words per 20k: `outedical`, `ratnical`); a /k/ that `-ity` re-sounds as /s/ is left alone (8 per 100k: `chacity`, `shricity`); -ac/-ic after a vowel of another syllable is kept (maniac); `ks-to-x` needs a vowel before ck (`bavrarks`).
+- `rck` 60 → 0. Bigrams vs CMU (5 seeds): rk 0.36 → 1.21×, sk 0.42 → 0.99×, lk 1.78 → 2.46×, sc 0.78 → 0.46×.

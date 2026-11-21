@@ -1,12 +1,12 @@
 {
   "maxBigramOverRepresentation": 4.25,
   "maxTrigramOverRepresentation": 3.21,
-  "minBigramRepresentation": 0.0215,
+  "minBigramRepresentation": 0.0089,
   "minTrigramRepresentation": 0.0062,
   "minBigramBaselineFreq": 0.001,
   "minTrigramBaselineFreq": 0.0005,
   "sampleSize": 200000,
-  "lastUpdated": "2026-03-05",
+  "lastUpdated": "2026-11-21",
   "history": [
     {
       "date": "2026-02-16",
@@ -37,6 +37,12 @@
       "minBigram": 0.0215,
       "minTrigram": 0.0062,
       "note": "Post length-semantics + scoring refactor retune: worst common under-rep bigram moved to `mc` (0.0241x). Floor set to -10% margin; trigram floor unchanged."
+    },
+    {
+      "date": "2026-11-21",
+      "minBigram": 0.0089,
+      "minTrigram": 0.0062,
+      "note": "Hard c respell (#460/#469): root-final /k/ c is no longer doubled to `cc` before an e/i/y suffix (broccest, cacliccer), which read /ks/. Those were 25 of 26 `cc` in a 20k sample, so `cc` fell from 0.13-0.16x to 0.0133/0.0168/0.0099/0.0183/0.0099x (seeds 42/123/456/789/1337) and is now the worst common bigram. Floor set to -10% of 0.0099. Next worst: `gh`/`mc` 0.064-0.077x (main 0.061-0.077x)."
     }
   ],
   "_comment": "Quality ratchet: after each tuning fix, re-run 5× analysis (seeds 42/123/456/789/1337), update thresholds to new max + 10% margin (over-rep) or new min - 10% margin (under-rep), commit as part of fix PR."
