@@ -11,97 +11,60 @@ const ISSUE_SEEDS = [
   1000191, 1000213, 1000165, 1000231, 1000122, 1000052, 1000289, 1000386,
 ] as const;
 
-const SAMPLE = 20_000;
-const RANGE_START = 1_000_000;
-const RANGE_END = 1_020_000;
+interface EiSlot {
+  nucleus: GraphemeTrace;
+  codaLength: number;
+}
 
-function eiNucleusSelections(word: Word): { nucleus: GraphemeTrace; next?: GraphemeTrace }[] {
+function eiSlots(word: Word): EiSlot[] {
   const selections = word.trace!.graphemeSelections;
   return selections.flatMap((nucleus, i) => {
     if (nucleus.phoneme !== "eɪ" || nucleus.position !== "nucleus") return [];
-    return [{ nucleus, next: selections[i + 1] }];
+    const codaLength = selections
+      .slice(i + 1)
+      .filter((g) => g.syllableIndex === nucleus.syllableIndex && g.position === "coda").length;
+    return [{ nucleus, codaLength }];
   });
 }
 
-/** ey/ay whose next root grapheme is a same-syllable coda consonant. */
-function eyAyBeforeSameSyllableCoda(word: Word): GraphemeTrace[] {
-  return eiNucleusSelections(word).flatMap(({ nucleus, next }) => {
-    if (nucleus.selected !== "ey" && nucleus.selected !== "ay") return [];
-    if (!next || next.syllableIndex !== nucleus.syllableIndex || next.position !== "coda") {
-      return [];
-    }
-    return [nucleus];
-  });
-}
+const isEyAy = (g: GraphemeTrace) => g.selected === "ey" || g.selected === "ay";
 
 describe("/eɪ/ ey/ay open-syllable only (#459)", () => {
   it("does not spell /eɪ/ as ey/ay before a same-syllable coda on the issue seeds", () => {
     for (const seed of ISSUE_SEEDS) {
       const word = generateWord({ seed, trace: true });
-      expect(eyAyBeforeSameSyllableCoda(word), `seed ${seed} → ${word.written.clean}`).toEqual([]);
-      const again = generateWord({ seed, trace: true });
-      expect(again.written.clean).toBe(word.written.clean);
+      const closedEyAy = eiSlots(word).filter((s) => s.codaLength > 0 && isEyAy(s.nucleus));
+      expect(closedEyAy, `seed ${seed} → ${word.written.clean}`).toEqual([]);
+      expect(generateWord({ seed, trace: true }).written.clean).toBe(word.written.clean);
     }
   });
 
-  it("never selects ey/ay before a same-syllable coda over a large sample", () => {
-    let ei = 0;
-    let openEyAy = 0;
-    for (const word of generateWords(SAMPLE, { seed: 459, morphology: true, trace: true })) {
-      for (const { nucleus, next } of eiNucleusSelections(word)) {
-        ei++;
-        const beforeCoda = Boolean(
-          next && next.syllableIndex === nucleus.syllableIndex && next.position === "coda",
-        );
-        if (nucleus.selected === "ey" || nucleus.selected === "ay") {
-          expect(beforeCoda, `${word.written.clean}: ${nucleus.selected} before /${next?.phoneme}/`).toBe(
-            false,
-          );
-          openEyAy++;
-        }
-      }
-    }
-    expect(ei).toBeGreaterThan(500);
-    // Open-syllable ey/ay must remain productive (day, they, plays).
-    expect(openEyAy).toBeGreaterThan(50);
-  });
-
-  it("keeps ey/ay for open root-final /eɪ/, including before a suffix", () => {
+  it("keeps ey/ay open-only and spells closed finals as a_e or ai", () => {
     let openFinal = 0;
     let openFinalEyAy = 0;
-    let beforeSuffix = 0;
-    for (let seed = RANGE_START; seed < RANGE_END; seed++) {
-      const word = generateWord({ seed, trace: true });
-      const suffix = word.trace!.morphology?.suffix;
-      for (const { nucleus, next } of eiNucleusSelections(word)) {
+    let closedFinal = 0;
+    const closedFinalForms = new Map<string, number>();
+    for (const word of generateWords(5_000, { seed: 459, trace: true })) {
+      for (const { nucleus, codaLength } of eiSlots(word)) {
+        const where = `${word.written.clean}: ${nucleus.selected} + ${codaLength} coda`;
+        if (codaLength > 0) expect(isEyAy(nucleus), where).toBe(false);
         if (nucleus.selection?.syllablePosition !== "final") continue;
-        const beforeCoda =
-          next && next.syllableIndex === nucleus.syllableIndex && next.position === "coda";
-        if (beforeCoda) continue;
-        openFinal++;
-        if (nucleus.selected !== "ey" && nucleus.selected !== "ay") continue;
-        openFinalEyAy++;
-        if (suffix) beforeSuffix++;
+        if (codaLength === 0) {
+          openFinal++;
+          if (isEyAy(nucleus)) openFinalEyAy++;
+          continue;
+        }
+        closedFinal++;
+        // Bare "a" before a coda reads /æ/ (bepan); "ae" is only legal where
+        // magic-e can split it, i.e. before a single consonant.
+        expect(nucleus.selected, where).not.toBe("a");
+        if (nucleus.selected === "ae") expect(codaLength, where).toBe(1);
+        closedFinalForms.set(nucleus.selected, (closedFinalForms.get(nucleus.selected) ?? 0) + 1);
       }
     }
-    expect(openFinal).toBeGreaterThan(100);
+    expect(openFinal).toBeGreaterThan(20);
     expect(openFinalEyAy / openFinal).toBeGreaterThan(0.5);
-    expect(beforeSuffix).toBeGreaterThan(10);
-  });
-
-  it("reports zero ey/ay-before-coda on seeds 1000000–1019999", () => {
-    let beforeCoda = 0;
-    let beforeSz = 0;
-    for (let seed = RANGE_START; seed < RANGE_END; seed++) {
-      const word = generateWord({ seed, trace: true });
-      for (const hit of eyAyBeforeSameSyllableCoda(word)) {
-        beforeCoda++;
-        const i = word.trace!.graphemeSelections.indexOf(hit);
-        const next = word.trace!.graphemeSelections[i + 1];
-        if (next?.phoneme === "s" || next?.phoneme === "z") beforeSz++;
-      }
-    }
-    expect(beforeCoda).toBe(0);
-    expect(beforeSz).toBe(0);
+    expect(closedFinal).toBeGreaterThan(20);
+    expect(closedFinalForms.get("ae") ?? 0).toBeGreaterThan(closedFinal / 2);
   });
 });

@@ -138,17 +138,19 @@ export const diphthongGraphemes: Grapheme[] = [
     // Comparator ~56% "a" (mostly split via silentE); keep mono path for magic-e.
     isolatedSyllableWeight: 3,
   },
-  // Closed poly-final /eɪ/ after #459: ay/ey no longer cover coda finals, so
-  // ordinary "a" (→ magic-e) must be legal there without opening bare final "a".
+  // Closed poly-final /eɪ/ after #459: ay/ey no longer cover coda finals.
+  // "ae" + one coda consonant is split by the magic-e rule (pae+n → pane); a
+  // bare "a" would read as /æ/ (bepan). Magic-e cannot split a cluster
+  // (dirtaets), so clusters fall to "ai" (paint).
   {
     phoneme: "eɪ",
-    form: "a",
+    form: "ae",
     frequency: 25,
     startWord: 0,
     midWord: 0,
     endWord: 4,
     isolatedSyllableWeight: 0,
-    condition: { syllableShape: { coda: "nonEmpty" } },
+    condition: { syllableShape: { coda: 1 } },
   },
   {
     phoneme: "eɪ",
