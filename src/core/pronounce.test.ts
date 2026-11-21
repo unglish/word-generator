@@ -201,6 +201,99 @@ describe("reduceUnstressedVowels", () => {
     }
   });
 
+  describe("coda modifiers (#475)", () => {
+    const blockedBeforeVelarNasal: VowelReductionConfig = {
+      enabled: true,
+      rules: [
+        {
+          source: "ɪ",
+          target: "ə",
+          probability: 100,
+          codaModifiers: [
+            { sounds: ["ŋ"], multiplier: 0 },
+            { sounds: ["k", "ŋ"], multiplier: 0.5 },
+          ],
+        },
+      ],
+      reduceSecondaryStress: false,
+    };
+    const closed = (coda: string[]): Syllable => ({
+      onset: [],
+      nucleus: [vowel("ɪ")],
+      coda: coda.map((sound) => consonant(sound)),
+    });
+
+    it("blocks reduction before a coda with multiplier 0", () => {
+      for (let seed = 0; seed < 50; seed++) {
+        const c = ctx([syl(vowel("ɑ"), "ˈ"), closed(["ŋ", "z"])], seed);
+        _reduceUnstressedVowels(c, blockedBeforeVelarNasal, c.rand);
+        expect(c.word.syllables[1].nucleus[0].sound).toBe("ɪ");
+        expect(c.word.syllables[1].nucleus[0].reduced).toBeUndefined();
+      }
+    });
+
+    it("keys on the first coda consonant and leaves other codas and open syllables alone", () => {
+      const c = ctx([syl(vowel("ɑ"), "ˈ"), closed(["z", "ŋ"]), syl(vowel("ɪ"))]);
+      _reduceUnstressedVowels(c, blockedBeforeVelarNasal, c.rand);
+      expect(c.word.syllables[1].nucleus[0].sound).toBe("ə");
+      expect(c.word.syllables[2].nucleus[0].sound).toBe("ə");
+    });
+
+    it("matches coda consonants by feature selectors as well as sounds", () => {
+      const velarNasal: VowelReductionConfig = {
+        ...blockedBeforeVelarNasal,
+        rules: [
+          {
+            source: "ɪ",
+            target: "ə",
+            probability: 100,
+            codaModifiers: [{ manner: ["nasal"], place: ["velar"], multiplier: 0 }],
+          },
+        ],
+      };
+      const velar = ctx([syl(vowel("ɑ"), "ˈ"), {
+        onset: [],
+        nucleus: [vowel("ɪ")],
+        coda: [consonant("ŋ", { mannerOfArticulation: "nasal", placeOfArticulation: "velar" })],
+      }]);
+      const alveolar = ctx([syl(vowel("ɑ"), "ˈ"), {
+        onset: [],
+        nucleus: [vowel("ɪ")],
+        coda: [consonant("n", { mannerOfArticulation: "nasal", placeOfArticulation: "alveolar" })],
+      }]);
+      _reduceUnstressedVowels(velar, velarNasal, velar.rand);
+      _reduceUnstressedVowels(alveolar, velarNasal, alveolar.rand);
+      expect(velar.word.syllables[1].nucleus[0].sound).toBe("ɪ");
+      expect(alveolar.word.syllables[1].nucleus[0].sound).toBe("ə");
+    });
+
+    it("applies a fractional coda multiplier", () => {
+      let reduced = 0;
+      const N = 400;
+      for (let seed = 0; seed < N; seed++) {
+        const c = ctx([syl(vowel("ɑ"), "ˈ"), closed(["k"])], seed);
+        _reduceUnstressedVowels(c, blockedBeforeVelarNasal, c.rand);
+        if (c.word.syllables[1].nucleus[0].reduced) reduced++;
+      }
+      expect(reduced / N).toBeGreaterThan(0.4);
+      expect(reduced / N).toBeLessThan(0.6);
+    });
+
+    it("draws once per candidate even when blocked, so later draws do not shift", () => {
+      const open: VowelReductionConfig = {
+        ...blockedBeforeVelarNasal,
+        rules: [{ source: "ɪ", target: "ə", probability: 100 }],
+      };
+      const blocked = ctx([syl(vowel("ɑ"), "ˈ"), closed(["ŋ"])], 7);
+      const unblocked = ctx([syl(vowel("ɑ"), "ˈ"), closed(["ŋ"])], 7);
+      _reduceUnstressedVowels(blocked, blockedBeforeVelarNasal, blocked.rand);
+      _reduceUnstressedVowels(unblocked, open, unblocked.rand);
+      expect(blocked.word.syllables[1].nucleus[0].sound).toBe("ɪ");
+      expect(unblocked.word.syllables[1].nucleus[0].sound).toBe("ə");
+      expect(blocked.rand()).toBe(unblocked.rand());
+    });
+  });
+
   it("skips syllables when reduceSecondaryStress is false", () => {
     const config: VowelReductionConfig = {
       enabled: true,

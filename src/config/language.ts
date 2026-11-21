@@ -431,6 +431,31 @@ export interface VowelReductionRule {
   target: string;
   /** Reduction probability 0-100 */
   probability: number;
+  /**
+   * Probability multipliers keyed on the sound right after the vowel in its
+   * own syllable (the first coda consonant). The first entry whose selector
+   * matches that consonant applies; open syllables and unmatched codas keep the
+   * full probability. A multiplier of 0 blocks the rule before those sounds.
+   */
+  codaModifiers?: VowelReductionCodaModifier[];
+}
+
+/**
+ * A coda-conditioned multiplier on one {@link VowelReductionRule}. The
+ * selector fields match the first coda consonant as `matchesPhoneme` does
+ * (every given field must match; an entry with none matches any consonant).
+ */
+export interface VowelReductionCodaModifier {
+  /** Restrict by phoneme sound. */
+  sounds?: string[];
+  /** Restrict by manner of articulation. */
+  manner?: Phoneme["mannerOfArticulation"][];
+  /** Restrict by place of articulation. */
+  place?: Phoneme["placeOfArticulation"][];
+  /** Restrict by voicing. */
+  voiced?: boolean;
+  /** Multiplier (0.0-1.0) on the rule's probability; 0 blocks reduction. */
+  multiplier: number;
 }
 
 /**

@@ -9,6 +9,7 @@ import {
   ResolvedStressRules,
   SyllableIndexClass,
   VowelReductionConfig,
+  VowelReductionRule,
 } from "../config/language.js";
 import { phonemes } from "../elements/phonemes.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
@@ -412,11 +413,27 @@ const buildPronunciationGuide = (context: WordGenerationContext): void => {
 };
 
 /**
+ * The rule's multiplier for the consonant right after the vowel in its own
+ * syllable: the first matching coda modifier's, or 1 when none matches.
+ */
+const codaMultiplier = (
+  rule: VowelReductionRule,
+  syllable: Syllable,
+): number => {
+  const following = syllable.coda[0];
+  if (following === undefined || !rule.codaModifiers) return 1;
+  const modifier = rule.codaModifiers.find((m) => matchesPhoneme(following, m));
+  return modifier?.multiplier ?? 1;
+};
+
+/**
  * Post-generation pass: reduce vowels in unstressed syllables.
  *
  * Only vowels with a matching rule in the config are candidates.
  * Tense vowels are skipped. Per-rule target and probability are used,
- * modified by syllable position and secondary stress settings.
+ * modified by syllable position, the following coda consonant and secondary
+ * stress settings. Every candidate draws once, even at probability 0, so a
+ * blocked reduction does not shift later random draws.
  *
  * NOTE: Spelling intentionally does NOT update after vowel reduction.
  * English uses etymological/historical spelling — the written form is
@@ -466,7 +483,7 @@ const reduceUnstressedVowels = (
       const rule = ruleMap.get(vowel.sound);
       if (!rule) continue;
 
-      let prob = rule.probability * positionalMod;
+      let prob = rule.probability * positionalMod * codaMultiplier(rule, syllable);
       if (
         syllable.stress === "ˌ" &&
         config.secondaryStressProbability != null

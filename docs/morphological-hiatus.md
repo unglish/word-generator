@@ -4,7 +4,8 @@ The default English morphology policy keeps both vowels when an affix meets a
 vowel-initial or vowel-final root. Previously it inserted /h/ into the phoneme
 sequence. Affix letters are fixed and the root writer sees only the root's
 phonemes, so that /h/ was pronounced but never spelled: `showing` came out as
-/ˈʃəʊ.həŋ/. It is now /ˈʃəʊ.əŋ/, with the same spelling.
+/ˈʃəʊ.həŋ/. It is now /ˈʃəʊ.ɪŋ/, with the same spelling (since #475 the `-ing`
+vowel no longer reduces to /ə/ before /ŋ/).
 
 This change concerns phonemic representation at prefix/root and root/suffix
 boundaries. The within-root hiatus policy is unchanged. Davidson & Erker's
