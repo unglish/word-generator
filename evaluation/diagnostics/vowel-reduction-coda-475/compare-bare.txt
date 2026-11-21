@@ -1,0 +1,20 @@
+{"N":5000,"first":3000000,"opts":{"morphology":false},"writtenChanged":0,"ipaChanged":40,"targeted":40,"shifted":0,"tracedMismatch":0}
+written examples []
+-ing suffix final rime (lexical ɪŋ, unstressed): before { 'ɪ': 0, 'ə': 0 } after { 'ɪ': 0, 'ə': 0 }
+root lexical ɪŋ (unstressed, not the -ing suffix): before { 'ɪ': 10, 'ə': 5 } after { 'ɪ': 15, 'ə': 0 }
+targeted patterns:
+  medial ək→ɪk                    14   3000264 ineickerp ˈaɪn.ək.ɚp→ˈaɪn.ɪk.ɚp | 3000510 idolqickeab ˈɪ.dɑlk.ək.i:b→ˈɪ.dɑlk.ɪk.i:b | 3000838 uffeacikrelb ˌʌˈfɛ.sək.ɚlb→ˌʌˈfɛ.sɪk.ɚlb
+  medial əg→ɪg                     4   3000193 elrigraing ˈɛl.rəg.reɪŋ→ˈɛl.rɪg.reɪŋ | 3000351 vageigverd ˈvædʒ.əg.vɚd→ˈvædʒ.ɪg.vɚd | 3001113 apsigassiro ˈɑps.əgˌæʃ.rəʊ→ˈɑps.ɪgˌæʃ.rəʊ
+  initial ək→ɪk                    3   3000356 bicfiton bəkˈfɪ.tʰʌn→bɪkˈfɪ.tʰʌn | 3002193 ticnigerdurn tʰəkˌnɪˈgɚ.dɚn→tʰɪkˌnɪˈgɚ.dɚn | 3004579 icantilorf ək.ɑntˈaɪl.ɚf→ɪk.ɑntˈaɪl.ɚf
+  medial əkt→ɪkt                   3   3000720 allicteet ˈæl.əkt.i:t→ˈæl.ɪkt.i:t | 3001684 losictir ˈlʌ.səkt.ɚ→ˈlʌ.sɪkt.ɚ | 3002929 sokintcicterel sɔˈkɪnt.səkt.ɪ.rəl→sɔˈkɪnt.sɪkt.ɪ.rəl
+  final əŋ→ɪŋ                      3   3003400 adging ˈeɪd.gəŋ→ˈeɪd.gɪŋ | 3003579 urpning ˈɚp.nəŋ→ˈɚp.nɪŋ | 3004517 bectitraqing ˈbɛk.tʰəˌtʰrək.əŋ→ˈbɛk.tʰəˌtʰrək.ɪŋ
+  final secondary əŋ→ɪŋ            2   3000332 nuchting ˈnutʃˌtəŋ→ˈnutʃˌtɪŋ | 3002301 citiling ˈsɪ.tɪlˌəŋ→ˈsɪ.tɪlˌɪŋ
+  final ək→ɪk                      2   3000483 adininic ˈæ.dən.ɪn.ək→ˈæ.dən.ɪn.ɪk | 3000703 bilgekic ˈbɪl.gə.kʰək→ˈbɪl.gə.kʰɪk
+  final əŋs→ɪŋs                    2   3000938 nolmvings ˈnɑlm.vəŋs→ˈnɑlm.vɪŋs | 3004639 etings ˈɛ.təŋs→ˈɛ.tɪŋs
+  final əʃ→ɪʃ                      2   3001344 otsish ˈʌts.əʃ→ˈʌts.ɪʃ | 3001586 atish ˈɑ.tʰəʃ→ˈɑ.tʰɪʃ
+  medial əv→ɪv                     1   3001574 acnivchem ˈæk.nəv.kɛm→ˈæk.nɪv.kɛm
+  final əg→ɪg                      1   3002942 mistig ˈmɪz.tʰəg→ˈmɪz.tʰɪg
+  final əv→ɪv                      1   3003241 yicruenive jɪˈkʰru.nəv→jɪˈkʰru.nɪv
+  medial secondary ək→ɪk           1   3003907 howotticocs ˈhʌ.wəˌtʰək.ɔks→ˈhʌ.wəˌtʰɪk.ɔks
+  medial ətʃ→ɪtʃ                   1   3004295 acrisichely ˈeɪk.rəz.ətʃ.ə.li:→ˈeɪk.rəz.ɪtʃ.ə.li:
+non-targeted examples []

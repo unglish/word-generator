@@ -1,0 +1,18 @@
+{"N":5000,"first":4000000,"opts":{"mode":"text"},"writtenChanged":0,"ipaChanged":50,"targeted":50,"shifted":0,"tracedMismatch":0}
+written examples []
+-ing suffix final rime (lexical ɪŋ, unstressed): before { 'ɪ': 85, 'ə': 30 } after { 'ɪ': 115, 'ə': 0 }
+root lexical ɪŋ (unstressed, not the -ing suffix): before { 'ɪ': 5, 'ə': 0 } after { 'ɪ': 5, 'ə': 0 }
+targeted patterns:
+  final əŋ→ɪŋ                     30   4000487 snaining ˈsneɪn.əŋ→ˈsneɪn.ɪŋ | 4000688 fumplenning ˈfʊm.plɪn.əŋ→ˈfʊm.plɪn.ɪŋ | 4000784 echtairpoing ɪʃˈtʰeɪrp.əʊ.əŋ→ɪʃˈtʰeɪrp.əʊ.ɪŋ
+  final əv→ɪv                      9   4000058 shrimbive ˈʃraɪmb.əv→ˈʃraɪmb.ɪv | 4000451 folmive ˈfɔlm.əv→ˈfɔlm.ɪv | 4001969 fagorive ˌfɑgˈɚ.əv→ˌfɑgˈɚ.ɪv
+  final secondary əŋ→ɪŋ            2   4001433 glieking ˈglaɪˌkʰəŋ→ˈglaɪˌkʰɪŋ | 4004040 arding ˈærˌdəŋ→ˈærˌdɪŋ
+  medial əg→ɪg                     1   4001064 datpigselaglin ˈdɑt.pʰəg.sə.læg.lɪn→ˈdɑt.pʰɪg.sə.læg.lɪn
+  medial ədʒ→ɪdʒ                   1   4001068 lemnidgeirdize ˈlɛm.nədʒ.aɪrd.aɪz→ˈlɛm.nɪdʒ.aɪrd.aɪz
+  final əvz→ɪvz                    1   4001507 banives ˈbæ.nəvz→ˈbæ.nɪvz
+  medial ətʃ→ɪtʃ                   1   4003025 misoclichmachful ˌmɪsˈəʊ.kʰlətʃ.mətʃ.fəl→ˌmɪsˈəʊ.kʰlɪtʃ.mətʃ.fəl
+  final əʃ→ɪʃ                      1   4004012 akish ˈɑk.əʃ→ˈɑk.ɪʃ
+  final əg→ɪg                      1   4004156 allig ˈæl.əg→ˈæl.ɪg
+  medial əv→ɪv                     1   4004264 vabivkeepursity væ.bəvˌkʰi:ˈpɚs.ɪ.ti:→væ.bɪvˌkʰi:ˈpɚs.ɪ.ti:
+  medial ək→ɪk                     1   4004582 azicund ˈæ.zək.ʊnd→ˈæ.zɪk.ʊnd
+  final ədʒ→ɪdʒ                    1   4004671 catanidge ˈsæ.tə.nədʒ→ˈsæ.tə.nɪdʒ
+non-targeted examples []

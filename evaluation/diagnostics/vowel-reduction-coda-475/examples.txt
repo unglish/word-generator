@@ -1,0 +1,24 @@
+2000092 main  setewkerring /si:ˈtʰu.kʰɚ.əŋ/ suffix: ing 
+   before: s.i:. | ˈt.u. | k.ɚ. | .ɪ.ŋ 
+   after:  s.i:. | ˈt.u. | k.ɚ. | .ə[reduced].ŋ
+2000092 #475  setewkerring /si:ˈtʰu.kʰɚ.ɪŋ/ suffix: ing 
+   before: s.i:. | ˈt.u. | k.ɚ. | .ɪ.ŋ 
+   after:  s.i:. | ˈt.u. | k.ɚ. | .ɪ.ŋ
+2000248 main  ronging /ˈrʌŋ.əŋ/ suffix: ing 
+   before: ˈr.ʌ.ŋ | .ɪ.ŋ 
+   after:  ˈr.ʌ.ŋ | .ə[reduced].ŋ
+2000248 #475  ronging /ˈrʌŋ.ɪŋ/ suffix: ing 
+   before: ˈr.ʌ.ŋ | .ɪ.ŋ 
+   after:  ˈr.ʌ.ŋ | .ɪ.ŋ
+2000452 main  ernonive /ˌɚnˈəʊn.əv/ suffix: ive 
+   before: ˌ.ɚ.n | ˈ.əʊ.n | .ɪ.v 
+   after:  ˌ.ɚ.n | ˈ.əʊ.n | .ə[reduced].v
+2000452 #475  ernonive /ˌɚnˈəʊn.ɪv/ suffix: ive 
+   before: ˌ.ɚ.n | ˈ.əʊ.n | .ɪ.v 
+   after:  ˌ.ɚ.n | ˈ.əʊ.n | .ɪ.v
+2001410 main  najicnalitting /ˈnɑ.dʒək.nə.laɪt.ɪŋ/ suffix: ing 
+   before: ˈn.ɑ. | dʒ.ɪ.k | n.ə. | l.aɪ.t | .ɪ.ŋ 
+   after:  ˈn.ɑ. | dʒ.ə[reduced].k | n.ə. | l.aɪ.t | .ɪ.ŋ
+2001410 #475  najicnalitting /ˈnɑ.dʒɪk.nə.laɪt.ɪŋ/ suffix: ing 
+   before: ˈn.ɑ. | dʒ.ɪ.k | n.ə. | l.aɪ.t | .ɪ.ŋ 
+   after:  ˈn.ɑ. | dʒ.ɪ.k | n.ə. | l.aɪ.t | .ɪ.ŋ

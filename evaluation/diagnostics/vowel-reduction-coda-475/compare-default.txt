@@ -1,0 +1,41 @@
+{"N":20000,"first":2000000,"opts":{},"writtenChanged":0,"ipaChanged":337,"targeted":337,"shifted":0,"tracedMismatch":0}
+written examples []
+-ing suffix final rime (lexical ɪŋ, unstressed): before { 'ɪ': 416, 'ə': 178 } after { 'ɪ': 594, 'ə': 0 }
+root lexical ɪŋ (unstressed, not the -ing suffix): before { 'ɪ': 38, 'ə': 11 } after { 'ɪ': 49, 'ə': 0 }
+targeted patterns:
+  final əŋ→ɪŋ                    180   2000092 setewkerring si:ˈtʰu.kʰɚ.əŋ→si:ˈtʰu.kʰɚ.ɪŋ | 2000103 misdanticzaing ˌmɪs.dənˈtʰaɪk.zə.əŋ→ˌmɪs.dənˈtʰaɪk.zə.ɪŋ | 2000147 bepuning ˈbɛ.pʰun.əŋ→ˈbɛ.pʰun.ɪŋ
+  medial ək→ɪk                    41   2000002 liskicky ˈlaɪz.kək.i:→ˈlaɪz.kɪk.i: | 2001410 najicnalitting ˈnɑ.dʒək.nə.laɪt.ɪŋ→ˈnɑ.dʒɪk.nə.laɪt.ɪŋ | 2001587 ennicnishision ˌɛn.əkˌnaɪʃˈi:.ʃən→ˌɛn.ɪkˌnaɪʃˈi:.ʃən
+  final əv→ɪv                     38   2000452 ernonive ˌɚnˈəʊn.əv→ˌɚnˈəʊn.ɪv | 2000778 yimeenive ˌjaɪˈmi:n.əv→ˌjaɪˈmi:n.ɪv | 2000847 overhikiniborive ˌəʊ.vɚˌhɪ.kɪ.nəˈbɔr.əv→ˌəʊ.vɚˌhɪ.kɪ.nəˈbɔr.ɪv
+  medial əg→ɪg                    13   2001189 hobigvashes ˈhɔb.əg.vəʃ.əz→ˈhɔb.ɪg.vəʃ.əz | 2003143 eidinefiguy ˈi:.dənˌəf.əg.i:→ˈi:.dənˌəf.ɪg.i: | 2004701 atigfillilamary ˌɑ.təg.fɪˌləˈlæm.ɪr.i:→ˌɑ.tɪg.fɪˌləˈlæm.ɪr.i:
+  medial əʃ→ɪʃ                    11   2002542 watedicerenes ˈwɑ.tʰə.dəʃ.ri:nz→ˈwɑ.tʰə.dɪʃ.ri:nz | 2003906 uddapabiprishes əˌdæ.pəˈbɪp.rəʃ.ɪz→əˌdæ.pəˈbɪp.rɪʃ.ɪz | 2004198 setichkerrable ˈsɛ.tʰəʃ.kɚ.ə.bəl→ˈsɛ.tʰɪʃ.kɚ.ə.bəl
+  medial secondary ək→ɪk           8   2007429 disickicoos ˌdɪsˈɪkˌək.ʊz→ˌdɪsˈɪkˌɪk.ʊz | 2008497 gerrikenory ˌgɜˌrəkˈi:n.ɔr.i:→ˌgɜˌrɪkˈi:n.ɔr.i: | 2012213 datickity deɪˌtʰəkˈɛ.ə.tʰi:→deɪˌtʰɪkˈɛ.ə.tʰi:
+  medial əŋ→ɪŋ                     5   2002812 motikigringayly ˈmɑ.tʰɪ.kɪ.grəŋ.eɪ.li:→ˈmɑ.tʰɪ.kɪ.grɪŋ.eɪ.li: | 2007980 jormifingomment ˈdʒʌr.məf.əŋ.əʊm.mənt→ˈdʒʌr.məf.ɪŋ.əʊm.mənt | 2012393 azicivodicingly ˈɑ.zə.kəˌvʌ.də.səŋ.li:→ˈɑ.zə.kəˌvʌ.də.sɪŋ.li:
+  medial ətʃ→ɪtʃ                   4   2000252 ninlichrosous ˌnɪn.lətʃˈrəʊs.əs→ˌnɪn.lɪtʃˈrəʊs.əs | 2009603 adaumsitchres əˈdɑmz.ətʃ.ɚz→əˈdɑmz.ɪtʃ.ɚz | 2018859 taguichoment ˈtʰæg.ətʃ.əʊ.mənt→ˈtʰæg.ɪtʃ.əʊ.mənt
+  final əʃ→ɪʃ                      3   2005403 inwatinish ˌɪnˌwæˈtʰaɪ.nəʃ→ˌɪnˌwæˈtʰaɪ.nɪʃ | 2006073 dekish ˈdɛ.kʰəʃ→ˈdɛ.kʰɪʃ | 2019445 rehidish ˌrəˈhaɪ.dəʃ→ˌrəˈhaɪ.dɪʃ
+  initial əʃ→ɪʃ                    2   2000058 isheec əʃˈi:k→ɪʃˈi:k | 2004123 nishonned nəʃˈəʊnd→nɪʃˈəʊnd
+  final əks→ɪks                    2   2001538 baltokics ˈbɑl.tə.kʰəks→ˈbɑl.tə.kʰɪks | 2013725 unegokics ˌʌnˈɛ.gɔ.kəks→ˌʌnˈɛ.gɔ.kɪks
+  initial secondary ətʃ→ɪtʃ        2   2002842 ichtopowral ˌətʃˌtʰəpˈaʊr.əl→ˌɪtʃˌtʰəpˈaʊr.əl | 2017641 ichegotial ˌətʃˌɛ.gəˈtʰi:.əl→ˌɪtʃˌɛ.gəˈtʰi:.əl
+  final əkt→ɪkt                    2   2003281 immilageiced ˈɪm.əl.ədʒ.əkt→ˈɪm.əl.ədʒ.ɪkt | 2007021 sudrabmikicked ˈsud.rɑb.mə.kəkt→ˈsud.rɑb.mə.kɪkt
+  initial ək→ɪk                    2   2003284 ickilired əkˈɪ.li:rd→ɪkˈɪ.li:rd | 2008876 ickividory əkˌəˈvaɪd.ɔr.i:→ɪkˌəˈvaɪd.ɔr.i:
+  medial secondary əkt→ɪkt         2   2004143 uvittictos ʊˈvɪtˌəkt.əʊz→ʊˈvɪtˌɪkt.əʊz | 2014036 sepibicted ˈsi:p.ɪˌbəkt.ɪd→ˈsi:p.ɪˌbɪkt.ɪd
+  final ək→ɪk                      2   2005177 cascrilafic ˈseɪz.kʰrəˌlɑ.fək→ˈseɪz.kʰrəˌlɑ.fɪk | 2009843 unchalkigic ˌʌnˈtʃæl.kɪ.gək→ˌʌnˈtʃæl.kɪ.gɪk
+  initial secondary ək→ɪk          2   2006024 micreedity ˌməkˈri:d.ɪ.ti:→ˌmɪkˈri:d.ɪ.ti: | 2015692 ickikial ˌək.əkˈi:.əl→ˌɪk.ɪkˈi:.əl
+  medial əkt→ɪkt                   2   2007427 okictake ˈɔ.kʰəkt.eɪk→ˈɔ.kʰɪkt.eɪk | 2008394 resactinozictosive ˌrɪˌsɑkˌtʰɪn.ɔ.zəktˈʌz.əv→ˌrɪˌsɑkˌtʰɪn.ɔ.zɪktˈʌz.ɪv
+  final secondary əŋ→ɪŋ            2   2009092 asulsing ˈæz.əlzˌəŋ→ˈæz.əlzˌɪŋ | 2013501 loring ˈlɔˌrəŋ→ˈlɔˌrɪŋ
+  medial ədʒ→ɪdʒ                   2   2010934 ugichigeo ˈʌ.gə.tʃədʒ.əʊ→ˈʌ.gə.tʃɪdʒ.əʊ | 2019265 ackigeab ˈæk.ədʒ.i:b→ˈæk.ɪdʒ.i:b
+  medial əks→ɪks                   1   2001059 abbamicsyize əˈbæm.əks.i:.aɪz→əˈbæm.ɪks.i:.aɪz
+  medial secondary əg→ɪg           1   2001107 odigguer ˈɑˌdəg.ɚ→ˈɑˌdɪg.ɚ
+  initial secondary əg→ɪg          1   2001454 igguironsive ˌəgˌərˈəʊns.ɪv→ˌɪgˌərˈəʊns.ɪv
+  initial secondary ədʒ→ɪdʒ        1   2002544 idgeowngary ˌədʒˈaʊŋ.ɪr.i:→ˌɪdʒˈaʊŋ.ɪr.i:
+  medial əŋk→ɪŋk                   1   2002631 overowrinkurer ˈəʊ.vɚˌəʊ.rəŋk.ɚ.ɚ→ˈəʊ.vɚˌəʊ.rɪŋk.ɚ.ɚ
+  final əgz→ɪgz                    1   2005368 wasprigigs wəˈspraɪ.gəgz→wəˈspraɪ.gɪgz
+  final secondary əŋz→ɪŋz          1   2006437 dadings ˈdæˌdəŋz→ˈdæˌdɪŋz
+  medial secondary əʃ→ɪʃ           1   2007717 overackishies ˈəʊ.vɚ.æˌkʰəʃˌaɪz→ˈəʊ.vɚ.æˌkʰɪʃˌaɪz
+  final əŋs→ɪŋs                    1   2009394 sunimings ˈsʊn.əm.əŋs→ˈsʊn.əm.ɪŋs
+  medial əŋz→ɪŋz                   1   2009533 maringsoses ˈmɑ.rəŋz.əs.əz→ˈmɑ.rɪŋz.əs.əz
+  final secondary əvz→ɪvz          1   2010409 hurlivs ˈhɚˌləvz→ˈhɚˌlɪvz
+  medial secondary ətʃ→ɪtʃ         1   2014788 schrorichlision ʃrɔˌrətʃˈli:.ʃən→ʃrɔˌrɪtʃˈli:.ʃən
+  initial əv→ɪv                    1   2015836 ivlers əvˈlɚz→ɪvˈlɚz
+  medial secondary əŋ→ɪŋ           1   2016575 adinguitisity ɑˌdəŋ.əˈtʰi:s.ə.ti:→ɑˌdɪŋ.əˈtʰi:s.ə.ti:
+  final əŋk→ɪŋk                    1   2018223 hedlink ˈhi:d.ləŋk→ˈhi:d.lɪŋk
+non-targeted examples []
