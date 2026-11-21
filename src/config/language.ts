@@ -600,6 +600,28 @@ export interface SilentEConfig {
    * sound doesn't change. E.g. English "v" → "give", "love", "have".
    */
   appendAfter?: SilentEAppendRule[];
+  /**
+   * Limits the swap to codas where the split still reads long (#470). Without
+   * it, any one- or two-consonant coda qualifies.
+   */
+  codaLimit?: SilentECodaLimit;
+}
+
+/**
+ * Where a split vowel (a + n + e) still reads long. The swap's random draw is
+ * still taken, so a blocked split does not consume a different number of draws.
+ */
+export interface SilentECodaLimit {
+  /** Nucleus phonemes (IPA) the limit applies to; other swaps keep any one- or two-consonant coda. */
+  phonemes: string[];
+  /**
+   * Two-consonant codas that still read long when split, per limited phoneme,
+   * as sound sequences (/eɪ/: ["n", "dʒ"] in change). Any other two-consonant
+   * coda blocks the swap (rinse, not /raɪns/).
+   */
+  clusters?: Record<string, string[][]>;
+  /** One-consonant codas the marker cannot reach across for those phonemes (ŋ in singe). */
+  heldCodas?: string[];
 }
 
 /**
@@ -643,6 +665,8 @@ export interface SpellingRuleLetterRole {
   group: number;
   /** Syllable segment of the phonemes the group's letters must spell. */
   segment: "onset" | "nucleus" | "coda";
+  /** If set, the group's letters must also spell one of these phonemes (IPA). */
+  sounds?: string[];
 }
 
 export type GapSpellingTargetLayer =

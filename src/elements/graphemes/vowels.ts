@@ -1,5 +1,6 @@
 /** Monophthong (pure vowel) graphemes: /iː/, /ɪ/, /ɛ/, /æ/, /ɑ/, /ɔ/, /ʊ/, /u/, /ʌ/, /ə/. */
 import { Grapheme } from "../../types.js";
+import { DIGRAPH_CONSONANTS, openReading } from "./open-reading.js";
 
 export const vowelGraphemes: Grapheme[] = [
   // i: sheep — comparator monos ≈ ee 40% / ea 40% / ie 10% / e 8%.
@@ -33,6 +34,22 @@ export const vowelGraphemes: Grapheme[] = [
     endWord: 0,
     // Bare "e" is mostly open/function words in comparator; keep mono share modest.
     isolatedSyllableWeight: 4,
+    // Closed "e" reads /ɛ/ (celstorn, #470).
+    condition: { openReading: openReading() },
+  },
+  // Closed first syllables (#470): bare "e" reads /ɛ/ there (celstorn), and
+  // first-syllable "ee" is otherwise 0, leaving only ea/ei (feeble, needle,
+  // seedling, freedom beside feast, eastern). After an onset only: English
+  // has few ee- words (eel, eerie); onsetless takes ea (east, eastern).
+  {
+    phoneme: "i:",
+    form: "ee",
+    frequency: 3,
+    startWord: 20,
+    midWord: 0,
+    endWord: 0,
+    isolatedSyllableWeight: 0,
+    condition: { syllableShape: { onset: "nonEmpty", coda: "nonEmpty" } },
   },
   {
     phoneme: "i:",
@@ -48,6 +65,7 @@ export const vowelGraphemes: Grapheme[] = [
       notRightContext: ["consonant"],
     },
   },
+  // Open ie (an open monosyllable "crie" reads /aɪ/ as in pie: a #470 follow-up).
   {
     phoneme: "i:",
     form: "ie",
@@ -56,6 +74,33 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 5,
     endWord: 2,
     isolatedSyllableWeight: 10,
+    condition: { syllableShape: { coda: "empty" } },
+  },
+  // Closed ie only where English writes it (#470): magic-e no longer splits
+  // /i:/ ie, and before most single codas it reads with an extra syllable
+  // (edien as in alien, fatmiet as in diet; word-final -ier and -ies read as
+  // in copier, studies or flies). English keeps it before a cluster (field,
+  // fiend, priest) or one /f v k dʒ/ (chief, believe, shriek, siege); ee/ea
+  // take the rest.
+  {
+    phoneme: "i:",
+    form: "ie",
+    frequency: 1,
+    startWord: 0,
+    midWord: 5,
+    endWord: 2,
+    isolatedSyllableWeight: 10,
+    condition: { syllableShape: { coda: { min: 2 } } },
+  },
+  {
+    phoneme: "i:",
+    form: "ie",
+    frequency: 1,
+    startWord: 0,
+    midWord: 5,
+    endWord: 2,
+    isolatedSyllableWeight: 10,
+    condition: { syllableShape: { coda: 1 }, rightContext: ["f", "v", "k", "dʒ"] },
   },
   {
     phoneme: "i:",
@@ -65,6 +110,8 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 0,
     isolatedSyllableWeight: 1,
+    // Open only (#470): closed ei reads /eɪ/ or /aɪ/ (rein, heist; heintanstommed).
+    condition: { syllableShape: { coda: "empty" } },
   },
   // people
   {
@@ -306,7 +353,50 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 10,
     endWord: 2,
     isolatedSyllableWeight: 3,
+    // Closed "u" reads /ʌ/ (nelyungees, #470) except before /dʒ/, whose "ge"
+    // supplies the split marker (huge).
+    condition: { notLeftContext: ["g"], openReading: openReading(["dʒ"]) },
+  },
+  // Closed first syllables (#470): bare "u" reads /ʌ/ there (nelyungees),
+  // and "oo" is otherwise 0, leaving only "ew" (booster, foolish, scooter).
+  {
+    phoneme: "u",
+    form: "oo",
+    frequency: 30,
+    startWord: 0.5,
+    midWord: 0,
+    endWord: 0,
+    isolatedSyllableWeight: 0,
+    // After an onset: English has almost no oo- words (ooze, oodles). Not
+    // before /k/ or /r/, where oo reads /ʊ/ or /ɔ:/ (book, door); ue takes those.
+    condition: { syllableShape: { onset: "nonEmpty", coda: "nonEmpty" }, notRightContext: ["k", "r"] },
+  },
+  // The bare-letter fallback (#470) covers closed rimes with no long
+  // spelling: mostly onsetless first syllables before a cluster, a held
+  // digraph consonant or /g/, where closed ew and oo need an onset and closed
+  // ue needs one plain consonant; also /k/- or /r/-initial clusters after an onset.
+  {
+    phoneme: "u",
+    form: "u",
+    frequency: 10,
+    startWord: 10,
+    midWord: 10,
+    endWord: 2,
+    isolatedSyllableWeight: 3,
+    fallbackOnly: true,
     condition: { notLeftContext: ["g"] },
+  },
+  // After /g/ the bare letter reads /gw/ or /ʌ/ (guk), so the fallback there is oo.
+  {
+    phoneme: "u",
+    form: "oo",
+    frequency: 30,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+    isolatedSyllableWeight: 1,
+    fallbackOnly: true,
+    condition: { leftContext: ["g"] },
   },
   // Open syllables (incl. open monos): comparator "ue" is open-only.
   {
@@ -319,16 +409,21 @@ export const vowelGraphemes: Grapheme[] = [
     isolatedSyllableWeight: 3,
     condition: { syllableShape: { coda: "empty" } },
   },
-  // Closed polysyllable positions — not licensed on monos (iso 0).
+  // Closed polysyllable positions — not licensed on monos (iso 0). Only
+  // where magic-e splits it, as for /aɪ/ ie (#470): one coda consonant that is
+  // not a digraph (tune, rude). Before a cluster it stays "ue" (kengepeactuerdian).
   {
     phoneme: "u",
     form: "ue",
     frequency: 10,
-    startWord: 0,
+    // First syllables too (#470): u_e is English's closed /u/ before one
+    // consonant (rude, duke, use, pure).
+    startWord: 1.5,
     midWord: 5,
     endWord: 50,
     isolatedSyllableWeight: 0,
-    condition: { syllableShape: { coda: "nonEmpty" } },
+    // Not before /g/: the split "uge" reads /udʒ/ (leguce).
+    condition: { syllableShape: { coda: 1 }, notRightContext: [...DIGRAPH_CONSONANTS, "g"] },
   },
   {
     phoneme: "u",
@@ -340,7 +435,10 @@ export const vowelGraphemes: Grapheme[] = [
     isolatedSyllableWeight: 3,
     condition: { syllableShape: { coda: "empty" } },
   },
-  // After /g/, closed first syllables of polysyllables need "ew" ( "u" is banned ).
+  // Closed polysyllable "ew" (newt, lewd, hewn, pewter). Since #470 bare "u"
+  // no longer covers closed syllables, so keep ew to the shape English gives
+  // it: after an onset, before one alveolar consonant (not ewntel, mewctuns,
+  // pewrblam); oo and ue cover the rest.
   {
     phoneme: "u",
     form: "ew",
@@ -349,7 +447,7 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 4,
     endWord: 20,
     isolatedSyllableWeight: 0,
-    condition: { syllableShape: { coda: "nonEmpty" } },
+    condition: { syllableShape: { onset: "nonEmpty", coda: 1 }, rightContext: ["t", "d", "n", "l", "s", "z"] },
   },
 
   // cup

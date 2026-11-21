@@ -74,7 +74,10 @@ must own every letter of that group. Ownership comes from the base-spelling
 alignment (`BaseSpelling.segmentAt`). The capture groups must spell the whole match.
 A match whose letters have the wrong roles is left unchanged and draws no
 probability roll. English `magic-e` matches `([aiouy])(e)(C)$` and requires nucleus,
-nucleus, coda.
+nucleus, coda. A role may also list `sounds`: the owning phonemes must then be one
+of those (`BaseSpelling.soundAt`). Since #470 `magic-e` splits only /aɪ eɪ u əʊ ɑ/
+nuclei. /i:/ `ie` stays whole, since a split read /aɪ/ (`vutice` → `vutiek`, as in
+*shriek*; `urlifeful` → `urliefful`, as in *chief*).
 
 ## `ea` context (#381)
 
@@ -312,6 +315,99 @@ anything but a short single vowel letter becomes `k` (`caferck` → `caferk`,
 `bavrarcks` → `bavrarks`): `ck` after `er`/`ur`/`or` came from the lax /ɚ/.
 These respells are recorded like the soft-letter ones, with reason
 `root-final` or `not-after-short-vowel`.
+
+## Long vowels as one letter read long (#470)
+
+A single vowel letter spells a long vowel only where an English reader gives it
+that value: in an open syllable (*ti-ger*, *ba-con*), or before a few codas
+(*kind*, *wild*, *pint*). Before any other coda it reads short: `liskicky`
+/laɪz/ read `lis-`, `kalmrel` /keɪl/ read `kal-`, `celstorn` /si:lz/ read
+`cels-`, in every syllable, not only the last.
+
+The bare letters /aɪ/ `i`, /eɪ/ `a`, /i:/ `e` and /u/ `u` now carry an
+`openReading` condition. It holds in three cases:
+
+- the syllable has no coda;
+- the coda is one listed for that letter;
+- the coda is one consonant and a vowel follows it, so a reader moves the
+  consonant across (`edatraps`, *ti-ger*).
+
+The writer knows the following vowel when it selects the nucleus: either the
+next syllable has no onset, or the root's suffix spelling starts with a vowel
+letter. A suffix that doubles a root-final consonant (`-ing`, `-ed`, `-er`)
+closes the syllable again (`briccing`), so the suffix case is weaker than it
+looks; see the follow-ups below. One-consonant codas spelled as digraphs
+(/ŋ ʃ tʃ θ ð/) stay in the syllable (*singer*, *bishop*), so they do not count.
+
+| Letter | Listed codas (any syllable) | English |
+|---|---|---|
+| /aɪ/ `i` | nd, ld, nt; /ŋ/ (+s/z) | *kind*, *wild*, *pint* |
+| /eɪ/ `a` | /dʒ/, /ndʒ/ | *age*, *change*, *angel* |
+| /u/ `u` | /dʒ/ | *huge* |
+| /i:/ `e` | none | |
+
+After a long vowel, /dʒ/ is spelled `ge`, and that `e` is the split marker.
+English has no spelling for /aɪŋ/ (#463), and `ie` would become `iing` through
+`eng-to-ing`, so `i` stays there.
+
+Elsewhere, closed syllables take a long spelling from the existing inventory,
+limited to where it reads long:
+
+- /aɪ/:
+  - `ie` after an onset (#472) and before one coda consonant that is not a
+    digraph, where magic-e splits it (`lisekicky`, *time*);
+  - final `igh` before /t/ (*night*).
+
+  Before a cluster, `ie` would read /i:/ (*field*; `fiechloties`). Closed `ai`
+  and `is` read /eɪ/ and /ɪz/, so both are open-only. No English spelling
+  reads /aɪ/ before most other clusters, before a digraph coda or /g/ (where
+  `ige` would read /dʒ/), or in an onsetless closed syllable, so a
+  `fallbackOnly` bare `i` covers those cases (`fichlaties`, `pigvanting`). The trace marks it `selection.fallback`.
+- /eɪ/: `ae`, which magic-e splits (`kalemorl`) or the #459 `ae` rules finish
+  as `a`/`ai` (`mainsboless`).
+- /i:/: `ea` and `ee`. A closed first-syllable `ee` entry after an onset joins
+  `ea` (*needle*, *freedom*; `ceelstorn`). `ei` is open-only, because closed
+  `ei` reads /eɪ/ or /aɪ/ (*rein*, *heist*; `heintanstommed`). Closed `ie` is
+  kept to the codas English gives it: a cluster (*field*, *priest*) or one
+  /f v k dʒ/ (*chief*, *believe*, *shriek*, *siege*). Before other single
+  codas an unsplit `ie` reads with an extra syllable (`edien`, as in *alien*;
+  `fatmiet`, as in *diet*; word-final `-ier` and `-ies` read as in *copier*,
+  *studies* or *flies*), so `ee`/`ea` take them.
+- /u/:
+  - `ue`, now also in first syllables, where magic-e splits it before one
+    non-digraph consonant (*rude*, *duke*, *use*);
+  - `ew`, after an onset and before one alveolar (*newt*, *lewd*);
+  - a closed first-syllable `oo` entry after an onset, except before /k/ and
+    /r/ (*booster*; not *book*, *door*).
+
+  Where none of these is legal, a `fallbackOnly` bare `u` covers it. That is
+  mostly an onsetless closed first syllable before a cluster or one held
+  consonant or /g/, and sometimes a syllable after an onset before a /k/- or
+  /r/-initial cluster (`suctuzenely`, `unfurnpy`). After /g/, the fallback
+  is `oo`.
+
+Spelling rules finish the job:
+
+- `ie-ue-hard-c-to-k` spells a /k/ `c` after a closed `ie`/`ue` as `k` before
+  magic-e, so the split gives *bike*, *duke*, not `bices` or `mucetuns`, which
+  read /s/. /i:/ `ie` keeps its digraph, so it becomes `iek` (/i:k/, *shriek*). Closed `ie`/`ue` are not chosen before /g/, where the split would
+  read /dʒ/ (`pigevanting`).
+- `magic-e-ie-ue` splits a closed /aɪ/ `ie` or /u/ `ue` that magic-e's 5% miss
+  left unsplit. Unsplit, these read /i:/ or /ju/ (`cieftow`, as in *chief*).
+  `ie-ue-before-e-coda` drops the digraph's `e` before a coda spelled with a
+  final `e` (`fliece` → `flice`). Both use `letterRoles.sounds`, so /i:/ `ie`
+  (*field*, *chief*) is not touched. /k/ `lk` and /b/ `pb` are not used after an
+  `e`-final vowel, since magic-e cannot cross them (`wielkar`). A few
+  two-letter codas still block the split (`ch`, `gh`, `mn`, `lm`, `gn`; about
+  8 per 100k words).
+- Silent-e has a `codaLimit` for these four vowels. It swaps a digraph for a
+  split vowel (`oo` → `u_e`) only across one consonant that is not held, plus
+  /eɪ/ + /n dʒ/ or /s t/ (*change*, *paste*). Across a cluster or a digraph
+  consonant the split reads short (`snunde`, `bakadse`), so the digraph stays
+  (`snoond`, `bakaids`).
+  The swap's random draw is still taken.
+
+/əʊ/ `o` is unchanged (*most*, *folk*, *control*).
 
 ## /ɑ/ `au` in final syllables
 
