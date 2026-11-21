@@ -216,7 +216,8 @@ export const vowelGraphemes: Grapheme[] = [
   },
   // Closed monos: comparator aw only before lone n/l/k (~0% clusters).
   // rightContext still allows nd/nk… — keep weight low so aw-before-cluster
-  // stays under 1% of /ɔ/ monos (accepts single-coda aw shortfall).
+  // stays rare: about 0.6% of /ɔ/ monos on average (test bound 1.6%; accepts
+  // single-coda aw shortfall).
   {
     phoneme: "ɔ",
     form: "aw",

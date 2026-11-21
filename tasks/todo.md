@@ -163,3 +163,35 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 
 - Status: Completed.
 - Notes: True C+y before non-i suffixes on the issue window went 245+115 → 0 (surface Cy leftovers are `/aɪ/` `ye` + drop-e). Golden fixture unchanged. `npm run check` and `npm run build` pass.
+
+---
+
+# Gate noise — phoneme total variation and mono `aw` cluster bound (Completed)
+
+## Plan
+
+- [x] `npm run calibrate:phonemes -- --jobs 3` on main 81df038c (30 streams)
+- [x] `maxTotalVariationPct` 1.78 → 1.88 (worst 1.7714 + 3 × SD 0.0342, rounded outward); other limits unchanged
+- [x] Mono `aw`-before-cluster bound: 30 seed triples on main → mean 0.58%, SD 0.22%, worst 0.94%; bound 1% → 1.6%
+- [x] `npm run check`
+
+## Review
+
+- Status: Completed.
+- Notes: Both limits sat about 0.3 SD above main's worst case, so spelling-only branches that only reshuffle RNG draws failed them (TV 1.7825 on seed 42; `aw` 1.07%). No generator change.
+
+---
+
+# #459 follow-up — closed `ae` before an e-final or vowel-final coda spelling (Completed)
+
+## Plan
+
+- [x] Find closed `ae` syllables no syllable rule rewrites (100k seeds from 5000000): 17, all codas spelled `ge`, `ce` or `nge`, plus `ssi` seen in a shifted sample
+- [x] `ae-before-e-coda`: drop the digraph's `e` before a one-consonant coda spelled with a final `e` (`ge`, `ce`, `gue`) or `nge` (`ataege` → `atage`, `snaenge` → `snange`); other clusters take `ai` (`faelse` → `failse`, not *false*)
+- [x] `ae-unsplit-to-ai`: let the role-checked coda group end in a vowel letter (`ezaessier` → `ezaissier`)
+- [x] Search-based test; `npm run golden:update` (unchanged); `npm run check`
+
+## Review
+
+- Status: Completed.
+- Notes: Closed `ae` that no syllable rule rewrote, 100k seeds from 5000000: 17 → 0 (9 of the 17 still showed `ae` on the surface; silent-e or suffix e-drop had fixed the rest). 100k seeds from 6000000: 17 words change, 13 spelling-only (all better on the trigram scorer) and 4 different words from length-rejection resampling.
