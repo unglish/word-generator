@@ -1,0 +1,39 @@
+2000201: kalmrel /ˈkʰeɪl.mɚl/ -> kalmorl /ˈkʰeɪl.mɚl/  suffix None->None
+   before: k>k@0o eɪ>a@0n l>l@0c m>m@1o ɚ>re@1n l>l@1c
+   after:  k>k@0o eɪ>a@0n l>l@0c m>m@1o ɚ>or@1n l>l@1c
+2000388: packirzrem /pʰæˈkʰɪr.zɚm/ -> senipeence /sɜˈnɪ.pi:ns/  suffix None->None
+   before: p>p@0o æ>a@0n k>k@1o ɪ>i@1n r>r@1c z>z@2o ɚ>re@2n m>m@2c
+   after:  s>s@0o ɜ>e@0n n>n@1o ɪ>i@1n p>p@2o i:>ee@2n n>n@2c s>ce@2c
+2000519: ierocateas /ˈaɪ.rə.kʰæ.ti:s/ -> irocateas /ˈaɪ.rə.kʰæ.ti:s/  suffix None->None
+   before: aɪ>ie@0n r>r@1o ə>o@1n k>c@2o æ>a@2n t>t@3o i:>ea@3n s>s@3c
+   after:  aɪ>i@0n r>r@1o ə>o@1n k>c@2o æ>a@2n t>t@3o i:>ea@3n s>s@3c
+2001634: ielemed /ˈaɪ.li:md/ -> egnerred /ˈɛgˌnɚd/  suffix ed->ed
+   before: aɪ>ie@0n l>l@1o i:>ee@1n m>m@1c
+   after:  ɛ>e@0n g>g@0c n>n@1o ɚ>er@1n
+2001017: laroynt /ˌləˈrɔɪnt/ -> laroint /ˌləˈrɔɪnt/  suffix None->None
+   before: l>l@0o ə>a@0n r>r@1o ɔɪ>oy@1n n>n@1c t>t@1c
+   after:  l>l@0o ə>a@0n r>r@1o ɔɪ>oi@1n n>n@1c t>t@1c
+2006454: udoyts /ˈʊˌdɔɪts/ -> udoits /ˈʊˌdɔɪts/  suffix None->None
+   before: ʊ>u@0n d>d@1o ɔɪ>oy@1n t>t@1c s>s@1c
+   after:  ʊ>u@0n d>d@1o ɔɪ>oi@1n t>t@1c s>s@1c
+2001331: razowtity /ˌræˈzaʊt.ə.ti:/ -> razoutity /ˌræˈzaʊt.ə.ti:/  suffix ity->ity
+   before: r>r@0o æ>a@0n z>z@1o aʊ>ow@1n t>t@1c
+   after:  r>r@0o æ>a@0n z>z@1o aʊ>ou@1n t>t@1c
+2005344: melillly /ˈmɛˌlɪl.li:/ -> melilly /ˈmɛˌlɪl.li:/  suffix ly->ly
+   before: m>m@0o ɛ>e@0n l>l@1o ɪ>i@1n l>l@1c
+   after:  m>m@0o ɛ>e@0n l>l@1o ɪ>i@1n l>l@1c
+2001597: yaffful /ˈjæf.fəl/ -> yafful /ˈjæf.fəl/  suffix ful->ful
+   before: j>y@0o æ>a@0n f>f@0c
+   after:  j>y@0o æ>a@0n f>f@0c
+2013447: ownosssion /ˌəʊnˈʌs.ʃən/ -> ownossion /ˌəʊnˈʌs.ʃən/  suffix sion->sion
+   before: əʊ>ow@0n n>n@0c ʌ>o@1n s>s@1c
+   after:  əʊ>ow@0n n>n@0c ʌ>o@1n s>s@1c
+2009121: squuce /skwuk/ -> skwuce /skwuk/  suffix None->None
+   before: s>s@0o k>c@0o w>w@0o u>oo@0n k>c@0c
+   after:  s>s@0o k>c@0o w>w@0o u>oo@0n k>c@0c
+2016937: amgny /ˈæmˌni:/ -> roula /ˈraʊlˌɑ/  suffix None->None
+   before: æ>a@0n m>m@0c n>gn@1o i:>y@1n
+   after:  r>r@0o aʊ>ou@0n l>l@0c ɑ>a@1n
+2010015: vadgnidal /ˌvædˈnɪd.əl/ -> vadniedal /ˌvædˈnɪd.əl/  suffix al->al
+   before: v>v@0o æ>a@0n d>d@0c n>gn@1o ɪ>i@1n d>d@1c
+   after:  v>v@0o æ>a@0n d>d@0c n>n@1o ɪ>i@1n d>ed@1c

@@ -1,0 +1,12 @@
+   ✓ complete externally expected score artifact > rejects redigested population corruption  807ms
+   ✓ complete externally expected score artifact > rejects redigested model corruption  844ms
+   ✓ complete externally expected score artifact > rejects redigested projection corruption  822ms
+   ✓ complete externally expected score artifact > rejects redigested forged closure corruption  788ms
+   ✓ complete externally expected score artifact > rejects redigested extra field corruption  795ms
+   ✓ explicit score-reference CLI and unchanged input protection > executes aliases and reports help/failure statuses through both TS runners from unrelated cwd  1067ms
+
+ Test Files  13 passed (13)
+      Tests  295 passed (295)
+   Start at  04:28:47
+   Duration  14.34s (transform 1.10s, setup 0ms, collect 3.80s, tests 41.27s, environment 1ms, prepare 689ms)
+
