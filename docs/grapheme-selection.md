@@ -140,7 +140,14 @@ rejected because letters cannot separate /gz/ from /gs/. A cluster-level
 Final-rime /k/→`ck` keeps its syllable-scoped preference (`itipacrex`). But /k/
 before a word-final /s/ is a medial segment, so `c` competes at its mid-word
 weight and fewer `k`/`ck` spellings reach `ks-to-x`: word-final /ks/ is written
-`x` less often than before legal selection. That side effect is not yet tuned.
+`x` less often than before legal selection. Since #469 the hard-`c` rule
+respells a final `cs` as `ks` or `cks` before word rules run, so `ks-to-x`
+reaches it again (see [below](#root-final-k-469)). `ks-to-x` applies only after
+a vowel letter, a vowel + `c`, or `n` (*box*, *nex*, *jinx*): after another
+consonant English keeps `ks` (*desks*, *milks*), not `sx` or `rx`.
+Other rules still write `x` after a consonant, as on main: `cst-to-xt` from
+`rcst`/`lcst` (`gerxt`) and `gz-to-x` (`infurxority`). That is a separate
+follow-up.
 
 The `c` spelling also left /kst/ as `cst` (`twecst`, `hucstanitilid`), which
 neither `ks-to-x` nor `cx-to-x` matches. English almost never writes `cst` (5 of
@@ -244,6 +251,67 @@ in English anyway.
   medial /n/ pools with a single spelling, which draws no random number. The
   later draws of that word shift, so about 17% of seeded words come out
   different (about 3,300 of 20k).
+
+## Hard `c` before e, i and y (#460)
+
+`c` for /k/ reads /s/ before the letters e, i and y. Selection blocks /k/ → `c`
+before front-vowel *sounds* (`c-soft-vowel`), but it cannot see the letters
+that follow: a schwa written `e` or `i` (`ececoontion`), /j/ → `y`
+(`facyorck`), the `e` that magic-e or silent-e adds (`brice`), or an e/i/y-initial
+suffix (`winwocive`). The suffix spelling was also doubled by the
+`double-consonant` boundary transform (`broccest`).
+
+`writtenFormConstraints.hardLetters` declares such letters. The English
+`hard-c` rule runs once the root is written (after syllable rules, magic-e and
+silent-e, before word rules) and checks every `c` that the base-spelling
+alignment traces to /k/ (`BaseSpelling.letterSource`). It looks at the root as
+the planned affixes will attach it (`attachRootWritten`, the same step
+`writeMorphology` runs): a silent e that the suffix's `drop-silent-e`
+transform removes is not "the next letter" (`edice` + `al` keeps `edical`, as
+*medical*), and a /k/ that an affix rule re-sounds is left to that rule
+(`-ity` velar softening: `chace` + `ity` → `chacity`, with /s/). When the next letter, or the suffix's first letter, is e, i or y,
+the `c` becomes:
+
+- `ck` after a single vowel letter spelling a short vowel (/ɪ ɛ æ ʌ ɑ ɔ ʊ ə/;
+  a vowel letter of the previous syllable does not make a digraph: *maniac*),
+  if the root has no other doubled consonant (`doubling.maxPerWord`):
+  `unoreckifeen`, `brockest`, `panic` + `ing` → `panicking`;
+- `k` elsewhere: after a consonant (`satkiprenal`, `sk` for `sc`), a vowel
+  digraph or a long vowel (`vutike`, `kitomiddinikes`).
+
+A `c` for /s/ before e/i/y (*cell*, *acid*) is untouched. The respell draws no
+random numbers. It is recorded as a `hardLetter:hard-c` base-spelling edit and
+repair (with the reason and next letter in `detail`), and on the /k/ grapheme
+selection as `letterRespelled`.
+
+## Root-final /k/ (#469)
+
+The default /k/ → `c` entry has `endWord: 10` and plain final `k` only
+`endWord: 2`, so a root-final /k/ after a consonant or a long vowel was written
+`c` (`molstisc`, `ceglerlc`, `isheec`), and before a final /s/, where /k/ is a
+medial segment, `cs` (`urcs`, `wascs`). English ends a word in `c` almost only in
+*-ic* and *-ac*. Grapheme conditions see phonemes, not the letters that decide
+this (`ur` for lax /ɚ/, vowel digraphs, silent-e), so the `hard-c` rule's
+`rootFinal` option decides from the written root instead.
+
+A `c` for /k/ that ends the root, alone or before a root-final `s` or `se`, is
+respelled unless it follows a short single `i` or `a` (*panic*, *maniacs*):
+
+- `k` after a consonant (`sk`, `lk`, `rk`), a vowel digraph (`isheek`,
+  `yezook`, and `ow`/`aw` for /aʊ ɔ/ in `larowk`), or a long single vowel
+  (`iniftok`);
+- `ck` after another short single vowel letter (`odortheck`, `inscock`), within
+  the doubling limit.
+
+`ks-to-x` may then write a final /ks/ as `x` (`sotoniloux`). A bare root-final
+`c` stays before a suffix that starts with `t`, `a`, `o` or `u` (*action*,
+*medical*, *raucous*); a root-final `cs` or `cse` is respelled there too
+(`nadocksal`, `alksous`). Before other consonant suffixes a bare final `c` is
+respelled (`boskly`, as *briskly*). With `onlyAfterShortVowel`, a `ck` selected after
+anything but a short single vowel letter becomes `k` (`caferck` → `caferk`,
+`bavrarcks` → `bavrarks`): `ck` after `er`/`ur`/`or` came from the lax /ɚ/.
+These respells are recorded like the soft-letter ones, with reason
+`root-final` or `not-after-short-vowel`.
 
 ## /ɑ/ `au` in final syllables
 

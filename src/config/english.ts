@@ -443,8 +443,11 @@ export const englishConfig: LanguageConfig = {
       scope: "syllable",
     },
     {
+      // After a vowel (box, flex), a vowel + ck (necks → nex) or n (jinx)
+      // only: English keeps ks after other consonants (desks, milks, works),
+      // not sx, lx, rx.
       name: "ks-to-x",
-      pattern: "(?<!^)ks",
+      pattern: "(?<=[aeiouy]c|[aeiouyn])ks",
       replacement: "x",
       probability: 25,
     },
@@ -656,6 +659,29 @@ export const englishConfig: LanguageConfig = {
         name: "hard-g-silent-u",
         boundaryMatch: /g([eiy])/i,
         insert: "u",
+      },
+    ],
+    hardLetters: [
+      {
+        // c reads /s/ before e, i or y (#460). Selection only sees the next
+        // phoneme, so /k/ → c before a schwa written e or i, /j/ → y, magic-e's
+        // e, or an e/i-initial suffix read soft (farcew, winwocive, brice).
+        name: "hard-c",
+        phoneme: "k",
+        letter: "c",
+        softBefore: ["e", "i", "y"],
+        afterShortVowel: "ck",
+        otherwise: "k",
+        shortVowels: ["ɪ", "ɛ", "æ", "ʌ", "ɑ", "ɔ", "ʊ", "ə"],
+        // Root-final /k/ (#469): English ends a word in c almost only in -ic
+        // and -ac (panic, maniac). After a consonant or a long vowel it writes
+        // k (desk, milk, seek; magic-e gives ke), after another short vowel
+        // ck (neck, rock); a final /ks/ the same way (desks, necks; ks-to-x
+        // may then write x). A bare final c stays before -tion or an a/o/u
+        // suffix (action, medical, fiscal, raucous); a final cs does not.
+        rootFinal: { tails: ["s", "se"], keepAfter: ["i", "a"], keepBefore: ["t", "a", "o", "u"] },
+        // ck only follows a short single vowel letter: not urck, eack.
+        onlyAfterShortVowel: true,
       },
     ],
   },

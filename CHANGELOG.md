@@ -20,6 +20,24 @@
   `manner`, `place`, `voiced`). English blocks /ɪ/ → /ə/ before /ŋ k g ʃ tʃ dʒ
   v/, so `-ing` stays /ɪŋ/ (#475). Pronunciations change; spelling and random
   draws do not.
+- `writtenFormConstraints.hardLetters` (type `HardLetterRespelling`): respell a
+  hard consonant letter that its written neighbours would read soft. English
+  respells `c` for /k/ before e, i or y, including a suffix's first letter, as
+  `ck` after a short single vowel letter and `k` elsewhere (#460). A silent e
+  that the suffix drops before a/o/u is not counted (`edical`), and a /k/ that
+  `-ity` makes /s/ keeps its `c` (`chacity`). The respell is recorded in
+  `repairs`, `baseSpelling.edits` and on the selection as
+  `GraphemeTrace.letterRespelled`. Generated output changes.
+- `HardLetterRespelling.rootFinal` and `onlyAfterShortVowel`: English also
+  respells a root-final /k/ `c` (or `cs`) outside -ic/-ac as `k` after a
+  consonant, vowel digraph or long vowel and `ck` after another short vowel,
+  and a `ck` that does not follow a short single vowel letter as `k` (#469).
+  -ic and -ac stay, including after a vowel of another syllable (*maniac*),
+  and so does a bare root-final `c` before a suffix starting with t, a, o or u
+  (*action*, *medical*); a root-final `cs` is still respelled there
+  (`nadocksal`). `ks-to-x` now
+  applies only after a vowel letter, a vowel + `c`, or `n`. Generated output
+  changes.
 
 ## 0.6.0 - 2026-03-03
 

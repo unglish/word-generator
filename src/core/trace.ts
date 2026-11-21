@@ -104,6 +104,19 @@ export interface GraphemeTrace {
    * `emitted` keep the original choice. Absent when the unit was not respelled.
    */
   respelled?: GraphemeRespelling;
+  /**
+   * Set when a hard-letter rule respelled this unit after selection because of
+   * its written neighbours (hard `c` before e/i/y → `k`/`ck`). Absent otherwise.
+   */
+  letterRespelled?: GraphemeLetterRespelling;
+}
+
+/** A respelling of one selection by a `writtenFormConstraints.hardLetters` rule. */
+export interface GraphemeLetterRespelling {
+  /** Replacement letters. Later word rules may still edit them. */
+  form: string;
+  /** Trace rule name, as in `repairs` and `baseSpelling.edits` (`hardLetter:hard-c`). */
+  rule: string;
 }
 
 /** The whole-unit replacement a spelling-coverage certificate made for one selection. */
@@ -454,6 +467,15 @@ export class TraceCollector {
     for (let i = this.graphemeSelections.length - 1; i >= 0; i--) {
       if (this.graphemeSelections[i].index !== index) continue;
       this.graphemeSelections[i].respelled = respelled;
+      return;
+    }
+  }
+
+  /** Mark the selection at decision `index` as respelled by a hard-letter rule. */
+  recordLetterRespelling(index: number, respelled: GraphemeLetterRespelling): void {
+    for (let i = this.graphemeSelections.length - 1; i >= 0; i--) {
+      if (this.graphemeSelections[i].index !== index) continue;
+      this.graphemeSelections[i].letterRespelled = respelled;
       return;
     }
   }

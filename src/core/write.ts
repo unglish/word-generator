@@ -52,6 +52,8 @@ import {
 import type { TraceUnitSeed } from "./orthography-trace.js";
 export { rewriteOrthographyTraceSurface } from "./orthography-trace.js";
 import { validateJunction } from "./junction.js";
+import { createHardLetterPlanner } from "./hard-letter.js";
+import type { HardLetterPlanner } from "./hard-letter.js";
 import { isVowelChar, isConsonantLetter } from "../utils/letters.js";
 import { clonePhoneme } from "./lexical.js";
 
@@ -1212,13 +1214,26 @@ function hasInvalidSyllableJunction(
  * Spells `context.word.syllables` into `context.word.written` and returns the
  * base-spelling state it built. `source` places those syllables in the
  * assembled word for the orthography trace; `following` is written text that
- * will directly follow them (a planned suffix).
+ * will directly follow them (a planned suffix). `attachment` tells letter
+ * checks how the planned affixes will treat the root.
  */
 export type WrittenFormGenerator = (
   context: WordGenerationContext,
   source?: OrthographySource,
   following?: string,
+  attachment?: RootAttachment,
 ) => BaseSpelling;
+
+/** How the planned affixes treat the written root, for checks of what follows a letter. */
+export interface RootAttachment {
+  /** The written root as attached: morphophonemic respellings, then boundary transforms. */
+  attach: (written: string) => string;
+  /**
+   * Root phones (grapheme-decision indices) whose sound an affix rule changes,
+   * such as the /k/ that `-ity` makes /s/. Their spelling is the rule's.
+   */
+  resounded: ReadonlySet<number>;
+}
 
 /**
  * Creates a `generateWrittenForm` function bound to the given language config's
@@ -1260,6 +1275,14 @@ export function createWrittenFormGenerator(
       ? buildAppendAfterLookup(silentEConfig.appendAfter)
       : undefined;
   const wfc = config.writtenFormConstraints;
+  const planHardLetters = wfc?.hardLetters?.length
+    ? createHardLetterPlanner(wfc.hardLetters, doublingModel.isDirectForm)
+    : undefined;
+  // Letters a hard-letter rule can respell; a root without any skips planning.
+  const hardLetterChars = wfc?.hardLetters?.map((rule) => rule.letter) ?? [];
+  const maxDoublings = config.doubling?.enabled
+    ? config.doubling.maxPerWord ?? Infinity
+    : Infinity;
 
   /** Join the parts and apply word-scope rules, moving the final vowel's offsets with every edit. */
   function applyWordRules(
@@ -1386,6 +1409,56 @@ export function createWrittenFormGenerator(
       clean: rules.clean,
       overflow: finalVowelOverflow(word.finalVowel),
     };
+  }
+
+  /**
+   * Respell hard letters that their written neighbours would misread (hard `c`
+   * before e/i/y), keeping the parts, base spelling and trace in step.
+   */
+  function respellHardLetters(
+    { context, baseSpelling, cleanParts, hyphenatedParts, observeParts }: WordSpelling,
+    plan: HardLetterPlanner,
+    following: string | undefined,
+    attachment: RootAttachment | undefined,
+  ): void {
+    const written = cleanParts.join("");
+    if (!hardLetterChars.some((letter) => written.includes(letter))) return;
+    const attached = attachment?.attach(written) ?? written;
+    const respells = plan({
+      written,
+      // A transform that only drops final letters (drop-silent-e) hides them from the suffix.
+      kept: attached.length < written.length && written.startsWith(attached)
+        ? attached.length
+        : written.length,
+      following: following ?? "",
+      sourceAt: (index) => baseSpelling.letterSource(index),
+      maxDoublings,
+      resounded: attachment?.resounded,
+    });
+    // Right to left, so earlier offsets stay valid.
+    for (const respell of respells.reverse()) {
+      let part = 0;
+      let start = respell.index;
+      while (start >= cleanParts[part].length) start -= cleanParts[part++].length;
+      const rule = `hardLetter:${respell.rule}`;
+      const before = context.trace ? cleanParts.join("") : "";
+      observeParts(part, start, respell.before.length, respell.after, rule);
+      const text = cleanParts[part];
+      cleanParts[part] =
+        text.slice(0, start) + respell.after + text.slice(start + respell.before.length);
+      hyphenatedParts[part * 2] = cleanParts[part];
+      if (!context.trace) continue;
+      context.trace.recordLetterRespelling(respell.phoneId, {
+        form: respell.after,
+        rule,
+      });
+      context.trace.recordRepair(
+        rule,
+        before,
+        cleanParts.join(""),
+        `${respell.reason}: ${respell.before} → ${respell.after} before "${respell.next}" (selection ${respell.phoneId})`,
+      );
+    }
   }
 
   /** Older path: delete letters to meet the consonant and vowel caps, around word rules. */
@@ -1627,6 +1700,7 @@ export function createWrittenFormGenerator(
     context: WordGenerationContext,
     source?: OrthographySource,
     following?: string,
+    attachment?: RootAttachment,
   ): BaseSpelling => {
     const rand = context.rand;
     const { syllables, written } = context.word;
@@ -1980,6 +2054,7 @@ export function createWrittenFormGenerator(
       observeParts,
       finalVowel,
     };
+    if (planHardLetters) respellHardLetters(word, planHardLetters, following, attachment);
     const repaired = planCoverage
       ? writeCoverageSpelling(word, planCoverage, spellingChoices)
       : writeLegacySpelling(word);
