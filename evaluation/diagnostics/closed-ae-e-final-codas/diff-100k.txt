@@ -1,0 +1,29 @@
+{
+  N: 100000,
+  first: 6000000,
+  opts: {},
+  changed: 17,
+  targeted: 15,
+  shifted: 2,
+  tracedMismatch: 0,
+  meanBefore: '-2.951',
+  meanAfter: '-2.687',
+  better: 15,
+  worse: 2
+}
+[
+  [ 'ae-before-e-coda aece→ace', 8 ],
+  [ 'ae-before-e-coda aege→age', 7 ]
+]
+6001630 henkaege→henkage
+6014868 epaecize→epacize
+6016601 outsakaece→outsakace
+6037777 resurbaege→resurbage
+6038622 nukaegees→nukagees
+6041422 falaveans→phattisacees
+6052206 anaegear→anagear
+6054660 ezaeced→ochished (shift)
+6057233 eataeged→eataged
+6065494 avupaece→avupace
+6075336 heptaece→heptace
+6081144 nolsanpro→wacnastage

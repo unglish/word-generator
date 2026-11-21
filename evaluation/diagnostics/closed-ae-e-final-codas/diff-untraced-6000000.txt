@@ -1,0 +1,26 @@
+{
+  spellingOnly: 13,
+  differentWord: 4,
+  meanBefore: '-2.961',
+  meanAfter: '-2.643',
+  better: 13,
+  worse: 0
+}
+6001630 henkaege→henkage
+6014868 epaecize→epacize
+6016601 outsakaece→outsakace
+6037777 resurbaege→resurbage
+6038622 nukaegees→nukagees
+6052206 anaegear→anagear
+6057233 eataeged→eataged
+6065494 avupaece→avupace
+6075336 heptaece→heptace
+6081181 tafaegesion→tafagesion
+6090395 igraecetion→igracetion
+6091271 keplaecing→keplacing
+6096415 cerlaecal→cerlacal
+--
+6041422 falaveans→phattisacees
+6054660 ezaeced→ochished
+6081144 nolsanpro→wacnastage
+6083167 inaeve→urcma

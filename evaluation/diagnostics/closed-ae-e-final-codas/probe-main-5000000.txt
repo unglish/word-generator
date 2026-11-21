@@ -1,0 +1,4 @@
+{ closed: 1426, bad: 17 }
+UNREWRITTEN coda=ge            9 5002674 ataege syl=undefined | 5006841 enaegeas syl=undefined | 5017284 garrabaege syl=undefined | 5023528 inanevikagal syl=undefined
+UNREWRITTEN coda=ce            7 5024016 melgaecees syl=undefined | 5037165 disyisetace syl=undefined | 5052664 sowace syl=undefined | 5053155 elacest syl=undefined
+UNREWRITTEN coda=n+ge          1 5043925 snaenge syl=undefined
