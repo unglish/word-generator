@@ -223,6 +223,28 @@ English writes /aʊ/ before /t/ as `ou` (*out*, *doubt*, *shout*); CMU has
 (*soup*, *group*) and made `-oum` endings common, and /aʊ/ before them is rare
 in English anyway.
 
+## Triple letters, `quu`, and mid-word `gn` (#474)
+
+- **Triple letters at a suffix join.** A root ending in a double consonant
+  before a suffix starting with the same letter wrote three letters
+  (`melillly` = `ll` + `-ly`, `yaffful`, `ownosssion`). The consonant-initial
+  suffixes (`-tion`, `-sion`, `-ly`, `-ness`, `-ment`, `-ful`, `-less`) now add
+  a `collapse-triple-letter` boundary transform after `y-to-i`. It drops one
+  letter of a root-final double of the suffix's first letter, as English does
+  (*full* + *-ly* → *fully*). `-s` does not need it: a root ending in /s/ takes
+  the `-es` allomorph. Vowel triples (`ploo` + `-ous` → `plooous`, `pre` +
+  `eems`) are left alone: there the letters spell two vowels, so dropping one
+  would change the reading.
+- **`quu`.** `cw-to-qu` wrote `quu` before a `u` that spells the vowel
+  (`squuce`, `dilquung`). `cw-before-u-to-kw` now runs first and writes that
+  /kw/ as `kw` (`skwuce`, `dilkwung`), and `cw-to-qu` skips `cw` before `u`.
+- **Mid-word `gn`.** /n/ → `gn` had `midWord: 1` (`amgny`, `vadgnidal`). English
+  writes `gn` for /n/ only at a word edge (*gnome*, *sign*), apart from derived
+  forms (*signer*), so `midWord` is now 0. Removing the candidate leaves many
+  medial /n/ pools with a single spelling, which draws no random number. The
+  later draws of that word shift, so about 17% of seeded words come out
+  different (about 3,300 of 20k).
+
 ## /ɑ/ `au` in final syllables
 
 Plain `au` for /ɑ/ had `endWord: 0`, so a final syllable could only choose the
