@@ -92,7 +92,7 @@
     },
     {"name":"lexicon, morphology","seed":3,"mode":"lexicon","morphology":true,"rngDraws":3838,
       "words": [
-        {"clean":"ritzacing","hyphenated":"ritzacing","pronunciation":"ˈrɪt.zeɪk.ɪŋ"},
+        {"clean":"ritzaking","hyphenated":"ritzaking","pronunciation":"ˈrɪt.zeɪk.ɪŋ"},
         {"clean":"presokeazos","hyphenated":"presokeazos","pronunciation":"ˌpʰri:.sɔˈkʰɛ.zɔs"},
         {"clean":"overkerltanks","hyphenated":"overkerltanks","pronunciation":"ˈəʊ.vɚˌkɪrl.tʰɑŋks"},
         {"clean":"gullur","hyphenated":"gull&shy;ur","pronunciation":"ˈgʌlˌɚ"},

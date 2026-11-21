@@ -17,9 +17,15 @@ function sample(): Word[] {
   return cached ??= generateWords(SAMPLE, { seed: 1304238451, mode: "lexicon", morphology: false, trace: true });
 }
 
+/**
+ * Segment of the phonemes that own a cell. A cell an earlier rule rewrote keeps
+ * its source's segment when every source unit is in one segment (ae-hard-c-to-k
+ * turns a coda c into k), as the rule's own role check resolves it.
+ */
 function segmentOf(spelling: BaseSpellingTrace, cell: SpellingCell): string {
-  if (cell.origin.kind !== "selection") return "rewrite";
-  return spelling.phones[spelling.units[cell.origin.unitId].phoneIds[0]].segment;
+  const unitIds = cell.origin.kind === "selection" ? [cell.origin.unitId] : cell.origin.sourceUnitIds;
+  const segments = new Set(unitIds.flatMap(id => spelling.units[id].phoneIds.map(phone => spelling.phones[phone].segment)));
+  return segments.size === 1 ? [...segments][0] : "rewrite";
 }
 
 /** Syllables written onset /j/ as y, nucleus e, then exactly one coda consonant letter. */
