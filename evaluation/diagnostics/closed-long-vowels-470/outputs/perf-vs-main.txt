@@ -1,0 +1,19 @@
+
+> @unglish/word-generator@0.6.0 perf:compare
+> node scripts/perf-compare.mjs --base <scratch-path> --rounds 12
+
+round  order      base w/s   head w/s   head/base time
+    1  base-head      6572       6559   1.002
+    2  head-base      6683       6602   1.012
+    3  base-head      6710       6522   1.029
+    4  head-base      6713       6573   1.021
+    5  base-head      6625       6595   1.005
+    6  head-base      6695       6575   1.018
+    7  base-head      6689       6648   1.006
+    8  head-base      6710       6514   1.030
+    9  base-head      6654       6552   1.016
+   10  head-base      6701       6625   1.011
+   11  base-head      6665       6608   1.009
+   12  head-base      6652       6612   1.006
+
+median head/base time 1.012 (+1.2%), range 1.002-1.030; limit +5% -> pass

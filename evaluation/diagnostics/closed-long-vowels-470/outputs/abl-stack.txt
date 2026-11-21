@@ -1,0 +1,1 @@
+stack          lexicon-default 0.142836  lexicon-bare 0.174736  monosyllables-bare 0.369928  text-default 0.155230

@@ -1,0 +1,7 @@
+head
+11	aɪ 1.138%  eɪ 1.306%  i: 4.497%  u 0.939%	onsetless-initial/100k: aɪ 1032 eɪ 1276 i: 1044 u 720
+12	aɪ 1.077%  eɪ 1.281%  i: 4.540%  u 0.959%	onsetless-initial/100k: aɪ 856 eɪ 1272 i: 928 u 736
+13	aɪ 1.071%  eɪ 1.331%  i: 4.563%  u 0.994%	onsetless-initial/100k: aɪ 960 eɪ 1444 i: 1080 u 788
+14	aɪ 1.054%  eɪ 1.312%  i: 4.568%  u 0.931%	onsetless-initial/100k: aɪ 756 eɪ 1260 i: 1172 u 684
+15	aɪ 1.094%  eɪ 1.308%  i: 4.508%  u 0.957%	onsetless-initial/100k: aɪ 920 eɪ 1248 i: 936 u 784
+16	aɪ 1.069%  eɪ 1.312%  i: 4.531%  u 0.955%	onsetless-initial/100k: aɪ 952 eɪ 1248 i: 960 u 824

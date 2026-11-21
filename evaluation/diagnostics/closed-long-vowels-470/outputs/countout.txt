@@ -1,0 +1,6 @@
+scratchpad/w470: cases 373, words 371
+  323	aɪ	bare closed	2000068:vothtilsal 2000181:ilpearmer 2000231:fichlaties 2000356:spids 2000424:urnish 2000473:bichneab
+  13	aɪ	split across cluster	2000293:preanguince 2000970:genkivingetion 2001794:tinge 2002147:rekilse 2005885:shrilse 2009277:cince
+  2	aɪ	split across held digraph	2005542:disicetigebens 2013013:icekernds
+  8	eɪ	bare closed	2002132:overbalkikeesc 2009332:alkemes 2010259:inalkiching 2013299:chalkescous 2014656:unachir 2015716:blachornt
+  27	u	bare closed	2000275:unuthonial 2001623:uchalaitaing 2002511:ulchcouer 2005016:ugritidrene 2005059:disuditorce 2005380:unfurnpy

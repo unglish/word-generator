@@ -1,0 +1,1 @@
+no hard-c      lexicon-default 0.146464  lexicon-bare 0.180796  monosyllables-bare 0.380944  text-default 0.159315
