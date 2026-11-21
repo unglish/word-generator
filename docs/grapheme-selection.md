@@ -165,12 +165,85 @@ rule splits (`pae`+`n` → `pane`). A bare `a` there would read /æ/
 monosyllable `ay`/`ey` weights stay 0; monosyllables get `ay` from open `ai`
 through the no-final-i rule (`flai` → `flay`).
 
-Three syllable rules around magic-e finish closed `ae`. Before it, a hard `c`
+Four syllable rules around magic-e finish closed `ae`. Before it, a hard `c`
 becomes `k` (`batace` → `batake`) and `aeg` becomes `ague` (`bovages` →
 `bovagues`), since magic-e would put an `e` after the `c` or `g` and soften
-it. After it, any closed `ae` still unsplit becomes `ai`: magic-e cannot cross
-a digraph coda (`fubaech` → `fubaich`) and misses 5% of the time (`bepaen` →
-`bepain`).
+it. After it, before one consonant already spelled with a final `e` (`ge`,
+`ce`, `gue`) or before `nge`, `ae` drops its own `e`, since the coda's `e` marks
+the vowel (`ataege` → `atage`, `snaenge` → `snange`). Other clusters would not
+read /eɪ/ (`faelse` would become *false*), so they fall through. Any closed `ae`
+still unsplit then becomes `ai`: magic-e cannot cross a digraph coda (`fubaech`
+→ `fubaich`) or one ending in a vowel letter (`ezaessier` → `ezaissier`), and
+misses 5% of the time (`bepaen` → `bepain`).
+
+## /ɚ/ `re` only in an open final syllable (#471)
+
+English writes /ɚ/ as `re` only at the end of a word (*centre*, *acre*,
+*ogre*), and keeps it before a suffix (*acres*, *centred*). Inside a closed
+syllable the letters read /rɛ/ (`kalmrel`, `packirzrem`). `re` now carries
+`syllableShape: { coda: "empty" }` and `midWord: 0`, so only an open final
+syllable can choose it; its `endWord` and the `notLeftContext: ["l", "r"]` ban
+are unchanged. Other /ɚ/ spellings take its share in proportion to their
+weights.
+
+## /aɪ/ `ie` needs an onset (#472)
+
+No English word starts with `ie`; English writes /aɪ/ as `ie` after a consonant
+(*pie*, *tried*). An onsetless `ie` started words with it (`iesitur`, `iekay`)
+or left a hiatus after a prefix (`iniesewnly`). `ie` now requires
+`syllableShape: { onset: "nonEmpty" }`, so an onsetless /aɪ/ takes `i` (*idle*,
+*iron*) or `eye`. /aɪ/ → `is` now requires an onsetless /aɪ/ before /l/ (*isle*,
+*island*). Without that, much of the old onsetless `ie` share went to `is`
+(`israke`), and after an onset `is` reads /ɪs/ (`lisltig`). `eye` has
+`startWord: 1` (was 2), so it moves back toward English's rate (CMU about
+6.6%): 9.4% of word-initial onsetless /aɪ/. At 2 it rose from 6.8% to 14.8%
+(`eyetornful`).
+
+The trade-off: before a single coda consonant, an onsetless `ie` used to give
+*ice*-type `i_e` through magic-e. Those words now read as a short `i`: on seed
+2002174 the rejected variant described next wrote `imeenory` where #472 writes
+`imenory` (before #472 the seed gave `eamersory`). Keeping a separate onsetless
+`ie` for that case was measured and rejected. About 25 of its 43 root-initial
+uses put magic-e's `e` before a vowel letter (`iseiloo`, `ileoshize`), and
+removing it scored better on the CMU letter-trigram model.
+
+## /ɔɪ/ `oy` open-syllable only; /aʊ/ `ou` before /t/ (#473)
+
+As for `ay`/`ey` (#459), English writes /ɔɪ/ as `oy` at word end or before a
+vowel or suffix (*boy*, *royal*, *toys*, *enjoyed*) and as `oi` before a coda
+(*point*, *moist*). `oy` now carries `syllableShape: { coda: "empty" }`, so a
+closed /ɔɪ/ is written `oi` (`laroynt` → `laroint`). An open root-final /ɔɪ/
+before a suffix keeps `oy`. A root-final `oi` before a suffix is not always
+rewritten to `oy` (`frois`, `heltwois`).
+
+English writes /aʊ/ before /t/ as `ou` (*out*, *doubt*, *shout*); CMU has
+574 `out` letter trigrams to 20 `owt`. `ow` now has `notRightContext: ["t"]`
+(`razowtity` → `razoutity`) and stays before /n l d z/ and vowels (*town*,
+*owl*, *crowd*, *tower*). /p/ and /m/ are left alone: there `ou` reads /u:/
+(*soup*, *group*) and made `-oum` endings common, and /aʊ/ before them is rare
+in English anyway.
+
+## Triple letters, `quu`, and mid-word `gn` (#474)
+
+- **Triple letters at a suffix join.** A root ending in a double consonant
+  before a suffix starting with the same letter wrote three letters
+  (`melillly` = `ll` + `-ly`, `yaffful`, `ownosssion`). The consonant-initial
+  suffixes (`-tion`, `-sion`, `-ly`, `-ness`, `-ment`, `-ful`, `-less`) now add
+  a `collapse-triple-letter` boundary transform after `y-to-i`. It drops one
+  letter of a root-final double of the suffix's first letter, as English does
+  (*full* + *-ly* → *fully*). `-s` does not need it: a root ending in /s/ takes
+  the `-es` allomorph. Vowel triples (`ploo` + `-ous` → `plooous`, `pre` +
+  `eems`) are left alone: there the letters spell two vowels, so dropping one
+  would change the reading.
+- **`quu`.** `cw-to-qu` wrote `quu` before a `u` that spells the vowel
+  (`squuce`, `dilquung`). `cw-before-u-to-kw` now runs first and writes that
+  /kw/ as `kw` (`skwuce`, `dilkwung`), and `cw-to-qu` skips `cw` before `u`.
+- **Mid-word `gn`.** /n/ → `gn` had `midWord: 1` (`amgny`, `vadgnidal`). English
+  writes `gn` for /n/ only at a word edge (*gnome*, *sign*), apart from derived
+  forms (*signer*), so `midWord` is now 0. Removing the candidate leaves many
+  medial /n/ pools with a single spelling, which draws no random number. The
+  later draws of that word shift, so about 17% of seeded words come out
+  different (about 3,300 of 20k).
 
 ## /ɑ/ `au` in final syllables
 

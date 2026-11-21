@@ -13,7 +13,6 @@ const DOUBLE_CONSONANT: BoundaryTransform = { name: "double-consonant", match: /
 
 /** Drop silent-e / double consonant only — used by i-initial `-ing` (keep final y). */
 const BT_E_DOUBLE: BoundaryTransform[] = [DROP_SILENT_E, DOUBLE_CONSONANT];
-const BT_Y: BoundaryTransform[] = [Y_TO_I];
 /** Drop silent-e only — i-initial suffixes that still need it (`-ive`, `-ity`, `-ize`). */
 const BT_E: BoundaryTransform[] = [DROP_SILENT_E];
 /** y→i then drop silent-e — non-i Latinate suffixes. */
@@ -22,6 +21,17 @@ const BT_Y_E: BoundaryTransform[] = [Y_TO_I, DROP_SILENT_E];
 const BT_Y_E_DOUBLE: BoundaryTransform[] = [Y_TO_I, DROP_SILENT_E, DOUBLE_CONSONANT];
 const BT_ALL: BoundaryTransform[] = BT_Y_E_DOUBLE;
 const BT_S: BoundaryTransform[] = [Y_TO_I_ES];
+
+/**
+ * A root-final double consonant before a suffix starting with the same letter
+ * keeps two letters, not three (full + ly → fully; #474: melillly, yaffful).
+ */
+function collapseDoubleBefore(letter: string): BoundaryTransform {
+  return { name: "collapse-triple-letter", match: new RegExp(`${letter}${letter}$`, "i"), replace: letter };
+}
+/** y→i, then the triple-letter collapse — non-i suffixes starting with a consonant. */
+const btYJoin = (suffixWritten: string): BoundaryTransform[] => [Y_TO_I, collapseDoubleBefore(suffixWritten[0])];
+
 import {
   VOICED_BONUS,
   TENSE_BONUS,
@@ -376,11 +386,29 @@ export const englishConfig: LanguageConfig = {
       ],
     },
     {
+      // A closed "ae" whose coda is one consonant spelled with a final e ("ge",
+      // "ce", "gue"), or "nge": that e marks the vowel, so "ae" drops its own e
+      // (ataege → atage, snaenge → snange, as in page, pace, vague, range).
+      // Other clusters (faelse) would not read /eɪ/ (false), so they fall
+      // through to ae-unsplit-to-ai.
+      name: "ae-before-e-coda",
+      pattern: "(a)(e)([bcdfghjklmnpqrstvwxz]u?e|nge)$",
+      replacement: "$1$3",
+      probability: 100,
+      scope: "syllable",
+      letterRoles: [
+        { group: 1, segment: "nucleus" },
+        { group: 2, segment: "nucleus" },
+        { group: 3, segment: "coda" },
+      ],
+    },
+    {
       // A closed "ae" that magic-e left unsplit (#459 follow-up): a coda it
-      // cannot cross, such as "ch" (fubaech), or its 5% miss (bepaen). English
-      // writes closed /eɪ/ as "ai" there (faith, pain).
+      // cannot cross, such as "ch" (fubaech) or "ssi", or its 5% miss (bepaen).
+      // English writes closed /eɪ/ as "ai" there (faith, pain). The role check
+      // keeps the third group to coda letters, so it may end in a vowel letter.
       name: "ae-unsplit-to-ai",
-      pattern: "(a)(e)([bcdfghjklmnpqrstvwxz]+)$",
+      pattern: "(a)(e)([a-z]+)$",
       replacement: "$1i$3",
       probability: 100,
       scope: "syllable",
@@ -439,8 +467,17 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
+      // qu before a u-letter vowel would write "quu" (#474: squuce, dilquung).
+      // Write the /kw/ as "kw" there instead.
+      name: "cw-before-u-to-kw",
+      pattern: "cw(?=u)",
+      replacement: "kw",
+      probability: 100,
+      scope: "word",
+    },
+    {
       name: "cw-to-qu",
-      pattern: "cw",
+      pattern: "cw(?!u)",
       replacement: "qu",
       probability: 100,
       scope: "word",
@@ -645,9 +682,9 @@ export const englishConfig: LanguageConfig = {
       // y→i applies to every suffix that does not begin with `i` (#458).
       // i-initial suffixes (`-ing`, `-ist`, `-ism`, `-ive`, `-ity`, `-ize`, `-ian`, `-ial`) keep final y.
       { type: "suffix", written: "ing", phonemes: ["ɪ", "ŋ"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }], syllableCount: 1, stressEffect: "none", frequency: 40, boundaryTransforms: BT_E_DOUBLE },
-      { type: "suffix", written: "tion", phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: "attract-preceding", frequency: 28, boundaryTransforms: BT_Y },
-      { type: "suffix", written: "sion", phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: "attract-preceding", frequency: 10, boundaryTransforms: BT_Y },
-      { type: "suffix", written: "ly", phonemes: ["l", "i:"], syllables: [{ onset: ["l"], nucleus: ["i:"], coda: [] }], syllableCount: 1, stressEffect: "none", frequency: 30, boundaryTransforms: BT_Y },
+      { type: "suffix", written: "tion", phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: "attract-preceding", frequency: 28, boundaryTransforms: btYJoin("tion") },
+      { type: "suffix", written: "sion", phonemes: ["ʃ", "ə", "n"], syllables: [{ onset: ["ʃ"], nucleus: ["ə"], coda: ["n"] }], syllableCount: 1, stressEffect: "attract-preceding", frequency: 10, boundaryTransforms: btYJoin("sion") },
+      { type: "suffix", written: "ly", phonemes: ["l", "i:"], syllables: [{ onset: ["l"], nucleus: ["i:"], coda: [] }], syllableCount: 1, stressEffect: "none", frequency: 30, boundaryTransforms: btYJoin("ly") },
       {
         type: "suffix", written: "ed", phonemes: ["d"], syllables: [], syllableCount: 0, stressEffect: "none", frequency: 120,
         boundaryTransforms: BT_Y_E_DOUBLE,
@@ -657,15 +694,15 @@ export const englishConfig: LanguageConfig = {
           { phonologicalCondition: { position: "preceding", manner: ["stop"], place: ["alveolar"] }, phonemes: ["ɪ", "d"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["d"] }], syllableCount: 1, written: "ed" },
         ],
       },
-      { type: "suffix", written: "ness", phonemes: ["n", "ə", "s"], syllables: [{ onset: ["n"], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: "none", frequency: 6, boundaryTransforms: BT_Y },
+      { type: "suffix", written: "ness", phonemes: ["n", "ə", "s"], syllables: [{ onset: ["n"], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: "none", frequency: 6, boundaryTransforms: btYJoin("ness") },
       // Note: -er frequency to be re-evaluated after PR #234 (phoneme onset weights) merges,
       // as base-gen /ɚ/ final-syllable rate will increase.
       { type: "suffix", written: "er", phonemes: ["ɚ"], syllables: [{ onset: [], nucleus: ["ɚ"], coda: [] }], syllableCount: 1, stressEffect: "none", frequency: 50, boundaryTransforms: BT_Y_E_DOUBLE },
       { type: "suffix", written: "est", phonemes: ["ɪ", "s", "t"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["s", "t"] }], syllableCount: 1, stressEffect: "none", frequency: 15, boundaryTransforms: BT_Y_E_DOUBLE },
-      { type: "suffix", written: "ment", phonemes: ["m", "ə", "n", "t"], syllables: [{ onset: ["m"], nucleus: ["ə"], coda: ["n", "t"] }], syllableCount: 1, stressEffect: "none", frequency: 23, boundaryTransforms: BT_Y },
+      { type: "suffix", written: "ment", phonemes: ["m", "ə", "n", "t"], syllables: [{ onset: ["m"], nucleus: ["ə"], coda: ["n", "t"] }], syllableCount: 1, stressEffect: "none", frequency: 23, boundaryTransforms: btYJoin("ment") },
       { type: "suffix", written: "able", phonemes: ["ə", "b", "ə", "l"], syllables: [{ onset: [], nucleus: ["ə"], coda: [] }, { onset: ["b"], nucleus: ["ə"], coda: ["l"] }], syllableCount: 2, stressEffect: "none", frequency: 21, boundaryTransforms: BT_ALL },
-      { type: "suffix", written: "ful", phonemes: ["f", "ə", "l"], syllables: [{ onset: ["f"], nucleus: ["ə"], coda: ["l"] }], syllableCount: 1, stressEffect: "none", frequency: 15, boundaryTransforms: BT_Y },
-      { type: "suffix", written: "less", phonemes: ["l", "ə", "s"], syllables: [{ onset: ["l"], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: "none", frequency: 12, boundaryTransforms: BT_Y },
+      { type: "suffix", written: "ful", phonemes: ["f", "ə", "l"], syllables: [{ onset: ["f"], nucleus: ["ə"], coda: ["l"] }], syllableCount: 1, stressEffect: "none", frequency: 15, boundaryTransforms: btYJoin("ful") },
+      { type: "suffix", written: "less", phonemes: ["l", "ə", "s"], syllables: [{ onset: ["l"], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: "none", frequency: 12, boundaryTransforms: btYJoin("less") },
       { type: "suffix", written: "ous", phonemes: ["ə", "s"], syllables: [{ onset: [], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: "attract-preceding", frequency: 14, boundaryTransforms: BT_Y_E },
       { type: "suffix", written: "ive", phonemes: ["ɪ", "v"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["v"] }], syllableCount: 1, stressEffect: "attract-preceding", frequency: 12, boundaryTransforms: BT_E },
       { type: "suffix", written: "al", phonemes: ["ə", "l"], syllables: [{ onset: [], nucleus: ["ə"], coda: ["l"] }], syllableCount: 1, stressEffect: "attract-preceding", frequency: 46, boundaryTransforms: BT_Y_E },
