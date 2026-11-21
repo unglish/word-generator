@@ -89,6 +89,43 @@ interface AspirationRule {
 }
 ```
 
+## Vowel reduction schema
+
+```ts
+interface VowelReductionConfig {
+  enabled: boolean;
+  rules: VowelReductionRule[];
+  reduceSecondaryStress: boolean;
+  secondaryStressProbability?: number;
+  positionalModifiers?: { wordInitial?: number; wordMedial?: number; wordFinal?: number };
+}
+
+interface VowelReductionRule {
+  source: string;
+  target: string;
+  probability: number;
+  codaModifiers?: {
+    sounds?: string[];
+    manner?: Phoneme["mannerOfArticulation"][];
+    place?: Phoneme["placeOfArticulation"][];
+    voiced?: boolean;
+    multiplier: number;
+  }[];
+}
+```
+
+A rule's probability is multiplied by its positional modifier, by
+`secondaryStressProbability` / 100 in a secondary-stressed syllable, and by the
+first `codaModifiers` entry whose selector (`sounds`, `manner`, `place`,
+`voiced`, as in `matchesPhoneme`) matches the first coda consonant of the
+vowel's own syllable (open syllables and unlisted codas use 1). The product is
+rounded to a whole percent and clamped to 0–100, so a multiplier of 0 (or one
+small enough to round to 0) blocks the rule there. Every candidate vowel still
+draws once, so a blocked reduction does not shift later random draws. English
+blocks /ɪ/ → /ə/ before /ŋ k g ʃ tʃ dʒ v/, where CMU keeps unstressed /ɪ/ (-ing
+stays /ɪŋ/), and still applies it elsewhere, e.g. before /z s d t/ (roses
+[ˈɹoʊzəz]).
+
 ## Notes
 
 - Syllable weight defaults to the existing coda/segment-count rule. An explicit

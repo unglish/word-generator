@@ -238,7 +238,17 @@ export const englishConfig: LanguageConfig = {
         { source: "ɔ", target: "ə", probability: 60 },
         { source: "æ", target: "ə", probability: 40 },
         { source: "ɜ", target: "ə", probability: 75 },
-        { source: "ɪ", target: "ə", probability: 45 },  // roses [ˈɹoʊzɪz] → [ˈɹoʊzəz] — common in casual speech
+        {
+          // roses [ˈɹoʊzɪz] → [ˈɹoʊzəz] — common in casual speech; still applies in open
+          // syllables and before unlisted codas such as /z s d t n l/.
+          source: "ɪ",
+          target: "ə",
+          probability: 45,
+          // CMU keeps unstressed /ɪ/ before /ŋ/ (99% in final syllables, as in -ing) and mostly
+          // before velars and postalveolars and /v/ (final k 82%, ʃ 89%,
+          // tʃ 93%, dʒ 70%, v 94%; medial g 77%), so reduction stops there.
+          codaModifiers: [{ sounds: ["ŋ", "k", "g", "ʃ", "tʃ", "dʒ", "v"], multiplier: 0 }],
+        },
       ],
       reduceSecondaryStress: true,
       secondaryStressProbability: 30,

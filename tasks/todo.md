@@ -163,3 +163,20 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 
 - Status: Completed.
 - Notes: True C+y before non-i suffixes on the issue window went 245+115 → 0 (surface Cy leftovers are `/aɪ/` `ye` + drop-e). Golden fixture unchanged. `npm run check` and `npm run build` pass.
+
+---
+
+# Issue #475 — coda-conditioned /ɪ/ → /ə/ reduction (Completed)
+
+## Plan
+
+- [x] Capture before counts on seeds 2000000–2019999 (-ing /əŋ/, per-coda /ɪ/ shares vs CMU)
+- [x] Add typed `codaModifiers` to `VowelReductionRule`; apply the first matching multiplier in `reduceUnstressedVowels`, keeping one draw per candidate
+- [x] English: block /ɪ/ → /ə/ before /ŋ k g ʃ tʃ dʒ v/; keep it before /z s d t/
+- [x] Unit tests for the rule, seeded -ing search test, sample test, traced = untraced
+- [x] `npm run golden:update`; `npm run check`; `npm run build`; `npm run quality:pr`
+
+## Review
+
+- Status: Completed.
+- Notes: -ing words ending /əŋ/ on the issue window 178 → 0 (594 -ing words); root /ɪŋ/ 11 → 0. 337 of 20k pronunciations changed, all targeted by trace; spelling and RNG draws unchanged (golden `rngDraws` identical).

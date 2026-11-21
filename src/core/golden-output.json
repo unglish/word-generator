@@ -4,7 +4,7 @@
   "cases": [
     {"name":"text, morphology","seed":1,"mode":"text","morphology":true,"rngDraws":1911,
       "words": [
-        {"clean":"ipeashing","hyphenated":"ipeashing","pronunciation":"ˌəˈpʰɛʃ.əŋ"},
+        {"clean":"ipeashing","hyphenated":"ipeashing","pronunciation":"ˌəˈpʰɛʃ.ɪŋ"},
         {"clean":"yoced","hyphenated":"yoced","pronunciation":"jʌst"},
         {"clean":"wonyipo","hyphenated":"won&shy;yi&shy;po","pronunciation":"ˈwɑn.jə.pɔ"},
         {"clean":"sings","hyphenated":"sings","pronunciation":"sɪŋs"},
@@ -39,7 +39,7 @@
         {"clean":"fletment","hyphenated":"fletment","pronunciation":"ˈflɜt.mənt"},
         {"clean":"catinteersed","hyphenated":"catinteersed","pronunciation":"seɪˈtʰɪn.ti:rst"},
         {"clean":"nassity","hyphenated":"nassity","pronunciation":"ˈnæs.ə.ti:"},
-        {"clean":"twatsing","hyphenated":"twatsing","pronunciation":"ˈtʰweɪts.əŋ"},
+        {"clean":"twatsing","hyphenated":"twatsing","pronunciation":"ˈtʰweɪts.ɪŋ"},
         {"clean":"prial","hyphenated":"prial","pronunciation":"ˈpʰri:.əl"},
         {"clean":"bitere","hyphenated":"bit&shy;ere","pronunciation":"baɪtˈi:r"},
         {"clean":"fens","hyphenated":"fens","pronunciation":"fɛnz"},
