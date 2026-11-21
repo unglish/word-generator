@@ -210,3 +210,19 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 
 - Status: Completed.
 - /ɚ/ `re` before a same-syllable coda (or mid-word) 186 → 0 words; open word-final `re` 38 → 33 and open before a suffix 39 → 38 (other spellings take its share of the RNG-shifted words).
+
+---
+
+# Issue #472 — /aɪ/ `ie` needs an onset (Completed)
+
+## Plan
+
+- [x] Measure before counts (seeds 2000000–2019999)
+- [x] Require an onset for /aɪ/ → `ie`; restrict /aɪ/ → `is` to an onsetless /aɪ/ before /l/; lower `eye` `startWord` 2 → 1
+- [x] Add seeded + distribution tests; update grapheme-selection.md
+
+## Review
+
+- Status: Completed.
+- Words starting with `ie` 68 → 1 (the /i:/ `iend`); onsetless /aɪ/ `ie` 124 → 0 words; /aɪ/ `is` not before /l/ 31 → 0. On 100k seeds, root-initial onsetless /aɪ/ is now `i` 89%, `eye` 9%, `is` 1% word-initially (main: `ie` 44%, `i` 44%, `eye` 7%, `is` 5%) and `i` 87%, `eye` 12% after a prefix; `is` after an onset 101 → 0.
+- Rejected: an onsetless `ie` kept before one coda consonant for magic-e (*ice*). About 25 of its 43 initial uses put magic-e's `e` before a vowel letter (`iseiloo`), and dropping it scored better on the trigram model (42 words: −2.830 → −2.745, 24 better / 18 worse).

@@ -37,6 +37,9 @@ export const diphthongGraphemes: Grapheme[] = [
       notRightContext: ["consonant"],
     },
   },
+  // English writes ie for /aɪ/ only after a consonant (pie, tried). Without an
+  // onset it surfaces as a word-initial or hiatus "ie" (#472: iesitur,
+  // iniesewnly).
   {
     phoneme: "aɪ",
     form: "ie",
@@ -45,6 +48,7 @@ export const diphthongGraphemes: Grapheme[] = [
     midWord: 10,
     endWord: 1,
     isolatedSyllableWeight: 2,
+    condition: { syllableShape: { onset: "nonEmpty" } },
   },
   { 
     phoneme: "aɪ", 
@@ -63,6 +67,10 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 0,
     endWord: 0,
+    // English writes /aɪ/ as "is" only for an onsetless /aɪ/ before /l/ (isle,
+    // island). Without this, onsetless /aɪ/ moved from ie to is (israke,
+    // isptifcab; #472); after an onset it reads /ɪs/ (lisltig).
+    condition: { rightContext: ["l"], syllableShape: { onset: "empty" } },
   },
   {
     phoneme: "aɪ",
@@ -82,7 +90,10 @@ export const diphthongGraphemes: Grapheme[] = [
     frequency: 1,
     onset: 0,
     coda: 0,
-    startWord: 2,
+    // 1, not 2 (#472): with onsetless ie gone, 2 raised word-initial onsetless
+    // /aɪ/ eye from 6.8% to 14.8% (eyetornful); CMU has about 6.6%, all from
+    // the word eye.
+    startWord: 1,
     midWord: 0,
     endWord: 3,
     condition: { alias: "bareSyllableNucleus" },
