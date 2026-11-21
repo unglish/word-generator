@@ -1,5 +1,6 @@
 import {
   deriveSpellingBoundaryContext,
+  nucleusRime,
   spellingBoundaryContexts,
 } from "./spelling-context.js";
 import { createSpellingCoveragePlanner } from "./spelling-coverage.js";
@@ -40,6 +41,7 @@ import {
   LanguageConfig,
   SpellingRule,
   SpellingRuleLetterRole,
+  SilentECodaLimit,
   SilentEConfig,
   SilentEAppendRule,
 } from "../config/language.js";
@@ -68,10 +70,14 @@ interface CompiledSpellingRule {
   letterRoles?: SpellingRuleLetterRole[];
 }
 
-/** Syllable segment of the phonemes that own the current string's letter at `index`. */
-type LetterSegment = (
-  index: number,
-) => SpellingRuleLetterRole["segment"] | undefined;
+/**
+ * The letters a syllable's rules rewrite, `start` letters into the base
+ * spelling, with the segment and sound of the phonemes that own each letter.
+ */
+interface LetterOwners {
+  base: Pick<BaseSpelling, "segmentAt" | "soundAt">;
+  start: number;
+}
 
 function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
   return rules.map((rule) => ({
@@ -115,7 +121,7 @@ function hasLetterRoles(
   match: string,
   captures: Array<string | undefined>,
   start: number,
-  segmentAt: LetterSegment,
+  owners: LetterOwners,
 ): boolean {
   if (captures.join("") !== match) {
     throw new Error(
@@ -128,12 +134,13 @@ function hasLetterRoles(
     groupStart += capture?.length ?? 0;
     return at;
   });
-  return roles.every(({ group, segment }) => {
+  return roles.every(({ group, segment, sounds }) => {
     const at = starts[group - 1];
     const length = captures[group - 1]?.length ?? 0;
     if (length === 0) return false;
-    for (let i = at; i < at + length; i++) {
-      if (segmentAt(i) !== segment) return false;
+    for (let i = owners.start + at; i < owners.start + at + length; i++) {
+      if (owners.base.segmentAt(i) !== segment) return false;
+      if (sounds && !sounds.includes(owners.base.soundAt(i) ?? "")) return false;
     }
     return true;
   });
@@ -147,7 +154,7 @@ type SpellingEdit = (
 
 /**
  * Apply a list of compiled spelling rules to a string, handling probabilistic replacements.
- * Rules with letter roles need `segmentAt`, aligned with the string as rules rewrite it.
+ * Rules with letter roles need `owners`, aligned with the string as rules rewrite it.
  */
 function applySpellingRules(
   str: string,
@@ -156,7 +163,7 @@ function applySpellingRules(
   trace?: TraceCollector,
   scope?: string,
   observe?: SpellingEditObserver,
-  segmentAt?: LetterSegment,
+  owners?: LetterOwners,
 ): string {
   let result = str;
   for (const { name, regex, replacement, probability, letterRoles } of rules) {
@@ -166,7 +173,7 @@ function applySpellingRules(
     result = result.replace(regex, (match: string, ...args: unknown[]) => {
       const { captures, offset, groups } = parseReplaceCallbackArgs(args);
       if (letterRoles) {
-        if (!segmentAt)
+        if (!owners)
           throw new Error(
             `Spelling rule "${name}" needs letter roles, which are unavailable here.`,
           );
@@ -178,7 +185,7 @@ function applySpellingRules(
             match,
             captures,
             offset + delta,
-            segmentAt,
+            owners,
           )
         )
           return match;
@@ -1019,6 +1026,21 @@ export function repairFinalConsonantLetters(
 // Silent-e (magic-e / split digraph)
 // ---------------------------------------------------------------------------
 
+/** Whether a split still reads long for this nucleus and coda (true when unlimited). */
+type SilentECodaCheck = (nucleus: string, coda: readonly string[]) => boolean;
+
+function buildSilentECodaCheck(limit: SilentECodaLimit | undefined): SilentECodaCheck | undefined {
+  if (!limit) return undefined;
+  const limited = new Set(limit.phonemes);
+  const clusters = new Map(Object.entries(limit.clusters ?? {}).map(([phoneme, codas]) =>
+    [phoneme, new Set(codas.map(coda => coda.join(" ")))]));
+  const held = new Set(limit.heldCodas ?? []);
+  return (nucleus, coda) => {
+    if (!limited.has(nucleus)) return true;
+    return coda.length === 1 ? !held.has(coda[0]) : clusters.get(nucleus)?.has(coda.join(" ")) === true;
+  };
+}
+
 /** Pre-compiled silent-e swap lookup: phoneme → [{from, to}] sorted longest-from-first. */
 type SilentELookup = Map<string, { from: string; to: string }[]>;
 
@@ -1059,6 +1081,7 @@ export function applySilentE(
   probability: number,
   rand: RNG,
   observe?: PartEditObserver,
+  readsLong?: SilentECodaCheck,
 ): void {
   if (syllables.length === 0 || cleanParts.length === 0) return;
 
@@ -1087,6 +1110,8 @@ export function applySilentE(
   const effectiveProb =
     syllables.length === 1 ? Math.min(100, probability * 2.0) : probability;
   if (rand() >= effectiveProb / 100) return;
+  // Checked after the draw, so a blocked split leaves the random stream as before.
+  if (readsLong && !readsLong(nucleusSound, lastSyl.coda.map((p) => p.sound))) return;
 
   const lastPartIdx = cleanParts.length - 1;
   const part = cleanParts[lastPartIdx];
@@ -1255,6 +1280,7 @@ export function createWrittenFormGenerator(
     ? buildSilentELookup(silentEConfig)
     : undefined;
   const silentEExcluded = new Set<string>(silentEConfig?.excludedCodas ?? []);
+  const silentEReadsLong = buildSilentECodaCheck(silentEConfig?.codaLimit);
   const appendAfterLookup =
     silentEConfig?.enabled && silentEConfig.appendAfter?.length
       ? buildAppendAfterLookup(silentEConfig.appendAfter)
@@ -1715,7 +1741,11 @@ export function createWrittenFormGenerator(
         positiveCount,
         fallback,
         preferenceRelaxed,
-      } = resolveGraphemes(boundaryContext.slot, prefix);
+      } = resolveGraphemes(
+        boundaryContext.slot,
+        prefix,
+        position === "nucleus" ? () => nucleusRime(flattenedPhonemes, phonemeIndex, following) : undefined,
+      );
       const selected = selectByFrequency(weights, rand, tracing);
       const doublingTraceInfo: DoublingTraceInfo | undefined = context.trace
         ? { attempted: false }
@@ -1861,7 +1891,7 @@ export function createWrittenFormGenerator(
             observeSyllable(start, removed, replacement, rule);
             editSyllableFinalVowel(finalVowel, start, removed, replacement);
           },
-          (index) => baseSpelling.segmentAt(syllableStart + index),
+          { base: baseSpelling, start: syllableStart },
         );
         let syllableOwners = tracing
           ? remapOwnersThroughRewrite(
@@ -1931,6 +1961,7 @@ export function createWrittenFormGenerator(
         silentEConfig.probability,
         rand,
         observeParts,
+        silentEReadsLong,
       );
     }
 

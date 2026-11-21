@@ -1,4 +1,5 @@
 import { createDoublingModel } from "./spelling-doubling.js";
+import type { NucleusRime } from "./spelling-context.js";
 import type { ClusterShapeRequirement, Grapheme, GraphemeCondition, Phoneme, SegmentLengthRequirement } from "../types.js";
 import type { LanguageConfig } from "../config/language.js";
 import { VOWEL_LETTERS } from "../utils/letters.js";
@@ -23,6 +24,13 @@ export interface GraphemeSlot {
   /** Written text known to follow this slot (the next part's spelling), if any. */
   nextWritten?: string;
 }
+
+/**
+ * Supplies a nucleus slot's rime when a candidate's openReading condition
+ * needs it. Kept off the slot so its serialized boundary is unchanged and
+ * other slots do no work.
+ */
+export type NucleusRimeSource = () => NucleusRime;
 
 /**
  * Per-phoneme spelling state carried left to right through a word. It precedes
@@ -150,7 +158,16 @@ interface PreExpandedCondition {
   wordPosition?: ("initial" | "medial" | "final")[];
   segmentPosition?: ("initial" | "medial" | "final")[];
   syllableShape?: GraphemeCondition["syllableShape"];
+  openReading?: PreExpandedOpenReading;
 }
+
+/** {@link OpenReadingRequirement} with codas keyed by their joined sounds. */
+interface PreExpandedOpenReading {
+  codas: Set<string>;
+  heldCodas: Set<string>;
+}
+
+const codaKey = (sounds: readonly string[]): string => sounds.join(" ");
 
 function mergeSyllableShape(
   aliasShape: GraphemeCondition["syllableShape"],
@@ -214,6 +231,12 @@ function preExpandConditions(
     if (normalized.wordPosition) expanded.wordPosition = normalized.wordPosition;
     if (normalized.segmentPosition) expanded.segmentPosition = normalized.segmentPosition;
     if (normalized.syllableShape) expanded.syllableShape = normalized.syllableShape;
+    if (normalized.openReading) {
+      expanded.openReading = {
+        codas: new Set((normalized.openReading.codas ?? []).map(codaKey)),
+        heldCodas: new Set(normalized.openReading.heldCodas ?? []),
+      };
+    }
     result.set(g, expanded);
   }
   return result;
@@ -235,6 +258,21 @@ function checkSegmentLengthRequirement(
   if (requirement.min !== undefined && length < requirement.min) return false;
   if (requirement.max !== undefined && length > requirement.max) return false;
   return true;
+}
+
+/**
+ * Whether a single long-vowel letter keeps its long reading in this rime: an
+ * open syllable, an accepted coda (kind), or one consonant a reader moves onto
+ * a following vowel (ti-ger). A slot without coda sounds can only pass open.
+ */
+function readsOpen(requirement: PreExpandedOpenReading, codaLength: number, rimeSource: NucleusRimeSource | undefined): boolean {
+  if (codaLength === 0) return true;
+  // Only one candidate per phoneme carries openReading, so the rime is built at most once.
+  const rime = rimeSource?.();
+  if (!rime) return false;
+  const coda = rime.codaSounds;
+  if (requirement.codas.has(codaKey(coda))) return true;
+  return coda.length === 1 && rime.vowelAfterCoda && !requirement.heldCodas.has(coda[0]);
 }
 
 // ---------------------------------------------------------------------------
@@ -261,11 +299,12 @@ function meetsPreExpandedCondition(
   isEndOfWord: boolean,
   totalPhonemes: number,
   phonemeIndex: number,
-  prevGraphemeForm?: string,
-  onsetLength?: number,
-  nucleusLength?: number,
-  codaLength?: number,
-  nextWritten?: string,
+  prevGraphemeForm: string | undefined,
+  onsetLength: number,
+  nucleusLength: number,
+  codaLength: number,
+  nextWritten: string | undefined,
+  rimeSource: NucleusRimeSource | undefined,
 ): boolean {
   if (!condition) return true;
 
@@ -335,10 +374,12 @@ function meetsPreExpandedCondition(
   }
 
   if (condition.syllableShape) {
-    if (!checkClusterShapeRequirement(onsetLength ?? 0, condition.syllableShape.onset)) return false;
-    if (!checkClusterShapeRequirement(codaLength ?? 0, condition.syllableShape.coda)) return false;
-    if (!checkSegmentLengthRequirement(nucleusLength ?? 0, condition.syllableShape.nucleusLength)) return false;
+    if (!checkClusterShapeRequirement(onsetLength, condition.syllableShape.onset)) return false;
+    if (!checkClusterShapeRequirement(codaLength, condition.syllableShape.coda)) return false;
+    if (!checkSegmentLengthRequirement(nucleusLength, condition.syllableShape.nucleusLength)) return false;
   }
+
+  if (condition.openReading && !readsOpen(condition.openReading, codaLength, rimeSource)) return false;
 
   return true;
 }
@@ -352,11 +393,12 @@ function filterByCondition(
   totalPhonemes: number,
   isStartOfWord: boolean,
   isEndOfWord: boolean,
-  prevGraphemeForm?: string,
-  onsetLength?: number,
-  nucleusLength?: number,
-  codaLength?: number,
-  nextWritten?: string,
+  prevGraphemeForm: string | undefined,
+  onsetLength: number,
+  nucleusLength: number,
+  codaLength: number,
+  nextWritten: string | undefined,
+  rimeSource: NucleusRimeSource | undefined,
 ): Grapheme[] {
   const filtered = candidates.filter(g =>
     meetsPreExpandedCondition(
@@ -372,6 +414,7 @@ function filterByCondition(
       nucleusLength,
       codaLength,
       nextWritten,
+      rimeSource,
     )
   );
   return filtered;
@@ -484,7 +527,7 @@ export function createGraphemeResolver(config: LanguageConfig) {
   const expanded = preExpandConditions(config.graphemes, buildCategorySets(config.phonemes), config.graphemeConditionAliases);
   const doublingModel = createDoublingModel(doubling);
   const neverDoubleAfter = new Set<string>(doubling?.enabled ? doubling.neverDoubleAfter ?? [] : []);
-  return (slot: GraphemeSlot, prefix: GraphemePrefixState) => {
+  return (slot: GraphemeSlot, prefix: GraphemePrefixState, rimeSource?: NucleusRimeSource) => {
     const firstSyllable = slot.syllableIndex === 0;
     const lastSyllable = slot.syllableIndex === slot.syllableCount - 1;
     const segment = { initial: slot.index === 0, final: slot.index === slot.total - 1 };
@@ -493,7 +536,7 @@ export function createGraphemeResolver(config: LanguageConfig) {
     const conditionCandidates = (pool: Grapheme[]): Grapheme[] => filterByCondition(
       pool, expanded, slot.prevPhoneme, slot.nextPhoneme, slot.index, slot.total,
       firstSyllable, lastSyllable, prefix.previousForm,
-      slot.onsetLength, slot.nucleusLength, slot.codaLength, slot.nextWritten,
+      slot.onsetLength, slot.nucleusLength, slot.codaLength, slot.nextWritten, rimeSource,
     );
     const positionCandidates = (pool: Grapheme[]): Grapheme[] =>
       filterByPosition(pool, slot.isCluster, firstSyllable, lastSyllable, segment);

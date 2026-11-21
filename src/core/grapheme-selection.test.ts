@@ -56,7 +56,9 @@ describe("legal grapheme selection", () => {
     const declared = englishConfig.graphemes.find(g => g.fallbackOnly && g.phoneme === choice.phoneme && g.form === choice.selected);
     expect(declared).toBeDefined();
     expect(choice.weights).toEqual([[choice.selected, expect.any(Number)]]);
-    expect(choice.selection).toMatchObject({ afterPosition: 0, positiveCandidates: 0, fallback: "no-positional-candidates" });
+    // An ordinary pool emptied by conditions (/aɪ/ before a cluster, #470) or by position.
+    const reason = choice.selection!.afterCondition === 0 ? "no-conditioned-candidates" : "no-positional-candidates";
+    expect(choice.selection).toMatchObject({ afterPosition: 0, positiveCandidates: 0, fallback: reason });
   });
 
   it("keeps isolated-syllable licensing explicit rather than overriding edge bans", () => {
@@ -159,7 +161,8 @@ describe("legal grapheme selection", () => {
     expect(singletonWeightsOtherThanOne).toBeGreaterThan(1000);
 
     // Declared fallbacks still fire in shipping config: /ʊ/ "oo" after g, about
-    // 4 in 10k bare words. /i:/ "ee" fallbackOnly is unused (#457). Check every
+    // 4 in 10k bare words, and bare /aɪ/ i and /u/ u where no long spelling
+    // is legal (#470). /i:/ "ee" fallbackOnly is unused (#457). Check every
     // fallback in the first 10k draws, and keep drawing past that until one
     // appears, so an output change elsewhere that shifts the RNG stream cannot
     // push the first hit out of a fixed window.
@@ -171,7 +174,7 @@ describe("legal grapheme selection", () => {
         if (!choice.selection?.fallback) continue;
         fallbackChoices++;
         expect(choice.selection.positiveCandidates).toBe(0);
-        expect([["ʊ", "oo"], ["i:", "ee"]]).toContainEqual([choice.phoneme, choice.selected]);
+        expect([["ʊ", "oo"], ["i:", "ee"], ["aɪ", "i"], ["u", "u"], ["u", "oo"]]).toContainEqual([choice.phoneme, choice.selected]);
       }
     }
     expect(fallbackChoices).toBeGreaterThan(0);

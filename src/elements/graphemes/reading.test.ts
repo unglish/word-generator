@@ -27,7 +27,10 @@ describe("English grapheme reading obligations", () => {
         expect(grapheme.reading.reason.length).toBeGreaterThan(0);
       }
     }
+    // #470: bare /u/ u and /aɪ/ i read open, /u/ oo after g is a single phone;
+    // then /i:/ ee and /ʊ/ oo.
     expect(graphemes.filter(g => g.fallbackOnly).map(g => g.reading)).toEqual([
+      { kind: "open-vowel-or-split-marker" }, { kind: "single-phone" }, { kind: "open-vowel-or-split-marker" },
       { kind: "single-phone" }, { kind: "single-phone" },
     ]);
     expect(graphemes.find(g => g.phoneme === "əʊ" && g.form === "ough")!.reading?.kind)

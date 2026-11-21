@@ -261,3 +261,29 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 - Status: Completed.
 - Consonant triples 7 → 0 words, `quu` 8 → 0, medial /n/ `gn` 8 → 0. Vowel triples (`imbeastrooous`, 1 word) left as a follow-up.
 - The `gn` change makes many medial /n/ pools single-spelling, which skip their random draw; about 17% of seeded words (about 3,300 of 20k) change through that RNG shift.
+
+---
+
+# Issue #470 — long vowels as one letter in closed syllables (Completed)
+
+## Plan
+
+- [x] Reproduce the issue's counting rule on seeds 2000000–2019999 (1,690 cases for /aɪ eɪ i: u/), then count on written output
+- [x] Add an `openReading` grapheme condition (open syllable, listed coda, or one consonant before a vowel); the resolver reads the nucleus rime from a lazy source, only for a candidate with the condition
+- [x] Put it on /aɪ/ `i`, /eɪ/ `a`, /i:/ `e`, /u/ `u`; leave /əʊ/ `o`
+- [x] Keep each substitute where it reads long: `ie`/`ue` only before one non-digraph consonant other than /g/, `ew` before one alveolar, `ai`/`is`/`ei` open; closed first-syllable `ee`/`oo` after an onset; `fallbackOnly` bare `i`/`u` (and `oo` after g) where no long spelling exists
+- [x] Silent-e `codaLimit`: no split across a cluster or a held digraph consonant (draw kept)
+- [x] `letterRoles.sounds`: magic-e no longer splits /i:/ `ie`; closed /i:/ `ie` only before a cluster or one /f v k dʒ/; `magic-e-ie-ue` and `ie-ue-before-e-coda` finish /aɪ/ `ie` and /u/ `ue`; `ie-ue-hard-c-to-k` keeps /k/ hard
+- [x] Stack on #481 (uses its `ae-before-e-coda` and onset-only /aɪ/ `ie`)
+- [x] Sample tests on written output, search-based split tests, traced = untraced; `npm run golden:update`
+- [x] `npm run check`; `npm run build`; `npm run quality:pr`; `npm run perf:compare`
+
+## Review
+
+- Status: Completed.
+- Issue rule on written output, stack base → this branch: 2,110 → 373 cases (including unsplit `ie`/`ue`). Remaining: 338 /aɪ/, mostly bare `i` before clusters, digraph codas or /g/, onsetless (`fallbackOnly`), or before /ŋ/ (#463); 27 /u/: 20 bare-`u` fallback (13 onsetless, 7 onset + /k r/ clusters), 7 `lk` or `di` coda spellings; 8 /eɪ/ (`lk`, `ch`); about 8 of the /aɪ/ are also `lk`/`ch`/`mn`/`di` coda spellings.
+- /i:/ `ie` split by magic-e into `i_e` (reads /aɪ/): 608 → 0 words per 20k (`vutice` → `vutiek`). Polysyllable endings consonant + /i:/ `ie` + n/l/m/t/r(s) or `-ies` (*alien*, *diet*, *copier*, *studies* readings): 30 → 18 (`-ier(s)` 2 → 1, `-ies` 7 → 2).
+- Soft `c`/`g` after a closed /aɪ eɪ u/ + /k g/, all mechanisms: 62 → 25 per 20k (spelling rules 26 → 0; silent-e 29 → 22 remain).
+- Word-initial `ie` 1 → 1, `oo` 10 → 21, `ee` 2 → 5; closed /aɪ/ `is` 3 → 0; closed first-syllable /i:/ `ei` 13 → 0.
+- `perf:compare` against the stack base: +0.6%.
+- Follow-ups: a doubling suffix (`-ing`, `-ed`) re-closes a bare letter (`briccing`, 34 per 20k, 32 on the stack); silent-e before /k g/ (`reshruge`); `ee`/`oo`/`ai` + `c` + consonant belongs to the hard-c work (#469); split before final s/z (*times*, *names*, *rules*); open monosyllable /i:/ `-ie` (`crie`) reads /aɪ/; word-initial /u/ `u_e` before /n/ reads as *un-* (`une-` 6 → 11 per 20k).

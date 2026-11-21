@@ -27,6 +27,8 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 0,
+    // Not after an e-final vowel (#470): magic-e cannot split ie + pb (liepbfilpina).
+    condition: { notLeftGraphemeContext: ["e"] },
   },
 
   // t top
@@ -160,6 +162,9 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 1,
+    // Silent l follows a or o (walk, folk). After an e-final vowel magic-e
+    // cannot split it either (#470: wielkar).
+    condition: { notLeftGraphemeContext: ["e"] },
   },
   {
     phoneme: "k",

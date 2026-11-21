@@ -109,6 +109,14 @@ interface GraphemeCondition {
     coda?: "empty" | "nonEmpty" | "any" | number | { min?: number; max?: number };
     nucleusLength?: number | { min?: number; max?: number };
   };
+
+  /**
+   * Nucleus guard for a single long-vowel letter (#470): the letter must read
+   * long. Holds in an open syllable, before a listed coda (sound sequences,
+   * ["n", "d"] for kind), or before one consonant that a reader moves onto a
+   * following vowel (ti-ger), unless that consonant is held (ng, sh, ch, th).
+   */
+  openReading?: { codas?: string[][]; heldCodas?: string[] };
 }
 ```
 

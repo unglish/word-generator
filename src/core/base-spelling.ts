@@ -218,12 +218,28 @@ export class BaseSpelling {
    * undefined when it has none or rewritten sources span several segments.
    */
   segmentAt(index: number): SpellingPhone["segment"] | undefined {
+    return this.ownerValue(index, "segment");
+  }
+
+  /** The sound of the phones that own the letter at `index`, when they share one. */
+  soundAt(index: number): string | undefined {
+    return this.ownerValue(index, "soundAtSpelling");
+  }
+
+  /** The value of `key` shared by every phone owning the letter at `index`, if they agree. */
+  private ownerValue<K extends "segment" | "soundAtSpelling">(index: number, key: K): SpellingPhone[K] | undefined {
     const origin = this.cells[index]?.origin;
     if (!origin) return undefined;
     const unitIds = origin.kind === "selection" ? [origin.unitId] : origin.sourceUnitIds;
-    const segments = new Set(unitIds.flatMap((unitId) =>
-      this.units[unitId].phoneIds.map((phoneId) => this.phones[phoneId].segment)));
-    return segments.size === 1 ? [...segments][0] : undefined;
+    let value: SpellingPhone[K] | undefined;
+    for (const unitId of unitIds) {
+      for (const phoneId of this.units[unitId].phoneIds) {
+        const next = this.phones[phoneId][key];
+        if (value !== undefined && next !== value) return undefined;
+        value = next;
+      }
+    }
+    return value;
   }
 
   markGapSpelling(): void {
