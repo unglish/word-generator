@@ -386,11 +386,29 @@ export const englishConfig: LanguageConfig = {
       ],
     },
     {
+      // A closed "ae" whose coda is one consonant spelled with a final e ("ge",
+      // "ce", "gue"), or "nge": that e marks the vowel, so "ae" drops its own e
+      // (ataege → atage, snaenge → snange, as in page, pace, vague, range).
+      // Other clusters (faelse) would not read /eɪ/ (false), so they fall
+      // through to ae-unsplit-to-ai.
+      name: "ae-before-e-coda",
+      pattern: "(a)(e)([bcdfghjklmnpqrstvwxz]u?e|nge)$",
+      replacement: "$1$3",
+      probability: 100,
+      scope: "syllable",
+      letterRoles: [
+        { group: 1, segment: "nucleus" },
+        { group: 2, segment: "nucleus" },
+        { group: 3, segment: "coda" },
+      ],
+    },
+    {
       // A closed "ae" that magic-e left unsplit (#459 follow-up): a coda it
-      // cannot cross, such as "ch" (fubaech), or its 5% miss (bepaen). English
-      // writes closed /eɪ/ as "ai" there (faith, pain).
+      // cannot cross, such as "ch" (fubaech) or "ssi", or its 5% miss (bepaen).
+      // English writes closed /eɪ/ as "ai" there (faith, pain). The role check
+      // keeps the third group to coda letters, so it may end in a vowel letter.
       name: "ae-unsplit-to-ai",
-      pattern: "(a)(e)([bcdfghjklmnpqrstvwxz]+)$",
+      pattern: "(a)(e)([a-z]+)$",
       replacement: "$1i$3",
       probability: 100,
       scope: "syllable",

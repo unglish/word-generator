@@ -165,12 +165,16 @@ rule splits (`pae`+`n` → `pane`). A bare `a` there would read /æ/
 monosyllable `ay`/`ey` weights stay 0; monosyllables get `ay` from open `ai`
 through the no-final-i rule (`flai` → `flay`).
 
-Three syllable rules around magic-e finish closed `ae`. Before it, a hard `c`
+Four syllable rules around magic-e finish closed `ae`. Before it, a hard `c`
 becomes `k` (`batace` → `batake`) and `aeg` becomes `ague` (`bovages` →
 `bovagues`), since magic-e would put an `e` after the `c` or `g` and soften
-it. After it, any closed `ae` still unsplit becomes `ai`: magic-e cannot cross
-a digraph coda (`fubaech` → `fubaich`) and misses 5% of the time (`bepaen` →
-`bepain`).
+it. After it, before one consonant already spelled with a final `e` (`ge`,
+`ce`, `gue`) or before `nge`, `ae` drops its own `e`, since the coda's `e` marks
+the vowel (`ataege` → `atage`, `snaenge` → `snange`). Other clusters would not
+read /eɪ/ (`faelse` would become *false*), so they fall through. Any closed `ae`
+still unsplit then becomes `ai`: magic-e cannot cross a digraph coda (`fubaech`
+→ `fubaich`) or one ending in a vowel letter (`ezaessier` → `ezaissier`), and
+misses 5% of the time (`bepaen` → `bepain`).
 
 ## /ɑ/ `au` in final syllables
 
