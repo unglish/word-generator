@@ -160,10 +160,10 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 2,
     endWord: 2,
-    // Closed-only (#459): endWord absorbs mass that ay/ey used to take on
-    // closed finals; coda:nonEmpty also drops open-medial "ai" (rare in English).
+    // endWord (#459) takes closed finals that ay/ey no longer cover (paint).
+    // No coda condition: open isolated "ai" is how monosyllables get "ay"
+    // (flai → flay via no-final-i), since isolated ay/ey weights are 0.
     isolatedSyllableWeight: 5,
-    condition: { syllableShape: { coda: "nonEmpty" } },
   },
   {
     phoneme: "eɪ",

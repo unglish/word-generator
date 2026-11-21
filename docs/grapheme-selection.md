@@ -156,13 +156,14 @@ English writes /eɪ/ as `ay`/`ey` almost only at word end (*they*, *grey*,
 `syllableShape: { coda: "empty" }`, so a same-syllable coda blocks them —
 including a root coda of exactly /s/ or /z/, which can look plural-like but is
 still root-internal. An open root-final syllable before a suffix keeps
-`ay`/`ey`. Closed finals use `ai` (`endWord` now positive, `coda: "nonEmpty"`)
-and a closed-final `ae` entry limited to a one-consonant coda, which the
-magic-e rule splits (`pae`+`n` → `pane`). A bare `a` there would read /æ/
+`ay`/`ey`. Closed finals use `ai` (`endWord` now positive) and a
+closed-final `ae` entry limited to a one-consonant coda, which the magic-e
+rule splits (`pae`+`n` → `pane`). A bare `a` there would read /æ/
 (`bepan`), and magic-e cannot split a cluster, so clusters take `ai`
 (`paint`). `syllableShape.onset`/`coda` accept a segment count (`1`) or
 `{ min, max }` range for this, like `nucleusLength`. Isolated
-monosyllable `ay`/`ey` weights stay 0 (known open-ay/ey mono gap).
+monosyllable `ay`/`ey` weights stay 0; monosyllables get `ay` from open `ai`
+through the no-final-i rule (`flai` → `flay`).
 
 ## /ɑ/ `au` in final syllables
 

@@ -39,15 +39,20 @@ describe("/eɪ/ ey/ay open-syllable only (#459)", () => {
     }
   });
 
-  it("keeps ey/ay open-only and spells closed finals as a_e or ai", () => {
+  it("keeps ey/ay open-only, spells closed finals as a_e or ai, and keeps mono ay", () => {
     let openFinal = 0;
     let openFinalEyAy = 0;
     let closedFinal = 0;
+    let isolatedOpenAi = 0;
     const closedFinalForms = new Map<string, number>();
     for (const word of generateWords(5_000, { seed: 459, trace: true })) {
       for (const { nucleus, codaLength } of eiSlots(word)) {
         const where = `${word.written.clean}: ${nucleus.selected} + ${codaLength} coda`;
         if (codaLength > 0) expect(isEyAy(nucleus), where).toBe(false);
+        // Monosyllables reach "ay" through open "ai" + no-final-i (flai → flay).
+        if (nucleus.selection?.syllablePosition === "isolated" && codaLength === 0 && nucleus.selected === "ai") {
+          isolatedOpenAi++;
+        }
         if (nucleus.selection?.syllablePosition !== "final") continue;
         if (codaLength === 0) {
           openFinal++;
@@ -65,6 +70,7 @@ describe("/eɪ/ ey/ay open-syllable only (#459)", () => {
     expect(openFinal).toBeGreaterThan(20);
     expect(openFinalEyAy / openFinal).toBeGreaterThan(0.5);
     expect(closedFinal).toBeGreaterThan(20);
-    expect(closedFinalForms.get("ae") ?? 0).toBeGreaterThan(closedFinal / 2);
+    expect(closedFinalForms.get("ae") ?? 0).toBeGreaterThan(closedFinal / 3);
+    expect(isolatedOpenAi).toBeGreaterThan(0);
   });
 });

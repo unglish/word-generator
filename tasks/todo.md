@@ -142,4 +142,5 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 - Decision: existing `syllableShape.coda: "empty"`; /s|/z/ root coda disallowed.
 - Target pattern before→after on 1000000–1019999: ey before non-sibilant coda 142→0, ay 281→0; before s/z 17+32→0.
 - Review fix: a bare closed-final `a` read /æ/ (bepan, 362 words); now `ae` (one coda consonant, split to `a_e`) or `ai` (clusters).
+- Review fix: `ai` keeps no coda condition, so monosyllables still reach `ay` via open `ai` + no-final-i (flaying, not flaing).
 - quality:pr: lexicon-default trigram JS +0.0009 bits; no invariant regressions; FOOT /ʊ/ mono +0.38 pp (noise).
