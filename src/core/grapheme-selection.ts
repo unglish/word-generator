@@ -1,5 +1,5 @@
 import { createDoublingModel } from "./spelling-doubling.js";
-import type { Grapheme, GraphemeCondition, Phoneme } from "../types.js";
+import type { ClusterShapeRequirement, Grapheme, GraphemeCondition, Phoneme, SegmentLengthRequirement } from "../types.js";
 import type { LanguageConfig } from "../config/language.js";
 import { VOWEL_LETTERS } from "../utils/letters.js";
 
@@ -219,15 +219,16 @@ function preExpandConditions(
   return result;
 }
 
-function checkClusterShapeRequirement(length: number, requirement: "empty" | "nonEmpty" | "any" | undefined): boolean {
+function checkClusterShapeRequirement(length: number, requirement: ClusterShapeRequirement | undefined): boolean {
   if (!requirement || requirement === "any") return true;
   if (requirement === "empty") return length === 0;
-  return length > 0;
+  if (requirement === "nonEmpty") return length > 0;
+  return checkSegmentLengthRequirement(length, requirement);
 }
 
-function checkNucleusLengthRequirement(
+function checkSegmentLengthRequirement(
   length: number,
-  requirement: NonNullable<GraphemeCondition["syllableShape"]>["nucleusLength"],
+  requirement: SegmentLengthRequirement | undefined,
 ): boolean {
   if (requirement === undefined) return true;
   if (typeof requirement === "number") return length === requirement;
@@ -336,7 +337,7 @@ function meetsPreExpandedCondition(
   if (condition.syllableShape) {
     if (!checkClusterShapeRequirement(onsetLength ?? 0, condition.syllableShape.onset)) return false;
     if (!checkClusterShapeRequirement(codaLength ?? 0, condition.syllableShape.coda)) return false;
-    if (!checkNucleusLengthRequirement(nucleusLength ?? 0, condition.syllableShape.nucleusLength)) return false;
+    if (!checkSegmentLengthRequirement(nucleusLength ?? 0, condition.syllableShape.nucleusLength)) return false;
   }
 
   return true;

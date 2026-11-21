@@ -138,6 +138,20 @@ export const diphthongGraphemes: Grapheme[] = [
     // Comparator ~56% "a" (mostly split via silentE); keep mono path for magic-e.
     isolatedSyllableWeight: 3,
   },
+  // Closed poly-final /eɪ/ after #459: ay/ey no longer cover coda finals.
+  // "ae" + one coda consonant is split by the magic-e rule (pae+n → pane); a
+  // bare "a" would read as /æ/ (bepan). Magic-e cannot split a cluster
+  // (dirtaets), so clusters fall to "ai" (paint).
+  {
+    phoneme: "eɪ",
+    form: "ae",
+    frequency: 25,
+    startWord: 0,
+    midWord: 0,
+    endWord: 4,
+    isolatedSyllableWeight: 0,
+    condition: { syllableShape: { coda: 1 } },
+  },
   {
     phoneme: "eɪ",
     form: "ai",
@@ -145,8 +159,10 @@ export const diphthongGraphemes: Grapheme[] = [
     coda: 0,
     startWord: 0,
     midWord: 2,
-    endWord: 0,
-    // Comparator ~24% "ai", closed-only (coda:0 already).
+    endWord: 2,
+    // endWord (#459) takes closed finals that ay/ey no longer cover (paint).
+    // No coda condition: open isolated "ai" is how monosyllables get "ay"
+    // (flai → flay via no-final-i), since isolated ay/ey weights are 0.
     isolatedSyllableWeight: 5,
   },
   {
@@ -157,10 +173,12 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 1,
     endWord: 5,
-    // Comparator ay is open-only on monos, but syllableShape coda:empty also
-    // removes the only endWord>0 spellings for closed final syllables of
-    // polysyllables. Ban on monos; keep poly endWord. Known mono open-ay gap.
+    // Open-syllable only (#459): English writes ay at word end (day, play) or
+    // before a suffix (plays), not before a same-syllable coda (bepayn).
+    // Root coda /s|/z/ is also banned — still root-internal, even if plural-like.
+    // Ban on monos via isolated 0 (known open-ay mono gap).
     isolatedSyllableWeight: 0,
+    condition: { syllableShape: { coda: "empty" } },
   },
   {
     phoneme: "eɪ",
@@ -191,8 +209,9 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 0,
     endWord: 4,
-    // Same poly-final dependency as "ay" — ban on monos (known open-ey gap).
+    // Same open-syllable restriction as "ay" (#459). Ban on monos (known open-ey gap).
     isolatedSyllableWeight: 0,
+    condition: { syllableShape: { coda: "empty" } },
   },
   { 
     phoneme: "eɪ", 

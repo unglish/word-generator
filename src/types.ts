@@ -175,11 +175,17 @@ export interface GraphemeCondition {
    * Useful for constraints like bare nucleus spellings.
    */
   syllableShape?: {
-    onset?: "empty" | "nonEmpty" | "any";
-    coda?: "empty" | "nonEmpty" | "any";
-    nucleusLength?: number | { min?: number; max?: number };
+    onset?: ClusterShapeRequirement;
+    coda?: ClusterShapeRequirement;
+    nucleusLength?: SegmentLengthRequirement;
   };
 }
+
+/** Exact segment count, or an inclusive `{ min, max }` range. */
+export type SegmentLengthRequirement = number | { min?: number; max?: number };
+
+/** Onset/coda guard: a named shape, or a segment-count requirement (`{ max: 1 }`). */
+export type ClusterShapeRequirement = "empty" | "nonEmpty" | "any" | SegmentLengthRequirement;
 
 /**
  * A grapheme — the written (spelling) representation of a phoneme.

@@ -104,8 +104,9 @@ interface GraphemeCondition {
    * Useful for constraints like "bare nucleus only".
    */
   syllableShape?: {
-    onset?: "empty" | "nonEmpty" | "any";
-    coda?: "empty" | "nonEmpty" | "any";
+    // Named shape, or a segment count / { min, max } range (coda: 1).
+    onset?: "empty" | "nonEmpty" | "any" | number | { min?: number; max?: number };
+    coda?: "empty" | "nonEmpty" | "any" | number | { min?: number; max?: number };
     nucleusLength?: number | { min?: number; max?: number };
   };
 }

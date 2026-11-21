@@ -149,6 +149,22 @@ rewrites `cs` before `t` as `x` in every bare word. Word rules run on the root
 before a suffix is attached, so a root ending in `cs` before a `t`-initial
 suffix (`snocs` + `tion`) is not rewritten.
 
+## /eɪ/ `ay`/`ey` open-syllable only (#459)
+
+English writes /eɪ/ as `ay`/`ey` almost only at word end (*they*, *grey*,
+*play*) or before a suffix (*plays*, *greyness*). Both spellings now carry
+`syllableShape: { coda: "empty" }`, so a same-syllable coda blocks them —
+including a root coda of exactly /s/ or /z/, which can look plural-like but is
+still root-internal. An open root-final syllable before a suffix keeps
+`ay`/`ey`. Closed finals use `ai` (`endWord` now positive) and a
+closed-final `ae` entry limited to a one-consonant coda, which the magic-e
+rule splits (`pae`+`n` → `pane`). A bare `a` there would read /æ/
+(`bepan`), and magic-e cannot split a cluster, so clusters take `ai`
+(`paint`). `syllableShape.onset`/`coda` accept a segment count (`1`) or
+`{ min, max }` range for this, like `nucleusLength`. Isolated
+monosyllable `ay`/`ey` weights stay 0; monosyllables get `ay` from open `ai`
+through the no-final-i rule (`flai` → `flay`).
+
 ## /ɑ/ `au` in final syllables
 
 Plain `au` for /ɑ/ had `endWord: 0`, so a final syllable could only choose the
