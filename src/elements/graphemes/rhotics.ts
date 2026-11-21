@@ -83,9 +83,12 @@ export const rhoticGraphemes: Grapheme[] = [
     form: "re",
     frequency: 50,
     startWord: 0,
-    midWord: 5,
+    midWord: 0,
     endWord: 100,
-    condition: { notLeftContext: ["l", "r"] },
+    // English writes /ɚ/ as "re" only in an open final syllable (centre, acre),
+    // which may take a suffix (acres, centred). Before a coda the letters read
+    // /rɛ/ (#471: kalmrel, reuggrenned).
+    condition: { notLeftContext: ["l", "r"], syllableShape: { coda: "empty" } },
   },
   {
     phoneme: "ɚ",

@@ -176,6 +176,16 @@ still unsplit then becomes `ai`: magic-e cannot cross a digraph coda (`fubaech`
 → `fubaich`) or one ending in a vowel letter (`ezaessier` → `ezaissier`), and
 misses 5% of the time (`bepaen` → `bepain`).
 
+## /ɚ/ `re` only in an open final syllable (#471)
+
+English writes /ɚ/ as `re` only at the end of a word (*centre*, *acre*,
+*ogre*), and keeps it before a suffix (*acres*, *centred*). Inside a closed
+syllable the letters read /rɛ/ (`kalmrel`, `packirzrem`). `re` now carries
+`syllableShape: { coda: "empty" }` and `midWord: 0`, so only an open final
+syllable can choose it; its `endWord` and the `notLeftContext: ["l", "r"]` ban
+are unchanged. Other /ɚ/ spellings take its share in proportion to their
+weights.
+
 ## /ɑ/ `au` in final syllables
 
 Plain `au` for /ɑ/ had `endWord: 0`, so a final syllable could only choose the

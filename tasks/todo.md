@@ -212,3 +212,18 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 
 - Status: Completed.
 - Notes: Closed `ae` that no syllable rule rewrote, 100k seeds from 5000000: 17 → 0 (9 of the 17 still showed `ae` on the surface; silent-e or suffix e-drop had fixed the rest). 100k seeds from 6000000: 17 words change, 13 spelling-only (all better on the trigram scorer) and 4 different words from length-rejection resampling.
+
+---
+
+# Issue #471 — /ɚ/ `re` only in an open final syllable (Completed)
+
+## Plan
+
+- [x] Measure before counts (seeds 2000000–2019999)
+- [x] Add `syllableShape: { coda: "empty" }` and `midWord: 0` to /ɚ/ → `re`
+- [x] Add seeded + distribution tests; update grapheme-selection.md
+
+## Review
+
+- Status: Completed.
+- /ɚ/ `re` before a same-syllable coda (or mid-word) 186 → 0 words; open word-final `re` 38 → 33 and open before a suffix 39 → 38 (other spellings take its share of the RNG-shifted words).
