@@ -186,6 +186,27 @@ syllable can choose it; its `endWord` and the `notLeftContext: ["l", "r"]` ban
 are unchanged. Other /ɚ/ spellings take its share in proportion to their
 weights.
 
+## /aɪ/ `ie` needs an onset (#472)
+
+No English word starts with `ie`; English writes /aɪ/ as `ie` after a consonant
+(*pie*, *tried*). An onsetless `ie` started words with it (`iesitur`, `iekay`)
+or left a hiatus after a prefix (`iniesewnly`). `ie` now requires
+`syllableShape: { onset: "nonEmpty" }`, so an onsetless /aɪ/ takes `i` (*idle*,
+*iron*) or `eye`. /aɪ/ → `is` now requires an onsetless /aɪ/ before /l/ (*isle*,
+*island*). Without that, much of the old onsetless `ie` share went to `is`
+(`israke`), and after an onset `is` reads /ɪs/ (`lisltig`). `eye` has
+`startWord: 1` (was 2), so it moves back toward English's rate (CMU about
+6.6%): 9.4% of word-initial onsetless /aɪ/. At 2 it rose from 6.8% to 14.8%
+(`eyetornful`).
+
+The trade-off: before a single coda consonant, an onsetless `ie` used to give
+*ice*-type `i_e` through magic-e. Those words now read as a short `i`: on seed
+2002174 the rejected variant described next wrote `imeenory` where #472 writes
+`imenory` (before #472 the seed gave `eamersory`). Keeping a separate onsetless
+`ie` for that case was measured and rejected. About 25 of its 43 root-initial
+uses put magic-e's `e` before a vowel letter (`iseiloo`, `ileoshize`), and
+removing it scored better on the CMU letter-trigram model.
+
 ## /ɑ/ `au` in final syllables
 
 Plain `au` for /ɑ/ had `endWord: 0`, so a final syllable could only choose the
