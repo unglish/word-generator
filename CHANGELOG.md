@@ -15,6 +15,11 @@
   replacement form and certificate index. Previously only
   `trace.baseSpelling.certificates` showed the rewrite (#454). Generated output
   is unchanged.
+- `VowelReductionRule.codaModifiers`: probability multipliers keyed on the first
+  coda consonant, matched with the shared phoneme selector fields (`sounds`,
+  `manner`, `place`, `voiced`). English blocks /ɪ/ → /ə/ before /ŋ k g ʃ tʃ dʒ
+  v/, so `-ing` stays /ɪŋ/ (#475). Pronunciations change; spelling and random
+  draws do not.
 
 ## 0.6.0 - 2026-03-03
 
