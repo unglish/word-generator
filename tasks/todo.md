@@ -260,3 +260,21 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 - Status: Completed.
 - /ɔɪ/ `oy` before a same-syllable coda 58 → 0 words (all now `oi`); surface `oy` + consonant letter 65 → 7 (6 are `oy` + suffix, *toys* type; 1 is a medial open `oy` before the next onset, `cengoyquacar`, *boycott* type).
 - /aʊ/ `ow` before /t/ 16 → 0 words; trigram score better for 14 of the 14 changed words.
+
+---
+
+# Issue #474 — triple letters, `quu`, mid-word `gn` (Completed)
+
+## Plan
+
+- [x] Measure before counts (seeds 2000000–2019999)
+- [x] Add a `collapse-triple-letter` boundary transform to consonant-initial suffixes
+- [x] Write /kw/ before a `u` vowel letter as `kw` (`cw-before-u-to-kw`); `cw-to-qu` skips it
+- [x] Set `midWord: 0` on /n/ → `gn`
+- [x] Add search-based tests per case + a seeded sample test; update grapheme-selection.md
+
+## Review
+
+- Status: Completed.
+- Consonant triples 7 → 0 words, `quu` 8 → 0, medial /n/ `gn` 8 → 0. Vowel triples (`imbeastrooous`, 1 word) left as a follow-up.
+- The `gn` change makes many medial /n/ pools single-spelling, which skip their random draw; about 17% of seeded words (about 3,300 of 20k) change through that RNG shift.

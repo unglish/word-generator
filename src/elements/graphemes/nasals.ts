@@ -74,7 +74,9 @@ export const nasalGraphemes: Grapheme[] = [
     frequency: 5,
     cluster: 0,
     startWord: 0,
-    midWord: 1,
+    // English writes /n/ as gn only at a word edge (gnome, sign), apart from
+    // derived forms (signer), not mid-word (#474: amgny, vadgnidal).
+    midWord: 0,
     endWord: 1,
   },
   {
