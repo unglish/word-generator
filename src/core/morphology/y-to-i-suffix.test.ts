@@ -1,11 +1,13 @@
 /**
  * Regression tests for #458: consonant+y → i before non-i-initial suffixes.
  *
- * Seeds are pinned from the issue (exact failing cases). Distribution coverage
- * uses the same 1000000–1019999 window as the issue sample.
+ * The suffix cases find their own examples; the remaining single-word cases
+ * still pin seeds from the issue. Distribution coverage uses the same
+ * 1000000–1019999 window as the issue sample.
  */
 import { describe, expect, it } from "vitest";
 import { generateWord } from "../../index.js";
+import { findExample } from "../../test-support/find-example.js";
 
 /** Assembled morphological root after boundary transforms. */
 function assembledRoot(word: ReturnType<typeof generateWord>): string {
@@ -25,20 +27,22 @@ function isTrueConsonantYBase(word: ReturnType<typeof generateWord>): boolean {
 const I_INITIAL = /^(ing|ist|ism|ive|ity|ize|ian|ial|ish)/i;
 
 describe("consonant+y suffix boundary (#458)", () => {
+  // Each case finds its own example: pinned seeds broke whenever unrelated
+  // output changes moved the random stream (seed 1001223 after #474).
   it.each([
-    { seed: 1000034, before: "flys", expectSuffix: "s", expectWord: /ies$/ },
-    { seed: 1000084, before: "tisbryed", expectSuffix: "ed", expectWord: /ied$/ },
-    { seed: 1000303, before: "ettigryed", expectSuffix: "ed", expectWord: /ied$/ },
-    { seed: 1000395, before: "jilyelyest", expectSuffix: "est", expectWord: /iest$/ },
-    { seed: 1001223, before: "warglyal", expectSuffix: "al", expectWord: /ial$/ },
-    { seed: 1000119, before: "tanoshyment", expectSuffix: "ment", expectWord: /iment$/ },
-    { seed: 1002044, before: "cichyous", expectSuffix: "ous", expectWord: /ious$/ },
+    { suffix: "s", expectWord: /ies$/ },
+    { suffix: "ed", expectWord: /ied$/ },
+    { suffix: "est", expectWord: /iest$/ },
+    { suffix: "al", expectWord: /ial$/ },
+    { suffix: "ment", expectWord: /iment$/ },
+    { suffix: "ous", expectWord: /ious$/ },
   ])(
-    "seed $seed ($before) applies y→i before -$expectSuffix",
-    ({ seed, expectSuffix, expectWord }) => {
-      const word = generateWord({ seed, trace: true });
-      expect(word.trace?.morphology?.suffix).toBe(expectSuffix);
-      expect(isTrueConsonantYBase(word)).toBe(true);
+    "applies y→i on a consonant+y root before -$suffix",
+    ({ suffix, expectWord }) => {
+      const { word } = findExample(
+        (w) => w.trace?.morphology?.suffix === suffix && isTrueConsonantYBase(w),
+        { property: `a consonant+y root before -${suffix}`, limit: 20_000, firstSeed: 1_000_000 },
+      );
       expect(assembledRoot(word)).toMatch(/[^aeiou]i$/i);
       expect(word.written.clean).toMatch(expectWord);
       expect(word.written.clean).not.toMatch(/[^aeiou]y(s|ed|er|est|al|ment|ous)$/i);
