@@ -565,6 +565,56 @@ describe("validateConfig", () => {
     );
   });
 
+  describe("hardLetters validation", () => {
+    const withHardC = (patch: Record<string, unknown>): LanguageConfig => {
+      const rules = englishConfig.writtenFormConstraints!.hardLetters!;
+      return {
+        ...englishConfig,
+        writtenFormConstraints: {
+          ...englishConfig.writtenFormConstraints,
+          hardLetters: [{ ...rules[0], ...patch }],
+        },
+      };
+    };
+
+    it("accepts the English rule", () => {
+      expect(() => validateConfig(englishConfig)).not.toThrow();
+    });
+
+    it("rejects an unknown phoneme", () => {
+      expect(() => validateConfig(withHardC({ phoneme: "not-a-phoneme" }))).toThrow(
+        "writtenFormConstraints.hardLetters[0] (hard-c).phoneme contains unknown phoneme \"not-a-phoneme\"",
+      );
+    });
+
+    it("rejects an unknown short vowel", () => {
+      expect(() => validateConfig(withHardC({ shortVowels: ["ɪ", "not-a-vowel"] }))).toThrow(
+        "writtenFormConstraints.hardLetters[0] (hard-c).shortVowels contains unknown phoneme \"not-a-vowel\"",
+      );
+    });
+
+    it("rejects a multi-letter softBefore entry", () => {
+      expect(() => validateConfig(withHardC({ softBefore: ["e", "ie"] }))).toThrow(
+        "writtenFormConstraints.hardLetters[0] (hard-c).softBefore must list single letters",
+      );
+    });
+
+    it.each([
+      [{ letter: "ck" }, ".letter must list single letters"],
+      [{ rootFinal: { tails: ["s"], keepAfter: ["ia"], keepBefore: [] } }, ".rootFinal.keepAfter must list single letters"],
+      [{ rootFinal: { tails: ["s"], keepAfter: [], keepBefore: ["tion"] } }, ".rootFinal.keepBefore must list single letters"],
+      [{ otherwise: "" }, " replacements must not be empty"],
+    ])("rejects %o", (patch, message) => {
+      expect(() => validateConfig(withHardC(patch))).toThrow(`writtenFormConstraints.hardLetters[0] (hard-c)${message}`);
+    });
+
+    it("rejects a doubled replacement that does not start with the letter", () => {
+      expect(() => validateConfig(withHardC({ afterShortVowel: "kk" }))).toThrow(
+        "writtenFormConstraints.hardLetters[0] (hard-c).afterShortVowel must start with \"c\"",
+      );
+    });
+  });
+
   it("should reject gap spellings with unknown phonemes", () => {
     const bad = {
       ...englishConfig,

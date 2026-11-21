@@ -38,8 +38,11 @@ Use these fields to answer specific diagnostic questions:
   - `selected` and `emitted` are the original choice. When a spelling-budget
     certificate later replaced the whole unit, `respelled.form` gives the
     replacement and `respelled.certificateId` indexes
-    `baseSpelling.certificates` (for example `aue·n·ce` written `ons`). Word
-    rules such as `magic-e` are recorded in `repairs` instead.
+    `baseSpelling.certificates` (for example `aue·n·ce` written `ons`). When a
+    hard-letter rule respelled the unit for its written neighbours (hard `c`
+    before e/i/y → `k`/`ck`), `letterRespelled.form` gives the replacement and
+    `letterRespelled.rule` the repair name. Word rules such as `magic-e` are
+    recorded in `repairs` instead.
 - `structural`
   - Question: Did structural events inject the pattern?
   - Typical signal: `finalS`, `nasalStopExtension`, `boundaryDrop`,

@@ -226,6 +226,24 @@ export class BaseSpelling {
     return segments.size === 1 ? [...segments][0] : undefined;
   }
 
+  /**
+   * The phone whose spelling supplied the live letter at `index`: the cell's own
+   * unit, or for a rewritten cell the only source unit whose spelling contains
+   * that letter (magic-e's `iec` → `ice` keeps `c` traceable to /k/). Undefined
+   * when no single unit can be named.
+   */
+  letterSource(index: number): SpellingPhone | undefined {
+    const cell = this.cells[index];
+    if (!cell) return undefined;
+    const { origin } = cell;
+    const unitIds = origin.kind !== "rewrite"
+      ? [origin.unitId]
+      : origin.sourceUnitIds.filter((id) => this.units[id].afterDoubling.includes(cell.text));
+    if (unitIds.length !== 1) return undefined;
+    const { phoneIds } = this.units[unitIds[0]];
+    return phoneIds.length === 1 ? this.phones[phoneIds[0]] : undefined;
+  }
+
   markGapSpelling(): void {
     this.scope = "bare-after-gap-spelling";
   }

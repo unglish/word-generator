@@ -91,6 +91,7 @@ export const stopGraphemes: Grapheme[] = [
   },
   // "mc" before front vowels (e.g., proper-name style forms) is rare but attested.
   // This prevents severe under-representation of "mc" bigrams without broad changes.
+  // Where the vowel is then written e/i/y, the hard-c respell writes "mk" (#460).
   { phoneme: "k",
     form: "c",
     frequency: 120,
