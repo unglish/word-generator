@@ -1,124 +1,21 @@
-# Lint Remediation — In Progress
+# Issue #463 — Ban tense vowels/diphthongs before /ŋ/ in roots
 
 ## Plan
 
-- [x] Run `eslint --fix` across `src/**/*.ts`.
-- [x] Manually resolve remaining lint violations (`no-unused-vars`, residual indent/quotes).
-- [x] Re-run `npm run lint` until clean.
-- [x] Re-run targeted tests impacted by lint edits.
-- [x] Commit and push lint-only fix.
-
-## Review (to fill after implementation)
-
-- Status: Completed.
-- Notes: Lint passes with `npm run lint`; targeted regression tests pass.
-
----
-
-# Issue #15 — Morphophonemic Alternations (In Progress)
-
-## Plan
-
-- [x] Add typed morphophonemic rule config + validation plumbing (`language.ts` + tests).
-- [x] Implement alternation engine in morphology attachment (`attach.ts`) with deterministic rule ordering.
-- [x] Extend trace payload to include fired alternation evidence.
-- [x] Add initial English alternation rules for `-ity` family.
-- [x] Add focused unit/integration tests for alternation behavior and trace evidence.
-- [x] Run targeted + project-level test suites (`attach`, `trace`, config, full `npm test`).
-- [x] Commit in atomic logical steps and push branch.
-
-## Review (to fill after implementation)
-
-- Status: Completed.
-- Notes: Implemented config/runtime/test changes; full suite passing; atomic commits pushed to remote branch.
-
----
-
-# Word Generation Performance ROI — Completed
-
-## Summary
-
-Identified and implemented two high-ROI optimizations to the word generation hot path, yielding **~21% throughput improvement** (5163 → ~6260 words/sec).
-
-## Changes Implemented
-
-### 1. Attested cluster prefix lookup (O(n) → O(1))
-
-**Problem:** `isValidCandidate` and `shouldStopClusterGrowth` used `Array.from(rt.attestedOnsetSet).some(a => a.startsWith(key + "|"))` — O(n) over ~25 onset / ~60 coda entries per candidate phoneme during cluster building.
-
-**Fix:** Reused the existing `attestedOnsetPrefixSet` and `attestedCodaPrefixSet` (built at runtime from proper prefixes). Replaced `.some()` with `Set.has(key)` — O(1) lookup.
-
-**Files:** `src/core/generate.ts` (4 call sites)
-
-### 2. Phoneme-by-sound Map
-
-**Problem:** `config.phonemes.find(p => p.sound === sound)` — O(n) linear search over ~45 phonemes, used in:
-- Nasal stop extension (n→d, m→b, ŋ→g)
-- Final /s/ append
-- Vowel hiatus bridge options
-
-**Fix:** Added `phonemeBySound: Map<string, Phoneme>` to `GeneratorRuntime`, built once at config load. Replaced `.find()` with `Map.get()` — O(1) lookup.
-
-**Files:** `src/core/generate.ts`
-
-## Verification
-
-- All tests pass (`npm test`)
-- Perf gate passes (`npm run test:perf`)
-- Throughput: ~5163 → ~6260 words/sec (measured 3 runs: 6171, 6339, 6281)
-
-## Future Opportunities (not implemented)
-
-- **RNG reuse for `generateWords`:** When calling `generateWord({ seed: i })` in a loop, each call creates a new `createSeededRng(i)`. Recommend `generateWords(n, { seed })` for batch use.
-- **getWeightedOption pre-compute:** For static weight arrays, total could be cached — but arrays are usually small (2–10 items), so ROI is low.
-- **pronounce.ts / morphology/attach.ts:** Same `phonemes.find` pattern exists; could pass `phonemeBySound` if those paths become hot.
-
----
-
-# Critical Bug Inspection — 2026-03-15 (In Progress)
-
-## Plan
-
-- [x] Inspect recent high-blast-radius commits (`perf`, generation core, persistence/config movement) and shortlist risky behavioral changes.
-- [x] Trace each shortlisted change through caller chains to confirm or reject concrete critical failure scenarios.
-- [x] If a critical bug is confirmed, implement a minimal fix and add regression tests.
-- [x] Run targeted and relevant full tests to validate the fix and avoid regressions.
-- [x] Commit and push audit results (and fix if needed) to `cursor/critical-bug-inspection-60bf`.
-
-## Review (to fill after implementation)
-
-- Status: Completed.
-- Notes: Found deterministic ENOENT crashes in CMU analysis scripts after durable baseline move removed implicit `memory/` directory from clean checkouts. Fixed by creating `memory/` recursively before report writes in all affected scripts; validated with `npm run build`, reduced-size `analyze:trigrams`/`analyze:phonemes`, and full `scripts/underrep-baseline.ts` run from a clean `memory/` state.
-
-# Critical Bug Inspection — 2026-03-16 (In Progress)
-
-## Plan
-
-- [x] Inspect recent commits for high-blast-radius behavioral changes.
-- [x] Trace affected runtime paths for concrete crash/data-loss/security triggers.
-- [x] Validate suspected issues with focused reproduction (tests or executable scenario).
-- [x] Implement minimal fix and tests only if severity is critical and confirmed.
-- [x] Run verification (targeted tests and relevant full checks), then summarize findings.
-
-## Review (to fill after implementation)
-
-- Status: Completed.
-- Notes: Fixed critical morphology planning crash by validating template-weight/affix-inventory consistency; added regression tests and verified via `npm test -- src/config/language.test.ts` and `npm test -- src/core/generate.test.ts`.
-
----
-
-# Issue #432 — Morphophonemic cluster legality (Completed)
-
-## Plan
-
-- [x] Inventory morphology alternation path; reuse archive/pr-355 guard semantics.
-- [x] Add morphology-local projection + cluster-legality guard (no generate.ts rewrite).
-- [x] Wire atomic reject/skip into prepareMorphophonemicRules + written halves.
-- [x] Enable `morphophonemicPolicy.preserveClusterLegality` for English.
-- [x] Port focused unit + integration tests.
-- [x] Run full suite + lint; open PR.
+- [x] Check CMU baselines for /i: u eɪ aɪ aʊ əʊ ɔɪ ɜ ʊ/ + /ŋ/
+- [x] Add bannedNucleusCodaCombinations entries in english.ts
+- [x] Bump /ŋ/ coda weight 44→88 to keep CMU share after the ban
+- [x] Update docs/root-rime-compatibility.md
+- [x] Add seeded regression + distribution tests
+- [x] Capture before/after counts on seeds 1000000–1019999
+- [x] Regenerate golden fixture
+- [x] Run npm run check, build, quality:pr
+- [ ] Commit, push, run outsource verification runner
 
 ## Review
 
-- Status: Completed.
-- Notes: `/sk/→/ss/` before `-ity` is rejected atomically; later ordered rules still run; generate.ts untouched. Full `npm test` (1061) and lint pass.
+- Status: Implementation complete; committing next.
+- CMU ARPABET bigrams: IY/UW/EY/AY/AW/OW/OY/ER/UH before NG each ≤0.4% of NG (UH=4/0.04%); included /ʊ/.
+- Before/after (lexical root syllables, seeds 1e6–1019999): banned hits 775→0; /ŋ/ codas 1484→1464; nucleus mix before /ŋ/ is only ɛ ɪ ə ɑ æ ʌ ɔ.
+- Letter side effects: ayng 31→0, eyng 14→0, iing 81→2; ing-like 1133→1138.
+- Thresholds: no phoneme/ngram threshold files loosened; search/soft bounds adjusted for RNG shift in illegal-join and cluster-weights tests.
