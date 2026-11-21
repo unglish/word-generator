@@ -913,6 +913,12 @@ export interface BoundaryTransform {
   replace: string;
   /** Names of other transforms that, if they fired, block this one. */
   blockedBy?: string[];
+  /**
+   * When this transform fires, override the affix written form.
+   * Used so consonant+y + `-s` selects the same `-es` spelling as the
+   * sibilant allomorph (`cry` → `cri` + `es`), without taking its `/ɪz/` phones.
+   */
+  affixWritten?: string;
 }
 
 /** Phonological condition for allomorph selection. */

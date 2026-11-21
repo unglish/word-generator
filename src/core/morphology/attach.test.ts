@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { planMorphology, applyMorphology } from "./index.js";
 import {
   applyBoundaryTransforms,
+  applyBoundaryTransformsDetailed,
   matchesPhonologicalCondition,
 } from "./attach.js";
 import { createSeededRng } from "../../utils/random.js";
@@ -431,6 +432,71 @@ describe("morphology", () => {
       expect(ctx.word.written.clean).toBe("buses");
     });
 
+    it("-s after consonant+y → -ies with /z/ (not /ɪz/)", () => {
+      const rt = makeRuntime();
+      const yToIEs: BoundaryTransform = {
+        name: "y-to-i",
+        match: /([^aeiou])y$/i,
+        replace: "$1i",
+        affixWritten: "es",
+      };
+      const cryS: Affix = {
+        ...sSuffix,
+        boundaryTransforms: [yToIEs],
+      };
+      const ctx = makeContext([makeSyllable(["k", "r"], ["aɪ"], [])], "cry");
+      const plan = { template: "suffixed" as const, suffix: cryS };
+      const result = applyMorphology(rt, ctx, plan);
+      expect(ctx.word.written.clean).toBe("cries");
+      expect(result.parts).toEqual([
+        { role: "root", text: "cri" },
+        { role: "suffix", text: "es" },
+      ]);
+      expect(result.suffix?.resolved.written).toBe("es");
+      // Voice allomorph /z/ stays; do not take the sibilant /ɪz/ syllable.
+      expect(result.suffix?.resolved.phonemes).toEqual(["z"]);
+      expect(result.suffix?.resolved.syllableCount).toBe(0);
+      expect(ctx.word.syllables.length).toBe(1);
+    });
+
+    it("-s after vowel+y keeps y and -s", () => {
+      const rt = makeRuntime();
+      const yToIEs: BoundaryTransform = {
+        name: "y-to-i",
+        match: /([^aeiou])y$/i,
+        replace: "$1i",
+        affixWritten: "es",
+      };
+      const playS: Affix = {
+        ...sSuffix,
+        boundaryTransforms: [yToIEs],
+      };
+      const ctx = makeContext([makeSyllable(["p", "l"], ["eɪ"], [])], "play");
+      applyMorphology(rt, ctx, { template: "suffixed" as const, suffix: playS });
+      expect(ctx.word.written.clean).toBe("plays");
+    });
+
+    it("-ed after consonant+y → y-to-i", () => {
+      const rt = makeRuntime();
+      const cryEd: Affix = {
+        ...edSuffix,
+        boundaryTransforms: [Y_TO_I, ...BT_E_DOUBLE],
+      };
+      const ctx = makeContext([makeSyllable(["k", "r"], ["aɪ"], [])], "cry");
+      applyMorphology(rt, ctx, { template: "suffixed" as const, suffix: cryEd });
+      expect(ctx.word.written.clean).toBe("cried");
+    });
+
+    it("-ing after consonant+y keeps y", () => {
+      const rt = makeRuntime();
+      const ctx = makeContext([makeSyllable(["k", "r"], ["aɪ"], [])], "cry");
+      applyMorphology(rt, ctx, {
+        template: "suffixed" as const,
+        suffix: simpleSuffix, // -ing with BT_E_DOUBLE only
+      });
+      expect(ctx.word.written.clean).toBe("crying");
+    });
+
     it("in- before bilabial → 'im'", () => {
       const rt = makeRuntime();
       const ctx = makeContext([makeSyllable(["b"], ["ɔ"], ["l"])], "bol");
@@ -753,6 +819,23 @@ describe("applyBoundaryTransforms", () => {
 
   it("y-to-i does NOT transform vowel+y endings", () => {
     expect(applyBoundaryTransforms("play", [Y_TO_I])).toBe("play");
+  });
+
+  it("affixWritten overrides the affix spelling when y-to-i fires", () => {
+    const yToIEs: BoundaryTransform = {
+      ...Y_TO_I,
+      affixWritten: "es",
+    };
+    expect(applyBoundaryTransformsDetailed("cry", [yToIEs])).toEqual({
+      written: "cri",
+      affixWritten: "es",
+      fired: ["y-to-i"],
+    });
+    expect(applyBoundaryTransformsDetailed("play", [yToIEs])).toEqual({
+      written: "play",
+      affixWritten: undefined,
+      fired: [],
+    });
   });
 
   it("drop-silent-e removes trailing e", () => {

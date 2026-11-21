@@ -144,3 +144,22 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 - Review fix: a bare closed-final `a` read /æ/ (bepan, 362 words); now `ae` (one coda consonant, split to `a_e`) or `ai` (clusters).
 - Review fix: `ai` keeps no coda condition, so monosyllables still reach `ay` via open `ai` + no-final-i (flaying, not flaing).
 - quality:pr: lexicon-default trigram JS +0.0009 bits; no invariant regressions; FOOT /ʊ/ mono +0.38 pp (noise).
+
+---
+
+# Issue #458 — consonant + y → i before non-i suffixes (Completed)
+
+## Plan
+
+- [x] Capture before counts on seeds 1000000–1019999
+- [x] Wire `Y_TO_I` into every non-`i`-initial suffix; keep y for i-initial suffixes
+- [x] Extend boundary transforms so C+y + `-s` yields `-ies` via `affixWritten: "es"`
+- [x] Add seeded regression tests + large-sample distribution test
+- [x] `npm run golden:update` (no fixture change); `npm run check`; `npm run build`
+- [x] `npm run quality:pr`; gather before/after traces
+- [x] Commit and push current branch only; run outsource measurement script
+
+## Review
+
+- Status: Completed.
+- Notes: True C+y before non-i suffixes on the issue window went 245+115 → 0 (surface Cy leftovers are `/aɪ/` `ye` + drop-e). Golden fixture unchanged. `npm run check` and `npm run build` pass.
