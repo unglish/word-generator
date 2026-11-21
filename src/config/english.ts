@@ -326,6 +326,32 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
+      // Closed-final /eɪ/ "ae" before hard c (#459 follow-up): magic-e would
+      // write "ace" (batace), which reads /eɪs/. Spell the stop "k" so the split
+      // gives "ake" (bake). Only the c is rewritten, so "ae" keeps its nucleus
+      // alignment for magic-e.
+      name: "ae-hard-c-to-k",
+      pattern: "(?<=ae)(ck?)$",
+      replacement: "k",
+      probability: 100,
+      scope: "syllable",
+      letterRoles: [{ group: 1, segment: "coda" }],
+    },
+    {
+      // Same for hard g: magic-e "age" reads /eɪdʒ/ (bovages). English writes
+      // /eɪg/ as "ague" (vague, plague).
+      name: "ae-hard-g-to-gue",
+      pattern: "(a)(e)(g)$",
+      replacement: "$1gue",
+      probability: 100,
+      scope: "syllable",
+      letterRoles: [
+        { group: 1, segment: "nucleus" },
+        { group: 2, segment: "nucleus" },
+        { group: 3, segment: "coda" },
+      ],
+    },
+    {
       // A split vowel digraph (tiem → time, tyep → type). The vowel letters must
       // spell the nucleus and the consonant a coda: not /j/ + e (yet), coda "ed"
       // (slaed /slæd/), or a nucleus "er" (yer /jɚ/).
@@ -333,6 +359,21 @@ export const englishConfig: LanguageConfig = {
       pattern: "([aiouy])(e)([bcdfghjklmnpqrstvwxyz])$",
       replacement: "$1$3e",
       probability: 95,
+      scope: "syllable",
+      letterRoles: [
+        { group: 1, segment: "nucleus" },
+        { group: 2, segment: "nucleus" },
+        { group: 3, segment: "coda" },
+      ],
+    },
+    {
+      // A closed "ae" that magic-e left unsplit (#459 follow-up): a coda it
+      // cannot cross, such as "ch" (fubaech), or its 5% miss (bepaen). English
+      // writes closed /eɪ/ as "ai" there (faith, pain).
+      name: "ae-unsplit-to-ai",
+      pattern: "(a)(e)([bcdfghjklmnpqrstvwxz]+)$",
+      replacement: "$1i$3",
+      probability: 100,
       scope: "syllable",
       letterRoles: [
         { group: 1, segment: "nucleus" },
