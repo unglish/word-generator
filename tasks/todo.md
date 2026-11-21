@@ -180,3 +180,19 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 
 - Status: Completed.
 - Notes: -ing words ending /əŋ/ on the issue window 178 → 0 (594 -ing words); root /ɪŋ/ 11 → 0. 337 of 20k pronunciations changed, all targeted by trace; spelling and RNG draws unchanged (golden `rngDraws` identical).
+
+---
+
+# Gate noise — phoneme total variation and mono `aw` cluster bound (Completed)
+
+## Plan
+
+- [x] `npm run calibrate:phonemes -- --jobs 3` on main 81df038c (30 streams)
+- [x] `maxTotalVariationPct` 1.78 → 1.88 (worst 1.7714 + 3 × SD 0.0342, rounded outward); other limits unchanged
+- [x] Mono `aw`-before-cluster bound: 30 seed triples on main → mean 0.58%, SD 0.22%, worst 0.94%; bound 1% → 1.6%
+- [x] `npm run check`
+
+## Review
+
+- Status: Completed.
+- Notes: Both limits sat about 0.3 SD above main's worst case, so spelling-only branches that only reshuffle RNG draws failed them (TV 1.7825 on seed 42; `aw` 1.07%). No generator change.
