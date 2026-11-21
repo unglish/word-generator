@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { generateWord, generateWords } from "../index.js";
+import { englishConfig } from "../config/english.js";
+import { createGenerator, generateWord, generateWords } from "../index.js";
 import type { GraphemeTrace } from "../index.js";
 import type { Word } from "../types.js";
 import { findExample } from "../test-support/find-example.js";
@@ -165,11 +166,17 @@ describe("hard c before e/i/y letters (#460)", () => {
   });
 
   it("respells the c before magic-e's e (vutice → vutike)", () => {
+    // ie-ue-hard-c-to-k (#470) writes the k before magic-e in the default
+    // config, so this respell is a backstop; test it without that rule.
+    const withoutEarlyHardC = createGenerator({
+      ...englishConfig,
+      spellingRules: englishConfig.spellingRules!.filter((rule) => rule.name !== "ie-ue-hard-c-to-k"),
+    });
     const { word } = findExample(
       (w) => respelledKs(w).length > 0 && w.trace!.repairs.some(
         (r) => r.rule === "spellingRule:magic-e" && /[aiouy]ce$/.test(r.after),
       ),
-      { property: "magic-e writing ce for /k/", ...search },
+      { property: "magic-e writing ce for /k/", generator: withoutEarlyHardC, ...search },
     );
     const magic = word.trace!.repairs.find((r) => r.rule === "spellingRule:magic-e" && /[aiouy]ce$/.test(r.after))!;
     // The respell turns magic-e's syllable "…ice" into "…ike".

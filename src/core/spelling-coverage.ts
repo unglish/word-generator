@@ -13,7 +13,7 @@ import {
 } from "./grapheme-selection.js";
 import type { GraphemePrefixState } from "./grapheme-selection.js";
 import { createDoublingModel } from "./spelling-doubling.js";
-import type { SpellingBoundaryContext } from "./spelling-context.js";
+import { nucleusRime, type SpellingBoundaryContext } from "./spelling-context.js";
 import { measureSpellingBudgets } from "./spelling-budget.js";
 import type {
   SpellingBudgetOutcome,
@@ -267,11 +267,15 @@ export function createSpellingCoveragePlanner(
   const constraints = config.writtenFormConstraints;
 
   function optionsFor(
-    choice: SpellingChoiceState,
+    choices: SpellingChoiceState[],
     unitId: number,
     prefix: GraphemePrefixState,
   ): Option[] {
-    const pool = resolve(choice.slot, prefix);
+    const choice = choices[unitId];
+    const rimeSource = choice.slot.position === "nucleus"
+      ? () => nucleusRime(choices.map((c) => c.slot), unitId, choices[choices.length - 1]?.slot.nextWritten)
+      : undefined;
+    const pool = resolve(choice.slot, prefix, rimeSource);
     const total = pool.weights.reduce((sum, [, weight]) => sum + weight, 0);
     const options: Option[] = [];
     for (const [grapheme, weight] of pool.weights) {
@@ -379,7 +383,7 @@ export function createSpellingCoveragePlanner(
     let prefix = INITIAL_GRAPHEME_PREFIX;
     let score = 0;
     for (const [i, choice] of choices.entries()) {
-      const option = optionsFor(choice, i, prefix).find((candidate) =>
+      const option = optionsFor(choices, i, prefix).find((candidate) =>
         equal(candidate.license, plan.choices[i]),
       );
       if (!option) fail();
@@ -575,7 +579,7 @@ export function createSpellingCoveragePlanner(
       if (remaining > choices.length - index) return;
       let options: Option[];
       try {
-        options = optionsFor(choices[index], index, prefix);
+        options = optionsFor(choices, index, prefix);
       } catch (error) {
         if (error instanceof NoLegalGraphemeError) {
           note("no-licensed-plan");

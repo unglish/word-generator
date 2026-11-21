@@ -23,6 +23,13 @@ const BT_ALL: BoundaryTransform[] = BT_Y_E_DOUBLE;
 const BT_S: BoundaryTransform[] = [Y_TO_I_ES];
 
 /**
+ * Nucleus phonemes whose e-digraph magic-e splits (ie, ye → i_e; ue → u_e;
+ * ae → a_e; oe → o_e; aue → au_e). /i:/ ie is left whole: split, it read
+ * /aɪ/ (vutice → vutiek, as in shriek; urlifeful → urliefful, as in chief).
+ */
+const SPLIT_VOWELS = ["aɪ", "u", "eɪ", "əʊ", "ɑ"];
+
+/**
  * A root-final double consonant before a suffix starting with the same letter
  * keeps two letters, not three (full + ly → fully; #474: melillly, yaffful).
  */
@@ -67,6 +74,7 @@ import {
   sonorityToPlaceOfArticulation,
 } from "../elements/phonemes.js";
 import { graphemes, graphemeMaps } from "../elements/graphemes/index.js";
+import { HELD_CODAS } from "../elements/graphemes/open-reading.js";
 
 /** Rule-based cross-syllable constraints for English coda→onset boundaries. */
 const ENGLISH_BOUNDARY_CLUSTER_RULES: BoundaryClusterConstraintRule[] = [
@@ -325,6 +333,14 @@ export const englishConfig: LanguageConfig = {
     appendAfter: [
       { sound: "v", probability: 95 },
     ],
+    // A split reads long across one consonant (time, tune), not a cluster or a
+    // digraph consonant (#470: rinse; snunde, bakadse). /eɪ/ keeps change and
+    // paste. /əʊ/ is left as it was (most, folk).
+    codaLimit: {
+      phonemes: ["aɪ", "eɪ", "i:", "u"],
+      clusters: { "eɪ": [["n", "dʒ"], ["s", "t"]] },
+      heldCodas: HELD_CODAS,
+    },
   },
 
   gapSpellings: [
@@ -381,17 +397,61 @@ export const englishConfig: LanguageConfig = {
       ],
     },
     {
+      // Same for a closed ie or ue (#470): magic-e would write "ice"/"uce" for
+      // /aɪk/ /uk/ (bices, mucetuns), which read /s/. Spell the /k/ "k" so the
+      // split gives bike, duke. /i:/ ie is never split, so it stays "iek"
+      // (/i:k/, as in shriek). The coda sound check leaves a /s/ "c" alone (ice).
+      name: "ie-ue-hard-c-to-k",
+      pattern: "(?<=[iu]e)(ck?)$",
+      replacement: "k",
+      probability: 100,
+      scope: "syllable",
+      letterRoles: [{ group: 1, segment: "coda", sounds: ["k"] }],
+    },
+    {
       // A split vowel digraph (tiem → time, tyep → type). The vowel letters must
       // spell the nucleus and the consonant a coda: not /j/ + e (yet), coda "ed"
-      // (slaed /slæd/), or a nucleus "er" (yer /jɚ/).
+      // (slaed /slæd/), or a nucleus "er" (yer /jɚ/). Not /i:/ ie (#470): split,
+      // it read /aɪ/ (vutice); unsplit it reads /i:/ (vutiek, as in shriek).
       name: "magic-e",
       pattern: "([aiouy])(e)([bcdfghjklmnpqrstvwxyz])$",
       replacement: "$1$3e",
       probability: 95,
       scope: "syllable",
       letterRoles: [
-        { group: 1, segment: "nucleus" },
-        { group: 2, segment: "nucleus" },
+        { group: 1, segment: "nucleus", sounds: SPLIT_VOWELS },
+        { group: 2, segment: "nucleus", sounds: SPLIT_VOWELS },
+        { group: 3, segment: "coda" },
+      ],
+    },
+    {
+      // Magic-e's 5% miss leaves a closed /aɪ/ ie or /u/ ue unsplit, which reads
+      // /i:/ or /ju/ (#470: cieftow as in chief, atier). Since #470 those are
+      // chosen only where magic-e can split them, so finish the split. /i:/ ie
+      // (field) is not touched: the sound check keeps it.
+      name: "magic-e-ie-ue",
+      pattern: "([iu])(e)([bcdfghjklmnpqrstvwxyz])$",
+      replacement: "$1$3e",
+      probability: 100,
+      scope: "syllable",
+      letterRoles: [
+        { group: 1, segment: "nucleus", sounds: ["aɪ", "u"] },
+        { group: 2, segment: "nucleus", sounds: ["aɪ", "u"] },
+        { group: 3, segment: "coda" },
+      ],
+    },
+    {
+      // The same for closed /aɪ/ ie and /u/ ue (#470): a coda spelled with a
+      // final e (ce, se, ze, ve) is already the split marker, which magic-e
+      // cannot cross, so drop the digraph's e (fliece → flice, as in ice, five).
+      name: "ie-ue-before-e-coda",
+      pattern: "([iu])(e)([bcdfgjklmnpqrstvz]e)$",
+      replacement: "$1$3",
+      probability: 100,
+      scope: "syllable",
+      letterRoles: [
+        { group: 1, segment: "nucleus", sounds: ["aɪ", "u"] },
+        { group: 2, segment: "nucleus", sounds: ["aɪ", "u"] },
         { group: 3, segment: "coda" },
       ],
     },

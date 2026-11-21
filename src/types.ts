@@ -179,6 +179,24 @@ export interface GraphemeCondition {
     coda?: ClusterShapeRequirement;
     nucleusLength?: SegmentLengthRequirement;
   };
+  /**
+   * Nucleus guard for a single vowel letter that must keep its long reading
+   * (#470): `i` reads /aɪ/ in *ti-ger* but /ɪ/ in *tig-ger*. Holds in an open
+   * syllable, before a coda listed in {@link OpenReadingRequirement.codas}, or
+   * before a one-consonant coda that a reader moves onto a following vowel.
+   */
+  openReading?: OpenReadingRequirement;
+}
+
+/** Where a single long-vowel letter still reads long. See {@link GraphemeCondition.openReading}. */
+export interface OpenReadingRequirement {
+  /** Coda sound sequences English writes after this letter with its long value, e.g. `["n", "d"]` (*kind*). */
+  codas?: string[][];
+  /**
+   * One-consonant codas a reader keeps in the syllable even before a vowel,
+   * because their spelling reads as closing it (`ng` in *singer*, `sh` in *bishop*).
+   */
+  heldCodas?: string[];
 }
 
 /** Exact segment count, or an inclusive `{ min, max }` range. */

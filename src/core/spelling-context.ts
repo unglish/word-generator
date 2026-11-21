@@ -1,4 +1,5 @@
 import type { Phoneme } from "../types.js";
+import { isVowelChar } from "../utils/letters.js";
 import type { SpellingPhone } from "./base-spelling.js";
 import type { GraphemeSlot } from "./grapheme-selection.js";
 import type { DoublingSlot } from "./spelling-doubling.js";
@@ -14,6 +15,34 @@ interface BoundaryEntry {
   syllableIndex: number;
   stress?: string;
   nextWritten?: string;
+}
+
+/** A nucleus's rime, for conditions that need its coda sounds. */
+export interface NucleusRime {
+  /** The sounds of the nucleus's syllable coda, in order. */
+  codaSounds: readonly string[];
+  /** A vowel follows the coda: an onsetless next syllable, or `following` starts with a vowel letter. */
+  vowelAfterCoda: boolean;
+}
+
+/** Phones in word order, as the writer's entries and the planner's slots both list them. */
+type RimeEntry = Pick<BoundaryEntry, "phoneme" | "position" | "syllableIndex">;
+
+/**
+ * The rime of the nucleus at `index`. Computed on demand, only for a nucleus
+ * whose candidates carry an openReading condition (#470); `following` is the
+ * written text after the last entry (a planned suffix).
+ */
+export function nucleusRime(entries: readonly RimeEntry[], index: number, following: string | undefined): NucleusRime {
+  const { syllableIndex } = entries[index];
+  const codaSounds: string[] = [];
+  let next = index + 1;
+  for (; next < entries.length && entries[next].syllableIndex === syllableIndex; next++) {
+    if (entries[next].position === "coda") codaSounds.push(entries[next].phoneme.sound);
+  }
+  const after = entries[next];
+  const vowelAfterCoda = after ? after.position === "nucleus" : !!following && isVowelChar(following[0], 0, following);
+  return { codaSounds, vowelAfterCoda };
 }
 
 /** Live syllable counts include empty syllables; detached evidence counts only recorded phones. */

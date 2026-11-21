@@ -1,5 +1,6 @@
 /** Diphthong graphemes: /aɪ/, /aʊ/, /ɔɪ/, /eɪ/, /əʊ/. */
 import { Grapheme } from "../../types.js";
+import { DIGRAPH_CONSONANTS, openReading } from "./open-reading.js";
 
 export const diphthongGraphemes: Grapheme[] = [
   // my
@@ -12,6 +13,26 @@ export const diphthongGraphemes: Grapheme[] = [
     endWord: 10,
     // Comparator ~19–20% bare / ~63% split — prefer silentE from "i".
     isolatedSyllableWeight: 5,
+    // Closed "i" reads /ɪ/ (liskicky, #470) except before nd/ld/nt (kind,
+    // wild, pint) or a consonant a reader moves onto a following vowel.
+    // English has no /aɪŋ/ spelling; its alternative "ie" becomes "iing"
+    // through eng-to-ing, so "i" stays before /ŋ/ (+s/z), in any syllable.
+    condition: {
+      openReading: openReading(["n", "d"], ["l", "d"], ["n", "t"], ["ŋ"], ["ŋ", "s"], ["ŋ", "z"]),
+    },
+  },
+  // Before other clusters and digraph codas English has no spelling that
+  // reads /aɪ/ (#470): ie reads /i:/ there (fiechloties, as in field), and
+  // only final igh before /t/ works (nights). Keep the bare letter for those.
+  {
+    phoneme: "aɪ",
+    form: "i",
+    frequency: 10,
+    startWord: 1,
+    midWord: 10,
+    endWord: 10,
+    isolatedSyllableWeight: 5,
+    fallbackOnly: true,
   },
   {
     phoneme: "aɪ",
@@ -39,7 +60,7 @@ export const diphthongGraphemes: Grapheme[] = [
   },
   // English writes ie for /aɪ/ only after a consonant (pie, tried). Without an
   // onset it surfaces as a word-initial or hiatus "ie" (#472: iesitur,
-  // iniesewnly).
+  // iniesewnly), so it needs one.
   {
     phoneme: "aɪ",
     form: "ie",
@@ -48,7 +69,25 @@ export const diphthongGraphemes: Grapheme[] = [
     midWord: 10,
     endWord: 1,
     isolatedSyllableWeight: 2,
-    condition: { syllableShape: { onset: "nonEmpty" } },
+    condition: { syllableShape: { onset: "nonEmpty", coda: "empty" } },
+  },
+  // Closed ie is only legible where magic-e splits it: before one coda
+  // consonant (ice, ire; lisekicky). Magic-e cannot split a digraph coda
+  // (ieshoor), so the consonants always spelled with two letters are
+  // excluded; before a cluster ie reads /i:/ (fiends; #470 fiechloties).
+  {
+    phoneme: "aɪ",
+    form: "ie",
+    frequency: 1,
+    startWord: 10,
+    midWord: 10,
+    endWord: 1,
+    isolatedSyllableWeight: 2,
+    // Not before /g/ either: the split "ige" reads /aɪdʒ/ (pigevanting).
+    condition: {
+      syllableShape: { onset: "nonEmpty", coda: 1 },
+      notRightContext: [...DIGRAPH_CONSONANTS, "g"],
+    },
   },
   { 
     phoneme: "aɪ", 
@@ -59,6 +98,8 @@ export const diphthongGraphemes: Grapheme[] = [
     endWord: 0,
     // Review: no mono /aɪ/ "ai" licensing (comparator has 0).
     isolatedSyllableWeight: 0,
+    // Closed "ai" reads /eɪ/ (paint); since #470 it would take closed /aɪ/.
+    condition: { syllableShape: { coda: "empty" } },
   },
   {
     phoneme: "aɪ",
@@ -69,8 +110,10 @@ export const diphthongGraphemes: Grapheme[] = [
     endWord: 0,
     // English writes /aɪ/ as "is" only for an onsetless /aɪ/ before /l/ (isle,
     // island). Without this, onsetless /aɪ/ moved from ie to is (israke,
-    // isptifcab; #472); after an onset it reads /ɪs/ (lisltig).
-    condition: { rightContext: ["l"], syllableShape: { onset: "empty" } },
+    // isptifcab; #472); after an onset it reads /ɪs/ (lisltig). Before an
+    // onset /l/ only (is-land): once closed /aɪ/ lost bare i (#470), a coda /l/
+    // took is (islkane, islpearmer).
+    condition: { rightContext: ["l"], syllableShape: { onset: "empty", coda: "empty" } },
   },
   {
     phoneme: "aɪ",
@@ -156,6 +199,10 @@ export const diphthongGraphemes: Grapheme[] = [
     endWord: 0,
     // Comparator ~56% "a" (mostly split via silentE); keep mono path for magic-e.
     isolatedSyllableWeight: 3,
+    // Closed "a" reads /æ/ (kalmrel, #470) except before /dʒ/, whose "ge"
+    // supplies the split marker (age, change), or a consonant a reader moves
+    // onto a following vowel.
+    condition: { openReading: openReading(["dʒ"], ["n", "dʒ"]) },
   },
   // Closed poly-final /eɪ/ after #459: ay/ey no longer cover coda finals.
   // "ae" + one coda consonant is split by the magic-e rule (pae+n → pane); a
