@@ -107,6 +107,10 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 5,
     endWord: 10,
+    // English writes /aʊ/ before /t/ as ou (out, doubt, shout), almost never
+    // ow (#473: razowtity). ow stays before n, l, d, z and vowels (town, owl,
+    // crowd, browse, tower).
+    condition: { notRightContext: ["t"] },
   },
   {
     phoneme: "aʊ",
@@ -136,6 +140,10 @@ export const diphthongGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 5,
     endWord: 20,
+    // Open-syllable only (#473), as for ay/ey (#459): English writes oy at word
+    // end or before a vowel or suffix (boy, royal, toys), and oi before a coda
+    // (point, moist), not udoyts.
+    condition: { syllableShape: { coda: "empty" } },
   },
 
   // day
