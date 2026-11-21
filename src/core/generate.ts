@@ -35,6 +35,7 @@ import {
 import {
   createWrittenFormGenerator,
   repairConsonantLetters,
+  type RootAttachment,
   type WrittenFormGenerator,
 } from "./write.js";
 import {
@@ -66,8 +67,10 @@ import {
   repairNucleusWordPositions,
 } from "./nucleus-position.js";
 import {
+  attachRootWritten,
   planMorphology,
   prepareMorphology,
+  resoundedRootPhones,
   writeMorphology,
 } from "./morphology/index.js";
 import type { PreparedMorphology } from "./morphology/index.js";
@@ -1719,6 +1722,7 @@ function spellLexicalRoot(
   root: Syllable[],
   wordSyllableStart: number,
   following?: string,
+  attachment?: RootAttachment,
 ): BaseSpelling {
   const rootContext: WordGenerationContext = {
     ...context,
@@ -1738,7 +1742,7 @@ function spellLexicalRoot(
     context.trace,
     "generateWrittenForm",
     rootContext.word,
-    () => rt.generateWrittenForm(rootContext, source, following),
+    () => rt.generateWrittenForm(rootContext, source, following, attachment),
   );
   context.word.written = rootContext.word.written;
   return baseSpelling;
@@ -1899,6 +1903,10 @@ function spellAttempt(
     affixed.root,
     morphology.rootSyllableStart,
     morphology.suffixWritten,
+    {
+      attach: (written) => attachRootWritten(morphology, written).written,
+      resounded: resoundedRootPhones(morphology, affixed.root),
+    },
   );
   return affixed;
 }

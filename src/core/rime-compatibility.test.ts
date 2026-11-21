@@ -31,6 +31,8 @@ function fixedRoot(nuclei: Phoneme[] = [schwa, rhotic, goose], syllables = 2): L
     clusterWeights: undefined,
     codaConstraints: { allowedFinal: ["ŋ"], bannedNucleusCodaCombinations: pairRules },
     gapSpellings: [], morphology: undefined,
+    // The English hard-c rule names short vowels this reduced inventory lacks.
+    writtenFormConstraints: { ...englishConfig.writtenFormConstraints, hardLetters: undefined },
     syllableStructure: { maxOnsetLength: 1, maxNucleusLength: 1, maxCodaLength: 1 },
     phonemeLengthWeights: { text: [[target, 1]], lexicon: [[target, 1]] },
     phonemeToSyllableWeights: { text: { [target]: [[syllables, 1]] }, lexicon: { [target]: [[syllables, 1]] } },

@@ -32,6 +32,11 @@ generated words or rejected attempts. The chosen attempt carries the trace.
   exact unit ownership. A replacement cell records the exact edit ID and the
   transitive source units consumed by that edit, but its phoneme ownership is
   **unresolved**. Source lineage does not license a pronunciation.
+  `BaseSpelling.letterSource` infers which phone supplied a replacement cell's
+  letter from that lineage: the only source unit whose spelling contains the
+  letter (magic-e's `iec` → `ice` keeps `c` with /k/). It returns nothing when
+  the lineage is ambiguous. The hard-letter respell uses it to tell /k/ `c` from
+  /s/ `c`.
 - An edit records its actual rule, phase, current offset, consumed cells and
   produced cells. Pure insertions have no consumed source units. Deleted cells
   remain in the event history; surviving cells keep their IDs. IDs and edit
