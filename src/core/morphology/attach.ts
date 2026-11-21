@@ -222,20 +222,42 @@ function getBoundarySegmentRef(
 // Config-driven boundary transforms
 // ---------------------------------------------------------------------------
 
-export function applyBoundaryTransforms(
+/** Result of applying config-driven boundary transforms to a root spelling. */
+export interface BoundaryTransformApplication {
+  /** Root spelling after transforms. */
+  written: string;
+  /** Affix written override from the last fired transform that set one. */
+  affixWritten?: string;
+  /** Names of transforms that fired, in order. */
+  fired: string[];
+}
+
+/** Apply boundary transforms and report which fired (including affix written overrides). */
+export function applyBoundaryTransformsDetailed(
   rootWritten: string,
   transforms: BoundaryTransform[],
-): string {
+): BoundaryTransformApplication {
+  const firedNames: string[] = [];
   const fired = new Set<string>();
   let result = rootWritten;
+  let affixWritten: string | undefined;
   for (const t of transforms) {
     if (t.blockedBy && t.blockedBy.some((name) => fired.has(name))) continue;
     if (t.match.test(result)) {
       result = result.replace(t.match, t.replace);
       fired.add(t.name);
+      firedNames.push(t.name);
+      if (t.affixWritten !== undefined) affixWritten = t.affixWritten;
     }
   }
-  return result;
+  return { written: result, affixWritten, fired: firedNames };
+}
+
+export function applyBoundaryTransforms(
+  rootWritten: string,
+  transforms: BoundaryTransform[],
+): string {
+  return applyBoundaryTransformsDetailed(rootWritten, transforms).written;
 }
 
 // ---------------------------------------------------------------------------
@@ -739,12 +761,25 @@ export function prepareMorphology(
   };
 }
 
+function withAffixWritten(
+  resolved: ResolvedAffix | undefined,
+  affixWritten: string | undefined,
+): ResolvedAffix | undefined {
+  if (!resolved || affixWritten === undefined) return resolved;
+  return {
+    ...resolved,
+    resolved: { ...resolved.resolved, written: affixWritten },
+  };
+}
+
 /** Apply the written halves of the already-resolved morphological rules once. */
 export function writeMorphology(
   context: WordGenerationContext,
   prepared: PreparedMorphology,
 ): MorphologyResult {
-  const { plan, prefix, suffix, prefixWritten, suffixWritten } = prepared;
+  const { plan, prefix, suffix } = prepared;
+  let prefixWritten = prepared.prefixWritten;
+  let suffixWritten = prepared.suffixWritten;
   let rootWritten = context.word.written.clean;
   const fired: FiredMorphophonemicRule[] = [];
   for (const { rule, event } of prepared.rules) {
@@ -766,34 +801,49 @@ export function writeMorphology(
     )
       fired.push(writtenEvent);
   }
-  for (const affix of [plan.prefix, plan.suffix]) {
-    if (affix?.boundaryTransforms)
-      rootWritten = applyBoundaryTransforms(
-        rootWritten,
-        affix.boundaryTransforms,
-      );
+  let prefixOverride: string | undefined;
+  let suffixOverride: string | undefined;
+  if (plan.prefix?.boundaryTransforms) {
+    const applied = applyBoundaryTransformsDetailed(
+      rootWritten,
+      plan.prefix.boundaryTransforms,
+    );
+    rootWritten = applied.written;
+    prefixOverride = applied.affixWritten;
   }
+  if (plan.suffix?.boundaryTransforms) {
+    const applied = applyBoundaryTransformsDetailed(
+      rootWritten,
+      plan.suffix.boundaryTransforms,
+    );
+    rootWritten = applied.written;
+    suffixOverride = applied.affixWritten;
+  }
+  if (prefixOverride !== undefined) prefixWritten = prefixOverride;
+  if (suffixOverride !== undefined) suffixWritten = suffixOverride;
+  const resolvedPrefix = withAffixWritten(prefix, prefixOverride);
+  const resolvedSuffix = withAffixWritten(suffix, suffixOverride);
   if (context.trace?.morphologyTrace && fired.length > 0)
     context.trace.morphologyTrace.alternations = fired;
   context.word.written.clean = prefixWritten + rootWritten + suffixWritten;
 
   const parts: MorphologyWrittenPart[] = [];
-  if (prefix) parts.push({ role: "prefix", text: prefixWritten });
+  if (resolvedPrefix) parts.push({ role: "prefix", text: prefixWritten });
   parts.push({ role: "root", text: rootWritten });
-  if (suffix) parts.push({ role: "suffix", text: suffixWritten });
+  if (resolvedSuffix) parts.push({ role: "suffix", text: suffixWritten });
   context.word.written.hyphenated = parts
     .filter((part) => part.role === "root" || part.text)
     .map((part) => part.text)
     .join("-");
   if (context.trace?.morphologyTrace) {
     context.trace.morphologyTrace.realization = {
-      prefix,
-      suffix,
+      prefix: resolvedPrefix,
+      suffix: resolvedSuffix,
       assembledParts: snapshotWrittenParts(parts),
       emittedParts: snapshotWrittenParts(parts),
     };
   }
-  return { prefix, suffix, parts };
+  return { prefix: resolvedPrefix, suffix: resolvedSuffix, parts };
 }
 
 /** Attach morphology to an already-spelled lexical root; surface realization is separate. */
