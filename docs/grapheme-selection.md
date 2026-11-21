@@ -207,6 +207,22 @@ The trade-off: before a single coda consonant, an onsetless `ie` used to give
 uses put magic-e's `e` before a vowel letter (`iseiloo`, `ileoshize`), and
 removing it scored better on the CMU letter-trigram model.
 
+## /ɔɪ/ `oy` open-syllable only; /aʊ/ `ou` before /t/ (#473)
+
+As for `ay`/`ey` (#459), English writes /ɔɪ/ as `oy` at word end or before a
+vowel or suffix (*boy*, *royal*, *toys*, *enjoyed*) and as `oi` before a coda
+(*point*, *moist*). `oy` now carries `syllableShape: { coda: "empty" }`, so a
+closed /ɔɪ/ is written `oi` (`laroynt` → `laroint`). An open root-final /ɔɪ/
+before a suffix keeps `oy`. A root-final `oi` before a suffix is not always
+rewritten to `oy` (`frois`, `heltwois`).
+
+English writes /aʊ/ before /t/ as `ou` (*out*, *doubt*, *shout*); CMU has
+574 `out` letter trigrams to 20 `owt`. `ow` now has `notRightContext: ["t"]`
+(`razowtity` → `razoutity`) and stays before /n l d z/ and vowels (*town*,
+*owl*, *crowd*, *tower*). /p/ and /m/ are left alone: there `ou` reads /u:/
+(*soup*, *group*) and made `-oum` endings common, and /aʊ/ before them is rare
+in English anyway.
+
 ## /ɑ/ `au` in final syllables
 
 Plain `au` for /ɑ/ had `endWord: 0`, so a final syllable could only choose the

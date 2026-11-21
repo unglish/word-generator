@@ -243,3 +243,20 @@ Identified and implemented two high-ROI optimizations to the word generation hot
 - Status: Completed.
 - Words starting with `ie` 68 → 1 (the /i:/ `iend`); onsetless /aɪ/ `ie` 124 → 0 words; /aɪ/ `is` not before /l/ 31 → 0. On 100k seeds, root-initial onsetless /aɪ/ is now `i` 89%, `eye` 9%, `is` 1% word-initially (main: `ie` 44%, `i` 44%, `eye` 7%, `is` 5%) and `i` 87%, `eye` 12% after a prefix; `is` after an onset 101 → 0.
 - Rejected: an onsetless `ie` kept before one coda consonant for magic-e (*ice*). About 25 of its 43 initial uses put magic-e's `e` before a vowel letter (`iseiloo`), and dropping it scored better on the trigram model (42 words: −2.830 → −2.745, 24 better / 18 worse).
+
+---
+
+# Issue #473 — /ɔɪ/ `oy` open-syllable only (Completed)
+
+## Plan
+
+- [x] Measure before counts (seeds 2000000–2019999)
+- [x] Add `syllableShape: { coda: "empty" }` to /ɔɪ/ → `oy`; check `oy` before a suffix survives
+- [x] Issue note: /aʊ/ → `ow` gets `notRightContext: ["t"]` (/p/ and /m/ left alone: `ou` there reads /u:/ and raised `-oum`)
+- [x] Add seeded + distribution tests; update grapheme-selection.md
+
+## Review
+
+- Status: Completed.
+- /ɔɪ/ `oy` before a same-syllable coda 58 → 0 words (all now `oi`); surface `oy` + consonant letter 65 → 7 (6 are `oy` + suffix, *toys* type; 1 is a medial open `oy` before the next onset, `cengoyquacar`, *boycott* type).
+- /aʊ/ `ow` before /t/ 16 → 0 words; trigram score better for 14 of the 14 changed words.
