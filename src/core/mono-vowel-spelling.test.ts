@@ -119,9 +119,13 @@ describe("monosyllable vowel spelling distribution (#450)", () => {
     // /aɪ/ "ai" must stay unlicensed on monos.
     expect(share("aɪ", "ai") + share("aɪ", "ai+e")).toBe(0);
 
-    // aw before consonant clusters: comparator ~0%; require under 1% of /ɔ/.
+    // aw before consonant clusters: comparator ~0%. The count is about 5 of
+    // ~850 /ɔ/ per seed triple, so the bound is calibrated like the phoneme
+    // gate (worst + 3 SD, rounded outward): on main 81df038c, 30 triples
+    // (seeds 1000–1089) gave mean 0.58%, SD 0.22%, worst 0.94%, and this
+    // triple 0.92%. A 1% bound failed spelling-only RNG reshuffles.
     expect(oTotal).toBeGreaterThan(0);
-    expect(awCluster / oTotal).toBeLessThan(0.01);
+    expect(awCluster / oTotal).toBeLessThan(0.016);
 
     // Closed-syllable surface "ow" for /əʊ/: comparator ~4% of /əʊ/ (single only).
     expect(ouTotal).toBeGreaterThan(0);
