@@ -110,7 +110,8 @@ describe("illegal syllable-join clusters (#418)", () => {
           property: `a syllable join ${pair}`,
           generator: unconstrained,
           options: { morphology: false },
-          limit: 20_000,
+          // #463's /ŋ/ reweight shifts this search; ʃ|h is rarer but still present.
+          limit: 50_000,
         },
       );
       // Without the ban the final word still carries the pair (no repair).

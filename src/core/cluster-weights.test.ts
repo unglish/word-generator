@@ -116,7 +116,8 @@ describe("Position-based cluster weighting", () => {
     // Current tuning strongly suppresses /ns/ while allowing /ts/ to remain
     // near baseline for broader coda coverage.
     expect(nsWithWeights).toBeLessThan(nsNoWeights * 0.4); // At least 60% reduction
-    expect(tsWithWeights).toBeLessThan(tsNoWeights * 1.2); // No major inflation
+    // #463's /ŋ/ reweight shifts this 10k sample; keep "no major inflation".
+    expect(tsWithWeights).toBeLessThan(tsNoWeights * 1.3);
     
     // With top-down phoneme targeting, baseline rates are lower than the old
     // bottom-up pipeline but should still be materially above weighted rates.
