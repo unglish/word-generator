@@ -158,11 +158,14 @@ describe("legal grapheme selection", () => {
     expect(finalSyllableOnsets).toBeGreaterThan(1000);
     expect(singletonWeightsOtherThanOne).toBeGreaterThan(1000);
 
-    // Declared fallbacks still fire in shipping config: seed 20260930 hits
-    // /ʊ/ "oo" after g (5× in 10k). /i:/ "ee" fallbackOnly is unused (#457).
+    // Declared fallbacks still fire in shipping config: /ʊ/ "oo" after g, about
+    // 4 in 10k bare words. /i:/ "ee" fallbackOnly is unused (#457). Check every
+    // fallback in the first 10k draws, and keep drawing past that until one
+    // appears, so an output change elsewhere that shifts the RNG stream cannot
+    // push the first hit out of a fixed window.
     const fallbackRand = createSeededRng(20260930);
     let fallbackChoices = 0;
-    for (let draw = 0; draw < 10000; draw++) {
+    for (let draw = 0; draw < 10_000 || (fallbackChoices === 0 && draw < 100_000); draw++) {
       const word = generateWord({ rand: fallbackRand, morphology: false, trace: true });
       for (const choice of word.trace!.graphemeSelections) {
         if (!choice.selection?.fallback) continue;
