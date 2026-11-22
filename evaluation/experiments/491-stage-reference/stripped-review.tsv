@@ -1,0 +1,201 @@
+index	surface	stripping chain	judgment	reason
+1	gainful	gain (ful)	correct	
+2	disowned	owned (dis) → own (ed)	correct	
+3	toddling	toddle (ing)	correct	
+4	appalling	appall (ing)	correct	
+5	rebuilds	rebuild (s) → build (re)	correct	
+6	hospitalizations	hospitalization (s)	correct	
+7	redial	dial (re)	correct	
+8	tastiness	tasty (ness)	correct	
+9	unrolled	unroll (ed) → roll (un)	correct	
+10	entombed	entomb (ed)	correct	
+11	coffers	coffer (s)	correct	
+12	sampans	sampan (s)	correct	
+13	whispering	whisper (ing)	correct	
+14	diminishes	diminish (s)	correct	
+15	refinances	refinance (s) → finance (re)	correct	
+16	nostrils	nostril (s)	correct	
+17	confusions	confusion (s)	correct	
+18	freelancing	freelance (ing)	correct	
+19	sweeps	sweep (s)	correct	
+20	imparting	impart (ing) → part (in)	wrong	The ordinary sense of impart does not compose with the modeled in- prefix and modern part.
+21	travails	travail (s)	correct	
+22	preconditions	conditions (pre) → condition (s)	correct	
+23	quarries	quarry (s)	correct	
+24	dolly	doll (ly)	wrong	The toy sense takes a diminutive -y, not -ly. The cart sense likewise lacks -ly.
+25	reopen	open (re)	correct	
+26	reprocessed	reprocess (ed) → process (re)	correct	
+27	distended	tended (dis) → tend (ed)	wrong	The ordinary distend means swell or stretch. Modern tend is not the base of a productive dis- formation.
+28	senseless	sense (less)	correct	
+29	prided	pride (ed)	correct	
+30	booster	boost (er)	correct	
+31	carer	care (er)	correct	
+32	levees	levee (s)	correct	
+33	bribes	bribe (s)	correct	
+34	postscripts	postscript (s)	correct	
+35	gearboxes	gearbox (s)	correct	
+36	robots	robot (s)	correct	
+37	intrigued	intrigue (ed)	correct	
+38	thriving	thrive (ing)	correct	
+39	intensifies	intensify (s)	correct	
+40	insisted	insist (ed)	correct	
+41	inaudibly	audibly (in)	debatable	The negative prefix is valid, but audible + -ly is also apparent. The first CMU vowels of audibly and inaudibly differ, and removing both affixes requires the -ble to -bly alternation.
+42	publicists	publicist (s)	correct	
+43	upholds	uphold (s)	correct	
+44	navigational	navigation (al)	correct	
+45	cheapness	cheap (ness)	correct	
+46	taxis	taxi (s)	correct	
+47	occupants	occupant (s)	correct	
+48	oppressing	oppress (ing)	correct	
+49	precautions	cautions (pre) → caution (s)	correct	
+50	raveling	ravel (ing)	correct	
+51	polygraphs	polygraph (s)	correct	
+52	dikes	dike (s)	correct	
+53	jester	jest (er)	correct	
+54	revaluing	valuing (re)	debatable	Re- is valid. The chain stops at valuing even though value + -ing is transparent. The Phase 1 silent-e rule excludes vowel-final stems here.
+55	routines	routine (s)	correct	
+56	thrilling	thrill (ing)	correct	
+57	cowed	cow (ed)	correct	
+58	prejudge	judge (pre)	correct	
+59	things	thing (s)	correct	
+60	purrs	purr (s)	correct	
+61	torments	torment (s)	correct	
+62	voltages	voltage (s)	correct	
+63	sooner	soon (er)	correct	
+64	detaining	detain (ing)	correct	
+65	drilling	drill (ing)	correct	
+66	carded	card (ed)	correct	
+67	parlors	parlor (s)	correct	
+68	gobbled	gobble (ed)	correct	
+69	fireballs	fireball (s)	correct	
+70	redwoods	redwood (s)	correct	
+71	constructing	construct (ing)	correct	
+72	sheriffs	sheriff (s)	correct	
+73	mates	mate (s)	correct	
+74	insoluble	soluble (in)	correct	
+75	infomercials	infomercial (s)	correct	
+76	structurally	structural (ly)	correct	
+77	toenails	toenail (s)	correct	
+78	microns	micron (s)	correct	
+79	aromas	aroma (s)	correct	
+80	maturing	mature (ing)	correct	
+81	trinkets	trinket (s)	correct	
+82	executions	execution (s)	correct	
+83	decomposes	decompose (s)	correct	
+84	annually	annual (ly)	correct	
+85	hydrolyzing	hydrolyze (ing)	correct	
+86	badly	bad (ly)	correct	
+87	raises	raise (s)	correct	
+88	mating	mate (ing)	correct	
+89	lodges	lodge (s)	correct	
+90	overlapping	overlap (ing) → lap (over)	correct	
+91	reintroduce	introduce (re)	correct	
+92	colluded	collude (ed)	correct	
+93	protestations	protestation (s)	correct	
+94	conferences	conference (s)	correct	
+95	diversity	diverse (ity)	correct	
+96	marketeers	marketeer (s)	correct	
+97	hairdressers	hairdresser (s)	correct	
+98	berating	berate (ing)	correct	
+99	bully	bull (ly)	wrong	The ordinary bully is unrelated to bull + -ly.
+100	libertarians	libertarian (s)	correct	
+101	purports	purport (s)	correct	
+102	disquiet	quiet (dis)	correct	
+103	purveying	purvey (ing)	correct	
+104	return	turn (re)	debatable	The meaning turn back is compatible with a historical analysis, but the ordinary return need not denote turning again.
+105	sequined	sequin (ed)	correct	
+106	peeing	pee (ing)	correct	
+107	repackaged	repackage (ed) → package (re)	correct	
+108	resolves	resolve (s)	correct	
+109	acronyms	acronym (s)	correct	
+110	lashing	lash (ing)	correct	
+111	dripping	drip (ing)	correct	
+112	triglycerides	triglyceride (s)	correct	
+113	gilded	gild (ed)	correct	
+114	themes	theme (s)	correct	
+115	yelling	yell (ing)	correct	
+116	shuffler	shuffle (er)	correct	
+117	intermixing	intermix (ing)	correct	
+118	reincarnated	reincarnate (ed)	correct	
+119	outvoted	voted (out) → vote (ed)	correct	
+120	speculating	speculate (ing)	correct	
+121	oiled	oil (ed)	correct	
+122	bazaars	bazaar (s)	correct	
+123	webmasters	webmaster (s)	correct	
+124	restated	restate (ed) → state (re)	correct	
+125	transcribes	transcribe (s)	correct	
+126	ordered	order (ed)	correct	
+127	unnerving	unnerve (ing) → nerve (un)	correct	
+128	mistrial	trial (mis) → try (al)	correct	
+129	institutes	institute (s)	correct	
+130	budged	budge (ed)	correct	
+131	whitening	whiten (ing)	correct	
+132	balancing	balance (ing)	correct	
+133	shored	shore (ed)	correct	
+134	efforts	effort (s)	correct	
+135	raining	rain (ing)	correct	
+136	zaps	zap (s)	correct	
+137	aprons	apron (s)	correct	
+138	billowed	billow (ed)	correct	
+139	testifying	testify (ing)	correct	
+140	detracts	detract (s)	correct	
+141	famines	famine (s)	correct	
+142	adoptions	adoption (s)	correct	
+143	unlawful	lawful (un) → law (ful)	correct	
+144	unpleasant	pleasant (un)	correct	
+145	shoves	shove (s)	correct	
+146	proudly	proud (ly)	correct	
+147	internment	intern (ment)	correct	
+148	distrusted	trusted (dis) → trust (ed)	correct	
+149	texted	text (ed)	correct	
+150	recapitulates	recapitulate (s)	correct	
+151	overworks	works (over) → work (s)	correct	
+152	friars	friar (s)	correct	
+153	marinated	marinate (ed)	correct	
+154	interiors	interior (s)	correct	
+155	archer	arch (er)	correct	
+156	concentrations	concentration (s)	correct	
+157	paupers	pauper (s)	correct	
+158	appointment	appoint (ment)	correct	
+159	officials	official (s)	correct	
+160	flouting	flout (ing)	correct	
+161	hyper	hype (er)	wrong	Ordinary hyper is a clipped adjective or prefix. The first pronunciation does not support the comparative of hype.
+162	whips	whip (s)	correct	
+163	polkas	polka (s)	correct	
+164	humanitarians	humanitarian (s)	correct	
+165	buoys	buoy (s)	correct	
+166	judicially	judicial (ly)	correct	
+167	bookshops	bookshop (s)	correct	
+168	polling	poll (ing)	correct	
+169	underscores	underscore (s)	correct	
+170	sisters	sister (s)	correct	
+171	refunds	funds (re) → fund (s)	wrong	Ordinary refunds is a noun plural or verb form of refund, not fund again.
+172	graceful	grace (ful)	correct	
+173	remedial	medial (re)	wrong	Remedial concerns a remedy or remediation. It is unrelated to medial.
+174	distributions	distribution (s)	correct	
+175	exploited	exploit (ed)	correct	
+176	liquids	liquid (s)	correct	
+177	counterfeits	counterfeit (s)	correct	
+178	graphs	graph (s)	correct	
+179	inscriptions	inscription (s)	correct	
+180	rapids	rapid (s)	correct	
+181	hypnotized	hypnotize (ed)	correct	
+182	dialing	dial (ing)	correct	
+183	broadest	broad (est)	correct	
+184	ptomaines	ptomaine (s)	correct	
+185	ionize	ion (ize)	correct	
+186	cheeriest	cheery (est)	correct	
+187	disequilibrium	equilibrium (dis)	correct	
+188	mercenaries	mercenary (s)	correct	
+189	rotted	rot (ed)	correct	
+190	untrue	true (un)	correct	
+191	ankles	ankle (s)	correct	
+192	dining	dine (ing)	correct	
+193	liberated	liberate (ed)	correct	
+194	orchestrated	orchestrate (ed)	correct	
+195	neanderthals	neanderthal (s)	correct	
+196	refill	fill (re)	correct	
+197	taxonomies	taxonomy (s)	correct	
+198	scanned	scan (ed)	correct	
+199	competing	compete (ing)	correct	
+200	wearer	wear (er)	correct	

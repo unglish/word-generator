@@ -1,0 +1,1474 @@
+{
+  "stage": "roots",
+  "sampleSize": 200000,
+  "k": 3,
+  "results": [
+    {
+      "seed": 42,
+      "draws": 12920719,
+      "normalizationLosses": 0,
+      "sharedPearsonR": 0.9609268731990964,
+      "totalVariationPct": 7.499686137002118,
+      "nonCmuMassPct": 0,
+      "maxOverRepresentation": 2.0516179538957138,
+      "maxOverPhoneme": "z",
+      "minRepresentation": 0.5817697661006581,
+      "minRepPhoneme": "ʃ",
+      "maxAbsoluteGapPct": 2.8272415101053516,
+      "maxGapPhoneme": "ə",
+      "cmuOnlyKeyCount": 0,
+      "phonemes": [
+        {
+          "phoneme": "z",
+          "generatedPct": 2.090224013726322,
+          "baselinePct": 1.0188173727751315,
+          "ratio": 2.0516179538957138,
+          "gapPct": 1.0714066409511904,
+          "absGapPct": 1.0714066409511904
+        },
+        {
+          "phoneme": "əʊ",
+          "generatedPct": 2.3239174533617777,
+          "baselinePct": 1.5049197793933313,
+          "ratio": 1.54421350904073,
+          "gapPct": 0.8189976739684464,
+          "absGapPct": 0.8189976739684464
+        },
+        {
+          "phoneme": "i:",
+          "generatedPct": 4.3873213228009655,
+          "baselinePct": 3.1684789420907493,
+          "ratio": 1.384677443968099,
+          "gapPct": 1.2188423807102162,
+          "absGapPct": 1.2188423807102162
+        },
+        {
+          "phoneme": "h",
+          "generatedPct": 1.1329982125727942,
+          "baselinePct": 0.8292335171722235,
+          "ratio": 1.366319847316883,
+          "gapPct": 0.3037646954005707,
+          "absGapPct": 0.3037646954005707
+        },
+        {
+          "phoneme": "ɑ",
+          "generatedPct": 2.888014103726689,
+          "baselinePct": 2.255812860366006,
+          "ratio": 1.280254295233563,
+          "gapPct": 0.632201243360683,
+          "absGapPct": 0.632201243360683
+        },
+        {
+          "phoneme": "ɜ",
+          "generatedPct": 3.7188270423932996,
+          "baselinePct": 2.988295938831787,
+          "ratio": 1.244464108814838,
+          "gapPct": 0.7305311035615127,
+          "absGapPct": 0.7305311035615127
+        },
+        {
+          "phoneme": "w",
+          "generatedPct": 1.1112450662291573,
+          "baselinePct": 0.9698546001504136,
+          "ratio": 1.1457852198224514,
+          "gapPct": 0.14139046607874373,
+          "absGapPct": 0.14139046607874373
+        },
+        {
+          "phoneme": "v",
+          "generatedPct": 1.426359921094611,
+          "baselinePct": 1.2675482577086987,
+          "ratio": 1.1252904277372369,
+          "gapPct": 0.15881166338591224,
+          "absGapPct": 0.15881166338591224
+        },
+        {
+          "phoneme": "l",
+          "generatedPct": 6.179116630061973,
+          "baselinePct": 5.526134369516169,
+          "ratio": 1.1181625738505114,
+          "gapPct": 0.6529822605458042,
+          "absGapPct": 0.6529822605458042
+        },
+        {
+          "phoneme": "tʃ",
+          "generatedPct": 0.7035264558446072,
+          "baselinePct": 0.631032213587365,
+          "ratio": 1.1148819992011476,
+          "gapPct": 0.0724942422572421,
+          "absGapPct": 0.0724942422572421
+        },
+        {
+          "phoneme": "t",
+          "generatedPct": 8.144238211804005,
+          "baselinePct": 7.429806969165203,
+          "ratio": 1.0961574433365224,
+          "gapPct": 0.7144312426388018,
+          "absGapPct": 0.7144312426388018
+        },
+        {
+          "phoneme": "ɔ",
+          "generatedPct": 1.3984914324053734,
+          "baselinePct": 1.2765574078716468,
+          "ratio": 1.095517854333729,
+          "gapPct": 0.12193402453372659,
+          "absGapPct": 0.12193402453372659
+        },
+        {
+          "phoneme": "g",
+          "generatedPct": 1.5097033010617977,
+          "baselinePct": 1.3979850839809476,
+          "ratio": 1.0799137403975139,
+          "gapPct": 0.11171821708085017,
+          "absGapPct": 0.11171821708085017
+        },
+        {
+          "phoneme": "u",
+          "generatedPct": 1.293132819994024,
+          "baselinePct": 1.218585485083981,
+          "ratio": 1.0611753018746202,
+          "gapPct": 0.07454733491004295,
+          "absGapPct": 0.07454733491004295
+        },
+        {
+          "phoneme": "b",
+          "generatedPct": 2.471209841857246,
+          "baselinePct": 2.363139257959388,
+          "ratio": 1.0457317881431918,
+          "gapPct": 0.10807058389785817,
+          "absGapPct": 0.10807058389785817
+        },
+        {
+          "phoneme": "k",
+          "generatedPct": 5.655119153077501,
+          "baselinePct": 5.414499247931811,
+          "ratio": 1.0444399184721653,
+          "gapPct": 0.24061990514568965,
+          "absGapPct": 0.24061990514568965
+        },
+        {
+          "phoneme": "ɛ",
+          "generatedPct": 3.1941306691407587,
+          "baselinePct": 3.184538731511657,
+          "ratio": 1.0030120335903556,
+          "gapPct": 0.009591937629101821,
+          "absGapPct": 0.009591937629101821
+        },
+        {
+          "phoneme": "s",
+          "generatedPct": 5.888288420511905,
+          "baselinePct": 5.944864001002757,
+          "ratio": 0.9904832843137691,
+          "gapPct": -0.05657558049085232,
+          "absGapPct": 0.05657558049085232
+        },
+        {
+          "phoneme": "n",
+          "generatedPct": 6.787942641583278,
+          "baselinePct": 6.872414765605414,
+          "ratio": 0.9877085235825848,
+          "gapPct": -0.08447212402213555,
+          "absGapPct": 0.08447212402213555
+        },
+        {
+          "phoneme": "dʒ",
+          "generatedPct": 0.9167771796390549,
+          "baselinePct": 0.9393018300325896,
+          "ratio": 0.9760197950505929,
+          "gapPct": -0.022524650393534684,
+          "absGapPct": 0.022524650393534684
+        },
+        {
+          "phoneme": "r",
+          "generatedPct": 5.348128967328345,
+          "baselinePct": 5.58136437703685,
+          "ratio": 0.95821175720616,
+          "gapPct": -0.23323540970850498,
+          "absGapPct": 0.23323540970850498
+        },
+        {
+          "phoneme": "d",
+          "generatedPct": 3.332075320050809,
+          "baselinePct": 3.569190273251441,
+          "ratio": 0.9335661774667378,
+          "gapPct": -0.2371149532006318,
+          "absGapPct": 0.2371149532006318
+        },
+        {
+          "phoneme": "ŋ",
+          "generatedPct": 0.5126404126283566,
+          "baselinePct": 0.5526917773878165,
+          "ratio": 0.9275339956227422,
+          "gapPct": -0.04005136475945992,
+          "absGapPct": 0.04005136475945992
+        },
+        {
+          "phoneme": "m",
+          "generatedPct": 3.00743800353292,
+          "baselinePct": 3.316542366507896,
+          "ratio": 0.9067992117041932,
+          "gapPct": -0.30910436297497634,
+          "absGapPct": 0.30910436297497634
+        },
+        {
+          "phoneme": "æ",
+          "generatedPct": 2.525286940599058,
+          "baselinePct": 2.789702933065931,
+          "ratio": 0.9052171507823326,
+          "gapPct": -0.26441599246687275,
+          "absGapPct": 0.26441599246687275
+        },
+        {
+          "phoneme": "f",
+          "generatedPct": 1.696133880569111,
+          "baselinePct": 1.9303083479568814,
+          "ratio": 0.8786854609857382,
+          "gapPct": -0.23417446738777037,
+          "absGapPct": 0.23417446738777037
+        },
+        {
+          "phoneme": "ɪ",
+          "generatedPct": 4.715016310491655,
+          "baselinePct": 5.386296690899973,
+          "ratio": 0.8753725576345559,
+          "gapPct": -0.6712803804083185,
+          "absGapPct": 0.6712803804083185
+        },
+        {
+          "phoneme": "j",
+          "generatedPct": 0.5926640353222172,
+          "baselinePct": 0.6843037102030584,
+          "ratio": 0.8660833289159747,
+          "gapPct": -0.09163967488084113,
+          "absGapPct": 0.09163967488084113
+        },
+        {
+          "phoneme": "aɪ",
+          "generatedPct": 1.336988560815332,
+          "baselinePct": 1.6655176736024064,
+          "ratio": 0.8027465466178528,
+          "gapPct": -0.3285291127870744,
+          "absGapPct": 0.3285291127870744
+        },
+        {
+          "phoneme": "p",
+          "generatedPct": 2.7534765721234735,
+          "baselinePct": 3.508476435196791,
+          "ratio": 0.7848069163300595,
+          "gapPct": -0.7549998630733175,
+          "absGapPct": 0.7549998630733175
+        },
+        {
+          "phoneme": "eɪ",
+          "generatedPct": 1.7358836058155154,
+          "baselinePct": 2.3956505389822005,
+          "ratio": 0.7245980069167396,
+          "gapPct": -0.6597669331666851,
+          "absGapPct": 0.6597669331666851
+        },
+        {
+          "phoneme": "ə",
+          "generatedPct": 6.720499151714653,
+          "baselinePct": 9.547740661820004,
+          "ratio": 0.7038837134097001,
+          "gapPct": -2.8272415101053516,
+          "absGapPct": 2.8272415101053516
+        },
+        {
+          "phoneme": "ʃ",
+          "generatedPct": 0.8456644843630694,
+          "baselinePct": 1.453606793682627,
+          "ratio": 0.5817697661006581,
+          "gapPct": -0.6079423093195575,
+          "absGapPct": 0.6079423093195575
+        }
+      ]
+    },
+    {
+      "seed": 2210667257,
+      "draws": 12864712,
+      "normalizationLosses": 0,
+      "sharedPearsonR": 0.9603585976871185,
+      "totalVariationPct": 7.602303027506465,
+      "nonCmuMassPct": 0,
+      "maxOverRepresentation": 2.0671151604893945,
+      "maxOverPhoneme": "z",
+      "minRepresentation": 0.5904112845917918,
+      "minRepPhoneme": "ʃ",
+      "maxAbsoluteGapPct": 2.8357609782168733,
+      "maxGapPhoneme": "ə",
+      "cmuOnlyKeyCount": 0,
+      "phonemes": [
+        {
+          "phoneme": "z",
+          "generatedPct": 2.106012837033449,
+          "baselinePct": 1.0188173727751315,
+          "ratio": 2.0671151604893945,
+          "gapPct": 1.0871954642583175,
+          "absGapPct": 1.0871954642583175
+        },
+        {
+          "phoneme": "əʊ",
+          "generatedPct": 2.3344759408553877,
+          "baselinePct": 1.5049197793933313,
+          "ratio": 1.5512294893196699,
+          "gapPct": 0.8295561614620564,
+          "absGapPct": 0.8295561614620564
+        },
+        {
+          "phoneme": "i:",
+          "generatedPct": 4.379868966598659,
+          "baselinePct": 3.1684789420907493,
+          "ratio": 1.3823254143859207,
+          "gapPct": 1.2113900245079097,
+          "absGapPct": 1.2113900245079097
+        },
+        {
+          "phoneme": "h",
+          "generatedPct": 1.1277737724707217,
+          "baselinePct": 0.8292335171722235,
+          "ratio": 1.3600195229885943,
+          "gapPct": 0.29854025529849826,
+          "absGapPct": 0.29854025529849826
+        },
+        {
+          "phoneme": "ɑ",
+          "generatedPct": 2.891705159954834,
+          "baselinePct": 2.255812860366006,
+          "ratio": 1.2818905374471772,
+          "gapPct": 0.6358922995888276,
+          "absGapPct": 0.6358922995888276
+        },
+        {
+          "phoneme": "ɜ",
+          "generatedPct": 3.745375768369249,
+          "baselinePct": 2.988295938831787,
+          "ratio": 1.2533483446868474,
+          "gapPct": 0.7570798295374619,
+          "absGapPct": 0.7570798295374619
+        },
+        {
+          "phoneme": "w",
+          "generatedPct": 1.124707741552866,
+          "baselinePct": 0.9698546001504136,
+          "ratio": 1.1596663472838469,
+          "gapPct": 0.15485314140245232,
+          "absGapPct": 0.15485314140245232
+        },
+        {
+          "phoneme": "l",
+          "generatedPct": 6.214056262543352,
+          "baselinePct": 5.526134369516169,
+          "ratio": 1.1244851910988571,
+          "gapPct": 0.6879218930271831,
+          "absGapPct": 0.6879218930271831
+        },
+        {
+          "phoneme": "v",
+          "generatedPct": 1.419747516733959,
+          "baselinePct": 1.2675482577086987,
+          "ratio": 1.1200737392834144,
+          "gapPct": 0.15219925902526033,
+          "absGapPct": 0.15219925902526033
+        },
+        {
+          "phoneme": "ɔ",
+          "generatedPct": 1.4104618230970245,
+          "baselinePct": 1.2765574078716468,
+          "ratio": 1.1048949419741578,
+          "gapPct": 0.13390441522537766,
+          "absGapPct": 0.13390441522537766
+        },
+        {
+          "phoneme": "tʃ",
+          "generatedPct": 0.6944122024526496,
+          "baselinePct": 0.631032213587365,
+          "ratio": 1.1004385948935549,
+          "gapPct": 0.06337998886528451,
+          "absGapPct": 0.06337998886528451
+        },
+        {
+          "phoneme": "g",
+          "generatedPct": 1.532752656277786,
+          "baselinePct": 1.3979850839809476,
+          "ratio": 1.09640129486437,
+          "gapPct": 0.13476757229683844,
+          "absGapPct": 0.13476757229683844
+        },
+        {
+          "phoneme": "t",
+          "generatedPct": 8.130150384436478,
+          "baselinePct": 7.429806969165203,
+          "ratio": 1.0942613204054699,
+          "gapPct": 0.7003434152712744,
+          "absGapPct": 0.7003434152712744
+        },
+        {
+          "phoneme": "u",
+          "generatedPct": 1.2856305642986106,
+          "baselinePct": 1.218585485083981,
+          "ratio": 1.0550187738449954,
+          "gapPct": 0.06704507921462954,
+          "absGapPct": 0.06704507921462954
+        },
+        {
+          "phoneme": "b",
+          "generatedPct": 2.4652640597227786,
+          "baselinePct": 2.363139257959388,
+          "ratio": 1.0432157357715675,
+          "gapPct": 0.10212480176339067,
+          "absGapPct": 0.10212480176339067
+        },
+        {
+          "phoneme": "k",
+          "generatedPct": 5.6258163307318805,
+          "baselinePct": 5.414499247931811,
+          "ratio": 1.039028001136169,
+          "gapPct": 0.21131708280006922,
+          "absGapPct": 0.21131708280006922
+        },
+        {
+          "phoneme": "ɛ",
+          "generatedPct": 3.2192448628651977,
+          "baselinePct": 3.184538731511657,
+          "ratio": 1.0108983228905701,
+          "gapPct": 0.03470613135354084,
+          "absGapPct": 0.03470613135354084
+        },
+        {
+          "phoneme": "s",
+          "generatedPct": 5.911570412276038,
+          "baselinePct": 5.944864001002757,
+          "ratio": 0.9943996046467838,
+          "gapPct": -0.033293588726718504,
+          "absGapPct": 0.033293588726718504
+        },
+        {
+          "phoneme": "n",
+          "generatedPct": 6.751400081118419,
+          "baselinePct": 6.872414765605414,
+          "ratio": 0.9823912425814808,
+          "gapPct": -0.12101468448699482,
+          "absGapPct": 0.12101468448699482
+        },
+        {
+          "phoneme": "dʒ",
+          "generatedPct": 0.9148160250047962,
+          "baselinePct": 0.9393018300325896,
+          "ratio": 0.9739319095897601,
+          "gapPct": -0.024485805027793406,
+          "absGapPct": 0.024485805027793406
+        },
+        {
+          "phoneme": "r",
+          "generatedPct": 5.346544714556902,
+          "baselinePct": 5.58136437703685,
+          "ratio": 0.9579279103428445,
+          "gapPct": -0.23481966247994812,
+          "absGapPct": 0.23481966247994812
+        },
+        {
+          "phoneme": "ŋ",
+          "generatedPct": 0.5189476330679319,
+          "baselinePct": 0.5526917773878165,
+          "ratio": 0.9389458180844135,
+          "gapPct": -0.033744144319884595,
+          "absGapPct": 0.033744144319884595
+        },
+        {
+          "phoneme": "d",
+          "generatedPct": 3.306933347115873,
+          "baselinePct": 3.569190273251441,
+          "ratio": 0.9265220102999275,
+          "gapPct": -0.26225692613556806,
+          "absGapPct": 0.26225692613556806
+        },
+        {
+          "phoneme": "m",
+          "generatedPct": 2.994811399678155,
+          "baselinePct": 3.316542366507896,
+          "ratio": 0.9029920527840255,
+          "gapPct": -0.3217309668297412,
+          "absGapPct": 0.3217309668297412
+        },
+        {
+          "phoneme": "æ",
+          "generatedPct": 2.511692527907452,
+          "baselinePct": 2.789702933065931,
+          "ratio": 0.9003440825676228,
+          "gapPct": -0.27801040515847886,
+          "absGapPct": 0.27801040515847886
+        },
+        {
+          "phoneme": "j",
+          "generatedPct": 0.5994528448824878,
+          "baselinePct": 0.6843037102030584,
+          "ratio": 0.8760040840705188,
+          "gapPct": -0.08485086532057051,
+          "absGapPct": 0.08485086532057051
+        },
+        {
+          "phoneme": "f",
+          "generatedPct": 1.6864046057040443,
+          "baselinePct": 1.9303083479568814,
+          "ratio": 0.8736451911887575,
+          "gapPct": -0.24390374225283717,
+          "absGapPct": 0.24390374225283717
+        },
+        {
+          "phoneme": "ɪ",
+          "generatedPct": 4.672806320578938,
+          "baselinePct": 5.386296690899973,
+          "ratio": 0.8675360064130033,
+          "gapPct": -0.7134903703210353,
+          "absGapPct": 0.7134903703210353
+        },
+        {
+          "phoneme": "aɪ",
+          "generatedPct": 1.3368770810684858,
+          "baselinePct": 1.6655176736024064,
+          "ratio": 0.8026796126257295,
+          "gapPct": -0.32864059253392064,
+          "absGapPct": 0.32864059253392064
+        },
+        {
+          "phoneme": "p",
+          "generatedPct": 2.7521569527507115,
+          "baselinePct": 3.508476435196791,
+          "ratio": 0.7844307931332429,
+          "gapPct": -0.7563194824460795,
+          "absGapPct": 0.7563194824460795
+        },
+        {
+          "phoneme": "eɪ",
+          "generatedPct": 1.7353734995063694,
+          "baselinePct": 2.3956505389822005,
+          "ratio": 0.7243850767331232,
+          "gapPct": -0.660277039475831,
+          "absGapPct": 0.660277039475831
+        },
+        {
+          "phoneme": "ə",
+          "generatedPct": 6.711979683603131,
+          "baselinePct": 9.547740661820004,
+          "ratio": 0.702991411407239,
+          "gapPct": -2.8357609782168733,
+          "absGapPct": 2.8357609782168733
+        },
+        {
+          "phoneme": "ʃ",
+          "generatedPct": 0.8582258543495154,
+          "baselinePct": 1.453606793682627,
+          "ratio": 0.5904112845917918,
+          "gapPct": -0.5953809393331115,
+          "absGapPct": 0.5953809393331115
+        }
+      ]
+    },
+    {
+      "seed": 126367176,
+      "draws": 12918846,
+      "normalizationLosses": 0,
+      "sharedPearsonR": 0.960504250628005,
+      "totalVariationPct": 7.565959124777653,
+      "nonCmuMassPct": 0,
+      "maxOverRepresentation": 2.0624467757294185,
+      "maxOverPhoneme": "z",
+      "minRepresentation": 0.5806511329253827,
+      "minRepPhoneme": "ʃ",
+      "maxAbsoluteGapPct": 2.8209889144924123,
+      "maxGapPhoneme": "ə",
+      "cmuOnlyKeyCount": 0,
+      "phonemes": [
+        {
+          "phoneme": "z",
+          "generatedPct": 2.101256605537187,
+          "baselinePct": 1.0188173727751315,
+          "ratio": 2.0624467757294185,
+          "gapPct": 1.0824392327620553,
+          "absGapPct": 1.0824392327620553
+        },
+        {
+          "phoneme": "əʊ",
+          "generatedPct": 2.3172548271401596,
+          "baselinePct": 1.5049197793933313,
+          "ratio": 1.5397862788900945,
+          "gapPct": 0.8123350477468283,
+          "absGapPct": 0.8123350477468283
+        },
+        {
+          "phoneme": "i:",
+          "generatedPct": 4.411247310962174,
+          "baselinePct": 3.1684789420907493,
+          "ratio": 1.392228697613301,
+          "gapPct": 1.2427683688714244,
+          "absGapPct": 1.2427683688714244
+        },
+        {
+          "phoneme": "h",
+          "generatedPct": 1.135215936957926,
+          "baselinePct": 0.8292335171722235,
+          "ratio": 1.3689942741691579,
+          "gapPct": 0.3059824197857025,
+          "absGapPct": 0.3059824197857025
+        },
+        {
+          "phoneme": "ɑ",
+          "generatedPct": 2.899259759741363,
+          "baselinePct": 2.255812860366006,
+          "ratio": 1.2852394853671316,
+          "gapPct": 0.6434468993753568,
+          "absGapPct": 0.6434468993753568
+        },
+        {
+          "phoneme": "ɜ",
+          "generatedPct": 3.7154669780028398,
+          "baselinePct": 2.988295938831787,
+          "ratio": 1.2433397006373224,
+          "gapPct": 0.7271710391710529,
+          "absGapPct": 0.7271710391710529
+        },
+        {
+          "phoneme": "w",
+          "generatedPct": 1.137841523120037,
+          "baselinePct": 0.9698546001504136,
+          "ratio": 1.173208358184382,
+          "gapPct": 0.16798692296962336,
+          "absGapPct": 0.16798692296962336
+        },
+        {
+          "phoneme": "v",
+          "generatedPct": 1.4635017267604995,
+          "baselinePct": 1.2675482577086987,
+          "ratio": 1.1545925118512006,
+          "gapPct": 0.19595346905180078,
+          "absGapPct": 0.19595346905180078
+        },
+        {
+          "phoneme": "l",
+          "generatedPct": 6.232878990234571,
+          "baselinePct": 5.526134369516169,
+          "ratio": 1.1278913203082828,
+          "gapPct": 0.7067446207184025,
+          "absGapPct": 0.7067446207184025
+        },
+        {
+          "phoneme": "tʃ",
+          "generatedPct": 0.694467539878278,
+          "baselinePct": 0.631032213587365,
+          "ratio": 1.100526288397051,
+          "gapPct": 0.06343532629091297,
+          "absGapPct": 0.06343532629091297
+        },
+        {
+          "phoneme": "t",
+          "generatedPct": 8.136779035919771,
+          "baselinePct": 7.429806969165203,
+          "ratio": 1.0951534904861737,
+          "gapPct": 0.7069720667545676,
+          "absGapPct": 0.7069720667545676
+        },
+        {
+          "phoneme": "g",
+          "generatedPct": 1.5193391924747204,
+          "baselinePct": 1.3979850839809476,
+          "ratio": 1.0868064401289612,
+          "gapPct": 0.12135410849377282,
+          "absGapPct": 0.12135410849377282
+        },
+        {
+          "phoneme": "ɔ",
+          "generatedPct": 1.384209024664757,
+          "baselinePct": 1.2765574078716468,
+          "ratio": 1.0843296322823377,
+          "gapPct": 0.10765161679311008,
+          "absGapPct": 0.10765161679311008
+        },
+        {
+          "phoneme": "u",
+          "generatedPct": 1.298439876702474,
+          "baselinePct": 1.218585485083981,
+          "ratio": 1.065530397822677,
+          "gapPct": 0.07985439161849306,
+          "absGapPct": 0.07985439161849306
+        },
+        {
+          "phoneme": "k",
+          "generatedPct": 5.625668430477106,
+          "baselinePct": 5.414499247931811,
+          "ratio": 1.0390006855437195,
+          "gapPct": 0.21116918254529438,
+          "absGapPct": 0.21116918254529438
+        },
+        {
+          "phoneme": "b",
+          "generatedPct": 2.444508236463791,
+          "baselinePct": 2.363139257959388,
+          "ratio": 1.0344325787108573,
+          "gapPct": 0.08136897850440317,
+          "absGapPct": 0.08136897850440317
+        },
+        {
+          "phoneme": "ɛ",
+          "generatedPct": 3.1864113663375355,
+          "baselinePct": 3.184538731511657,
+          "ratio": 1.00058803958242,
+          "gapPct": 0.0018726348258786274,
+          "absGapPct": 0.0018726348258786274
+        },
+        {
+          "phoneme": "s",
+          "generatedPct": 5.91246995891833,
+          "baselinePct": 5.944864001002757,
+          "ratio": 0.994550919570412,
+          "gapPct": -0.032394042084426644,
+          "absGapPct": 0.032394042084426644
+        },
+        {
+          "phoneme": "n",
+          "generatedPct": 6.787577826749823,
+          "baselinePct": 6.872414765605414,
+          "ratio": 0.9876554396454392,
+          "gapPct": -0.08483693885559074,
+          "absGapPct": 0.08483693885559074
+        },
+        {
+          "phoneme": "dʒ",
+          "generatedPct": 0.9036392374597632,
+          "baselinePct": 0.9393018300325896,
+          "ratio": 0.9620328722540772,
+          "gapPct": -0.035662592572826446,
+          "absGapPct": 0.035662592572826446
+        },
+        {
+          "phoneme": "r",
+          "generatedPct": 5.331952858475655,
+          "baselinePct": 5.58136437703685,
+          "ratio": 0.9553135216207461,
+          "gapPct": -0.24941151856119514,
+          "absGapPct": 0.24941151856119514
+        },
+        {
+          "phoneme": "d",
+          "generatedPct": 3.2954607116038663,
+          "baselinePct": 3.569190273251441,
+          "ratio": 0.9233076578463792,
+          "gapPct": -0.27372956164757456,
+          "absGapPct": 0.27372956164757456
+        },
+        {
+          "phoneme": "æ",
+          "generatedPct": 2.5602090666741355,
+          "baselinePct": 2.789702933065931,
+          "ratio": 0.9177353747341199,
+          "gapPct": -0.22949386639179536,
+          "absGapPct": 0.22949386639179536
+        },
+        {
+          "phoneme": "ŋ",
+          "generatedPct": 0.5052502971288342,
+          "baselinePct": 0.5526917773878165,
+          "ratio": 0.9141628621956261,
+          "gapPct": -0.047441480258982316,
+          "absGapPct": 0.047441480258982316
+        },
+        {
+          "phoneme": "m",
+          "generatedPct": 2.989930001872919,
+          "baselinePct": 3.316542366507896,
+          "ratio": 0.901520219390751,
+          "gapPct": -0.3266123646349772,
+          "absGapPct": 0.3266123646349772
+        },
+        {
+          "phoneme": "f",
+          "generatedPct": 1.6951659457973995,
+          "baselinePct": 1.9303083479568814,
+          "ratio": 0.8781840204916658,
+          "gapPct": -0.2351424021594819,
+          "absGapPct": 0.2351424021594819
+        },
+        {
+          "phoneme": "ɪ",
+          "generatedPct": 4.680369892578519,
+          "baselinePct": 5.386296690899973,
+          "ratio": 0.8689402313255226,
+          "gapPct": -0.7059267983214541,
+          "absGapPct": 0.7059267983214541
+        },
+        {
+          "phoneme": "j",
+          "generatedPct": 0.5867309876930026,
+          "baselinePct": 0.6843037102030584,
+          "ratio": 0.8574131324217104,
+          "gapPct": -0.09757272251005578,
+          "absGapPct": 0.09757272251005578
+        },
+        {
+          "phoneme": "p",
+          "generatedPct": 2.771656272262783,
+          "baselinePct": 3.508476435196791,
+          "ratio": 0.7899885672475153,
+          "gapPct": -0.7368201629340079,
+          "absGapPct": 0.7368201629340079
+        },
+        {
+          "phoneme": "aɪ",
+          "generatedPct": 1.305966557033858,
+          "baselinePct": 1.6655176736024064,
+          "ratio": 0.7841205036324456,
+          "gapPct": -0.3595511165685483,
+          "absGapPct": 0.3595511165685483
+        },
+        {
+          "phoneme": "eɪ",
+          "generatedPct": 1.745577200109925,
+          "baselinePct": 2.3956505389822005,
+          "ratio": 0.7286443376050744,
+          "gapPct": -0.6500733388722755,
+          "absGapPct": 0.6500733388722755
+        },
+        {
+          "phoneme": "ə",
+          "generatedPct": 6.726751747327592,
+          "baselinePct": 9.547740661820004,
+          "ratio": 0.7045385903941518,
+          "gapPct": -2.8209889144924123,
+          "absGapPct": 2.8209889144924123
+        },
+        {
+          "phoneme": "ʃ",
+          "generatedPct": 0.8440384315798504,
+          "baselinePct": 1.453606793682627,
+          "ratio": 0.5806511329253827,
+          "gapPct": -0.6095683621027765,
+          "absGapPct": 0.6095683621027765
+        }
+      ]
+    },
+    {
+      "seed": 2337034391,
+      "draws": 12860094,
+      "normalizationLosses": 0,
+      "sharedPearsonR": 0.9606173325745709,
+      "totalVariationPct": 7.506095278566233,
+      "nonCmuMassPct": 0,
+      "maxOverRepresentation": 2.0692063410405814,
+      "maxOverPhoneme": "z",
+      "minRepresentation": 0.5869926579505442,
+      "minRepPhoneme": "ʃ",
+      "maxAbsoluteGapPct": 2.8442702850124686,
+      "maxGapPhoneme": "ə",
+      "cmuOnlyKeyCount": 0,
+      "phonemes": [
+        {
+          "phoneme": "z",
+          "generatedPct": 2.108143368108608,
+          "baselinePct": 1.0188173727751315,
+          "ratio": 2.0692063410405814,
+          "gapPct": 1.0893259953334766,
+          "absGapPct": 1.0893259953334766
+        },
+        {
+          "phoneme": "əʊ",
+          "generatedPct": 2.328527837001301,
+          "baselinePct": 1.5049197793933313,
+          "ratio": 1.547277050169402,
+          "gapPct": 0.8236080576079696,
+          "absGapPct": 0.8236080576079696
+        },
+        {
+          "phoneme": "h",
+          "generatedPct": 1.1476278243053342,
+          "baselinePct": 0.8292335171722235,
+          "ratio": 1.3839621777697433,
+          "gapPct": 0.3183943071331107,
+          "absGapPct": 0.3183943071331107
+        },
+        {
+          "phoneme": "i:",
+          "generatedPct": 4.368200543737606,
+          "baselinePct": 3.1684789420907493,
+          "ratio": 1.3786427568476152,
+          "gapPct": 1.1997216016468566,
+          "absGapPct": 1.1997216016468566
+        },
+        {
+          "phoneme": "ɑ",
+          "generatedPct": 2.896869349747614,
+          "baselinePct": 2.255812860366006,
+          "ratio": 1.2841798185677495,
+          "gapPct": 0.641056489381608,
+          "absGapPct": 0.641056489381608
+        },
+        {
+          "phoneme": "ɜ",
+          "generatedPct": 3.7320888367430043,
+          "baselinePct": 2.988295938831787,
+          "ratio": 1.2489020207958346,
+          "gapPct": 0.7437928979112174,
+          "absGapPct": 0.7437928979112174
+        },
+        {
+          "phoneme": "w",
+          "generatedPct": 1.119346464173296,
+          "baselinePct": 0.9698546001504136,
+          "ratio": 1.154138428584757,
+          "gapPct": 0.1494918640228824,
+          "absGapPct": 0.1494918640228824
+        },
+        {
+          "phoneme": "v",
+          "generatedPct": 1.4324552686072527,
+          "baselinePct": 1.2675482577086987,
+          "ratio": 1.1300991973249606,
+          "gapPct": 0.16490701089855397,
+          "absGapPct": 0.16490701089855397
+        },
+        {
+          "phoneme": "l",
+          "generatedPct": 6.171640712900417,
+          "baselinePct": 5.526134369516169,
+          "ratio": 1.116809744429136,
+          "gapPct": 0.6455063433842483,
+          "absGapPct": 0.6455063433842483
+        },
+        {
+          "phoneme": "tʃ",
+          "generatedPct": 0.698803514593795,
+          "baselinePct": 0.631032213587365,
+          "ratio": 1.107397529868017,
+          "gapPct": 0.06777130100642992,
+          "absGapPct": 0.06777130100642992
+        },
+        {
+          "phoneme": "ɔ",
+          "generatedPct": 1.4011093648076565,
+          "baselinePct": 1.2765574078716468,
+          "ratio": 1.0975686296346594,
+          "gapPct": 0.12455195693600962,
+          "absGapPct": 0.12455195693600962
+        },
+        {
+          "phoneme": "t",
+          "generatedPct": 8.119552226390978,
+          "baselinePct": 7.429806969165203,
+          "ratio": 1.0928348825330616,
+          "gapPct": 0.6897452572257743,
+          "absGapPct": 0.6897452572257743
+        },
+        {
+          "phoneme": "g",
+          "generatedPct": 1.5115204952302572,
+          "baselinePct": 1.3979850839809476,
+          "ratio": 1.0812136070336333,
+          "gapPct": 0.11353541124930966,
+          "absGapPct": 0.11353541124930966
+        },
+        {
+          "phoneme": "b",
+          "generatedPct": 2.4661696268699194,
+          "baselinePct": 2.363139257959388,
+          "ratio": 1.0435989409272055,
+          "gapPct": 0.10303036891053141,
+          "absGapPct": 0.10303036891053141
+        },
+        {
+          "phoneme": "k",
+          "generatedPct": 5.625013680998517,
+          "baselinePct": 5.414499247931811,
+          "ratio": 1.038879760330028,
+          "gapPct": 0.21051443306670592,
+          "absGapPct": 0.21051443306670592
+        },
+        {
+          "phoneme": "u",
+          "generatedPct": 1.2608408232239878,
+          "baselinePct": 1.218585485083981,
+          "ratio": 1.0346757274374516,
+          "gapPct": 0.042255338140006815,
+          "absGapPct": 0.042255338140006815
+        },
+        {
+          "phoneme": "ɛ",
+          "generatedPct": 3.2407987076381572,
+          "baselinePct": 3.184538731511657,
+          "ratio": 1.017666601310198,
+          "gapPct": 0.056259976126500355,
+          "absGapPct": 0.056259976126500355
+        },
+        {
+          "phoneme": "s",
+          "generatedPct": 5.933744565907391,
+          "baselinePct": 5.944864001002757,
+          "ratio": 0.9981295728390943,
+          "gapPct": -0.011119435095365837,
+          "absGapPct": 0.011119435095365837
+        },
+        {
+          "phoneme": "n",
+          "generatedPct": 6.759069954776094,
+          "baselinePct": 6.872414765605414,
+          "ratio": 0.9835072802362599,
+          "gapPct": -0.1133448108293198,
+          "absGapPct": 0.1133448108293198
+        },
+        {
+          "phoneme": "dʒ",
+          "generatedPct": 0.9207640345155178,
+          "baselinePct": 0.9393018300325896,
+          "ratio": 0.9802642825507658,
+          "gapPct": -0.018537795517071798,
+          "absGapPct": 0.018537795517071798
+        },
+        {
+          "phoneme": "r",
+          "generatedPct": 5.339836003134592,
+          "baselinePct": 5.58136437703685,
+          "ratio": 0.9567259262097334,
+          "gapPct": -0.24152837390225823,
+          "absGapPct": 0.24152837390225823
+        },
+        {
+          "phoneme": "ŋ",
+          "generatedPct": 0.5287651202395599,
+          "baselinePct": 0.5526917773878165,
+          "ratio": 0.9567088599339383,
+          "gapPct": -0.02392665714825659,
+          "absGapPct": 0.02392665714825659
+        },
+        {
+          "phoneme": "d",
+          "generatedPct": 3.3179376496701245,
+          "baselinePct": 3.569190273251441,
+          "ratio": 0.9296051472894911,
+          "gapPct": -0.2512526235813164,
+          "absGapPct": 0.2512526235813164
+        },
+        {
+          "phoneme": "m",
+          "generatedPct": 3.0322346214631892,
+          "baselinePct": 3.316542366507896,
+          "ratio": 0.9142758591249162,
+          "gapPct": -0.2843077450447069,
+          "absGapPct": 0.2843077450447069
+        },
+        {
+          "phoneme": "æ",
+          "generatedPct": 2.5202807121999493,
+          "baselinePct": 2.789702933065931,
+          "ratio": 0.9034226126113428,
+          "gapPct": -0.26942222086598155,
+          "absGapPct": 0.26942222086598155
+        },
+        {
+          "phoneme": "f",
+          "generatedPct": 1.7024853449143902,
+          "baselinePct": 1.9303083479568814,
+          "ratio": 0.8819758494627925,
+          "gapPct": -0.22782300304249126,
+          "absGapPct": 0.22782300304249126
+        },
+        {
+          "phoneme": "j",
+          "generatedPct": 0.5956597305828326,
+          "baselinePct": 0.6843037102030584,
+          "ratio": 0.8704610565476523,
+          "gapPct": -0.08864397962022574,
+          "absGapPct": 0.08864397962022574
+        },
+        {
+          "phoneme": "ɪ",
+          "generatedPct": 4.677631895770493,
+          "baselinePct": 5.386296690899973,
+          "ratio": 0.8684319049251866,
+          "gapPct": -0.7086647951294802,
+          "absGapPct": 0.7086647951294802
+        },
+        {
+          "phoneme": "aɪ",
+          "generatedPct": 1.3387677907704705,
+          "baselinePct": 1.6655176736024064,
+          "ratio": 0.8038148210548873,
+          "gapPct": -0.32674988283193596,
+          "absGapPct": 0.32674988283193596
+        },
+        {
+          "phoneme": "p",
+          "generatedPct": 2.744955542227224,
+          "baselinePct": 3.508476435196791,
+          "ratio": 0.7823782182744685,
+          "gapPct": -0.7635208929695669,
+          "absGapPct": 0.7635208929695669
+        },
+        {
+          "phoneme": "eɪ",
+          "generatedPct": 1.7326054312469634,
+          "baselinePct": 2.3956505389822005,
+          "ratio": 0.7232296209542591,
+          "gapPct": -0.6630451077352371,
+          "absGapPct": 0.6630451077352371
+        },
+        {
+          "phoneme": "ə",
+          "generatedPct": 6.703470376807536,
+          "baselinePct": 9.547740661820004,
+          "ratio": 0.7021001736687003,
+          "gapPct": -2.8442702850124686,
+          "absGapPct": 2.8442702850124686
+        },
+        {
+          "phoneme": "ʃ",
+          "generatedPct": 0.8532565154387335,
+          "baselinePct": 1.453606793682627,
+          "ratio": 0.5869926579505442,
+          "gapPct": -0.6003502782438934,
+          "absGapPct": 0.6003502782438934
+        }
+      ]
+    },
+    {
+      "seed": 252734310,
+      "draws": 12890171,
+      "normalizationLosses": 0,
+      "sharedPearsonR": 0.9603896890296219,
+      "totalVariationPct": 7.540447912672695,
+      "nonCmuMassPct": 0,
+      "maxOverRepresentation": 2.0928317314862883,
+      "maxOverPhoneme": "z",
+      "minRepresentation": 0.5885311286024967,
+      "minRepPhoneme": "ʃ",
+      "maxAbsoluteGapPct": 2.8410862452298993,
+      "maxGapPhoneme": "ə",
+      "cmuOnlyKeyCount": 0,
+      "phonemes": [
+        {
+          "phoneme": "z",
+          "generatedPct": 2.13221332633329,
+          "baselinePct": 1.0188173727751315,
+          "ratio": 2.0928317314862883,
+          "gapPct": 1.1133959535581583,
+          "absGapPct": 1.1133959535581583
+        },
+        {
+          "phoneme": "əʊ",
+          "generatedPct": 2.333989587434922,
+          "baselinePct": 1.5049197793933313,
+          "ratio": 1.5509063136746122,
+          "gapPct": 0.8290698080415906,
+          "absGapPct": 0.8290698080415906
+        },
+        {
+          "phoneme": "i:",
+          "generatedPct": 4.393577459859125,
+          "baselinePct": 3.1684789420907493,
+          "ratio": 1.3866519362000187,
+          "gapPct": 1.2250985177683753,
+          "absGapPct": 1.2250985177683753
+        },
+        {
+          "phoneme": "h",
+          "generatedPct": 1.1350570941068383,
+          "baselinePct": 0.8292335171722235,
+          "ratio": 1.3688027203452973,
+          "gapPct": 0.3058235769346148,
+          "absGapPct": 0.3058235769346148
+        },
+        {
+          "phoneme": "ɑ",
+          "generatedPct": 2.906680666754168,
+          "baselinePct": 2.255812860366006,
+          "ratio": 1.2885291673896027,
+          "gapPct": 0.6508678063881619,
+          "absGapPct": 0.6508678063881619
+        },
+        {
+          "phoneme": "ɜ",
+          "generatedPct": 3.7227982674891726,
+          "baselinePct": 2.988295938831787,
+          "ratio": 1.2457930351250701,
+          "gapPct": 0.7345023286573857,
+          "absGapPct": 0.7345023286573857
+        },
+        {
+          "phoneme": "w",
+          "generatedPct": 1.1308570678566745,
+          "baselinePct": 0.9698546001504136,
+          "ratio": 1.166006809351929,
+          "gapPct": 0.16100246770626092,
+          "absGapPct": 0.16100246770626092
+        },
+        {
+          "phoneme": "v",
+          "generatedPct": 1.423458896618104,
+          "baselinePct": 1.2675482577086987,
+          "ratio": 1.1230017381675388,
+          "gapPct": 0.15591063890940537,
+          "absGapPct": 0.15591063890940537
+        },
+        {
+          "phoneme": "l",
+          "generatedPct": 6.160651004068777,
+          "baselinePct": 5.526134369516169,
+          "ratio": 1.1148210651649721,
+          "gapPct": 0.6345166345526083,
+          "absGapPct": 0.6345166345526083
+        },
+        {
+          "phoneme": "tʃ",
+          "generatedPct": 0.6943168394802468,
+          "baselinePct": 0.631032213587365,
+          "ratio": 1.1002874726998706,
+          "gapPct": 0.06328462589288175,
+          "absGapPct": 0.06328462589288175
+        },
+        {
+          "phoneme": "t",
+          "generatedPct": 8.101938137113358,
+          "baselinePct": 7.429806969165203,
+          "ratio": 1.0904641494372058,
+          "gapPct": 0.6721311679481543,
+          "absGapPct": 0.6721311679481543
+        },
+        {
+          "phoneme": "g",
+          "generatedPct": 1.5164719779498623,
+          "baselinePct": 1.3979850839809476,
+          "ratio": 1.084755477956537,
+          "gapPct": 0.11848689396891476,
+          "absGapPct": 0.11848689396891476
+        },
+        {
+          "phoneme": "ɔ",
+          "generatedPct": 1.3841711510696943,
+          "baselinePct": 1.2765574078716468,
+          "ratio": 1.0842999637419108,
+          "gapPct": 0.1076137431980475,
+          "absGapPct": 0.1076137431980475
+        },
+        {
+          "phoneme": "u",
+          "generatedPct": 1.2964956030975199,
+          "baselinePct": 1.218585485083981,
+          "ratio": 1.063934881029844,
+          "gapPct": 0.07791011801353886,
+          "absGapPct": 0.07791011801353886
+        },
+        {
+          "phoneme": "k",
+          "generatedPct": 5.6736229601435015,
+          "baselinePct": 5.414499247931811,
+          "ratio": 1.0478573733869607,
+          "gapPct": 0.2591237122116903,
+          "absGapPct": 0.2591237122116903
+        },
+        {
+          "phoneme": "b",
+          "generatedPct": 2.4639278995493727,
+          "baselinePct": 2.363139257959388,
+          "ratio": 1.042650318321493,
+          "gapPct": 0.1007886415899848,
+          "absGapPct": 0.1007886415899848
+        },
+        {
+          "phoneme": "ɛ",
+          "generatedPct": 3.195082469265434,
+          "baselinePct": 3.184538731511657,
+          "ratio": 1.0033109152196658,
+          "gapPct": 0.010543737753776927,
+          "absGapPct": 0.010543737753776927
+        },
+        {
+          "phoneme": "s",
+          "generatedPct": 5.942249639060245,
+          "baselinePct": 5.944864001002757,
+          "ratio": 0.9995602318333824,
+          "gapPct": -0.002614361942511856,
+          "absGapPct": 0.002614361942511856
+        },
+        {
+          "phoneme": "n",
+          "generatedPct": 6.783129894561841,
+          "baselinePct": 6.872414765605414,
+          "ratio": 0.9870082243157937,
+          "gapPct": -0.08928487104357252,
+          "absGapPct": 0.08928487104357252
+        },
+        {
+          "phoneme": "dʒ",
+          "generatedPct": 0.9123682023012645,
+          "baselinePct": 0.9393018300325896,
+          "ratio": 0.9713259073173629,
+          "gapPct": -0.026933627731325127,
+          "absGapPct": 0.026933627731325127
+        },
+        {
+          "phoneme": "r",
+          "generatedPct": 5.3324583278645505,
+          "baselinePct": 5.58136437703685,
+          "ratio": 0.9554040853888052,
+          "gapPct": -0.24890604917229986,
+          "absGapPct": 0.24890604917229986
+        },
+        {
+          "phoneme": "d",
+          "generatedPct": 3.3041081506759427,
+          "baselinePct": 3.569190273251441,
+          "ratio": 0.9257304592130878,
+          "gapPct": -0.26508212257549824,
+          "absGapPct": 0.26508212257549824
+        },
+        {
+          "phoneme": "m",
+          "generatedPct": 3.0250689066806675,
+          "baselinePct": 3.316542366507896,
+          "ratio": 0.9121152611313899,
+          "gapPct": -0.2914734598272286,
+          "absGapPct": 0.2914734598272286
+        },
+        {
+          "phoneme": "ŋ",
+          "generatedPct": 0.5013781336133352,
+          "baselinePct": 0.5526917773878165,
+          "ratio": 0.9071568532880937,
+          "gapPct": -0.05131364377448133,
+          "absGapPct": 0.05131364377448133
+        },
+        {
+          "phoneme": "æ",
+          "generatedPct": 2.514590716191977,
+          "baselinePct": 2.789702933065931,
+          "ratio": 0.9013829703467383,
+          "gapPct": -0.27511221687395393,
+          "absGapPct": 0.27511221687395393
+        },
+        {
+          "phoneme": "j",
+          "generatedPct": 0.5978037362733519,
+          "baselinePct": 0.6843037102030584,
+          "ratio": 0.8735941766207308,
+          "gapPct": -0.08649997392970643,
+          "absGapPct": 0.08649997392970643
+        },
+        {
+          "phoneme": "f",
+          "generatedPct": 1.6836855230345191,
+          "baselinePct": 1.9303083479568814,
+          "ratio": 0.8722365651148957,
+          "gapPct": -0.24662282492236232,
+          "absGapPct": 0.24662282492236232
+        },
+        {
+          "phoneme": "ɪ",
+          "generatedPct": 4.6785667410421325,
+          "baselinePct": 5.386296690899973,
+          "ratio": 0.8686054648542597,
+          "gapPct": -0.7077299498578409,
+          "absGapPct": 0.7077299498578409
+        },
+        {
+          "phoneme": "aɪ",
+          "generatedPct": 1.3370958568491056,
+          "baselinePct": 1.6655176736024064,
+          "ratio": 0.8028109686503981,
+          "gapPct": -0.32842181675330084,
+          "absGapPct": 0.32842181675330084
+        },
+        {
+          "phoneme": "p",
+          "generatedPct": 2.7458546615916357,
+          "baselinePct": 3.508476435196791,
+          "ratio": 0.7826344888754028,
+          "gapPct": -0.7626217736051553,
+          "absGapPct": 0.7626217736051553
+        },
+        {
+          "phoneme": "eɪ",
+          "generatedPct": 1.7464234151463451,
+          "baselinePct": 2.3956505389822005,
+          "ratio": 0.7289975673531743,
+          "gapPct": -0.6492271238358553,
+          "absGapPct": 0.6492271238358553
+        },
+        {
+          "phoneme": "ə",
+          "generatedPct": 6.706654416590105,
+          "baselinePct": 9.547740661820004,
+          "ratio": 0.7024336598719129,
+          "gapPct": -2.8410862452298993,
+          "absGapPct": 2.8410862452298993
+        },
+        {
+          "phoneme": "ʃ",
+          "generatedPct": 0.8554928468302929,
+          "baselinePct": 1.453606793682627,
+          "ratio": 0.5885311286024967,
+          "gapPct": -0.598113946852334,
+          "absGapPct": 0.598113946852334
+        }
+      ]
+    }
+  ],
+  "proposals": [
+    {
+      "limit": "maxTotalVariationPct",
+      "metric": "totalVariationPct",
+      "bound": "upper",
+      "min": 7.499686137002118,
+      "max": 7.602303027506465,
+      "mean": 7.542898296105034,
+      "sd": 0.04268630080367274,
+      "proposed": 7.74
+    },
+    {
+      "limit": "maxOverRepresentation",
+      "metric": "maxOverRepresentation",
+      "bound": "upper",
+      "min": 2.0516179538957138,
+      "max": 2.0928317314862883,
+      "mean": 2.0686435925282796,
+      "sd": 0.015132677934877329,
+      "proposed": 2.139
+    },
+    {
+      "limit": "minRepresentation",
+      "metric": "minRepresentation",
+      "bound": "lower",
+      "min": 0.5806511329253827,
+      "max": 0.5904112845917918,
+      "mean": 0.5856711940341748,
+      "sd": 0.004266617646572922,
+      "proposed": 0.567
+    },
+    {
+      "limit": "maxAbsoluteGapPct",
+      "metric": "maxAbsoluteGapPct",
+      "bound": "upper",
+      "min": 2.8209889144924123,
+      "max": 2.8442702850124686,
+      "mean": 2.833869586611401,
+      "sd": 0.009665339666277943,
+      "proposed": 2.874
+    },
+    {
+      "limit": "maxGeneratedOnlyMassPct",
+      "metric": "nonCmuMassPct",
+      "bound": "upper",
+      "min": 0,
+      "max": 0,
+      "mean": 0,
+      "sd": 0,
+      "proposed": 0
+    },
+    {
+      "limit": "maxCmuOnlyKeyCount",
+      "metric": "cmuOnlyKeyCount",
+      "bound": "upper",
+      "min": 0,
+      "max": 0,
+      "mean": 0,
+      "sd": 0,
+      "proposed": 0
+    }
+  ]
+}
