@@ -62,3 +62,13 @@ manifests, summaries, and evidence are committed alongside this README.
 Retain the original `words/` archives if you may need to rescore these runs after
 their generator can no longer execute. The rescore fallback requires those archives;
 it cannot recreate missing words from the compact evidence.
+
+## Junction and spelling batch
+
+Both cohorts use the existing `linguistic-quality-v1` protocol and contain
+200,000 draws each from generator revision `3b41022e71064b9d2fd3c6eefef31aca5fb95305`.
+
+| Cohort | Manifest | Summary |
+|---|---|---|
+| Development | [Manifest](2026-11-21-junction-spelling-development/manifest.json) | [Summary](2026-11-21-junction-spelling-development/summary.json) |
+| Validation | [Manifest](2026-11-21-junction-spelling-validation/manifest.json) | [Summary](2026-11-21-junction-spelling-validation/summary.json) |

@@ -132,7 +132,9 @@ describe("rhotic vowel + /r/ (#410)", () => {
   });
 
   it("removes root-internal /ɚ r/ while keeping /ɚ/ at its rate", () => {
-    const count = 10_000;
+    // Compare the small change in rhotic frequency with less sampling noise
+    // from unrelated changes to the spelling and attempt stream.
+    const count = 30_000;
     const sample = (config: LanguageConfig): Word[] => {
       const generator = createGenerator(config), rand = createSeededRng(410);
       return Array.from({ length: count }, () => generator.generateWord({ rand }));
