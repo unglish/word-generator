@@ -241,7 +241,7 @@ export const fricativeGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
     onset: 0,
-    condition: { notRightContext: ["consonant"] }, },
+  },
   {
     phoneme: "ʃ",
     form: "ti",
@@ -261,15 +261,6 @@ export const fricativeGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 1,
     condition: { rightContext: ["vowel"], notRightContext: ["front-vowel", "back-vowel"] },
-  },
-  {
-    phoneme: "ʃ",
-    form: "ch",
-    frequency: 30,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
   },
   {
     phoneme: "ʃ",

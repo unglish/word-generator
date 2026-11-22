@@ -126,3 +126,23 @@ describe("English grapheme licensing (#486)", () => {
     expect(rhoticAfterW).toBeGreaterThan(0);
   });
 });
+
+describe("coda /ʃ/ spelling (#488)", () => {
+  it("licenses sh before consonants and never chooses coda ch", () => {
+    let shBeforeConsonant = 0;
+    for (const word of generateWords(20_000, { seed: 20261121, trace: true })) {
+      expect(word.written.clean).not.toMatch(/shs/);
+      const choices = word.trace!.graphemeSelections;
+      for (const [index, choice] of choices.entries()) {
+        if (choice.phoneme !== "ʃ" || choice.position !== "coda") continue;
+        expect(choice.selected).not.toBe("ch");
+        const next = choices[index + 1];
+        if (next && next.position !== "nucleus") {
+          expect(choice.afterCondition).toContain("sh");
+          if (choice.selected === "sh") shBeforeConsonant++;
+        }
+      }
+    }
+    expect(shBeforeConsonant).toBeGreaterThan(0);
+  });
+});
