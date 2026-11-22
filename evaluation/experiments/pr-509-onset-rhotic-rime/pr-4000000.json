@@ -1,0 +1,242 @@
+{
+ "root": "/Users/ryanbetts/.t3/worktrees/word-generator/t3-d99e8546-d0e5b2d4095bbdd5",
+ "seeds": [
+  4000000,
+  4019999
+ ],
+ "table": {
+  "A": {
+   "gen": 0,
+   "cmuExpected": 36.7,
+   "ratio": 0
+  },
+  "A:final": {
+   "gen": 0,
+   "cmuExpected": 27.8,
+   "ratio": 0
+  },
+  "A:internal": {
+   "gen": 0,
+   "cmuExpected": 8.9,
+   "ratio": 0
+  },
+  "A:rER": {
+   "gen": 0,
+   "cmuExpected": 21,
+   "ratio": 0
+  },
+  "A:rVr": {
+   "gen": 0,
+   "cmuExpected": 15.7,
+   "ratio": 0
+  },
+  "B": {
+   "gen": 487,
+   "cmuExpected": 62.6,
+   "ratio": 7.78
+  },
+  "B:AW": {
+   "gen": 14,
+   "cmuExpected": 6.5,
+   "ratio": 2.16
+  },
+  "B:AY": {
+   "gen": 63,
+   "cmuExpected": 28.9,
+   "ratio": 2.18
+  },
+  "B:EY": {
+   "gen": 65,
+   "cmuExpected": 2.9,
+   "ratio": 22.58
+  },
+  "B:IY": {
+   "gen": 175,
+   "cmuExpected": 14.7,
+   "ratio": 11.92
+  },
+  "B:OW": {
+   "gen": 100,
+   "cmuExpected": 0.2,
+   "ratio": 585.03
+  },
+  "B:OY": {
+   "gen": 7,
+   "cmuExpected": 1.2,
+   "ratio": 5.99
+  },
+  "B:UW": {
+   "gen": 63,
+   "cmuExpected": 8.3,
+   "ratio": 7.58
+  },
+  "C": {
+   "gen": 263,
+   "cmuExpected": 1.9,
+   "ratio": 140.55
+  },
+  "D": {
+   "gen": 231,
+   "cmuExpected": 13.2,
+   "ratio": 17.49
+  },
+  "D:ERm": {
+   "gen": 81,
+   "cmuExpected": 10.8,
+   "ratio": 7.5
+  },
+  "D:ERn": {
+   "gen": 360,
+   "cmuExpected": 59.8,
+   "ratio": 6.02
+  },
+  "D:ERnC": {
+   "gen": 209,
+   "cmuExpected": 12.6,
+   "ratio": 16.58
+  }
+ },
+ "sourcesA": {},
+ "scorer": {
+  "mean": -2.5611,
+  "sd": 0.3827,
+  "byPattern": {
+   "A": null,
+   "B": {
+    "z": -0.185,
+    "bottomDecileShare": 0.028
+   },
+   "C": {
+    "z": -0.157,
+    "bottomDecileShare": 0.016
+   },
+   "D": {
+    "z": -0.75,
+    "bottomDecileShare": 0.0285
+   }
+  }
+ },
+ "shares": {
+  "r": 0.05,
+  "cmuR": 0.05406,
+  "rhotic": 0.0325,
+  "cmuER": 0.03432
+ },
+ "syllables": {
+  "1": 2495,
+  "2": 9241,
+  "3": 5572,
+  "4": 1966,
+  "5": 588,
+  "6": 138
+ },
+ "meanLetters": 7.891,
+ "meanAttempts": 2.824,
+ "msPerWord": 0.289,
+ "examples": {
+  "D:ERm": [
+   "4000013 ujurm /ˈʌ.dʒɚm/",
+   "4000331 bulyorm /ˈbʊlˌjɚm/",
+   "4000623 futurm /ˈfuˌtʰɚm/",
+   "4000716 esirpurmp /ˈɛ.sər.pɚmp/",
+   "4001038 geterm /ˈgɛˌtʰɚm/",
+   "4001161 estorm /ˈɛs.tɚm/"
+  ],
+  "B": [
+   "4000025 quarezig /ˈkweɪr.zaɪg/",
+   "4000055 uratipuoge /ˈur.ɑtˌə.pʰʊ.ɑdʒ/",
+   "4000110 beerclaindask /bi:rˈkʰleɪnd.əsk/",
+   "4000181 vectord /ˈvɛk.tʰəʊrd/",
+   "4000199 girting /ˈgaɪrt.ɪŋ/",
+   "4000209 halkares /ˈhælˌkʰeɪrz/"
+  ],
+  "B:EY": [
+   "4000025 quarezig /ˈkweɪr.zaɪg/",
+   "4000209 halkares /ˈhælˌkʰeɪrz/",
+   "4000388 osairn /ˈɔ.seɪrn/",
+   "4000447 vairs /veɪrz/",
+   "4000555 idcare /ˈɪd.seɪr/",
+   "4000685 kairthpoing /kʰeɪrθˈpʰɑ.ɪŋ/"
+  ],
+  "B:UW": [
+   "4000055 uratipuoge /ˈur.ɑtˌə.pʰʊ.ɑdʒ/",
+   "4000545 ureyepsizo /ˈur.jɪpˌsə.zəʊ/",
+   "4000848 sureture /ˈsurˌtʰɚ/",
+   "4000997 inhocoorive /ˌɪnˌhɔˈkʰur.ɪv/",
+   "4001360 sloorms /slurmz/",
+   "4001765 mosdurer /mɑsˈdur.ɚ/"
+  ],
+  "D": [
+   "4000058 orustorled /ˈʌ.rəs.tɚld/",
+   "4000062 kiepiceilerl /ˈkʰaɪ.paɪʃ.ɪl.ɚl/",
+   "4000121 udihohutaderl /ˈʊdˌɪ.həˌhə.tʰəd.ɚl/",
+   "4000152 bomorl /ˈbɑmˌɚl/",
+   "4000177 foperl /ˈfʌˌpʰɚl/",
+   "4000255 vatibimcerl /ˈvæ.tɪ.bəm.sɚl/"
+  ],
+  "D:ERnC": [
+   "4000066 dutalorned /ˈdu.tə.lɚnd/",
+   "4000097 epperned /ˈɛpˌɚnd/",
+   "4000157 giekorns /ˈgaɪ.kɚnz/",
+   "4000159 ulterns /ˈult.ɚnz/",
+   "4000291 felerns /ˈfɛˌlɚnz/",
+   "4000309 oshirrernt /ɑʃˈɪrˌɚnt/"
+  ],
+  "D:ERn": [
+   "4000066 dutalorned /ˈdu.tə.lɚnd/",
+   "4000097 epperned /ˈɛpˌɚnd/",
+   "4000157 giekorns /ˈgaɪ.kɚnz/",
+   "4000159 ulterns /ˈult.ɚnz/",
+   "4000233 drebborn /ˈdrɛbˌɚn/",
+   "4000291 felerns /ˈfɛˌlɚnz/"
+  ],
+  "B:IY": [
+   "4000110 beerclaindask /bi:rˈkʰleɪnd.əsk/",
+   "4000333 relere /ˌrɪˈli:r/",
+   "4000386 beerd /bi:rd/",
+   "4000492 uteneer /ˈutˌni:r/",
+   "4000566 ebbikierked /ˈɛbˌə.ki:rkt/",
+   "4000591 seertous /ˈsi:r.tʰaʊz/"
+  ],
+  "B:OW": [
+   "4000181 vectord /ˈvɛk.tʰəʊrd/",
+   "4000626 bunkord /ˈbʊn.kʰəʊrd/",
+   "4000734 gorchar /ˈgəʊrˌtʃɚ/",
+   "4000924 sormithutoop /ˈsəʊrˌmɪθ.ə.tʊp/",
+   "4000952 sorde /səʊrd/",
+   "4000973 mumworred /ˈmʌm.wəʊrd/"
+  ],
+  "B:AY": [
+   "4000199 girting /ˈgaɪrt.ɪŋ/",
+   "4000250 mirnvorses /maɪrnˈvɑrs.ɪz/",
+   "4000387 onippenirt /ˈɑn.əˌpʰən.aɪrt/",
+   "4000444 quireby /ˈkʰwaɪr.bi:/",
+   "4000642 smired /smaɪrd/",
+   "4001187 cabyirt /ˈkʰæb.jaɪrt/"
+  ],
+  "C": [
+   "4000245 flaclorting /ˈfleɪˌkʰlʌrt.ɪŋ/",
+   "4000344 darglurts /ˌdərˈglɚts/",
+   "4000466 hulsorted /ˈhʊlˌsərt.əd/",
+   "4000516 maxarlies /ˈmægz.ərl.i:z/",
+   "4000549 massicard /ˈmæsˌə.kərd/",
+   "4000586 sogircoons /ˈsʌ.dʒər.kʊnz/"
+  ],
+  "B:OY": [
+   "4000534 lonoirds /ˈlɑ.nɔɪrdz/",
+   "4001499 shemoiring /ˈʃɛ.mɔɪr.ɪŋ/",
+   "4007804 oirit /ˈɔɪr.ɪt/",
+   "4009934 alriboirt /ˈæl.rə.bɔɪrt/",
+   "4013871 ranoirming /ˈrɑ.nɔɪrm.ɪŋ/",
+   "4015092 haxoirmtiets /həgˈzɔɪrm.ti:ts/"
+  ],
+  "B:AW": [
+   "4000554 orbowr /ˈɔrˌbaʊr/",
+   "4007351 nunowr /ˌnuˈnaʊr/",
+   "4008000 hecnasnourp /ˈhɛk.nəz.naʊrp/",
+   "4008526 gaekivourks /geɪˈkʰɪˌvaʊrks/",
+   "4013356 bondours /ˌbɔnˈdaʊrz/",
+   "4014533 vonklouring /ˈvəʊn.kʰlaʊr.ɪŋ/"
+  ]
+ }
+}
