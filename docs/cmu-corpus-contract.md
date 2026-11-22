@@ -54,9 +54,13 @@ is kept at
 dictionary itself is retrieved from the pinned upstream URL and checked before use.
 
 Record parsing, population selection, phonemic projection and numeric units are
-separate contracts. The extraction does not adopt a new reference for any legacy
-consumer. [Q15b](cmu-matched-reference.md) derives matched-population integer
+separate contracts. This parser extraction introduced no consumer migration. [Q15b](cmu-matched-reference.md) derives matched-population integer
 counts and compares old/new references on the same immutable generator archive.
 Q15c will migrate manual
 consumers individually. Existing reference percentages, runtime weights, tests
 and thresholds remain outside this extraction.
+
+[Stage references Phase 2](cmu-root-reference.md#lexicon-stage-references-phase-2)
+uses all 117,485 selected types for the finished-word phoneme and syllable
+gates. A separate audited root population supplies the bare-root phoneme
+gate and the measured lexicon tables. Text mode keeps its original calibration.

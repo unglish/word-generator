@@ -6,7 +6,7 @@
  * at the worst observed value widened by k sample standard deviations. Inventory
  * coverage remains fixed at zero; violating runs cannot produce proposals.
  *
- *   npm run calibrate:phonemes -- [--seeds 42,7,...] [--count 30] [--k 3] [--jobs 8] [--output file.json]
+ *   npm run calibrate:phonemes -- [--stage roots|fullCmu] [--seeds 42,7,...] [--count 30] [--k 3] [--jobs 8] [--output file.json]
  *
  * Default seeds are 42 plus seeds whose Mulberry32 streams start evenly spaced
  * around the 2^32 cycle, so no two runs share a stretch of the RNG stream. Custom
@@ -18,7 +18,7 @@ import { cpus } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
-import { generateWord } from "../src/core/generate.js";
+import { generateWord } from "../src/index.js";
 import { countNormalizedPhonemes, type PhonemeNormalization } from "../src/core/phoneme-normalization.js";
 import { computePhonemeQualityMetrics } from "../src/core/phoneme-quality.js";
 import { createSeededRng } from "../src/utils/random.js";
@@ -26,6 +26,8 @@ import { proposeLimits, type SeedResult } from "./lib/phoneme-calibration.js";
 
 const REPO_ROOT = join(fileURLToPath(import.meta.url), "..", "..");
 const THRESHOLDS_PATH = join(REPO_ROOT, "src", "config", "phoneme-thresholds.json");
+type Stage = "roots" | "fullCmu";
+
 const CYCLE = 2n ** 32n;
 const MULBERRY_INCREMENT = 0x6d2b79f5n;
 /** Lexicon words have used ~86 draws each; the margin lets the pre-run overlap check be conservative. */
@@ -42,9 +44,12 @@ function loadJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, "utf8")) as T;
 }
 
-function measureSeed(seed: number, thresholds: Thresholds): SeedResult {
+function measureSeed(seed: number, thresholds: Thresholds, stage: Stage): SeedResult {
   const normalization = loadJson<PhonemeNormalization>(join(REPO_ROOT, "data", "cmu", "phoneme-normalization.json"));
-  const baselineCounts = loadJson<Record<string, number>>(join(REPO_ROOT, "data", "cmu", "cmu-lexicon-phonemes.json"));
+  const reference = loadJson<Record<Stage, { phonemes: Record<string, number> }>>(
+    join(REPO_ROOT, "evaluation", "corpus", "stage-references.json"),
+  );
+  const baselineCounts = reference[stage].phonemes;
   const stream = createSeededRng(seed);
   let draws = 0;
   const rand = () => {
@@ -54,7 +59,7 @@ function measureSeed(seed: number, thresholds: Thresholds): SeedResult {
   // Same words as the gate's `generateWords(n, { seed })`, which loops over one shared stream;
   // streaming avoids holding every word in memory.
   function* words() {
-    for (let i = 0; i < thresholds.sampleSize; i++) yield generateWord({ rand, mode: "lexicon", morphology: false });
+    for (let i = 0; i < thresholds.sampleSize; i++) yield generateWord({ rand, mode: "lexicon", morphology: stage === "fullCmu" });
   }
   const { counts, losses } = countNormalizedPhonemes(words(), normalization);
   const metrics = computePhonemeQualityMetrics(counts, baselineCounts, thresholds.minCommonBaselinePct);
@@ -114,10 +119,10 @@ function findOverlaps(runs: Array<Pick<SeedResult, "seed" | "draws">>): string[]
   return overlaps;
 }
 
-function runWorker(seed: number): Promise<SeedResult> {
+function runWorker(seed: number, stage: Stage): Promise<SeedResult> {
   return new Promise((resolve, reject) => {
     const script = fileURLToPath(import.meta.url);
-    const child = spawn(process.execPath, [...process.execArgv, script, "--worker-seed", String(seed)], {
+    const child = spawn(process.execPath, [...process.execArgv, script, "--worker-seed", String(seed), "--stage", stage], {
       stdio: ["ignore", "pipe", "inherit"],
     });
     let stdout = "";
@@ -148,9 +153,9 @@ function fmt(value: number, decimals = 4): string {
   return value.toFixed(decimals);
 }
 
-function printReport(results: SeedResult[], thresholds: Thresholds, k: number) {
+function printReport(results: SeedResult[], thresholds: Thresholds, k: number, stage: Stage) {
   const proposals = proposeLimits(results, k);
-  console.log(`\nPer-seed metrics (${thresholds.sampleSize} words, lexicon, morphology off)\n`);
+  console.log(`\nPer-seed metrics (${thresholds.sampleSize} words, lexicon, ${stage})\n`);
   console.log("| Seed | Draws | Total variation % | Pearson r (report-only) | Worst over | Worst under | Worst abs gap % | Non-CMU % | CMU-only |");
   console.log("|---:|---:|---:|---:|---|---|---|---:|---:|");
   for (const r of results) {
@@ -190,6 +195,7 @@ function parseCount(flag: string, input: string | undefined): number {
 async function main() {
   const { values } = parseArgs({
     options: {
+      stage: { type: "string", default: "roots" },
       seeds: { type: "string" },
       count: { type: "string", default: "30" },
       k: { type: "string", default: "3" },
@@ -198,10 +204,15 @@ async function main() {
       "worker-seed": { type: "string" },
     },
   });
-  const thresholds = loadJson<Thresholds>(THRESHOLDS_PATH);
+  const stage = values.stage;
+  if (stage !== "roots" && stage !== "fullCmu") throw new Error("--stage must be roots or fullCmu.");
+  const limits = loadJson<{ sampleSize: number; seed: number; minCommonBaselinePct: number } &
+    Record<Stage, Record<string, number>>>(THRESHOLDS_PATH);
+  const thresholds = { ...limits[stage], sampleSize: limits.sampleSize, seed: limits.seed,
+    minCommonBaselinePct: limits.minCommonBaselinePct, maxGeneratedOnlyMassPct: 0, maxCmuOnlyKeyCount: 0 };
 
   if (values["worker-seed"] !== undefined) {
-    process.stdout.write(JSON.stringify(measureSeed(Number(values["worker-seed"]), thresholds)));
+    process.stdout.write(JSON.stringify(measureSeed(Number(values["worker-seed"]), thresholds, stage)));
     return;
   }
 
@@ -218,14 +229,14 @@ async function main() {
   }
 
   process.stderr.write(`Measuring ${seeds.length} seeds × ${thresholds.sampleSize} words with ${jobs} jobs\n`);
-  const results = await mapConcurrent(seeds, jobs, runWorker);
+  const results = await mapConcurrent(seeds, jobs, seed => runWorker(seed, stage));
 
   const overlaps = findOverlaps(results);
   if (overlaps.length > 0) throw new Error(`Overlapping RNG streams:\n${overlaps.join("\n")}`);
 
-  const proposals = printReport(results, thresholds, k);
+  const proposals = printReport(results, thresholds, k, stage);
   if (values.output) {
-    writeFileSync(values.output, `${JSON.stringify({ sampleSize: thresholds.sampleSize, k, results, proposals }, null, 2)}\n`);
+    writeFileSync(values.output, `${JSON.stringify({ stage, sampleSize: thresholds.sampleSize, k, results, proposals }, null, 2)}\n`);
   }
 }
 

@@ -278,10 +278,12 @@ useful for an exclusion bug, but maximizing it would be wrong. The hiatus metric
 counts affixed words with a traced fallback and is not an alignment proof for every possible future
 glide rule. Final open checked vowels likewise require dialect-sensitive judgment.
 
-The existing CMU normalization merges some vowel categories, so its scores remain
-coarse distribution diagnostics. Compare bare roots against whole-word CMU with
-care: missing affix patterns do not establish a root-generation defect. Improved
-corpus resemblance alone cannot establish a human wordlikeness gain.
+The quality capture protocol holds its historical CMU tables fixed across
+comparisons. Its CMU distances for bare roots are descriptive. The lexicon unit
+gates use the [stage references](cmu-root-reference.md#lexicon-stage-references-phase-2)
+instead. Those gates check audited root phonemes, full-CMU finished phonemes,
+and the finished syllable distribution. Syllable accounting is checked against
+the resolved affix counts in the trace.
 
 For human comparisons, randomize and hide generator version, retain unfiltered
 draws and predefined strata, and use the existing review workflow as a starting

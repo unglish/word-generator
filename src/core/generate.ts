@@ -146,11 +146,14 @@ interface GeneratorRuntime {
           nonFinal?: Map<string, number>;
         };
   };
+  rootFinalCodas: Partial<Record<GenerationMode, FinalCodasByNucleus>>;
   /** Pre-resolved bridge phoneme options for vowel hiatus repair. */
   bridgePhonemeOptions: [Phoneme, number][];
   /** Ban checked vowels at open final base-word edges (English default). */
   forbidOpenCheckedFinal: boolean;
 }
+
+type FinalCodasByNucleus = Map<string, Map<number, [Phoneme[], number][]>>;
 
 const DEFAULT_PLAN_GUARD_PROBABILITY = 98;
 const DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER = 0.08;
@@ -282,7 +285,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     if (p && weight > 0) bridgePhonemeOptions.push([p, weight]);
   }
 
-  return {
+  const runtime: GeneratorRuntime = {
     config,
     resolvedStress,
     resolvedPronunciation,
@@ -325,9 +328,15 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
       ? buildPrefixSet(cl.attestedCodas)
       : undefined,
     clusterWeights,
+    rootFinalCodas: {},
     bridgePhonemeOptions,
     forbidOpenCheckedFinal: config.forbidOpenCheckedFinal === true,
   };
+  for (const mode of ["text", "lexicon"] as const) {
+    const counts = config.clusterWeights?.rootFinalByMode?.[mode];
+    if (counts) runtime.rootFinalCodas[mode] = prepareRootFinalCodas(runtime, counts);
+  }
+  return runtime;
 }
 
 // ---------------------------------------------------------------------------
@@ -904,10 +913,54 @@ function appendCoda(candidate: Phoneme, context: ClusterContext): void {
   context.clusterSounds.push(candidate.sound);
 }
 
+/** Precompute whole-cluster choices so a rare sole completion cannot dominate its first phone. */
+function prepareRootFinalCodas(
+  rt: GeneratorRuntime,
+  weights: Record<string, number>,
+): FinalCodasByNucleus {
+  const choices: [Phoneme[], number][] = [];
+  const codaPhones = new Map(rt.positionPhonemes.coda.map(phoneme => [phoneme.sound, phoneme]));
+  const shape = rt.clusterLimits;
+  const appendants = rt.codaAppendantSet;
+  const constraints = rt.config.codaConstraints;
+  for (const [key, weight] of Object.entries(weights)) {
+    const sounds = key.split(",");
+    const cluster = sounds.map(sound => codaPhones.get(sound))
+      .filter((phoneme): phoneme is Phoneme => phoneme !== undefined);
+    if (sounds.some(sound => !sound) || new Set(sounds).size !== sounds.length ||
+      !Number.isFinite(weight) || weight <= 0) {
+      throw new Error(`Invalid root-final coda weight for ${key}`);
+    }
+    if (cluster.length !== sounds.length) continue;
+    const final = sounds[sounds.length - 1];
+    if (rt.allowedFinalSet && !rt.allowedFinalSet.has(final)) continue;
+    if (cluster.some((phoneme, index) =>
+      phoneme.coda === 0 || phoneme.endWord === 0 || rt.bannedCodaSet?.has(phoneme.sound) ||
+      codaShapeRejection(cluster.slice(0, index), phoneme, shape, appendants, constraints))) continue;
+    choices.push([cluster, weight]);
+  }
+
+  const byNucleus: FinalCodasByNucleus = new Map();
+  for (const nucleus of rt.positionPhonemes.nucleus) {
+    const byLength: Map<number, [Phoneme[], number][]> = new Map();
+    const banned = rt.bannedNucleusCodaMap?.get(nucleus.sound);
+    for (const choice of choices) {
+      const [cluster] = choice;
+      if (banned && cluster.some(phoneme => banned.has(phoneme.sound))) continue;
+      const pool = byLength.get(cluster.length) ?? [];
+      pool.push(choice);
+      byLength.set(cluster.length, pool);
+    }
+    byNucleus.set(nucleus.sound, byLength);
+  }
+  return byNucleus;
+}
+
 function pickCoda(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   newSyllable: Syllable,
+  mode: GenerationMode,
   isEndOfWord: boolean,
   monosyllabic: boolean,
   targetLength?: number,
@@ -949,6 +1002,14 @@ function pickCoda(
     maxLength,
     nucleus: newSyllable.nucleus,
   };
+  const finalChoices = isEndOfWord ? rt.rootFinalCodas[mode] : undefined;
+  if (finalChoices) {
+    const byLength = finalChoices.get(newSyllable.nucleus[0].sound);
+    // Underfill a plan with no eligible cluster and let root selection retry.
+    const options = byLength?.get(maxLength) ?? byLength?.get(1);
+    if (options?.length) return getWeightedOption(options, rand).slice();
+    return buildCluster(rt, { ...codaContext, maxLength: 1 });
+  }
   const coda = buildCluster(rt, codaContext);
 
   // Extend word-final singleton nasal codas with their voiced homorganic stop
@@ -1494,6 +1555,7 @@ function generateSyllable(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   syllablePlan: SyllableShapePlan,
+  mode: GenerationMode,
 ): Syllable {
   const isEndOfWord = context.currSyllableIndex === context.syllableCount - 1;
   const isStartOfWord = context.currSyllableIndex === 0;
@@ -1534,6 +1596,7 @@ function generateSyllable(
       rt,
       context,
       newSyllable,
+      mode,
       isEndOfWord,
       monosyllabic,
       syllablePlan.codaLength,
@@ -1587,7 +1650,7 @@ function generateSyllables(
 
   for (let i = 0; i < context.syllableCount; i++) {
     const syllablePlan = context.syllablePlans[i];
-    let newSyllable = generateSyllable(rt, context, syllablePlan);
+    let newSyllable = generateSyllable(rt, context, syllablePlan, mode);
 
     if (prevSyllable) {
       [prevSyllable, newSyllable] = adjustBoundary(
@@ -2019,17 +2082,14 @@ function generateOneWord(
 ): Word {
   const applyMorph = options.morphology ?? true;
   const enableTrace = options.trace ?? false;
-  // Keep morphology selection first in the RNG stream, but never deduct its
-  // cost from the root or use the completed affixed word to accept a root.
-  const morphConfig = rt.config.morphology;
-  const morphPlan =
-    morphConfig?.enabled && applyMorph
-      ? planMorphology(morphConfig, mode, rand)
-      : undefined;
-  const affixPlan =
-    morphPlan && morphPlan.plan.template !== "bare"
-      ? morphPlan.plan
-      : undefined;
+  const morphConfig = applyMorph && rt.config.morphology?.enabled
+    ? rt.config.morphology
+    : undefined;
+  const conditionalMorphology = morphConfig?.templateWeights[mode].byRootSyllables;
+  // Existing unconditional configs still draw morphology before length.
+  let morphPlan = morphConfig && !conditionalMorphology
+    ? planMorphology(morphConfig, mode, rand)
+    : undefined;
   const forcedRootSyllableCount = syllableCount > 0 ? syllableCount : undefined;
   const maxOnset =
     rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
@@ -2057,6 +2117,12 @@ function generateOneWord(
     rand,
     forcedRootSyllableCount,
   );
+  if (morphConfig && conditionalMorphology) {
+    morphPlan = planMorphology(morphConfig, mode, rand, sampledSyllableCount);
+  }
+  const affixPlan = morphPlan && morphPlan.plan.template !== "bare"
+    ? morphPlan.plan
+    : undefined;
   // One draw per affixed word seeds the per-attempt look-ahead streams.
   const lookaheadSeed = affixPlan ? Math.floor(rand() * 4294967296) : 0;
   const maxAttempts = MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES;

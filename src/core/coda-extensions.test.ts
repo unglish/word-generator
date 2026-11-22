@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { findExample } from "../test-support/find-example.js";
 import { englishConfig } from "../config/english.js";
+import { lexiconReference } from "../config/lexicon-reference.js";
 import type { CodaConstraints, LanguageConfig } from "../config/language.js";
 import { createGenerator, generateWords } from "../index.js";
 
@@ -86,6 +87,33 @@ function extensionGenerator(fixture: Fixture) {
 function wordFor(fixture: Fixture) {
   return extensionGenerator(fixture).generateWord({ seed: 913, syllableCount: 1, morphology: false, trace: true });
 }
+
+describe("audited lexicon root-final codas", () => {
+  it.each([false, true])("uses only audited multi-codas with morphology=%s", morphology => {
+    const attested = new Set(Object.keys(lexiconReference.finalCodaCounts));
+    const words = generateWords(10_000, { seed: 491, morphology, trace: true, mode: "lexicon" });
+    let clusters = 0;
+    let consonantSibilants = 0;
+    for (const word of words) {
+      const trace = word.trace!;
+      const root = trace.stages.find(stage => stage.name === "repairNucleusWordPositions")!.after;
+      const coda = root.at(-1)!.coda;
+      if (coda.length > 1) {
+        clusters++;
+        expect(attested.has(coda.join(",")), word.written.clean).toBe(true);
+        expect(new Set(coda).size).toBe(coda.length);
+        if (coda.at(-1) === "s" || coda.at(-1) === "z") consonantSibilants++;
+      }
+      const realization = trace.morphology?.realization;
+      const added = (realization?.prefix?.resolved.syllableCount ?? 0)
+        + (realization?.suffix?.resolved.syllableCount ?? 0);
+      expect(root).toHaveLength(trace.syllableCount);
+      expect(word.syllables).toHaveLength(root.length + added);
+    }
+    expect(clusters).toBeGreaterThan(1000);
+    expect(consonantSibilants / words.length).toBeLessThan(0.05);
+  });
+});
 
 describe("coda extensions preserve configured legality", () => {
   it("rejects /s/ → /ss/ even with a 100% final-s probability", () => {
@@ -257,8 +285,8 @@ describe("coda extensions preserve configured legality", () => {
     expect(rejections).toBeGreaterThan(0);
   });
 
-  it("produces no adjacent duplicate coda phones in a 20,000-word bare stream", { timeout: 30_000 }, () => {
-    const words = generateWords(20_000, { seed: 20260926, morphology: false, trace: true });
+  it("produces no adjacent duplicate coda phones in a 20,000-word bare text stream", { timeout: 30_000 }, () => {
+    const words = generateWords(20_000, { seed: 20260926, morphology: false, trace: true, mode: "text" });
     let extensions = 0;
     let rejectedRepeats = 0;
     for (const word of words) {

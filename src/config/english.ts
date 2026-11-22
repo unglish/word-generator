@@ -1,3 +1,4 @@
+import { lexiconReference } from "./lexicon-reference.js";
 import { englishDoublingRealizations } from "../elements/graphemes/doubling.js";
 import { Affix, BoundaryClusterConstraintRule, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets } from "./language.js";
 
@@ -97,6 +98,24 @@ const ENGLISH_BOUNDARY_CLUSTER_RULES: BoundaryClusterConstraintRule[] = [
   { mode: "ban", coda: { sounds: ["ʃ"] }, onset: { sounds: ["h"] } },
   { mode: "ban", coda: { sounds: ["k"] }, onset: { sounds: ["tʃ"] } },
 ];
+
+const lexiconTemplates = Object.values(lexiconReference.templates).reduce(
+  (total, counts) => ({
+    bare: total.bare + counts.bare,
+    suffixed: total.suffixed + counts.suffixed,
+    prefixed: total.prefixed + counts.prefixed,
+    both: total.both + counts.both,
+  }),
+  { bare: 0, suffixed: 0, prefixed: 0, both: 0 },
+);
+
+function withLexiconAffixFrequencies(affixes: Affix[]): Affix[] {
+  const frequencies: Readonly<Record<string, number>> = lexiconReference.affixFrequencies;
+  return affixes.map(affix => ({
+    ...affix,
+    frequencyByMode: { lexicon: frequencies[affix.written] ?? 0 },
+  }));
+}
 
 /**
  * English language configuration built from existing phoneme/grapheme data.
@@ -763,7 +782,7 @@ export const englishConfig: LanguageConfig = {
     morphophonemicPolicy: {
       preserveClusterLegality: true,
     },
-    prefixes: [
+    prefixes: withLexiconAffixFrequencies([
       { type: "prefix", written: "un", phonemes: ["ʌ", "n"], syllables: [{ onset: [], nucleus: ["ʌ"], coda: ["n"] }], syllableCount: 1, stressEffect: "secondary", frequency: 80 },
       { type: "prefix", written: "re", phonemes: ["r", "ɪ"], syllables: [{ onset: ["r"], nucleus: ["ɪ"], coda: [] }], syllableCount: 1, stressEffect: "secondary", frequency: 70 },
       { type: "prefix", written: "dis", phonemes: ["d", "ɪ", "s"], syllables: [{ onset: ["d"], nucleus: ["ɪ"], coda: ["s"] }], syllableCount: 1, stressEffect: "secondary", frequency: 18 },
@@ -772,9 +791,9 @@ export const englishConfig: LanguageConfig = {
       { type: "prefix", written: "out", phonemes: ["aʊ", "t"], syllables: [{ onset: [], nucleus: ["aʊ"], coda: ["t"] }], syllableCount: 1, stressEffect: "primary", frequency: 20 },
       { type: "prefix", written: "mis", phonemes: ["m", "ɪ", "s"], syllables: [{ onset: ["m"], nucleus: ["ɪ"], coda: ["s"] }], syllableCount: 1, stressEffect: "secondary", frequency: 30 },
       { type: "prefix", written: "in", phonemes: ["ɪ", "n"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["n"] }], syllableCount: 1, stressEffect: "secondary", frequency: 50, allomorphs: [{ phonologicalCondition: { position: "following", place: ["bilabial"] }, phonemes: ["ɪ", "m"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["m"] }], syllableCount: 1, written: "im" }] },
-    ] satisfies Affix[],
-    suffixes: [
-      // Frequencies calibrated to CMU dictionary word rates (÷ 0.65 morph fire rate × 884 pool)
+    ]),
+    suffixes: withLexiconAffixFrequencies([
+      // Base frequencies are the legacy text profile; lexicon uses stripped counts.
       // y→i applies to every suffix that does not begin with `i` (#458).
       // i-initial suffixes (`-ing`, `-ist`, `-ism`, `-ive`, `-ity`, `-ize`, `-ian`, `-ial`) keep final y.
       { type: "suffix", written: "ing", phonemes: ["ɪ", "ŋ"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }], syllableCount: 1, stressEffect: "none", frequency: 40, boundaryTransforms: BT_E_DOUBLE },
@@ -853,14 +872,18 @@ export const englishConfig: LanguageConfig = {
       { type: "suffix", written: "ery", phonemes: ["ɛ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɛ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: "none", frequency: 8, boundaryTransforms: BT_Y_E },
       { type: "suffix", written: "ian", phonemes: ["i:", "ə", "n"], syllables: [{ onset: [], nucleus: ["i:"], coda: [] }, { onset: [], nucleus: ["ə"], coda: ["n"] }], syllableCount: 2, stressEffect: "attract-preceding", frequency: 8 },
       { type: "suffix", written: "ial", phonemes: ["i:", "ə", "l"], syllables: [{ onset: [], nucleus: ["i:"], coda: [] }, { onset: [], nucleus: ["ə"], coda: ["l"] }], syllableCount: 2, stressEffect: "attract-preceding", frequency: 8 },
-    ] satisfies Affix[],
+    ]),
     templateWeights: {
       text: { bare: 55, suffixed: 30, prefixed: 10, both: 5 },
-      lexicon: { bare: 30, suffixed: 48, prefixed: 14, both: 8 },
+      lexicon: {
+        ...lexiconTemplates,
+        byRootSyllables: lexiconReference.templates,
+      },
     },
   },
 
   clusterWeights: {
+    rootFinalByMode: { lexicon: lexiconReference.finalCodaCounts },
     onset: {
       // /dr/ onset cluster is ~2.5× over-represented vs CMU; reduce probability.
       // CMU has tr 3× more common than dr — our generator produces them equally.

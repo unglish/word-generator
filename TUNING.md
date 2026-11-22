@@ -33,6 +33,11 @@ Baseline → Analyze (phonemes first) → Diagnose → Fix → Verify → Guardr
 - Frozen levers for this cycle:
   - grapheme/spelling tuning
 
+The `cc` under-representation floor is specific to that bigram. In the
+calibration for #491, all observed `cc` came from a root-final `c` doubled
+before `-able`, whose measured rate is lower. Its floor uses the same 10%
+margin below the minimum ratio to CMU, measured across ten 200,000-word seeds.
+
 ## Canonical Run Defaults
 
 Use this default profile unless a specific experiment needs otherwise:
@@ -308,7 +313,8 @@ should rely on committed baselines and config, not on `data/cmudict-0.7b.txt`.
 ## Phoneme Guardrail Ratchet
 
 The test suite includes phoneme quality gates (`src/core/phoneme-quality.test.ts`)
-that compare generated phoneme frequencies against the CMU lexicon phoneme baseline.
+that compare bare lexicon roots to the audited root counts and finished
+lexicon words to all selected CMU types.
 Gates cover both representation shape and coverage:
 
 - total-variation ceiling: the share of all phoneme mass misplaced relative to CMU
@@ -321,12 +327,13 @@ Each limit is calibrated from how much the metric varies across seeds on the
 current generator, not from a flat percentage of one seed:
 
 ```sh
-npm run calibrate:phonemes            # 30 seeds, k = 3, prints tables to stdout
-npm run calibrate:phonemes -- --output calibration.json
+npm run calibrate:phonemes -- --stage roots
+npm run calibrate:phonemes -- --stage fullCmu --output calibration.json
 ```
 
-The script runs the gate's exact measurement (sample size, lexicon mode, morphology
-off, shared normalization and `computePhonemeQualityMetrics`) on seed 42 plus 29
+The script runs the selected gate’s exact measurement (sample size, lexicon mode,
+stage-specific morphology and reference, shared normalization and
+`computePhonemeQualityMetrics`) on seed 42 plus 29
 seeds whose Mulberry32 streams start evenly spaced around the RNG cycle, so no two
 runs reuse draws. It reports min, max, mean and sample SD per metric and proposes:
 

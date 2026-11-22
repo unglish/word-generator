@@ -400,16 +400,15 @@ has limited power to assess the accuracy of stripped rows specifically.
 
 </details>
 
-Before #491, decide whether the cutoff and pronunciation rules are acceptable
-for a gate. The three clear misses, the unmeasured name leakage through
-homographs, and the opposite direction of the length mean all matter for
-adoption. Use the 4.49% stack-of-suffixes share as one input to the decision about
-an extra suffix slot.
+The follow-up audit below estimates error within stripped rows. Name leakage
+through homographs and missed stripping outside the sample remain limitations.
 
 ## Reproduce
 
-Download the versioned inputs and check these raw SHA-256 values. The builder
-and verifier enforce the same pins and the joint selected-entry digest.
+Run these Phase 1 commands from commit `0de88f5c`. The ledger digest includes
+the configuration snapshot and implementation at that revision. Download the
+versioned inputs and check these raw SHA-256 values. The builder and verifier
+enforce the same pins and the joint selected-entry digest.
 
 | Input | SHA-256 |
 |---|---|
@@ -432,3 +431,89 @@ generates candidate stems by reversing each surface spelling, independently
 of the TypeScript builder’s forward enumeration, and checks every row and bin.
 
 The result digest is `2eacf788dd396e5207908c613d6689390e462d0488fa6e847606e08c124ce467`.
+
+
+## Lexicon stage references (Phase 2)
+
+[#491](https://github.com/unglish/word-generator/issues/491) uses one observation
+per representable surface type from the Phase 1 ledger. If five included
+spellings resolve to one root, that root contributes five observations. After
+the coda audit there are **42,696** observations. The measured template counts
+are grouped by terminal-root syllable count. Conditional on a template picking
+an affix, the generator samples the measured prefix or suffix counts.
+`-tion` and `-sion` use the observed counts of 14 and 5. These counts omit
+joins the inventory cannot yet describe, including forms tracked in #462.
+
+### Stripping audit
+
+A single reviewer checked 200 representable rows with at least one removal.
+Rank the 21,829 eligible spellings by SHA-256 of
+`stage-references-phase2-491-stripped-v1:<spelling>` and take the first 200.
+There were **190 correct, 7 wrong (3.5%) and 3 debatable (1.5%)**. Examples of
+incorrect joins are `bully → bull`, `refunds → funds → fund` and
+`remedial → medial`. The estimate concerns rows with an accepted strip.
+It does not measure the rate of missed strips among rows marked bare.
+
+The coda audit examined terminal stems ending in a consonant plus /s/ or /z/
+and checked marginal inflection-shaped stop endings such as /zd/ and /vd/.
+An ordinary plural, inflected verb, or transparent declined compound was
+excluded when it had survived stripping. Lexical forms such as `suds` and
+`qualms`, established units such as `megahertz`, and /ks/ stems with a lexical
+`x` as in `box` were retained. The audit also excluded a few erroneous first
+pronunciations such as `tern` with final /nz/. The common sources of missed
+strips include an unavailable intermediate base, a mismatch in first
+pronunciations, and lexical ambiguity. A spelling-only fallback would also
+strip unrelated words such as `blitz`.
+
+The [full exclusion list](../evaluation/corpus/root-coda-exclusions.json)
+contains 321 terminal spellings, grouped by their first-pronunciation coda.
+The builder drops every included row that resolves to one of those spellings
+(330 rows). The Phase 1 ledger remains reproducible at its pinned revision.
+
+| Coda | Retained terminal spellings after audit |
+|---|---|
+| /ts/ | blitz, congrats, ersatz, fritz, glitz, grassroots, kibbutz, klutz, megahertz, putz, rickets, thereabouts, whereabouts |
+| /dz/ | backwoods, everglades, innards, suds |
+| /mz/ | doldrums, oftentimes, qualms |
+| /fs/ | fisticuffs |
+| /vz/ | chives |
+| /ŋz/ | chitterlings, hustings |
+| /ms/, /ŋs/ | No retained attestations |
+
+The runtime draws complete final codas in proportion to the audited counts
+within the planned coda length. Existing segment and phonotactic constraints
+still determine whether a coda is eligible. The complete-cluster draw prevents
+a rare sole completion from inheriting the probability of a common first
+consonant. The earlier whitelist and final multipliers still serve text,
+medial root codas, and the separate affix-boundary rules.
+
+### Fit and gates
+
+The audited roots average **2.29 syllables per observation**. Lexicon root
+lengths are fitted to **2.462** finished syllables in full CMU. The fit changes
+the relative mass of root syllable buckets while preserving the measured phone
+distribution within each root syllable count. It uses the observed transitions
+from each root length to a finished syllable bucket (1–5 or 6+), with 30,000
+draws each at forced lengths 1–5 and the full generator's measured morphology.
+For the pooled 6+ bucket, roots of six or more syllables remain in that bucket
+whatever affix is added. The fitted root mean is approximately **2.14**
+syllables, about **0.15 fewer** than the audited population. Attachment adds
+about **0.32** on average. The full list includes types outside the
+representable common-word population, so those means describe different samples.
+
+The bare-root phoneme gate uses the audited root counts. The finished-word gate
+uses the 117,485 full-CMU types. The finished syllable gate allows up to one
+percentage point of total variation and 0.03 syllables of mean error. The trace
+invariant checks that the root length matches the plan and that the finished
+length equals the root plus the realized prefix and suffix syllable counts.
+
+To regenerate the fixed inputs, rebuild and verify the Phase 1 artifact above,
+then run the Phase 2 builder in the current checkout with the archived measured
+transition counts.
+
+```sh
+python3 evaluation/corpus/stage-reference.py \
+  --root-reference "$ROOT_JSON" --source "$CMU_SOURCE" \
+  --transitions "$TRANSITIONS_JSON" \
+  --runtime-out /tmp/lexicon-reference.ts --reference-out /tmp/stage-references.json
+```

@@ -332,12 +332,14 @@ describe("morphology config", () => {
     expect(englishConfig.morphology!.prefixes).toHaveLength(8);
   });
 
-  it("should have template weights summing to 100 for both modes", () => {
+  it("keeps text template weights at 100 and uses counted lexicon templates", () => {
     const { text, lexicon } = englishConfig.morphology!.templateWeights;
     expect(text.bare + text.suffixed + text.prefixed + text.both).toBe(100);
-    expect(
-      lexicon.bare + lexicon.suffixed + lexicon.prefixed + lexicon.both,
-    ).toBe(100);
+    const conditionals = Object.values(lexicon.byRootSyllables ?? {});
+    expect(conditionals).toHaveLength(8);
+    for (const template of ["bare", "suffixed", "prefixed", "both"] as const) {
+      expect(lexicon[template]).toBe(conditionals.reduce((total, weights) => total + weights[template], 0));
+    }
   });
 
   it("all affixes should have syllables defined", () => {

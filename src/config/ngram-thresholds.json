@@ -2,6 +2,8 @@
   "maxBigramOverRepresentation": 4.25,
   "maxTrigramOverRepresentation": 3.21,
   "minBigramRepresentation": 0.0089,
+  "minBigramRepresentationByBigram": { "cc": 0.0031 },
+  "_ccFloor": "#491: all 28 baseline and 96 candidate cc hits in the traced calibration come from root-final c before -able. With measured -able, the ten-seed minimum was 0.0035462x the unchanged CMU cc frequency (927/752330). The cc-only floor is the minimum less 10%, rounded down.",
   "minTrigramRepresentation": 0.0062,
   "minBigramBaselineFreq": 0.001,
   "minTrigramBaselineFreq": 0.0005,

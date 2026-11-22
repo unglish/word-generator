@@ -283,11 +283,21 @@ describe("root-final /k/ (#469)", () => {
   });
 
   it("keeps a c whose silent e the suffix drops before a/o/u (edice + al → edical)", () => {
+    const morphology = englishConfig.morphology!;
+    const forcedSuffix = { bare: 0, suffixed: 1, prefixed: 0, both: 0 };
+    const generator = createGenerator({
+      ...englishConfig,
+      morphology: {
+        ...morphology,
+        suffixes: morphology.suffixes.filter(affix => /^[aou]/.test(affix.written)),
+        templateWeights: { lexicon: forcedSuffix, text: forcedSuffix },
+      },
+    });
     const { word } = findExample((w) => {
       const surface = w.trace!.baseSpelling!.surface;
       return /^[aou]/.test(suffixText(w)) && /ce$/.test(surface) && keptRoot(w).endsWith("c") &&
         writtenCs(w).some((c) => c.sound === "k" && c.rest === "");
-    }, { property: "a /k/ c + silent e before an a/o/u suffix", ...search });
+    }, { property: "a /k/ c + silent e before an a/o/u suffix", ...search, generator });
     expect(word.written.clean).toContain("c" + suffixText(word));
     expect(respelledFor(word, "soft-letter")).toEqual([]);
   });

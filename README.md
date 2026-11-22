@@ -36,8 +36,7 @@ the same seeded stream.
 By default generation includes morphology when the active config enables it.
 Pass `{ morphology: false }` for bare root forms.
 
-`syllableCount` requests an exact **root** count from 1–7. Affixes are applied
-independently afterward: a one-syllable root plus `-ing` has two syllables;
+`syllableCount` requests an exact **root** count from 1–7. Affixes add to that count: a one-syllable root plus `-ing` has two syllables;
 `un-` plus a one-syllable root plus `-ness` has three. There is no final-word
 syllable ceiling. With automatic length, the configured phoneme, syllable, and
 letter targets also describe the root. A requested count draws the root's target
@@ -120,9 +119,15 @@ Generation plans roots top-down, then attaches the selected affixes:
 
 1. sample a target root phoneme count,
 2. sample a compatible root syllable count,
-3. distribute onset/coda consonant budgets across syllables,
-4. generate and select the root using root phoneme and letter targets,
-5. attach affixes, resolve allomorphs, and finish pronunciation and spelling.
+3. select lexicon morphology using the root syllable count,
+4. distribute onset and coda budgets and select the root,
+5. realize the affixes, including their context-dependent forms, and finish
+   pronunciation and spelling.
+
+English lexicon mode uses [audited CMU roots](./docs/cmu-root-reference.md#lexicon-stage-references-phase-2)
+for its root shapes and affix rates. Its root length weights are fitted to the
+full-CMU finished syllable distribution. Text mode uses the running-prose
+profile and its original affix and coda weights.
 
 The built-in English config ships with this wired through:
 
