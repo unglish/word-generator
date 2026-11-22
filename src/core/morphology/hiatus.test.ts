@@ -31,7 +31,8 @@ function fixedBoundary(options: {
   const weights = { bare: 0, prefixed: 0, suffixed: 0, both: 0, [template]: 1 };
   const neutral = (affix: Affix): Affix => ({ ...affix, stressEffect: "none", boundaryTransforms: [], morphophonemicRules: [] });
   const config: LanguageConfig = {
-    ...englishConfig, phonemeMaps, graphemeMaps, graphemes,
+    ...englishConfig,
+    lexiconFinalCodas: undefined, phonemeMaps, graphemeMaps, graphemes,
     clusterConstraint: undefined, clusterWeights: undefined,
     clusterLimits: { maxOnset: 1, maxCoda: 1 }, codaConstraints: { allowedFinal: coda ? [coda] : [] },
     syllableStructure: { ...englishConfig.syllableStructure, maxOnsetLength: 1, maxCodaLength: 1, letterLengthTargets: undefined },

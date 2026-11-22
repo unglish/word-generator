@@ -43,6 +43,7 @@ interface Thresholds {
   maxBigramOverRepresentation: number;
   maxTrigramOverRepresentation: number;
   minBigramRepresentation: number;
+  minBigramRepresentationByPattern: Record<string, number>;
   minTrigramRepresentation: number;
   minBigramBaselineFreq: number;
   minTrigramBaselineFreq: number;
@@ -179,19 +180,14 @@ describe("N-gram quality gates", () => {
       const genFreq = genCount / bigramTotal;
       const ratio = genFreq / cmu;
       if (ratio < worst.ratio) worst = { ngram: bi, ratio };
+      if (NGRAM_GATES_BLOCKING) {
+        const floor = thresholds.minBigramRepresentationByPattern[bi] ?? thresholds.minBigramRepresentation;
+        expect(ratio, `Bigram "${bi}" under-represented at ${ratio.toFixed(4)}× vs CMU (floor: ${floor}×)`)
+          .toBeGreaterThanOrEqual(floor);
+      }
     }
 
-    console.log(`Worst under-rep bigram: "${worst.ngram}" at ${worst.ratio.toFixed(4)}× (threshold: ${thresholds.minBigramRepresentation})`);
-
-    if (NGRAM_GATES_BLOCKING) {
-      expect(
-        worst.ratio,
-        `Bigram "${worst.ngram}" under-represented at ${worst.ratio.toFixed(4)}× vs CMU (threshold: ${thresholds.minBigramRepresentation}×)`
-      ).toBeGreaterThanOrEqual(thresholds.minBigramRepresentation);
-      return;
-    }
-
-    expect(true).toBe(true);
+    console.log(`Worst under-rep bigram: "${worst.ngram}" at ${worst.ratio.toFixed(4)}×`);
   });
 
   it("no common trigram is severely under-represented", async () => {

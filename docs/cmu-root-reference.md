@@ -1,5 +1,8 @@
 # Stage references, Phase 1
 
+[Phase 2](cmu-lexicon-calibration.md) calibrates generation using one root observation
+per representable surface and records a 200-row stripping audit.
+
 [Issue #490](https://github.com/unglish/word-generator/issues/490) starts with
 `cmu-joint-ascii-first-v1` and measures morphology on a common-word subset.
 The ledger covers every CMU spelling in that population. Each root gets one

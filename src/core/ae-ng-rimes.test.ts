@@ -17,6 +17,7 @@ function fixedRime(nucleus: string, codas: string[], banned: NonNullable<Languag
   const weights = englishConfig.generationWeights;
   return {
     ...englishConfig,
+    lexiconFinalCodas: undefined,
     phonemeMaps: {
       onset: new Map([["b", [phone("b")]]]),
       nucleus: new Map([[nucleus, [phone(nucleus)]]]),

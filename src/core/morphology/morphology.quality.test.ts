@@ -1,24 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { generateWords } from "../generate.js";
-import { readFileSync } from "fs";
-import { join } from "path";
-
-function loadCmuFreqs(filename: string): Record<string, number> {
-  const repoRoot = join(__dirname, "..", "..", "..");
-  const raw = JSON.parse(readFileSync(join(repoRoot, "data", "cmu", filename), "utf8")) as Record<string, number>;
-  const total = Object.values(raw).reduce((a, b) => a + b, 0);
-  const freq: Record<string, number> = {};
-  for (const [k, v] of Object.entries(raw)) freq[k] = v / total;
-  return freq;
-}
-
-function countNgram(text: string, ngram: string): number {
-  let count = 0;
-  for (let i = 0; i <= text.length - ngram.length; i++) {
-    if (text.slice(i, i + ngram.length) === ngram) count++;
-  }
-  return count;
-}
+import { createGenerator, generateWords } from "../../index.js";
+import { englishConfig } from "../../config/english.js";
 
 describe("Morphology quality benchmarks", () => {
   const words = generateWords(1000, { seed: 42, morphology: true });
@@ -69,49 +51,21 @@ describe("Morphology quality benchmarks", () => {
     }
   });
 
-  it("new nominal suffix -ian appears in larger deterministic samples", () => {
-    const sample = generateWords(5000, { seed: 2026, morphology: true, mode: "lexicon" });
-    const count = sample.filter(w => /ian$/.test(w.written.clean)).length;
-    expect(count).toBeGreaterThanOrEqual(3);
-  });
-
-  it("new nominal suffix -ial appears in larger deterministic samples", () => {
-    const sample = generateWords(5000, { seed: 2027, morphology: true, mode: "lexicon" });
-    const count = sample.filter(w => /ial$/.test(w.written.clean)).length;
-    expect(count).toBeGreaterThanOrEqual(3);
-  });
-
-  it("new orthographic suffix -sion appears in larger deterministic samples", () => {
-    const sample = generateWords(5000, { seed: 2029, morphology: true, mode: "lexicon" });
-    const count = sample.filter(w => /sion$/.test(w.written.clean)).length;
-    expect(count).toBeGreaterThanOrEqual(3);
-  });
-
-  it("keeps ia and ian representation above regression floors vs CMU", () => {
-    const cmuBigrams = loadCmuFreqs("cmu-lexicon-bigrams.json");
-    const cmuTrigrams = loadCmuFreqs("cmu-lexicon-trigrams.json");
-    const sample = generateWords(30000, { seed: 2028, morphology: true, mode: "lexicon" });
-
-    let bigramTotal = 0;
-    let trigramTotal = 0;
-    let iaCount = 0;
-    let ianCount = 0;
-
-    for (const w of sample) {
-      const clean = w.written.clean.toLowerCase();
-      bigramTotal += Math.max(0, clean.length - 1);
-      trigramTotal += Math.max(0, clean.length - 2);
-      iaCount += countNgram(clean, "ia");
-      ianCount += countNgram(clean, "ian");
-    }
-
-    const iaFreq = iaCount / bigramTotal;
-    const ianFreq = ianCount / trigramTotal;
-    const iaRatio = iaFreq / cmuBigrams.ia;
-    const ianRatio = ianFreq / cmuTrigrams.ian;
-
-    expect(iaRatio).toBeGreaterThanOrEqual(0.2);
-    expect(ianRatio).toBeGreaterThanOrEqual(0.45);
+  it.each(["ian", "ial", "sion"])("realizes rare -%s when selected", written => {
+    const morphology = englishConfig.morphology!;
+    const suffix = morphology.suffixes.find(affix => affix.written === written)!;
+    const suffixed = { bare: 0, suffixed: 1, prefixed: 0, both: 0 };
+    const generator = createGenerator({
+      ...englishConfig,
+      morphology: {
+        ...morphology,
+        suffixes: [suffix],
+        templateWeights: { text: suffixed, lexicon: suffixed },
+      },
+    });
+    const word = generator.generateWord({ seed: 2026, trace: true, mode: "lexicon" });
+    expect(word.trace!.morphology!.realization!.suffix!.resolved.written).toBe(written);
+    expect(word.written.clean.endsWith(written)).toBe(true);
   });
 
   it("enb trigram is reachable in traced lexicon samples", () => {

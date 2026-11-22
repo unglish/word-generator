@@ -308,7 +308,9 @@ should rely on committed baselines and config, not on `data/cmudict-0.7b.txt`.
 ## Phoneme Guardrail Ratchet
 
 The test suite includes phoneme quality gates (`src/core/phoneme-quality.test.ts`)
-that compare generated phoneme frequencies against the CMU lexicon phoneme baseline.
+that compare generated bare roots against the weighted CMU common-word root
+reference. [Phase 2 calibration](docs/cmu-lexicon-calibration.md) explains the
+reference switch, finished-word gate and new margins.
 Gates cover both representation shape and coverage:
 
 - total-variation ceiling: the share of all phoneme mass misplaced relative to CMU

@@ -989,6 +989,14 @@ export interface LanguageConfig {
           nonFinal?: Record<string, number>;
         };
   };
+
+  /** Lexicon-mode final coda inventory. Keys are comma-separated complete
+   * codas (empty string for an open syllable), with positive occurrence counts. */
+  lexiconFinalCodas?: {
+    weights: Record<string, number>;
+    /** Coda-length counts by "root phonemes:root syllables". */
+    lengthsByRootShape: Record<string, [number, number][]>;
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -1114,6 +1122,10 @@ export interface MorphologyConfig {
   templateWeights: {
     text: { bare: number; suffixed: number; prefixed: number; both: number };
     lexicon: { bare: number; suffixed: number; prefixed: number; both: number };
+    lexiconCalibration?: {
+      byRootSyllables: Record<number, MorphologyConfig["templateWeights"]["lexicon"]>;
+      affixes: { prefix: Record<string, number>; suffix: Record<string, number> };
+    };
   };
 }
 

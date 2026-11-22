@@ -144,9 +144,9 @@ describe("Word Generator", () => {
   });
 
   it("treats requested counts as root counts across the default morphology mix", () => {
-    let affixed = 0;
+    const templates = new Set<string>();
     for (let syllableCount = 1; syllableCount <= 7; syllableCount++) {
-      for (let seed = 0; seed < 20; seed++) {
+      for (let seed = 0; seed < 64; seed++) {
         const word = generateWord({ seed, syllableCount, trace: true });
         const trace = word.trace!;
         expect(trace.syllableCount).toBe(syllableCount);
@@ -159,10 +159,10 @@ describe("Word Generator", () => {
           (realized?.prefix?.resolved.syllableCount ?? 0) +
           (realized?.suffix?.resolved.syllableCount ?? 0);
         expect(word.syllables).toHaveLength(syllableCount + added);
-        if (trace.summary.morphologyApplied) affixed++;
+        if (trace.morphology) templates.add(trace.morphology.template);
       }
     }
-    expect(affixed).toBeGreaterThan(70);
+    expect([...templates].sort()).toEqual(["bare", "both", "prefixed", "suffixed"]);
   });
 
   it("selects the same root regardless of affix phone, syllable, and letter costs", () => {

@@ -1,3 +1,5 @@
+import { lexiconReference } from "./lexicon-reference.js";
+
 /**
  * Configuration constants for word generation weights and probabilities.
  *
@@ -163,34 +165,8 @@ export const PHONEME_LENGTH_WEIGHTS_TEXT: [number, number][] = [
   [20, 0.0003],
 ];
 
-/**
- * Phoneme-length weights for lexicon mode.
- *
- * Derived from CMU Pronouncing Dictionary (`cmudict.dict`), excluding
- * alternate pronunciations (word(2), word(3), ...), total 126,044 entries.
- */
-export const PHONEME_LENGTH_WEIGHTS_LEXICON: [number, number][] = [
-  [1, 0.0325],
-  [2, 0.7386],
-  [3, 5.2172],
-  [4, 12.5504],
-  [5, 19.5559],
-  [6, 20.3857],
-  [7, 15.5779],
-  [8, 11.1747],
-  [9, 6.7691],
-  [10, 3.7685],
-  [11, 2.0985],
-  [12, 1.1274],
-  [13, 0.5792],
-  [14, 0.2523],
-  [15, 0.0968],
-  [16, 0.0484],
-  [17, 0.0206],
-  [18, 0.0032],
-  [19, 0.0016],
-  [20, 0.0008],
-];
+/** Common-word roots, with one observation per representable surface type. */
+export const PHONEME_LENGTH_WEIGHTS_LEXICON: [number, number][] = lexiconReference.phonemeLengths;
 
 /**
  * Text-mode mapping from phoneme length to syllable-count weights.
@@ -220,34 +196,8 @@ export const PHONEME_TO_SYLLABLE_WEIGHTS_TEXT: Record<number, [number, number][]
   20: [[6, 100.00]],
 };
 
-/**
- * Lexicon-mode mapping from phoneme length to syllable-count weights.
- *
- * Derived from CMU Pronouncing Dictionary (`cmudict.dict`), excluding
- * alternate pronunciations (word(2), word(3), ...), total 126,044 entries.
- */
-export const PHONEME_TO_SYLLABLE_WEIGHTS_LEXICON: Record<number, [number, number][]> = {
-  1: [[1, 100.00]],
-  2: [[1, 98.07], [2, 1.93]],
-  3: [[1, 86.56], [2, 13.37], [3, 0.08]],
-  4: [[1, 42.27], [2, 56.60], [3, 1.13]],
-  5: [[1, 10.78], [2, 80.90], [3, 8.29], [4, 0.03]],
-  6: [[1, 1.47], [2, 68.24], [3, 29.56], [4, 0.73]],
-  7: [[1, 0.07], [2, 40.05], [3, 53.88], [4, 5.97], [5, 0.03]],
-  8: [[1, 0.01], [2, 16.53], [3, 61.23], [4, 21.68], [5, 0.56]],
-  9: [[2, 5.41], [3, 48.41], [4, 42.51], [5, 3.66], [6, 0.01]],
-  10: [[2, 1.07], [3, 25.07], [4, 56.82], [5, 16.67], [6, 0.36]],
-  11: [[2, 0.11], [3, 11.12], [4, 46.39], [5, 39.24], [6, 3.10], [7, 0.04]],
-  12: [[3, 2.67], [4, 30.33], [5, 53.62], [6, 13.16], [7, 0.21]],
-  13: [[3, 0.55], [4, 14.25], [5, 53.15], [6, 30.27], [7, 1.78]],
-  14: [[4, 6.29], [5, 40.57], [6, 44.34], [7, 8.49], [8, 0.31]],
-  15: [[4, 0.82], [5, 14.75], [6, 56.56], [7, 24.59], [8, 3.28]],
-  16: [[5, 9.84], [6, 39.34], [7, 47.54], [8, 3.28]],
-  17: [[5, 3.85], [6, 23.08], [7, 57.69], [8, 15.38]],
-  18: [[7, 25.00], [8, 75.00]],
-  19: [[8, 50.00], [9, 50.00]],
-  20: [[9, 100.00]],
-};
+/** Common-word roots, with one observation per representable surface type. */
+export const PHONEME_TO_SYLLABLE_WEIGHTS_LEXICON: Record<number, [number, number][]> = lexiconReference.syllablesByPhoneLength;
 
 // ---------------------------------------------------------------------------
 // Letter-length targets per syllable count

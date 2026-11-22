@@ -376,6 +376,8 @@ export interface WordGenerationContext {
   currSyllableIndex: number;
   /** Target total phoneme count for top-down generation. */
   targetPhonemeCount?: number;
+  /** Complete lexicon root-final coda sampled for this word, including open codas. */
+  rootFinalCoda?: Phoneme[];
   /** Per-syllable onset/coda length targets for top-down generation. */
   syllablePlans?: SyllableShapePlan[];
   /** Trace collector (only present when tracing is enabled). */

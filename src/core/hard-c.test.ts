@@ -190,7 +190,7 @@ describe("hard c before e/i/y letters (#460)", () => {
     // hard-c respell runs after them and must find no /k/ c before an e to fix.
     const { word } = findExample(
       (w) => w.trace!.graphemeSelections.some((g, i, all) => g.phoneme === "eɪ" && g.selected === "ae" &&
-        all.slice(i + 1).some((h) => h.syllableIndex === g.syllableIndex && h.position === "coda" && h.phoneme === "k")),
+        all[i + 1]?.syllableIndex === g.syllableIndex && all[i + 1].position === "coda" && all[i + 1].phoneme === "k"),
       { property: "a closed ae before a /k/ coda", limit: 20_000, firstSeed: 5_000_000 },
     );
     expect(word.written.clean).toMatch(/a(i)?k/);

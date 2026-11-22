@@ -139,7 +139,7 @@ describe("illegal syllable-join clusters (#418)", () => {
       {
         property: "a generateSyllables proposal of an illegal join",
         generator: english,
-        options: { morphology: false },
+        options: { mode: "text", morphology: false },
         limit: 80_000,
       },
     );

@@ -1,38 +1,27 @@
 import { describe, expect, it } from "vitest";
 import { createGenerator } from "./generate.js";
 import { englishConfig } from "../config/english.js";
+import { lexiconReference } from "../config/lexicon-reference.js";
 import { createSeededRng } from "../utils/random.js";
 import type { Word } from "../types.js";
 
-/**
- * Pins the lexicon-mode syllable / phone-count distribution after reverting
- * letter-peak syllable sampling bias (#443).
- *
- * Reference (createGenerator / generateWord, lexicon, morphology off;
- * seeds 42/43/44 × 200k pooled on pre-bias a1815918):
- *   mono 12.90%, 2-syl 46.03%, mono|3ph 34.73%, mono|4ph 40.80%,
- *   mono|5ph 16.75%, 2-syl|6ph 30.10%.
- *
- * Biased main (#443) moves those to ~20.3 / 38.4 / 24.3 / 48.5 / 23.1 / 44.0.
- *
- * This test uses 40_000 words × seeds 42/43/44 (120k total). Bounds are
- * two-sided around the reverted distribution with margins that still fail on
- * biased main:
- *   mono / 2-syl ±2.5pp (gaps to main ~7.4–7.6pp)
- *   mono phone shares ±3.5pp (gaps ~6.5–10.5pp)
- *   2-syl|6ph ±4.0pp (gap ~13.9pp)
- */
-
+// #443 guards automatic root sampling against bias from the spelling score.
+// Center the same margins on the independently measured root population.
 const SEEDS = [42, 43, 44] as const;
 const SAMPLE_PER_SEED = 40_000;
 
-const BOUNDS = {
-  monoShare: { lo: 0.104, hi: 0.154 },
-  twoSylShare: { lo: 0.435, hi: 0.485 },
-  monoPhones3: { lo: 0.312, hi: 0.382 },
-  monoPhones4: { lo: 0.373, hi: 0.443 },
-  monoPhones5: { lo: 0.132, hi: 0.202 },
-  twoSylPhones6: { lo: 0.261, hi: 0.341 },
+const { syllables } = lexiconReference.root;
+const joint: Record<number, [number, number][]> = lexiconReference.syllablesByPhoneLength;
+const total = Object.values(syllables).reduce((sum, count) => sum + count, 0);
+const at = (phones: number, count: number) => joint[phones]?.find(([syllables]) => syllables === count)?.[1] ?? 0;
+
+const targets = {
+  monoShare: [syllables[1] / total, 0.025],
+  twoSylShare: [syllables[2] / total, 0.025],
+  monoPhones3: [at(3, 1) / syllables[1], 0.035],
+  monoPhones4: [at(4, 1) / syllables[1], 0.035],
+  monoPhones5: [at(5, 1) / syllables[1], 0.035],
+  twoSylPhones6: [at(6, 2) / syllables[2], 0.04],
 } as const;
 
 function phonemeCount(word: Word): number {
@@ -94,43 +83,26 @@ function sampleLexiconBare(seed: number, count: number): Word[] {
   return words;
 }
 
+function checkStats(words: Word[], label: string) {
+  const observed = collectStats(words);
+  for (const key of Object.keys(targets) as Array<keyof typeof targets>) {
+    const [expected, margin] = targets[key];
+    expect(Math.abs(observed[key] - expected), `${label} ${key}`).toBeLessThanOrEqual(margin);
+  }
+}
+
 describe("lexicon syllable/phone-count distribution", () => {
   it(
-    "stays within pre-#443 bounds across seeds 42/43/44",
+    "matches the measured root joint distribution across seeds 42/43/44",
     () => {
       const pooled: Word[] = [];
 
       for (const seed of SEEDS) {
         const words = sampleLexiconBare(seed, SAMPLE_PER_SEED);
         pooled.push(...words);
-        const stats = collectStats(words);
-        for (const [key, bound] of Object.entries(BOUNDS) as Array<
-          [keyof typeof BOUNDS, { lo: number; hi: number }]
-        >) {
-          expect(
-            stats[key],
-            `seed ${seed} ${key}=${(stats[key] * 100).toFixed(2)}% outside [${(bound.lo * 100).toFixed(1)}, ${(bound.hi * 100).toFixed(1)}]`,
-          ).toBeGreaterThanOrEqual(bound.lo);
-          expect(
-            stats[key],
-            `seed ${seed} ${key}=${(stats[key] * 100).toFixed(2)}% outside [${(bound.lo * 100).toFixed(1)}, ${(bound.hi * 100).toFixed(1)}]`,
-          ).toBeLessThanOrEqual(bound.hi);
-        }
+        checkStats(words, `seed ${seed}`);
       }
-
-      const pooledStats = collectStats(pooled);
-      for (const [key, bound] of Object.entries(BOUNDS) as Array<
-        [keyof typeof BOUNDS, { lo: number; hi: number }]
-      >) {
-        expect(
-          pooledStats[key],
-          `pooled ${key}=${(pooledStats[key] * 100).toFixed(2)}% outside [${(bound.lo * 100).toFixed(1)}, ${(bound.hi * 100).toFixed(1)}]`,
-        ).toBeGreaterThanOrEqual(bound.lo);
-        expect(
-          pooledStats[key],
-          `pooled ${key}=${(pooledStats[key] * 100).toFixed(2)}% outside [${(bound.lo * 100).toFixed(1)}, ${(bound.hi * 100).toFixed(1)}]`,
-        ).toBeLessThanOrEqual(bound.hi);
-      }
+      checkStats(pooled, "pooled");
     },
     180_000,
   );
