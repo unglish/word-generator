@@ -82,7 +82,7 @@ export type SpellingEditObserver = (
   deleteCount: number,
   insert: string,
   rule: string,
-) => void;
+) => number | undefined;
 export type PartEditObserver = (
   part: number,
   start: number,
@@ -147,7 +147,7 @@ export class BaseSpelling {
     insert: string,
     rule: string,
     partId?: number,
-  ): void {
+  ): number | undefined {
     if (
       !Number.isInteger(start) ||
       !Number.isInteger(deleteCount) ||
@@ -198,6 +198,7 @@ export class BaseSpelling {
       after: insert,
       ...(this.licensed ? { partId: resolvedPart } : {}),
     });
+    return id;
   }
 
   observe(phase: SpellingPhase, offset = 0, partId?: number): SpellingEditObserver {

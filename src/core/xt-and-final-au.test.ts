@@ -24,9 +24,33 @@ describe("/k s t/ written xt", () => {
       { property: "a cst rewritten to xt", limit: 5000, options: { morphology: false } },
     );
     const repair = word.trace!.repairs.find(entry => entry.rule === "spellingRule:cst-to-xt")!;
-    expect(repair.before).toContain("cst");
-    expect(repair.after).toContain("xt");
+    expect(repair.before).toMatch(/[aeiouy]cst/);
+    expect(repair.after).toMatch(/[aeiouy]xt/);
     expect(word.written.clean).toContain("xt");
+    const trace = word.trace!;
+    const edit = trace.baseSpelling!.edits.find(entry => entry.rule === repair.rule)!;
+    const absentK = trace.orthography!.graphemeUnits.find(unit => unit.phoneme === "k" && !unit.present);
+    expect(absentK?.links).toContainEqual({
+      kind: "repair", index: trace.repairs.indexOf(repair), label: repair.rule,
+    });
+    expect(repair.spellingEditIds).toContain(edit.id);
+  });
+
+  it("fuses gz to x only between vowel letters", () => {
+    const { word } = findExample(
+      word => word.trace!.repairs.some(repair => repair.rule === "spellingRule:gz-to-x"),
+      { property: "a vowel-bounded gz rewritten to x", limit: 20_000, options: { morphology: false } },
+    );
+    const repair = word.trace!.repairs.find(entry => entry.rule === "spellingRule:gz-to-x")!;
+    expect(repair.before).toMatch(/[aeiouy]gz[aeiouy]/);
+    expect(repair.after).toMatch(/[aeiouy]x[aeiouy]/);
+  });
+
+  it("avoids unlicensed medial x and cst on generated roots", () => {
+    for (const word of generateWords(SAMPLE, { seed: 20261121, trace: true })) {
+      expect(word.written.clean).not.toMatch(/[^aeiouyn]x/);
+      expect(word.trace!.baseSpelling!.surface).not.toMatch(/cst/);
+    }
   });
 
   // Word rules run on the root before a suffix is attached, so a root ending in

@@ -152,6 +152,8 @@ export interface RepairTrace {
   /** Optional detail (e.g. which phoneme was dropped, why). */
   detail?: string;
   nucleusReplacement?: NucleusReplacementTrace;
+  /** IDs of the base-spelling edits summarized by this repair. */
+  spellingEditIds?: number[];
 }
 
 export interface MorphologyTrace {
@@ -484,7 +486,10 @@ export class TraceCollector {
     this.structural.push(entry);
   }
 
-  recordRepair(rule: string, before: string, after: string, detail?: string, nucleusReplacement?: NucleusReplacementTrace): void {
+  recordRepair(
+    rule: string, before: string, after: string, detail?: string,
+    nucleusReplacement?: NucleusReplacementTrace, spellingEditIds?: number[],
+  ): void {
     if (before !== after) {
       const repair: RepairTrace = { rule, before, after, detail };
       if (nucleusReplacement) {
@@ -492,6 +497,7 @@ export class TraceCollector {
           ...nucleusReplacement, coda: [...nucleusReplacement.coda], edges: { ...nucleusReplacement.edges },
         };
       }
+      if (spellingEditIds?.length) repair.spellingEditIds = spellingEditIds;
       this.repairs.push(repair);
     }
   }

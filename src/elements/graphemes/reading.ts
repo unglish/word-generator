@@ -61,7 +61,7 @@ const readings: Record<string, Record<string, GraphemeReading>> = {
   "θ": { th: single },
   "ð": { th: single },
   "s": { s: single, c: soft, sc: soft, ps: lexical, st: lexical, ce: marker, se: marker },
-  "z": { z: single, s: single, x: single, ze: marker },
+  "z": { z: single, s: single, ze: marker },
   "ʃ": { sh: single, ti: coalescence, ci: coalescence, ch: lexical, s: lexical, si: coalescence,
     ce: coalescence, ssi: coalescence, sc: lexical, sch: lexical },
   "ʒ": { s: lexical, si: coalescence, z: lexical, g: lexical, ge: lexical },

@@ -546,14 +546,21 @@ export const englishConfig: LanguageConfig = {
     },
     {
       name: "cst-to-xt",
-      pattern: "cs(?=t)",
+      pattern: "(?<=[aeiouy])cs(?=t)",
       replacement: "x",
       probability: 100,
       scope: "word",
     },
     {
+      name: "cst-to-kst",
+      pattern: "(?<![aeiouy])cs(?=t)",
+      replacement: "ks",
+      probability: 100,
+      scope: "word",
+    },
+    {
       name: "gz-to-x",
-      pattern: "gz(?=[aeiouy])",
+      pattern: "(?<=[aeiouy])gz(?=[aeiouy])",
       replacement: "x",
       probability: 85,
       scope: "word",
