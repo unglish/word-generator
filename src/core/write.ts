@@ -1768,6 +1768,7 @@ export function createWrittenFormGenerator(
       })),
       tracing,
       preservePhones,
+      context.trace && (edit => context.trace?.recordUnreportedSpellingEdit(edit)),
     );
     const boundaryContexts = preservePhones
       ? spellingBoundaryContexts(baseSpelling.current().phones)
@@ -1858,7 +1859,8 @@ export function createWrittenFormGenerator(
       if (
         currentSyllable.length > 0 &&
         form.length > 0 &&
-        currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]
+        currentSyllable[currentSyllable.length - 1].slice(-1) === form[0] &&
+        baseSpelling.canDeduplicate(choiceStart)
       ) {
         baseSpelling.edit(
           "selection",
@@ -1959,7 +1961,8 @@ export function createWrittenFormGenerator(
         if (
           cleanParts.length > 0 &&
           syllableStr.length > 0 &&
-          cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]
+          cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0] &&
+          baseSpelling.canDeduplicate(syllableStart)
         ) {
           baseSpelling.edit(
             "syllable",

@@ -279,7 +279,7 @@ function projectOwners(base: BaseSpellingTrace): {
     owners.splice(edit.start, removed.length, ...edit.output.map((cell, index) =>
       cell.origin.kind === "licensed" ? cell.origin.unitId : inserted[index]));
     for (const owner of removed) {
-      if (!owners.includes(owner)) removals.set(owner, edit);
+      if (owner >= 0 && !owners.includes(owner)) removals.set(owner, edit);
     }
   }
   return { owners, removals };
@@ -319,6 +319,7 @@ export function buildOrthographyTrace(
 
   const toUnitTrace = (unit: TraceUnitSeed): OrthographyUnitTrace => {
     const span = spans.get(unit.id);
+    const removedBy = removals.get(unit.id);
     return {
       id: unit.id,
       graphemeSelectionIndex: unit.graphemeSelectionIndex,
@@ -330,7 +331,8 @@ export function buildOrthographyTrace(
       present: !!span,
       start: span ? span.start : null,
       end: span ? span.end : null,
-      links: buildLinksForUnit(unit, trace, source, removals.get(unit.id)),
+      ...(!span && removedBy ? { deletedBy: { editId: removedBy.id, rule: removedBy.rule } } : {}),
+      links: buildLinksForUnit(unit, trace, source, removedBy),
     };
   };
 
@@ -347,6 +349,7 @@ export function buildOrthographyTrace(
 export function rewriteOrthographyTraceSurface(
   trace: TraceCollector,
   surface: string,
+  edit?: SpellingEdit,
 ): void {
   const orthography = trace.orthographyTrace;
   if (!orthography) return;
@@ -384,10 +387,19 @@ export function rewriteOrthographyTraceSurface(
       graphemeSelectionIndex: unit?.graphemeSelectionIndex ?? -1,
     };
   });
+  const repairIndex = edit ? trace.repairs.findIndex(repair =>
+    repair.spellingEditIds?.includes(edit.id)) : -1;
   orthography.graphemeUnits = orthography.graphemeUnits.map((unit) => {
     const span = spans.get(unit.id);
+    const newlyAbsent = edit && unit.present && !span;
     return {
       ...unit,
+      ...(newlyAbsent ? {
+        deletedBy: { editId: edit.id, rule: edit.rule },
+        ...(repairIndex >= 0 ? {
+          links: [...unit.links ?? [], { kind: "repair", index: repairIndex, label: edit.rule }],
+        } : {}),
+      } : {}),
       present: !!span,
       start: span ? span.start : null,
       end: span ? span.end : null,

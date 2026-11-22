@@ -617,8 +617,9 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
+      // Leave vowel digraphs such as ee and ie intact.
       name: "eng-to-ing",
-      pattern: "eng(?=s?$)",
+      pattern: "(?<![aeiouy])eng(?=s?$)",
       replacement: "ing",
       probability: 95,
       scope: "word",
@@ -638,22 +639,8 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
-      name: "iy-to-y",
-      pattern: "iy",
-      replacement: "y",
-      probability: 100,
-      scope: "word",
-    },
-    {
       name: "uw-to-w",
       pattern: "uw",
-      replacement: "w",
-      probability: 100,
-      scope: "word",
-    },
-    {
-      name: "iw-to-w",
-      pattern: "iw",
       replacement: "w",
       probability: 100,
       scope: "word",

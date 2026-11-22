@@ -91,6 +91,10 @@ export type PartEditObserver = (
   rule: string,
 ) => void;
 
+function spellingCellUnitIds(cell: SpellingCell): readonly number[] {
+  return cell.origin.kind === "rewrite" ? cell.origin.sourceUnitIds : [cell.origin.unitId];
+}
+
 /** Live units/cells exist independently of tracing; only discarded edit history is optional. */
 export class BaseSpelling {
   private cells: SpellingCell[] = [];
@@ -105,6 +109,7 @@ export class BaseSpelling {
     private readonly phones: SpellingPhone[],
     retainHistory: boolean,
     private readonly licensed = false,
+    private readonly onEdit?: (edit: SpellingEdit) => void,
   ) {
     if (retainHistory) this.edits = [];
   }
@@ -161,15 +166,7 @@ export class BaseSpelling {
     const before = input.map((cell) => cell.text).join("");
     if (before === insert) return;
     const id = this.nextEditId++;
-    const sourceUnitIds = [
-      ...new Set(
-        input.flatMap((cell) =>
-          cell.origin.kind !== "rewrite"
-            ? [cell.origin.unitId]
-            : cell.origin.sourceUnitIds,
-        ),
-      ),
-    ];
+    const sourceUnitIds = [...new Set(input.flatMap(spellingCellUnitIds))];
     const parts = new Set(input.map(cell => cell.partId));
     const resolvedPart = parts.size === 1 && !parts.has(null) && !parts.has(undefined)
       ? input[0].partId! : input.length === 0 ? partId ?? null : null;
@@ -187,7 +184,7 @@ export class BaseSpelling {
       }),
     );
     this.cells.splice(start, deleteCount, ...output);
-    this.edits?.push({
+    if (this.edits) this.recordEdit({
       id,
       phase,
       rule,
@@ -199,6 +196,20 @@ export class BaseSpelling {
       ...(this.licensed ? { partId: resolvedPart } : {}),
     });
     return id;
+  }
+
+  private recordEdit(edit: SpellingEdit): void {
+    this.edits?.push(edit);
+    this.onEdit?.(edit);
+  }
+
+  /** Preserve the last cell carrying a nucleus when adjacent letters match. */
+  canDeduplicate(index: number): boolean {
+    if (!this.licensed) return true;
+    const nuclei = spellingCellUnitIds(this.cells[index]).filter(unitId =>
+      this.units[unitId].phoneIds.some(phoneId => this.phones[phoneId].segment === "nucleus"));
+    return nuclei.every(unitId =>
+      this.cells.some((cell, i) => i !== index && spellingCellUnitIds(cell).includes(unitId)));
   }
 
   observe(phase: SpellingPhase, offset = 0, partId?: number): SpellingEditObserver {
@@ -332,7 +343,7 @@ export class BaseSpelling {
         origin: { kind: "licensed", unitId: replacement.unitId, offset, editId, certificateId, sourceUnitIds: [replacement.unitId] },
       }));
       this.cells.splice(start, count, ...output);
-      this.edits?.push({ id: editId, phase: "word", rule: "spellingBudget:respell", start,
+      if (this.edits) this.recordEdit({ id: editId, phase: "word", rule: "spellingBudget:respell", start,
         input, output, before: replacement.before, after: replacement.after, partId: replacement.partId });
     }
     this.certificates.push(structuredClone({ ...plan, id: certificateId }));
