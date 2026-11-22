@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed
+
+- English generation blocks incompatible consonant joins inside roots, such as
+  /k.v/ and /p.dʒ/, while retaining joins found in words such as *envy* and
+  *silver* (#485). This changes seeded output in lexicon and text mode.
+
 ### Breaking Changes
 
 - Removed `Grapheme.origin` and the `ORIGINS` export. The codes were unsourced,

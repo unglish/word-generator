@@ -77,6 +77,9 @@ import {
 import { graphemes, graphemeMaps } from "../elements/graphemes/index.js";
 import { HELD_CODAS } from "../elements/graphemes/open-reading.js";
 
+const OBSTRUENT_MANNERS: NonNullable<BoundaryClusterConstraintRule["coda"]["manner"]> =
+  ["stop", "fricative", "sibilant", "affricate"];
+
 /** Rule-based cross-syllable constraints for English coda→onset boundaries. */
 const ENGLISH_BOUNDARY_CLUSTER_RULES: BoundaryClusterConstraintRule[] = [
   // /ŋ/ may only be followed by velars (e.g. /k/, /g/ in current inventory).
@@ -93,10 +96,32 @@ const ENGLISH_BOUNDARY_CLUSTER_RULES: BoundaryClusterConstraintRule[] = [
 
   // Rare/impossible across a syllable join in English; spelling dedup then
   // hides them by erasing a letter that belonged to a different sound (#418):
-  // /z.ʃ/ (`s`+`sh`→`sh`), /ʃ.h/ (`sh`+`h`→`sh`), /k.tʃ/ (`k`+`ch`→`ch`).
-  { mode: "ban", coda: { sounds: ["z"] }, onset: { sounds: ["ʃ"] } },
+  // /ʃ.h/ (`sh`+`h`→`sh`) and /k.tʃ/ (`k`+`ch`→`ch`).
   { mode: "ban", coda: { sounds: ["ʃ"] }, onset: { sounds: ["h"] } },
   { mode: "ban", coda: { sounds: ["k"] }, onset: { sounds: ["tʃ"] } },
+
+  // Root-internal voicing restrictions (#485).
+  { mode: "ban", coda: {}, onset: { sounds: ["ʒ", "ð"] } },
+  {
+    mode: "ban",
+    coda: { manner: OBSTRUENT_MANNERS, voiced: false },
+    onset: { manner: OBSTRUENT_MANNERS, voiced: true },
+    except: [["s", "b"], ["s", "d"], ["s", "g"]],
+  },
+  {
+    mode: "ban",
+    coda: { manner: OBSTRUENT_MANNERS, voiced: true },
+    onset: { sounds: ["p", "t", "k", "f", "θ", "s", "ʃ", "tʃ"] },
+    // /z/ before /p t k/ can still be written as sp, st, or sk. See #496.
+    except: [["b", "s"], ["d", "s"], ["z", "p"], ["z", "t"], ["z", "k"]],
+  },
+  {
+    mode: "ban",
+    coda: { sounds: ["g", "z", "v", "ð", "ʒ", "dʒ"] },
+    onset: { sounds: ["v", "z", "dʒ"] },
+    except: [["g", "z"]],
+  },
+  { mode: "ban", coda: { sounds: ["m"] }, onset: { sounds: ["v", "dʒ"] } },
 ];
 
 const lexiconTemplates = Object.values(lexiconReference.templates).reduce(
