@@ -71,11 +71,10 @@ const readings: Record<string, Record<string, GraphemeReading>> = {
   // and is never available as a split marker for a different vowel unit.
   "dʒ": { g: soft, j: single, ge: marker, dge: single, di: coalescence },
   "p": { p: single },
-  "b": { b: single, pb: lexical },
+  "b": { b: single },
   "t": { t: single, th: lexical, bt: lexical, ed: suffix },
   "d": { d: single, ed: suffix },
-  "k": { k: single, c: hard, ck: single, ch: lexical, lk: lexical,
-    q: unsupported("Requires lexical identity or a joint qu construction; neither is represented.") },
+  "k": { k: single, c: hard, ck: single, ch: lexical, lk: lexical },
   "g": { g: hard, gh: lexical, gu: { kind: "following-letter", require: ["e", "i"] }, gue: lexical },
 };
 

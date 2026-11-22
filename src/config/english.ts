@@ -349,10 +349,11 @@ export const englishConfig: LanguageConfig = {
       { phoneme: "əʊ", from: "oe", to: "o" },
       // /uː/ — "u" + e (rude, tube); also digraph swaps
       { phoneme: "u", from: "u", to: "u" },
-      { phoneme: "u", from: "oo", to: "u" },
+      // Behind w, keep the digraph so cw can become qu without producing quu.
+      { phoneme: "u", from: "oo", to: "u", notAfterLetters: ["w"] },
       { phoneme: "u", from: "ue", to: "u" },
       // Open-only mono "ew" → silent-e when split share is short.
-      { phoneme: "u", from: "ew", to: "u" },
+      { phoneme: "u", from: "ew", to: "u", notAfterLetters: ["w"] },
     ],
     excludedCodas: ["w", "j", "h"],
     appendAfter: [

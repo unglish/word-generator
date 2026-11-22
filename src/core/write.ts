@@ -1043,18 +1043,18 @@ function buildSilentECodaCheck(limit: SilentECodaLimit | undefined): SilentECoda
   };
 }
 
-/** Pre-compiled silent-e swap lookup: phoneme → [{from, to}] sorted longest-from-first. */
-type SilentELookup = Map<string, { from: string; to: string }[]>;
+/** Pre-compiled silent-e swaps keyed by phoneme and sorted longest-from-first. */
+type SilentELookup = Map<string, Omit<SilentEConfig["swaps"][number], "phoneme">[]>;
 
 function buildSilentELookup(config: SilentEConfig): SilentELookup {
-  const map = new Map<string, { from: string; to: string }[]>();
-  for (const swap of config.swaps) {
-    let list = map.get(swap.phoneme);
+  const map: SilentELookup = new Map();
+  for (const { phoneme, ...swap } of config.swaps) {
+    let list = map.get(phoneme);
     if (!list) {
       list = [];
-      map.set(swap.phoneme, list);
+      map.set(phoneme, list);
     }
-    list.push({ from: swap.from, to: swap.to });
+    list.push(swap);
   }
   for (const list of map.values()) {
     list.sort((a, b) => b.from.length - a.from.length);
@@ -1119,7 +1119,7 @@ export function applySilentE(
   const part = cleanParts[lastPartIdx];
 
   const fromIdx = part.lastIndexOf(swap.from);
-  if (fromIdx < 0) return;
+  if (fromIdx < 0 || swap.notAfterLetters?.includes(part[fromIdx - 1])) return;
 
   observe?.(lastPartIdx, fromIdx, swap.from.length, swap.to, "silentE:swap");
   // A coda spelling that already ends in e (ce, se, ge) supplies the marker: pace, not pacee.
