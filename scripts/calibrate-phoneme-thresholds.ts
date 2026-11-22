@@ -15,10 +15,11 @@
 import { spawn } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { cpus } from "node:os";
-import { join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join, resolve } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
-import { generateWord } from "../src/index.js";
+import type { generateWord } from "../src/index.js";
+import { lengthTotalVariationPct, meanSyllableGap } from "../src/core/stage-quality.js";
 import { countNormalizedPhonemes, type PhonemeNormalization } from "../src/core/phoneme-normalization.js";
 import { computePhonemeQualityMetrics } from "../src/core/phoneme-quality.js";
 import { createSeededRng } from "../src/utils/random.js";
@@ -44,10 +45,14 @@ function loadJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, "utf8")) as T;
 }
 
-function measureSeed(seed: number, thresholds: Thresholds, stage: Stage): SeedResult {
+async function measureSeed(seed: number, thresholds: Thresholds, stage: Stage, generatorRoot: string, referencePath: string): Promise<SeedResult> {
+  const api: { generateWord: typeof generateWord } = await import(pathToFileURL(join(generatorRoot, "src/index.ts")).href);
   const normalization = loadJson<PhonemeNormalization>(join(REPO_ROOT, "data", "cmu", "phoneme-normalization.json"));
-  const reference = loadJson<Record<Stage, { phonemes: Record<string, number> }>>(
-    join(REPO_ROOT, "evaluation", "corpus", "stage-references.json"),
+  const reference = loadJson<{
+    roots: { phonemes: Record<string, number>; finalCodaLengths: Record<string, number> };
+    fullCmu: { phonemes: Record<string, number>; syllables: Record<string, number> };
+  }>(
+    referencePath,
   );
   const baselineCounts = reference[stage].phonemes;
   const stream = createSeededRng(seed);
@@ -58,8 +63,19 @@ function measureSeed(seed: number, thresholds: Thresholds, stage: Stage): SeedRe
   };
   // Same words as the gate's `generateWords(n, { seed })`, which loops over one shared stream;
   // streaming avoids holding every word in memory.
+  const syllables: Record<string, number> = {};
+  const finalCodaLengths: Record<string, number> = {};
   function* words() {
-    for (let i = 0; i < thresholds.sampleSize; i++) yield generateWord({ rand, mode: "lexicon", morphology: stage === "fullCmu" });
+    for (let i = 0; i < thresholds.sampleSize; i++) {
+      const word = api.generateWord({ rand, mode: "lexicon", morphology: stage === "fullCmu" });
+      const length = word.syllables.length;
+      syllables[length] = (syllables[length] ?? 0) + 1;
+      if (stage === "roots") {
+        const coda = word.syllables.at(-1)!.coda.length;
+        finalCodaLengths[coda] = (finalCodaLengths[coda] ?? 0) + 1;
+      }
+      yield word;
+    }
   }
   const { counts, losses } = countNormalizedPhonemes(words(), normalization);
   const metrics = computePhonemeQualityMetrics(counts, baselineCounts, thresholds.minCommonBaselinePct);
@@ -81,6 +97,12 @@ function measureSeed(seed: number, thresholds: Thresholds, stage: Stage): SeedRe
     maxGapPhoneme: gap.phoneme,
     cmuOnlyKeyCount: metrics.cmuOnlyKeyCount,
     phonemes: metrics.topOverRepresented,
+    counts,
+    syllables,
+    ...stage === "roots"
+      ? { finalCodaLengths, rootFinalCodaTV: lengthTotalVariationPct(finalCodaLengths, reference.roots.finalCodaLengths) }
+      : { finishedSyllableTV: lengthTotalVariationPct(syllables, reference.fullCmu.syllables),
+          finishedMeanSyllableGap: meanSyllableGap(syllables, reference.fullCmu.syllables) },
   };
 }
 
@@ -119,10 +141,10 @@ function findOverlaps(runs: Array<Pick<SeedResult, "seed" | "draws">>): string[]
   return overlaps;
 }
 
-function runWorker(seed: number, stage: Stage): Promise<SeedResult> {
+function runWorker(seed: number, stage: Stage, generatorRoot: string, referencePath: string): Promise<SeedResult> {
   return new Promise((resolve, reject) => {
     const script = fileURLToPath(import.meta.url);
-    const child = spawn(process.execPath, [...process.execArgv, script, "--worker-seed", String(seed), "--stage", stage], {
+    const child = spawn(process.execPath, [...process.execArgv, script, "--worker-seed", String(seed), "--stage", stage, "--generator-root", generatorRoot, "--reference", referencePath], {
       stdio: ["ignore", "pipe", "inherit"],
     });
     let stdout = "";
@@ -196,6 +218,8 @@ async function main() {
   const { values } = parseArgs({
     options: {
       stage: { type: "string", default: "roots" },
+      "generator-root": { type: "string", default: REPO_ROOT },
+      reference: { type: "string", default: join(REPO_ROOT, "evaluation", "corpus", "stage-references.json") },
       seeds: { type: "string" },
       count: { type: "string", default: "30" },
       k: { type: "string", default: "3" },
@@ -205,6 +229,8 @@ async function main() {
     },
   });
   const stage = values.stage;
+  const generatorRoot = resolve(values["generator-root"] ?? REPO_ROOT);
+  const referencePath = resolve(values.reference ?? join(REPO_ROOT, "evaluation", "corpus", "stage-references.json"));
   if (stage !== "roots" && stage !== "fullCmu") throw new Error("--stage must be roots or fullCmu.");
   const limits = loadJson<{ sampleSize: number; seed: number; minCommonBaselinePct: number } &
     Record<Stage, Record<string, number>>>(THRESHOLDS_PATH);
@@ -212,7 +238,7 @@ async function main() {
     minCommonBaselinePct: limits.minCommonBaselinePct, maxGeneratedOnlyMassPct: 0, maxCmuOnlyKeyCount: 0 };
 
   if (values["worker-seed"] !== undefined) {
-    process.stdout.write(JSON.stringify(measureSeed(Number(values["worker-seed"]), thresholds, stage)));
+    process.stdout.write(JSON.stringify(await measureSeed(Number(values["worker-seed"]), thresholds, stage, generatorRoot, referencePath)));
     return;
   }
 
@@ -229,7 +255,7 @@ async function main() {
   }
 
   process.stderr.write(`Measuring ${seeds.length} seeds × ${thresholds.sampleSize} words with ${jobs} jobs\n`);
-  const results = await mapConcurrent(seeds, jobs, seed => runWorker(seed, stage));
+  const results = await mapConcurrent(seeds, jobs, seed => runWorker(seed, stage, generatorRoot, referencePath));
 
   const overlaps = findOverlaps(results);
   if (overlaps.length > 0) throw new Error(`Overlapping RNG streams:\n${overlaps.join("\n")}`);

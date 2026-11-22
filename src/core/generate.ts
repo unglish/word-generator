@@ -333,8 +333,8 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     forbidOpenCheckedFinal: config.forbidOpenCheckedFinal === true,
   };
   for (const mode of ["text", "lexicon"] as const) {
-    const counts = config.clusterWeights?.rootFinalByMode?.[mode];
-    if (counts) runtime.rootFinalCodas[mode] = prepareRootFinalCodas(runtime, counts);
+    const profile = config.generationWeights.codaLength.rootFinalByMode?.[mode];
+    if (profile) runtime.rootFinalCodas[mode] = prepareRootFinalCodas(runtime, profile.counts);
   }
   return runtime;
 }
@@ -440,7 +440,7 @@ function clusterCandidateRejection(
   p: Phoneme,
   rt: GeneratorRuntime,
   context: ClusterContext,
-  extension = false,
+  check: "ordinary" | "extension" | "audited" = "ordinary",
 ): CodaExtensionRejectionReason | undefined {
   const sound = p.sound;
   const { clusterSounds } = context;
@@ -450,11 +450,11 @@ function clusterCandidateRejection(
   // Optional extensions may repeat a separated segment when attested (e.g. /ksts/).
   if (
     clusterSounds.includes(sound) &&
-    !(extension && context.position === "coda" && rt.attestedCodaSet)
+    !(check === "extension" && context.position === "coda" && rt.attestedCodaSet)
   )
     return "repetition";
   if (!isValidPosition(p, context)) return "position";
-  if (extension) {
+  if (check !== "ordinary") {
     const shapeReason = codaShapeRejection(
       context.cluster,
       p,
@@ -529,9 +529,8 @@ function clusterCandidateRejection(
     clusterSounds.length > 0
   ) {
     const key = clusterSounds.join("|") + "|" + sound;
-    return rt.attestedCodaSet.has(key) || rt.attestedCodaPrefixSet?.has(key)
-      ? undefined
-      : "attestation";
+    if (!rt.attestedCodaSet.has(key) && !rt.attestedCodaPrefixSet?.has(key)) return "attestation";
+    if (check !== "audited") return undefined;
   }
 
   if (!checkSonority(p, rt, context)) return "sonority";
@@ -870,7 +869,7 @@ function codaExtensionRejection(
   rt: GeneratorRuntime,
   context: ClusterContext,
 ): CodaExtensionRejectionReason | undefined {
-  const reason = clusterCandidateRejection(candidate, rt, context, true);
+  const reason = clusterCandidateRejection(candidate, rt, context, "extension");
   if (reason) return reason;
   if (
     !rt.clusterLimits &&
@@ -913,54 +912,71 @@ function appendCoda(candidate: Phoneme, context: ClusterContext): void {
   context.clusterSounds.push(candidate.sound);
 }
 
-/** Precompute whole-cluster choices so a rare sole completion cannot dominate its first phone. */
+/** Validate corpus choices against the audited whitelist and the root coda rules. */
 function prepareRootFinalCodas(
   rt: GeneratorRuntime,
-  weights: Record<string, number>,
+  weights: Readonly<Record<string, number>>,
 ): FinalCodasByNucleus {
-  const choices: [Phoneme[], number][] = [];
+  const clusters = Object.entries(weights).map(([key, weight]) => ({
+    sounds: key.split(","), weight,
+  }));
+  const audited = clusters.map(choice => choice.sounds);
+  const codaRuntime: GeneratorRuntime = {
+    ...rt,
+    attestedCodaSet: new Set(audited.map(sounds => sounds.join("|"))),
+    attestedCodaPrefixSet: buildPrefixSet(audited),
+  };
   const codaPhones = new Map(rt.positionPhonemes.coda.map(phoneme => [phoneme.sound, phoneme]));
-  const shape = rt.clusterLimits;
-  const appendants = rt.codaAppendantSet;
-  const constraints = rt.config.codaConstraints;
-  for (const [key, weight] of Object.entries(weights)) {
-    const sounds = key.split(",");
-    const cluster = sounds.map(sound => codaPhones.get(sound))
-      .filter((phoneme): phoneme is Phoneme => phoneme !== undefined);
-    if (sounds.some(sound => !sound) || new Set(sounds).size !== sounds.length ||
-      !Number.isFinite(weight) || weight <= 0) {
-      throw new Error(`Invalid root-final coda weight for ${key}`);
-    }
-    if (cluster.length !== sounds.length) continue;
-    const final = sounds[sounds.length - 1];
-    if (rt.allowedFinalSet && !rt.allowedFinalSet.has(final)) continue;
-    if (cluster.some((phoneme, index) =>
-      phoneme.coda === 0 || phoneme.endWord === 0 || rt.bannedCodaSet?.has(phoneme.sound) ||
-      codaShapeRejection(cluster.slice(0, index), phoneme, shape, appendants, constraints))) continue;
-    choices.push([cluster, weight]);
-  }
-
   const byNucleus: FinalCodasByNucleus = new Map();
   for (const nucleus of rt.positionPhonemes.nucleus) {
     const byLength: Map<number, [Phoneme[], number][]> = new Map();
-    const banned = rt.bannedNucleusCodaMap?.get(nucleus.sound);
-    for (const choice of choices) {
-      const [cluster] = choice;
-      if (banned && cluster.some(phoneme => banned.has(phoneme.sound))) continue;
-      const pool = byLength.get(cluster.length) ?? [];
-      pool.push(choice);
-      byLength.set(cluster.length, pool);
+    for (const { sounds, weight } of clusters) {
+      const last = sounds[sounds.length - 1];
+      if (rt.allowedFinalSet && !rt.allowedFinalSet.has(last)) continue;
+      const context: ClusterContext = {
+        rand: createDefaultRng(),
+        position: "coda",
+        cluster: [],
+        clusterSounds: [],
+        ignoreSet: _emptySet,
+        isStartOfWord: false,
+        isEndOfWord: true,
+        syllableCount: 1,
+        maxLength: sounds.length,
+        nucleus: [nucleus],
+      };
+      for (const sound of sounds) {
+        // A known corpus phone can be unlicensed in coda position (/j/).
+        const phone = codaPhones.get(sound);
+        if (!phone || clusterCandidateRejection(phone, codaRuntime, context, "audited")) break;
+        appendCoda(phone, context);
+      }
+      if (context.cluster.length !== sounds.length) continue;
+      const choices = byLength.get(sounds.length) ?? [];
+      choices.push([context.cluster, weight]);
+      byLength.set(sounds.length, choices);
     }
     byNucleus.set(nucleus.sound, byLength);
   }
   return byNucleus;
 }
 
+function pickRootFinalCoda(
+  choices: FinalCodasByNucleus,
+  nucleus: Phoneme,
+  length: number,
+  rand: RNG,
+): Phoneme[] {
+  const byLength = choices.get(nucleus.sound);
+  // Underfill an impossible shape so the existing root selection can retry.
+  const options = byLength?.get(length) ?? byLength?.get(1);
+  return options?.length ? getWeightedOption(options, rand).slice() : [];
+}
+
 function pickCoda(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
   newSyllable: Syllable,
-  mode: GenerationMode,
   isEndOfWord: boolean,
   monosyllabic: boolean,
   targetLength?: number,
@@ -1002,14 +1018,6 @@ function pickCoda(
     maxLength,
     nucleus: newSyllable.nucleus,
   };
-  const finalChoices = isEndOfWord ? rt.rootFinalCodas[mode] : undefined;
-  if (finalChoices) {
-    const byLength = finalChoices.get(newSyllable.nucleus[0].sound);
-    // Underfill a plan with no eligible cluster and let root selection retry.
-    const options = byLength?.get(maxLength) ?? byLength?.get(1);
-    if (options?.length) return getWeightedOption(options, rand).slice();
-    return buildCluster(rt, { ...codaContext, maxLength: 1 });
-  }
   const coda = buildCluster(rt, codaContext);
 
   // Extend word-final singleton nasal codas with their voiced homorganic stop
@@ -1348,10 +1356,32 @@ function sampleSyllableCountForTarget(
   return getWeightedOption(weights, rand);
 }
 
+function sampleRootFinalCodaLength(
+  rt: GeneratorRuntime,
+  mode: GenerationMode,
+  phones: number,
+  syllables: number,
+  rand: RNG,
+): number | undefined {
+  const profile = rt.config.generationWeights.codaLength.rootFinalByMode?.[mode];
+  const weights = profile?.lengths[syllables]?.[phones];
+  if (!weights) return undefined;
+  const rootConsonants = phones - syllables;
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  const otherSlots = maxOnset * syllables + maxCoda * (syllables - 1);
+  const options: [number, number][] = [];
+  for (const [length, weight] of weights) {
+    if (length >= rootConsonants - otherSlots && length <= maxCoda) options.push([length, weight]);
+  }
+  return options.length ? getWeightedOption(options, rand) : undefined;
+}
+
 function sampleConsonantPlan(
   rt: GeneratorRuntime,
   syllableCount: number,
   rand: RNG,
+  finalCodaLength?: number,
 ): SyllableShapePlan[] {
   const plan: SyllableShapePlan[] = [];
   let prevCodaLength = 0;
@@ -1370,7 +1400,9 @@ function sampleConsonantPlan(
       onsetLength,
       isEndOfWord,
     );
-    const codaLength = getWeightedOption(codaWeights, rand);
+    const codaLength = isEndOfWord && finalCodaLength !== undefined
+      ? finalCodaLength
+      : getWeightedOption(codaWeights, rand);
     plan.push({ onsetLength, codaLength });
     prevCodaLength = codaLength;
   }
@@ -1383,6 +1415,7 @@ function tweakConsonantPlanToBudget(
   plan: SyllableShapePlan[],
   targetConsonants: number,
   rand: RNG,
+  lockFinalCoda: boolean,
 ): SyllableShapePlan[] {
   const adjusted = plan.map((s) => ({ ...s }));
   const syllableCount = adjusted.length;
@@ -1443,7 +1476,7 @@ function tweakConsonantPlanToBudget(
           weight: getLengthWeight(onsetWeights, next),
         });
       }
-      if (adjusted[i].codaLength < maxCoda) {
+      if ((!isEndOfWord || !lockFinalCoda) && adjusted[i].codaLength < maxCoda) {
         const next = adjusted[i].codaLength + 1;
         candidates.push({
           syllableIndex: i,
@@ -1497,7 +1530,7 @@ function tweakConsonantPlanToBudget(
           });
         }
       }
-      if (adjusted[i].codaLength > 0) {
+      if ((!isEndOfWord || !lockFinalCoda) && adjusted[i].codaLength > 0) {
         const curr = adjusted[i].codaLength;
         const next = curr - 1;
         if (!shouldBlockHiatusMutation(createsHiatus(i, "coda", next))) {
@@ -1529,6 +1562,7 @@ function distributePhonemes(
   targetPhonemes: number,
   syllableCount: number,
   rand: RNG,
+  finalCodaLength?: number,
 ): SyllableShapePlan[] {
   const maxOnset =
     rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
@@ -1542,13 +1576,13 @@ function distributePhonemes(
     Math.min(rawTargetConsonants, maxConsonants),
   );
 
-  const plan = sampleConsonantPlan(rt, syllableCount, rand);
+  const plan = sampleConsonantPlan(rt, syllableCount, rand, finalCodaLength);
   const consonants = plan.reduce(
     (sum, s) => sum + s.onsetLength + s.codaLength,
     0,
   );
   if (consonants === targetConsonants) return plan;
-  return tweakConsonantPlanToBudget(rt, plan, targetConsonants, rand);
+  return tweakConsonantPlanToBudget(rt, plan, targetConsonants, rand, finalCodaLength !== undefined);
 }
 
 function generateSyllable(
@@ -1592,15 +1626,10 @@ function generateSyllable(
     );
 
   if (syllablePlan.codaLength > 0) {
-    newSyllable.coda = pickCoda(
-      rt,
-      context,
-      newSyllable,
-      mode,
-      isEndOfWord,
-      monosyllabic,
-      syllablePlan.codaLength,
-    );
+    const finalChoices = isEndOfWord ? rt.rootFinalCodas[mode] : undefined;
+    newSyllable.coda = finalChoices
+      ? pickRootFinalCoda(finalChoices, newSyllable.nucleus[0], syllablePlan.codaLength, context.rand)
+      : pickCoda(rt, context, newSyllable, isEndOfWord, monosyllabic, syllablePlan.codaLength);
   }
 
   return newSyllable;
@@ -1634,6 +1663,7 @@ function generateSyllables(
       targetPhonemeCount,
       sampledSyllableCount,
       context.rand,
+      sampleRootFinalCodaLength(rt, mode, targetPhonemeCount, sampledSyllableCount, context.rand),
     );
   }
 
@@ -2123,6 +2153,9 @@ function generateOneWord(
   const affixPlan = morphPlan && morphPlan.plan.template !== "bare"
     ? morphPlan.plan
     : undefined;
+  const finalCodaLength = sampleRootFinalCodaLength(
+    rt, mode, targetPhonemeCountRoot, sampledSyllableCount, rand,
+  );
   // One draw per affixed word seeds the per-attempt look-ahead streams.
   const lookaheadSeed = affixPlan ? Math.floor(rand() * 4294967296) : 0;
   const maxAttempts = MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES;
@@ -2144,6 +2177,7 @@ function generateOneWord(
       targetPhonemeCountRoot,
       sampledSyllableCount,
       rand,
+      finalCodaLength,
     );
     const traceCollector = enableTrace ? new TraceCollector() : undefined;
     if (traceCollector && morphPlan) {

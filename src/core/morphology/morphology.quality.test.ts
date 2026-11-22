@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { createGenerator, englishConfig, generateWords } from "../../index.js";
+import { createGenerator, englishConfig, generateWord, generateWords } from "../../index.js";
+import { createSeededRng } from "../../utils/random.js";
+import cmuBigrams from "../../../data/cmu/cmu-lexicon-bigrams.json";
+import cmuTrigrams from "../../../data/cmu/cmu-lexicon-trigrams.json";
 describe("Morphology quality benchmarks", () => {
   const words = generateWords(1000, { seed: 42, morphology: true, trace: true });
 
@@ -64,6 +67,29 @@ describe("Morphology quality benchmarks", () => {
     const word = generator.generateWord({ seed: 491, trace: true, mode: "lexicon" });
     expect(word.trace?.morphology?.realization?.suffix?.resolved.written).toBe(written);
     expect(word.written.clean.endsWith(written)).toBe(true);
+  });
+
+  it("keeps root-internal ia reachable and reports surface ia and ian", () => {
+    const rand = createSeededRng(2028);
+    let ia = 0;
+    let ian = 0;
+    let rootIa = 0;
+    let bigrams = 0;
+    let trigrams = 0;
+    for (let draw = 0; draw < 30_000; draw++) {
+      const word = generateWord({ rand, mode: "lexicon", trace: true });
+      const surface = word.written.clean;
+      const root = word.trace?.morphology?.realization?.emittedParts.find(part => part.role === "root")?.text ?? surface;
+      rootIa += root.split("ia").length - 1;
+      ia += surface.split("ia").length - 1;
+      ian += surface.split("ian").length - 1;
+      bigrams += surface.length - 1;
+      trigrams += Math.max(0, surface.length - 2);
+    }
+    const iaRatio = ia / bigrams / (cmuBigrams.ia / Object.values(cmuBigrams).reduce((sum, n) => sum + n, 0));
+    const ianRatio = ian / trigrams / (cmuTrigrams.ian / Object.values(cmuTrigrams).reduce((sum, n) => sum + n, 0));
+    console.log(`Report-only morphology n-grams: ia ${iaRatio.toFixed(3)}× CMU (root hits ${rootIa}), ian ${ianRatio.toFixed(3)}× CMU`);
+    expect(rootIa).toBeGreaterThan(0);
   });
 
   it("enb trigram is reachable in traced lexicon samples", () => {

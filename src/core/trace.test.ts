@@ -205,6 +205,7 @@ describe("trace pipeline", () => {
       const word = generator.generateWord({
         seed,
         syllableCount: 4,
+        mode: "text",
         trace: true,
         morphology: false,
       });
@@ -243,7 +244,7 @@ describe("trace pipeline", () => {
         seed: s,
         trace: true,
         morphology: false,
-        mode: "lexicon",
+        mode: "text",
         syllableCount: 4,
       });
       for (const event of w.trace!.structural) {

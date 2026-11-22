@@ -832,19 +832,20 @@ describe("Word Generator", () => {
       },
     });
 
+    // Text retains the legacy shape sampler and supplies a stable boundary-policy exercise.
     let alwaysCount = 0;
     let neverCount = 0;
     for (let s = 0; s < 4000; s++) {
       const onWord = alwaysDrop.generateWord({
         seed: s,
-        mode: "lexicon",
+        mode: "text",
         morphology: false,
         trace: true,
         syllableCount: 4,
       });
       const offWord = neverDrop.generateWord({
         seed: s,
-        mode: "lexicon",
+        mode: "text",
         morphology: false,
         trace: true,
         syllableCount: 4,

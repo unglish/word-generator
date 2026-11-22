@@ -17,6 +17,12 @@ export interface SeedResult {
   cmuOnlyKeyCount: number;
   /** Absent in historical reports that retained only extrema. */
   phonemes?: PhonemeComparisonRow[];
+  counts?: Record<string, number>;
+  syllables?: Record<string, number>;
+  finalCodaLengths?: Record<string, number>;
+  rootFinalCodaTV?: number;
+  finishedSyllableTV?: number;
+  finishedMeanSyllableGap?: number;
 }
 
 /** Gate limits, their direction, and the precision they are rounded outward to. */
@@ -25,6 +31,12 @@ const LIMITS = [
   { limit: "maxOverRepresentation", metric: "maxOverRepresentation", bound: "upper", decimals: 3 },
   { limit: "minRepresentation", metric: "minRepresentation", bound: "lower", decimals: 3 },
   { limit: "maxAbsoluteGapPct", metric: "maxAbsoluteGapPct", bound: "upper", decimals: 3 },
+] as const;
+
+const LENGTH_LIMITS = [
+  { limit: "maxRootFinalCodaTV", metric: "rootFinalCodaTV", bound: "upper", decimals: 2 },
+  { limit: "maxFinishedSyllableTV", metric: "finishedSyllableTV", bound: "upper", decimals: 2 },
+  { limit: "maxFinishedMeanSyllableGap", metric: "finishedMeanSyllableGap", bound: "upper", decimals: 4 },
 ] as const;
 
 /** Inventory coverage is a fixed policy, independent of observed spread. */
@@ -73,6 +85,13 @@ export function proposeLimits(results: SeedResult[], k: number) {
   const fixed = FIXED_LIMITS.map(({ limit, metric, bound }) => ({
     limit, metric, bound, ...summarize(results.map(r => r[metric])), proposed: 0,
   }));
-  return [...calibrated, ...fixed];
+  const lengths = LENGTH_LIMITS.flatMap(({ limit, metric, bound, decimals }) => {
+    const values = results.flatMap(result => result[metric] ?? []);
+    if (!values.length) return [];
+    if (values.length !== results.length) throw new Error(`Incomplete calibration results for ${metric}`);
+    const stats = summarize(values);
+    return [{ limit, metric, bound, ...stats, proposed: roundOutward(stats.max + k * stats.sd, decimals, bound) }];
+  });
+  return [...calibrated, ...fixed, ...lengths];
 }
 

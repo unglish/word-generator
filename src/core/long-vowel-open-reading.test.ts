@@ -236,15 +236,10 @@ describe("long-vowel single letters read long (#470)", () => {
     }
   });
 
-  it("keeps initial ie, oo, and ee rare across five lexicon streams", () => {
-    let initialDigraphs = 0;
-    for (let seed = 470; seed < 475; seed++) {
-      const words = generateWords(4000, { seed, mode: "lexicon" });
-      initialDigraphs += words.filter(word => /^(?:ie|oo|ee)/.test(word.written.clean)).length;
-    }
-    // Retain the original 15 in 4,000 ceiling, with fewer draws of only one
-    // initial digraph determining the result.
-    expect(initialDigraphs).toBeLessThan(75);
+  it("keeps initial ie, oo, and ee below the original 15 in 4,000 ceiling", () => {
+    const words = generateWords(4000, { seed: 470, mode: "lexicon" });
+    const initialDigraphs = words.filter(word => /^(?:ie|oo|ee)/.test(word.written.clean));
+    expect(initialDigraphs.length).toBeLessThan(15);
   });
 
   it("still splits closed long vowels with magic-e in a non-final syllable", () => {

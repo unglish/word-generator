@@ -2,8 +2,7 @@
   "maxBigramOverRepresentation": 4.25,
   "maxTrigramOverRepresentation": 3.21,
   "minBigramRepresentation": 0.0089,
-  "minBigramRepresentationByBigram": { "cc": 0.0031 },
-  "_ccFloor": "#491: all 28 baseline and 96 candidate cc hits in the traced calibration come from root-final c before -able. With measured -able, the ten-seed minimum was 0.0035462x the unchanged CMU cc frequency (927/752330). The cc-only floor is the minimum less 10%, rounded down.",
+  "reportOnlyUnderrepresentedBigrams": ["cc"],
   "minTrigramRepresentation": 0.0062,
   "minBigramBaselineFreq": 0.001,
   "minTrigramBaselineFreq": 0.0005,
@@ -45,6 +44,17 @@
       "minBigram": 0.0089,
       "minTrigram": 0.0062,
       "note": "Hard c respell (#460/#469): root-final /k/ c is no longer doubled to `cc` before an e/i/y suffix (broccest, cacliccer), which read /ks/. Those were 25 of 26 `cc` in a 20k sample, so `cc` fell from 0.13-0.16x to 0.0133/0.0168/0.0099/0.0183/0.0099x (seeds 42/123/456/789/1337) and is now the worst common bigram. Floor set to -10% of 0.0099. Next worst: `gh`/`mc` 0.064-0.077x (main 0.061-0.077x)."
+    },
+    {
+      "date": "2026-11-21",
+      "reportOnlyBigram": "cc",
+      "note": "#491: cc is report-only. The old PR's floor (0.0031x) requires about six hits per 200,000 words, versus a ten-seed mean of 9.6. All traced baseline and candidate hits come from -able, now sampled at the measured rate. A hard floor at this scale confuses sampling noise with a spelling defect. Other bigram floors stand."
+    },
+    {
+      "date": "2026-11-21",
+      "reportOnlyMorphologyNgrams": ["ia", "ian"],
+      "previousFloors": { "ia": 0.2, "ian": 0.45 },
+      "note": "#491: the earlier surface floors primarily measured over-weighted -ian/-ial and other suffix joins. The seed-2028 trace on main attributes 480 of 486 ia hits and all 191 ian hits to joins or affixes. Lower measured affix rates reduce those surface counts. A separate traced test checks that ia remains reachable in the root."
     }
   ],
   "_comment": "Quality ratchet: after each tuning fix, re-run 5× analysis (seeds 42/123/456/789/1337), update thresholds to new max + 10% margin (over-rep) or new min - 10% margin (under-rep), commit as part of fix PR."

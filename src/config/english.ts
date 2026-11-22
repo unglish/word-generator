@@ -109,12 +109,17 @@ const lexiconTemplates = Object.values(lexiconReference.templates).reduce(
   { bare: 0, suffixed: 0, prefixed: 0, both: 0 },
 );
 
+const measuredAffixFrequencies: Readonly<Record<string, number>> = lexiconReference.affixFrequencies;
+const measuredAffixes = new Set(Object.keys(measuredAffixFrequencies));
+
 function withLexiconAffixFrequencies(affixes: Affix[]): Affix[] {
-  const frequencies: Readonly<Record<string, number>> = lexiconReference.affixFrequencies;
-  return affixes.map(affix => ({
-    ...affix,
-    frequencyByMode: { lexicon: frequencies[affix.written] ?? 0 },
-  }));
+  return affixes.map(affix => {
+    if (!Object.hasOwn(measuredAffixFrequencies, affix.written)) {
+      throw new Error(`Missing measured lexicon frequency for ${affix.type} "${affix.written}"`);
+    }
+    measuredAffixes.delete(affix.written);
+    return { ...affix, frequencyByMode: { lexicon: measuredAffixFrequencies[affix.written] } };
+  });
 }
 
 /**
@@ -171,6 +176,9 @@ export const englishConfig: LanguageConfig = {
       long: ONSET_LENGTH_LONG,
     },
     codaLength: {
+      rootFinalByMode: {
+        lexicon: { counts: lexiconReference.finalCodaCounts, lengths: lexiconReference.finalCodaLengths },
+      },
       monosyllabic: CODA_LENGTH_MONOSYLLABIC,
       monosyllabicDefault: CODA_LENGTH_MONOSYLLABIC_DEFAULT,
       polysyllabicNonzero: CODA_LENGTH_POLYSYLLABIC_NONZERO,
@@ -883,7 +891,6 @@ export const englishConfig: LanguageConfig = {
   },
 
   clusterWeights: {
-    rootFinalByMode: { lexicon: lexiconReference.finalCodaCounts },
     onset: {
       // /dr/ onset cluster is ~2.5× over-represented vs CMU; reduce probability.
       // CMU has tr 3× more common than dr — our generator produces them equally.
@@ -921,3 +928,7 @@ export const englishConfig: LanguageConfig = {
     },
   },
 };
+
+if (measuredAffixes.size > 0) {
+  throw new Error(`Unknown measured lexicon affixes: ${[...measuredAffixes].join(", ")}`);
+}

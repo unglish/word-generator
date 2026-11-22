@@ -180,6 +180,8 @@ export interface GenerationWeights {
 
   /** Coda length distributions */
   codaLength: {
+    /** Audited final coda counts and lengths. Replacing the coda plan can omit this profile. */
+    rootFinalByMode?: Partial<Record<GenerationMode, RootFinalCodaProfile>>;
     /** Monosyllabic coda weights keyed by onset length. */
     monosyllabic: Record<number, [number, number][]>;
     /** Fallback for monosyllabic codas when onset length isn't in the map. */
@@ -981,8 +983,6 @@ export interface LanguageConfig {
   clusterWeights?: {
     /** Weights for onset clusters (not currently used in English). */
     onset?: Record<string, number>;
-    /** Complete attested root-final codas, weighted by comma-separated cluster. */
-    rootFinalByMode?: Partial<Record<GenerationMode, Record<string, number>>>;
     /** Weights for coda clusters. */
     coda?:
       | Record<string, number>
@@ -993,6 +993,11 @@ export interface LanguageConfig {
           nonFinal?: Record<string, number>;
         };
   };
+}
+
+export interface RootFinalCodaProfile {
+  counts: Readonly<Record<string, number>>;
+  lengths: Readonly<Record<number, Readonly<Record<number, readonly (readonly [number, number])[]>>>>;
 }
 
 // ---------------------------------------------------------------------------
@@ -1952,6 +1957,37 @@ export function validateConfig(config: LanguageConfig): void {
       );
     }
   };
+
+  for (const [mode, profile] of Object.entries(config.generationWeights.codaLength.rootFinalByMode ?? {})) {
+    const label = `generationWeights.codaLength.rootFinalByMode.${mode}`;
+    if (mode !== "lexicon" && mode !== "text") throw new Error(`${label} is an unknown mode`);
+    for (const [cluster, count] of Object.entries(profile.counts)) {
+      const sounds = cluster.split(",");
+      if (new Set(sounds).size !== sounds.length || !Number.isFinite(count) || count <= 0) {
+        throw new Error(`${label}.counts has an invalid count or repeated phoneme for "${cluster}"`);
+      }
+      for (const sound of sounds) {
+        if (!phonemeSounds.has(sound)) throw new Error(`${label}.counts contains unknown phoneme "${sound}"`);
+      }
+    }
+    for (const [syllables, byPhones] of Object.entries(profile.lengths)) {
+      for (const [phones, lengths] of Object.entries(byPhones)) {
+        const location = `${label}.lengths.${syllables}.${phones}`;
+        if (!/^[1-9]\d*$/.test(syllables) || !/^[1-9]\d*$/.test(phones) ||
+          Number(phones) < Number(syllables) || lengths.length === 0) {
+          throw new Error(`${location} must describe a positive root phone and syllable count`);
+        }
+        const seen = new Set<number>();
+        for (const [length, count] of lengths) {
+          if (!Number.isInteger(length) || length < 0 || length > Number(phones) - Number(syllables) ||
+            seen.has(length) || !Number.isFinite(count) || count <= 0) {
+            throw new Error(`${location} has an invalid coda length or count`);
+          }
+          seen.add(length);
+        }
+      }
+    }
+  }
 
   config.writtenFormConstraints?.hardLetters?.forEach((rule, i) => {
     const label = `writtenFormConstraints.hardLetters[${i}] (${rule.name})`;

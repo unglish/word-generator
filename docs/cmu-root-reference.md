@@ -438,7 +438,7 @@ The result digest is `2eacf788dd396e5207908c613d6689390e462d0488fa6e847606e08c12
 [#491](https://github.com/unglish/word-generator/issues/491) uses one observation
 per representable surface type from the Phase 1 ledger. If five included
 spellings resolve to one root, that root contributes five observations. After
-the coda audit there are **42,696** observations. The measured template counts
+the coda audit there are **42,670** observations. The measured template counts
 are grouped by terminal-root syllable count. Conditional on a template picking
 an affix, the generator samples the measured prefix or suffix counts.
 `-tion` and `-sion` use the observed counts of 14 and 5. These counts omit
@@ -465,10 +465,19 @@ strips include an unavailable intermediate base, a mismatch in first
 pronunciations, and lexical ambiguity. A spelling-only fallback would also
 strip unrelated words such as `blitz`.
 
-The [full exclusion list](../evaluation/corpus/root-coda-exclusions.json)
-contains 321 terminal spellings, grouped by their first-pronunciation coda.
-The builder drops every included row that resolves to one of those spellings
-(330 rows). The Phase 1 ledger remains reproducible at its pinned revision.
+The [exclusion list](../evaluation/corpus/root-coda-exclusions.json) records
+346 terminal spellings grouped by first-pronunciation coda. The builder drops
+the 356 included rows that resolve to these spellings. In particular, `chives` and the
+/vd/ reading of `beloved` are treated as surviving affixed forms. The Phase 1
+ledger remains reproducible at its pinned revision.
+
+A second spot-check ranked retained Phase 1 spellings in each of /kt st pt nd/
+by SHA-256 of `491-past-coda-v1:<spelling>`. It took 50 for each class, or all
+32 for /pt/. Five of 182 (2.7%) had clear missed regular past or participial
+endings. They were `landlocked`, `enveloped`, `leaped`, `scalloped`, and
+`underdeveloped`. The audit then inspected every spelling ending in `ed` in
+these four classes. Lexicalized adjectives such as `accursed` and
+`harebrained` were retained. The archive records each sampled spelling.
 
 | Coda | Retained terminal spellings after audit |
 |---|---|
@@ -476,44 +485,92 @@ The builder drops every included row that resolves to one of those spellings
 | /dz/ | backwoods, everglades, innards, suds |
 | /mz/ | doldrums, oftentimes, qualms |
 | /fs/ | fisticuffs |
-| /vz/ | chives |
 | /ŋz/ | chitterlings, hustings |
-| /ms/, /ŋs/ | No retained attestations |
+| /bz/ | dibs |
+| /gz/ | dregs, togs |
+| /lz/ | annals, entrails, gunnels, measles, oodles, vittles |
+| /nz/ | bluejeans, bronze, cleanse, dickens, environs, gens, impatiens, lens, pantaloons, sans, sens, smithereens |
+| /rz/ | arrears, backstairs, downstairs, housewares, upstairs, yours |
+| /lvz/ | ourselves, themselves |
+| /ndz/ | badlands, zounds |
+| /lmz/ | alms |
+| /lps/ | alps |
+| /lts/ | schmaltz, waltz |
+| /mps/ | contretemps, glimpse, mumps |
+| /nts/ | sweatpants, underpants |
+| /rps/ | corpse |
+| /rts/ | hertz, quartz |
+| /ŋks/ | jinx, larynx, lynx, phalanx, pharynx, sphinx, tiddlywinks |
+| /rʃt/ | borscht |
+| /lft/ | delft |
+| /ms ŋs vz vd/ | No retained attestations |
 
-The runtime draws complete final codas in proportion to the audited counts
-within the planned coda length. Existing segment and phonotactic constraints
-still determine whether a coda is eligible. The complete-cluster draw prevents
-a rare sole completion from inheriting the probability of a common first
-consonant. The earlier whitelist and final multipliers still serve text,
-medial root codas, and the separate affix-boundary rules.
+The generator draws a final coda length once from the distribution conditional
+on the root's phoneme and syllable counts. It reserves that length while
+adjusting the other consonant slots. Positive-length codas are then drawn as
+complete clusters from the corresponding length pool. This avoids inflating
+rare clusters through a common first consonant.
+
+The lexicon final position uses the audited whitelist instead of the legacy
+one. Every candidate goes through the shared cluster rejection checks,
+including the positional and nucleus bans, shape constraints, the legacy
+hard weight blocks, sonority and regex rules. The corpus still records
+`dibs`, `dregs` and `togs`, while the generator's existing /bz/ and /gz/
+blocks remove them from generation. Positive legacy multipliers are replaced
+by the complete-coda counts. Text retains the old whitelist, multipliers
+and extension behavior. The legacy whitelist also governs medial roots and
+affix-boundary repairs. The audited sampler is configured with the coda-length
+profile. A custom config that supplies its own coda-length plan can omit it.
 
 ### Fit and gates
 
-The audited roots average **2.29 syllables per observation**. Lexicon root
-lengths are fitted to **2.462** finished syllables in full CMU. The fit changes
-the relative mass of root syllable buckets while preserving the measured phone
-distribution within each root syllable count. It uses the observed transitions
-from each root length to a finished syllable bucket (1–5 or 6+), with 30,000
-draws each at forced lengths 1–5 and the full generator's measured morphology.
-For the pooled 6+ bucket, roots of six or more syllables remain in that bucket
-whatever affix is added. The fitted root mean is approximately **2.14**
-syllables, about **0.15 fewer** than the audited population. Attachment adds
-about **0.32** on average. The full list includes types outside the
-representable common-word population, so those means describe different samples.
+The fitted model minimizes KL divergence from the audited syllable mix while
+matching the full-CMU finished distribution over 1, 2, 3, 4, 5 and 6+ syllables.
+An affix only adds syllables, so the first five bins form a triangular
+system with a positive diagonal. Forward substitution fixes the probabilities
+for roots of length one through five. The remaining mass is distributed
+proportionally to the measured 6–8 roots, which uniquely minimizes KL on
+that group. The builder rejects infeasible masses and residuals above
+`1e-10`. The fit keeps the measured conditional phone distribution within
+each root-syllable bucket.
 
-The bare-root phoneme gate uses the audited root counts. The finished-word gate
-uses the 117,485 full-CMU types. The finished syllable gate allows up to one
-percentage point of total variation and 0.03 syllables of mean error. The trace
-invariant checks that the root length matches the plan and that the finished
-length equals the root plus the realized prefix and suffix syllable counts.
+The fit moves the root mean from 2.287 to 2.146 syllables. The
+full shift is 16.26 percentage points of total variation.
 
-To regenerate the fixed inputs, rebuild and verify the Phase 1 artifact above,
-then run the Phase 2 builder in the current checkout with the archived measured
-transition counts.
+| Root syllables | Audited | Fitted | Δ pp |
+|---:|---:|---:|---:|
+| 1 | 27.237% | 21.589% | -5.648 |
+| 2 | 36.663% | 52.923% | +16.260 |
+| 3 | 21.448% | 17.370% | -4.078 |
+| 4 | 10.429% | 6.010% | -4.419 |
+| 5 | 3.398% | 1.696% | -1.702 |
+| 6 | 0.710% | 0.355% | -0.355 |
+| 7 | 0.105% | 0.053% | -0.053 |
+| 8 | 0.009% | 0.005% | -0.005 |
+
+The empirical transitions use 30,000 public-API words per length 1–8 with
+the same configured forcing method and separate seeds. The committed
+[transition counts](../evaluation/corpus/stage-transitions.json) pin the
+generator revision, source tree and count digest. The gate's bare-root phone
+counts reweight each syllable stratum by the fitted-to-measured mass ratio.
+This makes root phones comparable at the intended length mix. The finished
+phoneme and length gates still compare against all 117,485 CMU types. A traced
+invariant checks that the finished length equals planned root length plus the
+resolved prefix and suffix syllable counts.
+
+Rebuild and verify the original Phase 1 artifact at `0de88f5c`, then build
+and compare the three checked-in outputs.
 
 ```sh
 python3 evaluation/corpus/stage-reference.py \
   --root-reference "$ROOT_JSON" --source "$CMU_SOURCE" \
-  --transitions "$TRANSITIONS_JSON" \
-  --runtime-out /tmp/lexicon-reference.ts --reference-out /tmp/stage-references.json
+  --transitions evaluation/corpus/stage-transitions.json \
+  --runtime-out /tmp/lexicon-reference.ts --reference-out /tmp/stage-references.json \
+  --pins-out /tmp/stage-reference-pins.json
+python3 evaluation/corpus/stage-reference-test.py
 ```
+
+The review tests check the generated files and their inputs against the
+[pinned digests](../evaluation/corpus/stage-reference-pins.json). To reproduce
+the empirical transitions, clone the archived `transition-generator.bundle`
+and pass its checkout to `node --import tsx evaluation/corpus/sample-stage-transitions.ts`.

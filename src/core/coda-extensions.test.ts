@@ -89,6 +89,43 @@ function wordFor(fixture: Fixture) {
 }
 
 describe("audited lexicon root-final codas", () => {
+  it("rejects unknown corpus sounds during config validation", () => {
+    expect(() => createGenerator({
+      ...englishConfig,
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        codaLength: {
+          ...englishConfig.generationWeights.codaLength,
+          rootFinalByMode: { lexicon: { counts: { "not-a-phone": 1 }, lengths: {} } },
+        },
+      },
+    })).toThrow("contains unknown phoneme \"not-a-phone\"");
+  });
+
+  it("applies hard blocks, regex bans, and sonority to audited draws", () => {
+    const two = { 1: { 3: [[2, 1]] as const } };
+    const config: LanguageConfig = {
+      ...englishConfig,
+      phonemeLengthWeights: { ...englishConfig.phonemeLengthWeights, lexicon: [[3, 1]] },
+      phonemeToSyllableWeights: { ...englishConfig.phonemeToSyllableWeights, lexicon: { 3: [[1, 1]] } },
+      invalidClusters: { ...englishConfig.invalidClusters, coda: ["nt"] },
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        codaLength: {
+          ...englishConfig.generationWeights.codaLength,
+          rootFinalByMode: {
+            lexicon: { counts: { "b,z": 100, "g,z": 100, "n,t": 100, "m,l": 100, "k,t": 1 }, lengths: two },
+          },
+        },
+      },
+    };
+    const generator = createGenerator(config);
+    for (let seed = 0; seed < 60; seed++) {
+      const word = generator.generateWord({ seed, mode: "lexicon", morphology: false });
+      expect(word.syllables[0].coda.map(phone => phone.sound)).toEqual(["k", "t"]);
+    }
+  });
+
   it.each([false, true])("uses only audited multi-codas with morphology=%s", morphology => {
     const attested = new Set(Object.keys(lexiconReference.finalCodaCounts));
     const words = generateWords(10_000, { seed: 491, morphology, trace: true, mode: "lexicon" });
@@ -101,6 +138,7 @@ describe("audited lexicon root-final codas", () => {
       if (coda.length > 1) {
         clusters++;
         expect(attested.has(coda.join(",")), word.written.clean).toBe(true);
+        expect(coda.join(",")).not.toMatch(/(?:^|,)(?:b|g),z$/);
         expect(new Set(coda).size).toBe(coda.length);
         if (coda.at(-1) === "s" || coda.at(-1) === "z") consonantSibilants++;
       }

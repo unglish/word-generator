@@ -43,7 +43,7 @@ interface Thresholds {
   maxBigramOverRepresentation: number;
   maxTrigramOverRepresentation: number;
   minBigramRepresentation: number;
-  minBigramRepresentationByBigram?: Record<string, number>;
+  reportOnlyUnderrepresentedBigrams?: string[];
   minTrigramRepresentation: number;
   minBigramBaselineFreq: number;
   minTrigramBaselineFreq: number;
@@ -172,22 +172,25 @@ describe("N-gram quality gates", () => {
     const thresholds = loadThresholds();
     const cmuFreq = loadCmuFreqs("cmu-lexicon-bigrams.json");
 
-    let worst = { ngram: "", ratio: Infinity, floor: thresholds.minBigramRepresentation };
+    let worst = { ngram: "", ratio: Infinity };
 
     for (const [bi, cmu] of Object.entries(cmuFreq)) {
       if (cmu <= thresholds.minBigramBaselineFreq) continue;
       const ratio = ((bigramCounts[bi] ?? 0) / bigramTotal) / cmu;
-      const floor = thresholds.minBigramRepresentationByBigram?.[bi] ?? thresholds.minBigramRepresentation;
+      if (thresholds.reportOnlyUnderrepresentedBigrams?.includes(bi)) {
+        console.log(`Report-only bigram "${bi}": ${ratio.toFixed(4)}× CMU (${bigramCounts[bi] ?? 0} hits)`);
+        continue;
+      }
       if (NGRAM_GATES_BLOCKING) {
         expect(
           ratio,
-          `Bigram "${bi}" under-represented at ${ratio.toFixed(4)}× vs CMU (threshold: ${floor}×)`,
-        ).toBeGreaterThanOrEqual(floor);
+          `Bigram "${bi}" under-represented at ${ratio.toFixed(4)}× vs CMU (threshold: ${thresholds.minBigramRepresentation}×)`,
+        ).toBeGreaterThanOrEqual(thresholds.minBigramRepresentation);
       }
-      if (ratio < worst.ratio) worst = { ngram: bi, ratio, floor };
+      if (ratio < worst.ratio) worst = { ngram: bi, ratio };
     }
 
-    console.log(`Worst under-rep bigram: "${worst.ngram}" at ${worst.ratio.toFixed(4)}× (threshold: ${worst.floor})`);
+    console.log(`Worst under-rep bigram: "${worst.ngram}" at ${worst.ratio.toFixed(4)}× (threshold: ${thresholds.minBigramRepresentation})`);
     expect(true).toBe(true);
   });
 

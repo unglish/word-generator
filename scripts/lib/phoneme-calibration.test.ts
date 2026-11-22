@@ -40,3 +40,15 @@ describe("phoneme calibration coverage policy", () => {
     expect(() => proposeLimits(results, 3)).toThrow(`seed ${results[0].seed}: 1 rejected phoneme tokens`);
   });
 });
+
+it("calibrates stage length metrics only when the entire stream set observed them", () => {
+  const rows = [
+    { ...calibration.results[0], finishedSyllableTV: 0.2, finishedMeanSyllableGap: 0.001 },
+    { ...calibration.results[1], finishedSyllableTV: 0.4, finishedMeanSyllableGap: 0.003 },
+  ];
+  const proposals = proposeLimits(rows, 0);
+  expect(proposals.find(item => item.limit === "maxFinishedSyllableTV")?.proposed).toBe(0.4);
+  expect(proposals.find(item => item.limit === "maxFinishedMeanSyllableGap")?.proposed).toBe(0.003);
+  expect(proposals.some(item => item.limit === "maxRootFinalCodaTV")).toBe(false);
+  expect(() => proposeLimits([rows[0], calibration.results[1]], 3)).toThrow("Incomplete calibration");
+});

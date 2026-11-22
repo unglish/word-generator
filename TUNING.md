@@ -33,10 +33,21 @@ Baseline → Analyze (phonemes first) → Diagnose → Fix → Verify → Guardr
 - Frozen levers for this cycle:
   - grapheme/spelling tuning
 
-The `cc` under-representation floor is specific to that bigram. In the
-calibration for #491, all observed `cc` came from a root-final `c` doubled
-before `-able`, whose measured rate is lower. Its floor uses the same 10%
-margin below the minimum ratio to CMU, measured across ten 200,000-word seeds.
+The `cc` under-representation ratio is report-only. All traced hits on main
+and in the initial #491 candidate came from a root-final `c` doubled before
+`-able`. The former floor required about six hits per 200,000 words, against
+a ten-seed mean of 9.6. Even an ideal Poisson model would put the chance of
+five or fewer at about 8%. The shared bigram floor still applies to every
+other eligible bigram.
+
+Surface `ia` and `ian` are reported separately in the morphology test. On
+main (seed 2028, 30,000 words), 480 of 486 `ia` hits and all 191 `ian` hits
+come from affixes or their joins. The measured `-ian` and `-ial` counts
+replace those artificial source rates. The root-only `ia` test checks
+reachability through the trace, independently of those affix rates.
+The `-sion` realization test forces the suffix because five corpus
+attestations imply about 0.6 hits per 5,000 words. A zero-hit sample is
+ordinary at that rate. Coverage of the rarer forms stays with #462.
 
 ## Canonical Run Defaults
 
@@ -313,7 +324,7 @@ should rely on committed baselines and config, not on `data/cmudict-0.7b.txt`.
 ## Phoneme Guardrail Ratchet
 
 The test suite includes phoneme quality gates (`src/core/phoneme-quality.test.ts`)
-that compare bare lexicon roots to the audited root counts and finished
+that compare bare lexicon roots to the length-matched audited root counts and finished
 lexicon words to all selected CMU types.
 Gates cover both representation shape and coverage:
 
@@ -321,6 +332,8 @@ Gates cover both representation shape and coverage:
 - non-CMU generated mass ceiling
 - over-/under-representation ratio bounds for common phonemes
 - absolute-gap ceiling for common phonemes
+- root-final coda length total variation against the fitted root mix
+- finished syllable-count total variation and absolute mean error against full CMU
 
 Thresholds are in `src/config/phoneme-thresholds.json` and follow a **ratchet** pattern.
 Each limit is calibrated from how much the metric varies across seeds on the
@@ -329,6 +342,8 @@ current generator, not from a flat percentage of one seed:
 ```sh
 npm run calibrate:phonemes -- --stage roots
 npm run calibrate:phonemes -- --stage fullCmu --output calibration.json
+# Apply the same stage references to another generator checkout.
+npm run calibrate:phonemes -- --stage fullCmu --generator-root /path/to/baseline
 ```
 
 The script runs the selected gate’s exact measurement (sample size, lexicon mode,
@@ -373,6 +388,58 @@ limits allow to misplace up to about 4.7% of phoneme mass. Pearson r is still
 printed for comparison with earlier records. The other limits were remeasured
 and left unchanged.
 
+### Phase 2 stage calibration (#491)
+
+Thirty disjoint 200,000-word streams per stage use the same seeds on unchanged
+main and the candidate, with both scored against the final pinned references.
+
+| Metric | Roots main → PR | Finished main → PR |
+|---|---:|---:|
+| TV | 6.904 → 7.142 | 5.981 → 6.591 |
+| ʃ ratio | 0.799 → 0.695 | 1.159 → 0.767 |
+| t pp | -1.569 → 0.247 | -0.048 → 1.421 |
+| ŋ ratio | 2.007 → 0.708 | 1.106 → 1.419 |
+| ə ratio | 0.913 → 0.753 | 1.158 → 0.824 |
+| z ratio | 2.675 → 2.220 | 1.495 → 1.674 |
+
+The complete-coda plan reduces root-final /t/ from 8,572 in the initial PR to
+6,776 in a 40,000-word trace. Main contributes 2,560 and the length-matched
+audit predicts 6,946. The corresponding revised /ʃ/ count of 552 matches the
+audited 550. The larger finished /ʃ/ decrease comes from measured `-tion/-sion`
+frequencies. Suffix /ŋ/ rises with `-ing` while root-final /ŋ/ falls. Shorter
+roots and less prefixation also reduce /ə/. The remaining /z/ excess includes
+the `-s` allomorph. The broad finished reference is a different population from
+the common-word strata used to estimate affix rates.
+
+The revised corpus and coda limits reduce pseudo-plural roots and align word
+and coda lengths with their intended populations. The width of the phoneme
+limits still reflects the remaining mismatches. The largest over-representation
+limits move with /z/. Its bare ratio improves against unchanged main on the
+same length-matched root reference. Its finished ratio rises with the measured
+plural frequency. Joint host and suffix calibration is tracked in #462.
+
+| Stage | Metric | Min | Max | Mean | SD | Limit |
+|---|---|---:|---:|---:|---:|---:|
+| roots | Phoneme TV (pp) | 7.04981 | 7.25179 | 7.14200 | 0.04602 | 7.39 |
+| roots | Worst over-representation (×) | 2.19075 | 2.24361 | 2.22007 | 0.01289 | 2.283 |
+| roots | Worst under-representation (×) | 0.68084 | 0.70678 | 0.69363 | 0.00632 | 0.661 |
+| roots | Worst phoneme gap (pp) | 2.15091 | 2.25765 | 2.20605 | 0.02271 | 2.326 |
+| roots | Root-final coda length TV (pp) | 0.01079 | 0.36914 | 0.11155 | 0.06747 | 0.58 |
+| fullCmu | Phoneme TV (pp) | 6.51825 | 6.65974 | 6.59148 | 0.03277 | 6.76 |
+| fullCmu | Worst over-representation (×) | 1.66199 | 1.68743 | 1.67353 | 0.00618 | 1.706 |
+| fullCmu | Worst under-representation (×) | 0.75341 | 0.77810 | 0.76685 | 0.00652 | 0.733 |
+| fullCmu | Worst phoneme gap (pp) | 1.72013 | 1.78624 | 1.75011 | 0.01606 | 1.835 |
+| fullCmu | Finished syllable TV (pp) | 0.14159 | 0.45041 | 0.28093 | 0.07898 | 0.69 |
+| fullCmu | Finished mean syllable gap | 0.00023 | 0.00514 | 0.00181 | 0.00133 | 0.0092 |
+
+### Legacy threshold changes before the stage split
+
+2026-11-13: minRepresentation and maxAbsoluteGapPct loosened after forbidOpenCheckedFinal removed open-final /ɪ ɛ æ ʌ ʊ/ (issue #398); /ɪ/ under-rep and abs gap moved while TV/over-rep stayed within prior limits (5-seed recalibration).
+
+2026-11-17: maxOverRepresentation loosened 1.066→1.08 after #440 banned illegal joins /z.ʃ/, /ʃ.h/, /k.tʃ/ (drop-coda repairs); seed-42 /u/ over-rep 1.063→1.068 and 30-stream worst 1.0679 (SD 0.0040). Other limits unchanged (observed extrema still inside prior bounds). Recalibrated on #451 head (pre-#443 revert) via `npm run calibrate:phonemes`.
+
+2026-11-21: maxTotalVariationPct 1.78→1.88 to match the documented k=3 rule on main 81df038c (30 streams: min 1.6157, max 1.7714, mean 1.7084, SD 0.0342; max + 3 SD = 1.874). Main's TV drifted up through reviewed changes since 1.78 was set (2026-11 record on 30466c3: mean 1.5722, max 1.6531; now mean 1.7084, max 1.7714), leaving the limit 0.25 SD above the 30-stream worst, so spelling-only branches that merely reshuffle the seed-42 stream failed it (1.7825; paired 30-seed difference mean -0.0034, no shift). This re-applies the documented rule to that drift; other limits unchanged (all observed extrema inside them).
+
 When to re-run:
 
 1. After an intentional distribution change (tuning PR), re-run calibration on
@@ -394,7 +461,9 @@ When to re-run:
 | `data/cmu/cmu-lexicon-letters.json` | CMU letter frequencies |
 | `data/cmu/cmu-lexicon-bigrams.json` | CMU bigram frequencies (638 unique) |
 | `data/cmu/cmu-lexicon-trigrams.json` | CMU trigram frequencies (8,190 unique) |
-| `data/cmu/cmu-lexicon-phonemes.json` | CMU phoneme frequencies mapped to generator symbols |
+| `data/cmu/cmu-lexicon-phonemes.json` | Historical whole-word CMU phoneme frequencies |
+| `evaluation/corpus/stage-references.json` | Length-matched root phonemes and final coda lengths, plus full-CMU phonemes and syllable counts. Pinned in `stage-reference-pins.json`. |
+| `evaluation/corpus/stage-transitions.json` | Finished syllable counts for 30,000 measured draws at each root length 1–8 |
 | `data/cmu/phoneme-normalization.json` | Shared normalization policy (analyzer + demo) |
 | `data/cmu/cmu-length-baseline.json` | Historical written-length and syllable-count baseline in pronunciation-line units; retained for existing consumers |
 | `data/cmu/cmu-lexicon-baseline.md` | Human-readable baseline report |
