@@ -9,8 +9,9 @@ import {
 import {
   isNucleusCompatibleWithCoda,
   isNucleusCompatibleWithFollowingOnset,
+  isNucleusCompatibleWithOnset,
 } from "./rime-compatibility.js";
-import type { BannedNucleusCodaPairs } from "./rime-compatibility.js";
+import type { BannedNucleusCodaPairs, OnsetRimeBans } from "./rime-compatibility.js";
 
 /**
  * After stress assignment, re-pick any nucleus whose sound is banned under
@@ -26,6 +27,7 @@ export function repairStressedNuclei(
   bannedPairs?: BannedNucleusCodaPairs,
   retainedRoot?: { syllables: readonly Syllable[]; start: number },
   followingOnsetPairs?: BannedNucleusCodaPairs,
+  onsetRimeBans?: OnsetRimeBans,
   forbidOpenCheckedFinal = false,
 ): void {
   const ban = stress.nucleus.stressedNucleusBan;
@@ -59,6 +61,8 @@ export function repairStressedNuclei(
       ? retainedRoot.syllables[rootIndex + 1]?.onset
       : context.word.syllables[syllableIndex + 1]?.onset;
     const onsetRules = rootSyllable ? followingOnsetPairs : undefined;
+    const onset = rootSyllable?.onset ?? syllable.onset;
+    const onsetRimeRules = rootSyllable ? onsetRimeBans : undefined;
     const before = nucleus.sound;
     const edges = nucleusWordEdges(
       syllable,
@@ -84,7 +88,8 @@ export function repairStressedNuclei(
           coda,
           nextOnset,
           onsetRules,
-        )
+        ) ||
+        !isNucleusCompatibleWithOnset(phoneme.sound, onset, onsetRimeRules)
       ) {
         positivePairExclusions++;
         continue;

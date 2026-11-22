@@ -237,7 +237,7 @@ export interface NasalStopExtensionTrace {
 }
 
 export type CodaExtensionRejectionReason =
-  | "excluded" | "repetition" | "position" | "banned-coda" | "nucleus-coda" | "nucleus-onset"
+  | "excluded" | "repetition" | "position" | "banned-coda" | "nucleus-coda" | "nucleus-onset" | "onset-rime"
   | "cluster-weight" | "attestation" | "sonority" | "pattern"
   | "length" | "voicing" | "place" | "word-final";
 
