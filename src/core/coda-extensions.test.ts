@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { findExample } from "../test-support/find-example.js";
 import { englishConfig } from "../config/english.js";
+import { lexiconReference } from "../config/lexicon-reference.js";
 import type { CodaConstraints, LanguageConfig } from "../config/language.js";
 import { createGenerator, generateWords } from "../index.js";
 
@@ -86,6 +87,71 @@ function extensionGenerator(fixture: Fixture) {
 function wordFor(fixture: Fixture) {
   return extensionGenerator(fixture).generateWord({ seed: 913, syllableCount: 1, morphology: false, trace: true });
 }
+
+describe("audited lexicon root-final codas", () => {
+  it("rejects unknown corpus sounds during config validation", () => {
+    expect(() => createGenerator({
+      ...englishConfig,
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        codaLength: {
+          ...englishConfig.generationWeights.codaLength,
+          rootFinalByMode: { lexicon: { counts: { "not-a-phone": 1 }, lengths: {} } },
+        },
+      },
+    })).toThrow("contains unknown phoneme \"not-a-phone\"");
+  });
+
+  it("applies hard blocks, regex bans, and sonority to audited draws", () => {
+    const two = { 1: { 3: [[2, 1]] as const } };
+    const config: LanguageConfig = {
+      ...englishConfig,
+      phonemeLengthWeights: { ...englishConfig.phonemeLengthWeights, lexicon: [[3, 1]] },
+      phonemeToSyllableWeights: { ...englishConfig.phonemeToSyllableWeights, lexicon: { 3: [[1, 1]] } },
+      invalidClusters: { ...englishConfig.invalidClusters, coda: ["nt"] },
+      generationWeights: {
+        ...englishConfig.generationWeights,
+        codaLength: {
+          ...englishConfig.generationWeights.codaLength,
+          rootFinalByMode: {
+            lexicon: { counts: { "b,z": 100, "g,z": 100, "n,t": 100, "m,l": 100, "k,t": 1 }, lengths: two },
+          },
+        },
+      },
+    };
+    const generator = createGenerator(config);
+    for (let seed = 0; seed < 60; seed++) {
+      const word = generator.generateWord({ seed, mode: "lexicon", morphology: false });
+      expect(word.syllables[0].coda.map(phone => phone.sound)).toEqual(["k", "t"]);
+    }
+  });
+
+  it.each([false, true])("uses only audited multi-codas with morphology=%s", morphology => {
+    const attested = new Set(Object.keys(lexiconReference.finalCodaCounts));
+    const words = generateWords(10_000, { seed: 491, morphology, trace: true, mode: "lexicon" });
+    let clusters = 0;
+    let consonantSibilants = 0;
+    for (const word of words) {
+      const trace = word.trace!;
+      const root = trace.stages.find(stage => stage.name === "repairNucleusWordPositions")!.after;
+      const coda = root.at(-1)!.coda;
+      if (coda.length > 1) {
+        clusters++;
+        expect(attested.has(coda.join(",")), word.written.clean).toBe(true);
+        expect(coda.join(",")).not.toMatch(/(?:^|,)(?:b|g),z$/);
+        expect(new Set(coda).size).toBe(coda.length);
+        if (coda.at(-1) === "s" || coda.at(-1) === "z") consonantSibilants++;
+      }
+      const realization = trace.morphology?.realization;
+      const added = (realization?.prefix?.resolved.syllableCount ?? 0)
+        + (realization?.suffix?.resolved.syllableCount ?? 0);
+      expect(root).toHaveLength(trace.syllableCount);
+      expect(word.syllables).toHaveLength(root.length + added);
+    }
+    expect(clusters).toBeGreaterThan(1000);
+    expect(consonantSibilants / words.length).toBeLessThan(0.05);
+  });
+});
 
 describe("coda extensions preserve configured legality", () => {
   it("rejects /s/ → /ss/ even with a 100% final-s probability", () => {
@@ -257,8 +323,8 @@ describe("coda extensions preserve configured legality", () => {
     expect(rejections).toBeGreaterThan(0);
   });
 
-  it("produces no adjacent duplicate coda phones in a 20,000-word bare stream", { timeout: 30_000 }, () => {
-    const words = generateWords(20_000, { seed: 20260926, morphology: false, trace: true });
+  it("produces no adjacent duplicate coda phones in a 20,000-word bare text stream", { timeout: 30_000 }, () => {
+    const words = generateWords(20_000, { seed: 20260926, morphology: false, trace: true, mode: "text" });
     let extensions = 0;
     let rejectedRepeats = 0;
     for (const word of words) {

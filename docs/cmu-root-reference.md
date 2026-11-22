@@ -400,16 +400,15 @@ has limited power to assess the accuracy of stripped rows specifically.
 
 </details>
 
-Before #491, decide whether the cutoff and pronunciation rules are acceptable
-for a gate. The three clear misses, the unmeasured name leakage through
-homographs, and the opposite direction of the length mean all matter for
-adoption. Use the 4.49% stack-of-suffixes share as one input to the decision about
-an extra suffix slot.
+The follow-up audit below estimates error within stripped rows. Name leakage
+through homographs and missed stripping outside the sample remain limitations.
 
 ## Reproduce
 
-Download the versioned inputs and check these raw SHA-256 values. The builder
-and verifier enforce the same pins and the joint selected-entry digest.
+Run these Phase 1 commands from commit `0de88f5c`. The ledger digest includes
+the configuration snapshot and implementation at that revision. Download the
+versioned inputs and check these raw SHA-256 values. The builder and verifier
+enforce the same pins and the joint selected-entry digest.
 
 | Input | SHA-256 |
 |---|---|
@@ -432,3 +431,146 @@ generates candidate stems by reversing each surface spelling, independently
 of the TypeScript builder’s forward enumeration, and checks every row and bin.
 
 The result digest is `2eacf788dd396e5207908c613d6689390e462d0488fa6e847606e08c124ce467`.
+
+
+## Lexicon stage references (Phase 2)
+
+[#491](https://github.com/unglish/word-generator/issues/491) uses one observation
+per representable surface type from the Phase 1 ledger. If five included
+spellings resolve to one root, that root contributes five observations. After
+the coda audit there are **42,670** observations. The measured template counts
+are grouped by terminal-root syllable count. Conditional on a template picking
+an affix, the generator samples the measured prefix or suffix counts.
+`-tion` and `-sion` use the observed counts of 14 and 5. These counts omit
+joins the inventory cannot yet describe, including forms tracked in #462.
+
+### Stripping audit
+
+A single reviewer checked 200 representable rows with at least one removal.
+Rank the 21,829 eligible spellings by SHA-256 of
+`stage-references-phase2-491-stripped-v1:<spelling>` and take the first 200.
+There were **190 correct, 7 wrong (3.5%) and 3 debatable (1.5%)**. Examples of
+incorrect joins are `bully → bull`, `refunds → funds → fund` and
+`remedial → medial`. The estimate concerns rows with an accepted strip.
+It does not measure the rate of missed strips among rows marked bare.
+
+The coda audit examined terminal stems ending in a consonant plus /s/ or /z/
+and checked marginal inflection-shaped stop endings such as /zd/ and /vd/.
+An ordinary plural, inflected verb, or transparent declined compound was
+excluded when it had survived stripping. Lexical forms such as `suds` and
+`qualms`, established units such as `megahertz`, and /ks/ stems with a lexical
+`x` as in `box` were retained. The audit also excluded a few erroneous first
+pronunciations such as `tern` with final /nz/. The common sources of missed
+strips include an unavailable intermediate base, a mismatch in first
+pronunciations, and lexical ambiguity. A spelling-only fallback would also
+strip unrelated words such as `blitz`.
+
+The [exclusion list](../evaluation/corpus/root-coda-exclusions.json) records
+346 terminal spellings grouped by first-pronunciation coda. The builder drops
+the 356 included rows that resolve to these spellings. In particular, `chives` and the
+/vd/ reading of `beloved` are treated as surviving affixed forms. The Phase 1
+ledger remains reproducible at its pinned revision.
+
+A second spot-check ranked retained Phase 1 spellings in each of /kt st pt nd/
+by SHA-256 of `491-past-coda-v1:<spelling>`. It took 50 for each class, or all
+32 for /pt/. Five of 182 (2.7%) had clear missed regular past or participial
+endings. They were `landlocked`, `enveloped`, `leaped`, `scalloped`, and
+`underdeveloped`. The audit then inspected every spelling ending in `ed` in
+these four classes. Lexicalized adjectives such as `accursed` and
+`harebrained` were retained. The archive records each sampled spelling.
+
+| Coda | Retained terminal spellings after audit |
+|---|---|
+| /ts/ | blitz, congrats, ersatz, fritz, glitz, grassroots, kibbutz, klutz, megahertz, putz, rickets, thereabouts, whereabouts |
+| /dz/ | backwoods, everglades, innards, suds |
+| /mz/ | doldrums, oftentimes, qualms |
+| /fs/ | fisticuffs |
+| /ŋz/ | chitterlings, hustings |
+| /bz/ | dibs |
+| /gz/ | dregs, togs |
+| /lz/ | annals, entrails, gunnels, measles, oodles, vittles |
+| /nz/ | bluejeans, bronze, cleanse, dickens, environs, gens, impatiens, lens, pantaloons, sans, sens, smithereens |
+| /rz/ | arrears, backstairs, downstairs, housewares, upstairs, yours |
+| /lvz/ | ourselves, themselves |
+| /ndz/ | badlands, zounds |
+| /lmz/ | alms |
+| /lps/ | alps |
+| /lts/ | schmaltz, waltz |
+| /mps/ | contretemps, glimpse, mumps |
+| /nts/ | sweatpants, underpants |
+| /rps/ | corpse |
+| /rts/ | hertz, quartz |
+| /ŋks/ | jinx, larynx, lynx, phalanx, pharynx, sphinx, tiddlywinks |
+| /rʃt/ | borscht |
+| /lft/ | delft |
+| /ms ŋs vz vd/ | No retained attestations |
+
+The generator draws a final coda length once from the distribution conditional
+on the root's phoneme and syllable counts. It reserves that length while
+adjusting the other consonant slots. Positive-length codas are then drawn as
+complete clusters from the corresponding length pool. This avoids inflating
+rare clusters through a common first consonant.
+
+The lexicon final position uses the audited whitelist instead of the legacy
+one. Every candidate goes through the shared cluster rejection checks,
+including the positional and nucleus bans, shape constraints, the legacy
+hard weight blocks, sonority and regex rules. The corpus still records
+`dibs`, `dregs` and `togs`, while the generator's existing /bz/ and /gz/
+blocks remove them from generation. Positive legacy multipliers are replaced
+by the complete-coda counts. Text retains the old whitelist, multipliers
+and extension behavior. The legacy whitelist also governs medial roots and
+affix-boundary repairs. The audited sampler is configured with the coda-length
+profile. A custom config that supplies its own coda-length plan can omit it.
+
+### Fit and gates
+
+The fitted model minimizes KL divergence from the audited syllable mix while
+matching the full-CMU finished distribution over 1, 2, 3, 4, 5 and 6+ syllables.
+An affix only adds syllables, so the first five bins form a triangular
+system with a positive diagonal. Forward substitution fixes the probabilities
+for roots of length one through five. The remaining mass is distributed
+proportionally to the measured 6–8 roots, which uniquely minimizes KL on
+that group. The builder rejects infeasible masses and residuals above
+`1e-10`. The fit keeps the measured conditional phone distribution within
+each root-syllable bucket.
+
+The fit moves the root mean from 2.287 to 2.146 syllables. The
+full shift is 16.26 percentage points of total variation.
+
+| Root syllables | Audited | Fitted | Δ pp |
+|---:|---:|---:|---:|
+| 1 | 27.237% | 21.589% | -5.648 |
+| 2 | 36.663% | 52.923% | +16.260 |
+| 3 | 21.448% | 17.370% | -4.078 |
+| 4 | 10.429% | 6.010% | -4.419 |
+| 5 | 3.398% | 1.696% | -1.702 |
+| 6 | 0.710% | 0.355% | -0.355 |
+| 7 | 0.105% | 0.053% | -0.053 |
+| 8 | 0.009% | 0.005% | -0.005 |
+
+The empirical transitions use 30,000 public-API words per length 1–8 with
+the same configured forcing method and separate seeds. The committed
+[transition counts](../evaluation/corpus/stage-transitions.json) pin the
+generator revision, source tree and count digest. The gate's bare-root phone
+counts reweight each syllable stratum by the fitted-to-measured mass ratio.
+This makes root phones comparable at the intended length mix. The finished
+phoneme and length gates still compare against all 117,485 CMU types. A traced
+invariant checks that the finished length equals planned root length plus the
+resolved prefix and suffix syllable counts.
+
+Rebuild and verify the original Phase 1 artifact at `0de88f5c`, then build
+and compare the three checked-in outputs.
+
+```sh
+python3 evaluation/corpus/stage-reference.py \
+  --root-reference "$ROOT_JSON" --source "$CMU_SOURCE" \
+  --transitions evaluation/corpus/stage-transitions.json \
+  --runtime-out /tmp/lexicon-reference.ts --reference-out /tmp/stage-references.json \
+  --pins-out /tmp/stage-reference-pins.json
+python3 evaluation/corpus/stage-reference-test.py
+```
+
+The review tests check the generated files and their inputs against the
+[pinned digests](../evaluation/corpus/stage-reference-pins.json). To reproduce
+the empirical transitions, clone the archived `transition-generator.bundle`
+and pass its checkout to `node --import tsx evaluation/corpus/sample-stage-transitions.ts`.

@@ -45,8 +45,12 @@ function pickTemplate(
   config: MorphologyConfig,
   mode: GenerationMode,
   rand: RNG,
+  rootSyllables?: number,
 ): MorphologyTemplate {
-  const w = config.templateWeights[mode];
+  const weights = config.templateWeights[mode];
+  const w = rootSyllables === undefined
+    ? weights
+    : weights.byRootSyllables?.[rootSyllables] ?? weights;
   return getWeightedOption<MorphologyTemplate>(
     [
       ["bare", w.bare],
@@ -64,14 +68,17 @@ function pickTemplate(
 
 /**
  * Plan morphology BEFORE root generation — picks template and affixes,
- * returns the plan and baseline affix syllable metadata. Root budgets are independent.
+ * returns the plan and baseline affix syllable metadata. The template can
+ * depend on the planned root length, and its affixes never consume that budget.
  */
 export function planMorphology(
   config: MorphologyConfig,
   mode: GenerationMode,
   rand: RNG,
+  rootSyllables?: number,
 ): PlannedMorphologySelection & { plan: GeneratedMorphologyPlan } {
-  const template = pickTemplate(config, mode, rand);
+  const template = pickTemplate(config, mode, rand, rootSyllables);
+  const frequency = (affix: Affix) => affix.frequencyByMode?.[mode] ?? affix.frequency;
 
   if (template === "bare") {
     return { plan: { template }, syllableReduction: 0 };
@@ -80,21 +87,21 @@ export function planMorphology(
   // Keep the former zero-initialized accumulator arithmetic, including coercion
   // for untyped custom affix counts, rather than changing deep-import behavior.
   if (template === "prefixed") {
-    const prefix = pickWeighted(config.prefixes, (a) => a.frequency, rand);
+    const prefix = pickWeighted(config.prefixes, frequency, rand);
     return {
       plan: { template, prefix },
       syllableReduction: 0 + prefix.syllableCount,
     };
   }
   if (template === "suffixed") {
-    const suffix = pickWeighted(config.suffixes, (a) => a.frequency, rand);
+    const suffix = pickWeighted(config.suffixes, frequency, rand);
     return {
       plan: { template, suffix },
       syllableReduction: 0 + suffix.syllableCount,
     };
   }
-  const prefix = pickWeighted(config.prefixes, (a) => a.frequency, rand);
-  const suffix = pickWeighted(config.suffixes, (a) => a.frequency, rand);
+  const prefix = pickWeighted(config.prefixes, frequency, rand);
+  const suffix = pickWeighted(config.suffixes, frequency, rand);
   return {
     plan: { template, prefix, suffix },
     syllableReduction: 0 + prefix.syllableCount + suffix.syllableCount,

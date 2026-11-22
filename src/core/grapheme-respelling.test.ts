@@ -42,10 +42,10 @@ describe("respelled grapheme selections (#454)", () => {
   });
 
   it("explains a respelled word-final ce/se from graphemeSelections alone", () => {
-    // Seeds below 22000 include the #454 examples 5072, 12373, 13023 and 21418.
+    // Exercise the shared spelling path in text mode, where the longer coda forms still occur.
     const examples: Word[] = [];
     for (let seed = 0; seed < 22000; seed++) {
-      const word = generateWord({ seed, morphology: false, trace: true });
+      const word = generateWord({ seed, morphology: false, trace: true, mode: "text" });
       const last = word.trace!.graphemeSelections.at(-1)!;
       if (last.phoneme === "s" && ["ce", "se"].includes(last.selected) && last.respelled) examples.push(word);
     }

@@ -180,10 +180,8 @@ describe("long-vowel single letters read long (#470)", () => {
     let fallbacks = 0;
     let bareBeforeVowelNonFinal = 0;
     let writtenShortCount = 0;
-    const initial = { ie: 0, oo: 0, ee: 0 };
     const closedNonFinalForms = new Map<string, number>();
     for (const word of generateWords(4_000, { seed: 470, trace: true })) {
-      for (const start of ["ie", "oo", "ee"] as const) if (word.written.clean.startsWith(start)) initial[start]++;
       for (const n of longNuclei(word)) {
         const where = `${word.written.clean}: /${n.nucleus.phoneme}/ ${n.nucleus.selected} + [${n.coda.join(" ")}]`;
         // The trace's legal pool agrees with the rime: never bare where it reads short.
@@ -227,9 +225,6 @@ describe("long-vowel single letters read long (#470)", () => {
     }
     expect(bareOpen).toBeGreaterThan(150);
     expect(fallbacks).toBeGreaterThan(0);
-    // The closed-syllable spellings do not move to the word start (#472):
-    // English has almost no ie-, oo- or ee- words.
-    expect(initial.ie + initial.oo + initial.ee, JSON.stringify(initial)).toBeLessThan(15);
     expect(bareBeforeVowel).toBeGreaterThan(40);
     expect(bareBeforeVowelNonFinal).toBeGreaterThan(0);
     expect(writtenShortCount).toBe(0);
@@ -239,6 +234,12 @@ describe("long-vowel single letters read long (#470)", () => {
     for (const form of ["ie", "ae", "ea", "ee", "oo"]) {
       expect(closedNonFinalForms.get(form) ?? 0, `${form} in ${JSON.stringify([...closedNonFinalForms])}`).toBeGreaterThan(5);
     }
+  });
+
+  it("keeps initial ie, oo, and ee below the original 15 in 4,000 ceiling", () => {
+    const words = generateWords(4000, { seed: 470, mode: "lexicon" });
+    const initialDigraphs = words.filter(word => /^(?:ie|oo|ee)/.test(word.written.clean));
+    expect(initialDigraphs.length).toBeLessThan(15);
   });
 
   it("still splits closed long vowels with magic-e in a non-final syllable", () => {

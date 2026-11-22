@@ -52,6 +52,13 @@ include the comparison in the PR description. Measurement output is not
 committed to `main`: keep full evidence packets in an `archive/pr-<number>` tag
 ([`docs/experiments.md`](./docs/experiments.md#where-evidence-lives)).
 
+Lexicon changes are checked against two references. Bare roots use the audited
+root phoneme counts, and finished words use full CMU phoneme and syllable counts.
+Run `npm run calibrate:phonemes -- --stage roots` or pass `--stage fullCmu`
+when a change justifies recalibrating a stage. See
+[the stage reference](./docs/cmu-root-reference.md#lexicon-stage-references-phase-2)
+for the corpus inputs and reproduction steps.
+
 ## Continuous Integration
 
 - **Pull requests** (`.github/workflows/ci.yml`): one `verify` job (lint,

@@ -1,7 +1,7 @@
 /**
  * How far can a distribution drift from CMU while passing every per-phoneme limit?
  *
- *   node --import tsx evaluation/diagnostics/phoneme-threshold-calibration-2026-11/worst-case.ts [trials] [seed]
+ *   node --import tsx evaluation/diagnostics/phoneme-threshold-calibration-2026-11/worst-case.ts [trials] [seed] [roots|fullCmu]
  *
  * Seeded random search over distributions that pass the per-phoneme limits in
  * `src/config/phoneme-thresholds.json` exactly as the gate applies them: ratio
@@ -17,10 +17,19 @@ import { createSeededRng } from "../../../src/utils/random.js";
 
 const root = join(import.meta.dirname, "..", "..", "..");
 const load = <T>(...parts: string[]): T => JSON.parse(readFileSync(join(root, ...parts), "utf8")) as T;
-const limits = load<Record<string, number>>("src", "config", "phoneme-thresholds.json");
-const baseline = toPercentMap(load<Record<string, number>>("data", "cmu", "cmu-lexicon-phonemes.json"));
+type Stage = "roots" | "fullCmu";
+const stage = process.argv[4] ?? "roots";
+if (stage !== "roots" && stage !== "fullCmu") throw new Error("Stage must be roots or fullCmu");
+const thresholds = load<{ minCommonBaselinePct: number } & Record<Stage, Record<string, number>>>(
+  "src", "config", "phoneme-thresholds.json",
+);
+const limits = thresholds[stage];
+const references = load<Record<Stage, { phonemes: Record<string, number> }>>(
+  "evaluation", "corpus", "stage-references.json",
+);
+const baseline = toPercentMap(references[stage].phonemes);
 const keys = Object.keys(baseline).filter(key => baseline[key] > 0);
-const common = (key: string) => baseline[key] >= limits.minCommonBaselinePct;
+const common = (key: string) => baseline[key] >= thresholds.minCommonBaselinePct;
 
 function passes(p: Record<string, number>): boolean {
   return keys.every(key => {
@@ -54,4 +63,4 @@ for (let trial = 0; trial < trials; trial++) {
   if (r < lowestR.r) lowestR = { r, tv };
   if (tv > largestTv.tv) largestTv = { r, tv };
 }
-console.log(JSON.stringify({ trials, feasible, rarePhonemes: keys.filter(key => !common(key)).length, lowestR, largestTv }, null, 2));
+console.log(JSON.stringify({ stage, trials, feasible, rarePhonemes: keys.filter(key => !common(key)).length, lowestR, largestTv }, null, 2));

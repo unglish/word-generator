@@ -76,3 +76,8 @@ fts (lifts*), sts (fists*), sps (wasps*), sks (asks*), skt (asked*)
 lpts (sculpts*), lfθs (twelfths*), ŋkθs (lengths*), ksts (texts*), mpts (? — v. rare)
 
 * = morphological (plural/past/3sg) but phonotactically real
+
+These are descriptive English examples. The lexicon root-final whitelist and
+weights come from the [Phase 2 coda audit](cmu-root-reference.md#stripping-audit).
+Some starred sequences also have genuine lexical attestations, such as /ts/ in
+`blitz`, and remain eligible at the measured rates.

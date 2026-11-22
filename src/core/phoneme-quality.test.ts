@@ -1,90 +1,55 @@
 import { describe, expect, it } from "vitest";
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
-import { generateWords } from "./generate.js";
+import { generateWord } from "../index.js";
+import { createSeededRng } from "../utils/random.js";
+import normalization from "../../data/cmu/phoneme-normalization.json";
+import references from "../../evaluation/corpus/stage-references.json";
+import thresholds from "../config/phoneme-thresholds.json";
+import { lengthTotalVariationPct, meanSyllableGap } from "./stage-quality.js";
 import { computePhonemeQualityMetrics } from "./phoneme-quality.js";
-import { countNormalizedPhonemes, PhonemeNormalization } from "./phoneme-normalization.js";
+import { countNormalizedPhonemes } from "./phoneme-normalization.js";
 
-interface PhonemeThresholds {
-  sampleSize: number;
-  seed: number;
-  minCommonBaselinePct: number;
-  maxOverRepresentation: number;
-  minRepresentation: number;
-  maxAbsoluteGapPct: number;
-  maxTotalVariationPct: number;
-  maxGeneratedOnlyMassPct: number;
-  maxCmuOnlyKeyCount: number;
-  generatedOnlyEscalationThresholdPct: number;
-}
+const { seed, sampleSize, minCommonBaselinePct } = thresholds;
 
-function loadJson<T>(path: string): T {
-  return JSON.parse(readFileSync(path, "utf8")) as T;
-}
+describe("Lexicon stage quality", () => {
+  it.each(["roots", "fullCmu"] as const)("matches the %s phoneme reference", (stage) => {
+    const morphology = stage === "fullCmu";
+    const rand = createSeededRng(seed);
+    const syllableCounts: Record<string, number> = {};
+    const codaCounts: Record<string, number> = {};
+    function* sample() {
+      for (let i = 0; i < sampleSize; i++) {
+        const word = generateWord({ mode: "lexicon", rand, morphology });
+        const length = word.syllables.length;
+        syllableCounts[length] = (syllableCounts[length] ?? 0) + 1;
+        const finalCoda = word.syllables.at(-1)!.coda.length;
+        codaCounts[finalCoda] = (codaCounts[finalCoda] ?? 0) + 1;
+        yield word;
+      }
+    }
+    const { counts, losses } = countNormalizedPhonemes(sample(), normalization);
+    const reference = references[stage];
+    const limits = thresholds[stage];
+    const metrics = computePhonemeQualityMetrics(counts, reference.phonemes, minCommonBaselinePct);
+    const [over] = metrics.topOverRepresented;
+    const [under] = metrics.topUnderRepresented;
+    const [gap] = metrics.topAbsoluteGap;
 
-function extractJsConst<T>(source: string, constName: string): T {
-  const match = source.match(new RegExp(`const ${constName} = (\\{[\\s\\S]*?\\});`));
-  if (!match) {
-    throw new Error(`Could not extract ${constName} from demo/cmuBaselines.js`);
-  }
-  return JSON.parse(match[1]) as T;
-}
-
-function loadNormalization(repoRoot: string): PhonemeNormalization {
-  const path = join(repoRoot, "data", "cmu", "phoneme-normalization.json");
-  if (existsSync(path)) return loadJson<PhonemeNormalization>(path);
-  const demoBaselines = readFileSync(join(repoRoot, "demo", "cmuBaselines.js"), "utf8");
-  return extractJsConst<PhonemeNormalization>(demoBaselines, "phonemeNormalization");
-}
-
-function loadBaselineCounts(repoRoot: string): Record<string, number> {
-  const path = join(repoRoot, "data", "cmu", "cmu-lexicon-phonemes.json");
-  if (existsSync(path)) return loadJson<Record<string, number>>(path);
-  const demoBaselines = readFileSync(join(repoRoot, "demo", "cmuBaselines.js"), "utf8");
-  // Percentages are fine here because metric code re-normalizes to percentages.
-  return extractJsConst<Record<string, number>>(demoBaselines, "cmuPhonemes");
-}
-
-describe("Phoneme quality gates", () => {
-  it("meets phoneme distribution guardrails", async () => {
-    const repoRoot = join(__dirname, "..", "..");
-    const thresholds = loadJson<PhonemeThresholds>(join(repoRoot, "src", "config", "phoneme-thresholds.json"));
-    const normalization = loadNormalization(repoRoot);
-    const baselineCounts = loadBaselineCounts(repoRoot);
-
-    const words = generateWords(thresholds.sampleSize, {
-      seed: thresholds.seed,
-      mode: "lexicon",
-      morphology: false,
-    });
-
-    const { counts: generatedCounts, losses: normalizationLosses } = countNormalizedPhonemes(words, normalization);
-
-    const metrics = computePhonemeQualityMetrics(
-      generatedCounts,
-      baselineCounts,
-      thresholds.minCommonBaselinePct,
-    );
-    expect(normalizationLosses).toEqual({});
-
-    const worstOver = metrics.topOverRepresented[0];
-    const worstUnder = metrics.topUnderRepresented[0];
-    const worstGap = metrics.topAbsoluteGap[0];
-
-    console.log(`Total variation from CMU: ${metrics.totalVariationPct.toFixed(3)}% (threshold: ${thresholds.maxTotalVariationPct}%)`);
-    console.log(`Shared phoneme Pearson r: ${metrics.sharedPearsonR.toFixed(5)} (report-only)`);
-    console.log(`Non-CMU generated mass: ${metrics.nonCmuMassPct.toFixed(4)}% (threshold: ${thresholds.maxGeneratedOnlyMassPct}%)`);
-    if (worstOver) console.log(`Worst over-rep: ${worstOver.phoneme} at ${worstOver.ratio.toFixed(3)}x (threshold: ${thresholds.maxOverRepresentation}x)`);
-    if (worstUnder) console.log(`Worst under-rep: ${worstUnder.phoneme} at ${worstUnder.ratio.toFixed(3)}x (threshold: ${thresholds.minRepresentation}x)`);
-    if (worstGap) console.log(`Worst absolute gap: ${worstGap.phoneme} at ${worstGap.absGapPct.toFixed(3)}% (threshold: ${thresholds.maxAbsoluteGapPct}%)`);
-    console.log(`CMU phonemes never generated: ${metrics.cmuOnlyKeyCount} (threshold: ${thresholds.maxCmuOnlyKeyCount})`);
-
-    expect(metrics.totalVariationPct).toBeLessThanOrEqual(thresholds.maxTotalVariationPct);
+    expect(losses).toEqual({});
     expect(metrics.nonCmuMassPct).toBeLessThanOrEqual(thresholds.maxGeneratedOnlyMassPct);
-    if (worstOver) expect(worstOver.ratio).toBeLessThanOrEqual(thresholds.maxOverRepresentation);
-    if (worstUnder) expect(worstUnder.ratio).toBeGreaterThanOrEqual(thresholds.minRepresentation);
-    if (worstGap) expect(worstGap.absGapPct).toBeLessThanOrEqual(thresholds.maxAbsoluteGapPct);
-    // Rankings skip phones below minCommonBaselinePct, so absence is gated separately.
     expect(metrics.cmuOnlyKeyCount).toBeLessThanOrEqual(thresholds.maxCmuOnlyKeyCount);
+    expect(metrics.totalVariationPct).toBeLessThanOrEqual(limits.maxTotalVariationPct);
+    expect(over.ratio, over.phoneme).toBeLessThanOrEqual(limits.maxOverRepresentation);
+    expect(under.ratio, under.phoneme).toBeGreaterThanOrEqual(limits.minRepresentation);
+    expect(gap.absGapPct, gap.phoneme).toBeLessThanOrEqual(limits.maxAbsoluteGapPct);
+
+    if (stage === "fullCmu") {
+      expect(lengthTotalVariationPct(syllableCounts, references.fullCmu.syllables))
+        .toBeLessThanOrEqual(thresholds.fullCmu.maxFinishedSyllableTV);
+      expect(meanSyllableGap(syllableCounts, references.fullCmu.syllables))
+        .toBeLessThanOrEqual(thresholds.fullCmu.maxFinishedMeanSyllableGap);
+    } else {
+      expect(lengthTotalVariationPct(codaCounts, references.roots.finalCodaLengths))
+        .toBeLessThanOrEqual(thresholds.roots.maxRootFinalCodaTV);
+    }
   }, 120_000);
 });

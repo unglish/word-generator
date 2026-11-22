@@ -207,11 +207,11 @@ describe("top-down phoneme targeting", () => {
     expect(() => createGenerator(badConfig as typeof englishConfig)).toThrow("phonemeLengthWeights.text is required");
   });
 
-  it("keeps lexicon 6-phoneme bucket near CMU target in a sample", () => {
+  it("keeps the lexicon 6-phoneme bucket near the fitted root target", () => {
     const sixPct = ((phonemeLengthCounts.get(6) ?? 0) / SAMPLE_SIZE) * 100;
-    // CMU target is 20.39%. Allow a tight sampling window.
-    expect(sixPct).toBeGreaterThan(18.5);
-    expect(sixPct).toBeLessThan(22.0);
+    const weights = englishConfig.phonemeLengthWeights.lexicon;
+    const target = weights.find(([length]) => length === 6)![1] / weights.reduce((sum, [, weight]) => sum + weight, 0);
+    expect(Math.abs(sixPct - target * 100)).toBeLessThan(1.75);
   }, 15_000);
 });
 

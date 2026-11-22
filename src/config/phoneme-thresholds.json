@@ -2,12 +2,22 @@
   "sampleSize": 200000,
   "seed": 42,
   "minCommonBaselinePct": 0.5,
-  "maxOverRepresentation": 1.08,
-  "minRepresentation": 0.896,
-  "maxAbsoluteGapPct": 0.6,
-  "maxTotalVariationPct": 1.88,
   "maxGeneratedOnlyMassPct": 0,
   "maxCmuOnlyKeyCount": 0,
-  "generatedOnlyEscalationThresholdPct": 1.5,
-  "_comment": "Distribution limits use the worst observed value \u00b1 3 sample SDs, rounded outward, from `npm run calibrate:phonemes` (30 non-overlapping RNG streams, sampleSize words, lexicon, morphology off). This is an engineering margin, not a false-failure probability guarantee. Inventory coverage is fixed at 0: calibration fails on any generated-only mass, missing CMU phonemes, or rejected tokens. Recalibration measures a change; justify any loosened limit with its linguistic benefit and leave unaffected limits unchanged. Shared Pearson r is reported but not gated (2026-11 recalibration). See TUNING.md. 2026-11-13: minRepresentation and maxAbsoluteGapPct loosened after forbidOpenCheckedFinal removed open-final /\u026a \u025b \u00e6 \u028c \u028a/ (issue #398); /\u026a/ under-rep and abs gap moved while TV/over-rep stayed within prior limits (5-seed recalibration). 2026-11-17: maxOverRepresentation loosened 1.066\u21921.08 after #440 banned illegal joins /z.\u0283/, /\u0283.h/, /k.t\u0283/ (drop-coda repairs); seed-42 /u/ over-rep 1.063\u21921.068 and 30-stream worst 1.0679 (SD 0.0040). Other limits unchanged (observed extrema still inside prior bounds). Recalibrated on #451 head (pre-#443 revert) via `npm run calibrate:phonemes`. 2026-11-21: maxTotalVariationPct 1.78\u21921.88 to match the documented k=3 rule on main 81df038c (30 streams: min 1.6157, max 1.7714, mean 1.7084, SD 0.0342; max + 3 SD = 1.874). Main's TV drifted up through reviewed changes since 1.78 was set (2026-11 record on 30466c3: mean 1.5722, max 1.6531; now mean 1.7084, max 1.7714), leaving the limit 0.25 SD above the 30-stream worst, so spelling-only branches that merely reshuffle the seed-42 stream failed it (1.7825; paired 30-seed difference mean -0.0034, no shift). This re-applies the documented rule to that drift; other limits unchanged (all observed extrema inside them)."
+  "roots": {
+    "maxTotalVariationPct": 7.39,
+    "maxOverRepresentation": 2.283,
+    "minRepresentation": 0.661,
+    "maxAbsoluteGapPct": 2.326,
+    "maxRootFinalCodaTV": 0.58
+  },
+  "fullCmu": {
+    "maxTotalVariationPct": 6.76,
+    "maxOverRepresentation": 1.706,
+    "minRepresentation": 0.733,
+    "maxAbsoluteGapPct": 1.835,
+    "maxFinishedSyllableTV": 0.69,
+    "maxFinishedMeanSyllableGap": 0.0092
+  },
+  "_comment": "Phase 2 (#491): calibrated over 30 disjoint streams of 200,000 words per stage. The root reference reweights audited counts to the fitted syllable mix. Upper limits are observed maximum + 3 SD, lower limits are observed minimum - 3 SD, rounded outward. Inventory loss remains zero. See TUNING.md for history and paired justification."
 }

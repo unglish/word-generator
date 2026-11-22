@@ -283,11 +283,21 @@ describe("root-final /k/ (#469)", () => {
   });
 
   it("keeps a c whose silent e the suffix drops before a/o/u (edice + al → edical)", () => {
+    const morphology = englishConfig.morphology!;
+    const forcedSuffix = { bare: 0, suffixed: 1, prefixed: 0, both: 0 };
+    const generator = createGenerator({
+      ...englishConfig,
+      morphology: {
+        ...morphology,
+        suffixes: morphology.suffixes.filter(affix => /^[aou]/.test(affix.written)),
+        templateWeights: { lexicon: forcedSuffix, text: forcedSuffix },
+      },
+    });
     const { word } = findExample((w) => {
       const surface = w.trace!.baseSpelling!.surface;
       return /^[aou]/.test(suffixText(w)) && /ce$/.test(surface) && keptRoot(w).endsWith("c") &&
         writtenCs(w).some((c) => c.sound === "k" && c.rest === "");
-    }, { property: "a /k/ c + silent e before an a/o/u suffix", ...search });
+    }, { property: "a /k/ c + silent e before an a/o/u suffix", ...search, generator });
     expect(word.written.clean).toContain("c" + suffixText(word));
     expect(respelledFor(word, "soft-letter")).toEqual([]);
   });
@@ -325,21 +335,25 @@ describe("root-final /k/ (#469)", () => {
 
   it("leaves no root-final c outside -ic/-ac, no rck and no consonant + x over a seeded sample", () => {
     let icAc = 0;
-    let xs = 0;
     let respelled = 0;
     for (const word of generateWords(4_000, { seed: 4690, trace: true })) {
       const cs = writtenCs(word);
       expect(cs.filter(isUnEnglishFinalC), word.written.clean).toEqual([]);
       expect(word.written.clean).not.toMatch(/rck/);
       expect(ksToXContexts(word).filter((c) => !isEnglishXContext(c)), word.written.clean).toEqual([]);
-      xs += ksToXContexts(word).length;
       respelled += respelledFor(word, "root-final").length;
       if (/[^aeiouy][ia]cs?$/.test(word.written.clean)) icAc++;
     }
     // About 2% of words ended in such a c before the fix.
     expect(respelled).toBeGreaterThan(40);
     expect(icAc).toBeGreaterThan(3);
-    // ks-to-x still writes x where English does (box, necks → nex).
-    expect(xs).toBeGreaterThan(2);
+  });
+
+  it("still writes x in a traced final /ks/ root", () => {
+    const { word } = findExample(w =>
+      w.lexical?.root.at(-1)?.coda.map(p => p.sound).join() === "k,s" &&
+      ksToXContexts(w).some(isEnglishXContext),
+    { ...finalSearch, property: "an attested /ks/ root spelled with x" });
+    expect(word.written.clean).toMatch(/x$/);
   });
 });

@@ -43,6 +43,7 @@ interface Thresholds {
   maxBigramOverRepresentation: number;
   maxTrigramOverRepresentation: number;
   minBigramRepresentation: number;
+  reportOnlyUnderrepresentedBigrams?: string[];
   minTrigramRepresentation: number;
   minBigramBaselineFreq: number;
   minTrigramBaselineFreq: number;
@@ -175,22 +176,21 @@ describe("N-gram quality gates", () => {
 
     for (const [bi, cmu] of Object.entries(cmuFreq)) {
       if (cmu <= thresholds.minBigramBaselineFreq) continue;
-      const genCount = bigramCounts[bi] || 0;
-      const genFreq = genCount / bigramTotal;
-      const ratio = genFreq / cmu;
+      const ratio = ((bigramCounts[bi] ?? 0) / bigramTotal) / cmu;
+      if (thresholds.reportOnlyUnderrepresentedBigrams?.includes(bi)) {
+        console.log(`Report-only bigram "${bi}": ${ratio.toFixed(4)}× CMU (${bigramCounts[bi] ?? 0} hits)`);
+        continue;
+      }
+      if (NGRAM_GATES_BLOCKING) {
+        expect(
+          ratio,
+          `Bigram "${bi}" under-represented at ${ratio.toFixed(4)}× vs CMU (threshold: ${thresholds.minBigramRepresentation}×)`,
+        ).toBeGreaterThanOrEqual(thresholds.minBigramRepresentation);
+      }
       if (ratio < worst.ratio) worst = { ngram: bi, ratio };
     }
 
     console.log(`Worst under-rep bigram: "${worst.ngram}" at ${worst.ratio.toFixed(4)}× (threshold: ${thresholds.minBigramRepresentation})`);
-
-    if (NGRAM_GATES_BLOCKING) {
-      expect(
-        worst.ratio,
-        `Bigram "${worst.ngram}" under-represented at ${worst.ratio.toFixed(4)}× vs CMU (threshold: ${thresholds.minBigramRepresentation}×)`
-      ).toBeGreaterThanOrEqual(thresholds.minBigramRepresentation);
-      return;
-    }
-
     expect(true).toBe(true);
   });
 

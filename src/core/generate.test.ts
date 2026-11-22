@@ -144,7 +144,8 @@ describe("Word Generator", () => {
   });
 
   it("treats requested counts as root counts across the default morphology mix", () => {
-    let affixed = 0;
+    let shortAffixed = 0;
+    let longAffixed = 0;
     for (let syllableCount = 1; syllableCount <= 7; syllableCount++) {
       for (let seed = 0; seed < 20; seed++) {
         const word = generateWord({ seed, syllableCount, trace: true });
@@ -159,10 +160,11 @@ describe("Word Generator", () => {
           (realized?.prefix?.resolved.syllableCount ?? 0) +
           (realized?.suffix?.resolved.syllableCount ?? 0);
         expect(word.syllables).toHaveLength(syllableCount + added);
-        if (trace.summary.morphologyApplied) affixed++;
+        if (trace.summary.morphologyApplied && syllableCount === 1) shortAffixed++;
+        if (trace.summary.morphologyApplied && syllableCount === 7) longAffixed++;
       }
     }
-    expect(affixed).toBeGreaterThan(70);
+    expect(shortAffixed).toBeGreaterThan(longAffixed);
   });
 
   it("selects the same root regardless of affix phone, syllable, and letter costs", () => {
@@ -830,19 +832,20 @@ describe("Word Generator", () => {
       },
     });
 
+    // Text retains the legacy shape sampler and supplies a stable boundary-policy exercise.
     let alwaysCount = 0;
     let neverCount = 0;
     for (let s = 0; s < 4000; s++) {
       const onWord = alwaysDrop.generateWord({
         seed: s,
-        mode: "lexicon",
+        mode: "text",
         morphology: false,
         trace: true,
         syllableCount: 4,
       });
       const offWord = neverDrop.generateWord({
         seed: s,
-        mode: "lexicon",
+        mode: "text",
         morphology: false,
         trace: true,
         syllableCount: 4,

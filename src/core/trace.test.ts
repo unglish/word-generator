@@ -205,6 +205,7 @@ describe("trace pipeline", () => {
       const word = generator.generateWord({
         seed,
         syllableCount: 4,
+        mode: "text",
         trace: true,
         morphology: false,
       });
@@ -243,7 +244,7 @@ describe("trace pipeline", () => {
         seed: s,
         trace: true,
         morphology: false,
-        mode: "lexicon",
+        mode: "text",
         syllableCount: 4,
       });
       for (const event of w.trace!.structural) {
@@ -276,7 +277,7 @@ describe("trace pipeline", () => {
   it("traces final-s extension", () => {
     let found = false;
     for (let s = 0; s < 500; s++) {
-      const w = generateWord({ seed: s, trace: true, morphology: false });
+      const w = generateWord({ seed: s, trace: true, morphology: false, mode: "text" });
       const finalS = w.trace!.structural.filter(byEvent("finalS"));
       if (finalS.length > 0) {
         expect(finalS[0].probability).toBeGreaterThanOrEqual(0);
@@ -293,7 +294,7 @@ describe("trace pipeline", () => {
   it("traces nasal+stop extension", () => {
     let found = false;
     for (let s = 0; s < 2000; s++) {
-      const w = generateWord({ seed: s, trace: true, morphology: false });
+      const w = generateWord({ seed: s, trace: true, morphology: false, mode: "text" });
       const ext = w.trace!.structural.filter(byEvent("nasalStopExtension"));
       if (ext.length > 0) {
         expect(typeof ext[0].nasal).toBe("string");

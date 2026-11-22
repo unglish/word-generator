@@ -7,6 +7,8 @@ import {
   Phoneme,
   Grapheme,
   GraphemeCondition,
+  GenerationMode,
+  MorphologyTemplate,
   GraphemeReading,
 } from "../types.js";
 import { LEGACY_SYLLABLE_WEIGHT } from "../core/syllable-weight.js";
@@ -178,6 +180,8 @@ export interface GenerationWeights {
 
   /** Coda length distributions */
   codaLength: {
+    /** Audited final coda counts and lengths. Replacing the coda plan can omit this profile. */
+    rootFinalByMode?: Partial<Record<GenerationMode, RootFinalCodaProfile>>;
     /** Monosyllabic coda weights keyed by onset length. */
     monosyllabic: Record<number, [number, number][]>;
     /** Fallback for monosyllabic codas when onset length isn't in the map. */
@@ -991,6 +995,11 @@ export interface LanguageConfig {
   };
 }
 
+export interface RootFinalCodaProfile {
+  counts: Readonly<Record<string, number>>;
+  lengths: Readonly<Record<number, Readonly<Record<number, readonly (readonly [number, number])[]>>>>;
+}
+
 // ---------------------------------------------------------------------------
 // Morphology types
 // ---------------------------------------------------------------------------
@@ -1082,6 +1091,8 @@ export interface Affix {
   stressEffect: "none" | "attract-preceding" | "primary" | "secondary";
   /** Relative frequency weight for selection. */
   frequency: number;
+  /** Optional frequency overrides for individual generation modes. */
+  frequencyByMode?: Partial<Record<GenerationMode, number>>;
   /** Config-driven boundary transforms applied at affix\u2194root junctions. */
   boundaryTransforms?: BoundaryTransform[];
   /** Allomorphic variants selected by root-final context. If present, overrides base phonemes/syllableCount. */
@@ -1089,6 +1100,8 @@ export interface Affix {
   /** Morphophonemic alternations applied at this affix boundary. */
   morphophonemicRules?: MorphophonemicRule[];
 }
+
+type TemplateWeights = Record<MorphologyTemplate, number>;
 
 /** Configuration for morphological word formation. */
 export interface MorphologyConfig {
@@ -1111,10 +1124,39 @@ export interface MorphologyConfig {
   morphophonemicPolicy?: {
     preserveClusterLegality?: boolean;
   };
-  templateWeights: {
-    text: { bare: number; suffixed: number; prefixed: number; both: number };
-    lexicon: { bare: number; suffixed: number; prefixed: number; both: number };
-  };
+  templateWeights: Record<GenerationMode, TemplateWeights & {
+    /** Template weights indexed by the planned root syllable count. */
+    byRootSyllables?: Record<number, TemplateWeights>;
+  }>;
+}
+
+function validateTemplateWeights(
+  weights: TemplateWeights,
+  label: string,
+  hasPrefix: boolean,
+  hasSuffix: boolean,
+): void {
+  let total = 0;
+  for (const template of ["bare", "suffixed", "prefixed", "both"] as const) {
+    const weight = weights[template];
+    if (!Number.isFinite(weight) || weight < 0) {
+      throw new Error(`${label}.${template} must be a finite number >= 0`);
+    }
+    total += weight;
+  }
+  if (!Number.isFinite(total) || total <= 0) {
+    throw new Error(`${label} must have positive total weight`);
+  }
+  for (const template of ["prefixed", "both"] as const) {
+    if (weights[template] > 0 && !hasPrefix) {
+      throw new Error(`${label}.${template} requires at least one morphology.prefixes entry with positive weight`);
+    }
+  }
+  for (const template of ["suffixed", "both"] as const) {
+    if (weights[template] > 0 && !hasSuffix) {
+      throw new Error(`${label}.${template} requires at least one morphology.suffixes entry with positive weight`);
+    }
+  }
 }
 
 const REGEX_LITERAL_META = /[\\.*+?()[\]{}|]/;
@@ -1916,6 +1958,37 @@ export function validateConfig(config: LanguageConfig): void {
     }
   };
 
+  for (const [mode, profile] of Object.entries(config.generationWeights.codaLength.rootFinalByMode ?? {})) {
+    const label = `generationWeights.codaLength.rootFinalByMode.${mode}`;
+    if (mode !== "lexicon" && mode !== "text") throw new Error(`${label} is an unknown mode`);
+    for (const [cluster, count] of Object.entries(profile.counts)) {
+      const sounds = cluster.split(",");
+      if (new Set(sounds).size !== sounds.length || !Number.isFinite(count) || count <= 0) {
+        throw new Error(`${label}.counts has an invalid count or repeated phoneme for "${cluster}"`);
+      }
+      for (const sound of sounds) {
+        if (!phonemeSounds.has(sound)) throw new Error(`${label}.counts contains unknown phoneme "${sound}"`);
+      }
+    }
+    for (const [syllables, byPhones] of Object.entries(profile.lengths)) {
+      for (const [phones, lengths] of Object.entries(byPhones)) {
+        const location = `${label}.lengths.${syllables}.${phones}`;
+        if (!/^[1-9]\d*$/.test(syllables) || !/^[1-9]\d*$/.test(phones) ||
+          Number(phones) < Number(syllables) || lengths.length === 0) {
+          throw new Error(`${location} must describe a positive root phone and syllable count`);
+        }
+        const seen = new Set<number>();
+        for (const [length, count] of lengths) {
+          if (!Number.isInteger(length) || length < 0 || length > Number(phones) - Number(syllables) ||
+            seen.has(length) || !Number.isFinite(count) || count <= 0) {
+            throw new Error(`${location} has an invalid coda length or count`);
+          }
+          seen.add(length);
+        }
+      }
+    }
+  }
+
   config.writtenFormConstraints?.hardLetters?.forEach((rule, i) => {
     const label = `writtenFormConstraints.hardLetters[${i}] (${rule.name})`;
     if (!phonemeSounds.has(rule.phoneme))
@@ -2110,47 +2183,25 @@ export function validateConfig(config: LanguageConfig): void {
 
   if (config.morphology) {
     if (config.morphology.enabled) {
+      const { prefixes, suffixes, templateWeights } = config.morphology;
       for (const mode of ["text", "lexicon"] as const) {
-        const weights = config.morphology.templateWeights[mode];
-        const entries: Array<[keyof typeof weights, number]> = [
-          ["bare", weights.bare],
-          ["suffixed", weights.suffixed],
-          ["prefixed", weights.prefixed],
-          ["both", weights.both],
-        ];
-        let totalWeight = 0;
-        for (const [template, weight] of entries) {
-          if (!Number.isFinite(weight) || weight < 0) {
-            throw new Error(
-              `morphology.templateWeights.${mode}.${template} must be a finite number >= 0`,
-            );
+        for (const affix of [...prefixes, ...suffixes]) {
+          const override = affix.frequencyByMode?.[mode];
+          if (override !== undefined && (!Number.isFinite(override) || override < 0)) {
+            throw new Error(`morphology ${affix.type} "${affix.written}" frequencyByMode.${mode} must be a finite number >= 0`);
           }
-          totalWeight += weight;
         }
-        if (!Number.isFinite(totalWeight) || totalWeight <= 0) {
-          throw new Error(
-            `morphology.templateWeights.${mode} must have positive total weight`,
-          );
-        }
-        if (weights.prefixed > 0 && config.morphology.prefixes.length === 0) {
-          throw new Error(
-            `morphology.templateWeights.${mode}.prefixed requires at least one morphology.prefixes entry`,
-          );
-        }
-        if (weights.suffixed > 0 && config.morphology.suffixes.length === 0) {
-          throw new Error(
-            `morphology.templateWeights.${mode}.suffixed requires at least one morphology.suffixes entry`,
-          );
-        }
-        if (weights.both > 0 && config.morphology.prefixes.length === 0) {
-          throw new Error(
-            `morphology.templateWeights.${mode}.both requires at least one morphology.prefixes entry`,
-          );
-        }
-        if (weights.both > 0 && config.morphology.suffixes.length === 0) {
-          throw new Error(
-            `morphology.templateWeights.${mode}.both requires at least one morphology.suffixes entry`,
-          );
+        const hasWeightedAffix = (affixes: Affix[]) =>
+          affixes.some(affix => (affix.frequencyByMode?.[mode] ?? affix.frequency) > 0);
+        const weights = templateWeights[mode];
+        const label = `morphology.templateWeights.${mode}`;
+        validateTemplateWeights(weights, label, hasWeightedAffix(prefixes), hasWeightedAffix(suffixes));
+        for (const [count, conditional] of Object.entries(weights.byRootSyllables ?? {})) {
+          if (!/^[1-9]\d*$/.test(count)) {
+            throw new Error(`${label}.byRootSyllables requires positive integer keys`);
+          }
+          validateTemplateWeights(conditional, `${label}.byRootSyllables.${count}`,
+            hasWeightedAffix(prefixes), hasWeightedAffix(suffixes));
         }
       }
     }

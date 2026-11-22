@@ -1,8 +1,7 @@
 /**
  * Regression tests for #458: consonant+y → i before non-i-initial suffixes.
  *
- * The suffix cases find their own examples; the remaining single-word cases
- * still pin seeds from the issue. Distribution coverage uses the same
+ * The suffix cases find their own examples. Distribution coverage uses the same
  * 1000000–1019999 window as the issue sample.
  */
 import { describe, expect, it } from "vitest";
@@ -49,32 +48,32 @@ describe("consonant+y suffix boundary (#458)", () => {
     },
   );
 
-  it("seed 1000034 is flies with -es spelling and no extra /ɪz/ syllable", () => {
-    const word = generateWord({ seed: 1000034, trace: true });
-    expect(word.written.clean).toBe("flies");
+  it("realizes consonant+y before -s with -es spelling and no extra /ɪz/ syllable", () => {
+    const { word } = findExample(w =>
+      w.trace?.morphology?.suffix === "s" && isTrueConsonantYBase(w) &&
+      w.trace.morphology.realization?.suffix?.resolved.phonemes.join() === "z",
+    { property: "consonant+y before nonsyllabic -s", limit: 20_000, firstSeed: 1_000_000 });
     const realization = word.trace!.morphology!.realization!;
-    expect(realization.assembledParts).toEqual([
-      { role: "root", text: "fli" },
-      { role: "suffix", text: "es" },
-    ]);
+    expect(assembledRoot(word)).toMatch(/[^aeiou]i$/i);
+    expect(word.written.clean).toMatch(/ies$/);
     expect(realization.suffix!.resolved.written).toBe("es");
     expect(realization.suffix!.resolved.phonemes).toEqual(["z"]);
     expect(realization.suffix!.resolved.syllableCount).toBe(0);
   });
 
   it("keeps y before i-initial -ing on a consonant+y root", () => {
-    // Seed from post-fix sample: murpidy + -ing
-    const word = generateWord({ seed: 1001183, trace: true });
-    expect(word.trace?.morphology?.suffix).toBe("ing");
+    const { word } = findExample(w => w.trace?.morphology?.suffix === "ing" && isTrueConsonantYBase(w),
+      { property: "consonant+y before -ing", limit: 20_000, firstSeed: 1_000_000 });
     expect(assembledRoot(word)).toMatch(/[^aeiou]y$/i);
-    expect(word.written.clean).toBe("murpidying");
+    expect(word.written.clean).toMatch(/ying$/);
   });
 
   it("leaves vowel+y unchanged before -s", () => {
-    const word = generateWord({ seed: 1001403, trace: true });
-    expect(word.trace?.morphology?.suffix).toBe("s");
+    const { word } = findExample(w =>
+      w.trace?.morphology?.suffix === "s" && /[aeiou]y$/i.test(w.trace.baseSpelling?.surface ?? ""),
+    { property: "vowel+y before -s", limit: 20_000, firstSeed: 1_000_000 });
     expect(assembledRoot(word)).toMatch(/[aeiou]y$/i);
-    expect(word.written.clean).toBe("blays");
+    expect(word.written.clean).toMatch(/[aeiou]ys$/i);
   });
 
   it("clears true consonant+y before non-i suffixes over the issue sample", () => {
