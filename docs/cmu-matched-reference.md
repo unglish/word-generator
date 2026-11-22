@@ -128,3 +128,6 @@ archives are not duplicated in the PR. New measurements do not overwrite the old
 baseline or relabel old scores as if they used the new population. Adopting these
 references in runtime sampling, a dashboard or a gate is a separate change with
 its own unchanged-generator comparison.
+
+[Stage references, Phase 1](cmu-root-reference.md) measures affix stripping
+and the resulting root population from this same joint selection.
