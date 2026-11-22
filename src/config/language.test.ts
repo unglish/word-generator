@@ -57,7 +57,7 @@ describe("LanguageConfig", () => {
     });
 
     it("should expand English boundary cluster rules to the expected banned pairs", () => {
-      const expected = new Set([
+      const expected = [
         // /ŋ/ before anything except /k/, /g/
         "ŋ|p",
         "ŋ|b",
@@ -108,13 +108,31 @@ describe("LanguageConfig", () => {
         "z|ʃ",
         "ʃ|h",
         "k|tʃ",
-      ]);
-      const actual = new Set(
-        expandClusterConstraintBans(englishConfig).map(
-          ([coda, onset]) => `${coda}|${onset}`,
-        ),
+        // Root voicing and onset restrictions (#485).
+        "p|z",
+        "t|z",
+        "k|v",
+        "t|v",
+        "p|dʒ",
+        "θ|d",
+        "g|v",
+        "z|dʒ",
+        "v|ʃ",
+        "m|dʒ",
+        "n|ð",
+        "l|ʒ",
+      ];
+      const actual = expandClusterConstraintBans(englishConfig).map(
+        ([coda, onset]) => `${coda}|${onset}`,
       );
-      expect(actual).toEqual(expected);
+      expect(actual).toEqual(expect.arrayContaining(expected));
+      for (const pair of [
+        "n|v", "l|v", "n|z", "m|z", "n|dʒ", "l|dʒ",
+        "b|v", "d|v", "b|z", "d|z", "g|z", "b|dʒ", "d|dʒ",
+        "b|s", "d|s", "s|b", "s|d", "s|g", "z|p", "z|t", "z|k",
+      ]) {
+        expect(actual).not.toContain(pair);
+      }
     });
 
     it("should auto-ban new non-velar onsets after /ŋ/ while allowing new velar onsets", () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, createSeededRng, englishConfig } from "../index.js";
+import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
 import {
   expandClusterConstraintBans,
   type LanguageConfig,
@@ -26,34 +26,32 @@ function soundOf(value: SoundLike | undefined): string | undefined {
   return typeof value === "string" ? value : value.sound;
 }
 
-/** Each banned coda→onset pair present at a syllable boundary. */
-function illegalJoins(syllables: readonly Shape[]): string[] {
+/** Each matching coda→onset pair at a syllable boundary. */
+function matchingJoins(
+  syllables: readonly Shape[],
+  pairs: ReadonlySet<string> = ILLEGAL_JOINS,
+): string[] {
   const found: string[] = [];
   for (let i = 0; i < syllables.length - 1; i++) {
     const coda = soundOf(syllables[i].coda.at(-1));
     const onset = soundOf(syllables[i + 1].onset[0]);
     if (!coda || !onset) continue;
     const key = `${coda}|${onset}`;
-    if (ILLEGAL_JOINS.has(key)) found.push(key);
+    if (pairs.has(key)) found.push(key);
   }
   return found;
 }
 
-/** English without the #418 boundary bans (pre-fix generator behavior). */
+/** Exempt the three #418 pairs even when a broader rule also bans one. */
 function withoutIllegalJoinBans(): LanguageConfig {
   return {
     ...englishConfig,
     clusterConstraint: {
       ...englishConfig.clusterConstraint!,
-      rules: englishConfig.clusterConstraint!.rules!.filter(
-        (rule) =>
-          !(
-            rule.mode === "ban" &&
-            rule.coda.sounds?.length === 1 &&
-            rule.onset.sounds?.length === 1 &&
-            ILLEGAL_JOINS.has(`${rule.coda.sounds[0]}|${rule.onset.sounds[0]}`)
-          ),
-      ),
+      rules: englishConfig.clusterConstraint!.rules!.map((rule) => ({
+        ...rule,
+        except: [...(rule.except ?? []), ["z", "ʃ"], ["ʃ", "h"], ["k", "tʃ"]],
+      })),
     },
   };
 }
@@ -94,7 +92,7 @@ describe("illegal syllable-join clusters (#418)", () => {
         },
       ] as Word["syllables"];
       repairClusters(syllables, banned, "drop-coda");
-      expect(illegalJoins(syllables), `${coda}|${onset}`).toEqual([]);
+      expect(matchingJoins(syllables), `${coda}|${onset}`).toEqual([]);
       expect(syllables[0].coda).toHaveLength(0);
       expect(syllables[1].onset[0].sound).toBe(onset);
     }
@@ -105,7 +103,7 @@ describe("illegal syllable-join clusters (#418)", () => {
     const english = createGenerator(englishConfig);
     for (const pair of ["z|ʃ", "ʃ|h", "k|tʃ"] as const) {
       const example = findExample(
-        (word) => illegalJoins(word.syllables).includes(pair),
+        (word) => matchingJoins(word.syllables).includes(pair),
         {
           property: `a syllable join ${pair}`,
           generator: unconstrained,
@@ -114,16 +112,16 @@ describe("illegal syllable-join clusters (#418)", () => {
         },
       );
       // Without the ban the final word still carries the pair (no repair).
-      expect(illegalJoins(example.word.syllables)).toContain(pair);
+      expect(matchingJoins(example.word.syllables)).toContain(pair);
 
       // Same seed may pick a different surviving attempt once drop-coda
       // changes later rejection; the fixed generator must still end clean.
       const fixed = english.generateWord(example.options);
       expect(
-        illegalJoins(fixed.syllables),
+        matchingJoins(fixed.syllables),
         `${example.word.pronunciation} -> ${fixed.pronunciation}`,
       ).toEqual([]);
-      expect(illegalJoins(fixed.lexical!.root)).toEqual([]);
+      expect(matchingJoins(fixed.lexical!.root)).toEqual([]);
     }
   });
 
@@ -134,7 +132,7 @@ describe("illegal syllable-join clusters (#418)", () => {
         const proposed = word.trace!.stages.find(
           (stage) => stage.name === "generateSyllables",
         );
-        return proposed !== undefined && illegalJoins(proposed.after).length > 0;
+        return proposed !== undefined && matchingJoins(proposed.after).length > 0;
       },
       {
         property: "a generateSyllables proposal of an illegal join",
@@ -143,7 +141,7 @@ describe("illegal syllable-join clusters (#418)", () => {
         limit: 80_000,
       },
     );
-    const proposed = illegalJoins(
+    const proposed = matchingJoins(
       example.word.trace!.stages.find(
         (stage) => stage.name === "generateSyllables",
       )!.after,
@@ -152,8 +150,8 @@ describe("illegal syllable-join clusters (#418)", () => {
     const afterRepair = example.word.trace!.stages.find(
       (stage) => stage.name === "repairClusters",
     )!;
-    expect(illegalJoins(afterRepair.after)).toEqual([]);
-    expect(illegalJoins(example.word.syllables)).toEqual([]);
+    expect(matchingJoins(afterRepair.after)).toEqual([]);
+    expect(matchingJoins(example.word.syllables)).toEqual([]);
     expect(
       example.word.trace!.repairs.some(
         (repair) => repair.rule === "repairClusters",
@@ -171,7 +169,7 @@ describe("illegal syllable-join clusters (#418)", () => {
       );
     };
     const countHits = (words: Word[]) =>
-      words.filter((word) => illegalJoins(word.syllables).length > 0).length;
+      words.filter((word) => matchingJoins(word.syllables).length > 0).length;
 
     const before = countHits(sample(withoutIllegalJoinBans()));
     const after = countHits(sample(englishConfig));
@@ -191,8 +189,39 @@ describe("illegal syllable-join clusters (#418)", () => {
     let rootHits = 0;
     for (let i = 0; i < count; i++) {
       const word = generator.generateWord({ rand, morphology: true });
-      if (illegalJoins(word.lexical!.root).length > 0) rootHits++;
+      if (matchingJoins(word.lexical!.root).length > 0) rootHits++;
     }
     expect(rootHits).toBe(0);
   });
+});
+
+describe("root boundary voicing restrictions (#485)", () => {
+  const licensed = new Set(["n|z", "l|v", "g|z", "z|t"]);
+  const banned = new Set([
+    "p|z", "t|z", "k|v", "t|v", "p|dʒ", "θ|d", "m|dʒ",
+    ...expandClusterConstraintBans(englishConfig).map(([coda, onset]) => `${coda}|${onset}`),
+  ]);
+
+  it.each(["lexicon", "text"] as const)(
+    "clears banned root junctions and retains English exceptions in %s mode",
+    (mode) => {
+      const count = 20_000;
+      const rand = createSeededRng(20261121);
+      const reached = new Set<string>();
+      let attempts = 0;
+
+      for (let i = 0; i < count; i++) {
+        const word = generateWord({ mode, rand, trace: true });
+        const root = word.trace!.stages.find(
+          (stage) => stage.name === "repairNucleusWordPositions",
+        )!.after;
+        expect(matchingJoins(root, banned), word.written.clean).toEqual([]);
+        for (const pair of matchingJoins(root, licensed)) reached.add(pair);
+        attempts += word.trace!.selection!.attemptsExecuted;
+      }
+
+      expect(reached).toEqual(licensed);
+      expect(attempts / count).toBeLessThan(3);
+    },
+  );
 });

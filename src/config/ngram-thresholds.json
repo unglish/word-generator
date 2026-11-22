@@ -2,7 +2,7 @@
   "maxBigramOverRepresentation": 4.25,
   "maxTrigramOverRepresentation": 3.21,
   "minBigramRepresentation": 0.0089,
-  "reportOnlyUnderrepresentedBigrams": ["cc"],
+  "reportOnlyUnderrepresentedBigrams": ["cc", "tz"],
   "minTrigramRepresentation": 0.0062,
   "minBigramBaselineFreq": 0.001,
   "minTrigramBaselineFreq": 0.0005,
@@ -49,6 +49,11 @@
       "date": "2026-11-21",
       "reportOnlyBigram": "cc",
       "note": "#491: cc is report-only. The old PR's floor (0.0031x) requires about six hits per 200,000 words, versus a ten-seed mean of 9.6. All traced baseline and candidate hits come from -able, now sampled at the measured rate. A hard floor at this scale confuses sampling noise with a spelling defect. Other bigram floors stand."
+    },
+    {
+      "date": "2026-11-22",
+      "reportOnlyBigram": "tz",
+      "note": "#485: the common-bigram floor rewarded the /t.z/ root junction now banned. In the seed-42 200k lexicon stream, 239 of 250 baseline tz words had root /t.z/ and all five remaining hits after the fix came from out- plus a z-initial root. Across five 200k streams (42/123/456/789/1337), the post-fix counts are 5/3/4/5/2. Track tz as report-only and test the root junction directly in both modes."
     },
     {
       "date": "2026-11-21",
