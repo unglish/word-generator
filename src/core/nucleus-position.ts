@@ -1,8 +1,10 @@
 import type { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import type { StressRules } from "../config/language.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
-import { isNucleusCompatibleWithCoda, isNucleusCompatibleWithFollowingOnset } from "./rime-compatibility.js";
-import type { BannedNucleusCodaPairs } from "./rime-compatibility.js";
+import {
+  isNucleusCompatibleWithCoda, isNucleusCompatibleWithFollowingOnset, isNucleusCompatibleWithOnset,
+} from "./rime-compatibility.js";
+import type { BannedNucleusCodaPairs, OnsetRimeBans } from "./rime-compatibility.js";
 
 export interface WordEdges { initial: boolean; final: boolean }
 
@@ -50,6 +52,7 @@ export function repairNucleusWordPositions(
   stress: StressRules,
   bannedPairs?: BannedNucleusCodaPairs,
   followingOnsetPairs?: BannedNucleusCodaPairs,
+  onsetRimeBans?: OnsetRimeBans,
   forbidOpenCheckedFinal = false,
 ): void {
   const syllables = context.word.syllables;
@@ -79,7 +82,8 @@ export function repairNucleusWordPositions(
         const weight = (candidate.nucleus ?? 0) * positionWeight;
         if (!Number.isFinite(weight) || weight <= 0) continue;
         if (!isNucleusCompatibleWithCoda(candidate.sound, syllable.coda, bannedPairs)
-          || !isNucleusCompatibleWithFollowingOnset(candidate.sound, syllable.coda, nextOnset, followingOnsetPairs)) {
+          || !isNucleusCompatibleWithFollowingOnset(candidate.sound, syllable.coda, nextOnset, followingOnsetPairs)
+          || !isNucleusCompatibleWithOnset(candidate.sound, syllable.onset, onsetRimeBans)) {
           positivePairExclusions++;
           continue;
         }

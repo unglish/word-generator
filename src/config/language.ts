@@ -95,6 +95,20 @@ export interface CodaConstraints {
      */
     followingOnset?: boolean;
   }>;
+  /**
+   * Nuclei and coda consonants that may not follow an onset ending in one of
+   * `onsetFinal` within a lexical-root syllable (e.g. /r/ or /dr/ before /ɚ/,
+   * or before a coda /r/). The nucleus and coda are chosen after the onset, so
+   * generation and nucleus repairs skip them. Affix syllables are exempt.
+   */
+  bannedOnsetRimeCombinations?: Array<{
+    /** Last onset phoneme sounds (e.g. ["r"] covers /r/, /dr/ and /str/). */
+    onsetFinal: string[];
+    /** Nucleus sounds banned after these onsets. */
+    nucleus?: string[];
+    /** Coda sounds banned anywhere in the coda after these onsets. */
+    coda?: string[];
+  }>;
 }
 
 export interface ClusterLimits {

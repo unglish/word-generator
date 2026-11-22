@@ -709,6 +709,12 @@ export const englishConfig: LanguageConfig = {
         followingOnset: true,
       },
     ],
+    // An /r/ onset before an r-coloured rime (drur /drɚ/, trurl /trɚl/, brert
+    // /brɛrt/) is rare in English roots: CMU has a few word-final cases
+    // (terror, mirror, rear, roar) and almost none inside a word (#497).
+    bannedOnsetRimeCombinations: [
+      { onsetFinal: ["r"], nucleus: ["ɚ", "ɝ"], coda: ["r"] },
+    ],
   },
 
   clusterLimits: {

@@ -429,4 +429,6 @@ export interface ClusterContext {
    * Only populated when position === "coda".
    */
   nucleus?: Phoneme[];
+  /** Nucleus or coda sounds this syllable's onset excludes (see `bannedOnsetRimeCombinations`). */
+  excludedAfterOnset?: ReadonlySet<string>;
 }

@@ -59,8 +59,11 @@ import { RejectionTraceCollector } from "./rejection-trace.js";
 import {
   assertRootRimeCompatibility,
   buildBannedNucleusPairs,
+  buildOnsetRimeBans,
+  excludedAfterOnset,
   isNucleusCodaPairAllowed,
 } from "./rime-compatibility.js";
+import type { OnsetRimeBans } from "./rime-compatibility.js";
 import {
   nucleusWordPositionWeight,
   isCheckedOpenFinalAllowed,
@@ -128,6 +131,8 @@ interface GeneratorRuntime {
   bannedNucleusCodaMap?: Map<string, Set<string>>;
   /** Nucleus sound to consonants banned as the next root onset's first phoneme after an open syllable. */
   bannedNucleusOnsetMap?: Map<string, Set<string>>;
+  /** Last onset sound to the nuclei and coda sounds it excludes from its root syllable. */
+  onsetRimeBans?: OnsetRimeBans;
   clusterLimits?: ClusterLimits;
   sonorityConstraints?: SonorityConstraints;
   codaAppendantSet?: Set<string>;
@@ -306,6 +311,9 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
       : undefined,
     bannedNucleusCodaMap,
     bannedNucleusOnsetMap,
+    onsetRimeBans: buildOnsetRimeBans(
+      config.codaConstraints?.bannedOnsetRimeCombinations,
+    ),
     clusterLimits: cl,
     sonorityConstraints: sc,
     codaAppendantSet: cl?.codaAppendants
@@ -468,6 +476,8 @@ function clusterCandidateRejection(
   if (context.position === "coda" && rt.bannedCodaSet?.has(sound)) {
     return "banned-coda";
   }
+
+  if (context.excludedAfterOnset?.has(sound)) return "onset-rime";
 
   if (
     context.position === "onset" &&
@@ -843,7 +853,7 @@ function pickNucleus(
   context: WordGenerationContext,
   isStartOfWord: boolean,
   isEndOfWord: boolean,
-  onsetLength: number,
+  onset: readonly Phoneme[],
   plannedCodaLength: number,
 ): Phoneme[] {
   return buildCluster(rt, {
@@ -855,10 +865,11 @@ function pickNucleus(
     isStartOfWord,
     isEndOfWord,
     nucleusWordEdges: {
-      initial: isStartOfWord && onsetLength === 0,
+      initial: isStartOfWord && onset.length === 0,
       final: isEndOfWord && plannedCodaLength === 0,
     },
     forbidOpenCheckedFinal: rt.forbidOpenCheckedFinal,
+    excludedAfterOnset: excludedAfterOnset(onset, "nucleus", rt.onsetRimeBans),
     maxLength: 1,
     syllableCount: context.syllableCount,
   });
@@ -963,13 +974,18 @@ function prepareRootFinalCodas(
 
 function pickRootFinalCoda(
   choices: FinalCodasByNucleus,
-  nucleus: Phoneme,
+  syllable: Syllable,
   length: number,
+  rt: GeneratorRuntime,
   rand: RNG,
 ): Phoneme[] {
-  const byLength = choices.get(nucleus.sound);
+  const byLength = choices.get(syllable.nucleus[0].sound);
+  const excluded = excludedAfterOnset(syllable.onset, "coda", rt.onsetRimeBans);
+  const listed = byLength?.get(length) ?? byLength?.get(1);
+  const options = excluded
+    ? listed?.filter(([coda]) => !coda.some((phoneme) => excluded.has(phoneme.sound)))
+    : listed;
   // Underfill an impossible shape so the existing root selection can retry.
-  const options = byLength?.get(length) ?? byLength?.get(1);
   return options?.length ? getWeightedOption(options, rand).slice() : [];
 }
 
@@ -1017,6 +1033,11 @@ function pickCoda(
     syllableCount,
     maxLength,
     nucleus: newSyllable.nucleus,
+    excludedAfterOnset: excludedAfterOnset(
+      newSyllable.onset,
+      "coda",
+      rt.onsetRimeBans,
+    ),
   };
   const coda = buildCluster(rt, codaContext);
 
@@ -1617,7 +1638,7 @@ function generateSyllable(
     context,
     isStartOfWord,
     isEndOfWord,
-    newSyllable.onset.length,
+    newSyllable.onset,
     syllablePlan.codaLength,
   );
   if (newSyllable.nucleus.length === 0)
@@ -1628,7 +1649,7 @@ function generateSyllable(
   if (syllablePlan.codaLength > 0) {
     const finalChoices = isEndOfWord ? rt.rootFinalCodas[mode] : undefined;
     newSyllable.coda = finalChoices
-      ? pickRootFinalCoda(finalChoices, newSyllable.nucleus[0], syllablePlan.codaLength, context.rand)
+      ? pickRootFinalCoda(finalChoices, newSyllable, syllablePlan.codaLength, rt, context.rand)
       : pickCoda(rt, context, newSyllable, isEndOfWord, monosyllabic, syllablePlan.codaLength);
   }
 
@@ -1830,6 +1851,7 @@ function spellLexicalRoot(
     root,
     rt.bannedNucleusCodaMap,
     rt.bannedNucleusOnsetMap,
+    rt.onsetRimeBans,
   );
   const baseSpelling = traceStage(
     context.trace,
@@ -1951,6 +1973,7 @@ function resolveAffixedRoot(
       rt.bannedNucleusCodaMap,
       { syllables: lexicalRoot, start: rootSyllableStart },
       rt.bannedNucleusOnsetMap,
+      rt.onsetRimeBans,
       rt.forbidOpenCheckedFinal,
     );
     carryRootStressRepairs(
@@ -2328,6 +2351,7 @@ function runPipeline(
       rt.bannedNucleusCodaMap,
       undefined,
       rt.bannedNucleusOnsetMap,
+      rt.onsetRimeBans,
       rt.forbidOpenCheckedFinal,
     ),
   );
@@ -2338,6 +2362,7 @@ function runPipeline(
       stressRules,
       rt.bannedNucleusCodaMap,
       rt.bannedNucleusOnsetMap,
+      rt.onsetRimeBans,
       rt.forbidOpenCheckedFinal,
     ),
   );

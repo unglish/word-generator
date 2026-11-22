@@ -7,6 +7,10 @@
 - English generation blocks incompatible consonant joins inside roots, such as
   /k.v/ and /p.dʒ/, while retaining joins found in words such as *envy* and
   *silver* (#485). This changes seeded output in lexicon and text mode.
+- English roots no longer put an onset ending in /r/ before /ɚ/ or before a
+  coda /r/ (*drur* /drɚ/, *brerts* /brɛrts/), which appeared in about 3% of
+  lexicon words against about 0.2% in CMU (#497). This changes seeded output in
+  lexicon and text mode.
 
 ### Breaking Changes
 
@@ -16,6 +20,9 @@
 
 ### Added
 
+- `codaConstraints.bannedOnsetRimeCombinations`: nuclei and coda sounds banned
+  after an onset ending in one of `onsetFinal` within a lexical-root syllable.
+  Generation and nucleus repairs skip them; affix syllables are exempt (#497).
 - `GraphemeTrace.respelled` (type `GraphemeRespelling`): set on a grapheme
   selection when a spelling-budget certificate replaced its whole unit, with the
   replacement form and certificate index. Previously only
