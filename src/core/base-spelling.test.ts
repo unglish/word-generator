@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, createSeededRng, englishConfig } from "../index.js";
+import { createGenerator, createSeededRng, englishConfig, generateWords } from "../index.js";
 import { BaseSpelling, expandReplacement, parseReplaceCallbackArgs } from "./base-spelling.js";
 import type { BaseSpellingTrace, SpellingCell, SpellingEdit } from "./base-spelling.js";
 import type { Word } from "../types.js";
@@ -74,6 +74,58 @@ function expectLedgerReplay(base: BaseSpellingTrace): void {
   expect(base.surface).toBe(cells.map(cell => cell.text).join(""));
   expect(base.unresolvedCells).toBe(cells.filter(cell => cell.origin.kind === "rewrite").length);
 }
+
+const editUnitIds = (cell: SpellingCell): readonly number[] =>
+  cell.origin.kind === "rewrite" ? cell.origin.sourceUnitIds : [cell.origin.unitId];
+
+describe("spelling-edit replay under preserve-phones (#489)", () => {
+  it.each([42, 489, 20261121])("replays root spelling and preserves every nucleus at seed %i", seed => {
+    let engEdits = 0;
+    for (const word of generateWords(5_000, { seed, trace: true })) {
+      const trace = word.trace!;
+      const base = trace.baseSpelling!;
+      const orthography = trace.orthography!;
+      const editsReported = new Set(trace.repairs.flatMap(repair => repair.spellingEditIds ?? []));
+      const nuclei = new Set(base.units
+        .filter(unit => unit.phoneIds.some(id => base.phones[id].segment === "nucleus"))
+        .map(unit => unit.id));
+      let surface = base.units.map(unit => unit.afterDoubling).join("");
+      const lineage: (readonly number[])[] = base.units.flatMap(unit => unit.sourceCellIds.map(() => [unit.id]));
+
+      expect(base.version).toBe(2);
+      for (const edit of base.edits) {
+        const { start, before, after, rule, input, output } = edit;
+        expect(surface.slice(start, start + before.length), rule).toBe(before);
+        if (rule === "spellingRule:eng-to-ing") {
+          engEdits++;
+          expect(surface[start - 1] ?? "", surface).not.toMatch(/[aeiouy]/);
+          for (const id of editUnitIds(input[0]).filter(id => nuclei.has(id))) {
+            expect(lineage.filter(ids => ids.includes(id)), surface).toHaveLength(1);
+          }
+        }
+        expect(["spellingRule:iw-to-w", "spellingRule:iy-to-y"]).not.toContain(rule);
+        if (/^(silentE:|orthographicRepair:|spellingBudget:respell$|deduplicate)/.test(rule)) {
+          expect(editsReported.has(edit.id), rule).toBe(true);
+        }
+
+        surface = surface.slice(0, start) + after + surface.slice(start + before.length);
+        lineage.splice(start, input.length, ...output.map(editUnitIds));
+        const surviving = new Set(lineage.flat());
+        for (const id of input.flatMap(editUnitIds).filter(id => nuclei.has(id))) {
+          expect(surviving.has(id), `${rule} dropped nucleus ${id} in ${word.written.clean}`).toBe(true);
+        }
+      }
+      expect(surface).toBe(base.surface);
+      expect(orthography.chars.map(char => char.char).join("")).toBe(surface);
+      for (const unit of orthography.graphemeUnits) {
+        if (unit.present || !unit.emitted) continue;
+        expect(unit.deletedBy, word.written.clean).toBeDefined();
+        expect(base.edits[unit.deletedBy!.editId]?.rule).toBe(unit.deletedBy!.rule);
+      }
+    }
+    expect(engEdits).toBeGreaterThan(0);
+  });
+});
 
 describe("exact base-spelling provenance", () => {
   it("records a cut within a multi-letter spelling at its actual source cell without claiming it is repaired", () => {

@@ -18,18 +18,6 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 1, },
-  {
-    phoneme: "b",
-    form: "pb",
-    frequency: 1,
-    onset: 0,
-    cluster: 0,
-    startWord: 0,
-    midWord: 1,
-    endWord: 0,
-    // Not after an e-final vowel (#470): magic-e cannot split ie + pb (liepbfilpina).
-    condition: { notLeftGraphemeContext: ["e"] },
-  },
 
   // t top
   { phoneme: "t", form: "t", frequency: 2500, startWord: 1,
@@ -109,7 +97,7 @@ export const stopGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 80,
     endWord: 80,
-    condition: { leftGraphemeContext: ["n"] },
+    condition: { leftGraphemeContext: ["n"], notRightContext: ["w"] },
   },
   // k: word-final (speak, back)
   { phoneme: "k", 
@@ -166,15 +154,6 @@ export const stopGraphemes: Grapheme[] = [
     // Silent l follows a or o (walk, folk). After an e-final vowel magic-e
     // cannot split it either (#470: wielkar).
     condition: { notLeftGraphemeContext: ["e"] },
-  },
-  {
-    phoneme: "k",
-    form: "q",
-    frequency: 1,
-    onset: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 1,
   },
 
   // g: go

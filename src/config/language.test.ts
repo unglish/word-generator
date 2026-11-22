@@ -57,64 +57,48 @@ describe("LanguageConfig", () => {
     });
 
     it("should expand English boundary cluster rules to the expected banned pairs", () => {
-      const expected = new Set([
-        // /ŋ/ before anything except /k/, /g/
-        "ŋ|p",
-        "ŋ|b",
-        "ŋ|t",
-        "ŋ|d",
-        "ŋ|f",
-        "ŋ|v",
-        "ŋ|θ",
-        "ŋ|ð",
-        "ŋ|s",
-        "ŋ|z",
-        "ŋ|ʃ",
-        "ŋ|ʒ",
-        "ŋ|tʃ",
-        "ŋ|dʒ",
-        "ŋ|m",
-        "ŋ|n",
-        "ŋ|l",
-        "ŋ|r",
-        "ŋ|j",
-        "ŋ|w",
-        "ŋ|h",
-        // /ʒ/ before stops
-        "ʒ|p",
-        "ʒ|b",
-        "ʒ|t",
-        "ʒ|d",
-        "ʒ|k",
-        "ʒ|g",
-        // /ð/ before stops
-        "ð|p",
-        "ð|b",
-        "ð|t",
-        "ð|d",
-        "ð|k",
-        "ð|g",
-        // Same-place stop sequences with opposite voicing
-        "p|b",
-        "b|p",
-        "t|d",
-        "d|t",
-        "k|g",
-        "g|k",
-        // Bilabial nasal + velar stop
-        "m|k",
-        "m|g",
-        // Illegal syllable-join clusters (#418)
-        "z|ʃ",
-        "ʃ|h",
-        "k|tʃ",
-      ]);
+      const expectedOnsetsByCoda = {
+        b: "f k p t tʃ ð ʃ ʒ θ",
+        d: "f k p t tʃ ð ʃ ʒ θ",
+        dʒ: "dʒ f k p s t tʃ v z ð ʃ ʒ θ",
+        f: "b d dʒ g v z ð ʒ",
+        g: "dʒ f k p s t tʃ v ð ʃ ʒ θ",
+        k: "b d dʒ g tʃ v z ð ʒ",
+        l: "ð ʒ",
+        m: "dʒ g k v ð ʒ",
+        n: "ð ʒ",
+        p: "b d dʒ g v z ð ʒ",
+        r: "ð ʒ",
+        s: "dʒ v z ð ʒ",
+        t: "b d dʒ g v z ð ʒ",
+        tʃ: "b d dʒ g v z ð ʒ",
+        v: "dʒ f k p s t tʃ v z ð ʃ ʒ θ",
+        z: "dʒ f s tʃ v z ð ʃ ʒ θ",
+        ð: "b d dʒ f g k p s t tʃ v z ð ʃ ʒ θ",
+        ŋ: "b d dʒ f h j l m n p r s t tʃ v w z ð ʃ ʒ θ",
+        ʃ: "b d dʒ g h v z ð ʒ",
+        ʒ: "b d dʒ f g k p s t tʃ v z ð ʃ ʒ θ",
+        θ: "b d dʒ g v z ð ʒ",
+      };
+      const expected = new Set(Object.entries(expectedOnsetsByCoda).flatMap(
+        ([coda, onsets]) => onsets.split(" ").map(onset => `${coda}|${onset}`),
+      ));
       const actual = new Set(
         expandClusterConstraintBans(englishConfig).map(
           ([coda, onset]) => `${coda}|${onset}`,
         ),
       );
       expect(actual).toEqual(expected);
+    });
+
+    it("keeps licensed sonorant, sibilant and stop junctions", () => {
+      const banned = new Set(expandClusterConstraintBans(englishConfig).map(pair => pair.join("|")));
+      for (const pair of [
+        "n|v", "l|v", "n|z", "m|z", "b|v", "d|v", "g|z", "b|s", "d|s",
+        "s|b", "s|d", "s|g", "z|p", "z|t", "z|k",
+      ]) {
+        expect(banned.has(pair), pair).toBe(false);
+      }
     });
 
     it("should auto-ban new non-velar onsets after /ŋ/ while allowing new velar onsets", () => {

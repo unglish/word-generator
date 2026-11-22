@@ -48,10 +48,16 @@
       "date": "2026-11-21",
       "minBigramCc": 0.001,
       "note": "Phase 2 restores measured lexicon affix frequencies. Five 200k streams (42/123/456/789/1337) give cc ratios 0.00513/0.00400/0.00628/0.00114/0.00399; the pattern-specific floor uses the 10% margin, rounded down. The common-bigram floor still applies to other patterns."
+    },
+    {
+      "date": "2026-11-21",
+      "minBigramTz": 0.0011,
+      "note": "#485 bans root /t.z/: 198 of 208 seed-42 baseline tz words came from that junction. Across five 200k samples (42/123/456/789/1337), the remaining tz ratios are 0.00124/0.00247/0.00185/0.00185/0.00185. Apply the 10% margin to the observed minimum and round down, retaining the common-bigram floor elsewhere."
     }
   ],
   "_comment": "Quality ratchet: after each tuning fix, re-run 5\u00d7 analysis (seeds 42/123/456/789/1337), update thresholds to new max + 10% margin (over-rep) or new min - 10% margin (under-rep), commit as part of fix PR.",
   "minBigramRepresentationByPattern": {
-    "cc": 0.001
+    "cc": 0.001,
+    "tz": 0.0011
   }
 }

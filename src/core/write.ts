@@ -47,10 +47,7 @@ import {
 } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographySource } from "./trace.js";
-import {
-  buildOrthographyTrace,
-  remapOwnersThroughRewrite,
-} from "./orthography-trace.js";
+import { buildOrthographyTrace } from "./orthography-trace.js";
 import type { TraceUnitSeed } from "./orthography-trace.js";
 export { rewriteOrthographyTraceSurface } from "./orthography-trace.js";
 import { validateJunction } from "./junction.js";
@@ -172,6 +169,7 @@ function applySpellingRules(
     regex.lastIndex = 0;
     const source = result;
     let delta = 0;
+    const editIds: number[] | undefined = trace ? [] : undefined;
     result = result.replace(regex, (match: string, ...args: unknown[]) => {
       const { captures, offset, groups } = parseReplaceCallbackArgs(args);
       if (letterRoles) {
@@ -212,13 +210,15 @@ function applySpellingRules(
             rep = rep.replace(`$${i + 1}`, String(args[i]));
         }
       }
-      if (rep !== match)
-        observe?.(offset + delta, match.length, rep, `spellingRule:${name}`);
+      if (rep !== match) {
+        const editId = observe?.(offset + delta, match.length, rep, `spellingRule:${name}`);
+        if (editId !== undefined) editIds?.push(editId);
+      }
       delta += rep.length - match.length;
       return rep;
     });
     if (trace && result !== source)
-      trace.recordRepair(`spellingRule:${name}`, source, result, scope);
+      trace.recordRepair(`spellingRule:${name}`, source, result, scope, undefined, editIds);
   }
   return result;
 }
@@ -369,8 +369,6 @@ function recordTerminalYCapOverflow(
 interface FinalVowelOverflow {
   /** Hyphenation parts to keep aligned and output, when protection kept letters over the cap. */
   syncParts?: string[];
-  /** The vowel's unit, when its protected terminal y is over the cap. */
-  terminalY?: TerminalVowelUnit;
 }
 
 function finalVowelOverflow(state: FinalVowelState): FinalVowelOverflow {
@@ -380,7 +378,6 @@ function finalVowelOverflow(state: FinalVowelState): FinalVowelOverflow {
     (state.partsOverflow || state.capOverflow);
   return {
     syncParts: state.partsOverflow || terminalY ? state.parts : undefined,
-    terminalY: terminalY ? state.unit : undefined,
   };
 }
 
@@ -1043,18 +1040,18 @@ function buildSilentECodaCheck(limit: SilentECodaLimit | undefined): SilentECoda
   };
 }
 
-/** Pre-compiled silent-e swap lookup: phoneme → [{from, to}] sorted longest-from-first. */
-type SilentELookup = Map<string, { from: string; to: string }[]>;
+/** Pre-compiled silent-e swaps keyed by phoneme and sorted longest-from-first. */
+type SilentELookup = Map<string, Omit<SilentEConfig["swaps"][number], "phoneme">[]>;
 
 function buildSilentELookup(config: SilentEConfig): SilentELookup {
-  const map = new Map<string, { from: string; to: string }[]>();
-  for (const swap of config.swaps) {
-    let list = map.get(swap.phoneme);
+  const map: SilentELookup = new Map();
+  for (const { phoneme, ...swap } of config.swaps) {
+    let list = map.get(phoneme);
     if (!list) {
       list = [];
-      map.set(swap.phoneme, list);
+      map.set(phoneme, list);
     }
-    list.push({ from: swap.from, to: swap.to });
+    list.push(swap);
   }
   for (const list of map.values()) {
     list.sort((a, b) => b.from.length - a.from.length);
@@ -1119,7 +1116,7 @@ export function applySilentE(
   const part = cleanParts[lastPartIdx];
 
   const fromIdx = part.lastIndexOf(swap.from);
-  if (fromIdx < 0) return;
+  if (fromIdx < 0 || swap.notAfterLetters?.includes(part[fromIdx - 1])) return;
 
   observe?.(lastPartIdx, fromIdx, swap.from.length, swap.to, "silentE:swap");
   // A coda spelling that already ends in e (ce, se, ge) supplies the marker: pace, not pacee.
@@ -1332,8 +1329,8 @@ export function createWrittenFormGenerator(
       context.trace,
       "word",
       (start, removed, replacement, rule) => {
-        observeWord(start, removed, replacement, rule);
         onWordEdit?.(start, removed, replacement);
+        return observeWord(start, removed, replacement, rule);
       },
     );
     return {
@@ -1732,8 +1729,6 @@ export function createWrittenFormGenerator(
     const { syllables, written } = context.word;
     const tracing = !!context.trace;
     const traceUnits: TraceUnitSeed[] = [];
-    let preRepairSurface = "";
-    let preRepairOwners: number[] = [];
     const flattenedPhonemes = syllables.flatMap((syllable, syllableIndex) =>
       (["onset", "nucleus", "coda"] as const).flatMap((position) =>
         syllable[position].map((phoneme, positionIndex) => ({
@@ -1773,6 +1768,7 @@ export function createWrittenFormGenerator(
       })),
       tracing,
       preservePhones,
+      context.trace && (edit => context.trace?.recordUnreportedSpellingEdit(edit)),
     );
     const boundaryContexts = preservePhones
       ? spellingBoundaryContexts(baseSpelling.current().phones)
@@ -1782,7 +1778,6 @@ export function createWrittenFormGenerator(
     const hyphenatedParts: string[] = [];
     const observeParts = baseSpelling.observeParts("word", cleanParts);
     let currentSyllable: string[] = [];
-    let currentSyllableOwners: number[] = [];
     const nucleusGraphemes: string[] = [];
     let prefix = INITIAL_GRAPHEME_PREFIX;
     let finalVowel = NO_FINAL_VOWEL;
@@ -1864,7 +1859,8 @@ export function createWrittenFormGenerator(
       if (
         currentSyllable.length > 0 &&
         form.length > 0 &&
-        currentSyllable[currentSyllable.length - 1].slice(-1) === form[0]
+        currentSyllable[currentSyllable.length - 1].slice(-1) === form[0] &&
+        baseSpelling.canDeduplicate(choiceStart)
       ) {
         baseSpelling.edit(
           "selection",
@@ -1926,11 +1922,6 @@ export function createWrittenFormGenerator(
           unit: { start: end - emitted.length, end, phonemeIndex },
         };
       }
-      if (tracing && emitted.length > 0) {
-        for (let ci = 0; ci < emitted.length; ci++) {
-          currentSyllableOwners.push(phonemeIndex);
-        }
-      }
       if (tracing) {
         traceUnits.push({
           id: phonemeIndex,
@@ -1962,23 +1953,16 @@ export function createWrittenFormGenerator(
           context.trace,
           `syllable:${syllableIndex}`,
           (start, removed, replacement, rule) => {
-            observeSyllable(start, removed, replacement, rule);
             editSyllableFinalVowel(finalVowel, start, removed, replacement);
+            return observeSyllable(start, removed, replacement, rule);
           },
           { base: baseSpelling, start: syllableStart },
         );
-        let syllableOwners = tracing
-          ? remapOwnersThroughRewrite(
-            rawSyllable,
-            currentSyllableOwners,
-            syllableStr,
-          )
-          : [];
-
         if (
           cleanParts.length > 0 &&
           syllableStr.length > 0 &&
-          cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0]
+          cleanParts[cleanParts.length - 1].slice(-1) === syllableStr[0] &&
+          baseSpelling.canDeduplicate(syllableStart)
         ) {
           baseSpelling.edit(
             "syllable",
@@ -1989,17 +1973,12 @@ export function createWrittenFormGenerator(
           );
           syllableStr = syllableStr.slice(1);
           editSyllableFinalVowel(finalVowel, 0, 1, "");
-          if (tracing) syllableOwners = syllableOwners.slice(1);
         }
 
         cleanParts.push(syllableStr);
         finalVowel = captureFinalVowel(finalVowel, syllableStr);
         hyphenatedParts.push(syllableStr);
         nucleusGraphemes.push(prefix.nucleusForm);
-        if (tracing) {
-          preRepairSurface += syllableStr;
-          preRepairOwners.push(...syllableOwners);
-        }
 
         if (nextEntry) {
           hyphenatedParts.push("&shy;");
@@ -2007,19 +1986,6 @@ export function createWrittenFormGenerator(
 
         currentSyllable = [];
         prefix = rollGraphemePrefixSyllable(prefix);
-        currentSyllableOwners = [];
-      }
-    }
-
-    if (tracing) {
-      const cleanSurface = cleanParts.join("");
-      if (preRepairSurface !== cleanSurface) {
-        preRepairOwners = remapOwnersThroughRewrite(
-          preRepairSurface,
-          preRepairOwners,
-          cleanSurface,
-        );
-        preRepairSurface = cleanSurface;
       }
     }
 
@@ -2091,30 +2057,12 @@ export function createWrittenFormGenerator(
       : writeLegacySpelling(word);
     const { clean: finalClean, overflow } = repaired;
 
-    if (tracing && context.trace) {
-      const finalOwners = remapOwnersThroughRewrite(
-        preRepairSurface,
-        preRepairOwners,
-        finalClean,
-      );
-      if (overflow.terminalY) {
-        const unitLength = overflow.terminalY.end - overflow.terminalY.start;
-        finalOwners.fill(
-          overflow.terminalY.phonemeIndex,
-          finalClean.length - unitLength,
-        );
-      }
-      context.trace.orthographyTrace = buildOrthographyTrace(
-        finalClean,
-        finalOwners,
-        traceUnits,
-        context.trace,
-        source,
-      );
-    }
-
     baseSpelling.assertSurface(finalClean);
-    if (context.trace) context.trace.baseSpelling = baseSpelling.snapshot();
+    if (context.trace) {
+      const snapshot = baseSpelling.snapshot();
+      context.trace.baseSpelling = snapshot;
+      context.trace.orthographyTrace = buildOrthographyTrace(snapshot, traceUnits, context.trace, source);
+    }
     written.clean = finalClean;
     written.hyphenated =
       repaired.respelledHyphenated ??

@@ -46,14 +46,14 @@ describe("letter-sequence slips (#474)", () => {
     expect(generateWord({ ...options, trace: false }).written.clean).toBe(word.written.clean);
   });
 
-  it("(b) writes /kw/ before a u-letter vowel as kw, not quu", () => {
-    // Search on the rule's own repair: a /k/ spelled "k" can give "kwu" without it.
+  it("(b) licenses qu for /kw/ before /u/ without doubling the u", () => {
     const { word, options } = findExample(
-      (w) => w.trace!.repairs.some((r) => r.rule === "spellingRule:cw-before-u-to-kw"),
-      { property: "a /kw/ before a u-letter vowel", ...ISSUE_SEARCH },
+      (w) => w.trace!.graphemeSelections.some((g, i, choices) =>
+        g.phoneme === "k" && choices[i + 1]?.phoneme === "w" && choices[i + 2]?.phoneme === "u"),
+      { property: "a /kwu/ sequence", ...ISSUE_SEARCH },
     );
-    expect(word.written.clean).toMatch(/kwu/);
-    expect(word.written.clean).not.toMatch(/quu/);
+    expect(word.written.clean).toMatch(/qu/);
+    expect(word.written.clean).not.toMatch(/kw|quu/);
     expect(generateWord({ ...options, trace: false }).written.clean).toBe(word.written.clean);
   });
 
@@ -92,5 +92,57 @@ describe("letter-sequence slips (#474)", () => {
       }
     }
     expect(qu).toBeGreaterThan(5);
+  });
+});
+
+describe("English grapheme licensing (#486)", () => {
+  it("avoids stray q, pb and initial readings of /ʃ/ or /u/ over a seeded sample", () => {
+    let codaKBeforeI = 0;
+    let rhoticAfterW = 0;
+    for (const word of generateWords(20_000, { seed: 20261121, trace: true })) {
+      const written = word.written.clean;
+      const choices = word.trace!.graphemeSelections;
+      expect(written).not.toMatch(/q(?!u)|pb|quu/);
+      expect(choices[0], written).not.toMatchObject({ phoneme: "u", selected: "ew" });
+      for (const [i, choice] of choices.entries()) {
+        if (choice.phoneme === "k" && choice.position === "coda" && choices[i + 1]?.phoneme === "ɪ") {
+          codaKBeforeI++;
+          expect(choice.candidates, written).not.toContain("q");
+        }
+        if (choice.phoneme === "ɚ" && choices[i - 1]?.phoneme === "w") {
+          rhoticAfterW++;
+          expect(choice.afterCondition, written).not.toContain("ur");
+          expect(choice.afterCondition, written).not.toContain("ure");
+        }
+        if (choice.phoneme !== "ʃ") continue;
+        if (choice.selected === "s") {
+          expect(i, written).toBe(0);
+          expect(choices[i + 1]?.phoneme, written).toBe("ʊ");
+        }
+        if (i === 0) expect(["ci", "si", "ti"], written).not.toContain(choice.selected);
+      }
+    }
+    expect(codaKBeforeI).toBeGreaterThan(0);
+    expect(rhoticAfterW).toBeGreaterThan(0);
+  });
+});
+
+describe("coda /ʃ/ spelling (#488)", () => {
+  it("licenses sh before consonants and never chooses coda ch", () => {
+    let shBeforeConsonant = 0;
+    for (const word of generateWords(20_000, { seed: 20261121, trace: true })) {
+      expect(word.written.clean).not.toMatch(/shs/);
+      const choices = word.trace!.graphemeSelections;
+      for (const [index, choice] of choices.entries()) {
+        if (choice.phoneme !== "ʃ" || choice.position !== "coda") continue;
+        expect(choice.selected).not.toBe("ch");
+        const next = choices[index + 1];
+        if (next && next.position !== "nucleus") {
+          expect(choice.afterCondition).toContain("sh");
+          if (choice.selected === "sh") shBeforeConsonant++;
+        }
+      }
+    }
+    expect(shBeforeConsonant).toBeGreaterThan(0);
   });
 });

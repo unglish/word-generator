@@ -1,5 +1,5 @@
 import type { SpellingBudgetOutcome } from "./spelling-coverage-types.js";
-import type { BaseSpellingTrace } from "./base-spelling.js";
+import type { BaseSpellingTrace, SpellingEdit } from "./base-spelling.js";
 import type { Syllable, SyllableShapePlan } from "../types.js";
 import type { AcceptanceCriteria, AttemptScore } from "./length-semantics.js";
 import type { MorphologyRealizationTrace } from "./morphology/realization.js";
@@ -152,6 +152,8 @@ export interface RepairTrace {
   /** Optional detail (e.g. which phoneme was dropped, why). */
   detail?: string;
   nucleusReplacement?: NucleusReplacementTrace;
+  /** IDs of the base-spelling edits summarized by this repair. */
+  spellingEditIds?: number[];
 }
 
 export interface MorphologyTrace {
@@ -354,6 +356,8 @@ export interface OrthographyUnitTrace {
   present: boolean;
   start: number | null;
   end: number | null;
+  /** Edit that removed the unit's last displayed letter in the inferred projection. */
+  deletedBy?: { editId: number; rule: string };
   links?: TraceLink[];
 }
 
@@ -484,7 +488,10 @@ export class TraceCollector {
     this.structural.push(entry);
   }
 
-  recordRepair(rule: string, before: string, after: string, detail?: string, nucleusReplacement?: NucleusReplacementTrace): void {
+  recordRepair(
+    rule: string, before: string, after: string, detail?: string,
+    nucleusReplacement?: NucleusReplacementTrace, spellingEditIds?: number[],
+  ): void {
     if (before !== after) {
       const repair: RepairTrace = { rule, before, after, detail };
       if (nucleusReplacement) {
@@ -492,7 +499,19 @@ export class TraceCollector {
           ...nucleusReplacement, coda: [...nucleusReplacement.coda], edges: { ...nucleusReplacement.edges },
         };
       }
+      if (spellingEditIds?.length) repair.spellingEditIds = spellingEditIds;
       this.repairs.push(repair);
+    }
+  }
+
+  recordUnreportedSpellingEdit(edit: SpellingEdit): void {
+    const { rule, id, phase, before, after } = edit;
+    if (
+      rule.startsWith("silentE:") || rule.startsWith("orthographicRepair:") ||
+      rule === "spellingBudget:respell" || rule === "deduplicateSyllableJoin" ||
+      rule === "deduplicateAdjacentLetters"
+    ) {
+      this.recordRepair(rule, before, after, phase, undefined, [id]);
     }
   }
 

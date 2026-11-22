@@ -1,3 +1,4 @@
+import type { BaseSpellingTrace, SpellingEdit } from "./base-spelling.js";
 import type {
   TraceCollector,
   OrthographySource,
@@ -140,6 +141,7 @@ function buildLinksForUnit(
   unit: TraceUnitSeed,
   trace: TraceCollector,
   source?: OrthographySource,
+  removal?: SpellingEdit,
 ): TraceLink[] {
   const links: TraceLink[] = [
     {
@@ -162,6 +164,7 @@ function buildLinksForUnit(
   for (let i = 0; i < trace.repairs.length; i++) {
     const r = trace.repairs[i];
     if (
+      (removal && r.spellingEditIds?.includes(removal.id)) ||
       repNeedles.some(
         (n) => hasTokenLike(r.before, n) || hasTokenLike(r.after, n),
       )
@@ -257,13 +260,39 @@ function structuralEventReferencesUnit(
   }
 }
 
+/**
+ * Project compatibility owners through each actual edit span. Matching against
+ * the whole word can move ownership onto unrelated letters of the same form.
+ * Joint rewrite ancestry remains in baseSpelling; this view still picks one owner.
+ */
+function projectOwners(base: BaseSpellingTrace): {
+  owners: number[];
+  removals: Map<number, SpellingEdit>;
+} {
+  const owners = base.units.flatMap(unit => unit.sourceCellIds.map(() => unit.id));
+  const removals = new Map<number, SpellingEdit>();
+  for (const edit of base.edits) {
+    const removed = owners.slice(edit.start, edit.start + edit.input.length);
+    const inserted = removed.length
+      ? remapOwnersThroughRewrite(edit.before, removed, edit.after)
+      : edit.output.map(() => owners[edit.start - 1] ?? owners[edit.start] ?? -1);
+    owners.splice(edit.start, removed.length, ...edit.output.map((cell, index) =>
+      cell.origin.kind === "licensed" ? cell.origin.unitId : inserted[index]));
+    for (const owner of removed) {
+      if (owner >= 0 && !owners.includes(owner)) removals.set(owner, edit);
+    }
+  }
+  return { owners, removals };
+}
+
 export function buildOrthographyTrace(
-  surface: string,
-  finalOwners: number[],
+  base: BaseSpellingTrace,
   units: TraceUnitSeed[],
   trace: TraceCollector,
   source?: OrthographySource,
 ): OrthographyTrace {
+  const { surface } = base;
+  const { owners: finalOwners, removals } = projectOwners(base);
   const unitById = new Map<number, TraceUnitSeed>(units.map((u) => [u.id, u]));
   const spans = new Map<number, { start: number; end: number }>();
   for (let i = 0; i < finalOwners.length; i++) {
@@ -290,6 +319,7 @@ export function buildOrthographyTrace(
 
   const toUnitTrace = (unit: TraceUnitSeed): OrthographyUnitTrace => {
     const span = spans.get(unit.id);
+    const removedBy = removals.get(unit.id);
     return {
       id: unit.id,
       graphemeSelectionIndex: unit.graphemeSelectionIndex,
@@ -301,7 +331,8 @@ export function buildOrthographyTrace(
       present: !!span,
       start: span ? span.start : null,
       end: span ? span.end : null,
-      links: buildLinksForUnit(unit, trace, source),
+      ...(!span && removedBy ? { deletedBy: { editId: removedBy.id, rule: removedBy.rule } } : {}),
+      links: buildLinksForUnit(unit, trace, source, removedBy),
     };
   };
 
@@ -318,6 +349,7 @@ export function buildOrthographyTrace(
 export function rewriteOrthographyTraceSurface(
   trace: TraceCollector,
   surface: string,
+  edit?: SpellingEdit,
 ): void {
   const orthography = trace.orthographyTrace;
   if (!orthography) return;
@@ -355,10 +387,19 @@ export function rewriteOrthographyTraceSurface(
       graphemeSelectionIndex: unit?.graphemeSelectionIndex ?? -1,
     };
   });
+  const repairIndex = edit ? trace.repairs.findIndex(repair =>
+    repair.spellingEditIds?.includes(edit.id)) : -1;
   orthography.graphemeUnits = orthography.graphemeUnits.map((unit) => {
     const span = spans.get(unit.id);
+    const newlyAbsent = edit && unit.present && !span;
     return {
       ...unit,
+      ...(newlyAbsent ? {
+        deletedBy: { editId: edit.id, rule: edit.rule },
+        ...(repairIndex >= 0 ? {
+          links: [...unit.links ?? [], { kind: "repair", index: repairIndex, label: edit.rule }],
+        } : {}),
+      } : {}),
       present: !!span,
       start: span ? span.start : null,
       end: span ? span.end : null,

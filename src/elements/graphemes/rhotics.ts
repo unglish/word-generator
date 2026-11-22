@@ -46,6 +46,7 @@ export const rhoticGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 30,
     endWord: 80,
+    condition: { notLeftContext: ["w"] },
   },
   {
     phoneme: "ɚ",
@@ -97,5 +98,6 @@ export const rhoticGraphemes: Grapheme[] = [
     startWord: 0,
     midWord: 10,
     endWord: 80,
+    condition: { notLeftContext: ["w"] },
   }
 ];

@@ -61,8 +61,8 @@ const readings: Record<string, Record<string, GraphemeReading>> = {
   "θ": { th: single },
   "ð": { th: single },
   "s": { s: single, c: soft, sc: soft, ps: lexical, st: lexical, ce: marker, se: marker },
-  "z": { z: single, s: single, x: single, ze: marker },
-  "ʃ": { sh: single, ti: coalescence, ci: coalescence, ch: lexical, s: lexical, si: coalescence,
+  "z": { z: single, s: single, ze: marker },
+  "ʃ": { sh: single, ti: coalescence, ci: coalescence, s: lexical, si: coalescence,
     ce: coalescence, ssi: coalescence, sc: lexical, sch: lexical },
   "ʒ": { s: lexical, si: coalescence, z: lexical, g: lexical, ge: lexical },
   "h": { h: single, wh: lexical },
@@ -71,11 +71,10 @@ const readings: Record<string, Record<string, GraphemeReading>> = {
   // and is never available as a split marker for a different vowel unit.
   "dʒ": { g: soft, j: single, ge: marker, dge: single, di: coalescence },
   "p": { p: single },
-  "b": { b: single, pb: lexical },
+  "b": { b: single },
   "t": { t: single, th: lexical, bt: lexical, ed: suffix },
   "d": { d: single, ed: suffix },
-  "k": { k: single, c: hard, ck: single, ch: lexical, lk: lexical,
-    q: unsupported("Requires lexical identity or a joint qu construction; neither is represented.") },
+  "k": { k: single, c: hard, ck: single, ch: lexical, lk: lexical },
   "g": { g: hard, gh: lexical, gu: { kind: "following-letter", require: ["e", "i"] }, gue: lexical },
 };
 

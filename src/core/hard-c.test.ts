@@ -325,21 +325,31 @@ describe("root-final /k/ (#469)", () => {
 
   it("leaves no root-final c outside -ic/-ac, no rck and no consonant + x over a seeded sample", () => {
     let icAc = 0;
-    let xs = 0;
     let respelled = 0;
     for (const word of generateWords(4_000, { seed: 4690, trace: true })) {
       const cs = writtenCs(word);
       expect(cs.filter(isUnEnglishFinalC), word.written.clean).toEqual([]);
       expect(word.written.clean).not.toMatch(/rck/);
       expect(ksToXContexts(word).filter((c) => !isEnglishXContext(c)), word.written.clean).toEqual([]);
-      xs += ksToXContexts(word).length;
       respelled += respelledFor(word, "root-final").length;
       if (/[^aeiouy][ia]cs?$/.test(word.written.clean)) icAc++;
     }
     // About 2% of words ended in such a c before the fix.
     expect(respelled).toBeGreaterThan(40);
     expect(icAc).toBeGreaterThan(3);
-    // ks-to-x still writes x where English does (box, necks → nex).
-    expect(xs).toBeGreaterThan(2);
+  });
+
+  it("still writes x for /ks/ after both vowel letters and n", () => {
+    const cases = [
+      { ending: /[aeiouy]c?$/, written: /[aeiouy]x/ },
+      { ending: /n$/, written: /nx/ },
+    ];
+    for (const { ending, written } of cases) {
+      const { word } = findExample(
+        w => ksToXContexts(w).some(context => ending.test(context)),
+        { property: `a licensed ks-to-x after ${ending}`, ...finalSearch },
+      );
+      expect(word.written.clean).toMatch(written);
+    }
   });
 });

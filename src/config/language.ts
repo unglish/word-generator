@@ -561,6 +561,8 @@ export interface SilentESwap {
   from: string;
   /** The "short" replacement form (e.g. "a", "e", "i"). */
   to: string;
+  /** Written letters that block the swap when immediately before the nucleus. */
+  notAfterLetters?: string[];
 }
 
 /**

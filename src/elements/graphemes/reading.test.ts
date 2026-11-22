@@ -27,7 +27,7 @@ describe("English grapheme reading obligations", () => {
         expect(grapheme.reading.reason.length).toBeGreaterThan(0);
       }
     }
-    // #470: bare /u/ u and /aɪ/ i read open, /u/ oo after g is a single phone;
+    // #470: bare /u/ u and /aɪ/ i read open, /u/ oo after g or w is a single phone;
     // then /i:/ ee and /ʊ/ oo.
     expect(graphemes.filter(g => g.fallbackOnly).map(g => g.reading)).toEqual([
       { kind: "open-vowel-or-split-marker" }, { kind: "single-phone" }, { kind: "open-vowel-or-split-marker" },
@@ -87,7 +87,7 @@ describe("English grapheme reading obligations", () => {
     ["s", "ce"], ["s", "se"], ["dʒ", "ge"], ["z", "ze"], ["v", "ve"],
     ["ʒ", "g"], ["ʒ", "ge"], ["ʃ", "ci"], ["ʃ", "sc"], ["k", "ch"],
     ["ɜ", "e"], ["ɜ", "ai"], ["ɪ", "ui"], ["i:", "eo"], ["aɪ", "is"],
-    ["t", "ed"], ["d", "ed"], ["k", "q"], ["v", "ph"], ["t", "th"],
+    ["t", "ed"], ["d", "ed"], ["v", "ph"], ["t", "th"],
   ])("does not certify an unrepresented construction /%s/ -> %s", (phoneme, form) => {
     expect(reading(phoneme, form)?.kind).toBe("unsupported-construction");
   });

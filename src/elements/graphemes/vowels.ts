@@ -355,7 +355,7 @@ export const vowelGraphemes: Grapheme[] = [
     isolatedSyllableWeight: 3,
     // Closed "u" reads /ʌ/ (nelyungees, #470) except before /dʒ/, whose "ge"
     // supplies the split marker (huge).
-    condition: { notLeftContext: ["g"], openReading: openReading(["dʒ"]) },
+    condition: { notLeftContext: ["g", "w"], openReading: openReading(["dʒ"]) },
   },
   // Closed first syllables (#470): bare "u" reads /ʌ/ there (nelyungees),
   // and "oo" is otherwise 0, leaving only "ew" (booster, foolish, scooter).
@@ -384,9 +384,9 @@ export const vowelGraphemes: Grapheme[] = [
     endWord: 2,
     isolatedSyllableWeight: 3,
     fallbackOnly: true,
-    condition: { notLeftContext: ["g"] },
+    condition: { notLeftContext: ["g", "w"] },
   },
-  // After /g/ the bare letter reads /gw/ or /ʌ/ (guk), so the fallback there is oo.
+  // Use oo when the bare letter is blocked after /g/ or /w/.
   {
     phoneme: "u",
     form: "oo",
@@ -396,7 +396,7 @@ export const vowelGraphemes: Grapheme[] = [
     endWord: 1,
     isolatedSyllableWeight: 1,
     fallbackOnly: true,
-    condition: { leftContext: ["g"] },
+    condition: { leftContext: ["g", "w"] },
   },
   // Open syllables (incl. open monos): comparator "ue" is open-only.
   {
@@ -407,7 +407,7 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 5,
     endWord: 50,
     isolatedSyllableWeight: 3,
-    condition: { syllableShape: { coda: "empty" } },
+    condition: { notLeftContext: ["w"], syllableShape: { coda: "empty" } },
   },
   // Closed polysyllable positions — not licensed on monos (iso 0). Only
   // where magic-e splits it, as for /aɪ/ ie (#470): one coda consonant that is
@@ -423,7 +423,7 @@ export const vowelGraphemes: Grapheme[] = [
     endWord: 50,
     isolatedSyllableWeight: 0,
     // Not before /g/: the split "uge" reads /udʒ/ (leguce).
-    condition: { syllableShape: { coda: 1 }, notRightContext: [...DIGRAPH_CONSONANTS, "g"] },
+    condition: { notLeftContext: ["w"], syllableShape: { coda: 1 }, notRightContext: [...DIGRAPH_CONSONANTS, "g"] },
   },
   {
     phoneme: "u",
@@ -433,7 +433,7 @@ export const vowelGraphemes: Grapheme[] = [
     midWord: 4,
     endWord: 20,
     isolatedSyllableWeight: 3,
-    condition: { syllableShape: { coda: "empty" } },
+    condition: { syllableShape: { onset: "nonEmpty", coda: "empty" } },
   },
   // Closed polysyllable "ew" (newt, lewd, hewn, pewter). Since #470 bare "u"
   // no longer covers closed syllables, so keep ew to the shape English gives
@@ -458,6 +458,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 1,
     midWord: 1,
     endWord: 0,
+    condition: { notLeftContext: ["w"] },
   },
   // son, come, love, money, month, front, other, mother
   {
@@ -520,6 +521,7 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 5, 
     midWord: 10, 
     endWord: 0,
+    condition: { notLeftContext: ["w"] },
   },
   { 
     phoneme: "ə", 

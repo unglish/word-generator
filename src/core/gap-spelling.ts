@@ -89,10 +89,11 @@ export function createGapSpellingApplicator(
     if (!selected) return;
 
     const before = context.word.written.clean;
+    let editId: number | undefined;
     if (baseSpelling) {
       baseSpelling.assertSurface(before);
       baseSpelling.markGapSpelling();
-      baseSpelling.edit(
+      editId = baseSpelling.edit(
         "gap",
         0,
         before.length,
@@ -108,9 +109,12 @@ export function createGapSpellingApplicator(
       before,
       selected.replacement,
       `targetLayer:${selected.targetLayer}`,
+      undefined,
+      editId === undefined ? undefined : [editId],
     );
     if (context.trace?.orthographyTrace) {
-      rewriteOrthographyTraceSurface(context.trace, selected.replacement);
+      const edit = editId === undefined ? undefined : context.trace.baseSpelling?.edits[editId];
+      rewriteOrthographyTraceSurface(context.trace, selected.replacement, edit);
     }
   };
 }

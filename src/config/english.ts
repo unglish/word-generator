@@ -77,6 +77,9 @@ import {
 import { graphemes, graphemeMaps } from "../elements/graphemes/index.js";
 import { HELD_CODAS } from "../elements/graphemes/open-reading.js";
 
+const OBSTRUENT_MANNERS: NonNullable<BoundaryClusterConstraintRule["coda"]["manner"]> =
+  ["stop", "fricative", "sibilant", "affricate"];
+
 /** Rule-based cross-syllable constraints for English coda→onset boundaries. */
 const ENGLISH_BOUNDARY_CLUSTER_RULES: BoundaryClusterConstraintRule[] = [
   // /ŋ/ may only be followed by velars (e.g. /k/, /g/ in current inventory).
@@ -93,10 +96,31 @@ const ENGLISH_BOUNDARY_CLUSTER_RULES: BoundaryClusterConstraintRule[] = [
 
   // Rare/impossible across a syllable join in English; spelling dedup then
   // hides them by erasing a letter that belonged to a different sound (#418):
-  // /z.ʃ/ (`s`+`sh`→`sh`), /ʃ.h/ (`sh`+`h`→`sh`), /k.tʃ/ (`k`+`ch`→`ch`).
-  { mode: "ban", coda: { sounds: ["z"] }, onset: { sounds: ["ʃ"] } },
+  // /ʃ.h/ (`sh`+`h`→`sh`) and /k.tʃ/ (`k`+`ch`→`ch`).
   { mode: "ban", coda: { sounds: ["ʃ"] }, onset: { sounds: ["h"] } },
   { mode: "ban", coda: { sounds: ["k"] }, onset: { sounds: ["tʃ"] } },
+
+  { mode: "ban", coda: {}, onset: { sounds: ["ʒ", "ð"] } },
+  {
+    mode: "ban",
+    coda: { manner: OBSTRUENT_MANNERS, voiced: false },
+    onset: { manner: OBSTRUENT_MANNERS, voiced: true },
+    except: [["s", "b"], ["s", "d"], ["s", "g"]],
+  },
+  {
+    mode: "ban",
+    coda: { manner: OBSTRUENT_MANNERS, voiced: true },
+    onset: { sounds: ["p", "t", "k", "f", "θ", "s", "ʃ", "tʃ"] },
+    // /z/ before a voiceless stop can still be written as sp, st, or sk.
+    except: [["b", "s"], ["d", "s"], ["z", "p"], ["z", "t"], ["z", "k"]],
+  },
+  {
+    mode: "ban",
+    coda: { sounds: ["g", "z", "v", "ð", "ʒ", "dʒ"] },
+    onset: { sounds: ["v", "z", "dʒ"] },
+    except: [["g", "z"]],
+  },
+  { mode: "ban", coda: { sounds: ["m"] }, onset: { sounds: ["v", "dʒ"] } },
 ];
 
 /**
@@ -325,10 +349,11 @@ export const englishConfig: LanguageConfig = {
       { phoneme: "əʊ", from: "oe", to: "o" },
       // /uː/ — "u" + e (rude, tube); also digraph swaps
       { phoneme: "u", from: "u", to: "u" },
-      { phoneme: "u", from: "oo", to: "u" },
+      // Behind w, keep the digraph so cw can become qu without producing quu.
+      { phoneme: "u", from: "oo", to: "u", notAfterLetters: ["w"] },
       { phoneme: "u", from: "ue", to: "u" },
       // Open-only mono "ew" → silent-e when split share is short.
-      { phoneme: "u", from: "ew", to: "u" },
+      { phoneme: "u", from: "ew", to: "u", notAfterLetters: ["w"] },
     ],
     excludedCodas: ["w", "j", "h"],
     appendAfter: [
@@ -521,14 +546,21 @@ export const englishConfig: LanguageConfig = {
     },
     {
       name: "cst-to-xt",
-      pattern: "cs(?=t)",
+      pattern: "(?<=[aeiouy])cs(?=t)",
       replacement: "x",
       probability: 100,
       scope: "word",
     },
     {
+      name: "cst-to-kst",
+      pattern: "(?<![aeiouy])cs(?=t)",
+      replacement: "ks",
+      probability: 100,
+      scope: "word",
+    },
+    {
       name: "gz-to-x",
-      pattern: "gz(?=[aeiouy])",
+      pattern: "(?<=[aeiouy])gz(?=[aeiouy])",
       replacement: "x",
       probability: 85,
       scope: "word",
@@ -585,8 +617,9 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
+      // Leave vowel digraphs such as ee and ie intact.
       name: "eng-to-ing",
-      pattern: "eng(?=s?$)",
+      pattern: "(?<![aeiouy])eng(?=s?$)",
       replacement: "ing",
       probability: 95,
       scope: "word",
@@ -606,22 +639,8 @@ export const englishConfig: LanguageConfig = {
       scope: "word",
     },
     {
-      name: "iy-to-y",
-      pattern: "iy",
-      replacement: "y",
-      probability: 100,
-      scope: "word",
-    },
-    {
       name: "uw-to-w",
       pattern: "uw",
-      replacement: "w",
-      probability: 100,
-      scope: "word",
-    },
-    {
-      name: "iw-to-w",
-      pattern: "iw",
       replacement: "w",
       probability: 100,
       scope: "word",
