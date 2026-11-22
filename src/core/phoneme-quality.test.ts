@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { lexiconReference } from "../config/lexicon-reference.js";
 import { generateWords } from "./generate.js";
 import { computePhonemeQualityMetrics } from "./phoneme-quality.js";
 import { countNormalizedPhonemes, PhonemeNormalization } from "./phoneme-normalization.js";
@@ -37,20 +38,12 @@ function loadNormalization(repoRoot: string): PhonemeNormalization {
   return extractJsConst<PhonemeNormalization>(demoBaselines, "phonemeNormalization");
 }
 
-function loadBaselineCounts(repoRoot: string): Record<string, number> {
-  const path = join(repoRoot, "data", "cmu", "cmu-lexicon-phonemes.json");
-  if (existsSync(path)) return loadJson<Record<string, number>>(path);
-  const demoBaselines = readFileSync(join(repoRoot, "demo", "cmuBaselines.js"), "utf8");
-  // Percentages are fine here because metric code re-normalizes to percentages.
-  return extractJsConst<Record<string, number>>(demoBaselines, "cmuPhonemes");
-}
-
 describe("Phoneme quality gates", () => {
-  it("meets phoneme distribution guardrails", async () => {
+  it("meets phoneme distribution guardrails against the weighted root population", async () => {
     const repoRoot = join(__dirname, "..", "..");
     const thresholds = loadJson<PhonemeThresholds>(join(repoRoot, "src", "config", "phoneme-thresholds.json"));
     const normalization = loadNormalization(repoRoot);
-    const baselineCounts = loadBaselineCounts(repoRoot);
+    const baselineCounts = lexiconReference.root.phones;
 
     const words = generateWords(thresholds.sampleSize, {
       seed: thresholds.seed,
@@ -71,7 +64,7 @@ describe("Phoneme quality gates", () => {
     const worstUnder = metrics.topUnderRepresented[0];
     const worstGap = metrics.topAbsoluteGap[0];
 
-    console.log(`Total variation from CMU: ${metrics.totalVariationPct.toFixed(3)}% (threshold: ${thresholds.maxTotalVariationPct}%)`);
+    console.log(`Total variation from the CMU root population: ${metrics.totalVariationPct.toFixed(3)}% (threshold: ${thresholds.maxTotalVariationPct}%)`);
     console.log(`Shared phoneme Pearson r: ${metrics.sharedPearsonR.toFixed(5)} (report-only)`);
     console.log(`Non-CMU generated mass: ${metrics.nonCmuMassPct.toFixed(4)}% (threshold: ${thresholds.maxGeneratedOnlyMassPct}%)`);
     if (worstOver) console.log(`Worst over-rep: ${worstOver.phoneme} at ${worstOver.ratio.toFixed(3)}x (threshold: ${thresholds.maxOverRepresentation}x)`);

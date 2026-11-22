@@ -1,3 +1,4 @@
+import { lexiconReference } from "./lexicon-reference.js";
 import { englishDoublingRealizations } from "../elements/graphemes/doubling.js";
 import { Affix, BoundaryClusterConstraintRule, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets } from "./language.js";
 
@@ -774,7 +775,7 @@ export const englishConfig: LanguageConfig = {
       { type: "prefix", written: "in", phonemes: ["ɪ", "n"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["n"] }], syllableCount: 1, stressEffect: "secondary", frequency: 50, allomorphs: [{ phonologicalCondition: { position: "following", place: ["bilabial"] }, phonemes: ["ɪ", "m"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["m"] }], syllableCount: 1, written: "im" }] },
     ] satisfies Affix[],
     suffixes: [
-      // Frequencies calibrated to CMU dictionary word rates (÷ 0.65 morph fire rate × 884 pool)
+      // Base frequencies are used in text mode. Lexicon counts come from the root ledger.
       // y→i applies to every suffix that does not begin with `i` (#458).
       // i-initial suffixes (`-ing`, `-ist`, `-ism`, `-ive`, `-ity`, `-ize`, `-ian`, `-ial`) keep final y.
       { type: "suffix", written: "ing", phonemes: ["ɪ", "ŋ"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["ŋ"] }], syllableCount: 1, stressEffect: "none", frequency: 40, boundaryTransforms: BT_E_DOUBLE },
@@ -856,8 +857,17 @@ export const englishConfig: LanguageConfig = {
     ] satisfies Affix[],
     templateWeights: {
       text: { bare: 55, suffixed: 30, prefixed: 10, both: 5 },
-      lexicon: { bare: 30, suffixed: 48, prefixed: 14, both: 8 },
+      lexicon: lexiconReference.templates,
+      lexiconCalibration: {
+        byRootSyllables: lexiconReference.templatesByRootSyllables,
+        affixes: lexiconReference.affixes,
+      },
     },
+  },
+
+  lexiconFinalCodas: {
+    weights: lexiconReference.root.codas,
+    lengthsByRootShape: lexiconReference.codaLengthsByShape,
   },
 
   clusterWeights: {
@@ -871,6 +881,7 @@ export const englishConfig: LanguageConfig = {
       "d,r": 0.38,
     },
     coda: {
+      // Legacy final multipliers for text mode. Lexicon samples complete codas.
       final: {
         "t,s": 0.12,      // Relaxed from near-zero to recover under-represented codas
         "t,z": 0.12,

@@ -16,6 +16,7 @@ function fixedShape(nuclei: Phoneme[], onset: number, coda: number, syllables = 
   const singleton = (length: number): [number, number][] => [[length, 1]];
   return {
     ...englishConfig,
+    lexiconFinalCodas: undefined,
     phonemes,
     phonemeMaps: { ...englishConfig.phonemeMaps, nucleus: new Map(nuclei.map(p => [p.sound, [p]])) },
     gapSpellings: [],

@@ -33,6 +33,7 @@ function extensionGenerator(fixture: Fixture) {
   const emptyOnset: [number, number][] = [[0, 1]];
   const config: LanguageConfig = {
     ...englishConfig,
+    lexiconFinalCodas: undefined,
     phonemes: [...englishConfig.phonemes, ...codaPhonemes],
     phonemeMaps: {
       ...englishConfig.phonemeMaps,
@@ -65,6 +66,13 @@ function extensionGenerator(fixture: Fixture) {
         ...englishConfig.generationWeights.probability,
         finalS: fixture.finalS ?? 0,
         nasalStopExtension: fixture.nasalStopExtension ?? 0,
+      },
+    },
+    morphology: {
+      ...englishConfig.morphology!,
+      templateWeights: {
+        text: englishConfig.morphology!.templateWeights.text,
+        lexicon: englishConfig.morphology!.templateWeights.text,
       },
     },
     clusterWeights: fixture.clusterWeights ? { coda: fixture.clusterWeights } : undefined,
@@ -258,7 +266,7 @@ describe("coda extensions preserve configured legality", () => {
   });
 
   it("produces no adjacent duplicate coda phones in a 20,000-word bare stream", { timeout: 30_000 }, () => {
-    const words = generateWords(20_000, { seed: 20260926, morphology: false, trace: true });
+    const words = generateWords(20_000, { seed: 20260926, mode: "text", morphology: false, trace: true });
     let extensions = 0;
     let rejectedRepeats = 0;
     for (const word of words) {

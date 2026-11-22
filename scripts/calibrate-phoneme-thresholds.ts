@@ -18,6 +18,7 @@ import { cpus } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
+import { lexiconReference } from "../src/config/lexicon-reference.js";
 import { generateWord } from "../src/core/generate.js";
 import { countNormalizedPhonemes, type PhonemeNormalization } from "../src/core/phoneme-normalization.js";
 import { computePhonemeQualityMetrics } from "../src/core/phoneme-quality.js";
@@ -44,7 +45,7 @@ function loadJson<T>(path: string): T {
 
 function measureSeed(seed: number, thresholds: Thresholds): SeedResult {
   const normalization = loadJson<PhonemeNormalization>(join(REPO_ROOT, "data", "cmu", "phoneme-normalization.json"));
-  const baselineCounts = loadJson<Record<string, number>>(join(REPO_ROOT, "data", "cmu", "cmu-lexicon-phonemes.json"));
+  const baselineCounts = lexiconReference.root.phones;
   const stream = createSeededRng(seed);
   let draws = 0;
   const rand = () => {

@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll } from "vitest";
 import { createGenerator, generateWord, generateWords } from "./generate";
 import { createSeededRng } from "../utils/random";
 import { englishConfig } from "../config/english";
+import { lexiconReference } from "../config/lexicon-reference";
 
 function countWordPhonemes(word: ReturnType<typeof generateWords>[number]): number {
   let total = 0;
@@ -207,11 +208,15 @@ describe("top-down phoneme targeting", () => {
     expect(() => createGenerator(badConfig as typeof englishConfig)).toThrow("phonemeLengthWeights.text is required");
   });
 
-  it("keeps lexicon 6-phoneme bucket near CMU target in a sample", () => {
-    const sixPct = ((phonemeLengthCounts.get(6) ?? 0) / SAMPLE_SIZE) * 100;
-    // CMU target is 20.39%. Allow a tight sampling window.
-    expect(sixPct).toBeGreaterThan(18.5);
-    expect(sixPct).toBeLessThan(22.0);
+  it("keeps automatic bare-root lengths near the measured root population", () => {
+    const total = lexiconReference.phonemeLengths.reduce((sum, [, count]) => sum + count, 0);
+    for (const [length, count] of lexiconReference.phonemeLengths) {
+      const expected = count / total;
+      const observed = (phonemeLengthCounts.get(length) ?? 0) / SAMPLE_SIZE;
+      // Four binomial standard errors, plus half a point for length fallback.
+      const tolerance = 4 * Math.sqrt(expected * (1 - expected) / SAMPLE_SIZE) + 0.005;
+      expect(Math.abs(observed - expected), `${length}-phoneme root share`).toBeLessThan(tolerance);
+    }
   }, 15_000);
 });
 

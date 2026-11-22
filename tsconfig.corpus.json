@@ -1,4 +1,5 @@
 {
   "extends": "./tsconfig.review.json",
+  "compilerOptions": { "resolveJsonModule": true },
   "include": ["evaluation/corpus/**/*.ts", "evaluation/review/cmu-joint.test.ts"]
 }
