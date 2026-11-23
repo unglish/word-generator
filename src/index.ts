@@ -24,6 +24,7 @@ export type {
   AspirationRules,
   PronunciationConfig,
   GenerationWeights,
+  RootRepetitionPolicy,
   PhonemeLengthWeights,
   PhonemeToSyllableWeights,
   HardLetterRespelling,

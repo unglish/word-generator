@@ -92,6 +92,7 @@ import {
 } from "./trace.js";
 import { codaShapeRejection } from "./coda-shape.js";
 import { isStop } from "../utils/phonemes.js";
+import { weightMatchingCoda } from "./root-repetition.js";
 
 // ---------------------------------------------------------------------------
 // Runtime: pre-computed data derived from a LanguageConfig
@@ -122,6 +123,7 @@ interface GeneratorRuntime {
   bannedCodaSet?: Set<string>;
   nucleusRepair: NucleusRepairPolicy;
   rootLengthPolicy: RootLengthPolicy;
+  preservedCodaInitials?: ReadonlySet<string>;
   clusterLimits?: ClusterLimits;
   sonorityConstraints?: SonorityConstraints;
   codaAppendantSet?: Set<string>;
@@ -304,6 +306,9 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
       maxOnsetLength: cl?.maxOnset ?? config.syllableStructure.maxOnsetLength,
       maxCodaLength: cl?.maxCoda ?? config.syllableStructure.maxCodaLength,
     },
+    preservedCodaInitials: config.rootRepetition?.preserveCodaInitials
+      ? new Set(config.rootRepetition.preserveCodaInitials)
+      : undefined,
     clusterLimits: cl,
     sonorityConstraints: sc,
     codaAppendantSet: cl?.codaAppendants
@@ -679,6 +684,8 @@ function selectPhoneme(
   rt?: GeneratorRuntime,
 ): Phoneme | null {
   const { position, isStartOfWord, isEndOfWord, rand, clusterSounds } = context;
+  const repetition = clusterSounds.length === 0 ? context.repetitionPenalty : undefined;
+  const repeatedNucleus = position === "nucleus" ? repetition : undefined;
 
   let weightMap: Map<string, number> | undefined;
   if (
@@ -737,10 +744,17 @@ function selectPhoneme(
       baseWeight *= glideMultiplier;
     }
 
+    if (p.sound === repeatedNucleus?.sound) {
+      baseWeight *= repeatedNucleus.multiplier;
+    }
+
     weightedCandidates[i] = [p, baseWeight];
   }
 
-  return getWeightedOption(weightedCandidates, rand);
+  const options = position === "coda" && repetition
+    ? weightMatchingCoda(weightedCandidates, (phoneme) => phoneme.sound, repetition, rt?.preservedCodaInitials)
+    : weightedCandidates;
+  return getWeightedOption(options, rand);
 }
 
 function shouldStopClusterGrowth(
@@ -837,6 +851,33 @@ function pickOnset(
   });
 }
 
+function tripleNucleusPenalty(
+  context: WordGenerationContext,
+): ClusterContext["repetitionPenalty"] {
+  const policy = context.rootRepetition;
+  const multiplier = policy?.tripleNucleusMultiplier;
+  if (multiplier === undefined || multiplier === 1 || context.currSyllableIndex < 2
+    || context.syllableCount < (policy?.minimumNucleusSyllables ?? 3)) return;
+  const { syllables } = context.word;
+  const sound = syllables[context.currSyllableIndex - 1].nucleus[0]?.sound;
+  if (sound && sound === syllables[context.currSyllableIndex - 2].nucleus[0]?.sound) {
+    return { sound, multiplier };
+  }
+}
+
+function matchingCodaPenalty(
+  policy: LanguageConfig["rootRepetition"],
+  onset: readonly Phoneme[],
+): ClusterContext["repetitionPenalty"] {
+  const sound = lastItem(onset)?.sound;
+  if (!policy || !sound) return;
+  const overrides = policy.matchingCodaOverrides;
+  const multiplier = overrides && Object.hasOwn(overrides, sound)
+    ? overrides[sound]
+    : policy.matchingCodaMultiplier;
+  if (multiplier !== undefined && multiplier !== 1) return { sound, multiplier };
+}
+
 function pickNucleus(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
@@ -861,6 +902,7 @@ function pickNucleus(
     excludedAfterOnset: excludedAfterOnset(onset, "nucleus", rt.nucleusRepair.rimes.onsetRime),
     maxLength: 1,
     syllableCount: context.syllableCount,
+    repetitionPenalty: tripleNucleusPenalty(context),
   });
 }
 
@@ -966,16 +1008,20 @@ function pickRootFinalCoda(
   syllable: Syllable,
   length: number,
   rt: GeneratorRuntime,
-  rand: RNG,
+  context: WordGenerationContext,
 ): Phoneme[] {
   const byLength = choices.get(syllable.nucleus[0].sound);
   const excluded = excludedAfterOnset(syllable.onset, "coda", rt.nucleusRepair.rimes.onsetRime);
   const listed = byLength?.get(length) ?? byLength?.get(1);
-  const options = excluded
+  let options = excluded
     ? listed?.filter(([coda]) => !coda.some((phoneme) => excluded.has(phoneme.sound)))
     : listed;
+  const penalty = matchingCodaPenalty(context.rootRepetition, syllable.onset);
+  if (penalty && options) {
+    options = weightMatchingCoda(options, (coda) => coda[0].sound, penalty, rt.preservedCodaInitials);
+  }
   // Underfill an impossible shape so the existing root selection can retry.
-  return options?.length ? getWeightedOption(options, rand).slice() : [];
+  return options?.length ? getWeightedOption(options, context.rand).slice() : [];
 }
 
 function pickCoda(
@@ -1022,6 +1068,7 @@ function pickCoda(
     syllableCount,
     maxLength,
     nucleus: newSyllable.nucleus,
+    repetitionPenalty: matchingCodaPenalty(context.rootRepetition, newSyllable.onset),
     excludedAfterOnset: excludedAfterOnset(
       newSyllable.onset,
       "coda",
@@ -1544,7 +1591,7 @@ function generateSyllable(
   if (syllablePlan.codaLength > 0) {
     const finalChoices = isEndOfWord ? rt.rootFinalCodas[mode] : undefined;
     newSyllable.coda = finalChoices
-      ? pickRootFinalCoda(finalChoices, newSyllable, syllablePlan.codaLength, rt, context.rand)
+      ? pickRootFinalCoda(finalChoices, newSyllable, syllablePlan.codaLength, rt, context)
       : pickCoda(rt, context, newSyllable, isEndOfWord, monosyllabic, syllablePlan.codaLength);
   }
 
@@ -1995,6 +2042,10 @@ function generateOneWord(
   rt: GeneratorRuntime,
   { rand, mode, syllableCount, options }: ResolvedGenerationOptions,
 ): Word {
+  const repetition = rt.config.rootRepetition;
+  const rootRepetition = repetition?.mode === undefined || repetition.mode === mode
+    ? repetition
+    : undefined;
   const applyMorph = options.morphology ?? true;
   const enableTrace = options.trace ?? false;
   const morphConfig = applyMorph && rt.config.morphology?.enabled
@@ -2047,6 +2098,7 @@ function generateOneWord(
       },
       syllableCount: sampledSyllableCount,
       currSyllableIndex: 0,
+      rootRepetition,
       targetPhonemeCount: targetPhonemeCountRoot,
       syllablePlans,
       trace: traceCollector,
