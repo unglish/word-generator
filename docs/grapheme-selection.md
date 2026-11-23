@@ -427,6 +427,18 @@ rewrite expectations are unchanged. Tests that expected hard-ban restoration
 and treated a monosyllable's coda as word-initial have been replaced with
 trace-based checks of the intended positional contract.
 
+## Final e before suffixes (#506)
+
+The silent-e rule for `-es`, `-ist`, `-ism`, `-ian`, and `-ial` requires a
+closed root whose spelling ends in a consonant followed by e. The transform
+checks the written suffix after allomorph selection, so *face* + *es* becomes
+*faces* and *cake* + *s* becomes *cakes*. The spelling-only y→i override still
+produces *cries* with the nonsyllabic /z/ allomorph.
+
+Suffixes with an existing final-e deletion keep their spelling-only rule,
+including the shared e in *free* + *ed* → *freed*. That deletion still blocks
+consonant doubling.
+
 ## Consonant doubling before vowel suffixes (#513)
 
 The `double-consonant` boundary transform on `-ing`, `-ed`, `-er`, `-est` and
