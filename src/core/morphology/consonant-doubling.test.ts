@@ -135,7 +135,7 @@ describe("consonant doubling over a seed sample", () => {
     const example = doublingCase(word)!;
     const rootEnd = word.lexical!.rootSyllableStart + word.lexical!.root.length - 1;
     expect(example.final.stress).toBe("ˌ");
-    expect(example.doubled).toBe(true);
+    expect(example.assembledRoot).toBe(example.base + example.base.slice(-1));
     expect(word.syllables[rootEnd]).toMatchObject({
       stress: "ˌ",
       nucleus: [{ sound: example.final.nucleus[0].sound }],
