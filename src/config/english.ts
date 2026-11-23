@@ -314,7 +314,9 @@ export const englishConfig: LanguageConfig = {
             { name: "WSP", weight: 3 },
             { name: "ALIGN-LEFT", weight: 6.5 },
             { name: "ALIGN-RIGHT", weight: 1 },
-            { name: "NONFINALITY", weight: 12 },
+            // Final rhotics are usually unstressed; keep occasional primary
+            // stress on lexical -er (e.g. occur).
+            { name: "NONFINALITY", weight: 12, nucleusWeightAdjustments: { "ɚ": 5.5 } },
             { name: "NONINITIAL", weight: 8.5 },
           ],
           noise: 4,
@@ -322,10 +324,13 @@ export const englishConfig: LanguageConfig = {
       },
       secondary: {
         enabled: true,
-        probability: 40,
+        probability: 32,
         heavyWeight: 70,
         lightWeight: 30,
         candidateWindow: "first-three",
+        // Full short vowels often retain secondary stress at a root ending
+        // (handicap, zigzag). That stress also survives into their spelling.
+        finalNucleusProbabilities: { "ɛ": 65, "æ": 65, "ʌ": 65, "ɑ": 65, "ɔ": 65 },
       },
       rhythmic: {
         enabled: true,
@@ -334,6 +339,7 @@ export const englishConfig: LanguageConfig = {
       },
       nucleus: {
         stressedNucleusBan: ["ə"],
+        secondaryStressBan: ["ə", "ɚ"],
       },
     },
     aspiration: {
@@ -357,11 +363,12 @@ export const englishConfig: LanguageConfig = {
     vowelReduction: {
       enabled: true,
       rules: [
-        { source: "ʌ", target: "ə", probability: 85 },
-        { source: "ɛ", target: "ɪ", probability: 70 },
-        { source: "ɑ", target: "ə", probability: 65 },
-        { source: "ɔ", target: "ə", probability: 60 },
-        { source: "æ", target: "ə", probability: 40 },
+        { source: "ʌ", target: "ə", probability: 85, finalProbability: 95 },
+        { source: "ɛ", target: "ɪ", probability: 70, finalProbability: 50 },
+        // Allow reduction of unstressed LOT/THOUGHT at lexical and word ends.
+        { source: "ɑ", target: "ə", probability: 0, finalProbability: 35 },
+        { source: "ɔ", target: "ə", probability: 0, finalProbability: 25 },
+        { source: "æ", target: "ə", probability: 40, finalProbability: 30 },
         { source: "ɜ", target: "ə", probability: 75 },
         {
           // roses [ˈɹoʊzɪz] → [ˈɹoʊzəz] — common in casual speech; still applies in open
@@ -375,8 +382,7 @@ export const englishConfig: LanguageConfig = {
           codaModifiers: [{ sounds: ["ŋ", "k", "g", "ʃ", "tʃ", "dʒ", "v"], multiplier: 0 }],
         },
       ],
-      reduceSecondaryStress: true,
-      secondaryStressProbability: 30,
+      reduceSecondaryStress: false,
       // Word-final is lower than medial because final vowels in open syllables
       // retain more perceptual salience, even though English does reduce many
       // finals heavily (sofa → [ˈsoʊfə]). This is a conservative choice that

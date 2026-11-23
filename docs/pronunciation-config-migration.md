@@ -44,6 +44,7 @@ interface StressRules {
     heavyWeight: number;
     lightWeight: number;
     candidateWindow: "first-three" | "all-nonprimary";
+    finalNucleusProbabilities?: Readonly<Record<string, number>>;
   };
   rhythmic: {
     enabled: boolean;
@@ -52,10 +53,17 @@ interface StressRules {
   };
   nucleus: {
     stressedNucleusBan?: string[];
+    secondaryStressBan?: string[];
     unstressedNucleusBoost?: Record<string, number>;
   };
 }
 ```
+
+OT constraints can add a weight adjustment keyed by the candidate's nucleus.
+English uses this with `NONFINALITY` to favor an earlier primary stress when the
+last syllable has /ɚ/. English also disables reduction under secondary stress.
+Individual reduction rules can set `finalProbability` to override their
+probability at a word-final or lexical-root-final syllable.
 
 ## Aspiration schema
 

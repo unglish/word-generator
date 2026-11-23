@@ -54,7 +54,7 @@ import {
   repairClusterShape,
   repairHAfterBackVowel,
 } from "./repair.js";
-import { repairStressedNuclei } from "./stress-repair.js";
+import { clearBannedSecondaryStress, repairStressedNuclei } from "./stress-repair.js";
 import { RejectionTraceCollector } from "./rejection-trace.js";
 import {
   assertRootRimeCompatibility,
@@ -214,6 +214,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
   const resolvedPronunciation: PronunciationRuntimeConfig = {
     aspiration: resolveAspirationRules(config.pronunciation.aspiration),
     vowelReduction: config.pronunciation.vowelReduction,
+    secondaryStressBan: resolvedStress.nucleus.secondaryStressBan,
   };
 
   const positionPhonemes = {
@@ -1976,6 +1977,7 @@ function resolveAffixedRoot(
       rt.onsetRimeBans,
       rt.forbidOpenCheckedFinal,
     );
+    clearBannedSecondaryStress(lexicalContext, rt.resolvedStress.nucleus);
     carryRootStressRepairs(
       lexicalRoot,
       context.word.syllables,
@@ -2358,7 +2360,7 @@ function runPipeline(
       rt.forbidOpenCheckedFinal,
     ),
   );
-  traceStage(t, "repairNucleusWordPositions", word, () =>
+  traceStage(t, "repairNucleusWordPositions", word, () => {
     repairNucleusWordPositions(
       context,
       rt.positionPhonemes.nucleus,
@@ -2367,8 +2369,9 @@ function runPipeline(
       rt.bannedNucleusOnsetMap,
       rt.onsetRimeBans,
       rt.forbidOpenCheckedFinal,
-    ),
-  );
+    );
+    clearBannedSecondaryStress(context, stressRules.nucleus);
+  });
 }
 
 const MAX_FORCED_SYLLABLE_COUNT = 7;
