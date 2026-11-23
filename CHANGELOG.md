@@ -4,6 +4,9 @@
 
 ### Fixed
 
+- English writes final `s` spelling /z/ as `zz` before a vowel suffix when
+  the root ends in the stressed short-vowel pattern, as in `glazzed` and
+  `lozzing` (#529). This changes seeded spellings.
 - English vowel suffixes double final `s` only for /s/, keep final `h` single,
   and write `ck` where final hard `c` needs it, as in *picnicked* (#518).
   This changes seeded spellings.

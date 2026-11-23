@@ -31,7 +31,11 @@ describe("double-consonant boundary condition", () => {
     { root: "stop", final: syllable(["s", "t"], "ɑ", ["p"], "ˈ"), expected: "stopp", why: "stressed lot vowel" },
     { root: "commit", final: syllable(["m"], "ɪ", ["t"], "ˈ"), expected: "committ", why: "primary-stressed checked vowel" },
     { root: "bus", final: syllable(["b"], "ʌ", ["s"], "ˈ"), expected: "buss", why: "final s spells /s/" },
-    { root: "fes", final: syllable(["f"], "ɜ", ["z"], "ˈ"), expected: "fes", why: "final s spells /z/" },
+    { root: "glas", final: syllable(["g", "l"], "æ", ["z"], "ˈ"), expected: "glazz", why: "final s spells /z/ after a stressed short vowel" },
+    { root: "pos", final: syllable(["p"], "əʊ", ["z"], "ˈ"), expected: "pos", why: "final s spells /z/ after a long vowel" },
+    { root: "tabis", final: syllable(["b"], "ɪ", ["z"]), expected: "tabis", why: "final s spells /z/ in an unstressed syllable" },
+    { root: "beas", final: syllable(["b"], "ɛ", ["z"], "ˈ"), expected: "beas", why: "a short vowel spelled with two letters" },
+    { root: "fase", final: syllable(["f"], "æ", ["z"], "ˈ"), expected: "fas", why: "silent-e removal blocks the rewrite" },
     { root: "tes", final: syllable(["t"], "ɛ", [], "ˈ"), expected: "tes", why: "there is no /s/ coda" },
     { root: "bah", final: syllable(["b"], "ɑ", [], "ˈ"), expected: "bah", why: "final h stays single" },
     { root: "picnic", final: syllable(["n"], "ɪ", ["k"]), expected: "picnick", why: "unstressed final -ic takes ck" },
@@ -48,6 +52,21 @@ describe("double-consonant boundary condition", () => {
     { root: "wuber", final: syllable(["b"], "ɚ", [], "ˌ"), expected: "wuber", why: "secondary-stressed r-coloured vowel" },
   ])("$root + ed → $expected ($why)", ({ root, final, expected }) => {
     expect(applyBoundaryTransforms(root, ED, final)).toBe(expected);
+  });
+
+  it.each(["ity", "ize", "ary", "ory", "ist", "ism"])("keeps final s for /z/ single before derivational -%s", (suffix) => {
+    const final = syllable(["s"], "ɪ", ["z"], "ˈ");
+    expect(applyBoundaryTransforms("ceancis", suffixTransforms(suffix), final)).toBe("ceancis");
+  });
+
+  it("respells final s for /z/ after a stressed short vowel before plural -es", () => {
+    const final = syllable(["tʰ", "r"], "ɛ", ["z"], "ˈ");
+    expect(applyBoundaryTransforms("tres", suffixTransforms("s"), final)).toBe("trezz");
+  });
+
+  it("respells final s for /z/ after a secondary-stressed short vowel before -ing", () => {
+    const final = syllable(["t"], "ʊ", ["z"], "ˌ");
+    expect(applyBoundaryTransforms("spuntus", suffixTransforms("ing"), final)).toBe("spuntuzz");
   });
 
   it("never doubles without a boundary syllable to check", () => {
@@ -113,11 +132,28 @@ function expectedRoot({ base, suffix, final }: DoublingCase): string {
       && final.nucleus.every((phone) => phone.sound === "ɪ");
     return coda === "k" && (stressedShort || unstressedIc) ? base + "k" : base;
   }
-  if (letter === "h" || (letter === "s" && coda !== "s")) return base;
-  return stressedShort ? base + letter : base;
+  if (!stressedShort || letter === "h") return base;
+  if (letter === "s" && coda === "z") return base.slice(0, -1) + "zz";
+  if (letter === "s" && coda !== "s") return base;
+  return base + letter;
 }
 
 describe("consonant doubling over a seed sample", () => {
+  it.each([
+    { seed: 5_029_408, base: "glas", root: "glazz", suffix: "ed", expected: "glazzed", ipa: "glæzd" },
+    { seed: 5_072_336, base: "los", root: "lozz", suffix: "ing", expected: "lozzing", ipa: "ˈlʌz.ɪŋ" },
+    { seed: 5_001_518, base: "tres", root: "trezz", suffix: "es", expected: "trezzes", ipa: "ˈtʰrɛz.əz" },
+  ])("spells the short vowel and voiced coda in $expected", ({ seed, base, root, suffix, expected, ipa }) => {
+    const word = generateWord({ seed, trace: true });
+    expect(word.trace?.baseSpelling?.surface).toBe(base);
+    expect(word.trace?.morphology?.realization?.assembledParts).toEqual([
+      { role: "root", text: root },
+      { role: "suffix", text: suffix },
+    ]);
+    expect(word.written.clean).toBe(expected);
+    expect(word.pronunciation).toBe(ipa);
+  });
+
   it.each([
     { seed: 5_000_099, base: "fuliglozic", expected: "fuliglozicking" },
     { seed: 5_009_761, base: "swac", expected: "swacked" },
