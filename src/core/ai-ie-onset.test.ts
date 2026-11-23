@@ -46,7 +46,7 @@ describe("/aɪ/ ie needs an onset (#472)", () => {
     let onsetIe = 0;
     let onsetlessI = 0;
     let onsetless = 0;
-    for (const word of generateWords(5_000, { seed: 472, trace: true })) {
+    for (const word of generateWords(10_000, { seed: 472, trace: true })) {
       const selections = word.trace!.graphemeSelections;
       for (const { nucleus, onsetLength } of nucleusSlots(word, "aɪ")) {
         const where = `${word.written.clean}: /aɪ/ ${nucleus.selected}`;
@@ -64,5 +64,5 @@ describe("/aɪ/ ie needs an onset (#472)", () => {
     // Onsetless /aɪ/ is mostly plain i (idle, iron); pie-type ie survives.
     expect(onsetlessI / onsetless).toBeGreaterThan(0.7);
     expect(onsetIe).toBeGreaterThan(20);
-  });
+  }, 60_000);
 });
