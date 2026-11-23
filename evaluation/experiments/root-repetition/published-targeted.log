@@ -1,0 +1,17 @@
+
+ RUN  v3.2.4 /Users/ryanbetts/.t3/worktrees/word-generator/t3-9e4b3d2e-f86c6f22808814dc
+
+ ✓ src/config/language.test.ts (73 tests) 558ms
+ ✓ src/core/golden-output.test.ts (5 tests) 22ms
+ ✓ src/core/root-repetition.test.ts (7 tests) 37125ms
+   ✓ root repetition weights > does not apply the lexicon policy to text mode  2328ms
+   ✓ root repetition weights > keeps seeded root consonant matches rare while retaining attested patterns  18432ms
+   ✓ root repetition weights > keeps surface vowel triples rare in 4-syllable bare roots  4783ms
+   ✓ root repetition weights > keeps surface vowel triples rare in 5-syllable bare roots  7487ms
+   ✓ root repetition weights > leaves lexical words and the RNG stream identical when only reduction changes  4030ms
+
+ Test Files  3 passed (3)
+      Tests  85 passed (85)
+   Start at  00:32:07
+   Duration  43.38s (transform 4.99s, setup 0ms, collect 8.78s, tests 37.70s, environment 1ms, prepare 1.67s)
+

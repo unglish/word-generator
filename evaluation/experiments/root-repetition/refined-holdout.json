@@ -1,0 +1,3085 @@
+{
+  "count": 20000,
+  "startSeed": 6000000,
+  "mode": "lexicon",
+  "corpusDigest": "2eacf788dd396e5207908c613d6689390e462d0488fa6e847606e08c124ce467",
+  "cmu": {
+    "1": {
+      "words": 3611,
+      "syllables": 3611,
+      "mirrorSyllables:b": 5,
+      "mirror": 86,
+      "mirror:b": 5,
+      "tenseR": 24,
+      "finalRhoticL": 11,
+      "mirrorSyllables:k": 10,
+      "mirror:k": 10,
+      "mirrorSyllables:s": 6,
+      "mirror:s": 6,
+      "mirrorSyllables:tʃ": 1,
+      "mirror:tʃ": 1,
+      "mirrorSyllables:d": 7,
+      "mirror:d": 7,
+      "mirrorSyllables:r": 5,
+      "mirror:r": 5,
+      "rhoticOnset": 5,
+      "mirrorSyllables:f": 3,
+      "mirror:f": 3,
+      "mirrorSyllables:l": 4,
+      "mirror:l": 4,
+      "mirrorSyllables:g": 2,
+      "mirror:g": 2,
+      "mirrorSyllables:dʒ": 1,
+      "mirror:dʒ": 1,
+      "mirrorSyllables:m": 8,
+      "mirror:m": 8,
+      "mirrorSyllables:n": 9,
+      "mirror:n": 9,
+      "mirrorSyllables:p": 10,
+      "mirror:p": 10,
+      "mirrorSyllables:t": 14,
+      "mirror:t": 14,
+      "mirrorSyllables:v": 1,
+      "mirror:v": 1
+    },
+    "2": {
+      "words": 7706,
+      "syllables": 15412,
+      "pair": 439,
+      "mirrorSyllables:s": 35,
+      "mirror": 179,
+      "mirror:s": 35,
+      "mirrorSyllables:dʒ": 3,
+      "mirror:dʒ": 3,
+      "tenseR": 40,
+      "mirrorSyllables:g": 1,
+      "mirror:g": 1,
+      "mirrorSyllables:t": 28,
+      "mirror:t": 28,
+      "mirrorSyllables:n": 39,
+      "mirror:n": 39,
+      "mirrorSyllables:k": 21,
+      "mirror:k": 21,
+      "mirrorSyllables:p": 8,
+      "mirror:p": 8,
+      "mirrorSyllables:d": 16,
+      "mirror:d": 16,
+      "mirrorSyllables:b": 8,
+      "mirror:b": 8,
+      "mirrorSyllables:tʃ": 2,
+      "mirror:tʃ": 2,
+      "mirrorSyllables:z": 4,
+      "mirror:z": 4,
+      "finalRhoticL": 5,
+      "rhoticOnset": 10,
+      "mirrorSyllables:f": 4,
+      "mirror:f": 4,
+      "mirrorSyllables:r": 3,
+      "mirror:r": 3,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1,
+      "mirrorSyllables:m": 3,
+      "mirror:m": 3,
+      "reducedR": 1,
+      "mirrorSyllables:v": 3,
+      "mirror:v": 3
+    },
+    "3": {
+      "words": 5436,
+      "syllables": 16308,
+      "pair": 837,
+      "mirrorSyllables:n": 78,
+      "mirror": 192,
+      "mirror:n": 78,
+      "mirrorSyllables:t": 38,
+      "mirror:t": 38,
+      "rhoticOnset": 10,
+      "mirrorSyllables:s": 39,
+      "mirror:s": 39,
+      "mirrorSyllables:k": 4,
+      "mirror:k": 4,
+      "tenseR": 12,
+      "mirrorSyllables:m": 6,
+      "mirror:m": 6,
+      "mirrorSyllables:tʃ": 2,
+      "mirror:tʃ": 2,
+      "mirrorSyllables:d": 12,
+      "mirror:d": 12,
+      "mirrorSyllables:r": 3,
+      "mirror:r": 3,
+      "reducedR": 1,
+      "mirrorSyllables:g": 2,
+      "mirror:g": 2,
+      "triple": 22,
+      "triple:ɪ": 18,
+      "mirrorSyllables:z": 4,
+      "mirror:z": 4,
+      "mirrorSyllables:p": 3,
+      "mirror:p": 3,
+      "mirrorSyllables:f": 1,
+      "mirror:f": 1,
+      "triple:əʊ": 1,
+      "triple:ɑ": 1,
+      "finalRhoticL": 2,
+      "triple:ɚ": 2,
+      "mirrorSyllables:l": 1,
+      "mirror:l": 1
+    },
+    "4": {
+      "words": 3003,
+      "syllables": 12012,
+      "pair": 654,
+      "mirrorSyllables:s": 17,
+      "mirror": 77,
+      "mirror:s": 17,
+      "triple": 44,
+      "triple:ɚ": 1,
+      "mirrorSyllables:p": 1,
+      "mirror:p": 1,
+      "triple:ə": 17,
+      "triple:ɑ": 2,
+      "mirrorSyllables:m": 2,
+      "mirror:m": 2,
+      "mirrorSyllables:d": 5,
+      "mirror:d": 5,
+      "mirrorSyllables:n": 39,
+      "mirror:n": 39,
+      "triple:ɪ": 22,
+      "mirrorSyllables:t": 8,
+      "mirror:t": 8,
+      "rhoticOnset": 3,
+      "mirrorSyllables:z": 3,
+      "mirror:z": 3,
+      "mirrorSyllables:r": 1,
+      "mirror:r": 1,
+      "tenseR": 1,
+      "reducedR": 1,
+      "triple:əʊ": 1,
+      "triple:i:": 1,
+      "mirrorSyllables:b": 1,
+      "mirror:b": 1
+    },
+    "5": {
+      "words": 1136,
+      "syllables": 5680,
+      "pair": 378,
+      "triple": 36,
+      "triple:ə": 15,
+      "mirrorSyllables:s": 11,
+      "mirror": 37,
+      "mirror:s": 11,
+      "triple:ɪ": 20,
+      "mirrorSyllables:n": 23,
+      "mirror:n": 23,
+      "mirrorSyllables:d": 1,
+      "mirror:d": 1,
+      "mirrorSyllables:t": 2,
+      "mirror:t": 2,
+      "triple:i:": 1
+    },
+    "6": {
+      "words": 261,
+      "syllables": 1566,
+      "pair": 110,
+      "mirrorSyllables:s": 6,
+      "mirror": 13,
+      "mirror:s": 6,
+      "triple": 12,
+      "triple:ɪ": 9,
+      "mirrorSyllables:r": 1,
+      "mirror:r": 1,
+      "rhoticOnset": 1,
+      "mirrorSyllables:n": 6,
+      "mirror:n": 6,
+      "triple:ə": 3
+    },
+    "7": {
+      "words": 40,
+      "syllables": 280,
+      "pair": 21,
+      "mirrorSyllables:s": 1,
+      "mirror": 2,
+      "mirror:s": 1,
+      "triple": 6,
+      "triple:ə": 1,
+      "triple:ɪ": 5,
+      "mirrorSyllables:n": 1,
+      "mirror:n": 1
+    },
+    "8": {
+      "words": 4,
+      "syllables": 32,
+      "pair": 3
+    }
+  },
+  "cmuMatched": {
+    "words": 20000,
+    "syllables": 42899,
+    "mirrorSyllables:b": 17.299323298235123,
+    "mirror": 518.136464585715,
+    "mirror:b": 17.299323298235123,
+    "tenseR": 91.60604108729007,
+    "finalRhoticL": 21.3475712534469,
+    "mirrorSyllables:k": 43.244695366221535,
+    "mirror:k": 43.244695366221535,
+    "mirrorSyllables:s": 92.07286652872133,
+    "mirror:s": 92.07286652872133,
+    "mirrorSyllables:tʃ": 5.24175050056814,
+    "mirror:tʃ": 5.24175050056814,
+    "mirrorSyllables:d": 40.368967826458814,
+    "mirror:d": 40.368967826458814,
+    "mirrorSyllables:r": 12.701171855839938,
+    "mirror:r": 12.701171855839938,
+    "rhoticOnset": 27.634277169744678,
+    "mirrorSyllables:f": 9.710495504685957,
+    "mirror:f": 9.710495504685957,
+    "mirrorSyllables:l": 5.467028786825636,
+    "mirror:l": 5.467028786825636,
+    "mirrorSyllables:g": 5.082503870950748,
+    "mirror:g": 5.082503870950748,
+    "mirrorSyllables:dʒ": 5.286380154706511,
+    "mirror:dʒ": 5.286380154706511,
+    "mirrorSyllables:m": 18.446370540318206,
+    "mirror:m": 18.446370540318206,
+    "mirrorSyllables:n": 138.95402440122945,
+    "mirror:n": 138.95402440122945,
+    "mirrorSyllables:p": 25.285289193466948,
+    "mirror:p": 25.285289193466948,
+    "mirrorSyllables:t": 83.71520936765316,
+    "mirror:t": 83.71520936765316,
+    "mirrorSyllables:v": 5.286380154706511,
+    "mirror:v": 5.286380154706511,
+    "pair": 1548.478842383307,
+    "mirrorSyllables:z": 9.270989060017305,
+    "mirror:z": 9.270989060017305,
+    "mirrorSyllables:ʃ": 1.3614066960809759,
+    "mirror:ʃ": 1.3614066960809759,
+    "reducedR": 2.417064614321675,
+    "triple": 46.5049141353293,
+    "triple:ɪ": 29.630988111582113,
+    "triple:əʊ": 1.0556579182406995,
+    "triple:ɑ": 1.452927315510097,
+    "triple:ɚ": 1.714046439212002,
+    "triple:ə": 11.969693967599504,
+    "triple:i:": 0.6816003831848902
+  },
+  "generated": {
+    "1": {
+      "words": 4341,
+      "syllables": 4341,
+      "tenseR": 58,
+      "mirrorSyllables:l": 1,
+      "mirror": 89,
+      "mirror:l": 1,
+      "finalRhoticL": 9,
+      "mirrorSyllables:n": 21,
+      "mirror:n": 21,
+      "reducedR": 56,
+      "mirrorSyllables:v": 6,
+      "mirror:v": 6,
+      "mirrorSyllables:s": 37,
+      "mirror:s": 37,
+      "mirrorSyllables:b": 3,
+      "mirror:b": 3,
+      "mirrorSyllables:m": 5,
+      "mirror:m": 5,
+      "mirrorSyllables:k": 3,
+      "mirror:k": 3,
+      "mirrorSyllables:p": 2,
+      "mirror:p": 2,
+      "mirrorSyllables:t": 7,
+      "mirror:t": 7,
+      "mirrorSyllables:f": 2,
+      "mirror:f": 2,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1,
+      "mirrorSyllables:θ": 1,
+      "mirror:θ": 1
+    },
+    "2": {
+      "words": 10491,
+      "syllables": 20982,
+      "mirrorSyllables:n": 82,
+      "mirror": 248,
+      "mirror:n": 82,
+      "tenseR": 298,
+      "pair": 582,
+      "mirrorSyllables:b": 13,
+      "mirror:b": 13,
+      "reducedR": 222,
+      "mirrorSyllables:k": 19,
+      "mirror:k": 19,
+      "finalRhoticL": 151,
+      "mirrorSyllables:m": 16,
+      "mirror:m": 16,
+      "mirrorSyllables:t": 46,
+      "mirror:t": 46,
+      "mirrorSyllables:d": 12,
+      "mirror:d": 12,
+      "mirrorSyllables:s": 38,
+      "mirror:s": 38,
+      "mirrorSyllables:p": 7,
+      "mirror:p": 7,
+      "mirrorSyllables:f": 3,
+      "mirror:f": 3,
+      "mirrorSyllables:l": 3,
+      "mirror:l": 3,
+      "mirrorSyllables:g": 2,
+      "mirror:g": 2,
+      "mirrorSyllables:dʒ": 4,
+      "mirror:dʒ": 4,
+      "mirrorSyllables:tʃ": 1,
+      "mirror:tʃ": 1,
+      "mirrorSyllables:v": 2,
+      "mirror:v": 2,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1
+    },
+    "3": {
+      "words": 3579,
+      "syllables": 10737,
+      "tenseR": 77,
+      "pair": 783,
+      "mirrorSyllables:b": 6,
+      "mirror": 108,
+      "mirror:b": 6,
+      "mirrorSyllables:n": 20,
+      "mirror:n": 20,
+      "triple": 47,
+      "triple:ə": 36,
+      "mirrorSyllables:t": 20,
+      "mirror:t": 20,
+      "reducedR": 112,
+      "finalRhoticL": 54,
+      "mirrorSyllables:z": 4,
+      "mirror:z": 4,
+      "mirrorSyllables:v": 2,
+      "mirror:v": 2,
+      "mirrorSyllables:k": 16,
+      "mirror:k": 16,
+      "mirrorSyllables:s": 12,
+      "mirror:s": 12,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1,
+      "triple:ɪ": 8,
+      "mirrorSyllables:m": 11,
+      "mirror:m": 11,
+      "mirrorSyllables:dʒ": 1,
+      "mirror:dʒ": 1,
+      "mirrorSyllables:p": 13,
+      "mirror:p": 13,
+      "mirrorSyllables:l": 2,
+      "mirror:l": 2,
+      "mirrorSyllables:d": 3,
+      "mirror:d": 3,
+      "triple:ɛ": 3
+    },
+    "4": {
+      "words": 1193,
+      "syllables": 4772,
+      "pair": 499,
+      "triple": 21,
+      "triple:ə": 15,
+      "mirrorSyllables:m": 2,
+      "mirror": 40,
+      "mirror:m": 2,
+      "reducedR": 42,
+      "mirrorSyllables:t": 10,
+      "mirror:t": 10,
+      "tenseR": 23,
+      "mirrorSyllables:n": 12,
+      "mirror:n": 12,
+      "mirrorSyllables:k": 5,
+      "mirror:k": 5,
+      "mirrorSyllables:s": 5,
+      "mirror:s": 5,
+      "finalRhoticL": 18,
+      "mirrorSyllables:p": 4,
+      "mirror:p": 4,
+      "triple:ɛ": 1,
+      "triple:ɪ": 5,
+      "mirrorSyllables:tʃ": 1,
+      "mirror:tʃ": 1,
+      "mirrorSyllables:b": 1,
+      "mirror:b": 1
+    },
+    "5": {
+      "words": 323,
+      "syllables": 1615,
+      "pair": 182,
+      "mirrorSyllables:g": 2,
+      "mirror": 12,
+      "mirror:g": 2,
+      "mirrorSyllables:n": 2,
+      "mirror:n": 2,
+      "triple": 10,
+      "triple:ə": 6,
+      "tenseR": 7,
+      "reducedR": 10,
+      "mirrorSyllables:l": 1,
+      "mirror:l": 1,
+      "mirrorSyllables:k": 1,
+      "mirror:k": 1,
+      "triple:ɪ": 4,
+      "mirrorSyllables:t": 4,
+      "mirror:t": 4,
+      "mirrorSyllables:s": 2,
+      "mirror:s": 2,
+      "finalRhoticL": 4
+    },
+    "6": {
+      "words": 61,
+      "syllables": 366,
+      "pair": 42,
+      "tenseR": 2,
+      "reducedR": 2,
+      "triple": 4,
+      "triple:ɪ": 2,
+      "mirrorSyllables:b": 1,
+      "mirror": 2,
+      "mirror:b": 1,
+      "triple:ə": 2,
+      "mirrorSyllables:t": 1,
+      "mirror:t": 1
+    },
+    "7": {
+      "words": 10,
+      "syllables": 70,
+      "pair": 8,
+      "triple": 1,
+      "triple:ə": 1
+    },
+    "8": {
+      "words": 2,
+      "syllables": 16,
+      "pair": 1
+    }
+  },
+  "lexical": {
+    "1": {
+      "words": 4341,
+      "syllables": 4341,
+      "tenseR": 80,
+      "mirrorSyllables:l": 1,
+      "mirror": 89,
+      "mirror:l": 1,
+      "finalRhoticL": 13,
+      "mirrorSyllables:n": 21,
+      "mirror:n": 21,
+      "mirrorSyllables:v": 6,
+      "mirror:v": 6,
+      "mirrorSyllables:s": 37,
+      "mirror:s": 37,
+      "reducedR": 11,
+      "mirrorSyllables:b": 3,
+      "mirror:b": 3,
+      "mirrorSyllables:m": 5,
+      "mirror:m": 5,
+      "mirrorSyllables:k": 3,
+      "mirror:k": 3,
+      "mirrorSyllables:p": 2,
+      "mirror:p": 2,
+      "mirrorSyllables:t": 7,
+      "mirror:t": 7,
+      "mirrorSyllables:f": 2,
+      "mirror:f": 2,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1,
+      "mirrorSyllables:θ": 1,
+      "mirror:θ": 1
+    },
+    "2": {
+      "words": 10491,
+      "syllables": 20982,
+      "mirrorSyllables:n": 82,
+      "mirror": 248,
+      "mirror:n": 82,
+      "tenseR": 329,
+      "pair": 481,
+      "mirrorSyllables:b": 13,
+      "mirror:b": 13,
+      "reducedR": 118,
+      "mirrorSyllables:k": 19,
+      "mirror:k": 19,
+      "finalRhoticL": 151,
+      "mirrorSyllables:m": 16,
+      "mirror:m": 16,
+      "mirrorSyllables:t": 46,
+      "mirror:t": 46,
+      "mirrorSyllables:d": 12,
+      "mirror:d": 12,
+      "mirrorSyllables:s": 38,
+      "mirror:s": 38,
+      "mirrorSyllables:p": 7,
+      "mirror:p": 7,
+      "mirrorSyllables:f": 3,
+      "mirror:f": 3,
+      "mirrorSyllables:l": 3,
+      "mirror:l": 3,
+      "mirrorSyllables:g": 2,
+      "mirror:g": 2,
+      "mirrorSyllables:dʒ": 4,
+      "mirror:dʒ": 4,
+      "mirrorSyllables:tʃ": 1,
+      "mirror:tʃ": 1,
+      "mirrorSyllables:v": 2,
+      "mirror:v": 2,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1
+    },
+    "3": {
+      "words": 3579,
+      "syllables": 10737,
+      "tenseR": 90,
+      "pair": 468,
+      "mirrorSyllables:b": 6,
+      "mirror": 108,
+      "mirror:b": 6,
+      "mirrorSyllables:n": 20,
+      "mirror:n": 20,
+      "triple": 17,
+      "triple:ɛ": 5,
+      "mirrorSyllables:t": 20,
+      "mirror:t": 20,
+      "triple:i:": 1,
+      "finalRhoticL": 54,
+      "triple:ɪ": 11,
+      "reducedR": 75,
+      "mirrorSyllables:z": 4,
+      "mirror:z": 4,
+      "mirrorSyllables:v": 2,
+      "mirror:v": 2,
+      "mirrorSyllables:k": 16,
+      "mirror:k": 16,
+      "mirrorSyllables:s": 12,
+      "mirror:s": 12,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1,
+      "mirrorSyllables:m": 11,
+      "mirror:m": 11,
+      "mirrorSyllables:dʒ": 1,
+      "mirror:dʒ": 1,
+      "mirrorSyllables:p": 13,
+      "mirror:p": 13,
+      "mirrorSyllables:l": 2,
+      "mirror:l": 2,
+      "mirrorSyllables:d": 3,
+      "mirror:d": 3
+    },
+    "4": {
+      "words": 1193,
+      "syllables": 4772,
+      "pair": 407,
+      "triple": 18,
+      "triple:ə": 1,
+      "mirrorSyllables:m": 2,
+      "mirror": 40,
+      "mirror:m": 2,
+      "tenseR": 27,
+      "mirrorSyllables:t": 10,
+      "mirror:t": 10,
+      "reducedR": 27,
+      "mirrorSyllables:n": 12,
+      "mirror:n": 12,
+      "mirrorSyllables:k": 5,
+      "mirror:k": 5,
+      "triple:ɪ": 14,
+      "mirrorSyllables:s": 5,
+      "mirror:s": 5,
+      "finalRhoticL": 18,
+      "mirrorSyllables:p": 4,
+      "mirror:p": 4,
+      "triple:ɛ": 3,
+      "mirrorSyllables:tʃ": 1,
+      "mirror:tʃ": 1,
+      "mirrorSyllables:b": 1,
+      "mirror:b": 1
+    },
+    "5": {
+      "words": 323,
+      "syllables": 1615,
+      "pair": 152,
+      "mirrorSyllables:g": 2,
+      "mirror": 12,
+      "mirror:g": 2,
+      "mirrorSyllables:n": 2,
+      "mirror:n": 2,
+      "triple": 11,
+      "triple:ə": 5,
+      "tenseR": 7,
+      "reducedR": 8,
+      "mirrorSyllables:l": 1,
+      "mirror:l": 1,
+      "mirrorSyllables:k": 1,
+      "mirror:k": 1,
+      "triple:ɪ": 6,
+      "mirrorSyllables:t": 4,
+      "mirror:t": 4,
+      "mirrorSyllables:s": 2,
+      "mirror:s": 2,
+      "finalRhoticL": 4
+    },
+    "6": {
+      "words": 61,
+      "syllables": 366,
+      "pair": 39,
+      "tenseR": 2,
+      "reducedR": 2,
+      "triple": 3,
+      "triple:ɪ": 2,
+      "mirrorSyllables:b": 1,
+      "mirror": 2,
+      "mirror:b": 1,
+      "triple:ə": 1,
+      "mirrorSyllables:t": 1,
+      "mirror:t": 1
+    },
+    "7": {
+      "words": 10,
+      "syllables": 70,
+      "pair": 8,
+      "triple": 1,
+      "triple:ə": 1
+    },
+    "8": {
+      "words": 2,
+      "syllables": 16,
+      "pair": 1
+    }
+  },
+  "surface": {
+    "1": {
+      "words": 4341,
+      "syllables": 4341,
+      "tenseR": 80,
+      "mirrorSyllables:l": 1,
+      "mirror": 91,
+      "mirror:l": 1,
+      "finalRhoticL": 13,
+      "mirrorSyllables:n": 21,
+      "mirror:n": 21,
+      "mirrorSyllables:v": 6,
+      "mirror:v": 6,
+      "mirrorSyllables:s": 37,
+      "mirror:s": 37,
+      "reducedR": 11,
+      "mirrorSyllables:b": 3,
+      "mirror:b": 3,
+      "mirrorSyllables:m": 5,
+      "mirror:m": 5,
+      "mirrorSyllables:k": 3,
+      "mirror:k": 3,
+      "mirrorSyllables:p": 2,
+      "mirror:p": 2,
+      "mirrorSyllables:t": 7,
+      "mirror:t": 7,
+      "mirrorSyllables:f": 2,
+      "mirror:f": 2,
+      "mirrorSyllables:z": 1,
+      "mirror:z": 1,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1,
+      "mirrorSyllables:θ": 1,
+      "mirror:θ": 1,
+      "mirrorSyllables:d": 1,
+      "mirror:d": 1
+    },
+    "2": {
+      "words": 10491,
+      "syllables": 20982,
+      "mirrorSyllables:n": 82,
+      "mirror": 265,
+      "mirror:n": 82,
+      "tenseR": 329,
+      "pair": 458,
+      "mirrorSyllables:b": 13,
+      "mirror:b": 13,
+      "reducedR": 126,
+      "mirrorSyllables:k": 19,
+      "mirror:k": 19,
+      "finalRhoticL": 151,
+      "mirrorSyllables:m": 16,
+      "mirror:m": 16,
+      "mirrorSyllables:z": 13,
+      "mirror:z": 13,
+      "mirrorSyllables:t": 46,
+      "mirror:t": 46,
+      "mirrorSyllables:d": 15,
+      "mirror:d": 15,
+      "mirrorSyllables:s": 39,
+      "mirror:s": 39,
+      "mirrorSyllables:p": 7,
+      "mirror:p": 7,
+      "mirrorSyllables:f": 3,
+      "mirror:f": 3,
+      "mirrorSyllables:l": 3,
+      "mirror:l": 3,
+      "mirrorSyllables:g": 2,
+      "mirror:g": 2,
+      "mirrorSyllables:dʒ": 4,
+      "mirror:dʒ": 4,
+      "mirrorSyllables:tʃ": 1,
+      "mirror:tʃ": 1,
+      "mirrorSyllables:v": 2,
+      "mirror:v": 2,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1
+    },
+    "3": {
+      "words": 3579,
+      "syllables": 10737,
+      "tenseR": 90,
+      "pair": 489,
+      "mirrorSyllables:b": 6,
+      "mirror": 118,
+      "mirror:b": 6,
+      "mirrorSyllables:n": 20,
+      "mirror:n": 20,
+      "mirrorSyllables:t": 20,
+      "mirror:t": 20,
+      "triple": 15,
+      "triple:i:": 1,
+      "mirrorSyllables:d": 4,
+      "mirror:d": 4,
+      "finalRhoticL": 54,
+      "triple:ɪ": 10,
+      "reducedR": 98,
+      "mirrorSyllables:z": 14,
+      "mirror:z": 14,
+      "mirrorSyllables:v": 2,
+      "mirror:v": 2,
+      "mirrorSyllables:k": 16,
+      "mirror:k": 16,
+      "mirrorSyllables:s": 12,
+      "mirror:s": 12,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1,
+      "mirrorSyllables:m": 11,
+      "mirror:m": 11,
+      "mirrorSyllables:dʒ": 1,
+      "mirror:dʒ": 1,
+      "mirrorSyllables:p": 13,
+      "mirror:p": 13,
+      "mirrorSyllables:l": 2,
+      "mirror:l": 2,
+      "triple:ɛ": 4
+    },
+    "4": {
+      "words": 1193,
+      "syllables": 4772,
+      "pair": 445,
+      "triple": 15,
+      "triple:ə": 6,
+      "mirrorSyllables:m": 2,
+      "mirror": 41,
+      "mirror:m": 2,
+      "tenseR": 27,
+      "mirrorSyllables:t": 10,
+      "mirror:t": 10,
+      "reducedR": 34,
+      "mirrorSyllables:n": 12,
+      "mirror:n": 12,
+      "mirrorSyllables:k": 5,
+      "mirror:k": 5,
+      "mirrorSyllables:d": 1,
+      "mirror:d": 1,
+      "triple:ɪ": 9,
+      "mirrorSyllables:s": 5,
+      "mirror:s": 5,
+      "finalRhoticL": 18,
+      "mirrorSyllables:p": 4,
+      "mirror:p": 4,
+      "mirrorSyllables:tʃ": 1,
+      "mirror:tʃ": 1,
+      "mirrorSyllables:b": 1,
+      "mirror:b": 1
+    },
+    "5": {
+      "words": 323,
+      "syllables": 1615,
+      "pair": 189,
+      "mirrorSyllables:g": 2,
+      "mirror": 12,
+      "mirror:g": 2,
+      "triple": 16,
+      "triple:ə": 15,
+      "mirrorSyllables:n": 2,
+      "mirror:n": 2,
+      "tenseR": 7,
+      "reducedR": 12,
+      "mirrorSyllables:l": 1,
+      "mirror:l": 1,
+      "mirrorSyllables:k": 1,
+      "mirror:k": 1,
+      "mirrorSyllables:t": 4,
+      "mirror:t": 4,
+      "mirrorSyllables:s": 2,
+      "mirror:s": 2,
+      "finalRhoticL": 4,
+      "triple:ɪ": 1
+    },
+    "6": {
+      "words": 61,
+      "syllables": 366,
+      "pair": 44,
+      "tenseR": 2,
+      "reducedR": 4,
+      "triple": 6,
+      "triple:ə": 5,
+      "triple:ɪ": 1,
+      "mirrorSyllables:b": 1,
+      "mirror": 2,
+      "mirror:b": 1,
+      "mirrorSyllables:t": 1,
+      "mirror:t": 1
+    },
+    "7": {
+      "words": 10,
+      "syllables": 70,
+      "pair": 9,
+      "triple": 1,
+      "triple:ə": 1
+    },
+    "8": {
+      "words": 2,
+      "syllables": 16,
+      "pair": 1
+    }
+  },
+  "bare": {
+    "1": {
+      "words": 1296,
+      "syllables": 1296,
+      "mirrorSyllables:l": 1,
+      "mirror": 19,
+      "mirror:l": 1,
+      "finalRhoticL": 4,
+      "tenseR": 30,
+      "mirrorSyllables:s": 12,
+      "mirror:s": 12,
+      "mirrorSyllables:m": 1,
+      "mirror:m": 1,
+      "mirrorSyllables:n": 4,
+      "mirror:n": 4,
+      "reducedR": 1,
+      "mirrorSyllables:t": 1,
+      "mirror:t": 1
+    },
+    "2": {
+      "words": 5038,
+      "syllables": 10076,
+      "mirrorSyllables:n": 39,
+      "mirror": 119,
+      "mirror:n": 39,
+      "pair": 202,
+      "mirrorSyllables:k": 11,
+      "mirror:k": 11,
+      "finalRhoticL": 73,
+      "reducedR": 47,
+      "tenseR": 164,
+      "mirrorSyllables:t": 24,
+      "mirror:t": 24,
+      "mirrorSyllables:d": 6,
+      "mirror:d": 6,
+      "mirrorSyllables:s": 18,
+      "mirror:s": 18,
+      "mirrorSyllables:p": 4,
+      "mirror:p": 4,
+      "mirrorSyllables:m": 7,
+      "mirror:m": 7,
+      "mirrorSyllables:b": 5,
+      "mirror:b": 5,
+      "mirrorSyllables:l": 2,
+      "mirror:l": 2,
+      "mirrorSyllables:g": 1,
+      "mirror:g": 1,
+      "mirrorSyllables:dʒ": 1,
+      "mirror:dʒ": 1,
+      "mirrorSyllables:v": 1,
+      "mirror:v": 1,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1
+    },
+    "3": {
+      "words": 2111,
+      "syllables": 6333,
+      "tenseR": 61,
+      "pair": 274,
+      "mirrorSyllables:n": 11,
+      "mirror": 65,
+      "mirror:n": 11,
+      "mirrorSyllables:t": 11,
+      "mirror:t": 11,
+      "finalRhoticL": 29,
+      "triple": 9,
+      "triple:ɪ": 6,
+      "reducedR": 54,
+      "mirrorSyllables:z": 3,
+      "mirror:z": 3,
+      "mirrorSyllables:v": 1,
+      "mirror:v": 1,
+      "mirrorSyllables:k": 8,
+      "mirror:k": 8,
+      "mirrorSyllables:ʃ": 1,
+      "mirror:ʃ": 1,
+      "mirrorSyllables:b": 3,
+      "mirror:b": 3,
+      "mirrorSyllables:s": 9,
+      "mirror:s": 9,
+      "mirrorSyllables:m": 6,
+      "mirror:m": 6,
+      "mirrorSyllables:p": 10,
+      "mirror:p": 10,
+      "mirrorSyllables:l": 2,
+      "mirror:l": 2,
+      "mirrorSyllables:d": 2,
+      "mirror:d": 2,
+      "triple:ɛ": 3
+    },
+    "4": {
+      "words": 820,
+      "syllables": 3280,
+      "pair": 316,
+      "triple": 12,
+      "triple:ə": 6,
+      "mirrorSyllables:t": 8,
+      "mirror": 29,
+      "mirror:t": 8,
+      "reducedR": 22,
+      "tenseR": 21,
+      "mirrorSyllables:n": 8,
+      "mirror:n": 8,
+      "triple:ɪ": 6,
+      "finalRhoticL": 10,
+      "mirrorSyllables:p": 3,
+      "mirror:p": 3,
+      "mirrorSyllables:s": 4,
+      "mirror:s": 4,
+      "mirrorSyllables:m": 1,
+      "mirror:m": 1,
+      "mirrorSyllables:tʃ": 1,
+      "mirror:tʃ": 1,
+      "mirrorSyllables:k": 3,
+      "mirror:k": 3,
+      "mirrorSyllables:b": 1,
+      "mirror:b": 1
+    },
+    "5": {
+      "words": 250,
+      "syllables": 1250,
+      "pair": 146,
+      "mirrorSyllables:g": 2,
+      "mirror": 9,
+      "mirror:g": 2,
+      "mirrorSyllables:n": 2,
+      "mirror:n": 2,
+      "triple": 12,
+      "triple:ə": 11,
+      "reducedR": 9,
+      "mirrorSyllables:l": 1,
+      "mirror:l": 1,
+      "mirrorSyllables:k": 1,
+      "mirror:k": 1,
+      "mirrorSyllables:t": 3,
+      "mirror:t": 3,
+      "finalRhoticL": 3,
+      "tenseR": 4,
+      "triple:ɪ": 1
+    },
+    "6": {
+      "words": 51,
+      "syllables": 306,
+      "pair": 36,
+      "tenseR": 2,
+      "reducedR": 3,
+      "triple": 4,
+      "triple:ə": 3,
+      "triple:ɪ": 1,
+      "mirrorSyllables:b": 1,
+      "mirror": 2,
+      "mirror:b": 1,
+      "mirrorSyllables:t": 1,
+      "mirror:t": 1
+    },
+    "7": {
+      "words": 10,
+      "syllables": 70,
+      "pair": 9,
+      "triple": 1,
+      "triple:ə": 1
+    },
+    "8": {
+      "words": 2,
+      "syllables": 16,
+      "pair": 1
+    }
+  },
+  "totals": {
+    "words": 20000,
+    "syllables": 42899,
+    "tenseR": 535,
+    "mirrorSyllables:l": 7,
+    "mirror": 529,
+    "mirror:l": 7,
+    "finalRhoticL": 240,
+    "mirrorSyllables:n": 137,
+    "mirror:n": 137,
+    "mirrorSyllables:v": 10,
+    "mirror:v": 10,
+    "mirrorSyllables:s": 95,
+    "mirror:s": 95,
+    "reducedR": 285,
+    "mirrorSyllables:b": 24,
+    "mirror:b": 24,
+    "mirrorSyllables:m": 34,
+    "mirror:m": 34,
+    "mirrorSyllables:k": 44,
+    "mirror:k": 44,
+    "mirrorSyllables:p": 26,
+    "mirror:p": 26,
+    "mirrorSyllables:t": 88,
+    "mirror:t": 88,
+    "mirrorSyllables:f": 5,
+    "mirror:f": 5,
+    "mirrorSyllables:z": 28,
+    "mirror:z": 28,
+    "mirrorSyllables:ʃ": 3,
+    "mirror:ʃ": 3,
+    "mirrorSyllables:θ": 1,
+    "mirror:θ": 1,
+    "mirrorSyllables:d": 21,
+    "mirror:d": 21,
+    "pair": 1635,
+    "mirrorSyllables:g": 4,
+    "mirror:g": 4,
+    "mirrorSyllables:dʒ": 5,
+    "mirror:dʒ": 5,
+    "mirrorSyllables:tʃ": 2,
+    "mirror:tʃ": 2,
+    "triple": 53,
+    "triple:i:": 1,
+    "triple:ɪ": 21,
+    "triple:ɛ": 4,
+    "triple:ə": 27
+  },
+  "attribution": {
+    "triple:000": 19872,
+    "mirror:000": 19471,
+    "mirror:111": 499,
+    "triple:100": 52,
+    "triple:010": 11,
+    "triple:011": 8,
+    "triple:111": 19,
+    "triple:001": 26,
+    "mirror:001": 30,
+    "triple:110": 12
+  },
+  "examples": {
+    "mirror:generation": [
+      {
+        "seed": 6000033,
+        "word": "deesnont",
+        "pronunciation": "ˈdi:sˌnəʊnt",
+        "initial": [
+          {
+            "onset": [
+              "d"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [
+              "n"
+            ],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "n",
+              "t"
+            ]
+          }
+        ],
+        "base": [
+          {
+            "onset": [
+              "d"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [
+              "n"
+            ],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "n",
+              "t"
+            ]
+          }
+        ],
+        "final": [
+          {
+            "onset": [
+              "d"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [
+              "n"
+            ],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "n",
+              "t"
+            ]
+          }
+        ],
+        "repairs": [],
+        "stress": [
+          "ˈ",
+          "ˌ"
+        ]
+      },
+      {
+        "seed": 6000048,
+        "word": "rebabrifeater",
+        "pronunciation": "ˌrɪ.bəbˈrɪ.fi:t.ɚ",
+        "initial": [
+          {
+            "onset": [
+              "b"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "b"
+            ]
+          },
+          {
+            "onset": [
+              "r"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "f"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": [
+              "t"
+            ]
+          }
+        ],
+        "base": [
+          {
+            "onset": [
+              "b"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "b"
+            ]
+          },
+          {
+            "onset": [
+              "r"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "f"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": [
+              "t"
+            ]
+          }
+        ],
+        "final": [
+          {
+            "onset": [
+              "b"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "b"
+            ]
+          },
+          {
+            "onset": [
+              "r"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "f"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": [
+              "t"
+            ]
+          }
+        ],
+        "repairs": [],
+        "stress": [
+          null,
+          "ˈ",
+          null
+        ]
+      },
+      {
+        "seed": 6000054,
+        "word": "nanterks",
+        "pronunciation": "ˈnænt.ɚks",
+        "initial": [
+          {
+            "onset": [
+              "n"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "n",
+              "t"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɚ"
+            ],
+            "coda": [
+              "k"
+            ]
+          }
+        ],
+        "base": [
+          {
+            "onset": [
+              "n"
+            ],
+            "nucleus": [
+              "æ"
+            ],
+            "coda": [
+              "n",
+              "t"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɚ"
+            ],
+            "coda": [
+              "k"
+            ]
+          }
+        ],
+        "final": [
+          {
+            "onset": [
+              "n"
+            ],
+            "nucleus": [
+              "æ"
+            ],
+            "coda": [
+              "n",
+              "t"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɚ"
+            ],
+            "coda": [
+              "k",
+              "s"
+            ]
+          }
+        ],
+        "repairs": [
+          {
+            "rule": "repairStressedNuclei",
+            "before": "ə",
+            "after": "æ",
+            "detail": "replaced banned stressed nucleus /ə/",
+            "nucleusReplacement": {
+              "domain": "lexical-root",
+              "syllableIndex": 0,
+              "nucleusIndex": 0,
+              "coda": [
+                "n",
+                "t"
+              ],
+              "edges": {
+                "initial": false,
+                "final": false
+              },
+              "weighting": "nucleus-only",
+              "eligibleCandidateEntries": 16,
+              "positivePairExclusions": 0,
+              "totalWeight": 2044
+            }
+          }
+        ],
+        "stress": [
+          "ˈ",
+          null
+        ]
+      }
+    ],
+    "triple:lexical": [
+      {
+        "seed": 6000135,
+        "word": "bepeectying",
+        "pronunciation": "bi:ˈpʰi:k.ti:.ɪŋ",
+        "initial": [
+          {
+            "onset": [
+              "b"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "p"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "k"
+            ]
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": []
+          }
+        ],
+        "base": [
+          {
+            "onset": [
+              "b"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "p"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": [
+              "k"
+            ]
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": []
+          }
+        ],
+        "final": [
+          {
+            "onset": [
+              "b"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "p"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": [
+              "k"
+            ]
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "i:"
+            ],
+            "coda": []
+          }
+        ],
+        "repairs": [
+          {
+            "rule": "repairStressedNuclei",
+            "before": "ə",
+            "after": "i:",
+            "detail": "replaced banned stressed nucleus /ə/",
+            "nucleusReplacement": {
+              "domain": "lexical-root",
+              "syllableIndex": 1,
+              "nucleusIndex": 0,
+              "coda": [
+                "k"
+              ],
+              "edges": {
+                "initial": false,
+                "final": false
+              },
+              "weighting": "nucleus-only",
+              "eligibleCandidateEntries": 16,
+              "positivePairExclusions": 0,
+              "totalWeight": 2044
+            }
+          }
+        ],
+        "stress": [
+          null,
+          "ˈ",
+          null
+        ]
+      },
+      {
+        "seed": 6000410,
+        "word": "ilishird",
+        "pronunciation": "ˈɪ.lɪ.ʃɪrd",
+        "initial": [
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "ʃ"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "r",
+              "d"
+            ]
+          }
+        ],
+        "base": [
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "ʃ"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "r",
+              "d"
+            ]
+          }
+        ],
+        "final": [
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "ʃ"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "r",
+              "d"
+            ]
+          }
+        ],
+        "repairs": [
+          {
+            "rule": "repairStressedNuclei",
+            "before": "ə",
+            "after": "ɪ",
+            "detail": "replaced banned stressed nucleus /ə/",
+            "nucleusReplacement": {
+              "domain": "lexical-root",
+              "syllableIndex": 0,
+              "nucleusIndex": 0,
+              "coda": [],
+              "edges": {
+                "initial": true,
+                "final": false
+              },
+              "weighting": "nucleus-only",
+              "eligibleCandidateEntries": 16,
+              "positivePairExclusions": 0,
+              "totalWeight": 2044
+            }
+          }
+        ],
+        "stress": [
+          "ˈ",
+          null,
+          null
+        ]
+      },
+      {
+        "seed": 6002549,
+        "word": "inittisone",
+        "pronunciation": "ɪnˌɪˈtʰɪs.əʊn",
+        "initial": [
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "n"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "n"
+            ]
+          }
+        ],
+        "base": [
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "n"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "n"
+            ]
+          }
+        ],
+        "final": [
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "n"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "n"
+            ]
+          }
+        ],
+        "repairs": [
+          {
+            "rule": "repairStressedNuclei",
+            "before": "ə",
+            "after": "ɪ",
+            "detail": "replaced banned stressed nucleus /ə/",
+            "nucleusReplacement": {
+              "domain": "lexical-root",
+              "syllableIndex": 2,
+              "nucleusIndex": 0,
+              "coda": [
+                "s"
+              ],
+              "edges": {
+                "initial": false,
+                "final": false
+              },
+              "weighting": "nucleus-only",
+              "eligibleCandidateEntries": 16,
+              "positivePairExclusions": 0,
+              "totalWeight": 2044
+            }
+          }
+        ],
+        "stress": [
+          null,
+          "ˌ",
+          "ˈ",
+          null
+        ]
+      }
+    ],
+    "triple:generation": [
+      {
+        "seed": 6000205,
+        "word": "arossoba",
+        "pronunciation": "ˈeɪ.rəˌsəb.ə",
+        "initial": [
+          {
+            "onset": [],
+            "nucleus": [
+              "eɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "r"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "b"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          }
+        ],
+        "base": [
+          {
+            "onset": [],
+            "nucleus": [
+              "eɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "r"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "b"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          }
+        ],
+        "final": [
+          {
+            "onset": [],
+            "nucleus": [
+              "eɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "r"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "b"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          }
+        ],
+        "repairs": [],
+        "stress": [
+          "ˈ",
+          null,
+          "ˌ",
+          null
+        ]
+      },
+      {
+        "seed": 6001956,
+        "word": "uvanungasown",
+        "pronunciation": "ˈʊ.vəˌnən.gəs.aʊn",
+        "initial": [
+          {
+            "onset": [],
+            "nucleus": [
+              "ʊ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "v"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "n"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "n"
+            ]
+          },
+          {
+            "onset": [
+              "g"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "aʊ"
+            ],
+            "coda": [
+              "n"
+            ]
+          }
+        ],
+        "base": [
+          {
+            "onset": [],
+            "nucleus": [
+              "ʊ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "v"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "n"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "n"
+            ]
+          },
+          {
+            "onset": [
+              "g"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "aʊ"
+            ],
+            "coda": [
+              "n"
+            ]
+          }
+        ],
+        "final": [
+          {
+            "onset": [],
+            "nucleus": [
+              "ʊ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "v"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "n"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "n"
+            ]
+          },
+          {
+            "onset": [
+              "g"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "aʊ"
+            ],
+            "coda": [
+              "n"
+            ]
+          }
+        ],
+        "repairs": [],
+        "stress": [
+          "ˈ",
+          null,
+          "ˌ",
+          null,
+          null
+        ]
+      },
+      {
+        "seed": 6003965,
+        "word": "usimmililuhol",
+        "pronunciation": "ˈuˌsɪm.ɪˌlɪ.lə.həʊl",
+        "initial": [
+          {
+            "onset": [],
+            "nucleus": [
+              "u"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "m"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "h"
+            ],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "l"
+            ]
+          }
+        ],
+        "base": [
+          {
+            "onset": [],
+            "nucleus": [
+              "u"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "m"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "h"
+            ],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "l"
+            ]
+          }
+        ],
+        "final": [
+          {
+            "onset": [],
+            "nucleus": [
+              "u"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "m"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "h"
+            ],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "l"
+            ]
+          }
+        ],
+        "repairs": [],
+        "stress": [
+          "ˈ",
+          "ˌ",
+          null,
+          "ˌ",
+          null,
+          null
+        ]
+      }
+    ],
+    "triple:pronunciation": [
+      {
+        "seed": 6000247,
+        "word": "asovokitoves",
+        "pronunciation": "əz.ə.vəˈkʰɪ.tʰəvz",
+        "initial": [
+          {
+            "onset": [],
+            "nucleus": [
+              "æ"
+            ],
+            "coda": [
+              "z"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ʌ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "v"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "k"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ʌ"
+            ],
+            "coda": [
+              "v"
+            ]
+          }
+        ],
+        "base": [
+          {
+            "onset": [],
+            "nucleus": [
+              "æ"
+            ],
+            "coda": [
+              "z"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ʌ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "v"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "k"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ʌ"
+            ],
+            "coda": [
+              "v"
+            ]
+          }
+        ],
+        "final": [
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "z"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "v"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "k"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "v",
+              "z"
+            ]
+          }
+        ],
+        "repairs": [
+          {
+            "rule": "repairStressedNuclei",
+            "before": "ə",
+            "after": "ɪ",
+            "detail": "replaced banned stressed nucleus /ə/",
+            "nucleusReplacement": {
+              "domain": "lexical-root",
+              "syllableIndex": 3,
+              "nucleusIndex": 0,
+              "coda": [],
+              "edges": {
+                "initial": false,
+                "final": false
+              },
+              "weighting": "nucleus-only",
+              "eligibleCandidateEntries": 16,
+              "positivePairExclusions": 0,
+              "totalWeight": 2044
+            }
+          }
+        ],
+        "stress": [
+          null,
+          null,
+          null,
+          "ˈ",
+          null
+        ]
+      },
+      {
+        "seed": 6002072,
+        "word": "missillimedge",
+        "pronunciation": "ˌməsˈsɪl.ɪm.ɪdʒ",
+        "initial": [
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "l"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "m"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɛ"
+            ],
+            "coda": [
+              "dʒ"
+            ]
+          }
+        ],
+        "base": [
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "l"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "m"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɛ"
+            ],
+            "coda": [
+              "dʒ"
+            ]
+          }
+        ],
+        "final": [
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "l"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "m"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "dʒ"
+            ]
+          }
+        ],
+        "repairs": [],
+        "stress": [
+          "ˈ",
+          null,
+          null
+        ]
+      },
+      {
+        "seed": 6002085,
+        "word": "tocridlorwonisom",
+        "pronunciation": "ˈtʰɑk.rɪdˌlər.wən.əs.əm",
+        "initial": [
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ɑ"
+            ],
+            "coda": [
+              "k"
+            ]
+          },
+          {
+            "onset": [
+              "r"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "d"
+            ]
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "r"
+            ]
+          },
+          {
+            "onset": [
+              "w"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "n"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "m"
+            ]
+          }
+        ],
+        "base": [
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ɑ"
+            ],
+            "coda": [
+              "k"
+            ]
+          },
+          {
+            "onset": [
+              "r"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "d"
+            ]
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "r"
+            ]
+          },
+          {
+            "onset": [
+              "w"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "n"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "m"
+            ]
+          }
+        ],
+        "final": [
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ɑ"
+            ],
+            "coda": [
+              "k"
+            ]
+          },
+          {
+            "onset": [
+              "r"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": [
+              "d"
+            ]
+          },
+          {
+            "onset": [
+              "l"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "r"
+            ]
+          },
+          {
+            "onset": [
+              "w"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "n"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "s"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "m"
+            ]
+          }
+        ],
+        "repairs": [],
+        "stress": [
+          "ˈ",
+          null,
+          "ˌ",
+          null,
+          null,
+          null
+        ]
+      }
+    ],
+    "mirror:pronunciation": [
+      {
+        "seed": 6000269,
+        "word": "botordaed",
+        "pronunciation": "bɔˈtʰɚ.dəd",
+        "initial": [
+          {
+            "onset": [
+              "b"
+            ],
+            "nucleus": [
+              "ɔ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "d"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          }
+        ],
+        "base": [
+          {
+            "onset": [
+              "b"
+            ],
+            "nucleus": [
+              "ɔ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ɚ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "d"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          }
+        ],
+        "final": [
+          {
+            "onset": [
+              "b"
+            ],
+            "nucleus": [
+              "ɔ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "t"
+            ],
+            "nucleus": [
+              "ɚ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "d"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "d"
+            ]
+          }
+        ],
+        "repairs": [
+          {
+            "rule": "repairStressedNuclei",
+            "before": "ə",
+            "after": "ɚ",
+            "detail": "replaced banned stressed nucleus /ə/",
+            "nucleusReplacement": {
+              "domain": "lexical-root",
+              "syllableIndex": 1,
+              "nucleusIndex": 0,
+              "coda": [],
+              "edges": {
+                "initial": false,
+                "final": false
+              },
+              "weighting": "nucleus-only",
+              "eligibleCandidateEntries": 16,
+              "positivePairExclusions": 0,
+              "totalWeight": 2044
+            }
+          }
+        ],
+        "stress": [
+          null,
+          "ˈ",
+          null
+        ]
+      },
+      {
+        "seed": 6000584,
+        "word": "incizzars",
+        "pronunciation": "ˌɪnˈsɪˌzɚz",
+        "initial": [
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "z"
+            ],
+            "nucleus": [
+              "ɚ"
+            ],
+            "coda": []
+          }
+        ],
+        "base": [
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "z"
+            ],
+            "nucleus": [
+              "ɚ"
+            ],
+            "coda": []
+          }
+        ],
+        "final": [
+          {
+            "onset": [
+              "s"
+            ],
+            "nucleus": [
+              "ɪ"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "z"
+            ],
+            "nucleus": [
+              "ɚ"
+            ],
+            "coda": [
+              "z"
+            ]
+          }
+        ],
+        "repairs": [],
+        "stress": [
+          "ˈ",
+          "ˌ"
+        ]
+      },
+      {
+        "seed": 6000884,
+        "word": "smotazas",
+        "pronunciation": "ˈsməʊt.əˌzɑz",
+        "initial": [
+          {
+            "onset": [
+              "s",
+              "m"
+            ],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": [
+              "t"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "z"
+            ],
+            "nucleus": [
+              "ɑ"
+            ],
+            "coda": []
+          }
+        ],
+        "base": [
+          {
+            "onset": [
+              "s",
+              "m"
+            ],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "t"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "z"
+            ],
+            "nucleus": [
+              "ɑ"
+            ],
+            "coda": []
+          }
+        ],
+        "final": [
+          {
+            "onset": [
+              "s",
+              "m"
+            ],
+            "nucleus": [
+              "əʊ"
+            ],
+            "coda": [
+              "t"
+            ]
+          },
+          {
+            "onset": [],
+            "nucleus": [
+              "ə"
+            ],
+            "coda": []
+          },
+          {
+            "onset": [
+              "z"
+            ],
+            "nucleus": [
+              "ɑ"
+            ],
+            "coda": [
+              "z"
+            ]
+          }
+        ],
+        "repairs": [
+          {
+            "rule": "repairStressedNuclei",
+            "before": "ə",
+            "after": "əʊ",
+            "detail": "replaced banned stressed nucleus /ə/",
+            "nucleusReplacement": {
+              "domain": "lexical-root",
+              "syllableIndex": 0,
+              "nucleusIndex": 0,
+              "coda": [
+                "t"
+              ],
+              "edges": {
+                "initial": false,
+                "final": false
+              },
+              "weighting": "nucleus-only",
+              "eligibleCandidateEntries": 16,
+              "positivePairExclusions": 0,
+              "totalWeight": 2044
+            }
+          }
+        ],
+        "stress": [
+          "ˈ",
+          null,
+          "ˌ"
+        ]
+      }
+    ]
+  },
+  "structure": {
+    "aspirationDecision": 49133,
+    "sspBoundaryDrop": 53,
+    "morphHiatusDecision": 678,
+    "vowelHiatusFallback": 38,
+    "risingCodaBoundaryDrop": 5,
+    "junctionBoundaryDrop": 7,
+    "boundaryDrop": 2
+  },
+  "fullDistance": {
+    "jensenShannonBits": 0.005019331012502348,
+    "missingReferenceMass": 0,
+    "unseenGeneratedMass": 0,
+    "totalVariationPct": 6.285341153695757
+  },
+  "rootDistance": {
+    "jensenShannonBits": 0.0109692661704257,
+    "missingReferenceMass": 0,
+    "unseenGeneratedMass": 0,
+    "totalVariationPct": 7.490485196184611
+  },
+  "trigramDistance": {
+    "jensenShannonBits": 0.1493496269561669,
+    "missingReferenceMass": 0.056303485948942265,
+    "unseenGeneratedMass": 0.00709881829080292
+  },
+  "means": {
+    "letters": 7.839,
+    "phones": 6.60945,
+    "syllables": 2.45665,
+    "wordlikeness": -2.5627233373181886
+  }
+}
