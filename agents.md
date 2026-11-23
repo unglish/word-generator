@@ -33,7 +33,7 @@ Operational guidance for human contributors and coding agents working in
 
 - For generator tuning, include deterministic seed-based checks and a
   distribution-oriented test where practical.
-- Run `npm run check` (lint, typecheck, `npm test`, review unit tests) before
+- Run `npm run check` (lint, typecheck, bounded models, and test suites) before
   pushing. It is the only pre-merge test gate: PR CI runs just lint, typecheck
   and build. The full suite, `npm run test:diagnostics` and the review
   end-to-end tests run on `main` after merge and gate the deploy.
@@ -55,6 +55,17 @@ Operational guidance for human contributors and coding agents working in
 4. Add syllable/repair rules in `src/core/*` with tests that validate both
    structure and output behavior.
 5. Keep refactors semantics-preserving unless explicitly asked to change output.
+
+## Enforced constraints
+
+| Constraint | Enforcement |
+| --- | --- |
+| A late review reply belongs to its original batch. | The request and receipt carry the batch identity. `npm run test:review:model`, `test:review:db`, and `test:review:smoke` check recovery. |
+| Nucleus replacement preserves root phonotactics after repairs. | One root rime policy covers both replacement paths. The public tests in `src/core/rime-compatibility.test.ts` replay a coda drop and a stressed nucleus repair. |
+| An early fallback still reports every executed retry. | One selection result drives the output and trace. `npm run test:root-attempts:model` checks the retry count and selected attempt. |
+| Root proposals use phonological weights. | The root length sampler receives phoneme and syllable weights and cluster limits. `src/core/root-length-proposal.test.ts` checks the public trace under different letter targets. |
+| A branch cannot serve as its own test witness. | ESLint rejects conditional boolean assertions whose branch already proves the result. `findExample` fails when a required witness is absent. |
+| Dependencies and local task notes stay out of the Git index. | `npm run lint` checks the tracked paths, including symlinks. |
 
 ## Pull Request Checklist
 

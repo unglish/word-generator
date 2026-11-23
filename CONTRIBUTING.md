@@ -68,8 +68,8 @@ for the corpus inputs and reproduction steps.
 - **Tests** (`.github/workflows/tests.yml`): the generator and review test
   suites, both bounded models, and `test:diagnostics`. It repeats lint and
   typecheck because PR checks may have run against older bases. It runs on
-  every push to `main`. To
-  run it on a branch before merging, dispatch the *Tests* workflow on that
+  every push to `main`. To run it on a branch before merging, dispatch the
+  *Tests* workflow on that
   branch (`gh workflow run tests.yml --ref <branch>`).
 - **Review end-to-end** (`.github/workflows/review-e2e.yml`): Playwright,
   Supabase, database, and smoke tests for the review app. Runs on every push
