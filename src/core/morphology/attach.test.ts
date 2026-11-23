@@ -838,6 +838,18 @@ describe("applyBoundaryTransforms", () => {
     });
   });
 
+  it("matches affix conditions against the preceding transform's spelling override", () => {
+    const transforms: BoundaryTransform[] = [
+      { ...Y_TO_I, affixWritten: "es" },
+      { name: "second-rewrite", match: /i$/, replace: "ie", affixMatch: /^e/ },
+    ];
+    expect(applyBoundaryTransformsDetailed("cry", transforms, undefined, "s")).toEqual({
+      written: "crie",
+      affixWritten: "es",
+      fired: ["y-to-i", "second-rewrite"],
+    });
+  });
+
   it("drop-silent-e removes trailing e", () => {
     expect(applyBoundaryTransforms("bake", [DROP_SILENT_E])).toBe("bak");
   });

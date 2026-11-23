@@ -55,7 +55,9 @@ describe("double-consonant boundary condition", () => {
   });
 
   it("keeps drop-silent-e blocking doubling", () => {
-    expect(applyBoundaryTransforms("dine", ED, syllable(["d"], "aɪ", ["n"], "ˈ"))).toBe("din");
+    const final = syllable(["s", "t"], "ɑ", ["p"], "ˈ");
+    expect(applyBoundaryTransforms("stope", ED, final)).toBe("stop");
+    expect(applyBoundaryTransforms("stop", ED, final)).toBe("stopp");
   });
 
   it("reads stress levels from the syllable", () => {

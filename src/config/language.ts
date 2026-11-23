@@ -1056,6 +1056,8 @@ export interface BoundaryTransform {
    * `visited`).
    */
   boundarySyllable?: readonly BoundarySyllableCondition[];
+  /** Match the realized affix spelling, including any earlier transform's override. */
+  affixMatch?: RegExp;
   /**
    * When this transform fires, override the affix written form.
    * Used so consonant+y + `-s` selects the same `-es` spelling as the
