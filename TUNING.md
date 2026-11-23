@@ -432,6 +432,18 @@ plural frequency. Joint host and suffix calibration is tracked in #462.
 | fullCmu | Finished syllable TV (pp) | 0.14159 | 0.45041 | 0.28093 | 0.07898 | 0.69 |
 | fullCmu | Finished mean syllable gap | 0.00023 | 0.00514 | 0.00181 | 0.00133 | 0.0092 |
 
+### Root schwa gap after #523 (2026-11-23)
+
+`roots.maxAbsoluteGapPct` 2.326 → 2.47. The worst root gap is /ə/ under-representation, which #523 (fewer same-vowel triples in roots, most of them schwa) widens on every stream. Thirty paired 200,000-word streams (`npm run calibrate:phonemes -- --stage roots --count 30`), main f6dab1f0 vs #523 rebased on 9c29ebbe:
+
+| Roots metric | Main mean (max) | #523 mean (max) | #523 SD |
+|---|---:|---:|---:|
+| Worst phoneme gap, /ə/ (pp) | 2.247 (2.281) | 2.338 (2.393) | 0.0255 |
+| Phoneme TV (pp) | 7.116 (7.193) | 7.017 (7.128) | 0.0468 |
+| Worst under-representation, /ʃ/ (×) | 0.681 | 0.697 | 0.0053 |
+
+The /ə/ shift is real (+0.09 pp, about 4 SD), not seed noise. It is accepted because #523 moves total variation, the /ʃ/ floor and the #498/#503 repetition rates toward CMU, and because the schwa deficit is pre-existing (2.20 before #522) and has its own fix in #532. The new limit is the k = 3 value from the #523 run (max 2.39256 + 3 × 0.02553). Other limits are unchanged; all #523 extrema are inside them. Tighten this limit again when #532 lands.
+
 ### Legacy threshold changes before the stage split
 
 2026-11-13: minRepresentation and maxAbsoluteGapPct loosened after forbidOpenCheckedFinal removed open-final /ɪ ɛ æ ʌ ʊ/ (issue #398); /ɪ/ under-rep and abs gap moved while TV/over-rep stayed within prior limits (5-seed recalibration).
