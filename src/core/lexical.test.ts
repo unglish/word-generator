@@ -33,6 +33,8 @@ function lexicalGenerator(options: { prefix?: string; suffix?: string; vowels?: 
         primary: { type: "initial" },
         secondary: { ...englishConfig.pronunciation.stress.secondary, enabled: false },
         rhythmic: { ...englishConfig.pronunciation.stress.rhythmic, enabled: false },
+        // These fixtures explicitly exercise reduction of secondary-stressed vowels.
+        nucleus: { ...englishConfig.pronunciation.stress.nucleus, secondaryStressBan: undefined },
       },
       aspiration: {
         enabled: true,

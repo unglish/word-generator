@@ -446,8 +446,8 @@ the lexical root being spelled. English doubles in these cases:
   /ɪ ɛ æ ʌ ʊ ɑ ɔ ɜ/, or on /ɚ/: `stopping`, `fratter`, *occurred*,
   `naturred` /næˈtʰɚd/.
 - **Secondary stress** on a full short vowel, as in *kidnapped*,
-  *handicapped* and *zigzagged*: `pirtwigger` /ˈpʰɪrˌtʰwɪg.ɚ/. Secondary
-  stress on /ɚ/ (#476) does not double: `wubering` /ˈwʌˌbɚ.ɪŋ/.
+  *handicapped* and *zigzagged*: `pirtwigger` /ˈpʰɪrˌtʰwɪg.ɚ/. The English
+  stress policy reserves secondary stress for full vowels.
 
 Nothing else doubles:
 
@@ -455,12 +455,13 @@ Nothing else doubles:
   (*worshiped*, *traveled*). British spelling doubles `l` (*travelled*).
 - A long vowel or diphthong keeps its one letter reading long (`bated`
   /ˈbeɪt.əd/, `skiping`), which matches the open-reading rule above.
-- Schwa never doubles (*galloped*), even under secondary stress.
+- Schwa never doubles (*galloped*).
 
 The check draws no random numbers, and no other transform is blocked by
-`double-consonant`. Some words now have an unstressed full short vowel spelled
-with one letter before a vowel (`udgemed` /ˈʌdʒ.ɛmd/). English seldom has
-these, because it reduces such vowels.
+`double-consonant`. English favors secondary stress on full short root-final
+vowels, so a retained vowel can trigger doubling before a suffix. Surface vowel
+reduction runs after spelling and can reduce an unstressed vowel at the root
+edge, including before a syllabic suffix.
 
 ## Evidence
 

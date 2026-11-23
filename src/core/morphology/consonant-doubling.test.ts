@@ -90,6 +90,19 @@ function isStressedShort(final: Syllable): boolean {
 }
 
 describe("consonant doubling over a seed sample", () => {
+  it("doubles when a root-final full short vowel retains secondary stress", () => {
+    const word = generateWord({ seed: 5_000_028, trace: true });
+    const example = doublingCase(word)!;
+    const rootEnd = word.lexical!.rootSyllableStart + word.lexical!.root.length - 1;
+    expect(example.final.stress).toBe("ˌ");
+    expect(example.doubled).toBe(true);
+    expect(word.syllables[rootEnd]).toMatchObject({
+      stress: "ˌ",
+      nucleus: [{ sound: example.final.nucleus[0].sound }],
+    });
+    expect(word.syllables[rootEnd].nucleus[0].reduced).toBeUndefined();
+  });
+
   it("finds a stressed short-vowel root that doubles", () => {
     const { word } = findExample((w) => {
       const c = doublingCase(w);

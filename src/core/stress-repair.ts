@@ -1,5 +1,5 @@
 import { Phoneme, Syllable, WordGenerationContext } from "../types.js";
-import { StressRules } from "../config/language.js";
+import type { StressNucleusRules, StressRules } from "../config/language.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import {
   isCheckedOpenFinalAllowed,
@@ -12,6 +12,33 @@ import {
   isNucleusCompatibleWithOnset,
 } from "./rime-compatibility.js";
 import type { BannedNucleusCodaPairs, OnsetRimeBans } from "./rime-compatibility.js";
+
+export function allowsSecondaryStress(
+  syllable: Syllable,
+  rules: StressNucleusRules,
+): boolean {
+  const { secondaryStressBan } = rules;
+  return !secondaryStressBan?.length ||
+    !syllable.nucleus.some(({ sound }) => secondaryStressBan.includes(sound));
+}
+
+/** Nucleus replacement and affix stress can invalidate lexical secondary stress. */
+export function clearBannedSecondaryStress(
+  context: WordGenerationContext,
+  rules: StressNucleusRules,
+): void {
+  if (!rules.secondaryStressBan?.length) return;
+  for (const [index, syllable] of context.word.syllables.entries()) {
+    if (syllable.stress !== "ˌ" || allowsSecondaryStress(syllable, rules)) continue;
+    syllable.stress = undefined;
+    context.trace?.recordRepair(
+      "clearBannedSecondaryStress",
+      "ˌ",
+      "",
+      `syllable ${index}: /${syllable.nucleus.map(({ sound }) => sound).join("")}/`,
+    );
+  }
+}
 
 /**
  * After stress assignment, re-pick any nucleus whose sound is banned under

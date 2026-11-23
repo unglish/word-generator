@@ -348,6 +348,8 @@ export interface SecondaryStressRules {
   heavyWeight: number;
   lightWeight: number;
   candidateWindow: "first-three" | "all-nonprimary";
+  /** Overrides the probability of stressing a selected root-final nucleus. */
+  finalNucleusProbabilities?: Readonly<Record<string, number>>;
 }
 
 export interface RhythmicStressRules {
@@ -357,7 +359,10 @@ export interface RhythmicStressRules {
 }
 
 export interface StressNucleusRules {
+  /** Primary-stressed nuclei are replaced when their sound is banned. */
   stressedNucleusBan?: string[];
+  /** Nuclei excluded from secondary stress, including after affixation. */
+  secondaryStressBan?: string[];
   unstressedNucleusBoost?: Record<string, number>;
 }
 
@@ -449,6 +454,12 @@ export interface VowelReductionRule {
   target: string;
   /** Reduction probability 0-100 */
   probability: number;
+  /**
+   * Absolute probability at the end of the word or its lexical root, before
+   * coda and secondary-stress modifiers. Opts the source into reduction at
+   * these positions even if the inventory classifies it as tense.
+   */
+  finalProbability?: number;
   /**
    * Probability multipliers keyed on the sound right after the vowel in its
    * own syllable (the first coda consonant). The first entry whose selector
@@ -1280,6 +1291,9 @@ export function resolveStressRules(rules: StressRules): ResolvedStressRules {
       candidateWindow:
         rules.secondary.candidateWindow ??
         DEFAULT_STRESS_RULES.secondary.candidateWindow,
+      finalNucleusProbabilities: rules.secondary.finalNucleusProbabilities
+        ? { ...rules.secondary.finalNucleusProbabilities }
+        : undefined,
     },
     rhythmic: {
       enabled: rules.rhythmic.enabled ?? DEFAULT_STRESS_RULES.rhythmic.enabled,
@@ -1292,6 +1306,9 @@ export function resolveStressRules(rules: StressRules): ResolvedStressRules {
     nucleus: {
       stressedNucleusBan: rules.nucleus.stressedNucleusBan
         ? [...rules.nucleus.stressedNucleusBan]
+        : undefined,
+      secondaryStressBan: rules.nucleus.secondaryStressBan
+        ? [...rules.nucleus.secondaryStressBan]
         : undefined,
       unstressedNucleusBoost: rules.nucleus.unstressedNucleusBoost
         ? { ...rules.nucleus.unstressedNucleusBoost }
@@ -1717,6 +1734,13 @@ export function validateConfig(config: LanguageConfig): void {
         "pronunciation.stress.primary.otConfig is required for ot strategy",
       );
     }
+    for (const constraint of primary.otConfig.constraints) {
+      for (const [sound, adjustment] of Object.entries(constraint.nucleusWeightAdjustments ?? {})) {
+        if (!sound.trim() || !Number.isFinite(adjustment)) {
+          throw new Error("OT nucleus weight adjustments require non-empty sounds and finite weights");
+        }
+      }
+    }
   }
 
   if (!stress.secondary || typeof stress.secondary !== "object") {
@@ -1731,7 +1755,10 @@ export function validateConfig(config: LanguageConfig): void {
 
   assertAllowedKeys(
     stress.secondary,
-    ["enabled", "probability", "heavyWeight", "lightWeight", "candidateWindow"],
+    [
+      "enabled", "probability", "heavyWeight", "lightWeight",
+      "candidateWindow", "finalNucleusProbabilities",
+    ],
     "pronunciation.stress.secondary",
   );
   assertAllowedKeys(
@@ -1741,7 +1768,7 @@ export function validateConfig(config: LanguageConfig): void {
   );
   assertAllowedKeys(
     stress.nucleus,
-    ["stressedNucleusBan", "unstressedNucleusBoost"],
+    ["stressedNucleusBan", "secondaryStressBan", "unstressedNucleusBoost"],
     "pronunciation.stress.nucleus",
   );
 
@@ -1749,6 +1776,12 @@ export function validateConfig(config: LanguageConfig): void {
     stress.secondary.probability,
     "pronunciation.stress.secondary.probability",
   );
+  for (const [sound, probability] of Object.entries(stress.secondary.finalNucleusProbabilities ?? {})) {
+    if (!sound.trim()) {
+      throw new Error("pronunciation.stress.secondary.finalNucleusProbabilities has an empty sound key");
+    }
+    assertProbability(probability, `pronunciation.stress.secondary.finalNucleusProbabilities.${sound}`);
+  }
   assertProbability(
     stress.rhythmic.probability,
     "pronunciation.stress.rhythmic.probability",
@@ -1765,11 +1798,12 @@ export function validateConfig(config: LanguageConfig): void {
     );
   }
 
-  if (stress.nucleus.stressedNucleusBan) {
-    for (const [idx, sound] of stress.nucleus.stressedNucleusBan.entries()) {
-      if (!sound) {
+  for (const key of ["stressedNucleusBan", "secondaryStressBan"] as const) {
+    const sounds = stress.nucleus[key];
+    if (sounds !== undefined) {
+      if (!Array.isArray(sounds) || sounds.some((sound) => typeof sound !== "string" || !sound.trim())) {
         throw new Error(
-          `pronunciation.stress.nucleus.stressedNucleusBan[${idx}] must be non-empty`,
+          `pronunciation.stress.nucleus.${key} must be an array of non-empty sounds`,
         );
       }
     }
@@ -1788,6 +1822,12 @@ export function validateConfig(config: LanguageConfig): void {
           `pronunciation.stress.nucleus.unstressedNucleusBoost.${sound} must be >= 0`,
         );
       }
+    }
+  }
+
+  for (const [index, rule] of (config.pronunciation.vowelReduction?.rules ?? []).entries()) {
+    if (rule.finalProbability !== undefined) {
+      assertProbability(rule.finalProbability, `pronunciation.vowelReduction.rules[${index}].finalProbability`);
     }
   }
 
