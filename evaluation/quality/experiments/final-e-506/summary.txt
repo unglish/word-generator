@@ -1,0 +1,76 @@
+Seeds 5000000–5099999
+paired seeds: 100000
+changed spellings: 912
+e removed: 912
+e added: 0
+other: 0
+changed pronunciation: 0
+changed base: 0
+changed planned: 0
+changed resolved: 0
+changed allomorphIndex: 0
+hyphenated spelling changes: 912
+
+| Realized suffix | Observed | e removed | e added | Other |
+| --- | ---: | ---: | ---: | ---: |
+| `-able` | 546 | 0 | 0 | 0 |
+| `-al` | 643 | 0 | 0 | 0 |
+| `-ary` | 84 | 0 | 0 | 0 |
+| `-ed` | 9,612 | 0 | 0 | 0 |
+| `-er` | 2,924 | 0 | 0 | 0 |
+| `-ery` | 5 | 0 | 0 | 0 |
+| `-es` | 3,816 | 848 | 0 | 0 |
+| `-est` | 478 | 0 | 0 | 0 |
+| `-ful` | 237 | 0 | 0 | 0 |
+| `-ial` | 14 | 2 | 0 | 0 |
+| `-ian` | 7 | 3 | 0 | 0 |
+| `-ing` | 8,887 | 0 | 0 | 0 |
+| `-ism` | 176 | 26 | 0 | 0 |
+| `-ist` | 204 | 33 | 0 | 0 |
+| `-ity` | 371 | 0 | 0 | 0 |
+| `-ive` | 346 | 0 | 0 | 0 |
+| `-ize` | 200 | 0 | 0 | 0 |
+| `-less` | 282 | 0 | 0 | 0 |
+| `-ly` | 1,893 | 0 | 0 | 0 |
+| `-ment` | 408 | 0 | 0 | 0 |
+| `-ness` | 649 | 0 | 0 | 0 |
+| `-ory` | 57 | 0 | 0 | 0 |
+| `-ous` | 172 | 0 | 0 | 0 |
+| `-s` | 18,014 | 0 | 0 | 0 |
+| `-sion` | 11 | 0 | 0 | 0 |
+| `-tion` | 27 | 0 | 0 | 0 |
+
+| Seed | Suffix | Before | After | IPA |
+| ---: | --- | --- | --- | --- |
+| 5000104 | `-es` | `widgees` | `widges` | /ˈwɪdʒ.ɪz/ |
+| 5000136 | `-es` | `sterdgees` | `sterdges` | /ˈstɚdʒ.ɪz/ |
+| 5000210 | `-es` | `soneegees` | `soneeges` | /ˈsɔn.i:dʒ.ɪz/ |
+| 5000256 | `-es` | `cerazesees` | `cerazeses` | /ˈsɛ.ræˌzi:z.ɪz/ |
+| 5000260 | `-es` | `blagees` | `blages` | /ˈblædʒ.ɪz/ |
+| 5000453 | `-es` | `rigonsees` | `rigonses` | /ˈraɪ.gəʊns.ɪz/ |
+| 5000560 | `-es` | `unwazeecees` | `unwazeeces` | /ˌən.wəˈzi:s.ɪz/ |
+| 5000580 | `-es` | `eckegees` | `eckeges` | /ˈɛk.i:dʒ.əz/ |
+| 5000764 | `-es` | `senposees` | `senposes` | /sɛnˈpʰəʊs.ɪz/ |
+| 5005190 | `-ist` | `fakeist` | `fakist` | /ˈfeɪk.əst/ |
+| 5011428 | `-ist` | `caleist` | `calist` | /ˈseɪl.əst/ |
+| 5014720 | `-ist` | `crikeist` | `crikist` | /ˈkʰraɪk.ɪst/ |
+| 5000906 | `-ism` | `trolssitameism` | `trolssitamism` | /ˈtʰrɔlʃ.teɪm.ɪz.əm/ |
+| 5004659 | `-ism` | `shelogeism` | `shelogism` | /ˈʃɛ.ləʊdʒ.ɪz.əm/ |
+| 5016188 | `-ism` | `gedgeism` | `gedgism` | /ˈgɛdʒ.əz.əm/ |
+| 5062649 | `-ian` | `sobliveian` | `soblivian` | /ˌsəʊˈblɪv.i:.ən/ |
+| 5076049 | `-ian` | `gareneian` | `garenian` | /ˌgɑˈri:n.i:.ən/ |
+| 5085717 | `-ian` | `rilepobeian` | `rilepobian` | /ˌraɪlˈpʰəʊb.i:.ən/ |
+| 5027433 | `-ial` | `anatosheial` | `anatoshial` | /ˌɑ.næˈtʰəʊʃ.i:.əl/ |
+| 5076622 | `-ial` | `funkekeial` | `funkekial` | /ˌfʌnˈkʰi:k.i:.əl/ |
+
+Open-root controls
+5003566	mee	able	meable	meable
+5004272	retrue	er	retruer	retruer
+5004681	ree	ing	reing	reing
+5007319	cature	ed	catured	catured
+5009642	mecue	ed	mecued	mecued
+5014397	free	ed	freed	freed
+5052867	godue	ing	goduing	goduing
+5089587	cie	al	cial	cial
+5091980	fie	ed	fied	fied
+5097680	ciltre	ing	ciltring	ciltring
