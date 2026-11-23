@@ -1,0 +1,77 @@
+
+> @unglish/word-generator@0.6.0 test
+> vitest run src/core/morphology/consonant-doubling.test.ts -t without hard-c repair
+
+
+ RUN  v3.2.4 /private/tmp/word-generator-518.ggDgKK
+
+ ❯ src/core/morphology/consonant-doubling.test.ts (26 tests | 2 failed | 24 skipped) 30ms
+   ↓ double-consonant boundary condition > 'stop' + ed → 'stopp' ('stressed lot vowel')
+   ↓ double-consonant boundary condition > 'commit' + ed → 'committ' ('primary-stressed checked vowel')
+   ↓ double-consonant boundary condition > 'bus' + ed → 'buss' ('final s spells /s/')
+   ↓ double-consonant boundary condition > 'fes' + ed → 'fes' ('final s spells /z/')
+   ↓ double-consonant boundary condition > 'tes' + ed → 'tes' ('there is no /s/ coda')
+   ↓ double-consonant boundary condition > 'bah' + ed → 'bah' ('final h stays single')
+   ↓ double-consonant boundary condition > 'picnic' + ed → 'picnick' ('unstressed final -ic takes ck')
+   ↓ double-consonant boundary condition > 'tac' + ed → 'tack' ('stressed hard c takes ck')
+   ↓ double-consonant boundary condition > 'tac' + ed → 'tac' ('long vowel before hard c')
+   ↓ double-consonant boundary condition > 'kidnap' + ed → 'kidnapp' ('secondary-stressed checked vowel')
+   ↓ double-consonant boundary condition > 'visit' + ed → 'visit' ('unstressed final syllable')
+   ↓ double-consonant boundary condition > 'gallop' + ed → 'gallop' ('schwa, even under secondary stress')
+   ↓ double-consonant boundary condition > 'bat' + ed → 'bat' ('stressed long vowel /beɪt/')
+   ↓ double-consonant boundary condition > 'mit' + ed → 'mit' ('stressed diphthong /maɪt/')
+   ↓ double-consonant boundary condition > 'occur' + ed → 'occurr' ('stressed r-coloured vowel')
+   ↓ double-consonant boundary condition > 'letter' + ed → 'letter' ('unstressed r-coloured vowel')
+   ↓ double-consonant boundary condition > 'star' + ed → 'starr' ('stressed /ɑr/')
+   ↓ double-consonant boundary condition > 'wuber' + ed → 'wuber' ('secondary-stressed r-coloured vowel')
+   ↓ double-consonant boundary condition > never doubles without a boundary syllable to check
+   ↓ double-consonant boundary condition > keeps drop-silent-e blocking doubling
+   ↓ double-consonant boundary condition > reads stress levels from the syllable
+   ↓ double-consonant boundary condition > matches the final coda phoneme in a cluster
+   × consonant doubling over a seed sample > attaches 'fuliglozicking' without hard-c repair 20ms
+     → expected 'fuliglozic' to be 'fuliglozick' // Object.is equality
+   × consonant doubling over a seed sample > attaches 'swacked' without hard-c repair 10ms
+     → expected 'swacc' to be 'swack' // Object.is equality
+   ↓ consonant doubling over a seed sample > finds a stressed short-vowel root that doubles
+   ↓ consonant doubling over a seed sample > applies the letter and phoneme rules before final spelling repairs
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/morphology/consonant-doubling.test.ts > consonant doubling over a seed sample > attaches 'fuliglozicking' without hard-c repair
+AssertionError: expected 'fuliglozic' to be 'fuliglozick' // Object.is equality
+
+Expected: "fuliglozick"
+Received: "fuliglozic"
+
+ ❯ src/core/morphology/consonant-doubling.test.ts:129:47
+    127|     const word = generator.generateWord({ seed, trace: true });
+    128|     expect(word.trace?.baseSpelling?.surface).toBe(base);
+    129|     expect(doublingCase(word)?.assembledRoot).toBe(base + "k");
+       |                                               ^
+    130|     expect(word.written.clean).toBe(expected);
+    131|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/core/morphology/consonant-doubling.test.ts > consonant doubling over a seed sample > attaches 'swacked' without hard-c repair
+AssertionError: expected 'swacc' to be 'swack' // Object.is equality
+
+Expected: "swack"
+Received: "swacc"
+
+ ❯ src/core/morphology/consonant-doubling.test.ts:129:47
+    127|     const word = generator.generateWord({ seed, trace: true });
+    128|     expect(word.trace?.baseSpelling?.surface).toBe(base);
+    129|     expect(doublingCase(word)?.assembledRoot).toBe(base + "k");
+       |                                               ^
+    130|     expect(word.written.clean).toBe(expected);
+    131|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 24 skipped (26)
+   Start at  00:01:25
+   Duration  1.26s (transform 893ms, setup 0ms, collect 1.07s, tests 30ms, environment 0ms, prepare 49ms)
+

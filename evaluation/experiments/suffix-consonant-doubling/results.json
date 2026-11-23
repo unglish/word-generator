@@ -1,0 +1,482 @@
+{
+  "sample": "20,000 default words per side, seeds 5000000–5019999",
+  "summaries": [
+    {
+      "counts": {
+        "zToSs": 19,
+        "hToHh": 0,
+        "cToCc": 0,
+        "cToCk": 0,
+        "sToSs": 5,
+        "otherDoublings": 315,
+        "hardCRepairs": 992,
+        "hcFromAddedCc": 0
+      },
+      "allWordHh": 0,
+      "cmuTrigrams": {
+        "jensenShannonBits": 0.15030658471930092,
+        "missingReferenceMass": 0.056067214501401584,
+        "unseenGeneratedMass": 0.006803766401174313
+      }
+    },
+    {
+      "counts": {
+        "zToSs": 0,
+        "hToHh": 0,
+        "cToCc": 0,
+        "cToCk": 0,
+        "sToSs": 5,
+        "otherDoublings": 315,
+        "hardCRepairs": 992,
+        "hcFromAddedCc": 0
+      },
+      "allWordHh": 0,
+      "cmuTrigrams": {
+        "jensenShannonBits": 0.15040655963942653,
+        "missingReferenceMass": 0.056067214501401584,
+        "unseenGeneratedMass": 0.006804870135414045
+      }
+    }
+  ],
+  "changedSpellings": 19,
+  "changedPronunciations": 0,
+  "changes": [
+    {
+      "seed": 5000485,
+      "before": {
+        "word": "fessed",
+        "pronunciation": "fɜzd",
+        "base": "fes",
+        "suffix": "ed",
+        "assembled": "fess",
+        "emitted": "fess",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "fesed",
+        "pronunciation": "fɜzd",
+        "base": "fes",
+        "suffix": "ed",
+        "assembled": "fes",
+        "emitted": "fes",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5000888,
+      "before": {
+        "word": "bewnbossed",
+        "pronunciation": "ˈbunˌbɔzd",
+        "base": "bewnbos",
+        "suffix": "ed",
+        "assembled": "bewnboss",
+        "emitted": "bewnboss",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "bewnbosed",
+        "pronunciation": "ˈbunˌbɔzd",
+        "base": "bewnbos",
+        "suffix": "ed",
+        "assembled": "bewnbos",
+        "emitted": "bewnbos",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5000955,
+      "before": {
+        "word": "scrossing",
+        "pronunciation": "ˈskrʌz.ɪŋ",
+        "base": "scros",
+        "suffix": "ing",
+        "assembled": "scross",
+        "emitted": "scross",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "scrosing",
+        "pronunciation": "ˈskrʌz.ɪŋ",
+        "base": "scros",
+        "suffix": "ing",
+        "assembled": "scros",
+        "emitted": "scros",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5002206,
+      "before": {
+        "word": "respessed",
+        "pronunciation": "ˌrɪˈspɛzd",
+        "base": "spes",
+        "suffix": "ed",
+        "assembled": "spess",
+        "emitted": "spess",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "respesed",
+        "pronunciation": "ˌrɪˈspɛzd",
+        "base": "spes",
+        "suffix": "ed",
+        "assembled": "spes",
+        "emitted": "spes",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5002789,
+      "before": {
+        "word": "trassing",
+        "pronunciation": "ˈtʰræz.ɪŋ",
+        "base": "tras",
+        "suffix": "ing",
+        "assembled": "trass",
+        "emitted": "trass",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "trasing",
+        "pronunciation": "ˈtʰræz.ɪŋ",
+        "base": "tras",
+        "suffix": "ing",
+        "assembled": "tras",
+        "emitted": "tras",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5003223,
+      "before": {
+        "word": "clissing",
+        "pronunciation": "ˈkʰlɪz.ɪŋ",
+        "base": "clis",
+        "suffix": "ing",
+        "assembled": "cliss",
+        "emitted": "cliss",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "clising",
+        "pronunciation": "ˈkʰlɪz.ɪŋ",
+        "base": "clis",
+        "suffix": "ing",
+        "assembled": "clis",
+        "emitted": "clis",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5004676,
+      "before": {
+        "word": "chassed",
+        "pronunciation": "tʃæzd",
+        "base": "chas",
+        "suffix": "ed",
+        "assembled": "chass",
+        "emitted": "chass",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "chased",
+        "pronunciation": "tʃæzd",
+        "base": "chas",
+        "suffix": "ed",
+        "assembled": "chas",
+        "emitted": "chas",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5004816,
+      "before": {
+        "word": "fessed",
+        "pronunciation": "fɛzd",
+        "base": "fes",
+        "suffix": "ed",
+        "assembled": "fess",
+        "emitted": "fess",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "fesed",
+        "pronunciation": "fɛzd",
+        "base": "fes",
+        "suffix": "ed",
+        "assembled": "fes",
+        "emitted": "fes",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5006191,
+      "before": {
+        "word": "rallissed",
+        "pronunciation": "ˌrəlˈɪzd",
+        "base": "rallis",
+        "suffix": "ed",
+        "assembled": "ralliss",
+        "emitted": "ralliss",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "rallised",
+        "pronunciation": "ˌrəlˈɪzd",
+        "base": "rallis",
+        "suffix": "ed",
+        "assembled": "rallis",
+        "emitted": "rallis",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5007102,
+      "before": {
+        "word": "swasser",
+        "pronunciation": "ˈswæz.ɚ",
+        "base": "swas",
+        "suffix": "er",
+        "assembled": "swass",
+        "emitted": "swass",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "swaser",
+        "pronunciation": "ˈswæz.ɚ",
+        "base": "swas",
+        "suffix": "er",
+        "assembled": "swas",
+        "emitted": "swas",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5010373,
+      "before": {
+        "word": "hickossest",
+        "pronunciation": "ˌhɪˈkʰʌz.ɪst",
+        "base": "hickos",
+        "suffix": "est",
+        "assembled": "hickoss",
+        "emitted": "hickoss",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "hickosest",
+        "pronunciation": "ˌhɪˈkʰʌz.ɪst",
+        "base": "hickos",
+        "suffix": "est",
+        "assembled": "hickos",
+        "emitted": "hickos",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5011551,
+      "before": {
+        "word": "banshrosser",
+        "pronunciation": "bənˈʃrɔz.ɚ",
+        "base": "banshros",
+        "suffix": "er",
+        "assembled": "banshross",
+        "emitted": "banshross",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "banshroser",
+        "pronunciation": "bənˈʃrɔz.ɚ",
+        "base": "banshros",
+        "suffix": "er",
+        "assembled": "banshros",
+        "emitted": "banshros",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5011817,
+      "before": {
+        "word": "ressed",
+        "pronunciation": "rɜzd",
+        "base": "res",
+        "suffix": "ed",
+        "assembled": "ress",
+        "emitted": "ress",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "resed",
+        "pronunciation": "rɜzd",
+        "base": "res",
+        "suffix": "ed",
+        "assembled": "res",
+        "emitted": "res",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5012065,
+      "before": {
+        "word": "spuntussing",
+        "pronunciation": "ˈspʌnˌtʰʊz.ɪŋ",
+        "base": "spuntus",
+        "suffix": "ing",
+        "assembled": "spuntuss",
+        "emitted": "spuntuss",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "spuntusing",
+        "pronunciation": "ˈspʌnˌtʰʊz.ɪŋ",
+        "base": "spuntus",
+        "suffix": "ing",
+        "assembled": "spuntus",
+        "emitted": "spuntus",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5012822,
+      "before": {
+        "word": "wossing",
+        "pronunciation": "ˈwɔz.ɪŋ",
+        "base": "wos",
+        "suffix": "ing",
+        "assembled": "woss",
+        "emitted": "woss",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "wosing",
+        "pronunciation": "ˈwɔz.ɪŋ",
+        "base": "wos",
+        "suffix": "ing",
+        "assembled": "wos",
+        "emitted": "wos",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5013088,
+      "before": {
+        "word": "shressed",
+        "pronunciation": "ʃrɛzd",
+        "base": "shres",
+        "suffix": "ed",
+        "assembled": "shress",
+        "emitted": "shress",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "shresed",
+        "pronunciation": "ʃrɛzd",
+        "base": "shres",
+        "suffix": "ed",
+        "assembled": "shres",
+        "emitted": "shres",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5014508,
+      "before": {
+        "word": "rebrissing",
+        "pronunciation": "ˌrɪˈbrɪz.ɪŋ",
+        "base": "bris",
+        "suffix": "ing",
+        "assembled": "briss",
+        "emitted": "briss",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "rebrising",
+        "pronunciation": "ˌrɪˈbrɪz.ɪŋ",
+        "base": "bris",
+        "suffix": "ing",
+        "assembled": "bris",
+        "emitted": "bris",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5015796,
+      "before": {
+        "word": "overtresser",
+        "pronunciation": "ˈəʊ.vɚˌtʰrɛz.ɚ",
+        "base": "tres",
+        "suffix": "er",
+        "assembled": "tress",
+        "emitted": "tress",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "overtreser",
+        "pronunciation": "ˈəʊ.vɚˌtʰrɛz.ɚ",
+        "base": "tres",
+        "suffix": "er",
+        "assembled": "tres",
+        "emitted": "tres",
+        "final": "z",
+        "hardC": []
+      }
+    },
+    {
+      "seed": 5019205,
+      "before": {
+        "word": "lactassed",
+        "pronunciation": "ˈlɑkˌtʰɑzd",
+        "base": "lactas",
+        "suffix": "ed",
+        "assembled": "lactass",
+        "emitted": "lactass",
+        "final": "z",
+        "hardC": []
+      },
+      "after": {
+        "word": "lactased",
+        "pronunciation": "ˈlɑkˌtʰɑzd",
+        "base": "lactas",
+        "suffix": "ed",
+        "assembled": "lactas",
+        "emitted": "lactas",
+        "final": "z",
+        "hardC": []
+      }
+    }
+  ]
+}
