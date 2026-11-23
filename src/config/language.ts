@@ -1541,9 +1541,13 @@ function validateRootRepetition(config: LanguageConfig): void {
     }
     validateRepetitionMultiplier(`matchingCodaOverrides.${sound}`, weight);
   }
+  // A consonant this inventory never puts in a coda is a harmless no-op; vowels and unknown sounds are errors.
+  const consonantSounds = new Set(
+    config.phonemes.filter((phoneme) => !((phoneme.nucleus ?? 0) > 0)).map((phoneme) => phoneme.sound),
+  );
   for (const sound of policy.preserveCodaInitials ?? []) {
-    if (!codaSounds.has(sound)) {
-      throw new Error(`rootRepetition.preserveCodaInitials has no coda phoneme "${sound}"`);
+    if (!consonantSounds.has(sound)) {
+      throw new Error(`rootRepetition.preserveCodaInitials has no consonant phoneme "${sound}"`);
     }
   }
 }
