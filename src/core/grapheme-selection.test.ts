@@ -72,14 +72,14 @@ describe("legal grapheme selection", () => {
   });
 
   it.each([
-    { seed: 5002250, nextSound: "b", nextPosition: "onset", form: "dg" },
-    { seed: 5009492, nextSound: "l", nextPosition: "onset", form: "dg" },
-    { seed: 5003137, nextSound: "g", nextPosition: "onset", form: "ge" },
-    { seed: 5025337, nextSound: "g", nextPosition: "onset", form: "ge" },
-    { seed: 5057085, nextSound: "w", nextPosition: "onset", form: "j" },
-    { seed: 5003895, nextSound: "j", nextPosition: "onset", form: "j" },
-    { seed: 5000995, nextSound: "ə", nextPosition: "nucleus", form: "di" },
-    { seed: 5011139, nextSound: "ɚ", nextPosition: "nucleus", form: "di" },
+    { seed: 5006995, nextSound: "b", nextPosition: "onset", form: "dg" },
+    { seed: 5005692, nextSound: "l", nextPosition: "onset", form: "dg" },
+    { seed: 5004034, nextSound: "g", nextPosition: "onset", form: "ge" },
+    { seed: 5006689, nextSound: "g", nextPosition: "onset", form: "ge" },
+    { seed: 5069138, nextSound: "w", nextPosition: "onset", form: "j" },
+    { seed: 5004584, nextSound: "j", nextPosition: "onset", form: "j" },
+    { seed: 5004556, nextSound: "ə", nextPosition: "nucleus", form: "di" },
+    { seed: 5002804, nextSound: "ɚ", nextPosition: "nucleus", form: "di" },
   ])("spells coda /dʒ/ as $form before /$nextSound/ (seed $seed)", ({
     seed, nextSound, nextPosition, form,
   }) => {
@@ -99,18 +99,18 @@ describe("legal grapheme selection", () => {
   });
 
   it("keeps the multiletter weight and draw when the unstressed di slot uses j", () => {
-    const word = generateWord({ seed: 5003895, trace: true });
+    const word = generateWord({ seed: 5014534, trace: true });
     const choice = word.trace?.graphemeSelections.find(choice => choice.phoneme === "dʒ");
 
     expect(choice?.weights).toEqual([["ge", 6 * 0.15], ["dge", 10 * 0.15], ["j", 0.15]]);
-    expect(choice?.roll).toBeCloseTo(2.4260639384854583);
+    expect(choice?.roll).toBeCloseTo(2.4875989088555794);
   });
 
   it("keeps the accepted root when di previously lost its i before w", () => {
-    const word = generateWord({ seed: 5057085, trace: true });
+    const word = generateWord({ seed: 5069138, trace: true });
 
-    expect(word.written.clean).toBe("deajwort");
-    expect(word.pronunciation).toBe("ˈdi:dʒˌwɚt");
+    expect(word.written.clean).toBe("eajworfting");
+    expect(word.pronunciation).toBe("ˈi:dʒ.wɚft.ɪŋ");
     expect(word.trace?.selection).toMatchObject({
       selectedAttempt: 0,
       attemptsExecuted: 1,
