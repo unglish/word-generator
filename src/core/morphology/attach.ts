@@ -1,12 +1,15 @@
 import { matchesPhoneme } from "../../utils/phonemes.js";
+import { cloneSyllables } from "../lexical.js";
 import { Phoneme, Syllable, WordGenerationContext } from "../../types.js";
 import {
   Affix,
   AllomorphVariant,
   AffixSyllable,
+  BoundarySyllableCondition,
   BoundaryTransform,
   MorphophonemicRule,
   PhonologicalCondition,
+  SyllableStressLevel,
   defaultFallbackBridgeOnsets,
   type LanguageConfig,
 } from "../../config/language.js";
@@ -232,10 +235,37 @@ export interface BoundaryTransformApplication {
   fired: string[];
 }
 
-/** Apply boundary transforms and report which fired (including affix written overrides). */
+/** A syllable's stress as a {@link BoundarySyllableCondition} names it. */
+export function syllableStressLevel(syllable: Syllable): SyllableStressLevel {
+  if (syllable.stress === "ˈ") return "primary";
+  if (syllable.stress === "ˌ") return "secondary";
+  return "unstressed";
+}
+
+/** Whether a root's boundary syllable meets a transform's phonological condition. */
+export function matchesBoundarySyllable(
+  condition: BoundarySyllableCondition,
+  syllable: Syllable | undefined,
+): boolean {
+  if (!syllable) return false;
+  if (condition.stress && !condition.stress.includes(syllableStressLevel(syllable)))
+    return false;
+  const { nucleus } = condition;
+  if (nucleus && !syllable.nucleus.every((phoneme) => matchesPhoneme(phoneme, nucleus)))
+    return false;
+  return true;
+}
+
+/**
+ * Apply boundary transforms and report which fired (including affix written
+ * overrides). `boundarySyllable` is the root syllable the affix attaches to;
+ * a transform with {@link BoundaryTransform.boundarySyllable} conditions
+ * never fires without one.
+ */
 export function applyBoundaryTransformsDetailed(
   rootWritten: string,
   transforms: BoundaryTransform[],
+  boundarySyllable?: Syllable,
 ): BoundaryTransformApplication {
   const firedNames: string[] = [];
   const fired = new Set<string>();
@@ -243,6 +273,11 @@ export function applyBoundaryTransformsDetailed(
   let affixWritten: string | undefined;
   for (const t of transforms) {
     if (t.blockedBy && t.blockedBy.some((name) => fired.has(name))) continue;
+    if (
+      t.boundarySyllable &&
+      !t.boundarySyllable.some((condition) => matchesBoundarySyllable(condition, boundarySyllable))
+    )
+      continue;
     if (t.match.test(result)) {
       result = result.replace(t.match, t.replace);
       fired.add(t.name);
@@ -256,8 +291,9 @@ export function applyBoundaryTransformsDetailed(
 export function applyBoundaryTransforms(
   rootWritten: string,
   transforms: BoundaryTransform[],
+  boundarySyllable?: Syllable,
 ): string {
-  return applyBoundaryTransformsDetailed(rootWritten, transforms).written;
+  return applyBoundaryTransformsDetailed(rootWritten, transforms, boundarySyllable).written;
 }
 
 // ---------------------------------------------------------------------------
@@ -791,10 +827,13 @@ export interface AttachedRootWritten {
  * Rewrite a written root as the prepared affixes attach to it, in the order
  * `writeMorphology` uses: morphophonemic respellings (`-ity` velar
  * softening), then prefix, then suffix boundary transforms (drop-silent-e).
+ * `root` is the lexical root being spelled; its first and final syllables
+ * decide phonologically conditioned transforms (consonant doubling).
  */
 export function attachRootWritten(
   prepared: PreparedMorphology,
   rootWritten: string,
+  root: readonly Syllable[],
 ): AttachedRootWritten {
   const { plan } = prepared;
   let written = rootWritten;
@@ -818,12 +857,20 @@ export function attachRootWritten(
   let prefixOverride: string | undefined;
   let suffixOverride: string | undefined;
   if (plan.prefix?.boundaryTransforms) {
-    const applied = applyBoundaryTransformsDetailed(written, plan.prefix.boundaryTransforms);
+    const applied = applyBoundaryTransformsDetailed(
+      written,
+      plan.prefix.boundaryTransforms,
+      root[0],
+    );
     written = applied.written;
     prefixOverride = applied.affixWritten;
   }
   if (plan.suffix?.boundaryTransforms) {
-    const applied = applyBoundaryTransformsDetailed(written, plan.suffix.boundaryTransforms);
+    const applied = applyBoundaryTransformsDetailed(
+      written,
+      plan.suffix.boundaryTransforms,
+      root[root.length - 1],
+    );
     written = applied.written;
     suffixOverride = applied.affixWritten;
   }
@@ -853,10 +900,14 @@ export function resoundedRootPhones(
   return indices;
 }
 
-/** Apply the written halves of the already-resolved morphological rules once. */
+/**
+ * Apply the written halves of the already-resolved morphological rules once.
+ * `root` is the lexical root the written root spells (see {@link attachRootWritten}).
+ */
 export function writeMorphology(
   context: WordGenerationContext,
   prepared: PreparedMorphology,
+  root: readonly Syllable[],
 ): MorphologyResult {
   const { prefix, suffix } = prepared;
   let prefixWritten = prepared.prefixWritten;
@@ -866,7 +917,7 @@ export function writeMorphology(
     prefixOverride,
     suffixOverride,
     fired,
-  } = attachRootWritten(prepared, context.word.written.clean);
+  } = attachRootWritten(prepared, context.word.written.clean, root);
   if (prefixOverride !== undefined) prefixWritten = prefixOverride;
   if (suffixOverride !== undefined) suffixWritten = suffixOverride;
   const resolvedPrefix = withAffixWritten(prefix, prefixOverride);
@@ -900,8 +951,9 @@ export function applyMorphology(
   context: WordGenerationContext,
   plan: MorphologyPlan,
 ): MorphologyResult {
+  const root = cloneSyllables(context.word.syllables);
   const prepared = prepareMorphology(rt, context, plan);
   if (!prepared)
     return { parts: [{ role: "root", text: context.word.written.clean }] };
-  return writeMorphology(context, prepared);
+  return writeMorphology(context, prepared, root);
 }

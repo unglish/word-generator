@@ -2020,7 +2020,8 @@ function spellAttempt(
     morphology.rootSyllableStart,
     morphology.suffixWritten,
     {
-      attach: (written) => attachRootWritten(morphology, written).written,
+      attach: (written) =>
+        attachRootWritten(morphology, written, affixed.root).written,
       resounded: resoundedRootPhones(morphology, affixed.root),
     },
   );
@@ -2053,7 +2054,9 @@ function finishAffixedWord(
   prepared: PreparedMorphology,
 ): void {
   const traceCollector = context.trace;
-  const morphology = writeMorphology(context, prepared);
+  const root = context.word.lexical?.root;
+  if (!root) throw new Error("An affixed word's lexical form is built before its morphology is written");
+  const morphology = writeMorphology(context, prepared, root);
   // Preserve selected allomorph parts through final consonant-letter repair.
   const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
   const preservePhones =

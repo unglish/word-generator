@@ -2,7 +2,7 @@ import {
   inventorySonorityLevels,
   type SonorityHierarchy,
 } from "../utils/sonority.js";
-import { matchesPhoneme } from "../utils/phonemes.js";
+import { matchesPhoneme, type PhonemeSelector } from "../utils/phonemes.js";
 import {
   Phoneme,
   Grapheme,
@@ -1025,6 +1025,17 @@ export interface AffixSyllable {
   coda: string[]; // phoneme sounds
 }
 
+/** A syllable's stress level as a boundary condition names it. */
+export type SyllableStressLevel = "primary" | "secondary" | "unstressed";
+
+/** Phonological condition on the root syllable an affix attaches to. */
+export interface BoundarySyllableCondition {
+  /** If set, the syllable's stress must be one of these. */
+  stress?: readonly SyllableStressLevel[];
+  /** If set, every nucleus phoneme must match this selector. */
+  nucleus?: PhonemeSelector;
+}
+
 /** Orthographic transform applied at affix\u2194root junctions. */
 export interface BoundaryTransform {
   /** Human-readable name for this rule. */
@@ -1035,6 +1046,14 @@ export interface BoundaryTransform {
   replace: string;
   /** Names of other transforms that, if they fired, block this one. */
   blockedBy?: string[];
+  /**
+   * When set, the transform fires only if the root syllable at the boundary
+   * meets at least one of these conditions: the root's final syllable for a
+   * suffix, its first for a prefix. Consonant doubling uses it to require a
+   * stressed, checked final syllable (`commit` → `committed`, but `visit` →
+   * `visited`).
+   */
+  boundarySyllable?: readonly BoundarySyllableCondition[];
   /**
    * When this transform fires, override the affix written form.
    * Used so consonant+y + `-s` selects the same `-es` spelling as the

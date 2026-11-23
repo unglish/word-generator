@@ -9,6 +9,7 @@ import type { WordGenerationContext } from "../../types.js";
 import { createGenerator } from "../generate.js";
 import { createSeededRng } from "../../utils/random.js";
 import { TraceCollector } from "../trace.js";
+import { cloneSyllables } from "../lexical.js";
 import { prepareMorphology, writeMorphology } from "./attach.js";
 import {
   bindMorphophonemicGuard,
@@ -66,11 +67,12 @@ function fixture(coda: string[], rules: MorphophonemicRule[], guarded = true) {
       ? { evaluateMorphophonemicReplacement: bindMorphophonemicGuard(guardRt) }
       : {}),
   };
+  const root = cloneSyllables(syllables);
   const prepared = prepareMorphology(runtime, context, {
     template: "suffixed",
     suffix,
   })!;
-  return { config, context, prepared, draws: () => draws };
+  return { config, context, prepared, root, draws: () => draws };
 }
 
 const softening: MorphophonemicRule = {
@@ -124,7 +126,7 @@ describe("atomic morphophonemic legality", () => {
   });
 
   it("rejects the sound and written half together without draws for /sk/→/ss/", () => {
-    const { context, prepared, draws } = fixture(["s", "k"], [softening]);
+    const { context, prepared, root, draws } = fixture(["s", "k"], [softening]);
     expect(context.word.syllables[0].coda.map((p) => p.sound)).toEqual([
       "s",
       "k",
@@ -144,7 +146,7 @@ describe("atomic morphophonemic legality", () => {
       "s",
       "s",
     ]);
-    const written = writeMorphology(context, prepared);
+    const written = writeMorphology(context, prepared, root);
     expect(written.parts.find((part) => part.role === "root")!.text).toBe(
       "ask",
     );
@@ -152,11 +154,11 @@ describe("atomic morphophonemic legality", () => {
   });
 
   it("accepts ordinary single-coda softening", () => {
-    const { context, prepared, draws } = fixture(["k"], [softening]);
+    const { context, prepared, root, draws } = fixture(["k"], [softening]);
     expect(context.word.syllables[0].coda.map((p) => p.sound)).toEqual(["s"]);
     expect(prepared.evaluations![0].outcome).toBe("accepted");
     expect(
-      writeMorphology(context, prepared).parts.find(
+      writeMorphology(context, prepared, root).parts.find(
         (part) => part.role === "root",
       )!.text,
     ).toBe("ass");
@@ -189,7 +191,7 @@ describe("atomic morphophonemic legality", () => {
   });
 
   it("distinguishes identity, written-only, and unknown inventory proposals", () => {
-    const { context, prepared } = fixture(
+    const { context, prepared, root } = fixture(
       ["k"],
       [
         {
@@ -218,21 +220,21 @@ describe("atomic morphophonemic legality", () => {
       ),
     ).toBe(true);
     expect(
-      writeMorphology(context, prepared).parts.find(
+      writeMorphology(context, prepared, root).parts.find(
         (part) => part.role === "root",
       )!.text,
     ).toBe("asv");
   });
 
   it("keeps the legacy omitted/disabled policy permissive", () => {
-    const { context, prepared } = fixture(["s", "k"], [softening], false);
+    const { context, prepared, root } = fixture(["s", "k"], [softening], false);
     expect(context.word.syllables[0].coda.map((p) => p.sound)).toEqual([
       "s",
       "s",
     ]);
     expect(prepared.evaluations).toBeUndefined();
     expect(
-      writeMorphology(context, prepared).parts.find(
+      writeMorphology(context, prepared, root).parts.find(
         (part) => part.role === "root",
       )!.text,
     ).toBe("ass");
@@ -300,6 +302,7 @@ describe("atomic morphophonemic legality", () => {
       currSyllableIndex: 0,
       rand: () => 0.5,
     };
+    const root = cloneSyllables(syllables);
     const prepared = prepareMorphology(
       { config, ...guardRt },
       context,
@@ -318,7 +321,7 @@ describe("atomic morphophonemic legality", () => {
     expect(
       prepared.rules.some((row) => row.rule.name === "ity-velar-softening"),
     ).toBe(false);
-    writeMorphology(context, prepared);
+    writeMorphology(context, prepared, root);
     expect(context.word.written.clean).toBe("baskity");
     expect(
       context.word.syllables.flatMap((s) =>
