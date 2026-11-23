@@ -60,6 +60,7 @@ import {
   type NucleusRepairPolicy,
 } from "./nucleus-repair.js";
 import { RejectionTraceCollector } from "./rejection-trace.js";
+import { chooseRootAttempt, type AttemptCriteria } from "./root-attempt-search.js";
 import {
   assertRootRimeCompatibility,
   buildRootRimePolicy,
@@ -79,18 +80,8 @@ import {
 } from "./morphology/index.js";
 import type { PreparedMorphology } from "./morphology/index.js";
 import { clonePhoneme, cloneSyllables } from "./lexical.js";
-import {
-  computePhonemeTargetBounds,
-  resolveRootPhonemeTarget,
-  scoreGenerationAttempt,
-  assessAttempt,
-  isDecidedRejection,
-  type AcceptanceCriteria,
-} from "./length-semantics.js";
-import {
-  phonemeLengthWeightsForForcedSyllables,
-  syllableCountSamplingWeights,
-} from "./syllable-sampling.js";
+import { scoreGenerationAttempt } from "./length-semantics.js";
+import { sampleRootLengths, type RootLengthPolicy } from "./syllable-sampling.js";
 import {
   TraceCollector,
   traceStage,
@@ -129,6 +120,7 @@ interface GeneratorRuntime {
   allowedFinalSet?: Set<string>;
   bannedCodaSet?: Set<string>;
   nucleusRepair: NucleusRepairPolicy;
+  rootLengthPolicy: RootLengthPolicy;
   clusterLimits?: ClusterLimits;
   sonorityConstraints?: SonorityConstraints;
   codaAppendantSet?: Set<string>;
@@ -303,6 +295,12 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
       stress: resolvedStress,
       rimes: buildRootRimePolicy(config.codaConstraints),
       forbidOpenCheckedFinal: config.forbidOpenCheckedFinal === true,
+    },
+    rootLengthPolicy: {
+      phonemeLengthWeights: config.phonemeLengthWeights,
+      phonemeToSyllableWeights: config.phonemeToSyllableWeights,
+      maxOnsetLength: cl?.maxOnset ?? config.syllableStructure.maxOnsetLength,
+      maxCodaLength: cl?.maxCoda ?? config.syllableStructure.maxCodaLength,
     },
     clusterLimits: cl,
     sonorityConstraints: sc,
@@ -1272,100 +1270,6 @@ function getLengthWeight(weights: [number, number][], length: number): number {
   return weights.find(([len]) => len === length)?.[1] ?? 0.0001;
 }
 
-function getTopDownPhonemeLengthWeights(
-  rt: GeneratorRuntime,
-  mode: GenerationMode,
-): [number, number][] {
-  const weights = rt.config.phonemeLengthWeights[mode];
-  if (!weights?.length) {
-    throw new Error(`Missing phonemeLengthWeights.${mode} in language config`);
-  }
-  return weights;
-}
-
-function getTopDownSyllableWeights(
-  rt: GeneratorRuntime,
-  mode: GenerationMode,
-  phonemeCount: number,
-): [number, number][] {
-  const table = rt.config.phonemeToSyllableWeights[mode];
-  if (!table) {
-    throw new Error(
-      `Missing phonemeToSyllableWeights.${mode} in language config`,
-    );
-  }
-  return syllableCountSamplingWeights(table, phonemeCount);
-}
-
-function sampleTargetPhonemeCount(
-  rt: GeneratorRuntime,
-  mode: GenerationMode,
-  rand: RNG,
-  forcedSyllableCount?: number,
-): number {
-  const allWeights = getTopDownPhonemeLengthWeights(rt, mode);
-  if (!forcedSyllableCount) return getWeightedOption(allWeights, rand);
-
-  const maxOnset =
-    rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
-  const maxCoda =
-    rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
-  // +1 provides headroom for rare plan overshoots (e.g. repair passes).
-  const maxPhonemes =
-    forcedSyllableCount + forcedSyllableCount * (maxOnset + maxCoda) + 1;
-
-  // P(phonemes | syllables) ∝ P(phonemes) · P(syllables | phonemes). Without the
-  // second factor a forced monosyllable draws a whole-lexicon length (mode 6) and
-  // the consonant plan packs the surplus into clusters.
-  const syllableTable = rt.config.phonemeToSyllableWeights[mode];
-  // Pre-extract behaviour: a missing mode table falls back to length-feasible
-  // (then all) phoneme weights rather than throwing.
-  if (!syllableTable) {
-    const filtered = allWeights.filter(
-      ([phonemeCount]) =>
-        phonemeCount >= forcedSyllableCount && phonemeCount <= maxPhonemes,
-    );
-    return getWeightedOption(filtered.length > 0 ? filtered : allWeights, rand);
-  }
-  const pool = phonemeLengthWeightsForForcedSyllables(
-    allWeights,
-    syllableTable,
-    forcedSyllableCount,
-    maxPhonemes,
-  );
-  return getWeightedOption(pool, rand);
-}
-
-function sampleSyllableCountForTarget(
-  rt: GeneratorRuntime,
-  mode: GenerationMode,
-  targetPhonemes: number,
-  rand: RNG,
-  forcedSyllableCount?: number,
-): number {
-  if (forcedSyllableCount && forcedSyllableCount > 0)
-    return forcedSyllableCount;
-
-  const maxOnset =
-    rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
-  const maxCoda =
-    rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
-  const canSatisfy = (syllableCount: number) => {
-    const maxPhonemes =
-      syllableCount + syllableCount * (maxOnset + maxCoda) + 1;
-    return targetPhonemes <= maxPhonemes;
-  };
-
-  const weights = getTopDownSyllableWeights(rt, mode, targetPhonemes);
-  const feasible = weights.filter(([syllableCount]) =>
-    canSatisfy(syllableCount),
-  );
-  if (feasible.length > 0) {
-    return getWeightedOption(feasible, rand);
-  }
-  return getWeightedOption(weights, rand);
-}
-
 function sampleRootFinalCodaLength(
   rt: GeneratorRuntime,
   mode: GenerationMode,
@@ -1645,38 +1549,16 @@ function generateSyllable(
   return newSyllable;
 }
 
+type PlannedRootContext = WordGenerationContext & {
+  targetPhonemeCount: number;
+  syllablePlans: SyllableShapePlan[];
+};
+
 function generateSyllables(
   rt: GeneratorRuntime,
-  context: WordGenerationContext,
+  context: PlannedRootContext,
   mode: GenerationMode,
-) {
-  if (!context.syllablePlans || context.syllablePlans.length === 0) {
-    const forcedSyllableCount =
-      context.syllableCount > 0 ? context.syllableCount : undefined;
-    const targetPhonemeCount = sampleTargetPhonemeCount(
-      rt,
-      mode,
-      context.rand,
-      forcedSyllableCount,
-    );
-    const sampledSyllableCount = sampleSyllableCountForTarget(
-      rt,
-      mode,
-      targetPhonemeCount,
-      context.rand,
-      forcedSyllableCount,
-    );
-    context.syllableCount = sampledSyllableCount;
-    context.targetPhonemeCount = targetPhonemeCount;
-    context.syllablePlans = distributePhonemes(
-      rt,
-      targetPhonemeCount,
-      sampledSyllableCount,
-      context.rand,
-      sampleRootFinalCodaLength(rt, mode, targetPhonemeCount, sampledSyllableCount, context.rand),
-    );
-  }
-
+): void {
   if (context.syllablePlans.length !== context.syllableCount) {
     throw new Error(
       `Top-down syllable plan mismatch: expected ${context.syllableCount}, got ${context.syllablePlans.length}`,
@@ -1800,7 +1682,8 @@ function resolveGenerationOptions(
 const MAX_LENGTH_RETRIES = 3;
 /** Maximum retries for top-down phoneme target matching. */
 const MAX_TOPDOWN_RETRIES = 16;
-const ACCEPTANCE_CRITERIA: AcceptanceCriteria = {
+const ATTEMPT_CRITERIA: AttemptCriteria = {
+  maxAttempts: MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES + 1,
   warmupAttempts: MAX_LENGTH_RETRIES,
   relaxedLetterPenalty: 0.5,
 };
@@ -2091,12 +1974,10 @@ function finishWord(
   const traceCollector = context.trace;
   const morphApplied = !!morphology;
   if (morphology) finishAffixedWord(rt, context, morphology);
-  // The rejection trace (and so `selection`) exists exactly when tracing is on.
   if (traceCollector && selection) {
     traceCollector.syllableCount = context.syllableCount;
     traceCollector.targetPhonemeCount = context.targetPhonemeCount;
     traceCollector.syllablePlans = context.syllablePlans;
-    traceCollector.attempts = selection.attemptsExecuted - 1;
     traceCollector.selection = selection;
     context.word.trace = traceCollector.toTrace(morphApplied);
   }
@@ -2121,32 +2002,8 @@ function generateOneWord(
   let morphPlan = morphConfig && !conditionalMorphology
     ? planMorphology(morphConfig, mode, rand)
     : undefined;
-  const forcedRootSyllableCount = syllableCount > 0 ? syllableCount : undefined;
-  const maxOnset =
-    rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
-  const maxCoda =
-    rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
-  const sampledRootTarget = sampleTargetPhonemeCount(
-    rt,
-    mode,
-    rand,
-    forcedRootSyllableCount,
-  );
-  const bounds = computePhonemeTargetBounds(
-    forcedRootSyllableCount,
-    maxOnset,
-    maxCoda,
-  );
-  const targetPhonemeCountRoot = resolveRootPhonemeTarget(
-    sampledRootTarget,
-    bounds,
-  );
-  const sampledSyllableCount = sampleSyllableCountForTarget(
-    rt,
-    mode,
-    targetPhonemeCountRoot,
-    rand,
-    forcedRootSyllableCount,
+  const { phonemes: targetPhonemeCountRoot, syllables: sampledSyllableCount } = sampleRootLengths(
+    rt.rootLengthPolicy, mode, rand, syllableCount > 0 ? syllableCount : undefined,
   );
   if (morphConfig && conditionalMorphology) {
     morphPlan = planMorphology(morphConfig, mode, rand, sampledSyllableCount);
@@ -2159,20 +2016,9 @@ function generateOneWord(
   );
   // One draw per affixed word seeds the per-attempt look-ahead streams.
   const lookaheadSeed = affixPlan ? Math.floor(rand() * 4294967296) : 0;
-  const maxAttempts = MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES;
-  let bestContext: WordGenerationContext | undefined;
-  let bestSpelled: SpelledRoot | undefined;
-  let bestAttempt = 0;
-  let bestScore = Infinity;
+  const rejectionTrace = enableTrace ? new RejectionTraceCollector(ATTEMPT_CRITERIA) : undefined;
 
-  const rejectionTrace = enableTrace
-    ? new RejectionTraceCollector({
-      maxAttempts: maxAttempts + 1,
-      ...ACCEPTANCE_CRITERIA,
-    })
-    : undefined;
-
-  for (let attempt = 0; attempt <= maxAttempts; attempt++) {
+  const selection = chooseRootAttempt(ATTEMPT_CRITERIA, targetPhonemeCountRoot, () => {
     const syllablePlans = distributePhonemes(
       rt,
       targetPhonemeCountRoot,
@@ -2189,7 +2035,7 @@ function generateOneWord(
         syllableReduction: morphPlan.syllableReduction,
       };
     }
-    const context: WordGenerationContext = {
+    const context: PlannedRootContext = {
       rand,
       word: {
         syllables: [],
@@ -2203,23 +2049,11 @@ function generateOneWord(
       trace: traceCollector,
     };
     runPipeline(rt, context, mode);
-    // Affixed look-ahead (prepareMorphology + stressed-nucleus repair) does not
-    // change the scored root's phoneme count — only spelling needs the repaired
-    // root. Reject phoneme-decided misses before that work (and before spelling).
-    const pipelineRoot = context.word.syllables;
-    const pipelinePhonemeCount = countPhonemes(pipelineRoot);
-    if (
-      isDecidedRejection(
-        Math.abs(pipelinePhonemeCount - targetPhonemeCountRoot),
-        bestScore,
-      )
-    ) {
-      rejectionTrace?.recordPruned({
-        syllables: pipelineRoot.length,
-        phonemes: pipelinePhonemeCount,
-      });
-      continue;
-    }
+    return {
+      context,
+      lengths: { syllables: context.word.syllables.length, phonemes: countPhonemes(context.word.syllables) },
+    };
+  }, ({ context }, attempt) => {
     const affixed = affixPlan
       ? resolveAffixedRoot(
         rt,
@@ -2238,40 +2072,14 @@ function generateOneWord(
       root.length,
       rt.config.syllableStructure.letterLengthTargets,
     );
-    if (attemptScore.total < bestScore) {
-      bestScore = attemptScore.total;
-      bestContext = context;
-      bestSpelled = spelled;
-      bestAttempt = attempt;
-    }
-    const assessment = assessAttempt(
-      attemptScore,
-      attempt,
-      ACCEPTANCE_CRITERIA,
-    );
-    rejectionTrace?.record(
-      {
-        syllables: root.length,
-        phonemes: rootPhonemeCount,
-        letters: context.word.written.clean.length,
-      },
-      attemptScore,
-      assessment,
-    );
-    if (assessment.acceptedBy) {
-      return finishWord(
-        rt,
-        selectAttempt(context, spelled),
-        rejectionTrace?.finish(attempt, assessment.acceptedBy),
-      );
-    }
-  }
-  if (!bestContext || !bestSpelled) throw new Error("Failed to generate word");
-  return finishWord(
-    rt,
-    selectAttempt(bestContext, bestSpelled),
-    rejectionTrace?.finish(bestAttempt, null),
-  );
+    return {
+      value: { context, spelled },
+      score: attemptScore,
+      lengths: { syllables: root.length, phonemes: rootPhonemeCount, letters: context.word.written.clean.length },
+    };
+  }, rejectionTrace);
+  const { context, spelled } = selection.selected.value;
+  return finishWord(rt, selectAttempt(context, spelled), rejectionTrace?.finish(selection));
 }
 
 /**
@@ -2279,8 +2087,8 @@ function generateOneWord(
  */
 function runPipeline(
   rt: GeneratorRuntime,
-  context: WordGenerationContext,
-  mode: GenerationMode = "lexicon",
+  context: PlannedRootContext,
+  mode: GenerationMode,
 ): void {
   const t = context.trace;
   const word = context.word;
