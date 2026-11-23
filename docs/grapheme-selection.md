@@ -451,7 +451,10 @@ the lexical root being spelled. English doubles in these cases:
   stress on /ɚ/ (#476) does not double: `wubering` /ˈwʌˌbɚ.ɪŋ/.
 
 The letter and sound also matter (#518). A final `s` doubles when it spells
-/s/ (*bus* → *bussed*). When `s` spells /z/, it stays single. Final `h` stays
+/s/ (*bus* → *bussed*). When `s` spells /z/, the same root conditions give
+`zz` at vowel suffix joins (#529), as in `glazzed` and `lozzing`. The rule
+also applies before derivational vowel suffixes and plural `-es` after /z/.
+Long vowels and unstressed syllables keep their single `s`. Final `h` stays
 single. Final `c` spelling /k/ takes `ck` under the same stress and vowel
 conditions. Final `-ic` spelling /ɪk/ also takes `ck` before e- and i-initial
 suffixes in this group, even when unstressed (*picnic* → *picnicked*).
