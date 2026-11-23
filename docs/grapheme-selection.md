@@ -427,6 +427,19 @@ rewrite expectations are unchanged. Tests that expected hard-ban restoration
 and treated a monosyllable's coda as word-initial have been replaced with
 trace-based checks of the intended positional contract.
 
+## Final e before suffixes (#506)
+
+The final-e transform checks the realized suffix spelling after allomorph
+selection. A final silent e in a closed English root drops before a written
+vowel, as in *face* + *es* → *faces*. The consonant-initial form keeps it,
+as in *cake* + *s* → *cakes*. The spelling-only y→i override still produces
+*cries* with the nonsyllabic /z/ allomorph.
+
+Open roots keep the e of their final vowel spelling, as in *see* + *ing* →
+*seeing*. When the root ends in ee and the suffix starts with e, the join shares
+one e, as in *free* + *ed* → *freed*. A silent-e deletion still blocks
+consonant doubling.
+
 ## Consonant doubling before vowel suffixes (#513)
 
 The `double-consonant` boundary transform on `-ing`, `-ed`, `-er`, `-est` and
@@ -437,8 +450,9 @@ when the root's final syllable is stressed and its vowel reads short:
 *commit* → *committed*, but *visit* → *visited* and *letter* → *lettered*.
 
 `BoundaryTransform.boundarySyllable` is a list of phonological conditions
-(stress levels and a nucleus selector). The transform fires only if the root
-syllable at the join meets at least one of them: the root's final syllable for
+(stress levels, a nucleus selector, and whether a coda is present). The
+transform fires only if the root syllable at the join meets at least one of
+them: the root's final syllable for
 a suffix, its first for a prefix. `attachRootWritten` passes that syllable from
 the lexical root being spelled. English doubles in these cases:
 

@@ -248,6 +248,8 @@ export function matchesBoundarySyllable(
   syllable: Syllable | undefined,
 ): boolean {
   if (!syllable) return false;
+  if (condition.hasCoda !== undefined && condition.hasCoda !== (syllable.coda.length > 0))
+    return false;
   if (condition.stress && !condition.stress.includes(syllableStressLevel(syllable)))
     return false;
   const { nucleus } = condition;
@@ -258,14 +260,14 @@ export function matchesBoundarySyllable(
 
 /**
  * Apply boundary transforms and report which fired (including affix written
- * overrides). `boundarySyllable` is the root syllable the affix attaches to;
- * a transform with {@link BoundaryTransform.boundarySyllable} conditions
- * never fires without one.
+ * overrides). A conditioned transform needs the root boundary syllable, the
+ * resolved affix spelling, or both, depending on the conditions it declares.
  */
 export function applyBoundaryTransformsDetailed(
   rootWritten: string,
   transforms: BoundaryTransform[],
   boundarySyllable?: Syllable,
+  resolvedAffixWritten?: string,
 ): BoundaryTransformApplication {
   const firedNames: string[] = [];
   const fired = new Set<string>();
@@ -273,6 +275,12 @@ export function applyBoundaryTransformsDetailed(
   let affixWritten: string | undefined;
   for (const t of transforms) {
     if (t.blockedBy && t.blockedBy.some((name) => fired.has(name))) continue;
+    const currentAffixWritten = affixWritten ?? resolvedAffixWritten;
+    if (
+      t.affixMatch &&
+      (currentAffixWritten === undefined || currentAffixWritten.search(t.affixMatch) === -1)
+    )
+      continue;
     if (
       t.boundarySyllable &&
       !t.boundarySyllable.some((condition) => matchesBoundarySyllable(condition, boundarySyllable))
@@ -292,8 +300,14 @@ export function applyBoundaryTransforms(
   rootWritten: string,
   transforms: BoundaryTransform[],
   boundarySyllable?: Syllable,
+  resolvedAffixWritten?: string,
 ): string {
-  return applyBoundaryTransformsDetailed(rootWritten, transforms, boundarySyllable).written;
+  return applyBoundaryTransformsDetailed(
+    rootWritten,
+    transforms,
+    boundarySyllable,
+    resolvedAffixWritten,
+  ).written;
 }
 
 // ---------------------------------------------------------------------------
@@ -861,6 +875,7 @@ export function attachRootWritten(
       written,
       plan.prefix.boundaryTransforms,
       root[0],
+      prepared.prefixWritten,
     );
     written = applied.written;
     prefixOverride = applied.affixWritten;
@@ -870,6 +885,7 @@ export function attachRootWritten(
       written,
       plan.suffix.boundaryTransforms,
       root[root.length - 1],
+      prepared.suffixWritten,
     );
     written = applied.written;
     suffixOverride = applied.affixWritten;

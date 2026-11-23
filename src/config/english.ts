@@ -9,7 +9,22 @@ import { Affix, BoundaryClusterConstraintRule, BoundaryTransform, LanguageConfig
 const Y_TO_I: BoundaryTransform = { name: "y-to-i", match: /([^aeiou])y$/i, replace: "$1i" };
 /** Consonant+y before `-s` → root `…i` and the `-es` spelling (`cries`), not `-is`. */
 const Y_TO_I_ES: BoundaryTransform = { ...Y_TO_I, affixWritten: "es" };
-const DROP_SILENT_E: BoundaryTransform = { name: "drop-silent-e", match: /e$/i, replace: "" };
+/** A closed English root can end in a silent marker (bake, face). In an
+ * open root the final e belongs to the vowel spelling (be, pie, free). */
+const DROP_SILENT_E: BoundaryTransform = {
+  name: "drop-silent-e",
+  match: /(?<!e)e$/i,
+  replace: "",
+  boundarySyllable: [{ hasCoda: true }],
+  affixMatch: /^[aeiou]/i,
+};
+/** Share the suffix's initial e with root-final ee (free + ed → freed). */
+const SHARE_FINAL_E: BoundaryTransform = {
+  name: "share-final-e",
+  match: /(e)e$/i,
+  replace: "$1",
+  affixMatch: /^e/i,
+};
 /**
  * Full short vowels: one vowel letter before a final consonant reads short,
  * so a vowel suffix must double the consonant to keep that reading. These are
@@ -45,16 +60,16 @@ const DOUBLE_CONSONANT: BoundaryTransform = {
   ],
 };
 
-/** Drop silent-e / double consonant only — used by i-initial `-ing` (keep final y). */
-const BT_E_DOUBLE: BoundaryTransform[] = [DROP_SILENT_E, DOUBLE_CONSONANT];
-/** Drop silent-e only — i-initial suffixes that still need it (`-ive`, `-ity`, `-ize`). */
-const BT_E: BoundaryTransform[] = [DROP_SILENT_E];
-/** y→i then drop silent-e — non-i Latinate suffixes. */
-const BT_Y_E: BoundaryTransform[] = [Y_TO_I, DROP_SILENT_E];
+/** Handle final e before a written vowel suffix, including the `-es` allomorph. */
+const BT_E: BoundaryTransform[] = [DROP_SILENT_E, SHARE_FINAL_E];
+/** Used by i-initial `-ing`, which keeps final y. */
+const BT_E_DOUBLE: BoundaryTransform[] = [...BT_E, DOUBLE_CONSONANT];
+/** y→i then handle final e — non-i Latinate suffixes. */
+const BT_Y_E: BoundaryTransform[] = [Y_TO_I, ...BT_E];
 /** y→i then the `-ed`/`-er`/`-est` cluster (and `-able`). */
-const BT_Y_E_DOUBLE: BoundaryTransform[] = [Y_TO_I, DROP_SILENT_E, DOUBLE_CONSONANT];
+const BT_Y_E_DOUBLE: BoundaryTransform[] = [Y_TO_I, ...BT_E_DOUBLE];
 const BT_ALL: BoundaryTransform[] = BT_Y_E_DOUBLE;
-const BT_S: BoundaryTransform[] = [Y_TO_I_ES];
+const BT_S: BoundaryTransform[] = [Y_TO_I_ES, ...BT_E];
 
 /**
  * Nucleus phonemes whose e-digraph magic-e splits (ie, ye → i_e; ue → u_e;
@@ -935,15 +950,15 @@ export const englishConfig: LanguageConfig = {
         ],
       },
       // New suffixes — absent from original config but well-represented in CMU dictionary
-      { type: "suffix", written: "ist", phonemes: ["ɪ", "s", "t"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["s", "t"] }], syllableCount: 1, stressEffect: "none", frequency: 5 },
+      { type: "suffix", written: "ist", phonemes: ["ɪ", "s", "t"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["s", "t"] }], syllableCount: 1, stressEffect: "none", frequency: 5, boundaryTransforms: BT_E },
       { type: "suffix", written: "ize", phonemes: ["aɪ", "z"], syllables: [{ onset: [], nucleus: ["aɪ"], coda: ["z"] }], syllableCount: 1, stressEffect: "none", frequency: 8, boundaryTransforms: BT_E },
-      { type: "suffix", written: "ism", phonemes: ["ɪ", "z", "ə", "m"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }, { onset: [], nucleus: ["ə"], coda: ["m"] }], syllableCount: 2, stressEffect: "none", frequency: 3 },
+      { type: "suffix", written: "ism", phonemes: ["ɪ", "z", "ə", "m"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["z"] }, { onset: [], nucleus: ["ə"], coda: ["m"] }], syllableCount: 2, stressEffect: "none", frequency: 3, boundaryTransforms: BT_E },
       // Nominal derivational suffixes — well-represented in CMU but missing from original config
       { type: "suffix", written: "ary", phonemes: ["ɛ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɛ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: "attract-preceding", frequency: 20, boundaryTransforms: BT_Y_E },
       { type: "suffix", written: "ory", phonemes: ["ɔ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɔ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: "attract-preceding", frequency: 15, boundaryTransforms: BT_Y_E },
       { type: "suffix", written: "ery", phonemes: ["ɛ", "r", "i:"], syllables: [{ onset: [], nucleus: ["ɛ"], coda: ["r"] }, { onset: [], nucleus: ["i:"], coda: [] }], syllableCount: 2, stressEffect: "none", frequency: 8, boundaryTransforms: BT_Y_E },
-      { type: "suffix", written: "ian", phonemes: ["i:", "ə", "n"], syllables: [{ onset: [], nucleus: ["i:"], coda: [] }, { onset: [], nucleus: ["ə"], coda: ["n"] }], syllableCount: 2, stressEffect: "attract-preceding", frequency: 8 },
-      { type: "suffix", written: "ial", phonemes: ["i:", "ə", "l"], syllables: [{ onset: [], nucleus: ["i:"], coda: [] }, { onset: [], nucleus: ["ə"], coda: ["l"] }], syllableCount: 2, stressEffect: "attract-preceding", frequency: 8 },
+      { type: "suffix", written: "ian", phonemes: ["i:", "ə", "n"], syllables: [{ onset: [], nucleus: ["i:"], coda: [] }, { onset: [], nucleus: ["ə"], coda: ["n"] }], syllableCount: 2, stressEffect: "attract-preceding", frequency: 8, boundaryTransforms: BT_E },
+      { type: "suffix", written: "ial", phonemes: ["i:", "ə", "l"], syllables: [{ onset: [], nucleus: ["i:"], coda: [] }, { onset: [], nucleus: ["ə"], coda: ["l"] }], syllableCount: 2, stressEffect: "attract-preceding", frequency: 8, boundaryTransforms: BT_E },
     ]),
     templateWeights: {
       text: { bare: 55, suffixed: 30, prefixed: 10, both: 5 },

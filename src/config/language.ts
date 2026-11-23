@@ -1034,6 +1034,8 @@ export interface BoundarySyllableCondition {
   stress?: readonly SyllableStressLevel[];
   /** If set, every nucleus phoneme must match this selector. */
   nucleus?: PhonemeSelector;
+  /** If set, require a closed (true) or open (false) syllable. */
+  hasCoda?: boolean;
 }
 
 /** Orthographic transform applied at affix\u2194root junctions. */
@@ -1054,6 +1056,8 @@ export interface BoundaryTransform {
    * `visited`).
    */
   boundarySyllable?: readonly BoundarySyllableCondition[];
+  /** Match the realized affix spelling, including any earlier transform's override. */
+  affixMatch?: RegExp;
   /**
    * When this transform fires, override the affix written form.
    * Used so consonant+y + `-s` selects the same `-es` spelling as the

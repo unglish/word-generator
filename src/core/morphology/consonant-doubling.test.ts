@@ -40,7 +40,7 @@ describe("double-consonant boundary condition", () => {
     { root: "star", final: syllable(["s", "t"], "ɑ", ["r"], "ˈ"), expected: "starr", why: "stressed /ɑr/" },
     { root: "wuber", final: syllable(["b"], "ɚ", [], "ˌ"), expected: "wuber", why: "secondary-stressed r-coloured vowel" },
   ])("$root + ed → $expected ($why)", ({ root, final, expected }) => {
-    expect(applyBoundaryTransforms(root, ED, final)).toBe(expected);
+    expect(applyBoundaryTransforms(root, ED, final, "ed")).toBe(expected);
   });
 
   it("never doubles without a boundary syllable to check", () => {
@@ -48,7 +48,9 @@ describe("double-consonant boundary condition", () => {
   });
 
   it("keeps drop-silent-e blocking doubling", () => {
-    expect(applyBoundaryTransforms("dine", ED, syllable(["d"], "aɪ", ["n"], "ˈ"))).toBe("din");
+    const final = syllable(["s", "t"], "ɑ", ["p"], "ˈ");
+    expect(applyBoundaryTransforms("stope", ED, final, "ed")).toBe("stop");
+    expect(applyBoundaryTransforms("stop", ED, final, "ed")).toBe("stopp");
   });
 
   it("reads stress levels from the syllable", () => {
