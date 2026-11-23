@@ -267,6 +267,27 @@ export const englishConfig: LanguageConfig = {
     fallbackBridgeOnsets: defaultFallbackBridgeOnsets(),
   },
 
+  rootRepetition: {
+    mode: "lexicon",
+    minimumNucleusSyllables: 4,
+    tripleNucleusMultiplier: 0.2,
+    tripleReductionMultiplier: 0.2,
+    matchingCodaMultiplier: 0.3,
+    matchingCodaOverrides: {
+      l: 0.02,
+      n: 0.45,
+      s: 0.8,
+      ʃ: 0.8,
+      p: 1,
+      b: 1,
+      v: 1,
+      "tʃ": 1,
+      "dʒ": 1,
+    },
+    // Avoid diverting weight into rhotic rimes and already common coda starts.
+    preserveCodaInitials: ["r", "s", "z", "ŋ"],
+  },
+
   phonemeLengthWeights: {
     text: PHONEME_LENGTH_WEIGHTS_TEXT,
     lexicon: PHONEME_LENGTH_WEIGHTS_LEXICON,

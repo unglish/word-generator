@@ -151,6 +151,22 @@ npm test
 For distribution claims, capture and compare against the frozen baselines
 described in [quality baselines](./docs/quality-baselines.md).
 
+### Root repetition
+
+In lexicon mode, English lowers the chance of three consecutive identical vowel nuclei in
+roots of four syllables or more. It also lowers the chance of
+the same consonant immediately before and after a syllable's vowel. Both
+patterns remain possible. During pronunciation, a separate multiplier lowers the chance of a
+vowel reduction that would complete a run of three in the root.
+
+Custom languages can omit `rootRepetition` or set its multipliers in `(0, 1]`,
+where `1` keeps the original weight. `matchingCodaOverrides` sets per-phoneme
+weights and `preserveCodaInitials` reserves coda starts from redistribution.
+The optional `mode` restricts the policy to one generation profile.
+English reserves /r/ to avoid increasing the probability of rhotic rimes.
+It also reserves commonly generated sibilant and velar nasal starts when
+redistributing weight from other consonants.
+
 ## Boundary Policy Config (0.6.0)
 
 Boundary adjustment probabilities moved to a dedicated

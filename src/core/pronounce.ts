@@ -24,6 +24,7 @@ import type {
   AspirationTargetSegment,
 } from "./trace.js";
 import { clonePhoneme, cloneSyllables } from "./lexical.js";
+import { completesRootNucleusTriple } from "./root-repetition.js";
 
 /** Fast boolean probability check (avoids tuple array allocation). */
 export function coinFlip(rand: RNG, probability: number): boolean {
@@ -447,12 +448,18 @@ const reduceUnstressedVowels = (
   config: VowelReductionConfig,
   rand: RNG,
 ): void => {
-  const { word } = context;
+  const { word, rootRepetition } = context;
   const syllables = word.syllables;
 
   if (syllables.length <= 1) return;
 
   const ruleMap = new Map(config.rules.map((r) => [r.source, r]));
+  const lexical = word.lexical;
+  const tripleReductionMultiplier = rootRepetition?.tripleReductionMultiplier ?? 1;
+  const minimumNucleusSyllables = rootRepetition?.minimumNucleusSyllables ?? 3;
+  const root = lexical && lexical.root.length >= minimumNucleusSyllables && tripleReductionMultiplier !== 1
+    ? { start: lexical.rootSyllableStart, end: lexical.rootSyllableStart + lexical.root.length }
+    : undefined;
 
   for (let si = 0; si < syllables.length; si++) {
     const syllable = syllables[si];
@@ -491,6 +498,14 @@ const reduceUnstressedVowels = (
         prob = prob * (config.secondaryStressProbability / 100);
       }
       prob = Math.min(100, Math.max(0, Math.round(prob)));
+      if (
+        i === 0 &&
+        vowel.sound !== rule.target &&
+        root &&
+        completesRootNucleusTriple(syllables, si, rule.target, root)
+      ) {
+        prob *= tripleReductionMultiplier;
+      }
 
       const target = phonemes.find((p) => p.sound === rule.target);
       if (!target) continue;
