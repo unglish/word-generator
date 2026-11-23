@@ -54,6 +54,16 @@ describe("double-consonant boundary condition", () => {
     expect(applyBoundaryTransforms(root, ED, final)).toBe(expected);
   });
 
+  it.each(["ity", "ize", "ary", "ory", "ist", "ism"])("keeps final s for /z/ single before derivational -%s", (suffix) => {
+    const final = syllable(["s"], "ɪ", ["z"], "ˈ");
+    expect(applyBoundaryTransforms("ceancis", suffixTransforms(suffix), final)).toBe("ceancis");
+  });
+
+  it("respells final s for /z/ after a stressed short vowel before plural -es", () => {
+    const final = syllable(["tʰ", "r"], "ɛ", ["z"], "ˈ");
+    expect(applyBoundaryTransforms("tres", suffixTransforms("s"), final)).toBe("trezz");
+  });
+
   it("respells final s for /z/ after a secondary-stressed short vowel before -ing", () => {
     const final = syllable(["t"], "ʊ", ["z"], "ˌ");
     expect(applyBoundaryTransforms("spuntus", suffixTransforms("ing"), final)).toBe("spuntuzz");
