@@ -1,6 +1,7 @@
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import globals from "globals";
+import { noBranchAssertion } from "./scripts/lib/no-branch-assertion.mjs";
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -20,5 +21,10 @@ export default tseslint.config(
       quotes: ["error", "double"],
       semi: ["error", "always"],
     },
+  },
+  {
+    files: ["**/*.test.ts", "**/*.spec.ts"],
+    plugins: { local: { rules: { "no-branch-assertion": noBranchAssertion } } },
+    rules: { "local/no-branch-assertion": "error" },
   },
 );
