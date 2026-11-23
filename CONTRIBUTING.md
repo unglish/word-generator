@@ -28,8 +28,8 @@ npm test
 npm run check
 ```
 
-This runs lint, typecheck, the test suite, and the review app's unit tests and
-continuation model.
+This runs lint, typecheck, both bounded models, and the generator and review
+test suites.
 **It is the pre-merge test gate:** CI does not run tests on pull requests, only
 lint, typecheck and build. Tests run after merge, on `main`, before the demo
 deploys. A PR that skips `check` can turn `main` red for everyone. Also run
@@ -65,9 +65,10 @@ for the corpus inputs and reproduction steps.
 - **Pull requests** (`.github/workflows/ci.yml`): one `verify` job (lint,
   typecheck, build), which is the required merge check. About a minute. PRs
   need not be up to date with `main` to merge.
-- **Tests** (`.github/workflows/tests.yml`): `npm test`, `test:diagnostics`,
-  and the review app's unit tests and continuation model, plus lint and typecheck again (two PRs that
-  each pass can still break when combined). Runs on every push to `main`. To
+- **Tests** (`.github/workflows/tests.yml`): the generator and review test
+  suites, both bounded models, and `test:diagnostics`. It repeats lint and
+  typecheck because PR checks may have run against older bases. It runs on
+  every push to `main`. To
   run it on a branch before merging, dispatch the *Tests* workflow on that
   branch (`gh workflow run tests.yml --ref <branch>`).
 - **Review end-to-end** (`.github/workflows/review-e2e.yml`): Playwright,

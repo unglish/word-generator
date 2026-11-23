@@ -60,6 +60,7 @@ import {
   type NucleusRepairPolicy,
 } from "./nucleus-repair.js";
 import { RejectionTraceCollector } from "./rejection-trace.js";
+import { chooseRootAttempt, type AttemptCriteria } from "./root-attempt-search.js";
 import {
   assertRootRimeCompatibility,
   buildRootRimePolicy,
@@ -83,9 +84,6 @@ import {
   computePhonemeTargetBounds,
   resolveRootPhonemeTarget,
   scoreGenerationAttempt,
-  assessAttempt,
-  isDecidedRejection,
-  type AcceptanceCriteria,
 } from "./length-semantics.js";
 import {
   phonemeLengthWeightsForForcedSyllables,
@@ -1800,7 +1798,8 @@ function resolveGenerationOptions(
 const MAX_LENGTH_RETRIES = 3;
 /** Maximum retries for top-down phoneme target matching. */
 const MAX_TOPDOWN_RETRIES = 16;
-const ACCEPTANCE_CRITERIA: AcceptanceCriteria = {
+const ATTEMPT_CRITERIA: AttemptCriteria = {
+  maxAttempts: MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES + 1,
   warmupAttempts: MAX_LENGTH_RETRIES,
   relaxedLetterPenalty: 0.5,
 };
@@ -2091,12 +2090,10 @@ function finishWord(
   const traceCollector = context.trace;
   const morphApplied = !!morphology;
   if (morphology) finishAffixedWord(rt, context, morphology);
-  // The rejection trace (and so `selection`) exists exactly when tracing is on.
   if (traceCollector && selection) {
     traceCollector.syllableCount = context.syllableCount;
     traceCollector.targetPhonemeCount = context.targetPhonemeCount;
     traceCollector.syllablePlans = context.syllablePlans;
-    traceCollector.attempts = selection.attemptsExecuted - 1;
     traceCollector.selection = selection;
     context.word.trace = traceCollector.toTrace(morphApplied);
   }
@@ -2159,20 +2156,9 @@ function generateOneWord(
   );
   // One draw per affixed word seeds the per-attempt look-ahead streams.
   const lookaheadSeed = affixPlan ? Math.floor(rand() * 4294967296) : 0;
-  const maxAttempts = MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES;
-  let bestContext: WordGenerationContext | undefined;
-  let bestSpelled: SpelledRoot | undefined;
-  let bestAttempt = 0;
-  let bestScore = Infinity;
+  const rejectionTrace = enableTrace ? new RejectionTraceCollector(ATTEMPT_CRITERIA) : undefined;
 
-  const rejectionTrace = enableTrace
-    ? new RejectionTraceCollector({
-      maxAttempts: maxAttempts + 1,
-      ...ACCEPTANCE_CRITERIA,
-    })
-    : undefined;
-
-  for (let attempt = 0; attempt <= maxAttempts; attempt++) {
+  const selection = chooseRootAttempt(ATTEMPT_CRITERIA, targetPhonemeCountRoot, () => {
     const syllablePlans = distributePhonemes(
       rt,
       targetPhonemeCountRoot,
@@ -2203,23 +2189,11 @@ function generateOneWord(
       trace: traceCollector,
     };
     runPipeline(rt, context, mode);
-    // Affixed look-ahead (prepareMorphology + stressed-nucleus repair) does not
-    // change the scored root's phoneme count — only spelling needs the repaired
-    // root. Reject phoneme-decided misses before that work (and before spelling).
-    const pipelineRoot = context.word.syllables;
-    const pipelinePhonemeCount = countPhonemes(pipelineRoot);
-    if (
-      isDecidedRejection(
-        Math.abs(pipelinePhonemeCount - targetPhonemeCountRoot),
-        bestScore,
-      )
-    ) {
-      rejectionTrace?.recordPruned({
-        syllables: pipelineRoot.length,
-        phonemes: pipelinePhonemeCount,
-      });
-      continue;
-    }
+    return {
+      context,
+      lengths: { syllables: context.word.syllables.length, phonemes: countPhonemes(context.word.syllables) },
+    };
+  }, ({ context }, attempt) => {
     const affixed = affixPlan
       ? resolveAffixedRoot(
         rt,
@@ -2238,40 +2212,14 @@ function generateOneWord(
       root.length,
       rt.config.syllableStructure.letterLengthTargets,
     );
-    if (attemptScore.total < bestScore) {
-      bestScore = attemptScore.total;
-      bestContext = context;
-      bestSpelled = spelled;
-      bestAttempt = attempt;
-    }
-    const assessment = assessAttempt(
-      attemptScore,
-      attempt,
-      ACCEPTANCE_CRITERIA,
-    );
-    rejectionTrace?.record(
-      {
-        syllables: root.length,
-        phonemes: rootPhonemeCount,
-        letters: context.word.written.clean.length,
-      },
-      attemptScore,
-      assessment,
-    );
-    if (assessment.acceptedBy) {
-      return finishWord(
-        rt,
-        selectAttempt(context, spelled),
-        rejectionTrace?.finish(attempt, assessment.acceptedBy),
-      );
-    }
-  }
-  if (!bestContext || !bestSpelled) throw new Error("Failed to generate word");
-  return finishWord(
-    rt,
-    selectAttempt(bestContext, bestSpelled),
-    rejectionTrace?.finish(bestAttempt, null),
-  );
+    return {
+      value: { context, spelled },
+      score: attemptScore,
+      lengths: { syllables: root.length, phonemes: rootPhonemeCount, letters: context.word.written.clean.length },
+    };
+  }, rejectionTrace);
+  const { context, spelled } = selection.selected.value;
+  return finishWord(rt, selectAttempt(context, spelled), rejectionTrace?.finish(selection));
 }
 
 /**
