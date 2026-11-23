@@ -10,7 +10,40 @@ const Y_TO_I: BoundaryTransform = { name: "y-to-i", match: /([^aeiou])y$/i, repl
 /** Consonant+y before `-s` → root `…i` and the `-es` spelling (`cries`), not `-is`. */
 const Y_TO_I_ES: BoundaryTransform = { ...Y_TO_I, affixWritten: "es" };
 const DROP_SILENT_E: BoundaryTransform = { name: "drop-silent-e", match: /e$/i, replace: "" };
-const DOUBLE_CONSONANT: BoundaryTransform = { name: "double-consonant", match: /([^aeiou])([aeiou])([bcdfghlmnprst])$/i, replace: "$1$2$3$3", blockedBy: ["drop-silent-e"] };
+/**
+ * Full short vowels: one vowel letter before a final consonant reads short,
+ * so a vowel suffix must double the consonant to keep that reading. These are
+ * the checked vowels (`bed`, `kidnap`) and the lot/thought vowels that a single
+ * `o` or `a` spells in American English (`stop` /stɑp/, `dog`). Long vowels
+ * and diphthongs are left out: their one-letter spelling already reads long
+ * before a vowel (`bated`, not `batted`, for /beɪt/). Schwa is left out because
+ * a reduced vowel does not double (`gallop` → `galloped`).
+ */
+const FULL_SHORT_NUCLEI = ["ɪ", "ɛ", "æ", "ʌ", "ʊ", "ɑ", "ɔ", "ɜ"] as const;
+/**
+ * Double a root-final single consonant after a single vowel letter before a
+ * vowel suffix only when the root's final syllable is stressed and its vowel
+ * is short: `commit` → `committed`, `stop` → `stopping`; `visit` → `visited`,
+ * `letter` → `lettered`. Monosyllabic roots carry primary stress.
+ *
+ * - Primary stress also doubles after /ɚ/, the r-coloured vowel
+ *   (`occur` → `occurred`, `refer` → `referred`).
+ * - Secondary stress doubles after a full short vowel (`kidnapped`,
+ *   `handicapped`, `zigzagged`), not after /ɚ/ (#476: secondary stress on a
+ *   reduced vowel).
+ * - An unstressed final syllable never doubles, as in American spelling
+ *   (`worshiped`, `traveled`; British `travelled` doubles `l`).
+ */
+const DOUBLE_CONSONANT: BoundaryTransform = {
+  name: "double-consonant",
+  match: /([^aeiou])([aeiou])([bcdfghlmnprst])$/i,
+  replace: "$1$2$3$3",
+  blockedBy: ["drop-silent-e"],
+  boundarySyllable: [
+    { stress: ["primary"], nucleus: { sounds: [...FULL_SHORT_NUCLEI, "ɚ"] } },
+    { stress: ["secondary"], nucleus: { sounds: FULL_SHORT_NUCLEI } },
+  ],
+};
 
 /** Drop silent-e / double consonant only — used by i-initial `-ing` (keep final y). */
 const BT_E_DOUBLE: BoundaryTransform[] = [DROP_SILENT_E, DOUBLE_CONSONANT];

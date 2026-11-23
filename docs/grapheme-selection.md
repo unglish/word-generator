@@ -334,9 +334,9 @@ The bare letters /aɪ/ `i`, /eɪ/ `a`, /i:/ `e` and /u/ `u` now carry an
 
 The writer knows the following vowel when it selects the nucleus: either the
 next syllable has no onset, or the root's suffix spelling starts with a vowel
-letter. A suffix that doubles a root-final consonant (`-ing`, `-ed`, `-er`)
-closes the syllable again (`briccing`), so the suffix case is weaker than it
-looks; see the follow-ups below. One-consonant codas spelled as digraphs
+letter. The suffix's consonant doubling does not fire after a long vowel
+(#513), so the consonant stays single and the vowel still reads long
+(`skiping` /ˈskaɪp.ɪŋ/, not `skipping`). One-consonant codas spelled as digraphs
 (/ŋ ʃ tʃ θ ð/) stay in the syllable (*singer*, *bishop*), so they do not count.
 
 | Letter | Listed codas (any syllable) | English |
@@ -426,6 +426,41 @@ the old empty-set restoration masked those invalid setups. Their final lexical
 rewrite expectations are unchanged. Tests that expected hard-ban restoration
 and treated a monosyllable's coda as word-initial have been replaced with
 trace-based checks of the intended positional contract.
+
+## Consonant doubling before vowel suffixes (#513)
+
+The `double-consonant` boundary transform on `-ing`, `-ed`, `-er`, `-est` and
+`-able` used to look only at letters. It doubled every root that ended in a
+consonant, one vowel letter and one consonant, whatever the stress or the
+vowel: `letterred`, `bratratted`, and `batted` for /beɪt/. English doubles only
+when the root's final syllable is stressed and its vowel reads short:
+*commit* → *committed*, but *visit* → *visited* and *letter* → *lettered*.
+
+`BoundaryTransform.boundarySyllable` is a list of phonological conditions
+(stress levels and a nucleus selector). The transform fires only if the root
+syllable at the join meets at least one of them: the root's final syllable for
+a suffix, its first for a prefix. `attachRootWritten` passes that syllable from
+the lexical root being spelled. English doubles in these cases:
+
+- **Primary stress** (monosyllabic roots included) on a full short vowel
+  /ɪ ɛ æ ʌ ʊ ɑ ɔ ɜ/, or on /ɚ/: `stopping`, `fratter`, *occurred*,
+  `naturred` /næˈtʰɚd/.
+- **Secondary stress** on a full short vowel, as in *kidnapped*,
+  *handicapped* and *zigzagged*: `pirtwigger` /ˈpʰɪrˌtʰwɪg.ɚ/. Secondary
+  stress on /ɚ/ (#476) does not double: `wubering` /ˈwʌˌbɚ.ɪŋ/.
+
+Nothing else doubles:
+
+- An unstressed final syllable never doubles. This is the American rule
+  (*worshiped*, *traveled*). British spelling doubles `l` (*travelled*).
+- A long vowel or diphthong keeps its one letter reading long (`bated`
+  /ˈbeɪt.əd/, `skiping`), which matches the open-reading rule above.
+- Schwa never doubles (*galloped*), even under secondary stress.
+
+The check draws no random numbers, and no other transform is blocked by
+`double-consonant`. Some words now have an unstressed full short vowel spelled
+with one letter before a vowel (`udgemed` /ˈʌdʒ.ɛmd/). English seldom has
+these, because it reduces such vowels.
 
 ## Evidence
 
