@@ -71,6 +71,53 @@ describe("legal grapheme selection", () => {
     expect(filterByPosition([{ ...grapheme, isolatedSyllableWeight: 0 }], false, true, true)).toEqual([]);
   });
 
+  it.each([
+    { seed: 5006995, nextSound: "b", nextPosition: "onset", form: "dg" },
+    { seed: 5005692, nextSound: "l", nextPosition: "onset", form: "dg" },
+    { seed: 5004034, nextSound: "g", nextPosition: "onset", form: "ge" },
+    { seed: 5006689, nextSound: "g", nextPosition: "onset", form: "ge" },
+    { seed: 5069138, nextSound: "w", nextPosition: "onset", form: "j" },
+    { seed: 5004584, nextSound: "j", nextPosition: "onset", form: "j" },
+    { seed: 5004556, nextSound: "ə", nextPosition: "nucleus", form: "di" },
+    { seed: 5002804, nextSound: "ɚ", nextPosition: "nucleus", form: "di" },
+  ])("spells coda /dʒ/ as $form before /$nextSound/ (seed $seed)", ({
+    seed, nextSound, nextPosition, form,
+  }) => {
+    const { graphemeSelections, orthography } = generateWord({ seed, trace: true }).trace!;
+    const index = graphemeSelections.findIndex(choice => choice.phoneme === "dʒ");
+    const choice = graphemeSelections[index];
+
+    expect(choice).toMatchObject({ position: "coda", selected: form });
+    expect(graphemeSelections[index + 1]).toMatchObject({ phoneme: nextSound, position: nextPosition });
+    expect(choice.afterCondition.includes("di")).toBe(nextPosition === "nucleus");
+    expect(orthography?.chars.filter(char => char.graphemeSelectionIndex === choice.index)
+      .map(char => char.char).join("")).toBe(form);
+    if (nextSound === "g") {
+      expect(orthography?.chars.find(char => char.graphemeSelectionIndex === choice.index + 1)?.char)
+        .toBe("g");
+    }
+  });
+
+  it("keeps the multiletter weight and draw when the unstressed di slot uses j", () => {
+    const word = generateWord({ seed: 5014534, trace: true });
+    const choice = word.trace?.graphemeSelections.find(choice => choice.phoneme === "dʒ");
+
+    expect(choice?.weights).toEqual([["ge", 6 * 0.15], ["dge", 10 * 0.15], ["j", 0.15]]);
+    expect(choice?.roll).toBeCloseTo(2.4875989088555794);
+  });
+
+  it("keeps the accepted root when di previously lost its i before w", () => {
+    const word = generateWord({ seed: 5069138, trace: true });
+
+    expect(word.written.clean).toBe("eajworfting");
+    expect(word.pronunciation).toBe("ˈi:dʒ.wɚft.ɪŋ");
+    expect(word.trace?.selection).toMatchObject({
+      selectedAttempt: 0,
+      attemptsExecuted: 1,
+      selected: { letters: 8 },
+    });
+  });
+
   it("spells isolated /ɛ/ with ordinary e or ea, including before /t/, without a fallback", () => {
     const rand = createSeededRng(217);
     let beforeT = 0;

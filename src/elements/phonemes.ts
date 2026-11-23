@@ -6,6 +6,9 @@ import { VOICED_BONUS, TENSE_BONUS } from "../config/weights.js";
 export const ENGLISH_PARTIAL_QUANTITY_ANALYSIS =
   "english-legacy-partial-quantity-v1";
 
+/** Full vowels whose single-letter spellings read short in closed syllables. */
+export const FULL_SHORT_NUCLEI = ["ɪ", "ɛ", "æ", "ʌ", "ʊ", "ɑ", "ɔ", "ɜ"] as const;
+
 export const sonorityToMannerOfArticulation = {
   highVowel: 9,
   midVowel: 8.5,

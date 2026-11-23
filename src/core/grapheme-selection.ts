@@ -476,7 +476,8 @@ function frequencyWeight(
   syllableCount: number,
 ): number {
   let modifier = 1;
-  if (stress !== "ˈ" && syllableCount >= 2 && grapheme.form.length > 1) {
+  if (stress !== "ˈ" && syllableCount >= 2 &&
+    (grapheme.form.length > 1 || grapheme.discountAsMultigraph)) {
     modifier = position === "nucleus"
       ? Math.max(0.02, 0.15 / syllableCount)
       : Math.max(0.15, 0.5 / syllableCount);

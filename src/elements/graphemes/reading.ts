@@ -69,7 +69,7 @@ const readings: Record<string, Record<string, GraphemeReading>> = {
   "tʃ": { ch: single, tch: single, tu: coalescence, te: coalescence },
   // dge's existing lax-vowel guard is required. Its e belongs to this unit,
   // and is never available as a split marker for a different vowel unit.
-  "dʒ": { g: soft, j: single, ge: marker, dge: single, di: coalescence },
+  "dʒ": { g: soft, j: single, ge: marker, dg: single, dge: single, di: coalescence },
   "p": { p: single },
   "b": { b: single, pb: lexical },
   "t": { t: single, th: lexical, bt: lexical, ed: suffix },

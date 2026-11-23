@@ -1,5 +1,6 @@
 import { lexiconReference } from "./lexicon-reference.js";
 import { englishDoublingRealizations } from "../elements/graphemes/doubling.js";
+import { FULL_SHORT_NUCLEI } from "../elements/phonemes.js";
 import { Affix, BoundaryClusterConstraintRule, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets, type BoundarySyllableCondition } from "./language.js";
 
 // ---------------------------------------------------------------------------
@@ -29,7 +30,6 @@ const DROP_SILENT_E: BoundaryTransform = {
  * before a vowel (`bated`, not `batted`, for /beɪt/). Schwa is left out because
  * a reduced vowel does not double (`gallop` → `galloped`).
  */
-const FULL_SHORT_NUCLEI = ["ɪ", "ɛ", "æ", "ʌ", "ʊ", "ɑ", "ɔ", "ɜ"] as const;
 const STRESSED_SHORT: readonly BoundarySyllableCondition[] = [
   { stress: ["primary"], nucleus: { sounds: [...FULL_SHORT_NUCLEI, "ɚ"] } },
   { stress: ["secondary"], nucleus: { sounds: FULL_SHORT_NUCLEI } },
