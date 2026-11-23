@@ -7,7 +7,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "check": "npm run lint && npm run typecheck && npm test && npm run test:review",
+    "check": "npm run lint && npm run typecheck && npm test && npm run test:review && npm run test:review:model",
     "typecheck": "tsc --noEmit && npm run review:typecheck && npm run quality:typecheck",
     "test": "vitest run",
     "test:perf": "vitest run --config vitest.perf.config.ts --reporter=verbose",
@@ -40,6 +40,7 @@
     "review:report": "node --env-file-if-exists=.env.local --import tsx evaluation/review/cli.ts report",
     "review:typecheck": "tsc -p tsconfig.review.json",
     "test:review": "vitest run --config vitest.review.config.ts",
+    "test:review:model": "node --import tsx evaluation/review/verification/check-continuation.ts",
     "test:review:db": "node --import tsx evaluation/review/run-db-tests.ts",
     "test:review:e2e": "playwright test --config playwright.review.config.ts",
     "test:review:smoke": "node --import tsx evaluation/review/smoke.ts",

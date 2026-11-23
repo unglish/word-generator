@@ -8,6 +8,7 @@ import { localEnvironment } from "./local-environment.js";
 import { freezeStudy } from "./snapshot.js";
 import { OwnerApi } from "./owner-api.js";
 import type { ReviewExport } from "./model.js";
+import { parseContinuation } from "./protocol.js";
 import { buildReport } from "./report.js";
 
 async function smoke(): Promise<void> {
@@ -59,22 +60,28 @@ async function smoke(): Promise<void> {
       }
       await expect(page.getByRole("heading", { name: "Thank you. Your review is submitted." })).toBeVisible({ timeout: 30000 });
       let loseContinuation = index === 0;
+      let committedSpellings: string[] | undefined;
       await context.route(`${url}/rest/v1/rpc/continue_review`, async route => {
         if (!loseContinuation) return route.continue();
         loseContinuation = false;
         const response = await route.fetch();
         expect(response.status()).toBe(200);
+        const continuation = parseContinuation(await response.json());
+        if (continuation.exhausted) throw new Error("Expected Supabase to commit a successor before dropping its reply.");
+        committedSpellings = continuation.assignment.items.map(item => item.spelling);
         await route.abort("connectionreset");
       });
       await page.getByRole("button", { name: "Review more words" }).click();
       if (index === 0) {
         await expect(page.getByRole("button", { name: "Retry connection" })).toBeVisible();
+        expect(committedSpellings).toHaveLength(distinctSpellings - 20);
         await page.reload();
       }
       const remaining = distinctSpellings - 20;
       for (let position = 0; position < remaining; position++) {
         await expect(page.locator("#progress")).toHaveText(`Word ${position + 1} of ${remaining}`);
         const spelling = (await page.locator("#word").textContent())!;
+        if (committedSpellings) expect(spelling).toBe(committedSpellings[position]);
         expect(seen.has(spelling)).toBe(false);
         seen.add(spelling);
         await page.getByRole("radio", { name: "Very much", exact: true }).check();
@@ -82,6 +89,8 @@ async function smoke(): Promise<void> {
       }
       await expect(page.getByRole("heading", { name: "Thank you. Your review is submitted." })).toBeVisible();
       await page.getByRole("button", { name: "Review more words" }).click();
+      await expect(page.locator("#finished-title")).toHaveText("Thank you. You’ve reviewed every spelling in this study.");
+      await page.reload();
       await expect(page.locator("#finished-title")).toHaveText("Thank you. You’ve reviewed every spelling in this study.");
       expect(seen.size).toBe(distinctSpellings);
       await context.close();

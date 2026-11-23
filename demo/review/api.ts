@@ -1,6 +1,6 @@
 import { parseAssignment, parseContinuation } from "../../evaluation/review/protocol.js";
-import type { Assignment, Continuation, Submission } from "../../evaluation/review/protocol.js";
-import type { LocalSession } from "./local.js";
+import type { Submission } from "../../evaluation/review/protocol.js";
+import type { ReviewReceipt, ReviewRequest } from "./local.js";
 
 export class ApiError extends Error {
   constructor(message: string, readonly retryable: boolean) { super(message); }
@@ -26,13 +26,10 @@ export class ReviewApi {
     catch { throw new ApiError("The server returned an unreadable acknowledgement. Please retry.", true); }
   }
 
-  async start(session: LocalSession): Promise<Assignment> {
-    return parseAssignment(await this.rpc("start_review", { study_id: this.study, session_id: session.id, submission_token: session.token }));
-  }
-
-  async continue(session: LocalSession): Promise<Continuation> {
-    const result = await this.rpc("continue_review", { study_id: this.study, session_id: session.id, submission_token: session.token });
-    try { return parseContinuation(result); }
+  async request({ kind, id: sessionId, token }: ReviewRequest): Promise<ReviewReceipt> {
+    const payload = await this.rpc(`${kind}_review`, { study_id: this.study, session_id: sessionId, submission_token: token });
+    if (kind === "start") return { kind, sessionId, assignment: parseAssignment(payload) };
+    try { return { kind, sessionId, result: parseContinuation(payload) }; }
     catch { throw new ApiError("The server returned an invalid continuation. Please retry.", true); }
   }
 

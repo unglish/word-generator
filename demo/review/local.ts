@@ -6,15 +6,65 @@ import type {
 } from "../../evaluation/review/protocol.js";
 import { validAnswer } from "../../evaluation/review/protocol.js";
 
-export interface LocalSession {
-  revision: number;
+interface Credentials {
   id: string;
   token: string;
-  assignment: Assignment | null;
-  next: number;
-  outbox: Submission[];
-  continuing?: boolean;
-  exhausted?: boolean;
+}
+
+type OpenBatch = {
+  assignment: null;
+  next: 0;
+  outbox: readonly [];
+  continuing?: false;
+  exhausted?: false;
+};
+
+type AssignedBatch = { assignment: Assignment; next: number };
+type Batch =
+  | OpenBatch
+  | (AssignedBatch &
+      (
+        | {
+            continuing?: false;
+            exhausted?: false;
+            outbox: readonly Submission[];
+          }
+        | { continuing: true; exhausted?: false; outbox: readonly [] }
+        | { continuing: false; exhausted: true; outbox: readonly [] }
+      ));
+
+export type LocalSession = Credentials & { revision: number } & Batch;
+
+export type ReviewRequest = Credentials & { kind: "start" | "continue" };
+
+export type ReviewReceipt = { sessionId: string } & (
+  | { kind: "start"; assignment: Assignment }
+  | { kind: "continue"; result: Continuation }
+);
+
+export interface ReviewPosition {
+  sessionId: string;
+  position: number;
+}
+
+export function pendingReviewRequest({
+  id,
+  token,
+  assignment,
+  continuing,
+}: LocalSession): ReviewRequest | undefined {
+  if (continuing) return { kind: "continue", id, token };
+  if (!assignment) return { kind: "start", id, token };
+  return undefined;
+}
+
+export function latestSession(
+  current: LocalSession | undefined,
+  incoming: LocalSession | undefined,
+): LocalSession | undefined {
+  return incoming && (!current || incoming.revision >= current.revision)
+    ? incoming
+    : current;
 }
 
 export class StalePositionError extends Error {
@@ -144,37 +194,28 @@ export class ReviewStore {
           "Wait until all responses are received before continuing.",
         );
       }
-      return { ...existing, continuing: true };
+      return { ...existing, continuing: true, outbox: [] };
     });
   }
 
-  async assign(
-    key: string,
-    assignment: Assignment,
-    sessionId?: string,
-  ): Promise<LocalSession> {
+  async receive(key: string, receipt: ReviewReceipt): Promise<LocalSession> {
     return this.updateExisting(key, (session) => {
-      if (sessionId !== undefined && session.id !== sessionId) return session;
-      if (
-        session.assignment &&
-        JSON.stringify(session.assignment.items) !==
-          JSON.stringify(assignment.items)
-      )
-        throw new Error(
-          "The saved assignment has changed. Please contact the study owner.",
-        );
-      return { ...session, assignment };
-    });
-  }
-
-  async continued(
-    key: string,
-    previousId: string,
-    result: Continuation,
-  ): Promise<LocalSession> {
-    return this.updateExisting(key, (session) => {
-      // A delayed response may arrive after another tab has already advanced.
-      if (session.id !== previousId || !session.continuing) return session;
+      if (session.id !== receipt.sessionId) return session;
+      if (receipt.kind === "start") {
+        if (!session.assignment)
+          return { ...session, assignment: receipt.assignment };
+        if (
+          JSON.stringify(session.assignment.items) !==
+          JSON.stringify(receipt.assignment.items)
+        ) {
+          throw new Error(
+            "The saved assignment has changed. Please contact the study owner.",
+          );
+        }
+        return session;
+      }
+      if (!session.continuing) return session;
+      const { result } = receipt;
       if (result.exhausted)
         return { ...session, continuing: false, exhausted: true };
       return {
@@ -190,9 +231,8 @@ export class ReviewStore {
 
   async enqueue(
     key: string,
-    position: number,
+    { sessionId, position }: ReviewPosition,
     answer: Answer,
-    sessionId?: string,
   ): Promise<LocalSession> {
     if (!validAnswer(answer))
       throw new Error("Choose a rating or skip this word.");
@@ -200,12 +240,13 @@ export class ReviewStore {
       key,
       (session) => {
         if (!session.assignment) throw new Error("The assignment is missing.");
-        if (
-          (sessionId !== undefined && session.id !== sessionId) ||
-          session.next !== position
-        )
+        if (session.id !== sessionId || session.next !== position)
           throw new StalePositionError();
-        if (position >= session.assignment.items.length)
+        if (
+          session.continuing ||
+          session.exhausted ||
+          position >= session.assignment.items.length
+        )
           throw new Error("This review is already complete.");
         return {
           ...session,
@@ -228,11 +269,15 @@ export class ReviewStore {
 
   async acknowledge(key: string, responseId: string): Promise<LocalSession> {
     return this.updateExisting(key, (session) => {
+      if (!session.assignment || session.continuing || session.exhausted)
+        return session;
+      const outbox = session.outbox.filter(
+        (response) => response.response_id !== responseId,
+      );
+      if (outbox.length === session.outbox.length) return session;
       return {
         ...session,
-        outbox: session.outbox.filter(
-          (response) => response.response_id !== responseId,
-        ),
+        outbox,
       };
     });
   }

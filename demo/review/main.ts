@@ -1,8 +1,8 @@
 import { RUBRIC } from "../../evaluation/review/protocol.js";
 import type { Answer } from "../../evaluation/review/protocol.js";
 import { ApiError, ReviewApi } from "./api.js";
-import { ReviewStore, StalePositionError } from "./local.js";
-import type { LocalSession } from "./local.js";
+import { latestSession, pendingReviewRequest, ReviewStore, StalePositionError } from "./local.js";
+import type { LocalSession, ReviewPosition } from "./local.js";
 
 function element<T extends HTMLElement>(id: string): T {
   const node = document.getElementById(id);
@@ -25,7 +25,7 @@ let api = new ReviewApi(url, publishableKey, study);
 let store: ReviewStore;
 let ready = false;
 let session: LocalSession | undefined;
-let renderedPosition = -1;
+let renderedPosition: ReviewPosition | undefined;
 let starting = false, saving = false, flushing = false, storageFailed = false, permanentFailure = false;
 let retryCount = 0;
 let timer: ReturnType<typeof setTimeout> | undefined;
@@ -61,12 +61,8 @@ function updateControls(): void {
   skip.disabled = saving || storageFailed || permanentFailure;
 }
 
-function acceptSession(next: LocalSession | undefined): void {
-  // A delayed acknowledgement must never move the UI behind a newer local submission.
-  if (next && (!session || next.revision >= session.revision)) {
-    if (session && next.id !== session.id) renderedPosition = -1;
-    session = next;
-  }
+function acceptSession(incoming: LocalSession | undefined): void {
+  session = latestSession(session, incoming);
 }
 
 function completionMessage(current: LocalSession): { title: string; copy: string } {
@@ -95,13 +91,13 @@ function render(): void {
   element("intro").hidden = !!assignment;
   element("review").hidden = !active;
   element("finished").hidden = !finished;
-  if (active && renderedPosition !== session!.next) {
-    const item = assignment.items[session!.next];
-    element("progress").textContent = `Word ${session!.next + 1} of ${assignment.items.length}`;
+  if (active && session && (renderedPosition?.sessionId !== session.id || renderedPosition.position !== session.next)) {
+    const item = assignment.items[session.next];
+    element("progress").textContent = `Word ${session.next + 1} of ${assignment.items.length}`;
     element("word").textContent = item.spelling;
     renderRubric();
     form.reset();
-    renderedPosition = session!.next;
+    renderedPosition = { sessionId: session.id, position: session.next };
     element("word").focus();
   }
   const pending = session?.outbox.length ?? 0;
@@ -135,17 +131,17 @@ async function startSession(): Promise<void> {
   starting = true;
   showError("");
   render();
-  try { acceptSession(await store.ensure(key)); }
+  let requested: LocalSession;
+  try {
+    requested = await store.ensure(key);
+    acceptSession(requested);
+  }
   catch { storageError(); starting = false; return; }
   try {
-    const requested = session!;
-    if (requested.continuing) {
-      const result = await api.continue(requested);
-      try { acceptSession(await store.continued(key, requested.id, result)); }
-      catch { storageError(); return; }
-    } else {
-      const assignment = requested.assignment ?? await api.start(requested);
-      try { acceptSession(await store.assign(key, assignment, requested.id)); }
+    const request = pendingReviewRequest(requested);
+    if (request) {
+      const receipt = await api.request(request);
+      try { acceptSession(await store.receive(key, receipt)); }
       catch { storageError(); return; }
     }
   } catch (failure) {
@@ -161,7 +157,6 @@ async function continueReview(): Promise<void> {
   render();
   try {
     acceptSession(await store.nextBatch(key, session.id));
-    renderedPosition = -1;
     showError("");
   } catch { storageError(); }
   finally { starting = false; }
@@ -169,12 +164,12 @@ async function continueReview(): Promise<void> {
 }
 
 async function save(answer: Answer): Promise<void> {
-  if (!session || saving || storageFailed || permanentFailure) return;
+  if (!session || !renderedPosition || saving || storageFailed || permanentFailure) return;
   saving = true;
   updateControls();
   const comment = element("comment-field").hidden ? null : element<HTMLTextAreaElement>("comment").value.trim() || null;
   try {
-    acceptSession(await store.enqueue(key, renderedPosition, { ...answer, comment }, session.id));
+    acceptSession(await store.enqueue(key, renderedPosition, { ...answer, comment }));
     showError("");
   } catch (failure) {
     if (failure instanceof StalePositionError) {
@@ -222,7 +217,7 @@ form.addEventListener("submit", event => {
 skip.addEventListener("click", () => void save({ status: "skipped", rating: null, familiar: null }));
 function resumeSession(): void {
   if (!session) return;
-  if (!session.assignment || session.continuing) void startSession();
+  if (pendingReviewRequest(session)) void startSession();
   else void flush();
 }
 
@@ -249,14 +244,14 @@ async function initialize(): Promise<void> {
     if (parsed.protocol !== "https:" && !["localhost", "127.0.0.1"].includes(parsed.hostname)) throw new Error("Invalid database URL.");
     store = await ReviewStore.open();
     ready = true;
-    acceptSession(await store.get(key));
+    session = await store.get(key);
     if (!session && study === "written-v2-baseline") {
       const legacyKey = `${url}|written-v1-baseline`;
       const legacy = await store.get(legacyKey);
       if (legacy?.assignment && (legacy.next < legacy.assignment.items.length || legacy.outbox.length)) {
         key = legacyKey;
         api = new ReviewApi(url, publishableKey, "written-v1-baseline");
-        acceptSession(legacy);
+        session = legacy;
       }
     }
     renderRubric();
