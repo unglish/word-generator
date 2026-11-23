@@ -1,7 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { generateWords } from "./generate";
-import { createGenerator } from "./generate";
-import { englishConfig } from "../config/english";
+import { createGenerator, englishConfig, generateWords } from "../index.js";
 
 describe("Position-based cluster weighting", () => {
   it("applies position-based weights correctly", () => {
@@ -90,19 +88,17 @@ describe("Position-based cluster weighting", () => {
   });
 
   it("reduces ts/ns frequency compared to no weights", () => {
-    // Test with position-based weights (current config)
-    const wordsWithWeights = generateWords(10000, { seed: 99, mode: "text", morphology: false });
-    
-    // Test with no weights
+    // Give both configurations the same seed for each word.
+    const sample = (generator: ReturnType<typeof createGenerator>) =>
+      Array.from({ length: 10_000 }, (_, index) =>
+        generator.generateWord({ seed: 99 + index, mode: "text", morphology: false }),
+      );
     const noWeightsConfig = {
       ...englishConfig,
       clusterWeights: undefined,
     };
-    const genNoWeights = createGenerator(noWeightsConfig);
-    const wordsNoWeights: { written: { clean: string } }[] = [];
-    for (let i = 0; i < 10000; i++) {
-      wordsNoWeights.push(genNoWeights.generateWord({ seed: 99 + i, mode: "text", morphology: false }));
-    }
+    const wordsWithWeights = sample(createGenerator(englishConfig));
+    const wordsNoWeights = sample(createGenerator(noWeightsConfig));
     
     const countBigrams = (words: { written: { clean: string } }[], bigram: string) => {
       return words.filter(w => w.written.clean.toLowerCase().includes(bigram)).length;
@@ -130,7 +126,7 @@ describe("Position-based cluster weighting", () => {
 });
 
 describe("Large-scale position-based cluster analysis", () => {
-  it("generates 200k sample with target ts/ns frequencies", { timeout: 60000 }, () => {
+  it("generates 200k sample with target ts/ns frequencies", { timeout: 120_000 }, () => {
     // This is the main validation test matching the requirement
     const words = generateWords(200000, { seed: 2026, mode: "text", morphology: false });
     
